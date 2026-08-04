@@ -1,0 +1,23 @@
+node_modules
+.next
+out
+.qa-dist
+.env
+.env.local
+*.log
+public/models/*.task
+public/mediapipe/wasm/*.wasm
+public/mediapipe/wasm/*.js
+!public/models/README.md
+!public/mediapipe/wasm/README.md
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Test and coverage output
+coverage/
+test-results/
+playwright-report/
+
+# Archives
+*.zip

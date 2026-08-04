@@ -1,0 +1,46 @@
+{
+  "generatedAt": "2026-08-04T14:48:12.233Z",
+  "simulations": [
+    {
+      "name": "Simulation 1 — ideal two-player math round",
+      "gameId": "math-battle",
+      "questions": 20,
+      "phase": "result",
+      "scoreA": 3025,
+      "scoreB": 3025,
+      "winner": "draw",
+      "invariantErrors": 0
+    },
+    {
+      "name": "Simulation 2 — noisy pattern round with retries and wrong answers",
+      "gameId": "pattern-race",
+      "questions": 19,
+      "retries": 6,
+      "phase": "result",
+      "scoreA": 1260,
+      "scoreB": 1060,
+      "winner": "A",
+      "invariantErrors": 0
+    },
+    {
+      "name": "Simulation 3 — guided tracing recovery across two games",
+      "games": [
+        {
+          "gameId": "number-trace",
+          "accepted": 10,
+          "retries": 0,
+          "score": 1462,
+          "phase": "result"
+        },
+        {
+          "gameId": "shape-quest",
+          "accepted": 10,
+          "retries": 0,
+          "score": 1458,
+          "phase": "result"
+        }
+      ],
+      "invariantErrors": 0
+    }
+  ]
+}

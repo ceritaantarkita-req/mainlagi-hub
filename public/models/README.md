@@ -1,0 +1,1 @@
+`npm install` downloads the official MediaPipe Hand Landmarker model to this folder. If it cannot be downloaded during installation, the application tries the pinned official Google-hosted model at runtime.
