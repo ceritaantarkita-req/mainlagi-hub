@@ -1,4 +1,4 @@
-import type { GameId } from "./types.js";
+import type { GameId } from "./types";
 
 export interface GameDefinition {
   id: GameId;
@@ -56,6 +56,17 @@ export const GAME_REGISTRY: Record<GameId, GameDefinition> = {
     color: "purple",
     image: "/concepts/pattern-race.png",
     capabilities: ["hand-tracking", "air-writing-digit", "split-screen", "random-pattern"]
+  },
+  "pilih-jawaban": {
+    id: "pilih-jawaban",
+    title: "Pilih Jawaban",
+    shortTitle: "Pilih Jawaban",
+    description: "Pilih jawaban A atau B dengan menahan tangan di atas tombol melayang — bendera, hewan, buah, dan benda.",
+    age: "TK A–SD 2",
+    players: "1 pemain",
+    color: "pink",
+    image: "/concepts/pilih-jawaban.png",
+    capabilities: ["hand-tracking", "ar-buttons", "dwell-select", "no-writing"]
   }
 };
 

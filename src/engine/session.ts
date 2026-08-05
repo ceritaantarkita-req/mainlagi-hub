@@ -1,4 +1,4 @@
-import type { Challenge, GameId, GameSession, LevelId, PlayerId, PlayerScore } from "./types.js";
+import type { Challenge, GameId, GameSession, LevelId, PlayerId, PlayerScore } from "./types";
 
 export type SessionEvent =
   | { type: "DEVICE_CHECK" }
@@ -19,7 +19,16 @@ export type SessionEvent =
   | { type: "REPLAY"; challenge: Challenge };
 
 function newScore(): PlayerScore {
-  return { score: 0, correct: 0, wrong: 0, retries: 0, streak: 0, bestStreak: 0, digits: [] };
+  return {
+    score: 0,
+    correct: 0,
+    wrong: 0,
+    retries: 0,
+    streak: 0,
+    bestStreak: 0,
+    digits: [],
+    answeredChallengeId: null
+  };
 }
 
 export function createSession(
@@ -28,12 +37,15 @@ export function createSession(
   durationSeconds = 60,
   seed = Date.now()
 ): GameSession {
+  const safeDuration = Number.isFinite(durationSeconds)
+    ? Math.max(1, Math.floor(durationSeconds))
+    : 60;
   return {
     gameId,
     level,
     phase: "setup",
-    durationSeconds,
-    remainingSeconds: durationSeconds,
+    durationSeconds: safeDuration,
+    remainingSeconds: safeDuration,
     challengeIndex: 0,
     currentChallenge: null,
     players: { A: newScore(), B: newScore() },
@@ -68,7 +80,9 @@ export function reduceSession(session: GameSession, event: SessionEvent): GameSe
         : session;
     case "TICK": {
       if (session.phase !== "playing") return session;
-      const remainingSeconds = Math.max(0, session.remainingSeconds - (event.seconds ?? 1));
+      const requestedSeconds = event.seconds ?? 1;
+      const seconds = Number.isFinite(requestedSeconds) ? Math.max(0, Math.floor(requestedSeconds)) : 1;
+      const remainingSeconds = Math.max(0, session.remainingSeconds - seconds);
       return remainingSeconds === 0
         ? { ...session, remainingSeconds, phase: "time-up", winner: resolveWinner(session) }
         : { ...session, remainingSeconds };
@@ -84,20 +98,29 @@ export function reduceSession(session: GameSession, event: SessionEvent): GameSe
             currentChallenge: event.challenge,
             challengeIndex: session.challengeIndex + 1,
             players: {
-              A: { ...session.players.A, digits: [] },
-              B: { ...session.players.B, digits: [] }
+              A: { ...session.players.A, digits: [], answeredChallengeId: null },
+              B: { ...session.players.B, digits: [], answeredChallengeId: null }
             }
           }
         : session;
     case "DIGIT":
-      if (session.phase !== "playing" || event.digit < 0 || event.digit > 9) return session;
+      if (
+        session.phase !== "playing" ||
+        !session.currentChallenge ||
+        event.digit < 0 ||
+        event.digit > 9 ||
+        session.players[event.player].answeredChallengeId === session.currentChallenge.id
+      ) return session;
       return updatePlayer(session, event.player, (score) => ({ ...score, digits: [...score.digits, event.digit] }));
     case "CLEAR_DIGITS":
+      if (session.phase !== "playing") return session;
       return updatePlayer(session, event.player, (score) => ({ ...score, digits: [] }));
     case "RETRY":
+      if (session.phase !== "playing") return session;
       return updatePlayer(session, event.player, (score) => ({ ...score, retries: score.retries + 1 }));
     case "CORRECT":
-      if (session.phase !== "playing") return session;
+      if (!session.currentChallenge || session.phase !== "playing") return session;
+      if (session.players[event.player].answeredChallengeId === session.currentChallenge.id) return session;
       return updatePlayer(session, event.player, (score) => {
         const streak = score.streak + 1;
         return {
@@ -106,7 +129,8 @@ export function reduceSession(session: GameSession, event: SessionEvent): GameSe
           correct: score.correct + 1,
           streak,
           bestStreak: Math.max(score.bestStreak, streak),
-          digits: []
+          digits: [],
+          answeredChallengeId: session.currentChallenge!.id
         };
       });
     case "WRONG":
@@ -119,7 +143,9 @@ export function reduceSession(session: GameSession, event: SessionEvent): GameSe
         digits: []
       }));
     case "TIME_UP":
-      return { ...session, phase: "time-up", remainingSeconds: 0, winner: resolveWinner(session) };
+      return session.phase === "playing" || session.phase === "paused"
+        ? { ...session, phase: "time-up", remainingSeconds: 0, winner: resolveWinner(session) }
+        : session;
     case "RESULT":
       return session.phase === "time-up" ? { ...session, phase: "result", winner: resolveWinner(session) } : session;
     case "REPLAY":

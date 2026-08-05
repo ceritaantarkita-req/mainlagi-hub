@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-04T14:48:12.233Z",
+  "schemaVersion": 1,
   "simulations": [
     {
       "name": "Simulation 1 — ideal two-player math round",

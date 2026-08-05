@@ -48,6 +48,24 @@ test("score, wrong answer, zero digit, time-up and replay are consistent", () =>
   assert.equal(session.players.A.score, 0);
 });
 
+
+test("a player cannot score the same challenge more than once", () => {
+  let { session } = begin();
+  session = reduceSession(session, { type: "CORRECT", player: "A", speedBonus: 25 });
+  const firstScore = session.players.A.score;
+  const firstCorrect = session.players.A.correct;
+  session = reduceSession(session, { type: "CORRECT", player: "A", speedBonus: 25 });
+  assert.equal(session.players.A.score, firstScore);
+  assert.equal(session.players.A.correct, firstCorrect);
+});
+
+test("time-up cannot skip setup states", () => {
+  const session = createSession("math-battle", "kindergarten", 60, 5);
+  const unchanged = reduceSession(session, { type: "TIME_UP" });
+  assert.equal(unchanged.phase, "setup");
+  assert.equal(unchanged.remainingSeconds, 60);
+});
+
 test("digit helpers support 0 and 100", () => {
   assert.equal(digitsToNumber([0]), 0);
   assert.equal(digitsToNumber([1, 0, 0]), 100);

@@ -1,4 +1,4 @@
-import type { Landmark } from "./hand-utils.js";
+import type { Landmark } from "./hand-utils";
 
 export interface DetectedHand {
   landmarks: Landmark[];

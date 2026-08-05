@@ -102,7 +102,7 @@ function simulationThree() {
 }
 
 const report = {
-  generatedAt: new Date().toISOString(),
+  schemaVersion: 1,
   simulations: [simulationOne(), simulationTwo(), simulationThree()]
 };
 await mkdir("qa", { recursive: true });

@@ -4,7 +4,18 @@ export interface RandomSource {
   pick<T>(items: readonly T[]): T;
 }
 
-export function createRandom(seed = Date.now()): RandomSource {
+export function createRuntimeSeed(previousSeed = 0): number {
+  const values = new Uint32Array(1);
+  if (globalThis.crypto?.getRandomValues) {
+    globalThis.crypto.getRandomValues(values);
+    const generated = values[0] ?? 0;
+    return generated === previousSeed ? (generated + 1) >>> 0 : generated;
+  }
+  const fallback = (Date.now() ^ Math.floor(performance.now() * 1_000) ^ previousSeed) >>> 0;
+  return fallback === previousSeed ? (fallback + 1) >>> 0 : fallback;
+}
+
+export function createRandom(seed = 1): RandomSource {
   let state = seed >>> 0;
   const next = () => {
     state += 0x6d2b79f5;

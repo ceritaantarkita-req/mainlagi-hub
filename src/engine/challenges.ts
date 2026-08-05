@@ -1,5 +1,5 @@
-import { createId, type RandomSource } from "./random.js";
-import { DIGIT_TEMPLATES, SHAPE_TEMPLATES } from "./templates.js";
+import { createId, type RandomSource } from "./random";
+import { DIGIT_TEMPLATES, SHAPE_TEMPLATES } from "./templates";
 import type {
   Challenge,
   LevelId,
@@ -9,7 +9,7 @@ import type {
   ShapeChallenge,
   ShapeName,
   TraceChallenge
-} from "./types.js";
+} from "./types";
 
 const OP_SYMBOL: Record<Operation, string> = {
   add: "+",

@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ChallengeDeck } from "@/engine/challenges";
 import { scorePathAgainstTarget } from "@/engine/geometry";
 import { recordResult, sanitizeProgress, DEFAULT_PROGRESS } from "@/engine/progress";
-import { createRandom } from "@/engine/random";
+import { createRandom, createRuntimeSeed } from "@/engine/random";
 import { GAME_REGISTRY } from "@/engine/registry";
 import { createSession, digitsToNumber, expectedDigitCount, reduceSession } from "@/engine/session";
 import type { GameId, GameSession, LevelId, PlayerId, Point, RecognitionResult } from "@/engine/types";
@@ -13,6 +13,8 @@ import { useMotionCapture } from "@/hooks/useMotionCapture";
 import { MotionCanvas } from "./MotionCanvas";
 
 const STORAGE_KEY = "motion-learning-hub-progress-v1";
+const ROUND_DURATION_SECONDS = 60;
+const INITIAL_SEED = 0x4d4c4801;
 
 type InputMode = "camera" | "pointer";
 
@@ -20,11 +22,15 @@ export function GameClient({ gameId }: { gameId: GameId }) {
   const game = GAME_REGISTRY[gameId];
   const [level, setLevel] = useState<LevelId>("kindergarten");
   const [inputMode, setInputMode] = useState<InputMode>("camera");
-  const [session, setSession] = useState<GameSession>(() => createSession(gameId, "kindergarten", 60, Date.now()));
+  const [session, setSession] = useState<GameSession>(() =>
+    createSession(gameId, "kindergarten", ROUND_DURATION_SECONDS, INITIAL_SEED)
+  );
   const sessionRef = useRef(session);
-  const deckRef = useRef(new ChallengeDeck(gameId, level, createRandom(session.seed)));
+  const seedRef = useRef(INITIAL_SEED);
+  const deckRef = useRef(new ChallengeDeck(gameId, "kindergarten", createRandom(INITIAL_SEED)));
   const answeredRef = useRef<Set<PlayerId>>(new Set());
   const advanceTimerRef = useRef<number | null>(null);
+  const recordedResultSeedRef = useRef<number | null>(null);
   const [countdown, setCountdown] = useState(3);
   const [roundMessage, setRoundMessage] = useState("Siap bergerak?");
   const [traceScores, setTraceScores] = useState<Record<PlayerId, number | null>>({ A: null, B: null });
@@ -45,11 +51,18 @@ export function GameClient({ gameId }: { gameId: GameId }) {
     });
   }, []);
 
+  const nextSeed = useCallback(() => {
+    const seed = createRuntimeSeed(seedRef.current);
+    seedRef.current = seed;
+    return seed;
+  }, []);
+
   const resetDeck = useCallback((nextLevel: LevelId, seed: number) => {
     deckRef.current = new ChallengeDeck(gameId, nextLevel, createRandom(seed));
   }, [gameId]);
 
   const advanceChallenge = useCallback(() => {
+    if (sessionRef.current.phase !== "playing") return;
     answeredRef.current.clear();
     setTraceScores({ A: null, B: null });
     dispatch({ type: "SET_CHALLENGE", challenge: deckRef.current.next() });
@@ -66,7 +79,7 @@ export function GameClient({ gameId }: { gameId: GameId }) {
 
   const processDigit = useCallback((player: PlayerId, result: RecognitionResult<number>) => {
     const current = sessionRef.current;
-    if (current.phase !== "playing") return;
+    if (current.phase !== "playing" || answeredRef.current.has(player)) return;
     if (current.currentChallenge?.kind !== "math" && current.currentChallenge?.kind !== "pattern") return;
     if (!result.accepted || result.value === null) {
       dispatch({ type: "RETRY", player });
@@ -97,10 +110,17 @@ export function GameClient({ gameId }: { gameId: GameId }) {
   const processTrace = useCallback((player: PlayerId, points: Point[]) => {
     const current = sessionRef.current;
     const challenge = current.currentChallenge;
-    if (current.phase !== "playing" || !challenge || (challenge.kind !== "trace" && challenge.kind !== "shape")) return;
+    if (
+      current.phase !== "playing" ||
+      answeredRef.current.has(player) ||
+      !challenge ||
+      (challenge.kind !== "trace" && challenge.kind !== "shape")
+    ) return;
+
     const score = scorePathAgainstTarget(points, challenge.target);
     setTraceScores((existing) => ({ ...existing, [player]: score }));
     if (score >= 62) {
+      answeredRef.current.add(player);
       dispatch({ type: "CORRECT", player, speedBonus: Math.round(score / 5) });
       setRoundMessage(`${score}% — Hebat!`);
       scheduleAdvance(850);
@@ -110,33 +130,60 @@ export function GameClient({ gameId }: { gameId: GameId }) {
     }
   }, [dispatch, scheduleAdvance]);
 
-  const motion = useMotionCapture({
-    enabled: inputMode === "camera",
+  const handleMotionClear = useCallback((player: PlayerId) => {
+    dispatch({ type: "CLEAR_DIGITS", player });
+  }, [dispatch]);
+
+  const {
+    videoRef,
+    players: motionPlayers,
+    status: motionStatus,
+    error: motionError,
+    readiness,
+    start: startMotion,
+    stop: stopMotion,
+    clearPlayer,
+    submitPointerPath
+  } = useMotionCapture({
+    cameraEnabled: inputMode === "camera",
+    captureEnabled: session.phase === "playing",
     singlePlayer: game.players === "1 pemain",
     onDigit: processDigit,
     onTrace: processTrace,
-    onClear: (player) => dispatch({ type: "CLEAR_DIGITS", player })
+    onClear: handleMotionClear
   });
 
   useEffect(() => {
-    if (session.phase === "device-check" && inputMode === "camera" && motion.status === "ready") {
+    if (session.phase === "device-check" && inputMode === "camera" && motionStatus === "idle") {
+      void startMotion();
+    }
+  }, [inputMode, motionStatus, session.phase, startMotion]);
+
+  useEffect(() => {
+    // The model being loaded is not the same as the player being tracked. This
+    // used to fire on motionStatus alone, so the first question appeared while
+    // nobody had been detected yet and nothing the player wrote registered.
+    if (
+      session.phase === "device-check" &&
+      inputMode === "camera" &&
+      motionStatus === "ready" &&
+      readiness.canStart
+    ) {
       dispatch({ type: "READY" });
     }
-  }, [dispatch, inputMode, motion.status, session.phase]);
+  }, [dispatch, inputMode, motionStatus, readiness.canStart, session.phase]);
 
   useEffect(() => {
     if (session.phase !== "countdown") return;
-    setCountdown(3);
+    let value = 3;
     const timer = window.setInterval(() => {
-      setCountdown((value) => {
-        if (value <= 1) {
-          window.clearInterval(timer);
-          dispatch({ type: "START", challenge: deckRef.current.next() });
-          setRoundMessage("Mulai!");
-          return 0;
-        }
-        return value - 1;
-      });
+      value -= 1;
+      setCountdown(value);
+      if (value <= 0) {
+        window.clearInterval(timer);
+        dispatch({ type: "START", challenge: deckRef.current.next() });
+        setRoundMessage("Mulai!");
+      }
     }, 800);
     return () => window.clearInterval(timer);
   }, [dispatch, session.phase]);
@@ -148,13 +195,22 @@ export function GameClient({ gameId }: { gameId: GameId }) {
   }, [dispatch, session.phase]);
 
   useEffect(() => {
+    if (session.phase === "playing") return;
+    if (advanceTimerRef.current !== null) {
+      window.clearTimeout(advanceTimerRef.current);
+      advanceTimerRef.current = null;
+    }
+  }, [session.phase]);
+
+  useEffect(() => {
     if (session.phase !== "time-up") return;
     const timer = window.setTimeout(() => dispatch({ type: "RESULT" }), 900);
     return () => window.clearTimeout(timer);
   }, [dispatch, session.phase]);
 
   useEffect(() => {
-    if (session.phase !== "result") return;
+    if (session.phase !== "result" || recordedResultSeedRef.current === session.seed) return;
+    recordedResultSeedRef.current = session.seed;
     try {
       const raw = window.localStorage.getItem(STORAGE_KEY);
       const progress = raw ? sanitizeProgress(JSON.parse(raw)) : DEFAULT_PROGRESS;
@@ -163,49 +219,70 @@ export function GameClient({ gameId }: { gameId: GameId }) {
     } catch {
       // Local progress is optional; gameplay continues when storage is blocked.
     }
-  }, [gameId, session.phase, session.players.A.score, session.players.B.score]);
+  }, [gameId, session.phase, session.players.A.score, session.players.B.score, session.seed]);
 
   const challenge = session.currentChallenge;
   const expectedDigits = challenge ? expectedDigitCount(challenge) : 1;
   const singlePlayer = game.players === "1 pemain";
   const target = challenge && (challenge.kind === "trace" || challenge.kind === "shape") ? challenge.target : undefined;
-  const prompt = challenge?.prompt ?? "Pilih mode lalu mulai";
+  const prompt = challenge?.prompt ?? (session.phase === "device-check" ? "Menyiapkan kamera…" : "Pilih mode lalu mulai");
   const isLiveArena = ["ready", "countdown", "playing", "paused", "time-up", "result"].includes(session.phase);
 
-  const startSetup = async (mode: InputMode) => {
+  const startSetup = (mode: InputMode) => {
+    const seed = nextSeed();
+    resetDeck(level, seed);
+    let fresh = createSession(gameId, level, ROUND_DURATION_SECONDS, seed);
+    fresh = reduceSession(fresh, { type: "DEVICE_CHECK" });
+    if (mode === "pointer") fresh = reduceSession(fresh, { type: "READY" });
+    sessionRef.current = fresh;
     setInputMode(mode);
-    dispatch({ type: "DEVICE_CHECK" });
-    if (mode === "pointer") {
-      dispatch({ type: "READY" });
-    } else {
-      await motion.start();
-    }
+    setSession(fresh);
+    answeredRef.current.clear();
+    setTraceScores({ A: null, B: null });
+    setRoundMessage(mode === "camera" ? "Menyiapkan kamera…" : "Mode demo siap");
+  };
+
+  const switchToPointerMode = () => {
+    stopMotion();
+    setInputMode("pointer");
+    dispatch({ type: "READY" });
+  };
+
+  const beginCountdown = () => {
+    setCountdown(3);
+    answeredRef.current.clear();
+    setTraceScores({ A: null, B: null });
+    dispatch({ type: "COUNTDOWN" });
   };
 
   const changeLevel = (nextLevel: LevelId) => {
+    const seed = nextSeed();
     setLevel(nextLevel);
-    const seed = Date.now();
     resetDeck(nextLevel, seed);
-    const fresh = createSession(gameId, nextLevel, 60, seed);
+    const fresh = createSession(gameId, nextLevel, ROUND_DURATION_SECONDS, seed);
     sessionRef.current = fresh;
     setSession(fresh);
+    answeredRef.current.clear();
+    setTraceScores({ A: null, B: null });
+    setRoundMessage("Siap bergerak?");
   };
 
   const playAgain = () => {
-    const seed = Date.now();
+    const seed = nextSeed();
     resetDeck(level, seed);
-    let fresh = createSession(gameId, level, 60, seed);
+    let fresh = createSession(gameId, level, ROUND_DURATION_SECONDS, seed);
     fresh = reduceSession(fresh, { type: "DEVICE_CHECK" });
     fresh = reduceSession(fresh, { type: "READY" });
     fresh = reduceSession(fresh, { type: "COUNTDOWN" });
     sessionRef.current = fresh;
     setSession(fresh);
+    setCountdown(3);
     answeredRef.current.clear();
     setRoundMessage("Ronde baru!");
     setTraceScores({ A: null, B: null });
   };
 
-  if (session.phase === "setup" || session.phase === "device-check") {
+  if (session.phase === "setup") {
     return (
       <main className="setup-page">
         <Link href="/" className="back-link">← Kembali ke hub</Link>
@@ -227,19 +304,16 @@ export function GameClient({ gameId }: { gameId: GameId }) {
           <div className="setup-info">
             <span>⏱ 60 detik</span><span>👥 {game.players}</span><span>🔒 Tanpa rekaman</span>
           </div>
-          <button type="button" className="primary-button wide" onClick={() => startSetup("camera")} disabled={motion.status === "loading"}>
-            {motion.status === "loading" ? "Menyiapkan kamera…" : "Aktifkan kamera"}
+          <button type="button" className="primary-button wide" onClick={() => startSetup("camera")}>
+            Aktifkan kamera
           </button>
           <button type="button" className="secondary-button wide" onClick={() => startSetup("pointer")}>
             Mode demo mouse / touch
           </button>
-          {motion.error && <div className="error-box">Kamera belum siap: {motion.error}<br />Gunakan mode demo untuk review tanpa webcam.</div>}
         </section>
       </main>
     );
   }
-
-
 
   return (
     <main className="game-page">
@@ -247,7 +321,12 @@ export function GameClient({ gameId }: { gameId: GameId }) {
         <Link href="/" className="brand compact"><span className="brand-mark">🤸</span><span><b>MOTION</b><small>LEARNING HUB</small></span></Link>
         <h1>{game.title}</h1>
         <div className="game-header__actions">
-          <button type="button" onClick={() => dispatch({ type: session.phase === "paused" ? "RESUME" : "PAUSE" })}>
+          <button
+            type="button"
+            disabled={session.phase !== "playing" && session.phase !== "paused"}
+            aria-label={session.phase === "paused" ? "Lanjutkan game" : "Jeda game"}
+            onClick={() => dispatch({ type: session.phase === "paused" ? "RESUME" : "PAUSE" })}
+          >
             {session.phase === "paused" ? "▶" : "Ⅱ"}
           </button>
           <Link href="/">Keluar</Link>
@@ -255,10 +334,25 @@ export function GameClient({ gameId }: { gameId: GameId }) {
       </header>
 
       <section className="arena">
-        {inputMode === "camera" && (
-          <video ref={motion.videoRef} className="camera-video" muted playsInline aria-label="Preview kamera pemain" />
+        {inputMode === "camera" ? (
+          <>
+            <video ref={videoRef} className="camera-video" muted playsInline autoPlay aria-label="Preview kamera pemain" />
+            {!readiness.canStart ? (
+              <div className="readiness-banner" role="status" aria-live="polite">
+                <span className="readiness-dot" />
+                <strong>{readiness.message}</strong>
+                <span className="readiness-count">
+                  {readiness.handsSeen}/{game.players === "1 pemain" ? 1 : 2} tangan
+                </span>
+                <span className="readiness-bar">
+                  <i style={{ width: `${Math.round(readiness.progress * 100)}%` }} />
+                </span>
+              </div>
+            ) : null}
+          </>
+        ) : (
+          <div className="demo-background"><span>Mode demo mouse / touch</span></div>
         )}
-        {inputMode === "pointer" && <div className="demo-background"><span>Mode demo mouse / touch</span></div>}
         <div className="arena-shade" />
 
         <div className="top-hud">
@@ -276,37 +370,56 @@ export function GameClient({ gameId }: { gameId: GameId }) {
             player="A"
             label="PLAYER A"
             accent="blue"
-            points={motion.players.A.points}
+            points={motionPlayers.A.points}
             target={target}
-            message={traceScores.A !== null ? `Nilai lintasan ${traceScores.A}%` : motion.players.A.message}
+            message={traceScores.A !== null ? `Nilai lintasan ${traceScores.A}%` : motionPlayers.A.message}
             digits={session.players.A.digits}
             expectedDigits={expectedDigits}
             inputEnabled={inputMode === "pointer" && session.phase === "playing"}
-            onPointerPath={motion.submitPointerPath}
-            onClear={motion.clearPlayer}
+            onPointerPath={submitPointerPath}
+            onClear={clearPlayer}
           />
           {!singlePlayer && (
             <MotionCanvas
               player="B"
               label="PLAYER B"
               accent="pink"
-              points={motion.players.B.points}
+              points={motionPlayers.B.points}
               target={target}
-              message={traceScores.B !== null ? `Nilai lintasan ${traceScores.B}%` : motion.players.B.message}
+              message={traceScores.B !== null ? `Nilai lintasan ${traceScores.B}%` : motionPlayers.B.message}
               digits={session.players.B.digits}
               expectedDigits={expectedDigits}
               inputEnabled={inputMode === "pointer" && session.phase === "playing"}
-              onPointerPath={motion.submitPointerPath}
-              onClear={motion.clearPlayer}
+              onPointerPath={submitPointerPath}
+              onClear={clearPlayer}
             />
           )}
         </div>
 
+        {session.phase === "device-check" && (
+          <div className="overlay-card" role="status" aria-live="polite">
+            {motionStatus === "error" ? (
+              <>
+                <h2>Kamera belum siap</h2>
+                <p>{motionError ?? "Periksa izin kamera, koneksi model, dan browser yang digunakan."}</p>
+                <div className="result-actions">
+                  <button type="button" className="primary-button" onClick={() => void startMotion()}>Coba kamera lagi</button>
+                  <button type="button" className="secondary-button" onClick={switchToPointerMode}>Pakai mode demo</button>
+                </div>
+              </>
+            ) : (
+              <>
+                <h2>Menyiapkan kamera…</h2>
+                <p>Izinkan akses kamera. Model gerakan diproses langsung di perangkat.</p>
+              </>
+            )}
+          </div>
+        )}
         {session.phase === "ready" && (
           <div className="overlay-card">
             <h2>Siap bermain?</h2>
             <p>{inputMode === "camera" ? "Pastikan tangan terlihat di area masing-masing." : "Gambar dengan mouse atau sentuhan di canvas."}</p>
-            <button type="button" className="primary-button" onClick={() => dispatch({ type: "COUNTDOWN" })}>Mulai countdown</button>
+            <button type="button" className="primary-button" onClick={beginCountdown}>Mulai countdown</button>
           </div>
         )}
         {session.phase === "countdown" && <div className="countdown-overlay"><span>{countdown || "GO!"}</span></div>}

@@ -21,3 +21,7 @@ playwright-report/
 
 # Archives
 *.zip
+
+# Audit and generated reports
+*.backup.*
+npm-audit-*.json

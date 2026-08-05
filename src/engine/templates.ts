@@ -1,4 +1,4 @@
-import type { Point, ShapeName } from "./types.js";
+import type { Point, ShapeName } from "./types";
 
 function line(points: Array<[number, number]>): Point[] {
   return points.map(([x, y]) => ({ x, y }));

@@ -1,8 +1,16 @@
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const projectRoot = path.dirname(fileURLToPath(import.meta.url));
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "standalone",
   reactStrictMode: true,
   poweredByHeader: false,
+  turbopack: {
+    root: projectRoot
+  },
   async headers() {
     return [
       {

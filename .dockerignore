@@ -2,5 +2,13 @@ node_modules
 .next
 .qa-dist
 .git
+.github
+docs
+qa
+tests
+coverage
+playwright-report
+test-results
 *.log
-motion-learning-hub.zip
+*.zip
+*.backup.*

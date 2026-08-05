@@ -6,20 +6,36 @@ import { useEffect, useState } from "react";
 import { DEFAULT_PROGRESS, sanitizeProgress } from "@/engine/progress";
 import { GAME_REGISTRY } from "@/engine/registry";
 import type { LocalProgress } from "@/engine/types";
+import { CompanionApps } from "@/components/CompanionApps";
 
 const STORAGE_KEY = "motion-learning-hub-progress-v1";
 
+function readLocalProgress(): LocalProgress {
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    return raw ? sanitizeProgress(JSON.parse(raw)) : { ...DEFAULT_PROGRESS, bestScores: {} };
+  } catch {
+    return { ...DEFAULT_PROGRESS, bestScores: {} };
+  }
+}
+
 export function HubHome() {
-  const [progress, setProgress] = useState<LocalProgress>(DEFAULT_PROGRESS);
+  const [progress, setProgress] = useState<LocalProgress>(() => ({ ...DEFAULT_PROGRESS, bestScores: {} }));
 
   useEffect(() => {
-    try {
-      const raw = window.localStorage.getItem(STORAGE_KEY);
-      if (raw) setProgress(sanitizeProgress(JSON.parse(raw)));
-    } catch {
-      setProgress(DEFAULT_PROGRESS);
-    }
+    const updateProgress = () => setProgress(readLocalProgress());
+    const timer = window.setTimeout(updateProgress, 0);
+    window.addEventListener("storage", updateProgress);
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("storage", updateProgress);
+    };
   }, []);
+
+  const totalBestScore = Object.values(progress.bestScores).reduce(
+    (sum, value) => sum + (typeof value === "number" && Number.isFinite(value) ? value : 0),
+    0
+  );
 
   return (
     <main className="hub-page">
@@ -28,10 +44,11 @@ export function HubHome() {
           <span className="brand-mark">🤸</span>
           <span><b>MOTION</b><small>LEARNING HUB</small></span>
         </Link>
-        <nav>
+        <nav aria-label="Navigasi utama">
           <Link className="nav-pill is-active" href="/">⌂ Beranda</Link>
+          <Link className="nav-pill" href="/leaderboard">🏆 Papan skor</Link>
           <Link className="nav-pill" href="/how-to-play">? Cara bermain</Link>
-          <span className="score-pill">⭐ {Object.values(progress.bestScores).reduce((sum, value) => sum + (value ?? 0), 0)}</span>
+          <span className="score-pill" aria-label={`Total skor terbaik ${totalBestScore}`}>⭐ {totalBestScore}</span>
         </nav>
       </header>
 
@@ -71,6 +88,8 @@ export function HubHome() {
           ))}
         </div>
       </section>
+
+      <CompanionApps />
 
       <section className="family-strip">
         <div><strong>👨‍👩‍👧 Cocok untuk anak dan orang tua</strong><span>Gunakan laptop di rumah, kelas, tempat les, atau booth edukasi.</span></div>

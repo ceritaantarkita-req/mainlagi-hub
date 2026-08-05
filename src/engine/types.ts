@@ -1,4 +1,13 @@
-export type GameId = "math-battle" | "number-trace" | "shape-quest" | "pattern-race";
+export const GAME_IDS = [
+  "math-battle",
+  "number-trace",
+  "shape-quest",
+  "pattern-race",
+  // Point-and-hold quiz. The only game that needs no handwriting at all, which
+  // makes it usable by children who cannot yet form digits or letters.
+  "pilih-jawaban"
+] as const;
+export type GameId = (typeof GAME_IDS)[number];
 export type PlayerId = "A" | "B";
 export type LevelId = "kindergarten" | "grade-1" | "grade-2";
 export type Operation = "add" | "subtract" | "multiply" | "divide";
@@ -64,6 +73,7 @@ export interface PlayerScore {
   streak: number;
   bestStreak: number;
   digits: number[];
+  answeredChallengeId: string | null;
 }
 
 export interface GameSession {

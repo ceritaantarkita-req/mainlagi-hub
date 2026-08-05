@@ -1,6 +1,6 @@
-import { mirrorPath, normalizePath, pathDistance } from "./geometry.js";
-import { DIGIT_TEMPLATES } from "./templates.js";
-import type { Point, RecognitionResult } from "./types.js";
+import { mirrorPath, normalizePath, pathDistance } from "./geometry";
+import { DIGIT_TEMPLATES } from "./templates";
+import type { Point, RecognitionResult } from "./types";
 
 const NORMALIZED_TEMPLATES = Object.entries(DIGIT_TEMPLATES).flatMap(([digit, variants]) =>
   variants.map((points) => ({ digit: Number(digit), points: normalizePath(points) }))

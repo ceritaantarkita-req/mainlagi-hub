@@ -35,6 +35,8 @@ export function MotionCanvas({
   onClear
 }: MotionCanvasProps) {
   const svgRef = useRef<SVGSVGElement | null>(null);
+  const activePointerRef = useRef<number | null>(null);
+  const pointerPointsRef = useRef<Point[]>([]);
   const [pointerPoints, setPointerPoints] = useState<Point[]>([]);
   const displayedPoints = pointerPoints.length > 0 ? pointerPoints : points;
   const slots = useMemo(
@@ -44,12 +46,36 @@ export function MotionCanvas({
 
   const pointFromEvent = (clientX: number, clientY: number): Point | null => {
     const rect = svgRef.current?.getBoundingClientRect();
-    if (!rect) return null;
+    if (!rect || rect.width <= 0 || rect.height <= 0) return null;
     return {
       x: Math.max(0, Math.min(1, (clientX - rect.left) / rect.width)),
       y: Math.max(0, Math.min(1, (clientY - rect.top) / rect.height)),
       t: performance.now()
     };
+  };
+
+  const finishPointerPath = (event: React.PointerEvent<SVGSVGElement>, submit: boolean) => {
+    if (activePointerRef.current !== event.pointerId) return;
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+    const completed = [...pointerPointsRef.current];
+    activePointerRef.current = null;
+    pointerPointsRef.current = [];
+    setPointerPoints([]);
+    if (submit && completed.length >= 4) onPointerPath(player, completed);
+  };
+
+  const clear = () => {
+    const pointerId = activePointerRef.current;
+    const svg = svgRef.current;
+    if (pointerId !== null && svg?.hasPointerCapture(pointerId)) {
+      svg.releasePointerCapture(pointerId);
+    }
+    activePointerRef.current = null;
+    pointerPointsRef.current = [];
+    setPointerPoints([]);
+    onClear(player);
   };
 
   return (
@@ -73,35 +99,39 @@ export function MotionCanvas({
         className="motion-drawing"
         viewBox="0 0 1000 700"
         preserveAspectRatio="none"
+        role="img"
+        aria-label={`Canvas menulis ${label}`}
         onPointerDown={(event: React.PointerEvent<SVGSVGElement>) => {
-          if (!inputEnabled) return;
-          event.currentTarget.setPointerCapture(event.pointerId);
+          if (!inputEnabled || activePointerRef.current !== null) return;
           const point = pointFromEvent(event.clientX, event.clientY);
-          if (point) setPointerPoints([point]);
+          if (!point) return;
+          event.currentTarget.setPointerCapture(event.pointerId);
+          activePointerRef.current = event.pointerId;
+          pointerPointsRef.current = [point];
+          setPointerPoints([point]);
         }}
         onPointerMove={(event: React.PointerEvent<SVGSVGElement>) => {
-          if (!inputEnabled || !event.currentTarget.hasPointerCapture(event.pointerId)) return;
+          if (!inputEnabled || activePointerRef.current !== event.pointerId) return;
           const point = pointFromEvent(event.clientX, event.clientY);
-          if (point) setPointerPoints((current) => [...current.slice(-239), point]);
+          if (!point) return;
+          const nextPoints = [...pointerPointsRef.current.slice(-239), point];
+          pointerPointsRef.current = nextPoints;
+          setPointerPoints(nextPoints);
         }}
-        onPointerUp={(event: React.PointerEvent<SVGSVGElement>) => {
-          if (!inputEnabled) return;
-          event.currentTarget.releasePointerCapture(event.pointerId);
-          if (pointerPoints.length >= 4) onPointerPath(player, pointerPoints);
-          setPointerPoints([]);
-        }}
+        onPointerUp={(event: React.PointerEvent<SVGSVGElement>) => finishPointerPath(event, inputEnabled)}
+        onPointerCancel={(event: React.PointerEvent<SVGSVGElement>) => finishPointerPath(event, false)}
       >
-        {target && (
+        {target ? (
           <polyline className="target-path" points={polyline(target)} vectorEffect="non-scaling-stroke" />
-        )}
-        {displayedPoints.length > 1 && (
+        ) : null}
+        {displayedPoints.length > 1 ? (
           <polyline className="finger-path" points={polyline(displayedPoints)} vectorEffect="non-scaling-stroke" />
-        )}
+        ) : null}
       </svg>
 
       <footer className="motion-panel__footer">
-        <span>{message}</span>
-        <button type="button" className="tiny-button" onClick={() => onClear(player)}>
+        <span aria-live="polite">{message}</span>
+        <button type="button" className="tiny-button" onClick={clear}>
           Hapus
         </button>
       </footer>
