@@ -14,6 +14,7 @@ import { bodySample } from "./body-analysis";
 import { analyzeGesture, GestureLatch } from "./gesture";
 import { assignHandToPlayer, BodySlotTracker } from "./player-assignment";
 import { LandmarkSmoother, PointSmoother } from "./smoothing";
+import { attachCameraStream } from "./video-startup";
 import type {
   Landmark,
   TrackedBody,
@@ -222,10 +223,10 @@ export function useVisionRuntime({ mode, playerCount }: VisionOptions) {
 
       const video = videoElementRef.current;
       if (!video) throw new Error("Elemen preview kamera belum siap.");
-      video.srcObject = stream;
-      await video.play();
 
       setStatus("loading-model");
+      await attachCameraStream(video, stream);
+
       const vision = await import("@mediapipe/tasks-vision");
       const configuredWasm =
         process.env.NEXT_PUBLIC_MEDIAPIPE_WASM_URL || "/mediapipe/wasm";
@@ -418,7 +419,9 @@ export function useVisionRuntime({ mode, playerCount }: VisionOptions) {
           }
         } catch (cause) {
           runningRef.current = false;
-          setError(cause instanceof Error ? cause.message : "Vision runtime berhenti.");
+          setError(
+            cause instanceof Error ? cause.message : "Vision runtime berhenti."
+          );
           setStatus("error");
           return;
         }
