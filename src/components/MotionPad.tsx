@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect -- camera cursor state synchronizes the external MediaPipe stream */
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -196,6 +197,9 @@ export function MotionPad({
     };
   };
 
+  const cursorIsDrawing =
+    hand?.gesture === "pinch" && hand.confidence >= MIN_HAND_CONFIDENCE;
+
   return (
     <section
       className="motion-pad"
@@ -277,7 +281,7 @@ export function MotionPad({
         {cameraCursor ? (
           <g
             className={`${styles.cameraCursor} ${
-              cameraDrawingRef.current ? styles.cursorDrawing : ""
+              cursorIsDrawing ? styles.cursorDrawing : ""
             }`}
             transform={`translate(${cameraCursor.x * 1000} ${cameraCursor.y * 650})`}
           >
