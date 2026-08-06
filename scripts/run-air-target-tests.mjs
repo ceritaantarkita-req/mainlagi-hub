@@ -4,6 +4,9 @@ import { compileEngine } from "./compile-engine.mjs";
 
 await compileEngine();
 const airTarget = await import("../.qa-dist/interaction/air-target.js");
+const relativeMapper = await import(
+  "../.qa-dist/interaction/relative-hand-mapper.js"
+);
 
 const targets = [
   { id: "milk", left: 100, top: 100, right: 220, bottom: 220 },
@@ -58,4 +61,63 @@ test("moving to another target releases the previous target lock", () => {
   assert.equal(dwell.update("milk", 100).selected, "milk");
   dwell.update("bread", 200);
   assert.equal(dwell.update("bread", 300).selected, "bread");
+});
+
+test("relative mapper anchors the first camera sample without jumping", () => {
+  const mapper = new relativeMapper.RelativeHandMapper();
+  const first = mapper.update({ x: 0.9, y: 0.1 }, 100);
+  assert.equal(first.x, 0.5);
+  assert.equal(first.y, 0.52);
+});
+
+test("relative mapper turns comfortable hand movement into larger canvas travel", () => {
+  const mapper = new relativeMapper.RelativeHandMapper({
+    gainX: 2,
+    gainY: 2,
+    deadZone: 0
+  });
+  mapper.update({ x: 0.5, y: 0.5 }, 100);
+  const moved = mapper.update({ x: 0.53, y: 0.48 }, 133);
+  assert.equal(moved.x > 0.55, true);
+  assert.equal(moved.y < 0.49, true);
+});
+
+test("relative mapper suppresses tiny involuntary hand jitter", () => {
+  const mapper = new relativeMapper.RelativeHandMapper({ deadZone: 0.003 });
+  mapper.update({ x: 0.5, y: 0.5 }, 100);
+  const moved = mapper.update({ x: 0.501, y: 0.498 }, 133);
+  assert.equal(moved.x, 0.5);
+  assert.equal(moved.y, 0.52);
+});
+
+test("relative mapper clamps tracking spikes and canvas boundaries", () => {
+  const mapper = new relativeMapper.RelativeHandMapper({
+    gainX: 4,
+    gainY: 4,
+    deadZone: 0,
+    maxRawStep: 0.04
+  });
+  mapper.update({ x: 0.5, y: 0.5 }, 100);
+  const moved = mapper.update({ x: 1, y: 1 }, 133);
+  assert.equal(moved.x <= 0.66, true);
+  assert.equal(moved.y <= 0.68, true);
+
+  let current = moved;
+  for (let index = 0; index < 20; index += 1) {
+    current = mapper.update(
+      { x: 1 + index * 0.04, y: 1 + index * 0.04 },
+      166 + index * 33
+    );
+  }
+  assert.equal(current.x <= 0.955, true);
+  assert.equal(current.y <= 0.945, true);
+});
+
+test("relative mapper re-anchors after tracking is lost", () => {
+  const mapper = new relativeMapper.RelativeHandMapper({ maxGapMs: 250 });
+  mapper.update({ x: 0.5, y: 0.5 }, 100);
+  const moved = mapper.update({ x: 0.54, y: 0.5 }, 133);
+  const reacquired = mapper.update({ x: 0.1, y: 0.9 }, 1000);
+  assert.equal(reacquired.x, moved.x);
+  assert.equal(reacquired.y, moved.y);
 });
