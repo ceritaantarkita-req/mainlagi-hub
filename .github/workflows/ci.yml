@@ -1,12 +1,19 @@
-name: Mainlagi TV V2 CI
+name: Mainlagi TV V3 CI
 
 on:
   pull_request:
   push:
-    branches: [main, rebuild/mainlagitv-v2]
+    branches:
+      - main
+      - feature/mainlagitv-v2.0.2-ts6-fix
+      - feature/mainlagitv-motion-engine-v3
+
+permissions:
+  contents: read
 
 jobs:
   quality:
+    name: Quality gate (Ubuntu)
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -14,9 +21,66 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
       - name: Install dependencies
-        run: npm install --no-audit --no-fund
-      - name: Full quality gate
-        run: npm run check
-      - name: Production dependency audit
+        run: npm ci --no-audit --no-fund
+      - name: Validate structure and source
+        run: npm run validate:structure && npm run audit:source
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Lint
+        run: npm run lint
+      - name: Engine tests
+        run: npm run test:engine
+      - name: Simulations
+        run: npm run simulate
+
+  build:
+    name: Production build
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Build
+        run: npm run build
+
+  windows-quality:
+    name: Windows compatibility
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Lint
+        run: npm run lint
+      - name: Engine tests
+        run: npm run test:engine
+
+  dependency-audit:
+    name: Production dependency audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Audit production dependencies
         run: npm audit --omit=dev --audit-level=high
