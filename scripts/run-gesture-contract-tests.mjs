@@ -39,8 +39,8 @@ test("thumbs-up is recognized when the thumb is vertical and fingers are folded"
 
 test("folded hand without a raised thumb remains a fist", () => {
   const landmarks = thumbsUpLandmarks();
-  landmarks[3] = { x: 0.46, y: 0.58 };
-  landmarks[4] = { x: 0.49, y: 0.64 };
+  landmarks[3] = { x: 0.3, y: 0.62 };
+  landmarks[4] = { x: 0.24, y: 0.66 };
   const result = gesture.analyzeGesture(landmarks);
   assert.equal(result.gesture, "fist");
 });
