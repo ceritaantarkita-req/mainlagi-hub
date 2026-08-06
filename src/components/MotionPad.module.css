@@ -1,0 +1,46 @@
+.cameraCursor {
+  pointer-events: none;
+  filter: drop-shadow(0 3px 8px rgba(5, 17, 38, 0.45));
+}
+
+.cursorHalo {
+  fill: color-mix(in srgb, var(--player) 22%, transparent);
+  stroke: rgba(255, 255, 255, 0.9);
+  stroke-width: 5;
+}
+
+.cursorDot {
+  fill: var(--player);
+  stroke: #fff;
+  stroke-width: 4;
+}
+
+.cursorDrawing .cursorHalo {
+  fill: color-mix(in srgb, var(--player) 40%, transparent);
+  stroke: var(--player);
+}
+
+.cursorDrawing .cursorDot {
+  fill: #fff;
+  stroke: var(--player);
+}
+
+.relativeHint {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #3f5879;
+  font-weight: 750;
+}
+
+.relativeHint::before {
+  content: "◎";
+  color: var(--player);
+  font-size: 12px;
+}
+
+.recenterButton {
+  color: #29476f !important;
+  background: #eef4fd !important;
+  border-color: #c9d8ec !important;
+}
