@@ -1,31 +1,39 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { calibrateBody, classifyBodyAction, type BodyCalibration, type BodySample } from "@/lib/engine/body";
+import type { HandLandmarker, PoseLandmarker } from "@mediapipe/tasks-vision";
+import {
+  calibrateBody,
+  classifyBodyAction,
+  type BodyCalibration,
+  type BodySample
+} from "@/lib/engine/body";
 import type { PlayerId } from "@/lib/engine/types";
 import type { VisionMode } from "@/lib/data/games";
 import { bodySample } from "./body-analysis";
 import { analyzeGesture, GestureLatch } from "./gesture";
 import { assignHandToPlayer, BodySlotTracker } from "./player-assignment";
-import type { Landmark, TrackedBody, TrackedHand, VisionSnapshot, VisionStatus } from "./types";
+import type {
+  Landmark,
+  TrackedBody,
+  TrackedHand,
+  VisionSnapshot,
+  VisionStatus
+} from "./types";
 
 interface VisionOptions {
   mode: VisionMode;
   playerCount: 1 | 2;
 }
 
-interface Landmarker {
-  detectForVideo(video: HTMLVideoElement, timestamp: number): any;
-  close(): void;
-}
-
 interface RuntimeHandles {
-  hand?: Landmarker;
-  pose?: Landmarker;
+  hand?: HandLandmarker;
+  pose?: PoseLandmarker;
 }
 
 const EMPTY: VisionSnapshot = { hands: [], bodies: [], fps: 0, timestamp: 0 };
-const REMOTE_WASM = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.35/wasm";
+const REMOTE_WASM =
+  "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.35/wasm";
 const REMOTE_HAND =
   "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task";
 const REMOTE_POSE =
@@ -56,8 +64,13 @@ export function useVisionRuntime({ mode, playerCount }: VisionOptions) {
   const framesRef = useRef<number[]>([]);
   const lifecycleRef = useRef(0);
   const bodyTrackerRef = useRef(new BodySlotTracker());
-  const calibrationsRef = useRef<Partial<Record<PlayerId, BodyCalibration>>>({});
-  const calibrationSamplesRef = useRef<Record<PlayerId, BodySample[]>>({ A: [], B: [] });
+  const calibrationsRef = useRef<
+    Partial<Record<PlayerId, BodyCalibration>>
+  >({});
+  const calibrationSamplesRef = useRef<Record<PlayerId, BodySample[]>>({
+    A: [],
+    B: []
+  });
   const latchesRef = useRef<Record<PlayerId, GestureLatch>>({
     A: new GestureLatch(),
     B: new GestureLatch()
@@ -173,19 +186,18 @@ export function useVisionRuntime({ mode, playerCount }: VisionOptions) {
       await video.play();
 
       setStatus("loading-model");
-      const vision = (await import("@mediapipe/tasks-vision")) as any;
-      const configuredWasm = process.env.NEXT_PUBLIC_MEDIAPIPE_WASM_URL || "/mediapipe/wasm";
-      let fileset: any;
-      try {
-        fileset = await vision.FilesetResolver.forVisionTasks(configuredWasm);
-      } catch {
-        fileset = await vision.FilesetResolver.forVisionTasks(REMOTE_WASM);
-      }
+      const vision = await import("@mediapipe/tasks-vision");
+      const configuredWasm =
+        process.env.NEXT_PUBLIC_MEDIAPIPE_WASM_URL || "/mediapipe/wasm";
+      const fileset = await vision.FilesetResolver.forVisionTasks(
+        configuredWasm
+      ).catch(() => vision.FilesetResolver.forVisionTasks(REMOTE_WASM));
 
       const handles: RuntimeHandles = {};
       if (mode === "hand" || mode === "hybrid") {
         const configuredModel =
-          process.env.NEXT_PUBLIC_HAND_LANDMARKER_MODEL_URL || "/models/hand_landmarker.task";
+          process.env.NEXT_PUBLIC_HAND_LANDMARKER_MODEL_URL ||
+          "/models/hand_landmarker.task";
         const createHand = (modelAssetPath: string, delegate: "GPU" | "CPU") =>
           vision.HandLandmarker.createFromOptions(fileset, {
             baseOptions: { modelAssetPath, delegate },
@@ -195,6 +207,7 @@ export function useVisionRuntime({ mode, playerCount }: VisionOptions) {
             minHandPresenceConfidence: 0.45,
             minTrackingConfidence: 0.45
           });
+
         try {
           handles.hand = await createHand(configuredModel, "GPU");
         } catch {
@@ -219,6 +232,7 @@ export function useVisionRuntime({ mode, playerCount }: VisionOptions) {
             minPosePresenceConfidence: 0.45,
             minTrackingConfidence: 0.45
           });
+
         try {
           handles.pose = await createPose(configuredModel, "GPU");
         } catch {
@@ -252,13 +266,20 @@ export function useVisionRuntime({ mode, playerCount }: VisionOptions) {
           frameRef.current = requestAnimationFrame(loop);
           return;
         }
+
         lastVideoTimeRef.current = activeVideo.currentTime;
         const now = performance.now();
 
         try {
-          const poseResult = runtimeRef.current.pose?.detectForVideo(activeVideo, now);
+          const poseResult = runtimeRef.current.pose?.detectForVideo(
+            activeVideo,
+            now
+          );
           const rawBodies = (poseResult?.landmarks ?? []) as Landmark[][];
-          const bodyCandidates = bodyTrackerRef.current.update(rawBodies, playerCount);
+          const bodyCandidates = bodyTrackerRef.current.update(
+            rawBodies,
+            playerCount
+          );
           const bodies: TrackedBody[] = bodyCandidates.map((body) => {
             const player = body.player;
             const sample = bodySample(body.landmarks);
@@ -270,7 +291,8 @@ export function useVisionRuntime({ mode, playerCount }: VisionOptions) {
                 calibrationsRef.current[player] = calibrateBody(samples);
               }
             }
-            const baseline = calibrationsRef.current[player] ?? calibrateBody(samples);
+            const baseline =
+              calibrationsRef.current[player] ?? calibrateBody(samples);
             return {
               id: body.id,
               player,
@@ -283,9 +305,13 @@ export function useVisionRuntime({ mode, playerCount }: VisionOptions) {
             };
           });
 
-          const handResult = runtimeRef.current.hand?.detectForVideo(activeVideo, now);
+          const handResult = runtimeRef.current.hand?.detectForVideo(
+            activeVideo,
+            now
+          );
           const handSets = (handResult?.landmarks ?? []) as Landmark[][];
           const hands: TrackedHand[] = [];
+
           for (let index = 0; index < handSets.length; index += 1) {
             const landmarks = handSets[index]!;
             const tip = landmarks[8];
@@ -296,14 +322,16 @@ export function useVisionRuntime({ mode, playerCount }: VisionOptions) {
               bodyCandidates,
               playerCount
             );
-            if (!player || hands.some((hand) => hand.player === player)) continue;
+            if (!player || hands.some((hand) => hand.player === player)) {
+              continue;
+            }
 
             const analyzed = analyzeGesture(landmarks);
             const gesture = latchesRef.current[player].update(analyzed.gesture);
             const handedness =
-              handResult?.handednesses?.[index]?.[0]?.categoryName ?? "Unknown";
+              handResult?.handedness[index]?.[0]?.categoryName ?? "Unknown";
             const confidence =
-              handResult?.handednesses?.[index]?.[0]?.score ?? analyzed.confidence;
+              handResult?.handedness[index]?.[0]?.score ?? analyzed.confidence;
             hands.push({
               id: `hand-${index}`,
               player,
@@ -316,12 +344,21 @@ export function useVisionRuntime({ mode, playerCount }: VisionOptions) {
           }
 
           framesRef.current.push(now);
-          while (framesRef.current.length && now - framesRef.current[0]! > 1000) {
+          while (
+            framesRef.current.length &&
+            now - framesRef.current[0]! > 1000
+          ) {
             framesRef.current.shift();
           }
+
           if (now - lastPublishRef.current >= 50) {
             lastPublishRef.current = now;
-            setSnapshot({ hands, bodies, fps: framesRef.current.length, timestamp: now });
+            setSnapshot({
+              hands,
+              bodies,
+              fps: framesRef.current.length,
+              timestamp: now
+            });
           }
         } catch (cause) {
           runningRef.current = false;
@@ -338,7 +375,9 @@ export function useVisionRuntime({ mode, playerCount }: VisionOptions) {
       if (lifecycleRef.current === lifecycle) {
         dispose(false);
         setError(
-          cause instanceof Error ? cause.message : "Kamera atau model gagal dimuat."
+          cause instanceof Error
+            ? cause.message
+            : "Kamera atau model gagal dimuat."
         );
         setStatus("error");
       }
