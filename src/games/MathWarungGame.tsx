@@ -25,7 +25,10 @@ const PRODUCTS = [
   { id: "air", name: "Air", price: 5, emoji: "💧" }
 ] as const;
 
-const PRODUCT_BY_ID = new Map(PRODUCTS.map((product) => [product.id, product]));
+type Product = (typeof PRODUCTS)[number];
+const PRODUCT_BY_ID = new Map<string, Product>(
+  PRODUCTS.map((product) => [product.id, product] as const)
+);
 
 type Step = "shopping" | "total" | "change" | "result";
 
