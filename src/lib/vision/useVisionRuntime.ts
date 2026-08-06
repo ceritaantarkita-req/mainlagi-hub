@@ -13,6 +13,7 @@ import type { VisionMode } from "@/lib/data/games";
 import { bodySample } from "./body-analysis";
 import { analyzeGesture, GestureLatch } from "./gesture";
 import { assignHandToPlayer, BodySlotTracker } from "./player-assignment";
+import { LandmarkSmoother, PointSmoother } from "./smoothing";
 import type {
   Landmark,
   TrackedBody,
@@ -39,6 +40,18 @@ const REMOTE_HAND =
 const REMOTE_POSE =
   "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task";
 const CALIBRATION_FRAMES = 24;
+const HAND_FILTER_OPTIONS = {
+  minCutoff: 1.4,
+  beta: 0.12,
+  derivativeCutoff: 1,
+  maxGapMs: 350
+};
+const BODY_FILTER_OPTIONS = {
+  minCutoff: 0.9,
+  beta: 0.06,
+  derivativeCutoff: 1,
+  maxGapMs: 500
+};
 
 function confidenceOf(landmarks: readonly Landmark[]): number {
   const keys = [11, 12, 23, 24, 25, 26]
@@ -75,6 +88,26 @@ export function useVisionRuntime({ mode, playerCount }: VisionOptions) {
     A: new GestureLatch(),
     B: new GestureLatch()
   });
+  const handPointSmoothersRef = useRef<Record<PlayerId, PointSmoother>>({
+    A: new PointSmoother(HAND_FILTER_OPTIONS),
+    B: new PointSmoother(HAND_FILTER_OPTIONS)
+  });
+  const handLandmarkSmoothersRef = useRef<
+    Record<PlayerId, LandmarkSmoother>
+  >({
+    A: new LandmarkSmoother(HAND_FILTER_OPTIONS),
+    B: new LandmarkSmoother(HAND_FILTER_OPTIONS)
+  });
+  const bodyCenterSmoothersRef = useRef<Record<PlayerId, PointSmoother>>({
+    A: new PointSmoother(BODY_FILTER_OPTIONS),
+    B: new PointSmoother(BODY_FILTER_OPTIONS)
+  });
+  const bodyLandmarkSmoothersRef = useRef<
+    Record<PlayerId, LandmarkSmoother>
+  >({
+    A: new LandmarkSmoother(BODY_FILTER_OPTIONS),
+    B: new LandmarkSmoother(BODY_FILTER_OPTIONS)
+  });
 
   const bindVideo = useCallback((element: HTMLVideoElement | null) => {
     videoElementRef.current = element;
@@ -86,12 +119,19 @@ export function useVisionRuntime({ mode, playerCount }: VisionOptions) {
 
   const resetTransient = useCallback(() => {
     lastVideoTimeRef.current = -1;
+    lastPublishRef.current = 0;
     framesRef.current = [];
     calibrationsRef.current = {};
     calibrationSamplesRef.current = { A: [], B: [] };
     bodyTrackerRef.current.reset();
-    latchesRef.current.A.reset();
-    latchesRef.current.B.reset();
+
+    for (const player of ["A", "B"] as const) {
+      latchesRef.current[player].reset();
+      handPointSmoothersRef.current[player].reset();
+      handLandmarkSmoothersRef.current[player].reset();
+      bodyCenterSmoothersRef.current[player].reset();
+      bodyLandmarkSmoothersRef.current[player].reset();
+    }
   }, []);
 
   const dispose = useCallback(
@@ -202,7 +242,7 @@ export function useVisionRuntime({ mode, playerCount }: VisionOptions) {
           vision.HandLandmarker.createFromOptions(fileset, {
             baseOptions: { modelAssetPath, delegate },
             runningMode: "VIDEO",
-            numHands: playerCount,
+            numHands: playerCount === 2 ? 4 : 2,
             minHandDetectionConfidence: 0.45,
             minHandPresenceConfidence: 0.45,
             minTrackingConfidence: 0.45
@@ -282,7 +322,15 @@ export function useVisionRuntime({ mode, playerCount }: VisionOptions) {
           );
           const bodies: TrackedBody[] = bodyCandidates.map((body) => {
             const player = body.player;
-            const sample = bodySample(body.landmarks);
+            const landmarks = bodyLandmarkSmoothersRef.current[player].update(
+              body.landmarks,
+              now
+            );
+            const center = bodyCenterSmoothersRef.current[player].update(
+              { ...body.center, t: now },
+              now
+            );
+            const sample = bodySample(landmarks);
             const samples = calibrationSamplesRef.current[player];
             if (!calibrationsRef.current[player]) {
               samples.push(sample);
@@ -296,10 +344,10 @@ export function useVisionRuntime({ mode, playerCount }: VisionOptions) {
             return {
               id: body.id,
               player,
-              landmarks: body.landmarks,
-              center: body.center,
+              landmarks,
+              center,
               action: classifyBodyAction(sample, baseline),
-              confidence: confidenceOf(body.landmarks),
+              confidence: confidenceOf(landmarks),
               torsoScale: sample.torsoScale,
               hipY: sample.hipY
             };
@@ -313,12 +361,12 @@ export function useVisionRuntime({ mode, playerCount }: VisionOptions) {
           const hands: TrackedHand[] = [];
 
           for (let index = 0; index < handSets.length; index += 1) {
-            const landmarks = handSets[index]!;
-            const tip = landmarks[8];
+            const rawLandmarks = handSets[index]!;
+            const tip = rawLandmarks[8];
             if (!tip) continue;
-            const point = { x: 1 - tip.x, y: tip.y, t: now };
+            const rawPoint = { x: 1 - tip.x, y: tip.y, t: now };
             const player = assignHandToPlayer(
-              { id: `hand-${index}`, landmarks, point },
+              { id: `hand-${index}`, landmarks: rawLandmarks, point: rawPoint },
               bodyCandidates,
               playerCount
             );
@@ -326,8 +374,16 @@ export function useVisionRuntime({ mode, playerCount }: VisionOptions) {
               continue;
             }
 
-            const analyzed = analyzeGesture(landmarks);
+            const analyzed = analyzeGesture(rawLandmarks);
             const gesture = latchesRef.current[player].update(analyzed.gesture);
+            const point = handPointSmoothersRef.current[player].update(
+              rawPoint,
+              now
+            );
+            const landmarks = handLandmarkSmoothersRef.current[player].update(
+              rawLandmarks,
+              now
+            );
             const handedness =
               handResult?.handedness[index]?.[0]?.categoryName ?? "Unknown";
             const confidence =
