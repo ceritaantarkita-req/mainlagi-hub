@@ -2,11 +2,12 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { GameDefinition } from "@/lib/data/games";
 import type { PlayerId } from "@/lib/engine/types";
 import type { VisionSnapshot, VisionStatus } from "@/lib/vision/types";
 import { VisionOverlay } from "./VisionOverlay";
+import startStyles from "./PreflightStartGesture.module.css";
 
 interface Props {
   game: GameDefinition;
@@ -32,6 +33,31 @@ const EMPTY_GESTURES: GestureCalibration = {
   pinch: { A: false, B: false },
   open: { A: false, B: false }
 };
+const START_HOLD_MS = 900;
+
+function hasRaisedHands(snapshot: VisionSnapshot): boolean {
+  const body = snapshot.bodies.find((item) => item.player === "A");
+  const leftShoulder = body?.landmarks[11];
+  const rightShoulder = body?.landmarks[12];
+  const leftWrist = body?.landmarks[15];
+  const rightWrist = body?.landmarks[16];
+  if (!leftShoulder || !rightShoulder || !leftWrist || !rightWrist) {
+    return false;
+  }
+  return (
+    leftWrist.y < leftShoulder.y - 0.04 &&
+    rightWrist.y < rightShoulder.y - 0.04
+  );
+}
+
+function announceReady(): void {
+  if (!("speechSynthesis" in window)) return;
+  const utterance = new SpeechSynthesisUtterance("Siap. Permainan dimulai.");
+  utterance.lang = "id-ID";
+  utterance.rate = 1;
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(utterance);
+}
 
 export function PreflightPanel({
   game,
@@ -49,6 +75,9 @@ export function PreflightPanel({
 }: Props) {
   const [gestures, setGestures] =
     useState<GestureCalibration>(EMPTY_GESTURES);
+  const [startGestureProgress, setStartGestureProgress] = useState(0);
+  const startGestureSinceRef = useRef<number | null>(null);
+  const startTriggeredRef = useRef(false);
   const requiredPlayers = useMemo<PlayerId[]>(
     () => (playerCount === 1 ? ["A"] : ["A", "B"]),
     [playerCount]
@@ -90,11 +119,6 @@ export function PreflightPanel({
     });
   }, [handByPlayer, inputMode, needsHands, requiredPlayers]);
 
-  const resetCalibration = () => {
-    stop();
-    setGestures(EMPTY_GESTURES);
-  };
-
   const handsReady =
     !needsHands ||
     requiredPlayers.every((player) => Boolean(handByPlayer[player]));
@@ -108,6 +132,48 @@ export function PreflightPanel({
   const canContinue =
     inputMode === "demo" ||
     (modelReady && handsReady && bodiesReady && gesturesReady);
+  const startGestureActive =
+    inputMode === "camera" &&
+    canContinue &&
+    (needsHands
+      ? handByPlayer.A?.gesture === "thumbs-up"
+      : hasRaisedHands(snapshot));
+  const startInstruction = needsHands
+    ? playerCount === 2
+      ? "Player A tahan jempol ke atas untuk mulai"
+      : "Tahan jempol ke atas untuk mulai"
+    : "Angkat kedua tangan untuk mulai";
+
+  useEffect(() => {
+    if (!startGestureActive || inputMode !== "camera" || !canContinue) {
+      startGestureSinceRef.current = null;
+      startTriggeredRef.current = false;
+      setStartGestureProgress(0);
+      return;
+    }
+
+    const now = snapshot.timestamp || performance.now();
+    startGestureSinceRef.current ??= now;
+    const progress = Math.min(
+      1,
+      (now - startGestureSinceRef.current) / START_HOLD_MS
+    );
+    setStartGestureProgress(progress);
+
+    if (progress >= 1 && !startTriggeredRef.current) {
+      startTriggeredRef.current = true;
+      announceReady();
+      onReady();
+    }
+  }, [canContinue, inputMode, onReady, snapshot.timestamp, startGestureActive]);
+
+  const resetCalibration = () => {
+    stop();
+    setGestures(EMPTY_GESTURES);
+    setStartGestureProgress(0);
+    startGestureSinceRef.current = null;
+    startTriggeredRef.current = false;
+  };
 
   return (
     <div className="preflight-layout">
@@ -247,7 +313,9 @@ export function PreflightPanel({
               <b>Siap countdown</b>
               <small>
                 {canContinue
-                  ? "Tekan mulai untuk 3–2–1"
+                  ? inputMode === "camera"
+                    ? startInstruction
+                    : "Tekan mulai untuk 3–2–1"
                   : "Selesaikan pemeriksaan di atas"}
               </small>
             </span>
@@ -280,13 +348,31 @@ export function PreflightPanel({
               Kalibrasi ulang
             </button>
           ) : null}
+          {inputMode === "camera" && canContinue ? (
+            <div
+              className={startStyles.startGesture}
+              data-active={startGestureActive}
+              aria-live="polite"
+            >
+              <span className={startStyles.label}>{startInstruction}</span>
+              <span className={startStyles.track} aria-hidden>
+                <span
+                  className={startStyles.fill}
+                  style={{ width: `${Math.round(startGestureProgress * 100)}%` }}
+                />
+              </span>
+              <span className={startStyles.value}>
+                {Math.round(startGestureProgress * 100)}%
+              </span>
+            </div>
+          ) : null}
           <button
             className="button button--primary"
             type="button"
             disabled={!canContinue}
             onClick={onReady}
           >
-            Mulai countdown
+            {inputMode === "camera" ? "Mulai manual" : "Mulai countdown"}
           </button>
         </div>
       </section>
