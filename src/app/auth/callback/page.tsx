@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { exchangeAuthCode } from "@/lib/auth/supabase-auth";
@@ -15,6 +16,7 @@ export default function AuthCallbackPage() {
       setMessage("Kode login tidak ditemukan.");
       return;
     }
+
     void exchangeAuthCode(code)
       .then(() => {
         setMessage("Login berhasil. Mengalihkan…");
@@ -30,7 +32,9 @@ export default function AuthCallbackPage() {
       <section className="dialog-card">
         <h1>Login Mainlagi TV</h1>
         <p>{message}</p>
-        <a className="button button--primary" href="/">Kembali</a>
+        <Link className="button button--primary" href="/">
+          Kembali
+        </Link>
       </section>
     </main>
   );
