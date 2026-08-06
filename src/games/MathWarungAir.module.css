@@ -1,0 +1,69 @@
+.target {
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  transition:
+    transform 140ms ease,
+    box-shadow 140ms ease,
+    border-color 140ms ease;
+}
+
+.target::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  pointer-events: none;
+  border: 3px solid transparent;
+  border-radius: 20px;
+  transition: border-color 140ms ease, box-shadow 140ms ease;
+}
+
+.target[data-air-focused="true"] {
+  z-index: 3;
+  transform: translateY(-4px) scale(1.025);
+}
+
+.target[data-air-focused="true"]::after {
+  border-color: #25c77a;
+  box-shadow:
+    0 0 0 5px rgba(37, 199, 122, 0.18),
+    0 14px 38px rgba(21, 75, 53, 0.2);
+}
+
+.target:focus-visible::after {
+  border-color: #4778d0;
+  box-shadow: 0 0 0 5px rgba(71, 120, 208, 0.18);
+}
+
+.airHint {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 10px 0 14px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(37, 199, 122, 0.1);
+  color: #23533f;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.airHint strong {
+  white-space: nowrap;
+  color: #187245;
+}
+
+.checkoutTarget[data-air-focused="true"] {
+  transform: translateY(-2px) scale(1.035);
+  box-shadow:
+    0 0 0 5px rgba(37, 199, 122, 0.22),
+    0 12px 34px rgba(21, 75, 53, 0.22);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .target,
+  .target::after {
+    transition: none;
+  }
+}
