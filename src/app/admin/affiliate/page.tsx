@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect -- initial admin data is loaded from external auth and REST state */
 "use client";
 
 import Link from "next/link";
