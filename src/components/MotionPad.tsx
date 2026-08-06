@@ -1,10 +1,18 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import { appendPoint, beginStroke, emptyGlyph, endStroke, submitGlyph, usableStrokes } from "@/lib/engine/stroke";
+import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  appendPoint,
+  beginStroke,
+  emptyGlyph,
+  endStroke,
+  submitGlyph,
+  usableStrokes
+} from "@/lib/engine/stroke";
 import type { GlyphInput, PlayerId, Point, Stroke } from "@/lib/engine/types";
+import { RelativeHandMapper } from "@/lib/interaction/relative-hand-mapper";
 import type { TrackedHand } from "@/lib/vision/types";
+import styles from "./MotionPad.module.css";
 
 interface MotionPadProps {
   player: PlayerId;
@@ -17,51 +25,290 @@ interface MotionPadProps {
   onSubmit(strokes: Stroke[]): void;
 }
 
-function pointsAttribute(points: readonly Point[]) { return points.map((point) => `${point.x*1000},${point.y*650}`).join(" "); }
+const CAMERA_RELEASE_GRACE_MS = 170;
+const GESTURE_HOLD_MS = 700;
+const GESTURE_COOLDOWN_MS = 1200;
+const MIN_HAND_CONFIDENCE = 0.38;
 
-export function MotionPad({ player, playerCount, hand, enabled, target, label = `Player ${player}`, hint = "Pinch untuk menulis · telapak terbuka untuk submit", onSubmit }: MotionPadProps) {
-  const [glyph, setGlyph] = useState<GlyphInput>(emptyGlyph);
+function pointsAttribute(points: readonly Point[]): string {
+  return points.map((point) => `${point.x * 1000},${point.y * 650}`).join(" ");
+}
+
+function cursorChanged(previous: Point | null, next: Point): boolean {
+  if (!previous) return true;
+  return Math.hypot(previous.x - next.x, previous.y - next.y) > 0.0012;
+}
+
+export function MotionPad({
+  player,
+  hand,
+  enabled,
+  target,
+  label = `Player ${player}`,
+  hint = "Cubit untuk menulis · buka telapak untuk kirim",
+  onSubmit
+}: MotionPadProps) {
+  const initialGlyph = emptyGlyph();
+  const [glyph, setGlyph] = useState<GlyphInput>(initialGlyph);
+  const [cameraCursor, setCameraCursor] = useState<Point | null>(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
   const pointerRef = useRef<number | null>(null);
   const cameraDrawingRef = useRef(false);
+  const lastPinchAtRef = useRef<number | null>(null);
   const openStartedRef = useRef<number | null>(null);
   const fistStartedRef = useRef<number | null>(null);
   const lastSubmitRef = useRef(0);
-  const liveGlyphRef = useRef(glyph);
-  useEffect(() => { liveGlyphRef.current = glyph; }, [glyph]);
-
-  const clear = () => { const fresh = emptyGlyph(); liveGlyphRef.current = fresh; setGlyph(fresh); cameraDrawingRef.current = false; openStartedRef.current = null; fistStartedRef.current = null; };
-  const submit = () => { const strokes = usableStrokes(liveGlyphRef.current); if (!enabled || !strokes.length) return; const now = performance.now(); if (now - lastSubmitRef.current < 500) return; lastSubmitRef.current = now; liveGlyphRef.current = submitGlyph(liveGlyphRef.current, now); onSubmit(strokes); clear(); };
+  const liveGlyphRef = useRef(initialGlyph);
+  const cursorRef = useRef<Point | null>(null);
+  const mapperRef = useRef(new RelativeHandMapper());
+  const onSubmitRef = useRef(onSubmit);
 
   useEffect(() => {
-    if (!enabled || !hand) { cameraDrawingRef.current = false; return; }
+    onSubmitRef.current = onSubmit;
+  }, [onSubmit]);
+
+  const commitGlyph = useCallback((next: GlyphInput) => {
+    liveGlyphRef.current = next;
+    setGlyph(next);
+  }, []);
+
+  const finishCameraStroke = useCallback(
+    (now: number) => {
+      if (!cameraDrawingRef.current) return;
+      cameraDrawingRef.current = false;
+      lastPinchAtRef.current = null;
+      const next = endStroke(liveGlyphRef.current, now);
+      commitGlyph(next);
+    },
+    [commitGlyph]
+  );
+
+  const clear = useCallback(() => {
+    const fresh = emptyGlyph();
+    commitGlyph(fresh);
+    cameraDrawingRef.current = false;
+    lastPinchAtRef.current = null;
+    openStartedRef.current = null;
+    fistStartedRef.current = null;
+  }, [commitGlyph]);
+
+  const recenter = useCallback(() => {
+    const next = mapperRef.current.recenter(performance.now());
+    cursorRef.current = next;
+    setCameraCursor(next);
+    cameraDrawingRef.current = false;
+    lastPinchAtRef.current = null;
+  }, []);
+
+  const submit = useCallback(() => {
     const now = performance.now();
-    const localX = playerCount === 1 ? hand.point.x : player === "A" ? hand.point.x / .5 : (hand.point.x - .5) / .5;
-    const point = { x: Math.max(0, Math.min(1, localX)), y: Math.max(0, Math.min(1, hand.point.y)), t: now };
-    if (hand.gesture === "pinch") {
-      openStartedRef.current = null; fistStartedRef.current = null;
-      if (!cameraDrawingRef.current) { cameraDrawingRef.current = true; setGlyph((current) => { const next = beginStroke(current, point, now); liveGlyphRef.current = next; return next; }); }
-      else setGlyph((current) => { const next = appendPoint(current, point, now); liveGlyphRef.current = next; return next; });
-    } else if (cameraDrawingRef.current) {
-      cameraDrawingRef.current = false; setGlyph((current) => { const next = endStroke(current, now); liveGlyphRef.current = next; return next; });
+    if (cameraDrawingRef.current) finishCameraStroke(now);
+    const strokes = usableStrokes(liveGlyphRef.current);
+    if (!enabled || !strokes.length || now - lastSubmitRef.current < 500) {
+      return;
     }
-    if (hand.gesture === "open") { openStartedRef.current ??= now; if (now - (openStartedRef.current ?? now) > 650) { openStartedRef.current = now + 1200; submit(); } } else openStartedRef.current = null;
-    if (hand.gesture === "fist") { fistStartedRef.current ??= now; if (now - (fistStartedRef.current ?? now) > 650) { fistStartedRef.current = now + 1200; clear(); } } else fistStartedRef.current = null;
-  }, [enabled, hand, player, playerCount]);
 
-  const eventPoint = (clientX: number, clientY: number): Point | null => { const rect = svgRef.current?.getBoundingClientRect(); if (!rect?.width || !rect.height) return null; return { x: Math.max(0, Math.min(1, (clientX - rect.left) / rect.width)), y: Math.max(0, Math.min(1, (clientY - rect.top) / rect.height)), t: performance.now() }; };
-  const rendered = useMemo(() => glyph.strokes.filter((stroke) => stroke.points.length).map((stroke) => ({ ...stroke, points: stroke.points })), [glyph.strokes]);
+    lastSubmitRef.current = now;
+    liveGlyphRef.current = submitGlyph(liveGlyphRef.current, now);
+    onSubmitRef.current(strokes);
+    clear();
+  }, [clear, enabled, finishCameraStroke]);
 
-  return <section className="motion-pad" style={{ "--player": player === "A" ? "#4AA7FF" : "#FF65AD" } as React.CSSProperties}>
-    <header><div><span>{player}</span><strong>{label}</strong></div><em>{hand ? `${hand.gesture} · ${Math.round(hand.confidence*100)}%` : "mouse / touch"}</em></header>
-    <svg ref={svgRef} viewBox="0 0 1000 650" preserveAspectRatio="none" className="motion-pad__canvas"
-      onPointerDown={(event) => { if (!enabled || pointerRef.current !== null) return; const point = eventPoint(event.clientX,event.clientY); if (!point) return; event.currentTarget.setPointerCapture(event.pointerId); pointerRef.current = event.pointerId; const now = performance.now(); setGlyph((current) => { const next = beginStroke(current, point, now); liveGlyphRef.current = next; return next; }); }}
-      onPointerMove={(event) => { if (!enabled || pointerRef.current !== event.pointerId) return; const point = eventPoint(event.clientX,event.clientY); if (!point) return; const now = performance.now(); setGlyph((current) => { const next = appendPoint(current, point, now); liveGlyphRef.current = next; return next; }); }}
-      onPointerUp={(event) => { if (pointerRef.current !== event.pointerId) return; if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId); pointerRef.current = null; const now = performance.now(); setGlyph((current) => { const next = endStroke(current, now); liveGlyphRef.current = next; return next; }); }}
-      onPointerCancel={(event) => { if (pointerRef.current === event.pointerId) pointerRef.current = null; }}>
-      {target?.length ? <polyline className="motion-target" points={pointsAttribute(target)} vectorEffect="non-scaling-stroke" /> : null}
-      {rendered.map((stroke) => <polyline key={stroke.id} className="motion-ink" points={pointsAttribute(stroke.points)} vectorEffect="non-scaling-stroke" />)}
-    </svg>
-    <footer><span>{hint}</span><div><button type="button" onClick={clear}>Hapus</button><button type="button" className="submit" onClick={submit}>Kirim</button></div></footer>
-  </section>;
+  useEffect(() => {
+    if (!enabled) {
+      finishCameraStroke(performance.now());
+      mapperRef.current.release();
+      cursorRef.current = null;
+      setCameraCursor((current) => (current === null ? current : null));
+      return;
+    }
+
+    if (!hand) {
+      finishCameraStroke(performance.now());
+      mapperRef.current.release();
+      cursorRef.current = null;
+      setCameraCursor((current) => (current === null ? current : null));
+      return;
+    }
+
+    const now = hand.point.t || performance.now();
+    const mappedPoint = mapperRef.current.update(hand.point, now);
+    if (cursorChanged(cursorRef.current, mappedPoint)) {
+      cursorRef.current = mappedPoint;
+      setCameraCursor(mappedPoint);
+    }
+
+    const reliablePinch =
+      hand.gesture === "pinch" && hand.confidence >= MIN_HAND_CONFIDENCE;
+
+    if (reliablePinch) {
+      openStartedRef.current = null;
+      fistStartedRef.current = null;
+      lastPinchAtRef.current = now;
+
+      if (!cameraDrawingRef.current) {
+        cameraDrawingRef.current = true;
+        const next = beginStroke(liveGlyphRef.current, mappedPoint, now);
+        commitGlyph(next);
+      } else {
+        const next = appendPoint(liveGlyphRef.current, mappedPoint, now, 0.0025);
+        if (next !== liveGlyphRef.current) commitGlyph(next);
+      }
+      return;
+    }
+
+    if (
+      cameraDrawingRef.current &&
+      lastPinchAtRef.current !== null &&
+      now - lastPinchAtRef.current >= CAMERA_RELEASE_GRACE_MS
+    ) {
+      finishCameraStroke(now);
+    }
+
+    if (hand.gesture === "open") {
+      openStartedRef.current ??= now;
+      if (now - openStartedRef.current >= GESTURE_HOLD_MS) {
+        openStartedRef.current = now + GESTURE_COOLDOWN_MS;
+        submit();
+      }
+    } else {
+      openStartedRef.current = null;
+    }
+
+    if (hand.gesture === "fist") {
+      fistStartedRef.current ??= now;
+      if (now - fistStartedRef.current >= GESTURE_HOLD_MS) {
+        fistStartedRef.current = now + GESTURE_COOLDOWN_MS;
+        clear();
+      }
+    } else {
+      fistStartedRef.current = null;
+    }
+  }, [clear, commitGlyph, enabled, finishCameraStroke, hand, submit]);
+
+  const eventPoint = (clientX: number, clientY: number): Point | null => {
+    const rect = svgRef.current?.getBoundingClientRect();
+    if (!rect?.width || !rect.height) return null;
+    return {
+      x: Math.max(0, Math.min(1, (clientX - rect.left) / rect.width)),
+      y: Math.max(0, Math.min(1, (clientY - rect.top) / rect.height)),
+      t: performance.now()
+    };
+  };
+
+  return (
+    <section
+      className="motion-pad"
+      style={
+        {
+          "--player": player === "A" ? "#4AA7FF" : "#FF65AD"
+        } as React.CSSProperties
+      }
+    >
+      <header>
+        <div>
+          <span>{player}</span>
+          <strong>{label}</strong>
+        </div>
+        <em>
+          {hand
+            ? `${hand.gesture} · ${Math.round(hand.confidence * 100)}%`
+            : "mouse / touch"}
+        </em>
+      </header>
+
+      <svg
+        ref={svgRef}
+        viewBox="0 0 1000 650"
+        preserveAspectRatio="none"
+        className="motion-pad__canvas"
+        onPointerDown={(event) => {
+          if (!enabled || pointerRef.current !== null) return;
+          const point = eventPoint(event.clientX, event.clientY);
+          if (!point) return;
+          event.currentTarget.setPointerCapture(event.pointerId);
+          pointerRef.current = event.pointerId;
+          commitGlyph(
+            beginStroke(liveGlyphRef.current, point, performance.now())
+          );
+        }}
+        onPointerMove={(event) => {
+          if (!enabled || pointerRef.current !== event.pointerId) return;
+          const point = eventPoint(event.clientX, event.clientY);
+          if (!point) return;
+          const next = appendPoint(
+            liveGlyphRef.current,
+            point,
+            performance.now()
+          );
+          if (next !== liveGlyphRef.current) commitGlyph(next);
+        }}
+        onPointerUp={(event) => {
+          if (pointerRef.current !== event.pointerId) return;
+          if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+            event.currentTarget.releasePointerCapture(event.pointerId);
+          }
+          pointerRef.current = null;
+          commitGlyph(endStroke(liveGlyphRef.current, performance.now()));
+        }}
+        onPointerCancel={(event) => {
+          if (pointerRef.current === event.pointerId) pointerRef.current = null;
+        }}
+      >
+        {target?.length ? (
+          <polyline
+            className="motion-target"
+            points={pointsAttribute(target)}
+            vectorEffect="non-scaling-stroke"
+          />
+        ) : null}
+
+        {glyph.strokes
+          .filter((stroke) => stroke.points.length)
+          .map((stroke) => (
+            <polyline
+              key={stroke.id}
+              className="motion-ink"
+              points={pointsAttribute(stroke.points)}
+              vectorEffect="non-scaling-stroke"
+            />
+          ))}
+
+        {cameraCursor ? (
+          <g
+            className={`${styles.cameraCursor} ${
+              cameraDrawingRef.current ? styles.cursorDrawing : ""
+            }`}
+            transform={`translate(${cameraCursor.x * 1000} ${cameraCursor.y * 650})`}
+          >
+            <circle className={styles.cursorHalo} r="27" />
+            <circle className={styles.cursorDot} r="8" />
+          </g>
+        ) : null}
+      </svg>
+
+      <footer>
+        <span className={styles.relativeHint}>
+          {hand ? "Gerakkan tangan seperti trackpad" : hint}
+        </span>
+        <div>
+          <button type="button" onClick={clear}>
+            Hapus
+          </button>
+          {hand ? (
+            <button
+              className={styles.recenterButton}
+              type="button"
+              onClick={recenter}
+            >
+              Tengah
+            </button>
+          ) : null}
+          <button type="button" className="submit" onClick={submit}>
+            Kirim
+          </button>
+        </div>
+      </footer>
+    </section>
+  );
 }
