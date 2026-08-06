@@ -9,6 +9,13 @@
     "skipLibCheck": true,
     "declaration": false
   },
-  "include": ["src/lib/engine/**/*.ts", "src/lib/vision/gesture.ts", "src/lib/vision/player-assignment.ts", "src/lib/vision/body-analysis.ts", "src/lib/vision/types.ts"],
+  "include": [
+    "src/lib/engine/**/*.ts",
+    "src/lib/vision/gesture.ts",
+    "src/lib/vision/player-assignment.ts",
+    "src/lib/vision/body-analysis.ts",
+    "src/lib/vision/smoothing.ts",
+    "src/lib/vision/types.ts"
+  ],
   "exclude": ["node_modules"]
 }
