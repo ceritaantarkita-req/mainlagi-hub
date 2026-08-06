@@ -90,11 +90,13 @@ export function pickMagneticTarget(
 }
 
 /**
- * Converts a stable target hover into one selection event. Moving to another
- * target, leaving all targets, or entering cooldown resets the hold progress.
+ * Converts a stable target hover into one selection event. After selection,
+ * that target remains blocked until the cursor leaves or moves to a different
+ * target, preventing repeated accidental activation while the hand stays still.
  */
 export class DwellSelector {
   private targetId: string | null = null;
+  private blockedTargetId: string | null = null;
   private startedAt = 0;
   private cooldownUntil = 0;
 
@@ -108,13 +110,18 @@ export class DwellSelector {
       return { targetId: this.targetId, progress: 0, selected: null };
     }
 
-    if (nowMs < this.cooldownUntil) {
+    if (!targetId) {
       this.targetId = null;
+      this.blockedTargetId = null;
       this.startedAt = 0;
       return { targetId: null, progress: 0, selected: null };
     }
 
-    if (!targetId) {
+    if (this.blockedTargetId && targetId !== this.blockedTargetId) {
+      this.blockedTargetId = null;
+    }
+
+    if (targetId === this.blockedTargetId || nowMs < this.cooldownUntil) {
       this.targetId = null;
       this.startedAt = 0;
       return { targetId: null, progress: 0, selected: null };
@@ -136,6 +143,7 @@ export class DwellSelector {
 
     const selected = targetId;
     this.targetId = null;
+    this.blockedTargetId = targetId;
     this.startedAt = 0;
     this.cooldownUntil = nowMs + this.cooldownMs;
     return { targetId: null, progress: 0, selected };
@@ -143,6 +151,7 @@ export class DwellSelector {
 
   reset(): void {
     this.targetId = null;
+    this.blockedTargetId = null;
     this.startedAt = 0;
     this.cooldownUntil = 0;
   }
