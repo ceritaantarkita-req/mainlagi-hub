@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "portableFullPasses": 5,
+  "allPassed": true,
+  "engineTestsPerPass": 13,
+  "simulationRunsPerPass": 5,
+  "totalSimulationRuns": 25,
+  "aggregateChecks": {
+    "mathQuestions": 1500000,
+    "patternQuestions": 750000,
+    "countdownSequences": 2500,
+    "noisyDigitSamples": 5000,
+    "shapeTemplateChecks": 125,
+    "hijaiyahTemplateChecks": 350,
+    "playerSlotOrderChangeChecks": 25,
+    "invariantErrors": 0
+  },
+  "logs": [
+    {
+      "pass": 1,
+      "file": "qa/full-pass-1.log",
+      "sha256": "37cc6e38863c854abab123801615c63dd50e15577c202409f47a3d303e88fc6a",
+      "passed": true,
+      "simulationRuns": 5
+    },
+    {
+      "pass": 2,
+      "file": "qa/full-pass-2.log",
+      "sha256": "f974dc72987eccecc23512003566e76cbc167a8dd06617d99c03176f676d761d",
+      "passed": true,
+      "simulationRuns": 5
+    },
+    {
+      "pass": 3,
+      "file": "qa/full-pass-3.log",
+      "sha256": "c79b6b45b98e4c44a7e3ddebcf60e09604cc9d79e7132ca37080029ebc3f378b",
+      "passed": true,
+      "simulationRuns": 5
+    },
+    {
+      "pass": 4,
+      "file": "qa/full-pass-4.log",
+      "sha256": "45c97d5dc49f2382fe4d419bf8382cbc0b2c4c186b1bd4fc75422df9e292ab97",
+      "passed": true,
+      "simulationRuns": 5
+    },
+    {
+      "pass": 5,
+      "file": "qa/full-pass-5.log",
+      "sha256": "d1e492db0399cce831649a681492e416fc6d40fe5c13925e551e766c3ea82202",
+      "passed": true,
+      "simulationRuns": 5
+    }
+  ],
+  "environmentLimit": "Portable gate only. Actual dependency-aware Next.js build, ESLint and npm audit require npm install on recipient laptop."
+}

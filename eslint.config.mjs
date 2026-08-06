@@ -7,13 +7,10 @@ export default defineConfig([
   ...nextTs,
   globalIgnores([
     ".next/**",
-    ".qa-dist/**",
     "coverage/**",
-    "playwright-report/**",
-    "test-results/**",
     "qa/**",
+    "preview/**",
     "public/mediapipe/**",
-    "public/models/**",
-    "**/*.backup.*"
+    "public/models/**"
   ])
 ]);

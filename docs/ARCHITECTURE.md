@@ -1,72 +1,62 @@
-# Architecture
+# Architecture — Mainlagi TV Motion Learning Hub V2
 
-## Layer model
+## Layer
 
 ```text
-Next.js routes and screens
-        ↓
-Game orchestration (GameClient)
-        ↓
-Reusable deterministic game engine
-        ↓
-Motion capture hook
-        ↓
-MediaPipe adapter + hand utilities
-        ↓
-Browser camera / pointer fallback
+Next.js App Router
+  ├── Platform shell, auth, sharing, affiliate
+  ├── GameShell + Preflight
+  ├── Nine internal game modules
+  ├── Shared game/recognition engine
+  └── Shared vision runtime
+       ├── Camera stream
+       ├── Hand Landmarker
+       ├── Pose Landmarker
+       ├── player assignment
+       ├── gesture latch
+       └── body action classifier
 ```
 
-## Core separation
+## Vision mode
 
-### `src/engine`
+- `hand`: writing/tracing/whiteboard one-player.
+- `pose`: full-body game.
+- `hybrid`: two-player hand game or module requiring body-to-hand association.
 
-Pure TypeScript. It has no React, DOM, camera, or network dependency. It contains:
-
-- seeded random generator;
-- math/pattern/trace/shape challenge generation;
-- challenge history deduplication;
-- digit templates and path recognition;
-- path normalization and scoring;
-- session state machine;
-- local progress sanitization;
-- game registry.
-
-This layer is compiled and tested independently with Node.
-
-### `src/vision`
-
-- `mediapipe.ts`: dynamically imports `@mediapipe/tasks-vision`, tries local then official remote assets, GPU then CPU.
-- `hand-utils.ts`: mirror correction, player assignment, writing pose, open-palm pose, smoothing.
-
-### `src/hooks/useMotionCapture.ts`
-
-Owns camera stream, animation loop, hand tracker lifecycle, trajectory state, stationary submit, open-palm clear, and pointer fallback submission.
-
-### `src/components/GameClient.tsx`
-
-Owns UI/game orchestration:
-
-- selected grade;
-- setup/device-check/ready/countdown/play/time-up/result;
-- timer;
-- challenge changes;
-- scoring;
-- result persistence.
-
-## Mirror contract
-
-The preview is mirrored using CSS (`scaleX(-1)`). Raw MediaPipe X coordinates are converted with `1 - x`. Therefore the trail and visual preview move in the same direction from the user’s perspective.
+Models are loaded only for the active mode.
 
 ## Player assignment
 
+One player always maps to Player A and owns the full arena.
+
+Two players:
+
+1. First stable frame initializes left body as A and right body as B.
+2. Subsequent frames use temporal anchors and minimum movement cost, so a change in MediaPipe result order does not swap players.
+3. Each hand is paired with the closest pose wrist.
+4. If one body is temporarily missing, its slot is retained for a bounded reacquisition window.
+5. If pose is unavailable, a wide center dead zone is used only as fallback.
+
+## Gesture contract
+
 ```text
-x < 0.48  → Player A
-0.48–0.52 → neutral dead zone
-x > 0.52  → Player B
+pinch start      -> begin stroke
+pinch hold       -> append points
+pinch release    -> end stroke, keep glyph open
+open palm hold   -> submit glyph
+fist hold        -> clear glyph
 ```
 
-Single-player games always assign the tracked hand to Player A.
+`GestureLatch` requires multiple stable frames when entering/exiting a state to reduce chatter.
 
-## Data and backend
+## Recognition
 
-There is deliberately no user database. Next.js Route Handler `/api/health` is included for deployment health checks. The server never receives video frames. Local progress uses `localStorage` only.
+Digit questions use expected-answer verification first. A clearly different high-confidence digit may be marked wrong; low-confidence input becomes retry and receives time grace.
+
+Tracing and shape modules use path scoring instead of digit classification.
+
+Iqro V2 MVP separates body stroke from short dot strokes and validates body similarity, dot count, and dot zone.
+
+## Auth
+
+Google OAuth uses Supabase PKCE through public Auth endpoints. Only the public Supabase URL and anon key reach the browser. RLS in `supabase/schema.sql` protects user and admin data.

@@ -1,2 +1,1 @@
-import Link from "next/link";
-export default function NotFound() { return <main className="result-page"><section className="result-card"><div className="trophy">🧭</div><h1>Game tidak ditemukan</h1><p>Kembali ke hub dan pilih petualangan yang tersedia.</p><Link className="primary-button" href="/">Kembali ke hub</Link></section></main>; }
+export default function NotFound(){return <main className="center-page"><section className="dialog-card"><h1>Halaman tidak ditemukan</h1><p>Game atau halaman yang dicari tidak tersedia.</p><a className="button button--primary" href="/">Kembali ke beranda</a></section></main>;}

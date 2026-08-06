@@ -1,25 +1,77 @@
 # Known Limitations
 
-## 1. Digit recognition is template-based
+Package ini adalah candidate rebuild V2 yang dapat diaudit dan diuji. Ia bukan jaminan bahwa setiap webcam, kondisi pencahayaan, browser, credential, dan deployment bebas defect.
 
-The included recognizer is deterministic and works without an additional AI model, but real children write digits in many styles and stroke orders. Production accuracy requires collecting consented trajectory samples and expanding/validating templates or replacing the classifier with a purpose-trained model.
+## Dependency-aware build belum dijalankan di environment pembuat ZIP
 
-## 2. Automated QA is not hardware QA
+`npm install` gagal karena registry internal environment mengembalikan `404` untuk:
 
-Engine rules, mirror utilities, randomization, state transitions, and simulated paths are testable in this environment. Webcam quality, hand occlusion, lighting, camera field of view, GPU support, and browser permissions must be validated on physical devices.
+```text
+@mediapipe/tasks-vision@0.10.35
+```
 
-## 3. MediaPipe assets require installation or internet fallback
+Karena dependency tidak dapat di-install, environment ini tidak dapat menjalankan:
 
-`npm install` tries to create local model/WASM assets. If the model download fails, runtime uses the pinned official remote URL. A fully air-gapped deployment must manually place the official model in `public/models/hand_landmarker.task`.
+- dependency-aware `tsc --noEmit`;
+- ESLint dengan package Next;
+- real `next build`;
+- npm production audit.
 
-## 4. Mobile is secondary
+Yang sudah dijalankan:
 
-The hub is responsive and single-player games can work on mobile, but two-player split-screen is optimized for laptop/desktop.
+- portable TypeScript check;
+- pure engine compilation;
+- 13 engine tests;
+- lima complete portable pass;
+- 25 seeded simulation runs;
+- source/security/structure audit;
+- static responsive visual preview.
 
-## 5. No cloud progress
+Laptop penerima wajib menjalankan:
 
-Scores are stored only on the current browser. Clearing site data removes them.
+```powershell
+powershell -ExecutionPolicy Bypass -File .\VERIFY_WINDOWS.ps1
+```
 
-## 6. Guided games use path similarity
+Jangan push/merge ketika script gagal.
 
-Number Trace and Shape Quest compare normalized paths. They are learning games, not formal handwriting or motor-skill assessments.
+## Physical webcam
+
+Synthetic landmark tests tidak membuktikan akurasi kamera nyata. Pengujian fisik masih diperlukan untuk:
+
+- internal/external webcam;
+- terang, indoor, redup, dan backlight;
+- child/adult;
+- tangan kanan/kiri;
+- 1/2 pemain;
+- partial occlusion dan crossing hands;
+- sesi 10 menit dan camera restart.
+
+## Iqro
+
+- Current scope 14-letter MVP, mengikuti source project.
+- Template bentuk, titik, transliterasi, dan speech synthesis wajib direview pengajar kompeten.
+- Tidak menilai tajwid, pronunciation quality, huruf sambung, atau standard kaligrafi resmi.
+
+## AirBoard
+
+- PDF memakai browser object renderer sebagai satu embedded document.
+- Per-page PDF rendering belum tersedia.
+- Audience window synchronization belum dimigrasikan.
+- Screen recording belum dimigrasikan.
+
+## Full-body depth
+
+Run to Target mengestimasi maju/mundur dari relative torso scale. Webcam biasa tidak mempunyai true depth sensor. Kalibrasi dan physical test wajib dilakukan.
+
+## Google OAuth dan cloud data
+
+Live OAuth, callback, RLS, RPC, dan database write membutuhkan Supabase project serta credential milik user. Credential tersebut tidak disertakan dalam ZIP.
+
+## Affiliate
+
+Default item memakai example/demo destination. Ganti dengan campaign affiliate URL yang sah melalui admin/database sebelum production.
+
+## Browser support
+
+Chrome dan Edge modern menjadi target utama. Safari/Firefox camera behavior belum dibuktikan dalam audit ini.

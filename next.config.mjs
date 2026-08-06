@@ -8,9 +8,7 @@ const nextConfig = {
   output: "standalone",
   reactStrictMode: true,
   poweredByHeader: false,
-  turbopack: {
-    root: projectRoot
-  },
+  turbopack: { root: projectRoot },
   async headers() {
     return [
       {
@@ -18,11 +16,11 @@ const nextConfig = {
         headers: [
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-          { key: "Permissions-Policy", value: "camera=(self), microphone=()" },
-          { key: "X-Frame-Options", value: "SAMEORIGIN" }
+          { key: "Permissions-Policy", value: "camera=(self), microphone=(), geolocation=()" }
         ]
       }
     ];
   }
 };
+
 export default nextConfig;

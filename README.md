@@ -1,71 +1,112 @@
-# Motion Learning Hub
+# Mainlagi TV — Motion Learning Hub V2
 
-Motion Learning Hub adalah web app edukasi berbasis **Next.js + MediaPipe** untuk anak TK sampai SD kelas 2. Webcam digunakan untuk membaca gerakan telunjuk, lintasan tulisan di udara, dan pose telapak tangan. Tidak ada login, database pengguna, rekaman video, atau pengenalan wajah.
+Rebuild V2 yang menempatkan sembilan game/module langsung dalam satu aplikasi Next.js:
 
-## Game yang tersedia
+1. Math Motion Battle
+2. Number Trace Adventure
+3. Shape Quest
+4. Pattern Race
+5. Math Warung
+6. Iqro Motion
+7. AirBoard Presenter
+8. Dodge Motion
+9. Run to Target
 
-1. **Math Motion Battle** — duel matematika dua pemain; jawaban ditulis satu digit per tahap.
-2. **Number Trace Adventure** — mengikuti jalur angka dengan telunjuk.
-3. **Shape Quest** — mengikuti bentuk geometri dan mendapatkan skor lintasan.
-4. **Pattern Race** — mencari angka berikutnya dari pola secara satu atau dua pemain.
+Semua game memakai internal route `/play/[slug]`. Tidak ada companion launcher atau card yang membuka project lama sebagai aplikasi eksternal.
+
+## Perubahan material dari V1
+
+- Brand dan homepage Mainlagi TV yang baru.
+- Tepat sembilan internal module.
+- Explicit 1/2-player selection.
+- Single-player full-width tanpa divider.
+- Preflight camera/model/skeleton/gesture sebelum countdown.
+- Shared Hand + Pose Landmarker runtime.
+- Temporal Player A/B body slots dan hand-to-body association.
+- Multi-stroke writing: pinch start, release stroke, open-palm submit, fist clear.
+- Expected-answer digit verifier; low confidence menjadi retry/time grace.
+- Body-game controls untuk left/right/jump/crouch/forward/back.
+- Optional Google OAuth/Supabase progress.
+- Share, OG thumbnail, affiliate API/redirect/admin.
 
 ## Persyaratan
 
-- Node.js 20.9 atau lebih baru.
-- Chrome atau Edge modern direkomendasikan untuk kamera.
-- Kamera internal/eksternal.
-- HTTPS saat di-hosting. `localhost` boleh memakai kamera tanpa HTTPS.
+- Node.js 20.9+
+- npm 10+
+- Chrome atau Edge modern
+- `localhost` atau HTTPS untuk kamera
 
-## Menjalankan di Windows / macOS / Linux
+## Verifikasi di Windows
 
-```bash
-npm install
-npm run dev
+```powershell
+cd "C:\path\motion-learning-hub-mainlagitv-v2-corrected"
+powershell -ExecutionPolicy Bypass -File .\VERIFY_WINDOWS.ps1
+```
+
+Script menjalankan dependency install terlebih dahulu, kemudian portable gate, full type/lint/test/simulation/build gate, dan production dependency audit.
+
+Jalankan app:
+
+```powershell
+npm.cmd run dev
 ```
 
 Buka `http://localhost:3000`.
 
-Setelah instalasi pertama, npm akan membuat `package-lock.json`. Simpan/commit lockfile itu hanya setelah `npm run check` berhasil di laptop. Lockfile tidak dibuat secara manual di paket ini.
+Mulai dari mode **Mouse / keyboard**, lalu lakukan physical camera QA menggunakan `docs/CAMERA_QA.md`.
 
-Setelah `npm install`, script `postinstall` mencoba:
+## Portable gate
 
-- menyalin WASM MediaPipe ke `public/mediapipe/wasm`;
-- mengunduh model resmi Hand Landmarker ke `public/models`;
-- mempertahankan fallback resmi apabila download lokal gagal.
+Gate ini tidak memuat runtime Next.js/React, tetapi tetap membutuhkan compiler TypeScript dari `node_modules`. Karena itu jalankan `npm install` terlebih dahulu, atau gunakan `VERIFY_WINDOWS.ps1` yang sudah mengatur urutan tersebut:
 
-## Pemeriksaan lengkap
-
-```bash
-npm run check
+```powershell
+npm.cmd run check:portable
 ```
 
-Perintah tersebut menjalankan typecheck, lint, automated engine tests, tiga simulasi, dan production build.
+Ia bukan pengganti full gate.
 
-Untuk pemeriksaan engine tanpa memerlukan browser:
+## Google login
 
-```bash
-npm run test:engine
-npm run simulate
-```
+1. Buat Supabase project.
+2. Jalankan `supabase/schema.sql`.
+3. Aktifkan Google provider.
+4. Tambahkan callback lokal `http://localhost:3000/auth/callback` dan callback production.
+5. Copy `.env.example` menjadi `.env.local`.
+6. Isi public Supabase URL/anon key.
+7. Isi `SUPABASE_SERVICE_ROLE_KEY` hanya pada server environment bila affiliate click logging diaktifkan.
+8. Ubah admin role melalui trusted Supabase dashboard/backend, bukan client.
 
-## Mode kamera dan mode demo
+Credential asli tidak ada di ZIP.
 
-- **Aktifkan kamera**: menggunakan MediaPipe Hand Landmarker.
-- **Mode demo mouse/touch**: seluruh game tetap dapat direview tanpa webcam atau model MediaPipe.
+## QA evidence
+
+- `docs/QA_REPORT.md`
+- `qa/five-full-pass-summary.json`
+- `qa/full-pass-1.log` sampai `qa/full-pass-5.log`
+- `qa/browser-qa.json`
+- `qa/home-desktop.png`
+- `qa/home-mobile.png`
+- `qa/preflight-desktop.png`
+
+## Dokumentasi
+
+- `docs/ARCHITECTURE.md`
+- `docs/SOURCE_AUDIT.md`
+- `docs/MIGRATION_NOTES.md`
+- `docs/FIDELITY_LEDGER.md`
+- `docs/QA_REPORT.md`
+- `docs/KNOWN_LIMITATIONS.md`
+- `docs/CAMERA_QA.md`
+- `docs/GITHUB_UPDATE_GUIDE.md`
 
 ## Privasi
 
-Video diproses di browser. Aplikasi tidak mengunggah atau menyimpan video. Progress sederhana disimpan hanya di `localStorage` perangkat.
+- Frame webcam diproses di browser.
+- Tidak ada endpoint upload video.
+- Share thumbnail tidak memakai frame kamera atau wajah user.
+- Cloud progress hanya aktif setelah Supabase dikonfigurasi dan user login.
 
-## Dokumentasi utama
 
-- `docs/PRD.md`
-- `docs/TECHNICAL_SPEC.md`
-- `docs/ARCHITECTURE.md`
-- `docs/CAMERA_TESTING.md`
-- `docs/CLAUDE_REVIEW_GUIDE.md`
-- `docs/TROUBLESHOOTING.md`
-- `docs/KNOWN_LIMITATIONS.md`
-- `docs/QA_REPORT.md`
-- `docs/FIDELITY_LEDGER.md`
-- `CLAUDE.md`
+## V2.0.1 Windows verification fix
+
+Versi 2.0.1 memperbaiki urutan `VERIFY_WINDOWS.ps1`. Versi 2.0.0 menjalankan `check:portable` sebelum `npm install`, padahal `check:portable` memanggil compiler TypeScript. Tidak ada source gameplay yang diubah oleh perbaikan ini.

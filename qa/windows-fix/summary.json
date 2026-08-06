@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "version": "2.0.1",
+  "passes": [
+    {
+      "pass": 1,
+      "ok": true,
+      "log": "qa/windows-fix/pass-1.log",
+      "bytes": 4445,
+      "invariantErrors": 0
+    },
+    {
+      "pass": 2,
+      "ok": true,
+      "log": "qa/windows-fix/pass-2.log",
+      "bytes": 4445,
+      "invariantErrors": 0
+    },
+    {
+      "pass": 3,
+      "ok": true,
+      "log": "qa/windows-fix/pass-3.log",
+      "bytes": 4442,
+      "invariantErrors": 0
+    },
+    {
+      "pass": 4,
+      "ok": true,
+      "log": "qa/windows-fix/pass-4.log",
+      "bytes": 4445,
+      "invariantErrors": 0
+    },
+    {
+      "pass": 5,
+      "ok": true,
+      "log": "qa/windows-fix/pass-5.log",
+      "bytes": 4446,
+      "invariantErrors": 0
+    }
+  ]
+}

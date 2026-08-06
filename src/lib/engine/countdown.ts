@@ -1,0 +1,1 @@
+export function countdownValue(startedAt: number, now: number, seconds = 3): number | "GO" | null { const elapsed = Math.max(0, now - startedAt); const index = Math.floor(elapsed / 1000); if (index < seconds) return seconds - index; if (index === seconds) return "GO"; return null; }

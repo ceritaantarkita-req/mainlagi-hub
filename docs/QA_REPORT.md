@@ -1,145 +1,168 @@
-# QA Report — Motion Learning Hub
+# QA Report — Mainlagi TV Motion Learning Hub V2
 
-**Date:** 2026-08-04  
-**Project version:** 1.0.0  
-**Scope:** Source package prepared for local installation and browser/device verification.
+Tanggal: 5 Agustus 2026  
+Scope: source package di ZIP, pure engine, portable TypeScript, structure/security audit, generated visual preview, dan simulation invariants.
 
-## Executive result
+## Kesimpulan
 
-The pure game engine, random content generators, recognition utilities, state machine, local progress sanitizer, and simulation harness passed the automated checks available in this environment.
+Portable quality gate final lulus lima kali dengan lima seed batch yang berbeda pada setiap pass. Tidak ada invariant error pada scope yang diuji. Hasil ini bukan bukti bahwa semua webcam fisik, browser, OAuth credential, dan deployment production bebas masalah.
 
-This report does **not** claim that software can never contain a bug. Two checks cannot be truthfully completed inside this sandbox:
+Full dependency-aware Next.js gate belum dapat dijalankan di environment pembuatan ZIP karena registry internal mengembalikan `404` untuk `@mediapipe/tasks-vision@0.10.35`. Bukti kegagalan environment disimpan di `qa/npm-install-environment.log`. Laptop penerima wajib menjalankan `VERIFY_WINDOWS.ps1` sebelum source di-push atau di-merge.
 
-1. A real `npm install` / `next build`, because the sandbox package-registry proxy does not provide the requested Next.js package.
-2. Physical webcam testing across real laptops, lighting conditions, children, and browsers.
 
-Both checks are explicitly included in the local review workflow.
+## Koreksi Windows verifier — V2.0.1
 
-## Automated checks completed
+Pada V2.0.0, `VERIFY_WINDOWS.ps1` salah menjalankan portable gate sebelum `npm install`. Karena portable gate tetap memerlukan executable TypeScript (`tsc`), laptop bersih berhenti dengan pesan `tsc is not recognized`. V2.0.1 memindahkan dependency install ke tahap kedua dan memverifikasi keberadaan `node_modules\.bin\tsc.cmd` sebelum menjalankan gate. Error tersebut terjadi sebelum perubahan source atau build dijalankan.
 
-| Check | Result | Evidence |
-|---|---:|---|
-| Strict source-level TypeScript QA | PASS | `qa/source-check.log` |
-| CSS parser validation | PASS, 0 parse errors | `qa/css-check.log` |
-| Engine/unit tests | PASS, 27/27 | `qa/engine-test.log` |
-| Three deterministic simulations | PASS, 0 invariant errors | `qa/simulation.log`, `qa/simulation-results.json` |
-| Visual static render — desktop hub | PASS | `docs/implementation-hub.png` |
-| Visual static render — desktop game | PASS | `docs/implementation-game.png` |
-| Visual static render — mobile hub | PASS | `docs/implementation-mobile.png` |
-| Required-file and empty-file scan | PASS | `qa/file-integrity.log` |
-| ZIP CRC/integrity test | Run during final packaging | See final extracted-package log |
+## Lima full portable pass
 
-## Random content stress coverage
+Masing-masing pass menjalankan:
 
-The test suite generated and validated approximately **105,000 procedural challenges**:
+1. required-file dan internal-route validation;
+2. source/security scan;
+3. portable TypeScript check;
+4. 13 pure-engine tests;
+5. lima simulation run dengan seed berbeda;
+6. static preview build.
 
-- 25,000 Kindergarten math challenges.
-- 25,000 Grade 1 math challenges.
-- 25,000 Grade 2 math challenges.
-- 30,000 pattern challenges across supported levels.
+Evidence:
 
-Validated constraints include:
+- `qa/full-pass-1.log`
+- `qa/full-pass-2.log`
+- `qa/full-pass-3.log`
+- `qa/full-pass-4.log`
+- `qa/full-pass-5.log`
+- `qa/five-full-pass-summary.json`
 
-- no negative answers for the configured early-learning levels;
-- no fractional division results;
-- no division by zero;
-- answers remain inside the level range;
-- immediate challenge repetition is avoided;
-- digit `0` and answer `100` remain valid.
+Aggregate dari lima pass:
 
-This is procedural validation, not a claim that every mathematically possible question has been manually reviewed.
+| Pemeriksaan | Jumlah |
+|---|---:|
+| Full portable passes | 5 |
+| Engine test executions | 65 |
+| Simulation runs | 25 |
+| Random math questions | 1,500,000 |
+| Random pattern questions | 750,000 |
+| Countdown sequences | 2,500 |
+| Noisy digit samples | 5,000 |
+| Shape canonical checks | 125 |
+| Hijaiyah canonical checks | 350 |
+| Player-order swap checks | 25 |
+| Invariant errors | 0 |
 
-## Engine test coverage
+## Automated engine coverage
 
-The 27 tests cover:
+13 tests mencakup:
 
-- age-level arithmetic constraints;
-- procedural pattern correctness;
-- challenge deck deduplication;
-- small-domain trace/shape deduplication;
-- camera-coordinate mirroring;
-- Player A / Player B split and middle dead zone;
-- writing-pose detection;
-- open-palm detection;
-- point smoothing;
-- malformed localStorage recovery;
-- best-score persistence rules;
-- digit recognition `0` through `9` using normal, mirrored, and noisy test trajectories;
-- rejection of gestures too short to be reliable;
-- guided path scoring;
-- game state transitions;
-- pause and resume behavior;
-- scoring, wrong-answer handling, time-up, and replay;
-- digit assembly for `0` and `100`.
+- constraint matematika TK, SD 1, SD 2;
+- pattern integer constraints;
+- monotonic countdown dan termination;
+- multi-stroke lifecycle;
+- canonical digit 0–9;
+- body-action classification;
+- gesture hysteresis/latch;
+- 14 unique Hijaiyah MVP labels;
+- one-point dot stroke preservation;
+- temporal Player A/B assignment ketika detection order berubah;
+- canonical Hijaiyah body, dot count, dan dot-zone validation.
 
-## Three simulation results
+## Bug yang ditemukan dan diperbaiki selama audit
 
-### Simulation 1 — ideal two-player math round
+### 1. Alif selalu gagal canonical simulation
 
-- 20 challenges.
-- Player A: 3025.
-- Player B: 3025.
-- Result: draw.
-- Final phase: `result`.
-- Invariant errors: 0.
+Penyebab: generic path scorer menolak target di bawah empat titik, sedangkan template Alif adalah garis dua titik.
 
-### Simulation 2 — noisy pattern round
+Perbaikan: path scorer sekarang menerima path minimal dua titik. Ditambahkan regression test untuk seluruh 14 template Hijaiyah.
 
-- 19 challenges.
-- Includes retry and wrong-answer branches.
-- Recognition retries: 6.
-- Player A: 1260.
-- Player B: 1060.
-- Winner: Player A.
-- Final phase: `result`.
-- Invariant errors: 0.
+### 2. Dot Hijaiyah dapat hilang
 
-### Simulation 3 — guided tracing recovery
+Penyebab: filter stroke umum sebelumnya berpotensi membuang stroke satu titik.
 
-- Number Trace Adventure: 10 accepted challenges, score 1462.
-- Shape Quest: 10 accepted challenges, score 1458.
-- Both sessions reached `result`.
-- Invariant errors: 0.
+Perbaikan: `usableStrokes()` mempertahankan stroke satu titik. Digit recognizer memiliki filter kecilnya sendiri agar accidental dot tidak mengganggu digit.
 
-## Visual verification method
+### 3. Player A/B dapat bertukar saat urutan deteksi MediaPipe berubah
 
-The approved concept images are stored in `public/concepts/`. Implementation screenshots are stored in `docs/`.
+Penyebab: assignment berdasarkan urutan satu frame.
 
-Because normal browser navigation to localhost/file URLs was blocked by the sandbox administrator, static implementation surfaces were rendered with system Chromium through Playwright `page.set_content`. This verifies layout/CSS rendering, but it is not a substitute for running the installed Next.js application.
+Perbaikan: `BodySlotTracker` mempertahankan anchor temporal dan memilih assignment dengan movement cost terendah.
 
-See `docs/FIDELITY_LEDGER.md` for the visual comparison.
+### 4. Gesture chatter dapat memutus tulisan
 
-## Checks blocked in this environment
+Perbaikan: `GestureLatch` menerapkan beberapa stable frame untuk enter/exit state. Pinch membuat pen-down; release hanya mengakhiri satu stroke; glyph tetap terbuka sampai submit.
 
-### Dependency installation and production build
+### 5. Single-player masih berisiko memakai struktur split
 
-A registry availability check failed because the sandbox routes npm through an internal proxy that returned package-not-found for Next.js. Evidence: `qa/registry-check.log`.
+Perbaikan: player count menjadi state eksplisit; pad satu pemain memakai seluruh area. Divider hanya dirender untuk module dua pemain.
 
-Therefore these commands must be run on the user's laptop:
+### 6. Low-confidence recognition menghukum user
 
-```bash
-npm install
-npm run check
+Perbaikan: low-confidence menjadi retry dan memberi time grace. Penalty hanya terjadi jika classifier cukup yakin membaca digit lain.
+
+### 7. Privilege escalation pada profile role
+
+Perbaikan: RLS tidak mengizinkan client mengubah role sendiri. Role admin hanya diubah melalui trusted backend/Supabase dashboard.
+
+### 8. Affiliate click logging memakai jalur client yang tidak tepat
+
+Perbaikan: click log dilakukan server-side menggunakan optional service-role key. Client tidak memiliki izin insert click event.
+
+## Browser/static visual QA
+
+Preview statis yang dihasilkan dari design source diperiksa dengan Chromium:
+
+| Surface | Viewport | Result |
+|---|---|---|
+| Homepage desktop | 1440×1000 | 9 rows, 0 page errors, 0 horizontal overflow |
+| Homepage mobile | 390×844 | 9 rows, 0 page errors, 0 horizontal overflow |
+| Preflight desktop | 1440×900 | 5 checks, 0 page errors, 0 horizontal overflow |
+
+Evidence:
+
+- `qa/browser-qa.json`
+- `qa/home-desktop.png`
+- `qa/home-mobile.png`
+- `qa/preflight-desktop.png`
+
+Static preview bukan pengganti real Next.js runtime QA. Ia dipakai untuk memeriksa identitas visual baru, jumlah module, responsive overflow, dan struktur preflight.
+
+## Source audit
+
+Final source scan melaporkan:
+
+- 51 source files;
+- sembilan internal module;
+- 10 OG images;
+- tidak ada companion/external game launcher;
+- tidak ada hard-coded service key;
+- gesture preflight tersedia;
+- temporal player slots tersedia;
+- replay overlay tersedia.
+
+## Gate yang wajib dijalankan di laptop
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\VERIFY_WINDOWS.ps1
 ```
 
-`npm run check` executes real dependency-aware typechecking, ESLint, engine tests, all three simulations, and `next build`.
+Script tersebut menjalankan:
 
-A `package-lock.json` is intentionally not fabricated. The first successful local `npm install` will generate it; review it and commit it after `npm run check` passes.
+```text
+npm install
+npm run check
+npm audit --omit=dev --audit-level=high
+```
 
-### Physical webcam validation
+Jangan push atau merge ketika salah satu command gagal.
 
-Automated tests cannot reproduce all camera/device variables. Complete the matrix in `docs/CAMERA_TESTING.md`, including:
+## Physical camera gate
 
-- internal and external webcam;
-- Chrome and Edge;
-- normal and dim lighting;
-- left- and right-handed writing;
-- child and adult hand sizes;
-- two players crossing near the dead zone;
-- camera permission rejection/retry;
-- stream cleanup after leaving the game.
+Synthetic tests tidak dapat membuktikan real-world detection. Ikuti `docs/CAMERA_QA.md` untuk:
 
-## Release decision
-
-**Package status:** Ready for local dependency installation, real production build, and physical webcam acceptance testing.  
-**Not yet justified:** Claiming production certification or universal webcam accuracy before the local/device checklist passes.
+- 1 dan 2 pemain;
+- child/adult;
+- tangan kanan/kiri;
+- lighting terang, indoor, redup, backlight;
+- crossing hands;
+- internal/external webcam;
+- sesi minimal 10 menit;
+- Dodge/Run safety area.

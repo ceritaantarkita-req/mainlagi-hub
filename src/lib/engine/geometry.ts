@@ -1,0 +1,19 @@
+import type { Point } from "./types";
+const EPSILON = 1e-9;
+export function distance(a: Point, b: Point): number { return Math.hypot(a.x - b.x, a.y - b.y); }
+export function pathLength(points: readonly Point[]): number { let total = 0; for (let i = 1; i < points.length; i += 1) total += distance(points[i - 1]!, points[i]!); return total; }
+export function flattenStrokes(strokes: readonly { points: readonly Point[] }[]): Point[] { return strokes.flatMap((stroke, index) => index === 0 ? stroke.points : [{ x: Number.NaN, y: Number.NaN }, ...stroke.points]).filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y)); }
+export function resample(points: readonly Point[], count = 64): Point[] {
+  if (count < 2) throw new Error("count must be >= 2"); if (!points.length) return []; if (points.length === 1) return Array.from({ length: count }, () => ({ ...points[0]! }));
+  const source = points.map((point) => ({ x: point.x, y: point.y })); const total = pathLength(source); if (total < EPSILON) return Array.from({ length: count }, () => ({ ...source[0]! }));
+  const interval = total / (count - 1); const output: Point[] = [{ ...source[0]! }]; let accumulated = 0; let previous = source[0]!;
+  for (let index = 1; index < source.length; index += 1) { const current = source[index]!; let segment = distance(previous, current); if (segment < EPSILON) continue; while (accumulated + segment >= interval && output.length < count) { const ratio = (interval - accumulated) / segment; const inserted = { x: previous.x + ratio * (current.x - previous.x), y: previous.y + ratio * (current.y - previous.y) }; output.push(inserted); previous = inserted; segment = distance(previous, current); accumulated = 0; } accumulated += segment; previous = current; }
+  while (output.length < count) output.push({ ...source[source.length - 1]! }); return output.slice(0, count);
+}
+export function normalizePath(points: readonly Point[], count = 64): Point[] {
+  if (!points.length) return []; const sampled = resample(points, count); const xs = sampled.map((point) => point.x); const ys = sampled.map((point) => point.y); const minX = Math.min(...xs); const maxX = Math.max(...xs); const minY = Math.min(...ys); const maxY = Math.max(...ys); const scale = Math.max(maxX - minX, maxY - minY, EPSILON); const normalized = sampled.map((point) => ({ x: (point.x - minX) / scale, y: (point.y - minY) / scale })); const cx = normalized.reduce((sum, point) => sum + point.x, 0) / normalized.length; const cy = normalized.reduce((sum, point) => sum + point.y, 0) / normalized.length; return normalized.map((point) => ({ x: point.x - cx, y: point.y - cy }));
+}
+export function pathDistance(a: readonly Point[], b: readonly Point[]): number { if (!a.length || a.length !== b.length) return Number.POSITIVE_INFINITY; return a.reduce((total, point, index) => total + distance(point, b[index]!), 0) / a.length; }
+export function mirrorPath(points: readonly Point[]): Point[] { return points.map((point) => ({ ...point, x: 1 - point.x })); }
+export function scorePath(input: readonly Point[], target: readonly Point[]): number { if (input.length < 2 || target.length < 2) return 0; const a = normalizePath(input); const b = normalizePath(target); const best = Math.min(pathDistance(a, b), pathDistance(a, [...b].reverse()), pathDistance(normalizePath(mirrorPath(input)), b)); return Math.max(0, Math.min(100, Math.round((1 - best / 0.38) * 100))); }
+export function bounds(points: readonly Point[]) { if (!points.length) return { minX: 0, minY: 0, maxX: 0, maxY: 0, width: 0, height: 0 }; const xs = points.map((point) => point.x); const ys = points.map((point) => point.y); const minX = Math.min(...xs); const maxX = Math.max(...xs); const minY = Math.min(...ys); const maxY = Math.max(...ys); return { minX, minY, maxX, maxY, width: maxX - minX, height: maxY - minY }; }

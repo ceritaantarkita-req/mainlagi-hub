@@ -1,12 +1,2 @@
 import type { MetadataRoute } from "next";
-export default function manifest(): MetadataRoute.Manifest {
-  return {
-    name: "Motion Learning Hub",
-    short_name: "Motion Hub",
-    description: "Belajar dengan kamera, gerakan, dan tulisan di udara.",
-    start_url: "/",
-    display: "standalone",
-    background_color: "#eef7ff",
-    theme_color: "#0b2d66"
-  };
-}
+export default function manifest(): MetadataRoute.Manifest { return { name: "Mainlagi TV — Motion Learning Hub", short_name: "Mainlagi TV", description: "Sembilan game dan alat motion dalam satu hub.", start_url: "/", display: "standalone", background_color: "#f5f7fb", theme_color: "#4778d0", icons: [{ src: "/brand/mainlagi-square.png", sizes: "1080x1080", type: "image/png" }] }; }

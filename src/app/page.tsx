@@ -1,2 +1,2 @@
-import { HubHome } from "@/components/HubHome";
-export default function HomePage() { return <HubHome />; }
+import { HomePage } from "@/components/HomePage";
+export default function Page() { return <HomePage />; }

@@ -1,27 +1,15 @@
-node_modules
-.next
-out
-.qa-dist
+node_modules/
+.next/
+out/
+dist/
+.qa-dist/
 .env
 .env.local
 *.log
+*.zip
+coverage/
+playwright-report/
+test-results/
 public/models/*.task
 public/mediapipe/wasm/*.wasm
 public/mediapipe/wasm/*.js
-!public/models/README.md
-!public/mediapipe/wasm/README.md
-
-# TypeScript cache
-*.tsbuildinfo
-
-# Test and coverage output
-coverage/
-test-results/
-playwright-report/
-
-# Archives
-*.zip
-
-# Audit and generated reports
-*.backup.*
-npm-audit-*.json

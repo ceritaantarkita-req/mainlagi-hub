@@ -1,0 +1,94 @@
+{
+  "runs": [
+    {
+      "run": 1,
+      "seed": 4353,
+      "mathQuestions": 60000,
+      "patternQuestions": 30000,
+      "countdowns": 100,
+      "noisyDigitSamples": 200,
+      "shapeTemplates": 5,
+      "hijaiyahTemplates": 14,
+      "bodyActions": [
+        "left",
+        "right",
+        "jump",
+        "crouch"
+      ],
+      "playerSlotOrderChanges": 1,
+      "invariantErrors": 0
+    },
+    {
+      "run": 2,
+      "seed": 8803,
+      "mathQuestions": 60000,
+      "patternQuestions": 30000,
+      "countdowns": 100,
+      "noisyDigitSamples": 200,
+      "shapeTemplates": 5,
+      "hijaiyahTemplates": 14,
+      "bodyActions": [
+        "left",
+        "right",
+        "jump",
+        "crouch"
+      ],
+      "playerSlotOrderChanges": 1,
+      "invariantErrors": 0
+    },
+    {
+      "run": 3,
+      "seed": 13253,
+      "mathQuestions": 60000,
+      "patternQuestions": 30000,
+      "countdowns": 100,
+      "noisyDigitSamples": 200,
+      "shapeTemplates": 5,
+      "hijaiyahTemplates": 14,
+      "bodyActions": [
+        "left",
+        "right",
+        "jump",
+        "crouch"
+      ],
+      "playerSlotOrderChanges": 1,
+      "invariantErrors": 0
+    },
+    {
+      "run": 4,
+      "seed": 17703,
+      "mathQuestions": 60000,
+      "patternQuestions": 30000,
+      "countdowns": 100,
+      "noisyDigitSamples": 200,
+      "shapeTemplates": 5,
+      "hijaiyahTemplates": 14,
+      "bodyActions": [
+        "left",
+        "right",
+        "jump",
+        "crouch"
+      ],
+      "playerSlotOrderChanges": 1,
+      "invariantErrors": 0
+    },
+    {
+      "run": 5,
+      "seed": 22153,
+      "mathQuestions": 60000,
+      "patternQuestions": 30000,
+      "countdowns": 100,
+      "noisyDigitSamples": 200,
+      "shapeTemplates": 5,
+      "hijaiyahTemplates": 14,
+      "bodyActions": [
+        "left",
+        "right",
+        "jump",
+        "crouch"
+      ],
+      "playerSlotOrderChanges": 1,
+      "invariantErrors": 0
+    }
+  ]
+}

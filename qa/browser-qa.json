@@ -1,0 +1,53 @@
+[
+  {
+    "file": "preview/dist/index.html",
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "errors": [],
+    "metrics": {
+      "title": "Mainlagi TV V2 Preview",
+      "scrollWidth": 1440,
+      "clientWidth": 1440,
+      "scrollHeight": 2307,
+      "rows": 9,
+      "checks": 0
+    },
+    "horizontalOverflow": 0
+  },
+  {
+    "file": "preview/dist/index.html",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "errors": [],
+    "metrics": {
+      "title": "Mainlagi TV V2 Preview",
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "scrollHeight": 2503,
+      "rows": 9,
+      "checks": 0
+    },
+    "horizontalOverflow": 0
+  },
+  {
+    "file": "preview/dist/preflight.html",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "errors": [],
+    "metrics": {
+      "title": "Mainlagi TV V2 Preflight",
+      "scrollWidth": 1440,
+      "clientWidth": 1440,
+      "scrollHeight": 900,
+      "rows": 0,
+      "checks": 5
+    },
+    "horizontalOverflow": 0
+  }
+]
