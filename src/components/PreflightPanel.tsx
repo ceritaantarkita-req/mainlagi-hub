@@ -2,7 +2,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { GameDefinition } from "@/lib/data/games";
 import type { PlayerId } from "@/lib/engine/types";
 import type { VisionSnapshot, VisionStatus } from "@/lib/vision/types";
@@ -148,7 +148,7 @@ export function PreflightPanel({
     if (!startGestureActive || inputMode !== "camera" || !canContinue) {
       startGestureSinceRef.current = null;
       startTriggeredRef.current = false;
-      setStartGestureProgress(0);
+      setStartGestureProgress((current) => (current === 0 ? current : 0));
       return;
     }
 
@@ -158,7 +158,10 @@ export function PreflightPanel({
       1,
       (now - startGestureSinceRef.current) / START_HOLD_MS
     );
-    setStartGestureProgress(progress);
+    const roundedProgress = Math.round(progress * 100) / 100;
+    setStartGestureProgress((current) =>
+      Math.abs(current - roundedProgress) < 0.01 ? current : roundedProgress
+    );
 
     if (progress >= 1 && !startTriggeredRef.current) {
       startTriggeredRef.current = true;
@@ -167,13 +170,13 @@ export function PreflightPanel({
     }
   }, [canContinue, inputMode, onReady, snapshot.timestamp, startGestureActive]);
 
-  const resetCalibration = () => {
+  const resetCalibration = useCallback(() => {
     stop();
     setGestures(EMPTY_GESTURES);
-    setStartGestureProgress(0);
+    setStartGestureProgress((current) => (current === 0 ? current : 0));
     startGestureSinceRef.current = null;
     startTriggeredRef.current = false;
-  };
+  }, [stop]);
 
   return (
     <div className="preflight-layout">
@@ -302,8 +305,8 @@ export function PreflightPanel({
                   : !needsHands
                     ? "Game tubuh tidak memerlukan gesture tangan"
                     : gesturesReady
-                      ? "Pinch dan telapak terbuka terkonfirmasi"
-                      : "Lakukan pinch, lalu buka telapak untuk setiap pemain"}
+                      ? "Cubit dan telapak terbuka terkonfirmasi"
+                      : "Lakukan cubit, lalu buka telapak untuk setiap pemain"}
               </small>
             </span>
           </li>
