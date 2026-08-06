@@ -8,16 +8,23 @@ import { VisionOverlay } from "@/components/VisionOverlay";
 export function useRoundTimer(duration = 60) {
   const [remaining, setRemaining] = useState(duration);
   const [running, setRunning] = useState(true);
-  const deadlineRef = useRef(performance.now() + duration * 1000);
+  const deadlineRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (!running) return;
 
+    if (deadlineRef.current === null) {
+      deadlineRef.current = performance.now() + duration * 1000;
+    }
+
     let frame = 0;
     const loop = () => {
+      const deadline = deadlineRef.current;
+      if (deadline === null) return;
+
       const next = Math.max(
         0,
-        Math.ceil((deadlineRef.current - performance.now()) / 1000)
+        Math.ceil((deadline - performance.now()) / 1000)
       );
       setRemaining(next);
       if (next <= 0) {
@@ -29,7 +36,7 @@ export function useRoundTimer(duration = 60) {
 
     frame = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(frame);
-  }, [running]);
+  }, [duration, running]);
 
   const pause = useCallback(() => setRunning(false), []);
   const resume = useCallback(() => {
@@ -43,7 +50,9 @@ export function useRoundTimer(duration = 60) {
   }, [pause, resume, running]);
   const addSeconds = useCallback((seconds: number) => {
     if (seconds <= 0) return;
-    deadlineRef.current += seconds * 1000;
+    if (deadlineRef.current !== null) {
+      deadlineRef.current += seconds * 1000;
+    }
     setRemaining((value) => value + seconds);
   }, []);
 
@@ -123,7 +132,12 @@ export function GameHud({
           <strong>{score.B}</strong>
         </div>
       ) : (
-        <button className="hud-pause" type="button" onClick={onTogglePause}>
+        <button
+          className="hud-pause"
+          type="button"
+          onClick={onTogglePause}
+          disabled={!onTogglePause}
+        >
           {paused ? "Lanjut" : "Jeda"}
         </button>
       )}
@@ -164,18 +178,49 @@ export function RoundEndOverlay({
           : "Player B menang";
 
   return (
-    <div className="round-end-overlay" role="dialog" aria-modal="true" aria-label={title}>
+    <div
+      className="round-end-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-label={title}
+    >
       <section className="round-end-card">
         <span className="round-end-mark">✓</span>
         <h2>{title}</h2>
-        {winner ? <p>{winner}</p> : <p>Ronde selesai. Simpan skor terbaik dan coba lagi.</p>}
-        <div className={`round-end-scores ${playerCount === 1 ? "is-single" : ""}`}>
-          <div><small>PLAYER A</small><strong>{score.A}</strong></div>
-          {playerCount === 2 ? <div><small>PLAYER B</small><strong>{score.B}</strong></div> : null}
+        {winner ? (
+          <p>{winner}</p>
+        ) : (
+          <p>Ronde selesai. Simpan skor terbaik dan coba lagi.</p>
+        )}
+        <div
+          className={`round-end-scores ${playerCount === 1 ? "is-single" : ""}`}
+        >
+          <div>
+            <small>PLAYER A</small>
+            <strong>{score.A}</strong>
+          </div>
+          {playerCount === 2 ? (
+            <div>
+              <small>PLAYER B</small>
+              <strong>{score.B}</strong>
+            </div>
+          ) : null}
         </div>
         <div className="round-end-actions">
-          <button className="button button--primary" type="button" onClick={onReplay}>Main lagi</button>
-          <button className="button button--ghost" type="button" onClick={onCalibration}>Kalibrasi ulang</button>
+          <button
+            className="button button--primary"
+            type="button"
+            onClick={onReplay}
+          >
+            Main lagi
+          </button>
+          <button
+            className="button button--ghost"
+            type="button"
+            onClick={onCalibration}
+          >
+            Kalibrasi ulang
+          </button>
         </div>
       </section>
     </div>
