@@ -12,6 +12,7 @@
   "include": [
     "src/lib/engine/**/*.ts",
     "src/lib/interaction/**/*.ts",
+    "src/lib/tracing/**/*.ts",
     "src/lib/vision/gesture.ts",
     "src/lib/vision/player-assignment.ts",
     "src/lib/vision/body-analysis.ts",
