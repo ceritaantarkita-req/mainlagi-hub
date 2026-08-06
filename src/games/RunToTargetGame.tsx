@@ -35,7 +35,7 @@ export function RunToTargetGame(props: GameModuleProps) {
   );
   const action =
     props.inputMode === "camera" ? (body?.action ?? "center") : keyAction;
-  const last = useRef(performance.now());
+  const lastFrameRef = useRef(0);
   const timer = useRoundTimer(60);
 
   useEffect(() => {
@@ -47,6 +47,7 @@ export function RunToTargetGame(props: GameModuleProps) {
       if (event.key === "Enter") setKeyAction("center");
     };
     const up = () => setKeyAction("center");
+
     window.addEventListener("keydown", down);
     window.addEventListener("keyup", up);
     return () => {
@@ -57,11 +58,13 @@ export function RunToTargetGame(props: GameModuleProps) {
 
   useEffect(() => {
     if (!timer.running) return;
+
     let frame = 0;
-    last.current = performance.now();
+    lastFrameRef.current = performance.now();
+
     const loop = (now: number) => {
-      const delta = Math.min(80, now - last.current);
-      last.current = now;
+      const delta = Math.min(80, now - lastFrameRef.current);
+      lastFrameRef.current = now;
       let next =
         action === targetRef.current
           ? Math.min(100, progressRef.current + delta / 12)
@@ -75,15 +78,18 @@ export function RunToTargetGame(props: GameModuleProps) {
         setTarget(selected);
         next = 0;
       }
+
       progressRef.current = next;
       setProgress(next);
       frame = requestAnimationFrame(loop);
     };
+
     frame = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(frame);
   }, [action, timer.running]);
 
-  const position = action === "left" ? "18%" : action === "right" ? "82%" : "50%";
+  const position =
+    action === "left" ? "18%" : action === "right" ? "82%" : "50%";
   const scale = action === "forward" ? 1.22 : action === "back" ? 0.8 : 1;
   const scoreRecord = { A: score, B: 0 };
   useProgressSync(props.game.slug, score);
@@ -95,31 +101,60 @@ export function RunToTargetGame(props: GameModuleProps) {
       snapshot={props.snapshot}
     >
       <div className="run-hud">
-        <div><small>SKOR</small><strong>{score}</strong></div>
+        <div>
+          <small>SKOR</small>
+          <strong>{score}</strong>
+        </div>
         <div className="run-target-label">
           <small>TARGET BERIKUTNYA · {timer.remaining} DETIK</small>
           <strong>{LABELS[target]}</strong>
-          <span><i style={{ width: `${progress}%` }} /></span>
+          <span>
+            <i style={{ width: `${progress}%` }} />
+          </span>
         </div>
-        <div><small>GERAKAN</small><strong>{LABELS[action]}</strong></div>
+        <div>
+          <small>GERAKAN</small>
+          <strong>{LABELS[action]}</strong>
+        </div>
       </div>
 
       <section className="run-field">
-        <div className="target-zone zone-left" data-active={target === "left"}>KIRI</div>
-        <div className="target-zone zone-center" data-active={target === "center"}>TENGAH</div>
-        <div className="target-zone zone-right" data-active={target === "right"}>KANAN</div>
-        <div className="depth-zone depth-forward" data-active={target === "forward"}>MAJU</div>
-        <div className="depth-zone depth-back" data-active={target === "back"}>MUNDUR</div>
+        <div className="target-zone zone-left" data-active={target === "left"}>
+          KIRI
+        </div>
+        <div
+          className="target-zone zone-center"
+          data-active={target === "center"}
+        >
+          TENGAH
+        </div>
+        <div className="target-zone zone-right" data-active={target === "right"}>
+          KANAN
+        </div>
+        <div
+          className="depth-zone depth-forward"
+          data-active={target === "forward"}
+        >
+          MAJU
+        </div>
+        <div className="depth-zone depth-back" data-active={target === "back"}>
+          MUNDUR
+        </div>
         <div
           className="runner-avatar"
           style={{ left: position, transform: `translateX(-50%) scale(${scale})` }}
         >
-          <span>●</span><i /><b />
+          <span>●</span>
+          <i />
+          <b />
         </div>
       </section>
 
       <div className="body-instructions">
-        <span>← kiri</span><span>→ kanan</span><span>↑ maju</span><span>↓ mundur</span>
+        <span>← kiri</span>
+        <span>→ kanan</span>
+        <span>↑ maju</span>
+        <span>↓ mundur</span>
         <span>Tahan posisi sampai progress penuh</span>
       </div>
       <FeedbackToast
