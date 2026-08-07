@@ -50,7 +50,10 @@ export function QuizGame() {
   useEffect(() => { phaseRef.current = phase; }, [phase]);
   useEffect(() => { indexRef.current = index; }, [index]);
   useEffect(() => { questionsRef.current = questions; }, [questions]);
-  useEffect(() => { setName(readPlayerName()); }, []);
+  useEffect(() => {
+    const timer = window.setTimeout(() => setName(readPlayerName()), 0);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   const current = questions[index] ?? null;
 
@@ -60,10 +63,13 @@ export function QuizGame() {
     lockedRef.current = true;
 
     const right = option === question.answer;
+    const finalScore = score + (right ? 10 : 0);
+    const finalCorrect = correct + (right ? 1 : 0);
+
     setFeedback({ option, right });
     if (right) {
-      setCorrect((value) => value + 1);
-      setScore((value) => value + 10);
+      setCorrect(finalCorrect);
+      setScore(finalScore);
     }
 
     window.setTimeout(() => {
@@ -71,10 +77,24 @@ export function QuizGame() {
       setHoverProgress({});
       selectorRef.current.reset();
       lockedRef.current = false;
-      if (indexRef.current + 1 >= questionsRef.current.length) setPhase("result");
-      else setIndex((value) => value + 1);
+
+      if (indexRef.current + 1 >= questionsRef.current.length) {
+        const board = boardFor(GAME_ID);
+        const result = board.submit({
+          name: name || "Pemain",
+          score: finalScore,
+          at: Date.now(),
+          mode: categories.length ? categories.join("+") : "semua",
+          detail: { benar: finalCorrect, total: questionsRef.current.length }
+        });
+        setEntries(result.entries);
+        setRank(result.rank);
+        setPhase("result");
+      } else {
+        setIndex((value) => value + 1);
+      }
     }, 1100);
-  }, []);
+  }, [categories, correct, name, score]);
 
   const handlePointer = useCallback((player: "A" | "B", point: Point | null) => {
     if (player !== "A") return;
@@ -87,9 +107,14 @@ export function QuizGame() {
     if (update.selected !== null) answer(Number(update.selected));
   }, [answer]);
 
-  const motion = useMotionCapture({
+  const {
+    videoRef,
+    status: motionStatus,
+    error: motionError,
+    readiness
+  } = useMotionCapture({
     cameraEnabled: phase === "playing",
-    captureEnabled: false,   // this game selects, it never writes
+    captureEnabled: false,
     singlePlayer: true,
     onDigit: () => undefined,
     onTrace: () => undefined,
@@ -108,26 +133,12 @@ export function QuizGame() {
     setCorrect(0);
     setFeedback(null);
     setHoverProgress({});
+    setEntries([]);
+    setRank(null);
     selectorRef.current.reset();
     lockedRef.current = false;
     setPhase("playing");
   }, [categories]);
-
-  // Submit the run once, when the result screen is reached.
-  useEffect(() => {
-    if (phase !== "result") return;
-    const board = boardFor(GAME_ID);
-    const result = board.submit({
-      name: name || "Pemain",
-      score,
-      at: Date.now(),
-      mode: categories.length ? categories.join("+") : "semua",
-      detail: { benar: correct, total: questions.length }
-    });
-    setEntries(result.entries);
-    setRank(result.rank);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [phase]);
 
   const toggleCategory = (category: QuizCategory) => {
     setCategories((current) =>
@@ -135,8 +146,7 @@ export function QuizGame() {
     );
   };
 
-  const cameraBusy = motion.status === "loading";
-  const readiness = motion.readiness;
+  const cameraBusy = motionStatus === "loading";
 
   const buttonStyle = useMemo(
     () => (target: ARTarget) => ({
@@ -185,7 +195,10 @@ export function QuizGame() {
               value={name}
               maxLength={18}
               placeholder="Pemain"
-              onChange={(event) => { setName(event.target.value); writePlayerName(event.target.value); }}
+              onChange={(event) => {
+                setName(event.target.value);
+                writePlayerName(event.target.value);
+              }}
             />
           </label>
 
@@ -228,7 +241,7 @@ export function QuizGame() {
 
   return (
     <main className="quiz-stage">
-      <video ref={motion.videoRef} className="quiz-video" muted playsInline autoPlay aria-label="Kamera" />
+      <video ref={videoRef} className="quiz-video" muted playsInline autoPlay aria-label="Kamera" />
 
       <header className="quiz-hud">
         <Link href="/" className="quiz-hud-home">←</Link>
@@ -236,8 +249,8 @@ export function QuizGame() {
         <div className="quiz-hud-score">⭐ {score}</div>
       </header>
 
-      {motion.error ? (
-        <div className="quiz-banner quiz-banner--error">{motion.error}</div>
+      {motionError ? (
+        <div className="quiz-banner quiz-banner--error">{motionError}</div>
       ) : cameraBusy || !readiness.canStart ? (
         <div className="quiz-banner">
           {readiness.message}
