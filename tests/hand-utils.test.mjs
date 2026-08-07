@@ -28,10 +28,6 @@ function makeHand({ index = false, middle = false, ring = false, pinky = false, 
   return points;
 }
 
-function baseHand() {
-  return makeHand();
-}
-
 test("mirror conversion and split-screen dead zone are consistent", () => {
   const point = mirroredPoint({ x: 0.2, y: 0.4, z: 0 });
   assert.equal(point.x, 0.8);
