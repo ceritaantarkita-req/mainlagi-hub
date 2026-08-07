@@ -5,21 +5,22 @@ import { useEffect, useState } from "react";
 import { allBoards, boardFor, type BoardSummary } from "@/engine/leaderboard";
 
 /**
- * Boards are read in an effect, never during render.
- *
- * They come from localStorage, which does not exist while Next.js prerenders
- * this page on the server. Reading during render would either crash the build
- * or - worse - produce server HTML that disagrees with the client and trigger a
- * hydration mismatch. Starting empty and filling in after mount is the only
- * arrangement that is correct in both environments.
+ * Boards live in localStorage, so the server-rendered snapshot starts empty.
+ * Load them on the next task after mount instead of synchronously setting state
+ * inside the effect body. This preserves the server/client boundary and avoids
+ * React's cascading-render lint rule.
  */
 export function LeaderboardView() {
   const [boards, setBoards] = useState<BoardSummary[]>([]);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    setBoards(allBoards());
-    setLoaded(true);
+    const timer = window.setTimeout(() => {
+      setBoards(allBoards());
+      setLoaded(true);
+    }, 0);
+
+    return () => window.clearTimeout(timer);
   }, []);
 
   const clear = (gameId: BoardSummary["gameId"]) => {
