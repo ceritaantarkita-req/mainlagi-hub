@@ -1,9 +1,6 @@
-name: Deploy Mainlagi
+name: Deploy Mainlagi (manual fallback)
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 permissions:
@@ -15,7 +12,7 @@ concurrency:
 
 jobs:
   deploy:
-    name: Deploy production
+    name: Deploy V3 production manually
     runs-on: ubuntu-latest
     timeout-minutes: 45
 
@@ -48,7 +45,7 @@ jobs:
           chmod 600 "$HOME/.ssh/mainlagi_deploy"
           ssh-keygen -y -f "$HOME/.ssh/mainlagi_deploy" >/dev/null
 
-      - name: Deploy Mainlagi
+      - name: Deploy Mainlagi V3
         shell: bash
         run: |
           set -Eeuo pipefail
