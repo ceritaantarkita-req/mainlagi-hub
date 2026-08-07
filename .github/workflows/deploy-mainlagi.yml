@@ -1,0 +1,69 @@
+name: Deploy Mainlagi
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mainlagi-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy production
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    env:
+      VPS_HOST: ${{ secrets.MAINLAGI_VPS_HOST }}
+      VPS_USER: ${{ secrets.MAINLAGI_VPS_USER }}
+      VPS_KNOWN_HOSTS: ${{ secrets.MAINLAGI_VPS_KNOWN_HOSTS }}
+      VPS_SSH_KEY: ${{ secrets.MAINLAGI_VPS_SSH_KEY }}
+
+    steps:
+      - name: Validate deployment secrets
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          for name in VPS_HOST VPS_USER VPS_KNOWN_HOSTS VPS_SSH_KEY; do
+            if [[ -z "${!name:-}" ]]; then
+              echo "::error::$name is not configured"
+              exit 1
+            fi
+          done
+
+      - name: Configure SSH
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          install -m 700 -d "$HOME/.ssh"
+          printf '%s\n' "$VPS_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 600 "$HOME/.ssh/known_hosts"
+          printf '%s' "$VPS_SSH_KEY" > "$HOME/.ssh/mainlagi_deploy"
+          chmod 600 "$HOME/.ssh/mainlagi_deploy"
+          ssh-keygen -y -f "$HOME/.ssh/mainlagi_deploy" >/dev/null
+
+      - name: Deploy Mainlagi
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ssh -T \
+            -i "$HOME/.ssh/mainlagi_deploy" \
+            -o BatchMode=yes \
+            -o IdentitiesOnly=yes \
+            -o StrictHostKeyChecking=yes \
+            -o UserKnownHostsFile="$HOME/.ssh/known_hosts" \
+            -o ConnectTimeout=15 \
+            -o ServerAliveInterval=30 \
+            -o ServerAliveCountMax=6 \
+            "$VPS_USER@$VPS_HOST" true
+
+      - name: Remove private key from runner
+        if: always()
+        shell: bash
+        run: rm -f "$HOME/.ssh/mainlagi_deploy"
