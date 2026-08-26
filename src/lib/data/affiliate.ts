@@ -1,3 +1,5 @@
+import catalog from "./affiliate-catalog.json";
+
 export type AffiliatePlatform = "Shopee" | "TikTok Shop";
 
 export interface AffiliateItem {
@@ -8,38 +10,36 @@ export interface AffiliateItem {
   image: string;
   href: string;
   note: string;
+  featured?: boolean;
 }
 
-export const AFFILIATE_ITEMS: AffiliateItem[] = [
-  {
-    slug: "tripod-webcam-anak",
-    title: "Tripod webcam meja untuk area bermain lebih stabil",
-    platform: "Shopee",
-    category: "Peralatan kamera",
-    image: "/affiliate/tripod.svg",
-    href: "https://shopee.co.id/",
-    note: "Contoh tautan. Ganti dengan link affiliate milik Mainlagi."
-  },
-  {
-    slug: "lampu-belajar-ring",
-    title: "Lampu ring kecil untuk membantu pencahayaan tangan",
-    platform: "TikTok Shop",
-    category: "Pencahayaan",
-    image: "/affiliate/ring-light.svg",
-    href: "https://www.tiktok.com/",
-    note: "Contoh tautan. Ganti dengan link affiliate milik Mainlagi."
-  },
-  {
-    slug: "matras-gerak-anak",
-    title: "Matras anti-slip untuk aktivitas Dodge dan Run to Target",
-    platform: "Shopee",
-    category: "Aktivitas tubuh",
-    image: "/affiliate/mat.svg",
-    href: "https://shopee.co.id/",
-    note: "Contoh tautan. Ganti dengan link affiliate milik Mainlagi."
-  }
-];
+interface CatalogEntry {
+  slug: string;
+  title: string;
+  price: string;
+  href: string;
+  image: string;
+  featured?: boolean;
+}
+
+const entries = catalog as CatalogEntry[];
+
+export const AFFILIATE_ITEMS: AffiliateItem[] = entries.map((item) => ({
+  slug: item.slug,
+  title: item.title,
+  platform: "Shopee",
+  category: "Perlengkapan belajar",
+  image: item.image,
+  href: item.href,
+  note: item.price ? `Tautan afiliasi · ${item.price}` : "Tautan afiliasi",
+  featured: item.featured
+}));
 
 export function getAffiliateItem(slug: string): AffiliateItem | null {
   return AFFILIATE_ITEMS.find((item) => item.slug === slug) ?? null;
+}
+
+export function getFeaturedAffiliateItems(limit = 3): AffiliateItem[] {
+  const featured = AFFILIATE_ITEMS.filter((item) => item.featured);
+  return (featured.length ? featured : AFFILIATE_ITEMS).slice(0, limit);
 }
