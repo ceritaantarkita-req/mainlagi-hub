@@ -1,44 +1,22 @@
 import type { Metadata } from "next";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import Link from "next/link";
-import { getServerClient } from "@/lib/auth/supabase-server";
+import { AdminGate } from "@/components/admin/AdminGate";
+import { requireOwner } from "@/lib/auth/requireOwner";
 
 export const metadata: Metadata = { title: "Admin | Mainlagi Hub" };
 
 export const dynamic = "force-dynamic";
 
-function Gate({ reason }: { reason: string }) {
-  return (
-    <div className="center-page">
-      <section className="dialog-card">
-        <h1>Admin</h1>
-        <p>{reason}</p>
-        <Link className="button button--primary" href="/login">
-          Masuk
-        </Link>
-      </section>
-    </div>
-  );
-}
-
-async function count(client: NonNullable<Awaited<ReturnType<typeof getServerClient>>>, table: string): Promise<number> {
-  const { count } = await client.from(table).select("id", { count: "exact", head: true });
+async function count(supabase: SupabaseClient, table: string): Promise<number> {
+  const { count } = await supabase.from(table).select("id", { count: "exact", head: true });
   return count ?? 0;
 }
 
 export default async function AdminDashboardPage() {
-  const supabase = await getServerClient();
-  if (!supabase) return <Gate reason="Supabase belum dikonfigurasi." />;
-
-  const { data: auth } = await supabase.auth.getUser();
-  const user = auth?.user;
-  if (!user) return <Gate reason="Login diperlukan." />;
-
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .single();
-  if (profile?.role !== "owner") return <Gate reason="Hanya owner yang boleh mengakses dashboard ini." />;
+  const gate = await requireOwner();
+  if (!gate.ok) return <AdminGate title="Admin" reason={gate.reason} />;
+  const { supabase } = gate;
 
   const [users, players, sessions, articles, clicks] = await Promise.all([
     count(supabase, "profiles"),
