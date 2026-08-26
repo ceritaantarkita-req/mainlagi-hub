@@ -1,4 +1,4 @@
-# Mainlagi TV — Motion Learning Hub V2
+# Mainlagi Hub — Motion Learning Hub V2
 
 Rebuild V2 yang menempatkan sembilan game/module langsung dalam satu aplikasi Next.js:
 
@@ -16,7 +16,7 @@ Semua game memakai internal route `/play/[slug]`. Tidak ada companion launcher a
 
 ## Perubahan material dari V1
 
-- Brand dan homepage Mainlagi TV yang baru.
+- Brand dan homepage Mainlagi Hub yang baru.
 - Tepat sembilan internal module.
 - Explicit 1/2-player selection.
 - Single-player full-width tanpa divider.

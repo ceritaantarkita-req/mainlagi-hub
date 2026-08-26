@@ -95,7 +95,7 @@ Pastikan `.env.local`, secret, `node_modules`, `.next`, dan file ZIP tidak masuk
 ```powershell
 git add -A
 git status
-git commit -m "feat: rebuild Motion Learning Hub as Mainlagi TV V2"
+git commit -m "feat: rebuild Motion Learning Hub as Mainlagi Hub V2"
 git push -u origin rebuild/mainlagitv-v2
 ```
 

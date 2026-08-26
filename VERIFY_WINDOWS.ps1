@@ -1,7 +1,7 @@
 $ErrorActionPreference = "Stop"
 Set-Location $PSScriptRoot
 
-Write-Host "Mainlagi TV Motion Learning Hub V2.0.2 - Laptop Verification" -ForegroundColor Cyan
+Write-Host "Mainlagi Hub Motion Learning Hub V2.0.2 - Laptop Verification" -ForegroundColor Cyan
 
 Write-Host "[1/6] Node dan npm" -ForegroundColor Cyan
 node --version

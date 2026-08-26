@@ -1,4 +1,4 @@
-# Mainlagi TV Motion Learning Hub
+# Mainlagi Hub Motion Learning Hub
 ## Engine Rebuild, AI Strategy, dan Rencana Patch Repository
 
 **Dokumen:** Blueprint teknis dan rencana perbaikan  
@@ -32,7 +32,7 @@ Dokumen ini dirancang sebagai acuan untuk pekerjaan oleh ChatGPT/Codex, Claude C
 
 ## 2.1 Keputusan utama
 
-1. **Mainlagi TV tetap menjadi webapp.**
+1. **Mainlagi Hub tetap menjadi webapp.**
 2. User tidak perlu menginstal aplikasi desktop.
 3. Kamera dan computer vision tetap berjalan di browser user.
 4. Login, subscription, progress, entitlement, dan analytics boleh berjalan di server.
@@ -162,7 +162,7 @@ Jika target akhir adalah VPS Docker, file ini perlu dibangun kembali atau dipuli
 
 ## 4.1 Webapp
 
-Mainlagi TV harus diakses melalui browser dan user cukup membuka website, login, berlangganan, memberi izin kamera, lalu bermain. Tidak ada kebutuhan instalasi aplikasi desktop.
+Mainlagi Hub harus diakses melalui browser dan user cukup membuka website, login, berlangganan, memberi izin kamera, lalu bermain. Tidak ada kebutuhan instalasi aplikasi desktop.
 
 ## 4.2 Localhost
 
@@ -184,7 +184,7 @@ Arsitektur ini cocok untuk web subscription karena latency rendah, biaya server 
 # 5. Arsitektur Produk Target
 
 ```text
-MAINLAGI TV WEBAPP
+MAINLAGI HUB WEBAPP
 │
 ├── Public Website
 │   ├── Landing page
@@ -243,7 +243,7 @@ Teknologi NVIDIA dapat dijadikan referensi untuk temporal pose tracking, persist
 
 ## 6.2 Tidak dijadikan dependency wajib
 
-Mainlagi TV menargetkan browser umum di Indonesia. Tidak semua user memiliki NVIDIA RTX GPU, CUDA, TensorRT, hardware kelas gaming, atau desktop Windows yang kompatibel. Karena itu NVIDIA Maxine atau DeepStream tidak boleh menjadi satu-satunya production engine.
+Mainlagi Hub menargetkan browser umum di Indonesia. Tidak semua user memiliki NVIDIA RTX GPU, CUDA, TensorRT, hardware kelas gaming, atau desktop Windows yang kompatibel. Karena itu NVIDIA Maxine atau DeepStream tidak boleh menjadi satu-satunya production engine.
 
 ## 6.3 Opsi pemakaian yang disarankan
 
@@ -1231,7 +1231,7 @@ Tanpa persetujuan eksplisit, patch tidak akan:
 
 # 27. Verdict Akhir
 
-Visual dan product direction Mainlagi TV sudah layak dipertahankan.
+Visual dan product direction Mainlagi Hub sudah layak dipertahankan.
 
 Masalah utama adalah bahwa engine perception, temporal processing, interaction design, dan recognition belum matang untuk pengalaman anak yang natural.
 
@@ -1269,4 +1269,4 @@ Prioritas terdekat:
 
 ## Status Dokumen
 
-Dokumen ini menjadi blueprint utama untuk perbaikan repository Mainlagi TV Motion Learning Hub dan dapat digunakan sebagai dasar prompt implementasi ke Codex atau agentic AI lain.
+Dokumen ini menjadi blueprint utama untuk perbaikan repository Mainlagi Hub Motion Learning Hub dan dapat digunakan sebagai dasar prompt implementasi ke Codex atau agentic AI lain.

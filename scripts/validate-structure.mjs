@@ -28,8 +28,11 @@ const slugs = [...registry.matchAll(/slug:\s*"([a-z0-9-]+)"/g)].map(
   (match) => match[1]
 );
 const uniqueSlugs = new Set(slugs);
-if (uniqueSlugs.size !== 9) {
-  throw new Error(`Expected exactly 9 unique game definitions, got ${uniqueSlugs.size}`);
+if (uniqueSlugs.size !== 10) {
+  throw new Error(`Expected exactly 10 unique game definitions, got ${uniqueSlugs.size}`);
+}
+if (slugs.length !== uniqueSlugs.size) {
+  throw new Error(`Duplicate slug in the registry: ${slugs.join(", ")}`);
 }
 
 for (const slug of uniqueSlugs) await access(`public/og/${slug}.png`);

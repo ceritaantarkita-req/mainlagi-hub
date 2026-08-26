@@ -6,7 +6,7 @@ Target yang diminta bukan mempertahankan screenshot V1, melainkan membuat rebuil
 
 | V1 yang ditolak | V2 corrected |
 |---|---|
-| Header Motion Learning Hub dengan emoji | Header Mainlagi TV memakai asset logo user |
+| Header Motion Learning Hub dengan emoji | Header Mainlagi Hub memakai asset logo user |
 | Hero `Belajar Seru, Gerak & Pintar` | Hero `Gerak badan. Gerak pikiran.` |
 | Empat card besar + companion section | Sembilan internal module dalam indexed activity list |
 | Companion project membuka app eksternal | Semua route `/play/[slug]` internal |

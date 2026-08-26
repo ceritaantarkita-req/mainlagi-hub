@@ -4,9 +4,7 @@ import { compileEngine } from "./compile-engine.mjs";
 
 await compileEngine();
 const airTarget = await import("../.qa-dist/interaction/air-target.js");
-const relativeMapper = await import(
-  "../.qa-dist/interaction/relative-hand-mapper.js"
-);
+const penMapper = await import("../.qa-dist/interaction/pen-mapper.js");
 
 const targets = [
   { id: "milk", left: 100, top: 100, right: 220, bottom: 220 },
@@ -63,61 +61,99 @@ test("moving to another target releases the previous target lock", () => {
   assert.equal(dwell.update("bread", 300).selected, "bread");
 });
 
-test("relative mapper anchors the first camera sample without jumping", () => {
-  const mapper = new relativeMapper.RelativeHandMapper();
+test("pen mapper places the first sample in the middle of the canvas", () => {
+  const mapper = new penMapper.PenMapper();
   const first = mapper.update({ x: 0.9, y: 0.1 }, 100);
-  assert.equal(first.x, 0.5);
-  assert.equal(first.y, 0.52);
+  assert.equal(Math.abs(first.x - 0.5) < 0.001, true);
+  assert.equal(Math.abs(first.y - 0.5) < 0.001, true);
 });
 
-test("relative mapper turns comfortable hand movement into larger canvas travel", () => {
-  const mapper = new relativeMapper.RelativeHandMapper({
-    gainX: 2,
-    gainY: 2,
-    deadZone: 0
-  });
-  mapper.update({ x: 0.5, y: 0.5 }, 100);
-  const moved = mapper.update({ x: 0.53, y: 0.48 }, 133);
-  assert.equal(moved.x > 0.55, true);
-  assert.equal(moved.y < 0.49, true);
+test("pen mapper is absolute: returning the hand returns the pen", () => {
+  const mapper = new penMapper.PenMapper();
+  mapper.update({ x: 0.5, y: 0.5 }, 67);
+  mapper.lock();
+  const origin = mapper.update({ x: 0.5, y: 0.5 }, 100);
+  mapper.update({ x: 0.54, y: 0.47 }, 133);
+  mapper.update({ x: 0.57, y: 0.51 }, 166);
+  mapper.update({ x: 0.53, y: 0.5 }, 200);
+  const back = mapper.update({ x: 0.5, y: 0.5 }, 233);
+  // Absolute mapping means no accumulated drift: the pen lands back where it
+  // started. The old relative mapper integrated velocity and never did.
+  assert.equal(Math.abs(back.x - origin.x) < 0.02, true);
+  assert.equal(Math.abs(back.y - origin.y) < 0.02, true);
 });
 
-test("relative mapper suppresses tiny involuntary hand jitter", () => {
-  const mapper = new relativeMapper.RelativeHandMapper({ deadZone: 0.003 });
-  mapper.update({ x: 0.5, y: 0.5 }, 100);
-  const moved = mapper.update({ x: 0.501, y: 0.498 }, 133);
-  assert.equal(moved.x, 0.5);
-  assert.equal(moved.y, 0.52);
-});
-
-test("relative mapper clamps tracking spikes and canvas boundaries", () => {
-  const mapper = new relativeMapper.RelativeHandMapper({
-    gainX: 4,
-    gainY: 4,
-    deadZone: 0,
-    maxRawStep: 0.04
-  });
-  mapper.update({ x: 0.5, y: 0.5 }, 100);
-  const moved = mapper.update({ x: 1, y: 1 }, 133);
-  assert.equal(moved.x <= 0.66, true);
-  assert.equal(moved.y <= 0.68, true);
-
-  let current = moved;
-  for (let index = 0; index < 20; index += 1) {
-    current = mapper.update(
-      { x: 1 + index * 0.04, y: 1 + index * 0.04 },
-      166 + index * 33
-    );
+test("pen mapper does not drift under sustained jitter", () => {
+  const mapper = new penMapper.PenMapper();
+  mapper.update({ x: 0.5, y: 0.5 }, -33);
+  mapper.lock();
+  const start = mapper.update({ x: 0.5, y: 0.5 }, 0);
+  let time = 0;
+  for (let index = 0; index < 400; index += 1) {
+    time += 33;
+    const wobble = Math.sin(index) * 0.004;
+    mapper.update({ x: 0.5 + wobble, y: 0.5 - wobble }, time);
   }
-  assert.equal(current.x <= 0.955, true);
-  assert.equal(current.y <= 0.945, true);
+  const end = mapper.update({ x: 0.5, y: 0.5 }, time + 33);
+  assert.equal(Math.abs(end.x - start.x) < 0.03, true);
+  assert.equal(Math.abs(end.y - start.y) < 0.03, true);
 });
 
-test("relative mapper re-anchors after tracking is lost", () => {
-  const mapper = new relativeMapper.RelativeHandMapper({ maxGapMs: 250 });
-  mapper.update({ x: 0.5, y: 0.5 }, 100);
-  const moved = mapper.update({ x: 0.54, y: 0.5 }, 133);
-  const reacquired = mapper.update({ x: 0.1, y: 0.9 }, 1000);
-  assert.equal(reacquired.x, moved.x);
-  assert.equal(reacquired.y, moved.y);
+test("pen mapper expands its box when the player reaches further", () => {
+  const mapper = new penMapper.PenMapper();
+  mapper.update({ x: 0.5, y: 0.5 }, 0);
+  const before = mapper.reach();
+  mapper.update({ x: 0.54, y: 0.5 }, 33);
+  mapper.update({ x: 0.58, y: 0.5 }, 66);
+  mapper.update({ x: 0.62, y: 0.5 }, 99);
+  mapper.update({ x: 0.68, y: 0.5 }, 132);
+  const after = mapper.reach();
+  assert.equal(after.width >= before.width, true);
+});
+
+test("pen mapper rejects single-frame tracking teleports", () => {
+  const mapper = new penMapper.PenMapper({ maxJumpPerFrame: 0.05 });
+  mapper.update({ x: 0.5, y: 0.5 }, 0);
+  const held = mapper.update({ x: 0.52, y: 0.5 }, 33);
+  const spiked = mapper.update({ x: 0.95, y: 0.5 }, 66);
+  assert.equal(Math.abs(spiked.x - held.x) < 0.05, true);
+});
+
+test("pen mapper keeps the cursor inside the canvas margins", () => {
+  const mapper = new penMapper.PenMapper();
+  mapper.update({ x: 0.5, y: 0.5 }, 0);
+  let time = 0;
+  let current = null;
+  for (let index = 0; index < 40; index += 1) {
+    time += 33;
+    current = mapper.update({ x: 0.5 + index * 0.02, y: 0.5 + index * 0.02 }, time);
+  }
+  assert.equal(current.x <= 0.97, true);
+  assert.equal(current.y <= 0.96, true);
+  assert.equal(current.x >= 0.03, true);
+});
+
+test("pen mapper recenter clears the learned reach", () => {
+  const mapper = new penMapper.PenMapper();
+  mapper.update({ x: 0.5, y: 0.5 }, 0);
+  mapper.update({ x: 0.8, y: 0.5 }, 33);
+  mapper.recenter(66);
+  assert.equal(mapper.reach(), null);
+});
+
+test("pen mapper freezes the reference box while the pen is down", () => {
+  const mapper = new penMapper.PenMapper();
+  mapper.update({ x: 0.5, y: 0.5 }, 0);
+  mapper.lock();
+  const before = mapper.reach();
+  for (let index = 1; index <= 8; index += 1) {
+    mapper.update({ x: 0.5 + index * 0.05, y: 0.5 }, index * 33);
+  }
+  const during = mapper.reach();
+  assert.equal(during.width, before.width);
+  mapper.unlock();
+  for (let index = 9; index <= 12; index += 1) {
+    mapper.update({ x: 0.5 + index * 0.05, y: 0.5 }, index * 33);
+  }
+  assert.equal(mapper.reach().width > before.width, true);
 });

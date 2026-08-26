@@ -16,6 +16,7 @@
     "src/lib/vision/gesture.ts",
     "src/lib/vision/player-assignment.ts",
     "src/lib/vision/body-analysis.ts",
+    "src/lib/vision/face-analysis.ts",
     "src/lib/vision/smoothing.ts",
     "src/lib/vision/types.ts"
   ],

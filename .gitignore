@@ -13,3 +13,13 @@ test-results/
 public/models/*.task
 public/mediapipe/wasm/*.wasm
 public/mediapipe/wasm/*.js
+
+# local-only, not served by Next.js
+internal/
+
+# stale backup archives / scratch
+_to_delete/
+_snap2.tgz
+_mlh_snapshot.tgz
+tsconfig.tsbuildinfo
+tsconfig.tsbuildinfo

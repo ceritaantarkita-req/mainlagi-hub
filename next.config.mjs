@@ -20,6 +20,15 @@ const nextConfig = {
         ]
       }
     ];
+  },
+  async redirects() {
+    return [
+      {
+        source: "/papan-skor",
+        destination: "/leaderboards",
+        permanent: true
+      }
+    ];
   }
 };
 

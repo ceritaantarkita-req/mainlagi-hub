@@ -84,21 +84,38 @@ for (let run = 0; run < 5; run += 1) {
 
   let hijaiyahErrors = 0;
   for (const template of HIJAIYAH_TEMPLATES) {
-    const box = bounds(template.body);
+    // Letter bodies are multi-stroke now, and dots are separated by size
+    // relative to the glyph rather than by point count, so the simulated dot
+    // has to be a small square instead of a single point.
+    const flatBody = template.body.flat();
+    const box = bounds(flatBody);
     const dotY =
       template.dotZone === "above"
-        ? Math.max(0.02, box.minY - 0.08)
-        : Math.min(0.98, box.maxY + 0.08);
-    const dots = Array.from({ length: template.dots }, (_, index) => ({
-      id: `dot-${index}`,
-      points: [{ x: 0.42 + index * 0.07, y: dotY }],
-      startedAt: index + 2,
-      endedAt: index + 2
+        ? Math.max(0.02, box.minY - 0.14)
+        : Math.min(0.98, box.maxY + 0.14);
+    const centerX = flatBody.reduce((sum, point) => sum + point.x, 0) / flatBody.length;
+    const dots = Array.from({ length: template.dots }, (_, index) => {
+      const x = centerX + (index - (template.dots - 1) / 2) * 0.11;
+      return {
+        id: `dot-${index}`,
+        points: [
+          { x, y: dotY },
+          { x: x + 0.03, y: dotY },
+          { x: x + 0.03, y: dotY + 0.03 },
+          { x, y: dotY + 0.03 },
+          { x, y: dotY }
+        ],
+        startedAt: index + 2,
+        endedAt: index + 2
+      };
+    });
+    const bodyStrokes = template.body.map((points, index) => ({
+      id: `body-${index}`,
+      points,
+      startedAt: 0,
+      endedAt: 1
     }));
-    const result = evaluateHijaiyah(
-      [{ id: "body", points: template.body, startedAt: 0, endedAt: 1 }, ...dots],
-      template
-    );
+    const result = evaluateHijaiyah([...bodyStrokes, ...dots], template);
     if (!result.accepted) hijaiyahErrors += 1;
   }
 

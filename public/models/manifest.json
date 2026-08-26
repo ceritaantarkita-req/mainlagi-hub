@@ -1,0 +1,7 @@
+{
+  "models": [
+    "hand_landmarker.task",
+    "pose_landmarker_lite.task",
+    "face_landmarker.task"
+  ]
+}

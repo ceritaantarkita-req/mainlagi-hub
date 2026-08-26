@@ -1,4 +1,4 @@
-# Architecture — Mainlagi TV Motion Learning Hub V2
+# Architecture — Mainlagi Hub Motion Learning Hub V2
 
 ## Layer
 

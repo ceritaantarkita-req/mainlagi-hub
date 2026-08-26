@@ -8,7 +8,7 @@
       "countdowns": 100,
       "noisyDigitSamples": 200,
       "shapeTemplates": 5,
-      "hijaiyahTemplates": 14,
+      "hijaiyahTemplates": 29,
       "bodyActions": [
         "left",
         "right",
@@ -26,7 +26,7 @@
       "countdowns": 100,
       "noisyDigitSamples": 200,
       "shapeTemplates": 5,
-      "hijaiyahTemplates": 14,
+      "hijaiyahTemplates": 29,
       "bodyActions": [
         "left",
         "right",
@@ -44,7 +44,7 @@
       "countdowns": 100,
       "noisyDigitSamples": 200,
       "shapeTemplates": 5,
-      "hijaiyahTemplates": 14,
+      "hijaiyahTemplates": 29,
       "bodyActions": [
         "left",
         "right",
@@ -62,7 +62,7 @@
       "countdowns": 100,
       "noisyDigitSamples": 200,
       "shapeTemplates": 5,
-      "hijaiyahTemplates": 14,
+      "hijaiyahTemplates": 29,
       "bodyActions": [
         "left",
         "right",
@@ -80,7 +80,7 @@
       "countdowns": 100,
       "noisyDigitSamples": 200,
       "shapeTemplates": 5,
-      "hijaiyahTemplates": 14,
+      "hijaiyahTemplates": 29,
       "bodyActions": [
         "left",
         "right",

@@ -2,7 +2,7 @@
   "name": "motion-learning-hub-mainlagitv-v2",
   "version": "2.0.2",
   "private": true,
-  "description": "Mainlagi TV Motion Learning Hub V2: nine internal hand and body motion experiences.",
+  "description": "Mainlagi Hub Motion Learning Hub V2: nine internal hand and body motion experiences.",
   "engines": {
     "node": ">=20.9.0"
   },
@@ -24,10 +24,20 @@
     "check:portable": "npm run validate:structure && npm run audit:source && npm run typecheck:portable && npm run test:engine && npm run simulate && npm run preview:build",
     "check": "npm run validate:structure && npm run audit:source && npm run typecheck && npm run lint && npm run test:engine && npm run simulate && npm run build",
     "postinstall": "node scripts/setup-mediapipe-assets.mjs",
-    "audit:source": "node scripts/audit-source.mjs"
+    "audit:source": "node scripts/audit-source.mjs",
+    "cap:sync": "npm run build && cap sync",
+    "cap:add:android": "cap add android",
+    "cap:add:ios": "cap add ios",
+    "cap:open:android": "cap open android",
+    "cap:open:ios": "cap open ios"
   },
   "dependencies": {
+    "@capacitor/cli": "^7.6.8",
+    "@capacitor/core": "^7.6.8",
+    "@fontsource-variable/noto-sans": "^5.3.0",
     "@mediapipe/tasks-vision": "0.10.35",
+    "@supabase/ssr": "^0.12.4",
+    "@supabase/supabase-js": "^2.112.3",
     "next": "16.2.12",
     "react": "19.2.8",
     "react-dom": "19.2.8"
@@ -38,6 +48,7 @@
     "@types/react-dom": "^19.2.0",
     "eslint": "^9.0.0",
     "eslint-config-next": "16.2.12",
+    "playwright": "^1.62.1",
     "typescript": "^6.0.3"
   },
   "overrides": {

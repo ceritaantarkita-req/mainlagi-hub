@@ -7,6 +7,7 @@ export default defineConfig([
   ...nextTs,
   globalIgnores([
     ".next/**",
+    ".qa-dist/**",
     "coverage/**",
     "qa/**",
     "preview/**",

@@ -1,4 +1,4 @@
-# QA Report — Mainlagi TV Motion Learning Hub V2
+# QA Report — Mainlagi Hub Motion Learning Hub V2
 
 Tanggal: 5 Agustus 2026  
 Scope: source package di ZIP, pure engine, portable TypeScript, structure/security audit, generated visual preview, dan simulation invariants.

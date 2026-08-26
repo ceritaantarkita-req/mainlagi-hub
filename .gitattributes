@@ -1,0 +1,21 @@
+# Normalize all text to LF in the repository.
+#
+# Without this, working on Windows rewrites every file's line endings and git
+# reports whole-file changes: on 2026-08-16 the working tree showed 46 files
+# "modified" with 14,506 insertions and 14,506 deletions - identical counts,
+# because nothing had actually changed. Run `git add --renormalize .` once
+# after restoring this file to clear that noise.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.task binary
+*.wasm binary
+*.pdf binary
+
+*.ps1 text eol=crlf
+*.bat text eol=crlf

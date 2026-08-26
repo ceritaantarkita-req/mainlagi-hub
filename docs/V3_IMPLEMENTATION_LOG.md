@@ -1,4 +1,4 @@
-# Mainlagi TV V3 — Implementation Log
+# Mainlagi Hub V3 — Implementation Log
 
 **Branch:** `feature/mainlagitv-motion-engine-v3`  
 **Draft PR:** #2  
