@@ -30,7 +30,7 @@ export default function AuthCallbackPage() {
   return (
     <main className="center-page">
       <section className="dialog-card">
-        <h1>Login Mainlagi TV</h1>
+        <h1>Login Mainlagi Hub</h1>
         <p>{message}</p>
         <Link className="button button--primary" href="/">
           Kembali
