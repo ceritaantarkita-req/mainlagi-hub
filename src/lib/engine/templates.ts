@@ -1,5 +1,16 @@
 import type { Point } from "./types";
-function line(points: Array<[number, number]>): Point[] { return points.map(([x, y]) => ({ x, y })); }
+
+function line(points: Array<[number, number]>): Point[] {
+  return points.map(([x, y]) => ({ x, y }));
+}
+
+/**
+ * Canonical single-stroke tracing paths.
+ *
+ * These are the guide rails drawn in Number Trace, where the child follows one
+ * continuous line. Recognition uses {@link DIGIT_VARIANTS} instead, because a
+ * single idealized path cannot represent how people actually write.
+ */
 export const DIGIT_TEMPLATES: Record<number, Point[][]> = {
   0: [line([[.55,.08],[.32,.1],[.17,.28],[.12,.55],[.2,.82],[.42,.94],[.67,.88],[.82,.65],[.83,.35],[.7,.13],[.55,.08]])],
   1: [line([[.35,.25],[.52,.08],[.52,.92],[.32,.92],[.72,.92]])],
@@ -12,6 +23,146 @@ export const DIGIT_TEMPLATES: Record<number, Point[][]> = {
   8: [line([[.5,.49],[.28,.36],[.25,.16],[.45,.06],[.69,.13],[.72,.33],[.5,.49],[.29,.61],[.23,.82],[.43,.95],[.69,.88],[.76,.68],[.5,.49]])],
   9: [line([[.76,.48],[.54,.56],[.3,.48],[.2,.27],[.32,.1],[.58,.06],[.78,.22],[.79,.52],[.69,.78],[.46,.94],[.27,.91]])]
 };
+
+export interface DigitVariant {
+  /** Human-readable description, used in test output. */
+  label: string;
+  /** One entry per pen-down. Pen-ups are meaningful and never bridged. */
+  strokes: Point[][];
+}
+
+/**
+ * Handwriting variants used for recognition.
+ *
+ * Real handwriting - especially a five-year-old's - varies far more than one
+ * idealized outline. Each digit carries the shapes people actually produce:
+ * open and closed fours, sevens with and without a crossbar, nines with a
+ * straight or curled tail, ones with and without a serif.
+ */
+export const DIGIT_VARIANTS: Record<number, DigitVariant[]> = {
+  0: [
+    {
+      label: "0 oval",
+      strokes: [line([[.55,.08],[.32,.1],[.17,.28],[.12,.55],[.2,.82],[.42,.94],[.67,.88],[.82,.65],[.83,.35],[.7,.13],[.55,.08]])]
+    },
+    {
+      label: "0 narrow",
+      strokes: [line([[.5,.05],[.3,.14],[.24,.4],[.24,.66],[.34,.9],[.52,.97],[.7,.88],[.77,.62],[.76,.34],[.66,.12],[.5,.05]])]
+    },
+    {
+      label: "0 round",
+      strokes: [line([[.5,.06],[.24,.16],[.12,.42],[.16,.72],[.38,.93],[.66,.93],[.85,.72],[.88,.42],[.74,.16],[.5,.06]])]
+    }
+  ],
+  1: [
+    { label: "1 bare", strokes: [line([[.5,.06],[.5,.94]])] },
+    {
+      label: "1 serif",
+      strokes: [line([[.33,.24],[.52,.07],[.52,.94]])]
+    },
+    {
+      label: "1 serif and base",
+      strokes: [line([[.34,.26],[.53,.07],[.53,.9]]), line([[.3,.94],[.76,.94]])]
+    }
+  ],
+  2: [
+    {
+      label: "2 standard",
+      strokes: [line([[.18,.28],[.3,.1],[.56,.06],[.79,.18],[.82,.37],[.67,.53],[.45,.65],[.22,.82],[.15,.93],[.84,.93]])]
+    },
+    {
+      label: "2 round top",
+      strokes: [line([[.16,.24],[.36,.06],[.64,.08],[.8,.26],[.72,.46],[.46,.66],[.18,.9],[.84,.9]])]
+    }
+  ],
+  3: [
+    {
+      label: "3 standard",
+      strokes: [line([[.18,.16],[.42,.06],[.7,.12],[.82,.3],[.71,.47],[.48,.51],[.72,.57],[.84,.75],[.73,.91],[.43,.96],[.17,.85]])]
+    },
+    {
+      label: "3 flat top",
+      strokes: [line([[.2,.08],[.74,.08],[.48,.46],[.72,.52],[.82,.72],[.7,.92],[.4,.96],[.18,.86]])]
+    }
+  ],
+  4: [
+    {
+      label: "4 open, two strokes",
+      strokes: [line([[.62,.06],[.16,.66],[.86,.66]]), line([[.66,.28],[.66,.95]])]
+    },
+    {
+      label: "4 closed, one stroke",
+      strokes: [line([[.68,.94],[.68,.07],[.17,.65],[.85,.65]])]
+    },
+    {
+      label: "4 triangular",
+      strokes: [line([[.64,.07],[.18,.68],[.88,.68]]), line([[.64,.07],[.64,.94]])]
+    }
+  ],
+  5: [
+    {
+      label: "5 two strokes",
+      strokes: [line([[.24,.08],[.2,.46],[.5,.4],[.74,.52],[.8,.74],[.66,.92],[.36,.95],[.18,.84]]), line([[.24,.08],[.8,.07]])]
+    },
+    {
+      label: "5 one stroke",
+      strokes: [line([[.82,.08],[.25,.08],[.2,.48],[.48,.43],[.73,.53],[.82,.72],[.72,.9],[.43,.96],[.18,.83]])]
+    }
+  ],
+  6: [
+    {
+      label: "6 standard",
+      strokes: [line([[.72,.1],[.48,.08],[.28,.25],[.18,.51],[.22,.79],[.43,.94],[.7,.9],[.82,.7],[.72,.51],[.48,.43],[.25,.53]])]
+    },
+    {
+      label: "6 straight entry",
+      strokes: [line([[.74,.06],[.4,.34],[.22,.62],[.28,.86],[.52,.96],[.74,.86],[.78,.66],[.6,.54],[.34,.58],[.22,.72]])]
+    },
+    {
+      label: "6 wide loop",
+      strokes: [line([[.7,.08],[.42,.16],[.24,.44],[.2,.72],[.4,.94],[.68,.92],[.82,.72],[.7,.54],[.42,.5],[.22,.62]])]
+    }
+  ],
+  7: [
+    {
+      label: "7 plain",
+      strokes: [line([[.14,.1],[.84,.1],[.62,.38],[.48,.65],[.42,.94]])]
+    },
+    {
+      label: "7 crossbar",
+      strokes: [line([[.14,.1],[.84,.1],[.62,.38],[.46,.66],[.4,.94]]), line([[.28,.54],[.68,.5]])]
+    },
+    {
+      label: "7 straight leg",
+      strokes: [line([[.16,.08],[.82,.08],[.44,.94]])]
+    }
+  ],
+  8: [
+    {
+      label: "8 crossed",
+      strokes: [line([[.5,.49],[.28,.36],[.25,.16],[.45,.06],[.69,.13],[.72,.33],[.5,.49],[.29,.61],[.23,.82],[.43,.95],[.69,.88],[.76,.68],[.5,.49]])]
+    },
+    {
+      label: "8 two loops",
+      strokes: [line([[.5,.48],[.3,.38],[.3,.16],[.5,.06],[.7,.16],[.7,.38],[.5,.48]]), line([[.5,.48],[.26,.6],[.24,.84],[.5,.96],[.76,.84],[.74,.6],[.5,.48]])]
+    }
+  ],
+  9: [
+    {
+      label: "9 standard",
+      strokes: [line([[.76,.48],[.54,.56],[.3,.48],[.2,.27],[.32,.1],[.58,.06],[.78,.22],[.79,.52],[.69,.78],[.46,.94],[.27,.91]])]
+    },
+    {
+      label: "9 straight tail",
+      strokes: [line([[.74,.4],[.5,.5],[.28,.4],[.24,.2],[.46,.06],[.7,.14],[.76,.34],[.74,.94]])]
+    },
+    {
+      label: "9 small head",
+      strokes: [line([[.72,.34],[.52,.44],[.34,.34],[.34,.14],[.54,.06],[.72,.16],[.74,.36],[.66,.68],[.5,.94]])]
+    }
+  ]
+};
+
 export const SHAPE_TEMPLATES = {
   circle: line([[.5,.08],[.28,.12],[.12,.3],[.08,.54],[.18,.78],[.4,.92],[.65,.89],[.85,.72],[.92,.47],[.84,.24],[.65,.1],[.5,.08]]),
   triangle: line([[.5,.08],[.1,.9],[.9,.9],[.5,.08]]),

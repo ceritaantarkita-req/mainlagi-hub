@@ -15,5 +15,14 @@ export function normalizePath(points: readonly Point[], count = 64): Point[] {
 }
 export function pathDistance(a: readonly Point[], b: readonly Point[]): number { if (!a.length || a.length !== b.length) return Number.POSITIVE_INFINITY; return a.reduce((total, point, index) => total + distance(point, b[index]!), 0) / a.length; }
 export function mirrorPath(points: readonly Point[]): Point[] { return points.map((point) => ({ ...point, x: 1 - point.x })); }
-export function scorePath(input: readonly Point[], target: readonly Point[]): number { if (input.length < 2 || target.length < 2) return 0; const a = normalizePath(input); const b = normalizePath(target); const best = Math.min(pathDistance(a, b), pathDistance(a, [...b].reverse()), pathDistance(normalizePath(mirrorPath(input)), b)); return Math.max(0, Math.min(100, Math.round((1 - best / 0.38) * 100))); }
+/**
+ * Similarity of two paths, 0..100.
+ *
+ * Mirror matching used to be part of this comparison. It has been removed:
+ * for Arabic script, direction *is* identity - reflecting the input makes
+ * dal/ra and dzal/zai overlap - and for digits it made 6 and 9 the same shape.
+ * Drawing a path backwards is still accepted, because stroke direction varies
+ * legitimately between writers.
+ */
+export function scorePath(input: readonly Point[], target: readonly Point[]): number { if (input.length < 2 || target.length < 2) return 0; const a = normalizePath(input); const b = normalizePath(target); const best = Math.min(pathDistance(a, b), pathDistance(a, [...b].reverse())); return Math.max(0, Math.min(100, Math.round((1 - best / 0.38) * 100))); }
 export function bounds(points: readonly Point[]) { if (!points.length) return { minX: 0, minY: 0, maxX: 0, maxY: 0, width: 0, height: 0 }; const xs = points.map((point) => point.x); const ys = points.map((point) => point.y); const minX = Math.min(...xs); const maxX = Math.max(...xs); const minY = Math.min(...ys); const maxY = Math.max(...ys); return { minX, minY, maxX, maxY, width: maxX - minX, height: maxY - minY }; }
