@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { AirCursor } from "@/components/AirCursor";
 import { MotionPad } from "@/components/MotionPad";
 import { classifyDigit, verifyExpectedDigit } from "@/lib/engine/digit";
@@ -10,6 +10,7 @@ import {
   CameraBackdrop,
   FeedbackToast,
   GameHud,
+  usePresence,
   RoundEndOverlay,
   useRoundTimer
 } from "./shared";
@@ -52,7 +53,11 @@ export function MathWarungGame(props: GameModuleProps) {
   );
   const [tone, setTone] = useState<"neutral" | "good" | "bad">("neutral");
   const [focusedAirTarget, setFocusedAirTarget] = useState<string | null>(null);
-  const timer = useRoundTimer(90);
+  const present = usePresence(props.vision, props.inputMode);
+  const timer = useRoundTimer(90, {
+    mode: props.sessionMode,
+    presence: present
+  });
   const total = PRODUCTS.reduce(
     (sum, product) => sum + product.price * (basket[product.id] ?? 0),
     0
@@ -61,14 +66,6 @@ export function MathWarungGame(props: GameModuleProps) {
   const change = paid - total;
   const expected = step === "total" ? total : change;
   const answer = String(expected);
-  const hands = useMemo(
-    () => ({
-      A: props.snapshot.hands.find((hand) => hand.player === "A"),
-      B: props.snapshot.hands.find((hand) => hand.player === "B")
-    }),
-    [props.snapshot.hands]
-  );
-
   const adjust = useCallback((id: string, delta: number) => {
     setBasket((current) => ({
       ...current,
@@ -199,16 +196,17 @@ export function MathWarungGame(props: GameModuleProps) {
   return (
     <CameraBackdrop
       inputMode={props.inputMode}
-      bindVideo={props.bindVideo}
-      snapshot={props.snapshot}
+      vision={props.vision}
     >
       <GameHud
         title="Math Warung"
         remaining={timer.remaining}
+        timed={timer.timed}
         score={score}
         playerCount={props.playerCount}
         paused={timer.paused}
-        onTogglePause={timer.toggle}
+        awayPaused={timer.awayPaused}
+        onTogglePause={timer.timed ? timer.toggle : undefined}
       />
 
       <div className="warung-layout">
@@ -334,18 +332,16 @@ export function MathWarungGame(props: GameModuleProps) {
               className={`warung-pads ${props.playerCount === 1 ? "is-single" : ""}`}
             >
               <MotionPad
+                vision={props.vision}
                 player="A"
-                playerCount={props.playerCount}
-                hand={hands.A}
                 enabled={timer.running}
                 label="Tulis angka"
                 onSubmit={(strokes) => submitDigit("A", strokes)}
               />
               {props.playerCount === 2 ? (
                 <MotionPad
+                  vision={props.vision}
                   player="B"
-                  playerCount={props.playerCount}
-                  hand={hands.B}
                   enabled={timer.running}
                   label="Tulis angka"
                   onSubmit={(strokes) => submitDigit("B", strokes)}
@@ -357,7 +353,7 @@ export function MathWarungGame(props: GameModuleProps) {
       </div>
 
       <AirCursor
-        hand={hands.A}
+        vision={props.vision}
         enabled={airCursorEnabled}
         magneticRadiusPx={112}
         dwellMs={900}
@@ -373,6 +369,7 @@ export function MathWarungGame(props: GameModuleProps) {
           playerCount={props.playerCount}
           onReplay={props.onReplay}
           onCalibration={props.onExit}
+          game={props.game.slug}
         />
       ) : null}
     </CameraBackdrop>

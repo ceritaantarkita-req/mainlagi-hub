@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MotionPad } from "@/components/MotionPad";
 import { DIGIT_TEMPLATES } from "@/lib/engine/templates";
 import type { Stroke } from "@/lib/engine/types";
@@ -10,6 +10,7 @@ import {
   CameraBackdrop,
   FeedbackToast,
   GameHud,
+  usePresence,
   RoundEndOverlay,
   useRoundTimer
 } from "./shared";
@@ -23,11 +24,11 @@ export function NumberTraceGame(props: GameModuleProps) {
   );
   const [tone, setTone] = useState<"neutral" | "good" | "bad">("neutral");
   const nextDigitTimerRef = useRef<number | null>(null);
-  const timer = useRoundTimer(60);
-  const hand = useMemo(
-    () => props.snapshot.hands.find((item) => item.player === "A"),
-    [props.snapshot.hands]
-  );
+  const present = usePresence(props.vision, props.inputMode);
+  const timer = useRoundTimer(60, {
+    mode: props.sessionMode,
+    presence: present
+  });
   const target = DIGIT_TEMPLATES[digit]?.[0] ?? [];
 
   useEffect(
@@ -84,16 +85,17 @@ export function NumberTraceGame(props: GameModuleProps) {
   return (
     <CameraBackdrop
       inputMode={props.inputMode}
-      bindVideo={props.bindVideo}
-      snapshot={props.snapshot}
+      vision={props.vision}
     >
       <GameHud
         title="Number Trace Adventure"
         remaining={timer.remaining}
+        timed={timer.timed}
         score={score}
         playerCount={1}
         paused={timer.paused}
-        onTogglePause={timer.toggle}
+        awayPaused={timer.awayPaused}
+        onTogglePause={timer.timed ? timer.toggle : undefined}
       />
       <div className="trace-layout">
         <aside className="trace-sidebar">
@@ -116,9 +118,8 @@ export function NumberTraceGame(props: GameModuleProps) {
           </div>
         </aside>
         <MotionPad
+          vision={props.vision}
           player="A"
-          playerCount={1}
-          hand={hand}
           enabled={timer.running}
           target={target}
           label="Area tracing"
@@ -133,6 +134,7 @@ export function NumberTraceGame(props: GameModuleProps) {
           playerCount={1}
           onReplay={props.onReplay}
           onCalibration={props.onExit}
+          game={props.game.slug}
         />
       ) : null}
     </CameraBackdrop>

@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { MotionPad } from "@/components/MotionPad";
-import { classifyDigit, verifyExpectedDigit } from "@/lib/engine/digit";
+import { playTone, speak } from "@/lib/audio/feedback";
+
 import {
   createMathQuestion,
   createPatternQuestion,
@@ -10,213 +11,227 @@ import {
   type MathQuestion,
   type PatternQuestion
 } from "@/lib/engine/math";
-import { createRandom } from "@/lib/engine/random";
-import type { PlayerId, Stroke } from "@/lib/engine/types";
+import { createRandom, type RandomSource } from "@/lib/engine/random";
+import type { PlayerId } from "@/lib/engine/types";
 import type { GameModuleProps } from "./types";
 import {
   CameraBackdrop,
   FeedbackToast,
   GameHud,
   RoundEndOverlay,
+  StarRow,
+  usePresence,
   useRoundTimer
 } from "./shared";
 import { useProgressSync } from "@/lib/auth/progress";
 
-function seedFor(kind: "math" | "pattern"): number {
-  return kind === "math" ? 0x51aa : 0x91bb;
-}
+type Question = MathQuestion | PatternQuestion;
 
-function initialQuestion(
-  kind: "math" | "pattern"
-): MathQuestion | PatternQuestion {
-  const random = createRandom(seedFor(kind));
+const LEVEL_LABELS: Record<Level, string> = {
+  tk: "TK",
+  sd1: "SD 1",
+  sd2: "SD 2"
+};
+
+function makeQuestion(
+  kind: "math" | "pattern",
+  random: RandomSource,
+  level: Level,
+  id: string
+): Question {
   return kind === "math"
-    ? createMathQuestion(random, "tk", undefined, "q-1")
-    : createPatternQuestion(random, "tk", "p-1");
+    ? createMathQuestion(random, level, undefined, id)
+    : createPatternQuestion(random, level, id);
 }
 
 export function DigitRace({
   kind,
   ...props
 }: GameModuleProps & { kind: "math" | "pattern" }) {
-  const [random] = useState(() => createRandom(seedFor(kind)));
-  const sequenceRef = useRef(1);
-  const timeoutRef = useRef<number | null>(null);
-  const [level, setLevel] = useState<Level>("tk");
-  const [question, setQuestion] = useState<MathQuestion | PatternQuestion>(() =>
-    initialQuestion(kind)
+  /**
+   * The seed was hard-coded before, so every session produced the identical
+   * question sequence. A child memorises that in an afternoon.
+   */
+  const [random] = useState<RandomSource>(() =>
+    createRandom(Math.floor(Math.random() * 0x7fffffff) + 1)
   );
+  const sequenceRef = useRef(0);
+  const timeoutsRef = useRef<Record<PlayerId, number | null>>({
+    A: null,
+    B: null
+  });
+
+  const nextQuestion = useCallback(
+    (player: PlayerId, level: Level): Question => {
+      sequenceRef.current += 1;
+      return makeQuestion(
+        kind,
+        random,
+        level,
+        `${kind === "math" ? "q" : "p"}-${player}-${sequenceRef.current}`
+      );
+    },
+    [kind, random]
+  );
+
+  /**
+   * Every player gets their own question at their own level. Previously both
+   * players raced on one shared question at one shared level, which meant a
+   * five-year-old and their thirty-six-year-old parent were given identical
+   * arithmetic - a race the child could never win.
+   */
+  const [questions, setQuestions] = useState<Record<PlayerId, Question>>(() => ({
+    A: makeQuestion(kind, random, props.playerLevels.A, "q-A-0"),
+    B: makeQuestion(kind, random, props.playerLevels.B, "q-B-0")
+  }));
   const [score, setScore] = useState<Record<PlayerId, number>>({ A: 0, B: 0 });
-  const [digits, setDigits] = useState<Record<PlayerId, string>>({ A: "", B: "" });
+  const [stars, setStars] = useState<Record<PlayerId, number>>({ A: 0, B: 0 });
   const [feedback, setFeedback] = useState<{
     message: string;
     tone: "neutral" | "good" | "bad";
   }>({
-    message: "Tulis digit pertama, lalu kirim setiap digit.",
+    message: "Tulis satu angka. Nanti muncul angka bersihnya untuk kamu setujui.",
     tone: "neutral"
   });
-  const timer = useRoundTimer(60);
-  const lockedRef = useRef(false);
-  const hands = useMemo(
-    () => ({
-      A: props.snapshot.hands.find((hand) => hand.player === "A"),
-      B: props.snapshot.hands.find((hand) => hand.player === "B")
-    }),
-    [props.snapshot.hands]
-  );
+
+  const present = usePresence(props.vision, props.inputMode);
+  const timer = useRoundTimer(90, { mode: props.sessionMode, presence: present });
 
   useEffect(
     () => () => {
-      if (timeoutRef.current !== null) window.clearTimeout(timeoutRef.current);
+      for (const handle of Object.values(timeoutsRef.current)) {
+        if (handle !== null) window.clearTimeout(handle);
+      }
     },
     []
   );
 
-  const makeQuestion = (nextLevel: Level = level) => {
-    sequenceRef.current += 1;
-    const id = `${kind === "math" ? "q" : "p"}-${sequenceRef.current}`;
-    return kind === "math"
-      ? createMathQuestion(random, nextLevel, undefined, id)
-      : createPatternQuestion(random, nextLevel, id);
-  };
-
   useProgressSync(props.game.slug, Math.max(score.A, score.B));
 
-  const answer = String(question.answer);
-  const submit = (player: PlayerId, strokes: Stroke[]) => {
-    if (!timer.running || lockedRef.current) return;
+  /**
+   * The pad now hands over a *confirmed* number rather than raw strokes: the
+   * player has already seen each digit rendered back as a clean numeral and
+   * accepted it. So the only judgement left here is arithmetic, not
+   * handwriting - which is the right division of labour, and it is what makes
+   * two-digit answers workable at all.
+   */
+  const answer = (player: PlayerId, value: number) => {
+    if (!timer.running) return;
 
-    const index = digits[player].length;
-    const expected = Number(answer[index]);
-    const expectedResult = verifyExpectedDigit(strokes, expected);
-    const classified = classifyDigit(strokes);
+    const question = questions[player];
 
-    if (!expectedResult.accepted) {
-      if (
-        classified.accepted &&
-        classified.value !== expected &&
-        classified.confidence >= 0.62
-      ) {
-        setScore((current) => ({
-          ...current,
-          [player]: Math.max(0, current[player] - 5)
-        }));
-        setDigits((current) => ({ ...current, [player]: "" }));
-        setFeedback({
-          message: `Player ${player}: terbaca ${classified.value}, jawaban belum tepat.`,
-          tone: "bad"
-        });
-      } else {
-        timer.addSeconds(1);
-        setFeedback({
-          message: `Player ${player}: belum terbaca jelas. Coba lebih besar — waktu +1 detik.`,
-          tone: "neutral"
-        });
-      }
-      return;
-    }
-
-    const nextDigits = `${digits[player]}${expected}`;
-    setDigits((current) => ({ ...current, [player]: nextDigits }));
-
-    if (nextDigits.length < answer.length) {
+    if (value !== question.answer) {
+      // No score penalty. Getting a sum wrong is part of learning, and the
+      // handwriting is no longer in question.
+      playTone("wrong");
       setFeedback({
-        message: `Digit ${expected} terbaca. Lanjutkan digit berikutnya.`,
-        tone: "good"
+        message: `Pemain ${player}: ${value} belum tepat. Coba lagi ya.`,
+        tone: "bad"
       });
       return;
     }
 
-    if (Number(nextDigits) === question.answer) {
-      lockedRef.current = true;
-      setScore((current) => ({
+    playTone("correct");
+    speak(`Benar. ${question.answer}`);
+    const bonus = timer.timed ? Math.max(0, Math.round(timer.remaining / 2)) : 0;
+    setScore((current) => ({ ...current, [player]: current[player] + 100 + bonus }));
+    setStars((current) => ({
+      ...current,
+      [player]: Math.min(5, current[player] + 1)
+    }));
+    setFeedback({
+      message: `Pemain ${player} benar: ${question.answer}!`,
+      tone: "good"
+    });
+
+    // Only this player's board advances. The other player's half-written
+    // answer used to be wiped whenever their opponent scored.
+    const handle = window.setTimeout(() => {
+      setQuestions((current) => ({
         ...current,
-        [player]: current[player] + 100 + timer.remaining
+        [player]: nextQuestion(player, props.playerLevels[player])
       }));
-      setFeedback({
-        message: `Player ${player} benar: ${question.answer}!`,
-        tone: "good"
-      });
-      timeoutRef.current = window.setTimeout(() => {
-        setDigits({ A: "", B: "" });
-        setQuestion(makeQuestion());
-        lockedRef.current = false;
-        setFeedback({ message: "Soal berikutnya.", tone: "neutral" });
-      }, 850);
-    }
+      timeoutsRef.current[player] = null;
+    }, 700);
+    timeoutsRef.current[player] = handle;
   };
 
-  const selectLevel = (nextLevel: Level) => {
-    if (timeoutRef.current !== null) {
-      window.clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
-    lockedRef.current = false;
-    setLevel(nextLevel);
-    setQuestion(makeQuestion(nextLevel));
-    setDigits({ A: "", B: "" });
+  const selectLevel = (player: PlayerId, level: Level) => {
+    props.setPlayerLevel(player, level);
+    setQuestions((current) => ({
+      ...current,
+      [player]: nextQuestion(player, level)
+    }));
+  };
+
+  const renderBoard = (player: PlayerId) => {
+    const question = questions[player];
+    const answerLength = String(Math.abs(question.answer)).length;
+
+    return (
+      <div className="pad-column" key={player}>
+        <div className="question-card" data-player={player}>
+          <div className="level-switch" role="group" aria-label="Tingkat soal">
+            {(["tk", "sd1", "sd2"] as Level[]).map((item) => (
+              <button
+                key={item}
+                type="button"
+                className={props.playerLevels[player] === item ? "is-active" : ""}
+                data-air-target={`level-${player}-${item}`}
+                onClick={() => selectLevel(player, item)}
+              >
+                {LEVEL_LABELS[item]}
+              </button>
+            ))}
+          </div>
+          <small>{kind === "math" ? "HITUNG" : "LANJUTKAN POLA"}</small>
+          <strong>{question.prompt}</strong>
+          <span>
+            {answerLength === 1
+              ? "Tulis 1 angka"
+              : `Tulis ${answerLength} angka, satu per satu`}
+          </span>
+          <StarRow stars={stars[player]} />
+        </div>
+        <MotionPad
+          vision={props.vision}
+          player={player}
+          enabled={timer.running}
+          label={player === "A" ? "Pemain A" : "Pemain B"}
+          compose={{
+            length: answerLength,
+            onAnswer: (value) => answer(player, value)
+          }}
+        />
+      </div>
+    );
   };
 
   return (
     <CameraBackdrop
       inputMode={props.inputMode}
-      bindVideo={props.bindVideo}
-      snapshot={props.snapshot}
+      vision={props.vision}
     >
       <GameHud
         title={kind === "math" ? "Math Motion Battle" : "Pattern Race"}
         remaining={timer.remaining}
+        timed={timer.timed}
         score={score}
         playerCount={props.playerCount}
         paused={timer.paused}
-        onTogglePause={timer.toggle}
+        awayPaused={timer.awayPaused}
+        onTogglePause={timer.timed ? timer.toggle : undefined}
       />
-      <div className="question-ribbon">
-        <div className="level-switch">
-          {(["tk", "sd1", "sd2"] as Level[]).map((item) => (
-            <button
-              key={item}
-              className={level === item ? "is-active" : ""}
-              onClick={() => selectLevel(item)}
-            >
-              {item.toUpperCase()}
-            </button>
-          ))}
-        </div>
-        <small>{kind === "math" ? "HITUNG" : "LANJUTKAN POLA"}</small>
-        <strong>{question.prompt}</strong>
-        <span>Jawaban {answer.length} digit</span>
-      </div>
       <div
         className={`motion-pad-grid ${props.playerCount === 1 ? "is-single" : ""}`}
       >
-        <div>
-          <div className="digit-preview">{digits.A || "?"}</div>
-          <MotionPad
-            player="A"
-            playerCount={props.playerCount}
-            hand={hands.A}
-            enabled={timer.running}
-            onSubmit={(strokes) => submit("A", strokes)}
-          />
-        </div>
-        {props.playerCount === 2 ? (
-          <div>
-            <div className="digit-preview is-b">{digits.B || "?"}</div>
-            <MotionPad
-              player="B"
-              playerCount={props.playerCount}
-              hand={hands.B}
-              enabled={timer.running}
-              onSubmit={(strokes) => submit("B", strokes)}
-            />
-          </div>
-        ) : null}
+        {renderBoard("A")}
+        {props.playerCount === 2 ? renderBoard("B") : null}
       </div>
       <FeedbackToast
         message={
-          timer.remaining <= 0
-            ? "Waktu habis. Kalibrasi ulang atau keluar untuk memulai ronde baru."
+          timer.ended
+            ? "Waktu habis. Main lagi atau kalibrasi ulang."
             : feedback.message
         }
         tone={feedback.tone}
@@ -227,6 +242,7 @@ export function DigitRace({
           playerCount={props.playerCount}
           onReplay={props.onReplay}
           onCalibration={props.onExit}
+          game={props.game.slug}
         />
       ) : null}
     </CameraBackdrop>

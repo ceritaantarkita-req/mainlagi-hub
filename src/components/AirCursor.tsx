@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/set-state-in-effect -- cursor state follows external camera landmarks */
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -7,11 +6,15 @@ import {
   pickMagneticTarget,
   type AirTargetRect
 } from "@/lib/interaction/air-target";
-import type { TrackedHand } from "@/lib/vision/types";
+import type { PlayerId } from "@/lib/engine/types";
+import { useLatest } from "@/lib/react/useLatest";
+import type { VisionRuntime } from "@/lib/vision/types";
+import { findPrimaryHand, useVisionFrame } from "@/lib/vision/useVisionSelector";
 import styles from "./AirCursor.module.css";
 
 interface AirCursorProps {
-  hand?: TrackedHand;
+  vision: VisionRuntime;
+  player?: PlayerId;
   enabled: boolean;
   targetSelector?: string;
   magneticRadiusPx?: number;
@@ -19,21 +22,6 @@ interface AirCursorProps {
   label?: string;
   onFocusChange?(targetId: string | null): void;
   onSelect(targetId: string): void;
-}
-
-interface CursorView {
-  x: number;
-  y: number;
-  focusedId: string | null;
-  progress: number;
-}
-
-function canDwell(hand: TrackedHand): boolean {
-  return (
-    hand.gesture !== "pinch" &&
-    hand.gesture !== "fist" &&
-    hand.gesture !== "thumbs-up"
-  );
 }
 
 function visibleTargets(selector: string): AirTargetRect[] {
@@ -62,8 +50,19 @@ function visibleTargets(selector: string): AirTargetRect[] {
     );
 }
 
+/**
+ * Touchless pointer.
+ *
+ * Position and dwell progress are written straight to the DOM node from the
+ * frame subscription. The previous version kept them in React state and set
+ * that state from an effect keyed on the hand object, which changes identity
+ * on every frame - so the component re-rendered continuously and, with the
+ * rest of the tree doing the same, tripped React's update-depth guard.
+ * Only focus changes, which happen a few times a minute, go through state.
+ */
 export function AirCursor({
-  hand,
+  vision,
+  player = "A",
   enabled,
   targetSelector = "[data-air-target]",
   magneticRadiusPx = 104,
@@ -72,21 +71,38 @@ export function AirCursor({
   onFocusChange,
   onSelect
 }: AirCursorProps) {
-  const [view, setView] = useState<CursorView | null>(null);
+  const nodeRef = useRef<HTMLDivElement | null>(null);
   const dwellRef = useRef(new DwellSelector(dwellMs));
   const lastFocusedRef = useRef<string | null>(null);
+  const enabledRef = useLatest(enabled);
+  const selectorRef = useLatest(targetSelector);
+  const radiusRef = useLatest(magneticRadiusPx);
+  const onSelectRef = useLatest(onSelect);
+  const onFocusRef = useLatest(onFocusChange);
+  const [visible, setVisible] = useState(false);
+  const visibleRef = useRef(false);
 
   useEffect(() => {
     dwellRef.current = new DwellSelector(dwellMs);
   }, [dwellMs]);
 
-  useEffect(() => {
-    if (!enabled || !hand) {
+  const show = (next: boolean) => {
+    if (visibleRef.current === next) return;
+    visibleRef.current = next;
+    setVisible(next);
+  };
+
+  useVisionFrame(vision, (snapshot) => {
+    const hand = enabledRef.current
+      ? findPrimaryHand(snapshot, player)
+      : undefined;
+
+    if (!hand) {
       dwellRef.current.reset();
-      setView(null);
+      show(false);
       if (lastFocusedRef.current !== null) {
         lastFocusedRef.current = null;
-        onFocusChange?.(null);
+        onFocusRef.current?.(null);
       }
       return;
     }
@@ -96,62 +112,53 @@ export function AirCursor({
     const match = pickMagneticTarget(
       rawX,
       rawY,
-      visibleTargets(targetSelector),
-      magneticRadiusPx
+      visibleTargets(selectorRef.current),
+      radiusRef.current
     );
+    // Pinching and clenching are drawing gestures, not pointing ones: dwell
+    // must not fire while the player is writing.
+    const dwellable =
+      hand.gesture !== "pinch" &&
+      hand.gesture !== "fist" &&
+      hand.gesture !== "thumbs-up";
     const timestamp = hand.point.t ?? performance.now();
     const dwell = dwellRef.current.update(
-      canDwell(hand) ? (match?.id ?? null) : null,
+      dwellable ? (match?.id ?? null) : null,
       timestamp
     );
+
+    show(true);
+    const node = nodeRef.current;
+    if (node) {
+      node.style.transform = `translate(${match?.snappedX ?? rawX}px, ${
+        match?.snappedY ?? rawY
+      }px)`;
+      node.style.setProperty("--air-progress", String(dwell.progress));
+      node.dataset.focused = String(Boolean(match?.id));
+    }
+
     const focusedId = match?.id ?? null;
-
-    setView({
-      x: match?.snappedX ?? rawX,
-      y: match?.snappedY ?? rawY,
-      focusedId,
-      progress: dwell.progress
-    });
-
     if (focusedId !== lastFocusedRef.current) {
       lastFocusedRef.current = focusedId;
-      onFocusChange?.(focusedId);
+      onFocusRef.current?.(focusedId);
     }
-    if (dwell.selected) onSelect(dwell.selected);
-  }, [
-    enabled,
-    hand,
-    magneticRadiusPx,
-    onFocusChange,
-    onSelect,
-    targetSelector
-  ]);
+    if (dwell.selected) onSelectRef.current(dwell.selected);
+  });
 
   useEffect(
     () => () => {
-      onFocusChange?.(null);
+      onFocusRef.current?.(null);
     },
-    [onFocusChange]
+    [onFocusRef]
   );
 
-  if (!view) return null;
+  if (!visible) return null;
 
   return (
-    <div
-      className={styles.cursor}
-      data-focused={Boolean(view.focusedId)}
-      style={
-        {
-          left: view.x,
-          top: view.y,
-          "--air-progress": view.progress
-        } as React.CSSProperties
-      }
-      aria-hidden
-    >
+    <div ref={nodeRef} className={styles.cursor} aria-hidden>
       <span className={styles.progress} />
       <span className={styles.dot} />
-      {view.focusedId ? <span className={styles.label}>{label}</span> : null}
+      <span className={styles.label}>{label}</span>
     </div>
   );
 }

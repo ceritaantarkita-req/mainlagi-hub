@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MotionPad } from "@/components/MotionPad";
 import { SHAPE_TEMPLATES, type ShapeName } from "@/lib/engine/templates";
 import type { Stroke } from "@/lib/engine/types";
@@ -10,6 +10,7 @@ import {
   CameraBackdrop,
   FeedbackToast,
   GameHud,
+  usePresence,
   RoundEndOverlay,
   useRoundTimer
 } from "./shared";
@@ -41,11 +42,11 @@ export function ShapeQuestGame(props: GameModuleProps) {
     tone: "neutral"
   });
   const nextShapeTimerRef = useRef<number | null>(null);
-  const timer = useRoundTimer(60);
-  const hand = useMemo(
-    () => props.snapshot.hands.find((item) => item.player === "A"),
-    [props.snapshot.hands]
-  );
+  const present = usePresence(props.vision, props.inputMode);
+  const timer = useRoundTimer(60, {
+    mode: props.sessionMode,
+    presence: present
+  });
   const shape = shapes[index] ?? "circle";
   const target = SHAPE_TEMPLATES[shape];
   const requiresClosure = CLOSED_SHAPES.has(shape);
@@ -110,16 +111,17 @@ export function ShapeQuestGame(props: GameModuleProps) {
   return (
     <CameraBackdrop
       inputMode={props.inputMode}
-      bindVideo={props.bindVideo}
-      snapshot={props.snapshot}
+      vision={props.vision}
     >
       <GameHud
         title="Shape Quest"
         remaining={timer.remaining}
+        timed={timer.timed}
         score={score}
         playerCount={1}
         paused={timer.paused}
-        onTogglePause={timer.toggle}
+        awayPaused={timer.awayPaused}
+        onTogglePause={timer.timed ? timer.toggle : undefined}
       />
       <div className="trace-layout">
         <aside className="trace-sidebar shape-sidebar">
@@ -144,9 +146,8 @@ export function ShapeQuestGame(props: GameModuleProps) {
           </div>
         </aside>
         <MotionPad
+          vision={props.vision}
           player="A"
-          playerCount={1}
-          hand={hand}
           enabled={timer.running}
           target={target}
           label="Area bentuk"
@@ -165,6 +166,7 @@ export function ShapeQuestGame(props: GameModuleProps) {
           playerCount={1}
           onReplay={props.onReplay}
           onCalibration={props.onExit}
+          game={props.game.slug}
         />
       ) : null}
     </CameraBackdrop>

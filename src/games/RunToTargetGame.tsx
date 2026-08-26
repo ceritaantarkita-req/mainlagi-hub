@@ -1,15 +1,17 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { BodyAction } from "@/lib/engine/types";
 import type { GameModuleProps } from "./types";
 import {
   CameraBackdrop,
   FeedbackToast,
   RoundEndOverlay,
+  usePresence,
   useRoundTimer
 } from "./shared";
 import { useProgressSync } from "@/lib/auth/progress";
+import { useVisionValue } from "@/lib/vision/useVisionSelector";
 
 const TARGETS: BodyAction[] = ["left", "right", "forward", "back", "center"];
 const LABELS: Record<string, string> = {
@@ -29,14 +31,20 @@ export function RunToTargetGame(props: GameModuleProps) {
   const [progress, setProgress] = useState(0);
   const progressRef = useRef(0);
   const [keyAction, setKeyAction] = useState<BodyAction>("center");
-  const body = useMemo(
-    () => props.snapshot.bodies.find((item) => item.player === "A"),
-    [props.snapshot.bodies]
+  // Only the classified action is subscribed to, not the whole body: it is a
+  // short string that changes a few times a second, not 25 times.
+  const cameraAction = useVisionValue(
+    props.vision,
+    (snapshot) =>
+      snapshot.bodies.find((item) => item.player === "A")?.action ?? "center"
   );
-  const action =
-    props.inputMode === "camera" ? (body?.action ?? "center") : keyAction;
+  const action = props.inputMode === "camera" ? cameraAction : keyAction;
   const lastFrameRef = useRef(0);
-  const timer = useRoundTimer(60);
+  const present = usePresence(props.vision, props.inputMode);
+  const timer = useRoundTimer(60, {
+    mode: props.sessionMode,
+    presence: present
+  });
 
   useEffect(() => {
     const down = (event: KeyboardEvent) => {
@@ -97,8 +105,7 @@ export function RunToTargetGame(props: GameModuleProps) {
   return (
     <CameraBackdrop
       inputMode={props.inputMode}
-      bindVideo={props.bindVideo}
-      snapshot={props.snapshot}
+      vision={props.vision}
     >
       <div className="run-hud">
         <div>
@@ -106,7 +113,7 @@ export function RunToTargetGame(props: GameModuleProps) {
           <strong>{score}</strong>
         </div>
         <div className="run-target-label">
-          <small>TARGET BERIKUTNYA · {timer.remaining} DETIK</small>
+          <small>TARGET BERIKUTNYA · {timer.timed ? `${timer.remaining} DETIK` : "SANTAI"}</small>
           <strong>{LABELS[target]}</strong>
           <span>
             <i style={{ width: `${progress}%` }} />
@@ -159,8 +166,8 @@ export function RunToTargetGame(props: GameModuleProps) {
       </div>
       <FeedbackToast
         message={
-          body
-            ? `Body action: ${action} · target ${target}`
+          props.vision.summary.bodies > 0
+            ? `Gerakan: ${action} · target ${target}`
             : props.inputMode === "demo"
               ? "Keyboard fallback aktif"
               : "Berdiri di area kamera untuk kalibrasi"
@@ -172,6 +179,7 @@ export function RunToTargetGame(props: GameModuleProps) {
           playerCount={1}
           onReplay={props.onReplay}
           onCalibration={props.onExit}
+          game={props.game.slug}
         />
       ) : null}
     </CameraBackdrop>

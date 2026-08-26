@@ -1,4 +1,5 @@
 export const GAME_SLUGS = [
+  "math-choice",
   "math-motion-battle",
   "number-trace",
   "shape-quest",
@@ -25,12 +26,32 @@ export interface GameDefinition {
   visionMode: VisionMode;
   accent: string;
   accentSoft: string;
-  icon: "math" | "trace" | "shape" | "pattern" | "shop" | "iqro" | "board" | "dodge" | "target";
+  icon: "math" | "choice" | "trace" | "shape" | "pattern" | "shop" | "iqro" | "board" | "dodge" | "target";
   capabilities: readonly string[];
   status: "ready" | "beta";
 }
 
 export const GAMES: Record<GameSlug, GameDefinition> = {
+  /**
+   * Listed first on purpose. It is the only maths game that does not also
+   * require the player to form a numeral in mid-air, which makes it the one
+   * to hand a five-year-old first.
+   */
+  "math-choice": {
+    slug: "math-choice",
+    title: "Math Pilih Jawaban",
+    shortTitle: "Pilih Jawaban",
+    description: "Jawab soal matematika dengan memilih salah satu dari empat kotak. Tidak perlu menulis angka, jadi paling mudah untuk anak kecil.",
+    category: "Belajar dengan tangan",
+    age: "TK–SD 2",
+    playerOptions: [1, 2],
+    visionMode: "hybrid",
+    accent: "#12B981",
+    accentSoft: "#D6F7EC",
+    icon: "choice",
+    capabilities: ["Tanpa menulis", "Pilihan ganda", "1–2 pemain", "Salah tidak dihukum"],
+    status: "beta"
+  },
   "math-motion-battle": {
     slug: "math-motion-battle",
     title: "Math Motion Battle",
@@ -138,9 +159,9 @@ export const GAMES: Record<GameSlug, GameDefinition> = {
   },
   "dodge-motion": {
     slug: "dodge-motion",
-    title: "Dodge Motion",
-    shortTitle: "Dodge Motion",
-    description: "Hindari objek dengan bergeser ke kiri atau kanan, melompat, dan jongkok menggunakan skeleton tubuh.",
+    title: "Beat Motion",
+    shortTitle: "Beat Motion",
+    description: "Melangkah ke kiri, tengah, atau kanan untuk mengenai panah yang turun. Makin lama makin cepat, ada combo dan papan skor.",
     category: "Aktivitas tubuh",
     age: "SD–Keluarga",
     playerOptions: [1],
@@ -148,7 +169,7 @@ export const GAMES: Record<GameSlug, GameDefinition> = {
     accent: "#F35E67",
     accentSoft: "#FFE4E6",
     icon: "dodge",
-    capabilities: ["Body skeleton", "Jump & crouch", "Collision", "Keyboard fallback"],
+    capabilities: ["Body skeleton", "3 lajur", "Combo & akurasi", "1/3/5 menit"],
     status: "beta"
   },
   "run-to-target": {

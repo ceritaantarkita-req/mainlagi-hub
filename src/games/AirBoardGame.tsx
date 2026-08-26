@@ -1,10 +1,15 @@
-/* eslint-disable @next/next/no-img-element, react-hooks/set-state-in-effect, react-hooks/exhaustive-deps */
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Point } from "@/lib/engine/types";
 import type { GameModuleProps } from "./types";
 import { VisionOverlay } from "@/components/VisionOverlay";
+import {
+  findPrimaryHand,
+  useVisionFrame,
+  useVisionValue
+} from "@/lib/vision/useVisionSelector";
 
 interface BoardStroke {
   id: string;
@@ -27,7 +32,7 @@ const DEMO_SLIDES = [
     body: "Pointer, pena, highlighter, penghapus, undo, dan ekspor berada di satu workspace."
   },
   {
-    title: "Mainlagi TV",
+    title: "Mainlagi Hub",
     body: "Satu Motion Learning Hub untuk kelas, rumah, dan aktivitas keluarga."
   }
 ];
@@ -41,7 +46,7 @@ function path(points: readonly Point[]) {
     .join(" ");
 }
 
-export function AirBoardGame({ bindVideo, snapshot }: GameModuleProps) {
+export function AirBoardGame({ vision }: GameModuleProps) {
   const [tool, setTool] = useState<Tool>("pen");
   const [color, setColor] = useState("#2676ff");
   const [strokes, setStrokes] = useState<BoardStroke[]>([]);
@@ -52,9 +57,31 @@ export function AirBoardGame({ bindVideo, snapshot }: GameModuleProps) {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const pointerRef = useRef<number | null>(null);
   const cameraDrawingRef = useRef(false);
-  const hand = useMemo(
-    () => snapshot.hands.find((item) => item.player === "A"),
-    [snapshot.hands]
+  /**
+   * A coarse pointer position for the on-screen dot and the status readout.
+   * Rounding to ~1% of the stage means this only re-renders when the hand
+   * actually moves a visible distance, instead of on every camera frame.
+   */
+  const pointer = useVisionValue(
+    vision,
+    (snapshot) => {
+      const hand = findPrimaryHand(snapshot, "A");
+      if (!hand) return null;
+      return {
+        x: Math.round(hand.point.x * 100) / 100,
+        y: Math.round(hand.point.y * 100) / 100,
+        gesture: hand.gesture,
+        confidence: Math.round(hand.gestureConfidence * 20) / 20
+      };
+    },
+    (a, b) =>
+      a === b ||
+      (a !== null &&
+        b !== null &&
+        a.x === b.x &&
+        a.y === b.y &&
+        a.gesture === b.gesture &&
+        a.confidence === b.confidence)
   );
 
   useEffect(
@@ -113,7 +140,14 @@ export function AirBoardGame({ bindVideo, snapshot }: GameModuleProps) {
       return null;
     });
 
-  useEffect(() => {
+  /**
+   * Board input runs from the frame subscription, not from an effect keyed on
+   * the hand object. An effect that depends on a value which changes identity
+   * every frame re-runs every frame, and calling setState inside it is exactly
+   * the pattern React reports as "Maximum update depth exceeded".
+   */
+  useVisionFrame(vision, (snapshot) => {
+    const hand = findPrimaryHand(snapshot, "A");
     if (!hand) return;
     const point = { x: hand.point.x, y: hand.point.y, t: performance.now() };
 
@@ -134,7 +168,7 @@ export function AirBoardGame({ bindVideo, snapshot }: GameModuleProps) {
       cameraDrawingRef.current = false;
       finish();
     }
-  }, [hand, tool, color]);
+  });
 
   const undo = () =>
     setStrokes((current) => {
@@ -253,7 +287,7 @@ export function AirBoardGame({ bindVideo, snapshot }: GameModuleProps) {
               )
             ) : (
               <div className="demo-slide">
-                <span>MAINLAGI TV</span>
+                <span>MAINLAGI HUB</span>
                 <h1>{DEMO_SLIDES[slide]?.title}</h1>
                 <p>{DEMO_SLIDES[slide]?.body}</p>
                 <small>
@@ -312,10 +346,10 @@ export function AirBoardGame({ bindVideo, snapshot }: GameModuleProps) {
                   vectorEffect="non-scaling-stroke"
                 />
               ) : null}
-              {tool === "pointer" && hand ? (
+              {tool === "pointer" && pointer ? (
                 <circle
-                  cx={hand.point.x * 1000}
-                  cy={hand.point.y * 650}
+                  cx={pointer.x * 1000}
+                  cy={pointer.y * 650}
                   r="18"
                   fill="#ff496f"
                   opacity=".8"
@@ -327,16 +361,20 @@ export function AirBoardGame({ bindVideo, snapshot }: GameModuleProps) {
             <span>{tool}</span>
             <span>{strokes.length} stroke</span>
             <span>
-              {hand
-                ? `${hand.gesture} · ${Math.round(hand.confidence * 100)}%`
+              {pointer
+                ? `${pointer.gesture} · ${Math.round(pointer.confidence * 100)}%`
                 : "mouse/touch"}
             </span>
           </div>
         </div>
 
         <aside className="camera-mini">
-          <video ref={bindVideo} muted playsInline autoPlay />
-          <VisionOverlay snapshot={snapshot} />
+          {/* eslint-disable react-hooks/refs -- `vision` is a plain object of
+          stable callbacks. The React compiler classifies it as ref-derived
+          because useVisionRuntime builds it around refs, but nothing here
+          reads a `.current` value during render. */}
+          <video ref={vision.bindVideo} muted playsInline autoPlay />
+          <VisionOverlay vision={vision} />
           <span>Gesture camera</span>
         </aside>
       </section>

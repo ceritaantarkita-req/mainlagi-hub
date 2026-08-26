@@ -3,110 +3,275 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { GAME_LIST, type GameCategory } from "@/lib/data/games";
-import { AFFILIATE_ITEMS, type AffiliateItem } from "@/lib/data/affiliate";
-import { GameIcon } from "./GameIcon";
-import { SiteHeader } from "./SiteHeader";
-import { ShareButton } from "./ShareButton";
+import { GAME_LIST, GAMES, type GameSlug } from "@/lib/data/games";
+import { GAME_THEMES } from "@/lib/data/gameThemes";
+import { AFFILIATE_ITEMS } from "@/lib/data/affiliate";
+import { Icon, type IconName } from "@/components/Icon";
+import { GameIcon } from "@/components/GameIcon";
+import { GameArtwork } from "@/components/GameArtwork";
 import { readLocalProgress } from "@/lib/auth/progress";
+import {
+  LEADERBOARD_EVENT,
+  readAllBoards,
+  type LeaderboardEntry
+} from "@/lib/data/leaderboard";
 
-const FILTERS: Array<"Semua" | GameCategory> = ["Semua", "Belajar dengan tangan", "Aktivitas tubuh", "Alat kelas"];
+/**
+ * Home page.
+ *
+ * Rewritten for the audience that actually uses it. The previous version was
+ * a software landing page - a grey-blue hero, a filter bar, a search box, a
+ * paragraph about privacy, an abstract SVG squiggle that rendered as a black
+ * blob - aimed at an adult evaluating a product. But the person who opens this
+ * screen is usually a five-year-old who wants to press the biggest, most
+ * colourful thing available and start moving.
+ *
+ * So: fewer words, far more colour, one obvious action per card, and the
+ * games themselves as the first thing on the page rather than the third.
+ */
+
+/** Per-game gradients. Colour is the wayfinding here, not the text. */
+const CARD_THEMES = GAME_THEMES;
+
+const STEPS: { icon: IconName; text: string }[] = [
+  { icon: "camera", text: "Nyalakan kamera" },
+  { icon: "account", text: "Berdiri di depan" },
+  { icon: "games", text: "Gerakkan tubuh" },
+  { icon: "star", text: "Kumpulkan skor" }
+];
+/** A soft blob background, drawn rather than imported. */
+function Blobs() {
+  return (
+    <svg className="fun-blobs" viewBox="0 0 800 400" aria-hidden focusable="false">
+      <defs>
+        <linearGradient id="blobA" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#fbbf24" />
+          <stop offset="1" stopColor="#f472b6" />
+        </linearGradient>
+        <linearGradient id="blobB" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#60a5fa" />
+          <stop offset="1" stopColor="#34d399" />
+        </linearGradient>
+      </defs>
+      <circle cx="120" cy="90" r="130" fill="url(#blobA)" opacity=".28" />
+      <circle cx="690" cy="300" r="160" fill="url(#blobB)" opacity=".26" />
+      <circle cx="560" cy="60" r="70" fill="#a78bfa" opacity=".22" />
+    </svg>
+  );
+}
+
+/**
+ * The hero picture: a child in front of a camera with a skeleton drawn over
+ * them. Built from shapes so it ships with the code and cannot 404.
+ */
+function HeroScene() {
+  return (
+    <div className="hero-product" role="img" aria-label="Pratinjau permainan gerak Mainlagi Hub">
+      <div className="hero-product__topline"><span>MAINLAGI MOTION</span><b><i /> LIVE</b></div>
+      <div className="hero-product__stage">
+        <div className="hero-product__target"><span>MOVE</span><b>10</b></div>
+        <div className="hero-product__person" aria-hidden>
+          <span className="hero-product__head" /><span className="hero-product__body" />
+          <i className="hero-product__arm hero-product__arm--left" /><i className="hero-product__arm hero-product__arm--right" />
+          <i className="hero-product__leg hero-product__leg--left" /><i className="hero-product__leg hero-product__leg--right" />
+        </div>
+        <span className="hero-product__scan hero-product__scan--one" />
+        <span className="hero-product__scan hero-product__scan--two" />
+      </div>
+      <div className="hero-product__footer"><span>ONE CAMERA</span><strong>10 GAMES</strong><span>READY TO PLAY</span></div>
+    </div>
+  );
+}
 
 export function HomePage() {
-  const [filter, setFilter] = useState<(typeof FILTERS)[number]>("Semua");
-  const [query, setQuery] = useState("");
   const [totalScore, setTotalScore] = useState(0);
-  const [affiliateItems, setAffiliateItems] = useState<AffiliateItem[]>(AFFILIATE_ITEMS);
+  const [boards, setBoards] = useState<
+    Array<{ game: GameSlug; entries: LeaderboardEntry[] }>
+  >([]);
+
   useEffect(() => {
-    const update = () =>
+    const update = () => {
       setTotalScore(
         Object.values(readLocalProgress().bestScores).reduce(
           (sum, value) => sum + (typeof value === "number" ? value : 0),
           0
         )
       );
+      setBoards(readAllBoards());
+    };
     update();
     window.addEventListener("mainlagi-progress", update);
+    window.addEventListener(LEADERBOARD_EVENT, update);
     window.addEventListener("storage", update);
     return () => {
       window.removeEventListener("mainlagi-progress", update);
+      window.removeEventListener(LEADERBOARD_EVENT, update);
       window.removeEventListener("storage", update);
     };
   }, []);
 
+  const featuredAffiliate = useMemo(() => AFFILIATE_ITEMS.slice(0, 4), []);
+  const [recommended, setRecommended] = useState(featuredAffiliate);
+
   useEffect(() => {
-    const controller = new AbortController();
-    void fetch("/api/affiliate", { signal: controller.signal })
-      .then((response) => (response.ok ? response.json() : Promise.reject(new Error("affiliate"))))
-      .then((items: unknown) => {
-        if (Array.isArray(items) && items.length) setAffiliateItems(items as AffiliateItem[]);
-      })
-      .catch(() => undefined);
-    return () => controller.abort();
+    const id = window.setTimeout(() => {
+      setRecommended([...AFFILIATE_ITEMS].sort(() => Math.random() - 0.5).slice(0, 4));
+    }, 0);
+    return () => window.clearTimeout(id);
   }, []);
-  const games = useMemo(() => GAME_LIST.filter((game) => {
-    const matchesCategory = filter === "Semua" || game.category === filter;
-    const haystack = `${game.title} ${game.description} ${game.capabilities.join(" ")}`.toLowerCase();
-    return matchesCategory && haystack.includes(query.trim().toLowerCase());
-  }), [filter, query]);
+
+  /** Best single run across every board, for the home leaderboard strip. */
+  const champions = useMemo(
+    () =>
+      boards
+        .map((board) => ({ game: board.game, entry: board.entries[0]! }))
+        .sort((left, right) => right.entry.score - left.entry.score)
+        .slice(0, 5),
+    [boards]
+  );
 
   return (
-    <main>
-      <div className="page-shell"><SiteHeader /></div>
-      <section className="hero-band">
-        <div className="page-shell hero-layout">
-          <div className="hero-copy">
-            <p className="hero-label">SATU KAMERA · SEMBILAN PENGALAMAN</p>
-            <h1>Gerak badan.<br /><span>Gerak pikiran.</span></h1>
-            <p className="hero-lede">Mainlagi TV menyatukan game angka, Iqro, simulasi warung, papan presentasi, dan aktivitas full-body dalam satu Motion Learning Hub.</p>
-            <div className="hero-actions">
-              <Link className="button button--primary" href="#games">Pilih permainan</Link>
-              <Link className="button button--ghost" href="/play/math-motion-battle">Coba Math Battle</Link>
-              <ShareButton title="Mainlagi TV Motion Learning Hub" text="Coba 9 aktivitas belajar dan gerak di Mainlagi TV." />
+    <main className="fun-home">
+      <section className="fun-hero">
+        <Blobs />
+        <div className="page-shell fun-hero__inner">
+          <div className="fun-hero__copy">
+            <h1>
+              Belajar Seru,
+              <br />
+              <span className="fun-gradient-text">Gerak &amp; Pintar!</span>
+            </h1>
+            <p>
+              Sepuluh permainan yang dimainkan dengan gerakan tangan dan badan.
+              Cukup satu kamera.
+            </p>
+            <div className="fun-hero__actions">
+              <Link className="fun-cta" href="#games">
+                Mulai petualangan
+              </Link>
+              <Link className="fun-cta fun-cta--ghost" href="#papan-skor">
+                <span className="score-heading-mark" aria-hidden>★</span> Papan skor
+              </Link>
             </div>
-            <div className="trust-row"><span>Privasi lokal</span><span>Mode 1–2 pemain</span><span>Skor lokal {totalScore}</span><span>Mouse/keyboard fallback</span></div>
+            <p className="fun-privacy">
+              <span className="privacy-mark" aria-hidden>✓</span> Video diproses di perangkat dan tidak disimpan.
+            </p>
           </div>
-          <div className="hero-stage" aria-label="Ilustrasi kemampuan Motion Learning Hub">
-            <div className="stage-screen">
-              <div className="stage-top"><span>LIVE MOTION</span><b>2 pemain terdeteksi</b></div>
-              <div className="stage-people">
-                <div className="stage-person stage-person--a"><i /><span>A</span></div>
-                <div className="stage-prompt"><small>SOAL</small><strong>7 + 5</strong><em>gambar jawaban</em></div>
-                <div className="stage-person stage-person--b"><i /><span>B</span></div>
-              </div>
-              <div className="stage-trail"><svg viewBox="0 0 400 80"><path d="M15 55 C75 5 110 70 155 32 S250 15 285 52 S355 65 390 20" /></svg></div>
-            </div>
-            <div className="floating-note floating-note--one"><b>Hand skeleton</b><span>Pinch untuk menulis</span></div>
-            <div className="floating-note floating-note--two"><b>Body skeleton</b><span>Lompat · jongkok · geser</span></div>
+          <div className="fun-hero__art">
+            <HeroScene />
           </div>
         </div>
       </section>
 
-      <section id="games" className="page-shell games-section">
-        <div className="section-intro"><div><span>SEMUA AKTIVITAS</span><h2>Sembilan module. Satu sistem.</h2><p>Tidak ada launcher eksternal. Semua dibuka langsung di dalam Motion Learning Hub.</p></div><strong>{games.length} ditemukan</strong></div>
-        <div className="game-toolbar">
-          <div className="filter-tabs" role="group" aria-label="Filter kategori">{FILTERS.map((item) => <button key={item} type="button" className={filter === item ? "is-active" : ""} onClick={() => setFilter(item)}>{item}</button>)}</div>
-          <label className="search-field"><span>⌕</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Cari game atau kemampuan" /></label>
+      <section id="games" className="page-shell fun-section">
+        <header className="fun-section__head">
+          <h2>Pilih petualanganmu</h2>
+          <span className="fun-pill">⭐ {totalScore}</span>
+        </header>
+
+        <div className="fun-grid">
+          {GAME_LIST.map((game) => {
+            const theme = CARD_THEMES[game.slug];
+            return (
+              <Link
+                className="fun-card"
+                key={game.slug}
+                href={`/play/${game.slug}`}
+                style={
+                  {
+                    "--from": theme.from,
+                    "--to": theme.to
+                  } as React.CSSProperties
+                }
+              >
+                <span className="fun-card__number" aria-hidden>{theme.mark}</span>
+                <span className="fun-card__art" aria-hidden>
+                  <GameArtwork slug={game.slug} />
+                </span>
+                <span className="fun-card__body">
+                  <span className="fun-card__title">
+                    <span className="fun-card__glyph" aria-hidden>
+                      <GameIcon name={game.icon} size={30} />
+                    </span>
+                    <strong>{game.shortTitle}</strong>
+                  </span>
+                  <span className="fun-card__meta">{game.age} · {game.visionMode === "pose" ? "Gerak badan" : "Gerak tangan"}</span>
+                  <span className="fun-card__play">Mainkan <b aria-hidden>→</b></span>
+                </span>
+              </Link>
+            );
+          })}
         </div>
-        <div className="game-list">{games.map((game, index) => (
-          <article className="game-row" key={game.slug} style={{ "--accent": game.accent, "--soft": game.accentSoft } as React.CSSProperties}>
-            <div className="game-index">{String(index + 1).padStart(2, "0")}</div>
-            <div className="game-visual"><GameIcon name={game.icon} size={72} /><span>{game.category}</span></div>
-            <div className="game-copy"><div className="game-title-line"><h3>{game.title}</h3><span>{game.status === "beta" ? "V2 Beta" : "Siap"}</span></div><p>{game.description}</p><ul>{game.capabilities.map((capability) => <li key={capability}>{capability}</li>)}</ul></div>
-            <div className="game-meta"><span>{game.age}</span><span>{game.playerOptions.join("/")} pemain</span><span>{game.visionMode}</span></div>
-            <Link className="game-open" href={`/play/${game.slug}`} aria-label={`Buka ${game.title}`}>Buka <span>→</span></Link>
-          </article>
-        ))}</div>
       </section>
 
-      <section id="how" className="how-band"><div className="page-shell how-grid"><div><span>PRE-FLIGHT SEBELUM MAIN</span><h2>Kamera tidak langsung melempar user ke game.</h2><p>Sistem memeriksa kamera, model, skeleton, jumlah pemain, dan gesture terlebih dahulu. Countdown baru aktif setelah user siap.</p></div><ol><li><b>01</b><span>Pilih 1 atau 2 pemain</span></li><li><b>02</b><span>Deteksi tubuh dan tangan</span></li><li><b>03</b><span>Kalibrasi pinch dan posisi</span></li><li><b>04</b><span>Countdown 3–2–1</span></li></ol></div></section>
+      <section id="papan-skor" className="fun-board-band">
+        <div className="page-shell">
+          <header className="fun-section__head">
+            <h2><span className="score-heading-mark" aria-hidden>★</span> Papan skor</h2>
+            <Link className="fun-pill fun-pill--link" href="/leaderboards">
+              Lihat semua
+            </Link>
+          </header>
 
-      <section id="affiliate" className="page-shell affiliate-section">
-        <div className="section-intro"><div><span>PILIHAN MAINLAGI</span><h2>Peralatan pendukung</h2><p>Tautan afiliasi ditandai jelas dan dapat diganti dari panel admin.</p></div></div>
-        <div className="affiliate-grid">{affiliateItems.map((item) => <a key={item.slug} className="affiliate-card" href={`/go/${item.slug}`}><img src={item.image} alt="" /><div><small>{item.platform} · {item.category}</small><h3>{item.title}</h3><p>Tautan afiliasi</p><strong>Lihat produk ↗</strong></div></a>)}</div>
+          {champions.length ? (
+            <ol className="fun-board">
+              {champions.map((item, index) => (
+                <li key={item.game}>
+                  <b aria-hidden>
+                    <span className={`rank-mark rank-mark--${index + 1}`}>{index + 1}</span>
+                  </b>
+                  <span>
+                    <strong>{item.entry.name}</strong>
+                    <small>{GAMES[item.game].shortTitle}</small>
+                  </span>
+                  <em>{item.entry.score}</em>
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <p className="fun-board__empty">
+              Belum ada skor. Main satu ronde, lalu tulis namamu di akhir
+              permainan untuk masuk papan skor.
+            </p>
+          )}
+        </div>
       </section>
 
-      <footer className="site-footer"><div className="page-shell footer-grid"><div><strong>Mainlagi TV</strong><p>Motion Learning Hub untuk belajar, bergerak, dan bermain bersama.</p></div><div><a href="mailto:ceritagindra@gmail.com">ceritagindra@gmail.com</a><a href="https://www.youtube.com/@mainlagi_id">YouTube @mainlagi_id</a><a href="https://www.tiktok.com/@di.toko">TikTok @di.toko</a></div><span>Video kamera diproses di browser dan tidak disimpan oleh aplikasi.</span></div></footer>
+      <section className="page-shell fun-section">
+        <header className="fun-section__head">
+          <h2>Cara main</h2>
+        </header>
+        <div className="howto">
+          {STEPS.map((step, index) => (
+            <div className="howto__step" key={step.text}>
+              <span className="howto__icon" aria-hidden>
+                <Icon name={step.icon} size={24} />
+                <span className="howto__num">{index + 1}</span>
+              </span>
+              <span className="howto__label">{step.text}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section id="affiliate" className="page-shell fun-section">
+        <header className="fun-section__head">
+          <h2>Rekomendasi Hari ini</h2>
+        </header>
+        <div className="fun-grid">
+          {recommended.map((item) => (
+            <a key={item.slug} href={`/go/${item.slug}`} className="product-tile">
+              <span className="product-tile__media">
+                <img src={item.image} alt="" loading="lazy" />
+              </span>
+              <span className="product-tile__overlay" aria-hidden>
+                <strong>{item.title}</strong>
+                <small>Lihat di Shopee ↗</small>
+              </span>
+            </a>
+          ))}
+        </div>
+      </section>
     </main>
   );
 }
