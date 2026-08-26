@@ -89,7 +89,7 @@ const contracts = [
   ["src/lib/vision/useVisionRuntime.ts", ["isHandPlausible("]],
   ["src/lib/vision/useVisionSelector.ts", ["useVisionValue", "useVisionFrame"]],
   ["src/app/globals.css", [".motion-pad-grid.is-single", ".round-end-overlay"]],
-  ["supabase/schema.sql", ["revoke update on public.profiles", "record_best_score", "revoke insert on public.affiliate_clicks"]]
+  ["supabase/migrations/0001_init.sql", ["revoke update on public.profiles", "record_best_score", "revoke insert on public.affiliate_clicks"]]
 ];
 
 for (const [file, needles] of contracts) {

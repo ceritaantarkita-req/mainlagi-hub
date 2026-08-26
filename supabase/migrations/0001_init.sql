@@ -140,11 +140,18 @@ create table if not exists public.article_relations (
 );
 
 -- ── affiliate products ──────────────────────────────────────────────────
+-- platform/category kept (not just slug/title/image/destination) because
+-- src/app/api/affiliate/route.ts, src/app/go/[slug]/route.ts, and
+-- src/lib/data/affiliate.ts all read/write these columns today. A future
+-- Shopee-only simplification (docs/prd.md 11.1) is a separate, deliberate
+-- app-code change, not something to do silently here.
 create table if not exists public.affiliate_items (
   id uuid primary key default gen_random_uuid(),
   slug text not null unique,
   title text not null,
-  image_url text,
+  platform text not null default 'Shopee' check (platform in ('Shopee','TikTok Shop')),
+  category text not null default 'Perlengkapan belajar',
+  image_url text not null,
   destination_url text not null,
   active boolean not null default true,
   sort_order integer not null default 100,
@@ -246,11 +253,16 @@ drop policy if exists "affiliate owner write" on public.affiliate_items;
 create policy "affiliate owner write" on public.affiliate_items
   for all using (public.is_admin()) with check (public.is_admin());
 drop policy if exists "affiliate click insert" on public.affiliate_clicks;
-create policy "affiliate click insert" on public.affiliate_clicks
-  for insert with check (true);
 drop policy if exists "affiliate click owner read" on public.affiliate_clicks;
 create policy "affiliate click owner read" on public.affiliate_clicks
   for select using (public.is_admin());
+-- No insert policy: src/app/go/[slug]/route.ts writes affiliate_clicks
+-- server-side with SUPABASE_SERVICE_ROLE_KEY (bypasses RLS/grants). Blocking
+-- anon/authenticated insert below keeps click logging rate-limitable and
+-- spam-resistant, matching docs/prd.md 16.2 ("rate limit on ... redirect
+-- logging") and the intent already documented for SUPABASE_SERVICE_ROLE_KEY
+-- in .env.example.
+revoke insert on public.affiliate_clicks from anon, authenticated;
 
 -- Audit: owner only.
 drop policy if exists "audit owner read" on public.audit_logs;

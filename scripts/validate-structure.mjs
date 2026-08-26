@@ -18,7 +18,7 @@ const required = [
   "src/lib/vision/useVisionRuntime.ts",
   "src/lib/vision/player-assignment.ts",
   "src/lib/engine/stroke.ts",
-  "supabase/schema.sql"
+  "supabase/migrations/0001_init.sql"
 ];
 
 for (const file of required) await access(file);

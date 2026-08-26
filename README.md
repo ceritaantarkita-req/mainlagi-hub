@@ -68,7 +68,7 @@ Ia bukan pengganti full gate.
 ## Google login
 
 1. Buat Supabase project.
-2. Jalankan `supabase/schema.sql`.
+2. Jalankan `supabase/migrations/0001_init.sql` (lewat `supabase db push`, atau tempel isinya ke Supabase SQL editor).
 3. Aktifkan Google provider.
 4. Tambahkan callback lokal `http://localhost:3000/auth/callback` dan callback production.
 5. Copy `.env.example` menjadi `.env.local`.

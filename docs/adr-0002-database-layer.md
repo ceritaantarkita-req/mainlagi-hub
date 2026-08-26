@@ -33,7 +33,7 @@ Jika data layer dibangun di SQLite, seluruh RLS dan mekanisme akses harus dituli
 | PostgREST (`/rest/v1`, `.rpc()`) | ❌ | ✅ |
 | Client `supabase-js` | tidak dipakai | ✅ |
 
-Kode existing (`supabase/schema.sql`) sudah berbentuk Postgres (`gen_random_uuid()`, `auth.uid()`). Maka schema dipertahankan Postgres.
+Kode existing sudah berbentuk Postgres (`gen_random_uuid()`, `auth.uid()`) sejak draf pertama `supabase/schema.sql`. Maka schema dipertahankan Postgres. (`schema.sql` sendiri di-retire 26 Agu 2026 -- lihat catatan di bawah.)
 
 ---
 
@@ -104,6 +104,6 @@ Aturan:
 - `docs/prd.md`
 - `docs/roadmap.md`
 - `docs/tickets.md`
-- `supabase/schema.sql` (base saat ini)
-- `supabase/migrations/` (target penulisan)
+- ~~`supabase/schema.sql`~~ (retired 26 Agu 2026 -- duplikat dan sudah tidak sinkron dengan `migrations/0001_init.sql`; lihat project audit)
+- `supabase/migrations/0001_init.sql` (source of truth schema, sejak 26 Agu 2026)
 - `src/lib/data/*` (repository layer)

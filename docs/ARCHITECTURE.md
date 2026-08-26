@@ -59,4 +59,4 @@ Iqro V2 MVP separates body stroke from short dot strokes and validates body simi
 
 ## Auth
 
-Google OAuth uses Supabase PKCE through public Auth endpoints. Only the public Supabase URL and anon key reach the browser. RLS in `supabase/schema.sql` protects user and admin data.
+Google OAuth uses Supabase PKCE through public Auth endpoints. Only the public Supabase URL and anon key reach the browser. RLS in `supabase/migrations/0001_init.sql` protects user and admin data.

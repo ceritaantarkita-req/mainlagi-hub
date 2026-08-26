@@ -188,7 +188,7 @@ Priority: **P0 (harus sekarang)** → **P1 (segera)** → **P2 (diprioritaskan)*
 **Files:**
 
 - Buat `supabase/migrations/0001_init.sql` (dan seterusnya)
-- Referensi `supabase/schema.sql`
+- Referensi `supabase/migrations/0001_init.sql`
 
 **Acceptance criteria:**
 
@@ -449,7 +449,7 @@ Priority: **P0 (harus sekarang)** → **P1 (segera)** → **P2 (diprioritaskan)*
 
 **Files:**
 
-- Update `supabase/schema.sql`
+- Update `supabase/migrations/0001_init.sql`
 - Buat `src/app/account/players/page.tsx`
 
 **Acceptance criteria:**
@@ -476,7 +476,7 @@ Priority: **P0 (harus sekarang)** → **P1 (segera)** → **P2 (diprioritaskan)*
 **Files:**
 
 - Buat `src/app/account/delete/page.tsx`
-- Update `supabase/schema.sql`
+- Update `supabase/migrations/0001_init.sql`
 
 **Acceptance criteria:**
 
@@ -523,7 +523,7 @@ Priority: **P0 (harus sekarang)** → **P1 (segera)** → **P2 (diprioritaskan)*
 
 **Files:**
 
-- Update `supabase/schema.sql` (season, entry)
+- Update `supabase/migrations/0001_init.sql` (season, entry)
 - Buat `src/app/leaderboards/page.tsx`, `src/app/leaderboards/[gameSlug]/page.tsx`
 - Update `src/lib/data/leaderboard.ts`
 
@@ -622,7 +622,7 @@ Priority: **P0 (harus sekarang)** → **P1 (segera)** → **P2 (diprioritaskan)*
 
 **Files:**
 
-- Update `supabase/schema.sql`
+- Update `supabase/migrations/0001_init.sql`
 - Buat `src/lib/auth/requireOwner.ts`
 - Buat `src/app/admin/dashboard/page.tsx`
 - Update `src/app/admin/affiliate/page.tsx`

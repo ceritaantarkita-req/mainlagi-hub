@@ -146,7 +146,7 @@ Konsekuensi:
 - `docs/prd.md`
 - `docs/roadmap.md`
 - `docs/tickets.md`
-- `supabase/schema.sql`
+- `supabase/migrations/0001_init.sql`
 - `src/lib/auth/supabase-auth.ts` (source yang perlu direfactor)
 - `src/lib/auth/progress.ts`
 - `src/lib/auth/supabase-rest.ts`
