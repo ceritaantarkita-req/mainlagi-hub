@@ -8,9 +8,11 @@ import { isActivePath } from "@/lib/navigation";
 /**
  * Mobile bottom navigation.
  *
- * Icon-only on phones. The Discover item is styled as a distinct, raised
- * center button (like a FAB) so it reads as the "explore" action. The shell
- * hides this bar on gameplay routes.
+ * Icon-only (labels are exposed via aria-label instead of visible text) so
+ * the bar stays compact and legible on small screens. The Discover item is
+ * styled as a distinct, raised center button (like a FAB) so it reads as
+ * the "explore" action. Active state is a small pill hugging just the icon,
+ * not the whole tap target. The shell hides this bar on gameplay routes.
  */
 const LEFT: { href: string; icon: IconName; label: string }[] = [
   { href: "/", icon: "home", label: "Beranda" },
@@ -49,8 +51,9 @@ function Item({
       aria-label={label}
       aria-current={active ? "page" : undefined}
     >
-      <Icon name={icon} size={24} strokeWidth={active ? 2.1 : 1.8} />
-      <span>{label}</span>
+      <span className="bottom-nav__item-mark" aria-hidden>
+        <Icon name={icon} size={23} strokeWidth={active ? 2.2 : 1.8} />
+      </span>
     </Link>
   );
 }
@@ -72,7 +75,6 @@ export function BottomNavbar() {
         aria-current={discoverActive ? "page" : undefined}
       >
         <DiscoverMark />
-        <span>Jelajah</span>
       </Link>
 
       {RIGHT.map((item) => (

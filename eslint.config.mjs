@@ -11,6 +11,8 @@ export default defineConfig([
     "coverage/**",
     "qa/**",
     "preview/**",
+    "internal/**",
+    "_to_delete/**",
     "public/mediapipe/**",
     "public/models/**"
   ])

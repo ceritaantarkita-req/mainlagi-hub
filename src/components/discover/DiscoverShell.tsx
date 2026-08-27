@@ -4,6 +4,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
+import { Icon } from "@/components/Icon";
 import { GameIcon } from "@/components/GameIcon";
 import { GameArtwork } from "@/components/GameArtwork";
 import { GAME_LIST, type GameDefinition } from "@/lib/data/games";
@@ -79,15 +80,21 @@ function GameTile({ game }: { game: GameDefinition }) {
   return (
     <Link
       href={`/games/${game.slug}`}
-      className="game-tile"
-      style={{ "--g-from": theme.from, "--g-to": theme.to } as React.CSSProperties}
+      className="fun-card"
+      style={{ "--from": theme.from, "--to": theme.to } as React.CSSProperties}
     >
-      <span className="game-tile__art" aria-hidden>
+      <span className="fun-card__art" aria-hidden>
         <GameArtwork slug={game.slug} />
       </span>
-      <span className="game-tile__overlay" aria-hidden>
-        <strong>{game.shortTitle}</strong>
-        <small>{game.age} · {game.playerOptions.includes(2) ? "1–2 pemain" : "1 pemain"}</small>
+      <span className="fun-card__body">
+        <span className="fun-card__title">
+          <span className="fun-card__glyph" aria-hidden>
+            <GameIcon name={game.icon} size={30} />
+          </span>
+          <strong>{game.shortTitle}</strong>
+        </span>
+        <span className="fun-card__meta">{game.age} · {game.visionMode === "pose" ? "Gerak badan" : "Gerak tangan"}</span>
+        <span className="fun-card__play">Mainkan <b aria-hidden><Icon name="arrow" size={19} /></b></span>
       </span>
     </Link>
   );
@@ -139,7 +146,7 @@ function Row({
         <strong>{title}</strong>
         <small>{meta}</small>
       </span>
-      <span className="row__arrow" aria-hidden>→</span>
+      <span className="row__arrow" aria-hidden><Icon name="arrow" size={18} /></span>
     </Link>
   );
 }
@@ -206,7 +213,7 @@ export function DiscoverShell() {
     <div className="discover">
       <div className="discover-toolbar">
         <label className="catalog-search">
-          <span className="catalog-search__icon" aria-hidden>⌕</span>
+          <span className="catalog-search__icon" aria-hidden><Icon name="discover" size={21} /></span>
           <input
             type="search"
             placeholder="Cari di Discover…"

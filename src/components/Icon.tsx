@@ -25,7 +25,8 @@ export type IconName =
   | "close"
   | "star"
   | "camera"
-  | "check";
+  | "check"
+  | "dots";
 
 const PATHS: Record<IconName, ReactNode> = {
   home: (
@@ -107,7 +108,14 @@ const PATHS: Record<IconName, ReactNode> = {
       <path d="M16 10.5 21 8v8l-5-2.5" />
     </>
   ),
-  check: <path d="m5 12.5 4.5 4.5L19 7.5" />
+  check: <path d="m5 12.5 4.5 4.5L19 7.5" />,
+  dots: (
+    <>
+      <circle cx="5" cy="12" r="1.3" fill="currentColor" stroke="none" />
+      <circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none" />
+      <circle cx="19" cy="12" r="1.3" fill="currentColor" stroke="none" />
+    </>
+  )
 };
 
 export function Icon({

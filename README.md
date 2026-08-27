@@ -1,16 +1,17 @@
 # Mainlagi Hub — Motion Learning Hub V2
 
-Rebuild V2 yang menempatkan sembilan game/module langsung dalam satu aplikasi Next.js:
+Rebuild V2 yang menempatkan sepuluh game/module langsung dalam satu aplikasi Next.js:
 
-1. Math Motion Battle
-2. Number Trace Adventure
-3. Shape Quest
-4. Pattern Race
-5. Math Warung
-6. Iqro Motion
-7. AirBoard Presenter
-8. Dodge Motion
-9. Run to Target
+1. Math Pilih Jawaban
+2. Math Motion Battle
+3. Number Trace Adventure
+4. Shape Quest
+5. Pattern Race
+6. Math Warung
+7. Iqro Motion
+8. AirBoard Presenter
+9. Dodge Motion
+10. Run to Target
 
 Semua game memakai internal route `/play/[slug]`. Tidak ada companion launcher atau card yang membuka project lama sebagai aplikasi eksternal.
 

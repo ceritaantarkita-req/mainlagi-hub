@@ -6,7 +6,7 @@ import { Icon } from "@/components/Icon";
 import { getCurrentUser, signOut } from "@/lib/auth/supabase-auth";
 
 const SECTIONS = [
-  { label: "Profile", href: "/account/profile", icon: "account" as const },
+  { label: "Profil", href: "/account/profile", icon: "account" as const },
   { label: "Pemain", href: "/account/players", icon: "games" as const },
   { label: "Preferensi", href: "/account/preferences", icon: "settings" as const },
   { label: "Keamanan", href: "/account/security", icon: "lock" as const },
@@ -28,7 +28,7 @@ export default function AccountPage() {
     <div className="fun-home">
       <section className="page-shell fun-section account-page">
         <header className="fun-section__head">
-          <h2>Account</h2>
+          <h2>Akun</h2>
         </header>
 
         {!loading && !user && (

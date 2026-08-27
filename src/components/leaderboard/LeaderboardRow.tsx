@@ -2,6 +2,7 @@
 
 import { useState, type KeyboardEvent } from "react";
 import { GAMES, type GameSlug } from "@/lib/data/games";
+import { Icon } from "@/components/Icon";
 import { ShareActions, type ShareTarget } from "./ShareActions";
 
 export function LeaderboardRow({
@@ -65,7 +66,7 @@ export function LeaderboardRow({
           }
         }}
       >
-        <span className="lb-dots" aria-hidden>•••</span>
+        <span className="lb-dots" aria-hidden><Icon name="dots" size={20} /></span>
         {open ? (
           <span className="lb-pop" onClick={(event) => event.stopPropagation()}>
             <ShareActions target={target} onDone={() => setOpen(false)} />

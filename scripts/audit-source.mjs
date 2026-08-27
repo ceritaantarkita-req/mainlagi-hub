@@ -155,12 +155,19 @@ if (findings.length) {
   process.exit(1);
 }
 
+// Internal module count is derived from the registry, not hardcoded - the
+// ninth module (math-choice) shipped before its count was updated elsewhere.
+const gamesRegistry = await readFile("src/lib/data/games.ts", "utf8");
+const internalModules = new Set(
+  [...gamesRegistry.matchAll(/slug:\s*"([a-z0-9-]+)"/g)].map((match) => match[1])
+).size;
+
 console.log(
   JSON.stringify({
     files: sourceFiles.length,
     totalLines,
     findings: 0,
-    internalModules: 9,
+    internalModules,
     secretScan: "PASS",
     externalLauncher: "ABSENT",
     gesturePreflight: "PRESENT",

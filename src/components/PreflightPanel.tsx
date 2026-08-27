@@ -10,6 +10,7 @@ import type { VisionRuntime, VisionSnapshot } from "@/lib/vision/types";
 import { usePlayerGesture, useVisionValue } from "@/lib/vision/useVisionSelector";
 import { useOverlayPrefs } from "@/lib/react/useOverlayPrefs";
 import type { SessionMode } from "@/games/types";
+import { Icon } from "./Icon";
 import { VisionOverlay } from "./VisionOverlay";
 import startStyles from "./PreflightStartGesture.module.css";
 
@@ -178,60 +179,105 @@ export function PreflightPanel({
 
   return (
     <div className="preflight-layout">
-      <section className="preflight-copy">
-        <Link className="back-link" href="/">
-          ← Kembali
-        </Link>
-        <span className="preflight-kicker">SIAP-SIAP</span>
-        <h1>{game.title}</h1>
+      <div className="preflight-backdrop">
+        {inputMode === "camera" ? (
+          <>
+            {/* eslint-disable react-hooks/refs -- `vision` is a plain object of
+            stable callbacks. The React compiler classifies it as ref-derived
+            because useVisionRuntime builds it around refs, but nothing here
+            reads a `.current` value during render. */}
+            <div className="camera-placeholder" aria-hidden>
+              <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="6.5" width="13" height="11" rx="2.5" />
+                <path d="M16 10.5 21 8v8l-5-2.5" />
+              </svg>
+              <span>Aktifkan kamera untuk melihat dirimu</span>
+            </div>
+            <video ref={vision.bindVideo} muted playsInline autoPlay />
+            <VisionOverlay
+              vision={vision}
+              showSkeleton={overlayPrefs.skeleton}
+              showFace={overlayPrefs.face}
+            />
+          </>
+        ) : (
+          <div className="demo-preview">
+            <div className="demo-cursor">✦</div>
+            <h2>Mode mouse siap</h2>
+            <p>Gunakan mouse atau layar sentuh untuk menulis.</p>
+          </div>
+        )}
+      </div>
 
+      <header className="preflight-topbar">
+        <Link className="preflight-back" href="/" aria-label="Kembali ke beranda">
+          <Icon name="back" size={20} />
+        </Link>
+        <div className="preflight-topbar__title">
+          <span className="preflight-kicker">SIAP-SIAP</span>
+          <h1>{game.title}</h1>
+        </div>
+        {inputMode === "camera" ? (
+          <div className="preflight-topbar__stats" aria-hidden>
+            <span>{summary.hands} tangan</span>
+            <span>{summary.bodies} tubuh</span>
+            {summary.faces ? <span>{summary.faces} wajah</span> : null}
+          </div>
+        ) : null}
+      </header>
+
+      <section className="preflight-sheet">
         <div className="preflight-status" data-state={canContinue ? "ready" : "waiting"}>
           <span className="preflight-status__dot" aria-hidden />
           <p>{cameraHint}</p>
         </div>
 
-        <div className="preflight-control">
-          <label>Siapa yang main</label>
-          <div className="segmented">
-            {game.playerOptions.map((value) => (
-              <button
-                key={value}
-                className={playerCount === value ? "is-active" : ""}
-                type="button"
-                onClick={() => {
-                  resetCalibration();
-                  setPlayerCount(value);
-                }}
-              >
-                {value === 1 ? "Sendiri" : "Berdua"}
-              </button>
-            ))}
+        <div className="preflight-settings">
+          <div className="preflight-control">
+            <label>Siapa yang main</label>
+            <div className="segmented">
+              {game.playerOptions.map((value) => (
+                <button
+                  key={value}
+                  className={playerCount === value ? "is-active" : ""}
+                  type="button"
+                  onClick={() => {
+                    resetCalibration();
+                    setPlayerCount(value);
+                  }}
+                >
+                  {value === 1 ? "Sendiri" : "Berdua"}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
 
-        <div className="preflight-control">
-          <label>Cara main</label>
-          <div className="segmented">
-            <button
-              className={sessionMode === "santai" ? "is-active" : ""}
-              type="button"
-              onClick={() => setSessionMode("santai")}
-            >
-              Santai
-            </button>
-            <button
-              className={sessionMode === "tantangan" ? "is-active" : ""}
-              type="button"
-              onClick={() => setSessionMode("tantangan")}
-            >
-              Tantangan
-            </button>
+          <div className="preflight-settings__divider" aria-hidden />
+
+          <div className="preflight-control">
+            <label>Cara main</label>
+            <div className="segmented">
+              <button
+                className={sessionMode === "santai" ? "is-active" : ""}
+                type="button"
+                onClick={() => setSessionMode("santai")}
+              >
+                Santai
+              </button>
+              <button
+                className={sessionMode === "tantangan" ? "is-active" : ""}
+                type="button"
+                onClick={() => setSessionMode("tantangan")}
+              >
+                Tantangan
+              </button>
+            </div>
+            <small className="preflight-note">
+              {sessionMode === "santai"
+                ? "Tanpa hitung mundur, tanpa pengurangan nilai. Cocok untuk usia 4–6."
+                : "Ada hitung mundur 90 detik dan bonus kecepatan."}
+            </small>
           </div>
-          <small className="preflight-note">
-            {sessionMode === "santai"
-              ? "Tanpa hitung mundur, tanpa pengurangan nilai. Cocok untuk usia 4–6."
-              : "Ada hitung mundur 90 detik dan bonus kecepatan."}
-          </small>
         </div>
 
         <div className="preflight-actions">
@@ -282,17 +328,48 @@ export function PreflightPanel({
           ) : null}
         </div>
 
-        <button
-          className="preflight-toggle"
-          type="button"
-          aria-expanded={detailed}
-          onClick={() => setDetailed((value) => !value)}
-        >
-          {detailed ? "Sembunyikan" : "Mode orang tua"} &mdash; pengaturan &amp; diagnostik
-        </button>
+        <div className="preflight-sheet__foot">
+          <span className="safe-note-inline">
+            <b>Area aman:</b> pastikan cukup terang dan tidak ada benda berbahaya di sekitar.
+          </span>
+          <button
+            className="preflight-toggle"
+            type="button"
+            aria-expanded={detailed}
+            onClick={() => setDetailed(true)}
+          >
+            Mode orang tua &mdash; pengaturan &amp; diagnostik
+          </button>
+        </div>
 
-        {detailed ? (
-          <div className="preflight-details">
+        {error && !detailed ? (
+          <div className="preflight-error">
+            <b>Kamera belum siap</b>
+            <span>{error}</span>
+          </div>
+        ) : null}
+      </section>
+
+      {detailed ? (
+        <div
+          className="preflight-parent-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Mode orang tua"
+        >
+          <div className="preflight-parent-sheet">
+            <div className="preflight-parent-sheet__head">
+              <strong>Mode orang tua</strong>
+              <button
+                type="button"
+                className="preflight-parent-sheet__close"
+                aria-label="Tutup mode orang tua"
+                onClick={() => setDetailed(false)}
+              >
+                <Icon name="close" size={16} />
+              </button>
+            </div>
+
             <div className="preflight-control">
               <label>Mode input</label>
               <div className="segmented">
@@ -415,54 +492,8 @@ export function PreflightPanel({
               </button>
             ) : null}
           </div>
-        ) : null}
-
-        {error && !detailed ? (
-          <div className="preflight-error">
-            <b>Kamera belum siap</b>
-            <span>{error}</span>
-          </div>
-        ) : null}
-      </section>
-
-      <section className="preflight-view">
-        {inputMode === "camera" ? (
-          <>
-            {/* eslint-disable react-hooks/refs -- `vision` is a plain object of
-            stable callbacks. The React compiler classifies it as ref-derived
-            because useVisionRuntime builds it around refs, but nothing here
-            reads a `.current` value during render. */}
-            <div className="camera-placeholder" aria-hidden>
-              <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="6.5" width="13" height="11" rx="2.5" />
-                <path d="M16 10.5 21 8v8l-5-2.5" />
-              </svg>
-              <span>Aktifkan kamera untuk melihat dirimu</span>
-            </div>
-            <video ref={vision.bindVideo} muted playsInline autoPlay />
-            <VisionOverlay
-              vision={vision}
-              showSkeleton={overlayPrefs.skeleton}
-              showFace={overlayPrefs.face}
-            />
-            <div className="vision-stats">
-              <span>{summary.hands} tangan</span>
-              <span>{summary.bodies} tubuh</span>
-              {summary.faces ? <span>{summary.faces} wajah</span> : null}
-            </div>
-          </>
-        ) : (
-          <div className="demo-preview">
-            <div className="demo-cursor">✦</div>
-            <h2>Mode mouse siap</h2>
-            <p>Gunakan mouse atau layar sentuh untuk menulis.</p>
-          </div>
-        )}
-        <div className="safe-note">
-          <b>Area aman</b>
-          <span>Pastikan cukup terang dan tidak ada benda berbahaya di sekitar.</span>
         </div>
-      </section>
+      ) : null}
     </div>
   );
 }

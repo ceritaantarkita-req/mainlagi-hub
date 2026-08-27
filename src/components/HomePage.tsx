@@ -61,22 +61,22 @@ function Blobs() {
 }
 
 /**
- * The hero picture: a child in front of a camera with a skeleton drawn over
- * them. Built from shapes so it ships with the code and cannot 404.
+ * The hero picture: the app mascot, front and center (27 Aug 2026 - swapped
+ * out the CSS stick-figure mockup for the same mascot artwork used across
+ * the game cards, see `public/artwork/_mascot-reference.webp`).
  */
 function HeroScene() {
   return (
     <div className="hero-product" role="img" aria-label="Pratinjau permainan gerak Mainlagi Hub">
       <div className="hero-product__topline"><span>MAINLAGI MOTION</span><b><i /> LIVE</b></div>
       <div className="hero-product__stage">
+        <img
+          className="hero-product__mascot"
+          src="/artwork/_mascot-reference.webp"
+          alt=""
+          loading="eager"
+        />
         <div className="hero-product__target"><span>MOVE</span><b>10</b></div>
-        <div className="hero-product__person" aria-hidden>
-          <span className="hero-product__head" /><span className="hero-product__body" />
-          <i className="hero-product__arm hero-product__arm--left" /><i className="hero-product__arm hero-product__arm--right" />
-          <i className="hero-product__leg hero-product__leg--left" /><i className="hero-product__leg hero-product__leg--right" />
-        </div>
-        <span className="hero-product__scan hero-product__scan--one" />
-        <span className="hero-product__scan hero-product__scan--two" />
       </div>
       <div className="hero-product__footer"><span>ONE CAMERA</span><strong>10 GAMES</strong><span>READY TO PLAY</span></div>
     </div>
@@ -150,7 +150,7 @@ export function HomePage() {
                 Mulai petualangan
               </Link>
               <Link className="fun-cta fun-cta--ghost" href="#papan-skor">
-                <span className="score-heading-mark" aria-hidden>★</span> Papan skor
+                <span className="score-heading-mark" aria-hidden><Icon name="star" size={18} /></span> Papan skor
               </Link>
             </div>
             <p className="fun-privacy">
@@ -166,7 +166,7 @@ export function HomePage() {
       <section id="games" className="page-shell fun-section">
         <header className="fun-section__head">
           <h2>Pilih petualanganmu</h2>
-          <span className="fun-pill">⭐ {totalScore}</span>
+          <span className="fun-pill"><Icon name="star" size={16} /> {totalScore}</span>
         </header>
 
         <div className="fun-grid">
@@ -184,7 +184,6 @@ export function HomePage() {
                   } as React.CSSProperties
                 }
               >
-                <span className="fun-card__number" aria-hidden>{theme.mark}</span>
                 <span className="fun-card__art" aria-hidden>
                   <GameArtwork slug={game.slug} />
                 </span>
@@ -196,7 +195,7 @@ export function HomePage() {
                     <strong>{game.shortTitle}</strong>
                   </span>
                   <span className="fun-card__meta">{game.age} · {game.visionMode === "pose" ? "Gerak badan" : "Gerak tangan"}</span>
-                  <span className="fun-card__play">Mainkan <b aria-hidden>→</b></span>
+                  <span className="fun-card__play">Mainkan <b aria-hidden><Icon name="arrow" size={19} /></b></span>
                 </span>
               </Link>
             );
@@ -207,7 +206,7 @@ export function HomePage() {
       <section id="papan-skor" className="fun-board-band">
         <div className="page-shell">
           <header className="fun-section__head">
-            <h2><span className="score-heading-mark" aria-hidden>★</span> Papan skor</h2>
+            <h2><span className="score-heading-mark" aria-hidden><Icon name="star" size={18} /></span> Papan skor</h2>
             <Link className="fun-pill fun-pill--link" href="/leaderboards">
               Lihat semua
             </Link>
