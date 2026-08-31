@@ -3,7 +3,7 @@ import { AdminGate } from "@/components/admin/AdminGate";
 import { AffiliateAdminPanel } from "@/components/admin/AffiliateAdminPanel";
 import { requireOwner } from "@/lib/auth/requireOwner";
 
-export const metadata: Metadata = { title: "Affiliate Admin | Mainlagi Hub" };
+export const metadata: Metadata = { title: "Admin Afiliasi | Mainlagi Hub" };
 
 export const dynamic = "force-dynamic";
 
