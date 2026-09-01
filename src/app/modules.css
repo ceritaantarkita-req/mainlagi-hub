@@ -37,6 +37,55 @@
 .warung-pads { height: calc(100% - 145px); margin-top: 9px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .warung-pads.is-single { grid-template-columns: 1fr; }
 
+/*
+ * Math Warung - shelf + basket, both pinned to thin strips at the very top
+ * and bottom of the stage. The total/change steps use the shared
+ * .choice-grid-layout floating overlay instead (see globals.css). Neither
+ * layout puts anything solid across the middle of the frame - that's where
+ * the player's own face is, and covering it defeats a game whose whole
+ * point is "you can see yourself move".
+ */
+.warung-topbar { position: absolute; z-index: 10; left: var(--gap-2); right: var(--gap-2); top: 88px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.warung-budget-pill, .warung-cart-pill, .warung-checkout-pill { display: flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: rgba(8, 20, 42, .62); backdrop-filter: blur(6px); border: 1px solid rgba(255, 255, 255, .22); color: #fff; }
+.warung-budget-pill span { display: block; font-size: 9px; font-weight: 800; letter-spacing: .06em; color: #9fc4ff; text-transform: uppercase; }
+.warung-budget-pill strong { font-size: 15px; }
+.warung-cart-pill { border-style: dashed; border-width: 2px; }
+.warung-cart-pill__icon { font-size: 22px; }
+.warung-cart-pill div { display: flex; flex-direction: column; }
+.warung-cart-pill strong { font-size: 14px; line-height: 1.15; }
+.warung-cart-pill span { font-size: 9px; font-weight: 800; letter-spacing: .05em; color: #9fc4ff; text-transform: uppercase; }
+.warung-cart-pill { transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease; }
+.warung-cart-pill.is-armed { border-color: #25c77a; box-shadow: 0 0 0 4px rgba(37, 199, 122, .32); transform: scale(1.06); }
+.warung-checkout-pill { border: 0; background: var(--lime); color: var(--navy); font-weight: 900; font-size: 13px; cursor: pointer; transition: transform .15s ease, box-shadow .15s ease; }
+.warung-checkout-pill:disabled { opacity: .4; cursor: not-allowed; }
+.warung-checkout-pill[data-air-focused="true"] { transform: translateY(-2px) scale(1.05); box-shadow: 0 0 0 5px rgba(37, 199, 122, .3), 0 12px 30px rgba(21, 75, 53, .3); }
+
+/* The basket itself: a big, unmistakable drop zone pinned to the right edge,
+   not a small pill lost among the others - a target this size is also just
+   easier to actually hit with a shaky air-cursor. */
+.warung-cart-panel { position: absolute; z-index: 10; right: var(--gap-2); top: 88px; bottom: 172px; width: 168px; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 16px 10px 12px; border-radius: 20px; background: rgba(8, 20, 42, .58); backdrop-filter: blur(6px); border: 3px dashed rgba(255, 255, 255, .34); color: #fff; text-align: center; transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease, background .15s ease; }
+.warung-cart-panel.is-armed { border-style: solid; border-color: #25c77a; background: rgba(23, 168, 102, .3); box-shadow: 0 0 0 6px rgba(37, 199, 122, .3); transform: scale(1.035); }
+.warung-cart-panel__icon { font-size: 36px; }
+.warung-cart-panel__label { font-size: 10px; font-weight: 800; letter-spacing: .08em; color: #9fc4ff; text-transform: uppercase; margin-top: 2px; }
+.warung-cart-panel__total { font-size: 19px; }
+.warung-cart-panel__count { font-size: 10px; font-weight: 700; color: #c3d1e6; margin-bottom: 4px; }
+.warung-cart-panel__items { flex: 1; width: 100%; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 4px 0; }
+.warung-cart-panel__empty { font-size: 10.5px; line-height: 1.4; color: rgba(255, 255, 255, .78); padding: 6px 2px; }
+.warung-cart-panel .warung-checkout-pill { width: 100%; justify-content: center; margin-top: 6px; }
+
+.warung-subrow { position: absolute; z-index: 10; left: var(--gap-2); right: var(--gap-2); top: 138px; display: flex; justify-content: center; }
+.warung-cart-preview { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+.warung-cart-chip { padding: 4px 10px; border-radius: 999px; background: rgba(255, 255, 255, .16); backdrop-filter: blur(4px); border: 1px solid rgba(255, 255, 255, .26); color: #fff; font-size: 12px; font-weight: 700; }
+.warung-air-hint { max-width: 480px; text-align: center; font-size: 11px; font-weight: 700; color: rgba(255, 255, 255, .92); text-shadow: 0 1px 6px rgba(4, 12, 28, .9); }
+
+.warung-shelf { position: absolute; z-index: 10; left: var(--gap-2); right: 196px; bottom: 64px; display: flex; gap: 10px; overflow-x: auto; padding: 4px 2px 10px; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; }
+.warung-shelf-card { position: relative; flex: 0 0 auto; width: 100px; display: grid; justify-items: center; gap: 2px; padding: 10px 6px; border-radius: 16px; background: rgba(255, 247, 223, .92); backdrop-filter: blur(3px); border: 2px solid rgba(241, 183, 43, .55); text-align: center; scroll-snap-align: start; transition: transform .15s ease, opacity .15s ease; }
+.warung-shelf-card__emoji { font-size: 26px; }
+.warung-shelf-card b { font-size: 10.5px; color: #4a3a10; }
+.warung-shelf-card small { font-size: 9.5px; color: #8a733a; }
+.warung-shelf-card.is-carried { opacity: .38; transform: scale(.92); }
+.warung-shelf-card__qty { position: absolute; top: -7px; right: -7px; width: 20px; height: 20px; display: grid; place-items: center; border-radius: 999px; background: #25c77a; color: #fff; font-size: 10px; font-weight: 900; font-style: normal; box-shadow: 0 2px 6px rgba(0, 0, 0, .25); }
+
 /* AirBoard */
 .airboard-page { height: calc(100vh - 68px); background: #111b2c; }
 .airboard-toolbar { height: 58px; padding: 0 12px; display: flex; align-items: center; gap: 12px; color: white; background: #162238; border-bottom: 1px solid rgba(255,255,255,.1); overflow-x: auto; }
@@ -182,6 +231,12 @@
   .number-keypad button { width: 44px; height: 44px; font-size: var(--text-sm); }
   .receipt { grid-template-columns: 1fr auto; }
   .warung-pads { height: auto; min-height: 260px; grid-template-columns: 1fr; }
+  .warung-topbar { top: 60px; }
+  .warung-subrow { top: 108px; }
+  .warung-shelf { bottom: 56px; right: var(--gap-2); }
+  .warung-cart-panel { top: 108px; bottom: auto; height: 150px; width: 100%; left: var(--gap-2); right: var(--gap-2); flex-direction: row; flex-wrap: wrap; padding: 10px 12px; }
+  .warung-cart-panel__items { flex-direction: row; flex-wrap: wrap; }
+  .warung-shelf-card { width: 86px; }
 
   .airboard-page { height: 100%; }
   .airboard-toolbar { height: auto; padding: var(--gap-1) var(--gap-2); }
