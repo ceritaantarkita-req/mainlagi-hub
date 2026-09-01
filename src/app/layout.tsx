@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     template: "%s | Mainlagi Hub"
   },
   description:
-    "Sepuluh game dan alat interaktif berbasis gerakan tangan dan tubuh dalam satu Motion Learning.",
+    "10 game interaktif gerakan tangan & tubuh — ajak anak belajar matematika, huruf Hijaiyah, dan aktif bergerak lewat kamera laptop atau HP.",
   applicationName: "Mainlagi Hub",
   appleWebApp: {
     capable: true,
@@ -43,14 +43,16 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Mainlagi Hub — Motion Learning",
-    description: "Belajar, bergerak, dan bermain langsung dengan kamera.",
+    description: "10 game interaktif gerakan tangan & tubuh — ajak anak belajar matematika, huruf Hijaiyah, dan aktif bergerak lewat kamera laptop atau HP.",
     url: siteUrl,
     siteName: "Mainlagi Hub",
-    images: [{ url: "/og/home.png", width: 1200, height: 630 }],
+    images: [{ url: "/og/home.png", width: 1200, height: 630, alt: "Mainlagi Hub — Motion Learning" }],
     type: "website"
   },
   twitter: {
     card: "summary_large_image",
+    title: "Mainlagi Hub — Motion Learning",
+    description: "10 game interaktif gerakan tangan & tubuh — ajak anak belajar matematika, huruf Hijaiyah, dan aktif bergerak lewat kamera laptop atau HP.",
     images: ["/og/home.png"]
   }
 };
