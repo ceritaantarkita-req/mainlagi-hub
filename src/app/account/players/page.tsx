@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { PlayerProfiles } from "@/components/account/PlayerProfiles";
 
-export const metadata: Metadata = { title: "Pemain | Mainlagi Hub" };
+export const metadata: Metadata = { title: "Pemain" };
 
 export default function PlayersPage() {
   return (

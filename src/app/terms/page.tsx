@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { LegalPage } from "@/components/LegalPage";
 
-export const metadata: Metadata = { title: "Syarat Layanan | Mainlagi Hub" };
+export const metadata: Metadata = { title: "Syarat Layanan" };
 
 export default function TermsPage() {
   return (

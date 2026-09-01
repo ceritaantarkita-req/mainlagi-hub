@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { LegalPage } from "@/components/LegalPage";
 
-export const metadata: Metadata = { title: "Konsen Orang Tua | Mainlagi Hub" };
+export const metadata: Metadata = { title: "Konsen Orang Tua" };
 
 export default function ParentalConsentPage() {
   return (

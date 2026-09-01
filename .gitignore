@@ -1,5 +1,11 @@
 node_modules/
 .next/
+
+# Cloudflare Workers (OpenNext) build output / local state / secrets
+.open-next/
+.wrangler/
+cloudflare-env.d.ts
+.dev.vars
 out/
 dist/
 .qa-dist/

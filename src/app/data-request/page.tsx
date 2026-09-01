@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { LegalPage } from "@/components/LegalPage";
 
-export const metadata: Metadata = { title: "Permintaan Data | Mainlagi Hub" };
+export const metadata: Metadata = { title: "Permintaan Data" };
 
 export default function DataRequestPage() {
   return (

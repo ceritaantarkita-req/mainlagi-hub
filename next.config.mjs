@@ -1,5 +1,6 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 
 const projectRoot = path.dirname(fileURLToPath(import.meta.url));
 
@@ -31,5 +32,9 @@ const nextConfig = {
     ];
   }
 };
+
+// Lets `next dev` simulate Cloudflare bindings locally (Workers deploy uses
+// the OpenNext build separately, see wrangler.jsonc / open-next.config.ts).
+initOpenNextCloudflareForDev();
 
 export default nextConfig;

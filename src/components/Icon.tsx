@@ -26,7 +26,21 @@ export type IconName =
   | "star"
   | "camera"
   | "check"
-  | "dots";
+  | "dots"
+  | "activity"
+  | "doc"
+  | "tag"
+  | "grid"
+  | "trash"
+  | "eye"
+  | "bold"
+  | "italic"
+  | "list"
+  | "listOrdered"
+  | "quote"
+  | "link"
+  | "image"
+  | "heading";
 
 const PATHS: Record<IconName, ReactNode> = {
   home: (
@@ -115,7 +129,84 @@ const PATHS: Record<IconName, ReactNode> = {
       <circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none" />
       <circle cx="19" cy="12" r="1.3" fill="currentColor" stroke="none" />
     </>
-  )
+  ),
+  activity: (
+    <>
+      <path d="M3.5 13h4l2.2-6.5L13 18l2.4-9.5 1.6 4.5h3.5" />
+    </>
+  ),
+  doc: (
+    <>
+      <path d="M7 3.5h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-16a1 1 0 0 1 1-1Z" />
+      <path d="M14 3.5v4h4" />
+      <path d="M9 13h6M9 16.5h6" />
+    </>
+  ),
+  tag: (
+    <>
+      <path d="M11.5 3.5h5.8a1 1 0 0 1 1 1v5.8a1 1 0 0 1-.3.7l-8.4 8.4a1 1 0 0 1-1.4 0l-5.8-5.8a1 1 0 0 1 0-1.4l8.4-8.4a1 1 0 0 1 .7-.3Z" />
+      <circle cx="15.5" cy="8" r="1.2" fill="currentColor" stroke="none" />
+    </>
+  ),
+  grid: (
+    <>
+      <rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1.8" />
+      <rect x="13" y="3.5" width="7.5" height="7.5" rx="1.8" />
+      <rect x="3.5" y="13" width="7.5" height="7.5" rx="1.8" />
+      <rect x="13" y="13" width="7.5" height="7.5" rx="1.8" />
+    </>
+  ),
+  trash: (
+    <>
+      <path d="M4.5 7h15M9.5 7V5a1.5 1.5 0 0 1 1.5-1.5h2A1.5 1.5 0 0 1 14.5 5v2" />
+      <path d="M6.5 7 7.3 19a2 2 0 0 0 2 1.9h5.4a2 2 0 0 0 2-1.9L17.5 7" />
+      <path d="M10.3 10.5v6.5M13.7 10.5v6.5" />
+    </>
+  ),
+  eye: (
+    <>
+      <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" />
+      <circle cx="12" cy="12" r="3" />
+    </>
+  ),
+  bold: (
+    <path d="M6.5 4.5h6.2a3.6 3.6 0 0 1 0 7.2H6.5Zm0 7.2h6.9a3.8 3.8 0 0 1 0 7.6H6.5Z" />
+  ),
+  italic: <path d="M11 4.5h6M7 19.5h6M14 4.5 10 19.5" />,
+  list: (
+    <>
+      <circle cx="4.5" cy="6" r="1" fill="currentColor" stroke="none" />
+      <circle cx="4.5" cy="12" r="1" fill="currentColor" stroke="none" />
+      <circle cx="4.5" cy="18" r="1" fill="currentColor" stroke="none" />
+      <path d="M9 6h11M9 12h11M9 18h11" />
+    </>
+  ),
+  listOrdered: (
+    <>
+      <path d="M9 6h11M9 12h11M9 18h11" />
+      <path d="M4 5.5v3M4 8.5H5.5M3.5 14.5h2l-2 2.5h2M3.5 19.5h2" />
+    </>
+  ),
+  quote: (
+    <>
+      <path d="M6 8.5a3 3 0 0 0-1 5.7v2.3H2.5V13a5.2 5.2 0 0 1 3.5-6.9Z" />
+      <path d="M15.5 8.5a3 3 0 0 0-1 5.7v2.3H12V13a5.2 5.2 0 0 1 3.5-6.9Z" />
+    </>
+  ),
+  link: (
+    <>
+      <path d="M9.5 14.5 14.5 9.5" />
+      <path d="M11 6.5 13 4.5a3.5 3.5 0 0 1 5 5l-2 2M13 17.5l-2 2a3.5 3.5 0 0 1-5-5l2-2" />
+    </>
+  ),
+  image: (
+    <>
+      <rect x="3.5" y="4.5" width="17" height="15" rx="2.5" />
+      <circle cx="9" cy="10" r="1.6" fill="currentColor" stroke="none" />
+      <path d="m5.5 17 4.5-5 3.5 3.5 2-2 3 3.5" />
+    </>
+  ),
+  heading: <path d="M5 5v14M15 5v14M5 12h10M19 8v10" />
 };
 
 export function Icon({

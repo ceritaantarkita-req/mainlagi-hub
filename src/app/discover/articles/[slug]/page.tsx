@@ -58,11 +58,7 @@ export default async function ArticlePage({
             Diperbarui {article.updatedAt.slice(0, 10)}
           </small>
         </header>
-        <div className="article-detail__body">
-          {article.content.split("\n\n").map((paragraph, index) => (
-            <p key={index}>{paragraph}</p>
-          ))}
-        </div>
+        <div className="article-detail__body" dangerouslySetInnerHTML={{ __html: article.content }} />
         <footer className="article-detail__footer">
           <Link className="button button--secondary" href="/games">
             Lihat semua game

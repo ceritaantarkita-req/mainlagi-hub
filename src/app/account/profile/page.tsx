@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ProfileEditor } from "@/components/account/ProfileEditor";
 
-export const metadata: Metadata = { title: "Profil | Mainlagi Hub" };
+export const metadata: Metadata = { title: "Profil" };
 
 export default function ProfilePage() {
   return (

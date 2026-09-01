@@ -3,6 +3,7 @@ import "server-only";
 import { cookies } from "next/headers";
 import { createServerClient } from "@supabase/ssr";
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { timeoutFetch } from "./supabase-fetch";
 
 function configured(): { url: string; anon: string } | null {
   const url = (process.env.NEXT_PUBLIC_SUPABASE_URL ?? "").replace(/\/$/, "");
@@ -22,6 +23,7 @@ export async function getServerClient(): Promise<SupabaseClient | null> {
 
   const cookieStore = await cookies();
   return createServerClient(cfg.url, cfg.anon, {
+    global: { fetch: timeoutFetch() },
     cookies: {
       getAll() {
         return cookieStore.getAll();

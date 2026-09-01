@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { AuthForm } from "@/components/auth/AuthForm";
 
-export const metadata: Metadata = { title: "Lupa kata sandi | Mainlagi Hub" };
+export const metadata: Metadata = { title: "Lupa kata sandi" };
 
 export default function ForgotPasswordPage() {
   return (

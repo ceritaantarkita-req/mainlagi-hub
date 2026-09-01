@@ -26,19 +26,31 @@ export async function requireOwner(): Promise<OwnerGateResult> {
   const supabase = await getServerClient();
   if (!supabase) return { ok: false, reason: "Supabase belum dikonfigurasi." };
 
-  const { data: auth } = await supabase.auth.getUser();
-  const user = auth?.user;
-  if (!user) return { ok: false, reason: "Login diperlukan." };
+  // A paused/unreachable Supabase project must degrade to a normal gate
+  // failure, never throw and crash the admin page render.
+  try {
+    const { data: auth } = await supabase.auth.getUser();
+    const user = auth?.user;
+    if (!user) return { ok: false, reason: "Login diperlukan." };
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .single();
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .single();
 
-  if (profile?.role !== "owner") {
-    return { ok: false, reason: "Hanya owner yang boleh mengakses halaman ini." };
+    if (profile?.role !== "owner") {
+      return { ok: false, reason: "Hanya owner yang boleh mengakses halaman ini." };
+    }
+
+    return { ok: true, supabase, userId: user.id, email: user.email ?? null };
+  } catch (error) {
+    if (process.env.NODE_ENV !== "production") {
+      console.warn("[requireOwner] Supabase unreachable:", error);
+    }
+    return {
+      ok: false,
+      reason: "Supabase sedang tidak bisa diakses. Coba lagi sebentar lagi."
+    };
   }
-
-  return { ok: true, supabase, userId: user.id, email: user.email ?? null };
 }

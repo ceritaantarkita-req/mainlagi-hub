@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { StubPage } from "@/components/StubPage";
 
-export const metadata: Metadata = { title: "Keamanan | Mainlagi Hub" };
+export const metadata: Metadata = { title: "Keamanan" };
 
 export default function SecurityPage() {
   return (

@@ -3,7 +3,7 @@ import { getData } from "@/lib/data";
 import { ProductGrid } from "@/components/discover/ProductGrid";
 
 export const metadata: Metadata = {
-  title: "Produk | Mainlagi Hub",
+  title: "Produk",
   description: "Perlengkapan pendukung permainan gerak Mainlagi Hub."
 };
 

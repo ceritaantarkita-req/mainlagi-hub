@@ -2,6 +2,7 @@
 
 import { createBrowserClient } from "@supabase/ssr";
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { timeoutFetch } from "./supabase-fetch";
 
 function configured(): { url: string; anon: string } | null {
   const url = (process.env.NEXT_PUBLIC_SUPABASE_URL ?? "").replace(/\/$/, "");
@@ -22,7 +23,9 @@ export function getBrowserClient(): SupabaseClient | null {
   const cfg = configured();
   if (!cfg) return null;
   if (browser) return browser;
-  browser = createBrowserClient(cfg.url, cfg.anon);
+  browser = createBrowserClient(cfg.url, cfg.anon, {
+    global: { fetch: timeoutFetch() }
+  });
   return browser;
 }
 

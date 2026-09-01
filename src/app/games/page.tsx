@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { GameCatalog } from "@/components/games/GameCatalog";
 
 export const metadata: Metadata = {
-  title: "Game | Mainlagi Hub",
+  title: "Game",
   description: "Katalog permainan gerak Mainlagi Hub - Motion Learning."
 };
 

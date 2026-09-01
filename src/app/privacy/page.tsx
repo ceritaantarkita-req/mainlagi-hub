@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { LegalPage } from "@/components/LegalPage";
 
-export const metadata: Metadata = { title: "Kebijakan Privasi | Mainlagi Hub" };
+export const metadata: Metadata = { title: "Kebijakan Privasi" };
 
 export default function PrivacyPage() {
   return (

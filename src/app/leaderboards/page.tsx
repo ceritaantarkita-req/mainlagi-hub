@@ -3,7 +3,7 @@ import { WeekBanner } from "@/components/leaderboard/WeekBanner";
 import { LeaderboardBoard } from "@/components/leaderboard/LeaderboardBoard";
 
 export const metadata: Metadata = {
-  title: "Papan Skor | Mainlagi Hub",
+  title: "Papan Skor",
   description: "Papan skor semua permainan Mainlagi Hub Motion Learning."
 };
 

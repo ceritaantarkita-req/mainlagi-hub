@@ -16,7 +16,7 @@ export async function generateMetadata({
   const { gameSlug } = await params;
   if (!isGameSlug(gameSlug)) return {};
   return {
-    title: `Papan Skor ${GAMES[gameSlug].shortTitle} | Mainlagi Hub`
+    title: `Papan Skor ${GAMES[gameSlug].shortTitle}`
   };
 }
 

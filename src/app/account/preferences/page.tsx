@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Preferences } from "@/components/account/Preferences";
 
-export const metadata: Metadata = { title: "Preferensi | Mainlagi Hub" };
+export const metadata: Metadata = { title: "Preferensi" };
 
 export default function PreferencesPage() {
   return (

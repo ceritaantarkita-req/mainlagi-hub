@@ -3,7 +3,7 @@ import Link from "next/link";
 import { getData } from "@/lib/data";
 
 export const metadata: Metadata = {
-  title: "Artikel | Mainlagi Hub",
+  title: "Artikel",
   description: "Artikel belajar dan permainan anak dari Mainlagi Hub."
 };
 

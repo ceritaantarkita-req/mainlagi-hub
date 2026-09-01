@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { DiscoverShell } from "@/components/discover/DiscoverShell";
 
 export const metadata: Metadata = {
-  title: "Jelajah | Mainlagi Hub",
+  title: "Jelajah",
   description: "Temukan game, artikel, dan perlengkapan Mainlagi Hub."
 };
 

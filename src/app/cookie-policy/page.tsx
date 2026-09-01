@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { LegalPage } from "@/components/LegalPage";
 
-export const metadata: Metadata = { title: "Kebijakan Cookie | Mainlagi Hub" };
+export const metadata: Metadata = { title: "Kebijakan Cookie" };
 
 export default function CookiePolicyPage() {
   return (

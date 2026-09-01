@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { DeleteAccount } from "@/components/account/DeleteAccount";
 
-export const metadata: Metadata = { title: "Hapus Akun | Mainlagi Hub" };
+export const metadata: Metadata = { title: "Hapus Akun" };
 
 export default function DeleteAccountPage() {
   return (
