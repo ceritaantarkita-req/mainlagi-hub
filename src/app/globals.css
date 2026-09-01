@@ -3343,6 +3343,35 @@ html[data-theme="dark"] .admin-banner--warn { background: #2c2408; color: #f4d67
 .admin-table small { color: var(--muted); }
 .admin-table__actions { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 
+.admin-table__sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  font-weight: 800;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  color: inherit;
+  cursor: pointer;
+}
+.admin-table__sort:hover { color: var(--navy); }
+.admin-table__sort-icon { font-size: 9px; opacity: .45; }
+.admin-table__sort-icon.is-active { opacity: 1; color: var(--blue); }
+.admin-table__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+.admin-table__more { padding: 8px 18px; font-size: 13px; min-height: auto; }
+
 .admin-badge {
   display: inline-flex;
   padding: 3px 10px;
