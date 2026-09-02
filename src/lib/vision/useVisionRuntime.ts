@@ -161,6 +161,24 @@ export function useVisionRuntime({
     A: new PrimaryHandSelector(),
     B: new PrimaryHandSelector()
   });
+  /**
+   * Raw tip position the primary hand was last seen at, per player.
+   *
+   * MediaPipe does not guarantee a hand keeps the same array index between
+   * frames - when a second hand (a resting off-hand, a parent's hand passing
+   * through) is also visible for the same player, `handSets` can report them
+   * in either order from one frame to the next. Building `grouped[player]`
+   * straight off that order would then hand slot 0's `HandSlotState` (its
+   * gesture hysteresis, its pinch latch) to a different physical hand mid-
+   * gesture, which reads exactly like a dropped pinch during a drag even
+   * though tracking never actually lost the real hand. This anchor lets slot
+   * assignment prefer whichever candidate is actually closest to where the
+   * primary hand just was, so gesture state stays with the right hand.
+   */
+  const lastPrimaryRawPointRef = useRef<Record<PlayerId, { x: number; y: number } | null>>({
+    A: null,
+    B: null
+  });
   const calibrationsRef = useRef<Partial<Record<PlayerId, BodyCalibration>>>({});
   const calibrationSamplesRef = useRef<Record<PlayerId, BodySample[]>>({
     A: [],
@@ -249,6 +267,7 @@ export function useVisionRuntime({
       primaryHandRef.current[player].reset();
       bodyCenterSmoothersRef.current[player].reset();
       bodyLandmarkSmoothersRef.current[player].reset();
+      lastPrimaryRawPointRef.current[player] = null;
     }
   }, []);
 
@@ -587,7 +606,10 @@ export function useVisionRuntime({
            * Pass 1: assign every detected hand to a player and keep up to two
            * per player. Nothing is discarded silently any more.
            */
-          const grouped: Record<PlayerId, Array<{ index: number }>> = {
+          const grouped: Record<
+            PlayerId,
+            Array<{ index: number; point: { x: number; y: number } }>
+          > = {
             A: [],
             B: []
           };
@@ -605,7 +627,7 @@ export function useVisionRuntime({
             if (!isHandPlausible(candidate, bodyCandidates)) continue;
             const player = assignHandToPlayer(candidate, bodyCandidates, playerCount);
             if (grouped[player].length >= MAX_HANDS_PER_PLAYER) continue;
-            grouped[player].push({ index });
+            grouped[player].push({ index, point: candidate.point });
           }
 
           /** Pass 2: smooth, classify and pick the pen hand per player. */
@@ -617,7 +639,26 @@ export function useVisionRuntime({
               continue;
             }
 
-            const built = entries.map((entry, slotIndex) => {
+            // See lastPrimaryRawPointRef above: with more than one candidate
+            // for this player this frame, keep the one nearest the previous
+            // primary hand at slot 0 so its gesture state carries over.
+            const anchor = lastPrimaryRawPointRef.current[player];
+            const orderedEntries =
+              entries.length > 1 && anchor
+                ? [...entries].sort((left, right) => {
+                    const distanceLeft = Math.hypot(
+                      left.point.x - anchor.x,
+                      left.point.y - anchor.y
+                    );
+                    const distanceRight = Math.hypot(
+                      right.point.x - anchor.x,
+                      right.point.y - anchor.y
+                    );
+                    return distanceLeft - distanceRight;
+                  })
+                : entries;
+
+            const built = orderedEntries.map((entry, slotIndex) => {
               const key: HandSlotKey = `${player}:${slotIndex}`;
               const slot = handSlot(key);
               const rawLandmarks = handSets[entry.index]!;
@@ -657,6 +698,11 @@ export function useVisionRuntime({
               })),
               now
             );
+
+            const primaryIndex = built.findIndex((hand) => hand.id === primaryId);
+            if (primaryIndex !== -1) {
+              lastPrimaryRawPointRef.current[player] = orderedEntries[primaryIndex]!.point;
+            }
 
             for (const hand of built) {
               hands.push({ ...hand, primary: hand.id === primaryId });
