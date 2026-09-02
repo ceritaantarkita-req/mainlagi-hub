@@ -146,7 +146,17 @@ export function GrabCursor({
     const now = snapshot.timestamp || performance.now();
 
     if (!hand) {
-      if (draggingIdRef.current) endDrag(null);
+      // The tracker drops the hand entirely for a frame or several during a
+      // fast, wide sweep - exactly the motion a shelf-to-basket drag needs -
+      // well before the pinch shape itself is lost. Treat a vanished hand
+      // the same as a vanished pinch: freeze the ghost where it last was and
+      // only give up once the release grace window has actually elapsed,
+      // instead of cancelling the instant one frame comes back empty.
+      if (draggingIdRef.current) {
+        const releasedFor = now - (lastPinchAtRef.current ?? now);
+        if (releasedFor >= releaseGraceRef.current) endDrag(null);
+        return;
+      }
       show(false);
       return;
     }

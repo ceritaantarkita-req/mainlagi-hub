@@ -296,8 +296,14 @@ export function MathWarungGame(props: GameModuleProps) {
 
   const grabEnabled =
     props.inputMode === "camera" && step === "shopping" && timer.running;
+  // Suppressed while a shelf card is being carried: its own dwell cursor
+  // would otherwise sit right on top of the grab ghost, and a hand mid-drag
+  // was never trying to aim at the checkout button anyway.
   const checkoutAirEnabled =
-    props.inputMode === "camera" && step === "shopping" && timer.running;
+    props.inputMode === "camera" &&
+    step === "shopping" &&
+    timer.running &&
+    !grabbedId;
 
   const renderMoneyBoard = (player: PlayerId) => {
     const activeChoices = step === "total" ? totalChoices?.[player] : changeChoices?.[player];
