@@ -2004,11 +2004,13 @@ img { max-width: 100%; }
 .fun-blobs { opacity: .32; filter: blur(42px); }
 .fun-hero__inner { gap: clamp(28px, 5vw, 72px); }
 .fun-hero__copy h1 {
-  max-width: 11ch;
+  max-width: 14ch;
   font-size: clamp(42px, 6vw, 76px);
   letter-spacing: -.055em;
 }
 .fun-hero__copy > p { max-width: 39ch; color: #52627c; line-height: 1.6; }
+.fun-hero__facts { display: flex; flex-wrap: wrap; gap: 8px; margin: var(--gap-3) 0 0; }
+.fun-hero__facts .fun-pill { font-size: 12px; padding: 7px 12px; }
 .fun-gradient-text {
   background: linear-gradient(100deg, #ef791c 5%, #e7448d 53%, #6956dc 100%);
   -webkit-background-clip: text;
@@ -2040,7 +2042,17 @@ img { max-width: 100%; }
 .fun-cta--ghost { border: 2px solid #f3bf32; box-shadow: 0 8px 18px rgba(203, 143, 20, .12); }
 .fun-cta:hover { transform: translateY(-2px); box-shadow: 0 14px 26px rgba(221, 61, 127, .28); }
 .fun-cta:active { transform: translateY(1px); }
-.fun-privacy { color: #66738a; font-weight: 800; }
+.fun-privacy {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #4d6b1f;
+  font-weight: 800;
+  background: #f3fbdc;
+  border: 2px solid #d7f486;
+  border-radius: 999px;
+  padding: 8px 16px 8px 10px;
+}
 .hero-product {
   width: min(100%, 470px);
   padding: 15px;
@@ -2123,7 +2135,7 @@ img { max-width: 100%; }
 .fun-affiliate strong { line-height: 1.3; text-wrap: pretty; }
 
 @media (min-width: 768px) {
-  .fun-hero__copy h1 { max-width: 12ch; }
+  .fun-hero__copy h1 { max-width: 15ch; }
   .fun-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
   .fun-card { min-height: 220px; }
 }
@@ -3804,7 +3816,7 @@ html[data-theme="dark"] .fun-step__mark { background: #2a3c63; color: #d3f46f; }
 html[data-theme="dark"] .fun-step b { background: #d3f46f; color: #0f2344; }
 html[data-theme="dark"] .fun-step p { color: #ecf2ff; }
 html[data-theme="dark"] .fun-hero__copy > p { color: #c3cde0; }
-html[data-theme="dark"] .fun-privacy { color: #b3c0d6; }
+html[data-theme="dark"] .fun-privacy { color: #d7f486; background: #1e2a1a; border-color: #3c5222; }
 html[data-theme="dark"] .fun-section__head h2 { color: #f4f7ff; }
 html[data-theme="dark"] .score-heading-mark,
 html[data-theme="dark"] .privacy-mark { background: #fcd34d; color: #7d5200; }
@@ -4132,3 +4144,55 @@ html[data-theme="dark"] .fun-card__glyph,
 html[data-theme="dark"] .fun-card__play { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.14); color: #fff; }
 html[data-theme="dark"] .fun-card__meta { color: #b5c0d5; }
 html[data-theme="dark"] .fun-section__head h1 { color: #f4f7ff; }
+
+/* ── About page (Tentang Mainlagi Hub, /account/about) ─────────────── */
+.about-hero { padding: var(--gap-2) 0 var(--gap-5); }
+.about-hero h1 { margin: 0 0 6px; font-size: clamp(30px, 5vw, 44px); letter-spacing: -.03em; color: var(--navy); }
+.about-hero__updated { margin: 0 0 var(--gap-3); color: var(--muted); font-weight: 700; font-size: 13px; }
+.about-lede { margin: 0 0 var(--gap-3); font-size: var(--text-lg); font-weight: 700; color: var(--navy); line-height: 1.5; max-width: 62ch; }
+.about-facts { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 var(--gap-3); }
+.about-facts .fun-pill { font-size: 12px; padding: 7px 12px; }
+.about-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 var(--gap-4); }
+.about-tags span { padding: 7px 13px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); font-size: 13px; font-weight: 700; color: var(--navy); }
+
+.about-quote { margin: 0 0 var(--gap-4); padding: 22px 24px; border-radius: 20px; background: linear-gradient(150deg, #fff0cf, #fff8ef); border: 1px solid #f2e5d2; font-size: var(--text-md); font-weight: 700; color: var(--navy); line-height: 1.6; max-width: 62ch; }
+
+.about-hero h2 { margin: 0 0 var(--gap-2); font-size: clamp(20px, 2.4vw, 26px); letter-spacing: -.02em; color: var(--navy); }
+
+.about-cards { display: grid; grid-template-columns: 1fr; gap: 14px; margin: 0 0 var(--gap-4); }
+.about-card { display: grid; gap: 10px; padding: 20px; border-radius: 18px; background: var(--surface); border: 1px solid var(--line); transition: transform 150ms, box-shadow 150ms, border-color 150ms; }
+.about-card:hover { transform: translateY(-2px); border-color: #9eb5d9; box-shadow: 0 10px 24px rgba(15,35,68,.08); }
+.about-card__icon { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 14px; background: linear-gradient(150deg, var(--blue), var(--blue-2)); color: #fff; }
+.about-card h3 { margin: 0; font-size: 16px; color: var(--navy); }
+.about-card p { margin: 0; font-size: 14px; color: var(--muted); line-height: 1.55; }
+.about-card:nth-child(1) .about-card__icon { background: linear-gradient(150deg, #38b8a0, #0f8f7c); }
+.about-card:nth-child(2) .about-card__icon { background: linear-gradient(150deg, #f68bb0, #e4517e); }
+.about-card:nth-child(3) .about-card__icon { background: linear-gradient(150deg, #f7c24a, #e69a12); }
+
+.about-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin: 0 0 var(--gap-4); }
+.about-grid__item { padding: 18px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); }
+.about-grid__item h3 { margin: 0 0 6px; font-size: 14px; color: var(--navy); display: flex; align-items: center; gap: 8px; }
+.about-grid__item p { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+.about-footnote { margin: 0 0 var(--gap-2); padding: 16px 18px; border-radius: 16px; background: var(--surface-2); font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+@media (min-width: 768px) {
+  .about-cards { grid-template-columns: repeat(3, 1fr); }
+  .about-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+html[data-theme="dark"] .about-hero h1,
+html[data-theme="dark"] .about-hero h2,
+html[data-theme="dark"] .about-lede,
+html[data-theme="dark"] .about-quote,
+html[data-theme="dark"] .about-card h3,
+html[data-theme="dark"] .about-grid__item h3 { color: #f4f7ff; }
+html[data-theme="dark"] .about-quote { background: linear-gradient(150deg, #2c2412, #121a2f); border-color: #3a2f16; }
+html[data-theme="dark"] .about-card,
+html[data-theme="dark"] .about-grid__item,
+html[data-theme="dark"] .about-tags span { background: #121a2f; border-color: #22304d; }
+html[data-theme="dark"] .about-card p,
+html[data-theme="dark"] .about-grid__item p,
+html[data-theme="dark"] .about-footnote,
+html[data-theme="dark"] .about-tags span { color: #a3b0c8; }
+html[data-theme="dark"] .about-footnote { background: #0e1526; }

@@ -40,7 +40,8 @@ export type IconName =
   | "quote"
   | "link"
   | "image"
-  | "heading";
+  | "heading"
+  | "faq";
 
 const PATHS: Record<IconName, ReactNode> = {
   home: (
@@ -206,7 +207,14 @@ const PATHS: Record<IconName, ReactNode> = {
       <path d="m5.5 17 4.5-5 3.5 3.5 2-2 3 3.5" />
     </>
   ),
-  heading: <path d="M5 5v14M15 5v14M5 12h10M19 8v10" />
+  heading: <path d="M5 5v14M15 5v14M5 12h10M19 8v10" />,
+  faq: (
+    <>
+      <path d="M4.5 6.5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H10l-4.2 3.6a.6.6 0 0 1-1-.46V15.5h-.3a2 2 0 0 1-2-2Z" />
+      <path d="M10.4 9.6a1.7 1.7 0 1 1 2.5 1.5c-.75.4-1.15.85-1.15 1.7" />
+      <circle cx="11.9" cy="15.3" r="0.15" fill="currentColor" stroke="none" />
+    </>
+  )
 };
 
 export function Icon({

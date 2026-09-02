@@ -137,14 +137,15 @@ export function HomePage() {
         <div className="page-shell fun-hero__inner">
           <div className="fun-hero__copy">
             <h1>
-              Belajar Seru,
+              Main Gerak,
               <br />
-              <span className="fun-gradient-text">Gerak &amp; Pintar!</span>
+              <span className="fun-gradient-text">Makin Jago!</span>
             </h1>
-            <p>
-              Sepuluh permainan yang dimainkan dengan gerakan tangan dan badan.
-              Cukup satu kamera.
-            </p>
+            <div className="fun-hero__facts">
+              <span className="fun-pill"><Icon name="games" size={14} /> 10 Permainan</span>
+              <span className="fun-pill"><Icon name="activity" size={14} /> Gerak Tangan &amp; Badan</span>
+              <span className="fun-pill"><Icon name="camera" size={14} /> Cukup 1 Kamera</span>
+            </div>
             <div className="fun-hero__actions">
               <Link className="fun-cta" href="#games">
                 Mulai petualangan

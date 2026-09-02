@@ -11,6 +11,7 @@ const SECTIONS = [
   { label: "Preferensi", href: "/account/preferences", icon: "settings" as const },
   { label: "Keamanan", href: "/account/security", icon: "lock" as const },
   { label: "Tentang", href: "/account/about", icon: "globe" as const },
+  { label: "FAQ", href: "/faq", icon: "faq" as const },
   { label: "Hapus akun", href: "/account/delete", icon: "close" as const }
 ];
 
