@@ -382,6 +382,18 @@ export function MathWarungGame(props: GameModuleProps) {
             </div>
           </div>
 
+          {/* A much bigger, invisible hit target sharing the same
+              data-grab-target id as the visible panel below. The panel
+              itself is intentionally compact so the shopping screen reads
+              cleanly, but making a child sweep their hand all the way to a
+              168px-wide column at the very edge of the screen - after
+              already crossing most of its width just to carry the item -
+              is precision the pinch gesture cannot reliably deliver. This
+              covers a whole right-hand swath of the play area instead, so
+              "carry it toward the basket" stays true without demanding a
+              pixel-perfect landing. */}
+          <div className="warung-cart-dropzone" data-grab-target="cart" aria-hidden />
+
           <div
             className={`warung-cart-panel ${cartArmed ? "is-armed" : ""}`}
             data-grab-target="cart"

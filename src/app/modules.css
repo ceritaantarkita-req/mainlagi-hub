@@ -64,6 +64,7 @@
    not a small pill lost among the others - a target this size is also just
    easier to actually hit with a shaky air-cursor. */
 .warung-cart-panel { position: absolute; z-index: 10; right: var(--gap-2); top: 88px; bottom: 172px; width: 168px; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 16px 10px 12px; border-radius: 20px; background: rgba(8, 20, 42, .58); backdrop-filter: blur(6px); border: 3px dashed rgba(255, 255, 255, .34); color: #fff; text-align: center; transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease, background .15s ease; }
+.warung-cart-dropzone { position: absolute; z-index: 5; top: 88px; bottom: 64px; right: var(--gap-2); width: 42%; pointer-events: none; }
 .warung-cart-panel.is-armed { border-style: solid; border-color: #25c77a; background: rgba(23, 168, 102, .3); box-shadow: 0 0 0 6px rgba(37, 199, 122, .3); transform: scale(1.035); }
 .warung-cart-panel__icon { font-size: 36px; }
 .warung-cart-panel__label { font-size: 10px; font-weight: 800; letter-spacing: .08em; color: #9fc4ff; text-transform: uppercase; margin-top: 2px; }
@@ -235,6 +236,7 @@
   .warung-subrow { top: 108px; }
   .warung-shelf { bottom: 56px; right: var(--gap-2); }
   .warung-cart-panel { top: 108px; bottom: auto; height: 150px; width: 100%; left: var(--gap-2); right: var(--gap-2); flex-direction: row; flex-wrap: wrap; padding: 10px 12px; }
+  .warung-cart-dropzone { top: 108px; bottom: 56px; left: var(--gap-2); right: var(--gap-2); width: auto; }
   .warung-cart-panel__items { flex-direction: row; flex-wrap: wrap; }
   .warung-shelf-card { width: 86px; }
 
