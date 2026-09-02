@@ -2009,7 +2009,7 @@ img { max-width: 100%; }
   letter-spacing: -.055em;
 }
 .fun-hero__copy > p { max-width: 39ch; color: #52627c; line-height: 1.6; }
-.fun-hero__facts { display: flex; flex-wrap: wrap; gap: 8px; margin: var(--gap-3) 0 0; }
+.fun-hero__facts { display: flex; flex-wrap: wrap; gap: 8px; margin: var(--gap-3) 0; }
 .fun-hero__facts .fun-pill { font-size: 12px; padding: 7px 12px; }
 .fun-gradient-text {
   background: linear-gradient(100deg, #ef791c 5%, #e7448d 53%, #6956dc 100%);
@@ -2050,9 +2050,11 @@ img { max-width: 100%; }
   font-weight: 800;
   background: #f3fbdc;
   border: 2px solid #d7f486;
-  border-radius: 999px;
-  padding: 8px 16px 8px 10px;
+  border-radius: 14px;
+  padding: 10px 16px;
+  max-width: 34ch;
 }
+.fun-privacy .privacy-mark { flex: none; align-self: flex-start; margin-top: 1px; }
 .hero-product {
   width: min(100%, 470px);
   padding: 15px;
