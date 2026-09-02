@@ -141,11 +141,10 @@ export function HomePage() {
               <br />
               <span className="fun-gradient-text">Makin Jago!</span>
             </h1>
-            <div className="fun-hero__facts">
-              <span className="fun-pill"><Icon name="games" size={14} /> 10 Permainan</span>
-              <span className="fun-pill"><Icon name="activity" size={14} /> Gerak Tangan &amp; Badan</span>
-              <span className="fun-pill"><Icon name="camera" size={14} /> Cukup 1 Kamera</span>
-            </div>
+            <p>
+              10 permainan yang dimainkan lewat gerakan tangan dan badan
+              — cukup satu kamera, tanpa kontroler.
+            </p>
             <div className="fun-hero__actions">
               <Link className="fun-cta" href="#games">
                 Mulai petualangan
