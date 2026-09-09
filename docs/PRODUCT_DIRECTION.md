@@ -4,6 +4,8 @@ Status: **planned direction, not an implementation claim**.
 
 This document records the agreed product direction while preserving the current Mainlagi Hub motion engine and existing games.
 
+For the canonical product/UX behavior, screen model, activity architecture, migration rules, and AI-agent execution constraints, also read `docs/MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md`.
+
 ## 1. Non-negotiable continuity
 
 Mainlagi does **not** discard the current motion/vision engine.
