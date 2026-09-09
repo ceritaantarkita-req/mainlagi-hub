@@ -1,6 +1,6 @@
 # Mainlagi Hub — Current State
 
-Last reviewed: 9 September 2026
+Last reviewed: 10 September 2026
 
 This file is the canonical human/AI handoff for the current repository state. `main` is the only source of truth. Commit SHAs below are dated snapshots, not permanent version labels.
 
@@ -9,16 +9,13 @@ This file is the canonical human/AI handoff for the current repository state. `m
 - Repository: `ceritaantarkita-req/mainlagi-hub`
 - Visibility: Public
 - Default/canonical branch: `main`
-- Learning/mastery + database-hardening baseline: `16f20b22f4a0e99419221f9f2a88b38564bb193d`
-- Cloudflare Git auto-deploy validation baseline: `90096246de3ae9b051af03e16a59dbd3bab0368a`
+- Cloud learning/profile/ownership implementation baseline: `7fa7ab7b4642e67343370924e740433fefe8f914`
 - Source license: `AGPL-3.0-only`
 - Commercial/open-core policy: see `OPEN_CORE.md`, `COMMERCIAL_LICENSE.md`, and `docs/PRODUCT_TIERS_AND_CODE_BOUNDARY.md`.
 
 ## Canonical production architecture
 
 Production is **not VPS/SSH based**.
-
-Canonical path confirmed on 9 September 2026:
 
 ```text
 GitHub (`ceritaantarkita-req/mainlagi-hub`)
@@ -29,133 +26,141 @@ GitHub (`ceritaantarkita-req/mainlagi-hub`)
   -> https://mainlagihub.my.id/
 ```
 
-Repository support for this path exists through `@opennextjs/cloudflare`, `open-next.config.ts`, `wrangler.jsonc`, and the Cloudflare build/deploy scripts in `package.json`.
+GitHub Actions is the quality/security gate. Cloudflare owns publication from the Git-connected `main` branch. Previous references to `mainlagi.inmydraft.com`, `/srv/mainlagi`, VPS SSH deploys, or `MAINLAGI_VPS_*` are superseded.
 
-All earlier references to `mainlagi.inmydraft.com`, a Mainlagi VPS deployment, `/srv/mainlagi`, forced-command SSH, or `MAINLAGI_VPS_*` deployment secrets are superseded.
+## Production deployment verification
 
-GitHub Actions is the quality/security gate. The production build gate validates the actual OpenNext/Cloudflare artifact; Cloudflare handles publication from the Git-connected `main` branch.
+Cloudflare Git deployment and exact-commit verification are active.
 
-### Auto-deploy validation
+For implementation commit `7fa7ab7b4642e67343370924e740433fefe8f914`:
 
-Cloudflare Git integration is empirically validated, not just documented:
+- Cloudflare check: `Workers Builds: mainlagi-hub` — success;
+- Cloudflare Build ID: `77e6e799-bd5d-4170-ae2e-8a39876a5c6d`;
+- Cloudflare Version ID: `e9d879f1-100d-48d6-9142-90f1f51d1912`;
+- GitHub `Production smoke (Cloudflare)` — success;
+- the smoke gate verified that the public production release served the exact current `main` SHA and canonical production metadata.
 
-- repo: `ceritaantarkita-req/mainlagi-hub`;
-- production branch: `main`;
-- test merge: PR #14;
-- resulting `main` commit: `90096246de3ae9b051af03e16a59dbd3bab0368a`;
-- Cloudflare GitHub check: `Workers Builds: mainlagi-hub`;
-- Cloudflare Build ID: `29bdf24f-58da-4a94-9011-e7321934dd3c`;
-- Cloudflare Version ID: `4cbcd05f-a821-4891-a41e-4706ad14f2e3`;
-- result: success.
-
-The public homepage at `https://mainlagihub.my.id/` was observed loading over HTTPS in the browser after the integration was connected.
-
-### Commit-aware production smoke gate
-
-The health endpoint is being hardened so production can prove **which Git commit is actually live**, not merely that an older deployment still responds.
-
-Cloudflare Workers Builds injects `WORKERS_CI_COMMIT_SHA` and `WORKERS_CI_BRANCH` at build time. Mainlagi bakes those public/non-secret values into the server artifact and returns them from `/api/health`.
-
-GitHub CI adds a push-to-`main` job:
-
-```text
-Production smoke (Cloudflare)
-```
-
-After the five existing quality/security jobs succeed, this smoke job waits for the public homepage and `/api/health` and succeeds only when production reports the exact `github.sha` for the current push and branch `main`.
-
-This preserves ownership boundaries:
-
-- GitHub CI validates quality and verifies production after deployment;
-- Cloudflare Git integration remains the production deployer;
-- no GitHub VPS/SSH deployment path is reintroduced.
-
-The first successful canonical-main run of this new smoke gate is still required before marking the health/deployment verification sub-step closed.
-
-See `docs/DEPLOYMENT.md`.
+`/api/health` exposes only non-secret release/backend metadata. The smoke gate verifies the exact release instead of accepting an older still-running Worker.
 
 ## Shipped platform shape
 
-Mainlagi is a child-learning platform whose motion/vision engine remains a retained activity runtime rather than the universal learning data model.
+Mainlagi is a child-learning platform whose motion/vision engine remains an activity runtime rather than the universal learning data model.
 
-Current public core includes:
+Current core includes:
 
-- five learning subjects: Bahasa Indonesia, English, Matematika, Iqro, and Mewarnai;
-- child profiles and local/basic learning progress;
-- stage/activity learning registry;
-- touch/audio/story/coloring/tracing/matching/motion activity types;
-- canonical learning-attempt, skill-evidence, mastery, progression, achievement, and certificate primitives;
-- evidence-aware stage access guard;
-- parent-facing progress/mastery/report/certificate surfaces;
-- Mainlagi World child-facing vertical slice, including Kota Angka, stage progression, rewards, and responsive child navigation;
-- ten existing motion games, retained rather than rewritten;
-- MediaPipe/browser vision runtime and existing gesture/tracing engines;
-- public licensing, security, provenance, and CI controls.
+- five subjects: Bahasa Indonesia, English, Matematika, Iqro, and Mewarnai;
+- child profiles, learning progress, attempts, evidence, mastery, achievements, and certificates;
+- touch/audio/story/coloring/tracing/matching/motion activity runtimes;
+- evidence-aware progression and stage access;
+- parent progress/report/certificate views;
+- Mainlagi World child experience;
+- existing motion games and MediaPipe/browser vision runtimes;
+- cloud-backed authenticated learning state plus explicit guest/local fallback;
+- server-side parent authentication and child-ownership guards.
 
-The architectural direction is:
+Canonical learning flow:
 
 ```text
-Subject
-  -> Stage / learning path
-    -> Activity
-      -> Activity runtime
-         - touch / choice
-         - matching
-         - tracing
-         - coloring
-         - listening / story
-         - motion game
-      -> Learning Attempt
-         -> Skill Evidence
-            -> Skill Mastery
+Child Profile
+  -> Learning Attempt
+    -> Skill Evidence
+      -> Skill Mastery
+        -> Stage Readiness / Unlock
+          -> Parent Report / Achievement / Certificate
 ```
 
-The motion engine is one activity runtime, not the learning-platform data model.
+## Learning evidence integrity
 
-## Learning evidence state
+Legacy completion events remain conservative:
 
-The learning-attempt/mastery foundation is merged into `main`.
+- completion-only data is stored as completion/practice context;
+- no placeholder accuracy is fabricated;
+- no mastery evidence is created without a measurable assessed outcome.
 
-Important integrity rule: legacy `completeActivity(...)` events are retained as completion-only attempts but **do not** fabricate assessment score/accuracy and do not create mastery evidence. Existing assessed activities need explicit measurable attempt outcomes before they can advance mastery.
+Current mastery protections include:
 
-The engine supports correct/incorrect counts, hints, retries, duration, input mode, anti-replay guards, evidence weighting, mastery bands, progression readiness, and next-best ranking.
+- one qualifying perfect attempt remains at most `exploring`;
+- repeated qualifying evidence is required for higher mastery;
+- replay inside 30 seconds is retained but non-qualifying;
+- seven or more retries make evidence non-qualifying;
+- practice activity classification is server/catalog owned;
+- stage readiness uses qualifying evidence rather than raw replay count.
 
-The next-best ranking primitive exists, but the child-home quest ribbon has not yet been fully replaced by this ranking everywhere.
+Parent-facing evidence wording uses **Skor evidence** rather than implying that a single 100% attempt equals mastery.
 
-See `docs/LEARNING_ATTEMPTS_MASTERY.md`.
+## Cloud child profiles and source-of-truth boundary
 
-## CI and public-repository controls
+Authenticated accounts now use existing `public.player_profiles` as the child-profile source of truth for the learning UI.
 
-Primary CI provides:
+Authenticated mode:
 
-- `Production build` — OpenNext/Cloudflare production artifact build;
+- lists undeleted account-owned profiles from Supabase;
+- creates profiles under the authenticated `account_id`;
+- soft-deletes profiles with `deleted_at`;
+- reads learning attempts, skill evidence, mastery, and derived progress from Supabase;
+- does **not** silently replace a failed cloud read with stale localStorage data;
+- refreshes cloud learning state immediately after a successful attempt RPC sync.
+
+Guest mode:
+
+- remains local-only for child play/profile state;
+- does not silently upload local profiles to cloud after login.
+
+Legacy `player_profiles.age_group` values remain compatible for child-specific groups: `TK -> 5`, `SD 1 -> 6`, `SD 2 -> 7`. The ambiguous legacy value `Umum` is intentionally not assigned a child learning age automatically.
+
+The fixed `demo-gian` profile is an explicit sandbox sentinel. Its learning rows remain account-scoped by RLS; it is not a cross-account shared data row.
+
+## Parent and child ownership gates
+
+Production parent routes are server gated:
+
+- `/parent/*` requires a valid server-verified Supabase session when Supabase is configured;
+- `/parent/children/<childId>/*` requires the real child profile to be owned by the authenticated account and not soft-deleted;
+- foreign/deleted child IDs fail closed with `notFound()`;
+- the explicit `demo-gian` sandbox is allowed.
+
+Authenticated child-mode direct URLs are also ownership checked. A logged-in account cannot render another account's real child route by changing the URL. Unauthenticated guest/local child play remains available by design.
+
+Database migration `0007_learning_child_ownership` adds a second boundary at `learning_attempts`: a real `child_key` must resolve to an undeleted `player_profiles` row with the same `account_id`; only `demo-gian` is exempt as the explicit sandbox sentinel.
+
+## CI and regression coverage
+
+Primary CI runs:
+
+- `Production build` — actual OpenNext/Cloudflare artifact;
 - `Quality gate (Ubuntu)`;
 - `Windows compatibility`;
 - `Production dependency audit`;
 - `Secret history scan`;
-- `Production smoke (Cloudflare)` — push-to-main only, commit-aware production verification.
+- `Production smoke (Cloudflare)` on canonical `main`.
 
-The learning/mastery implementation, database hardening, deployment-architecture correction, and Cloudflare trigger-validation PRs passed the applicable code/security gates before merge.
+Learning tests cover:
 
-The stale GitHub Actions VPS deployment job and manual SSH deployment assumptions have been removed from the canonical path.
+- mastery transitions and anti-one-shot behavior;
+- replay/retry anti-farming;
+- evidence degradation and practice classification;
+- progression based on qualifying evidence;
+- assessed-runtime/catalog consistency;
+- certificate competency integrity;
+- multi-child local isolation;
+- cloud `child_key` filtering and account binding;
+- parent/child direct-route ownership contracts;
+- legacy child age-group compatibility;
+- migration/RLS/RPC security contracts including migration `0007`.
 
-The `Protect main` repository ruleset is Active, requires PRs, squash-only merging, conversation resolution, strict/up-to-date status checks, linear history, and blocks deletion/non-fast-forward updates.
-
-Account-level follow-up remains: add `Secret history scan` as a fifth required status check in the ruleset if it has not already been added.
+PR #18 passed Ubuntu, Windows, OpenNext production build, dependency audit, secret-history scan, engine tests, and simulations before merge. The exact merged production commit also passed Cloudflare deployment and post-deploy smoke verification.
 
 ## Supabase state
 
 Canonical Mainlagi database:
 
-- Supabase organization: `inmydraft`
+- organization: `inmydraft`
 - project: `mainlagi-hub`
 - project ref: `estvtgflwkebomsqlolv`
 - region: `ap-southeast-1` (Singapore)
-- observed status: active/healthy
+- status: active/healthy
 
-A second, empty/unused Mainlagi-named Supabase project was removed by the account owner. No Mainlagi learning migrations or production data were written to that deleted project, so there was nothing to migrate.
-
-Applied migration history verified on 9 September 2026:
+Applied migration history verified 10 September 2026:
 
 1. `0001_init`
 2. `0002_learning_attempt_schema`
@@ -163,79 +168,60 @@ Applied migration history verified on 9 September 2026:
 4. `0004_learning_rpc_hardening`
 5. `0005_database_advisor_hardening`
 6. `0006_private_admin_helper`
+7. `0007_learning_child_ownership`
 
-Live verification after migration:
+Live structural verification confirmed the `learning_attempt_child_ownership` trigger is enabled and points to `private.enforce_learning_attempt_child_ownership`.
 
-- 12 canonical learning skills;
-- 17 canonical learning activities;
-- 17 activity-skill mappings;
-- all nine new learning tables have RLS enabled;
-- normal `anon` / `authenticated` clients cannot directly mutate attempts, evidence, mastery, derived progress, achievements, or certificates;
-- `record_learning_attempt` is executable by `authenticated` and `service_role`, not `anon`;
-- `recompute_child_skill_mastery` is service-role only;
-- activity subject/stage/runtime/assessment are canonicalized from the server catalog before evidence materialization;
-- rapid replay protection uses server receipt time;
-- completion-only attempts with no measurable score/accuracy do not create mastery evidence.
+The SQL inspection connector runs read-only, so it cannot perform a direct test INSERT through `execute_sql`; an attempted verification INSERT was rejected by the connector's read-only transaction before any test row could be written. This is a tooling limitation, not an application/database failure.
 
-Supabase advisors after hardening:
+Earlier authenticated production smoke already proved real `demo-gian` learning attempts, evidence, and mastery materialization in the canonical Supabase project. Four measured attempts were observed live and the corresponding one-evidence skills correctly remained `exploring` rather than jumping to mastery.
 
-- performance advisor: no WARN findings; remaining findings are INFO-only legacy/unutilized-index observations;
-- security advisor: one intentional warning for authenticated execution of the SECURITY DEFINER `record_learning_attempt` RPC;
-- leaked-password protection remains disabled because it is a Supabase Pro-plan feature while this project is on Free.
+Supabase advisor state after hardening:
 
-Current Free-plan password mitigation confirmed in the dashboard:
+- performance advisor: no WARN findings;
+- intentional security warning remains for authenticated execution of the protected SECURITY DEFINER attempt RPC;
+- leaked-password protection remains unavailable on the current Supabase Free plan and is treated as an accepted plan limitation.
 
-- leaked-password protection OFF;
-- minimum password length at least 8;
-- secure password change ON;
-- current password required when updating password ON.
+## Closure state for cloud learning items 1–5
 
-The leaked-password advisor warning is an accepted plan limitation, not a production-closure blocker.
+Engineering implementation is complete for the requested block:
 
-## Production closure state
+1. [x] cloud child-profile list/create/select/soft-delete path;
+2. [x] authenticated cloud reads for attempts/evidence/mastery/progress;
+3. [x] immediate cloud refresh after successful attempt sync;
+4. [x] multi-child isolation + account/RLS/DB ownership regression coverage;
+5. [x] parent authentication gate + parent/child direct-URL ownership fail-closed behavior.
 
-Database closure is complete. Deployment transport closure is also complete: GitHub `main` successfully triggered a Cloudflare production build/deploy on 9 September 2026.
+All code changes were merged through PR #18 and the exact production commit passed CI, Cloudflare deploy, and production smoke. Migration `0007` is live.
 
-Completed:
+A manual browser exercise of creating and deleting a brand-new real cloud child profile can still be used as UX acceptance evidence, but it is not an unresolved code/schema deployment blocker for items 1–5.
 
-1. [x] remove stale VPS deployment workflows/docs from the canonical architecture;
-2. [x] verify Cloudflare Git integration is connected to this repository and production branch `main`;
-3. [x] verify a fresh merged `main` commit is observed and successfully deployed by Cloudflare;
-4. [x] verify the public homepage loads over HTTPS at `https://mainlagihub.my.id/`.
+## Current engineering priority
 
-Remaining application-level closure:
+The next phase is no longer cloud-profile plumbing. Priorities can move to:
 
-1. [ ] merge and observe the first successful commit-aware `Production smoke (Cloudflare)` run on canonical `main`;
-2. [ ] verify Cloudflare production environment points to canonical Supabase project `estvtgflwkebomsqlolv` without exposing secrets;
-3. [ ] run authenticated learning-attempt/mastery write-path smoke test;
-4. [ ] verify parent-derived state;
-5. [ ] verify guest/local fallback still works.
-
-No `MAINLAGI_VPS_*` GitHub Actions secrets are required.
+- broader authenticated E2E/UX acceptance with real cloud child profiles;
+- remaining progression/reward/achievement/certificate product QA;
+- wider next-best/adaptive UI integration;
+- curriculum/content expansion;
+- audio/voice and richer child experience work.
 
 ## Branch policy
-
-No persistent `develop` branch is used.
 
 Normal lifecycle:
 
 ```text
 short-lived branch
   -> PR
-  -> CI / visual QA when applicable
+  -> CI / QA
   -> squash merge
   -> Cloudflare deploy from main
-  -> commit-aware production smoke verification
+  -> exact-commit production smoke
   -> delete branch
-  -> main is canonical again
 ```
 
-See `docs/BRANCH_LIFECYCLE.md`.
-
-## Current engineering priority
-
-Finish the remaining application-level production smoke checks for the learning-attempt/mastery foundation. After that, focus on explicit measurable activity-result integration, wider adaptive next-best UI integration, and curriculum/content expansion rather than weakening evidence integrity.
+`main` remains canonical. See `docs/BRANCH_LIFECYCLE.md`.
 
 ## Manual/account-level actions
 
-Items that cannot be completed from repository code are tracked in `docs/ACCOUNT_LEVEL_ACTIONS.md`.
+Items that truly require account/UI access are tracked in `docs/ACCOUNT_LEVEL_ACTIONS.md`. Never commit or paste secret values into repository files, issues, screenshots, or chat.
