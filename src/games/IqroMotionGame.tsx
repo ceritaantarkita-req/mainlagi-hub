@@ -98,7 +98,7 @@ export function IqroMotionGame(props: GameModuleProps) {
       />
       <div className="iqro-layout">
         <aside className="iqro-library">
-          <small>28 HURUF HIJAIYAH</small>
+          <small>28 HURUF HIJAIYAH + HAMZAH</small>
           <div>
             {HIJAIYAH_TEMPLATES.map((item, itemIndex) => (
               <button
