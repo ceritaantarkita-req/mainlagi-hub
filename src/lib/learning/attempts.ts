@@ -91,10 +91,14 @@ export function recordLearningAttempt(args: {
   outcome?: LearningAttemptOutcome;
 }): LearningAttemptRecord {
   const spec = getActivityLearningSpec(args.activityId);
-  const defaultAssessed = spec?.assessment === "assessed";
+  // Assessment classification is catalog-owned, matching the server RPC. A
+  // caller may downgrade an assessed activity to completion-only when no
+  // measurable result exists, but it may never promote a practice activity
+  // into assessed mastery evidence.
+  const canonicalAssessed = spec?.assessment === "assessed" && (args.outcome?.assessed ?? true);
   const normalized = normalizeLearningAttemptOutcome({
     ...args.outcome,
-    assessed: args.outcome?.assessed ?? defaultAssessed
+    assessed: canonicalAssessed
   });
   const current = readLearningAttempts(args.childId);
   const previousSame = [...current].reverse().find((item) => item.activityId === args.activityId);
