@@ -40,7 +40,7 @@ Public visibility exposes repository source and Git history to the internet. Any
 - [x] Production dependency audit passed on the public-exposure audit PR head.
 - [x] Full-history secret scan passed on the public-exposure audit PR head.
 - [x] No temporary write-capable maintenance workflow is present in the current `.github/workflows/` tree at the time of this review.
-- [ ] Deliberately close, supersede, or retain stale draft PR #5; do not leave it indefinitely without an explicit decision.
+- [x] Draft PR #5 was reviewed and identified as an intentional stacked PR targeting `feature/mobile-learning-ui-system-20260909`, not `main`; its lifecycle remains a product-development decision rather than an exposure-audit cleanup action.
 
 ## Gate B — Secret and credential review
 
