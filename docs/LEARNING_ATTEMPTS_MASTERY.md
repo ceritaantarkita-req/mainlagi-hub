@@ -1,6 +1,6 @@
 # Mainlagi Learning Attempts & Mastery
 
-Status: implementation baseline for the learning-attempt/mastery phase.
+Status: merged into canonical `main`; code-level CI is green. Production database/deployment closure is still pending.
 
 This document describes the shared learning evidence layer used by Bahasa Indonesia, English, Matematika, Iqro, Mewarnai, and future Mainlagi activities. It is intentionally separate from the legacy motion-game score/leaderboard model.
 
@@ -32,7 +32,7 @@ A learning attempt represents one meaningful try at one learning activity. It re
 - start/completion timestamps
 - bounded metadata
 
-Local-first attempts are stored under `mainlagi-learning-attempts-v1`. Logged-in users can additionally sync the same canonical attempt through `record_learning_attempt`.
+Local-first attempts are stored under `mainlagi-learning-attempts-v1`. Logged-in users can additionally sync the same canonical attempt through `record_learning_attempt` once the production Supabase migration is active.
 
 The server RPC owns cloud evidence and mastery materialization. Clients cannot directly forge `child_skill_mastery` or derived evidence rows.
 
@@ -106,6 +106,8 @@ The first stage of each subject is unlocked by default. A later stage unlocks on
 
 The child runtime mounts an evidence-aware progression guard so locked stages/activities cannot be bypassed merely by typing a URL.
 
+Important current boundary: a legacy completion-only event does **not** fabricate assessed evidence. Therefore a stage that requires assessed evidence can remain locked until that activity runtime emits a real measurable attempt result.
+
 ## 8. Next-best activity
 
 The ranking engine prefers:
@@ -118,6 +120,8 @@ The ranking engine prefers:
 6. touch/audio/core activities before optional motion activities unless motion recommendations are explicitly enabled.
 
 This is deterministic adaptive learning, not an AI diagnosis.
+
+The ranking primitive exists in the learning engine. Existing child-home quest selection has not yet been fully replaced by this ranking everywhere, so product UI must not claim that all recommendations are already adaptive.
 
 ## 9. Parent reporting
 
@@ -146,7 +150,7 @@ Eligible certificates can be downloaded as scalable SVG from the parent area. SV
 
 ## 11. Local/cloud boundary
 
-Guest/local mode remains usable without Supabase. When Supabase is configured and a valid authenticated session exists:
+Guest/local mode remains usable without Supabase. When Supabase is configured, the migration is active, and a valid authenticated session exists:
 
 - the same attempt is sent through `record_learning_attempt`;
 - `(account_id, child_key, client_attempt_id)` provides idempotency;
@@ -165,7 +169,14 @@ This phase is additive:
 - new completions are bridged into canonical attempts;
 - old completion history is not silently rewritten into high-confidence mastery because the historical evidence quality is insufficient.
 
-A child may therefore need fresh learning attempts before a pre-existing completion can show meaningful mastery. That is deliberate evidence integrity, not data loss.
+A child may therefore need fresh **measurable** learning attempts before a pre-existing completion can show meaningful mastery. That is deliberate evidence integrity, not data loss.
+
+Database source of truth for this phase is:
+
+- `supabase/migrations/0002_learning_attempt_schema.sql`
+- `supabase/migrations/0003_learning_mastery_functions.sql`
+
+As of 9 September 2026 these migrations are committed and contract-tested, but have **not** yet been applied to the live Mainlagi Supabase project because that project is currently paused.
 
 ## 13. QA contract
 
@@ -179,10 +190,44 @@ A child may therefore need fresh learning attempts before a pre-existing complet
 - migration table/RLS/RPC/idempotency contracts
 - no destructive drop of legacy game score tables
 
-The tests are included in `npm run test:engine`, so both Ubuntu and Windows CI quality gates run them. Full project closure still requires the repository's existing typecheck, lint, simulation, production build, dependency audit, and secret-history scan.
+The tests are included in `npm run test:engine`, so both Ubuntu and Windows CI quality gates run them.
 
-## 14. Known evidence-fidelity boundary
+PR CI and the post-merge `main` run for the learning foundation passed the code/security gates on 9 September 2026:
 
-Existing activity components historically emitted only `completeActivity(...)`, not a full attempt result object. The compatibility bridge therefore records these completions with `evidenceFidelity = completion_only` and a conservative assessed input rather than pretending it knows detailed mistakes/hints that the legacy runtime never exposed.
+- Production build
+- Quality gate (Ubuntu)
+- Windows compatibility
+- Production dependency audit
+- Secret history scan
 
-New and upgraded activities should emit explicit correct/incorrect/hint/retry/duration outcomes. The canonical attempt/mastery engine already supports those richer fields; the compatibility bridge is a migration path, not the desired final activity-authoring contract.
+Production deployment is a separate closure requirement and is not implied by those green code gates.
+
+## 14. Evidence-fidelity boundary
+
+Existing activity components historically emitted only `completeActivity(...)`, not a full attempt result object.
+
+The compatibility bridge now treats those events conservatively:
+
+- the completion is retained as a learning attempt;
+- `evidenceFidelity = completion_only` is recorded in metadata;
+- it is **not** marked as assessed merely because the catalog says the activity is assessable;
+- no placeholder accuracy/score is invented;
+- no mastery evidence is created from completion-only data.
+
+This is intentional. A finished activity is not automatically proof of skill mastery.
+
+New and upgraded assessed activities should emit explicit measurable outcomes such as correct/incorrect counts, hints, retries, duration, and input mode. The canonical attempt/mastery engine already supports those richer fields; the compatibility bridge is only a migration path.
+
+## 15. Production closure state
+
+Observed 9 September 2026:
+
+- learning-attempt/mastery foundation is merged into `main`;
+- code/security CI is green;
+- connected Supabase project is named `mainlagihub`;
+- the project is paused/inactive;
+- a restore attempt was rejected because the account has reached Supabase's active Free-project limit;
+- migrations `0002` and `0003` therefore remain unapplied to production;
+- the automatic production deploy reached `Validate deployment secrets` and failed before SSH because the deployment secrets were unavailable to the workflow.
+
+Do not mark this phase production-closed until the Supabase project is active, migrations are applied and verified, deployment credentials are restored, production deployment succeeds, and the public health/smoke checks pass.
