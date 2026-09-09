@@ -9,9 +9,32 @@ This file is the canonical human/AI handoff for the current repository state. `m
 - Repository: `ceritaantarkita-req/mainlagi-hub`
 - Visibility: Public
 - Default/canonical branch: `main`
-- Current learning/mastery baseline: `e82acf5d400916bab30ee7611f4db9bb0a8b4d8b`
+- Current learning/mastery baseline before deployment-architecture correction: `16f20b22f4a0e99419221f9f2a88b38564bb193d`
 - Source license: `AGPL-3.0-only`
 - Commercial/open-core policy: see `OPEN_CORE.md`, `COMMERCIAL_LICENSE.md`, and `docs/PRODUCT_TIERS_AND_CODE_BOUNDARY.md`.
+
+## Canonical production architecture
+
+Production is **not VPS/SSH based**.
+
+Canonical path confirmed on 9 September 2026:
+
+```text
+GitHub (`ceritaantarkita-req/mainlagi-hub`)
+  -> protected `main`
+  -> Cloudflare Git integration / build
+  -> OpenNext for Cloudflare Workers
+  -> Worker `mainlagi-hub`
+  -> https://mainlagihub.my.id/
+```
+
+Repository support for this path already exists through `@opennextjs/cloudflare`, `open-next.config.ts`, `wrangler.jsonc`, and the Cloudflare build/deploy scripts in `package.json`.
+
+All earlier references to `mainlagi.inmydraft.com`, a Mainlagi VPS deployment, `/srv/mainlagi`, forced-command SSH, or `MAINLAGI_VPS_*` deployment secrets are superseded.
+
+GitHub Actions now acts as the quality/security gate. The production build gate validates the actual OpenNext/Cloudflare artifact; Cloudflare handles publication from the Git-connected `main` branch.
+
+See `docs/DEPLOYMENT.md`.
 
 ## Shipped platform shape
 
@@ -65,28 +88,21 @@ See `docs/LEARNING_ATTEMPTS_MASTERY.md`.
 
 ## CI and public-repository controls
 
-Primary CI currently provides:
+Primary CI provides:
 
-- `Production build`
-- `Quality gate (Ubuntu)`
-- `Windows compatibility`
-- `Production dependency audit`
-- `Secret history scan`
+- `Production build` — OpenNext/Cloudflare production artifact build;
+- `Quality gate (Ubuntu)`;
+- `Windows compatibility`;
+- `Production dependency audit`;
+- `Secret history scan`.
 
-The post-merge `main` run for the learning/mastery baseline passed all five code/security gates on 9 September 2026.
+The learning/mastery implementation and database-hardening PRs passed these code/security gates before merge.
+
+The stale GitHub Actions VPS deployment job and manual SSH fallback workflow are being removed because deployment belongs to Cloudflare Git integration, not GitHub Actions SSH.
 
 The `Protect main` repository ruleset is Active, requires PRs, squash-only merging, conversation resolution, strict/up-to-date status checks, linear history, and blocks deletion/non-fast-forward updates.
 
-Account-level follow-up remains: add `Secret history scan` as a fifth required status check in the ruleset if it has not already been added. The job itself exists and passes in CI.
-
-## Public exposure / asset state
-
-- Full fetched Git history is scanned with pinned Gitleaks in CI using redacted output.
-- Public affiliate image redistribution is fail-closed.
-- Unverified local affiliate binaries were removed from the current tree.
-- New local affiliate imagery requires explicit provenance that permits redistribution.
-- Historical Git objects remain historical; removal from the current tree is not a history rewrite.
-- Other creative assets still require normal provenance discipline when added or changed.
+Account-level follow-up remains: add `Secret history scan` as a fifth required status check in the ruleset if it has not already been added.
 
 ## Supabase state
 
@@ -96,11 +112,11 @@ Canonical Mainlagi database:
 - project: `mainlagi-hub`
 - project ref: `estvtgflwkebomsqlolv`
 - region: `ap-southeast-1` (Singapore)
-- observed status: `ACTIVE_HEALTHY`
+- observed status: active/healthy
 
-A second, empty/unused Mainlagi-named Supabase project was removed by the account owner. No Mainlagi learning migrations or production data were written to that deleted project, so there was nothing to migrate from it.
+A second, empty/unused Mainlagi-named Supabase project was removed by the account owner. No Mainlagi learning migrations or production data were written to that deleted project, so there was nothing to migrate.
 
-Applied migration history on the canonical project as verified on 9 September 2026:
+Applied migration history verified on 9 September 2026:
 
 1. `0001_init`
 2. `0002_learning_attempt_schema`
@@ -115,7 +131,7 @@ Live verification after migration:
 - 17 canonical learning activities;
 - 17 activity-skill mappings;
 - all nine new learning tables have RLS enabled;
-- normal `anon` / `authenticated` clients cannot directly insert/update/delete attempts, evidence, mastery, derived progress, achievements, or certificates;
+- normal `anon` / `authenticated` clients cannot directly mutate attempts, evidence, mastery, derived progress, achievements, or certificates;
 - `record_learning_attempt` is executable by `authenticated` and `service_role`, not `anon`;
 - `recompute_child_skill_mastery` is service-role only;
 - activity subject/stage/runtime/assessment are canonicalized from the server catalog before evidence materialization;
@@ -124,30 +140,33 @@ Live verification after migration:
 
 Supabase advisors after hardening:
 
-- performance advisor: no WARN findings; remaining findings are INFO-only legacy/unutilized index observations;
-- security advisor: one intentional warning for authenticated execution of the SECURITY DEFINER `record_learning_attempt` RPC, which is required because derived learning tables are not directly writable by clients and the RPC binds writes to `auth.uid()`;
-- security advisor also reports **Leaked Password Protection disabled**, which remains an account-level Auth setting to enable.
+- performance advisor: no WARN findings; remaining findings are INFO-only legacy/unutilized-index observations;
+- security advisor: one intentional warning for authenticated execution of the SECURITY DEFINER `record_learning_attempt` RPC;
+- leaked-password protection remains disabled because it is a Supabase Pro-plan feature while this project is on Free.
 
-The SQL connector available to this audit is read-only, so a mutation RPC could not be invoked directly from the connector. Migration compilation, live ACL/RLS/catalog checks, schema contract tests, and advisor checks are complete; the final authenticated write-path smoke test remains part of production deployment verification.
+Current Free-plan password mitigation confirmed in the dashboard:
 
-## Deployment state
+- leaked-password protection OFF;
+- minimum password length at least 8;
+- secure password change ON;
+- current password required when updating password ON.
 
-The GitHub workflows reference four server-side deployment secrets:
+The leaked-password advisor warning is an accepted plan limitation, not a production-closure blocker.
 
-- `MAINLAGI_VPS_HOST`
-- `MAINLAGI_VPS_USER`
-- `MAINLAGI_VPS_KNOWN_HOSTS`
-- `MAINLAGI_VPS_SSH_KEY`
+## Production closure state
 
-The post-merge `main` run passed every code/security gate but `Deploy V3 production` failed at `Validate deployment secrets` before SSH.
+Database closure is complete. Remaining closure is Cloudflare production verification:
 
-The job log showed all four deployment environment values empty; the first explicit failure was `VPS_HOST is not configured`. SSH configuration and the VPS deployment were skipped.
+1. merge the deployment-architecture correction so `main` no longer carries stale VPS workflows/docs;
+2. verify Cloudflare Git integration is connected to this repository and production branch `main`;
+3. verify Cloudflare runtime environment points to canonical Supabase project `estvtgflwkebomsqlolv` without exposing secrets;
+4. verify Cloudflare build/deployment succeeds for the merged commit;
+5. verify `https://mainlagihub.my.id/` and `/api/health`;
+6. run authenticated learning-attempt/mastery write-path smoke test;
+7. verify parent-derived state;
+8. verify guest/local fallback still works.
 
-No secret value is stored in this repository. Restoring those values is an account-level action.
-
-Before production deploy, verify the VPS/application environment points to the canonical Supabase project `mainlagi-hub`; do not publish API secrets or service-role values while checking it.
-
-The SSH command intentionally sends a harmless client command; the production design relies on the dedicated VPS key being restricted by an OpenSSH forced command to the server-side Mainlagi deployment script. See `docs/DEPLOYMENT.md`.
+No `MAINLAGI_VPS_*` GitHub Actions secrets are required.
 
 ## Branch policy
 
@@ -168,19 +187,8 @@ See `docs/BRANCH_LIFECYCLE.md`.
 
 ## Current engineering priority
 
-The database portion of the learning-attempt/mastery production closure is complete. The immediate remaining closure work is deployment/account verification:
-
-1. enable Supabase Auth leaked-password protection;
-2. restore the four GitHub Actions deployment secrets;
-3. verify production environment variables target canonical `mainlagi-hub`;
-4. rerun production deployment;
-5. verify strict SSH/forced-command deployment succeeds;
-6. verify public `/api/health`;
-7. run authenticated learning-attempt/mastery smoke tests plus local fallback checks;
-8. only then mark learning-attempt/mastery production closure complete.
-
-After production closure, the next product engineering work should focus on explicit measurable activity-result integration, wider adaptive next-best UI integration, and curriculum/content expansion rather than weakening evidence integrity.
+Finish Cloudflare production closure for the learning-attempt/mastery foundation. After that, focus on explicit measurable activity-result integration, wider adaptive next-best UI integration, and curriculum/content expansion rather than weakening evidence integrity.
 
 ## Manual/account-level actions
 
-Items that cannot be completed from repository code are tracked in `docs/ACCOUNT_LEVEL_ACTIONS.md`. Do not mark them complete merely because code/docs exist.
+Items that cannot be completed from repository code are tracked in `docs/ACCOUNT_LEVEL_ACTIONS.md`.
