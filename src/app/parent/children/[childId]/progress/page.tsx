@@ -1,6 +1,6 @@
-import { ParentProgressScreen } from "@/components/learning/LearningPlatform";
+import { ParentCoreProgressScreen } from "@/components/learning/ParentCoreProgress";
 
 export default async function ParentProgressPage({ params }: { params: Promise<{ childId: string }> }) {
   const { childId } = await params;
-  return <ParentProgressScreen childId={childId} />;
+  return <ParentCoreProgressScreen childId={childId} />;
 }
