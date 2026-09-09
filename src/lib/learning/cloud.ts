@@ -81,9 +81,9 @@ export async function syncLearningAttemptCloud(attempt: LearningAttemptRecord): 
 
 /**
  * Returns null when there is no authenticated Supabase context or when the
- * cloud read fails. Callers may then use the existing local guest fallback.
- * For authenticated users, RLS remains the ownership boundary; account_id is
- * intentionally not accepted as an argument here.
+ * cloud read fails. Authenticated UI callers treat null as unavailable cloud
+ * state rather than silently substituting localStorage. RLS remains the
+ * ownership boundary; account_id is intentionally not accepted as an argument.
  */
 export async function readCloudLearningAnalytics(childId: string): Promise<LearningAnalyticsSnapshot | null> {
   const client = getBrowserClient();
@@ -218,10 +218,24 @@ export async function readCloudLearningProgress(childId: string): Promise<Learni
   }
 }
 
+function learningAgeFromAgeGroup(value: unknown): number | null {
+  if (typeof value !== "string") return null;
+  const numeric = Number(value);
+  if (Number.isInteger(numeric) && numeric >= 3 && numeric <= 7) return numeric;
+
+  // Compatibility with the legacy account/player-profile UI. "Umum" is
+  // intentionally omitted because it is not specific enough to infer a child
+  // learning age safely.
+  if (value === "TK") return 5;
+  if (value === "SD 1") return 6;
+  if (value === "SD 2") return 7;
+  return null;
+}
+
 function cloudProfileFromRow(row: Record<string, unknown>): LearningChildProfile | null {
   if (typeof row.id !== "string" || typeof row.alias !== "string") return null;
-  const age = Number(row.age_group);
-  if (!Number.isInteger(age) || age < 3 || age > 7) return null;
+  const age = learningAgeFromAgeGroup(row.age_group);
+  if (age === null) return null;
   const guide = typeof row.avatar_key === "string" && VALID_GUIDES.has(row.avatar_key as CharacterId)
     ? row.avatar_key as CharacterId
     : "gian";
