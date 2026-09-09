@@ -65,6 +65,34 @@ export interface NextLearningRecommendation {
   targetSkillTitle: string | null;
 }
 
+export type StageReadinessStatus = "locked" | "in_progress" | "evidence_needed" | "ready";
+
+export interface StageReadinessRow {
+  stageId: string;
+  title: string;
+  subjectId: LearningSubjectId;
+  status: StageReadinessStatus;
+  statusLabel: string;
+  reason: string;
+  completionRatio: number;
+  completedCount: number;
+  requiredCount: number;
+  evidenceReadiness: number;
+  evidencedSkillCount: number;
+  assessedSkillCount: number;
+}
+
+export interface RecentLearningAttemptRow {
+  id: string;
+  activityId: string;
+  activityTitle: string;
+  subjectId: LearningSubjectId | string;
+  assessed: boolean;
+  accuracy: number | null;
+  retryCount: number;
+  completedAt: string;
+}
+
 function activityDescriptors(): ProgressionActivityDescriptor[] {
   return ACTIVITIES.map((activity) => {
     const spec = getActivityLearningSpec(activity.id);
@@ -103,6 +131,20 @@ function recommendationReasonLabel(reason: RecommendationReason, targetSkillTitl
   }
 }
 
+function recommendationFromRanked(top: ReturnType<typeof rankActivityRecommendations>[number] | undefined): NextLearningRecommendation | undefined {
+  if (!top) return undefined;
+  const activity = getActivity(top.id);
+  if (!activity) return undefined;
+  const targetSkill = top.targetSkillId ? getLearningSkill(top.targetSkillId) : undefined;
+  return {
+    activity,
+    reason: top.reason,
+    reasonLabel: recommendationReasonLabel(top.reason, targetSkill?.title ?? null),
+    targetSkillId: top.targetSkillId,
+    targetSkillTitle: targetSkill?.title ?? null
+  };
+}
+
 export function getStageLearningState(
   stageId: string,
   progress: LearningProgress,
@@ -133,13 +175,111 @@ export function getUnlockedStageIds(
   })).map((stage) => stage.id));
 }
 
+export function getSubjectStageReadiness(
+  subjectId: LearningSubjectId,
+  progress: LearningProgress,
+  analytics: LearningAnalyticsSnapshot
+): StageReadinessRow[] {
+  const unlocked = getUnlockedStageIds(progress, analytics);
+  return STAGES.filter((stage) => stage.subjectId === subjectId).map((stage) => {
+    const state = getStageLearningState(stage.id, progress, analytics);
+    if (!state) {
+      return {
+        stageId: stage.id,
+        title: stage.title,
+        subjectId,
+        status: "locked" as const,
+        statusLabel: "Terkunci",
+        reason: "Stage belum tersedia.",
+        completionRatio: 0,
+        completedCount: 0,
+        requiredCount: 0,
+        evidenceReadiness: 0,
+        evidencedSkillCount: 0,
+        assessedSkillCount: 0
+      };
+    }
+
+    if (!unlocked.has(stage.id)) {
+      return {
+        stageId: stage.id,
+        title: stage.title,
+        subjectId,
+        status: "locked" as const,
+        statusLabel: "Terkunci",
+        reason: "Selesaikan aktivitas inti dan evidence readiness stage sebelumnya terlebih dahulu.",
+        completionRatio: state.completionRatio,
+        completedCount: state.completedCount,
+        requiredCount: state.requiredCount,
+        evidenceReadiness: state.evidenceReadiness,
+        evidencedSkillCount: state.evidencedSkillCount,
+        assessedSkillCount: state.assessedSkillCount
+      };
+    }
+
+    if (state.readyToAdvance) {
+      return {
+        stageId: stage.id,
+        title: stage.title,
+        subjectId,
+        status: "ready" as const,
+        statusLabel: "Siap lanjut",
+        reason: state.assessedSkillCount
+          ? "Aktivitas inti selesai dan evidence readiness sudah memenuhi syarat progression."
+          : "Aktivitas inti selesai; stage practice ini tidak membutuhkan mastery evidence.",
+        completionRatio: state.completionRatio,
+        completedCount: state.completedCount,
+        requiredCount: state.requiredCount,
+        evidenceReadiness: state.evidenceReadiness,
+        evidencedSkillCount: state.evidencedSkillCount,
+        assessedSkillCount: state.assessedSkillCount
+      };
+    }
+
+    if (state.completed && state.assessedSkillCount > 0) {
+      const missingEvidence = state.evidencedSkillCount < state.assessedSkillCount;
+      return {
+        stageId: stage.id,
+        title: stage.title,
+        subjectId,
+        status: "evidence_needed" as const,
+        statusLabel: "Butuh evidence",
+        reason: missingEvidence
+          ? `Aktivitas inti selesai, tetapi ${state.assessedSkillCount - state.evidencedSkillCount} skill terukur belum punya qualifying evidence.`
+          : "Aktivitas inti selesai, tetapi evidence readiness masih perlu diperkuat sebelum stage berikutnya terbuka.",
+        completionRatio: state.completionRatio,
+        completedCount: state.completedCount,
+        requiredCount: state.requiredCount,
+        evidenceReadiness: state.evidenceReadiness,
+        evidencedSkillCount: state.evidencedSkillCount,
+        assessedSkillCount: state.assessedSkillCount
+      };
+    }
+
+    return {
+      stageId: stage.id,
+      title: stage.title,
+      subjectId,
+      status: "in_progress" as const,
+      statusLabel: "Sedang berjalan",
+      reason: `${Math.max(0, state.requiredCount - state.completedCount)} aktivitas inti masih perlu diselesaikan.`,
+      completionRatio: state.completionRatio,
+      completedCount: state.completedCount,
+      requiredCount: state.requiredCount,
+      evidenceReadiness: state.evidenceReadiness,
+      evidencedSkillCount: state.evidencedSkillCount,
+      assessedSkillCount: state.assessedSkillCount
+    };
+  });
+}
+
 export function getNextBestLearningRecommendation(args: {
   age: number;
   progress: LearningProgress;
   analytics: LearningAnalyticsSnapshot;
   allowMotion?: boolean;
 }): NextLearningRecommendation | undefined {
-  const ranked = rankActivityRecommendations({
+  return recommendationFromRanked(rankActivityRecommendations({
     age: args.age,
     activities: activityDescriptors(),
     stages: stageDescriptors(),
@@ -147,19 +287,27 @@ export function getNextBestLearningRecommendation(args: {
     masteryBySkill: args.analytics.masteryBySkill,
     lastActivityId: args.progress.lastActivityId,
     allowMotion: args.allowMotion
-  });
-  const top = ranked[0];
-  if (!top) return undefined;
-  const activity = getActivity(top.id);
-  if (!activity) return undefined;
-  const targetSkill = top.targetSkillId ? getLearningSkill(top.targetSkillId) : undefined;
-  return {
-    activity,
-    reason: top.reason,
-    reasonLabel: recommendationReasonLabel(top.reason, targetSkill?.title ?? null),
-    targetSkillId: top.targetSkillId,
-    targetSkillTitle: targetSkill?.title ?? null
-  };
+  })[0]);
+}
+
+export function getSubjectNextLearningRecommendation(args: {
+  subjectId: LearningSubjectId;
+  age: number;
+  progress: LearningProgress;
+  analytics: LearningAnalyticsSnapshot;
+  allowMotion?: boolean;
+}): NextLearningRecommendation | undefined {
+  const activities = activityDescriptors().filter((activity) => activity.subjectId === args.subjectId);
+  const stages = stageDescriptors().filter((stage) => stage.subjectId === args.subjectId);
+  return recommendationFromRanked(rankActivityRecommendations({
+    age: args.age,
+    activities,
+    stages,
+    completedActivityIds: args.progress.completedActivityIds,
+    masteryBySkill: args.analytics.masteryBySkill,
+    lastActivityId: args.progress.lastActivityId,
+    allowMotion: args.allowMotion
+  })[0]);
 }
 
 export function getNextBestLearningActivity(args: {
@@ -169,6 +317,26 @@ export function getNextBestLearningActivity(args: {
   allowMotion?: boolean;
 }): LearningActivity | undefined {
   return getNextBestLearningRecommendation(args)?.activity;
+}
+
+export function getRecentLearningAttempts(
+  analytics: LearningAnalyticsSnapshot,
+  limit = 5
+): RecentLearningAttemptRow[] {
+  return analytics.attempts
+    .slice()
+    .sort((a, b) => Date.parse(b.completedAt) - Date.parse(a.completedAt))
+    .slice(0, Math.max(0, limit))
+    .map((attempt) => ({
+      id: attempt.id,
+      activityId: attempt.activityId,
+      activityTitle: getActivity(attempt.activityId)?.title ?? attempt.activityId,
+      subjectId: attempt.subjectId,
+      assessed: attempt.assessed,
+      accuracy: attempt.accuracy,
+      retryCount: attempt.retryCount,
+      completedAt: attempt.completedAt
+    }));
 }
 
 export function getSubjectLearningSummary(
