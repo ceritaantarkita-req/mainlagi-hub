@@ -1,13 +1,25 @@
 import catalog from "./affiliate-catalog.json";
+import provenance from "./affiliate-provenance.json";
 
 export type AffiliatePlatform = "Shopee" | "TikTok Shop";
+export type AffiliateAssetStatus = "owned" | "licensed" | "third-party-reference" | "unverified";
+
+export interface AffiliateAssetProvenance {
+  status: AffiliateAssetStatus;
+  localPath: string | null;
+  redistributionAllowed: boolean;
+  source: string;
+  rightsHolder: string;
+  licenseBasis: string;
+  reviewedAt: string;
+}
 
 export interface AffiliateItem {
   slug: string;
   title: string;
   platform: AffiliatePlatform;
   category: string;
-  image: string;
+  image: string | null;
   href: string;
   note: string;
   featured?: boolean;
@@ -18,18 +30,32 @@ interface CatalogEntry {
   title: string;
   price: string;
   href: string;
-  image: string;
+  image: string | null;
   featured?: boolean;
 }
 
+interface ProvenanceRegistry {
+  version: number;
+  items: Record<string, AffiliateAssetProvenance>;
+}
+
 const entries = catalog as CatalogEntry[];
+const provenanceRegistry = provenance as ProvenanceRegistry;
+
+function approvedLocalImage(slug: string): string | null {
+  const record = provenanceRegistry.items[slug];
+  if (!record?.redistributionAllowed) return null;
+  if (record.status !== "owned" && record.status !== "licensed") return null;
+  if (!record.localPath?.startsWith("/affiliate/")) return null;
+  return record.localPath;
+}
 
 export const AFFILIATE_ITEMS: AffiliateItem[] = entries.map((item) => ({
   slug: item.slug,
   title: item.title,
   platform: "Shopee",
   category: "Perlengkapan belajar",
-  image: item.image,
+  image: approvedLocalImage(item.slug),
   href: item.href,
   note: item.price ? `Tautan afiliasi · ${item.price}` : "Tautan afiliasi",
   featured: item.featured

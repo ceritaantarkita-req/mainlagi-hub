@@ -1,18 +1,21 @@
-import { writeFileSync, mkdirSync, existsSync } from "node:fs";
+import { writeFileSync, mkdirSync, existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import XLSX from "xlsx";
 
 /**
  * Generate the affiliate catalog JSON from the Shopee spreadsheet.
  *
- * The "foto" column is currently empty, so each product gets a deterministic
- * image path `/affiliate/<slug>.jpg`. Dropping a file with that name renders
- * the real photo; until then a placeholder shows.
+ * Local product imagery is intentionally fail-closed: a generated item only
+ * receives a local `/affiliate/...` image path when the matching slug has an
+ * `owned` or `licensed` provenance record with redistributionAllowed=true.
+ * Unverified marketplace images are never made eligible merely because a file
+ * exists in public/affiliate/.
  */
 
 const root = process.cwd();
 const source = process.argv[2] ?? path.join(root, "public", "mainlagi shopee link.xlsx");
 const outFile = path.join(root, "src", "lib", "data", "affiliate-catalog.json");
+const provenanceFile = path.join(root, "src", "lib", "data", "affiliate-provenance.json");
 
 function slugify(text, index) {
   const base = text
@@ -23,6 +26,23 @@ function slugify(text, index) {
   return `${base || "item"}-${String(index + 1).padStart(3, "0")}`;
 }
 
+function loadProvenance() {
+  const parsed = JSON.parse(readFileSync(provenanceFile, "utf8"));
+  if (!parsed || parsed.version !== 1 || typeof parsed.items !== "object" || Array.isArray(parsed.items)) {
+    throw new Error("Invalid affiliate-provenance.json registry");
+  }
+  return parsed.items;
+}
+
+function approvedImage(slug, provenanceItems) {
+  const record = provenanceItems[slug];
+  if (!record || record.redistributionAllowed !== true) return null;
+  if (record.status !== "owned" && record.status !== "licensed") return null;
+  if (typeof record.localPath !== "string" || !record.localPath.startsWith("/affiliate/")) return null;
+  return record.localPath;
+}
+
+const provenanceItems = loadProvenance();
 const wb = XLSX.readFile(source);
 const ws = wb.Sheets[wb.SheetNames[0]];
 const rows = XLSX.utils.sheet_to_json(ws, { header: 1 });
@@ -46,7 +66,7 @@ for (let i = 1; i < rows.length; i++) {
     title,
     price,
     href: String(link).trim(),
-    image: `/affiliate/${slug}.jpg`,
+    image: approvedImage(slug, provenanceItems),
     featured: i <= 3
   });
 }
@@ -56,15 +76,14 @@ writeFileSync(outFile, `${JSON.stringify(items, null, 2)}\n`);
 
 console.log(`Wrote ${items.length} affiliate items to ${path.relative(root, outFile)}`);
 
-// Warm the images dir so the user knows where to drop photos.
 const imgs = path.join(root, "public", "affiliate");
 if (!existsSync(imgs)) mkdirSync(imgs, { recursive: true });
 
-// Checklist: which filename holds which product.
+// Human-readable product mapping. This is not a rights/provenance grant.
 const manifest = items
-  .map((item) => `${item.image.split("/").pop()}\t${item.title}${item.price ? ` (${item.price})` : ""}`)
+  .map((item) => `${item.slug}\t${item.image ?? "NO_LOCAL_IMAGE"}\t${item.title}${item.price ? ` (${item.price})` : ""}`)
   .join("\n");
 writeFileSync(path.join(imgs, "manifest.txt"), `${manifest}\n`);
 
-console.log(`Drop product photos as JPG named by slug into ${path.relative(root, imgs)}/`);
+console.log("Local affiliate images require an approved entry in src/lib/data/affiliate-provenance.json.");
 console.log(`See ${path.relative(root, path.join(imgs, "manifest.txt"))} for slug → product mapping.`);
