@@ -60,10 +60,11 @@ try {
   await go("/child/demo-gian/activity/math-count-3", "count");
   await shot(page, "mobile-05-count-fresh");
   await page.getByRole("button", { name: "2", exact: true }).click();
-  await page.waitForTimeout(250);
+  await page.waitForTimeout(300);
   await shot(page, "mobile-06-count-wrong");
   await page.getByRole("button", { name: "3", exact: true }).click();
   await page.getByRole("dialog", { name: "Aktivitas selesai" }).waitFor({ state: "visible" });
+  await page.waitForTimeout(550);
   await shot(page, "mobile-07-count-celebration");
 
   await go("/child/demo-gian/stage/math-angka", "stage-after-count");
@@ -89,6 +90,7 @@ try {
     }
     await page.mouse.up();
     await page.getByRole("dialog", { name: "Trace selesai" }).waitFor({ state: "visible", timeout: 5000 });
+    await page.waitForTimeout(550);
     await shot(page, "mobile-10-trace-celebration");
   }
 
