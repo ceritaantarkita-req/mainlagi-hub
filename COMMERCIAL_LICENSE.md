@@ -12,18 +12,20 @@ See `LICENSE`.
 
 The AGPL community license is intended to keep modifications to the networked open-source application available to users under the license requirements.
 
-## Why a commercial license exists
+**The AGPL permits commercial use.** A person or organization may use, host, modify, distribute, or sell AGPL-covered Mainlagi software if they comply with the applicable AGPL terms. A separate Mainlagi commercial license is not automatically required merely because the use is commercial or revenue-generating.
 
-Some organizations or commercial deployments may need terms that are not compatible with AGPL obligations, for example:
+## Why a separate commercial license exists
 
-- closed-source/proprietary deployment;
+Some organizations or commercial deployments may need rights or terms that are not compatible with AGPL obligations, for example:
+
+- eligible closed-source/proprietary deployment;
 - proprietary integration where AGPL requirements are unsuitable;
 - redistribution under negotiated commercial terms;
 - enterprise/school support arrangements;
 - hosted/commercial packages with separately licensed premium modules/content;
 - OEM/white-label arrangements where separately agreed.
 
-Those rights are **not automatically granted** by this document. They require a separate written commercial agreement with the relevant Mainlagi copyright holder(s).
+Those alternative rights are **not automatically granted** by this document. They require a separate written commercial agreement with the relevant Mainlagi copyright holder(s), and Mainlagi can grant alternative rights only for material it has sufficient rights to license that way.
 
 ## Paid Mainlagi products
 
@@ -38,7 +40,9 @@ A paid Mainlagi edition may include capabilities that are separate from the AGPL
 - commercial support/SLA;
 - other proprietary services or assets.
 
-Whether a specific component is open-source or commercial must be stated explicitly in that component's license/terms. Do not assume that everything delivered by a paid Mainlagi service is covered by the repository's AGPL license.
+Whether a specific component is open-source or commercial must be stated explicitly in that component's license/terms. Do not assume that everything delivered by a paid Mainlagi service is covered by the repository's AGPL license, and do not assume that an AGPL-covered component becomes proprietary merely because it is included in a paid product.
+
+The canonical architecture/product boundary is documented in `OPEN_CORE.md`.
 
 ## Brand and character rights
 
