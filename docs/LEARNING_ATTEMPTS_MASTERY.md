@@ -1,6 +1,6 @@
 # Mainlagi Learning Attempts & Mastery
 
-Status: merged into canonical `main`; code-level CI is green. Production database/deployment closure is still pending.
+Status: merged into canonical `main`; code-level CI is green; canonical Supabase learning migrations are applied and hardened. Production deployment/smoke-test closure is still pending.
 
 This document describes the shared learning evidence layer used by Bahasa Indonesia, English, Matematika, Iqro, Mewarnai, and future Mainlagi activities. It is intentionally separate from the legacy motion-game score/leaderboard model.
 
@@ -32,7 +32,7 @@ A learning attempt represents one meaningful try at one learning activity. It re
 - start/completion timestamps
 - bounded metadata
 
-Local-first attempts are stored under `mainlagi-learning-attempts-v1`. Logged-in users can additionally sync the same canonical attempt through `record_learning_attempt` once the production Supabase migration is active.
+Local-first attempts are stored under `mainlagi-learning-attempts-v1`. Logged-in users can additionally sync the same canonical attempt through `record_learning_attempt` when a valid authenticated Supabase session exists.
 
 The server RPC owns cloud evidence and mastery materialization. Clients cannot directly forge `child_skill_mastery` or derived evidence rows.
 
@@ -46,6 +46,8 @@ Every current learning activity has an explicit spec in `src/lib/learning/catalo
 - one or more measured skills with evidence weights
 
 Practice activities can contribute engagement/progression context without being forced into an academic correctness score. This is especially important for open-ended coloring and story experiences.
+
+The canonical Supabase project currently contains 12 learning skills, 17 learning activities, and 17 activity-skill mappings, matching the committed catalog for this phase.
 
 ## 4. Evidence scoring
 
@@ -63,7 +65,7 @@ evidenceScore =
 
 The result is clamped to `0..1` and weighted by activity difficulty and the activity-skill mapping.
 
-A replay of the same activity inside 30 seconds is retained as an attempt but does not qualify for mastery. An attempt with seven or more retries is also retained but does not qualify for mastery. These guards prevent reward/mastery farming without deleting the child's learning history.
+A replay of the same activity inside 30 seconds is retained as an attempt but does not qualify for mastery. Server-side replay protection uses server receipt time rather than trusting a client-supplied completion timestamp. An attempt with seven or more retries is also retained but does not qualify for mastery.
 
 ## 5. Mastery levels
 
@@ -84,7 +86,7 @@ Rules intentionally prevent one lucky answer from becoming mastery:
 - `proficient`: at least 2 qualifying attempts and score >= 0.70
 - `mastered`: at least 3 qualifying attempts, score >= 0.85, confidence >= 0.65, and the latest two qualifying attempts each score >= 0.80
 
-There is currently **no time-decay penalty**. A child is not punished for taking a break. A later curriculum/research decision can add spacing evidence without silently changing the meaning of existing data.
+There is currently **no time-decay penalty**. A child is not punished for taking a break.
 
 ## 6. Completion, rewards, and mastery are different
 
@@ -150,17 +152,20 @@ Eligible certificates can be downloaded as scalable SVG from the parent area. SV
 
 ## 11. Local/cloud boundary
 
-Guest/local mode remains usable without Supabase. When Supabase is configured, the migration is active, and a valid authenticated session exists:
+Guest/local mode remains usable without Supabase. When Supabase is configured and a valid authenticated session exists:
 
 - the same attempt is sent through `record_learning_attempt`;
 - `(account_id, child_key, client_attempt_id)` provides idempotency;
+- subject/stage/runtime/assessment are canonicalized from `learning_activities` on the server;
 - server-side catalog mappings decide which skills receive evidence;
 - server-side logic recomputes materialized mastery;
-- derived tables are read-only to normal authenticated clients.
+- derived learning tables are read-only to normal authenticated clients;
+- `anon` cannot execute `record_learning_attempt`;
+- the lower-level `recompute_child_skill_mastery` helper is service-role only.
 
 Continuous child camera streams are not part of this learning-attempt sync.
 
-## 12. Migration policy
+## 12. Migration policy and live database state
 
 This phase is additive:
 
@@ -171,12 +176,36 @@ This phase is additive:
 
 A child may therefore need fresh **measurable** learning attempts before a pre-existing completion can show meaningful mastery. That is deliberate evidence integrity, not data loss.
 
-Database source of truth for this phase is:
+Canonical Supabase project:
 
-- `supabase/migrations/0002_learning_attempt_schema.sql`
-- `supabase/migrations/0003_learning_mastery_functions.sql`
+- organization: `inmydraft`
+- project: `mainlagi-hub`
+- project ref: `estvtgflwkebomsqlolv`
+- region: Singapore (`ap-southeast-1`)
 
-As of 9 September 2026 these migrations are committed and contract-tested, but have **not** yet been applied to the live Mainlagi Supabase project because that project is currently paused.
+Applied migration chain as verified 9 September 2026:
+
+- `0001_init`
+- `0002_learning_attempt_schema`
+- `0003_learning_mastery_functions`
+- `0004_learning_rpc_hardening`
+- `0005_database_advisor_hardening`
+- `0006_private_admin_helper`
+
+The duplicate empty Mainlagi-named project that previously caused confusion was deleted by the account owner. No learning migration/data had been written to it, so no data transfer was required.
+
+### Security hardening added after live inspection
+
+Live ACL inspection revealed that Supabase had explicit default EXECUTE grants on newly created functions. Hardening migrations therefore:
+
+- explicitly revoke `anon` execution from `record_learning_attempt`;
+- make `recompute_child_skill_mastery` service-role only;
+- bound attempt metadata to 16 KiB server-side;
+- ignore client-supplied subject/stage/runtime/assessment for evidence semantics and derive them from the activity catalog;
+- make replay protection depend on server receipt time;
+- change legacy `record_best_score` to SECURITY INVOKER because RLS already provides its ownership boundary;
+- remove unnecessary public access to trigger/season helper functions;
+- move the admin-check helper from exposed `public.is_admin()` to `private.is_admin()` and rebind RLS policies.
 
 ## 13. QA contract
 
@@ -188,6 +217,8 @@ As of 9 September 2026 these migrations are committed and contract-tested, but h
 - progression/unlock behavior
 - next-activity ranking
 - migration table/RLS/RPC/idempotency contracts
+- RPC hardening and server-canonical activity metadata
+- advisor hardening and private admin-helper contract
 - no destructive drop of legacy game score tables
 
 The tests are included in `npm run test:engine`, so both Ubuntu and Windows CI quality gates run them.
@@ -200,21 +231,28 @@ PR CI and the post-merge `main` run for the learning foundation passed the code/
 - Production dependency audit
 - Secret history scan
 
-Production deployment is a separate closure requirement and is not implied by those green code gates.
+Database verification on the canonical project confirmed:
+
+- all new learning tables have RLS enabled;
+- direct authenticated DML on derived learning tables is revoked;
+- function ACLs match the intended trust boundary;
+- Supabase performance advisor has no WARN-level findings after hardening;
+- Supabase security advisor now has one intentional warning for authenticated execution of the SECURITY DEFINER `record_learning_attempt` RPC plus the account-level warning that leaked-password protection is disabled.
+
+The SQL inspection connector is read-only, so it cannot itself execute the mutating authenticated RPC. Final write-path verification remains an application smoke test after production deployment.
 
 ## 14. Evidence-fidelity boundary
 
 Existing activity components historically emitted only `completeActivity(...)`, not a full attempt result object.
 
-The compatibility bridge now treats those events conservatively:
+The compatibility bridge treats those events conservatively:
 
 - the completion is retained as a learning attempt;
 - `evidenceFidelity = completion_only` is recorded in metadata;
-- it is **not** marked as assessed merely because the catalog says the activity is assessable;
 - no placeholder accuracy/score is invented;
 - no mastery evidence is created from completion-only data.
 
-This is intentional. A finished activity is not automatically proof of skill mastery.
+On the server, an activity becomes evidence-bearing only when the catalog marks it assessed **and** the attempt contains measurable score/accuracy. A client cannot force completion-only data into mastery simply by setting an `assessed` flag.
 
 New and upgraded assessed activities should emit explicit measurable outcomes such as correct/incorrect counts, hints, retries, duration, and input mode. The canonical attempt/mastery engine already supports those richer fields; the compatibility bridge is only a migration path.
 
@@ -223,11 +261,11 @@ New and upgraded assessed activities should emit explicit measurable outcomes su
 Observed 9 September 2026:
 
 - learning-attempt/mastery foundation is merged into `main`;
-- code/security CI is green;
-- connected Supabase project is named `mainlagihub`;
-- the project is paused/inactive;
-- a restore attempt was rejected because the account has reached Supabase's active Free-project limit;
-- migrations `0002` and `0003` therefore remain unapplied to production;
-- the automatic production deploy reached `Validate deployment secrets` and failed before SSH because the deployment secrets were unavailable to the workflow.
+- code/security CI for the merged foundation is green;
+- canonical Supabase `mainlagi-hub` is active/healthy;
+- migrations `0001–0006` are applied and live database ACL/RLS/advisor checks are complete;
+- automatic production deploy still fails at `Validate deployment secrets` before SSH because the four deployment secrets are unavailable to the workflow;
+- Supabase Auth leaked-password protection remains disabled and should be enabled from the account/project settings;
+- production app/VPS environment still needs to be verified against the canonical Supabase project before final smoke testing.
 
-Do not mark this phase production-closed until the Supabase project is active, migrations are applied and verified, deployment credentials are restored, production deployment succeeds, and the public health/smoke checks pass.
+Do not mark this phase production-closed until deployment credentials are restored, production deploy succeeds, public health passes, and an authenticated learning-attempt/mastery write-path smoke test plus local fallback check succeeds.
