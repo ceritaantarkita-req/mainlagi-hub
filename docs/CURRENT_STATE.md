@@ -57,7 +57,7 @@ The learning-attempt/mastery foundation is merged into `main`.
 
 Important integrity rule: legacy `completeActivity(...)` events are retained as completion-only attempts but **do not** fabricate assessment score/accuracy and do not create mastery evidence. Existing assessed activities need explicit measurable attempt outcomes before they can advance mastery.
 
-The engine already supports correct/incorrect counts, hints, retries, duration, input mode, anti-replay guards, evidence weighting, mastery bands, progression readiness, and next-best ranking.
+The engine supports correct/incorrect counts, hints, retries, duration, input mode, anti-replay guards, evidence weighting, mastery bands, progression readiness, and next-best ranking.
 
 The next-best ranking primitive exists, but the child-home quest ribbon has not yet been fully replaced by this ranking everywhere.
 
@@ -90,16 +90,45 @@ Account-level follow-up remains: add `Secret history scan` as a fifth required s
 
 ## Supabase state
 
-The connected Supabase project has been renamed/confirmed as `mainlagihub`.
+Canonical Mainlagi database:
 
-As observed on 9 September 2026:
+- Supabase organization: `inmydraft`
+- project: `mainlagi-hub`
+- project ref: `estvtgflwkebomsqlolv`
+- region: `ap-southeast-1` (Singapore)
+- observed status: `ACTIVE_HEALTHY`
 
-- project status is paused/inactive;
-- restoring it through the connected Supabase account was rejected because the account has reached the maximum number of active Free projects;
-- production migrations `0002_learning_attempt_schema.sql` and `0003_learning_mastery_functions.sql` are therefore still unapplied;
-- the repository migrations remain the source of truth and must not be applied to another Supabase project as a workaround.
+A second, empty/unused Mainlagi-named Supabase project was removed by the account owner. No Mainlagi learning migrations or production data were written to that deleted project, so there was nothing to migrate from it.
 
-Production database closure requires freeing one active Free-project slot or upgrading the relevant Supabase capacity, restoring `mainlagihub`, then applying and verifying the migrations.
+Applied migration history on the canonical project as verified on 9 September 2026:
+
+1. `0001_init`
+2. `0002_learning_attempt_schema`
+3. `0003_learning_mastery_functions`
+4. `0004_learning_rpc_hardening`
+5. `0005_database_advisor_hardening`
+6. `0006_private_admin_helper`
+
+Live verification after migration:
+
+- 12 canonical learning skills;
+- 17 canonical learning activities;
+- 17 activity-skill mappings;
+- all nine new learning tables have RLS enabled;
+- normal `anon` / `authenticated` clients cannot directly insert/update/delete attempts, evidence, mastery, derived progress, achievements, or certificates;
+- `record_learning_attempt` is executable by `authenticated` and `service_role`, not `anon`;
+- `recompute_child_skill_mastery` is service-role only;
+- activity subject/stage/runtime/assessment are canonicalized from the server catalog before evidence materialization;
+- rapid replay protection uses server receipt time;
+- completion-only attempts with no measurable score/accuracy do not create mastery evidence.
+
+Supabase advisors after hardening:
+
+- performance advisor: no WARN findings; remaining findings are INFO-only legacy/unutilized index observations;
+- security advisor: one intentional warning for authenticated execution of the SECURITY DEFINER `record_learning_attempt` RPC, which is required because derived learning tables are not directly writable by clients and the RPC binds writes to `auth.uid()`;
+- security advisor also reports **Leaked Password Protection disabled**, which remains an account-level Auth setting to enable.
+
+The SQL connector available to this audit is read-only, so a mutation RPC could not be invoked directly from the connector. Migration compilation, live ACL/RLS/catalog checks, schema contract tests, and advisor checks are complete; the final authenticated write-path smoke test remains part of production deployment verification.
 
 ## Deployment state
 
@@ -115,6 +144,8 @@ The post-merge `main` run passed every code/security gate but `Deploy V3 product
 The job log showed all four deployment environment values empty; the first explicit failure was `VPS_HOST is not configured`. SSH configuration and the VPS deployment were skipped.
 
 No secret value is stored in this repository. Restoring those values is an account-level action.
+
+Before production deploy, verify the VPS/application environment points to the canonical Supabase project `mainlagi-hub`; do not publish API secrets or service-role values while checking it.
 
 The SSH command intentionally sends a harmless client command; the production design relies on the dedicated VPS key being restricted by an OpenSSH forced command to the server-side Mainlagi deployment script. See `docs/DEPLOYMENT.md`.
 
@@ -137,17 +168,15 @@ See `docs/BRANCH_LIFECYCLE.md`.
 
 ## Current engineering priority
 
-The immediate priority is **production closure of the learning-attempt/mastery foundation**, not another feature layer.
+The database portion of the learning-attempt/mastery production closure is complete. The immediate remaining closure work is deployment/account verification:
 
-Required sequence:
-
-1. resolve Supabase active-Free-project capacity;
-2. restore `mainlagihub`;
-3. apply migrations `0002` and `0003`;
-4. verify tables, RLS, RPC, idempotency, replay guard, mastery materialization, and advisors;
-5. restore GitHub Actions deployment secrets;
-6. rerun production deployment;
-7. verify VPS/public health and learning smoke tests;
+1. enable Supabase Auth leaked-password protection;
+2. restore the four GitHub Actions deployment secrets;
+3. verify production environment variables target canonical `mainlagi-hub`;
+4. rerun production deployment;
+5. verify strict SSH/forced-command deployment succeeds;
+6. verify public `/api/health`;
+7. run authenticated learning-attempt/mastery smoke tests plus local fallback checks;
 8. only then mark learning-attempt/mastery production closure complete.
 
 After production closure, the next product engineering work should focus on explicit measurable activity-result integration, wider adaptive next-best UI integration, and curriculum/content expansion rather than weakening evidence integrity.
