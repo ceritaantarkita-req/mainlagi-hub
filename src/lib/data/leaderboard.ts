@@ -1,27 +1,26 @@
 "use client";
 
 import { orderEntries, rankOf } from "../engine/ranking";
+import { weekBounds } from "../week";
 import type { GameSlug } from "./games";
 
 /**
- * Local leaderboard.
+ * Local weekly leaderboard.
  *
- * Scores live on the device, not on a server. That is a deliberate first
- * step rather than a limitation: this app is played by one family in front
- * of one camera, so "who is top of the board" is a question about the people
- * in the room, and answering it needs no account, no network, and no moderation
- * of what a five-year-old types into a name box.
+ * Scores live on the device, not on a server. That is deliberate for the
+ * current family-first product: the board is useful without an account,
+ * network connection, or public child profile. The visible board is scoped to
+ * the current Monday-Sunday Asia/Jakarta week so the UI's weekly reset promise
+ * matches the data that is actually ranked.
  *
- * The shape below is the same one a server-backed board would need, and the
- * write path already mirrors `useProgressSync` (write locally, then fire an
- * optional remote push that is currently a no-op). Adding Supabase later means
- * filling in `pushRemote` and adding a merge step in `readBoard` - callers do
- * not change.
+ * The shape remains compatible with a future server-backed board. A later
+ * Supabase merge can replace `pushRemote`/`readBoard` without changing game
+ * call sites.
  */
 
 const STORAGE_KEY = "mainlagi-leaderboard-v1";
 const NAME_KEY = "mainlagi-leaderboard-name-v1";
-/** Per game. Enough for a family to see history without the list becoming a wall. */
+/** Per game and per active week. */
 const MAX_ENTRIES_PER_GAME = 50;
 export const LEADERBOARD_EVENT = "mainlagi-leaderboard";
 
@@ -47,7 +46,8 @@ function isEntry(value: unknown): value is LeaderboardEntry {
     typeof entry.name === "string" &&
     typeof entry.score === "number" &&
     Number.isFinite(entry.score) &&
-    typeof entry.at === "number"
+    typeof entry.at === "number" &&
+    Number.isFinite(entry.at)
   );
 }
 
@@ -85,25 +85,35 @@ function ordered(entries: readonly LeaderboardEntry[]): LeaderboardEntry[] {
   return orderEntries(entries);
 }
 
+function activeWeekEntries(
+  entries: readonly LeaderboardEntry[],
+  now: Date = new Date()
+): LeaderboardEntry[] {
+  const { startsAt, endsAt } = weekBounds(now);
+  const start = startsAt.getTime();
+  const end = endsAt.getTime();
+  return entries.filter((entry) => entry.at >= start && entry.at < end);
+}
+
 export function readBoard(game: GameSlug): LeaderboardEntry[] {
-  return ordered(readAll()[game] ?? []);
+  return ordered(activeWeekEntries(readAll()[game] ?? []));
 }
 
 /**
- * Every board that has at least one entry, best-first, for the home page.
+ * Every current-week board that has at least one entry, best-first, for home.
  */
 export function readAllBoards(): Array<{ game: GameSlug; entries: LeaderboardEntry[] }> {
   const board = readAll();
   return Object.entries(board)
     .map(([game, entries]) => ({
       game: game as GameSlug,
-      entries: ordered(entries ?? [])
+      entries: ordered(activeWeekEntries(entries ?? []))
     }))
     .filter((item) => item.entries.length > 0);
 }
 
 /**
- * What place `score` would take, 1-based, without saving anything.
+ * What place `score` would take this week, 1-based, without saving anything.
  *
  * Called while the end-of-round card is still on screen, so the child can see
  * "kamu peringkat 2" before deciding whether to bother typing a name.
@@ -167,10 +177,11 @@ export function submitScore(
     ...(typeof durationSeconds === "number" ? { durationSeconds } : {})
   };
 
-  const next = ordered([...(board[game] ?? []), entry]).slice(
-    0,
-    MAX_ENTRIES_PER_GAME
-  );
+  // Keep only the active week's entries when the game is next written. This
+  // makes the reset real while avoiding a migration or a destructive global
+  // localStorage clear at the week boundary.
+  const current = activeWeekEntries(board[game] ?? [], new Date(entry.at));
+  const next = ordered([...current, entry]).slice(0, MAX_ENTRIES_PER_GAME);
   board[game] = next;
   writeAll(board);
   saveName(entry.name);
