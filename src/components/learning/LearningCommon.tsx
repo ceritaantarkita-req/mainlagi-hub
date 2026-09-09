@@ -12,6 +12,7 @@ import {
   type LearningChildProfile,
   type LearningProgress
 } from "@/lib/learning/system";
+import { readCloudLearningProfile, readCloudLearningProgress } from "@/lib/learning/cloud";
 import styles from "./LearningPlatform.module.css";
 
 export function CharacterAvatar({ id, large = false }: { id: CharacterId; large?: boolean }) {
@@ -97,10 +98,23 @@ export function CharacterGroup() {
 export function useLearningProfile(childId: string) {
   const [profile, setProfile] = useState<LearningChildProfile | null>(childId === DEMO_PROFILE.id ? DEMO_PROFILE : null);
   useEffect(() => {
-    const frame = window.requestAnimationFrame(() => {
-      setProfile(readProfile(childId) ?? (childId === DEMO_PROFILE.id ? DEMO_PROFILE : null));
-    });
-    return () => window.cancelAnimationFrame(frame);
+    let cancelled = false;
+    const refresh = async () => {
+      const local = readProfile(childId) ?? (childId === DEMO_PROFILE.id ? DEMO_PROFILE : null);
+      if (!cancelled) setProfile(local);
+      const cloud = await readCloudLearningProfile(childId);
+      if (!cancelled && cloud) setProfile(cloud);
+    };
+    const frame = window.requestAnimationFrame(() => void refresh());
+    const onProfiles = () => void refresh();
+    window.addEventListener("mainlagi-learning-profiles", onProfiles);
+    window.addEventListener("storage", onProfiles);
+    return () => {
+      cancelled = true;
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("mainlagi-learning-profiles", onProfiles);
+      window.removeEventListener("storage", onProfiles);
+    };
   }, [childId]);
   return profile;
 }
@@ -108,18 +122,36 @@ export function useLearningProfile(childId: string) {
 export function useLearningProgress(childId: string) {
   const [progress, setProgress] = useState<LearningProgress>({ completedActivityIds: [], stars: 0, lastActivityId: null });
   useEffect(() => {
-    const update = () => setProgress(readProgress(childId));
-    const frame = window.requestAnimationFrame(update);
+    let cancelled = false;
+    const updateLocal = () => {
+      if (!cancelled) setProgress(readProgress(childId));
+    };
+    const updateCloud = async () => {
+      const cloud = await readCloudLearningProgress(childId);
+      if (!cancelled && cloud) setProgress(cloud);
+    };
+    const refresh = () => {
+      updateLocal();
+      void updateCloud();
+    };
+    const frame = window.requestAnimationFrame(refresh);
     const onCustom = (event: Event) => {
       const detail = (event as CustomEvent<{ childId?: string }>).detail;
-      if (!detail?.childId || detail.childId === childId) update();
+      if (!detail?.childId || detail.childId === childId) refresh();
+    };
+    const onCloud = (event: Event) => {
+      const detail = (event as CustomEvent<{ childId?: string }>).detail;
+      if (!detail?.childId || detail.childId === childId) void updateCloud();
     };
     window.addEventListener("mainlagi-learning-progress", onCustom);
-    window.addEventListener("storage", update);
+    window.addEventListener("mainlagi-learning-cloud", onCloud);
+    window.addEventListener("storage", refresh);
     return () => {
+      cancelled = true;
       window.cancelAnimationFrame(frame);
       window.removeEventListener("mainlagi-learning-progress", onCustom);
-      window.removeEventListener("storage", update);
+      window.removeEventListener("mainlagi-learning-cloud", onCloud);
+      window.removeEventListener("storage", refresh);
     };
   }, [childId]);
   return progress;
