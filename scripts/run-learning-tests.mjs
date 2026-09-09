@@ -22,6 +22,7 @@ const catalog = require(path.join(outDir, "src", "lib", "learning", "catalog.js"
 const attempts = require(path.join(outDir, "src", "lib", "learning", "attempts.js"));
 const progression = require(path.join(outDir, "src", "lib", "learning", "progression.js"));
 const system = require(path.join(outDir, "src", "lib", "learning", "system.js"));
+const insights = require(path.join(outDir, "src", "lib", "learning", "insights.js"));
 
 function outcome({
   accuracy = 1,
@@ -64,6 +65,15 @@ function evidence({
     outcome: outcome({ accuracy, hintCount, retryCount, completedAt }),
     masteryEligible
   });
+}
+
+function evidenceSet(skillId, prefix, count, accuracy = 1, startMinute = 0) {
+  return Array.from({ length: count }, (_, index) => evidence({
+    id: `${prefix}-${index + 1}`,
+    skillId,
+    accuracy,
+    completedAt: `2026-09-09T13:${String(startMinute + index).padStart(2, "0")}:00.000Z`
+  })).filter(Boolean);
 }
 
 try {
@@ -220,7 +230,7 @@ try {
     }
   }
 
-  // Progression remains gated by completion/mastery rather than score farming.
+  // Progression remains gated by completion and qualifying evidence rather than score farming.
   const stage1 = { id: "stage-1", subjectId: "math", activityIds: ["a"] };
   const stage2 = { id: "stage-2", subjectId: "math", activityIds: ["b"] };
   const activities = [
@@ -235,10 +245,81 @@ try {
   assert.equal(progression.isStageUnlocked({ targetStageId: "stage-2", stages: [stage1, stage2], activities, completedActivityIds: [], masteryBySkill }), false);
   assert.equal(progression.isStageUnlocked({ targetStageId: "stage-2", stages: [stage1, stage2], activities, completedActivityIds: ["a"], masteryBySkill }), true);
 
+  const onlyNonQualifying = mastery.calculateSkillMastery("s", [evidence({
+    id: "rapid-repeat",
+    accuracy: 1,
+    completedAt: "2026-09-09T12:30:00.000Z",
+    masteryEligible: false
+  })].filter(Boolean));
+  assert.equal(onlyNonQualifying.qualifyingEvidenceCount, 0);
+  assert.equal(progression.isStageUnlocked({
+    targetStageId: "stage-2",
+    stages: [stage1, stage2],
+    activities,
+    completedActivityIds: ["a"],
+    masteryBySkill: { s: onlyNonQualifying, t: masteryBySkill.t }
+  }), false, "completed activity with only replay/non-qualifying evidence must not unlock the next assessed stage");
+
   const ranked = progression.rankNextActivities({ age: 5, stages: [stage1, stage2], activities, completedActivityIds: ["a"], masteryBySkill, lastActivityId: "a" });
   assert.equal(ranked[0], "b");
 
-  console.log("Learning mastery, anti-farming, catalog, and progression tests passed.");
+  // Certificate integrity: practice-only subjects cannot issue a competency certificate,
+  // and assessed subjects need both completion and at least proficient evidence.
+  const emptyAnalytics = attempts.emptyLearningAnalytics();
+  const colorComplete = { completedActivityIds: ["color-gavi", "color-paca"], stars: 4, lastActivityId: "color-paca" };
+  const colorCertificate = insights.getCertificateEligibility("color", colorComplete, emptyAnalytics);
+  assert.equal(colorCertificate.completionReady, true);
+  assert.equal(colorCertificate.masteryReady, false);
+  assert.equal(colorCertificate.eligible, false, "practice-only creative completion must not be labeled as competency mastery");
+  assert.match(colorCertificate.reason, /practice|kreatif|tidak dinilai/i);
+
+  const bahasaRecognition = mastery.calculateSkillMastery(
+    "bahasa.huruf.a.recognition",
+    evidenceSet("bahasa.huruf.a.recognition", "bahasa-a", 2, 0.75, 10)
+  );
+  const bahasaMatching = mastery.calculateSkillMastery(
+    "bahasa.huruf.awal.matching",
+    evidenceSet("bahasa.huruf.awal.matching", "bahasa-match", 2, 0.75, 20)
+  );
+  assert.equal(bahasaRecognition.level, "proficient");
+  assert.equal(bahasaMatching.level, "proficient");
+
+  const bahasaAnalytics = {
+    ...emptyAnalytics,
+    masteryBySkill: {
+      ...emptyAnalytics.masteryBySkill,
+      [bahasaRecognition.skillId]: bahasaRecognition,
+      [bahasaMatching.skillId]: bahasaMatching
+    }
+  };
+  const bahasaComplete = {
+    completedActivityIds: ["bahasa-cari-a", "bahasa-dengar-a", "bahasa-pasang-awal", "bahasa-cerita-teman"],
+    stars: 9,
+    lastActivityId: "bahasa-cerita-teman"
+  };
+  const bahasaCertificate = insights.getCertificateEligibility("bahasa", bahasaComplete, bahasaAnalytics);
+  assert.equal(bahasaCertificate.completionReady, true);
+  assert.equal(bahasaCertificate.masteryReady, true);
+  assert.equal(bahasaCertificate.eligible, true, "completed assessed subject with all assessed skills proficient should unlock certificate");
+
+  const oneShotAnalytics = {
+    ...emptyAnalytics,
+    masteryBySkill: {
+      ...emptyAnalytics.masteryBySkill,
+      "bahasa.huruf.a.recognition": mastery.calculateSkillMastery(
+        "bahasa.huruf.a.recognition",
+        evidenceSet("bahasa.huruf.a.recognition", "one-a", 1, 1, 30)
+      ),
+      "bahasa.huruf.awal.matching": mastery.calculateSkillMastery(
+        "bahasa.huruf.awal.matching",
+        evidenceSet("bahasa.huruf.awal.matching", "one-match", 1, 1, 31)
+      )
+    }
+  };
+  const oneShotCertificate = insights.getCertificateEligibility("bahasa", bahasaComplete, oneShotAnalytics);
+  assert.equal(oneShotCertificate.eligible, false, "one perfect attempt per skill must never unlock a competency certificate");
+
+  console.log("Learning mastery, anti-farming, catalog, progression, and certificate tests passed.");
 } finally {
   rmSync(outDir, { recursive: true, force: true });
 }
