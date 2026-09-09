@@ -10,10 +10,19 @@
     "rootDir": ".",
     "outDir": ".learning-test-dist",
     "lib": ["ES2022", "DOM"],
-    "types": []
+    "types": [],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "ignoreDeprecations": "6.0"
   },
   "include": [
     "src/lib/learning/mastery.ts",
-    "src/lib/learning/progression.ts"
+    "src/lib/learning/catalog.ts",
+    "src/lib/learning/attempts.ts",
+    "src/lib/learning/progression.ts",
+    "src/lib/learning/system.ts",
+    "src/lib/learning/insights.ts"
   ]
 }

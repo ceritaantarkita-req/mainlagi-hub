@@ -76,7 +76,7 @@ export function ParentCoreProgressScreen({ childId }: { childId: string }) {
                 </div>
 
                 <p style={{ marginTop: 14, marginBottom: 6 }}>
-                  Evidence mastery: <strong>{masteryPct}%</strong> · coverage {percent(summary.masteryCoverage)}%
+                  Skor evidence: <strong>{masteryPct}%</strong> · coverage {percent(summary.masteryCoverage)}%
                 </p>
                 <p style={{ marginTop: 0 }}>
                   {summary.proficientSkills}/{summary.totalSkills} skill minimal Mahir · {summary.masteredSkills} Dikuasai

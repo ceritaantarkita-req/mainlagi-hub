@@ -42,8 +42,10 @@ assert.match(hardening, /grant execute on function public\.recompute_child_skill
 assert.match(hardening, /revoke all on function public\.record_learning_attempt[\s\S]*from public, anon, authenticated, service_role/i, "attempt RPC must revoke default API grants before granting trusted roles");
 assert.match(hardening, /grant execute on function public\.record_learning_attempt[\s\S]*to authenticated, service_role/i, "attempt RPC must be authenticated/service-role only");
 assert.match(hardening, /v_activity\.subject_id, v_activity\.stage_id, v_activity\.runtime/i, "attempt metadata must come from the server activity catalog");
-assert.match(hardening, /v_activity\.assessment = 'assessed'/i, "assessment classification must come from the server activity catalog");
+assert.match(hardening, /v_is_assessed := v_activity\.assessment = 'assessed' and v_status = 'completed' and v_accuracy is not null/i, "server must require catalog-assessed completed measurable outcomes");
 assert.match(hardening, /created_at > now\(\) - interval '30 seconds'/i, "replay protection must use server receipt time");
+assert.match(hardening, /\(not v_rapid_repeat\) and greatest\(0, coalesce\(p_retry_count,0\)\) < 7/i, "rapid repeats and excessive retries must remain stored but non-qualifying");
+assert.match(hardening, /case when v_first_completion then coalesce\(v_activity\.star_reward,0\) else 0 end/i, "replays must not farm first-completion star rewards");
 assert.match(hardening, /octet_length\(coalesce\(p_metadata, '\{\}'::jsonb\)::text\) > 16384/i, "attempt metadata must be bounded server-side");
 
 assert.match(advisorHardening, /alter function public\.week_key_for\(timestamptz\) set search_path = pg_catalog/i, "week helper search path must be pinned");
@@ -77,4 +79,4 @@ for (const legacy of ["game_sessions", "game_scores", "progress"]) {
   assert.doesNotMatch(privateAdmin, new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`, "i"), `private-admin migration must not drop legacy table ${legacy}`);
 }
 
-console.log("Learning migration contract tests passed.");
+console.log("Learning migration and anti-farming contract tests passed.");
