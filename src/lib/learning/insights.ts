@@ -10,6 +10,7 @@ import {
 import {
   ACTIVITY_LEARNING_SPECS,
   getActivityLearningSpec,
+  getLearningSkill,
   getSkillsForSubject,
   type LearningSubjectKey
 } from "./catalog";
@@ -21,9 +22,10 @@ import {
 import {
   calculateStageLearningState,
   isStageUnlocked,
-  rankNextActivities,
+  rankActivityRecommendations,
   type ProgressionActivityDescriptor,
   type ProgressionStageDescriptor,
+  type RecommendationReason,
   type StageLearningState
 } from "./progression";
 import type { LearningAnalyticsSnapshot } from "./attempts";
@@ -55,6 +57,14 @@ export interface CertificateEligibility {
   reason: string;
 }
 
+export interface NextLearningRecommendation {
+  activity: LearningActivity;
+  reason: RecommendationReason;
+  reasonLabel: string;
+  targetSkillId: string | null;
+  targetSkillTitle: string | null;
+}
+
 function activityDescriptors(): ProgressionActivityDescriptor[] {
   return ACTIVITIES.map((activity) => {
     const spec = getActivityLearningSpec(activity.id);
@@ -67,13 +77,30 @@ function activityDescriptors(): ProgressionActivityDescriptor[] {
       requiredForStage: spec?.requiredForStage ?? (!activity.motionOptional && activity.runtime !== "motion_game"),
       motionOptional: activity.motionOptional || activity.runtime === "motion_game",
       skillIds: spec?.skills.map((item) => item.skillId) ?? [],
-      assessed: spec?.assessment === "assessed"
+      assessed: spec?.assessment === "assessed",
+      difficulty: spec?.difficulty ?? 1
     };
   });
 }
 
 function stageDescriptors(): ProgressionStageDescriptor[] {
   return STAGES.map((stage) => ({ id: stage.id, subjectId: stage.subjectId, activityIds: stage.activityIds }));
+}
+
+function recommendationReasonLabel(reason: RecommendationReason, targetSkillTitle: string | null): string {
+  const skill = targetSkillTitle ? ` ${targetSkillTitle}` : " skill ini";
+  switch (reason) {
+    case "finish_core":
+      return "Selesaikan aktivitas inti yang masih terbuka sebelum maju ke stage berikutnya.";
+    case "first_evidence":
+      return `Mulai kumpulkan evidence untuk${skill}.`;
+    case "strengthen_skill":
+      return `Perkuat${skill} dengan latihan terukur berikutnya.`;
+    case "new_activity":
+      return "Coba aktivitas baru yang sesuai umur dan stage yang sudah terbuka.";
+    case "practice":
+      return "Latihan ringan untuk menjaga pengalaman belajar tetap bervariasi.";
+  }
 }
 
 export function getStageLearningState(
@@ -106,13 +133,13 @@ export function getUnlockedStageIds(
   })).map((stage) => stage.id));
 }
 
-export function getNextBestLearningActivity(args: {
+export function getNextBestLearningRecommendation(args: {
   age: number;
   progress: LearningProgress;
   analytics: LearningAnalyticsSnapshot;
   allowMotion?: boolean;
-}): LearningActivity | undefined {
-  const ranked = rankNextActivities({
+}): NextLearningRecommendation | undefined {
+  const ranked = rankActivityRecommendations({
     age: args.age,
     activities: activityDescriptors(),
     stages: stageDescriptors(),
@@ -121,7 +148,27 @@ export function getNextBestLearningActivity(args: {
     lastActivityId: args.progress.lastActivityId,
     allowMotion: args.allowMotion
   });
-  return ranked.map((id) => getActivity(id)).find((item): item is LearningActivity => Boolean(item));
+  const top = ranked[0];
+  if (!top) return undefined;
+  const activity = getActivity(top.id);
+  if (!activity) return undefined;
+  const targetSkill = top.targetSkillId ? getLearningSkill(top.targetSkillId) : undefined;
+  return {
+    activity,
+    reason: top.reason,
+    reasonLabel: recommendationReasonLabel(top.reason, targetSkill?.title ?? null),
+    targetSkillId: top.targetSkillId,
+    targetSkillTitle: targetSkill?.title ?? null
+  };
+}
+
+export function getNextBestLearningActivity(args: {
+  age: number;
+  progress: LearningProgress;
+  analytics: LearningAnalyticsSnapshot;
+  allowMotion?: boolean;
+}): LearningActivity | undefined {
+  return getNextBestLearningRecommendation(args)?.activity;
 }
 
 export function getSubjectLearningSummary(

@@ -3,6 +3,7 @@
 import type { CSSProperties } from "react";
 import { CHARACTERS, SUBJECTS } from "@/lib/learning/system";
 import {
+  getNextBestLearningRecommendation,
   getSubjectLearningSummary,
   getSubjectSkillRows
 } from "@/lib/learning/insights";
@@ -23,6 +24,13 @@ export function ParentCoreProgressScreen({ childId }: { childId: string }) {
     return <main className={styles.parentMain}><div className={styles.emptyState}>Profil anak tidak ditemukan.</div></main>;
   }
 
+  const recommendation = getNextBestLearningRecommendation({
+    age: profile.age,
+    progress,
+    analytics,
+    allowMotion: false
+  });
+
   return (
     <main className={styles.parentMain}>
       <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 22 }}>
@@ -38,10 +46,21 @@ export function ParentCoreProgressScreen({ childId }: { childId: string }) {
         <div className={styles.parentCard}>
           <strong>🧪 Learning attempts</strong>
           <p>{analytics.totalAttempts} percobaan tercatat · {analytics.assessedAttempts} assessed · {analytics.practiceAttempts} practice</p>
+          <small>{analytics.lastAttemptAt ? `Attempt terakhir ${new Date(analytics.lastAttemptAt).toLocaleDateString("id-ID")}` : "Belum ada attempt"}</small>
         </div>
         <div className={styles.parentCard}>
           <strong>⭐ Reward</strong>
           <p>{progress.stars} bintang · {progress.completedActivityIds.length} aktivitas unik selesai</p>
+        </div>
+        <div className={styles.parentCard}>
+          <strong>🎯 Saran berikutnya</strong>
+          {recommendation ? (
+            <>
+              <p><strong>{recommendation.activity.title}</strong></p>
+              <p>{recommendation.reasonLabel}</p>
+              {recommendation.targetSkillTitle ? <small>Target skill: {recommendation.targetSkillTitle}</small> : null}
+            </>
+          ) : <p>Belum ada rekomendasi yang sesuai umur dan stage aktif.</p>}
         </div>
       </div>
 
@@ -59,6 +78,9 @@ export function ParentCoreProgressScreen({ childId }: { childId: string }) {
             const completionPct = percent(summary.completionRatio);
             const masteryPct = percent(summary.masteryScore);
             const assessedRows = skills.filter((skill) => skill.level !== "not_started");
+            const sortedStarted = [...assessedRows].sort((a, b) => a.score - b.score);
+            const needsPractice = sortedStarted[0];
+            const strongest = sortedStarted.at(-1);
 
             return (
               <div
@@ -81,6 +103,9 @@ export function ParentCoreProgressScreen({ childId }: { childId: string }) {
                 <p style={{ marginTop: 0 }}>
                   {summary.proficientSkills}/{summary.totalSkills} skill minimal Mahir · {summary.masteredSkills} Dikuasai
                 </p>
+
+                {needsPractice ? <p style={{ marginBottom: 4 }}>🔁 Perlu diperkuat: <strong>{needsPractice.title}</strong></p> : null}
+                {strongest && strongest.id !== needsPractice?.id ? <p style={{ marginTop: 0 }}>✨ Kekuatan saat ini: <strong>{strongest.title}</strong></p> : null}
 
                 {assessedRows.length ? (
                   <ul className={styles.list} style={{ marginTop: 12 }}>
