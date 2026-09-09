@@ -8,6 +8,7 @@ const functions = readFileSync(path.join(root, "supabase/migrations/0003_learnin
 const hardening = readFileSync(path.join(root, "supabase/migrations/0004_learning_rpc_hardening.sql"), "utf8");
 const advisorHardening = readFileSync(path.join(root, "supabase/migrations/0005_database_advisor_hardening.sql"), "utf8");
 const privateAdmin = readFileSync(path.join(root, "supabase/migrations/0006_private_admin_helper.sql"), "utf8");
+const childOwnership = readFileSync(path.join(root, "supabase/migrations/0007_learning_child_ownership.sql"), "utf8");
 
 const requiredTables = [
   "learning_skills",
@@ -71,12 +72,22 @@ assert.match(privateAdmin, /grant execute on function private\.is_admin\(\) to a
 assert.match(privateAdmin, /select private\.is_admin\(\)/i, "RLS policies must use private admin helper");
 assert.match(privateAdmin, /drop function if exists public\.is_admin\(\)/i, "public is_admin RPC must be removed after policy rebinding");
 
+assert.match(childOwnership, /create or replace function private\.enforce_learning_attempt_child_ownership\(\)/i, "learning child ownership helper missing");
+assert.match(childOwnership, /new\.child_key = 'demo-gian'/i, "only the explicit demo sandbox sentinel should bypass real-profile lookup");
+assert.match(childOwnership, /pp\.id::text = new\.child_key/i, "real learning child keys must resolve to player_profiles");
+assert.match(childOwnership, /pp\.account_id = new\.account_id/i, "real learning child profiles must belong to the same account");
+assert.match(childOwnership, /pp\.deleted_at is null/i, "soft-deleted child profiles must not accept new learning attempts");
+assert.match(childOwnership, /before insert or update of account_id, child_key on public\.learning_attempts/i, "learning child ownership trigger must run before writes");
+assert.match(childOwnership, /raise exception[\s\S]*errcode = '42501'/i, "unowned learning child writes must fail closed");
+assert.match(childOwnership, /revoke all on function private\.enforce_learning_attempt_child_ownership\(\) from public, anon, authenticated, service_role/i, "ownership trigger helper must not be exposed as an API RPC");
+
 for (const legacy of ["game_sessions", "game_scores", "progress"]) {
   assert.doesNotMatch(schema, new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`, "i"), `legacy table ${legacy} must not be dropped`);
   assert.doesNotMatch(functions, new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`, "i"), `legacy table ${legacy} must not be dropped`);
   assert.doesNotMatch(hardening, new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`, "i"), `hardening must not drop legacy table ${legacy}`);
   assert.doesNotMatch(advisorHardening, new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`, "i"), `advisor hardening must not drop legacy table ${legacy}`);
   assert.doesNotMatch(privateAdmin, new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`, "i"), `private-admin migration must not drop legacy table ${legacy}`);
+  assert.doesNotMatch(childOwnership, new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`, "i"), `child-ownership migration must not drop legacy table ${legacy}`);
 }
 
-console.log("Learning migration and anti-farming contract tests passed.");
+console.log("Learning migration, anti-farming, and child-ownership contract tests passed.");
