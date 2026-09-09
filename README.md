@@ -2,7 +2,7 @@
 
 **Mainlagi Hub** adalah platform motion-learning dan edutainment yang sedang dikembangkan untuk keluarga Indonesia. Produk saat ini sudah memiliki **10 game/experience berbasis gerak tangan dan tubuh** dengan computer vision di browser. Arah produk berikutnya memperluas fondasi ini menjadi platform belajar anak usia **3–7 tahun** tanpa membuang motion engine atau game yang sudah ada.
 
-> Status: active development. Repository ini sedang disiapkan untuk rilis publik/open-source. Fitur yang ditandai **Planned** belum dianggap tersedia di production.
+> Status: **public open-source core**, active development. Source code repository ini menggunakan `AGPL-3.0-only`, dengan jalur commercial/paid yang terpisah. Fitur yang ditandai **Planned** belum dianggap tersedia di production.
 
 ## Prinsip utama
 
@@ -142,11 +142,14 @@ Security policy: [`SECURITY.md`](SECURITY.md).
 
 Source code Mainlagi Hub dirilis di bawah **GNU Affero General Public License v3.0 only (`AGPL-3.0-only`)**, kecuali file yang secara eksplisit menyatakan lisensi lain.
 
-Model bisnis Mainlagi adalah **open-source core + commercial offering**. Lisensi komersial terpisah dapat mencakup penggunaan proprietary/closed-source, premium curriculum/content, hosted services, enterprise/school features, atau kebutuhan lain yang tidak cocok dengan kewajiban AGPL.
+AGPL adalah lisensi open-source dan **mengizinkan commercial use** selama pihak yang memakai, memodifikasi, mendistribusikan, atau menyediakan versi networked mematuhi kewajiban lisensinya. Commercial license Mainlagi bukan biaya wajib hanya karena sebuah penggunaan menghasilkan uang; jalur tersebut ditujukan untuk hak/terms alternatif yang dinegosiasikan terpisah atau untuk produk, layanan, dan aset proprietary yang memang tidak dirilis sebagai bagian dari community core.
+
+Model bisnis Mainlagi adalah **open-source core + paid/commercial offering**. Batas canonical antara community core dan komponen paid/proprietary dijelaskan di [`OPEN_CORE.md`](OPEN_CORE.md).
 
 Lihat:
 
 - [`LICENSE`](LICENSE)
+- [`OPEN_CORE.md`](OPEN_CORE.md)
 - [`COMMERCIAL_LICENSE.md`](COMMERCIAL_LICENSE.md)
 - [`TRADEMARKS.md`](TRADEMARKS.md)
 - [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md)
@@ -159,9 +162,9 @@ Baca [`CONTRIBUTING.md`](CONTRIBUTING.md) dan [`CODE_OF_CONDUCT.md`](CODE_OF_CON
 
 Untuk menjaga kemungkinan commercial licensing di masa depan, kontribusi eksternal yang akan digabung ke core dapat memerlukan contributor licensing terms tambahan. Detailnya dijelaskan di `CONTRIBUTING.md`.
 
-## Public-release checklist
+## Public-repository security checklist
 
-Sebelum repository diubah dari private menjadi public, jalankan checklist di [`docs/PUBLIC_RELEASE_CHECKLIST.md`](docs/PUBLIC_RELEASE_CHECKLIST.md), termasuk history secret scan, Actions-log review, third-party asset review, dan branch/ruleset hardening.
+Repository ini sudah **Public**. Checklist di [`docs/PUBLIC_RELEASE_CHECKLIST.md`](docs/PUBLIC_RELEASE_CHECKLIST.md) sekarang dipakai sebagai audit pasca-publik dan kontrol berkelanjutan, termasuk history secret scan, Actions-log review, third-party asset review, serta branch/ruleset hardening.
 
 ## Dokumentasi penting
 
@@ -172,6 +175,7 @@ Sebelum repository diubah dari private menjadi public, jalankan checklist di [`d
 - `docs/DEPLOYMENT.md`
 - `docs/KNOWN_LIMITATIONS.md`
 - `docs/PUBLIC_RELEASE_CHECKLIST.md`
+- `OPEN_CORE.md`
 
 ## Disclaimer
 
