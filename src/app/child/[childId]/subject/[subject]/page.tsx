@@ -1,6 +1,6 @@
-import { WorldSubjectScreen } from "@/components/learning/world/WorldExperience";
+import { SubjectScreen } from "@/components/learning/ChildLearningPathViews";
 
 export default async function SubjectPage({ params }: { params: Promise<{ childId: string; subject: string }> }) {
   const { childId, subject } = await params;
-  return <WorldSubjectScreen childId={childId} subjectId={subject} />;
+  return <SubjectScreen childId={childId} subjectId={subject} />;
 }

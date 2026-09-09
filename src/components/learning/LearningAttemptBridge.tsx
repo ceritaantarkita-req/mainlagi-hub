@@ -5,6 +5,10 @@ import { getActivity, readProgress } from "@/lib/learning/system";
 import { getActivityLearningSpec } from "@/lib/learning/catalog";
 import { readLearningAttempts, recordLearningAttempt, type LearningAttemptOutcome } from "@/lib/learning/attempts";
 import { syncLearningAttemptCloud } from "@/lib/learning/cloud";
+import {
+  LEARNING_MEASUREMENT_EVENT,
+  type LearningRuntimeMeasurementDetail
+} from "@/lib/learning/runtimeMeasurement";
 
 const DUPLICATE_GUARD_MS = 1500;
 
@@ -102,28 +106,15 @@ function measuredOutcome(activityId: string, stats: RuntimeStats): LearningAttem
     };
   }
 
-  if (activity.runtime === "trace" && activity.id === "math-trace-5-touch") {
-    const accuracy = Math.max(0.5, 1 - Math.min(0.5, stats.resetCount * 0.1));
-    return {
-      ...base,
-      assessed: true,
-      accuracy,
-      score: accuracy,
-      correctCount: 1,
-      incorrectCount: stats.resetCount,
-      retryCount: stats.retryCount,
-      metadata: {
-        source: "runtime-evidence-bridge",
-        evidenceFidelity: "guided_trace_completion_gate"
-      }
-    };
-  }
-
+  // Trace runtimes should publish an explicit evaluator result through
+  // LEARNING_MEASUREMENT_EVENT. This conservative fallback keeps old trace
+  // pages completion-only instead of manufacturing accuracy from reset count.
   return base;
 }
 
 export function LearningAttemptBridge({ childId }: { childId: string }) {
   const statsRef = useRef<Map<string, RuntimeStats>>(new Map());
+  const explicitOutcomeRef = useRef<Map<string, LearningAttemptOutcome>>(new Map());
 
   useEffect(() => {
     const getStats = (activityId: string) => {
@@ -134,6 +125,14 @@ export function LearningAttemptBridge({ childId }: { childId: string }) {
 
     const touchStats = (stats: RuntimeStats) => {
       if (stats.startedAt === null) stats.startedAt = Date.now();
+    };
+
+    const onMeasurement = (event: Event) => {
+      const detail = (event as CustomEvent<LearningRuntimeMeasurementDetail>).detail;
+      if (!detail || detail.childId !== childId) return;
+      const activity = getActivity(detail.activityId);
+      if (!activity) return;
+      explicitOutcomeRef.current.set(detail.activityId, detail.outcome);
     };
 
     const onClickCapture = (event: MouseEvent) => {
@@ -202,15 +201,17 @@ export function LearningAttemptBridge({ childId }: { childId: string }) {
       if (recent && Number.isFinite(recentAt) && now - recentAt >= 0 && now - recentAt < DUPLICATE_GUARD_MS) return;
 
       const stats = statsRef.current.get(activityId) ?? emptyStats();
+      const explicit = explicitOutcomeRef.current.get(activityId);
       const attempt = recordLearningAttempt({
         childId,
         activityId,
         subjectId: activity.subjectId,
         stageId: activity.stageId,
         runtime: activity.runtime,
-        outcome: measuredOutcome(activityId, stats)
+        outcome: explicit ?? measuredOutcome(activityId, stats)
       });
       statsRef.current.delete(activityId);
+      explicitOutcomeRef.current.delete(activityId);
 
       void (async () => {
         const synced = await syncLearningAttemptCloud(attempt);
@@ -223,9 +224,11 @@ export function LearningAttemptBridge({ childId }: { childId: string }) {
     };
 
     document.addEventListener("click", onClickCapture, true);
+    window.addEventListener(LEARNING_MEASUREMENT_EVENT, onMeasurement);
     window.addEventListener("mainlagi-learning-progress", onProgress);
     return () => {
       document.removeEventListener("click", onClickCapture, true);
+      window.removeEventListener(LEARNING_MEASUREMENT_EVENT, onMeasurement);
       window.removeEventListener("mainlagi-learning-progress", onProgress);
     };
   }, [childId]);
