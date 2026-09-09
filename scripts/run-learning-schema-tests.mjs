@@ -6,6 +6,7 @@ const root = process.cwd();
 const schema = readFileSync(path.join(root, "supabase/migrations/0002_learning_attempt_schema.sql"), "utf8");
 const functions = readFileSync(path.join(root, "supabase/migrations/0003_learning_mastery_functions.sql"), "utf8");
 const hardening = readFileSync(path.join(root, "supabase/migrations/0004_learning_rpc_hardening.sql"), "utf8");
+const advisorHardening = readFileSync(path.join(root, "supabase/migrations/0005_database_advisor_hardening.sql"), "utf8");
 
 const requiredTables = [
   "learning_skills",
@@ -44,10 +45,27 @@ assert.match(hardening, /v_activity\.assessment = 'assessed'/i, "assessment clas
 assert.match(hardening, /created_at > now\(\) - interval '30 seconds'/i, "replay protection must use server receipt time");
 assert.match(hardening, /octet_length\(coalesce\(p_metadata, '\{\}'::jsonb\)::text\) > 16384/i, "attempt metadata must be bounded server-side");
 
+assert.match(advisorHardening, /alter function public\.week_key_for\(timestamptz\) set search_path = pg_catalog/i, "week helper search path must be pinned");
+assert.match(advisorHardening, /revoke all on function public\.handle_new_user\(\) from public, anon, authenticated, service_role/i, "trigger helper must not be exposed as API RPC");
+assert.match(advisorHardening, /revoke all on function public\.ensure_active_season\(\) from public, anon, authenticated, service_role/i, "season helper must not be exposed to public API roles");
+assert.match(advisorHardening, /record_best_score[\s\S]*security invoker/i, "best-score RPC should use invoker rights");
+assert.match(advisorHardening, /revoke all on function public\.record_best_score\(text, integer\) from public, anon, authenticated, service_role/i, "best-score RPC must revoke default API grants first");
+assert.match(advisorHardening, /grant execute on function public\.record_best_score\(text, integer\) to authenticated, service_role/i, "best-score RPC should remain available to authenticated callers");
+assert.match(advisorHardening, /account_id = \(select auth\.uid\(\)\)/i, "ownership policies should init-plan auth.uid");
+for (const index of [
+  "idx_learning_attempts_activity_id",
+  "idx_learning_activity_skills_skill_key",
+  "idx_learning_evidence_skill_key",
+  "idx_child_skill_mastery_skill_key"
+]) {
+  assert.match(advisorHardening, new RegExp(`create index if not exists ${index}\\b`, "i"), `missing advisor index ${index}`);
+}
+
 for (const legacy of ["game_sessions", "game_scores", "progress"]) {
   assert.doesNotMatch(schema, new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`, "i"), `legacy table ${legacy} must not be dropped`);
   assert.doesNotMatch(functions, new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`, "i"), `legacy table ${legacy} must not be dropped`);
   assert.doesNotMatch(hardening, new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`, "i"), `hardening must not drop legacy table ${legacy}`);
+  assert.doesNotMatch(advisorHardening, new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`, "i"), `advisor hardening must not drop legacy table ${legacy}`);
 }
 
 console.log("Learning migration contract tests passed.");
