@@ -44,6 +44,27 @@ This verifies the automatic production path **GitHub `main` -> Cloudflare build/
 
 The custom domain `https://mainlagihub.my.id/` was also observed loading over HTTPS in the browser. The Git/deployment layer is therefore validated; application-level closure still requires the health/auth/learning smoke tests listed below.
 
+## Commit-aware production health verification
+
+Cloudflare Workers Builds injects the public build metadata `WORKERS_CI_COMMIT_SHA` and `WORKERS_CI_BRANCH` while building a Git-connected Worker. Mainlagi bakes those non-secret values into the server artifact as:
+
+```text
+MAINLAGI_BUILD_SHA
+MAINLAGI_BUILD_BRANCH
+```
+
+`GET /api/health` returns that release metadata alongside `ok: true`.
+
+On pushes to `main`, GitHub CI now includes a post-quality job named:
+
+```text
+Production smoke (Cloudflare)
+```
+
+The smoke job waits for `https://mainlagihub.my.id/` and `/api/health`, then only succeeds when production reports the **exact `github.sha`** from the current `main` push and branch `main`. This closes the ambiguity where a health check could accidentally pass against an older still-running deployment.
+
+The smoke job runs only on pushes to canonical `main`, after the five existing quality/security jobs succeed. It does not run production deployment from GitHub; Cloudflare remains the deployment owner.
+
 ## Repository deployment configuration
 
 Cloudflare production support is represented in the repository:
@@ -57,6 +78,9 @@ Cloudflare production support is represented in the repository:
   - OpenNext Cloudflare configuration
 - `next.config.mjs`
   - initializes OpenNext Cloudflare bindings for local development
+  - bakes public commit/branch metadata into the server artifact for deployment verification
+- `src/app/api/health/route.ts`
+  - exposes non-secret release SHA/branch metadata
 - `package.json`
   - `npm run build:cloudflare`
   - `npm run preview`
@@ -71,7 +95,7 @@ https://mainlagihub.my.id/
 
 ## GitHub CI vs production deployment
 
-GitHub Actions is responsible for repository quality/security gates, not for SSH deployment.
+GitHub Actions is responsible for repository quality/security gates and post-deploy verification, not for SSH or direct production deployment.
 
 The primary workflow `.github/workflows/ci.yml` runs:
 
@@ -79,7 +103,8 @@ The primary workflow `.github/workflows/ci.yml` runs:
 - `Quality gate (Ubuntu)`;
 - `Windows compatibility`;
 - `Production dependency audit`;
-- `Secret history scan`.
+- `Secret history scan`;
+- `Production smoke (Cloudflare)` — push-to-main only, verifies the exact Git commit is live after Cloudflare deploys it.
 
 Production publication is handled by the Cloudflare-side Git integration after the protected `main` branch changes.
 
@@ -144,7 +169,7 @@ Deployment transport is validated. Remaining application-level closure requires:
 3. [x] Cloudflare observes a fresh `main` commit and completes its build/deploy successfully.
 4. [ ] Cloudflare production environment is verified to point to canonical Supabase `mainlagi-hub` without exposing secret values.
 5. [x] `https://mainlagihub.my.id/` loads successfully over HTTPS in the browser.
-6. [ ] `https://mainlagihub.my.id/api/health` is explicitly verified after the Git-sourced deployment.
+6. [ ] The new commit-aware `Production smoke (Cloudflare)` gate completes successfully on canonical `main` and verifies `/api/health` serves the exact deployed commit.
 7. [ ] Auth/login is smoke-tested against canonical Supabase.
 8. [ ] An authenticated measurable learning attempt writes exactly once to cloud persistence.
 9. [ ] Evidence/mastery materialization follows the server-side catalog and replay/idempotency rules in production.
