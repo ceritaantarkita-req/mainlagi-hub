@@ -44,9 +44,9 @@ export function MathTraceWorldActivity({ childId }: { childId: string }) {
   const activity = getActivity("math-trace-5-touch")!;
   const progress = useLearningProgress(childId);
   const alreadyDone = progress.completedActivityIds.includes(activity.id);
-  const svgRef = useRef<SVGSVGElement | null>(null);
   const drawingRef = useRef(false);
   const completedRef = useRef(false);
+  const checkpointRef = useRef(0);
   const [checkpoint, setCheckpoint] = useState(0);
   const [points, setPoints] = useState<Array<{ x: number; y: number }>>([]);
   const [message, setMessage] = useState("Mulai dari bintang kuning.");
@@ -63,6 +63,7 @@ export function MathTraceWorldActivity({ childId }: { childId: string }) {
   const reset = () => {
     drawingRef.current = false;
     completedRef.current = false;
+    checkpointRef.current = 0;
     setCheckpoint(0);
     setPoints([]);
     setComplete(false);
@@ -81,31 +82,32 @@ export function MathTraceWorldActivity({ childId }: { childId: string }) {
     if (typeof navigator !== "undefined" && "vibrate" in navigator) navigator.vibrate([25, 35, 70]);
   };
 
-  const advanceCheckpoint = (point: { x: number; y: number }, current: number) => {
-    let next = current;
+  const advanceCheckpoint = (point: { x: number; y: number }) => {
+    let next = checkpointRef.current;
     while (next < CHECKPOINTS.length && distance(point, CHECKPOINTS[next]) <= 15) next += 1;
-    if (next !== current) {
-      setCheckpoint(next);
-      if (next >= CHECKPOINTS.length) finishTrace();
-      else setMessage(next < 5 ? "Bagus, ikuti garis ke bawah." : next < 9 ? "Sekarang putar ke kanan." : "Sedikit lagi!");
-    }
+    if (next === checkpointRef.current) return;
+    checkpointRef.current = next;
+    setCheckpoint(next);
+    if (next >= CHECKPOINTS.length) finishTrace();
+    else setMessage(next < 5 ? "Bagus, ikuti garis ke bawah." : next < 9 ? "Sekarang putar ke kanan." : "Sedikit lagi!");
   };
 
   const start = (event: ReactPointerEvent<SVGSVGElement>) => {
     if (complete) return;
     unlockAudio();
     const point = pointFromEvent(event);
-    const target = CHECKPOINTS[Math.min(checkpoint, CHECKPOINTS.length - 1)];
-    if (checkpoint === 0 && distance(point, target) > 18) {
+    const currentCheckpoint = checkpointRef.current;
+    const target = CHECKPOINTS[Math.min(currentCheckpoint, CHECKPOINTS.length - 1)];
+    if (distance(point, target) > 18) {
       playTone("wrong");
-      setMessage("Mulai dari bintang kuning dulu ya.");
+      setMessage(currentCheckpoint === 0 ? "Mulai dari bintang kuning dulu ya." : "Lanjut dari titik bercahaya ya.");
       return;
     }
     event.currentTarget.setPointerCapture(event.pointerId);
     drawingRef.current = true;
-    if (checkpoint === 0) setPoints([point]);
+    if (currentCheckpoint === 0) setPoints([point]);
     else setPoints((current) => [...current, point]);
-    advanceCheckpoint(point, checkpoint);
+    advanceCheckpoint(point);
   };
 
   const move = (event: ReactPointerEvent<SVGSVGElement>) => {
@@ -116,13 +118,13 @@ export function MathTraceWorldActivity({ childId }: { childId: string }) {
       if (last && distance(last, point) < 1.3) return current;
       return [...current, point];
     });
-    advanceCheckpoint(point, checkpoint);
+    advanceCheckpoint(point);
   };
 
   const end = (event: ReactPointerEvent<SVGSVGElement>) => {
     drawingRef.current = false;
     if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
-    if (!complete && checkpoint > 0) setMessage("Lanjut dari titik bercahaya.");
+    if (!complete && checkpointRef.current > 0) setMessage("Lanjut dari titik bercahaya.");
   };
 
   const hearPrompt = () => {
@@ -155,7 +157,6 @@ export function MathTraceWorldActivity({ childId }: { childId: string }) {
         <div className={styles.traceCard}>
           <div className={styles.traceTop}><span>Ikuti garisnya</span><button type="button" onClick={reset}>Ulangi</button></div>
           <svg
-            ref={svgRef}
             viewBox="0 0 100 100"
             className={styles.traceBoard}
             onPointerDown={start}
