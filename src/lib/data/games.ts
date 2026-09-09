@@ -134,12 +134,12 @@ export const GAMES: Record<GameSlug, GameDefinition> = {
     description: "Latihan huruf Hijaiyah melalui tracing, tulisan multi-stroke, titik, dan audio pendamping.",
     category: "Belajar dengan tangan",
     age: "TK–SD",
-    playerOptions: [1, 2],
+    playerOptions: [1],
     visionMode: "hybrid",
     accent: "#22A884",
     accentSoft: "#DFF7F0",
     icon: "iqro",
-    capabilities: ["Hijaiyah", "Titik & bentuk", "Audio", "Mode anak-orang tua"],
+    capabilities: ["28 huruf + Hamzah", "Titik & bentuk", "Audio", "Pendamping orang tua"],
     status: "beta"
   },
   "airboard-presenter": {
