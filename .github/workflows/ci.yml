@@ -47,8 +47,8 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci --no-audit --no-fund
-      - name: Validate structure and source
-        run: npm run validate:structure && npm run audit:source
+      - name: Validate structure, assets, and source
+        run: npm run validate:structure && npm run validate:assets && npm run audit:source
       - name: Typecheck
         run: npm run typecheck
       - name: Lint
