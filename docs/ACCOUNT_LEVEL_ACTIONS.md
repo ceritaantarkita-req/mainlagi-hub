@@ -2,11 +2,11 @@
 
 Last reviewed: 9 September 2026
 
-These actions require repository/account/VPS access that is intentionally not represented by committed source. They must not be marked complete by a code change alone.
+These actions require repository/account/Cloudflare access that is intentionally not represented by committed secret values. They must not be marked complete by a code change alone.
 
 ## Resolved: canonical Supabase selection and learning migrations
 
-Canonical Mainlagi database is now:
+Canonical Mainlagi database is:
 
 ```text
 organization: inmydraft
@@ -23,16 +23,6 @@ The canonical project is active/healthy and migrations `0001` through `0006` are
 
 The CI job `Secret history scan` already exists and is passing. If the active ruleset still requires only the four earlier checks, add it manually.
 
-In GitHub:
-
-1. Open repository **Settings**.
-2. Open **Rules -> Rulesets -> Protect main**.
-3. Under required status checks, add:
-
-```text
-Secret history scan
-```
-
 Expected required-check set:
 
 ```text
@@ -43,63 +33,60 @@ Production dependency audit
 Secret history scan
 ```
 
-## 2. Enable Supabase Auth leaked-password protection
+## 2. Supabase leaked-password protection — accepted Free-plan limitation
 
-The Supabase security advisor currently reports **Leaked Password Protection disabled** for canonical `mainlagi-hub`.
+Canonical `mainlagi-hub` is on Supabase Free. Supabase documents leaked-password protection as a Pro-plan feature, so the advisor warning cannot be cleared on the current plan without upgrading.
 
-In the canonical project, open the Authentication password/security settings and enable leaked-password protection where available for the current plan.
+Current mitigation confirmed in the dashboard:
 
-This is an account/project setting, not a SQL migration. Do not weaken authentication settings merely to make an advisor warning disappear.
+- leaked-password protection: OFF;
+- minimum password length: at least 8;
+- secure password change: ON;
+- require current password when updating: ON.
 
-## 3. Restore production deployment secrets
+This warning is **not a production blocker** on the current plan. Revisit it if the project upgrades to Pro or above.
 
-Repository code must never contain the values.
+## 3. Verify Cloudflare Git integration
 
-In GitHub **Settings -> Secrets and variables -> Actions**, ensure these repository/environment secrets exist with the correct current values:
-
-```text
-MAINLAGI_VPS_HOST
-MAINLAGI_VPS_USER
-MAINLAGI_VPS_KNOWN_HOSTS
-MAINLAGI_VPS_SSH_KEY
-```
-
-The post-merge `main` run for commit `e82acf5d400916bab30ee7611f4db9bb0a8b4d8b` passed all code/security gates but failed closed at `Validate deployment secrets` before SSH.
-
-The Actions log showed the four workflow environment values empty. The first explicit error was:
+Canonical production path:
 
 ```text
-VPS_HOST is not configured
+GitHub `ceritaantarkita-req/mainlagi-hub`
+  -> protected `main`
+  -> Cloudflare Git integration / build
+  -> OpenNext Cloudflare Worker `mainlagi-hub`
+  -> https://mainlagihub.my.id/
 ```
 
-After configuration:
+In the Cloudflare dashboard, verify:
 
-- rerun the failed production deployment job or use the manual fallback workflow;
-- confirm secret validation succeeds;
-- confirm SSH succeeds with strict host-key checking;
-- confirm the server-side forced deployment command completes;
-- verify the public health endpoint;
-- run learning-attempt/mastery smoke tests.
+- repository connection targets `ceritaantarkita-req/mainlagi-hub`;
+- production branch is `main`;
+- the build uses the repository's OpenNext/Cloudflare configuration;
+- the deployed Worker/project is `mainlagi-hub`;
+- the custom domain is `mainlagihub.my.id`;
+- the latest successful deployment corresponds to the expected `main` commit.
 
-Do not paste any secret value into an issue, PR, Actions log, screenshot, or repository file.
+No `MAINLAGI_VPS_*` GitHub Actions secrets are required. Do not create them.
 
-## 4. Verify production Supabase environment target
+## 4. Verify Cloudflare production environment target
 
-Before the next production deploy, confirm the VPS/application environment uses canonical `mainlagi-hub` rather than any deleted/old project.
-
-Verify the configured public Supabase URL/project identity and publishable/anon credential source without publishing secret values. The target project ref should resolve to:
+Cloudflare runtime variables must point to canonical Supabase `mainlagi-hub`, project ref:
 
 ```text
 estvtgflwkebomsqlolv
 ```
 
-Service-role values must remain server-only.
+Verify the configured Supabase URL and client-safe publishable/anon key source without exposing secret values. Any service-role/secret credentials must remain server-only.
+
+Do not paste Cloudflare API tokens, Supabase service-role values, or other secret values into issues, PRs, Actions logs, screenshots, or repository files.
 
 ## 5. Production smoke verification
 
-After deployment succeeds:
+After Cloudflare deploys the corrected `main` commit:
 
-- verify `/api/health` over public HTTPS;
+- verify `https://mainlagihub.my.id/` over HTTPS;
+- verify `https://mainlagihub.my.id/api/health`;
 - authenticate with a controlled test account;
 - complete one measurable assessed learning activity;
 - confirm exactly one cloud attempt is stored;
@@ -115,7 +102,7 @@ Do not use a child's real production learning history as disposable QA data when
 
 After all currently active closure work is merged, delete obsolete remote branches in the GitHub Branches UI.
 
-Do not delete `main` or any branch that still has intentionally unmerged work. Keep the current closure branch until its PR is merged.
+Do not delete `main` or any branch that still has intentionally unmerged work.
 
 After cleanup, local clones should use:
 
@@ -123,22 +110,22 @@ After cleanup, local clones should use:
 git fetch origin --prune
 ```
 
-to remove stale remote-tracking references.
-
 ## 7. Author-email privacy choice
 
 Published Git history contains the contributor author address used by earlier commits. That is public metadata, not a credential.
 
 If future commits should not expose a personal address, configure Git/GitHub to use the GitHub-provided `noreply` address for future commits. Do not rewrite public history casually just to change old author metadata.
 
-## 8. Repository security settings review
+## 8. Repository / Cloudflare security settings review
 
-Where supported by the account/repository plan, periodically review:
+Where supported by the relevant plans, periodically review:
 
-- Dependabot alerts/updates;
-- secret scanning / push protection;
+- GitHub Dependabot alerts/updates;
+- GitHub secret scanning / push protection;
 - Private Vulnerability Reporting;
-- who may invoke manual deployment workflows;
-- production environment approvals and access.
+- Cloudflare Git integration permissions;
+- Cloudflare production environment variables/secrets;
+- Cloudflare custom-domain and deployment history;
+- Supabase Auth security settings.
 
 These settings can change independently of source code, so `docs/CURRENT_STATE.md` must not claim they are enabled without verification.
