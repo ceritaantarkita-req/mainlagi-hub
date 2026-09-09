@@ -17,15 +17,36 @@ GitHub (`ceritaantarkita-req/mainlagi-hub`)
 
 There is **no VPS/SSH production deployment path** for Mainlagi. Previous documentation and GitHub Actions jobs that referred to a VPS, `/srv/mainlagi`, SSH deploy keys, or `mainlagi.inmydraft.com` were stale and are superseded by this document.
 
-## Current Cloudflare integration validation
+## Cloudflare Git integration validation
 
-As of 9 September 2026, the Cloudflare Worker `mainlagi-hub` is connected to GitHub repository `ceritaantarkita-req/mainlagi-hub` with production branch `main`.
+The Cloudflare Worker `mainlagi-hub` is connected to GitHub repository `ceritaantarkita-req/mainlagi-hub` with production branch `main`.
 
-This documentation update intentionally serves as a harmless post-connection trigger to verify that a new push to `main` is observed and built/deployed by Cloudflare Git integration. Production closure must not be declared until a Git-sourced Cloudflare build/deployment is visible and the public smoke checks pass.
+A harmless documentation-only validation PR (#14) was merged to `main` on 9 September 2026, producing commit:
+
+```text
+90096246de3ae9b051af03e16a59dbd3bab0368a
+```
+
+Cloudflare Git integration observed that exact commit and created the GitHub check:
+
+```text
+Workers Builds: mainlagi-hub
+```
+
+The Cloudflare check completed successfully with:
+
+```text
+Build ID:   29bdf24f-58da-4a94-9011-e7321934dd3c
+Version ID: 4cbcd05f-a821-4891-a41e-4706ad14f2e3
+```
+
+This verifies the automatic production path **GitHub `main` -> Cloudflare build/deploy -> Worker `mainlagi-hub`**. Manual local `wrangler deploy` is no longer the normal release path.
+
+The custom domain `https://mainlagihub.my.id/` was also observed loading over HTTPS in the browser. The Git/deployment layer is therefore validated; application-level closure still requires the health/auth/learning smoke tests listed below.
 
 ## Repository deployment configuration
 
-Cloudflare production support is already represented in the repository:
+Cloudflare production support is represented in the repository:
 
 - `wrangler.jsonc`
   - worker name: `mainlagi-hub`
@@ -66,7 +87,7 @@ No `MAINLAGI_VPS_*` GitHub Actions secrets are required. The obsolete VPS deploy
 
 ## Cloudflare account-level configuration
 
-The following settings live in Cloudflare and are intentionally not committed as secret values:
+Verified on 9 September 2026:
 
 1. Git repository connection points to `ceritaantarkita-req/mainlagi-hub`.
 2. Production branch points to `main`.
@@ -74,9 +95,9 @@ The following settings live in Cloudflare and are intentionally not committed as
 4. Deploy command uses `npx wrangler deploy`.
 5. The deployed Worker/project is `mainlagi-hub`.
 6. Custom domain routes production traffic to `https://mainlagihub.my.id/`.
-7. Runtime environment variables/secrets needed by Mainlagi are configured in Cloudflare, not committed to Git.
+7. A fresh `main` commit was automatically observed and deployed successfully by Cloudflare.
 
-Exact Cloudflare account settings must be verified from the Cloudflare dashboard before calling production deployment fully closed.
+Runtime environment variables/secrets live in Cloudflare and are intentionally not committed as values. Their target must still be verified against the canonical Supabase project without exposing secret values.
 
 ## Canonical Supabase dependency
 
@@ -116,19 +137,19 @@ The leaked-password advisor finding is therefore an **accepted plan limitation**
 
 ## Production verification checklist
 
-A deployment/closure verification requires:
+Deployment transport is validated. Remaining application-level closure requires:
 
-1. PR quality/security checks are green before merge to protected `main`.
-2. `Production build` passes using `npm run build:cloudflare`.
-3. Cloudflare observes the new `main` commit and completes its build/deploy successfully.
-4. Cloudflare production environment points to canonical Supabase `mainlagi-hub`.
-5. `https://mainlagihub.my.id/` loads successfully over HTTPS.
-6. `https://mainlagihub.my.id/api/health` succeeds.
-7. Auth/login works against canonical Supabase.
-8. An authenticated measurable learning attempt writes exactly once to cloud persistence.
-9. Evidence/mastery materialization follows the server-side catalog and replay/idempotency rules.
-10. Parent reporting reads the derived state.
-11. Guest/local fallback continues to work without cloud persistence.
+1. [x] PR quality/security checks are green before merge to protected `main`.
+2. [x] `Production build` passes using `npm run build:cloudflare`.
+3. [x] Cloudflare observes a fresh `main` commit and completes its build/deploy successfully.
+4. [ ] Cloudflare production environment is verified to point to canonical Supabase `mainlagi-hub` without exposing secret values.
+5. [x] `https://mainlagihub.my.id/` loads successfully over HTTPS in the browser.
+6. [ ] `https://mainlagihub.my.id/api/health` is explicitly verified after the Git-sourced deployment.
+7. [ ] Auth/login is smoke-tested against canonical Supabase.
+8. [ ] An authenticated measurable learning attempt writes exactly once to cloud persistence.
+9. [ ] Evidence/mastery materialization follows the server-side catalog and replay/idempotency rules in production.
+10. [ ] Parent reporting reads the derived state in production.
+11. [ ] Guest/local fallback continues to work without cloud persistence.
 
 Example public health check:
 
@@ -146,7 +167,7 @@ npm run deploy
 
 This runs the OpenNext Cloudflare build and deploy CLI path. It is an operator fallback and requires an authenticated/authorized Cloudflare environment. Do not commit Cloudflare API tokens or account credentials.
 
-Normal production flow remains GitHub `main` -> Cloudflare Git integration.
+Normal production flow is GitHub `main` -> Cloudflare Git integration.
 
 ## Rollback
 
