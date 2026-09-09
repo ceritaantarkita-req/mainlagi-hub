@@ -34,9 +34,26 @@ MAINLAGI_VPS_SSH_KEY
 
 The workflows validate that these values are non-empty before configuring SSH.
 
-As observed on 9 September 2026, recent `main` runs passed the application/security gates but the production job failed at `Validate deployment secrets` before SSH because one or more required values were unavailable to the job. This is a deployment-configuration blocker, not an application build failure.
+### Current observed state
 
-See `ACCOUNT_LEVEL_ACTIONS.md` for the manual repository-settings step.
+On the post-merge `main` run for commit `e82acf5d400916bab30ee7611f4db9bb0a8b4d8b` on 9 September 2026:
+
+- Production build: passed
+- Quality gate (Ubuntu): passed
+- Windows compatibility: passed
+- Production dependency audit: passed
+- Secret history scan: passed
+- Deploy V3 production: failed at `Validate deployment secrets`
+
+The job log showed the workflow environment variables derived from the four required Actions secrets were empty, and the first explicit failure was:
+
+```text
+VPS_HOST is not configured
+```
+
+SSH configuration and the actual VPS deployment were skipped. This is a deployment-configuration blocker, not an application build failure.
+
+See `ACCOUNT_LEVEL_ACTIONS.md` for the required repository-settings action.
 
 ## Dedicated SSH / forced-command design
 
@@ -76,7 +93,19 @@ It should not use broad Docker prune operations or destructive Git reset/clean b
 
 Because the server script is outside the public repository execution surface used in this audit, the current VPS implementation must be checked directly before claiming production deployment is fully verified.
 
-## Verification after secrets are restored
+## Supabase dependency for learning-attempt/mastery closure
+
+The connected Supabase project is currently named `mainlagihub`.
+
+As observed on 9 September 2026:
+
+- the project is paused/inactive;
+- a restore request was rejected because the account had reached Supabase's maximum active Free-project limit;
+- `0002_learning_attempt_schema.sql` and `0003_learning_mastery_functions.sql` have therefore not yet been applied to production.
+
+Do not point Mainlagi migrations at a different Supabase project as a workaround. Resolve the account/project-capacity issue first, restore `mainlagihub`, then apply and verify the committed migrations.
+
+## Verification after blockers are resolved
 
 A successful deployment validation requires more than a green build:
 
@@ -85,10 +114,13 @@ A successful deployment validation requires more than a green build:
 3. `Windows compatibility` succeeds.
 4. `Production dependency audit` succeeds.
 5. `Secret history scan` succeeds.
-6. `Validate deployment secrets` succeeds.
-7. SSH host/key verification succeeds.
-8. the forced server-side deployment command completes successfully.
-9. public health succeeds.
+6. Mainlagi Supabase project is active.
+7. required Supabase migrations are applied and verified.
+8. `Validate deployment secrets` succeeds.
+9. SSH host/key verification succeeds.
+10. the forced server-side deployment command completes successfully.
+11. public health succeeds.
+12. learning-attempt/mastery production smoke tests succeed for authenticated and local fallback paths.
 
 Example public health check:
 
