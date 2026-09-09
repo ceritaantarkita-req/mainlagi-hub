@@ -98,7 +98,8 @@ export function recordLearningAttempt(args: {
   });
   const current = readLearningAttempts(args.childId);
   const previousSame = [...current].reverse().find((item) => item.activityId === args.activityId);
-  const masteryEligible = !isRapidRepeat(previousSame, normalized.completedAt);
+  const lowFidelityOnly = normalized.metadata.evidenceFidelity === "completion_only";
+  const masteryEligible = !lowFidelityOnly && !isRapidRepeat(previousSame, normalized.completedAt);
   const attemptId = makeId();
   const evidence = (spec?.skills ?? [])
     .map((link) => createSkillEvidence({
