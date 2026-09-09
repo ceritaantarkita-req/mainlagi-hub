@@ -182,7 +182,8 @@ export function MainlagiWorldHome({ childId }: { childId: string }) {
   const profile = useLearningProfile(childId);
   const progress = useLearningProgress(childId);
   if (!profile) return <ChildLoading />;
-  const next = ACTIVITIES.find((activity) => activity.ageMin <= profile.age && activity.ageMax >= profile.age && !activity.motionOptional && !progress.completedActivityIds.includes(activity.id));
+  const isEligible = (activity: LearningActivity) => activity.ageMin <= profile.age && activity.ageMax >= profile.age && !activity.motionOptional && activity.runtime !== "motion_game" && !progress.completedActivityIds.includes(activity.id);
+  const next = ACTIVITIES.find((activity) => activity.subjectId === "math" && isEligible(activity)) ?? ACTIVITIES.find(isEligible);
 
   const sayHello = () => {
     unlockAudio();
