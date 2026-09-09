@@ -2,14 +2,14 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Mainlagi Hub — Motion Learning",
-    short_name: "Mainlagi Hub",
-    description: "Game dan belajar berbasis gerakan tangan dan badan.",
+    name: "Mainlagi — Belajar & Main untuk Anak",
+    short_name: "Mainlagi",
+    description: "Platform belajar anak mobile-first dengan sentuh, audio, trace, warna, dan game gerak opsional.",
     start_url: "/",
     display: "standalone",
     orientation: "any",
-    background_color: "#fbfaf6",
-    theme_color: "#0f2344",
+    background_color: "#f8fbff",
+    theme_color: "#1ec9a6",
     categories: ["education", "games", "kids"],
     icons: [
       {
