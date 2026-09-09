@@ -90,7 +90,7 @@ export const LEARNING_LESSONS: LearningLessonDefinition[] = [
     objective: "Mengenali bentuk dan petunjuk bunyi huruf A dari beberapa pilihan.",
     ageMin: 3,
     ageMax: 7,
-    activityIds: ["bahasa-cari-a", "bahasa-dengar-a"]
+    activityIds: ["bahasa-cari-a", "bahasa-dengar-a", "bahasa-cari-a-lagi"]
   },
   {
     id: "bahasa-huruf-awal",
@@ -101,7 +101,7 @@ export const LEARNING_LESSONS: LearningLessonDefinition[] = [
     objective: "Memasangkan huruf awal dengan contoh kata sederhana.",
     ageMin: 4,
     ageMax: 7,
-    activityIds: ["bahasa-pasang-awal"]
+    activityIds: ["bahasa-pasang-awal", "bahasa-pasang-awal-lagi"]
   },
   {
     id: "bahasa-cerita-teman",
@@ -123,7 +123,7 @@ export const LEARNING_LESSONS: LearningLessonDefinition[] = [
     objective: "Menghubungkan kata BLUE dengan pilihan visual yang sesuai.",
     ageMin: 4,
     ageMax: 7,
-    activityIds: ["english-find-blue"]
+    activityIds: ["english-find-blue", "english-find-blue-audio"]
   },
   {
     id: "english-listen-cat",
@@ -134,7 +134,7 @@ export const LEARNING_LESSONS: LearningLessonDefinition[] = [
     objective: "Menghubungkan petunjuk audio kata cat dengan gambar yang sesuai.",
     ageMin: 3,
     ageMax: 7,
-    activityIds: ["english-listen-cat"]
+    activityIds: ["english-listen-cat", "english-listen-cat-2"]
   },
   {
     id: "english-word-picture",
@@ -145,7 +145,7 @@ export const LEARNING_LESSONS: LearningLessonDefinition[] = [
     objective: "Memasangkan kata English sederhana dengan gambar yang sesuai.",
     ageMin: 5,
     ageMax: 7,
-    activityIds: ["english-match-hello"]
+    activityIds: ["english-match-hello", "english-match-words-2"]
   },
   {
     id: "math-count-small",
@@ -156,7 +156,7 @@ export const LEARNING_LESSONS: LearningLessonDefinition[] = [
     objective: "Menghitung kumpulan benda sederhana dan memilih jumlahnya.",
     ageMin: 3,
     ageMax: 7,
-    activityIds: ["math-count-3"]
+    activityIds: ["math-count-3", "math-count-2"]
   },
   {
     id: "math-form-five",
@@ -178,7 +178,7 @@ export const LEARNING_LESSONS: LearningLessonDefinition[] = [
     objective: "Mengenali pasangan bentuk atau pola yang sama.",
     ageMin: 5,
     ageMax: 7,
-    activityIds: ["math-pattern-touch", "math-pattern-motion"]
+    activityIds: ["math-pattern-touch", "math-pattern-touch-2", "math-pattern-motion"]
   },
   {
     id: "iqro-alif",
@@ -189,7 +189,7 @@ export const LEARNING_LESSONS: LearningLessonDefinition[] = [
     objective: "Mengenali bentuk Alif melalui sentuhan dan petunjuk audio.",
     ageMin: 3,
     ageMax: 7,
-    activityIds: ["iqro-cari-alif", "iqro-dengar-alif"]
+    activityIds: ["iqro-cari-alif", "iqro-dengar-alif", "iqro-pasang-alif"]
   },
   {
     id: "iqro-motion-practice",
