@@ -1,8 +1,8 @@
 # Mainlagi Learning Attempts & Mastery
 
-Status: merged into canonical `main`; code-level CI is green; canonical Supabase learning migrations are applied and hardened; Cloudflare Git auto-deploy is validated. Final production closure is now limited to application-level health/auth/learning smoke checks.
+Status: production implementation active on canonical `main`; canonical Supabase migrations `0001–0007` are applied; Cloudflare exact-commit deployment/smoke is validated.
 
-This document describes the shared learning evidence layer used by Bahasa Indonesia, English, Matematika, Iqro, Mewarnai, and future Mainlagi activities. It is intentionally separate from the legacy motion-game score/leaderboard model.
+This document defines the shared evidence layer for Bahasa Indonesia, English, Matematika, Iqro, Mewarnai, and future Mainlagi activities. Legacy motion-game scores remain separate.
 
 ## 1. Core model
 
@@ -16,42 +16,40 @@ Child Profile
             -> Parent Report / Achievement / Certificate
 ```
 
-`game_sessions`, `game_scores`, and legacy `progress` remain compatible with the existing motion-game product. They are not reinterpreted as academic mastery.
+`game_sessions`, `game_scores`, and legacy `progress` remain compatible with the motion-game product and are not reinterpreted as academic mastery.
 
-## 2. Learning attempt
+## 2. Learning attempts
 
-A learning attempt represents one meaningful try at one learning activity. It records:
+A learning attempt records one meaningful try at one activity:
 
-- child/activity/subject/stage/runtime
-- completed, abandoned, or interrupted status
-- assessed vs practice mode
-- normalized score/accuracy when the activity can actually be assessed
-- correct/incorrect counts
-- hint and retry counts
-- duration and input mode
-- start/completion timestamps
-- bounded metadata
+- child/activity/subject/stage/runtime;
+- completed, abandoned, or interrupted state;
+- assessed vs practice classification;
+- measurable score/accuracy when available;
+- correct/incorrect, hints, retries;
+- duration, input mode, timestamps;
+- bounded metadata.
 
-Local-first attempts are stored under `mainlagi-learning-attempts-v1`. Logged-in users can additionally sync the same canonical attempt through `record_learning_attempt` when a valid authenticated Supabase session exists.
+Guest attempts can remain local. Authenticated attempts are sent through `record_learning_attempt`; the server owns canonical evidence/mastery materialization.
 
-The server RPC owns cloud evidence and mastery materialization. Clients cannot directly forge `child_skill_mastery` or derived evidence rows.
+Authenticated parent/report UI now treats Supabase as the source of truth rather than silently substituting localStorage when a cloud read fails.
 
-## 3. Skill catalog
+## 3. Skill/activity catalog
 
-Every current learning activity has an explicit spec in `src/lib/learning/catalog.ts`:
+Every current learning activity has an explicit catalog spec in `src/lib/learning/catalog.ts`:
 
-- difficulty 1–3
-- assessed or practice
-- required/optional for stage completion
-- one or more measured skills with evidence weights
+- difficulty 1–3;
+- assessed or practice;
+- required/optional progression role;
+- measured skill mappings and weights.
 
-Practice activities can contribute engagement/progression context without being forced into an academic correctness score. This is especially important for open-ended coloring and story experiences.
+Practice experiences such as open-ended coloring/story activity do not fabricate right/wrong mastery evidence.
 
-The canonical Supabase project currently contains 12 learning skills, 17 learning activities, and 17 activity-skill mappings, matching the committed catalog for this phase.
+Current canonical catalog for this phase contains 12 skills, 17 activities, and 17 activity-skill mappings.
 
 ## 4. Evidence scoring
 
-For an assessed, completed attempt with measurable accuracy:
+For an assessed completed attempt with measurable accuracy:
 
 ```text
 independencePenalty = min(0.65, hints * 0.12 + retries * 0.08)
@@ -63,13 +61,19 @@ evidenceScore =
   completion   * 0.10
 ```
 
-The result is clamped to `0..1` and weighted by activity difficulty and the activity-skill mapping.
+The score is clamped to `0..1` and weighted by difficulty/mapping weight.
 
-A replay of the same activity inside 30 seconds is retained as an attempt but does not qualify for mastery. Server-side replay protection uses server receipt time rather than trusting a client-supplied completion timestamp. An attempt with seven or more retries is also retained but does not qualify for mastery.
+Anti-farming rules:
+
+- repeat of the same activity inside 30 seconds is retained but non-qualifying;
+- replay timing uses server receipt time;
+- attempt with seven or more retries is retained but non-qualifying;
+- practice cannot be promoted to assessed by a caller flag;
+- completion-only data does not produce fake accuracy/evidence.
 
 ## 5. Mastery levels
 
-Skill states are:
+States:
 
 1. `not_started`
 2. `exploring`
@@ -77,113 +81,147 @@ Skill states are:
 4. `proficient`
 5. `mastered`
 
-Only the eight most recent qualifying evidence rows are considered for the current mastery snapshot. Recent evidence gets slightly more weight, while consistency contributes to confidence.
+Only recent qualifying evidence contributes to the current snapshot. One lucky answer must not become mastery:
 
-Rules intentionally prevent one lucky answer from becoming mastery:
+- one qualifying attempt: at most `exploring`;
+- `developing`: at least 2 qualifying attempts and score >= 0.45;
+- `proficient`: at least 2 qualifying attempts and score >= 0.70;
+- `mastered`: at least 3 qualifying attempts, score >= 0.85, confidence >= 0.65, and latest two qualifying attempts each >= 0.80.
 
-- one qualifying attempt: at most `exploring`
-- `developing`: at least 2 qualifying attempts and score >= 0.45
-- `proficient`: at least 2 qualifying attempts and score >= 0.70
-- `mastered`: at least 3 qualifying attempts, score >= 0.85, confidence >= 0.65, and the latest two qualifying attempts each score >= 0.80
+There is no time-decay penalty in the current model.
 
-There is currently **no time-decay penalty**. A child is not punished for taking a break.
+## 6. Completion, stars, and mastery are different
 
-## 6. Completion, rewards, and mastery are different
+- **Completion** = activity finished.
+- **Stars/rewards** = motivation; first-completion reward semantics prevent replay farming.
+- **Mastery** = evidence-backed state for a measured skill.
 
-- **Completion**: the child finished an activity.
-- **Stars/rewards**: motivational feedback; awarded once per unique completion.
-- **Mastery**: evidence-backed estimate for a specific assessed skill.
-
-Stars must never be presented as intelligence or academic rank. Practice activities may award stars without creating assessed mastery.
+Parent UI uses the wording **Skor evidence** so a 100% attempt is not presented as 100% mastery.
 
 ## 7. Progression
 
 Stage readiness requires:
 
-1. all required activities in the stage are completed; and
-2. every assessed skill represented by those required activities has evidence; and
-3. average evidence readiness is at least 0.45.
+1. required activities complete;
+2. assessed skills represented by required activities have qualifying evidence;
+3. evidence readiness reaches the defined threshold.
 
-The first stage of each subject is unlocked by default. A later stage unlocks only when the previous stage is ready.
-
-The child runtime mounts an evidence-aware progression guard so locked stages/activities cannot be bypassed merely by typing a URL.
-
-Important current boundary: a legacy completion-only event does **not** fabricate assessed evidence. Therefore a stage that requires assessed evidence can remain locked until that activity runtime emits a real measurable attempt result.
+Later stages depend on previous-stage readiness. The progression guard prevents simply typing a locked stage/activity URL to bypass evidence requirements.
 
 ## 8. Next-best activity
 
-The ranking engine prefers:
+Ranking considers:
 
-1. age-compatible activities;
-2. unlocked stages;
-3. incomplete core activities;
-4. assessed activities for weaker skills;
-5. avoiding the immediately previous activity;
-6. touch/audio/core activities before optional motion activities unless motion recommendations are explicitly enabled.
+- age compatibility;
+- unlocked stages;
+- incomplete core activities;
+- weaker assessed skills;
+- avoiding immediate repetition;
+- touch/audio/core before optional motion unless motion recommendations are enabled.
 
-This is deterministic adaptive learning, not an AI diagnosis.
+This is deterministic adaptive ranking, not diagnosis. The engine primitive exists; not every child-home surface has been replaced by it yet.
 
-The ranking primitive exists in the learning engine. Existing child-home quest selection has not yet been fully replaced by this ranking everywhere, so product UI must not claim that all recommendations are already adaptive.
+## 9. Cloud child profile boundary
 
-## 9. Parent reporting
+Authenticated learning UI uses existing `public.player_profiles`.
 
-Parent progress/report views separate:
+Supported operations:
 
-- unique activity completion
-- stars/rewards
-- total/assessed/practice attempts
-- evidence coverage
-- skill-level states
-- suggested areas for additional practice
-- achievements
+- list account-owned undeleted profiles;
+- create a child profile under current authenticated `account_id`;
+- select a cloud profile across devices;
+- soft-delete with `deleted_at`;
+- do not auto-upload local guest profiles after login.
 
-The language deliberately avoids medical, developmental, or intelligence judgments.
+Learning profiles created by the new flow store explicit age `3..7` in the existing `age_group` text column. Legacy account profiles remain compatible for specific groups:
 
-## 10. Certificates
+```text
+TK   -> age 5
+SD 1 -> age 6
+SD 2 -> age 7
+```
 
-Certificate criteria v1:
+Legacy `Umum` is deliberately not assigned a child learning age because that would be ambiguous.
 
-- all required activities for the subject are complete; and
-- every skill measured by an assessed activity in that subject is at least `proficient`.
+`demo-gian` remains an explicit sandbox sentinel. Its learning data is still account-scoped.
 
-Practice-only subjects can qualify on completion because the product must not invent a right/wrong mastery score for open-ended creative work.
+## 10. Cloud learning reads
 
-Eligible certificates can be downloaded as scalable SVG from the parent area. SVG keeps the artifact dependency-free and print-sharp; a parent can print/save it as PDF through the operating system/browser.
+For an authenticated user, Parent Progress/Report and learning hooks read canonical state from:
 
-## 11. Local/cloud boundary
+- `learning_attempts`;
+- `learning_attempt_skill_evidence`;
+- `child_skill_mastery`;
+- `child_learning_progress`;
+- `player_profiles`.
 
-Guest/local mode remains usable without Supabase. When Supabase is configured and a valid authenticated session exists:
+Every child-specific cloud query filters `child_key`/profile ID while RLS binds rows to `auth.uid()`.
 
-- the same attempt is sent through `record_learning_attempt`;
-- `(account_id, child_key, client_attempt_id)` provides idempotency;
-- subject/stage/runtime/assessment are canonicalized from `learning_activities` on the server;
-- server-side catalog mappings decide which skills receive evidence;
-- server-side logic recomputes materialized mastery;
-- derived learning tables are read-only to normal authenticated clients;
-- `anon` cannot execute `record_learning_attempt`;
-- the lower-level `recompute_child_skill_mastery` helper is service-role only.
+After `record_learning_attempt` succeeds, the runtime emits `mainlagi-learning-cloud`, causing the cloud-backed UI to refresh immediately instead of requiring a page reload.
 
-Continuous child camera streams are not part of this learning-attempt sync.
+Guest/local child play remains local-only.
 
-## 12. Migration policy and live database state
+## 11. Multi-child and ownership isolation
 
-This phase is additive:
+Ownership is enforced in layers:
 
-- legacy motion scores remain intact;
-- existing completion localStorage remains intact;
-- new completions are bridged into canonical attempts;
-- old completion history is not silently rewritten into high-confidence mastery because the historical evidence quality is insufficient.
+### RLS
 
-A child may therefore need fresh **measurable** learning attempts before a pre-existing completion can show meaningful mastery. That is deliberate evidence integrity, not data loss.
+Learning tables and `player_profiles` are account scoped by `auth.uid()`.
 
-Canonical Supabase project:
+### Parent server routes
+
+When Supabase is configured:
+
+- `/parent/*` requires a server-verified authenticated session;
+- `/parent/children/<childId>/*` requires an undeleted profile owned by that account;
+- foreign/deleted child IDs fail closed.
+
+### Authenticated child routes
+
+A logged-in user changing `/child/<childId>/...` to another account's real profile ID receives a fail-closed route result. Unauthenticated guest/local play remains available.
+
+### Database write boundary
+
+Migration `0007_learning_child_ownership` attaches a trigger to `learning_attempts`. Real child keys must resolve to an undeleted `player_profiles` row with the same `account_id`; otherwise the write raises `42501`. Only `demo-gian` is the explicit sandbox exception.
+
+This means client/RPC URL manipulation cannot create learning history for an arbitrary foreign/non-owned real child profile.
+
+## 12. Parent reporting
+
+Parent views separate:
+
+- unique completion;
+- stars/rewards;
+- total/assessed/practice attempts;
+- evidence coverage;
+- skill state/confidence;
+- practice suggestions;
+- achievements/certificates.
+
+Language avoids medical, developmental, or intelligence judgments.
+
+## 13. Certificates
+
+Competency certificate criteria require:
+
+- all required subject activities complete; and
+- every skill measured by assessed activity in that subject at least `proficient`.
+
+A practice-only subject **does not receive a competency/mastery certificate merely from completion**, because that would imply measured competence without assessed evidence. This rule was hardened in the mastery closure tests.
+
+Certificates that legitimately qualify can be produced as scalable SVG for browser/OS print-to-PDF workflows.
+
+## 14. Migration policy and live database
+
+Canonical project:
 
 - organization: `inmydraft`
 - project: `mainlagi-hub`
-- project ref: `estvtgflwkebomsqlolv`
+- ref: `estvtgflwkebomsqlolv`
 - region: Singapore (`ap-southeast-1`)
 
-Applied migration chain verified 9 September 2026:
+Applied chain verified 10 September 2026:
 
 - `0001_init`
 - `0002_learning_attempt_schema`
@@ -191,95 +229,78 @@ Applied migration chain verified 9 September 2026:
 - `0004_learning_rpc_hardening`
 - `0005_database_advisor_hardening`
 - `0006_private_admin_helper`
+- `0007_learning_child_ownership`
 
-The duplicate empty Mainlagi-named project that previously caused confusion was deleted by the account owner. No learning migration/data had been written to it, so no data transfer was required.
+The phase remains additive: legacy game data is not dropped or rewritten into artificial mastery.
 
-### Security hardening added after live inspection
+Live structure verification confirmed the new ownership trigger is enabled. The Supabase SQL inspection connector itself runs read-only, so it cannot run a direct mutation test through `execute_sql`; that tool limitation is recorded rather than misreported as an application failure.
 
-Hardening migrations:
+## 15. Security hardening summary
 
-- explicitly revoke `anon` execution from `record_learning_attempt`;
-- make `recompute_child_skill_mastery` service-role only;
-- bound attempt metadata to 16 KiB server-side;
-- ignore client-supplied subject/stage/runtime/assessment for evidence semantics and derive them from the activity catalog;
-- make replay protection depend on server receipt time;
-- change legacy `record_best_score` to SECURITY INVOKER because RLS already provides its ownership boundary;
-- remove unnecessary public access to trigger/season helper functions;
-- move the admin-check helper from exposed `public.is_admin()` to `private.is_admin()` and rebind RLS policies.
+Current boundaries include:
 
-## 13. QA contract
+- `anon` cannot call `record_learning_attempt`;
+- attempt RPC is authenticated/service-role only;
+- lower-level mastery recompute helper is service-role only;
+- activity subject/stage/runtime/assessment are canonicalized server-side;
+- metadata is bounded;
+- replay timing uses server receipt time;
+- derived learning tables cannot be directly forged by normal clients;
+- admin helper moved to private schema;
+- real attempt child keys are validated against account-owned undeleted profiles;
+- parent and authenticated child URLs enforce ownership.
 
-`npm run test:learning` covers:
+## 16. QA contract
 
-- anti-false-mastery behavior
-- strong repeated evidence -> mastery
-- excessive-retry evidence exclusion
-- progression/unlock behavior
-- next-activity ranking
-- migration table/RLS/RPC/idempotency contracts
-- RPC hardening and server-canonical activity metadata
-- advisor hardening and private admin-helper contract
-- no destructive drop of legacy game score tables
+`npm run test:learning` includes:
 
-The tests are included in `npm run test:engine`, so both Ubuntu and Windows CI quality gates run them.
+- anti-false-mastery / full mastery transitions;
+- poor evidence, hints, retries, rapid replay;
+- practice spoof prevention;
+- progression qualifying-evidence behavior;
+- catalog/assessed runtime consistency;
+- certificate integrity;
+- migration table/RLS/RPC/security contracts;
+- migration `0007` ownership contracts;
+- multi-child isolation;
+- cloud child query/account-binding contracts;
+- parent/child URL ownership contracts;
+- legacy profile age-group compatibility.
 
-The canonical production build target is OpenNext/Cloudflare. GitHub `Production build` must pass `npm run build:cloudflare` before merge.
+Tests run inside the engine suite on Ubuntu and Windows CI.
 
-Database verification on the canonical project confirmed:
+## 17. Production evidence
 
-- all new learning tables have RLS enabled;
-- direct authenticated DML on derived learning tables is revoked;
-- function ACLs match the intended trust boundary;
-- Supabase performance advisor has no WARN-level findings after hardening;
-- Supabase security advisor has one intentional warning for authenticated execution of the SECURITY DEFINER `record_learning_attempt` RPC.
-
-Supabase leaked-password protection remains disabled because the project is on the Free plan and Supabase documents that protection as a Pro-plan feature. Minimum password length is at least 8, secure password change is enabled, and current password is required when updating. This is an accepted plan limitation, not a production blocker.
-
-## 14. Evidence-fidelity boundary
-
-Existing activity components historically emitted only `completeActivity(...)`, not a full attempt result object.
-
-The compatibility bridge treats those events conservatively:
-
-- the completion is retained as a learning attempt;
-- `evidenceFidelity = completion_only` is recorded in metadata;
-- no placeholder accuracy/score is invented;
-- no mastery evidence is created from completion-only data.
-
-On the server, an activity becomes evidence-bearing only when the catalog marks it assessed **and** the attempt contains measurable score/accuracy. A client cannot force completion-only data into mastery simply by setting an `assessed` flag.
-
-New and upgraded assessed activities should emit explicit measurable outcomes such as correct/incorrect counts, hints, retries, duration, and input mode. The canonical attempt/mastery engine already supports those richer fields; the compatibility bridge is only a migration path.
-
-## 15. Production closure state
-
-Canonical production architecture:
+Production architecture:
 
 ```text
-GitHub `main`
-  -> Cloudflare Git integration / build
-  -> OpenNext Cloudflare Worker `mainlagi-hub`
+GitHub main
+  -> Cloudflare Git integration
+  -> OpenNext Worker mainlagi-hub
   -> https://mainlagihub.my.id/
+  -> canonical Supabase estvtgflwkebomsqlolv
 ```
 
-Observed 9 September 2026:
+Verified production evidence includes:
 
-- learning-attempt/mastery foundation is merged into `main`;
-- canonical Supabase `mainlagi-hub` is active/healthy;
-- migrations `0001–0006` are applied and live database ACL/RLS/advisor checks are complete;
-- obsolete VPS/SSH deployment assumptions are removed from the canonical deployment path;
-- no `MAINLAGI_VPS_*` GitHub Actions secrets are required;
-- Cloudflare Git integration is connected to `ceritaantarkita-req/mainlagi-hub`, production branch `main`;
-- PR #14 produced `main` commit `90096246de3ae9b051af03e16a59dbd3bab0368a`;
-- Cloudflare automatically observed and successfully deployed that commit via `Workers Builds: mainlagi-hub`;
-- Cloudflare Build ID `29bdf24f-58da-4a94-9011-e7321934dd3c` succeeded and produced Version ID `4cbcd05f-a821-4891-a41e-4706ad14f2e3`;
-- `https://mainlagihub.my.id/` was observed loading over HTTPS in the browser.
+- exact-commit Cloudflare Git deployment;
+- commit-aware `/api/health` smoke gate;
+- canonical Supabase target metadata verification;
+- authenticated production learning attempts for `demo-gian` observed in live DB;
+- assessed evidence and mastery materialization observed live;
+- one perfect evidence row correctly remains `exploring` rather than becoming mastery;
+- cloud-profile/ownership implementation commit `7fa7ab7b4642e67343370924e740433fefe8f914` deployed successfully;
+- Cloudflare Build ID `77e6e799-bd5d-4170-ae2e-8a39876a5c6d`, Version ID `e9d879f1-100d-48d6-9142-90f1f51d1912`;
+- `Production smoke (Cloudflare)` passed for the exact commit.
 
-Deployment transport is therefore closed. Remaining production closure is application-level:
+## 18. Closure state
 
-1. verify Cloudflare runtime/build environment targets canonical Supabase without exposing secrets;
-2. explicitly verify `/api/health` after the Git-sourced deployment;
-3. execute an authenticated measurable learning-attempt/mastery write-path smoke test;
-4. verify parent-derived state;
-5. verify guest/local fallback.
+Requested cloud-learning items 1–5 are implemented and production-deployed:
 
-Do not mark the learning/mastery phase fully production-closed until those application smoke checks pass.
+1. [x] cloud child profiles;
+2. [x] cloud learning-state reads;
+3. [x] immediate refresh after cloud attempt sync;
+4. [x] multi-child isolation/ownership hardening;
+5. [x] parent gate + direct URL child ownership protection.
+
+A manual browser create/delete exercise for a brand-new real cloud child can still be captured as UX acceptance evidence, but the code/schema/deployment block is closed and protected by regression tests.

@@ -1,12 +1,10 @@
 # Account-Level Actions
 
-Last reviewed: 9 September 2026
+Last reviewed: 10 September 2026
 
-These actions require repository/account/Cloudflare access that is intentionally not represented by committed secret values. They must not be marked complete by a code change alone.
+Only actions that genuinely require account/UI access belong here. Secret values must never be committed or pasted into repository issues/logs/docs.
 
-## Resolved: canonical Supabase selection and learning migrations
-
-Canonical Mainlagi database is:
+## Resolved: canonical Supabase
 
 ```text
 organization: inmydraft
@@ -15,15 +13,62 @@ project ref:  estvtgflwkebomsqlolv
 region:       ap-southeast-1
 ```
 
-The duplicate empty Mainlagi-named Supabase project was deleted by the account owner. No learning migration/data had been written to it, so no transfer was required.
+The duplicate empty Mainlagi Supabase project was deleted. Canonical project is active/healthy.
 
-The canonical project is active/healthy and migrations `0001` through `0006` are applied. Live RLS, function ACL, catalog, and advisor checks were completed on 9 September 2026.
+Applied migrations are now `0001` through `0007`, including `0007_learning_child_ownership`.
 
-## 1. Add the secret-history check to `Protect main`
+## Resolved: Cloudflare Git production path
 
-The CI job `Secret history scan` already exists and is passing. If the active ruleset still requires only the four earlier checks, add it manually.
+```text
+GitHub main
+  -> Cloudflare Git integration
+  -> OpenNext Worker mainlagi-hub
+  -> https://mainlagihub.my.id/
+```
 
-Expected required-check set:
+Verified:
+
+- repository `ceritaantarkita-req/mainlagi-hub`;
+- production branch `main`;
+- build `npm run build:cloudflare`;
+- deploy `npx wrangler deploy`;
+- Worker `mainlagi-hub`;
+- custom domain `mainlagihub.my.id`;
+- exact-commit Cloudflare deployment checks work;
+- `Production smoke (Cloudflare)` verifies the exact SHA and canonical Supabase metadata.
+
+No `MAINLAGI_VPS_*` GitHub secrets are required.
+
+## Resolved: production backend target
+
+The commit-aware production smoke gate verifies non-secret runtime metadata for:
+
+- canonical site URL;
+- backend `supabase`;
+- canonical Supabase project ref `estvtgflwkebomsqlolv`.
+
+Secret/publishable credential values are intentionally not printed by the health endpoint.
+
+## Resolved: learning/cloud-profile implementation block
+
+Production code now contains:
+
+- cloud child profile list/create/select/soft-delete path;
+- authenticated cloud learning-state reads;
+- immediate refresh after successful attempt sync;
+- multi-child/account ownership regression tests;
+- parent server auth gate;
+- parent child ownership gate;
+- authenticated child direct-URL ownership gate;
+- DB-level real-child attempt ownership trigger.
+
+Implementation baseline `7fa7ab7b4642e67343370924e740433fefe8f914` passed Cloudflare deploy and exact-commit production smoke. Migration `0007` is live.
+
+A manual browser create/delete exercise for a brand-new real cloud child is optional UX acceptance evidence, not an account-level configuration blocker.
+
+## 1. Protect-main required checks review
+
+The repository CI currently provides:
 
 ```text
 Production build
@@ -33,107 +78,57 @@ Production dependency audit
 Secret history scan
 ```
 
+If `Secret history scan` is not yet included in the active `Protect main` ruleset's required checks, add it in GitHub settings. Do not weaken the existing required checks.
+
 ## 2. Supabase leaked-password protection — accepted Free-plan limitation
 
-Canonical `mainlagi-hub` is on Supabase Free. Supabase documents leaked-password protection as a Pro-plan feature, so the advisor warning cannot be cleared on the current plan without upgrading.
+Canonical project is on Supabase Free. Leaked-password protection requires a higher plan and therefore remains OFF.
 
-Current mitigation confirmed in the dashboard:
+Current mitigation confirmed:
 
-- leaked-password protection: OFF;
-- minimum password length: at least 8;
-- secure password change: ON;
-- require current password when updating: ON.
+- minimum password length at least 8;
+- secure password change ON;
+- current password required for password update ON.
 
-This warning is **not a production blocker** on the current plan. Revisit it if the project upgrades to Pro or above.
+Revisit only if the project upgrades plans; this is not a current closure blocker.
 
-## 3. Resolved: Cloudflare Git integration
+## 3. Optional UX acceptance: real cloud child profile
 
-Canonical production path:
+For additional human/browser evidence, use a controlled test account/profile rather than a child's real history:
 
-```text
-GitHub `ceritaantarkita-req/mainlagi-hub`
-  -> protected `main`
-  -> Cloudflare Git integration / build
-  -> OpenNext Cloudflare Worker `mainlagi-hub`
-  -> https://mainlagihub.my.id/
-```
+1. log in;
+2. create a new child through `/child/select`;
+3. verify it appears after reload/another browser session;
+4. complete a measurable activity;
+5. verify Parent Progress updates from cloud;
+6. soft-delete the disposable test profile.
 
-Verified on 9 September 2026:
+This is acceptance evidence, not a missing backend implementation step.
 
-- repository connection targets `ceritaantarkita-req/mainlagi-hub`;
-- production branch is `main`;
-- build command is `npm run build:cloudflare`;
-- deploy command is `npx wrangler deploy`;
-- deployed Worker/project is `mainlagi-hub`;
-- custom domain is `mainlagihub.my.id`;
-- PR #14 produced fresh `main` commit `90096246de3ae9b051af03e16a59dbd3bab0368a`;
-- Cloudflare created the `Workers Builds: mainlagi-hub` check for that exact commit;
-- Cloudflare Build ID `29bdf24f-58da-4a94-9011-e7321934dd3c` completed successfully;
-- Cloudflare Version ID `4cbcd05f-a821-4891-a41e-4706ad14f2e3` was produced.
+## 4. Merged branch cleanup
 
-No `MAINLAGI_VPS_*` GitHub Actions secrets are required. Do not create them.
+After active work is merged, delete superseded remote feature/docs branches. Never delete `main` or an intentionally unmerged branch.
 
-## 4. Verify Cloudflare production environment target
-
-This remains an account-level verification step.
-
-Cloudflare runtime/build variables must point to canonical Supabase `mainlagi-hub`, project ref:
-
-```text
-estvtgflwkebomsqlolv
-```
-
-Expected client-safe build/runtime configuration includes the canonical site URL, Supabase backend selection, canonical Supabase project URL, and client-safe publishable/anon key. Any service-role/secret credential must remain server-only.
-
-Verify configured values from the Cloudflare dashboard without exposing secret values.
-
-Do not paste Cloudflare API tokens, Supabase service-role values, or other secret values into issues, PRs, Actions logs, screenshots, or repository files.
-
-## 5. Production smoke verification
-
-Deployment transport is now validated. Remaining application smoke checks:
-
-- [x] verify `https://mainlagihub.my.id/` loads over HTTPS;
-- [ ] verify `https://mainlagihub.my.id/api/health` after the Git-sourced deployment;
-- [ ] authenticate with a controlled test account;
-- [ ] complete one measurable assessed learning activity;
-- [ ] confirm exactly one cloud attempt is stored;
-- [ ] confirm server-canonical subject/stage/runtime values;
-- [ ] confirm evidence/mastery materializes only when measurable score/accuracy exists;
-- [ ] confirm replay/idempotency behavior;
-- [ ] confirm parent report reads the derived state;
-- [ ] confirm guest/local mode still works without cloud persistence.
-
-Do not use a child's real production learning history as disposable QA data when a controlled test profile can be used.
-
-## 6. Delete merged/superseded remote branches
-
-After all currently active closure work is merged, delete obsolete remote branches in the GitHub Branches UI.
-
-Do not delete `main` or any branch that still has intentionally unmerged work.
-
-After cleanup, local clones should use:
+Local clones can then run:
 
 ```bash
 git fetch origin --prune
 ```
 
-## 7. Author-email privacy choice
+## 5. Author-email privacy choice
 
-Published Git history contains the contributor author address used by earlier commits. That is public metadata, not a credential.
+Published Git history may contain author addresses from earlier commits. This is public metadata, not a credential. Configure a GitHub `noreply` author address for future commits if preferred; do not casually rewrite public history.
 
-If future commits should not expose a personal address, configure Git/GitHub to use the GitHub-provided `noreply` address for future commits. Do not rewrite public history casually just to change old author metadata.
+## 6. Periodic account-security review
 
-## 8. Repository / Cloudflare security settings review
+Where supported by the current plans, periodically review:
 
-Where supported by the relevant plans, periodically review:
-
-- GitHub Dependabot alerts/updates;
-- GitHub secret scanning / push protection;
+- GitHub Dependabot/security settings;
+- secret scanning/push protection;
 - Private Vulnerability Reporting;
 - Cloudflare Git integration permissions;
-- Cloudflare production environment variables/secrets;
-- Cloudflare custom-domain and deployment history;
+- Cloudflare environment variables/secrets;
+- custom-domain/deployment history;
 - Supabase Auth security settings.
 
-These settings can change independently of source code, so `docs/CURRENT_STATE.md` must not claim they are enabled without verification.
+Do not mark an account-level feature enabled merely because repository code references it; verify it in the relevant account UI first.

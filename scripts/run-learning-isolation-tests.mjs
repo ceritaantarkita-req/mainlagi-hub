@@ -85,6 +85,7 @@ try {
 
   const cloud = readFileSync(path.join(root, "src/lib/learning/cloud.ts"), "utf8");
   const parentGate = readFileSync(path.join(root, "src/lib/auth/requireParent.ts"), "utf8");
+  const childLayout = readFileSync(path.join(root, "src/app/child/[childId]/layout.tsx"), "utf8");
   const common = readFileSync(path.join(root, "src/components/learning/LearningCommon.tsx"), "utf8");
   const bridge = readFileSync(path.join(root, "src/components/learning/LearningAttemptBridge.tsx"), "utf8");
   const advisor = readFileSync(path.join(root, "supabase/migrations/0005_database_advisor_hardening.sql"), "utf8");
@@ -94,10 +95,18 @@ try {
   assert.ok(childFilters.length >= 4, "cloud attempts/evidence/mastery/progress reads must all filter by child_key");
   assert.match(cloud, /account_id:\s*accountId/i, "cloud child creation must bind account_id to authenticated user");
   assert.match(cloud, /\.eq\("id", childId\)[\s\S]*\.is\("deleted_at", null\)/i, "cloud profile reads must reject deleted children");
+  assert.match(cloud, /value === "TK"\) return 5/i, "legacy TK profiles must remain usable by learning mode");
+  assert.match(cloud, /value === "SD 1"\) return 6/i, "legacy SD 1 profiles must remain usable by learning mode");
+  assert.match(cloud, /value === "SD 2"\) return 7/i, "legacy SD 2 profiles must remain usable by learning mode");
+  assert.doesNotMatch(cloud, /value === "Umum"\) return/i, "ambiguous legacy Umum profiles must not be silently assigned a child age");
 
   assert.match(parentGate, /if \(childId === "demo-gian"\) return true/i, "only explicit demo sentinel may bypass real-profile ownership lookup");
-  assert.match(parentGate, /\.eq\("account_id", gate\.userId\)/i, "parent child route must bind profile ownership to authenticated account");
+  assert.match(parentGate, /\.eq\("account_id", userId\)/i, "server child ownership must bind profile lookup to authenticated account");
   assert.match(parentGate, /\.is\("deleted_at", null\)/i, "deleted child profiles must not remain routable");
+  assert.match(parentGate, /export async function parentCanAccessChild/i, "parent child route ownership helper is required");
+  assert.match(parentGate, /export async function learningChildCanAccess/i, "authenticated child mode also needs ownership enforcement");
+  assert.match(parentGate, /gate\.mode === "unconfigured" \|\| gate\.mode === "denied"/i, "guest/local child play must remain available without an authenticated cloud session");
+  assert.match(childLayout, /learningChildCanAccess\(childId\)[\s\S]*notFound\(\)/i, "authenticated direct child URL manipulation must fail closed");
 
   assert.match(common, /const userId = await getCurrentUserId\(\)/i, "learning hooks must distinguish authenticated cloud state from guest local state");
   assert.match(bridge, /if \(synced\)[\s\S]*mainlagi-learning-cloud/i, "successful cloud attempt sync must trigger immediate cloud refresh");
@@ -111,7 +120,7 @@ try {
   assert.match(ownership, /before insert or update of account_id, child_key on public\.learning_attempts/i);
   assert.match(ownership, /revoke all on function private\.enforce_learning_attempt_child_ownership\(\) from public, anon, authenticated, service_role/i);
 
-  console.log("Multi-child isolation, cloud source-of-truth, and parent ownership contract tests passed.");
+  console.log("Multi-child isolation, cloud source-of-truth, legacy profile compatibility, and parent/child ownership contract tests passed.");
 } finally {
   rmSync(outDir, { recursive: true, force: true });
   if (previousWindow === undefined) delete globalThis.window;
