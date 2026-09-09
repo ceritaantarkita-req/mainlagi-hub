@@ -20,6 +20,15 @@ public/models/*.task
 public/mediapipe/wasm/*.wasm
 public/mediapipe/wasm/*.js
 
+# Third-party affiliate imagery is local-only by default. A reviewed owned/licensed
+# asset may be force-added only after its provenance entry is approved.
+public/affiliate/*.jpg
+public/affiliate/*.jpeg
+public/affiliate/*.png
+public/affiliate/*.webp
+public/affiliate/*.avif
+public/affiliate/*.svg
+
 # local-only, not served by Next.js
 internal/
 
@@ -27,5 +36,4 @@ internal/
 _to_delete/
 _snap2.tgz
 _mlh_snapshot.tgz
-tsconfig.tsbuildinfo
 tsconfig.tsbuildinfo
