@@ -1,6 +1,6 @@
 # Mainlagi Learning Attempts & Mastery
 
-Status: merged into canonical `main`; code-level CI is green; canonical Supabase learning migrations are applied and hardened. Production deployment/smoke-test closure is still pending.
+Status: merged into canonical `main`; code-level CI is green; canonical Supabase learning migrations are applied and hardened. Final production smoke-test closure is pending on the canonical Cloudflare deployment.
 
 This document describes the shared learning evidence layer used by Bahasa Indonesia, English, Matematika, Iqro, Mewarnai, and future Mainlagi activities. It is intentionally separate from the legacy motion-game score/leaderboard model.
 
@@ -183,7 +183,7 @@ Canonical Supabase project:
 - project ref: `estvtgflwkebomsqlolv`
 - region: Singapore (`ap-southeast-1`)
 
-Applied migration chain as verified 9 September 2026:
+Applied migration chain verified 9 September 2026:
 
 - `0001_init`
 - `0002_learning_attempt_schema`
@@ -196,7 +196,7 @@ The duplicate empty Mainlagi-named project that previously caused confusion was 
 
 ### Security hardening added after live inspection
 
-Live ACL inspection revealed that Supabase had explicit default EXECUTE grants on newly created functions. Hardening migrations therefore:
+Hardening migrations:
 
 - explicitly revoke `anon` execution from `record_learning_attempt`;
 - make `recompute_child_skill_mastery` service-role only;
@@ -223,13 +223,7 @@ Live ACL inspection revealed that Supabase had explicit default EXECUTE grants o
 
 The tests are included in `npm run test:engine`, so both Ubuntu and Windows CI quality gates run them.
 
-PR CI and the post-merge `main` run for the learning foundation passed the code/security gates on 9 September 2026:
-
-- Production build
-- Quality gate (Ubuntu)
-- Windows compatibility
-- Production dependency audit
-- Secret history scan
+The canonical production build target is OpenNext/Cloudflare. GitHub `Production build` must pass `npm run build:cloudflare` before merge.
 
 Database verification on the canonical project confirmed:
 
@@ -237,9 +231,9 @@ Database verification on the canonical project confirmed:
 - direct authenticated DML on derived learning tables is revoked;
 - function ACLs match the intended trust boundary;
 - Supabase performance advisor has no WARN-level findings after hardening;
-- Supabase security advisor now has one intentional warning for authenticated execution of the SECURITY DEFINER `record_learning_attempt` RPC plus the account-level warning that leaked-password protection is disabled.
+- Supabase security advisor has one intentional warning for authenticated execution of the SECURITY DEFINER `record_learning_attempt` RPC.
 
-The SQL inspection connector is read-only, so it cannot itself execute the mutating authenticated RPC. Final write-path verification remains an application smoke test after production deployment.
+Supabase leaked-password protection remains disabled because the project is on the Free plan and Supabase documents that protection as a Pro-plan feature. Minimum password length is at least 8, secure password change is enabled, and current password is required when updating. This is an accepted plan limitation, not a production blocker.
 
 ## 14. Evidence-fidelity boundary
 
@@ -258,14 +252,22 @@ New and upgraded assessed activities should emit explicit measurable outcomes su
 
 ## 15. Production closure state
 
+Canonical production architecture:
+
+```text
+GitHub `main`
+  -> Cloudflare Git integration / build
+  -> OpenNext Cloudflare Worker `mainlagi-hub`
+  -> https://mainlagihub.my.id/
+```
+
 Observed 9 September 2026:
 
 - learning-attempt/mastery foundation is merged into `main`;
-- code/security CI for the merged foundation is green;
 - canonical Supabase `mainlagi-hub` is active/healthy;
 - migrations `0001–0006` are applied and live database ACL/RLS/advisor checks are complete;
-- automatic production deploy still fails at `Validate deployment secrets` before SSH because the four deployment secrets are unavailable to the workflow;
-- Supabase Auth leaked-password protection remains disabled and should be enabled from the account/project settings;
-- production app/VPS environment still needs to be verified against the canonical Supabase project before final smoke testing.
+- obsolete VPS/SSH deployment assumptions have been identified and are being removed from code/docs;
+- no `MAINLAGI_VPS_*` GitHub Actions secrets are required;
+- final closure requires the corrected `main` commit to deploy successfully through Cloudflare, public health to pass, and an authenticated learning-attempt/mastery write-path smoke test plus local fallback check to succeed.
 
-Do not mark this phase production-closed until deployment credentials are restored, production deploy succeeds, public health passes, and an authenticated learning-attempt/mastery write-path smoke test plus local fallback check succeeds.
+Do not mark this phase production-closed until those Cloudflare/public/application smoke checks pass.

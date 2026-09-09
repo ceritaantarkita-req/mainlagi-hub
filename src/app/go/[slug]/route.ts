@@ -17,9 +17,11 @@ interface RateBucket {
 }
 
 /**
- * Best-effort process-local limiter for the current single-VPS deployment.
+ * Best-effort isolate-local limiter for the current Cloudflare Workers runtime.
  * It intentionally stores only a one-way client fingerprint, never a raw IP.
- * A distributed deployment should move this bucket to shared storage.
+ * This is not a globally consistent rate limiter across Worker isolates; move the
+ * bucket to a shared Cloudflare primitive (for example Durable Objects) if a
+ * stronger cross-isolate enforcement boundary becomes necessary.
  */
 const redirectBuckets = new Map<string, RateBucket>();
 

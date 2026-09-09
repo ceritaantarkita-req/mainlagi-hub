@@ -96,55 +96,37 @@ There is **no general AI OCR engine in production yet**.
 
 - Supabase Auth is used for configured cloud authentication flows.
 - Supabase Postgres + RLS backs selected cloud/admin/content paths.
+- Canonical Supabase production project is `inmydraft/mainlagi-hub` (`estvtgflwkebomsqlolv`).
 - Some family/progress/leaderboard behavior remains local-first in the browser.
 - Public content and affiliate data can use Supabase-backed repositories with defined fallbacks.
 - Owner routes use a server-side owner gate and service-role operations where required.
+- Learning attempts/mastery use the additive `0002`–`0006` schema/function hardening chain above the legacy game tables.
 
-The data layer is intentionally not described as fully unified; future learning progression needs a canonical learning-attempt/mastery model rather than blindly extending legacy score/session structures.
+## 8. Learning-platform architecture
 
-## 8. Planned learning-platform architecture
-
-The product direction for children age 3–7 is expected to introduce a layer above the existing game runtime:
+The current platform direction for children age 3–7 sits above the retained activity/game runtimes:
 
 ```text
 Child / Parent identity
 └── Learning Profile
     └── Subject
-        └── Learning Path
-            └── Stage
-                └── Lesson
-                    └── Activity
-                        ├── existing motion game/runtime
-                        ├── tracing
-                        ├── tap / dwell choice
-                        ├── drag & drop
-                        ├── coloring
-                        ├── listening / audio
-                        ├── speaking (future)
-                        └── OCR / visual activity (future)
+        └── Learning Path / Stage
+            └── Activity
+                ├── existing motion game/runtime
+                ├── tracing
+                ├── tap / dwell choice
+                ├── matching
+                ├── coloring
+                ├── listening / audio
+                └── future OCR / visual activity
+                    -> Learning Attempt
+                    -> Skill Evidence
+                    -> Skill Mastery
 ```
 
-This structure is **planned**, not implemented.
+Five current subject areas are Bahasa Indonesia, English, Matematika, Iqro, and Mewarnai.
 
-### Planned subjects
-
-- Bahasa Indonesia
-- English
-- Matematika
-- Iqro
-- Mewarnai
-
-### Planned experience layers
-
-- stage/progression;
-- bilingual UI/content;
-- native Indonesian and English narration;
-- character/narrative layer: Naya, Gian, Zia, Paca, Gavi;
-- reward/achievement/certificate layer;
-- parent report layer;
-- child-appropriate animation and sound design.
-
-See `docs/PRODUCT_DIRECTION.md`.
+See `docs/PRODUCT_DIRECTION.md` and `docs/LEARNING_ATTEMPTS_MASTERY.md`.
 
 ## 9. Planned OCR + AI boundary
 
@@ -187,12 +169,28 @@ Required principles:
 - bounded inputs and outputs;
 - auditable third-party dependencies/providers.
 
-## 11. Deployment paths
+## 11. Canonical production deployment
 
-The repository currently contains multiple deployment/preparation paths:
+Production architecture confirmed 9 September 2026:
 
-- primary VPS-oriented production workflow;
-- OpenNext/Cloudflare tooling;
-- Capacitor configuration for future/native wrapper work.
+```text
+GitHub `ceritaantarkita-req/mainlagi-hub`
+  -> protected `main`
+  -> Cloudflare Git integration / build
+  -> OpenNext for Cloudflare Workers
+  -> Worker `mainlagi-hub`
+  -> https://mainlagihub.my.id/
+```
 
-These paths must remain clearly distinguished in documentation so a prepared integration path is not mistaken for a finished product capability.
+Repository deployment/runtime files:
+
+- `open-next.config.ts`
+- `wrangler.jsonc`
+- `next.config.mjs` OpenNext Cloudflare dev binding setup
+- `package.json` Cloudflare build/preview/deploy scripts
+
+GitHub Actions is the code/security quality gate and validates the OpenNext/Cloudflare production artifact. It does **not** deploy Mainlagi over SSH.
+
+There is no canonical Mainlagi VPS production path. Earlier VPS-oriented workflow/docs are superseded and removed.
+
+Capacitor remains a separate preparation path for a possible future native wrapper; it is not the web production deployment path.

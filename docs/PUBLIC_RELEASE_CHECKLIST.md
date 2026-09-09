@@ -6,10 +6,13 @@ Public visibility exposes source and published Git history to the internet. Anyt
 
 ## Current manual/account-level blockers
 
-- [ ] Add `Secret history scan` as the fifth required status check in `Protect main`.
-- [ ] Restore/verify the four required GitHub Actions deployment secrets.
-- [ ] Verify the VPS forced-command deployment boundary and a successful production deployment end to end.
+- [ ] Add `Secret history scan` as the fifth required status check in `Protect main` if it is not already required.
+- [ ] Verify Cloudflare Git integration points to `ceritaantarkita-req/mainlagi-hub` and production branch `main`.
+- [ ] Verify Cloudflare production runtime variables point to canonical Supabase `mainlagi-hub` (`estvtgflwkebomsqlolv`).
+- [ ] Verify successful Cloudflare deployment and public smoke tests at `https://mainlagihub.my.id/`.
 - [ ] Delete merged/superseded remote branches after active closure work is finished.
+
+There is no Mainlagi VPS/SSH deployment blocker and no `MAINLAGI_VPS_*` GitHub Actions secret requirement.
 
 See `ACCOUNT_LEVEL_ACTIONS.md`.
 
@@ -25,26 +28,25 @@ See `ACCOUNT_LEVEL_ACTIONS.md`.
 
 ## Code / CI
 
-- [x] Production build is a permanent CI gate.
+- [x] `Production build` is a permanent CI gate and targets the OpenNext/Cloudflare production artifact.
 - [x] Ubuntu quality is a permanent CI gate.
 - [x] Windows compatibility is a permanent CI gate.
 - [x] Production dependency audit is a permanent CI gate.
 - [x] Full fetched Git history is scanned with pinned Gitleaks and redacted output.
 - [x] Asset provenance validation runs in Ubuntu quality CI.
 - [x] Primary CI workflow defaults to read-only repository contents permissions.
-- [x] Temporary QA/write workflows used during remediation were removed before final merge heads.
+- [x] Pull requests do not run a production deployment command.
 - [x] Mainlagi World clean mainline port passed automated CI and fresh responsive visual/interaction QA before merge.
 
 ## Secret / credential review
 
 - [x] Full fetched Git refs/history have passed Gitleaks scanning using `--log-opts="--all"`.
 - [x] Reviewed public PR/issue material did not reveal an actual credential value in the inspected content.
-- [x] Reviewed temporary maintenance workflow sources were narrowly scoped and later removed.
 - [x] No credential rotation/history rewrite was triggered by the 9 September audit because no matching real credential was identified.
 - [ ] Optional manual UI spot-check of archived historical Actions raw logs remains useful because the integration audit did not inspect every historical log byte.
 - [ ] If a real credential is discovered later, rotate/revoke it immediately before deciding whether history rewriting is warranted.
 
-Scanner success is strong evidence, not proof that every possible secret pattern or non-Git attachment is safe.
+Cloudflare and Supabase secret values must remain in their platform secret/environment stores and must not be copied into GitHub source, issues, PRs, screenshots, or public logs.
 
 ## Personal data / child privacy
 
@@ -82,21 +84,32 @@ Removing a file from the current tree does not erase an already-published Git ob
 - [x] Linear history required.
 - [x] Default-branch deletion blocked.
 - [x] Non-fast-forward/force-push blocked.
-- [ ] `Secret history scan` added to the ruleset required-check list. The CI job exists, but this setting still requires a GitHub Settings change.
+- [ ] `Secret history scan` added to the ruleset required-check list if not already present.
 - [ ] Review Dependabot/security alert/Private Vulnerability Reporting settings where available.
 
 ## Deployment
 
-- [x] Deployment workflows reference GitHub Actions secrets rather than committed secret values.
-- [x] Automatic production job is restricted to pushes to `main` and waits for CI/security prerequisites.
-- [x] Pull requests do not execute the production job.
-- [x] SSH workflow uses strict host-key checking and removes the temporary private-key file.
-- [x] Intended forced-command deployment design is documented.
-- [ ] Required Actions secrets are currently configured/available to the job.
-- [ ] Current VPS key is verified to enforce the intended server-side forced command.
-- [ ] A post-governance production deployment succeeds end to end and public health is verified.
+Canonical production architecture:
 
-A recent main run failed at `Validate deployment secrets` before SSH. Treat that as an explicit fail-closed operational blocker, not as a successful deployment.
+```text
+GitHub `main`
+  -> Cloudflare Git integration / build
+  -> OpenNext Cloudflare Worker `mainlagi-hub`
+  -> https://mainlagihub.my.id/
+```
+
+- [x] Repository contains `@opennextjs/cloudflare`, `open-next.config.ts`, and `wrangler.jsonc`.
+- [x] Worker name in `wrangler.jsonc` is `mainlagi-hub`.
+- [x] GitHub CI validates the OpenNext/Cloudflare production artifact.
+- [x] Obsolete VPS/SSH GitHub deployment workflow is removed from the canonical architecture.
+- [ ] Cloudflare Git integration repository/branch mapping is verified from the Cloudflare dashboard.
+- [ ] Cloudflare runtime variables point to canonical Supabase project.
+- [ ] Custom domain `mainlagihub.my.id` is verified against the intended deployment.
+- [ ] A post-correction production deployment succeeds and public health is verified.
+- [ ] Authenticated learning/mastery write-path smoke test succeeds.
+- [ ] Guest/local fallback smoke test succeeds.
+
+Supabase leaked-password protection remains unavailable on the current Free plan; minimum password length >= 8 plus secure/current-password change protections are the current mitigation. This is an accepted plan limitation rather than a deployment blocker.
 
 ## Branch / project-state hygiene
 
@@ -121,7 +134,7 @@ Before merging any paid-tier feature:
 
 ## Next engineering gate
 
-The next public-core architecture work is canonical learning attempts/skills/mastery above the existing activity runtimes. Legacy game score/session structures must not become the universal curriculum/mastery model by accident.
+Finish Cloudflare production closure of the learning-attempt/mastery foundation, then continue explicit measurable activity-result integration, wider adaptive next-best UI integration, and curriculum/content expansion.
 
 Expected sequence:
 
@@ -129,16 +142,16 @@ Expected sequence:
 focused branch
   -> PR
   -> required CI + secret-history scan
-  -> visual/privacy/license/provenance QA as applicable
   -> squash merge to protected main
+  -> Cloudflare Git integration deploys canonical main
+  -> production smoke checks
   -> delete branch
-  -> main remains canonical
 ```
 
 ## External/local verification still required before clone handoff is considered complete
 
 - [ ] Clean public clone/install from a fresh local environment.
-- [ ] Local `npm ci` / checks / build validated against final canonical `main`.
+- [ ] Local `npm ci` / checks / Cloudflare build validated against final canonical `main`.
 - [ ] Final local-setup instructions match the actual environment variables and Node version in the repository.
 - [ ] Remote branch cleanup complete or explicitly documented as the only remaining manual branch action.
 

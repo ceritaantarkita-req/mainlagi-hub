@@ -4,6 +4,19 @@
 
 > Status: **public open-source core**, active development. Source code repository ini menggunakan `AGPL-3.0-only`, dengan jalur commercial/paid yang terpisah. Fitur yang ditandai **Planned** belum dianggap tersedia di production.
 
+## Production
+
+Canonical production deployment:
+
+```text
+GitHub `main`
+  -> Cloudflare Git integration / build
+  -> OpenNext for Cloudflare Workers
+  -> https://mainlagihub.my.id/
+```
+
+Mainlagi **tidak memakai jalur production VPS/SSH**. Cloudflare adalah deployment/runtime production yang terhubung ke repository ini.
+
 ## Prinsip utama
 
 - **Motion/vision engine yang sekarang dipertahankan.** Tidak ada rencana rewrite atau membuang engine hanya untuk mengejar arah produk baru.
@@ -87,7 +100,7 @@ Teknologi utama:
 - MediaPipe Tasks Vision
 - Supabase Auth/Postgres/RLS untuk fitur cloud yang dikonfigurasi
 - local-first browser state untuk sebagian progress/family data
-- OpenNext/Cloudflare path dan VPS deployment path
+- OpenNext + Cloudflare Workers sebagai production deployment/runtime
 - Capacitor preparation untuk wrapper native
 
 Lihat [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
@@ -113,7 +126,7 @@ npm run dev
 
 Buka `http://localhost:3000`.
 
-Supabase bersifat optional untuk sebagian flow lokal, tetapi fitur auth/cloud/admin membutuhkan konfigurasi backend yang sesuai. Jangan pernah commit `.env.local`, service-role key, OpenRouter key, atau credential lain.
+Supabase bersifat optional untuk sebagian flow lokal, tetapi fitur auth/cloud/admin membutuhkan konfigurasi backend yang sesuai. Jangan pernah commit `.env.local`, service-role key, OpenRouter key, Cloudflare token, atau credential lain.
 
 ## Quality gates
 
@@ -124,7 +137,7 @@ npm run typecheck
 npm run lint
 npm run test:engine
 npm run simulate
-npm run build
+npm run build:cloudflare
 npm audit --omit=dev --audit-level=high
 ```
 
