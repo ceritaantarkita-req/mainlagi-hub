@@ -1,6 +1,6 @@
-import { ParentReportsScreen } from "@/components/learning/LearningPlatform";
+import { ParentMasteryReportsScreen } from "@/components/learning/ParentMasteryViews";
 
 export default async function ParentReportsPage({ params }: { params: Promise<{ childId: string }> }) {
   const { childId } = await params;
-  return <ParentReportsScreen childId={childId} />;
+  return <ParentMasteryReportsScreen childId={childId} />;
 }
