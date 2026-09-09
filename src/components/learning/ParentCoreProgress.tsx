@@ -2,9 +2,9 @@
 
 import type { CSSProperties } from "react";
 import {
+  ACTIVITIES,
   CHARACTERS,
-  SUBJECTS,
-  getCoreActivitiesForSubject
+  SUBJECTS
 } from "@/lib/learning/system";
 import { CharacterAvatar, useLearningProfile, useLearningProgress } from "./LearningCommon";
 import styles from "./LearningPlatform.module.css";
@@ -36,7 +36,7 @@ export function ParentCoreProgressScreen({ childId }: { childId: string }) {
 
       <div className={styles.parentGrid}>
         {SUBJECTS.map((subject) => {
-          const core = getCoreActivitiesForSubject(subject.id);
+          const core = ACTIVITIES.filter((activity) => activity.subjectId === subject.id && activity.runtime !== "motion_game");
           const done = core.filter((activity) => progress.completedActivityIds.includes(activity.id)).length;
           const pct = core.length ? Math.round((done / core.length) * 100) : 0;
 
