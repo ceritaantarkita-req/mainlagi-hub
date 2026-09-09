@@ -1,6 +1,6 @@
 # Mainlagi Learning Attempts & Mastery
 
-Status: merged into canonical `main`; code-level CI is green; canonical Supabase learning migrations are applied and hardened. Final production smoke-test closure is pending on the canonical Cloudflare deployment.
+Status: merged into canonical `main`; code-level CI is green; canonical Supabase learning migrations are applied and hardened; Cloudflare Git auto-deploy is validated. Final production closure is now limited to application-level health/auth/learning smoke checks.
 
 This document describes the shared learning evidence layer used by Bahasa Indonesia, English, Matematika, Iqro, Mewarnai, and future Mainlagi activities. It is intentionally separate from the legacy motion-game score/leaderboard model.
 
@@ -266,8 +266,20 @@ Observed 9 September 2026:
 - learning-attempt/mastery foundation is merged into `main`;
 - canonical Supabase `mainlagi-hub` is active/healthy;
 - migrations `0001–0006` are applied and live database ACL/RLS/advisor checks are complete;
-- obsolete VPS/SSH deployment assumptions have been identified and are being removed from code/docs;
+- obsolete VPS/SSH deployment assumptions are removed from the canonical deployment path;
 - no `MAINLAGI_VPS_*` GitHub Actions secrets are required;
-- final closure requires the corrected `main` commit to deploy successfully through Cloudflare, public health to pass, and an authenticated learning-attempt/mastery write-path smoke test plus local fallback check to succeed.
+- Cloudflare Git integration is connected to `ceritaantarkita-req/mainlagi-hub`, production branch `main`;
+- PR #14 produced `main` commit `90096246de3ae9b051af03e16a59dbd3bab0368a`;
+- Cloudflare automatically observed and successfully deployed that commit via `Workers Builds: mainlagi-hub`;
+- Cloudflare Build ID `29bdf24f-58da-4a94-9011-e7321934dd3c` succeeded and produced Version ID `4cbcd05f-a821-4891-a41e-4706ad14f2e3`;
+- `https://mainlagihub.my.id/` was observed loading over HTTPS in the browser.
 
-Do not mark this phase production-closed until those Cloudflare/public/application smoke checks pass.
+Deployment transport is therefore closed. Remaining production closure is application-level:
+
+1. verify Cloudflare runtime/build environment targets canonical Supabase without exposing secrets;
+2. explicitly verify `/api/health` after the Git-sourced deployment;
+3. execute an authenticated measurable learning-attempt/mastery write-path smoke test;
+4. verify parent-derived state;
+5. verify guest/local fallback.
+
+Do not mark the learning/mastery phase fully production-closed until those application smoke checks pass.
