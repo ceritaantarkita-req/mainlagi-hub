@@ -19,7 +19,7 @@ There are two deployment entry points:
    - manual `workflow_dispatch` fallback;
    - uses the same dedicated SSH credential boundary.
 
-The old statement that every `main` push directly runs `deploy-mainlagi.yml` is no longer correct; the automatic path is the deploy job inside `ci.yml`.
+The automatic production path is the deploy job inside `ci.yml`.
 
 ## Required Actions secrets
 
@@ -34,9 +34,53 @@ MAINLAGI_VPS_SSH_KEY
 
 The workflows validate that these values are non-empty before configuring SSH.
 
-As observed on 9 September 2026, recent `main` runs passed the application/security gates but the production job failed at `Validate deployment secrets` before SSH because one or more required values were unavailable to the job. This is a deployment-configuration blocker, not an application build failure.
+### Current observed state
 
-See `ACCOUNT_LEVEL_ACTIONS.md` for the manual repository-settings step.
+On the post-merge `main` run for commit `e82acf5d400916bab30ee7611f4db9bb0a8b4d8b` on 9 September 2026:
+
+- Production build: passed
+- Quality gate (Ubuntu): passed
+- Windows compatibility: passed
+- Production dependency audit: passed
+- Secret history scan: passed
+- Deploy V3 production: failed at `Validate deployment secrets`
+
+The job log showed the workflow environment variables derived from the four required Actions secrets were empty, and the first explicit failure was:
+
+```text
+VPS_HOST is not configured
+```
+
+SSH configuration and the actual VPS deployment were skipped. This is a deployment-configuration blocker, not an application build failure.
+
+See `ACCOUNT_LEVEL_ACTIONS.md` for the required repository-settings action.
+
+## Canonical Supabase dependency
+
+Canonical production database for Mainlagi:
+
+- organization: `inmydraft`
+- project: `mainlagi-hub`
+- project ref: `estvtgflwkebomsqlolv`
+- region: Singapore (`ap-southeast-1`)
+- observed status: healthy/active
+
+The previously observed duplicate/empty Mainlagi-named Supabase project was deleted by the account owner. No learning migration or production data had been written there, so no database transfer was necessary.
+
+Verified migration history on the canonical project:
+
+```text
+0001_init
+0002_learning_attempt_schema
+0003_learning_mastery_functions
+0004_learning_rpc_hardening
+0005_database_advisor_hardening
+0006_private_admin_helper
+```
+
+Live database checks confirmed learning RLS, derived-table mutation restrictions, RPC ACLs, catalog rows, and Supabase advisor state. The database portion of the learning-attempt/mastery closure is therefore complete.
+
+Before deployment, verify the production environment's Supabase URL/publishable key target this canonical project. Do not copy secret/service-role values into repository files, issues, PRs, or screenshots.
 
 ## Dedicated SSH / forced-command design
 
@@ -76,7 +120,7 @@ It should not use broad Docker prune operations or destructive Git reset/clean b
 
 Because the server script is outside the public repository execution surface used in this audit, the current VPS implementation must be checked directly before claiming production deployment is fully verified.
 
-## Verification after secrets are restored
+## Verification checklist
 
 A successful deployment validation requires more than a green build:
 
@@ -85,16 +129,29 @@ A successful deployment validation requires more than a green build:
 3. `Windows compatibility` succeeds.
 4. `Production dependency audit` succeeds.
 5. `Secret history scan` succeeds.
-6. `Validate deployment secrets` succeeds.
-7. SSH host/key verification succeeds.
-8. the forced server-side deployment command completes successfully.
-9. public health succeeds.
+6. canonical Supabase `mainlagi-hub` is active.
+7. Supabase migrations `0001–0006` are present.
+8. production Supabase environment values point to canonical `mainlagi-hub`.
+9. `Validate deployment secrets` succeeds.
+10. SSH host/key verification succeeds.
+11. the forced server-side deployment command completes successfully.
+12. public health succeeds.
+13. authenticated learning-attempt/mastery write-path smoke test succeeds.
+14. local/guest fallback still works without cloud persistence.
 
 Example public health check:
 
 ```bash
 curl -fsS https://mainlagi.inmydraft.com/api/health
 ```
+
+## Supabase advisor follow-up
+
+After migrations `0004–0006`:
+
+- performance advisor has no WARN-level findings; remaining findings are INFO-only legacy/unutilized-index observations;
+- security advisor has one intentional warning because `record_learning_attempt` is an authenticated SECURITY DEFINER RPC by design;
+- Supabase Auth still reports **Leaked Password Protection disabled**. Enable it from Auth settings before final security closure where the plan supports it.
 
 ## VPS diagnostics
 
