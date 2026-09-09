@@ -1,6 +1,6 @@
-import { ChildHomeScreen } from "@/components/learning/LearningPlatform";
+import { MainlagiWorldHome } from "@/components/learning/world/WorldExperience";
 
 export default async function ChildHomePage({ params }: { params: Promise<{ childId: string }> }) {
   const { childId } = await params;
-  return <ChildHomeScreen childId={childId} />;
+  return <MainlagiWorldHome childId={childId} />;
 }
