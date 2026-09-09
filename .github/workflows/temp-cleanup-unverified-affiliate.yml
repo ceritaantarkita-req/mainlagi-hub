@@ -1,0 +1,65 @@
+name: Temporary cleanup unverified affiliate assets
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.head_ref == 'security/asset-provenance-remediation-20260909'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Remove unresolved local affiliate binaries
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          git rm --ignore-unmatch \
+            'public/affiliate/*.jpg' \
+            'public/affiliate/*.jpeg' \
+            'public/affiliate/*.png' \
+            'public/affiliate/*.webp' \
+            'public/affiliate/*.avif' \
+            'public/affiliate/*.svg' \
+            'public/affiliate/manifest.txt'
+
+      - name: Null legacy catalog image paths
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          node <<'NODE'
+          const fs = require('node:fs');
+          const path = 'src/lib/data/affiliate-catalog.json';
+          const items = JSON.parse(fs.readFileSync(path, 'utf8'));
+          const next = items.map((item) => ({ ...item, image: null }));
+          fs.writeFileSync(path, `${JSON.stringify(next, null, 2)}\n`);
+          NODE
+          git add src/lib/data/affiliate-catalog.json
+
+      - name: Validate cleanup state
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          node scripts/validate-asset-provenance.mjs
+
+      - name: Commit cleanup to exact PR branch
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          if git diff --cached --quiet; then
+            echo "Cleanup already applied"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Remove unverified affiliate image redistribution"
+          git push origin "HEAD:${GITHUB_HEAD_REF}"
