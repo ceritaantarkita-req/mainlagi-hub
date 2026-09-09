@@ -1,6 +1,6 @@
-import { DIGIT_TEMPLATES } from "@/lib/engine/templates";
-import type { Stroke } from "@/lib/engine/types";
-import { evaluateGuidedTrace, type GuidedTraceResult } from "@/lib/tracing/guided";
+import { DIGIT_TEMPLATES } from "../engine/templates";
+import type { Stroke } from "../engine/types";
+import { evaluateGuidedTrace, type GuidedTraceResult } from "../tracing/guided";
 import type { LearningAttemptOutcome } from "./attempts";
 
 export interface LearningTraceMeasurement {
