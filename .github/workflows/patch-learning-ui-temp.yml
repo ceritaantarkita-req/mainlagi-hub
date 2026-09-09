@@ -1,0 +1,108 @@
+name: Temporary learning UI patch
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.head_ref == 'feature/mobile-learning-ui-system-20260909'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - name: Patch React hydration patterns
+        shell: python
+        run: |
+          from pathlib import Path
+
+          path = Path('src/components/learning/LearningPlatform.tsx')
+          text = path.read_text()
+          text = text.replace('  useMemo,\n', '')
+
+          text = text.replace('''function useLearningProfile(childId: string) {
+  const [profile, setProfile] = useState<LearningChildProfile | null>(null);
+  useEffect(() => {
+    setProfile(readProfile(childId) ?? (childId === DEMO_PROFILE.id ? DEMO_PROFILE : null));
+  }, [childId]);
+  return profile;
+}''', '''function useLearningProfile(childId: string) {
+  const [profile, setProfile] = useState<LearningChildProfile | null>(null);
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      setProfile(readProfile(childId) ?? (childId === DEMO_PROFILE.id ? DEMO_PROFILE : null));
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [childId]);
+  return profile;
+}''')
+
+          text = text.replace('''  useEffect(() => setProfiles(readProfiles()), []);''', '''  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => setProfiles(readProfiles()));
+    return () => window.cancelAnimationFrame(frame);
+  }, []);''')
+
+          old = '''  const [progress, setProgress] = useState<LearningProgress>({ completedActivityIds: [], stars: 0, lastActivityId: null });
+  if (!profile || !activity) return <main className={styles.contentNarrow}><div className={styles.emptyState}>Aktivitas tidak ditemukan.</div></main>;
+  const subject = getSubject(activity.subjectId)!;
+  const stage = getStage(activity.stageId)!;
+  const done = progress.completedActivityIds.includes(activity.id);
+
+  useEffect(() => setProgress(readProgress(childId)), [childId]);
+
+  return ('''
+          new = '''  const [progress, setProgress] = useState<LearningProgress>({ completedActivityIds: [], stars: 0, lastActivityId: null });
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => setProgress(readProgress(childId)));
+    return () => window.cancelAnimationFrame(frame);
+  }, [childId]);
+
+  if (!profile || !activity) return <main className={styles.contentNarrow}><div className={styles.emptyState}>Aktivitas tidak ditemukan.</div></main>;
+  const subject = getSubject(activity.subjectId)!;
+  const stage = getStage(activity.stageId)!;
+  const done = progress.completedActivityIds.includes(activity.id);
+
+  return ('''
+          if old not in text:
+            raise SystemExit('ActivityScreen patch target not found')
+          text = text.replace(old, new)
+
+          text = text.replace('''function useAllProfiles() {
+  const [profiles, setProfiles] = useState<LearningChildProfile[]>([DEMO_PROFILE]);
+  useEffect(() => setProfiles([DEMO_PROFILE, ...readProfiles().filter((item) => item.id !== DEMO_PROFILE.id)]), []);
+  return profiles;
+}''', '''function useAllProfiles() {
+  const [profiles, setProfiles] = useState<LearningChildProfile[]>([DEMO_PROFILE]);
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      setProfiles([DEMO_PROFILE, ...readProfiles().filter((item) => item.id !== DEMO_PROFILE.id)]);
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+  return profiles;
+}''')
+
+          text = text.replace('''  useEffect(() => setPrefs(readPreferences()), []);''', '''  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => setPrefs(readPreferences()));
+    return () => window.cancelAnimationFrame(frame);
+  }, []);''')
+
+          path.write_text(text)
+      - name: Commit patch
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/components/learning/LearningPlatform.tsx
+          if git diff --cached --quiet; then
+            echo "No patch needed"
+            exit 0
+          fi
+          git commit -m "Fix learning UI React hydration hooks"
+          git push origin "HEAD:${GITHUB_HEAD_REF}"
