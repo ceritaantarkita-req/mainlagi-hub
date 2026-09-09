@@ -2,7 +2,9 @@
 
 Thanks for helping improve Mainlagi Hub.
 
-The project is being prepared as an open-source core with a separate commercial offering. That means contribution quality, child-safety boundaries, and copyright/relicensing hygiene matter from the start.
+Mainlagi Hub is a public **open-source core with a separate commercial offering**. That means contribution quality, child-safety boundaries, and copyright/relicensing hygiene matter from the start.
+
+See `OPEN_CORE.md` for the canonical boundary between the public community layer and separately licensed commercial products/services.
 
 ## What is welcome
 
@@ -25,6 +27,7 @@ Good contributions include:
 3. Keep changes focused; avoid opportunistic rewrites.
 4. Do not remove the current motion engine or existing games as part of unrelated work.
 5. If a change touches camera, child data, auth, AI/OCR, payments, or external providers, document the security/privacy boundary.
+6. If a change introduces code/content/assets intended to remain proprietary, do not put it into the public AGPL tree without an explicit, reviewed licensing boundary.
 
 ## Branch and pull request discipline
 
@@ -45,6 +48,7 @@ A PR should explain:
 - what was intentionally not changed;
 - how it was tested;
 - any security/privacy implications;
+- any licensing/provenance implications for new third-party code, content, assets, models, or datasets;
 - screenshots or video only when they do not expose private child/family data.
 
 ## Required checks
@@ -74,6 +78,7 @@ Physical camera QA is required for changes whose correctness depends on real han
 - Avoid putting future curriculum logic directly inside individual motion games.
 - Treat the 10 existing games as retained product capabilities.
 - Mark planned work as planned; do not document an unimplemented feature as available.
+- Keep commercial/private modules behind explicit APIs, package boundaries, or service contracts rather than mixing proprietary source invisibly into the public core.
 
 ## Child-safety and privacy expectations
 
