@@ -10,6 +10,31 @@ permissions:
   contents: read
 
 jobs:
+  secret-history-scan:
+    name: Secret history scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.24.11'
+      - name: Install pinned Gitleaks
+        shell: bash
+        run: go install github.com/zricethezav/gitleaks/v8@v8.30.1
+      - name: Scan full Git history
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          "$(go env GOPATH)/bin/gitleaks" git \
+            --redact \
+            --no-banner \
+            --verbose \
+            --log-opts="--all" \
+            .
+
   quality:
     name: Quality gate (Ubuntu)
     runs-on: ubuntu-latest
@@ -86,6 +111,7 @@ jobs:
     name: Deploy V3 production
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs:
+      - secret-history-scan
       - quality
       - build
       - windows-quality
