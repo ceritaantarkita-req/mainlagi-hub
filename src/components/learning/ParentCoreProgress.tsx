@@ -4,8 +4,11 @@ import type { CSSProperties } from "react";
 import { CHARACTERS, SUBJECTS } from "@/lib/learning/system";
 import {
   getNextBestLearningRecommendation,
+  getRecentLearningAttempts,
   getSubjectLearningSummary,
-  getSubjectSkillRows
+  getSubjectNextLearningRecommendation,
+  getSubjectSkillRows,
+  getSubjectStageReadiness
 } from "@/lib/learning/insights";
 import { CharacterAvatar, useLearningProfile, useLearningProgress } from "./LearningCommon";
 import { useLearningAnalytics } from "./useLearningAnalytics";
@@ -13,6 +16,12 @@ import styles from "./LearningPlatform.module.css";
 
 function percent(value: number): number {
   return Math.round(Math.max(0, Math.min(1, value)) * 100);
+}
+
+function attemptResult(assessed: boolean, accuracy: number | null): string {
+  if (!assessed) return "Practice";
+  if (accuracy === null) return "Assessed";
+  return `${percent(accuracy)}% akurasi`;
 }
 
 export function ParentCoreProgressScreen({ childId }: { childId: string }) {
@@ -30,6 +39,7 @@ export function ParentCoreProgressScreen({ childId }: { childId: string }) {
     analytics,
     allowMotion: false
   });
+  const recentAttempts = getRecentLearningAttempts(analytics, 6);
 
   return (
     <main className={styles.parentMain}>
@@ -65,6 +75,33 @@ export function ParentCoreProgressScreen({ childId }: { childId: string }) {
       </div>
 
       <section className={styles.section}>
+        <h2 style={{ color: "#24445e" }}>Stage readiness</h2>
+        <p className={styles.pageLead}>
+          Stage tidak terbuka hanya karena klik selesai. Aktivitas inti dan evidence readiness dinilai terpisah agar progression tidak bisa difarming.
+        </p>
+        <div className={styles.parentGrid}>
+          {SUBJECTS.flatMap((subject) => getSubjectStageReadiness(subject.id, progress, analytics).map((stage) => (
+            <div className={styles.parentCard} key={stage.stageId} style={{ "--accent": subject.accent } as CSSProperties}>
+              <strong>{subject.emoji} {stage.title}</strong>
+              <p><strong>{stage.statusLabel}</strong> · {stage.completedCount}/{stage.requiredCount} aktivitas inti</p>
+              <div className={styles.stageProgress}>
+                <span className={styles.progressTrack}>
+                  <span className={styles.progressFill} style={{ width: `${percent(stage.completionRatio)}%` }} />
+                </span>
+                <span>{percent(stage.completionRatio)}%</span>
+              </div>
+              {stage.assessedSkillCount > 0 ? (
+                <p style={{ marginBottom: 6 }}>
+                  Evidence readiness <strong>{percent(stage.evidenceReadiness)}%</strong> · {stage.evidencedSkillCount}/{stage.assessedSkillCount} skill punya qualifying evidence
+                </p>
+              ) : <p style={{ marginBottom: 6 }}>Practice stage · tidak membutuhkan academic mastery evidence.</p>}
+              <small>{stage.reason}</small>
+            </div>
+          )))}
+        </div>
+      </section>
+
+      <section className={styles.section}>
         <h2 style={{ color: "#24445e" }}>Progress & mastery per area</h2>
         <p className={styles.pageLead}>
           Completion menunjukkan aktivitas yang sudah selesai. Mastery memakai evidence berulang dari aktivitas assessed;
@@ -75,6 +112,13 @@ export function ParentCoreProgressScreen({ childId }: { childId: string }) {
           {SUBJECTS.map((subject) => {
             const summary = getSubjectLearningSummary(subject.id, progress, analytics);
             const skills = getSubjectSkillRows(subject.id, analytics);
+            const subjectRecommendation = getSubjectNextLearningRecommendation({
+              subjectId: subject.id,
+              age: profile.age,
+              progress,
+              analytics,
+              allowMotion: false
+            });
             const completionPct = percent(summary.completionRatio);
             const masteryPct = percent(summary.masteryScore);
             const assessedRows = skills.filter((skill) => skill.level !== "not_started");
@@ -107,6 +151,13 @@ export function ParentCoreProgressScreen({ childId }: { childId: string }) {
                 {needsPractice ? <p style={{ marginBottom: 4 }}>🔁 Perlu diperkuat: <strong>{needsPractice.title}</strong></p> : null}
                 {strongest && strongest.id !== needsPractice?.id ? <p style={{ marginTop: 0 }}>✨ Kekuatan saat ini: <strong>{strongest.title}</strong></p> : null}
 
+                {subjectRecommendation ? (
+                  <div className={styles.infoBanner} style={{ marginTop: 12 }}>
+                    <strong>Berikutnya di {subject.shortTitle}: {subjectRecommendation.activity.title}</strong><br />
+                    {subjectRecommendation.reasonLabel}
+                  </div>
+                ) : null}
+
                 {assessedRows.length ? (
                   <ul className={styles.list} style={{ marginTop: 12 }}>
                     {assessedRows.map((skill) => (
@@ -121,6 +172,29 @@ export function ParentCoreProgressScreen({ childId }: { childId: string }) {
             );
           })}
         </div>
+      </section>
+
+      <section className={styles.section}>
+        <h2 style={{ color: "#24445e" }}>Aktivitas terbaru</h2>
+        <p className={styles.pageLead}>Riwayat ini berasal dari learning attempts, bukan sekadar daftar tombol yang pernah dibuka.</p>
+        {recentAttempts.length ? (
+          <div className={styles.parentCard}>
+            <ul className={styles.list}>
+              {recentAttempts.map((attempt) => {
+                const subject = SUBJECTS.find((item) => item.id === attempt.subjectId);
+                return (
+                  <li className={styles.listItem} key={attempt.id}>
+                    <span>
+                      <strong>{subject?.emoji ?? "🧪"} {attempt.activityTitle}</strong><br />
+                      <small>{new Date(attempt.completedAt).toLocaleString("id-ID")} · {attempt.retryCount} retry</small>
+                    </span>
+                    <strong>{attemptResult(attempt.assessed, attempt.accuracy)}</strong>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ) : <div className={styles.emptyState}>Belum ada learning attempt.</div>}
       </section>
 
       <section className={styles.section}>
