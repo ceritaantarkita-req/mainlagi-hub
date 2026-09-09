@@ -7,6 +7,7 @@ const schema = readFileSync(path.join(root, "supabase/migrations/0002_learning_a
 const functions = readFileSync(path.join(root, "supabase/migrations/0003_learning_mastery_functions.sql"), "utf8");
 const hardening = readFileSync(path.join(root, "supabase/migrations/0004_learning_rpc_hardening.sql"), "utf8");
 const advisorHardening = readFileSync(path.join(root, "supabase/migrations/0005_database_advisor_hardening.sql"), "utf8");
+const privateAdmin = readFileSync(path.join(root, "supabase/migrations/0006_private_admin_helper.sql"), "utf8");
 
 const requiredTables = [
   "learning_skills",
@@ -61,11 +62,19 @@ for (const index of [
   assert.match(advisorHardening, new RegExp(`create index if not exists ${index}\\b`, "i"), `missing advisor index ${index}`);
 }
 
+assert.match(privateAdmin, /create schema if not exists private/i, "private helper schema missing");
+assert.match(privateAdmin, /create or replace function private\.is_admin\(\)/i, "private admin helper missing");
+assert.match(privateAdmin, /security definer set search_path = pg_catalog, public/i, "private admin helper search path must be pinned");
+assert.match(privateAdmin, /grant execute on function private\.is_admin\(\) to anon, authenticated, service_role/i, "RLS roles need execute on private admin helper");
+assert.match(privateAdmin, /select private\.is_admin\(\)/i, "RLS policies must use private admin helper");
+assert.match(privateAdmin, /drop function if exists public\.is_admin\(\)/i, "public is_admin RPC must be removed after policy rebinding");
+
 for (const legacy of ["game_sessions", "game_scores", "progress"]) {
   assert.doesNotMatch(schema, new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`, "i"), `legacy table ${legacy} must not be dropped`);
   assert.doesNotMatch(functions, new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`, "i"), `legacy table ${legacy} must not be dropped`);
   assert.doesNotMatch(hardening, new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`, "i"), `hardening must not drop legacy table ${legacy}`);
   assert.doesNotMatch(advisorHardening, new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`, "i"), `advisor hardening must not drop legacy table ${legacy}`);
+  assert.doesNotMatch(privateAdmin, new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`, "i"), `private-admin migration must not drop legacy table ${legacy}`);
 }
 
 console.log("Learning migration contract tests passed.");
