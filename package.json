@@ -2,7 +2,8 @@
   "name": "motion-learning-hub-mainlagitv-v2",
   "version": "2.0.2",
   "private": true,
-  "description": "Mainlagi Hub Motion Learning Hub V2: ten internal hand and body motion experiences.",
+  "license": "AGPL-3.0-only",
+  "description": "Mainlagi Hub motion-learning platform with ten internal hand and body motion experiences.",
   "engines": {
     "node": ">=20.9.0"
   },
