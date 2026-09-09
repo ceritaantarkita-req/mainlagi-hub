@@ -1,188 +1,145 @@
 # Public Repository Readiness & Ongoing Audit Checklist
 
-`ceritaantarkita-req/mainlagi-hub` is already **Public** as of 9 September 2026.
+`ceritaantarkita-req/mainlagi-hub` is **Public**. This checklist tracks security, licensing, privacy, provenance, governance, and operational readiness. Historical evidence is recorded in `PUBLIC_EXPOSURE_AUDIT_20260909.md`; current project state is recorded in `CURRENT_STATE.md`.
 
-This checklist is the ongoing security, licensing, privacy, provenance, and repository-hardening checklist for the public project. Verified evidence from the 9 September 2026 audit is recorded in [`PUBLIC_EXPOSURE_AUDIT_20260909.md`](PUBLIC_EXPOSURE_AUDIT_20260909.md).
+Public visibility exposes source and published Git history to the internet. Anything that should not be public must be treated as exposed if it was present in published Git objects, logs, issues, PRs, or attachments.
 
-Public visibility exposes repository source and Git history to the internet. Anything that should not be public must be treated as already exposed if it was present in published history, logs, issues, PRs, or attachments.
+## Current manual/account-level blockers
 
-## Current priority order
+- [ ] Add `Secret history scan` as the fifth required status check in `Protect main`.
+- [ ] Restore/verify the four required GitHub Actions deployment secrets.
+- [ ] Verify the VPS forced-command deployment boundary and a successful production deployment end to end.
+- [ ] Delete merged/superseded remote branches after active closure work is finished.
 
-1. Merge and retain the full-history `Secret history scan` CI job.
-2. Add `Secret history scan` to the `Protect main` required checks after the job exists on `main`.
-3. Remediate unresolved third-party/local asset provenance.
-4. Perform optional manual GitHub-UI spot-checks of historical raw Actions log bodies that cannot be retrieved through the available integration.
-5. Establish a formal CLA/contributor-rights process before substantial external code is accepted where alternative commercial relicensing rights are needed.
-6. Confirm public clone/install from a clean external machine/environment.
+See `ACCOUNT_LEVEL_ACTIONS.md`.
 
-## Known repository state — 9 September 2026
+## Repository / licensing baseline
 
 - [x] Repository visibility is Public.
-- [x] GitHub detects the repository license as GNU Affero General Public License v3.0.
+- [x] GitHub detects GNU Affero General Public License v3.0.
 - [x] `package.json` declares `AGPL-3.0-only`.
-- [x] Repository ruleset `Protect main` exists and is Active.
-- [x] `Protect main` targets the default branch.
-- [x] Ruleset bypass list is empty.
-- [x] Pull requests are required for the protected default branch.
-- [x] Squash is the only allowed merge method under the ruleset.
-- [x] Branch deletion is restricted.
-- [x] Force-push/non-fast-forward updates are blocked.
-- [x] Required status checks use strict/up-to-date policy.
-- [x] CI workflow permissions default to `contents: read`.
-- [x] Production deploy in the primary CI workflow is not executed for pull-request events.
+- [x] `LICENSE`, `NOTICE.md`, `OPEN_CORE.md`, `COMMERCIAL_LICENSE.md`, and `TRADEMARKS.md` exist.
+- [x] Community / Plus / School implementation boundaries are documented in `PRODUCT_TIERS_AND_CODE_BOUNDARY.md`.
+- [x] Contributor-rights strategy is documented in `CLA_POLICY.md`.
+- [ ] A legally reviewed executable CLA/signature process exists. The current CLA file is policy only and must not be represented as a signed agreement.
 
-## Gate A — Code and CI
+## Code / CI
 
-- [ ] `main` contains only intended source/history; continue reviewing intentionally retained historical material as the project evolves.
-- [x] Production build passed on the public-exposure audit PR head.
-- [x] Ubuntu quality gate passed on the public-exposure audit PR head.
-- [x] Windows compatibility gate passed on the public-exposure audit PR head.
-- [x] Production dependency audit passed on the public-exposure audit PR head.
-- [x] Full-history secret scan passed on the public-exposure audit PR head.
-- [x] No temporary write-capable maintenance workflow is present in the current `.github/workflows/` tree at the time of this review.
-- [x] Draft PR #5 was reviewed and identified as an intentional stacked PR targeting `feature/mobile-learning-ui-system-20260909`, not `main`; its lifecycle remains a product-development decision rather than an exposure-audit cleanup action.
+- [x] Production build is a permanent CI gate.
+- [x] Ubuntu quality is a permanent CI gate.
+- [x] Windows compatibility is a permanent CI gate.
+- [x] Production dependency audit is a permanent CI gate.
+- [x] Full fetched Git history is scanned with pinned Gitleaks and redacted output.
+- [x] Asset provenance validation runs in Ubuntu quality CI.
+- [x] Primary CI workflow defaults to read-only repository contents permissions.
+- [x] Temporary QA/write workflows used during remediation were removed before final merge heads.
+- [x] Mainlagi World clean mainline port passed automated CI and fresh responsive visual/interaction QA before merge.
 
-## Gate B — Secret and credential review
+## Secret / credential review
 
-A current-tree search is not enough. Git history must be scanned and non-Git surfaces must be reviewed separately.
+- [x] Full fetched Git refs/history have passed Gitleaks scanning using `--log-opts="--all"`.
+- [x] Reviewed public PR/issue material did not reveal an actual credential value in the inspected content.
+- [x] Reviewed temporary maintenance workflow sources were narrowly scoped and later removed.
+- [x] No credential rotation/history rewrite was triggered by the 9 September audit because no matching real credential was identified.
+- [ ] Optional manual UI spot-check of archived historical Actions raw logs remains useful because the integration audit did not inspect every historical log byte.
+- [ ] If a real credential is discovered later, rotate/revoke it immediately before deciding whether history rewriting is warranted.
 
-- [x] Full fetched Git refs/history scanned with Gitleaks v8.30.1 using `--log-opts="--all"` and redacted output; GitHub Actions run `34330844307` passed.
-- [x] Reviewed public PR/issue material did not reveal an actual credential value in the inspected content/keyword checks.
-- [x] Historical temporary write-workflow source was structurally reviewed for the observed maintenance workflows.
-- [x] Reviewed successful temporary maintenance runs exposed no uploaded GitHub Actions artifacts through their artifact inventories.
-- [ ] Complete optional manual UI spot-check of archived historical Actions raw log bodies; the available integration cannot download those archived log bodies.
-- [x] No credential rotation/history rewrite was triggered by this audit because the full-history scanner did not identify a matching secret and no actual credential value was identified in reviewed public PR/issue material.
-- [ ] If a real credential is discovered later, rotate it immediately even if it was deleted from the current tree; evaluate history purge/rewrite separately.
+Scanner success is strong evidence, not proof that every possible secret pattern or non-Git attachment is safe.
 
-Scanner success is evidence, not a proof that every possible credential pattern or external attachment is safe. Keep the scan as an ongoing CI gate.
+## Personal data / child privacy
 
-## Gate C — Personal data and public metadata
+- [x] The previously hard-coded admin email was removed from `.env.example`.
+- [x] Existing public Git author email exposure is documented as metadata rather than a credential.
+- [ ] Keep example accounts/IDs synthetic.
+- [ ] Never commit real child photo/video/audio without a documented authorized reason and distribution right.
+- [ ] Re-review screenshots, fixtures, QA captures, and logs whenever new child-data features are introduced.
+- [ ] Parent/privacy controls must exist before external child-data inference is shipped.
+- [ ] No future AI/OCR design may silently upload continuous/full camera feeds to an external provider.
 
-- [x] The previously hard-coded public admin email was removed from the current `.env.example`.
-- [ ] Review templates, fixtures, screenshots, QA captures, and docs whenever new personal data is added.
-- [ ] No child photo/video/audio may be committed without a documented authorized reason and distribution right.
-- [ ] Example accounts/IDs must remain synthetic.
-- [x] Historical/public Git metadata was reviewed sufficiently to observe that `ceritaantarkita@gmail.com` appears as contributor author metadata.
-- [ ] Decide whether that author email is intentionally public. If not desired for future commits, configure a GitHub `noreply` author address; do not rewrite published history casually.
+## Third-party assets / provenance
 
-## Gate D — Licensing and open-core structure
+- [x] Affiliate/marketplace image redistribution risk was identified.
+- [x] Canonical affiliate provenance metadata/control exists.
+- [x] Local affiliate imagery is fail-closed unless an `owned`/`licensed` record explicitly permits redistribution.
+- [x] Unverified tracked affiliate binaries were removed from the current tree.
+- [x] Legacy local affiliate image paths were nulled in the fallback catalog.
+- [x] Catalog generation/CI rejects unapproved local affiliate imagery.
+- [ ] Continue provenance review for new artwork, brand assets, concepts, OG/QA imagery, fonts, models, datasets, and audio as they are added.
+- [ ] Future TTS/OCR/AI assets must not be bundled until base-model license, dataset provenance, voice consent, and commercial-use rights are verified.
 
-- [x] Root `LICENSE` exists and GitHub detects AGPL-3.0.
-- [x] `package.json` declares `AGPL-3.0-only`.
-- [x] `NOTICE.md` explains source-code licensing scope.
-- [x] `COMMERCIAL_LICENSE.md` explains the separate commercial path.
-- [x] `OPEN_CORE.md` defines the community vs paid/proprietary architecture boundary.
-- [x] `TRADEMARKS.md` separates brand/character rights from source-code rights.
-- [x] `THIRD_PARTY_NOTICES.md` exists.
-- [ ] Review file-by-file provenance so no source/asset claims a license incompatible with its actual origin.
-- [ ] Establish a formal contributor-rights/CLA process before accepting substantial external code where alternative commercial relicensing rights are needed.
+Removing a file from the current tree does not erase an already-published Git object.
 
-Important interpretation:
+## GitHub repository controls
 
-- AGPL permits commercial use when its terms are followed.
-- A separate Mainlagi commercial license is an alternative rights path, not a blanket fee for every commercial use.
-- Proprietary premium source/assets should normally live outside the public AGPL source tree unless their licensing status is explicit.
+`Protect main` is verified Active.
 
-## Gate E — Third-party assets and dependencies
+- [x] Default branch targeted.
+- [x] Bypass list empty.
+- [x] Pull request required.
+- [x] Conversation resolution required.
+- [x] Squash merge only.
+- [x] Strict/up-to-date required-check policy.
+- [x] Linear history required.
+- [x] Default-branch deletion blocked.
+- [x] Non-fast-forward/force-push blocked.
+- [ ] `Secret history scan` added to the ruleset required-check list. The CI job exists, but this setting still requires a GitHub Settings change.
+- [ ] Review Dependabot/security alert/Private Vulnerability Reporting settings where available.
 
-### Current blocker: asset provenance
+## Deployment
 
-- [x] The public asset tree was reviewed sufficiently to identify provenance as a real unresolved area.
-- [x] `THIRD_PARTY_NOTICES.md` warns that marketplace/manufacturer imagery remains owned by its respective rights holders and that repository presence does not grant redistribution rights.
-- [ ] Build a canonical per-file/per-item provenance registry for public binary assets.
-- [ ] Affiliate catalog/generator must reject new local product assets unless provenance/permission metadata is present.
-- [ ] Classify current local affiliate images as `owned`, `licensed`, `third-party-reference`, or `unverified`.
-- [ ] Remove/replace local third-party binaries for which no redistribution basis can be documented.
-- [ ] Record ownership/provenance for `public/artwork/`, `public/brand/`, `public/concepts/`, `public/og/`, and relevant QA imagery.
-- [ ] Review MediaPipe runtime/model redistribution behavior for the release format.
-- [ ] Confirm fonts keep their required licenses/notices.
-- [ ] Future TTS/OCR/AI model assets must not be bundled until base-model license, dataset provenance, voice consent, and commercial-use rights are reviewed.
+- [x] Deployment workflows reference GitHub Actions secrets rather than committed secret values.
+- [x] Automatic production job is restricted to pushes to `main` and waits for CI/security prerequisites.
+- [x] Pull requests do not execute the production job.
+- [x] SSH workflow uses strict host-key checking and removes the temporary private-key file.
+- [x] Intended forced-command deployment design is documented.
+- [ ] Required Actions secrets are currently configured/available to the job.
+- [ ] Current VPS key is verified to enforce the intended server-side forced command.
+- [ ] A post-governance production deployment succeeds end to end and public health is verified.
 
-A generic notice is not proof of permission to redistribute a specific binary file.
+A recent main run failed at `Validate deployment secrets` before SSH. Treat that as an explicit fail-closed operational blocker, not as a successful deployment.
 
-## Gate F — Documentation accuracy
+## Branch / project-state hygiene
 
-- [x] README states that the repository is already public and links the open-core/commercial licensing model.
-- [x] A dated public-exposure audit report exists.
-- [ ] README must continue to match the current game/activity count and architecture after major changes.
-- [ ] Planned features must remain marked Planned until actually shipped.
-- [ ] OCR/OpenRouter must not be described as implemented before the code exists.
-- [ ] Review `docs/KNOWN_LIMITATIONS.md` for staleness after each major architecture phase.
-- [ ] Historical audit files must remain clearly dated evidence, not timeless guarantees.
-- [ ] Deployment documentation must not expose real hosts, usernames, keys, or secrets.
+- [x] `main` is defined as the only canonical product branch.
+- [x] Persistent `develop` is explicitly rejected for the current workflow.
+- [x] Stacked PR #5 was superseded by clean current-main PR #9 and closed.
+- [x] Mainlagi World was cleanly landed via PR #9 after fresh QA.
+- [x] Branch lifecycle policy is documented in `BRANCH_LIFECYCLE.md`.
+- [ ] Old merged/superseded remote branches deleted in GitHub after active work is complete.
+- [ ] Local clones use `git fetch origin --prune` (or `fetch.prune=true`) after remote cleanup.
 
-## Gate G — GitHub public-repository controls
+## Open-core / paid-product boundary
 
-`Protect main` was verified active through the GitHub rulesets API.
+Before merging any paid-tier feature:
 
-- [x] Protect the default branch with an active repository ruleset.
-- [x] Require pull requests before merge.
-- [x] Require conversation resolution before merge.
-- [x] Allow squash merge only under the ruleset.
-- [x] Require relevant existing CI checks before merge.
-- [x] Require branch to be up to date before merge.
-- [x] Prevent force-push/non-fast-forward updates.
-- [x] Prevent accidental default-branch deletion.
-- [ ] After this audit PR merges, add `Secret history scan` as a fifth required status check in `Protect main`.
-- [ ] Enable/review Dependabot and security alerts where appropriate.
-- [ ] Enable/review GitHub Private Vulnerability Reporting if available.
-- [x] Primary CI Actions permission defaults to read-only repository contents.
-- [x] Primary production deploy does not run for pull-request events, so fork PRs do not execute that deploy job.
-- [ ] Review production environment approvals and manual-workflow access periodically at the account/repository settings level.
+- [x] Canonical tier/code-boundary policy exists.
+- [ ] Classify the feature as Community AGPL contract/code vs proprietary paid implementation/content.
+- [ ] Keep proprietary implementations/assets outside the public AGPL tree unless an explicit reviewed license says otherwise.
+- [ ] Confirm third-party dependencies/models/data permit the intended distribution and commercial use.
+- [ ] Confirm contributor rights are sufficient if externally authored code may also be offered under alternative commercial licensing.
+- [ ] Preserve a meaningful functional Community product.
 
-## Gate H — Production deployment safety
+## Next engineering gate
 
-- [x] Primary deploy secrets are referenced through GitHub Actions secrets, not committed values in the reviewed workflow.
-- [x] Primary CI production deploy requires a push to `refs/heads/main`.
-- [x] Primary deploy depends on quality, build, Windows compatibility, and production dependency-audit jobs.
-- [x] This audit PR adds full-history secret scan as an additional deploy prerequisite.
-- [x] SSH known-host verification uses `StrictHostKeyChecking=yes` in the current primary workflow.
-- [x] The temporary SSH private-key file is removed in an `always()` cleanup step.
-- [ ] Review who can invoke the separate manual deployment workflow and whether environment approvals should be added.
-- [ ] Production service-role and future OpenRouter keys must remain server-side.
+The next public-core architecture work is canonical learning attempts/skills/mastery above the existing activity runtimes. Legacy game score/session structures must not become the universal curriculum/mastery model by accident.
 
-## Gate I — Child/AI privacy readiness
-
-- [ ] Re-review `SECURITY.md` child-data expectations against each shipped child-data feature.
-- [ ] Keep `docs/AI_OCR_OPENROUTER.md` provider keys server-only.
-- [ ] No design/implementation may silently perform continuous camera upload to external AI providers.
-- [ ] Parent/privacy controls must exist before external child-data inference ships.
-- [ ] Any future voice dataset/model needs documented consent, provenance, retention, and child-safety boundaries.
-
-## Gate J — Open-core / paid product boundary
-
-Before merging a feature intended for a paid Mainlagi tier:
-
-- [ ] Decide whether the implementation itself is Community AGPL code or proprietary commercial code.
-- [ ] If proprietary, keep it in a separate private repository/package/service unless a reviewed explicit licensing boundary requires otherwise.
-- [ ] Keep Mainlagi trademarks, characters, premium voice/art, and commercial content rights separate from the code license.
-- [ ] Confirm third-party dependencies/models/data permit the intended commercial use.
-- [ ] Confirm contributor rights are sufficient if the same code may also be offered under alternative commercial licensing.
-- [ ] Preserve a meaningful functional community core rather than turning the public repository into a nonfunctional teaser.
-
-See `OPEN_CORE.md`, `COMMERCIAL_LICENSE.md`, and `TRADEMARKS.md`.
-
-## Ongoing public-release loop
+Expected sequence:
 
 ```text
 focused branch
   -> PR
   -> required CI + secret-history scan
-  -> security/privacy/license/provenance review where applicable
+  -> visual/privacy/license/provenance QA as applicable
   -> squash merge to protected main
-  -> deployment gate
-  -> verify public docs/source/runtime behavior
+  -> delete branch
+  -> main remains canonical
 ```
 
-## External-style verification
+## External/local verification still required before clone handoff is considered complete
 
-- [x] Repository landing source is publicly accessible.
-- [x] GitHub detects the intended AGPL license.
-- [x] Full Git-history secret scan has a repeatable CI implementation and a successful audit run.
-- [ ] Perform manual spot-check of historical raw Actions logs if account UI access is available.
-- [ ] Verify public clone/install instructions from a clean external environment.
-- [ ] Verify production deployment after the audit PR does not expose credentials.
-- [ ] Add a source/legal notice to public network deployments where required by the applicable AGPL deployment scenario.
-- [ ] Periodically repeat history/log/dependency/provenance reviews as the project grows.
+- [ ] Clean public clone/install from a fresh local environment.
+- [ ] Local `npm ci` / checks / build validated against final canonical `main`.
+- [ ] Final local-setup instructions match the actual environment variables and Node version in the repository.
+- [ ] Remote branch cleanup complete or explicitly documented as the only remaining manual branch action.
 
-Do not treat Public visibility as completion. Public status permanently changes the threat model, contribution model, licensing obligations, and operational controls.
+Public visibility is not a one-time checklist completion. It permanently changes the project threat model, contribution model, asset provenance requirements, and operational controls.

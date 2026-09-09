@@ -1,55 +1,104 @@
 # Mainlagi Production Deployment
 
+Last reviewed: 9 September 2026
+
 ## Production target
 
-- Domain: `https://mainlagi.inmydraft.com`
-- VPS application root: `/srv/mainlagi`
-- Repository checkout: `/srv/mainlagi/repo`
-- Compose file: `/srv/mainlagi/docker-compose.yml`
-- Deploy state: `/srv/mainlagi/.env`
-- Deploy script: `/srv/mainlagi/deploy.sh`
-- Container: `mainlagi-web`
-- Application port: `3000/tcp` inside Docker only; it is not published on the VPS host.
-- Reverse proxy: the existing Traefik service on external Docker network `inmydraft-demos_web`.
-- TLS: handled by the existing Traefik Let's Encrypt resolver.
+The repository currently documents the production application at `https://mainlagi.inmydraft.com` with the server-side deployment root under `/srv/mainlagi`.
 
-The application uses SHA-based local Docker image tags such as `mainlagi:<12-char-git-sha>`. The tag currently selected by Compose is stored as `MAINLAGI_IMAGE_TAG` in `/srv/mainlagi/.env`.
+Do not put production credentials, private keys, secret values, or service-role tokens in this file.
 
-## Deployment flow
+## GitHub workflow paths
 
-Every push to `main` triggers `.github/workflows/deploy-mainlagi.yml`.
+There are two deployment entry points:
 
-The GitHub Actions runner connects to the VPS with a dedicated SSH key. The corresponding public key on the VPS is restricted with an OpenSSH forced command, so that key can execute only `/srv/mainlagi/deploy.sh` rather than an unrestricted shell.
+1. `.github/workflows/ci.yml`
+   - runs quality/security gates for PRs and pushes;
+   - its production deployment job runs only on a push to `main` after prerequisite jobs succeed.
+2. `.github/workflows/deploy-mainlagi.yml`
+   - manual `workflow_dispatch` fallback;
+   - uses the same dedicated SSH credential boundary.
 
-The remote deployment script performs the following sequence:
+The old statement that every `main` push directly runs `deploy-mainlagi.yml` is no longer correct; the automatic path is the deploy job inside `ci.yml`.
 
-1. Acquire an exclusive deployment lock.
-2. Require a clean Git worktree.
-3. Switch to and fast-forward the local `main` branch from GitHub.
-4. Build `mainlagi:<git-sha>` before replacing production.
-5. Start the new image as an isolated candidate container with no network.
-6. Wait for Docker health to pass.
-7. Verify `/api/health` and the required concept asset inside the candidate.
-8. Update `/srv/mainlagi/.env` to the new image tag.
-9. Recreate only the `mainlagi` Compose service with `--no-build`.
-10. Wait for the production container to become healthy.
-11. Verify the public HTTPS health endpoint and smoke-test the production asset.
-12. Automatically restore the previous image tag and container if the production switch or public health check fails.
+## Required Actions secrets
 
-The deployment script does not run Docker prune operations, Compose `down`, Git hard reset, or Git clean.
+Both deployment paths require:
 
-## GitHub Actions secrets
+```text
+MAINLAGI_VPS_HOST
+MAINLAGI_VPS_USER
+MAINLAGI_VPS_KNOWN_HOSTS
+MAINLAGI_VPS_SSH_KEY
+```
 
-The workflow requires these repository Actions secrets:
+The workflows validate that these values are non-empty before configuring SSH.
 
-- `MAINLAGI_VPS_HOST`
-- `MAINLAGI_VPS_USER`
-- `MAINLAGI_VPS_KNOWN_HOSTS`
-- `MAINLAGI_VPS_SSH_KEY`
+As observed on 9 September 2026, recent `main` runs passed the application/security gates but the production job failed at `Validate deployment secrets` before SSH because one or more required values were unavailable to the job. This is a deployment-configuration blocker, not an application build failure.
 
-Do not commit the private key, `.env`, credentials, or secret values to the repository.
+See `ACCOUNT_LEVEL_ACTIONS.md` for the manual repository-settings step.
 
-## Status and health
+## Dedicated SSH / forced-command design
+
+The repository workflow intentionally invokes SSH with a harmless client command (`true`). The documented production design relies on the corresponding public key on the VPS being restricted with an OpenSSH **forced command** so the key can execute only the Mainlagi server-side deployment entry point (documented as `/srv/mainlagi/deploy.sh`) rather than obtaining an unrestricted shell.
+
+With a correctly configured forced command, the server ignores the client-supplied `true` command and runs the restricted deployment command instead.
+
+This boundary must be verified on the VPS. Repository source alone cannot prove that the current `authorized_keys` entry still has the intended forced-command restriction.
+
+## SSH hardening in the workflows
+
+The current workflows:
+
+- use a dedicated temporary key file on the runner;
+- validate that the private key can be parsed;
+- require `StrictHostKeyChecking=yes`;
+- use an explicitly supplied `known_hosts` file;
+- use batch/identity-only SSH behavior;
+- remove the temporary private-key file in an `always()` cleanup step.
+
+Do not replace host-key verification with `StrictHostKeyChecking=no` to work around configuration problems.
+
+## Intended server-side deployment sequence
+
+The documented `/srv/mainlagi/deploy.sh` design is expected to:
+
+1. acquire an exclusive deployment lock;
+2. require a clean server checkout;
+3. fast-forward the server checkout from canonical `main`;
+4. build a SHA-addressed Mainlagi image;
+5. health-check a candidate before switching production;
+6. update only the Mainlagi service/image selection;
+7. verify container and public HTTPS health;
+8. roll back to the previous known-good image if the switch fails.
+
+It should not use broad Docker prune operations or destructive Git reset/clean behavior as part of normal deployment.
+
+Because the server script is outside the public repository execution surface used in this audit, the current VPS implementation must be checked directly before claiming production deployment is fully verified.
+
+## Verification after secrets are restored
+
+A successful deployment validation requires more than a green build:
+
+1. `Production build` succeeds.
+2. `Quality gate (Ubuntu)` succeeds.
+3. `Windows compatibility` succeeds.
+4. `Production dependency audit` succeeds.
+5. `Secret history scan` succeeds.
+6. `Validate deployment secrets` succeeds.
+7. SSH host/key verification succeeds.
+8. the forced server-side deployment command completes successfully.
+9. public health succeeds.
+
+Example public health check:
+
+```bash
+curl -fsS https://mainlagi.inmydraft.com/api/health
+```
+
+## VPS diagnostics
+
+From an authorized VPS shell, use narrow Mainlagi-specific checks rather than broad host cleanup commands:
 
 ```bash
 sudo docker ps --filter "name=mainlagi-web" \
@@ -58,50 +107,11 @@ sudo docker ps --filter "name=mainlagi-web" \
 sudo docker inspect mainlagi-web \
   --format 'Status={{.State.Status}} Health={{.State.Health.Status}} RestartCount={{.RestartCount}}'
 
-curl -fsS https://mainlagi.inmydraft.com/api/health
-```
-
-## Logs
-
-```bash
 sudo docker logs --tail=100 mainlagi-web
-sudo docker logs -f mainlagi-web
 ```
 
-## Manual deployment
-
-The same production path used by GitHub Actions can be invoked manually from an authorized VPS shell:
-
-```bash
-/srv/mainlagi/deploy.sh
-```
-
-Do not edit the repository checkout during deployment. The deploy script intentionally refuses to proceed when the worktree is dirty.
+Do not publish private VPS usernames, IP addresses, SSH keys, `.env` contents, or secret values in issues/PRs/screenshots.
 
 ## Rollback
 
-The deploy script automatically rolls back when the new production container or public health check fails.
-
-For an intentional manual rollback, first list retained Mainlagi images:
-
-```bash
-sudo docker image ls mainlagi
-```
-
-Then select a known-good SHA tag, update `/srv/mainlagi/.env`, validate Compose, recreate only Mainlagi, and verify health:
-
-```bash
-printf 'MAINLAGI_IMAGE_TAG=<known-good-tag>\n' > /srv/mainlagi/.env
-cd /srv/mainlagi
-sudo docker compose config
-sudo docker compose up -d --no-build mainlagi
-sudo docker inspect mainlagi-web \
-  --format 'Status={{.State.Status}} Health={{.State.Health.Status}} RestartCount={{.RestartCount}}'
-curl -fsS https://mainlagi.inmydraft.com/api/health
-```
-
-Do not use `docker system prune` as part of rollback or routine deployment.
-
-## Production Compose architecture
-
-Mainlagi does not publish port `3000` on the host. Traefik reaches it through `inmydraft-demos_web` using Docker labels for `mainlagi.inmydraft.com`. Existing unrelated VPS services and Traefik are not restarted by a Mainlagi deployment.
+Rollback should select a known-good retained Mainlagi image and recreate only the Mainlagi service, followed by container and public health verification. Do not use `docker system prune` as part of rollback or routine deployment.
