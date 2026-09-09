@@ -211,7 +211,15 @@ export function LearningAttemptBridge({ childId }: { childId: string }) {
         outcome: measuredOutcome(activityId, stats)
       });
       statsRef.current.delete(activityId);
-      void syncLearningAttemptCloud(attempt);
+
+      void (async () => {
+        const synced = await syncLearningAttemptCloud(attempt);
+        if (synced) {
+          window.dispatchEvent(new CustomEvent("mainlagi-learning-cloud", {
+            detail: { childId, attemptId: attempt.id }
+          }));
+        }
+      })();
     };
 
     document.addEventListener("click", onClickCapture, true);
