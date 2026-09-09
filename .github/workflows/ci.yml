@@ -106,3 +106,46 @@ jobs:
         run: npm ci --no-audit --no-fund
       - name: Audit production dependencies
         run: npm audit --omit=dev --audit-level=high
+
+  production-smoke:
+    name: Production smoke (Cloudflare)
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs:
+      - secret-history-scan
+      - quality
+      - build
+      - windows-quality
+      - dependency-audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Wait for exact Cloudflare release and smoke public endpoints
+        shell: bash
+        env:
+          EXPECTED_SHA: ${{ github.sha }}
+          BASE_URL: https://mainlagihub.my.id
+        run: |
+          set -Eeuo pipefail
+
+          for attempt in $(seq 1 30); do
+            home_code="$(curl -sS -L -o /tmp/mainlagi-home.html -w '%{http_code}' \
+              --connect-timeout 10 --max-time 20 "$BASE_URL/" || true)"
+            health_body="$(curl -sS --connect-timeout 10 --max-time 20 \
+              "$BASE_URL/api/health" || true)"
+
+            if [[ "$home_code" == "200" ]] \
+              && grep -Fq '"ok":true' <<<"$health_body" \
+              && grep -Fq "\"sha\":\"$EXPECTED_SHA\"" <<<"$health_body" \
+              && grep -Fq '"branch":"main"' <<<"$health_body"; then
+              echo "Production is serving expected commit $EXPECTED_SHA"
+              echo "$health_body"
+              exit 0
+            fi
+
+            echo "Attempt $attempt/30: homepage=$home_code; waiting for Cloudflare to serve $EXPECTED_SHA"
+            sleep 10
+          done
+
+          echo "Production did not serve expected commit within the smoke-test window."
+          echo "Last health response: $health_body"
+          exit 1

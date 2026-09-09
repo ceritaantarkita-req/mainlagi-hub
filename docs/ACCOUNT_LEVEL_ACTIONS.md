@@ -46,7 +46,7 @@ Current mitigation confirmed in the dashboard:
 
 This warning is **not a production blocker** on the current plan. Revisit it if the project upgrades to Pro or above.
 
-## 3. Verify Cloudflare Git integration
+## 3. Resolved: Cloudflare Git integration
 
 Canonical production path:
 
@@ -58,43 +58,51 @@ GitHub `ceritaantarkita-req/mainlagi-hub`
   -> https://mainlagihub.my.id/
 ```
 
-In the Cloudflare dashboard, verify:
+Verified on 9 September 2026:
 
 - repository connection targets `ceritaantarkita-req/mainlagi-hub`;
 - production branch is `main`;
-- the build uses the repository's OpenNext/Cloudflare configuration;
-- the deployed Worker/project is `mainlagi-hub`;
-- the custom domain is `mainlagihub.my.id`;
-- the latest successful deployment corresponds to the expected `main` commit.
+- build command is `npm run build:cloudflare`;
+- deploy command is `npx wrangler deploy`;
+- deployed Worker/project is `mainlagi-hub`;
+- custom domain is `mainlagihub.my.id`;
+- PR #14 produced fresh `main` commit `90096246de3ae9b051af03e16a59dbd3bab0368a`;
+- Cloudflare created the `Workers Builds: mainlagi-hub` check for that exact commit;
+- Cloudflare Build ID `29bdf24f-58da-4a94-9011-e7321934dd3c` completed successfully;
+- Cloudflare Version ID `4cbcd05f-a821-4891-a41e-4706ad14f2e3` was produced.
 
 No `MAINLAGI_VPS_*` GitHub Actions secrets are required. Do not create them.
 
 ## 4. Verify Cloudflare production environment target
 
-Cloudflare runtime variables must point to canonical Supabase `mainlagi-hub`, project ref:
+This remains an account-level verification step.
+
+Cloudflare runtime/build variables must point to canonical Supabase `mainlagi-hub`, project ref:
 
 ```text
 estvtgflwkebomsqlolv
 ```
 
-Verify the configured Supabase URL and client-safe publishable/anon key source without exposing secret values. Any service-role/secret credentials must remain server-only.
+Expected client-safe build/runtime configuration includes the canonical site URL, Supabase backend selection, canonical Supabase project URL, and client-safe publishable/anon key. Any service-role/secret credential must remain server-only.
+
+Verify configured values from the Cloudflare dashboard without exposing secret values.
 
 Do not paste Cloudflare API tokens, Supabase service-role values, or other secret values into issues, PRs, Actions logs, screenshots, or repository files.
 
 ## 5. Production smoke verification
 
-After Cloudflare deploys the corrected `main` commit:
+Deployment transport is now validated. Remaining application smoke checks:
 
-- verify `https://mainlagihub.my.id/` over HTTPS;
-- verify `https://mainlagihub.my.id/api/health`;
-- authenticate with a controlled test account;
-- complete one measurable assessed learning activity;
-- confirm exactly one cloud attempt is stored;
-- confirm server-canonical subject/stage/runtime values;
-- confirm evidence/mastery materializes only when measurable score/accuracy exists;
-- confirm replay/idempotency behavior;
-- confirm parent report reads the derived state;
-- confirm guest/local mode still works without cloud persistence.
+- [x] verify `https://mainlagihub.my.id/` loads over HTTPS;
+- [ ] verify `https://mainlagihub.my.id/api/health` after the Git-sourced deployment;
+- [ ] authenticate with a controlled test account;
+- [ ] complete one measurable assessed learning activity;
+- [ ] confirm exactly one cloud attempt is stored;
+- [ ] confirm server-canonical subject/stage/runtime values;
+- [ ] confirm evidence/mastery materializes only when measurable score/accuracy exists;
+- [ ] confirm replay/idempotency behavior;
+- [ ] confirm parent report reads the derived state;
+- [ ] confirm guest/local mode still works without cloud persistence.
 
 Do not use a child's real production learning history as disposable QA data when a controlled test profile can be used.
 

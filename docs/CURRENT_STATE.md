@@ -9,7 +9,8 @@ This file is the canonical human/AI handoff for the current repository state. `m
 - Repository: `ceritaantarkita-req/mainlagi-hub`
 - Visibility: Public
 - Default/canonical branch: `main`
-- Current learning/mastery baseline before deployment-architecture correction: `16f20b22f4a0e99419221f9f2a88b38564bb193d`
+- Learning/mastery + database-hardening baseline: `16f20b22f4a0e99419221f9f2a88b38564bb193d`
+- Cloudflare Git auto-deploy validation baseline: `90096246de3ae9b051af03e16a59dbd3bab0368a`
 - Source license: `AGPL-3.0-only`
 - Commercial/open-core policy: see `OPEN_CORE.md`, `COMMERCIAL_LICENSE.md`, and `docs/PRODUCT_TIERS_AND_CODE_BOUNDARY.md`.
 
@@ -28,11 +29,48 @@ GitHub (`ceritaantarkita-req/mainlagi-hub`)
   -> https://mainlagihub.my.id/
 ```
 
-Repository support for this path already exists through `@opennextjs/cloudflare`, `open-next.config.ts`, `wrangler.jsonc`, and the Cloudflare build/deploy scripts in `package.json`.
+Repository support for this path exists through `@opennextjs/cloudflare`, `open-next.config.ts`, `wrangler.jsonc`, and the Cloudflare build/deploy scripts in `package.json`.
 
 All earlier references to `mainlagi.inmydraft.com`, a Mainlagi VPS deployment, `/srv/mainlagi`, forced-command SSH, or `MAINLAGI_VPS_*` deployment secrets are superseded.
 
-GitHub Actions now acts as the quality/security gate. The production build gate validates the actual OpenNext/Cloudflare artifact; Cloudflare handles publication from the Git-connected `main` branch.
+GitHub Actions is the quality/security gate. The production build gate validates the actual OpenNext/Cloudflare artifact; Cloudflare handles publication from the Git-connected `main` branch.
+
+### Auto-deploy validation
+
+Cloudflare Git integration is empirically validated, not just documented:
+
+- repo: `ceritaantarkita-req/mainlagi-hub`;
+- production branch: `main`;
+- test merge: PR #14;
+- resulting `main` commit: `90096246de3ae9b051af03e16a59dbd3bab0368a`;
+- Cloudflare GitHub check: `Workers Builds: mainlagi-hub`;
+- Cloudflare Build ID: `29bdf24f-58da-4a94-9011-e7321934dd3c`;
+- Cloudflare Version ID: `4cbcd05f-a821-4891-a41e-4706ad14f2e3`;
+- result: success.
+
+The public homepage at `https://mainlagihub.my.id/` was observed loading over HTTPS in the browser after the integration was connected.
+
+### Commit-aware production smoke gate
+
+The health endpoint is being hardened so production can prove **which Git commit is actually live**, not merely that an older deployment still responds.
+
+Cloudflare Workers Builds injects `WORKERS_CI_COMMIT_SHA` and `WORKERS_CI_BRANCH` at build time. Mainlagi bakes those public/non-secret values into the server artifact and returns them from `/api/health`.
+
+GitHub CI adds a push-to-`main` job:
+
+```text
+Production smoke (Cloudflare)
+```
+
+After the five existing quality/security jobs succeed, this smoke job waits for the public homepage and `/api/health` and succeeds only when production reports the exact `github.sha` for the current push and branch `main`.
+
+This preserves ownership boundaries:
+
+- GitHub CI validates quality and verifies production after deployment;
+- Cloudflare Git integration remains the production deployer;
+- no GitHub VPS/SSH deployment path is reintroduced.
+
+The first successful canonical-main run of this new smoke gate is still required before marking the health/deployment verification sub-step closed.
 
 See `docs/DEPLOYMENT.md`.
 
@@ -94,11 +132,12 @@ Primary CI provides:
 - `Quality gate (Ubuntu)`;
 - `Windows compatibility`;
 - `Production dependency audit`;
-- `Secret history scan`.
+- `Secret history scan`;
+- `Production smoke (Cloudflare)` — push-to-main only, commit-aware production verification.
 
-The learning/mastery implementation and database-hardening PRs passed these code/security gates before merge.
+The learning/mastery implementation, database hardening, deployment-architecture correction, and Cloudflare trigger-validation PRs passed the applicable code/security gates before merge.
 
-The stale GitHub Actions VPS deployment job and manual SSH fallback workflow are being removed because deployment belongs to Cloudflare Git integration, not GitHub Actions SSH.
+The stale GitHub Actions VPS deployment job and manual SSH deployment assumptions have been removed from the canonical path.
 
 The `Protect main` repository ruleset is Active, requires PRs, squash-only merging, conversation resolution, strict/up-to-date status checks, linear history, and blocks deletion/non-fast-forward updates.
 
@@ -155,16 +194,22 @@ The leaked-password advisor warning is an accepted plan limitation, not a produc
 
 ## Production closure state
 
-Database closure is complete. Remaining closure is Cloudflare production verification:
+Database closure is complete. Deployment transport closure is also complete: GitHub `main` successfully triggered a Cloudflare production build/deploy on 9 September 2026.
 
-1. merge the deployment-architecture correction so `main` no longer carries stale VPS workflows/docs;
-2. verify Cloudflare Git integration is connected to this repository and production branch `main`;
-3. verify Cloudflare runtime environment points to canonical Supabase project `estvtgflwkebomsqlolv` without exposing secrets;
-4. verify Cloudflare build/deployment succeeds for the merged commit;
-5. verify `https://mainlagihub.my.id/` and `/api/health`;
-6. run authenticated learning-attempt/mastery write-path smoke test;
-7. verify parent-derived state;
-8. verify guest/local fallback still works.
+Completed:
+
+1. [x] remove stale VPS deployment workflows/docs from the canonical architecture;
+2. [x] verify Cloudflare Git integration is connected to this repository and production branch `main`;
+3. [x] verify a fresh merged `main` commit is observed and successfully deployed by Cloudflare;
+4. [x] verify the public homepage loads over HTTPS at `https://mainlagihub.my.id/`.
+
+Remaining application-level closure:
+
+1. [ ] merge and observe the first successful commit-aware `Production smoke (Cloudflare)` run on canonical `main`;
+2. [ ] verify Cloudflare production environment points to canonical Supabase project `estvtgflwkebomsqlolv` without exposing secrets;
+3. [ ] run authenticated learning-attempt/mastery write-path smoke test;
+4. [ ] verify parent-derived state;
+5. [ ] verify guest/local fallback still works.
 
 No `MAINLAGI_VPS_*` GitHub Actions secrets are required.
 
@@ -179,6 +224,8 @@ short-lived branch
   -> PR
   -> CI / visual QA when applicable
   -> squash merge
+  -> Cloudflare deploy from main
+  -> commit-aware production smoke verification
   -> delete branch
   -> main is canonical again
 ```
@@ -187,7 +234,7 @@ See `docs/BRANCH_LIFECYCLE.md`.
 
 ## Current engineering priority
 
-Finish Cloudflare production closure for the learning-attempt/mastery foundation. After that, focus on explicit measurable activity-result integration, wider adaptive next-best UI integration, and curriculum/content expansion rather than weakening evidence integrity.
+Finish the remaining application-level production smoke checks for the learning-attempt/mastery foundation. After that, focus on explicit measurable activity-result integration, wider adaptive next-best UI integration, and curriculum/content expansion rather than weakening evidence integrity.
 
 ## Manual/account-level actions
 

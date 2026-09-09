@@ -7,9 +7,12 @@ Public visibility exposes source and published Git history to the internet. Anyt
 ## Current manual/account-level blockers
 
 - [ ] Add `Secret history scan` as the fifth required status check in `Protect main` if it is not already required.
-- [ ] Verify Cloudflare Git integration points to `ceritaantarkita-req/mainlagi-hub` and production branch `main`.
-- [ ] Verify Cloudflare production runtime variables point to canonical Supabase `mainlagi-hub` (`estvtgflwkebomsqlolv`).
-- [ ] Verify successful Cloudflare deployment and public smoke tests at `https://mainlagihub.my.id/`.
+- [x] Verify Cloudflare Git integration points to `ceritaantarkita-req/mainlagi-hub` and production branch `main`.
+- [ ] Verify Cloudflare production runtime variables point to canonical Supabase `mainlagi-hub` (`estvtgflwkebomsqlolv`) without exposing values.
+- [x] Verify a fresh `main` commit is automatically built/deployed by Cloudflare.
+- [x] Verify the custom domain `https://mainlagihub.my.id/` loads over HTTPS.
+- [ ] Explicitly verify `https://mainlagihub.my.id/api/health` after the Git-sourced deployment.
+- [ ] Complete authenticated learning/mastery and guest/local smoke checks.
 - [ ] Delete merged/superseded remote branches after active closure work is finished.
 
 There is no Mainlagi VPS/SSH deployment blocker and no `MAINLAGI_VPS_*` GitHub Actions secret requirement.
@@ -98,14 +101,26 @@ GitHub `main`
   -> https://mainlagihub.my.id/
 ```
 
+Verified deployment evidence on 9 September 2026:
+
+```text
+Validation PR:      #14
+Main commit:        90096246de3ae9b051af03e16a59dbd3bab0368a
+Cloudflare check:   Workers Builds: mainlagi-hub
+Cloudflare Build:   29bdf24f-58da-4a94-9011-e7321934dd3c
+Cloudflare Version: 4cbcd05f-a821-4891-a41e-4706ad14f2e3
+Result:             success
+```
+
 - [x] Repository contains `@opennextjs/cloudflare`, `open-next.config.ts`, and `wrangler.jsonc`.
 - [x] Worker name in `wrangler.jsonc` is `mainlagi-hub`.
 - [x] GitHub CI validates the OpenNext/Cloudflare production artifact.
 - [x] Obsolete VPS/SSH GitHub deployment workflow is removed from the canonical architecture.
-- [ ] Cloudflare Git integration repository/branch mapping is verified from the Cloudflare dashboard.
-- [ ] Cloudflare runtime variables point to canonical Supabase project.
-- [ ] Custom domain `mainlagihub.my.id` is verified against the intended deployment.
-- [ ] A post-correction production deployment succeeds and public health is verified.
+- [x] Cloudflare Git integration repository/branch mapping is verified.
+- [x] A fresh merged `main` commit automatically triggered a successful Cloudflare build/deploy.
+- [x] Custom domain `mainlagihub.my.id` is verified and loads over HTTPS.
+- [ ] Cloudflare runtime variables are independently verified to point to canonical Supabase project.
+- [ ] `/api/health` is explicitly verified after the Git-sourced deployment.
 - [ ] Authenticated learning/mastery write-path smoke test succeeds.
 - [ ] Guest/local fallback smoke test succeeds.
 
@@ -134,7 +149,7 @@ Before merging any paid-tier feature:
 
 ## Next engineering gate
 
-Finish Cloudflare production closure of the learning-attempt/mastery foundation, then continue explicit measurable activity-result integration, wider adaptive next-best UI integration, and curriculum/content expansion.
+Deployment transport through Cloudflare is validated. Finish the remaining application-level smoke closure, then continue explicit measurable activity-result integration, wider adaptive next-best UI integration, and curriculum/content expansion.
 
 Expected sequence:
 
