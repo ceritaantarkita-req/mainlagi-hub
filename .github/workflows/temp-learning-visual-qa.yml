@@ -1,0 +1,50 @@
+name: TEMP Learning UI Visual QA
+
+on:
+  push:
+    branches:
+      - feature/mobile-learning-ui-system-20260909
+
+permissions:
+  contents: read
+
+jobs:
+  visual-qa:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Build
+        run: npm run build
+      - name: Start app
+        run: |
+          npm start -- -p 3000 > /tmp/mainlagi-learning-ui.log 2>&1 &
+          echo $! > /tmp/mainlagi-learning-ui.pid
+          for i in {1..60}; do
+            if curl --fail --silent http://127.0.0.1:3000/child/select > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/mainlagi-learning-ui.log
+          exit 1
+      - name: Run visual QA
+        run: node scripts/temp-learning-visual-qa.mjs
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: learning-ui-visual-qa
+          path: visual-qa/
+          if-no-files-found: warn
+      - name: Show server log on failure
+        if: failure()
+        run: cat /tmp/mainlagi-learning-ui.log || true
