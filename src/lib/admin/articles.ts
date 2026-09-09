@@ -2,6 +2,7 @@
 
 import { requireOwner } from "@/lib/auth/requireOwner";
 import { getAdminClient } from "@/lib/auth/supabase-server-admin";
+import { sanitizeArticleHtml } from "@/lib/security/sanitizeArticleHtml";
 
 export type ArticleStatus = "draft" | "published";
 
@@ -84,7 +85,7 @@ export async function createArticle(input: ArticleInput): Promise<{ id: string }
       slug: input.slug.trim(),
       title: input.title.trim(),
       excerpt: input.excerpt.trim() || null,
-      content: input.content,
+      content: sanitizeArticleHtml(input.content),
       author: input.author.trim() || null,
       category: input.category.trim() || null,
       tags: input.tags,
@@ -120,7 +121,7 @@ export async function updateArticle(id: string, input: ArticleInput): Promise<vo
       slug: input.slug.trim(),
       title: input.title.trim(),
       excerpt: input.excerpt.trim() || null,
-      content: input.content,
+      content: sanitizeArticleHtml(input.content),
       author: input.author.trim() || null,
       category: input.category.trim() || null,
       tags: input.tags,
