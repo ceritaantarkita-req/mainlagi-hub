@@ -252,9 +252,9 @@ function StageNode({ childId, stageId, index, progress, locked }: { childId: str
 }
 
 export function WorldSubjectScreen({ childId, subjectId }: { childId: string; subjectId: string }) {
-  if (subjectId !== "math") return <LegacySubjectScreen childId={childId} subjectId={subjectId} />;
   const profile = useLearningProfile(childId);
   const progress = useLearningProgress(childId);
+  if (subjectId !== "math") return <LegacySubjectScreen childId={childId} subjectId={subjectId} />;
   if (!profile) return <ChildLoading />;
   const subject = getSubject("math")!;
   const stages = getStagesForSubject("math");
@@ -291,9 +291,9 @@ export function WorldSubjectScreen({ childId, subjectId }: { childId: string; su
 }
 
 export function WorldStageScreen({ childId, stageId }: { childId: string; stageId: string }) {
+  const progress = useLearningProgress(childId);
   const stage = getStage(stageId);
   if (!stage || stage.subjectId !== "math") return <LegacyStageScreen childId={childId} stageId={stageId} />;
-  const progress = useLearningProgress(childId);
   const activities = coreActivities(stage.id);
   const optional = getActivitiesForStage(stage.id).filter((activity) => activity.motionOptional);
 
