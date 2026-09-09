@@ -2,7 +2,10 @@
 
 import Link from "next/link";
 import { useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
+import type { Stroke } from "@/lib/engine/types";
 import { completeActivity, getActivity } from "@/lib/learning/system";
+import { measureLearningDigitTrace } from "@/lib/learning/traceMeasurement";
+import { emitLearningRuntimeMeasurement } from "@/lib/learning/runtimeMeasurement";
 import { playTone, speak, unlockAudio } from "@/lib/audio/feedback";
 import { useLearningProgress } from "../LearningCommon";
 import styles from "./MathTraceWorldActivity.module.css";
@@ -28,6 +31,15 @@ function distance(a: { x: number; y: number }, b: { x: number; y: number }) {
   return Math.hypot(a.x - b.x, a.y - b.y);
 }
 
+function strokePoint(point: { x: number; y: number }, t: number) {
+  return { x: point.x / 100, y: point.y / 100, t };
+}
+
+function makeStrokeId(): string {
+  if (typeof crypto !== "undefined" && "randomUUID" in crypto) return crypto.randomUUID();
+  return `touch-trace-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+}
+
 function MiniPaca({ celebrate = false }: { celebrate?: boolean }) {
   return (
     <div className={`${styles.paca} ${celebrate ? styles.pacaCelebrate : ""}`} role="img" aria-label={celebrate ? "Paca merayakan" : "Paca membantu"}>
@@ -47,6 +59,10 @@ export function MathTraceWorldActivity({ childId }: { childId: string }) {
   const drawingRef = useRef(false);
   const completedRef = useRef(false);
   const checkpointRef = useRef(0);
+  const strokesRef = useRef<Stroke[]>([]);
+  const activeStrokeRef = useRef<Stroke | null>(null);
+  const startedAtRef = useRef<number | null>(null);
+  const retryCountRef = useRef(0);
   const [checkpoint, setCheckpoint] = useState(0);
   const [points, setPoints] = useState<Array<{ x: number; y: number }>>([]);
   const [message, setMessage] = useState("Mulai dari bintang kuning.");
@@ -60,23 +76,60 @@ export function MathTraceWorldActivity({ childId }: { childId: string }) {
     };
   };
 
-  const reset = () => {
+  const clearTrace = () => {
     drawingRef.current = false;
     completedRef.current = false;
     checkpointRef.current = 0;
+    activeStrokeRef.current = null;
+    strokesRef.current = [];
+    startedAtRef.current = null;
     setCheckpoint(0);
     setPoints([]);
     setComplete(false);
-    setMessage("Mulai dari bintang kuning.");
+  };
+
+  const reset = () => {
+    if (strokesRef.current.length || points.length) retryCountRef.current += 1;
+    clearTrace();
+    setMessage("Mulai lagi dari bintang kuning.");
+  };
+
+  const rejectTrace = (reason?: string) => {
+    retryCountRef.current += 1;
+    playTone("wrong");
+    const guidance = reason ?? "Coba ikuti garis lebih dekat dan lebih lengkap.";
+    speak(`${guidance} Coba lagi dari bintang.`, "id-ID", 0.9);
+    clearTrace();
+    setMessage(`${guidance} Coba lagi dari bintang.`);
   };
 
   const finishTrace = () => {
     if (completedRef.current) return;
+    const now = Date.now();
+    if (activeStrokeRef.current) activeStrokeRef.current.endedAt = now;
+    const measurement = measureLearningDigitTrace({
+      digit: 5,
+      strokes: strokesRef.current,
+      retryCount: retryCountRef.current,
+      startedAt: new Date(startedAtRef.current ?? now).toISOString(),
+      completedAt: new Date(now).toISOString()
+    });
+
+    if (!measurement.accepted || !measurement.outcome) {
+      rejectTrace(measurement.result.reason);
+      return;
+    }
+
     completedRef.current = true;
     drawingRef.current = false;
+    emitLearningRuntimeMeasurement({
+      childId,
+      activityId: activity.id,
+      outcome: measurement.outcome
+    });
     completeActivity(childId, activity.id);
     setComplete(true);
-    setMessage("Angka 5 selesai!");
+    setMessage(`Angka 5 selesai · skor lintasan ${measurement.result.score}%`);
     playTone("celebrate");
     speak(alreadyDone ? "Bagus! Kamu masih ingat cara menulis angka lima." : "Hebat! Kamu berhasil menelusuri angka lima.", "id-ID", 0.9);
     if (typeof navigator !== "undefined" && "vibrate" in navigator) navigator.vibrate([25, 35, 70]);
@@ -103,6 +156,18 @@ export function MathTraceWorldActivity({ childId }: { childId: string }) {
       setMessage(currentCheckpoint === 0 ? "Mulai dari bintang kuning dulu ya." : "Lanjut dari titik bercahaya ya.");
       return;
     }
+
+    const now = Date.now();
+    if (startedAtRef.current === null) startedAtRef.current = now;
+    const stroke: Stroke = {
+      id: makeStrokeId(),
+      points: [strokePoint(point, now)],
+      startedAt: now,
+      endedAt: now
+    };
+    strokesRef.current.push(stroke);
+    activeStrokeRef.current = stroke;
+
     event.currentTarget.setPointerCapture(event.pointerId);
     drawingRef.current = true;
     if (currentCheckpoint === 0) setPoints([point]);
@@ -113,6 +178,16 @@ export function MathTraceWorldActivity({ childId }: { childId: string }) {
   const move = (event: ReactPointerEvent<SVGSVGElement>) => {
     if (!drawingRef.current || complete) return;
     const point = pointFromEvent(event);
+    const now = Date.now();
+    const active = activeStrokeRef.current;
+    if (active) {
+      const last = active.points[active.points.length - 1];
+      const normalized = strokePoint(point, now);
+      if (!last || Math.hypot(last.x - normalized.x, last.y - normalized.y) >= 0.008) {
+        active.points.push(normalized);
+        active.endedAt = now;
+      }
+    }
     setPoints((current) => {
       const last = current[current.length - 1];
       if (last && distance(last, point) < 1.3) return current;
@@ -123,6 +198,8 @@ export function MathTraceWorldActivity({ childId }: { childId: string }) {
 
   const end = (event: ReactPointerEvent<SVGSVGElement>) => {
     drawingRef.current = false;
+    if (activeStrokeRef.current) activeStrokeRef.current.endedAt = Date.now();
+    activeStrokeRef.current = null;
     if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
     if (!complete && checkpointRef.current > 0) setMessage("Lanjut dari titik bercahaya.");
   };
