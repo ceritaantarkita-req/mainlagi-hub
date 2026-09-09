@@ -10,16 +10,20 @@ function isImmersivePath(pathname: string): boolean {
   return (
     pathname.startsWith("/play/") ||
     pathname.startsWith("/admin/") ||
-    pathname === "/admin"
+    pathname === "/admin" ||
+    pathname.startsWith("/child/") ||
+    pathname === "/child" ||
+    pathname.startsWith("/parent/") ||
+    pathname === "/parent"
   );
 }
 
 /**
- * App shell.
+ * Global app shell.
  *
- * Owns the global navigation surface. On immersive routes (gameplay, admin)
- * the chrome is dropped entirely so the feature owns the viewport. Every other
- * page gets the desktop top navbar and the mobile bottom navbar.
+ * Public/legacy pages keep the existing site navigation. Gameplay, admin,
+ * child learning, and parent surfaces own their viewport and therefore drop
+ * the public navigation entirely.
  */
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();

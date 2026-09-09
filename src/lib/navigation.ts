@@ -6,12 +6,12 @@ export interface NavItem {
   icon: IconName;
 }
 
-/** The five primary destinations. Both navbars derive from this single list. */
+/** Public-site destinations. Child and parent modes use their own dedicated shells. */
 export const PRIMARY_NAV: NavItem[] = [
   { label: "Beranda", href: "/", icon: "home" },
-  { label: "Game", href: "/games", icon: "games" },
+  { label: "Belajar", href: "/child/select", icon: "discover" },
+  { label: "Main Gerak", href: "/games", icon: "games" },
   { label: "Jelajah", href: "/discover", icon: "discover" },
-  { label: "Skor", href: "/leaderboards", icon: "leaderboards" },
   { label: "Akun", href: "/account", icon: "account" }
 ];
 

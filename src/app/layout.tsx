@@ -21,58 +21,50 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#08152c"
+  themeColor: "#1ec9a6"
 };
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Mainlagi Hub — Motion Learning",
-    template: "%s | Mainlagi Hub"
+    default: "Mainlagi — Belajar & Main untuk Anak",
+    template: "%s | Mainlagi"
   },
   description:
-    "10 game interaktif gerakan tangan & tubuh — ajak anak belajar matematika, huruf Hijaiyah, dan aktif bergerak lewat kamera laptop atau HP.",
-  applicationName: "Mainlagi Hub",
+    "Platform belajar anak usia 3–7 tahun yang mobile-first: Bahasa Indonesia, English, Matematika, Iqro, Mewarnai, serta 10 game gerak opsional yang tetap bisa dimainkan.",
+  applicationName: "Mainlagi",
   appleWebApp: {
     capable: true,
-    statusBarStyle: "black-translucent",
-    title: "Mainlagi Hub"
+    statusBarStyle: "default",
+    title: "Mainlagi"
   },
   formatDetection: {
     telephone: false
   },
   openGraph: {
-    title: "Mainlagi Hub — Motion Learning",
-    description: "10 game interaktif gerakan tangan & tubuh — ajak anak belajar matematika, huruf Hijaiyah, dan aktif bergerak lewat kamera laptop atau HP.",
+    title: "Mainlagi — Belajar & Main untuk Anak",
+    description: "Belajar nyaman di HP lewat sentuh, audio, trace, warna, dan game gerak opsional.",
     url: siteUrl,
-    siteName: "Mainlagi Hub",
-    images: [{ url: "/og/home.png", width: 1200, height: 630, alt: "Mainlagi Hub — Motion Learning" }],
+    siteName: "Mainlagi",
+    images: [{ url: "/og/home.png", width: 1200, height: 630, alt: "Mainlagi — Belajar & Main untuk Anak" }],
     type: "website"
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mainlagi Hub — Motion Learning",
-    description: "10 game interaktif gerakan tangan & tubuh — ajak anak belajar matematika, huruf Hijaiyah, dan aktif bergerak lewat kamera laptop atau HP.",
+    title: "Mainlagi — Belajar & Main untuk Anak",
+    description: "Belajar nyaman di HP lewat sentuh, audio, trace, warna, dan game gerak opsional.",
     images: ["/og/home.png"]
   }
 };
 
-export default function RootLayout({
-  children
-}: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="id" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
-        <Script
-          id="theme-init"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{ __html: themeScript }}
-        />
+        <Script id="theme-init" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body>
-        <ThemeProvider>
-          <AppShell>{children}</AppShell>
-        </ThemeProvider>
+        <ThemeProvider><AppShell>{children}</AppShell></ThemeProvider>
       </body>
     </html>
   );
