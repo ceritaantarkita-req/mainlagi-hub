@@ -28,7 +28,7 @@ This document records what was actually verified after `ceritaantarkita-req/main
 - Public Git commit / Actions metadata contains the contributor email `ceritaantarkita@gmail.com`. This is already public metadata; whether to keep using it is an account/privacy decision. Future commits can use a GitHub `noreply` address if preferred.
 - Affiliate/marketplace product images are stored in `public/affiliate/` and referenced by the public catalog, but the repository does not record per-file distribution rights/provenance. The generic third-party notice does not establish permission to redistribute each image.
 - `public/artwork/` and other creative assets need a per-file provenance/ownership record before their licensing status can be considered fully verified.
-- A stale draft PR (#5 at the time of this audit) remains public and should be reviewed/closed or superseded deliberately rather than left indefinitely as an ambiguous alternate product branch.
+- Draft PR #5 is a stacked product/UI PR whose base is `feature/mobile-learning-ui-system-20260909`, not `main`. It should be treated as intentional stacked development until the product branch strategy decides otherwise; this audit does not close or supersede it automatically.
 - A formal CLA/contributor-rights process is still required before accepting substantial outside code if Mainlagi intends to preserve an alternative commercial licensing path.
 
 ## 1. Full Git-history secret scan
@@ -62,7 +62,9 @@ The successful full-history scanner result means the scanner did not detect a se
 
 ## 2. Public PR / issue exposure review
 
-The public pull-request set was reviewed at a metadata level. Current/known items at the time of audit included merged licensing/security work, closed older PRs, this audit PR, and a large stale draft PR #5.
+The public pull-request set was reviewed at a metadata level. Current/known items at the time of audit included merged licensing/security work, closed older PRs, this audit PR, and stacked draft PR #5.
+
+PR #5 was verified to target `feature/mobile-learning-ui-system-20260909` rather than `main`, so it is part of a stacked feature-branch workflow rather than an ordinary stale PR against the protected default branch.
 
 For PR #5, the fetched patch was searched for high-risk credential indicators including:
 
@@ -81,7 +83,7 @@ The public issue set contained one observed planning issue for OCR/OpenRouter. I
 
 ### Follow-up
 
-- Close or deliberately supersede stale draft PR #5 when its design is no longer intended to merge.
+- Keep stacked PR #5 only while its feature-chain/base-branch strategy remains intentional; close or rebase it later only as part of the product-development decision, not as an exposure-audit side effect.
 - Continue treating screenshots/attachments as a separate privacy surface: attachments are not covered by Git-content secret scanning.
 
 ## 3. Historical GitHub Actions review
@@ -226,6 +228,7 @@ The separate manual deployment workflow remains an operational fallback. Reposit
 | Main protection ruleset | Verified | Maintain strict PR/check policy |
 | Historical write workflows | Reviewed structurally | Raw archived logs still need optional UI spot-check |
 | PR/issue credential indicators | No value identified in reviewed material | Continue attachment hygiene |
+| Stacked draft PR #5 | Intentional branch-stack candidate | Product workflow decides its lifecycle; exposure audit does not close it |
 | Commit author email | Public/known | Decide whether future commits use noreply |
 | Affiliate image provenance | **Unresolved** | Dedicated remediation PR required |
 | Mainlagi binary artwork provenance | **Unresolved** | Build provenance inventory |
