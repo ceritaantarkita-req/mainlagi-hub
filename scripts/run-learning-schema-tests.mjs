@@ -9,6 +9,7 @@ const hardening = readFileSync(path.join(root, "supabase/migrations/0004_learnin
 const advisorHardening = readFileSync(path.join(root, "supabase/migrations/0005_database_advisor_hardening.sql"), "utf8");
 const privateAdmin = readFileSync(path.join(root, "supabase/migrations/0006_private_admin_helper.sql"), "utf8");
 const childOwnership = readFileSync(path.join(root, "supabase/migrations/0007_learning_child_ownership.sql"), "utf8");
+const contentExpansion = readFileSync(path.join(root, "supabase/migrations/0008_curriculum_content_expansion.sql"), "utf8");
 
 const requiredTables = [
   "learning_skills",
@@ -81,13 +82,36 @@ assert.match(childOwnership, /before insert or update of account_id, child_key o
 assert.match(childOwnership, /raise exception[\s\S]*errcode = '42501'/i, "unowned learning child writes must fail closed");
 assert.match(childOwnership, /revoke all on function private\.enforce_learning_attempt_child_ownership\(\) from public, anon, authenticated, service_role/i, "ownership trigger helper must not be exposed as an API RPC");
 
+const expandedActivities = [
+  "bahasa-cari-a-lagi",
+  "bahasa-pasang-awal-lagi",
+  "english-find-blue-audio",
+  "english-listen-cat-2",
+  "english-match-words-2",
+  "math-count-2",
+  "math-pattern-touch-2",
+  "iqro-pasang-alif"
+];
+for (const activityId of expandedActivities) {
+  assert.match(contentExpansion, new RegExp(`\\('${activityId.replace(/[.*+?^${}()|[\\]\\]/g, "\\$&")}'`), `content migration must seed ${activityId}`);
+}
+assert.match(contentExpansion, /'assessed',false,false/i, "evidence variants must stay non-required and non-motion");
+assert.match(contentExpansion, /on conflict \(activity_id\) do update/i, "content activity migration must be idempotent");
+assert.match(contentExpansion, /on conflict \(activity_id, skill_key\) do update/i, "content skill links must be idempotent");
+assert.doesNotMatch(contentExpansion, /insert into public\.learning_skills/i, "this wave must reuse existing validated skills rather than inflate the skill taxonomy");
+
 for (const legacy of ["game_sessions", "game_scores", "progress"]) {
-  assert.doesNotMatch(schema, new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`, "i"), `legacy table ${legacy} must not be dropped`);
-  assert.doesNotMatch(functions, new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`, "i"), `legacy table ${legacy} must not be dropped`);
-  assert.doesNotMatch(hardening, new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`, "i"), `hardening must not drop legacy table ${legacy}`);
-  assert.doesNotMatch(advisorHardening, new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`, "i"), `advisor hardening must not drop legacy table ${legacy}`);
-  assert.doesNotMatch(privateAdmin, new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`, "i"), `private-admin migration must not drop legacy table ${legacy}`);
-  assert.doesNotMatch(childOwnership, new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`, "i"), `child-ownership migration must not drop legacy table ${legacy}`);
+  for (const [name, migration] of [
+    ["schema", schema],
+    ["functions", functions],
+    ["hardening", hardening],
+    ["advisor hardening", advisorHardening],
+    ["private-admin migration", privateAdmin],
+    ["child-ownership migration", childOwnership],
+    ["content-expansion migration", contentExpansion]
+  ]) {
+    assert.doesNotMatch(migration, new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`, "i"), `${name} must not drop legacy table ${legacy}`);
+  }
 }
 
-console.log("Learning migration, anti-farming, and child-ownership contract tests passed.");
+console.log("Learning migration, anti-farming, child-ownership, and content-expansion contract tests passed.");
