@@ -26,28 +26,46 @@ export async function requireParentSession(): Promise<ParentSessionGate> {
   }
 }
 
-/**
- * Verifies that a child route belongs to the authenticated account. The demo
- * child is an explicit sandbox sentinel; its learning rows are still scoped by
- * account_id in RLS. All real child profiles must exist, be undeleted, and be
- * owned by the current account.
- */
-export async function parentCanAccessChild(childId: string): Promise<boolean> {
-  const gate = await requireParentSession();
-  if (gate.mode === "unconfigured") return true;
-  if (gate.mode !== "authenticated") return false;
+async function accountOwnsChild(
+  supabase: SupabaseClient,
+  userId: string,
+  childId: string
+): Promise<boolean> {
   if (childId === "demo-gian") return true;
-
   try {
-    const { data, error } = await gate.supabase
+    const { data, error } = await supabase
       .from("player_profiles")
       .select("id")
       .eq("id", childId)
-      .eq("account_id", gate.userId)
+      .eq("account_id", userId)
       .is("deleted_at", null)
       .maybeSingle();
     return !error && Boolean(data?.id);
   } catch {
     return false;
   }
+}
+
+/**
+ * Parent child routes always require an authenticated account in configured
+ * production and then enforce child ownership. The demo child is an explicit
+ * account-scoped sandbox sentinel.
+ */
+export async function parentCanAccessChild(childId: string): Promise<boolean> {
+  const gate = await requireParentSession();
+  if (gate.mode === "unconfigured") return true;
+  if (gate.mode !== "authenticated") return false;
+  return accountOwnsChild(gate.supabase, gate.userId, childId);
+}
+
+/**
+ * Child mode preserves unauthenticated local/guest play. If an authenticated
+ * account is present, however, a real cloud child URL must belong to that
+ * account. This prevents direct URL manipulation from exposing another
+ * account's child shell while keeping the intentional guest fallback intact.
+ */
+export async function learningChildCanAccess(childId: string): Promise<boolean> {
+  const gate = await requireParentSession();
+  if (gate.mode === "unconfigured" || gate.mode === "denied") return true;
+  return accountOwnsChild(gate.supabase, gate.userId, childId);
 }
