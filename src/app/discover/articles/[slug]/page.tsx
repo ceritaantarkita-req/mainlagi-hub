@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getData } from "@/lib/data";
+import {
+  sanitizeArticleHtml,
+  serializeJsonLd
+} from "@/lib/security/sanitizeArticleHtml";
 
 export const dynamic = "force-dynamic";
 
@@ -39,12 +43,14 @@ export default async function ArticlePage({
     dateModified: article.updatedAt,
     mainEntityOfPage: article.canonicalUrl ?? undefined
   };
+  const safeContent = sanitizeArticleHtml(article.content);
+  const safeJsonLd = serializeJsonLd(jsonLd);
 
   return (
     <div className="fun-home">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd }}
       />
       <article className="page-shell article-detail">
         <Link className="leaderboard__back" href="/discover/articles">
@@ -58,7 +64,7 @@ export default async function ArticlePage({
             Diperbarui {article.updatedAt.slice(0, 10)}
           </small>
         </header>
-        <div className="article-detail__body" dangerouslySetInnerHTML={{ __html: article.content }} />
+        <div className="article-detail__body" dangerouslySetInnerHTML={{ __html: safeContent }} />
         <footer className="article-detail__footer">
           <Link className="button button--secondary" href="/games">
             Lihat semua game
