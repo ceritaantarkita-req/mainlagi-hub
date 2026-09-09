@@ -11,6 +11,7 @@ export {
   StageScreen,
   SubjectScreen
 } from "./ChildLearningPlatform";
+export { ParentCoreProgressScreen as ParentProgressScreen } from "./ParentCoreProgress";
 export {
   ParentCertificatesScreen,
   ParentChildScreen,
@@ -18,7 +19,6 @@ export {
   ParentOverviewScreen,
   ParentPlanScreen,
   ParentPrivacyScreen,
-  ParentProgressScreen,
   ParentReportsScreen,
   ParentSettingsScreen,
   ParentShell
