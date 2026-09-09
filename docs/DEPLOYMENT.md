@@ -17,6 +17,12 @@ GitHub (`ceritaantarkita-req/mainlagi-hub`)
 
 There is **no VPS/SSH production deployment path** for Mainlagi. Previous documentation and GitHub Actions jobs that referred to a VPS, `/srv/mainlagi`, SSH deploy keys, or `mainlagi.inmydraft.com` were stale and are superseded by this document.
 
+## Current Cloudflare integration validation
+
+As of 9 September 2026, the Cloudflare Worker `mainlagi-hub` is connected to GitHub repository `ceritaantarkita-req/mainlagi-hub` with production branch `main`.
+
+This documentation update intentionally serves as a harmless post-connection trigger to verify that a new push to `main` is observed and built/deployed by Cloudflare Git integration. Production closure must not be declared until a Git-sourced Cloudflare build/deployment is visible and the public smoke checks pass.
+
 ## Repository deployment configuration
 
 Cloudflare production support is already represented in the repository:
@@ -64,10 +70,11 @@ The following settings live in Cloudflare and are intentionally not committed as
 
 1. Git repository connection points to `ceritaantarkita-req/mainlagi-hub`.
 2. Production branch points to `main`.
-3. Build/deploy configuration uses the repository OpenNext/Cloudflare setup.
-4. The deployed Worker/project is `mainlagi-hub`.
-5. Custom domain routes production traffic to `https://mainlagihub.my.id/`.
-6. Runtime environment variables/secrets needed by Mainlagi are configured in Cloudflare, not committed to Git.
+3. Build command uses `npm run build:cloudflare`.
+4. Deploy command uses `npx wrangler deploy`.
+5. The deployed Worker/project is `mainlagi-hub`.
+6. Custom domain routes production traffic to `https://mainlagihub.my.id/`.
+7. Runtime environment variables/secrets needed by Mainlagi are configured in Cloudflare, not committed to Git.
 
 Exact Cloudflare account settings must be verified from the Cloudflare dashboard before calling production deployment fully closed.
 
