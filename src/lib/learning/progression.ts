@@ -10,6 +10,7 @@ export interface ProgressionActivityDescriptor {
   motionOptional: boolean;
   skillIds: string[];
   assessed: boolean;
+  difficulty?: 1 | 2 | 3;
 }
 
 export interface ProgressionStageDescriptor {
@@ -28,6 +29,20 @@ export interface StageLearningState {
   evidenceReadiness: number;
   completed: boolean;
   readyToAdvance: boolean;
+}
+
+export type RecommendationReason =
+  | "finish_core"
+  | "first_evidence"
+  | "strengthen_skill"
+  | "new_activity"
+  | "practice";
+
+export interface RankedActivityRecommendation {
+  id: string;
+  score: number;
+  reason: RecommendationReason;
+  targetSkillId: string | null;
 }
 
 export function calculateStageLearningState(args: {
@@ -87,7 +102,28 @@ export function isStageUnlocked(args: {
   }).readyToAdvance;
 }
 
-export function rankNextActivities(args: {
+function preferredDifficulty(age: number): 1 | 2 | 3 {
+  if (age <= 4) return 1;
+  if (age <= 6) return 2;
+  return 3;
+}
+
+function weakestSnapshot(
+  activity: ProgressionActivityDescriptor,
+  masteryBySkill: Record<string, SkillMasterySnapshot>
+): SkillMasterySnapshot | null {
+  const snapshots = activity.skillIds
+    .map((skillId) => masteryBySkill[skillId])
+    .filter((item): item is SkillMasterySnapshot => Boolean(item));
+  if (!snapshots.length) return null;
+  return [...snapshots].sort((a, b) => {
+    if (a.qualifyingEvidenceCount !== b.qualifyingEvidenceCount) return a.qualifyingEvidenceCount - b.qualifyingEvidenceCount;
+    if (a.score !== b.score) return a.score - b.score;
+    return a.confidence - b.confidence;
+  })[0];
+}
+
+export function rankActivityRecommendations(args: {
   age: number;
   activities: ProgressionActivityDescriptor[];
   stages: ProgressionStageDescriptor[];
@@ -95,8 +131,10 @@ export function rankNextActivities(args: {
   masteryBySkill: Record<string, SkillMasterySnapshot>;
   lastActivityId?: string | null;
   allowMotion?: boolean;
-}): string[] {
+}): RankedActivityRecommendation[] {
   const completedSet = new Set(args.completedActivityIds);
+  const preferred = preferredDifficulty(args.age);
+
   const scored = args.activities
     .filter((activity) => args.age >= activity.ageMin && args.age <= activity.ageMax)
     .filter((activity) => args.allowMotion || !activity.motionOptional)
@@ -107,21 +145,65 @@ export function rankNextActivities(args: {
       completedActivityIds: args.completedActivityIds,
       masteryBySkill: args.masteryBySkill
     }))
-    .map((activity, index) => {
-      const snapshots = activity.skillIds
-        .map((skillId) => args.masteryBySkill[skillId])
-        .filter((item): item is SkillMasterySnapshot => Boolean(item));
-      const masteryScore = snapshots.length
-        ? snapshots.reduce((sum, item) => sum + item.score, 0) / snapshots.length
-        : 0;
+    .map((activity, index): RankedActivityRecommendation => {
+      const weak = weakestSnapshot(activity, args.masteryBySkill);
+      const completed = completedSet.has(activity.id);
+      const difficulty = activity.difficulty ?? 1;
       let score = 0;
-      if (!completedSet.has(activity.id)) score += 60;
-      if (activity.assessed) score += (1 - masteryScore) * 35;
-      else if (!completedSet.has(activity.id)) score += 10;
-      if (activity.id === args.lastActivityId) score -= 25;
-      if (activity.motionOptional) score -= 10;
+
+      // Core completion is the strongest product-level priority, but mastery
+      // evidence still controls later stage readiness.
+      if (activity.requiredForStage && !completed) score += 70;
+      else if (!completed) score += 48;
+
+      let reason: RecommendationReason = completed ? "practice" : "new_activity";
+      if (activity.assessed) {
+        if (!weak || weak.qualifyingEvidenceCount === 0) {
+          score += 32;
+          reason = "first_evidence";
+        } else if (weak.level !== "mastered") {
+          score += (1 - weak.score) * 30;
+          score += (1 - weak.confidence) * 12;
+          reason = "strengthen_skill";
+        } else {
+          score -= 18;
+        }
+      } else if (!completed) {
+        score += 8;
+      }
+
+      if (activity.requiredForStage && !completed) reason = "finish_core";
+
+      // Keep recommendations developmentally gentle. Difficulty is a soft
+      // signal only; age eligibility remains the hard boundary.
+      score -= Math.abs(difficulty - preferred) * 5;
+
+      // Avoid loops and camera pressure.
+      if (activity.id === args.lastActivityId) score -= 35;
+      if (activity.motionOptional) score -= 12;
+
+      // Stable deterministic tie-breaker.
       score -= index * 0.001;
-      return { id: activity.id, score };
+
+      return {
+        id: activity.id,
+        score,
+        reason,
+        targetSkillId: weak?.skillId ?? activity.skillIds[0] ?? null
+      };
     });
-  return scored.sort((a, b) => b.score - a.score).map((item) => item.id);
+
+  return scored.sort((a, b) => b.score - a.score);
+}
+
+export function rankNextActivities(args: {
+  age: number;
+  activities: ProgressionActivityDescriptor[];
+  stages: ProgressionStageDescriptor[];
+  completedActivityIds: string[];
+  masteryBySkill: Record<string, SkillMasterySnapshot>;
+  lastActivityId?: string | null;
+  allowMotion?: boolean;
+}): string[] {
+  return rankActivityRecommendations(args).map((item) => item.id);
 }
