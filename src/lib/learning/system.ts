@@ -176,6 +176,24 @@ export const ACTIVITIES: LearningActivity[] = [
     correctChoice: "A"
   },
   {
+    id: "bahasa-cari-a-lagi",
+    subjectId: "bahasa",
+    stageId: "bahasa-huruf",
+    title: "Temukan A lagi",
+    description: "Latihan variasi untuk mengenali huruf A tanpa mengulang pilihan yang sama.",
+    emoji: "🔎",
+    runtime: "tap_choice",
+    ageMin: 3,
+    ageMax: 7,
+    preferredMobile: "touch",
+    inputModes: ["touch"],
+    motionOptional: false,
+    stars: 2,
+    prompt: "Di mana huruf A?",
+    choices: ["R", "A", "N"],
+    correctChoice: "A"
+  },
+  {
     id: "bahasa-pasang-awal",
     subjectId: "bahasa",
     stageId: "bahasa-huruf",
@@ -195,6 +213,28 @@ export const ACTIVITIES: LearningActivity[] = [
       { label: "Ayam", pair: "a" },
       { label: "B", pair: "b" },
       { label: "Bola", pair: "b" }
+    ]
+  },
+  {
+    id: "bahasa-pasang-awal-lagi",
+    subjectId: "bahasa",
+    stageId: "bahasa-huruf",
+    title: "Pasangan huruf baru",
+    description: "Latih huruf awal memakai pasangan kata yang berbeda.",
+    emoji: "🧠",
+    runtime: "matching",
+    ageMin: 4,
+    ageMax: 7,
+    preferredMobile: "touch",
+    inputModes: ["touch"],
+    motionOptional: false,
+    stars: 3,
+    prompt: "Pasangkan huruf dengan kata awalnya",
+    matchItems: [
+      { label: "M", pair: "m" },
+      { label: "Mata", pair: "m" },
+      { label: "S", pair: "s" },
+      { label: "Sapi", pair: "s" }
     ]
   },
   {
@@ -236,6 +276,24 @@ export const ACTIVITIES: LearningActivity[] = [
     correctChoice: "BLUE"
   },
   {
+    id: "english-find-blue-audio",
+    subjectId: "english",
+    stageId: "english-first-words",
+    title: "Listen & find blue",
+    description: "Dengarkan kata blue lalu pilih lingkaran warna yang sesuai.",
+    emoji: "🎧",
+    runtime: "listen_and_choose",
+    ageMin: 4,
+    ageMax: 7,
+    preferredMobile: "audio",
+    inputModes: ["audio", "touch"],
+    motionOptional: false,
+    stars: 2,
+    prompt: "Choose blue",
+    choices: ["🔴", "🔵", "🟡"],
+    correctChoice: "🔵"
+  },
+  {
     id: "english-listen-cat",
     subjectId: "english",
     stageId: "english-first-words",
@@ -251,6 +309,24 @@ export const ACTIVITIES: LearningActivity[] = [
     stars: 2,
     prompt: "Choose the cat",
     choices: ["🐶", "🐱", "🐰"],
+    correctChoice: "🐱"
+  },
+  {
+    id: "english-listen-cat-2",
+    subjectId: "english",
+    stageId: "english-first-words",
+    title: "Listen again: cat",
+    description: "Variasi listening dengan pilihan gambar berbeda.",
+    emoji: "👂",
+    runtime: "listen_and_choose",
+    ageMin: 3,
+    ageMax: 7,
+    preferredMobile: "audio",
+    inputModes: ["audio", "touch"],
+    motionOptional: false,
+    stars: 2,
+    prompt: "Find the cat",
+    choices: ["🐻", "🐱", "🐸"],
     correctChoice: "🐱"
   },
   {
@@ -276,6 +352,28 @@ export const ACTIVITIES: LearningActivity[] = [
     ]
   },
   {
+    id: "english-match-words-2",
+    subjectId: "english",
+    stageId: "english-first-words",
+    title: "More word pairs",
+    description: "Pasangkan dua kata English baru dengan gambarnya.",
+    emoji: "🧩",
+    runtime: "matching",
+    ageMin: 5,
+    ageMax: 7,
+    preferredMobile: "touch",
+    inputModes: ["touch"],
+    motionOptional: false,
+    stars: 3,
+    prompt: "Match each word to its picture",
+    matchItems: [
+      { label: "DOG", pair: "dog" },
+      { label: "🐶", pair: "dog" },
+      { label: "MOON", pair: "moon" },
+      { label: "🌙", pair: "moon" }
+    ]
+  },
+  {
     id: "math-count-3",
     subjectId: "math",
     stageId: "math-angka",
@@ -292,6 +390,24 @@ export const ACTIVITIES: LearningActivity[] = [
     prompt: "🍎 🍎 🍎 Ada berapa?",
     choices: ["2", "3", "4"],
     correctChoice: "3"
+  },
+  {
+    id: "math-count-2",
+    subjectId: "math",
+    stageId: "math-angka",
+    title: "Hitung dua benda",
+    description: "Variasi hitung jumlah kecil dengan objek berbeda.",
+    emoji: "🍌",
+    runtime: "tap_choice",
+    ageMin: 3,
+    ageMax: 7,
+    preferredMobile: "touch",
+    inputModes: ["touch"],
+    motionOptional: false,
+    stars: 2,
+    prompt: "🍌 🍌 Ada berapa?",
+    choices: ["1", "2", "3"],
+    correctChoice: "2"
   },
   {
     id: "math-trace-5-touch",
@@ -348,6 +464,28 @@ export const ACTIVITIES: LearningActivity[] = [
     ]
   },
   {
+    id: "math-pattern-touch-2",
+    subjectId: "math",
+    stageId: "math-pola",
+    title: "Pola bentuk baru",
+    description: "Latihan variasi untuk memasangkan bentuk yang sama.",
+    emoji: "⭐",
+    runtime: "matching",
+    ageMin: 5,
+    ageMax: 7,
+    preferredMobile: "touch",
+    inputModes: ["touch"],
+    motionOptional: false,
+    stars: 3,
+    prompt: "Cari pasangan bentuk yang sama",
+    matchItems: [
+      { label: "■", pair: "square" },
+      { label: "■", pair: "square" },
+      { label: "★", pair: "star" },
+      { label: "★", pair: "star" }
+    ]
+  },
+  {
     id: "math-pattern-motion",
     subjectId: "math",
     stageId: "math-pola",
@@ -398,6 +536,28 @@ export const ACTIVITIES: LearningActivity[] = [
     prompt: "Pilih huruf Alif",
     choices: ["ث", "ا", "ن"],
     correctChoice: "ا"
+  },
+  {
+    id: "iqro-pasang-alif",
+    subjectId: "iqro",
+    stageId: "iqro-huruf",
+    title: "Pasangkan Alif",
+    description: "Pasangkan nama huruf dengan bentuk Hijaiyah yang sesuai.",
+    emoji: "🧩",
+    runtime: "matching",
+    ageMin: 4,
+    ageMax: 7,
+    preferredMobile: "touch",
+    inputModes: ["touch"],
+    motionOptional: false,
+    stars: 3,
+    prompt: "Pasangkan nama dan bentuk huruf",
+    matchItems: [
+      { label: "Alif", pair: "alif" },
+      { label: "ا", pair: "alif" },
+      { label: "Ba", pair: "ba" },
+      { label: "ب", pair: "ba" }
+    ]
   },
   {
     id: "iqro-motion-existing",
@@ -454,15 +614,15 @@ export const STAGES: LearningStage[] = [
     id: "bahasa-huruf",
     subjectId: "bahasa",
     title: "Kenal Huruf",
-    subtitle: "Contoh UI untuk mengenal huruf melalui sentuh dan audio.",
+    subtitle: "Kenali huruf lewat sentuh, audio, dan pasangan kata.",
     emoji: "🔤",
-    activityIds: ["bahasa-cari-a", "bahasa-dengar-a", "bahasa-pasang-awal"]
+    activityIds: ["bahasa-cari-a", "bahasa-dengar-a", "bahasa-cari-a-lagi", "bahasa-pasang-awal", "bahasa-pasang-awal-lagi"]
   },
   {
     id: "bahasa-cerita",
     subjectId: "bahasa",
     title: "Cerita Pendek",
-    subtitle: "Contoh pengalaman membaca bersama.",
+    subtitle: "Cerita pendek untuk dibaca atau didengarkan bersama.",
     emoji: "📚",
     activityIds: ["bahasa-cerita-teman"]
   },
@@ -470,33 +630,33 @@ export const STAGES: LearningStage[] = [
     id: "english-first-words",
     subjectId: "english",
     title: "First Words",
-    subtitle: "Contoh UI English berbasis visual dan audio.",
+    subtitle: "Kenal kata lewat visual, audio, dan word-picture matching.",
     emoji: "💬",
-    activityIds: ["english-find-blue", "english-listen-cat", "english-match-hello"]
+    activityIds: ["english-find-blue", "english-find-blue-audio", "english-listen-cat", "english-listen-cat-2", "english-match-hello", "english-match-words-2"]
   },
   {
     id: "math-angka",
     subjectId: "math",
     title: "Kenal Angka",
-    subtitle: "Sentuh dan trace sebagai default, mode gerak tetap tersedia.",
+    subtitle: "Hitung dan trace sebagai default, mode gerak tetap tersedia.",
     emoji: "🔢",
-    activityIds: ["math-count-3", "math-trace-5-touch", "math-number-trace-motion"]
+    activityIds: ["math-count-3", "math-count-2", "math-trace-5-touch", "math-number-trace-motion"]
   },
   {
     id: "math-pola",
     subjectId: "math",
     title: "Pola & Logika",
-    subtitle: "Aktivitas touch-first dengan challenge gerak opsional.",
+    subtitle: "Variasi pola touch-first dengan challenge gerak opsional.",
     emoji: "🧩",
-    activityIds: ["math-pattern-touch", "math-pattern-motion"]
+    activityIds: ["math-pattern-touch", "math-pattern-touch-2", "math-pattern-motion"]
   },
   {
     id: "iqro-huruf",
     subjectId: "iqro",
     title: "Kenal Hijaiyah",
-    subtitle: "Sentuh dan audio untuk belajar inti; motion sebagai opsi.",
+    subtitle: "Sentuh, audio, dan matching untuk belajar inti; motion sebagai opsi.",
     emoji: "🌙",
-    activityIds: ["iqro-cari-alif", "iqro-dengar-alif", "iqro-motion-existing"]
+    activityIds: ["iqro-cari-alif", "iqro-dengar-alif", "iqro-pasang-alif", "iqro-motion-existing"]
   },
   {
     id: "color-characters",
