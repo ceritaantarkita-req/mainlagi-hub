@@ -1,0 +1,115 @@
+# Contributing to Mainlagi Hub
+
+Thanks for helping improve Mainlagi Hub.
+
+The project is being prepared as an open-source core with a separate commercial offering. That means contribution quality, child-safety boundaries, and copyright/relicensing hygiene matter from the start.
+
+## What is welcome
+
+Good contributions include:
+
+- bug reports with reproducible steps;
+- camera/gesture QA evidence that contains no sensitive data;
+- tests and simulations;
+- accessibility improvements;
+- performance fixes;
+- documentation corrections;
+- security hardening;
+- child-safe UX improvements;
+- well-scoped game/runtime fixes that preserve existing behavior unless change is intentional and documented.
+
+## Before changing code
+
+1. Open or reference an issue for non-trivial work.
+2. Explain the problem and proposed behavior.
+3. Keep changes focused; avoid opportunistic rewrites.
+4. Do not remove the current motion engine or existing games as part of unrelated work.
+5. If a change touches camera, child data, auth, AI/OCR, payments, or external providers, document the security/privacy boundary.
+
+## Branch and pull request discipline
+
+Do not work directly on `main`.
+
+Use a focused branch such as:
+
+```text
+fix/<short-description>
+feat/<short-description>
+docs/<short-description>
+```
+
+A PR should explain:
+
+- what changed;
+- why it changed;
+- what was intentionally not changed;
+- how it was tested;
+- any security/privacy implications;
+- screenshots or video only when they do not expose private child/family data.
+
+## Required checks
+
+For code changes, run as applicable:
+
+```bash
+npm ci
+npm run validate:structure
+npm run audit:source
+npm run typecheck
+npm run lint
+npm run test:engine
+npm run simulate
+npm run build
+npm audit --omit=dev --audit-level=high
+```
+
+Physical camera QA is required for changes whose correctness depends on real hand/body tracking.
+
+## Style and architecture expectations
+
+- Prefer small, explicit boundaries over hidden coupling.
+- Keep real-time vision data out of high-frequency React state when refs/subscriptions are more appropriate.
+- Preserve server-only credential boundaries.
+- Keep provider-specific AI code behind an adapter.
+- Avoid putting future curriculum logic directly inside individual motion games.
+- Treat the 10 existing games as retained product capabilities.
+- Mark planned work as planned; do not document an unimplemented feature as available.
+
+## Child-safety and privacy expectations
+
+Never submit:
+
+- real child photos/video/audio that are not necessary and explicitly authorized;
+- production credentials;
+- API keys;
+- raw Supabase service-role tokens;
+- deployment keys;
+- personal information in fixtures/logs/screenshots.
+
+External AI/OCR changes must minimize payloads and must not silently upload full camera frames.
+
+## Licensing of contributions
+
+The repository source code is licensed under `AGPL-3.0-only` unless a file states otherwise.
+
+The project owner intends to maintain a separate commercial edition/licensing path. Community contributions can complicate later relicensing if rights are not clear.
+
+**Until a formal contributor license agreement (CLA) process is published, maintainers may decline to merge substantial third-party code contributions even when technically good.** Issues, review feedback, QA reports, documentation fixes, and proposals are still welcome.
+
+When a formal CLA is introduced, it should let contributors retain their copyright while granting the project the rights necessary to keep both the AGPL community edition and a separately licensed commercial edition sustainable.
+
+Do not submit code you do not have the right to contribute.
+
+## Third-party code and assets
+
+Do not paste code, images, audio, fonts, datasets, character art, curriculum content, or models from another source without checking the license and recording provenance.
+
+Third-party material must keep its original license/notice and may need to be excluded from the Mainlagi AGPL grant.
+
+See `THIRD_PARTY_NOTICES.md`.
+
+## Trademark/character use
+
+Contributing to the codebase does not grant a right to market a fork as official Mainlagi or to reuse protected brand/character identity outside the permissions documented by the project.
+
+See `TRADEMARKS.md`.
