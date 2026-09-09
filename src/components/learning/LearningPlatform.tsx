@@ -4,19 +4,21 @@ export { ChildShell } from "./LearningCommon";
 export {
   ActivityScreen,
   ChildHomeScreen,
-  ChildSelectScreen,
   GamesScreen,
   LearnLibraryScreen,
   RewardsScreen,
   StageScreen,
   SubjectScreen
 } from "./ChildLearningPlatform";
+export {
+  CloudChildSelectScreen as ChildSelectScreen,
+  CloudParentChildrenScreen as ParentChildrenScreen,
+  CloudParentOverviewScreen as ParentOverviewScreen
+} from "./CloudProfileScreens";
 export { ParentCoreProgressScreen as ParentProgressScreen } from "./ParentCoreProgress";
 export {
   ParentCertificatesScreen,
   ParentChildScreen,
-  ParentChildrenScreen,
-  ParentOverviewScreen,
   ParentPlanScreen,
   ParentPrivacyScreen,
   ParentReportsScreen,
