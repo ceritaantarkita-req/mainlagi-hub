@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { GAME_LIST, GAMES, type GameSlug } from "@/lib/data/games";
 import { GAME_THEMES } from "@/lib/data/gameThemes";
-import { AFFILIATE_ITEMS } from "@/lib/data/affiliate";
+import { getData } from "@/lib/data";
+import type { AffiliateItem } from "@/lib/data/domain";
 import { Icon, type IconName } from "@/components/Icon";
 import { GameIcon } from "@/components/GameIcon";
 import { GameArtwork } from "@/components/GameArtwork";
@@ -39,6 +40,7 @@ const STEPS: { icon: IconName; text: string }[] = [
   { icon: "games", text: "Gerakkan tubuh" },
   { icon: "star", text: "Kumpulkan skor" }
 ];
+
 /** A soft blob background, drawn rather than imported. */
 function Blobs() {
   return (
@@ -88,6 +90,7 @@ export function HomePage() {
   const [boards, setBoards] = useState<
     Array<{ game: GameSlug; entries: LeaderboardEntry[] }>
   >([]);
+  const [recommended, setRecommended] = useState<AffiliateItem[]>([]);
 
   useEffect(() => {
     const update = () => {
@@ -110,17 +113,21 @@ export function HomePage() {
     };
   }, []);
 
-  const featuredAffiliate = useMemo(() => AFFILIATE_ITEMS.slice(0, 4), []);
-  const [recommended, setRecommended] = useState(featuredAffiliate);
-
   useEffect(() => {
-    const id = window.setTimeout(() => {
-      setRecommended([...AFFILIATE_ITEMS].sort(() => Math.random() - 0.5).slice(0, 4));
-    }, 0);
-    return () => window.clearTimeout(id);
+    let cancelled = false;
+    void getData().products.listActive()
+      .then((items) => {
+        if (!cancelled) setRecommended(items.slice(0, 4));
+      })
+      .catch(() => {
+        if (!cancelled) setRecommended([]);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  /** Best single run across every board, for the home leaderboard strip. */
+  /** Best single run across every current-week board, for the home strip. */
   const champions = useMemo(
     () =>
       boards
@@ -229,7 +236,7 @@ export function HomePage() {
             </ol>
           ) : (
             <p className="fun-board__empty">
-              Belum ada skor. Main satu ronde, lalu tulis namamu di akhir
+              Belum ada skor minggu ini. Main satu ronde, lalu tulis namamu di akhir
               permainan untuk masuk papan skor.
             </p>
           )}
@@ -253,24 +260,26 @@ export function HomePage() {
         </div>
       </section>
 
-      <section id="affiliate" className="page-shell fun-section">
-        <header className="fun-section__head">
-          <h2>Rekomendasi Hari ini</h2>
-        </header>
-        <div className="fun-grid">
-          {recommended.map((item) => (
-            <a key={item.slug} href={`/go/${item.slug}`} className="product-tile">
-              <span className="product-tile__media">
-                <img src={item.image} alt="" loading="lazy" />
-              </span>
-              <span className="product-tile__overlay" aria-hidden>
-                <strong>{item.title}</strong>
-                <small>Lihat di Shopee ↗</small>
-              </span>
-            </a>
-          ))}
-        </div>
-      </section>
+      {recommended.length > 0 && (
+        <section id="affiliate" className="page-shell fun-section">
+          <header className="fun-section__head">
+            <h2>Rekomendasi Hari ini</h2>
+          </header>
+          <div className="fun-grid">
+            {recommended.map((item) => (
+              <a key={item.slug} href={`/go/${item.slug}`} className="product-tile">
+                <span className="product-tile__media">
+                  {item.imageUrl ? <img src={item.imageUrl} alt="" loading="lazy" /> : null}
+                </span>
+                <span className="product-tile__overlay" aria-hidden>
+                  <strong>{item.title}</strong>
+                  <small>Lihat produk ↗</small>
+                </span>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
     </main>
   );
 }
