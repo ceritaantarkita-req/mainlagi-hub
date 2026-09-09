@@ -5,81 +5,38 @@ import { usePathname } from "next/navigation";
 import { Icon, type IconName } from "@/components/Icon";
 import { isActivePath } from "@/lib/navigation";
 
-/**
- * Mobile bottom navigation.
- *
- * Icon-only (labels are exposed via aria-label instead of visible text) so
- * the bar stays compact and legible on small screens. The Discover item is
- * styled as a distinct, raised center button (like a FAB) so it reads as
- * the "explore" action. Active state is a small pill hugging just the icon,
- * not the whole tap target. The shell hides this bar on gameplay routes.
- */
 const LEFT: { href: string; icon: IconName; label: string }[] = [
   { href: "/", icon: "home", label: "Beranda" },
-  { href: "/games", icon: "games", label: "Game" }
+  { href: "/games", icon: "games", label: "Main Gerak" }
 ];
 const RIGHT: { href: string; icon: IconName; label: string }[] = [
-  { href: "/leaderboards", icon: "leaderboards", label: "Skor" },
+  { href: "/leaderboards", icon: "leaderboards", label: "Skor game" },
   { href: "/account", icon: "account", label: "Akun" }
 ];
 
-function DiscoverMark() {
+function LearnMark() {
   return (
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <circle cx="12" cy="12" r="8.5" />
-      <path d="M15.5 8.5 13 13l-4.5 2.5L11 11z" fill="currentColor" stroke="none" />
+    <svg width="27" height="27" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M4 5.5c3.2-.8 5.8-.2 8 1.5v12c-2.2-1.7-4.8-2.3-8-1.5z" />
+      <path d="M20 5.5c-3.2-.8-5.8-.2-8 1.5v12c2.2-1.7 4.8-2.3 8-1.5z" />
+      <path d="M9.5 11.5 11 13l3.4-3.5" />
     </svg>
   );
 }
 
-function Item({
-  href,
-  icon,
-  label,
-  pathname
-}: {
-  href: string;
-  icon: IconName;
-  label: string;
-  pathname: string;
-}) {
+function Item({ href, icon, label, pathname }: { href: string; icon: IconName; label: string; pathname: string }) {
   const active = isActivePath(pathname, href);
-  return (
-    <Link
-      href={href}
-      className={`bottom-nav__item ${active ? "is-active" : ""}`}
-      aria-label={label}
-      aria-current={active ? "page" : undefined}
-    >
-      <span className="bottom-nav__item-mark" aria-hidden>
-        <Icon name={icon} size={23} strokeWidth={active ? 2.2 : 1.8} />
-      </span>
-    </Link>
-  );
+  return <Link href={href} className={`bottom-nav__item ${active ? "is-active" : ""}`} aria-label={label} aria-current={active ? "page" : undefined}><span className="bottom-nav__item-mark" aria-hidden><Icon name={icon} size={23} strokeWidth={active ? 2.2 : 1.8} /></span></Link>;
 }
 
 export function BottomNavbar() {
   const pathname = usePathname();
-  const discoverActive = isActivePath(pathname, "/discover");
-
+  const learnActive = pathname.startsWith("/child");
   return (
     <nav className="bottom-nav" aria-label="Navigasi bawah">
-      {LEFT.map((item) => (
-        <Item key={item.href} {...item} pathname={pathname} />
-      ))}
-
-      <Link
-        href="/discover"
-        className={`bottom-nav__discover ${discoverActive ? "is-active" : ""}`}
-        aria-label="Jelajah"
-        aria-current={discoverActive ? "page" : undefined}
-      >
-        <DiscoverMark />
-      </Link>
-
-      {RIGHT.map((item) => (
-        <Item key={item.href} {...item} pathname={pathname} />
-      ))}
+      {LEFT.map((item) => <Item key={item.href} {...item} pathname={pathname} />)}
+      <Link href="/child/select" className={`bottom-nav__discover ${learnActive ? "is-active" : ""}`} aria-label="Belajar" aria-current={learnActive ? "page" : undefined}><LearnMark /></Link>
+      {RIGHT.map((item) => <Item key={item.href} {...item} pathname={pathname} />)}
     </nav>
   );
 }
