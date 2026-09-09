@@ -124,6 +124,7 @@ jobs:
         env:
           EXPECTED_SHA: ${{ github.sha }}
           BASE_URL: https://mainlagihub.my.id
+          EXPECTED_SUPABASE_PROJECT_REF: estvtgflwkebomsqlolv
         run: |
           set -Eeuo pipefail
 
@@ -136,16 +137,19 @@ jobs:
             if [[ "$home_code" == "200" ]] \
               && grep -Fq '"ok":true' <<<"$health_body" \
               && grep -Fq "\"sha\":\"$EXPECTED_SHA\"" <<<"$health_body" \
-              && grep -Fq '"branch":"main"' <<<"$health_body"; then
-              echo "Production is serving expected commit $EXPECTED_SHA"
+              && grep -Fq '"branch":"main"' <<<"$health_body" \
+              && grep -Fq '"siteUrl":"https://mainlagihub.my.id"' <<<"$health_body" \
+              && grep -Fq '"dataBackend":"supabase"' <<<"$health_body" \
+              && grep -Fq "\"supabaseProjectRef\":\"$EXPECTED_SUPABASE_PROJECT_REF\"" <<<"$health_body"; then
+              echo "Production is serving expected commit $EXPECTED_SHA with canonical Supabase target."
               echo "$health_body"
               exit 0
             fi
 
-            echo "Attempt $attempt/30: homepage=$home_code; waiting for Cloudflare to serve $EXPECTED_SHA"
+            echo "Attempt $attempt/30: homepage=$home_code; waiting for exact release/configuration target"
             sleep 10
           done
 
-          echo "Production did not serve expected commit within the smoke-test window."
+          echo "Production did not serve the expected commit/configuration within the smoke-test window."
           echo "Last health response: $health_body"
           exit 1
