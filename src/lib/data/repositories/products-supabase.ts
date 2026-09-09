@@ -57,7 +57,8 @@ async function listFromSupabase(): Promise<AffiliateItem[] | null> {
 /**
  * Public product reads use the same Supabase rows written by the owner CMS.
  * Static catalog data stays available as an operational fallback for local
- * development or a temporarily unavailable backend.
+ * development or a temporarily unavailable backend. A successful empty result
+ * is authoritative: it means the owner intentionally has no active products.
  *
  * Click recording remains owned by `/go/[slug]`: that server route performs
  * destination validation, rate limiting, and service-role logging. The legacy
@@ -70,7 +71,7 @@ export function createSupabaseProductRepository(
   return {
     async listActive() {
       const rows = await listFromSupabase();
-      return rows === null || rows.length === 0 ? fallback.listActive() : rows;
+      return rows === null ? fallback.listActive() : rows;
     },
     recordClick(itemId, referrer, userAgentHash) {
       return fallback.recordClick(itemId, referrer, userAgentHash);
