@@ -194,7 +194,8 @@ export function getCertificateEligibility(
     )
   );
   const completionReady = summary.completionRatio >= 1;
-  const masteryReady = assessedSkills.length === 0 || assessedSkills.every((skill) => {
+  const hasAssessedSkills = assessedSkills.length > 0;
+  const masteryReady = hasAssessedSkills && assessedSkills.every((skill) => {
     const level = analytics.masteryBySkill[skill.id]?.level;
     return level === "proficient" || level === "mastered";
   });
@@ -203,11 +204,13 @@ export function getCertificateEligibility(
     subjectId,
     completionReady,
     masteryReady,
-    reason: !completionReady
-      ? "Selesaikan semua aktivitas inti pada area ini."
-      : !masteryReady
-        ? "Kumpulkan evidence latihan yang konsisten sampai skill terukur minimal Mahir."
-        : "Syarat completion dan evidence terpenuhi."
+    reason: !hasAssessedSkills
+      ? "Sertifikat kompetensi belum tersedia karena area ini bersifat practice/kreatif dan tidak dinilai secara akademik."
+      : !completionReady
+        ? "Selesaikan semua aktivitas inti pada area ini."
+        : !masteryReady
+          ? "Kumpulkan evidence latihan yang konsisten sampai skill terukur minimal Mahir."
+          : "Syarat completion dan evidence terpenuhi."
   };
 }
 
