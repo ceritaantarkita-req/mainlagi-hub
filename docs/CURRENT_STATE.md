@@ -37,7 +37,7 @@ GitHub Actions is the quality/security gate. The production build gate validates
 
 ### Auto-deploy validation
 
-Cloudflare Git integration is now empirically validated, not just documented:
+Cloudflare Git integration is empirically validated, not just documented:
 
 - repo: `ceritaantarkita-req/mainlagi-hub`;
 - production branch: `main`;
@@ -48,7 +48,29 @@ Cloudflare Git integration is now empirically validated, not just documented:
 - Cloudflare Version ID: `4cbcd05f-a821-4891-a41e-4706ad14f2e3`;
 - result: success.
 
-The public homepage at `https://mainlagihub.my.id/` was observed loading over HTTPS in the browser after the integration was connected. This validates deployment transport, but it does not by itself close auth/learning persistence smoke testing.
+The public homepage at `https://mainlagihub.my.id/` was observed loading over HTTPS in the browser after the integration was connected.
+
+### Commit-aware production smoke gate
+
+The health endpoint is being hardened so production can prove **which Git commit is actually live**, not merely that an older deployment still responds.
+
+Cloudflare Workers Builds injects `WORKERS_CI_COMMIT_SHA` and `WORKERS_CI_BRANCH` at build time. Mainlagi bakes those public/non-secret values into the server artifact and returns them from `/api/health`.
+
+GitHub CI adds a push-to-`main` job:
+
+```text
+Production smoke (Cloudflare)
+```
+
+After the five existing quality/security jobs succeed, this smoke job waits for the public homepage and `/api/health` and succeeds only when production reports the exact `github.sha` for the current push and branch `main`.
+
+This preserves ownership boundaries:
+
+- GitHub CI validates quality and verifies production after deployment;
+- Cloudflare Git integration remains the production deployer;
+- no GitHub VPS/SSH deployment path is reintroduced.
+
+The first successful canonical-main run of this new smoke gate is still required before marking the health/deployment verification sub-step closed.
 
 See `docs/DEPLOYMENT.md`.
 
@@ -110,7 +132,8 @@ Primary CI provides:
 - `Quality gate (Ubuntu)`;
 - `Windows compatibility`;
 - `Production dependency audit`;
-- `Secret history scan`.
+- `Secret history scan`;
+- `Production smoke (Cloudflare)` — push-to-main only, commit-aware production verification.
 
 The learning/mastery implementation, database hardening, deployment-architecture correction, and Cloudflare trigger-validation PRs passed the applicable code/security gates before merge.
 
@@ -182,8 +205,8 @@ Completed:
 
 Remaining application-level closure:
 
-1. [ ] verify Cloudflare production environment points to canonical Supabase project `estvtgflwkebomsqlolv` without exposing secrets;
-2. [ ] explicitly verify `https://mainlagihub.my.id/api/health` after the Git-sourced deployment;
+1. [ ] merge and observe the first successful commit-aware `Production smoke (Cloudflare)` run on canonical `main`;
+2. [ ] verify Cloudflare production environment points to canonical Supabase project `estvtgflwkebomsqlolv` without exposing secrets;
 3. [ ] run authenticated learning-attempt/mastery write-path smoke test;
 4. [ ] verify parent-derived state;
 5. [ ] verify guest/local fallback still works.
@@ -202,6 +225,7 @@ short-lived branch
   -> CI / visual QA when applicable
   -> squash merge
   -> Cloudflare deploy from main
+  -> commit-aware production smoke verification
   -> delete branch
   -> main is canonical again
 ```
