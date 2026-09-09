@@ -3,13 +3,15 @@
 export { ChildShell } from "./LearningCommon";
 export {
   ActivityScreen,
-  ChildHomeScreen,
   GamesScreen,
+  RewardsScreen
+} from "./ChildLearningPlatform";
+export {
+  ChildHomeScreen,
   LearnLibraryScreen,
-  RewardsScreen,
   StageScreen,
   SubjectScreen
-} from "./ChildLearningPlatform";
+} from "./ChildLearningPathViews";
 export {
   CloudChildSelectScreen as ChildSelectScreen,
   CloudParentChildrenScreen as ParentChildrenScreen,
