@@ -284,7 +284,7 @@ try {
   assert.equal(bahasaRecognition.level, "proficient");
   assert.equal(bahasaMatching.level, "proficient");
 
-  const bahasaAnalytics = {
+  const bahasaHistoricalAnalytics = {
     ...emptyAnalytics,
     masteryBySkill: {
       ...emptyAnalytics.masteryBySkill,
@@ -292,32 +292,50 @@ try {
       [bahasaMatching.skillId]: bahasaMatching
     }
   };
-  const bahasaComplete = {
+  const bahasaHistoricalProgress = {
     completedActivityIds: ["bahasa-cari-a", "bahasa-dengar-a", "bahasa-pasang-awal", "bahasa-cerita-teman"],
     stars: 9,
     lastActivityId: "bahasa-cerita-teman"
   };
-  const bahasaCertificate = insights.getCertificateEligibility("bahasa", bahasaComplete, bahasaAnalytics);
+  const historicalCertificate = insights.getCertificateEligibility("bahasa", bahasaHistoricalProgress, bahasaHistoricalAnalytics);
+  assert.equal(historicalCertificate.completionReady, false, "historical Bahasa completion must not bypass newly added required expansion activities");
+  assert.equal(historicalCertificate.eligible, false, "catalog expansion must not leave a premature Bahasa competency certificate path");
+
+  const bahasaRequiredIds = system.ACTIVITIES
+    .filter((activity) => activity.subjectId === "bahasa" && catalog.getActivityLearningSpec(activity.id)?.requiredForStage)
+    .map((activity) => activity.id);
+  const bahasaAssessedSkillIds = catalog.LEARNING_SKILLS
+    .filter((skill) => skill.subjectId === "bahasa" && Object.values(catalog.ACTIVITY_LEARNING_SPECS).some((spec) =>
+      spec.subjectId === "bahasa" && spec.assessment === "assessed" && spec.skills.some((link) => link.skillId === skill.id)
+    ))
+    .map((skill) => skill.id);
+
+  const bahasaCompleteAnalytics = {
+    ...emptyAnalytics,
+    masteryBySkill: Object.fromEntries(bahasaAssessedSkillIds.map((skillId, index) => [
+      skillId,
+      mastery.calculateSkillMastery(skillId, evidenceSet(skillId, `bahasa-cert-${index}`, 2, 0.75, index * 2))
+    ]))
+  };
+  const bahasaComplete = {
+    completedActivityIds: bahasaRequiredIds,
+    stars: 99,
+    lastActivityId: bahasaRequiredIds.at(-1) ?? null
+  };
+  const bahasaCertificate = insights.getCertificateEligibility("bahasa", bahasaComplete, bahasaCompleteAnalytics);
   assert.equal(bahasaCertificate.completionReady, true);
   assert.equal(bahasaCertificate.masteryReady, true);
   assert.equal(bahasaCertificate.eligible, true, "completed assessed subject with all assessed skills proficient should unlock certificate");
 
   const oneShotAnalytics = {
     ...emptyAnalytics,
-    masteryBySkill: {
-      ...emptyAnalytics.masteryBySkill,
-      "bahasa.huruf.a.recognition": mastery.calculateSkillMastery(
-        "bahasa.huruf.a.recognition",
-        evidenceSet("bahasa.huruf.a.recognition", "one-a", 1, 1, 30)
-      ),
-      "bahasa.huruf.awal.matching": mastery.calculateSkillMastery(
-        "bahasa.huruf.awal.matching",
-        evidenceSet("bahasa.huruf.awal.matching", "one-match", 1, 1, 31)
-      )
-    }
+    masteryBySkill: Object.fromEntries(bahasaAssessedSkillIds.map((skillId, index) => [
+      skillId,
+      mastery.calculateSkillMastery(skillId, evidenceSet(skillId, `one-${index}`, 1, 1, index))
+    ]))
   };
   const oneShotCertificate = insights.getCertificateEligibility("bahasa", bahasaComplete, oneShotAnalytics);
-  assert.equal(oneShotCertificate.eligible, false, "one perfect attempt per skill must never unlock a competency certificate");
+  assert.equal(oneShotCertificate.eligible, false, "one perfect attempt per assessed skill must never unlock a competency certificate");
 
   console.log("Learning mastery, anti-farming, catalog, progression, and certificate tests passed.");
 } finally {
