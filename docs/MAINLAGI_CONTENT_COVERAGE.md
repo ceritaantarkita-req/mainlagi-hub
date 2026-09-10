@@ -9,7 +9,7 @@ This document tracks the actual playable catalog separately from authoring/runti
 | Subject | Playable | Assessed | Practice | Skills | Target | Gap |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | **Bahasa Indonesia** | **100** | **99** | **1** | **23** | **100** | **0** |
-| English | 6 | 6 | 0 | 3 | 100 | 94 |
+| **English** | **100** | **100** | **0** | **23** | **100** | **0** |
 | **Math** | **100** | **98** | **2** | **22** | **100** | **0** |
 | Iqro | 4 | 3 | 1 | 2 | 100 | 96 |
 | Letters / Menulis | 3 | 2 | 1 | 2 | 100 | 97 |
@@ -17,9 +17,9 @@ This document tracks the actual playable catalog separately from authoring/runti
 | Science / Sains | 3 | 3 | 0 | 2 | 100 | 97 |
 | Coloring / Mewarnai | 2 | 0 | 2 | 1 | 100 | 98 |
 
-Current Batch 8 repository/live-DB total: **221 playable activities — 214 assessed and 7 practice**.
+Current Batch 9 repository/live-DB total: **315 playable activities — 308 assessed and 7 practice**.
 
-Math and Bahasa Indonesia are now the first two subjects to reach their canonical 100-activity targets. The remaining academic/creative targets are intentionally not counted as complete before their activity instances exist and pass review.
+Math, Bahasa Indonesia, and English are now the first three subjects to reach their canonical 100-activity targets. The remaining academic/creative targets are intentionally not counted as complete before their activity instances exist and pass review.
 
 The seven academic subject targets total 700 playable learning activities. Drawing/Menggambar and Coloring/Mewarnai add 200 creative-practice targets, producing the planned nine-track target of 900 playable activities. Drawing is not first-class yet.
 
@@ -27,28 +27,34 @@ The seven academic subject targets total 700 playable learning activities. Drawi
 
 - first-class subjects: 8
 - learning paths: 8
-- stages: 18
-- lessons: 54
-- versioned content packs: 54
-- playable activities: 221
-- skills: 57
+- stages: 22
+- lessons: 74
+- versioned content packs: 74
+- playable activities: 315
+- skills: 77
 
 Every current stage is owned by a learning path; every current activity is owned by a lesson and content pack; historical activity IDs remain stable.
 
-## Batch 8 Bahasa inventory
+## Batch 9 English inventory
 
-Bahasa started Batch 8 with six historical activities. The expansion added exactly 94 new activities through four separately gated waves:
+English started Batch 9 with six historical activities. The expansion added exactly 94 new activities through four separately gated waves:
 
-| Wave | Canonical Bahasa count | New activities | Main topics |
+| Wave | Canonical English count | New activities | Main topics |
 | --- | ---: | ---: | --- |
-| A | 25 | 19 | vowels, vowel/consonant classification, case matching, initial sounds, listening |
-| B | 50 | 25 | syllables, blending, words/meanings, picture-word matching, listening |
-| C | 75 | 25 | sentence ordering/comprehension, instructions, vocabulary relations, short reading |
-| D | 100 | 25 | punctuation/capitalization, contextual completion, vocabulary categories, listening detail, integrated reading review |
+| A | 25 | 19 | alphabet recognition/listening, initial sounds, colors, numbers one to five |
+| B | 50 | 25 | animals, everyday objects, body vocabulary, family vocabulary |
+| C | 75 | 25 | food, actions, semantic categories, expanded word-picture matching, listening |
+| D | 100 | 25 | opposites, simple phrases, sentence completion, listening detail, integrated review |
 
-Wave migrations are `0019_batch8_bahasa_wave_a` through `0022_batch8_bahasa_wave_d`. All 94 additions are assessed through measured tap-choice, listen-and-choose, or matching evidence paths. The historical Bahasa story remains the single Bahasa practice activity.
+Wave migrations are `0023_batch9_english_wave_a` through `0026_batch9_english_wave_d`. All 94 additions are assessed through measured tap-choice, listen-and-choose, or matching evidence paths. English closes at 100 assessed / 0 practice.
 
-Bahasa now has 23 mapped skills: three historical skills plus 20 Batch 8 skills distributed across letter/sound discrimination, syllables, vocabulary, listening, sentence comprehension, and applied reading/language review.
+English now has 23 mapped skills: three historical skills plus 20 Batch 9 skills distributed across alphabet/phonics awareness, vocabulary, matching/listening, phrase/sentence comprehension, and integrated review.
+
+Wave C's first PR CI correctly rejected a proposed duplicate skill ID, `english.word.picture_matching`. The new skill was renamed to `english.word.picture_matching.expanded` before migration/merge, preserving the historical skill identity. Live verification confirmed both IDs remain separate.
+
+## Previous Batch 8 Bahasa inventory
+
+Bahasa Indonesia remains closed at exactly 100 activities: six historical activities plus 94 Batch 8 additions across migrations `0019`–`0022`. It retains 99 assessed / 1 historical story practice and 23 mapped skills.
 
 ## Previous Batch 7 Math inventory
 
@@ -58,15 +64,15 @@ Math remains closed at exactly 100 activities: seven historical activities plus 
 
 | Runtime | Count |
 | --- | ---: |
-| Tap choice | 147 |
-| Listen and choose | 24 |
-| Matching | 42 |
+| Tap choice | 194 |
+| Listen and choose | 48 |
+| Matching | 65 |
 | Guided trace | 2 |
 | Story | 1 |
 | Motion game | 3 |
 | Coloring | 2 |
 
-These counts describe the complete 221-activity Batch 8 catalog.
+These counts describe the complete 315-activity Batch 9 catalog and sum exactly to 315.
 
 ## Existing subject foundations
 
@@ -121,7 +127,7 @@ Wave C: 51–75
 Wave D: 76–100
 ```
 
-Math and Bahasa have completed all four waves. **Batch 9 English to 100 is next**. English currently has six validated activities, so Wave A must add **19** meaningful activities to reach canonical count 25 rather than blindly adding 25 on top of the existing baseline.
+Math, Bahasa Indonesia, and English have completed all four waves. **Batch 10 Iqro to 100 is next**. Iqro currently has four validated activities, so Wave A must add **21** meaningful activities to reach canonical count 25 rather than blindly adding 25 on top of the existing baseline.
 
 ## Learning-integrity requirements
 
@@ -146,16 +152,17 @@ Current CI now verifies, among the existing learning contracts:
 
 - exactly 100 canonical Math activities after Batch 7;
 - exactly 100 canonical Bahasa activities after Batch 8;
-- 94 unique Batch 8 Bahasa IDs with wave counts `19 + 25 + 25 + 25`;
-- Bahasa closes at 99 assessed / 1 historical practice;
-- 221 total activities / 214 assessed / 7 practice;
-- 18 stages / 8 paths / 54 lessons / 54 packs / 57 skills;
-- runtime inventory and subject floors;
+- exactly 100 canonical English activities after Batch 9;
+- 94 unique Batch 9 English additions with wave counts `19 + 25 + 25 + 25`;
+- English closes at 100 assessed / 0 practice;
+- 315 total activities / 308 assessed / 7 practice;
+- 22 stages / 8 paths / 74 lessons / 74 packs / 77 skills;
+- final runtime inventory and subject floors;
 - complete path/stage/lesson/pack ownership;
 - content-pack version/age/skill/asset/answer/duplicate validation;
-- migration `0019`–`0022` registration for the correct Bahasa wave IDs;
+- migration `0023`–`0026` registration for the correct English wave IDs;
 - preservation of historical learning tables and identities;
-- measured evidence boundaries for every Batch 8 assessed addition;
+- measured evidence boundaries for every Batch 9 assessed addition;
 - existing mastery anti-farming, adaptive, reporting, ownership, outbox, and award contracts.
 
-Detailed Batch 8 production closure evidence is recorded in `EXPANSION_BATCH8_CLOSURE_2026-09-10.md`.
+Detailed Batch 9 production closure evidence is recorded in `EXPANSION_BATCH9_CLOSURE_2026-09-10.md`.

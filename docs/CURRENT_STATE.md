@@ -17,31 +17,32 @@ This file is the canonical human/AI handoff for the current repository state. `m
 
 ## Latest verified production baseline
 
-**Expansion Batch 8 — Bahasa Indonesia to 100 is production-complete.**
+**Expansion Batch 9 — English to 100 is production-complete.**
 
-Final Batch 8 implementation SHA:
+Final Batch 9 implementation SHA:
 
-`9347f2a6e1e7d27448d0d7f7a7a0c45408b0db2e`
+`cc9430e1d3543de809b26a47d3dd16cad3803897`
 
-Final implementation landed through PR #47 after Waves A–C had each been separately production-closed. Post-merge main CI #233 succeeded for Ubuntu quality/learning/simulations, Windows compatibility, Chromium mobile-route QA, production build, dependency audit, secret-history scan, and exact-SHA Cloudflare production smoke.
+Final implementation landed through PR #52 after Waves A–C had each been separately production-closed. Post-merge main CI #245 succeeded for Ubuntu quality/learning/simulations, Windows compatibility, Chromium mobile-route QA, production build, dependency audit, secret-history scan, and exact-SHA Cloudflare production smoke.
 
-Detailed closure evidence: `EXPANSION_BATCH8_CLOSURE_2026-09-10.md`.
+Detailed closure evidence: `EXPANSION_BATCH9_CLOSURE_2026-09-10.md`.
 
-Batch 7 Math-to-100 remains production-complete; its detailed evidence is retained in `EXPANSION_BATCH7_CLOSURE_2026-09-10.md`.
+Batch 7 Math-to-100 and Batch 8 Bahasa-Indonesia-to-100 remain production-complete; their detailed evidence is retained in `EXPANSION_BATCH7_CLOSURE_2026-09-10.md` and `EXPANSION_BATCH8_CLOSURE_2026-09-10.md`.
 
 ## Current playable catalog
 
-Canonical repository and live Supabase counts after Batch 8:
+Canonical repository and live Supabase counts after Batch 9:
 
 - 8 first-class subjects: Bahasa Indonesia, English, Matematika, Iqro, Letters/Menulis, Logic/Logika, Science/Sains, and Coloring/Mewarnai;
 - 8 learning paths;
-- 18 stages;
-- 54 lessons;
-- 54 versioned content packs;
-- 221 playable activities;
-- 57 skills;
-- 214 assessed activities;
+- 22 stages;
+- 74 lessons;
+- 74 versioned content packs;
+- 315 playable activities;
+- 77 skills;
+- 308 assessed activities;
 - 7 practice activities;
+- English: exactly **100 playable activities**;
 - Bahasa Indonesia: exactly **100 playable activities**;
 - Math: exactly **100 playable activities**.
 
@@ -50,7 +51,7 @@ Current subject activity counts:
 | Subject | Playable | Assessed | Practice | Skills |
 | --- | ---: | ---: | ---: | ---: |
 | Bahasa Indonesia | 100 | 99 | 1 | 23 |
-| English | 6 | 6 | 0 | 3 |
+| English | 100 | 100 | 0 | 23 |
 | Math | 100 | 98 | 2 | 22 |
 | Iqro | 4 | 3 | 1 | 2 |
 | Letters / Menulis | 3 | 2 | 1 | 2 |
@@ -60,16 +61,18 @@ Current subject activity counts:
 
 Drawing/Menggambar is not first-class yet. It remains planned for Batch 14 together with expansion of Coloring/Mewarnai.
 
-## Batch 8 Bahasa expansion
+## Batch 9 English expansion
 
-Batch 8 preserved the six historical Bahasa activity IDs and added 94 new activities through four reviewable waves:
+Batch 9 preserved the six historical English activity IDs and added 94 new activities through four reviewable waves:
 
-- Wave A — 6 -> 25: vowel recognition/listening, vowel-vs-consonant classification, case matching, initial sounds; PR #44, migration `0019`, SHA `47bf43240872bfedf4c22dacfc8d417a924411ac`, main CI #226;
-- Wave B — 25 -> 50: syllable recognition/blending, word/meaning matching, word listening, picture-word matching; PR #45, migration `0020`, SHA `8e0654006105933830ee6637cd3169940404fbf2`, main CI #229;
-- Wave C — 50 -> 75: sentence ordering/comprehension, one-step listening instructions, vocabulary relations, short reading; PR #46, migration `0021`, SHA `d84bf4929cd83d1cebf0017f4a987f04f2eeb0d2`, main CI #231;
-- Wave D — 75 -> 100: punctuation/capitalization, contextual sentence completion, vocabulary categories, listening detail, integrated reading review; PR #47, migration `0022`, SHA `9347f2a6e1e7d27448d0d7f7a7a0c45408b0db2e`, main CI #233.
+- Wave A — 6 -> 25: alphabet recognition/listening, initial-sound awareness, colors, and numbers one to five; PR #49, migration `0023`, SHA `eb4181df311011eb7724cfcef1565c50ab966120`, main CI #237;
+- Wave B — 25 -> 50: animals, everyday objects, body vocabulary, and family vocabulary; PR #50, migration `0024`, SHA `3dd380f736c3821546e531da2b82593d39519271`, main CI #239;
+- Wave C — 50 -> 75: food, actions, semantic categories, expanded word-picture matching, and listening identification; PR #51, migration `0025`, SHA `4096e68cb6916d7fedd0cf37896a67f6153edd30`, main CI #243;
+- Wave D — 75 -> 100: opposites, literal short phrases, sentence completion, listening detail, and integrated review; PR #52, migration `0026`, SHA `cc9430e1d3543de809b26a47d3dd16cad3803897`, main CI #245.
 
-All four post-merge CI runs passed exact-SHA Cloudflare production smoke. All 94 new Bahasa activities are assessed through existing measured `tap_choice`, `listen_and_choose`, or `matching` paths. The historical Bahasa story remains the single Bahasa practice activity.
+All four post-merge CI runs passed exact-SHA Cloudflare production smoke. All 94 new English activities are assessed through existing measured `tap_choice`, `listen_and_choose`, or `matching` paths. English therefore closes at 100 assessed / 0 practice.
+
+Wave C initially triggered the content-architecture duplicate-ID gate because a proposed new skill reused historical ID `english.word.picture_matching`. The migration was not applied and the PR was not merged while that failure existed. The new skill was renamed to `english.word.picture_matching.expanded`; subsequent CI passed and live verification confirmed the historical and expanded skill records remain separate.
 
 ## Shipped learning/content architecture
 
@@ -119,7 +122,7 @@ Protections remain in force:
 - missing measurement fails closed to completion-only;
 - hints/retries are retained and independence penalties remain downstream in the mastery engine.
 
-Batch 8 uses measured choice/listening-choice/matching evidence only. Existing conservative trace boundaries are unchanged: `letters-trace-a` remains completion-only practice until letter-shape fidelity is explicitly validated.
+Batch 9 uses measured choice/listening-choice/matching evidence only. Existing conservative trace boundaries are unchanged: `letters-trace-a` remains completion-only practice until letter-shape fidelity is explicitly validated.
 
 ## Existing subject/review boundaries retained
 
@@ -186,11 +189,15 @@ Applied migration chain is verified through:
 0020_batch8_bahasa_wave_b
 0021_batch8_bahasa_wave_c
 0022_batch8_bahasa_wave_d
+0023_batch9_english_wave_a
+0024_batch9_english_wave_b
+0025_batch9_english_wave_c
+0026_batch9_english_wave_d
 ```
 
-Post-`0022` live verification: 221 active activities, 100 Bahasa, 100 Math, 214 assessed / 7 practice, 57 active skills, and 54 active packs.
+Post-`0026` live verification: 315 active activities, exactly 100 English, 100 Bahasa, 100 Math, 308 assessed / 7 practice, 77 active skills, and 74 active packs. English has 100 activity-skill links and zero active activities missing mechanic/evidence metadata.
 
-Post-DDL performance advisor has no WARN-level regression; 19 unused-index observations are INFO only. Security advisor still reports the two known warnings: intentional authenticated execution of protected SECURITY DEFINER `record_learning_attempt(...)`, and leaked-password protection disabled under the current Supabase configuration/plan. Batch 8 introduced no new advisor warning.
+Post-DDL performance advisor has no WARN-level regression; 18 unused-index observations are INFO only. Security advisor still reports the two known warnings: intentional authenticated execution of protected SECURITY DEFINER `record_learning_attempt(...)`, and leaked-password protection disabled under the current Supabase configuration/plan. Batch 9 introduced no new advisor warning.
 
 ## CI and release governance
 
@@ -222,5 +229,6 @@ One account-level action remains outside current connector write capability: ens
 - Batch 6 new subject/curriculum foundations — complete in production;
 - **Batch 7 Math to 100 — complete in production**;
 - **Batch 8 Bahasa Indonesia to 100 — complete in production**;
-- **Batch 9 English to 100 — NEXT**;
-- Batch 10+ — planned according to `MAINLAGI_EXPANSION_IMPLEMENTATION_PLAN.md`.
+- **Batch 9 English to 100 — complete in production**;
+- **Batch 10 Iqro to 100 — NEXT**;
+- Batch 11+ — planned according to `MAINLAGI_EXPANSION_IMPLEMENTATION_PLAN.md`.
