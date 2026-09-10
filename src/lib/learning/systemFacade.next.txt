@@ -1,0 +1,125 @@
+import {
+  ACTIVITIES as BASE_ACTIVITIES,
+  STAGES as BASE_STAGES,
+  CHARACTERS,
+  SUBJECTS,
+  DEMO_PROFILE,
+  readProfiles,
+  readProfile,
+  saveProfile,
+  readProgress,
+  readPreferences,
+  savePreferences,
+  type LearningActivity,
+  type LearningChildProfile,
+  type LearningPreferences,
+  type LearningProgress,
+  type LearningStage,
+  type LearningSubject,
+  type LearningSubjectId
+} from "./systemBase";
+import { MATH_WAVE_A_ACTIVITIES, MATH_WAVE_A_ACTIVITY_IDS } from "./mathWaveA";
+
+export type {
+  CharacterId,
+  LearningActivity,
+  LearningChildProfile,
+  LearningInputMode,
+  LearningPreferences,
+  LearningProgress,
+  LearningRuntime,
+  LearningStage,
+  LearningSubject,
+  LearningSubjectId,
+  MatchItem
+} from "./systemBase";
+
+export {
+  CHARACTERS,
+  SUBJECTS,
+  DEMO_PROFILE,
+  readProfiles,
+  readProfile,
+  saveProfile,
+  readProgress,
+  readPreferences,
+  savePreferences
+};
+
+export const ACTIVITIES: LearningActivity[] = [...BASE_ACTIVITIES, ...MATH_WAVE_A_ACTIVITIES];
+
+export const STAGES: LearningStage[] = BASE_STAGES.map((stage) =>
+  stage.id === "math-angka"
+    ? { ...stage, activityIds: [...stage.activityIds, ...MATH_WAVE_A_ACTIVITY_IDS] }
+    : { ...stage, activityIds: [...stage.activityIds] }
+);
+
+const SUBJECT_MAP = new Map(SUBJECTS.map((item) => [item.id, item]));
+const STAGE_MAP = new Map(STAGES.map((item) => [item.id, item]));
+const ACTIVITY_MAP = new Map(ACTIVITIES.map((item) => [item.id, item]));
+
+export function getSubject(id: string): LearningSubject | undefined {
+  return SUBJECT_MAP.get(id as LearningSubjectId);
+}
+
+export function getStage(id: string): LearningStage | undefined {
+  return STAGE_MAP.get(id);
+}
+
+export function getActivity(id: string): LearningActivity | undefined {
+  return ACTIVITY_MAP.get(id);
+}
+
+export function getStagesForSubject(subjectId: LearningSubjectId): LearningStage[] {
+  return STAGES.filter((stage) => stage.subjectId === subjectId);
+}
+
+export function getActivitiesForStage(stageId: string): LearningActivity[] {
+  const stage = getStage(stageId);
+  if (!stage) return [];
+  return stage.activityIds.map((id) => getActivity(id)).filter((item): item is LearningActivity => Boolean(item));
+}
+
+const PROGRESS_KEY = "mainlagi-learning-progress-v1";
+
+function safeParse<T>(value: string | null, fallback: T): T {
+  if (!value) return fallback;
+  try {
+    return JSON.parse(value) as T;
+  } catch {
+    return fallback;
+  }
+}
+
+export function completeActivity(childId: string, activityId: string): LearningProgress {
+  const current = readProgress(childId);
+  const alreadyDone = current.completedActivityIds.includes(activityId);
+  const activity = getActivity(activityId);
+  const next: LearningProgress = {
+    completedActivityIds: alreadyDone
+      ? current.completedActivityIds
+      : [...current.completedActivityIds, activityId],
+    stars: current.stars + (!alreadyDone && activity ? activity.stars : 0),
+    lastActivityId: activityId
+  };
+  if (typeof window !== "undefined") {
+    const all = safeParse<Record<string, LearningProgress>>(window.localStorage.getItem(PROGRESS_KEY), {});
+    all[childId] = next;
+    window.localStorage.setItem(PROGRESS_KEY, JSON.stringify(all));
+    window.dispatchEvent(new CustomEvent("mainlagi-learning-progress", { detail: { childId } }));
+  }
+  return next;
+}
+
+export function getRecommendedActivities(age: number): LearningActivity[] {
+  const inAge = ACTIVITIES.filter((activity) => age >= activity.ageMin && age <= activity.ageMax);
+  return [
+    ...inAge.filter((activity) => activity.runtime !== "motion_game"),
+    ...inAge.filter((activity) => activity.runtime === "motion_game")
+  ];
+}
+
+export function getNextActivity(age: number, progress: LearningProgress): LearningActivity | undefined {
+  const recommended = getRecommendedActivities(age);
+  return recommended.find((activity) => !progress.completedActivityIds.includes(activity.id)) ?? recommended[0];
+}
