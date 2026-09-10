@@ -9,6 +9,7 @@ cloudflare-env.d.ts
 out/
 dist/
 .qa-dist/
+.mobile-route-qa/
 .env
 .env.local
 *.log
