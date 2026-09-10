@@ -29,7 +29,8 @@ A "game" means a meaningfully distinct playable learning experience/level, not a
 - stable historical IDs must be preserved;
 - every new activity needs valid subject/path/stage/lesson/pack ownership, age range, difficulty, skill mapping, mechanic, and evidence metadata;
 - no child voice recording/upload is introduced by speech features;
-- Iqro material requiring expert validation must retain an explicit human-review state;
+- Iqro material requiring expert validation retains explicit `expert_required` state until competent human approval;
+- code/DB/CI/production success never means expert religious-learning approval;
 - migrations are additive/idempotent unless an explicitly reviewed corrective migration requires otherwise;
 - each content wave lands through focused branch -> PR -> CI -> migration verification -> squash merge -> exact-SHA Cloudflare production smoke;
 - target floors rise only when real playable instances exist and pass validation.
@@ -48,8 +49,8 @@ A "game" means a meaningfully distinct playable learning experience/level, not a
 | **7** | **Math to 100** | **COMPLETE IN PRODUCTION** |
 | **8** | **Bahasa Indonesia to 100** | **COMPLETE IN PRODUCTION** |
 | **9** | **English to 100** | **COMPLETE IN PRODUCTION** |
-| **10** | **Iqro to 100** | **NEXT** |
-| 11 | Letters/Menulis to 100 | PLANNED |
+| **10** | **Iqro to 100** | **ENGINEERING/CATALOG COMPLETE IN PRODUCTION — EXPERT REVIEW STILL REQUIRED** |
+| **11** | **Letters/Menulis to 100** | **NEXT** |
 | 12 | Logic/Logika to 100 | PLANNED |
 | 13 | Science/Sains to 100 | PLANNED |
 | 14 | Drawing + Coloring to 100 each | PLANNED |
@@ -59,110 +60,89 @@ A "game" means a meaningfully distinct playable learning experience/level, not a
 
 ## Completed foundation batches
 
-### Batch 0 — Baseline, metrics, acceptance contracts — COMPLETE
-
-Established frozen catalog floors, target-gap reporting, mobile route/viewport acceptance, local-only speech-start instrumentation, and explicit baseline limitations. Landed through PR #29.
-
-### Batch 1 — Mobile design-system rebuild — COMPLETE
-
-Established shared spacing/type/gutter/safe-area/touch/grid tokens, responsive child/parent layout primitives, narrow-phone behavior, and approximately 44x44 CSS px child touch targets. Landed through PR #30.
-
-### Batch 2 — Mobile route migration and responsive QA — COMPLETE
-
-Migrated child, parent, catalog, and play routes to the mobile foundation. Chromium production-build QA covers 320/360/375/390/430/768/1024 px and fails on horizontal overflow, undersized child controls, rendering/page/framework errors, or console errors. Physical-device acceptance remains separately scheduled for Batch 16.
-
-### Batch 3 — AudioManager rebuild — COMPLETE
-
-Centralized product speech/TTS and feedback tones behind `AudioManager`, including gesture unlock/warmup, locale-aware voice caching, bounded queue/deduplication, stale-speech cancellation, standardized rates, readable fallback handling, and privacy-safe local latency telemetry. Landed through PR #32 at `20c643214cf60a2bbaefc402d77b89af24ba16cf`.
-
-### Batch 4 — Scalable content architecture — COMPLETE
-
-Established the canonical hierarchy and validation for ownership, stable IDs, content packs, ages, difficulty, answers, matching pairs, skills/weights, motion boundaries, assets, review states, and duplicate-content detection. Migration `0011_scalable_content_architecture`; PR #33 at `923315882f7244f24a2045398a061d12a2b472cf`.
-
-### Batch 5 — Reusable game-mechanics library — COMPLETE
-
-Established 20 reusable mechanic contracts across choice, pairing, targeting, classification, ordering, path, and practice families. Seventeen support assessed/practice mode; story, coloring, and optional motion wrapper remain practice-only. Mechanic capability does not itself count as a playable activity. Migration `0012_reusable_mechanic_library`; PR #35 at `5164d3b40492531b4ba5654ecc192ab3f8db72d8`.
-
-### Batch 6 — New subject/curriculum foundations — COMPLETE
-
-Added `letters`, `logic`, and `science` as first-class subjects with starter paths/stages/lessons/packs, six skills, and nine real activities. Integrated them with navigation, adaptive ranking, progression/readiness, parent reporting, awards/certificates, and database catalog ownership.
-
-`letters-trace-a` remains completion-only practice because the validated trace evaluator is digit-specific. Local/cloud all-subject award logic was scaled to eight current first-class subjects. Migrations `0013` and `0014`; detailed closure: `EXPANSION_BATCH6_CLOSURE_2026-09-10.md`.
+Batches 0–6 established the baseline, mobile design system, route migration and Chromium QA, centralized `AudioManager`, scalable content ownership, reusable mechanic contracts, and first-class Letters/Logic/Science foundations. Historical evidence and ownership boundaries remain in force; `letters-trace-a` remains completion-only practice because generic letter-shape fidelity is not yet validated.
 
 ## Batch 7 — Math to 100 — COMPLETE
 
-Batch 7 expanded Math from seven historical activities to exactly **100**, while keeping the original IDs and evidence boundaries stable.
+Math expanded from 7 historical activities to exactly 100 through four production-gated waves:
 
-- [x] Wave A 1–25 — added 18; PR #39, migration `0015`, SHA `94c21cf84bc809272c93d997b1e994abfc8e9bbb`.
-- [x] Wave B 26–50 — added 25; PR #40, migration `0016`, SHA `3c2be1bac0c5f15c559bc3f5a4ab099f4fedf53f`.
-- [x] Wave C 51–75 — added 25; PR #41, migration `0017`, SHA `add22b874174ebbb797461f9a0b8c52fe60f9250`.
-- [x] Wave D 76–100 — added 25; PR #42, migration `0018`, SHA `82acd7d39c6cab98f38c92e4f6d7be6afe52cdcd`, main CI #220 exact-SHA smoke success.
+- [x] Wave A — +18; PR #39; migration `0015`; SHA `94c21cf84bc809272c93d997b1e994abfc8e9bbb`.
+- [x] Wave B — +25; PR #40; migration `0016`; SHA `3c2be1bac0c5f15c559bc3f5a4ab099f4fedf53f`.
+- [x] Wave C — +25; PR #41; migration `0017`; SHA `add22b874174ebbb797461f9a0b8c52fe60f9250`.
+- [x] Wave D — +25; PR #42; migration `0018`; SHA `82acd7d39c6cab98f38c92e4f6d7be6afe52cdcd`.
 
-Batch 7 closure baseline: 127 activities, Math 100, 120 assessed / 7 practice, 14 stages, 34 lessons, 34 packs, and 37 skills. Detailed evidence: `EXPANSION_BATCH7_CLOSURE_2026-09-10.md`.
+Detailed closure: `EXPANSION_BATCH7_CLOSURE_2026-09-10.md`.
 
 ## Batch 8 — Bahasa Indonesia to 100 — COMPLETE
 
-Batch 8 expanded Bahasa Indonesia from six historical activities to exactly **100** while preserving the original six IDs and historical story practice classification.
+Bahasa Indonesia expanded from 6 historical activities to exactly 100:
 
-- [x] Wave A 1–25 — added 19; PR #44, migration `0019`, SHA `47bf43240872bfedf4c22dacfc8d417a924411ac`, main CI #226 exact-SHA smoke success.
-- [x] Wave B 26–50 — added 25; PR #45, migration `0020`, SHA `8e0654006105933830ee6637cd3169940404fbf2`, main CI #229 exact-SHA smoke success.
-- [x] Wave C 51–75 — added 25; PR #46, migration `0021`, SHA `d84bf4929cd83d1cebf0017f4a987f04f2eeb0d2`, main CI #231 exact-SHA smoke success.
-- [x] Wave D 76–100 — added 25; PR #47, migration `0022`, SHA `9347f2a6e1e7d27448d0d7f7a7a0c45408b0db2e`, main CI #233 exact-SHA smoke success.
+- [x] Wave A — +19; PR #44; migration `0019`; SHA `47bf43240872bfedf4c22dacfc8d417a924411ac`.
+- [x] Wave B — +25; PR #45; migration `0020`; SHA `8e0654006105933830ee6637cd3169940404fbf2`.
+- [x] Wave C — +25; PR #46; migration `0021`; SHA `d84bf4929cd83d1cebf0017f4a987f04f2eeb0d2`.
+- [x] Wave D — +25; PR #47; migration `0022`; SHA `9347f2a6e1e7d27448d0d7f7a7a0c45408b0db2e`.
 
-Batch 8 closure baseline: 221 total activities; Bahasa 100 at 99 assessed / 1 historical practice; Math remains 100; global 214 assessed / 7 practice; 18 stages; 8 paths; 54 lessons; 54 packs; 57 skills. Detailed evidence: `EXPANSION_BATCH8_CLOSURE_2026-09-10.md`.
+Detailed closure: `EXPANSION_BATCH8_CLOSURE_2026-09-10.md`.
 
 ## Batch 9 — English to 100 — COMPLETE
 
-Batch 9 expanded English from six historical activities to exactly **100**. Wave A correctly added only 19 because the historical six count toward the canonical 1–25 boundary.
+English expanded from 6 historical activities to exactly 100:
+
+- [x] Wave A — +19; PR #49; migration `0023`; SHA `eb4181df311011eb7724cfcef1565c50ab966120`.
+- [x] Wave B — +25; PR #50; migration `0024`; SHA `3dd380f736c3821546e531da2b82593d39519271`.
+- [x] Wave C — +25; PR #51; migration `0025`; SHA `4096e68cb6916d7fedd0cf37896a67f6153edd30`.
+- [x] Wave D — +25; PR #52; migration `0026`; SHA `cc9430e1d3543de809b26a47d3dd16cad3803897`.
+
+Wave C's first CI run caught a duplicate proposed historical skill ID before migration/merge; it was corrected without overwriting learning history. Detailed closure: `EXPANSION_BATCH9_CLOSURE_2026-09-10.md`.
+
+## Batch 10 — Iqro to 100 — ENGINEERING/CATALOG COMPLETE
+
+Iqro entered Batch 10 with four historical activities. The expansion correctly added **21** in Wave A and 25 in each subsequent wave, for **96 new activities total** and exactly **100 canonical Iqro activities**.
 
 ### Wave results
 
-- [x] **Wave A 1–25** — alphabet recognition/listening, initial-sound awareness, colors, and numbers one to five. Added 19. PR #49, migration `0023`, SHA `eb4181df311011eb7724cfcef1565c50ab966120`, main CI #237 exact-SHA smoke success.
-- [x] **Wave B 26–50** — animals, everyday objects, body vocabulary, and family vocabulary. Added 25. PR #50, migration `0024`, SHA `3dd380f736c3821546e531da2b82593d39519271`, main CI #239 exact-SHA smoke success.
-- [x] **Wave C 51–75** — food, actions, semantic categories, expanded word-picture matching, and listening identification. Added 25. PR #51, migration `0025`, SHA `4096e68cb6916d7fedd0cf37896a67f6153edd30`, main CI #243 exact-SHA smoke success.
-- [x] **Wave D 76–100** — opposites, literal short phrases, sentence completion, listening for sentence detail, and integrated review. Added 25. PR #52, migration `0026`, SHA `cc9430e1d3543de809b26a47d3dd16cad3803897`, main CI #245 exact-SHA smoke success.
+- [x] **Wave A 1–25** — early Hijaiyah visual recognition/discrimination, listening, dot awareness, and name/form matching. +21. PR #54, migration `0027`, SHA `75152bcf5d930c5a0f072e77a2679ca1c9edef73`, main CI #250 exact-SHA smoke success.
+- [x] **Wave B 26–50** — Dal/Dzal, Ra/Zai, Sin/Syin recognition, listening, dot awareness, name matching, and family discrimination. +25. PR #55, migration `0028`, SHA `074026b1c8b62a5a63b3004e6d591c820dd3ec5d`, main CI #252 exact-SHA smoke success.
+- [x] **Wave C 51–75** — Shad, Dhad, Tha, Zha, Ain, Ghain, Fa, Qaf recognition/listening/dot/name/family discrimination. +25. PR #56, migration `0029`, SHA `dc367d2fa712c3ec793d6161d8fdde434197a17b`, main CI #254 exact-SHA smoke success.
+- [x] **Wave D 76–100** — Kaf, Lam, Mim, Nun, Ha besar, Wawu, Ya, standalone Hamzah, and integrated review. +25. PR #57, migration `0030`, SHA `e927e3e283b3c15fb97239c9ce013ef6121d3947`, main CI #256 exact-SHA smoke success.
 
-Wave C's first CI run caught a duplicate proposed skill ID, `english.word.picture_matching`, before migration or merge. The new skill was renamed to `english.word.picture_matching.expanded`; subsequent CI passed and live verification confirmed both historical and expanded identities remain separate.
+### Batch 10 closure baseline
 
-### Batch 9 closure baseline
-
-- 8 first-class subjects;
-- 315 total playable activities;
-- English exactly 100, all assessed;
-- Bahasa Indonesia remains exactly 100;
-- Math remains exactly 100;
-- global 308 assessed / 7 practice;
-- 22 stages;
+- 411 total playable activities;
+- Iqro exactly 100 = 99 assessed / 1 historical practice;
+- Math, Bahasa Indonesia, and English remain exactly 100 each;
+- 404 assessed / 7 practice globally;
+- 26 stages;
 - 8 paths;
-- 74 lessons;
-- 74 content packs;
-- 77 skills.
+- 94 lessons;
+- 94 content packs;
+- 97 skills;
+- 22 active Iqro packs, all `expert_required`;
+- 100 Iqro activity-skill links;
+- zero active Iqro activities missing mechanic/evidence metadata.
 
-All 94 Batch 9 additions use existing measured `tap_choice`, `listen_and_choose`, or `matching` evidence paths. Migrations `0023`–`0026` are applied in canonical Supabase `estvtgflwkebomsqlolv`; live counts match repository contracts; post-DDL advisor review shows no new Batch 9 regression.
+All 96 Batch 10 additions use measured `tap_choice`, `listen_and_choose`, or `matching` evidence. No new generic trace is promoted to assessed.
 
-Detailed evidence: `EXPANSION_BATCH9_CLOSURE_2026-09-10.md`.
+Batch 10 also adds an automated parity gate between learning-authoring metadata and the canonical `HIJAIYAH_TEMPLATES` registry for 29 entries: 28 Hijaiyah letters plus standalone Hamzah. Glyph, Latin label, dot count, and dot zone must match.
 
-## Batch 10 — Iqro to 100 — NEXT
+Migrations `0027`–`0030` are live in canonical Supabase. Post-DDL advisors show no new Batch 10 regression. Detailed engineering closure: `EXPANSION_BATCH10_CLOSURE_2026-09-10.md`.
 
-Current validated Iqro baseline: 4 activities. Therefore Wave A must add **21** meaningful activities to reach canonical count 25; do not add 25 blindly on top of the existing four.
+### Mandatory remaining Iqro content-governance boundary
 
-- Wave A 1–25: Hijaiyah recognition, visual discrimination, same-letter matching.
-- Wave B 26–50: sequence, dots/form discrimination, reviewed listen-and-find.
-- Wave C 51–75: guided trace, similar-letter comparison, broader recognition/matching.
-- Wave D 76–100: broader sequence/trace, mixed review, age-appropriate challenge.
+Engineering closure does **not** close human expert review. All Iqro packs remain `expert_required`, not `expert_approved`. Audio/pronunciation, learning sequence, labels, and pedagogical appropriateness require explicit review by a competent religious-learning/Iqro expert before any expert-approved claim.
 
-Use explicit content/audio review states. Code/DB/CI success does not equal expert religious-learning approval. Assessed tracing remains blocked unless measurement fidelity is validated.
+## Batch 11 — Letters/Menulis to 100 — NEXT
 
-## Batch 11 — Letters/Menulis to 100
+Current validated Letters baseline: **3 activities**. Therefore Wave A must add **22 meaningful activities** to reach canonical count 25.
 
-Current validated Letters baseline: 3 activities.
+- Wave A 1–25: uppercase/lowercase recognition, matching, pre-writing strokes, and measured visual discrimination. Prefer existing measured choice/matching paths for assessed activities; keep unvalidated writing traces practice-only.
+- Wave B 26–50: guided letter formation, start direction, connect-dots, and broader case/shape matching. Generalize trace templates rather than hardcoding a separate evaluator for every glyph.
+- Wave C 51–75: malformed-letter discrimination, copy/complete letters, sequencing, and shape-to-letter preparation.
+- Wave D 76–100: mixed formation, letter sequence, review, and age-appropriate writing challenges.
 
-- Wave A 1–25: uppercase/lowercase recognition, matching, pre-writing strokes.
-- Wave B 26–50: guided letter formation, start direction, connect-dots.
-- Wave C 51–75: malformed-letter discrimination, copy/complete letters, shape-to-letter preparation.
-- Wave D 76–100: mixed formation, sequence, review, age-appropriate writing challenge.
+### Batch 11 evidence rule
 
-Generalize trace templates rather than hardcoding a separate evaluator for every glyph. Assessed letter tracing remains blocked until fidelity is explicitly validated.
+`letters-trace-a` is currently completion-only practice because the validated trace-fidelity evaluator is digit-specific. **Do not promote generic letter tracing to assessed evidence until letter-shape fidelity is explicitly implemented, tested, and validated.** Assessed Batch 11 activities should use existing measurable mechanics unless/until that evaluator exists.
 
 ## Batch 12 — Logic/Logika to 100
 
@@ -204,7 +184,7 @@ Any objectively assessed tracing/drawing task requires an explicit validated evi
 
 ## Batch 15 — Adaptive/mastery/report scaling
 
-Scale recommendations and reporting for hundreds of activities using skill weakness, confidence, evidence spacing, mechanic/content repetition, age, stage, difficulty, frustration/retry, and motion preferences. Prefer a different item/mechanic for a weak skill instead of exact replay. Define evidence-diversity rules for selected core skills and keep Parent UI summarized rather than dumping raw activity lists.
+Scale recommendations and reporting for hundreds of activities using skill weakness, confidence, evidence spacing, mechanic/content repetition, age, stage, difficulty, frustration/retry, and motion preferences. Prefer different items/mechanics for a weak skill instead of exact replay. Define evidence-diversity rules for selected core skills and keep Parent UI summarized rather than dumping raw activity lists.
 
 ## Batch 16 — Performance, accessibility, security, device QA
 
@@ -225,21 +205,29 @@ Wave C: canonical count 51–75
 Wave D: canonical count 76–100
 ```
 
-Existing validated activities count toward the boundary. Math entered Batch 7 with seven activities, Bahasa entered Batch 8 with six, English entered Batch 9 with six, and Iqro enters Batch 10 with four. Never add 25 blindly on top of an existing baseline.
+Existing validated activities count toward the boundary. Never add 25 blindly on top of a non-zero baseline.
 
-Do not merge a giant unreviewed 100-activity PR. Each wave independently passes content validation, mechanic/evidence checks, migration verification, CI, and production closure before the next wave raises the floor.
+Completed entry baselines:
+- Math entered Batch 7 with 7 -> Wave A added 18;
+- Bahasa entered Batch 8 with 6 -> Wave A added 19;
+- English entered Batch 9 with 6 -> Wave A added 19;
+- Iqro entered Batch 10 with 4 -> Wave A added 21.
 
-## Completion rule
+Next:
+- Letters enters Batch 11 with 3 -> Wave A must add **22**.
 
-The full expansion is complete only when:
+## Production closure rule
 
-- target counts represent real meaningful playable activities rather than metadata-only rows;
-- all seven academic subjects reach 100 and participate correctly in progression/adaptive/reporting;
-- Drawing and Coloring each reach 100 under their creative-practice/evidence boundaries;
-- mobile QA remains clean;
-- voice handling stays consolidated and target-device latency evidence is acceptable;
-- no assessed activity fabricates evidence;
-- Iqro review requirements remain explicit;
-- final CI is green;
-- final exact-SHA production smoke passes;
+No batch is production-closed until:
+
+- target counts and unique-ID/content/evidence contracts pass automated gates;
+- required migrations are applied to canonical Supabase;
+- live DB counts match repository contracts;
+- advisor changes are reviewed;
+- PR is merged to `main`;
+- final `main` CI is green;
+- exact-SHA Cloudflare production smoke succeeds;
+- canonical handoff/coverage/deployment docs are synchronized;
 - remaining limitations are documented explicitly.
+
+For Iqro specifically, engineering closure and expert content approval are separate statuses. Batch 10 satisfies engineering production closure while retaining `expert_required` human-review status.
