@@ -42,13 +42,13 @@ On pushes to `main`, `Production smoke (Cloudflare)` succeeds only when producti
 
 ## Latest verified production implementation
 
-Expansion Batch 7 — Math to 100 is production-complete.
+Expansion Batch 8 — Bahasa Indonesia to 100 is production-complete.
 
 ```text
-Batch:                 Expansion Batch 7 — Math to 100
-Final PR:              #42
-Git SHA:               82acd7d39c6cab98f38c92e4f6d7be6afe52cdcd
-Main CI run:            #220
+Batch:                 Expansion Batch 8 — Bahasa Indonesia to 100
+Final PR:              #47
+Git SHA:               9347f2a6e1e7d27448d0d7f7a7a0c45408b0db2e
+Main CI run:            #233
 Quality gate (Ubuntu):  success
 Windows compatibility: success
 Mobile route QA:        success
@@ -60,16 +60,16 @@ Production smoke:       success
 
 The exact-SHA production smoke verified the final Wave D implementation release on the public Cloudflare deployment with the canonical Supabase backend.
 
-Batch 7 wave release sequence:
+Batch 8 wave release sequence:
 
-| Wave | Math | PR | Migration | Main SHA | Exact-SHA smoke |
-| --- | ---: | ---: | --- | --- | --- |
-| A | 25 | #39 | `0015_batch7_math_wave_a` | `94c21cf84bc809272c93d997b1e994abfc8e9bbb` | success |
-| B | 50 | #40 | `0016_batch7_math_wave_b` | `3c2be1bac0c5f15c559bc3f5a4ab099f4fedf53f` | success |
-| C | 75 | #41 | `0017_batch7_math_wave_c` | `add22b874174ebbb797461f9a0b8c52fe60f9250` | success |
-| D | 100 | #42 | `0018_batch7_math_wave_d` | `82acd7d39c6cab98f38c92e4f6d7be6afe52cdcd` | success |
+| Wave | Bahasa | PR | Migration | Main SHA | Main CI | Exact-SHA smoke |
+| --- | ---: | ---: | --- | --- | ---: | --- |
+| A | 25 | #44 | `0019_batch8_bahasa_wave_a` | `47bf43240872bfedf4c22dacfc8d417a924411ac` | #226 | success |
+| B | 50 | #45 | `0020_batch8_bahasa_wave_b` | `8e0654006105933830ee6637cd3169940404fbf2` | #229 | success |
+| C | 75 | #46 | `0021_batch8_bahasa_wave_c` | `d84bf4929cd83d1cebf0017f4a987f04f2eeb0d2` | #231 | success |
+| D | 100 | #47 | `0022_batch8_bahasa_wave_d` | `9347f2a6e1e7d27448d0d7f7a7a0c45408b0db2e` | #233 | success |
 
-Detailed Batch 7 evidence is in `EXPANSION_BATCH7_CLOSURE_2026-09-10.md`.
+Batch 7 Math remains production-complete at 100 activities. Detailed Batch 8 evidence is in `EXPANSION_BATCH8_CLOSURE_2026-09-10.md`.
 
 ## Repository deployment configuration
 
@@ -122,15 +122,20 @@ Applied migration chain verified on 10 September 2026:
 0016_batch7_math_wave_b
 0017_batch7_math_wave_c
 0018_batch7_math_wave_d
+0019_batch8_bahasa_wave_a
+0020_batch8_bahasa_wave_b
+0021_batch8_bahasa_wave_c
+0022_batch8_bahasa_wave_d
 ```
 
-Post-`0018` live catalog verification:
+Post-`0022` live catalog verification:
 
-- 127 active learning activities;
+- 221 active learning activities;
+- exactly 100 Bahasa Indonesia activities;
 - exactly 100 Math activities;
-- 120 assessed / 7 practice;
-- 37 active learning skills;
-- 34 active content packs.
+- 214 assessed / 7 practice;
+- 57 active learning skills;
+- 54 active content packs.
 
 Important boundaries remain unchanged:
 
@@ -138,22 +143,23 @@ Important boundaries remain unchanged:
 - `0011` provides scalable content ownership without renaming historical IDs;
 - `0012` expands mechanic/evidence vocabulary without fake playable counts;
 - `0013`/`0014` establish Batch 6 subjects and eight-subject award scaling;
-- `0015`–`0018` add Batch 7 Math content additively while preserving historical learning identity;
+- `0015`–`0018` add Batch 7 Math content additively;
+- `0019`–`0022` add Batch 8 Bahasa content additively while preserving the six historical Bahasa IDs and learning history;
 - current Iqro packs remain `expert_required`; database/code CI does not equal expert religious-learning approval.
 
 ## Post-DDL advisor state
 
-After `0018`:
+After `0022`:
 
 - performance advisor has **no WARN-level regression**; 19 unused-index observations are INFO-level only;
 - security advisor still reports the existing intentional authenticated SECURITY DEFINER exposure for `public.record_learning_attempt(...)` and leaked-password protection disabled under the current Supabase configuration/plan;
-- no new Batch 7 security warning was introduced.
+- no new Batch 8 security warning was introduced.
 
 ## Auth and learning production state
 
 Production supports account login, account-owned child profiles, assessed-attempt persistence, evidence/mastery materialization, parent-derived state, cloud child ownership/isolation, durable offline attempt queuing, and exact-commit health verification.
 
-Practice/completion-only activities cannot manufacture academic mastery. Batch 7 Math additions use measured `choice_accuracy_v1` or `matching_accuracy_v1` evidence contracts.
+Practice/completion-only activities cannot manufacture academic mastery. All 94 Batch 8 additions use measured tap-choice, listen-and-choose, or matching evidence paths. The historical Bahasa story remains practice-only.
 
 ## Production verification checklist
 
@@ -166,7 +172,7 @@ For every expansion wave/batch:
 5. [x] Cloudflare remains Git-driven from `main`;
 6. [x] post-merge smoke verifies exact release SHA and canonical Supabase metadata.
 
-Batch 7 satisfies all six conditions across Waves A–D.
+Batch 8 satisfies all six conditions across Waves A–D.
 
 ## Manual deployment fallback
 

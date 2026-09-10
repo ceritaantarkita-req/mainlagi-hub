@@ -17,56 +17,59 @@ This file is the canonical human/AI handoff for the current repository state. `m
 
 ## Latest verified production baseline
 
-**Expansion Batch 7 — Math to 100 is production-complete.**
+**Expansion Batch 8 — Bahasa Indonesia to 100 is production-complete.**
 
-Final Batch 7 implementation SHA:
+Final Batch 8 implementation SHA:
 
-`82acd7d39c6cab98f38c92e4f6d7be6afe52cdcd`
+`9347f2a6e1e7d27448d0d7f7a7a0c45408b0db2e`
 
-Final implementation landed through PR #42 after Waves A–C had each been separately closed. Post-merge main CI run #220 succeeded for Ubuntu quality/learning/simulations, Windows compatibility, Chromium mobile-route QA, production build, dependency audit, secret-history scan, and exact-SHA Cloudflare production smoke.
+Final implementation landed through PR #47 after Waves A–C had each been separately production-closed. Post-merge main CI #233 succeeded for Ubuntu quality/learning/simulations, Windows compatibility, Chromium mobile-route QA, production build, dependency audit, secret-history scan, and exact-SHA Cloudflare production smoke.
 
-Detailed closure evidence: `EXPANSION_BATCH7_CLOSURE_2026-09-10.md`.
+Detailed closure evidence: `EXPANSION_BATCH8_CLOSURE_2026-09-10.md`.
+
+Batch 7 Math-to-100 remains production-complete; its detailed evidence is retained in `EXPANSION_BATCH7_CLOSURE_2026-09-10.md`.
 
 ## Current playable catalog
 
-Canonical repository and live Supabase counts after Batch 7:
+Canonical repository and live Supabase counts after Batch 8:
 
 - 8 first-class subjects: Bahasa Indonesia, English, Matematika, Iqro, Letters/Menulis, Logic/Logika, Science/Sains, and Coloring/Mewarnai;
 - 8 learning paths;
-- 14 stages;
-- 34 lessons;
-- 34 versioned content packs;
-- 127 playable activities;
-- 37 skills;
-- 120 assessed activities;
+- 18 stages;
+- 54 lessons;
+- 54 versioned content packs;
+- 221 playable activities;
+- 57 skills;
+- 214 assessed activities;
 - 7 practice activities;
+- Bahasa Indonesia: exactly **100 playable activities**;
 - Math: exactly **100 playable activities**.
 
 Current subject activity counts:
 
-| Subject | Playable |
-| --- | ---: |
-| Bahasa Indonesia | 6 |
-| English | 6 |
-| Math | 100 |
-| Iqro | 4 |
-| Letters / Menulis | 3 |
-| Logic / Logika | 3 |
-| Science / Sains | 3 |
-| Coloring / Mewarnai | 2 |
+| Subject | Playable | Assessed | Practice | Skills |
+| --- | ---: | ---: | ---: | ---: |
+| Bahasa Indonesia | 100 | 99 | 1 | 23 |
+| English | 6 | 6 | 0 | 3 |
+| Math | 100 | 98 | 2 | 22 |
+| Iqro | 4 | 3 | 1 | 2 |
+| Letters / Menulis | 3 | 2 | 1 | 2 |
+| Logic / Logika | 3 | 3 | 0 | 2 |
+| Science / Sains | 3 | 3 | 0 | 2 |
+| Coloring / Mewarnai | 2 | 0 | 2 | 1 |
 
 Drawing/Menggambar is not first-class yet. It remains planned for Batch 14 together with expansion of Coloring/Mewarnai.
 
-## Batch 7 Math expansion
+## Batch 8 Bahasa expansion
 
-Batch 7 preserved the seven historical Math activity IDs and added 93 new Math activities through four reviewable waves:
+Batch 8 preserved the six historical Bahasa activity IDs and added 94 new activities through four reviewable waves:
 
-- Wave A — 7 -> 25: numeral recognition, counting, quantity matching, early quantity intuition; PR #39, migration `0015`, SHA `94c21cf84bc809272c93d997b1e994abfc8e9bbb`;
-- Wave B — 25 -> 50: quantity comparison, ordering, shapes/properties, patterns; PR #40, migration `0016`, SHA `3c2be1bac0c5f15c559bc3f5a4ab099f4fedf53f`;
-- Wave C — 50 -> 75: missing numbers, grouping, addition/subtraction within 10, size/length; PR #41, migration `0017`, SHA `add22b874174ebbb797461f9a0b8c52fe60f9250`;
-- Wave D — 75 -> 100: spatial position, measurement intuition, mixed operations, visual problems, integrated review; PR #42, migration `0018`, SHA `82acd7d39c6cab98f38c92e4f6d7be6afe52cdcd`.
+- Wave A — 6 -> 25: vowel recognition/listening, vowel-vs-consonant classification, case matching, initial sounds; PR #44, migration `0019`, SHA `47bf43240872bfedf4c22dacfc8d417a924411ac`, main CI #226;
+- Wave B — 25 -> 50: syllable recognition/blending, word/meaning matching, word listening, picture-word matching; PR #45, migration `0020`, SHA `8e0654006105933830ee6637cd3169940404fbf2`, main CI #229;
+- Wave C — 50 -> 75: sentence ordering/comprehension, one-step listening instructions, vocabulary relations, short reading; PR #46, migration `0021`, SHA `d84bf4929cd83d1cebf0017f4a987f04f2eeb0d2`, main CI #231;
+- Wave D — 75 -> 100: punctuation/capitalization, contextual sentence completion, vocabulary categories, listening detail, integrated reading review; PR #47, migration `0022`, SHA `9347f2a6e1e7d27448d0d7f7a7a0c45408b0db2e`, main CI #233.
 
-All 93 Batch 7 additions are touch-first and use existing measured `tap_choice` or `matching` evidence contracts. No camera requirement was introduced for core Math learning.
+All four post-merge CI runs passed exact-SHA Cloudflare production smoke. All 94 new Bahasa activities are assessed through existing measured `tap_choice`, `listen_and_choose`, or `matching` paths. The historical Bahasa story remains the single Bahasa practice activity.
 
 ## Shipped learning/content architecture
 
@@ -103,7 +106,7 @@ Mastery remains:
 
 `not_started -> exploring -> developing -> proficient -> mastered`
 
-Current protections remain in force:
+Protections remain in force:
 
 - one perfect qualifying attempt remains at most `exploring`;
 - repeated qualifying evidence is required for higher mastery;
@@ -116,15 +119,15 @@ Current protections remain in force:
 - missing measurement fails closed to completion-only;
 - hints/retries are retained and independence penalties remain downstream in the mastery engine.
 
-All Batch 7 Math additions use measured `choice_accuracy_v1` or `matching_accuracy_v1` evidence. Existing conservative trace boundaries are unchanged: `letters-trace-a` remains completion-only practice until a letter-specific fidelity evaluator is validated.
+Batch 8 uses measured choice/listening-choice/matching evidence only. Existing conservative trace boundaries are unchanged: `letters-trace-a` remains completion-only practice until letter-shape fidelity is explicitly validated.
 
-## Batch 6 subject foundations retained
+## Existing subject/review boundaries retained
 
-Letters/Menulis, Logic/Logika, and Science/Sains remain first-class subjects integrated with child navigation, age eligibility, adaptive ranking, stage readiness, Parent summaries, skill rows, cloud catalog registration, and certificate eligibility.
+Letters/Menulis, Logic/Logika, and Science/Sains remain first-class subjects integrated with navigation, age eligibility, adaptive ranking, progression/readiness, Parent summaries, skill rows, cloud catalog registration, and certificate eligibility.
 
 The local/cloud `all-subjects` achievement threshold remains eight first-class subjects. Drawing will require another intentional threshold/catalog update when it becomes first-class.
 
-Current Iqro packs remain `expert_required`, not `expert_approved`; passing code/CI is not religious-learning expert approval.
+Current Iqro packs remain `expert_required`, not `expert_approved`; passing code/DB/CI is not religious-learning expert approval.
 
 ## Reusable mechanic library
 
@@ -179,11 +182,15 @@ Applied migration chain is verified through:
 0016_batch7_math_wave_b
 0017_batch7_math_wave_c
 0018_batch7_math_wave_d
+0019_batch8_bahasa_wave_a
+0020_batch8_bahasa_wave_b
+0021_batch8_bahasa_wave_c
+0022_batch8_bahasa_wave_d
 ```
 
-Post-`0018` live verification: 127 active activities, 100 Math, 120 assessed / 7 practice, 37 active skills, and 34 active packs.
+Post-`0022` live verification: 221 active activities, 100 Bahasa, 100 Math, 214 assessed / 7 practice, 57 active skills, and 54 active packs.
 
-Post-DDL performance advisor has no WARN-level regression; 19 unused-index observations are INFO only. Security advisor still reports the two known pre-existing warnings: intentional authenticated execution of protected SECURITY DEFINER `record_learning_attempt(...)`, and leaked-password protection disabled under the current Supabase configuration/plan.
+Post-DDL performance advisor has no WARN-level regression; 19 unused-index observations are INFO only. Security advisor still reports the two known warnings: intentional authenticated execution of protected SECURITY DEFINER `record_learning_attempt(...)`, and leaked-password protection disabled under the current Supabase configuration/plan. Batch 8 introduced no new advisor warning.
 
 ## CI and release governance
 
@@ -214,5 +221,6 @@ One account-level action remains outside current connector write capability: ens
 - Batch 5 reusable mechanic library — complete in production;
 - Batch 6 new subject/curriculum foundations — complete in production;
 - **Batch 7 Math to 100 — complete in production**;
-- **Batch 8 Bahasa Indonesia to 100 — NEXT**;
-- Batch 9+ — planned according to `MAINLAGI_EXPANSION_IMPLEMENTATION_PLAN.md`.
+- **Batch 8 Bahasa Indonesia to 100 — complete in production**;
+- **Batch 9 English to 100 — NEXT**;
+- Batch 10+ — planned according to `MAINLAGI_EXPANSION_IMPLEMENTATION_PLAN.md`.
