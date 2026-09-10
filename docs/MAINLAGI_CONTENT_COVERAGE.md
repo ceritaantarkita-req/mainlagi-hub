@@ -12,12 +12,12 @@ This document tracks the actual playable catalog separately from authoring/runti
 | English | 6 | 6 | 0 | 3 | 100 | 94 |
 | Math | 7 | 5 | 2 | 3 | 100 | 93 |
 | Iqro | 4 | 3 | 1 | 2 | 100 | 96 |
-| Letters / Menulis | 3 | 3 | 0 | 2 | 100 | 97 |
+| Letters / Menulis | 3 | 2 | 1 | 2 | 100 | 97 |
 | Logic / Logika | 3 | 3 | 0 | 2 | 100 | 97 |
 | Science / Sains | 3 | 3 | 0 | 2 | 100 | 97 |
 | Coloring / Mewarnai | 2 | 0 | 2 | 1 | 100 | 98 |
 
-Current Batch 6 repository total: **34 playable activities** — **28 assessed** and **6 practice**.
+Current Batch 6 repository total: **34 playable activities** — **27 assessed** and **7 practice**.
 
 The 25 activities that predate Batch 6 retain their historical IDs. Batch 6 adds exactly nine intentional starter activities: three each for Letters/Menulis, Logic/Logika, and Science/Sains.
 
@@ -45,7 +45,7 @@ Every current stage is owned by one learning path, every current activity is own
 | Logic / Logika | `logic-thinking-foundations` | `logic-foundations` | `logic-visual-foundations` | `logic.pack.visual-basics` | 3 | 2 |
 | Science / Sains | `science-discovery-foundations` | `science-foundations` | `science-living-world` | `science.pack.living-world` | 3 | 2 |
 
-Each new starter stage has two required measured core activities plus one measured variation. They reuse established `tap_choice`, `matching`, and `guided_trace` capabilities; Batch 6 does not introduce a camera dependency or a one-off scoring runtime.
+Logic and Science each start with two required measured core activities plus one assessed variation. Letters deliberately uses a stricter boundary: `letters-find-a` is required and assessed, `letters-trace-a` is required guided formation practice with `completion_only_v1`, and `letters-match-case` is an assessed variation. Letter tracing stays excluded from academic accuracy/mastery until a letter-shape fidelity evaluator is explicitly validated. All three foundations remain touch-first and camera-independent.
 
 ## Current playable runtime inventory
 
@@ -84,7 +84,8 @@ Letters/Menulis, Logic/Logika, and Science/Sains are first-class learning subjec
 - child subject/stage/activity navigation;
 - canonical path, lesson, and versioned content-pack ownership;
 - age eligibility;
-- measured learning-attempt evidence;
+- measured learning-attempt evidence where the runtime has a validated evidence path;
+- completion-only practice where evidence fidelity is not yet validated;
 - skill mastery and stage readiness;
 - adaptive subject-scoped recommendation ranking;
 - Parent Dashboard summaries and skill rows;
@@ -149,6 +150,7 @@ Current expansion tests cover:
 - reusable mechanic count and unique IDs;
 - payload integrity for choice/pair/target/classification/order/path families;
 - explicit mechanic evidence contracts and practice-only boundaries;
+- conservative completion-only handling for unvalidated letter tracing;
 - adaptive subject scoping, stage readiness, and Parent summary participation for all three Batch 6 subjects;
 - local/cloud all-subject achievement threshold scaling;
 - additive DB subject/mechanic/evidence vocabulary compatibility;
