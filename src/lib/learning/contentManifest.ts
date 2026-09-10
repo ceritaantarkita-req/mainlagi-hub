@@ -5,6 +5,11 @@ import {
   BAHASA_BATCH8_STAGE_IDS
 } from "./bahasaBatch8";
 import {
+  ENGLISH_BATCH9_CONTENT_PACKS,
+  ENGLISH_BATCH9_LESSON_CORES,
+  ENGLISH_BATCH9_STAGE_IDS
+} from "./englishBatch9";
+import {
   MATH_BATCH7_CONTENT_PACKS,
   MATH_BATCH7_LESSON_CORES,
   MATH_BATCH7_STAGE_IDS
@@ -37,17 +42,19 @@ export const makeGeneratedActivityId = base.makeGeneratedActivityId;
 export const CONTENT_PATHS: ContentPathDefinition[] = base.CONTENT_PATHS.map((path) => {
   if (path.id === "math-fondasi-numerasi") return { ...path, stageIds: [...path.stageIds, ...MATH_BATCH7_STAGE_IDS] };
   if (path.id === "bahasa-fondasi-literasi") return { ...path, stageIds: [...path.stageIds, ...BAHASA_BATCH8_STAGE_IDS] };
+  if (path.id === "english-first-steps") return { ...path, stageIds: [...path.stageIds, ...ENGLISH_BATCH9_STAGE_IDS] };
   return { ...path, stageIds: [...path.stageIds] };
 });
 
 export const CONTENT_PACKS: ContentPackDefinition[] = [
   ...base.CONTENT_PACKS.map((pack) => ({ ...pack, activities: pack.activities.map((activity) => ({ ...activity, skills: activity.skills.map((skill) => ({ ...skill })) })) })),
   ...MATH_BATCH7_CONTENT_PACKS,
-  ...BAHASA_BATCH8_CONTENT_PACKS
+  ...BAHASA_BATCH8_CONTENT_PACKS,
+  ...ENGLISH_BATCH9_CONTENT_PACKS
 ];
 
 const EXPANSION_ACTIVITY_IDS_BY_LESSON = new Map<string, string[]>();
-for (const pack of [...MATH_BATCH7_CONTENT_PACKS, ...BAHASA_BATCH8_CONTENT_PACKS]) {
+for (const pack of [...MATH_BATCH7_CONTENT_PACKS, ...BAHASA_BATCH8_CONTENT_PACKS, ...ENGLISH_BATCH9_CONTENT_PACKS]) {
   for (const activity of pack.activities) {
     const ids = EXPANSION_ACTIVITY_IDS_BY_LESSON.get(activity.lessonId) ?? [];
     ids.push(activity.activityId);
@@ -62,6 +69,10 @@ export const CONTENT_LESSONS: ContentLessonDefinition[] = [
     activityIds: [...(EXPANSION_ACTIVITY_IDS_BY_LESSON.get(lesson.id) ?? [])]
   })),
   ...BAHASA_BATCH8_LESSON_CORES.map((lesson) => ({
+    ...lesson,
+    activityIds: [...(EXPANSION_ACTIVITY_IDS_BY_LESSON.get(lesson.id) ?? [])]
+  })),
+  ...ENGLISH_BATCH9_LESSON_CORES.map((lesson) => ({
     ...lesson,
     activityIds: [...(EXPANSION_ACTIVITY_IDS_BY_LESSON.get(lesson.id) ?? [])]
   }))
