@@ -2,7 +2,7 @@ import { CONTENT_PACKS } from "./contentManifest";
 import type { LearningSubjectId } from "./system";
 
 export type LearningSubjectKey = LearningSubjectId;
-export type SkillDomain = "literacy" | "language" | "numeracy" | "religious_literacy" | "creative" | "motor";
+export type SkillDomain = "literacy" | "language" | "numeracy" | "religious_literacy" | "creative" | "motor" | "reasoning" | "science";
 
 export interface LearningSkillDefinition {
   id: string;
@@ -41,6 +41,12 @@ export const LEARNING_SKILLS: LearningSkillDefinition[] = [
   { id: "math.pattern.matching", subjectId: "math", title: "Mencocokkan pola", description: "Mengenali dan memasangkan bentuk atau pola yang sama.", domain: "numeracy", ageMin: 5, ageMax: 7 },
   { id: "iqro.alif.recognition", subjectId: "iqro", title: "Mengenali Alif", description: "Mengenali bentuk dan petunjuk audio huruf Alif.", domain: "religious_literacy", ageMin: 3, ageMax: 7 },
   { id: "iqro.hijaiyah.motion_practice", subjectId: "iqro", title: "Latihan Hijaiyah dengan gerak", description: "Latihan opsional pengenalan Hijaiyah melalui permainan gerak.", domain: "religious_literacy", ageMin: 4, ageMax: 7 },
+  { id: "letters.latin.a.recognition", subjectId: "letters", title: "Mengenali bentuk huruf A", description: "Mengenali huruf A dan membedakannya dari bentuk huruf lain.", domain: "literacy", ageMin: 3, ageMax: 7 },
+  { id: "letters.latin.a.formation", subjectId: "letters", title: "Membentuk huruf A", description: "Mengikuti jalur bentuk huruf A dengan gerakan jari yang terarah.", domain: "motor", ageMin: 3, ageMax: 7 },
+  { id: "logic.visual.matching", subjectId: "logic", title: "Mencocokkan objek visual", description: "Mengenali dan memasangkan objek yang sama secara visual.", domain: "reasoning", ageMin: 3, ageMax: 7 },
+  { id: "logic.visual.discrimination", subjectId: "logic", title: "Membedakan dan membandingkan", description: "Menemukan objek berbeda dan membandingkan kelompok kecil melalui petunjuk visual.", domain: "reasoning", ageMin: 3, ageMax: 7 },
+  { id: "science.living.classification", subjectId: "science", title: "Mengenali makhluk hidup dan tumbuhan", description: "Membedakan contoh sederhana makhluk hidup atau tumbuhan dari benda lain.", domain: "science", ageMin: 3, ageMax: 7 },
+  { id: "science.animals.habitat", subjectId: "science", title: "Hewan dan tempat hidup", description: "Menghubungkan hewan dengan tempat hidup yang sesuai pada contoh sederhana.", domain: "science", ageMin: 4, ageMax: 7 },
   { id: "color.creative.choice", subjectId: "color", title: "Eksplorasi pilihan warna", description: "Mengeksplorasi pilihan dan kombinasi warna tanpa penilaian benar atau salah.", domain: "creative", ageMin: 3, ageMax: 7 }
 ];
 
