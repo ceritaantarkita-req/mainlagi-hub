@@ -93,10 +93,14 @@ try {
     assert.ok(activity.ageMin >= 3 && activity.ageMax <= 7 && activity.ageMin <= activity.ageMax, `${activity.id} has an invalid age range`);
   }
 
+  const audioManagerSource = readFileSync(path.join(root, "src", "lib", "audio", "AudioManager.ts"), "utf8");
+  assert.match(audioManagerSource, /mainlagi-speech-latency/, "speech-start latency instrumentation must stay in the canonical AudioManager");
+  assert.match(audioManagerSource, /startLatencyMs/, "speech latency samples must expose measured request-to-start latency when the browser reports it");
+  assert.match(audioManagerSource, /textLength/, "latency telemetry should use prompt length rather than copying spoken child-learning text into the event payload");
+  assert.match(audioManagerSource, /warmed/, "Batch 3 latency samples must distinguish warmed speech state");
+
   const feedbackSource = readFileSync(path.join(root, "src", "lib", "audio", "feedback.ts"), "utf8");
-  assert.match(feedbackSource, /mainlagi-speech-latency/, "Batch 0 requires local speech-start latency instrumentation");
-  assert.match(feedbackSource, /startLatencyMs/, "speech latency samples must expose measured request-to-start latency when the browser reports it");
-  assert.match(feedbackSource, /textLength/, "latency telemetry should use prompt length rather than copying spoken child-learning text into the event payload");
+  assert.match(feedbackSource, /audioManager\.speakPrompt/, "legacy feedback facade must delegate speech to AudioManager");
 
   const report = {
     activities: system.ACTIVITIES.length,
@@ -111,7 +115,7 @@ try {
     skillsBySubject: skillCounts
   };
 
-  console.log("Mainlagi expansion Batch 0 baseline contracts passed.");
+  console.log("Mainlagi expansion baseline contracts passed with canonical Batch 3 AudioManager instrumentation.");
   console.log(JSON.stringify(report, null, 2));
 } catch (error) {
   console.error(error);
