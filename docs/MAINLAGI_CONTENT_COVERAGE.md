@@ -6,27 +6,34 @@ This document tracks the actual playable catalog separately from authoring/runti
 
 ## Current playable baseline
 
-| Subject | Playable activities | Assessed | Practice | Skills | Mandatory expansion target | Gap |
+| Subject | Playable activities | Assessed | Practice | Skills | Planned expansion target | Gap |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| Bahasa Indonesia | 6 | 5 | 1 | 3 | 90 | 84 |
-| English | 6 | 6 | 0 | 3 | 90 | 84 |
-| Math | 7 | 5 | 2 | 3 | 90 | 83 |
-| Iqro | 4 | 3 | 1 | 2 | 90 | 86 |
-| Coloring | 2 | 0 | 2 | 1 | not part of the 90-game requirement | — |
+| Bahasa Indonesia | 6 | 5 | 1 | 3 | 100 | 94 |
+| English | 6 | 6 | 0 | 3 | 100 | 94 |
+| Math | 7 | 5 | 2 | 3 | 100 | 93 |
+| Iqro | 4 | 3 | 1 | 2 | 100 | 96 |
+| Coloring | 2 | 0 | 2 | 1 | 100 | 98 |
 
 Current total: **25 playable activities** — 19 assessed and 6 practice.
 
-Mandatory four-subject target: **360 playable activities minimum**.
+Mandatory four-academic-subject target: **400 playable activities minimum**.
 
-Planned parity target for the three new first-class subjects:
+Planned parity target for the three new first-class academic subjects:
 
 | Planned subject | Current | Planned target |
 | --- | ---: | ---: |
-| Letters / Menulis | 0 | 90 |
-| Logic / Logika | 0 | 90 |
-| Science | 0 | 90 |
+| Letters / Menulis | 0 | 100 |
+| Logic / Logika | 0 | 100 |
+| Science | 0 | 100 |
 
-If parity targets are completed, the seven major learning subjects will contain approximately **630 playable learning activities**, excluding Coloring and optional legacy motion games.
+Planned creative-practice targets:
+
+| Creative track | Current | Planned target |
+| --- | ---: | ---: |
+| Drawing / Menggambar | 0 | 100 |
+| Coloring / Mewarnai | 2 | 100 |
+
+If all targets are completed, the seven major academic subjects will contain **700 playable learning activities** and Drawing + Coloring will add **200 creative-practice activities**, for a planned nine-track catalog target of **900 playable activities**. Optional motion-only extras outside those targets are not included in the 900 target.
 
 ## Current authoring hierarchy
 
@@ -84,17 +91,20 @@ The following do **not** count as a distinct game by themselves:
 - duplicate content with a new ID;
 - a mechanic definition that has no activity/content instance.
 
+Drawing and Coloring activities count only when the playable task itself is meaningfully distinct. Swapping a palette, background, decorative asset, or nearly identical outline does not by itself create a new activity.
+
 ## Expansion gates
 
 Batch-by-batch CI prevents the library from dropping below the established baseline. Count floors rise only when reviewed content waves land.
 
 ```text
-Wave A: 1–30
-Wave B: 31–60
-Wave C: 61–90
+Wave A: 1–25
+Wave B: 26–50
+Wave C: 51–75
+Wave D: 76–100
 ```
 
-Bulk content creation begins after the mobile foundation, AudioManager, scalable content schema, reusable mechanic library, and new subject foundations are ready.
+Bulk content creation begins after the mobile foundation, AudioManager, scalable content schema, reusable mechanic library, and new subject foundations are ready. Drawing/Coloring expansion follows the same canonical content-pack and review discipline rather than bypassing the learning platform architecture.
 
 ## Learning-integrity requirements during expansion
 
@@ -111,6 +121,8 @@ activity
 
 Mastery remains cumulative. A large activity library must not make mastery easier to farm through repeated trivial variants. Measured zero-score attempts remain weak evidence instead of disappearing; unmeasured completion cannot become assessed evidence.
 
+Drawing/Coloring participation, completion, preferences, and parent-visible progress may be recorded, but free creative practice must not manufacture academic accuracy or mastery. Objectively assessed tracing/drawing tasks require an explicit measurable evidence contract.
+
 ## Automated contracts
 
 Current expansion tests cover:
@@ -125,4 +137,4 @@ Current expansion tests cover:
 - hint/retry handoff to the existing mastery penalty logic;
 - additive DB mechanic/evidence vocabulary compatibility.
 
-The 90-game targets remain future content targets and are not falsely counted as complete before their activity instances exist and pass review.
+The 100-activity targets remain future content targets and are not falsely counted as complete before their activity instances exist and pass review.
