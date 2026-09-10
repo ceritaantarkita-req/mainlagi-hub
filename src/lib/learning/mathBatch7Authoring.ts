@@ -2,7 +2,7 @@ import type { LearningSkillDefinition } from "./catalog";
 import type { ContentPackDefinition } from "./contentManifest";
 import type { LearningActivity, LearningStage } from "./system";
 
-export interface MathBatch7SkillDefinition extends LearningSkillDefinition {}
+export type MathBatch7SkillDefinition = LearningSkillDefinition;
 
 export interface MathBatch7LessonCore {
   id: string;
