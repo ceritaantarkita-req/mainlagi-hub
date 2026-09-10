@@ -6,7 +6,7 @@ Last reviewed: 10 September 2026
 
 ```text
 GitHub (`ceritaantarkita-req/mainlagi-hub`)
-  -> protected `main`
+  -> `main`
   -> Cloudflare Git integration / build
   -> OpenNext for Cloudflare Workers
   -> Worker `mainlagi-hub`
@@ -32,26 +32,20 @@ Manual local Wrangler deployment is only an operator fallback.
 
 ## Commit-aware production smoke
 
-Cloudflare Workers Builds provides non-secret Git metadata. Mainlagi bakes the release SHA/branch into the server artifact and exposes them through `/api/health`.
+Mainlagi bakes release SHA/branch into the server artifact and exposes non-secret metadata through `/api/health`. On pushes to `main`, `Production smoke (Cloudflare)` waits for the public release and succeeds only when production reports the exact current `github.sha`, branch `main`, canonical site URL, backend `supabase`, and project ref `estvtgflwkebomsqlolv`.
 
-On pushes to `main`, GitHub CI runs `Production smoke (Cloudflare)` after the quality/security jobs. It waits for the public release and succeeds only when production reports the **exact current `github.sha`**, branch `main`, and canonical production backend metadata.
-
-For cloud-learning implementation commit:
+Latest fully verified production baseline before Batch 5 merges:
 
 ```text
-7fa7ab7b4642e67343370924e740433fefe8f914
-```
-
-verified results:
-
-```text
-Cloudflare Build ID:   77e6e799-bd5d-4170-ae2e-8a39876a5c6d
-Cloudflare Version ID: e9d879f1-100d-48d6-9142-90f1f51d1912
+Batch:                 Expansion Batch 4
+Git SHA:               923315882f7244f24a2045398a061d12a2b472cf
+Cloudflare Build ID:   0b98b636-b17a-4e64-902b-7b2b958b1e3f
+Cloudflare Version ID: 5559c169-20db-448d-8162-029146ddb4bf
 Workers Builds:        success
 Production smoke:      success
 ```
 
-This proves the exact cloud-profile/ownership release reached production.
+This exact release contains the scalable content-pack architecture and migration `0011` compatibility code. Batch 5 final production SHA must be taken from its squash merge and exact-SHA smoke; it is intentionally not guessed inside the pre-merge branch.
 
 ## Repository deployment configuration
 
@@ -61,21 +55,16 @@ This proves the exact cloud-profile/ownership release reached production.
 - `src/app/api/health/route.ts` — public/non-secret release/backend health metadata.
 - `package.json` — `build:cloudflare`, `preview`, `deploy`, `upload`.
 
-Canonical URL:
-
-```text
-https://mainlagihub.my.id/
-```
+Canonical URL: `https://mainlagihub.my.id/`.
 
 ## GitHub CI responsibilities
 
-GitHub Actions validates; Cloudflare deploys.
-
-Primary jobs:
+GitHub Actions validates; Cloudflare deploys. Primary jobs are:
 
 - `Production build`;
-- `Quality gate (Ubuntu)`;
+- `Quality gate (Ubuntu)` including engine/learning tests and simulations;
 - `Windows compatibility`;
+- `Mobile route QA (Chromium)`;
 - `Production dependency audit`;
 - `Secret history scan`;
 - `Production smoke (Cloudflare)` on `main`.
@@ -88,9 +77,9 @@ No `MAINLAGI_VPS_*` secrets are required.
 - project: `mainlagi-hub`
 - project ref: `estvtgflwkebomsqlolv`
 - region: Singapore (`ap-southeast-1`)
-- status: active/healthy
+- status: active/healthy.
 
-Applied migrations verified 10 September 2026:
+Applied migrations verified after Batch 4:
 
 ```text
 0001_init
@@ -100,50 +89,43 @@ Applied migrations verified 10 September 2026:
 0005_database_advisor_hardening
 0006_private_admin_helper
 0007_learning_child_ownership
+0008_curriculum_content_expansion
+0009_learning_awards_certificates
+0010_legacy_fk_indexes
+0011_scalable_content_architecture
 ```
 
-Migration `0007` prevents new real-child learning attempts unless `child_key` resolves to an undeleted `player_profiles` row owned by the same account. `demo-gian` is the explicit account-scoped sandbox sentinel.
+Important current boundaries:
 
-Cloudflare production environment is verified by the smoke gate to target the canonical Supabase backend/project metadata without exposing secret values.
+- `0007` prevents new real-child learning attempts unless `child_key` resolves to an undeleted account-owned `player_profiles` row; `demo-gian` is the explicit account-scoped sandbox sentinel.
+- `0011` creates `learning_content_packs` and adds pack/lesson/mechanic/evidence/revision metadata without renaming historical activity IDs. Live verification found 13 packs and 25/25 repository activities fully registered.
+- Current Iqro packs remain `expert_required`; database/code CI does not equal expert religious-learning review.
+- Batch 5 migration `0012_reusable_mechanic_library` expands only the allowed mechanic/evidence vocabularies. It must be applied and verified during Batch 5 release closure before that batch is called production-complete.
+
+Cloudflare production environment is verified by smoke to target the canonical Supabase backend/project metadata without exposing secret values.
 
 ## Auth and learning production state
 
-Production validation already demonstrated:
-
-- account login flow in the canonical Supabase project;
-- authenticated assessed learning attempts persisted to canonical Supabase;
-- evidence/mastery rows materialized;
-- parent-facing derived state reflected the learning attempts;
-- exact-commit production health verification.
-
-The cloud-profile/ownership release additionally provides:
-
-- cloud child profile list/create/select/soft-delete code path;
-- authenticated cloud-only learning reads;
-- immediate cloud refresh after successful attempt sync;
-- server-side parent auth and child ownership gates;
-- direct authenticated child URL ownership gate;
-- DB-level attempt child ownership trigger;
-- multi-child regression coverage.
+Production validation has demonstrated account login, authenticated assessed attempt persistence, evidence/mastery materialization, parent-derived state, cloud child ownership/isolation, durable offline attempt queuing, and exact-commit health verification.
 
 A manual create/delete of a brand-new real cloud profile remains useful UX acceptance evidence but is not an unresolved deployment/schema blocker.
 
 ## Supabase Auth Free-plan limitation
 
-Leaked-password protection remains unavailable on the current Supabase Free plan. Current mitigation includes minimum password length at least 8, secure password change, and current-password requirement for password updates. This is an accepted plan limitation rather than a deployment blocker.
+Leaked-password protection remains unavailable on the current Supabase Free plan. Existing mitigation includes minimum password length at least 8, secure password change, and current-password requirement for password updates. This is an accepted plan limitation rather than a deployment blocker.
 
 ## Production verification checklist
 
-1. [x] PR quality/security checks green before merge.
-2. [x] OpenNext/Cloudflare production build green.
-3. [x] Cloudflare observes and deploys fresh `main` commit.
-4. [x] Cloudflare runtime metadata points to canonical Supabase project.
-5. [x] public HTTPS homepage reachable.
-6. [x] exact-commit `Production smoke (Cloudflare)` passes.
-7. [x] authenticated learning attempt persistence verified in production.
-8. [x] evidence/mastery materialization verified in production.
-9. [x] parent-derived learning state observed.
-10. [x] cloud-profile/ownership implementation deployed with CI/regression coverage.
+For every expansion batch:
+
+1. [x] focused branch/PR used;
+2. [x] quality/security/build checks required before merge;
+3. [x] relevant schema migration regression-tested before application;
+4. [x] Cloudflare production remains Git-driven from `main`;
+5. [x] smoke requires exact release SHA and canonical Supabase metadata;
+6. [x] public HTTPS homepage/health contract stays part of closure.
+
+Batch-specific migration application and exact-SHA smoke are recorded only after they actually happen.
 
 ## Manual deployment fallback
 
@@ -157,4 +139,4 @@ It requires an authorized Cloudflare environment. Never commit Cloudflare API to
 
 ## Rollback
 
-Rollback at the Cloudflare deployment layer to a known-good Git deployment, then rerun public health/smoke verification. Do not introduce a separate VPS rollback path unless architecture is intentionally changed and documented through a new ADR.
+Rollback at the Cloudflare deployment layer to a known-good Git deployment, then rerun public health/smoke verification. For additive DB vocabulary migrations, prefer a forward corrective migration rather than destructive rollback of learning history. Do not introduce a separate VPS rollback path unless architecture is intentionally changed and documented through a new ADR.
