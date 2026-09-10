@@ -6,8 +6,8 @@ import {
   type ContentPathDefinition
 } from "./contentManifest";
 
-export interface LearningPathDefinition extends ContentPathDefinition {}
-export interface LearningLessonDefinition extends ContentLessonDefinition {}
+export type LearningPathDefinition = ContentPathDefinition;
+export type LearningLessonDefinition = ContentLessonDefinition;
 
 /**
  * Canonical curriculum navigation layer.
