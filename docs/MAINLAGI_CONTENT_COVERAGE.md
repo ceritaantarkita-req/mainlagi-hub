@@ -12,58 +12,58 @@ This document tracks the actual playable catalog separately from authoring/runti
 | English | 6 | 6 | 0 | 3 | 100 | 94 |
 | Math | 7 | 5 | 2 | 3 | 100 | 93 |
 | Iqro | 4 | 3 | 1 | 2 | 100 | 96 |
-| Coloring | 2 | 0 | 2 | 1 | 100 | 98 |
+| Letters / Menulis | 3 | 3 | 0 | 2 | 100 | 97 |
+| Logic / Logika | 3 | 3 | 0 | 2 | 100 | 97 |
+| Science / Sains | 3 | 3 | 0 | 2 | 100 | 97 |
+| Coloring / Mewarnai | 2 | 0 | 2 | 1 | 100 | 98 |
 
-Current total: **25 playable activities** — 19 assessed and 6 practice.
+Current Batch 6 repository total: **34 playable activities** — **28 assessed** and **6 practice**.
+
+The 25 activities that predate Batch 6 retain their historical IDs. Batch 6 adds exactly nine intentional starter activities: three each for Letters/Menulis, Logic/Logika, and Science/Sains.
 
 Mandatory four-academic-subject target: **400 playable activities minimum**.
 
-Planned parity target for the three new first-class academic subjects:
-
-| Planned subject | Current | Planned target |
-| --- | ---: | ---: |
-| Letters / Menulis | 0 | 100 |
-| Logic / Logika | 0 | 100 |
-| Science | 0 | 100 |
-
-Planned creative-practice targets:
-
-| Creative track | Current | Planned target |
-| --- | ---: | ---: |
-| Drawing / Menggambar | 0 | 100 |
-| Coloring / Mewarnai | 2 | 100 |
-
-If all targets are completed, the seven major academic subjects will contain **700 playable learning activities** and Drawing + Coloring will add **200 creative-practice activities**, for a planned nine-track catalog target of **900 playable activities**. Optional motion-only extras outside those targets are not included in the 900 target.
+The seven academic subject targets total **700 playable learning activities**. Drawing/Menggambar and Coloring/Mewarnai add **200 creative-practice targets**, producing the planned nine-track catalog target of **900 playable activities**. Drawing remains planned for its dedicated creative-track batch and is not falsely counted in the current Batch 6 baseline.
 
 ## Current authoring hierarchy
 
-- subjects: 5
-- learning paths: 5
-- stages: 7
-- lessons: 13
-- versioned content packs: 13
-- playable activities: 25
-- skills: 12
+- first-class subjects: 8
+- learning paths: 8
+- stages: 10
+- lessons: 16
+- versioned content packs: 16
+- playable activities: 34
+- skills: 18
 
-Every current stage is owned by one learning path, every current activity is owned by one lesson and one content pack, and all 25 historical activity IDs remain stable.
+Every current stage is owned by one learning path, every current activity is owned by one lesson and one content pack, and all 25 pre-Batch-6 activity IDs remain stable.
+
+### Batch 6 foundation inventory
+
+| Subject | Starter path | Starter stage | Starter lesson | Starter content pack | Activities | Required core |
+| --- | --- | --- | --- | --- | ---: | ---: |
+| Letters / Menulis | `letters-writing-foundations` | `letters-foundations` | `letters-a-foundations` | `letters.pack.letter-a` | 3 | 2 |
+| Logic / Logika | `logic-thinking-foundations` | `logic-foundations` | `logic-visual-foundations` | `logic.pack.visual-basics` | 3 | 2 |
+| Science / Sains | `science-discovery-foundations` | `science-foundations` | `science-living-world` | `science.pack.living-world` | 3 | 2 |
+
+Each new starter stage has two required measured core activities plus one measured variation. They reuse established `tap_choice`, `matching`, and `guided_trace` capabilities; Batch 6 does not introduce a camera dependency or a one-off scoring runtime.
 
 ## Current playable runtime inventory
 
 | Runtime used by current content | Count |
 | --- | ---: |
-| Tap choice | 6 |
+| Tap choice | 11 |
 | Listen and choose | 5 |
-| Matching | 7 |
-| Guided trace | 1 |
+| Matching | 10 |
+| Guided trace | 2 |
 | Story | 1 |
 | Motion game | 3 |
 | Coloring | 2 |
 
-These counts describe the 25 activities that are actually playable today.
+These counts describe the **34 activities** currently represented by the Batch 6 repository catalog.
 
 ## Batch 5 reusable mechanic capability
 
-Batch 5 expands authoring/runtime capability to **20 reusable mechanic contracts** without inflating the playable activity count:
+Batch 5 established **20 reusable mechanic contracts**. Batch 6 deliberately reuses the already-supported subset rather than inflating mechanic count while adding subjects:
 
 | Family | Reusable mechanics |
 | --- | --- |
@@ -77,7 +77,21 @@ Batch 5 expands authoring/runtime capability to **20 reusable mechanic contracts
 
 Of the 20 mechanic contracts, **17 support assessed + practice mode** and **3 are intentionally practice-only**. Assessed mechanics require measured evidence; absent measurement fails closed to completion-only. Story, coloring, and optional motion wrapper cannot self-promote into academic mastery evidence.
 
-Batch 5 therefore increases **mechanic capability from the 7 mechanics represented by current content to a 20-mechanic reusable library**, but current playable activity count stays **25** until later content waves instantiate the new mechanics.
+## Batch 6 integration boundaries
+
+Letters/Menulis, Logic/Logika, and Science/Sains are first-class learning subjects rather than isolated mini-apps. Their starter activities participate in the same canonical systems as the older academic subjects:
+
+- child subject/stage/activity navigation;
+- canonical path, lesson, and versioned content-pack ownership;
+- age eligibility;
+- measured learning-attempt evidence;
+- skill mastery and stage readiness;
+- adaptive subject-scoped recommendation ranking;
+- Parent Dashboard summaries and skill rows;
+- server-owned activity catalog registration;
+- certificate eligibility when completion and mastery requirements are genuinely met.
+
+The local and cloud `all-subjects` achievement threshold is also scaled to the eight current first-class subjects. Drawing will require another intentional catalog-threshold update when it becomes first-class in its planned creative-track batch.
 
 ## What counts toward the future target
 
@@ -128,13 +142,16 @@ Drawing/Coloring participation, completion, preferences, and parent-visible prog
 Current expansion tests cover:
 
 - playable subject/activity floors and runtime inventory;
-- stable activity IDs and hierarchy ownership;
+- stable historical activity IDs and hierarchy ownership;
+- Batch 6 starter subject/path/stage/lesson/pack/activity/skill ownership;
 - content-pack version/age/skill/asset/answer/duplicate validation;
 - deterministic future content IDs;
 - reusable mechanic count and unique IDs;
 - payload integrity for choice/pair/target/classification/order/path families;
 - explicit mechanic evidence contracts and practice-only boundaries;
-- hint/retry handoff to the existing mastery penalty logic;
-- additive DB mechanic/evidence vocabulary compatibility.
+- adaptive subject scoping, stage readiness, and Parent summary participation for all three Batch 6 subjects;
+- local/cloud all-subject achievement threshold scaling;
+- additive DB subject/mechanic/evidence vocabulary compatibility;
+- preservation of historical learning tables and identities.
 
 The 100-activity targets remain future content targets and are not falsely counted as complete before their activity instances exist and pass review.
