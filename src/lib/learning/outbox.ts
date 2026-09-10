@@ -1,7 +1,7 @@
 "use client";
 
 import { getBrowserClient } from "@/lib/auth/supabase-client";
-import { isSupabaseConfigured, syncLearningAttemptCloudDetailed } from "./cloud";
+import { isSupabaseConfigured, syncLearningAttemptCloud } from "./cloud";
 import type { LearningAnalyticsSnapshot, LearningAttemptRecord } from "./attempts";
 
 const OUTBOX_KEY = "mainlagi-learning-cloud-outbox-v1";
@@ -9,6 +9,7 @@ const MAX_OUTBOX_ITEMS = 300;
 const OUTBOX_TTL_MS = 14 * 24 * 60 * 60 * 1000;
 const RETRY_BASE_MS = 5_000;
 const RETRY_MAX_MS = 5 * 60 * 1000;
+const MAX_AUTO_RETRIES = 12;
 
 export const LEARNING_OUTBOX_EVENT = "mainlagi-learning-outbox";
 
@@ -20,7 +21,6 @@ export interface LearningOutboxItem {
   retryCount: number;
   nextRetryAt: string | null;
   blocked: boolean;
-  lastStatus: number | null;
 }
 
 export interface LearningOutboxFlushResult {
@@ -50,7 +50,6 @@ function validItem(value: unknown): LearningOutboxItem | null {
   const updatedAt = typeof value.updatedAt === "string" ? value.updatedAt : queuedAt;
   const retryCount = Number.isFinite(value.retryCount) ? Math.max(0, Math.round(Number(value.retryCount))) : 0;
   const nextRetryAt = typeof value.nextRetryAt === "string" ? value.nextRetryAt : null;
-  const lastStatus = Number.isFinite(value.lastStatus) ? Number(value.lastStatus) : null;
   return {
     ownerUserId: value.ownerUserId,
     attempt: value.attempt,
@@ -58,8 +57,7 @@ function validItem(value: unknown): LearningOutboxItem | null {
     updatedAt,
     retryCount,
     nextRetryAt,
-    blocked: value.blocked === true,
-    lastStatus
+    blocked: value.blocked === true || retryCount >= MAX_AUTO_RETRIES
   };
 }
 
@@ -105,6 +103,8 @@ async function cachedSessionUserId(): Promise<string | null> {
   const client = getBrowserClient();
   if (!client) return null;
   try {
+    // getSession reads the existing browser session and does not require us to
+    // persist an access token in the outbox. Only the account id is retained.
     const { data } = await client.auth.getSession();
     return data.session?.user?.id ?? null;
   } catch {
@@ -137,7 +137,7 @@ function upsertQueuedAttempt(
   const keyMatches = (item: LearningOutboxItem) => item.ownerUserId === ownerUserId && item.attempt.id === attempt.id;
   const existing = items.find(keyMatches);
   const next: LearningOutboxItem = existing
-    ? { ...existing, attempt, updatedAt: now.toISOString(), blocked: false }
+    ? { ...existing, attempt, updatedAt: now.toISOString() }
     : {
         ownerUserId,
         attempt,
@@ -145,33 +145,25 @@ function upsertQueuedAttempt(
         updatedAt: now.toISOString(),
         retryCount: 0,
         nextRetryAt: null,
-        blocked: false,
-        lastStatus: null
+        blocked: false
       };
   return [...items.filter((item) => !keyMatches(item)), next].slice(-MAX_OUTBOX_ITEMS);
 }
 
-export async function syncOrQueueLearningAttempt(attempt: LearningAttemptRecord): Promise<"synced" | "queued" | "local_only" | "rejected"> {
+export async function syncOrQueueLearningAttempt(attempt: LearningAttemptRecord): Promise<"synced" | "queued" | "local_only"> {
   if (!isSupabaseConfigured()) return "local_only";
   const ownerUserId = await cachedSessionUserId();
   if (!ownerUserId) return "local_only";
 
-  const result = await syncLearningAttemptCloudDetailed(attempt);
+  const synced = await syncLearningAttemptCloud(attempt);
   let items = readOutbox();
   const keyMatches = (item: LearningOutboxItem) => item.ownerUserId === ownerUserId && item.attempt.id === attempt.id;
 
-  if (result.ok) {
+  if (synced) {
     items = items.filter((item) => !keyMatches(item));
     writeOutbox(items);
     dispatchOutbox({ ...summarize(items, ownerUserId), synced: 1 }, attempt.childId);
     return "synced";
-  }
-
-  if (!result.retryable) {
-    items = items.filter((item) => !keyMatches(item));
-    writeOutbox(items);
-    dispatchOutbox(summarize(items, ownerUserId), attempt.childId);
-    return "rejected";
   }
 
   items = upsertQueuedAttempt(items, ownerUserId, attempt, new Date());
@@ -189,7 +181,7 @@ export function flushLearningAttemptOutbox(options: { force?: boolean } = {}): P
     if (!ownerUserId || !isSupabaseConfigured()) return { synced: 0, pending: 0, blocked: 0 };
 
     let items = readOutbox();
-    let synced = 0;
+    let syncedCount = 0;
     const nowMs = Date.now();
     const candidates = items.filter((item) => {
       if (item.ownerUserId !== ownerUserId || item.blocked) return false;
@@ -199,35 +191,33 @@ export function flushLearningAttemptOutbox(options: { force?: boolean } = {}): P
     });
 
     for (const candidate of candidates) {
-      const result = await syncLearningAttemptCloudDetailed(candidate.attempt);
+      const synced = await syncLearningAttemptCloud(candidate.attempt);
       const keyMatches = (item: LearningOutboxItem) => item.ownerUserId === ownerUserId && item.attempt.id === candidate.attempt.id;
-      if (result.ok) {
+      if (synced) {
         items = items.filter((item) => !keyMatches(item));
-        synced += 1;
+        syncedCount += 1;
         continue;
       }
 
       items = items.map((item) => {
         if (!keyMatches(item)) return item;
-        if (!result.retryable) {
-          return { ...item, blocked: true, lastStatus: result.status, updatedAt: new Date().toISOString(), nextRetryAt: null };
-        }
         const retryCount = item.retryCount + 1;
+        const blocked = retryCount >= MAX_AUTO_RETRIES;
         return {
           ...item,
           retryCount,
-          lastStatus: result.status,
+          blocked,
           updatedAt: new Date().toISOString(),
-          nextRetryAt: new Date(Date.now() + learningOutboxRetryDelayMs(retryCount)).toISOString()
+          nextRetryAt: blocked ? null : new Date(Date.now() + learningOutboxRetryDelayMs(retryCount)).toISOString()
         };
       });
     }
 
     writeOutbox(items);
     const summary = summarize(items, ownerUserId);
-    const finalResult = { ...summary, synced };
+    const finalResult = { ...summary, synced: syncedCount };
     dispatchOutbox(finalResult);
-    if (synced > 0 && typeof window !== "undefined") {
+    if (syncedCount > 0 && typeof window !== "undefined") {
       window.dispatchEvent(new CustomEvent("mainlagi-learning-cloud", { detail: {} }));
     }
     return finalResult;
