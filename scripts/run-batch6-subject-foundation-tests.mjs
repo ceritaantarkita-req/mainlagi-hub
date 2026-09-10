@@ -33,6 +33,7 @@ const subjects = [
     lessonId: "letters-a-foundations",
     packId: "letters.pack.letter-a",
     activities: ["letters-find-a", "letters-trace-a", "letters-match-case"],
+    assessments: ["assessed", "practice", "assessed"],
     skills: ["letters.latin.a.recognition", "letters.latin.a.formation"]
   },
   {
@@ -42,6 +43,7 @@ const subjects = [
     lessonId: "logic-visual-foundations",
     packId: "logic.pack.visual-basics",
     activities: ["logic-match-pairs", "logic-odd-one-out", "logic-more-less"],
+    assessments: ["assessed", "assessed", "assessed"],
     skills: ["logic.visual.matching", "logic.visual.discrimination"]
   },
   {
@@ -51,6 +53,7 @@ const subjects = [
     lessonId: "science-living-world",
     packId: "science.pack.living-world",
     activities: ["science-living-cat", "science-match-habitat", "science-find-plant"],
+    assessments: ["assessed", "assessed", "assessed"],
     skills: ["science.living.classification", "science.animals.habitat"]
   }
 ];
@@ -91,7 +94,7 @@ try {
 
     const specs = expected.activities.map((id) => catalog.getActivityLearningSpec(id));
     assert.ok(specs.every(Boolean), `${expected.id} starter activities must all have learning specs`);
-    assert.ok(specs.every((spec) => spec.assessment === "assessed"), `${expected.id} starter activities must use measurable assessment contracts`);
+    assert.deepEqual(specs.map((spec) => spec.assessment), expected.assessments, `${expected.id} assessment boundaries must stay explicit`);
     assert.equal(specs.filter((spec) => spec.requiredForStage).length, 2, `${expected.id} starter stage must have exactly two required core activities`);
     assert.ok(specs.every((spec) => spec.skills.length > 0));
 
@@ -133,6 +136,12 @@ try {
     assert.equal(readiness[0].stageId, expected.stageId);
     assert.equal(readiness[0].requiredCount, 2);
   }
+
+  const traceContent = manifest.getContentForActivity("letters-trace-a");
+  assert.ok(traceContent, "letters trace must resolve to its content-pack owner");
+  assert.equal(traceContent.activity.assessment, "practice", "unvalidated letter trace must remain practice-only");
+  assert.equal(traceContent.activity.requiredForStage, true, "letter formation practice remains part of required starter completion");
+  assert.equal(traceContent.activity.evidenceContractId, "completion_only_v1", "unvalidated letter trace must not manufacture path-quality mastery evidence");
 
   const coverage = curriculum.getCurriculumCoverage();
   assert.deepEqual(coverage.uncoveredStageIds, [], "Batch 6 must not introduce orphan stages");
