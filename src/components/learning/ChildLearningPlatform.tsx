@@ -25,13 +25,17 @@ import {
   type LearningSubjectId
 } from "@/lib/learning/system";
 import { getLearningPathsForSubject, getLessonsForStage } from "@/lib/learning/curriculum";
+import { getActivityLearningSpec } from "@/lib/learning/catalog";
 import { getNextBestLearningRecommendation } from "@/lib/learning/insights";
 import { CharacterAvatar, CharacterGroup, ChildLoading, useLearningProfile, useLearningProgress } from "./LearningCommon";
 import { useLearningAnalytics } from "./useLearningAnalytics";
 import styles from "./LearningPlatform.module.css";
 
 function coreActivities(activities: LearningActivity[]) {
-  return activities.filter((activity) => !activity.motionOptional && activity.runtime !== "motion_game");
+  return activities.filter((activity) => {
+    const spec = getActivityLearningSpec(activity.id);
+    return spec?.requiredForStage ?? (!activity.motionOptional && activity.runtime !== "motion_game");
+  });
 }
 
 function ageEligible(activity: LearningActivity, age: number) {
