@@ -2,11 +2,11 @@
 
 Last reviewed: 10 September 2026
 
-This is the Batch 0 route inventory for the mobile rebuild. Batch 1 defines the shared responsive system; Batch 2 migrates and verifies these routes against it.
+This is the canonical route inventory and acceptance contract for the mobile rebuild. Batch 1 established the shared responsive system. Batch 2 migrated the route families to that system and added automated production-build browser verification.
 
 ## Required viewport matrix
 
-Every canonical learning surface must be checked at:
+Every canonical learning surface is checked at:
 
 ```text
 320 px
@@ -40,7 +40,8 @@ The phone widths are release-critical. Tablet/desktop must remain functional, bu
 | Route | Main surface | Batch 1/2 focus |
 | --- | --- | --- |
 | `/games` | global game catalog where exposed | catalog grid/list responsiveness |
-| `/games/[slug]` | existing motion/camera game wrapper | camera viewport, preflight, controls, related games, landscape |
+| `/games/[slug]` | game detail | detail content, related games, launch controls |
+| `/play/[slug]` | existing motion/camera game wrapper | camera/preflight viewport, controls, landscape and exit path |
 
 Existing motion/camera games are optional activity runtimes and are not allowed to force camera usage into the core learning path.
 
@@ -76,7 +77,7 @@ Batch 5 will add additional mechanics such as drag-to-target, draw-line matching
 
 ## Mobile release invariants
 
-The rebuild must make the following true:
+The rebuild must keep the following true:
 
 - no unexplained document-level horizontal overflow;
 - no primary CTA hidden behind the fixed bottom navigation;
@@ -84,13 +85,19 @@ The rebuild must make the following true:
 - child touch targets are approximately 44×44 CSS px or larger;
 - long Bahasa/English labels wrap without widening the page;
 - card grids collapse when actual available width is insufficient;
-- horizontal scrolling exists only where explicitly designed, such as a subject scroller;
+- horizontal scrolling exists only where explicitly designed, such as a subject scroller or compact Parent navigation strip;
 - activity controls remain reachable with browser chrome visible;
 - virtual keyboard does not make profile/settings flows unusable;
 - trace coordinates remain correct after responsive scaling;
 - camera/motion games remain recoverable in portrait and do not trap the user;
 - parent data views prefer readable stacking to dense desktop tables on phones.
 
-## Batch 0 status
+## Batch 2 automated status
 
-This document is an inventory/acceptance contract, not evidence that these routes already pass. The user-observed production issue is that mobile layout remains inconsistent. Batch 1 and Batch 2 are responsible for fixing and proving these surfaces rather than marking them green based on desktop build success.
+The route families now inherit semantic `MobileRouteBoundary` coverage for child selection, child learning, Parent, global game catalog/detail, and `/play` game surfaces.
+
+The dedicated `Mobile route QA (Chromium)` CI job opens the canonical route matrix in a locally built production app at all seven viewport widths. It fails on HTTP/render errors, missing route boundaries, Next.js error overlays, document-level horizontal overflow, undersized child-facing controls, uncaught page errors, or browser console errors. Runtime representatives for tap choice, audio choice, matching, trace, story, coloring, and the motion-game wrapper are included.
+
+During Batch 2 the new gate caught two real touch-target regressions before merge: the preflight back control was 40×44 CSS px and the trace `Ulangi` control was 53×34 CSS px. Both were corrected to meet the shared 44px-class touch target contract rather than excluded from QA.
+
+Representative screenshots are retained as a CI artifact. See `MOBILE_ROUTE_QA.md` for exact automation scope and the explicit physical-device limitations. Headless Chromium success does not replace final real-device iOS/Android camera, keyboard, orientation, audio, or finger-trace acceptance.

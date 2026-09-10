@@ -34,23 +34,36 @@ A "game" in this target means a meaningfully distinct playable learning experien
 
 ### Batch 0 — Baseline, metrics, acceptance contracts
 
-- [ ] Freeze exact subject/path/stage/lesson/activity/skill/mechanic counts.
-- [ ] Add machine-tested content floors and target-gap reporting.
-- [ ] Add mobile route/viewport acceptance matrix.
-- [ ] Add local-only speech-start latency instrumentation.
-- [ ] Record known mobile/voice baseline problems without claiming they are already fixed.
+- [x] Freeze exact subject/path/stage/lesson/activity/skill/mechanic counts.
+- [x] Add machine-tested content floors and target-gap reporting.
+- [x] Add mobile route/viewport acceptance matrix.
+- [x] Add local-only speech-start latency instrumentation.
+- [x] Record known mobile/voice baseline problems without claiming they are already fixed.
+
+Batch 0 landed through PR #29. Its production baseline is the starting contract for all later expansion work.
 
 ### Batch 1 — Mobile design-system rebuild
 
-- shared spacing/type/gutter/safe-area/touch/grid tokens;
-- canonical child/parent headers and bottom navigation;
-- responsive card/grid/sheet primitives;
-- remove fragile page-level fixed sizing where possible;
-- enforce approximately 44x44 CSS px minimum child touch targets.
+- [x] Add shared spacing/type/gutter/safe-area/touch/grid tokens.
+- [x] Add canonical mobile layout primitives for child/parent surfaces.
+- [x] Add responsive card/grid/row/sheet/activity primitives.
+- [x] Establish narrow-phone rules without hiding horizontal overflow.
+- [x] Enforce an approximately 44x44 CSS px child touch-target contract in the shared foundation.
+
+Batch 1 landed through PR #30 and established the reusable mobile foundation used by route migration.
 
 ### Batch 2 — Mobile route migration and responsive QA
 
-Migrate and verify child selection/home/library/subject/stage/activity/rewards, Parent views, Mainlagi World, and game/camera wrappers at the release-critical viewport matrix. No unexplained document-level horizontal overflow is acceptable.
+- [x] Migrate child entry/profile/home/library/subject/stage/activity/games/rewards surfaces to semantic mobile route boundaries.
+- [x] Migrate Parent surfaces to the same foundation and collapse the desktop sidebar into a phone-safe navigation strip.
+- [x] Migrate global game catalog/detail and `/play/[slug]` game surfaces to route boundaries.
+- [x] Add production-build Chromium QA at 320, 360, 375, 390, 430, 768, and 1024 px.
+- [x] Cover tap choice, audio choice, matching, trace, story, coloring, and motion-game wrapper representatives.
+- [x] Fail CI on document-level horizontal overflow, undersized child controls, render/framework errors, page errors, or console errors.
+- [x] Retain representative responsive screenshots as CI artifacts.
+- [x] Make final production smoke depend on the browser mobile-route gate.
+
+The automated gate does not replace physical iOS/Android camera, virtual-keyboard, orientation, audio, or finger-trace acceptance. Those remain part of Batch 15 device QA. See `MOBILE_ROUTE_QA.md`.
 
 ### Batch 3 — Voice latency / AudioManager rebuild
 

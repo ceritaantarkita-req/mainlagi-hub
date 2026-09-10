@@ -64,6 +64,45 @@
   overflow-wrap: break-word;
 }
 
+.routeBoundary {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 0;
+}
+
+.routeBoundary > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.routeBoundary :where(main, section, article, header, footer, nav, aside, div, form, fieldset, dl, ul, ol) {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.routeBoundary :where(img, video, canvas, svg, iframe) {
+  max-width: 100%;
+}
+
+.routeBoundary :where(h1, h2, h3, h4, p, strong, small, span, label, dd, dt, li) {
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.routeBoundary :where(pre, code) {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.routeBoundary :where(table) {
+  max-width: 100%;
+}
+
+.routeBoundary[data-mainlagi-route-boundary="game-play"] {
+  min-height: calc(100dvh - var(--ml-safe-top) - var(--ml-safe-bottom));
+}
+
 .page,
 .pageNarrow {
   width: min(var(--ml-page-max), 100%);
@@ -193,6 +232,52 @@
 .fullBleedMobile {
   margin-inline: calc(-1 * var(--ml-page-gutter));
   padding-inline: var(--ml-page-gutter);
+}
+
+@media (max-width: 759px) {
+  .routeBoundary :where(a[href], button, input:not([type="hidden"]), select, [role="button"]) {
+    min-width: var(--ml-touch-min);
+    min-height: var(--ml-touch-min);
+  }
+
+  .routeBoundary[data-mainlagi-route-boundary="parent"] > div > div:has(> aside) {
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100%;
+  }
+
+  .routeBoundary[data-mainlagi-route-boundary="parent"] aside {
+    position: sticky;
+    top: 0;
+    z-index: 75;
+    display: flex !important;
+    width: 100%;
+    max-width: 100%;
+    min-height: calc(var(--ml-touch-min) + 12px);
+    flex-direction: row !important;
+    align-items: center;
+    gap: 6px;
+    padding: max(8px, var(--ml-safe-top)) max(10px, var(--ml-safe-right)) 8px max(10px, var(--ml-safe-left));
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .routeBoundary[data-mainlagi-route-boundary="parent"] aside::-webkit-scrollbar {
+    display: none;
+  }
+
+  .routeBoundary[data-mainlagi-route-boundary="parent"] aside > a {
+    min-width: max-content;
+    min-height: var(--ml-touch-min);
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  .routeBoundary[data-mainlagi-route-boundary="parent"] aside + div {
+    width: 100%;
+    min-width: 0;
+  }
 }
 
 @media (max-width: 359px) {
