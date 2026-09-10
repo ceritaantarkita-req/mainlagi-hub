@@ -19,9 +19,7 @@ There is **no VPS/SSH production deployment path** for Mainlagi. Previous VPS, `
 
 Normal production publication is Cloudflare-side Git integration from branch `main`.
 
-Repository settings for this path:
-
-- repo: `ceritaantarkita-req/mainlagi-hub`;
+- repository: `ceritaantarkita-req/mainlagi-hub`;
 - production branch: `main`;
 - build: `npm run build:cloudflare`;
 - deploy command: `npx wrangler deploy`;
@@ -32,25 +30,25 @@ Manual local Wrangler deployment is operator fallback only.
 
 ## Commit-aware production smoke
 
-Mainlagi bakes release SHA/branch into the server artifact and exposes non-secret metadata through `/api/health`.
+Mainlagi bakes release SHA/branch into the server artifact and exposes non-secret release/backend metadata through `/api/health`.
 
-On pushes to `main`, `Production smoke (Cloudflare)` waits for the public release and succeeds only when production reports:
+On pushes to `main`, `Production smoke (Cloudflare)` succeeds only when production reports:
 
 - the exact current `github.sha`;
 - branch `main`;
-- canonical site URL;
+- canonical site URL `https://mainlagihub.my.id`;
 - backend `supabase`;
 - Supabase project ref `estvtgflwkebomsqlolv`.
 
-## Latest verified production baseline
+## Latest verified production implementation
 
-Expansion Batch 6 is production-complete.
+Expansion Batch 7 — Math to 100 is production-complete.
 
 ```text
-Batch:                 Expansion Batch 6
-PR:                    #37
-Git SHA:               466634e0d673893cbe25fae68bfe5e22dad04f0a
-Main CI run:            #210
+Batch:                 Expansion Batch 7 — Math to 100
+Final PR:              #42
+Git SHA:               82acd7d39c6cab98f38c92e4f6d7be6afe52cdcd
+Main CI run:            #220
 Quality gate (Ubuntu):  success
 Windows compatibility: success
 Mobile route QA:        success
@@ -60,9 +58,18 @@ Secret history scan:   success
 Production smoke:       success
 ```
 
-The exact-SHA production smoke completed successfully after the Batch 6 squash merge and verified the public Cloudflare release plus canonical Supabase metadata.
+The exact-SHA production smoke verified the final Wave D implementation release on the public Cloudflare deployment with the canonical Supabase backend.
 
-Batch 5 is also production-complete through PR #35 at squash SHA `5164d3b40492531b4ba5654ecc192ab3f8db72d8`.
+Batch 7 wave release sequence:
+
+| Wave | Math | PR | Migration | Main SHA | Exact-SHA smoke |
+| --- | ---: | ---: | --- | --- | --- |
+| A | 25 | #39 | `0015_batch7_math_wave_a` | `94c21cf84bc809272c93d997b1e994abfc8e9bbb` | success |
+| B | 50 | #40 | `0016_batch7_math_wave_b` | `3c2be1bac0c5f15c559bc3f5a4ab099f4fedf53f` | success |
+| C | 75 | #41 | `0017_batch7_math_wave_c` | `add22b874174ebbb797461f9a0b8c52fe60f9250` | success |
+| D | 100 | #42 | `0018_batch7_math_wave_d` | `82acd7d39c6cab98f38c92e4f6d7be6afe52cdcd` | success |
+
+Detailed Batch 7 evidence is in `EXPANSION_BATCH7_CLOSURE_2026-09-10.md`.
 
 ## Repository deployment configuration
 
@@ -71,8 +78,6 @@ Batch 5 is also production-complete through PR #35 at squash SHA `5164d3b4049253
 - `next.config.mjs` — Cloudflare binding initialization and release-metadata baking.
 - `src/app/api/health/route.ts` — public/non-secret release/backend health metadata.
 - `package.json` — `build:cloudflare`, `preview`, `deploy`, `upload`.
-
-Canonical URL: `https://mainlagihub.my.id/`.
 
 ## GitHub CI responsibilities
 
@@ -113,54 +118,55 @@ Applied migration chain verified on 10 September 2026:
 0012_reusable_mechanic_library
 0013_new_subject_curriculum_foundations
 0014_batch6_award_catalog_scaling
+0015_batch7_math_wave_a
+0016_batch7_math_wave_b
+0017_batch7_math_wave_c
+0018_batch7_math_wave_d
 ```
 
-Batch 6 DB verification confirms:
+Post-`0018` live catalog verification:
 
-- 34 active learning activities;
-- 27 assessed / 7 practice;
-- 18 active learning skills;
-- 16 active content packs;
-- subject rows for Bahasa, English, Math, Iqro, Letters, Logic, Science, and Coloring;
-- `letters-trace-a` remains completion-only practice rather than fabricated assessed trace evidence;
-- the server-owned `all-subjects` award gate is scaled to eight current first-class subjects.
+- 127 active learning activities;
+- exactly 100 Math activities;
+- 120 assessed / 7 practice;
+- 37 active learning skills;
+- 34 active content packs.
 
-Important boundaries:
+Important boundaries remain unchanged:
 
-- `0007` prevents real-child learning attempts unless `child_key` resolves to an undeleted account-owned `player_profiles` row; `demo-gian` is the explicit account-scoped sandbox sentinel.
-- `0011` provides content-pack and activity metadata without renaming historical activity IDs.
-- `0012` expands reusable mechanic/evidence vocabularies without adding fake playable activity counts.
-- `0013` registers the new Batch 6 subject foundations additively.
-- `0014` updates server-owned award catalog scaling.
-- current Iqro packs remain `expert_required`; database/code CI is not expert religious-learning approval.
+- `0007` prevents real-child attempts unless `child_key` resolves to an undeleted account-owned profile; `demo-gian` remains the explicit account-scoped sandbox sentinel;
+- `0011` provides scalable content ownership without renaming historical IDs;
+- `0012` expands mechanic/evidence vocabulary without fake playable counts;
+- `0013`/`0014` establish Batch 6 subjects and eight-subject award scaling;
+- `0015`–`0018` add Batch 7 Math content additively while preserving historical learning identity;
+- current Iqro packs remain `expert_required`; database/code CI does not equal expert religious-learning approval.
 
 ## Post-DDL advisor state
 
-Performance advisor has no WARN-level regression after Batch 6. Current observations are INFO-level unused indexes.
+After `0018`:
 
-Security advisor still reports two known warnings:
-
-1. authenticated execution of protected SECURITY DEFINER `public.record_learning_attempt(...)`; this is intentional for the canonical authenticated attempt RPC and remains protected by ownership/catalog/anti-farming logic;
-2. leaked-password protection disabled on the current Supabase plan; this is an existing accepted plan limitation, not a Batch 6 regression.
+- performance advisor has **no WARN-level regression**; 19 unused-index observations are INFO-level only;
+- security advisor still reports the existing intentional authenticated SECURITY DEFINER exposure for `public.record_learning_attempt(...)` and leaked-password protection disabled under the current Supabase configuration/plan;
+- no new Batch 7 security warning was introduced.
 
 ## Auth and learning production state
 
-Production architecture supports account login, authenticated assessed-attempt persistence, evidence/mastery materialization, parent-derived state, cloud child ownership/isolation, durable offline attempt queuing, and exact-commit health verification.
+Production supports account login, account-owned child profiles, assessed-attempt persistence, evidence/mastery materialization, parent-derived state, cloud child ownership/isolation, durable offline attempt queuing, and exact-commit health verification.
 
-A manual create/delete of a brand-new real cloud profile remains useful UX acceptance evidence but is not a schema/deployment blocker.
+Practice/completion-only activities cannot manufacture academic mastery. Batch 7 Math additions use measured `choice_accuracy_v1` or `matching_accuracy_v1` evidence contracts.
 
 ## Production verification checklist
 
-For every expansion batch:
+For every expansion wave/batch:
 
-1. [x] focused branch/PR used;
-2. [x] quality/security/build checks run before merge;
-3. [x] relevant schema migrations regression-tested before application;
-4. [x] Cloudflare production remains Git-driven from `main`;
-5. [x] smoke requires exact release SHA and canonical Supabase metadata;
-6. [x] public HTTPS homepage/health contract stays part of closure.
+1. [x] focused branch/PR;
+2. [x] full quality/security/build checks before merge;
+3. [x] relevant schema migration regression-tested before application;
+4. [x] live database counts verified after migration;
+5. [x] Cloudflare remains Git-driven from `main`;
+6. [x] post-merge smoke verifies exact release SHA and canonical Supabase metadata.
 
-Batch 6 satisfies all six closure conditions. Detailed evidence is recorded in `EXPANSION_BATCH6_CLOSURE_2026-09-10.md`.
+Batch 7 satisfies all six conditions across Waves A–D.
 
 ## Manual deployment fallback
 
@@ -174,4 +180,4 @@ It requires an authorized Cloudflare environment. Never commit Cloudflare API to
 
 ## Rollback
 
-Rollback at the Cloudflare deployment layer to a known-good Git deployment, then rerun public health/smoke verification. For additive database vocabulary/content migrations, prefer a forward corrective migration rather than destructive rollback of learning history. Do not introduce a separate VPS rollback path unless the architecture is intentionally changed and documented through a new ADR.
+Rollback the Cloudflare deployment layer to a known-good Git deployment, then rerun public health/smoke verification. For additive catalog migrations, prefer a forward corrective migration rather than destructive rollback of learning history. Do not reintroduce a separate VPS rollback path unless the architecture is intentionally changed and documented through a new ADR.
