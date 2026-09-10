@@ -17,34 +17,33 @@ This file is the canonical human/AI handoff for the current repository state. `m
 
 ## Latest verified production baseline
 
-**Expansion Batch 9 — English to 100 is production-complete.**
+**Expansion Batch 10 — Iqro to 100 is engineering/content-catalog production-complete.**
 
-Final Batch 9 implementation SHA:
+Final Batch 10 implementation SHA:
 
-`cc9430e1d3543de809b26a47d3dd16cad3803897`
+`e927e3e283b3c15fb97239c9ce013ef6121d3947`
 
-Final implementation landed through PR #52 after Waves A–C had each been separately production-closed. Post-merge main CI #245 succeeded for Ubuntu quality/learning/simulations, Windows compatibility, Chromium mobile-route QA, production build, dependency audit, secret-history scan, and exact-SHA Cloudflare production smoke.
+Final implementation landed through PR #57 after Waves A–C had each been separately production-closed. Post-merge main CI #256 succeeded for Ubuntu quality/learning/simulations, Windows compatibility, Chromium mobile-route QA, production build, dependency audit, full-history secret scan, and exact-SHA Cloudflare production smoke.
 
-Detailed closure evidence: `EXPANSION_BATCH9_CLOSURE_2026-09-10.md`.
+Detailed closure evidence: `EXPANSION_BATCH10_CLOSURE_2026-09-10.md`.
 
-Batch 7 Math-to-100 and Batch 8 Bahasa-Indonesia-to-100 remain production-complete; their detailed evidence is retained in `EXPANSION_BATCH7_CLOSURE_2026-09-10.md` and `EXPANSION_BATCH8_CLOSURE_2026-09-10.md`.
+Batch 7 Math-to-100, Batch 8 Bahasa-Indonesia-to-100, and Batch 9 English-to-100 remain production-complete with their own closure records.
+
+**Iqro review boundary:** all active Iqro packs remain `expert_required`, not `expert_approved`. Code/DB/CI/production success is not religious-learning expert approval.
 
 ## Current playable catalog
 
-Canonical repository and live Supabase counts after Batch 9:
+Canonical repository and live Supabase counts after Batch 10:
 
-- 8 first-class subjects: Bahasa Indonesia, English, Matematika, Iqro, Letters/Menulis, Logic/Logika, Science/Sains, and Coloring/Mewarnai;
+- 8 first-class subjects;
 - 8 learning paths;
-- 22 stages;
-- 74 lessons;
-- 74 versioned content packs;
-- 315 playable activities;
-- 77 skills;
-- 308 assessed activities;
-- 7 practice activities;
-- English: exactly **100 playable activities**;
-- Bahasa Indonesia: exactly **100 playable activities**;
-- Math: exactly **100 playable activities**.
+- 26 stages;
+- 94 lessons;
+- 94 versioned content packs;
+- **411 playable activities**;
+- **97 skills**;
+- **404 assessed activities**;
+- **7 practice activities**.
 
 Current subject activity counts:
 
@@ -53,7 +52,7 @@ Current subject activity counts:
 | Bahasa Indonesia | 100 | 99 | 1 | 23 |
 | English | 100 | 100 | 0 | 23 |
 | Math | 100 | 98 | 2 | 22 |
-| Iqro | 4 | 3 | 1 | 2 |
+| **Iqro** | **100** | **99** | **1** | **22** |
 | Letters / Menulis | 3 | 2 | 1 | 2 |
 | Logic / Logika | 3 | 3 | 0 | 2 |
 | Science / Sains | 3 | 3 | 0 | 2 |
@@ -61,18 +60,22 @@ Current subject activity counts:
 
 Drawing/Menggambar is not first-class yet. It remains planned for Batch 14 together with expansion of Coloring/Mewarnai.
 
-## Batch 9 English expansion
+## Batch 10 Iqro expansion
 
-Batch 9 preserved the six historical English activity IDs and added 94 new activities through four reviewable waves:
+Batch 10 preserved the four historical Iqro activity IDs and added exactly **96** meaningful activities through four separately gated waves:
 
-- Wave A — 6 -> 25: alphabet recognition/listening, initial-sound awareness, colors, and numbers one to five; PR #49, migration `0023`, SHA `eb4181df311011eb7724cfcef1565c50ab966120`, main CI #237;
-- Wave B — 25 -> 50: animals, everyday objects, body vocabulary, and family vocabulary; PR #50, migration `0024`, SHA `3dd380f736c3821546e531da2b82593d39519271`, main CI #239;
-- Wave C — 50 -> 75: food, actions, semantic categories, expanded word-picture matching, and listening identification; PR #51, migration `0025`, SHA `4096e68cb6916d7fedd0cf37896a67f6153edd30`, main CI #243;
-- Wave D — 75 -> 100: opposites, literal short phrases, sentence completion, listening detail, and integrated review; PR #52, migration `0026`, SHA `cc9430e1d3543de809b26a47d3dd16cad3803897`, main CI #245.
+- Wave A — 4 -> 25: early Hijaiyah recognition/discrimination, listening, dot awareness, and name/form matching; PR #54, migration `0027`, SHA `75152bcf5d930c5a0f072e77a2679ca1c9edef73`, main CI #250;
+- Wave B — 25 -> 50: Dal/Dzal, Ra/Zai, Sin/Syin recognition/listening/dot/name/family discrimination; PR #55, migration `0028`, SHA `074026b1c8b62a5a63b3004e6d591c820dd3ec5d`, main CI #252;
+- Wave C — 50 -> 75: Shad through Qaf recognition/listening/dot/name/family discrimination; PR #56, migration `0029`, SHA `dc367d2fa712c3ec793d6161d8fdde434197a17b`, main CI #254;
+- Wave D — 75 -> 100: Kaf through Ya, standalone Hamzah, and integrated review; PR #57, migration `0030`, SHA `e927e3e283b3c15fb97239c9ce013ef6121d3947`, main CI #256.
 
-All four post-merge CI runs passed exact-SHA Cloudflare production smoke. All 94 new English activities are assessed through existing measured `tap_choice`, `listen_and_choose`, or `matching` paths. English therefore closes at 100 assessed / 0 practice.
+All four post-merge CI runs passed exact-SHA Cloudflare production smoke.
 
-Wave C initially triggered the content-architecture duplicate-ID gate because a proposed new skill reused historical ID `english.word.picture_matching`. The migration was not applied and the PR was not merged while that failure existed. The new skill was renamed to `english.word.picture_matching.expanded`; subsequent CI passed and live verification confirmed the historical and expanded skill records remain separate.
+All 96 Batch 10 additions are assessed through existing measured `tap_choice`, `listen_and_choose`, or `matching` paths. No new generic trace was promoted to assessed. Iqro therefore closes at **99 assessed / 1 historical practice**.
+
+Batch 10 authoring metadata is automatically checked against the canonical `HIJAIYAH_TEMPLATES` registry for 29 entries: 28 Hijaiyah letters plus standalone Hamzah. Tests lock glyph, Latin label, dot count, and dot-zone parity.
+
+All **22 active Iqro packs** remain `expert_required`. Formal review of content/audio/pedagogical sequencing remains a separate human requirement.
 
 ## Shipped learning/content architecture
 
@@ -89,7 +92,7 @@ Subject
               -> Skill mapping / evidence contract
 ```
 
-Canonical progress/evidence flow:
+Canonical evidence flow:
 
 ```text
 Child Profile
@@ -101,7 +104,7 @@ Child Profile
             -> Parent Report
 ```
 
-The motion/vision engine remains an optional activity runtime rather than the universal learning data model.
+The motion/vision engine remains optional rather than the universal learning data model.
 
 ## Learning evidence and mastery integrity
 
@@ -120,37 +123,35 @@ Protections remain in force:
 - stage readiness uses qualifying evidence rather than raw replay count;
 - measured all-wrong interactions remain accuracy `0` evidence;
 - missing measurement fails closed to completion-only;
-- hints/retries are retained and independence penalties remain downstream in the mastery engine.
+- hints/retries remain available for downstream independence penalties.
 
-Batch 9 uses measured choice/listening-choice/matching evidence only. Existing conservative trace boundaries are unchanged: `letters-trace-a` remains completion-only practice until letter-shape fidelity is explicitly validated.
+Batch 10 does not weaken these boundaries. Existing trace assessment remains conservative: unsupported glyph tracing stays completion-only until shape-fidelity measurement is explicitly validated.
 
-## Existing subject/review boundaries retained
+## Current runtime inventory
 
-Letters/Menulis, Logic/Logika, and Science/Sains remain first-class subjects integrated with navigation, age eligibility, adaptive ranking, progression/readiness, Parent summaries, skill rows, cloud catalog registration, and certificate eligibility.
+| Runtime | Activities |
+| --- | ---: |
+| `tap_choice` | 251 |
+| `listen_and_choose` | 76 |
+| `matching` | 76 |
+| `trace` | 2 |
+| `story` | 1 |
+| `motion_game` | 3 |
+| `coloring` | 2 |
 
-The local/cloud `all-subjects` achievement threshold remains eight first-class subjects. Drawing will require another intentional threshold/catalog update when it becomes first-class.
-
-Current Iqro packs remain `expert_required`, not `expert_approved`; passing code/DB/CI is not religious-learning expert approval.
-
-## Reusable mechanic library
-
-Batch 5 established 20 reusable mechanic contracts spanning choice, pairing, targeting, classification, ordering, path, and practice families. Mechanic capability does not itself count as a playable activity.
-
-Seventeen mechanics support assessed + practice mode; story, coloring, and optional motion wrapper remain practice-only. Assessed usage requires valid measured evidence.
+Total: **411**.
 
 ## Cloud profiles and ownership
 
-Authenticated mode uses Supabase as the source of truth for account-owned child profiles, attempts, evidence, mastery, derived progress, achievements, and certificates. Guest mode remains local-only.
+Authenticated mode uses Supabase as source of truth for account-owned child profiles, attempts, evidence, mastery, derived progress, achievements, and certificates. Guest mode remains local-only.
 
-Real child routes require an undeleted account-owned `player_profiles` row; foreign/deleted IDs fail closed. `demo-gian` remains the explicit account-scoped sandbox sentinel. Migration `0007_learning_child_ownership` enforces the ownership boundary at attempt recording.
+Real child routes require an undeleted account-owned `player_profiles` row; foreign/deleted IDs fail closed. `demo-gian` remains the explicit account-scoped sandbox sentinel. Migration `0007_learning_child_ownership` enforces this ownership boundary at attempt recording.
 
 Authenticated attempt sync retains the durable browser outbox. Failed attempts stay account-bound without storing tokens, use bounded retry/backoff/TTL, and cannot create server mastery until accepted by the canonical RPC.
 
 ## Audio, tracing, and device boundaries
 
-Batch 3 consolidated speech behind `AudioManager` with unlock/warmup, locale voice caching, bounded queue/deduplication, stale-speech cancellation, standardized rates, fallback handling, and privacy-safe local latency instrumentation. No child pronunciation recording/upload is introduced.
-
-Guided trace assessment still requires validated runtime measurement. Unsupported trace fidelity remains completion-only.
+Product speech remains consolidated behind `AudioManager`, including unlock/warmup, locale voice caching, bounded queue/deduplication, stale-speech cancellation, fallback handling, and privacy-safe local latency instrumentation. No child pronunciation recording/upload is introduced.
 
 Automated CI does not replace physical-device camera/audio/trace/accessibility acceptance. Representative real-device testing remains part of Batch 16.
 
@@ -193,11 +194,15 @@ Applied migration chain is verified through:
 0024_batch9_english_wave_b
 0025_batch9_english_wave_c
 0026_batch9_english_wave_d
+0027_batch10_iqro_wave_a
+0028_batch10_iqro_wave_b
+0029_batch10_iqro_wave_c
+0030_batch10_iqro_wave_d
 ```
 
-Post-`0026` live verification: 315 active activities, exactly 100 English, 100 Bahasa, 100 Math, 308 assessed / 7 practice, 77 active skills, and 74 active packs. English has 100 activity-skill links and zero active activities missing mechanic/evidence metadata.
+Post-`0030` live verification: 411 active activities, exactly 100 Iqro / 100 English / 100 Bahasa / 100 Math, 404 assessed / 7 practice, 97 active skills, 94 active packs, 100 Iqro activity-skill links, 22 Iqro `expert_required` packs, and zero active Iqro activities missing mechanic/evidence metadata.
 
-Post-DDL performance advisor has no WARN-level regression; 18 unused-index observations are INFO only. Security advisor still reports the two known warnings: intentional authenticated execution of protected SECURITY DEFINER `record_learning_attempt(...)`, and leaked-password protection disabled under the current Supabase configuration/plan. Batch 9 introduced no new advisor warning.
+Post-DDL performance advisor has no WARN-level regression; 18 unused-index observations are INFO only. Security advisor still reports the two known warnings: intentional authenticated execution of protected SECURITY DEFINER `record_learning_attempt(...)`, and leaked-password protection disabled under the current Supabase configuration/plan. Batch 10 introduced no new advisor warning.
 
 ## CI and release governance
 
@@ -230,5 +235,6 @@ One account-level action remains outside current connector write capability: ens
 - **Batch 7 Math to 100 — complete in production**;
 - **Batch 8 Bahasa Indonesia to 100 — complete in production**;
 - **Batch 9 English to 100 — complete in production**;
-- **Batch 10 Iqro to 100 — NEXT**;
-- Batch 11+ — planned according to `MAINLAGI_EXPANSION_IMPLEMENTATION_PLAN.md`.
+- **Batch 10 Iqro to 100 — engineering/content-catalog complete in production; expert review still required**;
+- **Batch 11 Letters/Menulis to 100 — NEXT**;
+- Batch 12+ — planned according to `MAINLAGI_EXPANSION_IMPLEMENTATION_PLAN.md`.
