@@ -232,7 +232,7 @@ type LessonCore = Omit<ContentLessonDefinition, "activityIds">;
 
 const LESSON_CORES: LessonCore[] = [
   { id: "bahasa-huruf-a", subjectId: "bahasa", pathId: "bahasa-fondasi-literasi", stageId: "bahasa-huruf", title: "Kenal huruf A", objective: "Mengenali bentuk dan petunjuk bunyi huruf A dari beberapa pilihan.", ageMin: 3, ageMax: 7 },
-  { id: "bahasa-huruf-awal", subjectId: "bahasa", pathId: "bahasa-fondasi-literasi", stageId: "bahasa-huruf", title: "Huruf awal kata", objective: "Memasangkan huruf awal dengan contoh kata sederhana.", ageMin: 4, ageMax: 7 },
+  { id: "bahasa-huruf-awal", subjectId: "bahasa", pathId: "bahasa-fondasi-literasi", stageId: "bahasa-huruf", title: "Huruf awal kata", objective: "Memasangkan huruf dengan contoh kata yang memiliki huruf awal sesuai.", ageMin: 4, ageMax: 7 },
   { id: "bahasa-cerita-teman", subjectId: "bahasa", pathId: "bahasa-fondasi-literasi", stageId: "bahasa-cerita", title: "Menyimak cerita teman", objective: "Mendengarkan atau membaca cerita pendek bersama pendamping.", ageMin: 4, ageMax: 7 },
   { id: "english-color-blue", subjectId: "english", pathId: "english-first-steps", stageId: "english-first-words", title: "Color word: blue", objective: "Menghubungkan kata BLUE dengan pilihan visual yang sesuai.", ageMin: 4, ageMax: 7 },
   { id: "english-listen-cat", subjectId: "english", pathId: "english-first-steps", stageId: "english-first-words", title: "Listen: cat", objective: "Menghubungkan petunjuk audio kata cat dengan gambar yang sesuai.", ageMin: 3, ageMax: 7 },
@@ -375,7 +375,7 @@ export const CONTENT_PACKS: ContentPackDefinition[] = [
     id: makeContentPackId("letters", "letter-a"), version: "1.0.0", subjectId: "letters", pathId: "letters-writing-foundations", stageId: "letters-foundations", title: "Huruf A & Menulis", ageMin: 3, ageMax: 7, reviewStatus: "internal",
     activities: [
       assessed("find-a", "letters-find-a", "letters-a-foundations", "tap_choice", 1, true, "letters.latin.a.recognition"),
-      assessed("trace-a", "letters-trace-a", "letters-a-foundations", "guided_trace", 1, true, "letters.latin.a.formation"),
+      practice("trace-a", "letters-trace-a", "letters-a-foundations", "guided_trace", 1, true, "letters.latin.a.formation", 0.5),
       assessed("match-case", "letters-match-case", "letters-a-foundations", "matching", 2, false, "letters.latin.a.recognition")
     ]
   },
