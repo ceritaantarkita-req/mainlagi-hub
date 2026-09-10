@@ -2,63 +2,52 @@
 
 Last reviewed: 10 September 2026
 
-This file is the canonical human/AI handoff for the current repository state. `main` is the only source of truth. Commit SHAs below are dated snapshots, not permanent version labels.
+This file is the canonical human/AI handoff for the current repository state. `main` is the only product source of truth. Commit SHAs are verification snapshots, not permanent version labels.
 
 ## Canonical baseline
 
 - Repository: `ceritaantarkita-req/mainlagi-hub`
 - Visibility: Public
 - Default/canonical branch: `main`
-- Cloud learning/profile/ownership implementation baseline: `7fa7ab7b4642e67343370924e740433fefe8f914`
 - Source license: `AGPL-3.0-only`
-- Commercial/open-core policy: see `OPEN_CORE.md`, `COMMERCIAL_LICENSE.md`, and `docs/PRODUCT_TIERS_AND_CODE_BOUNDARY.md`.
+- Production URL: `https://mainlagihub.my.id/`
+- Canonical Supabase project ref: `estvtgflwkebomsqlolv`
+- Production transport: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker `mainlagi-hub`
+- Production is not VPS/SSH based. Old VPS deployment references are superseded.
 
-## Canonical production architecture
+## Latest verified production engineering baseline
 
-Production is **not VPS/SSH based**.
+Engineering hardening commit:
+
+`771409b04a5ea626f6dfc68d1265197492e0263e`
+
+Verification on 10 September 2026:
+
+- `Quality gate (Ubuntu)` — success;
+- `Windows compatibility` — success;
+- `Production build` — success;
+- `Production dependency audit` — success;
+- `Secret history scan` — success;
+- `Workers Builds: mainlagi-hub` — success;
+- Cloudflare Build ID `01a94875-f9c8-4b1f-ad89-9824a14fdbc5`;
+- Cloudflare Version ID `2f9a60e6-6571-494d-bfd5-ce9847454d9c`;
+- `Production smoke (Cloudflare)` — success for the exact SHA above and canonical Supabase target.
+
+`/api/health` exposes only non-secret release/backend metadata. The smoke gate rejects an older still-running Worker and requires the expected SHA, `main` branch, canonical site URL, backend `supabase`, and project ref `estvtgflwkebomsqlolv`.
+
+## Shipped learning architecture
+
+Canonical hierarchy:
 
 ```text
-GitHub (`ceritaantarkita-req/mainlagi-hub`)
-  -> protected `main`
-  -> Cloudflare Git integration / build
-  -> OpenNext for Cloudflare Workers
-  -> Worker `mainlagi-hub`
-  -> https://mainlagihub.my.id/
+Subject
+  -> Learning Path
+    -> Stage
+      -> Lesson
+        -> Activity
 ```
 
-GitHub Actions is the quality/security gate. Cloudflare owns publication from the Git-connected `main` branch. Previous references to `mainlagi.inmydraft.com`, `/srv/mainlagi`, VPS SSH deploys, or `MAINLAGI_VPS_*` are superseded.
-
-## Production deployment verification
-
-Cloudflare Git deployment and exact-commit verification are active.
-
-For implementation commit `7fa7ab7b4642e67343370924e740433fefe8f914`:
-
-- Cloudflare check: `Workers Builds: mainlagi-hub` — success;
-- Cloudflare Build ID: `77e6e799-bd5d-4170-ae2e-8a39876a5c6d`;
-- Cloudflare Version ID: `e9d879f1-100d-48d6-9142-90f1f51d1912`;
-- GitHub `Production smoke (Cloudflare)` — success;
-- the smoke gate verified that the public production release served the exact current `main` SHA and canonical production metadata.
-
-`/api/health` exposes only non-secret release/backend metadata. The smoke gate verifies the exact release instead of accepting an older still-running Worker.
-
-## Shipped platform shape
-
-Mainlagi is a child-learning platform whose motion/vision engine remains an activity runtime rather than the universal learning data model.
-
-Current core includes:
-
-- five subjects: Bahasa Indonesia, English, Matematika, Iqro, and Mewarnai;
-- child profiles, learning progress, attempts, evidence, mastery, achievements, and certificates;
-- touch/audio/story/coloring/tracing/matching/motion activity runtimes;
-- evidence-aware progression and stage access;
-- parent progress/report/certificate views;
-- Mainlagi World child experience;
-- existing motion games and MediaPipe/browser vision runtimes;
-- cloud-backed authenticated learning state plus explicit guest/local fallback;
-- server-side parent authentication and child-ownership guards.
-
-Canonical learning flow:
+Canonical progress/evidence flow:
 
 ```text
 Child Profile
@@ -66,101 +55,137 @@ Child Profile
     -> Skill Evidence
       -> Skill Mastery
         -> Stage Readiness / Unlock
-          -> Parent Report / Achievement / Certificate
+          -> Reward / Achievement / Certificate
+            -> Parent Report
 ```
 
-## Learning evidence integrity
+The motion/vision engine remains an Activity runtime. It is not the universal learning data model.
 
-Legacy completion events remain conservative:
+Current subjects:
 
-- completion-only data is stored as completion/practice context;
-- no placeholder accuracy is fabricated;
-- no mastery evidence is created without a measurable assessed outcome.
+- Bahasa Indonesia
+- English
+- Matematika
+- Iqro
+- Mewarnai
 
-Current mastery protections include:
+Current activity families include touch choice, listening, matching, guided trace, story, coloring, and motion/gesture activities.
 
-- one qualifying perfect attempt remains at most `exploring`;
+## Learning evidence and mastery integrity
+
+Mastery levels are:
+
+`not_started -> exploring -> developing -> proficient -> mastered`
+
+Current protections include:
+
+- one perfect qualifying attempt remains at most `exploring`;
 - repeated qualifying evidence is required for higher mastery;
-- replay inside 30 seconds is retained but non-qualifying;
+- rapid replay inside 30 seconds is retained but does not qualify for mastery farming;
 - seven or more retries make evidence non-qualifying;
-- practice activity classification is server/catalog owned;
-- stage readiness uses qualifying evidence rather than raw replay count.
+- practice/completion-only activities cannot manufacture assessed mastery evidence;
+- server/catalog classification owns whether an activity is assessed;
+- stage readiness uses qualifying evidence, not raw replay count;
+- completion-only trace paths do not receive fabricated accuracy;
+- guided trace can publish explicit evaluator output based on actual path quality.
 
-Parent-facing evidence wording uses **Skor evidence** rather than implying that a single 100% attempt equals mastery.
+Parent-facing UI uses **Skor evidence** separately from mastery level.
 
-## Cloud child profiles and source-of-truth boundary
+## Curriculum and adaptive learning
 
-Authenticated accounts now use existing `public.player_profiles` as the child-profile source of truth for the learning UI.
+The repository now formalizes Subject -> Learning Path -> Stage -> Lesson -> Activity without breaking existing activity IDs.
 
-Authenticated mode:
+Adaptive Learning V2 is deterministic and testable. Ranking respects hard gates for age, stage access, and motion opt-in, then uses measured history to provide:
 
-- lists undeleted account-owned profiles from Supabase;
-- creates profiles under the authenticated `account_id`;
-- soft-deletes profiles with `deleted_at`;
-- reads learning attempts, skill evidence, mastery, and derived progress from Supabase;
-- does **not** silently replace a failed cloud read with stale localStorage data;
-- refreshes cloud learning state immediately after a successful attempt RPC sync.
+- different-activity remediation for weak evidence;
+- confidence-building with varied evidence;
+- spaced review for stronger skills;
+- repeat suppression;
+- soft difficulty adjustment from recent accuracy/retries.
 
-Guest mode:
+Adaptive ranking never changes mastery itself.
 
-- remains local-only for child play/profile state;
-- does not silently upload local profiles to cloud after login.
+Eight additional assessed evidence-variant activities were added across Bahasa, English, Math, and Iqro. They provide varied evidence without inflating stage completion requirements.
 
-Legacy `player_profiles.age_group` values remain compatible for child-specific groups: `TK -> 5`, `SD 1 -> 6`, `SD 2 -> 7`. The ambiguous legacy value `Umum` is intentionally not assigned a child learning age automatically.
+## Cloud profiles, learning state, and offline behavior
 
-The fixed `demo-gian` profile is an explicit sandbox sentinel. Its learning rows remain account-scoped by RLS; it is not a cross-account shared data row.
+Authenticated mode uses Supabase as the source of truth:
 
-## Parent and child ownership gates
+- account-owned `player_profiles` for child profiles;
+- cloud attempts, evidence, mastery, and derived progress;
+- cloud achievements and certificates;
+- immediate cloud refresh after successful attempt sync.
 
-Production parent routes are server gated:
+Guest mode remains local-only and does not silently upload profiles after login.
 
-- `/parent/*` requires a valid server-verified Supabase session when Supabase is configured;
-- `/parent/children/<childId>/*` requires the real child profile to be owned by the authenticated account and not soft-deleted;
-- foreign/deleted child IDs fail closed with `notFound()`;
-- the explicit `demo-gian` sandbox is allowed.
+Legacy child-specific `age_group` values remain compatible:
 
-Authenticated child-mode direct URLs are also ownership checked. A logged-in account cannot render another account's real child route by changing the URL. Unauthenticated guest/local child play remains available by design.
+- `TK -> 5`
+- `SD 1 -> 6`
+- `SD 2 -> 7`
 
-Database migration `0007_learning_child_ownership` adds a second boundary at `learning_attempts`: a real `child_key` must resolve to an undeleted `player_profiles` row with the same `account_id`; only `demo-gian` is exempt as the explicit sandbox sentinel.
+Ambiguous legacy `Umum` is intentionally not assigned a child age automatically.
 
-## CI and regression coverage
+### Offline authenticated attempts
 
-Primary CI runs:
+Authenticated attempt sync now has a durable browser outbox:
 
-- `Production build` — actual OpenNext/Cloudflare artifact;
-- `Quality gate (Ubuntu)`;
-- `Windows compatibility`;
-- `Production dependency audit`;
-- `Secret history scan`;
-- `Production smoke (Cloudflare)` on canonical `main`.
+- failed cloud attempts remain queued instead of disappearing;
+- queue entries are bound to the authenticated account ID;
+- tokens are never stored in the outbox;
+- retries use bounded exponential backoff, retry ceiling, and TTL;
+- pending attempts can appear as optimistic activity history but cannot create server mastery until accepted by the canonical RPC;
+- duplicate queue entries and cross-account replay are regression tested.
 
-Learning tests cover:
+Server-side idempotency remains anchored by the attempt client ID/RPC path.
 
-- mastery transitions and anti-one-shot behavior;
-- replay/retry anti-farming;
-- evidence degradation and practice classification;
-- progression based on qualifying evidence;
-- assessed-runtime/catalog consistency;
-- certificate competency integrity;
-- multi-child local isolation;
-- cloud `child_key` filtering and account binding;
-- parent/child direct-route ownership contracts;
-- legacy child age-group compatibility;
-- migration/RLS/RPC security contracts including migration `0007`.
+## Parent and child safety boundaries
 
-PR #18 passed Ubuntu, Windows, OpenNext production build, dependency audit, secret-history scan, engine tests, and simulations before merge. The exact merged production commit also passed Cloudflare deployment and post-deploy smoke verification.
+Production parent routes are server gated when Supabase is configured:
 
-## Supabase state
+- `/parent/*` requires a valid server-verified session;
+- real child routes require an undeleted account-owned `player_profiles` row;
+- foreign/deleted child IDs fail closed;
+- authenticated direct `/child/<childId>` manipulation is ownership checked;
+- unauthenticated guest/local child play remains available by design;
+- `demo-gian` is the single explicit sandbox sentinel and its learning data remains account scoped.
 
-Canonical Mainlagi database:
+Migration `0007_learning_child_ownership` also enforces real-child ownership at the `learning_attempts` database boundary.
+
+## Parent experience, achievements, and certificates
+
+Parent Dashboard V2 includes:
+
+- stage readiness and lock reasons;
+- completion vs evidence readiness;
+- skill/mastery summaries;
+- subject recommendations;
+- recent attempt history;
+- weekly report metrics including active learning days, assessed/practice attempts, qualifying evidence, accuracy trend context, strengths, and skills to reinforce.
+
+Achievements and certificates are server persisted. The UI does not invent local awards when cloud rows are absent.
+
+Certificate issuance is idempotent and tied to canonical completion/evidence criteria. Practice-only areas cannot issue a competency certificate merely because they have no assessed skills.
+
+## Audio and tracing
+
+Listening activities provide browser speech/TTS status and a fallback state when speech is unavailable, muted, or fails.
+
+No pronunciation microphone capture is part of this closure. Any future microphone/voice inference feature requires a separate privacy/consent design.
+
+Guided trace assessment uses explicit runtime measurement. If a trace runtime cannot produce valid measurement, it fails conservatively to completion-only instead of manufacturing accuracy.
+
+## Supabase production state
+
+Canonical project:
 
 - organization: `inmydraft`
 - project: `mainlagi-hub`
 - project ref: `estvtgflwkebomsqlolv`
-- region: `ap-southeast-1` (Singapore)
+- region: `ap-southeast-1`
 - status: active/healthy
 
-Applied migration history verified 10 September 2026:
+Applied migrations verified 10 September 2026:
 
 1. `0001_init`
 2. `0002_learning_attempt_schema`
@@ -169,44 +194,81 @@ Applied migration history verified 10 September 2026:
 5. `0005_database_advisor_hardening`
 6. `0006_private_admin_helper`
 7. `0007_learning_child_ownership`
+8. `0008_curriculum_content_expansion`
+9. `0009_learning_awards_certificates`
+10. `0010_legacy_fk_indexes`
 
-Live structural verification confirmed the `learning_attempt_child_ownership` trigger is enabled and points to `private.enforce_learning_attempt_child_ownership`.
+`0010` adds non-destructive covering indexes for the legacy foreign keys reported by the performance advisor.
 
-The SQL inspection connector runs read-only, so it cannot perform a direct test INSERT through `execute_sql`; an attempted verification INSERT was rejected by the connector's read-only transaction before any test row could be written. This is a tooling limitation, not an application/database failure.
+Latest advisor review:
 
-Earlier authenticated production smoke already proved real `demo-gian` learning attempts, evidence, and mastery materialization in the canonical Supabase project. Four measured attempts were observed live and the corresponding one-evidence skills correctly remained `exploring` rather than jumping to mastery.
+- performance advisor: **0 WARN** and no unindexed-foreign-key finding;
+- remaining performance findings are INFO-level unused-index observations, including newly created indexes with insufficient workload history, so they are not deleted without evidence;
+- security advisor retains the intentional warning for authenticated execution of `public.record_learning_attempt(...)` as a protected SECURITY DEFINER RPC;
+- leaked-password protection is unavailable on the current Supabase Free plan and remains an accepted plan limitation with existing password-change protections.
 
-Supabase advisor state after hardening:
+## CI and regression coverage
 
-- performance advisor: no WARN findings;
-- intentional security warning remains for authenticated execution of the protected SECURITY DEFINER attempt RPC;
-- leaked-password protection remains unavailable on the current Supabase Free plan and is treated as an accepted plan limitation.
+Primary CI covers:
 
-## Closure state for cloud learning items 1–5
+- OpenNext/Cloudflare production build;
+- Ubuntu typecheck, lint, source/asset validation, engine tests, learning tests, simulations;
+- Windows typecheck, lint, and engine tests;
+- production dependency audit;
+- full-history Gitleaks secret scan;
+- exact-commit production smoke after `main` pushes.
 
-Engineering implementation is complete for the requested block:
+Learning regression coverage includes:
 
-1. [x] cloud child-profile list/create/select/soft-delete path;
-2. [x] authenticated cloud reads for attempts/evidence/mastery/progress;
-3. [x] immediate cloud refresh after successful attempt sync;
-4. [x] multi-child isolation + account/RLS/DB ownership regression coverage;
-5. [x] parent authentication gate + parent/child direct-URL ownership fail-closed behavior.
+- mastery transitions and anti-one-shot behavior;
+- replay/retry anti-farming;
+- evidence degradation and practice classification;
+- stage progression from qualifying evidence;
+- assessed-runtime/catalog consistency;
+- curriculum hierarchy/content diversity;
+- Adaptive Learning V2 remediation/confidence/spacing/age/motion behavior;
+- explicit runtime measurement and guided tracing;
+- audio fallback;
+- Parent Dashboard readiness and subject recommendations;
+- achievement/certificate issuance and weekly report logic;
+- cloud child/account ownership and multi-child isolation;
+- durable offline outbox account isolation, deduplication, backoff, TTL, and pending overlay;
+- migration/RLS/RPC security contracts.
 
-All code changes were merged through PR #18 and the exact production commit passed CI, Cloudflare deploy, and production smoke. Migration `0007` is live.
+## Engineering closure status
 
-A manual browser exercise of creating and deleting a brand-new real cloud child profile can still be used as UX acceptance evidence, but it is not an unresolved code/schema deployment blocker for items 1–5.
+The foundation/platform wave requested in September 2026 is engineering-complete for:
 
-## Current engineering priority
+- cloud child profiles and cloud learning source of truth;
+- learning attempts + mastery;
+- anti-farming and varied evidence;
+- curriculum hierarchy;
+- adaptive next-best activity;
+- stage readiness/progression;
+- Parent Dashboard/Report V2;
+- persisted achievements and certificates;
+- guided trace measurement;
+- listening/TTS fallback;
+- authenticated offline attempt outbox;
+- Supabase database/index hardening;
+- CI + exact-commit Cloudflare deployment verification.
 
-The next phase is no longer cloud-profile plumbing. Priorities can move to:
+This does **not** mean the product has no future work. Curriculum breadth, richer audio/voice, animation, camera/device tuning, accessibility refinement, performance profiling, and broader child UX can continue as product development rather than foundation blockers.
 
-- broader authenticated E2E/UX acceptance with real cloud child profiles;
-- remaining progression/reward/achievement/certificate product QA;
-- wider next-best/adaptive UI integration;
-- curriculum/content expansion;
-- audio/voice and richer child experience work.
+## Evidence boundary: automated vs human/device acceptance
 
-## Branch policy
+Automated evidence proves repository, schema, regression, deployment, and public health-contract behavior. It does not substitute for all physical-device UX evidence.
+
+Still useful as non-code acceptance exercises:
+
+- create/use/delete a disposable real cloud child profile through the browser;
+- intentionally go offline, complete an activity, return online, and observe outbox reconciliation;
+- camera/gesture QA on representative phones/tablets/laptops;
+- screen-reader, keyboard, touch-target, and visual QA on real devices.
+
+These are acceptance/polish evidence, not unresolved schema or deployment implementation.
+
+## Repository governance
 
 Normal lifecycle:
 
@@ -217,11 +279,9 @@ short-lived branch
   -> squash merge
   -> Cloudflare deploy from main
   -> exact-commit production smoke
-  -> delete branch
+  -> delete merged branch
 ```
 
-`main` remains canonical. See `docs/BRANCH_LIFECYCLE.md`.
+`main` remains canonical.
 
-## Manual/account-level actions
-
-Items that truly require account/UI access are tracked in `docs/ACCOUNT_LEVEL_ACTIONS.md`. Never commit or paste secret values into repository files, issues, screenshots, or chat.
+One account-level governance action remains outside connector write capability: add `Secret history scan` to the active `Protect main` ruleset's required-status-check list. The scan itself already runs and passes; the remaining action is making it mandatory in GitHub Settings. See `docs/ACCOUNT_LEVEL_ACTIONS.md`.

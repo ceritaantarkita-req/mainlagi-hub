@@ -2,9 +2,11 @@
 
 Last reviewed: 10 September 2026
 
-Only actions that genuinely require account/UI access belong here. Secret values must never be committed or pasted into repository issues/logs/docs.
+Only actions that genuinely require account/UI access belong here. Secret values must never be committed or pasted into repository issues, logs, docs, screenshots, or chat.
 
-## Resolved: canonical Supabase
+## Canonical production state — resolved
+
+Supabase:
 
 ```text
 organization: inmydraft
@@ -13,11 +15,9 @@ project ref:  estvtgflwkebomsqlolv
 region:       ap-southeast-1
 ```
 
-The duplicate empty Mainlagi Supabase project was deleted. Canonical project is active/healthy.
+Applied migrations are verified through `0010_legacy_fk_indexes`.
 
-Applied migrations are now `0001` through `0007`, including `0007_learning_child_ownership`.
-
-## Resolved: Cloudflare Git production path
+Production path:
 
 ```text
 GitHub main
@@ -26,109 +26,107 @@ GitHub main
   -> https://mainlagihub.my.id/
 ```
 
-Verified:
-
-- repository `ceritaantarkita-req/mainlagi-hub`;
-- production branch `main`;
-- build `npm run build:cloudflare`;
-- deploy `npx wrangler deploy`;
-- Worker `mainlagi-hub`;
-- custom domain `mainlagihub.my.id`;
-- exact-commit Cloudflare deployment checks work;
-- `Production smoke (Cloudflare)` verifies the exact SHA and canonical Supabase metadata.
-
-No `MAINLAGI_VPS_*` GitHub secrets are required.
-
-## Resolved: production backend target
-
-The commit-aware production smoke gate verifies non-secret runtime metadata for:
-
-- canonical site URL;
-- backend `supabase`;
-- canonical Supabase project ref `estvtgflwkebomsqlolv`.
-
-Secret/publishable credential values are intentionally not printed by the health endpoint.
-
-## Resolved: learning/cloud-profile implementation block
-
-Production code now contains:
-
-- cloud child profile list/create/select/soft-delete path;
-- authenticated cloud learning-state reads;
-- immediate refresh after successful attempt sync;
-- multi-child/account ownership regression tests;
-- parent server auth gate;
-- parent child ownership gate;
-- authenticated child direct-URL ownership gate;
-- DB-level real-child attempt ownership trigger.
-
-Implementation baseline `7fa7ab7b4642e67343370924e740433fefe8f914` passed Cloudflare deploy and exact-commit production smoke. Migration `0007` is live.
-
-A manual browser create/delete exercise for a brand-new real cloud child is optional UX acceptance evidence, not an account-level configuration blocker.
-
-## 1. Protect-main required checks review
-
-The repository CI currently provides:
+Verified engineering release baseline before this docs-only closure:
 
 ```text
-Production build
-Quality gate (Ubuntu)
-Windows compatibility
-Production dependency audit
+main SHA:            771409b04a5ea626f6dfc68d1265197492e0263e
+Cloudflare Build:    01a94875-f9c8-4b1f-ad89-9824a14fdbc5
+Cloudflare Version:  2f9a60e6-6571-494d-bfd5-ce9847454d9c
+Production smoke:    success
+Supabase project:    estvtgflwkebomsqlolv
+```
+
+The exact-commit production smoke verifies non-secret metadata for SHA, branch, canonical site URL, backend `supabase`, and canonical Supabase project ref. Secret values are intentionally not printed.
+
+No `MAINLAGI_VPS_*` GitHub secrets are required. Production is not VPS/SSH based.
+
+## Required manual action: add Secret history scan to Protect main
+
+Current active `Protect main` ruleset inspection shows these required status checks:
+
+1. `Production build`
+2. `Quality gate (Ubuntu)`
+3. `Windows compatibility`
+4. `Production dependency audit`
+
+The CI workflow also runs `Secret history scan`, and the scan is passing, but it is **not yet mandatory in the ruleset**.
+
+In GitHub repository settings, edit the active `Protect main` ruleset and add:
+
+```text
 Secret history scan
 ```
 
-If `Secret history scan` is not yet included in the active `Protect main` ruleset's required checks, add it in GitHub settings. Do not weaken the existing required checks.
+Do not remove or weaken any existing required check.
 
-## 2. Supabase leaked-password protection — accepted Free-plan limitation
+This action cannot be performed through the connected GitHub API surface used for this closure because repository-ruleset administration writes are not exposed there.
 
-Canonical project is on Supabase Free. Leaked-password protection requires a higher plan and therefore remains OFF.
+## Accepted platform limitation: Supabase leaked-password protection
 
-Current mitigation confirmed:
+The canonical project is on Supabase Free. Leaked-password/HIBP protection remains unavailable on the current plan.
+
+Existing mitigation previously confirmed:
 
 - minimum password length at least 8;
-- secure password change ON;
-- current password required for password update ON.
+- secure password change enabled;
+- current password required for password update.
 
-Revisit only if the project upgrades plans; this is not a current closure blocker.
+Revisit this only if plan capability changes. It is not an unresolved application-code blocker.
 
-## 3. Optional UX acceptance: real cloud child profile
+## Optional human/device acceptance
 
-For additional human/browser evidence, use a controlled test account/profile rather than a child's real history:
+These are useful acceptance exercises, not missing backend implementation:
 
-1. log in;
-2. create a new child through `/child/select`;
-3. verify it appears after reload/another browser session;
-4. complete a measurable activity;
-5. verify Parent Progress updates from cloud;
-6. soft-delete the disposable test profile.
+### Real cloud child browser exercise
 
-This is acceptance evidence, not a missing backend implementation step.
+1. Sign in with a controlled test account.
+2. Create a disposable child profile through `/child/select`.
+3. Reload or open another browser session and confirm the profile remains available.
+4. Complete a measurable activity.
+5. Confirm Parent Progress/Report reflects cloud state.
+6. Soft-delete the disposable profile.
 
-## 4. Merged branch cleanup
+### Offline reconciliation exercise
 
-After active work is merged, delete superseded remote feature/docs branches. Never delete `main` or an intentionally unmerged branch.
+1. Sign in with a controlled test account.
+2. Go offline after the app is loaded.
+3. Complete a measurable activity.
+4. Confirm the attempt remains visible as pending/local history rather than disappearing.
+5. Return online.
+6. Confirm the durable account-bound outbox reconciles the attempt to cloud state.
 
-Local clones can then run:
+### Physical-device QA
 
-```bash
-git fetch origin --prune
-```
+Periodically test representative phones/tablets/laptops for:
 
-## 5. Author-email privacy choice
+- camera/gesture behavior;
+- touch targets;
+- keyboard/screen-reader behavior where applicable;
+- TTS/listening fallback;
+- responsive layout and performance.
 
-Published Git history may contain author addresses from earlier commits. This is public metadata, not a credential. Configure a GitHub `noreply` author address for future commits if preferred; do not casually rewrite public history.
+Do not represent these as completed unless they were actually exercised on the relevant device/browser.
 
-## 6. Periodic account-security review
+## Branch cleanup
+
+After the final docs closure is merged and its exact-commit production smoke passes, delete merged/superseded remote branches while preserving:
+
+- `main`;
+- any intentionally unmerged branch still carrying unique work.
+
+Developer clones can then run `git fetch origin --prune`.
+
+## Periodic account-security review
 
 Where supported by the current plans, periodically review:
 
-- GitHub Dependabot/security settings;
+- required-check ruleset state;
+- Dependabot/security alerts;
 - secret scanning/push protection;
 - Private Vulnerability Reporting;
 - Cloudflare Git integration permissions;
 - Cloudflare environment variables/secrets;
-- custom-domain/deployment history;
-- Supabase Auth security settings.
+- Supabase Auth security settings;
+- deployment history and custom-domain configuration.
 
-Do not mark an account-level feature enabled merely because repository code references it; verify it in the relevant account UI first.
+Do not mark an account-level setting enabled merely because repository code references it; verify it in the relevant account UI or API state first.
