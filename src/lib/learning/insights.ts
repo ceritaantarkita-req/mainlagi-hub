@@ -1,6 +1,7 @@
 import {
   ACTIVITIES,
   STAGES,
+  SUBJECTS,
   getActivity,
   getStage,
   type LearningActivity,
@@ -393,7 +394,7 @@ export function getLearningAchievements(
   if (snapshots.some((item) => item.level === "proficient" || item.level === "mastered")) achievements.push({ id: "first-proficient", title: "Mulai Mahir", description: "Mencapai level mahir pada satu skill.", icon: "✨" });
   if (snapshots.some((item) => item.level === "mastered")) achievements.push({ id: "first-mastered", title: "Skill Dikuasai", description: "Mengumpulkan evidence konsisten sampai satu skill dikuasai.", icon: "🏆" });
   const exploredSubjects = new Set(analytics.attempts.map((attempt) => attempt.subjectId));
-  if (exploredSubjects.size >= 5) achievements.push({ id: "all-subjects", title: "Petualang Mainlagi", description: "Mencoba semua area belajar Mainlagi.", icon: "🌈" });
+  if (exploredSubjects.size >= SUBJECTS.length) achievements.push({ id: "all-subjects", title: "Petualang Mainlagi", description: "Mencoba semua area belajar Mainlagi.", icon: "🌈" });
   return achievements;
 }
 

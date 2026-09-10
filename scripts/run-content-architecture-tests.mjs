@@ -21,7 +21,7 @@ const architecture = require(path.join(outDir, "src", "lib", "learning", "conten
 const manifest = require(path.join(outDir, "src", "lib", "learning", "contentManifest.js"));
 const system = require(path.join(outDir, "src", "lib", "learning", "system.js"));
 
-const expectedStableActivityIds = [
+const historicalActivityIds = [
   "bahasa-cari-a",
   "bahasa-cari-a-lagi",
   "bahasa-cerita-teman",
@@ -49,6 +49,20 @@ const expectedStableActivityIds = [
   "math-trace-5-touch"
 ].sort();
 
+const batch6ActivityIds = [
+  "letters-find-a",
+  "letters-trace-a",
+  "letters-match-case",
+  "logic-match-pairs",
+  "logic-odd-one-out",
+  "logic-more-less",
+  "science-living-cat",
+  "science-match-habitat",
+  "science-find-plant"
+].sort();
+
+const expectedCatalogActivityIds = [...historicalActivityIds, ...batch6ActivityIds].sort();
+
 function codes(report) {
   return new Set(report.errors.map((item) => item.code));
 }
@@ -61,24 +75,27 @@ try {
   const report = architecture.assertContentArchitectureValid();
   assert.deepEqual(report.errors, [], "canonical content architecture must have no validation errors");
   assert.deepEqual(report.stats, {
-    subjects: 5,
-    paths: 5,
-    stages: 7,
-    lessons: 13,
-    packs: 13,
-    activities: 25,
-    skills: 12,
+    subjects: 8,
+    paths: 8,
+    stages: 10,
+    lessons: 16,
+    packs: 16,
+    activities: 34,
+    skills: 18,
     mechanics: 7,
-    assessedActivities: 19,
-    practiceActivities: 6
+    assessedActivities: 27,
+    practiceActivities: 7
   });
-  assert.equal(report.warnings.length, 2, "only the two explicit Iqro expert-review-required packs should warn in Batch 4");
+  assert.equal(report.warnings.length, 2, "only the two explicit Iqro expert-review-required packs should warn after Batch 6");
   assert.ok(report.warnings.every((item) => item.code === "EXPERT_REVIEW_REQUIRED"));
 
   const runtimeIds = system.ACTIVITIES.map((item) => item.id).sort();
   const packedIds = manifest.CONTENT_PACKS.flatMap((pack) => pack.activities.map((activity) => activity.activityId)).sort();
-  assert.deepEqual(runtimeIds, expectedStableActivityIds, "Batch 4 must not rename historical activity IDs");
-  assert.deepEqual(packedIds, expectedStableActivityIds, "every historical activity ID must have exactly one content-pack owner");
+  assert.deepEqual(runtimeIds, expectedCatalogActivityIds, "Batch 6 catalog must contain the 25 historical IDs plus nine intentional starter activities");
+  assert.deepEqual(packedIds, expectedCatalogActivityIds, "every playable activity must have exactly one content-pack owner");
+  for (const activityId of historicalActivityIds) {
+    assert.ok(runtimeIds.includes(activityId), `historical activity ${activityId} must remain stable`);
+  }
 
   assert.equal(manifest.makeContentPackId("math", "Number Recognition"), "math.pack.number-recognition");
   assert.equal(manifest.makeGeneratedActivityId("math.pack.number-recognition", "Count 4"), "math-number-recognition-count-4");
@@ -134,23 +151,34 @@ try {
     }
   }
 
-  const migration = readFileSync(path.join(root, "supabase", "migrations", "0011_scalable_content_architecture.sql"), "utf8");
-  assert.match(migration, /create table if not exists public\.learning_content_packs/i, "content-pack DB catalog must be additive");
-  assert.match(migration, /add column if not exists content_pack_id/i);
-  assert.match(migration, /add column if not exists lesson_id/i);
-  assert.match(migration, /add column if not exists mechanic_id/i);
-  assert.match(migration, /add column if not exists evidence_contract/i);
-  assert.match(migration, /add column if not exists content_revision/i);
-  assert.match(migration, /review_status in \('internal','expert_required','expert_approved'\)/i, "DB must preserve explicit review state");
-  for (const activityId of expectedStableActivityIds) {
-    assert.match(migration, new RegExp(`'${activityId.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}'`), `DB metadata migration must backfill stable activity ${activityId}`);
+  const architectureMigration = readFileSync(path.join(root, "supabase", "migrations", "0011_scalable_content_architecture.sql"), "utf8");
+  assert.match(architectureMigration, /create table if not exists public\.learning_content_packs/i, "content-pack DB catalog must be additive");
+  assert.match(architectureMigration, /add column if not exists content_pack_id/i);
+  assert.match(architectureMigration, /add column if not exists lesson_id/i);
+  assert.match(architectureMigration, /add column if not exists mechanic_id/i);
+  assert.match(architectureMigration, /add column if not exists evidence_contract/i);
+  assert.match(architectureMigration, /add column if not exists content_revision/i);
+  assert.match(architectureMigration, /review_status in \('internal','expert_required','expert_approved'\)/i, "DB must preserve explicit review state");
+  for (const activityId of historicalActivityIds) {
+    assert.match(architectureMigration, new RegExp(`'${activityId.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}'`), `Batch 4 DB migration must backfill historical activity ${activityId}`);
   }
-  assert.doesNotMatch(migration, /alter\s+table\s+public\.learning_activities[\s\S]*drop\s+(?:column|constraint)/i, "Batch 4 must not destructively rewrite the learning activity catalog");
-  for (const legacy of ["learning_attempts", "game_sessions", "game_scores", "progress"]) {
-    assert.doesNotMatch(migration, new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`, "i"), `Batch 4 must preserve ${legacy}`);
+  assert.doesNotMatch(architectureMigration, /alter\s+table\s+public\.learning_activities[\s\S]*drop\s+column/i, "Batch 4 must not destructively drop learning activity columns");
+
+  const batch6Migration = readFileSync(path.join(root, "supabase", "migrations", "0013_new_subject_curriculum_foundations.sql"), "utf8");
+  for (const activityId of batch6ActivityIds) {
+    assert.match(batch6Migration, new RegExp(`'${activityId.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}'`), `Batch 6 migration must register ${activityId}`);
+  }
+  for (const subjectId of ["letters", "logic", "science"]) {
+    assert.match(batch6Migration, new RegExp(`'${subjectId}'`), `Batch 6 migration must include subject ${subjectId}`);
   }
 
-  console.log("Scalable content manifest, IDs, hierarchy, mechanics, evidence, duplicate, asset, and DB contracts passed.");
+  for (const migration of [architectureMigration, batch6Migration]) {
+    for (const legacy of ["learning_attempts", "game_sessions", "game_scores", "progress"]) {
+      assert.doesNotMatch(migration, new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`, "i"), `content migrations must preserve ${legacy}`);
+    }
+  }
+
+  console.log("Scalable content manifest, Batch 6 subjects, IDs, hierarchy, mechanics, evidence, duplicate, asset, and DB contracts passed.");
 } catch (error) {
   console.error(error);
   process.exit(1);

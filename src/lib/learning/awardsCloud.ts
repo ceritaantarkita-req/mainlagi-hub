@@ -2,7 +2,7 @@
 
 import { getCurrentUserId } from "@/lib/auth/supabase-auth";
 import { getBrowserClient } from "@/lib/auth/supabase-client";
-import type { LearningSubjectId } from "./system";
+import { getSubject, type LearningSubjectId } from "./system";
 
 export interface PersistedLearningAchievement {
   key: string;
@@ -61,7 +61,7 @@ export async function readCloudLearningAwards(childId: string): Promise<Persiste
           || typeof row.criteria_version !== "string"
           || typeof row.issued_at !== "string"
         ) return [];
-        if (!["bahasa", "english", "math", "iqro", "color"].includes(row.subject_id)) return [];
+        if (!getSubject(row.subject_id)) return [];
         return [{
           id: row.id,
           subjectId: row.subject_id as LearningSubjectId,

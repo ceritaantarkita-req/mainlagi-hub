@@ -1,6 +1,6 @@
 import type { GameSlug } from "@/lib/data/games";
 
-export type LearningSubjectId = "bahasa" | "english" | "math" | "iqro" | "color";
+export type LearningSubjectId = "bahasa" | "english" | "math" | "iqro" | "letters" | "logic" | "science" | "color";
 export type CharacterId = "naya" | "gian" | "zia" | "paca" | "gavi";
 export type LearningRuntime =
   | "tap_choice"
@@ -126,6 +126,33 @@ export const SUBJECTS: LearningSubject[] = [
     description: "Kenal dan latih huruf Hijaiyah dengan sentuh, audio, dan gerak opsional.",
     accent: "#22a884",
     soft: "#dff7ef"
+  },
+  {
+    id: "letters",
+    title: "Huruf & Menulis",
+    shortTitle: "Menulis",
+    emoji: "✍️",
+    description: "Kenal bentuk huruf dan latih gerakan awal menulis dengan jari.",
+    accent: "#7c6cf2",
+    soft: "#eeebff"
+  },
+  {
+    id: "logic",
+    title: "Logika",
+    shortTitle: "Logika",
+    emoji: "🧠",
+    description: "Cocokkan, bandingkan, dan temukan pola atau benda yang berbeda.",
+    accent: "#ef7f45",
+    soft: "#ffeadf"
+  },
+  {
+    id: "science",
+    title: "Sains",
+    shortTitle: "Sains",
+    emoji: "🔬",
+    description: "Kenali makhluk hidup, alam, dan dunia sekitar lewat pengamatan sederhana.",
+    accent: "#2f9f67",
+    soft: "#e2f6e9"
   },
   {
     id: "color",
@@ -576,6 +603,178 @@ export const ACTIVITIES: LearningActivity[] = [
     gameSlug: "iqro-motion"
   },
   {
+    id: "letters-find-a",
+    subjectId: "letters",
+    stageId: "letters-foundations",
+    title: "Temukan huruf A",
+    description: "Kenali bentuk huruf A sebelum mulai menulisnya.",
+    emoji: "A",
+    runtime: "tap_choice",
+    ageMin: 3,
+    ageMax: 7,
+    preferredMobile: "touch",
+    inputModes: ["touch"],
+    motionOptional: false,
+    stars: 2,
+    prompt: "Mana huruf A?",
+    choices: ["O", "A", "M"],
+    correctChoice: "A"
+  },
+  {
+    id: "letters-trace-a",
+    subjectId: "letters",
+    stageId: "letters-foundations",
+    title: "Telusuri huruf A",
+    description: "Ikuti bentuk huruf A dengan jari di layar.",
+    emoji: "✍️",
+    runtime: "trace",
+    ageMin: 3,
+    ageMax: 7,
+    preferredMobile: "touch",
+    inputModes: ["touch"],
+    motionOptional: false,
+    stars: 3,
+    traceGlyph: "A"
+  },
+  {
+    id: "letters-match-case",
+    subjectId: "letters",
+    stageId: "letters-foundations",
+    title: "Pasangkan huruf besar dan kecil",
+    description: "Pasangkan huruf besar dengan bentuk huruf kecilnya.",
+    emoji: "🔤",
+    runtime: "matching",
+    ageMin: 4,
+    ageMax: 7,
+    preferredMobile: "touch",
+    inputModes: ["touch"],
+    motionOptional: false,
+    stars: 3,
+    prompt: "Pasangkan huruf besar dan huruf kecil",
+    matchItems: [
+      { label: "A", pair: "a" },
+      { label: "a", pair: "a" },
+      { label: "B", pair: "b" },
+      { label: "b", pair: "b" }
+    ]
+  },
+  {
+    id: "logic-match-pairs",
+    subjectId: "logic",
+    stageId: "logic-foundations",
+    title: "Cari pasangan yang sama",
+    description: "Cocokkan dua gambar yang sama untuk melatih perhatian visual.",
+    emoji: "🧩",
+    runtime: "matching",
+    ageMin: 3,
+    ageMax: 7,
+    preferredMobile: "touch",
+    inputModes: ["touch"],
+    motionOptional: false,
+    stars: 2,
+    prompt: "Pasangkan gambar yang sama",
+    matchItems: [
+      { label: "🍎", pair: "apple" },
+      { label: "🍎", pair: "apple" },
+      { label: "🚗", pair: "car" },
+      { label: "🚗", pair: "car" }
+    ]
+  },
+  {
+    id: "logic-odd-one-out",
+    subjectId: "logic",
+    stageId: "logic-foundations",
+    title: "Mana yang berbeda?",
+    description: "Temukan satu benda yang tidak sama dengan yang lain.",
+    emoji: "🔎",
+    runtime: "tap_choice",
+    ageMin: 3,
+    ageMax: 7,
+    preferredMobile: "touch",
+    inputModes: ["touch"],
+    motionOptional: false,
+    stars: 2,
+    prompt: "Mana yang berbeda?",
+    choices: ["🍎", "🚗", "🍌"],
+    correctChoice: "🚗"
+  },
+  {
+    id: "logic-more-less",
+    subjectId: "logic",
+    stageId: "logic-foundations",
+    title: "Mana yang lebih banyak?",
+    description: "Bandingkan tiga kelompok kecil secara visual.",
+    emoji: "⚖️",
+    runtime: "tap_choice",
+    ageMin: 4,
+    ageMax: 7,
+    preferredMobile: "touch",
+    inputModes: ["touch"],
+    motionOptional: false,
+    stars: 2,
+    prompt: "Kelompok mana yang lebih banyak?",
+    choices: ["●●", "●●●", "●"],
+    correctChoice: "●●●"
+  },
+  {
+    id: "science-living-cat",
+    subjectId: "science",
+    stageId: "science-foundations",
+    title: "Mana yang hidup?",
+    description: "Kenali contoh sederhana makhluk hidup di sekitar anak.",
+    emoji: "🐱",
+    runtime: "tap_choice",
+    ageMin: 3,
+    ageMax: 7,
+    preferredMobile: "touch",
+    inputModes: ["touch"],
+    motionOptional: false,
+    stars: 2,
+    prompt: "Mana yang merupakan makhluk hidup?",
+    choices: ["🪨", "🐱", "🚗"],
+    correctChoice: "🐱"
+  },
+  {
+    id: "science-match-habitat",
+    subjectId: "science",
+    stageId: "science-foundations",
+    title: "Hewan dan tempatnya",
+    description: "Pasangkan hewan dengan tempat yang cocok secara sederhana.",
+    emoji: "🌿",
+    runtime: "matching",
+    ageMin: 4,
+    ageMax: 7,
+    preferredMobile: "touch",
+    inputModes: ["touch"],
+    motionOptional: false,
+    stars: 3,
+    prompt: "Pasangkan hewan dengan tempat yang cocok",
+    matchItems: [
+      { label: "🐟", pair: "water" },
+      { label: "💧", pair: "water" },
+      { label: "🐦", pair: "tree" },
+      { label: "🌳", pair: "tree" }
+    ]
+  },
+  {
+    id: "science-find-plant",
+    subjectId: "science",
+    stageId: "science-foundations",
+    title: "Temukan tumbuhan",
+    description: "Pilih gambar tumbuhan dari benda-benda yang berbeda.",
+    emoji: "🌱",
+    runtime: "tap_choice",
+    ageMin: 3,
+    ageMax: 7,
+    preferredMobile: "touch",
+    inputModes: ["touch"],
+    motionOptional: false,
+    stars: 2,
+    prompt: "Mana yang merupakan tumbuhan?",
+    choices: ["🧸", "🌱", "🚲"],
+    correctChoice: "🌱"
+  },
+  {
     id: "color-gavi",
     subjectId: "color",
     stageId: "color-characters",
@@ -657,6 +856,30 @@ export const STAGES: LearningStage[] = [
     subtitle: "Sentuh, audio, dan matching untuk belajar inti; motion sebagai opsi.",
     emoji: "🌙",
     activityIds: ["iqro-cari-alif", "iqro-dengar-alif", "iqro-pasang-alif", "iqro-motion-existing"]
+  },
+  {
+    id: "letters-foundations",
+    subjectId: "letters",
+    title: "Huruf & Gerak Menulis",
+    subtitle: "Kenali bentuk huruf, telusuri dengan jari, lalu cocokkan huruf besar dan kecil.",
+    emoji: "✍️",
+    activityIds: ["letters-find-a", "letters-trace-a", "letters-match-case"]
+  },
+  {
+    id: "logic-foundations",
+    subjectId: "logic",
+    title: "Cocok, Beda & Bandingkan",
+    subtitle: "Latihan visual sederhana untuk mencocokkan, menemukan perbedaan, dan membandingkan.",
+    emoji: "🧠",
+    activityIds: ["logic-match-pairs", "logic-odd-one-out", "logic-more-less"]
+  },
+  {
+    id: "science-foundations",
+    subjectId: "science",
+    title: "Kenali Dunia Sekitar",
+    subtitle: "Mulai dari makhluk hidup, tumbuhan, hewan, dan tempat hidupnya.",
+    emoji: "🔬",
+    activityIds: ["science-living-cat", "science-match-habitat", "science-find-plant"]
   },
   {
     id: "color-characters",

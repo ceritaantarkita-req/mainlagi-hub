@@ -436,6 +436,7 @@
   left: 6%;
   height: 72px;
   border-radius: 50% 45% 46% 52%;
+  background: var(--portal-accent, #80d779);
   box-shadow: inset 0 -12px 0 rgba(0,0,0,.09), 0 11px 18px rgba(53, 92, 112, .15);
   transform: rotate(-2deg);
 }
@@ -452,11 +453,14 @@
 .portalCopy strong,.portalCopy span { display: block; }
 .portalCopy strong { font-size: 14px; letter-spacing: -.02em; }
 .portalCopy span { margin-top: 2px; color: #748795; font-size: 10px; }
-.portal_color { grid-column: 1 / -1; width: calc(50% - 6px); justify-self: center; }
+.portal_color { grid-column: auto; width: auto; justify-self: stretch; }
 .portal:nth-child(2) .portalArt { animation-delay: -.5s; }
 .portal:nth-child(3) .portalArt { animation-delay: -1.1s; }
 .portal:nth-child(4) .portalArt { animation-delay: -1.7s; }
 .portal:nth-child(5) .portalArt { animation-delay: -2.2s; }
+.portal:nth-child(6) .portalArt { animation-delay: -2.7s; }
+.portal:nth-child(7) .portalArt { animation-delay: -3.2s; }
+.portal:nth-child(8) .portalArt { animation-delay: -3.7s; }
 .mapPath { position: absolute; z-index: -5; top: 27%; right: 23%; bottom: 18%; left: 23%; border: 3px dashed rgba(97, 139, 157, .19); border-radius: 50%; transform: rotate(8deg); }
 
 .mathWorld { padding-top: 10px; }
@@ -576,7 +580,6 @@
   .parentGate { display: inline-flex; }
   .welcomeCopy { max-width: 62%; padding-left: 32px; }
   .worldMap,.learnWorlds { grid-template-columns: repeat(3, 1fr); gap: 22px; }
-  .portal_color { grid-column: auto; width: auto; }
   .portal { min-height: 180px; }
   .rewardShelf { grid-template-columns: repeat(4, 1fr); }
 }
@@ -584,7 +587,7 @@
 @media (min-width: 760px) {
   .worldHome,.mathWorld,.stageAdventure,.rewardWorld,.learnEntry { padding-top: 24px; }
   .welcomeScene { min-height: 330px; }.welcomePaca { right: 70px; bottom: 36px; transform: scale(1.15); }.welcomeGavi { right: 185px; bottom: 24px; transform: scale(.92); }
-  .worldMap,.learnWorlds { grid-template-columns: repeat(5, 1fr); }.portal { min-height: 205px; }.portal_color { width: auto; }
+  .worldMap,.learnWorlds { grid-template-columns: repeat(4, 1fr); }.portal { min-height: 205px; }
   .mathHero { min-height: 340px; }.mathHeroCopy { max-width: 55%; padding: 94px 0 0 36px; }.mathPaca { right: 60px; transform: scale(1.05); }.mathSkyline { height: 140px; }
   .stagePath { max-width: 720px; margin-inline: auto; }.challengeTrail { grid-template-columns: repeat(2, 1fr); }.motionBonus { max-width: 520px; }
   .activityGame { padding-top: 24px; }.activityStage { margin-top: 25px; }.applePlayground { min-height: 240px; }.apple { width: 86px; height: 82px; }.answerButton { min-height: 88px; }

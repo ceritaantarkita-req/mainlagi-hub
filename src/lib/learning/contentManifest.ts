@@ -191,6 +191,33 @@ export const CONTENT_PATHS: ContentPathDefinition[] = [
     stageIds: ["iqro-huruf"]
   },
   {
+    id: "letters-writing-foundations",
+    subjectId: "letters",
+    title: "Fondasi Huruf & Menulis",
+    description: "Mengenali bentuk huruf lalu berlatih gerakan awal menulis secara touch-first.",
+    ageMin: 3,
+    ageMax: 7,
+    stageIds: ["letters-foundations"]
+  },
+  {
+    id: "logic-thinking-foundations",
+    subjectId: "logic",
+    title: "Fondasi Berpikir Logis",
+    description: "Mencocokkan, membedakan, dan membandingkan objek melalui tantangan visual sederhana.",
+    ageMin: 3,
+    ageMax: 7,
+    stageIds: ["logic-foundations"]
+  },
+  {
+    id: "science-discovery-foundations",
+    subjectId: "science",
+    title: "Fondasi Sains & Pengamatan",
+    description: "Mengamati makhluk hidup, tumbuhan, hewan, dan lingkungan sekitar secara aman.",
+    ageMin: 3,
+    ageMax: 7,
+    stageIds: ["science-foundations"]
+  },
+  {
     id: "color-creative-play",
     subjectId: "color",
     title: "Creative Color Play",
@@ -205,7 +232,7 @@ type LessonCore = Omit<ContentLessonDefinition, "activityIds">;
 
 const LESSON_CORES: LessonCore[] = [
   { id: "bahasa-huruf-a", subjectId: "bahasa", pathId: "bahasa-fondasi-literasi", stageId: "bahasa-huruf", title: "Kenal huruf A", objective: "Mengenali bentuk dan petunjuk bunyi huruf A dari beberapa pilihan.", ageMin: 3, ageMax: 7 },
-  { id: "bahasa-huruf-awal", subjectId: "bahasa", pathId: "bahasa-fondasi-literasi", stageId: "bahasa-huruf", title: "Huruf awal kata", objective: "Memasangkan huruf awal dengan contoh kata sederhana.", ageMin: 4, ageMax: 7 },
+  { id: "bahasa-huruf-awal", subjectId: "bahasa", pathId: "bahasa-fondasi-literasi", stageId: "bahasa-huruf", title: "Huruf awal kata", objective: "Memasangkan huruf dengan contoh kata yang memiliki huruf awal sesuai.", ageMin: 4, ageMax: 7 },
   { id: "bahasa-cerita-teman", subjectId: "bahasa", pathId: "bahasa-fondasi-literasi", stageId: "bahasa-cerita", title: "Menyimak cerita teman", objective: "Mendengarkan atau membaca cerita pendek bersama pendamping.", ageMin: 4, ageMax: 7 },
   { id: "english-color-blue", subjectId: "english", pathId: "english-first-steps", stageId: "english-first-words", title: "Color word: blue", objective: "Menghubungkan kata BLUE dengan pilihan visual yang sesuai.", ageMin: 4, ageMax: 7 },
   { id: "english-listen-cat", subjectId: "english", pathId: "english-first-steps", stageId: "english-first-words", title: "Listen: cat", objective: "Menghubungkan petunjuk audio kata cat dengan gambar yang sesuai.", ageMin: 3, ageMax: 7 },
@@ -215,6 +242,9 @@ const LESSON_CORES: LessonCore[] = [
   { id: "math-patterns", subjectId: "math", pathId: "math-fondasi-numerasi", stageId: "math-pola", title: "Pola & bentuk", objective: "Mengenali pasangan bentuk atau pola yang sama.", ageMin: 5, ageMax: 7 },
   { id: "iqro-alif", subjectId: "iqro", pathId: "iqro-fondasi-hijaiyah", stageId: "iqro-huruf", title: "Kenal Alif", objective: "Mengenali bentuk Alif melalui sentuhan dan petunjuk audio.", ageMin: 3, ageMax: 7 },
   { id: "iqro-motion-practice", subjectId: "iqro", pathId: "iqro-fondasi-hijaiyah", stageId: "iqro-huruf", title: "Hijaiyah lewat gerak", objective: "Latihan gerak opsional; tidak menjadi evidence akademik utama.", ageMin: 4, ageMax: 7 },
+  { id: "letters-a-foundations", subjectId: "letters", pathId: "letters-writing-foundations", stageId: "letters-foundations", title: "Huruf A & gerak menulis", objective: "Mengenali huruf A, mengikuti bentuknya dengan jari, dan menghubungkan huruf besar dengan huruf kecil.", ageMin: 3, ageMax: 7 },
+  { id: "logic-visual-foundations", subjectId: "logic", pathId: "logic-thinking-foundations", stageId: "logic-foundations", title: "Cocok, beda & bandingkan", objective: "Mencocokkan objek yang sama, menemukan objek berbeda, dan membandingkan kelompok kecil.", ageMin: 3, ageMax: 7 },
+  { id: "science-living-world", subjectId: "science", pathId: "science-discovery-foundations", stageId: "science-foundations", title: "Makhluk hidup & tempatnya", objective: "Mengenali contoh makhluk hidup, tumbuhan, hewan, dan hubungan sederhana dengan tempat hidupnya.", ageMin: 3, ageMax: 7 },
   { id: "color-gavi", subjectId: "color", pathId: "color-creative-play", stageId: "color-characters", title: "Eksplorasi warna Gavi", objective: "Memilih dan mencoba warna secara bebas tanpa penilaian benar-salah.", ageMin: 3, ageMax: 7 },
   { id: "color-paca", subjectId: "color", pathId: "color-creative-play", stageId: "color-characters", title: "Eksplorasi warna Paca", objective: "Mencoba kombinasi warna pada karakter secara bebas.", ageMin: 3, ageMax: 7 }
 ];
@@ -340,6 +370,30 @@ export const CONTENT_PACKS: ContentPackDefinition[] = [
   {
     id: makeContentPackId("iqro", "motion-practice"), version: "1.0.0", subjectId: "iqro", pathId: "iqro-fondasi-hijaiyah", stageId: "iqro-huruf", title: "Hijaiyah Motion Practice", ageMin: 4, ageMax: 7, reviewStatus: "expert_required",
     activities: [practice("motion-existing", "iqro-motion-existing", "iqro-motion-practice", "motion_game", 2, false, "iqro.hijaiyah.motion_practice", 0.4)]
+  },
+  {
+    id: makeContentPackId("letters", "letter-a"), version: "1.0.0", subjectId: "letters", pathId: "letters-writing-foundations", stageId: "letters-foundations", title: "Huruf A & Menulis", ageMin: 3, ageMax: 7, reviewStatus: "internal",
+    activities: [
+      assessed("find-a", "letters-find-a", "letters-a-foundations", "tap_choice", 1, true, "letters.latin.a.recognition"),
+      practice("trace-a", "letters-trace-a", "letters-a-foundations", "guided_trace", 1, true, "letters.latin.a.formation", 0.5),
+      assessed("match-case", "letters-match-case", "letters-a-foundations", "matching", 2, false, "letters.latin.a.recognition")
+    ]
+  },
+  {
+    id: makeContentPackId("logic", "visual-basics"), version: "1.0.0", subjectId: "logic", pathId: "logic-thinking-foundations", stageId: "logic-foundations", title: "Visual Logic Basics", ageMin: 3, ageMax: 7, reviewStatus: "internal",
+    activities: [
+      assessed("match-pairs", "logic-match-pairs", "logic-visual-foundations", "matching", 1, true, "logic.visual.matching"),
+      assessed("odd-one-out", "logic-odd-one-out", "logic-visual-foundations", "tap_choice", 1, true, "logic.visual.discrimination"),
+      assessed("more-less", "logic-more-less", "logic-visual-foundations", "tap_choice", 2, false, "logic.visual.discrimination")
+    ]
+  },
+  {
+    id: makeContentPackId("science", "living-world"), version: "1.0.0", subjectId: "science", pathId: "science-discovery-foundations", stageId: "science-foundations", title: "Living World Basics", ageMin: 3, ageMax: 7, reviewStatus: "internal",
+    activities: [
+      assessed("living-cat", "science-living-cat", "science-living-world", "tap_choice", 1, true, "science.living.classification"),
+      assessed("match-habitat", "science-match-habitat", "science-living-world", "matching", 2, true, "science.animals.habitat"),
+      assessed("find-plant", "science-find-plant", "science-living-world", "tap_choice", 1, false, "science.living.classification")
+    ]
   },
   {
     id: makeContentPackId("color", "gavi"), version: "1.0.0", subjectId: "color", pathId: "color-creative-play", stageId: "color-characters", title: "Gavi", ageMin: 3, ageMax: 7, reviewStatus: "internal",

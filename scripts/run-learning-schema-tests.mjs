@@ -12,6 +12,7 @@ const childOwnership = readFileSync(path.join(root, "supabase/migrations/0007_le
 const contentExpansion = readFileSync(path.join(root, "supabase/migrations/0008_curriculum_content_expansion.sql"), "utf8");
 const contentArchitecture = readFileSync(path.join(root, "supabase/migrations/0011_scalable_content_architecture.sql"), "utf8");
 const reusableMechanics = readFileSync(path.join(root, "supabase/migrations/0012_reusable_mechanic_library.sql"), "utf8");
+const subjectFoundations = readFileSync(path.join(root, "supabase/migrations/0013_new_subject_curriculum_foundations.sql"), "utf8");
 
 const requiredTables = [
   "learning_skills", "learning_activities", "learning_activity_skills", "learning_attempts",
@@ -110,15 +111,45 @@ for (const evidenceId of expectedEvidenceContracts) assert.match(reusableMechani
 assert.doesNotMatch(reusableMechanics, /alter\s+column\s+activity_id/i, "Batch 5 must preserve historical activity identity");
 assert.doesNotMatch(reusableMechanics, /delete\s+from\s+public\.learning_/i, "Batch 5 vocabulary migration must not delete learning data");
 
+const batch6Subjects = ["letters", "logic", "science"];
+for (const subjectId of batch6Subjects) {
+  assert.match(subjectFoundations, new RegExp(`'${subjectId}'`), `Batch 6 must allow subject ${subjectId}`);
+}
+for (const table of ["learning_skills", "learning_activities", "learning_attempts", "learning_certificates", "learning_content_packs"]) {
+  assert.match(subjectFoundations, new RegExp(`alter table public\\.${table}[\\s\\S]*drop constraint if exists ${table}_subject_id_check`, "i"), `Batch 6 must replace ${table} subject vocabulary check`);
+  assert.match(subjectFoundations, new RegExp(`alter table public\\.${table}[\\s\\S]*add constraint ${table}_subject_id_check`, "i"), `Batch 6 must restore ${table} subject vocabulary check`);
+}
+for (const skillId of [
+  "letters.latin.a.recognition", "letters.latin.a.formation", "logic.visual.matching",
+  "logic.visual.discrimination", "science.living.classification", "science.animals.habitat"
+]) {
+  assert.match(subjectFoundations, new RegExp(`'${skillId.replace(/[.*+?^${}()|[\\]\\]/g, "\\$&")}'`), `Batch 6 migration must seed ${skillId}`);
+}
+for (const packId of ["letters.pack.letter-a", "logic.pack.visual-basics", "science.pack.living-world"]) {
+  assert.match(subjectFoundations, new RegExp(`'${packId.replace(/[.*+?^${}()|[\\]\\]/g, "\\$&")}'`), `Batch 6 migration must seed ${packId}`);
+}
+for (const activityId of [
+  "letters-find-a", "letters-trace-a", "letters-match-case", "logic-match-pairs", "logic-odd-one-out",
+  "logic-more-less", "science-living-cat", "science-match-habitat", "science-find-plant"
+]) {
+  assert.match(subjectFoundations, new RegExp(`'${activityId.replace(/[.*+?^${}()|[\\]\\]/g, "\\$&")}'`), `Batch 6 migration must seed ${activityId}`);
+}
+assert.match(subjectFoundations, /on conflict \(skill_key\) do update/i, "Batch 6 skill seed must be idempotent");
+assert.match(subjectFoundations, /on conflict \(pack_id\) do update/i, "Batch 6 pack seed must be idempotent");
+assert.match(subjectFoundations, /on conflict \(activity_id\) do update/i, "Batch 6 activity seed must be idempotent");
+assert.match(subjectFoundations, /on conflict \(activity_id, skill_key\) do update/i, "Batch 6 activity-skill seed must be idempotent");
+assert.doesNotMatch(subjectFoundations, /drop\s+table/i, "Batch 6 must not drop learning tables");
+assert.doesNotMatch(subjectFoundations, /delete\s+from\s+public\.learning_/i, "Batch 6 must not delete learning data");
+
 for (const legacy of ["game_sessions", "game_scores", "progress"]) {
   for (const [name, migration] of [
     ["schema", schema], ["functions", functions], ["hardening", hardening], ["advisor hardening", advisorHardening],
     ["private-admin migration", privateAdmin], ["child-ownership migration", childOwnership],
     ["content-expansion migration", contentExpansion], ["content-architecture migration", contentArchitecture],
-    ["reusable-mechanic migration", reusableMechanics]
+    ["reusable-mechanic migration", reusableMechanics], ["subject-foundation migration", subjectFoundations]
   ]) {
     assert.doesNotMatch(migration, new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`, "i"), `${name} must not drop legacy table ${legacy}`);
   }
 }
 
-console.log("Learning migration, anti-farming, ownership, scalable-content, and reusable-mechanic schema contract tests passed.");
+console.log("Learning migration, anti-farming, ownership, scalable-content, reusable-mechanic, and Batch 6 subject schema contract tests passed.");
