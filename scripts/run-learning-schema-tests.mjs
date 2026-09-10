@@ -10,6 +10,7 @@ const advisorHardening = readFileSync(path.join(root, "supabase/migrations/0005_
 const privateAdmin = readFileSync(path.join(root, "supabase/migrations/0006_private_admin_helper.sql"), "utf8");
 const childOwnership = readFileSync(path.join(root, "supabase/migrations/0007_learning_child_ownership.sql"), "utf8");
 const contentExpansion = readFileSync(path.join(root, "supabase/migrations/0008_curriculum_content_expansion.sql"), "utf8");
+const contentArchitecture = readFileSync(path.join(root, "supabase/migrations/0011_scalable_content_architecture.sql"), "utf8");
 
 const requiredTables = [
   "learning_skills",
@@ -100,6 +101,20 @@ assert.match(contentExpansion, /on conflict \(activity_id\) do update/i, "conten
 assert.match(contentExpansion, /on conflict \(activity_id, skill_key\) do update/i, "content skill links must be idempotent");
 assert.doesNotMatch(contentExpansion, /insert into public\.learning_skills/i, "this wave must reuse existing validated skills rather than inflate the skill taxonomy");
 
+assert.match(contentArchitecture, /create table if not exists public\.learning_content_packs/i, "Batch 4 content pack table missing");
+assert.match(contentArchitecture, /alter table public\.learning_content_packs enable row level security/i, "content packs need RLS");
+assert.match(contentArchitecture, /learning content packs public read/i, "content packs need a public active-row read policy");
+assert.match(contentArchitecture, /select private\.is_admin\(\)/i, "content-pack policies must reuse the private admin helper");
+for (const column of ["content_pack_id", "lesson_id", "mechanic_id", "evidence_contract", "content_revision"]) {
+  assert.match(contentArchitecture, new RegExp(`add column if not exists ${column}\\b`, "i"), `Batch 4 missing learning_activities.${column}`);
+}
+assert.match(contentArchitecture, /review_status in \('internal','expert_required','expert_approved'\)/i, "review state must be explicit");
+assert.match(contentArchitecture, /idx_learning_activities_content_pack/i, "content-pack lookup index missing");
+assert.match(contentArchitecture, /idx_learning_activities_lesson/i, "lesson lookup index missing");
+assert.match(contentArchitecture, /on conflict \(pack_id\) do update/i, "content-pack seed must be idempotent");
+assert.match(contentArchitecture, /content_revision > 0/i, "content revisions must stay positive");
+assert.doesNotMatch(contentArchitecture, /alter\s+column\s+activity_id/i, "Batch 4 must preserve the historical activity identity column");
+
 for (const legacy of ["game_sessions", "game_scores", "progress"]) {
   for (const [name, migration] of [
     ["schema", schema],
@@ -108,10 +123,11 @@ for (const legacy of ["game_sessions", "game_scores", "progress"]) {
     ["advisor hardening", advisorHardening],
     ["private-admin migration", privateAdmin],
     ["child-ownership migration", childOwnership],
-    ["content-expansion migration", contentExpansion]
+    ["content-expansion migration", contentExpansion],
+    ["content-architecture migration", contentArchitecture]
   ]) {
     assert.doesNotMatch(migration, new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`, "i"), `${name} must not drop legacy table ${legacy}`);
   }
 }
 
-console.log("Learning migration, anti-farming, child-ownership, and content-expansion contract tests passed.");
+console.log("Learning migration, anti-farming, child-ownership, content-expansion, and scalable-content schema contract tests passed.");

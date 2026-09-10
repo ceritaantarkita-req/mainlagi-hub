@@ -20,6 +20,8 @@
   "include": [
     "src/lib/learning/mastery.ts",
     "src/lib/learning/catalog.ts",
+    "src/lib/learning/contentManifest.ts",
+    "src/lib/learning/contentArchitecture.ts",
     "src/lib/learning/attempts.ts",
     "src/lib/learning/progression.ts",
     "src/lib/learning/system.ts",
