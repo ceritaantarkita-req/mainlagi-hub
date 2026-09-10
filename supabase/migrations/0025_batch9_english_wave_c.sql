@@ -6,7 +6,7 @@ insert into public.learning_skills(skill_key,subject_id,title,description,domain
 ('english.vocab.food','english','Food vocabulary','Mengenali makanan dan minuman English sederhana.','language',4,7,true,now()),
 ('english.vocab.actions','english','Action vocabulary','Mengenali kata kerja English sederhana melalui konteks familiar.','language',4,7,true,now()),
 ('english.vocab.category','english','Categorize English words','Membedakan kosakata berdasarkan kategori makna sederhana.','language',5,7,true,now()),
-('english.word.picture_matching','english','Expanded word-picture matching','Menghubungkan kata English dengan gambar yang tepat pada lebih banyak kategori.','literacy',4,7,true,now()),
+('english.word.picture_matching.expanded','english','Expanded word-picture matching','Menghubungkan kata English dengan gambar yang tepat pada lebih banyak kategori.','literacy',4,7,true,now()),
 ('english.word.listening','english','Expanded word listening','Mengidentifikasi kata English yang didengar dari beberapa pilihan.','language',4,7,true,now())
 on conflict(skill_key) do update set subject_id=excluded.subject_id,title=excluded.title,description=excluded.description,domain=excluded.domain,age_min=excluded.age_min,age_max=excluded.age_max,active=true,updated_at=now();
 
@@ -50,6 +50,6 @@ insert into public.learning_activity_skills(activity_id,skill_key,evidence_weigh
 ('english-food-apple','english.vocab.food',1),('english-food-banana','english.vocab.food',1),('english-food-bread','english.vocab.food',1),('english-listen-milk','english.vocab.food',1),('english-match-food-rice-apple','english.vocab.food',1),
 ('english-action-run','english.vocab.actions',1),('english-action-jump','english.vocab.actions',1),('english-action-read','english.vocab.actions',1),('english-listen-sleep','english.vocab.actions',1),('english-match-actions-eat-read','english.vocab.actions',1),
 ('english-category-food','english.vocab.category',1),('english-category-animal','english.vocab.category',1),('english-category-action','english.vocab.category',1),('english-match-category-body-object','english.vocab.category',1),('english-match-category-food-animal','english.vocab.category',1),
-('english-picture-pair-apple-banana','english.word.picture_matching',1),('english-picture-pair-run-sleep','english.word.picture_matching',1),('english-picture-pair-book-cup','english.word.picture_matching',1),('english-picture-pair-eyes-hand','english.word.picture_matching',1),('english-picture-pair-mother-baby','english.word.picture_matching',1),
+('english-picture-pair-apple-banana','english.word.picture_matching.expanded',1),('english-picture-pair-run-sleep','english.word.picture_matching.expanded',1),('english-picture-pair-book-cup','english.word.picture_matching.expanded',1),('english-picture-pair-eyes-hand','english.word.picture_matching.expanded',1),('english-picture-pair-mother-baby','english.word.picture_matching.expanded',1),
 ('english-listen-apple-review','english.word.listening',1),('english-listen-jump-review','english.word.listening',1),('english-listen-book-review','english.word.listening',1),('english-listen-hand-review','english.word.listening',1),('english-listen-baby-review','english.word.listening',1)
 on conflict(activity_id,skill_key) do update set evidence_weight=excluded.evidence_weight;
