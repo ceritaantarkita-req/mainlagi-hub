@@ -1,6 +1,6 @@
-import { ParentMasteryCertificatesScreen } from "@/components/learning/ParentMasteryViews";
+import { ParentIssuedCertificatesScreen } from "@/components/learning/ParentAwardsReportV2";
 
 export default async function ParentCertificatesPage({ params }: { params: Promise<{ childId: string }> }) {
   const { childId } = await params;
-  return <ParentMasteryCertificatesScreen childId={childId} />;
+  return <ParentIssuedCertificatesScreen childId={childId} />;
 }

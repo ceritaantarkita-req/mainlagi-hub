@@ -26,6 +26,7 @@
     "src/lib/learning/curriculum.ts",
     "src/lib/learning/insights.ts",
     "src/lib/learning/adaptive.ts",
-    "src/lib/learning/traceMeasurement.ts"
+    "src/lib/learning/traceMeasurement.ts",
+    "src/lib/learning/reporting.ts"
   ]
 }
