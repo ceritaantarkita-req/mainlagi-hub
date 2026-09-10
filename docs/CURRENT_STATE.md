@@ -2,7 +2,7 @@
 
 Last reviewed: 10 September 2026
 
-This file is the canonical human/AI handoff for the current repository state. `main` is the only product source of truth. Commit SHAs are verification snapshots, not permanent version labels.
+This file is the canonical human/AI handoff for the current repository state. `main` is the product source of truth. Commit SHAs below are verification snapshots, not permanent version labels.
 
 ## Canonical baseline
 
@@ -17,31 +17,60 @@ This file is the canonical human/AI handoff for the current repository state. `m
 
 ## Latest verified production baseline
 
-Expansion Batch 6 is the latest production-complete expansion baseline.
+**Expansion Batch 7 — Math to 100 is production-complete.**
 
-Canonical Batch 6 release SHA:
+Final Batch 7 implementation SHA:
 
-`466634e0d673893cbe25fae68bfe5e22dad04f0a`
+`82acd7d39c6cab98f38c92e4f6d7be6afe52cdcd`
 
-PR #37 (`feat: add Batch 6 subject and curriculum foundations`) was squash-merged on 10 September 2026.
+Final implementation landed through PR #42 after Waves A–C had each been separately closed. Post-merge main CI run #220 succeeded for Ubuntu quality/learning/simulations, Windows compatibility, Chromium mobile-route QA, production build, dependency audit, secret-history scan, and exact-SHA Cloudflare production smoke.
 
-Post-merge workflow run #210 succeeded for:
+Detailed closure evidence: `EXPANSION_BATCH7_CLOSURE_2026-09-10.md`.
 
-- `Quality gate (Ubuntu)` including learning tests and simulations;
-- `Windows compatibility`;
-- `Mobile route QA (Chromium)`;
-- `Production build`;
-- `Production dependency audit`;
-- `Secret history scan`;
-- `Production smoke (Cloudflare)`.
+## Current playable catalog
 
-The production smoke verified the exact release SHA, branch `main`, canonical public site, backend `supabase`, and project ref `estvtgflwkebomsqlolv`.
+Canonical repository and live Supabase counts after Batch 7:
 
-Batch 5 is also production-complete. It landed through PR #35 at squash SHA `5164d3b40492531b4ba5654ecc192ab3f8db72d8`; migration `0012_reusable_mechanic_library` is applied in the canonical Supabase project.
+- 8 first-class subjects: Bahasa Indonesia, English, Matematika, Iqro, Letters/Menulis, Logic/Logika, Science/Sains, and Coloring/Mewarnai;
+- 8 learning paths;
+- 14 stages;
+- 34 lessons;
+- 34 versioned content packs;
+- 127 playable activities;
+- 37 skills;
+- 120 assessed activities;
+- 7 practice activities;
+- Math: exactly **100 playable activities**.
+
+Current subject activity counts:
+
+| Subject | Playable |
+| --- | ---: |
+| Bahasa Indonesia | 6 |
+| English | 6 |
+| Math | 100 |
+| Iqro | 4 |
+| Letters / Menulis | 3 |
+| Logic / Logika | 3 |
+| Science / Sains | 3 |
+| Coloring / Mewarnai | 2 |
+
+Drawing/Menggambar is not first-class yet. It remains planned for Batch 14 together with expansion of Coloring/Mewarnai.
+
+## Batch 7 Math expansion
+
+Batch 7 preserved the seven historical Math activity IDs and added 93 new Math activities through four reviewable waves:
+
+- Wave A — 7 -> 25: numeral recognition, counting, quantity matching, early quantity intuition; PR #39, migration `0015`, SHA `94c21cf84bc809272c93d997b1e994abfc8e9bbb`;
+- Wave B — 25 -> 50: quantity comparison, ordering, shapes/properties, patterns; PR #40, migration `0016`, SHA `3c2be1bac0c5f15c559bc3f5a4ab099f4fedf53f`;
+- Wave C — 50 -> 75: missing numbers, grouping, addition/subtraction within 10, size/length; PR #41, migration `0017`, SHA `add22b874174ebbb797461f9a0b8c52fe60f9250`;
+- Wave D — 75 -> 100: spatial position, measurement intuition, mixed operations, visual problems, integrated review; PR #42, migration `0018`, SHA `82acd7d39c6cab98f38c92e4f6d7be6afe52cdcd`.
+
+All 93 Batch 7 additions are touch-first and use existing measured `tap_choice` or `matching` evidence contracts. No camera requirement was introduced for core Math learning.
 
 ## Shipped learning/content architecture
 
-Canonical authoring hierarchy:
+Canonical hierarchy:
 
 ```text
 Subject
@@ -66,147 +95,58 @@ Child Profile
             -> Parent Report
 ```
 
-The motion/vision engine remains an optional Activity runtime. It is not the universal learning data model.
-
-## Current playable catalog
-
-Batch 6 production baseline:
-
-- 8 first-class subjects: Bahasa Indonesia, English, Matematika, Iqro, Letters/Menulis, Logic/Logika, Science/Sains, and Coloring/Mewarnai;
-- 8 learning paths;
-- 10 stages;
-- 16 lessons;
-- 16 versioned content packs;
-- 34 playable activities;
-- 18 skills;
-- 27 assessed activities;
-- 7 practice activities.
-
-The 25 activities that predate Batch 6 retain their historical IDs. Batch 6 adds exactly nine starter activities: three each for Letters/Menulis, Logic/Logika, and Science/Sains.
-
-Drawing/Menggambar is not first-class yet. It remains planned for Batch 14 together with expansion of Coloring/Mewarnai to 100 activities.
-
-## Batch 6 subject foundations
-
-### Letters / Menulis
-
-- path: `letters-writing-foundations`
-- stage: `letters-foundations`
-- lesson: `letters-a-foundations`
-- pack: `letters.pack.letter-a`
-- starter activities: 3
-- starter skills: 2
-
-Evidence boundary:
-
-- `letters-find-a` — required + assessed;
-- `letters-trace-a` — required guided practice, `completion_only_v1`;
-- `letters-match-case` — assessed variation.
-
-Letter tracing is deliberately completion-only because the currently validated trace-fidelity evaluator is digit-specific. It must not manufacture academic accuracy/mastery until a letter-shape fidelity evaluator is explicitly implemented and validated.
-
-### Logic / Logika
-
-- path: `logic-thinking-foundations`
-- stage: `logic-foundations`
-- lesson: `logic-visual-foundations`
-- pack: `logic.pack.visual-basics`
-- starter activities: 3
-- starter skills: 2
-
-Two required measured core activities and one assessed variation are registered through existing measured choice/matching runtimes.
-
-### Science / Sains
-
-- path: `science-discovery-foundations`
-- stage: `science-foundations`
-- lesson: `science-living-world`
-- pack: `science.pack.living-world`
-- starter activities: 3
-- starter skills: 2
-
-Two required measured core activities and one assessed variation are registered through existing measured choice/matching runtimes. No unsafe unsupervised experiment flow is introduced.
-
-All three foundations are touch-first and camera-independent.
-
-## Reusable mechanic library
-
-Batch 5 established exactly 20 reusable mechanic contracts across choice, pairing, targeting, classification, ordering, path, and practice families.
-
-The library includes tap choice, listen-and-choose, matching, guided trace, drag-to-target, draw-line matching, sort/classify, ordering/sequence, pattern completion, odd-one-out, connect-dots, memory pairs, compare, missing item, maze/path, story comprehension, find-object/observation, story, coloring, and optional motion wrapper.
-
-Seventeen mechanics support assessed + practice mode; story, coloring, and optional motion wrapper are intentionally practice-only. A mechanic capability does not itself count as a playable activity.
+The motion/vision engine remains an optional activity runtime rather than the universal learning data model.
 
 ## Learning evidence and mastery integrity
 
-Mastery levels remain:
+Mastery remains:
 
 `not_started -> exploring -> developing -> proficient -> mastered`
 
-Current protections include:
+Current protections remain in force:
 
 - one perfect qualifying attempt remains at most `exploring`;
 - repeated qualifying evidence is required for higher mastery;
 - rapid replay inside 30 seconds is retained but does not qualify for mastery farming;
 - seven or more retries make evidence non-qualifying;
 - practice/completion-only activities cannot manufacture assessed mastery evidence;
-- server/catalog classification owns whether an activity is assessed;
-- stage readiness uses qualifying evidence, not raw replay count;
-- completion-only trace paths do not receive fabricated accuracy;
-- measured all-wrong interactions remain accuracy `0` evidence instead of disappearing;
+- server/catalog classification owns assessed status;
+- stage readiness uses qualifying evidence rather than raw replay count;
+- measured all-wrong interactions remain accuracy `0` evidence;
 - missing measurement fails closed to completion-only;
-- hints/retries are retained and the existing mastery engine applies independence penalties downstream.
+- hints/retries are retained and independence penalties remain downstream in the mastery engine.
 
-Parent-facing UI uses evidence score separately from mastery level.
+All Batch 7 Math additions use measured `choice_accuracy_v1` or `matching_accuracy_v1` evidence. Existing conservative trace boundaries are unchanged: `letters-trace-a` remains completion-only practice until a letter-specific fidelity evaluator is validated.
 
-## Curriculum, adaptive learning, and reporting
+## Batch 6 subject foundations retained
 
-Adaptive Learning V2 remains deterministic and testable. Ranking respects hard gates for age, stage access, and motion opt-in, then uses measured history for remediation, confidence building, spaced review, repeat suppression, and soft difficulty adjustment.
+Letters/Menulis, Logic/Logika, and Science/Sains remain first-class subjects integrated with child navigation, age eligibility, adaptive ranking, stage readiness, Parent summaries, skill rows, cloud catalog registration, and certificate eligibility.
 
-Batch 6 subject foundations participate in the same existing systems as older subjects:
+The local/cloud `all-subjects` achievement threshold remains eight first-class subjects. Drawing will require another intentional threshold/catalog update when it becomes first-class.
 
-- child navigation and Mainlagi World entry;
-- subject/stage/activity routing;
-- canonical path/lesson/content-pack ownership;
-- age eligibility;
-- measured attempts where evidence fidelity is supported;
-- completion-only practice where fidelity is not supported;
-- skill mastery and stage readiness;
-- adaptive subject-scoped recommendations;
-- Parent Dashboard subject summaries and skill rows;
-- evidence-driven certificate eligibility.
+Current Iqro packs remain `expert_required`, not `expert_approved`; passing code/CI is not religious-learning expert approval.
 
-The local and cloud `all-subjects` achievement threshold is now eight first-class subjects instead of the historical five-subject threshold.
+## Reusable mechanic library
 
-## Cloud profiles, learning state, and offline behavior
+Batch 5 established 20 reusable mechanic contracts spanning choice, pairing, targeting, classification, ordering, path, and practice families. Mechanic capability does not itself count as a playable activity.
+
+Seventeen mechanics support assessed + practice mode; story, coloring, and optional motion wrapper remain practice-only. Assessed usage requires valid measured evidence.
+
+## Cloud profiles and ownership
 
 Authenticated mode uses Supabase as the source of truth for account-owned child profiles, attempts, evidence, mastery, derived progress, achievements, and certificates. Guest mode remains local-only.
 
-Legacy child-specific `age_group` compatibility remains:
+Real child routes require an undeleted account-owned `player_profiles` row; foreign/deleted IDs fail closed. `demo-gian` remains the explicit account-scoped sandbox sentinel. Migration `0007_learning_child_ownership` enforces the ownership boundary at attempt recording.
 
-- `TK -> 5`
-- `SD 1 -> 6`
-- `SD 2 -> 7`
+Authenticated attempt sync retains the durable browser outbox. Failed attempts stay account-bound without storing tokens, use bounded retry/backoff/TTL, and cannot create server mastery until accepted by the canonical RPC.
 
-Ambiguous legacy `Umum` is intentionally not assigned a child age automatically.
+## Audio, tracing, and device boundaries
 
-Authenticated attempt sync uses a durable browser outbox. Failed cloud attempts stay queued, remain account-bound without storing tokens, use bounded retry/backoff/TTL, and cannot create server mastery until accepted by the canonical RPC.
+Batch 3 consolidated speech behind `AudioManager` with unlock/warmup, locale voice caching, bounded queue/deduplication, stale-speech cancellation, standardized rates, fallback handling, and privacy-safe local latency instrumentation. No child pronunciation recording/upload is introduced.
 
-## Parent and child safety boundaries
+Guided trace assessment still requires validated runtime measurement. Unsupported trace fidelity remains completion-only.
 
-Production parent routes are server gated when Supabase is configured. Real child routes require an undeleted account-owned `player_profiles` row; foreign/deleted child IDs fail closed. Guest/local child play remains available by design. `demo-gian` remains the single explicit account-scoped sandbox sentinel.
-
-Migration `0007_learning_child_ownership` enforces real-child ownership at the learning-attempt database boundary.
-
-Certificate issuance is idempotent and tied to canonical completion/evidence criteria. Practice-only areas cannot issue competency certificates merely because they have no assessed skills.
-
-## Audio and tracing
-
-Batch 3 consolidated product speech behind `AudioManager` with unlock/warmup, locale voice caching, bounded queue/deduplication, stale-speech cancellation, standardized rates, readable fallback handling, and privacy-safe local latency instrumentation.
-
-No pronunciation microphone capture is part of this architecture.
-
-Guided trace assessment requires explicit validated runtime measurement. Unsupported trace fidelity remains completion-only.
+Automated CI does not replace physical-device camera/audio/trace/accessibility acceptance. Representative real-device testing remains part of Batch 16.
 
 ## Supabase production state
 
@@ -218,49 +158,53 @@ Canonical project:
 - region: `ap-southeast-1`
 - status: active/healthy.
 
-Applied migration chain verified on 10 September 2026:
+Applied migration chain is verified through:
 
-1. `0001_init`
-2. `0002_learning_attempt_schema`
-3. `0003_learning_mastery_functions`
-4. `0004_learning_rpc_hardening`
-5. `0005_database_advisor_hardening`
-6. `0006_private_admin_helper`
-7. `0007_learning_child_ownership`
-8. `0008_curriculum_content_expansion`
-9. `0009_learning_awards_certificates`
-10. `0010_legacy_fk_indexes`
-11. `0011_scalable_content_architecture`
-12. `0012_reusable_mechanic_library`
-13. `0013_new_subject_curriculum_foundations`
-14. `0014_batch6_award_catalog_scaling`
+```text
+0001_init
+0002_learning_attempt_schema
+0003_learning_mastery_functions
+0004_learning_rpc_hardening
+0005_database_advisor_hardening
+0006_private_admin_helper
+0007_learning_child_ownership
+0008_curriculum_content_expansion
+0009_learning_awards_certificates
+0010_legacy_fk_indexes
+0011_scalable_content_architecture
+0012_reusable_mechanic_library
+0013_new_subject_curriculum_foundations
+0014_batch6_award_catalog_scaling
+0015_batch7_math_wave_a
+0016_batch7_math_wave_b
+0017_batch7_math_wave_c
+0018_batch7_math_wave_d
+```
 
-Live catalog verification matches repository Batch 6 counts: 34 active activities, 27 assessed, 7 practice, 18 active skills, and 16 active content packs.
+Post-`0018` live verification: 127 active activities, 100 Math, 120 assessed / 7 practice, 37 active skills, and 34 active packs.
 
-Post-DDL performance advisor has no WARN-level finding; current unused-index observations are INFO only.
+Post-DDL performance advisor has no WARN-level regression; 19 unused-index observations are INFO only. Security advisor still reports the two known pre-existing warnings: intentional authenticated execution of protected SECURITY DEFINER `record_learning_attempt(...)`, and leaked-password protection disabled under the current Supabase configuration/plan.
 
-Security advisor still reports two known warnings:
+## CI and release governance
 
-- authenticated execution of protected SECURITY DEFINER `public.record_learning_attempt(...)`; intentional for the canonical authenticated attempt RPC and covered by ownership/anti-farming hardening;
-- leaked-password protection disabled; accepted limitation of the current Supabase plan, not introduced by Batch 6.
+Primary CI covers OpenNext/Cloudflare build, Ubuntu typecheck/lint/source/assets/engine/learning/simulations, Windows compatibility, Chromium mobile-route QA, dependency audit, full-history Gitleaks, and exact-commit Cloudflare smoke on `main`.
 
-## CI and regression coverage
+Normal lifecycle:
 
-Primary CI covers:
+```text
+short-lived branch
+  -> PR
+  -> full CI / QA
+  -> required migration verification
+  -> squash merge
+  -> Cloudflare deploy from main
+  -> exact-commit production smoke
+  -> closure evidence
+```
 
-- OpenNext/Cloudflare production build;
-- Ubuntu typecheck/lint/source/assets/engine/learning/simulations;
-- Windows typecheck/lint/engine tests;
-- Chromium mobile-route QA;
-- production dependency audit;
-- full-history Gitleaks;
-- exact-commit Cloudflare production smoke after `main` pushes.
-
-Learning regression coverage includes mastery transitions, anti-farming, practice classification, progression, curriculum hierarchy, content diversity, scalable content packs, reusable mechanic payload/evidence contracts, Adaptive Learning V2, explicit runtime measurement, audio fallback, parent insights/reporting, awards/certificates, cloud ownership/multi-child isolation, durable offline outbox, migration/RLS/RPC contracts, Batch 6 subject foundations, and local/cloud all-subject threshold scaling.
+One account-level action remains outside current connector write capability: ensure `Secret history scan` is required by the active `main` protection ruleset. The scan itself runs successfully; see `ACCOUNT_LEVEL_ACTIONS.md`.
 
 ## Engineering closure status
-
-Expansion progress:
 
 - Batch 0 baseline — complete;
 - Batch 1 mobile foundation — complete;
@@ -269,29 +213,6 @@ Expansion progress:
 - Batch 4 scalable content architecture — complete in production;
 - Batch 5 reusable mechanic library — complete in production;
 - Batch 6 new subject/curriculum foundations — complete in production;
-- Batch 7 Math to 100 — next planned expansion stage;
-- Batch 8+ — planned according to `MAINLAGI_EXPANSION_IMPLEMENTATION_PLAN.md`.
-
-Batch 6 closure evidence is recorded in `EXPANSION_BATCH6_CLOSURE_2026-09-10.md`.
-
-## Evidence boundary: automated vs human/device acceptance
-
-Automated evidence proves repository, schema, regression, deployment, and public health-contract behavior. It does not replace all physical-device UX evidence. Representative real-device camera/audio/trace/accessibility QA remains part of later Batch 16 acceptance.
-
-## Repository governance
-
-Normal lifecycle:
-
-```text
-short-lived branch
-  -> PR
-  -> CI / QA
-  -> squash merge
-  -> Cloudflare deploy from main
-  -> exact-commit production smoke
-  -> delete merged branch
-```
-
-`main` remains canonical.
-
-One account-level governance action remains outside the current connector write capability: ensure `Secret history scan` is required by the active main protection ruleset. The scan itself runs and passes; the remaining action is repository-setting enforcement. See `docs/ACCOUNT_LEVEL_ACTIONS.md`.
+- **Batch 7 Math to 100 — complete in production**;
+- **Batch 8 Bahasa Indonesia to 100 — NEXT**;
+- Batch 9+ — planned according to `MAINLAGI_EXPANSION_IMPLEMENTATION_PLAN.md`.
