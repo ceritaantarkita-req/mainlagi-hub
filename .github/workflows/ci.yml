@@ -102,6 +102,7 @@ jobs:
           path: .mobile-route-qa/
           if-no-files-found: ignore
           retention-days: 14
+          include-hidden-files: true
 
   windows-quality:
     name: Windows compatibility
