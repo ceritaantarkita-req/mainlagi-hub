@@ -201,7 +201,7 @@ export const CONTENT_PATHS: ContentPathDefinition[] = [
   }
 ];
 
-interface LessonCore extends Omit<ContentLessonDefinition, "activityIds"> {}
+type LessonCore = Omit<ContentLessonDefinition, "activityIds">;
 
 const LESSON_CORES: LessonCore[] = [
   { id: "bahasa-huruf-a", subjectId: "bahasa", pathId: "bahasa-fondasi-literasi", stageId: "bahasa-huruf", title: "Kenal huruf A", objective: "Mengenali bentuk dan petunjuk bunyi huruf A dari beberapa pilihan.", ageMin: 3, ageMax: 7 },
