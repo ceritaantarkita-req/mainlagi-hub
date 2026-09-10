@@ -2,6 +2,7 @@ import * as base from "./systemBase";
 import { BAHASA_BATCH8_ACTIVITIES, BAHASA_BATCH8_STAGES } from "./bahasaBatch8";
 import { ENGLISH_BATCH9_ACTIVITIES, ENGLISH_BATCH9_STAGES } from "./englishBatch9";
 import { IQRO_BATCH10_ACTIVITIES, IQRO_BATCH10_STAGES } from "./iqroBatch10";
+import { LETTERS_BATCH11_ACTIVITIES, LETTERS_BATCH11_STAGES } from "./lettersBatch11";
 import { MATH_BATCH7_ACTIVITIES, MATH_BATCH7_STAGES } from "./mathBatch7";
 import type {
   LearningActivity,
@@ -33,14 +34,16 @@ export const ACTIVITIES: LearningActivity[] = [
   ...MATH_BATCH7_ACTIVITIES,
   ...BAHASA_BATCH8_ACTIVITIES,
   ...ENGLISH_BATCH9_ACTIVITIES,
-  ...IQRO_BATCH10_ACTIVITIES
+  ...IQRO_BATCH10_ACTIVITIES,
+  ...LETTERS_BATCH11_ACTIVITIES
 ];
 export const STAGES: LearningStage[] = [
   ...base.STAGES,
   ...MATH_BATCH7_STAGES,
   ...BAHASA_BATCH8_STAGES,
   ...ENGLISH_BATCH9_STAGES,
-  ...IQRO_BATCH10_STAGES
+  ...IQRO_BATCH10_STAGES,
+  ...LETTERS_BATCH11_STAGES
 ];
 
 const SUBJECT_MAP = new Map(SUBJECTS.map((item) => [item.id, item]));
