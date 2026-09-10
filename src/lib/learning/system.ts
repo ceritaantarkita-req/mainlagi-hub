@@ -695,7 +695,7 @@ export const ACTIVITIES: LearningActivity[] = [
     motionOptional: false,
     stars: 2,
     prompt: "Mana yang berbeda?",
-    choices: ["🍎", "🚗", "🍎"],
+    choices: ["🍎", "🚗", "🍌"],
     correctChoice: "🚗"
   },
   {
