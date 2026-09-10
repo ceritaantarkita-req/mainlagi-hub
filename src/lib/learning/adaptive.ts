@@ -16,8 +16,6 @@ export interface AdaptiveLearningRecommendation {
   targetSkillId: string | null;
 }
 
-const REVIEW_INTERVAL_MS = 7 * 24 * 60 * 60 * 1000;
-
 function descriptorFor(activity: LearningActivity) {
   const spec = getActivityLearningSpec(activity.id);
   return {
