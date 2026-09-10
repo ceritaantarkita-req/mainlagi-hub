@@ -5,6 +5,7 @@ import "./globals.css";
 import "./modules.css";
 import { AppShell } from "@/components/AppShell";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { LearningCloudOutboxBridge } from "@/components/learning/LearningCloudOutboxBridge";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
@@ -64,7 +65,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Script id="theme-init" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body>
-        <ThemeProvider><AppShell>{children}</AppShell></ThemeProvider>
+        <ThemeProvider>
+          <LearningCloudOutboxBridge />
+          <AppShell>{children}</AppShell>
+        </ThemeProvider>
       </body>
     </html>
   );
