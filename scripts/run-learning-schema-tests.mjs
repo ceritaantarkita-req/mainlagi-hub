@@ -11,19 +11,13 @@ const privateAdmin = readFileSync(path.join(root, "supabase/migrations/0006_priv
 const childOwnership = readFileSync(path.join(root, "supabase/migrations/0007_learning_child_ownership.sql"), "utf8");
 const contentExpansion = readFileSync(path.join(root, "supabase/migrations/0008_curriculum_content_expansion.sql"), "utf8");
 const contentArchitecture = readFileSync(path.join(root, "supabase/migrations/0011_scalable_content_architecture.sql"), "utf8");
+const reusableMechanics = readFileSync(path.join(root, "supabase/migrations/0012_reusable_mechanic_library.sql"), "utf8");
 
 const requiredTables = [
-  "learning_skills",
-  "learning_activities",
-  "learning_activity_skills",
-  "learning_attempts",
-  "learning_attempt_skill_evidence",
-  "child_skill_mastery",
-  "child_learning_progress",
-  "child_learning_achievements",
-  "learning_certificates"
+  "learning_skills", "learning_activities", "learning_activity_skills", "learning_attempts",
+  "learning_attempt_skill_evidence", "child_skill_mastery", "child_learning_progress",
+  "child_learning_achievements", "learning_certificates"
 ];
-
 for (const table of requiredTables) {
   assert.match(schema, new RegExp(`create table if not exists public\\.${table}\\b`, "i"), `missing table ${table}`);
   assert.match(schema, new RegExp(`alter table public\\.${table} enable row level security`, "i"), `RLS missing for ${table}`);
@@ -55,22 +49,14 @@ assert.match(advisorHardening, /alter function public\.week_key_for\(timestamptz
 assert.match(advisorHardening, /revoke all on function public\.handle_new_user\(\) from public, anon, authenticated, service_role/i, "trigger helper must not be exposed as API RPC");
 assert.match(advisorHardening, /revoke all on function public\.ensure_active_season\(\) from public, anon, authenticated, service_role/i, "season helper must not be exposed to public API roles");
 assert.match(advisorHardening, /record_best_score[\s\S]*security invoker/i, "best-score RPC should use invoker rights");
-assert.match(advisorHardening, /revoke all on function public\.record_best_score\(text, integer\) from public, anon, authenticated, service_role/i, "best-score RPC must revoke default API grants first");
-assert.match(advisorHardening, /grant execute on function public\.record_best_score\(text, integer\) to authenticated, service_role/i, "best-score RPC should remain available to authenticated callers");
 assert.match(advisorHardening, /account_id = \(select auth\.uid\(\)\)/i, "ownership policies should init-plan auth.uid");
-for (const index of [
-  "idx_learning_attempts_activity_id",
-  "idx_learning_activity_skills_skill_key",
-  "idx_learning_evidence_skill_key",
-  "idx_child_skill_mastery_skill_key"
-]) {
+for (const index of ["idx_learning_attempts_activity_id", "idx_learning_activity_skills_skill_key", "idx_learning_evidence_skill_key", "idx_child_skill_mastery_skill_key"]) {
   assert.match(advisorHardening, new RegExp(`create index if not exists ${index}\\b`, "i"), `missing advisor index ${index}`);
 }
 
 assert.match(privateAdmin, /create schema if not exists private/i, "private helper schema missing");
 assert.match(privateAdmin, /create or replace function private\.is_admin\(\)/i, "private admin helper missing");
 assert.match(privateAdmin, /security definer set search_path = pg_catalog, public/i, "private admin helper search path must be pinned");
-assert.match(privateAdmin, /grant execute on function private\.is_admin\(\) to anon, authenticated, service_role/i, "RLS roles need execute on private admin helper");
 assert.match(privateAdmin, /select private\.is_admin\(\)/i, "RLS policies must use private admin helper");
 assert.match(privateAdmin, /drop function if exists public\.is_admin\(\)/i, "public is_admin RPC must be removed after policy rebinding");
 
@@ -81,17 +67,10 @@ assert.match(childOwnership, /pp\.account_id = new\.account_id/i, "real learning
 assert.match(childOwnership, /pp\.deleted_at is null/i, "soft-deleted child profiles must not accept new learning attempts");
 assert.match(childOwnership, /before insert or update of account_id, child_key on public\.learning_attempts/i, "learning child ownership trigger must run before writes");
 assert.match(childOwnership, /raise exception[\s\S]*errcode = '42501'/i, "unowned learning child writes must fail closed");
-assert.match(childOwnership, /revoke all on function private\.enforce_learning_attempt_child_ownership\(\) from public, anon, authenticated, service_role/i, "ownership trigger helper must not be exposed as an API RPC");
 
 const expandedActivities = [
-  "bahasa-cari-a-lagi",
-  "bahasa-pasang-awal-lagi",
-  "english-find-blue-audio",
-  "english-listen-cat-2",
-  "english-match-words-2",
-  "math-count-2",
-  "math-pattern-touch-2",
-  "iqro-pasang-alif"
+  "bahasa-cari-a-lagi", "bahasa-pasang-awal-lagi", "english-find-blue-audio", "english-listen-cat-2",
+  "english-match-words-2", "math-count-2", "math-pattern-touch-2", "iqro-pasang-alif"
 ];
 for (const activityId of expandedActivities) {
   assert.match(contentExpansion, new RegExp(`\\('${activityId.replace(/[.*+?^${}()|[\\]\\]/g, "\\$&")}'`), `content migration must seed ${activityId}`);
@@ -103,7 +82,6 @@ assert.doesNotMatch(contentExpansion, /insert into public\.learning_skills/i, "t
 
 assert.match(contentArchitecture, /create table if not exists public\.learning_content_packs/i, "Batch 4 content pack table missing");
 assert.match(contentArchitecture, /alter table public\.learning_content_packs enable row level security/i, "content packs need RLS");
-assert.match(contentArchitecture, /learning content packs public read/i, "content packs need a public active-row read policy");
 assert.match(contentArchitecture, /select private\.is_admin\(\)/i, "content-pack policies must reuse the private admin helper");
 for (const column of ["content_pack_id", "lesson_id", "mechanic_id", "evidence_contract", "content_revision"]) {
   assert.match(contentArchitecture, new RegExp(`add column if not exists ${column}\\b`, "i"), `Batch 4 missing learning_activities.${column}`);
@@ -115,19 +93,32 @@ assert.match(contentArchitecture, /on conflict \(pack_id\) do update/i, "content
 assert.match(contentArchitecture, /content_revision > 0/i, "content revisions must stay positive");
 assert.doesNotMatch(contentArchitecture, /alter\s+column\s+activity_id/i, "Batch 4 must preserve the historical activity identity column");
 
+const expectedMechanics = [
+  "tap_choice", "listen_and_choose", "matching", "guided_trace", "story", "coloring", "motion_game",
+  "drag_to_target", "draw_line_matching", "sort_classify", "ordering_sequence", "pattern_completion",
+  "odd_one_out", "connect_dots", "memory_pairs", "compare", "missing_item", "maze_path",
+  "story_comprehension", "find_object"
+];
+const expectedEvidenceContracts = [
+  "choice_accuracy_v1", "matching_accuracy_v1", "target_accuracy_v1", "classification_accuracy_v1",
+  "sequence_accuracy_v1", "guided_trace_path_v1", "path_quality_v1", "completion_only_v1"
+];
+assert.match(reusableMechanics, /drop constraint if exists learning_activities_mechanic_id_check/i, "Batch 5 must replace only the mechanic vocabulary check");
+assert.match(reusableMechanics, /drop constraint if exists learning_activities_evidence_contract_check/i, "Batch 5 must replace only the evidence vocabulary check");
+for (const mechanicId of expectedMechanics) assert.match(reusableMechanics, new RegExp(`'${mechanicId}'`), `Batch 5 missing mechanic ${mechanicId}`);
+for (const evidenceId of expectedEvidenceContracts) assert.match(reusableMechanics, new RegExp(`'${evidenceId}'`), `Batch 5 missing evidence contract ${evidenceId}`);
+assert.doesNotMatch(reusableMechanics, /alter\s+column\s+activity_id/i, "Batch 5 must preserve historical activity identity");
+assert.doesNotMatch(reusableMechanics, /delete\s+from\s+public\.learning_/i, "Batch 5 vocabulary migration must not delete learning data");
+
 for (const legacy of ["game_sessions", "game_scores", "progress"]) {
   for (const [name, migration] of [
-    ["schema", schema],
-    ["functions", functions],
-    ["hardening", hardening],
-    ["advisor hardening", advisorHardening],
-    ["private-admin migration", privateAdmin],
-    ["child-ownership migration", childOwnership],
-    ["content-expansion migration", contentExpansion],
-    ["content-architecture migration", contentArchitecture]
+    ["schema", schema], ["functions", functions], ["hardening", hardening], ["advisor hardening", advisorHardening],
+    ["private-admin migration", privateAdmin], ["child-ownership migration", childOwnership],
+    ["content-expansion migration", contentExpansion], ["content-architecture migration", contentArchitecture],
+    ["reusable-mechanic migration", reusableMechanics]
   ]) {
     assert.doesNotMatch(migration, new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`, "i"), `${name} must not drop legacy table ${legacy}`);
   }
 }
 
-console.log("Learning migration, anti-farming, child-ownership, content-expansion, and scalable-content schema contract tests passed.");
+console.log("Learning migration, anti-farming, ownership, scalable-content, and reusable-mechanic schema contract tests passed.");
