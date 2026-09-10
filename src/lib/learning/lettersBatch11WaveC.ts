@@ -7,7 +7,7 @@ function choice(id: string, packId: string, lessonId: string, title: string, pro
   return { kind: "choice", id, packId, lessonId, title, description: "Latihan terukur untuk mengenali, membedakan, dan mengurutkan huruf Latin.", emoji: options.emoji ?? "🔤", ageMin: 4, ageMax: 7, difficulty: options.difficulty ?? 2, requiredForStage: options.required ?? false, skillId, prompt, choices, correctChoice };
 }
 
-function matching(id: string, packId: string, lessonId: string, title: string, skillId: string, pairs: Array<[string, string]> , required = false): LettersBatch11ActivitySeed {
+function matching(id: string, packId: string, lessonId: string, title: string, skillId: string, pairs: Array<[string, string]>, required = false): LettersBatch11ActivitySeed {
   return { kind: "matching", id, packId, lessonId, title, description: "Pasangkan huruf besar dengan huruf kecil yang sesuai.", emoji: "🧩", ageMin: 4, ageMax: 7, difficulty: 2, requiredForStage: required, skillId, prompt: "Pasangkan huruf besar dan kecil yang sama.", matchItems: pairs.flatMap(([upper, lower]) => [{ label: upper, pair: lower }, { label: lower, pair: lower }]) };
 }
 
@@ -39,7 +39,7 @@ const sequence: LettersBatch11ActivitySeed[] = [
 
 const discrimination: LettersBatch11ActivitySeed[] = [
   choice("letters-discriminate-upper-oq", "letters.pack.visual-discrimination-late-middle", "letters-visual-discrimination-late-middle", "Bedakan O dan Q", "Pilih huruf Q.", ["O", "Q", "G"], "Q", "letters.latin.visual_discrimination.late_middle", { required: true, emoji: "🔎" }),
-  choice("letters-discriminate-lower-pq", "letters.pack.visual-discrimination-late-middle", "letters-visual-discrimination-late-middle", "Bedakan p dan q lanjut", "Pilih huruf kecil q.", ["p", "q", "g"], "q", "letters.latin.visual_discrimination.late_middle", { required: true, emoji: "🔎" })
+  choice("letters-discriminate-lower-pq-late", "letters.pack.visual-discrimination-late-middle", "letters-visual-discrimination-late-middle", "Bedakan p dan q lanjut", "Pilih huruf kecil q.", ["p", "q", "g"], "q", "letters.latin.visual_discrimination.late_middle", { required: true, emoji: "🔎" })
 ];
 
 export const LETTERS_BATCH11_WAVE_C: LettersBatch11WaveDefinition = {
