@@ -1,6 +1,6 @@
 # Mainlagi Hub — Current State
 
-Last reviewed: 10 September 2026
+Last reviewed: 11 September 2026
 
 This file is the canonical human/AI handoff for the current repository state. `main` is the product source of truth. Commit SHAs below are verification snapshots, not permanent version labels.
 
@@ -17,33 +17,33 @@ This file is the canonical human/AI handoff for the current repository state. `m
 
 ## Latest verified production baseline
 
-**Expansion Batch 10 — Iqro to 100 is engineering/content-catalog production-complete.**
+**Expansion Batch 11 — Letters/Menulis to 100 is engineering/content-catalog production-complete.**
 
-Final Batch 10 implementation SHA:
+Final Batch 11 implementation SHA:
 
-`e927e3e283b3c15fb97239c9ce013ef6121d3947`
+`1ec8c69bce010424807d918a3b4655cd18b1f357`
 
-Final implementation landed through PR #57 after Waves A–C had each been separately production-closed. Post-merge main CI #256 succeeded for Ubuntu quality/learning/simulations, Windows compatibility, Chromium mobile-route QA, production build, dependency audit, full-history secret scan, and exact-SHA Cloudflare production smoke.
+Final implementation landed through PR #62. Main CI #270 succeeded for Ubuntu quality/learning/simulations, Windows compatibility, Chromium mobile-route QA, production build, dependency audit, full-history secret scan, and exact-SHA Cloudflare production smoke.
 
-Detailed closure evidence: `EXPANSION_BATCH10_CLOSURE_2026-09-10.md`.
+Detailed closure evidence: `EXPANSION_BATCH11_CLOSURE_2026-09-11.md`.
 
-Batch 7 Math-to-100, Batch 8 Bahasa-Indonesia-to-100, and Batch 9 English-to-100 remain production-complete with their own closure records.
+Batch 7 Math-to-100, Batch 8 Bahasa-Indonesia-to-100, Batch 9 English-to-100, and Batch 10 Iqro-to-100 remain production-complete with their own closure records.
 
-**Iqro review boundary:** all active Iqro packs remain `expert_required`, not `expert_approved`. Code/DB/CI/production success is not religious-learning expert approval.
+**Iqro review boundary remains unchanged:** all active Iqro packs remain `expert_required`, not `expert_approved`. Engineering production closure is not religious-learning expert approval.
 
 ## Current playable catalog
 
-Canonical repository and live Supabase counts after Batch 10:
+Canonical repository and live Supabase counts after Batch 11:
 
 - 8 first-class subjects;
 - 8 learning paths;
-- 26 stages;
-- 94 lessons;
-- 94 versioned content packs;
-- **411 playable activities**;
-- **97 skills**;
-- **404 assessed activities**;
-- **7 practice activities**.
+- 30 stages;
+- 117 lessons;
+- 117 versioned content packs;
+- **508 playable activities**;
+- **120 skills**;
+- **489 assessed activities**;
+- **19 practice activities**.
 
 Current subject activity counts:
 
@@ -52,30 +52,28 @@ Current subject activity counts:
 | Bahasa Indonesia | 100 | 99 | 1 | 23 |
 | English | 100 | 100 | 0 | 23 |
 | Math | 100 | 98 | 2 | 22 |
-| **Iqro** | **100** | **99** | **1** | **22** |
-| Letters / Menulis | 3 | 2 | 1 | 2 |
+| Iqro | 100 | 99 | 1 | 22 |
+| **Letters / Menulis** | **100** | **87** | **13** | **25** |
 | Logic / Logika | 3 | 3 | 0 | 2 |
 | Science / Sains | 3 | 3 | 0 | 2 |
 | Coloring / Mewarnai | 2 | 0 | 2 | 1 |
 
 Drawing/Menggambar is not first-class yet. It remains planned for Batch 14 together with expansion of Coloring/Mewarnai.
 
-## Batch 10 Iqro expansion
+## Batch 11 Letters/Menulis expansion
 
-Batch 10 preserved the four historical Iqro activity IDs and added exactly **96** meaningful activities through four separately gated waves:
+Batch 11 preserved the three historical Letters activities and added exactly **97 meaningful activities** through four separately gated waves:
 
-- Wave A — 4 -> 25: early Hijaiyah recognition/discrimination, listening, dot awareness, and name/form matching; PR #54, migration `0027`, SHA `75152bcf5d930c5a0f072e77a2679ca1c9edef73`, main CI #250;
-- Wave B — 25 -> 50: Dal/Dzal, Ra/Zai, Sin/Syin recognition/listening/dot/name/family discrimination; PR #55, migration `0028`, SHA `074026b1c8b62a5a63b3004e6d591c820dd3ec5d`, main CI #252;
-- Wave C — 50 -> 75: Shad through Qaf recognition/listening/dot/name/family discrimination; PR #56, migration `0029`, SHA `dc367d2fa712c3ec793d6161d8fdde434197a17b`, main CI #254;
-- Wave D — 75 -> 100: Kaf through Ya, standalone Hamzah, and integrated review; PR #57, migration `0030`, SHA `e927e3e283b3c15fb97239c9ce013ef6121d3947`, main CI #256.
+- Wave A — 3 -> 25: +22 covering uppercase/lowercase B–F recognition, case matching, visual discrimination, and basic pre-writing strokes; PR #59, migration `0031`, SHA `cb6dfb662f0f14b8c66de29db30319ea08e06644`, main CI #261;
+- Wave B — 25 -> 50: +25 covering G–M recognition, case matching, sequence, visual discrimination, and representative formation practice; PR #60, migration `0032`, SHA `3c3f446b70c6047236216b0b505e3f5fe9da9c88`, main CI #263;
+- Wave C — 50 -> 75: +25 covering N–T recognition, case matching, sequence, visual discrimination, and representative formation practice; PR #61, migration `0033`, SHA `fdd0dae049b1cd4740286dd1b1a56700d9641154`, main CI #267;
+- Wave D — 75 -> 100: +25 covering U–Z recognition, case matching, end-alphabet sequence, visual discrimination, and representative formation practice; PR #62, migration `0034`, SHA `1ec8c69bce010424807d918a3b4655cd18b1f357`, main CI #270.
 
-All four post-merge CI runs passed exact-SHA Cloudflare production smoke.
+All four post-merge runs passed exact-SHA Cloudflare production smoke.
 
-All 96 Batch 10 additions are assessed through existing measured `tap_choice`, `listen_and_choose`, or `matching` paths. No new generic trace was promoted to assessed. Iqro therefore closes at **99 assessed / 1 historical practice**.
+Batch 11 additions are **85 assessed + 12 practice**. Together with the historical Letters baseline, Letters closes at **87 assessed / 13 practice**.
 
-Batch 10 authoring metadata is automatically checked against the canonical `HIJAIYAH_TEMPLATES` registry for 29 entries: 28 Hijaiyah letters plus standalone Hamzah. Tests lock glyph, Latin label, dot count, and dot-zone parity.
-
-All **22 active Iqro packs** remain `expert_required`. Formal review of content/audio/pedagogical sequencing remains a separate human requirement.
+Generic pre-writing/letter-formation traces remain completion-only practice with `completion_only_v1`, cannot gate stage readiness, and do not claim letter-shape accuracy/mastery. No validated Latin letter-shape fidelity evaluator exists yet.
 
 ## Shipped learning/content architecture
 
@@ -125,21 +123,21 @@ Protections remain in force:
 - missing measurement fails closed to completion-only;
 - hints/retries remain available for downstream independence penalties.
 
-Batch 10 does not weaken these boundaries. Existing trace assessment remains conservative: unsupported glyph tracing stays completion-only until shape-fidelity measurement is explicitly validated.
+Batch 11 does not weaken these boundaries. Generic Latin tracing remains practice-only until shape fidelity is explicitly implemented and validated.
 
 ## Current runtime inventory
 
 | Runtime | Activities |
 | --- | ---: |
-| `tap_choice` | 251 |
+| `tap_choice` | 324 |
 | `listen_and_choose` | 76 |
-| `matching` | 76 |
-| `trace` | 2 |
+| `matching` | 88 |
+| `trace` | 14 |
 | `story` | 1 |
 | `motion_game` | 3 |
 | `coloring` | 2 |
 
-Total: **411**.
+Total: **508**.
 
 ## Cloud profiles and ownership
 
@@ -165,44 +163,29 @@ Canonical project:
 - region: `ap-southeast-1`
 - status: active/healthy.
 
-Applied migration chain is verified through:
+Applied migration chain is verified through Batch 11 Wave D. The Batch 11 repo migrations are:
 
 ```text
-0001_init
-0002_learning_attempt_schema
-0003_learning_mastery_functions
-0004_learning_rpc_hardening
-0005_database_advisor_hardening
-0006_private_admin_helper
-0007_learning_child_ownership
-0008_curriculum_content_expansion
-0009_learning_awards_certificates
-0010_legacy_fk_indexes
-0011_scalable_content_architecture
-0012_reusable_mechanic_library
-0013_new_subject_curriculum_foundations
-0014_batch6_award_catalog_scaling
-0015_batch7_math_wave_a
-0016_batch7_math_wave_b
-0017_batch7_math_wave_c
-0018_batch7_math_wave_d
-0019_batch8_bahasa_wave_a
-0020_batch8_bahasa_wave_b
-0021_batch8_bahasa_wave_c
-0022_batch8_bahasa_wave_d
-0023_batch9_english_wave_a
-0024_batch9_english_wave_b
-0025_batch9_english_wave_c
-0026_batch9_english_wave_d
-0027_batch10_iqro_wave_a
-0028_batch10_iqro_wave_b
-0029_batch10_iqro_wave_c
-0030_batch10_iqro_wave_d
+0031_batch11_letters_wave_a.sql
+0032_batch11_letters_wave_b.sql
+0033_batch11_letters_wave_c.sql
+0034_batch11_letters_wave_d.sql
 ```
 
-Post-`0030` live verification: 411 active activities, exactly 100 Iqro / 100 English / 100 Bahasa / 100 Math, 404 assessed / 7 practice, 97 active skills, 94 active packs, 100 Iqro activity-skill links, 22 Iqro `expert_required` packs, and zero active Iqro activities missing mechanic/evidence metadata.
+The Supabase registry records the corresponding applied names `batch11_letters_wave_a` through `batch11_letters_wave_d`.
 
-Post-DDL performance advisor has no WARN-level regression; 18 unused-index observations are INFO only. Security advisor still reports the two known warnings: intentional authenticated execution of protected SECURITY DEFINER `record_learning_attempt(...)`, and leaked-password protection disabled under the current Supabase configuration/plan. Batch 10 introduced no new advisor warning.
+Post-`0034` live verification:
+
+- 508 active activities;
+- 489 assessed / 19 practice globally;
+- Letters exactly 100 = 87 assessed / 13 practice;
+- 117 active packs;
+- 120 active skills;
+- 25 active Letters skills;
+- 25 Wave D activity-skill links;
+- zero active Letters activities missing mechanic/evidence metadata.
+
+Post-DDL performance advisor has no WARN-level regression; 18 unused-index observations remain INFO-only. Security advisor still reports the two known WARN findings: intentional authenticated execution of protected SECURITY DEFINER `record_learning_attempt(...)`, and leaked-password protection disabled under the current Supabase configuration/plan. Batch 11 introduced no new advisor warning.
 
 ## CI and release governance
 
@@ -236,5 +219,6 @@ One account-level action remains outside current connector write capability: ens
 - **Batch 8 Bahasa Indonesia to 100 — complete in production**;
 - **Batch 9 English to 100 — complete in production**;
 - **Batch 10 Iqro to 100 — engineering/content-catalog complete in production; expert review still required**;
-- **Batch 11 Letters/Menulis to 100 — NEXT**;
-- Batch 12+ — planned according to `MAINLAGI_EXPANSION_IMPLEMENTATION_PLAN.md`.
+- **Batch 11 Letters/Menulis to 100 — complete in production**;
+- **Batch 12 Logic/Logika to 100 — NEXT**;
+- Batch 13+ — planned according to `MAINLAGI_EXPANSION_IMPLEMENTATION_PLAN.md`.

@@ -1,6 +1,6 @@
 # Mainlagi Production Deployment
 
-Last reviewed: 10 September 2026
+Last reviewed: 11 September 2026
 
 ## Canonical production architecture
 
@@ -42,13 +42,13 @@ On pushes to `main`, `Production smoke (Cloudflare)` succeeds only when producti
 
 ## Latest verified production implementation
 
-Expansion Batch 10 — Iqro to 100 is engineering/content-catalog production-complete.
+**Expansion Batch 11 — Letters/Menulis to 100 is engineering/content-catalog production-complete.**
 
 ```text
-Batch:                 Expansion Batch 10 — Iqro to 100
-Final PR:              #57
-Git SHA:               e927e3e283b3c15fb97239c9ce013ef6121d3947
-Main CI run:            #256
+Batch:                 Expansion Batch 11 — Letters/Menulis to 100
+Final PR:              #62
+Git SHA:               1ec8c69bce010424807d918a3b4655cd18b1f357
+Main CI run:            #270
 Quality gate (Ubuntu):  success
 Windows compatibility: success
 Mobile route QA:        success
@@ -60,18 +60,20 @@ Production smoke:       success
 
 The exact-SHA production smoke verified the final Wave D implementation release on the public Cloudflare deployment with the canonical Supabase backend.
 
-Batch 10 wave release sequence:
+Batch 11 wave release sequence:
 
-| Wave | Iqro | PR | Migration | Main SHA | Main CI | Exact-SHA smoke |
+| Wave | Letters | PR | Migration | Main SHA | Main CI | Exact-SHA smoke |
 | --- | ---: | ---: | --- | --- | ---: | --- |
-| A | 25 | #54 | `0027_batch10_iqro_wave_a` | `75152bcf5d930c5a0f072e77a2679ca1c9edef73` | #250 | success |
-| B | 50 | #55 | `0028_batch10_iqro_wave_b` | `074026b1c8b62a5a63b3004e6d591c820dd3ec5d` | #252 | success |
-| C | 75 | #56 | `0029_batch10_iqro_wave_c` | `dc367d2fa712c3ec793d6161d8fdde434197a17b` | #254 | success |
-| D | 100 | #57 | `0030_batch10_iqro_wave_d` | `e927e3e283b3c15fb97239c9ce013ef6121d3947` | #256 | success |
+| A | 25 | #59 | `0031_batch11_letters_wave_a` | `cb6dfb662f0f14b8c66de29db30319ea08e06644` | #261 | success |
+| B | 50 | #60 | `0032_batch11_letters_wave_b` | `3c3f446b70c6047236216b0b505e3f5fe9da9c88` | #263 | success |
+| C | 75 | #61 | `0033_batch11_letters_wave_c` | `fdd0dae049b1cd4740286dd1b1a56700d9641154` | #267 | success |
+| D | 100 | #62 | `0034_batch11_letters_wave_d` | `1ec8c69bce010424807d918a3b4655cd18b1f357` | #270 | success |
 
-Batch 7 Math, Batch 8 Bahasa Indonesia, and Batch 9 English remain production-complete at 100 activities each. Detailed Batch 10 evidence is in `EXPANSION_BATCH10_CLOSURE_2026-09-10.md`.
+Batch 7 Math, Batch 8 Bahasa Indonesia, Batch 9 English, and Batch 10 Iqro remain production-complete at 100 activities each. Detailed Batch 11 evidence is in `EXPANSION_BATCH11_CLOSURE_2026-09-11.md`.
 
-**Religious-learning review boundary:** deployment success does not convert Iqro content into expert-approved material. All active Iqro packs remain `expert_required` pending explicit competent human review.
+**Letters evidence boundary:** generic pre-writing and letter-formation traces remain completion-only practice. Deployment success does not convert trace completion into measured Latin letter-shape accuracy or mastery.
+
+**Iqro review boundary remains:** all active Iqro packs remain `expert_required`; engineering deployment success is not expert religious-learning approval.
 
 ## Repository deployment configuration
 
@@ -103,54 +105,40 @@ No `MAINLAGI_VPS_*` secrets are required.
 - region: Singapore (`ap-southeast-1`)
 - status: active/healthy.
 
-Applied migration chain verified on 10 September 2026:
+Applied migration chain is verified through Batch 11 Wave D. The Batch 11 repository migrations are:
 
 ```text
-0001_init
-0002_learning_attempt_schema
-0003_learning_mastery_functions
-0004_learning_rpc_hardening
-0005_database_advisor_hardening
-0006_private_admin_helper
-0007_learning_child_ownership
-0008_curriculum_content_expansion
-0009_learning_awards_certificates
-0010_legacy_fk_indexes
-0011_scalable_content_architecture
-0012_reusable_mechanic_library
-0013_new_subject_curriculum_foundations
-0014_batch6_award_catalog_scaling
-0015_batch7_math_wave_a
-0016_batch7_math_wave_b
-0017_batch7_math_wave_c
-0018_batch7_math_wave_d
-0019_batch8_bahasa_wave_a
-0020_batch8_bahasa_wave_b
-0021_batch8_bahasa_wave_c
-0022_batch8_bahasa_wave_d
-0023_batch9_english_wave_a
-0024_batch9_english_wave_b
-0025_batch9_english_wave_c
-0026_batch9_english_wave_d
-0027_batch10_iqro_wave_a
-0028_batch10_iqro_wave_b
-0029_batch10_iqro_wave_c
-0030_batch10_iqro_wave_d
+0031_batch11_letters_wave_a.sql
+0032_batch11_letters_wave_b.sql
+0033_batch11_letters_wave_c.sql
+0034_batch11_letters_wave_d.sql
 ```
 
-Post-`0030` live catalog verification:
+The canonical Supabase migration registry records the corresponding applied entries as:
 
-- 411 active learning activities;
-- exactly 100 Iqro activities: 99 assessed / 1 historical practice;
-- exactly 100 English activities;
-- exactly 100 Bahasa Indonesia activities;
-- exactly 100 Math activities;
-- 404 assessed / 7 practice globally;
-- 97 active learning skills;
-- 94 active content packs;
-- 22 active Iqro packs, all `expert_required`;
-- 100 Iqro activity-skill links;
-- zero active Iqro activities missing mechanic/evidence metadata.
+```text
+batch11_letters_wave_a
+batch11_letters_wave_b
+batch11_letters_wave_c
+batch11_letters_wave_d
+```
+
+The earlier canonical migration chain `0001_init` through `0030_batch10_iqro_wave_d` remains intact.
+
+Post-Wave-D live catalog verification:
+
+- **508 active learning activities**;
+- **489 assessed / 19 practice** globally;
+- Math exactly 100;
+- Bahasa Indonesia exactly 100;
+- English exactly 100;
+- Iqro exactly 100;
+- **Letters/Menulis exactly 100 = 87 assessed / 13 practice**;
+- 120 active learning skills;
+- 117 active content packs;
+- 25 active Letters skills;
+- 25 Wave D activity-skill links;
+- zero active Letters activities missing mechanic/evidence metadata.
 
 Important boundaries remain unchanged:
 
@@ -161,18 +149,18 @@ Important boundaries remain unchanged:
 - `0015`–`0018` add Batch 7 Math content additively;
 - `0019`–`0022` add Batch 8 Bahasa content additively;
 - `0023`–`0026` add Batch 9 English content additively;
-- `0027`–`0030` add Batch 10 Iqro content additively while preserving the four historical Iqro identities;
-- Batch 10 authoring metadata is parity-checked against canonical `HIJAIYAH_TEMPLATES`;
-- no new generic trace is promoted to assessed;
-- all Iqro packs remain `expert_required`; database/code CI does not equal expert religious-learning approval.
+- `0027`–`0030` add Batch 10 Iqro content additively;
+- `0031`–`0034` add Batch 11 Letters/Menulis content additively;
+- no generic Latin letter trace is promoted to assessed evidence without validated shape-fidelity measurement;
+- all Iqro packs remain `expert_required` pending competent human review.
 
 ## Post-DDL advisor state
 
-After `0030`:
+After Batch 11 Wave D:
 
 - performance advisor has **no WARN-level regression**; 18 unused-index observations are INFO-level only;
 - security advisor still reports the existing intentional authenticated SECURITY DEFINER exposure for `public.record_learning_attempt(...)` and leaked-password protection disabled under the current Supabase configuration/plan;
-- no new Batch 10 security warning was introduced.
+- no new Batch 11 security/performance warning was introduced.
 
 Reference remediation guidance:
 
@@ -184,7 +172,7 @@ Reference remediation guidance:
 
 Production supports account login, account-owned child profiles, assessed-attempt persistence, evidence/mastery materialization, parent-derived state, cloud child ownership/isolation, durable offline attempt queuing, and exact-commit health verification.
 
-Practice/completion-only activities cannot manufacture academic mastery. All 96 Batch 10 additions use measured tap-choice, listen-and-choose, or matching evidence paths. Iqro closes at 99 assessed / 1 historical practice.
+Practice/completion-only activities cannot manufacture academic mastery. Batch 11 assessed additions use measured choice/matching evidence; generic letter-formation traces remain completion-only practice.
 
 ## Production verification checklist
 
@@ -194,10 +182,11 @@ For every expansion wave/batch:
 2. [x] full quality/security/build checks before merge;
 3. [x] relevant migration regression-tested before application;
 4. [x] live database counts verified after migration;
-5. [x] Cloudflare remains Git-driven from `main`;
-6. [x] post-merge smoke verifies exact release SHA and canonical Supabase metadata.
+5. [x] post-DDL advisor state reviewed;
+6. [x] Cloudflare remains Git-driven from `main`;
+7. [x] post-merge smoke verifies exact release SHA and canonical Supabase metadata.
 
-Batch 10 satisfies all six engineering/deployment conditions across Waves A–D. Formal expert Iqro approval remains a separate content-governance condition and is not claimed here.
+Batch 11 satisfies all seven engineering/deployment conditions across Waves A–D.
 
 ## Manual deployment fallback
 

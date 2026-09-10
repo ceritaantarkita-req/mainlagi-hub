@@ -1,6 +1,6 @@
 # Mainlagi Expansion Implementation Plan
 
-Last reviewed: 10 September 2026
+Last reviewed: 11 September 2026
 
 This is the canonical repository plan for scaling Mainlagi from its original small learning catalog to nine structured learning/creative tracks. `main` remains the implementation source of truth; this document defines sequencing, target counts, and closure rules.
 
@@ -31,6 +31,7 @@ A "game" means a meaningfully distinct playable learning experience/level, not a
 - no child voice recording/upload is introduced by speech features;
 - Iqro material requiring expert validation retains explicit `expert_required` state until competent human approval;
 - code/DB/CI/production success never means expert religious-learning approval;
+- generic Latin letter tracing remains practice-only until a validated glyph-shape fidelity evaluator exists;
 - migrations are additive/idempotent unless an explicitly reviewed corrective migration requires otherwise;
 - each content wave lands through focused branch -> PR -> CI -> migration verification -> squash merge -> exact-SHA Cloudflare production smoke;
 - target floors rise only when real playable instances exist and pass validation.
@@ -50,8 +51,8 @@ A "game" means a meaningfully distinct playable learning experience/level, not a
 | **8** | **Bahasa Indonesia to 100** | **COMPLETE IN PRODUCTION** |
 | **9** | **English to 100** | **COMPLETE IN PRODUCTION** |
 | **10** | **Iqro to 100** | **ENGINEERING/CATALOG COMPLETE IN PRODUCTION — EXPERT REVIEW STILL REQUIRED** |
-| **11** | **Letters/Menulis to 100** | **NEXT** |
-| 12 | Logic/Logika to 100 | PLANNED |
+| **11** | **Letters/Menulis to 100** | **COMPLETE IN PRODUCTION** |
+| **12** | **Logic/Logika to 100** | **NEXT** |
 | 13 | Science/Sains to 100 | PLANNED |
 | 14 | Drawing + Coloring to 100 each | PLANNED |
 | 15 | Adaptive/mastery/report scaling | PLANNED |
@@ -60,7 +61,7 @@ A "game" means a meaningfully distinct playable learning experience/level, not a
 
 ## Completed foundation batches
 
-Batches 0–6 established the baseline, mobile design system, route migration and Chromium QA, centralized `AudioManager`, scalable content ownership, reusable mechanic contracts, and first-class Letters/Logic/Science foundations. Historical evidence and ownership boundaries remain in force; `letters-trace-a` remains completion-only practice because generic letter-shape fidelity is not yet validated.
+Batches 0–6 established the baseline, mobile design system, route migration and Chromium QA, centralized `AudioManager`, scalable content ownership, reusable mechanic contracts, and first-class Letters/Logic/Science foundations. Historical evidence and ownership boundaries remain in force.
 
 ## Batch 7 — Math to 100 — COMPLETE
 
@@ -97,61 +98,56 @@ Wave C's first CI run caught a duplicate proposed historical skill ID before mig
 
 ## Batch 10 — Iqro to 100 — ENGINEERING/CATALOG COMPLETE
 
-Iqro entered Batch 10 with four historical activities. The expansion correctly added **21** in Wave A and 25 in each subsequent wave, for **96 new activities total** and exactly **100 canonical Iqro activities**.
+Iqro entered Batch 10 with four historical activities and added **96 new activities**:
+
+- [x] Wave A — 4 -> 25, +21; PR #54; migration `0027`; SHA `75152bcf5d930c5a0f072e77a2679ca1c9edef73`; main CI #250, exact-SHA smoke success.
+- [x] Wave B — 25 -> 50, +25; PR #55; migration `0028`; SHA `074026b1c8b62a5a63b3004e6d591c820dd3ec5d`; main CI #252, exact-SHA smoke success.
+- [x] Wave C — 50 -> 75, +25; PR #56; migration `0029`; SHA `dc367d2fa712c3ec793d6161d8fdde434197a17b`; main CI #254, exact-SHA smoke success.
+- [x] Wave D — 75 -> 100, +25; PR #57; migration `0030`; SHA `e927e3e283b3c15fb97239c9ce013ef6121d3947`; main CI #256, exact-SHA smoke success.
+
+Batch 10 closes at 100 Iqro = 99 assessed / 1 historical practice. All active Iqro packs remain `expert_required`. Detailed engineering closure: `EXPANSION_BATCH10_CLOSURE_2026-09-10.md`.
+
+## Batch 11 — Letters/Menulis to 100 — COMPLETE
+
+Letters entered Batch 11 with three historical activities. Wave A therefore correctly added 22 rather than blindly adding 25. Batch 11 adds **97 meaningful activities total: 85 assessed + 12 practice**, closing Letters at exactly **100 = 87 assessed / 13 practice**.
 
 ### Wave results
 
-- [x] **Wave A 1–25** — early Hijaiyah visual recognition/discrimination, listening, dot awareness, and name/form matching. +21. PR #54, migration `0027`, SHA `75152bcf5d930c5a0f072e77a2679ca1c9edef73`, main CI #250 exact-SHA smoke success.
-- [x] **Wave B 26–50** — Dal/Dzal, Ra/Zai, Sin/Syin recognition, listening, dot awareness, name matching, and family discrimination. +25. PR #55, migration `0028`, SHA `074026b1c8b62a5a63b3004e6d591c820dd3ec5d`, main CI #252 exact-SHA smoke success.
-- [x] **Wave C 51–75** — Shad, Dhad, Tha, Zha, Ain, Ghain, Fa, Qaf recognition/listening/dot/name/family discrimination. +25. PR #56, migration `0029`, SHA `dc367d2fa712c3ec793d6161d8fdde434197a17b`, main CI #254 exact-SHA smoke success.
-- [x] **Wave D 76–100** — Kaf, Lam, Mim, Nun, Ha besar, Wawu, Ya, standalone Hamzah, and integrated review. +25. PR #57, migration `0030`, SHA `e927e3e283b3c15fb97239c9ce013ef6121d3947`, main CI #256 exact-SHA smoke success.
+- [x] **Wave A 1–25** — B–F uppercase/lowercase recognition, case matching, visual discrimination, and basic pre-writing strokes. +22. PR #59, migration `0031`, SHA `cb6dfb662f0f14b8c66de29db30319ea08e06644`, main CI #261 exact-SHA smoke success.
+- [x] **Wave B 26–50** — G–M recognition, case matching, sequence, visual discrimination, representative formation practice. +25. PR #60, migration `0032`, SHA `3c3f446b70c6047236216b0b505e3f5fe9da9c88`, main CI #263 exact-SHA smoke success.
+- [x] **Wave C 51–75** — N–T recognition, case matching, sequence, visual discrimination, representative formation practice. +25. PR #61, migration `0033`, SHA `fdd0dae049b1cd4740286dd1b1a56700d9641154`, main CI #267 exact-SHA smoke success.
+- [x] **Wave D 76–100** — U–Z recognition, case matching, end-alphabet sequence, visual discrimination, representative formation practice. +25. PR #62, migration `0034`, SHA `1ec8c69bce010424807d918a3b4655cd18b1f357`, main CI #270 exact-SHA smoke success.
 
-### Batch 10 closure baseline
+### Batch 11 closure baseline
 
-- 411 total playable activities;
-- Iqro exactly 100 = 99 assessed / 1 historical practice;
-- Math, Bahasa Indonesia, and English remain exactly 100 each;
-- 404 assessed / 7 practice globally;
-- 26 stages;
+- 508 total playable activities;
+- Letters exactly 100 = 87 assessed / 13 practice;
+- Math, Bahasa Indonesia, English, and Iqro remain exactly 100 each;
+- 489 assessed / 19 practice globally;
+- 30 stages;
 - 8 paths;
-- 94 lessons;
-- 94 content packs;
-- 97 skills;
-- 22 active Iqro packs, all `expert_required`;
-- 100 Iqro activity-skill links;
-- zero active Iqro activities missing mechanic/evidence metadata.
+- 117 lessons;
+- 117 content packs;
+- 120 skills;
+- 25 active Letters skills;
+- zero active Letters activities missing mechanic/evidence metadata.
 
-All 96 Batch 10 additions use measured `tap_choice`, `listen_and_choose`, or `matching` evidence. No new generic trace is promoted to assessed.
+All assessed Batch 11 additions reuse measured choice/matching evidence paths. Generic pre-writing and letter-formation traces remain `practice`, `completion_only_v1`, and non-gating. Batch 11 does not claim validated Latin handwriting accuracy/mastery.
 
-Batch 10 also adds an automated parity gate between learning-authoring metadata and the canonical `HIJAIYAH_TEMPLATES` registry for 29 entries: 28 Hijaiyah letters plus standalone Hamzah. Glyph, Latin label, dot count, and dot zone must match.
+Wave C CI caught an activity-ID collision before migration and the ID was corrected. Wave D CI caught a redundant test assumption about the catalog-spec object; the manifest contract remained the canonical evidence-contract validation. Both were resolved before the relevant production migration.
 
-Migrations `0027`–`0030` are live in canonical Supabase. Post-DDL advisors show no new Batch 10 regression. Detailed engineering closure: `EXPANSION_BATCH10_CLOSURE_2026-09-10.md`.
+Migrations `0031`–`0034` are live in canonical Supabase. Post-DDL advisors show no new Batch 11 regression. Detailed closure: `EXPANSION_BATCH11_CLOSURE_2026-09-11.md`.
 
-### Mandatory remaining Iqro content-governance boundary
+## Batch 12 — Logic/Logika to 100 — NEXT
 
-Engineering closure does **not** close human expert review. All Iqro packs remain `expert_required`, not `expert_approved`. Audio/pronunciation, learning sequence, labels, and pedagogical appropriateness require explicit review by a competent religious-learning/Iqro expert before any expert-approved claim.
+Current validated Logic baseline: **3 activities**, so Wave A must add **22 meaningful activities** to reach canonical count 25.
 
-## Batch 11 — Letters/Menulis to 100 — NEXT
-
-Current validated Letters baseline: **3 activities**. Therefore Wave A must add **22 meaningful activities** to reach canonical count 25.
-
-- Wave A 1–25: uppercase/lowercase recognition, matching, pre-writing strokes, and measured visual discrimination. Prefer existing measured choice/matching paths for assessed activities; keep unvalidated writing traces practice-only.
-- Wave B 26–50: guided letter formation, start direction, connect-dots, and broader case/shape matching. Generalize trace templates rather than hardcoding a separate evaluator for every glyph.
-- Wave C 51–75: malformed-letter discrimination, copy/complete letters, sequencing, and shape-to-letter preparation.
-- Wave D 76–100: mixed formation, letter sequence, review, and age-appropriate writing challenges.
-
-### Batch 11 evidence rule
-
-`letters-trace-a` is currently completion-only practice because the validated trace-fidelity evaluator is digit-specific. **Do not promote generic letter tracing to assessed evidence until letter-shape fidelity is explicitly implemented, tested, and validated.** Assessed Batch 11 activities should use existing measurable mechanics unless/until that evaluator exists.
-
-## Batch 12 — Logic/Logika to 100
-
-Current validated Logic baseline: 3 activities.
-
-- Wave A 1–25: matching, draw-line, classification, odd-one-out.
+- Wave A 1–25: matching, classification, odd-one-out, simple ordering/path or equivalent measurable reasoning tasks using existing validated mechanics.
 - Wave B 26–50: patterns, sequence, shadow/object association, comparisons.
 - Wave C 51–75: before/after, maze/path, memory, missing object.
 - Wave D 76–100: cause/effect, spatial relations, mixed reasoning, review, challenge.
+
+Batch 12 must preserve existing Logic IDs and reuse measurable evidence contracts. Any new mechanic must be introduced as capability first and counted only when meaningful playable instances exist.
 
 ## Batch 13 — Science/Sains to 100
 
@@ -211,10 +207,11 @@ Completed entry baselines:
 - Math entered Batch 7 with 7 -> Wave A added 18;
 - Bahasa entered Batch 8 with 6 -> Wave A added 19;
 - English entered Batch 9 with 6 -> Wave A added 19;
-- Iqro entered Batch 10 with 4 -> Wave A added 21.
+- Iqro entered Batch 10 with 4 -> Wave A added 21;
+- Letters entered Batch 11 with 3 -> Wave A added 22.
 
 Next:
-- Letters enters Batch 11 with 3 -> Wave A must add **22**.
+- Logic enters Batch 12 with 3 -> Wave A must add **22**.
 
 ## Production closure rule
 
@@ -230,4 +227,4 @@ No batch is production-closed until:
 - canonical handoff/coverage/deployment docs are synchronized;
 - remaining limitations are documented explicitly.
 
-For Iqro specifically, engineering closure and expert content approval are separate statuses. Batch 10 satisfies engineering production closure while retaining `expert_required` human-review status.
+For Iqro specifically, engineering closure and expert content approval remain separate statuses. For Letters/Menulis, completion-only tracing remains separate from objectively measured handwriting accuracy.
