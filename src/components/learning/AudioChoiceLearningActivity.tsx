@@ -30,9 +30,9 @@ export function AudioChoiceLearningActivity({ childId, activityId }: { childId: 
   const fallback = audioFallback(speechStatus);
 
   const hear = () => {
-    unlockAudio();
+    unlockAudio(lang);
     playTone("tick");
-    setSpeechStatus(speakWithStatus(prompt, lang, 0.88));
+    setSpeechStatus(speakWithStatus(prompt, lang));
   };
 
   const choose = (choice: string) => {
