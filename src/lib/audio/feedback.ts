@@ -9,9 +9,37 @@
 
 type Tone = "correct" | "wrong" | "tick" | "start" | "celebrate";
 export type SpeechStartStatus = "spoken" | "muted" | "unavailable" | "error";
+export type SpeechLatencyPhase = "requested" | "started" | "ended" | "blocked" | "error";
+
+export interface SpeechLatencySample {
+  phase: SpeechLatencyPhase;
+  status: SpeechStartStatus;
+  lang: string;
+  rate: number;
+  textLength: number;
+  requestedAtMs: number;
+  startedAtMs?: number;
+  startLatencyMs?: number;
+}
+
+export const SPEECH_LATENCY_EVENT = "mainlagi-speech-latency";
 
 let context: AudioContext | null = null;
 let muted = false;
+
+function nowMs(): number {
+  if (typeof performance !== "undefined" && typeof performance.now === "function") return performance.now();
+  return Date.now();
+}
+
+function emitSpeechLatency(sample: SpeechLatencySample): void {
+  if (typeof window === "undefined" || typeof CustomEvent === "undefined") return;
+  try {
+    window.dispatchEvent(new CustomEvent<SpeechLatencySample>(SPEECH_LATENCY_EVENT, { detail: sample }));
+  } catch {
+    // Measurement must never interfere with learning audio.
+  }
+}
 
 function audio(): AudioContext | null {
   if (typeof window === "undefined") return null;
@@ -75,18 +103,89 @@ export function speechCapability(): SpeechStartStatus {
  * Starts a short speech prompt and reports whether playback could be started.
  * The status lets learning UI provide readable fallback instructions instead
  * of silently doing nothing on unsupported/muted devices.
+ *
+ * Batch 0 expansion instrumentation emits local-only timing events. The event
+ * intentionally contains prompt length, locale, rate, and timing only — never
+ * the spoken prompt itself and never a child identifier. Batch 3 will use this
+ * baseline to measure the AudioManager latency improvement.
  */
 export function speakWithStatus(text: string, lang = "id-ID", rate = 1): SpeechStartStatus {
+  const requestedAtMs = nowMs();
   const capability = speechCapability();
-  if (capability !== "spoken") return capability;
+  if (capability !== "spoken") {
+    emitSpeechLatency({
+      phase: "blocked",
+      status: capability,
+      lang,
+      rate,
+      textLength: text.length,
+      requestedAtMs
+    });
+    return capability;
+  }
+
   try {
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = lang;
     utterance.rate = rate;
+
+    emitSpeechLatency({
+      phase: "requested",
+      status: "spoken",
+      lang,
+      rate,
+      textLength: text.length,
+      requestedAtMs
+    });
+
+    utterance.addEventListener("start", () => {
+      const startedAtMs = nowMs();
+      emitSpeechLatency({
+        phase: "started",
+        status: "spoken",
+        lang,
+        rate,
+        textLength: text.length,
+        requestedAtMs,
+        startedAtMs,
+        startLatencyMs: Math.max(0, startedAtMs - requestedAtMs)
+      });
+    }, { once: true });
+
+    utterance.addEventListener("end", () => {
+      emitSpeechLatency({
+        phase: "ended",
+        status: "spoken",
+        lang,
+        rate,
+        textLength: text.length,
+        requestedAtMs
+      });
+    }, { once: true });
+
+    utterance.addEventListener("error", () => {
+      emitSpeechLatency({
+        phase: "error",
+        status: "error",
+        lang,
+        rate,
+        textLength: text.length,
+        requestedAtMs
+      });
+    }, { once: true });
+
     window.speechSynthesis.cancel();
     window.speechSynthesis.speak(utterance);
     return "spoken";
   } catch {
+    emitSpeechLatency({
+      phase: "error",
+      status: "error",
+      lang,
+      rate,
+      textLength: text.length,
+      requestedAtMs
+    });
     return "error";
   }
 }
