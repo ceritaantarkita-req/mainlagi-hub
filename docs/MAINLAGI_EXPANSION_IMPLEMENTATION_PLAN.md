@@ -46,8 +46,8 @@ A "game" means a meaningfully distinct playable learning experience/level, not a
 | 5 | Reusable mechanic library | COMPLETE |
 | 6 | Letters/Logic/Science foundations | COMPLETE |
 | **7** | **Math to 100** | **COMPLETE IN PRODUCTION** |
-| **8** | **Bahasa Indonesia to 100** | **NEXT** |
-| 9 | English to 100 | PLANNED |
+| **8** | **Bahasa Indonesia to 100** | **COMPLETE IN PRODUCTION** |
+| **9** | **English to 100** | **NEXT** |
 | 10 | Iqro to 100 | PLANNED |
 | 11 | Letters/Menulis to 100 | PLANNED |
 | 12 | Logic/Logika to 100 | PLANNED |
@@ -93,48 +93,52 @@ Added `letters`, `logic`, and `science` as first-class subjects with starter pat
 
 Batch 7 expanded Math from seven historical activities to exactly **100**, while keeping the original IDs and evidence boundaries stable.
 
+- [x] **Wave A 1–25** — added 18; PR #39, migration `0015`, SHA `94c21cf84bc809272c93d997b1e994abfc8e9bbb`.
+- [x] **Wave B 26–50** — added 25; PR #40, migration `0016`, SHA `3c2be1bac0c5f15c559bc3f5a4ab099f4fedf53f`.
+- [x] **Wave C 51–75** — added 25; PR #41, migration `0017`, SHA `add22b874174ebbb797461f9a0b8c52fe60f9250`.
+- [x] **Wave D 76–100** — added 25; PR #42, migration `0018`, SHA `82acd7d39c6cab98f38c92e4f6d7be6afe52cdcd`, main CI #220 exact-SHA smoke success.
+
+Batch 7 closure baseline: 127 activities, Math 100, 120 assessed / 7 practice, 14 stages, 34 lessons, 34 packs, and 37 skills. Detailed evidence: `EXPANSION_BATCH7_CLOSURE_2026-09-10.md`.
+
+## Batch 8 — Bahasa Indonesia to 100 — COMPLETE
+
+Batch 8 expanded Bahasa Indonesia from six historical activities to exactly **100** while preserving the original six IDs and the historical story practice classification.
+
 ### Wave results
 
-- [x] **Wave A 1–25** — number recognition, counting, quantity matching, early quantity intuition. Added 18 because seven historical Math activities already counted toward the target. PR #39, migration `0015`, SHA `94c21cf84bc809272c93d997b1e994abfc8e9bbb`, exact-SHA production smoke success.
-- [x] **Wave B 26–50** — quantity comparison, number ordering, shapes/properties, patterns. Added 25. PR #40, migration `0016`, SHA `3c2be1bac0c5f15c559bc3f5a4ab099f4fedf53f`, exact-SHA production smoke success.
-- [x] **Wave C 51–75** — missing numbers, grouping, addition/subtraction within 10, size/length. Added 25. PR #41, migration `0017`, SHA `add22b874174ebbb797461f9a0b8c52fe60f9250`, exact-SHA production smoke success.
-- [x] **Wave D 76–100** — spatial position, measurement intuition, mixed operations, visual problems, integrated review/challenge. Added 25. PR #42, migration `0018`, SHA `82acd7d39c6cab98f38c92e4f6d7be6afe52cdcd`, main CI #220 exact-SHA production smoke success.
+- [x] **Wave A 1–25** — vowels, consonant/vowel discrimination, case matching, initial sounds, and listening. Added 19 because six historical Bahasa activities already count toward the target. PR #44, migration `0019`, SHA `47bf43240872bfedf4c22dacfc8d417a924411ac`, main CI #226 exact-SHA smoke success.
+- [x] **Wave B 26–50** — syllable recognition/blending, words/meanings, picture-word matching, and listening. Added 25. PR #45, migration `0020`, SHA `8e0654006105933830ee6637cd3169940404fbf2`, main CI #229 exact-SHA smoke success.
+- [x] **Wave C 51–75** — sentence ordering/comprehension, one-step listening instructions, vocabulary relations, and short reading. Added 25. PR #46, migration `0021`, SHA `d84bf4929cd83d1cebf0017f4a987f04f2eeb0d2`, main CI #231 exact-SHA smoke success.
+- [x] **Wave D 76–100** — punctuation/capitalization, contextual sentence completion, vocabulary categories, listening detail, and integrated reading review. Added 25. PR #47, migration `0022`, SHA `9347f2a6e1e7d27448d0d7f7a7a0c45408b0db2e`, main CI #233 exact-SHA smoke success.
 
-### Batch 7 closure baseline
+### Batch 8 closure baseline
 
 - 8 first-class subjects;
-- 127 total playable activities;
-- Math exactly 100;
-- 120 assessed / 7 practice;
-- 14 stages;
+- 221 total playable activities;
+- Bahasa exactly 100;
+- Math remains exactly 100;
+- Bahasa itself: 99 assessed / 1 historical practice;
+- global: 214 assessed / 7 practice;
+- 18 stages;
 - 8 paths;
-- 34 lessons;
-- 34 content packs;
-- 37 skills.
+- 54 lessons;
+- 54 content packs;
+- 57 skills.
 
-All 93 Batch 7 additions use measured `choice_accuracy_v1` or `matching_accuracy_v1` evidence. Migrations `0015`–`0018` are applied in canonical Supabase `estvtgflwkebomsqlolv`, live counts match repository expectations, and post-DDL advisor review shows no new Batch 7 regression.
+All 94 Batch 8 additions use existing measured `tap_choice`, `listen_and_choose`, or `matching` evidence paths. Migrations `0019`–`0022` are applied in canonical Supabase `estvtgflwkebomsqlolv`, live counts match repository contracts, and post-DDL advisor review shows no new Batch 8 regression.
 
-Detailed evidence: `EXPANSION_BATCH7_CLOSURE_2026-09-10.md`.
+Detailed evidence: `EXPANSION_BATCH8_CLOSURE_2026-09-10.md`.
 
-## Batch 8 — Bahasa Indonesia to 100 — NEXT
+## Batch 9 — English to 100 — NEXT
 
-Current validated Bahasa baseline is 6 activities, so Wave A must add **19** meaningful activities to reach canonical count 25. Do not add 25 on top of the six existing activities.
-
-- Wave A 1–25: letters, vowels/consonants, initial sounds, and case matching.
-- Wave B 26–50: syllables, words, picture-word matching, and listening.
-- Wave C 51–75: complete/order words, simple sentences, and vocabulary grouping.
-- Wave D 76–100: story comprehension, relations/opposites, mixed language review, and challenge.
-
-Requirements: preserve the six historical Bahasa IDs; reuse supported measured mechanics first; introduce new mechanics only when educationally necessary; keep every assessed item tied to valid measurement; raise catalog/test/DB floors only after each wave passes review.
-
-## Batch 9 — English to 100
-
-Current validated English baseline: 6 activities.
+Current validated English baseline is 6 activities, so Wave A must add **19** meaningful activities to reach canonical count 25. Do not add 25 on top of the six existing activities.
 
 - Wave A 1–25: alphabet, basic phonics awareness, colors, and numbers.
 - Wave B 26–50: animals, objects, body, and family.
 - Wave C 51–75: food, actions, categories, and word-picture matching/listening.
 - Wave D 76–100: opposites, simple phrases/sentences, listening comprehension, review, and challenge.
+
+Requirements: preserve the six historical English IDs; reuse supported measured mechanics first; keep listening evidence tied to actual measured choice outcomes; introduce new mechanics only when educationally necessary; raise catalog/test/DB floors only after each wave passes review and exact-SHA production closure.
 
 ## Batch 10 — Iqro to 100
 
@@ -219,7 +223,7 @@ Wave C: canonical count 51–75
 Wave D: canonical count 76–100
 ```
 
-Existing validated activities count toward the boundary. Example: Bahasa currently has six, therefore Batch 8 Wave A adds 19 to reach 25. Never add 25 blindly on top of an existing baseline.
+Existing validated activities count toward the boundary. English currently has six, therefore Batch 9 Wave A adds 19 to reach 25. Never add 25 blindly on top of an existing baseline.
 
 Do not merge a giant unreviewed 100-activity PR. Each wave independently passes content validation, mechanic/evidence checks, migration verification, CI, and production closure before the next wave raises the floor.
 
