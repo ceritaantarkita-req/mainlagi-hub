@@ -47,8 +47,8 @@ A "game" means a meaningfully distinct playable learning experience/level, not a
 | 6 | Letters/Logic/Science foundations | COMPLETE |
 | **7** | **Math to 100** | **COMPLETE IN PRODUCTION** |
 | **8** | **Bahasa Indonesia to 100** | **COMPLETE IN PRODUCTION** |
-| **9** | **English to 100** | **NEXT** |
-| 10 | Iqro to 100 | PLANNED |
+| **9** | **English to 100** | **COMPLETE IN PRODUCTION** |
+| **10** | **Iqro to 100** | **NEXT** |
 | 11 | Letters/Menulis to 100 | PLANNED |
 | 12 | Logic/Logika to 100 | PLANNED |
 | 13 | Science/Sains to 100 | PLANNED |
@@ -87,62 +87,64 @@ Established 20 reusable mechanic contracts across choice, pairing, targeting, cl
 
 Added `letters`, `logic`, and `science` as first-class subjects with starter paths/stages/lessons/packs, six skills, and nine real activities. Integrated them with navigation, adaptive ranking, progression/readiness, parent reporting, awards/certificates, and database catalog ownership.
 
-`letters-trace-a` remains completion-only practice because the validated trace evaluator is digit-specific. Local/cloud all-subject award logic was scaled to eight current first-class subjects. Migrations `0013` and `0014`; PR #37 at `466634e0d673893cbe25fae68bfe5e22dad04f0a`. Detailed closure: `EXPANSION_BATCH6_CLOSURE_2026-09-10.md`.
+`letters-trace-a` remains completion-only practice because the validated trace evaluator is digit-specific. Local/cloud all-subject award logic was scaled to eight current first-class subjects. Migrations `0013` and `0014`; detailed closure: `EXPANSION_BATCH6_CLOSURE_2026-09-10.md`.
 
 ## Batch 7 — Math to 100 — COMPLETE
 
 Batch 7 expanded Math from seven historical activities to exactly **100**, while keeping the original IDs and evidence boundaries stable.
 
-- [x] **Wave A 1–25** — added 18; PR #39, migration `0015`, SHA `94c21cf84bc809272c93d997b1e994abfc8e9bbb`.
-- [x] **Wave B 26–50** — added 25; PR #40, migration `0016`, SHA `3c2be1bac0c5f15c559bc3f5a4ab099f4fedf53f`.
-- [x] **Wave C 51–75** — added 25; PR #41, migration `0017`, SHA `add22b874174ebbb797461f9a0b8c52fe60f9250`.
-- [x] **Wave D 76–100** — added 25; PR #42, migration `0018`, SHA `82acd7d39c6cab98f38c92e4f6d7be6afe52cdcd`, main CI #220 exact-SHA smoke success.
+- [x] Wave A 1–25 — added 18; PR #39, migration `0015`, SHA `94c21cf84bc809272c93d997b1e994abfc8e9bbb`.
+- [x] Wave B 26–50 — added 25; PR #40, migration `0016`, SHA `3c2be1bac0c5f15c559bc3f5a4ab099f4fedf53f`.
+- [x] Wave C 51–75 — added 25; PR #41, migration `0017`, SHA `add22b874174ebbb797461f9a0b8c52fe60f9250`.
+- [x] Wave D 76–100 — added 25; PR #42, migration `0018`, SHA `82acd7d39c6cab98f38c92e4f6d7be6afe52cdcd`, main CI #220 exact-SHA smoke success.
 
 Batch 7 closure baseline: 127 activities, Math 100, 120 assessed / 7 practice, 14 stages, 34 lessons, 34 packs, and 37 skills. Detailed evidence: `EXPANSION_BATCH7_CLOSURE_2026-09-10.md`.
 
 ## Batch 8 — Bahasa Indonesia to 100 — COMPLETE
 
-Batch 8 expanded Bahasa Indonesia from six historical activities to exactly **100** while preserving the original six IDs and the historical story practice classification.
+Batch 8 expanded Bahasa Indonesia from six historical activities to exactly **100** while preserving the original six IDs and historical story practice classification.
+
+- [x] Wave A 1–25 — added 19; PR #44, migration `0019`, SHA `47bf43240872bfedf4c22dacfc8d417a924411ac`, main CI #226 exact-SHA smoke success.
+- [x] Wave B 26–50 — added 25; PR #45, migration `0020`, SHA `8e0654006105933830ee6637cd3169940404fbf2`, main CI #229 exact-SHA smoke success.
+- [x] Wave C 51–75 — added 25; PR #46, migration `0021`, SHA `d84bf4929cd83d1cebf0017f4a987f04f2eeb0d2`, main CI #231 exact-SHA smoke success.
+- [x] Wave D 76–100 — added 25; PR #47, migration `0022`, SHA `9347f2a6e1e7d27448d0d7f7a7a0c45408b0db2e`, main CI #233 exact-SHA smoke success.
+
+Batch 8 closure baseline: 221 total activities; Bahasa 100 at 99 assessed / 1 historical practice; Math remains 100; global 214 assessed / 7 practice; 18 stages; 8 paths; 54 lessons; 54 packs; 57 skills. Detailed evidence: `EXPANSION_BATCH8_CLOSURE_2026-09-10.md`.
+
+## Batch 9 — English to 100 — COMPLETE
+
+Batch 9 expanded English from six historical activities to exactly **100**. Wave A correctly added only 19 because the historical six count toward the canonical 1–25 boundary.
 
 ### Wave results
 
-- [x] **Wave A 1–25** — vowels, consonant/vowel discrimination, case matching, initial sounds, and listening. Added 19 because six historical Bahasa activities already count toward the target. PR #44, migration `0019`, SHA `47bf43240872bfedf4c22dacfc8d417a924411ac`, main CI #226 exact-SHA smoke success.
-- [x] **Wave B 26–50** — syllable recognition/blending, words/meanings, picture-word matching, and listening. Added 25. PR #45, migration `0020`, SHA `8e0654006105933830ee6637cd3169940404fbf2`, main CI #229 exact-SHA smoke success.
-- [x] **Wave C 51–75** — sentence ordering/comprehension, one-step listening instructions, vocabulary relations, and short reading. Added 25. PR #46, migration `0021`, SHA `d84bf4929cd83d1cebf0017f4a987f04f2eeb0d2`, main CI #231 exact-SHA smoke success.
-- [x] **Wave D 76–100** — punctuation/capitalization, contextual sentence completion, vocabulary categories, listening detail, and integrated reading review. Added 25. PR #47, migration `0022`, SHA `9347f2a6e1e7d27448d0d7f7a7a0c45408b0db2e`, main CI #233 exact-SHA smoke success.
+- [x] **Wave A 1–25** — alphabet recognition/listening, initial-sound awareness, colors, and numbers one to five. Added 19. PR #49, migration `0023`, SHA `eb4181df311011eb7724cfcef1565c50ab966120`, main CI #237 exact-SHA smoke success.
+- [x] **Wave B 26–50** — animals, everyday objects, body vocabulary, and family vocabulary. Added 25. PR #50, migration `0024`, SHA `3dd380f736c3821546e531da2b82593d39519271`, main CI #239 exact-SHA smoke success.
+- [x] **Wave C 51–75** — food, actions, semantic categories, expanded word-picture matching, and listening identification. Added 25. PR #51, migration `0025`, SHA `4096e68cb6916d7fedd0cf37896a67f6153edd30`, main CI #243 exact-SHA smoke success.
+- [x] **Wave D 76–100** — opposites, literal short phrases, sentence completion, listening for sentence detail, and integrated review. Added 25. PR #52, migration `0026`, SHA `cc9430e1d3543de809b26a47d3dd16cad3803897`, main CI #245 exact-SHA smoke success.
 
-### Batch 8 closure baseline
+Wave C's first CI run caught a duplicate proposed skill ID, `english.word.picture_matching`, before migration or merge. The new skill was renamed to `english.word.picture_matching.expanded`; subsequent CI passed and live verification confirmed both historical and expanded identities remain separate.
+
+### Batch 9 closure baseline
 
 - 8 first-class subjects;
-- 221 total playable activities;
-- Bahasa exactly 100;
+- 315 total playable activities;
+- English exactly 100, all assessed;
+- Bahasa Indonesia remains exactly 100;
 - Math remains exactly 100;
-- Bahasa itself: 99 assessed / 1 historical practice;
-- global: 214 assessed / 7 practice;
-- 18 stages;
+- global 308 assessed / 7 practice;
+- 22 stages;
 - 8 paths;
-- 54 lessons;
-- 54 content packs;
-- 57 skills.
+- 74 lessons;
+- 74 content packs;
+- 77 skills.
 
-All 94 Batch 8 additions use existing measured `tap_choice`, `listen_and_choose`, or `matching` evidence paths. Migrations `0019`–`0022` are applied in canonical Supabase `estvtgflwkebomsqlolv`, live counts match repository contracts, and post-DDL advisor review shows no new Batch 8 regression.
+All 94 Batch 9 additions use existing measured `tap_choice`, `listen_and_choose`, or `matching` evidence paths. Migrations `0023`–`0026` are applied in canonical Supabase `estvtgflwkebomsqlolv`; live counts match repository contracts; post-DDL advisor review shows no new Batch 9 regression.
 
-Detailed evidence: `EXPANSION_BATCH8_CLOSURE_2026-09-10.md`.
+Detailed evidence: `EXPANSION_BATCH9_CLOSURE_2026-09-10.md`.
 
-## Batch 9 — English to 100 — NEXT
+## Batch 10 — Iqro to 100 — NEXT
 
-Current validated English baseline is 6 activities, so Wave A must add **19** meaningful activities to reach canonical count 25. Do not add 25 on top of the six existing activities.
-
-- Wave A 1–25: alphabet, basic phonics awareness, colors, and numbers.
-- Wave B 26–50: animals, objects, body, and family.
-- Wave C 51–75: food, actions, categories, and word-picture matching/listening.
-- Wave D 76–100: opposites, simple phrases/sentences, listening comprehension, review, and challenge.
-
-Requirements: preserve the six historical English IDs; reuse supported measured mechanics first; keep listening evidence tied to actual measured choice outcomes; introduce new mechanics only when educationally necessary; raise catalog/test/DB floors only after each wave passes review and exact-SHA production closure.
-
-## Batch 10 — Iqro to 100
-
-Current validated Iqro baseline: 4 activities.
+Current validated Iqro baseline: 4 activities. Therefore Wave A must add **21** meaningful activities to reach canonical count 25; do not add 25 blindly on top of the existing four.
 
 - Wave A 1–25: Hijaiyah recognition, visual discrimination, same-letter matching.
 - Wave B 26–50: sequence, dots/form discrimination, reviewed listen-and-find.
@@ -223,7 +225,7 @@ Wave C: canonical count 51–75
 Wave D: canonical count 76–100
 ```
 
-Existing validated activities count toward the boundary. English currently has six, therefore Batch 9 Wave A adds 19 to reach 25. Never add 25 blindly on top of an existing baseline.
+Existing validated activities count toward the boundary. Math entered Batch 7 with seven activities, Bahasa entered Batch 8 with six, English entered Batch 9 with six, and Iqro enters Batch 10 with four. Never add 25 blindly on top of an existing baseline.
 
 Do not merge a giant unreviewed 100-activity PR. Each wave independently passes content validation, mechanic/evidence checks, migration verification, CI, and production closure before the next wave raises the floor.
 
