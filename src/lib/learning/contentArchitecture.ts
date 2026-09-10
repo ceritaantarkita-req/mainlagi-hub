@@ -1,4 +1,4 @@
-import { GAME_SLUGS } from "@/lib/data/games";
+import { GAME_SLUGS } from "../data/games";
 import { ACTIVITY_LEARNING_SPECS, LEARNING_SKILLS, type ActivityLearningSpec, type LearningSkillDefinition } from "./catalog";
 import { LEARNING_LESSONS, LEARNING_PATHS, type LearningLessonDefinition, type LearningPathDefinition } from "./curriculum";
 import {
