@@ -2,8 +2,9 @@ import { materializeIqroBatch10Wave } from "./iqroBatch10Authoring";
 import { IQRO_BATCH10_WAVE_A } from "./iqroBatch10WaveA";
 import { IQRO_BATCH10_WAVE_B } from "./iqroBatch10WaveB";
 import { IQRO_BATCH10_WAVE_C } from "./iqroBatch10WaveC";
+import { IQRO_BATCH10_WAVE_D } from "./iqroBatch10WaveD";
 
-export const IQRO_BATCH10_WAVE_DEFINITIONS = [IQRO_BATCH10_WAVE_A, IQRO_BATCH10_WAVE_B, IQRO_BATCH10_WAVE_C] as const;
+export const IQRO_BATCH10_WAVE_DEFINITIONS = [IQRO_BATCH10_WAVE_A, IQRO_BATCH10_WAVE_B, IQRO_BATCH10_WAVE_C, IQRO_BATCH10_WAVE_D] as const;
 export const IQRO_BATCH10_WAVES = IQRO_BATCH10_WAVE_DEFINITIONS.map(materializeIqroBatch10Wave);
 export const IQRO_BATCH10_ACTIVITIES = IQRO_BATCH10_WAVES.flatMap((wave) => wave.activities);
 export const IQRO_BATCH10_STAGES = IQRO_BATCH10_WAVES.map((wave) => wave.stage);
@@ -12,4 +13,4 @@ export const IQRO_BATCH10_CONTENT_PACKS = IQRO_BATCH10_WAVES.flatMap((wave) => w
 export const IQRO_BATCH10_SKILLS = IQRO_BATCH10_WAVES.flatMap((wave) => wave.skills);
 export const IQRO_BATCH10_STAGE_IDS = IQRO_BATCH10_STAGES.map((stage) => stage.id);
 export const IQRO_BATCH10_ACTIVITY_IDS = IQRO_BATCH10_ACTIVITIES.map((activity) => activity.id);
-export const IQRO_BATCH10_WAVE_ACTIVITY_COUNTS = Object.freeze({ A: IQRO_BATCH10_WAVE_A.activities.length, B: IQRO_BATCH10_WAVE_B.activities.length, C: IQRO_BATCH10_WAVE_C.activities.length });
+export const IQRO_BATCH10_WAVE_ACTIVITY_COUNTS = Object.freeze({ A: IQRO_BATCH10_WAVE_A.activities.length, B: IQRO_BATCH10_WAVE_B.activities.length, C: IQRO_BATCH10_WAVE_C.activities.length, D: IQRO_BATCH10_WAVE_D.activities.length });
