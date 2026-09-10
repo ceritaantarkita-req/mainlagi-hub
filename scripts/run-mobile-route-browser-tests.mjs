@@ -208,22 +208,25 @@ async function main() {
   const browser = await chromium.launch({ headless: true });
   try {
     for (const viewport of VIEWPORTS) {
-      const page = await browser.newPage({ viewport });
+      const context = await browser.newContext({ viewport });
+      const page = await context.newPage();
       for (const route of ROUTES) {
         await inspectPage(page, route, viewport);
       }
-      await page.close();
+      await context.close();
       console.log(`Mobile route matrix passed at ${viewport.width}px.`);
     }
 
     for (const width of [320, 430]) {
       const viewport = VIEWPORTS.find((item) => item.width === width);
-      const page = await browser.newPage({ viewport });
+      assert.ok(viewport, `missing viewport ${width}px`);
+      const context = await browser.newContext({ viewport });
+      const page = await context.newPage();
       for (const [runtime, routePath] of RUNTIME_ROUTES) {
         await inspectPage(page, { path: routePath, kind: "child-learning", touch: true }, viewport);
         console.log(`Runtime ${runtime} passed responsive smoke at ${width}px.`);
       }
-      await page.close();
+      await context.close();
     }
   } finally {
     await browser.close();
