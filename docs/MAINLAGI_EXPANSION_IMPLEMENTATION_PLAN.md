@@ -67,11 +67,21 @@ The automated gate does not replace physical iOS/Android camera, virtual-keyboar
 
 ### Batch 3 — Voice latency / AudioManager rebuild
 
-Centralize speech into one manager with user-gesture unlock/warmup, cached locale voice selection, queue/deduplication policy, stale-speech cancellation, standardized rates, instant tone feedback, capability fallback, and latency measurement. Native Web Speech remains a fallback boundary; microphone pronunciation scoring is out of scope.
+- [x] Centralize product speech/TTS and generated feedback tones behind one `AudioManager`.
+- [x] Add user-gesture unlock plus silent warmup that does not delay an immediate real prompt.
+- [x] Cache locale-aware voices and refresh on `voiceschanged`.
+- [x] Replace cancel-before-every-prompt with a bounded queue and deduplication policy.
+- [x] Keep intentional interrupt for immediate feedback/system transitions and stop stale speech on navigation.
+- [x] Standardize generic child-friendly speech rates while preserving explicit pedagogy-specific overrides.
+- [x] Keep readable muted/unavailable/error fallback states.
+- [x] Preserve privacy-safe local request-to-start latency instrumentation without prompt text, child IDs, recordings, or uploads.
+- [x] Remove direct component-level `SpeechSynthesisUtterance` paths and add behavior/regression tests.
+
+Batch 3 landed through PR #32. Its squash merge is `20c643214cf60a2bbaefc402d77b89af24ba16cf`; Cloudflare deployment and exact-SHA production smoke succeeded. This closes Mainlagi-controlled speech-path fragmentation. It does **not** claim a synthetic CI millisecond improvement on real child devices; physical-device latency remains measurable through the local instrumentation and is part of later device QA.
 
 ### Batch 4 — Scalable content architecture
 
-Move toward:
+Canonical hierarchy is now:
 
 ```text
 Subject
@@ -84,7 +94,19 @@ Subject
  -> Skill mapping / evidence contract
 ```
 
-Add schema validation, deterministic IDs, duplicate detection, age/difficulty validation, answer validation, asset checks, skill resolution, and assessment/mechanic compatibility checks. Preserve existing stable activity IDs/history.
+- [x] Add one canonical content manifest for path/lesson/pack/activity ownership.
+- [x] Preserve all existing stable activity IDs and historical learning identity.
+- [x] Derive compatibility curriculum/spec projections from the manifest rather than keeping a second hand-maintained activity metadata list.
+- [x] Add versioned content packs and deterministic helpers for future generated activity IDs.
+- [x] Define mechanic-to-runtime, assessment, required payload, and evidence-contract compatibility.
+- [x] Validate hierarchy ownership, unique IDs, age ranges, difficulty, answers, matching pairs, skills/weights, motion boundaries, game slugs, asset references, and learning-spec drift.
+- [x] Detect materially duplicate playable content, including shuffled answer-order duplicates.
+- [x] Add explicit Iqro review states; existing Iqro packs remain `expert_required`, not falsely expert-approved.
+- [x] Add additive Supabase `0011_scalable_content_architecture` with `learning_content_packs` and pack/lesson/mechanic/evidence/revision metadata on `learning_activities`.
+- [x] Backfill the 25 existing activity rows without renaming activity IDs or altering attempt/mastery/progress identity.
+- [x] Add Batch 4 validation to canonical learning/engine CI and migration regression tests.
+
+The repository baseline at Batch 4 contains 5 subjects, 5 paths, 7 stages, 13 lessons, 13 content packs, 25 playable activities, 12 skills, and 7 registered mechanics. The 25 existing activities remain 19 assessed and 6 practice. Migration `0011` is applied to the canonical Supabase project; all 25 current repository activities have pack/lesson/mechanic/evidence metadata there.
 
 ### Batch 5 — Reusable game-mechanics library
 
@@ -158,4 +180,4 @@ Do not merge a giant unreviewed 90-activity PR.
 
 ## Completion rule
 
-This expansion is complete only when the target content counts are real, mobile QA is clean, voice handling is consolidated and measurably improved, all seven subjects participate correctly in progression/adaptive/reporting, no assessed activity fabricates evidence, final CI is green, final exact-SHA production smoke passes, and remaining limitations are documented explicitly.
+This expansion is complete only when the target content counts are real, mobile QA is clean, voice handling is consolidated and measurably improved on target devices, all seven subjects participate correctly in progression/adaptive/reporting, no assessed activity fabricates evidence, final CI is green, final exact-SHA production smoke passes, and remaining limitations are documented explicitly.
