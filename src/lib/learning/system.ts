@@ -1,4 +1,5 @@
 import * as base from "./systemBase";
+import { BAHASA_BATCH8_ACTIVITIES, BAHASA_BATCH8_STAGES } from "./bahasaBatch8";
 import { MATH_BATCH7_ACTIVITIES, MATH_BATCH7_STAGES } from "./mathBatch7";
 import type {
   LearningActivity,
@@ -25,8 +26,8 @@ export type {
 
 export const CHARACTERS = base.CHARACTERS;
 export const SUBJECTS: LearningSubject[] = base.SUBJECTS;
-export const ACTIVITIES: LearningActivity[] = [...base.ACTIVITIES, ...MATH_BATCH7_ACTIVITIES];
-export const STAGES: LearningStage[] = [...base.STAGES, ...MATH_BATCH7_STAGES];
+export const ACTIVITIES: LearningActivity[] = [...base.ACTIVITIES, ...MATH_BATCH7_ACTIVITIES, ...BAHASA_BATCH8_ACTIVITIES];
+export const STAGES: LearningStage[] = [...base.STAGES, ...MATH_BATCH7_STAGES, ...BAHASA_BATCH8_STAGES];
 
 const SUBJECT_MAP = new Map(SUBJECTS.map((item) => [item.id, item]));
 const STAGE_MAP = new Map(STAGES.map((item) => [item.id, item]));
