@@ -83,8 +83,8 @@ try {
     activities: 34,
     skills: 18,
     mechanics: 7,
-    assessedActivities: 28,
-    practiceActivities: 6
+    assessedActivities: 27,
+    practiceActivities: 7
   });
   assert.equal(report.warnings.length, 2, "only the two explicit Iqro expert-review-required packs should warn after Batch 6");
   assert.ok(report.warnings.every((item) => item.code === "EXPERT_REVIEW_REQUIRED"));
