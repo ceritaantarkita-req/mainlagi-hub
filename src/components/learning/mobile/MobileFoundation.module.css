@@ -1,0 +1,245 @@
+.foundation {
+  --ml-mobile-min-width: 320px;
+  --ml-page-max: 1120px;
+  --ml-page-narrow: 760px;
+  --ml-page-gutter: clamp(14px, 4vw, 24px);
+  --ml-section-gap: clamp(22px, 5vw, 34px);
+  --ml-card-gap: clamp(10px, 2.8vw, 16px);
+  --ml-card-radius: clamp(18px, 5vw, 26px);
+  --ml-control-radius: clamp(14px, 4vw, 18px);
+  --ml-touch-min: 44px;
+  --ml-header-min: 62px;
+  --ml-dock-control: 54px;
+  --ml-safe-top: env(safe-area-inset-top, 0px);
+  --ml-safe-right: env(safe-area-inset-right, 0px);
+  --ml-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --ml-safe-left: env(safe-area-inset-left, 0px);
+  --ml-dock-offset: max(9px, var(--ml-safe-bottom));
+  --ml-dock-height: 68px;
+  --ml-content-bottom: calc(var(--ml-dock-height) + var(--ml-dock-offset) + 28px);
+  --ml-title-size: clamp(28px, 8vw, 46px);
+  --ml-section-title-size: clamp(20px, 5.8vw, 28px);
+  --ml-body-size: clamp(14px, 3.8vw, 16px);
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 100dvh;
+  text-size-adjust: 100%;
+}
+
+.foundation,
+.foundation *,
+.foundation *::before,
+.foundation *::after {
+  box-sizing: border-box;
+}
+
+.foundation :where(main, section, article, header, footer, nav, div, form, fieldset) {
+  min-width: 0;
+}
+
+.foundation :where(img, video, canvas) {
+  max-width: 100%;
+  height: auto;
+}
+
+.foundation :where(svg) {
+  max-width: 100%;
+}
+
+.foundation :where(button, input, select, textarea) {
+  font: inherit;
+}
+
+.foundation :where(button, input, select) {
+  min-height: var(--ml-touch-min);
+}
+
+.foundation :where(button, a, input, select, textarea) {
+  touch-action: manipulation;
+}
+
+.foundation :where(h1, h2, h3, p, strong, small, span, label) {
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.page,
+.pageNarrow {
+  width: min(var(--ml-page-max), 100%);
+  margin-inline: auto;
+  padding-inline: max(var(--ml-page-gutter), var(--ml-safe-left));
+  padding-right: max(var(--ml-page-gutter), var(--ml-safe-right));
+  padding-bottom: var(--ml-content-bottom);
+}
+
+.pageNarrow {
+  width: min(var(--ml-page-narrow), 100%);
+}
+
+.stack {
+  display: grid;
+  gap: var(--ml-card-gap);
+  min-width: 0;
+}
+
+.section {
+  min-width: 0;
+  margin-top: var(--ml-section-gap);
+}
+
+.grid,
+.gridCompact {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: var(--ml-card-gap);
+}
+
+.gridCompact {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
+}
+
+.actionRow {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.actionRow > * {
+  min-width: min(100%, 152px);
+  flex: 1 1 152px;
+}
+
+.scrollRow {
+  display: flex;
+  min-width: 0;
+  gap: var(--ml-card-gap);
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.scrollRow::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollRow > * {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+}
+
+.card {
+  min-width: 0;
+  max-width: 100%;
+  border-radius: var(--ml-card-radius);
+}
+
+.touchTarget {
+  display: inline-flex;
+  min-width: var(--ml-touch-min);
+  min-height: var(--ml-touch-min);
+  align-items: center;
+  justify-content: center;
+  touch-action: manipulation;
+}
+
+.stickyHeader {
+  position: sticky;
+  top: 0;
+  z-index: 80;
+  min-height: calc(var(--ml-header-min) + var(--ml-safe-top));
+  padding-top: var(--ml-safe-top);
+}
+
+.bottomDock {
+  position: fixed;
+  z-index: 100;
+  right: max(10px, var(--ml-safe-right));
+  bottom: var(--ml-dock-offset);
+  left: max(10px, var(--ml-safe-left));
+  width: min(560px, calc(100% - max(20px, var(--ml-safe-left) + var(--ml-safe-right))));
+  max-width: calc(100% - max(20px, var(--ml-safe-left) + var(--ml-safe-right)));
+  margin-inline: auto;
+}
+
+.bottomDock > * {
+  min-width: 0;
+  min-height: var(--ml-dock-control);
+}
+
+.dialog {
+  width: min(420px, calc(100vw - (2 * var(--ml-page-gutter))));
+  max-height: calc(100dvh - var(--ml-safe-top) - var(--ml-safe-bottom) - 32px);
+  overflow: auto;
+  overscroll-behavior: contain;
+  border-radius: var(--ml-card-radius);
+}
+
+.activityViewport {
+  width: min(720px, 100%);
+  min-width: 0;
+  max-width: 100%;
+  margin-inline: auto;
+}
+
+.activityViewport :where(canvas, svg, video) {
+  max-width: 100%;
+}
+
+.fullBleedMobile {
+  margin-inline: calc(-1 * var(--ml-page-gutter));
+  padding-inline: var(--ml-page-gutter);
+}
+
+@media (max-width: 359px) {
+  .foundation {
+    --ml-page-gutter: 12px;
+    --ml-card-gap: 9px;
+    --ml-card-radius: 18px;
+    --ml-control-radius: 14px;
+    --ml-title-size: clamp(26px, 9vw, 34px);
+    --ml-body-size: 14px;
+  }
+
+  .actionRow {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .actionRow > * {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+@media (min-width: 520px) {
+  .foundation {
+    --ml-page-gutter: clamp(20px, 4vw, 32px);
+    --ml-card-gap: 16px;
+  }
+}
+
+@media (min-width: 760px) {
+  .foundation {
+    --ml-page-gutter: 28px;
+    --ml-section-gap: 36px;
+    --ml-card-gap: 18px;
+    --ml-content-bottom: 40px;
+  }
+
+  .bottomDock {
+    bottom: max(14px, var(--ml-safe-bottom));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .foundation *,
+  .foundation *::before,
+  .foundation *::after {
+    scroll-behavior: auto !important;
+  }
+}
