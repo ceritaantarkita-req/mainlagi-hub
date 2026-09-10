@@ -31,6 +31,9 @@ const WORLD_META: Record<LearningSubjectId, { name: string; place: string; helpe
   english: { name: "English", place: "English Space", helper: "Listen, play & speak" },
   math: { name: "Matematika", place: "Kota Angka", helper: "Angka, pola & logika" },
   iqro: { name: "Iqro", place: "Taman Iqro", helper: "Huruf Hijaiyah" },
+  letters: { name: "Menulis", place: "Studio Huruf", helper: "Huruf & gerak menulis" },
+  logic: { name: "Logika", place: "Pulau Logika", helper: "Cocok, beda & bandingkan" },
+  science: { name: "Sains", place: "Taman Sains", helper: "Hewan, tumbuhan & alam" },
   color: { name: "Mewarnai", place: "Studio Warna", helper: "Warna & kreativitas" }
 };
 
@@ -86,6 +89,35 @@ function WorldGlyph({ subject }: { subject: LearningSubjectId }) {
         <path d="M36 76V46c10-18 38-18 48 0v30Z" fill="#55b98b" />
         <path d="M47 76V50c6-10 20-10 26 0v26Z" fill="#fff3c8" />
         <path d="M62 20c-8 2-12 9-10 16 2 8 11 12 19 8-6 8-18 10-26 4-9-7-10-20-3-29 6-8 15-10 20-8Z" fill="#ffd760" />
+      </svg>
+    );
+  }
+  if (subject === "letters") {
+    return (
+      <svg viewBox="0 0 120 96" aria-hidden>
+        <rect x="24" y="18" width="72" height="61" rx="16" fill="#f5f0ff" />
+        <path d="M43 68 59 29l18 39M49 53h22" stroke="#705bd9" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="m85 20 12 12-30 30-16 4 4-16Z" fill="#ffd363" stroke="#6f597b" strokeWidth="3" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+  if (subject === "logic") {
+    return (
+      <svg viewBox="0 0 120 96" aria-hidden>
+        <circle cx="43" cy="45" r="22" fill="#fff0ce" stroke="#d97442" strokeWidth="5" />
+        <rect x="64" y="27" width="38" height="38" rx="10" fill="#ffe0cf" stroke="#d97442" strokeWidth="5" />
+        <path d="M33 45h20M43 35v20M73 46h20" stroke="#714b3e" strokeWidth="5" strokeLinecap="round" />
+        <path d="m79 71 7 7 15-17" fill="none" stroke="#4fa76c" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+  if (subject === "science") {
+    return (
+      <svg viewBox="0 0 120 96" aria-hidden>
+        <path d="M55 20v29L35 76h50L65 49V20" fill="#e8fff0" stroke="#39865b" strokeWidth="5" strokeLinejoin="round" />
+        <path d="M43 64h34" stroke="#64c98b" strokeWidth="9" strokeLinecap="round" />
+        <circle cx="82" cy="29" r="9" fill="#ffd65d" />
+        <path d="M27 67c2-16 9-26 21-30-1 14-8 25-21 30Z" fill="#64c98b" />
       </svg>
     );
   }
@@ -169,8 +201,9 @@ export function WorldChildShell({ childId, children }: { childId: string; childr
 
 function WorldPortal({ childId, subject }: { childId: string; subject: LearningSubjectId }) {
   const meta = WORLD_META[subject];
+  const subjectMeta = getSubject(subject);
   return (
-    <Link href={`/child/${childId}/subject/${subject}`} className={`${styles.portal} ${styles[`portal_${subject}`]}`}>
+    <Link href={`/child/${childId}/subject/${subject}`} className={`${styles.portal} ${styles[`portal_${subject}`]}`} style={{ "--portal-accent": subjectMeta?.accent } as CSSProperties}>
       <span className={styles.portalHalo} />
       <span className={styles.portalArt}><WorldGlyph subject={subject} /></span>
       <span className={styles.portalCopy}><strong>{meta.place}</strong><span>{meta.helper}</span></span>
@@ -223,11 +256,7 @@ export function MainlagiWorldHome({ childId }: { childId: string }) {
           <span>Sentuh tempat yang kamu suka</span>
         </div>
         <div className={styles.worldMap}>
-          <WorldPortal childId={childId} subject="bahasa" />
-          <WorldPortal childId={childId} subject="english" />
-          <WorldPortal childId={childId} subject="math" />
-          <WorldPortal childId={childId} subject="iqro" />
-          <WorldPortal childId={childId} subject="color" />
+          {SUBJECTS.map((subject) => <WorldPortal key={subject.id} childId={childId} subject={subject.id} />)}
           <span className={styles.mapPath} aria-hidden />
         </div>
       </section>
