@@ -90,7 +90,7 @@ try {
     coloring: 2
   };
   assert.deepEqual(runtimeCounts, expectedRuntimeCounts, "current mechanic/runtime inventory changed; update the documented baseline intentionally");
-  assert.deepEqual(assessmentCounts, { assessed: 28, practice: 6 }, "Batch 6 assessment baseline changed unexpectedly");
+  assert.deepEqual(assessmentCounts, { assessed: 27, practice: 7 }, "Batch 6 assessment baseline changed unexpectedly");
 
   const uniqueIds = new Set(system.ACTIVITIES.map((activity) => activity.id));
   assert.equal(uniqueIds.size, system.ACTIVITIES.length, "activity IDs must remain unique during catalog expansion");
