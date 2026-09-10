@@ -236,6 +236,7 @@
 
 @media (max-width: 759px) {
   .routeBoundary :where(a[href], button, input:not([type="hidden"]), select, [role="button"]) {
+    min-width: var(--ml-touch-min);
     min-height: var(--ml-touch-min);
   }
 
