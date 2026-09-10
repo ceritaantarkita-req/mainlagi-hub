@@ -2,11 +2,9 @@
 
 Last reviewed: 10 September 2026
 
-This document is the Batch 0 expansion baseline for the Mainlagi learning library. It records what is actually represented by the canonical runtime/catalog before the large content expansion starts.
+This document tracks the actual playable catalog separately from authoring/runtime capabilities. Mainlagi grows through validated content packs plus reusable mechanics; adding a mechanic contract does **not** by itself count as adding a playable learning activity.
 
-The long-term product target is not to create hundreds of duplicated React game components. Mainlagi will grow through reusable mechanics plus validated content packs, stable skill mappings, age/difficulty metadata, and evidence contracts.
-
-## Current baseline
+## Current playable baseline
 
 | Subject | Playable activities | Assessed | Practice | Skills | Mandatory expansion target | Gap |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -16,7 +14,7 @@ The long-term product target is not to create hundreds of duplicated React game 
 | Iqro | 4 | 3 | 1 | 2 | 90 | 86 |
 | Coloring | 2 | 0 | 2 | 1 | not part of the 90-game requirement | — |
 
-Current total: **25 playable activities**.
+Current total: **25 playable activities** — 19 assessed and 6 practice.
 
 Mandatory four-subject target: **360 playable activities minimum**.
 
@@ -30,20 +28,21 @@ Planned parity target for the three new first-class subjects:
 
 If parity targets are completed, the seven major learning subjects will contain approximately **630 playable learning activities**, excluding Coloring and optional legacy motion games.
 
-## Current curriculum hierarchy
+## Current authoring hierarchy
 
 - subjects: 5
 - learning paths: 5
 - stages: 7
 - lessons: 13
-- activities: 25
+- versioned content packs: 13
+- playable activities: 25
 - skills: 12
 
-All current stages are owned by a learning path and all current activities are owned by a lesson.
+Every current stage is owned by one learning path, every current activity is owned by one lesson and one content pack, and all 25 historical activity IDs remain stable.
 
-## Current mechanic/runtime inventory
+## Current playable runtime inventory
 
-| Runtime | Count |
+| Runtime used by current content | Count |
 | --- | ---: |
 | Tap choice | 6 |
 | Listen and choose | 5 |
@@ -53,32 +52,41 @@ All current stages are owned by a learning path and all current activities are o
 | Motion game | 3 |
 | Coloring | 2 |
 
-Current reusable-mechanic breadth is therefore still too narrow for a 600+ activity catalog. Batch 5 expands this into a broader mechanic library instead of solving quantity through duplicated one-off components.
+These counts describe the 25 activities that are actually playable today.
 
-## Assessment baseline
+## Batch 5 reusable mechanic capability
 
-- assessed activities: 19
-- practice activities: 6
-- completion-only/practice content remains unable to manufacture academic accuracy
-- optional motion activities remain outside core stage completion
-- `math-trace-5-touch` is currently the only assessed guided-trace activity
+Batch 5 expands authoring/runtime capability to **20 reusable mechanic contracts** without inflating the playable activity count:
+
+| Family | Reusable mechanics |
+| --- | --- |
+| Choice | tap choice, listen-and-choose, pattern completion, odd-one-out, compare, missing item, story comprehension, find-object |
+| Pairing | matching, draw-line matching, memory pairs |
+| Targeting | drag-to-target |
+| Classification | sort/classify |
+| Ordering | ordering/sequence, connect-dots |
+| Path | guided trace, maze/path |
+| Practice-only | story, coloring, optional motion wrapper |
+
+Of the 20 mechanic contracts, **17 support assessed + practice mode** and **3 are intentionally practice-only**. Assessed mechanics require measured evidence; absent measurement fails closed to completion-only. Story, coloring, and optional motion wrapper cannot self-promote into academic mastery evidence.
+
+Batch 5 therefore increases **mechanic capability from the 7 mechanics represented by current content to a 20-mechanic reusable library**, but current playable activity count stays **25** until later content waves instantiate the new mechanics.
 
 ## What counts toward the future target
 
-A playable activity is counted as distinct only when it has meaningful educational or interaction variation, such as a different skill objective, content set, difficulty, mechanic, problem structure, or intentionally spaced review content.
+A playable activity counts as distinct only when it has meaningful educational or interaction variation, such as a different skill objective, content set, difficulty, mechanic, problem structure, or intentionally spaced review content.
 
 The following do **not** count as a distinct game by themselves:
 
 - the same question with answer order shuffled;
 - a cosmetic color change;
 - the same answer with a different emoji and no learning change;
-- duplicate content with a new ID.
+- duplicate content with a new ID;
+- a mechanic definition that has no activity/content instance.
 
 ## Expansion gates
 
-Batch-by-batch CI will prevent the library from dropping below the established baseline. The minimum count gates will be raised as each 30-activity content wave lands.
-
-Planned subject waves:
+Batch-by-batch CI prevents the library from dropping below the established baseline. Count floors rise only when reviewed content waves land.
 
 ```text
 Wave A: 1–30
@@ -86,7 +94,7 @@ Wave B: 31–60
 Wave C: 61–90
 ```
 
-Bulk content creation begins only after the mobile foundation, voice latency work, scalable content schema, reusable mechanics, and new subject foundations are ready.
+Bulk content creation begins after the mobile foundation, AudioManager, scalable content schema, reusable mechanic library, and new subject foundations are ready.
 
 ## Learning-integrity requirements during expansion
 
@@ -94,27 +102,27 @@ Every new assessed activity must resolve to:
 
 ```text
 activity
- -> known subject/stage/lesson
- -> learning catalog spec
+ -> known subject/path/stage/lesson/content pack
  -> known skill(s)
- -> supported measurable mechanic
- -> valid evidence contract
+ -> supported reusable mechanic
+ -> valid payload contract
+ -> valid measurable evidence contract
 ```
 
-Mastery remains cumulative. A large activity library must not make mastery easier to farm through repeated trivial variants.
+Mastery remains cumulative. A large activity library must not make mastery easier to farm through repeated trivial variants. Measured zero-score attempts remain weak evidence instead of disappearing; unmeasured completion cannot become assessed evidence.
 
-## Batch 0 automated contract
+## Automated contracts
 
-`scripts/run-expansion-baseline-tests.mjs` verifies:
+Current expansion tests cover:
 
-- the known Batch 0 activity/path/stage/lesson/skill inventory;
-- subject activity floors;
-- activity ID uniqueness;
-- runtime/catalog subject and stage consistency;
-- valid child age ranges;
-- current runtime inventory;
-- assessed/practice inventory;
-- curriculum coverage;
-- existence of local speech-start latency instrumentation.
+- playable subject/activity floors and runtime inventory;
+- stable activity IDs and hierarchy ownership;
+- content-pack version/age/skill/asset/answer/duplicate validation;
+- deterministic future content IDs;
+- reusable mechanic count and unique IDs;
+- payload integrity for choice/pair/target/classification/order/path families;
+- explicit mechanic evidence contracts and practice-only boundaries;
+- hint/retry handoff to the existing mastery penalty logic;
+- additive DB mechanic/evidence vocabulary compatibility.
 
-The four 90-game targets are intentionally recorded as future targets rather than enforced as passing minimums in Batch 0. Their CI floors will be raised only when the corresponding content waves are implemented and reviewed.
+The 90-game targets remain future content targets and are not falsely counted as complete before their activity instances exist and pass review.
