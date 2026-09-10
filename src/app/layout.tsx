@@ -4,6 +4,7 @@ import "@fontsource-variable/noto-sans";
 import "./globals.css";
 import "./modules.css";
 import { AppShell } from "@/components/AppShell";
+import { AudioRouteBridge } from "@/components/audio/AudioRouteBridge";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { LearningCloudOutboxBridge } from "@/components/learning/LearningCloudOutboxBridge";
 
@@ -66,6 +67,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       </head>
       <body>
         <ThemeProvider>
+          <AudioRouteBridge />
           <LearningCloudOutboxBridge />
           <AppShell>{children}</AppShell>
         </ThemeProvider>

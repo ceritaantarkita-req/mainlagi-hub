@@ -9,6 +9,7 @@ cloudflare-env.d.ts
 out/
 dist/
 .qa-dist/
+.audio-test-dist/
 .mobile-route-qa/
 .env
 .env.local

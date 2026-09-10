@@ -64,16 +64,18 @@ try {
   assert.doesNotMatch(bridgeSource, /resetCount \* 0\.1/, "trace accuracy must never be manufactured from reset count again");
   assert.match(bridgeSource, /completion-only instead of manufacturing accuracy/i, "unmeasured trace fallback must stay conservative");
 
-  const audioSource = readFileSync(path.join(root, "src/lib/audio/feedback.ts"), "utf8");
-  assert.match(audioSource, /export function speakWithStatus/, "audio layer must expose visible speech start status");
-  assert.match(audioSource, /"unavailable"/, "audio layer must identify unsupported speech devices");
-  assert.match(audioSource, /export function stopSpeech/, "speech playback must be cancellable");
+  const audioFacadeSource = readFileSync(path.join(root, "src/lib/audio/feedback.ts"), "utf8");
+  const audioManagerSource = readFileSync(path.join(root, "src/lib/audio/AudioManager.ts"), "utf8");
+  assert.match(audioFacadeSource, /export function speakWithStatus/, "audio facade must expose visible speech start status");
+  assert.match(audioManagerSource, /"unavailable"/, "AudioManager must identify unsupported speech devices");
+  assert.match(audioFacadeSource, /export function stopSpeech/, "speech playback must remain cancellable through the facade");
+  assert.match(audioFacadeSource, /audioManager\.speakPrompt/, "status-aware speech must delegate to the canonical AudioManager");
 
   const audioUi = readFileSync(path.join(root, "src/components/learning/AudioChoiceLearningActivity.tsx"), "utf8");
   assert.match(audioUi, /Audio fallback:/, "listening UI must expose a readable audio fallback");
   assert.match(audioUi, /speakWithStatus/, "listening UI must use status-aware speech");
 
-  console.log("Learning runtime measurement, guided trace, and audio fallback tests passed.");
+  console.log("Learning runtime measurement, guided trace, and canonical AudioManager fallback tests passed.");
 } catch (error) {
   console.error(error);
   process.exit(1);
