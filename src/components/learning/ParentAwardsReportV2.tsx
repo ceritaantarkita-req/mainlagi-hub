@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CHARACTERS, SUBJECTS, getActivity, type LearningSubjectId } from "@/lib/learning/system";
+import { CHARACTERS, SUBJECTS, getActivity } from "@/lib/learning/system";
 import {
   getCertificateEligibility,
   getNextBestLearningRecommendation,
