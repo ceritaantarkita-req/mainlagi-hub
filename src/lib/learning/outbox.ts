@@ -1,7 +1,8 @@
 "use client";
 
+import { isSupabaseConfigured } from "@/lib/auth/supabase-auth";
 import { getBrowserClient } from "@/lib/auth/supabase-client";
-import { isSupabaseConfigured, syncLearningAttemptCloud } from "./cloud";
+import { syncLearningAttemptCloud } from "./cloud";
 import type { LearningAttemptRecord } from "./attempts";
 import {
   MAX_AUTO_RETRIES,
