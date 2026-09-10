@@ -4,7 +4,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { GameDefinition } from "@/lib/data/games";
-import { unlockAudio } from "@/lib/audio/feedback";
+import { speakSystem, unlockAudio } from "@/lib/audio/feedback";
 import type { PlayerId } from "@/lib/engine/types";
 import type { VisionRuntime, VisionSnapshot } from "@/lib/vision/types";
 import { usePlayerGesture, useVisionValue } from "@/lib/vision/useVisionSelector";
@@ -43,11 +43,11 @@ function hasRaisedHands(snapshot: VisionSnapshot): boolean {
 }
 
 function announceReady(): void {
-  if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
-  const utterance = new SpeechSynthesisUtterance("Siap. Ayo main.");
-  utterance.lang = "id-ID";
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(utterance);
+  speakSystem("Siap. Ayo main.", {
+    lang: "id-ID",
+    key: "preflight-ready",
+    interrupt: true
+  });
 }
 
 export function PreflightPanel({
