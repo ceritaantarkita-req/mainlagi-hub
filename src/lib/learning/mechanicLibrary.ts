@@ -23,15 +23,7 @@ export type ReusableMechanicId =
   | "find_object";
 
 export type MechanicAssessmentMode = "assessed" | "practice";
-export type MechanicInteractionFamily =
-  | "choice"
-  | "pairing"
-  | "targeting"
-  | "classification"
-  | "ordering"
-  | "path"
-  | "practice";
-
+export type MechanicInteractionFamily = "choice" | "pairing" | "targeting" | "classification" | "ordering" | "path" | "practice";
 export type MechanicEvidenceContractId =
   | "choice_accuracy_v1"
   | "matching_accuracy_v1"
@@ -41,12 +33,7 @@ export type MechanicEvidenceContractId =
   | "guided_trace_path_v1"
   | "path_quality_v1"
   | "completion_only_v1";
-
-export type MechanicScoringModel =
-  | "discrete_accuracy"
-  | "path_quality"
-  | "completion_only";
-
+export type MechanicScoringModel = "discrete_accuracy" | "path_quality" | "completion_only";
 export type MechanicAccuracyBehavior = "required_measured" | "not_applicable";
 export type MechanicCountBehavior = "required" | "tracked" | "not_applicable";
 export type MechanicAssistBehavior = "tracked_mastery_penalty" | "tracked_only" | "not_supported";
@@ -73,26 +60,10 @@ export interface ReusableMechanicDefinition {
   behavior: MechanicBehaviorContract;
 }
 
-export interface MechanicOption {
-  id: string;
-  label: string;
-}
-
-export interface MechanicPair {
-  id: string;
-  left: MechanicOption;
-  right: MechanicOption;
-}
-
-export interface MechanicItem {
-  id: string;
-  label: string;
-}
-
-export interface MechanicTarget {
-  id: string;
-  label: string;
-}
+export interface MechanicOption { id: string; label: string }
+export interface MechanicPair { id: string; left: MechanicOption; right: MechanicOption }
+export interface MechanicItem { id: string; label: string }
+export interface MechanicTarget { id: string; label: string }
 
 export interface ReusableMechanicPayload {
   prompt?: string;
@@ -112,7 +83,7 @@ export interface ReusableMechanicPayload {
   gameSlug?: string;
 }
 
-const measured = (
+function measured(
   id: ReusableMechanicId,
   title: string,
   family: MechanicInteractionFamily,
@@ -120,53 +91,56 @@ const measured = (
   requiredPayloadKeys: readonly (keyof ReusableMechanicPayload)[],
   score: "normalized_accuracy" | "measured_path_quality" = "normalized_accuracy",
   correctIncorrect: MechanicCountBehavior = "required"
-): ReusableMechanicDefinition => ({
-  id,
-  title,
-  family,
-  assessmentModes: ["assessed", "practice"],
-  assessedEvidenceContract: evidence,
-  scoringModel: score === "measured_path_quality" ? "path_quality" : "discrete_accuracy",
-  requiredPayloadKeys,
-  behavior: {
-    score,
-    accuracy: "required_measured",
-    correctIncorrect,
-    hints: "tracked_mastery_penalty",
-    retries: "tracked_mastery_penalty",
-    completion: "explicit_runtime_completion",
-    mastery: "qualifying_measured_evidence"
-  }
-});
+): ReusableMechanicDefinition {
+  return {
+    id,
+    title,
+    family,
+    assessmentModes: ["assessed", "practice"],
+    assessedEvidenceContract: evidence,
+    scoringModel: score === "measured_path_quality" ? "path_quality" : "discrete_accuracy",
+    requiredPayloadKeys,
+    behavior: {
+      score,
+      accuracy: "required_measured",
+      correctIncorrect,
+      hints: "tracked_mastery_penalty",
+      retries: "tracked_mastery_penalty",
+      completion: "explicit_runtime_completion",
+      mastery: "qualifying_measured_evidence"
+    }
+  };
+}
 
-const practiceOnly = (
+function practiceOnly(
   id: ReusableMechanicId,
   title: string,
   requiredPayloadKeys: readonly (keyof ReusableMechanicPayload)[]
-): ReusableMechanicDefinition => ({
-  id,
-  title,
-  family: "practice",
-  assessmentModes: ["practice"],
-  scoringModel: "completion_only",
-  requiredPayloadKeys,
-  behavior: {
-    score: "completion_only",
-    accuracy: "not_applicable",
-    correctIncorrect: "not_applicable",
-    hints: "tracked_only",
-    retries: "tracked_only",
-    completion: "explicit_runtime_completion",
-    mastery: "practice_only"
-  }
-});
+): ReusableMechanicDefinition {
+  return {
+    id,
+    title,
+    family: "practice",
+    assessmentModes: ["practice"],
+    scoringModel: "completion_only",
+    requiredPayloadKeys,
+    behavior: {
+      score: "completion_only",
+      accuracy: "not_applicable",
+      correctIncorrect: "not_applicable",
+      hints: "tracked_only",
+      retries: "tracked_only",
+      completion: "explicit_runtime_completion",
+      mastery: "practice_only"
+    }
+  };
+}
 
 /**
- * Canonical reusable mechanic vocabulary for expansion batches.
- *
- * Existing Mainlagi activities continue to use their historical runtime and
- * mechanic identifiers. New content can compose these definitions instead of
- * introducing a bespoke component/evidence formula for every activity.
+ * Canonical mechanic vocabulary used by future content packs. Existing
+ * activities keep their historical runtime IDs while new content composes a
+ * reusable interaction/evidence contract instead of inventing one-off score
+ * formulas or React engines.
  */
 export const REUSABLE_MECHANICS: Record<ReusableMechanicId, ReusableMechanicDefinition> = {
   tap_choice: measured("tap_choice", "Tap choice", "choice", "choice_accuracy_v1", ["prompt", "options", "correctOptionId"]),
@@ -197,6 +171,19 @@ export function getReusableMechanic(id: string): ReusableMechanicDefinition | un
   return REUSABLE_MECHANICS[id as ReusableMechanicId];
 }
 
+/** Resolve the only evidence contract an author may declare for a mechanic. */
+export function resolveMechanicEvidenceContract(
+  mechanicId: ReusableMechanicId,
+  assessment: MechanicAssessmentMode
+): MechanicEvidenceContractId {
+  const mechanic = REUSABLE_MECHANICS[mechanicId];
+  if (assessment === "practice") return "completion_only_v1";
+  if (!mechanic.assessmentModes.includes("assessed") || !mechanic.assessedEvidenceContract) {
+    throw new Error(`${mechanicId} does not support assessed evidence`);
+  }
+  return mechanic.assessedEvidenceContract;
+}
+
 function clamp01(value: number): number {
   if (!Number.isFinite(value)) return 0;
   return Math.max(0, Math.min(1, value));
@@ -215,10 +202,7 @@ function uniqueIds(values: readonly { id: string }[]): boolean {
   return values.every((value) => validId(value.id)) && new Set(values.map((value) => value.id)).size === values.length;
 }
 
-export interface MechanicPayloadValidation {
-  valid: boolean;
-  errors: string[];
-}
+export interface MechanicPayloadValidation { valid: boolean; errors: string[] }
 
 export function validateReusableMechanicPayload(
   mechanicId: ReusableMechanicId,
@@ -246,8 +230,9 @@ export function validateReusableMechanicPayload(
     const pairs = payload.pairs ?? [];
     if (pairs.length < 2) errors.push(`${mechanicId}: pairing mechanics need at least two pairs`);
     if (!uniqueIds(pairs)) errors.push(`${mechanicId}: pair IDs must be unique non-empty strings`);
-    const itemIds = pairs.flatMap((pair) => [pair.left, pair.right]);
-    if (!uniqueIds(itemIds)) errors.push(`${mechanicId}: pair item IDs must be unique non-empty strings`);
+    if (!uniqueIds(pairs.flatMap((pair) => [pair.left, pair.right]))) {
+      errors.push(`${mechanicId}: pair item IDs must be unique non-empty strings`);
+    }
   }
 
   if (definition.family === "targeting" || definition.family === "classification") {
@@ -258,12 +243,8 @@ export function validateReusableMechanicPayload(
     if (!uniqueIds(items)) errors.push(`${mechanicId}: item IDs must be unique non-empty strings`);
     if (!uniqueIds(destinations)) errors.push(`${mechanicId}: destination IDs must be unique non-empty strings`);
     const destinationIds = new Set(destinations.map((item) => item.id));
-    for (const item of items) {
-      const destinationId = payload.assignments?.[item.id];
-      if (!destinationId || !destinationIds.has(destinationId)) {
-        errors.push(`${mechanicId}: every item must resolve to a known destination`);
-        break;
-      }
+    if (items.some((item) => !payload.assignments?.[item.id] || !destinationIds.has(payload.assignments[item.id]))) {
+      errors.push(`${mechanicId}: every item must resolve to a known destination`);
     }
   }
 
@@ -292,14 +273,12 @@ export function validateReusableMechanicPayload(
     }
   }
 
-  if (mechanicId === "story" || mechanicId === "story_comprehension") {
-    if ((payload.storyLines ?? []).length === 0) errors.push(`${mechanicId}: storyLines cannot be empty`);
+  if ((mechanicId === "story" || mechanicId === "story_comprehension") && (payload.storyLines ?? []).length === 0) {
+    errors.push(`${mechanicId}: storyLines cannot be empty`);
   }
-
   if (mechanicId === "coloring" && (!payload.assetRef || !payload.assetRef.startsWith("/") || payload.assetRef.includes(".."))) {
     errors.push(`${mechanicId}: assetRef must be a safe public-root path`);
   }
-
   if (mechanicId === "motion_game" && !validId(payload.gameSlug)) {
     errors.push(`${mechanicId}: gameSlug must be a non-empty stable slug`);
   }
@@ -326,21 +305,10 @@ export type MechanicSessionEvent =
   | { type: "complete" };
 
 export function createMechanicSession(startedAtMs = Date.now()): MechanicSessionState {
-  return {
-    startedAtMs,
-    correctCount: 0,
-    incorrectCount: 0,
-    hintCount: 0,
-    retryCount: 0,
-    completed: false,
-    qualityScore: null
-  };
+  return { startedAtMs, correctCount: 0, incorrectCount: 0, hintCount: 0, retryCount: 0, completed: false, qualityScore: null };
 }
 
-export function applyMechanicSessionEvent(
-  state: MechanicSessionState,
-  event: MechanicSessionEvent
-): MechanicSessionState {
+export function applyMechanicSessionEvent(state: MechanicSessionState, event: MechanicSessionEvent): MechanicSessionState {
   const next = { ...state };
   if (event.type === "correct") next.correctCount += cleanCount(event.count ?? 1);
   if (event.type === "incorrect") next.incorrectCount += cleanCount(event.count ?? 1);
@@ -380,11 +348,9 @@ function completionOnlyOutcome(
 }
 
 /**
- * Converts a reusable mechanic session into the canonical learning attempt
- * outcome. Missing measurement always fails closed to completion-only; a
- * practice mechanic can never self-promote into assessed mastery evidence.
- * Hint/retry counts are retained so the existing mastery engine can apply its
- * independence penalty exactly once.
+ * Convert a mechanic session to the canonical learning-attempt outcome.
+ * Missing measurement fails closed. A measured all-wrong attempt remains
+ * valid evidence with accuracy 0 so weak evidence is not silently discarded.
  */
 export function finalizeReusableMechanicOutcome(args: {
   mechanicId: ReusableMechanicId;
@@ -395,20 +361,15 @@ export function finalizeReusableMechanicOutcome(args: {
   const definition = REUSABLE_MECHANICS[args.mechanicId];
   const completedAtMs = args.completedAtMs ?? Date.now();
 
-  if (!args.state.completed) {
-    return completionOnlyOutcome(args.mechanicId, args.state, completedAtMs, "runtime_not_completed");
-  }
-
+  if (!args.state.completed) return completionOnlyOutcome(args.mechanicId, args.state, completedAtMs, "runtime_not_completed");
   if (args.assessment === "practice" || !definition.assessmentModes.includes("assessed")) {
     return completionOnlyOutcome(args.mechanicId, args.state, completedAtMs, "practice_only");
   }
 
-  let accuracy: number | null = null;
+  let accuracy: number;
   if (definition.scoringModel === "discrete_accuracy") {
     const total = args.state.correctCount + args.state.incorrectCount;
-    if (total <= 0 || args.state.correctCount <= 0) {
-      return completionOnlyOutcome(args.mechanicId, args.state, completedAtMs, "missing_discrete_measurement");
-    }
+    if (total <= 0) return completionOnlyOutcome(args.mechanicId, args.state, completedAtMs, "missing_discrete_measurement");
     accuracy = clamp01(args.state.correctCount / total);
   } else if (definition.scoringModel === "path_quality") {
     if (args.state.qualityScore === null || !Number.isFinite(args.state.qualityScore)) {
@@ -434,7 +395,7 @@ export function finalizeReusableMechanicOutcome(args: {
     metadata: {
       source: "reusable-mechanic-library",
       mechanicId: args.mechanicId,
-      evidenceContract: definition.assessedEvidenceContract,
+      evidenceContract: resolveMechanicEvidenceContract(args.mechanicId, "assessed"),
       evidenceFidelity: `mechanic_${definition.assessedEvidenceContract}`,
       measurementReason: "measured"
     }
@@ -452,7 +413,6 @@ export interface MechanicLibraryValidation {
 export function validateMechanicLibrary(): MechanicLibraryValidation {
   const errors: string[] = [];
   const ids = Object.keys(REUSABLE_MECHANICS) as ReusableMechanicId[];
-
   if (ids.length !== 20) errors.push(`Expected 20 reusable mechanics, found ${ids.length}`);
   if (new Set(ids).size !== ids.length) errors.push("Mechanic IDs must be unique");
 
@@ -461,7 +421,6 @@ export function validateMechanicLibrary(): MechanicLibraryValidation {
     if (definition.id !== id) errors.push(`${id}: definition id drift`);
     if (definition.requiredPayloadKeys.length === 0) errors.push(`${id}: required payload contract cannot be empty`);
     if (new Set(definition.requiredPayloadKeys).size !== definition.requiredPayloadKeys.length) errors.push(`${id}: duplicate required payload keys`);
-
     const supportsAssessed = definition.assessmentModes.includes("assessed");
     if (supportsAssessed) {
       if (!definition.assessedEvidenceContract) errors.push(`${id}: assessed mechanic needs an evidence contract`);
