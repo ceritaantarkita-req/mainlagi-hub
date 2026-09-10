@@ -10,17 +10,17 @@ This is the canonical repository copy of the major Mainlagi expansion plan agree
 2. Reduce Mainlagi-controlled voice/TTS latency and consolidate speech handling.
 3. Replace the small hand-authored catalog model with a scalable content architecture.
 4. Build a reusable mechanic library rather than hundreds of duplicated components.
-5. Reach at least 90 playable activities each for Math, Bahasa Indonesia, English, and Iqro.
-6. Add Letters/Menulis, Logic, and Science as first-class subjects, targeting 90 playable activities each for product parity.
+5. Reach at least 100 playable activities each for Math, Bahasa Indonesia, English, and Iqro.
+6. Add Letters/Menulis, Logic, and Science as first-class subjects, targeting 100 playable activities each for product parity.
 7. Preserve evidence integrity, mastery anti-farming, stage readiness, adaptive learning, parent reporting, offline sync, ownership, and child-safety boundaries as the catalog grows.
 
-The four mandatory 90-game subjects represent at least **360** playable activities. If the three new subjects also reach parity, the seven major subjects represent approximately **630** playable activities, excluding Coloring and optional motion games.
+The four mandatory 100-game subjects represent at least **360** playable activities. If the three new subjects also reach parity, the seven major subjects represent approximately **630** playable activities, excluding Coloring and optional motion games.
 
 A "game" in this target means a meaningfully distinct playable learning experience/level, not a separate React engine. Reordering the same answers or changing cosmetic colors does not create a new game.
 
 ## Engineering rules
 
-- mobile-first: release-critical widths are 320, 360, 375, 390, and 430 px;
+- mobile-first: release-critical widths are 320, 360, 375, 3100, and 430 px;
 - core learning remains touch-first; camera is optional;
 - completion-only activities never manufacture academic accuracy;
 - assessed activities need a measurable evidence contract;
@@ -57,7 +57,7 @@ Batch 1 landed through PR #30 and established the reusable mobile foundation use
 - [x] Migrate child entry/profile/home/library/subject/stage/activity/games/rewards surfaces to semantic mobile route boundaries.
 - [x] Migrate Parent surfaces to the same foundation and collapse the desktop sidebar into a phone-safe navigation strip.
 - [x] Migrate global game catalog/detail and `/play/[slug]` game surfaces to route boundaries.
-- [x] Add production-build Chromium QA at 320, 360, 375, 390, 430, 768, and 1024 px.
+- [x] Add production-build Chromium QA at 320, 360, 375, 3100, 430, 768, and 1024 px.
 - [x] Cover tap choice, audio choice, matching, trace, story, coloring, and motion-game wrapper representatives.
 - [x] Fail CI on document-level horizontal overflow, undersized child controls, render/framework errors, page errors, or console errors.
 - [x] Retain representative responsive screenshots as CI artifacts.
@@ -94,43 +94,43 @@ Target roughly 12–20 reusable mechanics including tap choice, listen-and-choos
 
 Add first-class Letters/Menulis, Logic, and Science subject IDs plus paths/stages/lessons/skills/age bands/stage requirements and starter content. Integrate them into child navigation, adaptive ranking, progression, Parent Dashboard, and reports.
 
-### Batch 7 — Math to 90
+### Batch 7 — Math to 100
 
 - Wave A 1–30: number recognition, counting, quantity matching/comparison, ordering.
 - Wave B 31–60: shapes, patterns, missing numbers, grouping, simple addition/subtraction, size/length.
-- Wave C 61–90: spatial position, measurement intuition, mixed operations, visual problems and review/challenge.
+- Wave C 61–100: spatial position, measurement intuition, mixed operations, visual problems and review/challenge.
 
-### Batch 8 — Bahasa Indonesia to 90
+### Batch 8 — Bahasa Indonesia to 100
 
 - Wave A 1–30: letters, vowels/consonants, initial sounds, case matching.
 - Wave B 31–60: syllables, words, picture-word matching, complete/order words, listening.
-- Wave C 61–90: simple sentences, story comprehension, vocabulary grouping, relations/opposites and mixed review.
+- Wave C 61–100: simple sentences, story comprehension, vocabulary grouping, relations/opposites and mixed review.
 
-### Batch 9 — English to 90
+### Batch 9 — English to 100
 
 - Wave A 1–30: alphabet, basic phonics awareness, colors, numbers, animals, objects.
 - Wave B 31–60: body, family, food, actions, categories, word-picture matching/listening.
-- Wave C 61–90: opposites, simple phrases/sentences, listening comprehension, review/challenge.
+- Wave C 61–100: opposites, simple phrases/sentences, listening comprehension, review/challenge.
 
-### Batch 10 — Iqro to 90
+### Batch 10 — Iqro to 100
 
 - Wave A 1–30: Hijaiyah recognition, visual discrimination, same-letter matching, sequence.
 - Wave B 31–60: dots/form discrimination, reviewed listen-and-find, guided trace, similar-letter comparison.
-- Wave C 61–90: broader recognition/sequence/matching/trace/review.
+- Wave C 61–100: broader recognition/sequence/matching/trace/review.
 
 Use explicit content/audio review states; code passing CI does not equal expert religious-learning review.
 
 ### Batch 11 — Letters/Menulis expansion
 
-Target 90 playable activities covering uppercase/lowercase recognition and matching, guided formation, direction, connect dots, malformed-letter discrimination, copy/complete shape and sequence. Generalize trace templates rather than hardcoding a separate evaluator for every glyph.
+Target 100 playable activities covering uppercase/lowercase recognition and matching, guided formation, direction, connect dots, malformed-letter discrimination, copy/complete shape and sequence. Generalize trace templates rather than hardcoding a separate evaluator for every glyph.
 
 ### Batch 12 — Logic expansion
 
-Target 90 playable activities across matching, draw-line, classification, odd-one-out, pattern, sequence, shadow/object association, comparisons, before/after, maze, memory, missing object, cause/effect, and spatial relations.
+Target 100 playable activities across matching, draw-line, classification, odd-one-out, pattern, sequence, shadow/object association, comparisons, before/after, maze, memory, missing object, cause/effect, and spatial relations.
 
 ### Batch 13 — Science expansion
 
-Target 90 age-appropriate activities across animals, habitats, plants, body/five senses, weather, day/night, water, environment, living/non-living, materials/object properties, earth/space basics, observation and simple cause/effect. Do not encourage unsafe unsupervised experiments.
+Target 100 age-appropriate activities across animals, habitats, plants, body/five senses, weather, day/night, water, environment, living/non-living, materials/object properties, earth/space basics, observation and simple cause/effect. Do not encourage unsafe unsupervised experiments.
 
 ### Batch 14 — Adaptive/mastery/report scaling
 
@@ -146,15 +146,15 @@ CI must verify target counts, unique IDs, valid content references, evidence con
 
 ## Content-wave rule
 
-Each 90-activity subject is split into three reviewable waves:
+Each 100-activity subject is split into three reviewable waves:
 
 ```text
 Wave A: 1–30
 Wave B: 31–60
-Wave C: 61–90
+Wave C: 61–100
 ```
 
-Do not merge a giant unreviewed 90-activity PR.
+Do not merge a giant unreviewed 100-activity PR.
 
 ## Completion rule
 
