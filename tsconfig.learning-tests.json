@@ -18,6 +18,7 @@
     "ignoreDeprecations": "6.0"
   },
   "include": [
+    "src/lib/engine/hijaiyah.ts",
     "src/lib/learning/mastery.ts",
     "src/lib/learning/catalog.ts",
     "src/lib/learning/contentManifest.ts",
