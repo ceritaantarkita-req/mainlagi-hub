@@ -10,11 +10,12 @@ This is the canonical repository copy of the major Mainlagi expansion plan agree
 2. Reduce Mainlagi-controlled voice/TTS latency and consolidate speech handling.
 3. Replace the small hand-authored catalog model with a scalable content architecture.
 4. Build a reusable mechanic library rather than hundreds of duplicated components.
-5. Reach at least 90 playable activities each for Math, Bahasa Indonesia, English, and Iqro.
-6. Add Letters/Menulis, Logic, and Science as first-class subjects, targeting 90 playable activities each for product parity.
-7. Preserve evidence integrity, mastery anti-farming, stage readiness, adaptive learning, parent reporting, offline sync, ownership, and child-safety boundaries as the catalog grows.
+5. Reach at least 100 playable activities each for Math, Bahasa Indonesia, English, and Iqro.
+6. Add Letters/Menulis, Logic, and Science as first-class subjects, targeting 100 playable activities each for product parity.
+7. Add Drawing/Menggambar and Coloring/Mewarnai as creative-practice tracks, targeting 100 playable activities each without fabricating academic mastery evidence.
+8. Preserve evidence integrity, mastery anti-farming, stage readiness, adaptive learning, parent reporting, offline sync, ownership, and child-safety boundaries as the catalog grows.
 
-The four mandatory 90-game subjects represent at least **360** playable activities. If the three new subjects also reach parity, the seven major subjects represent approximately **630** playable activities, excluding Coloring and optional motion games.
+The four mandatory academic subjects represent at least **400** playable activities. If Letters/Menulis, Logic, and Science also reach parity, the seven major academic subjects represent **700** playable activities. Drawing and Coloring add another **200** planned creative-practice activities, bringing the full planned nine-track catalog target to **900** playable activities, excluding optional motion-only extras outside those targets.
 
 A "game" in this target means a meaningfully distinct playable learning experience/level, not a separate React engine. Reordering the same answers or changing cosmetic colors does not create a new game.
 
@@ -63,7 +64,7 @@ Batch 1 landed through PR #30 and established the reusable mobile foundation use
 - [x] Retain representative responsive screenshots as CI artifacts.
 - [x] Make final production smoke depend on the browser mobile-route gate.
 
-The automated gate does not replace physical iOS/Android camera, virtual-keyboard, orientation, audio, or finger-trace acceptance. Those remain part of Batch 15 device QA. See `MOBILE_ROUTE_QA.md`.
+The automated gate does not replace physical iOS/Android camera, virtual-keyboard, orientation, audio, or finger-trace acceptance. Those remain part of Batch 16 device QA. See `MOBILE_ROUTE_QA.md`.
 
 ### Batch 3 — Voice latency / AudioManager rebuild
 
@@ -129,68 +130,106 @@ The reusable library is **capability**, not 20 new playable activities. Current 
 
 Add first-class Letters/Menulis, Logic, and Science subject IDs plus paths/stages/lessons/skills/age bands/stage requirements and starter content. Integrate them into child navigation, adaptive ranking, progression, Parent Dashboard, and reports.
 
-### Batch 7 — Math to 90
+### Batch 7 — Math to 100
 
-- Wave A 1–30: number recognition, counting, quantity matching/comparison, ordering.
-- Wave B 31–60: shapes, patterns, missing numbers, grouping, simple addition/subtraction, size/length.
-- Wave C 61–90: spatial position, measurement intuition, mixed operations, visual problems and review/challenge.
+- Wave A 1–25: number recognition, counting, quantity matching and early quantity intuition.
+- Wave B 26–50: quantity comparison, ordering, shapes and patterns.
+- Wave C 51–75: missing numbers, grouping, simple addition/subtraction and size/length.
+- Wave D 76–100: spatial position, measurement intuition, mixed operations, visual problems and review/challenge.
 
-### Batch 8 — Bahasa Indonesia to 90
+### Batch 8 — Bahasa Indonesia to 100
 
-- Wave A 1–30: letters, vowels/consonants, initial sounds, case matching.
-- Wave B 31–60: syllables, words, picture-word matching, complete/order words, listening.
-- Wave C 61–90: simple sentences, story comprehension, vocabulary grouping, relations/opposites and mixed review.
+- Wave A 1–25: letters, vowels/consonants, initial sounds and case matching.
+- Wave B 26–50: syllables, words, picture-word matching and listening.
+- Wave C 51–75: complete/order words, simple sentences and vocabulary grouping.
+- Wave D 76–100: story comprehension, relations/opposites, mixed language review and challenge.
 
-### Batch 9 — English to 90
+### Batch 9 — English to 100
 
-- Wave A 1–30: alphabet, basic phonics awareness, colors, numbers, animals, objects.
-- Wave B 31–60: body, family, food, actions, categories, word-picture matching/listening.
-- Wave C 61–90: opposites, simple phrases/sentences, listening comprehension, review/challenge.
+- Wave A 1–25: alphabet, basic phonics awareness, colors and numbers.
+- Wave B 26–50: animals, objects, body and family.
+- Wave C 51–75: food, actions, categories and word-picture matching/listening.
+- Wave D 76–100: opposites, simple phrases/sentences, listening comprehension and review/challenge.
 
-### Batch 10 — Iqro to 90
+### Batch 10 — Iqro to 100
 
-- Wave A 1–30: Hijaiyah recognition, visual discrimination, same-letter matching, sequence.
-- Wave B 31–60: dots/form discrimination, reviewed listen-and-find, guided trace, similar-letter comparison.
-- Wave C 61–90: broader recognition/sequence/matching/trace/review.
+- Wave A 1–25: Hijaiyah recognition, visual discrimination and same-letter matching.
+- Wave B 26–50: sequence, dots/form discrimination and reviewed listen-and-find.
+- Wave C 51–75: guided trace, similar-letter comparison and broader recognition/matching.
+- Wave D 76–100: broader sequence/trace, mixed review and age-appropriate challenge.
 
 Use explicit content/audio review states; code passing CI does not equal expert religious-learning review.
 
-### Batch 11 — Letters/Menulis expansion
+### Batch 11 — Letters/Menulis to 100
 
-Target 90 playable activities covering uppercase/lowercase recognition and matching, guided formation, direction, connect dots, malformed-letter discrimination, copy/complete shape and sequence. Generalize trace templates rather than hardcoding a separate evaluator for every glyph.
+- Wave A 1–25: uppercase/lowercase recognition, matching and pre-writing strokes.
+- Wave B 26–50: guided letter formation, start direction and connect-dots.
+- Wave C 51–75: malformed-letter discrimination, copy/complete letters and simple shape-to-letter preparation.
+- Wave D 76–100: mixed formation, sequence, review and age-appropriate writing challenge.
 
-### Batch 12 — Logic expansion
+Generalize trace templates rather than hardcoding a separate evaluator for every glyph.
 
-Target 90 playable activities across matching, draw-line, classification, odd-one-out, pattern, sequence, shadow/object association, comparisons, before/after, maze, memory, missing object, cause/effect, and spatial relations.
+### Batch 12 — Logic to 100
 
-### Batch 13 — Science expansion
+- Wave A 1–25: matching, draw-line, classification and odd-one-out.
+- Wave B 26–50: patterns, sequence, shadow/object association and comparisons.
+- Wave C 51–75: before/after, maze/path, memory and missing object.
+- Wave D 76–100: cause/effect, spatial relations, mixed reasoning and review/challenge.
 
-Target 90 age-appropriate activities across animals, habitats, plants, body/five senses, weather, day/night, water, environment, living/non-living, materials/object properties, earth/space basics, observation and simple cause/effect. Do not encourage unsafe unsupervised experiments.
+### Batch 13 — Science to 100
 
-### Batch 14 — Adaptive/mastery/report scaling
+- Wave A 1–25: animals, habitats, plants and living/non-living.
+- Wave B 26–50: body/five senses, weather, day/night and water.
+- Wave C 51–75: environment, materials/object properties and observation.
+- Wave D 76–100: earth/space basics, simple cause/effect, mixed science review and challenge.
 
-Use skill weakness, confidence, evidence spacing, mechanic/content repetition, age, stage, difficulty, frustration/retry, and motion preferences. Prefer a different item/mechanic for the same weak skill rather than replaying the exact same level. Define evidence-diversity rules for selected core skills. Keep Parent UI summarized rather than dumping hundreds of raw activities.
+Do not encourage unsafe unsupervised experiments.
 
-### Batch 15 — Performance, accessibility, security, device QA
+### Batch 14 — Drawing/Menggambar and Coloring/Mewarnai to 100 each
+
+Expand Drawing and Coloring as creative-practice tracks with **100 playable activities each**. Preserve all existing Coloring activity IDs. Introduce Drawing through the same canonical subject/path/stage/lesson/content-pack ownership model rather than a disconnected mini-app. Reuse guided trace, connect-dots, coloring, and other compatible mechanics; extend mechanic vocabulary additively only if a genuinely distinct drawing interaction requires it.
+
+Drawing waves:
+
+- Wave A 1–25: straight/curved lines, paths, simple shapes and connect-dots.
+- Wave B 26–50: guided objects built from basic shapes, symmetry and simple pattern drawing.
+- Wave C 51–75: copy/complete simple pictures, faces, animals, objects and scene parts.
+- Wave D 76–100: guided scenes, creative prompts, mixed drawing practice and open-ended child-safe creation.
+
+Coloring waves:
+
+- Wave A 1–25: large simple shapes, objects and basic color exploration.
+- Wave B 26–50: animals, food, vehicles, nature and everyday-object themes.
+- Wave C 51–75: scenes, patterns, category-guided coloring and progressively finer regions.
+- Wave D 76–100: themed scenes, creative palettes, mixed guided/free coloring and review collections.
+
+Drawing/Coloring participation, completion, preferences and parent-visible progress may be recorded, but free drawing/coloring must not manufacture academic accuracy or mastery. Any objectively assessed tracing/drawing task must declare an explicit measurable evidence contract.
+
+### Batch 15 — Adaptive/mastery/report scaling
+
+Use skill weakness, confidence, evidence spacing, mechanic/content repetition, age, stage, difficulty, frustration/retry, and motion preferences. Prefer a different item/mechanic for the same weak skill rather than replaying the exact same level. Define evidence-diversity rules for selected core skills. Keep Parent UI summarized rather than dumping hundreds of raw activities. Drawing/Coloring should influence creative-practice recommendations and reporting without being misrepresented as academic mastery.
+
+### Batch 16 — Performance, accessibility, security, device QA
 
 Audit catalog payload, route/mechanic code splitting, assets, initial JS, TTS initialization and query volume. Re-run accessibility, RLS/ownership/RPC/outbox/dependency/secret/advisor checks and real-device mobile/camera/audio flows.
 
-### Batch 16 — Final acceptance and production closure
+### Batch 17 — Final acceptance and production closure
 
 CI must verify target counts, unique IDs, valid content references, evidence contracts, adaptive/mastery/outbox regressions, mobile overflow gates, typecheck/lint/Ubuntu/Windows/simulations/build/audit/secret scan. Then run guest/authenticated/offline/multi-child acceptance, exact-SHA Cloudflare production smoke, and synchronize canonical docs.
 
 ## Content-wave rule
 
-Each 90-activity subject is split into three reviewable waves:
+Each 100-activity target is split into four reviewable waves:
 
 ```text
-Wave A: 1–30
-Wave B: 31–60
-Wave C: 61–90
+Wave A: 1–25
+Wave B: 26–50
+Wave C: 51–75
+Wave D: 76–100
 ```
 
-Do not merge a giant unreviewed 90-activity PR.
+Do not merge a giant unreviewed 100-activity PR. Each wave must independently pass content validation, mechanic/evidence checks, responsive QA where applicable, and review requirements before the next wave raises the catalog floor.
 
 ## Completion rule
 
-This expansion is complete only when the target content counts are real, mobile QA is clean, voice handling is consolidated and measurably improved on target devices, all seven subjects participate correctly in progression/adaptive/reporting, no assessed activity fabricates evidence, final CI is green, final exact-SHA production smoke passes, and remaining limitations are documented explicitly.
+This expansion is complete only when the target content counts are real, mobile QA is clean, voice handling is consolidated and measurably improved on target devices, all seven academic subjects participate correctly in progression/adaptive/reporting, Drawing and Coloring each reach 100 playable activities under their practice/evidence boundaries, no assessed activity fabricates evidence, final CI is green, final exact-SHA production smoke passes, and remaining limitations are documented explicitly.

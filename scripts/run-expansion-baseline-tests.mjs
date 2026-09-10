@@ -30,10 +30,11 @@ const baselineFloors = Object.freeze({
 });
 
 const expansionTargets = Object.freeze({
-  bahasa: 90,
-  english: 90,
-  math: 90,
-  iqro: 90
+  bahasa: 100,
+  english: 100,
+  math: 100,
+  iqro: 100,
+  color: 100
 });
 
 function countBy(items, key) {
@@ -67,7 +68,7 @@ try {
   }
 
   for (const [subjectId, target] of Object.entries(expansionTargets)) {
-    assert.ok((activityCounts[subjectId] ?? 0) < target, `${subjectId} has reached the 90-game target; update the expansion closure contract instead of silently changing this baseline test`);
+    assert.ok((activityCounts[subjectId] ?? 0) < target, `${subjectId} has reached the 100-activity target; update the expansion closure contract instead of silently changing this baseline test`);
   }
 
   const expectedRuntimeCounts = {
