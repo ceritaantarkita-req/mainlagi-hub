@@ -8,6 +8,11 @@ import {
   type LearningAnalyticsSnapshot
 } from "@/lib/learning/attempts";
 import { readCloudLearningAnalytics } from "@/lib/learning/cloud";
+import {
+  LEARNING_OUTBOX_EVENT,
+  overlayPendingLearningAnalytics,
+  readPendingLearningAttemptsForCurrentUser
+} from "@/lib/learning/outbox";
 
 export function useLearningAnalytics(childId: string): LearningAnalyticsSnapshot {
   const [analytics, setAnalytics] = useState<LearningAnalyticsSnapshot>(() => emptyLearningAnalytics());
@@ -23,8 +28,12 @@ export function useLearningAnalytics(childId: string): LearningAnalyticsSnapshot
         return;
       }
 
-      const cloud = await readCloudLearningAnalytics(childId);
-      if (!cancelled) setAnalytics(cloud ?? emptyLearningAnalytics());
+      const [cloud, pending] = await Promise.all([
+        readCloudLearningAnalytics(childId),
+        readPendingLearningAttemptsForCurrentUser(childId)
+      ]);
+      if (cancelled) return;
+      setAnalytics(cloud ? overlayPendingLearningAnalytics(cloud, pending) : readLearningAnalytics(childId));
     };
 
     const frame = window.requestAnimationFrame(() => void refresh());
@@ -35,12 +44,14 @@ export function useLearningAnalytics(childId: string): LearningAnalyticsSnapshot
 
     window.addEventListener("mainlagi-learning-analytics", onAnalytics);
     window.addEventListener("mainlagi-learning-cloud", onAnalytics);
+    window.addEventListener(LEARNING_OUTBOX_EVENT, onAnalytics);
     window.addEventListener("storage", onAnalytics);
     return () => {
       cancelled = true;
       window.cancelAnimationFrame(frame);
       window.removeEventListener("mainlagi-learning-analytics", onAnalytics);
       window.removeEventListener("mainlagi-learning-cloud", onAnalytics);
+      window.removeEventListener(LEARNING_OUTBOX_EVENT, onAnalytics);
       window.removeEventListener("storage", onAnalytics);
     };
   }, [childId]);
