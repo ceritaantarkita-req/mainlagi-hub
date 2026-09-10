@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from "react";
+import { speakPrompt as speakManagedPrompt } from "@/lib/audio/feedback";
 import { GAME_LIST } from "@/lib/data/games";
 import {
   CHARACTERS,
@@ -164,8 +165,7 @@ export function StageScreen({ childId, stageId }: { childId: string; stageId: st
 }
 
 function speak(text: string, lang = "id-ID") {
-  if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
-  const utterance = new SpeechSynthesisUtterance(text); utterance.lang = lang; utterance.rate = 0.85; window.speechSynthesis.cancel(); window.speechSynthesis.speak(utterance);
+  void speakManagedPrompt(text, { lang });
 }
 
 function ChoiceActivity({ childId, activity, onDone }: { childId: string; activity: LearningActivity; onDone: (value: LearningProgress) => void }) {
