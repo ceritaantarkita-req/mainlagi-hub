@@ -173,6 +173,17 @@ try {
   assert.equal(selection.manager.selectVoice("id-ID")?.name, "Indonesia local", "exact local locale should win voice selection");
   assert.equal(selection.manager.selectVoice("en-GB")?.name, "English local", "same-language fallback should be available");
 
+  const unavailableLatency = [];
+  const unavailable = new AudioManager({
+    getSpeechSynthesis: () => new FakeSynth(voices),
+    createUtterance: () => { throw new Error("broken utterance constructor"); },
+    createAudioContext: () => null,
+    emitLatency: (sample) => unavailableLatency.push(sample)
+  });
+  assert.equal(unavailable.speechCapability(), "unavailable", "a broken browser utterance constructor must fail closed as unavailable");
+  assert.equal(unavailable.speakPrompt("Tetap tampilkan teks"), "unavailable", "speech constructor failure must use the readable fallback status instead of throwing");
+  assert.ok(unavailableLatency.some((sample) => sample.phase === "blocked" && sample.status === "unavailable"));
+
   const queue = harness(voices);
   assert.equal(queue.manager.speakPrompt("Satu", { lang: "id-ID" }), "spoken");
   assert.equal(queue.synth.spoken.length, 1, "first prompt should start immediately");
@@ -207,6 +218,8 @@ try {
   const warm = harness(voices);
   warm.manager.unlock("id-ID");
   assert.equal(warm.timers.size, 1, "user gesture should schedule speech warmup");
+  warm.manager.unlock("id-ID");
+  assert.equal(warm.timers.size, 1, "repeated pointer/keyboard unlocks must not replace or duplicate a pending warmup");
   warm.manager.speakPrompt("Halo", { lang: "id-ID" });
   assert.equal(warm.timers.size, 0, "real prompt on the same gesture should cancel pending silent warmup");
   assert.equal(warm.synth.cancelCount, 0, "canceling a not-yet-started warmup must not touch native speech queue");
@@ -218,6 +231,8 @@ try {
   assert.equal(silentWarm.synth.spoken.length, 1, "idle user gesture should prime speech synthesis");
   assert.equal(silentWarm.synth.spoken[0].volume, 0, "speech warmup must be silent");
   assert.equal(silentWarm.synth.spoken[0].voice?.name, "Indonesia local");
+  silentWarm.manager.unlock("id-ID");
+  assert.equal(silentWarm.timers.size, 0, "an in-flight warmup must not be scheduled a second time");
   silentWarm.synth.endCurrent();
   assert.equal(silentWarm.manager.status().warmedSpeech, true);
 
