@@ -105,12 +105,25 @@ Subject
 - [x] Add additive Supabase `0011_scalable_content_architecture` with `learning_content_packs` and pack/lesson/mechanic/evidence/revision metadata on `learning_activities`.
 - [x] Backfill the 25 existing activity rows without renaming activity IDs or altering attempt/mastery/progress identity.
 - [x] Add Batch 4 validation to canonical learning/engine CI and migration regression tests.
+- [x] Merge PR #33 and verify the exact production SHA through Cloudflare + public smoke.
 
-The repository baseline at Batch 4 contains 5 subjects, 5 paths, 7 stages, 13 lessons, 13 content packs, 25 playable activities, 12 skills, and 7 registered mechanics. The 25 existing activities remain 19 assessed and 6 practice. Migration `0011` is applied to the canonical Supabase project; all 25 current repository activities have pack/lesson/mechanic/evidence metadata there.
+Batch 4 production closure: squash SHA `923315882f7244f24a2045398a061d12a2b472cf`, Cloudflare Build `0b98b636-b17a-4e64-902b-7b2b958b1e3f`, Version `5559c169-20db-448d-8162-029146ddb4bf`. Production smoke succeeded. The Batch 4 baseline contains 5 subjects, 5 paths, 7 stages, 13 lessons, 13 content packs, 25 playable activities, 12 skills, and 7 mechanics used by current content. The 25 activities remain 19 assessed and 6 practice. Migration `0011` is applied to canonical Supabase and all 25 repository activities are fully registered there.
 
 ### Batch 5 — Reusable game-mechanics library
 
-Target roughly 12–20 reusable mechanics including tap choice, listen-and-choose, matching, drag-to-target, draw-line matching, sort/classify, ordering, sequence, pattern completion, odd-one-out, guided trace, connect-dots, memory pairs, compare, missing item, simple maze/path selection, story comprehension, and observation/find-object. Every assessed mechanic defines score/accuracy/correct/incorrect/hint/retry/completion/mastery behavior.
+- [x] Define exactly 20 reusable mechanic contracts instead of one-off game score formulas.
+- [x] Cover choice, pairing, targeting, classification, ordering, path, and practice interaction families.
+- [x] Include tap choice, listen-and-choose, matching, guided trace, drag-to-target, draw-line matching, sort/classify, ordering/sequence, pattern completion, odd-one-out, connect-dots, memory pairs, compare, missing item, maze/path, story comprehension, observation/find-object, story, coloring, and optional motion wrapper.
+- [x] Define required payload keys and validate option/pair/target/classification/order/path references.
+- [x] Define score, accuracy, correct/incorrect, hint, retry, completion, and mastery behavior for every mechanic.
+- [x] Keep story, coloring, and optional motion wrapper practice-only.
+- [x] Fail closed to completion-only when an assessed runtime lacks measurement; preserve measured all-wrong attempts as accuracy `0` evidence rather than dropping weak evidence.
+- [x] Reuse the existing mastery engine for independence penalties instead of double-penalizing hints/retries.
+- [x] Add a runtime adapter that publishes explicit mechanic outcomes to `LearningAttemptBridge` through the existing measurement event.
+- [x] Expand Supabase mechanic/evidence vocabulary additively in `0012_reusable_mechanic_library` without changing historical activity IDs or attempt/mastery rows.
+- [x] Add reusable-mechanic and migration regression tests to canonical learning CI.
+
+The reusable library is **capability**, not 20 new playable activities. Current playable activity count remains 25 until later content waves instantiate these mechanics. Batch 5 is complete only after migration `0012`, full PR CI, squash merge, and exact-SHA production smoke are verified.
 
 ### Batch 6 — New subject/curriculum foundations
 
