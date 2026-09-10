@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { getActivity, readProgress } from "@/lib/learning/system";
 import { getActivityLearningSpec } from "@/lib/learning/catalog";
 import { readLearningAttempts, recordLearningAttempt, type LearningAttemptOutcome } from "@/lib/learning/attempts";
-import { syncLearningAttemptCloud } from "@/lib/learning/cloud";
+import { syncOrQueueLearningAttempt } from "@/lib/learning/outbox";
 import {
   LEARNING_MEASUREMENT_EVENT,
   type LearningRuntimeMeasurementDetail
@@ -214,8 +214,8 @@ export function LearningAttemptBridge({ childId }: { childId: string }) {
       explicitOutcomeRef.current.delete(activityId);
 
       void (async () => {
-        const synced = await syncLearningAttemptCloud(attempt);
-        if (synced) {
+        const state = await syncOrQueueLearningAttempt(attempt);
+        if (state === "synced") {
           window.dispatchEvent(new CustomEvent("mainlagi-learning-cloud", {
             detail: { childId, attemptId: attempt.id }
           }));
