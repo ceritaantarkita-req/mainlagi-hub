@@ -1,5 +1,10 @@
 import * as base from "./contentManifestBase";
 import {
+  BAHASA_BATCH8_CONTENT_PACKS,
+  BAHASA_BATCH8_LESSON_CORES,
+  BAHASA_BATCH8_STAGE_IDS
+} from "./bahasaBatch8";
+import {
   MATH_BATCH7_CONTENT_PACKS,
   MATH_BATCH7_LESSON_CORES,
   MATH_BATCH7_STAGE_IDS
@@ -29,23 +34,24 @@ export const normalizeContentSlug = base.normalizeContentSlug;
 export const makeContentPackId = base.makeContentPackId;
 export const makeGeneratedActivityId = base.makeGeneratedActivityId;
 
-export const CONTENT_PATHS: ContentPathDefinition[] = base.CONTENT_PATHS.map((path) =>
-  path.id === "math-fondasi-numerasi"
-    ? { ...path, stageIds: [...path.stageIds, ...MATH_BATCH7_STAGE_IDS] }
-    : { ...path, stageIds: [...path.stageIds] }
-);
+export const CONTENT_PATHS: ContentPathDefinition[] = base.CONTENT_PATHS.map((path) => {
+  if (path.id === "math-fondasi-numerasi") return { ...path, stageIds: [...path.stageIds, ...MATH_BATCH7_STAGE_IDS] };
+  if (path.id === "bahasa-fondasi-literasi") return { ...path, stageIds: [...path.stageIds, ...BAHASA_BATCH8_STAGE_IDS] };
+  return { ...path, stageIds: [...path.stageIds] };
+});
 
 export const CONTENT_PACKS: ContentPackDefinition[] = [
   ...base.CONTENT_PACKS.map((pack) => ({ ...pack, activities: pack.activities.map((activity) => ({ ...activity, skills: activity.skills.map((skill) => ({ ...skill })) })) })),
-  ...MATH_BATCH7_CONTENT_PACKS
+  ...MATH_BATCH7_CONTENT_PACKS,
+  ...BAHASA_BATCH8_CONTENT_PACKS
 ];
 
-const BATCH7_ACTIVITY_IDS_BY_LESSON = new Map<string, string[]>();
-for (const pack of MATH_BATCH7_CONTENT_PACKS) {
+const EXPANSION_ACTIVITY_IDS_BY_LESSON = new Map<string, string[]>();
+for (const pack of [...MATH_BATCH7_CONTENT_PACKS, ...BAHASA_BATCH8_CONTENT_PACKS]) {
   for (const activity of pack.activities) {
-    const ids = BATCH7_ACTIVITY_IDS_BY_LESSON.get(activity.lessonId) ?? [];
+    const ids = EXPANSION_ACTIVITY_IDS_BY_LESSON.get(activity.lessonId) ?? [];
     ids.push(activity.activityId);
-    BATCH7_ACTIVITY_IDS_BY_LESSON.set(activity.lessonId, ids);
+    EXPANSION_ACTIVITY_IDS_BY_LESSON.set(activity.lessonId, ids);
   }
 }
 
@@ -53,7 +59,11 @@ export const CONTENT_LESSONS: ContentLessonDefinition[] = [
   ...base.CONTENT_LESSONS.map((lesson) => ({ ...lesson, activityIds: [...lesson.activityIds] })),
   ...MATH_BATCH7_LESSON_CORES.map((lesson) => ({
     ...lesson,
-    activityIds: [...(BATCH7_ACTIVITY_IDS_BY_LESSON.get(lesson.id) ?? [])]
+    activityIds: [...(EXPANSION_ACTIVITY_IDS_BY_LESSON.get(lesson.id) ?? [])]
+  })),
+  ...BAHASA_BATCH8_LESSON_CORES.map((lesson) => ({
+    ...lesson,
+    activityIds: [...(EXPANSION_ACTIVITY_IDS_BY_LESSON.get(lesson.id) ?? [])]
   }))
 ];
 
