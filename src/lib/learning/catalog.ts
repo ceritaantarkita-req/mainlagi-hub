@@ -1,4 +1,7 @@
-export type LearningSubjectKey = "bahasa" | "english" | "math" | "iqro" | "color";
+import { CONTENT_PACKS } from "./contentManifest";
+import type { LearningSubjectId } from "./system";
+
+export type LearningSubjectKey = LearningSubjectId;
 export type SkillDomain = "literacy" | "language" | "numeracy" | "religious_literacy" | "creative" | "motor";
 
 export interface LearningSkillDefinition {
@@ -41,37 +44,26 @@ export const LEARNING_SKILLS: LearningSkillDefinition[] = [
   { id: "color.creative.choice", subjectId: "color", title: "Eksplorasi pilihan warna", description: "Mengeksplorasi pilihan dan kombinasi warna tanpa penilaian benar atau salah.", domain: "creative", ageMin: 3, ageMax: 7 }
 ];
 
-export const ACTIVITY_LEARNING_SPECS: Record<string, ActivityLearningSpec> = {
-  "bahasa-cari-a": { activityId: "bahasa-cari-a", subjectId: "bahasa", stageId: "bahasa-huruf", difficulty: 1, assessment: "assessed", requiredForStage: true, skills: [{ skillId: "bahasa.huruf.a.recognition", weight: 1 }] },
-  "bahasa-dengar-a": { activityId: "bahasa-dengar-a", subjectId: "bahasa", stageId: "bahasa-huruf", difficulty: 1, assessment: "assessed", requiredForStage: true, skills: [{ skillId: "bahasa.huruf.a.recognition", weight: 1 }] },
-  "bahasa-cari-a-lagi": { activityId: "bahasa-cari-a-lagi", subjectId: "bahasa", stageId: "bahasa-huruf", difficulty: 1, assessment: "assessed", requiredForStage: false, skills: [{ skillId: "bahasa.huruf.a.recognition", weight: 1 }] },
-  "bahasa-pasang-awal": { activityId: "bahasa-pasang-awal", subjectId: "bahasa", stageId: "bahasa-huruf", difficulty: 2, assessment: "assessed", requiredForStage: true, skills: [{ skillId: "bahasa.huruf.awal.matching", weight: 1 }] },
-  "bahasa-pasang-awal-lagi": { activityId: "bahasa-pasang-awal-lagi", subjectId: "bahasa", stageId: "bahasa-huruf", difficulty: 2, assessment: "assessed", requiredForStage: false, skills: [{ skillId: "bahasa.huruf.awal.matching", weight: 1 }] },
-  "bahasa-cerita-teman": { activityId: "bahasa-cerita-teman", subjectId: "bahasa", stageId: "bahasa-cerita", difficulty: 1, assessment: "practice", requiredForStage: true, skills: [{ skillId: "bahasa.cerita.listening", weight: 0.35 }] },
-
-  "english-find-blue": { activityId: "english-find-blue", subjectId: "english", stageId: "english-first-words", difficulty: 1, assessment: "assessed", requiredForStage: true, skills: [{ skillId: "english.color.blue", weight: 1 }] },
-  "english-find-blue-audio": { activityId: "english-find-blue-audio", subjectId: "english", stageId: "english-first-words", difficulty: 1, assessment: "assessed", requiredForStage: false, skills: [{ skillId: "english.color.blue", weight: 1 }] },
-  "english-listen-cat": { activityId: "english-listen-cat", subjectId: "english", stageId: "english-first-words", difficulty: 1, assessment: "assessed", requiredForStage: true, skills: [{ skillId: "english.word.cat.listening", weight: 1 }] },
-  "english-listen-cat-2": { activityId: "english-listen-cat-2", subjectId: "english", stageId: "english-first-words", difficulty: 1, assessment: "assessed", requiredForStage: false, skills: [{ skillId: "english.word.cat.listening", weight: 1 }] },
-  "english-match-hello": { activityId: "english-match-hello", subjectId: "english", stageId: "english-first-words", difficulty: 2, assessment: "assessed", requiredForStage: true, skills: [{ skillId: "english.word.picture_matching", weight: 1 }] },
-  "english-match-words-2": { activityId: "english-match-words-2", subjectId: "english", stageId: "english-first-words", difficulty: 2, assessment: "assessed", requiredForStage: false, skills: [{ skillId: "english.word.picture_matching", weight: 1 }] },
-
-  "math-count-3": { activityId: "math-count-3", subjectId: "math", stageId: "math-angka", difficulty: 1, assessment: "assessed", requiredForStage: true, skills: [{ skillId: "math.count.1_3", weight: 1 }] },
-  "math-count-2": { activityId: "math-count-2", subjectId: "math", stageId: "math-angka", difficulty: 1, assessment: "assessed", requiredForStage: false, skills: [{ skillId: "math.count.1_3", weight: 1 }] },
-  "math-trace-5-touch": { activityId: "math-trace-5-touch", subjectId: "math", stageId: "math-angka", difficulty: 1, assessment: "assessed", requiredForStage: true, skills: [{ skillId: "math.numeral.5.formation", weight: 1 }] },
-  "math-number-trace-motion": { activityId: "math-number-trace-motion", subjectId: "math", stageId: "math-angka", difficulty: 2, assessment: "practice", requiredForStage: false, skills: [{ skillId: "math.numeral.5.formation", weight: 0.5 }] },
-  "math-pattern-touch": { activityId: "math-pattern-touch", subjectId: "math", stageId: "math-pola", difficulty: 2, assessment: "assessed", requiredForStage: true, skills: [{ skillId: "math.pattern.matching", weight: 1 }] },
-  "math-pattern-touch-2": { activityId: "math-pattern-touch-2", subjectId: "math", stageId: "math-pola", difficulty: 2, assessment: "assessed", requiredForStage: false, skills: [{ skillId: "math.pattern.matching", weight: 1 }] },
-  "math-pattern-motion": { activityId: "math-pattern-motion", subjectId: "math", stageId: "math-pola", difficulty: 3, assessment: "practice", requiredForStage: false, skills: [{ skillId: "math.pattern.matching", weight: 0.5 }] },
-
-  "iqro-cari-alif": { activityId: "iqro-cari-alif", subjectId: "iqro", stageId: "iqro-huruf", difficulty: 1, assessment: "assessed", requiredForStage: true, skills: [{ skillId: "iqro.alif.recognition", weight: 1 }] },
-  "iqro-dengar-alif": { activityId: "iqro-dengar-alif", subjectId: "iqro", stageId: "iqro-huruf", difficulty: 1, assessment: "assessed", requiredForStage: true, skills: [{ skillId: "iqro.alif.recognition", weight: 1 }] },
-  "iqro-pasang-alif": { activityId: "iqro-pasang-alif", subjectId: "iqro", stageId: "iqro-huruf", difficulty: 2, assessment: "assessed", requiredForStage: false, skills: [{ skillId: "iqro.alif.recognition", weight: 1 }] },
-  "iqro-motion-existing": { activityId: "iqro-motion-existing", subjectId: "iqro", stageId: "iqro-huruf", difficulty: 2, assessment: "practice", requiredForStage: false, skills: [{ skillId: "iqro.hijaiyah.motion_practice", weight: 0.4 }] },
-
-  "color-gavi": { activityId: "color-gavi", subjectId: "color", stageId: "color-characters", difficulty: 1, assessment: "practice", requiredForStage: true, skills: [{ skillId: "color.creative.choice", weight: 0.3 }] },
-  "color-paca": { activityId: "color-paca", subjectId: "color", stageId: "color-characters", difficulty: 1, assessment: "practice", requiredForStage: true, skills: [{ skillId: "color.creative.choice", weight: 0.3 }] }
-};
+/**
+ * Compatibility projection used by mastery/progression/RPC sync code.
+ * Batch 4 removes the second hand-maintained list of activity metadata: the
+ * canonical subject/stage/difficulty/assessment/skill ownership now lives in
+ * contentManifest.ts and this map is derived from those content packs.
+ */
+export const ACTIVITY_LEARNING_SPECS: Record<string, ActivityLearningSpec> = Object.fromEntries(
+  CONTENT_PACKS.flatMap((pack) => pack.activities.map((activity) => [
+    activity.activityId,
+    {
+      activityId: activity.activityId,
+      subjectId: pack.subjectId,
+      stageId: pack.stageId,
+      difficulty: activity.difficulty,
+      assessment: activity.assessment,
+      requiredForStage: activity.requiredForStage,
+      skills: activity.skills.map((link) => ({ ...link }))
+    }
+  ] as const))
+);
 
 const SKILL_MAP = new Map(LEARNING_SKILLS.map((skill) => [skill.id, skill]));
 
