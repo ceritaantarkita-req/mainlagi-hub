@@ -16,6 +16,8 @@ import {
 import { readCloudLearningProfile, readCloudLearningProgress } from "@/lib/learning/cloud";
 import styles from "./LearningPlatform.module.css";
 
+const EMPTY_LEARNING_PROGRESS: LearningProgress = { completedActivityIds: [], stars: 0, lastActivityId: null };
+
 export function CharacterAvatar({ id, large = false }: { id: CharacterId; large?: boolean }) {
   const className = large ? styles.characterBubbleLarge : styles.characterBubble;
 
@@ -129,8 +131,7 @@ export function useLearningProfile(childId: string) {
 }
 
 export function useLearningProgress(childId: string) {
-  const empty: LearningProgress = { completedActivityIds: [], stars: 0, lastActivityId: null };
-  const [progress, setProgress] = useState<LearningProgress>(empty);
+  const [progress, setProgress] = useState<LearningProgress>(EMPTY_LEARNING_PROGRESS);
   useEffect(() => {
     let cancelled = false;
     const refresh = async () => {
@@ -141,7 +142,7 @@ export function useLearningProgress(childId: string) {
         return;
       }
       const cloud = await readCloudLearningProgress(childId);
-      if (!cancelled) setProgress(cloud ?? empty);
+      if (!cancelled) setProgress(cloud ?? EMPTY_LEARNING_PROGRESS);
     };
     const frame = window.requestAnimationFrame(() => void refresh());
     const onCustom = (event: Event) => {
