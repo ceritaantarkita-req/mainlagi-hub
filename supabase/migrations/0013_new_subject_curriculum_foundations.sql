@@ -81,7 +81,7 @@ insert into public.learning_activities(
 )
 values
   ('letters-find-a','letters','letters-foundations','tap_choice',1,'assessed',true,false,2,'letters.pack.letter-a','letters-a-foundations','tap_choice','choice_accuracy_v1',1,true,now()),
-  ('letters-trace-a','letters','letters-foundations','trace',1,'assessed',true,false,3,'letters.pack.letter-a','letters-a-foundations','guided_trace','guided_trace_path_v1',1,true,now()),
+  ('letters-trace-a','letters','letters-foundations','trace',1,'practice',true,false,3,'letters.pack.letter-a','letters-a-foundations','guided_trace','completion_only_v1',1,true,now()),
   ('letters-match-case','letters','letters-foundations','matching',2,'assessed',false,false,3,'letters.pack.letter-a','letters-a-foundations','matching','matching_accuracy_v1',1,true,now()),
   ('logic-match-pairs','logic','logic-foundations','matching',1,'assessed',true,false,2,'logic.pack.visual-basics','logic-visual-foundations','matching','matching_accuracy_v1',1,true,now()),
   ('logic-odd-one-out','logic','logic-foundations','tap_choice',1,'assessed',true,false,2,'logic.pack.visual-basics','logic-visual-foundations','tap_choice','choice_accuracy_v1',1,true,now()),
@@ -109,7 +109,7 @@ on conflict (activity_id) do update set
 insert into public.learning_activity_skills(activity_id, skill_key, evidence_weight)
 values
   ('letters-find-a','letters.latin.a.recognition',1),
-  ('letters-trace-a','letters.latin.a.formation',1),
+  ('letters-trace-a','letters.latin.a.formation',0.5),
   ('letters-match-case','letters.latin.a.recognition',1),
   ('logic-match-pairs','logic.visual.matching',1),
   ('logic-odd-one-out','logic.visual.discrimination',1),
