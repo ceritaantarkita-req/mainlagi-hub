@@ -12,8 +12,32 @@ function classes(...values: Array<string | false | null | undefined>) {
   return values.filter(Boolean).join(" ");
 }
 
+export type MobileRouteKind =
+  | "child-select"
+  | "child-learning"
+  | "parent"
+  | "game-catalog"
+  | "game-play";
+
 export function MobileFoundation({ children, className, ...props }: PropsWithChildren<HTMLAttributes<HTMLDivElement>>) {
   return <div className={classes(styles.foundation, className)} {...props}>{children}</div>;
+}
+
+export function MobileRouteBoundary({
+  children,
+  routeKind,
+  className,
+  ...props
+}: PropsWithChildren<HTMLAttributes<HTMLDivElement> & { routeKind: MobileRouteKind }>) {
+  return (
+    <div
+      className={classes(styles.routeBoundary, className)}
+      {...props}
+      data-mainlagi-route-boundary={routeKind}
+    >
+      {children}
+    </div>
+  );
 }
 
 export function MobilePage({ children, narrow = false, className, ...props }: PropsWithChildren<HTMLAttributes<HTMLElement> & { narrow?: boolean }>) {
