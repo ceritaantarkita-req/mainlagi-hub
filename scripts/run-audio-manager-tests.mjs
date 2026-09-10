@@ -12,6 +12,7 @@ rmSync(outDir, { recursive: true, force: true });
 const tscBin = path.join(root, "node_modules", "typescript", "bin", "tsc");
 const compile = spawnSync(process.execPath, [
   tscBin,
+  "--ignoreConfig",
   "src/lib/audio/AudioManager.ts",
   "--target", "ES2022",
   "--module", "commonjs",
