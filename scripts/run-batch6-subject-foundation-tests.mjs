@@ -67,14 +67,14 @@ try {
     assert.ok(subjectIds.has(expected.id), `${expected.id} must be a first-class subject`);
 
     const paths = curriculum.getLearningPathsForSubject(expected.id);
-    assert.equal(paths.length, 1, `${expected.id} must begin with one canonical starter path`);
+    assert.equal(paths.length, 1, `${expected.id} must retain one canonical path`);
     assert.equal(paths[0].id, expected.pathId);
-    assert.deepEqual(paths[0].stageIds, [expected.stageId]);
+    assert.ok(paths[0].stageIds.includes(expected.stageId), `${expected.id} canonical path must retain its Batch 6 starter stage`);
 
     const stages = system.getStagesForSubject(expected.id);
-    assert.equal(stages.length, 1, `${expected.id} must begin with one starter stage`);
-    assert.equal(stages[0].id, expected.stageId);
-    assert.deepEqual(stages[0].activityIds, expected.activities);
+    const starterStage = stages.find((stage) => stage.id === expected.stageId);
+    assert.ok(starterStage, `${expected.id} must retain its Batch 6 starter stage`);
+    assert.deepEqual(starterStage.activityIds, expected.activities, `${expected.id} starter-stage activities must remain unchanged`);
 
     const lessons = curriculum.getLessonsForStage(expected.stageId);
     assert.equal(lessons.length, 1, `${expected.id} starter stage must resolve to one lesson`);
@@ -95,15 +95,17 @@ try {
     const specs = expected.activities.map((id) => catalog.getActivityLearningSpec(id));
     assert.ok(specs.every(Boolean), `${expected.id} starter activities must all have learning specs`);
     assert.deepEqual(specs.map((spec) => spec.assessment), expected.assessments, `${expected.id} assessment boundaries must stay explicit`);
-    assert.equal(specs.filter((spec) => spec.requiredForStage).length, 2, `${expected.id} starter stage must have exactly two required core activities`);
+    assert.equal(specs.filter((spec) => spec.requiredForStage).length, 2, `${expected.id} starter stage must retain exactly two required core activities`);
     assert.ok(specs.every((spec) => spec.skills.length > 0));
 
+    const subjectSkills = catalog.getSkillsForSubject(expected.id);
     for (const skillId of expected.skills) {
       const skill = catalog.getLearningSkill(skillId);
       assert.ok(skill, `${skillId} must resolve in the canonical skill taxonomy`);
       assert.equal(skill.subjectId, expected.id);
+      assert.ok(subjectSkills.some((item) => item.id === skillId), `${expected.id} must retain starter skill ${skillId}`);
     }
-    assert.equal(catalog.getSkillsForSubject(expected.id).length, expected.skills.length);
+    assert.ok(subjectSkills.length >= expected.skills.length, `${expected.id} skill taxonomy cannot regress below its Batch 6 foundation`);
 
     const ranked = adaptive.rankAdaptiveLearningV2({
       age: 5,
@@ -128,13 +130,13 @@ try {
 
     const summary = insights.getSubjectLearningSummary(expected.id, emptyProgress, analytics);
     assert.equal(summary.subjectId, expected.id);
-    assert.equal(summary.requiredActivities, 2, `${expected.id} parent summary must use the two required core activities`);
-    assert.equal(summary.totalSkills, 2, `${expected.id} parent summary must include the starter skill taxonomy`);
+    assert.ok(summary.requiredActivities >= 2, `${expected.id} parent summary must retain at least the two Batch 6 required core activities`);
+    assert.ok(summary.totalSkills >= expected.skills.length, `${expected.id} parent summary must retain the starter skill taxonomy`);
 
     const readiness = insights.getSubjectStageReadiness(expected.id, emptyProgress, analytics);
-    assert.equal(readiness.length, 1, `${expected.id} must participate in stage readiness`);
-    assert.equal(readiness[0].stageId, expected.stageId);
-    assert.equal(readiness[0].requiredCount, 2);
+    const starterReadiness = readiness.find((item) => item.stageId === expected.stageId);
+    assert.ok(starterReadiness, `${expected.id} starter stage must continue to participate in stage readiness`);
+    assert.equal(starterReadiness.requiredCount, 2);
   }
 
   const traceContent = manifest.getContentForActivity("letters-trace-a");
@@ -144,10 +146,10 @@ try {
   assert.equal(traceContent.activity.evidenceContractId, "completion_only_v1", "unvalidated letter trace must not manufacture path-quality mastery evidence");
 
   const coverage = curriculum.getCurriculumCoverage();
-  assert.deepEqual(coverage.uncoveredStageIds, [], "Batch 6 must not introduce orphan stages");
-  assert.deepEqual(coverage.uncoveredActivityIds, [], "Batch 6 must not introduce orphan activities");
+  assert.deepEqual(coverage.uncoveredStageIds, [], "Batch 6 foundation stages must remain connected after later expansion batches");
+  assert.deepEqual(coverage.uncoveredActivityIds, [], "Batch 6 foundation activities must remain connected after later expansion batches");
 
-  console.log("Batch 6 Letters/Menulis, Logic, and Science subject foundations passed navigation-data, curriculum, evidence, adaptive, progression, and parent-summary acceptance.");
+  console.log("Batch 6 Letters/Menulis, Logic, and Science foundations remain intact across later subject expansions.");
 } catch (error) {
   console.error(error);
   process.exit(1);
