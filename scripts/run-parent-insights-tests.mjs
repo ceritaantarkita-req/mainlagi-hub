@@ -18,6 +18,7 @@ if (compile.status !== 0) process.exit(compile.status ?? 1);
 
 const require = createRequire(import.meta.url);
 const insights = require(path.join(outDir, "src", "lib", "learning", "insights.js"));
+const batch8 = require(path.join(outDir, "src", "lib", "learning", "bahasaBatch8.js"));
 
 function analytics(overrides = {}) {
   return {
@@ -45,15 +46,12 @@ function mastery(skillId, score = 0.7, confidence = 0.6, qualifyingEvidenceCount
 }
 
 try {
+  const expectedBahasaStageIds = ["bahasa-huruf", "bahasa-cerita", ...batch8.BAHASA_BATCH8_STAGE_IDS];
   const emptyProgress = { completedActivityIds: [], stars: 0, lastActivityId: null };
   const initialRows = insights.getSubjectStageReadiness("bahasa", emptyProgress, analytics());
-  assert.equal(initialRows.length, 3, "Batch 8 Wave A should expose the two historical Bahasa stages plus the new expansion stage");
-  assert.equal(initialRows[0].stageId, "bahasa-huruf");
+  assert.deepEqual(initialRows.map((row) => row.stageId), expectedBahasaStageIds, "parent readiness must expose historical and current Batch 8 Bahasa stages in canonical order");
   assert.equal(initialRows[0].status, "in_progress", "first stage must start unlocked");
-  assert.equal(initialRows[1].stageId, "bahasa-cerita");
-  assert.equal(initialRows[1].status, "locked", "second stage must remain locked before prior readiness");
-  assert.equal(initialRows[2].stageId, "bahasa-dasar-huruf");
-  assert.equal(initialRows[2].status, "locked", "new Batch 8 stage must respect sequential readiness instead of bypassing earlier Bahasa stages");
+  for (const row of initialRows.slice(1)) assert.equal(row.status, "locked", `${row.stageId} must remain locked before prior readiness`);
 
   const readyProgress = {
     completedActivityIds: ["bahasa-cari-a", "bahasa-dengar-a", "bahasa-pasang-awal"],
@@ -67,14 +65,14 @@ try {
     }
   });
   const readyRows = insights.getSubjectStageReadiness("bahasa", readyProgress, readyAnalytics);
+  assert.deepEqual(readyRows.map((row) => row.stageId), expectedBahasaStageIds);
   assert.equal(readyRows[0].status, "ready", "completed core plus sufficient evidence must mark stage ready");
-  assert.equal(readyRows[1].status, "in_progress", "next stage must unlock after prior readiness");
-  assert.equal(readyRows[2].status, "locked", "later Batch 8 stage must remain locked while the preceding story stage is still in progress");
+  assert.equal(readyRows[1].status, "in_progress", "next historical stage must unlock after prior readiness");
+  for (const row of readyRows.slice(2)) assert.equal(row.status, "locked", `${row.stageId} must remain locked while the preceding story stage is still in progress`);
 
   const completionOnlyRows = insights.getSubjectStageReadiness("bahasa", readyProgress, analytics());
   assert.equal(completionOnlyRows[0].status, "evidence_needed", "completion without qualifying evidence must not unlock progression");
-  assert.equal(completionOnlyRows[1].status, "locked", "next stage must stay locked when evidence is missing");
-  assert.equal(completionOnlyRows[2].status, "locked", "Batch 8 stage must also stay locked when earlier evidence is missing");
+  for (const row of completionOnlyRows.slice(1)) assert.equal(row.status, "locked", `${row.stageId} must stay locked when earlier evidence is missing`);
 
   const recent = insights.getRecentLearningAttempts(analytics({
     attempts: [
