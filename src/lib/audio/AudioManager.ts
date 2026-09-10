@@ -128,7 +128,11 @@ function browserSpeechSynthesis(): SpeechSynthesisLike | null {
 
 function browserUtterance(text: string): SpeechUtteranceLike | null {
   if (typeof SpeechSynthesisUtterance === "undefined") return null;
-  return new SpeechSynthesisUtterance(text) as unknown as SpeechUtteranceLike;
+  try {
+    return new SpeechSynthesisUtterance(text) as unknown as SpeechUtteranceLike;
+  } catch {
+    return null;
+  }
 }
 
 function browserAudioContext(): AudioContext | null {
@@ -205,11 +209,23 @@ export class AudioManager {
     };
   }
 
+  private createUtterance(text: string): SpeechUtteranceLike | null {
+    try {
+      return this.deps.createUtterance(text);
+    } catch {
+      return null;
+    }
+  }
+
   speechCapability(): SpeechStartStatus {
     if (this.muted) return "muted";
-    const synth = this.deps.getSpeechSynthesis();
-    if (!synth || !this.deps.createUtterance("")) return "unavailable";
-    return "spoken";
+    try {
+      const synth = this.deps.getSpeechSynthesis();
+      if (!synth || !this.createUtterance("")) return "unavailable";
+      return "spoken";
+    } catch {
+      return "unavailable";
+    }
   }
 
   status(): AudioManagerStatus {
@@ -300,8 +316,14 @@ export class AudioManager {
   }
 
   private scheduleSpeechWarmup(locale: string, delayMs = SPEECH_WARMUP_DELAY_MS): void {
-    this.clearWarmupTimer();
-    if (this.muted || this.warmedSpeech || this.active || this.queue.length > 0) return;
+    if (
+      this.muted ||
+      this.warmedSpeech ||
+      this.active ||
+      this.queue.length > 0 ||
+      this.warmupTimer !== null ||
+      this.warmupUtterance
+    ) return;
     if (this.speechCapability() !== "spoken") return;
     this.warmupTimer = this.deps.setTimer(() => {
       this.warmupTimer = null;
@@ -310,9 +332,9 @@ export class AudioManager {
   }
 
   private runSpeechWarmup(locale: string): void {
-    if (this.muted || this.warmedSpeech || this.active || this.queue.length > 0) return;
+    if (this.muted || this.warmedSpeech || this.active || this.queue.length > 0 || this.warmupUtterance) return;
     const synth = this.synth();
-    const utterance = this.deps.createUtterance(".");
+    const utterance = this.createUtterance(".");
     if (!synth || !utterance) return;
 
     utterance.lang = locale;
@@ -458,7 +480,7 @@ export class AudioManager {
 
   private startRequest(request: SpeechRequest): void {
     const synth = this.synth();
-    const utterance = this.deps.createUtterance(request.text);
+    const utterance = this.createUtterance(request.text);
     if (!synth || !utterance) {
       this.deps.emitLatency({
         phase: "error",
