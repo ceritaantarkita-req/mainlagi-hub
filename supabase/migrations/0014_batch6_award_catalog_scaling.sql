@@ -2,6 +2,19 @@
 -- The original award trigger was created when Mainlagi had five subjects.
 -- Batch 6 expands the current first-class catalog to eight subjects, so the
 -- server-owned all-subjects achievement must use the same eight-subject gate.
+-- This migration also keeps the initial letter-tracing activity completion-only
+-- until letter-specific path-fidelity measurement is validated.
+
+update public.learning_activities
+set assessment = 'practice',
+    evidence_contract = 'completion_only_v1',
+    updated_at = now()
+where activity_id = 'letters-trace-a';
+
+update public.learning_activity_skills
+set evidence_weight = 0.5
+where activity_id = 'letters-trace-a'
+  and skill_key = 'letters.latin.a.formation';
 
 create or replace function private.refresh_learning_awards()
 returns trigger
