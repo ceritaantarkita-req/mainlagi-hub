@@ -2,8 +2,9 @@ import { DRAWING_BATCH14_PATH, materializeCreativeBatch14Wave } from "./creative
 import { CREATIVE_BATCH14_WAVE_A } from "./creativeBatch14WaveA";
 import { CREATIVE_BATCH14_WAVE_B } from "./creativeBatch14WaveB";
 import { CREATIVE_BATCH14_WAVE_C } from "./creativeBatch14WaveC";
+import { CREATIVE_BATCH14_WAVE_D } from "./creativeBatch14WaveD";
 
-export const CREATIVE_BATCH14_WAVES = [CREATIVE_BATCH14_WAVE_A, CREATIVE_BATCH14_WAVE_B, CREATIVE_BATCH14_WAVE_C] as const;
+export const CREATIVE_BATCH14_WAVES = [CREATIVE_BATCH14_WAVE_A, CREATIVE_BATCH14_WAVE_B, CREATIVE_BATCH14_WAVE_C, CREATIVE_BATCH14_WAVE_D] as const;
 
 const MATERIALIZED_WAVES = CREATIVE_BATCH14_WAVES.map(materializeCreativeBatch14Wave);
 
@@ -22,5 +23,6 @@ export const CREATIVE_BATCH14_DRAWING_PATH = { ...DRAWING_BATCH14_PATH, stageIds
 export const CREATIVE_BATCH14_WAVE_ACTIVITY_COUNTS = {
   A: CREATIVE_BATCH14_WAVE_A.activities.length,
   B: CREATIVE_BATCH14_WAVE_B.activities.length,
-  C: CREATIVE_BATCH14_WAVE_C.activities.length
+  C: CREATIVE_BATCH14_WAVE_C.activities.length,
+  D: CREATIVE_BATCH14_WAVE_D.activities.length
 } as const;

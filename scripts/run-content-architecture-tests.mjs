@@ -43,7 +43,7 @@ function assertWaveMigrationIds(waves,names){
 try {
   const report=architecture.assertContentArchitectureValid();
   assert.deepEqual(report.errors,[]);
-  assert.deepEqual(report.stats,{subjects:9,paths:9,stages:44,lessons:187,packs:187,activities:850,skills:190,mechanics:8,assessedActivities:683,practiceActivities:167});
+  assert.deepEqual(report.stats,{subjects:9,paths:9,stages:46,lessons:197,packs:197,activities:900,skills:200,mechanics:8,assessedActivities:683,practiceActivities:217});
   assert.equal(report.warnings.length,22);
   assert.ok(report.warnings.every((item)=>item.code==="EXPERT_REVIEW_REQUIRED"));
 
@@ -57,10 +57,10 @@ try {
   assert.deepEqual(batch11.LETTERS_BATCH11_WAVE_ACTIVITY_COUNTS,{A:22,B:25,C:25,D:25});
   assert.deepEqual(batch12.LOGIC_BATCH12_WAVE_ACTIVITY_COUNTS,{A:22,B:25,C:25,D:25});
   assert.deepEqual(batch13.SCIENCE_BATCH13_WAVE_ACTIVITY_COUNTS,{A:22,B:25,C:25,D:25});
-  assert.deepEqual(batch14.CREATIVE_BATCH14_WAVE_ACTIVITY_COUNTS,{A:48,B:50,C:50});
-  assert.equal(batch14.CREATIVE_BATCH14_ACTIVITY_IDS.length,148);
-  assert.equal(batch14.CREATIVE_BATCH14_DRAWING_ACTIVITY_IDS.length,75);
-  assert.equal(batch14.CREATIVE_BATCH14_COLOR_ACTIVITY_IDS.length,73);
+  assert.deepEqual(batch14.CREATIVE_BATCH14_WAVE_ACTIVITY_COUNTS,{A:48,B:50,C:50,D:50});
+  assert.equal(batch14.CREATIVE_BATCH14_ACTIVITY_IDS.length,198);
+  assert.equal(batch14.CREATIVE_BATCH14_DRAWING_ACTIVITY_IDS.length,100);
+  assert.equal(batch14.CREATIVE_BATCH14_COLOR_ACTIVITY_IDS.length,98);
 
   const canonicalByGlyph=new Map(hijaiyah.HIJAIYAH_TEMPLATES.map((letter)=>[letter.letter,letter]));
   assert.equal(batch10Authoring.IQRO_BATCH10_LETTERS.length,29);
@@ -85,7 +85,7 @@ try {
   for(const pack of sciencePacks) for(const item of pack.activities){assert.equal(item.assessment,"assessed");assert.ok(["choice_accuracy_v1","matching_accuracy_v1"].includes(item.evidenceContractId));}
 
   const creativePacks=manifest.CONTENT_PACKS.filter((pack)=>batch14.CREATIVE_BATCH14_CONTENT_PACKS.some((item)=>item.id===pack.id));
-  assert.equal(creativePacks.length,30); assert.ok(creativePacks.every((pack)=>pack.reviewStatus==="internal"));
+  assert.equal(creativePacks.length,40); assert.ok(creativePacks.every((pack)=>pack.reviewStatus==="internal"));
   for(const pack of creativePacks) for(const item of pack.activities){
     assert.equal(item.assessment,"practice");
     assert.equal(item.evidenceContractId,"completion_only_v1");
@@ -114,11 +114,11 @@ try {
   allMigrations.push(...assertWaveMigrationIds(batch11.LETTERS_BATCH11_WAVES,["0031_batch11_letters_wave_a.sql","0032_batch11_letters_wave_b.sql","0033_batch11_letters_wave_c.sql","0034_batch11_letters_wave_d.sql"]));
   allMigrations.push(...assertWaveMigrationIds(batch12.LOGIC_BATCH12_WAVES,["0035_batch12_logic_wave_a.sql","0036_batch12_logic_wave_b.sql","0037_batch12_logic_wave_c.sql","0038_batch12_logic_wave_d.sql"]));
   allMigrations.push(...assertWaveMigrationIds(batch13.SCIENCE_BATCH13_WAVES,["0039_batch13_science_wave_a.sql","0040_batch13_science_wave_b.sql","0041_batch13_science_wave_c.sql","0042_batch13_science_wave_d.sql"]));
-  const creativeMigrations=assertWaveMigrationIds(batch14.CREATIVE_BATCH14_WAVES,["0043_batch14_creative_wave_a.sql","0044_batch14_creative_wave_b.sql","0045_batch14_creative_wave_c.sql"]);
+  const creativeMigrations=assertWaveMigrationIds(batch14.CREATIVE_BATCH14_WAVES,["0043_batch14_creative_wave_a.sql","0044_batch14_creative_wave_b.sql","0045_batch14_creative_wave_c.sql","0046_batch14_creative_wave_d.sql"]);
   assert.match(creativeMigrations[0],/subject_id in \('bahasa','english','math','iqro','letters','logic','science','color','drawing'\)/);
   for(const migrationText of creativeMigrations) assert.match(migrationText,/completion_only_v1/);
   allMigrations.push(...creativeMigrations);
   for(const migrationText of allMigrations) for(const legacy of ["learning_attempts","game_sessions","game_scores","progress"]) assert.doesNotMatch(migrationText,new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`,"i"));
 
-  console.log("Batch 14 Creative Wave C content architecture and DB contracts passed.");
+  console.log("Batch 14 Creative Wave D content architecture and DB contracts passed.");
 } catch(error){console.error(error);process.exit(1);} finally{rmSync(outDir,{recursive:true,force:true});}
