@@ -20,6 +20,11 @@ import {
   LETTERS_BATCH11_STAGE_IDS
 } from "./lettersBatch11";
 import {
+  LOGIC_BATCH12_CONTENT_PACKS,
+  LOGIC_BATCH12_LESSON_CORES,
+  LOGIC_BATCH12_STAGE_IDS
+} from "./logicBatch12";
+import {
   MATH_BATCH7_CONTENT_PACKS,
   MATH_BATCH7_LESSON_CORES,
   MATH_BATCH7_STAGE_IDS
@@ -55,6 +60,7 @@ export const CONTENT_PATHS: ContentPathDefinition[] = base.CONTENT_PATHS.map((pa
   if (path.id === "english-first-steps") return { ...path, stageIds: [...path.stageIds, ...ENGLISH_BATCH9_STAGE_IDS] };
   if (path.id === "iqro-fondasi-hijaiyah") return { ...path, stageIds: [...path.stageIds, ...IQRO_BATCH10_STAGE_IDS] };
   if (path.id === "letters-writing-foundations") return { ...path, stageIds: [...path.stageIds, ...LETTERS_BATCH11_STAGE_IDS] };
+  if (path.id === "logic-thinking-foundations") return { ...path, stageIds: [...path.stageIds, ...LOGIC_BATCH12_STAGE_IDS] };
   return { ...path, stageIds: [...path.stageIds] };
 });
 
@@ -64,7 +70,8 @@ export const CONTENT_PACKS: ContentPackDefinition[] = [
   ...BAHASA_BATCH8_CONTENT_PACKS,
   ...ENGLISH_BATCH9_CONTENT_PACKS,
   ...IQRO_BATCH10_CONTENT_PACKS,
-  ...LETTERS_BATCH11_CONTENT_PACKS
+  ...LETTERS_BATCH11_CONTENT_PACKS,
+  ...LOGIC_BATCH12_CONTENT_PACKS
 ];
 
 const EXPANSION_ACTIVITY_IDS_BY_LESSON = new Map<string, string[]>();
@@ -73,7 +80,8 @@ for (const pack of [
   ...BAHASA_BATCH8_CONTENT_PACKS,
   ...ENGLISH_BATCH9_CONTENT_PACKS,
   ...IQRO_BATCH10_CONTENT_PACKS,
-  ...LETTERS_BATCH11_CONTENT_PACKS
+  ...LETTERS_BATCH11_CONTENT_PACKS,
+  ...LOGIC_BATCH12_CONTENT_PACKS
 ]) {
   for (const activity of pack.activities) {
     const ids = EXPANSION_ACTIVITY_IDS_BY_LESSON.get(activity.lessonId) ?? [];
@@ -101,6 +109,10 @@ export const CONTENT_LESSONS: ContentLessonDefinition[] = [
     activityIds: [...(EXPANSION_ACTIVITY_IDS_BY_LESSON.get(lesson.id) ?? [])]
   })),
   ...LETTERS_BATCH11_LESSON_CORES.map((lesson) => ({
+    ...lesson,
+    activityIds: [...(EXPANSION_ACTIVITY_IDS_BY_LESSON.get(lesson.id) ?? [])]
+  })),
+  ...LOGIC_BATCH12_LESSON_CORES.map((lesson) => ({
     ...lesson,
     activityIds: [...(EXPANSION_ACTIVITY_IDS_BY_LESSON.get(lesson.id) ?? [])]
   }))
