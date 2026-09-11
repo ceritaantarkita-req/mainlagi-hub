@@ -17,31 +17,35 @@ This file is the canonical human/AI handoff for the current repository state. `m
 
 ## Latest verified production baseline
 
-**Batch 15 — Adaptive/mastery/report scaling across the 900-activity catalog is production-complete.**
+**Batch 16 automated performance/accessibility/security hardening is live in production; Batch 16 remains IN PROGRESS pending representative physical-device acceptance.**
 
-Final Batch 15 implementation SHA:
+Latest implementation SHA:
 
-`58e5d14633dd3d105f383f56e016c61c9104a892`
+`8193bccbab8293ec7e30fb4de54a0f86537cfa59`
 
-Implementation landed through PR #78. Main CI #312 completed successfully across Ubuntu quality/learning/simulations, Windows compatibility, Chromium mobile-route QA, production build, dependency audit, full-history secret scan, and exact-SHA Cloudflare production smoke.
+Implementation landed through PR #80. Main CI #318 completed successfully across:
 
-Detailed closure evidence: `EXPANSION_BATCH15_CLOSURE_2026-09-11.md`.
+- Ubuntu quality, Batch 16 security regressions, learning/engine tests, and simulations;
+- Windows compatibility;
+- Chromium responsive route QA plus Batch 16 accessibility/lazy-load regressions;
+- Cloudflare/OpenNext production build plus production JavaScript budgets;
+- production dependency audit;
+- full-history secret scan;
+- exact-SHA Cloudflare production smoke.
 
-Batch 15 is application/test scaling only. It preserves the production-closed Batch 14 catalog and persistence baseline and requires no Supabase migration/DDL.
+Detailed progress evidence: `EXPANSION_BATCH16_PROGRESS_2026-09-11.md`.
 
-Earlier expansion closures remain valid:
+Canonical physical-device matrix: `BATCH16_PHYSICAL_DEVICE_QA.md`.
 
-- Batch 12 Logic/Logika final implementation SHA `553b9e28f91feefa9af9c2995f2f7e913bf31491`;
-- Batch 13 Science/Sains final implementation SHA `e35d211ada182e0c5379da7b9b33614309994852`;
-- Batch 14 Drawing + Coloring final implementation SHA `b273edc282261bbec89b0c3d438822204cd925e5`.
+Batch 16 is not production-closed yet. Physical iPhone/Safari and Android/Chrome evidence is still required for real camera, audio/TTS, trace/touch, orientation, browser chrome/safe-area, assistive-technology, text scaling, and offline/reconnect/session-isolation behavior.
 
-Batch 7 Math, Batch 8 Bahasa Indonesia, Batch 9 English, Batch 10 Iqro, and Batch 11 Letters/Menulis also remain production-complete at their catalog targets.
+Batch 15 remains fully production-complete. Its closure is documented in `EXPANSION_BATCH15_CLOSURE_2026-09-11.md`.
 
 **Iqro review boundary remains unchanged:** all active Iqro packs remain `expert_required`, not `expert_approved`. Engineering production closure is not religious-learning expert approval.
 
 ## Current playable catalog
 
-Canonical repository/live-DB catalog state remains unchanged by Batch 15:
+Batch 16 changes no catalog rows, classifications, IDs, or persistence schema. The canonical repository/live-DB catalog remains:
 
 - 9 first-class subjects;
 - 9 learning paths;
@@ -66,37 +70,69 @@ Canonical repository/live-DB catalog state remains unchanged by Batch 15:
 | Coloring / Mewarnai | 100 | 0 | 100 | 21 |
 | Drawing / Menggambar | 100 | 0 | 100 | 20 |
 
-All nine planned tracks remain at the canonical 100-activity catalog target.
+All nine planned tracks remain at the canonical 100-activity target.
+
+## Batch 16 automated hardening
+
+### Performance/build regression gates
+
+Production-build CI now enforces explicit JavaScript regression ceilings through `scripts/run-batch16-build-budget.mjs`.
+
+Verified CI #317/#318 baseline:
+
+- largest static JavaScript chunk: **0.35 MiB** against a 5 MiB ceiling;
+- total static JavaScript: **2.03 MiB** against an 18 MiB ceiling;
+- root/main JavaScript: **0.42 MiB** against a 2 MiB ceiling;
+- no app entry exceeds the 3 MiB per-entry gate;
+- executable MediaPipe remains behind dynamic import boundaries;
+- `AudioManager` construction does not eagerly call remote `/api/tts`.
+
+These are automated regression budgets, not physical-device latency guarantees.
+
+### Accessibility/lazy-load browser regression gates
+
+The canonical Chromium route matrix still exercises 320, 360, 375, 390, 430, 768, and 1024 widths and representative learning runtimes.
+
+Batch 16 adds representative checks for:
+
+- `prefers-reduced-motion: reduce` behavior;
+- visible image `alt` presence;
+- accessible labels on visible form controls;
+- keyboard focus reachability;
+- no focusable controls under `aria-hidden="true"`;
+- no eager MediaPipe/landmarker/WASM/task requests on representative non-vision routes;
+- no eager remote `/api/tts` call before interaction.
+
+Existing horizontal-overflow, touch-target, route-boundary, framework-overlay, page-error, and console-error checks remain in force.
+
+### Security regression gates
+
+`Quality gate (Ubuntu)` now runs `scripts/run-batch16-security-tests.mjs`, which locks the following boundaries:
+
+- client code cannot reference server-only credential names;
+- raw-HTML sinks remain on the reviewed allowlist;
+- article HTML/JSON-LD must pass through the repository sanitizer/serializer;
+- dangerous URL/embed sanitizer boundaries remain constrained;
+- theme bootstrap raw HTML remains static and non-interpolated;
+- migration `SECURITY DEFINER` occurrences retain pinned `search_path` context;
+- `record_learning_attempt(...)` keeps its explicit revoke/grant boundary and stays unavailable to `anon`;
+- learning outbox remains account-bound and credential-free;
+- the Supabase service-role helper remains server-only and environment-backed.
+
+This complements the pre-existing RLS/ownership/RPC/outbox/mastery tests, dependency audit, and full-history secret scan.
 
 ## Batch 15 adaptive/mastery/report scaling
 
-Batch 15 scales the learning system around the closed 900-activity catalog without changing activity counts or evidence classification.
+Batch 15 remains closed and unchanged by Batch 16:
 
-Shipped behavior:
-
-- all child/parent recommendation consumers converge on Adaptive Learning V2;
-- all nine subjects are regression-validated for bounded recommendations;
-- weak-skill remediation can prefer alternate same-skill activities/runtimes over immediate exact replay;
+- child/parent recommendation consumers converge on Adaptive Learning V2;
+- all nine subjects have bounded recommendation coverage;
+- weak-skill remediation can prefer alternate same-skill activities/runtimes over exact replay;
 - Drawing and Coloring remain recommendation-capable but practice-only;
-- Parent reporting is bounded to subject/stage/skill summaries plus capped recent attempts rather than raw catalog/history dumps;
-- creative-only subjects return no synthetic mastery percentage (`mastery: null`);
-- certificate/achievement regressions keep completion-only creative activity outside assessed mastery gates;
-- `test:learning:batch15` exercises a 1,200-attempt scale fixture with a `<64 KiB` Parent-report payload gate and conservative `<5s` report + nine-subject adaptive sweep budget.
-
-The implementation preserves assessed-evidence mastery semantics, motion opt-in, age/stage/difficulty constraints, spacing/review behavior, retry/frustration signals, and anti-replay protections.
-
-## Batch 14 Drawing + Coloring expansion
-
-Batch 14 preserved the two historical Coloring practice activities, introduced Drawing as a first-class subject, and added exactly **198 creative-practice activities**: 100 Drawing and 98 Coloring.
-
-- Wave A — Drawing 0 -> 25; Coloring 2 -> 25: +48 total; PR #73; migration `0043`; main SHA `f27ea5b047e657e896d991656bfe64cdb215c84e`; main CI #301.
-- Wave B — both 25 -> 50: +50 total; PR #74; migration `0044`; main SHA `62e88a5f696d2b4eb2e691298671e137e91caa30`; main CI #304.
-- Wave C — both 50 -> 75: +50 total; PR #75; migration `0045`; main SHA `e120d1fa098ff9f1a7949ba3d1ffa0dee00d312c`; main CI #306.
-- Wave D — both 75 -> 100: +50 total; PR #76; migration `0046`; main SHA `b273edc282261bbec89b0c3d438822204cd925e5`; main CI #308.
-
-All four post-merge runs passed exact-SHA Cloudflare production smoke.
-
-Every Batch 14 creative addition is `practice` with `completion_only_v1` evidence. Drawing uses the `drawing` runtime/mechanic and Coloring uses `coloring`. Free-form or guided creative participation does not manufacture academic accuracy, mastery, stage mastery, or certificate evidence.
+- Parent reporting stays bounded rather than dumping raw catalog/history;
+- creative-only subjects do not receive synthetic mastery percentages;
+- completion-only creative activity cannot satisfy assessed certificate/mastery gates;
+- the 1,200-attempt scale regression preserves `<64 KiB` bounded Parent report and conservative `<5s` adaptive/report CI sweep budgets.
 
 ## Shipped learning/content architecture
 
@@ -142,9 +178,7 @@ Protections remain in force:
 - missing measurement fails closed to completion-only;
 - hints/retries remain available for downstream independence penalties.
 
-Batch 15 keeps these semantics while improving remediation diversity and recommendation/report scaling.
-
-Generic Latin tracing remains completion-only practice until a validated Latin glyph-shape evaluator exists.
+Generic Latin tracing remains completion-only practice until a validated glyph-shape evaluator exists.
 
 Creative Drawing/Coloring remains completion-only practice. There is no objective drawing/coloring mastery claim without a separately validated evaluator and evidence contract.
 
@@ -171,7 +205,7 @@ Real child routes require an undeleted account-owned `player_profiles` row; fore
 
 Authenticated attempt sync retains the durable browser outbox. Failed attempts stay account-bound without storing tokens, use bounded retry/backoff/TTL, and cannot create server mastery until accepted by the canonical RPC.
 
-## Audio, tracing, science-safety, creative, and device boundaries
+## Audio, tracing, science-safety, creative, and physical-device boundaries
 
 Product speech remains consolidated behind `AudioManager`; no child pronunciation recording/upload is introduced.
 
@@ -181,7 +215,7 @@ Science content uses age-appropriate observable/predictive reasoning and does no
 
 Drawing/Coloring completion records participation only; it is intentionally separate from objective skill mastery.
 
-Automated CI does not replace physical-device camera/audio/trace/accessibility acceptance. Representative real-device testing remains part of Batch 16.
+Automated CI now has stronger accessibility/lazy-load/performance coverage, but it still does not replace physical-device camera/audio/trace/accessibility acceptance. The manual matrix in `BATCH16_PHYSICAL_DEVICE_QA.md` remains open and must contain actual physical-hardware evidence before Batch 16 closure.
 
 ## Supabase production state
 
@@ -193,20 +227,7 @@ Canonical project:
 - region: `ap-southeast-1`
 - status: active/healthy.
 
-Applied expansion migration chain remains verified through Batch 14 Wave D. Batch 15 requires no migration/DDL. Recent migrations remain:
-
-```text
-0039_batch13_science_wave_a.sql
-0040_batch13_science_wave_b.sql
-0041_batch13_science_wave_c.sql
-0042_batch13_science_wave_d.sql
-0043_batch14_creative_wave_a.sql
-0044_batch14_creative_wave_b.sql
-0045_batch14_creative_wave_c.sql
-0046_batch14_creative_wave_d.sql
-```
-
-Canonical migration registry contains `batch13_science_wave_a` through `batch13_science_wave_d` and `batch14_creative_wave_a` through `batch14_creative_wave_d`.
+Applied expansion migration chain remains verified through Batch 14 Wave D. Batches 15 and 16 automated hardening require no migration/DDL. Recent expansion migrations remain `0039` through `0046` for Batch 13/14.
 
 Final live catalog verification remains:
 
@@ -217,19 +238,25 @@ Final live catalog verification remains:
 - Coloring exactly 100 practice activities;
 - 197 active packs;
 - 200 active skills;
-- Drawing 20 active skills;
-- Coloring 21 active skills;
 - zero active creative activities with assessed/non-completion evidence drift;
 - zero Drawing/Coloring runtime-mechanic drift.
 
-Post-DDL advisor state remains unchanged because Batch 15 has no DDL:
+No Batch 16 DDL was introduced, so the existing post-Batch-14 advisor baseline remains applicable:
 
-- security: exactly two known WARN findings remain — intentional authenticated execution of protected `SECURITY DEFINER` `record_learning_attempt(...)`, and leaked-password protection disabled under the current Supabase configuration/plan;
-- performance: 17 `unused_index` observations, INFO-only; no WARN-level regression.
+- security: two known WARN findings remain — intentional authenticated execution of protected `SECURITY DEFINER` `record_learning_attempt(...)`, and leaked-password protection disabled under the current Supabase configuration/plan;
+- performance: the previously observed unused-index findings remain informational unless a later index/query review changes that state.
 
 ## CI and release governance
 
-Primary CI covers OpenNext/Cloudflare build, Ubuntu typecheck/lint/source/assets/engine/learning/simulations, Windows compatibility, Chromium mobile-route QA, dependency audit, full-history Gitleaks, and exact-commit Cloudflare smoke on `main`.
+Primary CI now covers:
+
+- Cloudflare/OpenNext production build plus Batch 16 JS/lazy-load budgets;
+- Ubuntu structure/assets/source/security/typecheck/lint/engine/learning/simulations;
+- Windows compatibility;
+- Chromium responsive route QA plus representative accessibility/lazy-load gates;
+- production dependency audit;
+- full-history secret scan;
+- exact-commit Cloudflare smoke on `main`.
 
 ```text
 short-lived branch
@@ -239,28 +266,14 @@ short-lived branch
   -> squash merge
   -> Cloudflare deploy from main
   -> exact-commit production smoke
-  -> closure evidence
+  -> closure/progress evidence
 ```
 
-The active `Protect main` ruleset currently requires `Production build`, `Quality gate (Ubuntu)`, `Windows compatibility`, and `Production dependency audit`. `Secret history scan` runs and is green but is not yet configured as a required status check. This remains an account-level action documented in `ACCOUNT_LEVEL_ACTIONS.md`.
+The active `Protect main` ruleset currently requires `Production build`, `Quality gate (Ubuntu)`, `Windows compatibility`, and `Production dependency audit`. `Secret history scan` runs successfully but is not yet configured as a required status check. This remains an account-level action documented in `ACCOUNT_LEVEL_ACTIONS.md`.
 
 ## Engineering closure status
 
-- Batch 0 baseline — complete;
-- Batch 1 mobile foundation — complete;
-- Batch 2 mobile route migration/Chromium QA — complete;
-- Batch 3 AudioManager — complete;
-- Batch 4 scalable content architecture — complete in production;
-- Batch 5 reusable mechanic library — complete in production;
-- Batch 6 new subject/curriculum foundations — complete in production;
-- Batch 7 Math to 100 — complete in production;
-- Batch 8 Bahasa Indonesia to 100 — complete in production;
-- Batch 9 English to 100 — complete in production;
-- Batch 10 Iqro to 100 — engineering/content-catalog complete in production; expert review still required;
-- Batch 11 Letters/Menulis to 100 — complete in production;
-- Batch 12 Logic/Logika to 100 — complete in production;
-- Batch 13 Science/Sains to 100 — complete in production;
-- Batch 14 Drawing + Coloring to 100 each — complete in production;
-- **Batch 15 adaptive/mastery/report scaling — complete in production**;
-- **Batch 16 performance/accessibility/security/device QA — NEXT**;
-- Batch 17 final acceptance/production closure — planned.
+- Batches 0–14 — complete at their documented scopes; Batch 10 catalog engineering is complete but Iqro expert review remains open;
+- **Batch 15 adaptive/mastery/report scaling — COMPLETE IN PRODUCTION**;
+- **Batch 16 performance/accessibility/security/device QA — IN PROGRESS: automated hardening COMPLETE IN PRODUCTION; representative physical-device acceptance PENDING**;
+- **Batch 17 final acceptance/production closure — PLANNED and blocked on Batch 16 closure**.

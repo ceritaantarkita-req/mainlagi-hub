@@ -39,6 +39,7 @@ A distinct activity requires meaningful educational or interaction variation. An
 - migrations are additive/idempotent unless an explicitly reviewed corrective migration requires otherwise;
 - every content wave follows branch -> PR -> full CI -> migration verification -> live DB verification/advisors -> squash merge -> exact-SHA Cloudflare production smoke;
 - post-catalog application-only batches may omit migration/live-DB steps only when schema/catalog persistence is intentionally unchanged and that boundary is documented;
+- automated browser/device emulation must not be represented as physical-device acceptance;
 - target floors rise only when real playable instances exist and pass validation.
 
 ## Batch status
@@ -61,8 +62,8 @@ A distinct activity requires meaningful educational or interaction variation. An
 | 13 | Science/Sains to 100 | COMPLETE IN PRODUCTION |
 | 14 | Drawing/Menggambar + Coloring/Mewarnai to 100 each | COMPLETE IN PRODUCTION |
 | **15** | **Adaptive/mastery/report scaling across 900 activities** | **COMPLETE IN PRODUCTION** |
-| **16** | **Performance/accessibility/security/device QA** | **NEXT** |
-| 17 | Final acceptance and production closure | PLANNED |
+| **16** | **Performance/accessibility/security/device QA** | **IN PROGRESS — AUTOMATED HARDENING COMPLETE IN PRODUCTION; PHYSICAL-DEVICE ACCEPTANCE PENDING** |
+| 17 | Final acceptance and production closure | PLANNED — BLOCKED ON BATCH 16 CLOSURE |
 
 ## Completed expansion sequence
 
@@ -93,9 +94,9 @@ Batch 14 introduced Drawing as a first-class track and preserved two historical 
 
 All four post-merge runs passed exact-SHA Cloudflare production smoke. Every Batch 14 addition is `practice` + `completion_only_v1`; creative participation does not become objective mastery. Closure: `EXPANSION_BATCH14_CLOSURE_2026-09-11.md`.
 
-## Current production baseline after Batch 15
+## Current production baseline after Batch 16 automated hardening
 
-Batch 15 intentionally keeps the catalog baseline unchanged while scaling the learning system around it:
+Batch 16 does not change the catalog baseline:
 
 - **900 playable activities**;
 - **683 assessed / 217 practice**;
@@ -139,15 +140,39 @@ Closure: `EXPANSION_BATCH15_CLOSURE_2026-09-11.md`.
 
 Batch 15 is not a license to reinterpret completion-only evidence as accuracy. Any new objective creative evaluator requires its own reviewed evidence contract.
 
-## Batch 16 — Performance, accessibility, security, device QA — NEXT
+## Batch 16 — Performance, accessibility, security, device QA — IN PROGRESS
 
-Audit catalog payload size, route/mechanic code splitting, assets, initial JS, TTS initialization, query volume, accessibility, RLS/ownership/RPC/outbox/dependency/secret/advisor checks, and representative physical-device mobile/camera/audio/trace flows.
+### Automated hardening — COMPLETE IN PRODUCTION
 
-Batch 16 should distinguish automated regression evidence from representative physical-device acceptance and should preserve the exact learning-evidence boundaries closed through Batch 15.
+PR #80 shipped the automated Batch 16 foundation to main SHA `8193bccbab8293ec7e30fb4de54a0f86537cfa59`. Main CI #318 is green, including exact-SHA Cloudflare production smoke.
 
-## Batch 17 — Final acceptance and production closure
+Closed automated work:
 
-CI must verify final target counts, unique IDs, content references, evidence contracts, adaptive/mastery/outbox regressions, mobile overflow gates, typecheck/lint/Ubuntu/Windows/simulations/build/audit/secret scan. Then run guest/authenticated/offline/multi-child acceptance, exact-SHA Cloudflare production smoke, and synchronize canonical docs.
+1. production JavaScript regression budgets are enforced in CI;
+2. the current production baseline is approximately 0.35 MiB largest static chunk, 2.03 MiB total static JS, and 0.42 MiB root/main JS against materially higher explicit ceilings;
+3. executable MediaPipe remains behind dynamic-import boundaries and remote TTS is not eagerly initialized before interaction;
+4. Chromium QA now includes representative reduced-motion, visible image-alt/form-label, keyboard-focus, `aria-hidden` focusability, and eager vision/TTS network regressions;
+5. source/security regression gates constrain client credential exposure, raw-HTML sinks/sanitization, `SECURITY DEFINER` search paths, learning RPC grants, outbox credential storage, and the server-only Supabase service-role helper;
+6. dependency audit, full-history secret scan, Ubuntu quality/simulations, Windows compatibility, production build, and responsive route matrix remain green;
+7. no Supabase migration/DDL or learning-evidence/catalog change is introduced.
+
+Progress evidence: `EXPANSION_BATCH16_PROGRESS_2026-09-11.md`.
+
+### Representative physical-device acceptance — OPEN
+
+Canonical matrix: `BATCH16_PHYSICAL_DEVICE_QA.md`.
+
+Batch 16 still requires actual recorded evidence on representative physical iPhone/Safari and Android/Chrome hardware for real browser safe areas/orientation/keyboard behavior, finger trace/drawing/coloring input, audio/TTS, camera permission/recovery/alignment, VoiceOver/TalkBack, text scaling, and offline/reconnect/session-isolation flows.
+
+Headless Chromium, responsive desktop mode, and emulator evidence do not by themselves close this requirement.
+
+**Batch 16 remains IN PROGRESS and Batch 17 must not start until the physical-device requirement is satisfied or an explicit reviewed blocker is recorded.**
+
+## Batch 17 — Final acceptance and production closure — PLANNED
+
+Batch 17 remains blocked on Batch 16 closure.
+
+When unblocked, CI must verify final target counts, unique IDs, content references, evidence contracts, adaptive/mastery/outbox regressions, mobile overflow/accessibility/performance/security gates, typecheck/lint/Ubuntu/Windows/simulations/build/audit/secret scan. Then run guest/authenticated/offline/multi-child acceptance, exact-SHA Cloudflare production smoke, and synchronize canonical docs.
 
 ## Content-wave rule
 
@@ -183,6 +208,7 @@ No batch is production-closed until the requirements relevant to that batch are 
 - PR is merged to `main`;
 - final `main` CI is green;
 - exact-SHA Cloudflare production smoke succeeds;
+- representative physical-device acceptance is recorded when that batch explicitly depends on hardware/browser behavior;
 - canonical handoff/coverage/deployment docs are synchronized;
 - remaining limitations are documented explicitly.
 
