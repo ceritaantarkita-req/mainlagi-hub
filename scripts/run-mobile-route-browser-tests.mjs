@@ -60,6 +60,14 @@ const RUNTIME_ROUTES = [
   ["drawing", "/child/demo-gian/activity/drawing-line-vertical"]
 ];
 
+const BATCH16_ACCESSIBILITY_ROUTES = [
+  { path: "/child/demo-gian/home", kind: "child-learning", touch: true },
+  { path: "/child/demo-gian/learn", kind: "child-learning", touch: true },
+  { path: "/child/demo-gian/activity/math-count-3", kind: "child-learning", touch: true },
+  { path: "/parent/children/demo-gian/reports", kind: "parent", touch: false },
+  { path: "/play/math-choice", kind: "game-play", touch: true }
+];
+
 const SCREENSHOTS = new Set([
   "320:/child/demo-gian/home",
   "375:/child/demo-gian/learn",
@@ -201,6 +209,97 @@ async function inspectPage(page, route, viewport) {
   }
 }
 
+async function inspectBatch16Accessibility(page, route) {
+  const requestedUrls = [];
+  const onRequest = (request) => requestedUrls.push(request.url());
+  page.on("request", onRequest);
+  try {
+    await inspectPage(page, route, { width: 390, height: 844 });
+
+    const audit = await page.evaluate(() => {
+      const isVisible = (element) => {
+        const style = getComputedStyle(element);
+        const rect = element.getBoundingClientRect();
+        return style.display !== "none" && style.visibility !== "hidden" && Number(style.opacity) !== 0 && rect.width > 0 && rect.height > 0;
+      };
+      const labelForControl = (element) => {
+        const ariaLabel = element.getAttribute("aria-label")?.trim();
+        if (ariaLabel) return ariaLabel;
+        const labelledBy = element.getAttribute("aria-labelledby");
+        if (labelledBy && labelledBy.split(/\s+/).some((id) => document.getElementById(id)?.textContent?.trim())) return labelledBy;
+        if (element.closest("label")?.textContent?.trim()) return "wrapped-label";
+        if (element.id && document.querySelector(`label[for="${CSS.escape(element.id)}"]`)?.textContent?.trim()) return "for-label";
+        if (element.getAttribute("title")?.trim()) return element.getAttribute("title");
+        return "";
+      };
+      const parseDurations = (value) => value
+        .split(",")
+        .map((item) => item.trim())
+        .map((item) => item.endsWith("ms") ? Number.parseFloat(item) : Number.parseFloat(item) * 1000)
+        .filter(Number.isFinite);
+
+      const imagesWithoutAlt = Array.from(document.querySelectorAll("img"))
+        .filter(isVisible)
+        .filter((image) => !image.hasAttribute("alt"))
+        .map((image) => image.getAttribute("src")?.slice(0, 120) ?? "img")
+        .slice(0, 10);
+      const unlabeledControls = Array.from(document.querySelectorAll("input:not([type='hidden']), select, textarea"))
+        .filter(isVisible)
+        .filter((element) => !labelForControl(element))
+        .map((element) => `${element.tagName.toLowerCase()}#${element.id || "?"}`)
+        .slice(0, 10);
+      const ariaHiddenFocusable = Array.from(document.querySelectorAll("[aria-hidden='true'] a[href], [aria-hidden='true'] button, [aria-hidden='true'] input, [aria-hidden='true'] select, [aria-hidden='true'] textarea, [aria-hidden='true'] [tabindex]"))
+        .filter(isVisible)
+        .filter((element) => element.getAttribute("tabindex") !== "-1")
+        .map((element) => element.outerHTML.slice(0, 140))
+        .slice(0, 10);
+      const longMotion = Array.from(document.querySelectorAll("body *"))
+        .filter(isVisible)
+        .map((element) => {
+          const style = getComputedStyle(element);
+          const durations = [...parseDurations(style.animationDuration), ...parseDurations(style.transitionDuration)];
+          return { element, maxMs: durations.length ? Math.max(...durations) : 0 };
+        })
+        .filter((item) => item.maxMs > 20)
+        .map((item) => ({ tag: item.element.tagName.toLowerCase(), maxMs: item.maxMs, className: typeof item.element.className === "string" ? item.element.className.slice(0, 100) : "" }))
+        .slice(0, 10);
+
+      return {
+        lang: document.documentElement.lang,
+        imagesWithoutAlt,
+        unlabeledControls,
+        ariaHiddenFocusable,
+        longMotion
+      };
+    });
+
+    assert.equal(audit.lang, "id", `${route.path} must keep document language id`);
+    assert.deepEqual(audit.imagesWithoutAlt, [], `${route.path} has visible images without alt: ${JSON.stringify(audit.imagesWithoutAlt)}`);
+    assert.deepEqual(audit.unlabeledControls, [], `${route.path} has visible unlabeled form controls: ${JSON.stringify(audit.unlabeledControls)}`);
+    assert.deepEqual(audit.ariaHiddenFocusable, [], `${route.path} has focusable controls inside aria-hidden: ${JSON.stringify(audit.ariaHiddenFocusable)}`);
+    assert.deepEqual(audit.longMotion, [], `${route.path} ignores prefers-reduced-motion: ${JSON.stringify(audit.longMotion)}`);
+
+    let focused = false;
+    for (let index = 0; index < 8; index += 1) {
+      await page.keyboard.press("Tab");
+      focused = await page.evaluate(() => {
+        const active = document.activeElement;
+        return Boolean(active && active !== document.body && active !== document.documentElement);
+      });
+      if (focused) break;
+    }
+    assert.ok(focused, `${route.path} did not expose keyboard focus after repeated Tab navigation`);
+
+    const unexpectedHeavyRequests = requestedUrls.filter((url) => /mediapipe|hand_landmarker|pose_landmarker|\.wasm(?:\?|$)|\.task(?:\?|$)/i.test(url));
+    assert.deepEqual(unexpectedHeavyRequests, [], `${route.path} eagerly loaded optional vision assets: ${JSON.stringify(unexpectedHeavyRequests)}`);
+
+    const eagerRemoteTts = requestedUrls.filter((url) => /\/api\/tts(?:\?|$)/.test(url));
+    assert.deepEqual(eagerRemoteTts, [], `${route.path} eagerly requested remote TTS before user interaction`);
+  } finally {
+    page.off("request", onRequest);
+  }
+}
+
 async function main() {
   rmSync(screenshotDir, { recursive: true, force: true });
   mkdirSync(screenshotDir, { recursive: true });
@@ -233,11 +332,22 @@ async function main() {
       }
       await context.close();
     }
+
+    const accessibilityContext = await browser.newContext({
+      viewport: { width: 390, height: 844 },
+      reducedMotion: "reduce"
+    });
+    const accessibilityPage = await accessibilityContext.newPage();
+    for (const route of BATCH16_ACCESSIBILITY_ROUTES) {
+      await inspectBatch16Accessibility(accessibilityPage, route);
+      console.log(`Batch 16 accessibility/lazy-load gate passed for ${route.path}.`);
+    }
+    await accessibilityContext.close();
   } finally {
     await browser.close();
   }
 
-  console.log(`Mainlagi browser mobile route QA passed ${ROUTES.length} canonical routes across ${VIEWPORTS.length} viewport widths plus ${RUNTIME_ROUTES.length} runtime representatives at phone extremes.`);
+  console.log(`Mainlagi browser mobile route QA passed ${ROUTES.length} canonical routes across ${VIEWPORTS.length} viewport widths, ${RUNTIME_ROUTES.length} runtime representatives at phone extremes, and ${BATCH16_ACCESSIBILITY_ROUTES.length} reduced-motion/accessibility/lazy-load representatives.`);
 }
 
 main()
