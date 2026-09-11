@@ -2,25 +2,22 @@
 
 Last reviewed: 11 September 2026
 
-This is the canonical repository plan for scaling Mainlagi across nine structured learning/creative tracks and the post-catalog learning-system phases. `main` remains the implementation source of truth; this document defines sequencing, evidence boundaries, and closure rules.
+This is the canonical repository plan for scaling Mainlagi across nine structured learning/creative tracks and the post-catalog learning-system phases. `main` remains the implementation source of truth.
 
 ## Product target — catalog achieved
 
-The planned content target is now **complete in production: 900 meaningful playable activities** across:
+The planned content target is complete in production: **900 meaningful playable activities** across nine tracks, each exactly 100 activities.
 
-- Math — 100
-- Bahasa Indonesia — 100
-- English — 100
-- Iqro — 100
-- Letters/Menulis — 100
-- Logic/Logika — 100
-- Science/Sains — 100
-- Drawing/Menggambar — 100
-- Coloring/Mewarnai — 100
+Canonical catalog baseline:
 
-Seven academic subjects account for 700 activities; Drawing + Coloring account for 200 creative-practice activities.
+- 900 activities = 683 assessed / 217 practice;
+- 9 subjects / 9 paths;
+- 46 stages;
+- 197 lessons / 197 packs;
+- 200 skills;
+- 8 reusable manifest mechanics.
 
-A distinct activity requires meaningful educational or interaction variation. Answer shuffling, cosmetic changes, or decorative asset swaps do not create a new count by themselves.
+The post-catalog phases must improve system quality without inflating activity counts or weakening evidence integrity.
 
 ## Engineering rules
 
@@ -31,14 +28,13 @@ A distinct activity requires meaningful educational or interaction variation. An
 - measured all-wrong outcomes remain accuracy `0`; missing measurement fails closed;
 - trivial replay/variant farming must not accelerate mastery;
 - historical IDs remain stable;
-- every activity needs valid subject/path/stage/lesson/pack ownership, age/difficulty metadata, skill mapping, mechanic, and evidence metadata;
-- Iqro packs remain `expert_required` until competent human approval; engineering success is not expert religious-learning approval;
+- Iqro packs remain `expert_required` until competent human approval;
 - generic Latin tracing remains practice-only until a validated glyph-shape fidelity evaluator exists;
-- science activities remain age-appropriate and do not depend on unsafe unsupervised experiments;
+- Science remains age-appropriate and does not depend on unsafe unsupervised experiments;
 - Drawing/Coloring remain practice/reporting activities unless a separately validated objective evidence contract is introduced;
-- migrations are additive/idempotent unless an explicitly reviewed corrective migration requires otherwise;
-- every wave follows branch -> PR -> full CI -> migration verification -> live DB verification/advisors -> squash merge -> exact-SHA Cloudflare production smoke;
-- target floors rise only when real playable instances exist and pass validation.
+- migrations are additive/idempotent when persistence changes; do not create no-op migrations merely to assign a batch number;
+- each production batch follows branch -> PR -> full CI -> persistence/live verification as applicable -> squash merge -> exact-SHA Cloudflare production smoke -> synchronized closure docs;
+- recommendation policy must not mutate mastery merely to implement review spacing or product prioritization.
 
 ## Batch status
 
@@ -58,111 +54,77 @@ A distinct activity requires meaningful educational or interaction variation. An
 | 11 | Letters/Menulis to 100 | COMPLETE IN PRODUCTION |
 | 12 | Logic/Logika to 100 | COMPLETE IN PRODUCTION |
 | 13 | Science/Sains to 100 | COMPLETE IN PRODUCTION |
-| **14** | **Drawing/Menggambar + Coloring/Mewarnai to 100 each** | **COMPLETE IN PRODUCTION** |
-| **15** | **Adaptive/mastery/report scaling across 900 activities** | **NEXT** |
-| 16 | Performance/accessibility/security/device QA | PLANNED |
+| 14 | Drawing/Menggambar + Coloring/Mewarnai to 100 each | COMPLETE IN PRODUCTION |
+| **15** | **Adaptive/mastery/report scaling across 900 activities** | **COMPLETE IN PRODUCTION** |
+| **16** | **Performance/accessibility/security/device QA** | **NEXT** |
 | 17 | Final acceptance and production closure | PLANNED |
 
-## Completed expansion sequence
+## Completed catalog expansion sequence
 
-### Batches 7–11
+Batches 7–14 completed the planned nine-track catalog. Historical closure files remain the detailed evidence source:
 
-- Batch 7 — Math entered with 7 historical activities; Wave A added 18 and Waves B–D added 25 each. Closure: `EXPANSION_BATCH7_CLOSURE_2026-09-10.md`.
-- Batch 8 — Bahasa Indonesia entered with 6 historical activities; Wave A added 19 and Waves B–D added 25 each. Closure: `EXPANSION_BATCH8_CLOSURE_2026-09-10.md`.
-- Batch 9 — English entered with 6 historical activities; Wave A added 19 and Waves B–D added 25 each. Closure: `EXPANSION_BATCH9_CLOSURE_2026-09-10.md`.
-- Batch 10 — Iqro entered with 4 historical activities and added 96 through `0027`–`0030`; closes at 99 assessed / 1 historical practice. Active Iqro packs remain `expert_required`. Closure: `EXPANSION_BATCH10_CLOSURE_2026-09-10.md`.
-- Batch 11 — Letters/Menulis entered with 3 historical activities and added 97 through `0031`–`0034`; closes at 87 assessed / 13 practice. Generic formation traces remain `completion_only_v1`. Closure: `EXPANSION_BATCH11_CLOSURE_2026-09-11.md`.
+- `EXPANSION_BATCH7_CLOSURE_2026-09-10.md`
+- `EXPANSION_BATCH8_CLOSURE_2026-09-10.md`
+- `EXPANSION_BATCH9_CLOSURE_2026-09-10.md`
+- `EXPANSION_BATCH10_CLOSURE_2026-09-10.md`
+- `EXPANSION_BATCH11_CLOSURE_2026-09-11.md`
+- `EXPANSION_BATCH12_CLOSURE_2026-09-11.md`
+- `EXPANSION_BATCH13_CLOSURE_2026-09-11.md`
+- `EXPANSION_BATCH14_CLOSURE_2026-09-11.md`
 
-### Batch 12 — Logic/Logika to 100 — COMPLETE
+Batch 14 is the final content-count expansion. It closes the target at 900 activities while preserving Drawing/Coloring as completion-only creative practice.
 
-Logic entered with 3 historical assessed activities and added 97 measured assessed activities across `22 + 25 + 25 + 25`. Final implementation SHA: `553b9e28f91feefa9af9c2995f2f7e913bf31491`; closes at **100 assessed / 0 practice**. Closure: `EXPANSION_BATCH12_CLOSURE_2026-09-11.md`.
+## Batch 15 — Adaptive/mastery/report scaling — COMPLETE
 
-### Batch 13 — Science/Sains to 100 — COMPLETE
+Final implementation:
 
-Science entered with 3 historical assessed activities and added 97 measured assessed activities across `22 + 25 + 25 + 25`. Final implementation SHA: `e35d211ada182e0c5379da7b9b33614309994852`; closes at **100 assessed / 0 practice**. Closure: `EXPANSION_BATCH13_CLOSURE_2026-09-11.md`.
+- PR #78;
+- PR head `c5ca9c186c810e5ba219169c0dd387d744b13bf7`;
+- PR CI #311 — full green;
+- main implementation SHA `58e5d14633dd3d105f383f56e016c61c9104a892`;
+- main CI #312 — full green including exact-SHA Cloudflare production smoke;
+- no Supabase migration/DDL required; migration chain remains through `0046`.
 
-### Batch 14 — Drawing + Coloring to 100 each — COMPLETE
+Shipped scope:
 
-Batch 14 introduced Drawing as a first-class track and preserved two historical Coloring activities. It added exactly **198 creative-practice activities**: Drawing 100 + Coloring 98.
+1. **One Adaptive V2 recommendation policy** across child landing, child path, Parent Progress, and Parent Reports.
+2. **Catalog-scale progression/ranking optimization**: stage unlock is evaluated once per stage, static catalog descriptors are reused, and attempts are indexed per skill instead of repeatedly filtered for every candidate.
+3. **Remediation diversity**: weak measured evidence prefers a different same-skill activity; a different runtime/mechanic receives an additional diversity boost; exact recent replay is penalized.
+4. **Confidence and spaced review**: low-confidence evidence can trigger evidence-building; proficient/mastered skills can return after spacing without decaying or rewriting mastery.
+5. **Frustration-aware soft difficulty** using recent measured accuracy, retries, hints, and interruptions while age/stage/motion remain hard gates.
+6. **Creative integrity**: Drawing/Coloring remain recommendation-capable but do not read or manufacture mastery; completion-only creative completion cannot satisfy academic certificate mastery gates.
+7. **Bounded Parent projections**: one row per subject, assessed-only mastery summaries, stage status counts, per-subject recommendation, weekly assessed/practice split, and capped recent attempts.
+8. **Catalog-scale CI benchmark**: 1,200 synthetic attempts plus a 9-subject recommendation/report sweep. PR CI #311 measured **72.8 ms** and a **7,937-byte** serialized report against guards of 5 seconds / 64 KiB.
 
-- [x] Wave A — Drawing 0 -> 25, Coloring 2 -> 25, +48; PR #73; migration `0043`; main SHA `f27ea5b047e657e896d991656bfe64cdb215c84e`; main CI #301.
-- [x] Wave B — both 25 -> 50, +50; PR #74; migration `0044`; main SHA `62e88a5f696d2b4eb2e691298671e137e91caa30`; main CI #304.
-- [x] Wave C — both 50 -> 75, +50; PR #75; migration `0045`; main SHA `e120d1fa098ff9f1a7949ba3d1ffa0dee00d312c`; main CI #306.
-- [x] Wave D — both 75 -> 100, +50; PR #76; migration `0046`; main SHA `b273edc282261bbec89b0c3d438822204cd925e5`; main CI #308.
+Live Supabase state after the behavioral release remained exactly 900 activities / 683 assessed / 217 practice / 197 packs / 200 skills, with zero creative integrity/runtime drift.
 
-All four post-merge runs passed exact-SHA Cloudflare production smoke. Every Batch 14 addition is `practice` + `completion_only_v1`; creative participation does not become objective mastery. Closure: `EXPANSION_BATCH14_CLOSURE_2026-09-11.md`.
+Detailed closure: `EXPANSION_BATCH15_CLOSURE_2026-09-11.md`.
 
-## Current production baseline after Batch 14
+## Batch 16 — Performance, accessibility, security, device QA — NEXT
 
-- **900 playable activities**;
-- **683 assessed / 217 practice**;
-- 9 first-class subjects / 9 paths;
-- 46 stages;
-- 197 lessons;
-- 197 content packs;
-- 200 skills;
-- 8 manifest mechanics;
-- every subject exactly 100 activities;
-- Drawing 100 practice-only;
-- Coloring 100 practice-only.
-
-The planned catalog-count gap is now **0**.
-
-## Batch 15 — Adaptive/mastery/report scaling — NEXT
-
-Batch 15 should scale recommendations and reporting over the full 900-activity catalog rather than add more activities merely to increase counts.
+Batch 16 is a validation/hardening phase, not a new content-count phase.
 
 Primary work:
 
-1. validate adaptive ranking across all nine subjects, including practice-only creative tracks;
-2. keep assessed mastery driven only by qualifying measured evidence;
-3. keep Drawing/Coloring recommendations useful without fabricating mastery scores;
-4. improve weak-skill remediation using alternate activities/mechanics instead of exact replay loops;
-5. validate confidence/evidence spacing, age, stage, difficulty, frustration/retry, and motion preferences at catalog scale;
-6. ensure Parent Progress/Reports summarize hundreds of activities by skill/stage/subject rather than dumping raw activity lists;
-7. regression-test certificate/achievement qualification so completion-only creative activity cannot satisfy academic mastery gates;
-8. benchmark query/payload behavior introduced by larger mastery/recommendation sets before Batch 16.
-
-Batch 15 is not a license to reinterpret completion-only evidence as accuracy. Any new objective creative evaluator requires its own reviewed evidence contract.
-
-## Batch 16 — Performance, accessibility, security, device QA
-
-Audit catalog payload size, route/mechanic code splitting, assets, initial JS, TTS initialization, query volume, accessibility, RLS/ownership/RPC/outbox/dependency/secret/advisor checks, and representative physical-device mobile/camera/audio/trace flows.
+1. audit production-route JS/payload size, dynamic loading/code splitting, content payload materialization, asset weight, TTS initialization, and query/network volume;
+2. exercise WCAG-oriented keyboard/focus/labels/contrast/reduced-motion semantics on canonical child/parent routes;
+3. re-audit RLS, child ownership/isolation, `record_learning_attempt` RPC boundary, outbox replay/account binding, dependency audit, secret history, and Supabase advisors;
+4. perform representative physical-device acceptance for touch, camera/gesture, audio/TTS fallback, trace/drawing/coloring canvas, orientation/responsive layout, and low-power/mobile behavior;
+5. verify offline -> reconnect reconciliation and multi-child/account isolation with controlled authenticated test profiles;
+6. preserve Batch 15 recommendation/mastery/report benchmark as a regression gate while measuring real route/runtime performance;
+7. document platform limitations separately from code defects; do not mark physical-device or account-level checks complete without actually exercising them.
 
 ## Batch 17 — Final acceptance and production closure
 
-CI must verify final target counts, unique IDs, content references, evidence contracts, adaptive/mastery/outbox regressions, mobile overflow gates, typecheck/lint/Ubuntu/Windows/simulations/build/audit/secret scan. Then run guest/authenticated/offline/multi-child acceptance, exact-SHA Cloudflare production smoke, and synchronize canonical docs.
-
-## Content-wave rule
-
-```text
-Wave A: canonical count 1–25
-Wave B: canonical count 26–50
-Wave C: canonical count 51–75
-Wave D: canonical count 76–100
-```
-
-Existing validated activities count toward boundaries. Never add 25 blindly on top of a non-zero baseline.
-
-Completed entry baselines:
-
-- Math 7 -> Wave A +18;
-- Bahasa 6 -> Wave A +19;
-- English 6 -> Wave A +19;
-- Iqro 4 -> Wave A +21;
-- Letters 3 -> Wave A +22;
-- Logic 3 -> Wave A +22;
-- Science 3 -> Wave A +22;
-- Coloring 2 -> Wave A +23;
-- Drawing 0 -> Wave A +25 after first-class ownership/evidence architecture was added.
+After Batch 16 hardening, Batch 17 must run the full final acceptance matrix: catalog/evidence contracts, adaptive/mastery/outbox regressions, responsive/mobile gates, guest/authenticated/offline/multi-child flows, build/security gates, exact-SHA Cloudflare production smoke, and final canonical documentation synchronization.
 
 ## Production closure rule
 
 No batch is production-closed until:
 
-- target counts and unique-ID/content/evidence contracts pass automated gates;
-- required migrations are applied to canonical Supabase;
-- live DB counts match repository contracts;
+- its defined behavior/contracts pass automated gates;
+- required persistence changes, if any, are applied to canonical Supabase;
+- live state is verified against repository contracts;
 - advisor changes are reviewed;
 - PR is merged to `main`;
 - final `main` CI is green;
