@@ -2,7 +2,7 @@
 
 Last reviewed: 11 September 2026
 
-This document tracks the actual playable catalog separately from authoring/runtime capability. A reusable mechanic does **not** count as a playable activity until a real, meaningfully distinct activity instance exists and passes validation.
+This document tracks the actual playable catalog separately from authoring/runtime capability and post-catalog learning-system behavior. A reusable mechanic or recommendation policy does **not** create a new playable activity by itself.
 
 ## Current playable baseline
 
@@ -18,9 +18,11 @@ This document tracks the actual playable catalog separately from authoring/runti
 | **Coloring / Mewarnai** | **100** | **0** | **100** | **21** | **100** | **0** |
 | **Drawing / Menggambar** | **100** | **0** | **100** | **20** | **100** | **0** |
 
-Current repository/live-DB total after Batch 14: **900 playable activities — 683 assessed and 217 practice** across nine first-class subjects.
+Current repository/live-DB total after Batch 15 remains **900 playable activities — 683 assessed and 217 practice** across nine first-class subjects.
 
-All nine planned tracks are at the canonical 100-activity catalog target. Iqro's engineering/content-catalog count is complete, but every active Iqro pack remains `expert_required`; this is not expert religious-learning approval.
+Batch 15 changes adaptive/mastery/report behavior only. It does not add, remove, reclassify, or renumber activities, packs, skills, paths, lessons, or stages.
+
+All nine planned tracks remain at the canonical 100-activity catalog target. Iqro's engineering/content-catalog count is complete, but every active Iqro pack remains `expert_required`; this is not expert religious-learning approval.
 
 ## Current hierarchy
 
@@ -51,26 +53,28 @@ Every current stage belongs to a learning path; every current activity belongs t
 | Coloring / Mewarnai | 100 | 0 | 100 | 21 | 14 |
 | Drawing / Menggambar | 100 | 0 | 100 | 20 | 14 |
 
-### Batch 12 Logic/Logika
+Detailed catalog expansion evidence is retained in closure documents for Batches 7–14. Batch 14 is the final activity-count expansion and added 198 creative-practice activities while preserving two historical Coloring activities.
 
-Logic entered with three validated assessed activities and added **97 measured assessed activities** through canonical wave counts `22 + 25 + 25 + 25`. It closes at **100 assessed / 0 practice** and 22 active Logic skills. Detailed closure: `EXPANSION_BATCH12_CLOSURE_2026-09-11.md`.
+## Batch 15 behavioral coverage
 
-### Batch 13 Science/Sains
+Batch 15 closes the first post-catalog learning-system scaling phase without changing catalog counts.
 
-Science entered with three validated assessed activities and added **97 measured assessed activities** through canonical wave counts `22 + 25 + 25 + 25`. It closes at **100 assessed / 0 practice** and 22 active Science skills. Detailed closure: `EXPANSION_BATCH13_CLOSURE_2026-09-11.md`.
+The production behavior now covers:
 
-### Batch 14 Drawing + Coloring
+- one Adaptive Learning V2 policy across child landing, child path, Parent Progress, and Parent Reports;
+- scoped stage-unlock evaluation and reusable static catalog descriptors for 900-item ranking;
+- skill-indexed attempt history rather than repeated whole-history filtering per candidate;
+- alternate same-skill remediation with additional runtime/mechanic diversity preference;
+- recent exact-repeat penalties;
+- confidence-building recommendations;
+- spaced review for proficient/mastered skills without mastery decay/rewrite;
+- frustration-aware soft difficulty from recent measured accuracy/retries/hints/interruptions;
+- bounded Parent projections with 9 subject rows and capped recent-attempt detail;
+- assessed-only mastery summaries;
+- Drawing/Coloring recommendation support without mastery synthesis;
+- certificate regression protection for completion-only creative subjects.
 
-Drawing entered at zero and Batch 14 added **100 Drawing creative-practice activities**. Coloring preserved its two historical practice activities and added **98 new creative-practice activities**. Total Batch 14 additions: **198**.
-
-| Wave | Drawing | Coloring | New total | Main scope | Migration |
-| --- | ---: | ---: | ---: | --- | --- |
-| A | 25 | 25 | 48 | Drawing first-class foundation, lines/shapes/paths/connect-dots; Coloring foundation and simple color exploration | `0043_batch14_creative_wave_a.sql` |
-| B | 50 | 50 | 50 | objects from shapes, animals, nature, faces/scenes; warm/cool play, patterns, scenes, vehicles, fantasy | `0044_batch14_creative_wave_b.sql` |
-| C | 75 | 75 | 50 | space/layers, textures, two-side balance, story sequence, inventions; palette relationships, contrast, mood, materials, story scenes | `0045_batch14_creative_wave_c.sql` |
-| D | 100 | 100 | 50 | composition/focus, character design, maps/worlds, visual design, open drawing studio; limited palettes, time/season, character palettes, scene storytelling, open color studio | `0046_batch14_creative_wave_d.sql` |
-
-Every Batch 14 creative addition remains `practice` with `completion_only_v1` evidence. Drawing/Coloring participation is reportable completion, not objective mastery. Detailed closure: `EXPANSION_BATCH14_CLOSURE_2026-09-11.md`.
+The dedicated Batch 15 scaling gate uses a 1,200-attempt synthetic history and verifies the full 9-subject recommendation/report sweep. PR CI #311 measured **72.8 ms** and a **7,937-byte** serialized bounded report, below guards of 5 seconds and 64 KiB.
 
 ## Current playable runtime inventory
 
@@ -91,44 +95,31 @@ These counts sum exactly to **900**.
 
 A playable activity counts only when it has meaningful educational or interaction variation. Answer-order shuffle, cosmetic changes, decorative asset swaps, duplicate content under a new ID, or a mechanic definition without a playable instance do not create new counts.
 
-Every assessed activity must resolve to a known subject/path/stage/lesson/pack, known skill(s), supported mechanic, valid payload contract, and measurable evidence contract.
-
-Mastery remains cumulative. Measured all-wrong attempts remain accuracy `0` evidence; missing measurement cannot become assessed evidence; trivial replay must not accelerate mastery.
+Every assessed activity must resolve to known ownership/skill/mechanic/evidence contracts. Mastery remains cumulative; measured all-wrong attempts remain accuracy `0`; missing measurement cannot become assessed evidence; trivial replay must not accelerate mastery.
 
 Generic Latin pre-writing/letter traces remain `practice` + `completion_only_v1` and do not claim handwriting-shape mastery.
 
-Drawing/Coloring activities remain `practice` + `completion_only_v1`. They can record participation and support product reporting, but do not create academic or creative mastery evidence unless a separately validated objective evaluator/evidence contract is introduced in a future reviewed change.
+Drawing/Coloring remain `practice` + `completion_only_v1`. They can record participation and support product reporting, but do not create academic or creative mastery evidence. Batch 15 explicitly reports creative `mastery: null` and regression-tests that full creative completion cannot satisfy academic certificate mastery readiness.
 
 Science content remains age-appropriate and does not depend on unsafe unsupervised experiments.
 
-## Expansion gates
-
-Canonical wave boundaries remain:
-
-```text
-Wave A: canonical count 1–25
-Wave B: canonical count 26–50
-Wave C: canonical count 51–75
-Wave D: canonical count 76–100
-```
-
-All nine planned tracks have completed their canonical path to 100. Existing validated activities counted toward boundaries; the system did not blindly add 25 on top of non-zero baselines.
-
-## Automated contracts
+## Automated contracts after Batch 15
 
 Current CI verifies, among existing learning contracts:
 
 - exactly 100 activities for each of all nine subjects;
-- Batch 12 Logic closes at 100 assessed / 0 practice;
-- Batch 13 Science closes at 100 assessed / 0 practice;
-- Batch 14 generated additions are 198 unique activities = Drawing 100 + Coloring 98, while two historical Coloring activities are preserved;
-- every generated Batch 14 creative activity is practice/completion-only;
-- **900 total activities / 683 assessed / 217 practice**;
-- **46 stages / 9 paths / 197 lessons / 197 packs / 200 skills / 8 mechanics**;
-- final runtime inventory and subject exact targets;
-- complete path/stage/lesson/pack ownership;
+- 900 total activities / 683 assessed / 217 practice;
+- 46 stages / 9 paths / 197 lessons / 197 packs / 200 skills / 8 mechanics;
+- complete path/stage/lesson/pack ownership and stable historical IDs;
 - migration parity through `0046_batch14_creative_wave_d.sql`;
-- preservation of historical learning tables and identities;
-- existing mastery anti-farming, adaptive, reporting, ownership, outbox, and award contracts.
+- Batch 14 creative practice/evidence boundaries;
+- mastery anti-farming, measured-zero, missing-measurement, ownership, outbox, awards, and certificate contracts;
+- Adaptive V2 scoped recommendation behavior for all nine subjects;
+- no motion recommendation without opt-in;
+- weak-skill alternate remediation over exact replay;
+- legacy recommendation helpers resolve through the same Adaptive V2 policy;
+- full creative completion remains non-mastering/non-certificate-eligible;
+- bounded Parent report cardinality and payload guard under large history;
+- 1,200-attempt catalog-scale performance guard.
 
-The next expansion phase is not another activity-count batch. **Batch 15** focuses on adaptive/mastery/report scaling over the now-complete 900-activity catalog.
+No Batch 15 database migration exists because there is no Batch 15 schema/catalog persistence change. The next canonical phase is **Batch 16 — performance/accessibility/security/device QA**.
