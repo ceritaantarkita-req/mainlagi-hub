@@ -2,138 +2,135 @@
 
 Last reviewed: 11 September 2026
 
-Only actions that genuinely require account/UI access belong here. Secret values must never be committed or pasted into repository issues, logs, docs, screenshots, or chat.
+Only actions that genuinely require account/UI or physical-hardware access belong here. Never commit or paste secret values into repository issues, docs, screenshots, logs, or chat.
 
-## Canonical production state — resolved
+Canonical external tracker: **issue #83 — `Final external acceptance: physical-device QA and required secret-scan check`**.
 
-Supabase:
-
-```text
-organization: inmydraft
-project:      mainlagi-hub
-project ref:  estvtgflwkebomsqlolv
-region:       ap-southeast-1
-```
-
-Applied migrations are verified through `0046_batch14_creative_wave_d.sql`; the canonical migration registry contains Batch 14 `batch14_creative_wave_a` through `batch14_creative_wave_d`.
-
-Production path:
+## Resolved engineering/production state
 
 ```text
-GitHub main
-  -> Cloudflare Git integration
-  -> OpenNext Worker mainlagi-hub
-  -> https://mainlagihub.my.id/
-```
-
-Latest verified implementation release before this docs-only closure:
-
-```text
-main SHA:            b273edc282261bbec89b0c3d438822204cd925e5
-Main CI:             #308
-Production smoke:    success, exact SHA
+repository:          ceritaantarkita-req/mainlagi-hub
+canonical branch:    main
+production:          https://mainlagihub.my.id/
 Supabase project:    estvtgflwkebomsqlolv
-Playable catalog:    900
+region:              ap-southeast-1
+status:              ACTIVE_HEALTHY
+Batch 17 main SHA:   d27b32124d3df1613c648132aa2f1ff0ed94ebaa
+Main CI:             #322
+Production smoke:    success, exact SHA
+Final contract:      PASS
 ```
 
-The exact-commit production smoke verifies non-secret metadata for SHA, branch, canonical site URL, backend `supabase`, and canonical Supabase project ref. Secret values are intentionally not printed.
+Repository, CI, Cloudflare production, and canonical Supabase work through Batch 17 engineering acceptance are complete.
 
-No `MAINLAGI_VPS_*` GitHub secrets are required. Production is not VPS/SSH based.
+## Required account action — Protect main
 
-## Required manual action: add Secret history scan to Protect main
-
-Current active `Protect main` ruleset inspection on 11 September 2026 shows these required status checks:
+The active `Protect main` ruleset currently requires exactly:
 
 1. `Production build`
 2. `Quality gate (Ubuntu)`
 3. `Windows compatibility`
 4. `Production dependency audit`
 
-The CI workflow also runs `Secret history scan`, and the scan is passing, but it is **not yet mandatory in the ruleset**.
+`Secret history scan` runs and passes, including main CI #322, but is **not mandatory in the ruleset**.
 
-In GitHub repository settings, edit the active `Protect main` ruleset and add:
+In GitHub repository Settings, add:
 
 ```text
 Secret history scan
 ```
 
-Do not remove or weaken any existing required check.
+to the required status checks. Do not remove or weaken existing checks.
 
-This action cannot be performed through the connected GitHub API surface used for this closure because repository-ruleset administration writes are not exposed there.
+The connected GitHub API surface can inspect rulesets but does not expose ruleset-administration writes, so this cannot be truthfully completed by the current automation session.
 
-`Mobile route QA (Chromium)` also runs in CI and is green, but it is not currently listed among the required status checks. This is documented for visibility; the explicit required manual action in this file remains adding `Secret history scan`.
+`Mobile route QA (Chromium)` also runs and is green; it is not currently mandatory in the ruleset. The explicit required governance action remains `Secret history scan`.
 
-## Accepted platform limitation: Supabase leaked-password protection
+## Required physical-device acceptance
 
-The canonical project currently reports leaked-password/HIBP protection disabled. Existing mitigation remains:
+Canonical matrix: `BATCH16_PHYSICAL_DEVICE_QA.md`.
 
-- minimum password length at least 8;
-- secure password change enabled;
-- current password required for password update.
+Full Batch 16/17 product acceptance still requires actual physical-hardware evidence on:
 
-Revisit leaked-password protection when the account/plan supports enabling it. It is not an unresolved application-code blocker for Batch 14 closure.
+- representative physical iPhone + current Safari;
+- representative physical Android + current Chrome;
+- browser chrome/safe area/orientation/virtual keyboard;
+- real finger trace/drawing/coloring coordinate behavior;
+- audio/TTS timing, stop, fallback, and route transitions;
+- camera permission, alignment, orientation changes, denial/fallback, and recovery;
+- reduced-motion behavior;
+- VoiceOver and TalkBack;
+- text scaling/zoom where applicable;
+- offline -> reconnect reconciliation;
+- account/session isolation.
 
-## Known Supabase security boundary
+Do not mark a matrix row PASS unless it was actually exercised on the stated physical device/browser and the evidence is recorded.
 
-The security advisor reports authenticated execution of `public.record_learning_attempt(...)` because it is a `SECURITY DEFINER` RPC. This execution path is intentional: the function is the protected server-side attempt-recording boundary and retains ownership/content validation before evidence/mastery updates.
+Headless Chromium or responsive desktop mode is not physical-device certification.
 
-Do not blindly revoke or convert it solely to silence the advisor; any change requires a reviewed replacement that preserves authenticated attempt recording and fail-closed ownership/evidence behavior.
+## Live Supabase facts rechecked during Batch 17
 
-## Optional human/device acceptance
+- migration registry ends at `batch14_creative_wave_d`; Batches 15–17 have no DDL;
+- 900 active/unique activities, 683 assessed / 217 practice;
+- nine subjects exactly 100 each;
+- 46 stages, 197 lessons/packs, 200 skills;
+- creative evidence/runtime drift = 0;
+- account/learning ownership tables have RLS enabled;
+- `learning_attempt_child_ownership` remains installed;
+- `record_learning_attempt(...)` is SECURITY DEFINER with `search_path=public`, authenticated execute = true, anon/public execute = false.
 
-These are useful acceptance exercises, not missing backend implementation:
+Security advisor still reports only the two known WARN categories:
 
-### Real cloud child browser exercise
+1. intentional authenticated execution of the protected SECURITY DEFINER attempt RPC;
+2. leaked-password protection disabled.
 
-1. Sign in with a controlled test account.
-2. Create a disposable child profile through `/child/select`.
-3. Reload or open another browser session and confirm the profile remains available.
-4. Complete a measurable activity.
-5. Confirm Parent Progress/Report reflects cloud state.
-6. Soft-delete the disposable profile.
+Performance advisor reports 17 `unused_index` INFO items and no WARN regression.
 
-### Offline reconciliation exercise
+Do not change the intentional RPC boundary merely to silence the advisor; any replacement must preserve ownership/content/evidence validation and fail-closed semantics.
 
-1. Sign in with a controlled test account.
-2. Go offline after the app is loaded.
-3. Complete a measurable activity.
-4. Confirm the attempt remains visible as pending/local history rather than disappearing.
-5. Return online.
-6. Confirm the durable account-bound outbox reconciles the attempt to cloud state.
+## Supabase leaked-password limitation
 
-### Physical-device QA
+Leaked-password/HIBP protection is currently disabled. Existing mitigation remains minimum password requirements and secure/current-password change behavior. Revisit when account/plan capability permits.
 
-Periodically test representative phones/tablets/laptops for:
+## Optional controlled browser acceptance
 
-- camera/gesture behavior;
-- touch targets;
-- keyboard/screen-reader behavior where applicable;
-- TTS/listening fallback;
-- Drawing/Coloring touch-canvas behavior;
-- responsive layout and performance.
+These are useful additional human acceptance exercises but do not replace the physical-device matrix:
 
-Do not represent these as completed unless they were actually exercised on the relevant device/browser.
+### Real cloud child lifecycle
 
-## Branch cleanup
+1. sign in with a controlled test account;
+2. create a disposable child profile;
+3. verify persistence after reload/new session;
+4. complete a measurable activity;
+5. verify Parent Progress/Report cloud state;
+6. soft-delete the disposable profile.
 
-After the final docs closure is merged and its exact-commit production smoke passes, delete merged/superseded remote branches while preserving:
+### Offline reconciliation
 
-- `main`;
-- any intentionally unmerged branch still carrying unique work.
+1. sign in with a controlled account;
+2. load the app, then go offline;
+3. complete a measurable activity;
+4. confirm pending/local history remains visible;
+5. reconnect;
+6. confirm the account-bound outbox reconciles to cloud state.
 
-Developer clones can then run `git fetch origin --prune`.
+Automated outbox/isolation contracts are already green; this exercise is end-user integration evidence.
 
-## Periodic account-security review
+## Branch hygiene
 
-Where supported by current plans, periodically review:
+After merged branches are no longer needed, delete merged/superseded remote branches while preserving `main` and any intentionally unmerged branch carrying unique work. The current connector does not expose remote-branch deletion, so do not claim cleanup if it was not actually performed.
 
-- required-check ruleset state;
+## Periodic governance review
+
+Periodically recheck:
+
+- required status checks;
 - Dependabot/security alerts;
 - secret scanning/push protection;
 - Private Vulnerability Reporting;
-- Cloudflare Git integration permissions;
-- Cloudflare environment variables/secrets;
+- Cloudflare Git integration permissions and secrets;
 - Supabase Auth security settings;
-- deployment history and custom-domain configuration.
+- deployment history/custom domain state;
+- physical-device compatibility after significant browser/runtime changes.
 
-Do not mark an account-level setting enabled merely because repository code references it; verify it in the relevant account UI or API state first.
+Full external acceptance may be marked complete only after issue #83's required conditions are actually resolved or explicitly accepted as reviewed governance exceptions.

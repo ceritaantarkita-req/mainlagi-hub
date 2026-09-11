@@ -1,187 +1,171 @@
 # Public Repository Readiness & Ongoing Audit Checklist
 
-`ceritaantarkita-req/mainlagi-hub` is **Public**. This checklist separates verified engineering/release state from ongoing governance and human/device acceptance. Historical exposure evidence remains in `PUBLIC_EXPOSURE_AUDIT_20260909.md`; canonical runtime state is in `CURRENT_STATE.md`.
+Last reviewed: 11 September 2026
+
+`ceritaantarkita-req/mainlagi-hub` is Public. This checklist separates verified engineering/release evidence from external physical-device and account-governance acceptance.
+
+Canonical external tracker: issue #83 — `Final external acceptance: physical-device QA and required secret-scan check`.
+
+## Latest verified engineering release
+
+```text
+main SHA:               d27b32124d3df1613c648132aa2f1ff0ed94ebaa
+Batch 17 PR:            #82
+Main CI:                #322
+Production smoke:       success, exact SHA
+Supabase target:        estvtgflwkebomsqlolv
+Final acceptance gate:  PASS
+Physical-device cert:   PENDING_EXTERNAL_EVIDENCE
+```
 
 ## Release-critical engineering state
 
-- [x] Canonical repository and production branch are `ceritaantarkita-req/mainlagi-hub` / `main`.
-- [x] Cloudflare Git integration builds/deploys canonical `main`.
+- [x] Canonical repository/branch are `ceritaantarkita-req/mainlagi-hub` / `main`.
+- [x] Cloudflare Git integration deploys canonical `main`.
 - [x] OpenNext production build is a permanent CI gate.
 - [x] Ubuntu quality gate is active.
 - [x] Windows compatibility gate is active.
 - [x] Production dependency audit is active.
-- [x] Full-history Gitleaks `Secret history scan` runs in CI and passes.
-- [x] Exact-commit `Production smoke (Cloudflare)` verifies homepage, release SHA, branch, site URL, backend, and canonical Supabase project ref.
-- [x] Canonical Supabase migrations `0001` through `0010` are live.
-- [x] Supabase performance advisor has 0 WARN findings after final index hardening.
-- [x] Authenticated learning attempts/evidence/mastery were observed in canonical production Supabase during controlled smoke validation.
-- [x] Cloud child ownership and multi-child isolation are protected by RLS/server route guards/database contracts.
-- [x] Offline authenticated attempt outbox is account-bound and regression tested.
-- [x] Server-persisted achievements/certificates and Parent Report V2 are shipped.
+- [x] Full-history Gitleaks `Secret history scan` runs and passes.
+- [x] Chromium mobile-route/accessibility/lazy-load QA is active.
+- [x] Batch 16 production JS/lazy-load budgets are active.
+- [x] Batch 16 security-boundary regressions are active.
+- [x] Batch 17 final acceptance contract is active.
+- [x] Exact-commit Cloudflare smoke verifies SHA, branch, site URL, backend, and canonical Supabase project ref.
+- [x] Offline authenticated outbox, account ownership, multi-child isolation, mastery, awards/certificates, Parent reporting, and adaptive-learning contracts remain regression tested.
+- [x] Canonical Supabase live state was reverified during Batch 17 and matches repository counts/contracts.
 
-Latest verified engineering deployment before this docs-only closure:
+## Final catalog/evidence state
 
-```text
-main commit:        771409b04a5ea626f6dfc68d1265197492e0263e
-Cloudflare Build:   01a94875-f9c8-4b1f-ad89-9824a14fdbc5
-Cloudflare Version: 2f9a60e6-6571-494d-bfd5-ce9847454d9c
-Production smoke:   success
-Supabase target:    estvtgflwkebomsqlolv
-```
+- [x] 9 subjects / 9 paths.
+- [x] 46 stages.
+- [x] 197 lessons.
+- [x] 197 content packs.
+- [x] 900 unique playable activities.
+- [x] Every subject exactly 100 activities.
+- [x] 683 assessed / 217 practice.
+- [x] 200 active skills.
+- [x] Exact runtime inventory is regression locked.
+- [x] Every activity has exact content-pack coverage.
+- [x] Drawing/Coloring remain practice-only with `completion_only_v1` evidence.
+- [x] Generic Latin tracing remains completion-only until a validated evaluator exists.
+- [x] Iqro remains `expert_required`; engineering success is not expert religious-learning approval.
 
-## One remaining repository-settings action
+## Live Supabase verification
 
-- [ ] Add **`Secret history scan`** to the active `Protect main` ruleset's required-status-check list.
+- [x] Project `estvtgflwkebomsqlolv` is `ACTIVE_HEALTHY` in `ap-southeast-1`.
+- [x] 900 active/unique activities live.
+- [x] 683 assessed / 217 practice live.
+- [x] 9 subjects exactly 100 each live.
+- [x] 46 stages / 197 lessons / 197 active+unique packs / 200 active+unique skills live.
+- [x] Creative evidence drift = 0.
+- [x] Drawing/Coloring runtime drift = 0.
+- [x] Relevant account/learning tables have RLS enabled.
+- [x] `learning_attempt_child_ownership` trigger is present.
+- [x] `record_learning_attempt(...)` is SECURITY DEFINER with `search_path=public`, authenticated execute allowed, anon/public denied.
+- [x] Migration registry remains through Batch 14 Wave D; Batches 15–17 add no DDL.
 
-The scan itself already runs and passes. Current ruleset inspection shows four mandatory checks: `Production build`, `Quality gate (Ubuntu)`, `Windows compatibility`, and `Production dependency audit`. The GitHub connector used for this closure can read the ruleset but cannot modify repository administration settings, so this item requires a GitHub Settings UI action.
+## Advisor state
 
-Do not weaken or remove any existing required check while adding it.
+- [x] Security advisor has no new Batch 17 regression.
+- [x] The intentional authenticated SECURITY DEFINER RPC warning remains documented and regression protected.
+- [x] Leaked-password-protection warning remains documented as a current platform/configuration limitation.
+- [x] Performance advisor currently has 17 `unused_index` INFO observations and no WARN regression.
+
+Do not remove indexes merely because they are currently reported unused; evaluate query history/workload first.
 
 ## Repository / licensing baseline
 
 - [x] Repository visibility is Public.
 - [x] Source declares `AGPL-3.0-only`.
 - [x] `LICENSE`, `NOTICE.md`, `OPEN_CORE.md`, `COMMERCIAL_LICENSE.md`, and `TRADEMARKS.md` exist.
-- [x] Community / Plus / School code boundaries are documented.
+- [x] Community/Plus/School code boundaries are documented.
 - [x] Contributor-rights strategy is documented in `CLA_POLICY.md`.
-- [ ] A legally reviewed executable CLA/signature workflow remains future legal/governance work; the policy document must not be represented as a signed agreement.
+- [ ] Legally reviewed executable CLA/signature workflow remains future governance work; a policy document is not a signed agreement.
 
 ## Secret / credential posture
 
-- [x] Full fetched Git history passes pinned Gitleaks scanning with redacted output.
-- [x] No actual credential value was identified in the reviewed repository/PR material that required rotation during this closure.
-- [x] Cloudflare/Supabase secret values are not printed by `/api/health`.
-- [ ] Archived historical Actions logs can be manually spot-checked periodically; this is ongoing operational hygiene, not a release blocker.
-
-If a real credential is discovered later, rotate/revoke it first, then evaluate history remediation.
+- [x] Full Git history passes pinned Gitleaks scanning.
+- [x] Client code is regression-protected from server-only credential names.
+- [x] Learning outbox is credential-free and account-bound.
+- [x] Service-role usage is server-only/environment-backed.
+- [x] `/api/health` exposes no secret values.
+- [ ] Continue periodic archived-log/secret-scanning review as operational hygiene.
 
 ## Child privacy / data handling
 
-- [x] Production parent routes require server-verified authentication when Supabase is configured.
+- [x] Parent routes require server-verified authentication when Supabase is configured.
 - [x] Real child routes enforce account ownership and reject deleted/foreign child IDs.
-- [x] Guest mode remains local-only rather than silently uploading local profiles.
-- [x] No pronunciation microphone capture was added in this release wave.
-- [ ] Never commit real child photo/video/audio without a documented authorized reason and distribution right.
-- [ ] Any future microphone, external AI/OCR, or continuous camera upload design requires explicit privacy/consent review first.
-- [ ] Re-review screenshots, fixtures, logs, and datasets whenever new child-data features are introduced.
+- [x] Guest mode remains local-only.
+- [x] No pronunciation microphone recording/upload was introduced.
+- [ ] Any future microphone, external AI/OCR, continuous camera upload, or child-media feature requires explicit privacy/consent review.
+- [ ] Do not commit real child photo/video/audio without documented authorization and distribution rights.
 
-## Third-party asset provenance
+## Asset provenance
 
-- [x] Canonical affiliate provenance controls exist.
+- [x] Affiliate provenance controls exist.
 - [x] Unverified local affiliate imagery is fail-closed.
-- [x] Unverified tracked affiliate binaries were removed from the current tree.
 - [x] Asset provenance validation runs in CI.
 - [ ] Continue provenance review for future artwork, fonts, models, datasets, audio, and generated assets.
 
-Removing a file from the current tree does not erase an already-published Git object.
+## GitHub Protect main
 
-## GitHub repository controls
-
-`Protect main` is verified active with:
+Verified active controls:
 
 - [x] default branch targeting;
-- [x] empty bypass list;
+- [x] no bypass actors;
 - [x] pull request required;
 - [x] conversation resolution required;
-- [x] squash merge only;
-- [x] strict/up-to-date required-check policy;
+- [x] squash only;
+- [x] strict/up-to-date required checks;
 - [x] linear history;
 - [x] deletion protection;
-- [x] non-fast-forward/force-push protection;
-- [ ] `Secret history scan` mandatory in the ruleset — the one remaining account-level action above.
+- [x] non-fast-forward protection;
+- [x] required `Production build`;
+- [x] required `Quality gate (Ubuntu)`;
+- [x] required `Windows compatibility`;
+- [x] required `Production dependency audit`;
+- [ ] **required `Secret history scan`** — scan itself is green, but the ruleset does not currently require it.
 
-Dependabot/security alert/Private Vulnerability Reporting settings remain periodic repository administration review items rather than application-code blockers.
+The current GitHub connector can inspect but cannot modify ruleset administration. This is one of the two external items in issue #83.
 
-## Deployment
+## Physical-device product acceptance
 
-Canonical production architecture:
+Automated browser gates are green, but full hardware acceptance is still open.
 
-```text
-GitHub `main`
-  -> Cloudflare Git integration
-  -> OpenNext Cloudflare Worker `mainlagi-hub`
-  -> https://mainlagihub.my.id/
-```
+- [ ] physical iPhone + current Safari core routes;
+- [ ] physical Android + current Chrome core routes;
+- [ ] safe areas/browser chrome/orientation/virtual keyboard;
+- [ ] trace/drawing/coloring real finger coordinates;
+- [ ] audio/TTS timing/stop/fallback;
+- [ ] camera permission/alignment/orientation/recovery/fallback;
+- [ ] reduced-motion behavior;
+- [ ] VoiceOver;
+- [ ] TalkBack;
+- [ ] text scaling/zoom;
+- [ ] offline -> reconnect reconciliation;
+- [ ] account/session isolation on representative hardware.
 
-- [x] `@opennextjs/cloudflare`, `open-next.config.ts`, and `wrangler.jsonc` are present.
-- [x] Worker name is `mainlagi-hub`.
-- [x] Obsolete VPS/SSH deployment is removed from the canonical architecture.
-- [x] GitHub CI validates the production artifact without deploying PR branches.
-- [x] Fresh `main` commits automatically trigger Cloudflare production builds.
-- [x] Exact-commit smoke verifies canonical Supabase metadata after deployment.
-- [x] Production health does not expose secrets.
+Canonical matrix: `BATCH16_PHYSICAL_DEVICE_QA.md`.
 
-Supabase leaked-password protection remains unavailable on the current Free plan. Existing minimum-password and secure/current-password-change protections remain the accepted mitigation until plan capability changes.
+Headless Chromium/responsive desktop evidence must not be relabeled as physical-device certification. This is the other external item in issue #83.
 
-## Learning/platform acceptance
+## Optional controlled end-user browser acceptance
 
-Automated regression coverage is complete for the shipped foundation:
+- [ ] disposable real-child create/use/report/delete exercise;
+- [ ] intentional signed-in offline -> online reconciliation exercise.
 
-- [x] learning attempt -> evidence -> mastery;
-- [x] anti-farming replay/retry rules;
-- [x] practice vs assessed classification;
-- [x] curriculum hierarchy and evidence variants;
-- [x] adaptive remediation/confidence/spacing/difficulty ranking;
-- [x] stage readiness/progression;
-- [x] Parent Dashboard/Report V2;
-- [x] persisted achievements/certificates;
-- [x] explicit guided-trace measurement;
-- [x] audio/TTS fallback;
-- [x] cloud profile/account ownership;
-- [x] offline authenticated outbox and cross-account isolation;
-- [x] Ubuntu + Windows engine/learning tests and simulations.
+The underlying ownership/outbox/isolation behavior is already covered by automated tests; these items provide additional end-user integration evidence.
 
-Human/device acceptance remains useful but is not represented as automated evidence:
+## Branch/project-state hygiene
 
-- [ ] disposable real-child create/use/delete browser exercise;
-- [ ] intentional offline -> online browser reconciliation exercise;
-- [ ] camera/gesture QA on representative physical devices;
-- [ ] screen-reader/keyboard/touch-target/visual QA on representative devices.
+- [x] `main` is the canonical product branch.
+- [x] Persistent `develop` is not part of the workflow.
+- [x] Branch lifecycle policy is documented.
+- [ ] Delete merged/superseded remote branches when possible; the current connector does not expose branch deletion, so cleanup must not be claimed unless actually performed.
 
-These are ongoing UX/device acceptance items, not unresolved database/deployment blockers.
+## Final status
 
-## Supabase advisor state
+All repository/code/CI/Cloudflare/Supabase work through Batch 17 engineering acceptance is complete and production-verified.
 
-- [x] Performance advisor: 0 WARN.
-- [x] Unindexed-FK findings resolved by additive migration `0010_legacy_fk_indexes`.
-- [x] Newly created/young indexes are not removed merely because the advisor currently labels them unused.
-- [x] Intentional authenticated SECURITY DEFINER warning for `record_learning_attempt` is documented and regression protected.
-- [x] Leaked-password warning is documented as a Free-plan limitation.
-
-## Branch / project-state hygiene
-
-- [x] `main` is the only canonical product branch.
-- [x] Persistent `develop` is not part of the current workflow.
-- [x] Branch lifecycle policy is documented in `BRANCH_LIFECYCLE.md`.
-- [ ] Delete merged/superseded remote branches after this docs closure is merged.
-
-Expected lifecycle:
-
-```text
-focused branch
-  -> PR
-  -> CI
-  -> squash merge
-  -> Cloudflare exact-commit deployment smoke
-  -> delete merged branch
-```
-
-## Clean-clone boundary
-
-The CI environment repeatedly performs clean checkouts followed by `npm ci`, typecheck/lint/tests, and Cloudflare production builds on Linux and Windows. That is the canonical automated clean-environment evidence.
-
-A separate ad-hoc container in this closure could not resolve external DNS, so it was not used to fabricate a second public `git clone` result. A developer workstation fresh clone remains optional handoff evidence rather than a release blocker.
-
-## Product work after foundation closure
-
-The foundation is not the end of Mainlagi product development. Future work can focus on:
-
-- curriculum breadth and content quality;
-- richer Mainlagi World and character animation;
-- additional measured trace/listening activities;
-- privacy-reviewed voice/pronunciation features;
-- real-device camera tuning;
-- accessibility and performance profiling;
-- broader UX studies with parents/children.
-
-Public visibility is an ongoing threat-model and provenance responsibility, not a one-time checkbox.
+Full product acceptance remains **PENDING issue #83** because physical-hardware evidence and one GitHub ruleset administration action remain external to the current automation surface.
