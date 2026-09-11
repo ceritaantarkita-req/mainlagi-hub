@@ -37,6 +37,7 @@ try {
   const activityCounts=countBy(system.ACTIVITIES,"subjectId");
   const runtimeCounts=countBy(system.ACTIVITIES,"runtime");
   const assessmentCounts=countBy(Object.values(catalog.ACTIVITY_LEARNING_SPECS),"assessment");
+  const packedContentById=new Map(manifest.CONTENT_PACKS.flatMap((pack)=>pack.activities.map((item)=>[item.activityId,item])));
 
   assert.equal(system.SUBJECTS.length,9);
   assert.equal(system.ACTIVITIES.length,800,"Batch 14 Wave B must raise the catalog to 800 activities");
@@ -74,7 +75,10 @@ try {
   }
   for(const id of batch12.LOGIC_BATCH12_ACTIVITY_IDS){const spec=catalog.getActivityLearningSpec(id);assert.ok(spec);assert.equal(spec.assessment,"assessed");}
   for(const id of batch13.SCIENCE_BATCH13_ACTIVITY_IDS){const spec=catalog.getActivityLearningSpec(id);assert.ok(spec);assert.equal(spec.assessment,"assessed");}
-  for(const id of batch14.CREATIVE_BATCH14_ACTIVITY_IDS){const spec=catalog.getActivityLearningSpec(id);assert.ok(spec,`${id} needs a learning spec`);assert.equal(spec.assessment,"practice",`${id} must remain completion-only creative practice`);assert.equal(spec.evidenceContractId,"completion_only_v1");}
+  for(const id of batch14.CREATIVE_BATCH14_ACTIVITY_IDS){
+    const spec=catalog.getActivityLearningSpec(id);assert.ok(spec,`${id} needs a learning spec`);assert.equal(spec.assessment,"practice",`${id} must remain completion-only creative practice`);
+    const packed=packedContentById.get(id);assert.ok(packed,`${id} must belong to a content pack`);assert.equal(packed.evidenceContractId,"completion_only_v1",`${id} must not manufacture mastery evidence`);
+  }
 
   const drawing=system.ACTIVITIES.filter((activity)=>activity.subjectId==="drawing");
   const coloring=system.ACTIVITIES.filter((activity)=>activity.subjectId==="color");
