@@ -76,8 +76,6 @@ try {
     skills: 200
   }, "Batch 15 must preserve the fully closed Batch 14 catalog baseline");
 
-  // Every subject must remain recommendation-capable at catalog scale without
-  // leaking another subject's activities into a scoped ranking.
   for (const subject of system.SUBJECTS) {
     const ranked = adaptive.rankAdaptiveLearningV2({
       age: 5,
@@ -97,7 +95,6 @@ try {
     }
   }
 
-  // Creative tracks are useful recommendations but remain completion-only.
   for (const subjectId of ["drawing", "color"]) {
     const ranked = adaptive.rankAdaptiveLearningV2({
       age: 5,
@@ -120,9 +117,6 @@ try {
     assert.equal(eligibility.eligible, false, `${subjectId} completion-only practice must not issue academic certificate eligibility`);
   }
 
-  // Real first-stage measured variants: after a failed tap-choice attempt,
-  // prefer another activity for the same skill, with extra diversity when the
-  // alternate runtime differs.
   const failedActivity = system.getActivity("bahasa-cari-a");
   const alternateActivity = system.getActivity("bahasa-dengar-a");
   const variantSkillId = "bahasa.huruf.a.recognition";
@@ -148,11 +142,19 @@ try {
     lastEvidenceAt: failedAt,
     needsPractice: true
   };
+  const weakAnalytics = analytics({
+    attempts: [weakAttempt],
+    masteryBySkill: { [variantSkillId]: weakMastery },
+    totalAttempts: 1,
+    assessedAttempts: 1,
+    lastAttemptAt: failedAt
+  });
+  const weakProgress = { completedActivityIds: [failedActivity.id], stars: 1, lastActivityId: failedActivity.id };
   const remediation = adaptive.rankAdaptiveLearningV2({
     age: 5,
     subjectId: "bahasa",
-    progress: { completedActivityIds: [failedActivity.id], stars: 1, lastActivityId: failedActivity.id },
-    analytics: analytics({ attempts: [weakAttempt], masteryBySkill: { [variantSkillId]: weakMastery }, totalAttempts: 1, assessedAttempts: 1, lastAttemptAt: failedAt }),
+    progress: weakProgress,
+    analytics: weakAnalytics,
     allowMotion: false,
     nowMs: NOW
   });
@@ -162,8 +164,19 @@ try {
   assert.ok(alternateRank.score > failedRank.score, "weak evidence must prefer an alternate variant over exact replay");
   assert.equal(alternateRank.reason, "remediate_variant", "alternate same-skill item must explain remediation intent");
 
-  // Large analytics snapshot: parent report must stay bounded regardless of
-  // attempt history size. This also gives a conservative CI benchmark.
+  // Legacy insights helpers power older child/parent surfaces. Batch 15 makes
+  // them wrappers over the same Adaptive V2 policy rather than a second ranker.
+  const legacyRecommendation = insights.getSubjectNextLearningRecommendation({
+    subjectId: "bahasa",
+    age: 5,
+    progress: weakProgress,
+    analytics: weakAnalytics,
+    allowMotion: false
+  });
+  assert.ok(legacyRecommendation, "legacy recommendation helper should remain available");
+  assert.equal(legacyRecommendation.activity.id, alternateActivity.id, "legacy helper must use the same remediation winner as Adaptive V2");
+  assert.equal(legacyRecommendation.reason, "remediate_variant", "legacy helper must expose Adaptive V2 reason semantics");
+
   const assessedActivity = system.ACTIVITIES.find((activity) => catalog.ACTIVITY_LEARNING_SPECS[activity.id]?.assessment === "assessed");
   const drawingActivity = system.ACTIVITIES.find((activity) => activity.subjectId === "drawing");
   const colorActivity = system.ACTIVITIES.find((activity) => activity.subjectId === "color");
