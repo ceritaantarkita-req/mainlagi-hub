@@ -49,6 +49,8 @@ jobs:
         run: npm ci --no-audit --no-fund
       - name: Validate structure, assets, and source
         run: npm run validate:structure && npm run validate:assets && npm run audit:source
+      - name: Batch 16 security boundary regressions
+        run: npm run test:batch16:security
       - name: Typecheck
         run: npm run typecheck
       - name: Lint
@@ -72,6 +74,8 @@ jobs:
         run: npm ci --no-audit --no-fund
       - name: Build Cloudflare/OpenNext production artifact
         run: npm run build:cloudflare
+      - name: Batch 16 production JS and lazy-load budgets
+        run: npm run test:batch16:build
 
   mobile-route-qa:
     name: Mobile route QA (Chromium)
@@ -92,7 +96,9 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Build local production app
         run: npm run build
-      - name: Run canonical mobile route matrix
+      - name: Audit Batch 16 build budgets
+        run: npm run test:batch16:build
+      - name: Run canonical mobile route, accessibility, and lazy-load matrix
         run: npm run test:ui:mobile-routes
       - name: Upload responsive QA screenshots
         if: always()
