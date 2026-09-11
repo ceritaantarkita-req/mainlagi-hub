@@ -1,12 +1,12 @@
 "use client";
 
 import type { CSSProperties } from "react";
-import { CHARACTERS, SUBJECTS } from "@/lib/learning/system";
+import { CHARACTERS, SUBJECTS, getActivity } from "@/lib/learning/system";
+import { getLearningSkill } from "@/lib/learning/catalog";
+import { adaptiveReasonLabel, rankAdaptiveLearningV2 } from "@/lib/learning/adaptive";
+import { buildBatch15ParentReport } from "@/lib/learning/batch15";
 import {
-  getNextBestLearningRecommendation,
   getRecentLearningAttempts,
-  getSubjectLearningSummary,
-  getSubjectNextLearningRecommendation,
   getSubjectSkillRows,
   getSubjectStageReadiness
 } from "@/lib/learning/insights";
@@ -33,12 +33,22 @@ export function ParentCoreProgressScreen({ childId }: { childId: string }) {
     return <main className={styles.parentMain}><div className={styles.emptyState}>Profil anak tidak ditemukan.</div></main>;
   }
 
-  const recommendation = getNextBestLearningRecommendation({
+  const report = buildBatch15ParentReport({
     age: profile.age,
     progress,
     analytics,
-    allowMotion: false
+    allowMotion: false,
+    recentLimit: 6
   });
+  const topRecommendation = rankAdaptiveLearningV2({
+    age: profile.age,
+    progress,
+    analytics,
+    allowMotion: false,
+    limit: 1
+  })[0];
+  const topActivity = topRecommendation ? getActivity(topRecommendation.id) : undefined;
+  const topSkill = topRecommendation?.targetSkillId ? getLearningSkill(topRecommendation.targetSkillId) : undefined;
   const recentAttempts = getRecentLearningAttempts(analytics, 6);
 
   return (
@@ -64,11 +74,11 @@ export function ParentCoreProgressScreen({ childId }: { childId: string }) {
         </div>
         <div className={styles.parentCard}>
           <strong>🎯 Saran berikutnya</strong>
-          {recommendation ? (
+          {topRecommendation && topActivity ? (
             <>
-              <p><strong>{recommendation.activity.title}</strong></p>
-              <p>{recommendation.reasonLabel}</p>
-              {recommendation.targetSkillTitle ? <small>Target skill: {recommendation.targetSkillTitle}</small> : null}
+              <p><strong>{topActivity.title}</strong></p>
+              <p>{adaptiveReasonLabel(topRecommendation.reason, topSkill?.title ?? null)}</p>
+              {topSkill ? <small>Target skill: {topSkill.title}</small> : null}
             </>
           ) : <p>Belum ada rekomendasi yang sesuai umur dan stage aktif.</p>}
         </div>
@@ -104,26 +114,17 @@ export function ParentCoreProgressScreen({ childId }: { childId: string }) {
       <section className={styles.section}>
         <h2 style={{ color: "#24445e" }}>Progress & mastery per area</h2>
         <p className={styles.pageLead}>
-          Completion menunjukkan aktivitas yang sudah selesai. Mastery memakai evidence berulang dari aktivitas assessed;
-          aktivitas kreatif/practice tidak dipaksa menjadi nilai akademik.
+          Completion menunjukkan aktivitas yang sudah selesai. Mastery hanya diringkas dari skill yang punya aktivitas assessed dan qualifying evidence; creative practice tidak diubah menjadi nilai mastery.
         </p>
 
         <div className={styles.parentGrid}>
           {SUBJECTS.map((subject) => {
-            const summary = getSubjectLearningSummary(subject.id, progress, analytics);
+            const row = report.subjects.find((item) => item.subjectId === subject.id)!;
             const skills = getSubjectSkillRows(subject.id, analytics);
-            const subjectRecommendation = getSubjectNextLearningRecommendation({
-              subjectId: subject.id,
-              age: profile.age,
-              progress,
-              analytics,
-              allowMotion: false
-            });
-            const completionPct = percent(summary.completionRatio);
-            const masteryPct = percent(summary.masteryScore);
-            const assessedRows = skills.filter((skill) => skill.level !== "not_started");
-            const sortedStarted = [...assessedRows].sort((a, b) => a.score - b.score);
-            const needsPractice = sortedStarted[0];
+            const completionPct = percent(row.completion.ratio);
+            const started = skills.filter((skill) => skill.level !== "not_started");
+            const sortedStarted = [...started].sort((a, b) => a.score - b.score);
+            const needsPractice = row.needsPractice;
             const strongest = sortedStarted.at(-1);
 
             return (
@@ -133,7 +134,7 @@ export function ParentCoreProgressScreen({ childId }: { childId: string }) {
                 style={{ "--accent": subject.accent } as CSSProperties}
               >
                 <strong>{subject.emoji} {subject.title}</strong>
-                <p>{summary.completedActivities} dari {summary.requiredActivities} aktivitas inti selesai</p>
+                <p>{row.completion.completedActivities} dari {row.completion.requiredActivities} aktivitas inti selesai</p>
                 <div className={styles.stageProgress}>
                   <span className={styles.progressTrack}>
                     <span className={styles.progressFill} style={{ width: `${completionPct}%` }} />
@@ -141,33 +142,39 @@ export function ParentCoreProgressScreen({ childId }: { childId: string }) {
                   <span>{completionPct}%</span>
                 </div>
 
-                <p style={{ marginTop: 14, marginBottom: 6 }}>
-                  Skor evidence: <strong>{masteryPct}%</strong> · coverage {percent(summary.masteryCoverage)}%
-                </p>
-                <p style={{ marginTop: 0 }}>
-                  {summary.proficientSkills}/{summary.totalSkills} skill minimal Mahir · {summary.masteredSkills} Dikuasai
-                </p>
+                {row.mastery ? (
+                  <>
+                    <p style={{ marginTop: 14, marginBottom: 6 }}>
+                      Mastery terukur: <strong>{percent(row.mastery.score)}%</strong> · coverage {percent(row.mastery.coverage)}%
+                    </p>
+                    <p style={{ marginTop: 0 }}>
+                      {row.mastery.proficientSkills}/{row.mastery.totalAssessedSkills} assessed skill minimal Mahir · {row.mastery.masteredSkills} Dikuasai
+                    </p>
+                  </>
+                ) : (
+                  <p style={{ marginTop: 14 }}><strong>Practice kreatif:</strong> completion dicatat tanpa skor mastery.</p>
+                )}
 
                 {needsPractice ? <p style={{ marginBottom: 4 }}>🔁 Perlu diperkuat: <strong>{needsPractice.title}</strong></p> : null}
-                {strongest && strongest.id !== needsPractice?.id ? <p style={{ marginTop: 0 }}>✨ Kekuatan saat ini: <strong>{strongest.title}</strong></p> : null}
+                {row.mastery && strongest && strongest.id !== needsPractice?.skillId ? <p style={{ marginTop: 0 }}>✨ Kekuatan saat ini: <strong>{strongest.title}</strong></p> : null}
 
-                {subjectRecommendation ? (
+                {row.recommendation ? (
                   <div className={styles.infoBanner} style={{ marginTop: 12 }}>
-                    <strong>Berikutnya di {subject.shortTitle}: {subjectRecommendation.activity.title}</strong><br />
-                    {subjectRecommendation.reasonLabel}
+                    <strong>Berikutnya di {subject.shortTitle}: {row.recommendation.activityTitle}</strong><br />
+                    {row.recommendation.reasonLabel}
                   </div>
                 ) : null}
 
-                {assessedRows.length ? (
+                {row.mastery && started.length ? (
                   <ul className={styles.list} style={{ marginTop: 12 }}>
-                    {assessedRows.map((skill) => (
+                    {started.slice(0, 8).map((skill) => (
                       <li className={styles.listItem} key={skill.id}>
                         <span>{skill.title}</span>
                         <strong>{skill.levelLabel} · {percent(skill.score)}%</strong>
                       </li>
                     ))}
                   </ul>
-                ) : <p style={{ marginTop: 12 }}>Belum ada evidence assessed pada area ini.</p>}
+                ) : row.mastery ? <p style={{ marginTop: 12 }}>Belum ada qualifying evidence assessed pada area ini.</p> : null}
               </div>
             );
           })}
@@ -176,7 +183,7 @@ export function ParentCoreProgressScreen({ childId }: { childId: string }) {
 
       <section className={styles.section}>
         <h2 style={{ color: "#24445e" }}>Aktivitas terbaru</h2>
-        <p className={styles.pageLead}>Riwayat ini berasal dari learning attempts, bukan sekadar daftar tombol yang pernah dibuka.</p>
+        <p className={styles.pageLead}>Riwayat dibatasi ke enam attempt terbaru; ringkasan per area di atas tetap bounded meski histori terus bertambah.</p>
         {recentAttempts.length ? (
           <div className={styles.parentCard}>
             <ul className={styles.list}>
