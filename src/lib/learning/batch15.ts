@@ -2,6 +2,7 @@ import { ACTIVITY_LEARNING_SPECS, getLearningSkill, getSkillsForSubject, type Le
 import { adaptiveReasonLabel, rankAdaptiveLearningV2, type AdaptiveRecommendationReason } from "./adaptive";
 import { buildWeeklyLearningReport } from "./reporting";
 import { getSubjectLearningSummary, getSubjectSkillRows, getSubjectStageReadiness } from "./insights";
+import { summarizeSubjectMastery } from "./mastery";
 import { ACTIVITIES, SUBJECTS, getActivity, type LearningProgress, type LearningSubjectId } from "./system";
 import type { LearningAnalyticsSnapshot, LearningAttemptRecord } from "./attempts";
 
@@ -170,6 +171,7 @@ export function buildBatch15ParentReport(args: {
     const stageRows = getSubjectStageReadiness(subject.id, args.progress, args.analytics);
     const assessedSkillIds = assessedSkillIdsForSubject(subject.id);
     const assessedSkillSet = new Set(assessedSkillIds);
+    const assessedMastery = summarizeSubjectMastery(assessedSkillIds, args.analytics.masteryBySkill);
     const skillRows = getSubjectSkillRows(subject.id, args.analytics)
       .filter((row) => assessedSkillSet.has(row.id));
     const needsPractice = skillRows
@@ -190,11 +192,11 @@ export function buildBatch15ParentReport(args: {
         ratio: learning.completionRatio
       },
       mastery: assessedSkillIds.length ? {
-        score: learning.masteryScore,
-        coverage: learning.masteryCoverage,
-        masteredSkills: learning.masteredSkills,
-        proficientSkills: learning.proficientSkills,
-        totalAssessedSkills: assessedSkillIds.length
+        score: assessedMastery.score,
+        coverage: assessedMastery.coverage,
+        masteredSkills: assessedMastery.masteredSkills,
+        proficientSkills: assessedMastery.proficientSkills,
+        totalAssessedSkills: assessedMastery.totalSkills
       } : null,
       stages: {
         total: stageRows.length,
