@@ -87,15 +87,19 @@ assert.equal(
 );
 
 // Keep the heaviest optional computer-vision dependency out of the initial
-// route graph. Source-level regression is intentional because its generated
-// chunk filename is content-hashed and unstable between builds.
+// route graph. Type-only imports are allowed because they disappear at build
+// time; executable MediaPipe code must remain behind dynamic import().
 for (const sourcePath of [
-  "src/components/game/VisionOverlay.tsx",
-  "src/hooks/useVisionRuntime.ts"
+  "src/components/VisionOverlay.tsx",
+  "src/lib/vision/useVisionRuntime.ts"
 ]) {
   const source = readFileSync(path.join(root, sourcePath), "utf8");
   assert.match(source, /import\(["']@mediapipe\/tasks-vision["']\)/, `${sourcePath} must keep MediaPipe behind dynamic import()`);
-  assert.doesNotMatch(source, /from\s+["']@mediapipe\/tasks-vision["']/, `${sourcePath} must not statically import MediaPipe into initial route JS`);
+  assert.doesNotMatch(
+    source,
+    /import\s+(?!type\b)[\s\S]{0,180}?from\s+["']@mediapipe\/tasks-vision["']/,
+    `${sourcePath} must not statically import executable MediaPipe code into initial route JS`
+  );
 }
 
 // AudioManager may exist globally, but remote TTS must remain interaction-led;
