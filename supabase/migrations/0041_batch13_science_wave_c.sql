@@ -1,0 +1,56 @@
+-- Mainlagi Expansion Batch 13 — Science/Sains Wave C (subject total 50 -> 75)
+-- Adds 25 measured assessed activities across Earth/sky patterns, body health habits,
+-- ecosystem dependencies, environment care, and observation/measurement.
+-- Uses only existing measured matching/choice evidence contracts. Additive/idempotent only.
+
+insert into public.learning_skills(skill_key,subject_id,title,description,domain,age_min,age_max,active,updated_at) values
+('science.earth.sky_patterns.basic','science','Pola Bumi dan langit','Menghubungkan pengamatan langit dan cahaya dengan pola harian serta cuaca sederhana.','science',5,7,true,now()),
+('science.body.health_habits.basic','science','Kebiasaan sehat dasar','Mengenali kebiasaan kebersihan, minum, dan istirahat sederhana.','science',4,7,true,now()),
+('science.ecosystem.dependencies.basic','science','Ketergantungan ekosistem dasar','Mengenali hubungan sederhana makhluk hidup dengan makanan, air, cahaya, dan habitat.','science',4,7,true,now()),
+('science.environment.care.basic','science','Kepedulian lingkungan dasar','Memilih tindakan sederhana untuk menjaga kebersihan dan menghemat sumber daya.','science',4,7,true,now()),
+('science.observation.measurement.basic','science','Observasi dan pengukuran dasar','Membandingkan hasil observasi dan mengenali alat ukur sederhana.','science',5,7,true,now())
+on conflict(skill_key) do update set subject_id=excluded.subject_id,title=excluded.title,description=excluded.description,domain=excluded.domain,age_min=excluded.age_min,age_max=excluded.age_max,active=true,updated_at=now();
+
+insert into public.learning_content_packs(pack_id,subject_id,path_id,stage_id,title,version,age_min,age_max,review_status,active,updated_at) values
+('science.pack.earth-sky-patterns','science','science-discovery-foundations','science-earth-body-environment','Earth and Sky Patterns','1.0.0',5,7,'internal',true,now()),
+('science.pack.body-health-habits','science','science-discovery-foundations','science-earth-body-environment','Body and Health Habits','1.0.0',4,7,'internal',true,now()),
+('science.pack.ecosystem-dependencies','science','science-discovery-foundations','science-earth-body-environment','Ecosystem Dependencies','1.0.0',4,7,'internal',true,now()),
+('science.pack.environment-care','science','science-discovery-foundations','science-earth-body-environment','Environment Care','1.0.0',4,7,'internal',true,now()),
+('science.pack.observation-measurement','science','science-discovery-foundations','science-earth-body-environment','Observation and Measurement','1.0.0',5,7,'internal',true,now())
+on conflict(pack_id) do update set subject_id=excluded.subject_id,path_id=excluded.path_id,stage_id=excluded.stage_id,title=excluded.title,version=excluded.version,age_min=excluded.age_min,age_max=excluded.age_max,review_status=excluded.review_status,active=true,updated_at=now();
+
+insert into public.learning_activities(activity_id,subject_id,stage_id,runtime,difficulty,assessment,required_for_stage,motion_optional,star_reward,content_pack_id,lesson_id,mechanic_id,evidence_contract,content_revision,active,updated_at) values
+('science-earth-sun-day','science','science-earth-body-environment','tap_choice',2,'assessed',true,false,3,'science.pack.earth-sky-patterns','science-earth-sky-patterns','tap_choice','choice_accuracy_v1',1,true,now()),
+('science-earth-moon-night','science','science-earth-body-environment','tap_choice',2,'assessed',false,false,3,'science.pack.earth-sky-patterns','science-earth-sky-patterns','tap_choice','choice_accuracy_v1',1,true,now()),
+('science-earth-shadow-sun','science','science-earth-body-environment','tap_choice',2,'assessed',false,false,3,'science.pack.earth-sky-patterns','science-earth-sky-patterns','tap_choice','choice_accuracy_v1',1,true,now()),
+('science-earth-cloud-rain','science','science-earth-body-environment','tap_choice',3,'assessed',false,false,3,'science.pack.earth-sky-patterns','science-earth-sky-patterns','tap_choice','choice_accuracy_v1',1,true,now()),
+('science-match-sky-observation-c','science','science-earth-body-environment','matching',2,'assessed',true,false,3,'science.pack.earth-sky-patterns','science-earth-sky-patterns','matching','matching_accuracy_v1',1,true,now()),
+('science-body-wash-hands','science','science-earth-body-environment','tap_choice',2,'assessed',true,false,3,'science.pack.body-health-habits','science-body-health-habits','tap_choice','choice_accuracy_v1',1,true,now()),
+('science-body-teeth-brush','science','science-earth-body-environment','tap_choice',2,'assessed',false,false,3,'science.pack.body-health-habits','science-body-health-habits','tap_choice','choice_accuracy_v1',1,true,now()),
+('science-body-water-drink','science','science-earth-body-environment','tap_choice',2,'assessed',false,false,3,'science.pack.body-health-habits','science-body-health-habits','tap_choice','choice_accuracy_v1',1,true,now()),
+('science-body-sleep-rest','science','science-earth-body-environment','tap_choice',2,'assessed',false,false,3,'science.pack.body-health-habits','science-body-health-habits','tap_choice','choice_accuracy_v1',1,true,now()),
+('science-match-body-care-c','science','science-earth-body-environment','matching',2,'assessed',false,false,3,'science.pack.body-health-habits','science-body-health-habits','matching','matching_accuracy_v1',1,true,now()),
+('science-eco-plant-sun-water','science','science-earth-body-environment','tap_choice',2,'assessed',true,false,3,'science.pack.ecosystem-dependencies','science-ecosystem-dependencies','tap_choice','choice_accuracy_v1',1,true,now()),
+('science-eco-bee-flower','science','science-earth-body-environment','tap_choice',2,'assessed',false,false,3,'science.pack.ecosystem-dependencies','science-ecosystem-dependencies','tap_choice','choice_accuracy_v1',1,true,now()),
+('science-eco-bird-tree','science','science-earth-body-environment','tap_choice',2,'assessed',false,false,3,'science.pack.ecosystem-dependencies','science-ecosystem-dependencies','tap_choice','choice_accuracy_v1',1,true,now()),
+('science-eco-food-chain-change','science','science-earth-body-environment','tap_choice',3,'assessed',false,false,3,'science.pack.ecosystem-dependencies','science-ecosystem-dependencies','tap_choice','choice_accuracy_v1',1,true,now()),
+('science-match-ecosystem-needs-c','science','science-earth-body-environment','matching',2,'assessed',false,false,3,'science.pack.ecosystem-dependencies','science-ecosystem-dependencies','matching','matching_accuracy_v1',1,true,now()),
+('science-env-trash-bin','science','science-earth-body-environment','tap_choice',2,'assessed',true,false,3,'science.pack.environment-care','science-environment-care','tap_choice','choice_accuracy_v1',1,true,now()),
+('science-env-save-water','science','science-earth-body-environment','tap_choice',2,'assessed',false,false,3,'science.pack.environment-care','science-environment-care','tap_choice','choice_accuracy_v1',1,true,now()),
+('science-env-reuse-bottle','science','science-earth-body-environment','tap_choice',2,'assessed',false,false,3,'science.pack.environment-care','science-environment-care','tap_choice','choice_accuracy_v1',1,true,now()),
+('science-env-plant-care','science','science-earth-body-environment','tap_choice',2,'assessed',false,false,3,'science.pack.environment-care','science-environment-care','tap_choice','choice_accuracy_v1',1,true,now()),
+('science-match-environment-actions-c','science','science-earth-body-environment','matching',2,'assessed',false,false,3,'science.pack.environment-care','science-environment-care','matching','matching_accuracy_v1',1,true,now()),
+('science-measure-longer-pencil','science','science-earth-body-environment','tap_choice',2,'assessed',true,false,3,'science.pack.observation-measurement','science-observation-measurement','tap_choice','choice_accuracy_v1',1,true,now()),
+('science-measure-hot-cold','science','science-earth-body-environment','tap_choice',2,'assessed',false,false,3,'science.pack.observation-measurement','science-observation-measurement','tap_choice','choice_accuracy_v1',1,true,now()),
+('science-measure-more-water','science','science-earth-body-environment','tap_choice',2,'assessed',false,false,3,'science.pack.observation-measurement','science-observation-measurement','tap_choice','choice_accuracy_v1',1,true,now()),
+('science-observe-record-same-time','science','science-earth-body-environment','tap_choice',3,'assessed',false,false,3,'science.pack.observation-measurement','science-observation-measurement','tap_choice','choice_accuracy_v1',1,true,now()),
+('science-match-observation-tools-c','science','science-earth-body-environment','matching',3,'assessed',false,false,3,'science.pack.observation-measurement','science-observation-measurement','matching','matching_accuracy_v1',1,true,now())
+on conflict(activity_id) do update set subject_id=excluded.subject_id,stage_id=excluded.stage_id,runtime=excluded.runtime,difficulty=excluded.difficulty,assessment=excluded.assessment,required_for_stage=excluded.required_for_stage,motion_optional=excluded.motion_optional,star_reward=excluded.star_reward,content_pack_id=excluded.content_pack_id,lesson_id=excluded.lesson_id,mechanic_id=excluded.mechanic_id,evidence_contract=excluded.evidence_contract,content_revision=excluded.content_revision,active=true,updated_at=now();
+
+insert into public.learning_activity_skills(activity_id,skill_key,evidence_weight) values
+('science-earth-sun-day','science.earth.sky_patterns.basic',1),('science-earth-moon-night','science.earth.sky_patterns.basic',1),('science-earth-shadow-sun','science.earth.sky_patterns.basic',1),('science-earth-cloud-rain','science.earth.sky_patterns.basic',1),('science-match-sky-observation-c','science.earth.sky_patterns.basic',1),
+('science-body-wash-hands','science.body.health_habits.basic',1),('science-body-teeth-brush','science.body.health_habits.basic',1),('science-body-water-drink','science.body.health_habits.basic',1),('science-body-sleep-rest','science.body.health_habits.basic',1),('science-match-body-care-c','science.body.health_habits.basic',1),
+('science-eco-plant-sun-water','science.ecosystem.dependencies.basic',1),('science-eco-bee-flower','science.ecosystem.dependencies.basic',1),('science-eco-bird-tree','science.ecosystem.dependencies.basic',1),('science-eco-food-chain-change','science.ecosystem.dependencies.basic',1),('science-match-ecosystem-needs-c','science.ecosystem.dependencies.basic',1),
+('science-env-trash-bin','science.environment.care.basic',1),('science-env-save-water','science.environment.care.basic',1),('science-env-reuse-bottle','science.environment.care.basic',1),('science-env-plant-care','science.environment.care.basic',1),('science-match-environment-actions-c','science.environment.care.basic',1),
+('science-measure-longer-pencil','science.observation.measurement.basic',1),('science-measure-hot-cold','science.observation.measurement.basic',1),('science-measure-more-water','science.observation.measurement.basic',1),('science-observe-record-same-time','science.observation.measurement.basic',1),('science-match-observation-tools-c','science.observation.measurement.basic',1)
+on conflict(activity_id,skill_key) do update set evidence_weight=excluded.evidence_weight;
