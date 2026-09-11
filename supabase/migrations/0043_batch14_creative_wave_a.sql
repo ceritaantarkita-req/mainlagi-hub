@@ -26,6 +26,16 @@ alter table public.learning_content_packs drop constraint if exists learning_con
 alter table public.learning_content_packs add constraint learning_content_packs_subject_id_check
   check (subject_id in ('bahasa','english','math','iqro','letters','logic','science','color','drawing'));
 
+alter table public.learning_activities drop constraint if exists learning_activities_mechanic_id_check;
+alter table public.learning_activities add constraint learning_activities_mechanic_id_check
+  check (
+    mechanic_id is null or mechanic_id in (
+      'tap_choice','listen_and_choose','matching','guided_trace','story','coloring','drawing','motion_game',
+      'drag_to_target','draw_line_matching','sort_classify','ordering_sequence','pattern_completion',
+      'odd_one_out','connect_dots','memory_pairs','compare','missing_item','maze_path','story_comprehension','find_object'
+    )
+  );
+
 insert into public.learning_skills(skill_key,subject_id,title,description,domain,age_min,age_max,active,updated_at) values
 ('drawing.line.control.basic','drawing','Kontrol garis dasar','Berlatih arah garis dasar dengan gerak jari di kanvas.','motor',3,7,true,now()),
 ('drawing.curve.control.basic','drawing','Kontrol garis lengkung','Berlatih membuat garis melengkung, bergelombang, dan berputar.','motor',3,7,true,now()),
@@ -139,3 +149,5 @@ comment on constraint learning_certificates_subject_id_check on public.learning_
   'Storage vocabulary includes Drawing; this does not imply creative-practice certificate eligibility.';
 comment on constraint learning_content_packs_subject_id_check on public.learning_content_packs is
   'Versioned content packs accept first-class Drawing and existing Coloring.';
+comment on constraint learning_activities_mechanic_id_check on public.learning_activities is
+  'Reusable mechanic vocabulary including first-class Drawing; creative Drawing remains practice-only completion evidence.';
