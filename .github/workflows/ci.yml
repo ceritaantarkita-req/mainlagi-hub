@@ -51,6 +51,8 @@ jobs:
         run: npm run validate:structure && npm run validate:assets && npm run audit:source
       - name: Batch 16 security boundary regressions
         run: npm run test:batch16:security
+      - name: Physical-device QA harness contract
+        run: npm run test:qa:device
       - name: Typecheck
         run: npm run typecheck
       - name: Lint
