@@ -135,16 +135,25 @@ export function rankActivityRecommendations(args: {
   const completedSet = new Set(args.completedActivityIds);
   const preferred = preferredDifficulty(args.age);
 
+  // Batch 15 scaling: stage unlock is a stage-level decision. Compute it once
+  // for each stage instead of recalculating the same previous-stage readiness
+  // for every candidate activity in a 900-item catalog.
+  const unlockedStageIds = new Set(
+    args.stages
+      .filter((stage) => isStageUnlocked({
+        targetStageId: stage.id,
+        stages: args.stages,
+        activities: args.activities,
+        completedActivityIds: args.completedActivityIds,
+        masteryBySkill: args.masteryBySkill
+      }))
+      .map((stage) => stage.id)
+  );
+
   const scored = args.activities
     .filter((activity) => args.age >= activity.ageMin && args.age <= activity.ageMax)
     .filter((activity) => args.allowMotion || !activity.motionOptional)
-    .filter((activity) => isStageUnlocked({
-      targetStageId: activity.stageId,
-      stages: args.stages,
-      activities: args.activities,
-      completedActivityIds: args.completedActivityIds,
-      masteryBySkill: args.masteryBySkill
-    }))
+    .filter((activity) => unlockedStageIds.has(activity.stageId))
     .map((activity, index): RankedActivityRecommendation => {
       const weak = weakestSnapshot(activity, args.masteryBySkill);
       const completed = completedSet.has(activity.id);
