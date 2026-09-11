@@ -1,7 +1,8 @@
 import { materializeScienceBatch13Wave } from "./scienceBatch13Authoring";
 import { SCIENCE_BATCH13_WAVE_A } from "./scienceBatch13WaveA";
+import { SCIENCE_BATCH13_WAVE_B } from "./scienceBatch13WaveB";
 
-export const SCIENCE_BATCH13_WAVES = [SCIENCE_BATCH13_WAVE_A] as const;
+export const SCIENCE_BATCH13_WAVES = [SCIENCE_BATCH13_WAVE_A, SCIENCE_BATCH13_WAVE_B] as const;
 
 const MATERIALIZED_WAVES = SCIENCE_BATCH13_WAVES.map(materializeScienceBatch13Wave);
 
@@ -14,5 +15,6 @@ export const SCIENCE_BATCH13_ACTIVITY_IDS = SCIENCE_BATCH13_ACTIVITIES.map((acti
 export const SCIENCE_BATCH13_STAGE_IDS = SCIENCE_BATCH13_STAGES.map((stage) => stage.id);
 
 export const SCIENCE_BATCH13_WAVE_ACTIVITY_COUNTS = {
-  A: SCIENCE_BATCH13_WAVE_A.activities.length
+  A: SCIENCE_BATCH13_WAVE_A.activities.length,
+  B: SCIENCE_BATCH13_WAVE_B.activities.length
 } as const;
