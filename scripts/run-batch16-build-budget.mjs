@@ -97,7 +97,7 @@ for (const sourcePath of [
   assert.match(source, /import\(["']@mediapipe\/tasks-vision["']\)/, `${sourcePath} must keep MediaPipe behind dynamic import()`);
   assert.doesNotMatch(
     source,
-    /import\s+(?!type\b)[\s\S]{0,180}?from\s+["']@mediapipe\/tasks-vision["']/,
+    /import\s+(?!type\b)[^;]+from\s+["']@mediapipe\/tasks-vision["']\s*;/,
     `${sourcePath} must not statically import executable MediaPipe code into initial route JS`
   );
 }
