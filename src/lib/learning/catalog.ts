@@ -6,6 +6,7 @@ import { IQRO_BATCH10_SKILLS } from "./iqroBatch10";
 import { LETTERS_BATCH11_SKILLS } from "./lettersBatch11";
 import { LOGIC_BATCH12_SKILLS } from "./logicBatch12";
 import { MATH_BATCH7_SKILLS } from "./mathBatch7";
+import { SCIENCE_BATCH13_SKILLS } from "./scienceBatch13";
 import type { ActivityLearningSpec, LearningSkillDefinition, LearningSubjectKey } from "./catalogBase";
 
 export type {
@@ -23,7 +24,8 @@ export const LEARNING_SKILLS: LearningSkillDefinition[] = [
   ...ENGLISH_BATCH9_SKILLS.map((skill) => ({ ...skill })),
   ...IQRO_BATCH10_SKILLS.map((skill) => ({ ...skill })),
   ...LETTERS_BATCH11_SKILLS.map((skill) => ({ ...skill })),
-  ...LOGIC_BATCH12_SKILLS.map((skill) => ({ ...skill }))
+  ...LOGIC_BATCH12_SKILLS.map((skill) => ({ ...skill })),
+  ...SCIENCE_BATCH13_SKILLS.map((skill) => ({ ...skill }))
 ];
 
 export const ACTIVITY_LEARNING_SPECS: Record<string, ActivityLearningSpec> = Object.fromEntries(
