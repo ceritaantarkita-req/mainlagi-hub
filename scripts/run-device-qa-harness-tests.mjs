@@ -62,7 +62,8 @@ assert.equal(new Set(idMatches).size, 22, "Physical-device harness test IDs must
 const matrixRows = (matrix.match(/\| [^\n]+ \| PENDING \| PENDING \|/g) ?? []).length;
 assert.equal(matrixRows, 22, `Canonical physical-device matrix must remain aligned to 22 pending test rows, found ${matrixRows}`);
 assert.match(matrix, /\/qa\/device/, "Canonical physical-device matrix must point testers to the guided QA harness");
-assert.match(matrix, /actual physical hardware/i, "Canonical matrix must preserve the physical-hardware evidence boundary");
+assert.match(matrix, /not an automated physical-device certifier/i, "Canonical matrix must preserve the no-fake-hardware-certification boundary");
+assert.match(matrix, /actually performs the physical test/i, "Canonical matrix must require an actually performed physical test before PASS");
 
 console.log(JSON.stringify({
   status: "PASS",
