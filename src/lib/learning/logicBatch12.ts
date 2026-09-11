@@ -1,8 +1,9 @@
 import { materializeLogicBatch12Wave } from "./logicBatch12Authoring";
 import { LOGIC_BATCH12_WAVE_A } from "./logicBatch12WaveA";
 import { LOGIC_BATCH12_WAVE_B } from "./logicBatch12WaveB";
+import { LOGIC_BATCH12_WAVE_C } from "./logicBatch12WaveC";
 
-export const LOGIC_BATCH12_WAVES = [LOGIC_BATCH12_WAVE_A, LOGIC_BATCH12_WAVE_B] as const;
+export const LOGIC_BATCH12_WAVES = [LOGIC_BATCH12_WAVE_A, LOGIC_BATCH12_WAVE_B, LOGIC_BATCH12_WAVE_C] as const;
 
 const MATERIALIZED_WAVES = LOGIC_BATCH12_WAVES.map(materializeLogicBatch12Wave);
 
@@ -16,5 +17,6 @@ export const LOGIC_BATCH12_STAGE_IDS = LOGIC_BATCH12_STAGES.map((stage) => stage
 
 export const LOGIC_BATCH12_WAVE_ACTIVITY_COUNTS = {
   A: LOGIC_BATCH12_WAVE_A.activities.length,
-  B: LOGIC_BATCH12_WAVE_B.activities.length
+  B: LOGIC_BATCH12_WAVE_B.activities.length,
+  C: LOGIC_BATCH12_WAVE_C.activities.length
 } as const;
