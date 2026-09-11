@@ -34,7 +34,8 @@ const WORLD_META: Record<LearningSubjectId, { name: string; place: string; helpe
   letters: { name: "Menulis", place: "Studio Huruf", helper: "Huruf & gerak menulis" },
   logic: { name: "Logika", place: "Pulau Logika", helper: "Cocok, beda & bandingkan" },
   science: { name: "Sains", place: "Taman Sains", helper: "Hewan, tumbuhan & alam" },
-  color: { name: "Mewarnai", place: "Studio Warna", helper: "Warna & kreativitas" }
+  color: { name: "Mewarnai", place: "Studio Warna", helper: "Warna & kreativitas" },
+  drawing: { name: "Menggambar", place: "Studio Gambar", helper: "Garis, bentuk & imajinasi" }
 };
 
 function coreActivities(stageId: string) {
