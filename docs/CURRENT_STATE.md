@@ -15,15 +15,16 @@ This is the canonical human/AI handoff. `main` is the implementation source of t
 
 ## Latest verified engineering production baseline
 
-**Batch 17 engineering final acceptance is complete in production. Full product acceptance remains externally blocked by physical-device evidence and one GitHub ruleset administration action.**
+**Batch 17 engineering final acceptance is complete in production. A guided physical-device QA recorder is also production-live. Full product acceptance remains externally blocked by actual hardware evidence and one GitHub ruleset administration action.**
 
-Latest implementation:
+Latest production release:
 
 ```text
-PR:                     #82
-main SHA:               d27b32124d3df1613c648132aa2f1ff0ed94ebaa
-main CI:                #322
+Follow-up PR:            #85 — guided physical-device QA harness
+main SHA:               ee7040ccff82b1d868bd0ca935ab80eb9136024c
+main CI:                #328
 Ubuntu quality:         success
+Device-QA contract:     success
 Windows compatibility: success
 Mobile route QA:        success
 Production build:       success
@@ -32,7 +33,7 @@ Secret history scan:   success
 Exact-SHA smoke:        success
 ```
 
-Batch 17 added the permanent `test:batch17:final` release contract. CI reports:
+The Batch 17 implementation itself landed through PR #82 at SHA `d27b32124d3df1613c648132aa2f1ff0ed94ebaa` and added the permanent `test:batch17:final` release contract. CI reports:
 
 ```text
 subjects:     9
@@ -47,7 +48,26 @@ engineering:  PASS
 physical-device certification: PENDING_EXTERNAL_EVIDENCE
 ```
 
-Detailed evidence: `EXPANSION_BATCH17_ENGINEERING_ACCEPTANCE_2026-09-11.md`.
+Detailed Batch 17 evidence: `EXPANSION_BATCH17_ENGINEERING_ACCEPTANCE_2026-09-11.md`.
+
+## Guided physical-device QA helper
+
+PR #85 added a hidden/noindex production helper at:
+
+```text
+https://mainlagihub.my.id/qa/device
+```
+
+The helper mirrors the same 22 canonical rows in `BATCH16_PHYSICAL_DEVICE_QA.md`. It:
+
+- records device model / OS / browser plus non-secret viewport, screen, DPR, touch-point, orientation, online, reduced-motion, secure-context, camera-capability, and speech-capability context;
+- lets the tester record `PASS`, `FAIL`, `BLOCKED`, or `PENDING` plus evidence notes;
+- persists the in-progress checklist only in that browser's localStorage;
+- can export local JSON evidence or copy a text summary;
+- does not upload QA evidence, access auth/session state, or request camera/microphone permission automatically;
+- is protected by the permanent `test:qa:device` CI contract.
+
+This helper reduces testing friction but is **not** an automated physical-device certifier. All 22 canonical physical rows remain pending until a tester actually performs them on representative hardware.
 
 ## Catalog and learning baseline
 
@@ -126,7 +146,8 @@ Automated Batch 16 work is production-complete:
 - MediaPipe executable loading remains dynamic/lazy;
 - remote TTS is not eagerly initialized;
 - Chromium QA covers release widths plus reduced motion, alt/form labels, keyboard focus, `aria-hidden` focusability, overflow, touch targets, and eager MediaPipe/TTS network checks;
-- security regression gates protect credential boundaries, reviewed raw-HTML sinks/sanitization, SECURITY DEFINER search paths, RPC grants, credential-free account-bound outbox state, and server-only service-role access.
+- security regression gates protect credential boundaries, reviewed raw-HTML sinks/sanitization, SECURITY DEFINER search paths, RPC grants, credential-free account-bound outbox state, and server-only service-role access;
+- `test:qa:device` now additionally locks the physical-QA recorder's 22-test count, privacy/local-only boundary, noindex route, touch sizing, and no automatic camera/upload behavior.
 
 The automated portion is not equivalent to physical-device certification.
 
@@ -148,7 +169,7 @@ Live database verification:
 - Coloring runtime drift = 0;
 - 22 active Iqro packs are `expert_required`; 0 are `expert_approved`.
 
-Latest migration registry remains Batch 14 Wave D. Batches 15–17 require no migration/DDL.
+Latest migration registry remains Batch 14 Wave D. Batches 15–17 and the physical-device QA helper require no migration/DDL.
 
 Live RLS is enabled on `player_profiles`, attempts, evidence, mastery, progress, achievements, and certificates. `learning_attempt_child_ownership` remains installed on `learning_attempts`.
 
@@ -165,6 +186,7 @@ CI now permanently covers:
 
 - structure/assets/source audit;
 - Batch 16 security regression;
+- physical-device QA harness contract;
 - typecheck/lint;
 - engine + full learning suite;
 - simulations;
@@ -184,7 +206,7 @@ Canonical tracker: **issue #83 — `Final external acceptance: physical-device Q
 
 Two external conditions remain:
 
-1. `BATCH16_PHYSICAL_DEVICE_QA.md` still needs actual representative physical iPhone/Safari and Android/Chrome evidence for camera, audio/TTS, finger trace/drawing/coloring, safe areas/orientation/keyboard, VoiceOver/TalkBack/text scaling, and offline/reconnect/session isolation;
+1. use `/qa/device` on actual representative physical iPhone/Safari and Android/Chrome hardware and record evidence in `BATCH16_PHYSICAL_DEVICE_QA.md` for camera, audio/TTS, finger trace/drawing/coloring, safe areas/orientation/keyboard, VoiceOver/TalkBack/text scaling, and offline/reconnect/session isolation;
 2. GitHub repository Settings must add `Secret history scan` to the active `Protect main` required-status-check list, or that governance difference must be explicitly accepted and documented.
 
 Neither condition can be truthfully manufactured by GitHub-hosted headless CI. The connected GitHub API can inspect but cannot modify ruleset administration.
@@ -194,7 +216,8 @@ Neither condition can be truthfully manufactured by GitHub-hosted headless CI. T
 - Batches 0–14: complete at documented engineering/catalog scopes; Iqro expert review remains separate;
 - Batch 15: **COMPLETE IN PRODUCTION**;
 - Batch 16 automated hardening: **COMPLETE IN PRODUCTION**;
-- Batch 16 physical-device acceptance: **PENDING EXTERNAL EVIDENCE**;
+- Batch 16 physical-device acceptance tooling: **COMPLETE IN PRODUCTION**;
+- Batch 16 physical-device evidence: **PENDING EXTERNAL EVIDENCE**;
 - Batch 17 engineering final-acceptance gate: **COMPLETE IN PRODUCTION**;
 - full Batch 16/17 product acceptance: **PENDING issue #83**.
 
