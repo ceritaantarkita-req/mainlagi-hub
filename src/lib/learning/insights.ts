@@ -23,12 +23,15 @@ import {
 import {
   calculateStageLearningState,
   isStageUnlocked,
-  rankActivityRecommendations,
   type ProgressionActivityDescriptor,
   type ProgressionStageDescriptor,
-  type RecommendationReason,
   type StageLearningState
 } from "./progression";
+import {
+  adaptiveReasonLabel,
+  rankAdaptiveLearningV2,
+  type AdaptiveRecommendationReason
+} from "./adaptive";
 import type { LearningAnalyticsSnapshot } from "./attempts";
 
 export interface SubjectLearningSummary {
@@ -60,7 +63,7 @@ export interface CertificateEligibility {
 
 export interface NextLearningRecommendation {
   activity: LearningActivity;
-  reason: RecommendationReason;
+  reason: AdaptiveRecommendationReason;
   reasonLabel: string;
   targetSkillId: string | null;
   targetSkillTitle: string | null;
@@ -94,45 +97,29 @@ export interface RecentLearningAttemptRow {
   completedAt: string;
 }
 
-function activityDescriptors(): ProgressionActivityDescriptor[] {
-  return ACTIVITIES.map((activity) => {
-    const spec = getActivityLearningSpec(activity.id);
-    return {
-      id: activity.id,
-      subjectId: activity.subjectId,
-      stageId: activity.stageId,
-      ageMin: activity.ageMin,
-      ageMax: activity.ageMax,
-      requiredForStage: spec?.requiredForStage ?? (!activity.motionOptional && activity.runtime !== "motion_game"),
-      motionOptional: activity.motionOptional || activity.runtime === "motion_game",
-      skillIds: spec?.skills.map((item) => item.skillId) ?? [],
-      assessed: spec?.assessment === "assessed",
-      difficulty: spec?.difficulty ?? 1
-    };
-  });
-}
+const ACTIVITY_DESCRIPTORS: ProgressionActivityDescriptor[] = ACTIVITIES.map((activity) => {
+  const spec = getActivityLearningSpec(activity.id);
+  return {
+    id: activity.id,
+    subjectId: activity.subjectId,
+    stageId: activity.stageId,
+    ageMin: activity.ageMin,
+    ageMax: activity.ageMax,
+    requiredForStage: spec?.requiredForStage ?? (!activity.motionOptional && activity.runtime !== "motion_game"),
+    motionOptional: activity.motionOptional || activity.runtime === "motion_game",
+    skillIds: spec?.skills.map((item) => item.skillId) ?? [],
+    assessed: spec?.assessment === "assessed",
+    difficulty: spec?.difficulty ?? 1
+  };
+});
 
-function stageDescriptors(): ProgressionStageDescriptor[] {
-  return STAGES.map((stage) => ({ id: stage.id, subjectId: stage.subjectId, activityIds: stage.activityIds }));
-}
+const STAGE_DESCRIPTORS: ProgressionStageDescriptor[] = STAGES.map((stage) => ({
+  id: stage.id,
+  subjectId: stage.subjectId,
+  activityIds: stage.activityIds
+}));
 
-function recommendationReasonLabel(reason: RecommendationReason, targetSkillTitle: string | null): string {
-  const skill = targetSkillTitle ? ` ${targetSkillTitle}` : " skill ini";
-  switch (reason) {
-    case "finish_core":
-      return "Selesaikan aktivitas inti yang masih terbuka sebelum maju ke stage berikutnya.";
-    case "first_evidence":
-      return `Mulai kumpulkan evidence untuk${skill}.`;
-    case "strengthen_skill":
-      return `Perkuat${skill} dengan latihan terukur berikutnya.`;
-    case "new_activity":
-      return "Coba aktivitas baru yang sesuai umur dan stage yang sudah terbuka.";
-    case "practice":
-      return "Latihan ringan untuk menjaga pengalaman belajar tetap bervariasi.";
-  }
-}
-
-function recommendationFromRanked(top: ReturnType<typeof rankActivityRecommendations>[number] | undefined): NextLearningRecommendation | undefined {
+function recommendationFromAdaptive(top: ReturnType<typeof rankAdaptiveLearningV2>[number] | undefined): NextLearningRecommendation | undefined {
   if (!top) return undefined;
   const activity = getActivity(top.id);
   if (!activity) return undefined;
@@ -140,7 +127,7 @@ function recommendationFromRanked(top: ReturnType<typeof rankActivityRecommendat
   return {
     activity,
     reason: top.reason,
-    reasonLabel: recommendationReasonLabel(top.reason, targetSkill?.title ?? null),
+    reasonLabel: adaptiveReasonLabel(top.reason, targetSkill?.title ?? null),
     targetSkillId: top.targetSkillId,
     targetSkillTitle: targetSkill?.title ?? null
   };
@@ -155,7 +142,7 @@ export function getStageLearningState(
   if (!stage) return null;
   return calculateStageLearningState({
     stage: { id: stage.id, subjectId: stage.subjectId, activityIds: stage.activityIds },
-    activities: activityDescriptors(),
+    activities: ACTIVITY_DESCRIPTORS,
     completedActivityIds: progress.completedActivityIds,
     masteryBySkill: analytics.masteryBySkill
   });
@@ -165,12 +152,10 @@ export function getUnlockedStageIds(
   progress: LearningProgress,
   analytics: LearningAnalyticsSnapshot
 ): Set<string> {
-  const activities = activityDescriptors();
-  const stages = stageDescriptors();
-  return new Set(stages.filter((stage) => isStageUnlocked({
+  return new Set(STAGE_DESCRIPTORS.filter((stage) => isStageUnlocked({
     targetStageId: stage.id,
-    stages,
-    activities,
+    stages: STAGE_DESCRIPTORS,
+    activities: ACTIVITY_DESCRIPTORS,
     completedActivityIds: progress.completedActivityIds,
     masteryBySkill: analytics.masteryBySkill
   })).map((stage) => stage.id));
@@ -181,25 +166,23 @@ export function getSubjectStageReadiness(
   progress: LearningProgress,
   analytics: LearningAnalyticsSnapshot
 ): StageReadinessRow[] {
-  const unlocked = getUnlockedStageIds(progress, analytics);
+  const subjectStages = STAGE_DESCRIPTORS.filter((stage) => stage.subjectId === subjectId);
+  const subjectActivities = ACTIVITY_DESCRIPTORS.filter((activity) => activity.subjectId === subjectId);
+  const unlocked = new Set(subjectStages.filter((stage) => isStageUnlocked({
+    targetStageId: stage.id,
+    stages: subjectStages,
+    activities: subjectActivities,
+    completedActivityIds: progress.completedActivityIds,
+    masteryBySkill: analytics.masteryBySkill
+  })).map((stage) => stage.id));
+
   return STAGES.filter((stage) => stage.subjectId === subjectId).map((stage) => {
-    const state = getStageLearningState(stage.id, progress, analytics);
-    if (!state) {
-      return {
-        stageId: stage.id,
-        title: stage.title,
-        subjectId,
-        status: "locked" as const,
-        statusLabel: "Terkunci",
-        reason: "Stage belum tersedia.",
-        completionRatio: 0,
-        completedCount: 0,
-        requiredCount: 0,
-        evidenceReadiness: 0,
-        evidencedSkillCount: 0,
-        assessedSkillCount: 0
-      };
-    }
+    const state = calculateStageLearningState({
+      stage: { id: stage.id, subjectId: stage.subjectId, activityIds: stage.activityIds },
+      activities: subjectActivities,
+      completedActivityIds: progress.completedActivityIds,
+      masteryBySkill: analytics.masteryBySkill
+    });
 
     if (!unlocked.has(stage.id)) {
       return {
@@ -280,14 +263,12 @@ export function getNextBestLearningRecommendation(args: {
   analytics: LearningAnalyticsSnapshot;
   allowMotion?: boolean;
 }): NextLearningRecommendation | undefined {
-  return recommendationFromRanked(rankActivityRecommendations({
+  return recommendationFromAdaptive(rankAdaptiveLearningV2({
     age: args.age,
-    activities: activityDescriptors(),
-    stages: stageDescriptors(),
-    completedActivityIds: args.progress.completedActivityIds,
-    masteryBySkill: args.analytics.masteryBySkill,
-    lastActivityId: args.progress.lastActivityId,
-    allowMotion: args.allowMotion
+    progress: args.progress,
+    analytics: args.analytics,
+    allowMotion: args.allowMotion,
+    limit: 1
   })[0]);
 }
 
@@ -298,16 +279,13 @@ export function getSubjectNextLearningRecommendation(args: {
   analytics: LearningAnalyticsSnapshot;
   allowMotion?: boolean;
 }): NextLearningRecommendation | undefined {
-  const activities = activityDescriptors().filter((activity) => activity.subjectId === args.subjectId);
-  const stages = stageDescriptors().filter((stage) => stage.subjectId === args.subjectId);
-  return recommendationFromRanked(rankActivityRecommendations({
+  return recommendationFromAdaptive(rankAdaptiveLearningV2({
+    subjectId: args.subjectId,
     age: args.age,
-    activities,
-    stages,
-    completedActivityIds: args.progress.completedActivityIds,
-    masteryBySkill: args.analytics.masteryBySkill,
-    lastActivityId: args.progress.lastActivityId,
-    allowMotion: args.allowMotion
+    progress: args.progress,
+    analytics: args.analytics,
+    allowMotion: args.allowMotion,
+    limit: 1
   })[0]);
 }
 
