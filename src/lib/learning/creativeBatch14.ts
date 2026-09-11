@@ -1,7 +1,8 @@
 import { DRAWING_BATCH14_PATH, materializeCreativeBatch14Wave } from "./creativeBatch14Authoring";
 import { CREATIVE_BATCH14_WAVE_A } from "./creativeBatch14WaveA";
+import { CREATIVE_BATCH14_WAVE_B } from "./creativeBatch14WaveB";
 
-export const CREATIVE_BATCH14_WAVES = [CREATIVE_BATCH14_WAVE_A] as const;
+export const CREATIVE_BATCH14_WAVES = [CREATIVE_BATCH14_WAVE_A, CREATIVE_BATCH14_WAVE_B] as const;
 
 const MATERIALIZED_WAVES = CREATIVE_BATCH14_WAVES.map(materializeCreativeBatch14Wave);
 
@@ -18,5 +19,6 @@ export const CREATIVE_BATCH14_COLOR_STAGE_IDS = CREATIVE_BATCH14_STAGES.filter((
 export const CREATIVE_BATCH14_DRAWING_PATH = { ...DRAWING_BATCH14_PATH, stageIds: [...CREATIVE_BATCH14_DRAWING_STAGE_IDS] };
 
 export const CREATIVE_BATCH14_WAVE_ACTIVITY_COUNTS = {
-  A: CREATIVE_BATCH14_WAVE_A.activities.length
+  A: CREATIVE_BATCH14_WAVE_A.activities.length,
+  B: CREATIVE_BATCH14_WAVE_B.activities.length
 } as const;
