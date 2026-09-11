@@ -18,7 +18,7 @@ This document tracks the actual playable catalog separately from authoring/runti
 | **Coloring / Mewarnai** | **100** | **0** | **100** | **21** | **100** | **0** |
 | **Drawing / Menggambar** | **100** | **0** | **100** | **20** | **100** | **0** |
 
-Current repository/live-DB total after Batch 14: **900 playable activities — 683 assessed and 217 practice** across nine first-class subjects.
+Current repository/live-DB catalog total remains **900 playable activities — 683 assessed and 217 practice** across nine first-class subjects. Batch 15 does not alter catalog counts, classifications, IDs, or persistence schema.
 
 All nine planned tracks are at the canonical 100-activity catalog target. Iqro's engineering/content-catalog count is complete, but every active Iqro pack remains `expert_required`; this is not expert religious-learning approval.
 
@@ -72,6 +72,23 @@ Drawing entered at zero and Batch 14 added **100 Drawing creative-practice activ
 
 Every Batch 14 creative addition remains `practice` with `completion_only_v1` evidence. Drawing/Coloring participation is reportable completion, not objective mastery. Detailed closure: `EXPANSION_BATCH14_CLOSURE_2026-09-11.md`.
 
+## Batch 15 learning-system coverage
+
+Batch 15 closes the post-catalog adaptive/mastery/report scaling phase without adding catalog rows.
+
+Coverage now includes:
+
+- bounded Adaptive Learning V2 ranking over every subject;
+- a single recommendation policy shared by child/parent consumers;
+- weak-skill remediation that can prefer alternate same-skill activities/runtimes instead of exact replay;
+- explicit preservation of assessed-only mastery qualification;
+- recommendation support for Drawing/Coloring without synthetic mastery;
+- bounded Parent-report projections by subject, assessed skill, stage status, recommendation, and capped recent attempts;
+- explicit creative certificate regression so completion-only Drawing/Coloring cannot satisfy assessed mastery gates;
+- a 1,200-attempt regression/benchmark included in the canonical learning test suite.
+
+Detailed closure: `EXPANSION_BATCH15_CLOSURE_2026-09-11.md`.
+
 ## Current playable runtime inventory
 
 | Runtime | Count |
@@ -97,13 +114,13 @@ Mastery remains cumulative. Measured all-wrong attempts remain accuracy `0` evid
 
 Generic Latin pre-writing/letter traces remain `practice` + `completion_only_v1` and do not claim handwriting-shape mastery.
 
-Drawing/Coloring activities remain `practice` + `completion_only_v1`. They can record participation and support product reporting, but do not create academic or creative mastery evidence unless a separately validated objective evaluator/evidence contract is introduced in a future reviewed change.
+Drawing/Coloring activities remain `practice` + `completion_only_v1`. They can record participation and support product reporting/recommendations, but do not create academic or creative mastery evidence unless a separately validated objective evaluator/evidence contract is introduced in a future reviewed change.
 
 Science content remains age-appropriate and does not depend on unsafe unsupervised experiments.
 
 ## Expansion gates
 
-Canonical wave boundaries remain:
+Canonical wave boundaries remain historical content-authoring evidence:
 
 ```text
 Wave A: canonical count 1–25
@@ -129,6 +146,11 @@ Current CI verifies, among existing learning contracts:
 - complete path/stage/lesson/pack ownership;
 - migration parity through `0046_batch14_creative_wave_d.sql`;
 - preservation of historical learning tables and identities;
-- existing mastery anti-farming, adaptive, reporting, ownership, outbox, and award contracts.
+- mastery anti-farming, assessed-evidence integrity, ownership, outbox, and award contracts;
+- Batch 15 bounded ranking across all nine subjects;
+- Drawing/Coloring remain recommendation-capable practice with no fabricated mastery/certificate eligibility;
+- same-skill remediation can prefer a useful variant over exact replay;
+- Parent report stays one bounded row per subject with capped recent attempts;
+- the 1,200-attempt Batch 15 scale fixture stays under the `<64 KiB` report-payload and `<5s` conservative CI sweep gates.
 
-The next expansion phase is not another activity-count batch. **Batch 15** focuses on adaptive/mastery/report scaling over the now-complete 900-activity catalog.
+The next canonical phase is **Batch 16 — performance, accessibility, security, and representative physical-device QA**. It should optimize and validate the shipped system rather than reopen the closed activity-count target.
