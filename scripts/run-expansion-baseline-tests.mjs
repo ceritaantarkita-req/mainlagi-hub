@@ -25,8 +25,7 @@ const batch12=require(path.join(outDir,"src","lib","learning","logicBatch12.js")
 const batch13=require(path.join(outDir,"src","lib","learning","scienceBatch13.js"));
 const batch14=require(path.join(outDir,"src","lib","learning","creativeBatch14.js"));
 
-const expansionTargets=Object.freeze({bahasa:100,english:100,math:100,iqro:100,letters:100,logic:100,science:100,color:100,drawing:100});
-const floors=Object.freeze({bahasa:100,english:100,math:100,iqro:100,letters:100,logic:100,science:100,color:75,drawing:75});
+const targets=Object.freeze({bahasa:100,english:100,math:100,iqro:100,letters:100,logic:100,science:100,color:100,drawing:100});
 const countBy=(items,key)=>items.reduce((c,i)=>{c[i[key]]=(c[i[key]]??0)+1;return c;},{});
 const batch11PracticeIds=new Set(["letters-stroke-vertical","letters-stroke-horizontal","letters-stroke-diagonal","letters-trace-g-practice","letters-trace-i-practice","letters-trace-m-practice","letters-trace-n-practice","letters-trace-o-practice","letters-trace-t-practice","letters-trace-u-practice","letters-trace-w-practice","letters-trace-z-practice"]);
 
@@ -40,17 +39,14 @@ try {
   const packedContentById=new Map(manifest.CONTENT_PACKS.flatMap((pack)=>pack.activities.map((item)=>[item.activityId,item])));
 
   assert.equal(system.SUBJECTS.length,9);
-  assert.equal(system.ACTIVITIES.length,850,"Batch 14 Wave C must raise the catalog to 850 activities");
-  assert.equal(system.STAGES.length,44,"Batch 14 Wave C must raise the catalog to 44 stages");
+  assert.equal(system.ACTIVITIES.length,900,"Batch 14 Wave D must close the catalog at 900 activities");
+  assert.equal(system.STAGES.length,46,"Batch 14 Wave D must raise the catalog to 46 stages");
   assert.equal(curriculum.LEARNING_PATHS.length,9);
-  assert.equal(curriculum.LEARNING_LESSONS.length,187);
-  assert.equal(manifest.CONTENT_PACKS.length,187);
-  assert.equal(catalog.LEARNING_SKILLS.length,190);
+  assert.equal(curriculum.LEARNING_LESSONS.length,197);
+  assert.equal(manifest.CONTENT_PACKS.length,197);
+  assert.equal(catalog.LEARNING_SKILLS.length,200);
 
-  for(const [id,floor] of Object.entries(floors)) assert.ok((activityCounts[id]??0)>=floor,`${id} regressed below ${floor}`);
-  for(const id of ["math","bahasa","english","iqro","letters","logic","science"]) assert.equal(activityCounts[id],100,`${id} must remain exactly 100 during Batch 14`);
-  assert.equal(activityCounts.drawing,75,"Drawing Wave C must land exactly at 75");
-  assert.equal(activityCounts.color,75,"Coloring Wave C must land exactly at 75 including two historical activities");
+  for(const [id,target] of Object.entries(targets)) assert.equal(activityCounts[id],target,`${id} must close at exactly ${target}`);
 
   assert.deepEqual(batch7.MATH_BATCH7_WAVE_ACTIVITY_COUNTS,{A:18,B:25,C:25,D:25});
   assert.deepEqual(batch8.BAHASA_BATCH8_WAVE_ACTIVITY_COUNTS,{A:19,B:25,C:25,D:25});
@@ -59,15 +55,14 @@ try {
   assert.deepEqual(batch11.LETTERS_BATCH11_WAVE_ACTIVITY_COUNTS,{A:22,B:25,C:25,D:25});
   assert.deepEqual(batch12.LOGIC_BATCH12_WAVE_ACTIVITY_COUNTS,{A:22,B:25,C:25,D:25});
   assert.deepEqual(batch13.SCIENCE_BATCH13_WAVE_ACTIVITY_COUNTS,{A:22,B:25,C:25,D:25});
-  assert.deepEqual(batch14.CREATIVE_BATCH14_WAVE_ACTIVITY_COUNTS,{A:48,B:50,C:50});
-  assert.equal(batch14.CREATIVE_BATCH14_ACTIVITY_IDS.length,148);
-  assert.equal(batch14.CREATIVE_BATCH14_DRAWING_ACTIVITY_IDS.length,75);
-  assert.equal(batch14.CREATIVE_BATCH14_COLOR_ACTIVITY_IDS.length,73);
-  assert.equal(new Set(batch14.CREATIVE_BATCH14_ACTIVITY_IDS).size,148);
+  assert.deepEqual(batch14.CREATIVE_BATCH14_WAVE_ACTIVITY_COUNTS,{A:48,B:50,C:50,D:50});
+  assert.equal(batch14.CREATIVE_BATCH14_ACTIVITY_IDS.length,198);
+  assert.equal(batch14.CREATIVE_BATCH14_DRAWING_ACTIVITY_IDS.length,100);
+  assert.equal(batch14.CREATIVE_BATCH14_COLOR_ACTIVITY_IDS.length,98);
+  assert.equal(new Set(batch14.CREATIVE_BATCH14_ACTIVITY_IDS).size,198);
 
-  for(const id of ["color","drawing"]) assert.ok(activityCounts[id]<expansionTargets[id],`${id} reached 100 unexpectedly during Wave C`);
-  assert.deepEqual(runtimeCounts,{tap_choice:481,listen_and_choose:76,matching:125,trace:14,story:1,motion_game:3,coloring:75,drawing:75});
-  assert.deepEqual(assessmentCounts,{assessed:683,practice:167});
+  assert.deepEqual(runtimeCounts,{tap_choice:481,listen_and_choose:76,matching:125,trace:14,story:1,motion_game:3,coloring:100,drawing:100});
+  assert.deepEqual(assessmentCounts,{assessed:683,practice:217});
 
   for(const id of batch11.LETTERS_BATCH11_ACTIVITY_IDS){
     const spec=catalog.getActivityLearningSpec(id); assert.ok(spec,`${id} needs a learning spec`);
@@ -82,12 +77,12 @@ try {
 
   const drawing=system.ACTIVITIES.filter((activity)=>activity.subjectId==="drawing");
   const coloring=system.ACTIVITIES.filter((activity)=>activity.subjectId==="color");
-  assert.equal(drawing.length,75);
-  assert.equal(coloring.length,75);
+  assert.equal(drawing.length,100);
+  assert.equal(coloring.length,100);
   assert.ok(drawing.every((activity)=>String(activity.runtime)==="drawing"));
   assert.ok(coloring.every((activity)=>String(activity.runtime)==="coloring"));
 
   const audio=readFileSync(path.join(root,"src","lib","audio","AudioManager.ts"),"utf8");
   assert.match(audio,/mainlagi-speech-latency/);
-  console.log("Mainlagi Expansion Batch 14 Creative Wave C contracts passed.");
+  console.log("Mainlagi Expansion Batch 14 Creative Wave D contracts passed.");
 } catch(error){console.error(error);process.exit(1);}
