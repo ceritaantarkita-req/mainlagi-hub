@@ -15,30 +15,29 @@ This document tracks the actual playable catalog separately from authoring/runti
 | **Letters / Menulis** | **100** | **87** | **13** | **25** | **100** | **0** |
 | **Logic / Logika** | **100** | **100** | **0** | **22** | **100** | **0** |
 | **Science / Sains** | **100** | **100** | **0** | **22** | **100** | **0** |
-| Coloring / Mewarnai | 2 | 0 | 2 | 1 | 100 | 98 |
-| Drawing / Menggambar | 0 | — | — | — | 100 | 100 |
+| **Coloring / Mewarnai** | **100** | **0** | **100** | **21** | **100** | **0** |
+| **Drawing / Menggambar** | **100** | **0** | **100** | **20** | **100** | **0** |
 
-Current repository/live-DB total after Batch 13: **702 playable activities — 683 assessed and 19 practice** across eight first-class subjects.
+Current repository/live-DB total after Batch 14: **900 playable activities — 683 assessed and 217 practice** across nine first-class subjects.
 
-All seven academic subjects are now at the canonical 100-activity catalog target. Iqro's engineering/content-catalog count is complete, but every active Iqro pack remains `expert_required`; this is not expert religious-learning approval.
-
-The planned nine-track target remains **900 playable activities**. Remaining catalog gap is **198**: 98 Coloring activities plus 100 Drawing activities.
+All nine planned tracks are at the canonical 100-activity catalog target. Iqro's engineering/content-catalog count is complete, but every active Iqro pack remains `expert_required`; this is not expert religious-learning approval.
 
 ## Current hierarchy
 
-- first-class subjects: 8
-- learning paths: 8
-- stages: 38
-- lessons: 157
-- versioned content packs: 157
-- playable activities: 702
+- first-class subjects: 9
+- learning paths: 9
+- stages: 46
+- lessons: 197
+- versioned content packs: 197
+- playable activities: 900
 - assessed activities: 683
-- practice activities: 19
-- skills: 160
+- practice activities: 217
+- skills: 200
+- reusable manifest mechanics: 8
 
 Every current stage belongs to a learning path; every current activity belongs to a lesson and content pack; historical IDs remain stable.
 
-## Closed academic subject inventories
+## Closed subject inventories
 
 | Subject | Final count | Assessed | Practice | Skills | Expansion batch |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -49,32 +48,29 @@ Every current stage belongs to a learning path; every current activity belongs t
 | Letters / Menulis | 100 | 87 | 13 | 25 | 11 |
 | Logic / Logika | 100 | 100 | 0 | 22 | 12 |
 | Science / Sains | 100 | 100 | 0 | 22 | 13 |
+| Coloring / Mewarnai | 100 | 0 | 100 | 21 | 14 |
+| Drawing / Menggambar | 100 | 0 | 100 | 20 | 14 |
 
 ### Batch 12 Logic/Logika
 
-Logic entered with three validated assessed activities and added **97 measured assessed activities** through canonical wave counts `22 + 25 + 25 + 25`.
-
-| Wave | Logic count | Main scope | Migration |
-| --- | ---: | --- | --- |
-| A | 25 | relations, classification, odd-one-out, comparison, simple rules | `0035_batch12_logic_wave_a.sql` |
-| B | 50 | patterns, sequences, associations, comparisons, spatial relations | `0036_batch12_logic_wave_b.sql` |
-| C | 75 | conditional rules, multi-attribute classification, analogies, ordering, elimination/inference | `0037_batch12_logic_wave_c.sql` |
-| D | 100 | composed rules, set reasoning, transitive comparison, spatial transforms, mixed review | `0038_batch12_logic_wave_d.sql` |
-
-Logic closes at **100 assessed / 0 practice** and 22 active Logic skills. Detailed closure: `EXPANSION_BATCH12_CLOSURE_2026-09-11.md`.
+Logic entered with three validated assessed activities and added **97 measured assessed activities** through canonical wave counts `22 + 25 + 25 + 25`. It closes at **100 assessed / 0 practice** and 22 active Logic skills. Detailed closure: `EXPANSION_BATCH12_CLOSURE_2026-09-11.md`.
 
 ### Batch 13 Science/Sains
 
-Science entered with three validated assessed activities and added **97 measured assessed activities** through canonical wave counts `22 + 25 + 25 + 25`.
+Science entered with three validated assessed activities and added **97 measured assessed activities** through canonical wave counts `22 + 25 + 25 + 25`. It closes at **100 assessed / 0 practice** and 22 active Science skills. Detailed closure: `EXPANSION_BATCH13_CLOSURE_2026-09-11.md`.
 
-| Wave | Science count | Main scope | Migration |
-| --- | ---: | --- | --- |
-| A | 25 | living/non-living, plants, animal features/habitats, senses/observation, weather/day-night | `0039_batch13_science_wave_a.sql` |
-| B | 50 | life cycles, organism needs/food, materials, water-state changes, forces/motion | `0040_batch13_science_wave_b.sql` |
-| C | 75 | Earth/sky patterns, healthy habits, ecosystems, environment care, observation/measurement | `0041_batch13_science_wave_c.sql` |
-| D | 100 | investigation/evidence, living features/functions, material choice, weather/environment reasoning, mixed review | `0042_batch13_science_wave_d.sql` |
+### Batch 14 Drawing + Coloring
 
-Science closes at **100 assessed / 0 practice** and 22 active Science skills. Detailed closure: `EXPANSION_BATCH13_CLOSURE_2026-09-11.md`.
+Drawing entered at zero and Batch 14 added **100 Drawing creative-practice activities**. Coloring preserved its two historical practice activities and added **98 new creative-practice activities**. Total Batch 14 additions: **198**.
+
+| Wave | Drawing | Coloring | New total | Main scope | Migration |
+| --- | ---: | ---: | ---: | --- | --- |
+| A | 25 | 25 | 48 | Drawing first-class foundation, lines/shapes/paths/connect-dots; Coloring foundation and simple color exploration | `0043_batch14_creative_wave_a.sql` |
+| B | 50 | 50 | 50 | objects from shapes, animals, nature, faces/scenes; warm/cool play, patterns, scenes, vehicles, fantasy | `0044_batch14_creative_wave_b.sql` |
+| C | 75 | 75 | 50 | space/layers, textures, two-side balance, story sequence, inventions; palette relationships, contrast, mood, materials, story scenes | `0045_batch14_creative_wave_c.sql` |
+| D | 100 | 100 | 50 | composition/focus, character design, maps/worlds, visual design, open drawing studio; limited palettes, time/season, character palettes, scene storytelling, open color studio | `0046_batch14_creative_wave_d.sql` |
+
+Every Batch 14 creative addition remains `practice` with `completion_only_v1` evidence. Drawing/Coloring participation is reportable completion, not objective mastery. Detailed closure: `EXPANSION_BATCH14_CLOSURE_2026-09-11.md`.
 
 ## Current playable runtime inventory
 
@@ -86,9 +82,10 @@ Science closes at **100 assessed / 0 practice** and 22 active Science skills. De
 | Guided trace | 14 |
 | Story | 1 |
 | Motion game | 3 |
-| Coloring | 2 |
+| Coloring | 100 |
+| Drawing | 100 |
 
-These counts sum exactly to **702**.
+These counts sum exactly to **900**.
 
 ## Evidence boundaries
 
@@ -100,9 +97,9 @@ Mastery remains cumulative. Measured all-wrong attempts remain accuracy `0` evid
 
 Generic Latin pre-writing/letter traces remain `practice` + `completion_only_v1` and do not claim handwriting-shape mastery.
 
-Free Drawing/Coloring participation must remain practice/reporting-oriented unless a separately validated objective evidence contract exists. Creative participation must not manufacture academic mastery.
+Drawing/Coloring activities remain `practice` + `completion_only_v1`. They can record participation and support product reporting, but do not create academic or creative mastery evidence unless a separately validated objective evaluator/evidence contract is introduced in a future reviewed change.
 
-Science content must remain age-appropriate and must not depend on unsafe unsupervised experiments.
+Science content remains age-appropriate and does not depend on unsafe unsupervised experiments.
 
 ## Expansion gates
 
@@ -115,21 +112,23 @@ Wave C: canonical count 51–75
 Wave D: canonical count 76–100
 ```
 
-Math, Bahasa Indonesia, English, Iqro, Letters/Menulis, Logic/Logika, and Science/Sains have completed all four canonical waves.
-
-**Batch 14 Drawing/Menggambar + Coloring/Mewarnai to 100 each is next.** Coloring starts from two validated historical practice activities, while Drawing starts at zero and must first become a proper first-class track under the canonical ownership model.
+All nine planned tracks have completed their canonical path to 100. Existing validated activities counted toward boundaries; the system did not blindly add 25 on top of non-zero baselines.
 
 ## Automated contracts
 
 Current CI verifies, among existing learning contracts:
 
-- exactly 100 activities for each of the seven academic subjects;
-- Batch 12 Logic has 97 unique additions and closes at 100 assessed / 0 practice;
-- Batch 13 Science has 97 unique additions and closes at 100 assessed / 0 practice;
-- 702 total activities / 683 assessed / 19 practice;
-- 38 stages / 8 paths / 157 lessons / 157 packs / 160 skills;
-- final runtime inventory and subject floors;
+- exactly 100 activities for each of all nine subjects;
+- Batch 12 Logic closes at 100 assessed / 0 practice;
+- Batch 13 Science closes at 100 assessed / 0 practice;
+- Batch 14 generated additions are 198 unique activities = Drawing 100 + Coloring 98, while two historical Coloring activities are preserved;
+- every generated Batch 14 creative activity is practice/completion-only;
+- **900 total activities / 683 assessed / 217 practice**;
+- **46 stages / 9 paths / 197 lessons / 197 packs / 200 skills / 8 mechanics**;
+- final runtime inventory and subject exact targets;
 - complete path/stage/lesson/pack ownership;
-- migration parity through `0042_batch13_science_wave_d.sql`;
+- migration parity through `0046_batch14_creative_wave_d.sql`;
 - preservation of historical learning tables and identities;
 - existing mastery anti-farming, adaptive, reporting, ownership, outbox, and award contracts.
+
+The next expansion phase is not another activity-count batch. **Batch 15** focuses on adaptive/mastery/report scaling over the now-complete 900-activity catalog.
