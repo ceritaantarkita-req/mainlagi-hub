@@ -1,5 +1,6 @@
 import * as base from "./systemBase";
 import { BAHASA_BATCH8_ACTIVITIES, BAHASA_BATCH8_STAGES } from "./bahasaBatch8";
+import { CREATIVE_BATCH14_ACTIVITIES, CREATIVE_BATCH14_STAGES } from "./creativeBatch14";
 import { ENGLISH_BATCH9_ACTIVITIES, ENGLISH_BATCH9_STAGES } from "./englishBatch9";
 import { IQRO_BATCH10_ACTIVITIES, IQRO_BATCH10_STAGES } from "./iqroBatch10";
 import { LETTERS_BATCH11_ACTIVITIES, LETTERS_BATCH11_STAGES } from "./lettersBatch11";
@@ -7,49 +8,81 @@ import { LOGIC_BATCH12_ACTIVITIES, LOGIC_BATCH12_STAGES } from "./logicBatch12";
 import { MATH_BATCH7_ACTIVITIES, MATH_BATCH7_STAGES } from "./mathBatch7";
 import { SCIENCE_BATCH13_ACTIVITIES, SCIENCE_BATCH13_STAGES } from "./scienceBatch13";
 import type {
-  LearningActivity,
+  LearningActivity as BaseLearningActivity,
   LearningChildProfile,
   LearningProgress,
-  LearningStage,
-  LearningSubject,
-  LearningSubjectId
+  LearningStage as BaseLearningStage,
+  LearningSubject as BaseLearningSubject
 } from "./systemBase";
 
 export type {
   CharacterId,
-  LearningActivity,
   LearningChildProfile,
   LearningInputMode,
   LearningPreferences,
   LearningProgress,
-  LearningRuntime,
-  LearningStage,
-  LearningSubject,
-  LearningSubjectId,
   MatchItem
 } from "./systemBase";
 
+type OpenLiteral<T extends string> = T | (string & {});
+export type LearningSubjectId = OpenLiteral<base.LearningSubjectId | "drawing">;
+export type LearningRuntime = OpenLiteral<base.LearningRuntime | "drawing">;
+
+export interface LearningSubject extends Omit<BaseLearningSubject, "id"> {
+  id: LearningSubjectId;
+}
+
+export interface LearningActivity extends Omit<BaseLearningActivity, "subjectId" | "runtime" | "coloringCharacter"> {
+  subjectId: LearningSubjectId;
+  runtime: LearningRuntime;
+  coloringCharacter?: string;
+  coloringRegions?: string[];
+  creativePrompt?: string;
+  drawingGuide?: string;
+}
+
+export interface LearningStage extends Omit<BaseLearningStage, "subjectId"> {
+  subjectId: LearningSubjectId;
+}
+
 export const CHARACTERS = base.CHARACTERS;
-export const SUBJECTS: LearningSubject[] = base.SUBJECTS;
+
+const DRAWING_SUBJECT: LearningSubject = {
+  id: "drawing",
+  title: "Menggambar",
+  shortTitle: "Gambar",
+  emoji: "✏️",
+  description: "Latihan garis, bentuk, objek, dan ide gambar dengan kanvas sentuh.",
+  accent: "#8b6dd8",
+  soft: "#f1ecff"
+};
+
+export const SUBJECTS: LearningSubject[] = [
+  ...base.SUBJECTS.map((subject) => ({ ...subject })),
+  DRAWING_SUBJECT
+];
+
 export const ACTIVITIES: LearningActivity[] = [
-  ...base.ACTIVITIES,
+  ...base.ACTIVITIES.map((activity) => ({ ...activity })),
   ...MATH_BATCH7_ACTIVITIES,
   ...BAHASA_BATCH8_ACTIVITIES,
   ...ENGLISH_BATCH9_ACTIVITIES,
   ...IQRO_BATCH10_ACTIVITIES,
   ...LETTERS_BATCH11_ACTIVITIES,
   ...LOGIC_BATCH12_ACTIVITIES,
-  ...SCIENCE_BATCH13_ACTIVITIES
+  ...SCIENCE_BATCH13_ACTIVITIES,
+  ...CREATIVE_BATCH14_ACTIVITIES
 ];
 export const STAGES: LearningStage[] = [
-  ...base.STAGES,
+  ...base.STAGES.map((stage) => ({ ...stage })),
   ...MATH_BATCH7_STAGES,
   ...BAHASA_BATCH8_STAGES,
   ...ENGLISH_BATCH9_STAGES,
   ...IQRO_BATCH10_STAGES,
   ...LETTERS_BATCH11_STAGES,
   ...LOGIC_BATCH12_STAGES,
-  ...SCIENCE_BATCH13_STAGES
+  ...SCIENCE_BATCH13_STAGES,
+  ...CREATIVE_BATCH14_STAGES
 ];
 
 const SUBJECT_MAP = new Map(SUBJECTS.map((item) => [item.id, item]));

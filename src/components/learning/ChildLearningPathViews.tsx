@@ -102,6 +102,7 @@ function runtimeLabel(activity: LearningActivity) {
     matching: "Pasangkan",
     trace: "Trace jari",
     coloring: "Mewarnai",
+    drawing: "Menggambar",
     story: "Cerita",
     motion_game: "Gerak kamera"
   };

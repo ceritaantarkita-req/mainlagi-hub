@@ -266,7 +266,10 @@ try {
   // Certificate integrity: practice-only subjects cannot issue a competency certificate,
   // and assessed subjects need both completion and at least proficient evidence.
   const emptyAnalytics = attempts.emptyLearningAnalytics();
-  const colorComplete = { completedActivityIds: ["color-gavi", "color-paca"], stars: 4, lastActivityId: "color-paca" };
+  const colorRequiredIds = system.ACTIVITIES
+    .filter((activity) => activity.subjectId === "color" && catalog.getActivityLearningSpec(activity.id)?.requiredForStage)
+    .map((activity) => activity.id);
+  const colorComplete = { completedActivityIds: colorRequiredIds, stars: 99, lastActivityId: colorRequiredIds.at(-1) ?? null };
   const colorCertificate = insights.getCertificateEligibility("color", colorComplete, emptyAnalytics);
   assert.equal(colorCertificate.completionReady, true);
   assert.equal(colorCertificate.masteryReady, false);

@@ -1,6 +1,6 @@
-import { MainlagiWorldHome } from "@/components/learning/world/WorldExperience";
+import { Batch14WorldHome } from "@/components/learning/Batch14WorldHome";
 
 export default async function ChildHomePage({ params }: { params: Promise<{ childId: string }> }) {
   const { childId } = await params;
-  return <MainlagiWorldHome childId={childId} />;
+  return <Batch14WorldHome childId={childId} />;
 }

@@ -1,5 +1,6 @@
 import * as base from "./catalogBase";
 import { BAHASA_BATCH8_SKILLS } from "./bahasaBatch8";
+import { CREATIVE_BATCH14_SKILLS } from "./creativeBatch14";
 import { CONTENT_PACKS } from "./contentManifest";
 import { ENGLISH_BATCH9_SKILLS } from "./englishBatch9";
 import { IQRO_BATCH10_SKILLS } from "./iqroBatch10";
@@ -25,7 +26,8 @@ export const LEARNING_SKILLS: LearningSkillDefinition[] = [
   ...IQRO_BATCH10_SKILLS.map((skill) => ({ ...skill })),
   ...LETTERS_BATCH11_SKILLS.map((skill) => ({ ...skill })),
   ...LOGIC_BATCH12_SKILLS.map((skill) => ({ ...skill })),
-  ...SCIENCE_BATCH13_SKILLS.map((skill) => ({ ...skill }))
+  ...SCIENCE_BATCH13_SKILLS.map((skill) => ({ ...skill })),
+  ...CREATIVE_BATCH14_SKILLS.map((skill) => ({ ...skill }))
 ];
 
 export const ACTIVITY_LEARNING_SPECS: Record<string, ActivityLearningSpec> = Object.fromEntries(
