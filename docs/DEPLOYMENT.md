@@ -42,13 +42,13 @@ On pushes to `main`, `Production smoke (Cloudflare)` succeeds only when producti
 
 ## Latest verified production implementation
 
-**Expansion Batch 13 — Science/Sains to 100 is engineering/content-catalog production-complete.**
+**Expansion Batch 14 — Drawing/Menggambar + Coloring/Mewarnai to 100 each is engineering/content-catalog production-complete.**
 
 ```text
-Batch:                 Expansion Batch 13 — Science/Sains to 100
-Final PR:              #71
-Git SHA:               e35d211ada182e0c5379da7b9b33614309994852
-Main CI run:            #290
+Batch:                 Expansion Batch 14 — Drawing + Coloring to 100 each
+Final PR:              #76
+Git SHA:               b273edc282261bbec89b0c3d438822204cd925e5
+Main CI run:            #308
 Quality gate (Ubuntu):  success
 Windows compatibility: success
 Mobile route QA:        success
@@ -58,30 +58,27 @@ Secret history scan:   success
 Production smoke:       success
 ```
 
-The final smoke verified the exact SHA `e35d211ada182e0c5379da7b9b33614309994852` on the public Cloudflare deployment with the canonical Supabase backend.
+The final smoke verified the exact SHA `b273edc282261bbec89b0c3d438822204cd925e5` on the public Cloudflare deployment with the canonical Supabase backend.
 
-Batch 13 wave release sequence:
+Batch 14 wave release sequence:
 
-| Wave | Science | PR | Migration | Main SHA | Main CI | Exact-SHA smoke |
-| --- | ---: | ---: | --- | --- | ---: | --- |
-| A | 25 | #68 | `0039_batch13_science_wave_a` | `296b8c69513d5577233a8a777062741fd83163c9` | #283 | success |
-| B | 50 | #69 | `0040_batch13_science_wave_b` | `92f6767ee3015fb7e160adb0cd8ce85309676eb9` | #285 | success |
-| C | 75 | #70 | `0041_batch13_science_wave_c` | `1c956867fd912bfea25c7cb0105a97921299cf80` | #287 | success |
-| D | 100 | #71 | `0042_batch13_science_wave_d` | `e35d211ada182e0c5379da7b9b33614309994852` | #290 | success |
+| Wave | Drawing | Coloring | PR | Migration | Main SHA | Main CI | Exact-SHA smoke |
+| --- | ---: | ---: | ---: | --- | --- | ---: | --- |
+| A | 25 | 25 | #73 | `0043_batch14_creative_wave_a` | `f27ea5b047e657e896d991656bfe64cdb215c84e` | #301 | success |
+| B | 50 | 50 | #74 | `0044_batch14_creative_wave_b` | `62e88a5f696d2b4eb2e691298671e137e91caa30` | #304 | success |
+| C | 75 | 75 | #75 | `0045_batch14_creative_wave_c` | `e120d1fa098ff9f1a7949ba3d1ffa0dee00d312c` | #306 | success |
+| D | 100 | 100 | #76 | `0046_batch14_creative_wave_d` | `b273edc282261bbec89b0c3d438822204cd925e5` | #308 | success |
 
-Batch 12 Logic/Logika is also production-complete:
+PR quality-gate evidence:
 
-| Wave | Logic | PR | Migration | Main SHA | Main CI | Exact-SHA smoke |
-| --- | ---: | ---: | --- | --- | ---: | --- |
-| A | 25 | #64 | `0035_batch12_logic_wave_a` | `ce76d5f7d11385712005a1edaf4005c459ac0eb7` | #274 | success |
-| B | 50 | #65 | `0036_batch12_logic_wave_b` | `1aa97490ab2d9f6625edfc027d4916784f719dfd` | #276 | success |
-| C | 75 | #66 | `0037_batch12_logic_wave_c` | `1208d9487d150ff2825be417f82fe01ce0413d96` | #279 | success |
-| D | 100 | #67 | `0038_batch12_logic_wave_d` | `553b9e28f91feefa9af9c2995f2f7e913bf31491` | #281 | success |
+- Wave A final PR head `b168191e16b14c1180c4475542cf9136a35e393b`, PR CI #300 — success;
+- Wave B final PR head `09947cc7fd0ec826eeb785453baf504dd463dc80`, PR CI #303 — success;
+- Wave C final PR head `44598c27bc68b0cca701826a444cb30c2114172f`, PR CI #305 — success;
+- Wave D final PR head `45cbea6b858cd18b4000c136e72f3af0dee62c48`, PR CI #307 — success.
 
-Detailed evidence:
+Detailed evidence: `EXPANSION_BATCH14_CLOSURE_2026-09-11.md`.
 
-- `EXPANSION_BATCH12_CLOSURE_2026-09-11.md`
-- `EXPANSION_BATCH13_CLOSURE_2026-09-11.md`
+Earlier closure docs remain canonical historical evidence for Batches 7–13.
 
 ## Repository deployment configuration
 
@@ -105,6 +102,8 @@ GitHub Actions validates; Cloudflare deploys. Primary jobs are:
 
 No `MAINLAGI_VPS_*` secrets are required.
 
+The active `Protect main` ruleset currently requires `Production build`, `Quality gate (Ubuntu)`, `Windows compatibility`, and `Production dependency audit`. `Secret history scan` runs successfully but is not yet a required status check; see `ACCOUNT_LEVEL_ACTIONS.md`.
+
 ## Canonical Supabase dependency
 
 - organization: `inmydraft`
@@ -113,51 +112,47 @@ No `MAINLAGI_VPS_*` secrets are required.
 - region: Singapore (`ap-southeast-1`)
 - status: active/healthy.
 
-Applied migration chain is verified through Batch 13 Wave D. Recent expansion migrations are:
+Applied migration chain is verified through Batch 14 Wave D. Recent expansion migrations are:
 
 ```text
-0035_batch12_logic_wave_a.sql
-0036_batch12_logic_wave_b.sql
-0037_batch12_logic_wave_c.sql
-0038_batch12_logic_wave_d.sql
 0039_batch13_science_wave_a.sql
 0040_batch13_science_wave_b.sql
 0041_batch13_science_wave_c.sql
 0042_batch13_science_wave_d.sql
+0043_batch14_creative_wave_a.sql
+0044_batch14_creative_wave_b.sql
+0045_batch14_creative_wave_c.sql
+0046_batch14_creative_wave_d.sql
 ```
 
-Canonical registry entries:
+Canonical registry contains:
 
 ```text
-batch12_logic_wave_a
-batch12_logic_wave_b
-batch12_logic_wave_c
-batch12_logic_wave_d
 batch13_science_wave_a
 batch13_science_wave_b
 batch13_science_wave_c
 batch13_science_wave_d
+batch14_creative_wave_a
+batch14_creative_wave_b
+batch14_creative_wave_c
+batch14_creative_wave_d
 ```
 
 The earlier canonical migration chain remains intact.
 
-Final post-`0042` live catalog verification:
+Final post-`0046` live catalog verification:
 
-- **702 active learning activities**;
-- **683 assessed / 19 practice** globally;
-- Math exactly 100;
-- Bahasa Indonesia exactly 100;
-- English exactly 100;
-- Iqro exactly 100;
-- Letters/Menulis exactly 100;
-- **Logic/Logika exactly 100 = 100 assessed / 0 practice**;
-- **Science/Sains exactly 100 = 100 assessed / 0 practice**;
-- Coloring/Mewarnai remains 2 practice activities;
-- 160 active learning skills;
-- 157 active content packs;
-- 22 active Logic skills;
-- 22 active Science skills;
-- zero active Science activities missing mechanic/evidence metadata.
+- **900 active learning activities**;
+- **683 assessed / 217 practice** globally;
+- all nine subjects exactly 100 activities;
+- Drawing exactly 100 practice activities;
+- Coloring exactly 100 practice activities;
+- 200 active learning skills;
+- 197 active content packs;
+- Drawing 20 active skills;
+- Coloring 21 active skills;
+- zero active creative activities with assessed/non-completion evidence drift;
+- zero Drawing/Coloring runtime-mechanic drift.
 
 Current runtime inventory:
 
@@ -169,7 +164,8 @@ Current runtime inventory:
 | `trace` | 14 |
 | `story` | 1 |
 | `motion_game` | 3 |
-| `coloring` | 2 |
+| `coloring` | 100 |
+| `drawing` | 100 |
 
 Important boundaries remain unchanged:
 
@@ -177,16 +173,18 @@ Important boundaries remain unchanged:
 - historical activity/mastery identities are preserved by additive catalog migrations;
 - generic Latin letter traces remain completion-only practice without validated glyph-shape mastery;
 - all active Iqro packs remain `expert_required` pending competent human review;
-- Science expansion uses measured response evidence and does not rely on unsafe unsupervised experiments;
-- free creative Drawing/Coloring work must not fabricate academic mastery.
+- Science uses measured response evidence and does not rely on unsafe unsupervised experiments;
+- Drawing/Coloring are completion-only creative practice and cannot fabricate academic or creative mastery.
 
 ## Post-DDL advisor state
 
-After Batch 13 Wave D:
+After Batch 14 Wave D:
 
-- performance advisor has **no WARN-level regression**; 18 unused-index observations remain INFO-level only;
-- security advisor still reports the existing authenticated `SECURITY DEFINER` exposure for `public.record_learning_attempt(...)` and leaked-password protection disabled under the current Supabase configuration/plan;
-- no new Batch 12 or Batch 13 security/performance warning was introduced.
+- security advisor has the same **two known WARN findings**:
+  - signed-in users can execute protected `SECURITY DEFINER` `public.record_learning_attempt(...)`; this is intentional for the guarded attempt-recording RPC boundary;
+  - leaked-password protection is disabled under the current Supabase configuration/plan;
+- performance advisor has **17 `unused_index` INFO findings** and no WARN-level regression;
+- Batch 14 introduced no new security/performance WARN.
 
 Reference remediation guidance:
 
@@ -198,7 +196,7 @@ Reference remediation guidance:
 
 Production supports account login, account-owned child profiles, assessed-attempt persistence, evidence/mastery materialization, parent-derived state, cloud child ownership/isolation, durable offline attempt queuing, and exact-commit health verification.
 
-Practice/completion-only activities cannot manufacture academic mastery. Batch 12/13 additions are measured assessed choice/matching interactions.
+Practice/completion-only activities cannot manufacture academic mastery. Batch 14 creative activities intentionally use completion-only evidence.
 
 ## Production verification checklist
 
@@ -212,7 +210,7 @@ For every expansion wave/batch:
 6. Cloudflare remains Git-driven from `main`;
 7. post-merge smoke verifies exact release SHA and canonical Supabase metadata.
 
-Batches 12 and 13 satisfy all seven engineering/deployment conditions across Waves A–D.
+Batch 14 satisfies all seven engineering/deployment conditions across Waves A–D.
 
 ## Manual deployment fallback
 
