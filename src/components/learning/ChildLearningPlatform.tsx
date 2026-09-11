@@ -115,7 +115,7 @@ function StageCard({ childId, stageId, progress, subject, age }: { childId: stri
 }
 
 function runtimeLabel(activity: LearningActivity) {
-  const labels: Record<LearningActivity["runtime"], string> = { tap_choice: "Sentuh", listen_and_choose: "Audio + sentuh", matching: "Pasangkan", trace: "Trace jari", coloring: "Mewarnai", story: "Cerita", motion_game: "Gerak kamera" };
+  const labels: Record<LearningActivity["runtime"], string> = { tap_choice: "Sentuh", listen_and_choose: "Audio + sentuh", matching: "Pasangkan", trace: "Trace jari", coloring: "Mewarnai", drawing: "Menggambar", story: "Cerita", motion_game: "Gerak kamera" };
   return labels[activity.runtime];
 }
 
