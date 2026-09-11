@@ -24,8 +24,9 @@ export type {
   MatchItem
 } from "./systemBase";
 
-export type LearningSubjectId = base.LearningSubjectId | "drawing";
-export type LearningRuntime = base.LearningRuntime | "drawing";
+type OpenLiteral<T extends string> = T | (string & {});
+export type LearningSubjectId = OpenLiteral<base.LearningSubjectId | "drawing">;
+export type LearningRuntime = OpenLiteral<base.LearningRuntime | "drawing">;
 
 export interface LearningSubject extends Omit<BaseLearningSubject, "id"> {
   id: LearningSubjectId;
