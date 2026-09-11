@@ -134,7 +134,21 @@ export function getActivityContentFingerprint(activity: LearningActivity): strin
   }
   if (activity.runtime === "trace") return JSON.stringify([...common, normalizeText(activity.traceGlyph ?? "")]);
   if (activity.runtime === "story") return JSON.stringify([...common, (activity.storyLines ?? []).map(normalizeText)]);
-  if (activity.runtime === "coloring") return JSON.stringify([...common, activity.coloringCharacter ?? ""]);
+  if (activity.runtime === "coloring") {
+    return JSON.stringify([
+      ...common,
+      normalizeText(activity.creativePrompt ?? ""),
+      normalizeText(activity.coloringCharacter ?? ""),
+      (activity.coloringRegions ?? []).map(normalizeText)
+    ]);
+  }
+  if (activity.runtime === "drawing") {
+    return JSON.stringify([
+      ...common,
+      normalizeText(activity.creativePrompt ?? ""),
+      normalizeText(activity.drawingGuide ?? "")
+    ]);
+  }
   return JSON.stringify([...common, activity.gameSlug ?? ""]);
 }
 
@@ -182,6 +196,12 @@ function validateActivityPayload(
     if (!(activity.storyLines?.length)) issue(issues, "error", "MISSING_STORY_LINES", `${activity.id} needs story lines`, activity.id);
   } else if (activity.runtime === "coloring") {
     if (!activity.coloringCharacter) issue(issues, "error", "MISSING_COLORING_CHARACTER", `${activity.id} needs a coloring character`, activity.id);
+    if (activity.creativePrompt && !(activity.coloringRegions?.length)) {
+      issue(issues, "error", "MISSING_COLORING_REGIONS", `${activity.id} creative coloring activity needs interactive regions`, activity.id);
+    }
+  } else if (activity.runtime === "drawing") {
+    if (!activity.creativePrompt?.trim()) issue(issues, "error", "MISSING_DRAWING_PROMPT", `${activity.id} needs a creative drawing prompt`, activity.id);
+    if (!activity.drawingGuide?.trim()) issue(issues, "error", "MISSING_DRAWING_GUIDE", `${activity.id} needs a drawing guide`, activity.id);
   } else if (activity.runtime === "motion_game") {
     if (!activity.gameSlug) issue(issues, "error", "MISSING_GAME_SLUG", `${activity.id} needs a gameSlug`, activity.id);
     if (!activity.motionOptional || !activity.inputModes.includes("motion")) {
