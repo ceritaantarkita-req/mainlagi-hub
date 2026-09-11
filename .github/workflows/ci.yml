@@ -59,6 +59,8 @@ jobs:
         run: npm run test:engine
       - name: Simulations
         run: npm run simulate
+      - name: Batch 17 final acceptance contracts
+        run: npm run test:batch17:final
 
   build:
     name: Production build
