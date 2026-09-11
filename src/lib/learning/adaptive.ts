@@ -28,17 +28,19 @@ function descriptorFor(activity: LearningActivity) {
     motionOptional: activity.motionOptional || activity.runtime === "motion_game",
     skillIds: spec?.skills.map((item) => item.skillId) ?? [],
     assessed: spec?.assessment === "assessed",
-    difficulty: spec?.difficulty ?? 1
+    difficulty: spec?.difficulty ?? 1,
+    runtime: activity.runtime
   } as const;
 }
 
-function descriptors() {
-  return ACTIVITIES.map(descriptorFor);
-}
-
-function stageDescriptors() {
-  return STAGES.map((stage) => ({ id: stage.id, subjectId: stage.subjectId, activityIds: stage.activityIds }));
-}
+// The catalog is static for a loaded application build. Materializing these
+// descriptors once avoids rebuilding 900 activity descriptors on every render.
+const ALL_ACTIVITY_DESCRIPTORS = ACTIVITIES.map(descriptorFor);
+const ALL_STAGE_DESCRIPTORS = STAGES.map((stage) => ({
+  id: stage.id,
+  subjectId: stage.subjectId,
+  activityIds: stage.activityIds
+}));
 
 function newestFirst(attempts: LearningAttemptRecord[]): LearningAttemptRecord[] {
   return attempts.slice().sort((a, b) => Date.parse(b.completedAt) - Date.parse(a.completedAt));
@@ -50,21 +52,35 @@ function average(values: number[]): number | null {
 }
 
 function recentPerformance(attempts: LearningAttemptRecord[]) {
-  const recent = newestFirst(attempts).filter((attempt) => attempt.assessed).slice(0, 5);
+  const recent = attempts.filter((attempt) => attempt.assessed).slice(0, 8);
   const accuracies = recent.flatMap((attempt) => attempt.accuracy === null ? [] : [attempt.accuracy]);
   const meanAccuracy = average(accuracies);
   const meanRetries = recent.length
     ? recent.reduce((sum, attempt) => sum + attempt.retryCount, 0) / recent.length
     : 0;
-  return { recent, meanAccuracy, meanRetries };
+  const meanHints = recent.length
+    ? recent.reduce((sum, attempt) => sum + attempt.hintCount, 0) / recent.length
+    : 0;
+  const interruptionRate = recent.length
+    ? recent.filter((attempt) => attempt.status !== "completed").length / recent.length
+    : 0;
+  return { recent, meanAccuracy, meanRetries, meanHints, interruptionRate };
 }
 
 function activitySkills(activityId: string): string[] {
   return ACTIVITY_LEARNING_SPECS[activityId]?.skills.map((item) => item.skillId) ?? [];
 }
 
-function attemptsForSkill(attempts: LearningAttemptRecord[], skillId: string): LearningAttemptRecord[] {
-  return newestFirst(attempts.filter((attempt) => activitySkills(attempt.activityId).includes(skillId)));
+function buildSkillAttemptIndex(attempts: LearningAttemptRecord[]): Map<string, LearningAttemptRecord[]> {
+  const bySkill = new Map<string, LearningAttemptRecord[]>();
+  for (const attempt of attempts) {
+    for (const skillId of activitySkills(attempt.activityId)) {
+      const rows = bySkill.get(skillId);
+      if (rows) rows.push(attempt);
+      else bySkill.set(skillId, [attempt]);
+    }
+  }
+  return bySkill;
 }
 
 function sharesSkill(activityId: string, skillId: string | null): boolean {
@@ -78,14 +94,19 @@ function daysSince(value: string | null, nowMs: number): number | null {
   return Math.max(0, (nowMs - parsed) / (24 * 60 * 60 * 1000));
 }
 
+function normalizeLimit(value: number | undefined): number | null {
+  if (value === undefined) return null;
+  if (!Number.isFinite(value)) return null;
+  return Math.max(0, Math.floor(value));
+}
+
 /**
- * Deterministic Adaptive Learning V2 policy.
+ * Deterministic Adaptive Learning V2 policy, scaled for the 900-activity
+ * catalog in Batch 15.
  *
- * It keeps the existing hard gates (age, unlocked stage, motion opt-in) and
- * then adjusts ranking using recent measured attempts. The policy prefers a
- * different measured activity for the same weak skill after errors/retries,
- * spaces review for already-strong skills, and uses recent performance only
- * as a soft difficulty signal. It never changes mastery itself.
+ * Hard gates remain age, unlocked stage, subject scope, and motion opt-in.
+ * Ranking uses recent measured attempts only as soft policy signals. Practice
+ * and completion-only creative activities never enter mastery calculations.
  */
 export function rankAdaptiveLearningV2(args: {
   age: number;
@@ -94,15 +115,15 @@ export function rankAdaptiveLearningV2(args: {
   allowMotion?: boolean;
   subjectId?: LearningSubjectId;
   nowMs?: number;
+  limit?: number;
 }): AdaptiveLearningRecommendation[] {
   const nowMs = args.nowMs ?? Date.now();
-  const allDescriptors = descriptors();
   const allowedActivities = args.subjectId
-    ? allDescriptors.filter((activity) => activity.subjectId === args.subjectId)
-    : allDescriptors;
+    ? ALL_ACTIVITY_DESCRIPTORS.filter((activity) => activity.subjectId === args.subjectId)
+    : ALL_ACTIVITY_DESCRIPTORS;
   const allowedStages = args.subjectId
-    ? stageDescriptors().filter((stage) => stage.subjectId === args.subjectId)
-    : stageDescriptors();
+    ? ALL_STAGE_DESCRIPTORS.filter((stage) => stage.subjectId === args.subjectId)
+    : ALL_STAGE_DESCRIPTORS;
   const base = rankActivityRecommendations({
     age: args.age,
     activities: allowedActivities,
@@ -114,74 +135,92 @@ export function rankAdaptiveLearningV2(args: {
   });
   const descriptorMap = new Map(allowedActivities.map((activity) => [activity.id, activity]));
   const attempts = newestFirst(args.analytics.attempts);
-  const latestFourIds = attempts.slice(0, 4).map((attempt) => attempt.activityId);
+  const skillAttempts = buildSkillAttemptIndex(attempts);
+  const completedSet = new Set(args.progress.completedActivityIds);
+  const latestSixIds = attempts.slice(0, 6).map((attempt) => attempt.activityId);
   const performance = recentPerformance(attempts);
 
-  return base.map((item): AdaptiveLearningRecommendation => {
+  const ranked = base.map((item): AdaptiveLearningRecommendation => {
     const descriptor = descriptorMap.get(item.id);
     if (!descriptor) return { ...item, reason: item.reason };
     let score = item.score;
     let reason: AdaptiveRecommendationReason = item.reason;
 
-    // Repetition control: recent exposure is penalized even when the same
-    // activity is not literally the immediately previous one.
-    const recentRepeatCount = latestFourIds.filter((id) => id === item.id).length;
-    score -= recentRepeatCount * 18;
+    // Repetition control applies to both assessed and creative practice. A
+    // recently repeated item should not dominate merely because it is open.
+    const recentRepeatCount = latestSixIds.filter((id) => id === item.id).length;
+    score -= recentRepeatCount * 20;
 
     const targetSkillId = item.targetSkillId ?? descriptor.skillIds[0] ?? null;
     if (descriptor.assessed && targetSkillId) {
-      const skillAttempts = attemptsForSkill(attempts, targetSkillId);
-      const latestSkillAttempt = skillAttempts[0];
+      const relatedAttempts = skillAttempts.get(targetSkillId) ?? [];
+      const latestSkillAttempt = relatedAttempts[0];
       const snapshot = args.analytics.masteryBySkill[targetSkillId];
 
-      // Remediation: after weak evidence, prefer another assessed activity
-      // targeting the same skill rather than asking the exact same question.
+      // Weak measured evidence should lead to another activity for the same
+      // skill. A runtime change receives a small additional diversity boost.
       const weakLatest = Boolean(latestSkillAttempt && (
         (latestSkillAttempt.accuracy !== null && latestSkillAttempt.accuracy < 0.7)
         || latestSkillAttempt.retryCount >= 2
+        || latestSkillAttempt.hintCount >= 2
       ));
       if (weakLatest && latestSkillAttempt) {
         if (item.id !== latestSkillAttempt.activityId && sharesSkill(item.id, targetSkillId)) {
           score += 30;
+          if (descriptor.runtime !== latestSkillAttempt.runtime) score += 8;
           reason = "remediate_variant";
         } else if (item.id === latestSkillAttempt.activityId) {
-          score -= 26;
+          score -= 30;
         }
       }
 
-      // Confidence building: a reasonable score with low confidence should
-      // get varied evidence before difficulty pressure rises.
+      // Reasonable score + low confidence needs varied evidence, not premature
+      // difficulty escalation.
       if (snapshot && snapshot.score >= 0.65 && snapshot.confidence < 0.45 && item.id !== latestSkillAttempt?.activityId) {
         score += 14;
         if (reason !== "remediate_variant") reason = "build_confidence";
       }
 
-      // Spaced review: strong skills are deprioritized while fresh, but can
-      // return after a week without evidence.
+      // Proficient/mastered skills are cooled while fresh, then re-enter via
+      // spaced review. Mastery itself is not decayed or rewritten here.
       if (snapshot && (snapshot.level === "proficient" || snapshot.level === "mastered")) {
         const ageDays = daysSince(snapshot.lastEvidenceAt, nowMs);
-        if (ageDays !== null && ageDays >= 7) {
-          score += 12;
+        const spacingDays = snapshot.level === "mastered" ? 7 : 5;
+        if (ageDays !== null && ageDays >= spacingDays) {
+          score += snapshot.level === "mastered" ? 12 : 9;
           if (reason === "practice" || reason === "strengthen_skill") reason = "spaced_review";
         } else {
-          score -= 16;
+          score -= snapshot.level === "mastered" ? 16 : 10;
         }
       }
+    } else if (!descriptor.assessed) {
+      // Completion-only practice stays recommendation-eligible without looking
+      // at mastery snapshots. Prefer unexplored creative items and avoid an
+      // exact replay loop; completion is participation, not proficiency.
+      if (!completedSet.has(item.id)) score += 4;
+      if (item.id === args.progress.lastActivityId) score -= 10;
     }
 
-    // Soft difficulty adjustment from recent assessed performance. Age and
-    // stage eligibility remain hard boundaries in the base ranker.
+    // Frustration-aware soft difficulty. Age and stage remain hard gates.
     const difficulty = descriptor.difficulty ?? 1;
-    if (performance.meanAccuracy !== null) {
-      if (performance.meanAccuracy < 0.65 || performance.meanRetries >= 2) {
-        score += difficulty === 1 ? 10 : -7 * (difficulty - 1);
-      } else if (performance.meanAccuracy >= 0.9 && performance.meanRetries < 1) {
-        score += difficulty >= 2 ? 7 : -2;
-      }
+    const struggling = performance.meanAccuracy !== null && (
+      performance.meanAccuracy < 0.65
+      || performance.meanRetries >= 2
+      || performance.meanHints >= 1.5
+      || performance.interruptionRate >= 0.25
+    );
+    if (struggling) {
+      if (difficulty === 1) score += 12;
+      if (difficulty === 3) score -= 12;
+    } else if (performance.meanAccuracy !== null && performance.meanAccuracy >= 0.9 && performance.meanRetries < 1 && performance.meanHints < 0.5) {
+      score += difficulty >= 2 ? 7 : -2;
     }
 
     return { id: item.id, score, reason, targetSkillId };
   }).sort((a, b) => b.score - a.score || a.id.localeCompare(b.id));
+
+  const limit = normalizeLimit(args.limit);
+  return limit === null ? ranked : ranked.slice(0, limit);
 }
 
 export function adaptiveReasonLabel(reason: AdaptiveRecommendationReason, targetSkillTitle?: string | null): string {
