@@ -19,6 +19,7 @@ const adaptive = require(path.join(outDir, "src", "lib", "learning", "adaptive.j
 const attemptsLib = require(path.join(outDir, "src", "lib", "learning", "attempts.js"));
 const batch15 = require(path.join(outDir, "src", "lib", "learning", "batch15.js"));
 const catalog = require(path.join(outDir, "src", "lib", "learning", "catalog.js"));
+const manifest = require(path.join(outDir, "src", "lib", "learning", "contentManifest.js"));
 const insights = require(path.join(outDir, "src", "lib", "learning", "insights.js"));
 const system = require(path.join(outDir, "src", "lib", "learning", "system.js"));
 
@@ -28,6 +29,14 @@ const emptyProgress = { completedActivityIds: [], stars: 0, lastActivityId: null
 function analytics(overrides = {}) {
   const base = attemptsLib.emptyLearningAnalytics();
   return { ...base, ...overrides };
+}
+
+function manifestActivity(activityId) {
+  for (const pack of manifest.CONTENT_PACKS) {
+    const activity = pack.activities.find((item) => item.activityId === activityId);
+    if (activity) return activity;
+  }
+  return null;
 }
 
 function makeAttempt({ id, activity, completedAt, assessed, accuracy = null, retryCount = 0, hintCount = 0 }) {
@@ -102,7 +111,7 @@ try {
     assert.ok(ranked.length > 0, `${subjectId} should remain recommendable`);
     for (const item of ranked) {
       assert.equal(catalog.ACTIVITY_LEARNING_SPECS[item.id]?.assessment, "practice", `${subjectId} recommendation must remain practice-only`);
-      assert.equal(catalog.ACTIVITY_LEARNING_SPECS[item.id]?.evidenceContractId, "completion_only_v1", `${subjectId} recommendation must keep completion-only evidence`);
+      assert.equal(manifestActivity(item.id)?.evidenceContractId, "completion_only_v1", `${subjectId} recommendation must keep canonical completion-only evidence`);
     }
     const completeIds = system.ACTIVITIES.filter((activity) => activity.subjectId === subjectId).map((activity) => activity.id);
     const eligibility = insights.getCertificateEligibility(subjectId, { completedActivityIds: completeIds, stars: 999, lastActivityId: completeIds.at(-1) ?? null }, analytics());
@@ -111,32 +120,14 @@ try {
     assert.equal(eligibility.eligible, false, `${subjectId} completion-only practice must not issue academic certificate eligibility`);
   }
 
-  // Find a real measured skill that has multiple variants in the same stage.
-  const assessedBySkill = new Map();
-  for (const activity of system.ACTIVITIES) {
-    const spec = catalog.ACTIVITY_LEARNING_SPECS[activity.id];
-    if (spec?.assessment !== "assessed") continue;
-    for (const link of spec.skills) {
-      const rows = assessedBySkill.get(link.skillId) ?? [];
-      rows.push(activity);
-      assessedBySkill.set(link.skillId, rows);
-    }
-  }
-  let variantPair = null;
-  let variantSkillId = null;
-  for (const [skillId, rows] of assessedBySkill) {
-    for (const first of rows) {
-      const alternate = rows.find((candidate) => candidate.id !== first.id && candidate.stageId === first.stageId);
-      if (alternate) {
-        variantPair = [first, alternate];
-        variantSkillId = skillId;
-        if (alternate.runtime !== first.runtime) break;
-      }
-    }
-    if (variantPair && variantPair[0].runtime !== variantPair[1].runtime) break;
-  }
-  assert.ok(variantPair && variantSkillId, "catalog should expose at least one measured same-skill remediation variant");
-  const [failedActivity, alternateActivity] = variantPair;
+  // Real first-stage measured variants: after a failed tap-choice attempt,
+  // prefer another activity for the same skill, with extra diversity when the
+  // alternate runtime differs.
+  const failedActivity = system.getActivity("bahasa-cari-a");
+  const alternateActivity = system.getActivity("bahasa-dengar-a");
+  const variantSkillId = "bahasa.huruf.a.recognition";
+  assert.ok(failedActivity && alternateActivity, "historical Bahasa A remediation variants must remain present");
+  assert.notEqual(failedActivity.runtime, alternateActivity.runtime, "Batch 15 diversity fixture requires distinct runtimes");
   const failedAt = "2026-09-11T05:15:00.000Z";
   const weakAttempt = makeAttempt({
     id: "batch15-weak",
@@ -159,7 +150,7 @@ try {
   };
   const remediation = adaptive.rankAdaptiveLearningV2({
     age: 5,
-    subjectId: failedActivity.subjectId,
+    subjectId: "bahasa",
     progress: { completedActivityIds: [failedActivity.id], stars: 1, lastActivityId: failedActivity.id },
     analytics: analytics({ attempts: [weakAttempt], masteryBySkill: { [variantSkillId]: weakMastery }, totalAttempts: 1, assessedAttempts: 1, lastAttemptAt: failedAt }),
     allowMotion: false,
