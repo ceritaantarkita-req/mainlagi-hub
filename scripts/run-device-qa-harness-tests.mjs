@@ -52,7 +52,7 @@ const expectedIds = [
 ];
 
 for (const id of expectedIds) {
-  assert.match(component, new RegExp(`id: \\\"${id}\\\"`), `Physical-device harness is missing canonical test ${id}`);
+  assert.ok(component.includes(`id: "${id}"`), `Physical-device harness is missing canonical test ${id}`);
 }
 
 const idMatches = [...component.matchAll(/\bid:\s*"([a-z0-9-]+)"/g)].map((match) => match[1]);
