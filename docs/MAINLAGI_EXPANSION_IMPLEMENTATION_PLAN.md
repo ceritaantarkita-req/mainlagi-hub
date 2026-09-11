@@ -2,11 +2,11 @@
 
 Last reviewed: 11 September 2026
 
-This is the canonical repository plan for scaling Mainlagi to nine structured learning/creative tracks. `main` remains the implementation source of truth; this document defines sequencing, target counts, evidence boundaries, and closure rules.
+This is the canonical repository plan for scaling Mainlagi across nine structured learning/creative tracks and the post-catalog learning-system phases. `main` remains the implementation source of truth; this document defines sequencing, evidence boundaries, and closure rules.
 
-## Product target
+## Product target — catalog achieved
 
-Target: **900 meaningful playable activities** across:
+The planned content target is now **complete in production: 900 meaningful playable activities** across:
 
 - Math — 100
 - Bahasa Indonesia — 100
@@ -18,7 +18,7 @@ Target: **900 meaningful playable activities** across:
 - Drawing/Menggambar — 100
 - Coloring/Mewarnai — 100
 
-Seven academic subjects therefore account for 700 activities; Drawing + Coloring add 200 creative-practice targets.
+Seven academic subjects account for 700 activities; Drawing + Coloring account for 200 creative-practice activities.
 
 A distinct activity requires meaningful educational or interaction variation. Answer shuffling, cosmetic changes, or decorative asset swaps do not create a new count by themselves.
 
@@ -34,8 +34,8 @@ A distinct activity requires meaningful educational or interaction variation. An
 - every activity needs valid subject/path/stage/lesson/pack ownership, age/difficulty metadata, skill mapping, mechanic, and evidence metadata;
 - Iqro packs remain `expert_required` until competent human approval; engineering success is not expert religious-learning approval;
 - generic Latin tracing remains practice-only until a validated glyph-shape fidelity evaluator exists;
-- science activities must remain age-appropriate and must not depend on unsafe unsupervised experiments;
-- free Drawing/Coloring practice must not fabricate academic mastery;
+- science activities remain age-appropriate and do not depend on unsafe unsupervised experiments;
+- Drawing/Coloring remain practice/reporting activities unless a separately validated objective evidence contract is introduced;
 - migrations are additive/idempotent unless an explicitly reviewed corrective migration requires otherwise;
 - every wave follows branch -> PR -> full CI -> migration verification -> live DB verification/advisors -> squash merge -> exact-SHA Cloudflare production smoke;
 - target floors rise only when real playable instances exist and pass validation.
@@ -56,103 +56,78 @@ A distinct activity requires meaningful educational or interaction variation. An
 | 9 | English to 100 | COMPLETE IN PRODUCTION |
 | 10 | Iqro to 100 | ENGINEERING/CATALOG COMPLETE IN PRODUCTION — EXPERT REVIEW STILL REQUIRED |
 | 11 | Letters/Menulis to 100 | COMPLETE IN PRODUCTION |
-| **12** | **Logic/Logika to 100** | **COMPLETE IN PRODUCTION** |
-| **13** | **Science/Sains to 100** | **COMPLETE IN PRODUCTION** |
-| **14** | **Drawing/Menggambar + Coloring/Mewarnai to 100 each** | **NEXT** |
-| 15 | Adaptive/mastery/report scaling | PLANNED |
+| 12 | Logic/Logika to 100 | COMPLETE IN PRODUCTION |
+| 13 | Science/Sains to 100 | COMPLETE IN PRODUCTION |
+| **14** | **Drawing/Menggambar + Coloring/Mewarnai to 100 each** | **COMPLETE IN PRODUCTION** |
+| **15** | **Adaptive/mastery/report scaling across 900 activities** | **NEXT** |
 | 16 | Performance/accessibility/security/device QA | PLANNED |
 | 17 | Final acceptance and production closure | PLANNED |
 
-## Completed academic expansion sequence
+## Completed expansion sequence
 
-### Batch 7 — Math to 100
+### Batches 7–11
 
-Entered with 7 historical activities; Wave A added 18 and Waves B–D added 25 each. Detailed closure: `EXPANSION_BATCH7_CLOSURE_2026-09-10.md`.
-
-### Batch 8 — Bahasa Indonesia to 100
-
-Entered with 6 historical activities; Wave A added 19 and Waves B–D added 25 each. Detailed closure: `EXPANSION_BATCH8_CLOSURE_2026-09-10.md`.
-
-### Batch 9 — English to 100
-
-Entered with 6 historical activities; Wave A added 19 and Waves B–D added 25 each. Detailed closure: `EXPANSION_BATCH9_CLOSURE_2026-09-10.md`.
-
-### Batch 10 — Iqro to 100
-
-Entered with 4 historical activities; added 96 total through `0027`–`0030`. Closes at 99 assessed / 1 historical practice. All active Iqro packs remain `expert_required`. Detailed closure: `EXPANSION_BATCH10_CLOSURE_2026-09-10.md`.
-
-### Batch 11 — Letters/Menulis to 100
-
-Entered with 3 historical activities; added 97 total through `0031`–`0034`. Closes at 87 assessed / 13 practice. Generic formation traces remain `completion_only_v1`, non-gating practice. Detailed closure: `EXPANSION_BATCH11_CLOSURE_2026-09-11.md`.
+- Batch 7 — Math entered with 7 historical activities; Wave A added 18 and Waves B–D added 25 each. Closure: `EXPANSION_BATCH7_CLOSURE_2026-09-10.md`.
+- Batch 8 — Bahasa Indonesia entered with 6 historical activities; Wave A added 19 and Waves B–D added 25 each. Closure: `EXPANSION_BATCH8_CLOSURE_2026-09-10.md`.
+- Batch 9 — English entered with 6 historical activities; Wave A added 19 and Waves B–D added 25 each. Closure: `EXPANSION_BATCH9_CLOSURE_2026-09-10.md`.
+- Batch 10 — Iqro entered with 4 historical activities and added 96 through `0027`–`0030`; closes at 99 assessed / 1 historical practice. Active Iqro packs remain `expert_required`. Closure: `EXPANSION_BATCH10_CLOSURE_2026-09-10.md`.
+- Batch 11 — Letters/Menulis entered with 3 historical activities and added 97 through `0031`–`0034`; closes at 87 assessed / 13 practice. Generic formation traces remain `completion_only_v1`. Closure: `EXPANSION_BATCH11_CLOSURE_2026-09-11.md`.
 
 ### Batch 12 — Logic/Logika to 100 — COMPLETE
 
-Logic entered with 3 historical assessed activities and added **97 measured assessed activities**:
-
-- [x] Wave A — 3 -> 25, +22; PR #64; migration `0035`; main SHA `ce76d5f7d11385712005a1edaf4005c459ac0eb7`; main CI #274.
-- [x] Wave B — 25 -> 50, +25; PR #65; migration `0036`; main SHA `1aa97490ab2d9f6625edfc027d4916784f719dfd`; main CI #276.
-- [x] Wave C — 50 -> 75, +25; PR #66; migration `0037`; main SHA `1208d9487d150ff2825be417f82fe01ce0413d96`; main CI #279.
-- [x] Wave D — 75 -> 100, +25; PR #67; migration `0038`; main SHA `553b9e28f91feefa9af9c2995f2f7e913bf31491`; main CI #281.
-
-All four post-merge runs passed exact-SHA Cloudflare smoke. Logic closes at **100 assessed / 0 practice**. Detailed closure: `EXPANSION_BATCH12_CLOSURE_2026-09-11.md`.
+Logic entered with 3 historical assessed activities and added 97 measured assessed activities across `22 + 25 + 25 + 25`. Final implementation SHA: `553b9e28f91feefa9af9c2995f2f7e913bf31491`; closes at **100 assessed / 0 practice**. Closure: `EXPANSION_BATCH12_CLOSURE_2026-09-11.md`.
 
 ### Batch 13 — Science/Sains to 100 — COMPLETE
 
-Science entered with 3 historical assessed activities and added **97 measured assessed activities**:
+Science entered with 3 historical assessed activities and added 97 measured assessed activities across `22 + 25 + 25 + 25`. Final implementation SHA: `e35d211ada182e0c5379da7b9b33614309994852`; closes at **100 assessed / 0 practice**. Closure: `EXPANSION_BATCH13_CLOSURE_2026-09-11.md`.
 
-- [x] Wave A — 3 -> 25, +22; PR #68; migration `0039`; main SHA `296b8c69513d5577233a8a777062741fd83163c9`; main CI #283.
-- [x] Wave B — 25 -> 50, +25; PR #69; migration `0040`; main SHA `92f6767ee3015fb7e160adb0cd8ce85309676eb9`; main CI #285.
-- [x] Wave C — 50 -> 75, +25; PR #70; migration `0041`; main SHA `1c956867fd912bfea25c7cb0105a97921299cf80`; main CI #287.
-- [x] Wave D — 75 -> 100, +25; PR #71; migration `0042`; main SHA `e35d211ada182e0c5379da7b9b33614309994852`; main CI #290.
+### Batch 14 — Drawing + Coloring to 100 each — COMPLETE
 
-All four post-merge runs passed exact-SHA Cloudflare smoke. Science closes at **100 assessed / 0 practice**. Detailed closure: `EXPANSION_BATCH13_CLOSURE_2026-09-11.md`.
+Batch 14 introduced Drawing as a first-class track and preserved two historical Coloring activities. It added exactly **198 creative-practice activities**: Drawing 100 + Coloring 98.
 
-## Current production baseline after Batch 13
+- [x] Wave A — Drawing 0 -> 25, Coloring 2 -> 25, +48; PR #73; migration `0043`; main SHA `f27ea5b047e657e896d991656bfe64cdb215c84e`; main CI #301.
+- [x] Wave B — both 25 -> 50, +50; PR #74; migration `0044`; main SHA `62e88a5f696d2b4eb2e691298671e137e91caa30`; main CI #304.
+- [x] Wave C — both 50 -> 75, +50; PR #75; migration `0045`; main SHA `e120d1fa098ff9f1a7949ba3d1ffa0dee00d312c`; main CI #306.
+- [x] Wave D — both 75 -> 100, +50; PR #76; migration `0046`; main SHA `b273edc282261bbec89b0c3d438822204cd925e5`; main CI #308.
 
-- 702 playable activities;
-- 683 assessed / 19 practice;
-- 8 first-class subjects / 8 paths;
-- 38 stages;
-- 157 lessons;
-- 157 content packs;
-- 160 skills;
-- all seven academic subjects exactly 100;
-- Coloring 2;
-- Drawing not first-class yet.
+All four post-merge runs passed exact-SHA Cloudflare production smoke. Every Batch 14 addition is `practice` + `completion_only_v1`; creative participation does not become objective mastery. Closure: `EXPANSION_BATCH14_CLOSURE_2026-09-11.md`.
 
-Remaining catalog gap to the planned 900 target: **198**.
+## Current production baseline after Batch 14
 
-## Batch 14 — Drawing/Menggambar + Coloring/Mewarnai to 100 each — NEXT
+- **900 playable activities**;
+- **683 assessed / 217 practice**;
+- 9 first-class subjects / 9 paths;
+- 46 stages;
+- 197 lessons;
+- 197 content packs;
+- 200 skills;
+- 8 manifest mechanics;
+- every subject exactly 100 activities;
+- Drawing 100 practice-only;
+- Coloring 100 practice-only.
 
-### Drawing
+The planned catalog-count gap is now **0**.
 
-Drawing must first become a first-class track through the canonical ownership model. The target is 100 meaningful creative-practice activities.
+## Batch 15 — Adaptive/mastery/report scaling — NEXT
 
-- Wave A 1–25: straight/curved lines, paths, simple shapes, connect-dots.
-- Wave B 26–50: guided objects from basic shapes, symmetry, pattern drawing.
-- Wave C 51–75: copy/complete simple pictures, faces, animals, objects, scene parts.
-- Wave D 76–100: guided scenes, creative prompts, mixed practice, child-safe open creation.
+Batch 15 should scale recommendations and reporting over the full 900-activity catalog rather than add more activities merely to increase counts.
 
-Free-form participation should default to practice/reporting evidence. Any objectively assessed drawing/tracing task requires an explicit validated evaluator and evidence contract before it can affect mastery.
+Primary work:
 
-### Coloring
+1. validate adaptive ranking across all nine subjects, including practice-only creative tracks;
+2. keep assessed mastery driven only by qualifying measured evidence;
+3. keep Drawing/Coloring recommendations useful without fabricating mastery scores;
+4. improve weak-skill remediation using alternate activities/mechanics instead of exact replay loops;
+5. validate confidence/evidence spacing, age, stage, difficulty, frustration/retry, and motion preferences at catalog scale;
+6. ensure Parent Progress/Reports summarize hundreds of activities by skill/stage/subject rather than dumping raw activity lists;
+7. regression-test certificate/achievement qualification so completion-only creative activity cannot satisfy academic mastery gates;
+8. benchmark query/payload behavior introduced by larger mastery/recommendation sets before Batch 16.
 
-Coloring preserves its two historical practice activities; Wave A must therefore add **23 meaningful activities** to reach 25, not blindly add 25.
-
-- Wave A 1–25: large simple shapes/objects and basic color exploration.
-- Wave B 26–50: animals, food, vehicles, nature, everyday objects.
-- Wave C 51–75: scenes, patterns, category-guided coloring, finer regions.
-- Wave D 76–100: themed scenes, creative palettes, guided/free coloring, review collections.
-
-Palette/background swaps or nearly identical outlines alone do not count as distinct activities.
-
-## Batch 15 — Adaptive/mastery/report scaling
-
-Scale recommendations and reporting for hundreds of activities using skill weakness, confidence, evidence spacing, mechanic/content repetition, age, stage, difficulty, frustration/retry, and motion preferences. Prefer different items/mechanics for a weak skill instead of exact replay. Keep Parent UI summarized rather than dumping raw activity lists.
+Batch 15 is not a license to reinterpret completion-only evidence as accuracy. Any new objective creative evaluator requires its own reviewed evidence contract.
 
 ## Batch 16 — Performance, accessibility, security, device QA
 
-Audit catalog payload size, route/mechanic code splitting, assets, initial JS, TTS initialization, and query volume. Re-run accessibility, RLS/ownership/RPC/outbox/dependency/secret/advisor checks plus representative physical-device mobile/camera/audio/trace flows.
+Audit catalog payload size, route/mechanic code splitting, assets, initial JS, TTS initialization, query volume, accessibility, RLS/ownership/RPC/outbox/dependency/secret/advisor checks, and representative physical-device mobile/camera/audio/trace flows.
 
 ## Batch 17 — Final acceptance and production closure
 
@@ -167,7 +142,7 @@ Wave C: canonical count 51–75
 Wave D: canonical count 76–100
 ```
 
-Existing validated activities count toward the boundary. Never add 25 blindly on top of a non-zero baseline.
+Existing validated activities count toward boundaries. Never add 25 blindly on top of a non-zero baseline.
 
 Completed entry baselines:
 
@@ -177,12 +152,9 @@ Completed entry baselines:
 - Iqro 4 -> Wave A +21;
 - Letters 3 -> Wave A +22;
 - Logic 3 -> Wave A +22;
-- Science 3 -> Wave A +22.
-
-Next creative baseline:
-
-- Coloring 2 -> Wave A must add **23**;
-- Drawing 0 -> Wave A may add 25 only after first-class ownership/evidence architecture is in place.
+- Science 3 -> Wave A +22;
+- Coloring 2 -> Wave A +23;
+- Drawing 0 -> Wave A +25 after first-class ownership/evidence architecture was added.
 
 ## Production closure rule
 
@@ -198,4 +170,4 @@ No batch is production-closed until:
 - canonical handoff/coverage/deployment docs are synchronized;
 - remaining limitations are documented explicitly.
 
-Iqro engineering closure remains separate from expert approval. Generic Latin tracing remains separate from objectively measured handwriting accuracy. Creative-practice completion remains separate from academic mastery.
+Iqro engineering closure remains separate from expert approval. Generic Latin tracing remains separate from objectively measured handwriting accuracy. Creative-practice completion remains separate from academic or creative mastery.
