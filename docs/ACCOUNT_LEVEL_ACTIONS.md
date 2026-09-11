@@ -1,6 +1,6 @@
 # Account-Level Actions
 
-Last reviewed: 10 September 2026
+Last reviewed: 11 September 2026
 
 Only actions that genuinely require account/UI access belong here. Secret values must never be committed or pasted into repository issues, logs, docs, screenshots, or chat.
 
@@ -15,7 +15,7 @@ project ref:  estvtgflwkebomsqlolv
 region:       ap-southeast-1
 ```
 
-Applied migrations are verified through `0010_legacy_fk_indexes`.
+Applied migrations are verified through `0046_batch14_creative_wave_d.sql`; the canonical migration registry contains Batch 14 `batch14_creative_wave_a` through `batch14_creative_wave_d`.
 
 Production path:
 
@@ -26,14 +26,14 @@ GitHub main
   -> https://mainlagihub.my.id/
 ```
 
-Verified engineering release baseline before this docs-only closure:
+Latest verified implementation release before this docs-only closure:
 
 ```text
-main SHA:            771409b04a5ea626f6dfc68d1265197492e0263e
-Cloudflare Build:    01a94875-f9c8-4b1f-ad89-9824a14fdbc5
-Cloudflare Version:  2f9a60e6-6571-494d-bfd5-ce9847454d9c
-Production smoke:    success
+main SHA:            b273edc282261bbec89b0c3d438822204cd925e5
+Main CI:             #308
+Production smoke:    success, exact SHA
 Supabase project:    estvtgflwkebomsqlolv
+Playable catalog:    900
 ```
 
 The exact-commit production smoke verifies non-secret metadata for SHA, branch, canonical site URL, backend `supabase`, and canonical Supabase project ref. Secret values are intentionally not printed.
@@ -42,7 +42,7 @@ No `MAINLAGI_VPS_*` GitHub secrets are required. Production is not VPS/SSH based
 
 ## Required manual action: add Secret history scan to Protect main
 
-Current active `Protect main` ruleset inspection shows these required status checks:
+Current active `Protect main` ruleset inspection on 11 September 2026 shows these required status checks:
 
 1. `Production build`
 2. `Quality gate (Ubuntu)`
@@ -61,17 +61,23 @@ Do not remove or weaken any existing required check.
 
 This action cannot be performed through the connected GitHub API surface used for this closure because repository-ruleset administration writes are not exposed there.
 
+`Mobile route QA (Chromium)` also runs in CI and is green, but it is not currently listed among the required status checks. This is documented for visibility; the explicit required manual action in this file remains adding `Secret history scan`.
+
 ## Accepted platform limitation: Supabase leaked-password protection
 
-The canonical project is on Supabase Free. Leaked-password/HIBP protection remains unavailable on the current plan.
-
-Existing mitigation previously confirmed:
+The canonical project currently reports leaked-password/HIBP protection disabled. Existing mitigation remains:
 
 - minimum password length at least 8;
 - secure password change enabled;
 - current password required for password update.
 
-Revisit this only if plan capability changes. It is not an unresolved application-code blocker.
+Revisit leaked-password protection when the account/plan supports enabling it. It is not an unresolved application-code blocker for Batch 14 closure.
+
+## Known Supabase security boundary
+
+The security advisor reports authenticated execution of `public.record_learning_attempt(...)` because it is a `SECURITY DEFINER` RPC. This execution path is intentional: the function is the protected server-side attempt-recording boundary and retains ownership/content validation before evidence/mastery updates.
+
+Do not blindly revoke or convert it solely to silence the advisor; any change requires a reviewed replacement that preserves authenticated attempt recording and fail-closed ownership/evidence behavior.
 
 ## Optional human/device acceptance
 
@@ -103,6 +109,7 @@ Periodically test representative phones/tablets/laptops for:
 - touch targets;
 - keyboard/screen-reader behavior where applicable;
 - TTS/listening fallback;
+- Drawing/Coloring touch-canvas behavior;
 - responsive layout and performance.
 
 Do not represent these as completed unless they were actually exercised on the relevant device/browser.
@@ -118,7 +125,7 @@ Developer clones can then run `git fetch origin --prune`.
 
 ## Periodic account-security review
 
-Where supported by the current plans, periodically review:
+Where supported by current plans, periodically review:
 
 - required-check ruleset state;
 - Dependabot/security alerts;
