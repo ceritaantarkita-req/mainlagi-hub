@@ -1,0 +1,57 @@
+-- Mainlagi Expansion Batch 12 — Logic/Logika Wave B (subject total 25 -> 50)
+-- Adds 25 meaningful assessed activities across repeating patterns, sequences,
+-- semantic associations, comparisons, and spatial relations.
+-- Uses only existing measured matching/choice evidence contracts.
+-- Additive/idempotent only; historical attempts, progress, scores, and mastery identities remain unchanged.
+
+insert into public.learning_skills(skill_key,subject_id,title,description,domain,age_min,age_max,active,updated_at) values
+('logic.pattern.repeat.intermediate','logic','Pola berulang menengah','Meneruskan pola berulang dua sampai empat langkah.','reasoning',4,7,true,now()),
+('logic.sequence.position.intermediate','logic','Urutan perubahan menengah','Meneruskan urutan berdasarkan perubahan jumlah, arah, atau siklus.','reasoning',4,7,true,now()),
+('logic.association.semantic.intermediate','logic','Asosiasi relasional menengah','Mencocokkan pasangan berdasarkan fungsi, bagian-utuh, atau hubungan arah.','reasoning',4,7,true,now()),
+('logic.comparison.relation.intermediate','logic','Perbandingan relasional menengah','Membandingkan panjang, jumlah, dan kesetaraan secara visual.','reasoning',4,7,true,now()),
+('logic.spatial.relation.basic','logic','Relasi spasial dasar','Menentukan posisi kiri-kanan-tengah serta perubahan arah sederhana.','reasoning',4,7,true,now())
+on conflict(skill_key) do update set subject_id=excluded.subject_id,title=excluded.title,description=excluded.description,domain=excluded.domain,age_min=excluded.age_min,age_max=excluded.age_max,active=true,updated_at=now();
+
+insert into public.learning_content_packs(pack_id,subject_id,path_id,stage_id,title,version,age_min,age_max,review_status,active,updated_at) values
+('logic.pack.patterns-intermediate','logic','logic-thinking-foundations','logic-patterns-sequences-relations','Intermediate Repeating Patterns','1.0.0',4,7,'internal',true,now()),
+('logic.pack.sequences-intermediate','logic','logic-thinking-foundations','logic-patterns-sequences-relations','Intermediate Sequences','1.0.0',4,7,'internal',true,now()),
+('logic.pack.associations-intermediate','logic','logic-thinking-foundations','logic-patterns-sequences-relations','Intermediate Associations','1.0.0',4,7,'internal',true,now()),
+('logic.pack.comparisons-intermediate','logic','logic-thinking-foundations','logic-patterns-sequences-relations','Intermediate Comparisons','1.0.0',4,7,'internal',true,now()),
+('logic.pack.spatial-relations','logic','logic-thinking-foundations','logic-patterns-sequences-relations','Basic Spatial Relations','1.0.0',4,7,'internal',true,now())
+on conflict(pack_id) do update set subject_id=excluded.subject_id,path_id=excluded.path_id,stage_id=excluded.stage_id,title=excluded.title,version=excluded.version,age_min=excluded.age_min,age_max=excluded.age_max,review_status=excluded.review_status,active=true,updated_at=now();
+
+insert into public.learning_activities(activity_id,subject_id,stage_id,runtime,difficulty,assessment,required_for_stage,motion_optional,star_reward,content_pack_id,lesson_id,mechanic_id,evidence_contract,content_revision,active,updated_at) values
+('logic-pattern-aab-stars','logic','logic-patterns-sequences-relations','tap_choice',2,'assessed',true,false,3,'logic.pack.patterns-intermediate','logic-patterns-intermediate','tap_choice','choice_accuracy_v1',1,true,now()),
+('logic-pattern-abb-shapes','logic','logic-patterns-sequences-relations','tap_choice',2,'assessed',false,false,3,'logic.pack.patterns-intermediate','logic-patterns-intermediate','tap_choice','choice_accuracy_v1',1,true,now()),
+('logic-pattern-abc-shapes','logic','logic-patterns-sequences-relations','tap_choice',2,'assessed',false,false,3,'logic.pack.patterns-intermediate','logic-patterns-intermediate','tap_choice','choice_accuracy_v1',1,true,now()),
+('logic-pattern-paired-blocks','logic','logic-patterns-sequences-relations','tap_choice',2,'assessed',false,false,3,'logic.pack.patterns-intermediate','logic-patterns-intermediate','tap_choice','choice_accuracy_v1',1,true,now()),
+('logic-pattern-abba','logic','logic-patterns-sequences-relations','tap_choice',3,'assessed',false,false,3,'logic.pack.patterns-intermediate','logic-patterns-intermediate','tap_choice','choice_accuracy_v1',1,true,now()),
+('logic-sequence-grow-dots','logic','logic-patterns-sequences-relations','tap_choice',2,'assessed',true,false,3,'logic.pack.sequences-intermediate','logic-sequences-intermediate','tap_choice','choice_accuracy_v1',1,true,now()),
+('logic-sequence-shrink-stars','logic','logic-patterns-sequences-relations','tap_choice',2,'assessed',false,false,3,'logic.pack.sequences-intermediate','logic-sequences-intermediate','tap_choice','choice_accuracy_v1',1,true,now()),
+('logic-sequence-clockwise-full','logic','logic-patterns-sequences-relations','tap_choice',2,'assessed',false,false,3,'logic.pack.sequences-intermediate','logic-sequences-intermediate','tap_choice','choice_accuracy_v1',1,true,now()),
+('logic-sequence-counterclockwise','logic','logic-patterns-sequences-relations','tap_choice',3,'assessed',false,false,3,'logic.pack.sequences-intermediate','logic-sequences-intermediate','tap_choice','choice_accuracy_v1',1,true,now()),
+('logic-sequence-shape-cycle-offset','logic','logic-patterns-sequences-relations','tap_choice',2,'assessed',false,false,3,'logic.pack.sequences-intermediate','logic-sequences-intermediate','tap_choice','choice_accuracy_v1',1,true,now()),
+('logic-associate-object-use','logic','logic-patterns-sequences-relations','matching',2,'assessed',true,false,3,'logic.pack.associations-intermediate','logic-associations-intermediate','matching','matching_accuracy_v1',1,true,now()),
+('logic-associate-part-whole','logic','logic-patterns-sequences-relations','matching',2,'assessed',false,false,3,'logic.pack.associations-intermediate','logic-associations-intermediate','matching','matching_accuracy_v1',1,true,now()),
+('logic-associate-tool-action','logic','logic-patterns-sequences-relations','matching',2,'assessed',false,false,3,'logic.pack.associations-intermediate','logic-associations-intermediate','matching','matching_accuracy_v1',1,true,now()),
+('logic-associate-symbol-direction','logic','logic-patterns-sequences-relations','matching',3,'assessed',false,false,3,'logic.pack.associations-intermediate','logic-associations-intermediate','matching','matching_accuracy_v1',1,true,now()),
+('logic-compare-longer-bars','logic','logic-patterns-sequences-relations','tap_choice',2,'assessed',true,false,3,'logic.pack.comparisons-intermediate','logic-comparisons-intermediate','tap_choice','choice_accuracy_v1',1,true,now()),
+('logic-compare-shorter-bars','logic','logic-patterns-sequences-relations','tap_choice',2,'assessed',false,false,3,'logic.pack.comparisons-intermediate','logic-comparisons-intermediate','tap_choice','choice_accuracy_v1',1,true,now()),
+('logic-compare-most-triangles','logic','logic-patterns-sequences-relations','tap_choice',2,'assessed',false,false,3,'logic.pack.comparisons-intermediate','logic-comparisons-intermediate','tap_choice','choice_accuracy_v1',1,true,now()),
+('logic-compare-fewest-circles','logic','logic-patterns-sequences-relations','tap_choice',2,'assessed',false,false,3,'logic.pack.comparisons-intermediate','logic-comparisons-intermediate','tap_choice','choice_accuracy_v1',1,true,now()),
+('logic-compare-equal-four','logic','logic-patterns-sequences-relations','tap_choice',2,'assessed',false,false,3,'logic.pack.comparisons-intermediate','logic-comparisons-intermediate','tap_choice','choice_accuracy_v1',1,true,now()),
+('logic-spatial-star-left-circle','logic','logic-patterns-sequences-relations','tap_choice',2,'assessed',true,false,3,'logic.pack.spatial-relations','logic-spatial-relations','tap_choice','choice_accuracy_v1',1,true,now()),
+('logic-spatial-circle-right-triangle','logic','logic-patterns-sequences-relations','tap_choice',2,'assessed',false,false,3,'logic.pack.spatial-relations','logic-spatial-relations','tap_choice','choice_accuracy_v1',1,true,now()),
+('logic-spatial-circle-between-stars','logic','logic-patterns-sequences-relations','tap_choice',2,'assessed',false,false,3,'logic.pack.spatial-relations','logic-spatial-relations','tap_choice','choice_accuracy_v1',1,true,now()),
+('logic-spatial-turn-right-from-up','logic','logic-patterns-sequences-relations','tap_choice',3,'assessed',false,false,3,'logic.pack.spatial-relations','logic-spatial-relations','tap_choice','choice_accuracy_v1',1,true,now()),
+('logic-spatial-turn-left-from-right','logic','logic-patterns-sequences-relations','tap_choice',3,'assessed',false,false,3,'logic.pack.spatial-relations','logic-spatial-relations','tap_choice','choice_accuracy_v1',1,true,now()),
+('logic-spatial-opposite-left','logic','logic-patterns-sequences-relations','tap_choice',2,'assessed',false,false,3,'logic.pack.spatial-relations','logic-spatial-relations','tap_choice','choice_accuracy_v1',1,true,now())
+on conflict(activity_id) do update set subject_id=excluded.subject_id,stage_id=excluded.stage_id,runtime=excluded.runtime,difficulty=excluded.difficulty,assessment=excluded.assessment,required_for_stage=excluded.required_for_stage,motion_optional=excluded.motion_optional,star_reward=excluded.star_reward,content_pack_id=excluded.content_pack_id,lesson_id=excluded.lesson_id,mechanic_id=excluded.mechanic_id,evidence_contract=excluded.evidence_contract,content_revision=excluded.content_revision,active=true,updated_at=now();
+
+insert into public.learning_activity_skills(activity_id,skill_key,evidence_weight) values
+('logic-pattern-aab-stars','logic.pattern.repeat.intermediate',1),('logic-pattern-abb-shapes','logic.pattern.repeat.intermediate',1),('logic-pattern-abc-shapes','logic.pattern.repeat.intermediate',1),('logic-pattern-paired-blocks','logic.pattern.repeat.intermediate',1),('logic-pattern-abba','logic.pattern.repeat.intermediate',1),
+('logic-sequence-grow-dots','logic.sequence.position.intermediate',1),('logic-sequence-shrink-stars','logic.sequence.position.intermediate',1),('logic-sequence-clockwise-full','logic.sequence.position.intermediate',1),('logic-sequence-counterclockwise','logic.sequence.position.intermediate',1),('logic-sequence-shape-cycle-offset','logic.sequence.position.intermediate',1),
+('logic-associate-object-use','logic.association.semantic.intermediate',1),('logic-associate-part-whole','logic.association.semantic.intermediate',1),('logic-associate-tool-action','logic.association.semantic.intermediate',1),('logic-associate-symbol-direction','logic.association.semantic.intermediate',1),
+('logic-compare-longer-bars','logic.comparison.relation.intermediate',1),('logic-compare-shorter-bars','logic.comparison.relation.intermediate',1),('logic-compare-most-triangles','logic.comparison.relation.intermediate',1),('logic-compare-fewest-circles','logic.comparison.relation.intermediate',1),('logic-compare-equal-four','logic.comparison.relation.intermediate',1),
+('logic-spatial-star-left-circle','logic.spatial.relation.basic',1),('logic-spatial-circle-right-triangle','logic.spatial.relation.basic',1),('logic-spatial-circle-between-stars','logic.spatial.relation.basic',1),('logic-spatial-turn-right-from-up','logic.spatial.relation.basic',1),('logic-spatial-turn-left-from-right','logic.spatial.relation.basic',1),('logic-spatial-opposite-left','logic.spatial.relation.basic',1)
+on conflict(activity_id,skill_key) do update set evidence_weight=excluded.evidence_weight;
