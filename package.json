@@ -23,7 +23,7 @@
     "test:ui:mobile-foundation": "node scripts/run-mobile-foundation-tests.mjs",
     "test:ui:mobile-routes": "node scripts/run-mobile-route-browser-tests.mjs",
     "qa:local:product": "npm run build && node scripts/run-local-product-qa.mjs",
-    "qa:local:product:quick": "npm run build && MAINLAGI_PRODUCT_QA_SKIP_ACTIVITY_CRAWL=1 node scripts/run-local-product-qa.mjs",
+    "qa:local:product:quick": "npm run build && node scripts/run-local-product-qa.mjs --skip-activity-crawl",
     "qa:local:flow": "node scripts/run-local-product-flow-check.mjs",
     "test:learning:core": "node scripts/run-learning-tests.mjs",
     "test:learning:curriculum": "node scripts/run-curriculum-tests.mjs",

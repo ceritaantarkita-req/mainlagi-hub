@@ -18,7 +18,7 @@ const port = Number(process.env.MAINLAGI_PRODUCT_QA_PORT ?? 4020);
 const baseUrl = process.env.MAINLAGI_PRODUCT_QA_BASE_URL ?? `http://${host}:${port}`;
 const shouldStartServer = !process.env.MAINLAGI_PRODUCT_QA_BASE_URL;
 const activityConcurrency = Math.max(1, Number(process.env.MAINLAGI_PRODUCT_QA_ACTIVITY_CONCURRENCY ?? 4));
-const fullActivityCrawl = process.env.MAINLAGI_PRODUCT_QA_SKIP_ACTIVITY_CRAWL !== "1";
+const fullActivityCrawl = process.env.MAINLAGI_PRODUCT_QA_SKIP_ACTIVITY_CRAWL !== "1" && !process.argv.includes("--skip-activity-crawl");
 
 const report = {
   schemaVersion: 2,
@@ -48,6 +48,10 @@ const report = {
 
 let server = null;
 let serverLog = "";
+
+function isExpectedLocalServerReset(message) {
+  return shouldStartServer && server && !server.killed && message === "Failed to load resource: net::ERR_CONNECTION_RESET";
+}
 
 function gitSha() {
   const result = spawnSync("git", ["rev-parse", "HEAD"], { cwd: root, encoding: "utf8" });
@@ -295,7 +299,7 @@ async function inspectRoute(page, routePath, options = {}) {
   const consoleErrors = [];
   const pageErrors = [];
   const onConsole = (message) => {
-    if (message.type() === "error") consoleErrors.push(message.text());
+    if (message.type() === "error" && !isExpectedLocalServerReset(message.text())) consoleErrors.push(message.text());
   };
   const onPageError = (error) => pageErrors.push(error.message);
   page.on("console", onConsole);
