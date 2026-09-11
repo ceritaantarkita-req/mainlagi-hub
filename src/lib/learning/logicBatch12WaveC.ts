@@ -18,7 +18,7 @@ const classification=[
 choice("logic-classify-red-round","logic.pack.multi-classification","logic-multi-classification","Merah dan bulat","Memilih objek yang memenuhi dua ciri sekaligus.","Mana yang sekaligus merah dan bulat?",["🔴","🟥","🔵"],"🔴","logic.classification.multi_attribute",{required:true}),
 choice("logic-classify-blue-not-round","logic.pack.multi-classification","logic-multi-classification","Biru tapi bukan bulat","Menggabungkan satu ciri positif dan satu pengecualian.","Mana yang biru tetapi bukan bulat?",["🟦","🔵","🟥"],"🟦","logic.classification.multi_attribute"),
 choice("logic-classify-two-red-items","logic.pack.multi-classification","logic-multi-classification","Dua benda merah","Memilih kelompok berdasarkan warna dan jumlah.","Mana kelompok yang punya tepat dua benda merah?",["🔴🔴","🔴🔴🔴","🔵🔵"],"🔴🔴","logic.classification.multi_attribute"),
-choice("logic-classify-arrow-not-left","logic.pack.multi-classification","logic-multi-classification","Panah bukan ke kiri","Memilih berdasarkan kategori dengan pengecualian arah.","Mana panah yang tidak mengarah ke kiri?",["→","←","←"],"→","logic.classification.multi_attribute"),
+choice("logic-classify-arrow-not-left","logic.pack.multi-classification","logic-multi-classification","Panah bukan ke kiri","Memilih berdasarkan kategori dengan pengecualian arah.","Mana panah yang tidak mengarah ke kiri?",["→","←","↓"],"→","logic.classification.multi_attribute"),
 choice("logic-classify-same-shape-different-color","logic.pack.multi-classification","logic-multi-classification","Bentuk sama warna beda","Mencari pasangan yang bentuknya sama tetapi warnanya berbeda.","Pasangan mana yang bentuknya sama tetapi warnanya berbeda?",["🔴 🔵","🔴 🟥","🟥 🔵"],"🔴 🔵","logic.classification.multi_attribute",{difficulty:3})
 ];
 
@@ -39,9 +39,9 @@ choice("logic-order-two-steps-after","logic.pack.relative-ordering","logic-relat
 ];
 
 const inference=[
-choice("logic-infer-not-red","logic.pack.elimination-inference","logic-elimination-inference","Bukan yang merah","Mengeliminasi pilihan berdasarkan satu informasi negatif.","Pilih yang bukan merah.",["🔵","🔴","🔴"],"🔵","logic.inference.elimination.basic",{required:true}),
+choice("logic-infer-not-red","logic.pack.elimination-inference","logic-elimination-inference","Bukan yang merah","Mengeliminasi pilihan berdasarkan satu informasi negatif.","Pilih yang bukan merah.",["biru 🔵","merah bulat 🔴","merah kotak 🟥"],"biru 🔵","logic.inference.elimination.basic",{required:true}),
 choice("logic-infer-only-triangle","logic.pack.elimination-inference","logic-elimination-inference","Satu-satunya segitiga","Menemukan satu pilihan yang memenuhi kategori target.","Hanya satu pilihan berbentuk segitiga. Mana itu?",["▲","●","■"],"▲","logic.inference.elimination.basic"),
-choice("logic-infer-not-largest","logic.pack.elimination-inference","logic-elimination-inference","Bukan yang terbesar","Menggunakan pengecualian ukuran untuk memilih kandidat.","Mana yang bukan yang terbesar?",["●","⬤","⬤"],"●","logic.inference.elimination.basic"),
+choice("logic-infer-not-largest","logic.pack.elimination-inference","logic-elimination-inference","Sisihkan yang terbesar","Menggunakan eliminasi ukuran untuk menemukan objek terkecil.","Yang terbesar sudah disisihkan. Mana yang paling kecil?",["● kecil","◉ sedang","⬤ besar"],"● kecil","logic.inference.elimination.basic"),
 choice("logic-infer-common-feature","logic.pack.elimination-inference","logic-elimination-inference","Ciri yang sama","Menentukan ciri bersama dari beberapa contoh.","Contoh: 🔴 dan 🔵. Ciri apa yang sama?",["keduanya bulat","keduanya merah","keduanya kotak"],"keduanya bulat","logic.inference.elimination.basic",{difficulty:3}),
 choice("logic-infer-missing-member","logic.pack.elimination-inference","logic-elimination-inference","Anggota yang belum ada","Menentukan anggota kategori yang hilang dari set kecil.","Set arah harus punya ↑ → ↓ ←. Yang terlihat ↑ → ↓. Mana yang belum ada?",["←","↑","→"],"←","logic.inference.elimination.basic",{difficulty:3})
 ];
