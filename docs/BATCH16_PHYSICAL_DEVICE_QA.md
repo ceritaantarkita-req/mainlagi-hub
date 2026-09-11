@@ -46,6 +46,33 @@ Batch 16 requires at least:
 
 Where a defect appears device-specific, record the exact model, OS version, browser version, viewport/orientation, and whether the site was opened as browser/PWA/native wrapper.
 
+## Guided QA harness
+
+The production app exposes a hidden/noindex helper at:
+
+```text
+https://mainlagihub.my.id/qa/device
+```
+
+Use `/qa/device` directly on each physical phone to execute the same 22 canonical checks below. The harness:
+
+- captures non-secret browser/device context such as user agent, viewport, screen size, DPR, touch-point count, orientation, online state, reduced-motion state, secure-context state, and camera/speech capability availability;
+- records `PASS`, `FAIL`, `BLOCKED`, or `PENDING` plus free-text evidence notes for each canonical row;
+- persists the in-progress checklist only in that browser's localStorage so the tester can open activity routes and return without losing progress;
+- can export a local JSON evidence file or copy a text summary;
+- does **not** upload QA evidence, access authentication/session data, or request camera/microphone permission automatically.
+
+The harness is an evidence recorder, not an automated physical-device certifier. A row still becomes `PASS` only after the tester actually performs the physical test on the stated hardware/browser.
+
+Recommended flow per device:
+
+1. open `/qa/device` on the physical phone;
+2. record device model, OS, and browser version;
+3. run all relevant linked routes/tests and record the result immediately;
+4. export JSON and/or copy the summary;
+5. transfer the result into this matrix or issue #83;
+6. never attach access tokens, child recordings, raw camera captures, or other unnecessary sensitive material.
+
 ## Physical-device acceptance matrix
 
 | Area | Physical test | iPhone / Safari | Android / Chrome | Evidence / notes |
@@ -110,6 +137,8 @@ Result: PASS | FAIL | BLOCKED
 Evidence: screenshot/video/log/issue reference when useful
 Notes:
 ```
+
+The `/qa/device` JSON export is an acceptable structured source for this information, but the canonical matrix/issue must still summarize the final accepted result.
 
 Do not store child recordings, camera captures, access tokens, or other unnecessary sensitive data as QA evidence.
 
