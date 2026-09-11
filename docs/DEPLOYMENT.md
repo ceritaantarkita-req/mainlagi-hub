@@ -13,20 +13,15 @@ GitHub (`ceritaantarkita-req/mainlagi-hub`)
   -> https://mainlagihub.my.id/
 ```
 
-There is **no VPS/SSH production deployment path** for Mainlagi. Previous VPS, `/srv/mainlagi`, SSH deploy-key, `MAINLAGI_VPS_*`, and `mainlagi.inmydraft.com` references are superseded.
-
-## Cloudflare Git deployment
-
-Normal production publication is Cloudflare-side Git integration from branch `main`.
+There is **no VPS/SSH production deployment path** for Mainlagi. Normal publication is Cloudflare-side Git integration from branch `main`.
 
 - repository: `ceritaantarkita-req/mainlagi-hub`;
 - production branch: `main`;
 - build: `npm run build:cloudflare`;
-- deploy command: `npx wrangler deploy`;
 - Worker: `mainlagi-hub`;
 - custom domain: `mainlagihub.my.id`.
 
-Manual local Wrangler deployment is operator fallback only.
+Manual local Wrangler deployment remains operator fallback only.
 
 ## Commit-aware production smoke
 
@@ -42,13 +37,15 @@ On pushes to `main`, `Production smoke (Cloudflare)` succeeds only when producti
 
 ## Latest verified production implementation
 
-**Expansion Batch 14 — Drawing/Menggambar + Coloring/Mewarnai to 100 each is engineering/content-catalog production-complete.**
+**Batch 15 — Adaptive/mastery/report scaling across the 900-activity catalog is production-complete.**
 
 ```text
-Batch:                 Expansion Batch 14 — Drawing + Coloring to 100 each
-Final PR:              #76
-Git SHA:               b273edc282261bbec89b0c3d438822204cd925e5
-Main CI run:            #308
+Batch:                 Batch 15 — Adaptive/mastery/report scaling
+Implementation PR:     #78
+PR head:               c5ca9c186c810e5ba219169c0dd387d744b13bf7
+PR CI run:              #311
+Main implementation:   58e5d14633dd3d105f383f56e016c61c9104a892
+Main CI run:            #312
 Quality gate (Ubuntu):  success
 Windows compatibility: success
 Mobile route QA:        success
@@ -58,27 +55,23 @@ Secret history scan:   success
 Production smoke:       success
 ```
 
-The final smoke verified the exact SHA `b273edc282261bbec89b0c3d438822204cd925e5` on the public Cloudflare deployment with the canonical Supabase backend.
+The final implementation smoke verified the exact SHA `58e5d14633dd3d105f383f56e016c61c9104a892` on the public Cloudflare deployment with the canonical Supabase backend.
 
-Batch 14 wave release sequence:
+Batch 15 did not require a database migration or DDL. It changed application recommendation/reporting behavior only; the canonical schema and content catalog remain unchanged.
 
-| Wave | Drawing | Coloring | PR | Migration | Main SHA | Main CI | Exact-SHA smoke |
-| --- | ---: | ---: | ---: | --- | --- | ---: | --- |
-| A | 25 | 25 | #73 | `0043_batch14_creative_wave_a` | `f27ea5b047e657e896d991656bfe64cdb215c84e` | #301 | success |
-| B | 50 | 50 | #74 | `0044_batch14_creative_wave_b` | `62e88a5f696d2b4eb2e691298671e137e91caa30` | #304 | success |
-| C | 75 | 75 | #75 | `0045_batch14_creative_wave_c` | `e120d1fa098ff9f1a7949ba3d1ffa0dee00d312c` | #306 | success |
-| D | 100 | 100 | #76 | `0046_batch14_creative_wave_d` | `b273edc282261bbec89b0c3d438822204cd925e5` | #308 | success |
+Dedicated Batch 15 PR CI benchmark:
 
-PR quality-gate evidence:
+```text
+Synthetic attempt history: 1,200 attempts
+Recommendation sweep:      all 9 subjects
+Measured sweep time:       72.8 ms
+Bounded Parent report:     7,937 bytes serialized
+CI guard:                  < 5,000 ms / < 65,536 bytes
+```
 
-- Wave A final PR head `b168191e16b14c1180c4475542cf9136a35e393b`, PR CI #300 — success;
-- Wave B final PR head `09947cc7fd0ec826eeb785453baf504dd463dc80`, PR CI #303 — success;
-- Wave C final PR head `44598c27bc68b0cca701826a444cb30c2114172f`, PR CI #305 — success;
-- Wave D final PR head `45cbea6b858cd18b4000c136e72f3af0dee62c48`, PR CI #307 — success.
+Detailed closure evidence: `EXPANSION_BATCH15_CLOSURE_2026-09-11.md`.
 
-Detailed evidence: `EXPANSION_BATCH14_CLOSURE_2026-09-11.md`.
-
-Earlier closure docs remain canonical historical evidence for Batches 7–13.
+Batch 14 remains the final content-expansion release; its implementation SHA is `b273edc282261bbec89b0c3d438822204cd925e5`.
 
 ## Repository deployment configuration
 
@@ -86,7 +79,7 @@ Earlier closure docs remain canonical historical evidence for Batches 7–13.
 - `open-next.config.ts` — OpenNext Cloudflare config.
 - `next.config.mjs` — Cloudflare binding initialization and release-metadata baking.
 - `src/app/api/health/route.ts` — public/non-secret release/backend health metadata.
-- `package.json` — `build:cloudflare`, `preview`, `deploy`, `upload`.
+- `package.json` — Cloudflare commands plus the full learning/Batch15 regression chain.
 
 ## GitHub CI responsibilities
 
@@ -100,7 +93,7 @@ GitHub Actions validates; Cloudflare deploys. Primary jobs are:
 - `Secret history scan`;
 - `Production smoke (Cloudflare)` on `main`.
 
-No `MAINLAGI_VPS_*` secrets are required.
+Batch 15 adds `test:learning:batch15` to the canonical learning/engine gate rather than introducing a separate optional workflow.
 
 The active `Protect main` ruleset currently requires `Production build`, `Quality gate (Ubuntu)`, `Windows compatibility`, and `Production dependency audit`. `Secret history scan` runs successfully but is not yet a required status check; see `ACCOUNT_LEVEL_ACTIONS.md`.
 
@@ -112,49 +105,30 @@ The active `Protect main` ruleset currently requires `Production build`, `Qualit
 - region: Singapore (`ap-southeast-1`)
 - status: active/healthy.
 
-Applied migration chain is verified through Batch 14 Wave D. Recent expansion migrations are:
+Applied migration chain remains through Batch 14 Wave D:
 
 ```text
-0039_batch13_science_wave_a.sql
-0040_batch13_science_wave_b.sql
-0041_batch13_science_wave_c.sql
-0042_batch13_science_wave_d.sql
 0043_batch14_creative_wave_a.sql
 0044_batch14_creative_wave_b.sql
 0045_batch14_creative_wave_c.sql
 0046_batch14_creative_wave_d.sql
 ```
 
-Canonical registry contains:
+There is intentionally **no Batch 15 migration** because persistence/schema/catalog rows are unchanged.
 
-```text
-batch13_science_wave_a
-batch13_science_wave_b
-batch13_science_wave_c
-batch13_science_wave_d
-batch14_creative_wave_a
-batch14_creative_wave_b
-batch14_creative_wave_c
-batch14_creative_wave_d
-```
+Live post-Batch15 verification:
 
-The earlier canonical migration chain remains intact.
-
-Final post-`0046` live catalog verification:
-
-- **900 active learning activities**;
-- **683 assessed / 217 practice** globally;
+- 900 active learning activities;
+- 683 assessed / 217 practice globally;
 - all nine subjects exactly 100 activities;
 - Drawing exactly 100 practice activities;
 - Coloring exactly 100 practice activities;
-- 200 active learning skills;
+- 200 active skills;
 - 197 active content packs;
-- Drawing 20 active skills;
-- Coloring 21 active skills;
 - zero active creative activities with assessed/non-completion evidence drift;
 - zero Drawing/Coloring runtime-mechanic drift.
 
-Current runtime inventory:
+Current runtime inventory remains:
 
 | Runtime | Activities |
 | --- | ---: |
@@ -167,24 +141,30 @@ Current runtime inventory:
 | `coloring` | 100 |
 | `drawing` | 100 |
 
-Important boundaries remain unchanged:
+## Batch 15 integrity and scaling release behavior
 
-- `0007` prevents real-child attempts unless `child_key` resolves to an undeleted account-owned profile; `demo-gian` remains the account-scoped sandbox sentinel;
-- historical activity/mastery identities are preserved by additive catalog migrations;
-- generic Latin letter traces remain completion-only practice without validated glyph-shape mastery;
+Production recommendation consumers now use one Adaptive V2 policy across child and Parent surfaces. Recommendation priority can use same-skill variant diversity, confidence, spacing, recent repeats, measured frustration, age, stage, difficulty, and motion opt-in; it does not mutate mastery merely to change priority.
+
+Parent Progress/Reports are bounded summaries rather than raw catalog/history dumps. Mastery summaries are assessed-only. Drawing/Coloring remain reportable completion-only practice with no synthesized mastery percentage.
+
+Full creative completion is regression-tested not to satisfy academic certificate mastery eligibility.
+
+Important pre-existing boundaries remain unchanged:
+
+- child ownership/isolation and durable account-bound outbox remain canonical;
+- generic Latin traces remain completion-only practice;
 - all active Iqro packs remain `expert_required` pending competent human review;
-- Science uses measured response evidence and does not rely on unsafe unsupervised experiments;
-- Drawing/Coloring are completion-only creative practice and cannot fabricate academic or creative mastery.
+- Science remains age-appropriate and does not rely on unsafe unsupervised experiments;
+- creative practice cannot fabricate academic or creative mastery.
 
-## Post-DDL advisor state
+## Advisor state
 
-After Batch 14 Wave D:
+After Batch 15 implementation, despite no DDL, advisors were rechecked:
 
-- security advisor has the same **two known WARN findings**:
-  - signed-in users can execute protected `SECURITY DEFINER` `public.record_learning_attempt(...)`; this is intentional for the guarded attempt-recording RPC boundary;
-  - leaked-password protection is disabled under the current Supabase configuration/plan;
-- performance advisor has **17 `unused_index` INFO findings** and no WARN-level regression;
-- Batch 14 introduced no new security/performance WARN.
+- security advisor: the same two known WARN findings remain:
+  - authenticated execution of `SECURITY DEFINER` `public.record_learning_attempt(...)`, intentional for the guarded attempt-recording RPC boundary;
+  - leaked-password protection disabled under the current Supabase configuration/plan;
+- performance advisor: 17 `unused_index` INFO findings; no WARN-level performance regression.
 
 Reference remediation guidance:
 
@@ -192,25 +172,18 @@ Reference remediation guidance:
 - leaked-password protection: https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection
 - unused-index advisor: https://supabase.com/docs/guides/database/database-linter?lint=0005_unused_index
 
-## Auth and learning production state
-
-Production supports account login, account-owned child profiles, assessed-attempt persistence, evidence/mastery materialization, parent-derived state, cloud child ownership/isolation, durable offline attempt queuing, and exact-commit health verification.
-
-Practice/completion-only activities cannot manufacture academic mastery. Batch 14 creative activities intentionally use completion-only evidence.
-
 ## Production verification checklist
 
-For every expansion wave/batch:
+For a behavioral batch such as Batch 15:
 
 1. focused branch/PR;
-2. full quality/security/build checks before merge;
-3. migration regression-tested before application;
-4. live database counts verified after migration;
-5. post-DDL advisor state reviewed;
-6. Cloudflare remains Git-driven from `main`;
-7. post-merge smoke verifies exact release SHA and canonical Supabase metadata.
-
-Batch 14 satisfies all seven engineering/deployment conditions across Waves A–D.
+2. full type/lint/engine/learning/simulation/security/build/mobile gates;
+3. explicit confirmation whether persistence changes exist;
+4. live database/catalog drift verification even when no migration is required;
+5. advisor review;
+6. immutable-head squash merge;
+7. exact-SHA Cloudflare production smoke;
+8. canonical docs closure and final docs exact-SHA smoke.
 
 ## Manual deployment fallback
 
@@ -224,4 +197,4 @@ It requires an authorized Cloudflare environment. Never commit Cloudflare API to
 
 ## Rollback
 
-Rollback the Cloudflare deployment layer to a known-good Git deployment, then rerun public health/smoke verification. For additive catalog migrations, prefer a forward corrective migration rather than destructive rollback of learning history. Do not reintroduce a separate VPS rollback path unless the architecture is intentionally changed and documented through a new ADR.
+Rollback the Cloudflare deployment layer to a known-good Git deployment, then rerun public health/smoke verification. Because Batch 15 has no DB migration, rollback does not require a data/schema reversal. Do not reintroduce a VPS rollback path unless the architecture is intentionally changed and documented through a new ADR.
