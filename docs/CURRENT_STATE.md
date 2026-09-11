@@ -17,37 +17,41 @@ This file is the canonical human/AI handoff for the current repository state. `m
 
 ## Latest verified production baseline
 
-**Expansion Batch 13 — Science/Sains to 100 is engineering/content-catalog production-complete.**
+**Expansion Batch 14 — Drawing/Menggambar + Coloring/Mewarnai to 100 each is engineering/content-catalog production-complete.**
 
-Final Batch 13 implementation SHA:
+Final Batch 14 implementation SHA:
 
-`e35d211ada182e0c5379da7b9b33614309994852`
+`b273edc282261bbec89b0c3d438822204cd925e5`
 
-Final implementation landed through PR #71. Main CI #290 completed successfully across Ubuntu quality/learning/simulations, Windows compatibility, Chromium mobile-route QA, production build, dependency audit, full-history secret scan, and exact-SHA Cloudflare production smoke.
+Final implementation landed through PR #76. Main CI #308 completed successfully across Ubuntu quality/learning/simulations, Windows compatibility, Chromium mobile-route QA, production build, dependency audit, full-history secret scan, and exact-SHA Cloudflare production smoke.
 
-Detailed closure evidence: `EXPANSION_BATCH13_CLOSURE_2026-09-11.md`.
+Detailed closure evidence: `EXPANSION_BATCH14_CLOSURE_2026-09-11.md`.
 
-Batch 12 Logic/Logika is also production-complete at final implementation SHA `553b9e28f91feefa9af9c2995f2f7e913bf31491`; detailed evidence is in `EXPANSION_BATCH12_CLOSURE_2026-09-11.md`.
+Earlier expansion closures remain valid:
 
-Batch 7 Math, Batch 8 Bahasa Indonesia, Batch 9 English, Batch 10 Iqro, and Batch 11 Letters/Menulis remain production-complete at their catalog targets.
+- Batch 12 Logic/Logika final implementation SHA `553b9e28f91feefa9af9c2995f2f7e913bf31491`;
+- Batch 13 Science/Sains final implementation SHA `e35d211ada182e0c5379da7b9b33614309994852`.
+
+Batch 7 Math, Batch 8 Bahasa Indonesia, Batch 9 English, Batch 10 Iqro, and Batch 11 Letters/Menulis also remain production-complete at their catalog targets.
 
 **Iqro review boundary remains unchanged:** all active Iqro packs remain `expert_required`, not `expert_approved`. Engineering production closure is not religious-learning expert approval.
 
 ## Current playable catalog
 
-Canonical repository/live-DB state after Batch 13:
+Canonical repository/live-DB state after Batch 14:
 
-- 8 first-class subjects;
-- 8 learning paths;
-- 38 stages;
-- 157 lessons;
-- 157 versioned content packs;
-- **702 playable activities**;
-- **160 skills**;
+- 9 first-class subjects;
+- 9 learning paths;
+- 46 stages;
+- 197 lessons;
+- 197 versioned content packs;
+- **900 playable activities**;
+- **200 active skills**;
 - **683 assessed activities**;
-- **19 practice activities**.
+- **217 practice activities**;
+- 8 reusable manifest mechanics.
 
-| Subject | Playable | Assessed | Practice | Skills |
+| Subject | Playable | Assessed | Practice | Active skills |
 | --- | ---: | ---: | ---: | ---: |
 | Bahasa Indonesia | 100 | 99 | 1 | 23 |
 | English | 100 | 100 | 0 | 23 |
@@ -56,33 +60,23 @@ Canonical repository/live-DB state after Batch 13:
 | Letters / Menulis | 100 | 87 | 13 | 25 |
 | Logic / Logika | 100 | 100 | 0 | 22 |
 | Science / Sains | 100 | 100 | 0 | 22 |
-| Coloring / Mewarnai | 2 | 0 | 2 | 1 |
+| Coloring / Mewarnai | 100 | 0 | 100 | 21 |
+| Drawing / Menggambar | 100 | 0 | 100 | 20 |
 
-Drawing/Menggambar is not first-class yet. Batch 14 is planned to introduce Drawing and expand Coloring under creative-practice evidence rules.
+All nine planned tracks are now at the canonical 100-activity catalog target.
 
-The seven academic subjects are now all at the canonical 100-activity catalog target.
+## Batch 14 Drawing + Coloring expansion
 
-## Batch 12 Logic/Logika expansion
+Batch 14 preserved the two historical Coloring practice activities, introduced Drawing as a first-class subject, and added exactly **198 creative-practice activities**: 100 Drawing and 98 Coloring.
 
-Logic preserved its three historical assessed activities and added exactly **97 measured assessed activities**:
+- Wave A — Drawing 0 -> 25; Coloring 2 -> 25: +48 total; PR #73; migration `0043`; main SHA `f27ea5b047e657e896d991656bfe64cdb215c84e`; main CI #301.
+- Wave B — both 25 -> 50: +50 total; PR #74; migration `0044`; main SHA `62e88a5f696d2b4eb2e691298671e137e91caa30`; main CI #304.
+- Wave C — both 50 -> 75: +50 total; PR #75; migration `0045`; main SHA `e120d1fa098ff9f1a7949ba3d1ffa0dee00d312c`; main CI #306.
+- Wave D — both 75 -> 100: +50 total; PR #76; migration `0046`; main SHA `b273edc282261bbec89b0c3d438822204cd925e5`; main CI #308.
 
-- Wave A — 3 -> 25: +22; relations, classification, odd-one-out, comparison, simple rules; PR #64; migration `0035`; main SHA `ce76d5f7d11385712005a1edaf4005c459ac0eb7`; main CI #274.
-- Wave B — 25 -> 50: +25; patterns, sequences, associations, comparisons, spatial relations; PR #65; migration `0036`; main SHA `1aa97490ab2d9f6625edfc027d4916784f719dfd`; main CI #276.
-- Wave C — 50 -> 75: +25; conditional rules, multi-attribute classification, analogies, relative ordering, elimination/inference; PR #66; migration `0037`; main SHA `1208d9487d150ff2825be417f82fe01ce0413d96`; main CI #279.
-- Wave D — 75 -> 100: +25; composed rules, set reasoning, transitive comparison, spatial transforms, mixed relational review; PR #67; migration `0038`; main SHA `553b9e28f91feefa9af9c2995f2f7e913bf31491`; main CI #281.
+All four post-merge runs passed exact-SHA Cloudflare production smoke.
 
-All additions use validated measured choice/matching evidence. Logic closes at **100 assessed / 0 practice**. All four post-merge runs passed exact-SHA Cloudflare production smoke.
-
-## Batch 13 Science/Sains expansion
-
-Science preserved its three historical assessed activities and added exactly **97 measured assessed activities**:
-
-- Wave A — 3 -> 25: +22; living/non-living, plant basics, animal features/habitats, senses/observation, weather/day-night; PR #68; migration `0039`; main SHA `296b8c69513d5577233a8a777062741fd83163c9`; main CI #283.
-- Wave B — 25 -> 50: +25; life cycles, organism needs/food, material properties, water state changes, forces/motion; PR #69; migration `0040`; main SHA `92f6767ee3015fb7e160adb0cd8ce85309676eb9`; main CI #285.
-- Wave C — 50 -> 75: +25; Earth/sky patterns, body/healthy habits, ecosystem dependencies, environment care, observation/measurement; PR #70; migration `0041`; main SHA `1c956867fd912bfea25c7cb0105a97921299cf80`; main CI #287.
-- Wave D — 75 -> 100: +25; investigation/evidence, living features/functions, material choice, weather/environment reasoning, mixed review; PR #71; migration `0042`; main SHA `e35d211ada182e0c5379da7b9b33614309994852`; main CI #290.
-
-All additions use validated measured `choice_accuracy_v1` / `matching_accuracy_v1` evidence paths. Science closes at **100 assessed / 0 practice**. All four post-merge runs passed exact-SHA Cloudflare production smoke.
+Every Batch 14 creative addition is `practice` with `completion_only_v1` evidence. Drawing uses the `drawing` runtime/mechanic and Coloring uses `coloring`. Free-form or guided creative participation does not manufacture academic accuracy, mastery, stage mastery, or certificate evidence.
 
 ## Shipped learning/content architecture
 
@@ -128,7 +122,9 @@ Protections remain in force:
 - missing measurement fails closed to completion-only;
 - hints/retries remain available for downstream independence penalties.
 
-Generic Latin tracing remains completion-only practice until a validated Latin glyph-shape evaluator exists. Batch 12/13 do not weaken this boundary.
+Generic Latin tracing remains completion-only practice until a validated Latin glyph-shape evaluator exists. Batch 14 does not weaken this boundary.
+
+Creative Drawing/Coloring remains completion-only practice. There is no objective drawing/coloring mastery claim without a separately validated evaluator and evidence contract.
 
 ## Current runtime inventory
 
@@ -140,9 +136,10 @@ Generic Latin tracing remains completion-only practice until a validated Latin g
 | `trace` | 14 |
 | `story` | 1 |
 | `motion_game` | 3 |
-| `coloring` | 2 |
+| `coloring` | 100 |
+| `drawing` | 100 |
 
-Total: **702**.
+Total: **900**.
 
 ## Cloud profiles and ownership
 
@@ -152,13 +149,15 @@ Real child routes require an undeleted account-owned `player_profiles` row; fore
 
 Authenticated attempt sync retains the durable browser outbox. Failed attempts stay account-bound without storing tokens, use bounded retry/backoff/TTL, and cannot create server mastery until accepted by the canonical RPC.
 
-## Audio, tracing, science-safety, and device boundaries
+## Audio, tracing, science-safety, creative, and device boundaries
 
 Product speech remains consolidated behind `AudioManager`; no child pronunciation recording/upload is introduced.
 
 Generic Latin tracing remains completion-only practice and is not handwriting-shape mastery evidence.
 
 Science content uses age-appropriate observable/predictive reasoning and does not depend on unsafe unsupervised experiments.
+
+Drawing/Coloring completion records participation only; it is intentionally separate from objective skill mastery.
 
 Automated CI does not replace physical-device camera/audio/trace/accessibility acceptance. Representative real-device testing remains part of Batch 16.
 
@@ -172,34 +171,39 @@ Canonical project:
 - region: `ap-southeast-1`
 - status: active/healthy.
 
-Applied migration chain is verified through Batch 13 Wave D. Recent expansion migrations:
+Applied expansion migration chain is verified through Batch 14 Wave D. Recent migrations:
 
 ```text
-0035_batch12_logic_wave_a.sql
-0036_batch12_logic_wave_b.sql
-0037_batch12_logic_wave_c.sql
-0038_batch12_logic_wave_d.sql
 0039_batch13_science_wave_a.sql
 0040_batch13_science_wave_b.sql
 0041_batch13_science_wave_c.sql
 0042_batch13_science_wave_d.sql
+0043_batch14_creative_wave_a.sql
+0044_batch14_creative_wave_b.sql
+0045_batch14_creative_wave_c.sql
+0046_batch14_creative_wave_d.sql
 ```
 
-The canonical registry records `batch12_logic_wave_a` through `batch12_logic_wave_d` and `batch13_science_wave_a` through `batch13_science_wave_d`.
+Canonical migration registry contains `batch13_science_wave_a` through `batch13_science_wave_d` and `batch14_creative_wave_a` through `batch14_creative_wave_d`.
 
-Final live verification after `0042`:
+Final live verification after `0046`:
 
-- 702 active activities;
-- 683 assessed / 19 practice globally;
-- Logic exactly 100 = 100 assessed / 0 practice;
-- Science exactly 100 = 100 assessed / 0 practice;
-- 157 active packs;
-- 160 active skills;
-- 22 active Logic skills;
-- 22 active Science skills;
-- zero active Science activities missing mechanic/evidence metadata.
+- 900 active activities;
+- 683 assessed / 217 practice globally;
+- every subject exactly 100 activities;
+- Drawing exactly 100 practice activities;
+- Coloring exactly 100 practice activities;
+- 197 active packs;
+- 200 active skills;
+- Drawing 20 active skills;
+- Coloring 21 active skills;
+- zero active creative activities with assessed/non-completion evidence drift;
+- zero Drawing/Coloring runtime-mechanic drift.
 
-Post-DDL performance advisor has no WARN-level regression; 18 unused-index observations remain INFO-only. Security advisor still reports the two known WARN findings: intentional authenticated execution of protected `SECURITY DEFINER` `record_learning_attempt(...)`, and leaked-password protection disabled under the current Supabase configuration/plan. Batch 12/13 introduced no new advisor warning.
+Post-DDL advisor state after Batch 14 Wave D:
+
+- security: exactly two known WARN findings remain — intentional authenticated execution of protected `SECURITY DEFINER` `record_learning_attempt(...)`, and leaked-password protection disabled under the current Supabase configuration/plan;
+- performance: 17 `unused_index` observations, INFO-only; no WARN-level regression.
 
 ## CI and release governance
 
@@ -216,7 +220,7 @@ short-lived branch
   -> closure evidence
 ```
 
-One account-level action remains outside current connector write capability: ensure `Secret history scan` is required by the active `main` protection ruleset. The scan itself runs successfully; see `ACCOUNT_LEVEL_ACTIONS.md`.
+The active `Protect main` ruleset currently requires `Production build`, `Quality gate (Ubuntu)`, `Windows compatibility`, and `Production dependency audit`. `Secret history scan` runs and is green but is not yet configured as a required status check. This remains an account-level action documented in `ACCOUNT_LEVEL_ACTIONS.md`.
 
 ## Engineering closure status
 
@@ -232,9 +236,9 @@ One account-level action remains outside current connector write capability: ens
 - Batch 9 English to 100 — complete in production;
 - Batch 10 Iqro to 100 — engineering/content-catalog complete in production; expert review still required;
 - Batch 11 Letters/Menulis to 100 — complete in production;
-- **Batch 12 Logic/Logika to 100 — complete in production**;
-- **Batch 13 Science/Sains to 100 — complete in production**;
-- **Batch 14 Drawing + Coloring to 100 each — NEXT**;
-- Batch 15 adaptive/mastery/report scaling — planned;
+- Batch 12 Logic/Logika to 100 — complete in production;
+- Batch 13 Science/Sains to 100 — complete in production;
+- **Batch 14 Drawing + Coloring to 100 each — complete in production**;
+- **Batch 15 adaptive/mastery/report scaling — NEXT**;
 - Batch 16 performance/accessibility/security/device QA — planned;
 - Batch 17 final acceptance/production closure — planned.
