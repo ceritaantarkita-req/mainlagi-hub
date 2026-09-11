@@ -7,6 +7,7 @@ export type ReusableMechanicId =
   | "guided_trace"
   | "story"
   | "coloring"
+  | "drawing"
   | "motion_game"
   | "drag_to_target"
   | "draw_line_matching"
@@ -80,6 +81,7 @@ export interface ReusableMechanicPayload {
   correctPath?: string[];
   storyLines?: string[];
   assetRef?: string;
+  drawingGuide?: string;
   gameSlug?: string;
 }
 
@@ -149,6 +151,7 @@ export const REUSABLE_MECHANICS: Record<ReusableMechanicId, ReusableMechanicDefi
   guided_trace: measured("guided_trace", "Guided trace", "path", "guided_trace_path_v1", ["prompt", "checkpoints"], "measured_path_quality", "tracked"),
   story: practiceOnly("story", "Story", ["storyLines"]),
   coloring: practiceOnly("coloring", "Coloring", ["assetRef"]),
+  drawing: practiceOnly("drawing", "Drawing", ["drawingGuide"]),
   motion_game: practiceOnly("motion_game", "Optional motion game", ["gameSlug"]),
   drag_to_target: measured("drag_to_target", "Drag to target", "targeting", "target_accuracy_v1", ["prompt", "items", "targets", "assignments"]),
   draw_line_matching: measured("draw_line_matching", "Draw-line matching", "pairing", "matching_accuracy_v1", ["prompt", "pairs"]),
@@ -413,7 +416,7 @@ export interface MechanicLibraryValidation {
 export function validateMechanicLibrary(): MechanicLibraryValidation {
   const errors: string[] = [];
   const ids = Object.keys(REUSABLE_MECHANICS) as ReusableMechanicId[];
-  if (ids.length !== 20) errors.push(`Expected 20 reusable mechanics, found ${ids.length}`);
+  if (ids.length !== 21) errors.push(`Expected 21 reusable mechanics, found ${ids.length}`);
   if (new Set(ids).size !== ids.length) errors.push("Mechanic IDs must be unique");
 
   for (const id of ids) {
