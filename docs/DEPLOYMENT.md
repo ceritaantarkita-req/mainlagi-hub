@@ -42,13 +42,13 @@ On pushes to `main`, `Production smoke (Cloudflare)` succeeds only when producti
 
 ## Latest verified production implementation
 
-**Expansion Batch 11 — Letters/Menulis to 100 is engineering/content-catalog production-complete.**
+**Expansion Batch 13 — Science/Sains to 100 is engineering/content-catalog production-complete.**
 
 ```text
-Batch:                 Expansion Batch 11 — Letters/Menulis to 100
-Final PR:              #62
-Git SHA:               1ec8c69bce010424807d918a3b4655cd18b1f357
-Main CI run:            #270
+Batch:                 Expansion Batch 13 — Science/Sains to 100
+Final PR:              #71
+Git SHA:               e35d211ada182e0c5379da7b9b33614309994852
+Main CI run:            #290
 Quality gate (Ubuntu):  success
 Windows compatibility: success
 Mobile route QA:        success
@@ -58,22 +58,30 @@ Secret history scan:   success
 Production smoke:       success
 ```
 
-The exact-SHA production smoke verified the final Wave D implementation release on the public Cloudflare deployment with the canonical Supabase backend.
+The final smoke verified the exact SHA `e35d211ada182e0c5379da7b9b33614309994852` on the public Cloudflare deployment with the canonical Supabase backend.
 
-Batch 11 wave release sequence:
+Batch 13 wave release sequence:
 
-| Wave | Letters | PR | Migration | Main SHA | Main CI | Exact-SHA smoke |
+| Wave | Science | PR | Migration | Main SHA | Main CI | Exact-SHA smoke |
 | --- | ---: | ---: | --- | --- | ---: | --- |
-| A | 25 | #59 | `0031_batch11_letters_wave_a` | `cb6dfb662f0f14b8c66de29db30319ea08e06644` | #261 | success |
-| B | 50 | #60 | `0032_batch11_letters_wave_b` | `3c3f446b70c6047236216b0b505e3f5fe9da9c88` | #263 | success |
-| C | 75 | #61 | `0033_batch11_letters_wave_c` | `fdd0dae049b1cd4740286dd1b1a56700d9641154` | #267 | success |
-| D | 100 | #62 | `0034_batch11_letters_wave_d` | `1ec8c69bce010424807d918a3b4655cd18b1f357` | #270 | success |
+| A | 25 | #68 | `0039_batch13_science_wave_a` | `296b8c69513d5577233a8a777062741fd83163c9` | #283 | success |
+| B | 50 | #69 | `0040_batch13_science_wave_b` | `92f6767ee3015fb7e160adb0cd8ce85309676eb9` | #285 | success |
+| C | 75 | #70 | `0041_batch13_science_wave_c` | `1c956867fd912bfea25c7cb0105a97921299cf80` | #287 | success |
+| D | 100 | #71 | `0042_batch13_science_wave_d` | `e35d211ada182e0c5379da7b9b33614309994852` | #290 | success |
 
-Batch 7 Math, Batch 8 Bahasa Indonesia, Batch 9 English, and Batch 10 Iqro remain production-complete at 100 activities each. Detailed Batch 11 evidence is in `EXPANSION_BATCH11_CLOSURE_2026-09-11.md`.
+Batch 12 Logic/Logika is also production-complete:
 
-**Letters evidence boundary:** generic pre-writing and letter-formation traces remain completion-only practice. Deployment success does not convert trace completion into measured Latin letter-shape accuracy or mastery.
+| Wave | Logic | PR | Migration | Main SHA | Main CI | Exact-SHA smoke |
+| --- | ---: | ---: | --- | --- | ---: | --- |
+| A | 25 | #64 | `0035_batch12_logic_wave_a` | `ce76d5f7d11385712005a1edaf4005c459ac0eb7` | #274 | success |
+| B | 50 | #65 | `0036_batch12_logic_wave_b` | `1aa97490ab2d9f6625edfc027d4916784f719dfd` | #276 | success |
+| C | 75 | #66 | `0037_batch12_logic_wave_c` | `1208d9487d150ff2825be417f82fe01ce0413d96` | #279 | success |
+| D | 100 | #67 | `0038_batch12_logic_wave_d` | `553b9e28f91feefa9af9c2995f2f7e913bf31491` | #281 | success |
 
-**Iqro review boundary remains:** all active Iqro packs remain `expert_required`; engineering deployment success is not expert religious-learning approval.
+Detailed evidence:
+
+- `EXPANSION_BATCH12_CLOSURE_2026-09-11.md`
+- `EXPANSION_BATCH13_CLOSURE_2026-09-11.md`
 
 ## Repository deployment configuration
 
@@ -105,62 +113,80 @@ No `MAINLAGI_VPS_*` secrets are required.
 - region: Singapore (`ap-southeast-1`)
 - status: active/healthy.
 
-Applied migration chain is verified through Batch 11 Wave D. The Batch 11 repository migrations are:
+Applied migration chain is verified through Batch 13 Wave D. Recent expansion migrations are:
 
 ```text
-0031_batch11_letters_wave_a.sql
-0032_batch11_letters_wave_b.sql
-0033_batch11_letters_wave_c.sql
-0034_batch11_letters_wave_d.sql
+0035_batch12_logic_wave_a.sql
+0036_batch12_logic_wave_b.sql
+0037_batch12_logic_wave_c.sql
+0038_batch12_logic_wave_d.sql
+0039_batch13_science_wave_a.sql
+0040_batch13_science_wave_b.sql
+0041_batch13_science_wave_c.sql
+0042_batch13_science_wave_d.sql
 ```
 
-The canonical Supabase migration registry records the corresponding applied entries as:
+Canonical registry entries:
 
 ```text
-batch11_letters_wave_a
-batch11_letters_wave_b
-batch11_letters_wave_c
-batch11_letters_wave_d
+batch12_logic_wave_a
+batch12_logic_wave_b
+batch12_logic_wave_c
+batch12_logic_wave_d
+batch13_science_wave_a
+batch13_science_wave_b
+batch13_science_wave_c
+batch13_science_wave_d
 ```
 
-The earlier canonical migration chain `0001_init` through `0030_batch10_iqro_wave_d` remains intact.
+The earlier canonical migration chain remains intact.
 
-Post-Wave-D live catalog verification:
+Final post-`0042` live catalog verification:
 
-- **508 active learning activities**;
-- **489 assessed / 19 practice** globally;
+- **702 active learning activities**;
+- **683 assessed / 19 practice** globally;
 - Math exactly 100;
 - Bahasa Indonesia exactly 100;
 - English exactly 100;
 - Iqro exactly 100;
-- **Letters/Menulis exactly 100 = 87 assessed / 13 practice**;
-- 120 active learning skills;
-- 117 active content packs;
-- 25 active Letters skills;
-- 25 Wave D activity-skill links;
-- zero active Letters activities missing mechanic/evidence metadata.
+- Letters/Menulis exactly 100;
+- **Logic/Logika exactly 100 = 100 assessed / 0 practice**;
+- **Science/Sains exactly 100 = 100 assessed / 0 practice**;
+- Coloring/Mewarnai remains 2 practice activities;
+- 160 active learning skills;
+- 157 active content packs;
+- 22 active Logic skills;
+- 22 active Science skills;
+- zero active Science activities missing mechanic/evidence metadata.
+
+Current runtime inventory:
+
+| Runtime | Activities |
+| --- | ---: |
+| `tap_choice` | 481 |
+| `listen_and_choose` | 76 |
+| `matching` | 125 |
+| `trace` | 14 |
+| `story` | 1 |
+| `motion_game` | 3 |
+| `coloring` | 2 |
 
 Important boundaries remain unchanged:
 
-- `0007` prevents real-child attempts unless `child_key` resolves to an undeleted account-owned profile; `demo-gian` remains the explicit account-scoped sandbox sentinel;
-- `0011` provides scalable content ownership without renaming historical IDs;
-- `0012` expands mechanic/evidence vocabulary without fake playable counts;
-- `0013`/`0014` establish Batch 6 subjects and eight-subject award scaling;
-- `0015`–`0018` add Batch 7 Math content additively;
-- `0019`–`0022` add Batch 8 Bahasa content additively;
-- `0023`–`0026` add Batch 9 English content additively;
-- `0027`–`0030` add Batch 10 Iqro content additively;
-- `0031`–`0034` add Batch 11 Letters/Menulis content additively;
-- no generic Latin letter trace is promoted to assessed evidence without validated shape-fidelity measurement;
-- all Iqro packs remain `expert_required` pending competent human review.
+- `0007` prevents real-child attempts unless `child_key` resolves to an undeleted account-owned profile; `demo-gian` remains the account-scoped sandbox sentinel;
+- historical activity/mastery identities are preserved by additive catalog migrations;
+- generic Latin letter traces remain completion-only practice without validated glyph-shape mastery;
+- all active Iqro packs remain `expert_required` pending competent human review;
+- Science expansion uses measured response evidence and does not rely on unsafe unsupervised experiments;
+- free creative Drawing/Coloring work must not fabricate academic mastery.
 
 ## Post-DDL advisor state
 
-After Batch 11 Wave D:
+After Batch 13 Wave D:
 
-- performance advisor has **no WARN-level regression**; 18 unused-index observations are INFO-level only;
-- security advisor still reports the existing intentional authenticated SECURITY DEFINER exposure for `public.record_learning_attempt(...)` and leaked-password protection disabled under the current Supabase configuration/plan;
-- no new Batch 11 security/performance warning was introduced.
+- performance advisor has **no WARN-level regression**; 18 unused-index observations remain INFO-level only;
+- security advisor still reports the existing authenticated `SECURITY DEFINER` exposure for `public.record_learning_attempt(...)` and leaked-password protection disabled under the current Supabase configuration/plan;
+- no new Batch 12 or Batch 13 security/performance warning was introduced.
 
 Reference remediation guidance:
 
@@ -172,21 +198,21 @@ Reference remediation guidance:
 
 Production supports account login, account-owned child profiles, assessed-attempt persistence, evidence/mastery materialization, parent-derived state, cloud child ownership/isolation, durable offline attempt queuing, and exact-commit health verification.
 
-Practice/completion-only activities cannot manufacture academic mastery. Batch 11 assessed additions use measured choice/matching evidence; generic letter-formation traces remain completion-only practice.
+Practice/completion-only activities cannot manufacture academic mastery. Batch 12/13 additions are measured assessed choice/matching interactions.
 
 ## Production verification checklist
 
 For every expansion wave/batch:
 
-1. [x] focused branch/PR;
-2. [x] full quality/security/build checks before merge;
-3. [x] relevant migration regression-tested before application;
-4. [x] live database counts verified after migration;
-5. [x] post-DDL advisor state reviewed;
-6. [x] Cloudflare remains Git-driven from `main`;
-7. [x] post-merge smoke verifies exact release SHA and canonical Supabase metadata.
+1. focused branch/PR;
+2. full quality/security/build checks before merge;
+3. migration regression-tested before application;
+4. live database counts verified after migration;
+5. post-DDL advisor state reviewed;
+6. Cloudflare remains Git-driven from `main`;
+7. post-merge smoke verifies exact release SHA and canonical Supabase metadata.
 
-Batch 11 satisfies all seven engineering/deployment conditions across Waves A–D.
+Batches 12 and 13 satisfy all seven engineering/deployment conditions across Waves A–D.
 
 ## Manual deployment fallback
 
