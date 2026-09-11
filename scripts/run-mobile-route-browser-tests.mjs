@@ -31,6 +31,9 @@ const ROUTES = [
   { path: "/child/demo-gian/subject/math", kind: "child-learning", touch: true },
   { path: "/child/demo-gian/stage/math-angka", kind: "child-learning", touch: true },
   { path: "/child/demo-gian/activity/math-count-3", kind: "child-learning", touch: true },
+  { path: "/child/demo-gian/subject/drawing", kind: "child-learning", touch: true },
+  { path: "/child/demo-gian/stage/drawing-lines-shapes-basics", kind: "child-learning", touch: true },
+  { path: "/child/demo-gian/activity/drawing-line-vertical", kind: "child-learning", touch: true },
   { path: "/child/demo-gian/games", kind: "child-learning", touch: true },
   { path: "/child/demo-gian/rewards", kind: "child-learning", touch: true },
   { path: "/parent", kind: "parent", touch: false },
@@ -53,7 +56,8 @@ const RUNTIME_ROUTES = [
   ["matching", "/child/demo-gian/activity/bahasa-pasang-awal"],
   ["trace", "/child/demo-gian/activity/math-trace-5-touch"],
   ["story", "/child/demo-gian/activity/bahasa-cerita-teman"],
-  ["coloring", "/child/demo-gian/activity/color-gavi"]
+  ["coloring", "/child/demo-gian/activity/color-gavi"],
+  ["drawing", "/child/demo-gian/activity/drawing-line-vertical"]
 ];
 
 const SCREENSHOTS = new Set([
@@ -62,6 +66,7 @@ const SCREENSHOTS = new Set([
   "390:/parent/children/demo-gian/reports",
   "430:/play/math-choice",
   "768:/child/demo-gian/stage/math-angka",
+  "430:/child/demo-gian/stage/drawing-lines-shapes-basics",
   "1024:/games/math-choice"
 ]);
 
