@@ -42,13 +42,14 @@ On pushes to `main`, `Production smoke (Cloudflare)` succeeds only when producti
 
 ## Latest verified production implementation
 
-**Expansion Batch 14 — Drawing/Menggambar + Coloring/Mewarnai to 100 each is engineering/content-catalog production-complete.**
+**Batch 15 — Adaptive/mastery/report scaling across the complete 900-activity catalog is production-complete.**
 
 ```text
-Batch:                 Expansion Batch 14 — Drawing + Coloring to 100 each
-Final PR:              #76
-Git SHA:               b273edc282261bbec89b0c3d438822204cd925e5
-Main CI run:            #308
+Batch:                  Batch 15 — Adaptive/mastery/report scaling
+Final PR:               #78
+PR head:                c5ca9c186c810e5ba219169c0dd387d744b13bf7
+Git SHA:                58e5d14633dd3d105f383f56e016c61c9104a892
+Main CI run:            #312
 Quality gate (Ubuntu):  success
 Windows compatibility: success
 Mobile route QA:        success
@@ -58,9 +59,31 @@ Secret history scan:   success
 Production smoke:       success
 ```
 
-The final smoke verified the exact SHA `b273edc282261bbec89b0c3d438822204cd925e5` on the public Cloudflare deployment with the canonical Supabase backend.
+The final smoke verified the exact SHA `58e5d14633dd3d105f383f56e016c61c9104a892` on the public Cloudflare deployment with the canonical Supabase backend.
 
-Batch 14 wave release sequence:
+Batch 15 is application/test scaling only. It requires **no Supabase migration/DDL** and preserves the exact production catalog/persistence baseline closed by Batch 14.
+
+Detailed evidence: `EXPANSION_BATCH15_CLOSURE_2026-09-11.md`.
+
+Earlier closure docs remain canonical historical evidence for Batches 7–14.
+
+## Batch 15 release scope
+
+Production behavior added/validated in Batch 15:
+
+- unified recommendation consumers on Adaptive Learning V2;
+- bounded recommendation evaluation across all nine subjects;
+- remediation diversity that can prefer alternate same-skill activities/runtimes over immediate exact replay;
+- Drawing/Coloring recommendation support without synthetic mastery;
+- bounded Parent-report projection by subject/stage/assessed skill plus capped recent attempts;
+- certificate regression keeping completion-only creative activity outside assessed mastery gates;
+- `test:learning:batch15` with a 1,200-attempt scale fixture, `<64 KiB` Parent-report payload gate, and conservative `<5s` report + nine-subject adaptive sweep budget.
+
+These application-level scale gates are not a substitute for the broader performance/accessibility/security/physical-device work planned for Batch 16.
+
+## Previous Batch 14 catalog release sequence
+
+Batch 14 remains the latest persistence/catalog expansion and established the unchanged 900-activity baseline used by Batch 15.
 
 | Wave | Drawing | Coloring | PR | Migration | Main SHA | Main CI | Exact-SHA smoke |
 | --- | ---: | ---: | ---: | --- | --- | ---: | --- |
@@ -69,16 +92,7 @@ Batch 14 wave release sequence:
 | C | 75 | 75 | #75 | `0045_batch14_creative_wave_c` | `e120d1fa098ff9f1a7949ba3d1ffa0dee00d312c` | #306 | success |
 | D | 100 | 100 | #76 | `0046_batch14_creative_wave_d` | `b273edc282261bbec89b0c3d438822204cd925e5` | #308 | success |
 
-PR quality-gate evidence:
-
-- Wave A final PR head `b168191e16b14c1180c4475542cf9136a35e393b`, PR CI #300 — success;
-- Wave B final PR head `09947cc7fd0ec826eeb785453baf504dd463dc80`, PR CI #303 — success;
-- Wave C final PR head `44598c27bc68b0cca701826a444cb30c2114172f`, PR CI #305 — success;
-- Wave D final PR head `45cbea6b858cd18b4000c136e72f3af0dee62c48`, PR CI #307 — success.
-
-Detailed evidence: `EXPANSION_BATCH14_CLOSURE_2026-09-11.md`.
-
-Earlier closure docs remain canonical historical evidence for Batches 7–13.
+Detailed Batch 14 evidence: `EXPANSION_BATCH14_CLOSURE_2026-09-11.md`.
 
 ## Repository deployment configuration
 
@@ -112,7 +126,7 @@ The active `Protect main` ruleset currently requires `Production build`, `Qualit
 - region: Singapore (`ap-southeast-1`)
 - status: active/healthy.
 
-Applied migration chain is verified through Batch 14 Wave D. Recent expansion migrations are:
+Applied migration chain remains verified through Batch 14 Wave D. Batch 15 has no migration/DDL. Recent expansion migrations remain:
 
 ```text
 0039_batch13_science_wave_a.sql
@@ -140,7 +154,7 @@ batch14_creative_wave_d
 
 The earlier canonical migration chain remains intact.
 
-Final post-`0046` live catalog verification:
+Current live catalog state remains:
 
 - **900 active learning activities**;
 - **683 assessed / 217 practice** globally;
@@ -178,13 +192,12 @@ Important boundaries remain unchanged:
 
 ## Post-DDL advisor state
 
-After Batch 14 Wave D:
+Batch 15 introduces no DDL, so the post-Batch-14 advisor state remains the relevant production database baseline:
 
 - security advisor has the same **two known WARN findings**:
   - signed-in users can execute protected `SECURITY DEFINER` `public.record_learning_attempt(...)`; this is intentional for the guarded attempt-recording RPC boundary;
   - leaked-password protection is disabled under the current Supabase configuration/plan;
-- performance advisor has **17 `unused_index` INFO findings** and no WARN-level regression;
-- Batch 14 introduced no new security/performance WARN.
+- performance advisor has **17 `unused_index` INFO findings** and no WARN-level regression.
 
 Reference remediation guidance:
 
@@ -196,21 +209,21 @@ Reference remediation guidance:
 
 Production supports account login, account-owned child profiles, assessed-attempt persistence, evidence/mastery materialization, parent-derived state, cloud child ownership/isolation, durable offline attempt queuing, and exact-commit health verification.
 
-Practice/completion-only activities cannot manufacture academic mastery. Batch 14 creative activities intentionally use completion-only evidence.
+Practice/completion-only activities cannot manufacture academic mastery. Batch 15 preserves that rule while scaling recommendations/reporting over the complete catalog.
 
 ## Production verification checklist
 
-For every expansion wave/batch:
+For every batch, apply only the relevant gates and document why any persistence-specific gate is not applicable:
 
 1. focused branch/PR;
 2. full quality/security/build checks before merge;
-3. migration regression-tested before application;
-4. live database counts verified after migration;
-5. post-DDL advisor state reviewed;
-6. Cloudflare remains Git-driven from `main`;
-7. post-merge smoke verifies exact release SHA and canonical Supabase metadata.
+3. migration regression/application where persistence changes;
+4. live database/advisor verification where persistence/DDL changes;
+5. Cloudflare remains Git-driven from `main`;
+6. post-merge smoke verifies exact release SHA and canonical Supabase metadata;
+7. closure evidence and canonical docs are synchronized.
 
-Batch 14 satisfies all seven engineering/deployment conditions across Waves A–D.
+Batch 15 satisfies the application-only version of these production/deployment conditions: PR #78 is merged, main CI #312 is green, exact-SHA Cloudflare smoke is green, and no persistence migration is required.
 
 ## Manual deployment fallback
 

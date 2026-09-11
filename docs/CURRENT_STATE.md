@@ -17,20 +17,23 @@ This file is the canonical human/AI handoff for the current repository state. `m
 
 ## Latest verified production baseline
 
-**Expansion Batch 14 — Drawing/Menggambar + Coloring/Mewarnai to 100 each is engineering/content-catalog production-complete.**
+**Batch 15 — Adaptive/mastery/report scaling across the 900-activity catalog is production-complete.**
 
-Final Batch 14 implementation SHA:
+Final Batch 15 implementation SHA:
 
-`b273edc282261bbec89b0c3d438822204cd925e5`
+`58e5d14633dd3d105f383f56e016c61c9104a892`
 
-Final implementation landed through PR #76. Main CI #308 completed successfully across Ubuntu quality/learning/simulations, Windows compatibility, Chromium mobile-route QA, production build, dependency audit, full-history secret scan, and exact-SHA Cloudflare production smoke.
+Implementation landed through PR #78. Main CI #312 completed successfully across Ubuntu quality/learning/simulations, Windows compatibility, Chromium mobile-route QA, production build, dependency audit, full-history secret scan, and exact-SHA Cloudflare production smoke.
 
-Detailed closure evidence: `EXPANSION_BATCH14_CLOSURE_2026-09-11.md`.
+Detailed closure evidence: `EXPANSION_BATCH15_CLOSURE_2026-09-11.md`.
+
+Batch 15 is application/test scaling only. It preserves the production-closed Batch 14 catalog and persistence baseline and requires no Supabase migration/DDL.
 
 Earlier expansion closures remain valid:
 
 - Batch 12 Logic/Logika final implementation SHA `553b9e28f91feefa9af9c2995f2f7e913bf31491`;
-- Batch 13 Science/Sains final implementation SHA `e35d211ada182e0c5379da7b9b33614309994852`.
+- Batch 13 Science/Sains final implementation SHA `e35d211ada182e0c5379da7b9b33614309994852`;
+- Batch 14 Drawing + Coloring final implementation SHA `b273edc282261bbec89b0c3d438822204cd925e5`.
 
 Batch 7 Math, Batch 8 Bahasa Indonesia, Batch 9 English, Batch 10 Iqro, and Batch 11 Letters/Menulis also remain production-complete at their catalog targets.
 
@@ -38,7 +41,7 @@ Batch 7 Math, Batch 8 Bahasa Indonesia, Batch 9 English, Batch 10 Iqro, and Batc
 
 ## Current playable catalog
 
-Canonical repository/live-DB state after Batch 14:
+Canonical repository/live-DB catalog state remains unchanged by Batch 15:
 
 - 9 first-class subjects;
 - 9 learning paths;
@@ -63,7 +66,24 @@ Canonical repository/live-DB state after Batch 14:
 | Coloring / Mewarnai | 100 | 0 | 100 | 21 |
 | Drawing / Menggambar | 100 | 0 | 100 | 20 |
 
-All nine planned tracks are now at the canonical 100-activity catalog target.
+All nine planned tracks remain at the canonical 100-activity catalog target.
+
+## Batch 15 adaptive/mastery/report scaling
+
+Batch 15 scales the learning system around the closed 900-activity catalog without changing activity counts or evidence classification.
+
+Shipped behavior:
+
+- all child/parent recommendation consumers converge on Adaptive Learning V2;
+- all nine subjects are regression-validated for bounded recommendations;
+- weak-skill remediation can prefer alternate same-skill activities/runtimes over immediate exact replay;
+- Drawing and Coloring remain recommendation-capable but practice-only;
+- Parent reporting is bounded to subject/stage/skill summaries plus capped recent attempts rather than raw catalog/history dumps;
+- creative-only subjects return no synthetic mastery percentage (`mastery: null`);
+- certificate/achievement regressions keep completion-only creative activity outside assessed mastery gates;
+- `test:learning:batch15` exercises a 1,200-attempt scale fixture with a `<64 KiB` Parent-report payload gate and conservative `<5s` report + nine-subject adaptive sweep budget.
+
+The implementation preserves assessed-evidence mastery semantics, motion opt-in, age/stage/difficulty constraints, spacing/review behavior, retry/frustration signals, and anti-replay protections.
 
 ## Batch 14 Drawing + Coloring expansion
 
@@ -122,7 +142,9 @@ Protections remain in force:
 - missing measurement fails closed to completion-only;
 - hints/retries remain available for downstream independence penalties.
 
-Generic Latin tracing remains completion-only practice until a validated Latin glyph-shape evaluator exists. Batch 14 does not weaken this boundary.
+Batch 15 keeps these semantics while improving remediation diversity and recommendation/report scaling.
+
+Generic Latin tracing remains completion-only practice until a validated Latin glyph-shape evaluator exists.
 
 Creative Drawing/Coloring remains completion-only practice. There is no objective drawing/coloring mastery claim without a separately validated evaluator and evidence contract.
 
@@ -171,7 +193,7 @@ Canonical project:
 - region: `ap-southeast-1`
 - status: active/healthy.
 
-Applied expansion migration chain is verified through Batch 14 Wave D. Recent migrations:
+Applied expansion migration chain remains verified through Batch 14 Wave D. Batch 15 requires no migration/DDL. Recent migrations remain:
 
 ```text
 0039_batch13_science_wave_a.sql
@@ -186,7 +208,7 @@ Applied expansion migration chain is verified through Batch 14 Wave D. Recent mi
 
 Canonical migration registry contains `batch13_science_wave_a` through `batch13_science_wave_d` and `batch14_creative_wave_a` through `batch14_creative_wave_d`.
 
-Final live verification after `0046`:
+Final live catalog verification remains:
 
 - 900 active activities;
 - 683 assessed / 217 practice globally;
@@ -200,7 +222,7 @@ Final live verification after `0046`:
 - zero active creative activities with assessed/non-completion evidence drift;
 - zero Drawing/Coloring runtime-mechanic drift.
 
-Post-DDL advisor state after Batch 14 Wave D:
+Post-DDL advisor state remains unchanged because Batch 15 has no DDL:
 
 - security: exactly two known WARN findings remain — intentional authenticated execution of protected `SECURITY DEFINER` `record_learning_attempt(...)`, and leaked-password protection disabled under the current Supabase configuration/plan;
 - performance: 17 `unused_index` observations, INFO-only; no WARN-level regression.
@@ -213,7 +235,7 @@ Primary CI covers OpenNext/Cloudflare build, Ubuntu typecheck/lint/source/assets
 short-lived branch
   -> PR
   -> full CI / QA
-  -> required migration verification
+  -> required migration verification where persistence changes
   -> squash merge
   -> Cloudflare deploy from main
   -> exact-commit production smoke
@@ -238,7 +260,7 @@ The active `Protect main` ruleset currently requires `Production build`, `Qualit
 - Batch 11 Letters/Menulis to 100 — complete in production;
 - Batch 12 Logic/Logika to 100 — complete in production;
 - Batch 13 Science/Sains to 100 — complete in production;
-- **Batch 14 Drawing + Coloring to 100 each — complete in production**;
-- **Batch 15 adaptive/mastery/report scaling — NEXT**;
-- Batch 16 performance/accessibility/security/device QA — planned;
+- Batch 14 Drawing + Coloring to 100 each — complete in production;
+- **Batch 15 adaptive/mastery/report scaling — complete in production**;
+- **Batch 16 performance/accessibility/security/device QA — NEXT**;
 - Batch 17 final acceptance/production closure — planned.

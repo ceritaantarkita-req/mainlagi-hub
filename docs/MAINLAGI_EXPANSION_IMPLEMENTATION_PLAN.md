@@ -37,7 +37,8 @@ A distinct activity requires meaningful educational or interaction variation. An
 - science activities remain age-appropriate and do not depend on unsafe unsupervised experiments;
 - Drawing/Coloring remain practice/reporting activities unless a separately validated objective evidence contract is introduced;
 - migrations are additive/idempotent unless an explicitly reviewed corrective migration requires otherwise;
-- every wave follows branch -> PR -> full CI -> migration verification -> live DB verification/advisors -> squash merge -> exact-SHA Cloudflare production smoke;
+- every content wave follows branch -> PR -> full CI -> migration verification -> live DB verification/advisors -> squash merge -> exact-SHA Cloudflare production smoke;
+- post-catalog application-only batches may omit migration/live-DB steps only when schema/catalog persistence is intentionally unchanged and that boundary is documented;
 - target floors rise only when real playable instances exist and pass validation.
 
 ## Batch status
@@ -58,9 +59,9 @@ A distinct activity requires meaningful educational or interaction variation. An
 | 11 | Letters/Menulis to 100 | COMPLETE IN PRODUCTION |
 | 12 | Logic/Logika to 100 | COMPLETE IN PRODUCTION |
 | 13 | Science/Sains to 100 | COMPLETE IN PRODUCTION |
-| **14** | **Drawing/Menggambar + Coloring/Mewarnai to 100 each** | **COMPLETE IN PRODUCTION** |
-| **15** | **Adaptive/mastery/report scaling across 900 activities** | **NEXT** |
-| 16 | Performance/accessibility/security/device QA | PLANNED |
+| 14 | Drawing/Menggambar + Coloring/Mewarnai to 100 each | COMPLETE IN PRODUCTION |
+| **15** | **Adaptive/mastery/report scaling across 900 activities** | **COMPLETE IN PRODUCTION** |
+| **16** | **Performance/accessibility/security/device QA** | **NEXT** |
 | 17 | Final acceptance and production closure | PLANNED |
 
 ## Completed expansion sequence
@@ -92,7 +93,9 @@ Batch 14 introduced Drawing as a first-class track and preserved two historical 
 
 All four post-merge runs passed exact-SHA Cloudflare production smoke. Every Batch 14 addition is `practice` + `completion_only_v1`; creative participation does not become objective mastery. Closure: `EXPANSION_BATCH14_CLOSURE_2026-09-11.md`.
 
-## Current production baseline after Batch 14
+## Current production baseline after Batch 15
+
+Batch 15 intentionally keeps the catalog baseline unchanged while scaling the learning system around it:
 
 - **900 playable activities**;
 - **683 assessed / 217 practice**;
@@ -106,28 +109,41 @@ All four post-merge runs passed exact-SHA Cloudflare production smoke. Every Bat
 - Drawing 100 practice-only;
 - Coloring 100 practice-only.
 
-The planned catalog-count gap is now **0**.
+The planned catalog-count gap remains **0**.
 
-## Batch 15 — Adaptive/mastery/report scaling — NEXT
+### Batch 15 — Adaptive/mastery/report scaling — COMPLETE
 
-Batch 15 should scale recommendations and reporting over the full 900-activity catalog rather than add more activities merely to increase counts.
+Batch 15 scales recommendations and reporting over the full 900-activity catalog rather than adding activities merely to increase counts.
 
-Primary work:
+Closed work:
 
-1. validate adaptive ranking across all nine subjects, including practice-only creative tracks;
-2. keep assessed mastery driven only by qualifying measured evidence;
-3. keep Drawing/Coloring recommendations useful without fabricating mastery scores;
-4. improve weak-skill remediation using alternate activities/mechanics instead of exact replay loops;
-5. validate confidence/evidence spacing, age, stage, difficulty, frustration/retry, and motion preferences at catalog scale;
-6. ensure Parent Progress/Reports summarize hundreds of activities by skill/stage/subject rather than dumping raw activity lists;
-7. regression-test certificate/achievement qualification so completion-only creative activity cannot satisfy academic mastery gates;
-8. benchmark query/payload behavior introduced by larger mastery/recommendation sets before Batch 16.
+1. adaptive ranking is regression-validated across all nine subjects, including practice-only creative tracks;
+2. assessed mastery remains driven only by qualifying measured evidence;
+3. Drawing/Coloring remain recommendation-capable while report mastery stays absent (`null`) and certificate mastery gates remain false;
+4. weak-skill remediation can prefer alternate same-skill activities/runtimes over immediate exact replay loops;
+5. catalog-scale ranking continues to honor age, stage, difficulty, confidence/evidence state, retry/frustration, spacing/review, completion, and motion opt-in;
+6. Parent Progress/Reports use bounded subject/stage/skill projections instead of raw 900-activity dumps;
+7. certificate/achievement regression prevents completion-only creative activity from satisfying assessed mastery gates;
+8. Batch 15 adds a 1,200-attempt scale regression with bounded report payload `<64 KiB` and conservative report + nine-subject adaptive sweep budget `<5s` in CI.
+
+Implementation/production evidence:
+
+- PR #78;
+- PR head `c5ca9c186c810e5ba219169c0dd387d744b13bf7`;
+- main SHA `58e5d14633dd3d105f383f56e016c61c9104a892`;
+- main CI #312 — success;
+- exact-SHA Cloudflare production smoke — success;
+- no Supabase migration/DDL required because persistence schema and canonical catalog data are unchanged.
+
+Closure: `EXPANSION_BATCH15_CLOSURE_2026-09-11.md`.
 
 Batch 15 is not a license to reinterpret completion-only evidence as accuracy. Any new objective creative evaluator requires its own reviewed evidence contract.
 
-## Batch 16 — Performance, accessibility, security, device QA
+## Batch 16 — Performance, accessibility, security, device QA — NEXT
 
 Audit catalog payload size, route/mechanic code splitting, assets, initial JS, TTS initialization, query volume, accessibility, RLS/ownership/RPC/outbox/dependency/secret/advisor checks, and representative physical-device mobile/camera/audio/trace flows.
+
+Batch 16 should distinguish automated regression evidence from representative physical-device acceptance and should preserve the exact learning-evidence boundaries closed through Batch 15.
 
 ## Batch 17 — Final acceptance and production closure
 
@@ -158,12 +174,12 @@ Completed entry baselines:
 
 ## Production closure rule
 
-No batch is production-closed until:
+No batch is production-closed until the requirements relevant to that batch are evidenced:
 
-- target counts and unique-ID/content/evidence contracts pass automated gates;
-- required migrations are applied to canonical Supabase;
-- live DB counts match repository contracts;
-- advisor changes are reviewed;
+- target counts and unique-ID/content/evidence contracts pass automated gates where catalog data changes;
+- required migrations are applied to canonical Supabase where schema/catalog persistence changes;
+- live DB counts match repository contracts where persisted catalog state changes;
+- advisor changes are reviewed where DDL/security posture changes;
 - PR is merged to `main`;
 - final `main` CI is green;
 - exact-SHA Cloudflare production smoke succeeds;
