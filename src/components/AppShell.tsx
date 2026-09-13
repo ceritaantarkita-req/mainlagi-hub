@@ -8,6 +8,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 
 function isImmersivePath(pathname: string): boolean {
   return (
+    pathname === "/" ||
     pathname.startsWith("/play/") ||
     pathname.startsWith("/admin/") ||
     pathname === "/admin" ||

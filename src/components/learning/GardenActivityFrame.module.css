@@ -1,0 +1,44 @@
+.garden { position:relative; isolation:isolate; min-height:100dvh; background:#d5eef6 url('/artwork/garden-background.webp') center bottom / cover no-repeat; color:#193b55; padding:24px max(24px,env(safe-area-inset-right)) 100px max(24px,env(safe-area-inset-left)); font-family:'Nunito Variable','Noto Sans Variable',sans-serif; }
+.header { max-width:1320px; margin:auto; display:flex; align-items:center; justify-content:space-between; gap:14px; }
+.brand { width:220px; height:80px; object-fit:contain; }
+.control { display:inline-flex; align-items:center; justify-content:center; gap:12px; background:#fffbed; color:#193b55; border:2px solid #e2dfc5; border-radius:999px; padding:12px 22px; min-height:58px; font-weight:900; font-size:19px; box-shadow:0 4px 0 #bbcdce; text-decoration:none; }
+.control:hover { background:white; }
+.control:active { transform:translateY(2px); box-shadow:0 2px 0 #bbcdce; }
+.garden :is(button,a):focus-visible { outline:4px solid #155f86; outline-offset:5px; }
+.play { position:relative; z-index:2; width:min(800px,100%); margin:44px auto 0; text-align:center; }
+.spacious { margin-top:clamp(40px,8vh,100px); }
+.title { font-size:clamp(30px,4.5vw,62px); line-height:1.12; font-weight:950; letter-spacing:-1.5px; margin:0 auto 36px; text-wrap:balance; }
+.hint { font-size:21px; font-weight:800; margin:38px auto 0; }
+.notice { background:#fffbed; border-radius:18px; padding:14px 20px; max-width:600px; margin:16px auto; font-size:16px; }
+.gavi,.paca { position:absolute; z-index:1; pointer-events:none; width:clamp(120px,23vw,340px); height:auto; bottom:23%; object-fit:contain; }
+.gavi { left:.8%; } .paca { right:1%; }
+.apples { display:flex; justify-content:center; gap:16px; margin:20px auto; }
+.apples img { width:min(26%,160px); height:auto; object-fit:contain; }
+.spacious :global(h1) { font-size:clamp(38px,6.5vw,96px); }
+@media(min-width:900px) {
+ .garden { padding:30px 44px 100px; }
+ .header { max-width:none; }
+ .control { min-height:88px; padding:18px 28px; font-size:28px; }
+ .control svg { width:34px; height:34px; }
+ .spacious { margin-top:70px; min-height:700px; }
+ .spacious :global(h1) { font-size:110px; }
+ .spacious :global([data-choices]) { margin-top:190px; }
+}
+@media(min-width:1100px) { .play { width:min(800px,64%); } }
+@media(max-width:760px) {
+ .garden { padding:16px 16px 145px; background-size:auto 100%; }
+ .header { gap:8px; } .brand { width:112px; height:44px; }
+ .control { font-size:15px; min-height:48px; gap:6px; padding:9px 12px; } .control svg { width:20px; }
+ .play,.spacious { margin-top:36px; } .title { letter-spacing:-.6px; margin-bottom:24px; }
+ .gavi,.paca { width:100px; bottom:10px; } .gavi { left:14px; } .paca { right:14px; }
+ .hint { font-size:17px; margin-top:24px; }
+}
+@media(max-width:380px) { .control span { display:none; } .control { width:48px; } }
+.workspace{background:#fffbee;padding-bottom:32px}
+.workspace .header{max-width:1280px}
+.workspace .control{min-height:52px;font-size:17px;padding:10px 18px}
+.workspace .brand{width:170px;height:62px}
+.workspace .play{width:min(1100px,100%);margin:24px auto 0}
+.workspace .title{font-size:clamp(26px,3vw,40px);margin-bottom:12px}
+.workspace .gavi,.workspace .paca{display:none}
+@media(max-width:760px){.workspace{padding:12px 12px 28px}.workspace .brand{width:112px;height:44px}.workspace .control{min-height:48px;padding:8px 10px;font-size:14px}.workspace .play{margin-top:18px}}

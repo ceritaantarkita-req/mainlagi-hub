@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 import {
   SUBJECTS,
+  ACTIVITIES,
   getActivitiesForStage,
   getStage,
   getSubject,
@@ -19,80 +20,21 @@ import { adaptiveReasonLabel, rankAdaptiveLearningV2 } from "@/lib/learning/adap
 import { CharacterGroup, ChildLoading, useLearningProfile, useLearningProgress } from "./LearningCommon";
 import { useLearningAnalytics } from "./useLearningAnalytics";
 import styles from "./LearningPlatform.module.css";
+import { SubjectDirectory } from "./Playroom";
+import { LearningSymbol } from "./LearningSymbol";
+import { ActivityGallery } from "./ActivityGallery";
 
 function ageEligible(activity: LearningActivity, age: number) {
   return age >= activity.ageMin && age <= activity.ageMax;
 }
 
-function SubjectScroller({ childId, active }: { childId: string; active?: LearningSubjectId }) {
-  return (
-    <div className={styles.subjectScroller} aria-label="Area belajar">
-      {SUBJECTS.map((subject) => (
-        <Link
-          key={subject.id}
-          href={`/child/${childId}/subject/${subject.id}`}
-          className={`${styles.subjectChip} ${active === subject.id ? styles.subjectChipActive : ""}`}
-          style={{ "--accent": subject.accent, "--soft": subject.soft } as CSSProperties}
-        >
-          <span className={styles.subjectChipIcon} aria-hidden>{subject.emoji}</span>
-          <span>{subject.shortTitle}</span>
-        </Link>
-      ))}
-    </div>
-  );
-}
-
 function readinessTone(status: StageReadinessRow["status"]) {
   switch (status) {
-    case "locked": return "🔒 Terkunci";
-    case "in_progress": return "▶ Sedang berjalan";
-    case "evidence_needed": return "🧪 Perlu latihan";
+    case "locked": return "Belum terbuka";
+    case "in_progress": return "Sedang dimainkan";
+    case "evidence_needed": return "Ayo latihan lagi";
     case "ready": return "✓ Siap lanjut";
   }
-}
-
-function StageCard({
-  childId,
-  stageId,
-  subject,
-  age,
-  readiness
-}: {
-  childId: string;
-  stageId: string;
-  subject: LearningSubject;
-  age: number;
-  readiness: StageReadinessRow;
-}) {
-  const stage = getStage(stageId)!;
-  const activities = getActivitiesForStage(stageId).filter((activity) => ageEligible(activity, age));
-  const optionalMotion = activities.filter((item) => item.motionOptional).length;
-  const percent = Math.round(readiness.completionRatio * 100);
-  const content = (
-    <>
-      <span className={styles.stageIcon} aria-hidden>{readiness.status === "locked" ? "🔒" : stage.emoji}</span>
-      <h3>{stage.title}</h3>
-      <p>{stage.subtitle}</p>
-      <span className={styles.stageProgress}>
-        <span className={styles.progressTrack}>
-          <span className={styles.progressFill} style={{ width: `${percent}%` }} />
-        </span>
-        <span>{readiness.completedCount}/{readiness.requiredCount}</span>
-      </span>
-      <span className={styles.activityMeta} style={{ marginTop: 10 }}>
-        <span className={`${styles.tag} ${readiness.status === "ready" ? styles.tagDone : ""}`}>{readinessTone(readiness.status)}</span>
-        {readiness.assessedSkillCount > 0 ? <span className={styles.tag}>Evidence {Math.round(readiness.evidenceReadiness * 100)}%</span> : null}
-        {optionalMotion ? <span className={`${styles.tag} ${styles.tagMotion}`}>+ {optionalMotion} gerak opsional</span> : null}
-      </span>
-      {readiness.status === "locked" || readiness.status === "evidence_needed" ? <small style={{ marginTop: 8 }}>{readiness.reason}</small> : null}
-    </>
-  );
-
-  const sharedStyle = { "--accent": subject.accent, "--soft": subject.soft } as CSSProperties;
-  if (readiness.status === "locked") {
-    return <div className={styles.stageCard} style={{ ...sharedStyle, opacity: 0.62 }} aria-disabled="true">{content}</div>;
-  }
-  return <Link href={`/child/${childId}/stage/${stageId}`} className={styles.stageCard} style={sharedStyle}>{content}</Link>;
 }
 
 function runtimeLabel(activity: LearningActivity) {
@@ -130,15 +72,15 @@ function ActivityCard({
       className={styles.activityCard}
       style={{ "--accent": subject.accent, "--soft": subject.soft } as CSSProperties}
     >
-      <span className={styles.activityIcon} aria-hidden>{activity.emoji}</span>
+      <span className={styles.activityIcon} aria-hidden><LearningSymbol name={activity.runtime}/></span>
       <h3>{activity.title}</h3>
       <p>{activity.description}</p>
       <span className={styles.activityMeta}>
         <span className={styles.tag}>{runtimeLabel(activity)}</span>
-        {spec?.requiredForStage ? <span className={styles.tag}>Inti</span> : null}
-        {spec?.assessment === "assessed" && !spec.requiredForStage ? <span className={styles.tag}>Evidence tambahan</span> : null}
+        {spec?.requiredForStage ? <span className={styles.tag}>Langkah utama</span> : null}
+        {spec?.assessment === "assessed" && !spec.requiredForStage ? <span className={styles.tag}>Latihan</span> : null}
         {activity.motionOptional ? <span className={`${styles.tag} ${styles.tagMotion}`}>Gerak opsional</span> : null}
-        {recommended ? <span className={styles.tag}>🎯 Disarankan</span> : null}
+        {recommended ? <span className={styles.tag}>Coba berikutnya</span> : null}
         {done ? <span className={`${styles.tag} ${styles.tagDone}`}>✓ Selesai</span> : null}
       </span>
     </Link>
@@ -198,10 +140,10 @@ export function ChildHomeScreen({ childId }: { childId: string }) {
         <div className={styles.heroCopy}>
           <p className={styles.eyebrow}>Halo, {profile.name}! 👋</p>
           <h1>Belajar sebentar, main lagi.</h1>
-          <p>Mainlagi memilih latihan berdasarkan stage, evidence, performa terbaru, dan variasi soal. Kamera tetap opsional.</p>
+          <p>Mainlagi menyiapkan permainan berikutnya dari perjalanan dan latihan terbaru. Kamera tetap opsional.</p>
           <div className={styles.heroActionRow}>
             {recommendation ? <Link className={styles.primaryButton} href={`/child/${childId}/activity/${recommendation.activity.id}`}>▶ Lanjut: {recommendation.activity.title}</Link> : null}
-            <Link className={styles.secondaryButton} href={`/child/${childId}/learn`}>Lihat jalur belajar</Link>
+            <Link className={styles.secondaryButton} href={`#choose-subject`}>Pilih area belajar</Link>
           </div>
         </div>
         <CharacterGroup />
@@ -209,7 +151,7 @@ export function ChildHomeScreen({ childId }: { childId: string }) {
 
       <section className={styles.section}>
         <div className={styles.sectionHead}><h2>Pilih yang mau dipelajari</h2><span className={styles.tag}>⭐ {progress.stars}</span></div>
-        <SubjectScroller childId={childId} />
+        <SubjectDirectory childId={childId} />
       </section>
 
       {recommendation && nextSubject ? (
@@ -232,54 +174,6 @@ export function ChildHomeScreen({ childId }: { childId: string }) {
   );
 }
 
-export function LearnLibraryScreen({ childId }: { childId: string }) {
-  const profile = useLearningProfile(childId);
-  const progress = useLearningProgress(childId);
-  const analytics = useLearningAnalytics(childId);
-  if (!profile) return <ChildLoading />;
-
-  return (
-    <main className={styles.content}>
-      <p className={styles.eyebrow}>Learning Path</p>
-      <h1 className={styles.pageTitle}>Belajar</h1>
-      <p className={styles.pageLead}>Pilih subject, ikuti stage yang terbuka, lalu kumpulkan evidence dari beberapa bentuk latihan.</p>
-      <section className={styles.section}><SubjectScroller childId={childId} /></section>
-
-      {SUBJECTS.flatMap((subject) => {
-        const paths = getLearningPathsForSubject(subject.id).filter((path) => profile.age >= path.ageMin && profile.age <= path.ageMax);
-        const readiness = getSubjectStageReadiness(subject.id, progress, analytics);
-        const readinessMap = new Map(readiness.map((row) => [row.stageId, row]));
-        return paths.map((path) => {
-          const rows = path.stageIds.map((id) => readinessMap.get(id)).filter((row): row is StageReadinessRow => Boolean(row));
-          const ready = rows.filter((row) => row.status === "ready").length;
-          return (
-            <section className={styles.section} key={path.id}>
-              <div className={styles.sectionHead}>
-                <div>
-                  <p className={styles.eyebrow}>{subject.emoji} {subject.title}</p>
-                  <h2>{path.title}</h2>
-                  <p className={styles.pageLead}>{path.description}</p>
-                </div>
-                <span className={styles.tag}>{ready}/{rows.length} stage siap</span>
-              </div>
-              <div className={`${styles.cardGrid} ${styles.stageGrid}`}>
-                {path.stageIds.map((stageId) => {
-                  const row = readinessMap.get(stageId);
-                  return row ? <StageCard key={stageId} childId={childId} stageId={stageId} subject={subject} age={profile.age} readiness={row} /> : null;
-                })}
-              </div>
-            </section>
-          );
-        });
-      })}
-
-      <section className={styles.section}>
-        <div className={styles.infoBanner}><strong>Catatan:</strong> stage baru terbuka dari completion inti + evidence readiness. Activity tambahan memperkaya evidence, tetapi tidak menambah completion blocker.</div>
-      </section>
-    </main>
-  );
-}
-
 export function SubjectScreen({ childId, subjectId }: { childId: string; subjectId: string }) {
   const profile = useLearningProfile(childId);
   const progress = useLearningProgress(childId);
@@ -287,39 +181,10 @@ export function SubjectScreen({ childId, subjectId }: { childId: string; subject
   const subject = getSubject(subjectId);
   if (!profile || !subject) return <main className={styles.content}><div className={styles.emptyState}>Area belajar tidak ditemukan.</div></main>;
 
-  const paths = getLearningPathsForSubject(subject.id).filter((path) => profile.age >= path.ageMin && profile.age <= path.ageMax);
   const readiness = getSubjectStageReadiness(subject.id, progress, analytics);
-  const readinessMap = new Map(readiness.map((row) => [row.stageId, row]));
-  const recommendation = adaptiveTop({ age: profile.age, progress, analytics, subjectId: subject.id });
-
-  return (
-    <main className={styles.content}>
-      <p className={styles.eyebrow}>{subject.emoji} Area belajar</p>
-      <h1 className={styles.pageTitle}>{subject.title}</h1>
-      <p className={styles.pageLead}>{subject.description}</p>
-      <section className={styles.section}><SubjectScroller childId={childId} active={subject.id} /></section>
-
-      {recommendation ? (
-        <section className={styles.section}>
-          <div className={styles.infoBanner}><strong>🎯 Saran di {subject.shortTitle}:</strong> {recommendation.activity.title}. {recommendation.reasonLabel}</div>
-        </section>
-      ) : null}
-
-      {paths.map((path) => (
-        <section className={styles.section} key={path.id}>
-          <p className={styles.eyebrow}>Learning path</p>
-          <h2>{path.title}</h2>
-          <p className={styles.pageLead}>{path.description}</p>
-          <div className={`${styles.cardGrid} ${styles.stageGrid}`}>
-            {path.stageIds.map((stageId) => {
-              const row = readinessMap.get(stageId);
-              return row ? <StageCard key={stageId} childId={childId} stageId={stageId} subject={subject} age={profile.age} readiness={row} /> : null;
-            })}
-          </div>
-        </section>
-      ))}
-    </main>
-  );
+  const totalActivities = ACTIVITIES.filter((activity) => activity.subjectId === subject.id);
+  const openStageIds = new Set(readiness.filter((row) => row.status !== "locked").map((row) => row.stageId));
+  return <ActivityGallery childId={childId} subject={subject} activities={totalActivities} progress={progress} openStageIds={openStageIds} age={profile.age}/>;
 }
 
 export function StageScreen({ childId, stageId }: { childId: string; stageId: string }) {
@@ -343,15 +208,14 @@ export function StageScreen({ childId, stageId }: { childId: string; stageId: st
       <Link className={styles.backButton} href={`/child/${childId}/subject/${stage.subjectId}`} aria-label="Kembali">←</Link>
       <div style={{ marginTop: 16 }}>
         <p className={styles.eyebrow}>{subject.title}</p>
-        <h1 className={styles.pageTitle}>{stage.emoji} {stage.title}</h1>
+        <h1 className={styles.pageTitle}>{stage.title}</h1>
         <p className={styles.pageLead}>{stage.subtitle}</p>
       </div>
 
       {readiness ? (
         <section className={styles.section}>
           <div className={styles.infoBanner}>
-            <strong>{readinessTone(readiness.status)}</strong> · inti {readiness.completedCount}/{readiness.requiredCount}
-            {readiness.assessedSkillCount ? ` · evidence ${Math.round(readiness.evidenceReadiness * 100)}%` : ""}. {readiness.reason}
+            <strong>{readinessTone(readiness.status)}</strong> · {readiness.completedCount}/{readiness.requiredCount} langkah utama selesai.
           </div>
         </section>
       ) : null}
@@ -366,7 +230,6 @@ export function StageScreen({ childId, stageId }: { childId: string; stageId: st
           <section className={styles.section} key={lesson.id}>
             <div className={styles.sectionHead}>
               <div>
-                <p className={styles.eyebrow}>Lesson</p>
                 <h2>{lesson.title}</h2>
                 <p className={styles.pageLead}>{lesson.objective}</p>
               </div>
@@ -384,7 +247,7 @@ export function StageScreen({ childId, stageId }: { childId: string; stageId: st
       {optional.length ? (
         <section className={styles.section}>
           <div className={styles.sectionHead}><h2>Kalau mau main pakai gerakan</h2></div>
-          <div className={styles.motionNotice}><strong>Bonus opsional.</strong> Tidak menjadi syarat completion atau mastery utama.</div>
+          <div className={styles.motionNotice}><strong>Bonus opsional.</strong> Kamu tetap bisa lanjut belajar tanpa kamera.</div>
           <div className={styles.cardGrid} style={{ marginTop: 12 }}>
             {optional.map((activity) => <ActivityCard key={activity.id} childId={childId} activity={activity} progress={progress} subject={subject} />)}
           </div>

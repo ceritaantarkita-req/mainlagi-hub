@@ -2,182 +2,154 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
-import {
-  completeActivity,
-  getActivity,
-  getStage,
-  getSubject,
-  readProgress,
-  type LearningActivity,
-  type LearningProgress
-} from "@/lib/learning/system";
-import styles from "./LearningPlatform.module.css";
+import { completeActivity, getActivity, type LearningActivity } from "@/lib/learning/system";
+import { coloringScene } from "@/lib/learning/coloringScenes";
+import { drawingGuide } from "@/lib/learning/drawingGuides";
+import { DrawingScaffold } from "./DrawingScaffold";
+import { speakWithStatus, unlockAudio } from "@/lib/audio/feedback";
+import { useLearningProgress } from "./LearningCommon";
+import { ArrowCounterClockwise, ArrowUUpLeft, Check, Eye, EyeSlash } from "@phosphor-icons/react";
+import { GardenActivityFrame } from "./GardenActivityFrame";
+import ui from "./Playroom.module.css";
+import styles from "./CreativeStudio.module.css";
 
-const PALETTE = ["#f59e0b", "#ec6aa5", "#6c7df7", "#1ec9a6", "#ef4444", "#22c55e", "#38bdf8", "#a855f7"];
-
-function useActivityProgress(childId: string) {
-  const [progress, setProgress] = useState<LearningProgress>({ completedActivityIds: [], stars: 0, lastActivityId: null });
-  useEffect(() => {
-    const frame = window.requestAnimationFrame(() => setProgress(readProgress(childId)));
-    return () => window.cancelAnimationFrame(frame);
-  }, [childId]);
-  return [progress, setProgress] as const;
+const PALETTE = [
+  {name:"Merah",hex:"#e46c49"},{name:"Kuning",hex:"#ffca49"},
+  {name:"Hijau kebiruan",hex:"#218d86"},{name:"Biru",hex:"#7cb9dd"},
+  {name:"Hijau",hex:"#92bc7e"},{name:"Ungu",hex:"#aa91ce"},
+  {name:"Cokelat",hex:"#966647"},{name:"Hitam",hex:"#233831"},
+  {name:"Putih",hex:"#ffffff"},{name:"Merah muda",hex:"#ef9bb4"}
+];
+function Palette({color,onChange}:{color:string;onChange:(color:string)=>void}) {
+  return <div className={styles.palette} role="group" aria-label="Palet warna">{PALETTE.map(item=>
+    <button key={item.hex} type="button" className={styles.swatch} style={{background:item.hex}}
+      onClick={()=>onChange(item.hex)} aria-label={item.name} aria-pressed={color===item.hex}
+      title={item.name}><span>{color===item.hex ? "✓" : ""}</span></button>
+  )}</div>;
 }
+type Point={x:number;y:number};
+type Stroke={color:string;points:Point[]};
 
-function DrawingCanvas({ childId, activity, onDone }: { childId: string; activity: LearningActivity; onDone: (value: LearningProgress) => void }) {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const drawingRef = useRef(false);
-  const [hasStroke, setHasStroke] = useState(false);
-  const [done, setDone] = useState(false);
-
-  const point = (event: ReactPointerEvent<HTMLCanvasElement>) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-    return {
-      x: (event.clientX - rect.left) * (event.currentTarget.width / rect.width),
-      y: (event.clientY - rect.top) * (event.currentTarget.height / rect.height)
-    };
+function DrawingCanvas({activity,onDone}:{activity:LearningActivity;onDone:()=>void}) {
+  const canvasRef=useRef<HTMLCanvasElement>(null);
+  const active=useRef<Stroke|null>(null);
+  const [strokes,setStrokes]=useState<Stroke[]>([]);
+  const [color,setColor]=useState(PALETTE[0].hex);
+  const [guide,setGuide]=useState(true);
+  const render=()=>{
+    const canvas=canvasRef.current;
+    const context=canvas?.getContext("2d");
+    if(!canvas || !context) return;
+    context.clearRect(0,0,canvas.width,canvas.height);
+    for(const stroke of [...strokes,...(active.current ? [active.current]:[])]) {
+      if(!stroke.points.length) continue;
+      context.beginPath();
+      context.strokeStyle=stroke.color;
+      context.fillStyle=stroke.color;
+      context.lineWidth=9;
+      context.lineCap="round";
+      context.lineJoin="round";
+      const first=stroke.points[0];
+      context.moveTo(first.x,first.y);
+      for(const point of stroke.points.slice(1)) context.lineTo(point.x,point.y);
+      context.stroke();
+      if(stroke.points.length===1){context.beginPath();context.arc(first.x,first.y,4.5,0,Math.PI*2);context.fill();}
+    }
   };
-  const start = (event: ReactPointerEvent<HTMLCanvasElement>) => {
+  useEffect(render,[strokes]);
+  const point=(event:ReactPointerEvent<HTMLCanvasElement>):Point=>{
+    const rect=event.currentTarget.getBoundingClientRect();
+    return {x:(event.clientX-rect.left)*480/rect.width,y:(event.clientY-rect.top)*480/rect.height};
+  };
+  const start=(event:ReactPointerEvent<HTMLCanvasElement>)=>{
+    if(!event.isPrimary || event.button!==0) return;
     event.currentTarget.setPointerCapture(event.pointerId);
-    const ctx = event.currentTarget.getContext("2d");
-    if (!ctx) return;
-    const p = point(event);
-    ctx.beginPath();
-    ctx.moveTo(p.x, p.y);
-    drawingRef.current = true;
-    setHasStroke(true);
+    active.current={color,points:[point(event)]};
+    render();
   };
-  const move = (event: ReactPointerEvent<HTMLCanvasElement>) => {
-    if (!drawingRef.current) return;
-    const ctx = event.currentTarget.getContext("2d");
-    if (!ctx) return;
-    const p = point(event);
-    ctx.lineWidth = 16;
-    ctx.lineCap = "round";
-    ctx.lineJoin = "round";
-    ctx.strokeStyle = "#5368d8";
-    ctx.lineTo(p.x, p.y);
-    ctx.stroke();
+  const move=(event:ReactPointerEvent<HTMLCanvasElement>)=>{
+    if(!active.current || !event.isPrimary) return;
+    const next=point(event),last=active.current.points.at(-1)!;
+    if(Math.hypot(next.x-last.x,next.y-last.y)<2) return;
+    active.current.points.push(next);
+    render();
   };
-  const end = (event: ReactPointerEvent<HTMLCanvasElement>) => {
-    drawingRef.current = false;
-    if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
+  const end=(event:ReactPointerEvent<HTMLCanvasElement>)=>{
+    if(!active.current || !event.isPrimary) return;
+    const stroke=active.current;active.current=null;
+    setStrokes(previous=>[...previous,stroke]);
+    if(event.currentTarget.hasPointerCapture(event.pointerId))event.currentTarget.releasePointerCapture(event.pointerId);
   };
-  const reset = () => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    canvas.getContext("2d")?.clearRect(0, 0, canvas.width, canvas.height);
-    setHasStroke(false);
-    setDone(false);
-  };
-  const finish = () => {
-    if (!hasStroke) return;
-    onDone(completeActivity(childId, activity.id));
-    setDone(true);
-  };
-
-  return (
-    <>
-      <h2 className={styles.activityPrompt}>{activity.creativePrompt ?? activity.title}</h2>
-      <div className={styles.infoBanner} style={{ textAlign: "center", marginBottom: 12 }}>
-        <strong>Contoh panduan:</strong> <span style={{ fontSize: 32 }}>{activity.drawingGuide ?? "✏️"}</span><br />
-        <small>Ini latihan kreatif. Mainlagi mencatat completion, bukan menilai bagus-jelek atau akurasi gambar.</small>
-      </div>
-      <div className={styles.traceWrap}>
-        <div style={{ position: "relative", width: "min(100%, 420px)" }}>
-          <div aria-hidden style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center", color: "#e5e8f4", fontSize: 150, fontWeight: 800, pointerEvents: "none", lineHeight: 1 }}>{activity.drawingGuide}</div>
-          <canvas
-            ref={canvasRef}
-            width={720}
-            height={720}
-            className={styles.traceCanvas}
-            onPointerDown={start}
-            onPointerMove={move}
-            onPointerUp={end}
-            onPointerCancel={end}
-            aria-label="Kanvas menggambar"
-          />
-        </div>
-        <div className={styles.heroActionRow}>
-          <button type="button" className={styles.secondaryButton} onClick={reset}>Ulangi</button>
-          <button type="button" className={styles.primaryButton} onClick={finish} disabled={!hasStroke}>Selesai</button>
-        </div>
-      </div>
-      {done ? <div className={styles.feedbackGood}>Karya selesai ⭐ Completion tersimpan sebagai practice, bukan mastery accuracy.</div> : null}
-    </>
-  );
+  // Symbols remain visual guides; sentences are readable instructions outside
+  // the canvas, never oversized text layered across the child's drawing.
+  const symbolGuide=activity.drawingGuide && activity.drawingGuide.length<=16;
+  const scaffold=drawingGuide(activity.id);
+  const hasVisualGuide=Boolean(scaffold || symbolGuide);
+  return <div className={styles.workbench}>
+    <div className={styles.paper}>
+      {guide && scaffold ? <DrawingScaffold guide={scaffold} className={styles.scaffold}/> : guide && symbolGuide ? <span className={styles.guide} aria-hidden>{activity.drawingGuide}</span>:null}
+      <canvas ref={canvasRef} width={480} height={480} className={styles.canvas}
+        onPointerDown={start} onPointerMove={move} onPointerUp={end} onPointerCancel={end}
+        aria-label="Kanvas menggambar" />
+    </div>
+    <aside className={styles.tools} aria-label="Alat menggambar">
+    {!hasVisualGuide && activity.drawingGuide ? <p className={styles.hint}>{activity.drawingGuide}</p>:null}
+    <Palette color={color} onChange={setColor}/>
+    <div className={styles.actions}>
+      <button className={ui.secondary} disabled={!strokes.length} onClick={()=>setStrokes(current=>current.slice(0,-1))}><ArrowUUpLeft size={24} aria-hidden/>Urungkan</button>
+      <button className={ui.secondary} disabled={!strokes.length} onClick={()=>setStrokes([])}><ArrowCounterClockwise size={24} aria-hidden/>Mulai ulang</button>
+      {hasVisualGuide ? <button className={ui.secondary} aria-pressed={guide} onClick={()=>setGuide(!guide)}>{guide ? <EyeSlash size={24} aria-hidden/>:<Eye size={24} aria-hidden/>}{guide ? "Sembunyikan panduan":"Lihat panduan"}</button>:null}
+      <button className={ui.primary} disabled={!strokes.length} onClick={onDone}><Check size={24} weight="bold" aria-hidden/>Selesai</button>
+    </div>
+    </aside>
+  </div>;
 }
 
-function ColoringRegions({ childId, activity, onDone }: { childId: string; activity: LearningActivity; onDone: (value: LearningProgress) => void }) {
-  const regions = activity.coloringRegions?.length ? activity.coloringRegions : [activity.coloringCharacter ?? activity.emoji];
-  const [color, setColor] = useState(PALETTE[0]);
-  const [fills, setFills] = useState<Record<number, string>>({});
-  const coloredCount = Object.keys(fills).length;
-  const finish = () => onDone(completeActivity(childId, activity.id));
-
-  return (
-    <>
-      <h2 className={styles.activityPrompt}>{activity.creativePrompt ?? activity.title}</h2>
-      <div className={styles.infoBanner} style={{ textAlign: "center", marginBottom: 12 }}>
-        <strong>{activity.coloringCharacter ?? activity.emoji}</strong><br />
-        <small>Pilih warna lalu sentuh bagian-bagian gambar. Tidak ada warna yang dianggap salah.</small>
-      </div>
-      <div className={styles.choiceGrid} style={{ gridTemplateColumns: "repeat(2, minmax(110px, 1fr))" }}>
-        {regions.map((region, index) => (
-          <button
-            type="button"
-            key={`${region}-${index}`}
-            className={styles.bigChoice}
-            onClick={() => setFills((current) => ({ ...current, [index]: color }))}
-            style={{ background: fills[index] ?? "#f4f8fb", minHeight: 108, fontSize: 34 }}
-            aria-label={`Warnai bagian ${index + 1}`}
-          >
-            {region}
-          </button>
-        ))}
-      </div>
-      <div className={styles.palette} aria-label="Palet warna">
-        {PALETTE.map((item) => (
-          <button
-            type="button"
-            key={item}
-            className={styles.colorDot}
-            onClick={() => setColor(item)}
-            style={{ background: item, outline: color === item ? "3px solid #173a5e" : "none" }}
-            aria-label={`Pilih warna ${item}`}
-          />
-        ))}
-      </div>
-      <div style={{ textAlign: "center" }}>
-        <button type="button" className={styles.primaryButton} onClick={finish} disabled={coloredCount === 0}>Selesai · +{activity.stars} ⭐</button>
-      </div>
-    </>
-  );
+function ColoringRegions({activity,onDone}:{activity:LearningActivity;onDone:()=>void}) {
+  const regions=coloringScene(activity.id);
+  const [color,setColor]=useState(PALETTE[0].hex);
+  const [history,setHistory]=useState<Record<number,string>[]>([{}]);
+  const fills=history.at(-1)!;
+  const paint=(index:number)=>{
+    if(fills[index]===color) return;
+    setHistory(previous=>[...previous,{...previous.at(-1),[index]:color}]);
+  };
+  return <div className={styles.workbench}>
+    <div className={styles.paper}>
+      <svg viewBox="0 0 480 480" className={styles.illustration} aria-label={`Gambar untuk diwarnai: ${activity.title}`}>
+        <title>{activity.title}</title>
+        {regions.map((region,index)=><path key={index} d={region.path} transform={region.transform}
+          fill={fills[index]??"#ffffff"} stroke="#233831" strokeWidth={4} strokeLinejoin="round" strokeLinecap="round"
+          role="button" tabIndex={0} aria-label={`Warnai ${region.name.toLowerCase()}`}
+          data-color-region={index} data-color-filled={Boolean(fills[index])}
+          onClick={()=>paint(index)} onKeyDown={event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();paint(index);}}} />)}
+      </svg>
+    </div>
+    <aside className={styles.tools} aria-label="Alat mewarnai">
+    <Palette color={color} onChange={setColor}/>
+    <div className={styles.actions}>
+      <button className={ui.secondary} disabled={history.length<2} onClick={()=>setHistory(previous=>previous.slice(0,-1))}><ArrowUUpLeft size={24} aria-hidden/>Urungkan</button>
+      <button className={ui.secondary} disabled={!Object.keys(fills).length} onClick={()=>setHistory(previous=>[...previous,{}])}><ArrowCounterClockwise size={24} aria-hidden/>Mulai ulang</button>
+      <button className={ui.primary} disabled={!Object.keys(fills).length} onClick={onDone}><Check size={24} weight="bold" aria-hidden/>Selesai</button>
+    </div>
+    </aside>
+  </div>;
 }
 
-export function CreativePracticeActivity({ childId, activityId }: { childId: string; activityId: string }) {
-  const activity = getActivity(activityId);
-  const [progress, setProgress] = useActivityProgress(childId);
-  if (!activity || (activity.runtime !== "drawing" && activity.runtime !== "coloring")) {
-    return <main className={styles.contentNarrow}><div className={styles.emptyState}>Aktivitas kreatif tidak ditemukan.</div></main>;
-  }
-  const subject = getSubject(activity.subjectId);
-  const stage = getStage(activity.stageId);
-  if (!subject || !stage) return <main className={styles.contentNarrow}><div className={styles.emptyState}>Struktur aktivitas tidak ditemukan.</div></main>;
-  const done = progress.completedActivityIds.includes(activity.id);
-
-  return (
-    <main className={styles.contentNarrow}>
-      <section className={styles.activityViewport}>
-        <div className={styles.activityTopbar}>
-          <Link className={styles.backButton} href={`/child/${childId}/stage/${stage.id}`} aria-label="Kembali">←</Link>
-          <span className={styles.tag}>{subject.emoji} {subject.shortTitle}</span>
-          <span className={styles.tag}>⭐ {progress.stars}</span>
-        </div>
-        {activity.runtime === "drawing" ? <DrawingCanvas childId={childId} activity={activity} onDone={setProgress} /> : null}
-        {activity.runtime === "coloring" ? <ColoringRegions childId={childId} activity={activity} onDone={setProgress} /> : null}
-        {done ? <Link className={styles.secondaryButton} href={`/child/${childId}/stage/${stage.id}`}>← Kembali ke stage</Link> : null}
-      </section>
-    </main>
-  );
+export function CreativePracticeActivity({childId,activityId}:{childId:string;activityId:string}) {
+  const activity=getActivity(activityId);
+  const progress=useLearningProgress(childId);
+  const [completedId,setCompletedId]=useState<string|null>(null);
+  const [audioError,setAudioError]=useState(false);
+  if(!activity || !["drawing","coloring"].includes(activity.runtime))return <main className={ui.page}>Aktivitas kreatif tidak ditemukan.</main>;
+  const prompt=activity.creativePrompt??activity.title;
+  const finish=()=>{completeActivity(childId,activity.id);setCompletedId(activity.id);};
+  const done=completedId===activity.id||progress.completedActivityIds.includes(activity.id);
+  return <GardenActivityFrame workspace backHref={`/child/${childId}/subject/${activity.subjectId}`} title={activity.title} onHear={()=>{unlockAudio();const status=speakWithStatus(prompt);setAudioError(status!=="spoken");}}>
+    {activity.runtime==="drawing" && prompt!==activity.title ? <p className={styles.prompt}>{prompt}</p>:null}
+    {activity.runtime==="coloring" ? <p className={styles.hint}>Pilih warna. Sentuh gambarnya.</p>:null}
+    {audioError ? <p role="status">Narasi dengan pelafalan yang sesuai belum tersedia atau suara sedang dimatikan. Petunjuk tetap bisa dibaca di atas.</p>:null}
+    {activity.runtime==="drawing" ? <DrawingCanvas key={activity.id} activity={activity} onDone={finish}/>:<ColoringRegions key={activity.id} activity={activity} onDone={finish}/>}
+    {done ? <div className={styles.completed} role="status"><strong>Karyamu selesai. Hebat!</strong><span>Kamu boleh terus berkarya atau memilih permainan lain.</span><Link href={`/child/${childId}/subject/${activity.subjectId}`} className={ui.secondary}>Pilih permainan lain</Link></div>:null}
+  </GardenActivityFrame>;
 }

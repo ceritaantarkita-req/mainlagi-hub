@@ -13,6 +13,7 @@ dist/
 .audio-test-dist/
 .mobile-route-qa/
 .qa/
+.qa-playroom/
 .env
 .env.local
 *.log

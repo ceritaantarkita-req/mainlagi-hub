@@ -49,18 +49,6 @@ async function waitForServer(timeoutMs = 60_000) {
   throw new Error(`server did not become ready: ${lastError ?? "unknown"}\n${serverLog.slice(-3000)}`);
 }
 
-async function clickAndWait(page, locator, expectedPathPattern, label) {
-  await locator.waitFor({ state: "visible", timeout: 8_000 });
-  const href = await locator.getAttribute("href");
-  if (!href) throw new Error(`${label} has no href`);
-  await Promise.all([
-    page.waitForURL(expectedPathPattern, { timeout: 10_000 }),
-    locator.click()
-  ]);
-  await page.waitForLoadState("domcontentloaded");
-  return href;
-}
-
 async function main() {
   if (shouldStartServer) {
     startServer();
@@ -76,19 +64,11 @@ async function main() {
     await page.goto(`${baseUrl}/child/${childId}/home`, { waitUntil: "domcontentloaded", timeout: 30_000 });
     steps.push(new URL(page.url()).pathname);
 
-    await clickAndWait(
-      page,
-      page.locator(`a[href="/child/${childId}/learn"]`).first(),
-      new RegExp(`/child/${childId}/learn(?:\\?.*)?$`),
-      "home Learn link"
-    );
-    steps.push(new URL(page.url()).pathname);
-
     const subjectLink = page.locator(`a[href^="/child/${childId}/subject/"]`).first();
     const subjectHref = await subjectLink.getAttribute("href").catch(() => null);
     await subjectLink.waitFor({ state: "visible", timeout: 8_000 });
     const resolvedSubjectHref = subjectHref ?? await subjectLink.getAttribute("href");
-    if (!resolvedSubjectHref) throw new Error("learn page has no subject href");
+    if (!resolvedSubjectHref) throw new Error("home page has no subject href");
     await Promise.all([
       page.waitForURL(new RegExp(`${resolvedSubjectHref.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:\\?.*)?$`), { timeout: 10_000 }),
       subjectLink.click()
@@ -96,26 +76,19 @@ async function main() {
     await page.waitForLoadState("domcontentloaded");
     steps.push(new URL(page.url()).pathname);
 
-    const stageLink = page.locator(`a[href^="/child/${childId}/stage/"]`).first();
-    await stageLink.waitFor({ state: "visible", timeout: 8_000 });
-    const stageHref = await stageLink.getAttribute("href");
-    if (!stageHref) throw new Error("subject page has no unlocked stage href");
-    await Promise.all([
-      page.waitForURL(new RegExp(`${stageHref.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:\\?.*)?$`), { timeout: 10_000 }),
-      stageLink.click()
-    ]);
-    await page.waitForLoadState("domcontentloaded");
-    steps.push(new URL(page.url()).pathname);
+    await page.locator("[data-activity-gallery]").waitFor();
+    if (await page.locator("[data-activity-id]").count() !== 100) throw new Error("subject gallery must show 100 activity cards");
+    if (await page.locator(`a[href^="/child/${childId}/stage/"]`).count()) throw new Error("subject gallery must not introduce a stage navigation step");
 
     const activityLink = page.locator(`a[href^="/child/${childId}/activity/"]`).first();
     try {
       await activityLink.waitFor({ state: "visible", timeout: 8_000 });
     } catch {
       const body = (await page.locator("body").innerText()).replace(/\s+/g, " ").slice(0, 1200);
-      throw new Error(`stage page did not expose an activity link after hydration wait; body=${body}`);
+      throw new Error(`subject gallery did not expose an activity link after hydration wait; body=${body}`);
     }
     const activityHref = await activityLink.getAttribute("href");
-    if (!activityHref) throw new Error("stage activity link has no href");
+    if (!activityHref) throw new Error("gallery activity link has no href");
     await Promise.all([
       page.waitForURL(new RegExp(`${activityHref.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:\\?.*)?$`), { timeout: 10_000 }),
       activityLink.click()
@@ -124,7 +97,9 @@ async function main() {
     steps.push(new URL(page.url()).pathname);
 
     console.log("Local product primary flow PASS.");
-    console.log(JSON.stringify({ clickDepthHomeToActivity: 4, steps, destinationActivity: activityHref }, null, 2));
+    await page.locator('[data-activity-frame="garden"]').waitFor({ timeout: 8_000 });
+    if (new URL(page.url()).pathname !== activityHref) throw new Error("activity redirected before its renderer became ready");
+    console.log(JSON.stringify({ clickDepthHomeToActivity: steps.length - 1, steps, destinationActivity: activityHref }, null, 2));
     await context.close();
   } finally {
     await browser.close();

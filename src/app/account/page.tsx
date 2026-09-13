@@ -26,10 +26,10 @@ export default function AccountPage() {
   }, []);
 
   return (
-    <div className="fun-home">
+    <main className="fun-home">
       <section className="page-shell fun-section account-page">
         <header className="fun-section__head">
-          <h2>Akun</h2>
+          <h1>Akun keluarga</h1>
         </header>
 
         {!loading && !user && (
@@ -81,6 +81,6 @@ export default function AccountPage() {
           ))}
         </nav>
       </section>
-    </div>
+    </main>
   );
 }

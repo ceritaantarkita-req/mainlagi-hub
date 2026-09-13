@@ -9,9 +9,9 @@ export interface NavItem {
 /** Public-site destinations. Child and parent modes use their own dedicated shells. */
 export const PRIMARY_NAV: NavItem[] = [
   { label: "Beranda", href: "/", icon: "home" },
-  { label: "Belajar", href: "/child/select", icon: "discover" },
   { label: "Main Gerak", href: "/games", icon: "games" },
-  { label: "Jelajah", href: "/discover", icon: "discover" },
+  { label: "Bacaan & ide", href: "/discover", icon: "discover" },
+  { label: "Skor game", href: "/leaderboards", icon: "leaderboards" },
   { label: "Akun", href: "/account", icon: "account" }
 ];
 

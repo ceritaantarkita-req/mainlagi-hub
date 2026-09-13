@@ -2,7 +2,15 @@
 
 Package ini adalah candidate rebuild V2 yang dapat diaudit dan diuji. Ia bukan jaminan bahwa setiap webcam, kondisi pencahayaan, browser, credential, dan deployment bebas defect.
 
-## Dependency-aware build belum dijalankan di environment pembuat ZIP
+## Status lingkungan lokal — 11 September 2026
+
+Dependency, TypeScript, ESLint, production build, learning engine, dan audio
+tests telah dijalankan di workspace Windows. Kegagalan registry di bawah
+adalah catatan **historis environment pembuat ZIP**, bukan keadaan laptop saat ini.
+Lihat [hasil perbaikan lokal](LOCAL_REDESIGN_2026-09-11.md) untuk validasi
+revisi yang belum di-commit dan belum di-deploy.
+
+## Historis: dependency-aware build environment pembuat ZIP
 
 `npm install` gagal karena registry internal environment mengembalikan `404` untuk:
 

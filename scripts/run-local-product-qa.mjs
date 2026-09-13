@@ -18,6 +18,12 @@ const port = Number(process.env.MAINLAGI_PRODUCT_QA_PORT ?? 4020);
 const baseUrl = process.env.MAINLAGI_PRODUCT_QA_BASE_URL ?? `http://${host}:${port}`;
 const shouldStartServer = !process.env.MAINLAGI_PRODUCT_QA_BASE_URL;
 const activityConcurrency = Math.max(1, Number(process.env.MAINLAGI_PRODUCT_QA_ACTIVITY_CONCURRENCY ?? 4));
+// Give local rendering/network work time to settle on resource-constrained
+// laptops. This extends (never shortens) the console-error observation window.
+const activityWaitMs = Math.max(60, Number(process.env.MAINLAGI_PRODUCT_QA_ACTIVITY_WAIT_MS ?? 200));
+if (!Number.isFinite(activityWaitMs) || !Number.isFinite(activityConcurrency)) {
+  throw new Error("QA activity concurrency/wait configuration must be finite numbers.");
+}
 const fullActivityCrawl = process.env.MAINLAGI_PRODUCT_QA_SKIP_ACTIVITY_CRAWL !== "1" && !process.argv.includes("--skip-activity-crawl");
 
 const report = {
@@ -48,10 +54,6 @@ const report = {
 
 let server = null;
 let serverLog = "";
-
-function isExpectedLocalServerReset(message) {
-  return shouldStartServer && server && !server.killed && message === "Failed to load resource: net::ERR_CONNECTION_RESET";
-}
 
 function gitSha() {
   const result = spawnSync("git", ["rev-parse", "HEAD"], { cwd: root, encoding: "utf8" });
@@ -299,7 +301,9 @@ async function inspectRoute(page, routePath, options = {}) {
   const consoleErrors = [];
   const pageErrors = [];
   const onConsole = (message) => {
-    if (message.type() === "error" && !isExpectedLocalServerReset(message.text())) consoleErrors.push(message.text());
+    // A running local server is not evidence that a reset was harmless.
+    // Keep every console error actionable, including connection resets.
+    if (message.type() === "error") consoleErrors.push(message.text());
   };
   const onPageError = (error) => pageErrors.push(error.message);
   page.on("console", onConsole);
@@ -316,6 +320,15 @@ async function inspectRoute(page, routePath, options = {}) {
     await page.waitForTimeout(options.waitMs ?? 100);
     const bodyText = (await page.locator("body").innerText()).trim();
     if (bodyText.length <= 20) throw new Error("rendered body is unexpectedly blank");
+    if (options.expectedActivityPath) {
+      const actualPath = new URL(page.url()).pathname;
+      if (actualPath !== options.expectedActivityPath) {
+        throw new Error(`activity coverage redirected: expected=${options.expectedActivityPath} actual=${actualPath}`);
+      }
+      if (await page.locator('[data-activity-frame="garden"]').count() !== 1) {
+        throw new Error("activity coverage missing rendered Garden activity frame");
+      }
+    }
 
     const overlayCount = await page.locator("nextjs-portal, [data-nextjs-dialog-overlay], [data-next-badge-root]").count();
     if (overlayCount) throw new Error("Next.js error overlay rendered");
@@ -361,14 +374,14 @@ async function clickLinkAndWait(page, locator, label) {
   return href;
 }
 
-async function waitForLearningStageState(page) {
+async function waitForActivityGalleryState(page) {
   const activityLink = page.locator(`a[href^="/child/${childId}/activity/"]`).first();
   try {
     await activityLink.waitFor({ state: "visible", timeout: 8_000 });
     return activityLink;
   } catch {
     const body = (await page.locator("body").innerText()).replace(/\s+/g, " ").slice(0, 1200);
-    throw new Error(`stage page did not expose an activity link after hydration wait; body=${body}`);
+    throw new Error(`subject gallery did not expose an activity link after hydration wait; body=${body}`);
   }
 }
 
@@ -386,49 +399,32 @@ async function capture(page, routePath, viewportName) {
   });
 }
 
-async function inspectSubjectExposure(page, subject, system, curriculum) {
+async function inspectSubjectExposure(page, subject, system) {
   const routePath = `/child/${childId}/subject/${subject.id}`;
   await inspectRoute(page, routePath);
-
-  const pathStageIds = curriculum.getLearningPathsForSubject(subject.id).flatMap((item) => item.stageIds);
-  const stageLink = page.locator(`a[href^="/child/${childId}/stage/"]`).first();
-  const lockedCard = page.locator('[aria-disabled="true"]').first();
-  await Promise.race([
-    stageLink.waitFor({ state: "visible", timeout: 8_000 }).catch(() => null),
-    lockedCard.waitFor({ state: "visible", timeout: 8_000 }).catch(() => null),
-    page.waitForTimeout(8_000)
-  ]);
-
-  const exposure = await page.evaluate(({ currentChild }) => {
-    const stageLinks = Array.from(document.querySelectorAll(`a[href^="/child/${currentChild}/stage/"]`));
-    const lockedStageCards = Array.from(document.querySelectorAll('[aria-disabled="true"]'));
-    return {
-      accessibleStageLinks: [...new Set(stageLinks.map((link) => link.getAttribute("href")).filter(Boolean))],
-      lockedStageCards: lockedStageCards.length
-    };
-  }, { currentChild: childId });
-
-  let visibleActivityLinks = 0;
-  for (const stageHref of exposure.accessibleStageLinks) {
-    await inspectRoute(page, stageHref);
-    const firstActivity = page.locator(`a[href^="/child/${childId}/activity/"]`).first();
-    await firstActivity.waitFor({ state: "visible", timeout: 8_000 }).catch(() => null);
-    visibleActivityLinks += await page.locator(`a[href^="/child/${childId}/activity/"]`).count();
-  }
-
+  await page.locator("[data-activity-gallery]").waitFor({ timeout: 8_000 });
+  const expected = system.ACTIVITIES.filter(item => item.subjectId === subject.id).map(item => item.id);
+  const exposure = await page.evaluate(({ currentChild }) => ({
+    ids: Array.from(document.querySelectorAll("[data-activity-id]")).map(card => card.dataset.activityId),
+    playable: document.querySelectorAll(`[data-activity-gallery] a[href^="/child/${currentChild}/activity/"]`).length,
+    unavailable: document.querySelectorAll("[data-activity-gallery] article > button").length,
+    stageLinks: document.querySelectorAll(`a[href^="/child/${currentChild}/stage/"]`).length
+  }), { currentChild: childId });
+  if (JSON.stringify([...exposure.ids].sort()) !== JSON.stringify([...expected].sort())) throw new Error(`${subject.id}: gallery does not match the complete activity catalog`);
+  if (exposure.stageLinks) throw new Error(`${subject.id}: gallery adds an unwanted category step`);
+  if (exposure.playable + exposure.unavailable !== expected.length) throw new Error(`${subject.id}: missing activity controls`);
   const row = {
     subjectId: subject.id,
-    totalStages: pathStageIds.length,
-    freshDemoAccessibleStages: exposure.accessibleStageLinks.length,
-    freshDemoLockedStageCards: exposure.lockedStageCards,
-    activityLinksVisibleThroughFreshDemoUnlockedStages: visibleActivityLinks
+    catalogCards: exposure.ids.length,
+    immediatelyPlayable: exposure.playable,
+    unavailableCards: exposure.unavailable,
+    intermediateStageLinks: exposure.stageLinks
   };
   report.browser.subjectExposure.push(row);
-
-  if (visibleActivityLinks < Math.min(20, system.ACTIVITIES.filter((item) => item.subjectId === subject.id).length)) {
+  if (exposure.playable < Math.min(20, expected.length)) {
     warning(
       "ux.low_fresh_start_activity_exposure",
-      `${subject.title} exposes only ${visibleActivityLinks} activity links through stages unlocked for a fresh demo profile.`,
+      `${subject.title} shows all ${expected.length} thumbnails, but only ${exposure.playable} can be played immediately by a fresh demo profile.`,
       row
     );
   }
@@ -442,33 +438,21 @@ async function inspectFlow(page) {
 
   await clickLinkAndWait(
     page,
-    page.locator(`a[href="/child/${childId}/learn"]`).first(),
-    "home Learn link"
-  );
-  steps.push(new URL(page.url()).pathname);
-
-  await clickLinkAndWait(
-    page,
     page.locator(`a[href^="/child/${childId}/subject/"]`).first(),
-    "learn subject link"
+    "home subject link"
   );
   steps.push(new URL(page.url()).pathname);
 
-  await clickLinkAndWait(
-    page,
-    page.locator(`a[href^="/child/${childId}/stage/"]`).first(),
-    "subject unlocked stage link"
-  );
-  steps.push(new URL(page.url()).pathname);
-
-  const activityLink = await waitForLearningStageState(page);
-  const activityHref = await clickLinkAndWait(page, activityLink, "stage activity link");
+  const activityLink = await waitForActivityGalleryState(page);
+  const activityHref = await clickLinkAndWait(page, activityLink, "gallery activity link");
+  await page.locator('[data-activity-frame="garden"]').waitFor({ timeout: 8_000 });
+  if (new URL(page.url()).pathname !== activityHref) throw new Error("primary flow redirected before rendering its activity");
   steps.push(new URL(page.url()).pathname);
 
   report.browser.flow = {
     status: "PASS",
     steps,
-    clickDepthHomeToActivity: 4,
+    clickDepthHomeToActivity: steps.length - 1,
     destinationActivity: activityHref
   };
 }
@@ -564,7 +548,8 @@ async function browserAudit({ system, curriculum }) {
             const activity = system.ACTIVITIES[currentIndex];
 
             try {
-              await inspectRoute(page, `/child/${childId}/activity/${activity.id}`, { waitMs: 60 });
+              const activityPath = `/child/${childId}/activity/${activity.id}`;
+              await inspectRoute(page, activityPath, { waitMs: activityWaitMs, expectedActivityPath: activityPath });
               report.browser.activityRoutesChecked += 1;
             } catch (error) {
               failures.push({
@@ -623,10 +608,10 @@ function writeReports() {
 
   const exposureRows = report.browser.subjectExposure.map((row) => [
     row.subjectId,
-    row.totalStages,
-    row.freshDemoAccessibleStages,
-    row.freshDemoLockedStageCards,
-    row.activityLinksVisibleThroughFreshDemoUnlockedStages
+    row.catalogCards,
+    row.immediatelyPlayable,
+    row.unavailableCards,
+    row.intermediateStageLinks
   ]);
 
   const blockerText = report.blockers.length
@@ -665,7 +650,7 @@ ${markdownTable(["Subject", "Catalog", "Eligible @ demo age", "Assessed", "Pract
 
 This is the critical distinction behind “100 activities per subject”: the catalog may contain 100 while a fresh child can only reach a subset through currently unlocked stages.
 
-${exposureRows.length ? markdownTable(["Subject", "Total stages", "Accessible stages", "Locked cards", "Activity links through accessible stages"], exposureRows) : "Browser exposure audit did not complete."}
+${exposureRows.length ? markdownTable(["Subject", "Catalog thumbnails", "Immediately playable", "Locked / age-restricted cards", "Intermediate stage links"], exposureRows) : "Browser exposure audit did not complete."}
 
 ## Browser
 

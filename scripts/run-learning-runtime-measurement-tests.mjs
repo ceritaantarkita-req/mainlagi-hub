@@ -72,7 +72,11 @@ try {
   assert.match(audioFacadeSource, /audioManager\.speakPrompt/, "status-aware speech must delegate to the canonical AudioManager");
 
   const audioUi = readFileSync(path.join(root, "src/components/learning/AudioChoiceLearningActivity.tsx"), "utf8");
-  assert.match(audioUi, /Audio fallback:/, "listening UI must expose a readable audio fallback");
+  // Assert the accessible fallback contract, not the old technical English label.
+  assert.match(audioUi, /fallback \? \([\s\S]*?role="status"[\s\S]*?\{fallback\}/, "listening UI must render its fallback in a live status region");
+  for (const status of ["muted", "unavailable", "error"]) {
+    assert.match(audioUi, new RegExp(`status === "${status}"\\) return "[^"\\n]+"`), `${status} must have readable fallback copy`);
+  }
   assert.match(audioUi, /speakWithStatus/, "listening UI must use status-aware speech");
 
   console.log("Learning runtime measurement, guided trace, and canonical AudioManager fallback tests passed.");

@@ -8,7 +8,6 @@ export {
 } from "./ChildLearningPlatform";
 export {
   ChildHomeScreen,
-  LearnLibraryScreen,
   StageScreen,
   SubjectScreen
 } from "./ChildLearningPathViews";

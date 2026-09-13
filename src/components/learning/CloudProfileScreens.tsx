@@ -19,6 +19,8 @@ import {
 } from "@/lib/learning/system";
 import { CharacterAvatar, useLearningProgress } from "./LearningCommon";
 import styles from "./LearningPlatform.module.css";
+import { childDestination, readActiveChild, rememberChild } from "@/lib/learning/entry";
+import { PlayroomShell } from "./Playroom";
 
 interface ProfileCollection {
   profiles: LearningChildProfile[];
@@ -27,7 +29,7 @@ interface ProfileCollection {
   error: string | null;
 }
 
-function useProfileCollection(): ProfileCollection & { refresh: () => Promise<void> } {
+export function useProfileCollection(): ProfileCollection & { refresh: () => Promise<void> } {
   const [state, setState] = useState<ProfileCollection>({
     profiles: [DEMO_PROFILE],
     authenticated: false,
@@ -81,15 +83,15 @@ function useProfileCollection(): ProfileCollection & { refresh: () => Promise<vo
   return { ...state, refresh };
 }
 
-function ProfileLink({ profile }: { profile: LearningChildProfile }) {
+function ProfileLink({ profile, subjectId }: { profile: LearningChildProfile; subjectId?: string | null }) {
   return (
-    <Link className={styles.profileCard} href={`/child/${profile.id}/home`}>
+    <Link className={styles.profileCard} href={childDestination(profile.id, subjectId)} onClick={() => rememberChild(profile.id)}>
       <CharacterAvatar id={profile.guide} />
       <span className={styles.profileCardText}>
         <strong>{profile.id === DEMO_PROFILE.id ? `${profile.name} — Demo` : profile.name}</strong>
         <span>
           {profile.id === DEMO_PROFILE.id
-            ? `${profile.age} tahun · Sandbox cepat`
+            ? `${profile.age} tahun · Coba tanpa membuat profil`
             : `${profile.age} tahun · Guide ${CHARACTERS[profile.guide].name}`}
         </span>
       </span>
@@ -106,6 +108,17 @@ export function CloudChildSelectScreen() {
   const [guide, setGuide] = useState<CharacterId>("paca");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [subjectId, setSubjectId] = useState<string | null>(null);
+  useEffect(() => {
+    const query = new URLSearchParams(window.location.search);
+    const subject = query.get("subject");
+    const frame = requestAnimationFrame(() => setSubjectId(subject));
+    if (!collection.loading && !collection.error && query.get("continue") === "1") {
+      const id = readActiveChild();
+      if (id && collection.profiles.some(profile => profile.id === id)) router.replace(childDestination(id, subject));
+    }
+    return () => cancelAnimationFrame(frame);
+  }, [collection.loading, collection.error, collection.profiles, router]);
 
   const createProfile = async () => {
     const clean = name.trim();
@@ -117,7 +130,8 @@ export function CloudChildSelectScreen() {
         const profile = await createCloudLearningProfile({ name: clean, age, guide });
         if (!profile) throw new Error("Profil cloud tidak berhasil dibuat.");
         window.dispatchEvent(new CustomEvent("mainlagi-learning-profiles", { detail: { childId: profile.id } }));
-        router.push(`/child/${profile.id}/home`);
+        rememberChild(profile.id);
+        router.push(childDestination(profile.id, subjectId));
         return;
       }
 
@@ -127,7 +141,8 @@ export function CloudChildSelectScreen() {
       const profile: LearningChildProfile = { id, name: clean.slice(0, 24), age, guide, language: "id" };
       saveProfile(profile);
       window.dispatchEvent(new CustomEvent("mainlagi-learning-profiles", { detail: { childId: profile.id } }));
-      router.push(`/child/${id}/home`);
+      rememberChild(id);
+      router.push(childDestination(id, subjectId));
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "Profil tidak berhasil dibuat.");
     } finally {
@@ -136,7 +151,7 @@ export function CloudChildSelectScreen() {
   };
 
   return (
-    <main className={styles.surface}>
+    <PlayroomShell><main className={styles.surface}>
       <div className={styles.contentNarrow}>
         <p className={styles.eyebrow}>Mainlagi untuk anak</p>
         <h1 className={styles.pageTitle}>Siapa yang mau belajar?</h1>
@@ -150,7 +165,7 @@ export function CloudChildSelectScreen() {
           {collection.loading ? <div className={styles.emptyState}>Memuat profil...</div> : null}
           {collection.error ? <div className={styles.infoBanner}>{collection.error}</div> : null}
           <div className={styles.profileGrid}>
-            {collection.profiles.map((profile) => <ProfileLink profile={profile} key={profile.id} />)}
+            {collection.profiles.map((profile) => <ProfileLink profile={profile} subjectId={subjectId} key={profile.id} />)}
           </div>
         </section>
 
@@ -206,7 +221,7 @@ export function CloudChildSelectScreen() {
           </div>
         </section>
       </div>
-    </main>
+    </main></PlayroomShell>
   );
 }
 

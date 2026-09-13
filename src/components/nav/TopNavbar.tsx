@@ -13,8 +13,7 @@ export function TopNavbar() {
   return (
     <header className={`top-nav ${scrolled ? "top-nav--scrolled" : ""}`}>
       <Link className="top-nav__brand" href="/" aria-label="Mainlagi beranda">
-        <Image src="/brand/mainlagi-square.png" alt="" width={38} height={38} className="top-nav__logo" priority />
-        <span><strong>Mainlagi</strong><small>Belajar & Main</small></span>
+        <Image src="/artwork/garden-wordmark.webp" alt="Mainlagi" width={150} height={55} className="garden-wordmark" priority />
       </Link>
       <nav className="top-nav__menu" aria-label="Navigasi utama">
         {PRIMARY_NAV.map((item) => <Link key={item.href} href={item.href} className={isActivePath(pathname, item.href) ? "is-active" : ""}>{item.label}</Link>)}

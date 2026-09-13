@@ -217,11 +217,15 @@ export class AudioManager {
     }
   }
 
-  speechCapability(): SpeechStartStatus {
+  speechCapability(locale = "id-ID"): SpeechStartStatus {
     if (this.muted) return "muted";
     try {
       const synth = this.deps.getSpeechSynthesis();
       if (!synth || !this.createUtterance("")) return "unavailable";
+      // Never let the browser pronounce one language with an unrelated
+      // default voice. A readable text fallback is better than misleading
+      // pronunciation, especially for early literacy activities.
+      if (!this.selectVoice(locale)) return "unavailable";
       return "spoken";
     } catch {
       return "unavailable";
@@ -324,7 +328,7 @@ export class AudioManager {
       this.warmupTimer !== null ||
       this.warmupUtterance
     ) return;
-    if (this.speechCapability() !== "spoken") return;
+    if (this.speechCapability(locale) !== "spoken") return;
     this.warmupTimer = this.deps.setTimer(() => {
       this.warmupTimer = null;
       this.runSpeechWarmup(locale);
@@ -335,13 +339,14 @@ export class AudioManager {
     if (this.muted || this.warmedSpeech || this.active || this.queue.length > 0 || this.warmupUtterance) return;
     const synth = this.synth();
     const utterance = this.createUtterance(".");
-    if (!synth || !utterance) return;
+    const voice = this.selectVoice(locale);
+    if (!synth || !utterance || !voice) return;
 
     utterance.lang = locale;
     utterance.rate = 1.2;
     utterance.pitch = 1;
     utterance.volume = 0;
-    utterance.voice = this.selectVoice(locale);
+    utterance.voice = voice;
     this.warmupUtterance = utterance;
     const generation = this.generation;
 
@@ -390,7 +395,7 @@ export class AudioManager {
     const lang = options.lang?.trim() || "id-ID";
     const rate = clampRate(options.rate ?? defaultRate(channel));
     const requestedAtMs = this.deps.now();
-    const capability = this.speechCapability();
+    const capability = this.speechCapability(lang);
     if (!text || capability !== "spoken") {
       this.deps.emitLatency({
         phase: text ? "blocked" : "error",
@@ -481,10 +486,11 @@ export class AudioManager {
   private startRequest(request: SpeechRequest): void {
     const synth = this.synth();
     const utterance = this.createUtterance(request.text);
-    if (!synth || !utterance) {
+    const voice = this.selectVoice(request.lang);
+    if (!synth || !utterance || !voice) {
       this.deps.emitLatency({
-        phase: "error",
-        status: "error",
+        phase: voice ? "error" : "blocked",
+        status: voice ? "error" : "unavailable",
         channel: request.channel,
         lang: request.lang,
         rate: request.rate,
@@ -501,7 +507,7 @@ export class AudioManager {
     utterance.rate = request.rate;
     utterance.pitch = 1;
     utterance.volume = 1;
-    utterance.voice = this.selectVoice(request.lang);
+    utterance.voice = voice;
     this.active = request;
     const generation = this.generation;
 
