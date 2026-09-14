@@ -120,7 +120,8 @@ function ColoringRegions({activity,onDone}:{activity:LearningActivity;onDone:()=
   useLayoutEffect(()=>{
     const svg=svgRef.current;
     if(!svg) return;
-    const measure=()=>setHitAreas(pathRefs.current.map(path=>{
+    const measure=()=>setHitAreas(regions.map((_,index)=>{
+      const path=pathRefs.current[index];
       if(!path) return {x:0,y:0,width:0,height:0};
       const bounds=path.getBBox();
       const matrix=path.getScreenCTM();
@@ -146,7 +147,8 @@ function ColoringRegions({activity,onDone}:{activity:LearningActivity;onDone:()=
           data-color-region={index} data-color-filled={Boolean(fills[index])}
           onClick={()=>paint(index)} onKeyDown={event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();paint(index);}}}>
           {hitAreas[index]?.width ? <rect className={styles.regionHitArea} aria-hidden="true" {...hitAreas[index]}/>:null}
-          <path d={region.path} fill={fills[index]??"#ffffff"} stroke="#233831" strokeWidth={4} strokeLinejoin="round" strokeLinecap="round"/>
+          <path ref={node=>{pathRefs.current[index]=node;}} d={region.path}
+            fill={fills[index]??"#ffffff"} stroke="#233831" strokeWidth={4} strokeLinejoin="round" strokeLinecap="round"/>
         </g>)}
       </svg>
     </div>
