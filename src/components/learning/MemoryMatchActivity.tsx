@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { GardenActivityFrame } from "./GardenActivityFrame";
 import { completeActivity, getActivity } from "@/lib/learning/system";
 import { getActivityLearningSpec } from "@/lib/learning/catalog";
@@ -24,6 +24,7 @@ function stableShuffle<T>(values: readonly T[], seedText: string): T[] {
 export function MemoryMatchActivity({ childId, activityId }: { childId: string; activityId: string }) {
   const activity = getActivity(activityId);
   const spec = getActivityLearningSpec(activityId);
+  const sceneRef = useRef<HTMLElement | null>(null);
   const cards = useMemo(() => stableShuffle((activity?.matchItems ?? []).map((item, sourceIndex) => ({ ...item, sourceIndex })), activityId), [activity?.matchItems, activityId]);
   const [open, setOpen] = useState<number[]>([]);
   const [matched, setMatched] = useState<number[]>([]);
@@ -32,6 +33,10 @@ export function MemoryMatchActivity({ childId, activityId }: { childId: string; 
   const [done, setDone] = useState(false);
   const incorrectRef = useRef(0);
   const retryRef = useRef(0);
+
+  useEffect(() => {
+    if (sceneRef.current) sceneRef.current.dataset.memoryMatchReady = "true";
+  }, []);
 
   if (!activity || !isMemoryPairActivity(activity)) return null;
 
@@ -79,7 +84,7 @@ export function MemoryMatchActivity({ childId, activityId }: { childId: string; 
   };
 
   return <GardenActivityFrame backHref={`/child/${childId}/subject/${activity.subjectId}`} title={activity.title} narration={activity.prompt ?? activity.title} lang="id-ID" spacious>
-    <section className={styles.scene} data-memory-match>
+    <section ref={sceneRef} className={styles.scene} data-memory-match>
       <div className={styles.promptCard}><span aria-hidden>🧠</span><div><h1>{activity.prompt ?? activity.title}</h1><p>Ingat posisi kartunya. Temukan pasangan huruf besar dan kecil.</p></div></div>
       <div className={`${styles.board} ${cards.length===4?styles.boardFour:""}`} role="group" aria-label="Papan kartu memori">{cards.map((card, index) => { const visible=open.includes(index)||matched.includes(index); const isMatched=matched.includes(index); return <button key={`${card.label}-${card.sourceIndex}`} type="button" className={`${styles.card} ${visible?styles.cardOpen:""} ${isMatched?styles.cardMatched:""}`} aria-label={visible?`Kartu ${card.label}${isMatched?", sudah cocok":""}`:`Kartu tertutup ${index+1}`} aria-pressed={visible} disabled={isMatched||done} onClick={()=>reveal(index)}>{visible?card.label:"?"}</button>; })}</div>
       <div className={`${styles.status} ${done?styles.statusDone:""}`} role="status" aria-live="polite">{done?"⭐":"💡"} {message}</div>
