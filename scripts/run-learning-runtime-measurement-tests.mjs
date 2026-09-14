@@ -114,7 +114,28 @@ try {
   assert.deepEqual(sizePattern?.choices, ["•", "⬤", "■"], "size pattern must be represented visually");
   assert.equal(sizePattern?.correctChoice, "•");
 
-  console.log("Learning runtime measurement, presentation semantics, guided trace, and canonical AudioManager fallback tests passed.");
+  const symbolHunts = learningSystem.ACTIVITIES.filter((activity) => activity.choicePresentation === "symbol_hunt");
+  assert.ok(symbolHunts.length >= 20, "direct literacy catalog must expose a meaningful symbol-hunt family");
+  for (const activity of symbolHunts) {
+    assert.ok(["bahasa", "english", "letters"].includes(activity.subjectId), `${activity.id} symbol_hunt must stay inside literacy subjects`);
+    assert.equal(activity.runtime, "tap_choice", `${activity.id} symbol_hunt keeps canonical tap-choice evidence`);
+    assert.ok((activity.choices ?? []).length >= 3, `${activity.id} symbol_hunt needs at least three candidate symbols`);
+    assert.ok((activity.choices ?? []).every((choice) => /^[A-Za-z]$/.test(choice)), `${activity.id} symbol_hunt choices must be single Latin letters`);
+    assert.ok(activity.correctChoice && activity.choices.includes(activity.correctChoice), `${activity.id} symbol_hunt correct answer must remain canonical`);
+  }
+  assert.equal(learningSystem.getActivity("english-letter-a")?.choicePresentation, "symbol_hunt", "English direct letter recognition must use symbol hunt");
+  assert.equal(learningSystem.getActivity("letters-find-upper-b")?.choicePresentation, "symbol_hunt", "Letters direct recognition must use symbol hunt");
+  assert.notEqual(learningSystem.getActivity("math-count-3")?.choicePresentation, "symbol_hunt", "Math single-character answers must never be misclassified as literacy hunts");
+
+  const symbolHuntUi = readFileSync(path.join(root, "src/components/learning/SymbolHuntChoiceActivity.tsx"), "utf8");
+  const activityRoute = readFileSync(path.join(root, "src/app/child/[childId]/activity/[activity]/page.tsx"), "utf8");
+  assert.match(symbolHuntUi, /data-symbol-hunt/, "symbol-hunt renderer must expose a stable QA hook");
+  assert.match(symbolHuntUi, /completeActivity\(childId, activity\.id\)/, "correct hunt choice must complete the canonical activity");
+  assert.match(symbolHuntUi, />\s*\{choice\}\s*<\/button>/, "choice button text must stay equal to the canonical choice so LearningAttemptBridge can measure accuracy");
+  assert.match(activityRoute, /choicePresentation === "symbol_hunt"/, "activity route must dispatch symbol-hunt activities to the dedicated renderer");
+  assert.match(activityRoute, /SymbolHuntChoiceActivity/, "activity route must import the dedicated symbol-hunt renderer");
+
+  console.log("Learning runtime measurement, presentation semantics, symbol hunt, guided trace, and canonical AudioManager fallback tests passed.");
 } catch (error) {
   console.error(error);
   process.exit(1);

@@ -36,7 +36,7 @@ const STRUCTURAL_RULES = new Set([
   "Q004_CHOICE_CONTRACT_INVALID",
   "Q005_MATCHING_CONTRACT_INVALID"
 ]);
-
+const DIRECT_SYMBOL_SUBJECTS = new Set(["bahasa", "english", "letters"]);
 const COLOR_WORDS = new Set([
   "red", "blue", "green", "yellow", "orange", "purple", "pink", "black", "white", "brown", "gray", "grey",
   "merah", "biru", "hijau", "kuning", "jingga", "ungu", "merah muda", "hitam", "putih", "cokelat", "abu abu", "abu-abu"
@@ -63,8 +63,8 @@ function isWord(value) {
   return /^[A-Za-z][A-Za-z -]{1,}$/.test(String(value ?? "").trim());
 }
 
-function isSingleAlphaNumeric(value) {
-  return /^[A-Za-z0-9]$/.test(String(value ?? "").trim());
+function isSingleLatinLetter(value) {
+  return /^[A-Za-z]$/.test(String(value ?? "").trim());
 }
 
 function promptContainsAnswer(prompt, answer) {
@@ -235,8 +235,10 @@ for (const activity of activities) {
 
   if (
     activity.runtime === "tap_choice" &&
+    DIRECT_SYMBOL_SUBJECTS.has(activity.subjectId) &&
+    activity.choicePresentation !== "symbol_hunt" &&
     choices.length >= 3 &&
-    choices.every(isSingleAlphaNumeric) &&
+    choices.every(isSingleLatinLetter) &&
     activity.correctChoice &&
     promptContainsAnswer(activity.prompt, activity.correctChoice)
   ) {
@@ -245,8 +247,8 @@ for (const activity of activities) {
       "Q105_DIRECT_SYMBOL_DISCRIMINATION",
       "medium",
       "POLISH",
-      "Direct symbol-identification multiple choice is valid as a foundation check but is too thin when repeated as a primary game pattern.",
-      { prompt: activity.prompt ?? null, choices, correctChoice: activity.correctChoice }
+      "Direct literacy symbol identification is still rendered as a flat repeated choice grid instead of a diversified child-facing presentation.",
+      { prompt: activity.prompt ?? null, choices, correctChoice: activity.correctChoice, choicePresentation: activity.choicePresentation ?? "grid" }
     );
   }
 
@@ -347,6 +349,7 @@ const activityRows = activities.map((activity) => {
     stageId: activity.stageId,
     title: activity.title,
     runtime: activity.runtime,
+    choicePresentation: activity.choicePresentation ?? null,
     ageMin: activity.ageMin,
     ageMax: activity.ageMax,
     assessment: spec?.assessment ?? null,
@@ -380,14 +383,18 @@ for (const finding of findings) {
 }
 
 const structuralFindings = findings.filter((finding) => STRUCTURAL_RULES.has(finding.ruleId));
+const presentationSummary = {
+  symbolHunt: activities.filter((activity) => activity.choicePresentation === "symbol_hunt").length
+};
 const report = {
-  schemaVersion: 1,
+  schemaVersion: 2,
   generatedAt: new Date().toISOString(),
   scope: {
     subjects: subjects.length,
     activities: activities.length
   },
   classifications,
+  presentationSummary,
   subjectSummary,
   ruleSummary,
   repeatedTemplates,
@@ -403,6 +410,8 @@ markdown.push("");
 markdown.push(`Generated: ${report.generatedAt}`);
 markdown.push("");
 markdown.push(`Scope: **${subjects.length} subjects / ${activities.length} activities**.`);
+markdown.push("");
+markdown.push(`Diversified direct-symbol presentations: **${presentationSummary.symbolHunt} symbol_hunt activities**.`);
 markdown.push("");
 markdown.push("## Classification summary");
 markdown.push("");
@@ -457,6 +466,7 @@ const summary = {
   structuralFindingCount: structuralFindings.length,
   flaggedActivities: activityRows.filter((row) => row.classification !== "KEEP").length,
   repeatedTemplateFamilies: repeatedTemplates.length,
+  symbolHuntActivities: presentationSummary.symbolHunt,
   ruleCounts: Object.fromEntries(Object.entries(ruleSummary).map(([key, value]) => [key, value.count]))
 };
 

@@ -27,6 +27,7 @@ export type {
 type OpenLiteral<T extends string> = T | (string & {});
 export type LearningSubjectId = OpenLiteral<base.LearningSubjectId | "drawing">;
 export type LearningRuntime = OpenLiteral<base.LearningRuntime | "drawing">;
+export type ChoicePresentation = "grid" | "symbol_hunt";
 
 export interface LearningSubject extends Omit<BaseLearningSubject, "id"> {
   id: LearningSubjectId;
@@ -37,6 +38,8 @@ export interface LearningActivity extends Omit<BaseLearningActivity, "subjectId"
   runtime: LearningRuntime;
   /** Audio-only instruction/target. Never render this as the visible listening prompt. */
   audioPrompt?: string;
+  /** Child-facing presentation for canonical choice evidence. */
+  choicePresentation?: ChoicePresentation;
   coloringCharacter?: string;
   coloringRegions?: string[];
   creativePrompt?: string;
@@ -92,6 +95,28 @@ const CHOICE_PRESENTATION_OVERRIDES: Record<string, Pick<LearningActivity, "prom
   }
 };
 
+const DIRECT_SYMBOL_SUBJECTS = new Set<LearningSubjectId>(["bahasa", "english", "letters"]);
+
+function promptContainsSymbol(prompt: string | undefined, symbol: string): boolean {
+  if (!prompt || !symbol) return false;
+  const escaped = symbol.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp(`(^|[^A-Za-z0-9])${escaped}([^A-Za-z0-9]|$)`, "i").test(prompt);
+}
+
+/**
+ * Direct Latin-letter recognition is pedagogically valid but should not render
+ * as the same flat three-button quiz dozens of times. Keep the canonical
+ * choice/evidence contract and route this family through a richer visual hunt.
+ */
+export function isDirectLiteracySymbolChoice(activity: LearningActivity | undefined): boolean {
+  if (!activity || activity.runtime !== "tap_choice" || !DIRECT_SYMBOL_SUBJECTS.has(activity.subjectId)) return false;
+  const choices = activity.choices ?? [];
+  if (choices.length < 3 || !choices.every((choice) => /^[A-Za-z]$/.test(choice.trim()))) return false;
+  const correctChoice = activity.correctChoice?.trim();
+  if (!correctChoice || !choices.includes(correctChoice)) return false;
+  return promptContainsSymbol(activity.prompt, correctChoice);
+}
+
 function listeningInstruction(subjectId: LearningSubjectId): string {
   return subjectId === "english"
     ? "Listen, then choose the best answer."
@@ -115,6 +140,13 @@ function normalizeActivityPresentation(activity: LearningActivity): LearningActi
       ...normalized,
       ...choiceOverride,
       choices: choiceOverride.choices ? [...choiceOverride.choices] : normalized.choices
+    };
+  }
+
+  if (isDirectLiteracySymbolChoice(normalized)) {
+    normalized = {
+      ...normalized,
+      choicePresentation: "symbol_hunt"
     };
   }
 
