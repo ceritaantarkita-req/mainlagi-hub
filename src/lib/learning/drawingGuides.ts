@@ -69,8 +69,8 @@ const guides: Record<string, DrawingGuide> = {
 
   // Faces and people — proportion anchors, not finished characters.
   "drawing-face-happy": complete("M240 90 C390 90 390 390 240 390 C90 390 90 90 240 90 Z"),
-  "drawing-face-surprised": complete("M240 90 C390 90 390 390 240 390 C90 390 90 90 240 90 Z", "M185 205 A12 12 0 1 1 184.9 205 Z M295 205 A12 12 0 1 1 294.9 205 Z"),
-  "drawing-face-hair": complete("M240 105 C375 105 385 370 240 385 C95 370 105 105 240 105 Z", "M145 175 Q240 85 335 175"),
+  "drawing-face-surprised": complete("M240 100 C385 100 395 375 240 390 C85 375 95 100 240 100 Z"),
+  "drawing-face-hair": complete("M240 105 C375 105 385 370 240 385 C95 370 105 105 240 105 Z", "M105 220 Q80 245 105 270 M375 220 Q400 245 375 270"),
   "drawing-person-stick": complete("M240 105 A45 45 0 1 1 239.9 105 Z", "M240 195 V325"),
   "drawing-people-friends": complete("M165 145 A36 36 0 1 1 164.9 145 Z", "M165 215 V345", "M315 125 A46 46 0 1 1 314.9 125 Z", "M315 220 V365"),
 
