@@ -1,7 +1,7 @@
 import type { LearningActivity } from "./system";
 
 export type MatchingPresentation = "grid_pairs" | "memory_pairs" | "drag_targets";
-export type ChoiceGameplayPresentation = "default" | "sequence_slot" | "sorting_buckets";
+export type ChoiceGameplayPresentation = "default" | "sequence_slot" | "sorting_buckets" | "count_select";
 export type GameplayPattern =
   | "choice_grid"
   | "symbol_hunt"
@@ -11,6 +11,7 @@ export type GameplayPattern =
   | "drag_to_target"
   | "missing_sequence_slot"
   | "sorting_buckets"
+  | "count_and_select"
   | "guided_trace"
   | "story_read"
   | "motion_game"
@@ -23,6 +24,18 @@ const SCIENCE_DRAG_TARGET_IDS = new Set([
   "science-match-animal-homes-a",
   "science-match-senses-a",
   "science-match-weather-signs-a"
+]);
+
+const MATH_COUNT_SELECT_IDS = new Set([
+  "math-count-2",
+  "math-count-3",
+  "math-count-4",
+  "math-count-5",
+  "math-count-6",
+  "math-count-7",
+  "math-count-8",
+  "math-count-9",
+  "math-count-10"
 ]);
 
 /**
@@ -64,13 +77,14 @@ export function isDragTargetActivity(activity: LearningActivity | undefined): bo
 /**
  * Alphabet before/between/after tasks measure sequence position, so present
  * them as a visible sequence with one empty slot rather than another generic
- * three-button quiz. Canonical tap_choice values and evidence stay unchanged.
+ * three-button quiz.
  *
  * Basic Logic classification tasks ask whether each visible object satisfies
- * one simple rule. Present only that reviewed stage as two-bucket sorting: the
- * canonical correctChoice belongs in the matching bucket and the other choices
- * belong in the non-matching bucket. Later multi-attribute classification
- * stages remain on their existing presentation until reviewed separately.
+ * one simple rule, so the reviewed starter family uses two-bucket sorting.
+ *
+ * Reviewed Math count tasks ask the child to inspect a visible set and choose
+ * its quantity. Keep the canonical tap_choice payload/evidence contract while
+ * presenting the prompt objects as the primary counting surface.
  */
 export function choiceGameplayPresentation(activity: LearningActivity | undefined): ChoiceGameplayPresentation {
   if (!activity || activity.runtime !== "tap_choice") return "default";
@@ -95,6 +109,17 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     choices.includes(correct);
   if (isBasicLogicClassificationFamily) return "sorting_buckets";
 
+  const isReviewedMathCountFamily =
+    activity.subjectId === "math" &&
+    MATH_COUNT_SELECT_IDS.has(activity.id) &&
+    choices.length === 3 &&
+    new Set(choices).size === choices.length &&
+    choices.every((choice) => /^\d+$/.test(choice)) &&
+    /^\d+$/.test(correct) &&
+    choices.includes(correct) &&
+    Boolean(activity.prompt);
+  if (isReviewedMathCountFamily) return "count_select";
+
   return "default";
 }
 
@@ -104,6 +129,10 @@ export function isSequenceSlotActivity(activity: LearningActivity | undefined): 
 
 export function isSortingBucketsActivity(activity: LearningActivity | undefined): boolean {
   return choiceGameplayPresentation(activity) === "sorting_buckets";
+}
+
+export function isCountAndSelectActivity(activity: LearningActivity | undefined): boolean {
+  return choiceGameplayPresentation(activity) === "count_select";
 }
 
 /**
@@ -119,6 +148,7 @@ export function gameplayPattern(activity: LearningActivity | undefined): Gamepla
     const presentation = choiceGameplayPresentation(activity);
     if (presentation === "sequence_slot") return "missing_sequence_slot";
     if (presentation === "sorting_buckets") return "sorting_buckets";
+    if (presentation === "count_select") return "count_and_select";
     return "choice_grid";
   }
 
