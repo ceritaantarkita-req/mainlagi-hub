@@ -25,6 +25,7 @@
     "src/lib/learning/contentArchitecture.ts",
     "src/lib/learning/mechanicLibrary.ts",
     "src/lib/learning/mechanicRuntime.ts",
+    "src/lib/learning/gameplayPresentation.ts",
     "src/lib/learning/runtimeMeasurement.ts",
     "src/lib/learning/attempts.ts",
     "src/lib/learning/progression.ts",
