@@ -16,9 +16,9 @@ matching("science-match-living-nonliving","science.pack.living-nonliving","scien
 
 const plants=[
 choice("science-plant-needs-sunlight","science.pack.plant-basics","science-plant-basics","Tanaman perlu cahaya","Mengenali cahaya sebagai salah satu kebutuhan tumbuhan.","Apa yang membantu tanaman hijau tumbuh?",["☀️ cahaya matahari","📺 televisi","🧸 boneka"],"☀️ cahaya matahari","science.plants.parts_needs.basic",{required:true}),
-choice("science-plant-roots","science.pack.plant-basics","science-plant-basics","Akar di bawah","Mengenali akar sebagai bagian tumbuhan yang biasanya berada di tanah.","Bagian tanaman mana yang biasanya berada di dalam tanah?",["akar","daun","bunga"],"akar","science.plants.parts_needs.basic"),
+choice("science-plant-roots","science.pack.plant-basics","science-plant-basics","Akar di bawah","Mengenali akar sebagai bagian tumbuhan yang biasanya berada di tanah.","Bagian tanaman mana yang biasanya berada di dalam tanah?",["🌱 akar","🍃 daun","🌼 bunga"],"🌱 akar","science.plants.parts_needs.basic"),
 choice("science-plant-leaves","science.pack.plant-basics","science-plant-basics","Kenali daun","Mengenali daun sebagai bagian tumbuhan.","Mana yang merupakan bagian tumbuhan?",["🍃 daun","🛞 roda","🥄 sendok"],"🍃 daun","science.plants.parts_needs.basic"),
-choice("science-seed-grows-plant","science.pack.plant-basics","science-plant-basics","Biji dapat tumbuh","Menghubungkan biji dengan pertumbuhan tanaman.","Dengan air dan kondisi yang sesuai, biji dapat tumbuh menjadi apa?",["tanaman","batu","gelas"],"tanaman","science.plants.parts_needs.basic",{difficulty:2}),
+choice("science-seed-grows-plant","science.pack.plant-basics","science-plant-basics","Biji dapat tumbuh","Menghubungkan biji dengan pertumbuhan tanaman.","Dengan air dan kondisi yang sesuai, biji dapat tumbuh menjadi apa?",["🌱 tanaman","🪨 batu","🥛 gelas"],"🌱 tanaman","science.plants.parts_needs.basic",{difficulty:2}),
 matching("science-match-plant-parts","science.pack.plant-basics","science-plant-basics","Bagian dan tugas tumbuhan","Mencocokkan bagian tumbuhan dengan fungsi dasar yang mudah diamati.","Pasangkan bagian tumbuhan dengan tugas sederhananya.","science.plants.parts_needs.basic",[{left:"akar",right:"menyerap air",pair:"root"},{left:"batang",right:"menopang tanaman",pair:"stem"},{left:"daun",right:"menangkap cahaya",pair:"leaf"}],{difficulty:2})
 ];
 
@@ -30,9 +30,9 @@ matching("science-match-animal-homes-a","science.pack.animal-basics","science-an
 ];
 
 const senses=[
-choice("science-sense-eyes-see","science.pack.senses-observation","science-senses-observation","Mata untuk melihat","Menghubungkan mata dengan indera penglihatan.","Bagian tubuh apa yang kita gunakan untuk melihat?",["mata","telinga","hidung"],"mata","science.observation.senses.basic",{required:true}),
-choice("science-sense-ears-hear","science.pack.senses-observation","science-senses-observation","Telinga untuk mendengar","Menghubungkan telinga dengan indera pendengaran.","Bagian tubuh apa yang kita gunakan untuk mendengar bunyi?",["telinga","mata","lidah"],"telinga","science.observation.senses.basic"),
-choice("science-sense-nose-smell","science.pack.senses-observation","science-senses-observation","Hidung untuk mencium","Menghubungkan hidung dengan indera penciuman.","Bagian tubuh apa yang membantu mencium aroma?",["hidung","lutut","siku"],"hidung","science.observation.senses.basic"),
+choice("science-sense-eyes-see","science.pack.senses-observation","science-senses-observation","Mata untuk melihat","Menghubungkan mata dengan indera penglihatan.","Bagian tubuh apa yang kita gunakan untuk melihat?",["👀 mata","👂 telinga","👃 hidung"],"👀 mata","science.observation.senses.basic",{required:true}),
+choice("science-sense-ears-hear","science.pack.senses-observation","science-senses-observation","Telinga untuk mendengar","Menghubungkan telinga dengan indera pendengaran.","Bagian tubuh apa yang kita gunakan untuk mendengar bunyi?",["👂 telinga","👀 mata","👅 lidah"],"👂 telinga","science.observation.senses.basic"),
+choice("science-sense-nose-smell","science.pack.senses-observation","science-senses-observation","Hidung untuk mencium","Menghubungkan hidung dengan indera penciuman.","Bagian tubuh apa yang membantu mencium aroma?",["👃 hidung","🦵 lutut","💪 siku"],"👃 hidung","science.observation.senses.basic"),
 matching("science-match-senses-a","science.pack.senses-observation","science-senses-observation","Indera dan pengamatan","Mencocokkan indera dengan jenis pengamatan sederhana.","Pasangkan indera dengan hal yang dapat diamati.","science.observation.senses.basic",[{left:"mata",right:"warna",pair:"sight"},{left:"telinga",right:"bunyi",pair:"hearing"},{left:"hidung",right:"aroma",pair:"smell"}],{difficulty:2})
 ];
 
@@ -54,8 +54,7 @@ export const SCIENCE_BATCH13_WAVE_A:ScienceBatch13WaveDefinition={wave:"A",stage
 {id:"science.pack.plant-basics",title:"Plant Parts and Needs",lessonId:"science-plant-basics",ageMin:3,ageMax:7},
 {id:"science.pack.animal-basics",title:"Animal Features and Habitats",lessonId:"science-animal-basics",ageMin:4,ageMax:7},
 {id:"science.pack.senses-observation",title:"Senses and Observation",lessonId:"science-senses-observation",ageMin:3,ageMax:7},
-{id:"science.pack.weather-daynight",title:"Weather and Day Night",lessonId:"science-weather-daynight",ageMin:4,ageMax:7}
-],skills:[
+{id:"science.pack.weather-daynight",title:"Weather and Day Night",lessonId:"science-weather-daynight",ageMin:4,ageMax:7}],skills:[
 {id:"science.living.basic_classification",subjectId:"science",title:"Klasifikasi hidup dasar",description:"Membedakan makhluk hidup, tumbuhan, dan benda tak hidup pada contoh familiar.",domain:"science",ageMin:3,ageMax:7},
 {id:"science.plants.parts_needs.basic",subjectId:"science",title:"Bagian dan kebutuhan tumbuhan",description:"Mengenali bagian tumbuhan serta kebutuhan dasar untuk pertumbuhan.",domain:"science",ageMin:3,ageMax:7},
 {id:"science.animals.features_habitat.basic",subjectId:"science",title:"Ciri dan habitat hewan",description:"Menghubungkan hewan familiar dengan ciri tubuh dan habitat sederhananya.",domain:"science",ageMin:4,ageMax:7},
