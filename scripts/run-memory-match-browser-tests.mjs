@@ -57,16 +57,72 @@ const cleanLabel = (value) => String(value ?? "")
   .replace(/^Kartu\s+/i, "")
   .replace(/, sudah cocok$/i, "");
 
+async function seedPrerequisiteReadiness(context) {
+  await context.addInitScript(() => {
+    const childId = "demo-gian";
+    const progressKey = "mainlagi-learning-progress-v1";
+    const attemptsKey = "mainlagi-learning-attempts-v1";
+
+    if (!localStorage.getItem(progressKey)) {
+      localStorage.setItem(progressKey, JSON.stringify({
+        [childId]: {
+          completedActivityIds: ["letters-find-a", "letters-trace-a"],
+          stars: 0,
+          lastActivityId: "letters-trace-a"
+        }
+      }));
+    }
+
+    if (!localStorage.getItem(attemptsKey)) {
+      const completedAt = "2026-09-14T10:00:00.000Z";
+      localStorage.setItem(attemptsKey, JSON.stringify({
+        [childId]: [{
+          id: "qa-letters-foundation-readiness",
+          childId,
+          activityId: "letters-find-a",
+          subjectId: "letters",
+          stageId: "letters-foundations",
+          runtime: "tap_choice",
+          difficulty: 1,
+          status: "completed",
+          assessed: true,
+          score: 1,
+          accuracy: 1,
+          correctCount: 1,
+          incorrectCount: 0,
+          hintCount: 0,
+          retryCount: 0,
+          durationMs: 1000,
+          inputMode: "touch",
+          startedAt: "2026-09-14T09:59:59.000Z",
+          completedAt,
+          metadata: { source: "memory-match-browser-prerequisite" },
+          evidence: [{
+            attemptId: "qa-letters-foundation-readiness",
+            activityId: "letters-find-a",
+            skillId: "letters.latin.a.recognition",
+            score: 1,
+            weight: 0.95,
+            createdAt: completedAt,
+            qualifiesForMastery: true
+          }],
+          masteryEligible: true
+        }]
+      }));
+    }
+  });
+}
+
 async function waitForHydratedBoard(page) {
   await page.waitForLoadState("load");
   await page.waitForFunction(() => {
     const scene = document.querySelector("[data-memory-match]");
     return scene?.getAttribute("data-memory-match-ready") === "true" && scene.querySelectorAll("button").length === 4;
   }, undefined, { timeout: 5_000 });
+  await page.waitForTimeout(80);
 }
 
 async function focusFirstCardWithKeyboard(page) {
-  await page.locator("body").click({ position: { x: 2, y: 2 } });
   const focusTrace = [];
   for (let step = 0; step < 96; step += 1) {
     await page.keyboard.press("Tab");
@@ -126,6 +182,7 @@ async function inspect(viewport) {
   const browser = await chromium.launch({ headless: true });
   try {
     const context = await browser.newContext({ viewport, reducedMotion: "reduce" });
+    await seedPrerequisiteReadiness(context);
     const page = await context.newPage();
     const pageErrors = [];
     const consoleErrors = [];
@@ -135,11 +192,11 @@ async function inspect(viewport) {
     const response = await page.goto(`${baseUrl}${route}`, { waitUntil: "domcontentloaded", timeout: 30_000 });
     assert(response && response.status() < 400, `memory match bad HTTP at ${viewport.width}`);
     await waitForHydratedBoard(page);
+    await page.waitForTimeout(250);
+    assert.equal(new URL(page.url()).pathname, route, `progression guard must accept the seeded prerequisite readiness at ${viewport.width}`);
 
     const scene = page.locator("[data-memory-match]");
     await scene.waitFor({ state: "visible", timeout: 5_000 });
-    assert.equal(new URL(page.url()).pathname, route, "route must not redirect");
-
     const cards = scene.getByRole("button");
     assert.equal(await cards.count(), 4, "representative case-match has four cards");
     const geometry = await cards.evaluateAll((nodes) => nodes.map((node) => {
@@ -180,6 +237,7 @@ async function inspect(viewport) {
 
     await page.reload({ waitUntil: "domcontentloaded" });
     await waitForHydratedBoard(page);
+    assert.equal(new URL(page.url()).pathname, route, "reload must retain valid progression readiness");
     await solve(page);
     await page.getByRole("status").filter({ hasText: "Semua pasangan ketemu" }).waitFor({ state: "visible", timeout: 3_000 });
 
@@ -215,7 +273,7 @@ async function main() {
   startServer();
   await waitForServer();
   for (const viewport of viewports) await inspect(viewport);
-  console.log(`Memory-match browser QA passed ${viewports.length} viewports with keyboard, pointer, 2x2 layout, completion, and evidence checks.`);
+  console.log(`Memory-match browser QA passed ${viewports.length} viewports with valid progression prerequisites, keyboard, pointer, 2x2 layout, completion, and evidence checks.`);
 }
 
 main()
