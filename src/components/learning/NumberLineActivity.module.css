@@ -1,0 +1,321 @@
+.scene {
+  display: grid;
+  gap: 14px;
+  width: min(100%, 760px);
+  margin: 0 auto;
+}
+
+.promptCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 15px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 10px 28px rgba(85, 64, 38, 0.09);
+}
+
+.promptIcon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 48px;
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  background: #eaf2ff;
+  font-size: 25px;
+}
+
+.promptCard h1 {
+  margin: 0;
+  font-size: clamp(1.18rem, 4vw, 1.58rem);
+  line-height: 1.08;
+}
+
+.promptCard p {
+  margin: 4px 0 0;
+  color: #625d55;
+  font-size: 0.92rem;
+  line-height: 1.35;
+}
+
+.board {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 15px 34px rgba(85, 64, 38, 0.11);
+}
+
+.directionPill {
+  justify-self: center;
+  padding: 7px 13px;
+  border-radius: 999px;
+  background: #eef4ff;
+  color: #405b88;
+  font-size: 0.84rem;
+  font-weight: 900;
+}
+
+.numberLine {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: end;
+  gap: 4px;
+  min-height: 124px;
+  padding: 18px 6px 12px;
+  border-radius: 22px;
+  background: linear-gradient(180deg, #fffaf0, #fff5dc);
+  border: 2px solid #f0d596;
+  overflow: hidden;
+}
+
+.track {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: 31px;
+  height: 5px;
+  border-radius: 999px;
+  background: #987243;
+  opacity: 0.82;
+}
+
+.tickSlot {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  align-content: end;
+  gap: 7px;
+  min-width: 0;
+}
+
+.tickButton,
+.tickLabel {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  min-width: 52px;
+  height: 52px;
+  border-radius: 18px;
+  font: 900 1.35rem/1 inherit;
+}
+
+.tickButton {
+  border: 2px solid #c9d7ee;
+  background: #fff;
+  color: #2f4f80;
+  box-shadow: 0 7px 16px rgba(66, 85, 118, 0.12);
+  cursor: pointer;
+  transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+}
+
+.tickButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: #5e83c7;
+}
+
+.tickButton:focus-visible {
+  outline: 4px solid rgba(67, 111, 235, 0.3);
+  outline-offset: 2px;
+}
+
+.tickButton:disabled {
+  cursor: default;
+  opacity: 1;
+}
+
+.tickLabel {
+  border: 2px solid transparent;
+  color: #7a7165;
+  background: rgba(255, 255, 255, 0.52);
+}
+
+.contextSlot .tickLabel {
+  border-color: #efb933;
+  background: #fff0ae;
+  color: #654b17;
+  box-shadow: 0 7px 14px rgba(151, 106, 31, 0.12);
+}
+
+.tickTry {
+  border-color: #e68b65;
+  background: #fff1eb;
+  color: #8a4e37;
+}
+
+.tickGood {
+  border-color: #57aa6c;
+  background: #eaf8ed;
+  color: #346e42;
+}
+
+.tickMark {
+  width: 4px;
+  height: 25px;
+  border-radius: 999px;
+  background: #7f633f;
+}
+
+.contextSlot .tickMark {
+  background: #d49a1d;
+  width: 6px;
+}
+
+.contextLegend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  color: #72695f;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.legendDot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #efb933;
+  box-shadow: 0 0 0 3px #fff2c3;
+}
+
+.status {
+  min-height: 48px;
+  display: grid;
+  place-items: center;
+  padding: 10px 14px;
+  border-radius: 18px;
+  background: #fff7df;
+  color: #625844;
+  font-weight: 800;
+  text-align: center;
+  font-size: 0.91rem;
+  line-height: 1.3;
+}
+
+.statusTry {
+  background: #fff0e9;
+  color: #8a4e37;
+}
+
+.statusGood {
+  background: #e8f8ec;
+  color: #346e42;
+}
+
+.nextLink {
+  display: grid;
+  place-items: center;
+  min-height: 48px;
+  padding: 10px 18px;
+  border-radius: 18px;
+  background: #3f8e57;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 900;
+  text-align: center;
+  box-shadow: 0 8px 18px rgba(48, 113, 66, 0.2);
+}
+
+.sceneDone .board {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+@media (max-width: 520px) {
+  .scene {
+    gap: 10px;
+  }
+
+  .promptCard {
+    padding: 10px 12px;
+    border-radius: 18px;
+  }
+
+  .promptIcon {
+    flex-basis: 42px;
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    font-size: 22px;
+  }
+
+  .promptCard p {
+    font-size: 0.82rem;
+  }
+
+  .board {
+    gap: 10px;
+    padding: 11px 9px;
+    border-radius: 21px;
+  }
+
+  .numberLine {
+    min-height: 111px;
+    padding: 14px 3px 10px;
+    border-radius: 18px;
+    gap: 2px;
+  }
+
+  .track {
+    bottom: 27px;
+  }
+
+  .tickButton,
+  .tickLabel {
+    width: 47px;
+    min-width: 47px;
+    height: 47px;
+    border-radius: 15px;
+    font-size: 1.2rem;
+  }
+
+  .tickMark {
+    height: 22px;
+  }
+
+  .status {
+    min-height: 44px;
+    padding: 8px 10px;
+    font-size: 0.82rem;
+  }
+
+  .nextLink {
+    min-height: 44px;
+  }
+
+  .sceneDone .numberLine {
+    min-height: 102px;
+  }
+}
+
+@media (max-width: 340px) {
+  .numberLine {
+    padding-left: 1px;
+    padding-right: 1px;
+  }
+
+  .tickButton,
+  .tickLabel {
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    font-size: 1.12rem;
+  }
+
+  .contextLegend {
+    font-size: 0.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tickButton {
+    transition: none;
+  }
+}
