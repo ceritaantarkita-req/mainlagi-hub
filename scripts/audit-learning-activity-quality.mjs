@@ -51,10 +51,12 @@ function normalizeText(value) {
     .replace(/\s+/g, " ");
 }
 
-function stableToken(value) {
-  const raw = String(value ?? "").trim();
-  const text = normalizeText(raw);
-  return text || raw;
+function exactToken(value) {
+  return String(value ?? "")
+    .normalize("NFKC")
+    .toLocaleLowerCase("en-US")
+    .trim()
+    .replace(/\s+/gu, " ");
 }
 
 function isWord(value) {
@@ -76,14 +78,14 @@ function contentFingerprint(activity) {
   return JSON.stringify({
     subjectId: activity.subjectId,
     runtime: activity.runtime,
-    prompt: stableToken(activity.prompt),
-    choices: activity.choices?.map(stableToken) ?? null,
-    correctChoice: stableToken(activity.correctChoice),
-    matchItems: activity.matchItems?.map((item) => [stableToken(item.label), stableToken(item.pair)]) ?? null,
-    traceGlyph: activity.traceGlyph ?? null,
-    storyLines: activity.storyLines?.map(stableToken) ?? null,
-    creativePrompt: stableToken(activity.creativePrompt),
-    motionGameSlug: activity.motionGameSlug ?? null,
+    prompt: exactToken(activity.prompt),
+    choices: activity.choices?.map(exactToken) ?? null,
+    correctChoice: exactToken(activity.correctChoice),
+    matchItems: activity.matchItems?.map((item) => [exactToken(item.label), exactToken(item.pair)]) ?? null,
+    traceGlyph: exactToken(activity.traceGlyph),
+    storyLines: activity.storyLines?.map(exactToken) ?? null,
+    creativePrompt: exactToken(activity.creativePrompt),
+    gameSlug: activity.gameSlug ?? null,
     coloringCharacter: activity.coloringCharacter ?? null,
     drawingGuide: activity.drawingGuide ?? null
   });
