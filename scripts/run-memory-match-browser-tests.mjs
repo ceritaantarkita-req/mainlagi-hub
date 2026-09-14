@@ -68,19 +68,22 @@ async function waitForHydratedBoard(page) {
 
 async function focusFirstCardWithKeyboard(page) {
   await page.locator("body").click({ position: { x: 2, y: 2 } });
-  for (let step = 0; step < 16; step += 1) {
+  const focusTrace = [];
+  for (let step = 0; step < 96; step += 1) {
     await page.keyboard.press("Tab");
     const focused = await page.evaluate(() => {
       const element = document.activeElement;
       return {
         inBoard: Boolean(element?.closest?.("[data-memory-match]")),
         tag: element?.tagName ?? "",
-        label: element?.getAttribute?.("aria-label") ?? ""
+        label: element?.getAttribute?.("aria-label") ?? "",
+        text: element?.textContent?.trim().slice(0, 60) ?? ""
       };
     });
+    focusTrace.push(`${focused.tag}:${focused.label || focused.text || "(no label)"}`);
     if (focused.inBoard && focused.tag === "BUTTON") return focused;
   }
-  throw new Error("Keyboard navigation did not reach a memory card.");
+  throw new Error(`Keyboard navigation did not reach a memory card. Focus trace: ${focusTrace.join(" -> ")}`);
 }
 
 async function solve(page) {
