@@ -134,7 +134,7 @@ function scene(kind:string):ColoringRegion[] {
     case "forest": case "garden": case "meadow": case "flowers": return [...landscape,...moved(tree,"translate(-5 25) scale(.65)"),...moved(flower,"translate(210 160) scale(.5)")];
     case "leaves": return [...moved(motifs.leaf,"translate(-10 20) scale(.7)","Daun kiri: "),...moved(motifs.leaf,"translate(205 125) scale(.55)","Daun kanan: ")];
     case "ocean": case "pond": return [...landscape,...moved(fish,"translate(70 185) scale(.7)")];
-    case "rainy": case "rain-trip": return [...moved([cloud],"translate(50 -5) scale(.8)"),...moved(umbrella,"translate(0 130) scale(.75)"),...Array.from({length:5},(_,i)=>p("Tetes hujan "+(i+1),`M${85+i*73} 240q-25 40 0 44q25-4 0-44Z`))];
+    case "rainy": case "rain-trip": return [...moved([cloud],"translate(50 -5) scale(.8)","Awan hujan: "),...moved(umbrella,"translate(0 130) scale(.75)","Payung: "),...Array.from({length:5},(_,i)=>p("Tetes hujan "+(i+1),`M${85+i*73} 240q-25 40 0 44q25-4 0-44Z`))];
     case "morning": case "noon": case "evening": case "sunset": case "sky": case "cheerful": return [...landscape,...moved(sun,"translate(130 0) scale(.5)")];
     case "night": case "night-camp": case "dreamy": return [...landscape,circle("Bulan",340,114,48),p("Tenda","M90 384 216 208 332 384Z"),p("Pintu tenda","M162 384 216 279 268 384Z")];
     case "calm": return [...landscape,...moved(boat,"translate(95 125) scale(.6)")];
@@ -229,7 +229,7 @@ function highSeverityScene(activityId:string):ColoringRegion[] | null {
     case "color-story-night-camp":
       return [...landscape,circle("Bulan kemah",365,92,42),p("Tenda kemah","M82 402 210 205 338 402Z"),p("Pintu tenda","M160 402 210 295 260 402Z"),p("Api unggun","M357 390 389 315 420 390Z")];
     case "color-time-night":
-      return [box("Langit malam",24,24,432,432),circle("Bulan malam",338,120,54),{...star,name:"Bintang kiri",transform:"translate(-65 25) scale(.24)"},{...star,name:"Bintang kanan",transform:"translate(210 115) scale(.18)"}];
+      return [box("Langit malam",24,24,432,432),circle("Bulan malam",338,120,54),{...star,name:"Bintang kiri",transform:"translate(20 25) scale(.24)"},{...star,name:"Bintang kanan",transform:"translate(270 115) scale(.18)"}];
 
     // Flower family: object, two-color exercise, and free-palette capstone get different complexity.
     case "color-object-flower":
@@ -259,7 +259,7 @@ function highSeverityScene(activityId:string):ColoringRegion[] | null {
     case "color-scene-rainy":
       return [...moved([cloud],"translate(50 -5) scale(.8)","Awan hujan: "),...moved(umbrella,"translate(0 130) scale(.75)","Payung: "),...Array.from({length:5},(_,i)=>p("Tetes hujan "+(i+1),`M${85+i*73} 240q-25 40 0 44q25-4 0-44Z`))];
     case "color-story-rain-trip":
-      return [...moved([cloud],"translate(90 -35) scale(.7)","Awan perjalanan: "),...moved(scene("bus"),"translate(25 175) scale(.86)","Bus hujan: "),p("Genangan","M64 423 Q190 385 318 423 Q188 458 64 423Z")];
+      return [...moved([cloud],"translate(90 -35) scale(.7)","Awan perjalanan: "),...moved(scene("bus"),"translate(60 125) scale(.72)","Bus hujan: "),p("Genangan","M64 423 Q190 385 318 423 Q188 458 64 423Z")];
     case "color-season-rainy":
       return [...landscape,...moved([cloud],"translate(-60 -20) scale(.58)","Awan kiri: "),...moved([cloud],"translate(190 40) scale(.5)","Awan kanan: "),...Array.from({length:7},(_,i)=>p("Tetes musim "+(i+1),`M${55+i*60} 210q-18 31 0 36q18-5 0-36Z`)),p("Genangan musim","M82 421 Q238 365 398 421 Q242 465 82 421Z")];
 
