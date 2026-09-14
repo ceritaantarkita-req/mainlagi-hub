@@ -1,8 +1,10 @@
 import { AudioChoiceLearningActivity } from "@/components/learning/AudioChoiceLearningActivity";
 import { CreativePracticeActivity } from "@/components/learning/CreativePracticeActivity";
+import { MemoryMatchActivity } from "@/components/learning/MemoryMatchActivity";
 import { SymbolHuntChoiceActivity } from "@/components/learning/SymbolHuntChoiceActivity";
 import { MathTraceWorldActivity } from "@/components/learning/world/MathTraceWorldActivity";
 import { WorldActivityScreen } from "@/components/learning/world/WorldExperience";
+import { isMemoryPairActivity } from "@/lib/learning/gameplayPresentation";
 import { getActivity } from "@/lib/learning/system";
 import styles from "./ActivityPage.module.css";
 
@@ -21,6 +23,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
         <AudioChoiceLearningActivity childId={childId} activityId={activity} />
       ) : definition?.choicePresentation === "symbol_hunt" ? (
         <SymbolHuntChoiceActivity childId={childId} activityId={activity} />
+      ) : isMemoryPairActivity(definition) ? (
+        <MemoryMatchActivity childId={childId} activityId={activity} />
       ) : (
         <WorldActivityScreen childId={childId} activityId={activity} />
       )}
