@@ -2,11 +2,11 @@
 
 Last reviewed: **14 September 2026**
 
-Status: **WS-04 deterministic triage is clean — WS-07 Drawing scaffold coverage is 100/100 in PR #100; human pedagogical/art review remains separate**. Canonical plan: `NEXT_PRODUCT_QUALITY_PLAN.md`.
+Status: **WS-04 deterministic triage is clean; WS-06 Coloring and WS-07 Drawing are complete; WS-05 gameplay diversification is active. Human pedagogical/art review remains separate.** Canonical plan: `NEXT_PRODUCT_QUALITY_PLAN.md`.
 
 ## Current calibrated state
 
-PR #100 / CI #422 audits all **9 subjects / 900 activities** after the final WS-07 sparse-scaffold wave:
+PR #102 implementation-head CI #447 audits all **9 subjects / 900 activities** after Memory Pair merge and Sequence Slot implementation:
 
 ```text
 symbol_hunt           74
@@ -80,15 +80,15 @@ Manual visual review rejected three story guides that were still too prescriptiv
 
 ### Final wave — open-ended families
 
-PR #100 adds sparse activity-specific guides for the remaining 25 invention, character, map/world, visual-design, and capstone/free-studio activities. The guides use only workspace boundaries, construction zones, axes, nodes, routes, or starting marks; they deliberately avoid supplying the requested invention, character identity, symbol, story content, or capstone answer.
+PR #100 added sparse activity-specific guides for the remaining 25 invention, character, map/world, visual-design, and capstone/free-studio activities. The guides use only workspace boundaries, construction zones, axes, nodes, routes, or starting marks; they deliberately avoid supplying the requested invention, character identity, symbol, story content, or capstone answer.
 
 Final visual review of all 25 runtime-derived previews confirmed the intended sparse treatment: no clipping/off-canvas issues and no obvious finished-answer scaffold. The free-studio activity uses corner marks only; maps use nodes/routes/boundaries; character tasks use construction anchors; design tasks use empty layout containers; capstones use sparse composition anchors.
 
-CI #422 is full success and the activity-quality artifact reports **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE**, Q106=0, Q108=0, structural=0.
+WS-07 final audit reports **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE**, Q106=0, Q108=0, structural=0.
 
-## Gameplay diversity is now the next deterministic product focus
+## WS-05 gameplay diversification
 
-The clean quality audit still exposes repeated template families that are useful for WS-05 planning. Examples from the final report include:
+The clean quality audit still exposes repeated template families that are useful for WS-05 planning. Examples include:
 
 - 29 Iqro `listen_and_choose` activities with the same instruction family;
 - 27 English `listen_and_choose` activities;
@@ -97,6 +97,16 @@ The clean quality audit still exposes repeated template families that are useful
 - repeated matching/trace families.
 
 These are **not quality failures by themselves**. They are candidates for reusable mechanic diversification only where the mechanic improves the learning objective and preserves assessed evidence.
+
+Accepted / current WS-05 state:
+- `symbol_hunt`: merged for 74 direct-literacy activities; canonical choice evidence preserved.
+- `memory_pair`: merged in PR #101 for exactly 12 Letters case-matching activities; canonical `matching` runtime and assessed evidence preserved.
+- `missing_sequence_slot`: QA on PR #102 for exactly 10 `letters-order-*` activities; canonical `tap_choice` contract preserved, explicit evidence fidelity `choice_sequence_interaction` added.
+- PR #102 browser QA covers progression, keyboard wrong-state, pointer completion, evidence persistence, 320/390/768 responsive states and an explicit in-viewport success CTA assertion.
+- manual visual QA caught and corrected a clipped 320×720 success CTA before acceptance.
+- PR #102 implementation-head CI #447 remains **900 KEEP / 0 flagged**, structural=0.
+
+Next WS-05 wave after PR #102: `sorting_buckets` + `drag_to_target` for classification/matching objectives, followed by additional sequence/search/math/audio families according to `GAMEPLAY_VARIATION_CATALOG.md`.
 
 ## Permanent audit
 
@@ -126,8 +136,10 @@ Advisory quality rules: `Q101`–`Q108`. Heuristics do not replace human pedagog
 - **WS-06 Wave B DONE** — PR #96, merge `31ed55a0bee24a3baae7ff459f79bee9f585ad22`, CI #408; Q108=0.
 - **WS-07 Wave A DONE** — PR #98, merge `d9f0245e8531662840e2d9030e7b9b6e2f9e1df0`, final head CI #415.
 - **WS-07 Wave B DONE** — PR #99, merge `ebeae5ed8d7e58c9b7b9807c88c0d92c45481329`, final docs-head CI #420; Q106 50 -> 25.
-- **WS-07 Final QA** — PR #100, CI #422 full success; 25 sparse guides; Q106 25 -> 0; visual review accepted; final docs-head CI required before merge.
-- **WS-05 NEXT** — measure interaction-template concentration and diversify reusable mechanics without weakening evidence contracts.
+- **WS-07 Final DONE** — PR #100, merge `c01f8122b19cde3d46ea0e2d3297b58216fe824c`; Q106=0.
+- **WS-05 Memory Pair DONE** — PR #101, merge `aea24d47bd2793fbbf3b3723878674ec6f3c98a0`; 12 activities; final visual/browser QA accepted.
+- **WS-05 Sequence Slot QA** — PR #102; 10 activities; implementation-head CI #447 full success; visual QA accepted; docs-head CI required before merge.
+- **WS-05 NEXT** — Sorting/Buckets + Drag-to-Target wave; measure mechanic concentration while preserving evidence contracts.
 - **Wave E LATER** — human subject-by-subject review for age fit, ambiguity, difficulty, cultural fit, visual quality, and progression coherence.
 
 ## Completion rule

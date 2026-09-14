@@ -9,11 +9,11 @@
 - Pola permainan **bukan** berarti 60 engine terpisah. Gunakan sekitar 12–15 engine/interaksi reusable, lalu variasikan presentasi sesuai learning objective.
 - Jangan mengganti mechanic hanya demi mengejar angka. Mechanic harus membantu skill yang sedang dilatih.
 - Assessed activity wajib tetap menghasilkan evidence yang benar: correct/incorrect, retry/attempt, completion, dan metadata yang relevan.
-- Setiap mechanic baru wajib punya mobile, keyboard/accessibility, progression, completion, dan evidence regression QA.
+- Setiap mechanic baru wajib punya mobile, keyboard/accessibility, progression, completion, evidence regression QA, dan review visual nyata pada viewport target.
 
 ## Status saat ini
 
-**Merged di `main`: 9 pola utama**
+**Merged di `main`: 10 pola utama**
 1. `choice_grid` — pilih satu jawaban dari beberapa opsi.
 2. `symbol_hunt` — cari simbol/huruf target dalam area visual.
 3. `listen_choose` — dengarkan petunjuk lalu pilih jawaban.
@@ -23,9 +23,10 @@
 7. `motion_game` — respon aktivitas dengan gerak tubuh opsional.
 8. `coloring_canvas` — isi area gambar dengan warna.
 9. `drawing_canvas` — menggambar bebas/terarah dengan scaffold.
+10. `memory_pair` — buka kartu tertutup dan cari pasangan yang cocok. **MERGED PR #101**
 
-**Dalam QA / PR #101:**
-10. `memory_pair` — buka kartu tertutup dan cari pasangan yang cocok.
+**Dalam QA / PR #102: pola #11**
+11. `missing_sequence_slot` — lihat urutan huruf dengan satu slot kosong lalu pilih kartu yang melengkapinya; runtime presentation internal memakai `sequence_slot`. Scope: **10 Letters `letters-order-*` activities**.
 
 ## 60 pola permainan target
 
@@ -38,13 +39,13 @@
 
 ### B. Matching & memory
 6. `visible_matching` — pilih dua item terbuka yang berpasangan. **MERGED**
-7. `memory_pair` — buka kartu tertutup dan temukan pasangan. **QA / PR #101**
+7. `memory_pair` — buka kartu tertutup dan temukan pasangan. **MERGED PR #101**
 8. `line_matching` — hubungkan item kiri dan kanan dengan garis.
 9. `shadow_matching` — cocokkan objek dengan bentuk/siluetnya.
 10. `sound_matching` — cocokkan bunyi dengan gambar/simbol yang sesuai.
 
 ### C. Sequence & ordering
-11. `missing_sequence_slot` — isi bagian kosong pada urutan.
+11. `missing_sequence_slot` — isi bagian kosong pada urutan. **QA / PR #102**
 12. `reorder_cards` — susun kartu ke urutan yang benar.
 13. `tap_in_order` — ketuk item sesuai urutan yang diminta.
 14. `before_after` — tentukan item sebelum atau sesudah target.
@@ -126,13 +127,14 @@ Prinsip alokasi:
 
 ## Rollout order
 
-1. `memory_pair` — Letters case matching. **QA / PR #101**
-2. `missing_sequence_slot` + `reorder_cards` — Letters sequence/order.
-3. `drag_to_target` + `sorting_buckets` — classification/matching families.
-4. `find_in_scene` + `hidden_object` — recognition/observation families.
-5. `count_and_select` + `number_line` + `make_total` — Math.
-6. `listen_and_point` + `listen_and_match` + `sound_discrimination` — audio-heavy families.
-7. puzzle/path, literacy construction, science exploration, creative, dan story families berikutnya berdasarkan mechanic concentration audit.
+1. `memory_pair` — Letters case matching. **MERGED PR #101**
+2. `missing_sequence_slot` — 10 Letters sequence/order activities. **QA / PR #102**
+3. `sorting_buckets` + `drag_to_target` — classification/matching families; next implementation wave after #102.
+4. `reorder_cards` + `tap_in_order` — sequence families yang benar-benar membutuhkan multi-step ordering.
+5. `find_in_scene` + `hidden_object` — recognition/observation families.
+6. `count_and_select` + `number_line` + `make_total` — Math.
+7. `listen_and_point` + `listen_and_match` + `sound_discrimination` — audio-heavy families.
+8. puzzle/path, literacy construction, science exploration, creative, dan story families berikutnya berdasarkan mechanic concentration audit.
 
 ## Definition of done per mechanic
 
@@ -141,6 +143,7 @@ Satu pola baru baru dianggap selesai jika:
 - objective dan evidence semantics benar;
 - pointer/touch dan keyboard dapat dipakai;
 - mobile layout aman;
+- success/error state rapi secara visual pada viewport target;
 - progression guard tetap benar;
 - completion tidak bisa dipalsukan oleh UI;
 - regression/browser tests masuk CI;
