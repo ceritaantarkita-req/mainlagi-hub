@@ -42,15 +42,24 @@ Semua experience memakai route internal `/play/[slug]`.
 
 Definisi canonical game ada di `src/lib/data/games.ts`.
 
-## Arah produk berikutnya — Planned
+## Platform belajar saat ini
 
-Mainlagi akan berkembang dari motion-game hub menjadi learning platform anak usia 3–7 tahun dengan lima area utama:
+Katalog platform anak usia 3–7 tahun sudah memuat sembilan area dan 900
+activity route (100 per area). Jumlah route tidak berarti semua konten
+telah lolos review pedagogi atau perangkat fisik.
 
 - Bahasa Indonesia
 - English
 - Matematika
 - Iqro
 - Mewarnai
+- Huruf & Menulis
+- Logika
+- Sains
+- Menggambar
+
+Perbaikan alur dan desain lokal yang belum di-deploy didokumentasikan di
+[LOCAL_REDESIGN_2026-09-11.md](docs/LOCAL_REDESIGN_2026-09-11.md).
 
 Arah ini juga mencakup:
 

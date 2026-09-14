@@ -41,9 +41,19 @@ export type IconName =
   | "link"
   | "image"
   | "heading"
-  | "faq";
+  | "faq"
+  | "book"
+  | "pencil"
+  | "palette"
+  | "sprout"
+  | "bulb";
 
 const PATHS: Record<IconName, ReactNode> = {
+  book: <><path d="M3 5q5-2 9 1v15q-4-3-9-1ZM21 5q-5-2-9 1v15q4-3 9-1Z"/><path d="M6 9l3 .7M6 13l3 .7M15 9.7 18 9M15 13.7l3-.7"/></>,
+  pencil: <><path d="m4 15 11-11q2-2 4 0t0 4L8 19l-5 2Z"/><path d="m13 6 5 5M4 15l4 4"/></>,
+  palette: <><path d="M12 3a9 9 0 1 0 0 18h1.5a2 2 0 0 0 1.4-3.4c-1.3-1.3-.4-3.6 1.5-3.6H18c5 0 4-11-6-11Z"/><circle cx="7" cy="9" r="1"/><circle cx="11" cy="6.5" r="1"/><circle cx="16" cy="8" r="1"/><circle cx="6.5" cy="14" r="1"/></>,
+  sprout: <><path d="M12 21v-9M12 15C3 16 3 6 3 6s10-1 9 9ZM12 12C11 3 21 3 21 3s1 9-9 9Z"/><path d="M7 21h10"/></>,
+  bulb: <><path d="M8 16c0-3-3-3-3-7a7 7 0 0 1 14 0c0 4-3 4-3 7ZM8 19h8M10 22h4"/><path d="M12 16v-5l-2-2M12 11l2-2"/></>,
   home: (
     <>
       <path d="M3.5 10.5 12 3.5l8.5 7" />

@@ -173,6 +173,12 @@ try {
   assert.equal(selection.manager.selectVoice("id-ID")?.name, "Indonesia local", "exact local locale should win voice selection");
   assert.equal(selection.manager.selectVoice("en-GB")?.name, "English local", "same-language fallback should be available");
 
+  const foreignOnly = harness([voice({ name: "English only", lang: "en-US" })]);
+  assert.equal(foreignOnly.manager.speechCapability("id-ID"), "unavailable", "Indonesian narration must fail closed without an Indonesian voice");
+  assert.equal(foreignOnly.manager.speakPrompt("Cari huruf A", { lang: "id-ID" }), "unavailable");
+  assert.equal(foreignOnly.synth.spoken.length, 0, "an English default voice must never read an Indonesian prompt");
+  assert.equal(foreignOnly.manager.speakPrompt("Find the letter A", { lang: "en-US" }), "spoken", "a matching English voice remains usable for English activities");
+
   const unavailableLatency = [];
   const unavailable = new AudioManager({
     getSpeechSynthesis: () => new FakeSynth(voices),
@@ -286,7 +292,11 @@ try {
 
   const legacyLearning = readFileSync(path.join(root, "src", "components", "learning", "ChildLearningPlatform.tsx"), "utf8");
   assert.doesNotMatch(legacyLearning, /SpeechSynthesisUtterance|utterance\.rate\s*=\s*0\.85|speechSynthesis\.cancel/);
-  assert.match(legacyLearning, /speakManagedPrompt/, "legacy learning audio must delegate to managed prompt speech");
+  assert.match(legacyLearning, /<GardenActivityFrame[^>]*narration=\{/, "learning activities must pass narration to the shared audio control");
+  assert.match(legacyLearning, /activity\.runtime === "story" \? \(activity\.storyLines \?\? \[\]\)\.join\(" "\)/, "story narration must retain the complete story text");
+  const gardenFrame = readFileSync(path.join(root, "src", "components", "learning", "GardenActivityFrame.tsx"), "utf8");
+  assert.match(gardenFrame, /import \{ speakWithStatus, unlockAudio \} from "@\/lib\/audio\/feedback"/, "shared activity audio must use the managed facade");
+  assert.match(gardenFrame, /speakWithStatus\(narration \?\? title \?\? "", lang\)/, "shared audio must preserve narration and requested language");
 
   const audioChoice = readFileSync(path.join(root, "src", "components", "learning", "AudioChoiceLearningActivity.tsx"), "utf8");
   assert.doesNotMatch(audioChoice, /speakWithStatus\(prompt, lang, 0\.88\)/, "audio choice must use centralized default prompt rate");

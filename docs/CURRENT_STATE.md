@@ -1,8 +1,22 @@
 # Mainlagi Hub — Current State
 
-Last reviewed: 11 September 2026
+Last reviewed: 14 September 2026
+
+> Merge-candidate update — 14 September 2026: entering merge hardening, the
+> existing Windows workspace and remote branch `agent/local-product-qa-20260911`
+> were verified clean and synchronized at `636f4f236d23df40546821714006dd106b917137`
+> (ahead/behind `0/0`). Follow-up fixes and their CI state are tracked by PR #87.
+> The Garden/Playroom redesign is committed and pushed, but not yet merged or
+> deployed. Production remains on `main` at
+> `981f5768f9f24b3be5e878a85395d9951292e4ed`.
 
 This is the canonical human/AI handoff. `main` is the implementation source of truth; commit SHAs below are verification snapshots.
+
+> Historical baseline notice: the production details below predate PR #87.
+> Do not infer that the PR #87 redesign is deployed until the exact-SHA
+> production smoke succeeds after merge. See
+> [the audit](AUDIT_2026-09-11_LOCAL_AND_GITHUB.md) and
+> [local redesign results](LOCAL_REDESIGN_2026-09-11.md).
 
 ## Canonical baseline
 

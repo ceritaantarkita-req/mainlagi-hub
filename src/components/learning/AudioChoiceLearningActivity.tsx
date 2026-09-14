@@ -6,10 +6,11 @@ import { playTone, speakWithStatus, unlockAudio, type SpeechStartStatus } from "
 import { completeActivity, getActivity } from "@/lib/learning/system";
 import { useLearningProgress } from "./LearningCommon";
 import styles from "./LearningPlatform.module.css";
+import { GardenActivityFrame } from "./GardenActivityFrame";
 
 function audioFallback(status: SpeechStartStatus | null): string | null {
   if (status === "muted") return "Suara sedang dimatikan. Petunjuk tetap tersedia sebagai teks di layar.";
-  if (status === "unavailable") return "Perangkat atau browser ini tidak menyediakan suara otomatis. Gunakan petunjuk teks di layar.";
+  if (status === "unavailable") return "Narasi dengan pelafalan yang sesuai belum tersedia di perangkat ini. Mainlagi tidak akan memakai voice bahasa lain. Gunakan petunjuk teks di layar.";
   if (status === "error") return "Suara belum bisa diputar. Coba lagi atau lanjut menggunakan petunjuk teks.";
   return null;
 }
@@ -49,36 +50,23 @@ export function AudioChoiceLearningActivity({ childId, activityId }: { childId: 
   };
 
   return (
-    <main className={styles.contentNarrow}>
-      <section className={styles.activityViewport}>
-        <div className={styles.activityTopbar}>
-          <Link className={styles.backButton} href={`/child/${childId}/stage/${activity.stageId}`} aria-label="Kembali">←</Link>
-          <span className={styles.tag}>🔊 Listening</span>
-          <span className={styles.tag}>⭐ {progress.stars}</span>
-        </div>
-
-        <h1 className={styles.activityPrompt}>{prompt}</h1>
-        <div style={{ textAlign: "center" }}>
-          <button type="button" className={styles.secondaryButton} onClick={hear}>🔊 Putar suara</button>
-        </div>
+    <GardenActivityFrame backHref={`/child/${childId}/subject/${activity.subjectId}`} title={prompt} onHear={hear} hint="Dengarkan, lalu sentuh pilihanmu." spacious={prompt.length<45}>
 
         {fallback ? (
           <div className={styles.infoBanner} role="status" style={{ marginTop: 14 }}>
-            <strong>Audio fallback:</strong> {fallback}<br />
-            <span>Petunjuk: <strong>{prompt}</strong></span>
+            {fallback}
           </div>
         ) : null}
 
-        <div className={styles.choiceGrid}>
+        <div className={styles.choiceGrid} data-choices>
           {(activity.choices ?? []).map((choice) => (
-            <button type="button" className={styles.bigChoice} key={choice} onClick={() => choose(choice)}>{choice}</button>
+            <button type="button" className={styles.bigChoice} data-short={choice.length<=2} key={choice} onClick={() => choose(choice)}>{choice}</button>
           ))}
         </div>
 
-        {feedback === "good" ? <div className={styles.feedbackGood}>Hebat! ⭐ Aktivitas selesai.</div> : null}
+        {feedback === "good" ? <div className={styles.feedbackGood} role="status">Hebat! Aktivitas selesai.</div> : null}
         {feedback === "try" ? <div className={styles.feedbackTry}>Belum tepat. Dengarkan lagi atau coba pilihan lain ya.</div> : null}
-        {done ? <Link className={styles.secondaryButton} href={`/child/${childId}/stage/${activity.stageId}`}>← Kembali ke stage</Link> : null}
-      </section>
-    </main>
+        {done ? <Link className={styles.secondaryButton} href={`/child/${childId}/subject/${activity.subjectId}`}>Pilih permainan lain</Link> : null}
+    </GardenActivityFrame>
   );
 }

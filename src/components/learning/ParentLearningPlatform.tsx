@@ -18,19 +18,20 @@ import {
 } from "@/lib/learning/system";
 import { CharacterAvatar, useLearningProfile, useLearningProgress } from "./LearningCommon";
 import styles from "./LearningPlatform.module.css";
+import { House, Users, ShieldCheck, Sparkle, Gear, GameController } from "@phosphor-icons/react";
 
 const DEFAULT_PREFS: LearningPreferences = { allowMotionRecommendations: false, allowAiFeatures: false, reducedMotion: false, language: "id" };
 const PARENT_NAV = [
-  { href: "/parent", label: "Overview", icon: "🏠" },
-  { href: "/parent/children", label: "Anak", icon: "👧" },
-  { href: "/parent/privacy", label: "Privacy & AI", icon: "🛡️" },
-  { href: "/parent/plan", label: "Plan", icon: "✨" },
-  { href: "/parent/settings", label: "Settings", icon: "⚙️" }
+  { href: "/parent", label: "Ringkasan", icon: House },
+  { href: "/parent/children", label: "Anak", icon: Users },
+  { href: "/parent/privacy", label: "Privasi & AI", icon: ShieldCheck },
+  { href: "/parent/plan", label: "Paket", icon: Sparkle },
+  { href: "/parent/settings", label: "Pengaturan", icon: Gear }
 ];
 
 export function ParentShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  return <div className={styles.parentSurface}><div className={styles.parentLayout}><aside className={styles.parentSidebar}><Link className={styles.parentBrand} href="/"><span className={styles.brandMark}>M</span><span>Mainlagi Parent</span></Link>{PARENT_NAV.map((item) => { const active = item.href === "/parent" ? pathname === "/parent" : pathname.startsWith(item.href); return <Link key={item.href} href={item.href} className={`${styles.parentNavItem} ${active ? styles.parentNavItemActive : ""}`}><span>{item.icon}</span><span>{item.label}</span></Link>; })}<Link href="/child/select" className={styles.parentNavItem}><span>🧸</span><span>Mode anak</span></Link></aside><div>{children}</div></div></div>;
+  return <div className={styles.parentSurface}><div className={styles.parentLayout}><aside className={styles.parentSidebar}><Link className={styles.parentBrand} href="/"><span>Mainlagi<small className={styles.parentBrandHint}>Ruang orang tua</small></span></Link><nav aria-label="Navigasi orang tua">{PARENT_NAV.map((item) => { const active = item.href === "/parent" ? pathname === "/parent" : pathname.startsWith(item.href); return <Link key={item.href} href={item.href} aria-current={active ? "page" : undefined} className={`${styles.parentNavItem} ${active ? styles.parentNavItemActive : ""}`}><item.icon size={23} weight="duotone" aria-hidden/><span>{item.label}</span></Link>; })}</nav><Link href="/child/select" className={styles.parentNavItem}><GameController size={23} weight="duotone" aria-hidden/><span>Mode anak</span></Link></aside><div>{children}</div></div></div>;
 }
 
 function useAllProfiles() {

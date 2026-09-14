@@ -9,6 +9,8 @@ import { emitLearningRuntimeMeasurement } from "@/lib/learning/runtimeMeasuremen
 import { playTone, speak, unlockAudio } from "@/lib/audio/feedback";
 import { useLearningProgress } from "../LearningCommon";
 import styles from "./MathTraceWorldActivity.module.css";
+import { GardenActivityFrame } from "../GardenActivityFrame";
+import learning from "../LearningPlatform.module.css";
 
 const CHECKPOINTS = [
   { x: 76, y: 17 },
@@ -40,17 +42,6 @@ function makeStrokeId(): string {
   return `touch-trace-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
-function MiniPaca({ celebrate = false }: { celebrate?: boolean }) {
-  return (
-    <div className={`${styles.paca} ${celebrate ? styles.pacaCelebrate : ""}`} role="img" aria-label={celebrate ? "Paca merayakan" : "Paca membantu"}>
-      <span className={styles.antenna} />
-      <span className={styles.head}><span className={styles.face}><i /><i /><b /></span></span>
-      <span className={styles.body}>M</span>
-      <span className={styles.armLeft} />
-      <span className={styles.armRight} />
-    </div>
-  );
-}
 
 export function MathTraceWorldActivity({ childId }: { childId: string }) {
   const activity = getActivity("math-trace-5-touch")!;
@@ -129,7 +120,7 @@ export function MathTraceWorldActivity({ childId }: { childId: string }) {
     });
     completeActivity(childId, activity.id);
     setComplete(true);
-    setMessage(`Angka 5 selesai · skor lintasan ${measurement.result.score}%`);
+    setMessage("Angka 5 selesai. Hebat, kamu mengikuti jalurnya!");
     playTone("celebrate");
     speak(alreadyDone ? "Bagus! Kamu masih ingat cara menulis angka lima." : "Hebat! Kamu berhasil menelusuri angka lima.", "id-ID", 0.9);
     if (typeof navigator !== "undefined" && "vibrate" in navigator) navigator.vibrate([25, 35, 70]);
@@ -215,21 +206,8 @@ export function MathTraceWorldActivity({ childId }: { childId: string }) {
   const polyline = points.map((point) => `${point.x},${point.y}`).join(" ");
 
   return (
-    <main className={styles.page}>
-      <header className={styles.header}>
-        <Link href={`/child/${childId}/stage/${activity.stageId}`} className={styles.close} aria-label="Keluar aktivitas">×</Link>
-        <div className={styles.progress} aria-label={`${progressPercent}% trace selesai`}><span><i style={{ width: `${progressPercent}%` }} /></span><small>2 dari 2</small></div>
-        <div className={styles.stars}>★ {progress.stars}</div>
-      </header>
-
-      <section className={styles.scene}>
-        <div className={styles.guideRow}>
-          <div className={styles.pacaWrap}><MiniPaca celebrate={complete} /></div>
-          <button type="button" className={styles.prompt} onClick={hearPrompt}>
-            <span className={styles.audio}>♪</span>
-            <span><strong>Telusuri angka 5</strong><small>Sentuh untuk dengar</small></span>
-          </button>
-        </div>
+    <GardenActivityFrame backHref={`/child/${childId}/subject/${activity.subjectId}`} title="Telusuri angka 5" onHear={hearPrompt}>
+      <div className={styles.progress} aria-label={`${progressPercent}% trace selesai`}><span><i style={{ width: `${progressPercent}%` }} /></span></div>
 
         <div className={styles.traceCard}>
           <div className={styles.traceTop}><span>Ikuti garisnya</span><button type="button" onClick={reset}>Ulangi</button></div>
@@ -250,21 +228,7 @@ export function MathTraceWorldActivity({ childId }: { childId: string }) {
           </svg>
           <div className={`${styles.message} ${complete ? styles.messageDone : ""}`}>{complete ? "✓ " : ""}{message}</div>
         </div>
-      </section>
-
-      {complete ? (
-        <div className={styles.celebration} role="dialog" aria-modal="true" aria-label="Trace selesai">
-          <div className={styles.sparkles} aria-hidden><i /><i /><i /><i /><i /><i /></div>
-          <div className={styles.celebrationCard}>
-            <div className={styles.celebratePaca}><MiniPaca celebrate /></div>
-            <div className={styles.bigFive}>5</div>
-            <h1>Keren!</h1>
-            <p>Kamu mengikuti bentuk angka lima sampai selesai.</p>
-            <div className={styles.reward}>+{alreadyDone ? 0 : activity.stars} ★</div>
-            <Link className={styles.continue} href={`/child/${childId}/stage/${activity.stageId}`}>Buka jalur berikutnya <span>→</span></Link>
-          </div>
-        </div>
-      ) : null}
-    </main>
+      {complete ? <div className={learning.feedbackGood} role="status"><h2>Keren!</h2><p>Kamu mengikuti bentuk angka lima sampai selesai.</p><Link className={learning.primaryButton} href={`/child/${childId}/subject/${activity.subjectId}`}>Pilih permainan lain</Link></div> : null}
+    </GardenActivityFrame>
   );
 }

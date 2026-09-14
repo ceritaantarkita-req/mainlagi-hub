@@ -21,38 +21,11 @@ const EMPTY_LEARNING_PROGRESS: LearningProgress = { completedActivityIds: [], st
 export function CharacterAvatar({ id, large = false }: { id: CharacterId; large?: boolean }) {
   const className = large ? styles.characterBubbleLarge : styles.characterBubble;
 
-  if (id === "paca") {
-    return (
-      <span className={className} role="img" aria-label={CHARACTERS[id].name} style={{ background: "#e8f5ff" }}>
-        <svg width="74%" height="74%" viewBox="0 0 80 80" aria-hidden>
-          <rect x="14" y="18" width="52" height="44" rx="17" fill="#fff" stroke="#4b86d9" strokeWidth="4" />
-          <rect x="20" y="24" width="40" height="27" rx="11" fill="#173a5e" />
-          <circle cx="32" cy="37" r="4" fill="#6ee7ff" />
-          <circle cx="48" cy="37" r="4" fill="#6ee7ff" />
-          <path d="M33 44c4 4 10 4 14 0" fill="none" stroke="#6ee7ff" strokeWidth="3" strokeLinecap="round" />
-          <path d="M40 18V10" stroke="#4b86d9" strokeWidth="4" strokeLinecap="round" />
-          <circle cx="40" cy="8" r="4" fill="#30b4f2" />
-          <circle cx="14" cy="37" r="5" fill="#6cb3ff" />
-          <circle cx="66" cy="37" r="5" fill="#6cb3ff" />
-        </svg>
-      </span>
-    );
-  }
-
-  if (id === "gavi") {
-    return (
-      <span className={className} role="img" aria-label={CHARACTERS[id].name} style={{ background: "#fff2d7" }}>
-        <svg width="76%" height="76%" viewBox="0 0 80 80" aria-hidden>
-          <path d="M20 30 16 13l18 11c4-2 8-2 12 0l18-11-4 17c5 6 7 13 7 21 0 14-12 23-27 23S13 65 13 51c0-8 2-15 7-21Z" fill="#f59e0b" />
-          <path d="M29 30c4-4 18-4 22 0" fill="#ffc74f" />
-          <circle cx="30" cy="43" r="4" fill="#2d2b2a" />
-          <circle cx="50" cy="43" r="4" fill="#2d2b2a" />
-          <path d="m40 49-5 4h10Z" fill="#c45822" />
-          <path d="M40 53c-2 5-8 6-12 3M40 53c2 5 8 6 12 3" fill="none" stroke="#684029" strokeWidth="2.8" strokeLinecap="round" />
-          <path d="M23 48H10M23 53H8M57 48h13M57 53h15" stroke="#8a572c" strokeWidth="2" strokeLinecap="round" />
-        </svg>
-      </span>
-    );
+  if (id === "paca" || id === "gavi") {
+    return <span className={className} role="img" aria-label={CHARACTERS[id].name} style={{background:id==="paca" ? "#def1e8" : "#ffead1"}}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={`/artwork/garden-${id}.webp`} alt="" width={100} height={120} style={{width:"88%",height:"88%",objectFit:"contain"}}/>
+    </span>;
   }
 
   if (id === "naya") {
@@ -103,6 +76,7 @@ export function useLearningProfile(childId: string) {
   useEffect(() => {
     let cancelled = false;
     const refresh = async () => {
+      if (!childId) return;
       const userId = await getCurrentUserId();
       if (cancelled) return;
       if (!userId) {

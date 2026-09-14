@@ -1,0 +1,22 @@
+/* Shared identity for child, family and utility screens. Gameplay owns its scene. */
+:root { --garden-ink:#193b55; --garden-paper:#fffcf0; --garden-sky:#d5eef6; --garden-green:#287158; --garden-coral:#bd492f; --brand:#287158; --brand-strong:#205d49; --brand-soft:#e2f0e5; --ink:#193b55; --navy:#193b55; --page:#fffcf0; --surface-2:#eef5eb; --line:#d4ded5; --radius:22px; --radius-lg:30px; }
+body { font-family:'Nunito Variable','Noto Sans Variable',sans-serif; }
+button,input,select,textarea { font-family:inherit; }
+button,a,input,select,textarea,summary { -webkit-tap-highlight-color:transparent; }
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible { outline:3px solid #155f86; outline-offset:4px; }
+.garden-wordmark { width:150px; height:55px; object-fit:contain; }
+.fun-home { background:var(--page); }
+.bottom-nav { grid-template-columns:repeat(5,minmax(0,1fr)); background:#fffdf3; border-color:#dbe3d3; min-height:76px; }
+.bottom-nav__item { display:flex; flex-direction:column; gap:5px; align-items:center; justify-content:center; min-width:0; min-height:60px; color:#536d78; border-radius:16px; }
+.bottom-nav__item.is-active { color:#205b46; background:#e0eedb; }
+.bottom-nav__label { font-size:12px; line-height:1.2; font-weight:800; text-align:center; }
+.top-nav { background:#fffdf3; border-color:#dbe3d3; }
+.top-nav__menu a { color:#193b55; font-weight:850; }
+.account-page .fun-section__head h1 { color:#193b55; margin:0; font-size:clamp(32px,5vw,48px); font-weight:950; }
+.account-link,.account-gate,.account-user,.account-detail,.auth-card,.catalog-card,.game-detail__hero { border-radius:24px; border:2px solid #dce4d8; background:#fffef7; box-shadow:0 4px 0 #e4e9dc; }
+.account-link { min-height:86px; color:#193b55; }
+.account-link__icon { background:#e1efdc; border-radius:16px; color:#287158; }
+.button--primary { background:#287158; color:white; border-radius:16px; box-shadow:0 4px 0 #195541; }
+.button--ghost { border:2px solid #d4decf; border-radius:16px; color:#193b55; }
+html[data-theme=dark] .top-nav,html[data-theme=dark] .account-link,html[data-theme=dark] .account-gate,html[data-theme=dark] .account-user,html[data-theme=dark] .account-detail,html[data-theme=dark] .auth-card,html[data-theme=dark] .catalog-card { background:#172f3e; color:#f5f5df; border-color:#39515b; box-shadow:none; }
+html[data-theme=dark] .top-nav__menu a,html[data-theme=dark] .account-page .fun-section__head h1 { color:#f5f5df; }

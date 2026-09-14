@@ -1,8 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import "@fontsource-variable/noto-sans";
+import "@fontsource-variable/nunito";
 import "./globals.css";
 import "./modules.css";
+import "./garden-tokens.css";
 import { AppShell } from "@/components/AppShell";
 import { AudioRouteBridge } from "@/components/audio/AudioRouteBridge";
 import { ThemeProvider } from "@/components/ThemeProvider";

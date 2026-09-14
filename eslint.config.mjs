@@ -8,6 +8,10 @@ export default defineConfig([
   globalIgnores([
     ".next/**",
     ".qa-dist/**",
+    ".learning-test-dist/**",
+    ".learning-isolation-dist/**",
+    ".batch17-final-dist/**",
+    ".audio-test-dist/**",
     "coverage/**",
     "qa/**",
     "preview/**",

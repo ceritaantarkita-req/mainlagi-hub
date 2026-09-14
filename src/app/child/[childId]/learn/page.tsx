@@ -1,6 +1,6 @@
-import { LearnLibraryScreen } from "@/components/learning/ChildLearningPathViews";
+import { redirect } from "next/navigation";
 
 export default async function LearnPage({ params }: { params: Promise<{ childId: string }> }) {
   const { childId } = await params;
-  return <LearnLibraryScreen childId={childId} />;
+  redirect(`/child/${childId}/home#choose-subject`);
 }

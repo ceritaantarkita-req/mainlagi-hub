@@ -1,11 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useMemo, useState, type CSSProperties, type ReactNode } from "react";
 import {
   ACTIVITIES,
-  CHARACTERS,
   SUBJECTS,
   completeActivity,
   getActivitiesForStage,
@@ -25,6 +24,12 @@ import {
   SubjectScreen as LegacySubjectScreen
 } from "../ChildLearningPlatform";
 import styles from "./WorldExperience.module.css";
+import { PlayroomShell } from "../Playroom";
+import { GardenActivityFrame } from "../GardenActivityFrame";
+import garden from "../GardenActivityFrame.module.css";
+import learning from "../LearningPlatform.module.css";
+import playroom from "../Playroom.module.css";
+import { Rocket, PuzzlePiece, Key, LockKey } from "@phosphor-icons/react";
 
 const WORLD_META: Record<LearningSubjectId, { name: string; place: string; helper: string }> = {
   bahasa: { name: "Bahasa", place: "Taman Kata", helper: "Huruf, kata & cerita" },
@@ -161,43 +166,7 @@ function Gavi({ mood = "happy" }: { mood?: "happy" | "oops" | "celebrate" }) {
 }
 
 export function WorldChildShell({ childId, children }: { childId: string; children: ReactNode }) {
-  const pathname = usePathname();
-  const profile = useLearningProfile(childId);
-  const base = `/child/${childId}`;
-  const inLearning = pathname.includes("/subject/") || pathname.includes("/stage/") || pathname.includes("/activity/") || pathname === `${base}/learn`;
-  const items = [
-    { href: `${base}/home`, label: "Dunia", icon: "⌂", active: pathname === `${base}/home` || pathname === base },
-    { href: `${base}/learn`, label: "Belajar", icon: "✦", active: inLearning },
-    { href: `${base}/games`, label: "Gerak", icon: "◉", active: pathname.startsWith(`${base}/games`) },
-    { href: `${base}/rewards`, label: "Hadiah", icon: "★", active: pathname.startsWith(`${base}/rewards`) }
-  ];
-
-  return (
-    <div className={styles.shell}>
-      <header className={styles.topbar}>
-        <Link href={`${base}/home`} className={styles.logo} aria-label="Mainlagi World">
-          <span className={styles.logoMark}>M</span>
-          <span>Mainlagi</span>
-        </Link>
-        <div className={styles.topActions}>
-          <Link href="/parent" className={styles.parentGate} aria-label="Area orang tua">Orang tua</Link>
-          <Link href="/child/select" className={styles.profileButton} aria-label="Ganti profil anak">
-            <span className={styles.profileDot}>{profile ? CHARACTERS[profile.guide].emoji : "🙂"}</span>
-            <span>{profile?.name ?? "Profil"}</span>
-          </Link>
-        </div>
-      </header>
-      {children}
-      <nav className={styles.dock} aria-label="Navigasi anak">
-        {items.map((item) => (
-          <Link key={item.href} href={item.href} className={`${styles.dockItem} ${item.active ? styles.dockItemActive : ""}`} aria-current={item.active ? "page" : undefined}>
-            <span className={styles.dockIcon} aria-hidden>{item.icon}</span>
-            <span>{item.label}</span>
-          </Link>
-        ))}
-      </nav>
-    </div>
-  );
+  return <PlayroomShell childId={childId}>{children}</PlayroomShell>;
 }
 
 function WorldPortal({ childId, subject }: { childId: string; subject: LearningSubjectId }) {
@@ -355,13 +324,8 @@ export function WorldStageScreen({ childId, stageId }: { childId: string; stageI
   );
 }
 
-function Confetti() {
-  return <div className={styles.confetti} aria-hidden>{Array.from({ length: 18 }, (_, index) => <i key={index} style={{ "--i": index } as CSSProperties} />)}</div>;
-}
-
 function MathCountActivity({ childId, activity }: { childId: string; activity: LearningActivity }) {
   const [feedback, setFeedback] = useState<"idle" | "wrong" | "correct">("idle");
-  const [wrongChoice, setWrongChoice] = useState<string | null>(null);
   const progress = useLearningProgress(childId);
   const alreadyDone = progress.completedActivityIds.includes(activity.id);
 
@@ -377,14 +341,12 @@ function MathCountActivity({ childId, activity }: { childId: string; activity: L
     unlockAudio();
     if (choice === activity.correctChoice) {
       completeActivity(childId, activity.id);
-      setWrongChoice(null);
       setFeedback("correct");
       playTone("celebrate");
       speak(alreadyDone ? "Benar! Kamu masih ingat." : "Hebat! Ada tiga apel!", "id-ID", 0.92);
       if (typeof navigator !== "undefined" && "vibrate" in navigator) navigator.vibrate([30, 30, 70]);
       return;
     }
-    setWrongChoice(choice);
     setFeedback("wrong");
     playTone("wrong");
     speak("Hmm, coba hitung pelan-pelan lagi.", "id-ID", 0.92);
@@ -392,55 +354,14 @@ function MathCountActivity({ childId, activity }: { childId: string; activity: L
   };
 
   return (
-    <main className={styles.activityGame}>
-      <div className={styles.activitySky} aria-hidden><span /><span /><span /></div>
-      <header className={styles.activityHeader}>
-        <Link href={`/child/${childId}/stage/${activity.stageId}`} className={styles.roundBack} aria-label="Keluar aktivitas">×</Link>
-        <div className={styles.activityProgress}><span><i /></span><small>1 dari 2</small></div>
-        <div className={styles.activityStar}>★ {progress.stars}</div>
-      </header>
-
-      <section className={styles.activityStage}>
-        <div className={styles.activityGuide}>
-          <div className={styles.activityPaca}><Paca mood={feedback === "correct" ? "celebrate" : feedback === "wrong" ? "think" : "happy"} /></div>
-          <button type="button" className={styles.promptBubble} onClick={hearPrompt}>
-            <span className={styles.promptAudio}>♪</span>
-            <span><strong>Ayo hitung apelnya!</strong><small>Sentuh untuk dengar</small></span>
-          </button>
-        </div>
-
-        <div className={styles.applePlayground} aria-label="Tiga apel">
-          {apples.map((apple, index) => <div key={apple} className={styles.apple} style={{ "--apple-index": index } as CSSProperties}><i /><b /></div>)}
-          <span className={styles.grassPatch} />
-        </div>
-
-        <div className={styles.answerArea}>
-          <h1>Ada berapa apel?</h1>
-          <div className={styles.answerChoices}>
-            {(activity.choices ?? []).map((choice) => (
-              <button key={choice} type="button" onClick={() => choose(choice)} className={`${styles.answerButton} ${wrongChoice === choice ? styles.answerWrong : ""} ${feedback === "correct" && choice === activity.correctChoice ? styles.answerCorrect : ""}`} disabled={feedback === "correct"}>
-                {choice}
-              </button>
-            ))}
-          </div>
-          {feedback === "wrong" ? <div className={styles.characterFeedback}><Gavi mood="oops" /><span><strong>Hampir!</strong> Hitung satu per satu lagi ya.</span></div> : null}
-        </div>
-      </section>
-
-      {feedback === "correct" ? (
-        <div className={styles.celebration} role="dialog" aria-modal="true" aria-label="Aktivitas selesai">
-          <Confetti />
-          <div className={styles.celebrationPanel}>
-            <div className={styles.celebrateCharacters}><Paca mood="celebrate" /><Gavi mood="celebrate" /></div>
-            <div className={styles.bigStar}>★</div>
-            <h2>Hebat!</h2>
-            <p>Kamu menemukan <strong>3 apel</strong>.</p>
-            <div className={styles.rewardLine}>+{alreadyDone ? 0 : activity.stars} bintang</div>
-            <Link href={`/child/${childId}/stage/${activity.stageId}`} className={styles.continueButton}>Lanjut petualangan <span>→</span></Link>
-          </div>
-        </div>
-      ) : null}
-    </main>
+    <GardenActivityFrame backHref={`/child/${childId}/subject/${activity.subjectId}`} title="Ada berapa apel?" onHear={hearPrompt}>
+      <div className={garden.apples} aria-label="Tiga apel">{apples.map(apple=><img key={apple} src="/artwork/garden-apple.webp" width={180} height={180} alt="Apel"/>)}</div>
+      <div className={learning.choiceGrid}>
+        {(activity.choices ?? []).map(choice=><button key={choice} type="button" className={learning.bigChoice} onClick={()=>choose(choice)} disabled={feedback==="correct"} aria-pressed={feedback==="correct" && choice===activity.correctChoice}>{choice}</button>)}
+      </div>
+      {feedback==="wrong" ? <p role="status" className={learning.feedbackTry}>Belum tepat. Hitung satu per satu lagi ya.</p> : null}
+      {feedback==="correct" ? <div role="status" className={learning.feedbackGood}><h2>Hebat!</h2><p>Kamu menemukan 3 apel.</p><Link className={learning.primaryButton} href={`/child/${childId}/subject/${activity.subjectId}`}>Pilih permainan lain</Link></div> : null}
+    </GardenActivityFrame>
   );
 }
 
@@ -462,22 +383,18 @@ export function WorldRewardsScreen({ childId }: { childId: string }) {
     { stars: 12, icon: "🏰", name: "Kunci Kota" }
   ];
 
-  return (
-    <main className={styles.rewardWorld}>
-      <section className={styles.rewardHero}>
-        <div><h1>Koleksi {profile.name}</h1><p>Setiap tantangan membuka kejutan baru.</p></div>
-        <div className={styles.rewardTotal}><span>★</span><strong>{progress.stars}</strong><small>bintang</small></div>
-        <div className={styles.rewardPaca}><Paca mood="celebrate" /></div>
-      </section>
-      <section className={styles.rewardShelf} aria-label="Koleksi hadiah">
-        {rewards.map((reward) => {
-          const unlocked = progress.stars >= reward.stars;
-          return <div key={reward.name} className={`${styles.rewardToy} ${unlocked ? styles.rewardToyUnlocked : ""}`}><span className={styles.rewardToyIcon}>{unlocked ? reward.icon : "?"}</span><strong>{unlocked ? reward.name : `${reward.stars} ★`}</strong><small>{unlocked ? "Terkoleksi" : "Belum terbuka"}</small></div>;
-        })}
-      </section>
-      <div className={styles.rewardFooter}><span>{completed} aktivitas selesai</span><Link href={`/child/${childId}/home`}>Main lagi →</Link></div>
-    </main>
-  );
+  return <main className={learning.content}>
+    <section className={playroom.continue}>
+      <div className={playroom.continueCopy}><p>Koleksi bintang</p><h1 className={learning.pageTitle}>Hebat, {profile.name}!</h1><p>{progress.stars} bintang · {completed} aktivitas selesai</p></div>
+      <div className={playroom.companions} aria-hidden><img src="/artwork/garden-gavi.webp" alt="" width={487} height={650}/><img src="/artwork/garden-paca.webp" alt="" width={500} height={600}/></div>
+    </section>
+    <section className={learning.rewardShelf} aria-label="Koleksi hadiah">{rewards.map((reward,index)=>{
+      const unlocked=progress.stars>=reward.stars;
+      const RewardIcon=[Rocket, Rocket, PuzzlePiece, Key][index];
+      return <div key={reward.name} className={learning.rewardItem} data-locked={!unlocked}>{unlocked ? index===0 ? <img src="/artwork/garden-apple.webp" width={56} height={56} alt=""/> : <RewardIcon size={56} weight="duotone" aria-hidden/> : <LockKey size={48} weight="duotone" aria-hidden/>}<strong>{reward.name}</strong><span>{unlocked ? "Terkoleksi" : `${reward.stars} bintang untuk membuka`}</span></div>;
+    })}</section>
+    <Link className={playroom.primary} href={`/child/${childId}/home`}>Main lagi</Link>
+  </main>;
 }
 
 export function WorldLearnEntry({ childId }: { childId: string }) {

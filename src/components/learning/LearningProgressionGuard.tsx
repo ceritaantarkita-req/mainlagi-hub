@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { getActivity } from "@/lib/learning/system";
+import { getActivity, getStage } from "@/lib/learning/system";
 import { getUnlockedStageIds } from "@/lib/learning/insights";
 import { useLearningProgress } from "./LearningCommon";
 import { useLearningAnalytics } from "./useLearningAnalytics";
@@ -32,7 +32,8 @@ export function LearningProgressionGuard({ childId }: { childId: string }) {
 
     const unlocked = getUnlockedStageIds(progress, analytics);
     if (unlocked.has(targetStage)) return;
-    router.replace(`/child/${childId}/learn`);
+    const subjectId = getStage(targetStage)?.subjectId ?? (activityId ? getActivity(activityId)?.subjectId : null);
+    router.replace(subjectId ? `/child/${childId}/subject/${subjectId}` : `/child/${childId}/home#choose-subject`);
   }, [analytics, childId, pathname, progress, router]);
 
   return null;

@@ -70,6 +70,7 @@ const BATCH16_ACCESSIBILITY_ROUTES = [
 
 const SCREENSHOTS = new Set([
   "320:/child/demo-gian/home",
+  "320:/child/demo-gian/activity/color-gavi",
   "375:/child/demo-gian/learn",
   "390:/parent/children/demo-gian/reports",
   "430:/play/math-choice",
@@ -143,6 +144,16 @@ async function inspectPage(page, route, viewport) {
 
     const bodyText = (await page.locator("body").innerText()).trim();
     assert.ok(bodyText.length > 20, `${route.path} rendered an unexpectedly blank body at ${viewport.width}px`);
+
+    const coloringCanvas = page.locator("[data-coloring-hit-areas]");
+    if (await coloringCanvas.count()) {
+      await coloringCanvas.waitFor({ state: "visible", timeout: 5_000 });
+      await page.waitForFunction(
+        () => document.querySelector("[data-coloring-hit-areas]")?.getAttribute("data-coloring-hit-areas") === "ready",
+        undefined,
+        { timeout: 5_000 }
+      );
+    }
 
     const boundary = page.locator(`[data-mainlagi-route-boundary="${route.kind}"]`);
     assert.ok(await boundary.count(), `${route.path} is missing route boundary ${route.kind}`);
@@ -328,6 +339,11 @@ async function main() {
       const page = await context.newPage();
       for (const [runtime, routePath] of RUNTIME_ROUTES) {
         await inspectPage(page, { path: routePath, kind: "child-learning", touch: true }, viewport);
+        if (runtime === "coloring") {
+          const nose = page.getByRole("button", { name: "Warnai hidung" });
+          await nose.click();
+          assert.equal(await nose.getAttribute("data-color-filled"), "true", `Coloring touch interaction did not paint the nose at ${width}px.`);
+        }
         console.log(`Runtime ${runtime} passed responsive smoke at ${width}px.`);
       }
       await context.close();
