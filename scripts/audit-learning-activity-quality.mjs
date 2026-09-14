@@ -76,13 +76,16 @@ function contentFingerprint(activity) {
   return JSON.stringify({
     subjectId: activity.subjectId,
     runtime: activity.runtime,
-    prompt: normalizeText(activity.prompt),
+    prompt: stableToken(activity.prompt),
     choices: activity.choices?.map(stableToken) ?? null,
     correctChoice: stableToken(activity.correctChoice),
     matchItems: activity.matchItems?.map((item) => [stableToken(item.label), stableToken(item.pair)]) ?? null,
     traceGlyph: activity.traceGlyph ?? null,
-    storyLines: activity.storyLines?.map(normalizeText) ?? null,
-    creativePrompt: normalizeText(activity.creativePrompt)
+    storyLines: activity.storyLines?.map(stableToken) ?? null,
+    creativePrompt: stableToken(activity.creativePrompt),
+    motionGameSlug: activity.motionGameSlug ?? null,
+    coloringCharacter: activity.coloringCharacter ?? null,
+    drawingGuide: activity.drawingGuide ?? null
   });
 }
 
