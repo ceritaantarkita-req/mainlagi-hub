@@ -3,7 +3,7 @@
 > Canonical execution plan untuk fase product-quality Mainlagi Hub. Semua developer/AI agent wajib membaca dan memperbarui dokumen ini ketika mengerjakan scope terkait.
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
-**Current baseline:** `main` @ `f85cb66a78fc395263d9ca1928d64b312ef03a90`  
+**Current baseline:** `main` @ `59f9dca8a81de80bdbbd4070fcbb6a203af90f6b`  
 **Focus:** frontend/UI/visual quality, voice, activity quality, dan product coherence.  
 **Prinsip:** **Quality first. Quantity later.** Perbaiki 900 activity yang ada sebelum ekspansi besar.
 
@@ -41,17 +41,15 @@ Fase ini adalah **Product Coherence & Content Quality**, bukan feature-count exp
 
 **Status: DONE**
 
-Selesai melalui PR #88, CI #362 success, squash merge `f85cb66a78fc395263d9ca1928d64b312ef03a90`.
+PR #88; CI #362 success; merge `f85cb66a78fc395263d9ca1928d64b312ef03a90`.
 
-Canonical docs sekarang membedakan current truth dari historical snapshots dan konsisten dengan 9 subjects / 900 activities.
+Current docs sekarang membedakan canonical truth dari historical snapshots dan konsisten dengan 9 subjects / 900 activities.
 
 ### WS-02 — Native voice & narration
 
 **Status: TODO**
 
 Goal: provider-independent Indonesian/English narration yang natural, reviewed dan licence-safe.
-
-Target:
 
 ```text
 Narration request
@@ -63,14 +61,12 @@ Narration request
 
 Work:
 - audit current audio/TTS;
-- evaluate open-source engines/voices including Indonesian support;
+- evaluate open-source engines/voices with real Indonesian support;
 - verify engine + model/voice licence individually;
 - build voice registry for Naya, Gian, Zia, Paca, Gavi;
-- pre-generate + human-review fixed lesson narration;
+- pre-generate + human-review fixed narration;
 - record provenance/version/approval;
-- separate Iqro reviewed audio from generic TTS.
-
-Done when minimal approved Indonesian + English paths exist and frontend is not coupled to one provider.
+- keep Iqro reviewed audio separate from generic TTS.
 
 ### WS-03 — Public/parent frontend
 
@@ -81,8 +77,8 @@ Work:
 - rewrite stale `/faq`;
 - improve public/footer/navigation discoverability;
 - integrate parent-facing recommendations from existing affiliate infrastructure;
-- clear affiliate disclosure;
-- fix image fallback/CTA/mobile/accessibility as needed;
+- keep clear affiliate disclosure;
+- fix image fallback/CTA/mobile/accessibility;
 - no affiliate CTA in child learning flow.
 
 ### WS-04 — Audit/redesign 900 activities
@@ -149,51 +145,19 @@ Prefer reusable runtime primitives. Every mechanic requires mobile/accessibility
 
 **Status: TODO**
 
-Audit all 100 Coloring activities.
-
-Production art requirements:
-- clear silhouette;
-- consistent stroke;
-- closed/fillable shapes;
-- no accidental overlap;
-- adequate finger/fill area;
-- age-appropriate complexity;
-- correct layer order;
-- phone readability;
-- no disguised heavy duplicate composition;
-- screenshot + geometry QA;
-- human visual approval.
+Audit all 100 Coloring activities. Production assets require clear silhouette, consistent stroke, closed/fillable shapes, no accidental overlaps, finger-friendly fill areas, age-appropriate complexity, correct layers, phone readability, duplicate control, geometry/screenshot QA, and human visual approval.
 
 ### WS-07 — Drawing rebuild
 
 **Status: TODO**
 
-Audit all 100 Drawing activities.
-
-Target:
-- clear visual objective;
-- meaningful scaffold/guide;
-- progressive guide when appropriate: basic shape -> structure -> detail -> optional decoration;
-- guide does not obstruct canvas;
-- free drawing remains possible;
-- no fake academic mastery from creative completion.
+Audit all 100 Drawing activities. Each needs a clear visual objective and useful scaffold. Progressive guide may use: basic shape -> structure -> detail -> optional decoration. Free drawing remains possible; creative completion must not manufacture academic mastery.
 
 ### WS-08 — Art direction & visual QA
 
 **Status: TODO**
 
-Create permanent **Mainlagi Art Bible** covering:
-- characters/proportions;
-- stroke/line language;
-- shape language;
-- palette;
-- backgrounds;
-- object/icon style;
-- shadows;
-- spacing;
-- complexity by age;
-- minimum touch/fill sizes;
-- animation principles.
+Create permanent **Mainlagi Art Bible** covering characters/proportions, stroke, shapes, palette, backgrounds, objects/icons, shadows, spacing, complexity by age, minimum touch/fill sizes, and animation principles.
 
 Visual QA must cover mobile/tablet/desktop, clipping, overlap, contrast, overflow, touch targets, SVG/path errors, duplicate geometry and human visual review.
 
@@ -203,25 +167,34 @@ Visual QA must cover mobile/tablet/desktop, clipping, overlap, contrast, overflo
 
 Product decision: **Recommended Path + Stage Journey + Browse All**.
 
+Implemented and merged through PR #89 at `59f9dca8a81de80bdbbd4070fcbb6a203af90f6b`.
+
 Contract:
 - one recommended next activity is prominent;
-- open stages are visible as a learning journey and link to the existing Stage/Lesson view;
-- stage navigation is useful context, not a mandatory extra click;
-- default activity grid shows only currently playable + age-eligible activities;
-- the complete 100-activity subject catalog remains available through secondary `Lihat semua`;
+- open stages are visible as a learning journey linking to Stage/Lesson view;
+- stage navigation is context, not a mandatory extra click;
+- default grid shows currently playable + age-eligible activities;
+- complete 100-activity catalog stays available under secondary `Lihat semua`;
 - locked/age-ineligible cards do not dominate the default child view;
-- progression/evidence readiness remains unchanged;
-- direct Home -> Subject -> Activity remains possible.
+- direct Home -> Subject -> Activity remains valid;
+- progression/evidence/readiness logic remains unchanged.
 
-Implementation: PR #89, branch `agent/ws09-stage-gallery-coherence-20260914`.
+QA evidence:
+- PR CI #368: success;
+- Production build: success;
+- Windows typecheck/lint/engine path: success;
+- dependency audit: success;
+- secret-history scan: success;
+- Mobile route QA (Chromium): success, including subject routes, touch-size, overflow, accessibility/lazy-load matrix and responsive screenshot artifact.
 
-Done when CI, browser/mobile QA, visual review, docs, and merge are complete.
+Remaining before `DONE`:
+- final product/visual spot-check of the changed subject presentation after deployed-main availability.
 
 ### WS-10 — Physical-device, accessibility & Iqro acceptance
 
 **Status: TODO**
 
-Required external checks include:
+Required external checks:
 - iPhone + Safari;
 - Android + Chrome;
 - touch/trace/drawing/coloring;
@@ -243,7 +216,7 @@ Work:
 - review main required checks;
 - review approval requirement;
 - keep generated QA output excluded appropriately;
-- make documentation-update discipline part of PR completion.
+- make docs-update discipline part of PR completion.
 
 ### WS-12 — Technical cleanup
 
@@ -256,12 +229,10 @@ Candidates:
 - optimize bundle only from measurements;
 - tidy historical docs/indexing.
 
-Do not combine broad cleanup with major content redesign unless necessary.
-
 ## 4. Default execution order
 
 1. WS-01 Canonical docs — **DONE**.
-2. WS-09 Stage/gallery coherence — **QA**.
+2. WS-09 Stage/gallery coherence — **merged; final visual QA pending**.
 3. WS-04 Audit 900 activities.
 4. WS-05 Add only needed mechanic/runtime gaps.
 5. Redesign invalid/trivial activities.
@@ -273,9 +244,9 @@ Do not combine broad cleanup with major content redesign unless necessary.
 11. WS-10 Physical-device/accessibility/Iqro acceptance.
 12. WS-11 Governance.
 13. WS-12 Technical cleanup.
-14. Only then evaluate major new activity/features expansion.
+14. Only then evaluate major feature/activity expansion.
 
-Independent workstreams may run in parallel only when ownership/file scope is clear and they do not create conflicting product decisions.
+Independent workstreams may run in parallel when ownership/file scope is clear and product decisions do not conflict.
 
 ## 5. Global Definition of Done
 
@@ -286,13 +257,13 @@ A task is complete only when applicable checks are satisfied:
 - relevant automated tests pass;
 - routes remain healthy;
 - mobile UX checked;
-- visible changes human-reviewed;
+- visible changes visually reviewed;
 - accessibility checked;
 - pedagogical/evidence behavior checked for learning changes;
 - licence/provenance checked for new audio/art/model dependencies;
 - screenshots/evidence updated where relevant;
 - canonical docs updated;
-- this workstream status + execution log updated.
+- workstream status + execution log updated.
 
 ## 6. Mandatory agent handoff rule
 
@@ -308,12 +279,10 @@ After work:
 3. record QA/result;
 4. record decisions;
 5. record remaining issues;
-6. update all affected canonical docs;
+6. update affected canonical docs;
 7. add an Execution Log entry below.
 
-Do not claim production/deployment/expert approval without evidence.
-
-If code and docs conflict, verify against current code/production, reconcile canonical docs, and record the reconciliation.
+Do not claim production/deployment/expert approval without evidence. If code and docs conflict, verify, reconcile canonical docs, and record it.
 
 ## 7. Status tracker
 
@@ -321,13 +290,13 @@ If code and docs conflict, verify against current code/production, reconcile can
 |---|---|---|
 | WS-01 Canonical docs | DONE | PR #88 merged; CI #362 success |
 | WS-02 Voice & narration | TODO | Need engine/voice/licence evaluation |
-| WS-03 Public/parent frontend | TODO | About/FAQ stale; affiliate exists but weakly discoverable |
+| WS-03 Public/parent frontend | TODO | About/FAQ stale; affiliate weakly discoverable |
 | WS-04 Activity audit/redesign | TODO | Audit all 900 |
 | WS-05 Mechanic diversification | TODO | Only based on learning objective |
 | WS-06 Coloring rebuild | TODO | Audit 100 |
 | WS-07 Drawing rebuild | TODO | Audit 100 |
 | WS-08 Art direction/visual QA | TODO | Art Bible + permanent quality gate |
-| WS-09 Stage/gallery UX | QA | PR #89; Recommended Path + Stage Journey + Browse All |
+| WS-09 Stage/gallery UX | QA | PR #89 merged; CI #368 success; final visual spot-check pending |
 | WS-10 External acceptance | TODO | Physical devices + Iqro expert review |
 | WS-11 Governance | TODO | Required secret scan + ruleset review |
 | WS-12 Technical cleanup | TODO | After product-quality stabilization |
@@ -345,34 +314,35 @@ Add newest entry at the top.
 **Status:** QA
 
 #### Changed
-- changed Subject page from a flat default wall of 100 cards to progression-aware presentation;
-- added one prominent recommended next activity;
-- surfaced open stages as a horizontal learning journey linking to the existing Stage/Lesson screen;
-- default grid now contains immediately playable + age-eligible activities;
-- complete 100-card catalog remains available under secondary `Lihat semua`;
-- preserved total catalog integrity without weakening route/progression rules;
-- updated local product-flow and Playroom QA contracts that previously required flat 100-card/no-stage UX.
+- replaced flat default wall of 100 cards with progression-aware subject presentation;
+- added prominent recommended activity;
+- added stage journey linked to existing Stage/Lesson screen;
+- default grid now shows playable + age-eligible activities;
+- complete 100-card catalog remains under `Lihat semua`;
+- updated local product-flow/Playroom QA contract from the old flat-gallery/no-stage requirement;
+- updated canonical UX/product docs.
 
 #### Decisions
-- selected hybrid `Recommended Path + Stage Journey + Browse All` model;
-- stage is context and structured exploration, not a mandatory extra click before every activity;
-- direct Home -> Subject -> Activity remains valid;
-- mastery/evidence/readiness logic remains untouched.
+- selected `Recommended Path + Stage Journey + Browse All`;
+- stage is structured context, not a mandatory extra click;
+- direct Home -> Subject -> Activity stays valid;
+- mastery/evidence/readiness logic is untouched.
 
 #### QA
-- PR #89 opened;
-- automated CI/browser checks are running/re-running against the branch;
-- final human visual acceptance remains required before DONE.
+- PR #89 merged to `main` at `59f9dca8a81de80bdbbd4070fcbb6a203af90f6b`;
+- CI #368 success;
+- Mobile route QA success across canonical viewport matrix;
+- complete 100-card catalog integrity retained;
+- dependency audit and secret scan success.
 
 #### Remaining
-- resolve any CI/browser issue found by PR #89;
-- review responsive screenshots/visual density;
-- merge only when checks are green;
-- after merge mark WS-09 DONE with final SHA/CI evidence.
+- visual/product spot-check of deployed subject presentation before moving status from `QA` to `DONE`.
 
 #### Docs updated
 - `docs/NEXT_PRODUCT_QUALITY_PLAN.md`;
-- `docs/MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md` in this PR.
+- `docs/MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md`;
+- `docs/PRODUCT_DIRECTION.md`;
+- current-state/limitations/architecture closeout docs in follow-up.
 
 ### 2026-09-14 — WS-01 canonical documentation reconciliation
 
@@ -380,36 +350,17 @@ Add newest entry at the top.
 **Branch/PR:** `docs/next-product-quality-plan-20260914` / PR #88  
 **Status:** DONE
 
-#### Changed
-- added canonical execution plan and docs index;
-- reconciled README, CURRENT_STATE, KNOWN_LIMITATIONS, ARCHITECTURE, mastery, product direction and UX specification;
-- separated current canonical truth from historical snapshots.
-
-#### Decisions
-- dated audit/redesign files remain historical evidence;
-- learning/mastery foundation remains stable by default;
-- PR #87 Garden/Playroom is the frontend baseline.
-
 #### QA
-- CI #362: success;
+- CI #362 success;
 - PR #88 squash merged;
 - main merge SHA: `f85cb66a78fc395263d9ca1928d64b312ef03a90`.
 
-#### Remaining
-- none for WS-01.
+#### Result
+Canonical current docs now separate current truth from dated historical snapshots and define the product-quality phase.
 
 ## 9. Not current priorities
 
-Until the quality work is substantially complete, do not prioritize:
-- hundreds of new activities;
-- subscription/paywall;
-- large AI tutor;
-- OCR rollout;
-- generative realtime curriculum;
-- major social/leaderboard expansion;
-- large marketplace expansion;
-- mastery/backend rewrite;
-- architecture migration without a product need.
+Until quality work is substantially complete, do not prioritize hundreds of new activities, subscription/paywall, large AI tutor, OCR rollout, generative realtime curriculum, major social expansion, large marketplace expansion, mastery/backend rewrite, or architecture migration without product need.
 
 ## 10. North Star
 
