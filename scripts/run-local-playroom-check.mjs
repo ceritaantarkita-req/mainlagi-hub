@@ -136,8 +136,8 @@ try {
   const guideErrors=[];
   page.on("pageerror",error=>guideErrors.push(error.message));
   page.on("console",message=>{if(message.type()==="error")guideErrors.push(message.text());});
-  assert.equal(DRAWING_GUIDE_IDS.length,25,"25 explicit foundational drawing scaffolds");
-  assert.equal(new Set(DRAWING_GUIDE_IDS.map(id=>JSON.stringify(drawingGuide(id)))).size,25,"scaffolds are not identical");
+  assert.equal(DRAWING_GUIDE_IDS.length,50,"50 explicit drawing scaffolds after WS-07 Wave A");
+  assert.equal(new Set(DRAWING_GUIDE_IDS.map(id=>JSON.stringify(drawingGuide(id)))).size,50,"scaffolds are not identical");
   for(const id of DRAWING_GUIDE_IDS) {
     await page.goto(base+"/child/demo-gian/activity/"+id);
     await page.locator("[data-drawing-guide]").waitFor();
@@ -149,7 +149,7 @@ try {
     assert(response.ok(),"drawing thumbnail exists: "+id);
   }
   assert.deepEqual(guideErrors,[],"all drawing guide routes have no runtime or parser errors");
-  result.checks.push("25 real drawing scaffolds, direct routes, matching thumbnails, no synthetic completion");
+  result.checks.push("50 real drawing scaffolds, direct routes, matching thumbnails, no synthetic completion");
   await validateColoringArt(page,art);
   result.checks.push("100 coloring illustrations parsed by Chromium");
   result.status="PASS";
