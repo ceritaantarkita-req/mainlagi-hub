@@ -6,7 +6,7 @@ Status: **WS-04 deterministic triage clean; WS-06 Coloring and WS-07 Drawing com
 
 ## Current calibrated state
 
-PR #104 implementation-head CI #465 audits all **9 subjects / 900 activities** after Sorting Buckets merge and Drag-to-Target implementation:
+PR #105 implementation-head CI #472 audits all **9 subjects / 900 activities** after Drag-to-Target merge and with the new gameplay-distribution audit enabled:
 
 ```text
 symbol_hunt           74
@@ -68,27 +68,76 @@ DONE. All 100 have functional activity-specific scaffolds. Q106=0. Human visual 
 
 ## WS-05 gameplay diversification
 
-The deterministic audit is clean, but repeated templates remain useful prioritization signals. Repetition is not automatically a quality failure; diversify only when the new mechanic better serves the objective and preserves evidence semantics.
+The deterministic activity-quality audit is clean, but repetition still needs a separate gameplay-distribution view. Repetition is not automatically a quality failure; diversify only when the new mechanic better serves the objective and preserves evidence semantics.
 
-Current state:
+Merged gameplay waves:
 - `symbol_hunt` — **DONE**, 74 direct-literacy activities; canonical choice evidence preserved.
 - `memory_pair` — **DONE / PR #101**, exactly 12 Letters case-matching activities; canonical `matching` evidence preserved.
-- `missing_sequence_slot` — **DONE / PR #102**, exactly 10 `letters-order-*` activities; canonical `tap_choice` contract preserved; explicit fidelity `choice_sequence_interaction`.
+- `missing_sequence_slot` — **DONE / PR #102**, exactly 10 Letters order activities; canonical `tap_choice` contract preserved; explicit fidelity `choice_sequence_interaction`.
 - `sorting_buckets` — **DONE / PR #103**, exactly 5 basic Logic classification activities; canonical `tap_choice` identity preserved; explicit fidelity `choice_sorting_interaction`.
-- `drag_to_target` — **QA / PR #104**, exactly 5 reviewed Science Wave A matching activities; canonical `matching`, matchItems/pair ids and assessed semantics preserved; explicit fidelity `matching_drag_target_interaction`.
+- `drag_to_target` — **DONE / PR #104**, exactly 5 reviewed Science Wave A matching activities; canonical `matching`, matchItems/pair ids and assessed semantics preserved; explicit fidelity `matching_drag_target_interaction`.
 
-PR #104 QA evidence:
-- static presentation regression reports **12 memory_pair + 5 drag_targets + 10 sequence_slot + 5 sorting_buckets** activities;
-- exact Science ID + stage + 3-pair guard prevents other matching families from being silently reclassified;
-- browser QA covers valid Science foundation prerequisites, keyboard wrong placement, real mouse drag, touch fallback, completion/evidence persistence, >=44px controls, no horizontal overflow, and 320/390/768 screenshots;
-- wrong placement increments incorrect/retry without consuming a pair; all three correct pairs are required for completion;
-- manual visual review accepted idle/error/success screenshots at 320, 390 and 768, including an in-viewport 320 success CTA;
-- CI #465 on implementation head `722391fe049b3e055ab69e16140141bdf971268b` is full success;
-- deterministic activity quality remains **900 KEEP / 0 flagged**, structural=0.
+PR #104 merge: `01fae0dbf73e47cb6d0281671b92ad77e6be03f7`.
 
-Next WS-05 work after #104 closes: mechanic-distribution audit, then separate `reorder_cards` / `tap_in_order` waves where the objective genuinely requires multi-step ordering.
+## WS-05 gameplay-distribution audit — PR #105 QA
 
-## Permanent audit
+PR #105 adds one canonical child-facing pattern classifier and permanent CI audit without changing activity content or runtime behavior.
+
+CI #472 on implementation head `d275dbb0f2b1acfa033fc0c99ecb77d0860d24bd` is full success.
+
+Coverage:
+
+```text
+activities            900
+classified            900
+unclassified            0
+active patterns        13
+```
+
+Measured distribution:
+
+| Pattern | Activities | Share |
+|---|---:|---:|
+| `choice_grid` | 392 | 43.56% |
+| `visible_matching` | 108 | 12.00% |
+| `coloring_canvas` | 100 | 11.11% |
+| `drawing_canvas` | 100 | 11.11% |
+| `listen_choose` | 76 | 8.44% |
+| `symbol_hunt` | 74 | 8.22% |
+| `guided_trace` | 14 | 1.56% |
+| `memory_pair` | 12 | 1.33% |
+| `missing_sequence_slot` | 10 | 1.11% |
+| `drag_to_target` | 5 | 0.56% |
+| `sorting_buckets` | 5 | 0.56% |
+| `motion_game` | 3 | 0.33% |
+| `story_read` | 1 | 0.11% |
+
+The only global advisory hotspot above 35% is `choice_grid` at **392/900 (43.56%)**.
+
+Subject advisory hotspots above 60%:
+- Mewarnai `coloring_canvas`: 100/100 — expected creative-medium specialization.
+- Menggambar `drawing_canvas`: 100/100 — expected creative-medium specialization.
+- Matematika `choice_grid`: **82/100**.
+- Sains `choice_grid`: **79/100**.
+- Logika `choice_grid`: **77/100**.
+- Huruf & Menulis `symbol_hunt`: **64/100**.
+
+These are planning signals, not automatic `POLISH`/`REDESIGN` findings. The activity-quality classification therefore correctly remains **900 KEEP / 0 flagged** while WS-05 continues to diversify mechanics.
+
+### Next mechanic decision from the audit
+
+Next planned wave: **Math `count_and_select`** for a reviewed coherent counting family.
+
+Rationale:
+- Math has the strongest non-creative `choice_grid` concentration at 82/100.
+- Existing Math choice families include `math-count-*` (9), compare (6), order (6), pattern (5), and missing (5), among others.
+- `count_and_select` directly matches the counting objective and can preserve canonical choice evidence while changing the child-facing interaction.
+
+Do not mass-convert all Math choice activities. Follow-on mechanics (`number_line`, `more_less_balance`, `pattern_completion`, `make_total`) require their own family review and QA.
+
+## Permanent audits
+
+Activity quality:
 
 ```bash
 npm run qa:activity-quality
@@ -101,11 +150,26 @@ Outputs:
 .qa/activity-quality/report.md
 ```
 
-CI uploads `activity-quality-audit`.
+Gameplay distribution:
 
-Blocking structural rules: `Q001` missing catalog spec, `Q002` assessed without skill, `Q003` creative marked assessed, `Q004` invalid choice contract, `Q005` invalid matching contract.
+```bash
+npm run qa:gameplay-distribution
+```
 
-Advisory rules Q101–Q108 do not replace human pedagogical/visual review.
+Outputs:
+
+```text
+.qa/gameplay-distribution/report.json
+.qa/gameplay-distribution/report.md
+```
+
+CI uploads both audit artifacts.
+
+Blocking structural activity rules: `Q001` missing catalog spec, `Q002` assessed without skill, `Q003` creative marked assessed, `Q004` invalid choice contract, `Q005` invalid matching contract.
+
+Gameplay-distribution blocking contracts: current 900-activity baseline coverage must be complete, no activity may be unclassified, counts must sum to the catalog, and the active pattern set must change intentionally. Concentration thresholds are advisory only.
+
+Advisory rules Q101–Q108 and gameplay hotspots do not replace human pedagogical/visual review.
 
 ## Wave status
 
@@ -117,8 +181,9 @@ Advisory rules Q101–Q108 do not replace human pedagogical/visual review.
 - WS-05 Memory Pair DONE — PR #101, merge `aea24d47bd2793fbbf3b3723878674ec6f3c98a0`.
 - WS-05 Sequence Slot DONE — PR #102, merge `f981d40fd55c1cdef3137600b4b44677e550b06d`.
 - WS-05 Sorting Buckets DONE — PR #103, merge `6d28ff2f4f3eb8a5b642d2e3b79979c910924342`.
-- WS-05 Drag-to-Target QA — PR #104; implementation-head CI #465 full green; visual review accepted; docs-head CI required before merge.
-- WS-05 NEXT — mechanic-distribution audit, then objective-driven ordering/search/math/audio/puzzle/literacy/science/story waves.
+- WS-05 Drag-to-Target DONE — PR #104, merge `01fae0dbf73e47cb6d0281671b92ad77e6be03f7`.
+- WS-05 Gameplay Distribution Audit QA — PR #105; CI #472 full green at implementation head; docs-head CI required before merge.
+- WS-05 NEXT — Math `count_and_select`, then audit-guided Math/Logic/Science/search/audio/ordering/puzzle/literacy/creative/story waves.
 - Wave E LATER — human subject-by-subject review for age fit, ambiguity, difficulty, cultural fit, visual quality, and progression coherence.
 
 ## Completion rule
