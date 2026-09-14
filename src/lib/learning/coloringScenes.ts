@@ -158,10 +158,10 @@ function scene(kind:string):ColoringRegion[] {
 }
 
 /**
- * WS-06 Wave A: authored composition overrides for the 39 activities that
- * previously belonged to duplicate groups of 3+ IDs. These are presentation
- * variants only: activity IDs, completion semantics, practice status, and
- * progression remain untouched.
+ * WS-06 authored composition overrides. Wave A covers the former 3+ duplicate
+ * groups; Wave B resolves the final ten medium exact-geometry pairs. These are
+ * presentation-only variants: activity identity, practice completion, schema,
+ * evidence, mastery, and progression stay unchanged.
  */
 function highSeverityScene(activityId:string):ColoringRegion[] | null {
   switch(activityId) {
@@ -270,6 +270,58 @@ function highSeverityScene(activityId:string):ColoringRegion[] | null {
       return [...moved(balloon,"translate(-65 40) scale(.45)","Balon kiri: "),...moved(balloon,"translate(105 5) scale(.5)","Balon tengah: "),...moved(balloon,"translate(270 65) scale(.4)","Balon kanan: "),box("Meja pesta",115,355,250,70),p("Kue pesta","M175 355 H305 V302 H175Z")];
     case "color-scene-celebrate":
       return [...moved(balloon,"translate(-35 70) scale(.48)","Balon kiri: "),...moved(balloon,"translate(245 60) scale(.48)","Balon kanan: "),p("Banner perayaan","M70 90 Q240 165 410 90 V132 Q240 207 70 132Z"),...Array.from({length:5},(_,i)=>circle("Konfeti "+(i+1),95+i*72,292+(i%2)*45,12))];
+
+    // WS-06 Wave B: resolve the final ten exact-geometry pairs with contextual variants.
+    case "color-parts-cat":
+      return [
+        p("Kepala kucing","M125 145 Q145 80 240 82 Q335 80 355 145 Q370 235 240 250 Q110 235 125 145Z"),
+        p("Telinga kiri","M137 136 132 60 198 112Z"),p("Telinga kanan","M282 112 348 60 343 136Z"),
+        p("Badan kucing","M170 282 Q240 248 310 282 L328 398 Q240 430 152 398Z"),
+        p("Ekor kucing","M319 337 C403 375 421 270 372 274 C400 304 359 338 323 315Z"),
+        circle("Mata kiri",195,165,14),circle("Mata kanan",285,165,14),p("Hidung","M225 205 240 222 255 205Z")
+      ];
+    case "color-contrast-umbrella":
+      return [
+        p("Kanopi kiri","M65 236 Q95 105 240 108 V236 Q190 198 153 236 Q109 202 65 236Z"),
+        p("Kanopi kanan","M240 108 Q385 105 415 236 Q371 202 327 236 Q290 198 240 236Z"),
+        p("Pegangan","M233 236 H247 V365 Q246 424 190 410 Q160 400 170 373 H185 Q180 398 214 390 Q233 386 233 362Z"),
+        p("Tetes kiri","M118 286 Q91 327 118 342 Q145 327 118 286Z"),p("Tetes kanan","M363 286 Q336 327 363 342 Q390 327 363 286Z")
+      ];
+    case "color-limited-two-house":
+      return [p("Atap rumah","M70 225 240 72 410 225Z"),p("Badan rumah","M112 225 H368 V410 H112Z")];
+    case "color-transport-car":
+      return [p("Jalan","M35 360 Q240 320 445 360 V442 H35Z"),...moved(car,"translate(42 90) scale(.82)","Mobil jalan: ")];
+    case "color-contrast-kite":
+      return [
+        p("Layang kiri","M240 62 98 214 240 357Z"),p("Layang kanan","M240 62 382 214 240 357Z"),
+        p("Ekor layang","M237 357 H245 V444 H237Z"),p("Pita atas","M206 376 240 392 274 376 258 410 222 410Z"),p("Pita bawah","M206 414 240 430 274 414 258 448 222 448Z")
+      ];
+    case "color-warm-sun":
+      return [
+        p("Sinar matahari","M240 42 260 102 220 102Z M240 438 260 378 220 378Z M42 240 102 220 102 260Z M438 240 378 220 378 260Z M99 99 151 127 127 151Z M381 99 353 151 329 127Z M99 381 127 329 151 353Z M381 381 329 353 353 329Z"),
+        circle("Matahari hangat",240,240,112),circle("Pusat hangat",240,240,62)
+      ];
+    case "color-scene-pond":
+      return [
+        p("Kolam","M52 342 C94 255 384 248 430 342 C382 431 96 431 52 342Z"),
+        p("Daun teratai","M104 324 Q151 279 205 320 Q167 364 104 324Z"),circle("Bunga teratai",163,301,22),
+        ...moved(fish,"translate(152 242) scale(.32)","Ikan kolam: ")
+      ];
+    case "color-pattern-circles":
+      return [circle("Lingkaran luar",240,240,170),circle("Lingkaran tengah",240,240,118),circle("Lingkaran dalam",240,240,66),circle("Lingkaran kiri",88,88,34),circle("Lingkaran kanan",392,392,34)];
+    case "color-character-creature":
+      return [
+        p("Tubuh makhluk","M116 352 Q86 185 155 120 Q240 54 325 120 Q394 185 364 352 Q240 430 116 352Z"),
+        p("Telinga kiri","M150 145 116 62 205 114Z"),p("Telinga kanan","M275 114 364 62 330 145Z"),
+        circle("Mata kiri",190,220,28),circle("Mata kanan",290,220,28),circle("Bintik satu",169,319,24),circle("Bintik dua",310,327,31),p("Senyum","M205 272 Q240 305 275 272 Q240 331 205 272Z")
+      ];
+    case "color-capstone-dream-room":
+      return [
+        ...motifs.room,
+        p("Karpet mimpi","M132 394 Q240 345 350 394 Q240 442 132 394Z"),
+        p("Lampu tidur","M92 292 H128 V363 H92Z M72 292 110 226 148 292Z"),
+        circle("Bulan jendela",140,137,35),{...star,name:"Bintang kamar",transform:"translate(260 35) scale(.22)"}
+      ];
   }
   return null;
 }
