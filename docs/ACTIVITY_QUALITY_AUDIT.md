@@ -2,26 +2,26 @@
 
 Last reviewed: **14 September 2026**
 
-Status: **WS-04 IN PROGRESS — Wave A baseline complete on PR #91 branch**.
+Status: **WS-04 IN PROGRESS — Wave A baseline complete; Wave B representation fixes complete on PR #92 branch**.
 
 Canonical execution plan: `NEXT_PRODUCT_QUALITY_PLAN.md`.
 
 This document defines the repeatable quality-audit contract for the current **9 subjects / 900 activities**. It targets problems that route integrity, catalog counts, mastery tests, and build success cannot prove.
 
-## 1. Calibrated baseline
+## 1. Current calibrated state
 
-Latest calibrated audit evidence:
+Latest Wave B audit evidence:
 
 ```text
-PR:                  #91
-CI run:              #377
+PR:                  #92
+CI run:              #385
 activities:          900
 structural findings: 0
-KEEP:                640
-POLISH:              186
-REDESIGN:             74
+KEEP:                683
+POLISH:              178
+REDESIGN:             39
 REPLACE:               0
-flagged total:       260
+flagged total:       217
 repeated templates:    9 families
 ```
 
@@ -29,13 +29,13 @@ Per subject:
 
 | Subject | KEEP | POLISH | REDESIGN | REPLACE |
 |---|---:|---:|---:|---:|
-| Bahasa Indonesia | 79 | 6 | 15 | 0 |
-| English | 79 | 7 | 14 | 0 |
-| Matematika | 96 | 2 | 2 | 0 |
+| Bahasa Indonesia | 94 | 6 | 0 | 0 |
+| English | 96 | 4 | 0 | 0 |
+| Matematika | 98 | 2 | 0 | 0 |
 | Iqro | 100 | 0 | 0 | 0 |
 | Huruf & Menulis | 36 | 64 | 0 | 0 |
 | Logika | 93 | 7 | 0 | 0 |
-| Sains | 91 | 5 | 4 | 0 |
+| Sains | 100 | 0 | 0 | 0 |
 | Mewarnai | 41 | 20 | 39 | 0 |
 | Menggambar | 25 | 75 | 0 | 0 |
 
@@ -46,61 +46,78 @@ Current advisory finding counts:
 | `Q105_DIRECT_SYMBOL_DISCRIMINATION` | 83 | POLISH |
 | `Q106_YOUNG_DRAWING_WITHOUT_SCAFFOLD` | 75 | POLISH |
 | `Q108_DUPLICATE_COLORING_GEOMETRY` | 59 | POLISH / REDESIGN |
-| `Q103_AUDIO_TARGET_VISIBLE_IN_PROMPT` | 26 | REDESIGN |
-| `Q104_EARLY_AGE_READING_LOAD` | 8 | POLISH |
-| `Q102_VISUAL_SKILL_USES_TEXT_ONLY_CHOICES` | 6 | REDESIGN |
-| `Q101_TEXT_LABEL_USED_AS_COLOR_VISUAL` | 3 | REDESIGN |
+| `Q101_TEXT_LABEL_USED_AS_COLOR_VISUAL` | 0 | REDESIGN if found |
+| `Q102_VISUAL_SKILL_USES_TEXT_ONLY_CHOICES` | 0 | REDESIGN if found |
+| `Q103_AUDIO_TARGET_VISIBLE_IN_PROMPT` | 0 | REDESIGN if found |
+| `Q104_EARLY_AGE_READING_LOAD` | 0 | POLISH if found |
 | `Q107_EXACT_ACTIVITY_CONTENT_DUPLICATE` | 0 | REDESIGN if found |
 
-The baseline was calibrated before being accepted. Earlier audit runs incorrectly stripped emoji/Arabic characters while fingerprinting and were **not** accepted as canonical evidence. The current fingerprint preserves Unicode/symbols and runtime-specific fields.
+Wave A's accepted baseline was `640 KEEP / 186 POLISH / 74 REDESIGN / 0 REPLACE`, with 260 flagged activities and zero structural findings. Wave B reduced the flagged set from **260 to 217** without changing mastery/progression/evidence semantics.
 
-## 2. What the baseline means
+The audit was calibrated before being accepted. Earlier runs that stripped emoji/Arabic characters from duplicate fingerprints were rejected. The current fingerprint preserves Unicode/symbols and runtime-specific fields. Wave B also narrowed `Q102` so conceptual Science use of words such as `pola/pattern` is not automatically treated as a visual-representation defect; pattern-based visual heuristics apply only when the mapped skill explicitly requires visual/shape discrimination or is a structured Math/Logic pattern task.
 
-`KEEP` does **not** mean expert-approved or perfect. It means no known deterministic audit rule flagged the activity.
+## 2. What the classifications mean
+
+`KEEP` does **not** mean expert-approved or perfect. It means no known deterministic audit rule currently flags the activity.
 
 `POLISH` means the learning idea can generally remain but the activity needs better presentation, wording, scaffold, distractors, age fit, or mechanic variety.
 
-`REDESIGN` means the current representation/mechanic risks measuring the wrong thing, leaking the answer, or materially repeating content and should change before being considered high-quality.
+`REDESIGN` means the current representation/mechanic risks measuring the wrong thing, leaking the answer, or materially repeating content and should change before it is considered high-quality.
 
-`REPLACE` is reserved for structural/evidence-contract failure or content that cannot responsibly remain in its current form. The calibrated baseline has **0 REPLACE** and **0 structural findings**.
+`REPLACE` is reserved for structural/evidence-contract failure or content that cannot responsibly remain in its current form. The current state has **0 REPLACE** and **0 structural findings**.
 
-## 3. Confirmed high-confidence examples
+## 3. Wave B resolved representation problems
 
-### English color recognition
+### English visual color recognition
 
-The audit correctly flags these three activities:
+These activities were corrected:
 
 - `english-find-red`
 - `english-find-green`
 - `english-find-blue`
 
-They currently ask the child to recognize a color while presenting written labels such as `RED / BLUE / GREEN`. That primarily measures written color vocabulary, not visual color recognition.
+They no longer present written `RED / BLUE / GREEN` labels as the answer representation. The child now chooses actual visual color symbols while the canonical skill and assessment contract remain intact.
 
-Wave B should preserve the canonical string answer/evidence mapping while changing presentation to actual visual color choices.
+Result: `Q101_TEXT_LABEL_USED_AS_COLOR_VISUAL` **3 -> 0**.
 
-### Direct letter/symbol identification
+### Visual shape/pattern representation
 
-A task such as:
+`math-shape-three-sides` and `math-pattern-size` now present shape/size symbols rather than requiring the child to read shape names. The audit heuristic was also narrowed so non-visual conceptual Science questions are not falsely classified as visual-representation defects.
 
-```text
-Find A -> A / B / D
-```
-
-is not automatically invalid. It can be a useful foundation check. It is classified `POLISH` when used as part of a large repeated family because the gameplay becomes shallow and repetitive.
+Result: `Q102_VISUAL_SKILL_USES_TEXT_ONLY_CHOICES` **6 -> 0**.
 
 ### Listening answer leakage
 
-26 assessed listening activities are flagged because the visible prompt contains the lexical answer the child is expected to identify from audio. The runtime currently needs a cleaner distinction between **spoken narration** and **displayed child instruction**.
+Canonical `LearningActivity` now supports a separate `audioPrompt`. For every `listen_and_choose` activity:
 
-### Coloring repetition
+- the original lexical/audio target is preserved as `audioPrompt`;
+- the visible screen prompt is a generic listening instruction;
+- the activity UI speaks `audioPrompt`, not the visible instruction;
+- answer choices remain disabled until speech actually starts with status `spoken`;
+- muted/unavailable/error states never expose the hidden audio target as fallback answer text;
+- an audio failure cannot be bypassed by guessing to manufacture completion/evidence.
 
-59 Coloring activities share exact scene geometry with another activity. Large duplicate groups include reused robot/Paca scenes and repeated sky/time/mood compositions. These findings feed WS-06 and WS-08.
+Result: `Q103_AUDIO_TARGET_VISIBLE_IN_PROMPT` **26 -> 0**.
 
-### Drawing scaffolding
+### Age-three reading load
 
-75 Drawing activities available to younger children do not currently have an explicit `drawingGuide`; only 25 are unflagged by this rule. These findings feed WS-07/08 and require visual review rather than automatic rejection.
+The three English animal activities that explicitly ask a child to read words (`DOG`, `RABBIT`, `FISH`) now enter the direct word-reading path at age 4+. The animal vocabulary lesson/pack/skill remains available from age 3 because age-three children still have audio and picture/matching activities.
 
-## 4. Permanent command and evidence
+Five age-three Science choices were made pre-reader friendlier by adding clear visual symbols for plant parts/growth and senses while keeping the same science concepts.
+
+Result: `Q104_EARLY_AGE_READING_LOAD` **8 -> 0**.
+
+## 4. Remaining quality work
+
+The remaining deterministic findings are now concentrated in three real product-quality families rather than representation bugs:
+
+1. **83 direct-symbol activities** — mostly foundational letter/symbol identification. These are valid checks but become shallow when repeated. They feed WS-04 Wave C + WS-05 mechanic diversification.
+2. **75 young Drawing activities without explicit scaffold** — these require authored guide/design review and feed WS-07 + WS-08.
+3. **59 duplicate Coloring geometry findings** — different activity IDs reuse identical scene geometry; these feed WS-06 + WS-08.
+
+The next activity-content work should not chase a lower audit number by cosmetic rewrites. A direct-symbol activity should be redesigned only where a better mechanic genuinely trains the same skill.
+
+## 5. Permanent command and evidence
 
 ```bash
 npm run qa:activity-quality
@@ -121,7 +138,7 @@ Outputs:
 
 CI uploads them as the `activity-quality-audit` artifact. `report.json` is the machine-readable handoff; `report.md` is the human/agent summary.
 
-## 5. CI behavior
+## 6. CI behavior
 
 ### Blocking structural rules
 
@@ -150,7 +167,7 @@ These produce triage evidence but do not automatically fail CI:
 
 Heuristics are deliberately advisory because human pedagogical/visual review remains necessary.
 
-## 6. What automation cannot decide
+## 7. What automation cannot decide
 
 The audit cannot reliably decide:
 
@@ -165,7 +182,7 @@ The audit cannot reliably decide:
 
 Those require screenshot/human review, real-device testing, child/product evaluation, or competent subject-matter review.
 
-## 7. Review workflow
+## 8. Review workflow
 
 For a flagged activity:
 
@@ -178,32 +195,34 @@ For a flagged activity:
 7. run learning + mobile/product QA;
 8. update this document and `NEXT_PRODUCT_QUALITY_PLAN.md`.
 
-## 8. Work waves
+## 9. Work waves
 
 ### Wave A — deterministic baseline — COMPLETE
 
 - permanent audit tooling installed;
 - all 900 activities evaluated;
 - structural findings = 0;
-- calibrated baseline recorded above;
-- report artifact produced by CI.
+- calibrated baseline recorded;
+- report artifact produced by CI;
+- PR #91 merged to `main` at `7a087d590381dd4487811027690ac187ff87954b` after CI #378 success.
 
-### Wave B — representation errors — NEXT
+### Wave B — representation errors — COMPLETE ON PR #92 BRANCH
 
-Highest-confidence targets:
+Resolved:
 
-1. three English visual color activities;
-2. six non-language visual/shape/pattern activities using text-only choices;
-3. 26 assessed listening activities with visible answer leakage;
-4. eight age-3 activities with text-heavy choices and no audio mode.
+- visual color recognition represented by written color words;
+- non-language visual/shape tasks represented only by text;
+- assessed listening target leakage;
+- age-three reading-load flags;
+- listening evidence without confirmed audio playback.
 
-The fix should introduce reusable presentation/runtime capability where needed rather than hardcoding one-off screens.
+Evidence: CI #385 success on the implementation head before the documentation closeout; final audit is `683 KEEP / 178 POLISH / 39 REDESIGN / 0 REPLACE`, 217 flagged, structural findings 0.
 
-### Wave C — shallow/repetitive families
+### Wave C — shallow/repetitive families — NEXT
 
-Review the 83 direct-symbol activities and the nine repeated-template families. Redesign only when another mechanic better serves the same skill.
+Review the 83 direct-symbol activities and the nine repeated-template families. Redesign only where another mechanic better serves the same skill.
 
-This wave feeds **WS-05 Mechanic Diversification**.
+This wave feeds **WS-05 Mechanic Diversification**. Priority should be reusable mechanic/runtime capability, not one-off content hacks.
 
 ### Wave D — creative-content handoff
 
@@ -214,7 +233,7 @@ This wave feeds **WS-05 Mechanic Diversification**.
 
 Review remaining `KEEP/POLISH` activities subject-by-subject for age fit, ambiguity, distractors, difficulty, cultural fit, visual quality, and progression coherence.
 
-## 9. Completion rule
+## 10. Completion rule
 
 WS-04 is complete only when:
 
