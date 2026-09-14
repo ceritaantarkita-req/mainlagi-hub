@@ -137,7 +137,9 @@ function ColoringRegions({activity,onDone}:{activity:LearningActivity;onDone:()=
   },[regions]);
   return <div className={styles.workbench}>
     <div className={styles.paper}>
-      <svg ref={svgRef} viewBox="0 0 480 480" className={styles.illustration} aria-label={`Gambar untuk diwarnai: ${activity.title}`}>
+      <svg ref={svgRef} viewBox="0 0 480 480" className={styles.illustration}
+        data-coloring-hit-areas={hitAreas.length===regions.length?"ready":"measuring"}
+        aria-label={`Gambar untuk diwarnai: ${activity.title}`}>
         <title>{activity.title}</title>
         {regions.map((region,index)=><g key={index} transform={region.transform}
           role="button" tabIndex={0} aria-label={`Warnai ${region.name.toLowerCase()}`}
