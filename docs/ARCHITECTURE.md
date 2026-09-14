@@ -1,36 +1,98 @@
 # Architecture — Mainlagi Hub
 
-This document separates **current implemented architecture** from **planned platform architecture**. Planned layers must not be described as production-ready until they exist in code and pass the repository quality gates.
+Last reviewed: **14 September 2026**
 
-## 1. Current implemented architecture
+This document describes the current implemented architecture and the explicit boundaries for planned work. `main` is the implementation source of truth.
+
+## 1. Current platform shape
 
 ```text
 Next.js App Router
-├── Platform shell
-│   ├── public pages
-│   ├── auth/account
-│   ├── discover/articles
-│   ├── affiliate redirect/catalog
+├── Public / parent surfaces
+│   ├── home / about / faq
+│   ├── discover / affiliate
+│   ├── auth / account / parent
 │   └── owner admin
-├── GameShell + Preflight
-├── 10 internal game experiences
-├── Shared interaction/game engine
+├── Child learning platform
+│   ├── child profile / active-child state
+│   ├── recommendation / continue learning
+│   ├── subject / stage / activity routes
+│   ├── activity gallery
+│   ├── progression guard
+│   └── activity runtimes
+├── Retained Mainlagi games
+│   ├── GameShell + Preflight
+│   └── 10 internal motion/game experiences
+├── Learning evidence/mastery engine
 └── Shared browser vision runtime
-    ├── camera stream
-    ├── Hand Landmarker
-    ├── Pose Landmarker
+    ├── MediaPipe Hand Landmarker
+    ├── MediaPipe Pose Landmarker
     ├── optional face signal
-    ├── player assignment
-    ├── hand ownership / primary-hand stabilization
+    ├── player assignment / hand ownership
     ├── gesture latch / smoothing
-    └── body-action classifier
+    └── body-action classification
 ```
 
-The current motion/vision engine is a retained core capability. Product expansion must integrate with it rather than replacing it without a demonstrated technical reason.
+The current motion/vision engine is a retained capability. It must not be rewritten merely because the product is now a broader learning platform.
 
-## 2. Current game layer
+## 2. Current learning hierarchy
 
-The canonical list is `src/lib/data/games.ts` and currently contains 10 internal experiences:
+```text
+Account / Household
+└── Child Profile
+    └── Subject
+        └── Learning Path / Stage
+            └── Lesson
+                └── Activity
+                    └── Learning Attempt
+                        └── Skill Evidence
+                            └── Skill Mastery
+                                └── Progress / Recommendation / Parent Report
+```
+
+The current catalog has **9 subjects**:
+
+1. Bahasa Indonesia
+2. English
+3. Matematika
+4. Iqro
+5. Huruf & Menulis
+6. Logika
+7. Sains
+8. Mewarnai
+9. Menggambar
+
+Current baseline:
+
+- 900 activities;
+- 46 stages;
+- 197 lessons;
+- 197 active content packs;
+- 200 active skills;
+- 683 assessed / 217 practice activities.
+
+## 3. Activity runtime layer
+
+Current activity families include:
+
+```text
+tap_choice
+listen_and_choose
+matching
+trace
+story
+motion_game
+coloring
+drawing
+```
+
+The platform contract must allow new mechanics only when they improve the representation of a learning objective. A new runtime is not valuable merely because it increases variety counts.
+
+The next product-quality phase may add/reuse adapters for meaningful interactions such as sorting, ordering, sequence, hotspot/find-in-scene, puzzle, memory, or drag/drop. Every runtime must preserve completion/evidence semantics and mobile/accessibility requirements.
+
+## 4. Retained motion/game layer
+
+Canonical direct games remain in `src/lib/data/games.ts`:
 
 1. Math Pilih Jawaban
 2. Math Motion Battle
@@ -43,135 +105,160 @@ The canonical list is `src/lib/data/games.ts` and currently contains 10 internal
 9. Beat Motion
 10. Run to Target
 
-All continue to use internal `/play/[slug]` routes.
+They remain directly playable and can also be adapted into subject/stage activity placement where pedagogically appropriate.
 
-## 3. Vision modes
+Motion is optional for core learning. The platform must remain usable on a phone/tablet without requiring camera motion.
 
-- `hand`: writing, tracing, whiteboard, or other hand-first interaction.
-- `pose`: full-body interaction.
-- `hybrid`: hand + pose ownership/association or multiplayer interaction.
+## 5. Vision interaction contract
 
-Models are loaded according to the active runtime need rather than running every detector unconditionally.
+Vision modes remain:
 
-## 4. Player assignment
+- `hand`
+- `pose`
+- `hybrid`
 
-One player maps to Player A and owns the full arena.
-
-For supported two-player experiences:
-
-1. Stable body observations initialize/maintain player slots.
-2. Temporal tracking prevents raw detector ordering from casually swapping A/B.
-3. Hands are associated with body ownership.
-4. Missing observations retain a bounded reacquisition window.
-5. The primary hand is stabilized so a second detected hand does not steal an in-progress pinch/drawing state.
-
-## 5. Gesture contract
-
-Typical writing interaction:
+Typical writing gesture contract:
 
 ```text
-pinch start      -> begin stroke
-pinch hold       -> append points
-pinch release    -> end stroke
-open palm hold   -> submit
-fist hold        -> clear
+pinch start   -> begin stroke
+pinch hold    -> append points
+pinch release -> end stroke
+open palm     -> submit
+fist          -> clear
 ```
 
-Gesture state uses hysteresis/debounce/hold behavior to reduce detector chatter and short dropouts.
+Temporal stabilization, hand ownership, bounded reacquisition and input smoothing reduce detector churn. Physical-device testing remains required.
 
-## 6. Recognition today
+## 6. Learning evidence/mastery boundary
 
-Current recognition is activity-specific:
+Legacy `game_sessions` and `game_scores` remain separate from academic mastery.
 
-- digit/expected-answer recognition for writing games;
-- path scoring for number tracing;
-- shape/closure scoring for Shape Quest;
-- Hijaiyah shape/dot handling for Iqro Motion;
-- dwell/selection for choice activities;
-- calibrated body classification for supported pose activities.
+Current learning write/read architecture uses:
 
-There is **no general AI OCR engine in production yet**.
+- learning attempts;
+- activity-skill evidence;
+- child skill mastery;
+- child learning progress;
+- achievements/certificates where valid;
+- parent reporting and adaptive recommendation consumers.
 
-## 7. Data/auth today
+Core learning ownership/security migrations `0001–0007` remain part of the foundation. Later catalog/content migrations extend the learning content but do not change the principle that legacy scores are not converted into artificial mastery.
 
-- Supabase Auth is used for configured cloud authentication flows.
-- Supabase Postgres + RLS backs selected cloud/admin/content paths.
-- Canonical Supabase production project is `inmydraft/mainlagi-hub` (`estvtgflwkebomsqlolv`).
-- Some family/progress/leaderboard behavior remains local-first in the browser.
-- Public content and affiliate data can use Supabase-backed repositories with defined fallbacks.
-- Owner routes use a server-side owner gate and service-role operations where required.
-- Learning attempts/mastery use the additive `0002`–`0006` schema/function hardening chain above the legacy game tables.
+See `LEARNING_ATTEMPTS_MASTERY.md`.
 
-## 8. Learning-platform architecture
+## 7. Progression vs presentation
 
-The current platform direction for children age 3–7 sits above the retained activity/game runtimes:
+The **data model remains stage/progression-based**.
+
+The current frontend also exposes a broad subject activity gallery. Those are different concerns:
 
 ```text
-Child / Parent identity
-└── Learning Profile
-    └── Subject
-        └── Learning Path / Stage
-            └── Activity
-                ├── existing motion game/runtime
-                ├── tracing
-                ├── tap / dwell choice
-                ├── matching
-                ├── coloring
-                ├── listening / audio
-                └── future OCR / visual activity
-                    -> Learning Attempt
-                    -> Skill Evidence
-                    -> Skill Mastery
+Progression/data truth
+  -> stage unlock / readiness / recommendation
+
+Presentation
+  -> continue learning / subject browsing / activity gallery
 ```
 
-Five current subject areas are Bahasa Indonesia, English, Matematika, Iqro, and Mewarnai.
+The next phase must reconcile how much of the stage model is visible to a child. Do not remove progression/evidence rules merely to simplify navigation.
 
-See `docs/PRODUCT_DIRECTION.md` and `docs/LEARNING_ATTEMPTS_MASTERY.md`.
+Canonical decision work is tracked in `NEXT_PRODUCT_QUALITY_PLAN.md` WS-09.
 
-## 9. Planned OCR + AI boundary
+## 8. Voice/audio architecture target
 
-OCR/AI must be a **separate engine boundary**, not coupled directly into MediaPipe or individual game components.
+Current audio/TTS infrastructure exists, but final native Indonesian/English character narration is not yet complete.
 
-Preferred shape:
+Target boundary:
+
+```text
+Activity / character narration request
+  -> Narration contract
+      -> voice registry
+          -> approved pre-generated asset for fixed content
+          -> dynamic TTS provider only when required
+```
+
+The frontend must not become tightly coupled to one TTS repository/provider.
+
+Each engine/model/voice requires independent licence/provenance review. Fixed lesson audio should be human-reviewed before becoming approved production content. Iqro pronunciation requires competent human review rather than generic TTS approval.
+
+## 9. Visual/content architecture target
+
+Procedural/generated content is not automatically production art.
+
+Coloring/Drawing content should move toward:
+
+```text
+learning objective
+  -> authored/curated content definition
+      -> approved illustration/scaffold asset
+          -> runtime renderer
+              -> screenshot/geometry/accessibility QA
+                  -> human visual approval
+```
+
+A future Mainlagi Art Bible should define stroke, shape language, palette, complexity-by-age, touch/fill sizing, characters and illustration rules.
+
+## 10. Public/parent and affiliate boundary
+
+Public/parent surfaces may contain:
+
+- About / FAQ;
+- parent information;
+- articles/discover;
+- affiliate recommendations;
+- account/privacy controls.
+
+Child learning activities must not contain shopping CTA or affiliate persuasion.
+
+Affiliate destinations flow through validated internal redirect infrastructure and require clear disclosure.
+
+## 11. Data/auth boundary
+
+- Supabase Auth supports configured cloud authentication.
+- Supabase Postgres + RLS backs cloud learning/account/content paths.
+- Canonical production project: `estvtgflwkebomsqlolv` (`ap-southeast-1`).
+- Parent and authenticated child routes enforce account/child ownership.
+- Service-role operations remain server-side only.
+- Guest/local child play can remain local where explicitly supported.
+
+## 12. OCR + AI boundary — planned
+
+General OCR/AI is not production-complete and is not the priority of the current quality phase.
+
+Future preferred boundary:
 
 ```text
 Activity
-  -> OCR request contract
-      -> local/deterministic OCR or recognizer when sufficient
-      -> optional AI verification/enrichment
-          -> server-side OpenRouter adapter
-              -> configured model
+  -> OCR/visual request contract
+      -> local/deterministic recognizer when sufficient
+      -> optional server-side AI verification/enrichment
+          -> configured provider gateway
 ```
 
 Requirements:
 
-- OpenRouter API key stays server-side.
-- No `NEXT_PUBLIC_` secret.
-- No automatic raw-camera upload.
-- Payload minimization before any external inference.
-- Clear timeouts, size limits, error normalization, and provider failure behavior.
-- The activity must remain understandable when AI is unavailable whenever practical.
+- no provider secret in client bundles;
+- no automatic raw-camera upload;
+- data minimization;
+- bounded input/output and timeout behavior;
+- core learning remains understandable if AI is unavailable whenever practical.
 
-See `docs/AI_OCR_OPENROUTER.md`.
+See `AI_OCR_OPENROUTER.md`.
 
-## 10. Security and privacy boundaries
+## 13. Security/privacy boundaries
 
-Mainlagi is child-facing software. Any feature that expands data collection or sends data to an external service must be treated as an architecture change, not a minor UI feature.
-
-Required principles:
+Mainlagi is child-facing software. Any architecture change involving child data, camera, voice, analytics, OCR, or external AI must preserve:
 
 - least privilege;
 - data minimization;
 - explicit server/client boundaries;
-- no secret values in client bundles;
+- RLS/server authorization;
+- no secret exposure to browser bundles;
 - no camera-frame retention by default;
-- RLS/server authorization for cloud data;
-- bounded inputs and outputs;
-- auditable third-party dependencies/providers.
+- auditable external dependencies, models and assets.
 
-## 11. Canonical production deployment
-
-Production architecture confirmed 9 September 2026:
+## 14. Canonical production deployment
 
 ```text
 GitHub `ceritaantarkita-req/mainlagi-hub`
@@ -182,15 +269,17 @@ GitHub `ceritaantarkita-req/mainlagi-hub`
   -> https://mainlagihub.my.id/
 ```
 
-Repository deployment/runtime files:
+GitHub Actions provides code/security/compatibility/build gates. It does not deploy Mainlagi through SSH/VPS.
 
-- `open-next.config.ts`
-- `wrangler.jsonc`
-- `next.config.mjs` OpenNext Cloudflare dev binding setup
-- `package.json` Cloudflare build/preview/deploy scripts
+Capacitor remains a possible native-wrapper path, not the canonical web production deployment.
 
-GitHub Actions is the code/security quality gate and validates the OpenNext/Cloudflare production artifact. It does **not** deploy Mainlagi over SSH.
+## 15. Canonical next-work rule
 
-There is no canonical Mainlagi VPS production path. Earlier VPS-oriented workflow/docs are superseded and removed.
+Before substantial frontend/content/audio changes, read:
 
-Capacitor remains a separate preparation path for a possible future native wrapper; it is not the web production deployment path.
+- `NEXT_PRODUCT_QUALITY_PLAN.md`;
+- `CURRENT_STATE.md`;
+- `MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md`;
+- the subsystem-specific documentation.
+
+A task is not complete until relevant docs and the execution log are updated.
