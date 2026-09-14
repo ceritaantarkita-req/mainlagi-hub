@@ -30,11 +30,11 @@ assert(otherMatching.every(activity=>matchingPresentation(activity)==="grid_pair
 const expectedSequence=new Set([
   "letters-order-after-g","letters-order-between-jl","letters-order-before-m",
   "letters-order-after-n","letters-order-between-pr","letters-order-before-t",
-  "letters-order-after-u","letters-order-between-vx","letters-order-before-z"
+  "letters-order-after-u","letters-order-between-vx","letters-order-before-z","letters-order-end-wxyz"
 ]);
 const sequence=ACTIVITIES.filter(activity=>choiceGameplayPresentation(activity)==="sequence_slot");
 assert.equal(sequence.length,expectedSequence.size,"sequence-slot family size must remain intentional");
-assert.deepEqual(new Set(sequence.map(activity=>activity.id)),expectedSequence,"only the nine canonical alphabet-order activities use sequence slots");
+assert.deepEqual(new Set(sequence.map(activity=>activity.id)),expectedSequence,"only the ten canonical alphabet-order activities use sequence slots");
 for(const activity of sequence){
   assert.equal(activity.runtime,"tap_choice");
   assert.equal(activity.subjectId,"letters");
