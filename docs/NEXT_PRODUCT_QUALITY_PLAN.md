@@ -1,214 +1,133 @@
 # NEXT PRODUCT QUALITY PLAN
 
-> Canonical execution plan fase product-quality Mainlagi Hub. Semua human/AI agent wajib membaca dokumen ini, `CURRENT_STATE.md`, dan `GAMEPLAY_VARIATION_CATALOG.md` sebelum mengubah learning experience.
+> Canonical execution plan fase product-quality Mainlagi Hub. Semua human/AI agent wajib membaca dokumen ini, `CURRENT_STATE.md`, `ARCHITECTURE.md`, dan `GAMEPLAY_VARIATION_CATALOG.md` sebelum mengubah learning experience.
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
-**Merged baseline:** `main` @ `01fae0dbf73e47cb6d0281671b92ad77e6be03f7`  
-**Active branch/PR:** `agent/ws05-gameplay-distribution-audit-20260914` / PR #105  
+**Merged baseline:** `main` @ `02d4696760d7b697cfd319804cd655c0d2bfec4c`  
+**Active branch/PR:** `agent/ws05-gameplay-count-select-20260914` / PR #106  
 **Primary focus:** WS-05 gameplay/mechanic diversification.  
-**Principle:** **Quality first. Quantity later.** Improve the existing 900 activities before major expansion.
+**Principle:** **Quality first. Quantity later.**
 
-## 1. Product goal
+## Product goal
 
-Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menarik, visualnya konsisten, interaction-nya beragam, narration-nya natural, dan evidence/mastery-nya dapat dipercaya. Gameplay diversity harus mengurangi rasa repetitif tanpa mengorbankan objective, progression, accessibility, atau correctness.
+Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menarik, visualnya konsisten, interaction-nya beragam, dan evidence/mastery-nya dapat dipercaya. Target WS-05 adalah minimum **50**, working target **60 meaningful gameplay patterns** melalui reusable interaction engines, bukan 60 gimmick one-off.
 
-## 2. Mandatory rules
+## Mandatory rules
 
-1. Frontend/UI/visual dan gameplay quality adalah patokan utama fase ini.
-2. Jangan menambah activity hanya untuk mengejar jumlah.
+1. Mechanic dipilih karena cocok dengan learning objective, bukan untuk mengejar angka.
+2. Assessed activity wajib menjaga atau secara eksplisit memigrasikan evidence contract dengan test.
 3. Jangan rewrite mastery/progression/schema tanpa kebutuhan terbukti.
-4. Assessed activity wajib menjaga atau secara eksplisit memigrasikan evidence contract dengan test.
-5. Mechanic harus reusable dan cocok dengan objective; jangan membuat gimmick one-off.
-6. Target WS-05: **minimum 50, target kerja 60 gameplay patterns**; bukan 60 engine terpisah.
-7. Setiap mechanic baru wajib punya static regression, progression, completion/evidence, keyboard, touch/pointer, mobile responsive, dan visual review nyata.
-8. Jangan membuat drag-only interaction; input alternatif wajib tersedia bila mechanic memungkinkan.
-9. Affiliate/commerce tidak boleh masuk child learning flow.
-10. Voice/model/art wajib licence/provenance-safe.
-11. Iqro/Hijaiyah tidak boleh dianggap approved hanya dari engineering/TTS.
-12. Jangan merusak route/database/progression yang sudah lolos CI.
-13. Gameplay distribution harus tetap terukur; coverage/pattern-set regression adalah blocking, concentration adalah planning signal.
-14. **Code merged tanpa canonical docs = pekerjaan belum selesai.**
+4. Setiap mechanic baru wajib punya static scope regression, progression, completion/evidence, keyboard, touch/pointer, responsive QA, dan manual visual review.
+5. Jangan membuat drag-only interaction; fallback accessible wajib tersedia bila relevan.
+6. Gameplay-distribution coverage/pattern-set regression adalah blocking; concentration hanya planning signal.
+7. **Code merged tanpa canonical docs = pekerjaan belum selesai.**
 
-## 3. Workstream status
+## Workstream status
 
 | Workstream | Status | Current note |
 |---|---|---|
 | WS-01 Canonical docs | DONE | PR #88 |
-| WS-02 Voice & narration | TODO | provider-independent, reviewed ID/EN narration |
-| WS-03 Public/parent frontend | TODO | About/FAQ + parent surfaces |
-| WS-04 Activity audit/redesign | QA / deterministic clean | 900 KEEP / 0 flagged; human review separate |
-| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | 13 merged patterns; distribution audit QA on #105; target 60 |
-| WS-06 Coloring rebuild | DONE | PR #95/#96; Q108=0 |
-| WS-07 Drawing rebuild | DONE | PR #98/#99/#100; Q106=0 |
-| WS-08 Art direction / visual QA | TODO / parallel | Art Bible + permanent human visual gate |
+| WS-02 Voice & narration | TODO | reviewed ID/EN narration |
+| WS-03 Public/parent frontend | TODO | parent/public surfaces |
+| WS-04 Activity audit/redesign | deterministic clean | 900 KEEP / 0 flagged |
+| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | 13 merged; pattern #14 Count-and-Select QA on #106 |
+| WS-06 Coloring rebuild | DONE | PR #95/#96 |
+| WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
+| WS-08 Art direction / visual QA | TODO / parallel | Art Bible + permanent human gate |
 | WS-09 Stage/gallery UX | DONE | PR #89/#90 |
-| WS-10 External acceptance | TODO | real devices, accessibility, Iqro expert review |
-| WS-11 Governance | TODO | required checks/rulesets/review discipline |
-| WS-12 Technical cleanup | TODO LATER | after product-quality stabilization |
+| WS-10 External acceptance | TODO | real devices, accessibility, Iqro expert |
+| WS-11 Governance | TODO | required checks/review discipline |
+| WS-12 Technical cleanup | TODO LATER | after product quality stabilizes |
 
-## 4. WS-05 — Gameplay diversification
+## WS-05 merged baseline
 
-Canonical mechanic catalog: `docs/GAMEPLAY_VARIATION_CATALOG.md`.
-
-### Target
-
-- minimum **50** distinct child-facing patterns;
-- working target **60**;
-- use reusable interaction engines;
-- distribute patterns across 900 activities according to learning objective;
-- keep a permanent audit so easy templates do not silently dominate sessions.
-
-### Merged patterns on `main`: 13
-
-`choice_grid`, `symbol_hunt`, `listen_choose`, `visible_matching`, `guided_trace`, `story_read`, `motion_game`, `coloring_canvas`, `drawing_canvas`, `memory_pair`, `missing_sequence_slot`, `sorting_buckets`, `drag_to_target`.
+Merged patterns on `main`: **13**.
 
 Accepted waves:
-- PR #101 Memory Pair — 12 Letters case-matching activities; merge `aea24d47bd2793fbbf3b3723878674ec6f3c98a0`.
-- PR #102 Sequence Slot — 10 Letters order activities; merge `f981d40fd55c1cdef3137600b4b44677e550b06d`.
-- PR #103 Sorting Buckets — 5 basic Logic classification activities; merge `6d28ff2f4f3eb8a5b642d2e3b79979c910924342`.
-- PR #104 Drag-to-Target — 5 reviewed Science Wave A matching activities; merge `01fae0dbf73e47cb6d0281671b92ad77e6be03f7`.
-- `symbol_hunt` covers 74 direct-literacy activities.
+- PR #101 Memory Pair — merge `aea24d47bd2793fbbf3b3723878674ec6f3c98a0`.
+- PR #102 Sequence Slot — merge `f981d40fd55c1cdef3137600b4b44677e550b06d`.
+- PR #103 Sorting Buckets — merge `6d28ff2f4f3eb8a5b642d2e3b79979c910924342`.
+- PR #104 Drag-to-Target — merge `01fae0dbf73e47cb6d0281671b92ad77e6be03f7`.
+- PR #105 Gameplay Distribution Audit — merge `02d4696760d7b697cfd319804cd655c0d2bfec4c`.
 
-### Active PR #105 — Gameplay Distribution Audit
-
-PR #105 adds one canonical child-facing pattern classifier and permanent report generation. It changes no activity content, runtime identity, evidence, progression, mastery, or UI behavior.
-
-Implementation-head CI #472 on `d275dbb0f2b1acfa033fc0c99ecb77d0860d24bd` is full green across Ubuntu, Windows, production build, dependency audit, secret scan, mobile Chromium, existing activity audit, and the new distribution audit.
-
-Measured baseline:
+Permanent PR #105 baseline:
 
 ```text
-900 / 900 activities classified
+900 / 900 classified
 0 unclassified
 13 active patterns
+choice_grid 392 / 900 = 43.56%
+Math choice_grid 82 / 100
+Science choice_grid 79 / 100
+Logic choice_grid 77 / 100
 ```
 
-Top overall distribution:
-- `choice_grid`: 392 / 900 = **43.56%** — only global hotspot above the >35% advisory threshold.
-- `visible_matching`: 108 / 900 = 12.00%.
-- `coloring_canvas`: 100 / 900 = 11.11%.
-- `drawing_canvas`: 100 / 900 = 11.11%.
-- `listen_choose`: 76 / 900 = 8.44%.
-- `symbol_hunt`: 74 / 900 = 8.22%.
+## Active PR #106 — Count-and-Select
 
-Subject `choice_grid` concentration:
-- Matematika: **82/100**.
-- Sains: **79/100**.
-- Logika: **77/100**.
-- Bahasa Indonesia: 52/100.
-- Iqro: 58/100.
-- English: 44/100.
+Scope: exactly 9 reviewed Math activities, `math-count-2` through `math-count-10`.
 
-Other subject hotspot: Huruf & Menulis `symbol_hunt` 64/100. Coloring/Drawing each use their canvas 100/100 by design; this is a specialization signal, not automatically a defect.
+Behavior:
+- child counts a visible canonical object set, then chooses from the existing three numeric answers;
+- runtime remains `tap_choice`;
+- activity ID, choices, correctChoice, skill, assessment, stars, progression, and completion identity remain canonical;
+- wrong answer increments incorrect/retry and does not complete;
+- assessed fidelity is `choice_count_interaction` with accuracy, correct/incorrect/retry, and `countTarget`;
+- exact 9-ID allowlist prevents unrelated Math families from being reclassified.
 
-Audit artifacts:
+PR #106 also fixes a semantic audit gap: `math-count-3` historically had a counting-specific renderer but the first distribution audit still labeled it `choice_grid`. The reusable family now makes all nine reviewed count activities explicit.
+
+Acceptance evidence at implementation head `871677650ecc9e2e86618fb5f81b342b0b370c85`:
+- CI #480 full green across Ubuntu, Windows, production build, dependency audit, secret scan, and mobile Chromium;
+- activity quality remains **900 KEEP / 0 flagged**, structural=0;
+- browser QA checks legitimate Math progression, keyboard wrong-state, pointer completion, canonical objects/choices, assessed evidence, >=44px controls, no horizontal overflow, and success CTA visibility;
+- manual visual QA accepted idle/error/success at 320, 390, and 768.
+
+Measured PR #106 distribution:
 
 ```text
-.qa/gameplay-distribution/report.json
-.qa/gameplay-distribution/report.md
+900 / 900 classified
+0 unclassified
+14 active patterns
+choice_grid      383 / 900 = 42.56%
+count_and_select   9 / 900 = 1.00%
+Math choice_grid  73 / 100
 ```
 
-CI uploads `gameplay-distribution-audit`.
+Delta: global `choice_grid` 392 -> 383; Math `choice_grid` 82 -> 73.
 
-### Decision for mechanic #14
+If #106 merges, merged gameplay-pattern count becomes **14**.
 
-The next planned mechanic is **`count_and_select`**, starting with a reviewed coherent Math counting family rather than broad runtime conversion.
+## Next mechanic order
 
-Why:
-- Math is the strongest non-creative hotspot at 82% `choice_grid`.
-- Current Math choice families include `math-count-*` (9), compare (6), order (6), pattern (5), missing (5), plus arithmetic/review families.
-- `count_and_select` fits the counting objective directly and can reduce quiz repetition without changing the canonical answer/evidence contract.
+After #106, review exact Math families before implementation:
+1. `number_line` for number-position/order objectives;
+2. `more_less_balance` for comparison objectives;
+3. `pattern_completion` for pattern/missing objectives;
+4. `make_total` where composition/addition objectives justify it.
 
-Do not route all Math choice activities into one new presentation. Each follow-on family must be reviewed separately.
+Then use the permanent distribution audit to prioritize Logic, Science, search/scene, audio, ordering, puzzle/path, literacy construction, creative, and story mechanics toward 60. Do not mass-convert activities only to reduce hotspot percentages.
 
-Likely Math follow-ons after the first wave:
-- `number_line` for number position/order families;
-- `more_less_balance` for compare-more/less/equal families;
-- `pattern_completion` for pattern/missing families;
-- `make_total` where addition/composition objectives justify it.
+## Definition of Done
 
-Logic, Science, ordering, search/scene, audio, puzzle/path, literacy construction, creative, and story mechanics follow according to audit evidence and objective fit—not merely hotspot percentage.
-
-## 5. Global Definition of Done
-
-A mechanic/PR is complete only when applicable implementation, typecheck/lint/build, engine tests, activity-quality audit, gameplay-distribution audit, routes, progression, evidence, accessibility, mobile UX, visible screenshot review, canonical docs, final docs-head CI, and review-thread checks are current.
-
-For WS-05 specifically:
-- classifier scope must be explicit and regression-tested;
-- assessed evidence must be trustworthy;
-- wrong/retry behavior must be measured where applicable;
-- success/error state must fit target viewports;
-- distribution coverage must remain complete;
-- hotspot reduction never overrides objective fit.
-
-## 6. Execution order
-
-1. Close PR #105 Gameplay Distribution Audit safely.
-2. Implement Math `count_and_select` wave on a new branch from latest `main`.
-3. Re-run distribution audit and record the new measured baseline.
-4. Continue Math diversification by coherent family where appropriate.
-5. Use the audit to choose the next Logic/Science/search/audio/ordering/puzzle/literacy/creative/story waves toward 60.
-6. Run WS-08 Art Bible/permanent visual QA in parallel where useful.
-7. WS-02 narration.
-8. WS-03 public/parent frontend.
-9. WS-10 physical-device/accessibility/Iqro expert acceptance.
-10. WS-11 governance.
-11. WS-12 cleanup after quality stabilizes.
-12. Only then consider major activity/feature expansion.
-
-## 7. Mandatory agent handoff
-
-Before work:
-- read `CURRENT_STATE.md`, this plan, `ARCHITECTURE.md`, and `GAMEPLAY_VARIATION_CATALOG.md`;
-- start from clean latest `main`;
-- use one objective per branch/PR.
+A mechanic/PR is complete only when applicable implementation, typecheck/lint/build, engine tests, activity-quality audit, gameplay-distribution audit, routes, progression, evidence, accessibility, mobile UX, screenshot review, canonical docs, final docs-head CI, and review-thread checks are current.
 
 Before merge:
 - all relevant CI green at **current docs head**;
-- visual changes manually reviewed from current screenshots when UI changes;
+- visual changes manually reviewed from current screenshots;
 - review threads/comments checked;
 - merge uses exact current `expected_head_sha`.
 
 After merge:
 - verify `main` contains the merge;
-- record merge SHA in canonical docs on the next relevant docs update;
+- record merge SHA on the next relevant canonical update;
 - never present unmerged work as shipped.
 
-## 8. Execution log — recent
+## Current execution order
 
-### 2026-09-14 — Gameplay Distribution Audit
-**PR:** #105  
-**Status:** QA; implementation audit full green, canonical docs-head CI pending.
+1. Close PR #106 Count-and-Select safely.
+2. Verify merged distribution baseline.
+3. Start the next Math mechanic only after exact-family review.
+4. Continue toward 50–60 meaningful patterns using the audit.
+5. Continue WS-08 visual system, then WS-02 narration, WS-03 parent/public frontend, WS-10 external acceptance, WS-11 governance, and WS-12 cleanup.
 
-Result so far:
-- canonical classifier covers 13 currently implemented child-facing patterns;
-- 900/900 activities classified, 0 unclassified;
-- `choice_grid` is 392/900 (43.56%), the only global >35% hotspot;
-- Math 82%, Science 79%, Logic 77% `choice_grid`;
-- CI #472 full green at implementation head;
-- next planned mechanic changed to Math `count_and_select` based on measured concentration and objective fit.
-
-### 2026-09-14 — Drag-to-Target Wave
-**Status:** DONE. PR #104; merge `01fae0dbf73e47cb6d0281671b92ad77e6be03f7`. Exactly 5 reviewed Science Wave A matching activities; mouse/touch/tap/keyboard/evidence/visual QA accepted.
-
-### 2026-09-14 — Sorting Buckets Wave
-**Status:** DONE. PR #103; merge `6d28ff2f4f3eb8a5b642d2e3b79979c910924342`. Exactly 5 basic Logic classification activities; browser/evidence/visual QA accepted.
-
-### 2026-09-14 — Sequence Slot Wave
-**Status:** DONE. PR #102; merge `f981d40fd55c1cdef3137600b4b44677e550b06d`. Exactly 10 Letters sequence activities; visual/browser/evidence QA accepted.
-
-### 2026-09-14 — Memory Pair Wave
-**Status:** DONE. PR #101; merge `aea24d47bd2793fbbf3b3723878674ec6f3c98a0`. Exactly 12 Letters case-matching activities; progression hydration race discovered/fixed before merge.
-
-### 2026-09-14 — Gameplay target raised
-**Status:** DONE as product decision. Minimum 50, working target 60 meaningful gameplay patterns with reusable engines and distribution auditing.
-
-Earlier accepted quality waves remain recorded in Git history and subsystem docs: WS-01 (#88), WS-09 (#89/#90), activity-quality Waves A–C (#91–#93), Coloring (#95/#96), Drawing (#98–#100).
-
-## 9. Not current priorities
-
-Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion, major mastery/backend rewrite, or architecture migration until this quality phase is substantially complete.
-
-## 10. North Star
-
-Anak harus melihat task yang jelas dan menarik, berinteraksi lewat mechanic yang sesuai objective, mendapat feedback yang menyenangkan, dan benar-benar melatih skill yang dimaksud. “Beragam” berarti mendekati **60 meaningful gameplay patterns**, bukan 900 activity yang hanya mengganti konten pada quiz yang sama.
+Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion, or major mastery/backend rewrites during this quality phase.
