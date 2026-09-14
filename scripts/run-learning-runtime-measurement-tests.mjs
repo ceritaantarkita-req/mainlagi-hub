@@ -80,6 +80,10 @@ try {
   assert.match(audioUi, /speakWithStatus/, "listening UI must use status-aware speech");
   assert.match(audioUi, /activity\.audioPrompt \?\? activity\.prompt/, "listening UI must prefer the audio-only prompt for speech");
   assert.match(audioUi, /title=\{visiblePrompt\}/, "listening UI must render only the visible instruction, never the audio target directly");
+  assert.match(audioUi, /const heardPrompt = speechStatus === "spoken"/, "listening UI must track whether the prompt actually started speaking");
+  assert.match(audioUi, /if \(!heardPrompt\) return;/, "a listening answer must be ignored until the child has heard the prompt");
+  assert.match(audioUi, /disabled=\{!heardPrompt\}/, "listening choices must stay disabled until speech starts successfully");
+  assert.doesNotMatch(audioUi, /Gunakan petunjuk teks di layar/, "audio failure must not fall back to a visible answer target");
 
   const listeningActivities = learningSystem.ACTIVITIES.filter((activity) => activity.runtime === "listen_and_choose");
   assert.ok(listeningActivities.length > 0, "catalog must contain listening activities");
