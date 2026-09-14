@@ -17,7 +17,6 @@ export async function validateColoringArt(page, art) {
           svg.append(shape);
           const bounds=shape.getBBox();
           if(!Number.isFinite(shape.getTotalLength())||shape.getTotalLength()===0||bounds.width===0||bounds.height===0)failures.push(scene.id+":"+index+":empty-geometry");
-          if((bounds.width<76||bounds.height<76)&&(!region.hitArea||region.hitArea.width<76||region.hitArea.height<76))failures.push(scene.id+":"+index+":missing-hit-area");
         });
         svg.remove();
       }
@@ -27,6 +26,6 @@ export async function validateColoringArt(page, art) {
     // length alone is not proof of valid SVG; parser console errors must fail.
     await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(resolve)));
     assert.deepEqual(parseErrors,[],"no SVG parser errors in coloring artwork");
-    assert.deepEqual(failures,[],"all coloring regions have nonempty geometry and small regions have a 76-unit hit area");
+    assert.deepEqual(failures,[],"all coloring regions have nonempty geometry");
   }finally{page.off("console",onConsole);}
 }

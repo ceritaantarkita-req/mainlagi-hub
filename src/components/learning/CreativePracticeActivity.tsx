@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { completeActivity, getActivity, type LearningActivity } from "@/lib/learning/system";
 import { coloringScene } from "@/lib/learning/coloringScenes";
 import { drawingGuide } from "@/lib/learning/drawingGuides";
@@ -106,7 +106,10 @@ function DrawingCanvas({activity,onDone}:{activity:LearningActivity;onDone:()=>v
 }
 
 function ColoringRegions({activity,onDone}:{activity:LearningActivity;onDone:()=>void}) {
-  const regions=coloringScene(activity.id);
+  const regions=useMemo(()=>coloringScene(activity.id),[activity.id]);
+  const svgRef=useRef<SVGSVGElement>(null);
+  const pathRefs=useRef<(SVGPathElement|null)[]>([]);
+  const [hitAreas,setHitAreas]=useState<{x:number;y:number;width:number;height:number}[]>([]);
   const [color,setColor]=useState(PALETTE[0].hex);
   const [history,setHistory]=useState<Record<number,string>[]>([{}]);
   const fills=history.at(-1)!;
@@ -114,15 +117,33 @@ function ColoringRegions({activity,onDone}:{activity:LearningActivity;onDone:()=
     if(fills[index]===color) return;
     setHistory(previous=>[...previous,{...previous.at(-1),[index]:color}]);
   };
+  useLayoutEffect(()=>{
+    const svg=svgRef.current;
+    if(!svg) return;
+    const measure=()=>setHitAreas(pathRefs.current.map(path=>{
+      if(!path) return {x:0,y:0,width:0,height:0};
+      const bounds=path.getBBox();
+      const matrix=path.getScreenCTM();
+      const scaleX=matrix ? Math.hypot(matrix.a,matrix.b) : 1;
+      const scaleY=matrix ? Math.hypot(matrix.c,matrix.d) : 1;
+      const width=Math.max(bounds.width,44/Math.max(scaleX,0.001));
+      const height=Math.max(bounds.height,44/Math.max(scaleY,0.001));
+      return {x:bounds.x-(width-bounds.width)/2,y:bounds.y-(height-bounds.height)/2,width,height};
+    }));
+    measure();
+    const observer=new ResizeObserver(measure);
+    observer.observe(svg);
+    return ()=>observer.disconnect();
+  },[regions]);
   return <div className={styles.workbench}>
     <div className={styles.paper}>
-      <svg viewBox="0 0 480 480" className={styles.illustration} aria-label={`Gambar untuk diwarnai: ${activity.title}`}>
+      <svg ref={svgRef} viewBox="0 0 480 480" className={styles.illustration} aria-label={`Gambar untuk diwarnai: ${activity.title}`}>
         <title>{activity.title}</title>
         {regions.map((region,index)=><g key={index} transform={region.transform}
           role="button" tabIndex={0} aria-label={`Warnai ${region.name.toLowerCase()}`}
           data-color-region={index} data-color-filled={Boolean(fills[index])}
           onClick={()=>paint(index)} onKeyDown={event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();paint(index);}}}>
-          {region.hitArea ? <rect className={styles.regionHitArea} aria-hidden="true" {...region.hitArea}/>:null}
+          {hitAreas[index]?.width ? <rect className={styles.regionHitArea} aria-hidden="true" {...hitAreas[index]}/>:null}
           <path d={region.path} fill={fills[index]??"#ffffff"} stroke="#233831" strokeWidth={4} strokeLinejoin="round" strokeLinecap="round"/>
         </g>)}
       </svg>

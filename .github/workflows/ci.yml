@@ -102,7 +102,7 @@ jobs:
         run: npm run build
       - name: Audit Batch 16 build budgets
         run: npm run test:batch16:build
-      - name: Validate coloring artwork and touch metadata
+      - name: Validate coloring artwork geometry
         run: npm run test:ui:coloring-art
       - name: Run canonical mobile route, accessibility, and lazy-load matrix
         run: npm run test:ui:mobile-routes
