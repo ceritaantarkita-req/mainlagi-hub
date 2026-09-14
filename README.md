@@ -215,7 +215,7 @@ See:
 
 ## Canonical documentation
 
-Read these before substantial work:
+Start with [`docs/README.md`](docs/README.md), then read:
 
 - [`docs/NEXT_PRODUCT_QUALITY_PLAN.md`](docs/NEXT_PRODUCT_QUALITY_PLAN.md)
 - [`docs/CURRENT_STATE.md`](docs/CURRENT_STATE.md)
