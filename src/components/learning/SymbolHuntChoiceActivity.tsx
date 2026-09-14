@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { GardenActivityFrame } from "./GardenActivityFrame";
 import { completeActivity, getActivity } from "@/lib/learning/system";
 import styles from "./SymbolHuntChoiceActivity.module.css";
@@ -20,14 +20,14 @@ function rotate<T>(values: readonly T[], offset: number): T[] {
 
 export function SymbolHuntChoiceActivity({ childId, activityId }: { childId: string; activityId: string }) {
   const activity = getActivity(activityId);
-  const [hydrated, setHydrated] = useState(false);
+  const fieldRef = useRef<HTMLDivElement | null>(null);
   const [feedback, setFeedback] = useState<"idle" | "try" | "good">("idle");
   const variant = useMemo(() => stableVariant(activityId), [activityId]);
   const choices = useMemo(() => rotate(activity?.choices ?? [], variant), [activity?.choices, variant]);
   const variantClass = [styles.variant0, styles.variant1, styles.variant2][variant];
 
   useEffect(() => {
-    setHydrated(true);
+    if (fieldRef.current) fieldRef.current.dataset.symbolHuntReady = "true";
   }, []);
 
   if (!activity || activity.choicePresentation !== "symbol_hunt" || !activity.correctChoice) return null;
@@ -69,12 +69,7 @@ export function SymbolHuntChoiceActivity({ childId, activityId }: { childId: str
           </div>
         </div>
 
-        <div
-          className={styles.symbolField}
-          data-symbol-hunt
-          data-symbol-hunt-ready={hydrated ? "true" : "false"}
-          data-choices
-        >
+        <div ref={fieldRef} className={styles.symbolField} data-symbol-hunt data-choices>
           {choices.map((choice, index) => (
             <button
               key={choice}
