@@ -40,9 +40,9 @@ export const ENGLISH_BATCH9_WAVE_B: EnglishBatch9WaveDefinition = {
     { id: "english.vocab.everyday_integration", subjectId: "english", title: "Integrate everyday words", description: "Menggunakan kosakata dari beberapa kategori English secara terpadu.", domain: "language", ageMin: 4, ageMax: 7 }
   ],
   activities: [
-    choice("english-animal-dog", "english.pack.animals", "english-animals", "Find the dog", "Which word means 🐶?", ["DOG", "BIRD", "FISH"], "DOG", "english.vocab.animals", { required: true, ageMin: 3, emoji: "🐶" }),
-    choice("english-animal-rabbit", "english.pack.animals", "english-animals", "Find the rabbit", "Choose the word for 🐰.", ["RABBIT", "DOG", "BIRD"], "RABBIT", "english.vocab.animals", { ageMin: 3, emoji: "🐰" }),
-    choice("english-animal-fish", "english.pack.animals", "english-animals", "Find the fish", "Which word matches 🐟?", ["BIRD", "FISH", "RABBIT"], "FISH", "english.vocab.animals", { ageMin: 3, emoji: "🐟" }),
+    choice("english-animal-dog", "english.pack.animals", "english-animals", "Find the dog", "Which word means 🐶?", ["DOG", "BIRD", "FISH"], "DOG", "english.vocab.animals", { required: true, emoji: "🐶" }),
+    choice("english-animal-rabbit", "english.pack.animals", "english-animals", "Find the rabbit", "Choose the word for 🐰.", ["RABBIT", "DOG", "BIRD"], "RABBIT", "english.vocab.animals", { emoji: "🐰" }),
+    choice("english-animal-fish", "english.pack.animals", "english-animals", "Find the fish", "Which word matches 🐟?", ["BIRD", "FISH", "RABBIT"], "FISH", "english.vocab.animals", { emoji: "🐟" }),
     listen("english-listen-bird", "english.pack.animals", "english-animals", "Listen: bird", "Choose the bird", ["🐟", "🐦", "🐶"], "🐦", "english.vocab.animals", { required: true, ageMin: 3, emoji: "🐦" }),
     matching("english-match-animals-dog-rabbit", "english.pack.animals", "english-animals", "Match two animals", "Match each animal word to its picture.", "english.vocab.animals", [["dog", "DOG", "🐶"], ["rabbit", "RABBIT", "🐰"]], { required: true, ageMin: 3 }),
 
