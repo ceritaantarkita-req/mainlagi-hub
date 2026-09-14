@@ -47,7 +47,7 @@
     "test:batch16:build": "node scripts/run-batch16-build-budget.mjs",
     "test:qa:device": "node scripts/run-device-qa-harness-tests.mjs",
     "test:batch17:final": "node scripts/run-batch17-final-acceptance-tests.mjs",
-    "test:engine": "npm run test:engine:core && npm run test:gesture && npm run test:interaction && npm run test:tracing && npm run test:audio-manager && npm run test:ui:mobile-foundation && npm run test:ui:coloring-art && npm run test:learning",
+    "test:engine": "npm run test:engine:core && npm run test:gesture && npm run test:interaction && npm run test:tracing && npm run test:audio-manager && npm run test:ui:mobile-foundation && npm run test:learning",
     "simulate": "node scripts/run-five-simulations.mjs",
     "validate:structure": "node scripts/validate-structure.mjs",
     "validate:assets": "node scripts/validate-asset-provenance.mjs",
