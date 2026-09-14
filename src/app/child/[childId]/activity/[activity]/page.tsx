@@ -1,5 +1,6 @@
 import { AudioChoiceLearningActivity } from "@/components/learning/AudioChoiceLearningActivity";
 import { CreativePracticeActivity } from "@/components/learning/CreativePracticeActivity";
+import { SymbolHuntChoiceActivity } from "@/components/learning/SymbolHuntChoiceActivity";
 import { MathTraceWorldActivity } from "@/components/learning/world/MathTraceWorldActivity";
 import { WorldActivityScreen } from "@/components/learning/world/WorldExperience";
 import { getActivity } from "@/lib/learning/system";
@@ -18,6 +19,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
         <CreativePracticeActivity childId={childId} activityId={activity} />
       ) : runtime === "listen_and_choose" ? (
         <AudioChoiceLearningActivity childId={childId} activityId={activity} />
+      ) : definition?.choicePresentation === "symbol_hunt" ? (
+        <SymbolHuntChoiceActivity childId={childId} activityId={activity} />
       ) : (
         <WorldActivityScreen childId={childId} activityId={activity} />
       )}
