@@ -25,7 +25,8 @@ const EXPECTED_PATTERNS = [
   "missing_sequence_slot",
   "sorting_buckets",
   "drag_to_target",
-  "count_and_select"
+  "count_and_select",
+  "number_line"
 ];
 
 rmSync(outDir, { recursive: true, force: true });
