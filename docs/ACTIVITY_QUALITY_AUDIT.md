@@ -6,7 +6,7 @@ Status: **WS-04 deterministic triage clean; WS-06 Coloring and WS-07 Drawing com
 
 ## Current calibrated state
 
-PR #105 implementation-head CI #472 audits all **9 subjects / 900 activities** after Drag-to-Target merge and with the new gameplay-distribution audit enabled:
+PR #106 implementation-head CI #480 audits all **9 subjects / 900 activities** after the permanent gameplay-distribution audit landed on `main`:
 
 ```text
 symbol_hunt           74
@@ -18,19 +18,9 @@ REPLACE                 0
 flagged total           0
 ```
 
-| Subject | KEEP | POLISH | REDESIGN |
-|---|---:|---:|---:|
-| Bahasa Indonesia | 100 | 0 | 0 |
-| English | 100 | 0 | 0 |
-| Matematika | 100 | 0 | 0 |
-| Iqro | 100 | 0 | 0 |
-| Huruf & Menulis | 100 | 0 | 0 |
-| Logika | 100 | 0 | 0 |
-| Sains | 100 | 0 | 0 |
-| Mewarnai | 100 | 0 | 0 |
-| Menggambar | 100 | 0 | 0 |
+All subjects remain 100 KEEP / 0 flagged. Q101–Q108 remain zero.
 
-Accepted deterministic progression:
+Accepted deterministic progression remains:
 
 ```text
 Wave A          640 KEEP / 186 POLISH / 74 REDESIGN / 0 REPLACE — 260 flagged
@@ -43,9 +33,7 @@ WS-07 Wave B    875 KEEP /  25 POLISH /  0 REDESIGN / 0 REPLACE —  25 flagged
 WS-07 Final     900 KEEP /   0 POLISH /  0 REDESIGN / 0 REPLACE —   0 flagged
 ```
 
-Structural findings stayed 0. Q101–Q108 remain zero.
-
-Deterministic zero does **not** mean all activities are human-approved or maximally varied. Gameplay diversity, art direction, real-device/accessibility, and Iqro expert review remain separate requirements.
+Deterministic zero does **not** mean every activity is human-approved or maximally varied. Gameplay diversity, art direction, real-device/accessibility, and Iqro expert review remain separate requirements.
 
 ## Resolved deterministic rules
 
@@ -68,37 +56,50 @@ DONE. All 100 have functional activity-specific scaffolds. Q106=0. Human visual 
 
 ## WS-05 gameplay diversification
 
-The deterministic activity-quality audit is clean, but repetition still needs a separate gameplay-distribution view. Repetition is not automatically a quality failure; diversify only when the new mechanic better serves the objective and preserves evidence semantics.
+Merged waves:
+- `symbol_hunt` — 74 direct-literacy activities.
+- `memory_pair` — PR #101, 12 Letters case-matching activities.
+- `missing_sequence_slot` — PR #102, 10 Letters order activities.
+- `sorting_buckets` — PR #103, 5 basic Logic classification activities.
+- `drag_to_target` — PR #104, 5 reviewed Science Wave A matching activities.
+- permanent gameplay-distribution audit — PR #105, merge `02d4696760d7b697cfd319804cd655c0d2bfec4c`.
 
-Merged gameplay waves:
-- `symbol_hunt` — **DONE**, 74 direct-literacy activities; canonical choice evidence preserved.
-- `memory_pair` — **DONE / PR #101**, exactly 12 Letters case-matching activities; canonical `matching` evidence preserved.
-- `missing_sequence_slot` — **DONE / PR #102**, exactly 10 Letters order activities; canonical `tap_choice` contract preserved; explicit fidelity `choice_sequence_interaction`.
-- `sorting_buckets` — **DONE / PR #103**, exactly 5 basic Logic classification activities; canonical `tap_choice` identity preserved; explicit fidelity `choice_sorting_interaction`.
-- `drag_to_target` — **DONE / PR #104**, exactly 5 reviewed Science Wave A matching activities; canonical `matching`, matchItems/pair ids and assessed semantics preserved; explicit fidelity `matching_drag_target_interaction`.
-
-PR #104 merge: `01fae0dbf73e47cb6d0281671b92ad77e6be03f7`.
-
-## WS-05 gameplay-distribution audit — PR #105 QA
-
-PR #105 adds one canonical child-facing pattern classifier and permanent CI audit without changing activity content or runtime behavior.
-
-CI #472 on implementation head `d275dbb0f2b1acfa033fc0c99ecb77d0860d24bd` is full success.
-
-Coverage:
+Merged PR #105 baseline:
 
 ```text
-activities            900
-classified            900
-unclassified            0
-active patterns        13
+900 / 900 classified
+0 unclassified
+13 active patterns
+choice_grid 392 / 900 = 43.56%
+Math choice_grid 82 / 100
+Science choice_grid 79 / 100
+Logic choice_grid 77 / 100
 ```
 
-Measured distribution:
+Concentration is advisory and does not itself create POLISH/REDESIGN findings.
+
+## PR #106 QA — Count-and-Select
+
+Exactly 9 reviewed Math counting activities (`math-count-2` through `math-count-10`) use reusable `count_and_select` presentation.
+
+Boundaries:
+- canonical runtime stays `tap_choice`;
+- choices/correctChoice, skill, assessment, stars, progression, activity ID, and completion identity remain unchanged;
+- explicit assessed fidelity is `choice_count_interaction`;
+- wrong answer increments incorrect/retry and does not complete;
+- exact ID allowlist prevents unrelated Math activities from reclassification.
+
+QA evidence:
+- CI #480 at implementation head `871677650ecc9e2e86618fb5f81b342b0b370c85` full green across Ubuntu, Windows, production build, dependency audit, secret scan, and mobile Chromium;
+- browser QA covers valid Math prerequisite readiness, keyboard wrong-state, pointer completion, canonical four-star rendering for `math-count-4`, evidence persistence, >=44px controls, no horizontal overflow, and 320/390/768 screenshots;
+- manual visual review accepted idle/error/success at 320, 390, and 768;
+- deterministic activity quality stays **900 KEEP / 0 flagged**, structural=0.
+
+Measured PR #106 distribution:
 
 | Pattern | Activities | Share |
 |---|---:|---:|
-| `choice_grid` | 392 | 43.56% |
+| `choice_grid` | 383 | 42.56% |
 | `visible_matching` | 108 | 12.00% |
 | `coloring_canvas` | 100 | 11.11% |
 | `drawing_canvas` | 100 | 11.11% |
@@ -107,33 +108,13 @@ Measured distribution:
 | `guided_trace` | 14 | 1.56% |
 | `memory_pair` | 12 | 1.33% |
 | `missing_sequence_slot` | 10 | 1.11% |
+| `count_and_select` | 9 | 1.00% |
 | `drag_to_target` | 5 | 0.56% |
 | `sorting_buckets` | 5 | 0.56% |
 | `motion_game` | 3 | 0.33% |
 | `story_read` | 1 | 0.11% |
 
-The only global advisory hotspot above 35% is `choice_grid` at **392/900 (43.56%)**.
-
-Subject advisory hotspots above 60%:
-- Mewarnai `coloring_canvas`: 100/100 — expected creative-medium specialization.
-- Menggambar `drawing_canvas`: 100/100 — expected creative-medium specialization.
-- Matematika `choice_grid`: **82/100**.
-- Sains `choice_grid`: **79/100**.
-- Logika `choice_grid`: **77/100**.
-- Huruf & Menulis `symbol_hunt`: **64/100**.
-
-These are planning signals, not automatic `POLISH`/`REDESIGN` findings. The activity-quality classification therefore correctly remains **900 KEEP / 0 flagged** while WS-05 continues to diversify mechanics.
-
-### Next mechanic decision from the audit
-
-Next planned wave: **Math `count_and_select`** for a reviewed coherent counting family.
-
-Rationale:
-- Math has the strongest non-creative `choice_grid` concentration at 82/100.
-- Existing Math choice families include `math-count-*` (9), compare (6), order (6), pattern (5), and missing (5), among others.
-- `count_and_select` directly matches the counting objective and can preserve canonical choice evidence while changing the child-facing interaction.
-
-Do not mass-convert all Math choice activities. Follow-on mechanics (`number_line`, `more_less_balance`, `pattern_completion`, `make_total`) require their own family review and QA.
+Math `choice_grid` falls 82 -> 73. Global `choice_grid` falls 392 -> 383. The global hotspot still remains above the 35% planning threshold, so WS-05 continues.
 
 ## Permanent audits
 
@@ -143,48 +124,28 @@ Activity quality:
 npm run qa:activity-quality
 ```
 
-Outputs:
-
-```text
-.qa/activity-quality/report.json
-.qa/activity-quality/report.md
-```
-
 Gameplay distribution:
 
 ```bash
 npm run qa:gameplay-distribution
 ```
 
-Outputs:
-
-```text
-.qa/gameplay-distribution/report.json
-.qa/gameplay-distribution/report.md
-```
-
-CI uploads both audit artifacts.
-
-Blocking structural activity rules: `Q001` missing catalog spec, `Q002` assessed without skill, `Q003` creative marked assessed, `Q004` invalid choice contract, `Q005` invalid matching contract.
-
-Gameplay-distribution blocking contracts: current 900-activity baseline coverage must be complete, no activity may be unclassified, counts must sum to the catalog, and the active pattern set must change intentionally. Concentration thresholds are advisory only.
-
-Advisory rules Q101–Q108 and gameplay hotspots do not replace human pedagogical/visual review.
+CI uploads both artifacts. Gameplay-distribution coverage and active-pattern-set consistency are blocking; concentration remains advisory.
 
 ## Wave status
 
-- Wave A DONE — PR #91, merge `7a087d590381dd4487811027690ac187ff87954b`.
-- Wave B DONE — PR #92, merge `7b2f8a75cc00eafc0c3202a718e2fd81374f5f8e`.
-- Wave C / Symbol Hunt DONE — PR #93, merge `85aea0e5843f251eb83e5aa62180268b75455cfa`.
-- WS-06 Coloring DONE — PR #95/#96; Q108=0.
-- WS-07 Drawing DONE — PR #98/#99/#100; Q106=0.
-- WS-05 Memory Pair DONE — PR #101, merge `aea24d47bd2793fbbf3b3723878674ec6f3c98a0`.
-- WS-05 Sequence Slot DONE — PR #102, merge `f981d40fd55c1cdef3137600b4b44677e550b06d`.
-- WS-05 Sorting Buckets DONE — PR #103, merge `6d28ff2f4f3eb8a5b642d2e3b79979c910924342`.
-- WS-05 Drag-to-Target DONE — PR #104, merge `01fae0dbf73e47cb6d0281671b92ad77e6be03f7`.
-- WS-05 Gameplay Distribution Audit QA — PR #105; CI #472 full green at implementation head; docs-head CI required before merge.
-- WS-05 NEXT — Math `count_and_select`, then audit-guided Math/Logic/Science/search/audio/ordering/puzzle/literacy/creative/story waves.
-- Wave E LATER — human subject-by-subject review for age fit, ambiguity, difficulty, cultural fit, visual quality, and progression coherence.
+- Wave A DONE — PR #91.
+- Wave B DONE — PR #92.
+- Wave C / Symbol Hunt DONE — PR #93.
+- WS-06 Coloring DONE — PR #95/#96.
+- WS-07 Drawing DONE — PR #98/#99/#100.
+- WS-05 Memory Pair DONE — PR #101.
+- WS-05 Sequence Slot DONE — PR #102.
+- WS-05 Sorting Buckets DONE — PR #103.
+- WS-05 Drag-to-Target DONE — PR #104.
+- WS-05 Gameplay Distribution Audit DONE — PR #105.
+- WS-05 Count-and-Select QA — PR #106; implementation/browser/visual accepted, docs-head CI required before merge.
+- WS-05 NEXT — exact-family Math review for `number_line`, `more_less_balance`, `pattern_completion`, then broader audit-guided waves.
 
 ## Completion rule
 
