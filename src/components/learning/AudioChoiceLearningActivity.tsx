@@ -9,9 +9,9 @@ import styles from "./LearningPlatform.module.css";
 import { GardenActivityFrame } from "./GardenActivityFrame";
 
 function audioFallback(status: SpeechStartStatus | null): string | null {
-  if (status === "muted") return "Suara sedang dimatikan. Petunjuk tetap tersedia sebagai teks di layar.";
-  if (status === "unavailable") return "Narasi dengan pelafalan yang sesuai belum tersedia di perangkat ini. Mainlagi tidak akan memakai voice bahasa lain. Gunakan petunjuk teks di layar.";
-  if (status === "error") return "Suara belum bisa diputar. Coba lagi atau lanjut menggunakan petunjuk teks.";
+  if (status === "muted") return "Suara sedang dimatikan. Nyalakan suara untuk aktivitas dengar, atau pilih permainan lain.";
+  if (status === "unavailable") return "Narasi dengan pelafalan yang sesuai belum tersedia di perangkat ini. Mainlagi tidak akan menampilkan target audio sebagai jawaban teks. Pilih permainan lain dulu.";
+  if (status === "error") return "Suara belum bisa diputar. Coba tombol suara lagi atau pilih permainan lain.";
   return null;
 }
 
@@ -30,20 +30,22 @@ export function AudioChoiceLearningActivity({ childId, activityId }: { childId: 
   const spokenPrompt = activity.audioPrompt ?? activity.prompt ?? activity.title;
   const lang = activity.subjectId === "english" ? "en-US" : "id-ID";
   const fallback = audioFallback(speechStatus);
+  const heardPrompt = speechStatus === "spoken";
 
   const hear = () => {
     unlockAudio(lang);
     playTone("tick");
+    setFeedback(null);
     setSpeechStatus(speakWithStatus(spokenPrompt, lang));
   };
 
   const choose = (choice: string) => {
+    if (!heardPrompt) return;
     unlockAudio();
     if (choice === activity.correctChoice) {
       playTone("correct");
       setFeedback("good");
-      if (!done) completeActivity(childId, activity.id);
-      else completeActivity(childId, activity.id);
+      completeActivity(childId, activity.id);
     } else {
       playTone("wrong");
       setFeedback("try");
@@ -51,17 +53,22 @@ export function AudioChoiceLearningActivity({ childId, activityId }: { childId: 
   };
 
   return (
-    <GardenActivityFrame backHref={`/child/${childId}/subject/${activity.subjectId}`} title={visiblePrompt} onHear={hear} hint="Dengarkan, lalu sentuh pilihanmu." spacious={visiblePrompt.length<45}>
+    <GardenActivityFrame backHref={`/child/${childId}/subject/${activity.subjectId}`} title={visiblePrompt} onHear={hear} hint="Tekan tombol suara, dengarkan, lalu sentuh pilihanmu." spacious={visiblePrompt.length<45}>
 
         {fallback ? (
           <div className={styles.infoBanner} role="status" style={{ marginTop: 14 }}>
-            {fallback}
+            <p style={{ margin: 0 }}>{fallback}</p>
+            <Link className={styles.secondaryButton} href={`/child/${childId}/subject/${activity.subjectId}`} style={{ marginTop: 10 }}>Pilih permainan lain</Link>
+          </div>
+        ) : !heardPrompt ? (
+          <div className={styles.infoBanner} role="status" style={{ marginTop: 14 }}>
+            Dengarkan petunjuk dulu. Pilihan akan aktif setelah suara berhasil diputar.
           </div>
         ) : null}
 
         <div className={styles.choiceGrid} data-choices>
           {(activity.choices ?? []).map((choice) => (
-            <button type="button" className={styles.bigChoice} data-short={choice.length<=2} key={choice} onClick={() => choose(choice)}>{choice}</button>
+            <button type="button" className={styles.bigChoice} data-short={choice.length<=2} key={choice} onClick={() => choose(choice)} disabled={!heardPrompt}>{choice}</button>
           ))}
         </div>
 
