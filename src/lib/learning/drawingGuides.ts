@@ -103,10 +103,10 @@ const guides: Record<string, DrawingGuide> = {
   "drawing-symmetry-kite": complete("M240 65 V390", "M240 65 L115 215 L240 390"),
 
   "drawing-story-seed-sprout": complete("M55 370 H205", "M275 370 H425", "M240 80 V420"),
-  "drawing-story-rain-sun": complete("M240 70 V410", "M85 185 C55 175 60 135 95 135 C100 95 160 90 180 125 C215 100 235 135 225 170 H85 Z", "M345 135 A38 38 0 1 1 344.9 135 Z"),
-  "drawing-story-ball-roll": complete("M85 330 Q185 265 285 320 T415 280", "M105 300 A28 28 0 1 1 104.9 300 Z"),
+  "drawing-story-rain-sun": complete("M240 70 V410", "M55 365 H205", "M275 365 H425"),
+  "drawing-story-ball-roll": complete("M85 330 Q185 265 285 320 T415 280"),
   "drawing-story-build-house": complete("M55 385 H155 M185 385 H295 M325 385 H425", "M240 80 V420"),
-  "drawing-story-friend-wave": complete("M165 125 A38 38 0 1 1 164.9 125 Z", "M165 205 V345", "M315 125 A38 38 0 1 1 314.9 125 Z", "M315 205 V345", "M315 235 L385 185"),
+  "drawing-story-friend-wave": complete("M165 125 A38 38 0 1 1 164.9 125 Z", "M165 205 V345", "M315 125 A38 38 0 1 1 314.9 125 Z", "M315 205 V345"),
 
   "drawing-focus-big-small": complete("M150 140 A90 90 0 1 1 149.9 140 Z", "M350 275 A38 38 0 1 1 349.9 275 Z"),
   "drawing-focus-center-side": complete("M240 170 A70 70 0 1 1 239.9 170 Z", "M385 310 A30 30 0 1 1 384.9 310 Z"),
