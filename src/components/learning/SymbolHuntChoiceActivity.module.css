@@ -1,0 +1,103 @@
+.huntScene {
+  position: relative;
+  overflow: hidden;
+  min-height: 470px;
+  border: 2px solid #d8e8d5;
+  border-radius: 32px;
+  background: linear-gradient(180deg, #dff5ff 0 47%, #dff4c9 47% 100%);
+}
+
+.promptCard {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  width: min(92%, 620px);
+  align-items: center;
+  gap: 12px;
+  margin: 18px auto 0;
+  padding: 14px 16px;
+  border: 2px solid rgba(44, 86, 93, .12);
+  border-radius: 22px;
+  background: rgba(255,255,255,.94);
+  box-shadow: 0 10px 30px rgba(41, 81, 93, .12);
+}
+
+.promptCard > span { font-size: 30px; }
+.promptCard h1 { margin: 0; color: #24445e; font-size: clamp(22px, 5vw, 32px); line-height: 1.15; }
+.promptCard p { margin: 4px 0 0; color: #667f8b; font-size: 14px; font-weight: 800; }
+
+.symbolField { position: absolute; inset: 112px 0 0; }
+.symbolChoice {
+  position: absolute;
+  z-index: 4;
+  display: grid;
+  width: clamp(82px, 22vw, 118px);
+  aspect-ratio: 1;
+  place-items: center;
+  border: 4px solid white;
+  border-radius: 38% 62% 46% 54% / 55% 42% 58% 45%;
+  background: #fff8d7;
+  box-shadow: 0 10px 0 #b6d0a2, 0 15px 28px rgba(57, 93, 75, .18);
+  color: #28445b;
+  font: inherit;
+  font-size: clamp(46px, 14vw, 72px);
+  font-weight: 950;
+  line-height: 1;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.symbolChoice:active { transform: translateY(4px) scale(.98); box-shadow: 0 5px 0 #b6d0a2; }
+.symbolChoice:focus-visible { outline: 5px solid #6759d8; outline-offset: 4px; }
+.symbolChoice:disabled { cursor: default; opacity: .72; }
+.correct { background: #dff8df; border-color: #74c98b; box-shadow: 0 7px 0 #79b77d; opacity: 1 !important; }
+
+.slot1 { left: 8%; top: 18%; transform: rotate(-5deg); }
+.slot2 { right: 8%; top: 7%; transform: rotate(6deg) scale(.92); }
+.slot3 { left: 42%; bottom: 9%; transform: rotate(2deg) scale(1.06); }
+.variant1 .slot1 { left: 38%; top: 4%; transform: rotate(4deg) scale(.95); }
+.variant1 .slot2 { right: 7%; top: 39%; transform: rotate(-4deg) scale(1.06); }
+.variant1 .slot3 { left: 8%; bottom: 8%; transform: rotate(6deg); }
+.variant2 .slot1 { left: 7%; top: 42%; transform: rotate(5deg) scale(.96); }
+.variant2 .slot2 { right: 39%; top: 6%; transform: rotate(-5deg) scale(1.04); }
+.variant2 .slot3 { right: 7%; bottom: 8%; transform: rotate(3deg); }
+
+.cloud { position: absolute; width: 94px; height: 34px; border-radius: 999px; background: rgba(255,255,255,.8); }
+.cloud::before, .cloud::after { content: ""; position: absolute; bottom: 8px; border-radius: 50%; background: inherit; }
+.cloud::before { left: 18px; width: 38px; height: 38px; }
+.cloud::after { right: 14px; width: 28px; height: 28px; }
+.cloudOne { left: 4%; top: 124px; }
+.cloudTwo { right: 5%; top: 160px; transform: scale(.75); }
+.bush { position: absolute; bottom: -18px; width: 180px; height: 100px; border-radius: 50% 50% 0 0; background: #78bd72; }
+.bushOne { left: -35px; }
+.bushTwo { right: -45px; background: #61aa67; }
+.path { position: absolute; left: 37%; bottom: -30px; width: 31%; height: 170px; border-radius: 50% 50% 0 0; background: #f1d39b; transform: perspective(240px) rotateX(50deg); opacity: .9; }
+.spark { position: absolute; z-index: 2; color: #ffd44e; font-size: 30px; }
+.sparkOne { left: 28%; top: 35%; }
+.sparkTwo { right: 28%; bottom: 20%; font-size: 22px; }
+.flower { position: absolute; z-index: 2; width: 20px; height: 20px; border: 6px dotted #ff8fa6; border-radius: 50%; color: #ffd850; font-size: 0; }
+.flowerOne { left: 25%; bottom: 9%; }
+.flowerTwo { right: 23%; bottom: 4%; transform: scale(.8); }
+
+.feedbackTry, .feedbackGood { margin: 0; padding: 14px 16px; border-radius: 18px; text-align: center; font-weight: 900; }
+.feedbackTry { background: #fff1d9; color: #8d620d; }
+.feedbackGood { display: grid; gap: 4px; background: #ddf7eb; color: #08765c; }
+.feedbackGood strong { font-size: 20px; }
+.feedbackGood a { justify-self: center; margin-top: 6px; color: #075d4b; }
+
+@media (max-width: 520px) {
+  .huntScene { min-height: 430px; border-radius: 26px; }
+  .symbolField { inset-top: 118px; }
+  .slot1 { left: 5%; }
+  .slot2 { right: 5%; }
+  .slot3 { left: 37%; }
+  .variant1 .slot1 { left: 35%; }
+  .variant1 .slot2 { right: 4%; }
+  .variant1 .slot3 { left: 5%; }
+  .variant2 .slot1 { left: 4%; }
+  .variant2 .slot2 { right: 34%; }
+  .variant2 .slot3 { right: 4%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .symbolChoice:active { transform: none; }
+}
