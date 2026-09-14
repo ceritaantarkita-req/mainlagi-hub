@@ -21,7 +21,7 @@
     "test:tracing": "node scripts/run-guided-tracing-tests.mjs",
     "test:audio-manager": "node scripts/run-audio-manager-tests.mjs",
     "test:ui:mobile-foundation": "node scripts/run-mobile-foundation-tests.mjs",
-    "test:ui:mobile-routes": "node scripts/run-mobile-route-browser-tests.mjs && node scripts/run-symbol-hunt-browser-tests.mjs",
+    "test:ui:mobile-routes": "node scripts/run-mobile-route-browser-tests.mjs && node scripts/run-symbol-hunt-browser-tests.mjs && node scripts/run-coloring-art-tests.mjs",
     "qa:local:product": "npm run build && node scripts/run-local-product-qa.mjs",
     "qa:local:product:quick": "npm run build && node scripts/run-local-product-qa.mjs --skip-activity-crawl",
     "qa:local:flow": "npm run build && node scripts/run-local-product-flow-check.mjs",
