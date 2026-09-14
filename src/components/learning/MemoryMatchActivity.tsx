@@ -30,7 +30,6 @@ export function MemoryMatchActivity({ childId, activityId }: { childId: string; 
   const [locked, setLocked] = useState(false);
   const [message, setMessage] = useState("Buka dua kartu dan cari huruf besar-kecil yang sama.");
   const [done, setDone] = useState(false);
-  const startedAtRef = useRef<number | null>(null);
   const incorrectRef = useRef(0);
   const retryRef = useRef(0);
 
@@ -38,7 +37,6 @@ export function MemoryMatchActivity({ childId, activityId }: { childId: string; 
 
   const reveal = (cardIndex: number) => {
     if (done || locked || matched.includes(cardIndex) || open.includes(cardIndex)) return;
-    if (startedAtRef.current === null) startedAtRef.current = Date.now();
     const nextOpen = [...open, cardIndex];
     setOpen(nextOpen);
     if (nextOpen.length < 2) return setMessage("Sekarang buka satu kartu lagi.");
@@ -51,7 +49,6 @@ export function MemoryMatchActivity({ childId, activityId }: { childId: string; 
         const pairCount = Math.max(1, cards.length / 2);
         const incorrectCount = incorrectRef.current;
         const accuracy = pairCount / (pairCount + incorrectCount);
-        const completedAt = Date.now();
         const assessed = spec?.assessment === "assessed";
         emitLearningRuntimeMeasurement({
           childId,
@@ -64,9 +61,6 @@ export function MemoryMatchActivity({ childId, activityId }: { childId: string; 
             correctCount: assessed ? pairCount : undefined,
             incorrectCount: assessed ? incorrectCount : undefined,
             retryCount: assessed ? retryRef.current : undefined,
-            durationMs: startedAtRef.current === null ? undefined : Math.max(0, completedAt - startedAtRef.current),
-            startedAt: startedAtRef.current === null ? undefined : new Date(startedAtRef.current).toISOString(),
-            completedAt: new Date(completedAt).toISOString(),
             inputMode: activity.preferredMobile,
             metadata: { source: "memory-pairs-runtime", evidenceFidelity: assessed ? "matching_memory_interaction" : "completion_only" }
           }
