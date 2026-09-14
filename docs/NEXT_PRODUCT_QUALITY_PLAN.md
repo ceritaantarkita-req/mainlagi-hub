@@ -3,7 +3,7 @@
 > Canonical execution plan untuk fase product-quality Mainlagi Hub. Semua developer/AI agent wajib membaca dan memperbarui dokumen ini ketika mengerjakan scope terkait.
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
-**Baseline:** `main` @ `25c83840b74c4eca1dd3d3b71e888f7dfc4d8b21`  
+**Current baseline:** `main` @ `f85cb66a78fc395263d9ca1928d64b312ef03a90`  
 **Focus:** frontend/UI/visual quality, voice, activity quality, dan product coherence.  
 **Prinsip:** **Quality first. Quantity later.** Perbaiki 900 activity yang ada sebelum ekspansi besar.
 
@@ -39,27 +39,11 @@ Fase ini adalah **Product Coherence & Content Quality**, bukan feature-count exp
 
 ### WS-01 — Canonical documentation sync
 
-**Status: QA**
+**Status: DONE**
 
-Goal:
-- satu current truth untuk human/AI agent;
-- current docs konsisten dengan PR #87 merged, 9 subjects dan 900 activities;
-- historical dated docs tidak dibaca sebagai current baseline.
+Selesai melalui PR #88, CI #362 success, squash merge `f85cb66a78fc395263d9ca1928d64b312ef03a90`.
 
-Scope:
-- `README.md`
-- `docs/README.md`
-- `docs/CURRENT_STATE.md`
-- `docs/KNOWN_LIMITATIONS.md`
-- `docs/ARCHITECTURE.md`
-- `docs/LEARNING_ATTEMPTS_MASTERY.md`
-- `docs/PRODUCT_DIRECTION.md`
-- `docs/MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md`
-
-Done when:
-- canonical docs konsisten;
-- historical snapshot classification jelas;
-- PR checks lulus dan perubahan merged.
+Canonical docs sekarang membedakan current truth dari historical snapshots dan konsisten dengan 9 subjects / 900 activities.
 
 ### WS-02 — Native voice & narration
 
@@ -136,13 +120,13 @@ Critical red flags:
 - prompt/visual mismatch;
 - misleading artwork.
 
-Example rule: visual color recognition should use actual colors/objects; reading `BLUE / RED / GREEN` is written-vocabulary recognition, not pure color recognition.
+Example: visual color recognition should use actual colors/objects; reading `BLUE / RED / GREEN` is written-vocabulary recognition, not pure color recognition.
 
 ### WS-05 — Gameplay/mechanic diversification
 
 **Status: TODO**
 
-Possible mechanics only when pedagogically useful:
+Use only when pedagogically useful:
 - tap/select;
 - audio choose;
 - drag/drop;
@@ -215,21 +199,23 @@ Visual QA must cover mobile/tablet/desktop, clipping, overlap, contrast, overflo
 
 ### WS-09 — Stage progression vs 100-card gallery
 
-**Status: TODO**
+**Status: QA**
 
-Current problem: data progression is stage-based while subject UI can expose a broad 100-card gallery.
+Product decision: **Recommended Path + Stage Journey + Browse All**.
 
-Evaluate:
-- stage-first;
-- recommended path + browse all;
-- gallery grouped by stage;
-- validated hybrid.
+Contract:
+- one recommended next activity is prominent;
+- open stages are visible as a learning journey and link to the existing Stage/Lesson view;
+- stage navigation is useful context, not a mandatory extra click;
+- default activity grid shows only currently playable + age-eligible activities;
+- the complete 100-activity subject catalog remains available through secondary `Lihat semua`;
+- locked/age-ineligible cards do not dominate the default child view;
+- progression/evidence readiness remains unchanged;
+- direct Home -> Subject -> Activity remains possible.
 
-Rules:
-- continue/recommendation stays prominent;
-- child need not understand internal progression model;
-- avoid walls of unexplained locked cards;
-- do not weaken evidence/progression to simplify UI.
+Implementation: PR #89, branch `agent/ws09-stage-gallery-coherence-20260914`.
+
+Done when CI, browser/mobile QA, visual review, docs, and merge are complete.
 
 ### WS-10 — Physical-device, accessibility & Iqro acceptance
 
@@ -274,8 +260,8 @@ Do not combine broad cleanup with major content redesign unless necessary.
 
 ## 4. Default execution order
 
-1. WS-01 Canonical docs.
-2. WS-09 Stage/gallery product decision.
+1. WS-01 Canonical docs — **DONE**.
+2. WS-09 Stage/gallery coherence — **QA**.
 3. WS-04 Audit 900 activities.
 4. WS-05 Add only needed mechanic/runtime gaps.
 5. Redesign invalid/trivial activities.
@@ -333,7 +319,7 @@ If code and docs conflict, verify against current code/production, reconcile can
 
 | Workstream | Status | Current note |
 |---|---|---|
-| WS-01 Canonical docs | QA | Reconciled on PR #88 branch; CI/merge pending |
+| WS-01 Canonical docs | DONE | PR #88 merged; CI #362 success |
 | WS-02 Voice & narration | TODO | Need engine/voice/licence evaluation |
 | WS-03 Public/parent frontend | TODO | About/FAQ stale; affiliate exists but weakly discoverable |
 | WS-04 Activity audit/redesign | TODO | Audit all 900 |
@@ -341,7 +327,7 @@ If code and docs conflict, verify against current code/production, reconcile can
 | WS-06 Coloring rebuild | TODO | Audit 100 |
 | WS-07 Drawing rebuild | TODO | Audit 100 |
 | WS-08 Art direction/visual QA | TODO | Art Bible + permanent quality gate |
-| WS-09 Stage/gallery UX | TODO | Next product decision after WS-01 |
+| WS-09 Stage/gallery UX | QA | PR #89; Recommended Path + Stage Journey + Browse All |
 | WS-10 External acceptance | TODO | Physical devices + Iqro expert review |
 | WS-11 Governance | TODO | Required secret scan + ruleset review |
 | WS-12 Technical cleanup | TODO | After product-quality stabilization |
@@ -352,42 +338,65 @@ Allowed states: `TODO` -> `IN_PROGRESS` -> `BLOCKED` -> `QA` -> `DONE`.
 
 Add newest entry at the top.
 
+### 2026-09-14 — WS-09 Recommended Path + Stage Journey + Browse All
+
+**Agent/developer:** ChatGPT  
+**Branch/PR:** `agent/ws09-stage-gallery-coherence-20260914` / PR #89  
+**Status:** QA
+
+#### Changed
+- changed Subject page from a flat default wall of 100 cards to progression-aware presentation;
+- added one prominent recommended next activity;
+- surfaced open stages as a horizontal learning journey linking to the existing Stage/Lesson screen;
+- default grid now contains immediately playable + age-eligible activities;
+- complete 100-card catalog remains available under secondary `Lihat semua`;
+- preserved total catalog integrity without weakening route/progression rules;
+- updated local product-flow and Playroom QA contracts that previously required flat 100-card/no-stage UX.
+
+#### Decisions
+- selected hybrid `Recommended Path + Stage Journey + Browse All` model;
+- stage is context and structured exploration, not a mandatory extra click before every activity;
+- direct Home -> Subject -> Activity remains valid;
+- mastery/evidence/readiness logic remains untouched.
+
+#### QA
+- PR #89 opened;
+- automated CI/browser checks are running/re-running against the branch;
+- final human visual acceptance remains required before DONE.
+
+#### Remaining
+- resolve any CI/browser issue found by PR #89;
+- review responsive screenshots/visual density;
+- merge only when checks are green;
+- after merge mark WS-09 DONE with final SHA/CI evidence.
+
+#### Docs updated
+- `docs/NEXT_PRODUCT_QUALITY_PLAN.md`;
+- `docs/MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md` in this PR.
+
 ### 2026-09-14 — WS-01 canonical documentation reconciliation
 
 **Agent/developer:** ChatGPT  
 **Branch/PR:** `docs/next-product-quality-plan-20260914` / PR #88  
-**Status:** QA
+**Status:** DONE
 
 #### Changed
-- added this canonical execution plan;
-- added `docs/README.md` documentation index;
-- reconciled `README.md`;
-- reconciled `docs/CURRENT_STATE.md`;
-- replaced stale current limitations in `docs/KNOWN_LIMITATIONS.md`;
-- updated `docs/ARCHITECTURE.md` from 5 to 9 current subjects and current frontend/voice/art boundaries;
-- updated `docs/LEARNING_ATTEMPTS_MASTERY.md` from the old 12-skill/17-activity snapshot to the 9-subject/900-activity baseline;
-- updated `docs/PRODUCT_DIRECTION.md`;
-- reconciled `docs/MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md` with current product reality and next-phase constraints.
+- added canonical execution plan and docs index;
+- reconciled README, CURRENT_STATE, KNOWN_LIMITATIONS, ARCHITECTURE, mastery, product direction and UX specification;
+- separated current canonical truth from historical snapshots.
 
 #### Decisions
-- dated audit/redesign files remain historical snapshots rather than being rewritten to pretend they were current;
-- canonical current docs explicitly take precedence over historical snapshots;
+- dated audit/redesign files remain historical evidence;
 - learning/mastery foundation remains stable by default;
-- frontend current visual baseline is PR #87 Garden/Playroom;
-- next focus after docs is stage/gallery UX coherence, then the 900-activity quality audit.
+- PR #87 Garden/Playroom is the frontend baseline.
 
 #### QA
-- source documents read from current `main`;
-- stale claims reconciled against post-PR #87 baseline;
-- PR CI/merge verification still pending.
+- CI #362: success;
+- PR #88 squash merged;
+- main merge SHA: `f85cb66a78fc395263d9ca1928d64b312ef03a90`.
 
 #### Remaining
-- wait for PR checks;
-- merge only through protected-main PR flow;
-- after merge mark WS-01 `DONE` and begin WS-09.
-
-#### Docs updated
-- all files listed under WS-01 scope.
+- none for WS-01.
 
 ## 9. Not current priorities
 
