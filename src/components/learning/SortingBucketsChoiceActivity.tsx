@@ -89,7 +89,12 @@ export function SortingBucketsChoiceActivity({ childId, activityId }: { childId:
       lang="id-ID"
       spacious
     >
-      <section ref={sceneRef} className={styles.scene} data-sorting-buckets>
+      <section
+        ref={sceneRef}
+        className={`${styles.scene} ${done ? styles.sceneDone : ""}`}
+        data-sorting-buckets
+        data-sorting-buckets-done={done ? "true" : "false"}
+      >
         <div className={styles.promptCard}>
           <span aria-hidden>🗂️</span>
           <div>
