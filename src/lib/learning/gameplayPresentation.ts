@@ -1,7 +1,7 @@
 import type { LearningActivity } from "./system";
 
 export type MatchingPresentation = "grid_pairs" | "memory_pairs" | "drag_targets";
-export type ChoiceGameplayPresentation = "default" | "sequence_slot" | "sorting_buckets" | "count_select" | "number_line" | "more_less_balance";
+export type ChoiceGameplayPresentation = "default" | "sequence_slot" | "sorting_buckets" | "count_select" | "number_line" | "more_less_balance" | "pattern_completion";
 export type GameplayPattern =
   | "choice_grid"
   | "symbol_hunt"
@@ -14,6 +14,7 @@ export type GameplayPattern =
   | "count_and_select"
   | "number_line"
   | "more_less_balance"
+  | "pattern_completion"
   | "guided_trace"
   | "story_read"
   | "motion_game"
@@ -56,6 +57,14 @@ const MATH_MORE_LESS_BALANCE_IDS = new Set([
   "math-compare-more-6-5",
   "math-compare-less-7-9",
   "math-compare-more-10-8"
+]);
+
+const MATH_PATTERN_COMPLETION_IDS = new Set([
+  "math-pattern-ab-shapes",
+  "math-pattern-aab-colors",
+  "math-pattern-number-step-one",
+  "math-pattern-number-step-two",
+  "math-pattern-size"
 ]);
 
 /**
@@ -112,6 +121,10 @@ export function isDragTargetActivity(activity: LearningActivity | undefined): bo
  * Reviewed Math comparison tasks measure left/right/equal quantity relations,
  * so present the same canonical choices as two balance pans plus an equal
  * control instead of another generic answer grid.
+ *
+ * Reviewed Math pattern tasks measure recognition of a repeating or stepping
+ * rule. Present the observed run as a pattern strip with one explicit next
+ * slot while keeping the canonical three choices and evidence identity.
  */
 export function choiceGameplayPresentation(activity: LearningActivity | undefined): ChoiceGameplayPresentation {
   if (!activity || activity.runtime !== "tap_choice") return "default";
@@ -169,6 +182,16 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     Boolean(activity.prompt);
   if (isReviewedMathComparisonFamily) return "more_less_balance";
 
+  const isReviewedMathPatternFamily =
+    activity.subjectId === "math" &&
+    activity.stageId === "math-banding-bentuk" &&
+    MATH_PATTERN_COMPLETION_IDS.has(activity.id) &&
+    choices.length === 3 &&
+    new Set(choices).size === choices.length &&
+    choices.includes(correct) &&
+    Boolean(activity.prompt);
+  if (isReviewedMathPatternFamily) return "pattern_completion";
+
   return "default";
 }
 
@@ -192,6 +215,10 @@ export function isMoreLessBalanceActivity(activity: LearningActivity | undefined
   return choiceGameplayPresentation(activity) === "more_less_balance";
 }
 
+export function isPatternCompletionActivity(activity: LearningActivity | undefined): boolean {
+  return choiceGameplayPresentation(activity) === "pattern_completion";
+}
+
 /**
  * Canonical child-facing gameplay-pattern classifier used by the WS-05
  * distribution audit. Every playable learning activity must map to exactly one
@@ -208,6 +235,7 @@ export function gameplayPattern(activity: LearningActivity | undefined): Gamepla
     if (presentation === "count_select") return "count_and_select";
     if (presentation === "number_line") return "number_line";
     if (presentation === "more_less_balance") return "more_less_balance";
+    if (presentation === "pattern_completion") return "pattern_completion";
     return "choice_grid";
   }
 
