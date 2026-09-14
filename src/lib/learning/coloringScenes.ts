@@ -2,10 +2,21 @@
  * Presentation-only vector artwork. Does not change catalog, assessment,
  * completion, evidence, or progression. Regions are spatial shapes, not labels.
  */
-export interface ColoringRegion { name: string; path: string; transform?: string }
-const p = (name: string, path: string): ColoringRegion => ({name,path});
-const circle = (name:string,x:number,y:number,r:number) => p(name,`M ${x-r} ${y} a ${r} ${r} 0 1 0 ${r*2} 0 a ${r} ${r} 0 1 0 ${-r*2} 0 Z`);
-const box = (name:string,x:number,y:number,w:number,h:number) => p(name,`M${x} ${y} h${w} v${h} h${-w}Z`);
+export interface ColoringHitArea { x:number; y:number; width:number; height:number }
+export interface ColoringRegion { name:string; path:string; transform?:string; hitArea?:ColoringHitArea }
+
+// The smallest supported canvas is roughly 280 CSS px for this 480-unit
+// viewBox. A 76-unit target therefore stays above the 42 CSS px mobile gate.
+const MIN_HIT_AREA=76;
+const hitArea=(x:number,y:number,width:number,height:number):ColoringHitArea=>({
+  x:x-Math.max(0,MIN_HIT_AREA-width)/2,
+  y:y-Math.max(0,MIN_HIT_AREA-height)/2,
+  width:Math.max(width,MIN_HIT_AREA),
+  height:Math.max(height,MIN_HIT_AREA)
+});
+const p=(name:string,path:string,target?:ColoringHitArea):ColoringRegion=>({name,path,...(target?{hitArea:target}:{})});
+const circle=(name:string,x:number,y:number,r:number)=>p(name,`M ${x-r} ${y} a ${r} ${r} 0 1 0 ${r*2} 0 a ${r} ${r} 0 1 0 ${-r*2} 0 Z`,r*2<MIN_HIT_AREA?hitArea(x-r,y-r,r*2,r*2):undefined);
+const box=(name:string,x:number,y:number,w:number,h:number)=>p(name,`M${x} ${y} h${w} v${h} h${-w}Z`,w<MIN_HIT_AREA||h<MIN_HIT_AREA?hitArea(x,y,w,h):undefined);
 const star=p("Bintang","M240 80 279 180 390 185 304 256 331 368 240 305 149 368 176 256 90 185 201 180Z");
 const cloud=p("Awan","M105 230 C65 215 75 155 125 155 C130 90 215 87 242 133 C283 95 350 129 347 173 C403 173 419 236 374 254 L120 254 Q96 252 105 230Z");
 const leaf=p("Daun","M130 360 C50 165 230 85 355 95 C355 275 280 410 130 360Z");
@@ -33,7 +44,7 @@ const robot=[
   p("Kepala","M176 114 H304 Q345 114 345 153 V210 Q345 250 304 250 H176 Q135 250 135 210 V154 Q135 114 176 114Z"),
   p("Layar wajah","M180 140 H300 Q318 140 318 164 V200 Q318 224 298 224 H182 Q162 224 162 200 V164 Q162 140 180 140Z"),
   circle("Mata kiri",199,180,14),circle("Mata kanan",281,180,14),
-  p("Senyum","M219 201 Q240 218 261 201 Q240 239 219 201Z"),
+  p("Senyum","M219 201 Q240 218 261 201 Q240 239 219 201Z",hitArea(219,201,42,38)),
   box("Panel perut",183,278,92,59),circle("Tombol",298,296,10),
   p("Sepatu kiri","M164 402 H227 V435 H143 Q142 412 164 402Z"),
   p("Sepatu kanan","M258 402 H318 Q340 412 339 435 H258Z")
@@ -45,9 +56,9 @@ const cat=[
   p("Kepala","M127 161 Q137 98 240 102 Q343 98 354 166 Q377 266 241 279 Q103 265 127 161Z"),
   p("Wajah","M240 176 Q224 221 173 212 Q153 271 240 272 Q327 271 309 212 Q260 223 240 176Z"),
   circle("Mata kiri",186,175,16),circle("Mata kanan",294,175,16),
-  p("Hidung","M224 216 Q240 207 256 216 L240 233Z"),
-  p("Kaki kiri","M160 365 Q137 371 144 402 Q183 419 217 402 V374Z"),
-  p("Kaki kanan","M266 374 V402 Q299 419 336 402 Q343 371 319 365Z")
+  p("Hidung","M224 216 Q240 207 256 216 L240 233Z",hitArea(224,207,32,26)),
+  p("Kaki kiri","M160 365 Q137 371 144 402 Q183 419 217 402 V374Z",hitArea(137,365,80,54)),
+  p("Kaki kanan","M266 374 V402 Q299 419 336 402 Q343 371 319 365Z",hitArea(266,365,77,54))
 ];
 const fish=[
   p("Ekor ikan","M324 235 418 154 405 314Z"),

@@ -10,6 +10,8 @@ out/
 dist/
 .qa-dist/
 .learning-test-dist/
+.learning-isolation-dist/
+.batch17-final-dist/
 .audio-test-dist/
 .mobile-route-qa/
 .qa/

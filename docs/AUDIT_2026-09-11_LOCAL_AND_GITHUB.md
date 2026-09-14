@@ -6,6 +6,12 @@ GitHub: `https://github.com/ceritaantarkita-req/mainlagi-hub`
 Branch yang diaudit: `agent/local-product-qa-20260911`
 HEAD lokal/remote branch saat audit: `e0b8ad50ddc5a973669c17986570e263e743143e`
 
+> Addendum — 14 September 2026: audit ini tetap mempertahankan snapshot historis
+> 11 September. Sesudah audit, redesign sudah di-commit dan di-push. Workspace
+> Windows dan remote branch diverifikasi bersih serta sinkron (`0/0`) pada
+> `636f4f236d23df40546821714006dd106b917137`; branch tersebut tiga commit di
+> depan `main` dan menjadi source PR #87. Production masih memakai `981f576...`.
+
 ## Ringkasan eksekutif
 
 Tracked files lokal sinkron persis dengan remote branch `origin/agent/local-product-qa-20260911`: ahead/behind `0/0` dan working tree bersih sebelum dokumen audit ini dibuat. Namun workspace **tidak sama dengan default branch GitHub `main`**. Branch audit berada dua commit di depan `main` (`9de0b8d`, `e0b8ad5`) dan masih berada dalam draft PR #87.

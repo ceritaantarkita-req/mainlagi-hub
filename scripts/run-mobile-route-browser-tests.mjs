@@ -70,6 +70,7 @@ const BATCH16_ACCESSIBILITY_ROUTES = [
 
 const SCREENSHOTS = new Set([
   "320:/child/demo-gian/home",
+  "320:/child/demo-gian/activity/color-gavi",
   "375:/child/demo-gian/learn",
   "390:/parent/children/demo-gian/reports",
   "430:/play/math-choice",
@@ -328,6 +329,11 @@ async function main() {
       const page = await context.newPage();
       for (const [runtime, routePath] of RUNTIME_ROUTES) {
         await inspectPage(page, { path: routePath, kind: "child-learning", touch: true }, viewport);
+        if (runtime === "coloring") {
+          const nose = page.getByRole("button", { name: "Warnai hidung" });
+          await nose.click();
+          assert.equal(await nose.getAttribute("data-color-filled"), "true", `Coloring touch interaction did not paint the nose at ${width}px.`);
+        }
         console.log(`Runtime ${runtime} passed responsive smoke at ${width}px.`);
       }
       await context.close();

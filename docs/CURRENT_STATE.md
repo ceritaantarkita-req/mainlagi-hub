@@ -1,24 +1,20 @@
 # Mainlagi Hub — Current State
 
-Last reviewed: 11 September 2026
+Last reviewed: 14 September 2026
 
-> Local update — 13 September 2026: desain 1 Garden sudah memiliki validasi
-> interaksi perwakilan; full acceptance masih blocked oleh coverage (55 layar
-> lolos, 845 redirect dari 900 URL pada QA ketat). Workspace berada di
-> `agent/local-product-qa-20260911`, base HEAD
-> `e0b8ad50ddc5a973669c17986570e263e743143e`. Preview lokal memakai port 3011.
-> Perubahan belum commit/push/deploy; informasi produksi di bawah adalah
-> snapshot historis, bukan hasil pemeriksaan deployment hari ini. Lihat
-> [validasi Garden](GARDEN_REDESIGN_VALIDATION_2026-09-13.md) untuk hasil terakhir,
-> bukti dan backlog yang belum selesai.
+> Merge-candidate update — 14 September 2026: entering merge hardening, the
+> existing Windows workspace and remote branch `agent/local-product-qa-20260911`
+> were verified clean and synchronized at `636f4f236d23df40546821714006dd106b917137`
+> (ahead/behind `0/0`). Follow-up fixes and their CI state are tracked by PR #87.
+> The Garden/Playroom redesign is committed and pushed, but not yet merged or
+> deployed. Production remains on `main` at
+> `981f5768f9f24b3be5e878a85395d9951292e4ed`.
 
 This is the canonical human/AI handoff. `main` is the implementation source of truth; commit SHAs below are verification snapshots.
 
-> Local work notice — 11 September 2026: the audit observed production/main at
-> `981f5768f9f24b3be5e878a85395d9951292e4ed`, newer than the historical
-> PR #85 snapshot below. The active Windows workspace remains on
-> `agent/local-product-qa-20260911`; its redesign is local and uncommitted.
-> Do not infer that these changes are deployed. See
+> Historical baseline notice: the production details below predate PR #87.
+> Do not infer that the PR #87 redesign is deployed until the exact-SHA
+> production smoke succeeds after merge. See
 > [the audit](AUDIT_2026-09-11_LOCAL_AND_GITHUB.md) and
 > [local redesign results](LOCAL_REDESIGN_2026-09-11.md).
 

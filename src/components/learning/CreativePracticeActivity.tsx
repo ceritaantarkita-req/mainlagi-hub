@@ -118,11 +118,13 @@ function ColoringRegions({activity,onDone}:{activity:LearningActivity;onDone:()=
     <div className={styles.paper}>
       <svg viewBox="0 0 480 480" className={styles.illustration} aria-label={`Gambar untuk diwarnai: ${activity.title}`}>
         <title>{activity.title}</title>
-        {regions.map((region,index)=><path key={index} d={region.path} transform={region.transform}
-          fill={fills[index]??"#ffffff"} stroke="#233831" strokeWidth={4} strokeLinejoin="round" strokeLinecap="round"
+        {regions.map((region,index)=><g key={index} transform={region.transform}
           role="button" tabIndex={0} aria-label={`Warnai ${region.name.toLowerCase()}`}
           data-color-region={index} data-color-filled={Boolean(fills[index])}
-          onClick={()=>paint(index)} onKeyDown={event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();paint(index);}}} />)}
+          onClick={()=>paint(index)} onKeyDown={event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();paint(index);}}}>
+          {region.hitArea ? <rect className={styles.regionHitArea} aria-hidden="true" {...region.hitArea}/>:null}
+          <path d={region.path} fill={fills[index]??"#ffffff"} stroke="#233831" strokeWidth={4} strokeLinejoin="round" strokeLinecap="round"/>
+        </g>)}
       </svg>
     </div>
     <aside className={styles.tools} aria-label="Alat mewarnai">

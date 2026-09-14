@@ -8,7 +8,8 @@ Dependency, TypeScript, ESLint, production build, learning engine, dan audio
 tests telah dijalankan di workspace Windows. Kegagalan registry di bawah
 adalah catatan **historis environment pembuat ZIP**, bukan keadaan laptop saat ini.
 Lihat [hasil perbaikan lokal](LOCAL_REDESIGN_2026-09-11.md) untuk validasi
-revisi yang belum di-commit dan belum di-deploy.
+revisi yang sekarang sudah di-commit dan di-push melalui PR #87, tetapi belum
+di-merge atau di-deploy.
 
 ## Historis: dependency-aware build environment pembuat ZIP
 
@@ -57,7 +58,8 @@ Synthetic landmark tests tidak membuktikan akurasi kamera nyata. Pengujian fisik
 
 ## Iqro
 
-- Current scope 14-letter MVP, mengikuti source project.
+- Catalog saat ini berisi 100 aktivitas Iqro dan 22 active skills/packs; seluruh
+  materi tetap berstatus `expert_required` sampai direview pengajar kompeten.
 - Template bentuk, titik, transliterasi, dan speech synthesis wajib direview pengajar kompeten.
 - Tidak menilai tajwid, pronunciation quality, huruf sambung, atau standard kaligrafi resmi.
 
