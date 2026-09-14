@@ -133,7 +133,7 @@ export function CountAndSelectActivity({ childId, activityId }: { childId: strin
           {feedback === "good"
             ? `⭐ Tepat! Jumlahnya ${activity.correctChoice}.`
             : feedback === "try"
-              ? "💡 Belum tepat. Sentuh tiap benda sambil menghitung pelan-pelan."
+              ? "💡 Belum tepat. Lihat tiap benda dan hitung pelan-pelan lagi."
               : "💡 Mulai dari satu dan hitung setiap benda sekali."}
         </div>
 
