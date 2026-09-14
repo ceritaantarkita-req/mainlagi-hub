@@ -35,6 +35,8 @@ export interface LearningSubject extends Omit<BaseLearningSubject, "id"> {
 export interface LearningActivity extends Omit<BaseLearningActivity, "subjectId" | "runtime" | "coloringCharacter"> {
   subjectId: LearningSubjectId;
   runtime: LearningRuntime;
+  /** Audio-only instruction/target. Never render this as the visible listening prompt. */
+  audioPrompt?: string;
   coloringCharacter?: string;
   coloringRegions?: string[];
   creativePrompt?: string;
@@ -62,8 +64,65 @@ export const SUBJECTS: LearningSubject[] = [
   DRAWING_SUBJECT
 ];
 
-export const ACTIVITIES: LearningActivity[] = [
-  ...base.ACTIVITIES.map((activity) => ({ ...activity })),
+const CHOICE_PRESENTATION_OVERRIDES: Record<string, Pick<LearningActivity, "prompt" | "choices" | "correctChoice">> = {
+  "english-find-blue": {
+    prompt: "Which color matches BLUE?",
+    choices: ["🔴", "🔵", "🟢"],
+    correctChoice: "🔵"
+  },
+  "english-find-red": {
+    prompt: "Which color matches RED?",
+    choices: ["🔴", "🟢", "🟡"],
+    correctChoice: "🔴"
+  },
+  "english-find-green": {
+    prompt: "Which color matches GREEN?",
+    choices: ["🔵", "🟢", "🔴"],
+    correctChoice: "🟢"
+  },
+  "math-shape-three-sides": {
+    prompt: "Bentuk mana yang punya 3 sisi?",
+    choices: ["●", "▲", "■"],
+    correctChoice: "▲"
+  },
+  "math-pattern-size": {
+    prompt: "• ⬤ • ⬤ ... bentuk berikutnya?",
+    choices: ["•", "⬤", "■"],
+    correctChoice: "•"
+  }
+};
+
+function listeningInstruction(subjectId: LearningSubjectId): string {
+  return subjectId === "english"
+    ? "Listen, then choose the best answer."
+    : "Dengarkan, lalu pilih jawaban yang paling sesuai.";
+}
+
+function normalizeActivityPresentation(activity: LearningActivity): LearningActivity {
+  let normalized = activity;
+
+  if (activity.runtime === "listen_and_choose" && activity.prompt) {
+    normalized = {
+      ...activity,
+      audioPrompt: activity.audioPrompt ?? activity.prompt,
+      prompt: listeningInstruction(activity.subjectId)
+    };
+  }
+
+  const choiceOverride = CHOICE_PRESENTATION_OVERRIDES[activity.id];
+  if (choiceOverride) {
+    normalized = {
+      ...normalized,
+      ...choiceOverride,
+      choices: choiceOverride.choices ? [...choiceOverride.choices] : normalized.choices
+    };
+  }
+
+  return normalized;
+}
+
+const RAW_ACTIVITIES: LearningActivity[] = [
+  ...base.ACTIVITIES.map((activity) => ({ ...activity } as LearningActivity)),
   ...MATH_BATCH7_ACTIVITIES,
   ...BAHASA_BATCH8_ACTIVITIES,
   ...ENGLISH_BATCH9_ACTIVITIES,
@@ -73,6 +132,8 @@ export const ACTIVITIES: LearningActivity[] = [
   ...SCIENCE_BATCH13_ACTIVITIES,
   ...CREATIVE_BATCH14_ACTIVITIES
 ];
+
+export const ACTIVITIES: LearningActivity[] = RAW_ACTIVITIES.map(normalizeActivityPresentation);
 export const STAGES: LearningStage[] = [
   ...base.STAGES.map((stage) => ({ ...stage })),
   ...MATH_BATCH7_STAGES,
