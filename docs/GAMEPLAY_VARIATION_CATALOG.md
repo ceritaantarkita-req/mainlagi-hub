@@ -12,7 +12,7 @@
 
 ## Status implementasi
 
-### Merged di `main`: 11 pola
+### Merged di `main`: 12 pola
 
 1. `choice_grid` — pilih satu jawaban dari beberapa opsi.
 2. `symbol_hunt` — cari simbol/huruf target dalam area visual.
@@ -25,21 +25,37 @@
 9. `drawing_canvas` — menggambar bebas/terarah dengan scaffold.
 10. `memory_pair` — buka kartu tertutup dan cari pasangan. **MERGED PR #101**
 11. `missing_sequence_slot` — isi slot kosong pada urutan huruf. **MERGED PR #102**
+12. `sorting_buckets` — kelompokkan semua kartu ke kategori sesuai/tidak sesuai. **MERGED PR #103**
 
-### Dalam QA / PR #103: implemented-pattern berikutnya
+### Dalam QA / PR #104: pola #13
 
-`sorting_buckets` — pilih kartu lalu kelompokkan semuanya ke **Sesuai aturan** atau **Tidak sesuai**.
+`drag_to_target` — pasangkan source card ke target yang tepat dengan drag nyata dan fallback tap/keyboard.
 
-Scope sengaja sempit:
-- tepat 5 basic Logic classification activities: `logic-classify-animal`, `logic-classify-round`, `logic-classify-up-arrow`, `logic-classify-two-items`, `logic-classify-red`;
-- ketiga canonical choices harus selesai dikelompokkan, bukan hanya memilih satu jawaban;
-- runtime tetap `tap_choice`; activity ID, choices, `correctChoice`, skill, assessment, progression, stars, dan completion identity tetap;
-- explicit assessed evidence memakai `choice_sorting_interaction`;
-- keyboard dan touch/pointer memakai alur pilih kartu -> pilih bucket;
-- multi-attribute `logic-classify-*` lain **tidak** ikut ter-route;
-- Drag-to-Target tetap mechanic terpisah.
+Scope sengaja sempit, tepat 5 Science Wave A matching activities:
+- `science-match-living-nonliving`
+- `science-match-plant-parts`
+- `science-match-animal-homes-a`
+- `science-match-senses-a`
+- `science-match-weather-signs-a`
 
-Jika PR #103 merged, jumlah gameplay pattern aktif menjadi **12**.
+Boundaries:
+- runtime tetap `matching`;
+- activity ID, `matchItems`, pair ids, skill, assessment, stars, progression, dan completion identity tidak berubah;
+- setiap activity tetap 3 canonical pairs;
+- pointer desktop dapat drag-and-drop langsung;
+- touch/pen memakai pointer drag; tap/select -> target dan keyboard tetap tersedia sebagai fallback;
+- explicit assessed evidence memakai `matching_drag_target_interaction` dengan correct/incorrect/retry dan `matchedPairCount`;
+- matching lain tetap `memory_pairs` atau `grid_pairs` sesuai classifier yang sudah ada.
+
+QA implementasi PR #104:
+- implementation head `722391fe049b3e055ab69e16140141bdf971268b`;
+- CI #465 full success: Ubuntu, Windows, production build, dependency audit, secret scan, dan mobile Chromium;
+- static regression: **12 memory_pair + 5 drag_targets + 10 sequence_slot + 5 sorting_buckets**;
+- browser QA 320/390/768 memakai prerequisite Science yang valid, menguji keyboard wrong-state, real mouse drag, touch fallback, completion/evidence, >=44px controls, no horizontal overflow, dan success CTA tetap di viewport;
+- manual visual review menerima idle/error/success pada 320, 390, dan 768;
+- deterministic audit tetap **900 KEEP / 0 flagged**, structural findings 0.
+
+Jika PR #104 merged, jumlah gameplay pattern aktif menjadi **13**.
 
 ## 60 pola permainan target
 
@@ -65,8 +81,8 @@ Jika PR #103 merged, jumlah gameplay pattern aktif menjadi **12**.
 15. `story_sequence` — susun kejadian cerita dari awal sampai akhir.
 
 ### D. Drag, drop & sort
-16. `drag_to_target` — seret item ke target yang tepat, dengan fallback tap/keyboard.
-17. `sorting_buckets` — kelompokkan semua item ke kategori yang tepat. **QA / PR #103**
+16. `drag_to_target` — seret item ke target yang tepat, dengan fallback tap/keyboard. **QA / PR #104**
+17. `sorting_buckets` — kelompokkan semua item ke kategori yang tepat. **MERGED PR #103**
 18. `shape_fit` — masukkan bentuk ke slot yang sesuai.
 19. `assemble_pieces` — gabungkan bagian menjadi objek utuh.
 20. `label_picture` — tempatkan label ke bagian gambar yang benar.
@@ -142,9 +158,9 @@ Prinsip alokasi:
 
 1. `memory_pair` — **DONE / PR #101**.
 2. `missing_sequence_slot` — **DONE / PR #102**.
-3. `sorting_buckets` — **QA / PR #103**.
-4. `drag_to_target` — next branch setelah #103; real drag + fallback tap/keyboard.
-5. `reorder_cards` + `tap_in_order` — untuk objective multi-step ordering.
+3. `sorting_buckets` — **DONE / PR #103**.
+4. `drag_to_target` — **QA / PR #104**.
+5. `reorder_cards` dan `tap_in_order` — kerjakan sebagai wave terpisah sesuai objective multi-step ordering.
 6. `find_in_scene` + `hidden_object` — recognition/observation.
 7. `count_and_select` + `number_line` + `make_total` — Math.
 8. `listen_and_point` + `listen_and_match` + `sound_discrimination` — audio-heavy families.
