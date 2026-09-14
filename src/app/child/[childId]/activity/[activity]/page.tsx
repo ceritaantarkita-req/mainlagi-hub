@@ -1,4 +1,5 @@
 import { AudioChoiceLearningActivity } from "@/components/learning/AudioChoiceLearningActivity";
+import { CountAndSelectActivity } from "@/components/learning/CountAndSelectActivity";
 import { CreativePracticeActivity } from "@/components/learning/CreativePracticeActivity";
 import { DragTargetMatchActivity } from "@/components/learning/DragTargetMatchActivity";
 import { MemoryMatchActivity } from "@/components/learning/MemoryMatchActivity";
@@ -7,7 +8,7 @@ import { SortingBucketsChoiceActivity } from "@/components/learning/SortingBucke
 import { SymbolHuntChoiceActivity } from "@/components/learning/SymbolHuntChoiceActivity";
 import { MathTraceWorldActivity } from "@/components/learning/world/MathTraceWorldActivity";
 import { WorldActivityScreen } from "@/components/learning/world/WorldExperience";
-import { isDragTargetActivity, isMemoryPairActivity, isSequenceSlotActivity, isSortingBucketsActivity } from "@/lib/learning/gameplayPresentation";
+import { isCountAndSelectActivity, isDragTargetActivity, isMemoryPairActivity, isSequenceSlotActivity, isSortingBucketsActivity } from "@/lib/learning/gameplayPresentation";
 import { getActivity } from "@/lib/learning/system";
 import styles from "./ActivityPage.module.css";
 
@@ -34,6 +35,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
         <SequenceSlotChoiceActivity childId={childId} activityId={activity} />
       ) : isSortingBucketsActivity(definition) ? (
         <SortingBucketsChoiceActivity childId={childId} activityId={activity} />
+      ) : isCountAndSelectActivity(definition) ? (
+        <CountAndSelectActivity childId={childId} activityId={activity} />
       ) : (
         <WorldActivityScreen childId={childId} activityId={activity} />
       )}
