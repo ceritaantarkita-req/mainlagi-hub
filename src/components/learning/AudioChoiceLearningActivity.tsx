@@ -26,14 +26,15 @@ export function AudioChoiceLearningActivity({ childId, activityId }: { childId: 
   }
 
   const done = progress.completedActivityIds.includes(activity.id);
-  const prompt = activity.prompt ?? activity.title;
+  const visiblePrompt = activity.prompt ?? (activity.subjectId === "english" ? "Listen, then choose the best answer." : "Dengarkan, lalu pilih jawaban yang paling sesuai.");
+  const spokenPrompt = activity.audioPrompt ?? activity.prompt ?? activity.title;
   const lang = activity.subjectId === "english" ? "en-US" : "id-ID";
   const fallback = audioFallback(speechStatus);
 
   const hear = () => {
     unlockAudio(lang);
     playTone("tick");
-    setSpeechStatus(speakWithStatus(prompt, lang));
+    setSpeechStatus(speakWithStatus(spokenPrompt, lang));
   };
 
   const choose = (choice: string) => {
@@ -50,7 +51,7 @@ export function AudioChoiceLearningActivity({ childId, activityId }: { childId: 
   };
 
   return (
-    <GardenActivityFrame backHref={`/child/${childId}/subject/${activity.subjectId}`} title={prompt} onHear={hear} hint="Dengarkan, lalu sentuh pilihanmu." spacious={prompt.length<45}>
+    <GardenActivityFrame backHref={`/child/${childId}/subject/${activity.subjectId}`} title={visiblePrompt} onHear={hear} hint="Dengarkan, lalu sentuh pilihanmu." spacious={visiblePrompt.length<45}>
 
         {fallback ? (
           <div className={styles.infoBanner} role="status" style={{ marginTop: 14 }}>
