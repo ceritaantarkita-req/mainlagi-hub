@@ -24,7 +24,8 @@ const EXPECTED_PATTERNS = [
   "memory_pair",
   "missing_sequence_slot",
   "sorting_buckets",
-  "drag_to_target"
+  "drag_to_target",
+  "count_and_select"
 ];
 
 rmSync(outDir, { recursive: true, force: true });

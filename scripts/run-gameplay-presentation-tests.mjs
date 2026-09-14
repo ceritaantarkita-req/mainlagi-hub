@@ -75,8 +75,24 @@ for(const activity of sorting){
   assert((activity.choices??[]).includes(activity.correctChoice),"sorting buckets preserve canonical positive choice");
 }
 
-const otherChoice=ACTIVITIES.filter(activity=>activity.runtime==="tap_choice"&&!expectedSequence.has(activity.id)&&!expectedSorting.has(activity.id));
+const expectedCountSelect=new Set([
+  "math-count-2","math-count-3","math-count-4","math-count-5","math-count-6",
+  "math-count-7","math-count-8","math-count-9","math-count-10"
+]);
+const countSelect=ACTIVITIES.filter(activity=>choiceGameplayPresentation(activity)==="count_select");
+assert.equal(countSelect.length,expectedCountSelect.size,"count-select family size must remain intentional");
+assert.deepEqual(new Set(countSelect.map(activity=>activity.id)),expectedCountSelect,"only the nine reviewed Math counting activities use count-select presentation");
+for(const activity of countSelect){
+  assert.equal(activity.runtime,"tap_choice");
+  assert.equal(activity.subjectId,"math");
+  assert.equal((activity.choices??[]).length,3);
+  assert.equal(new Set(activity.choices??[]).size,3,"count-select choices remain unique");
+  assert((activity.choices??[]).every(choice=>/^\d+$/.test(choice)),"count-select choices remain numeric");
+  assert((activity.choices??[]).includes(activity.correctChoice),"count-select preserves canonical correctChoice");
+}
+
+const otherChoice=ACTIVITIES.filter(activity=>activity.runtime==="tap_choice"&&!expectedSequence.has(activity.id)&&!expectedSorting.has(activity.id)&&!expectedCountSelect.has(activity.id));
 assert(otherChoice.length>0,"default choice activities remain available");
 assert(otherChoice.every(activity=>choiceGameplayPresentation(activity)==="default"),"other choice families retain default presentation");
 
-console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets activities.`);
+console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets + ${countSelect.length} count_select activities.`);

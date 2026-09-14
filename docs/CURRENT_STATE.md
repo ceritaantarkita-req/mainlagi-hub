@@ -8,9 +8,9 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; ac
 
 - repository: `ceritaantarkita-req/mainlagi-hub`
 - canonical branch: `main`
-- current merged main SHA: `01fae0dbf73e47cb6d0281671b92ad77e6be03f7`
-- latest merged product-quality change: PR #104 — WS-05 Drag-to-Target Wave
-- active gameplay branch/PR: `agent/ws05-gameplay-distribution-audit-20260914` / PR #105
+- current merged main SHA: `02d4696760d7b697cfd319804cd655c0d2bfec4c`
+- latest merged product-quality change: PR #105 — WS-05 Gameplay Distribution Audit
+- active gameplay branch/PR: `agent/ws05-gameplay-count-select-20260914` / PR #106
 - production: `https://mainlagihub.my.id/`
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - canonical Supabase project: `estvtgflwkebomsqlolv`, `ap-southeast-1`
@@ -20,7 +20,7 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; ac
 
 No known P0 engineering blocker is open on merged `main`.
 
-CI covers Ubuntu quality gate, Windows compatibility, production build, dependency audit, Chromium mobile-route QA, secret-history scan, learning/mastery regressions, build budgets, source/security audits, and—on PR #105—the new gameplay-distribution audit.
+CI covers Ubuntu quality gate, Windows compatibility, production build, dependency audit, Chromium mobile-route QA, secret-history scan, learning/mastery regressions, build budgets, source/security audits, activity-quality audit, and the permanent gameplay-distribution audit.
 
 External physical-device and expert acceptance remain separate and incomplete.
 
@@ -82,12 +82,18 @@ Accepted merge SHAs:
 - PR #102 `f981d40fd55c1cdef3137600b4b44677e550b06d`
 - PR #103 `6d28ff2f4f3eb8a5b642d2e3b79979c910924342`
 - PR #104 `01fae0dbf73e47cb6d0281671b92ad77e6be03f7`
+- PR #105 `02d4696760d7b697cfd319804cd655c0d2bfec4c`
 
-## Gameplay distribution audit — PR #105 QA
+## Permanent gameplay-distribution baseline on `main`
 
-PR #105 adds the canonical gameplay-pattern classifier plus a permanent distribution report. CI #472 is full green at implementation head `d275dbb0f2b1acfa033fc0c99ecb77d0860d24bd`.
+PR #105 added canonical child-facing classification and permanent reports:
 
-Measured coverage:
+```text
+.qa/gameplay-distribution/report.json
+.qa/gameplay-distribution/report.md
+```
+
+Merged baseline:
 
 ```text
 classified:       900 / 900
@@ -95,11 +101,47 @@ unclassified:       0
 active patterns:   13
 ```
 
-Overall distribution:
+Main baseline global hotspot is `choice_grid` **392/900 (43.56%)**. Subject hotspots include Math 82/100, Science 79/100, Logic 77/100 `choice_grid`, plus Letters `symbol_hunt` 64/100. Coloring/Drawing remain 100% canvas by design and are not automatic defects.
+
+Hotspots are prioritization signals only. A mechanic must still fit the learning objective and preserve evidence/mastery semantics.
+
+## PR #106 QA — pattern #14 `count_and_select`
+
+PR #106 routes exactly these 9 reviewed Math counting activities to one reusable child-facing renderer:
+
+- `math-count-2`
+- `math-count-3`
+- `math-count-4`
+- `math-count-5`
+- `math-count-6`
+- `math-count-7`
+- `math-count-8`
+- `math-count-9`
+- `math-count-10`
+
+Behavior and boundaries:
+- visible object set is the primary counting surface;
+- child counts, then chooses one of the existing three canonical numeric answers;
+- runtime stays `tap_choice`;
+- activity IDs, choices, correctChoice, skills, assessment, stars, progression, and completion identity remain canonical;
+- wrong answer increments incorrect/retry and does not complete the activity;
+- explicit assessed evidence uses `choice_count_interaction`, including correct/incorrect/retry/accuracy and `countTarget` metadata;
+- exact 9-ID allowlist prevents unrelated Math choice families from being reclassified.
+
+PR #106 also corrects one semantic underclassification in the first distribution baseline: `math-count-3` already had a specialized counting renderer historically, but the audit still called it `choice_grid`. The new canonical family classifier makes all nine reviewed count activities explicit under the same child-facing pattern.
+
+Implementation-head QA:
+- PR head reviewed: `871677650ecc9e2e86618fb5f81b342b0b370c85`;
+- CI #480 full success across Ubuntu, Windows, production build, dependency audit, secret-history scan, and mobile Chromium;
+- deterministic activity quality remains **900 KEEP / 0 flagged**, structural findings 0;
+- browser QA uses legitimate `math-pola` readiness, tests keyboard wrong-state + pointer completion, canonical four-star rendering for `math-count-4`, evidence persistence, >=44px choices, no horizontal overflow, and success CTA visibility;
+- manual visual review accepted idle/error/success at 320, 390, and 768.
+
+Measured QA distribution after the 9-activity family is routed:
 
 | Pattern | Activities | Share |
 | --- | ---: | ---: |
-| `choice_grid` | 392 | 43.56% |
+| `choice_grid` | 383 | 42.56% |
 | `visible_matching` | 108 | 12.00% |
 | `coloring_canvas` | 100 | 11.11% |
 | `drawing_canvas` | 100 | 11.11% |
@@ -108,32 +150,19 @@ Overall distribution:
 | `guided_trace` | 14 | 1.56% |
 | `memory_pair` | 12 | 1.33% |
 | `missing_sequence_slot` | 10 | 1.11% |
+| `count_and_select` | 9 | 1.00% |
 | `drag_to_target` | 5 | 0.56% |
 | `sorting_buckets` | 5 | 0.56% |
 | `motion_game` | 3 | 0.33% |
 | `story_read` | 1 | 0.11% |
 
-Global advisory hotspot: `choice_grid` **392/900 (43.56%)**, above the >35% planning threshold.
-
-Subject-level advisory hotspots above 60%:
-- Mewarnai: `coloring_canvas` 100/100 — expected creative-track specialization, not automatically a defect.
-- Menggambar: `drawing_canvas` 100/100 — expected creative-track specialization, not automatically a defect.
-- Matematika: `choice_grid` 82/100.
-- Sains: `choice_grid` 79/100.
-- Logika: `choice_grid` 77/100.
-- Huruf & Menulis: `symbol_hunt` 64/100.
-
-Hotspots are prioritization signals only. A mechanic must still fit the learning objective and preserve evidence/mastery semantics.
-
-## Next gameplay decision
-
-The audit changes the immediate ordering of WS-05 work. The next planned mechanic after PR #105 is **`count_and_select` for a reviewed Math counting family**, because Math is the strongest non-creative `choice_grid` hotspot at 82/100 and currently contains a coherent `math-count-*` family.
-
-Do not blindly convert all Math choice activities. Review family-by-family. Follow-on candidates include `number_line`, `more_less_balance`, `pattern_completion`, then objective-appropriate Logic/Science/search/audio/ordering mechanics.
+Math `choice_grid` falls **82 -> 73** while all 900 activities remain classified. If PR #106 merges, active gameplay-pattern count becomes **14**.
 
 ## Frontend/product state
 
 The merged child experience includes Garden/Playroom UI, persistent active-child state, recommendation/continue flow, Recommended Path + Stage Journey + Browse All, hydration-safe stage guard, responsive Coloring/Drawing, Memory Pair, Sequence Slot, Sorting Buckets, Drag-to-Target, audio session handling, activity previews, Nunito UI typography, and Phosphor icons.
+
+Count-and-Select is **QA/unmerged** on PR #106 and must not be presented as shipped before merge.
 
 Do not weaken stage/evidence rules or revert this product model merely to simplify a mechanic.
 
@@ -162,15 +191,14 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. close gameplay-distribution audit PR #105 with canonical docs, docs-head CI, review-thread check, and exact-head merge;
-2. implement reviewed Math `count_and_select` wave on a new branch from latest `main`;
-3. continue Math diversification (`number_line`, `more_less_balance`, `pattern_completion`, `make_total`) where objective fit is real;
-4. use the permanent audit to prioritize Logic, Science, search/scene, audio, ordering, puzzle/path, literacy, creative, and story mechanics toward 60;
-5. continue Art Bible/permanent visual QA;
-6. native/reviewed narration;
-7. public/parent frontend;
-8. physical-device/accessibility/Iqro expert acceptance;
-9. governance; technical cleanup after product quality stabilizes.
+1. close Count-and-Select PR #106 with canonical docs, docs-head CI, review-thread check, and exact-head merge;
+2. continue Math diversification by reviewed coherent family; strongest candidates are `number_line`, `more_less_balance`, `pattern_completion`, then `make_total` where the objective fits;
+3. use the permanent distribution audit to prioritize Logic, Science, search/scene, audio, ordering, puzzle/path, literacy, creative, and story mechanics toward 60;
+4. continue Art Bible/permanent visual QA;
+5. native/reviewed narration;
+6. public/parent frontend;
+7. physical-device/accessibility/Iqro expert acceptance;
+8. governance; technical cleanup after product quality stabilizes.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, or mastery/backend rewrites before this quality phase is substantially complete.
 
