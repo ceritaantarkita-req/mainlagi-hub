@@ -3,8 +3,8 @@
 > Canonical execution plan untuk fase product-quality Mainlagi Hub. Semua developer/AI agent wajib membaca dan memperbarui dokumen ini ketika mengerjakan scope terkait.
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
-**Current merged baseline:** `main` @ `c01f8122b19cde3d46ea0e2d3297b58216fe824c`  
-**Active branch/PR:** `agent/ws05-gameplay-memory-matching-20260914` / PR #101  
+**Current merged baseline:** `main` @ `aea24d47bd2793fbbf3b3723878674ec6f3c98a0`  
+**Active branch/PR:** `agent/ws05-gameplay-sequence-slot-20260914` / PR #102  
 **Focus:** frontend/UI/visual quality, gameplay/mechanic diversity, voice, activity quality, dan product coherence.  
 **Principle:** **Quality first. Quantity later.** Improve the existing 900 activities before major expansion.
 
@@ -20,7 +20,7 @@ Mainlagi harus terasa sebagai produk belajar anak 3–7 tahun yang visualnya kon
 4. Assessed activity wajib menjaga atau secara eksplisit memperbarui evidence contract.
 5. Gameplay diversification harus reusable dan cocok dengan objective; jangan membuat gimmick satu-off.
 6. Target WS-05 adalah **minimum 50, target kerja 60 pola permainan**; pola bukan berarti 60 engine terpisah.
-7. Setiap mechanic baru wajib punya mobile, keyboard/accessibility, progression, completion, dan evidence regression QA.
+7. Setiap mechanic baru wajib punya mobile, keyboard/accessibility, progression, completion, evidence regression QA, dan visual review pada viewport target.
 8. Affiliate/commerce tidak boleh masuk child learning flow.
 9. Voice/model/art wajib licence/provenance-safe.
 10. Iqro/Hijaiyah tidak boleh dianggap approved hanya dari engineering/TTS.
@@ -69,14 +69,17 @@ Target:
 - distribute patterns across the 900 activities according to learning objective so one easy template does not dominate.
 
 Current state:
-- **9 patterns merged**: choice grid, symbol hunt, listen/choose, visible matching, guided trace, story/read, motion game, coloring canvas, drawing canvas;
-- **pattern #10 `memory_pair` is in QA on PR #101**, initially scoped to 12 Letters uppercase/lowercase case-matching activities;
+- **10 patterns merged** on `main`: choice grid, symbol hunt, listen/choose, visible matching, guided trace, story/read, motion game, coloring canvas, drawing canvas, and `memory_pair`;
+- PR #101 merged as `aea24d47bd2793fbbf3b3723878674ec6f3c98a0`; `memory_pair` covers exactly 12 Letters uppercase/lowercase case-matching activities and preserves canonical matching evidence/mastery semantics;
+- **pattern #11 `missing_sequence_slot` is in QA on PR #102**, scoped to exactly 10 `letters-order-*` activities while preserving canonical `tap_choice`, choices/correctChoice, assessed evidence, progression and completion semantics;
+- PR #102 browser QA covers progression, keyboard wrong-state, pointer completion, evidence persistence, 320/390/768 layouts, and explicit in-viewport success CTA checks;
+- manual visual QA accepted the compacted 320×720 idle/try/success states after fixing a clipped success CTA;
 - `symbol_hunt` already covers 74 direct-literacy activities while preserving canonical choice/evidence semantics.
 
 Next rollout order:
-1. close `memory_pair` with full CI/browser/evidence/progression acceptance;
-2. add `missing_sequence_slot` + `reorder_cards` for Letters before/after/between sequence objectives;
-3. add `drag_to_target` + `sorting_buckets` for classification/matching families;
+1. close `missing_sequence_slot` PR #102 with final docs-head CI and merge;
+2. add `sorting_buckets` + `drag_to_target` for classification/matching families;
+3. add `reorder_cards` + `tap_in_order` only where objectives require multi-step ordering;
 4. add `find_in_scene` + `hidden_object` for recognition/observation families;
 5. expand Math with count/select, number-line, total-building and pattern interactions;
 6. diversify audio with listen/point, listen/match and sound discrimination;
@@ -86,7 +89,7 @@ Rules:
 - mechanic follows objective, not novelty quota;
 - assessed evidence must remain valid or be explicitly migrated with tests;
 - practice/creative activities must not manufacture mastery;
-- every new pattern gets browser/mobile/accessibility QA;
+- every new pattern gets browser/mobile/accessibility QA plus visible visual review;
 - maintain a mechanic-distribution audit over all 900 activities and flag excessive concentration.
 
 ### WS-06 — Coloring rebuild
@@ -153,7 +156,7 @@ Before work: read this plan, `CURRENT_STATE.md`, `ARCHITECTURE.md`, `GAMEPLAY_VA
 | WS-02 Voice & narration | TODO | Engine/voice/licence evaluation needed |
 | WS-03 Public/parent frontend | TODO | About/FAQ + parent recommendations |
 | WS-04 Activity audit/redesign | QA / deterministic clean | 900/0/0/0; human review still separate |
-| WS-05 Mechanic diversification | IN_PROGRESS | 9 merged patterns; memory_pair QA on PR #101; target 60 |
+| WS-05 Mechanic diversification | IN_PROGRESS | 10 merged patterns; missing_sequence_slot QA on PR #102; target 60 |
 | WS-06 Coloring rebuild | DONE | PR #95/#96; Q108=0 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100; 100/100 guides; Q106=0 |
 | WS-08 Art direction/visual QA | TODO | Art Bible + permanent visual quality gate |
@@ -166,20 +169,40 @@ Allowed states: `TODO -> IN_PROGRESS -> BLOCKED -> QA -> DONE`.
 
 ## 8. Execution Log
 
+### 2026-09-14 — WS-05 Sequence Slot Wave
+**Branch/PR:** `agent/ws05-gameplay-sequence-slot-20260914` / PR #102  
+**Status:** QA
+
+Implementation and acceptance evidence:
+- exactly 10 `letters-order-*` activities route to reusable `sequence_slot` presentation / catalog pattern `missing_sequence_slot`;
+- canonical runtime remains `tap_choice`; activity IDs, choices, correctChoice, skills, assessment, stars, progression and completion semantics are unchanged;
+- explicit runtime evidence uses `choice_sequence_interaction` with correct/incorrect/retry counts;
+- browser QA checks progression readiness, keyboard wrong-state, pointer completion, persistence/evidence, no horizontal overflow, balanced candidate row, and 320/390/768 screenshots;
+- manual review found the first 320×720 success CTA clipped below the viewport; narrow-screen CSS was compacted and browser QA now asserts the success CTA is fully in viewport;
+- CI #447 on implementation head `3f0f5b335675fba1aefc03552cc9c4ed3d9f4006` is full success across Ubuntu, Windows, production build, dependency audit, secret scan and mobile Chromium;
+- activity-quality remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE**, structural findings 0.
+
+Remaining before merge: docs-head CI must be fully green; then merge with exact current head SHA.
+
+### 2026-09-14 — WS-05 Memory Pair Wave
+**PR:** #101  
+**Status:** DONE; merge `aea24d47bd2793fbbf3b3723878674ec6f3c98a0`.
+
+Result:
+- 12 Letters case-matching activities use `memory_pair` presentation;
+- canonical `matching` runtime/evidence/mastery semantics preserved;
+- browser QA covers keyboard/pointer, 320/390/768 layouts, completion, evidence and progression;
+- progression hydration race discovered during QA was fixed at product level before merge;
+- final visual review accepted responsive 2×2 four-card layouts.
+
 ### 2026-09-14 — WS-05 gameplay target raised to 60 patterns
-**Branch/PR:** `agent/ws05-gameplay-memory-matching-20260914` / PR #101  
-**Status:** IN_PROGRESS
+**Status:** DONE as planning decision.
 
 Decision:
-- product target is now minimum 50, working target **60 gameplay patterns**;
+- product target is minimum 50, working target **60 gameplay patterns**;
 - patterns are grouped under reusable interaction families rather than implemented as 60 independent engines;
 - `docs/GAMEPLAY_VARIATION_CATALOG.md` is the canonical short catalog for names, behavior, status, rollout order, and Definition of Done;
 - mechanic distribution across all 900 activities becomes a required WS-05 audit so a single template cannot dominate merely because it is easy to author.
-
-Current implementation:
-- 9 gameplay patterns are merged;
-- `memory_pair` is pattern #10 and remains in QA on PR #101;
-- the next planned family is Letters sequencing through missing-slot/reorder interactions.
 
 ### 2026-09-14 — WS-07 final sparse Drawing scaffolds
 **Status:** DONE. PR #100; merge `c01f8122b19cde3d46ea0e2d3297b58216fe824c`. Final deterministic audit reached 900 KEEP / 0 flagged; Q106=0; final sparse-scaffold visual review accepted.
@@ -217,5 +240,3 @@ Do not prioritize hundreds of new activities, subscription/paywall, large AI tut
 Selesai ketika anak melihat task yang menarik dan jelas, bisa berinteraksi nyaman melalui mechanics yang sesuai objective, mendapat feedback yang menyenangkan, mendengar narration yang tepat, benar-benar melatih skill yang dimaksud, dan orang tua memahami serta percaya pada produk.
 
 Untuk WS-05, “beragam” berarti katalog mendekati **60 pola permainan yang meaningful**, bukan 900 activity yang hanya memakai ulang quiz yang sama dengan konten berbeda.
-
-**Quality first. Quantity later.**
