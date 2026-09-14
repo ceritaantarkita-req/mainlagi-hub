@@ -30,40 +30,54 @@
 13. `drag_to_target` — seret source card ke target yang tepat dengan fallback tap/keyboard. **MERGED PR #104**
 14. `count_and_select` — hitung kumpulan benda lalu pilih jumlah yang tepat. **MERGED PR #106**
 
-Permanent gameplay-distribution audit: **MERGED PR #105**.  
-Count-and-Select merge: `18beb9bc676d529cc5701bc964bdef26bea33132`.
+Permanent gameplay-distribution audit: **MERGED PR #105**.
 
-## Count-and-Select — DONE / PR #106
+### Dalam QA / PR #108: pola #15
 
-Scope tepat 9 Math counting activities: `math-count-2` sampai `math-count-10`.
+`number_line` — gunakan posisi pada garis bilangan untuk menentukan angka sebelum, sesudah, di antara, atau kelanjutan urutan.
+
+Exact scope: 6 Math Wave B ordering activities:
+
+```text
+math-order-next-1-2
+math-order-next-3-4
+math-order-before-6
+math-order-between-6-8
+math-order-descend-5
+math-order-descend-10
+```
 
 Boundaries:
+- satu stage `math-banding-bentuk`, satu ordering objective, skill `math.number.ordering`;
+- Wave C `math-missing-*` tidak ikut;
+- local five-tick line menjaga visual tetap lapang di 320 px;
+- hanya tiga canonical choices yang interaktif;
+- context/direction dikonfigurasi eksplisit per activity, bukan ditebak dari prompt;
 - runtime tetap `tap_choice`;
-- choices, correctChoice, skill, assessment, stars, progression, activity ID, dan completion identity tidak berubah;
-- visible object set menjadi counting surface utama;
-- wrong answer menambah incorrect/retry dan tidak menyelesaikan activity;
-- assessed evidence memakai `choice_count_interaction` dengan accuracy, correct/incorrect/retry, dan `countTarget`;
-- exact ID allowlist mencegah Math choice family lain ikut ter-route.
+- choices, correctChoice, skill, assessment, stars, progression, activity ID dan completion identity tetap canonical;
+- wrong answer menambah incorrect/retry dan tidak complete;
+- assessed evidence fidelity `choice_number_line_interaction` dengan direction/range/context metadata.
 
-Accepted QA:
-- implementation CI #480 full green;
-- final docs-head CI #485 full green;
-- browser QA 320/390/768 memakai prerequisite Math yang valid dan menguji keyboard wrong-state, pointer completion, canonical object/choice rendering, evidence persistence, >=44px controls, no overflow, dan success CTA;
-- manual visual review menerima idle/error/success di 320, 390, 768;
-- deterministic activity audit tetap **900 KEEP / 0 flagged**, structural findings 0.
+QA implementation head `6b92ff922b6878d6ff1a88b1162f6adc9beee05f`:
+- CI #489 full green di Ubuntu, Windows, production build, dependency audit, secret scan dan Chromium mobile QA;
+- browser QA 320/390/768 memakai legitimate prerequisite readiness, progression guard tetap aktif;
+- representative `math-order-between-6-8`: line 5–9, context 6/8, choices 5/7/9;
+- keyboard wrong-state, pointer completion, evidence persistence, >=44px controls, no horizontal overflow, success CTA visibility semuanya lolos;
+- manual visual review idle/error/success pada 320, 390 dan 768 accepted;
+- deterministic audit tetap **900 KEEP / 0 flagged**, structural findings 0.
 
-Current merged distribution:
+Measured distribution PR #108:
 
 ```text
 900 / 900 classified
 0 unclassified
-14 active child-facing patterns
-choice_grid       383 / 900 = 42.56%
-count_and_select    9 / 900 = 1.00%
-Math choice_grid   73 / 100
+15 active child-facing patterns
+choice_grid     377 / 900 = 41.89%
+number_line       6 / 900 = 0.67%
+Math choice_grid 67 / 100
 ```
 
-Dibanding baseline PR #105: `choice_grid` 392 -> 383 dan Math `choice_grid` 82 -> 73.
+Dibanding merged baseline: `choice_grid` 383 -> 377 dan Math `choice_grid` 73 -> 67.
 
 ## 60 pola permainan target
 
@@ -104,7 +118,7 @@ Dibanding baseline PR #105: `choice_grid` 392 -> 383 dan Math `choice_grid` 82 -
 
 ### F. Number & math interaction
 26. `count_and_select` — hitung objek lalu pilih jumlahnya. **MERGED PR #106**
-27. `number_line` — tempatkan atau pilih angka pada garis bilangan.
+27. `number_line` — gunakan posisi angka pada garis bilangan. **QA / PR #108**
 28. `more_less_balance` — tentukan sisi lebih banyak, lebih sedikit, atau sama.
 29. `make_total` — pilih/gabung item untuk mencapai jumlah tertentu.
 30. `pattern_completion` — pilih bagian berikutnya dari pola visual/angka.
@@ -171,9 +185,9 @@ Prinsip alokasi:
 4. `drag_to_target` — **DONE / PR #104**.
 5. gameplay-distribution audit — **DONE / PR #105**.
 6. `count_and_select` — **DONE / PR #106**.
-7. Review exact Math families untuk `number_line`, `more_less_balance`, `pattern_completion`, lalu `make_total`; pilih berdasarkan objective, bukan urutan nama.
-8. Logic/Science diversification sesuai family objective.
-9. `reorder_cards` / `tap_in_order`, search/scene, audio, puzzle/path, literacy construction, creative, dan story dilanjutkan berdasarkan audit dan objective fit.
+7. `number_line` — **QA / PR #108**, exact six Wave B ordering activities.
+8. likely next: exact six Wave B comparison activities for `more_less_balance`, after #108 closes.
+9. `pattern_completion`, Wave C missing-number family, `make_total`, then broader audit-guided Logic/Science/search/audio/puzzle/literacy/creative/story waves.
 
 ## Definition of done per mechanic
 

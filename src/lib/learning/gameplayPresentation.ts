@@ -1,7 +1,7 @@
 import type { LearningActivity } from "./system";
 
 export type MatchingPresentation = "grid_pairs" | "memory_pairs" | "drag_targets";
-export type ChoiceGameplayPresentation = "default" | "sequence_slot" | "sorting_buckets" | "count_select";
+export type ChoiceGameplayPresentation = "default" | "sequence_slot" | "sorting_buckets" | "count_select" | "number_line";
 export type GameplayPattern =
   | "choice_grid"
   | "symbol_hunt"
@@ -12,6 +12,7 @@ export type GameplayPattern =
   | "missing_sequence_slot"
   | "sorting_buckets"
   | "count_and_select"
+  | "number_line"
   | "guided_trace"
   | "story_read"
   | "motion_game"
@@ -36,6 +37,15 @@ const MATH_COUNT_SELECT_IDS = new Set([
   "math-count-8",
   "math-count-9",
   "math-count-10"
+]);
+
+const MATH_NUMBER_LINE_IDS = new Set([
+  "math-order-next-1-2",
+  "math-order-next-3-4",
+  "math-order-before-6",
+  "math-order-between-6-8",
+  "math-order-descend-5",
+  "math-order-descend-10"
 ]);
 
 /**
@@ -85,6 +95,9 @@ export function isDragTargetActivity(activity: LearningActivity | undefined): bo
  * Reviewed Math count tasks ask the child to inspect a visible set and choose
  * its quantity. Keep the canonical tap_choice payload/evidence contract while
  * presenting the prompt objects as the primary counting surface.
+ *
+ * Reviewed Math ordering tasks measure relative number position, so expose the
+ * canonical three numeric choices directly on a local number line.
  */
 export function choiceGameplayPresentation(activity: LearningActivity | undefined): ChoiceGameplayPresentation {
   if (!activity || activity.runtime !== "tap_choice") return "default";
@@ -120,6 +133,18 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     Boolean(activity.prompt);
   if (isReviewedMathCountFamily) return "count_select";
 
+  const isReviewedMathNumberLineFamily =
+    activity.subjectId === "math" &&
+    activity.stageId === "math-banding-bentuk" &&
+    MATH_NUMBER_LINE_IDS.has(activity.id) &&
+    choices.length === 3 &&
+    new Set(choices).size === choices.length &&
+    choices.every((choice) => /^\d+$/.test(choice)) &&
+    /^\d+$/.test(correct) &&
+    choices.includes(correct) &&
+    Boolean(activity.prompt);
+  if (isReviewedMathNumberLineFamily) return "number_line";
+
   return "default";
 }
 
@@ -133,6 +158,10 @@ export function isSortingBucketsActivity(activity: LearningActivity | undefined)
 
 export function isCountAndSelectActivity(activity: LearningActivity | undefined): boolean {
   return choiceGameplayPresentation(activity) === "count_select";
+}
+
+export function isNumberLineActivity(activity: LearningActivity | undefined): boolean {
+  return choiceGameplayPresentation(activity) === "number_line";
 }
 
 /**
@@ -149,6 +178,7 @@ export function gameplayPattern(activity: LearningActivity | undefined): Gamepla
     if (presentation === "sequence_slot") return "missing_sequence_slot";
     if (presentation === "sorting_buckets") return "sorting_buckets";
     if (presentation === "count_select") return "count_and_select";
+    if (presentation === "number_line") return "number_line";
     return "choice_grid";
   }
 
