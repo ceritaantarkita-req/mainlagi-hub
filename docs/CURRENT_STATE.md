@@ -4,6 +4,8 @@ Last reviewed: **14 September 2026**
 
 This is the canonical human/AI handoff for the current repository state. `main` is the implementation source of truth. Historical audit/redesign documents describe the state at the time they were written and must not override this file.
 
+> Documentation note: the synchronized current-state wording in this branch is part of WS-01 / PR #88 and becomes the repository canonical text after that PR is merged.
+
 ## Canonical baseline
 
 - repository: `ceritaantarkita-req/mainlagi-hub`
