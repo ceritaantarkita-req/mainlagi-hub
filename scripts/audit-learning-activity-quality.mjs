@@ -51,6 +51,12 @@ function normalizeText(value) {
     .replace(/\s+/g, " ");
 }
 
+function stableToken(value) {
+  const raw = String(value ?? "").trim();
+  const text = normalizeText(raw);
+  return text || raw;
+}
+
 function isWord(value) {
   return /^[A-Za-z][A-Za-z -]{1,}$/.test(String(value ?? "").trim());
 }
@@ -71,9 +77,9 @@ function contentFingerprint(activity) {
     subjectId: activity.subjectId,
     runtime: activity.runtime,
     prompt: normalizeText(activity.prompt),
-    choices: activity.choices?.map(normalizeText) ?? null,
-    correctChoice: normalizeText(activity.correctChoice),
-    matchItems: activity.matchItems?.map((item) => [normalizeText(item.label), normalizeText(item.pair)]) ?? null,
+    choices: activity.choices?.map(stableToken) ?? null,
+    correctChoice: stableToken(activity.correctChoice),
+    matchItems: activity.matchItems?.map((item) => [stableToken(item.label), stableToken(item.pair)]) ?? null,
     traceGlyph: activity.traceGlyph ?? null,
     storyLines: activity.storyLines?.map(normalizeText) ?? null,
     creativePrompt: normalizeText(activity.creativePrompt)
@@ -122,7 +128,7 @@ for (const activity of activities) {
 
   if (["tap_choice", "listen_and_choose"].includes(activity.runtime)) {
     const choices = activity.choices ?? [];
-    const unique = new Set(choices.map(normalizeText));
+    const unique = new Set(choices.map((choice) => String(choice).trim()));
     const correctIncluded = choices.some((choice) => choice === activity.correctChoice);
     if (choices.length < 2 || unique.size !== choices.length || !activity.correctChoice || !correctIncluded) {
       addFinding(activity, "Q004_CHOICE_CONTRACT_INVALID", "critical", "REPLACE", "Choice activity has invalid choices/correct-answer contract.", {
