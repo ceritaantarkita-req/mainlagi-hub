@@ -115,13 +115,13 @@ Coloring and Drawing concentration is expected because the canvas is the definin
 
 The strongest non-creative concentration is Math `choice_grid` at 82/100.
 
-A review of the current Math choice-grid IDs shows coherent families including:
+A review of the current Math choice-grid activity IDs shows useful candidate families. The counts below are planning groupings derived from current ID prefixes, not new canonical taxonomy fields:
 - `math-count-*`: 9 activities;
-- compare: 6;
-- order: 6;
-- pattern: 5;
-- missing: 5;
-- additional arithmetic, spatial, mixed, problem, recognition, shape, measure and review families.
+- `math-compare-*`: 6 activities;
+- `math-order-*`: 6 activities;
+- `math-pattern-*`: 5 activities;
+- `math-missing-*`: 5 activities;
+- additional arithmetic, spatial, mixed, problem, recognition, shape, measure and review families remain for later review.
 
 Decision: next planned mechanic is **`count_and_select`** for a reviewed Math counting family.
 
