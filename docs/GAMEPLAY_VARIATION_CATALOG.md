@@ -29,60 +29,51 @@
 12. `sorting_buckets` — kelompokkan semua kartu ke kategori sesuai/tidak sesuai. **MERGED PR #103**
 13. `drag_to_target` — seret source card ke target yang tepat dengan fallback tap/keyboard. **MERGED PR #104**
 
-PR #104 merge: `01fae0dbf73e47cb6d0281671b92ad77e6be03f7`.
+Gameplay-distribution audit permanen **MERGED PR #105**. Merge `02d4696760d7b697cfd319804cd655c0d2bfec4c`.
 
-## Gameplay distribution audit — PR #105 QA
+### Dalam QA / PR #106: pola #14
 
-PR #105 menambahkan classifier canonical untuk 13 pattern di atas dan report permanen:
+`count_and_select` — hitung kumpulan benda yang terlihat lalu pilih jumlah yang tepat.
 
-```text
-.qa/gameplay-distribution/report.json
-.qa/gameplay-distribution/report.md
-```
+Scope sengaja sempit, tepat 9 Math counting activities:
+- `math-count-2`
+- `math-count-3`
+- `math-count-4`
+- `math-count-5`
+- `math-count-6`
+- `math-count-7`
+- `math-count-8`
+- `math-count-9`
+- `math-count-10`
 
-Command:
+Boundaries:
+- runtime tetap `tap_choice`;
+- choices, correctChoice, skill, assessment, stars, progression, activity ID, dan completion identity tidak berubah;
+- visual object set menjadi counting surface utama;
+- wrong answer menambah incorrect/retry dan tidak menyelesaikan activity;
+- explicit assessed evidence memakai `choice_count_interaction` dengan accuracy, correct/incorrect/retry, dan `countTarget`;
+- exact ID allowlist mencegah Math choice family lain ikut ter-route;
+- `math-count-3` yang sebelumnya punya special renderer sekarang ditangani oleh family reusable yang sama pada route utama.
 
-```bash
-npm run qa:gameplay-distribution
-```
+QA implementasi PR #106:
+- implementation head `871677650ecc9e2e86618fb5f81b342b0b370c85`;
+- CI #480 full success: Ubuntu, Windows, production build, dependency audit, secret scan, mobile Chromium;
+- browser QA 320/390/768 memakai prerequisite `math-pola` yang valid, menguji keyboard wrong-state, pointer completion, canonical object/choice rendering, evidence persistence, >=44px controls, no horizontal overflow, dan success CTA di viewport;
+- manual visual review menerima idle/error/success pada 320, 390, dan 768;
+- deterministic audit tetap **900 KEEP / 0 flagged**, structural findings 0.
 
-CI #472 pada implementation head `d275dbb0f2b1acfa033fc0c99ecb77d0860d24bd` full green dan menghasilkan:
+Measured distribution pada PR #106:
 
 ```text
 900 / 900 classified
 0 unclassified
-13 active child-facing patterns
+14 active child-facing patterns
+choice_grid      383 / 900 = 42.56%
+count_and_select   9 / 900 = 1.00%
+Math choice_grid  73 / 100
 ```
 
-### Overall distribution
-
-| Pattern | Activities | Share |
-| --- | ---: | ---: |
-| `choice_grid` | 392 | 43.56% |
-| `visible_matching` | 108 | 12.00% |
-| `coloring_canvas` | 100 | 11.11% |
-| `drawing_canvas` | 100 | 11.11% |
-| `listen_choose` | 76 | 8.44% |
-| `symbol_hunt` | 74 | 8.22% |
-| `guided_trace` | 14 | 1.56% |
-| `memory_pair` | 12 | 1.33% |
-| `missing_sequence_slot` | 10 | 1.11% |
-| `drag_to_target` | 5 | 0.56% |
-| `sorting_buckets` | 5 | 0.56% |
-| `motion_game` | 3 | 0.33% |
-| `story_read` | 1 | 0.11% |
-
-Global advisory hotspot threshold adalah >35%. Saat ini satu-satunya global hotspot adalah `choice_grid`: **392/900 (43.56%)**.
-
-Subject advisory hotspot threshold adalah >60%:
-- Mewarnai — `coloring_canvas` 100/100.
-- Menggambar — `drawing_canvas` 100/100.
-- Matematika — `choice_grid` 82/100.
-- Sains — `choice_grid` 79/100.
-- Logika — `choice_grid` 77/100.
-- Huruf & Menulis — `symbol_hunt` 64/100.
-
-Coloring dan Drawing 100% tidak otomatis salah karena keduanya memang creative-practice tracks dengan canvas sebagai medium utama. Hotspot selalu planning signal, bukan perintah mekanis untuk mengganti interaction.
+Dibanding baseline PR #105: `choice_grid` 392 -> 383 dan Math `choice_grid` 82 -> 73.
 
 ## 60 pola permainan target
 
@@ -122,7 +113,7 @@ Coloring dan Drawing 100% tidak otomatis salah karena keduanya memang creative-p
 25. `hotspot_discovery` — ketuk bagian scene untuk menemukan informasi/target.
 
 ### F. Number & math interaction
-26. `count_and_select` — hitung objek lalu pilih jumlahnya. **NEXT PLANNED WAVE**
+26. `count_and_select` — hitung objek lalu pilih jumlahnya. **QA / PR #106**
 27. `number_line` — tempatkan atau pilih angka pada garis bilangan.
 28. `more_less_balance` — tentukan sisi lebih banyak, lebih sedikit, atau sama.
 29. `make_total` — pilih/gabung item untuk mencapai jumlah tertentu.
@@ -172,7 +163,7 @@ Coloring dan Drawing 100% tidak otomatis salah karena keduanya memang creative-p
 
 ## Distribution rule
 
-Tidak ada satu pola yang boleh mendominasi hanya karena paling mudah dibuat. Distribution audit sekarang menjadi gate permanen untuk coverage dan pattern-set consistency, sementara concentration tetap advisory.
+Tidak ada satu pola yang boleh mendominasi hanya karena paling mudah dibuat. Distribution audit adalah gate permanen untuk coverage dan pattern-set consistency, sementara concentration tetap advisory.
 
 Prinsip alokasi:
 - gunakan mechanic paling cocok dengan objective;
@@ -188,10 +179,10 @@ Prinsip alokasi:
 2. `missing_sequence_slot` — **DONE / PR #102**.
 3. `sorting_buckets` — **DONE / PR #103**.
 4. `drag_to_target` — **DONE / PR #104**.
-5. gameplay-distribution audit — **QA / PR #105**, 900/900 classified.
-6. `count_and_select` — next planned Math wave; audit menunjukkan Math `choice_grid` 82/100 dan terdapat coherent `math-count-*` family.
-7. Math follow-ons: `number_line`, `more_less_balance`, `pattern_completion`, `make_total` setelah family review.
-8. Logic/Science diversification sesuai family objective; jangan hanya karena keduanya 77–79% `choice_grid`.
+5. gameplay-distribution audit — **DONE / PR #105**, 900/900 classified.
+6. `count_and_select` — **QA / PR #106**, exact 9 Math counting activities.
+7. Math follow-ons: review `number_line`, `more_less_balance`, `pattern_completion`, lalu `make_total` berdasarkan exact family/objective.
+8. Logic/Science diversification sesuai family objective; jangan hanya karena hotspot tinggi.
 9. `reorder_cards` / `tap_in_order`, search/scene, audio, puzzle/path, literacy construction, creative, dan story dilanjutkan berdasarkan audit dan objective fit.
 
 ## Definition of done per mechanic
