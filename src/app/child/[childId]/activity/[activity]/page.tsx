@@ -1,10 +1,11 @@
 import { AudioChoiceLearningActivity } from "@/components/learning/AudioChoiceLearningActivity";
 import { CreativePracticeActivity } from "@/components/learning/CreativePracticeActivity";
 import { MemoryMatchActivity } from "@/components/learning/MemoryMatchActivity";
+import { SequenceSlotChoiceActivity } from "@/components/learning/SequenceSlotChoiceActivity";
 import { SymbolHuntChoiceActivity } from "@/components/learning/SymbolHuntChoiceActivity";
 import { MathTraceWorldActivity } from "@/components/learning/world/MathTraceWorldActivity";
 import { WorldActivityScreen } from "@/components/learning/world/WorldExperience";
-import { isMemoryPairActivity } from "@/lib/learning/gameplayPresentation";
+import { isMemoryPairActivity, isSequenceSlotActivity } from "@/lib/learning/gameplayPresentation";
 import { getActivity } from "@/lib/learning/system";
 import styles from "./ActivityPage.module.css";
 
@@ -25,6 +26,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
         <SymbolHuntChoiceActivity childId={childId} activityId={activity} />
       ) : isMemoryPairActivity(definition) ? (
         <MemoryMatchActivity childId={childId} activityId={activity} />
+      ) : isSequenceSlotActivity(definition) ? (
+        <SequenceSlotChoiceActivity childId={childId} activityId={activity} />
       ) : (
         <WorldActivityScreen childId={childId} activityId={activity} />
       )}
