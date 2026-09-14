@@ -25,23 +25,26 @@ async function waitForServer(){
   throw new Error(`Memory-match QA server did not become ready.\n${serverLog.slice(-4000)}`);
 }
 function stopServer(){if(server&&!server.killed)server.kill("SIGTERM");}
+const cleanLabel=value=>String(value??"").replace(/^Kartu\s+/i,"").replace(/, sudah cocok$/i,"");
 
 async function solve(page){
   const cards=page.locator("[data-memory-match] button");
-  while(await cards.filter({hasNot:page.locator(":disabled")}).count()>0){
+  while((await cards.evaluateAll(nodes=>nodes.filter(node=>!node.disabled).length))>0){
     const count=await cards.count();
     let first=-1;
     for(let i=0;i<count;i++){if(await cards.nth(i).isEnabled()){first=i;break;}}
     if(first<0)break;
     await cards.nth(first).click();
-    const firstLabel=(await cards.nth(first).getAttribute("aria-label")??"").replace(/^Kartu\s+/i,"").replace(/, sudah cocok$/i,"");
+    const firstLabel=cleanLabel(await cards.nth(first).getAttribute("aria-label"));
     let paired=false;
     for(let j=0;j<count;j++){
       if(j===first||!(await cards.nth(j).isEnabled()))continue;
       await cards.nth(j).click();
-      const secondLabel=(await cards.nth(j).getAttribute("aria-label")??"").replace(/^Kartu\s+/i,"").replace(/, sudah cocok$/i,"");
+      const secondLabel=cleanLabel(await cards.nth(j).getAttribute("aria-label"));
       if(firstLabel.toLowerCase()===secondLabel.toLowerCase()){
-        await assert.doesNotReject(async()=>{await cards.nth(first).waitFor({state:"visible"});}); paired=true; break;
+        await page.waitForFunction(([a,b])=>{const buttons=document.querySelectorAll("[data-memory-match] button");return buttons[a]?.disabled&&buttons[b]?.disabled;},[first,j]);
+        paired=true;
+        break;
       }
       await page.waitForTimeout(720);
       await cards.nth(first).click();
@@ -73,7 +76,7 @@ async function inspect(viewport){
     await page.reload({waitUntil:"domcontentloaded"}); await scene.waitFor({state:"visible"});
     await solve(page);
     await page.getByRole("status").filter({hasText:"Semua pasangan ketemu"}).waitFor({state:"visible",timeout:3000});
-    const state=await page.evaluate(({activityId})=>{const progress=JSON.parse(localStorage.getItem("mainlagi-learning-progress-v1")??"{}");const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");const list=attempts["demo-gian"]??[];return {completed:(progress["demo-gian"]?.completedActivityIds??[]).includes(activityId),attempt:list.findLast?.(item=>item.activityId===activityId)??[...list].reverse().find(item=>item.activityId===activityId)};},{activityId});
+    const state=await page.evaluate(({activityId})=>{const progress=JSON.parse(localStorage.getItem("mainlagi-learning-progress-v1")??"{}");const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");const list=attempts["demo-gian"]??[];return {completed:(progress["demo-gian"]?.completedActivityIds??[]).includes(activityId),attempt:[...list].reverse().find(item=>item.activityId===activityId)};},{activityId});
     assert.equal(state.completed,true,"memory match completes canonical activity");
     assert(state.attempt,"memory match records attempt evidence");
     assert.equal(state.attempt.assessed,true,"case matching remains assessed");
