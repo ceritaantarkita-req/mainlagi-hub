@@ -41,8 +41,23 @@ for(const activity of sequence){
   assert.equal((activity.choices??[]).length,3);
   assert((activity.choices??[]).includes(activity.correctChoice),"sequence slot preserves canonical correctChoice");
 }
-const otherChoice=ACTIVITIES.filter(activity=>activity.runtime==="tap_choice"&&!expectedSequence.has(activity.id));
-assert(otherChoice.length>0,"default choice activities remain available");
-assert(otherChoice.every(activity=>choiceGameplayPresentation(activity)==="default"),"non-sequence choice families must not be silently reclassified");
 
-console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${sequence.length} sequence_slot activities; ${otherMatching.length} matching and ${otherChoice.length} choice activities retain their existing presentations.`);
+const expectedSorting=new Set([
+  "logic-classify-animal","logic-classify-round","logic-classify-up-arrow","logic-classify-two-items","logic-classify-red"
+]);
+const sorting=ACTIVITIES.filter(activity=>choiceGameplayPresentation(activity)==="sorting_buckets");
+assert.equal(sorting.length,expectedSorting.size,"sorting-buckets family size must remain intentional");
+assert.deepEqual(new Set(sorting.map(activity=>activity.id)),expectedSorting,"only the five basic Logic classification activities use sorting buckets");
+for(const activity of sorting){
+  assert.equal(activity.runtime,"tap_choice");
+  assert.equal(activity.subjectId,"logic");
+  assert.equal((activity.choices??[]).length,3);
+  assert.equal(new Set(activity.choices??[]).size,3,"sorting cards remain unique");
+  assert((activity.choices??[]).includes(activity.correctChoice),"sorting buckets preserve canonical positive choice");
+}
+
+const otherChoice=ACTIVITIES.filter(activity=>activity.runtime==="tap_choice"&&!expectedSequence.has(activity.id)&&!expectedSorting.has(activity.id));
+assert(otherChoice.length>0,"default choice activities remain available");
+assert(otherChoice.every(activity=>choiceGameplayPresentation(activity)==="default"),"other choice families retain default presentation");
+
+console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets activities.`);
