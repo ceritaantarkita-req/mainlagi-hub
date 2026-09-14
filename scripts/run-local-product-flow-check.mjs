@@ -78,9 +78,6 @@ async function main() {
 
     await page.locator("[data-activity-gallery]").waitFor();
     if (await page.locator("[data-activity-id]").count() !== 100) throw new Error("subject page must preserve the complete 100-activity catalog");
-    if (await page.locator("[data-playable-activity-gallery] a[href^=\"/child/]").count().catch(() => 0)) {
-      // The intentionally malformed selector guard above must never become the product assertion.
-    }
     const playableCount = await page.locator(`[data-playable-activity-gallery] a[href^="/child/${childId}/activity/"]`).count();
     if (playableCount < 1) throw new Error("subject page must expose at least one immediately playable activity");
     const stageLinkCount = await page.locator(`a[href^="/child/${childId}/stage/"]`).count();
