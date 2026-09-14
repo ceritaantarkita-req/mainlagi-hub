@@ -1,129 +1,161 @@
 # Mainlagi Hub
 
-**Mainlagi Hub** adalah platform motion-learning dan edutainment yang sedang dikembangkan untuk keluarga Indonesia. Produk saat ini sudah memiliki **10 game/experience berbasis gerak tangan dan tubuh** dengan computer vision di browser. Arah produk berikutnya memperluas fondasi ini menjadi platform belajar anak usia **3–7 tahun** tanpa membuang motion engine atau game yang sudah ada.
+**Mainlagi Hub** adalah platform belajar dan edutainment untuk anak usia **3–7 tahun** yang mempertahankan motion/vision engine Mainlagi sebagai salah satu runtime, bukan sebagai satu-satunya cara belajar.
 
-> Status: **public open-source core**, active development. Source code repository ini menggunakan `AGPL-3.0-only`, dengan jalur commercial/paid yang terpisah. Fitur yang ditandai **Planned** belum dianggap tersedia di production.
+Status: **public open-source core, active development**. Source repository menggunakan `AGPL-3.0-only`; jalur commercial/paid dapat memakai terms terpisah.
 
 ## Production
 
-Canonical production deployment:
-
 ```text
-GitHub `main`
+GitHub protected `main`
   -> Cloudflare Git integration / build
   -> OpenNext for Cloudflare Workers
   -> https://mainlagihub.my.id/
 ```
 
-Mainlagi **tidak memakai jalur production VPS/SSH**. Cloudflare adalah deployment/runtime production yang terhubung ke repository ini.
+Production tidak memakai VPS/SSH sebagai jalur canonical.
 
-## Prinsip utama
+## Current baseline — 14 September 2026
 
-- **Motion/vision engine yang sekarang dipertahankan.** Tidak ada rencana rewrite atau membuang engine hanya untuk mengejar arah produk baru.
-- **10 game yang sekarang tetap dipertahankan** dan akan menjadi bagian dari activity/runtime layer Mainlagi.
-- Fitur edukasi baru dibangun **di atas fondasi yang ada**, bukan menggantikan fondasi tersebut.
-- Pengalaman anak harus child-first, playful, joyful, gameful, aman, dan mudah dipakai keluarga Indonesia.
-- Kamera diproses di perangkat/browser sejauh runtime saat ini memungkinkan; aplikasi tidak mempunyai jalur upload video mentah sebagai bagian dari gameplay normal.
-
-## Yang sudah ada sekarang
-
-Semua experience memakai route internal `/play/[slug]`.
-
-1. **Math Pilih Jawaban** — pilihan ganda berbasis gesture, 1–2 pemain.
-2. **Math Motion Battle** — menjawab matematika dengan menulis angka di udara, 1–2 pemain.
-3. **Number Trace Adventure** — guided number tracing.
-4. **Shape Quest** — menggambar dan menilai bentuk.
-5. **Pattern Race** — menyelesaikan pola dengan jawaban tulisan udara.
-6. **Math Warung** — simulasi belanja, total, pembayaran, dan kembalian dengan konteks Rupiah.
-7. **Iqro Motion** — tracing/tulisan Hijaiyah, titik, dan audio pendamping.
-8. **AirBoard Presenter** — whiteboard/presenter berbasis gesture.
-9. **Beat Motion** — body-motion rhythm/three-lane experience.
-10. **Run to Target** — body-position target game dengan kalibrasi.
-
-Definisi canonical game ada di `src/lib/data/games.ts`.
-
-## Platform belajar saat ini
-
-Katalog platform anak usia 3–7 tahun sudah memuat sembilan area dan 900
-activity route (100 per area). Jumlah route tidak berarti semua konten
-telah lolos review pedagogi atau perangkat fisik.
-
-- Bahasa Indonesia
-- English
-- Matematika
-- Iqro
-- Mewarnai
-- Huruf & Menulis
-- Logika
-- Sains
-- Menggambar
-
-Perbaikan alur dan desain lokal yang belum di-deploy didokumentasikan di
-[LOCAL_REDESIGN_2026-09-11.md](docs/LOCAL_REDESIGN_2026-09-11.md).
-
-Arah ini juga mencakup:
-
-- Bahasa UI Indonesia dan English.
-- Audio/narration native Indonesia dan English.
-- Stage/progression learning path.
-- Animasi, sound effect, reward, dan interaction yang lebih gameful.
-- Parent area, laporan perkembangan, dan certificate/export.
-- Lima karakter utama: **Naya, Gian, Zia, Paca, dan Gavi**.
-
-Detail arah produk: [`docs/PRODUCT_DIRECTION.md`](docs/PRODUCT_DIRECTION.md).
-
-## OCR + AI engine — Planned
-
-Mainlagi juga direncanakan memiliki **OCR/visual-understanding engine** untuk aktivitas belajar yang membutuhkan pembacaan tulisan, lembar kerja, atau input visual. Desainnya harus modular: OCR lokal/deterministik bila sesuai, lalu AI dapat dipakai sebagai verifier/enrichment layer.
-
-Integrasi AI yang direncanakan menggunakan **OpenRouter** dengan prinsip BYOK/configured-by-operator:
-
-- API key tidak pernah di-hardcode di repository.
-- API key tidak boleh memakai prefix `NEXT_PUBLIC_` dan tidak boleh dikirim ke browser.
-- Panggilan OpenRouter harus melewati server-side boundary.
-- Model harus configurable, bukan tertanam permanen pada satu provider/model.
-- Data anak dan frame kamera tidak boleh otomatis dikirim ke model eksternal; minimisasi payload dan privacy gate wajib dirancang sebelum fitur diaktifkan.
-
-Detail: [`docs/AI_OCR_OPENROUTER.md`](docs/AI_OCR_OPENROUTER.md).
-
-## Arsitektur saat ini
+PR #87, **Redesign child learning experience and product QA**, sudah merged ke `main` pada commit:
 
 ```text
-Next.js App Router
-├── Platform shell / auth / discover / affiliate / admin
-├── GameShell + Preflight
-├── 10 internal game experiences
-├── Shared interaction/game engine
-└── Shared browser vision runtime
-    ├── MediaPipe Hand Landmarker
-    ├── MediaPipe Pose Landmarker
-    ├── optional face signal
-    ├── player assignment & hand ownership
-    ├── gesture latch / smoothing
-    └── body-action classification
+25c83840b74c4eca1dd3d3b71e888f7dfc4d8b21
 ```
 
-Teknologi utama:
+Post-merge CI dan exact-SHA Cloudflare smoke sudah lulus. Current learning catalog:
 
-- Next.js 16 + React 19 + TypeScript
-- MediaPipe Tasks Vision
-- Supabase Auth/Postgres/RLS untuk fitur cloud yang dikonfigurasi
-- local-first browser state untuk sebagian progress/family data
-- OpenNext + Cloudflare Workers sebagai production deployment/runtime
-- Capacitor preparation untuk wrapper native
+- 9 subjects;
+- 900 activities;
+- 683 assessed / 217 practice;
+- 46 stages;
+- 197 lessons;
+- 197 content packs;
+- 200 active skills.
 
-Lihat [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
+Current subjects:
 
-## Menjalankan lokal
+1. Bahasa Indonesia
+2. English
+3. Matematika
+4. Iqro
+5. Huruf & Menulis
+6. Logika
+7. Sains
+8. Mewarnai
+9. Menggambar
 
-### Requirements
+Current frontend memakai Garden/Playroom visual system, child profile + continue-learning flow, subject/activity browsing, stage/progression protection, activity runtimes, parent reporting, and retained motion games.
+
+## Retained Mainlagi games
+
+Sepuluh motion/game experiences tetap dipertahankan dan dapat digunakan sebagai activity runtime atau direct game experience:
+
+1. Math Pilih Jawaban
+2. Math Motion Battle
+3. Number Trace Adventure
+4. Shape Quest
+5. Pattern Race
+6. Math Warung
+7. Iqro Motion
+8. AirBoard Presenter
+9. Beat Motion
+10. Run to Target
+
+Canonical definitions: `src/lib/data/games.ts`.
+
+## Learning architecture
+
+```text
+Account / Household
+└── Child Profile
+    └── Subject
+        └── Learning Path / Stage
+            └── Lesson
+                └── Activity
+                    └── Learning Attempt
+                        └── Skill Evidence
+                            └── Skill Mastery
+                                └── Progress / Recommendation / Parent Report
+```
+
+Completion, reward/stars, and mastery are separate concepts. Drawing/Coloring remain practice/completion-only unless a validated assessed evidence model exists. Legacy `game_sessions` and `game_scores` are not reinterpreted as academic mastery.
+
+## Activity runtimes
+
+Current 900-activity inventory includes:
+
+- `tap_choice`
+- `listen_and_choose`
+- `matching`
+- `trace`
+- `story`
+- `motion_game`
+- `coloring`
+- `drawing`
+
+The next phase prioritizes **quality and variety of the existing 900 activities**, not increasing the count.
+
+## Current product-quality priorities
+
+Canonical execution plan: [`docs/NEXT_PRODUCT_QUALITY_PLAN.md`](docs/NEXT_PRODUCT_QUALITY_PLAN.md).
+
+The next phase focuses on:
+
+- native-feeling Indonesian and English narration with reviewed/licensed audio;
+- current About/FAQ and discoverable parent-facing affiliate recommendations;
+- audit/redesign of trivial, invalid, or repetitive activities;
+- broader meaningful gameplay mechanics;
+- rebuilding weak/duplicate Coloring and Drawing visuals;
+- an explicit Mainlagi art direction and visual QA gate;
+- reconciling stage progression with the current 100-card activity gallery;
+- physical-device/accessibility acceptance and Iqro expert review;
+- repository governance hardening.
+
+**Quality first. Quantity later.**
+
+## Motion/vision architecture
+
+```text
+Shared browser vision runtime
+├── MediaPipe Hand Landmarker
+├── MediaPipe Pose Landmarker
+├── optional face signal
+├── player assignment / hand ownership
+├── gesture latch / smoothing
+└── body-action classification
+```
+
+Motion remains a first-class optional capability. Core learning must remain usable on phone/tablet without requiring motion capture.
+
+## Voice/audio direction
+
+Fixed lesson narration should prefer **pre-generated, human-reviewed audio assets**. Runtime TTS is a fallback for genuinely dynamic content. Voice/model/provider choice must remain behind an abstraction and every engine/model/voice licence must be reviewed before commercial use.
+
+Iqro/Hijaiyah pronunciation requires competent human review and must not treat generic TTS as final authority.
+
+## OCR + AI — planned, not current priority
+
+OCR/AI remains a modular future capability. It must not block current touch-first learning or replace deterministic runtimes where they are sufficient.
+
+Requirements include:
+
+- server-side provider keys only;
+- no `NEXT_PUBLIC_` secret;
+- no automatic raw-camera upload;
+- payload minimization and explicit privacy boundaries;
+- configurable provider/model.
+
+See [`docs/AI_OCR_OPENROUTER.md`](docs/AI_OCR_OPENROUTER.md).
+
+## Local setup
+
+Requirements:
 
 - Node.js 20.9+
 - npm 10+
 - Chrome/Edge modern
-- `localhost` atau HTTPS untuk akses kamera
-
-### Setup
+- `localhost` or HTTPS for camera access
 
 ```bash
 git clone https://github.com/ceritaantarkita-req/mainlagi-hub.git
@@ -133,42 +165,47 @@ cp .env.example .env.local
 npm run dev
 ```
 
-Buka `http://localhost:3000`.
-
-Supabase bersifat optional untuk sebagian flow lokal, tetapi fitur auth/cloud/admin membutuhkan konfigurasi backend yang sesuai. Jangan pernah commit `.env.local`, service-role key, OpenRouter key, Cloudflare token, atau credential lain.
+Never commit `.env.local`, Supabase service-role keys, provider/API keys, Cloudflare tokens, or other credentials.
 
 ## Quality gates
 
+Use repository scripts as the source of truth. Important aggregate/local commands include:
+
 ```bash
-npm run validate:structure
-npm run audit:source
-npm run typecheck
-npm run lint
-npm run test:engine
-npm run simulate
+npm run check
+npm run test:learning
+npm run qa:local:product
 npm run build:cloudflare
 npm audit --omit=dev --audit-level=high
 ```
 
-Windows helper tersedia melalui `VERIFY_WINDOWS.ps1`.
+CI also covers Windows compatibility, mobile Chromium QA, production build/budgets, dependency audit, secret-history scan, and exact-SHA Cloudflare production smoke.
 
-Physical camera QA tetap penting karena unit/simulation test tidak menggantikan validasi gesture di kamera nyata. Lihat `docs/CAMERA_QA.md`.
+Physical-device testing is still required; headless CI cannot certify real touch, camera, Safari/Chrome device behavior, VoiceOver/TalkBack, or device audio quality.
 
-## Privasi & keamanan
+## Privacy and safety
 
-Mainlagi ditujukan untuk anak, sehingga perubahan yang menyentuh kamera, profil anak, analytics, voice, OCR, atau AI harus menggunakan prinsip **data minimization, explicit boundary, least privilege, dan fail-closed untuk secret**.
+Mainlagi is child-facing software. Changes involving camera, child profiles, analytics, audio/voice, OCR, or AI must use:
 
-Security policy: [`SECURITY.md`](SECURITY.md).
+- data minimization;
+- least privilege;
+- explicit server/client boundaries;
+- no raw-camera retention by default;
+- RLS/server authorization for cloud data;
+- bounded external-provider input/output;
+- auditable dependencies, models, assets, and licences.
+
+See [`SECURITY.md`](SECURITY.md).
 
 ## Open source + commercial edition
 
-Source code Mainlagi Hub dirilis di bawah **GNU Affero General Public License v3.0 only (`AGPL-3.0-only`)**, kecuali file yang secara eksplisit menyatakan lisensi lain.
+Source code is released under **GNU Affero General Public License v3.0 only (`AGPL-3.0-only`)**, except files that explicitly state another licence.
 
-AGPL adalah lisensi open-source dan **mengizinkan commercial use** selama pihak yang memakai, memodifikasi, mendistribusikan, atau menyediakan versi networked mematuhi kewajiban lisensinya. Commercial license Mainlagi bukan biaya wajib hanya karena sebuah penggunaan menghasilkan uang; jalur tersebut ditujukan untuk hak/terms alternatif yang dinegosiasikan terpisah atau untuk produk, layanan, dan aset proprietary yang memang tidak dirilis sebagai bagian dari community core.
+AGPL permits commercial use when its obligations are followed. Mainlagi may separately offer commercial terms, services, premium/proprietary content, assets, or licences.
 
-Model bisnis Mainlagi adalah **open-source core + paid/commercial offering**. Batas canonical antara community core dan komponen paid/proprietary dijelaskan di [`OPEN_CORE.md`](OPEN_CORE.md).
+Software-code licensing does not automatically grant rights to Mainlagi trademarks, character artwork, voice identities, or proprietary premium content.
 
-Lihat:
+See:
 
 - [`LICENSE`](LICENSE)
 - [`OPEN_CORE.md`](OPEN_CORE.md)
@@ -176,29 +213,19 @@ Lihat:
 - [`TRADEMARKS.md`](TRADEMARKS.md)
 - [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md)
 
-**Penting:** lisensi source code tidak memberi izin memakai nama, logo, trademark, karakter, character artwork, voice identity, atau premium learning content Mainlagi sebagai brand milik pihak lain.
+## Canonical documentation
 
-## Kontribusi
+Read these before substantial work:
 
-Baca [`CONTRIBUTING.md`](CONTRIBUTING.md) dan [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) sebelum membuka PR.
+- [`docs/NEXT_PRODUCT_QUALITY_PLAN.md`](docs/NEXT_PRODUCT_QUALITY_PLAN.md)
+- [`docs/CURRENT_STATE.md`](docs/CURRENT_STATE.md)
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
+- [`docs/MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md`](docs/MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md)
+- [`docs/LEARNING_ATTEMPTS_MASTERY.md`](docs/LEARNING_ATTEMPTS_MASTERY.md)
+- [`docs/KNOWN_LIMITATIONS.md`](docs/KNOWN_LIMITATIONS.md)
 
-Untuk menjaga kemungkinan commercial licensing di masa depan, kontribusi eksternal yang akan digabung ke core dapat memerlukan contributor licensing terms tambahan. Detailnya dijelaskan di `CONTRIBUTING.md`.
-
-## Public-repository security checklist
-
-Repository ini sudah **Public**. Checklist di [`docs/PUBLIC_RELEASE_CHECKLIST.md`](docs/PUBLIC_RELEASE_CHECKLIST.md) sekarang dipakai sebagai audit pasca-publik dan kontrol berkelanjutan, termasuk history secret scan, Actions-log review, third-party asset review, serta branch/ruleset hardening.
-
-## Dokumentasi penting
-
-- `docs/ARCHITECTURE.md`
-- `docs/PRODUCT_DIRECTION.md`
-- `docs/AI_OCR_OPENROUTER.md`
-- `docs/CAMERA_QA.md`
-- `docs/DEPLOYMENT.md`
-- `docs/KNOWN_LIMITATIONS.md`
-- `docs/PUBLIC_RELEASE_CHECKLIST.md`
-- `OPEN_CORE.md`
+Historical audit/redesign documents describe the state at the time they were written and must not override the canonical current-state documents above.
 
 ## Disclaimer
 
-Mainlagi Hub adalah software yang sedang aktif dikembangkan dan **bukan pengganti guru, orang tua, tenaga kesehatan, atau asesmen perkembangan profesional**. Learning score di aplikasi harus diperlakukan sebagai sinyal produk/pembelajaran internal, bukan diagnosis perkembangan anak.
+Mainlagi Hub is actively developed software and is not a replacement for teachers, parents/guardians, healthcare professionals, or professional developmental assessment. Product learning signals are internal educational signals, not medical or intelligence diagnoses.
