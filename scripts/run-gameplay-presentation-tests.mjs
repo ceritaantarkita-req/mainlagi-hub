@@ -9,6 +9,7 @@ const require=createRequire(import.meta.url);
 const {ACTIVITIES}=require(path.resolve(".learning-test-dist/src/lib/learning/system.js"));
 const {choiceGameplayPresentation,matchingPresentation}=require(path.resolve(".learning-test-dist/src/lib/learning/gameplayPresentation.js"));
 const {numberLineConfig,numberLineValues}=require(path.resolve(".learning-test-dist/src/lib/learning/numberLineConfig.js"));
+const {moreLessBalanceConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/moreLessBalanceConfig.js"));
 
 const expectedMemory=new Set([
   "letters-match-case-cd","letters-match-case-ef","letters-match-case-bce",
@@ -115,8 +116,35 @@ for(const activity of numberLine){
   assert(config.contextValues.every(value=>value>=config.min&&value<=config.max),`${activity.id} context must remain inside line range`);
 }
 
-const otherChoice=ACTIVITIES.filter(activity=>activity.runtime==="tap_choice"&&!expectedSequence.has(activity.id)&&!expectedSorting.has(activity.id)&&!expectedCountSelect.has(activity.id)&&!expectedNumberLine.has(activity.id));
+const expectedBalance=new Set([
+  "math-compare-more-2-4","math-compare-less-5-3","math-compare-equal-4-4",
+  "math-compare-more-6-5","math-compare-less-7-9","math-compare-more-10-8"
+]);
+const balance=ACTIVITIES.filter(activity=>choiceGameplayPresentation(activity)==="more_less_balance");
+assert.equal(balance.length,expectedBalance.size,"more-less balance family size must remain intentional");
+assert.deepEqual(new Set(balance.map(activity=>activity.id)),expectedBalance,"only the six reviewed Math comparison activities use balance presentation");
+for(const activity of balance){
+  assert.equal(activity.runtime,"tap_choice");
+  assert.equal(activity.subjectId,"math");
+  assert.equal(activity.stageId,"math-banding-bentuk");
+  assert.equal((activity.choices??[]).length,3);
+  assert.equal(new Set(activity.choices??[]).size,3,"balance choices remain unique");
+  assert((activity.choices??[]).includes(activity.correctChoice),"balance preserves canonical correctChoice");
+  const config=moreLessBalanceConfig(activity);
+  assert(config,`${activity.id} must have explicit balance config`);
+  assert(config.left.count>0&&config.right.count>0,`${activity.id} keeps visible positive comparison quantities`);
+  assert.deepEqual(new Set(Object.values(config.choiceToSide)),new Set(["left","equal","right"]),`${activity.id} maps canonical choices to all three comparison positions`);
+  const expectedCorrectSide=config.goal==="equal"
+    ? "equal"
+    : config.goal==="more"
+      ? (config.left.count>config.right.count?"left":"right")
+      : (config.left.count<config.right.count?"left":"right");
+  assert.equal(config.choiceToSide[activity.correctChoice],expectedCorrectSide,`${activity.id} canonical correctChoice must match the comparison objective`);
+}
+
+const specializedChoiceIds=new Set([...expectedSequence,...expectedSorting,...expectedCountSelect,...expectedNumberLine,...expectedBalance]);
+const otherChoice=ACTIVITIES.filter(activity=>activity.runtime==="tap_choice"&&!specializedChoiceIds.has(activity.id));
 assert(otherChoice.length>0,"default choice activities remain available");
 assert(otherChoice.every(activity=>choiceGameplayPresentation(activity)==="default"),"other choice families retain default presentation");
 
-console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets + ${countSelect.length} count_select + ${numberLine.length} number_line activities.`);
+console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets + ${countSelect.length} count_select + ${numberLine.length} number_line + ${balance.length} more_less_balance activities.`);

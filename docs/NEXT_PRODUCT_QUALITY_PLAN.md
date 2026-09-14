@@ -3,8 +3,8 @@
 > Canonical execution plan fase product-quality Mainlagi Hub. Semua human/AI agent wajib membaca dokumen ini, `CURRENT_STATE.md`, `ARCHITECTURE.md`, dan `GAMEPLAY_VARIATION_CATALOG.md` sebelum mengubah learning experience.
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
-**Merged baseline:** `main` @ `7c1a679c156c623a318cb9640880374eedc7e149`  
-**Active gameplay PR:** #108 / `agent/ws05-gameplay-number-line-20260914`  
+**Merged baseline:** `main` @ `f1a9b0a2adbbb6e9e68e9cb2525d7c9a12219bb4`  
+**Active gameplay PR:** #109 / `agent/ws05-gameplay-more-less-balance-20260915`  
 **Primary focus:** WS-05 gameplay/mechanic diversification.  
 **Principle:** **Quality first. Quantity later.**
 
@@ -30,7 +30,7 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | TODO | parent/public surfaces |
 | WS-04 Activity audit/redesign | deterministic clean | 900 KEEP / 0 flagged |
-| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | 14 merged; pattern #15 Number Line QA |
+| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | 15 merged; pattern #16 More/Less Balance QA |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | TODO / parallel | Art Bible + permanent human gate |
@@ -41,71 +41,29 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 
 ## WS-05 merged baseline
 
-Merged patterns on `main`: **14**. Latest gameplay merge is Count-and-Select PR #106 `18beb9bc676d529cc5701bc964bdef26bea33132`; PR #107 closed its canonical docs.
+Merged patterns on `main`: **15**. Latest gameplay merge is Number Line PR #108 `f1a9b0a2adbbb6e9e68e9cb2525d7c9a12219bb4`.
 
 Merged distribution:
 
 ```text
 900 / 900 classified
 0 unclassified
-14 active patterns
-choice_grid         383 / 900 = 42.56%
+15 active patterns
+choice_grid         377 / 900 = 41.89%
+number_line           6 / 900 = 0.67%
 count_and_select      9 / 900 = 1.00%
-Math choice_grid     73 / 100
+Math choice_grid     67 / 100
 Science choice_grid  79 / 100
 Logic choice_grid    77 / 100
 ```
 
-## Active PR #108 — Number Line
+## Number Line PR #108 — DONE
 
-Exact scope: six Math Wave B ordering activities:
+Exactly six Math Wave B ordering activities now use `number_line`. Implementation CI #489 and final docs-head CI #494 were full green; browser + manual visual QA accepted 320/390/768. Evidence fidelity is `choice_number_line_interaction` and Wave C `math-missing-*` remains outside this family.
 
-```text
-math-order-next-1-2
-math-order-next-3-4
-math-order-before-6
-math-order-between-6-8
-math-order-descend-5
-math-order-descend-10
-```
+## Active PR #109 — More/Less Balance
 
-Why this family:
-- coherent stage/lesson/skill: `math-banding-bentuk` / number ordering / `math.number.ordering`;
-- interaction directly represents relative number position;
-- all six retain three canonical numeric answers;
-- Wave C missing-number activities are deliberately excluded pending separate review.
-
-Interaction:
-- compact five-tick local number line;
-- explicit configured context for forward/backward/between tasks;
-- only canonical choices are clickable;
-- runtime remains `tap_choice`;
-- IDs, choices, correctChoice, skill, assessment, stars, progression and completion identity remain unchanged;
-- assessed fidelity `choice_number_line_interaction` records wrong/retry/accuracy plus line direction/range/context.
-
-Implementation-head acceptance at `6b92ff922b6878d6ff1a88b1162f6adc9beee05f`:
-- CI #489 full green across Ubuntu, Windows, production build, dependency audit, secret scan and Chromium mobile QA;
-- deterministic quality remains **900 KEEP / 0 flagged**;
-- browser representative `math-order-between-6-8` uses legitimate previous-stage readiness and keeps progression guard active;
-- keyboard wrong-state + pointer completion + evidence persistence + >=44px controls + no overflow + success CTA checks pass;
-- manual visual review accepted idle/error/success at 320x720, 390x844, 768x1024.
-
-Measured PR #108 distribution:
-
-```text
-900 / 900 classified
-0 unclassified
-15 active patterns
-choice_grid        377 / 900 = 41.89%
-number_line          6 / 900 = 0.67%
-Math choice_grid    67 / 100
-```
-
-Delta from merged baseline: global `choice_grid` 383 -> 377; Math `choice_grid` 73 -> 67.
-
-## Next mechanic after #108
-
-Do not start until #108 closes. Strongest next coherent Math candidate is `more_less_balance` for the six reviewed Wave B comparison activities:
+Exact scope: six Math Wave B comparison activities:
 
 ```text
 math-compare-more-2-4
@@ -116,7 +74,44 @@ math-compare-less-7-9
 math-compare-more-10-8
 ```
 
-After that, review `pattern_completion`, Wave C missing-number family, and `make_total` separately. Do not mass-convert activities just to reduce hotspot percentages.
+Why this family:
+- coherent stage/lesson/skill: `math-banding-bentuk` / quantity comparison / `math.quantity.comparison`;
+- interaction directly represents left/right/equal comparison;
+- canonical three choices can map exactly to left/equal/right;
+- no parsing-based routing or broad prefix conversion is needed.
+
+Interaction/evidence:
+- two visible quantity pans + center equal control;
+- beam stays neutral before completion so UI does not reveal the answer;
+- runtime remains `tap_choice`;
+- IDs, choices, correctChoice, skill, assessment, stars, progression and completion identity remain unchanged;
+- wrong answer increments incorrect/retry;
+- assessed fidelity `choice_balance_comparison_interaction` records comparison goal, left/right counts and correct side.
+
+Implementation-head acceptance at `9c71560e37a5dace1c79abea56d4cda625eb27c0`:
+- CI #496 full green across Ubuntu, Windows, production build, dependency audit, secret scan and Chromium mobile QA;
+- deterministic quality remains **900 KEEP / 0 flagged**;
+- browser representative `math-compare-equal-4-4` uses legitimate previous-stage readiness and keeps progression guard active;
+- keyboard wrong-state + pointer completion + evidence persistence + >=44px controls + no overflow + success CTA checks pass;
+- manual visual review accepted idle/error/success at 320x720, 390x844, 768x1024.
+
+Measured PR #109 distribution:
+
+```text
+900 / 900 classified
+0 unclassified
+16 active patterns
+choice_grid          371 / 900 = 41.22%
+more_less_balance      6 / 900 = 0.67%
+number_line             6 / 900 = 0.67%
+Math choice_grid       61 / 100
+```
+
+Delta from merged baseline: global `choice_grid` 377 -> 371; Math `choice_grid` 67 -> 61.
+
+## Next mechanic after #109
+
+Do not start until #109 closes. Strongest next Math candidate is `pattern_completion` for the reviewed Wave B pattern activities, but exact family review is required first. Wave C `math-missing-*` and `make_total` remain separate candidate families; do not assume they should share a mechanic.
 
 ## Definition of Done
 
@@ -135,10 +130,11 @@ After merge:
 
 ## Current execution order
 
-1. Close PR #108 Number Line safely.
+1. Close PR #109 More/Less Balance safely.
 2. Verify merged distribution baseline.
-3. Review and, if still appropriate, implement `more_less_balance` on a separate branch.
-4. Continue toward 50–60 meaningful patterns using permanent audit evidence.
-5. Continue WS-08 visual system, WS-02 narration, WS-03 parent/public frontend, WS-10 external acceptance, WS-11 governance and WS-12 cleanup.
+3. Review exact Wave B pattern family for `pattern_completion` on latest `main`.
+4. Review Wave C missing-number and `make_total` separately.
+5. Continue toward 50–60 meaningful patterns using permanent audit evidence.
+6. Continue WS-08 visual system, WS-02 narration, WS-03 parent/public frontend, WS-10 external acceptance, WS-11 governance and WS-12 cleanup.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion, or major mastery/backend rewrites during this quality phase.

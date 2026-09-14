@@ -1,7 +1,7 @@
 import type { LearningActivity } from "./system";
 
 export type MatchingPresentation = "grid_pairs" | "memory_pairs" | "drag_targets";
-export type ChoiceGameplayPresentation = "default" | "sequence_slot" | "sorting_buckets" | "count_select" | "number_line";
+export type ChoiceGameplayPresentation = "default" | "sequence_slot" | "sorting_buckets" | "count_select" | "number_line" | "more_less_balance";
 export type GameplayPattern =
   | "choice_grid"
   | "symbol_hunt"
@@ -13,6 +13,7 @@ export type GameplayPattern =
   | "sorting_buckets"
   | "count_and_select"
   | "number_line"
+  | "more_less_balance"
   | "guided_trace"
   | "story_read"
   | "motion_game"
@@ -46,6 +47,15 @@ const MATH_NUMBER_LINE_IDS = new Set([
   "math-order-between-6-8",
   "math-order-descend-5",
   "math-order-descend-10"
+]);
+
+const MATH_MORE_LESS_BALANCE_IDS = new Set([
+  "math-compare-more-2-4",
+  "math-compare-less-5-3",
+  "math-compare-equal-4-4",
+  "math-compare-more-6-5",
+  "math-compare-less-7-9",
+  "math-compare-more-10-8"
 ]);
 
 /**
@@ -98,6 +108,10 @@ export function isDragTargetActivity(activity: LearningActivity | undefined): bo
  *
  * Reviewed Math ordering tasks measure relative number position, so expose the
  * canonical three numeric choices directly on a local number line.
+ *
+ * Reviewed Math comparison tasks measure left/right/equal quantity relations,
+ * so present the same canonical choices as two balance pans plus an equal
+ * control instead of another generic answer grid.
  */
 export function choiceGameplayPresentation(activity: LearningActivity | undefined): ChoiceGameplayPresentation {
   if (!activity || activity.runtime !== "tap_choice") return "default";
@@ -145,6 +159,16 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     Boolean(activity.prompt);
   if (isReviewedMathNumberLineFamily) return "number_line";
 
+  const isReviewedMathComparisonFamily =
+    activity.subjectId === "math" &&
+    activity.stageId === "math-banding-bentuk" &&
+    MATH_MORE_LESS_BALANCE_IDS.has(activity.id) &&
+    choices.length === 3 &&
+    new Set(choices).size === choices.length &&
+    choices.includes(correct) &&
+    Boolean(activity.prompt);
+  if (isReviewedMathComparisonFamily) return "more_less_balance";
+
   return "default";
 }
 
@@ -164,6 +188,10 @@ export function isNumberLineActivity(activity: LearningActivity | undefined): bo
   return choiceGameplayPresentation(activity) === "number_line";
 }
 
+export function isMoreLessBalanceActivity(activity: LearningActivity | undefined): boolean {
+  return choiceGameplayPresentation(activity) === "more_less_balance";
+}
+
 /**
  * Canonical child-facing gameplay-pattern classifier used by the WS-05
  * distribution audit. Every playable learning activity must map to exactly one
@@ -179,6 +207,7 @@ export function gameplayPattern(activity: LearningActivity | undefined): Gamepla
     if (presentation === "sorting_buckets") return "sorting_buckets";
     if (presentation === "count_select") return "count_and_select";
     if (presentation === "number_line") return "number_line";
+    if (presentation === "more_less_balance") return "more_less_balance";
     return "choice_grid";
   }
 

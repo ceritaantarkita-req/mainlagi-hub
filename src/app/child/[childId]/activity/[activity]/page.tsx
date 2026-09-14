@@ -3,13 +3,14 @@ import { CountAndSelectActivity } from "@/components/learning/CountAndSelectActi
 import { CreativePracticeActivity } from "@/components/learning/CreativePracticeActivity";
 import { DragTargetMatchActivity } from "@/components/learning/DragTargetMatchActivity";
 import { MemoryMatchActivity } from "@/components/learning/MemoryMatchActivity";
+import { MoreLessBalanceActivity } from "@/components/learning/MoreLessBalanceActivity";
 import { NumberLineActivity } from "@/components/learning/NumberLineActivity";
 import { SequenceSlotChoiceActivity } from "@/components/learning/SequenceSlotChoiceActivity";
 import { SortingBucketsChoiceActivity } from "@/components/learning/SortingBucketsChoiceActivity";
 import { SymbolHuntChoiceActivity } from "@/components/learning/SymbolHuntChoiceActivity";
 import { MathTraceWorldActivity } from "@/components/learning/world/MathTraceWorldActivity";
 import { WorldActivityScreen } from "@/components/learning/world/WorldExperience";
-import { isCountAndSelectActivity, isDragTargetActivity, isMemoryPairActivity, isNumberLineActivity, isSequenceSlotActivity, isSortingBucketsActivity } from "@/lib/learning/gameplayPresentation";
+import { isCountAndSelectActivity, isDragTargetActivity, isMemoryPairActivity, isMoreLessBalanceActivity, isNumberLineActivity, isSequenceSlotActivity, isSortingBucketsActivity } from "@/lib/learning/gameplayPresentation";
 import { getActivity } from "@/lib/learning/system";
 import styles from "./ActivityPage.module.css";
 
@@ -40,6 +41,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
         <CountAndSelectActivity childId={childId} activityId={activity} />
       ) : isNumberLineActivity(definition) ? (
         <NumberLineActivity childId={childId} activityId={activity} />
+      ) : isMoreLessBalanceActivity(definition) ? (
+        <MoreLessBalanceActivity childId={childId} activityId={activity} />
       ) : (
         <WorldActivityScreen childId={childId} activityId={activity} />
       )}
