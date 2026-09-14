@@ -14,8 +14,18 @@ import {
   readPendingLearningAttemptsForCurrentUser
 } from "@/lib/learning/outbox";
 
-export function useLearningAnalytics(childId: string): LearningAnalyticsSnapshot {
-  const [analytics, setAnalytics] = useState<LearningAnalyticsSnapshot>(() => emptyLearningAnalytics());
+interface LearningAnalyticsState {
+  childId: string;
+  analytics: LearningAnalyticsSnapshot;
+  ready: boolean;
+}
+
+export function useLearningAnalyticsState(childId: string): { analytics: LearningAnalyticsSnapshot; ready: boolean } {
+  const [state, setState] = useState<LearningAnalyticsState>(() => ({
+    childId,
+    analytics: emptyLearningAnalytics(),
+    ready: false
+  }));
 
   useEffect(() => {
     let cancelled = false;
@@ -24,7 +34,7 @@ export function useLearningAnalytics(childId: string): LearningAnalyticsSnapshot
       const userId = await getCurrentUserId();
       if (cancelled) return;
       if (!userId) {
-        setAnalytics(readLearningAnalytics(childId));
+        setState({ childId, analytics: readLearningAnalytics(childId), ready: true });
         return;
       }
 
@@ -33,7 +43,11 @@ export function useLearningAnalytics(childId: string): LearningAnalyticsSnapshot
         readPendingLearningAttemptsForCurrentUser(childId)
       ]);
       if (cancelled) return;
-      setAnalytics(cloud ? overlayPendingLearningAnalytics(cloud, pending) : readLearningAnalytics(childId));
+      setState({
+        childId,
+        analytics: cloud ? overlayPendingLearningAnalytics(cloud, pending) : readLearningAnalytics(childId),
+        ready: true
+      });
     };
 
     const frame = window.requestAnimationFrame(() => void refresh());
@@ -56,5 +70,12 @@ export function useLearningAnalytics(childId: string): LearningAnalyticsSnapshot
     };
   }, [childId]);
 
-  return analytics;
+  if (state.childId !== childId) {
+    return { analytics: emptyLearningAnalytics(), ready: false };
+  }
+  return { analytics: state.analytics, ready: state.ready };
+}
+
+export function useLearningAnalytics(childId: string): LearningAnalyticsSnapshot {
+  return useLearningAnalyticsState(childId).analytics;
 }
