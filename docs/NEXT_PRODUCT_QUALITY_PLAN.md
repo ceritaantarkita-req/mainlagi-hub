@@ -3,8 +3,8 @@
 > Canonical execution plan untuk fase product-quality Mainlagi Hub. Semua developer/AI agent wajib membaca dan memperbarui dokumen ini ketika mengerjakan scope terkait.
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
-**Current merged baseline:** `main` @ `7b2f8a75cc00eafc0c3202a718e2fd81374f5f8e`  
-**Active branch/PR:** `agent/ws04-wave-c-symbol-diversification-20260914` / PR #93  
+**Current merged baseline:** `main` @ `85aea0e5843f251eb83e5aa62180268b75455cfa`  
+**Active branch/PR:** `docs/ws04-wave-c-closeout-20260914` / closeout after PR #93  
 **Focus:** frontend/UI/visual quality, voice, activity quality, dan product coherence.  
 **Principle:** **Quality first. Quantity later.** Perbaiki 900 activity yang ada sebelum ekspansi besar.
 
@@ -51,7 +51,7 @@ Structural findings remain **0**.
 
 Wave A: permanent audit tooling.  
 Wave B: visual representation, listening leakage, pre-reader fixes.  
-Wave C: direct literacy symbol diversification—**74 activities** now use `choicePresentation: "symbol_hunt"`; Q105 is 0; Math/Logic false positives are excluded. Existing `tap_choice` evidence remains unchanged.
+Wave C: direct literacy symbol diversification—**74 activities** now use `choicePresentation: "symbol_hunt"`; Q105 is 0; Math/Logic false positives are excluded. Existing `tap_choice` evidence remains unchanged. PR #93 is merged at `85aea0e5843f251eb83e5aa62180268b75455cfa` after final PR-head CI #398 success.
 
 Remaining deterministic findings:
 
@@ -62,7 +62,7 @@ Remaining deterministic findings:
 **Status: IN_PROGRESS.** Wave C delivered the first reusable presentation diversification (`symbol_hunt`) while preserving canonical choice evidence. Continue only when a mechanic genuinely improves the learning objective. Candidate families include drag/target, sorting, ordering, memory, find-in-scene, trace, puzzle/assembly, count/select, and story interaction. Avoid one-off gimmicks.
 
 ### WS-06 — Coloring rebuild
-**Status: TODO — NEXT CREATIVE WAVE.** Audit/rebuild 100 Coloring activities. Current handoff: **59 duplicate-geometry findings**. Require clear silhouette, consistent stroke, closed/fillable shapes, no accidental overlap, finger-friendly regions, age-appropriate complexity, correct layers, phone readability, geometry QA, screenshot QA, and human visual approval.
+**Status: TODO — NEXT.** Audit/rebuild 100 Coloring activities. Current handoff: **59 duplicate-geometry findings**. Require clear silhouette, consistent stroke, closed/fillable shapes, no accidental overlap, finger-friendly regions, age-appropriate complexity, correct layers, phone readability, geometry QA, screenshot QA, and human visual approval.
 
 ### WS-07 — Drawing rebuild
 **Status: TODO — NEXT CREATIVE WAVE.** Audit/rebuild 100 Drawing activities. Current handoff: **75 young-child activities without explicit scaffold**. Use progressive guides where appropriate: basic shape -> structure -> detail -> optional decoration. Free drawing stays practice; do not manufacture academic mastery.
@@ -88,15 +88,16 @@ Remaining deterministic findings:
 2. WS-09 stage/gallery — DONE.
 3. WS-04 Wave A — DONE.
 4. WS-04 Wave B — DONE; PR #92 merged `7b2f8a75cc00eafc0c3202a718e2fd81374f5f8e`, CI #387 success.
-5. WS-04 Wave C + WS-05 first diversification — PR #93 QA; CI #389 success.
-6. WS-06 + WS-07 creative-content rebuild.
-7. WS-08 Art Bible + visual QA.
-8. WS-02 voice/narration.
-9. WS-03 public/parent frontend.
-10. WS-10 external acceptance.
-11. WS-11 governance.
-12. WS-12 cleanup.
-13. Only then consider major activity/feature expansion.
+5. WS-04 Wave C + WS-05 first diversification — DONE; PR #93 merged `85aea0e5843f251eb83e5aa62180268b75455cfa`, final PR-head CI #398 success.
+6. WS-06 Coloring rebuild + WS-08 visual quality handoff.
+7. WS-07 Drawing rebuild + WS-08 scaffold/art handoff.
+8. WS-08 Art Bible + permanent visual QA.
+9. WS-02 voice/narration.
+10. WS-03 public/parent frontend.
+11. WS-10 external acceptance.
+12. WS-11 governance.
+13. WS-12 cleanup.
+14. Only then consider major activity/feature expansion.
 
 ## 5. Global Definition of Done
 
@@ -114,9 +115,9 @@ After work: update status, changed scope, QA/result, decisions, remaining issues
 | WS-01 Canonical docs | DONE | PR #88 / CI #362 |
 | WS-02 Voice & narration | TODO | Engine/voice/licence evaluation needed |
 | WS-03 Public/parent frontend | TODO | About/FAQ + parent recommendations |
-| WS-04 Activity audit/redesign | IN_PROGRESS | Wave C audit 766/95/39/0; 134 flagged |
-| WS-05 Mechanic diversification | IN_PROGRESS | 74 symbol_hunt activities; broader mechanics later |
-| WS-06 Coloring rebuild | TODO | 59 duplicate-geometry findings |
+| WS-04 Activity audit/redesign | IN_PROGRESS | Waves A/B/C merged; 766/95/39/0; 134 flagged |
+| WS-05 Mechanic diversification | IN_PROGRESS | 74 symbol_hunt activities merged; broader mechanics only where justified |
+| WS-06 Coloring rebuild | TODO | NEXT: 59 duplicate-geometry findings |
 | WS-07 Drawing rebuild | TODO | 75 young Drawing/no-scaffold findings |
 | WS-08 Art direction/visual QA | TODO | Art Bible + permanent quality gate |
 | WS-09 Stage/gallery UX | DONE | PR #89 + #90 |
@@ -130,7 +131,8 @@ Allowed states: `TODO -> IN_PROGRESS -> BLOCKED -> QA -> DONE`.
 
 ### 2026-09-14 — WS-04 Wave C / WS-05 symbol-hunt diversification
 **Branch/PR:** `agent/ws04-wave-c-symbol-diversification-20260914` / PR #93  
-**Status:** QA
+**Status:** DONE  
+**Merge:** `85aea0e5843f251eb83e5aa62180268b75455cfa`
 
 Changed:
 - added `choicePresentation: "symbol_hunt"` without changing runtime/mastery/schema;
@@ -155,9 +157,9 @@ symbol_hunt  0 -> 74
 Q105        83 -> 0
 ```
 
-QA: PR #93 implementation CI #389 success including production build, Windows compatibility, mobile Chromium QA/screenshots, dependency audit, secret scan, learning/runtime tests, and activity-quality artifact.
+QA: final PR-head CI #398 success including production build, Windows compatibility, mobile Chromium QA/screenshots, dependency audit, secret scan, learning/runtime tests, and activity-quality artifact. No review threads or unresolved review comments remained before merge.
 
-Remaining: documentation closeout CI, merge PR #93, then move primary quality work to Coloring/Drawing/Art Bible.
+Remaining: close this documentation sync, then move primary quality work to WS-06 Coloring rebuild, followed by WS-07 Drawing rebuild and WS-08 Art Bible/visual QA.
 
 ### 2026-09-14 — WS-04 Wave B representation/pre-reader fixes
 **Branch/PR:** `agent/ws04-wave-b-representation-fixes-20260914` / PR #92  
