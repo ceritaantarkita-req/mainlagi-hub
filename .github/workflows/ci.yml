@@ -59,6 +59,17 @@ jobs:
         run: npm run lint
       - name: Engine tests
         run: npm run test:engine
+      - name: Audit learning activity quality
+        run: npm run qa:activity-quality
+      - name: Upload activity-quality audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: activity-quality-audit
+          path: .qa/activity-quality/
+          if-no-files-found: warn
+          retention-days: 14
+          include-hidden-files: true
       - name: Simulations
         run: npm run simulate
       - name: Batch 17 final acceptance contracts
