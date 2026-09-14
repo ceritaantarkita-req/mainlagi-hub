@@ -66,9 +66,16 @@ async function inspect(viewport) {
 
     const response = await page.goto(`${baseUrl}${route}`, { waitUntil: "domcontentloaded", timeout: 30_000 });
     assert.ok(response && response.status() < 400, `symbol hunt returned bad HTTP status at ${viewport.width}px`);
+    await page.waitForLoadState("load");
 
     const hunt = page.locator("[data-symbol-hunt]");
     await hunt.waitFor({ state: "visible", timeout: 5_000 });
+    await page.waitForFunction(
+      () => document.querySelector("[data-symbol-hunt]")?.getAttribute("data-symbol-hunt-ready") === "true",
+      undefined,
+      { timeout: 5_000 }
+    );
+
     const choices = hunt.getByRole("button");
     assert.equal(await choices.count(), 3, `symbol hunt must render exactly three canonical choices at ${viewport.width}px`);
 
@@ -78,6 +85,7 @@ async function inspect(viewport) {
         const rect = button.getBoundingClientRect();
         return {
           label: button.getAttribute("aria-label") || button.textContent?.trim() || "",
+          value: button.textContent?.trim() || "",
           width: rect.width,
           height: rect.height,
           left: rect.left,
@@ -99,6 +107,12 @@ async function inspect(viewport) {
       assert.ok(button.label.length > 0, `symbol-hunt choice needs an accessible label at ${viewport.width}px`);
     }
 
+    mkdirSync(screenshotDir, { recursive: true });
+    await page.screenshot({
+      path: path.join(screenshotDir, `${viewport.width}-symbol-hunt-letters-find-upper-b-idle.png`),
+      fullPage: false
+    });
+
     let focusedChoice = false;
     for (let index = 0; index < 12; index += 1) {
       await page.keyboard.press("Tab");
@@ -107,21 +121,28 @@ async function inspect(viewport) {
     }
     assert.ok(focusedChoice, `symbol-hunt choices must be keyboard reachable at ${viewport.width}px`);
 
-    const choiceB = choices.filter({ hasText: /^B$/ });
-    const wrong = choices.filter({ hasNotText: /^B$/ }).first();
+    const values = geometry.buttons.map((button) => button.value).filter(Boolean);
+    assert.ok(values.includes("B"), `representative symbol hunt must contain canonical target B at ${viewport.width}px`);
+    const wrongValue = values.find((value) => value !== "B");
+    assert.ok(wrongValue, `representative symbol hunt needs a wrong choice at ${viewport.width}px`);
+
+    const wrong = page.getByRole("button", { name: `Huruf ${wrongValue}`, exact: true });
+    await wrong.waitFor({ state: "visible" });
     await wrong.click();
     await page.getByRole("status").filter({ hasText: "Belum tepat" }).waitFor({ state: "visible", timeout: 3_000 });
-    await choiceB.click();
+
+    const correct = page.getByRole("button", { name: "Huruf B", exact: true });
+    await correct.waitFor({ state: "visible" });
+    await correct.click();
     await page.getByRole("status").filter({ hasText: "Ketemu" }).waitFor({ state: "visible", timeout: 3_000 });
+
+    await page.screenshot({
+      path: path.join(screenshotDir, `${viewport.width}-symbol-hunt-letters-find-upper-b-success.png`),
+      fullPage: false
+    });
 
     assert.deepEqual(pageErrors, [], `symbol hunt raised page errors at ${viewport.width}px: ${pageErrors.join(" | ")}`);
     assert.deepEqual(consoleErrors, [], `symbol hunt logged console errors at ${viewport.width}px: ${consoleErrors.join(" | ")}`);
-
-    mkdirSync(screenshotDir, { recursive: true });
-    await page.screenshot({
-      path: path.join(screenshotDir, `${viewport.width}-symbol-hunt-letters-find-upper-b.png`),
-      fullPage: false
-    });
     await context.close();
   } finally {
     await browser.close();
@@ -132,7 +153,7 @@ async function main() {
   startServer();
   await waitForServer();
   for (const viewport of viewports) await inspect(viewport);
-  console.log(`Symbol-hunt browser QA passed ${viewports.length} representative viewports with screenshots.`);
+  console.log(`Symbol-hunt browser QA passed ${viewports.length} representative viewports with idle/success screenshots.`);
 }
 
 main()
