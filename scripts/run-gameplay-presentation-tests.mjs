@@ -10,6 +10,7 @@ const {ACTIVITIES}=require(path.resolve(".learning-test-dist/src/lib/learning/sy
 const {choiceGameplayPresentation,matchingPresentation}=require(path.resolve(".learning-test-dist/src/lib/learning/gameplayPresentation.js"));
 const {numberLineConfig,numberLineValues}=require(path.resolve(".learning-test-dist/src/lib/learning/numberLineConfig.js"));
 const {moreLessBalanceConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/moreLessBalanceConfig.js"));
+const {patternCompletionConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/patternCompletionConfig.js"));
 
 const expectedMemory=new Set([
   "letters-match-case-cd","letters-match-case-ef","letters-match-case-bce",
@@ -47,6 +48,12 @@ for(const activity of dragTargets){
 const otherMatching=ACTIVITIES.filter(activity=>activity.runtime==="matching"&&!expectedMemory.has(activity.id)&&!expectedDragTargets.has(activity.id));
 assert(otherMatching.length>0,"default matching family remains available for mechanic variety");
 assert(otherMatching.every(activity=>matchingPresentation(activity)==="grid_pairs"),"unreviewed matching activities remain on the canonical visible grid");
+for(const id of ["math-pattern-match-ab","math-pattern-match-aab"]){
+  const activity=ACTIVITIES.find(item=>item.id===id);
+  assert(activity,`${id} remains in catalog`);
+  assert.equal(activity.runtime,"matching",`${id} remains a matching activity`);
+  assert.equal(matchingPresentation(activity),"grid_pairs",`${id} does not get pulled into Pattern Completion`);
+}
 
 const expectedSequence=new Set([
   "letters-order-after-g","letters-order-between-jl","letters-order-before-m",
@@ -142,9 +149,30 @@ for(const activity of balance){
   assert.equal(config.choiceToSide[activity.correctChoice],expectedCorrectSide,`${activity.id} canonical correctChoice must match the comparison objective`);
 }
 
-const specializedChoiceIds=new Set([...expectedSequence,...expectedSorting,...expectedCountSelect,...expectedNumberLine,...expectedBalance]);
+const expectedPatternCompletion=new Set([
+  "math-pattern-ab-shapes","math-pattern-aab-colors","math-pattern-number-step-one",
+  "math-pattern-number-step-two","math-pattern-size"
+]);
+const patternCompletion=ACTIVITIES.filter(activity=>choiceGameplayPresentation(activity)==="pattern_completion");
+assert.equal(patternCompletion.length,expectedPatternCompletion.size,"pattern-completion family size must remain intentional");
+assert.deepEqual(new Set(patternCompletion.map(activity=>activity.id)),expectedPatternCompletion,"only the five reviewed Math pattern choice activities use Pattern Completion");
+for(const activity of patternCompletion){
+  assert.equal(activity.runtime,"tap_choice");
+  assert.equal(activity.subjectId,"math");
+  assert.equal(activity.stageId,"math-banding-bentuk");
+  assert.equal((activity.choices??[]).length,3);
+  assert.equal(new Set(activity.choices??[]).size,3,"pattern-completion choices remain unique");
+  assert((activity.choices??[]).includes(activity.correctChoice),"pattern completion preserves canonical correctChoice");
+  const config=patternCompletionConfig(activity);
+  assert(config,`${activity.id} must have explicit Pattern Completion config`);
+  assert(config.sequence.length>=3,`${activity.id} exposes enough observed tokens to infer a pattern`);
+  assert(config.sequence.every(token=>Boolean(token)),`${activity.id} observed sequence tokens stay non-empty`);
+  if(config.unitLength) assert(config.unitLength>=2,`${activity.id} repeating unit remains meaningful`);
+}
+
+const specializedChoiceIds=new Set([...expectedSequence,...expectedSorting,...expectedCountSelect,...expectedNumberLine,...expectedBalance,...expectedPatternCompletion]);
 const otherChoice=ACTIVITIES.filter(activity=>activity.runtime==="tap_choice"&&!specializedChoiceIds.has(activity.id));
 assert(otherChoice.length>0,"default choice activities remain available");
 assert(otherChoice.every(activity=>choiceGameplayPresentation(activity)==="default"),"other choice families retain default presentation");
 
-console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets + ${countSelect.length} count_select + ${numberLine.length} number_line + ${balance.length} more_less_balance activities.`);
+console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets + ${countSelect.length} count_select + ${numberLine.length} number_line + ${balance.length} more_less_balance + ${patternCompletion.length} pattern_completion activities.`);
