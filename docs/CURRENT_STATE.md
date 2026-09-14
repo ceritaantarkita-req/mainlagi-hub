@@ -8,9 +8,9 @@ This is the canonical human/AI handoff for the current repository state. `main` 
 
 - repository: `ceritaantarkita-req/mainlagi-hub`
 - canonical branch: `main`
-- current merged main SHA: `c01f8122b19cde3d46ea0e2d3297b58216fe824c`
-- latest merged product-quality change: PR #100 — final WS-07 Drawing scaffold coverage
-- active gameplay branch/PR: `agent/ws05-gameplay-memory-matching-20260914` / PR #101
+- current merged main SHA: `aea24d47bd2793fbbf3b3723878674ec6f3c98a0`
+- latest merged product-quality change: PR #101 — WS-05 Memory Pair Wave
+- active gameplay branch/PR: `agent/ws05-gameplay-sequence-slot-20260914` / PR #102
 - production: `https://mainlagihub.my.id/`
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - canonical Supabase project: `estvtgflwkebomsqlolv`, `ap-southeast-1`
@@ -80,7 +80,7 @@ Product target:
 - use roughly 12–15 reusable interaction engines instead of 60 one-off implementations;
 - distribute mechanics by learning objective and monitor concentration across all 900 activities.
 
-### Merged patterns on `main`: 9
+### Merged patterns on `main`: 10
 
 1. `choice_grid` — choose one option.
 2. `symbol_hunt` — visually hunt a target symbol/letter.
@@ -91,18 +91,22 @@ Product target:
 7. `motion_game` — optional body-motion interaction.
 8. `coloring_canvas` — fill authored coloring regions.
 9. `drawing_canvas` — draw with activity-specific scaffolding.
+10. `memory_pair` — reveal concealed cards and find pairs.
 
-`symbol_hunt` is already used by 74 direct-literacy activities.
+`symbol_hunt` is used by 74 direct-literacy activities. `memory_pair` is used by 12 Letters case-matching activities after PR #101.
 
-### In QA, not merged: pattern #10
+### In QA, not merged: pattern #11
 
-`memory_pair` on PR #101:
-- initially covers 12 Letters uppercase/lowercase matching activities;
-- cards start concealed, child reveals two and searches for the correct pair;
-- canonical matching skill/evidence semantics remain intact;
-- browser QA covers pointer/touch, keyboard, responsive layout, completion, attempt evidence, and progression behavior.
+`missing_sequence_slot` on PR #102:
+- covers exactly 10 Letters `letters-order-*` activities;
+- shows an alphabet rail with one missing position plus three large candidate tiles;
+- canonical runtime remains `tap_choice`; canonical choices, correctChoice, skill, assessment, stars, progression and completion semantics are unchanged;
+- explicit assessed evidence uses `choice_sequence_interaction` and preserves correct/incorrect/retry counts;
+- browser QA covers progression, keyboard wrong-state, pointer/touch completion, 320/390/768 layouts, persistence and evidence;
+- manual visual QA found and fixed a clipped success CTA at 320×720; CI now asserts the success CTA remains fully inside the viewport;
+- implementation-head CI #447 is full success and activity quality remains 900 KEEP / 0 flagged.
 
-The next planned gameplay family after Memory Pair is Letters sequence/order using missing-slot and reorder interactions.
+The next planned gameplay wave after PR #102 is `sorting_buckets` + `drag_to_target` for classification/matching objectives.
 
 ## Current frontend/product state
 
@@ -112,10 +116,11 @@ The child experience includes:
 - continue-learning/recommendation flow;
 - redesigned home/navigation/subject/stage/activity surfaces;
 - Recommended Path + Stage Journey + Browse All product model;
-- stage/progression route guard;
+- stage/progression route guard with hydration-safe readiness checks;
 - redesigned coloring interaction with palettes, undo/reset, keyboard support and larger hit areas;
 - 100/100 Drawing activities with functional activity-specific scaffold coverage;
 - 100/100 Coloring activities with deterministic duplicate-geometry finding reduced to zero;
+- Memory Pair presentation for the accepted Letters case-matching family;
 - improved audio route/session handling;
 - activity previews;
 - Nunito UI typography and Phosphor icons.
@@ -164,75 +169,18 @@ The main remaining gap is **experience depth and interaction diversity**, not ac
 Canonical next work is defined in `NEXT_PRODUCT_QUALITY_PLAN.md` and `GAMEPLAY_VARIATION_CATALOG.md`.
 
 Priority order:
-1. close Memory Pair PR #101 safely;
-2. expand gameplay toward 60 documented patterns with reusable mechanics;
-3. maintain a catalog-wide mechanic-distribution audit so `tap_choice`/matching-style experiences do not dominate child sessions;
-4. continue Art Bible/permanent human visual QA;
-5. implement licensed/reviewed native-feeling Indonesian and English narration;
-6. update public/parent surfaces;
-7. finish physical-device/accessibility/Iqro acceptance;
-8. harden repository governance.
+1. close Sequence Slot PR #102 safely;
+2. implement `sorting_buckets` + `drag_to_target` as the next gameplay wave;
+3. continue expanding toward 60 documented patterns with reusable mechanics;
+4. maintain a catalog-wide mechanic-distribution audit so `tap_choice`/matching-style experiences do not dominate child sessions;
+5. continue Art Bible/permanent human visual QA;
+6. implement licensed/reviewed native-feeling Indonesian and English narration;
+7. update public/parent surfaces;
+8. finish physical-device/accessibility/Iqro acceptance;
+9. harden repository governance.
 
 Do **not** prioritize increasing activity count, OCR, large AI features, subscription/paywall work, or a mastery rewrite before this phase is substantially complete.
 
 ## Gameplay authoring rule
 
-900 activity IDs do not count as 900 different experiences.
-
-A mechanic change is useful only when it better represents the intended learning task. Examples:
-- alphabet order should prefer sequence/ordering interaction over repeated three-button choice when suitable;
-- classification should prefer sorting/buckets when suitable;
-- observation should use search/scene interaction when suitable;
-- audio objectives should diversify beyond the same choose-after-listen layout;
-- creative activities should remain creative and must not be forced into assessed quiz mechanics.
-
-New one-off mechanics are discouraged. Prefer reusable patterns listed in `GAMEPLAY_VARIATION_CATALOG.md`.
-
-## Voice/audio
-
-Current audio/TTS infrastructure exists, but Mainlagi does **not** yet claim production-quality native Indonesian and English character narration.
-
-Target architecture:
-
-```text
-Narration contract
-  -> provider/voice registry
-      -> pre-generated reviewed audio for fixed content
-      -> runtime TTS only for justified dynamic content
-```
-
-Engine/model/voice licences and provenance must be checked individually. Iqro pronunciation requires competent human review rather than generic TTS approval.
-
-## External acceptance still open
-
-Canonical tracker: issue #83 — `Final external acceptance: physical-device QA and required secret-scan check`.
-
-Still required:
-- representative physical iPhone + Safari validation;
-- representative Android + Chrome validation;
-- real touch/trace/drawing/coloring behavior;
-- audio/TTS behavior;
-- camera permission/alignment/orientation/recovery/denial flows;
-- reduced motion, text scaling, VoiceOver/TalkBack;
-- offline/reconnect/session isolation;
-- competent Iqro content/pronunciation review;
-- repository decision/action for making `Secret history scan` a required main check.
-
-Headless CI cannot truthfully replace these external checks.
-
-## Repository governance
-
-The active main ruleset requires PR-based changes. `Secret history scan` runs in CI but governance review remains open. Do not weaken required checks to merge gameplay work faster.
-
-## Source of truth for next work
-
-Every developer/AI agent working on the current product-quality phase must read:
-
-1. `docs/NEXT_PRODUCT_QUALITY_PLAN.md`
-2. `docs/GAMEPLAY_VARIATION_CATALOG.md`
-3. this file;
-4. `docs/ARCHITECTURE.md`;
-5. `docs/MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md`;
-6. the specific subsystem docs affected by the task.
-
-Completed work is not considered closed until related canonical docs and the execution log are updated.
+900 activity IDs do not count as 900 different experiences. Child-facing mechanic diversity must be measured separately from runtime/activity counts. New mechanics must be reusable, objective-appropriate, evidence-safe, responsive, keyboard-accessible, and visually reviewed before merge.
