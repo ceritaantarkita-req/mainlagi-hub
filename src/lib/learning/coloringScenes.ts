@@ -157,7 +157,126 @@ function scene(kind:string):ColoringRegion[] {
   throw new Error("No coloring illustration for "+kind);
 }
 
+/**
+ * WS-06 Wave A: authored composition overrides for the 39 activities that
+ * previously belonged to duplicate groups of 3+ IDs. These are presentation
+ * variants only: activity IDs, completion semantics, practice status, and
+ * progression remain untouched.
+ */
+function highSeverityScene(activityId:string):ColoringRegion[] | null {
+  switch(activityId) {
+    // Sky/time/mood: use position and supporting objects to make time-of-day readable.
+    case "color-scene-sunset":
+      return [...landscape,circle("Matahari senja",360,252,54),...moved(bird,"translate(15 80) scale(.28)","Burung senja: ")];
+    case "color-neighbor-sky":
+      return [box("Langit luas",24,24,432,432),...moved([cloud],"translate(-35 -20) scale(.65)","Awan kiri: "),...moved([cloud],"translate(210 80) scale(.5)","Awan kanan: "),circle("Matahari kecil",382,92,36)];
+    case "color-mood-cheerful":
+      return [...landscape,...moved(sun,"translate(-40 -15) scale(.43)","Matahari ceria: "),...moved(flower,"translate(210 190) scale(.42)","Bunga ceria: ")];
+    case "color-story-morning":
+      return [...landscape,...moved(house,"translate(185 170) scale(.5)","Rumah pagi: "),circle("Matahari pagi",92,108,44),...moved([cloud],"translate(180 -20) scale(.45)","Awan pagi: ")];
+    case "color-time-morning":
+      return [...landscape,circle("Matahari pagi",104,126,50),...moved([cloud],"translate(185 -5) scale(.48)","Awan pagi: ")];
+    case "color-time-noon":
+      return [...landscape,circle("Matahari siang",240,92,62),...moved([cloud],"translate(-65 35) scale(.42)","Awan siang: ")];
+    case "color-time-evening":
+      return [...landscape,circle("Matahari sore",370,232,50),...moved(bird,"translate(-10 35) scale(.34)","Burung sore: ")];
+
+    // Robot family: distinguish character, parts, fantasy, material, limited palette, and space role.
+    case "color-paca":
+      return robot;
+    case "color-parts-robot":
+      return [
+        p("Kepala robot","M120 82 H360 Q390 82 390 112 V218 Q390 248 360 248 H120 Q90 248 90 218 V112 Q90 82 120 82Z"),
+        box("Panel badan",150,278,180,110),circle("Mata kiri",185,158,22),circle("Mata kanan",295,158,22),
+        box("Lengan kiri",58,292,72,38),box("Lengan kanan",350,292,72,38),circle("Tombol panel",240,332,24)
+      ];
+    case "color-fantasy-robot":
+      return [...moved(robot,"translate(28 28) scale(.86)","Robot fantasi: "),{...star,name:"Bintang robot",transform:"translate(325 30) scale(.22)"},circle("Orb fantasi",72,106,28)];
+    case "color-material-metal":
+      return [...moved(robot,"translate(48 55) scale(.78)","Robot metal: "),...Array.from({length:4},(_,i)=>circle("Rivet "+(i+1),116+i*82,410,12))];
+    case "color-limited-three-robot":
+      return [
+        p("Kepala robot","M135 88 H345 Q372 88 372 120 V220 Q372 252 345 252 H135 Q108 252 108 220 V120 Q108 88 135 88Z"),
+        p("Badan robot","M155 265 H325 Q350 265 350 300 V395 H130 V300 Q130 265 155 265Z"),
+        p("Kaki dan tangan","M70 290 H130 V336 H70Z M350 290 H410 V336 H350Z M160 395 H218 V438 H145Z M262 395 H320 L335 438 H262Z")
+      ];
+    case "color-character-space":
+      return [...moved(robot,"translate(82 92) scale(.64)","Astronaut robot: "),...moved(motifs.space,"translate(-55 -30) scale(.55)","Ruang angkasa: "),circle("Bulan kecil",402,360,34)];
+
+    // Adventure/search/journey/discovery: each scene communicates a different action.
+    case "color-mood-adventure":
+      return [...landscape,p("Gunung petualangan","M45 365 172 155 292 365Z"),...moved(cat,"translate(245 220) scale(.38)","Penjelajah: ")];
+    case "color-scene-search":
+      return [...landscape,...moved(motifs.sign,"translate(215 170) scale(.45)","Petunjuk: "),...moved(cat,"translate(-5 205) scale(.43)","Pencari: "),circle("Lensa pencarian",404,104,38)];
+    case "color-scene-journey":
+      return [...landscape,p("Jalan perjalanan","M182 456 230 278 284 278 350 456Z"),...moved(car,"translate(80 160) scale(.55)","Mobil perjalanan: ")];
+    case "color-scene-discovery":
+      return [...landscape,box("Peti penemuan",118,302,190,92),p("Tutup peti","M105 302 Q213 225 320 302Z"),{...star,name:"Bintang penemuan",transform:"translate(250 25) scale(.32)"},...moved(butterfly,"translate(285 190) scale(.3)","Kupu-kupu: ")];
+
+    // Meadow/forest/flowers/fantasy garden: authored density and focal objects differ.
+    case "color-scene-meadow":
+      return [...landscape,...moved(flower,"translate(-20 190) scale(.42)","Bunga kiri: "),...moved(flower,"translate(225 210) scale(.38)","Bunga kanan: ")];
+    case "color-scene-forest":
+      return [...landscape,...moved(tree,"translate(-55 70) scale(.65)","Pohon kiri: "),...moved(tree,"translate(195 120) scale(.52)","Pohon kanan: ")];
+    case "color-neighbor-flowers":
+      return [...moved(flower,"translate(-15 45) scale(.72)","Bunga besar: "),...moved(flower,"translate(225 170) scale(.45)","Bunga kecil: ")];
+    case "color-capstone-fantasy-garden":
+      return [...landscape,...moved(tree,"translate(-55 90) scale(.58)","Pohon fantasi: "),...moved(flower,"translate(215 190) scale(.38)","Bunga fantasi: "),...moved(butterfly,"translate(170 20) scale(.28)","Kupu-kupu fantasi: ")];
+
+    // Night family: separate dreamy sky, camping story, and pure time-of-day scene.
+    case "color-mood-dreamy":
+      return [box("Langit mimpi",24,24,432,432),circle("Bulan mimpi",330,116,58),...moved([cloud],"translate(-25 75) scale(.62)","Awan mimpi: "),{...star,name:"Bintang mimpi",transform:"translate(35 20) scale(.24)"}];
+    case "color-story-night-camp":
+      return [...landscape,circle("Bulan kemah",365,92,42),p("Tenda kemah","M82 402 210 205 338 402Z"),p("Pintu tenda","M160 402 210 295 260 402Z"),p("Api unggun","M357 390 389 315 420 390Z")];
+    case "color-time-night":
+      return [box("Langit malam",24,24,432,432),circle("Bulan malam",338,120,54),{...star,name:"Bintang kiri",transform:"translate(-65 25) scale(.24)"},{...star,name:"Bintang kanan",transform:"translate(210 115) scale(.18)"}];
+
+    // Flower family: object, two-color exercise, and free-palette capstone get different complexity.
+    case "color-object-flower":
+      return flower;
+    case "color-limited-two-flower":
+      return [p("Kelopak bunga","M240 72 C305 72 335 130 304 177 C354 196 352 268 298 286 C287 345 212 345 191 288 C126 281 117 210 167 180 C137 125 176 72 240 72Z"),p("Batang dan daun","M228 284 H252 V426 H228Z M229 357 Q133 357 132 301 Q206 291 229 357Z M251 334 Q328 325 351 274 Q274 274 251 334Z")];
+    case "color-capstone-free-palette":
+      return [...moved(flower,"translate(-70 135) scale(.55)","Bunga kiri: "),...moved(flower,"translate(120 40) scale(.72)","Bunga tengah: "),...moved(flower,"translate(290 170) scale(.42)","Bunga kanan: ")];
+
+    // Fish family: single fish, a pair, and a simplified three-region exercise.
+    case "color-palette-fish":
+      return fish;
+    case "color-neighbor-fish":
+      return [...moved(fish,"translate(-15 35) scale(.62)","Ikan kiri: "),...moved(fish,"translate(225 185) scale(.42)","Ikan kanan: ")];
+    case "color-limited-three-fish":
+      return [p("Badan ikan","M70 244 Q175 105 344 229 Q192 384 70 244Z"),p("Ekor ikan","M329 229 421 151 407 316Z"),p("Sirip ikan","M183 205 Q275 204 246 302Z")];
+
+    // Pattern/fabric family: checker, material study, and limited pattern are distinct tasks.
+    case "color-pattern-checker":
+      return Array.from({length:16},(_,i)=>box("Kotak "+(i+1),80+(i%4)*80,80+Math.floor(i/4)*80,72,72));
+    case "color-material-fabric":
+      return [box("Kain utama",60,70,360,340),...Array.from({length:5},(_,i)=>box("Pita kain "+(i+1),82,100+i*58,316,34)),...Array.from({length:4},(_,i)=>box("Jalur tenun "+(i+1),116+i*72,88,28,304))];
+    case "color-limited-three-pattern":
+      return [p("Pola atas","M55 95 130 130 205 95 280 130 355 95 425 130V190L355 155 280 190 205 155 130 190 55 155Z"),p("Pola tengah","M55 215 130 250 205 215 280 250 355 215 425 250V310L355 275 280 310 205 275 130 310 55 275Z"),p("Pola bawah","M55 335 130 370 205 335 280 370 355 335 425 370V430H55Z")];
+
+    // Rain family: umbrella play, travel story, and rainy-season landscape are visibly separate.
+    case "color-scene-rainy":
+      return [...moved([cloud],"translate(50 -5) scale(.8)","Awan hujan: "),...moved(umbrella,"translate(0 130) scale(.75)","Payung: "),...Array.from({length:5},(_,i)=>p("Tetes hujan "+(i+1),`M${85+i*73} 240q-25 40 0 44q25-4 0-44Z`))];
+    case "color-story-rain-trip":
+      return [...moved([cloud],"translate(90 -35) scale(.7)","Awan perjalanan: "),...moved(scene("bus"),"translate(25 175) scale(.86)","Bus hujan: "),p("Genangan","M64 423 Q190 385 318 423 Q188 458 64 423Z")];
+    case "color-season-rainy":
+      return [...landscape,...moved([cloud],"translate(-60 -20) scale(.58)","Awan kiri: "),...moved([cloud],"translate(190 40) scale(.5)","Awan kanan: "),...Array.from({length:7},(_,i)=>p("Tetes musim "+(i+1),`M${55+i*60} 210q-18 31 0 36q18-5 0-36Z`)),p("Genangan musim","M82 421 Q238 365 398 421 Q242 465 82 421Z")];
+
+    // Celebration family: color-pair balloons, party props, and celebration confetti differ.
+    case "color-warm-cool-balloons":
+      return [...moved(balloon,"translate(-30 100) scale(.65)","Balon hangat: "),...moved(balloon,"translate(190 30) scale(.65)","Balon sejuk: ")];
+    case "color-story-party":
+      return [...moved(balloon,"translate(-65 40) scale(.45)","Balon kiri: "),...moved(balloon,"translate(105 5) scale(.5)","Balon tengah: "),...moved(balloon,"translate(270 65) scale(.4)","Balon kanan: "),box("Meja pesta",115,355,250,70),p("Kue pesta","M175 355 H305 V302 H175Z")];
+    case "color-scene-celebrate":
+      return [...moved(balloon,"translate(-35 70) scale(.48)","Balon kiri: "),...moved(balloon,"translate(245 60) scale(.48)","Balon kanan: "),p("Banner perayaan","M70 90 Q240 165 410 90 V132 Q240 207 70 132Z"),...Array.from({length:5},(_,i)=>circle("Konfeti "+(i+1),95+i*72,292+(i%2)*45,12))];
+  }
+  return null;
+}
+
 export function coloringScene(activityId:string):ColoringRegion[] {
+  const authored=highSeverityScene(activityId);
+  if(authored) return authored;
   if(activityId==="color-paca") return robot;
   if(activityId==="color-gavi") return cat;
   const id=activityId.replace(/^color-/,"");
