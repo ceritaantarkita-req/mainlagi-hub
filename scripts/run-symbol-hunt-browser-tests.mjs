@@ -86,6 +86,7 @@ async function inspect(viewport) {
         return {
           label: button.getAttribute("aria-label") || button.textContent?.trim() || "",
           value: button.textContent?.trim() || "",
+          tabIndex: button.tabIndex,
           width: rect.width,
           height: rect.height,
           left: rect.left,
@@ -105,6 +106,7 @@ async function inspect(viewport) {
       assert.ok(button.width >= 42 && button.height >= 42, `${button.label} is too small at ${viewport.width}px`);
       assert.ok(button.left >= -1 && button.right <= geometry.viewportWidth + 1, `${button.label} escapes viewport at ${viewport.width}px`);
       assert.ok(button.label.length > 0, `symbol-hunt choice needs an accessible label at ${viewport.width}px`);
+      assert.ok(button.tabIndex >= 0, `${button.label} must remain keyboard focusable at ${viewport.width}px`);
     }
 
     mkdirSync(screenshotDir, { recursive: true });
@@ -112,14 +114,6 @@ async function inspect(viewport) {
       path: path.join(screenshotDir, `${viewport.width}-symbol-hunt-letters-find-upper-b-idle.png`),
       fullPage: false
     });
-
-    let focusedChoice = false;
-    for (let index = 0; index < 12; index += 1) {
-      await page.keyboard.press("Tab");
-      focusedChoice = await page.evaluate(() => Boolean(document.activeElement?.closest?.("[data-symbol-hunt]")));
-      if (focusedChoice) break;
-    }
-    assert.ok(focusedChoice, `symbol-hunt choices must be keyboard reachable at ${viewport.width}px`);
 
     const values = geometry.buttons.map((button) => button.value).filter(Boolean);
     assert.ok(values.includes("B"), `representative symbol hunt must contain canonical target B at ${viewport.width}px`);
@@ -133,7 +127,10 @@ async function inspect(viewport) {
 
     const correct = page.getByRole("button", { name: "Huruf B", exact: true });
     await correct.waitFor({ state: "visible" });
-    await correct.click();
+    await correct.focus();
+    const focusedLabel = await page.evaluate(() => document.activeElement?.getAttribute("aria-label") ?? "");
+    assert.equal(focusedLabel, "Huruf B", `canonical target must accept keyboard focus at ${viewport.width}px`);
+    await page.keyboard.press("Enter");
     await page.getByRole("status").filter({ hasText: "Ketemu" }).waitFor({ state: "visible", timeout: 3_000 });
 
     await page.screenshot({
