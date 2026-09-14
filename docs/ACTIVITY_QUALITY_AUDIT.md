@@ -6,7 +6,7 @@ Status: **WS-04 deterministic triage clean; WS-06 Coloring and WS-07 Drawing com
 
 ## Current calibrated state
 
-PR #106 implementation-head CI #480 audits all **9 subjects / 900 activities** after the permanent gameplay-distribution audit landed on `main`:
+After PR #106 Count-and-Select merge, all **9 subjects / 900 activities** remain deterministically clean:
 
 ```text
 symbol_hunt           74
@@ -63,58 +63,46 @@ Merged waves:
 - `sorting_buckets` — PR #103, 5 basic Logic classification activities.
 - `drag_to_target` — PR #104, 5 reviewed Science Wave A matching activities.
 - permanent gameplay-distribution audit — PR #105, merge `02d4696760d7b697cfd319804cd655c0d2bfec4c`.
+- `count_and_select` — PR #106, exactly 9 Math counting activities, merge `18beb9bc676d529cc5701bc964bdef26bea33132`.
 
-Merged PR #105 baseline:
+Current merged gameplay-distribution baseline:
 
 ```text
 900 / 900 classified
 0 unclassified
-13 active patterns
-choice_grid 392 / 900 = 43.56%
-Math choice_grid 82 / 100
+14 active patterns
+choice_grid      383 / 900 = 42.56%
+count_and_select   9 / 900 = 1.00%
+Math choice_grid  73 / 100
 Science choice_grid 79 / 100
-Logic choice_grid 77 / 100
+Logic choice_grid   77 / 100
 ```
 
 Concentration is advisory and does not itself create POLISH/REDESIGN findings.
 
-## PR #106 QA — Count-and-Select
+## PR #106 Count-and-Select — accepted
 
-Exactly 9 reviewed Math counting activities (`math-count-2` through `math-count-10`) use reusable `count_and_select` presentation.
+Exactly `math-count-2` through `math-count-10` use reusable `count_and_select` presentation.
 
-Boundaries:
-- canonical runtime stays `tap_choice`;
-- choices/correctChoice, skill, assessment, stars, progression, activity ID, and completion identity remain unchanged;
-- explicit assessed fidelity is `choice_count_interaction`;
-- wrong answer increments incorrect/retry and does not complete;
-- exact ID allowlist prevents unrelated Math activities from reclassification.
+Preserved:
+- canonical runtime `tap_choice`;
+- choices/correctChoice;
+- skill mapping;
+- assessment;
+- stars;
+- progression;
+- activity identity and completion semantics.
 
-QA evidence:
-- CI #480 at implementation head `871677650ecc9e2e86618fb5f81b342b0b370c85` full green across Ubuntu, Windows, production build, dependency audit, secret scan, and mobile Chromium;
-- browser QA covers valid Math prerequisite readiness, keyboard wrong-state, pointer completion, canonical four-star rendering for `math-count-4`, evidence persistence, >=44px controls, no horizontal overflow, and 320/390/768 screenshots;
+Evidence fidelity is `choice_count_interaction`. Wrong answers increment incorrect/retry and do not complete the activity.
+
+Acceptance:
+- implementation CI #480 full green;
+- final docs-head CI #485 full green;
+- browser QA validates legitimate progression, keyboard wrong-state, pointer completion, canonical object/choice rendering, evidence persistence, >=44px controls, no horizontal overflow, and CTA visibility;
 - manual visual review accepted idle/error/success at 320, 390, and 768;
-- deterministic activity quality stays **900 KEEP / 0 flagged**, structural=0.
+- deterministic activity quality remains **900 KEEP / 0 flagged**.
 
-Measured PR #106 distribution:
-
-| Pattern | Activities | Share |
-|---|---:|---:|
-| `choice_grid` | 383 | 42.56% |
-| `visible_matching` | 108 | 12.00% |
-| `coloring_canvas` | 100 | 11.11% |
-| `drawing_canvas` | 100 | 11.11% |
-| `listen_choose` | 76 | 8.44% |
-| `symbol_hunt` | 74 | 8.22% |
-| `guided_trace` | 14 | 1.56% |
-| `memory_pair` | 12 | 1.33% |
-| `missing_sequence_slot` | 10 | 1.11% |
-| `count_and_select` | 9 | 1.00% |
-| `drag_to_target` | 5 | 0.56% |
-| `sorting_buckets` | 5 | 0.56% |
-| `motion_game` | 3 | 0.33% |
-| `story_read` | 1 | 0.11% |
-
-Math `choice_grid` falls 82 -> 73. Global `choice_grid` falls 392 -> 383. The global hotspot still remains above the 35% planning threshold, so WS-05 continues.
+PR #106 also fixed one semantic audit gap: `math-count-3` historically had a specialized counting renderer but the initial gameplay classifier labeled it `choice_grid`. The reviewed family is now explicit.
 
 ## Permanent audits
 
@@ -144,8 +132,8 @@ CI uploads both artifacts. Gameplay-distribution coverage and active-pattern-set
 - WS-05 Sorting Buckets DONE — PR #103.
 - WS-05 Drag-to-Target DONE — PR #104.
 - WS-05 Gameplay Distribution Audit DONE — PR #105.
-- WS-05 Count-and-Select QA — PR #106; implementation/browser/visual accepted, docs-head CI required before merge.
-- WS-05 NEXT — exact-family Math review for `number_line`, `more_less_balance`, `pattern_completion`, then broader audit-guided waves.
+- WS-05 Count-and-Select DONE — PR #106, merge `18beb9bc676d529cc5701bc964bdef26bea33132`.
+- WS-05 NEXT — exact-family Math review for `number_line`, `more_less_balance`, `pattern_completion`, or `make_total`, followed by broader audit-guided waves.
 
 ## Completion rule
 

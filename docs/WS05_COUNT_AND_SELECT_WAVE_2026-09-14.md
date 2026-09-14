@@ -1,12 +1,19 @@
 # WS-05 Count-and-Select Wave — 2026-09-14
 
+## Status
+
+**DONE.** PR #106 squash-merged to `main` as `18beb9bc676d529cc5701bc964bdef26bea33132`.
+
+Implementation CI #480 and final docs-head CI #485 were full green. Manual visual QA accepted idle/error/success at 320x720, 390x844, and 768x1024.
+
 ## Purpose
 
 Reduce repetitive Math `choice_grid` usage with an objective-appropriate counting interaction while preserving canonical assessment/progression contracts.
 
-Branch: `agent/ws05-gameplay-count-select-20260914`  
+Original branch: `agent/ws05-gameplay-count-select-20260914`  
 PR: #106  
-Base `main`: `02d4696760d7b697cfd319804cd655c0d2bfec4c`
+Base `main`: `02d4696760d7b697cfd319804cd655c0d2bfec4c`  
+Merge: `18beb9bc676d529cc5701bc964bdef26bea33132`
 
 ## Exact scope
 
@@ -70,14 +77,16 @@ All other choice activities retain their existing presentation.
 
 ## Audit correction
 
-The PR #105 baseline classified `math-count-3` as `choice_grid`, even though it historically had a counting-specific renderer in `WorldExperience`. PR #106 makes the full reviewed 2–10 family explicit in the canonical child-facing classifier and route-level renderer.
+The PR #105 baseline classified `math-count-3` as `choice_grid`, even though it historically had a counting-specific renderer in `WorldExperience`. PR #106 made the full reviewed 2–10 family explicit in the canonical child-facing classifier and route-level renderer.
 
-The old `WorldExperience` special-case is bypassed by the route-level Count-and-Select dispatch. Removing that historical fallback can be handled as technical cleanup without changing the accepted child route.
+The historical `WorldExperience` special-case is bypassed by the accepted route-level Count-and-Select dispatch. Removing that fallback remains technical cleanup only and must not alter accepted route behavior.
 
 ## QA
 
 Implementation head: `871677650ecc9e2e86618fb5f81b342b0b370c85`  
-CI: #480 — full green.
+Implementation CI: #480 — full green.  
+Final docs head: `1b93733290770f741504bc486504a50814834f93`  
+Final docs-head CI: #485 — full green.
 
 Browser representative: `math-count-4`.
 
@@ -111,7 +120,7 @@ structural findings: 0
 
 ## Distribution delta
 
-PR #105 merged baseline:
+Before PR #106:
 
 ```text
 choice_grid 392 / 900 = 43.56%
@@ -119,7 +128,7 @@ Math choice_grid 82 / 100
 active patterns 13
 ```
 
-PR #106 implementation result:
+Merged result:
 
 ```text
 choice_grid 383 / 900 = 42.56%
@@ -128,16 +137,8 @@ Math choice_grid 73 / 100
 active patterns 14
 ```
 
-Coverage stays 900/900 with 0 unclassified.
-
-## Before merge
-
-1. canonical docs updated;
-2. final docs-head CI fully green;
-3. review threads/comments clean;
-4. squash merge with exact current head SHA;
-5. verify `main` after merge.
+Coverage remains 900/900 with 0 unclassified.
 
 ## Next
 
-Review exact Math families for the next objective-appropriate mechanic. Current candidates: `number_line`, `more_less_balance`, `pattern_completion`, then `make_total`. Do not mass-convert generic Math choice activities.
+Review exact Math families before mechanic #15. Current candidates are `number_line`, `more_less_balance`, `pattern_completion`, and `make_total`. Selection must use real catalog IDs/objectives and must not mass-convert generic Math choice activities.
