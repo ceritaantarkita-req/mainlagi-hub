@@ -3,7 +3,8 @@
 > Canonical execution plan untuk fase product-quality Mainlagi Hub. Semua developer/AI agent wajib membaca dan memperbarui dokumen ini ketika mengerjakan scope terkait.
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
-**Current baseline:** `main` @ `59f9dca8a81de80bdbbd4070fcbb6a203af90f6b`  
+**Current merged baseline:** `main` @ `7a087d590381dd4487811027690ac187ff87954b` sebelum PR #92  
+**Active branch/PR:** `agent/ws04-wave-b-representation-fixes-20260914` / PR #92  
 **Focus:** frontend/UI/visual quality, voice, activity quality, dan product coherence.  
 **Prinsip:** **Quality first. Quantity later.** Perbaiki 900 activity yang ada sebelum ekspansi besar.
 
@@ -43,7 +44,7 @@ Fase ini adalah **Product Coherence & Content Quality**, bukan feature-count exp
 
 PR #88; CI #362 success; merge `f85cb66a78fc395263d9ca1928d64b312ef03a90`.
 
-Current docs sekarang membedakan canonical truth dari historical snapshots dan konsisten dengan 9 subjects / 900 activities.
+Current docs membedakan canonical truth dari historical snapshots dan konsisten dengan 9 subjects / 900 activities.
 
 ### WS-02 — Native voice & narration
 
@@ -83,44 +84,58 @@ Work:
 
 ### WS-04 — Audit/redesign 900 activities
 
-**Status: TODO**
+**Status: IN_PROGRESS**
 
-Every activity must be reviewed for:
-- age;
-- learning objective;
-- mapped skill;
-- assessed/practice status;
-- prompt;
-- representation;
-- distractors;
-- mechanic validity;
-- ambiguity;
-- difficulty;
-- uniqueness;
-- visual quality;
-- evidence compatibility.
+Permanent deterministic audit now covers all 900 activities and runs in CI. Canonical detail: `ACTIVITY_QUALITY_AUDIT.md`.
 
-Classification:
+Wave A merged through PR #91 at `7a087d590381dd4487811027690ac187ff87954b`; CI #378 success. Accepted baseline was:
+
+```text
+KEEP       640
+POLISH     186
+REDESIGN    74
+REPLACE      0
+flagged    260
+structural   0
+```
+
+Wave B on PR #92 fixes high-confidence representation/age/listening defects. CI #385 succeeded on the implementation head and produced:
+
+```text
+KEEP       683
+POLISH     178
+REDESIGN    39
+REPLACE      0
+flagged    217
+structural   0
+```
+
+Resolved to zero in Wave B:
+
+- text color labels used as visual color answers;
+- non-language visual/shape tasks using text-only answer representation;
+- assessed listening target visible in the child prompt;
+- age-three text-heavy choice activities without appropriate visual/audio support;
+- exact duplicate-content false positives remain zero after Unicode-safe calibration.
+
+Current deterministic findings are now concentrated in:
+
+- 83 direct-symbol activities -> Wave C + WS-05;
+- 75 young Drawing activities without explicit scaffold -> WS-07/08;
+- 59 duplicate Coloring geometry findings -> WS-06/08.
+
+Classification remains:
+
 - `KEEP`
 - `POLISH`
 - `REDESIGN`
 - `REPLACE`
 
-Critical red flags:
-- representation measures the wrong skill;
-- answer leaked by prompt/UI;
-- irrelevant/trivial distractors;
-- repeated template with only label/data changed;
-- ambiguous/multiple valid answers;
-- age mismatch;
-- prompt/visual mismatch;
-- misleading artwork.
-
-Example: visual color recognition should use actual colors/objects; reading `BLUE / RED / GREEN` is written-vocabulary recognition, not pure color recognition.
+Critical review dimensions remain age, learning objective, mapped skill, assessment status, prompt, representation, distractors, mechanic validity, ambiguity, difficulty, uniqueness, visual quality, and evidence compatibility.
 
 ### WS-05 — Gameplay/mechanic diversification
 
-**Status: TODO**
+**Status: TODO — NEXT WITH WS-04 WAVE C**
 
 Use only when pedagogically useful:
 - tap/select;
@@ -139,19 +154,19 @@ Use only when pedagogically useful:
 - story interaction;
 - optional motion.
 
-Prefer reusable runtime primitives. Every mechanic requires mobile/accessibility QA and valid evidence semantics.
+Prefer reusable runtime primitives. Every mechanic requires mobile/accessibility QA and valid evidence semantics. Do not convert 83 direct-symbol activities by cosmetic wording/distractor changes; first identify reusable mechanics that train the same skill more meaningfully.
 
 ### WS-06 — Coloring rebuild
 
 **Status: TODO**
 
-Audit all 100 Coloring activities. Production assets require clear silhouette, consistent stroke, closed/fillable shapes, no accidental overlaps, finger-friendly fill areas, age-appropriate complexity, correct layers, phone readability, duplicate control, geometry/screenshot QA, and human visual approval.
+Audit all 100 Coloring activities. Current deterministic handoff includes **59 duplicate-geometry findings**. Production assets require clear silhouette, consistent stroke, closed/fillable shapes, no accidental overlaps, finger-friendly fill areas, age-appropriate complexity, correct layers, phone readability, duplicate control, geometry/screenshot QA, and human visual approval.
 
 ### WS-07 — Drawing rebuild
 
 **Status: TODO**
 
-Audit all 100 Drawing activities. Each needs a clear visual objective and useful scaffold. Progressive guide may use: basic shape -> structure -> detail -> optional decoration. Free drawing remains possible; creative completion must not manufacture academic mastery.
+Audit all 100 Drawing activities. Current deterministic handoff includes **75 young-child activities without explicit scaffold**. Each needs a clear visual objective and useful scaffold where appropriate. Progressive guide may use: basic shape -> structure -> detail -> optional decoration. Free drawing remains possible; creative completion must not manufacture academic mastery.
 
 ### WS-08 — Art direction & visual QA
 
@@ -163,11 +178,11 @@ Visual QA must cover mobile/tablet/desktop, clipping, overlap, contrast, overflo
 
 ### WS-09 — Stage progression vs 100-card gallery
 
-**Status: QA**
+**Status: DONE**
 
 Product decision: **Recommended Path + Stage Journey + Browse All**.
 
-Implemented and merged through PR #89 at `59f9dca8a81de80bdbbd4070fcbb6a203af90f6b`.
+Implemented through PR #89 at `59f9dca8a81de80bdbbd4070fcbb6a203af90f6b`; closeout merged through PR #90 at `422692f2f954ed17c089de15aa10307728467421`.
 
 Contract:
 - one recommended next activity is prominent;
@@ -179,16 +194,7 @@ Contract:
 - direct Home -> Subject -> Activity remains valid;
 - progression/evidence/readiness logic remains unchanged.
 
-QA evidence:
-- PR CI #368: success;
-- Production build: success;
-- Windows typecheck/lint/engine path: success;
-- dependency audit: success;
-- secret-history scan: success;
-- Mobile route QA (Chromium): success, including subject routes, touch-size, overflow, accessibility/lazy-load matrix and responsive screenshot artifact.
-
-Remaining before `DONE`:
-- final product/visual spot-check of the changed subject presentation after deployed-main availability.
+PR #89 CI #368 passed production build, Windows compatibility, dependency audit, secret-history scan, and mobile route/accessibility/screenshot QA. PR #90 completed the canonical documentation closeout.
 
 ### WS-10 — Physical-device, accessibility & Iqro acceptance
 
@@ -232,10 +238,10 @@ Candidates:
 ## 4. Default execution order
 
 1. WS-01 Canonical docs — **DONE**.
-2. WS-09 Stage/gallery coherence — **merged; final visual QA pending**.
-3. WS-04 Audit 900 activities.
-4. WS-05 Add only needed mechanic/runtime gaps.
-5. Redesign invalid/trivial activities.
+2. WS-09 Stage/gallery coherence — **DONE**.
+3. WS-04 Wave A deterministic audit — **DONE**.
+4. WS-04 Wave B representation/age/listening fixes — **PR #92 QA/closeout**.
+5. WS-04 Wave C + WS-05 mechanic diversification for shallow direct-symbol families.
 6. WS-06 Coloring rebuild.
 7. WS-07 Drawing rebuild.
 8. WS-08 Art Bible + visual QA.
@@ -291,12 +297,12 @@ Do not claim production/deployment/expert approval without evidence. If code and
 | WS-01 Canonical docs | DONE | PR #88 merged; CI #362 success |
 | WS-02 Voice & narration | TODO | Need engine/voice/licence evaluation |
 | WS-03 Public/parent frontend | TODO | About/FAQ stale; affiliate weakly discoverable |
-| WS-04 Activity audit/redesign | TODO | Audit all 900 |
-| WS-05 Mechanic diversification | TODO | Only based on learning objective |
-| WS-06 Coloring rebuild | TODO | Audit 100 |
-| WS-07 Drawing rebuild | TODO | Audit 100 |
+| WS-04 Activity audit/redesign | IN_PROGRESS | Wave A merged; Wave B PR #92; current audit 683/178/39/0 |
+| WS-05 Mechanic diversification | TODO | Starts with Wave C direct-symbol families |
+| WS-06 Coloring rebuild | TODO | 59 duplicate-geometry findings handed off |
+| WS-07 Drawing rebuild | TODO | 75 young Drawing/no-scaffold findings handed off |
 | WS-08 Art direction/visual QA | TODO | Art Bible + permanent quality gate |
-| WS-09 Stage/gallery UX | QA | PR #89 merged; CI #368 success; final visual spot-check pending |
+| WS-09 Stage/gallery UX | DONE | PR #89 implementation + PR #90 closeout |
 | WS-10 External acceptance | TODO | Physical devices + Iqro expert review |
 | WS-11 Governance | TODO | Required secret scan + ruleset review |
 | WS-12 Technical cleanup | TODO | After product-quality stabilization |
@@ -307,42 +313,87 @@ Allowed states: `TODO` -> `IN_PROGRESS` -> `BLOCKED` -> `QA` -> `DONE`.
 
 Add newest entry at the top.
 
+### 2026-09-14 — WS-04 Wave B representation and pre-reader fixes
+
+**Agent/developer:** ChatGPT  
+**Branch/PR:** `agent/ws04-wave-b-representation-fixes-20260914` / PR #92  
+**Status:** QA / ready for merge after documentation CI
+
+#### Changed
+- added explicit `audioPrompt` to the canonical activity presentation contract;
+- separated visible listening instructions from hidden spoken targets across all `listen_and_choose` activities;
+- gated listening choices until speech starts successfully, preventing no-audio guessing from creating completion/evidence;
+- converted English visual color recognition from written color labels to actual visual color symbols;
+- converted two Math visual/shape examples from text labels to visual symbols;
+- moved direct English animal word-reading choices out of the age-three path while retaining audio/matching access at age three;
+- added visual cues to five age-three Science choice activities;
+- narrowed the visual-representation audit heuristic to remove conceptual Science false positives;
+- added regression tests for presentation semantics and listening evidence gating.
+
+#### Audit result
+
+Wave A -> Wave B:
+
+```text
+KEEP       640 -> 683
+POLISH     186 -> 178
+REDESIGN    74 -> 39
+REPLACE      0 -> 0
+flagged    260 -> 217
+structural   0 -> 0
+```
+
+`Q101`, `Q102`, `Q103`, and `Q104` are now zero. Remaining deterministic findings are Q105=83, Q106=75, Q108=59.
+
+#### QA
+- implementation-head CI #385: success;
+- production build: success;
+- dependency audit: success;
+- secret-history scan: success;
+- Windows compatibility: success;
+- Mobile route QA: success with screenshot artifact;
+- activity-quality artifact generated with current counts above;
+- learning/mastery/evidence contracts remain intact.
+
+#### Remaining
+- documentation closeout CI after this update;
+- merge PR #92;
+- begin Wave C / WS-05 on direct-symbol mechanic variety.
+
+### 2026-09-14 — WS-04 Wave A deterministic baseline
+
+**Agent/developer:** ChatGPT  
+**Branch/PR:** `agent/ws04-activity-quality-audit-20260914` / PR #91  
+**Status:** DONE
+
+#### Result
+- installed permanent 900-activity audit tooling and CI artifact;
+- calibrated Unicode-safe duplicate detection and advisory pedagogical/visual rules;
+- accepted baseline: `640 KEEP / 186 POLISH / 74 REDESIGN / 0 REPLACE`, 260 flagged, structural findings 0.
+
+#### QA
+- CI #378 success;
+- PR #91 squash merged;
+- main merge SHA: `7a087d590381dd4487811027690ac187ff87954b`.
+
 ### 2026-09-14 — WS-09 Recommended Path + Stage Journey + Browse All
 
 **Agent/developer:** ChatGPT  
-**Branch/PR:** `agent/ws09-stage-gallery-coherence-20260914` / PR #89  
-**Status:** QA
+**Branch/PR:** `agent/ws09-stage-gallery-coherence-20260914` / PR #89; closeout PR #90  
+**Status:** DONE
 
 #### Changed
 - replaced flat default wall of 100 cards with progression-aware subject presentation;
 - added prominent recommended activity;
 - added stage journey linked to existing Stage/Lesson screen;
-- default grid now shows playable + age-eligible activities;
+- default grid shows playable + age-eligible activities;
 - complete 100-card catalog remains under `Lihat semua`;
-- updated local product-flow/Playroom QA contract from the old flat-gallery/no-stage requirement;
-- updated canonical UX/product docs.
-
-#### Decisions
-- selected `Recommended Path + Stage Journey + Browse All`;
-- stage is structured context, not a mandatory extra click;
-- direct Home -> Subject -> Activity stays valid;
-- mastery/evidence/readiness logic is untouched.
+- mastery/evidence/readiness logic remained unchanged.
 
 #### QA
-- PR #89 merged to `main` at `59f9dca8a81de80bdbbd4070fcbb6a203af90f6b`;
+- PR #89 merged at `59f9dca8a81de80bdbbd4070fcbb6a203af90f6b`;
 - CI #368 success;
-- Mobile route QA success across canonical viewport matrix;
-- complete 100-card catalog integrity retained;
-- dependency audit and secret scan success.
-
-#### Remaining
-- visual/product spot-check of deployed subject presentation before moving status from `QA` to `DONE`.
-
-#### Docs updated
-- `docs/NEXT_PRODUCT_QUALITY_PLAN.md`;
-- `docs/MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md`;
-- `docs/PRODUCT_DIRECTION.md`;
-- current-state/limitations/architecture closeout docs in follow-up.
+- PR #90 documentation closeout merged at `422692f2f954ed17c089de15aa10307728467421`.
 
 ### 2026-09-14 — WS-01 canonical documentation reconciliation
 
@@ -356,7 +407,7 @@ Add newest entry at the top.
 - main merge SHA: `f85cb66a78fc395263d9ca1928d64b312ef03a90`.
 
 #### Result
-Canonical current docs now separate current truth from dated historical snapshots and define the product-quality phase.
+Canonical current docs separate current truth from dated historical snapshots and define the product-quality phase.
 
 ## 9. Not current priorities
 
