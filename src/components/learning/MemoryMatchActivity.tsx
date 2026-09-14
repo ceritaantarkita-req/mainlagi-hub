@@ -4,7 +4,9 @@ import Link from "next/link";
 import { useMemo, useRef, useState } from "react";
 import { GardenActivityFrame } from "./GardenActivityFrame";
 import { completeActivity, getActivity } from "@/lib/learning/system";
+import { getActivityLearningSpec } from "@/lib/learning/catalog";
 import { isMemoryPairActivity } from "@/lib/learning/gameplayPresentation";
+import { emitLearningRuntimeMeasurement } from "@/lib/learning/runtimeMeasurement";
 import styles from "./MemoryMatchActivity.module.css";
 
 function stableShuffle<T>(values: readonly T[], seedText: string): T[] {
@@ -21,18 +23,22 @@ function stableShuffle<T>(values: readonly T[], seedText: string): T[] {
 
 export function MemoryMatchActivity({ childId, activityId }: { childId: string; activityId: string }) {
   const activity = getActivity(activityId);
+  const spec = getActivityLearningSpec(activityId);
   const cards = useMemo(() => stableShuffle((activity?.matchItems ?? []).map((item, sourceIndex) => ({ ...item, sourceIndex })), activityId), [activity?.matchItems, activityId]);
   const [open, setOpen] = useState<number[]>([]);
   const [matched, setMatched] = useState<number[]>([]);
   const [locked, setLocked] = useState(false);
   const [message, setMessage] = useState("Buka dua kartu dan cari huruf besar-kecil yang sama.");
   const [done, setDone] = useState(false);
+  const startedAtRef = useRef<number | null>(null);
   const incorrectRef = useRef(0);
+  const retryRef = useRef(0);
 
   if (!activity || !isMemoryPairActivity(activity)) return null;
 
   const reveal = (cardIndex: number) => {
     if (done || locked || matched.includes(cardIndex) || open.includes(cardIndex)) return;
+    if (startedAtRef.current === null) startedAtRef.current = Date.now();
     const nextOpen = [...open, cardIndex];
     setOpen(nextOpen);
     if (nextOpen.length < 2) return setMessage("Sekarang buka satu kartu lagi.");
@@ -42,6 +48,29 @@ export function MemoryMatchActivity({ childId, activityId }: { childId: string; 
       setMatched(nextMatched);
       setOpen([]);
       if (nextMatched.length === cards.length) {
+        const pairCount = Math.max(1, cards.length / 2);
+        const incorrectCount = incorrectRef.current;
+        const accuracy = pairCount / (pairCount + incorrectCount);
+        const completedAt = Date.now();
+        const assessed = spec?.assessment === "assessed";
+        emitLearningRuntimeMeasurement({
+          childId,
+          activityId: activity.id,
+          outcome: {
+            status: "completed",
+            assessed,
+            accuracy: assessed ? accuracy : undefined,
+            score: assessed ? accuracy : undefined,
+            correctCount: assessed ? pairCount : undefined,
+            incorrectCount: assessed ? incorrectCount : undefined,
+            retryCount: assessed ? retryRef.current : undefined,
+            durationMs: startedAtRef.current === null ? undefined : Math.max(0, completedAt - startedAtRef.current),
+            startedAt: startedAtRef.current === null ? undefined : new Date(startedAtRef.current).toISOString(),
+            completedAt: new Date(completedAt).toISOString(),
+            inputMode: activity.preferredMobile,
+            metadata: { source: "memory-pairs-runtime", evidenceFidelity: assessed ? "matching_memory_interaction" : "completion_only" }
+          }
+        });
         completeActivity(childId, activity.id);
         setDone(true);
         setMessage("Semua pasangan ketemu!");
@@ -49,6 +78,7 @@ export function MemoryMatchActivity({ childId, activityId }: { childId: string; 
       return;
     }
     incorrectRef.current += 1;
+    retryRef.current += 1;
     setLocked(true);
     setMessage("Belum pasangan. Ingat posisinya, lalu coba lagi.");
     window.setTimeout(() => { setOpen([]); setLocked(false); }, 650);
