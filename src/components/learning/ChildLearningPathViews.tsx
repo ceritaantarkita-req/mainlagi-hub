@@ -184,7 +184,24 @@ export function SubjectScreen({ childId, subjectId }: { childId: string; subject
   const readiness = getSubjectStageReadiness(subject.id, progress, analytics);
   const totalActivities = ACTIVITIES.filter((activity) => activity.subjectId === subject.id);
   const openStageIds = new Set(readiness.filter((row) => row.status !== "locked").map((row) => row.stageId));
-  return <ActivityGallery childId={childId} subject={subject} activities={totalActivities} progress={progress} openStageIds={openStageIds} age={profile.age}/>;
+  const recommendation = adaptiveTop({ age: profile.age, progress, analytics, subjectId: subject.id });
+  const stageJourney = readiness.map((row) => ({
+    ...row,
+    title: getStage(row.stageId)?.title ?? "Tahap belajar"
+  }));
+
+  return (
+    <ActivityGallery
+      childId={childId}
+      subject={subject}
+      activities={totalActivities}
+      progress={progress}
+      openStageIds={openStageIds}
+      age={profile.age}
+      stageJourney={stageJourney}
+      recommendedActivityId={recommendation?.activity.id ?? null}
+    />
+  );
 }
 
 export function StageScreen({ childId, stageId }: { childId: string; stageId: string }) {

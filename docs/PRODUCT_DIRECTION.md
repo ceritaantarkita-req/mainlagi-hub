@@ -4,8 +4,7 @@ Last reviewed: **14 September 2026**
 
 Status: **current product direction**. Some items are implemented, some remain next-phase work. Implementation claims must be checked against `CURRENT_STATE.md` and code.
 
-Canonical next execution plan: `NEXT_PRODUCT_QUALITY_PLAN.md`.
-
+Canonical execution plan: `NEXT_PRODUCT_QUALITY_PLAN.md`.  
 Canonical child UX specification: `MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md`.
 
 ## 1. Product identity
@@ -16,13 +15,13 @@ Mainlagi is a learning and edutainment platform for children approximately **3�
 - primary user: child;
 - primary child devices: phone/tablet;
 - parent and child use separate UX surfaces;
-- current motion/vision technology remains a differentiator, not a requirement for all learning.
+- motion/vision remains a differentiator, not a requirement for all learning.
 
-Mainlagi should feel like **one coherent learning world**, not a collection of disconnected mini-apps.
+Mainlagi should feel like **one coherent learning world**, not disconnected mini-apps.
 
 ## 2. Current learning areas
 
-The current top-level learning areas are:
+Current top-level areas:
 
 1. Bahasa Indonesia
 2. English
@@ -34,19 +33,17 @@ The current top-level learning areas are:
 8. Mewarnai
 9. Menggambar
 
-The current baseline contains 100 activity routes per subject, for 900 total.
+Current baseline contains 100 activity routes per subject, 900 total.
 
-Quantity is no longer the immediate goal. The next phase improves the quality, validity, variety and visual execution of these 900 activities before major catalog expansion.
+Quantity is no longer the immediate goal. Improve quality, validity, variety and visual execution before major catalog expansion.
 
 ## 3. Retained motion capability
 
-Mainlagi does not discard the existing motion/vision engine or the existing 10 games.
+Mainlagi does not discard the current motion/vision engine or the existing 10 games.
 
-Motion remains an optional first-class activity/input mode where it genuinely improves learning or play.
+Motion remains an optional first-class activity/input mode where it genuinely improves learning or play. Core child learning remains mobile-first and touch-first.
 
-Core child learning remains mobile-first and touch-first. A child should be able to use the core platform without camera motion.
-
-## 4. Learning structure
+## 4. Learning structure and visible journey
 
 Canonical data hierarchy:
 
@@ -59,9 +56,15 @@ Subject
                 └── Evidence / Mastery
 ```
 
-Current presentation also includes broad subject activity browsing. The final relationship between visible stages, recommendations and the 100-card gallery remains a product decision for the current quality phase.
+Canonical subject UX is **Recommended Path + Stage Journey + Browse All**:
 
-Do not weaken progression/mastery rules merely to simplify presentation.
+- recommendation is prominent;
+- open stages are visible as a structured journey;
+- stage pages provide richer lesson-level structure;
+- the default subject grid shows currently playable + age-eligible activities;
+- all 100 activities remain available through secondary browse-all;
+- stage navigation is helpful context, not a mandatory extra click before every activity;
+- presentation never weakens readiness/evidence/mastery rules.
 
 ## 5. Age-aware experience
 
@@ -69,37 +72,15 @@ The 3–7 range must not be treated as one identical reading/interaction level.
 
 ### Approximately 3–4
 
-Prefer:
-
-- audio-first guidance;
-- minimal required reading;
-- large touch targets;
-- simple visual discrimination;
-- short tap/drag/trace tasks;
-- strong character feedback;
-- forgiving input.
+Prefer audio-first guidance, minimal reading, large touch targets, simple visual discrimination, short tap/drag/trace tasks, strong feedback and forgiving input.
 
 ### Approximately 5–6
 
-Add:
-
-- phonics;
-- letters/early writing;
-- number concepts;
-- guided tracing;
-- matching/sorting/sequencing;
-- simple bilingual exposure.
+Add phonics, letters/early writing, number concepts, guided tracing, matching/sorting/sequencing and simple bilingual exposure.
 
 ### Approximately 6–7
 
-Add:
-
-- early reading;
-- arithmetic;
-- patterns/reasoning;
-- more independent navigation;
-- multi-step tasks;
-- richer bilingual challenges.
+Add early reading, arithmetic, patterns/reasoning, more independent navigation, multi-step tasks and richer bilingual challenges.
 
 Age targeting must affect representation and difficulty, not only metadata.
 
@@ -109,37 +90,21 @@ Age targeting must affect representation and difficulty, not only metadata.
 
 Examples:
 
-- visual color recognition should show meaningful visual colors/objects;
-- reading the word `BLUE` is a different skill from recognizing the color blue;
-- phonics should use audio/sound mapping rather than visually obvious text shortcuts;
-- letter recognition should use meaningful visual discrimination, not endless trivial multiple choice;
-- sequencing should use ordering interaction when appropriate;
-- matching must pair semantically meaningful items;
-- creative activities should remain creative practice unless a validated evidence model exists.
+- visual color recognition uses meaningful visual colors/objects;
+- reading `BLUE` is different from recognizing the color blue;
+- phonics uses audio/sound mapping rather than visually obvious text shortcuts;
+- letter recognition uses meaningful discrimination, not endless trivial multiple choice;
+- sequencing uses ordering interaction when appropriate;
+- matching pairs semantically meaningful items;
+- creative activities remain practice unless a validated evidence model exists.
 
-An activity is not considered good merely because its route works or its answer is technically correct.
+An activity is not good merely because its route works or its answer is technically correct.
 
 ## 7. Gameplay variety
 
-The current catalog is heavily concentrated in tap-choice/matching families. Variety should improve through reusable mechanics only when pedagogically justified.
+The current catalog is heavily concentrated in tap-choice/matching. Variety should improve through reusable mechanics only when pedagogically justified.
 
-Candidate interactions include:
-
-- visual tap/select;
-- audio choose;
-- matching;
-- drag/drop;
-- sorting;
-- ordering/sequence;
-- find-in-scene/hotspot;
-- memory;
-- puzzle;
-- tracing;
-- drawing;
-- coloring;
-- counting/selecting objects;
-- story interaction;
-- optional motion.
+Candidate interactions include visual tap/select, audio choose, matching, drag/drop, sorting, ordering/sequence, find-in-scene/hotspot, memory, puzzle, tracing, drawing, coloring, counting/selecting objects, story interaction and optional motion.
 
 Do not add mechanics solely for novelty.
 
@@ -153,19 +118,7 @@ Five canonical Mainlagi characters:
 - **Paca** — friendly male-coded robot;
 - **Gavi** — orange cat.
 
-Characters are a reusable narrative/feedback system, not decoration only.
-
-Possible roles:
-
-- narration;
-- activity introductions;
-- hints/retry guidance;
-- celebration/rewards;
-- stage transitions;
-- story continuity;
-- bilingual voice identity.
-
-Character artwork, voice identity and branded assets remain subject to separate IP/licensing rules.
+Characters are a reusable narrative/feedback system, not decoration only. Roles can include narration, introductions, hints, retry guidance, celebrations, stage transitions, story continuity and bilingual voice identity.
 
 ## 9. Voice and language
 
@@ -181,18 +134,18 @@ Target narration principles:
 - stable character identity;
 - pre-generated, human-reviewed audio for fixed lesson content;
 - runtime TTS only where dynamic content truly needs it;
-- provider abstraction so the frontend is not locked to one TTS project;
+- provider abstraction;
 - engine/model/voice licence and provenance review before commercial use.
 
 Iqro/Hijaiyah pronunciation requires competent human review and must not be approved solely by generic TTS output.
 
 ## 10. Visual direction
 
-The current Garden/Playroom redesign is the frontend baseline.
+The Garden/Playroom redesign is the frontend baseline.
 
-Next-phase visual goals:
+Next goals:
 
-- one coherent Mainlagi illustration language;
+- coherent Mainlagi illustration language;
 - simple readable silhouettes;
 - consistent stroke/shape language;
 - controlled complexity by age;
@@ -201,71 +154,43 @@ Next-phase visual goals:
 - less procedural/generated visual slop;
 - human visual approval for important child-facing art.
 
-Coloring and Drawing need dedicated asset/scaffolding cleanup before catalog expansion.
-
-A Mainlagi Art Bible and visual quality gate should become permanent production controls.
+Coloring and Drawing need dedicated asset/scaffolding cleanup. A Mainlagi Art Bible and visual quality gate should become permanent controls.
 
 ## 11. Child navigation
 
-Child surfaces should prioritize:
+Child surfaces prioritize:
 
 1. Continue Learning / recommended next activity;
 2. current subject/stage context;
 3. a small number of meaningful choices;
-4. clear route to subject browsing;
-5. clear route to Main Gerak where appropriate.
+4. subject browsing;
+5. Main Gerak where appropriate.
 
-Do not expose admin, billing, affiliate shopping, provider configuration or other adult/system concepts inside child learning flow.
+Do not expose admin, billing, affiliate shopping, provider configuration or adult/system concepts inside child learning flow.
 
 ## 12. Parent/public experience
 
-Parent/public surfaces should make it easy to find:
-
-- About Mainlagi;
-- FAQ/help;
-- account/child profile management;
-- progress/reporting;
-- privacy/data information;
-- appropriate recommendations for parents;
-- affiliate disclosure where affiliate links are used.
+Parent/public surfaces should make it easy to find About, FAQ/help, account/child profile management, progress/reporting, privacy/data information, appropriate recommendations, and affiliate disclosure.
 
 Affiliate shopping belongs to adult/public surfaces, never as a child-learning CTA.
 
 ## 13. Progression and reporting
 
-Current systems include:
+Current systems include stage progression, completion, stars/rewards, evidence-backed mastery, adaptive recommendation, parent reporting and achievements/certificates where evidence supports them.
 
-- stage progression;
-- completion;
-- stars/rewards;
-- evidence-backed mastery;
-- adaptive recommendation;
-- parent reporting;
-- achievements/certificates where evidence supports them.
-
-Completion, score, reward and mastery remain separate concepts.
-
-Parent reports must remain explainable and must not present opaque AI judgments as developmental truth.
+Completion, score, reward and mastery remain separate. Parent reports remain explainable and must not present opaque AI judgments as developmental truth.
 
 ## 14. OCR + AI direction
 
 OCR/visual-understanding and optional AI support remain future modular capabilities, not current blockers.
 
-They must not replace deterministic/local runtimes where simpler methods are sufficient.
-
-Requirements include:
-
-- provider secrets server-side only;
-- no automatic raw-camera upload;
-- payload minimization/privacy gates;
-- configurable providers/models;
-- graceful failure when AI is unavailable.
+They must not replace deterministic/local runtimes where simpler methods suffice. Keep provider secrets server-side, minimize child data, avoid automatic raw-camera uploads, support configurable providers/models and fail gracefully.
 
 See `AI_OCR_OPENROUTER.md`.
 
 ## 15. Current execution priority
 
-Before major new features or catalog expansion, finish the workstreams in `NEXT_PRODUCT_QUALITY_PLAN.md`:
+Before major new features or catalog expansion, finish `NEXT_PRODUCT_QUALITY_PLAN.md` workstreams:
 
 1. canonical docs;
 2. stage/gallery UX coherence;
@@ -274,7 +199,7 @@ Before major new features or catalog expansion, finish the workstreams in `NEXT_
 5. Coloring rebuild;
 6. Drawing rebuild;
 7. art direction/visual QA;
-8. native Indonesian/English narration system;
+8. native Indonesian/English narration;
 9. About/FAQ/parent affiliate UX;
 10. external device/accessibility/Iqro acceptance;
 11. governance hardening;
