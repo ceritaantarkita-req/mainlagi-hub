@@ -16,6 +16,7 @@ if (compile.status !== 0) process.exit(compile.status ?? 1);
 const require = createRequire(import.meta.url);
 const trace = require(path.join(outDir, "src", "lib", "learning", "traceMeasurement.js"));
 const templates = require(path.join(outDir, "src", "lib", "engine", "templates.js"));
+const learningSystem = require(path.join(outDir, "src", "lib", "learning", "system.js"));
 
 function stroke(points, id = "trace") {
   return {
@@ -72,14 +73,44 @@ try {
   assert.match(audioFacadeSource, /audioManager\.speakPrompt/, "status-aware speech must delegate to the canonical AudioManager");
 
   const audioUi = readFileSync(path.join(root, "src/components/learning/AudioChoiceLearningActivity.tsx"), "utf8");
-  // Assert the accessible fallback contract, not the old technical English label.
   assert.match(audioUi, /fallback \? \([\s\S]*?role="status"[\s\S]*?\{fallback\}/, "listening UI must render its fallback in a live status region");
   for (const status of ["muted", "unavailable", "error"]) {
     assert.match(audioUi, new RegExp(`status === "${status}"\\) return "[^"\\n]+"`), `${status} must have readable fallback copy`);
   }
   assert.match(audioUi, /speakWithStatus/, "listening UI must use status-aware speech");
+  assert.match(audioUi, /activity\.audioPrompt \?\? activity\.prompt/, "listening UI must prefer the audio-only prompt for speech");
+  assert.match(audioUi, /title=\{visiblePrompt\}/, "listening UI must render only the visible instruction, never the audio target directly");
 
-  console.log("Learning runtime measurement, guided trace, and canonical AudioManager fallback tests passed.");
+  const listeningActivities = learningSystem.ACTIVITIES.filter((activity) => activity.runtime === "listen_and_choose");
+  assert.ok(listeningActivities.length > 0, "catalog must contain listening activities");
+  for (const activity of listeningActivities) {
+    assert.ok(activity.audioPrompt?.trim(), `${activity.id} must retain an audio-only prompt`);
+    assert.ok(activity.prompt?.trim(), `${activity.id} must retain a visible instruction`);
+    assert.notEqual(activity.prompt, activity.audioPrompt, `${activity.id} visible instruction must not equal its spoken target`);
+  }
+
+  const visualColorExpectations = {
+    "english-find-blue": { choices: ["🔴", "🔵", "🟢"], correct: "🔵" },
+    "english-find-red": { choices: ["🔴", "🟢", "🟡"], correct: "🔴" },
+    "english-find-green": { choices: ["🔵", "🟢", "🔴"], correct: "🟢" }
+  };
+  for (const [activityId, expected] of Object.entries(visualColorExpectations)) {
+    const activity = learningSystem.getActivity(activityId);
+    assert.ok(activity, `${activityId} must exist`);
+    assert.deepEqual(activity.choices, expected.choices, `${activityId} must render actual color swatches/symbols rather than repeated color words`);
+    assert.equal(activity.correctChoice, expected.correct);
+    assert.ok(activity.choices.every((choice) => !/[A-Za-z]/.test(choice)), `${activityId} answer choices must be visual rather than written color labels`);
+  }
+
+  const shapeProperty = learningSystem.getActivity("math-shape-three-sides");
+  assert.deepEqual(shapeProperty?.choices, ["●", "▲", "■"], "shape-property activity must ask the child to inspect shapes, not read shape names");
+  assert.equal(shapeProperty?.correctChoice, "▲");
+
+  const sizePattern = learningSystem.getActivity("math-pattern-size");
+  assert.deepEqual(sizePattern?.choices, ["•", "⬤", "■"], "size pattern must be represented visually");
+  assert.equal(sizePattern?.correctChoice, "•");
+
+  console.log("Learning runtime measurement, presentation semantics, guided trace, and canonical AudioManager fallback tests passed.");
 } catch (error) {
   console.error(error);
   process.exit(1);
