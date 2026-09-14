@@ -9,7 +9,9 @@ const root = process.cwd();
 const host = "127.0.0.1";
 const port = Number(process.env.MAINLAGI_SYMBOL_HUNT_QA_PORT ?? 4011);
 const baseUrl = `http://${host}:${port}`;
-const route = "/child/demo-gian/activity/letters-find-upper-b";
+const route = "/child/demo-gian/activity/letters-find-a";
+const targetSymbol = "A";
+const screenshotStem = "symbol-hunt-letters-find-a";
 const screenshotDir = path.join(root, ".mobile-route-qa");
 const viewports = [
   { width: 320, height: 720 },
@@ -76,6 +78,8 @@ async function inspect(viewport) {
       { timeout: 5_000 }
     );
 
+    assert.equal(new URL(page.url()).pathname, route, `progression guard redirected the representative route at ${viewport.width}px`);
+
     const choices = hunt.getByRole("button");
     assert.equal(await choices.count(), 3, `symbol hunt must render exactly three canonical choices at ${viewport.width}px`);
 
@@ -90,7 +94,9 @@ async function inspect(viewport) {
           width: rect.width,
           height: rect.height,
           left: rect.left,
-          right: rect.right
+          right: rect.right,
+          centerX: rect.left + rect.width / 2,
+          centerY: rect.top + rect.height / 2
         };
       });
       return {
@@ -111,33 +117,38 @@ async function inspect(viewport) {
 
     mkdirSync(screenshotDir, { recursive: true });
     await page.screenshot({
-      path: path.join(screenshotDir, `${viewport.width}-symbol-hunt-letters-find-upper-b-idle.png`),
+      path: path.join(screenshotDir, `${viewport.width}-${screenshotStem}-idle.png`),
       fullPage: false
     });
 
     const values = geometry.buttons.map((button) => button.value).filter(Boolean);
-    assert.ok(values.includes("B"), `representative symbol hunt must contain canonical target B at ${viewport.width}px`);
-    const wrongValue = values.find((value) => value !== "B");
-    assert.ok(wrongValue, `representative symbol hunt needs a wrong choice at ${viewport.width}px`);
+    assert.ok(values.includes(targetSymbol), `representative symbol hunt must contain canonical target ${targetSymbol} at ${viewport.width}px`);
+    const wrongButton = geometry.buttons.find((button) => button.value && button.value !== targetSymbol);
+    assert.ok(wrongButton, `representative symbol hunt needs a wrong choice at ${viewport.width}px`);
 
-    const wrong = page.getByRole("button", { name: `Huruf ${wrongValue}`, exact: true });
-    await wrong.waitFor({ state: "visible" });
-    await wrong.click();
+    const hitLabel = await page.evaluate(({ x, y }) => {
+      const hit = document.elementFromPoint(x, y);
+      return hit?.closest("button")?.getAttribute("aria-label") ?? "";
+    }, { x: wrongButton.centerX, y: wrongButton.centerY });
+    assert.equal(hitLabel, wrongButton.label, `${wrongButton.label} center must be an unobstructed pointer target at ${viewport.width}px`);
+
+    await page.mouse.click(wrongButton.centerX, wrongButton.centerY);
     await page.getByRole("status").filter({ hasText: "Belum tepat" }).waitFor({ state: "visible", timeout: 3_000 });
 
-    const correct = page.getByRole("button", { name: "Huruf B", exact: true });
+    const correct = page.getByRole("button", { name: `Huruf ${targetSymbol}`, exact: true });
     await correct.waitFor({ state: "visible" });
     await correct.focus();
     const focusedLabel = await page.evaluate(() => document.activeElement?.getAttribute("aria-label") ?? "");
-    assert.equal(focusedLabel, "Huruf B", `canonical target must accept keyboard focus at ${viewport.width}px`);
+    assert.equal(focusedLabel, `Huruf ${targetSymbol}`, `canonical target must accept keyboard focus at ${viewport.width}px`);
     await page.keyboard.press("Enter");
     await page.getByRole("status").filter({ hasText: "Ketemu" }).waitFor({ state: "visible", timeout: 3_000 });
 
     await page.screenshot({
-      path: path.join(screenshotDir, `${viewport.width}-symbol-hunt-letters-find-upper-b-success.png`),
+      path: path.join(screenshotDir, `${viewport.width}-${screenshotStem}-success.png`),
       fullPage: false
     });
 
+    assert.equal(new URL(page.url()).pathname, route, `symbol hunt unexpectedly navigated away at ${viewport.width}px`);
     assert.deepEqual(pageErrors, [], `symbol hunt raised page errors at ${viewport.width}px: ${pageErrors.join(" | ")}`);
     assert.deepEqual(consoleErrors, [], `symbol hunt logged console errors at ${viewport.width}px: ${consoleErrors.join(" | ")}`);
     await context.close();
@@ -150,7 +161,7 @@ async function main() {
   startServer();
   await waitForServer();
   for (const viewport of viewports) await inspect(viewport);
-  console.log(`Symbol-hunt browser QA passed ${viewports.length} representative viewports with idle/success screenshots.`);
+  console.log(`Symbol-hunt browser QA passed ${viewports.length} representative viewports with pointer, keyboard, and idle/success screenshot checks.`);
 }
 
 main()
