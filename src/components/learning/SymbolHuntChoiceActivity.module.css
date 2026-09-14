@@ -86,7 +86,7 @@
 
 @media (max-width: 520px) {
   .huntScene { min-height: 430px; border-radius: 26px; }
-  .symbolField { inset-top: 118px; }
+  .symbolField { top: 118px; }
   .slot1 { left: 5%; }
   .slot2 { right: 5%; }
   .slot3 { left: 37%; }
