@@ -79,7 +79,40 @@ const guides: Record<string, DrawingGuide> = {
   "drawing-scene-beach": complete("M60 235 H420", "M60 315 Q105 285 150 315 T240 315 T330 315 T420 315"),
   "drawing-scene-road": complete("M75 420 L205 235", "M405 420 L275 235", "M205 235 H275"),
   "drawing-scene-night": complete("M65 385 Q240 355 415 385", "M315 95 A55 55 0 0 0 355 175 A72 72 0 1 1 315 95"),
-  "drawing-scene-garden": complete("M60 390 Q240 350 420 390", "M215 390 Q240 285 265 390")
+  "drawing-scene-garden": complete("M60 390 Q240 350 420 390", "M215 390 Q240 285 265 390"),
+
+  // WS-07 Wave B — structured visual skills. Guides teach the organizing idea
+  // but deliberately leave the requested content, texture, mirrored details,
+  // story event, or focal subject for the child to author.
+  "drawing-space-near-far": complete("M70 385 H235", "M310 235 H405"),
+  "drawing-space-overlap": complete("M105 315 C70 205 145 120 255 165", "M225 325 C185 220 285 125 385 215"),
+  "drawing-space-horizon": complete("M55 245 H425"),
+  "drawing-space-path-depth": complete("M85 425 L210 235", "M395 425 L270 235"),
+  "drawing-space-window-view": complete("M85 75 H395 V405 H85 Z", "M240 75 V405", "M85 240 H395"),
+
+  "drawing-texture-fur": complete("M95 125 Q240 75 385 125 V365 Q240 415 95 365 Z"),
+  "drawing-texture-scales": complete("M95 240 C145 125 330 130 390 240 C330 350 145 355 95 240 Z"),
+  "drawing-texture-brick": complete("M80 125 H400 V365 H80 Z", "M80 245 H400"),
+  "drawing-texture-grass": complete("M70 350 Q240 325 410 350 V420 H70 Z"),
+  "drawing-texture-water": complete("M65 170 Q110 140 155 170 T245 170 T335 170 T425 170", "M65 355 Q110 325 155 355 T245 355 T335 355 T425 355"),
+
+  "drawing-symmetry-butterfly": complete("M240 80 V400", "M240 145 C165 85 100 155 125 240 C150 315 205 305 240 265"),
+  "drawing-symmetry-mask": complete("M240 85 V405", "M240 95 C120 95 95 205 125 320 C150 405 220 405 240 385"),
+  "drawing-symmetry-flower": complete("M240 85 V395", "M240 180 A45 45 0 0 0 195 225"),
+  "drawing-symmetry-robot": complete("M240 70 V420", "M240 125 H145 V315 H240"),
+  "drawing-symmetry-kite": complete("M240 65 V390", "M240 65 L115 215 L240 390"),
+
+  "drawing-story-seed-sprout": complete("M55 370 H205", "M275 370 H425", "M240 80 V420"),
+  "drawing-story-rain-sun": complete("M240 70 V410", "M55 365 H205", "M275 365 H425"),
+  "drawing-story-ball-roll": complete("M85 330 Q185 265 285 320 T415 280"),
+  "drawing-story-build-house": complete("M55 385 H155 M185 385 H295 M325 385 H425", "M240 80 V420"),
+  "drawing-story-friend-wave": complete("M165 125 A38 38 0 1 1 164.9 125 Z", "M165 205 V345", "M315 125 A38 38 0 1 1 314.9 125 Z", "M315 205 V345"),
+
+  "drawing-focus-big-small": complete("M150 140 A90 90 0 1 1 149.9 140 Z", "M350 275 A38 38 0 1 1 349.9 275 Z"),
+  "drawing-focus-center-side": complete("M240 170 A70 70 0 1 1 239.9 170 Z", "M385 310 A30 30 0 1 1 384.9 310 Z"),
+  "drawing-focus-frame": complete("M75 75 H405 V405 H75 Z", "M120 120 H360 V360 H120 Z"),
+  "drawing-focus-path": complete("M65 415 C140 330 175 315 240 275 C305 235 345 180 410 95", "M390 75 A28 28 0 1 1 389.9 75 Z"),
+  "drawing-focus-crowd": complete("M105 170 A26 26 0 1 1 104.9 170 Z", "M180 260 A24 24 0 1 1 179.9 260 Z", "M255 145 A48 48 0 1 1 254.9 145 Z", "M345 255 A25 25 0 1 1 344.9 255 Z", "M395 150 A22 22 0 1 1 394.9 150 Z")
 };
 
 export const DRAWING_GUIDE_IDS = Object.keys(guides);
