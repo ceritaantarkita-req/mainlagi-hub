@@ -15,7 +15,7 @@ const {drawingGuide,DRAWING_GUIDE_IDS}=require(path.resolve(".learning-test-dist
 
 const drawingActivities=ACTIVITIES.filter(activity=>activity.runtime==="drawing");
 assert.equal(drawingActivities.length,100,"drawing catalog must stay at 100 activities");
-assert.equal(DRAWING_GUIDE_IDS.length,50,"WS-07 Wave A must produce exactly 50 explicit drawing scaffolds total");
+assert.equal(DRAWING_GUIDE_IDS.length,75,"WS-07 Wave B must produce exactly 75 explicit drawing scaffolds total");
 assert.equal(new Set(DRAWING_GUIDE_IDS).size,DRAWING_GUIDE_IDS.length,"drawing guide ids must be unique");
 assert.equal(new Set(DRAWING_GUIDE_IDS.map(id=>JSON.stringify(drawingGuide(id)))).size,DRAWING_GUIDE_IDS.length,"drawing scaffold definitions must not be exact duplicates");
 
@@ -27,22 +27,31 @@ const waveAIds=new Set([
   "drawing-scene-park","drawing-scene-beach","drawing-scene-road","drawing-scene-night","drawing-scene-garden"
 ]);
 assert.equal(waveAIds.size,25,"WS-07 Wave A scope must remain 25 concrete drawing activities");
-for(const id of waveAIds){
+
+const waveBIds=new Set([
+  "drawing-space-near-far","drawing-space-overlap","drawing-space-horizon","drawing-space-path-depth","drawing-space-window-view",
+  "drawing-texture-fur","drawing-texture-scales","drawing-texture-brick","drawing-texture-grass","drawing-texture-water",
+  "drawing-symmetry-butterfly","drawing-symmetry-mask","drawing-symmetry-flower","drawing-symmetry-robot","drawing-symmetry-kite",
+  "drawing-story-seed-sprout","drawing-story-rain-sun","drawing-story-ball-roll","drawing-story-build-house","drawing-story-friend-wave",
+  "drawing-focus-big-small","drawing-focus-center-side","drawing-focus-frame","drawing-focus-path","drawing-focus-crowd"
+]);
+assert.equal(waveBIds.size,25,"WS-07 Wave B scope must remain 25 structured-skill drawing activities");
+for(const id of [...waveAIds,...waveBIds]){
   const activity=drawingActivities.find(item=>item.id===id);
-  assert(activity,`Wave A activity must exist: ${id}`);
+  assert(activity,`WS-07 activity must exist: ${id}`);
   const guide=drawingGuide(id);
-  assert(guide,`Wave A activity must have a functional guide: ${id}`);
-  assert.equal(guide.mode,"complete",`Wave A concrete guide must be a non-prescriptive starter: ${id}`);
-  assert(guide.paths.length>0,`Wave A guide must contain paths: ${id}`);
+  assert(guide,`WS-07 activity must have a functional guide: ${id}`);
+  assert.equal(guide.mode,"complete",`WS-07 authored guide must be a non-interactive starter: ${id}`);
+  assert(guide.paths.length>0,`WS-07 guide must contain paths: ${id}`);
 }
 
 const remainingYoungWithoutGuide=drawingActivities.filter(activity=>activity.ageMin<=5 && !drawingGuide(activity.id));
-assert.equal(remainingYoungWithoutGuide.length,50,"WS-07 Wave A must reduce Q106-equivalent missing scaffolds from 75 to 50");
+assert.equal(remainingYoungWithoutGuide.length,25,"WS-07 Wave B must reduce Q106-equivalent missing scaffolds from 50 to 25");
 
 const escape=value=>String(value).replaceAll("&","&amp;").replaceAll('"',"&quot;").replaceAll("<","&lt;");
 const previewDir=path.resolve(".mobile-route-qa/ws07-drawing-previews");
 mkdirSync(previewDir,{recursive:true});
-for(const id of waveAIds){
+for(const id of waveBIds){
   const guide=drawingGuide(id);
   const strokes=guide.paths.map(d=>`<path d="${escape(d)}" fill="none" stroke="#438781" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>`).join("");
   await sharp(Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="480" height="480" viewBox="0 0 480 480">${strokes}</svg>`))
@@ -68,7 +77,7 @@ try{
       assert(metric.x>=-1&&metric.y>=-1&&metric.x+metric.width<=481&&metric.y+metric.height<=481,`scaffold path must remain inside 480x480 canvas: ${id} ${JSON.stringify(metric)}`);
     }
   }
-  console.log(`Drawing scaffold regression PASS: ${DRAWING_GUIDE_IDS.length}/100 activities have explicit functional guides; WS-07 Wave A added ${waveAIds.size}; ${remainingYoungWithoutGuide.length} Q106-equivalent activities remain; ${waveAIds.size} preview artifacts exported.`);
+  console.log(`Drawing scaffold regression PASS: ${DRAWING_GUIDE_IDS.length}/100 activities have explicit functional guides; Wave A ${waveAIds.size}; Wave B ${waveBIds.size}; ${remainingYoungWithoutGuide.length} Q106-equivalent activities remain; ${waveBIds.size} Wave B preview artifacts exported.`);
 }finally{
   await browser.close();
 }
