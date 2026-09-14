@@ -1,29 +1,50 @@
 import type { LearningActivity } from "./system";
 
-export type MatchingPresentation = "grid_pairs" | "memory_pairs";
+export type MatchingPresentation = "grid_pairs" | "memory_pairs" | "drag_targets";
 export type ChoiceGameplayPresentation = "default" | "sequence_slot" | "sorting_buckets";
 
+const SCIENCE_DRAG_TARGET_IDS = new Set([
+  "science-match-living-nonliving",
+  "science-match-plant-parts",
+  "science-match-animal-homes-a",
+  "science-match-senses-a",
+  "science-match-weather-signs-a"
+]);
+
 /**
- * Case matching is already a pair-memory objective: the child must connect the
- * same Latin letter across upper/lower forms. Route this coherent family to a
- * memory-flip presentation instead of repeating the default all-cards-visible
- * matching board. The canonical runtime, matchItems, pair ids, assessment and
- * completion contract remain unchanged.
+ * Presentation classifiers diversify coherent activity families without
+ * changing their canonical runtime, activity identity, payload, assessment or
+ * progression contract.
  */
 export function matchingPresentation(activity: LearningActivity | undefined): MatchingPresentation {
   if (!activity || activity.runtime !== "matching") return "grid_pairs";
   const items = activity.matchItems ?? [];
+
   const isLatinCaseFamily =
     activity.subjectId === "letters" &&
     activity.id.startsWith("letters-match-case-") &&
     items.length >= 4 &&
     items.every((item) => /^[A-Za-z]$/.test(item.label));
+  if (isLatinCaseFamily) return "memory_pairs";
 
-  return isLatinCaseFamily ? "memory_pairs" : "grid_pairs";
+  const isReviewedScienceDragFamily =
+    activity.subjectId === "science" &&
+    activity.stageId === "science-living-observation-basics" &&
+    SCIENCE_DRAG_TARGET_IDS.has(activity.id) &&
+    items.length === 6 &&
+    new Set(items.map((item) => item.pair)).size === 3 &&
+    items.every((item) => Boolean(item.label) && Boolean(item.pair));
+  if (isReviewedScienceDragFamily) return "drag_targets";
+
+  return "grid_pairs";
 }
 
 export function isMemoryPairActivity(activity: LearningActivity | undefined): boolean {
   return matchingPresentation(activity) === "memory_pairs";
+}
+
+export function isDragTargetActivity(activity: LearningActivity | undefined): boolean {
+  return matchingPresentation(activity) === "drag_targets";
 }
 
 /**

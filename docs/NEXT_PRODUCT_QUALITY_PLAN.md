@@ -3,8 +3,8 @@
 > Canonical execution plan fase product-quality Mainlagi Hub. Semua human/AI agent wajib membaca dokumen ini, `CURRENT_STATE.md`, dan `GAMEPLAY_VARIATION_CATALOG.md` sebelum mengubah learning experience.
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
-**Merged baseline:** `main` @ `f981d40fd55c1cdef3137600b4b44677e550b06d`  
-**Active branch/PR:** `agent/ws05-gameplay-sorting-buckets-20260914` / PR #103  
+**Merged baseline:** `main` @ `6d28ff2f4f3eb8a5b642d2e3b79979c910924342`  
+**Active branch/PR:** `agent/ws05-gameplay-drag-target-20260914` / PR #104  
 **Primary focus:** WS-05 gameplay/mechanic diversification.  
 **Principle:** **Quality first. Quantity later.** Improve the existing 900 activities before major expansion.
 
@@ -36,7 +36,7 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 | WS-02 Voice & narration | TODO | provider-independent, reviewed ID/EN narration |
 | WS-03 Public/parent frontend | TODO | About/FAQ + parent surfaces |
 | WS-04 Activity audit/redesign | QA / deterministic clean | 900 KEEP / 0 flagged; human review separate |
-| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | 11 merged patterns; Sorting Buckets QA on #103; target 60 |
+| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | 12 merged patterns; Drag-to-Target QA on #104; target 60 |
 | WS-06 Coloring rebuild | DONE | PR #95/#96; Q108=0 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100; Q106=0 |
 | WS-08 Art direction / visual QA | TODO / parallel | Art Bible + permanent human visual gate |
@@ -57,54 +57,53 @@ Canonical mechanic catalog: `docs/GAMEPLAY_VARIATION_CATALOG.md`.
 - distribute patterns across 900 activities according to learning objective;
 - maintain a distribution audit so easy templates do not dominate sessions.
 
-### Merged patterns on `main`: 11
+### Merged patterns on `main`: 12
 
-`choice_grid`, `symbol_hunt`, `listen_choose`, `visible_matching`, `guided_trace`, `story_read`, `motion_game`, `coloring_canvas`, `drawing_canvas`, `memory_pair`, `missing_sequence_slot`.
+`choice_grid`, `symbol_hunt`, `listen_choose`, `visible_matching`, `guided_trace`, `story_read`, `motion_game`, `coloring_canvas`, `drawing_canvas`, `memory_pair`, `missing_sequence_slot`, `sorting_buckets`.
 
-Important accepted waves:
+Accepted waves:
 - PR #101 Memory Pair — 12 Letters case-matching activities; merge `aea24d47bd2793fbbf3b3723878674ec6f3c98a0`.
 - PR #102 Sequence Slot — 10 Letters `letters-order-*` activities; merge `f981d40fd55c1cdef3137600b4b44677e550b06d`.
-- `symbol_hunt` already covers 74 direct-literacy activities.
+- PR #103 Sorting Buckets — 5 basic Logic classification activities; merge `6d28ff2f4f3eb8a5b642d2e3b79979c910924342`.
+- `symbol_hunt` covers 74 direct-literacy activities.
 
-### Active PR #103 — Sorting Buckets
+### Active PR #104 — Drag-to-Target
 
-Scope: exactly 5 basic Logic classification activities:
+Scope: exactly 5 reviewed Science Wave A matching activities:
 
-- `logic-classify-animal`
-- `logic-classify-round`
-- `logic-classify-up-arrow`
-- `logic-classify-two-items`
-- `logic-classify-red`
+- `science-match-living-nonliving`
+- `science-match-plant-parts`
+- `science-match-animal-homes-a`
+- `science-match-senses-a`
+- `science-match-weather-signs-a`
 
 Behavior and boundaries:
-- child sorts all three canonical choices into **Sesuai aturan** vs **Tidak sesuai**;
-- runtime stays `tap_choice`;
-- IDs, choices, `correctChoice`, skill, assessment, stars, progression, and completion identity stay canonical;
-- explicit assessed evidence fidelity: `choice_sorting_interaction`;
-- keyboard + touch/pointer supported;
-- advanced multi-attribute `logic-classify-*` activities are excluded by classifier guard;
-- Drag-to-Target is intentionally not mixed into this PR.
+- child places each source card onto its canonical target;
+- native mouse drag/drop supported;
+- touch/pen pointer-drag supported;
+- tap/select -> target and keyboard remain supported fallbacks;
+- runtime stays `matching`;
+- activity IDs, matchItems, pair ids, skill, assessment, stars, progression, and completion identity stay canonical;
+- each activity retains exactly three canonical pairs;
+- explicit assessed evidence fidelity: `matching_drag_target_interaction`;
+- wrong placement increments incorrect/retry and does not consume a pair;
+- other matching activities remain on existing `memory_pairs` or `grid_pairs` presentations.
 
 Acceptance evidence:
-- implementation head `97ae2e4d4b76e64865abb634216c5d8ce94dc8f8`;
-- CI #457 full green: Ubuntu, Windows, production build, dependency audit, secret scan, mobile Chromium;
+- implementation head `722391fe049b3e055ab69e16140141bdf971268b`;
+- CI #465 full green: Ubuntu, Windows, production build, dependency audit, secret scan, mobile Chromium;
+- static regression: **12 memory_pair + 5 drag_targets + 10 sequence_slot + 5 sorting_buckets**;
 - deterministic audit remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE**, structural=0;
-- browser QA: progression, keyboard wrong-state, pointer completion, evidence/persistence, >=44px controls, no horizontal overflow, 320/390/768 screenshots;
-- visual QA accepted final idle/error/success states;
-- QA caught two issues before acceptance: accidental removal of `@phosphor-icons/react` from `package.json`, and clipped 320×720 success CTA. Both are fixed and regression-covered.
+- browser QA: valid Science progression, keyboard wrong-state, real mouse drag, touch fallback, evidence/persistence, >=44px controls, no horizontal overflow, 320/390/768 screenshots, in-viewport success CTA;
+- visual QA accepted final idle/error/success states at all three target viewports.
 
-Remaining for #103: canonical docs commit -> docs-head full CI -> review-thread check -> squash merge with exact head SHA.
+Remaining for #104: canonical docs-head full CI -> review-thread/comment check -> squash merge with exact current head SHA.
 
-### Next mechanic after #103
+### Next work after #104
 
-**`drag_to_target`**, on a new branch from latest `main`:
-- choose activities whose objective genuinely involves spatial placement/matching;
-- real pointer/touch drag to target;
-- fallback tap/select + keyboard path required;
-- canonical evidence/progression preserved;
-- 320/390/768 browser + human visual QA required.
-
-Then prioritize `reorder_cards`, `tap_in_order`, `find_in_scene`, `hidden_object`, Math interaction families, audio families, puzzle/path, literacy construction, science exploration, creative, and story interactions according to the distribution audit.
+1. Build/maintain a gameplay-distribution audit over all 900 activities and use it to expose concentration hotspots.
+2. Implement `reorder_cards` and `tap_in_order` as separate mechanic waves only where objective requires multi-step ordering.
+3. Continue `find_in_scene`, `hidden_object`, Math interaction families, audio families, puzzle/path, literacy construction, science exploration, creative, and story interactions according to distribution evidence.
 
 ## 5. Global Definition of Done
 
@@ -119,17 +118,16 @@ For WS-05 specifically:
 
 ## 6. Execution order
 
-1. Close PR #103 Sorting Buckets safely.
-2. Implement `drag_to_target` as a separate mechanic wave.
-3. Add/maintain 900-activity gameplay-distribution audit and use it to choose high-value families.
-4. Continue toward 50–60 meaningful patterns.
-5. Run WS-08 Art Bible/permanent visual QA in parallel where useful.
-6. WS-02 narration.
-7. WS-03 public/parent frontend.
-8. WS-10 physical-device/accessibility/Iqro expert acceptance.
-9. WS-11 governance.
-10. WS-12 cleanup after quality stabilizes.
-11. Only then consider major activity/feature expansion.
+1. Close PR #104 Drag-to-Target safely.
+2. Add/maintain 900-activity gameplay-distribution audit and use it to choose high-value families.
+3. Continue toward 50–60 meaningful patterns, starting with objective-appropriate ordering families.
+4. Run WS-08 Art Bible/permanent visual QA in parallel where useful.
+5. WS-02 narration.
+6. WS-03 public/parent frontend.
+7. WS-10 physical-device/accessibility/Iqro expert acceptance.
+8. WS-11 governance.
+9. WS-12 cleanup after quality stabilizes.
+10. Only then consider major activity/feature expansion.
 
 ## 7. Mandatory agent handoff
 
@@ -151,17 +149,21 @@ After merge:
 
 ## 8. Execution log — recent
 
-### 2026-09-14 — Sorting Buckets Wave
-**PR:** #103  
+### 2026-09-14 — Drag-to-Target Wave
+**PR:** #104  
 **Status:** QA; implementation/browser/visual accepted, docs-head CI pending.
 
 Result so far:
-- 5 basic Logic classification activities use `sorting_buckets`;
-- explicit `choice_sorting_interaction` evidence;
-- advanced classification families remain untouched;
-- CI #457 full green at implementation head;
-- visual QA accepted 320/390/768 after narrow-success CTA fix;
-- dependency regression from accidental Phosphor removal was caught and fixed before acceptance.
+- 5 reviewed Science Wave A matching activities use `drag_targets` presentation;
+- canonical matching identity, three pair payloads, skill/progression/assessment boundaries stay intact;
+- explicit `matching_drag_target_interaction` evidence;
+- mouse drag, touch/pen drag, tap fallback, and keyboard path supported;
+- CI #465 full green at implementation head;
+- visual QA accepted 320/390/768 idle/error/success states;
+- activity audit remains 900 KEEP / 0 flagged.
+
+### 2026-09-14 — Sorting Buckets Wave
+**Status:** DONE. PR #103; merge `6d28ff2f4f3eb8a5b642d2e3b79979c910924342`. Exactly 5 basic Logic classification activities; browser/evidence/visual QA accepted.
 
 ### 2026-09-14 — Sequence Slot Wave
 **Status:** DONE. PR #102; merge `f981d40fd55c1cdef3137600b4b44677e550b06d`. Exactly 10 Letters sequence activities; visual/browser/evidence QA accepted.

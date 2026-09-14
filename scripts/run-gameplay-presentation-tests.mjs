@@ -23,9 +23,28 @@ for(const activity of memory){
   assert.equal(activity.subjectId,"letters");
   assert((activity.matchItems??[]).length>=4,"memory activity has at least two pairs");
 }
-const otherMatching=ACTIVITIES.filter(activity=>activity.runtime==="matching"&&!expectedMemory.has(activity.id));
+
+const expectedDragTargets=new Set([
+  "science-match-living-nonliving","science-match-plant-parts","science-match-animal-homes-a",
+  "science-match-senses-a","science-match-weather-signs-a"
+]);
+const dragTargets=ACTIVITIES.filter(activity=>matchingPresentation(activity)==="drag_targets");
+assert.equal(dragTargets.length,expectedDragTargets.size,"drag-target family size must remain intentional");
+assert.deepEqual(new Set(dragTargets.map(activity=>activity.id)),expectedDragTargets,"only the five reviewed Science Wave A matching activities use drag targets");
+for(const activity of dragTargets){
+  assert.equal(activity.runtime,"matching");
+  assert.equal(activity.subjectId,"science");
+  assert.equal(activity.stageId,"science-living-observation-basics");
+  assert.equal((activity.matchItems??[]).length,6,"drag-target activity keeps three canonical pairs");
+  const pairCounts=new Map();
+  for(const item of activity.matchItems??[]) pairCounts.set(item.pair,(pairCounts.get(item.pair)??0)+1);
+  assert.equal(pairCounts.size,3,"drag-target activity keeps exactly three pair ids");
+  assert([...pairCounts.values()].every(count=>count===2),"each drag-target pair has one source and one target label");
+}
+
+const otherMatching=ACTIVITIES.filter(activity=>activity.runtime==="matching"&&!expectedMemory.has(activity.id)&&!expectedDragTargets.has(activity.id));
 assert(otherMatching.length>0,"default matching family remains available for mechanic variety");
-assert(otherMatching.every(activity=>matchingPresentation(activity)==="grid_pairs"),"non-case matching remains on the canonical visible grid");
+assert(otherMatching.every(activity=>matchingPresentation(activity)==="grid_pairs"),"unreviewed matching activities remain on the canonical visible grid");
 
 const expectedSequence=new Set([
   "letters-order-after-g","letters-order-between-jl","letters-order-before-m",
@@ -60,4 +79,4 @@ const otherChoice=ACTIVITIES.filter(activity=>activity.runtime==="tap_choice"&&!
 assert(otherChoice.length>0,"default choice activities remain available");
 assert(otherChoice.every(activity=>choiceGameplayPresentation(activity)==="default"),"other choice families retain default presentation");
 
-console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets activities.`);
+console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets activities.`);
