@@ -155,28 +155,38 @@ for (const activity of activities) {
   const normalizedChoices = choices.map(normalizeText);
   const allTextWords = choices.length >= 2 && choices.every(isWord);
   const allColorWords = allTextWords && normalizedChoices.every((choice) => COLOR_WORDS.has(choice));
-  const skillText = skills.map((skill) => `${skill.title} ${skill.description}`).join(" ").toLowerCase();
   const targetText = `${activity.title} ${activity.description} ${activity.prompt ?? ""}`.toLowerCase();
+  const colorRecognitionSkill = activity.subjectId === "english" && skills.some((skill) =>
+    /color/i.test(`${skill.id} ${skill.title} ${skill.description}`)
+  );
+  const visualRepresentationSkill = skills.some((skill) =>
+    !["language", "literacy"].includes(skill.domain) &&
+    /(visual|shape|bentuk|pattern|pola)/i.test(`${skill.id} ${skill.title} ${skill.description}`)
+  );
 
-  if (activity.runtime === "tap_choice" && allColorWords && /(color|warna|blue|red|green|yellow|biru|merah|hijau|kuning)/i.test(targetText)) {
+  if (
+    activity.runtime === "tap_choice" &&
+    colorRecognitionSkill &&
+    allColorWords &&
+    /(color|blue|red|green|yellow)/i.test(targetText)
+  ) {
     addFinding(
       activity,
       "Q101_TEXT_LABEL_USED_AS_COLOR_VISUAL",
       "high",
       "REDESIGN",
       "Color-recognition task uses written color labels as the answer representation instead of actual color visuals.",
-      { choices, correctChoice: activity.correctChoice ?? null }
+      { skillTitles: skills.map((skill) => skill.title), choices, correctChoice: activity.correctChoice ?? null }
     );
   }
 
-  const visualSkill = /(visual|warna|color|bentuk|shape)/i.test(skillText);
-  if (activity.runtime === "tap_choice" && visualSkill && allTextWords) {
+  if (activity.runtime === "tap_choice" && visualRepresentationSkill && allTextWords) {
     addFinding(
       activity,
       "Q102_VISUAL_SKILL_USES_TEXT_ONLY_CHOICES",
       "high",
       "REDESIGN",
-      "Mapped skill describes visual recognition/discrimination but the response choices are text-only.",
+      "Mapped non-language skill explicitly requires visual/shape/pattern discrimination but the response choices are text-only.",
       { skillTitles: skills.map((skill) => skill.title), choices }
     );
   }
@@ -199,7 +209,7 @@ for (const activity of activities) {
   }
 
   if (
-    activity.ageMin <= 4 &&
+    activity.ageMin <= 3 &&
     activity.runtime === "tap_choice" &&
     choices.length >= 2 &&
     choices.every((choice) => isWord(choice) && normalizeText(choice).length >= 3) &&
@@ -210,8 +220,8 @@ for (const activity of activities) {
       "Q104_EARLY_AGE_READING_LOAD",
       "medium",
       "POLISH",
-      "Activity targets younger children but requires reading multiple word labels without an audio input mode.",
-      { ageMin: activity.ageMin, choices }
+      "Activity is available from age 3 but requires reading multiple word labels without an audio input mode.",
+      { ageMin: activity.ageMin, skillDomains: skills.map((skill) => skill.domain), choices }
     );
   }
 
