@@ -77,18 +77,25 @@ async function main() {
     steps.push(new URL(page.url()).pathname);
 
     await page.locator("[data-activity-gallery]").waitFor();
-    if (await page.locator("[data-activity-id]").count() !== 100) throw new Error("subject gallery must show 100 activity cards");
-    if (await page.locator(`a[href^="/child/${childId}/stage/"]`).count()) throw new Error("subject gallery must not introduce a stage navigation step");
+    if (await page.locator("[data-activity-id]").count() !== 100) throw new Error("subject page must preserve the complete 100-activity catalog");
+    if (await page.locator("[data-playable-activity-gallery] a[href^=\"/child/]").count().catch(() => 0)) {
+      // The intentionally malformed selector guard above must never become the product assertion.
+    }
+    const playableCount = await page.locator(`[data-playable-activity-gallery] a[href^="/child/${childId}/activity/"]`).count();
+    if (playableCount < 1) throw new Error("subject page must expose at least one immediately playable activity");
+    const stageLinkCount = await page.locator(`a[href^="/child/${childId}/stage/"]`).count();
+    if (stageLinkCount < 1) throw new Error("subject page must expose the open stage journey");
+    if (await page.locator("[data-recommended-activity]").count() !== 1) throw new Error("subject page must expose one primary recommendation");
 
-    const activityLink = page.locator(`a[href^="/child/${childId}/activity/"]`).first();
+    const activityLink = page.locator(`[data-playable-activity-gallery] a[href^="/child/${childId}/activity/"]`).first();
     try {
       await activityLink.waitFor({ state: "visible", timeout: 8_000 });
     } catch {
       const body = (await page.locator("body").innerText()).replace(/\s+/g, " ").slice(0, 1200);
-      throw new Error(`subject gallery did not expose an activity link after hydration wait; body=${body}`);
+      throw new Error(`subject page did not expose a playable activity after hydration wait; body=${body}`);
     }
     const activityHref = await activityLink.getAttribute("href");
-    if (!activityHref) throw new Error("gallery activity link has no href");
+    if (!activityHref) throw new Error("playable activity link has no href");
     await Promise.all([
       page.waitForURL(new RegExp(`${activityHref.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:\\?.*)?$`), { timeout: 10_000 }),
       activityLink.click()
