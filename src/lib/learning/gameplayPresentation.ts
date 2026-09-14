@@ -2,6 +2,20 @@ import type { LearningActivity } from "./system";
 
 export type MatchingPresentation = "grid_pairs" | "memory_pairs" | "drag_targets";
 export type ChoiceGameplayPresentation = "default" | "sequence_slot" | "sorting_buckets";
+export type GameplayPattern =
+  | "choice_grid"
+  | "symbol_hunt"
+  | "listen_choose"
+  | "visible_matching"
+  | "memory_pair"
+  | "drag_to_target"
+  | "missing_sequence_slot"
+  | "sorting_buckets"
+  | "guided_trace"
+  | "story_read"
+  | "motion_game"
+  | "coloring_canvas"
+  | "drawing_canvas";
 
 const SCIENCE_DRAG_TARGET_IDS = new Set([
   "science-match-living-nonliving",
@@ -90,4 +104,38 @@ export function isSequenceSlotActivity(activity: LearningActivity | undefined): 
 
 export function isSortingBucketsActivity(activity: LearningActivity | undefined): boolean {
   return choiceGameplayPresentation(activity) === "sorting_buckets";
+}
+
+/**
+ * Canonical child-facing gameplay-pattern classifier used by the WS-05
+ * distribution audit. Every playable learning activity must map to exactly one
+ * pattern even when several patterns share the same underlying runtime.
+ */
+export function gameplayPattern(activity: LearningActivity | undefined): GameplayPattern | null {
+  if (!activity) return null;
+
+  if (activity.runtime === "tap_choice") {
+    if (activity.choicePresentation === "symbol_hunt") return "symbol_hunt";
+    const presentation = choiceGameplayPresentation(activity);
+    if (presentation === "sequence_slot") return "missing_sequence_slot";
+    if (presentation === "sorting_buckets") return "sorting_buckets";
+    return "choice_grid";
+  }
+
+  if (activity.runtime === "listen_and_choose") return "listen_choose";
+
+  if (activity.runtime === "matching") {
+    const presentation = matchingPresentation(activity);
+    if (presentation === "memory_pairs") return "memory_pair";
+    if (presentation === "drag_targets") return "drag_to_target";
+    return "visible_matching";
+  }
+
+  if (activity.runtime === "trace") return "guided_trace";
+  if (activity.runtime === "story") return "story_read";
+  if (activity.runtime === "motion_game") return "motion_game";
+  if (activity.runtime === "coloring") return "coloring_canvas";
+  if (activity.runtime === "drawing") return "drawing_canvas";
+
+  return null;
 }
