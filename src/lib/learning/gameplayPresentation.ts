@@ -31,11 +31,11 @@ export function isMemoryPairActivity(activity: LearningActivity | undefined): bo
  * them as a visible sequence with one empty slot rather than another generic
  * three-button quiz. Canonical tap_choice values and evidence stay unchanged.
  *
- * Logic classification tasks ask whether each visible object satisfies one
- * simple rule. Present the coherent `logic-classify-*` family as a two-bucket
- * sorting task: the canonical correctChoice belongs in the matching bucket and
- * the other canonical choices belong in the non-matching bucket. Activity ids,
- * choices/correctChoice, skill mapping, assessment and progression stay intact.
+ * Basic Logic classification tasks ask whether each visible object satisfies
+ * one simple rule. Present only that reviewed stage as two-bucket sorting: the
+ * canonical correctChoice belongs in the matching bucket and the other choices
+ * belong in the non-matching bucket. Later multi-attribute classification
+ * stages remain on their existing presentation until reviewed separately.
  */
 export function choiceGameplayPresentation(activity: LearningActivity | undefined): ChoiceGameplayPresentation {
   if (!activity || activity.runtime !== "tap_choice") return "default";
@@ -51,13 +51,14 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     choices.includes(correct);
   if (isLetterSequenceFamily) return "sequence_slot";
 
-  const isLogicClassificationFamily =
+  const isBasicLogicClassificationFamily =
     activity.subjectId === "logic" &&
+    activity.stageId === "logic-classification-rules-basics" &&
     activity.id.startsWith("logic-classify-") &&
     choices.length === 3 &&
     new Set(choices).size === choices.length &&
     choices.includes(correct);
-  if (isLogicClassificationFamily) return "sorting_buckets";
+  if (isBasicLogicClassificationFamily) return "sorting_buckets";
 
   return "default";
 }
