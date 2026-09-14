@@ -5,14 +5,15 @@
 ## Target dan aturan
 
 - **Minimum:** 50 pola permainan; **target kerja:** 60.
-- Pola permainan bukan berarti 60 engine terpisah. Gunakan sekitar 12–15 interaction engine reusable.
+- Pola permainan bukan berarti 60 engine terpisah. Gunakan interaction engine reusable sebanyak yang memang dibutuhkan.
 - Mechanic dipilih karena cocok dengan learning objective, bukan untuk mengejar angka.
 - Assessed activity wajib menjaga evidence yang benar: correct/incorrect, retry, completion, score/accuracy bila relevan, dan metadata interaction.
 - Setiap mechanic baru wajib lolos static regression, progression, completion/evidence, keyboard, touch/pointer, mobile responsive, dan visual review nyata.
+- Permanent distribution audit wajib tetap 900/900 classified selama baseline produk masih 900 activities.
 
 ## Status implementasi
 
-### Merged di `main`: 12 pola
+### Merged di `main`: 13 pola
 
 1. `choice_grid` — pilih satu jawaban dari beberapa opsi.
 2. `symbol_hunt` — cari simbol/huruf target dalam area visual.
@@ -26,36 +27,62 @@
 10. `memory_pair` — buka kartu tertutup dan cari pasangan. **MERGED PR #101**
 11. `missing_sequence_slot` — isi slot kosong pada urutan huruf. **MERGED PR #102**
 12. `sorting_buckets` — kelompokkan semua kartu ke kategori sesuai/tidak sesuai. **MERGED PR #103**
+13. `drag_to_target` — seret source card ke target yang tepat dengan fallback tap/keyboard. **MERGED PR #104**
 
-### Dalam QA / PR #104: pola #13
+PR #104 merge: `01fae0dbf73e47cb6d0281671b92ad77e6be03f7`.
 
-`drag_to_target` — pasangkan source card ke target yang tepat dengan drag nyata dan fallback tap/keyboard.
+## Gameplay distribution audit — PR #105 QA
 
-Scope sengaja sempit, tepat 5 Science Wave A matching activities:
-- `science-match-living-nonliving`
-- `science-match-plant-parts`
-- `science-match-animal-homes-a`
-- `science-match-senses-a`
-- `science-match-weather-signs-a`
+PR #105 menambahkan classifier canonical untuk 13 pattern di atas dan report permanen:
 
-Boundaries:
-- runtime tetap `matching`;
-- activity ID, `matchItems`, pair ids, skill, assessment, stars, progression, dan completion identity tidak berubah;
-- setiap activity tetap 3 canonical pairs;
-- pointer desktop dapat drag-and-drop langsung;
-- touch/pen memakai pointer drag; tap/select -> target dan keyboard tetap tersedia sebagai fallback;
-- explicit assessed evidence memakai `matching_drag_target_interaction` dengan correct/incorrect/retry dan `matchedPairCount`;
-- matching lain tetap `memory_pairs` atau `grid_pairs` sesuai classifier yang sudah ada.
+```text
+.qa/gameplay-distribution/report.json
+.qa/gameplay-distribution/report.md
+```
 
-QA implementasi PR #104:
-- implementation head `722391fe049b3e055ab69e16140141bdf971268b`;
-- CI #465 full success: Ubuntu, Windows, production build, dependency audit, secret scan, dan mobile Chromium;
-- static regression: **12 memory_pair + 5 drag_targets + 10 sequence_slot + 5 sorting_buckets**;
-- browser QA 320/390/768 memakai prerequisite Science yang valid, menguji keyboard wrong-state, real mouse drag, touch fallback, completion/evidence, >=44px controls, no horizontal overflow, dan success CTA tetap di viewport;
-- manual visual review menerima idle/error/success pada 320, 390, dan 768;
-- deterministic audit tetap **900 KEEP / 0 flagged**, structural findings 0.
+Command:
 
-Jika PR #104 merged, jumlah gameplay pattern aktif menjadi **13**.
+```bash
+npm run qa:gameplay-distribution
+```
+
+CI #472 pada implementation head `d275dbb0f2b1acfa033fc0c99ecb77d0860d24bd` full green dan menghasilkan:
+
+```text
+900 / 900 classified
+0 unclassified
+13 active child-facing patterns
+```
+
+### Overall distribution
+
+| Pattern | Activities | Share |
+| --- | ---: | ---: |
+| `choice_grid` | 392 | 43.56% |
+| `visible_matching` | 108 | 12.00% |
+| `coloring_canvas` | 100 | 11.11% |
+| `drawing_canvas` | 100 | 11.11% |
+| `listen_choose` | 76 | 8.44% |
+| `symbol_hunt` | 74 | 8.22% |
+| `guided_trace` | 14 | 1.56% |
+| `memory_pair` | 12 | 1.33% |
+| `missing_sequence_slot` | 10 | 1.11% |
+| `drag_to_target` | 5 | 0.56% |
+| `sorting_buckets` | 5 | 0.56% |
+| `motion_game` | 3 | 0.33% |
+| `story_read` | 1 | 0.11% |
+
+Global advisory hotspot threshold adalah >35%. Saat ini satu-satunya global hotspot adalah `choice_grid`: **392/900 (43.56%)**.
+
+Subject advisory hotspot threshold adalah >60%:
+- Mewarnai — `coloring_canvas` 100/100.
+- Menggambar — `drawing_canvas` 100/100.
+- Matematika — `choice_grid` 82/100.
+- Sains — `choice_grid` 79/100.
+- Logika — `choice_grid` 77/100.
+- Huruf & Menulis — `symbol_hunt` 64/100.
+
+Coloring dan Drawing 100% tidak otomatis salah karena keduanya memang creative-practice tracks dengan canvas sebagai medium utama. Hotspot selalu planning signal, bukan perintah mekanis untuk mengganti interaction.
 
 ## 60 pola permainan target
 
@@ -81,7 +108,7 @@ Jika PR #104 merged, jumlah gameplay pattern aktif menjadi **13**.
 15. `story_sequence` — susun kejadian cerita dari awal sampai akhir.
 
 ### D. Drag, drop & sort
-16. `drag_to_target` — seret item ke target yang tepat, dengan fallback tap/keyboard. **QA / PR #104**
+16. `drag_to_target` — seret item ke target yang tepat, dengan fallback tap/keyboard. **MERGED PR #104**
 17. `sorting_buckets` — kelompokkan semua item ke kategori yang tepat. **MERGED PR #103**
 18. `shape_fit` — masukkan bentuk ke slot yang sesuai.
 19. `assemble_pieces` — gabungkan bagian menjadi objek utuh.
@@ -95,7 +122,7 @@ Jika PR #104 merged, jumlah gameplay pattern aktif menjadi **13**.
 25. `hotspot_discovery` — ketuk bagian scene untuk menemukan informasi/target.
 
 ### F. Number & math interaction
-26. `count_and_select` — hitung objek lalu pilih jumlahnya.
+26. `count_and_select` — hitung objek lalu pilih jumlahnya. **NEXT PLANNED WAVE**
 27. `number_line` — tempatkan atau pilih angka pada garis bilangan.
 28. `more_less_balance` — tentukan sisi lebih banyak, lebih sedikit, atau sama.
 29. `make_total` — pilih/gabung item untuk mencapai jumlah tertentu.
@@ -145,26 +172,27 @@ Jika PR #104 merged, jumlah gameplay pattern aktif menjadi **13**.
 
 ## Distribution rule
 
-Tidak ada satu pola yang boleh mendominasi hanya karena paling mudah dibuat. WS-05 harus memelihara audit distribusi mechanic terhadap seluruh 900 activity dan menandai concentration yang terlalu tinggi.
+Tidak ada satu pola yang boleh mendominasi hanya karena paling mudah dibuat. Distribution audit sekarang menjadi gate permanen untuk coverage dan pattern-set consistency, sementara concentration tetap advisory.
 
 Prinsip alokasi:
 - gunakan mechanic paling cocok dengan objective;
 - variasikan mechanic di dalam subject/stage supaya sesi tidak monoton;
 - jangan memaksa practice/creative menjadi assessed;
 - jangan mengubah mastery/progression hanya untuk mechanic baru;
-- jangan membuat one-off engine jika pola bisa reusable.
+- jangan membuat one-off engine jika pola bisa reusable;
+- jangan menurunkan hotspot secara kosmetik dengan mechanic yang pedagogically salah.
 
-## Rollout order
+## Rollout order berdasarkan audit aktual
 
 1. `memory_pair` — **DONE / PR #101**.
 2. `missing_sequence_slot` — **DONE / PR #102**.
 3. `sorting_buckets` — **DONE / PR #103**.
-4. `drag_to_target` — **QA / PR #104**.
-5. `reorder_cards` dan `tap_in_order` — kerjakan sebagai wave terpisah sesuai objective multi-step ordering.
-6. `find_in_scene` + `hidden_object` — recognition/observation.
-7. `count_and_select` + `number_line` + `make_total` — Math.
-8. `listen_and_point` + `listen_and_match` + `sound_discrimination` — audio-heavy families.
-9. Lanjut puzzle/path, literacy construction, science exploration, creative, dan story berdasarkan mechanic-distribution audit.
+4. `drag_to_target` — **DONE / PR #104**.
+5. gameplay-distribution audit — **QA / PR #105**, 900/900 classified.
+6. `count_and_select` — next planned Math wave; audit menunjukkan Math `choice_grid` 82/100 dan terdapat coherent `math-count-*` family.
+7. Math follow-ons: `number_line`, `more_less_balance`, `pattern_completion`, `make_total` setelah family review.
+8. Logic/Science diversification sesuai family objective; jangan hanya karena keduanya 77–79% `choice_grid`.
+9. `reorder_cards` / `tap_in_order`, search/scene, audio, puzzle/path, literacy construction, creative, dan story dilanjutkan berdasarkan audit dan objective fit.
 
 ## Definition of done per mechanic
 
