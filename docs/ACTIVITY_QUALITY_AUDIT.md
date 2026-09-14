@@ -2,11 +2,11 @@
 
 Last reviewed: **14 September 2026**
 
-Status: **WS-04 IN PROGRESS — Wave A/B merged; Wave C PR #93 in QA**. Canonical plan: `NEXT_PRODUCT_QUALITY_PLAN.md`.
+Status: **WS-04 IN PROGRESS — Waves A/B/C merged; Wave D creative-content rebuild is next**. Canonical plan: `NEXT_PRODUCT_QUALITY_PLAN.md`.
 
 ## Current calibrated state
 
-CI #389 / PR #93 audits all **9 subjects / 900 activities**:
+PR #93 audits all **9 subjects / 900 activities** with the following accepted Wave C baseline:
 
 ```text
 symbol_hunt           74
@@ -85,7 +85,7 @@ Advisory quality rules: `Q101`–`Q108`. Heuristics do not replace human pedagog
 
 - **Wave A DONE** — PR #91, merge `7a087d590381dd4487811027690ac187ff87954b`, CI #378.
 - **Wave B DONE** — PR #92, merge `7b2f8a75cc00eafc0c3202a718e2fd81374f5f8e`, closeout CI #387.
-- **Wave C QA** — PR #93, implementation CI #389 success; current baseline `766/95/39/0`, 74 symbol hunts, Q105=0.
+- **Wave C DONE** — PR #93, merge `85aea0e5843f251eb83e5aa62180268b75455cfa`; final PR-head CI #398 success; baseline `766/95/39/0`, 74 symbol hunts, Q105=0.
 - **Wave D NEXT** — Coloring geometry + Drawing scaffold rebuild.
 - **Wave E** — human subject-by-subject review for age fit, ambiguity, distractors, difficulty, cultural fit, visual quality, and progression coherence.
 
