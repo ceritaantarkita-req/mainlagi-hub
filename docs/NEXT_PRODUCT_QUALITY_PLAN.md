@@ -1,26 +1,26 @@
 # NEXT PRODUCT QUALITY PLAN
 
-> Canonical execution plan fase product-quality Mainlagi Hub. Semua human/AI agent wajib membaca dokumen ini, `CURRENT_STATE.md`, `ARCHITECTURE.md`, dan `GAMEPLAY_VARIATION_CATALOG.md` sebelum mengubah learning experience.
+> Canonical execution plan fase product-quality Mainlagi Hub. Read with `CURRENT_STATE.md`, `ARCHITECTURE.md`, and `GAMEPLAY_VARIATION_CATALOG.md` before changing learning experience.
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
-**Merged baseline:** `main` @ `f1a9b0a2adbbb6e9e68e9cb2525d7c9a12219bb4`  
-**Active gameplay PR:** #109 / `agent/ws05-gameplay-more-less-balance-20260915`  
-**Primary focus:** WS-05 gameplay/mechanic diversification.  
+**Merged baseline:** `main` @ `8a54534ac285013d22d2fc458bb302ae1fe1a87b`  
+**Active gameplay PR:** #110 / `agent/ws05-gameplay-pattern-completion-20260915`  
+**Primary focus:** WS-05 gameplay/mechanic diversification  
 **Principle:** **Quality first. Quantity later.**
 
 ## Product goal
 
-Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menarik, visualnya konsisten, interaction-nya beragam, dan evidence/mastery-nya dapat dipercaya. Target WS-05 adalah minimum **50**, working target **60 meaningful gameplay patterns** melalui reusable interaction engines.
+Mainlagi should feel like a coherent learning product for children age 3–7: clear objectives, varied interactions, consistent visuals, and trustworthy evidence/mastery. WS-05 target: minimum **50**, working target **60 meaningful gameplay patterns**, implemented through reusable engines rather than one-off gimmicks.
 
 ## Mandatory rules
 
-1. Mechanic dipilih karena cocok dengan learning objective, bukan untuk mengejar angka.
-2. Assessed activity wajib menjaga atau secara eksplisit memigrasikan evidence contract dengan test.
-3. Jangan rewrite mastery/progression/schema tanpa kebutuhan terbukti.
-4. Setiap mechanic baru wajib punya static scope regression, progression, completion/evidence, keyboard, touch/pointer, responsive QA, dan manual visual review.
-5. Jangan membuat drag-only interaction; fallback accessible wajib tersedia bila relevan.
-6. Gameplay-distribution coverage/pattern-set regression adalah blocking; concentration hanya planning signal.
-7. **Code merged tanpa canonical docs = pekerjaan belum selesai.**
+1. Choose mechanic from the learning objective, not from quota pressure.
+2. Preserve assessed evidence contracts or explicitly migrate/test them.
+3. Do not rewrite mastery/progression/schema without proven need.
+4. Every mechanic needs exact scope regression, progression, completion/evidence, keyboard, touch/pointer, responsive browser QA, and manual visual review.
+5. Do not create pointer-only interaction when an accessible fallback is appropriate.
+6. Distribution coverage/pattern-set consistency is blocking; concentration is advisory.
+7. Code merged without current canonical docs is incomplete work.
 
 ## Workstream status
 
@@ -30,7 +30,7 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | TODO | parent/public surfaces |
 | WS-04 Activity audit/redesign | deterministic clean | 900 KEEP / 0 flagged |
-| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | 15 merged; pattern #16 More/Less Balance QA |
+| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | 16 merged; pattern #17 Pattern Completion QA |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | TODO / parallel | Art Bible + permanent human gate |
@@ -41,100 +41,83 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 
 ## WS-05 merged baseline
 
-Merged patterns on `main`: **15**. Latest gameplay merge is Number Line PR #108 `f1a9b0a2adbbb6e9e68e9cb2525d7c9a12219bb4`.
+Merged patterns on `main`: **16**. Latest gameplay merge: More/Less Balance PR #109 `8a54534ac285013d22d2fc458bb302ae1fe1a87b`.
 
-Merged distribution:
-
-```text
-900 / 900 classified
-0 unclassified
-15 active patterns
-choice_grid         377 / 900 = 41.89%
-number_line           6 / 900 = 0.67%
-count_and_select      9 / 900 = 1.00%
-Math choice_grid     67 / 100
-Science choice_grid  79 / 100
-Logic choice_grid    77 / 100
-```
-
-## Number Line PR #108 — DONE
-
-Exactly six Math Wave B ordering activities now use `number_line`. Implementation CI #489 and final docs-head CI #494 were full green; browser + manual visual QA accepted 320/390/768. Evidence fidelity is `choice_number_line_interaction` and Wave C `math-missing-*` remains outside this family.
-
-## Active PR #109 — More/Less Balance
-
-Exact scope: six Math Wave B comparison activities:
-
-```text
-math-compare-more-2-4
-math-compare-less-5-3
-math-compare-equal-4-4
-math-compare-more-6-5
-math-compare-less-7-9
-math-compare-more-10-8
-```
-
-Why this family:
-- coherent stage/lesson/skill: `math-banding-bentuk` / quantity comparison / `math.quantity.comparison`;
-- interaction directly represents left/right/equal comparison;
-- canonical three choices can map exactly to left/equal/right;
-- no parsing-based routing or broad prefix conversion is needed.
-
-Interaction/evidence:
-- two visible quantity pans + center equal control;
-- beam stays neutral before completion so UI does not reveal the answer;
-- runtime remains `tap_choice`;
-- IDs, choices, correctChoice, skill, assessment, stars, progression and completion identity remain unchanged;
-- wrong answer increments incorrect/retry;
-- assessed fidelity `choice_balance_comparison_interaction` records comparison goal, left/right counts and correct side.
-
-Implementation-head acceptance at `9c71560e37a5dace1c79abea56d4cda625eb27c0`:
-- CI #496 full green across Ubuntu, Windows, production build, dependency audit, secret scan and Chromium mobile QA;
-- deterministic quality remains **900 KEEP / 0 flagged**;
-- browser representative `math-compare-equal-4-4` uses legitimate previous-stage readiness and keeps progression guard active;
-- keyboard wrong-state + pointer completion + evidence persistence + >=44px controls + no overflow + success CTA checks pass;
-- manual visual review accepted idle/error/success at 320x720, 390x844, 768x1024.
-
-Measured PR #109 distribution:
+Merged distribution after #109:
 
 ```text
 900 / 900 classified
 0 unclassified
 16 active patterns
 choice_grid          371 / 900 = 41.22%
-more_less_balance      6 / 900 = 0.67%
-number_line             6 / 900 = 0.67%
-Math choice_grid       61 / 100
+Math choice_grid      61 / 100
+Science choice_grid   79 / 100
+Logic choice_grid     77 / 100
 ```
 
-Delta from merged baseline: global `choice_grid` 377 -> 371; Math `choice_grid` 67 -> 61.
+PR #109 acceptance: implementation CI #496 full green; final docs-head CI #501 full green; visual review accepted 320/390/768; review surface clean; evidence fidelity `choice_balance_comparison_interaction`.
 
-## Next mechanic after #109
+## Active PR #110 — Pattern Completion
 
-Do not start until #109 closes. Strongest next Math candidate is `pattern_completion` for the reviewed Wave B pattern activities, but exact family review is required first. Wave C `math-missing-*` and `make_total` remain separate candidate families; do not assume they should share a mechanic.
+Exact scope:
+
+```text
+math-pattern-ab-shapes
+math-pattern-aab-colors
+math-pattern-number-step-one
+math-pattern-number-step-two
+math-pattern-size
+```
+
+The matching activities `math-pattern-match-ab` and `math-pattern-match-aab` are intentionally excluded and remain `visible_matching`.
+
+Why this family:
+- coherent stage/lesson/skill: `math-banding-bentuk` / pattern sequences / `math.pattern.sequence`;
+- all five measure the next element in a repeating or stepping pattern;
+- canonical choices can remain unchanged;
+- explicit per-activity config avoids brittle prompt parsing.
+
+Interaction/evidence:
+- visible observed pattern strip plus one next-slot;
+- wrong candidate can fill the slot as feedback but cannot complete;
+- keyboard and pointer/touch share the same canonical choice controls;
+- runtime remains `tap_choice`;
+- IDs, choices/correctChoice, assessment, stars, progression, and completion identity remain canonical;
+- fidelity `choice_pattern_completion_interaction` stores pattern kind, visual mode, and observed sequence.
+
+Implementation-head acceptance at `6d79bf3716b65657da67ff0078767800b76b22ed`:
+- CI #503 full green across Ubuntu, Windows, build, dependency audit, secret scan, and mobile Chromium;
+- deterministic quality remains **900 KEEP / 0 flagged**;
+- representative `math-pattern-aab-colors` keeps progression guard active with legitimate prior-stage readiness;
+- browser checks canonical AAB sequence/choices, keyboard wrong-state, false-completion guard, pointer completion, evidence persistence, >=44px controls, no overflow, and success CTA visibility;
+- manual visual review accepted idle/error/success at 320x720, 390x844, and 768x1024.
+
+Measured PR #110 distribution:
+
+```text
+900 / 900 classified
+0 unclassified
+17 active patterns
+choice_grid          366 / 900 = 40.67%
+pattern_completion     5 / 900 = 0.56%
+Math choice_grid       56 / 100
+Science choice_grid    79 / 100
+Logic choice_grid      77 / 100
+```
+
+Math is now below the >60% subject hotspot threshold. After #110, priority should shift to **Science then Logic** based on exact-family review, not continue Math mechanically.
+
+## Next mechanic selection after #110
+
+1. Audit Science choice families first. Prefer objective-native patterns such as `classify_observation`, `predict_result`, `cause_effect`, `compare_properties`, or `observation_checklist` only where catalog payload supports them.
+2. Audit Logic choice families next; reuse existing sorting only where the objective truly remains classification, otherwise introduce a distinct mechanic.
+3. Revisit Math missing-number / `make_total` only after those hotspot reviews or when a clear pedagogical need appears.
+4. Continue search/scene, audio, ordering, puzzle/path, literacy, creative, and story patterns toward the 60-pattern working target.
 
 ## Definition of Done
 
-A mechanic/PR is complete only when implementation, typecheck/lint/build, engine tests, activity-quality audit, gameplay-distribution audit, routes, progression, evidence, accessibility, mobile UX, screenshot review, canonical docs, final docs-head CI, and review-thread checks are current.
+A mechanic/PR is complete only when current implementation, typecheck/lint/build, engine tests, activity-quality audit, gameplay-distribution audit, routes, progression, evidence, accessibility, mobile UX, screenshot review, canonical docs, final docs-head CI, and review-thread/comment checks are green/current.
 
-Before merge:
-- all relevant CI green at **current docs head**;
-- visual changes manually reviewed from current screenshots;
-- review threads/comments checked;
-- merge uses exact current `expected_head_sha`.
-
-After merge:
-- verify `main` contains the merge;
-- record merge SHA in canonical docs;
-- never present unmerged work as shipped.
-
-## Current execution order
-
-1. Close PR #109 More/Less Balance safely.
-2. Verify merged distribution baseline.
-3. Review exact Wave B pattern family for `pattern_completion` on latest `main`.
-4. Review Wave C missing-number and `make_total` separately.
-5. Continue toward 50–60 meaningful patterns using permanent audit evidence.
-6. Continue WS-08 visual system, WS-02 narration, WS-03 parent/public frontend, WS-10 external acceptance, WS-11 governance and WS-12 cleanup.
+Before merge: use exact current `expected_head_sha`. After merge: verify `main` contains the merge and keep canonical docs truthful about merged vs QA state.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion, or major mastery/backend rewrites during this quality phase.
