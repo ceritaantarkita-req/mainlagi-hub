@@ -8,6 +8,7 @@ if(compile.status!==0)process.exit(compile.status??1);
 const require=createRequire(import.meta.url);
 const {ACTIVITIES}=require(path.resolve(".learning-test-dist/src/lib/learning/system.js"));
 const {choiceGameplayPresentation,matchingPresentation}=require(path.resolve(".learning-test-dist/src/lib/learning/gameplayPresentation.js"));
+const {numberLineConfig,numberLineValues}=require(path.resolve(".learning-test-dist/src/lib/learning/numberLineConfig.js"));
 
 const expectedMemory=new Set([
   "letters-match-case-cd","letters-match-case-ef","letters-match-case-bce",
@@ -91,8 +92,31 @@ for(const activity of countSelect){
   assert((activity.choices??[]).includes(activity.correctChoice),"count-select preserves canonical correctChoice");
 }
 
-const otherChoice=ACTIVITIES.filter(activity=>activity.runtime==="tap_choice"&&!expectedSequence.has(activity.id)&&!expectedSorting.has(activity.id)&&!expectedCountSelect.has(activity.id));
+const expectedNumberLine=new Set([
+  "math-order-next-1-2","math-order-next-3-4","math-order-before-6",
+  "math-order-between-6-8","math-order-descend-5","math-order-descend-10"
+]);
+const numberLine=ACTIVITIES.filter(activity=>choiceGameplayPresentation(activity)==="number_line");
+assert.equal(numberLine.length,expectedNumberLine.size,"number-line family size must remain intentional");
+assert.deepEqual(new Set(numberLine.map(activity=>activity.id)),expectedNumberLine,"only the six reviewed Math ordering activities use number-line presentation");
+for(const activity of numberLine){
+  assert.equal(activity.runtime,"tap_choice");
+  assert.equal(activity.subjectId,"math");
+  assert.equal(activity.stageId,"math-banding-bentuk");
+  assert.equal((activity.choices??[]).length,3);
+  assert.equal(new Set(activity.choices??[]).size,3,"number-line choices remain unique");
+  assert((activity.choices??[]).every(choice=>/^\d+$/.test(choice)),"number-line choices remain numeric");
+  assert((activity.choices??[]).includes(activity.correctChoice),"number-line preserves canonical correctChoice");
+  const config=numberLineConfig(activity);
+  assert(config,`${activity.id} must have explicit number-line config`);
+  assert.equal(numberLineValues(config).length,5,`${activity.id} uses a compact five-tick local line`);
+  assert(Number(activity.correctChoice)>=config.min&&Number(activity.correctChoice)<=config.max,`${activity.id} correctChoice must be visible on line`);
+  assert(config.contextValues.length>=1,`${activity.id} needs visible sequence context`);
+  assert(config.contextValues.every(value=>value>=config.min&&value<=config.max),`${activity.id} context must remain inside line range`);
+}
+
+const otherChoice=ACTIVITIES.filter(activity=>activity.runtime==="tap_choice"&&!expectedSequence.has(activity.id)&&!expectedSorting.has(activity.id)&&!expectedCountSelect.has(activity.id)&&!expectedNumberLine.has(activity.id));
 assert(otherChoice.length>0,"default choice activities remain available");
 assert(otherChoice.every(activity=>choiceGameplayPresentation(activity)==="default"),"other choice families retain default presentation");
 
-console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets + ${countSelect.length} count_select activities.`);
+console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets + ${countSelect.length} count_select + ${numberLine.length} number_line activities.`);
