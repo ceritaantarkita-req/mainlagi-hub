@@ -164,10 +164,13 @@ for (const activity of activities) {
   const colorRecognitionSkill = activity.subjectId === "english" && skills.some((skill) =>
     /color/i.test(`${skill.id} ${skill.title} ${skill.description}`)
   );
-  const visualRepresentationSkill = skills.some((skill) =>
-    !["language", "literacy"].includes(skill.domain) &&
-    /(visual|shape|bentuk|pattern|pola)/i.test(`${skill.id} ${skill.title} ${skill.description}`)
-  );
+  const visualRepresentationSkill = skills.some((skill) => {
+    if (["language", "literacy"].includes(skill.domain)) return false;
+    const skillText = `${skill.id} ${skill.title} ${skill.description}`;
+    const explicitlyVisual = /(visual|shape|bentuk)/i.test(skillText);
+    const structuredPattern = ["math", "logic"].includes(activity.subjectId) && /(pattern|pola)/i.test(skillText);
+    return explicitlyVisual || structuredPattern;
+  });
 
   if (
     activity.runtime === "tap_choice" &&
