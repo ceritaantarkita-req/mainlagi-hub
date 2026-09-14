@@ -134,7 +134,12 @@ for(const activity of balance){
   assert(config,`${activity.id} must have explicit balance config`);
   assert(config.left.count>0&&config.right.count>0,`${activity.id} keeps visible positive comparison quantities`);
   assert.deepEqual(new Set(Object.values(config.choiceToSide)),new Set(["left","equal","right"]),`${activity.id} maps canonical choices to all three comparison positions`);
-  assert.equal(config.choiceToSide[activity.correctChoice], config.goal==="equal"?"equal":config.choiceToSide[activity.correctChoice], `${activity.id} correct choice maps to a valid balance side`);
+  const expectedCorrectSide=config.goal==="equal"
+    ? "equal"
+    : config.goal==="more"
+      ? (config.left.count>config.right.count?"left":"right")
+      : (config.left.count<config.right.count?"left":"right");
+  assert.equal(config.choiceToSide[activity.correctChoice],expectedCorrectSide,`${activity.id} canonical correctChoice must match the comparison objective`);
 }
 
 const specializedChoiceIds=new Set([...expectedSequence,...expectedSorting,...expectedCountSelect,...expectedNumberLine,...expectedBalance]);
