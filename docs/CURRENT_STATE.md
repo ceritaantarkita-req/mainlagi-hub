@@ -2,40 +2,35 @@
 
 Last reviewed: **14 September 2026**
 
-This is the canonical human/AI handoff for the current repository state. `main` is the implementation source of truth. Historical audit/redesign documents describe the state at the time they were written and must not override this file.
-
-> Documentation note: the synchronized current-state wording in this branch is part of WS-01 / PR #88 and becomes the repository canonical text after that PR is merged.
+This is the canonical human/AI handoff for the current repository state. `main` is the merged implementation source of truth. Active PR work must be described explicitly as unmerged/QA and must not be presented as already shipped.
 
 ## Canonical baseline
 
 - repository: `ceritaantarkita-req/mainlagi-hub`
 - canonical branch: `main`
-- current main SHA: `25c83840b74c4eca1dd3d3b71e888f7dfc4d8b21`
-- merged change: PR #87 — `Redesign child learning experience and product QA`
+- current merged main SHA: `c01f8122b19cde3d46ea0e2d3297b58216fe824c`
+- latest merged product-quality change: PR #100 — final WS-07 Drawing scaffold coverage
+- active gameplay branch/PR: `agent/ws05-gameplay-memory-matching-20260914` / PR #101
 - production: `https://mainlagihub.my.id/`
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - canonical Supabase project: `estvtgflwkebomsqlolv`, `ap-southeast-1`
 - source licence: `AGPL-3.0-only`
 
-PR #87 is **merged**. Its Garden/Playroom redesign is no longer a local-only candidate. Post-merge CI #350 and exact-SHA Cloudflare smoke completed successfully for the merge SHA.
-
 ## Current engineering status
 
-No known P0 engineering blocker was found in the post-merge audit.
+No known P0 engineering blocker is open on the merged baseline.
 
 Current CI coverage includes:
-
 - Ubuntu quality gate;
 - Windows compatibility;
 - production build;
 - production dependency audit;
 - mobile route QA in Chromium;
 - secret-history scan;
-- exact-SHA Cloudflare production smoke;
 - learning/mastery regression suites;
 - build budgets and source/security audits.
 
-External acceptance is still incomplete; see `External acceptance still open` below.
+External physical-device and expert acceptance is still incomplete; see `External acceptance still open`.
 
 ## Current learning/catalog baseline
 
@@ -52,7 +47,6 @@ External acceptance is still incomplete; see `External acceptance still open` be
 | Menggambar | 100 | 0 | 100 |
 
 Totals:
-
 - 9 subjects / learning paths;
 - 900 activities;
 - 683 assessed / 217 practice;
@@ -61,7 +55,7 @@ Totals:
 - 197 active content packs;
 - 200 active skills.
 
-Current runtime inventory:
+Canonical runtime inventory remains:
 
 | Runtime | Activities |
 | --- | ---: |
@@ -74,28 +68,77 @@ Current runtime inventory:
 | `coloring` | 100 |
 | `drawing` | 100 |
 
-## Current frontend state
+**Important:** runtime count is not the same thing as gameplay-pattern count. One runtime may support multiple child-facing mechanics.
 
-The current child experience includes:
+## Gameplay variation state
 
+Canonical gameplay source of truth: **`docs/GAMEPLAY_VARIATION_CATALOG.md`**.
+
+Product target:
+- minimum **50** gameplay patterns;
+- working target **60** meaningful patterns;
+- use roughly 12–15 reusable interaction engines instead of 60 one-off implementations;
+- distribute mechanics by learning objective and monitor concentration across all 900 activities.
+
+### Merged patterns on `main`: 9
+
+1. `choice_grid` — choose one option.
+2. `symbol_hunt` — visually hunt a target symbol/letter.
+3. `listen_choose` — hear a prompt and choose.
+4. `visible_matching` — pair visible items.
+5. `guided_trace` — follow a guide path/form.
+6. `story_read` — read/listen to a short story.
+7. `motion_game` — optional body-motion interaction.
+8. `coloring_canvas` — fill authored coloring regions.
+9. `drawing_canvas` — draw with activity-specific scaffolding.
+
+`symbol_hunt` is already used by 74 direct-literacy activities.
+
+### In QA, not merged: pattern #10
+
+`memory_pair` on PR #101:
+- initially covers 12 Letters uppercase/lowercase matching activities;
+- cards start concealed, child reveals two and searches for the correct pair;
+- canonical matching skill/evidence semantics remain intact;
+- browser QA covers pointer/touch, keyboard, responsive layout, completion, attempt evidence, and progression behavior.
+
+The next planned gameplay family after Memory Pair is Letters sequence/order using missing-slot and reorder interactions.
+
+## Current frontend/product state
+
+The child experience includes:
 - Garden/Playroom visual system;
 - persistent active-child state;
 - continue-learning/recommendation flow;
 - redesigned home/navigation/subject/stage/activity surfaces;
-- subject activity gallery;
+- Recommended Path + Stage Journey + Browse All product model;
 - stage/progression route guard;
 - redesigned coloring interaction with palettes, undo/reset, keyboard support and larger hit areas;
-- drawing scaffolding where available;
+- 100/100 Drawing activities with functional activity-specific scaffold coverage;
+- 100/100 Coloring activities with deterministic duplicate-geometry finding reduced to zero;
 - improved audio route/session handling;
 - activity previews;
 - Nunito UI typography and Phosphor icons.
 
-The current visual implementation is the baseline for the next product-quality phase. Do not revert to the pre-PR #87 interface unless a specific regression proves necessary.
+Do not revert this product model or weaken stage/evidence rules merely to simplify a mechanic.
+
+## Deterministic activity-quality baseline
+
+The latest deterministic audit reached:
+
+```text
+900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE
+structural findings: 0
+Q101–Q108: 0
+```
+
+This means the current deterministic rules are clean. It does **not** mean human pedagogical, visual-art, narration, physical-device, or expert Iqro acceptance is complete.
+
+Coloring WS-06 is complete. Drawing WS-07 is complete. Gameplay diversification WS-05 is now the primary implementation focus.
 
 ## Learning/mastery boundaries
 
 These remain non-negotiable unless explicitly redesigned with tests and migration review:
-
 - mastery states: `not_started -> exploring -> developing -> proficient -> mastered`;
 - assessed mastery requires qualifying measured evidence;
 - one qualifying perfect attempt remains at most `exploring`;
@@ -106,6 +149,8 @@ These remain non-negotiable unless explicitly redesigned with tests and migratio
 - motion is optional input/context, not inherently stronger evidence;
 - all active Iqro packs remain `expert_required`, not `expert_approved`.
 
+Every new gameplay pattern must preserve these boundaries or explicitly migrate its evidence contract with tests and documentation.
+
 ## Adaptive/reporting state
 
 Adaptive Learning V2 remains the active recommendation/reporting foundation across the nine subjects. Recommendation considers age compatibility, stage availability, incomplete core work, weak skills, replay avoidance and optional motion preference.
@@ -114,57 +159,34 @@ Parent reporting remains bounded and explainable. Creative-only subjects must no
 
 ## Product-quality gaps now prioritized
 
-The main remaining gap is **product depth/coherence**, not the core evidence engine.
+The main remaining gap is **experience depth and interaction diversity**, not activity quantity or the core evidence engine.
 
-Canonical next work is defined in `NEXT_PRODUCT_QUALITY_PLAN.md` and includes:
+Canonical next work is defined in `NEXT_PRODUCT_QUALITY_PLAN.md` and `GAMEPLAY_VARIATION_CATALOG.md`.
 
-1. sync canonical documentation;
-2. reconcile stage progression with the current 100-card gallery UX;
-3. audit/redesign all 900 activities for pedagogical validity and meaningful variety;
-4. expand runtime/mechanic variety only where it measures the intended skill better;
-5. rebuild weak/duplicate Coloring and Drawing visuals;
-6. create a Mainlagi art-direction/visual-QA gate;
-7. implement licensed/reviewed native-feeling Indonesian and English narration architecture;
-8. update About/FAQ and make parent-facing affiliate recommendations discoverable;
-9. finish physical-device/accessibility/Iqro acceptance;
-10. harden repository governance.
+Priority order:
+1. close Memory Pair PR #101 safely;
+2. expand gameplay toward 60 documented patterns with reusable mechanics;
+3. maintain a catalog-wide mechanic-distribution audit so `tap_choice`/matching-style experiences do not dominate child sessions;
+4. continue Art Bible/permanent human visual QA;
+5. implement licensed/reviewed native-feeling Indonesian and English narration;
+6. update public/parent surfaces;
+7. finish physical-device/accessibility/Iqro acceptance;
+8. harden repository governance.
 
 Do **not** prioritize increasing activity count, OCR, large AI features, subscription/paywall work, or a mastery rewrite before this phase is substantially complete.
 
-## Known content/visual issues
+## Gameplay authoring rule
 
-The 900-route inventory must not be interpreted as 900 equally strong experiences.
+900 activity IDs do not count as 900 different experiences.
 
-Verified issues include:
+A mechanic change is useful only when it better represents the intended learning task. Examples:
+- alphabet order should prefer sequence/ordering interaction over repeated three-button choice when suitable;
+- classification should prefer sorting/buckets when suitable;
+- observation should use search/scene interaction when suitable;
+- audio objectives should diversify beyond the same choose-after-listen layout;
+- creative activities should remain creative and must not be forced into assessed quiz mechanics.
 
-- large concentration in `tap_choice` and `matching` mechanics;
-- activities where representation does not match the intended learning objective;
-- trivial/repetitive distractors and prompt patterns;
-- Coloring scenes with duplicate/near-duplicate compositions;
-- complex procedural/vector scenes that can become visually messy;
-- Drawing activities with inconsistent visual scaffolding;
-- current narration infrastructure without a final reviewed native Indonesian/English voice identity.
-
-These are now first-class product issues, not cosmetic backlog.
-
-## Stage progression vs gallery
-
-The data/progression model remains stage-based, while the current subject frontend can expose a flat 100-card activity gallery with locked/age-ineligible entries visible.
-
-This is an intentional unresolved product decision. The next phase must choose and document one coherent child model, such as:
-
-- stage-first;
-- recommended path + browse all;
-- gallery grouped by stage;
-- another validated hybrid.
-
-Do not remove stage/evidence rules merely to simplify the screen.
-
-## Public/parent frontend
-
-`/about`, `/faq`, and affiliate/product infrastructure already exist, but the About/FAQ copy is stale and the product recommendation surface is not sufficiently discoverable from primary navigation.
-
-Affiliate links must remain outside the child learning flow and must retain clear disclosure.
+New one-off mechanics are discouraged. Prefer reusable patterns listed in `GAMEPLAY_VARIATION_CATALOG.md`.
 
 ## Voice/audio
 
@@ -186,7 +208,6 @@ Engine/model/voice licences and provenance must be checked individually. Iqro pr
 Canonical tracker: issue #83 — `Final external acceptance: physical-device QA and required secret-scan check`.
 
 Still required:
-
 - representative physical iPhone + Safari validation;
 - representative Android + Chrome validation;
 - real touch/trace/drawing/coloring behavior;
@@ -201,23 +222,17 @@ Headless CI cannot truthfully replace these external checks.
 
 ## Repository governance
 
-The active main ruleset requires PR-based changes and currently requires four status checks:
-
-- Production build;
-- Quality gate (Ubuntu);
-- Windows compatibility;
-- Production dependency audit.
-
-`Secret history scan` runs in CI but is not yet a required main status check. Required approving review count is currently zero. These are governance gaps to review, not application-runtime defects.
+The active main ruleset requires PR-based changes. `Secret history scan` runs in CI but governance review remains open. Do not weaken required checks to merge gameplay work faster.
 
 ## Source of truth for next work
 
-Every developer/AI agent working on the next product-quality phase must read:
+Every developer/AI agent working on the current product-quality phase must read:
 
 1. `docs/NEXT_PRODUCT_QUALITY_PLAN.md`
-2. this file;
-3. `docs/ARCHITECTURE.md`;
-4. `docs/MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md`;
-5. the specific subsystem docs affected by the task.
+2. `docs/GAMEPLAY_VARIATION_CATALOG.md`
+3. this file;
+4. `docs/ARCHITECTURE.md`;
+5. `docs/MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md`;
+6. the specific subsystem docs affected by the task.
 
 Completed work is not considered closed until related canonical docs and the execution log are updated.

@@ -104,19 +104,30 @@ export function useLearningProfile(childId: string) {
   return profile;
 }
 
-export function useLearningProgress(childId: string) {
-  const [progress, setProgress] = useState<LearningProgress>(EMPTY_LEARNING_PROGRESS);
+interface LearningProgressState {
+  childId: string;
+  progress: LearningProgress;
+  ready: boolean;
+}
+
+export function useLearningProgressState(childId: string): { progress: LearningProgress; ready: boolean } {
+  const [state, setState] = useState<LearningProgressState>(() => ({
+    childId,
+    progress: EMPTY_LEARNING_PROGRESS,
+    ready: false
+  }));
+
   useEffect(() => {
     let cancelled = false;
     const refresh = async () => {
       const userId = await getCurrentUserId();
       if (cancelled) return;
       if (!userId) {
-        setProgress(readProgress(childId));
+        setState({ childId, progress: readProgress(childId), ready: true });
         return;
       }
       const cloud = await readCloudLearningProgress(childId);
-      if (!cancelled) setProgress(cloud ?? EMPTY_LEARNING_PROGRESS);
+      if (!cancelled) setState({ childId, progress: cloud ?? EMPTY_LEARNING_PROGRESS, ready: true });
     };
     const frame = window.requestAnimationFrame(() => void refresh());
     const onCustom = (event: Event) => {
@@ -134,7 +145,13 @@ export function useLearningProgress(childId: string) {
       window.removeEventListener("storage", onCustom);
     };
   }, [childId]);
-  return progress;
+
+  if (state.childId !== childId) return { progress: EMPTY_LEARNING_PROGRESS, ready: false };
+  return { progress: state.progress, ready: state.ready };
+}
+
+export function useLearningProgress(childId: string) {
+  return useLearningProgressState(childId).progress;
 }
 
 export function ChildLoading() {

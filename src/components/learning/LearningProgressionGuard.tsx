@@ -4,8 +4,8 @@ import { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { getActivity, getStage } from "@/lib/learning/system";
 import { getUnlockedStageIds } from "@/lib/learning/insights";
-import { useLearningProgress } from "./LearningCommon";
-import { useLearningAnalytics } from "./useLearningAnalytics";
+import { useLearningProgressState } from "./LearningCommon";
+import { useLearningAnalyticsState } from "./useLearningAnalytics";
 
 function stageFromPath(pathname: string): string | null {
   const match = pathname.match(/\/stage\/([^/]+)/);
@@ -20,21 +20,23 @@ function activityFromPath(pathname: string): string | null {
 export function LearningProgressionGuard({ childId }: { childId: string }) {
   const pathname = usePathname();
   const router = useRouter();
-  const progress = useLearningProgress(childId);
-  const analytics = useLearningAnalytics(childId);
+  const progressState = useLearningProgressState(childId);
+  const analyticsState = useLearningAnalyticsState(childId);
 
   useEffect(() => {
+    if (!progressState.ready || !analyticsState.ready) return;
+
     const directStage = stageFromPath(pathname);
     const activityId = activityFromPath(pathname);
     const activityStage = activityId ? getActivity(activityId)?.stageId ?? null : null;
     const targetStage = directStage ?? activityStage;
     if (!targetStage) return;
 
-    const unlocked = getUnlockedStageIds(progress, analytics);
+    const unlocked = getUnlockedStageIds(progressState.progress, analyticsState.analytics);
     if (unlocked.has(targetStage)) return;
     const subjectId = getStage(targetStage)?.subjectId ?? (activityId ? getActivity(activityId)?.subjectId : null);
     router.replace(subjectId ? `/child/${childId}/subject/${subjectId}` : `/child/${childId}/home#choose-subject`);
-  }, [analytics, childId, pathname, progress, router]);
+  }, [analyticsState.analytics, analyticsState.ready, childId, pathname, progressState.progress, progressState.ready, router]);
 
   return null;
 }
