@@ -6,7 +6,7 @@ Status: **WS-04 deterministic triage clean; WS-06 Coloring and WS-07 Drawing com
 
 ## Current calibrated state
 
-PR #103 implementation-head CI #457 audits all **9 subjects / 900 activities** after Sequence Slot merge and Sorting Buckets implementation:
+PR #104 implementation-head CI #465 audits all **9 subjects / 900 activities** after Sorting Buckets merge and Drag-to-Target implementation:
 
 ```text
 symbol_hunt           74
@@ -68,24 +68,25 @@ DONE. All 100 have functional activity-specific scaffolds. Q106=0. Human visual 
 
 ## WS-05 gameplay diversification
 
-The deterministic audit is clean, but repeated templates remain useful prioritization signals. Examples include large `listen_and_choose`, `tap_choice`, matching, and trace families. Repetition is not automatically a quality failure; diversify only when the new mechanic better serves the objective and preserves evidence semantics.
+The deterministic audit is clean, but repeated templates remain useful prioritization signals. Repetition is not automatically a quality failure; diversify only when the new mechanic better serves the objective and preserves evidence semantics.
 
 Current state:
 - `symbol_hunt` — **DONE**, 74 direct-literacy activities; canonical choice evidence preserved.
 - `memory_pair` — **DONE / PR #101**, exactly 12 Letters case-matching activities; canonical `matching` evidence preserved.
 - `missing_sequence_slot` — **DONE / PR #102**, exactly 10 `letters-order-*` activities; canonical `tap_choice` contract preserved; explicit fidelity `choice_sequence_interaction`.
-- `sorting_buckets` — **QA / PR #103**, exactly 5 basic Logic classification activities; all three canonical cards are sorted into positive/negative buckets; canonical `tap_choice` identity stays; explicit fidelity `choice_sorting_interaction`.
+- `sorting_buckets` — **DONE / PR #103**, exactly 5 basic Logic classification activities; canonical `tap_choice` identity preserved; explicit fidelity `choice_sorting_interaction`.
+- `drag_to_target` — **QA / PR #104**, exactly 5 reviewed Science Wave A matching activities; canonical `matching`, matchItems/pair ids and assessed semantics preserved; explicit fidelity `matching_drag_target_interaction`.
 
-PR #103 QA evidence:
-- static presentation regression reports **12 memory_pair + 10 sequence_slot + 5 sorting_buckets** activities;
-- basic-stage guard prevents later multi-attribute `logic-classify-*` activities from being silently reclassified;
-- browser QA covers valid progression prerequisites, keyboard wrong placement, pointer completion, persistence/evidence, >=44px controls, no horizontal overflow, and 320/390/768 screenshots;
-- first 320×720 success run exposed a CTA below the viewport; success-only narrow-screen layout was compacted and the regression now asserts the CTA is fully visible;
-- manual visual review accepted final idle/error/success screenshots at 320, 390 and 768;
-- CI #457 on implementation head `97ae2e4d4b76e64865abb634216c5d8ce94dc8f8` is full success;
+PR #104 QA evidence:
+- static presentation regression reports **12 memory_pair + 5 drag_targets + 10 sequence_slot + 5 sorting_buckets** activities;
+- exact Science ID + stage + 3-pair guard prevents other matching families from being silently reclassified;
+- browser QA covers valid Science foundation prerequisites, keyboard wrong placement, real mouse drag, touch fallback, completion/evidence persistence, >=44px controls, no horizontal overflow, and 320/390/768 screenshots;
+- wrong placement increments incorrect/retry without consuming a pair; all three correct pairs are required for completion;
+- manual visual review accepted idle/error/success screenshots at 320, 390 and 768, including an in-viewport 320 success CTA;
+- CI #465 on implementation head `722391fe049b3e055ab69e16140141bdf971268b` is full success;
 - deterministic activity quality remains **900 KEEP / 0 flagged**, structural=0.
 
-Next WS-05 mechanic after #103: **`drag_to_target` on a separate branch**, with real drag plus tap/keyboard fallback. Do not broaden #103 into multi-attribute classification or drag behavior.
+Next WS-05 work after #104 closes: mechanic-distribution audit, then separate `reorder_cards` / `tap_in_order` waves where the objective genuinely requires multi-step ordering.
 
 ## Permanent audit
 
@@ -115,8 +116,9 @@ Advisory rules Q101–Q108 do not replace human pedagogical/visual review.
 - WS-07 Drawing DONE — PR #98/#99/#100; Q106=0.
 - WS-05 Memory Pair DONE — PR #101, merge `aea24d47bd2793fbbf3b3723878674ec6f3c98a0`.
 - WS-05 Sequence Slot DONE — PR #102, merge `f981d40fd55c1cdef3137600b4b44677e550b06d`.
-- WS-05 Sorting Buckets QA — PR #103; implementation-head CI #457 full green; visual review accepted; docs-head CI required before merge.
-- WS-05 NEXT — Drag-to-Target; then mechanic-distribution-guided sequence/search/math/audio/puzzle/literacy/science/story waves.
+- WS-05 Sorting Buckets DONE — PR #103, merge `6d28ff2f4f3eb8a5b642d2e3b79979c910924342`.
+- WS-05 Drag-to-Target QA — PR #104; implementation-head CI #465 full green; visual review accepted; docs-head CI required before merge.
+- WS-05 NEXT — mechanic-distribution audit, then objective-driven ordering/search/math/audio/puzzle/literacy/science/story waves.
 - Wave E LATER — human subject-by-subject review for age fit, ambiguity, difficulty, cultural fit, visual quality, and progression coherence.
 
 ## Completion rule
