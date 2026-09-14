@@ -151,7 +151,7 @@ async function chooseWrongWithKeyboard(page) {
       return focused.label;
     }
   }
-  throw new Error(`Keyboard navigation did not reach a wrong sequence candidate. Focus trace: ${trace.join(" -> ")}`);
+  throw new Error(`Keyboard navigation did not reach a wrong sequence candidate. Focus trace: ${focusTrace.join(" -> ")}`);
 }
 
 async function inspect(viewport) {
@@ -206,6 +206,12 @@ async function inspect(viewport) {
     await page.getByRole("status").filter({ hasText: "Tepat" }).waitFor({ state: "visible", timeout: 2_000 });
     assert.equal((await target.textContent())?.trim(), correctChoice, "correct answer visibly completes the sequence");
 
+    const nextLink = page.getByRole("link", { name: "Pilih permainan lain" });
+    const nextLinkBox = await nextLink.boundingBox();
+    const viewportHeight = await page.evaluate(() => window.innerHeight);
+    assert(nextLinkBox, "success CTA must render");
+    assert(nextLinkBox.y >= -1 && nextLinkBox.y + nextLinkBox.height <= viewportHeight + 1, `success CTA must remain fully visible at ${viewport.width}`);
+
     const state = await page.evaluate(({ activityId: id }) => {
       const progress = JSON.parse(localStorage.getItem("mainlagi-learning-progress-v1") ?? "{}");
       const attempts = JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1") ?? "{}");
@@ -238,7 +244,7 @@ async function main() {
   startServer();
   await waitForServer();
   for (const viewport of viewports) await inspect(viewport);
-  console.log(`Sequence-slot browser QA passed ${viewports.length} viewports with progression, keyboard wrong-state, pointer completion, layout, and assessed evidence checks.`);
+  console.log(`Sequence-slot browser QA passed ${viewports.length} viewports with progression, keyboard wrong-state, pointer completion, layout, in-viewport CTA, and assessed evidence checks.`);
 }
 
 main()
