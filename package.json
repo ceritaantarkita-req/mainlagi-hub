@@ -8,8 +8,11 @@
     "node": ">=20.9.0"
   },
   "scripts": {
+    "predev": "node scripts/build-coloring-previews.mjs",
     "dev": "next dev",
+    "prebuild": "node scripts/build-coloring-previews.mjs",
     "build": "next build",
+    "prebuild:cloudflare": "node scripts/build-coloring-previews.mjs",
     "build:cloudflare": "opennextjs-cloudflare build",
     "start": "next start",
     "lint": "eslint .",
