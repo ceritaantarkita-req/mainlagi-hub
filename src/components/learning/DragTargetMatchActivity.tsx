@@ -11,7 +11,6 @@ import styles from "./DragTargetMatchActivity.module.css";
 
 type PairCard = { pair: string; source: string; target: string };
 type PointerDrag = { pair: string; label: string; pointerId: number; startX: number; startY: number; moved: boolean };
-
 type Ghost = { label: string; x: number; y: number } | null;
 
 function buildPairCards(items: readonly { label: string; pair: string }[]): PairCard[] {
@@ -79,7 +78,7 @@ export function DragTargetMatchActivity({ childId, activityId }: { childId: stri
   };
 
   const placePair = (sourcePair: string, targetPair: string) => {
-    if (done || matched.includes(sourcePair)) return;
+    if (done || matched.includes(sourcePair) || matched.includes(targetPair)) return;
     if (sourcePair !== targetPair) {
       incorrectRef.current += 1;
       retryRef.current += 1;
@@ -217,7 +216,7 @@ export function DragTargetMatchActivity({ childId, activityId }: { childId: stri
                     type="button"
                     className={`${styles.targetCard} ${isHover ? styles.targetHover : ""} ${isMatched ? styles.targetMatched : ""}`}
                     aria-label={`Target ${card.target}${isMatched ? `, pasangan ${card.source}` : ""}`}
-                    disabled={done}
+                    disabled={isMatched || done}
                     data-drag-target-pair={card.pair}
                     onClick={() => {
                       if (selectedPair) placePair(selectedPair, card.pair);
