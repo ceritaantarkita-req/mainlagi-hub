@@ -3,10 +3,10 @@
 > Canonical execution plan untuk fase product-quality Mainlagi Hub. Semua developer/AI agent wajib membaca dan memperbarui dokumen ini ketika mengerjakan scope terkait.
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
-**Current merged baseline:** `main` @ `d9f0245e8531662840e2d9030e7b9b6e2f9e1df0`  
-**Active branch/PR:** `agent/ws07-drawing-scaffold-wave-b-20260914` / PR #99  
-**Focus:** frontend/UI/visual quality, voice, activity quality, dan product coherence.  
-**Principle:** **Quality first. Quantity later.** Perbaiki 900 activity yang ada sebelum ekspansi besar.
+**Current merged baseline:** `main` @ `ebeae5ed8d7e58c9b7b9807c88c0d92c45481329`  
+**Active branch/PR:** `agent/ws07-drawing-scaffold-final-20260914` / PR #100  
+**Focus:** frontend/UI/visual quality, gameplay/mechanic diversity, voice, activity quality, dan product coherence.  
+**Principle:** **Quality first. Quantity later.** Improve the existing 900 activities before major expansion.
 
 ## 1. Product goal
 
@@ -14,16 +14,17 @@ Mainlagi harus terasa sebagai produk belajar anak 3–7 tahun yang visualnya kon
 
 ## 2. Mandatory rules
 
-1. Frontend/UI/visual adalah patokan utama fase ini.
+1. Frontend/UI/visual dan gameplay quality adalah patokan utama fase ini.
 2. Jangan menambah activity hanya untuk mengejar jumlah.
 3. Jangan rewrite mastery/progression/schema tanpa kebutuhan yang terbukti.
 4. Assessed activity wajib menjaga atau secara eksplisit memperbarui evidence contract.
-5. Affiliate/commerce tidak boleh masuk child learning flow.
-6. Voice/model/art wajib licence/provenance-safe.
-7. Iqro/Hijaiyah tidak boleh dianggap approved hanya dari engineering/TTS.
-8. Generated/procedural art bukan otomatis production-ready.
-9. Jangan merusak route/database/progression yang sudah lolos CI.
-10. **Code merged tanpa update docs = pekerjaan belum selesai.**
+5. Gameplay diversification harus reusable dan cocok dengan objective; jangan membuat gimmick satu-off.
+6. Affiliate/commerce tidak boleh masuk child learning flow.
+7. Voice/model/art wajib licence/provenance-safe.
+8. Iqro/Hijaiyah tidak boleh dianggap approved hanya dari engineering/TTS.
+9. Generated/procedural art bukan otomatis production-ready.
+10. Jangan merusak route/database/progression yang sudah lolos CI.
+11. **Code merged tanpa update docs = pekerjaan belum selesai.**
 
 ## 3. Workstreams
 
@@ -37,106 +38,59 @@ Mainlagi harus terasa sebagai produk belajar anak 3–7 tahun yang visualnya kon
 **Status: TODO.** Rewrite stale `/about` and `/faq`, improve public navigation/footer, expose parent recommendations/affiliate area with clear disclosure, fix image fallback/CTA/mobile/accessibility, and keep commerce outside child flow.
 
 ### WS-04 — Audit/redesign 900 activities
-**Status: IN_PROGRESS.** Canonical detail: `ACTIVITY_QUALITY_AUDIT.md`.
+**Status: DETERMINISTIC TRIAGE CLEAN; HUMAN REVIEW STILL OPEN.** Canonical detail: `ACTIVITY_QUALITY_AUDIT.md`.
 
 Accepted progression:
 
 ```text
-Wave A         640 KEEP / 186 POLISH / 74 REDESIGN / 0 REPLACE — 260 flagged
-Wave B         683 KEEP / 178 POLISH / 39 REDESIGN / 0 REPLACE — 217 flagged
-Wave C         766 KEEP /  95 POLISH / 39 REDESIGN / 0 REPLACE — 134 flagged
-WS-06 Wave A   805 KEEP /  95 POLISH /  0 REDESIGN / 0 REPLACE —  95 flagged
-WS-06 Wave B   825 KEEP /  75 POLISH /  0 REDESIGN / 0 REPLACE —  75 flagged
-WS-07 Wave A   850 KEEP /  50 POLISH /  0 REDESIGN / 0 REPLACE —  50 flagged
-WS-07 Wave B   875 KEEP /  25 POLISH /  0 REDESIGN / 0 REPLACE —  25 flagged
+Wave A          640 KEEP / 186 POLISH / 74 REDESIGN / 0 REPLACE — 260 flagged
+Wave B          683 KEEP / 178 POLISH / 39 REDESIGN / 0 REPLACE — 217 flagged
+Wave C          766 KEEP /  95 POLISH / 39 REDESIGN / 0 REPLACE — 134 flagged
+WS-06 Wave A    805 KEEP /  95 POLISH /  0 REDESIGN / 0 REPLACE —  95 flagged
+WS-06 Wave B    825 KEEP /  75 POLISH /  0 REDESIGN / 0 REPLACE —  75 flagged
+WS-07 Wave A    850 KEEP /  50 POLISH /  0 REDESIGN / 0 REPLACE —  50 flagged
+WS-07 Wave B    875 KEEP /  25 POLISH /  0 REDESIGN / 0 REPLACE —  25 flagged
+WS-07 Final     900 KEEP /   0 POLISH /  0 REDESIGN / 0 REPLACE —   0 flagged
 ```
 
-Structural findings remain **0**.
-
-Wave A established permanent audit tooling.  
-Wave B fixed visual representation, listening leakage, and pre-reader issues.  
-Wave C diversified direct literacy recognition through **74 `symbol_hunt` activities** while preserving existing choice evidence.  
-WS-06 closed all Coloring exact-geometry duplicate findings: **Q108 59 -> 20 -> 0**.  
-WS-07 Waves A/B add 50 functional Drawing scaffolds, bringing Drawing scaffold coverage to **75/100** and reducing **Q106 75 -> 50 -> 25**.
-
-Remaining deterministic finding:
-
-- **25 young Drawing activities without explicit functional scaffold -> final WS-07 wave + WS-08 visual review.**
+Structural findings remain **0**. Q101–Q108 are now zero in PR #100 / CI #422. This is a deterministic triage result, not human expert approval.
 
 ### WS-05 — Gameplay/mechanic diversification
-**Status: IN_PROGRESS.** Wave C delivered the first reusable presentation diversification (`symbol_hunt`) while preserving canonical choice evidence. Continue only when a mechanic genuinely improves the learning objective. Avoid one-off gimmicks.
+**Status: IN_PROGRESS — NEXT PRIMARY IMPLEMENTATION FOCUS.**
+
+Already delivered:
+- 74 direct literacy activities render through reusable `symbol_hunt` presentation while preserving canonical choice values and attempt evidence.
+
+Next phase:
+1. measure mechanic/template concentration across the 900-activity catalog;
+2. select repeated families where a different interaction better expresses the learning objective;
+3. implement reusable mechanics/presentations rather than per-activity gimmicks;
+4. preserve the canonical assessed evidence contract (`correct`, `incorrect`, retries/attempts, completion) or explicitly migrate it with tests;
+5. add browser/mobile/accessibility QA for every new mechanic family.
+
+Priority candidates from the final audit include large repeated `listen_and_choose`, Letters `tap_choice`, matching, and trace families. Candidate reusable mechanics include drag-to-target, sorting/bucketing, ordering/sequencing, find-in-scene, count/select, lightweight puzzle/assembly, memory/pairing, and story interaction. The mechanic must be chosen by learning objective—not by a quota for novelty.
 
 ### WS-06 — Coloring rebuild
-**Status: DONE.** PR #95 + PR #96.
-
-Results:
-- 100/100 Coloring deterministic KEEP;
-- Q108 exact geometry duplicates: **59 -> 0**;
-- runtime geometry validation remains required;
-- gallery previews regenerate from runtime geometry before `dev`, `build`, and `build:cloudflare`;
-- human visual review caught and corrected clipping/off-canvas issues before merge;
-- no assessment/mastery/progression/schema semantics changed.
-
-Wave A: PR #95, merge `4049449b5678f7f769f986750380a71b30536928`, CI #406.  
-Wave B: PR #96, merge `31ed55a0bee24a3baae7ff459f79bee9f585ad22`, CI #408.
+**Status: DONE.** PR #95 + PR #96. Q108 59 -> 0; 100/100 deterministic KEEP; runtime-derived preview lifecycle and human clipping/off-canvas review added; creative-practice semantics preserved.
 
 ### WS-07 — Drawing rebuild
-**Status: IN_PROGRESS — Waves A/B completed through implementation QA; final 25 remain.**
+**Status: QA — final PR #100 passed implementation CI #422 and visual review; final docs-head CI/merge pending.**
 
-#### Wave A — concrete scaffold families
-PR #98 / merge `d9f0245e8531662840e2d9030e7b9b6e2f9e1df0`.
+Results across all waves:
+- original 25 foundational trace/dots/composition guides preserved;
+- Wave A added 25 concrete object/animal/nature/face/scene starters;
+- Wave B added 25 structured space/texture/symmetry/story/focus starters;
+- Final wave adds 25 sparse invention/character/map/design/capstone starters;
+- functional scaffold coverage becomes **100/100 Drawing activities**;
+- Q106: **75 -> 50 -> 25 -> 0**;
+- all authored guide definitions remain activity-specific and unique;
+- SVG parsing, nonzero path length, 480×480 bounds, direct route loading, thumbnail availability, and no synthetic completion are browser-tested;
+- no mastery/progression/schema/activity-count changes.
 
-- added 25 explicit functional scaffolds for objects, animals, nature, faces/people, and simple scenes;
-- preserved the original 25 foundational trace/dots/composition guides;
-- functional coverage became 50/100 Drawing activities;
-- reused existing `DrawingGuide` + `DrawingScaffold` runtime;
-- scaffolds remain non-interactive and never count as child strokes or synthetic completion;
-- manual visual review corrected two face guides that were too prescriptive;
-- final head CI #415 success;
-- deterministic result: **850 KEEP / 50 POLISH / 0 REDESIGN / 0 REPLACE**, Q106=50.
-
-#### Wave B — structured visual skills
-PR #99.
-
-Scope:
-- space/layers: 5;
-- texture/marks: 5;
-- symmetry: 5;
-- story/sequence: 5;
-- composition/focus: 5.
-
-Implementation principles:
-- use partial anchors/axes/frames/surfaces rather than finished pictures;
-- texture activities provide a surface while the child authors the marks;
-- symmetry activities provide axis/half-form cues while the child completes the counterpart;
-- story activities provide sequence/layout anchors while the child authors the event;
-- composition/focus activities provide relative placement cues while the child authors the subject/details.
-
-QA:
-- total functional guide contract: **75/100**;
-- all 75 definitions unique;
-- SVG paths parse, have non-zero length, and stay inside the 480×480 canvas;
-- direct runtime routes load with matching preview assets;
-- scaffold alone never enables `Selesai`;
-- audit result: **875 KEEP / 25 POLISH / 0 REDESIGN / 0 REPLACE**, Q106=25, Q108=0, structural=0;
-- implementation CI #418 full success across Ubuntu, production build, mobile Chromium, Windows, dependency audit, simulations/final acceptance, and secret scan.
-
-Manual visual review found three story scaffolds too prescriptive before final acceptance: `drawing-story-rain-sun` supplied the cloud/sun, `drawing-story-ball-roll` supplied the ball, and `drawing-story-friend-wave` supplied the waving arm. All three were reduced to neutral panel/path/figure anchors and rerendered. Corrected previews were manually reviewed and accepted.
-
-#### Remaining 25
-
-Do not blindly generate finished-picture scaffolds for these open-ended families:
-
-- invention: 5;
-- character: 5;
-- map/world: 5;
-- visual design: 5;
-- capstone/free studio: 5.
-
-The final wave should prefer sparse zones, frames, starting marks, composition anchors, or explicit age-fit disposition. Do not weaken Q106 merely to make the audit zero, and do not manufacture mastery for creative work.
+Final-wave visual review accepted the sparse treatment: free studio uses corner marks only; maps use nodes/routes/boundaries; character activities use construction anchors; design uses empty layout containers; invention/capstone guides use sparse zones/starting marks instead of finished answers.
 
 ### WS-08 — Art direction & visual QA
-**Status: TODO / SUPPORTING WS-07.** Create Mainlagi Art Bible covering character proportions, stroke, shape language, palette, backgrounds, icons/objects, shadows, spacing, age complexity, touch/fill sizes, and animation. Permanent visual QA must cover clipping, overlap, contrast, overflow, touch targets, SVG/path errors, duplicate geometry, and human review.
+**Status: TODO / CONTINUES IN PARALLEL AFTER WS-07.** Create Mainlagi Art Bible covering character proportions, stroke, shape language, palette, backgrounds, icons/objects, shadows, spacing, age complexity, touch/fill sizes, and animation. Permanent visual QA must cover clipping, overlap, contrast, overflow, touch targets, SVG/path errors, duplicate geometry, and human review.
 
 ### WS-09 — Stage/gallery UX
 **Status: DONE.** PR #89 + PR #90. Product model: Recommended Path + Stage Journey + Browse All. Direct Home -> Subject -> Activity remains valid; mastery/readiness logic unchanged.
@@ -154,16 +108,17 @@ The final wave should prefer sparse zones, frames, starting marks, composition a
 
 1. WS-01 docs — DONE.
 2. WS-09 stage/gallery — DONE.
-3. WS-04 Waves A/B/C — DONE.
+3. WS-04 deterministic Waves A/B/C — DONE.
 4. WS-06 Coloring rebuild — DONE; Q108=0.
-5. **WS-07 Drawing rebuild — IN PROGRESS; Waves A/B done, final 25 remain.**
-6. WS-08 Art Bible + permanent visual QA.
-7. WS-02 voice/narration.
-8. WS-03 public/parent frontend.
-9. WS-10 external acceptance.
-10. WS-11 governance.
-11. WS-12 cleanup.
-12. Only then consider major activity/feature expansion.
+5. WS-07 Drawing rebuild — final PR #100 in closeout; Q106=0 in CI #422.
+6. **WS-05 gameplay/mechanic diversification — NEXT PRIMARY IMPLEMENTATION.**
+7. WS-08 Art Bible + permanent visual QA.
+8. WS-02 voice/narration.
+9. WS-03 public/parent frontend.
+10. WS-10 external acceptance.
+11. WS-11 governance.
+12. WS-12 cleanup.
+13. Only then consider major activity/feature expansion.
 
 ## 5. Global Definition of Done
 
@@ -171,8 +126,7 @@ A task is complete only when applicable implementation, typecheck/lint/build, re
 
 ## 6. Mandatory agent handoff
 
-Before work: read this plan, `CURRENT_STATE.md`, `ARCHITECTURE.md`, and subsystem docs.  
-After work: update status, changed scope, QA/result, decisions, remaining issues, affected canonical docs, and add an Execution Log entry. Never claim production/deployment/expert approval without evidence.
+Before work: read this plan, `CURRENT_STATE.md`, `ARCHITECTURE.md`, and subsystem docs. After work: update status, changed scope, QA/result, decisions, remaining issues, affected canonical docs, and add an Execution Log entry. Never claim production/deployment/expert approval without evidence.
 
 ## 7. Status tracker
 
@@ -181,10 +135,10 @@ After work: update status, changed scope, QA/result, decisions, remaining issues
 | WS-01 Canonical docs | DONE | PR #88 / CI #362 |
 | WS-02 Voice & narration | TODO | Engine/voice/licence evaluation needed |
 | WS-03 Public/parent frontend | TODO | About/FAQ + parent recommendations |
-| WS-04 Activity audit/redesign | IN_PROGRESS | 875/25/0/0 after WS-07 Wave B; Q106 only |
-| WS-05 Mechanic diversification | IN_PROGRESS | 74 symbol_hunt activities merged |
+| WS-04 Activity audit/redesign | QA / deterministic clean | PR #100 audit 900/0/0/0; human review still separate |
+| WS-05 Mechanic diversification | IN_PROGRESS | 74 symbol_hunt merged; mechanic concentration audit + next reusable families now primary |
 | WS-06 Coloring rebuild | DONE | PR #95/#96; Q108=0 |
-| WS-07 Drawing rebuild | IN_PROGRESS | 75/100 guides; final 25 open-ended activities remain |
+| WS-07 Drawing rebuild | QA | PR #100; 100/100 guides; Q106=0; final docs-head CI/merge pending |
 | WS-08 Art direction/visual QA | TODO | Art Bible + permanent visual quality gate |
 | WS-09 Stage/gallery UX | DONE | PR #89 + #90 |
 | WS-10 External acceptance | TODO | Physical devices + Iqro expert review |
@@ -195,32 +149,33 @@ Allowed states: `TODO -> IN_PROGRESS -> BLOCKED -> QA -> DONE`.
 
 ## 8. Execution Log
 
-### 2026-09-14 — WS-07 Drawing Wave B structured scaffolds
-**Branch/PR:** `agent/ws07-drawing-scaffold-wave-b-20260914` / PR #99  
-**Status:** QA — implementation complete; final docs-head CI required before merge  
-**Implementation QA:** CI #418 full success
+### 2026-09-14 — WS-07 final sparse Drawing scaffolds
+**Branch/PR:** `agent/ws07-drawing-scaffold-final-20260914` / PR #100  
+**Status:** QA — implementation + visual review complete; final docs-head CI/merge pending  
+**Implementation QA:** CI #422 full success
 
 Changed:
-- extended functional Drawing guide coverage 50 -> 75 activities;
-- added 25 structured starter scaffolds across space, texture, symmetry, story, and focus;
-- kept guides non-interactive and separate from creative completion;
-- strengthened browser/local playroom expectations from 50 -> 75 real guides;
-- exported runtime-derived Wave B previews for visual review;
-- preserved activity count, practice semantics, mastery, progression, assessment, and schema.
+- extended functional Drawing scaffold coverage 75 -> 100 activities;
+- added 25 sparse guides for invention, character, map/world, visual design, and capstone/free studio;
+- used workspace boundaries, zones, axes, nodes, routes, and starting marks instead of finished-picture templates;
+- strengthened drawing regression/local playroom expectations from 75 -> 100 real guides;
+- exported all 25 final sparse-scaffold previews for human review;
+- preserved activity count, creative completion, mastery, progression, assessment, and schema.
 
 Audit:
 
 ```text
-Before Wave B   850 KEEP / 50 POLISH / 0 REDESIGN / 0 REPLACE — 50 flagged
-After Wave B    875 KEEP / 25 POLISH / 0 REDESIGN / 0 REPLACE — 25 flagged
-Q106             50 -> 25
-Q108              0 ->  0
-structural         0 ->  0
+Before final wave   875 KEEP / 25 POLISH / 0 REDESIGN / 0 REPLACE — 25 flagged
+After final wave    900 KEEP /  0 POLISH / 0 REDESIGN / 0 REPLACE —  0 flagged
+Q106                 25 -> 0
+Q108                  0 -> 0
+structural             0 -> 0
 ```
 
-Visual QA rejected three initially over-prescriptive story guides and reduced them to neutral anchors before final acceptance. Corrected rerenders passed manual review and CI #418.
+Visual QA reviewed all 25 runtime-derived final previews and accepted the sparse treatment with no clipping/off-canvas issue observed and no obvious finished-answer scaffold.
 
-Remaining: 25 open-ended invention/character/map/design/capstone activities.
+### 2026-09-14 — WS-07 Drawing Wave B structured scaffolds
+**Status:** DONE. PR #99; merge `ebeae5ed8d7e58c9b7b9807c88c0d92c45481329`; docs-head CI #420 full success. Q106 50 -> 25. Manual QA corrected three overly prescriptive story guides before merge.
 
 ### 2026-09-14 — WS-07 Drawing Wave A concrete scaffolds
 **Status:** DONE. PR #98; merge `d9f0245e8531662840e2d9030e7b9b6e2f9e1df0`; final head CI #415 success. Q106 75 -> 50.
@@ -229,7 +184,7 @@ Remaining: 25 open-ended invention/character/map/design/capstone activities.
 **Status:** DONE. PR #95/#96; Q108 59 -> 0; final Coloring deterministic 100/100 KEEP.
 
 ### 2026-09-14 — WS-04 Wave C / WS-05 symbol-hunt
-**Status:** DONE. PR #93; merge `85aea0e5843f251eb83e5aa62180268b75455cfa`; CI #398. Q105=0.
+**Status:** DONE. PR #93; merge `85aea0e5843f251eb83e5aa62180268b75455cfa`; CI #398. Q105=0; 74 symbol_hunt presentations.
 
 ### 2026-09-14 — WS-04 Wave B
 **Status:** DONE. PR #92; merge `7b2f8a75cc00eafc0c3202a718e2fd81374f5f8e`; CI #387.
@@ -249,6 +204,6 @@ Do not prioritize hundreds of new activities, subscription/paywall, large AI tut
 
 ## 10. North Star
 
-Selesai ketika anak melihat task yang menarik dan jelas, bisa berinteraksi nyaman, mendapat feedback yang menyenangkan, mendengar narration yang tepat, benar-benar melatih skill yang dimaksud, dan orang tua memahami serta percaya pada produk.
+Selesai ketika anak melihat task yang menarik dan jelas, bisa berinteraksi nyaman melalui mechanics yang sesuai objective, mendapat feedback yang menyenangkan, mendengar narration yang tepat, benar-benar melatih skill yang dimaksud, dan orang tua memahami serta percaya pada produk.
 
 **Quality first. Quantity later.**
