@@ -151,7 +151,7 @@ async function chooseWrongWithKeyboard(page) {
       return focused.label;
     }
   }
-  throw new Error(`Keyboard navigation did not reach a wrong sequence candidate. Focus trace: ${focusTrace.join(" -> ")}`);
+  throw new Error(`Keyboard navigation did not reach a wrong sequence candidate. Focus trace: ${trace.join(" -> ")}`);
 }
 
 async function inspect(viewport) {
