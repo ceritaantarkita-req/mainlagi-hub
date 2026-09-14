@@ -125,6 +125,7 @@ export function NumberLineActivity({ childId, activityId }: { childId: string; a
                 <div
                   key={value}
                   className={`${styles.tickSlot} ${isContext ? styles.contextSlot : ""}`}
+                  data-number-value={value}
                   data-number-context={isContext ? "true" : undefined}
                 >
                   {isChoice ? (
