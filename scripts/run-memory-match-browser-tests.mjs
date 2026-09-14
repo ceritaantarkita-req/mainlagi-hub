@@ -61,9 +61,8 @@ async function waitForHydratedBoard(page) {
   await page.waitForLoadState("load");
   await page.waitForFunction(() => {
     const scene = document.querySelector("[data-memory-match]");
-    return scene && scene.querySelectorAll("button").length === 4;
-  });
-  await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+    return scene?.getAttribute("data-memory-match-ready") === "true" && scene.querySelectorAll("button").length === 4;
+  }, undefined, { timeout: 5_000 });
 }
 
 async function focusFirstCardWithKeyboard(page) {
