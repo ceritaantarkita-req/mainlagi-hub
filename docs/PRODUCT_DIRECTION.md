@@ -1,217 +1,283 @@
 # Mainlagi Hub — Product Direction
 
-Status: **planned direction, not an implementation claim**.
+Last reviewed: **14 September 2026**
 
-This document records the agreed product direction while preserving the current Mainlagi Hub motion engine and existing games.
+Status: **current product direction**. Some items are implemented, some remain next-phase work. Implementation claims must be checked against `CURRENT_STATE.md` and code.
 
-For the canonical product/UX behavior, screen model, activity architecture, migration rules, and AI-agent execution constraints, also read `docs/MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md`.
+Canonical next execution plan: `NEXT_PRODUCT_QUALITY_PLAN.md`.
 
-For the mandatory mobile-first input policy, also read `docs/MOBILE_FIRST_INTERACTION_STRATEGY.md`.
+Canonical child UX specification: `MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md`.
 
-## 1. Non-negotiable continuity
+## 1. Product identity
 
-Mainlagi does **not** discard the current motion/vision engine.
+Mainlagi is a learning and edutainment platform for children approximately **3–7 years old**, built primarily for Indonesian families.
 
-Mainlagi does **not** remove the current 10 games simply because the product expands into a broader learning platform.
+- buyer/decision maker: parent/guardian;
+- primary user: child;
+- primary child devices: phone/tablet;
+- parent and child use separate UX surfaces;
+- current motion/vision technology remains a differentiator, not a requirement for all learning.
 
-The existing engine and games become reusable activity/runtime capabilities inside the future learning system.
+Mainlagi should feel like **one coherent learning world**, not a collection of disconnected mini-apps.
 
-However, preserving motion does **not** mean forcing motion into every learning activity. The broader child learning experience is **mobile-first and touch-first**. Motion capture is an optional first-class capability used where it genuinely improves learning or play.
+## 2. Current learning areas
 
-## 2. Target users
-
-Primary market: Indonesian families.
-
-- Buyer/decision maker: parent or guardian.
-- Primary user: child approximately 3–7 years old.
-- Primary child device assumption: phone or tablet.
-- Secondary users: parent/guardian and, where appropriate later, educator.
-
-The child-facing experience and parent-facing experience should not be treated as the same UX surface.
-
-The platform must remain fully useful for a child who only has a phone and does not use motion capture.
-
-## 3. Learning areas
-
-Planned top-level learning areas:
+The current top-level learning areas are:
 
 1. Bahasa Indonesia
 2. English
 3. Matematika
 4. Iqro
-5. Mewarnai
+5. Huruf & Menulis
+6. Logika
+7. Sains
+8. Mewarnai
+9. Menggambar
 
-The motion games can appear inside these learning paths where pedagogically appropriate, while remaining available as recognizable Mainlagi experiences.
+The current baseline contains 100 activity routes per subject, for 900 total.
 
-Motion should be an optional activity/input mode, not a curriculum requirement by default.
+Quantity is no longer the immediate goal. The next phase improves the quality, validity, variety and visual execution of these 900 activities before major catalog expansion.
+
+## 3. Retained motion capability
+
+Mainlagi does not discard the existing motion/vision engine or the existing 10 games.
+
+Motion remains an optional first-class activity/input mode where it genuinely improves learning or play.
+
+Core child learning remains mobile-first and touch-first. A child should be able to use the core platform without camera motion.
 
 ## 4. Learning structure
 
-Preferred conceptual hierarchy:
+Canonical data hierarchy:
 
 ```text
 Subject
-└── Learning Path
-    └── Stage
-        └── Lesson
-            └── Activity
+└── Learning Path / Stage
+    └── Lesson
+        └── Activity
+            └── Attempt
+                └── Evidence / Mastery
 ```
 
-An activity can be a tap/choice activity, matching activity, tracing exercise, listening activity, coloring activity, motion game, OCR-supported worksheet, or another interaction type.
+Current presentation also includes broad subject activity browsing. The final relationship between visible stages, recommendations and the 100-card gallery remains a product decision for the current quality phase.
 
-This avoids turning the product into a flat collection of disconnected games and avoids making the entire curriculum dependent on camera motion.
+Do not weaken progression/mastery rules merely to simplify presentation.
 
-## 5. Age-aware design
+## 5. Age-aware experience
 
 The 3–7 range must not be treated as one identical reading/interaction level.
 
-Design should progressively support:
+### Approximately 3–4
 
-- younger children: audio-first, large touch targets, minimal text, simple tap/drag/trace interactions, short sessions;
-- middle range: guided tracing, phonics, counting, simple sequencing and matching;
-- older range: early reading, arithmetic, pattern reasoning, bilingual challenge and more independent navigation;
-- optional motion activities when device/context makes them practical.
+Prefer:
 
-Exact curriculum rules still require dedicated curriculum design and validation.
+- audio-first guidance;
+- minimal required reading;
+- large touch targets;
+- simple visual discrimination;
+- short tap/drag/trace tasks;
+- strong character feedback;
+- forgiving input.
 
-## 6. Character system
+### Approximately 5–6
 
-Five planned main characters:
+Add:
 
-- **Naya** — older sister figure, age 8, wears hijab.
-- **Gian** — boy, age 5.
-- **Zia** — girl, age 3.
-- **Paca** — male-coded robot character.
+- phonics;
+- letters/early writing;
+- number concepts;
+- guided tracing;
+- matching/sorting/sequencing;
+- simple bilingual exposure.
+
+### Approximately 6–7
+
+Add:
+
+- early reading;
+- arithmetic;
+- patterns/reasoning;
+- more independent navigation;
+- multi-step tasks;
+- richer bilingual challenges.
+
+Age targeting must affect representation and difficulty, not only metadata.
+
+## 6. Activity-quality principle
+
+**Learning objective determines representation and mechanic.**
+
+Examples:
+
+- visual color recognition should show meaningful visual colors/objects;
+- reading the word `BLUE` is a different skill from recognizing the color blue;
+- phonics should use audio/sound mapping rather than visually obvious text shortcuts;
+- letter recognition should use meaningful visual discrimination, not endless trivial multiple choice;
+- sequencing should use ordering interaction when appropriate;
+- matching must pair semantically meaningful items;
+- creative activities should remain creative practice unless a validated evidence model exists.
+
+An activity is not considered good merely because its route works or its answer is technically correct.
+
+## 7. Gameplay variety
+
+The current catalog is heavily concentrated in tap-choice/matching families. Variety should improve through reusable mechanics only when pedagogically justified.
+
+Candidate interactions include:
+
+- visual tap/select;
+- audio choose;
+- matching;
+- drag/drop;
+- sorting;
+- ordering/sequence;
+- find-in-scene/hotspot;
+- memory;
+- puzzle;
+- tracing;
+- drawing;
+- coloring;
+- counting/selecting objects;
+- story interaction;
+- optional motion.
+
+Do not add mechanics solely for novelty.
+
+## 8. Character system
+
+Five canonical Mainlagi characters:
+
+- **Naya** — older sister figure, approximately 8, wears hijab;
+- **Gian** — boy, approximately 5;
+- **Zia** — girl, approximately 3;
+- **Paca** — friendly male-coded robot;
 - **Gavi** — orange cat.
 
-These characters should become a reusable narrative/feedback system, not decoration only.
+Characters are a reusable narrative/feedback system, not decoration only.
 
-Potential roles:
+Possible roles:
 
-- narrator/guide;
-- encouragement and error-recovery reactions;
-- stage introductions;
-- celebration and reward moments;
-- contextual hints;
+- narration;
+- activity introductions;
+- hints/retry guidance;
+- celebration/rewards;
+- stage transitions;
 - story continuity;
-- bilingual voice identity;
-- animation states and expressions.
+- bilingual voice identity.
 
-Character art, character names as brand elements, voice identity, and related commercial assets are governed separately from the source-code license. See `TRADEMARKS.md`.
+Character artwork, voice identity and branded assets remain subject to separate IP/licensing rules.
 
-## 7. Audio and language
+## 9. Voice and language
 
-Planned language support:
+Primary language experience:
 
-- Bahasa Indonesia
-- English
+- Bahasa Indonesia;
+- English.
 
-Planned experience:
+Target narration principles:
 
-- child-friendly narration;
-- native-sounding Indonesian and English voice;
-- sound effects and feedback audio;
-- animation synchronized with important feedback;
-- pre-generated reviewed audio where fixed lesson content allows it;
-- dynamic TTS only where a real product need justifies runtime generation.
+- native-feeling pronunciation;
+- child-friendly pacing;
+- stable character identity;
+- pre-generated, human-reviewed audio for fixed lesson content;
+- runtime TTS only where dynamic content truly needs it;
+- provider abstraction so the frontend is not locked to one TTS project;
+- engine/model/voice licence and provenance review before commercial use.
 
-Voice model/provider choice is not frozen by this document.
+Iqro/Hijaiyah pronunciation requires competent human review and must not be approved solely by generic TTS output.
 
-## 8. Progression and rewards
+## 10. Visual direction
 
-Planned systems include:
+The current Garden/Playroom redesign is the frontend baseline.
+
+Next-phase visual goals:
+
+- one coherent Mainlagi illustration language;
+- simple readable silhouettes;
+- consistent stroke/shape language;
+- controlled complexity by age;
+- large interaction/fill areas;
+- strong mobile readability;
+- less procedural/generated visual slop;
+- human visual approval for important child-facing art.
+
+Coloring and Drawing need dedicated asset/scaffolding cleanup before catalog expansion.
+
+A Mainlagi Art Bible and visual quality gate should become permanent production controls.
+
+## 11. Child navigation
+
+Child surfaces should prioritize:
+
+1. Continue Learning / recommended next activity;
+2. current subject/stage context;
+3. a small number of meaningful choices;
+4. clear route to subject browsing;
+5. clear route to Main Gerak where appropriate.
+
+Do not expose admin, billing, affiliate shopping, provider configuration or other adult/system concepts inside child learning flow.
+
+## 12. Parent/public experience
+
+Parent/public surfaces should make it easy to find:
+
+- About Mainlagi;
+- FAQ/help;
+- account/child profile management;
+- progress/reporting;
+- privacy/data information;
+- appropriate recommendations for parents;
+- affiliate disclosure where affiliate links are used.
+
+Affiliate shopping belongs to adult/public surfaces, never as a child-learning CTA.
+
+## 13. Progression and reporting
+
+Current systems include:
 
 - stage progression;
+- completion;
 - stars/rewards;
-- activity completion;
-- skill/mastery signals;
-- achievements;
-- certificate/export milestones.
+- evidence-backed mastery;
+- adaptive recommendation;
+- parent reporting;
+- achievements/certificates where evidence supports them.
 
-Scores from the current games should not automatically be reinterpreted as educational mastery. The future data model needs explicit learning objectives and evidence rules.
+Completion, score, reward and mastery remain separate concepts.
 
-The input mode used—touch, trace, motion, OCR capture, etc.—may be recorded as learning-event context, but motion should not automatically receive higher mastery value.
+Parent reports must remain explainable and must not present opaque AI judgments as developmental truth.
 
-## 9. Parent experience
+## 14. OCR + AI direction
 
-Planned parent-facing capabilities:
+OCR/visual-understanding and optional AI support remain future modular capabilities, not current blockers.
 
-- child profile management;
-- learning progress summary;
-- recent activity;
-- strengths/areas to revisit;
-- stage/subject progress;
-- downloadable certificate or milestone output;
-- privacy and AI/data controls;
-- motion/camera preference where needed;
-- future subscription/commercial entitlement management.
+They must not replace deterministic/local runtimes where simpler methods are sufficient.
 
-Parent reports should use explainable learning events, not opaque AI-generated judgments.
+Requirements include:
 
-## 10. OCR + AI direction
+- provider secrets server-side only;
+- no automatic raw-camera upload;
+- payload minimization/privacy gates;
+- configurable providers/models;
+- graceful failure when AI is unavailable.
 
-A future OCR/visual-understanding engine is planned for learning activities that need to read writing, worksheets or visual responses.
+See `AI_OCR_OPENROUTER.md`.
 
-OpenRouter is the planned provider gateway for optional AI assistance, with the operator supplying the API key separately.
+## 15. Current execution priority
 
-The AI layer must remain modular and must not become a prerequisite for the existing motion engine or the core touch-first learning experience.
+Before major new features or catalog expansion, finish the workstreams in `NEXT_PRODUCT_QUALITY_PLAN.md`:
 
-See `docs/AI_OCR_OPENROUTER.md`.
+1. canonical docs;
+2. stage/gallery UX coherence;
+3. 900-activity quality audit/redesign;
+4. meaningful mechanic diversification;
+5. Coloring rebuild;
+6. Drawing rebuild;
+7. art direction/visual QA;
+8. native Indonesian/English narration system;
+9. About/FAQ/parent affiliate UX;
+10. external device/accessibility/Iqro acceptance;
+11. governance hardening;
+12. technical cleanup.
 
-## 11. Mobile-first interaction policy
-
-Mainlagi's core child UX is **mobile-first and touch-first**.
-
-Default activity selection should prefer the simplest interaction that teaches the intended skill:
-
-```text
-tap / choice
-→ drag / matching
-→ touch tracing / drawing / coloring
-→ audio interaction
-→ deliberate camera capture such as OCR
-→ motion capture when it adds clear value
-```
-
-The existing motion engine remains available and all motion games remain part of Mainlagi, but camera motion is not a gate to core learning.
-
-Where pedagogically valid, one learning objective may offer more than one interaction mode. Example: trace a number with a finger by default, with optional `Main pakai gerakan` for air-writing.
-
-See `docs/MOBILE_FIRST_INTERACTION_STRATEGY.md` for the full constraint.
-
-## 12. Experience principles
-
-Child-facing Mainlagi should be:
-
-- playful;
-- joyful;
-- gameful;
-- mobile-first;
-- touch-first;
-- visually clear;
-- forgiving of imperfect input;
-- usable without motion capture for core learning;
-- rich in meaningful sound/animation feedback;
-- low-friction for a child and parent starting a session;
-- explicit about camera and privacy behavior;
-- willing to offer motion as an optional enhanced mode where it works well.
-
-References such as Khan Academy Kids and Lingokids can inform product study, but Mainlagi should preserve its own characters, curriculum, visual identity, Indonesian context, and motion-learning capability.
-
-## 13. Implementation principle
-
-Large product expansion should proceed by adding clean platform layers around the mature motion engine while making the broader interaction system input-agnostic:
-
-```text
-Learning platform
-  -> mobile-first child shell
-  -> curriculum/stage system
-  -> activity contract
-  -> touch/audio/drawing runtimes + existing motion runtime + future OCR runtime
-  -> learning-event/mastery data
-  -> parent reporting
-```
-
-Avoid a rewrite unless a specific subsystem is proven to block the target architecture.
-
-Do not force motion capture into new activities solely because the engine already exists.
+**Quality first. Quantity later.**
