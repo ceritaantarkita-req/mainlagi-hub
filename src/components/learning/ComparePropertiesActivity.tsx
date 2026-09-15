@@ -117,6 +117,7 @@ export function ComparePropertiesActivity({ childId, activityId }: { childId: st
         <div className={styles.board} role="group" aria-label="Papan perbandingan sifat">
           {(["left", "right"] as const).map((target) => {
             const side = config[target];
+            const showChoiceText = side.choice.trim().toLocaleLowerCase("id-ID") !== side.label.trim().toLocaleLowerCase("id-ID");
             return (
               <button
                 key={target}
@@ -132,7 +133,7 @@ export function ComparePropertiesActivity({ childId, activityId }: { childId: st
                 <span className={styles.objectIcon} aria-hidden>{side.icon}</span>
                 <PropertyVisual kind={config.propertyKind} level={side.level} />
                 <strong>{side.label}</strong>
-                <span className={styles.choiceText}>{side.choice}</span>
+                {showChoiceText ? <span className={styles.choiceText}>{side.choice}</span> : null}
               </button>
             );
           })}
