@@ -8,20 +8,18 @@ This is the canonical human/AI handoff. `main` is the merged source of truth.
 
 - repository: `ceritaantarkita-req/mainlagi-hub`
 - canonical branch: `main`
-- latest fully closed gameplay implementation on `main`: PR #135 — Science Investigation Board
-- verified Pattern #28 implementation merge SHA: `790487b1672bcf1d1edce023c3f071a7f1175fbf`
-- Pattern #28 closure: PR #136, fully closed after exact-head merge/live verification
-- current accepted unmerged gameplay PR: #137 — Logic Relative Order Track
-- accepted implementation QA head: `e91087aa1176723b0d90f310088b65a51d413ce7`
-- accepted implementation QA: CI #626 / run `34992813094`
-- Pattern #29: **QA ACCEPTED / UNMERGED** pending docs-head CI, merge/live verification and separate closure PR
+- latest gameplay implementation: PR #137 — Logic Relative Order Track
+- verified Pattern #29 implementation merge SHA: `ec083b7206fdc7d8d2c21a1bbd6c2abbd1d44949`
+- post-merge implementation CI: #632 / run `34994824331`, full success including Cloudflare production smoke
+- post-merge closure: PR #138
+- Pattern #29: **FULLY CLOSED after #138 exact-head merge/live verification**
 - production: `https://mainlagihub.my.id/`
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - source licence: `AGPL-3.0-only`
 
 ## Engineering status
 
-No known P0 engineering blocker is open on merged `main`. CI covers Ubuntu quality gate, Windows compatibility, production build, dependency audit, Chromium mobile-route QA, secret-history scan, learning/mastery regressions, build budgets, source/security audits, deterministic activity-quality audit, and permanent gameplay-distribution audit.
+No known P0 engineering blocker is open on merged `main`. CI covers Ubuntu quality gate, Windows compatibility, production build, dependency audit, Chromium mobile-route QA, secret-history scan, learning/mastery regressions, build budgets, source/security audits, deterministic activity-quality audit, permanent gameplay-distribution audit, simulations, Batch17 and production smoke on `main`.
 
 External physical-device, accessibility specialist, art/pedagogical human acceptance, and Iqro expert acceptance remain separate and incomplete. Physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
 
@@ -35,39 +33,23 @@ Runtime count is not gameplay-pattern count.
 
 Target: minimum **50**, working target **60 meaningful patterns**.
 
-### Merged on `main`: 28 patterns
+### Merged on `main`: 29 patterns
 
-`choice_grid`, `symbol_hunt`, `listen_choose`, `visible_matching`, `guided_trace`, `story_read`, `motion_game`, `coloring_canvas`, `drawing_canvas`, `memory_pair`, `missing_sequence_slot`, `sorting_buckets`, `drag_to_target`, `count_and_select`, `number_line`, `more_less_balance`, `pattern_completion`, `cause_effect`, `compare_properties`, `material_lab`, `feature_function_link`, `healthy_habit_routine`, `rule_pipeline`, `odd_one_out`, `transitive_chain`, `set_reasoning`, `spatial_transform`, `investigation_board`.
-
-Merged baseline remains:
+`choice_grid`, `symbol_hunt`, `listen_choose`, `visible_matching`, `guided_trace`, `story_read`, `motion_game`, `coloring_canvas`, `drawing_canvas`, `memory_pair`, `missing_sequence_slot`, `sorting_buckets`, `drag_to_target`, `count_and_select`, `number_line`, `more_less_balance`, `pattern_completion`, `cause_effect`, `compare_properties`, `material_lab`, `feature_function_link`, `healthy_habit_routine`, `rule_pipeline`, `odd_one_out`, `transitive_chain`, `set_reasoning`, `spatial_transform`, `investigation_board`, `relative_order_track`.
 
 ```text
 classified:               900 / 900
 unclassified:               0
-active merged patterns:    28
-choice_grid               318 / 900 = 35.33%
-investigation_board         4 / 900 = 0.44%
-Science choice_grid         56 / 100
-Logic choice_grid           52 / 100
-```
-
-### PR #137 accepted head: 29 patterns
-
-Pattern #29 `relative_order_track` is QA accepted on PR #137 but not yet merged.
-
-```text
-classified:               900 / 900
-unclassified:               0
-active PR-head patterns:   29
+active merged patterns:    29
 choice_grid               313 / 900 = 34.78%
 relative_order_track        5 / 900 = 0.56%
 Science choice_grid         56 / 100
 Logic choice_grid           47 / 100
 ```
 
-If merged unchanged, remaining distance becomes **21** patterns to minimum 50 and **31** to working target 60.
+Remaining distance: **21** patterns to minimum 50 and **31** to working target 60.
 
-## Pattern #29 `relative_order_track` — QA acceptance record
+## Pattern #29 `relative_order_track` — closure record
 
 Exact scope:
 
@@ -95,13 +77,15 @@ Interaction/evidence contract:
 - runtime metadata source `relative-order-track-runtime`;
 - runtime, IDs, choices, `correctChoice`, skill, assessment, stars, mastery and progression remain unchanged.
 
-Acceptance evidence:
-- accepted implementation QA head `e91087aa1176723b0d90f310088b65a51d413ce7` passed full CI #626 / run `34992813094`;
-- deterministic audit: 900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0;
-- gameplay distribution: 900/900 classified, 0 unclassified, 29 patterns, `choice_grid` 313/900, `relative_order_track` 5/900, Logic 47/100, Science 56/100;
-- manual idle/wrong/success review at 320x720, 390x844 and 768x1024 accepted all nine screenshots with no clipping/overflow or answer leakage and with visible retry/success feedback + post-success CTA.
+Acceptance/closure history:
+- implementation QA head `e91087aa1176723b0d90f310088b65a51d413ce7` passed full CI #626 / run `34992813094`;
+- canonical docs head `48d92434d83b028d48821e270a025c3a08a859bc` passed full CI #631 / run `34994322707`;
+- manual idle/wrong/success review at 320x720, 390x844 and 768x1024 accepted all nine screenshots;
+- PR #137 exact-head squash merged as `ec083b7206fdc7d8d2c21a1bbd6c2abbd1d44949` and `main` was verified at the exact SHA;
+- post-merge `main` CI #632 / run `34994824331` passed all gates including Cloudflare production smoke;
+- closure PR #138 records the final merged state and is the final closure gate.
 
-Pattern #29 is **not fully closed yet**. It still requires fresh exact docs-head CI, clean exact-head merge of PR #137, live-main verification, and a separate docs-only closure PR with its own exact-head CI/merge/live verification.
+Deterministic audit remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**. Simulations and Batch17 remain clean.
 
 ## Learning/mastery boundaries
 
@@ -118,8 +102,8 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Finish Pattern #29 PR #137: canonical docs -> fresh exact docs-head CI -> clean merge gate -> exact-head merge -> live-main verification -> separate docs-only closure -> closure live verification.
-2. After Pattern #29 is fully closed, run a fresh objective/evidence audit for Pattern #30; no family is pre-approved.
+1. Finish closure PR #138 exact-head CI/gate/merge/live verification.
+2. Run a fresh objective/evidence audit for Pattern #30 from the verified 29-pattern baseline; no family is pre-approved.
 3. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
 4. Continue Art Bible/permanent visual QA, narration, parent/public frontend, external acceptance and governance.
 
