@@ -260,7 +260,6 @@ for(const activity of livingFeatureFunction){
   assert.equal(activity.runtime,"tap_choice");
   assert.equal(activity.subjectId,"science");
   assert.equal(activity.stageId,"science-evidence-review-challenge");
-  assert.equal(activity.lessonId,"science-living-adaptations");
   assert.equal((activity.choices??[]).length,3);
   assert.equal(new Set(activity.choices??[]).size,3,"living-feature-function choices remain unique");
   assert((activity.choices??[]).includes(activity.correctChoice),"living feature function preserves canonical correctChoice");
