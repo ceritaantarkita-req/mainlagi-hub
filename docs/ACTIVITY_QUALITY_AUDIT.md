@@ -24,7 +24,7 @@ Deterministic zero does **not** mean every activity is human-approved or maximal
 
 ## WS-05 gameplay diversification
 
-Fully merged/closed waves now include:
+Fully merged waves through the verified Pattern #28 baseline:
 - `symbol_hunt` — 74 direct-literacy activities.
 - `memory_pair` — PR #101.
 - `missing_sequence_slot` — PR #102.
@@ -44,59 +44,61 @@ Fully merged/closed waves now include:
 - `odd_one_out` — PR #125 + closure #126.
 - `transitive_chain` — PR #127 + closure #128 + metadata #129.
 - `set_reasoning` — PR #130 + closure #131 + metadata #132.
-- `spatial_transform` — PR #133 + closure #134 — **FULLY CLOSED**.
+- `spatial_transform` — PR #133 + closure #134.
+- `investigation_board` — PR #135 + closure #136 — **FULLY CLOSED after #136 exact-head merge/live verification**.
 
-Current merged distribution:
+Current verified merged distribution:
 
 ```text
 900 / 900 classified
 0 unclassified
-27 active merged patterns
-choice_grid                 322 / 900 = 35.78%
-spatial_transform             5 / 900 = 0.56%
-Science choice_grid          60 / 100
+28 active merged patterns
+choice_grid                 318 / 900 = 35.33%
+investigation_board           4 / 900 = 0.44%
+Science choice_grid          56 / 100
 Logic choice_grid            52 / 100
 ```
 
 Concentration remains advisory and does not itself create POLISH/REDESIGN findings.
 
-## Spatial Transform — FULLY CLOSED
+## Investigation Board — Pattern #28 closure record
 
 Exact scope:
 
 ```text
-logic-spatial-halfturn-up
-logic-spatial-quarterturn-left
-logic-spatial-quarterturn-right-down
-logic-spatial-two-right-turns
-logic-spatial-mirror-left-right
+science-investigate-plant-light
+science-investigate-fair-water
+science-predict-ice-warm-place
+science-evidence-shadow-times
 ```
 
 Preserved:
 - canonical runtime `tap_choice`;
-- three choices/`correctChoice`;
-- assessment and stars;
-- mastery/progression and canonical skill `logic.spatial.transform.basic`;
+- exactly three canonical choices and unchanged `correctChoice`;
+- assessment, stars, mastery and progression;
+- canonical skill `science.investigation.evidence.basic`;
+- stage `science-evidence-review-challenge`, lesson `science-investigation-evidence`, pack `science.pack.investigation-evidence`;
 - activity IDs and completion semantics;
-- stage `logic-mixed-reasoning-challenge` / lesson `logic-spatial-transform` / pack `logic.pack.spatial-transform` identity.
+- `science-match-observation-tools-d` remains canonical `visible_matching` and outside the family.
 
-Interaction/evidence:
-- visible starting direction and canonical transform;
-- final direction hidden as `?` before assessment;
-- canonical choices remain accessible direct-selection buttons;
+Interaction/evidence contract:
+- inquiry rail: Amati / Jaga tetap / Prediksi / Simpulkan;
+- one reviewed inquiry mode per activity;
+- prompt-supported facts only, without answer leakage;
+- canonical direct-selection choices remain accessible;
 - wrong choice is measured/retryable and cannot complete;
-- assessed fidelity `choice_spatial_transform_interaction`;
-- exact five-ID allowlist prevents unrelated Logic activities from reclassification;
-- Wave B spatial-relation tasks remain outside scope;
-- no answer leakage, invented intermediate assessment, changed answer set, extra confirmation or drag-only dependency.
+- correct choice completes the canonical activity;
+- no extra confirmation, invented result/measurement, drag-only dependency, or intermediate assessment;
+- assessed fidelity `choice_investigation_board_interaction`.
 
 Acceptance/closure chain:
-- implementation head `267f00d243dc1778c2d86e5a0ca70d8cfe76872a` passed CI #597 / run `34976080767` and manual visual QA;
-- final implementation/docs head `c10294b1a69afd50b2458fee305ef59b321274e1` passed CI #602;
-- PR #133 clean gate -> exact-head squash merge `f3f00b86537af8d0862a15113778458a777358ca`, independently verified live;
-- closure PR #134 records the final completed state.
+- CI #611 / run `34983143311` correctly rejected a real 320px idle-feedback visibility defect;
+- final mobile fix head `837c3b8ec46ed4a9bfc17a777adeb86dcbffcdc4` passed CI #614 / run `34987172569` and manual idle/try/success review at 320x720, 390x844 and 768x1024;
+- final implementation/docs head `a2b01b272c6dc42f819c43a74e8f52058ed0298d` passed CI #615 / run `34988108936`;
+- PR #135 exact-head squash merged as `790487b1672bcf1d1edce023c3f071a7f1175fbf`, independently verified live on `main`;
+- docs-only closure PR #136 records the final merged state and must itself pass full CI, clean merge gate, exact-head merge and final live verification.
 
-Permanent evidence remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE**, structural findings 0. Gameplay distribution remains 900/900 with 27 patterns, `choice_grid` 322/900, `spatial_transform` 5/900, Science 60/100 and Logic 52/100. Simulations remain zero invariant errors; Batch17 totals remain unchanged and physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
+Permanent evidence remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE**, structural findings 0. Simulations and Batch17 remain clean; physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
 
 ## Permanent audits
 
@@ -131,8 +133,9 @@ CI uploads both artifacts. Gameplay-distribution coverage and active-pattern-set
 - WS-05 Transitive Chain DONE — PR #127 + #128 + #129.
 - WS-05 Set Reasoning DONE — PR #130 + #131 + #132.
 - WS-05 Spatial Transform DONE — PR #133 + #134.
-- WS-05 NEXT — fresh Pattern #28 objective/evidence audit from the verified 27-pattern baseline; no family pre-approved.
+- WS-05 Investigation Board DONE — PR #135 + closure #136, subject to closure exact-head merge/live verification.
+- WS-05 NEXT — fresh Pattern #29 objective/evidence audit from the verified 28-pattern baseline; no family pre-approved.
 
 ## Completion rule
 
-Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #27 itself is fully closed once closure PR #134 is exact-head merged and independently verified live on `main`.
+Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #28 itself is fully closed only after closure PR #136 is exact-head merged and independently verified live on `main`.

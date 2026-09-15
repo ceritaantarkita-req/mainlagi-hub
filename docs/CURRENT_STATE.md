@@ -8,10 +8,10 @@ This is the canonical human/AI handoff. `main` is the merged source of truth.
 
 - repository: `ceritaantarkita-req/mainlagi-hub`
 - canonical branch: `main`
-- latest merged gameplay implementation: PR #133 — Logic Spatial Transform
-- verified implementation merge SHA: `f3f00b86537af8d0862a15113778458a777358ca`
-- post-merge closure: PR #134
-- Pattern #27: **FULLY CLOSED**
+- latest merged gameplay implementation: PR #135 — Science Investigation Board
+- verified implementation merge SHA: `790487b1672bcf1d1edce023c3f071a7f1175fbf`
+- post-merge closure: PR #136
+- Pattern #28: **FULLY CLOSED after #136 exact-head merge/live verification**
 - production: `https://mainlagihub.my.id/`
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - source licence: `AGPL-3.0-only`
@@ -32,53 +32,57 @@ Runtime count is not gameplay-pattern count.
 
 Target: minimum **50**, working target **60 meaningful patterns**.
 
-### Merged on `main`: 27 patterns
+### Merged on `main`: 28 patterns
 
-`choice_grid`, `symbol_hunt`, `listen_choose`, `visible_matching`, `guided_trace`, `story_read`, `motion_game`, `coloring_canvas`, `drawing_canvas`, `memory_pair`, `missing_sequence_slot`, `sorting_buckets`, `drag_to_target`, `count_and_select`, `number_line`, `more_less_balance`, `pattern_completion`, `cause_effect`, `compare_properties`, `material_lab`, `feature_function_link`, `healthy_habit_routine`, `rule_pipeline`, `odd_one_out`, `transitive_chain`, `set_reasoning`, `spatial_transform`.
+`choice_grid`, `symbol_hunt`, `listen_choose`, `visible_matching`, `guided_trace`, `story_read`, `motion_game`, `coloring_canvas`, `drawing_canvas`, `memory_pair`, `missing_sequence_slot`, `sorting_buckets`, `drag_to_target`, `count_and_select`, `number_line`, `more_less_balance`, `pattern_completion`, `cause_effect`, `compare_properties`, `material_lab`, `feature_function_link`, `healthy_habit_routine`, `rule_pipeline`, `odd_one_out`, `transitive_chain`, `set_reasoning`, `spatial_transform`, `investigation_board`.
 
 ```text
 classified:               900 / 900
 unclassified:               0
-active merged patterns:    27
-choice_grid               322 / 900 = 35.78%
-spatial_transform           5 / 900 = 0.56%
-Science choice_grid         60 / 100
+active merged patterns:    28
+choice_grid               318 / 900 = 35.33%
+investigation_board         4 / 900 = 0.44%
+Science choice_grid         56 / 100
 Logic choice_grid           52 / 100
 ```
 
-Remaining distance: **23** patterns to minimum 50 and **33** to working target 60.
+Remaining distance: **22** patterns to minimum 50 and **32** to working target 60.
 
-## Pattern #27 `spatial_transform` — FULLY CLOSED
+## Pattern #28 `investigation_board` — closure record
 
 Exact scope:
 
 ```text
-logic-spatial-halfturn-up
-logic-spatial-quarterturn-left
-logic-spatial-quarterturn-right-down
-logic-spatial-two-right-turns
-logic-spatial-mirror-left-right
+science-investigate-plant-light
+science-investigate-fair-water
+science-predict-ice-warm-place
+science-evidence-shadow-times
 ```
 
-All five remain assessed `tap_choice` activities in stage `logic-mixed-reasoning-challenge`, lesson `logic-spatial-transform`, pack `logic.pack.spatial-transform`, canonical skill `logic.spatial.transform.basic`, with exactly three canonical choices and unchanged `correctChoice`.
+All four remain assessed `tap_choice` activities in stage `science-evidence-review-challenge`, lesson `science-investigation-evidence`, pack `science.pack.investigation-evidence`, canonical skill `science.investigation.evidence.basic`, with exactly three canonical choices and unchanged `correctChoice`.
+
+`science-match-observation-tools-d` remains canonical `matching` / `visible_matching` and outside this family.
 
 Interaction/evidence contract:
-- visible canonical starting direction and transform operation;
-- result hidden as `?` before assessment;
-- keyboard/touch/pointer direct selection;
-- wrong choice increments assessed error/retry and cannot complete;
+- reusable inquiry rail Amati / Jaga tetap / Prediksi / Simpulkan;
+- one reviewed inquiry mode per activity;
+- only prompt-supported facts are shown;
+- focus cue does not reveal the answer;
+- keyboard/touch/pointer direct selection remains canonical;
+- wrong choice records assessed error/retry and cannot complete;
 - correct choice completes canonical activity identity;
-- no answer leakage, extra confirmation, drag-only dependency, invented intermediate assessment, or Wave B spatial-relation bundling;
-- assessed fidelity `choice_spatial_transform_interaction`;
+- no invented result/measurement, answer leakage, extra confirmation, drag-only dependency, or intermediate assessment;
+- assessed fidelity `choice_investigation_board_interaction`;
 - runtime, IDs, choices, `correctChoice`, skill, assessment, stars, mastery and progression remain unchanged.
 
 Acceptance/closure history:
-- implementation head `267f00d243dc1778c2d86e5a0ca70d8cfe76872a` passed CI #597 / run `34976080767` plus manual screenshot acceptance at 320x720, 390x844 and 768x1024;
-- final implementation/docs head `c10294b1a69afd50b2458fee305ef59b321274e1` passed CI #602;
-- PR #133 clean gate -> exact-head squash merge `f3f00b86537af8d0862a15113778458a777358ca`, independently verified live;
-- closure PR #134 is the final docs-only closure for that verified merged state.
+- CI #611 correctly rejected a real 320px feedback-visibility defect;
+- final mobile fix head `837c3b8ec46ed4a9bfc17a777adeb86dcbffcdc4` passed CI #614 / run `34987172569` plus manual idle/try/success screenshot acceptance at 320x720, 390x844 and 768x1024;
+- final implementation/docs head `a2b01b272c6dc42f819c43a74e8f52058ed0298d` passed CI #615 / run `34988108936`;
+- PR #135 exact-head squash merge produced `790487b1672bcf1d1edce023c3f071a7f1175fbf`, independently verified live on `main`;
+- closure PR #136 is the final docs-only closure for that verified merged state.
 
-Deterministic audit remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**. Five simulations remain zero invariant errors; Batch17 totals remain unchanged.
+Deterministic audit remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**. Simulations and Batch17 acceptance remain clean.
 
 ## Learning/mastery boundaries
 
@@ -95,8 +99,8 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Finish closure PR #134 exact-head CI/gate/merge/live verification.
-2. Run a fresh objective/evidence audit for Pattern #28; no family is pre-approved.
+1. Finish closure PR #136 exact-head CI/gate/merge/live verification.
+2. Run a fresh objective/evidence audit for Pattern #29; no family is pre-approved.
 3. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
 4. Continue Art Bible/permanent visual QA, narration, parent/public frontend, external acceptance and governance.
 

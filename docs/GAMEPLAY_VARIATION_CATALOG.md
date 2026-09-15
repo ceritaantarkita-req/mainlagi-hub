@@ -13,7 +13,7 @@
 
 ## Status implementasi
 
-### Verified merged gameplay baseline: 27 pola
+### Verified merged gameplay baseline: 28 pola
 
 1. `choice_grid`
 2. `symbol_hunt`
@@ -42,65 +42,67 @@
 25. `transitive_chain` — **MERGED PR #127; CLOSED PR #128; metadata PR #129**
 26. `set_reasoning` — **MERGED PR #130; CLOSED PR #131; metadata PR #132**
 27. `spatial_transform` — **MERGED PR #133; CLOSED PR #134**
+28. `investigation_board` — **MERGED PR #135; CLOSURE PR #136**
 
 Permanent gameplay-distribution audit: **MERGED PR #105**.  
-Verified Spatial Transform implementation merge SHA: `f3f00b86537af8d0862a15113778458a777358ca`.
+Verified Investigation Board implementation merge SHA: `790487b1672bcf1d1edce023c3f071a7f1175fbf`.
 
 Merged distribution:
 
 ```text
 900 / 900 classified
 0 unclassified
-27 active child-facing patterns
-choice_grid                 322 / 900 = 35.78%
-spatial_transform             5 / 900 = 0.56%
-Science choice_grid          60 / 100
+28 active child-facing patterns
+choice_grid                 318 / 900 = 35.33%
+investigation_board           4 / 900 = 0.44%
+Science choice_grid          56 / 100
 Logic choice_grid            52 / 100
 ```
 
-Distance remaining: **23** patterns to minimum 50 and **33** to working target 60.
+Distance remaining: **22** patterns to minimum 50 and **32** to working target 60.
 
-### `spatial_transform` — FULLY CLOSED
+### `investigation_board` — closure record
 
 Exact scope:
 
 ```text
-logic-spatial-halfturn-up
-logic-spatial-quarterturn-left
-logic-spatial-quarterturn-right-down
-logic-spatial-two-right-turns
-logic-spatial-mirror-left-right
+science-investigate-plant-light
+science-investigate-fair-water
+science-predict-ice-warm-place
+science-evidence-shadow-times
 ```
 
 Boundaries:
-- stage `logic-mixed-reasoning-challenge`;
-- lesson `logic-spatial-transform`;
-- pack `logic.pack.spatial-transform`;
-- canonical skill `logic.spatial.transform.basic`;
+- stage `science-evidence-review-challenge`;
+- lesson `science-investigation-evidence`;
+- pack `science.pack.investigation-evidence`;
+- canonical skill `science.investigation.evidence.basic`;
 - assessed runtime remains `tap_choice`;
 - canonical three choices and `correctChoice` remain unchanged;
 - assessment, stars, mastery, progression, activity identity and completion semantics remain canonical;
-- Wave B spatial-relation tasks remain outside scope;
-- assessed fidelity `choice_spatial_transform_interaction`.
+- `science-match-observation-tools-d` remains `visible_matching` and outside scope;
+- assessed fidelity `choice_investigation_board_interaction`.
 
 Interaction:
-- show canonical starting direction;
-- show canonical rotation/reflection operation;
-- keep final direction hidden as `?` until assessment;
+- show reusable inquiry rail Amati / Jaga tetap / Prediksi / Simpulkan;
+- highlight exactly one reviewed mode per activity;
+- show only prompt-supported scenario facts;
+- keep focus cue non-answer-revealing;
 - retain accessible direct-selection buttons;
 - wrong selection is retryable, measured, and cannot complete;
 - correct selection completes the existing activity identity;
-- no answer leakage, drag-only dependency, extra confirmation or invented intermediate assessment.
+- no invented experiment result/measurement, answer leakage, drag-only dependency, extra confirmation or intermediate assessment.
 
 Acceptance/closure chain:
-- accepted implementation head `267f00d243dc1778c2d86e5a0ca70d8cfe76872a` passed CI #597 / run `34976080767` plus manual 320/390/768 screenshot review;
-- final implementation/docs head `c10294b1a69afd50b2458fee305ef59b321274e1` passed full CI #602;
-- PR #133 clean gate -> exact-head squash merge `f3f00b86537af8d0862a15113778458a777358ca`, independently verified live;
-- closure PR #134 records the final merged state.
+- CI #611 / run `34983143311` correctly rejected a real 320px idle-feedback viewport defect;
+- accepted mobile-fix head `837c3b8ec46ed4a9bfc17a777adeb86dcbffcdc4` passed CI #614 / run `34987172569` plus manual 320/390/768 idle/try/success screenshot review;
+- final implementation/docs head `a2b01b272c6dc42f819c43a74e8f52058ed0298d` passed full CI #615 / run `34988108936`;
+- PR #135 clean exact-head squash merge produced `790487b1672bcf1d1edce023c3f071a7f1175fbf`, independently verified live;
+- closure PR #136 records the final merged state and is the final closure gate.
 
-### `set_reasoning` — FULLY CLOSED
+### `spatial_transform` — FULLY CLOSED
 
-Set Reasoning implementation PR #130, closure PR #131 and metadata PR #132 remain complete. Pattern #27 does not change its evidence, runtime, mastery or progression.
+Spatial Transform implementation PR #133 and closure PR #134 remain complete. Pattern #28 does not change its evidence, runtime, mastery or progression.
 
 ## 60 pola permainan target
 
@@ -174,7 +176,7 @@ Set Reasoning implementation PR #130, closure PR #131 and metadata PR #132 remai
 49. `compare_properties` — **MERGED PR #114**
 50. `material_lab` — **MERGED PR #116**
 
-`feature_function_link`, `healthy_habit_routine`, `rule_pipeline`, `odd_one_out`, `transitive_chain`, `set_reasoning`, and `spatial_transform` are additional validated objective-fit patterns outside the original illustrative 60-slot naming list. Target slots are planning aids, not a prohibition on better mechanics.
+`feature_function_link`, `healthy_habit_routine`, `rule_pipeline`, `odd_one_out`, `transitive_chain`, `set_reasoning`, `spatial_transform`, and `investigation_board` are additional validated objective-fit patterns outside the original illustrative 60-slot naming list. Target slots are planning aids, not a prohibition on better mechanics.
 
 ### K. Creative visual play
 51. `color_by_rule`
@@ -215,7 +217,8 @@ Coverage dan implemented-pattern consistency bersifat blocking; concentration be
 17. Transitive Chain — **DONE / #127 + #128 + #129**.
 18. Set Reasoning — **DONE / #130 + #131 + #132**.
 19. Spatial Transform — **DONE / #133 + #134**.
-20. NEXT — fresh objective/evidence audit for Pattern #28 from the verified 27-pattern baseline; no family is pre-approved.
+20. Investigation Board — **DONE / #135 + closure #136**, subject to closure exact-head merge/live verification.
+21. NEXT — fresh objective/evidence audit for Pattern #29 from the verified 28-pattern baseline; no family is pre-approved.
 
 ## Definition of done per mechanic
 
