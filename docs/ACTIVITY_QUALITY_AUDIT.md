@@ -43,7 +43,7 @@ Merged waves:
 - `rule_pipeline` — PR #123.
 - `odd_one_out` — PR #125 + closure #126.
 - `transitive_chain` — PR #127 + closure #128 + metadata #129.
-- `set_reasoning` — PR #130 — **MERGED; closure in progress**.
+- `set_reasoning` — PR #130 + closure #131 — **FULLY CLOSED**.
 
 Current merged distribution:
 
@@ -59,7 +59,7 @@ Logic choice_grid            57 / 100
 
 Concentration remains advisory and does not itself create POLISH/REDESIGN findings.
 
-## Set Reasoning — MERGED / CLOSURE IN PROGRESS
+## Set Reasoning — FULLY CLOSED
 
 Exact scope:
 
@@ -88,18 +88,17 @@ Interaction/evidence:
 - exact five-ID allowlist prevents unrelated Logic activities from reclassification;
 - no false Venn geometry, invented intermediate assessment, changed answer set, extra confirmation or drag-only dependency.
 
-Acceptance/merge chain:
+Acceptance/closure chain:
 - CI #583 rejected a stale Rule Pipeline sentinel.
 - CI #584 passed automation but manual visual QA rejected 320x720 idle/try clipping.
-- responsive CSS and browser viewport assertions were corrected.
 - implementation head `acc5ce9d5661818842effcd120346ded3891dd50` passed CI #586 / run `34969198343` and manual visual QA.
-- final docs head `a725e567898a07bfd4977d5015a179c7a6d88ab2` passed CI #591 / run `34971570563`.
-- final PR #130 gate was clean: 0 comments, 0 reviews, 0 review threads.
-- exact-head squash merge #130 produced `678c2b0ec73910181f4a8a8e804f83f0fe0d0392`; live `main` independently verified exact.
+- final implementation/docs head `a725e567898a07bfd4977d5015a179c7a6d88ab2` passed CI #591 / run `34971570563`.
+- PR #130 clean gate -> exact-head squash merge `678c2b0ec73910181f4a8a8e804f83f0fe0d0392`, independently verified live.
+- closure head `3e9ea7300290c94e8774068b80cf028d7f3dcd90` passed CI #593 / run `34972491678`.
+- PR #131 clean gate: open, non-draft, mergeable, 0 comments, 0 reviews, 0 review threads.
+- exact-head squash merge #131 -> `3a07bec3f09381d2ba02726e5b67a71f9f5dc626`, independently verified live on `main`.
 
 Permanent evidence remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE**, structural findings 0. Gameplay distribution remains 900/900 with 26 patterns, `choice_grid` 327/900, `set_reasoning` 5/900, Science 60/100 and Logic 57/100. Simulations remain zero invariant errors; Batch17 totals remain unchanged and physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
-
-Pattern #26 is merged but not fully closed until this docs-only closure itself is merged and live-verified.
 
 ## Permanent audits
 
@@ -132,9 +131,9 @@ CI uploads both artifacts. Gameplay-distribution coverage and active-pattern-set
 - WS-05 Rule Pipeline DONE — PR #123.
 - WS-05 Odd One Out DONE — PR #125 + closure #126.
 - WS-05 Transitive Chain DONE — PR #127 + closure #128 + metadata #129.
-- WS-05 Set Reasoning MERGED — PR #130; closure in progress.
-- WS-05 NEXT — only after Pattern #26 closure: fresh exact-family audit; no next family pre-approved.
+- WS-05 Set Reasoning DONE — PR #130 + closure #131.
+- WS-05 NEXT — fresh Logic exact-family audit from the verified 26-pattern baseline; no Pattern #27 family pre-approved.
 
 ## Completion rule
 
-Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #26 is not fully closed until the current docs-only closure passes full CI, clean gate, exact-head merge and live-main verification.
+Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #26 itself is fully closed.
