@@ -24,7 +24,7 @@ Deterministic zero does **not** mean every activity is human-approved or maximal
 
 ## WS-05 gameplay diversification
 
-Fully merged waves through verified Pattern #29:
+Fully merged waves through verified Pattern #30:
 - `symbol_hunt` — 74 direct-literacy activities.
 - `memory_pair` — PR #101.
 - `missing_sequence_slot` — PR #102.
@@ -46,27 +46,15 @@ Fully merged waves through verified Pattern #29:
 - `set_reasoning` — PR #130 + closure #131 + metadata #132.
 - `spatial_transform` — PR #133 + closure #134.
 - `investigation_board` — PR #135 + closure #136.
-- `relative_order_track` — PR #137 + closure #138 — **FULLY CLOSED**; final verified main `2a5e0f35725456e00b4cd85e64999f9f84a29c6c`, CI #639 full success including Cloudflare smoke.
+- `relative_order_track` — PR #137 + closure #138.
+- `syllable_assembly` — PR #139 + closure #140 — **FULLY CLOSED after #140 exact-head merge/live verification**.
 
 Current verified merged distribution:
 
 ```text
 900 / 900 classified
 0 unclassified
-29 active merged patterns
-choice_grid                 313 / 900 = 34.78%
-relative_order_track          5 / 900 = 0.56%
-Bahasa choice_grid           52 / 100
-Science choice_grid          56 / 100
-Logic choice_grid            47 / 100
-```
-
-Pattern #30 `syllable_assembly` is **QA ACCEPTED / UNMERGED** on PR #139. Accepted PR-head distribution:
-
-```text
-900 / 900 classified
-0 unclassified
-30 active PR-head patterns
+30 active merged patterns
 choice_grid                 308 / 900 = 34.22%
 syllable_assembly             5 / 900 = 0.56%
 Bahasa choice_grid           47 / 100
@@ -76,7 +64,7 @@ Logic choice_grid            47 / 100
 
 Concentration remains advisory and does not itself create POLISH/REDESIGN findings.
 
-## Syllable Assembly — Pattern #30 QA acceptance record
+## Syllable Assembly — Pattern #30 closure record
 
 Exact scope:
 
@@ -109,15 +97,17 @@ Interaction/evidence contract:
 - assessed fidelity `choice_syllable_assembly_interaction`;
 - runtime metadata source `syllable-assembly-runtime`.
 
-Acceptance chain so far:
-- CI #640 / run `34999759651` caught missing registration in the permanent central gameplay-presentation gate and was fixed without weakening the default-family assertion;
-- CI #641 / run `35000289970` caught missing learning-test compile-manifest coverage for the new config and was fixed;
-- accepted implementation head `d55c1deb54f1402c38d84417ca7ae8248c9d3b07` passed full CI #642 / run `35000557604`;
-- full CI includes central + dedicated Syllable Assembly regressions, Ubuntu, Windows, production build, dependency/secret audits, simulations, Batch17 and Chromium mobile/accessibility/browser QA;
+Acceptance/closure chain:
+- CI #640 / run `34999759651` caught missing permanent central-test registration; fixed without weakening the strict default-family assertion;
+- CI #641 / run `35000289970` caught missing learning-test compile-manifest coverage; fixed;
+- implementation QA head `d55c1deb54f1402c38d84417ca7ae8248c9d3b07` passed full CI #642 / run `35000557604`;
+- final canonical implementation docs head `ee891dc99c1f86831ba67b34ae39e71ec50ee886` passed full CI #647 / run `35001595648`;
 - manual idle/wrong/success screenshot review at 320x720, 390x844 and 768x1024 passed all nine states;
-- deterministic quality remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**.
+- PR #139 exact-head squash merged as `c973dbc9e6010ff167a082cd6759728b590e7626` and was independently verified on `main`;
+- post-merge `main` CI #648 / run `35003757463` passed all gates including Cloudflare production smoke;
+- docs-only closure PR #140 is the final closure gate.
 
-Pattern #30 is not fully closed until PR #139 receives fresh exact final docs-head CI, exact-head merge/live verification, and the separate docs-only closure is also merged and verified.
+Permanent evidence remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE**, structural findings 0. Simulations and Batch17 remain clean; physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
 
 ## Permanent audits
 
@@ -153,10 +143,10 @@ CI uploads both artifacts. Gameplay-distribution coverage and active-pattern-set
 - WS-05 Set Reasoning DONE — PR #130 + #131 + #132.
 - WS-05 Spatial Transform DONE — PR #133 + #134.
 - WS-05 Investigation Board DONE — PR #135 + #136.
-- WS-05 Relative Order Track DONE — PR #137 + #138, fully closed and live-verified.
-- WS-05 Syllable Assembly — **QA ACCEPTED / UNMERGED PR #139**.
-- WS-05 NEXT after Pattern #30 closure — fresh Pattern #31 objective/evidence audit; no family pre-approved.
+- WS-05 Relative Order Track DONE — PR #137 + #138.
+- WS-05 Syllable Assembly DONE — PR #139 + #140, fully closed after closure exact-head merge/live verification.
+- WS-05 NEXT — fresh Pattern #31 objective/evidence audit from the verified 30-pattern baseline; no family pre-approved.
 
 ## Completion rule
 
-Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #30 itself remains unclosed until its implementation and required post-merge docs closure are both exact-head merged and independently verified live on `main`.
+Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #30 itself is fully closed only after closure PR #140 is exact-head merged and independently verified live on `main`.
