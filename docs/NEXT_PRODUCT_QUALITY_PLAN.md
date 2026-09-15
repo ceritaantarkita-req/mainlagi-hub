@@ -4,10 +4,12 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 **Canonical branch:** `main`  
-**Latest merged gameplay change:** PR #135 — Science `investigation_board`  
-**Verified implementation merge SHA:** `790487b1672bcf1d1edce023c3f071a7f1175fbf`  
-**Closure PR:** #136 — docs-only Investigation Board closure  
-**Pattern #28:** **FULLY CLOSED after closure exact-head merge/live verification**  
+**Latest fully closed gameplay change:** PR #135 + closure #136 — Science `investigation_board`  
+**Verified Pattern #28 implementation merge SHA:** `790487b1672bcf1d1edce023c3f071a7f1175fbf`  
+**Current accepted unmerged gameplay PR:** #137 — Logic `relative_order_track`  
+**Accepted implementation QA head:** `e91087aa1176723b0d90f310088b65a51d413ce7`  
+**Accepted implementation CI:** #626 / run `34992813094`  
+**Pattern #29:** **QA ACCEPTED / UNMERGED**  
 **Primary focus:** WS-05 gameplay/mechanic diversification  
 **Principle:** **Quality first. Quantity later.**
 
@@ -34,7 +36,7 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | TODO | parent/public surfaces |
 | WS-04 Activity audit/redesign | deterministic clean | 900 KEEP / 0 flagged |
-| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | **28 merged patterns; Pattern #28 closure PR #136** |
+| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | **28 merged patterns; Pattern #29 PR #137 QA accepted / unmerged** |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | TODO / parallel | Art Bible + permanent human gate |
@@ -55,43 +57,59 @@ Science choice_grid          56 / 100
 Logic choice_grid            52 / 100
 ```
 
-Distance remaining: **22 patterns** to minimum 50 and **32 patterns** to working target 60.
+## Accepted PR #137 head
 
-## Pattern #28 — Science Investigation Board — closure record
+```text
+900 / 900 classified
+0 unclassified
+29 active PR-head patterns
+choice_grid                 313 / 900 = 34.78%
+relative_order_track          5 / 900 = 0.56%
+Science choice_grid          56 / 100
+Logic choice_grid            47 / 100
+```
+
+If PR #137 merges unchanged, distance remaining becomes **21 patterns** to minimum 50 and **31 patterns** to working target 60.
+
+## Pattern #29 — Logic Relative Order Track — QA acceptance record
 
 Exact scope:
 
 ```text
-science-investigate-plant-light
-science-investigate-fair-water
-science-predict-ice-warm-place
-science-evidence-shadow-times
+logic-order-first-after-start
+logic-order-before-d
+logic-order-between-blue-green
+logic-order-third-symbol
+logic-order-two-steps-after
 ```
 
-All four remain assessed `tap_choice` activities in stage `science-evidence-review-challenge`, lesson `science-investigation-evidence`, pack `science.pack.investigation-evidence`, canonical skill `science.investigation.evidence.basic`, with exactly three canonical choices and unchanged `correctChoice`.
-
-`science-match-observation-tools-d` remains canonical `matching` / `visible_matching` and outside the family.
+All five remain assessed `tap_choice` activities in stage `logic-conditional-analogy-inference`, lesson `logic-relative-ordering`, pack `logic.pack.relative-ordering`, canonical skill `logic.order.relative.basic`, with exactly three canonical choices and unchanged `correctChoice`.
 
 Interaction/evidence contract:
-- inquiry rail Amati / Jaga tetap / Prediksi / Simpulkan;
-- one reviewed mode per activity;
-- scenario facts are prompt-supported only;
-- focus cue does not reveal the answer;
+- only canonical ordered context already expressed by each prompt is visualized;
+- the inferred target slot remains masked as `?` until assessment;
+- config validation requires hidden slot = canonical `correctChoice`;
 - keyboard/touch/pointer direct selection remains canonical;
 - wrong choice records assessed error/retry and cannot complete;
 - correct choice completes canonical activity identity;
-- no fabricated experiment result/measurement, answer leakage, extra confirmation, drag-only dependency, or intermediate assessment;
-- assessed fidelity `choice_investigation_board_interaction`;
+- no invented sequence fact, answer leakage, changed answer set, extra confirmation, drag-only dependency or intermediate assessment;
+- assessed fidelity `choice_relative_order_track_interaction`;
+- runtime metadata source `relative-order-track-runtime`;
 - runtime, IDs, choices, `correctChoice`, skill, assessment, stars, mastery and progression unchanged.
 
-Acceptance/closure chain:
-- CI #611 / run `34983143311` rejected a real 320px idle-feedback viewport defect; test remained strict;
-- final mobile-fix head `837c3b8ec46ed4a9bfc17a777adeb86dcbffcdc4` passed full CI #614 / run `34987172569` plus manual 320x720, 390x844 and 768x1024 idle/try/success screenshot review;
-- final implementation/docs head `a2b01b272c6dc42f819c43a74e8f52058ed0298d` passed full CI #615 / run `34988108936`;
-- PR #135 exact-head squash merge produced `790487b1672bcf1d1edce023c3f071a7f1175fbf`, independently verified live on `main`;
-- post-merge closure is PR #136; its exact-head CI/gate/merge/live verification is the final closure step.
+Scope boundaries remain explicit: Logic conditional/classification/inference families stay outside Pattern #29; Logic analogies remain `visible_matching`; Math ordering remains `number_line`; Letters ordering remains `missing_sequence_slot`.
 
-Permanent evidence remains 900 KEEP / 0 flagged / structural 0; simulations and Batch17 acceptance remain clean; physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
+Acceptance evidence:
+- accepted implementation QA head `e91087aa1176723b0d90f310088b65a51d413ce7` passed full CI #626 / run `34992813094`;
+- activity-quality artifact: **900 KEEP / 0 flagged / structural findings 0**;
+- gameplay-distribution artifact: **900/900 classified, 0 unclassified, 29 patterns, choice_grid 313/900, relative_order_track 5/900, Logic 47/100, Science 56/100**;
+- simulations and Batch17 acceptance passed;
+- Ubuntu, Windows, production build, dependency audit, secret-history scan and Chromium canonical mobile/accessibility matrix passed;
+- manual idle/wrong/success screenshot review at 320x720, 390x844 and 768x1024 accepted all nine states with no clipping/overflow or answer leakage and with visible feedback + success-only CTA.
+
+Pattern #29 is not yet fully closed: canonical docs must now pass a fresh exact docs-head CI, then PR #137 must cleanly exact-head merge and be independently verified live on `main`, followed by a separate docs-only closure PR with its own exact-head CI/merge/live verification.
+
+Permanent evidence remains 900 KEEP / 0 flagged / structural 0; physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
 
 ## Definition of Done
 
@@ -99,8 +117,8 @@ A mechanic is complete only when implementation, typecheck/lint/build, engine te
 
 ## Current execution order
 
-1. Finish Pattern #28 closure PR #136 exact-head CI/gate/merge/live verification.
-2. Run a **fresh objective/evidence audit for Pattern #29** from the verified 28-pattern baseline; no family is pre-approved.
+1. Finish Pattern #29 PR #137: canonical docs -> fresh exact docs-head full CI -> clean PR gate -> exact-head merge -> live-main verification -> separate docs-only closure -> closure exact-head CI/merge/live verification.
+2. After Pattern #29 is fully closed, run a **fresh objective/evidence audit for Pattern #30**; no family is pre-approved.
 3. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
 4. Continue WS-08 visual system, WS-02 narration, WS-03 parent/public frontend, WS-10 external acceptance, WS-11 governance, then later cleanup.
 
