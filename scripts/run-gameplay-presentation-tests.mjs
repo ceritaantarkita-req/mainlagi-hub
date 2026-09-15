@@ -13,6 +13,7 @@ const {moreLessBalanceConfig}=require(path.resolve(".learning-test-dist/src/lib/
 const {patternCompletionConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/patternCompletionConfig.js"));
 const {causeEffectConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/causeEffectConfig.js"));
 const {comparePropertiesConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/comparePropertiesConfig.js"));
+const {materialLabConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/materialLabConfig.js"));
 
 const expectedMemory=new Set([
   "letters-match-case-cd","letters-match-case-ef","letters-match-case-bce",
@@ -50,7 +51,7 @@ for(const activity of dragTargets){
 const otherMatching=ACTIVITIES.filter(activity=>activity.runtime==="matching"&&!expectedMemory.has(activity.id)&&!expectedDragTargets.has(activity.id));
 assert(otherMatching.length>0,"default matching family remains available for mechanic variety");
 assert(otherMatching.every(activity=>matchingPresentation(activity)==="grid_pairs"),"unreviewed matching activities remain on the canonical visible grid");
-for(const id of ["math-pattern-match-ab","math-pattern-match-aab","science-match-water-states-b","science-match-observation-tools-c"]){
+for(const id of ["math-pattern-match-ab","math-pattern-match-aab","science-match-water-states-b","science-match-observation-tools-c","science-match-material-purpose-d"]){
   const activity=ACTIVITIES.find(item=>item.id===id);
   assert(activity,`${id} remains in catalog`);
   assert.equal(activity.runtime,"matching",`${id} remains a matching activity`);
@@ -221,9 +222,35 @@ const recordingObservation=ACTIVITIES.find(activity=>activity.id==="science-obse
 assert(recordingObservation,"recording observation activity remains in catalog");
 assert.equal(choiceGameplayPresentation(recordingObservation),"default","recording observation stays outside compare-properties scope");
 
-const specializedChoiceIds=new Set([...expectedSequence,...expectedSorting,...expectedCountSelect,...expectedNumberLine,...expectedBalance,...expectedPatternCompletion,...expectedCauseEffect,...expectedCompareProperties]);
+const expectedMaterialLab=new Set([
+  "science-material-raincoat-waterproof","science-material-window-transparent",
+  "science-material-towel-absorbent","science-material-toy-block-rigid"
+]);
+const materialLab=ACTIVITIES.filter(activity=>choiceGameplayPresentation(activity)==="material_lab");
+assert.equal(materialLab.length,expectedMaterialLab.size,"material-lab family size must remain intentional");
+assert.deepEqual(new Set(materialLab.map(activity=>activity.id)),expectedMaterialLab,"only the four reviewed Science material-purpose choices use Material Lab");
+for(const activity of materialLab){
+  assert.equal(activity.runtime,"tap_choice");
+  assert.equal(activity.subjectId,"science");
+  assert.equal(activity.stageId,"science-evidence-review-challenge");
+  assert.equal((activity.choices??[]).length,3);
+  assert.equal(new Set(activity.choices??[]).size,3,"material-lab choices remain unique");
+  assert((activity.choices??[]).includes(activity.correctChoice),"material lab preserves canonical correctChoice");
+  const config=materialLabConfig(activity);
+  assert(config,`${activity.id} must have explicit Material Lab config`);
+  assert.deepEqual(new Set(Object.keys(config.choiceVisuals)),new Set(activity.choices??[]),`${activity.id} material samples map exactly canonical choices`);
+  assert(config.choiceVisuals[activity.correctChoice],`${activity.id} canonical correctChoice keeps an explicit material sample`);
+  assert(config.objectLabel&&config.purposeLabel&&config.testLabel,`${activity.id} keeps object, purpose and test context`);
+}
+
+const materialMatching=ACTIVITIES.find(activity=>activity.id==="science-match-material-purpose-d");
+assert(materialMatching,"material-purpose matching activity remains in catalog");
+assert.equal(materialMatching.runtime,"matching");
+assert.equal(matchingPresentation(materialMatching),"grid_pairs","material-purpose matching stays outside material-lab scope");
+
+const specializedChoiceIds=new Set([...expectedSequence,...expectedSorting,...expectedCountSelect,...expectedNumberLine,...expectedBalance,...expectedPatternCompletion,...expectedCauseEffect,...expectedCompareProperties,...expectedMaterialLab]);
 const otherChoice=ACTIVITIES.filter(activity=>activity.runtime==="tap_choice"&&!specializedChoiceIds.has(activity.id));
 assert(otherChoice.length>0,"default choice activities remain available");
 assert(otherChoice.every(activity=>choiceGameplayPresentation(activity)==="default"),"other choice families retain default presentation");
 
-console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets + ${countSelect.length} count_select + ${numberLine.length} number_line + ${balance.length} more_less_balance + ${patternCompletion.length} pattern_completion + ${causeEffect.length} cause_effect + ${compareProperties.length} compare_properties activities.`);
+console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets + ${countSelect.length} count_select + ${numberLine.length} number_line + ${balance.length} more_less_balance + ${patternCompletion.length} pattern_completion + ${causeEffect.length} cause_effect + ${compareProperties.length} compare_properties + ${materialLab.length} material_lab activities.`);

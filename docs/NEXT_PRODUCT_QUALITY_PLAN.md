@@ -3,8 +3,8 @@
 > Canonical execution plan fase product-quality Mainlagi Hub. Semua human/AI agent wajib membaca dokumen ini, `CURRENT_STATE.md`, `ARCHITECTURE.md`, dan `GAMEPLAY_VARIATION_CATALOG.md` sebelum mengubah learning experience.
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
-**Merged baseline:** `main` @ `4f3e2828aa3be804f6d896b10f8e3422c3180811`  
-**Active gameplay PR:** none  
+**Merged baseline:** `main` @ `539b5717f5e77ccd7c883acb3e44a09c5557b54d`  
+**Active gameplay PR:** #116 — Science Material Lab, accepted implementation QA / unmerged  
 **Primary focus:** WS-05 gameplay/mechanic diversification.  
 **Principle:** **Quality first. Quantity later.**
 
@@ -30,7 +30,7 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | TODO | parent/public surfaces |
 | WS-04 Activity audit/redesign | deterministic clean | 900 KEEP / 0 flagged |
-| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | 19 merged; next Science exact-family audit |
+| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | 19 merged; pattern #20 Material Lab in accepted QA / PR #116 |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | TODO / parallel | Art Bible + permanent human gate |
@@ -42,8 +42,6 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 ## WS-05 merged baseline
 
 Merged patterns on `main`: **19**. Latest gameplay merge is Science Compare Properties PR #114 `4f3e2828aa3be804f6d896b10f8e3422c3180811`.
-
-Merged distribution after #114:
 
 ```text
 900 / 900 classified
@@ -57,7 +55,7 @@ Logic choice_grid       77 / 100
 
 ## Compare Properties PR #114 — MERGED
 
-Exactly three Science Wave C observation/measurement activities are routed to `compare_properties`:
+Exactly three Science Wave C observation/measurement activities use `compare_properties`:
 
 ```text
 science-measure-longer-pencil
@@ -65,37 +63,61 @@ science-measure-hot-cold
 science-measure-more-water
 ```
 
-Explicit exclusions:
+`science-observe-record-same-time` remains default choice gameplay and `science-match-observation-tools-c` remains canonical matching. Runtime stays `tap_choice`; assessed fidelity is `choice_compare_properties_interaction`.
+
+## Material Lab PR #116 — ACCEPTED IMPLEMENTATION QA / UNMERGED
+
+Exact Science Wave D scope:
 
 ```text
-science-observe-record-same-time
-science-match-observation-tools-c
+science-material-raincoat-waterproof
+science-material-window-transparent
+science-material-towel-absorbent
+science-material-toy-block-rigid
+```
+
+Explicit exclusion:
+
+```text
+science-match-material-purpose-d
 ```
 
 Why this family is coherent:
-- all three directly compare one observable property;
-- the engine supports qualitative length, temperature, and relative fill without inventing numerical measurements;
-- canonical choices/correctChoice remain intact;
-- recording discipline and tool matching remain different objectives and stay outside scope.
+- all four ask which material property makes a familiar object fit its purpose;
+- the Wave D investigation/evidence choices were audited but intentionally not grouped because they mix experiment design, fair variables, prediction, and conclusion;
+- material-purpose matching remains a different matching objective.
 
 Interaction/evidence contract:
-- visible A/B comparison board plus the canonical third distractor;
-- explicit per-activity configuration, no prompt parsing;
-- wrong choice is retryable and cannot complete;
-- keyboard and touch/pointer use identical controls;
+- child selects one canonical material-property sample, then explicitly tests it against the visible object purpose;
+- selection alone cannot complete;
+- wrong tested sample is retryable and cannot complete;
+- correct tested sample completes through the canonical activity identity;
 - runtime remains `tap_choice`;
-- assessed fidelity `choice_compare_properties_interaction`;
-- assessment, stars, progression, activity IDs, and completion identity remain canonical.
+- assessed fidelity `choice_material_lab_interaction`;
+- assessment, stars, progression, skill IDs, activity IDs, choices and `correctChoice` remain canonical.
 
-Accepted QA evidence before merge:
-- CI #522 full green on the first implementation head;
-- manual review found a duplicate visible label on A/B cards, so the implementation was polished instead of accepted unchanged;
-- accepted implementation head `c962e0c05a38eecf2890a76bf6417545100238a1` removed duplicate label/canonical-choice text when equivalent;
-- CI #523 full green across Ubuntu, Windows, production build, dependency audit, secret-history scan, and Mobile Chromium; production smoke skipped as expected;
-- browser representative `science-measure-longer-pencil` used legitimate Science Wave B prerequisite readiness;
-- keyboard wrong-state, false-completion guard, pointer completion, evidence persistence, >=44px targets, no overflow, and in-viewport CTA passed at 320/390/768;
-- manual visual review after polish accepted all idle/error/success screenshots;
-- deterministic activity quality remained **900 KEEP / 0 flagged / structural 0**.
+Implementation QA evidence:
+- initial CI #532 correctly blocked a package regression where `@phosphor-icons/react` was accidentally omitted while editing `package.json`;
+- dependency was restored at the same existing version; no dependency migration was introduced;
+- implementation head `09dd638748d62da1da264ce3b4f6f8f6880354b7` passed CI #533 across Ubuntu quality, Windows compatibility, production build, production dependency audit, secret-history scan, Mobile Chromium, and the complete workflow;
+- static regression confirms exactly 4 `material_lab` activities;
+- deterministic activity quality remains **900 KEEP / 0 flagged / structural 0**;
+- browser QA passes 320x720, 390x844 and 768x1024 with legitimate Wave C progression, keyboard sample selection, explicit test action, false-completion guards, pointer completion, >=44px targets, no overflow, in-viewport CTA and assessed evidence persistence;
+- manual review of idle/error/success screenshots at 320/390/768 accepted the visual state without further polish.
+
+Measured PR-head distribution:
+
+```text
+900 / 900 classified
+0 unclassified
+20 active patterns on PR head
+choice_grid           355 / 900 = 39.44%
+material_lab            4 / 900 = 0.44%
+Science choice_grid     68 / 100
+Logic choice_grid       77 / 100
+```
+
+Do not present these as merged figures until #116 merges and `main` is verified.
 
 ## Definition of Done
 
@@ -114,10 +136,12 @@ After merge:
 
 ## Current execution order
 
-1. Close stale post-merge wording for PR #114 and keep canonical docs synchronized with `main`.
-2. Re-audit remaining Science exact families from latest `main`; Science remains concentrated at 72% `choice_grid`.
-3. Prioritize Wave D investigation/evidence as the next candidate area, but only promote pattern #20 after exact objective/evidence review.
-4. Audit Logic after the Science pass, then continue search/audio/puzzle/literacy/creative/story based on objective fit and distribution.
-5. Continue WS-08 visual system, WS-02 narration, WS-03 parent/public frontend, WS-10 external acceptance, WS-11 governance, and later cleanup.
+1. Run final docs-head CI for PR #116 after this accepted-QA documentation update.
+2. Check review threads/comments, re-fetch exact head, squash-merge with `expected_head_sha`, then verify `main`.
+3. Close post-merge wording through a docs-only closure so canonical docs report 20 merged patterns.
+4. Re-audit remaining Science exact families from latest `main`; do not force heterogeneous investigation/evidence objectives into one mechanic.
+5. Audit Logic after the Science pass; Logic remains the largest subject hotspot at 77% `choice_grid` on merged baseline.
+6. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics based on objective fit.
+7. Continue WS-08 visual system, WS-02 narration, WS-03 parent/public frontend, WS-10 external acceptance, WS-11 governance, then later cleanup.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion, or major mastery/backend rewrites during this quality phase.

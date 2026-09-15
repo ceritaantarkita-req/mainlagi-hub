@@ -30,7 +30,8 @@ const EXPECTED_PATTERNS = [
   "more_less_balance",
   "pattern_completion",
   "cause_effect",
-  "compare_properties"
+  "compare_properties",
+  "material_lab"
 ];
 
 rmSync(outDir, { recursive: true, force: true });

@@ -1,7 +1,7 @@
 import type { LearningActivity } from "./system";
 
 export type MatchingPresentation = "grid_pairs" | "memory_pairs" | "drag_targets";
-export type ChoiceGameplayPresentation = "default" | "sequence_slot" | "sorting_buckets" | "count_select" | "number_line" | "more_less_balance" | "pattern_completion" | "cause_effect" | "compare_properties";
+export type ChoiceGameplayPresentation = "default" | "sequence_slot" | "sorting_buckets" | "count_select" | "number_line" | "more_less_balance" | "pattern_completion" | "cause_effect" | "compare_properties" | "material_lab";
 export type GameplayPattern =
   | "choice_grid"
   | "symbol_hunt"
@@ -17,6 +17,7 @@ export type GameplayPattern =
   | "pattern_completion"
   | "cause_effect"
   | "compare_properties"
+  | "material_lab"
   | "guided_trace"
   | "story_read"
   | "motion_game"
@@ -42,6 +43,13 @@ const SCIENCE_COMPARE_PROPERTIES_IDS = new Set([
   "science-measure-longer-pencil",
   "science-measure-hot-cold",
   "science-measure-more-water"
+]);
+
+const SCIENCE_MATERIAL_LAB_IDS = new Set([
+  "science-material-raincoat-waterproof",
+  "science-material-window-transparent",
+  "science-material-towel-absorbent",
+  "science-material-toy-block-rigid"
 ]);
 
 const MATH_COUNT_SELECT_IDS = new Set([
@@ -146,6 +154,10 @@ export function isDragTargetActivity(activity: LearningActivity | undefined): bo
  *
  * Reviewed Science measurement tasks compare two observable properties, so
  * present their qualitative relation directly without inventing numeric data.
+ *
+ * Reviewed Science material-design tasks ask which property makes a familiar
+ * object fit its purpose. Present them as a select-and-test material lab so the
+ * child commits a sample before testing it against the canonical objective.
  */
 export function choiceGameplayPresentation(activity: LearningActivity | undefined): ChoiceGameplayPresentation {
   if (!activity || activity.runtime !== "tap_choice") return "default";
@@ -233,6 +245,16 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     Boolean(activity.prompt);
   if (isReviewedScienceComparePropertiesFamily) return "compare_properties";
 
+  const isReviewedScienceMaterialLabFamily =
+    activity.subjectId === "science" &&
+    activity.stageId === "science-evidence-review-challenge" &&
+    SCIENCE_MATERIAL_LAB_IDS.has(activity.id) &&
+    choices.length === 3 &&
+    new Set(choices).size === choices.length &&
+    choices.includes(correct) &&
+    Boolean(activity.prompt);
+  if (isReviewedScienceMaterialLabFamily) return "material_lab";
+
   return "default";
 }
 
@@ -268,6 +290,10 @@ export function isComparePropertiesActivity(activity: LearningActivity | undefin
   return choiceGameplayPresentation(activity) === "compare_properties";
 }
 
+export function isMaterialLabActivity(activity: LearningActivity | undefined): boolean {
+  return choiceGameplayPresentation(activity) === "material_lab";
+}
+
 /**
  * Canonical child-facing gameplay-pattern classifier used by the WS-05
  * distribution audit. Every playable learning activity must map to exactly one
@@ -287,6 +313,7 @@ export function gameplayPattern(activity: LearningActivity | undefined): Gamepla
     if (presentation === "pattern_completion") return "pattern_completion";
     if (presentation === "cause_effect") return "cause_effect";
     if (presentation === "compare_properties") return "compare_properties";
+    if (presentation === "material_lab") return "material_lab";
     return "choice_grid";
   }
 

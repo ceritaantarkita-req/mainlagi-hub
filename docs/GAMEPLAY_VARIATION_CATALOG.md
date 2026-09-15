@@ -13,7 +13,7 @@
 
 ## Status implementasi
 
-### Merged di `main`: 18 pola
+### Merged di `main`: 19 pola
 
 1. `choice_grid`
 2. `symbol_hunt`
@@ -33,62 +33,62 @@
 16. `more_less_balance` — **MERGED PR #109**
 17. `pattern_completion` — **MERGED PR #110**
 18. `cause_effect` — **MERGED PR #112**
+19. `compare_properties` — **MERGED PR #114**
 
 Permanent gameplay-distribution audit: **MERGED PR #105**.  
-Latest gameplay merge: PR #112 `768b7f53a003d7677a74ea54e9686418c900eab4`.
+Latest gameplay merge: PR #114 `4f3e2828aa3be804f6d896b10f8e3422c3180811`.
 
-### `compare_properties` — ACCEPTED QA / PR #114 / UNMERGED
+### `material_lab` — ACCEPTED IMPLEMENTATION QA / PR #116 / UNMERGED
 
-Pattern #19 on the current PR head. Exact scope:
+Pattern #20 on the current PR head. Exact scope:
 
 ```text
-science-measure-longer-pencil
-science-measure-hot-cold
-science-measure-more-water
+science-material-raincoat-waterproof
+science-material-window-transparent
+science-material-towel-absorbent
+science-material-toy-block-rigid
 ```
 
 Excluded intentionally:
 
 ```text
-science-observe-record-same-time
-science-match-observation-tools-c
+science-match-material-purpose-d
 ```
 
 Boundaries:
-- Science Wave C stage `science-earth-body-environment`;
-- comparison lesson/skill family is observation and measurement;
-- visual encodings cover qualitative length, temperature, and relative fill only;
-- no invented ruler values, temperatures, or volume numbers;
+- Science Wave D stage `science-evidence-review-challenge`;
+- all four scoped objectives select a material property that lets a familiar object fit its purpose;
 - canonical three choices/correctChoice remain the assessed answer set;
-- recording activity remains default choice gameplay because it measures observation-recording discipline;
-- matching-tools activity remains `matching` / `visible_matching`;
+- the matching activity stays `matching` / `visible_matching`;
+- investigation/evidence tasks stay outside scope because fair-test design, variable control, prediction and conclusion are different objectives;
 - runtime remains `tap_choice`;
-- assessment, stars, progression, activity identity, and completion identity remain canonical;
-- assessed fidelity `choice_compare_properties_interaction`;
-- exact three-ID allowlist prevents unrelated Science families from reclassification.
+- assessment, stars, progression, activity identity and completion identity remain canonical;
+- assessed fidelity `choice_material_lab_interaction`;
+- exact four-ID allowlist prevents unrelated Science Wave D families from reclassification.
 
-Accepted implementation QA:
-- CI #522 full green before visual polish;
-- manual #522 review found duplicated card labels and triggered a real UI cleanup instead of acceptance;
-- polish head `c962e0c05a38eecf2890a76bf6417545100238a1` removes duplicate label/canonical-choice text when both are equivalent;
-- CI #523 full green across Ubuntu, Windows, build, dependency, secret scan, and Mobile Chromium;
-- manual visual review after the fix accepted idle/error/success at 320, 390, and 768;
-- keyboard wrong-state, false-completion guard, pointer completion, evidence persistence, >=44px controls, no overflow, and in-viewport success CTA passed;
-- deterministic audit remains **900 KEEP / 0 flagged**, structural findings 0.
+Interaction is deliberately two-step: choose a sample, then test it. Selection alone cannot complete. A wrong test is retryable and cannot complete.
 
-Measured distribution on PR #114:
+QA evidence:
+- CI #532 found a real package regression before acceptance; the omitted existing `@phosphor-icons/react` dependency was restored;
+- CI #533 is full green on implementation head `09dd638748d62da1da264ce3b4f6f8f6880354b7`;
+- static scope regression confirms exactly 4 activities;
+- deterministic audit remains **900 KEEP / 0 flagged**, structural findings 0;
+- legitimate Wave C progression, keyboard selection, explicit test, false-completion guards, pointer completion, assessed evidence, >=44px controls, no overflow and CTA visibility pass at 320/390/768;
+- manual visual review accepts idle/error/success screenshots at 320/390/768.
+
+Measured PR-head distribution:
 
 ```text
 900 / 900 classified
 0 unclassified
-19 active child-facing patterns
-choice_grid           359 / 900 = 39.89%
-compare_properties      3 / 900 = 0.33%
-Science choice_grid     72 / 100
+20 active child-facing patterns
+choice_grid           355 / 900 = 39.44%
+material_lab            4 / 900 = 0.44%
+Science choice_grid     68 / 100
 Logic choice_grid       77 / 100
 ```
 
-This is QA state until #114 merges; merged `main` remains at 18 patterns.
+This remains QA state until #116 merges; merged `main` remains at 19 patterns.
 
 ## 60 pola permainan target
 
@@ -159,8 +159,8 @@ This is QA state until #114 merges; merged `main` remains at 18 patterns.
 46. `classify_observation`
 47. `predict_result`
 48. `cause_effect` — **MERGED PR #112**
-49. `compare_properties` — **ACCEPTED QA / PR #114**
-50. `observation_checklist`
+49. `compare_properties` — **MERGED PR #114**
+50. `material_lab` — **ACCEPTED QA / PR #116**
 
 ### K. Creative visual play
 51. `color_by_rule`
@@ -200,9 +200,10 @@ Prinsip alokasi:
 8. More/Less Balance — **DONE / #109**.
 9. Pattern Completion — **DONE / #110**.
 10. Cause/Effect — **DONE / #112**.
-11. Compare Properties — **ACCEPTED QA / #114; final docs-head CI + merge still required**.
-12. After #114, re-audit remaining Science families from latest `main`; do not preselect pattern #20 without exact objective/evidence review.
-13. Audit Logic after the Science pass; continue search/audio/puzzle/literacy/creative/story based on objective fit and distribution.
+11. Compare Properties — **DONE / #114**.
+12. Material Lab — **ACCEPTED QA / #116; final docs-head CI + merge still required**.
+13. After #116, re-audit remaining Science exact families; do not force heterogeneous investigation/evidence tasks into one engine.
+14. Audit Logic after the Science pass; continue search/audio/puzzle/literacy/creative/story based on objective fit and distribution.
 
 ## Definition of done per mechanic
 
