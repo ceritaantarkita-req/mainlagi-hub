@@ -4,11 +4,13 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 **Canonical branch:** `main`  
-**Latest gameplay change:** PR #137 — Logic `relative_order_track`  
-**Verified Pattern #29 implementation merge SHA:** `ec083b7206fdc7d8d2c21a1bbd6c2abbd1d44949`  
-**Post-merge implementation CI:** #632 / run `34994824331` — full success including Cloudflare production smoke  
-**Closure PR:** #138 — docs-only Relative Order Track closure  
-**Pattern #29:** **FULLY CLOSED after closure exact-head merge/live verification**  
+**Latest fully closed gameplay change:** PR #137 — Logic `relative_order_track`  
+**Pattern #29 closure:** PR #138; final verified `main` `2a5e0f35725456e00b4cd85e64999f9f84a29c6c`  
+**Pattern #29 final live CI:** #639 / run `34996162783` — full success including Cloudflare production smoke  
+**Current accepted unmerged gameplay:** PR #139 — Bahasa `syllable_assembly`  
+**Accepted Pattern #30 head:** `d55c1deb54f1402c38d84417ca7ae8248c9d3b07`  
+**Accepted Pattern #30 CI:** #642 / run `35000557604`  
+**Pattern #30:** **QA ACCEPTED / UNMERGED**  
 **Primary focus:** WS-05 gameplay/mechanic diversification  
 **Principle:** **Quality first. Quantity later.**
 
@@ -35,7 +37,7 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | TODO | parent/public surfaces |
 | WS-04 Activity audit/redesign | deterministic clean | 900 KEEP / 0 flagged |
-| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | **29 merged patterns; Pattern #29 closure PR #138** |
+| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | **29 merged patterns; Pattern #30 PR #139 QA accepted / unmerged** |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | TODO / parallel | Art Bible + permanent human gate |
@@ -52,49 +54,69 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 29 active merged patterns
 choice_grid                 313 / 900 = 34.78%
 relative_order_track          5 / 900 = 0.56%
+Bahasa choice_grid           52 / 100
 Science choice_grid          56 / 100
 Logic choice_grid            47 / 100
 ```
 
-Distance remaining: **21 patterns** to minimum 50 and **31 patterns** to working target 60.
+Merged-baseline distance remaining: **21 patterns** to minimum 50 and **31 patterns** to working target 60.
 
-## Pattern #29 — Logic Relative Order Track — closure record
+## Pattern #30 — Bahasa Syllable Assembly — QA accepted / unmerged
 
 Exact scope:
 
 ```text
-logic-order-first-after-start
-logic-order-before-d
-logic-order-between-blue-green
-logic-order-third-symbol
-logic-order-two-steps-after
+bahasa-gabung-baju
+bahasa-gabung-buku
+bahasa-gabung-meja
+bahasa-gabung-bola
+bahasa-gabung-susu
 ```
 
-All five remain assessed `tap_choice` activities in stage `logic-conditional-analogy-inference`, lesson `logic-relative-ordering`, pack `logic.pack.relative-ordering`, canonical skill `logic.order.relative.basic`, with exactly three canonical choices and unchanged `correctChoice`.
+All five remain assessed `tap_choice` activities in stage `bahasa-suku-kata-kata`, lesson `bahasa-suku-kata-gabung`, pack `bahasa.pack.suku-kata-gabung`, canonical skill `bahasa.suku_kata.blending`, with exactly three canonical choices and unchanged `correctChoice`.
 
 Interaction/evidence contract:
-- only canonical ordered context already expressed by each prompt is visualized;
-- inferred target slot remains masked as `?` until assessment;
-- config validation requires hidden slot = canonical `correctChoice`;
+- only the two canonical prompt/title-supported syllables are visualized;
+- assembled result stays masked as `?` before a correct assessment;
+- config validation requires the two syllables to concatenate exactly to canonical `correctChoice`;
 - keyboard/touch/pointer direct selection remains canonical;
-- wrong choice records assessed error/retry and cannot complete;
-- correct choice completes canonical activity identity;
-- no invented sequence fact, answer leakage, changed answer set, extra confirmation, drag-only dependency or intermediate assessment;
-- assessed fidelity `choice_relative_order_track_interaction`;
-- runtime metadata source `relative-order-track-runtime`;
+- wrong choice records assessed error/retry, cannot complete, and cannot reveal the result;
+- correct choice completes the canonical activity identity and may reveal the assembled word;
+- no invented syllable, answer leakage, changed answer set, extra confirmation, drag-only dependency or intermediate assessment;
+- assessed fidelity `choice_syllable_assembly_interaction`;
+- runtime metadata source `syllable-assembly-runtime`;
 - runtime, IDs, choices, `correctChoice`, skill, assessment, stars, mastery and progression unchanged.
 
-Scope boundaries remain explicit: Logic conditional/classification/inference families stay outside Pattern #29; Logic analogies remain `visible_matching`; Math ordering remains `number_line`; Letters ordering remains `missing_sequence_slot`.
+Scope boundaries remain explicit: Bahasa recognition, picture-word, initial-sound, listening and matching remain outside Pattern #30; English phonics, Math and Logic families remain unchanged.
 
-Acceptance/closure chain:
-- implementation QA head `e91087aa1176723b0d90f310088b65a51d413ce7` passed full CI #626 / run `34992813094`;
-- canonical docs head `48d92434d83b028d48821e270a025c3a08a859bc` passed full CI #631 / run `34994322707`;
+QA chain:
+- CI #640 / run `34999759651` caught missing permanent central gameplay-presentation registration; fixed while retaining the strict default-family assertion;
+- CI #641 / run `35000289970` caught missing learning-test compile-manifest coverage; fixed;
+- implementation head `d55c1deb54f1402c38d84417ca7ae8248c9d3b07` passed full CI #642 / run `35000557604`;
+- CI #642 passed Ubuntu, Windows, production build, dependency audit, secret-history scan, central + dedicated learning regressions, deterministic quality/distribution audits, simulations, Batch17 and Chromium mobile/accessibility/browser QA;
 - all nine 320/390/768 idle/wrong/success screenshots passed manual visual acceptance;
-- PR #137 exact-head squash merged as `ec083b7206fdc7d8d2c21a1bbd6c2abbd1d44949`, independently verified on `main`;
-- post-merge `main` CI #632 / run `34994824331` passed Ubuntu, Windows, production build, dependency audit, secret-history scan, Chromium mobile/accessibility QA, deterministic quality/distribution audits, simulations, Batch17 and Cloudflare production smoke;
-- post-merge closure is PR #138; its exact-head CI/gate/merge/live verification is the final Pattern #29 closure step.
+- deterministic quality remains 900 KEEP / 0 flagged / structural findings 0.
 
-Permanent evidence remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**. Physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
+Accepted PR-head distribution:
+
+```text
+900 / 900 classified
+0 unclassified
+30 active PR-head patterns
+choice_grid                 308 / 900 = 34.22%
+syllable_assembly             5 / 900 = 0.56%
+Bahasa choice_grid           47 / 100
+Science choice_grid          56 / 100
+Logic choice_grid            47 / 100
+```
+
+If merged unchanged, distance becomes **20 patterns** to minimum 50 and **30 patterns** to working target 60.
+
+Pattern #30 is not fully closed until final canonical docs receive fresh exact-head CI, PR #139 exact-head merge/live verification succeeds, and its separate docs-only closure also passes exact-head CI/merge/live verification.
+
+## Pattern #29 — closed baseline
+
+`relative_order_track` is fully closed. PR #137 implementation and PR #138 closure are merged; final verified `main` is `2a5e0f35725456e00b4cd85e64999f9f84a29c6c`; CI #639 / run `34996162783` passed the full matrix including Cloudflare production smoke.
 
 ## Definition of Done
 
@@ -102,8 +124,8 @@ A mechanic is complete only when implementation, typecheck/lint/build, engine te
 
 ## Current execution order
 
-1. Finish Pattern #29 closure PR #138 exact-head CI/gate/merge/live verification.
-2. Run a **fresh objective/evidence audit for Pattern #30** from the verified 29-pattern baseline; no family is pre-approved.
+1. Finish Pattern #30 PR #139: final canonical docs -> fresh exact docs-head CI -> clean merge/review gate -> exact-head merge -> post-merge `main` CI + Cloudflare smoke -> separate docs-only closure -> closure live verification.
+2. After Pattern #30 is fully closed, run a **fresh objective/evidence audit for Pattern #31**; no family is pre-approved.
 3. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
 4. Continue WS-08 visual system, WS-02 narration, WS-03 parent/public frontend, WS-10 external acceptance, WS-11 governance, then later cleanup.
 
