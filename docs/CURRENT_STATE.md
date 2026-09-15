@@ -8,11 +8,11 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; ac
 
 - repository: `ceritaantarkita-req/mainlagi-hub`
 - canonical branch: `main`
-- current merged `main` baseline: `c6c1493e7c7d4f765d4a1c22bf36ed86e99004b6`
 - latest merged gameplay change: PR #127 — Logic Transitive Chain
+- latest gameplay closure: PR #128 — Transitive Chain docs closure
+- verified gameplay-closure SHA: `f0cec7c6cdede69d9dd94039ecd20f52d328d2ea`
 - active gameplay branch: none
 - active gameplay PR: none
-- post-merge closure branch: `docs/close-transitive-chain-20260915`
 - production: `https://mainlagihub.my.id/`
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - source licence: `AGPL-3.0-only`
@@ -51,7 +51,7 @@ Remaining distance: **25** patterns to minimum 50 and **35** to working target 6
 
 Science is exactly 60% `choice_grid`. Logic remains above the `>60%` advisory threshold at 62%, but concentration alone does not justify a mechanic.
 
-## PR #127 `transitive_chain` — MERGED
+## Pattern #25 `transitive_chain` — FULLY CLOSED
 
 Exact scope:
 
@@ -65,8 +65,6 @@ logic-transitive-middle-order
 
 All five share stage `logic-mixed-reasoning-challenge`, lesson `logic-transitive-comparison`, canonical skill `logic.comparison.transitive.basic`, assessed choice evidence, and the objective of deriving a conclusion from two ordered comparison premises.
 
-Nearby composed-rule, set-reasoning, spatial, inference/ordering and Wave B comparison families remain outside this scope.
-
 Interaction/evidence contract:
 - the three canonical entities are shown as a visible two-premise relation chain;
 - keyboard and touch/pointer use accessible direct-selection buttons for the unchanged canonical choices;
@@ -77,18 +75,16 @@ Interaction/evidence contract:
 - assessed fidelity `choice_transitive_chain_interaction`;
 - no invented numeric values, extra assessed step, drag-only dependency or reordering requirement.
 
-Accepted and merged evidence:
-- CI #569 correctly exposed a stale Rule Pipeline sentinel; it was fixed without weakening the old exact-scope regression;
-- CI #570 correctly exposed the 390x844 completed CTA overflow and was not accepted;
-- accepted implementation head `46bcd677d2b3003f30b2e20bd21fe854c4f1f833` passed CI #572 / run `34957824566`;
-- manual screenshot review accepted #572 idle/try/success states at 320x720, 390x844 and 768x1024;
-- final canonical-docs head `beb2e793ad3dfeb7ebb2b41c0f085b11d910f948` passed full CI #577 / run `34961404909`;
-- final gate verified state open, draft false, mergeable true, 0 PR comments, 0 submitted reviews and 0 review threads;
-- exact-head squash merge produced `c6c1493e7c7d4f765d4a1c22bf36ed86e99004b6`, verified live on `main`;
-- deterministic activity-quality remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**;
-- gameplay-distribution audit remains **900/900 classified, 25 patterns, `choice_grid` 332/900 (36.89%), `transitive_chain` 5/900, Logic 62/100, Science 60/100**;
-- all five simulations report `invariantErrors: 0`;
-- Batch17 passes with canonical totals unchanged and physical-device certification still `PENDING_EXTERNAL_EVIDENCE`.
+Acceptance/merge chain:
+- CI #569 rejected a stale Rule Pipeline sentinel without weakening the old exact-family guard;
+- CI #570 rejected a real 390x844 success CTA overflow;
+- implementation head `46bcd677d2b3003f30b2e20bd21fe854c4f1f833` passed CI #572 / run `34957824566` plus manual screenshot QA;
+- final PR #127 docs head `beb2e793ad3dfeb7ebb2b41c0f085b11d910f948` passed CI #577 / run `34961404909`;
+- PR #127 clean gate -> exact-head squash merge `c6c1493e7c7d4f765d4a1c22bf36ed86e99004b6`, verified live;
+- closure PR #128 exact head `0d655a949b208e5e1b28207d2dec0da02f88ca4c` passed CI #579 / run `34962248054`;
+- PR #128 clean gate -> exact-head squash merge `f0cec7c6cdede69d9dd94039ecd20f52d328d2ea`, verified live.
+
+Deterministic activity-quality remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**. Gameplay distribution remains **900/900 classified, 25 patterns, `choice_grid` 332/900, `transitive_chain` 5/900, Logic 62/100, Science 60/100**. Simulations remain zero invariant errors; Batch17 totals remain unchanged and physical-device certification is still `PENDING_EXTERNAL_EVIDENCE`.
 
 ## Deterministic activity-quality baseline
 
@@ -115,10 +111,9 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Merge this Transitive Chain docs-only post-merge closure from verified live `main` `c6c1493e7c7d4f765d4a1c22bf36ed86e99004b6` after its own full CI and clean gate.
-2. Run a fresh Logic exact-family audit from the verified 25-pattern baseline. No next family is pre-approved.
-3. Promote only objective-coherent/evidence-safe mechanics; do not combine unrelated tasks merely to lower concentration counts.
-4. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
-5. Continue Art Bible/permanent visual QA, narration, parent/public frontend, external acceptance and governance.
+1. Run a fresh Logic exact-family audit from the verified 25-pattern baseline. No next family is pre-approved.
+2. Promote only objective-coherent/evidence-safe mechanics; do not combine unrelated tasks merely to lower concentration counts.
+3. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
+4. Continue Art Bible/permanent visual QA, narration, parent/public frontend, external acceptance and governance.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, or mastery/backend rewrites before this quality phase is substantially complete.
