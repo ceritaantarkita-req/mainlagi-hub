@@ -43,28 +43,14 @@ Merged waves:
 - `rule_pipeline` — PR #123.
 - `odd_one_out` — PR #125 + closure #126.
 - `transitive_chain` — PR #127 + closure #128 + metadata #129.
+- `set_reasoning` — PR #130 — **MERGED; closure in progress**.
 
-Active accepted/unmerged wave:
-- `set_reasoning` — PR #130 — **QA ACCEPTED / UNMERGED**.
-
-Current merged distribution on verified `main` before Pattern #26:
+Current merged distribution:
 
 ```text
 900 / 900 classified
 0 unclassified
-25 active merged patterns
-choice_grid                 332 / 900 = 36.89%
-transitive_chain              5 / 900 = 0.56%
-Science choice_grid          60 / 100
-Logic choice_grid            62 / 100
-```
-
-Accepted PR #130 distribution:
-
-```text
-900 / 900 classified
-0 unclassified
-26 active PR-head patterns
+26 active merged patterns
 choice_grid                 327 / 900 = 36.33%
 set_reasoning                 5 / 900 = 0.56%
 Science choice_grid          60 / 100
@@ -73,7 +59,7 @@ Logic choice_grid            57 / 100
 
 Concentration remains advisory and does not itself create POLISH/REDESIGN findings.
 
-## Set Reasoning — QA ACCEPTED / UNMERGED
+## Set Reasoning — MERGED / CLOSURE IN PROGRESS
 
 Exact scope:
 
@@ -100,22 +86,20 @@ Interaction/evidence:
 - wrong choice is measured/retryable and cannot complete;
 - assessed fidelity `choice_set_reasoning_interaction`;
 - exact five-ID allowlist prevents unrelated Logic activities from reclassification;
-- composed rules, transitive comparison, spatial transforms and other Logic families stay outside scope;
 - no false Venn geometry, invented intermediate assessment, changed answer set, extra confirmation or drag-only dependency.
 
-Acceptance history:
-- CI #583 / run `34968050234` rejected a stale Rule Pipeline sentinel; the fix removed only the obsolete `default/choice_grid` expectation while preserving Rule Pipeline exact-family scope.
-- CI #584 / run `34968353606` passed automated jobs but was rejected manually because 320x720 idle/try feedback was clipped.
-- responsive CSS was tightened specifically for narrow phone height/width and browser QA was strengthened so feedback and CTA must be fully inside the viewport.
-- accepted implementation head `acc5ce9d5661818842effcd120346ded3891dd50` passed CI #586 / run `34969198343`.
-- CI #586 gameplay-presentation regression reports exactly `5 set_reasoning`; dedicated exact-family regression passes.
-- activity-quality remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE**, structural findings 0.
-- gameplay distribution is **900/900, 26 patterns, `choice_grid` 327/900, `set_reasoning` 5/900, Science 60/100, Logic 57/100**.
-- five simulations report zero invariant errors; Batch17 totals remain **9 / 900 / 683 / 217 / 46 / 197 / 197 / 200**.
-- manual review accepted new idle/try/success screenshots at 320x720, 390x844 and 768x1024 with no clipping, overlap or horizontal overflow.
-- physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
+Acceptance/merge chain:
+- CI #583 rejected a stale Rule Pipeline sentinel.
+- CI #584 passed automation but manual visual QA rejected 320x720 idle/try clipping.
+- responsive CSS and browser viewport assertions were corrected.
+- implementation head `acc5ce9d5661818842effcd120346ded3891dd50` passed CI #586 / run `34969198343` and manual visual QA.
+- final docs head `a725e567898a07bfd4977d5015a179c7a6d88ab2` passed CI #591 / run `34971570563`.
+- final PR #130 gate was clean: 0 comments, 0 reviews, 0 review threads.
+- exact-head squash merge #130 produced `678c2b0ec73910181f4a8a8e804f83f0fe0d0392`; live `main` independently verified exact.
 
-PR #130 is still unmerged. Deterministic QA acceptance does not equal shipped/fully closed state.
+Permanent evidence remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE**, structural findings 0. Gameplay distribution remains 900/900 with 26 patterns, `choice_grid` 327/900, `set_reasoning` 5/900, Science 60/100 and Logic 57/100. Simulations remain zero invariant errors; Batch17 totals remain unchanged and physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
+
+Pattern #26 is merged but not fully closed until this docs-only closure itself is merged and live-verified.
 
 ## Permanent audits
 
@@ -148,9 +132,9 @@ CI uploads both artifacts. Gameplay-distribution coverage and active-pattern-set
 - WS-05 Rule Pipeline DONE — PR #123.
 - WS-05 Odd One Out DONE — PR #125 + closure #126.
 - WS-05 Transitive Chain DONE — PR #127 + closure #128 + metadata #129.
-- WS-05 Set Reasoning QA ACCEPTED / UNMERGED — PR #130.
+- WS-05 Set Reasoning MERGED — PR #130; closure in progress.
 - WS-05 NEXT — only after Pattern #26 closure: fresh exact-family audit; no next family pre-approved.
 
 ## Completion rule
 
-Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #26 itself is not fully closed until PR #130 and its required post-merge docs closure are merged and live-verified.
+Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #26 is not fully closed until the current docs-only closure passes full CI, clean gate, exact-head merge and live-main verification.

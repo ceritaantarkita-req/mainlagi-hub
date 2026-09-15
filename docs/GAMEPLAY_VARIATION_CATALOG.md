@@ -13,7 +13,7 @@
 
 ## Status implementasi
 
-### Merged gameplay baseline: 25 pola
+### Merged gameplay baseline: 26 pola
 
 1. `choice_grid`
 2. `symbol_hunt`
@@ -40,25 +40,26 @@
 23. `rule_pipeline` — **MERGED PR #123**
 24. `odd_one_out` — **MERGED PR #125**
 25. `transitive_chain` — **MERGED PR #127; CLOSED PR #128; metadata PR #129**
+26. `set_reasoning` — **MERGED PR #130; closure in progress**
 
 Permanent gameplay-distribution audit: **MERGED PR #105**.  
-Verified current `main` before Pattern #26: `4a146b1f188eb90c612a8cf4dd0285363d5f6738`.
+Verified Set Reasoning merge SHA/live `main`: `678c2b0ec73910181f4a8a8e804f83f0fe0d0392`.
 
 Merged distribution:
 
 ```text
 900 / 900 classified
 0 unclassified
-25 active child-facing patterns
-choice_grid                 332 / 900 = 36.89%
-transitive_chain              5 / 900 = 0.56%
+26 active child-facing patterns
+choice_grid                 327 / 900 = 36.33%
+set_reasoning                 5 / 900 = 0.56%
 Science choice_grid          60 / 100
-Logic choice_grid            62 / 100
+Logic choice_grid            57 / 100
 ```
 
-Distance remaining from merged baseline: **25** patterns to minimum 50 and **35** to working target 60.
+Distance remaining: **24** patterns to minimum 50 and **34** to working target 60.
 
-### Pattern #26 `set_reasoning` — QA ACCEPTED / UNMERGED PR #130
+### `set_reasoning` — MERGED / CLOSURE IN PROGRESS
 
 Exact scope:
 
@@ -79,41 +80,26 @@ Boundaries:
 - canonical three choices and `correctChoice` remain unchanged;
 - assessment, stars, mastery, progression, activity identity and completion semantics remain canonical;
 - assessed fidelity `choice_set_reasoning_interaction`;
-- composed rules, transitive comparison, spatial transforms, Wave C inference/ordering and other Logic families remain outside scope.
+- composed rules, transitive comparison, spatial transforms and unrelated Logic families remain outside scope.
 
 Interaction:
-- show two explicit rules with membership state `harus masuk` or `harus di luar`;
-- show the operation as `Irisan A ∩ B`, `A tetapi bukan B`, or `Di luar A ∪ B`;
-- child evaluates both rules and selects one unchanged canonical choice through accessible buttons;
+- show two explicit set rules with `harus masuk` / `harus di luar` state;
+- show operation as `Irisan A ∩ B`, `A tetapi bukan B`, or `Di luar A ∪ B`;
+- child selects one unchanged canonical answer through accessible direct-selection buttons;
 - wrong selection is retryable and cannot complete;
 - correct selection completes the existing activity identity;
-- no false Venn geometry for subset cases, invented intermediate assessment, extra confirmation, changed answer set or drag-only dependency.
+- no false Venn geometry, invented intermediate assessment, extra confirmation, changed answer set or drag-only dependency.
 
-Accepted PR-head distribution from CI #586:
-
-```text
-900 / 900 classified
-0 unclassified
-26 active child-facing PR-head patterns
-choice_grid                 327 / 900 = 36.33%
-set_reasoning                 5 / 900 = 0.56%
-Science choice_grid          60 / 100
-Logic choice_grid            57 / 100
-```
-
-If PR #130 merges unchanged, distance remaining becomes **24** patterns to minimum 50 and **34** to working target 60.
-
-Acceptance chain:
-- CI #583 / run `34968050234` rejected a stale Rule Pipeline sentinel;
-- the stale assertion was narrowed without weakening Rule Pipeline exact scope;
-- CI #584 / run `34968353606` passed automated jobs but manual visual QA rejected 320x720 idle/try status clipping;
+Acceptance and merge chain:
+- CI #583 rejected a stale Rule Pipeline sentinel;
+- CI #584 was manually rejected despite automation success because 320x720 idle/try feedback clipped below the viewport;
 - responsive layout and browser assertions were strengthened;
-- implementation head `acc5ce9d5661818842effcd120346ded3891dd50` passed full CI #586 / run `34969198343`;
-- CI #586 confirms exact five-family presentation regression, 900 KEEP / 0 flagged / structural findings 0, 26 patterns, 327 global `choice_grid`, Logic 57/100, Science 60/100, five zero-error simulations and unchanged Batch17 totals;
-- manual review accepted idle/try/success screenshots at 320x720, 390x844 and 768x1024 with feedback/CTA fully visible and no clipping/overlap/horizontal overflow;
-- physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
+- accepted implementation head `acc5ce9d5661818842effcd120346ded3891dd50` passed CI #586 / run `34969198343` plus manual visual QA;
+- final docs head `a725e567898a07bfd4977d5015a179c7a6d88ab2` passed CI #591 / run `34971570563`;
+- final PR #130 gate was clean: 0 comments, 0 reviews, 0 review threads;
+- exact-head squash merge #130 -> `678c2b0ec73910181f4a8a8e804f83f0fe0d0392`, independently verified live on `main`.
 
-PR #130 remains **unmerged** and Pattern #26 remains **not fully closed** until final docs-head CI, clean review gate, exact-head merge, live-main verification and post-merge docs closure complete.
+Pattern #26 is merged but not fully closed until this docs-only closure is merged and live-verified.
 
 ## 60 pola permainan target
 
@@ -187,7 +173,7 @@ PR #130 remains **unmerged** and Pattern #26 remains **not fully closed** until 
 49. `compare_properties` — **MERGED PR #114**
 50. `material_lab` — **MERGED PR #116**
 
-`feature_function_link`, `healthy_habit_routine`, `rule_pipeline`, `odd_one_out`, `transitive_chain`, and accepted-but-unmerged `set_reasoning` are additional validated objective-fit patterns outside the original illustrative 60-slot naming list. Target slots are planning aids, not a prohibition on better mechanics.
+`feature_function_link`, `healthy_habit_routine`, `rule_pipeline`, `odd_one_out`, `transitive_chain`, and `set_reasoning` are additional validated objective-fit patterns outside the original illustrative 60-slot naming list. Target slots are planning aids, not a prohibition on better mechanics.
 
 ### K. Creative visual play
 51. `color_by_rule`
@@ -234,7 +220,7 @@ Prinsip alokasi:
 15. Rule Pipeline — **DONE / #123**.
 16. Odd One Out — **DONE / #125 + closure #126**.
 17. Transitive Chain — **DONE / #127 + closure #128 + metadata #129**.
-18. Set Reasoning — **QA ACCEPTED / UNMERGED PR #130**.
+18. Set Reasoning — **MERGED / #130; closure in progress**.
 19. NEXT — only after Pattern #26 closure: fresh exact-family audit; no Pattern #27 family is pre-approved.
 20. Continue search/audio/puzzle/literacy/creative/story based on objective fit and distribution.
 
