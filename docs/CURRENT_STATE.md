@@ -10,9 +10,10 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; ac
 - canonical branch: `main`
 - latest merged gameplay change: PR #127 — Logic Transitive Chain
 - latest gameplay closure: PR #128 — Transitive Chain docs closure
-- verified gameplay-closure SHA: `f0cec7c6cdede69d9dd94039ecd20f52d328d2ea`
-- active gameplay branch: none
-- active gameplay PR: none
+- latest closure metadata: PR #129
+- verified current `main` before Pattern #26: `4a146b1f188eb90c612a8cf4dd0285363d5f6738`
+- active gameplay branch: `agent/ws05-logic-set-reasoning-20260915`
+- active gameplay PR: #130 — **QA ACCEPTED / UNMERGED**
 - production: `https://mainlagihub.my.id/`
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - source licence: `AGPL-3.0-only`
@@ -47,44 +48,57 @@ Science choice_grid         60 / 100
 Logic choice_grid           62 / 100
 ```
 
-Remaining distance: **25** patterns to minimum 50 and **35** to working target 60.
+Remaining distance from merged baseline: **25** patterns to minimum 50 and **35** to working target 60.
 
-Science is exactly 60% `choice_grid`. Logic remains above the `>60%` advisory threshold at 62%, but concentration alone does not justify a mechanic.
+### PR #130 accepted QA state: 26 patterns if merged unchanged
 
-## Pattern #25 `transitive_chain` — FULLY CLOSED
-
-Exact scope:
+Pattern #26 is `set_reasoning` for exactly:
 
 ```text
-logic-transitive-height-abc
-logic-transitive-shortest-xyz
-logic-transitive-most-dots
-logic-transitive-lightest
-logic-transitive-middle-order
+logic-set-both-red-round
+logic-set-animal-not-bird
+logic-set-shape-not-square
+logic-set-only-blue-triangle
+logic-set-outside-round-red
 ```
 
-All five share stage `logic-mixed-reasoning-challenge`, lesson `logic-transitive-comparison`, canonical skill `logic.comparison.transitive.basic`, assessed choice evidence, and the objective of deriving a conclusion from two ordered comparison premises.
+All five remain assessed `tap_choice` activities in stage `logic-mixed-reasoning-challenge`, lesson `logic-set-reasoning`, pack `logic.pack.set-reasoning`, canonical skill `logic.set.relation.basic`, with exactly three canonical choices and unchanged `correctChoice`.
 
 Interaction/evidence contract:
-- the three canonical entities are shown as a visible two-premise relation chain;
-- keyboard and touch/pointer use accessible direct-selection buttons for the unchanged canonical choices;
+- explicit two-rule set board;
+- rule membership visible as `harus masuk` / `harus di luar`;
+- operation visible as intersection, exclusion, or outside-union;
+- keyboard and touch/pointer use accessible direct-selection buttons;
 - wrong choice increments assessed error/retry and cannot complete;
 - correct choice completes the canonical activity identity;
-- runtime stays `tap_choice`;
-- canonical IDs, choices, `correctChoice`, skill, assessment, stars and progression remain unchanged;
-- assessed fidelity `choice_transitive_chain_interaction`;
-- no invented numeric values, extra assessed step, drag-only dependency or reordering requirement.
+- no false Venn geometry, invented intermediate assessment, extra confirmation, or drag-only dependency;
+- assessed fidelity `choice_set_reasoning_interaction`;
+- runtime, IDs, choices, `correctChoice`, skill, assessment, stars, mastery and progression are unchanged.
 
-Acceptance/merge chain:
-- CI #569 rejected a stale Rule Pipeline sentinel without weakening the old exact-family guard;
-- CI #570 rejected a real 390x844 success CTA overflow;
-- implementation head `46bcd677d2b3003f30b2e20bd21fe854c4f1f833` passed CI #572 / run `34957824566` plus manual screenshot QA;
-- final PR #127 docs head `beb2e793ad3dfeb7ebb2b41c0f085b11d910f948` passed CI #577 / run `34961404909`;
-- PR #127 clean gate -> exact-head squash merge `c6c1493e7c7d4f765d4a1c22bf36ed86e99004b6`, verified live;
-- closure PR #128 exact head `0d655a949b208e5e1b28207d2dec0da02f88ca4c` passed CI #579 / run `34962248054`;
-- PR #128 clean gate -> exact-head squash merge `f0cec7c6cdede69d9dd94039ecd20f52d328d2ea`, verified live.
+Accepted CI #586 / run `34969198343` on implementation head `acc5ce9d5661818842effcd120346ded3891dd50` reports:
 
-Deterministic activity-quality remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**. Gameplay distribution remains **900/900 classified, 25 patterns, `choice_grid` 332/900, `transitive_chain` 5/900, Logic 62/100, Science 60/100**. Simulations remain zero invariant errors; Batch17 totals remain unchanged and physical-device certification is still `PENDING_EXTERNAL_EVIDENCE`.
+```text
+classified:               900 / 900
+unclassified:               0
+active PR-head patterns:    26
+choice_grid               327 / 900 = 36.33%
+set_reasoning               5 / 900 = 0.56%
+Science choice_grid         60 / 100
+Logic choice_grid           57 / 100
+```
+
+If merged unchanged, remaining distance becomes **24** patterns to minimum 50 and **34** to working target 60.
+
+Acceptance history is intentionally retained:
+- CI #583 failed because a stale Rule Pipeline sentinel still expected `logic-set-both-red-round` to be `default`; the guard was corrected narrowly without weakening Rule Pipeline exact scope.
+- CI #584 passed automated jobs but was rejected by manual visual QA because 320x720 idle/try feedback was clipped below the viewport.
+- narrow-phone layout was corrected and browser QA now requires idle/retry/success feedback plus success CTA to be fully visible.
+- CI #586 is full green across Ubuntu, Windows, build, dependency, secret and Chromium jobs; production smoke is skipped by normal workflow condition.
+- new 320x720, 390x844 and 768x1024 idle/try/success screenshots were manually accepted with no clipping, overlap or horizontal overflow.
+- deterministic audit remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**.
+- five simulations remain zero invariant errors; Batch17 totals remain unchanged; physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
+
+PR #130 is still **unmerged**. Pattern #26 is not shipped/fully closed until final docs-head CI, clean PR gate, exact-head merge, live-main verification and docs-only closure are complete.
 
 ## Deterministic activity-quality baseline
 
@@ -111,9 +125,11 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Run a fresh Logic exact-family audit from the verified 25-pattern baseline. No next family is pre-approved.
-2. Promote only objective-coherent/evidence-safe mechanics; do not combine unrelated tasks merely to lower concentration counts.
-3. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
-4. Continue Art Bible/permanent visual QA, narration, parent/public frontend, external acceptance and governance.
+1. Finish PR #130 canonical-docs head CI and clean review gate.
+2. Exact-head merge #130 and verify live `main` independently.
+3. Merge the required docs-only Pattern #26 closure.
+4. Only then run a fresh exact-family audit for Pattern #27; no next family is pre-approved.
+5. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
+6. Continue Art Bible/permanent visual QA, narration, parent/public frontend, external acceptance and governance.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, or mastery/backend rewrites before this quality phase is substantially complete.

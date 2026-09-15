@@ -45,9 +45,13 @@ for(const activity of scoped){
   assert(config.choiceVisuals[activity.correctChoice],`${activity.id} canonical correctChoice keeps a visual`);
 }
 
+const setReasoningSentinel=ACTIVITIES.find(item=>item.id==="logic-set-both-red-round");
+assert(setReasoningSentinel,"logic-set-both-red-round remains in catalog");
+assert.notEqual(choiceGameplayPresentation(setReasoningSentinel),"rule_pipeline","logic-set-both-red-round stays outside rule-pipeline presentation");
+assert.notEqual(gameplayPattern(setReasoningSentinel),"rule_pipeline","logic-set-both-red-round stays outside rule-pipeline pattern");
+
 for(const id of [
   "logic-if-red-then-circle",
-  "logic-set-both-red-round",
   "logic-infer-not-red",
   "logic-spatial-halfturn-up",
   "logic-compare-more-dots"

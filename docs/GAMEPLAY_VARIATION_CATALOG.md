@@ -39,10 +39,10 @@
 22. `healthy_habit_routine` — **MERGED PR #121**
 23. `rule_pipeline` — **MERGED PR #123**
 24. `odd_one_out` — **MERGED PR #125**
-25. `transitive_chain` — **MERGED PR #127; CLOSED PR #128**
+25. `transitive_chain` — **MERGED PR #127; CLOSED PR #128; metadata PR #129**
 
 Permanent gameplay-distribution audit: **MERGED PR #105**.  
-Verified gameplay-closure SHA after Transitive Chain: `f0cec7c6cdede69d9dd94039ecd20f52d328d2ea`.
+Verified current `main` before Pattern #26: `4a146b1f188eb90c612a8cf4dd0285363d5f6738`.
 
 Merged distribution:
 
@@ -56,45 +56,64 @@ Science choice_grid          60 / 100
 Logic choice_grid            62 / 100
 ```
 
-Distance remaining: **25** patterns to minimum 50 and **35** to working target 60.
+Distance remaining from merged baseline: **25** patterns to minimum 50 and **35** to working target 60.
 
-### `transitive_chain` — FULLY CLOSED
+### Pattern #26 `set_reasoning` — QA ACCEPTED / UNMERGED PR #130
 
 Exact scope:
 
 ```text
-logic-transitive-height-abc
-logic-transitive-shortest-xyz
-logic-transitive-most-dots
-logic-transitive-lightest
-logic-transitive-middle-order
+logic-set-both-red-round
+logic-set-animal-not-bird
+logic-set-shape-not-square
+logic-set-only-blue-triangle
+logic-set-outside-round-red
 ```
 
 Boundaries:
 - Logic stage `logic-mixed-reasoning-challenge`;
-- lesson `logic-transitive-comparison`;
-- canonical skill `logic.comparison.transitive.basic`;
+- lesson `logic-set-reasoning`;
+- pack `logic.pack.set-reasoning`;
+- canonical skill `logic.set.relation.basic`;
 - runtime remains `tap_choice`;
 - canonical three choices and `correctChoice` remain unchanged;
-- assessment, stars, progression, activity identity and completion semantics remain canonical;
-- assessed fidelity `choice_transitive_chain_interaction`;
-- composed rules, set reasoning, spatial transforms, Wave C inference/ordering and Wave B comparison/spatial families remain outside scope.
+- assessment, stars, mastery, progression, activity identity and completion semantics remain canonical;
+- assessed fidelity `choice_set_reasoning_interaction`;
+- composed rules, transitive comparison, spatial transforms, Wave C inference/ordering and other Logic families remain outside scope.
 
 Interaction:
-- show the three entities as a visible chain linked by two canonical premises;
-- label the two connectors as `Premis 1` and `Premis 2`;
-- child selects the unchanged canonical conclusion through accessible buttons;
+- show two explicit rules with membership state `harus masuk` or `harus di luar`;
+- show the operation as `Irisan A ∩ B`, `A tetapi bukan B`, or `Di luar A ∪ B`;
+- child evaluates both rules and selects one unchanged canonical choice through accessible buttons;
 - wrong selection is retryable and cannot complete;
 - correct selection completes the existing activity identity;
-- no invented numeric values, extra assessed step, reordering requirement, changed answer set or drag-only dependency.
+- no false Venn geometry for subset cases, invented intermediate assessment, extra confirmation, changed answer set or drag-only dependency.
 
-Acceptance/closure chain:
-- CI #569 and #570 were correctly rejected regression runs;
-- implementation head `46bcd677d2b3003f30b2e20bd21fe854c4f1f833` passed CI #572 / run `34957824566` and manual visual QA;
-- final PR #127 docs head `beb2e793ad3dfeb7ebb2b41c0f085b11d910f948` passed CI #577 / run `34961404909`;
-- exact-head merge #127 -> `c6c1493e7c7d4f765d4a1c22bf36ed86e99004b6`, live-verified;
-- closure head `0d655a949b208e5e1b28207d2dec0da02f88ca4c` passed CI #579 / run `34962248054`;
-- closure PR #128 clean gate -> exact-head merge `f0cec7c6cdede69d9dd94039ecd20f52d328d2ea`, live-verified.
+Accepted PR-head distribution from CI #586:
+
+```text
+900 / 900 classified
+0 unclassified
+26 active child-facing PR-head patterns
+choice_grid                 327 / 900 = 36.33%
+set_reasoning                 5 / 900 = 0.56%
+Science choice_grid          60 / 100
+Logic choice_grid            57 / 100
+```
+
+If PR #130 merges unchanged, distance remaining becomes **24** patterns to minimum 50 and **34** to working target 60.
+
+Acceptance chain:
+- CI #583 / run `34968050234` rejected a stale Rule Pipeline sentinel;
+- the stale assertion was narrowed without weakening Rule Pipeline exact scope;
+- CI #584 / run `34968353606` passed automated jobs but manual visual QA rejected 320x720 idle/try status clipping;
+- responsive layout and browser assertions were strengthened;
+- implementation head `acc5ce9d5661818842effcd120346ded3891dd50` passed full CI #586 / run `34969198343`;
+- CI #586 confirms exact five-family presentation regression, 900 KEEP / 0 flagged / structural findings 0, 26 patterns, 327 global `choice_grid`, Logic 57/100, Science 60/100, five zero-error simulations and unchanged Batch17 totals;
+- manual review accepted idle/try/success screenshots at 320x720, 390x844 and 768x1024 with feedback/CTA fully visible and no clipping/overlap/horizontal overflow;
+- physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
+
+PR #130 remains **unmerged** and Pattern #26 remains **not fully closed** until final docs-head CI, clean review gate, exact-head merge, live-main verification and post-merge docs closure complete.
 
 ## 60 pola permainan target
 
@@ -168,7 +187,7 @@ Acceptance/closure chain:
 49. `compare_properties` — **MERGED PR #114**
 50. `material_lab` — **MERGED PR #116**
 
-`feature_function_link`, `healthy_habit_routine`, `rule_pipeline`, `odd_one_out`, and `transitive_chain` are additional validated objective-fit patterns outside the original illustrative 60-slot naming list. Target slots are planning aids, not a prohibition on better mechanics.
+`feature_function_link`, `healthy_habit_routine`, `rule_pipeline`, `odd_one_out`, `transitive_chain`, and accepted-but-unmerged `set_reasoning` are additional validated objective-fit patterns outside the original illustrative 60-slot naming list. Target slots are planning aids, not a prohibition on better mechanics.
 
 ### K. Creative visual play
 51. `color_by_rule`
@@ -214,9 +233,10 @@ Prinsip alokasi:
 14. Healthy Habit Routine — **DONE / #121**.
 15. Rule Pipeline — **DONE / #123**.
 16. Odd One Out — **DONE / #125 + closure #126**.
-17. Transitive Chain — **DONE / #127 + closure #128**.
-18. NEXT — fresh Logic exact-family audit from the verified 25-pattern baseline; no next family is pre-approved.
-19. Continue search/audio/puzzle/literacy/creative/story based on objective fit and distribution.
+17. Transitive Chain — **DONE / #127 + closure #128 + metadata #129**.
+18. Set Reasoning — **QA ACCEPTED / UNMERGED PR #130**.
+19. NEXT — only after Pattern #26 closure: fresh exact-family audit; no Pattern #27 family is pre-approved.
+20. Continue search/audio/puzzle/literacy/creative/story based on objective fit and distribution.
 
 ## Definition of done per mechanic
 

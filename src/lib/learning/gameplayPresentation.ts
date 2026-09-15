@@ -1,7 +1,7 @@
 import type { LearningActivity } from "./system";
 
 export type MatchingPresentation = "grid_pairs" | "memory_pairs" | "drag_targets";
-export type ChoiceGameplayPresentation = "default" | "sequence_slot" | "sorting_buckets" | "odd_one_out" | "rule_pipeline" | "transitive_chain" | "count_select" | "number_line" | "more_less_balance" | "pattern_completion" | "cause_effect" | "compare_properties" | "healthy_habit_routine" | "material_lab" | "feature_function_link";
+export type ChoiceGameplayPresentation = "default" | "sequence_slot" | "sorting_buckets" | "odd_one_out" | "rule_pipeline" | "set_reasoning" | "transitive_chain" | "count_select" | "number_line" | "more_less_balance" | "pattern_completion" | "cause_effect" | "compare_properties" | "healthy_habit_routine" | "material_lab" | "feature_function_link";
 export type GameplayPattern =
   | "choice_grid"
   | "symbol_hunt"
@@ -13,6 +13,7 @@ export type GameplayPattern =
   | "sorting_buckets"
   | "odd_one_out"
   | "rule_pipeline"
+  | "set_reasoning"
   | "transitive_chain"
   | "count_and_select"
   | "number_line"
@@ -85,6 +86,14 @@ const LOGIC_RULE_PIPELINE_IDS = new Set([
   "logic-compose-two-to-blue",
   "logic-compose-triangle-turn-right",
   "logic-compose-swap-then-grow"
+]);
+
+const LOGIC_SET_REASONING_IDS = new Set([
+  "logic-set-both-red-round",
+  "logic-set-animal-not-bird",
+  "logic-set-shape-not-square",
+  "logic-set-only-blue-triangle",
+  "logic-set-outside-round-red"
 ]);
 
 const LOGIC_TRANSITIVE_CHAIN_IDS = new Set([
@@ -187,6 +196,11 @@ export function isDragTargetActivity(activity: LearningActivity | undefined): bo
  * canonical final choice after rule two instead of collapsing both steps into
  * another generic answer grid.
  *
+ * Reviewed Logic set-reasoning tasks combine two membership constraints.
+ * Present the required in/out relation for both sets as one rule board so
+ * intersection, exclusion, and outside-both objectives are explicit without
+ * inventing subset geometry or changing the canonical assessed choice.
+ *
  * Reviewed Logic transitive-comparison tasks provide two ordered premises that
  * must be combined into one conclusion. Present the three entities as a linked
  * relation chain so both premises remain visible while the canonical conclusion
@@ -267,6 +281,16 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     choices.includes(correct) &&
     Boolean(activity.prompt);
   if (isReviewedLogicRulePipelineFamily) return "rule_pipeline";
+
+  const isReviewedLogicSetReasoningFamily =
+    activity.subjectId === "logic" &&
+    activity.stageId === "logic-mixed-reasoning-challenge" &&
+    LOGIC_SET_REASONING_IDS.has(activity.id) &&
+    choices.length === 3 &&
+    new Set(choices).size === choices.length &&
+    choices.includes(correct) &&
+    Boolean(activity.prompt);
+  if (isReviewedLogicSetReasoningFamily) return "set_reasoning";
 
   const isReviewedLogicTransitiveChainFamily =
     activity.subjectId === "logic" &&
@@ -390,6 +414,10 @@ export function isRulePipelineActivity(activity: LearningActivity | undefined): 
   return choiceGameplayPresentation(activity) === "rule_pipeline";
 }
 
+export function isSetReasoningActivity(activity: LearningActivity | undefined): boolean {
+  return choiceGameplayPresentation(activity) === "set_reasoning";
+}
+
 export function isTransitiveChainActivity(activity: LearningActivity | undefined): boolean {
   return choiceGameplayPresentation(activity) === "transitive_chain";
 }
@@ -445,6 +473,7 @@ export function gameplayPattern(activity: LearningActivity | undefined): Gamepla
     if (presentation === "sorting_buckets") return "sorting_buckets";
     if (presentation === "odd_one_out") return "odd_one_out";
     if (presentation === "rule_pipeline") return "rule_pipeline";
+    if (presentation === "set_reasoning") return "set_reasoning";
     if (presentation === "transitive_chain") return "transitive_chain";
     if (presentation === "count_select") return "count_and_select";
     if (presentation === "number_line") return "number_line";

@@ -14,6 +14,7 @@ import { OddOneOutActivity } from "@/components/learning/OddOneOutActivity";
 import { PatternCompletionActivity } from "@/components/learning/PatternCompletionActivity";
 import { RulePipelineActivity } from "@/components/learning/RulePipelineActivity";
 import { SequenceSlotChoiceActivity } from "@/components/learning/SequenceSlotChoiceActivity";
+import { SetReasoningActivity } from "@/components/learning/SetReasoningActivity";
 import { SortingBucketsChoiceActivity } from "@/components/learning/SortingBucketsChoiceActivity";
 import { SymbolHuntChoiceActivity } from "@/components/learning/SymbolHuntChoiceActivity";
 import { TransitiveChainActivity } from "@/components/learning/TransitiveChainActivity";
@@ -34,6 +35,7 @@ import {
   isPatternCompletionActivity,
   isRulePipelineActivity,
   isSequenceSlotActivity,
+  isSetReasoningActivity,
   isSortingBucketsActivity,
   isTransitiveChainActivity
 } from "@/lib/learning/gameplayPresentation";
@@ -67,6 +69,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
         <OddOneOutActivity childId={childId} activityId={activity} />
       ) : isRulePipelineActivity(definition) ? (
         <RulePipelineActivity childId={childId} activityId={activity} />
+      ) : isSetReasoningActivity(definition) ? (
+        <SetReasoningActivity childId={childId} activityId={activity} />
       ) : isTransitiveChainActivity(definition) ? (
         <TransitiveChainActivity childId={childId} activityId={activity} />
       ) : isCountAndSelectActivity(definition) ? (
