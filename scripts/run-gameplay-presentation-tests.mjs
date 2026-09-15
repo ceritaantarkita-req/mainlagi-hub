@@ -17,6 +17,7 @@ const {healthyHabitRoutineConfig}=require(path.resolve(".learning-test-dist/src/
 const {materialLabConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/materialLabConfig.js"));
 const {setReasoningConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/setReasoningConfig.js"));
 const {spatialTransformConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/spatialTransformConfig.js"));
+const {relativeOrderTrackConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/relativeOrderTrackConfig.js"));
 const {investigationBoardConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/investigationBoardConfig.js"));
 
 const expectedMemory=new Set([
@@ -185,6 +186,26 @@ for(const activity of spatialTransform){
     assert.equal(config.mirrorAxis,"vertical",`${activity.id} mirror remains left-right across a vertical axis`);
   }
   assert.deepEqual(new Set(Object.keys(config.choiceArrows)),new Set(activity.choices??[]),`${activity.id} transform board maps exactly canonical choices`);
+}
+
+const expectedRelativeOrderTrack=new Set([
+  "logic-order-first-after-start","logic-order-before-d","logic-order-between-blue-green",
+  "logic-order-third-symbol","logic-order-two-steps-after"
+]);
+const relativeOrderTrack=ACTIVITIES.filter(activity=>choiceGameplayPresentation(activity)==="relative_order_track");
+assert.equal(relativeOrderTrack.length,expectedRelativeOrderTrack.size,"relative-order-track family size must remain intentional");
+assert.deepEqual(new Set(relativeOrderTrack.map(activity=>activity.id)),expectedRelativeOrderTrack,"only the five reviewed Logic Wave C relative-ordering activities use Relative Order Track");
+for(const activity of relativeOrderTrack){
+  assert.equal(activity.runtime,"tap_choice");
+  assert.equal(activity.subjectId,"logic");
+  assert.equal(activity.stageId,"logic-conditional-analogy-inference");
+  assert.equal((activity.choices??[]).length,3);
+  assert.equal(new Set(activity.choices??[]).size,3,"relative-order-track choices remain unique");
+  assert((activity.choices??[]).includes(activity.correctChoice),"relative order track preserves canonical correctChoice");
+  const config=relativeOrderTrackConfig(activity);
+  assert(config,`${activity.id} must have explicit Relative Order Track config`);
+  assert(config.items.length>=4,`${activity.id} keeps a visible ordered context`);
+  assert.equal(config.items[config.targetIndex],activity.correctChoice,`${activity.id} masks exactly the canonical answer position`);
 }
 
 const expectedCountSelect=new Set([
@@ -407,9 +428,9 @@ assert(observationTools,"investigation observation-tools matching remains in cat
 assert.equal(observationTools.runtime,"matching");
 assert.equal(matchingPresentation(observationTools),"grid_pairs","investigation matching stays outside choice-only investigation board");
 
-const specializedChoiceIds=new Set([...expectedSequence,...expectedSorting,...expectedOddOneOut,...expectedRulePipeline,...expectedSetReasoning,...expectedTransitiveChain,...expectedSpatialTransform,...expectedCountSelect,...expectedNumberLine,...expectedBalance,...expectedPatternCompletion,...expectedCauseEffect,...expectedCompareProperties,...expectedHealthyHabitRoutine,...expectedMaterialLab,...expectedFeatureFunctionLink,...expectedInvestigationBoard]);
+const specializedChoiceIds=new Set([...expectedSequence,...expectedSorting,...expectedOddOneOut,...expectedRulePipeline,...expectedSetReasoning,...expectedTransitiveChain,...expectedSpatialTransform,...expectedRelativeOrderTrack,...expectedCountSelect,...expectedNumberLine,...expectedBalance,...expectedPatternCompletion,...expectedCauseEffect,...expectedCompareProperties,...expectedHealthyHabitRoutine,...expectedMaterialLab,...expectedFeatureFunctionLink,...expectedInvestigationBoard]);
 const otherChoice=ACTIVITIES.filter(activity=>activity.runtime==="tap_choice"&&!specializedChoiceIds.has(activity.id));
 assert(otherChoice.length>0,"default choice activities remain available");
 assert(otherChoice.every(activity=>choiceGameplayPresentation(activity)==="default"),"other choice families retain default presentation");
 
-console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets + ${oddOneOut.length} odd_one_out + ${rulePipeline.length} rule_pipeline + ${setReasoning.length} set_reasoning + ${transitiveChain.length} transitive_chain + ${spatialTransform.length} spatial_transform + ${countSelect.length} count_select + ${numberLine.length} number_line + ${balance.length} more_less_balance + ${patternCompletion.length} pattern_completion + ${causeEffect.length} cause_effect + ${compareProperties.length} compare_properties + ${healthyHabitRoutine.length} healthy_habit_routine + ${materialLab.length} material_lab + ${featureFunctionLink.length} feature_function_link + ${investigationBoard.length} investigation_board activities.`);
+console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets + ${oddOneOut.length} odd_one_out + ${rulePipeline.length} rule_pipeline + ${setReasoning.length} set_reasoning + ${transitiveChain.length} transitive_chain + ${spatialTransform.length} spatial_transform + ${relativeOrderTrack.length} relative_order_track + ${countSelect.length} count_select + ${numberLine.length} number_line + ${balance.length} more_less_balance + ${patternCompletion.length} pattern_completion + ${causeEffect.length} cause_effect + ${compareProperties.length} compare_properties + ${healthyHabitRoutine.length} healthy_habit_routine + ${materialLab.length} material_lab + ${featureFunctionLink.length} feature_function_link + ${investigationBoard.length} investigation_board activities.`);
