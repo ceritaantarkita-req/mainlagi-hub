@@ -120,6 +120,22 @@ for(const activity of rulePipeline){
   assert((activity.choices??[]).includes(activity.correctChoice),"rule pipeline preserves canonical correctChoice");
 }
 
+const expectedTransitiveChain=new Set([
+  "logic-transitive-height-abc","logic-transitive-shortest-xyz","logic-transitive-most-dots",
+  "logic-transitive-lightest","logic-transitive-middle-order"
+]);
+const transitiveChain=ACTIVITIES.filter(activity=>choiceGameplayPresentation(activity)==="transitive_chain");
+assert.equal(transitiveChain.length,expectedTransitiveChain.size,"transitive-chain family size must remain intentional");
+assert.deepEqual(new Set(transitiveChain.map(activity=>activity.id)),expectedTransitiveChain,"only the five reviewed Logic transitive-comparison activities use Transitive Chain");
+for(const activity of transitiveChain){
+  assert.equal(activity.runtime,"tap_choice");
+  assert.equal(activity.subjectId,"logic");
+  assert.equal(activity.stageId,"logic-mixed-reasoning-challenge");
+  assert.equal((activity.choices??[]).length,3);
+  assert.equal(new Set(activity.choices??[]).size,3,"transitive-chain choices remain unique");
+  assert((activity.choices??[]).includes(activity.correctChoice),"transitive chain preserves canonical correctChoice");
+}
+
 const expectedCountSelect=new Set([
   "math-count-2","math-count-3","math-count-4","math-count-5","math-count-6",
   "math-count-7","math-count-8","math-count-9","math-count-10"
@@ -315,9 +331,9 @@ const featureFunctionLink=ACTIVITIES.filter(activity=>choiceGameplayPresentation
 assert.equal(featureFunctionLink.length,expectedFeatureFunctionLink.size,"feature-function-link family size must remain intentional");
 assert.deepEqual(new Set(featureFunctionLink.map(activity=>activity.id)),expectedFeatureFunctionLink,"only the four reviewed Science living feature/function choices use Feature Function Link");
 
-const specializedChoiceIds=new Set([...expectedSequence,...expectedSorting,...expectedOddOneOut,...expectedRulePipeline,...expectedCountSelect,...expectedNumberLine,...expectedBalance,...expectedPatternCompletion,...expectedCauseEffect,...expectedCompareProperties,...expectedHealthyHabitRoutine,...expectedMaterialLab,...expectedFeatureFunctionLink]);
+const specializedChoiceIds=new Set([...expectedSequence,...expectedSorting,...expectedOddOneOut,...expectedRulePipeline,...expectedTransitiveChain,...expectedCountSelect,...expectedNumberLine,...expectedBalance,...expectedPatternCompletion,...expectedCauseEffect,...expectedCompareProperties,...expectedHealthyHabitRoutine,...expectedMaterialLab,...expectedFeatureFunctionLink]);
 const otherChoice=ACTIVITIES.filter(activity=>activity.runtime==="tap_choice"&&!specializedChoiceIds.has(activity.id));
 assert(otherChoice.length>0,"default choice activities remain available");
 assert(otherChoice.every(activity=>choiceGameplayPresentation(activity)==="default"),"other choice families retain default presentation");
 
-console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets + ${oddOneOut.length} odd_one_out + ${rulePipeline.length} rule_pipeline + ${countSelect.length} count_select + ${numberLine.length} number_line + ${balance.length} more_less_balance + ${patternCompletion.length} pattern_completion + ${causeEffect.length} cause_effect + ${compareProperties.length} compare_properties + ${healthyHabitRoutine.length} healthy_habit_routine + ${materialLab.length} material_lab + ${featureFunctionLink.length} feature_function_link activities.`);
+console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets + ${oddOneOut.length} odd_one_out + ${rulePipeline.length} rule_pipeline + ${transitiveChain.length} transitive_chain + ${countSelect.length} count_select + ${numberLine.length} number_line + ${balance.length} more_less_balance + ${patternCompletion.length} pattern_completion + ${causeEffect.length} cause_effect + ${compareProperties.length} compare_properties + ${healthyHabitRoutine.length} healthy_habit_routine + ${materialLab.length} material_lab + ${featureFunctionLink.length} feature_function_link activities.`);
