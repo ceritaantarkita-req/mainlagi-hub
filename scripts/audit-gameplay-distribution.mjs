@@ -30,6 +30,7 @@ const EXPECTED_PATTERNS = [
   "set_reasoning",
   "transitive_chain",
   "spatial_transform",
+  "relative_order_track",
   "count_and_select",
   "number_line",
   "more_less_balance",
