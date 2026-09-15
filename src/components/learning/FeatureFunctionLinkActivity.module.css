@@ -1,0 +1,255 @@
+.scene {
+  width: min(100%, 760px);
+  margin: 0 auto;
+  display: grid;
+  gap: 14px;
+}
+
+.promptCard,
+.status,
+.map {
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 14px 36px rgba(41, 55, 79, 0.12);
+}
+
+.promptCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+}
+
+.promptCard h1 {
+  margin: 0;
+  font-size: clamp(1.05rem, 4.6vw, 1.45rem);
+}
+
+.promptCard p {
+  margin: 4px 0 0;
+  color: #556070;
+  line-height: 1.45;
+}
+
+.promptIcon {
+  font-size: 2rem;
+}
+
+.map {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) auto minmax(0, 1.35fr);
+  gap: 12px;
+  align-items: center;
+  padding: 16px;
+}
+
+.featureColumn,
+.functionColumn {
+  display: grid;
+  gap: 10px;
+}
+
+.subjectCard,
+.featureCard {
+  min-height: 96px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 12px;
+}
+
+.subjectCard {
+  background: linear-gradient(180deg, #f7fbff 0%, #eef7ff 100%);
+  border: 1px solid #cfe7ff;
+}
+
+.featureCard {
+  position: relative;
+  background: linear-gradient(180deg, #fff8e8 0%, #fff1c8 100%);
+  border: 1px solid #f2d792;
+}
+
+.subjectIcon,
+.featureIcon {
+  font-size: clamp(2rem, 9vw, 3.25rem);
+}
+
+.cardTag,
+.functionHeading {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #687386;
+}
+
+.cardTag {
+  position: absolute;
+  top: 8px;
+  left: 10px;
+}
+
+.connector {
+  display: flex;
+  align-items: center;
+  min-width: 54px;
+  pointer-events: none;
+}
+
+.connectorDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #f3a61d;
+  flex: 0 0 auto;
+}
+
+.connectorLine {
+  height: 4px;
+  min-width: 28px;
+  flex: 1;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #f3a61d, #62a7e8);
+}
+
+.connectorArrow {
+  font-size: 1.6rem;
+  color: #4f91d0;
+}
+
+.functionButton {
+  width: 100%;
+  min-height: 62px;
+  border-radius: 16px;
+  border: 2px solid #dfe7f0;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  text-align: left;
+  font: inherit;
+  font-weight: 800;
+  color: #263246;
+  cursor: pointer;
+  transition: transform 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
+}
+
+.functionButton:hover:not(:disabled),
+.functionButton:focus-visible {
+  transform: translateY(-1px);
+  border-color: #75aee0;
+  box-shadow: 0 8px 18px rgba(65, 118, 171, 0.14);
+  outline: none;
+}
+
+.functionButton:disabled {
+  cursor: default;
+}
+
+.functionSelected {
+  border-color: #5c9fdc;
+}
+
+.functionWrong {
+  border-color: #e28776;
+  background: #fff4f1;
+}
+
+.functionCorrect {
+  border-color: #68b888;
+  background: #effbf3;
+}
+
+.functionIcon {
+  font-size: 1.7rem;
+  flex: 0 0 auto;
+}
+
+.status {
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+  padding: 12px 14px;
+  font-weight: 750;
+  line-height: 1.4;
+}
+
+.statusTry {
+  border-color: #efc4bb;
+  background: #fff8f5;
+}
+
+.statusGood {
+  border-color: #bfe1ca;
+  background: #f3fcf6;
+}
+
+.nextLink {
+  min-height: 48px;
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  background: #245f9b;
+  color: #fff;
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.sceneDone .connectorLine {
+  background: linear-gradient(90deg, #58ae79, #4a99d8);
+}
+
+@media (max-width: 560px) {
+  .scene {
+    gap: 10px;
+  }
+
+  .promptCard,
+  .map {
+    border-radius: 18px;
+  }
+
+  .map {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .featureColumn {
+    grid-template-columns: 0.9fr 1.1fr;
+  }
+
+  .subjectCard,
+  .featureCard {
+    min-height: 82px;
+    padding: 10px;
+  }
+
+  .connector {
+    min-width: 0;
+    justify-content: center;
+    transform: rotate(90deg);
+    height: 30px;
+  }
+
+  .connectorLine {
+    flex: 0 0 34px;
+  }
+
+  .functionButton {
+    min-height: 56px;
+  }
+
+  .sceneDone {
+    gap: 8px;
+  }
+
+  .sceneDone .promptCard {
+    display: none;
+  }
+}

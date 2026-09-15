@@ -8,10 +8,10 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; ac
 
 - repository: `ceritaantarkita-req/mainlagi-hub`
 - canonical branch: `main`
-- current merged gameplay baseline: `5d6b429b64681bc6f2aa055a643a607cf54b1102`
-- latest merged gameplay change: PR #116 — Science Material Lab
-- active gameplay branch: none
-- active gameplay PR: none
+- current merged product baseline: `e1082a5ab236e16fad5502155575109c342fbeed` (post-Material-Lab docs closure PR #117)
+- latest merged gameplay change: PR #116 — Science Material Lab, gameplay merge `5d6b429b64681bc6f2aa055a643a607cf54b1102`
+- active gameplay branch: `agent/ws05-science-feature-function-link-20260915`
+- active gameplay PR: **#119 — Science Feature Function Link, accepted implementation QA / unmerged**
 - production: `https://mainlagihub.my.id/`
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - source licence: `AGPL-3.0-only`
@@ -19,6 +19,8 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; ac
 ## Engineering status
 
 No known P0 engineering blocker is open on merged `main`. CI covers Ubuntu quality gate, Windows compatibility, production build, dependency audit, Chromium mobile-route QA, secret-history scan, learning/mastery regressions, build budgets, source/security audits, deterministic activity-quality audit, and permanent gameplay-distribution audit.
+
+PR #119 implementation head `94effe387912f27d0667e36fbf1d2351d612b62d` is full-green on CI #545 after CI intentionally caught and forced fixes for regression-set coverage, pointer interception, canonical skill-test location, and 320px success CTA visibility. The PR is still unmerged until final docs-head CI + review check + exact-head merge.
 
 External physical-device, accessibility specialist, art/pedagogical human acceptance, and Iqro expert acceptance remain separate and incomplete.
 
@@ -46,47 +48,57 @@ Science choice_grid     68 / 100
 Logic choice_grid       77 / 100
 ```
 
-### PR #116 Material Lab — MERGED
+### PR #119 Feature Function Link — ACCEPTED IMPLEMENTATION QA / UNMERGED
 
 Exact scope:
 
 ```text
-science-material-raincoat-waterproof
-science-material-window-transparent
-science-material-towel-absorbent
-science-material-toy-block-rigid
+science-feature-duck-webbed-feet
+science-feature-fish-gills
+science-feature-bird-beak-seeds
+science-feature-cactus-water
 ```
 
 Explicit exclusion:
 
 ```text
-science-match-material-purpose-d
+science-match-feature-function-d
 ```
 
-The four scoped activities ask which property lets a familiar object serve its purpose. The excluded activity remains canonical `matching` / `visible_matching` because it measures property-purpose pairing.
+The four scoped activities share the same Science Wave D stage/lesson/skill and ask which function matches one familiar organism feature. The excluded activity remains canonical `matching` / `visible_matching`.
 
 Interaction/evidence contract:
-- explicit select-sample -> test-sample sequence;
-- selection alone cannot complete;
-- wrong test is retryable and cannot complete;
-- correct tested sample completes;
-- canonical three choices and `correctChoice` remain intact;
+- visible organism/feature source plus canonical three function destinations;
+- keyboard and touch/pointer use accessible buttons; no drag-only requirement;
+- wrong choice increments assessed error/retry and cannot complete;
+- correct choice completes canonical activity identity;
 - runtime stays `tap_choice`;
-- assessed fidelity `choice_material_lab_interaction`;
-- exact four-ID allowlist prevents unrelated Wave D activities from reclassification.
+- assessed fidelity `choice_feature_function_link_interaction`;
+- exact four-ID allowlist prevents unrelated activities from reclassification.
 
-Accepted and merged evidence:
-- initial CI #532 caught and blocked an accidental removal of existing `@phosphor-icons/react` from `package.json`;
-- dependency was restored at `^2.1.10` without otherwise changing dependency intent;
-- implementation head `09dd638748d62da1da264ce3b4f6f8f6880354b7` passed full CI #533;
-- final docs head `974589a39617997093cde9e73241223a1c684935` passed full CI #535;
-- gameplay regression reports exactly 4 `material_lab` activities;
-- activity-quality remains **900 KEEP / 0 flagged**, structural findings 0;
-- gameplay distribution verifies **20 patterns**, 900/900 classified, `choice_grid` 355/900 (39.44%), `material_lab` 4/900 and Science `choice_grid` 68/100;
-- representative browser QA uses legitimate Science Wave C readiness and passes keyboard selection, explicit test, false-completion guards, pointer completion, evidence persistence, touch sizing, overflow and CTA checks at 320/390/768;
-- manual screenshot review accepted idle/error/success at 320x720, 390x844 and 768x1024;
-- PR #116 had no review/comments/thread blockers at the final head;
-- exact-head squash merge is `5d6b429b64681bc6f2aa055a643a607cf54b1102` and `main` was verified at that SHA.
+Accepted implementation evidence:
+- CI #541 caught and blocked stale default-choice regression coverage plus pointer interception by a decorative connector;
+- the regression family set was fixed without weakening the default-family guard and the connector was made non-interactive;
+- CI #543 caught an incorrect test assumption about `skillId`; static QA now checks the canonical catalog learning spec instead of changing the runtime model;
+- CI #544 caught 320px success CTA visibility while all non-mobile core gates were green;
+- success-only phone layout was compacted without shrinking canonical answer controls;
+- head `94effe387912f27d0667e36fbf1d2351d612b62d` passed full CI #545;
+- activity-quality remains **900 KEEP / 0 flagged / structural 0**;
+- gameplay distribution on PR head is **21 patterns**, `choice_grid` 351/900 (39.00%), `feature_function_link` 4/900;
+- browser QA passes progression, keyboard wrong-state, pointer completion, assessed evidence, >=44px controls, overflow and success CTA checks at 320/390/768;
+- manual review of the green #545 screenshots accepted idle/error/success at 320x720, 390x844 and 768x1024.
+
+PR-head distribution, not yet merged product state:
+
+```text
+classified:             900 / 900
+unclassified:             0
+active patterns:         21
+choice_grid             351 / 900 = 39.00%
+feature_function_link     4 / 900 = 0.44%
+Science choice_grid       64 / 100
+Logic choice_grid         77 / 100
+```
 
 ## Deterministic activity-quality baseline
 
@@ -113,10 +125,12 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Continue objective-driven Science exact-family audit from the 20-pattern merged baseline; do not combine heterogeneous investigation/evidence tasks merely to add a pattern.
-2. Promote pattern #21 only after exact objective/evidence review.
-3. Audit Logic families after the Science pass; Logic remains at 77% `choice_grid`.
-4. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
-5. Continue Art Bible/permanent visual QA, narration, parent/public frontend, external acceptance and governance.
+1. Final docs-head CI for PR #119.
+2. Check review threads/comments/reviews, re-fetch exact head, squash merge with `expected_head_sha`, and verify `main`.
+3. Complete post-merge docs closure so 21 patterns become the canonical merged baseline.
+4. Re-audit Science exact families while Science remains above the >60% advisory hotspot threshold; do not combine heterogeneous investigation/evidence tasks just to add a pattern.
+5. Audit Logic after the Science pass; Logic remains the largest hotspot at 77% `choice_grid` on merged baseline.
+6. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
+7. Continue Art Bible/permanent visual QA, narration, parent/public frontend, external acceptance and governance.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, or mastery/backend rewrites before this quality phase is substantially complete.
