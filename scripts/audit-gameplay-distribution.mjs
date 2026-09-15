@@ -31,7 +31,8 @@ const EXPECTED_PATTERNS = [
   "pattern_completion",
   "cause_effect",
   "compare_properties",
-  "material_lab"
+  "material_lab",
+  "feature_function_link"
 ];
 
 rmSync(outDir, { recursive: true, force: true });
