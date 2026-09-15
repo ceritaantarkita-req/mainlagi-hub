@@ -112,8 +112,30 @@ export function isDragTargetActivity(activity: LearningActivity | undefined): bo
 }
 
 /**
- * Choice presentations diversify coherent learning objectives while keeping
- * the canonical activity payload, assessment identity and progression intact.
+ * Alphabet before/between/after tasks measure sequence position, so present
+ * them as a visible sequence with one empty slot rather than another generic
+ * three-button quiz.
+ *
+ * Basic Logic classification tasks ask whether each visible object satisfies
+ * one simple rule, so the reviewed starter family uses two-bucket sorting.
+ *
+ * Reviewed Math count tasks ask the child to inspect a visible set and choose
+ * its quantity. Keep the canonical tap_choice payload/evidence contract while
+ * presenting the prompt objects as the primary counting surface.
+ *
+ * Reviewed Math ordering tasks measure relative number position, so expose the
+ * canonical three numeric choices directly on a local number line.
+ *
+ * Reviewed Math comparison tasks measure left/right/equal quantity relations,
+ * so present the same canonical choices as two balance pans plus an equal
+ * control instead of another generic answer grid.
+ *
+ * Reviewed Math pattern tasks measure recognition of a repeating or stepping
+ * rule. Present the observed run as a pattern strip with one explicit next
+ * slot while keeping the canonical three choices and evidence identity.
+ *
+ * Reviewed Science water-change tasks connect an observable condition with a
+ * resulting state change, so present them as an explicit cause/effect flow.
  */
 export function choiceGameplayPresentation(activity: LearningActivity | undefined): ChoiceGameplayPresentation {
   if (!activity || activity.runtime !== "tap_choice") return "default";
