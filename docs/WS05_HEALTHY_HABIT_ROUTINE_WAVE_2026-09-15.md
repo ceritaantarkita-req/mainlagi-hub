@@ -1,14 +1,14 @@
 # WS-05 Science Healthy Habit Routine Wave — 2026-09-15
 
-Status: **QA ACCEPTED / ACTIVE PR #121 / UNMERGED**
+Status: **MERGED / PR #121**
 
-Baseline: `main` @ `92664642287ecdd64ce408d3d08794a24aa2b588` (Feature Function Link closure PR #120).
+Baseline before implementation: `main` @ `92664642287ecdd64ce408d3d08794a24aa2b588` (Feature Function Link closure PR #120).
 
-Accepted implementation head before canonical docs finalization: `8086670711221dd077c64bdab2eb308040c3db86`.
+Verified gameplay merge: `b61656662f8f6bad8545e7a6236c6bdd07f930ab`.
 
 ## Audit decision
 
-Science remained at 64/100 `choice_grid` after pattern #21. A fresh Wave A-D audit rejected heterogeneous investigation/evidence tasks and mixed-review tasks as one mechanic. The strongest remaining exact family is the four Wave C body-health choices: same stage, lesson, assessed evidence contract and canonical skill, all measuring recognition of a healthy everyday habit.
+Science remained at 64/100 `choice_grid` after pattern #21. A fresh Wave A-D audit rejected heterogeneous investigation/evidence tasks and mixed-review tasks as one mechanic. The strongest remaining exact family was the four Wave C body-health choices: same stage, lesson, assessed evidence contract and canonical skill, all measuring recognition of a healthy everyday habit.
 
 Exact scope:
 
@@ -48,7 +48,7 @@ Preserved canonical contract:
 
 ## Accepted implementation QA
 
-The initial implementation commit had unnecessary formatting churn in existing files. That state was not accepted. A cleanup commit rebuilt the touched existing files from canonical formatting and reduced the PR to a reviewable **12 files, +372/-5** before acceptance.
+The initial implementation commit had unnecessary formatting churn in existing files. That state was not accepted. Cleanup reduced the implementation diff to a reviewable state before acceptance.
 
 Accepted implementation head:
 
@@ -56,11 +56,25 @@ Accepted implementation head:
 8086670711221dd077c64bdab2eb308040c3db86
 ```
 
-Full CI:
+Implementation CI:
 
 ```text
 run #552
 run id: 34932904970
+status: success
+```
+
+Final canonical docs head before merge:
+
+```text
+f530d88d9b94ccddbceb2ec6fba7c661ff252215
+```
+
+Final docs-head CI:
+
+```text
+run #553
+run id: 34933560692
 status: success
 ```
 
@@ -100,7 +114,7 @@ The representative route is `science-body-wash-hands`. QA verifies:
 
 ## Manual visual QA
 
-Green CI #552 uploaded idle/error/success screenshots for:
+Green CI #552 idle/error/success screenshots were reviewed at:
 
 ```text
 320x720
@@ -110,14 +124,35 @@ Green CI #552 uploaded idle/error/success screenshots for:
 
 Manual review accepted all nine screenshots:
 - phone hierarchy remains readable without clipping;
-- the wrong-state selection and retry feedback are visually clear;
-- the success state highlights the correct habit and exposes the CTA without scrolling it out of view;
+- wrong-state selection and retry feedback are visually clear;
+- success highlights the correct habit and exposes the CTA in viewport;
 - 390px spacing remains balanced;
-- 768px layout uses the extra space without overlap or distracting scale changes;
+- 768px layout uses extra space without overlap or distracting scale changes;
 - decorative characters remain non-obstructive;
-- no additional visual-polish commit is required.
+- no additional visual-polish commit was required.
 
-## Verified PR-head distribution
+## Merge gate and result
+
+Immediately before merge:
+
+```text
+issue comments:        0
+combined PR comments:  0
+submitted reviews:     0
+review threads:        0
+mergeable:             true
+exact head:            f530d88d9b94ccddbceb2ec6fba7c661ff252215
+```
+
+PR #121 was squash-merged using that exact expected head SHA.
+
+Verified merge/live `main` SHA:
+
+```text
+b61656662f8f6bad8545e7a6236c6bdd07f930ab
+```
+
+## Merged distribution
 
 ```text
 900 / 900 classified
@@ -129,16 +164,8 @@ Science choice_grid        60 / 100
 Logic choice_grid          77 / 100
 ```
 
-At exactly 60%, Science no longer exceeds the permanent subject-hotspot advisory rule (`>60%`). After this wave is merged and closed, the next subject audit should move to **Logic** rather than forcing weaker Science families.
+At exactly 60%, Science no longer exceeds the permanent subject-hotspot advisory rule (`>60%`). The next WS-05 subject audit is **Logic**; weaker Science families must not be forced merely to lower concentration.
 
-## Remaining merge gates
+## Closure
 
-1. Canonical docs snapshot is finalized on the PR branch.
-2. Trigger and pass a full **final docs-head CI**.
-3. Verify issue comments, review comments, submitted reviews and review threads are clean.
-4. Re-fetch PR #121 and verify exact current head + mergeability.
-5. Squash merge using the exact current head SHA.
-6. Verify live `main` SHA/message from GitHub.
-7. Create and merge a docs-only post-merge closure that changes this status to `MERGED`, records the exact merge SHA/final CI/review gate, updates merged patterns to 22, and makes Logic the next active WS-05 audit.
-
-Until those gates complete, pattern #22 is **QA accepted but not shipped**.
+A docs-only post-merge closure is created from verified `main` `b61656662f8f6bad8545e7a6236c6bdd07f930ab` to canonicalize this merged state. After that closure merges, begin the Logic exact-family audit for pattern #23.

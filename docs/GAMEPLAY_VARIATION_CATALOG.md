@@ -13,7 +13,7 @@
 
 ## Status implementasi
 
-### Merged di `main`: 21 pola
+### Merged di `main`: 22 pola
 
 1. `choice_grid`
 2. `symbol_hunt`
@@ -36,12 +36,12 @@
 19. `compare_properties` — **MERGED PR #114**
 20. `material_lab` — **MERGED PR #116**
 21. `feature_function_link` — **MERGED PR #119**
+22. `healthy_habit_routine` — **MERGED PR #121**
 
 Permanent gameplay-distribution audit: **MERGED PR #105**.  
-Latest gameplay merge: PR #119 `49850145a918afcba4f8279a6f5da12fe4a9c5b8`.  
-Latest canonical closure on `main`: PR #120 `92664642287ecdd64ce408d3d08794a24aa2b588`.
+Latest gameplay merge: PR #121 `b61656662f8f6bad8545e7a6236c6bdd07f930ab`.
 
-### `healthy_habit_routine` — QA ACCEPTED / ACTIVE PR #121 / UNMERGED
+### `healthy_habit_routine` — MERGED PR #121
 
 Exact scope:
 
@@ -72,17 +72,18 @@ Boundaries:
 
 Interaction presents a health focus and routine cue plus the canonical three habits as accessible answer cards. Wrong choices are retryable and cannot complete; correct choice completes through the existing activity identity. The mechanic is not drag-only.
 
-Accepted QA evidence on implementation head `8086670711221dd077c64bdab2eb308040c3db86`:
-- initial noisy formatting diff was cleaned before acceptance; current implementation diff is reviewable and preserves existing-file formatting;
-- full CI #552 / run `34932904970` passed all required jobs;
-- gameplay regression confirms exactly 4 `healthy_habit_routine` activities;
-- dedicated static scope test confirms exactly four IDs and keeps `science-match-body-care-c` as `visible_matching`;
+Accepted and merged evidence:
+- accepted implementation head `8086670711221dd077c64bdab2eb308040c3db86` after removal of unnecessary formatting churn;
+- implementation CI #552 / run `34932904970` passed all required jobs;
+- final docs head `f530d88d9b94ccddbceb2ec6fba7c661ff252215` passed full CI #553 / run `34933560692`;
+- exact-family static regression confirms four IDs and keeps `science-match-body-care-c` as visible matching;
 - deterministic audit remains **900 KEEP / 0 flagged**, structural findings 0;
-- permanent distribution audit verifies the PR-head distribution below;
-- browser QA passes legitimate Wave B progression, keyboard wrong-state, pointer completion, assessed evidence, touch sizing, no overflow and CTA visibility at 320/390/768;
-- manual visual review accepted CI #552 idle/error/success screenshots at 320x720, 390x844 and 768x1024.
+- legitimate Science Wave B progression, keyboard wrong-state, pointer completion, assessed evidence, >=44px controls, no overflow and CTA visibility pass at 320/390/768;
+- manual visual review accepted CI #552 idle/error/success screenshots at 320/390/768;
+- final review gate had 0 issue comments, 0 combined PR comments, 0 submitted reviews and 0 review threads;
+- exact-head squash merge produced `b61656662f8f6bad8545e7a6236c6bdd07f930ab`, verified live on `main`.
 
-PR-head distribution:
+Merged distribution:
 
 ```text
 900 / 900 classified
@@ -94,7 +95,7 @@ Science choice_grid          60 / 100
 Logic choice_grid            77 / 100
 ```
 
-This pattern is not counted as merged until final docs-head CI, review gate, exact-head merge, live `main` verification and closure are complete.
+Science no longer exceeds the `>60%` subject advisory threshold. Logic is the next exact-family audit target.
 
 ## 60 pola permainan target
 
@@ -168,7 +169,7 @@ This pattern is not counted as merged until final docs-head CI, review gate, exa
 49. `compare_properties` — **MERGED PR #114**
 50. `material_lab` — **MERGED PR #116**
 
-`feature_function_link` is an additional validated Science pattern outside the original illustrative 60-slot naming list. `healthy_habit_routine` is another objective-fit Science pattern currently QA-accepted in PR #121. Target slots are planning aids, not a prohibition on better mechanics.
+`feature_function_link` and `healthy_habit_routine` are additional validated objective-fit Science patterns outside the original illustrative 60-slot naming list. Target slots are planning aids, not a prohibition on better mechanics.
 
 ### K. Creative visual play
 51. `color_by_rule`
@@ -211,8 +212,8 @@ Prinsip alokasi:
 11. Compare Properties — **DONE / #114**.
 12. Material Lab — **DONE / #116**.
 13. Feature Function Link — **DONE / #119**.
-14. Healthy Habit Routine — **QA ACCEPTED / PR #121 / merge pending**.
-15. After #121 closure, audit Logic exact families. Logic remains 77% `choice_grid`; Science would be exactly 60%, so do not keep mining weaker Science families merely to lower concentration.
+14. Healthy Habit Routine — **DONE / #121**.
+15. Next: audit Logic exact families from the verified 22-pattern baseline. Logic remains 77% `choice_grid`; Science is exactly 60%, so do not keep mining weaker Science families merely to lower concentration.
 16. Continue search/audio/puzzle/literacy/creative/story based on objective fit and distribution.
 
 ## Definition of done per mechanic

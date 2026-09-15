@@ -39,25 +39,25 @@ Merged waves:
 - `compare_properties` — PR #114, exactly 3 Science Wave C direct-comparison activities.
 - `material_lab` — PR #116, exactly 4 Science Wave D material-purpose activities.
 - `feature_function_link` — PR #119, exactly 4 Science Wave D living feature/function activities.
+- `healthy_habit_routine` — PR #121, exactly 4 Science Wave C body-health choices.
 
-Current active QA wave:
-- `healthy_habit_routine` — PR #121, exactly 4 Science Wave C body-health choices; QA accepted / unmerged.
+Current active QA wave: none. Next work is a fresh objective-driven **Logic exact-family audit** from the verified 22-pattern baseline.
 
-Merged distribution on `main` remains 21 patterns. Accepted PR #121 head projects and verifies:
+Merged distribution after PR #121:
 
 ```text
 900 / 900 classified
 0 unclassified
-22 PR-head active patterns
+22 active patterns
 choice_grid                 347 / 900 = 38.56%
 healthy_habit_routine         4 / 900 = 0.44%
 Science choice_grid          60 / 100
 Logic choice_grid            77 / 100
 ```
 
-Concentration is advisory and does not itself create POLISH/REDESIGN findings.
+Science no longer exceeds the `>60%` subject advisory threshold. Concentration remains advisory and does not itself create POLISH/REDESIGN findings.
 
-## Healthy Habit Routine — QA ACCEPTED / ACTIVE PR #121
+## Healthy Habit Routine — MERGED PR #121
 
 Exact scope:
 
@@ -90,18 +90,19 @@ Interaction/evidence:
 - exact four-ID allowlist prevents unrelated Science activities from reclassification;
 - `science-match-body-care-c` remains canonical visible matching.
 
-Accepted QA evidence:
-- implementation was cleaned to a reviewable minimal diff before acceptance; current accepted implementation head is `8086670711221dd077c64bdab2eb308040c3db86`;
-- full CI #552 / run `34932904970` passed all required jobs;
+Accepted and merged evidence:
+- accepted implementation head `8086670711221dd077c64bdab2eb308040c3db86` after unnecessary formatting churn was removed;
+- implementation CI #552 / run `34932904970` passed all required jobs;
+- final docs head `f530d88d9b94ccddbceb2ec6fba7c661ff252215` passed full CI #553 / run `34933560692`;
 - gameplay-presentation regression reports exactly `4 healthy_habit_routine` activities and dedicated exact-family regression passes;
 - representative browser route uses legitimate Science Wave B readiness;
 - keyboard wrong-state, pointer completion, false-completion protection, assessed evidence persistence, >=44px controls, no horizontal overflow, and CTA visibility all pass at 320/390/768;
 - manual visual review accepted CI #552 idle/error/success screenshots at 320x720, 390x844 and 768x1024;
 - activity-quality remains **900 KEEP / 0 flagged**, structural findings 0;
-- gameplay-distribution audit verifies 900/900, 22 PR-head patterns, global `choice_grid` 347/900, Science 60/100 and Logic 77/100;
-- Batch17 final acceptance remains PASS with 9 subjects, 900 activities, 683 assessed, 217 practice, 46 stages, 197 lessons/packs and 200 skills; physical-device certification remains pending external evidence.
-
-The wave is not merged yet. Final canonical docs-head CI, review gate, exact-head merge, `main` verification and post-merge closure remain required.
+- gameplay-distribution audit verifies 900/900, 22 patterns, global `choice_grid` 347/900, Science 60/100 and Logic 77/100;
+- Batch17 final acceptance remains PASS with 9 subjects, 900 activities, 683 assessed, 217 practice, 46 stages, 197 lessons/packs and 200 skills; physical-device certification remains pending external evidence;
+- final review gate had 0 issue comments, 0 combined PR comments, 0 submitted reviews and 0 review threads;
+- exact-head squash merge produced `b61656662f8f6bad8545e7a6236c6bdd07f930ab` and live `main` was verified at that SHA.
 
 ## Permanent audits
 
@@ -130,8 +131,8 @@ CI uploads both artifacts. Gameplay-distribution coverage and active-pattern-set
 - WS-05 Compare Properties DONE — PR #114.
 - WS-05 Material Lab DONE — PR #116.
 - WS-05 Feature Function Link DONE — PR #119.
-- WS-05 Healthy Habit Routine — **QA ACCEPTED / PR #121 / merge pending**.
-- WS-05 NEXT after #121 closure — fresh **Logic exact-family audit** from the verified new baseline.
+- WS-05 Healthy Habit Routine DONE — PR #121.
+- WS-05 NEXT — fresh **Logic exact-family audit** from the verified 22-pattern baseline.
 
 ## Completion rule
 
