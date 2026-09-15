@@ -4,9 +4,7 @@
   "private": true,
   "license": "AGPL-3.0-only",
   "description": "Mainlagi Hub motion-learning platform with ten internal hand and body motion experiences.",
-  "engines": {
-    "node": ">=20.9.0"
-  },
+  "engines": {"node": ">=20.9.0"},
   "scripts": {
     "predev": "node scripts/build-coloring-previews.mjs",
     "dev": "next dev",
@@ -32,9 +30,10 @@
     "test:ui:pattern-completion": "node scripts/run-pattern-completion-browser-tests.mjs",
     "test:ui:cause-effect": "node scripts/run-cause-effect-browser-tests.mjs",
     "test:ui:compare-properties": "node scripts/run-compare-properties-browser-tests.mjs",
+    "test:ui:healthy-habit-routine": "node scripts/run-healthy-habit-routine-browser-tests.mjs",
     "test:ui:material-lab": "node scripts/run-material-lab-browser-tests.mjs",
     "test:ui:feature-function-link": "node scripts/run-feature-function-link-browser-tests.mjs",
-    "test:ui:mobile-routes": "node scripts/run-mobile-route-browser-tests.mjs && node scripts/run-symbol-hunt-browser-tests.mjs && node scripts/run-memory-match-browser-tests.mjs && node scripts/run-sequence-slot-browser-tests.mjs && node scripts/run-sorting-buckets-browser-tests.mjs && node scripts/run-drag-target-browser-tests.mjs && node scripts/run-count-select-browser-tests.mjs && node scripts/run-number-line-browser-tests.mjs && node scripts/run-more-less-balance-browser-tests.mjs && node scripts/run-pattern-completion-browser-tests.mjs && node scripts/run-cause-effect-browser-tests.mjs && node scripts/run-compare-properties-browser-tests.mjs && node scripts/run-material-lab-browser-tests.mjs && node scripts/run-feature-function-link-browser-tests.mjs && node scripts/run-coloring-art-tests.mjs && node scripts/run-drawing-guide-tests.mjs",
+    "test:ui:mobile-routes": "node scripts/run-mobile-route-browser-tests.mjs && node scripts/run-symbol-hunt-browser-tests.mjs && node scripts/run-memory-match-browser-tests.mjs && node scripts/run-sequence-slot-browser-tests.mjs && node scripts/run-sorting-buckets-browser-tests.mjs && node scripts/run-drag-target-browser-tests.mjs && node scripts/run-count-select-browser-tests.mjs && node scripts/run-number-line-browser-tests.mjs && node scripts/run-more-less-balance-browser-tests.mjs && node scripts/run-pattern-completion-browser-tests.mjs && node scripts/run-cause-effect-browser-tests.mjs && node scripts/run-compare-properties-browser-tests.mjs && node scripts/run-healthy-habit-routine-browser-tests.mjs && node scripts/run-material-lab-browser-tests.mjs && node scripts/run-feature-function-link-browser-tests.mjs && node scripts/run-coloring-art-tests.mjs && node scripts/run-drawing-guide-tests.mjs",
     "qa:local:product": "npm run build && node scripts/run-local-product-qa.mjs",
     "qa:local:product:quick": "npm run build && node scripts/run-local-product-qa.mjs --skip-activity-crawl",
     "qa:local:flow": "npm run build && node scripts/run-local-product-flow-check.mjs",
@@ -47,6 +46,7 @@
     "test:learning:content-architecture": "node scripts/run-content-architecture-tests.mjs",
     "test:learning:mechanics": "node scripts/run-mechanic-library-tests.mjs",
     "test:learning:gameplay-presentations": "node scripts/run-gameplay-presentation-tests.mjs",
+    "test:learning:healthy-habit-routine": "node scripts/run-healthy-habit-routine-tests.mjs",
     "test:learning:feature-function-link": "node scripts/run-feature-function-link-tests.mjs",
     "test:learning:adaptive-v2": "node scripts/run-adaptive-v2-tests.mjs",
     "test:learning:runtime-measurement": "node scripts/run-learning-runtime-measurement-tests.mjs",
@@ -59,7 +59,7 @@
     "test:learning:batch6-awards": "node scripts/run-batch6-award-scaling-tests.mjs",
     "test:learning:expansion-baseline": "node scripts/run-expansion-baseline-tests.mjs",
     "test:learning:batch15": "node scripts/run-batch15-scaling-tests.mjs",
-    "test:learning": "npm run test:learning:core && npm run test:learning:curriculum && npm run test:learning:content-architecture && npm run test:learning:mechanics && npm run test:learning:gameplay-presentations && npm run test:learning:feature-function-link && npm run test:learning:adaptive-v2 && npm run test:learning:runtime-measurement && npm run test:learning:parent-insights && npm run test:learning:awards-report && npm run test:learning:outbox && npm run test:learning:schema && npm run test:learning:isolation && npm run test:learning:batch6 && npm run test:learning:batch6-awards && npm run test:learning:expansion-baseline && npm run test:learning:batch15",
+    "test:learning": "npm run test:learning:core && npm run test:learning:curriculum && npm run test:learning:content-architecture && npm run test:learning:mechanics && npm run test:learning:gameplay-presentations && npm run test:learning:healthy-habit-routine && npm run test:learning:feature-function-link && npm run test:learning:adaptive-v2 && npm run test:learning:runtime-measurement && npm run test:learning:parent-insights && npm run test:learning:awards-report && npm run test:learning:outbox && npm run test:learning:schema && npm run test:learning:isolation && npm run test:learning:batch6 && npm run test:learning:batch6-awards && npm run test:learning:expansion-baseline && npm run test:learning:batch15",
     "test:batch16:security": "node scripts/run-batch16-security-tests.mjs",
     "test:batch16:build": "node scripts/run-batch16-build-budget.mjs",
     "test:qa:device": "node scripts/run-device-qa-harness-tests.mjs",
@@ -108,9 +108,5 @@
     "typescript": "^6.0.3",
     "wrangler": "^4.127.1"
   },
-  "overrides": {
-    "nanoid": "3.3.18",
-    "postcss": "8.5.23",
-    "sharp": "0.35.4"
-  }
+  "overrides": {"nanoid": "3.3.18","postcss": "8.5.23","sharp": "0.35.4"}
 }

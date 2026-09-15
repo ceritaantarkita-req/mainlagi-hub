@@ -12,9 +12,7 @@
     "lib": ["ES2022", "DOM"],
     "types": [],
     "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"]
-    },
+    "paths": {"@/*": ["src/*"]},
     "ignoreDeprecations": "6.0"
   },
   "include": [
@@ -31,6 +29,7 @@
     "src/lib/learning/patternCompletionConfig.ts",
     "src/lib/learning/causeEffectConfig.ts",
     "src/lib/learning/comparePropertiesConfig.ts",
+    "src/lib/learning/healthyHabitRoutineConfig.ts",
     "src/lib/learning/materialLabConfig.ts",
     "src/lib/learning/featureFunctionLinkConfig.ts",
     "src/lib/learning/runtimeMeasurement.ts",
