@@ -94,6 +94,12 @@ async function keyboardWrongChoice(page){
   throw new Error("Keyboard navigation did not reach a wrong set-reasoning choice");
 }
 
+async function assertFullyVisible(locator,viewportHeight,label){
+  const box=await locator.boundingBox();
+  assert(box,`${label} must render`);
+  assert(box.y>=-1&&box.y+box.height<=viewportHeight+1,`${label} must remain fully visible in viewport`);
+}
+
 async function inspect(viewport){
   const browser=await chromium.launch({headless:true});
   try{
@@ -124,6 +130,7 @@ async function inspect(viewport){
     assert.equal(await completed(page),false,"idle set-reasoning board cannot complete activity");
 
     const viewportWidth=await page.evaluate(()=>document.documentElement.clientWidth);
+    const viewportHeight=await page.evaluate(()=>window.innerHeight);
     const scrollWidth=await page.evaluate(()=>Math.max(document.documentElement.scrollWidth,document.body.scrollWidth));
     assert(scrollWidth<=viewportWidth+1,`set-reasoning board overflows horizontally at ${viewport.width}`);
     for(const box of await choices.evaluateAll(nodes=>nodes.map(node=>{const rect=node.getBoundingClientRect();return{width:rect.width,height:rect.height,left:rect.left,right:rect.right};}))){
@@ -131,24 +138,25 @@ async function inspect(viewport){
       assert(box.left>=-1&&box.right<=viewportWidth+1,"set-reasoning choices remain inside viewport");
     }
 
+    const status=page.getByRole("status");
+    await assertFullyVisible(status,viewportHeight,`idle set-reasoning feedback at ${viewport.width}`);
     mkdirSync(screenshotDir,{recursive:true});
     await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-set-reasoning-idle.png`),fullPage:false});
 
     const wrongLabel=await keyboardWrongChoice(page);
     assert.notEqual(wrongLabel,correctLabel);
-    await page.getByRole("status").filter({hasText:"Belum tepat"}).waitFor({state:"visible",timeout:2000});
+    await status.filter({hasText:"Belum tepat"}).waitFor({state:"visible",timeout:2000});
     assert.equal(await completed(page),false,"wrong set member cannot complete activity");
+    await assertFullyVisible(status,viewportHeight,`retry set-reasoning feedback at ${viewport.width}`);
     await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-set-reasoning-try.png`),fullPage:false});
 
     await page.getByRole("button",{name:correctLabel}).click();
-    await page.getByRole("status").filter({hasText:"Tepat"}).waitFor({state:"visible",timeout:2000});
+    await status.filter({hasText:"Tepat"}).waitFor({state:"visible",timeout:2000});
     assert.equal(await completed(page),true,"correct set member completes canonical activity");
+    await assertFullyVisible(status,viewportHeight,`success set-reasoning feedback at ${viewport.width}`);
 
     const nextLink=page.getByRole("link",{name:"Pilih permainan lain"});
-    const nextBox=await nextLink.boundingBox();
-    const viewportHeight=await page.evaluate(()=>window.innerHeight);
-    assert(nextBox,"set-reasoning success CTA must render");
-    assert(nextBox.y>=-1&&nextBox.y+nextBox.height<=viewportHeight+1,`set-reasoning success CTA must remain fully visible at ${viewport.width}`);
+    await assertFullyVisible(nextLink,viewportHeight,`set-reasoning success CTA at ${viewport.width}`);
 
     const state=await page.evaluate(({id})=>{
       const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
@@ -181,7 +189,7 @@ async function main(){
   startServer();
   await waitForServer();
   for(const viewport of viewports)await inspect(viewport);
-  console.log(`Set-reasoning browser QA passed ${viewports.length} viewports with canonical Logic Wave C progression, keyboard wrong-state, pointer completion, explicit two-rule board, CTA and assessed evidence checks.`);
+  console.log(`Set-reasoning browser QA passed ${viewports.length} viewports with canonical Logic Wave C progression, keyboard wrong-state, pointer completion, explicit two-rule board, feedback/CTA visibility and assessed evidence checks.`);
 }
 
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;}).finally(stopServer);
