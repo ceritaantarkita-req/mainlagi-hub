@@ -5,10 +5,9 @@
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 **Canonical branch:** `main`  
 **Latest merged gameplay change:** PR #130 — Logic `set_reasoning`  
-**Latest gameplay closure:** PR #131 — Set Reasoning docs closure  
-**Verified implementation merge SHA:** `678c2b0ec73910181f4a8a8e804f83f0fe0d0392`  
-**Verified gameplay-closure SHA:** `3a07bec3f09381d2ba02726e5b67a71f9f5dc626`  
-**Pattern #26:** **FULLY CLOSED**  
+**Latest gameplay closure:** PR #131 — Set Reasoning docs closure; metadata PR #132  
+**Verified live baseline SHA before Pattern #27:** `7e3192898e37743826266c92c6c12a918d72e508`  
+**Active gameplay PR:** #133 — Logic `spatial_transform` — **QA ACCEPTED / UNMERGED**  
 **Primary focus:** WS-05 gameplay/mechanic diversification  
 **Principle:** **Quality first. Quantity later.**
 
@@ -35,7 +34,7 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | TODO | parent/public surfaces |
 | WS-04 Activity audit/redesign | deterministic clean | 900 KEEP / 0 flagged |
-| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | **26 merged patterns; Pattern #26 fully closed** |
+| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | **26 merged patterns; Pattern #27 QA accepted in PR #133** |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | TODO / parallel | Art Bible + permanent human gate |
@@ -44,9 +43,9 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 | WS-11 Governance | TODO | required checks/review discipline |
 | WS-12 Technical cleanup | TODO LATER | after product quality stabilizes |
 
-## WS-05 merged baseline
+## Verified merged baseline
 
-Verified live `main` after Set Reasoning implementation PR #130 and closure PR #131:
+Live `main` before active PR #133 remains the fully closed 26-pattern baseline:
 
 ```text
 900 / 900 classified
@@ -58,49 +57,69 @@ Science choice_grid          60 / 100
 Logic choice_grid            57 / 100
 ```
 
-Distance remaining: **24 patterns** to minimum 50 and **34 patterns** to working target 60.
+Distance on merged `main`: **24 patterns** to minimum 50 and **34 patterns** to working target 60.
 
-Science remains exactly 60% `choice_grid`. Logic is now 57%. Concentration remains advisory only; Pattern #27 requires a fresh objective/evidence audit.
+## Pattern #27 — Logic Spatial Transform — QA ACCEPTED / UNMERGED
 
-## Pattern #26 — Logic Set Reasoning — FULLY CLOSED
+Fresh audit from live `main` `7e319289...` selected the exact Wave D family because all five activities share one objective, lesson, pack and skill: determine final direction after rotation or left-right reflection.
 
 Exact scope:
 
 ```text
-logic-set-both-red-round
-logic-set-animal-not-bird
-logic-set-shape-not-square
-logic-set-only-blue-triangle
-logic-set-outside-round-red
+logic-spatial-halfturn-up
+logic-spatial-quarterturn-left
+logic-spatial-quarterturn-right-down
+logic-spatial-two-right-turns
+logic-spatial-mirror-left-right
 ```
 
-All five share stage `logic-mixed-reasoning-challenge`, lesson `logic-set-reasoning`, pack `logic.pack.set-reasoning`, canonical skill `logic.set.relation.basic`, assessed `tap_choice` evidence, exactly three canonical choices, and the objective of evaluating set membership, intersection, exclusion, or being outside two target sets.
+Canonical identity:
+- stage `logic-mixed-reasoning-challenge`;
+- lesson `logic-spatial-transform`;
+- pack `logic.pack.spatial-transform`;
+- skill `logic.spatial.transform.basic`;
+- assessed `tap_choice`;
+- exactly three canonical choices;
+- runtime, IDs, choices, `correctChoice`, assessment, stars, mastery and progression unchanged.
 
-Pattern: `set_reasoning`.
+Pattern: `spatial_transform`.
 
-Preserved contract:
-- explicit two-rule set board;
-- each rule shown as `harus masuk` or `harus di luar`;
-- operation visible as `Irisan A ∩ B`, `A tetapi bukan B`, or `Di luar A ∪ B`;
-- unchanged canonical three answer choices;
-- wrong answer records assessed error/retry and cannot complete;
-- correct answer completes the canonical activity identity;
-- no false Venn geometry, invented intermediate assessment, extra confirmation, or drag-only dependency;
-- runtime, IDs, choices, `correctChoice`, skill, assessment, stars, mastery and progression remain canonical;
-- assessed fidelity `choice_set_reasoning_interaction`.
+Interaction/evidence contract:
+- board shows starting direction + canonical transform + hidden `?` result slot;
+- result is not revealed before assessment;
+- canonical choices remain accessible keyboard/touch/pointer buttons;
+- wrong choice records assessed error/retry and cannot complete;
+- correct choice completes the existing activity identity;
+- no drag-only dependency, extra confirmation, invented intermediate assessment, or bundling with Wave B spatial-relation objectives;
+- assessed fidelity `choice_spatial_transform_interaction`.
 
-Acceptance and closure chain:
-- CI #583 / run `34968050234` correctly rejected a stale Rule Pipeline sentinel;
-- CI #584 / run `34968353606` passed automation but was manually rejected because 320x720 idle/try feedback clipped below the viewport;
-- accepted implementation head `acc5ce9d5661818842effcd120346ded3891dd50` passed full CI #586 / run `34969198343` and manual 320/390/768 screenshot review;
-- final implementation/docs head `a725e567898a07bfd4977d5015a179c7a6d88ab2` passed full CI #591 / run `34971570563`;
-- PR #130 gate was clean: open, non-draft, mergeable, 0 comments, 0 reviews, 0 review threads;
-- exact-head squash merge PR #130 produced `678c2b0ec73910181f4a8a8e804f83f0fe0d0392`, independently verified live on `main`;
-- closure PR #131 exact head `3e9ea7300290c94e8774068b80cf028d7f3dcd90` passed full CI #593 / run `34972491678`;
-- PR #131 gate was clean: open, non-draft, mergeable, 0 comments, 0 reviews, 0 review threads;
-- exact-head squash merge PR #131 produced `3a07bec3f09381d2ba02726e5b67a71f9f5dc626`, independently verified live on `main`.
+Accepted implementation head: `267f00d243dc1778c2d86e5a0ca70d8cfe76872a`.
 
-Pattern #26 is therefore fully closed. This metadata-only branch records that completed closure state and does not change product code, runtime, mastery, progression, schema, or catalog identity.
+CI #597 / run `34976080767` is the accepted implementation run:
+- Ubuntu quality gate success;
+- Windows compatibility success;
+- Production build success;
+- dependency audit success;
+- secret history scan success;
+- Mobile Chromium success;
+- Production smoke skipped by normal workflow condition.
+
+Permanent evidence on #597:
+- exact family regression: exactly `5 spatial_transform`;
+- gameplay-presentation regression retains default-family guard;
+- 900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0;
+- gameplay distribution: 900/900, 27 PR-head patterns, `choice_grid` 322/900 = 35.78%, `spatial_transform` 5/900;
+- five simulations `invariantErrors: 0`;
+- Batch17 remains 9 subjects / 900 activities / 683 assessed / 217 practice / 46 stages / 197 lessons / 197 packs / 200 skills;
+- physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
+
+Browser QA passed 320x720, 390x844 and 768x1024 with canonical Wave C readiness, keyboard wrong-state, pointer completion, hidden-result guard, >=44px controls, no horizontal overflow, fully visible idle/retry/success feedback + CTA, assessed evidence, and zero console/page errors. Manual review of all nine idle/try/success screenshots accepted the layout at all three viewports.
+
+If PR #133 is merged unchanged, the baseline becomes 27 patterns with Logic `choice_grid` 52/100, Science still 60/100, and remaining distance **23 to 50 / 33 to 60**. These are PR-head facts only until merge is verified.
+
+## Pattern #26 — Logic Set Reasoning — FULLY CLOSED
+
+Implementation PR #130, closure PR #131, and metadata PR #132 are complete. Verified baseline after #132 is `7e3192898e37743826266c92c6c12a918d72e508`. Pattern #26 remains fully closed; Pattern #27 does not alter its evidence/mastery/progression contract.
 
 ## Definition of Done
 
@@ -108,9 +127,10 @@ A mechanic/PR is complete only when implementation, typecheck/lint/build, engine
 
 ## Current execution order
 
-1. Run a **fresh Logic exact-family audit** from the verified 26-pattern baseline. No Pattern #27 family is pre-approved.
-2. Promote only objective-coherent/evidence-safe mechanics; do not lower hotspot counts cosmetically.
-3. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
-4. Continue WS-08 visual system, WS-02 narration, WS-03 parent/public frontend, WS-10 external acceptance, WS-11 governance, then later cleanup.
+1. Run a fresh full CI on the final Pattern #27 canonical-docs head.
+2. Require clean comments/reviews/threads + mergeability, exact-head merge, and independent live-main verification for PR #133.
+3. Complete required docs-only post-merge closure and verify that closure live on `main` before calling Pattern #27 fully closed.
+4. Only then run a fresh objective/evidence audit for Pattern #28; no family is pre-approved.
+5. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion, or major mastery/backend rewrites during this quality phase.

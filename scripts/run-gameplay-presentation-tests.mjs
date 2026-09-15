@@ -16,6 +16,7 @@ const {comparePropertiesConfig}=require(path.resolve(".learning-test-dist/src/li
 const {healthyHabitRoutineConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/healthyHabitRoutineConfig.js"));
 const {materialLabConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/materialLabConfig.js"));
 const {setReasoningConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/setReasoningConfig.js"));
+const {spatialTransformConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/spatialTransformConfig.js"));
 
 const expectedMemory=new Set([
   "letters-match-case-cd","letters-match-case-ef","letters-match-case-bce",
@@ -156,6 +157,33 @@ for(const activity of transitiveChain){
   assert.equal((activity.choices??[]).length,3);
   assert.equal(new Set(activity.choices??[]).size,3,"transitive-chain choices remain unique");
   assert((activity.choices??[]).includes(activity.correctChoice),"transitive chain preserves canonical correctChoice");
+}
+
+const expectedSpatialTransform=new Set([
+  "logic-spatial-halfturn-up","logic-spatial-quarterturn-left","logic-spatial-quarterturn-right-down",
+  "logic-spatial-two-right-turns","logic-spatial-mirror-left-right"
+]);
+const spatialTransform=ACTIVITIES.filter(activity=>choiceGameplayPresentation(activity)==="spatial_transform");
+assert.equal(spatialTransform.length,expectedSpatialTransform.size,"spatial-transform family size must remain intentional");
+assert.deepEqual(new Set(spatialTransform.map(activity=>activity.id)),expectedSpatialTransform,"only the five reviewed Logic Wave D direction-transform activities use Spatial Transform");
+for(const activity of spatialTransform){
+  assert.equal(activity.runtime,"tap_choice");
+  assert.equal(activity.subjectId,"logic");
+  assert.equal(activity.stageId,"logic-mixed-reasoning-challenge");
+  assert.equal((activity.choices??[]).length,3);
+  assert.equal(new Set(activity.choices??[]).size,3,"spatial-transform choices remain unique");
+  assert((activity.choices??[]).includes(activity.correctChoice),"spatial transform preserves canonical correctChoice");
+  const config=spatialTransformConfig(activity);
+  assert(config,`${activity.id} must have explicit Spatial Transform config`);
+  assert(["up","right","down","left"].includes(config.startDirection),`${activity.id} keeps a valid starting direction`);
+  assert(["rotation","mirror"].includes(config.transformKind),`${activity.id} keeps a valid transform kind`);
+  if(config.transformKind==="rotation"){
+    assert(["left","right"].includes(config.turnDirection),`${activity.id} rotation keeps a turn direction`);
+    assert([1,2].includes(config.quarterTurns),`${activity.id} rotation keeps one or two quarter turns`);
+  }else{
+    assert.equal(config.mirrorAxis,"vertical",`${activity.id} mirror remains left-right across a vertical axis`);
+  }
+  assert.deepEqual(new Set(Object.keys(config.choiceArrows)),new Set(activity.choices??[]),`${activity.id} transform board maps exactly canonical choices`);
 }
 
 const expectedCountSelect=new Set([
@@ -353,9 +381,9 @@ const featureFunctionLink=ACTIVITIES.filter(activity=>choiceGameplayPresentation
 assert.equal(featureFunctionLink.length,expectedFeatureFunctionLink.size,"feature-function-link family size must remain intentional");
 assert.deepEqual(new Set(featureFunctionLink.map(activity=>activity.id)),expectedFeatureFunctionLink,"only the four reviewed Science living feature/function choices use Feature Function Link");
 
-const specializedChoiceIds=new Set([...expectedSequence,...expectedSorting,...expectedOddOneOut,...expectedRulePipeline,...expectedSetReasoning,...expectedTransitiveChain,...expectedCountSelect,...expectedNumberLine,...expectedBalance,...expectedPatternCompletion,...expectedCauseEffect,...expectedCompareProperties,...expectedHealthyHabitRoutine,...expectedMaterialLab,...expectedFeatureFunctionLink]);
+const specializedChoiceIds=new Set([...expectedSequence,...expectedSorting,...expectedOddOneOut,...expectedRulePipeline,...expectedSetReasoning,...expectedTransitiveChain,...expectedSpatialTransform,...expectedCountSelect,...expectedNumberLine,...expectedBalance,...expectedPatternCompletion,...expectedCauseEffect,...expectedCompareProperties,...expectedHealthyHabitRoutine,...expectedMaterialLab,...expectedFeatureFunctionLink]);
 const otherChoice=ACTIVITIES.filter(activity=>activity.runtime==="tap_choice"&&!specializedChoiceIds.has(activity.id));
 assert(otherChoice.length>0,"default choice activities remain available");
 assert(otherChoice.every(activity=>choiceGameplayPresentation(activity)==="default"),"other choice families retain default presentation");
 
-console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets + ${oddOneOut.length} odd_one_out + ${rulePipeline.length} rule_pipeline + ${setReasoning.length} set_reasoning + ${transitiveChain.length} transitive_chain + ${countSelect.length} count_select + ${numberLine.length} number_line + ${balance.length} more_less_balance + ${patternCompletion.length} pattern_completion + ${causeEffect.length} cause_effect + ${compareProperties.length} compare_properties + ${healthyHabitRoutine.length} healthy_habit_routine + ${materialLab.length} material_lab + ${featureFunctionLink.length} feature_function_link activities.`);
+console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets + ${oddOneOut.length} odd_one_out + ${rulePipeline.length} rule_pipeline + ${setReasoning.length} set_reasoning + ${transitiveChain.length} transitive_chain + ${spatialTransform.length} spatial_transform + ${countSelect.length} count_select + ${numberLine.length} number_line + ${balance.length} more_less_balance + ${patternCompletion.length} pattern_completion + ${causeEffect.length} cause_effect + ${compareProperties.length} compare_properties + ${healthyHabitRoutine.length} healthy_habit_routine + ${materialLab.length} material_lab + ${featureFunctionLink.length} feature_function_link activities.`);

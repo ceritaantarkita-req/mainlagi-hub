@@ -38,6 +38,7 @@
     "src/lib/learning/oddOneOutConfig.ts",
     "src/lib/learning/transitiveChainConfig.ts",
     "src/lib/learning/setReasoningConfig.ts",
+    "src/lib/learning/spatialTransformConfig.ts",
     "src/lib/learning/runtimeMeasurement.ts",
     "src/lib/learning/attempts.ts",
     "src/lib/learning/progression.ts",

@@ -50,10 +50,15 @@ assert(setReasoningSentinel,"logic-set-both-red-round remains in catalog");
 assert.notEqual(choiceGameplayPresentation(setReasoningSentinel),"rule_pipeline","logic-set-both-red-round stays outside rule-pipeline presentation");
 assert.notEqual(gameplayPattern(setReasoningSentinel),"rule_pipeline","logic-set-both-red-round stays outside rule-pipeline pattern");
 
+const spatialTransformSentinel=ACTIVITIES.find(item=>item.id==="logic-spatial-halfturn-up");
+assert(spatialTransformSentinel,"logic-spatial-halfturn-up remains in catalog");
+assert.notEqual(choiceGameplayPresentation(spatialTransformSentinel),"rule_pipeline","logic-spatial-halfturn-up stays outside rule-pipeline presentation");
+assert.notEqual(gameplayPattern(spatialTransformSentinel),"rule_pipeline","logic-spatial-halfturn-up stays outside rule-pipeline pattern");
+
 for(const id of [
   "logic-if-red-then-circle",
   "logic-infer-not-red",
-  "logic-spatial-halfturn-up",
+  "logic-order-before-d",
   "logic-compare-more-dots"
 ]){
   const activity=ACTIVITIES.find(item=>item.id===id);

@@ -1,7 +1,7 @@
 import type { LearningActivity } from "./system";
 
 export type MatchingPresentation = "grid_pairs" | "memory_pairs" | "drag_targets";
-export type ChoiceGameplayPresentation = "default" | "sequence_slot" | "sorting_buckets" | "odd_one_out" | "rule_pipeline" | "set_reasoning" | "transitive_chain" | "count_select" | "number_line" | "more_less_balance" | "pattern_completion" | "cause_effect" | "compare_properties" | "healthy_habit_routine" | "material_lab" | "feature_function_link";
+export type ChoiceGameplayPresentation = "default" | "sequence_slot" | "sorting_buckets" | "odd_one_out" | "rule_pipeline" | "set_reasoning" | "transitive_chain" | "spatial_transform" | "count_select" | "number_line" | "more_less_balance" | "pattern_completion" | "cause_effect" | "compare_properties" | "healthy_habit_routine" | "material_lab" | "feature_function_link";
 export type GameplayPattern =
   | "choice_grid"
   | "symbol_hunt"
@@ -15,6 +15,7 @@ export type GameplayPattern =
   | "rule_pipeline"
   | "set_reasoning"
   | "transitive_chain"
+  | "spatial_transform"
   | "count_and_select"
   | "number_line"
   | "more_less_balance"
@@ -102,6 +103,14 @@ const LOGIC_TRANSITIVE_CHAIN_IDS = new Set([
   "logic-transitive-most-dots",
   "logic-transitive-lightest",
   "logic-transitive-middle-order"
+]);
+
+const LOGIC_SPATIAL_TRANSFORM_IDS = new Set([
+  "logic-spatial-halfturn-up",
+  "logic-spatial-quarterturn-left",
+  "logic-spatial-quarterturn-right-down",
+  "logic-spatial-two-right-turns",
+  "logic-spatial-mirror-left-right"
 ]);
 
 const MATH_COUNT_SELECT_IDS = new Set([
@@ -206,6 +215,11 @@ export function isDragTargetActivity(activity: LearningActivity | undefined): bo
  * relation chain so both premises remain visible while the canonical conclusion
  * choices and assessed tap-choice identity stay unchanged.
  *
+ * Reviewed Logic spatial-transform tasks apply a rotation or left-right mirror
+ * to one starting direction. Present the start, operation and hidden result as
+ * one transform board so the operation is visible without revealing the final
+ * answer before the canonical assessed choice.
+ *
  * Reviewed Math count tasks ask the child to inspect a visible set and choose
  * its quantity. Keep the canonical tap_choice payload/evidence contract while
  * presenting the prompt objects as the primary counting surface.
@@ -301,6 +315,16 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     choices.includes(correct) &&
     Boolean(activity.prompt);
   if (isReviewedLogicTransitiveChainFamily) return "transitive_chain";
+
+  const isReviewedLogicSpatialTransformFamily =
+    activity.subjectId === "logic" &&
+    activity.stageId === "logic-mixed-reasoning-challenge" &&
+    LOGIC_SPATIAL_TRANSFORM_IDS.has(activity.id) &&
+    choices.length === 3 &&
+    new Set(choices).size === choices.length &&
+    choices.includes(correct) &&
+    Boolean(activity.prompt);
+  if (isReviewedLogicSpatialTransformFamily) return "spatial_transform";
 
   const isReviewedMathCountFamily =
     activity.subjectId === "math" &&
@@ -422,6 +446,10 @@ export function isTransitiveChainActivity(activity: LearningActivity | undefined
   return choiceGameplayPresentation(activity) === "transitive_chain";
 }
 
+export function isSpatialTransformActivity(activity: LearningActivity | undefined): boolean {
+  return choiceGameplayPresentation(activity) === "spatial_transform";
+}
+
 export function isCountAndSelectActivity(activity: LearningActivity | undefined): boolean {
   return choiceGameplayPresentation(activity) === "count_select";
 }
@@ -475,6 +503,7 @@ export function gameplayPattern(activity: LearningActivity | undefined): Gamepla
     if (presentation === "rule_pipeline") return "rule_pipeline";
     if (presentation === "set_reasoning") return "set_reasoning";
     if (presentation === "transitive_chain") return "transitive_chain";
+    if (presentation === "spatial_transform") return "spatial_transform";
     if (presentation === "count_select") return "count_and_select";
     if (presentation === "number_line") return "number_line";
     if (presentation === "more_less_balance") return "more_less_balance";

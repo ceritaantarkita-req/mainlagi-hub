@@ -16,6 +16,7 @@ import { RulePipelineActivity } from "@/components/learning/RulePipelineActivity
 import { SequenceSlotChoiceActivity } from "@/components/learning/SequenceSlotChoiceActivity";
 import { SetReasoningActivity } from "@/components/learning/SetReasoningActivity";
 import { SortingBucketsChoiceActivity } from "@/components/learning/SortingBucketsChoiceActivity";
+import { SpatialTransformActivity } from "@/components/learning/SpatialTransformActivity";
 import { SymbolHuntChoiceActivity } from "@/components/learning/SymbolHuntChoiceActivity";
 import { TransitiveChainActivity } from "@/components/learning/TransitiveChainActivity";
 import { MathTraceWorldActivity } from "@/components/learning/world/MathTraceWorldActivity";
@@ -37,6 +38,7 @@ import {
   isSequenceSlotActivity,
   isSetReasoningActivity,
   isSortingBucketsActivity,
+  isSpatialTransformActivity,
   isTransitiveChainActivity
 } from "@/lib/learning/gameplayPresentation";
 import { getActivity } from "@/lib/learning/system";
@@ -73,6 +75,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
         <SetReasoningActivity childId={childId} activityId={activity} />
       ) : isTransitiveChainActivity(definition) ? (
         <TransitiveChainActivity childId={childId} activityId={activity} />
+      ) : isSpatialTransformActivity(definition) ? (
+        <SpatialTransformActivity childId={childId} activityId={activity} />
       ) : isCountAndSelectActivity(definition) ? (
         <CountAndSelectActivity childId={childId} activityId={activity} />
       ) : isNumberLineActivity(definition) ? (
