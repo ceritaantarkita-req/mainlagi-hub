@@ -77,7 +77,7 @@
     "cap:add:android": "cap add android",
     "cap:add:ios": "cap add ios",
     "cap:open:android": "cap open android",
-    "cap:open:ios": "cap open:ios",
+    "cap:open:ios": "cap open ios",
     "preview": "npm run build:cloudflare && opennextjs-cloudflare preview",
     "deploy": "npm run build:cloudflare && opennextjs-cloudflare deploy",
     "upload": "npm run build:cloudflare && opennextjs-cloudflare upload",
