@@ -27,6 +27,7 @@ const EXPECTED_PATTERNS = [
   "drag_to_target",
   "odd_one_out",
   "rule_pipeline",
+  "transitive_chain",
   "count_and_select",
   "number_line",
   "more_less_balance",
