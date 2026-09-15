@@ -1,10 +1,10 @@
 # WS-05 Spatial Transform Wave — 2026-09-15
 
-Status: **IMPLEMENTATION MERGED / POST-MERGE CLOSURE IN PROGRESS**
+Status: **FULLY CLOSED**
 
 Implementation PR: **#133**  
-Implementation merge SHA: `f3f00b86537af8d0862a15113778458a777358ca`  
-Closure branch: `docs/close-spatial-transform-20260915`
+Closure PR: **#134**  
+Implementation merge SHA: `f3f00b86537af8d0862a15113778458a777358ca`
 
 ## Objective
 
@@ -37,15 +37,17 @@ Wave B spatial-relation activities and unrelated Logic families remain outside s
 - no drag-only dependency, extra confirmation, answer leakage, or invented intermediate assessment;
 - assessed fidelity `choice_spatial_transform_interaction`.
 
-## Accepted implementation chain
+## Acceptance and closure chain
 
-- accepted implementation head `267f00d243dc1778c2d86e5a0ca70d8cfe76872a` passed full CI #597 / run `34976080767` plus manual screenshot acceptance at 320x720, 390x844 and 768x1024;
-- final canonical-docs head `c10294b1a69afd50b2458fee305ef59b321274e1` passed full CI #602;
+- accepted implementation head `267f00d243dc1778c2d86e5a0ca70d8cfe76872a` passed full CI #597 / run `34976080767`;
+- manual review accepted idle/try/success screenshots at 320x720, 390x844 and 768x1024;
+- final canonical implementation/docs head `c10294b1a69afd50b2458fee305ef59b321274e1` passed full CI #602;
 - PR #133 final gate was clean: exact head, open, non-draft, mergeable, 0 comments, 0 reviews, 0 review threads;
-- exact-head squash merge produced `f3f00b86537af8d0862a15113778458a777358ca`;
-- independent branch read verified live `main` exactly at `f3f00b86537af8d0862a15113778458a777358ca`.
+- exact-head squash merge PR #133 produced `f3f00b86537af8d0862a15113778458a777358ca`;
+- independent branch read verified live `main` exactly at `f3f00b86537af8d0862a15113778458a777358ca`;
+- docs-only closure is PR #134. Its exact-head CI/gate/merge/live verification is the final closure gate for this record.
 
-Merged distribution is now:
+Merged distribution:
 
 ```text
 classified:              900 / 900
@@ -57,10 +59,10 @@ Science choice_grid        60 / 100
 Logic choice_grid          52 / 100
 ```
 
-Remaining WS-05 distance is **23 patterns to minimum 50** and **33 to working target 60**.
+Remaining WS-05 distance: **23 patterns to minimum 50** and **33 to working target 60**.
 
-Deterministic activity-quality remains 900 KEEP / 0 flagged / structural findings 0; five simulations remain `invariantErrors: 0`; Batch17 totals remain unchanged; physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
+Deterministic activity-quality remains 900 KEEP / 0 flagged / structural findings 0; five simulations remain `invariantErrors: 0`; Batch17 totals remain 9 subjects / 900 activities / 683 assessed / 217 practice / 46 stages / 197 lessons / 197 packs / 200 skills; physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
 
-## Closure requirement
+## Next
 
-This docs-only branch exists to record the verified post-merge state. Pattern #27 is not called fully closed until the closure PR itself passes full CI, clean comments/reviews/threads + mergeability gate, exact-head merge, and final independent live-main verification.
+Only after closure PR #134 is exact-head merged and independently verified live on `main`, start a fresh objective/evidence audit for Pattern #28. No next family is pre-approved.
