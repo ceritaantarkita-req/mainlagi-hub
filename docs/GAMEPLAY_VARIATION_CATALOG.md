@@ -13,7 +13,7 @@
 
 ## Status implementasi
 
-### Merged gameplay baseline: 26 pola
+### Verified merged gameplay baseline: 26 pola
 
 1. `choice_grid`
 2. `symbol_hunt`
@@ -40,11 +40,10 @@
 23. `rule_pipeline` — **MERGED PR #123**
 24. `odd_one_out` — **MERGED PR #125**
 25. `transitive_chain` — **MERGED PR #127; CLOSED PR #128; metadata PR #129**
-26. `set_reasoning` — **MERGED PR #130; CLOSED PR #131**
+26. `set_reasoning` — **MERGED PR #130; CLOSED PR #131; metadata PR #132**
 
 Permanent gameplay-distribution audit: **MERGED PR #105**.  
-Verified Set Reasoning implementation SHA: `678c2b0ec73910181f4a8a8e804f83f0fe0d0392`.  
-Verified Set Reasoning closure SHA: `3a07bec3f09381d2ba02726e5b67a71f9f5dc626`.
+Verified fully closed 26-pattern baseline after metadata PR #132: `7e3192898e37743826266c92c6c12a918d72e508`.
 
 Merged distribution:
 
@@ -58,49 +57,56 @@ Science choice_grid          60 / 100
 Logic choice_grid            57 / 100
 ```
 
-Distance remaining: **24** patterns to minimum 50 and **34** to working target 60.
+Distance on merged `main`: **24** patterns to minimum 50 and **34** to working target 60.
 
-### `set_reasoning` — FULLY CLOSED
+### Pattern #27 `spatial_transform` — QA ACCEPTED / UNMERGED PR #133
 
 Exact scope:
 
 ```text
-logic-set-both-red-round
-logic-set-animal-not-bird
-logic-set-shape-not-square
-logic-set-only-blue-triangle
-logic-set-outside-round-red
+logic-spatial-halfturn-up
+logic-spatial-quarterturn-left
+logic-spatial-quarterturn-right-down
+logic-spatial-two-right-turns
+logic-spatial-mirror-left-right
 ```
 
 Boundaries:
 - Logic stage `logic-mixed-reasoning-challenge`;
-- lesson `logic-set-reasoning`;
-- pack `logic.pack.set-reasoning`;
-- canonical skill `logic.set.relation.basic`;
-- runtime remains `tap_choice`;
-- canonical three choices and `correctChoice` remain unchanged;
+- lesson `logic-spatial-transform`;
+- pack `logic.pack.spatial-transform`;
+- canonical skill `logic.spatial.transform.basic`;
+- assessed runtime remains `tap_choice`;
+- exactly three canonical choices and `correctChoice` remain unchanged;
 - assessment, stars, mastery, progression, activity identity and completion semantics remain canonical;
-- assessed fidelity `choice_set_reasoning_interaction`;
-- composed rules, transitive comparison, spatial transforms and unrelated Logic families remain outside scope.
+- Wave B relative-position tasks remain outside scope;
+- assessed fidelity `choice_spatial_transform_interaction`.
 
 Interaction:
-- show two explicit set rules with `harus masuk` / `harus di luar` state;
-- show operation as `Irisan A ∩ B`, `A tetapi bukan B`, or `Di luar A ∪ B`;
+- show canonical starting direction;
+- show the canonical rotation/reflection operation;
+- keep final direction hidden as `?` until the child answers;
 - child selects one unchanged canonical answer through accessible direct-selection buttons;
-- wrong selection is retryable and cannot complete;
+- wrong selection is retryable, measured, and cannot complete;
 - correct selection completes the existing activity identity;
-- no false Venn geometry, invented intermediate assessment, extra confirmation, changed answer set or drag-only dependency.
+- no drag-only dependency, extra confirmation, invented intermediate assessment, or answer leakage.
 
-Acceptance/closure chain:
-- CI #583 rejected a stale Rule Pipeline sentinel;
-- CI #584 was manually rejected despite automation success because 320x720 idle/try feedback clipped below the viewport;
-- accepted implementation head `acc5ce9d5661818842effcd120346ded3891dd50` passed CI #586 / run `34969198343` plus manual visual QA;
-- final implementation/docs head `a725e567898a07bfd4977d5015a179c7a6d88ab2` passed CI #591 / run `34971570563`;
-- PR #130 clean gate -> exact-head squash merge `678c2b0ec73910181f4a8a8e804f83f0fe0d0392`, independently verified live;
-- closure head `3e9ea7300290c94e8774068b80cf028d7f3dcd90` passed CI #593 / run `34972491678`;
-- PR #131 clean gate -> exact-head squash merge `3a07bec3f09381d2ba02726e5b67a71f9f5dc626`, independently verified live.
+Accepted implementation evidence:
+- implementation head `267f00d243dc1778c2d86e5a0ca70d8cfe76872a`;
+- full CI #597 / run `34976080767` green;
+- exact-family regression: exactly 5 activities;
+- permanent gameplay-presentation default-family guard remains active;
+- deterministic activity-quality: 900 KEEP / 0 flagged / structural 0;
+- gameplay distribution: 900/900 classified, 27 PR-head patterns, `choice_grid` 322/900 = 35.78%, `spatial_transform` 5/900, Logic `choice_grid` 52/100, Science 60/100;
+- five simulations: `invariantErrors: 0`;
+- Batch17 totals unchanged; physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`;
+- browser QA and manual screenshots accepted at 320x720, 390x844 and 768x1024.
 
-Pattern #26 is fully closed. The current metadata-only update records that completed state and does not modify product behavior.
+PR #133 is still unmerged. The finalized docs head requires a fresh full CI plus clean comments/reviews/threads + mergeability gate before exact-head merge. If merged unchanged, remaining distance becomes **23** patterns to minimum 50 and **33** to working target 60.
+
+### `set_reasoning` — FULLY CLOSED
+
+Set Reasoning implementation PR #130, closure PR #131 and metadata PR #132 are complete. Its exact five-ID scope, evidence fidelity `choice_set_reasoning_interaction`, runtime, mastery and progression remain unchanged by Pattern #27.
 
 ## 60 pola permainan target
 
@@ -174,7 +180,7 @@ Pattern #26 is fully closed. The current metadata-only update records that compl
 49. `compare_properties` — **MERGED PR #114**
 50. `material_lab` — **MERGED PR #116**
 
-`feature_function_link`, `healthy_habit_routine`, `rule_pipeline`, `odd_one_out`, `transitive_chain`, and `set_reasoning` are additional validated objective-fit patterns outside the original illustrative 60-slot naming list. Target slots are planning aids, not a prohibition on better mechanics.
+`feature_function_link`, `healthy_habit_routine`, `rule_pipeline`, `odd_one_out`, `transitive_chain`, `set_reasoning`, and `spatial_transform` are additional validated objective-fit patterns outside the original illustrative 60-slot naming list. Target slots are planning aids, not a prohibition on better mechanics.
 
 ### K. Creative visual play
 51. `color_by_rule`
@@ -221,10 +227,11 @@ Prinsip alokasi:
 15. Rule Pipeline — **DONE / #123**.
 16. Odd One Out — **DONE / #125 + closure #126**.
 17. Transitive Chain — **DONE / #127 + closure #128 + metadata #129**.
-18. Set Reasoning — **DONE / #130 + closure #131**.
-19. NEXT — fresh Logic exact-family audit from the verified 26-pattern baseline; no Pattern #27 family is pre-approved.
-20. Continue search/audio/puzzle/literacy/creative/story based on objective fit and distribution.
+18. Set Reasoning — **DONE / #130 + closure #131 + metadata #132**.
+19. Spatial Transform — **QA ACCEPTED / UNMERGED PR #133**.
+20. NEXT — only after Pattern #27 merge + post-merge closure is fully verified, run a fresh objective/evidence audit for Pattern #28; no family is pre-approved.
+21. Continue search/audio/puzzle/literacy/creative/story based on objective fit and distribution.
 
 ## Definition of done per mechanic
 
-A pattern is complete only when it is reusable for suitable activities, evidence-safe, keyboard/touch accessible, mobile-safe, progression-correct, completion-safe, regression/browser-tested in CI, manually visually reviewed, and reflected in canonical docs + distribution audit. Work is not fully closed until exact-head merge, live-main verification, and required post-merge docs closure are complete.
+A pattern is complete only when it is reusable for suitable activities, evidence-safe, keyboard/touch accessible, mobile-safe, progression-correct, completion-safe, regression/browser-tested in CI, manually visually reviewed, reflected in canonical docs + distribution audit, exact-head merged, independently verified live on `main`, and its required post-merge docs closure is also merged and verified.
