@@ -36,7 +36,7 @@ for(const activity of scoped){
   const spec=getActivityLearningSpec(activity.id);
   assert(spec,`${activity.id} keeps a canonical learning spec`);
   assert.equal(spec.assessment,"assessed",`${activity.id} remains assessed`);
-  assert.deepEqual(spec.skillIds,["logic.rule.composition.basic"],`${activity.id} keeps exact composed-rule skill`);
+  assert.deepEqual(spec.skills.map(link=>link.skillId),["logic.rule.composition.basic"],`${activity.id} keeps exact composed-rule skill`);
 
   const config=rulePipelineConfig(activity);
   assert(config,`${activity.id} has explicit rule-pipeline config`);
