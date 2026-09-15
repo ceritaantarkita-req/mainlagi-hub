@@ -8,10 +8,10 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; ac
 
 - repository: `ceritaantarkita-req/mainlagi-hub`
 - canonical branch: `main`
-- current merged baseline: `539b5717f5e77ccd7c883acb3e44a09c5557b54d` (post-#114 docs closure PR #115)
-- latest merged gameplay change: PR #114 — Science Compare Properties, merge `4f3e2828aa3be804f6d896b10f8e3422c3180811`
-- active gameplay branch: `agent/ws05-science-material-lab-20260915`
-- active gameplay PR: **#116 — Science Material Lab, accepted implementation QA / unmerged**
+- current merged gameplay baseline: `5d6b429b64681bc6f2aa055a643a607cf54b1102`
+- latest merged gameplay change: PR #116 — Science Material Lab
+- active gameplay branch: none
+- active gameplay PR: none
 - production: `https://mainlagihub.my.id/`
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - source licence: `AGPL-3.0-only`
@@ -32,21 +32,21 @@ Runtime count is not gameplay-pattern count.
 
 Target: minimum **50**, working target **60 meaningful patterns**.
 
-### Merged on `main`: 19 patterns
+### Merged on `main`: 20 patterns
 
-`choice_grid`, `symbol_hunt`, `listen_choose`, `visible_matching`, `guided_trace`, `story_read`, `motion_game`, `coloring_canvas`, `drawing_canvas`, `memory_pair`, `missing_sequence_slot`, `sorting_buckets`, `drag_to_target`, `count_and_select`, `number_line`, `more_less_balance`, `pattern_completion`, `cause_effect`, `compare_properties`.
+`choice_grid`, `symbol_hunt`, `listen_choose`, `visible_matching`, `guided_trace`, `story_read`, `motion_game`, `coloring_canvas`, `drawing_canvas`, `memory_pair`, `missing_sequence_slot`, `sorting_buckets`, `drag_to_target`, `count_and_select`, `number_line`, `more_less_balance`, `pattern_completion`, `cause_effect`, `compare_properties`, `material_lab`.
 
 ```text
 classified:           900 / 900
 unclassified:           0
-active patterns:       19
-choice_grid           359 / 900 = 39.89%
-compare_properties      3 / 900 = 0.33%
-Science choice_grid     72 / 100
+active patterns:       20
+choice_grid           355 / 900 = 39.44%
+material_lab            4 / 900 = 0.44%
+Science choice_grid     68 / 100
 Logic choice_grid       77 / 100
 ```
 
-### PR #116 Material Lab — ACCEPTED IMPLEMENTATION QA / UNMERGED
+### PR #116 Material Lab — MERGED
 
 Exact scope:
 
@@ -75,17 +75,18 @@ Interaction/evidence contract:
 - assessed fidelity `choice_material_lab_interaction`;
 - exact four-ID allowlist prevents unrelated Wave D activities from reclassification.
 
-Accepted implementation evidence:
+Accepted and merged evidence:
 - initial CI #532 caught and blocked an accidental removal of existing `@phosphor-icons/react` from `package.json`;
 - dependency was restored at `^2.1.10` without otherwise changing dependency intent;
 - implementation head `09dd638748d62da1da264ce3b4f6f8f6880354b7` passed full CI #533;
+- final docs head `974589a39617997093cde9e73241223a1c684935` passed full CI #535;
 - gameplay regression reports exactly 4 `material_lab` activities;
 - activity-quality remains **900 KEEP / 0 flagged**, structural findings 0;
 - gameplay distribution verifies **20 patterns**, 900/900 classified, `choice_grid` 355/900 (39.44%), `material_lab` 4/900 and Science `choice_grid` 68/100;
 - representative browser QA uses legitimate Science Wave C readiness and passes keyboard selection, explicit test, false-completion guards, pointer completion, evidence persistence, touch sizing, overflow and CTA checks at 320/390/768;
-- manual screenshot review accepted idle/error/success at 320x720, 390x844 and 768x1024.
-
-These remain PR-head QA figures until #116 merges.
+- manual screenshot review accepted idle/error/success at 320x720, 390x844 and 768x1024;
+- PR #116 had no review/comments/thread blockers at the final head;
+- exact-head squash merge is `5d6b429b64681bc6f2aa055a643a607cf54b1102` and `main` was verified at that SHA.
 
 ## Deterministic activity-quality baseline
 
@@ -112,12 +113,10 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Final docs-head CI for PR #116.
-2. Clean review-thread/comment check and exact-head squash merge for #116.
-3. Verify `main`, then close stale post-merge wording so 20 patterns become the canonical merged baseline.
-4. Continue objective-driven Science exact-family audit; do not combine heterogeneous investigation/evidence tasks merely to add a pattern.
-5. Audit Logic families after the Science pass; Logic remains at 77% `choice_grid` on merged baseline.
-6. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
-7. Continue Art Bible/permanent visual QA, narration, parent/public frontend, external acceptance and governance.
+1. Continue objective-driven Science exact-family audit from the 20-pattern merged baseline; do not combine heterogeneous investigation/evidence tasks merely to add a pattern.
+2. Promote pattern #21 only after exact objective/evidence review.
+3. Audit Logic families after the Science pass; Logic remains at 77% `choice_grid`.
+4. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
+5. Continue Art Bible/permanent visual QA, narration, parent/public frontend, external acceptance and governance.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, or mastery/backend rewrites before this quality phase is substantially complete.
