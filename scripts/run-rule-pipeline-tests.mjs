@@ -58,7 +58,7 @@ assert.notEqual(gameplayPattern(spatialTransformSentinel),"rule_pipeline","logic
 for(const id of [
   "logic-if-red-then-circle",
   "logic-infer-not-red",
-  "logic-order-before-d",
+  "logic-classify-red-round",
   "logic-compare-more-dots"
 ]){
   const activity=ACTIVITIES.find(item=>item.id===id);
