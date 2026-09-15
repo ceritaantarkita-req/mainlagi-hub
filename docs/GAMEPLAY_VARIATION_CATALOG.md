@@ -13,7 +13,7 @@
 
 ## Status implementasi
 
-### Merged di `main`: 17 pola
+### Merged di `main`: 18 pola
 
 1. `choice_grid`
 2. `symbol_hunt`
@@ -32,11 +32,12 @@
 15. `number_line` — **MERGED PR #108**
 16. `more_less_balance` — **MERGED PR #109**
 17. `pattern_completion` — **MERGED PR #110**
+18. `cause_effect` — **MERGED PR #112**
 
 Permanent gameplay-distribution audit: **MERGED PR #105**.  
-Merged baseline before active PR #112: `main` @ `06477dbc8fc4d2c4f990b19f2edb3e217b3e26ae`.
+Latest gameplay merge: PR #112 `768b7f53a003d7677a74ea54e9686418c900eab4`.
 
-### Pattern #18 in accepted QA: `cause_effect` / PR #112
+### Cause/Effect — DONE / PR #112
 
 Exact scope: four Science Wave B water-change choice activities:
 
@@ -53,27 +54,28 @@ Excluded intentionally:
 The excluded activity remains canonical `matching` / `visible_matching` because its interaction/evidence contract differs.
 
 Boundaries:
-- stage/lesson family: Science Wave B water-state changes;
 - assessed skill `science.water.state_changes.basic`;
 - explicit per-activity process config, no prompt parsing;
-- child-facing flow is **Awal -> Kondisi -> Hasil**;
-- result remains unrevealed before a choice;
-- canonical three choices and correctChoice remain intact;
-- wrong answer is retryable and cannot complete;
+- child-facing flow **Awal -> Kondisi -> Hasil**;
+- result unrevealed before a choice;
+- canonical three choices/correctChoice intact;
+- wrong answer retryable and unable to complete;
 - runtime remains `tap_choice`;
 - assessment, stars, progression, activity identity, and completion identity remain canonical;
 - assessed fidelity `choice_cause_effect_interaction`;
 - exact four-ID allowlist prevents unrelated Science families from reclassification.
 
-Accepted implementation QA at head `ad5f427afc9cb0c755872ee88588534066942d47`:
-- CI #513 full green across Ubuntu, Windows, production build, dependency audit, secret-history scan, and Mobile Chromium;
-- representative route `science-water-ice-melts` uses legitimate Science Wave A progression readiness;
-- keyboard wrong-state, false-completion guard, pointer completion, evidence persistence, >=44px controls, no overflow, and success CTA visibility pass;
-- CI #512 caught a real 320x720 CTA clipping issue; compact layout was fixed and #513 passed the same assertion;
+Accepted QA:
+- CI #513 full green after the compact-phone fix;
+- CI #518 final docs-head full green;
+- CI #512 caught a real 320x720 CTA clipping issue before acceptance;
+- browser representative `science-water-ice-melts` used legitimate Science Wave A progression readiness;
+- keyboard wrong-state, false-completion guard, pointer completion, evidence persistence, >=44px controls, no overflow, and success CTA visibility passed;
 - manual visual review accepted idle/error/success at 320x720, 390x844, and 768x1024;
-- deterministic audit at the accepted head remains **900 KEEP / 0 flagged**, structural findings 0.
+- deterministic audit remained **900 KEEP / 0 flagged**, structural findings 0;
+- review surface clean before exact-head squash merge.
 
-Accepted PR #112 QA distribution:
+Merged distribution after PR #112:
 
 ```text
 900 / 900 classified
@@ -86,7 +88,7 @@ Science choice_grid    75 / 100
 Logic choice_grid      77 / 100
 ```
 
-`cause_effect` is **not merged yet** in this document state. Final docs-head CI and exact-head merge remain required.
+Science remains above the >60% subject-hotspot advisory threshold. Mechanic selection remains objective-driven.
 
 ## 60 pola permainan target
 
@@ -156,8 +158,8 @@ Logic choice_grid      77 / 100
 ### J. Science & logic exploration
 46. `classify_observation`
 47. `predict_result`
-48. `cause_effect` — **PR #112 ACCEPTED QA / PENDING MERGE**
-49. `compare_properties`
+48. `cause_effect` — **MERGED PR #112**
+49. `compare_properties` — **NEXT EXACT REVIEW CANDIDATE**
 50. `observation_checklist`
 
 ### K. Creative visual play
@@ -197,9 +199,9 @@ Prinsip alokasi:
 7. Number Line — **DONE / #108**.
 8. More/Less Balance — **DONE / #109**.
 9. Pattern Completion — **DONE / #110**.
-10. Cause/Effect — **IMPLEMENTATION QA ACCEPTED / #112; merge gates remain**.
-11. After #112 merges, run another exact-family Science audit because Science remains at 75% `choice_grid`; choose the next mechanic only from objective fit, not quota pressure.
-12. Audit Logic families after Science; continue search/audio/puzzle/literacy/creative/story based on objective fit and distribution.
+10. Cause/Effect — **DONE / #112**.
+11. Next exact review candidate: Science Wave C `compare_properties` for `science-measure-longer-pencil`, `science-measure-hot-cold`, and `science-measure-more-water`; explicitly exclude recording and matching-tool activities unless a fresh audit proves otherwise.
+12. Continue Science exact-family audit while Science remains concentrated, then audit Logic; continue search/audio/puzzle/literacy/creative/story based on objective fit and distribution.
 
 ## Definition of done per mechanic
 

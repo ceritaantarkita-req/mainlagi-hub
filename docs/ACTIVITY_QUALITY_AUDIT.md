@@ -35,23 +35,9 @@ Merged waves:
 - `number_line` — PR #108, exactly 6 Math Wave B ordering activities.
 - `more_less_balance` — PR #109, exactly 6 Math Wave B comparison activities.
 - `pattern_completion` — PR #110, exactly 5 Math Wave B choice-pattern activities.
+- `cause_effect` — PR #112, exactly 4 Science Wave B water-change choice activities; merge `768b7f53a003d7677a74ea54e9686418c900eab4`.
 
-Active accepted-QA wave:
-- `cause_effect` — PR #112, exactly 4 Science Wave B water-change choice activities; **not merged yet**.
-
-Merged distribution before PR #112:
-
-```text
-900 / 900 classified
-0 unclassified
-17 active patterns
-choice_grid          366 / 900 = 40.67%
-Math choice_grid       56 / 100
-Science choice_grid    79 / 100
-Logic choice_grid      77 / 100
-```
-
-PR #112 accepted-QA distribution:
+Merged distribution after PR #112:
 
 ```text
 900 / 900 classified
@@ -66,9 +52,9 @@ Logic choice_grid      77 / 100
 
 Concentration is advisory and does not itself create POLISH/REDESIGN findings.
 
-## Cause/Effect — accepted QA / PR #112
+## Cause/Effect — DONE / PR #112
 
-Exactly four reviewed Science Wave B choice activities use `cause_effect` on the PR head:
+Exactly four reviewed Science Wave B choice activities use `cause_effect`:
 
 ```text
 science-water-ice-melts
@@ -90,27 +76,41 @@ Preserved:
 
 Interaction/evidence:
 - visible **Awal -> Kondisi -> Hasil** causal flow;
-- result is unrevealed before the child chooses;
-- process semantics come from explicit per-activity config;
+- result unrevealed before the child chooses;
+- process semantics from explicit per-activity config;
 - wrong answer may be shown as feedback but cannot complete;
 - assessed fidelity `choice_cause_effect_interaction`;
 - exact four-ID allowlist prevents unrelated Science activities from reclassification.
 
-Accepted implementation QA head: `ad5f427afc9cb0c755872ee88588534066942d47`.
-
-Evidence:
-- CI #513 full green across Ubuntu, Windows, production build, dependency audit, secret-history scan, and Mobile Chromium;
-- representative browser route `science-water-ice-melts` keeps progression guard enabled with legitimate Science Wave A readiness;
-- keyboard wrong-state, false-completion guard, pointer completion, evidence persistence, >=44px controls, and no horizontal overflow pass;
-- CI #512 caught a real 320x720 success-CTA clipping bug; compact layout was fixed and #513 passed CTA visibility;
+Accepted evidence:
+- CI #513 full green after compact-phone fix;
+- CI #518 final docs-head full green;
+- CI #512 caught a real 320x720 CTA clipping issue before acceptance;
+- representative route kept progression guard enabled with legitimate Science Wave A readiness;
+- keyboard wrong-state, false-completion guard, pointer completion, evidence persistence, >=44px controls, no horizontal overflow, and CTA visibility passed;
 - manual visual review accepted idle/error/success at 320, 390, and 768;
-- activity-quality artifact at the accepted head remains **900 KEEP / 0 flagged**, structural findings 0.
+- activity-quality artifact remained **900 KEEP / 0 flagged**, structural findings 0;
+- 0 review threads/comments before exact-head squash merge;
+- merge verified on `main` at `768b7f53a003d7677a74ea54e9686418c900eab4`.
 
 ## Next audit-guided family
 
-After #112 merges, Science will still be at 75% `choice_grid`, above the >60% subject concentration advisory threshold. The next action is therefore another exact-family Science audit, not an automatic conversion.
+Science remains at 75% `choice_grid`, above the >60% subject concentration advisory threshold. The strongest current exact-family candidate from the read-only post-#112 audit is `compare_properties` for the Wave C observation/measurement comparison trio:
 
-Prediction/investigation, materials/properties, observation/measurement, environment reasoning, and other Science families must be reviewed separately so each new mechanic has a coherent learning objective and evidence contract.
+```text
+science-measure-longer-pencil
+science-measure-hot-cold
+science-measure-more-water
+```
+
+Explicitly outside the candidate scope:
+
+```text
+science-observe-record-same-time
+science-match-observation-tools-c
+```
+
+The recording activity and matching-tool activity measure different interaction/evidence objectives. A fresh implementation branch must re-audit the exact trio from latest `main` before coding.
 
 ## Permanent audits
 
@@ -135,8 +135,8 @@ CI uploads both artifacts. Gameplay-distribution coverage and active-pattern-set
 - WS-05 Number Line DONE — PR #108.
 - WS-05 More/Less Balance DONE — PR #109.
 - WS-05 Pattern Completion DONE — PR #110.
-- WS-05 Cause/Effect — **accepted implementation QA / PR #112; final docs-head CI + merge pending**.
-- WS-05 NEXT after #112 — exact-family Science audit, then objective-fit mechanic selection.
+- WS-05 Cause/Effect DONE — PR #112, merge `768b7f53a003d7677a74ea54e9686418c900eab4`.
+- WS-05 NEXT — fresh-branch exact review of Science `compare_properties` trio, then continue objective-driven Science audit.
 
 ## Completion rule
 
