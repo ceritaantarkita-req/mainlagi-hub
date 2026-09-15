@@ -41,7 +41,7 @@
 24. `odd_one_out` — **MERGED PR #125**
 
 Permanent gameplay-distribution audit: **MERGED PR #105**.  
-Canonical merged gameplay baseline: `main` @ `0d595f8b1b824125dc2cc26277f3e469b9325c73`.
+Canonical merged gameplay baseline: `main` @ `a961be0e61055f7347244b58b9dc252d5ed6f382` after Odd One Out closure PR #126.
 
 Merged distribution:
 
@@ -55,50 +55,52 @@ Science choice_grid          60 / 100
 Logic choice_grid            67 / 100
 ```
 
-### `odd_one_out` — MERGED PR #125
+### `transitive_chain` — PR #127 QA ACCEPTED / UNMERGED
+
+Pattern #25 exists on the PR head only and is **not yet part of merged `main`**.
 
 Exact scope:
 
 ```text
-logic-odd-category-animal-vehicle
-logic-odd-shape-angular
-logic-odd-direction-right
-logic-odd-count-three
-logic-odd-pattern-symmetry
+logic-transitive-height-abc
+logic-transitive-shortest-xyz
+logic-transitive-most-dots
+logic-transitive-lightest
+logic-transitive-middle-order
 ```
 
 Boundaries:
-- Logic stage `logic-classification-rules-basics`;
-- lesson `logic-odd-one-out-basic`;
-- canonical skill `logic.discrimination.odd_one_out.basic`;
+- Logic stage `logic-mixed-reasoning-challenge`;
+- lesson `logic-transitive-comparison`;
+- canonical skill `logic.comparison.transitive.basic`;
 - runtime remains `tap_choice`;
 - canonical three choices and `correctChoice` remain unchanged;
 - assessment, stars, progression, activity identity and completion semantics remain canonical;
-- assessed fidelity `choice_odd_one_out_interaction`;
-- classification, comparison, simple sequence-rule, set, spatial, inference and composed-rule activities remain outside scope.
+- assessed fidelity `choice_transitive_chain_interaction`;
+- composed rules, set reasoning, spatial transforms, Wave C inference/ordering and Wave B comparison/spatial families remain outside scope.
 
 Interaction:
-- show the canonical three options as one comparison trio;
-- frame the task as `2 mirip • 1 beda` without revealing which option differs;
-- child selects the outsider directly using accessible buttons;
+- show the three entities as a visible chain linked by two canonical premises;
+- label the two connectors as `Premis 1` and `Premis 2`;
+- child selects the unchanged canonical conclusion through accessible buttons;
 - wrong selection is retryable and cannot complete;
 - correct selection completes the existing activity identity;
-- success may show the reviewed shared relation after completion;
-- no extra confirmation step, invented assessment or drag-only dependency.
+- success explains the reviewed relation after completion;
+- no invented numeric values, extra assessed step, reordering requirement, changed answer set or drag-only dependency.
 
-Accepted and merged evidence:
-- CI #562 surfaced a stale Rule Pipeline exclusion sentinel and was correctly blocked; the sentinel was replaced with `logic-compare-more-dots`, preserving the old exact-scope regression;
-- CI #563 surfaced an incorrect assumption that the target stage was naturally unlocked; runtime correctly required preceding `logic-foundations` readiness;
-- browser QA now seeds canonical qualifying foundation evidence while keeping the real progression guard active;
-- implementation head `d15a5a4c49b4a14d5dd7a49f4a2f6a5a2d2f2c8d` passed full CI #564 / run `34951235607`;
-- final docs head `7b0735f13ab7ad22dff8c6fed792e62f9a66bc60` passed full CI #565 / run `34952172997`;
-- gameplay-presentation and dedicated exact-family regressions pass for exactly five Odd One Out activities;
+Accepted implementation evidence:
+- CI #569 correctly exposed a stale Rule Pipeline exclusion sentinel and was rejected; the old exact-scope guard remained active after replacing only that sentinel with unrelated `logic-infer-not-red`;
+- CI #570 passed every non-browser gate but Mobile correctly exposed that the completed 390x844 layout pushed the CTA below the viewport; that run was rejected;
+- phone-sized completed state now hides only the already-consumed prompt + premise chain, preserving question, canonical choices, success explanation and CTA; idle/retry still show the full chain;
+- implementation head `46bcd677d2b3003f30b2e20bd21fe854c4f1f833` passed full CI #572 / run `34957824566`;
+- gameplay-presentation and dedicated exact-family regressions both verify exactly five Transitive Chain activities;
 - deterministic activity-quality remains **900 KEEP / 0 flagged / structural findings 0**;
-- gameplay distribution verifies **900/900 classified, 24 patterns, `choice_grid` 337/900 (37.44%), `odd_one_out` 5/900, Logic 67/100, Science 60/100**;
-- simulations and Batch17 pass with canonical catalog totals unchanged;
-- canonical Logic foundation progression plus keyboard wrong-state, pointer correct completion, assessed evidence, >=44px controls, no horizontal overflow and in-viewport CTA pass at 320/390/768;
-- manual visual review accepted green #564 idle/error/success screenshots at all three viewports; no UI polish was required;
-- exact-head squash merge produced `0d595f8b1b824125dc2cc26277f3e469b9325c73`, verified live on `main`.
+- gameplay distribution verifies **900/900 classified, 25 PR-head patterns, `choice_grid` 332/900 (36.89%), `transitive_chain` 5/900, Logic 62/100, Science 60/100**;
+- all five simulations report zero invariant errors and Batch17 canonical totals remain unchanged;
+- canonical Logic Wave C progression, keyboard wrong-state, pointer correct completion, assessed evidence, >=44px controls, no horizontal overflow and in-viewport CTA pass at 320/390/768;
+- manual visual review accepted #572 idle/try/success screenshots at all three viewports, including the repaired 390 success state.
+
+The canonical docs update changes the PR SHA, therefore #572 is implementation acceptance evidence only. A new full docs-head CI is mandatory before merge.
 
 ## 60 pola permainan target
 
@@ -172,7 +174,7 @@ Accepted and merged evidence:
 49. `compare_properties` — **MERGED PR #114**
 50. `material_lab` — **MERGED PR #116**
 
-`feature_function_link`, `healthy_habit_routine`, `rule_pipeline`, and `odd_one_out` are additional validated objective-fit patterns outside the original illustrative 60-slot naming list. Target slots are planning aids, not a prohibition on better mechanics.
+`feature_function_link`, `healthy_habit_routine`, `rule_pipeline`, and `odd_one_out` are additional merged objective-fit patterns outside the original illustrative 60-slot naming list. `transitive_chain` is an additional QA-accepted objective-fit pattern on unmerged PR #127. Target slots are planning aids, not a prohibition on better mechanics.
 
 ### K. Creative visual play
 51. `color_by_rule`
@@ -217,9 +219,10 @@ Prinsip alokasi:
 13. Feature Function Link — **DONE / #119**.
 14. Healthy Habit Routine — **DONE / #121**.
 15. Rule Pipeline — **DONE / #123**.
-16. Odd One Out — **DONE / #125**.
-17. Next: run a fresh Logic exact-family audit from the verified 24-pattern baseline; do not assume the next family until objective/evidence fit is rechecked.
-18. Continue search/audio/puzzle/literacy/creative/story based on objective fit and distribution.
+16. Odd One Out — **DONE / #125 + closure #126**.
+17. Transitive Chain — **QA ACCEPTED / PR #127 UNMERGED**; final docs-head CI, review gate, exact-head merge and closure remain.
+18. After closure: fresh Logic exact-family audit. Logic remains 62% `choice_grid` on the PR head, but no next family is pre-approved.
+19. Continue search/audio/puzzle/literacy/creative/story based on objective fit and distribution.
 
 ## Definition of done per mechanic
 

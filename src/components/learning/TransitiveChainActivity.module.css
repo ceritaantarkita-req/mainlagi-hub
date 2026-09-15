@@ -1,0 +1,324 @@
+.scene {
+  width: min(920px, 100%);
+  margin: 0 auto;
+  display: grid;
+  gap: 18px;
+  padding: 4px 0 18px;
+}
+
+.promptCard,
+.chainCard,
+.questionCard,
+.status {
+  border-radius: 22px;
+  border: 1px solid rgba(76, 103, 82, 0.18);
+  background: rgba(255, 255, 255, 0.93);
+  box-shadow: 0 12px 30px rgba(64, 83, 68, 0.09);
+}
+
+.promptCard {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+}
+
+.promptCard h1 {
+  margin: 0 0 4px;
+  font-size: clamp(1.25rem, 3vw, 1.85rem);
+}
+
+.promptCard p {
+  margin: 0;
+  line-height: 1.45;
+}
+
+.promptIcon {
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  background: rgba(130, 176, 237, 0.18);
+  font-size: 1.75rem;
+  flex: 0 0 auto;
+}
+
+.chainCard {
+  display: grid;
+  grid-template-columns: minmax(88px, 1fr) minmax(130px, 1.3fr) minmax(88px, 1fr) minmax(130px, 1.3fr) minmax(88px, 1fr);
+  align-items: stretch;
+  gap: 10px;
+  padding: 18px;
+}
+
+.node,
+.relation {
+  min-height: 112px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.node {
+  position: relative;
+  flex-direction: column;
+  gap: 6px;
+  border: 2px solid rgba(63, 120, 77, 0.2);
+  background: linear-gradient(180deg, #ffffff, #f2f9f3);
+  font-size: clamp(1.25rem, 3vw, 1.9rem);
+}
+
+.node span {
+  position: absolute;
+  top: 8px;
+  left: 9px;
+  width: 25px;
+  height: 25px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(63, 120, 77, 0.1);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.relation {
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px;
+  background: rgba(239, 245, 255, 0.92);
+  border: 1px dashed rgba(71, 111, 170, 0.3);
+  color: #38577f;
+}
+
+.relation small {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.relation strong {
+  font-size: 0.88rem;
+  line-height: 1.25;
+}
+
+.relation span {
+  font-size: 1.4rem;
+}
+
+.questionCard {
+  display: grid;
+  justify-items: center;
+  gap: 7px;
+  padding: 14px 18px;
+  text-align: center;
+}
+
+.questionBadge {
+  border-radius: 999px;
+  padding: 5px 10px;
+  background: rgba(253, 211, 97, 0.22);
+  color: #725f25;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.choiceGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.choiceButton {
+  min-height: 92px;
+  border-radius: 22px;
+  border: 2px solid rgba(73, 104, 79, 0.18);
+  background: linear-gradient(180deg, #ffffff, #f7fbf7);
+  box-shadow: 0 12px 24px rgba(54, 76, 60, 0.1);
+  color: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px;
+  cursor: pointer;
+  transition: transform 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
+}
+
+.choiceButton:hover:not(:disabled),
+.choiceButton:focus-visible {
+  transform: translateY(-3px);
+  border-color: rgba(70, 121, 83, 0.62);
+  box-shadow: 0 15px 27px rgba(54, 76, 60, 0.15);
+  outline: none;
+}
+
+.choiceButton:disabled {
+  cursor: default;
+}
+
+.choiceMarker {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(72, 105, 78, 0.1);
+  font-weight: 900;
+}
+
+.selected {
+  border-color: rgba(60, 103, 70, 0.7);
+}
+
+.wrong {
+  border-color: #d97863;
+  background: linear-gradient(180deg, #fff9f7, #fff1ed);
+}
+
+.correct {
+  border-color: #56a36a;
+  background: linear-gradient(180deg, #fbfffb, #eaf8ed);
+}
+
+.status {
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  text-align: center;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.statusTry {
+  border-color: rgba(208, 119, 91, 0.35);
+  background: #fff8f4;
+}
+
+.statusGood {
+  border-color: rgba(71, 151, 91, 0.35);
+  background: #f1fbf3;
+}
+
+.nextLink {
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  padding: 10px 18px;
+  border-radius: 16px;
+  background: #3f784d;
+  color: white;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+@media (max-width: 700px) {
+  .chainCard {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .node,
+  .relation {
+    min-height: 64px;
+  }
+
+  .relation span {
+    transform: rotate(90deg);
+  }
+}
+
+@media (max-width: 560px) {
+  .scene {
+    gap: 11px;
+    padding-bottom: 10px;
+  }
+
+  .promptCard {
+    gap: 10px;
+    padding: 12px 13px;
+  }
+
+  .promptIcon {
+    width: 46px;
+    height: 46px;
+    border-radius: 15px;
+    font-size: 1.45rem;
+  }
+
+  .promptCard h1 {
+    font-size: 1.18rem;
+  }
+
+  .promptCard p {
+    font-size: 0.88rem;
+  }
+
+  .chainCard {
+    padding: 10px;
+  }
+
+  .node,
+  .relation {
+    min-height: 56px;
+    border-radius: 16px;
+  }
+
+  .node {
+    font-size: 1.12rem;
+  }
+
+  .relation strong {
+    font-size: 0.8rem;
+  }
+
+  .questionCard {
+    padding: 10px 12px;
+  }
+
+  .choiceGrid {
+    gap: 7px;
+  }
+
+  .choiceButton {
+    min-height: 62px;
+    border-radius: 17px;
+    padding: 8px 6px;
+    gap: 6px;
+  }
+
+  .choiceMarker {
+    width: 26px;
+    height: 26px;
+  }
+
+  .status {
+    min-height: 52px;
+    padding: 10px 12px;
+    font-size: 0.88rem;
+  }
+
+  .sceneDone {
+    gap: 8px;
+  }
+
+  .sceneDone .promptCard,
+  .sceneDone .chainCard {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .choiceButton {
+    transition: none;
+  }
+}

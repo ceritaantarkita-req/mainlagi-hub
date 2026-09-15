@@ -48,7 +48,7 @@ for(const activity of scoped){
 for(const id of [
   "logic-if-red-then-circle",
   "logic-set-both-red-round",
-  "logic-transitive-height-abc",
+  "logic-infer-not-red",
   "logic-spatial-halfturn-up",
   "logic-compare-more-dots"
 ]){
