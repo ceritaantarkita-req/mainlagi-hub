@@ -6,7 +6,7 @@ Status: **WS-04 deterministic triage clean; WS-06 Coloring and WS-07 Drawing com
 
 ## Current calibrated state
 
-All **9 subjects / 900 activities** remain deterministically clean on merged `main` `0d595f8b1b824125dc2cc26277f3e469b9325c73`:
+All **9 subjects / 900 activities** remain deterministically clean on merged `main` `a961be0e61055f7347244b58b9dc252d5ed6f382`:
 
 ```text
 symbol_hunt           74
@@ -41,72 +41,82 @@ Merged waves:
 - `feature_function_link` — PR #119, exactly 4 Science Wave D living feature/function activities.
 - `healthy_habit_routine` — PR #121, exactly 4 Science Wave C body-health choices.
 - `rule_pipeline` — PR #123, exactly 5 Logic Wave D composed-rule activities.
-- `odd_one_out` — PR #125, exactly 5 Logic Wave A discrimination activities.
+- `odd_one_out` — PR #125, exactly 5 Logic Wave A discrimination activities; docs closure #126.
 
-Current active gameplay QA wave: none. Next work is a fresh Logic exact-family audit from the verified 24-pattern baseline.
+Current active gameplay QA wave: PR #127 `transitive_chain` — **QA ACCEPTED / UNMERGED**.
 
-Merged distribution after PR #125:
+Merged distribution after Odd One Out closure:
 
 ```text
 900 / 900 classified
 0 unclassified
-24 active patterns
+24 active merged patterns
 choice_grid                 337 / 900 = 37.44%
 odd_one_out                   5 / 900 = 0.56%
 Science choice_grid          60 / 100
 Logic choice_grid            67 / 100
 ```
 
+PR #127 accepted implementation head distribution:
+
+```text
+900 / 900 classified
+0 unclassified
+25 active PR-head patterns
+choice_grid                 332 / 900 = 36.89%
+transitive_chain              5 / 900 = 0.56%
+Science choice_grid          60 / 100
+Logic choice_grid            62 / 100
+```
+
 Concentration remains advisory and does not itself create POLISH/REDESIGN findings.
 
-## Odd One Out — MERGED PR #125
+## Transitive Chain — PR #127 QA ACCEPTED / UNMERGED
 
 Exact scope:
 
 ```text
-logic-odd-category-animal-vehicle
-logic-odd-shape-angular
-logic-odd-direction-right
-logic-odd-count-three
-logic-odd-pattern-symmetry
+logic-transitive-height-abc
+logic-transitive-shortest-xyz
+logic-transitive-most-dots
+logic-transitive-lightest
+logic-transitive-middle-order
 ```
 
 Preserved:
 - canonical runtime `tap_choice`;
 - choices/`correctChoice`;
 - assessment and stars;
-- progression and canonical skill `logic.discrimination.odd_one_out.basic`;
+- progression and canonical skill `logic.comparison.transitive.basic`;
 - activity IDs and completion semantics;
-- Logic `logic-classification-rules-basics` stage / `logic-odd-one-out-basic` lesson identity.
+- Logic stage `logic-mixed-reasoning-challenge` / lesson `logic-transitive-comparison` identity.
 
 Interaction/evidence:
-- canonical trio is shown as one comparison set;
-- `2 mirip • 1 beda` makes the comparison relation explicit without revealing the answer;
+- canonical three entities are shown as one chain with two visible premises;
 - canonical choices remain accessible direct-selection buttons;
 - wrong choice is measured/retryable and cannot complete;
-- assessed fidelity `choice_odd_one_out_interaction`;
+- assessed fidelity `choice_transitive_chain_interaction`;
 - exact five-ID allowlist prevents unrelated Logic activities from reclassification;
-- classification, comparison, simple sequence-rule, set, spatial, inference and composed-rule tasks stay outside this scope.
+- composed rules, set reasoning, spatial, Wave C inference/ordering and Wave B comparison/spatial tasks stay outside this scope;
+- no invented numeric quantities, extra assessed step, reordering requirement or drag-only dependency.
 
-Accepted and merged evidence:
-- CI #562 exposed a stale Rule Pipeline exclusion sentinel because one Odd One Out activity was intentionally no longer `default`; the sentinel was replaced with `logic-compare-more-dots`, retaining the old exact-scope guard rather than weakening it;
-- CI #563 passed non-browser gates but Mobile correctly exposed that the target stage requires prior `logic-foundations` readiness;
-- Odd One Out browser QA now seeds canonical qualifying foundation evidence using the established Logic readiness pattern, while progression guards remain active;
-- implementation head `d15a5a4c49b4a14d5dd7a49f4a2f6a5a2d2f2c8d` passed CI #564 / run `34951235607`;
-- final docs head `7b0735f13ab7ad22dff8c6fed792e62f9a66bc60` passed CI #565 / run `34952172997`;
+QA history and accepted implementation evidence:
+- CI #569 was correctly rejected after a stale Rule Pipeline exclusion sentinel named one newly promoted Transitive Chain activity as `default`; only that sentinel was replaced with unrelated `logic-infer-not-red`, preserving the old exact-scope guard;
+- CI #570 passed all non-browser gates but Mobile correctly blocked the 390x844 completed state because the success CTA fell below the viewport;
+- completed phone-sized state now hides only the already-consumed prompt and premise chain while retaining the question, canonical answer trio, success explanation and CTA; idle/retry keep the full chain and touch targets were not reduced;
+- accepted implementation head `46bcd677d2b3003f30b2e20bd21fe854c4f1f833` passed full CI #572 / run `34957824566`;
 - Ubuntu and Windows typecheck/lint/engine gates passed;
-- production build, dependency audit and secret-history scan passed;
-- gameplay-presentation regression reports exactly `5 odd_one_out` activities and the dedicated exact-family regression passes;
-- representative browser route uses legitimate Logic foundation readiness;
-- keyboard wrong-state, pointer completion, false-completion protection, assessed evidence persistence, >=44px controls, no horizontal overflow, trio layout and CTA visibility all pass at 320/390/768;
-- manual review accepted green #564 idle/error/success screenshots at 320x720, 390x844 and 768x1024; no UI polish commit was required;
-- activity-quality artifact verifies **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE**, structural findings 0;
-- gameplay-distribution audit verifies 900/900, 24 patterns, global `choice_grid` 337/900, `odd_one_out` 5/900, Science 60/100 and Logic 67/100;
-- simulations and Batch17 final acceptance pass with 9 subjects, 900 activities, 683 assessed, 217 practice, 46 stages, 197 lessons/packs and 200 skills; physical-device certification remains pending external evidence;
-- final review gate had 0 PR comments, 0 submitted reviews and 0 review threads;
-- exact-head squash merge produced `0d595f8b1b824125dc2cc26277f3e469b9325c73`, verified live on `main`.
+- production build and budgets, dependency audit and secret-history scan passed;
+- gameplay-presentation regression reports exactly `5 transitive_chain` activities and dedicated exact-family regression passes;
+- representative browser route uses canonical Logic Wave C readiness before entering the Wave D target;
+- keyboard wrong-state, pointer completion, assessed evidence persistence, >=44px controls, no horizontal overflow, two-premise layout and CTA visibility all pass at 320/390/768;
+- manual screenshot review accepted #572 idle/try/success screenshots at 320x720, 390x844 and 768x1024, including the repaired 390 success state;
+- activity-quality audit verifies **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE**, structural findings 0;
+- gameplay-distribution audit verifies 900/900, 25 PR-head patterns, global `choice_grid` 332/900, `transitive_chain` 5/900, Science 60/100 and Logic 62/100;
+- simulations all report `invariantErrors: 0`;
+- Batch17 final acceptance passes with 9 subjects, 900 activities, 683 assessed, 217 practice, 46 stages, 197 lessons/packs and 200 skills; physical-device certification remains pending external evidence.
 
-Regression history is retained intentionally: #562 and #563 are not acceptance runs. #564 is the accepted implementation run; #565 is the accepted final docs-head run.
+Regression history is retained intentionally: #569 and #570 are not acceptance runs. #572 is the accepted **implementation-head** run. Canonical docs finalization changes the PR SHA and therefore requires a new full final docs-head CI before merge.
 
 ## Permanent audits
 
@@ -137,9 +147,10 @@ CI uploads both artifacts. Gameplay-distribution coverage and active-pattern-set
 - WS-05 Feature Function Link DONE — PR #119.
 - WS-05 Healthy Habit Routine DONE — PR #121.
 - WS-05 Rule Pipeline DONE — PR #123.
-- WS-05 Odd One Out DONE — PR #125.
-- WS-05 NEXT — fresh Logic exact-family audit from the verified 24-pattern baseline.
+- WS-05 Odd One Out DONE — PR #125 + closure #126.
+- WS-05 Transitive Chain — PR #127 **QA ACCEPTED / UNMERGED**; final docs-head CI, merge and closure remain.
+- WS-05 NEXT AFTER CLOSURE — fresh Logic exact-family audit; no next family pre-approved.
 
 ## Completion rule
 
-Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #24 is code-merged; its required docs-only post-merge closure must also be merged before the wave is called fully closed.
+Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #25 must not be called merged or fully closed until PR #127 exact-head merge, live-main verification and its required docs-only post-merge closure are complete.
