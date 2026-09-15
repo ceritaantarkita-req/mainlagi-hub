@@ -1,10 +1,10 @@
 # WS-05 Pattern #30 — Bahasa Syllable Assembly
 
 Date: **16 September 2026**  
-Status: **QA ACCEPTED / UNMERGED**  
+Status: **POST-MERGE VERIFIED / CLOSURE IN PROGRESS**  
 Implementation PR: **#139**  
-Branch: `agent/ws05-bahasa-syllable-assembly-20260915`  
-Verified merged base: `2a5e0f35725456e00b4cd85e64999f9f84a29c6c`
+Implementation merge SHA: `c973dbc9e6010ff167a082cd6759728b590e7626`  
+Closure branch: `docs/close-syllable-assembly-20260916`
 
 ## Why this family
 
@@ -75,20 +75,17 @@ Accepted implementation head:
 d55c1deb54f1402c38d84417ca7ae8248c9d3b07
 ```
 
-Full CI #642 / run `35000557604` passed:
-- Ubuntu quality gate;
-- Windows compatibility;
-- production build and build budgets;
-- production dependency audit;
-- secret-history scan;
-- complete engine/learning suite including central and dedicated Syllable Assembly regressions;
-- deterministic activity-quality audit;
-- gameplay-distribution audit;
-- simulations;
-- Batch17 final acceptance contracts;
-- Chromium canonical mobile/accessibility/browser matrix including Syllable Assembly responsive QA.
+Full CI #642 / run `35000557604` passed Ubuntu, Windows, production build/budgets, dependency audit, secret-history scan, complete engine/learning regressions, deterministic activity-quality, gameplay distribution, simulations, Batch17 and Chromium mobile/accessibility/browser QA.
 
-Cloudflare production smoke is correctly skipped on the unmerged PR and remains a post-merge `main` gate.
+Final canonical docs head `ee891dc99c1f86831ba67b34ae39e71ec50ee886` passed full PR CI #647 / run `35001595648` before merge.
+
+PR #139 was exact-head squash merged as:
+
+```text
+c973dbc9e6010ff167a082cd6759728b590e7626
+```
+
+`main` was independently verified at that exact SHA. Post-merge CI #648 / run `35003757463` passed the full matrix, including **Production smoke (Cloudflare)** against the exact release.
 
 ## Accepted audit evidence
 
@@ -104,12 +101,12 @@ REPLACE:                 0
 structural findings:     0
 ```
 
-Gameplay distribution on accepted PR head:
+Verified merged gameplay distribution:
 
 ```text
 classified:               900 / 900
 unclassified:               0
-active PR-head patterns:   30
+active merged patterns:    30
 choice_grid               308 / 900 = 34.22%
 syllable_assembly           5 / 900 = 0.56%
 Bahasa choice_grid          47 / 100
@@ -117,7 +114,7 @@ Logic choice_grid           47 / 100
 Science choice_grid         56 / 100
 ```
 
-If merged unchanged, remaining distance is **20** patterns to minimum 50 and **30** to working target 60.
+Remaining distance is **20** patterns to minimum 50 and **30** to working target 60.
 
 ## Manual visual acceptance
 
@@ -137,12 +134,11 @@ Accepted observations:
 
 ## Closure gate
 
-Pattern #30 is **not fully closed yet**. Remaining gates are:
-1. update all canonical docs to this accepted/unmerged state;
-2. fresh full CI on the exact final docs head;
-3. clean PR #139 mergeability/review-thread gate;
-4. exact-head squash merge and independent `main` SHA verification;
-5. post-merge `main` CI with Cloudflare production smoke;
-6. separate docs-only closure PR with its own exact-head CI/merge/live verification.
+Implementation is merged and live-verified. The remaining closure gate is docs-only:
+1. update the canonical docs to the verified 30-pattern merged state;
+2. run fresh full CI on the exact closure-docs head;
+3. verify closure PR mergeability/comments/reviews/threads;
+4. exact-head squash merge the closure PR;
+5. independently verify final `main` SHA and final `main` CI including Cloudflare production smoke.
 
 No Pattern #31 family is pre-approved before Pattern #30 is fully closed.
