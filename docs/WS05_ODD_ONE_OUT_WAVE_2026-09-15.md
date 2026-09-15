@@ -66,8 +66,14 @@ The distribution change is a consequence of objective-fit, not the reason for se
 
 1. Exact classifier/config/static regression for five IDs only.
 2. Nearby Logic classification/comparison/sequence/set/spatial/inference/composed-rule tasks remain their existing canonical patterns.
-3. Dedicated browser QA at 320x720, 390x844 and 768x1024 on the first Logic stage without fabricated prerequisite evidence.
+3. Dedicated browser QA at 320x720, 390x844 and 768x1024 with legitimate qualifying readiness for the preceding `logic-foundations` stage; progression guards must remain active.
 4. Keyboard wrong selection, pointer correct completion, false-completion guard, assessed evidence persistence, >=44px controls, no horizontal overflow and in-viewport success CTA.
 5. Full CI, deterministic activity-quality audit, gameplay-distribution audit, simulations and Batch17 remain green.
 6. Manual review of idle/error/success screenshots from a green run.
 7. Canonical docs finalization, final docs-head CI, clean review gate, exact-head merge and post-merge docs closure before calling pattern #24 shipped.
+
+## Acceptance history so far
+
+- CI #562 exposed a stale Rule Pipeline exclusion sentinel after the exact odd-one-out family was intentionally promoted from `default`; the regression sentinel was replaced with an unrelated Logic comparison activity that must remain `choice_grid`, without weakening Rule Pipeline scope coverage.
+- CI #563 then passed Ubuntu/Windows/product build/distribution gates but correctly showed the Odd One Out browser test's initial assumption about natural unlock was wrong: this stage requires prior `logic-foundations` readiness.
+- Browser QA now seeds the same canonical qualifying Logic foundation evidence already used by the existing Sorting Buckets acceptance path, preserving rather than bypassing progression.

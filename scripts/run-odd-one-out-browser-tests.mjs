@@ -36,6 +36,65 @@ async function waitForServer(){
 
 function stopServer(){if(server&&!server.killed)server.kill("SIGTERM");}
 
+async function seedPrerequisiteReadiness(context){
+  await context.addInitScript(()=>{
+    const childId="demo-gian";
+    const progressKey="mainlagi-learning-progress-v1";
+    const attemptsKey="mainlagi-learning-attempts-v1";
+    const completedActivityIds=["logic-match-pairs","logic-odd-one-out"];
+
+    localStorage.setItem(progressKey,JSON.stringify({
+      [childId]:{
+        completedActivityIds,
+        stars:0,
+        lastActivityId:"logic-odd-one-out"
+      }
+    }));
+
+    const seeds=[
+      {activityId:"logic-match-pairs",runtime:"matching",skillId:"logic.visual.matching"},
+      {activityId:"logic-odd-one-out",runtime:"tap_choice",skillId:"logic.visual.discrimination"}
+    ];
+    const attempts=seeds.map((seed,index)=>{
+      const attemptId=`qa-odd-one-out-prereq-${index}`;
+      const completedAt=`2026-09-14T11:1${index}:00.000Z`;
+      return{
+        id:attemptId,
+        childId,
+        activityId:seed.activityId,
+        subjectId:"logic",
+        stageId:"logic-foundations",
+        runtime:seed.runtime,
+        difficulty:1,
+        status:"completed",
+        assessed:true,
+        score:1,
+        accuracy:1,
+        correctCount:2,
+        incorrectCount:0,
+        hintCount:0,
+        retryCount:0,
+        durationMs:1000,
+        inputMode:"touch",
+        startedAt:completedAt,
+        completedAt,
+        metadata:{source:"odd-one-out-browser-prerequisite"},
+        evidence:[{
+          attemptId,
+          activityId:seed.activityId,
+          skillId:seed.skillId,
+          score:1,
+          weight:1,
+          createdAt:completedAt,
+          qualifiesForMastery:true
+        }],
+        masteryEligible:true
+      };
+    });
+    localStorage.setItem(attemptsKey,JSON.stringify({[childId]:attempts}));
+  });
+}
+
 async function waitForBoard(page){
   await page.waitForLoadState("load");
   await page.waitForFunction(()=>{
@@ -71,6 +130,7 @@ async function inspect(viewport){
   const browser=await chromium.launch({headless:true});
   try{
     const context=await browser.newContext({viewport,reducedMotion:"reduce"});
+    await seedPrerequisiteReadiness(context);
     const page=await context.newPage();
     const pageErrors=[];
     const consoleErrors=[];
@@ -80,7 +140,7 @@ async function inspect(viewport){
     const response=await page.goto(`${baseUrl}${route}`,{waitUntil:"domcontentloaded",timeout:30000});
     assert(response&&response.status()<400,`odd-one-out bad HTTP at ${viewport.width}`);
     await waitForBoard(page);
-    assert.equal(new URL(page.url()).pathname,route,`first Logic stage must be naturally unlocked without seeded prerequisite evidence at ${viewport.width}`);
+    assert.equal(new URL(page.url()).pathname,route,`progression guard must accept canonical Logic foundation prerequisites at ${viewport.width}`);
 
     const choices=page.locator("[data-odd-one-out-choice]");
     assert.equal(await choices.count(),3,"representative odd-one-out keeps canonical trio");
@@ -149,7 +209,7 @@ async function main(){
   startServer();
   await waitForServer();
   for(const viewport of viewports)await inspect(viewport);
-  console.log(`Odd-one-out browser QA passed ${viewports.length} viewports with natural first-stage progression, keyboard wrong-state, pointer completion, trio layout, CTA and assessed evidence checks.`);
+  console.log(`Odd-one-out browser QA passed ${viewports.length} viewports with canonical Logic foundation progression, keyboard wrong-state, pointer completion, trio layout, CTA and assessed evidence checks.`);
 }
 
 main().catch(error=>{
