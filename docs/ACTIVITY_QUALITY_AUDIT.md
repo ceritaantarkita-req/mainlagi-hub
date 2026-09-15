@@ -6,7 +6,7 @@ Status: **WS-04 deterministic triage clean; WS-06 Coloring and WS-07 Drawing com
 
 ## Current calibrated state
 
-All **9 subjects / 900 activities** remain deterministically clean on merged `main` `c6c1493e7c7d4f765d4a1c22bf36ed86e99004b6`:
+All **9 subjects / 900 activities** remain deterministically clean:
 
 ```text
 symbol_hunt           74
@@ -31,18 +31,18 @@ Merged waves:
 - `sorting_buckets` — PR #103.
 - `drag_to_target` — PR #104.
 - permanent gameplay-distribution audit — PR #105.
-- `count_and_select` — PR #106, exactly 9 Math counting activities.
-- `number_line` — PR #108, exactly 6 Math Wave B ordering activities.
-- `more_less_balance` — PR #109, exactly 6 Math Wave B comparison activities.
-- `pattern_completion` — PR #110, exactly 5 Math Wave B choice-pattern activities.
-- `cause_effect` — PR #112, exactly 4 Science Wave B water-change choice activities.
-- `compare_properties` — PR #114, exactly 3 Science Wave C direct-comparison activities.
-- `material_lab` — PR #116, exactly 4 Science Wave D material-purpose activities.
-- `feature_function_link` — PR #119, exactly 4 Science Wave D living feature/function activities.
-- `healthy_habit_routine` — PR #121, exactly 4 Science Wave C body-health choices.
-- `rule_pipeline` — PR #123, exactly 5 Logic Wave D composed-rule activities.
-- `odd_one_out` — PR #125, exactly 5 Logic Wave A discrimination activities; closure #126.
-- `transitive_chain` — PR #127, exactly 5 Logic Wave D transitive-comparison activities; post-merge closure active.
+- `count_and_select` — PR #106.
+- `number_line` — PR #108.
+- `more_less_balance` — PR #109.
+- `pattern_completion` — PR #110.
+- `cause_effect` — PR #112.
+- `compare_properties` — PR #114.
+- `material_lab` — PR #116.
+- `feature_function_link` — PR #119.
+- `healthy_habit_routine` — PR #121.
+- `rule_pipeline` — PR #123.
+- `odd_one_out` — PR #125 + closure #126.
+- `transitive_chain` — PR #127 + closure #128.
 
 Current merged distribution:
 
@@ -58,7 +58,7 @@ Logic choice_grid            62 / 100
 
 Concentration remains advisory and does not itself create POLISH/REDESIGN findings.
 
-## Transitive Chain — MERGED PR #127
+## Transitive Chain — FULLY CLOSED
 
 Exact scope:
 
@@ -87,21 +87,15 @@ Interaction/evidence:
 - composed rules, set reasoning, spatial, Wave C inference/ordering and Wave B comparison/spatial tasks stay outside this scope;
 - no invented numeric quantities, extra assessed step, reordering requirement or drag-only dependency.
 
-Accepted and merged evidence:
-- CI #569 was correctly rejected after a stale Rule Pipeline exclusion sentinel was surfaced; the old exact-scope guard remained active;
-- CI #570 was correctly rejected after Mobile surfaced the completed 390x844 CTA overflow;
-- accepted implementation head `46bcd677d2b3003f30b2e20bd21fe854c4f1f833` passed full CI #572 / run `34957824566`;
-- manual screenshot review accepted #572 idle/try/success screenshots at 320x720, 390x844 and 768x1024;
-- final canonical-docs head `beb2e793ad3dfeb7ebb2b41c0f085b11d910f948` passed full CI #577 / run `34961404909`;
-- final gate verified state open, draft false, mergeable true, 0 PR comments, 0 submitted reviews and 0 review threads;
-- exact-head squash merge produced `c6c1493e7c7d4f765d4a1c22bf36ed86e99004b6`, verified live on `main`;
-- gameplay-presentation regression reports exactly `5 transitive_chain` activities and dedicated exact-family regression passes;
-- activity-quality audit verifies **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE**, structural findings 0;
-- gameplay-distribution audit verifies **900/900, 25 patterns, global `choice_grid` 332/900, `transitive_chain` 5/900, Science 60/100 and Logic 62/100**;
-- simulations all report `invariantErrors: 0`;
-- Batch17 final acceptance passes with 9 subjects, 900 activities, 683 assessed, 217 practice, 46 stages, 197 lessons/packs and 200 skills; physical-device certification remains pending external evidence.
+Acceptance/closure chain:
+- CI #569 and #570 are retained as rejected regression history;
+- implementation head `46bcd677d2b3003f30b2e20bd21fe854c4f1f833` passed CI #572 / run `34957824566` plus manual visual QA;
+- final PR #127 docs head `beb2e793ad3dfeb7ebb2b41c0f085b11d910f948` passed CI #577 / run `34961404909`;
+- exact-head merge #127 -> `c6c1493e7c7d4f765d4a1c22bf36ed86e99004b6`, verified live;
+- closure head `0d655a949b208e5e1b28207d2dec0da02f88ca4c` passed CI #579 / run `34962248054`;
+- closure PR #128 clean gate -> exact-head merge `f0cec7c6cdede69d9dd94039ecd20f52d328d2ea`, verified live.
 
-Regression history is retained intentionally: #569 and #570 are not acceptance runs. #572 is accepted implementation QA and #577 is accepted final docs-head QA.
+Gameplay-presentation regression reports exactly `5 transitive_chain` activities and the dedicated exact-family regression passes. Activity-quality remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE**, structural findings 0. Gameplay distribution remains 900/900 with 25 patterns, global `choice_grid` 332/900, `transitive_chain` 5/900, Science 60/100 and Logic 62/100. Simulations remain zero invariant errors; Batch17 totals remain unchanged and physical-device certification remains pending external evidence.
 
 ## Permanent audits
 
@@ -133,9 +127,9 @@ CI uploads both artifacts. Gameplay-distribution coverage and active-pattern-set
 - WS-05 Healthy Habit Routine DONE — PR #121.
 - WS-05 Rule Pipeline DONE — PR #123.
 - WS-05 Odd One Out DONE — PR #125 + closure #126.
-- WS-05 Transitive Chain — PR #127 **MERGED**, post-merge closure branch active.
-- WS-05 NEXT AFTER CLOSURE — fresh Logic exact-family audit; no next family pre-approved.
+- WS-05 Transitive Chain DONE — PR #127 + closure #128.
+- WS-05 NEXT — fresh Logic exact-family audit; no next family pre-approved.
 
 ## Completion rule
 
-Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #25 is code-merged; its docs-only post-merge closure must also merge before the wave is called fully closed.
+Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #25 itself is fully closed.
