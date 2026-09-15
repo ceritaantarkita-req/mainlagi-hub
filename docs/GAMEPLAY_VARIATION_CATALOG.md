@@ -10,11 +10,10 @@
 - Assessed activity wajib menjaga evidence: correct/incorrect, retry, completion, score/accuracy bila relevan, dan metadata interaction.
 - Setiap mechanic baru wajib lolos scope regression, progression, completion/evidence, keyboard, touch/pointer, responsive QA, dan manual visual review.
 - Permanent distribution audit wajib tetap 900/900 classified selama baseline produk masih 900 activities.
-- Unmerged PR head harus dibedakan dari merged `main` baseline.
 
 ## Status implementasi
 
-### Merged di `main`: 22 pola
+### Merged gameplay baseline: 23 pola
 
 1. `choice_grid`
 2. `symbol_hunt`
@@ -38,24 +37,24 @@
 20. `material_lab` — **MERGED PR #116**
 21. `feature_function_link` — **MERGED PR #119**
 22. `healthy_habit_routine` — **MERGED PR #121**
+23. `rule_pipeline` — **MERGED PR #123**
 
 Permanent gameplay-distribution audit: **MERGED PR #105**.  
-Current canonical `main`: `e46c9ff13fcf0004edbd36ed36bd638dc02cd4e0` after docs closure PR #122.  
-Latest gameplay merge remains PR #121.
+Latest verified gameplay merge: PR #123 `2d5b71ca2c8662c1ab2cd98cc83a7a7f7f873de1`.
 
 Merged distribution:
 
 ```text
 900 / 900 classified
 0 unclassified
-22 active child-facing patterns
-choice_grid                 347 / 900 = 38.56%
-healthy_habit_routine         4 / 900 = 0.44%
+23 active child-facing patterns
+choice_grid                 342 / 900 = 38.00%
+rule_pipeline                 5 / 900 = 0.56%
 Science choice_grid          60 / 100
-Logic choice_grid            77 / 100
+Logic choice_grid            72 / 100
 ```
 
-### `rule_pipeline` — PR #123 ACCEPTED QA / UNMERGED
+### `rule_pipeline` — MERGED PR #123
 
 Exact scope:
 
@@ -87,28 +86,16 @@ Interaction:
 - correct final answer completes the existing activity identity;
 - no invented intermediate assessment and no drag-only dependency.
 
-Accepted evidence on implementation head `5def5791d3e3b09fbc680ba52e9e6605695e66c4`:
-- CI #557 / run `34936058944` completed success across Ubuntu, Windows, production build, dependency audit, secret-history scan and Mobile Chromium;
-- gameplay-presentation regression confirms exactly `5 rule_pipeline` activities;
-- dedicated exact-family regression passes;
-- activity-quality remains **900 KEEP / 0 flagged / structural findings 0**;
+Accepted and merged evidence:
+- implementation head `5def5791d3e3b09fbc680ba52e9e6605695e66c4` passed CI #557 / run `34936058944`;
+- final docs head `3bb4684ae69fcd76a354b6b319fbe9992e6a50d3` passed CI #558 / run `34937511724`;
+- exact-family regressions, activity-quality, gameplay distribution, simulations and Batch17 all passed;
 - legitimate Logic Wave C progression plus keyboard/pointer/false-completion/evidence/touch-size/overflow/CTA checks pass at 320/390/768;
 - manual visual review accepted green #557 idle/intermediate/error/success screenshots at 320/390/768;
-- Batch17 remains canonical and all five simulations report zero invariant errors.
+- final review gate had **0 PR comments, 0 submitted reviews, 0 review threads**;
+- exact-head squash merge produced `2d5b71ca2c8662c1ab2cd98cc83a7a7f7f873de1`, verified live on `main`.
 
-PR-head distribution, **not merged yet**:
-
-```text
-900 / 900 classified
-0 unclassified
-23 active child-facing patterns
-choice_grid                 342 / 900 = 38.00%
-rule_pipeline                 5 / 900 = 0.56%
-Science choice_grid          60 / 100
-Logic choice_grid            72 / 100
-```
-
-Final remaining gates for #123: canonical docs commit, final docs-head CI, clean review/thread gate, exact-head merge, verified live `main`, then post-merge docs closure.
+Logic remains the next subject hotspot at 72% `choice_grid`. Wave A `odd-one-out` is the strongest next exact-family candidate and must be audited separately.
 
 ## 60 pola permainan target
 
@@ -116,7 +103,7 @@ Final remaining gates for #123: canonical docs commit, final docs-head CI, clean
 1. `choice_grid` — **MERGED**
 2. `symbol_hunt` — **MERGED**
 3. `multi_select`
-4. `odd_one_out` — next Logic candidate after #123 closure
+4. `odd_one_out` — next Logic candidate
 5. `true_false_swipe`
 
 ### B. Matching & memory
@@ -226,8 +213,8 @@ Prinsip alokasi:
 12. Material Lab — **DONE / #116**.
 13. Feature Function Link — **DONE / #119**.
 14. Healthy Habit Routine — **DONE / #121**.
-15. Rule Pipeline — **PR #123 accepted QA / unmerged**.
-16. After #123 closure: audit Logic Wave A `odd-one-out`; keep it separate unless its own objective/evidence gate passes.
+15. Rule Pipeline — **DONE / #123**.
+16. Next: audit Logic Wave A `odd-one-out` from the verified 23-pattern baseline.
 17. Continue search/audio/puzzle/literacy/creative/story based on objective fit and distribution.
 
 ## Definition of done per mechanic

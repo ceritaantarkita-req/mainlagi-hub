@@ -1,16 +1,17 @@
 # WS-05 Logic Rule Pipeline Wave — 2026-09-15
 
-Status: **IMPLEMENTATION + CI + VISUAL QA ACCEPTED / UNMERGED**
+Status: **MERGED / POST-MERGE CLOSURE RECORD**
 
-Baseline: `main` @ `e46c9ff13fcf0004edbd36ed36bd638dc02cd4e0` (post-merge docs closure PR #122).  
-Active PR: #123 — `feat: add Logic rule pipeline gameplay`.  
-Accepted implementation head: `5def5791d3e3b09fbc680ba52e9e6605695e66c4`.
+Gameplay merge baseline: `main` @ `2d5b71ca2c8662c1ab2cd98cc83a7a7f7f873de1`.  
+Merged PR: #123 — `feat: add Logic rule pipeline gameplay`.  
+Accepted implementation head: `5def5791d3e3b09fbc680ba52e9e6605695e66c4`.  
+Final docs head before merge: `3bb4684ae69fcd76a354b6b319fbe9992e6a50d3`.
 
 ## Audit decision
 
 After Science reached exactly 60/100 `choice_grid`, the next audit moved to Logic, which remained the largest assessed choice hotspot at 77/100. A fresh Wave A–D review kept spatial, set reasoning, inference, odd-one-out and composed-rule objectives separate rather than combining them for concentration reduction.
 
-The strongest first Logic family is Wave D `logic-composed-rules`: five assessed activities in one lesson, one stage and one canonical skill, all requiring the child to apply two rules in sequence without losing the intermediate step.
+The strongest first Logic family was Wave D `logic-composed-rules`: five assessed activities in one lesson, one stage and one canonical skill, all requiring the child to apply two rules in sequence without losing the intermediate step.
 
 Exact scope:
 
@@ -57,7 +58,9 @@ Preserved canonical contract:
 
 ## Accepted implementation evidence
 
-CI #557 / run `34936058944` on head `5def5791d3e3b09fbc680ba52e9e6605695e66c4` completed **success**.
+Implementation CI #557 / run `34936058944` on head `5def5791d3e3b09fbc680ba52e9e6605695e66c4` completed **success**.
+
+Final canonical docs CI #558 / run `34937511724` on head `3bb4684ae69fcd76a354b6b319fbe9992e6a50d3` also completed **success**.
 
 Accepted gates:
 - Ubuntu quality gate: PASS;
@@ -98,11 +101,9 @@ Browser acceptance:
 - persisted attempt keeps `choice_rule_pipeline_interaction` fidelity and canonical assessed evidence;
 - no page or console errors.
 
-Manual visual review of CI #557 screenshots accepted all four states — idle, intermediate, error and success — at 320, 390 and 768 widths. The 320px idle/intermediate state is vertically compact enough to remain usable; some lower content naturally requires vertical scroll, but there is no horizontal clipping, overlap, missing control or hidden success CTA.
+Manual visual review of CI #557 screenshots accepted all four states — idle, intermediate, error and success — at 320, 390 and 768 widths. The 320px idle/intermediate state may require normal vertical scroll for lower content, but there is no horizontal clipping, overlap, missing control or hidden success CTA.
 
-## Verified PR-head distribution
-
-CI #557 gameplay-distribution artifact verifies:
+## Verified merged distribution
 
 ```text
 900 / 900 classified
@@ -114,22 +115,26 @@ Logic choice_grid       72 / 100
 Science choice_grid     60 / 100
 ```
 
-This is a consequence of objective-fit, not the reason for selecting the mechanic. It remains **PR-head state** until merge.
+This reduction is a consequence of objective-fit, not the reason for selecting the mechanic.
 
-## Remaining gates before shipped
+## Merge closure
 
-1. Commit canonical docs finalization to PR #123.
-2. Run full CI on the exact final docs head.
-3. Check issue comments, submitted reviews and review threads; no unresolved concern may remain.
-4. Re-fetch PR and verify mergeable state + exact current head.
-5. Squash merge using exact `expected_head_sha` only.
-6. Verify live `main` at the resulting merge SHA.
-7. Create a docs-only post-merge closure from that exact live `main`.
-8. Update canonical docs so merged baseline becomes 23 patterns and PR #123 is recorded as merged.
-9. Run full closure CI, review gate, exact-head merge and verify `main` again.
+Final pre-merge gate on PR #123:
+- 0 PR comments;
+- 0 submitted reviews;
+- 0 review threads;
+- mergeable true;
+- exact docs head `3bb4684ae69fcd76a354b6b319fbe9992e6a50d3`;
+- final docs CI #558 completed success.
 
-Pattern #23 must not be called shipped before all of the above are complete.
+Squash merge produced:
 
-## Next Logic candidate after closure
+```text
+2d5b71ca2c8662c1ab2cd98cc83a7a7f7f873de1
+```
 
-Wave A `logic-odd-one-out` is another coherent five-ID family and is the strongest next audit candidate after `rule_pipeline` is fully closed. It must remain a separate wave/PR and pass its own objective/evidence/interaction gates.
+Live `main` was then independently verified at that exact SHA with commit title `feat: add Logic rule pipeline gameplay (#123)`.
+
+## Next Logic candidate
+
+Wave A `logic-odd-one-out` is the strongest next exact-family candidate after this closure. It must remain a separate wave/PR and pass its own objective/evidence/interaction gates before promotion.
