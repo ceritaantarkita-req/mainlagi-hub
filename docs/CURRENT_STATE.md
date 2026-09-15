@@ -2,17 +2,16 @@
 
 Last reviewed: **15 September 2026**
 
-This is the canonical human/AI handoff. `main` is the merged source of truth; active PR work must always be labeled unmerged/QA.
+This is the canonical human/AI handoff. `main` is the merged source of truth.
 
 ## Canonical baseline
 
 - repository: `ceritaantarkita-req/mainlagi-hub`
 - canonical branch: `main`
-- verified live `main` before Pattern #27: `7e3192898e37743826266c92c6c12a918d72e508`
-- latest merged gameplay implementation: PR #130 — Logic Set Reasoning
-- latest completed Set Reasoning closure chain: PR #131 + metadata PR #132
-- Pattern #26: **FULLY CLOSED**
-- active gameplay PR: #133 — Logic Spatial Transform — **QA ACCEPTED / UNMERGED**
+- latest merged gameplay implementation: PR #133 — Logic Spatial Transform
+- verified implementation merge SHA: `f3f00b86537af8d0862a15113778458a777358ca`
+- post-merge closure: PR #134
+- Pattern #27: **FULLY CLOSED**
 - production: `https://mainlagihub.my.id/`
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - source licence: `AGPL-3.0-only`
@@ -33,25 +32,25 @@ Runtime count is not gameplay-pattern count.
 
 Target: minimum **50**, working target **60 meaningful patterns**.
 
-### Verified merged `main`: 26 patterns
+### Merged on `main`: 27 patterns
 
-`choice_grid`, `symbol_hunt`, `listen_choose`, `visible_matching`, `guided_trace`, `story_read`, `motion_game`, `coloring_canvas`, `drawing_canvas`, `memory_pair`, `missing_sequence_slot`, `sorting_buckets`, `drag_to_target`, `count_and_select`, `number_line`, `more_less_balance`, `pattern_completion`, `cause_effect`, `compare_properties`, `material_lab`, `feature_function_link`, `healthy_habit_routine`, `rule_pipeline`, `odd_one_out`, `transitive_chain`, `set_reasoning`.
+`choice_grid`, `symbol_hunt`, `listen_choose`, `visible_matching`, `guided_trace`, `story_read`, `motion_game`, `coloring_canvas`, `drawing_canvas`, `memory_pair`, `missing_sequence_slot`, `sorting_buckets`, `drag_to_target`, `count_and_select`, `number_line`, `more_less_balance`, `pattern_completion`, `cause_effect`, `compare_properties`, `material_lab`, `feature_function_link`, `healthy_habit_routine`, `rule_pipeline`, `odd_one_out`, `transitive_chain`, `set_reasoning`, `spatial_transform`.
 
 ```text
 classified:               900 / 900
 unclassified:               0
-active merged patterns:    26
-choice_grid               327 / 900 = 36.33%
-set_reasoning               5 / 900 = 0.56%
+active merged patterns:    27
+choice_grid               322 / 900 = 35.78%
+spatial_transform           5 / 900 = 0.56%
 Science choice_grid         60 / 100
-Logic choice_grid           57 / 100
+Logic choice_grid           52 / 100
 ```
 
-Distance on merged `main`: **24** patterns to minimum 50 and **34** to working target 60.
+Remaining distance: **23** patterns to minimum 50 and **33** to working target 60.
 
-### Active PR #133 head: 27 patterns — QA accepted / unmerged
+## Pattern #27 `spatial_transform` — FULLY CLOSED
 
-Pattern #27 is `spatial_transform`, limited to exactly five assessed Logic Wave D activities:
+Exact scope:
 
 ```text
 logic-spatial-halfturn-up
@@ -61,61 +60,25 @@ logic-spatial-two-right-turns
 logic-spatial-mirror-left-right
 ```
 
-All five share stage `logic-mixed-reasoning-challenge`, lesson `logic-spatial-transform`, pack `logic.pack.spatial-transform`, canonical skill `logic.spatial.transform.basic`, assessed `tap_choice`, exactly three canonical choices, and the objective of determining final direction after rotation or left-right reflection.
+All five remain assessed `tap_choice` activities in stage `logic-mixed-reasoning-challenge`, lesson `logic-spatial-transform`, pack `logic.pack.spatial-transform`, canonical skill `logic.spatial.transform.basic`, with exactly three canonical choices and unchanged `correctChoice`.
 
-Preserved contract:
-- canonical runtime, IDs, prompts, choices and `correctChoice` remain unchanged;
-- assessment, stars, mastery, progression and activity completion semantics remain unchanged;
-- board shows starting direction + operation + hidden `?` result slot;
-- answer is not revealed before assessment;
-- canonical choices remain keyboard/touch/pointer accessible;
-- wrong choice records assessed error/retry and cannot complete;
-- correct choice completes the canonical activity;
-- no drag-only dependency, extra confirmation or invented intermediate assessment;
-- Wave B spatial-relation tasks remain outside scope;
-- assessed fidelity `choice_spatial_transform_interaction`.
+Interaction/evidence contract:
+- visible canonical starting direction and transform operation;
+- result hidden as `?` before assessment;
+- keyboard/touch/pointer direct selection;
+- wrong choice increments assessed error/retry and cannot complete;
+- correct choice completes canonical activity identity;
+- no answer leakage, extra confirmation, drag-only dependency, invented intermediate assessment, or Wave B spatial-relation bundling;
+- assessed fidelity `choice_spatial_transform_interaction`;
+- runtime, IDs, choices, `correctChoice`, skill, assessment, stars, mastery and progression remain unchanged.
 
-Accepted implementation head `267f00d243dc1778c2d86e5a0ca70d8cfe76872a` passed full CI #597 / run `34976080767`. Permanent evidence on that run:
+Acceptance/closure history:
+- implementation head `267f00d243dc1778c2d86e5a0ca70d8cfe76872a` passed CI #597 / run `34976080767` plus manual screenshot acceptance at 320x720, 390x844 and 768x1024;
+- final implementation/docs head `c10294b1a69afd50b2458fee305ef59b321274e1` passed CI #602;
+- PR #133 clean gate -> exact-head squash merge `f3f00b86537af8d0862a15113778458a777358ca`, independently verified live;
+- closure PR #134 is the final docs-only closure for that verified merged state.
 
-```text
-900 / 900 classified
-0 unclassified
-27 PR-head patterns
-choice_grid               322 / 900 = 35.78%
-spatial_transform           5 / 900 = 0.56%
-Science choice_grid         60 / 100
-Logic choice_grid           52 / 100
-activity quality           900 KEEP / 0 flagged / structural 0
-simulations                5 runs / invariantErrors 0
-```
-
-Browser QA passed 320x720, 390x844 and 768x1024 with legitimate prerequisite evidence, keyboard wrong-state, pointer completion, hidden-result guard, >=44px controls, no horizontal overflow, visible feedback/CTA, assessed evidence and zero console/page errors. Manual review accepted all nine idle/try/success screenshots.
-
-PR #133 remains unmerged until the finalized canonical-docs head passes a fresh full CI and the final comments/reviews/threads + mergeability gate is clean. If #133 merges unchanged, remaining distance becomes **23 to minimum 50 / 33 to working target 60**.
-
-## Pattern #26 `set_reasoning` — FULLY CLOSED
-
-Exact scope remains:
-
-```text
-logic-set-both-red-round
-logic-set-animal-not-bird
-logic-set-shape-not-square
-logic-set-only-blue-triangle
-logic-set-outside-round-red
-```
-
-Set Reasoning implementation PR #130, closure PR #131 and metadata PR #132 are complete. The verified baseline after #132 is `7e3192898e37743826266c92c6c12a918d72e508`. Pattern #27 does not change Set Reasoning runtime, evidence, mastery, progression or canonical identity.
-
-## Deterministic activity-quality baseline
-
-```text
-900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE
-structural findings: 0
-Q101–Q108: 0
-```
-
-This is deterministic engineering triage, not human pedagogical/art/expert approval.
+Deterministic audit remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**. Five simulations remain zero invariant errors; Batch17 totals remain unchanged.
 
 ## Learning/mastery boundaries
 
@@ -132,11 +95,9 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Finish Pattern #27 final docs-head CI on PR #133.
-2. Require clean comments/reviews/threads + mergeability, exact-head merge, and independent live-main verification.
-3. Complete the docs-only post-merge closure, closure CI/gate/merge, and final live-main verification before calling Pattern #27 fully closed.
-4. Only then run a fresh objective/evidence audit for Pattern #28; no family is pre-approved.
-5. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
-6. Continue Art Bible/permanent visual QA, narration, parent/public frontend, external acceptance and governance.
+1. Finish closure PR #134 exact-head CI/gate/merge/live verification.
+2. Run a fresh objective/evidence audit for Pattern #28; no family is pre-approved.
+3. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
+4. Continue Art Bible/permanent visual QA, narration, parent/public frontend, external acceptance and governance.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, or mastery/backend rewrites before this quality phase is substantially complete.
