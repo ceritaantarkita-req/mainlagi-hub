@@ -37,58 +37,58 @@
 Permanent gameplay-distribution audit: **MERGED PR #105**.  
 Latest gameplay merge: PR #112 `768b7f53a003d7677a74ea54e9686418c900eab4`.
 
-### Cause/Effect — DONE / PR #112
+### `compare_properties` — ACCEPTED QA / PR #114 / UNMERGED
 
-Exact scope: four Science Wave B water-change choice activities:
+Pattern #19 on the current PR head. Exact scope:
 
 ```text
-science-water-ice-melts
-science-water-freezes
-science-water-puddle-evaporates
-science-water-cold-glass-droplets
+science-measure-longer-pencil
+science-measure-hot-cold
+science-measure-more-water
 ```
 
 Excluded intentionally:
-- `science-match-water-states-b`
 
-The excluded activity remains canonical `matching` / `visible_matching` because its interaction/evidence contract differs.
+```text
+science-observe-record-same-time
+science-match-observation-tools-c
+```
 
 Boundaries:
-- assessed skill `science.water.state_changes.basic`;
-- explicit per-activity process config, no prompt parsing;
-- child-facing flow **Awal -> Kondisi -> Hasil**;
-- result unrevealed before a choice;
-- canonical three choices/correctChoice intact;
-- wrong answer retryable and unable to complete;
+- Science Wave C stage `science-earth-body-environment`;
+- comparison lesson/skill family is observation and measurement;
+- visual encodings cover qualitative length, temperature, and relative fill only;
+- no invented ruler values, temperatures, or volume numbers;
+- canonical three choices/correctChoice remain the assessed answer set;
+- recording activity remains default choice gameplay because it measures observation-recording discipline;
+- matching-tools activity remains `matching` / `visible_matching`;
 - runtime remains `tap_choice`;
 - assessment, stars, progression, activity identity, and completion identity remain canonical;
-- assessed fidelity `choice_cause_effect_interaction`;
-- exact four-ID allowlist prevents unrelated Science families from reclassification.
+- assessed fidelity `choice_compare_properties_interaction`;
+- exact three-ID allowlist prevents unrelated Science families from reclassification.
 
-Accepted QA:
-- CI #513 full green after the compact-phone fix;
-- CI #518 final docs-head full green;
-- CI #512 caught a real 320x720 CTA clipping issue before acceptance;
-- browser representative `science-water-ice-melts` used legitimate Science Wave A progression readiness;
-- keyboard wrong-state, false-completion guard, pointer completion, evidence persistence, >=44px controls, no overflow, and success CTA visibility passed;
-- manual visual review accepted idle/error/success at 320x720, 390x844, and 768x1024;
-- deterministic audit remained **900 KEEP / 0 flagged**, structural findings 0;
-- review surface clean before exact-head squash merge.
+Accepted implementation QA:
+- CI #522 full green before visual polish;
+- manual #522 review found duplicated card labels and triggered a real UI cleanup instead of acceptance;
+- polish head `c962e0c05a38eecf2890a76bf6417545100238a1` removes duplicate label/canonical-choice text when both are equivalent;
+- CI #523 full green across Ubuntu, Windows, build, dependency, secret scan, and Mobile Chromium;
+- manual visual review after the fix accepted idle/error/success at 320, 390, and 768;
+- keyboard wrong-state, false-completion guard, pointer completion, evidence persistence, >=44px controls, no overflow, and in-viewport success CTA passed;
+- deterministic audit remains **900 KEEP / 0 flagged**, structural findings 0.
 
-Merged distribution after PR #112:
+Measured distribution on PR #114:
 
 ```text
 900 / 900 classified
 0 unclassified
-18 active child-facing patterns
-choice_grid          362 / 900 = 40.22%
-cause_effect           4 / 900 = 0.44%
-Math choice_grid       56 / 100
-Science choice_grid    75 / 100
-Logic choice_grid      77 / 100
+19 active child-facing patterns
+choice_grid           359 / 900 = 39.89%
+compare_properties      3 / 900 = 0.33%
+Science choice_grid     72 / 100
+Logic choice_grid       77 / 100
 ```
 
-Science remains above the >60% subject-hotspot advisory threshold. Mechanic selection remains objective-driven.
+This is QA state until #114 merges; merged `main` remains at 18 patterns.
 
 ## 60 pola permainan target
 
@@ -159,7 +159,7 @@ Science remains above the >60% subject-hotspot advisory threshold. Mechanic sele
 46. `classify_observation`
 47. `predict_result`
 48. `cause_effect` — **MERGED PR #112**
-49. `compare_properties` — **NEXT EXACT REVIEW CANDIDATE**
+49. `compare_properties` — **ACCEPTED QA / PR #114**
 50. `observation_checklist`
 
 ### K. Creative visual play
@@ -200,9 +200,10 @@ Prinsip alokasi:
 8. More/Less Balance — **DONE / #109**.
 9. Pattern Completion — **DONE / #110**.
 10. Cause/Effect — **DONE / #112**.
-11. Next exact review candidate: Science Wave C `compare_properties` for `science-measure-longer-pencil`, `science-measure-hot-cold`, and `science-measure-more-water`; explicitly exclude recording and matching-tool activities unless a fresh audit proves otherwise.
-12. Continue Science exact-family audit while Science remains concentrated, then audit Logic; continue search/audio/puzzle/literacy/creative/story based on objective fit and distribution.
+11. Compare Properties — **ACCEPTED QA / #114; final docs-head CI + merge still required**.
+12. After #114, re-audit remaining Science families from latest `main`; do not preselect pattern #20 without exact objective/evidence review.
+13. Audit Logic after the Science pass; continue search/audio/puzzle/literacy/creative/story based on objective fit and distribution.
 
 ## Definition of done per mechanic
 
-A pattern is complete only when it is reusable for suitable activities, evidence-safe, keyboard/touch accessible, mobile-safe, progression-correct, completion-safe, regression/browser-tested in CI, manually visually reviewed, and reflected in canonical docs + distribution audit.
+A pattern is complete only when it is reusable for suitable activities, evidence-safe, keyboard/touch accessible, mobile-safe, progression-correct, completion-safe, regression/browser-tested in CI, manually visually reviewed, and reflected in canonical docs + distribution audit. A QA pattern is not merged/shipped until current docs-head CI is green and exact-head merge is verified.

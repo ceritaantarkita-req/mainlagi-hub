@@ -12,6 +12,7 @@ const {numberLineConfig,numberLineValues}=require(path.resolve(".learning-test-d
 const {moreLessBalanceConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/moreLessBalanceConfig.js"));
 const {patternCompletionConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/patternCompletionConfig.js"));
 const {causeEffectConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/causeEffectConfig.js"));
+const {comparePropertiesConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/comparePropertiesConfig.js"));
 
 const expectedMemory=new Set([
   "letters-match-case-cd","letters-match-case-ef","letters-match-case-bce",
@@ -49,7 +50,7 @@ for(const activity of dragTargets){
 const otherMatching=ACTIVITIES.filter(activity=>activity.runtime==="matching"&&!expectedMemory.has(activity.id)&&!expectedDragTargets.has(activity.id));
 assert(otherMatching.length>0,"default matching family remains available for mechanic variety");
 assert(otherMatching.every(activity=>matchingPresentation(activity)==="grid_pairs"),"unreviewed matching activities remain on the canonical visible grid");
-for(const id of ["math-pattern-match-ab","math-pattern-match-aab","science-match-water-states-b"]){
+for(const id of ["math-pattern-match-ab","math-pattern-match-aab","science-match-water-states-b","science-match-observation-tools-c"]){
   const activity=ACTIVITIES.find(item=>item.id===id);
   assert(activity,`${id} remains in catalog`);
   assert.equal(activity.runtime,"matching",`${id} remains a matching activity`);
@@ -191,9 +192,38 @@ for(const activity of causeEffect){
   assert(config.choiceVisuals[activity.correctChoice],`${activity.id} canonical result keeps an explicit visual`);
 }
 
-const specializedChoiceIds=new Set([...expectedSequence,...expectedSorting,...expectedCountSelect,...expectedNumberLine,...expectedBalance,...expectedPatternCompletion,...expectedCauseEffect]);
+const expectedCompareProperties=new Set([
+  "science-measure-longer-pencil","science-measure-hot-cold","science-measure-more-water"
+]);
+const compareProperties=ACTIVITIES.filter(activity=>choiceGameplayPresentation(activity)==="compare_properties");
+assert.equal(compareProperties.length,expectedCompareProperties.size,"compare-properties family size must remain intentional");
+assert.deepEqual(new Set(compareProperties.map(activity=>activity.id)),expectedCompareProperties,"only the three reviewed Science observation comparisons use Compare Properties");
+for(const activity of compareProperties){
+  assert.equal(activity.runtime,"tap_choice");
+  assert.equal(activity.subjectId,"science");
+  assert.equal(activity.stageId,"science-earth-body-environment");
+  assert.equal((activity.choices??[]).length,3);
+  assert.equal(new Set(activity.choices??[]).size,3,"compare-properties choices remain unique");
+  assert((activity.choices??[]).includes(activity.correctChoice),"compare properties preserves canonical correctChoice");
+  const config=comparePropertiesConfig(activity);
+  assert(config,`${activity.id} must have explicit Compare Properties config`);
+  assert.deepEqual(new Set([config.left.choice,config.right.choice,config.otherChoice]),new Set(activity.choices??[]),`${activity.id} maps exactly the canonical three choices`);
+  assert.notEqual(config.left.level,config.right.level,`${activity.id} exposes a meaningful qualitative contrast`);
+  const configuredCorrect=config.correctTarget==="left"
+    ? config.left.choice
+    : config.correctTarget==="right"
+      ? config.right.choice
+      : config.otherChoice;
+  assert.equal(configuredCorrect,activity.correctChoice,`${activity.id} configured comparison target must match canonical correctChoice`);
+}
+
+const recordingObservation=ACTIVITIES.find(activity=>activity.id==="science-observe-record-same-time");
+assert(recordingObservation,"recording observation activity remains in catalog");
+assert.equal(choiceGameplayPresentation(recordingObservation),"default","recording observation stays outside compare-properties scope");
+
+const specializedChoiceIds=new Set([...expectedSequence,...expectedSorting,...expectedCountSelect,...expectedNumberLine,...expectedBalance,...expectedPatternCompletion,...expectedCauseEffect,...expectedCompareProperties]);
 const otherChoice=ACTIVITIES.filter(activity=>activity.runtime==="tap_choice"&&!specializedChoiceIds.has(activity.id));
 assert(otherChoice.length>0,"default choice activities remain available");
 assert(otherChoice.every(activity=>choiceGameplayPresentation(activity)==="default"),"other choice families retain default presentation");
 
-console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets + ${countSelect.length} count_select + ${numberLine.length} number_line + ${balance.length} more_less_balance + ${patternCompletion.length} pattern_completion + ${causeEffect.length} cause_effect activities.`);
+console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets + ${countSelect.length} count_select + ${numberLine.length} number_line + ${balance.length} more_less_balance + ${patternCompletion.length} pattern_completion + ${causeEffect.length} cause_effect + ${compareProperties.length} compare_properties activities.`);

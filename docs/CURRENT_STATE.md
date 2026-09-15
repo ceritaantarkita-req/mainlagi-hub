@@ -8,10 +8,10 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; ac
 
 - repository: `ceritaantarkita-req/mainlagi-hub`
 - canonical branch: `main`
-- latest merged gameplay change: PR #112 — WS-05 Science Cause/Effect Water Changes
-- latest verified gameplay merge SHA: `768b7f53a003d7677a74ea54e9686418c900eab4`
-- active gameplay branch/PR: none during this docs closure
-- next exact-family review candidate: Science `compare_properties` trio in Wave C observation/measurement
+- current merged baseline: `a628a3a7d3dbb0be9faef2fd2e0c7efddd9c0649` (docs closure PR #113)
+- latest merged gameplay change: PR #112 — Science Cause/Effect, merge `768b7f53a003d7677a74ea54e9686418c900eab4`
+- active gameplay branch: `agent/ws05-gameplay-science-compare-properties-20260915`
+- active gameplay PR: **#114 — Compare Properties, accepted QA / unmerged**
 - production: `https://mainlagihub.my.id/`
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - source licence: `AGPL-3.0-only`
@@ -20,13 +20,11 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; ac
 
 No known P0 engineering blocker is open on merged `main`. CI covers Ubuntu quality gate, Windows compatibility, production build, dependency audit, Chromium mobile-route QA, secret-history scan, learning/mastery regressions, build budgets, source/security audits, deterministic activity-quality audit, and permanent gameplay-distribution audit.
 
-PR #112 is merged. Final docs-head CI #518 was full green before exact-head squash merge, and `main` was verified at `768b7f53a003d7677a74ea54e9686418c900eab4` immediately after merge.
-
 External physical-device, accessibility specialist, art/pedagogical human acceptance, and Iqro expert acceptance remain separate and incomplete.
 
 ## Learning/catalog baseline
 
-Totals: **9 subjects, 900 activities, 683 assessed, 217 practice, 46 stages, 197 lessons, 197 packs, 200 skills.** Runtime totals remain `tap_choice` 481, `listen_and_choose` 76, `matching` 125, `trace` 14, `story` 1, `motion_game` 3, `coloring` 100, `drawing` 100.
+Totals remain **9 subjects, 900 activities, 683 assessed, 217 practice, 46 stages, 197 lessons, 197 packs, 200 skills.** Runtime totals remain `tap_choice` 481, `listen_and_choose` 76, `matching` 125, `trace` 14, `story` 1, `motion_game` 3, `coloring` 100, `drawing` 100.
 
 Runtime count is not gameplay-pattern count.
 
@@ -38,15 +36,7 @@ Target: minimum **50**, working target **60 meaningful patterns**.
 
 `choice_grid`, `symbol_hunt`, `listen_choose`, `visible_matching`, `guided_trace`, `story_read`, `motion_game`, `coloring_canvas`, `drawing_canvas`, `memory_pair`, `missing_sequence_slot`, `sorting_buckets`, `drag_to_target`, `count_and_select`, `number_line`, `more_less_balance`, `pattern_completion`, `cause_effect`.
 
-Latest accepted merges:
-- PR #105 Gameplay Distribution Audit — `02d4696760d7b697cfd319804cd655c0d2bfec4c`
-- PR #106 Count-and-Select — `18beb9bc676d529cc5701bc964bdef26bea33132`
-- PR #108 Number Line — `f1a9b0a2adbbb6e9e68e9cb2525d7c9a12219bb4`
-- PR #109 More/Less Balance — `8a54534ac285013d22d2fc458bb302ae1fe1a87b`
-- PR #110 Pattern Completion — `6c5566ea9465a26399f9c4637f252d316552636d`
-- PR #112 Cause/Effect — `768b7f53a003d7677a74ea54e9686418c900eab4`
-
-### Merged distribution after PR #112
+Merged distribution after PR #112:
 
 ```text
 classified:          900 / 900
@@ -59,37 +49,57 @@ Science choice_grid    75 / 100
 Logic choice_grid      77 / 100
 ```
 
-Global `choice_grid` remains above the >35% advisory threshold. Science and Logic remain above the >60% subject-hotspot advisory threshold. Mechanic choice must remain objective-driven.
+### PR #114 Compare Properties — ACCEPTED QA / UNMERGED
 
-## Cause/Effect — DONE / PR #112
-
-Exactly four reviewed Science Wave B choice activities use `cause_effect`:
+Exact scope:
 
 ```text
-science-water-ice-melts
-science-water-freezes
-science-water-puddle-evaporates
-science-water-cold-glass-droplets
+science-measure-longer-pencil
+science-measure-hot-cold
+science-measure-more-water
 ```
 
-Related `science-match-water-states-b` intentionally remains canonical `matching` / `visible_matching`.
+Explicit exclusions:
 
-Preserved contracts:
-- runtime `tap_choice`;
-- activity IDs and canonical choices/correctChoice;
-- skill `science.water.state_changes.basic`;
-- assessment, stars, progression, and completion identity;
-- wrong choices cannot complete;
-- assessed fidelity `choice_cause_effect_interaction`.
+```text
+science-observe-record-same-time
+science-match-observation-tools-c
+```
 
-Accepted QA:
-- CI #513 full green after a compact-phone layout fix;
-- CI #518 final docs-head full green;
-- CI #512 had correctly caught a real 320x720 success-CTA clipping bug before acceptance;
-- clean review surface;
-- manual visual review accepted idle/error/success at 320x720, 390x844, and 768x1024;
-- deterministic activity quality remained **900 KEEP / 0 flagged**, structural findings 0;
-- exact-head squash merge verified on `main` at `768b7f53a003d7677a74ea54e9686418c900eab4`.
+The first exclusion measures observation-recording discipline and remains default `tap_choice`. The second remains canonical `matching` / `visible_matching`.
+
+Interaction/evidence contract:
+- reusable direct comparison board for length, temperature, and relative water fill;
+- visual comparison is qualitative only; no invented numeric measurements;
+- canonical three choices and correctChoice remain intact;
+- runtime stays `tap_choice`;
+- wrong choice is retryable and cannot complete;
+- keyboard and touch/pointer use the same accessible controls;
+- assessed fidelity `choice_compare_properties_interaction`;
+- exact three-ID allowlist prevents unrelated Science activities from reclassification.
+
+Accepted implementation evidence:
+- CI #522 full green before final visual polish;
+- manual review of #522 found duplicate label text on the A/B cards; this was fixed rather than accepted as-is;
+- current accepted implementation head `c962e0c05a38eecf2890a76bf6417545100238a1`;
+- CI #523 full green across Ubuntu, Windows, production build, dependency audit, secret scan, and Mobile Chromium; Cloudflare smoke skipped as expected;
+- latest manual visual review accepted idle/error/success at 320x720, 390x844, and 768x1024 after the duplicate-label fix;
+- success CTA remains fully visible at 320x720;
+- deterministic activity quality remains **900 KEEP / 0 flagged**, structural findings 0.
+
+Measured PR #114 distribution:
+
+```text
+900 / 900 classified
+0 unclassified
+19 active patterns on PR head
+choice_grid          359 / 900 = 39.89%
+compare_properties     3 / 900 = 0.33%
+Science choice_grid    72 / 100
+Logic choice_grid      77 / 100
+```
+
+These are PR-head QA numbers, not merged `main` numbers until #114 merges.
 
 ## Deterministic activity-quality baseline
 
@@ -114,33 +124,14 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 - motion remains optional input/context;
 - Iqro remains `expert_required`, not `expert_approved`.
 
-## Next exact Science candidate
-
-Read-only audit identified the Wave C observation/measurement comparison trio as the strongest current candidate for `compare_properties`:
-
-```text
-science-measure-longer-pencil
-science-measure-hot-cold
-science-measure-more-water
-```
-
-Keep these outside that candidate unless a fresh branch audit proves otherwise:
-
-```text
-science-observe-record-same-time
-science-match-observation-tools-c
-```
-
-The first measures recording discipline; the second is canonical matching/tool association. A fresh implementation branch must re-validate the trio from latest `main` before coding.
-
 ## Current priority order
 
-1. merge this docs-only closure for PR #112 status;
-2. create a fresh branch from latest `main` for the exact Science `compare_properties` trio only after re-validating objective/evidence fit;
-3. require static allowlist regression, distribution delta, progression/evidence checks, keyboard/touch QA, and manual 320/390/768 review before merge;
-4. continue Science exact-family audit while Science remains at 75% `choice_grid`;
-5. audit Logic families against the 77% hotspot after the Science pass;
-6. continue search/scene, audio, ordering, puzzle/path, literacy, creative, and story mechanics toward 60;
-7. continue Art Bible/permanent visual QA, narration, parent/public frontend, external acceptance, and governance.
+1. Finalize canonical docs for PR #114 on the current accepted head.
+2. Require final docs-head CI, clean review threads/comments, and exact-head squash merge before calling `compare_properties` shipped.
+3. Verify `main` after merge and close any stale QA wording through a docs-only closure if needed.
+4. Continue an objective-driven Science exact-family audit while Science remains above the >60% advisory hotspot threshold.
+5. Audit Logic families after the Science pass; Logic remains at 77% `choice_grid` on merged baseline.
+6. Continue search/scene, audio, ordering, puzzle/path, literacy, creative, and story mechanics toward 50–60 meaningful patterns.
+7. Continue Art Bible/permanent visual QA, narration, parent/public frontend, external acceptance, and governance.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, or mastery/backend rewrites before this quality phase is substantially complete.

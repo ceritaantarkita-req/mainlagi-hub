@@ -29,7 +29,8 @@ const EXPECTED_PATTERNS = [
   "number_line",
   "more_less_balance",
   "pattern_completion",
-  "cause_effect"
+  "cause_effect",
+  "compare_properties"
 ];
 
 rmSync(outDir, { recursive: true, force: true });
