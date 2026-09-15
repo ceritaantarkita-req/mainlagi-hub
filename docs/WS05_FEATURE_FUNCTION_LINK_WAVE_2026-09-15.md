@@ -90,6 +90,8 @@ Additional accepted evidence:
 
 These are PR-head QA figures until #119 merges. Pattern #21 is not yet shipped.
 
+Canonical docs were synchronized in commit `52417d7b5bc40e951ee48c3ed46cefc804565734`; this follow-up contents commit intentionally triggers the final docs-head CI.
+
 ## Remaining acceptance gates
 
 1. Final docs-head CI on the current PR #119 head after canonical docs synchronization.
