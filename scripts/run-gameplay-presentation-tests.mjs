@@ -17,6 +17,7 @@ const {healthyHabitRoutineConfig}=require(path.resolve(".learning-test-dist/src/
 const {materialLabConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/materialLabConfig.js"));
 const {setReasoningConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/setReasoningConfig.js"));
 const {spatialTransformConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/spatialTransformConfig.js"));
+const {investigationBoardConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/investigationBoardConfig.js"));
 
 const expectedMemory=new Set([
   "letters-match-case-cd","letters-match-case-ef","letters-match-case-bce",
@@ -381,9 +382,34 @@ const featureFunctionLink=ACTIVITIES.filter(activity=>choiceGameplayPresentation
 assert.equal(featureFunctionLink.length,expectedFeatureFunctionLink.size,"feature-function-link family size must remain intentional");
 assert.deepEqual(new Set(featureFunctionLink.map(activity=>activity.id)),expectedFeatureFunctionLink,"only the four reviewed Science living feature/function choices use Feature Function Link");
 
-const specializedChoiceIds=new Set([...expectedSequence,...expectedSorting,...expectedOddOneOut,...expectedRulePipeline,...expectedSetReasoning,...expectedTransitiveChain,...expectedSpatialTransform,...expectedCountSelect,...expectedNumberLine,...expectedBalance,...expectedPatternCompletion,...expectedCauseEffect,...expectedCompareProperties,...expectedHealthyHabitRoutine,...expectedMaterialLab,...expectedFeatureFunctionLink]);
+const expectedInvestigationBoard=new Set([
+  "science-investigate-plant-light","science-investigate-fair-water",
+  "science-predict-ice-warm-place","science-evidence-shadow-times"
+]);
+const investigationBoard=ACTIVITIES.filter(activity=>choiceGameplayPresentation(activity)==="investigation_board");
+assert.equal(investigationBoard.length,expectedInvestigationBoard.size,"investigation-board family size must remain intentional");
+assert.deepEqual(new Set(investigationBoard.map(activity=>activity.id)),expectedInvestigationBoard,"only the four reviewed Science Wave D investigation/evidence choices use Investigation Board");
+for(const activity of investigationBoard){
+  assert.equal(activity.runtime,"tap_choice");
+  assert.equal(activity.subjectId,"science");
+  assert.equal(activity.stageId,"science-evidence-review-challenge");
+  assert.equal((activity.choices??[]).length,3);
+  assert.equal(new Set(activity.choices??[]).size,3,"investigation-board choices remain unique");
+  assert((activity.choices??[]).includes(activity.correctChoice),"investigation board preserves canonical correctChoice");
+  const config=investigationBoardConfig(activity);
+  assert(config,`${activity.id} must have explicit Investigation Board config`);
+  assert(["observe","control","predict","conclude"].includes(config.mode),`${activity.id} keeps a reviewed investigation mode`);
+  assert(config.scenarioLines.length>=2,`${activity.id} keeps visible investigation facts`);
+  assert.deepEqual(new Set(Object.keys(config.choiceIcons)),new Set(activity.choices??[]),`${activity.id} investigation board maps exactly canonical choices`);
+}
+const observationTools=ACTIVITIES.find(activity=>activity.id==="science-match-observation-tools-d");
+assert(observationTools,"investigation observation-tools matching remains in catalog");
+assert.equal(observationTools.runtime,"matching");
+assert.equal(matchingPresentation(observationTools),"grid_pairs","investigation matching stays outside choice-only investigation board");
+
+const specializedChoiceIds=new Set([...expectedSequence,...expectedSorting,...expectedOddOneOut,...expectedRulePipeline,...expectedSetReasoning,...expectedTransitiveChain,...expectedSpatialTransform,...expectedCountSelect,...expectedNumberLine,...expectedBalance,...expectedPatternCompletion,...expectedCauseEffect,...expectedCompareProperties,...expectedHealthyHabitRoutine,...expectedMaterialLab,...expectedFeatureFunctionLink,...expectedInvestigationBoard]);
 const otherChoice=ACTIVITIES.filter(activity=>activity.runtime==="tap_choice"&&!specializedChoiceIds.has(activity.id));
 assert(otherChoice.length>0,"default choice activities remain available");
 assert(otherChoice.every(activity=>choiceGameplayPresentation(activity)==="default"),"other choice families retain default presentation");
 
-console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets + ${oddOneOut.length} odd_one_out + ${rulePipeline.length} rule_pipeline + ${setReasoning.length} set_reasoning + ${transitiveChain.length} transitive_chain + ${spatialTransform.length} spatial_transform + ${countSelect.length} count_select + ${numberLine.length} number_line + ${balance.length} more_less_balance + ${patternCompletion.length} pattern_completion + ${causeEffect.length} cause_effect + ${compareProperties.length} compare_properties + ${healthyHabitRoutine.length} healthy_habit_routine + ${materialLab.length} material_lab + ${featureFunctionLink.length} feature_function_link activities.`);
+console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets + ${oddOneOut.length} odd_one_out + ${rulePipeline.length} rule_pipeline + ${setReasoning.length} set_reasoning + ${transitiveChain.length} transitive_chain + ${spatialTransform.length} spatial_transform + ${countSelect.length} count_select + ${numberLine.length} number_line + ${balance.length} more_less_balance + ${patternCompletion.length} pattern_completion + ${causeEffect.length} cause_effect + ${compareProperties.length} compare_properties + ${healthyHabitRoutine.length} healthy_habit_routine + ${materialLab.length} material_lab + ${featureFunctionLink.length} feature_function_link + ${investigationBoard.length} investigation_board activities.`);

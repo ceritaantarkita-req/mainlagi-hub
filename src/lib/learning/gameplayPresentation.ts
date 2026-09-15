@@ -1,7 +1,7 @@
 import type { LearningActivity } from "./system";
 
 export type MatchingPresentation = "grid_pairs" | "memory_pairs" | "drag_targets";
-export type ChoiceGameplayPresentation = "default" | "sequence_slot" | "sorting_buckets" | "odd_one_out" | "rule_pipeline" | "set_reasoning" | "transitive_chain" | "spatial_transform" | "count_select" | "number_line" | "more_less_balance" | "pattern_completion" | "cause_effect" | "compare_properties" | "healthy_habit_routine" | "material_lab" | "feature_function_link";
+export type ChoiceGameplayPresentation = "default" | "sequence_slot" | "sorting_buckets" | "odd_one_out" | "rule_pipeline" | "set_reasoning" | "transitive_chain" | "spatial_transform" | "count_select" | "number_line" | "more_less_balance" | "pattern_completion" | "cause_effect" | "compare_properties" | "healthy_habit_routine" | "material_lab" | "feature_function_link" | "investigation_board";
 export type GameplayPattern =
   | "choice_grid"
   | "symbol_hunt"
@@ -25,6 +25,7 @@ export type GameplayPattern =
   | "healthy_habit_routine"
   | "material_lab"
   | "feature_function_link"
+  | "investigation_board"
   | "guided_trace"
   | "story_read"
   | "motion_game"
@@ -71,6 +72,13 @@ const SCIENCE_FEATURE_FUNCTION_LINK_IDS = new Set([
   "science-feature-fish-gills",
   "science-feature-bird-beak-seeds",
   "science-feature-cactus-water"
+]);
+
+const SCIENCE_INVESTIGATION_BOARD_IDS = new Set([
+  "science-investigate-plant-light",
+  "science-investigate-fair-water",
+  "science-predict-ice-warm-place",
+  "science-evidence-shadow-times"
 ]);
 
 const LOGIC_ODD_ONE_OUT_IDS = new Set([
@@ -252,6 +260,11 @@ export function isDragTargetActivity(activity: LearningActivity | undefined): bo
  * feature helps the organism do. Present the feature as a source node and the
  * canonical three choices as function destinations to make the relation
  * explicit without changing the assessed tap-choice contract.
+ *
+ * Reviewed Science investigation/evidence choices ask the child to identify
+ * what to observe, what to keep constant, what to predict, or what conclusion
+ * the visible evidence supports. Present the scenario and active inquiry step
+ * on one investigation board while keeping the canonical assessed choices.
  */
 export function choiceGameplayPresentation(activity: LearningActivity | undefined): ChoiceGameplayPresentation {
   if (!activity || activity.runtime !== "tap_choice") return "default";
@@ -419,6 +432,16 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     Boolean(activity.prompt);
   if (isReviewedScienceFeatureFunctionLinkFamily) return "feature_function_link";
 
+  const isReviewedScienceInvestigationBoardFamily =
+    activity.subjectId === "science" &&
+    activity.stageId === "science-evidence-review-challenge" &&
+    SCIENCE_INVESTIGATION_BOARD_IDS.has(activity.id) &&
+    choices.length === 3 &&
+    new Set(choices).size === choices.length &&
+    choices.includes(correct) &&
+    Boolean(activity.prompt);
+  if (isReviewedScienceInvestigationBoardFamily) return "investigation_board";
+
   return "default";
 }
 
@@ -486,6 +509,10 @@ export function isFeatureFunctionLinkActivity(activity: LearningActivity | undef
   return choiceGameplayPresentation(activity) === "feature_function_link";
 }
 
+export function isInvestigationBoardActivity(activity: LearningActivity | undefined): boolean {
+  return choiceGameplayPresentation(activity) === "investigation_board";
+}
+
 /**
  * Canonical child-facing gameplay-pattern classifier used by the WS-05
  * distribution audit. Every playable learning activity must map to exactly one
@@ -513,6 +540,7 @@ export function gameplayPattern(activity: LearningActivity | undefined): Gamepla
     if (presentation === "healthy_habit_routine") return "healthy_habit_routine";
     if (presentation === "material_lab") return "material_lab";
     if (presentation === "feature_function_link") return "feature_function_link";
+    if (presentation === "investigation_board") return "investigation_board";
     return "choice_grid";
   }
 

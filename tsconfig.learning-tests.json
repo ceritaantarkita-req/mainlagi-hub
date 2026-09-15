@@ -34,6 +34,7 @@
     "src/lib/learning/healthyHabitRoutineConfig.ts",
     "src/lib/learning/materialLabConfig.ts",
     "src/lib/learning/featureFunctionLinkConfig.ts",
+    "src/lib/learning/investigationBoardConfig.ts",
     "src/lib/learning/rulePipelineConfig.ts",
     "src/lib/learning/oddOneOutConfig.ts",
     "src/lib/learning/transitiveChainConfig.ts",

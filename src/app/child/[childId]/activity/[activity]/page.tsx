@@ -6,6 +6,7 @@ import { CreativePracticeActivity } from "@/components/learning/CreativePractice
 import { DragTargetMatchActivity } from "@/components/learning/DragTargetMatchActivity";
 import { FeatureFunctionLinkActivity } from "@/components/learning/FeatureFunctionLinkActivity";
 import { HealthyHabitRoutineActivity } from "@/components/learning/HealthyHabitRoutineActivity";
+import { InvestigationBoardActivity } from "@/components/learning/InvestigationBoardActivity";
 import { MaterialLabActivity } from "@/components/learning/MaterialLabActivity";
 import { MemoryMatchActivity } from "@/components/learning/MemoryMatchActivity";
 import { MoreLessBalanceActivity } from "@/components/learning/MoreLessBalanceActivity";
@@ -28,6 +29,7 @@ import {
   isDragTargetActivity,
   isFeatureFunctionLinkActivity,
   isHealthyHabitRoutineActivity,
+  isInvestigationBoardActivity,
   isMaterialLabActivity,
   isMemoryPairActivity,
   isMoreLessBalanceActivity,
@@ -95,6 +97,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
         <MaterialLabActivity childId={childId} activityId={activity} />
       ) : isFeatureFunctionLinkActivity(definition) ? (
         <FeatureFunctionLinkActivity childId={childId} activityId={activity} />
+      ) : isInvestigationBoardActivity(definition) ? (
+        <InvestigationBoardActivity childId={childId} activityId={activity} />
       ) : (
         <WorldActivityScreen childId={childId} activityId={activity} />
       )}
