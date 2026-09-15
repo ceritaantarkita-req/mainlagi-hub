@@ -8,10 +8,13 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; ac
 
 - repository: `ceritaantarkita-req/mainlagi-hub`
 - canonical branch: `main`
-- current merged `main` baseline: `b61656662f8f6bad8545e7a6236c6bdd07f930ab`
+- current merged `main` baseline: `e46c9ff13fcf0004edbd36ed36bd638dc02cd4e0`
 - latest merged gameplay change: PR #121 — Science Healthy Habit Routine
-- active gameplay branch: none
-- active gameplay PR: none
+- latest docs closure: PR #122
+- active gameplay branch: `agent/ws05-logic-rule-pipeline-20260915`
+- active gameplay PR: #123 — Logic Rule Pipeline
+- accepted implementation head: `5def5791d3e3b09fbc680ba52e9e6605695e66c4`
+- active PR status: **implementation + CI + visual QA accepted; unmerged**
 - production: `https://mainlagihub.my.id/`
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - source licence: `AGPL-3.0-only`
@@ -46,48 +49,58 @@ Science choice_grid         60 / 100
 Logic choice_grid           77 / 100
 ```
 
-Science is now exactly 60% `choice_grid` and no longer exceeds the `>60%` subject advisory threshold. Logic is the next subject hotspot.
+Science is exactly 60% `choice_grid`; Logic remains above the `>60%` advisory threshold.
 
-### PR #121 Healthy Habit Routine — MERGED
+### PR #123 `rule_pipeline` — ACCEPTED QA / UNMERGED
 
 Exact scope:
 
 ```text
-science-body-wash-hands
-science-body-teeth-brush
-science-body-water-drink
-science-body-sleep-rest
+logic-compose-red-circle-to-star
+logic-compose-small-left-then-up
+logic-compose-two-to-blue
+logic-compose-triangle-turn-right
+logic-compose-swap-then-grow
 ```
 
-Explicit exclusion:
+All five share stage `logic-mixed-reasoning-challenge`, lesson `logic-composed-rules`, canonical skill `logic.rule.composition.basic`, assessed choice evidence, and the objective of applying two rules in sequence without losing the intermediate step.
 
-```text
-science-match-body-care-c
-```
-
-The four scoped activities share stage `science-earth-body-environment`, lesson `science-body-health-habits`, skill `science.body.health_habits.basic`, assessed choice evidence, and the objective of recognizing a healthy everyday habit. The excluded activity remains canonical `matching` / `visible_matching`.
+Nearby one-step conditional rules, set reasoning, transitive comparison, spatial transforms and odd-one-out remain outside the family.
 
 Interaction/evidence contract:
-- visible health-focus/routine cue plus canonical three habit choices;
-- keyboard and touch/pointer use accessible buttons; no drag-only requirement;
-- wrong choice increments assessed error/retry and cannot complete;
-- correct choice completes canonical activity identity;
-- runtime stays `tap_choice`;
-- assessed fidelity `choice_healthy_habit_routine_interaction`;
-- exact four-ID allowlist prevents unrelated Science activities from reclassification.
+- start state + rule 1 are visible;
+- explicit accessible execution of rule 1 reveals a deterministic intermediate state;
+- rule 2 then uses the canonical three final choices;
+- final choices cannot be used before rule 1;
+- wrong final answer increments assessed error/retry and cannot complete;
+- correct final answer completes canonical activity identity;
+- runtime remains `tap_choice`;
+- canonical IDs, choices, `correctChoice`, skill, assessment, stars and progression remain unchanged;
+- assessed fidelity `choice_rule_pipeline_interaction`.
 
-Accepted and merged evidence:
-- accepted implementation head: `8086670711221dd077c64bdab2eb308040c3db86` after noisy formatting was removed;
-- implementation CI #552 / run `34932904970` full green;
-- final docs head `f530d88d9b94ccddbceb2ec6fba7c661ff252215` passed full CI #553 / run `34933560692`;
-- gameplay-presentation and dedicated exact-family regressions pass for exactly four activities;
-- activity-quality remains **900 KEEP / 0 flagged**, structural findings 0;
-- distribution audit verifies 900/900 classified, 22 patterns, `choice_grid` 347/900 (38.56%), Science 60/100 and Logic 77/100;
-- Batch17 remains PASS with canonical catalog totals; `physicalDeviceCertification` remains `PENDING_EXTERNAL_EVIDENCE`;
-- browser QA passes legitimate Wave B progression, keyboard wrong-state, pointer completion, assessed evidence, touch sizing, overflow and CTA checks at 320/390/768;
-- manual screenshot review accepted idle/error/success at 320x720, 390x844 and 768x1024;
-- final review gate had 0 issue comments, 0 combined PR comments, 0 submitted reviews and 0 review threads;
-- exact-head squash merge is `b61656662f8f6bad8545e7a6236c6bdd07f930ab` and live `main` was verified at that SHA.
+Accepted evidence at implementation head `5def5791d3e3b09fbc680ba52e9e6605695e66c4`:
+- CI #557 / run `34936058944`: **completed / success**;
+- Ubuntu, Windows, production build, dependency audit, secret-history scan and Mobile Chromium passed;
+- gameplay-presentation regression: exactly **5 `rule_pipeline`** activities;
+- dedicated exact-family regression: PASS for five reviewed Logic Wave D composed-rule activities;
+- activity-quality: **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / 0 flagged / structural findings 0**;
+- gameplay distribution: **900/900 classified, 23 active patterns, `choice_grid` 342/900 = 38.00%, `rule_pipeline` 5/900, Logic 72/100, Science 60/100**;
+- five simulations: `invariantErrors: 0` on every run;
+- Batch17: PASS with canonical totals; physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`;
+- browser QA at 320x720, 390x844, 768x1024 passed legitimate Logic Wave C progression, keyboard rule-1 execution, visible intermediate state, keyboard wrong-state, pointer completion, false-completion protection, assessed evidence persistence, touch-size, overflow and CTA checks;
+- manual review accepted #557 idle/intermediate/error/success screenshots at all three viewports.
+
+PR-head distribution, **not yet merged**:
+
+```text
+classified:               900 / 900
+unclassified:               0
+active patterns:           23
+choice_grid               342 / 900 = 38.00%
+rule_pipeline               5 / 900 = 0.56%
+Science choice_grid         60 / 100
+Logic choice_grid           72 / 100
+```
 
 ## Deterministic activity-quality baseline
 
@@ -114,10 +127,10 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Close Healthy Habit Routine merge state through the docs-only closure branch created from verified `main` `b61656662f8f6bad8545e7a6236c6bdd07f930ab`.
-2. Then audit **Logic** exact families from the verified 22-pattern baseline. Logic remains 77% `choice_grid`.
-3. Promote only objective-coherent/evidence-safe mechanics; do not combine unrelated tasks merely to lower concentration counts.
-4. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
-5. Continue Art Bible/permanent visual QA, narration, parent/public frontend, external acceptance and governance.
+1. Finalize canonical docs for PR #123 and rerun full CI on the final docs head.
+2. Check comments/reviews/review threads, then exact-head squash merge only if all gates remain clean.
+3. Verify live `main`, then complete a docs-only post-merge closure so pattern #23 becomes canonical merged baseline.
+4. Audit Logic Wave A `odd-one-out` next; it is a coherent five-ID family but must remain a separate wave/PR.
+5. Continue objective-fit mechanics toward 50–60 meaningful patterns plus Art Bible/permanent visual QA, narration, parent/public frontend, external acceptance and governance.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, or mastery/backend rewrites before this quality phase is substantially complete.

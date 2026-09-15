@@ -41,68 +41,84 @@ Merged waves:
 - `feature_function_link` — PR #119, exactly 4 Science Wave D living feature/function activities.
 - `healthy_habit_routine` — PR #121, exactly 4 Science Wave C body-health choices.
 
-Current active QA wave: none. Next work is a fresh objective-driven **Logic exact-family audit** from the verified 22-pattern baseline.
+Current active QA wave:
+- `rule_pipeline` — PR #123, exactly 5 Logic Wave D composed-rule activities; implementation/CI/visual QA accepted, **unmerged**.
 
-Merged distribution after PR #121:
+Merged distribution on canonical `main` `e46c9ff13fcf0004edbd36ed36bd638dc02cd4e0`:
 
 ```text
 900 / 900 classified
 0 unclassified
 22 active patterns
 choice_grid                 347 / 900 = 38.56%
-healthy_habit_routine         4 / 900 = 0.44%
 Science choice_grid          60 / 100
 Logic choice_grid            77 / 100
 ```
 
-Science no longer exceeds the `>60%` subject advisory threshold. Concentration remains advisory and does not itself create POLISH/REDESIGN findings.
+PR #123 accepted head distribution, **not yet merged**:
 
-## Healthy Habit Routine — MERGED PR #121
+```text
+900 / 900 classified
+0 unclassified
+23 active patterns
+choice_grid                 342 / 900 = 38.00%
+rule_pipeline                 5 / 900 = 0.56%
+Science choice_grid          60 / 100
+Logic choice_grid            72 / 100
+```
+
+Concentration remains advisory and does not itself create POLISH/REDESIGN findings.
+
+## Rule Pipeline — PR #123 ACCEPTED QA / UNMERGED
 
 Exact scope:
 
 ```text
-science-body-wash-hands
-science-body-teeth-brush
-science-body-water-drink
-science-body-sleep-rest
-```
-
-Explicit exclusion:
-
-```text
-science-match-body-care-c
+logic-compose-red-circle-to-star
+logic-compose-small-left-then-up
+logic-compose-two-to-blue
+logic-compose-triangle-turn-right
+logic-compose-swap-then-grow
 ```
 
 Preserved:
 - canonical runtime `tap_choice`;
-- choices/`correctChoice`;
+- final choices/`correctChoice`;
 - assessment and stars;
-- progression and canonical skill `science.body.health_habits.basic`;
+- progression and canonical skill `logic.rule.composition.basic`;
 - activity IDs and completion semantics;
-- Wave C stage/lesson identity.
+- Logic Wave D stage/lesson identity.
 
 Interaction/evidence:
-- health focus and routine cue appear as explicit context;
-- canonical three habits appear as accessible answer buttons;
-- wrong choice is measured/retryable and cannot complete;
-- assessed fidelity `choice_healthy_habit_routine_interaction`;
-- exact four-ID allowlist prevents unrelated Science activities from reclassification;
-- `science-match-body-care-c` remains canonical visible matching.
+- start state and rule 1 appear as explicit context;
+- child must explicitly execute rule 1 before final choices become available;
+- deterministic intermediate state is visible;
+- rule 2 uses exactly the canonical three final choices;
+- wrong final choice is measured/retryable and cannot complete;
+- assessed fidelity `choice_rule_pipeline_interaction`;
+- exact five-ID allowlist prevents unrelated Logic activities from reclassification;
+- one-step conditional, set, transitive, spatial and odd-one-out activities remain canonical `choice_grid`.
 
-Accepted and merged evidence:
-- accepted implementation head `8086670711221dd077c64bdab2eb308040c3db86` after unnecessary formatting churn was removed;
-- implementation CI #552 / run `34932904970` passed all required jobs;
-- final docs head `f530d88d9b94ccddbceb2ec6fba7c661ff252215` passed full CI #553 / run `34933560692`;
-- gameplay-presentation regression reports exactly `4 healthy_habit_routine` activities and dedicated exact-family regression passes;
-- representative browser route uses legitimate Science Wave B readiness;
-- keyboard wrong-state, pointer completion, false-completion protection, assessed evidence persistence, >=44px controls, no horizontal overflow, and CTA visibility all pass at 320/390/768;
-- manual visual review accepted CI #552 idle/error/success screenshots at 320x720, 390x844 and 768x1024;
-- activity-quality remains **900 KEEP / 0 flagged**, structural findings 0;
-- gameplay-distribution audit verifies 900/900, 22 patterns, global `choice_grid` 347/900, Science 60/100 and Logic 77/100;
-- Batch17 final acceptance remains PASS with 9 subjects, 900 activities, 683 assessed, 217 practice, 46 stages, 197 lessons/packs and 200 skills; physical-device certification remains pending external evidence;
-- final review gate had 0 issue comments, 0 combined PR comments, 0 submitted reviews and 0 review threads;
-- exact-head squash merge produced `b61656662f8f6bad8545e7a6236c6bdd07f930ab` and live `main` was verified at that SHA.
+Accepted evidence on implementation head `5def5791d3e3b09fbc680ba52e9e6605695e66c4`:
+- CI #557 / run `34936058944` completed success;
+- Ubuntu and Windows typecheck/lint/engine gates passed;
+- production build, dependency audit and secret-history scan passed;
+- gameplay-presentation regression reports `5 rule_pipeline` and dedicated exact-family regression passes;
+- representative browser route uses legitimate Logic Wave C readiness;
+- keyboard rule-1 execution, visible intermediate state, keyboard wrong final state, pointer correct completion, false-completion guards, assessed evidence persistence, >=44px controls, no horizontal overflow and CTA visibility pass at 320/390/768;
+- manual review accepted green #557 idle/intermediate/error/success screenshots at 320x720, 390x844 and 768x1024;
+- deterministic activity-quality remains **900 KEEP / 0 flagged**, structural findings 0;
+- gameplay-distribution audit verifies 900/900, 23 PR-head patterns, global `choice_grid` 342/900, `rule_pipeline` 5/900, Science 60/100 and Logic 72/100;
+- five simulations all report `invariantErrors: 0`;
+- Batch17 final acceptance remains PASS with 9 subjects, 900 activities, 683 assessed, 217 practice, 46 stages, 197 lessons/packs and 200 skills; physical-device certification remains pending external evidence.
+
+Remaining acceptance before shipping #123:
+1. canonical docs finalization on PR head;
+2. final full CI on that exact docs head;
+3. clean issue-comment/review/review-thread gate;
+4. exact-head squash merge;
+5. verify live `main`;
+6. docs-only post-merge closure and closure CI/merge.
 
 ## Permanent audits
 
@@ -132,7 +148,8 @@ CI uploads both artifacts. Gameplay-distribution coverage and active-pattern-set
 - WS-05 Material Lab DONE — PR #116.
 - WS-05 Feature Function Link DONE — PR #119.
 - WS-05 Healthy Habit Routine DONE — PR #121.
-- WS-05 NEXT — fresh **Logic exact-family audit** from the verified 22-pattern baseline.
+- WS-05 Rule Pipeline — **PR #123 accepted QA / unmerged**.
+- WS-05 NEXT after #123 closure — fresh Logic Wave A `odd-one-out` exact-family audit.
 
 ## Completion rule
 
