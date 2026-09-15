@@ -1,14 +1,14 @@
 # WS-05 Logic Transitive Chain Wave — 2026-09-15
 
-Status: **QA ACCEPTED / PR #127 UNMERGED**
+Status: **MERGED / POST-MERGE CLOSURE ACTIVE**
 
-Baseline: verified `main` @ `a961be0e61055f7347244b58b9dc252d5ed6f382` after Odd One Out closure PR #126.
+Verified merged baseline: `main` @ `c6c1493e7c7d4f765d4a1c22bf36ed86e99004b6` from PR #127.
 
 ## Audit decision
 
 After Odd One Out closed, Logic remained the largest assessed `choice_grid` hotspot at 67/100. A fresh Wave B/C/D audit kept repeating-pattern, sequence, spatial, conditional, set, ordering, inference, composed-rule and transitive-comparison objectives separate.
 
-The strongest next exact family is `logic-transitive-comparison`: five assessed activities in one stage, one lesson and one canonical skill. Every item gives two ordered comparison premises and asks the child to infer an extreme or middle member from the full chain.
+The strongest exact family was `logic-transitive-comparison`: five assessed activities in one stage, one lesson and one canonical skill. Every item gives two ordered comparison premises and asks the child to infer an extreme or middle member from the full chain.
 
 Exact scope:
 
@@ -49,128 +49,108 @@ Preserved canonical contract:
 - assessment/stars/progression stay canonical;
 - assessed fidelity: `choice_transitive_chain_interaction`.
 
-## Accepted PR-head distribution
+## Merged distribution
 
-CI #572 verifies the implementation head distribution:
+Verified after PR #127:
 
 ```text
 900 / 900 classified
 0 unclassified
-25 active PR-head patterns
+25 active merged patterns
 choice_grid              332 / 900 = 36.89%
 transitive_chain           5 / 900 = 0.56%
 Logic choice_grid         62 / 100
 Science choice_grid       60 / 100
 ```
 
-Merged `main` still has 24 patterns because PR #127 is open. If #127 merges unchanged, remaining distance becomes 25 patterns to minimum 50 and 35 to working target 60.
+Remaining distance is 25 patterns to minimum 50 and 35 to working target 60.
 
-Logic remains above the permanent subject advisory hotspot threshold (>60%) at 62%, so this wave does not justify forcing a weaker family afterward. The next family must be freshly audited again after merge + closure.
+Logic remains above the permanent subject advisory hotspot threshold (>60%) at 62%, so the next family must still be freshly audited. No family is pre-approved from count alone.
 
 ## Acceptance history
 
-### CI #569 — blocked by stale Rule Pipeline sentinel
+### CI #569 — rejected: stale Rule Pipeline sentinel
 
-The new exact Transitive Chain family itself passed the permanent gameplay-presentation regression as exactly five activities. CI then correctly stopped in the older dedicated Rule Pipeline regression because `logic-transitive-height-abc` was still named there as a permanent `default` / `choice_grid` exclusion sentinel.
+The new exact Transitive Chain family itself passed the permanent gameplay-presentation regression as exactly five activities. CI correctly stopped because `logic-transitive-height-abc` was still named by the older Rule Pipeline regression as a permanent `default` / `choice_grid` sentinel.
 
-That assertion became stale only because PR #127 intentionally promotes this exact transitive-comparison activity.
+Fix:
+- replace only that stale sentinel with `logic-infer-not-red`;
+- keep the exact five-ID Rule Pipeline classifier and all other exclusion assertions active.
 
-Correct fix:
-- replace only the stale Rule Pipeline exclusion sentinel `logic-transitive-height-abc` with `logic-infer-not-red`, which remains outside Rule Pipeline and must stay canonical `default` / `choice_grid`;
-- keep the exact five-ID Rule Pipeline classifier and all other exclusion assertions active;
-- do not weaken or bypass either Rule Pipeline or Transitive Chain scope coverage.
+CI #569 is regression history only.
 
-CI #569 is regression history only and is not an acceptance run.
+### CI #570 — rejected: 390 success CTA overflow
 
-### CI #570 — non-browser gates green; mobile success-layout regression found
+Run `34957267576` at head `3584fa816fa40d0350956d37a8c505f0baee5219` passed every non-browser gate but Mobile Chromium correctly blocked acceptance because the success CTA was not fully inside the 390x844 viewport.
 
-Run `34957267576` at head `3584fa816fa40d0350956d37a8c505f0baee5219` proved the stale-sentinel repair was correct:
-- Ubuntu quality gate passed typecheck, lint, full engine tests, deterministic activity-quality audit, gameplay-distribution audit, simulations and Batch17;
-- Windows compatibility passed;
-- production build and budgets passed;
-- dependency audit and secret-history scan passed;
-- gameplay-distribution artifact verified 25 patterns, `choice_grid` 332/900, `transitive_chain` 5/900, Logic 62/100 and Science 60/100.
-
-Mobile Chromium correctly blocked acceptance because the success CTA was not fully inside the 390x844 viewport. The failure occurred after progression, canonical choice rendering, keyboard wrong-state and correct completion had already passed.
-
-Correct fix:
-- keep the full three-node/two-premise chain visible during idle and retry states;
-- on completed phone-sized state, hide the already-consumed premise chain together with the prompt card;
-- keep the question, canonical three choices, success explanation and CTA visible;
-- do not shrink touch targets, alter canonical choices, bypass the CTA assertion or change evidence/mastery semantics.
+Fix:
+- keep the full premise chain during idle/retry;
+- hide the already-consumed prompt + chain only in completed phone-sized state;
+- keep question, canonical choices, success explanation and CTA visible;
+- do not shrink touch targets or alter evidence/mastery semantics.
 
 Responsive fix commit: `9ecadf8291ef5203d782732aee600e65ab01fc35`.
 
-CI #570 remains regression history only and is not an acceptance run.
+CI #570 is regression history only.
 
 ### CI #572 — accepted implementation QA
 
 Accepted implementation head:
+`46bcd677d2b3003f30b2e20bd21fe854c4f1f833`
 
-```text
-46bcd677d2b3003f30b2e20bd21fe854c4f1f833
-```
+Run:
+`34957824566`
 
-Workflow:
+All required jobs passed. Exact evidence included:
+- gameplay-presentation regression reports exactly `5 transitive_chain` activities;
+- dedicated exact-family regression passes;
+- activity-quality **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**;
+- gameplay distribution **900 activities / 25 patterns / choice_grid 332 / transitive_chain 5**;
+- all five simulations `invariantErrors: 0`;
+- Batch17 canonical totals unchanged;
+- browser QA passed canonical Logic Wave C readiness, keyboard wrong-state, pointer completion, two-premise layout, assessed evidence, touch sizing, no horizontal overflow and CTA visibility at 320x720, 390x844 and 768x1024.
 
-```text
-Mainlagi TV V3 CI #572
-run: 34957824566
-```
+Manual screenshot review of #572 was accepted at all three viewports; no further polish commit was required.
 
-All required jobs passed:
-- Quality gate (Ubuntu) — success;
-- Windows compatibility — success;
-- Production build — success;
-- Production dependency audit — success;
-- Secret history scan — success;
-- Mobile route QA (Chromium) — success;
-- Production smoke — skipped as expected.
+### CI #577 — accepted final docs-head QA
 
-Exact evidence from Ubuntu:
-- gameplay-presentation regression reports `5 transitive_chain` activities while all prior families remain intact;
-- dedicated exact-family regression: `Transitive Chain regression passed for exact five-activity Logic Wave D family.`;
-- activity-quality: **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural finding count 0 / flagged 0**;
-- gameplay distribution: **900 activities / 25 patterns / `choice_grid` 332 / `transitive_chain` 5**;
-- all five simulation runs report `invariantErrors: 0`;
-- Batch17: **9 subjects / 900 activities / 683 assessed / 217 practice / 46 stages / 197 lessons / 197 packs / 200 skills**; physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
+Final canonical-docs head:
+`beb2e793ad3dfeb7ebb2b41c0f085b11d910f948`
 
-Exact browser evidence:
-- canonical Logic Wave C readiness is used before the Wave D target;
-- keyboard wrong-state passes;
-- wrong answer cannot complete;
-- pointer correct completion passes;
-- two-premise chain layout passes;
-- assessed evidence persists with fidelity `choice_transitive_chain_interaction`;
-- controls meet touch sizing;
-- no horizontal overflow;
-- success CTA is fully visible at 320x720, 390x844 and 768x1024;
-- browser summary: `Transitive-chain browser QA passed 3 viewports with canonical Logic Wave C progression, keyboard wrong-state, pointer completion, two-premise chain layout, CTA and assessed evidence checks.`
+Run:
+`34961404909`
 
-Manual screenshot review of #572 is accepted:
-- 390 idle and retry preserve the full vertical three-node/two-premise chain with readable hierarchy;
-- 390 success now removes the consumed chain and keeps question, canonical choices, success explanation and CTA fully visible;
-- 320 success is unclipped and touch targets remain usable;
-- 768 success intentionally preserves the full horizontal relation chain and keeps the CTA visible;
-- no overlap/horizontal clipping was found;
-- no additional polish commit is required from this review.
+All required jobs passed again:
+- Ubuntu quality gate;
+- Windows compatibility;
+- production build;
+- production dependency audit;
+- secret-history scan;
+- Mobile Chromium;
+- production smoke skipped as expected.
 
-## Current gate state
+Final pre-merge gate on PR #127:
+- exact head `beb2e793ad3dfeb7ebb2b41c0f085b11d910f948`;
+- state open;
+- draft false;
+- mergeable true;
+- 0 PR comments;
+- 0 submitted reviews;
+- 0 review threads.
 
-Implementation QA is accepted, but PR #127 is **not merged**. Canonical-doc updates after `46bcd677...` change the branch SHA, so CI #572 cannot be reused as final merge acceptance for the resulting docs head.
+Exact-head squash merge produced:
+`c6c1493e7c7d4f765d4a1c22bf36ed86e99004b6`
 
-Remaining required steps:
-1. update the five canonical docs to this QA-accepted/unmerged state;
-2. capture the resulting exact docs-head SHA;
-3. run full Mainlagi CI on that exact head;
-4. verify Ubuntu/Windows/build/dependency/secret/Mobile all green;
-5. recheck PR comments, submitted reviews, review threads, state/draft/mergeability and exact head;
-6. exact-head squash merge PR #127;
-7. verify live `main` at the returned merge SHA;
-8. create a docs-only Transitive Chain closure branch from verified live `main`;
-9. rewrite canonical docs to 25 **merged** patterns / no active gameplay PR;
-10. full closure-head CI + clean review gate + exact-head squash merge;
-11. verify live `main` again;
-12. start a fresh Logic exact-family audit only after closure.
+Live `main` was fetched and verified at exactly that SHA.
 
-Only after those steps may pattern #25 be described as shipped and fully closed.
+## Closure state
+
+Pattern #25 is now merged in product code and canonical data. This branch performs the required docs-only post-merge closure so canonical docs no longer describe PR #127 as active/unmerged.
+
+The closure itself must still pass:
+1. full CI on the exact closure head;
+2. clean PR comments/reviews/threads gate;
+3. exact-head squash merge;
+4. live `main` verification at the closure merge SHA.
+
+Only after those closure steps is the wave fully closed. After closure, the next action is a fresh Logic exact-family audit from the verified 25-pattern baseline.
