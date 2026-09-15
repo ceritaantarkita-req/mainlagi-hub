@@ -13,7 +13,7 @@
 
 ## Status implementasi
 
-### Verified merged gameplay baseline: 26 pola
+### Verified merged gameplay baseline: 27 pola
 
 1. `choice_grid`
 2. `symbol_hunt`
@@ -41,25 +41,26 @@
 24. `odd_one_out` — **MERGED PR #125**
 25. `transitive_chain` — **MERGED PR #127; CLOSED PR #128; metadata PR #129**
 26. `set_reasoning` — **MERGED PR #130; CLOSED PR #131; metadata PR #132**
+27. `spatial_transform` — **MERGED PR #133; CLOSED PR #134**
 
 Permanent gameplay-distribution audit: **MERGED PR #105**.  
-Verified fully closed 26-pattern baseline after metadata PR #132: `7e3192898e37743826266c92c6c12a918d72e508`.
+Verified Spatial Transform implementation merge SHA: `f3f00b86537af8d0862a15113778458a777358ca`.
 
 Merged distribution:
 
 ```text
 900 / 900 classified
 0 unclassified
-26 active child-facing patterns
-choice_grid                 327 / 900 = 36.33%
-set_reasoning                 5 / 900 = 0.56%
+27 active child-facing patterns
+choice_grid                 322 / 900 = 35.78%
+spatial_transform             5 / 900 = 0.56%
 Science choice_grid          60 / 100
-Logic choice_grid            57 / 100
+Logic choice_grid            52 / 100
 ```
 
-Distance on merged `main`: **24** patterns to minimum 50 and **34** to working target 60.
+Distance remaining: **23** patterns to minimum 50 and **33** to working target 60.
 
-### Pattern #27 `spatial_transform` — QA ACCEPTED / UNMERGED PR #133
+### `spatial_transform` — FULLY CLOSED
 
 Exact scope:
 
@@ -72,41 +73,34 @@ logic-spatial-mirror-left-right
 ```
 
 Boundaries:
-- Logic stage `logic-mixed-reasoning-challenge`;
+- stage `logic-mixed-reasoning-challenge`;
 - lesson `logic-spatial-transform`;
 - pack `logic.pack.spatial-transform`;
 - canonical skill `logic.spatial.transform.basic`;
 - assessed runtime remains `tap_choice`;
-- exactly three canonical choices and `correctChoice` remain unchanged;
+- canonical three choices and `correctChoice` remain unchanged;
 - assessment, stars, mastery, progression, activity identity and completion semantics remain canonical;
-- Wave B relative-position tasks remain outside scope;
+- Wave B spatial-relation tasks remain outside scope;
 - assessed fidelity `choice_spatial_transform_interaction`.
 
 Interaction:
 - show canonical starting direction;
-- show the canonical rotation/reflection operation;
-- keep final direction hidden as `?` until the child answers;
-- child selects one unchanged canonical answer through accessible direct-selection buttons;
+- show canonical rotation/reflection operation;
+- keep final direction hidden as `?` until assessment;
+- retain accessible direct-selection buttons;
 - wrong selection is retryable, measured, and cannot complete;
 - correct selection completes the existing activity identity;
-- no drag-only dependency, extra confirmation, invented intermediate assessment, or answer leakage.
+- no answer leakage, drag-only dependency, extra confirmation or invented intermediate assessment.
 
-Accepted implementation evidence:
-- implementation head `267f00d243dc1778c2d86e5a0ca70d8cfe76872a`;
-- full CI #597 / run `34976080767` green;
-- exact-family regression: exactly 5 activities;
-- permanent gameplay-presentation default-family guard remains active;
-- deterministic activity-quality: 900 KEEP / 0 flagged / structural 0;
-- gameplay distribution: 900/900 classified, 27 PR-head patterns, `choice_grid` 322/900 = 35.78%, `spatial_transform` 5/900, Logic `choice_grid` 52/100, Science 60/100;
-- five simulations: `invariantErrors: 0`;
-- Batch17 totals unchanged; physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`;
-- browser QA and manual screenshots accepted at 320x720, 390x844 and 768x1024.
-
-PR #133 is still unmerged. The finalized docs head requires a fresh full CI plus clean comments/reviews/threads + mergeability gate before exact-head merge. If merged unchanged, remaining distance becomes **23** patterns to minimum 50 and **33** to working target 60.
+Acceptance/closure chain:
+- accepted implementation head `267f00d243dc1778c2d86e5a0ca70d8cfe76872a` passed CI #597 / run `34976080767` plus manual 320/390/768 screenshot review;
+- final implementation/docs head `c10294b1a69afd50b2458fee305ef59b321274e1` passed full CI #602;
+- PR #133 clean gate -> exact-head squash merge `f3f00b86537af8d0862a15113778458a777358ca`, independently verified live;
+- closure PR #134 records the final merged state.
 
 ### `set_reasoning` — FULLY CLOSED
 
-Set Reasoning implementation PR #130, closure PR #131 and metadata PR #132 are complete. Its exact five-ID scope, evidence fidelity `choice_set_reasoning_interaction`, runtime, mastery and progression remain unchanged by Pattern #27.
+Set Reasoning implementation PR #130, closure PR #131 and metadata PR #132 remain complete. Pattern #27 does not change its evidence, runtime, mastery or progression.
 
 ## 60 pola permainan target
 
@@ -198,15 +192,7 @@ Set Reasoning implementation PR #130, closure PR #131 and metadata PR #132 are c
 
 ## Distribution rule
 
-Tidak ada satu pola yang boleh mendominasi hanya karena paling mudah dibuat. Coverage dan implemented-pattern consistency bersifat blocking; concentration bersifat advisory.
-
-Prinsip alokasi:
-- gunakan mechanic paling cocok dengan objective;
-- variasikan mechanic di dalam subject/stage;
-- jangan memaksa practice/creative menjadi assessed;
-- jangan mengubah mastery/progression hanya untuk mechanic baru;
-- jangan membuat one-off engine jika pola bisa reusable;
-- jangan menurunkan hotspot secara kosmetik dengan mechanic yang pedagogically salah.
+Coverage dan implemented-pattern consistency bersifat blocking; concentration bersifat advisory. Gunakan mechanic karena objective fit, jangan kosmetik mengejar angka.
 
 ## Rollout order berdasarkan audit aktual
 
@@ -225,12 +211,11 @@ Prinsip alokasi:
 13. Feature Function Link — **DONE / #119**.
 14. Healthy Habit Routine — **DONE / #121**.
 15. Rule Pipeline — **DONE / #123**.
-16. Odd One Out — **DONE / #125 + closure #126**.
-17. Transitive Chain — **DONE / #127 + closure #128 + metadata #129**.
-18. Set Reasoning — **DONE / #130 + closure #131 + metadata #132**.
-19. Spatial Transform — **QA ACCEPTED / UNMERGED PR #133**.
-20. NEXT — only after Pattern #27 merge + post-merge closure is fully verified, run a fresh objective/evidence audit for Pattern #28; no family is pre-approved.
-21. Continue search/audio/puzzle/literacy/creative/story based on objective fit and distribution.
+16. Odd One Out — **DONE / #125 + #126**.
+17. Transitive Chain — **DONE / #127 + #128 + #129**.
+18. Set Reasoning — **DONE / #130 + #131 + #132**.
+19. Spatial Transform — **DONE / #133 + #134**.
+20. NEXT — fresh objective/evidence audit for Pattern #28 from the verified 27-pattern baseline; no family is pre-approved.
 
 ## Definition of done per mechanic
 
