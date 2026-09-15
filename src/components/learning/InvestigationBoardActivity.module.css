@@ -348,6 +348,26 @@
   }
 }
 
+@media (max-width: 360px) {
+  .promptCard {
+    display: none;
+  }
+
+  .scene {
+    gap: 8px;
+  }
+
+  .board {
+    gap: 6px;
+    padding: 8px;
+  }
+
+  .scenarioCard,
+  .focusCard {
+    padding: 8px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .choiceButton {
     transition: none;
