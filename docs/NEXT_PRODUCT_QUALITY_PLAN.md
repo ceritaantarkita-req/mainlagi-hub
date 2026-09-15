@@ -3,10 +3,11 @@
 > Canonical execution plan fase product-quality Mainlagi Hub. Semua human/AI agent wajib membaca dokumen ini, `CURRENT_STATE.md`, `ARCHITECTURE.md`, dan `GAMEPLAY_VARIATION_CATALOG.md` sebelum mengubah learning experience.
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
-**Canonical merged baseline:** `main` @ `c6c1493e7c7d4f765d4a1c22bf36ed86e99004b6`  
+**Canonical branch:** `main`  
 **Latest merged gameplay change:** PR #127 — Logic `transitive_chain`  
+**Latest gameplay closure:** PR #128 — Transitive Chain docs closure  
+**Verified gameplay-closure SHA:** `f0cec7c6cdede69d9dd94039ecd20f52d328d2ea`  
 **Active gameplay PR:** none  
-**Post-merge closure branch:** `docs/close-transitive-chain-20260915`  
 **Primary focus:** WS-05 gameplay/mechanic diversification  
 **Principle:** **Quality first. Quantity later.**
 
@@ -33,7 +34,7 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | TODO | parent/public surfaces |
 | WS-04 Activity audit/redesign | deterministic clean | 900 KEEP / 0 flagged |
-| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | **25 merged patterns**; Transitive Chain closure active |
+| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | **25 merged patterns; pattern #25 fully closed** |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | TODO / parallel | Art Bible + permanent human gate |
@@ -44,7 +45,7 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 
 ## WS-05 merged baseline
 
-Verified live `main` after PR #127:
+Verified gameplay baseline after PR #127 + closure PR #128:
 
 ```text
 900 / 900 classified
@@ -60,7 +61,7 @@ Distance remaining: **25 patterns** to minimum 50 and **35 patterns** to working
 
 Science is exactly 60% `choice_grid`. Logic remains above the permanent subject advisory threshold (`>60%`) at 62%, but concentration is advisory only. The next mechanic must come from a fresh objective/evidence audit, not from count pressure.
 
-## PR #127 Logic Transitive Chain — MERGED
+## Pattern #25 — Logic Transitive Chain — FULLY CLOSED
 
 Exact scope:
 
@@ -76,27 +77,24 @@ All five share stage `logic-mixed-reasoning-challenge`, lesson `logic-transitive
 
 Pattern: `transitive_chain`.
 
-Interaction/evidence contract:
-- show the two canonical premises as one visible three-node relation chain;
-- preserve the canonical three answer choices as accessible direct-selection buttons;
-- wrong choice increments assessed error/retry and cannot complete;
-- correct choice completes the canonical activity identity;
-- no invented numeric values, reordering assessment, drag-only dependency, extra confirmation, or changed answer set;
+Preserved contract:
+- visible three-node/two-premise relation chain;
+- unchanged canonical three answer choices;
+- wrong answer records assessed error/retry and cannot complete;
+- correct answer completes the canonical activity identity;
+- no invented numeric values, reordering assessment, drag-only dependency, extra assessed step, or changed answer set;
 - runtime, IDs, choices, `correctChoice`, skill, assessment, stars and progression remain canonical;
-- assessed fidelity: `choice_transitive_chain_interaction`.
+- assessed fidelity `choice_transitive_chain_interaction`.
 
-Accepted and merged evidence:
-- CI #569 correctly blocked a stale Rule Pipeline exclusion sentinel and was retained as regression history;
-- CI #570 correctly blocked a 390x844 completed-state CTA below the viewport and was retained as regression history;
-- implementation head `46bcd677d2b3003f30b2e20bd21fe854c4f1f833` passed full CI #572 / run `34957824566`;
-- manual visual QA of #572 idle/try/success screenshots at 320/390/768 was accepted;
-- final canonical-docs head `beb2e793ad3dfeb7ebb2b41c0f085b11d910f948` passed full CI #577 / run `34961404909`;
-- final pre-merge gate: state open, draft false, mergeable true, **0 PR comments, 0 submitted reviews, 0 review threads**;
-- exact-head squash merge produced `c6c1493e7c7d4f765d4a1c22bf36ed86e99004b6`;
-- live `main` was verified at that exact merge SHA;
-- deterministic activity-quality remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**;
-- gameplay distribution remains **900/900 classified, 25 patterns, `choice_grid` 332/900, `transitive_chain` 5/900, Logic 62/100, Science 60/100**;
-- simulations remain zero invariant errors and Batch17 totals remain unchanged.
+Acceptance history:
+- CI #569 correctly rejected a stale Rule Pipeline exclusion sentinel;
+- CI #570 correctly rejected a 390x844 completed-state CTA overflow;
+- implementation head `46bcd677d2b3003f30b2e20bd21fe854c4f1f833` passed CI #572 / run `34957824566` and manual visual QA;
+- final PR #127 docs head `beb2e793ad3dfeb7ebb2b41c0f085b11d910f948` passed CI #577 / run `34961404909`;
+- PR #127 gate was clean: open, non-draft, mergeable, 0 comments, 0 reviews, 0 review threads;
+- exact-head squash merge #127 produced `c6c1493e7c7d4f765d4a1c22bf36ed86e99004b6`, verified live on `main`;
+- closure PR #128 exact head `0d655a949b208e5e1b28207d2dec0da02f88ca4c` passed full CI #579 / run `34962248054`;
+- closure gate was clean and exact-head squash merge #128 produced `f0cec7c6cdede69d9dd94039ecd20f52d328d2ea`, verified live on `main`.
 
 ## Definition of Done
 
@@ -104,10 +102,9 @@ A mechanic/PR is complete only when implementation, typecheck/lint/build, engine
 
 ## Current execution order
 
-1. Merge the docs-only Transitive Chain post-merge closure from verified live `main` `c6c1493e7c7d4f765d4a1c22bf36ed86e99004b6` after its own full exact-head CI and clean review gate.
-2. After closure, run a **fresh Logic exact-family audit** from the verified 25-pattern baseline. No next family is pre-approved.
-3. Promote only objective-coherent/evidence-safe mechanics; do not lower hotspot counts cosmetically.
-4. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
-5. Continue WS-08 visual system, WS-02 narration, WS-03 parent/public frontend, WS-10 external acceptance, WS-11 governance, then later cleanup.
+1. Run a **fresh Logic exact-family audit** from the verified 25-pattern baseline. No next family is pre-approved.
+2. Promote only objective-coherent/evidence-safe mechanics; do not lower hotspot counts cosmetically.
+3. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
+4. Continue WS-08 visual system, WS-02 narration, WS-03 parent/public frontend, WS-10 external acceptance, WS-11 governance, then later cleanup.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion, or major mastery/backend rewrites during this quality phase.
