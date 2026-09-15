@@ -30,6 +30,7 @@
     "src/lib/learning/moreLessBalanceConfig.ts",
     "src/lib/learning/patternCompletionConfig.ts",
     "src/lib/learning/causeEffectConfig.ts",
+    "src/lib/learning/comparePropertiesConfig.ts",
     "src/lib/learning/runtimeMeasurement.ts",
     "src/lib/learning/attempts.ts",
     "src/lib/learning/progression.ts",
