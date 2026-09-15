@@ -10,6 +10,7 @@ import { MaterialLabActivity } from "@/components/learning/MaterialLabActivity";
 import { MemoryMatchActivity } from "@/components/learning/MemoryMatchActivity";
 import { MoreLessBalanceActivity } from "@/components/learning/MoreLessBalanceActivity";
 import { NumberLineActivity } from "@/components/learning/NumberLineActivity";
+import { OddOneOutActivity } from "@/components/learning/OddOneOutActivity";
 import { PatternCompletionActivity } from "@/components/learning/PatternCompletionActivity";
 import { RulePipelineActivity } from "@/components/learning/RulePipelineActivity";
 import { SequenceSlotChoiceActivity } from "@/components/learning/SequenceSlotChoiceActivity";
@@ -28,6 +29,7 @@ import {
   isMemoryPairActivity,
   isMoreLessBalanceActivity,
   isNumberLineActivity,
+  isOddOneOutActivity,
   isPatternCompletionActivity,
   isRulePipelineActivity,
   isSequenceSlotActivity,
@@ -59,6 +61,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
         <SequenceSlotChoiceActivity childId={childId} activityId={activity} />
       ) : isSortingBucketsActivity(definition) ? (
         <SortingBucketsChoiceActivity childId={childId} activityId={activity} />
+      ) : isOddOneOutActivity(definition) ? (
+        <OddOneOutActivity childId={childId} activityId={activity} />
       ) : isRulePipelineActivity(definition) ? (
         <RulePipelineActivity childId={childId} activityId={activity} />
       ) : isCountAndSelectActivity(definition) ? (
