@@ -38,26 +38,46 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
   const { childId, activity } = await params;
   const definition = getActivity(activity);
   const runtime = String(definition?.runtime ?? "");
+
   return (
     <div className={styles.immersive}>
-      {activity === "math-trace-5-touch" ? <MathTraceWorldActivity childId={childId} />
-      : runtime === "drawing" || runtime === "coloring" ? <CreativePracticeActivity childId={childId} activityId={activity} />
-      : runtime === "listen_and_choose" ? <AudioChoiceLearningActivity childId={childId} activityId={activity} />
-      : definition?.choicePresentation === "symbol_hunt" ? <SymbolHuntChoiceActivity childId={childId} activityId={activity} />
-      : isMemoryPairActivity(definition) ? <MemoryMatchActivity childId={childId} activityId={activity} />
-      : isDragTargetActivity(definition) ? <DragTargetMatchActivity childId={childId} activityId={activity} />
-      : isSequenceSlotActivity(definition) ? <SequenceSlotChoiceActivity childId={childId} activityId={activity} />
-      : isSortingBucketsActivity(definition) ? <SortingBucketsChoiceActivity childId={childId} activityId={activity} />
-      : isCountAndSelectActivity(definition) ? <CountAndSelectActivity childId={childId} activityId={activity} />
-      : isNumberLineActivity(definition) ? <NumberLineActivity childId={childId} activityId={activity} />
-      : isMoreLessBalanceActivity(definition) ? <MoreLessBalanceActivity childId={childId} activityId={activity} />
-      : isPatternCompletionActivity(definition) ? <PatternCompletionActivity childId={childId} activityId={activity} />
-      : isCauseEffectActivity(definition) ? <CauseEffectActivity childId={childId} activityId={activity} />
-      : isComparePropertiesActivity(definition) ? <ComparePropertiesActivity childId={childId} activityId={activity} />
-      : isHealthyHabitRoutineActivity(definition) ? <HealthyHabitRoutineActivity childId={childId} activityId={activity} />
-      : isMaterialLabActivity(definition) ? <MaterialLabActivity childId={childId} activityId={activity} />
-      : isFeatureFunctionLinkActivity(definition) ? <FeatureFunctionLinkActivity childId={childId} activityId={activity} />
-      : <WorldActivityScreen childId={childId} activityId={activity} />}
+      {activity === "math-trace-5-touch" ? (
+        <MathTraceWorldActivity childId={childId} />
+      ) : runtime === "drawing" || runtime === "coloring" ? (
+        <CreativePracticeActivity childId={childId} activityId={activity} />
+      ) : runtime === "listen_and_choose" ? (
+        <AudioChoiceLearningActivity childId={childId} activityId={activity} />
+      ) : definition?.choicePresentation === "symbol_hunt" ? (
+        <SymbolHuntChoiceActivity childId={childId} activityId={activity} />
+      ) : isMemoryPairActivity(definition) ? (
+        <MemoryMatchActivity childId={childId} activityId={activity} />
+      ) : isDragTargetActivity(definition) ? (
+        <DragTargetMatchActivity childId={childId} activityId={activity} />
+      ) : isSequenceSlotActivity(definition) ? (
+        <SequenceSlotChoiceActivity childId={childId} activityId={activity} />
+      ) : isSortingBucketsActivity(definition) ? (
+        <SortingBucketsChoiceActivity childId={childId} activityId={activity} />
+      ) : isCountAndSelectActivity(definition) ? (
+        <CountAndSelectActivity childId={childId} activityId={activity} />
+      ) : isNumberLineActivity(definition) ? (
+        <NumberLineActivity childId={childId} activityId={activity} />
+      ) : isMoreLessBalanceActivity(definition) ? (
+        <MoreLessBalanceActivity childId={childId} activityId={activity} />
+      ) : isPatternCompletionActivity(definition) ? (
+        <PatternCompletionActivity childId={childId} activityId={activity} />
+      ) : isCauseEffectActivity(definition) ? (
+        <CauseEffectActivity childId={childId} activityId={activity} />
+      ) : isComparePropertiesActivity(definition) ? (
+        <ComparePropertiesActivity childId={childId} activityId={activity} />
+      ) : isHealthyHabitRoutineActivity(definition) ? (
+        <HealthyHabitRoutineActivity childId={childId} activityId={activity} />
+      ) : isMaterialLabActivity(definition) ? (
+        <MaterialLabActivity childId={childId} activityId={activity} />
+      ) : isFeatureFunctionLinkActivity(definition) ? (
+        <FeatureFunctionLinkActivity childId={childId} activityId={activity} />
+      ) : (
+        <WorldActivityScreen childId={childId} activityId={activity} />
+      )}
     </div>
   );
 }

@@ -12,7 +12,9 @@
     "lib": ["ES2022", "DOM"],
     "types": [],
     "baseUrl": ".",
-    "paths": {"@/*": ["src/*"]},
+    "paths": {
+      "@/*": ["src/*"]
+    },
     "ignoreDeprecations": "6.0"
   },
   "include": [
