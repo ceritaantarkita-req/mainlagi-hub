@@ -1,6 +1,6 @@
 # WS-05 Logic Transitive Chain Wave — 2026-09-15
 
-Status: **IMPLEMENTATION IN PROGRESS / UNMERGED**
+Status: **IMPLEMENTATION IN PROGRESS / PR #127 UNMERGED**
 
 Baseline: `main` @ `a961be0e61055f7347244b58b9dc252d5ed6f382` (Odd One Out closure PR #126).
 
@@ -64,6 +64,21 @@ Science choice_grid       60 / 100
 ```
 
 Logic would remain above the permanent subject advisory hotspot threshold (>60%) at 62%, so this wave does not justify forcing a weaker family afterward. The next family must be freshly audited again.
+
+## Acceptance history
+
+### CI #569 — blocked by stale Rule Pipeline sentinel
+
+The new exact Transitive Chain family itself passed the permanent gameplay-presentation regression as exactly five activities. CI then correctly stopped in the older dedicated Rule Pipeline regression because `logic-transitive-height-abc` was still named there as a permanent `default` / `choice_grid` exclusion sentinel.
+
+That assertion became stale only because PR #127 intentionally promotes this exact transitive-comparison activity. Product runtime, TypeScript, lint, production build, dependency audit and secret-history scan were otherwise healthy before the engine gate stopped the run.
+
+Correct fix:
+- replace only the stale Rule Pipeline exclusion sentinel `logic-transitive-height-abc` with `logic-infer-not-red`, which remains outside Rule Pipeline and must stay canonical `default` / `choice_grid`;
+- keep the exact five-ID Rule Pipeline classifier and all other exclusion assertions active;
+- do not weaken or bypass either Rule Pipeline or Transitive Chain scope coverage.
+
+CI #569 is regression history only and is not an acceptance run.
 
 ## Required acceptance
 
