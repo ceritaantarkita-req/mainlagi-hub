@@ -4,12 +4,11 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 **Canonical branch:** `main`  
-**Latest fully closed gameplay change:** PR #135 + closure #136 — Science `investigation_board`  
-**Verified Pattern #28 implementation merge SHA:** `790487b1672bcf1d1edce023c3f071a7f1175fbf`  
-**Current accepted unmerged gameplay PR:** #137 — Logic `relative_order_track`  
-**Accepted implementation QA head:** `e91087aa1176723b0d90f310088b65a51d413ce7`  
-**Accepted implementation CI:** #626 / run `34992813094`  
-**Pattern #29:** **QA ACCEPTED / UNMERGED**  
+**Latest gameplay change:** PR #137 — Logic `relative_order_track`  
+**Verified Pattern #29 implementation merge SHA:** `ec083b7206fdc7d8d2c21a1bbd6c2abbd1d44949`  
+**Post-merge implementation CI:** #632 / run `34994824331` — full success including Cloudflare production smoke  
+**Closure PR:** #138 — docs-only Relative Order Track closure  
+**Pattern #29:** **FULLY CLOSED after closure exact-head merge/live verification**  
 **Primary focus:** WS-05 gameplay/mechanic diversification  
 **Principle:** **Quality first. Quantity later.**
 
@@ -36,7 +35,7 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | TODO | parent/public surfaces |
 | WS-04 Activity audit/redesign | deterministic clean | 900 KEEP / 0 flagged |
-| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | **28 merged patterns; Pattern #29 PR #137 QA accepted / unmerged** |
+| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | **29 merged patterns; Pattern #29 closure PR #138** |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | TODO / parallel | Art Bible + permanent human gate |
@@ -50,28 +49,16 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 ```text
 900 / 900 classified
 0 unclassified
-28 active merged patterns
-choice_grid                 318 / 900 = 35.33%
-investigation_board           4 / 900 = 0.44%
-Science choice_grid          56 / 100
-Logic choice_grid            52 / 100
-```
-
-## Accepted PR #137 head
-
-```text
-900 / 900 classified
-0 unclassified
-29 active PR-head patterns
+29 active merged patterns
 choice_grid                 313 / 900 = 34.78%
 relative_order_track          5 / 900 = 0.56%
 Science choice_grid          56 / 100
 Logic choice_grid            47 / 100
 ```
 
-If PR #137 merges unchanged, distance remaining becomes **21 patterns** to minimum 50 and **31 patterns** to working target 60.
+Distance remaining: **21 patterns** to minimum 50 and **31 patterns** to working target 60.
 
-## Pattern #29 — Logic Relative Order Track — QA acceptance record
+## Pattern #29 — Logic Relative Order Track — closure record
 
 Exact scope:
 
@@ -87,7 +74,7 @@ All five remain assessed `tap_choice` activities in stage `logic-conditional-ana
 
 Interaction/evidence contract:
 - only canonical ordered context already expressed by each prompt is visualized;
-- the inferred target slot remains masked as `?` until assessment;
+- inferred target slot remains masked as `?` until assessment;
 - config validation requires hidden slot = canonical `correctChoice`;
 - keyboard/touch/pointer direct selection remains canonical;
 - wrong choice records assessed error/retry and cannot complete;
@@ -99,17 +86,15 @@ Interaction/evidence contract:
 
 Scope boundaries remain explicit: Logic conditional/classification/inference families stay outside Pattern #29; Logic analogies remain `visible_matching`; Math ordering remains `number_line`; Letters ordering remains `missing_sequence_slot`.
 
-Acceptance evidence:
-- accepted implementation QA head `e91087aa1176723b0d90f310088b65a51d413ce7` passed full CI #626 / run `34992813094`;
-- activity-quality artifact: **900 KEEP / 0 flagged / structural findings 0**;
-- gameplay-distribution artifact: **900/900 classified, 0 unclassified, 29 patterns, choice_grid 313/900, relative_order_track 5/900, Logic 47/100, Science 56/100**;
-- simulations and Batch17 acceptance passed;
-- Ubuntu, Windows, production build, dependency audit, secret-history scan and Chromium canonical mobile/accessibility matrix passed;
-- manual idle/wrong/success screenshot review at 320x720, 390x844 and 768x1024 accepted all nine states with no clipping/overflow or answer leakage and with visible feedback + success-only CTA.
+Acceptance/closure chain:
+- implementation QA head `e91087aa1176723b0d90f310088b65a51d413ce7` passed full CI #626 / run `34992813094`;
+- canonical docs head `48d92434d83b028d48821e270a025c3a08a859bc` passed full CI #631 / run `34994322707`;
+- all nine 320/390/768 idle/wrong/success screenshots passed manual visual acceptance;
+- PR #137 exact-head squash merged as `ec083b7206fdc7d8d2c21a1bbd6c2abbd1d44949`, independently verified on `main`;
+- post-merge `main` CI #632 / run `34994824331` passed Ubuntu, Windows, production build, dependency audit, secret-history scan, Chromium mobile/accessibility QA, deterministic quality/distribution audits, simulations, Batch17 and Cloudflare production smoke;
+- post-merge closure is PR #138; its exact-head CI/gate/merge/live verification is the final Pattern #29 closure step.
 
-Pattern #29 is not yet fully closed: canonical docs must now pass a fresh exact docs-head CI, then PR #137 must cleanly exact-head merge and be independently verified live on `main`, followed by a separate docs-only closure PR with its own exact-head CI/merge/live verification.
-
-Permanent evidence remains 900 KEEP / 0 flagged / structural 0; physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
+Permanent evidence remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**. Physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
 
 ## Definition of Done
 
@@ -117,8 +102,8 @@ A mechanic is complete only when implementation, typecheck/lint/build, engine te
 
 ## Current execution order
 
-1. Finish Pattern #29 PR #137: canonical docs -> fresh exact docs-head full CI -> clean PR gate -> exact-head merge -> live-main verification -> separate docs-only closure -> closure exact-head CI/merge/live verification.
-2. After Pattern #29 is fully closed, run a **fresh objective/evidence audit for Pattern #30**; no family is pre-approved.
+1. Finish Pattern #29 closure PR #138 exact-head CI/gate/merge/live verification.
+2. Run a **fresh objective/evidence audit for Pattern #30** from the verified 29-pattern baseline; no family is pre-approved.
 3. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
 4. Continue WS-08 visual system, WS-02 narration, WS-03 parent/public frontend, WS-10 external acceptance, WS-11 governance, then later cleanup.
 

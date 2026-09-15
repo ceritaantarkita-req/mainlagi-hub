@@ -13,7 +13,7 @@
 
 ## Status implementasi
 
-### Verified merged gameplay baseline: 28 pola
+### Verified merged gameplay baseline: 29 pola
 
 1. `choice_grid`
 2. `symbol_hunt`
@@ -43,23 +43,26 @@
 26. `set_reasoning` — **MERGED PR #130; CLOSED PR #131; metadata PR #132**
 27. `spatial_transform` — **MERGED PR #133; CLOSED PR #134**
 28. `investigation_board` — **MERGED PR #135; CLOSED PR #136**
+29. `relative_order_track` — **MERGED PR #137; CLOSURE PR #138**
 
 Permanent gameplay-distribution audit: **MERGED PR #105**.  
-Verified Investigation Board implementation merge SHA: `790487b1672bcf1d1edce023c3f071a7f1175fbf`.
+Verified Relative Order Track implementation merge SHA: `ec083b7206fdc7d8d2c21a1bbd6c2abbd1d44949`.
 
 Merged distribution:
 
 ```text
 900 / 900 classified
 0 unclassified
-28 active child-facing patterns
-choice_grid                 318 / 900 = 35.33%
-investigation_board           4 / 900 = 0.44%
+29 active child-facing patterns
+choice_grid                 313 / 900 = 34.78%
+relative_order_track          5 / 900 = 0.56%
 Science choice_grid          56 / 100
-Logic choice_grid            52 / 100
+Logic choice_grid            47 / 100
 ```
 
-### Pattern #29 `relative_order_track` — QA ACCEPTED / UNMERGED PR #137
+Distance remaining: **21** patterns to minimum 50 and **31** to working target 60.
+
+### `relative_order_track` — closure record
 
 Exact scope:
 
@@ -71,20 +74,6 @@ logic-order-third-symbol
 logic-order-two-steps-after
 ```
 
-Accepted PR-head distribution:
-
-```text
-900 / 900 classified
-0 unclassified
-29 active PR-head patterns
-choice_grid                 313 / 900 = 34.78%
-relative_order_track          5 / 900 = 0.56%
-Science choice_grid          56 / 100
-Logic choice_grid            47 / 100
-```
-
-If merged unchanged, distance remaining becomes **21** patterns to minimum 50 and **31** to working target 60.
-
 Boundaries:
 - stage `logic-conditional-analogy-inference`;
 - lesson `logic-relative-ordering`;
@@ -93,7 +82,7 @@ Boundaries:
 - assessed runtime remains `tap_choice`;
 - canonical three choices and `correctChoice` remain unchanged;
 - assessment, stars, mastery, progression, activity identity and completion semantics remain canonical;
-- Logic conditional/classification/inference families remain outside scope;
+- Logic conditional/classification/inference remain outside scope;
 - Logic analogies remain `visible_matching`;
 - Math ordering remains `number_line`;
 - Letters ordering remains `missing_sequence_slot`;
@@ -109,15 +98,13 @@ Interaction:
 - correct selection completes the existing activity identity;
 - no invented sequence fact, answer leakage, changed choice set, drag-only dependency, extra confirmation or intermediate assessment.
 
-Acceptance evidence:
+Acceptance/closure chain:
 - implementation QA head `e91087aa1176723b0d90f310088b65a51d413ce7` passed full CI #626 / run `34992813094`;
-- deterministic quality remains 900 KEEP / 0 flagged / structural 0;
-- gameplay-distribution audit confirms exact 29-pattern counts above;
-- simulations and Batch17 acceptance passed;
-- Ubuntu, Windows, production build, dependency audit, secret-history scan and Chromium mobile/accessibility matrix passed;
-- all nine idle/wrong/success screenshots at 320x720, 390x844 and 768x1024 passed manual visual acceptance.
-
-Pattern #29 remains unmerged until fresh canonical-docs head CI and exact-head merge/live verification. It is fully closed only after the separate docs-only closure PR also passes exact-head CI/merge/live verification.
+- canonical docs head `48d92434d83b028d48821e270a025c3a08a859bc` passed full CI #631 / run `34994322707`;
+- all nine idle/wrong/success screenshots at 320x720, 390x844 and 768x1024 passed manual visual acceptance;
+- PR #137 exact-head squash merged as `ec083b7206fdc7d8d2c21a1bbd6c2abbd1d44949`, independently verified live;
+- post-merge `main` CI #632 / run `34994824331` passed every gate including Cloudflare production smoke;
+- closure PR #138 is the final closure gate.
 
 ### `investigation_board` — FULLY CLOSED
 
@@ -241,8 +228,8 @@ Coverage dan implemented-pattern consistency bersifat blocking; concentration be
 18. Set Reasoning — **DONE / #130 + #131 + #132**.
 19. Spatial Transform — **DONE / #133 + #134**.
 20. Investigation Board — **DONE / #135 + #136**.
-21. Relative Order Track — **QA ACCEPTED / UNMERGED / #137**.
-22. NEXT after Pattern #29 closure — fresh objective/evidence audit for Pattern #30; no family is pre-approved.
+21. Relative Order Track — **DONE / #137 + closure #138**, fully closed after closure exact-head merge/live verification.
+22. NEXT — fresh objective/evidence audit for Pattern #30 from the verified 29-pattern baseline; no family is pre-approved.
 
 ## Definition of done per mechanic
 
