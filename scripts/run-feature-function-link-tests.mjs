@@ -7,6 +7,7 @@ const compile=spawnSync(process.execPath,["node_modules/typescript/bin/tsc","-p"
 if(compile.status!==0)process.exit(compile.status??1);
 const require=createRequire(import.meta.url);
 const {ACTIVITIES}=require(path.resolve(".learning-test-dist/src/lib/learning/system.js"));
+const {getActivityLearningSpec}=require(path.resolve(".learning-test-dist/src/lib/learning/catalog.js"));
 const {choiceGameplayPresentation,matchingPresentation,gameplayPattern}=require(path.resolve(".learning-test-dist/src/lib/learning/gameplayPresentation.js"));
 const {featureFunctionLinkConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/featureFunctionLinkConfig.js"));
 
@@ -25,7 +26,11 @@ for(const activity of family){
   assert.equal(activity.runtime,"tap_choice");
   assert.equal(activity.subjectId,"science");
   assert.equal(activity.stageId,"science-evidence-review-challenge");
-  assert.equal(activity.skillId,"science.living.features_function.basic");
+  const spec=getActivityLearningSpec(activity.id);
+  assert(spec,`${activity.id} must keep its canonical learning spec`);
+  assert.equal(spec.assessment,"assessed",`${activity.id} remains assessed`);
+  assert.equal(spec.skills.length,1,`${activity.id} keeps one canonical skill link`);
+  assert.equal(spec.skills[0]?.skillId,"science.living.features_function.basic",`${activity.id} keeps the canonical living feature/function skill`);
   assert.equal((activity.choices??[]).length,3);
   assert.equal(new Set(activity.choices??[]).size,3,"feature-function choices remain unique");
   assert((activity.choices??[]).includes(activity.correctChoice),"feature-function link preserves canonical correctChoice");
