@@ -11,6 +11,7 @@ const {choiceGameplayPresentation,matchingPresentation}=require(path.resolve(".l
 const {numberLineConfig,numberLineValues}=require(path.resolve(".learning-test-dist/src/lib/learning/numberLineConfig.js"));
 const {moreLessBalanceConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/moreLessBalanceConfig.js"));
 const {patternCompletionConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/patternCompletionConfig.js"));
+const {causeEffectConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/causeEffectConfig.js"));
 
 const expectedMemory=new Set([
   "letters-match-case-cd","letters-match-case-ef","letters-match-case-bce",
@@ -48,11 +49,11 @@ for(const activity of dragTargets){
 const otherMatching=ACTIVITIES.filter(activity=>activity.runtime==="matching"&&!expectedMemory.has(activity.id)&&!expectedDragTargets.has(activity.id));
 assert(otherMatching.length>0,"default matching family remains available for mechanic variety");
 assert(otherMatching.every(activity=>matchingPresentation(activity)==="grid_pairs"),"unreviewed matching activities remain on the canonical visible grid");
-for(const id of ["math-pattern-match-ab","math-pattern-match-aab"]){
+for(const id of ["math-pattern-match-ab","math-pattern-match-aab","science-match-water-states-b"]){
   const activity=ACTIVITIES.find(item=>item.id===id);
   assert(activity,`${id} remains in catalog`);
   assert.equal(activity.runtime,"matching",`${id} remains a matching activity`);
-  assert.equal(matchingPresentation(activity),"grid_pairs",`${id} does not get pulled into Pattern Completion`);
+  assert.equal(matchingPresentation(activity),"grid_pairs",`${id} stays on canonical visible matching`);
 }
 
 const expectedSequence=new Set([
@@ -170,9 +171,29 @@ for(const activity of patternCompletion){
   if(config.unitLength) assert(config.unitLength>=2,`${activity.id} repeating unit remains meaningful`);
 }
 
-const specializedChoiceIds=new Set([...expectedSequence,...expectedSorting,...expectedCountSelect,...expectedNumberLine,...expectedBalance,...expectedPatternCompletion]);
+const expectedCauseEffect=new Set([
+  "science-water-ice-melts","science-water-freezes","science-water-puddle-evaporates","science-water-cold-glass-droplets"
+]);
+const causeEffect=ACTIVITIES.filter(activity=>choiceGameplayPresentation(activity)==="cause_effect");
+assert.equal(causeEffect.length,expectedCauseEffect.size,"cause-effect family size must remain intentional");
+assert.deepEqual(new Set(causeEffect.map(activity=>activity.id)),expectedCauseEffect,"only the four reviewed Science water-change choices use Cause Effect");
+for(const activity of causeEffect){
+  assert.equal(activity.runtime,"tap_choice");
+  assert.equal(activity.subjectId,"science");
+  assert.equal(activity.stageId,"science-life-material-motion");
+  assert.equal((activity.choices??[]).length,3);
+  assert.equal(new Set(activity.choices??[]).size,3,"cause-effect choices remain unique");
+  assert((activity.choices??[]).includes(activity.correctChoice),"cause effect preserves canonical correctChoice");
+  const config=causeEffectConfig(activity);
+  assert(config,`${activity.id} must have explicit Cause Effect config`);
+  assert(config.startIcon&&config.conditionIcon&&config.conditionLabel,`${activity.id} keeps visible cause context`);
+  assert.deepEqual(new Set(Object.keys(config.choiceVisuals)),new Set(activity.choices??[]),`${activity.id} visual mapping covers exactly canonical choices`);
+  assert(config.choiceVisuals[activity.correctChoice],`${activity.id} canonical result keeps an explicit visual`);
+}
+
+const specializedChoiceIds=new Set([...expectedSequence,...expectedSorting,...expectedCountSelect,...expectedNumberLine,...expectedBalance,...expectedPatternCompletion,...expectedCauseEffect]);
 const otherChoice=ACTIVITIES.filter(activity=>activity.runtime==="tap_choice"&&!specializedChoiceIds.has(activity.id));
 assert(otherChoice.length>0,"default choice activities remain available");
 assert(otherChoice.every(activity=>choiceGameplayPresentation(activity)==="default"),"other choice families retain default presentation");
 
-console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets + ${countSelect.length} count_select + ${numberLine.length} number_line + ${balance.length} more_less_balance + ${patternCompletion.length} pattern_completion activities.`);
+console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets + ${countSelect.length} count_select + ${numberLine.length} number_line + ${balance.length} more_less_balance + ${patternCompletion.length} pattern_completion + ${causeEffect.length} cause_effect activities.`);

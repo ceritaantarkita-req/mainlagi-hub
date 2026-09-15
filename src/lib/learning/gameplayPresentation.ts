@@ -1,7 +1,7 @@
 import type { LearningActivity } from "./system";
 
 export type MatchingPresentation = "grid_pairs" | "memory_pairs" | "drag_targets";
-export type ChoiceGameplayPresentation = "default" | "sequence_slot" | "sorting_buckets" | "count_select" | "number_line" | "more_less_balance" | "pattern_completion";
+export type ChoiceGameplayPresentation = "default" | "sequence_slot" | "sorting_buckets" | "count_select" | "number_line" | "more_less_balance" | "pattern_completion" | "cause_effect";
 export type GameplayPattern =
   | "choice_grid"
   | "symbol_hunt"
@@ -15,6 +15,7 @@ export type GameplayPattern =
   | "number_line"
   | "more_less_balance"
   | "pattern_completion"
+  | "cause_effect"
   | "guided_trace"
   | "story_read"
   | "motion_game"
@@ -27,6 +28,13 @@ const SCIENCE_DRAG_TARGET_IDS = new Set([
   "science-match-animal-homes-a",
   "science-match-senses-a",
   "science-match-weather-signs-a"
+]);
+
+const SCIENCE_CAUSE_EFFECT_IDS = new Set([
+  "science-water-ice-melts",
+  "science-water-freezes",
+  "science-water-puddle-evaporates",
+  "science-water-cold-glass-droplets"
 ]);
 
 const MATH_COUNT_SELECT_IDS = new Set([
@@ -125,6 +133,9 @@ export function isDragTargetActivity(activity: LearningActivity | undefined): bo
  * Reviewed Math pattern tasks measure recognition of a repeating or stepping
  * rule. Present the observed run as a pattern strip with one explicit next
  * slot while keeping the canonical three choices and evidence identity.
+ *
+ * Reviewed Science water-change tasks connect an observable condition with a
+ * resulting state change, so present them as an explicit cause/effect flow.
  */
 export function choiceGameplayPresentation(activity: LearningActivity | undefined): ChoiceGameplayPresentation {
   if (!activity || activity.runtime !== "tap_choice") return "default";
@@ -192,6 +203,16 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     Boolean(activity.prompt);
   if (isReviewedMathPatternFamily) return "pattern_completion";
 
+  const isReviewedScienceCauseEffectFamily =
+    activity.subjectId === "science" &&
+    activity.stageId === "science-life-material-motion" &&
+    SCIENCE_CAUSE_EFFECT_IDS.has(activity.id) &&
+    choices.length === 3 &&
+    new Set(choices).size === choices.length &&
+    choices.includes(correct) &&
+    Boolean(activity.prompt);
+  if (isReviewedScienceCauseEffectFamily) return "cause_effect";
+
   return "default";
 }
 
@@ -219,6 +240,10 @@ export function isPatternCompletionActivity(activity: LearningActivity | undefin
   return choiceGameplayPresentation(activity) === "pattern_completion";
 }
 
+export function isCauseEffectActivity(activity: LearningActivity | undefined): boolean {
+  return choiceGameplayPresentation(activity) === "cause_effect";
+}
+
 /**
  * Canonical child-facing gameplay-pattern classifier used by the WS-05
  * distribution audit. Every playable learning activity must map to exactly one
@@ -236,6 +261,7 @@ export function gameplayPattern(activity: LearningActivity | undefined): Gamepla
     if (presentation === "number_line") return "number_line";
     if (presentation === "more_less_balance") return "more_less_balance";
     if (presentation === "pattern_completion") return "pattern_completion";
+    if (presentation === "cause_effect") return "cause_effect";
     return "choice_grid";
   }
 
