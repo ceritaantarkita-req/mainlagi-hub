@@ -39,10 +39,10 @@
 22. `healthy_habit_routine` — **MERGED PR #121**
 23. `rule_pipeline` — **MERGED PR #123**
 24. `odd_one_out` — **MERGED PR #125**
-25. `transitive_chain` — **MERGED PR #127**
+25. `transitive_chain` — **MERGED PR #127; CLOSED PR #128**
 
 Permanent gameplay-distribution audit: **MERGED PR #105**.  
-Canonical merged gameplay baseline: `main` @ `c6c1493e7c7d4f765d4a1c22bf36ed86e99004b6`.
+Verified gameplay-closure SHA after Transitive Chain: `f0cec7c6cdede69d9dd94039ecd20f52d328d2ea`.
 
 Merged distribution:
 
@@ -58,7 +58,7 @@ Logic choice_grid            62 / 100
 
 Distance remaining: **25** patterns to minimum 50 and **35** to working target 60.
 
-### `transitive_chain` — MERGED PR #127
+### `transitive_chain` — FULLY CLOSED
 
 Exact scope:
 
@@ -86,21 +86,15 @@ Interaction:
 - child selects the unchanged canonical conclusion through accessible buttons;
 - wrong selection is retryable and cannot complete;
 - correct selection completes the existing activity identity;
-- success explains the reviewed relation after completion;
 - no invented numeric values, extra assessed step, reordering requirement, changed answer set or drag-only dependency.
 
-Accepted and merged evidence:
-- CI #569 exposed a stale Rule Pipeline sentinel and was correctly rejected;
-- CI #570 exposed the 390x844 completed CTA overflow and was correctly rejected;
-- implementation head `46bcd677d2b3003f30b2e20bd21fe854c4f1f833` passed full CI #572 / run `34957824566`;
-- manual visual review accepted #572 idle/try/success screenshots at 320/390/768;
-- final docs head `beb2e793ad3dfeb7ebb2b41c0f085b11d910f948` passed full CI #577 / run `34961404909`;
-- final pre-merge gate had 0 PR comments, 0 submitted reviews and 0 review threads; PR was open, non-draft and mergeable;
-- exact-head squash merge produced `c6c1493e7c7d4f765d4a1c22bf36ed86e99004b6`, verified live on `main`;
-- gameplay-presentation and dedicated exact-family regressions verify exactly five Transitive Chain activities;
-- deterministic activity-quality remains **900 KEEP / 0 flagged / structural findings 0**;
-- gameplay distribution verifies **900/900 classified, 25 patterns, `choice_grid` 332/900 (36.89%), `transitive_chain` 5/900, Logic 62/100, Science 60/100**;
-- simulations and Batch17 pass with canonical catalog totals unchanged.
+Acceptance/closure chain:
+- CI #569 and #570 were correctly rejected regression runs;
+- implementation head `46bcd677d2b3003f30b2e20bd21fe854c4f1f833` passed CI #572 / run `34957824566` and manual visual QA;
+- final PR #127 docs head `beb2e793ad3dfeb7ebb2b41c0f085b11d910f948` passed CI #577 / run `34961404909`;
+- exact-head merge #127 -> `c6c1493e7c7d4f765d4a1c22bf36ed86e99004b6`, live-verified;
+- closure head `0d655a949b208e5e1b28207d2dec0da02f88ca4c` passed CI #579 / run `34962248054`;
+- closure PR #128 clean gate -> exact-head merge `f0cec7c6cdede69d9dd94039ecd20f52d328d2ea`, live-verified.
 
 ## 60 pola permainan target
 
@@ -220,8 +214,8 @@ Prinsip alokasi:
 14. Healthy Habit Routine — **DONE / #121**.
 15. Rule Pipeline — **DONE / #123**.
 16. Odd One Out — **DONE / #125 + closure #126**.
-17. Transitive Chain — **MERGED / #127; closure branch active**.
-18. After closure: fresh Logic exact-family audit from the verified 25-pattern baseline; no next family is pre-approved.
+17. Transitive Chain — **DONE / #127 + closure #128**.
+18. NEXT — fresh Logic exact-family audit from the verified 25-pattern baseline; no next family is pre-approved.
 19. Continue search/audio/puzzle/literacy/creative/story based on objective fit and distribution.
 
 ## Definition of done per mechanic
