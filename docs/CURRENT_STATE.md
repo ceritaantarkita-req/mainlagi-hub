@@ -8,13 +8,11 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; ac
 
 - repository: `ceritaantarkita-req/mainlagi-hub`
 - canonical branch: `main`
-- current merged `main` baseline: `c0583c8e07907f02e9671e8254bc35353cf64d24`
-- latest merged gameplay change: PR #123 — Logic Rule Pipeline
-- latest docs closure: PR #124
-- active gameplay branch: `agent/ws05-logic-odd-one-out-20260915`
-- active gameplay PR: #125 — Logic Odd One Out
-- accepted implementation head: `d15a5a4c49b4a14d5dd7a49f4a2f6a5a2d2f2c8d`
-- active PR status: **implementation + CI + visual QA accepted; UNMERGED**
+- current merged `main` baseline: `0d595f8b1b824125dc2cc26277f3e469b9325c73`
+- latest merged gameplay change: PR #125 — Logic Odd One Out
+- active gameplay branch: none
+- active gameplay PR: none
+- post-merge closure branch: `docs/close-odd-one-out-20260915`
 - production: `https://mainlagihub.my.id/`
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - source licence: `AGPL-3.0-only`
@@ -35,21 +33,23 @@ Runtime count is not gameplay-pattern count.
 
 Target: minimum **50**, working target **60 meaningful patterns**.
 
-### Merged on `main`: 23 patterns
+### Merged on `main`: 24 patterns
 
-`choice_grid`, `symbol_hunt`, `listen_choose`, `visible_matching`, `guided_trace`, `story_read`, `motion_game`, `coloring_canvas`, `drawing_canvas`, `memory_pair`, `missing_sequence_slot`, `sorting_buckets`, `drag_to_target`, `count_and_select`, `number_line`, `more_less_balance`, `pattern_completion`, `cause_effect`, `compare_properties`, `material_lab`, `feature_function_link`, `healthy_habit_routine`, `rule_pipeline`.
+`choice_grid`, `symbol_hunt`, `listen_choose`, `visible_matching`, `guided_trace`, `story_read`, `motion_game`, `coloring_canvas`, `drawing_canvas`, `memory_pair`, `missing_sequence_slot`, `sorting_buckets`, `drag_to_target`, `count_and_select`, `number_line`, `more_less_balance`, `pattern_completion`, `cause_effect`, `compare_properties`, `material_lab`, `feature_function_link`, `healthy_habit_routine`, `rule_pipeline`, `odd_one_out`.
 
 ```text
 classified:               900 / 900
 unclassified:               0
-active patterns:           23
-choice_grid               342 / 900 = 38.00%
-rule_pipeline               5 / 900 = 0.56%
+active patterns:           24
+choice_grid               337 / 900 = 37.44%
+odd_one_out                 5 / 900 = 0.56%
 Science choice_grid         60 / 100
-Logic choice_grid           72 / 100
+Logic choice_grid           67 / 100
 ```
 
-### PR #125 `odd_one_out` — ACCEPTED QA / UNMERGED
+Science is exactly 60% `choice_grid`. Logic remains above the `>60%` advisory threshold and is the next subject hotspot, but concentration alone does not justify a mechanic.
+
+## PR #125 `odd_one_out` — MERGED
 
 Exact scope:
 
@@ -75,29 +75,21 @@ Interaction/evidence contract:
 - canonical IDs, choices, `correctChoice`, skill, assessment, stars and progression remain unchanged;
 - assessed fidelity `choice_odd_one_out_interaction`.
 
-Accepted implementation evidence at `d15a5a4c49b4a14d5dd7a49f4a2f6a5a2d2f2c8d`:
-- CI #562 identified one stale Rule Pipeline exclusion sentinel and was not accepted; the sentinel was updated to an unrelated Logic comparison activity that must remain `choice_grid`, preserving the old scope guard;
-- CI #563 passed non-browser gates but Mobile exposed an incorrect test assumption about natural unlock; the progression guard correctly required preceding `logic-foundations` readiness;
-- browser QA now uses canonical qualifying foundation evidence matching the existing Sorting Buckets readiness path, with progression guards still active;
-- CI #564 / run `34951235607` completed success for all required jobs: Ubuntu, Windows, production build, dependency audit, secret-history scan and Mobile Chromium; production smoke was normally skipped by workflow condition;
+Accepted and merged evidence:
+- CI #562 was correctly rejected after surfacing a stale Rule Pipeline default sentinel; the fix kept the old exact-scope guard intact;
+- CI #563 was correctly rejected after proving the target stage requires prior `logic-foundations` readiness;
+- browser QA was corrected to use canonical qualifying foundation evidence with real progression guards still active;
+- implementation head `d15a5a4c49b4a14d5dd7a49f4a2f6a5a2d2f2c8d` passed CI #564 / run `34951235607`;
+- final docs head `7b0735f13ab7ad22dff8c6fed792e62f9a66bc60` passed CI #565 / run `34952172997`;
+- Ubuntu, Windows, production build, dependency audit, secret-history scan and Mobile Chromium all passed;
 - exact-family and gameplay-presentation regressions pass for exactly five `odd_one_out` activities;
-- deterministic activity-quality artifact remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**;
-- gameplay-distribution audit verifies **900/900 classified, 24 PR-head patterns, `choice_grid` 337/900 (37.44%), `odd_one_out` 5/900, Logic 67/100, Science 60/100**;
+- deterministic activity-quality remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**;
+- gameplay-distribution audit verifies **900/900 classified, 24 patterns, `choice_grid` 337/900 (37.44%), `odd_one_out` 5/900, Logic 67/100, Science 60/100**;
 - simulations and Batch17 pass with canonical totals unchanged; physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`;
 - browser QA passes canonical Logic foundation progression, keyboard wrong-state, pointer completion, false-completion protection, assessed evidence, touch sizing, overflow and CTA checks at 320/390/768;
-- manual screenshot review accepted idle/error/success states at 320x720, 390x844 and 768x1024; no polish commit was required.
-
-PR-head distribution, **not yet merged**:
-
-```text
-classified:               900 / 900
-unclassified:               0
-active patterns:           24
-choice_grid               337 / 900 = 37.44%
-odd_one_out                 5 / 900 = 0.56%
-Science choice_grid         60 / 100
-Logic choice_grid           67 / 100
-```
+- manual screenshot review accepted idle/error/success states at 320x720, 390x844 and 768x1024; no polish commit was required;
+- final review gate had **0 PR comments, 0 submitted reviews and 0 review threads**;
+- exact-head squash merge produced `0d595f8b1b824125dc2cc26277f3e469b9325c73` and live `main` was verified at that SHA.
 
 ## Deterministic activity-quality baseline
 
@@ -124,11 +116,10 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Run final full CI on PR #125 after canonical docs are finalized on the exact current head.
-2. Re-check comments, reviews, review threads, exact head and mergeability.
-3. Exact-head squash merge only if all gates remain green, then verify live `main`.
-4. Complete a docs-only post-merge closure so pattern #24 becomes the canonical merged baseline.
-5. Continue a fresh Logic exact-family audit from the verified 24-pattern baseline; Logic would remain 67% `choice_grid`.
-6. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns plus Art Bible/permanent visual QA, narration, parent/public frontend, external acceptance and governance.
+1. Merge this Odd One Out docs-only post-merge closure from verified `main` `0d595f8b1b824125dc2cc26277f3e469b9325c73`.
+2. Run a fresh Logic exact-family audit from the verified 24-pattern baseline.
+3. Promote only objective-coherent/evidence-safe mechanics; do not combine unrelated tasks merely to lower concentration counts.
+4. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
+5. Continue Art Bible/permanent visual QA, narration, parent/public frontend, external acceptance and governance.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, or mastery/backend rewrites before this quality phase is substantially complete.

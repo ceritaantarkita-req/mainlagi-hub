@@ -1,9 +1,10 @@
 # WS-05 Logic Odd One Out Wave — 2026-09-15
 
-Status: **IMPLEMENTATION + CI + VISUAL QA ACCEPTED / PR #125 UNMERGED**
+Status: **MERGED PR #125 / POST-MERGE DOCS CLOSURE**
 
-Baseline: `main` @ `c0583c8e07907f02e9671e8254bc35353cf64d24` (Rule Pipeline closure PR #124).
+Merged baseline: `main` @ `0d595f8b1b824125dc2cc26277f3e469b9325c73`.
 Accepted implementation head: `d15a5a4c49b4a14d5dd7a49f4a2f6a5a2d2f2c8d`.
+Accepted final docs head before merge: `7b0735f13ab7ad22dff8c6fed792e62f9a66bc60`.
 
 ## Audit decision
 
@@ -49,7 +50,7 @@ Preserved canonical contract:
 - assessment/stars/progression stay canonical;
 - assessed fidelity: `choice_odd_one_out_interaction`.
 
-## Accepted PR-head distribution
+## Final merged distribution
 
 ```text
 900 / 900 classified
@@ -60,8 +61,6 @@ odd_one_out              5 / 900 = 0.56%
 Logic choice_grid       67 / 100
 Science choice_grid     60 / 100
 ```
-
-This is PR-head evidence only. Merged `main` remains at 23 patterns until exact-head merge and live-main verification.
 
 ## Acceptance history
 
@@ -91,28 +90,35 @@ Fix + documentation commit: `d15a5a4c49b4a14d5dd7a49f4a2f6a5a2d2f2c8d`.
 Run `34951235607` completed successfully on exact implementation head `d15a5a4c49b4a14d5dd7a49f4a2f6a5a2d2f2c8d`.
 
 Accepted evidence:
-- Ubuntu quality gate: PASS through typecheck, lint, engine tests, activity-quality audit, gameplay-distribution audit, simulations and Batch17;
-- Windows compatibility: PASS;
-- production build and Batch16 budgets: PASS;
-- production dependency audit: PASS;
-- secret history scan: PASS;
-- Mobile Chromium: PASS; production smoke was normally skipped by workflow condition;
+- Ubuntu quality gate PASS through typecheck, lint, engine tests, activity-quality audit, gameplay-distribution audit, simulations and Batch17;
+- Windows compatibility PASS;
+- production build and Batch16 budgets PASS;
+- production dependency audit PASS;
+- secret history scan PASS;
+- Mobile Chromium PASS; production smoke was normally skipped by workflow condition;
 - gameplay-presentation regression and dedicated Odd One Out exact-family regression pass for exactly five IDs;
 - deterministic activity-quality artifact: **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**;
-- gameplay distribution: **24 PR-head patterns, `choice_grid` 337/900, `odd_one_out` 5/900, Logic 67/100, Science 60/100**;
-- browser log explicitly reports: Odd-one-out browser QA passed 3 viewports with canonical Logic foundation progression, keyboard wrong-state, pointer completion, trio layout, CTA and assessed evidence checks;
+- gameplay distribution: **24 patterns, `choice_grid` 337/900, `odd_one_out` 5/900, Logic 67/100, Science 60/100**;
+- browser log explicitly reports Odd-one-out browser QA passed 3 viewports with canonical Logic foundation progression, keyboard wrong-state, pointer completion, trio layout, CTA and assessed evidence checks;
 - wrong choice does not complete; correct choice records assessed attempt metadata with `choice_odd_one_out_interaction`, one incorrect/retry and 0.5 accuracy on the representative path;
 - controls remain >=44px, no horizontal overflow, and success CTA remains inside viewport at 320x720, 390x844 and 768x1024;
 - manual review of green #564 idle/error/success screenshots at all three viewports accepted the visual hierarchy, error state, success summary and CTA; no polish commit was required.
 
-## Remaining acceptance before shipping #125
+### CI #565 — accepted final docs-head run
 
-1. Finalize canonical docs on the PR head while keeping merged-vs-unmerged state explicit.
-2. Run full CI again on that exact docs head.
-3. Check PR comments, submitted reviews and review threads after final CI.
-4. Re-fetch exact head and mergeability.
-5. Squash merge only with exact `expected_head_sha`.
-6. Verify live `main` at the returned merge SHA.
-7. Complete a docs-only post-merge closure, full closure CI and exact-head closure merge.
+Run `34952172997` completed successfully on exact docs head `7b0735f13ab7ad22dff8c6fed792e62f9a66bc60`.
 
-Only after all seven steps may pattern #24 be described as shipped.
+All required jobs passed again: Ubuntu, Windows, production build, production dependency audit, secret-history scan and Mobile Chromium.
+
+### Final review + merge
+
+- final PR gate: **0 PR comments, 0 submitted reviews, 0 review threads**;
+- exact head `7b0735f13ab7ad22dff8c6fed792e62f9a66bc60` remained mergeable;
+- exact-head squash merge of PR #125 produced `0d595f8b1b824125dc2cc26277f3e469b9325c73`;
+- live `main` was verified at that exact merge SHA.
+
+## Closure state
+
+Pattern #24 implementation is merged and verified. This document and the four canonical handoff docs form the required docs-only post-merge closure. Once this closure branch passes full CI and is exact-head merged, the Odd One Out wave is fully closed.
+
+Next work after closure: fresh Logic exact-family audit from the verified 24-pattern baseline. Logic remains at 67% `choice_grid`, but the next family must be chosen from objective/evidence fit rather than concentration alone.
