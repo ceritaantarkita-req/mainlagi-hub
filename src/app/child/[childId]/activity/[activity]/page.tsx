@@ -13,6 +13,7 @@ import { MoreLessBalanceActivity } from "@/components/learning/MoreLessBalanceAc
 import { NumberLineActivity } from "@/components/learning/NumberLineActivity";
 import { OddOneOutActivity } from "@/components/learning/OddOneOutActivity";
 import { PatternCompletionActivity } from "@/components/learning/PatternCompletionActivity";
+import { RelativeOrderTrackActivity } from "@/components/learning/RelativeOrderTrackActivity";
 import { RulePipelineActivity } from "@/components/learning/RulePipelineActivity";
 import { SequenceSlotChoiceActivity } from "@/components/learning/SequenceSlotChoiceActivity";
 import { SetReasoningActivity } from "@/components/learning/SetReasoningActivity";
@@ -36,6 +37,7 @@ import {
   isNumberLineActivity,
   isOddOneOutActivity,
   isPatternCompletionActivity,
+  isRelativeOrderTrackActivity,
   isRulePipelineActivity,
   isSequenceSlotActivity,
   isSetReasoningActivity,
@@ -79,6 +81,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
         <TransitiveChainActivity childId={childId} activityId={activity} />
       ) : isSpatialTransformActivity(definition) ? (
         <SpatialTransformActivity childId={childId} activityId={activity} />
+      ) : isRelativeOrderTrackActivity(definition) ? (
+        <RelativeOrderTrackActivity childId={childId} activityId={activity} />
       ) : isCountAndSelectActivity(definition) ? (
         <CountAndSelectActivity childId={childId} activityId={activity} />
       ) : isNumberLineActivity(definition) ? (
