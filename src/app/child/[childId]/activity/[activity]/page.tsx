@@ -1,5 +1,6 @@
 import { AudioChoiceLearningActivity } from "@/components/learning/AudioChoiceLearningActivity";
 import { CauseEffectActivity } from "@/components/learning/CauseEffectActivity";
+import { ComparePropertiesActivity } from "@/components/learning/ComparePropertiesActivity";
 import { CountAndSelectActivity } from "@/components/learning/CountAndSelectActivity";
 import { CreativePracticeActivity } from "@/components/learning/CreativePracticeActivity";
 import { DragTargetMatchActivity } from "@/components/learning/DragTargetMatchActivity";
@@ -14,6 +15,7 @@ import { MathTraceWorldActivity } from "@/components/learning/world/MathTraceWor
 import { WorldActivityScreen } from "@/components/learning/world/WorldExperience";
 import {
   isCauseEffectActivity,
+  isComparePropertiesActivity,
   isCountAndSelectActivity,
   isDragTargetActivity,
   isMemoryPairActivity,
@@ -59,6 +61,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
         <PatternCompletionActivity childId={childId} activityId={activity} />
       ) : isCauseEffectActivity(definition) ? (
         <CauseEffectActivity childId={childId} activityId={activity} />
+      ) : isComparePropertiesActivity(definition) ? (
+        <ComparePropertiesActivity childId={childId} activityId={activity} />
       ) : (
         <WorldActivityScreen childId={childId} activityId={activity} />
       )}
