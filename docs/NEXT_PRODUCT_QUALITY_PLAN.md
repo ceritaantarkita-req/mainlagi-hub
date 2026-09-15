@@ -1,26 +1,26 @@
 # NEXT PRODUCT QUALITY PLAN
 
-> Canonical execution plan fase product-quality Mainlagi Hub. Read with `CURRENT_STATE.md`, `ARCHITECTURE.md`, and `GAMEPLAY_VARIATION_CATALOG.md` before changing learning experience.
+> Canonical execution plan fase product-quality Mainlagi Hub. Semua human/AI agent wajib membaca dokumen ini, `CURRENT_STATE.md`, `ARCHITECTURE.md`, dan `GAMEPLAY_VARIATION_CATALOG.md` sebelum mengubah learning experience.
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
-**Merged baseline:** `main` @ `8a54534ac285013d22d2fc458bb302ae1fe1a87b`  
-**Active gameplay PR:** #110 / `agent/ws05-gameplay-pattern-completion-20260915`  
-**Primary focus:** WS-05 gameplay/mechanic diversification  
+**Merged baseline:** `main` @ `6c5566ea9465a26399f9c4637f252d316552636d`  
+**Active gameplay PR:** none during this docs closure  
+**Primary focus:** WS-05 gameplay/mechanic diversification.  
 **Principle:** **Quality first. Quantity later.**
 
 ## Product goal
 
-Mainlagi should feel like a coherent learning product for children age 3–7: clear objectives, varied interactions, consistent visuals, and trustworthy evidence/mastery. WS-05 target: minimum **50**, working target **60 meaningful gameplay patterns**, implemented through reusable engines rather than one-off gimmicks.
+Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menarik, visualnya konsisten, interaction-nya beragam, dan evidence/mastery-nya dapat dipercaya. Target WS-05 adalah minimum **50**, working target **60 meaningful gameplay patterns** melalui reusable interaction engines.
 
 ## Mandatory rules
 
-1. Choose mechanic from the learning objective, not from quota pressure.
-2. Preserve assessed evidence contracts or explicitly migrate/test them.
-3. Do not rewrite mastery/progression/schema without proven need.
-4. Every mechanic needs exact scope regression, progression, completion/evidence, keyboard, touch/pointer, responsive browser QA, and manual visual review.
-5. Do not create pointer-only interaction when an accessible fallback is appropriate.
-6. Distribution coverage/pattern-set consistency is blocking; concentration is advisory.
-7. Code merged without current canonical docs is incomplete work.
+1. Mechanic dipilih karena cocok dengan learning objective, bukan untuk mengejar angka.
+2. Assessed activity wajib menjaga atau secara eksplisit memigrasikan evidence contract dengan test.
+3. Jangan rewrite mastery/progression/schema tanpa kebutuhan terbukti.
+4. Setiap mechanic baru wajib punya static scope regression, progression, completion/evidence, keyboard, touch/pointer, responsive QA, dan manual visual review.
+5. Jangan membuat drag-only interaction; fallback accessible wajib tersedia bila relevan.
+6. Gameplay-distribution coverage/pattern-set regression adalah blocking; concentration hanya planning signal.
+7. **Code merged tanpa canonical docs yang current = pekerjaan belum selesai.**
 
 ## Workstream status
 
@@ -30,7 +30,7 @@ Mainlagi should feel like a coherent learning product for children age 3–7: cl
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | TODO | parent/public surfaces |
 | WS-04 Activity audit/redesign | deterministic clean | 900 KEEP / 0 flagged |
-| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | 16 merged; pattern #17 Pattern Completion QA |
+| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | 17 merged; Science next |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | TODO / parallel | Art Bible + permanent human gate |
@@ -41,58 +41,9 @@ Mainlagi should feel like a coherent learning product for children age 3–7: cl
 
 ## WS-05 merged baseline
 
-Merged patterns on `main`: **16**. Latest gameplay merge: More/Less Balance PR #109 `8a54534ac285013d22d2fc458bb302ae1fe1a87b`.
+Merged patterns on `main`: **17**. Latest gameplay merge is Pattern Completion PR #110 `6c5566ea9465a26399f9c4637f252d316552636d`.
 
-Merged distribution after #109:
-
-```text
-900 / 900 classified
-0 unclassified
-16 active patterns
-choice_grid          371 / 900 = 41.22%
-Math choice_grid      61 / 100
-Science choice_grid   79 / 100
-Logic choice_grid     77 / 100
-```
-
-PR #109 acceptance: implementation CI #496 full green; final docs-head CI #501 full green; visual review accepted 320/390/768; review surface clean; evidence fidelity `choice_balance_comparison_interaction`.
-
-## Active PR #110 — Pattern Completion
-
-Exact scope:
-
-```text
-math-pattern-ab-shapes
-math-pattern-aab-colors
-math-pattern-number-step-one
-math-pattern-number-step-two
-math-pattern-size
-```
-
-The matching activities `math-pattern-match-ab` and `math-pattern-match-aab` are intentionally excluded and remain `visible_matching`.
-
-Why this family:
-- coherent stage/lesson/skill: `math-banding-bentuk` / pattern sequences / `math.pattern.sequence`;
-- all five measure the next element in a repeating or stepping pattern;
-- canonical choices can remain unchanged;
-- explicit per-activity config avoids brittle prompt parsing.
-
-Interaction/evidence:
-- visible observed pattern strip plus one next-slot;
-- wrong candidate can fill the slot as feedback but cannot complete;
-- keyboard and pointer/touch share the same canonical choice controls;
-- runtime remains `tap_choice`;
-- IDs, choices/correctChoice, assessment, stars, progression, and completion identity remain canonical;
-- fidelity `choice_pattern_completion_interaction` stores pattern kind, visual mode, and observed sequence.
-
-Implementation-head acceptance at `6d79bf3716b65657da67ff0078767800b76b22ed`:
-- CI #503 full green across Ubuntu, Windows, build, dependency audit, secret scan, and mobile Chromium;
-- deterministic quality remains **900 KEEP / 0 flagged**;
-- representative `math-pattern-aab-colors` keeps progression guard active with legitimate prior-stage readiness;
-- browser checks canonical AAB sequence/choices, keyboard wrong-state, false-completion guard, pointer completion, evidence persistence, >=44px controls, no overflow, and success CTA visibility;
-- manual visual review accepted idle/error/success at 320x720, 390x844, and 768x1024.
-
-Measured PR #110 distribution:
+Merged distribution:
 
 ```text
 900 / 900 classified
@@ -100,24 +51,70 @@ Measured PR #110 distribution:
 17 active patterns
 choice_grid          366 / 900 = 40.67%
 pattern_completion     5 / 900 = 0.56%
+more_less_balance      6 / 900 = 0.67%
+number_line             6 / 900 = 0.67%
 Math choice_grid       56 / 100
 Science choice_grid    79 / 100
 Logic choice_grid      77 / 100
 ```
 
-Math is now below the >60% subject hotspot threshold. After #110, priority should shift to **Science then Logic** based on exact-family review, not continue Math mechanically.
+Math is now below the >60% subject hotspot threshold. Science and Logic are the next concentration targets, but each mechanic still requires exact-family objective fit.
 
-## Next mechanic selection after #110
+## Pattern Completion PR #110 — DONE
 
-1. Audit Science choice families first. Prefer objective-native patterns such as `classify_observation`, `predict_result`, `cause_effect`, `compare_properties`, or `observation_checklist` only where catalog payload supports them.
-2. Audit Logic choice families next; reuse existing sorting only where the objective truly remains classification, otherwise introduce a distinct mechanic.
-3. Revisit Math missing-number / `make_total` only after those hotspot reviews or when a clear pedagogical need appears.
-4. Continue search/scene, audio, ordering, puzzle/path, literacy, creative, and story patterns toward the 60-pattern working target.
+Exactly five Math Wave B choice activities now use `pattern_completion`; the two matching pattern activities remain `visible_matching`. Implementation CI #503 and final docs-head CI #508 were full green. Browser + manual visual QA accepted 320/390/768. Evidence fidelity is `choice_pattern_completion_interaction`. Merge: `6c5566ea9465a26399f9c4637f252d316552636d`.
+
+## Next mechanic review — Science `cause_effect`
+
+Current strongest exact family from the Science hotspot audit is the Wave B water-change lesson, skill `science.water.state_changes.basic`:
+
+```text
+science-water-ice-melts
+science-water-freezes
+science-water-puddle-evaporates
+science-water-cold-glass-droplets
+```
+
+Why this family is a strong candidate:
+- one lesson and one assessed skill;
+- each activity explicitly connects a condition/event to a resulting state change;
+- a cause/effect board can represent the learning objective more directly than another generic answer grid;
+- exactly four choice activities can be allowlisted without converting the related matching activity `science-match-water-states-b`;
+- canonical choices/correctChoice and progression can remain intact.
+
+Proposed interaction contract for review/implementation:
+- present a visible **cause card → effect/result choices** flow;
+- explicit per-activity config, no fragile prompt parsing;
+- wrong choice remains retryable and cannot complete;
+- assessed evidence should distinguish the cause/effect interaction, likely `choice_cause_effect_interaction`;
+- keyboard and touch/pointer must use the same answer controls;
+- exact four-ID allowlist; the matching water-state activity remains canonical matching.
+
+Do not code broader Science families into the same PR. Prediction/investigation, materials, observation/measurement, and environment reasoning remain separate mechanic candidates.
 
 ## Definition of Done
 
-A mechanic/PR is complete only when current implementation, typecheck/lint/build, engine tests, activity-quality audit, gameplay-distribution audit, routes, progression, evidence, accessibility, mobile UX, screenshot review, canonical docs, final docs-head CI, and review-thread/comment checks are green/current.
+A mechanic/PR is complete only when implementation, typecheck/lint/build, engine tests, activity-quality audit, gameplay-distribution audit, routes, progression, evidence, accessibility, mobile UX, screenshot review, canonical docs, final docs-head CI, and review-thread checks are current.
 
-Before merge: use exact current `expected_head_sha`. After merge: verify `main` contains the merge and keep canonical docs truthful about merged vs QA state.
+Before merge:
+- all relevant CI green at **current docs head**;
+- visual changes manually reviewed from current screenshots;
+- review threads/comments checked;
+- merge uses exact current `expected_head_sha`.
+
+After merge:
+- verify `main` contains the merge;
+- record merge SHA in canonical docs;
+- never present unmerged work as shipped.
+
+## Current execution order
+
+1. Merge the Pattern Completion docs closure.
+2. Start Science `cause_effect` on the exact four Wave B water-change activities from latest `main`.
+3. Re-run distribution and continue Science family audit while Science remains concentrated.
+4. Audit Logic exact families after Science.
+5. Revisit Math missing-number / make-total only when objective fit warrants it.
+6. Continue toward 50–60 meaningful patterns using permanent audit evidence.
+7. Continue WS-08 visual system, WS-02 narration, WS-03 parent/public frontend, WS-10 external acceptance, WS-11 governance, and later cleanup.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion, or major mastery/backend rewrites during this quality phase.
