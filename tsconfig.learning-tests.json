@@ -41,6 +41,7 @@
     "src/lib/learning/setReasoningConfig.ts",
     "src/lib/learning/spatialTransformConfig.ts",
     "src/lib/learning/relativeOrderTrackConfig.ts",
+    "src/lib/learning/syllableAssemblyConfig.ts",
     "src/lib/learning/runtimeMeasurement.ts",
     "src/lib/learning/attempts.ts",
     "src/lib/learning/progression.ts",
