@@ -5,9 +5,10 @@
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 **Canonical branch:** `main`  
 **Latest merged gameplay change:** PR #130 — Logic `set_reasoning`  
-**Verified gameplay merge SHA:** `678c2b0ec73910181f4a8a8e804f83f0fe0d0392`  
-**Live `main` verification:** exact SHA match confirmed after merge  
-**Pattern #26 closure:** **IN PROGRESS** on `agent/ws05-set-reasoning-closure-20260915`  
+**Latest gameplay closure:** PR #131 — Set Reasoning docs closure  
+**Verified implementation merge SHA:** `678c2b0ec73910181f4a8a8e804f83f0fe0d0392`  
+**Verified gameplay-closure SHA:** `3a07bec3f09381d2ba02726e5b67a71f9f5dc626`  
+**Pattern #26:** **FULLY CLOSED**  
 **Primary focus:** WS-05 gameplay/mechanic diversification  
 **Principle:** **Quality first. Quantity later.**
 
@@ -34,7 +35,7 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | TODO | parent/public surfaces |
 | WS-04 Activity audit/redesign | deterministic clean | 900 KEEP / 0 flagged |
-| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | **26 merged patterns; Pattern #26 closure in progress** |
+| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | **26 merged patterns; Pattern #26 fully closed** |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | TODO / parallel | Art Bible + permanent human gate |
@@ -45,7 +46,7 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 
 ## WS-05 merged baseline
 
-Verified live `main` after exact-head squash merge PR #130:
+Verified live `main` after Set Reasoning implementation PR #130 and closure PR #131:
 
 ```text
 900 / 900 classified
@@ -59,9 +60,9 @@ Logic choice_grid            57 / 100
 
 Distance remaining: **24 patterns** to minimum 50 and **34 patterns** to working target 60.
 
-Science remains exactly 60% `choice_grid`. Logic is now 57%. Concentration remains advisory only; Pattern #27 still requires a fresh objective/evidence audit.
+Science remains exactly 60% `choice_grid`. Logic is now 57%. Concentration remains advisory only; Pattern #27 requires a fresh objective/evidence audit.
 
-## Pattern #26 — Logic Set Reasoning — MERGED / CLOSURE IN PROGRESS
+## Pattern #26 — Logic Set Reasoning — FULLY CLOSED
 
 Exact scope:
 
@@ -88,16 +89,18 @@ Preserved contract:
 - runtime, IDs, choices, `correctChoice`, skill, assessment, stars, mastery and progression remain canonical;
 - assessed fidelity `choice_set_reasoning_interaction`.
 
-Acceptance and merge chain:
+Acceptance and closure chain:
 - CI #583 / run `34968050234` correctly rejected a stale Rule Pipeline sentinel;
 - CI #584 / run `34968353606` passed automation but was manually rejected because 320x720 idle/try feedback clipped below the viewport;
 - accepted implementation head `acc5ce9d5661818842effcd120346ded3891dd50` passed full CI #586 / run `34969198343` and manual 320/390/768 screenshot review;
-- final canonical-docs head `a725e567898a07bfd4977d5015a179c7a6d88ab2` passed full CI #591 / run `34971570563`;
-- final PR #130 gate was clean: open, non-draft, mergeable, 0 comments, 0 reviews, 0 review threads;
-- exact-head squash merge PR #130 produced `678c2b0ec73910181f4a8a8e804f83f0fe0d0392`;
-- independent branch fetch verified live `main` exactly at `678c2b0ec73910181f4a8a8e804f83f0fe0d0392`.
+- final implementation/docs head `a725e567898a07bfd4977d5015a179c7a6d88ab2` passed full CI #591 / run `34971570563`;
+- PR #130 gate was clean: open, non-draft, mergeable, 0 comments, 0 reviews, 0 review threads;
+- exact-head squash merge PR #130 produced `678c2b0ec73910181f4a8a8e804f83f0fe0d0392`, independently verified live on `main`;
+- closure PR #131 exact head `3e9ea7300290c94e8774068b80cf028d7f3dcd90` passed full CI #593 / run `34972491678`;
+- PR #131 gate was clean: open, non-draft, mergeable, 0 comments, 0 reviews, 0 review threads;
+- exact-head squash merge PR #131 produced `3a07bec3f09381d2ba02726e5b67a71f9f5dc626`, independently verified live on `main`.
 
-Pattern #26 is merged but not yet called fully closed until this required docs-only closure itself passes full CI, clean gate, exact-head merge and live-main verification.
+Pattern #26 is therefore fully closed. This metadata-only branch records that completed closure state and does not change product code, runtime, mastery, progression, schema, or catalog identity.
 
 ## Definition of Done
 
@@ -105,8 +108,8 @@ A mechanic/PR is complete only when implementation, typecheck/lint/build, engine
 
 ## Current execution order
 
-1. Finish and merge the docs-only Pattern #26 closure from verified merge SHA `678c2b0e...`.
-2. Only after closure is live-verified, run a fresh exact-family audit for Pattern #27; no next family is pre-approved.
+1. Run a **fresh Logic exact-family audit** from the verified 26-pattern baseline. No Pattern #27 family is pre-approved.
+2. Promote only objective-coherent/evidence-safe mechanics; do not lower hotspot counts cosmetically.
 3. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
 4. Continue WS-08 visual system, WS-02 narration, WS-03 parent/public frontend, WS-10 external acceptance, WS-11 governance, then later cleanup.
 
