@@ -24,7 +24,7 @@ Deterministic zero does **not** mean every activity is human-approved or maximal
 
 ## WS-05 gameplay diversification
 
-Merged waves:
+Fully merged/closed waves through the verified 26-pattern baseline:
 - `symbol_hunt` — 74 direct-literacy activities.
 - `memory_pair` — PR #101.
 - `missing_sequence_slot` — PR #102.
@@ -43,9 +43,9 @@ Merged waves:
 - `rule_pipeline` — PR #123.
 - `odd_one_out` — PR #125 + closure #126.
 - `transitive_chain` — PR #127 + closure #128 + metadata #129.
-- `set_reasoning` — PR #130 + closure #131 — **FULLY CLOSED**.
+- `set_reasoning` — PR #130 + closure #131 + metadata #132 — **FULLY CLOSED**.
 
-Current merged distribution:
+Verified merged baseline after #132: `7e3192898e37743826266c92c6c12a918d72e508`.
 
 ```text
 900 / 900 classified
@@ -59,46 +59,62 @@ Logic choice_grid            57 / 100
 
 Concentration remains advisory and does not itself create POLISH/REDESIGN findings.
 
-## Set Reasoning — FULLY CLOSED
+## Spatial Transform — Pattern #27 — QA ACCEPTED / UNMERGED PR #133
 
 Exact scope:
 
 ```text
-logic-set-both-red-round
-logic-set-animal-not-bird
-logic-set-shape-not-square
-logic-set-only-blue-triangle
-logic-set-outside-round-red
+logic-spatial-halfturn-up
+logic-spatial-quarterturn-left
+logic-spatial-quarterturn-right-down
+logic-spatial-two-right-turns
+logic-spatial-mirror-left-right
 ```
 
 Preserved:
 - canonical runtime `tap_choice`;
-- three choices/`correctChoice`;
+- exactly three choices and unchanged `correctChoice`;
 - assessment and stars;
-- mastery/progression and canonical skill `logic.set.relation.basic`;
+- mastery/progression and canonical skill `logic.spatial.transform.basic`;
 - activity IDs and completion semantics;
-- Logic stage `logic-mixed-reasoning-challenge` / lesson `logic-set-reasoning` / pack `logic.pack.set-reasoning` identity.
+- stage `logic-mixed-reasoning-challenge` / lesson `logic-spatial-transform` / pack `logic.pack.spatial-transform` identity.
 
 Interaction/evidence:
-- explicit two-rule set board makes membership/exclusion logic visible;
-- operation is explicit for intersection, set difference or outside-union;
+- visible starting direction and canonical transform operation;
+- final direction remains hidden as `?` until the child answers;
 - canonical choices remain accessible direct-selection buttons;
 - wrong choice is measured/retryable and cannot complete;
-- assessed fidelity `choice_set_reasoning_interaction`;
+- correct choice completes the canonical activity;
+- assessed fidelity `choice_spatial_transform_interaction`;
 - exact five-ID allowlist prevents unrelated Logic activities from reclassification;
-- no false Venn geometry, invented intermediate assessment, changed answer set, extra confirmation or drag-only dependency.
+- Wave B spatial-relation activities remain outside the family;
+- no answer leakage, invented intermediate assessment, changed answer set, extra confirmation or drag-only dependency.
 
-Acceptance/closure chain:
-- CI #583 rejected a stale Rule Pipeline sentinel.
-- CI #584 passed automation but manual visual QA rejected 320x720 idle/try clipping.
-- implementation head `acc5ce9d5661818842effcd120346ded3891dd50` passed CI #586 / run `34969198343` and manual visual QA.
-- final implementation/docs head `a725e567898a07bfd4977d5015a179c7a6d88ab2` passed CI #591 / run `34971570563`.
-- PR #130 clean gate -> exact-head squash merge `678c2b0ec73910181f4a8a8e804f83f0fe0d0392`, independently verified live.
-- closure head `3e9ea7300290c94e8774068b80cf028d7f3dcd90` passed CI #593 / run `34972491678`.
-- PR #131 clean gate: open, non-draft, mergeable, 0 comments, 0 reviews, 0 review threads.
-- exact-head squash merge #131 -> `3a07bec3f09381d2ba02726e5b67a71f9f5dc626`, independently verified live on `main`.
+Accepted implementation head `267f00d243dc1778c2d86e5a0ca70d8cfe76872a` passed full CI #597 / run `34976080767`.
 
-Permanent evidence remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE**, structural findings 0. Gameplay distribution remains 900/900 with 26 patterns, `choice_grid` 327/900, `set_reasoning` 5/900, Science 60/100 and Logic 57/100. Simulations remain zero invariant errors; Batch17 totals remain unchanged and physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
+Permanent evidence from that run:
+
+```text
+900 / 900 classified
+0 unclassified
+27 PR-head patterns
+choice_grid                 322 / 900 = 35.78%
+spatial_transform             5 / 900 = 0.56%
+Science choice_grid          60 / 100
+Logic choice_grid            52 / 100
+activity quality             900 KEEP / 0 flagged / structural 0
+simulations                  5 runs / invariantErrors 0
+```
+
+Batch17 remains **9 subjects / 900 activities / 683 assessed / 217 practice / 46 stages / 197 lessons / 197 packs / 200 skills** and physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
+
+Browser QA passed 320x720, 390x844 and 768x1024 with canonical Wave C prerequisite evidence, keyboard wrong-state, pointer completion, hidden-result guard, >=44px controls, no horizontal overflow, fully visible feedback/CTA, assessed evidence, and zero console/page errors. Manual review accepted all nine idle/try/success screenshots.
+
+Pattern #27 remains unmerged until the finalized docs-head full CI and clean review gate pass. The 27-pattern distribution is therefore a PR-head fact, not yet the merged product baseline.
+
+## Set Reasoning — FULLY CLOSED
+
+Set Reasoning implementation PR #130, closure PR #131 and metadata PR #132 remain fully closed at the verified baseline. Pattern #27 does not change its exact five-ID family, evidence fidelity `choice_set_reasoning_interaction`, runtime, mastery or progression.
 
 ## Permanent audits
 
@@ -131,9 +147,10 @@ CI uploads both artifacts. Gameplay-distribution coverage and active-pattern-set
 - WS-05 Rule Pipeline DONE — PR #123.
 - WS-05 Odd One Out DONE — PR #125 + closure #126.
 - WS-05 Transitive Chain DONE — PR #127 + closure #128 + metadata #129.
-- WS-05 Set Reasoning DONE — PR #130 + closure #131.
-- WS-05 NEXT — fresh Logic exact-family audit from the verified 26-pattern baseline; no Pattern #27 family pre-approved.
+- WS-05 Set Reasoning DONE — PR #130 + closure #131 + metadata #132.
+- WS-05 Spatial Transform — **QA ACCEPTED / UNMERGED PR #133**.
+- WS-05 NEXT — only after #133 exact-head merge + live verification + post-merge closure are complete, run a fresh Pattern #28 objective/evidence audit; no family pre-approved.
 
 ## Completion rule
 
-Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #26 itself is fully closed.
+Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #27 itself cannot be called fully closed until PR #133 and its required post-merge docs closure are both merged and independently verified live on `main`.
