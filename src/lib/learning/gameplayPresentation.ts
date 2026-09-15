@@ -1,7 +1,7 @@
 import type { LearningActivity } from "./system";
 
 export type MatchingPresentation = "grid_pairs" | "memory_pairs" | "drag_targets";
-export type ChoiceGameplayPresentation = "default" | "sequence_slot" | "sorting_buckets" | "rule_pipeline" | "count_select" | "number_line" | "more_less_balance" | "pattern_completion" | "cause_effect" | "compare_properties" | "healthy_habit_routine" | "material_lab" | "feature_function_link";
+export type ChoiceGameplayPresentation = "default" | "sequence_slot" | "sorting_buckets" | "odd_one_out" | "rule_pipeline" | "count_select" | "number_line" | "more_less_balance" | "pattern_completion" | "cause_effect" | "compare_properties" | "healthy_habit_routine" | "material_lab" | "feature_function_link";
 export type GameplayPattern =
   | "choice_grid"
   | "symbol_hunt"
@@ -11,6 +11,7 @@ export type GameplayPattern =
   | "drag_to_target"
   | "missing_sequence_slot"
   | "sorting_buckets"
+  | "odd_one_out"
   | "rule_pipeline"
   | "count_and_select"
   | "number_line"
@@ -67,6 +68,14 @@ const SCIENCE_FEATURE_FUNCTION_LINK_IDS = new Set([
   "science-feature-fish-gills",
   "science-feature-bird-beak-seeds",
   "science-feature-cactus-water"
+]);
+
+const LOGIC_ODD_ONE_OUT_IDS = new Set([
+  "logic-odd-category-animal-vehicle",
+  "logic-odd-shape-angular",
+  "logic-odd-direction-right",
+  "logic-odd-count-three",
+  "logic-odd-pattern-symmetry"
 ]);
 
 const LOGIC_RULE_PIPELINE_IDS = new Set([
@@ -159,6 +168,11 @@ export function isDragTargetActivity(activity: LearningActivity | undefined): bo
  * Basic Logic classification tasks ask whether each visible object satisfies
  * one simple rule, so the reviewed starter family uses two-bucket sorting.
  *
+ * Reviewed Logic odd-one-out tasks ask the child to compare a trio where two
+ * choices share one relation and exactly one choice differs. Present the three
+ * canonical choices as one comparison set instead of three unrelated quiz
+ * buttons while preserving the assessed tap-choice identity.
+ *
  * Reviewed Logic composed-rule tasks require two transformations in order.
  * Present the first rule, reveal its intermediate state, then ask for the
  * canonical final choice after rule two instead of collapsing both steps into
@@ -219,6 +233,16 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     new Set(choices).size === choices.length &&
     choices.includes(correct);
   if (isBasicLogicClassificationFamily) return "sorting_buckets";
+
+  const isReviewedLogicOddOneOutFamily =
+    activity.subjectId === "logic" &&
+    activity.stageId === "logic-classification-rules-basics" &&
+    LOGIC_ODD_ONE_OUT_IDS.has(activity.id) &&
+    choices.length === 3 &&
+    new Set(choices).size === choices.length &&
+    choices.includes(correct) &&
+    Boolean(activity.prompt);
+  if (isReviewedLogicOddOneOutFamily) return "odd_one_out";
 
   const isReviewedLogicRulePipelineFamily =
     activity.subjectId === "logic" &&
@@ -334,6 +358,10 @@ export function isSortingBucketsActivity(activity: LearningActivity | undefined)
   return choiceGameplayPresentation(activity) === "sorting_buckets";
 }
 
+export function isOddOneOutActivity(activity: LearningActivity | undefined): boolean {
+  return choiceGameplayPresentation(activity) === "odd_one_out";
+}
+
 export function isRulePipelineActivity(activity: LearningActivity | undefined): boolean {
   return choiceGameplayPresentation(activity) === "rule_pipeline";
 }
@@ -387,6 +415,7 @@ export function gameplayPattern(activity: LearningActivity | undefined): Gamepla
     const presentation = choiceGameplayPresentation(activity);
     if (presentation === "sequence_slot") return "missing_sequence_slot";
     if (presentation === "sorting_buckets") return "sorting_buckets";
+    if (presentation === "odd_one_out") return "odd_one_out";
     if (presentation === "rule_pipeline") return "rule_pipeline";
     if (presentation === "count_select") return "count_and_select";
     if (presentation === "number_line") return "number_line";
