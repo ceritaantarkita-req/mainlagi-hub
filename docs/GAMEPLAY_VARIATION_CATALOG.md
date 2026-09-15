@@ -13,7 +13,7 @@
 
 ## Status implementasi
 
-### Merged di `main`: 16 pola
+### Merged di `main`: 17 pola
 
 1. `choice_grid`
 2. `symbol_hunt`
@@ -31,13 +31,12 @@
 14. `count_and_select` — **MERGED PR #106**
 15. `number_line` — **MERGED PR #108**
 16. `more_less_balance` — **MERGED PR #109**
+17. `pattern_completion` — **MERGED PR #110**
 
 Permanent gameplay-distribution audit: **MERGED PR #105**.  
-Latest gameplay merge: PR #109 `8a54534ac285013d22d2fc458bb302ae1fe1a87b`.
+Latest gameplay merge: PR #110 `6c5566ea9465a26399f9c4637f252d316552636d`.
 
-### Dalam QA / PR #110: pola #17
-
-`pattern_completion` — amati pola berulang/berubah lalu pilih elemen berikutnya.
+### Pattern Completion — DONE / PR #110
 
 Exact scope: 5 Math Wave B choice activities:
 
@@ -62,17 +61,18 @@ Boundaries:
 - wrong answer dapat mengisi slot sebagai feedback tetapi **tidak** complete;
 - runtime tetap `tap_choice`;
 - choices, correctChoice, skill, assessment, stars, progression, activity ID, dan completion identity tetap canonical;
-- assessed fidelity `choice_pattern_completion_interaction` dengan `patternKind`, `visualMode`, dan observed-sequence metadata;
+- assessed fidelity `choice_pattern_completion_interaction`;
 - exact five-ID allowlist mencegah matching family atau Math family lain ikut ter-route.
 
-QA implementation head `6d79bf3716b65657da67ff0078767800b76b22ed`:
-- CI #503 full green di Ubuntu, Windows, production build, dependency audit, secret scan, dan Chromium mobile QA;
-- browser representative `math-pattern-aab-colors` memakai legitimate previous-stage readiness; progression guard tetap aktif;
+Accepted QA:
+- implementation CI #503 full green;
+- final docs-head CI #508 full green;
+- browser representative `math-pattern-aab-colors` memakai legitimate previous-stage readiness;
 - pattern `🔴 🔴 🔵 🔴 🔴 ?`, choices `🔴/🔵/🟡`, keyboard wrong-state, false-completion guard, pointer completion, evidence persistence, >=44px controls, no overflow, dan success CTA lolos;
 - manual visual review idle/error/success pada 320, 390, 768 accepted;
 - deterministic audit tetap **900 KEEP / 0 flagged**, structural findings 0.
 
-Measured distribution PR #110:
+Merged distribution after PR #110:
 
 ```text
 900 / 900 classified
@@ -85,7 +85,7 @@ Science choice_grid    79 / 100
 Logic choice_grid      77 / 100
 ```
 
-Math sekarang turun di bawah subject-hotspot threshold >60%. Sesudah PR #110, prioritas audit berpindah ke Science dan Logic.
+Math sekarang di bawah subject-hotspot threshold >60%. Prioritas audit berpindah ke Science dan Logic.
 
 ## 60 pola permainan target
 
@@ -129,7 +129,7 @@ Math sekarang turun di bawah subject-hotspot threshold >60%. Sesudah PR #110, pr
 27. `number_line` — **MERGED PR #108**
 28. `more_less_balance` — **MERGED PR #109**
 29. `make_total`
-30. `pattern_completion` — **QA / PR #110**
+30. `pattern_completion` — **MERGED PR #110**
 
 ### G. Literacy construction
 31. `build_word`
@@ -155,7 +155,7 @@ Math sekarang turun di bawah subject-hotspot threshold >60%. Sesudah PR #110, pr
 ### J. Science & logic exploration
 46. `classify_observation`
 47. `predict_result`
-48. `cause_effect`
+48. `cause_effect` — **NEXT REVIEW: Science Wave B water changes**
 49. `compare_properties`
 50. `observation_checklist`
 
@@ -195,9 +195,9 @@ Prinsip alokasi:
 6. Count-and-Select — **DONE / #106**.
 7. Number Line — **DONE / #108**.
 8. More/Less Balance — **DONE / #109**.
-9. Pattern Completion — **QA / #110**.
-10. After #110, audit exact **Science** families first (79% `choice_grid`), then **Logic** families (77%); do not keep converting Math merely because earlier waves were Math.
-11. Continue search/audio/puzzle/literacy/creative/story based on objective fit and distribution.
+9. Pattern Completion — **DONE / #110**.
+10. Next exact review: Science `cause_effect` for the coherent Wave B water-change family; then continue Science hotspot audit.
+11. Audit Logic families after Science; continue search/audio/puzzle/literacy/creative/story based on objective fit and distribution.
 
 ## Definition of done per mechanic
 

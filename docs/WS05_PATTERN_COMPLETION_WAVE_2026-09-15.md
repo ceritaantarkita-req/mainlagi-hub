@@ -1,12 +1,17 @@
 # WS-05 Pattern Completion Wave — 2026-09-15
 
-## Purpose
+## Status
 
-Diversify the reviewed Math pattern-sequence choice family with a reusable child-facing `pattern_completion` interaction while preserving canonical assessment and progression contracts.
+**DONE / MERGED**
 
 Branch: `agent/ws05-gameplay-pattern-completion-20260915`  
 PR: #110  
-Base `main`: `8a54534ac285013d22d2fc458bb302ae1fe1a87b`
+Base `main`: `8a54534ac285013d22d2fc458bb302ae1fe1a87b`  
+Merge: `6c5566ea9465a26399f9c4637f252d316552636d`
+
+## Purpose
+
+Diversify the reviewed Math pattern-sequence choice family with a reusable child-facing `pattern_completion` interaction while preserving canonical assessment and progression contracts.
 
 ## Exact scope
 
@@ -59,11 +64,13 @@ choice_pattern_completion_interaction
 
 Metadata includes pattern kind, visual mode, and observed sequence.
 
-## QA evidence
+## Accepted QA evidence
 
 Implementation head: `6d79bf3716b65657da67ff0078767800b76b22ed`.
 
 CI #503: full green across Ubuntu quality gate, Windows compatibility, production build, dependency audit, secret scan, and mobile Chromium.
+
+Final docs-head CI #508: full green across the same blocking gates before merge.
 
 Representative browser activity: `math-pattern-aab-colors`.
 
@@ -81,22 +88,28 @@ Browser checks:
 
 Manual visual review accepted idle/error/success at all three viewports. Six total strip cells including the blank slot remain readable at 320px.
 
-Deterministic activity quality remains **900 KEEP / 0 flagged**, structural findings 0.
+Deterministic activity quality remained **900 KEEP / 0 flagged**, structural findings 0.
 
-## Distribution delta
+## Merged distribution delta
 
 ```text
 before (#109 merged): choice_grid 371 / 900; Math choice_grid 61 / 100; 16 patterns
-PR #110:              choice_grid 366 / 900; Math choice_grid 56 / 100; 17 patterns
+after  (#110 merged): choice_grid 366 / 900; Math choice_grid 56 / 100; 17 patterns
 pattern_completion:   5 / 900
 coverage:             900 / 900, 0 unclassified
 ```
 
-Math is now below the >60% subject concentration threshold. After this wave, exact-family audit priority shifts to Science (79% `choice_grid`) and Logic (77%).
+Math is now below the >60% subject concentration threshold. Exact-family audit priority shifts to Science (79% `choice_grid`) and then Logic (77%).
 
-## Remaining merge gates
+## Next reviewed candidate
 
-- final CI on the current docs head;
-- clean PR review threads/comments;
-- exact-head squash merge;
-- verify `main` after merge.
+Science Wave B water-change family for `cause_effect`:
+
+```text
+science-water-ice-melts
+science-water-freezes
+science-water-puddle-evaporates
+science-water-cold-glass-droplets
+```
+
+Keep `science-match-water-states-b` on canonical matching; do not broaden the next PR beyond the reviewed choice family without separate evidence/objective review.
