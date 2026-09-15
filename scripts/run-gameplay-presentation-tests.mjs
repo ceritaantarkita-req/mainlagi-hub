@@ -208,6 +208,21 @@ for(const activity of relativeOrderTrack){
   assert.equal(config.items[config.targetIndex],activity.correctChoice,`${activity.id} masks exactly the canonical answer position`);
 }
 
+const expectedSyllableAssembly=new Set([
+  "bahasa-gabung-baju","bahasa-gabung-buku","bahasa-gabung-meja","bahasa-gabung-bola","bahasa-gabung-susu"
+]);
+const syllableAssembly=ACTIVITIES.filter(activity=>choiceGameplayPresentation(activity)==="syllable_assembly");
+assert.equal(syllableAssembly.length,expectedSyllableAssembly.size,"syllable-assembly family size must remain intentional");
+assert.deepEqual(new Set(syllableAssembly.map(activity=>activity.id)),expectedSyllableAssembly,"only the five reviewed Bahasa Wave B blending activities use Syllable Assembly");
+for(const activity of syllableAssembly){
+  assert.equal(activity.runtime,"tap_choice");
+  assert.equal(activity.subjectId,"bahasa");
+  assert.equal(activity.stageId,"bahasa-suku-kata-kata");
+  assert.equal((activity.choices??[]).length,3);
+  assert.equal(new Set(activity.choices??[]).size,3,"syllable-assembly choices remain unique");
+  assert((activity.choices??[]).includes(activity.correctChoice),"syllable assembly preserves canonical correctChoice");
+}
+
 const expectedCountSelect=new Set([
   "math-count-2","math-count-3","math-count-4","math-count-5","math-count-6",
   "math-count-7","math-count-8","math-count-9","math-count-10"
@@ -428,9 +443,9 @@ assert(observationTools,"investigation observation-tools matching remains in cat
 assert.equal(observationTools.runtime,"matching");
 assert.equal(matchingPresentation(observationTools),"grid_pairs","investigation matching stays outside choice-only investigation board");
 
-const specializedChoiceIds=new Set([...expectedSequence,...expectedSorting,...expectedOddOneOut,...expectedRulePipeline,...expectedSetReasoning,...expectedTransitiveChain,...expectedSpatialTransform,...expectedRelativeOrderTrack,...expectedCountSelect,...expectedNumberLine,...expectedBalance,...expectedPatternCompletion,...expectedCauseEffect,...expectedCompareProperties,...expectedHealthyHabitRoutine,...expectedMaterialLab,...expectedFeatureFunctionLink,...expectedInvestigationBoard]);
+const specializedChoiceIds=new Set([...expectedSequence,...expectedSyllableAssembly,...expectedSorting,...expectedOddOneOut,...expectedRulePipeline,...expectedSetReasoning,...expectedTransitiveChain,...expectedSpatialTransform,...expectedRelativeOrderTrack,...expectedCountSelect,...expectedNumberLine,...expectedBalance,...expectedPatternCompletion,...expectedCauseEffect,...expectedCompareProperties,...expectedHealthyHabitRoutine,...expectedMaterialLab,...expectedFeatureFunctionLink,...expectedInvestigationBoard]);
 const otherChoice=ACTIVITIES.filter(activity=>activity.runtime==="tap_choice"&&!specializedChoiceIds.has(activity.id));
 assert(otherChoice.length>0,"default choice activities remain available");
 assert(otherChoice.every(activity=>choiceGameplayPresentation(activity)==="default"),"other choice families retain default presentation");
 
-console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets + ${oddOneOut.length} odd_one_out + ${rulePipeline.length} rule_pipeline + ${setReasoning.length} set_reasoning + ${transitiveChain.length} transitive_chain + ${spatialTransform.length} spatial_transform + ${relativeOrderTrack.length} relative_order_track + ${countSelect.length} count_select + ${numberLine.length} number_line + ${balance.length} more_less_balance + ${patternCompletion.length} pattern_completion + ${causeEffect.length} cause_effect + ${compareProperties.length} compare_properties + ${healthyHabitRoutine.length} healthy_habit_routine + ${materialLab.length} material_lab + ${featureFunctionLink.length} feature_function_link + ${investigationBoard.length} investigation_board activities.`);
+console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${syllableAssembly.length} syllable_assembly + ${sorting.length} sorting_buckets + ${oddOneOut.length} odd_one_out + ${rulePipeline.length} rule_pipeline + ${setReasoning.length} set_reasoning + ${transitiveChain.length} transitive_chain + ${spatialTransform.length} spatial_transform + ${relativeOrderTrack.length} relative_order_track + ${countSelect.length} count_select + ${numberLine.length} number_line + ${balance.length} more_less_balance + ${patternCompletion.length} pattern_completion + ${causeEffect.length} cause_effect + ${compareProperties.length} compare_properties + ${healthyHabitRoutine.length} healthy_habit_routine + ${materialLab.length} material_lab + ${featureFunctionLink.length} feature_function_link + ${investigationBoard.length} investigation_board activities.`);
