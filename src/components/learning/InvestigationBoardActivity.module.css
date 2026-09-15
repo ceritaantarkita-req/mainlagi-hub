@@ -243,28 +243,28 @@
 
 @media (max-width: 640px) {
   .scene {
-    gap: 10px;
-    padding-bottom: 10px;
+    gap: 8px;
+    padding-bottom: 8px;
   }
 
   .promptCard {
     gap: 10px;
-    padding: 11px 12px;
+    padding: 10px 12px;
   }
 
   .promptIcon {
-    width: 44px;
-    height: 44px;
+    width: 42px;
+    height: 42px;
     border-radius: 14px;
-    font-size: 1.4rem;
+    font-size: 1.35rem;
   }
 
   .promptCard h1 {
-    font-size: 1.12rem;
+    font-size: 1.08rem;
   }
 
   .promptCard p {
-    font-size: 0.86rem;
+    font-size: 0.82rem;
   }
 
   .processRail {
@@ -272,45 +272,60 @@
   }
 
   .processStep {
-    min-height: 40px;
-    padding: 5px 4px;
-    font-size: 0.72rem;
+    min-height: 38px;
+    padding: 4px;
+    font-size: 0.7rem;
     border-radius: 11px;
   }
 
   .board {
-    grid-template-columns: 1fr;
-    gap: 8px;
-    padding: 10px;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: 7px;
+    padding: 8px;
   }
 
   .scenarioCard,
   .focusCard {
     min-height: 0;
-    padding: 10px;
-    border-radius: 16px;
+    padding: 8px;
+    border-radius: 15px;
   }
 
   .scenarioCard {
-    gap: 4px 8px;
+    gap: 4px 7px;
   }
 
   .scenarioIcon {
-    width: 36px;
-    height: 36px;
-    border-radius: 12px;
-    font-size: 1.25rem;
+    width: 32px;
+    height: 32px;
+    border-radius: 11px;
+    font-size: 1.15rem;
   }
 
   .scenarioCard strong,
   .focusCard strong {
-    font-size: 0.95rem;
+    font-size: 0.86rem;
+    line-height: 1.2;
   }
 
   .scenarioCard ul,
   .focusCard p {
-    font-size: 0.8rem;
-    line-height: 1.35;
+    font-size: 0.74rem;
+    line-height: 1.25;
+  }
+
+  .scenarioCard ul {
+    margin-top: 2px;
+    padding-left: 16px;
+  }
+
+  .focusCard {
+    gap: 5px;
+  }
+
+  .cardTag {
+    padding: 3px 7px;
+    font-size: 0.67rem;
   }
 
   .choiceGrid {
@@ -318,28 +333,29 @@
   }
 
   .choiceButton {
-    min-height: 64px;
-    border-radius: 16px;
-    padding: 7px 5px;
-    gap: 5px;
+    min-height: 58px;
+    border-radius: 15px;
+    padding: 6px 4px;
+    gap: 4px;
     flex-direction: column;
   }
 
   .choiceButton strong {
-    font-size: 0.76rem;
-    line-height: 1.15;
+    font-size: 0.73rem;
+    line-height: 1.12;
   }
 
   .choiceIcon {
-    width: 28px;
-    height: 28px;
-    font-size: 1rem;
+    width: 26px;
+    height: 26px;
+    font-size: 0.95rem;
   }
 
   .status {
-    min-height: 48px;
-    padding: 8px 10px;
-    font-size: 0.82rem;
+    min-height: 44px;
+    padding: 6px 9px;
+    font-size: 0.78rem;
+    line-height: 1.25;
   }
 
   .sceneDone .promptCard,
@@ -354,17 +370,31 @@
   }
 
   .scene {
-    gap: 8px;
+    gap: 6px;
   }
 
   .board {
-    gap: 6px;
-    padding: 8px;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+    gap: 5px;
+    padding: 6px;
   }
 
   .scenarioCard,
   .focusCard {
-    padding: 8px;
+    padding: 6px;
+  }
+
+  .focusCard p {
+    display: none;
+  }
+
+  .scenarioCard ul {
+    font-size: 0.7rem;
+    line-height: 1.2;
+  }
+
+  .choiceButton {
+    min-height: 54px;
   }
 }
 
