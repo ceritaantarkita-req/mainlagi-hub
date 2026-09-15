@@ -1,12 +1,12 @@
 # WS-05 Set Reasoning Wave — 2026-09-15
 
-Status: **MERGED / POST-MERGE CLOSURE IN PROGRESS**
+Status: **FULLY CLOSED**
 
 Implementation branch: `agent/ws05-logic-set-reasoning-20260915`
 
 Implementation PR: #130 — `feat: add Logic set-reasoning gameplay`
 
-Closure branch: `agent/ws05-set-reasoning-closure-20260915`
+Closure PR: #131 — `docs: close Set Reasoning merge state`
 
 Base before implementation: verified live `main` at `4a146b1f188eb90c612a8cf4dd0285363d5f6738`.
 
@@ -15,6 +15,10 @@ Accepted implementation head: `acc5ce9d5661818842effcd120346ded3891dd50`.
 Final implementation/docs head: `a725e567898a07bfd4977d5015a179c7a6d88ab2`.
 
 Merged implementation SHA: `678c2b0ec73910181f4a8a8e804f83f0fe0d0392` — independently verified live on `main`.
+
+Closure head: `3e9ea7300290c94e8774068b80cf028d7f3dcd90`.
+
+Merged closure SHA: `3a07bec3f09381d2ba02726e5b67a71f9f5dc626` — independently verified live on `main`.
 
 ## Objective
 
@@ -68,9 +72,9 @@ Science choice_grid          60 / 100
 Logic choice_grid            57 / 100
 ```
 
-Remaining distance after merge: **24 patterns to minimum 50** and **34 to working target 60**.
+Remaining distance after closure: **24 patterns to minimum 50** and **34 to working target 60**.
 
-## QA and merge history
+## QA and closure history
 
 ### CI #583 — rejected
 
@@ -101,7 +105,11 @@ Permanent evidence:
 
 ### CI #591 — final implementation/docs head
 
-Final head `a725e567898a07bfd4977d5015a179c7a6d88ab2` passed full CI #591 / run `34971570563`:
+Head `a725e567898a07bfd4977d5015a179c7a6d88ab2` passed full CI #591 / run `34971570563`. PR #130 was open, non-draft, mergeable and clean with 0 comments, 0 reviews and 0 review threads. Exact-head squash merge produced `678c2b0ec73910181f4a8a8e804f83f0fe0d0392`, independently verified live on `main`.
+
+### CI #593 — post-merge closure
+
+Closure head `3e9ea7300290c94e8774068b80cf028d7f3dcd90` passed full CI #593 / run `34972491678`:
 - Ubuntu — success;
 - Windows — success;
 - Production build — success;
@@ -110,24 +118,21 @@ Final head `a725e567898a07bfd4977d5015a179c7a6d88ab2` passed full CI #591 / run 
 - Chromium mobile-route QA — success;
 - production smoke — skipped by normal workflow condition.
 
-Final gate immediately before merge:
-- PR #130 open;
+PR #131 final gate:
+- open;
 - non-draft;
 - mergeable;
-- exact head `a725e567898a07bfd4977d5015a179c7a6d88ab2`;
+- exact head `3e9ea7300290c94e8774068b80cf028d7f3dcd90`;
 - 0 conversation comments;
 - 0 submitted reviews;
 - 0 review threads.
 
-Exact-head squash merge produced `678c2b0ec73910181f4a8a8e804f83f0fe0d0392`. Independent branch fetch confirmed live `main` at the same SHA.
+Exact-head squash merge #131 produced `3a07bec3f09381d2ba02726e5b67a71f9f5dc626`. Independent branch fetch confirmed live `main` at the same SHA.
 
-## Post-merge closure gate
+## Closure result
 
-Pattern #26 is now merged, but full closure requires this docs-only branch to:
-1. contain only canonical closure/documentation changes;
-2. pass a fresh full CI run;
-3. pass clean PR comments/reviews/threads and mergeability gate;
-4. be exact-head squash merged;
-5. have the returned merge SHA independently verified live on `main`.
+Pattern #26 satisfies the implementation, automated QA, manual visual QA, canonical-docs, exact-head merge, live-main verification, post-merge closure CI, clean closure gate, closure merge, and final live-main verification requirements. It is **FULLY CLOSED**.
 
-Only after those steps may Pattern #26 be called **FULLY CLOSED** and Pattern #27 audit begin.
+This metadata-only update records the completed closure and changes no product runtime, activity identity, assessment, mastery, progression, schema, or catalog payload.
+
+A fresh exact-family audit may now begin for Pattern #27. No family is pre-approved; mechanic choice must remain objective-fit and evidence-safe.
