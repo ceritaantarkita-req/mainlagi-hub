@@ -50,7 +50,7 @@ for(const id of [
   "logic-set-both-red-round",
   "logic-transitive-height-abc",
   "logic-spatial-halfturn-up",
-  "logic-odd-category-animal-vehicle"
+  "logic-compare-more-dots"
 ]){
   const activity=ACTIVITIES.find(item=>item.id===id);
   assert(activity,`${id} remains in catalog`);
