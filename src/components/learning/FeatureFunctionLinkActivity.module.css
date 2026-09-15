@@ -244,4 +244,12 @@
   .functionButton {
     min-height: 56px;
   }
+
+  .sceneDone {
+    gap: 8px;
+  }
+
+  .sceneDone .promptCard {
+    display: none;
+  }
 }
