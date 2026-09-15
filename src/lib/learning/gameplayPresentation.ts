@@ -1,7 +1,7 @@
 import type { LearningActivity } from "./system";
 
 export type MatchingPresentation = "grid_pairs" | "memory_pairs" | "drag_targets";
-export type ChoiceGameplayPresentation = "default" | "sequence_slot" | "sorting_buckets" | "odd_one_out" | "rule_pipeline" | "set_reasoning" | "transitive_chain" | "spatial_transform" | "count_select" | "number_line" | "more_less_balance" | "pattern_completion" | "cause_effect" | "compare_properties" | "healthy_habit_routine" | "material_lab" | "feature_function_link" | "investigation_board";
+export type ChoiceGameplayPresentation = "default" | "sequence_slot" | "sorting_buckets" | "odd_one_out" | "rule_pipeline" | "set_reasoning" | "transitive_chain" | "spatial_transform" | "relative_order_track" | "count_select" | "number_line" | "more_less_balance" | "pattern_completion" | "cause_effect" | "compare_properties" | "healthy_habit_routine" | "material_lab" | "feature_function_link" | "investigation_board";
 export type GameplayPattern =
   | "choice_grid"
   | "symbol_hunt"
@@ -16,6 +16,7 @@ export type GameplayPattern =
   | "set_reasoning"
   | "transitive_chain"
   | "spatial_transform"
+  | "relative_order_track"
   | "count_and_select"
   | "number_line"
   | "more_less_balance"
@@ -121,6 +122,14 @@ const LOGIC_SPATIAL_TRANSFORM_IDS = new Set([
   "logic-spatial-mirror-left-right"
 ]);
 
+const LOGIC_RELATIVE_ORDER_TRACK_IDS = new Set([
+  "logic-order-first-after-start",
+  "logic-order-before-d",
+  "logic-order-between-blue-green",
+  "logic-order-third-symbol",
+  "logic-order-two-steps-after"
+]);
+
 const MATH_COUNT_SELECT_IDS = new Set([
   "math-count-2",
   "math-count-3",
@@ -196,75 +205,9 @@ export function isDragTargetActivity(activity: LearningActivity | undefined): bo
 }
 
 /**
- * Alphabet before/between/after tasks measure sequence position, so present
- * them as a visible sequence with one empty slot rather than another generic
- * three-button quiz.
- *
- * Basic Logic classification tasks ask whether each visible object satisfies
- * one simple rule, so the reviewed starter family uses two-bucket sorting.
- *
- * Reviewed Logic odd-one-out tasks ask the child to compare a trio where two
- * choices share one relation and exactly one choice differs. Present the three
- * canonical choices as one comparison set instead of three unrelated quiz
- * buttons while preserving the assessed tap-choice identity.
- *
- * Reviewed Logic composed-rule tasks require two transformations in order.
- * Present the first rule, reveal its intermediate state, then ask for the
- * canonical final choice after rule two instead of collapsing both steps into
- * another generic answer grid.
- *
- * Reviewed Logic set-reasoning tasks combine two membership constraints.
- * Present the required in/out relation for both sets as one rule board so
- * intersection, exclusion, and outside-both objectives are explicit without
- * inventing subset geometry or changing the canonical assessed choice.
- *
- * Reviewed Logic transitive-comparison tasks provide two ordered premises that
- * must be combined into one conclusion. Present the three entities as a linked
- * relation chain so both premises remain visible while the canonical conclusion
- * choices and assessed tap-choice identity stay unchanged.
- *
- * Reviewed Logic spatial-transform tasks apply a rotation or left-right mirror
- * to one starting direction. Present the start, operation and hidden result as
- * one transform board so the operation is visible without revealing the final
- * answer before the canonical assessed choice.
- *
- * Reviewed Math count tasks ask the child to inspect a visible set and choose
- * its quantity. Keep the canonical tap_choice payload/evidence contract while
- * presenting the prompt objects as the primary counting surface.
- *
- * Reviewed Math ordering tasks measure relative number position, so expose the
- * canonical three numeric choices directly on a local number line.
- *
- * Reviewed Math comparison tasks measure left/right/equal quantity relations,
- * so present the same canonical choices as two balance pans plus an equal
- * control instead of another generic answer grid.
- *
- * Reviewed Math pattern tasks measure recognition of a repeating or stepping
- * rule. Present the observed run as a pattern strip with one explicit next
- * slot while keeping the canonical three choices and evidence identity.
- *
- * Reviewed Science water-change tasks connect an observable condition with a
- * resulting state change, so present them as an explicit cause/effect flow.
- *
- * Reviewed Science measurement tasks compare two observable properties, so
- * present their qualitative relation directly without inventing numeric data.
- *
- * Reviewed Science body-health tasks ask which everyday habit best fits one
- * familiar care context, so present them as a routine cue plus habit cards.
- *
- * Reviewed Science material-design tasks ask which property makes a familiar
- * object fit its purpose. Present them as a select-and-test material lab so the
- * child commits a sample before testing it against the canonical objective.
- *
- * Reviewed Science living-adaptation tasks ask what a visible body or plant
- * feature helps the organism do. Present the feature as a source node and the
- * canonical three choices as function destinations to make the relation
- * explicit without changing the assessed tap-choice contract.
- *
- * Reviewed Science investigation/evidence choices ask the child to identify
- * what to observe, what to keep constant, what to predict, or what conclusion
- * the visible evidence supports. Present the scenario and active inquiry step
- * on one investigation board while keeping the canonical assessed choices.
+ * Choice presentation families are deliberately exact-scoped. A family only
+ * changes how canonical evidence is presented; runtime, answers and completion
+ * semantics remain unchanged.
  */
 export function choiceGameplayPresentation(activity: LearningActivity | undefined): ChoiceGameplayPresentation {
   if (!activity || activity.runtime !== "tap_choice") return "default";
@@ -338,6 +281,16 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     choices.includes(correct) &&
     Boolean(activity.prompt);
   if (isReviewedLogicSpatialTransformFamily) return "spatial_transform";
+
+  const isReviewedLogicRelativeOrderTrackFamily =
+    activity.subjectId === "logic" &&
+    activity.stageId === "logic-conditional-analogy-inference" &&
+    LOGIC_RELATIVE_ORDER_TRACK_IDS.has(activity.id) &&
+    choices.length === 3 &&
+    new Set(choices).size === choices.length &&
+    choices.includes(correct) &&
+    Boolean(activity.prompt);
+  if (isReviewedLogicRelativeOrderTrackFamily) return "relative_order_track";
 
   const isReviewedMathCountFamily =
     activity.subjectId === "math" &&
@@ -473,6 +426,10 @@ export function isSpatialTransformActivity(activity: LearningActivity | undefine
   return choiceGameplayPresentation(activity) === "spatial_transform";
 }
 
+export function isRelativeOrderTrackActivity(activity: LearningActivity | undefined): boolean {
+  return choiceGameplayPresentation(activity) === "relative_order_track";
+}
+
 export function isCountAndSelectActivity(activity: LearningActivity | undefined): boolean {
   return choiceGameplayPresentation(activity) === "count_select";
 }
@@ -531,6 +488,7 @@ export function gameplayPattern(activity: LearningActivity | undefined): Gamepla
     if (presentation === "set_reasoning") return "set_reasoning";
     if (presentation === "transitive_chain") return "transitive_chain";
     if (presentation === "spatial_transform") return "spatial_transform";
+    if (presentation === "relative_order_track") return "relative_order_track";
     if (presentation === "count_select") return "count_and_select";
     if (presentation === "number_line") return "number_line";
     if (presentation === "more_less_balance") return "more_less_balance";
