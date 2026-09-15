@@ -1,9 +1,9 @@
 # WS-05 Relative Order Track Wave — 2026-09-15
 
-Status: **IMPLEMENTATION IN PROGRESS / UNMERGED**
+Status: **QA ACCEPTED / UNMERGED**
 
-Branch: `agent/ws05-logic-relative-order-track-20260915`
-
+Branch: `agent/ws05-logic-relative-order-track-20260915`  
+PR: #137  
 Base: verified live `main` at `d2c0f490a0130f7e537c3644c9f8a6846596bbf4` after Investigation Board closure PR #136.
 
 ## Audit decision
@@ -56,7 +56,7 @@ The hidden slot is validated to equal the canonical `correctChoice`; the answer 
 
 Assessed evidence fidelity: `choice_relative_order_track_interaction`. Runtime metadata source: `relative-order-track-runtime`.
 
-## Expected PR-head distribution
+## Accepted PR-head distribution
 
 ```text
 classified:                 900 / 900
@@ -70,20 +70,35 @@ Science choice_grid           56 / 100
 
 If merged unchanged, remaining distance becomes **21 patterns to minimum 50** and **31 to working target 60**.
 
-## Required acceptance gates
+## Acceptance evidence
 
-Before this wave may be called QA accepted:
-1. exact-family static regression proves exactly five scoped IDs and preserves runtime, assessment, skill, choices and `correctChoice`;
-2. explicit config validation proves the masked track slot equals the canonical `correctChoice` and appears only once in source sequence context;
-3. nearby Logic conditional/classification/inference/analogy families remain outside scope;
-4. Math number-line and Letters sequence-slot ordering families remain unchanged;
-5. permanent gameplay-presentation regression includes the exact five-ID family and keeps the default-family guard;
-6. gameplay-distribution audit verifies 29 patterns, 900/900 classified, zero unclassified, `choice_grid` 313/900, `relative_order_track` 5/900, Logic 47/100 and Science 56/100;
-7. deterministic activity-quality remains 900 KEEP / zero flagged / structural findings 0;
-8. simulations and Batch17 remain clean;
-9. representative browser QA passes 320x720, 390x844 and 768x1024 with legitimate prior-stage readiness, keyboard wrong-state, pointer completion, exact choices, >=44px touch targets, no horizontal overflow, hidden target slot, fully visible idle/retry/success feedback + CTA, assessed evidence, and zero console/page errors;
-10. generated idle/try/success screenshots are manually reviewed at all three viewports;
-11. full implementation-head CI must be green before canonical docs are finalized as QA accepted / unmerged;
-12. fresh exact docs-head CI, clean PR gate, exact-head merge, live-main verification, and separate docs-only closure remain required before Pattern #29 is fully closed.
+Implementation head `e91087aa1176723b0d90f310088b65a51d413ce7` passed full CI #626 / run `34992813094` after two real integration regressions were fixed without weakening gates:
+- `relativeOrderTrackConfig.ts` was added to the learning-test compile manifest after CI exposed the omission;
+- Rule Pipeline's old `logic-order-before-d` default sentinel was replaced with a still-default Logic classification sentinel after Pattern #29 legitimately specialized that activity.
 
-This document intentionally does not claim acceptance or merge before those gates pass.
+CI #626 passed:
+- Ubuntu quality gate including engine/learning tests, deterministic activity-quality, gameplay-distribution, simulations and Batch17;
+- Windows compatibility including engine/learning tests;
+- production OpenNext build and budgets;
+- dependency audit;
+- secret-history scan;
+- Chromium canonical mobile/accessibility/lazy-load matrix.
+
+Permanent audit artifacts from the accepted head confirm:
+- activity quality: **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**;
+- gameplay distribution: **900/900 classified, 0 unclassified, 29 patterns, choice_grid 313/900, relative_order_track 5/900, Logic choice_grid 47/100, Science choice_grid 56/100**.
+
+Manual visual acceptance reviewed generated idle / wrong / success screenshots at **320x720, 390x844 and 768x1024**. All nine states are accepted: no clipping or horizontal overflow, target slot remains masked as `?`, wrong-state feedback is visible without answer leakage, success feedback is visible, CTA appears only after correct completion, and the tablet layout remains proportionate.
+
+## Remaining closure gates
+
+Pattern #29 is not yet fully closed. Remaining required steps:
+1. commit these canonical docs on PR #137;
+2. run fresh exact docs-head full CI;
+3. confirm clean PR merge/review gate against current `main`;
+4. exact-head merge PR #137;
+5. independently verify the merged SHA live on `main`;
+6. create a separate docs-only closure PR recording the verified merged state;
+7. pass closure exact-head CI, merge, and final live-main verification.
+
+Only after those steps may Pattern #29 be marked **FULLY CLOSED**. The next gameplay family remains a fresh Pattern #30 objective/evidence audit; no family is pre-approved.
