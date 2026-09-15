@@ -1,0 +1,355 @@
+.scene {
+  width: min(920px, 100%);
+  margin: 0 auto;
+  display: grid;
+  gap: 14px;
+  padding: 4px 0 18px;
+}
+
+.promptCard,
+.board,
+.status {
+  border-radius: 22px;
+  border: 1px solid rgba(67, 104, 82, 0.18);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 12px 30px rgba(64, 83, 68, 0.09);
+}
+
+.promptCard {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+}
+
+.promptCard h1 {
+  margin: 0 0 4px;
+  font-size: clamp(1.2rem, 3vw, 1.75rem);
+}
+
+.promptCard p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.promptIcon {
+  width: 52px;
+  height: 52px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 17px;
+  background: rgba(116, 173, 226, 0.18);
+  font-size: 1.6rem;
+}
+
+.processRail {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.processStep {
+  min-height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  border: 1px solid rgba(73, 108, 80, 0.16);
+  background: rgba(247, 250, 247, 0.94);
+  font-weight: 800;
+  font-size: 0.88rem;
+  text-align: center;
+  padding: 7px 8px;
+}
+
+.processActive {
+  border-color: rgba(55, 112, 74, 0.6);
+  background: #eaf7ed;
+  box-shadow: inset 0 0 0 1px rgba(55, 112, 74, 0.14);
+}
+
+.board {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: 12px;
+  padding: 14px;
+}
+
+.scenarioCard,
+.focusCard {
+  min-height: 158px;
+  border-radius: 19px;
+  padding: 14px;
+}
+
+.scenarioCard {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-content: start;
+  gap: 7px 10px;
+  border: 1px solid rgba(71, 116, 165, 0.2);
+  background: linear-gradient(180deg, #fbfdff, #eef5fb);
+}
+
+.scenarioCard .cardTag,
+.scenarioCard ul {
+  grid-column: 1 / -1;
+}
+
+.scenarioIcon {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.88);
+  font-size: 1.5rem;
+}
+
+.scenarioCard strong {
+  align-self: center;
+  font-size: 1.05rem;
+}
+
+.scenarioCard ul {
+  margin: 4px 0 0;
+  padding-left: 20px;
+  line-height: 1.45;
+}
+
+.focusCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  border: 2px solid rgba(64, 122, 78, 0.22);
+  background: linear-gradient(180deg, #ffffff, #f0f8f1);
+}
+
+.focusCard strong {
+  font-size: 1.08rem;
+}
+
+.focusCard p {
+  margin: 0;
+  line-height: 1.45;
+}
+
+.cardTag {
+  width: fit-content;
+  border-radius: 999px;
+  padding: 4px 9px;
+  background: rgba(65, 112, 78, 0.1);
+  color: #355f40;
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.choiceGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.choiceButton {
+  min-height: 92px;
+  border-radius: 20px;
+  border: 2px solid rgba(69, 104, 76, 0.17);
+  background: linear-gradient(180deg, #ffffff, #f7fbf7);
+  color: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 10px;
+  cursor: pointer;
+  box-shadow: 0 10px 22px rgba(57, 78, 62, 0.09);
+  transition: transform 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
+}
+
+.choiceButton:hover:not(:disabled),
+.choiceButton:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(62, 118, 76, 0.62);
+  box-shadow: 0 13px 24px rgba(57, 78, 62, 0.14);
+  outline: none;
+}
+
+.choiceButton:disabled {
+  cursor: default;
+}
+
+.choiceIcon {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(65, 112, 78, 0.09);
+  font-size: 1.25rem;
+}
+
+.selected {
+  border-color: rgba(61, 112, 73, 0.65);
+}
+
+.wrong {
+  border-color: #d97863;
+  background: linear-gradient(180deg, #fff9f7, #fff0eb);
+}
+
+.correct {
+  border-color: #56a36a;
+  background: linear-gradient(180deg, #fbfffb, #eaf8ed);
+}
+
+.status {
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 14px;
+  text-align: center;
+  line-height: 1.4;
+  font-weight: 700;
+}
+
+.statusTry {
+  border-color: rgba(208, 119, 91, 0.34);
+  background: #fff8f4;
+}
+
+.statusGood {
+  border-color: rgba(71, 151, 91, 0.35);
+  background: #f1fbf3;
+}
+
+.nextLink {
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  border-radius: 16px;
+  padding: 10px 18px;
+  background: #3f784d;
+  color: #fff;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+@media (max-width: 640px) {
+  .scene {
+    gap: 10px;
+    padding-bottom: 10px;
+  }
+
+  .promptCard {
+    gap: 10px;
+    padding: 11px 12px;
+  }
+
+  .promptIcon {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    font-size: 1.4rem;
+  }
+
+  .promptCard h1 {
+    font-size: 1.12rem;
+  }
+
+  .promptCard p {
+    font-size: 0.86rem;
+  }
+
+  .processRail {
+    gap: 5px;
+  }
+
+  .processStep {
+    min-height: 40px;
+    padding: 5px 4px;
+    font-size: 0.72rem;
+    border-radius: 11px;
+  }
+
+  .board {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .scenarioCard,
+  .focusCard {
+    min-height: 0;
+    padding: 10px;
+    border-radius: 16px;
+  }
+
+  .scenarioCard {
+    gap: 4px 8px;
+  }
+
+  .scenarioIcon {
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    font-size: 1.25rem;
+  }
+
+  .scenarioCard strong,
+  .focusCard strong {
+    font-size: 0.95rem;
+  }
+
+  .scenarioCard ul,
+  .focusCard p {
+    font-size: 0.8rem;
+    line-height: 1.35;
+  }
+
+  .choiceGrid {
+    gap: 6px;
+  }
+
+  .choiceButton {
+    min-height: 64px;
+    border-radius: 16px;
+    padding: 7px 5px;
+    gap: 5px;
+    flex-direction: column;
+  }
+
+  .choiceButton strong {
+    font-size: 0.76rem;
+    line-height: 1.15;
+  }
+
+  .choiceIcon {
+    width: 28px;
+    height: 28px;
+    font-size: 1rem;
+  }
+
+  .status {
+    min-height: 48px;
+    padding: 8px 10px;
+    font-size: 0.82rem;
+  }
+
+  .sceneDone .promptCard,
+  .sceneDone .processRail {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .choiceButton {
+    transition: none;
+  }
+}
