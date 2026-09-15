@@ -3,9 +3,9 @@
 > Canonical execution plan fase product-quality Mainlagi Hub. Semua human/AI agent wajib membaca dokumen ini, `CURRENT_STATE.md`, `ARCHITECTURE.md`, dan `GAMEPLAY_VARIATION_CATALOG.md` sebelum mengubah learning experience.
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
-**Canonical merged baseline:** `main` @ `92664642287ecdd64ce408d3d08794a24aa2b588` (Feature Function Link closure PR #120)  
-**Latest merged gameplay change:** PR #119 @ `49850145a918afcba4f8279a6f5da12fe4a9c5b8`  
-**Active gameplay PR:** #121 — Science Healthy Habit Routine, QA accepted / unmerged  
+**Canonical merged baseline:** `main` @ `b61656662f8f6bad8545e7a6236c6bdd07f930ab` (Healthy Habit Routine PR #121)  
+**Latest merged gameplay change:** PR #121 @ `b61656662f8f6bad8545e7a6236c6bdd07f930ab`  
+**Active gameplay PR:** none  
 **Primary focus:** WS-05 gameplay/mechanic diversification.  
 **Principle:** **Quality first. Quantity later.**
 
@@ -31,7 +31,7 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | TODO | parent/public surfaces |
 | WS-04 Activity audit/redesign | deterministic clean | 900 KEEP / 0 flagged |
-| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | 21 merged; PR #121 would become pattern #22 |
+| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | 22 merged; next Logic exact-family audit |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | TODO / parallel | Art Bible + permanent human gate |
@@ -42,19 +42,21 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 
 ## WS-05 merged baseline
 
-Merged patterns on `main`: **21**. Latest gameplay merge is Science Feature Function Link PR #119 `49850145a918afcba4f8279a6f5da12fe4a9c5b8`; docs closure is PR #120 / `92664642287ecdd64ce408d3d08794a24aa2b588`.
+Merged patterns on `main`: **22**. Latest gameplay merge is Science Healthy Habit Routine PR #121 `b61656662f8f6bad8545e7a6236c6bdd07f930ab`.
 
 ```text
 900 / 900 classified
 0 unclassified
-21 active patterns
-choice_grid                 351 / 900 = 39.00%
-feature_function_link         4 / 900 = 0.44%
-Science choice_grid          64 / 100
+22 active patterns
+choice_grid                 347 / 900 = 38.56%
+healthy_habit_routine         4 / 900 = 0.44%
+Science choice_grid          60 / 100
 Logic choice_grid            77 / 100
 ```
 
-## Healthy Habit Routine PR #121 — QA ACCEPTED / UNMERGED
+Science is now exactly 60% `choice_grid`, so it no longer exceeds the permanent subject advisory threshold (`>60%`). Logic is the next subject hotspot to audit.
+
+## Healthy Habit Routine PR #121 — MERGED
 
 Exact Science Wave C scope:
 
@@ -87,18 +89,18 @@ Interaction/evidence contract:
 - assessed fidelity `choice_healthy_habit_routine_interaction`;
 - activity IDs, choices, `correctChoice`, assessment, stars, progression and skill identity remain canonical.
 
-Accepted implementation evidence on PR head `8086670711221dd077c64bdab2eb308040c3db86`:
-- initial implementation diff was deliberately cleaned before acceptance; current PR diff is 12 files, +372/-5, with existing-file edits limited to required integrations;
-- full CI #552 (`34932904970`) passed Ubuntu quality gate, Windows compatibility, production build, dependency audit, secret scan and Mobile Chromium;
-- static gameplay regression reports exactly `4 healthy_habit_routine` activities;
-- dedicated static regression passes exactly the four reviewed Science Wave C IDs and preserves `science-match-body-care-c` as visible matching;
-- deterministic activity-quality remains **900 KEEP / 0 flagged / structural findings 0**;
-- permanent distribution audit verifies **900/900 classified, 22 PR-head patterns, `choice_grid` 347/900 (38.56%), `healthy_habit_routine` 4/900, Science `choice_grid` 60/100, Logic `choice_grid` 77/100**;
-- Batch17 remains **9 subjects / 900 activities / 683 assessed / 217 practice / 46 stages / 197 lessons / 197 packs / 200 skills**; physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`;
-- browser QA passes legitimate Science Wave B readiness, keyboard wrong-state, pointer completion, false-completion protection, assessed evidence, >=44px controls, no overflow and in-viewport CTA at 320x720, 390x844 and 768x1024;
-- manual visual review of CI #552 idle/error/success screenshots at all three viewports is accepted: readable hierarchy, clear error/success states, no clipping/overflow, visible CTA, and balanced tablet layout.
-
-PR #121 is **not shipped yet**. Remaining merge gates: canonical docs-head CI, clean review/comment/thread check, exact-head squash merge, `main` verification and docs-only post-merge closure.
+Accepted and merged evidence:
+- initial implementation formatting churn was cleaned before acceptance; accepted implementation head `8086670711221dd077c64bdab2eb308040c3db86` had a reviewable minimal diff;
+- implementation CI #552 / run `34932904970` passed Ubuntu, Windows, production build, dependency audit, secret-history scan and Mobile Chromium;
+- final canonical docs head `f530d88d9b94ccddbceb2ec6fba7c661ff252215` passed full CI #553 / run `34933560692`;
+- gameplay regression confirms exactly 4 `healthy_habit_routine` activities and preserves `science-match-body-care-c` as visible matching;
+- deterministic activity-quality remained **900 KEEP / 0 flagged / structural findings 0**;
+- gameplay distribution verified **22 patterns**, 900/900 classified, `choice_grid` 347/900 (38.56%), `healthy_habit_routine` 4/900, Science `choice_grid` 60/100 and Logic `choice_grid` 77/100;
+- Batch17 remained PASS with **9 subjects / 900 activities / 683 assessed / 217 practice / 46 stages / 197 lessons / 197 packs / 200 skills**; physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`;
+- browser QA passed legitimate Science Wave B progression, keyboard wrong-state, pointer completion, false-completion protection, assessed evidence persistence, >=44px controls, no overflow and in-viewport success CTA at 320/390/768;
+- manual review of green #552 idle/error/success screenshots at 320x720, 390x844 and 768x1024 accepted the visual state;
+- final merge gate found 0 issue comments, 0 combined PR comments, 0 submitted reviews and 0 review threads;
+- exact-head squash merge produced `b61656662f8f6bad8545e7a6236c6bdd07f930ab`, then live `main` was verified at that SHA.
 
 ## Definition of Done
 
@@ -117,8 +119,8 @@ After merge:
 
 ## Current execution order
 
-1. Finalize PR #121 canonical docs, run final docs-head CI, clear review gate, exact-head merge and post-merge closure.
-2. After #121 closure, start a fresh **Logic exact-family audit**. Logic remains the largest assessed choice hotspot at 77/100; Science would be exactly 60/100 and no longer exceeds the >60% advisory threshold.
+1. Complete this post-merge docs closure for Healthy Habit Routine from verified `main` `b61656662f8f6bad8545e7a6236c6bdd07f930ab`.
+2. Start a fresh **Logic exact-family audit** from the verified 22-pattern baseline. Logic remains the largest assessed choice hotspot at 77/100.
 3. Promote Logic mechanics only when objective/evidence fit is exact; do not lower hotspot counts cosmetically.
 4. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics based on objective fit toward 50–60 meaningful patterns.
 5. Continue WS-08 visual system, WS-02 narration, WS-03 parent/public frontend, WS-10 external acceptance, WS-11 governance, then later cleanup.

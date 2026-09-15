@@ -8,11 +8,10 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; ac
 
 - repository: `ceritaantarkita-req/mainlagi-hub`
 - canonical branch: `main`
-- current merged `main` baseline: `92664642287ecdd64ce408d3d08794a24aa2b588` (docs closure PR #120)
-- latest merged gameplay change: PR #119 — Science Feature Function Link, merge `49850145a918afcba4f8279a6f5da12fe4a9c5b8`
-- active gameplay branch: `agent/ws05-science-healthy-habit-routine-20260915`
-- active gameplay PR: #121 — Healthy Habit Routine, QA accepted / unmerged
-- accepted implementation head before canonical docs finalization: `8086670711221dd077c64bdab2eb308040c3db86`
+- current merged `main` baseline: `b61656662f8f6bad8545e7a6236c6bdd07f930ab`
+- latest merged gameplay change: PR #121 — Science Healthy Habit Routine
+- active gameplay branch: none
+- active gameplay PR: none
 - production: `https://mainlagihub.my.id/`
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - source licence: `AGPL-3.0-only`
@@ -33,21 +32,23 @@ Runtime count is not gameplay-pattern count.
 
 Target: minimum **50**, working target **60 meaningful patterns**.
 
-### Merged on `main`: 21 patterns
+### Merged on `main`: 22 patterns
 
-`choice_grid`, `symbol_hunt`, `listen_choose`, `visible_matching`, `guided_trace`, `story_read`, `motion_game`, `coloring_canvas`, `drawing_canvas`, `memory_pair`, `missing_sequence_slot`, `sorting_buckets`, `drag_to_target`, `count_and_select`, `number_line`, `more_less_balance`, `pattern_completion`, `cause_effect`, `compare_properties`, `material_lab`, `feature_function_link`.
+`choice_grid`, `symbol_hunt`, `listen_choose`, `visible_matching`, `guided_trace`, `story_read`, `motion_game`, `coloring_canvas`, `drawing_canvas`, `memory_pair`, `missing_sequence_slot`, `sorting_buckets`, `drag_to_target`, `count_and_select`, `number_line`, `more_less_balance`, `pattern_completion`, `cause_effect`, `compare_properties`, `material_lab`, `feature_function_link`, `healthy_habit_routine`.
 
 ```text
-classified:             900 / 900
-unclassified:             0
-active patterns:         21
-choice_grid             351 / 900 = 39.00%
-feature_function_link     4 / 900 = 0.44%
-Science choice_grid       64 / 100
-Logic choice_grid         77 / 100
+classified:               900 / 900
+unclassified:               0
+active patterns:           22
+choice_grid               347 / 900 = 38.56%
+healthy_habit_routine       4 / 900 = 0.44%
+Science choice_grid         60 / 100
+Logic choice_grid           77 / 100
 ```
 
-### Active PR #121: PR-head 22 patterns — QA ACCEPTED / UNMERGED
+Science is now exactly 60% `choice_grid` and no longer exceeds the `>60%` subject advisory threshold. Logic is the next subject hotspot.
+
+### PR #121 Healthy Habit Routine — MERGED
 
 Exact scope:
 
@@ -75,18 +76,18 @@ Interaction/evidence contract:
 - assessed fidelity `choice_healthy_habit_routine_interaction`;
 - exact four-ID allowlist prevents unrelated Science activities from reclassification.
 
-Accepted QA evidence on head `8086670711221dd077c64bdab2eb308040c3db86`:
-- PR diff normalized to a reviewable **12 files, +372/-5** before acceptance;
-- full CI #552 / run `34932904970` is green across Ubuntu, Windows, production build, dependency audit, secret-history scan and Mobile Chromium;
-- gameplay-presentation regression includes exactly `4 healthy_habit_routine` activities;
-- dedicated exact-family regression passes and keeps `science-match-body-care-c` as visible matching;
+Accepted and merged evidence:
+- accepted implementation head: `8086670711221dd077c64bdab2eb308040c3db86` after noisy formatting was removed;
+- implementation CI #552 / run `34932904970` full green;
+- final docs head `f530d88d9b94ccddbceb2ec6fba7c661ff252215` passed full CI #553 / run `34933560692`;
+- gameplay-presentation and dedicated exact-family regressions pass for exactly four activities;
 - activity-quality remains **900 KEEP / 0 flagged**, structural findings 0;
-- distribution audit verifies **900/900 classified, 22 PR-head patterns, `choice_grid` 347/900 (38.56%), `healthy_habit_routine` 4/900, Science `choice_grid` 60/100, Logic `choice_grid` 77/100**;
-- Batch17 final acceptance remains PASS with the canonical catalog totals; `physicalDeviceCertification` remains `PENDING_EXTERNAL_EVIDENCE`;
-- browser QA passes legitimate Wave B progression, keyboard wrong-state, pointer completion, false-completion protection, assessed evidence, touch sizing, overflow and CTA checks at 320/390/768;
-- manual screenshot review of CI #552 accepted idle/error/success states at 320x720, 390x844 and 768x1024.
-
-PR #121 is not merged yet. Final docs-head CI, review gate, exact-head merge, live `main` verification and docs closure remain required.
+- distribution audit verifies 900/900 classified, 22 patterns, `choice_grid` 347/900 (38.56%), Science 60/100 and Logic 77/100;
+- Batch17 remains PASS with canonical catalog totals; `physicalDeviceCertification` remains `PENDING_EXTERNAL_EVIDENCE`;
+- browser QA passes legitimate Wave B progression, keyboard wrong-state, pointer completion, assessed evidence, touch sizing, overflow and CTA checks at 320/390/768;
+- manual screenshot review accepted idle/error/success at 320x720, 390x844 and 768x1024;
+- final review gate had 0 issue comments, 0 combined PR comments, 0 submitted reviews and 0 review threads;
+- exact-head squash merge is `b61656662f8f6bad8545e7a6236c6bdd07f930ab` and live `main` was verified at that SHA.
 
 ## Deterministic activity-quality baseline
 
@@ -113,9 +114,9 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Finish PR #121 through final docs-head CI, clean review gate, exact-head merge, `main` verification and post-merge closure.
-2. Then audit **Logic** exact families from the new baseline. Logic remains 77% `choice_grid`; if #121 merges, Science becomes exactly 60% and no longer exceeds the >60% advisory threshold.
-3. Promote only objective-coherent/evidence-safe mechanics; do not combine unrelated tasks to lower concentration counts.
+1. Close Healthy Habit Routine merge state through the docs-only closure branch created from verified `main` `b61656662f8f6bad8545e7a6236c6bdd07f930ab`.
+2. Then audit **Logic** exact families from the verified 22-pattern baseline. Logic remains 77% `choice_grid`.
+3. Promote only objective-coherent/evidence-safe mechanics; do not combine unrelated tasks merely to lower concentration counts.
 4. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
 5. Continue Art Bible/permanent visual QA, narration, parent/public frontend, external acceptance and governance.
 
