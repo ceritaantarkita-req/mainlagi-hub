@@ -25,6 +25,7 @@ const EXPECTED_PATTERNS = [
   "missing_sequence_slot",
   "sorting_buckets",
   "drag_to_target",
+  "rule_pipeline",
   "count_and_select",
   "number_line",
   "more_less_balance",
