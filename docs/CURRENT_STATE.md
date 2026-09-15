@@ -8,9 +8,9 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; ac
 
 - repository: `ceritaantarkita-req/mainlagi-hub`
 - canonical branch: `main`
-- current merged main SHA: `8a54534ac285013d22d2fc458bb302ae1fe1a87b`
-- latest merged gameplay change: PR #109 — WS-05 More/Less Balance Math Wave
-- active gameplay branch/PR: `agent/ws05-gameplay-pattern-completion-20260915` / PR #110
+- current merged main SHA: `6c5566ea9465a26399f9c4637f252d316552636d`
+- latest merged gameplay change: PR #110 — WS-05 Pattern Completion Math Wave
+- active gameplay branch/PR: none; next family review is Science `cause_effect`
 - production: `https://mainlagihub.my.id/`
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - source licence: `AGPL-3.0-only`
@@ -31,46 +31,37 @@ Runtime count is not gameplay-pattern count.
 
 Target: minimum **50**, working target **60 meaningful patterns**.
 
-### Merged on `main`: 16 patterns
+### Merged on `main`: 17 patterns
 
-`choice_grid`, `symbol_hunt`, `listen_choose`, `visible_matching`, `guided_trace`, `story_read`, `motion_game`, `coloring_canvas`, `drawing_canvas`, `memory_pair`, `missing_sequence_slot`, `sorting_buckets`, `drag_to_target`, `count_and_select`, `number_line`, `more_less_balance`.
+`choice_grid`, `symbol_hunt`, `listen_choose`, `visible_matching`, `guided_trace`, `story_read`, `motion_game`, `coloring_canvas`, `drawing_canvas`, `memory_pair`, `missing_sequence_slot`, `sorting_buckets`, `drag_to_target`, `count_and_select`, `number_line`, `more_less_balance`, `pattern_completion`.
 
 Latest accepted merges:
 - PR #105 Gameplay Distribution Audit — `02d4696760d7b697cfd319804cd655c0d2bfec4c`
 - PR #106 Count-and-Select — `18beb9bc676d529cc5701bc964bdef26bea33132`
 - PR #108 Number Line — `f1a9b0a2adbbb6e9e68e9cb2525d7c9a12219bb4`
 - PR #109 More/Less Balance — `8a54534ac285013d22d2fc458bb302ae1fe1a87b`
+- PR #110 Pattern Completion — `6c5566ea9465a26399f9c4637f252d316552636d`
 
-### Merged distribution after PR #109
+### Merged distribution after PR #110
 
 ```text
 classified:          900 / 900
 unclassified:          0
-active patterns:      16
-choice_grid          371 / 900 = 41.22%
+active patterns:      17
+choice_grid          366 / 900 = 40.67%
+pattern_completion     5 / 900 = 0.56%
 more_less_balance      6 / 900 = 0.67%
 number_line             6 / 900 = 0.67%
-Math choice_grid       61 / 100
+Math choice_grid       56 / 100
 Science choice_grid    79 / 100
 Logic choice_grid      77 / 100
 ```
 
-Global `choice_grid` is still above the >35% advisory threshold. Subject concentration is a planning signal, not an automatic quality failure.
+Global `choice_grid` is still above the >35% advisory threshold. Math is now below the >60% subject-hotspot threshold. Science and Logic are the next concentration priorities, but mechanic choice must remain objective-driven.
 
-## More/Less Balance — DONE / PR #109
+## Pattern Completion — DONE / PR #110
 
-Exactly six reviewed Math Wave B comparison activities use `more_less_balance`. Canonical runtime, IDs, choices/correctChoice, skill `math.quantity.comparison`, assessment, stars, progression, and completion identity remain unchanged. Evidence fidelity is `choice_balance_comparison_interaction`.
-
-Acceptance:
-- implementation CI #496 full green;
-- final docs-head CI #501 full green;
-- review surface clean;
-- manual idle/error/success review accepted at 320, 390, and 768;
-- deterministic activity quality remained **900 KEEP / 0 flagged**.
-
-## PR #110 QA — pattern #17 `pattern_completion`
-
-Exact scope: five reviewed Math Wave B choice activities:
+Exactly five reviewed Math Wave B choice activities use `pattern_completion`:
 
 ```text
 math-pattern-ab-shapes
@@ -82,40 +73,20 @@ math-pattern-size
 
 The two matching activities `math-pattern-match-ab` and `math-pattern-match-aab` intentionally remain canonical `matching` / `visible_matching`.
 
-Behavior and boundaries:
-- observed pattern is rendered as an explicit strip with one next-slot;
-- repeating/stepping structure is configured per activity, not parsed from prompt copy;
-- canonical three choices remain the answer surface;
-- a wrong choice may fill the slot visually but cannot complete the activity;
-- runtime stays `tap_choice`;
-- activity IDs, choices/correctChoice, skill `math.pattern.sequence`, assessment, stars, progression, and completion identity stay canonical;
-- assessed fidelity is `choice_pattern_completion_interaction` with pattern kind, visual mode, and observed-sequence metadata;
-- exact five-ID allowlist prevents the matching pair family or other Math activities from reclassification.
+Preserved contracts:
+- runtime `tap_choice`;
+- activity IDs and canonical choices/correctChoice;
+- skill `math.pattern.sequence`;
+- assessment, stars, progression, and completion identity;
+- wrong choices cannot complete;
+- assessed fidelity `choice_pattern_completion_interaction`.
 
-Implementation-head QA at `6d79bf3716b65657da67ff0078767800b76b22ed`:
-- CI #503 full green across Ubuntu, Windows, build, dependency audit, secret scan, and mobile Chromium;
-- browser representative `math-pattern-aab-colors` keeps progression guard enabled with legitimate previous-stage readiness;
-- canonical `🔴 🔴 🔵 🔴 🔴 ?` pattern and `🔴/🔵/🟡` choices are asserted;
-- keyboard wrong-state, false-completion guard, pointer completion, evidence persistence, >=44px controls, no horizontal overflow, and success CTA checks pass;
+Accepted QA:
+- implementation CI #503 full green;
+- final docs-head CI #508 full green;
+- clean review surface;
 - manual visual review accepted idle/error/success at 320x720, 390x844, and 768x1024;
-- deterministic activity quality remains **900 KEEP / 0 flagged**, structural findings 0.
-
-Measured PR #110 distribution:
-
-```text
-900 / 900 classified
-0 unclassified
-17 active patterns
-choice_grid          366 / 900 = 40.67%
-pattern_completion     5 / 900 = 0.56%
-Math choice_grid       56 / 100
-Science choice_grid    79 / 100
-Logic choice_grid      77 / 100
-```
-
-Math is now below the >60% subject-hotspot threshold. After PR #110 closes, exact-family diversification should shift first toward **Science and Logic**, not keep converting Math by inertia.
-
-PR #110 remains **QA/unmerged** until canonical docs, final docs-head CI, clean review surface, and exact-head merge complete.
+- deterministic activity quality remained **900 KEEP / 0 flagged**, structural findings 0.
 
 ## Deterministic activity-quality baseline
 
@@ -142,11 +113,12 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. close PR #110 Pattern Completion safely;
-2. audit exact Science families against the 79% `choice_grid` hotspot and choose objective-appropriate mechanics;
-3. audit exact Logic families against the 77% `choice_grid` hotspot;
-4. only then revisit Math missing-number / make-total where objective fit genuinely warrants it;
-5. continue search/scene, audio, ordering, puzzle/path, literacy, creative, and story mechanics toward 60;
-6. continue Art Bible/permanent visual QA, narration, parent/public frontend, external acceptance, and governance.
+1. close the PR #110 documentation status record on `main`;
+2. implement the next exact Science family only after objective review — current strongest candidate is `cause_effect` for four Wave B water-change activities;
+3. audit remaining Science families against the 79% `choice_grid` hotspot;
+4. audit Logic families against the 77% hotspot;
+5. only then revisit Math missing-number / make-total where objective fit genuinely warrants it;
+6. continue search/scene, audio, ordering, puzzle/path, literacy, creative, and story mechanics toward 60;
+7. continue Art Bible/permanent visual QA, narration, parent/public frontend, external acceptance, and governance.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, or mastery/backend rewrites before this quality phase is substantially complete.
