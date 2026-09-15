@@ -38,7 +38,8 @@ const EXPECTED_PATTERNS = [
   "compare_properties",
   "healthy_habit_routine",
   "material_lab",
-  "feature_function_link"
+  "feature_function_link",
+  "investigation_board"
 ];
 
 rmSync(outDir, { recursive: true, force: true });
