@@ -248,9 +248,17 @@ assert(materialMatching,"material-purpose matching activity remains in catalog")
 assert.equal(materialMatching.runtime,"matching");
 assert.equal(matchingPresentation(materialMatching),"grid_pairs","material-purpose matching stays outside material-lab scope");
 
-const specializedChoiceIds=new Set([...expectedSequence,...expectedSorting,...expectedCountSelect,...expectedNumberLine,...expectedBalance,...expectedPatternCompletion,...expectedCauseEffect,...expectedCompareProperties,...expectedMaterialLab]);
+const expectedFeatureFunctionLink=new Set([
+  "science-feature-duck-webbed-feet","science-feature-fish-gills",
+  "science-feature-bird-beak-seeds","science-feature-cactus-water"
+]);
+const featureFunctionLink=ACTIVITIES.filter(activity=>choiceGameplayPresentation(activity)==="feature_function_link");
+assert.equal(featureFunctionLink.length,expectedFeatureFunctionLink.size,"feature-function-link family size must remain intentional");
+assert.deepEqual(new Set(featureFunctionLink.map(activity=>activity.id)),expectedFeatureFunctionLink,"only the four reviewed Science living feature/function choices use Feature Function Link");
+
+const specializedChoiceIds=new Set([...expectedSequence,...expectedSorting,...expectedCountSelect,...expectedNumberLine,...expectedBalance,...expectedPatternCompletion,...expectedCauseEffect,...expectedCompareProperties,...expectedMaterialLab,...expectedFeatureFunctionLink]);
 const otherChoice=ACTIVITIES.filter(activity=>activity.runtime==="tap_choice"&&!specializedChoiceIds.has(activity.id));
 assert(otherChoice.length>0,"default choice activities remain available");
 assert(otherChoice.every(activity=>choiceGameplayPresentation(activity)==="default"),"other choice families retain default presentation");
 
-console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets + ${countSelect.length} count_select + ${numberLine.length} number_line + ${balance.length} more_less_balance + ${patternCompletion.length} pattern_completion + ${causeEffect.length} cause_effect + ${compareProperties.length} compare_properties + ${materialLab.length} material_lab activities.`);
+console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets + ${countSelect.length} count_select + ${numberLine.length} number_line + ${balance.length} more_less_balance + ${patternCompletion.length} pattern_completion + ${causeEffect.length} cause_effect + ${compareProperties.length} compare_properties + ${materialLab.length} material_lab + ${featureFunctionLink.length} feature_function_link activities.`);
