@@ -13,7 +13,7 @@
 
 ## Status implementasi
 
-### Merged di `main`: 19 pola
+### Merged di `main`: 20 pola
 
 1. `choice_grid`
 2. `symbol_hunt`
@@ -34,13 +34,14 @@
 17. `pattern_completion` — **MERGED PR #110**
 18. `cause_effect` — **MERGED PR #112**
 19. `compare_properties` — **MERGED PR #114**
+20. `material_lab` — **MERGED PR #116**
 
 Permanent gameplay-distribution audit: **MERGED PR #105**.  
-Latest gameplay merge: PR #114 `4f3e2828aa3be804f6d896b10f8e3422c3180811`.
+Latest gameplay merge: PR #116 `5d6b429b64681bc6f2aa055a643a607cf54b1102`.
 
-### `material_lab` — ACCEPTED IMPLEMENTATION QA / PR #116 / UNMERGED
+### `material_lab` — MERGED PR #116
 
-Pattern #20 on the current PR head. Exact scope:
+Exact scope:
 
 ```text
 science-material-raincoat-waterproof
@@ -68,15 +69,17 @@ Boundaries:
 
 Interaction is deliberately two-step: choose a sample, then test it. Selection alone cannot complete. A wrong test is retryable and cannot complete.
 
-QA evidence:
+Accepted evidence:
 - CI #532 found a real package regression before acceptance; the omitted existing `@phosphor-icons/react` dependency was restored;
-- CI #533 is full green on implementation head `09dd638748d62da1da264ce3b4f6f8f6880354b7`;
+- CI #533 was full green on implementation head `09dd638748d62da1da264ce3b4f6f8f6880354b7`;
+- final docs head `974589a39617997093cde9e73241223a1c684935` passed full CI #535;
 - static scope regression confirms exactly 4 activities;
 - deterministic audit remains **900 KEEP / 0 flagged**, structural findings 0;
 - legitimate Wave C progression, keyboard selection, explicit test, false-completion guards, pointer completion, assessed evidence, >=44px controls, no overflow and CTA visibility pass at 320/390/768;
-- manual visual review accepts idle/error/success screenshots at 320/390/768.
+- manual visual review accepted idle/error/success screenshots at 320/390/768;
+- exact-head squash merge produced `5d6b429b64681bc6f2aa055a643a607cf54b1102`, verified on `main`.
 
-Measured PR-head distribution:
+Merged distribution:
 
 ```text
 900 / 900 classified
@@ -87,8 +90,6 @@ material_lab            4 / 900 = 0.44%
 Science choice_grid     68 / 100
 Logic choice_grid       77 / 100
 ```
-
-This remains QA state until #116 merges; merged `main` remains at 19 patterns.
 
 ## 60 pola permainan target
 
@@ -160,7 +161,7 @@ This remains QA state until #116 merges; merged `main` remains at 19 patterns.
 47. `predict_result`
 48. `cause_effect` — **MERGED PR #112**
 49. `compare_properties` — **MERGED PR #114**
-50. `material_lab` — **ACCEPTED QA / PR #116**
+50. `material_lab` — **MERGED PR #116**
 
 ### K. Creative visual play
 51. `color_by_rule`
@@ -201,8 +202,8 @@ Prinsip alokasi:
 9. Pattern Completion — **DONE / #110**.
 10. Cause/Effect — **DONE / #112**.
 11. Compare Properties — **DONE / #114**.
-12. Material Lab — **ACCEPTED QA / #116; final docs-head CI + merge still required**.
-13. After #116, re-audit remaining Science exact families; do not force heterogeneous investigation/evidence tasks into one engine.
+12. Material Lab — **DONE / #116**.
+13. Re-audit remaining Science exact families from the verified 20-pattern baseline; do not force heterogeneous investigation/evidence tasks into one engine.
 14. Audit Logic after the Science pass; continue search/audio/puzzle/literacy/creative/story based on objective fit and distribution.
 
 ## Definition of done per mechanic

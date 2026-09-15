@@ -1,11 +1,11 @@
 # WS-05 Science Material Lab Wave — 2026-09-15
 
-Status: **accepted implementation QA / PR #116 / unmerged; final docs-head CI pending**.
+Status: **MERGED / PR #116**.
 
 Branch: `agent/ws05-science-material-lab-20260915`  
 Base gameplay main: `4f3e2828aa3be804f6d896b10f8e3422c3180811`  
-Current merge target includes docs closure PR #115 at `539b5717f5e77ccd7c883acb3e44a09c5557b54d`.  
-Branch synchronization before final CI: `ee65ec23b5705f3d7a976af5d373b1715ac782af` includes the current `main` history without changing the accepted runtime tree.
+Merge target before acceptance included docs closure PR #115 at `539b5717f5e77ccd7c883acb3e44a09c5557b54d`.  
+Merged gameplay commit: `5d6b429b64681bc6f2aa055a643a607cf54b1102`.
 
 ## Objective review
 
@@ -17,7 +17,7 @@ The Wave D material-design family is coherent: each activity asks the child to c
 
 ## Exact scope
 
-Only these four canonical `tap_choice` activities may use `material_lab`:
+Only these four canonical `tap_choice` activities use `material_lab`:
 
 ```text
 science-material-raincoat-waterproof
@@ -113,7 +113,25 @@ Accepted:
 
 No visual polish commit was required after this review.
 
-## Verified PR-head distribution
+## Final acceptance and merge
+
+Final docs head:
+
+```text
+974589a39617997093cde9e73241223a1c684935
+```
+
+CI #535: **full green**. Final PR state was mergeable/clean with 0 issue comments, 0 review comments, 0 submitted reviews, and 0 review threads. PR #116 was squash-merged with exact `expected_head_sha`.
+
+Verified merge:
+
+```text
+5d6b429b64681bc6f2aa055a643a607cf54b1102
+```
+
+`main` was fetched after merge and verified at that exact SHA.
+
+## Merged distribution
 
 ```text
 900 / 900 classified
@@ -125,13 +143,6 @@ Science choice_grid     68 / 100
 Logic choice_grid       77 / 100
 ```
 
-These are PR-head QA figures until #116 merges.
+## Closure
 
-## Remaining merge gates
-
-- canonical docs current on this accepted implementation — completed in this docs-finalization pass;
-- final docs-head CI — pending;
-- clean review threads/comments — pending final check;
-- exact-head squash merge — pending;
-- verify `main` after merge;
-- close stale QA wording through a docs-only closure so 20 patterns become the merged canonical baseline.
+Material Lab is shipped on `main`. Pattern #20 is canonical. The next WS-05 unit is a fresh exact-family Science audit from this 20-pattern baseline; heterogeneous investigation/evidence tasks remain intentionally ungrouped unless a coherent reusable objective family is proven.

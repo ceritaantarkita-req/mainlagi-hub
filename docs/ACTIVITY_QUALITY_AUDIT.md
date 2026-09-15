@@ -37,28 +37,16 @@ Merged waves:
 - `pattern_completion` — PR #110, exactly 5 Math Wave B choice-pattern activities.
 - `cause_effect` — PR #112, exactly 4 Science Wave B water-change choice activities.
 - `compare_properties` — PR #114, exactly 3 Science Wave C direct-comparison activities.
+- `material_lab` — PR #116, exactly 4 Science Wave D material-purpose activities.
 
-Current active QA wave:
-- `material_lab` — PR #116, exactly 4 Science Wave D material-purpose activities; **accepted implementation QA but unmerged**.
+Current active QA wave: none. Next work is a fresh objective-driven Science exact-family audit.
 
-Merged distribution after PR #114:
-
-```text
-900 / 900 classified
-0 unclassified
-19 active patterns
-choice_grid           359 / 900 = 39.89%
-compare_properties      3 / 900 = 0.33%
-Science choice_grid     72 / 100
-Logic choice_grid       77 / 100
-```
-
-PR #116 measured QA distribution:
+Merged distribution after PR #116:
 
 ```text
 900 / 900 classified
 0 unclassified
-20 active patterns on PR head
+20 active patterns
 choice_grid           355 / 900 = 39.44%
 material_lab            4 / 900 = 0.44%
 Science choice_grid     68 / 100
@@ -67,7 +55,7 @@ Logic choice_grid       77 / 100
 
 Concentration is advisory and does not itself create POLISH/REDESIGN findings.
 
-## Material Lab — ACCEPTED IMPLEMENTATION QA / PR #116 / UNMERGED
+## Material Lab — MERGED PR #116
 
 Exact scope:
 
@@ -103,10 +91,12 @@ Accepted evidence:
 - CI #532 blocked an accidental package regression before acceptance;
 - existing `@phosphor-icons/react` dependency was restored at `^2.1.10`;
 - implementation head `09dd638748d62da1da264ce3b4f6f8f6880354b7` passed full CI #533;
+- final docs head `974589a39617997093cde9e73241223a1c684935` passed full CI #535;
 - representative route uses legitimate Science Wave C readiness to unlock Wave D;
 - keyboard selection, explicit test action, false-completion guards, pointer completion, assessed evidence persistence, >=44px controls, no horizontal overflow, and CTA visibility all pass at 320/390/768;
 - manual visual review accepted idle/error/success at 320x720, 390x844 and 768x1024;
-- activity-quality remains **900 KEEP / 0 flagged**, structural findings 0.
+- activity-quality remains **900 KEEP / 0 flagged**, structural findings 0;
+- exact-head squash merge produced `5d6b429b64681bc6f2aa055a643a607cf54b1102` and `main` was verified at that SHA.
 
 ## Permanent audits
 
@@ -133,8 +123,8 @@ CI uploads both artifacts. Gameplay-distribution coverage and active-pattern-set
 - WS-05 Pattern Completion DONE — PR #110.
 - WS-05 Cause/Effect DONE — PR #112.
 - WS-05 Compare Properties DONE — PR #114.
-- WS-05 Material Lab — **ACCEPTED QA / PR #116; final docs-head CI + merge pending**.
-- WS-05 NEXT — after #116, continue fresh objective-driven Science audit, then Logic.
+- WS-05 Material Lab DONE — PR #116.
+- WS-05 NEXT — fresh objective-driven Science audit, then Logic.
 
 ## Completion rule
 
