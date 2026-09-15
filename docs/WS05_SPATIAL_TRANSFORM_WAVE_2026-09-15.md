@@ -1,9 +1,9 @@
 # WS-05 Spatial Transform Wave — 2026-09-15
 
-Status: **IMPLEMENTED / QA PENDING**
+Status: **QA ACCEPTED / UNMERGED**
 
-Branch: `agent/ws05-logic-spatial-transform-20260915`
-
+PR: **#133**  
+Branch: `agent/ws05-logic-spatial-transform-20260915`  
 Base: verified live `main` at `7e3192898e37743826266c92c6c12a918d72e508` after Set Reasoning metadata PR #132.
 
 ## Objective
@@ -49,7 +49,7 @@ Wave B spatial-relation activities ask where objects are relative to one another
 
 ## Interaction design
 
-Use a three-part direction-transform board:
+The runtime uses a three-part direction-transform board:
 - left card shows the canonical starting direction;
 - center card shows only the canonical operation (quarter turn, half turn, two right turns, or left-right mirror);
 - right result slot stays hidden as `?` until the child chooses;
@@ -57,7 +57,7 @@ Use a three-part direction-transform board:
 - wrong choice is retryable and cannot complete;
 - correct choice completes the existing assessed activity;
 - no drag-only dependency, extra confirmation, or invented intermediate assessment;
-- the transform board must not reveal the correct final direction before assessment.
+- the transform board does not reveal the correct final direction before assessment.
 
 Assessed evidence fidelity: `choice_spatial_transform_interaction`.
 
@@ -71,9 +71,31 @@ Runtime metadata records:
 - selected canonical choice;
 - standard assessed correct/incorrect/retry/accuracy fields.
 
-## Expected PR-head distribution
+## Accepted implementation evidence
 
-If the exact five current Logic `choice_grid` activities are reclassified:
+Accepted implementation head:
+
+```text
+267f00d243dc1778c2d86e5a0ca70d8cfe76872a
+```
+
+Full CI #597 / run `34976080767` passed on that implementation head:
+- Ubuntu quality gate: success;
+- Windows compatibility: success;
+- Production build: success;
+- Production dependency audit: success;
+- Secret history scan: success;
+- Mobile route QA (Chromium): success;
+- Production smoke: skipped by normal workflow condition.
+
+Static/permanent regression evidence:
+- exact-family static regression proves exactly five IDs;
+- canonical runtime, skill, choices, `correctChoice` and assessment remain unchanged;
+- permanent gameplay-presentation regression recognizes exactly five `spatial_transform` activities;
+- unrelated Wave B spatial-relation activities remain default;
+- stale Rule Pipeline sentinel was narrowed without weakening the exact Rule Pipeline five-ID guard.
+
+Accepted distribution from CI #597:
 
 ```text
 classified:                900 / 900
@@ -85,20 +107,47 @@ Science choice_grid          60 / 100
 Logic choice_grid            52 / 100
 ```
 
-If merged unchanged, remaining distance becomes **23 patterns to minimum 50** and **33 to working target 60**.
+Other permanent evidence:
+- deterministic activity-quality: 900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0;
+- five simulations: `invariantErrors: 0`;
+- Batch17: 9 subjects / 900 activities / 683 assessed / 217 practice / 46 stages / 197 lessons / 197 packs / 200 skills;
+- physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
 
-## Required QA gates
+## Browser and manual visual QA
 
-Before this wave may be called QA accepted:
-1. exact-family static regression proves exactly five IDs and preserves canonical skill/runtime/choices/correctChoice/assessment;
-2. permanent gameplay-presentation regression includes exactly five `spatial_transform` activities while unrelated spatial-relation activities remain default;
-3. gameplay-distribution audit reports 27 patterns, 900/900 classified, zero unclassified, `choice_grid` 322/900, Logic 52/100, Science 60/100;
-4. deterministic activity-quality remains 900 KEEP / zero flagged / structural findings 0;
-5. five simulations remain `invariantErrors: 0`;
-6. Batch17 totals remain unchanged and physical-device certification stays `PENDING_EXTERNAL_EVIDENCE`;
-7. representative browser QA for `logic-spatial-halfturn-up` passes 320x720, 390x844 and 768x1024 with canonical Wave C progression readiness, keyboard wrong-state, pointer completion, hidden result slot, >=44px touch targets, overflow, feedback/CTA visibility, assessed evidence, and console/page-error checks;
-8. generated idle/try/success screenshots are manually reviewed at all three viewports;
-9. full implementation-head CI is green;
-10. canonical docs are then finalized as QA accepted / unmerged, followed by a fresh exact docs-head CI and clean review gate before merge.
+Representative activity: `logic-spatial-halfturn-up`.
 
-This document does not claim merge or acceptance until those gates have actually passed.
+Chromium QA passed at:
+- 320x720;
+- 390x844;
+- 768x1024.
+
+The automated browser gate proved:
+- legitimate canonical Wave C prerequisite evidence unlocks the route;
+- idle state cannot complete the activity;
+- result slot stays hidden before assessment;
+- keyboard reaches a wrong choice and wrong choice cannot complete;
+- pointer selection of the canonical correct answer completes;
+- exactly three canonical choices remain rendered;
+- touch targets are at least 44px;
+- no horizontal overflow;
+- idle, retry and success feedback remain fully visible;
+- success CTA remains fully visible;
+- assessed evidence records `choice_spatial_transform_interaction` and correct retry/accuracy fields;
+- zero page errors and zero console errors.
+
+Manual review of all nine generated idle/try/success screenshots at 320x720, 390x844 and 768x1024 is **ACCEPTED**. The 320px layout retains the operation board, hidden result slot, answer controls and feedback without clipping; 390px remains readable; 768px has no overlap or excessive stretching.
+
+## Current gate state
+
+Implementation QA is accepted. Canonical docs have now been finalized as **QA ACCEPTED / UNMERGED**.
+
+Before Pattern #27 may merge:
+1. the final canonical-docs PR head must pass a fresh full CI;
+2. PR #133 must remain open, non-draft, mergeable, and have zero blocking comments/reviews/review threads;
+3. merge must target that exact CI-green head;
+4. merged `main` SHA must be independently verified.
+
+After implementation merge, a docs-only post-merge closure PR is still required. That closure must itself pass full CI, clean review gate, exact-head merge and final live-main verification before Pattern #27 may be called **FULLY CLOSED**.
+
+If PR #133 merges unchanged, merged distribution becomes 27 patterns, `choice_grid` 322/900, `spatial_transform` 5/900, Logic `choice_grid` 52/100, Science 60/100, with **23 patterns remaining to minimum 50** and **33 to working target 60**.
