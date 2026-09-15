@@ -1,0 +1,85 @@
+# WS-05 Logic Transitive Chain Wave — 2026-09-15
+
+Status: **IMPLEMENTATION IN PROGRESS / UNMERGED**
+
+Baseline: `main` @ `a961be0e61055f7347244b58b9dc252d5ed6f382` (Odd One Out closure PR #126).
+
+## Audit decision
+
+After Odd One Out closed, Logic remained the largest assessed `choice_grid` hotspot at 67/100. A fresh Wave B/C/D audit kept repeating-pattern, sequence, spatial, conditional, set, ordering, inference, composed-rule and transitive-comparison objectives separate.
+
+The strongest next exact family is `logic-transitive-comparison`: five assessed activities in one stage, one lesson and one canonical skill. Every item gives two ordered comparison premises and asks the child to infer an extreme or middle member from the full chain.
+
+Exact scope:
+
+```text
+logic-transitive-height-abc
+logic-transitive-shortest-xyz
+logic-transitive-most-dots
+logic-transitive-lightest
+logic-transitive-middle-order
+```
+
+Canonical skill:
+
+```text
+logic.comparison.transitive.basic
+```
+
+Explicit exclusions include composed rules, set reasoning, spatial transforms, Wave C inference/ordering and Wave B comparison/spatial families.
+
+## Pattern #25
+
+Pattern: `transitive_chain`.
+
+Interaction contract:
+- present the two canonical premises as one visible three-node relation chain;
+- label the connectors `Premis 1` and `Premis 2` so the child must use both relations;
+- preserve the canonical three answer choices as accessible direct-selection buttons;
+- wrong choice increments assessed error/retry evidence and cannot complete;
+- correct choice completes the canonical activity identity;
+- success may explain the reviewed relation chain after completion;
+- no invented quantitative values, reordering requirement, drag-only dependency or altered answer set.
+
+Preserved canonical contract:
+- runtime remains `tap_choice`;
+- activity IDs, choices and `correctChoice` remain unchanged;
+- lesson remains `logic-transitive-comparison`;
+- skill remains `logic.comparison.transitive.basic`;
+- assessment/stars/progression stay canonical;
+- assessed fidelity: `choice_transitive_chain_interaction`.
+
+## Expected PR-head distribution
+
+If the exact five reviewed activities are promoted:
+
+```text
+900 / 900 classified
+0 unclassified
+25 active patterns
+choice_grid              332 / 900 = 36.89%
+transitive_chain           5 / 900 = 0.56%
+Logic choice_grid         62 / 100
+Science choice_grid       60 / 100
+```
+
+Logic would remain above the permanent subject advisory hotspot threshold (>60%) at 62%, so this wave does not justify forcing a weaker family afterward. The next family must be freshly audited again.
+
+## Required acceptance
+
+Before shipping:
+1. exact five-ID static family regression;
+2. gameplay-presentation/default-family regression;
+3. canonical Wave C prerequisite progression into Wave D;
+4. keyboard wrong-state and pointer correct completion;
+5. assessed attempt evidence with `choice_transitive_chain_interaction`;
+6. 320x720, 390x844 and 768x1024 responsive QA, >=44px controls, no horizontal overflow and visible success CTA;
+7. manual screenshot review;
+8. deterministic activity-quality + gameplay-distribution audits;
+9. full Ubuntu/Windows/build/dependency/secret/Mobile CI;
+10. canonical docs finalization on the accepted PR head;
+11. final docs-head CI + clean review/comment/thread gate;
+12. exact-head merge + live-main verification;
+13. docs-only post-merge closure + full closure CI + exact-head closure merge.
+
+Only after all acceptance steps may pattern #25 be described as shipped.
