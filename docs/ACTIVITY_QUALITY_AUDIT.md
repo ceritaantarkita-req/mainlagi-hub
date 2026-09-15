@@ -34,64 +34,41 @@ Merged waves:
 - `count_and_select` — PR #106, exactly 9 Math counting activities.
 - `number_line` — PR #108, exactly 6 Math Wave B ordering activities.
 - `more_less_balance` — PR #109, exactly 6 Math Wave B comparison activities.
-- `pattern_completion` — PR #110, exactly 5 Math Wave B choice-pattern activities; merge `6c5566ea9465a26399f9c4637f252d316552636d`.
+- `pattern_completion` — PR #110, exactly 5 Math Wave B choice-pattern activities.
 
-Current merged distribution after PR #110:
+Active accepted-QA wave:
+- `cause_effect` — PR #112, exactly 4 Science Wave B water-change choice activities; **not merged yet**.
+
+Merged distribution before PR #112:
 
 ```text
 900 / 900 classified
 0 unclassified
 17 active patterns
 choice_grid          366 / 900 = 40.67%
-pattern_completion     5 / 900 = 0.56%
 Math choice_grid       56 / 100
 Science choice_grid    79 / 100
 Logic choice_grid      77 / 100
 ```
 
-Concentration is advisory and does not itself create POLISH/REDESIGN findings.
-
-## Pattern Completion — DONE / PR #110
-
-Exactly five reviewed Math Wave B choice activities use `pattern_completion`:
+PR #112 accepted-QA distribution:
 
 ```text
-math-pattern-ab-shapes
-math-pattern-aab-colors
-math-pattern-number-step-one
-math-pattern-number-step-two
-math-pattern-size
+900 / 900 classified
+0 unclassified
+18 active patterns
+choice_grid          362 / 900 = 40.22%
+cause_effect           4 / 900 = 0.44%
+Math choice_grid       56 / 100
+Science choice_grid    75 / 100
+Logic choice_grid      77 / 100
 ```
 
-Preserved:
-- canonical runtime `tap_choice`;
-- choices/correctChoice;
-- skill `math.pattern.sequence`;
-- assessment;
-- stars;
-- progression;
-- activity IDs and completion semantics.
+Concentration is advisory and does not itself create POLISH/REDESIGN findings.
 
-Interaction/evidence:
-- visible pattern strip with one explicit next-slot;
-- repeating/step structure comes from explicit per-activity config;
-- wrong answer may be shown in the slot but cannot complete;
-- assessed fidelity `choice_pattern_completion_interaction`;
-- exact five-ID allowlist prevents unrelated Math or matching activities from reclassification.
+## Cause/Effect — accepted QA / PR #112
 
-Accepted QA:
-- implementation CI #503 full green;
-- final docs-head CI #508 full green;
-- representative browser route `math-pattern-aab-colors` keeps progression guard enabled with legitimate previous-stage readiness;
-- keyboard wrong-state, false-completion guard, pointer completion, evidence persistence, >=44px controls, no horizontal overflow, and CTA visibility all pass;
-- manual visual review accepted idle/error/success at 320, 390, and 768;
-- deterministic activity quality remains **900 KEEP / 0 flagged**, structural=0.
-
-## Next audit-guided family
-
-Math is now below the >60% subject concentration threshold. Science remains at 79% `choice_grid`, followed by Logic at 77%.
-
-The strongest next Science candidate currently identified is the four-activity Wave B water-change family for `cause_effect`:
+Exactly four reviewed Science Wave B choice activities use `cause_effect` on the PR head:
 
 ```text
 science-water-ice-melts
@@ -100,7 +77,40 @@ science-water-puddle-evaporates
 science-water-cold-glass-droplets
 ```
 
-This family shares lesson/skill `science.water.state_changes.basic` and explicitly asks the child to connect a condition with an observable result. The matching activity `science-match-water-states-b` should remain canonical matching in that wave.
+`science-match-water-states-b` intentionally stays canonical matching / `visible_matching`.
+
+Preserved:
+- canonical runtime `tap_choice`;
+- choices/correctChoice;
+- skill `science.water.state_changes.basic`;
+- assessment;
+- stars;
+- progression;
+- activity IDs and completion semantics.
+
+Interaction/evidence:
+- visible **Awal -> Kondisi -> Hasil** causal flow;
+- result is unrevealed before the child chooses;
+- process semantics come from explicit per-activity config;
+- wrong answer may be shown as feedback but cannot complete;
+- assessed fidelity `choice_cause_effect_interaction`;
+- exact four-ID allowlist prevents unrelated Science activities from reclassification.
+
+Accepted implementation QA head: `ad5f427afc9cb0c755872ee88588534066942d47`.
+
+Evidence:
+- CI #513 full green across Ubuntu, Windows, production build, dependency audit, secret-history scan, and Mobile Chromium;
+- representative browser route `science-water-ice-melts` keeps progression guard enabled with legitimate Science Wave A readiness;
+- keyboard wrong-state, false-completion guard, pointer completion, evidence persistence, >=44px controls, and no horizontal overflow pass;
+- CI #512 caught a real 320x720 success-CTA clipping bug; compact layout was fixed and #513 passed CTA visibility;
+- manual visual review accepted idle/error/success at 320, 390, and 768;
+- activity-quality artifact at the accepted head remains **900 KEEP / 0 flagged**, structural findings 0.
+
+## Next audit-guided family
+
+After #112 merges, Science will still be at 75% `choice_grid`, above the >60% subject concentration advisory threshold. The next action is therefore another exact-family Science audit, not an automatic conversion.
+
+Prediction/investigation, materials/properties, observation/measurement, environment reasoning, and other Science families must be reviewed separately so each new mechanic has a coherent learning objective and evidence contract.
 
 ## Permanent audits
 
@@ -124,8 +134,9 @@ CI uploads both artifacts. Gameplay-distribution coverage and active-pattern-set
 - WS-05 Count-and-Select DONE — PR #106.
 - WS-05 Number Line DONE — PR #108.
 - WS-05 More/Less Balance DONE — PR #109.
-- WS-05 Pattern Completion DONE — PR #110, merge `6c5566ea9465a26399f9c4637f252d316552636d`.
-- WS-05 NEXT — exact Science `cause_effect` water-change family, subject to fresh branch QA from latest `main`.
+- WS-05 Pattern Completion DONE — PR #110.
+- WS-05 Cause/Effect — **accepted implementation QA / PR #112; final docs-head CI + merge pending**.
+- WS-05 NEXT after #112 — exact-family Science audit, then objective-fit mechanic selection.
 
 ## Completion rule
 
