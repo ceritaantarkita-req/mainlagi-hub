@@ -49,9 +49,9 @@ Preserved canonical contract:
 - assessment/stars/progression stay canonical;
 - assessed fidelity: `choice_transitive_chain_interaction`.
 
-## Expected PR-head distribution
+## PR-head distribution
 
-If the exact five reviewed activities are promoted:
+CI #570 verified the exact implementation distribution:
 
 ```text
 900 / 900 classified
@@ -63,7 +63,7 @@ Logic choice_grid         62 / 100
 Science choice_grid       60 / 100
 ```
 
-Logic would remain above the permanent subject advisory hotspot threshold (>60%) at 62%, so this wave does not justify forcing a weaker family afterward. The next family must be freshly audited again.
+Logic remains above the permanent subject advisory hotspot threshold (>60%) at 62%, so this wave does not justify forcing a weaker family afterward. The next family must be freshly audited again.
 
 ## Acceptance history
 
@@ -79,6 +79,27 @@ Correct fix:
 - do not weaken or bypass either Rule Pipeline or Transitive Chain scope coverage.
 
 CI #569 is regression history only and is not an acceptance run.
+
+### CI #570 — non-browser gates green; mobile success-layout regression found
+
+Run `34957267576` at head `3584fa816fa40d0350956d37a8c505f0baee5219` proved the stale-sentinel repair was correct:
+- Ubuntu quality gate passed typecheck, lint, full engine tests, deterministic activity-quality audit, gameplay-distribution audit, simulations and Batch17;
+- Windows compatibility passed;
+- production build and budgets passed;
+- dependency audit and secret-history scan passed;
+- gameplay-distribution artifact verified 25 patterns, `choice_grid` 332/900, `transitive_chain` 5/900, Logic 62/100 and Science 60/100.
+
+Mobile Chromium correctly blocked acceptance at the dedicated Transitive Chain representative because the success CTA was not fully inside the 390x844 viewport. The failure occurred after progression, canonical choice rendering, keyboard wrong-state and correct completion had already passed. Screenshot evidence showed the idle/try layout was readable and the issue was vertical height in the completed mobile state, not horizontal overflow, progression or assessed evidence.
+
+Correct fix:
+- keep the full three-node/two-premise chain visible during idle and retry states;
+- on completed phone-sized state, hide the already-consumed premise chain together with the prompt card;
+- keep the question, canonical three choices, success explanation and CTA visible;
+- do not shrink touch targets, alter canonical choices, bypass the CTA assertion or change evidence/mastery semantics.
+
+Responsive fix commit: `9ecadf8291ef5203d782732aee600e65ab01fc35`.
+
+CI #570 remains regression history only and is not an acceptance run.
 
 ## Required acceptance
 
