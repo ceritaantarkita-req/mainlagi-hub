@@ -88,6 +88,22 @@ for(const activity of sorting){
   assert((activity.choices??[]).includes(activity.correctChoice),"sorting buckets preserve canonical positive choice");
 }
 
+const expectedRulePipeline=new Set([
+  "logic-compose-red-circle-to-star","logic-compose-small-left-then-up","logic-compose-two-to-blue",
+  "logic-compose-triangle-turn-right","logic-compose-swap-then-grow"
+]);
+const rulePipeline=ACTIVITIES.filter(activity=>choiceGameplayPresentation(activity)==="rule_pipeline");
+assert.equal(rulePipeline.length,expectedRulePipeline.size,"rule-pipeline family size must remain intentional");
+assert.deepEqual(new Set(rulePipeline.map(activity=>activity.id)),expectedRulePipeline,"only the five reviewed Logic composed-rule activities use Rule Pipeline");
+for(const activity of rulePipeline){
+  assert.equal(activity.runtime,"tap_choice");
+  assert.equal(activity.subjectId,"logic");
+  assert.equal(activity.stageId,"logic-mixed-reasoning-challenge");
+  assert.equal((activity.choices??[]).length,3);
+  assert.equal(new Set(activity.choices??[]).size,3,"rule-pipeline choices remain unique");
+  assert((activity.choices??[]).includes(activity.correctChoice),"rule pipeline preserves canonical correctChoice");
+}
+
 const expectedCountSelect=new Set([
   "math-count-2","math-count-3","math-count-4","math-count-5","math-count-6",
   "math-count-7","math-count-8","math-count-9","math-count-10"
@@ -283,9 +299,9 @@ const featureFunctionLink=ACTIVITIES.filter(activity=>choiceGameplayPresentation
 assert.equal(featureFunctionLink.length,expectedFeatureFunctionLink.size,"feature-function-link family size must remain intentional");
 assert.deepEqual(new Set(featureFunctionLink.map(activity=>activity.id)),expectedFeatureFunctionLink,"only the four reviewed Science living feature/function choices use Feature Function Link");
 
-const specializedChoiceIds=new Set([...expectedSequence,...expectedSorting,...expectedCountSelect,...expectedNumberLine,...expectedBalance,...expectedPatternCompletion,...expectedCauseEffect,...expectedCompareProperties,...expectedHealthyHabitRoutine,...expectedMaterialLab,...expectedFeatureFunctionLink]);
+const specializedChoiceIds=new Set([...expectedSequence,...expectedSorting,...expectedRulePipeline,...expectedCountSelect,...expectedNumberLine,...expectedBalance,...expectedPatternCompletion,...expectedCauseEffect,...expectedCompareProperties,...expectedHealthyHabitRoutine,...expectedMaterialLab,...expectedFeatureFunctionLink]);
 const otherChoice=ACTIVITIES.filter(activity=>activity.runtime==="tap_choice"&&!specializedChoiceIds.has(activity.id));
 assert(otherChoice.length>0,"default choice activities remain available");
 assert(otherChoice.every(activity=>choiceGameplayPresentation(activity)==="default"),"other choice families retain default presentation");
 
-console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets + ${countSelect.length} count_select + ${numberLine.length} number_line + ${balance.length} more_less_balance + ${patternCompletion.length} pattern_completion + ${causeEffect.length} cause_effect + ${compareProperties.length} compare_properties + ${healthyHabitRoutine.length} healthy_habit_routine + ${materialLab.length} material_lab + ${featureFunctionLink.length} feature_function_link activities.`);
+console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets + ${rulePipeline.length} rule_pipeline + ${countSelect.length} count_select + ${numberLine.length} number_line + ${balance.length} more_less_balance + ${patternCompletion.length} pattern_completion + ${causeEffect.length} cause_effect + ${compareProperties.length} compare_properties + ${healthyHabitRoutine.length} healthy_habit_routine + ${materialLab.length} material_lab + ${featureFunctionLink.length} feature_function_link activities.`);
