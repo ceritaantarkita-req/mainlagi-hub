@@ -350,6 +350,24 @@
   }
 }
 
+@media (max-width: 340px) {
+  .promptCard {
+    display: none;
+  }
+
+  .scene {
+    gap: 8px;
+  }
+
+  .targetCard {
+    padding-block: 7px;
+  }
+
+  .status {
+    padding-block: 7px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .choiceButton {
     transition: none;
