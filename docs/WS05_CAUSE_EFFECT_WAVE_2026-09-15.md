@@ -4,9 +4,10 @@
 
 Diversify the reviewed Science water-change choice family with a reusable child-facing `cause_effect` interaction while preserving canonical assessment and progression contracts.
 
-Branch: `agent/ws05-gameplay-science-cause-effect-20260915`  
+Implementation branch: `agent/ws05-gameplay-science-cause-effect-20260915`  
 PR: #112  
-Merged base `main`: `06477dbc8fc4d2c4f990b19f2edb3e217b3e26ae`
+Base `main`: `06477dbc8fc4d2c4f990b19f2edb3e217b3e26ae`  
+Merged commit: `768b7f53a003d7677a74ea54e9686418c900eab4`
 
 ## Exact scope
 
@@ -43,8 +44,6 @@ Assessed evidence fidelity:
 choice_cause_effect_interaction
 ```
 
-Metadata includes the explicit process identity and cause/effect configuration used by the activity.
-
 ## Preserved contracts
 
 Unchanged:
@@ -57,20 +56,24 @@ Unchanged:
 - progression/stage requirements;
 - completion identity.
 
-## QA evidence
+## Accepted QA
 
 Accepted implementation head: `ad5f427afc9cb0c755872ee88588534066942d47`.
 
-CI #513: full green across Ubuntu quality gate, Windows compatibility, production build, dependency audit, secret-history scan, and Mobile Chromium. Production smoke remains skipped as expected for this PR environment.
+- CI #513: full green after the compact-phone fix.
+- CI #518: final canonical-docs head full green across Ubuntu, Windows, production build, dependency audit, secret-history scan, and Mobile Chromium.
+- review surface before merge: 0 inline threads, 0 PR comments.
+- exact-head squash merge: #112 -> `768b7f53a003d7677a74ea54e9686418c900eab4`.
+- `main` ref verified at that merge immediately after merge.
 
 Representative browser activity: `science-water-ice-melts`.
 
 Browser checks:
 - legitimate Science Wave A prerequisite readiness with progression guard enabled;
-- result slot is unrevealed before interaction;
-- keyboard wrong-state remains retryable and cannot falsely complete;
+- result slot unrevealed before interaction;
+- keyboard wrong-state retryable and unable to falsely complete;
 - pointer correct completion persists canonical completion and assessed attempt;
-- evidence fidelity `choice_cause_effect_interaction` persists with incorrect/retry/accuracy accounting;
+- evidence fidelity `choice_cause_effect_interaction` with incorrect/retry/accuracy accounting;
 - >=44px interaction targets;
 - no horizontal overflow;
 - success CTA fully inside viewport;
@@ -78,9 +81,9 @@ Browser checks:
 
 CI #512 originally caught a real 320x720 success-CTA clipping issue. The compact-phone layout was tightened without dropping answer/CTA targets below 44px. CI #513 then passed the same CTA visibility assertion.
 
-Manual visual review accepted idle/error/success at all three viewports. The 320 compact state now keeps prompt, three causal phases, choices, feedback, and success CTA readable and reachable.
+Manual visual review accepted idle/error/success at all three viewports.
 
-Deterministic activity quality at the accepted head remains:
+Deterministic activity quality remained:
 
 ```text
 KEEP       900
@@ -90,22 +93,25 @@ REPLACE      0
 structural findings 0
 ```
 
-## Distribution delta
+## Merged distribution
 
 ```text
-merged baseline after #110: choice_grid 366 / 900; Science choice_grid 79 / 100; 17 patterns
-PR #112 accepted QA:          choice_grid 362 / 900; Science choice_grid 75 / 100; 18 patterns
-cause_effect:                 4 / 900
-coverage:                     900 / 900, 0 unclassified
+before #112: choice_grid 366 / 900; Science choice_grid 79 / 100; 17 patterns
+after #112:  choice_grid 362 / 900; Science choice_grid 75 / 100; 18 patterns
+cause_effect: 4 / 900
+coverage:     900 / 900, 0 unclassified
 ```
 
-Science remains above the >60% subject concentration advisory threshold, so the next WS-05 step is another exact-family Science audit. Concentration is a planning signal only; the next mechanic must still fit its learning objective.
+Science remains above the >60% subject concentration advisory threshold.
 
-## Remaining merge gates
+## Next exact-family review
 
-- canonical docs on the current PR head;
-- final docs-head CI;
-- clean review threads/comments;
-- exact-head squash merge;
-- verify `main` after merge;
-- record the final merge SHA in the post-merge canonical status closure if needed.
+Read-only audit after #112 identified a coherent Wave C observation/measurement comparison trio as the strongest next candidate for `compare_properties`:
+
+```text
+science-measure-longer-pencil
+science-measure-hot-cold
+science-measure-more-water
+```
+
+The recording activity `science-observe-record-same-time` and matching activity `science-match-observation-tools-c` are intentionally outside that candidate scope. A new implementation branch must still re-validate objective/evidence fit from latest `main` before coding.
