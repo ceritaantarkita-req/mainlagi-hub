@@ -42,7 +42,7 @@
 25. `transitive_chain` — **MERGED PR #127; CLOSED PR #128; metadata PR #129**
 26. `set_reasoning` — **MERGED PR #130; CLOSED PR #131; metadata PR #132**
 27. `spatial_transform` — **MERGED PR #133; CLOSED PR #134**
-28. `investigation_board` — **MERGED PR #135; CLOSURE PR #136**
+28. `investigation_board` — **MERGED PR #135; CLOSED PR #136**
 
 Permanent gameplay-distribution audit: **MERGED PR #105**.  
 Verified Investigation Board implementation merge SHA: `790487b1672bcf1d1edce023c3f071a7f1175fbf`.
@@ -59,50 +59,73 @@ Science choice_grid          56 / 100
 Logic choice_grid            52 / 100
 ```
 
-Distance remaining: **22** patterns to minimum 50 and **32** to working target 60.
-
-### `investigation_board` — closure record
+### Pattern #29 `relative_order_track` — QA ACCEPTED / UNMERGED PR #137
 
 Exact scope:
 
 ```text
-science-investigate-plant-light
-science-investigate-fair-water
-science-predict-ice-warm-place
-science-evidence-shadow-times
+logic-order-first-after-start
+logic-order-before-d
+logic-order-between-blue-green
+logic-order-third-symbol
+logic-order-two-steps-after
 ```
 
+Accepted PR-head distribution:
+
+```text
+900 / 900 classified
+0 unclassified
+29 active PR-head patterns
+choice_grid                 313 / 900 = 34.78%
+relative_order_track          5 / 900 = 0.56%
+Science choice_grid          56 / 100
+Logic choice_grid            47 / 100
+```
+
+If merged unchanged, distance remaining becomes **21** patterns to minimum 50 and **31** to working target 60.
+
 Boundaries:
-- stage `science-evidence-review-challenge`;
-- lesson `science-investigation-evidence`;
-- pack `science.pack.investigation-evidence`;
-- canonical skill `science.investigation.evidence.basic`;
+- stage `logic-conditional-analogy-inference`;
+- lesson `logic-relative-ordering`;
+- pack `logic.pack.relative-ordering`;
+- canonical skill `logic.order.relative.basic`;
 - assessed runtime remains `tap_choice`;
 - canonical three choices and `correctChoice` remain unchanged;
 - assessment, stars, mastery, progression, activity identity and completion semantics remain canonical;
-- `science-match-observation-tools-d` remains `visible_matching` and outside scope;
-- assessed fidelity `choice_investigation_board_interaction`.
+- Logic conditional/classification/inference families remain outside scope;
+- Logic analogies remain `visible_matching`;
+- Math ordering remains `number_line`;
+- Letters ordering remains `missing_sequence_slot`;
+- assessed fidelity `choice_relative_order_track_interaction`;
+- runtime metadata source `relative-order-track-runtime`.
 
 Interaction:
-- show reusable inquiry rail Amati / Jaga tetap / Prediksi / Simpulkan;
-- highlight exactly one reviewed mode per activity;
-- show only prompt-supported scenario facts;
-- keep focus cue non-answer-revealing;
+- show only canonical ordered context already expressed in the prompt;
+- mask exactly the inferred target slot with `?` before assessment;
+- validate that the hidden slot equals canonical `correctChoice`;
 - retain accessible direct-selection buttons;
 - wrong selection is retryable, measured, and cannot complete;
 - correct selection completes the existing activity identity;
-- no invented experiment result/measurement, answer leakage, drag-only dependency, extra confirmation or intermediate assessment.
+- no invented sequence fact, answer leakage, changed choice set, drag-only dependency, extra confirmation or intermediate assessment.
 
-Acceptance/closure chain:
-- CI #611 / run `34983143311` correctly rejected a real 320px idle-feedback viewport defect;
-- accepted mobile-fix head `837c3b8ec46ed4a9bfc17a777adeb86dcbffcdc4` passed CI #614 / run `34987172569` plus manual 320/390/768 idle/try/success screenshot review;
-- final implementation/docs head `a2b01b272c6dc42f819c43a74e8f52058ed0298d` passed full CI #615 / run `34988108936`;
-- PR #135 clean exact-head squash merge produced `790487b1672bcf1d1edce023c3f071a7f1175fbf`, independently verified live;
-- closure PR #136 records the final merged state and is the final closure gate.
+Acceptance evidence:
+- implementation QA head `e91087aa1176723b0d90f310088b65a51d413ce7` passed full CI #626 / run `34992813094`;
+- deterministic quality remains 900 KEEP / 0 flagged / structural 0;
+- gameplay-distribution audit confirms exact 29-pattern counts above;
+- simulations and Batch17 acceptance passed;
+- Ubuntu, Windows, production build, dependency audit, secret-history scan and Chromium mobile/accessibility matrix passed;
+- all nine idle/wrong/success screenshots at 320x720, 390x844 and 768x1024 passed manual visual acceptance.
+
+Pattern #29 remains unmerged until fresh canonical-docs head CI and exact-head merge/live verification. It is fully closed only after the separate docs-only closure PR also passes exact-head CI/merge/live verification.
+
+### `investigation_board` — FULLY CLOSED
+
+Investigation Board implementation PR #135 and closure PR #136 remain complete. Pattern #29 does not change its evidence, runtime, mastery or progression.
 
 ### `spatial_transform` — FULLY CLOSED
 
-Spatial Transform implementation PR #133 and closure PR #134 remain complete. Pattern #28 does not change its evidence, runtime, mastery or progression.
+Spatial Transform implementation PR #133 and closure PR #134 remain complete. Pattern #29 does not change its evidence, runtime, mastery or progression.
 
 ## 60 pola permainan target
 
@@ -176,7 +199,7 @@ Spatial Transform implementation PR #133 and closure PR #134 remain complete. Pa
 49. `compare_properties` — **MERGED PR #114**
 50. `material_lab` — **MERGED PR #116**
 
-`feature_function_link`, `healthy_habit_routine`, `rule_pipeline`, `odd_one_out`, `transitive_chain`, `set_reasoning`, `spatial_transform`, and `investigation_board` are additional validated objective-fit patterns outside the original illustrative 60-slot naming list. Target slots are planning aids, not a prohibition on better mechanics.
+`feature_function_link`, `healthy_habit_routine`, `rule_pipeline`, `odd_one_out`, `transitive_chain`, `set_reasoning`, `spatial_transform`, `investigation_board`, and `relative_order_track` are additional validated objective-fit patterns outside the original illustrative 60-slot naming list. Target slots are planning aids, not a prohibition on better mechanics.
 
 ### K. Creative visual play
 51. `color_by_rule`
@@ -217,8 +240,9 @@ Coverage dan implemented-pattern consistency bersifat blocking; concentration be
 17. Transitive Chain — **DONE / #127 + #128 + #129**.
 18. Set Reasoning — **DONE / #130 + #131 + #132**.
 19. Spatial Transform — **DONE / #133 + #134**.
-20. Investigation Board — **DONE / #135 + closure #136**, subject to closure exact-head merge/live verification.
-21. NEXT — fresh objective/evidence audit for Pattern #29 from the verified 28-pattern baseline; no family is pre-approved.
+20. Investigation Board — **DONE / #135 + #136**.
+21. Relative Order Track — **QA ACCEPTED / UNMERGED / #137**.
+22. NEXT after Pattern #29 closure — fresh objective/evidence audit for Pattern #30; no family is pre-approved.
 
 ## Definition of done per mechanic
 
