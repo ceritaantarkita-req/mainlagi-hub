@@ -1,9 +1,10 @@
 # WS-05 Pattern #30 — Bahasa Syllable Assembly
 
 Date: **16 September 2026**  
-Status: **POST-MERGE VERIFIED / CLOSURE IN PROGRESS**  
+Status: **CLOSURE PR #140 — FINAL GATE**  
 Implementation PR: **#139**  
 Implementation merge SHA: `c973dbc9e6010ff167a082cd6759728b590e7626`  
+Closure PR: **#140**  
 Closure branch: `docs/close-syllable-assembly-20260916`
 
 ## Why this family
@@ -62,7 +63,7 @@ Runtime measurement:
 - records first/second syllable and selected canonical choice;
 - canonical mastery, stars, progression and activity identity remain unchanged.
 
-## QA history
+## QA and closure history
 
 Two implementation defects were caught and fixed before acceptance:
 
@@ -77,7 +78,7 @@ d55c1deb54f1402c38d84417ca7ae8248c9d3b07
 
 Full CI #642 / run `35000557604` passed Ubuntu, Windows, production build/budgets, dependency audit, secret-history scan, complete engine/learning regressions, deterministic activity-quality, gameplay distribution, simulations, Batch17 and Chromium mobile/accessibility/browser QA.
 
-Final canonical docs head `ee891dc99c1f86831ba67b34ae39e71ec50ee886` passed full PR CI #647 / run `35001595648` before merge.
+Final canonical implementation docs head `ee891dc99c1f86831ba67b34ae39e71ec50ee886` passed full PR CI #647 / run `35001595648` before merge.
 
 PR #139 was exact-head squash merged as:
 
@@ -132,13 +133,13 @@ Accepted observations:
 - success feedback and CTA are visible;
 - direct-choice targets remain usable across phone/tablet layouts.
 
-## Closure gate
+## Final closure gate
 
-Implementation is merged and live-verified. The remaining closure gate is docs-only:
-1. update the canonical docs to the verified 30-pattern merged state;
-2. run fresh full CI on the exact closure-docs head;
-3. verify closure PR mergeability/comments/reviews/threads;
-4. exact-head squash merge the closure PR;
+Implementation is merged and live-verified. Closure PR #140 is docs-only and must:
+1. keep all five canonical docs aligned to the verified 30-pattern merged state;
+2. pass fresh full CI on its exact final head;
+3. have clean mergeability/comments/reviews/review-thread gates;
+4. exact-head squash merge;
 5. independently verify final `main` SHA and final `main` CI including Cloudflare production smoke.
 
-No Pattern #31 family is pre-approved before Pattern #30 is fully closed.
+Pattern #30 is **FULLY CLOSED only after PR #140 completes those gates**. No Pattern #31 family is pre-approved before that point.
