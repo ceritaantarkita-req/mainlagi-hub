@@ -1,0 +1,323 @@
+.scene {
+  width: min(860px, 100%);
+  margin: 0 auto;
+  display: grid;
+  gap: 11px;
+  padding: 4px 0 14px;
+}
+
+.promptCard,
+.assemblyCard,
+.cueCard,
+.status {
+  border-radius: 22px;
+  border: 1px solid rgba(91, 87, 132, 0.18);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 12px 28px rgba(67, 64, 96, 0.09);
+}
+
+.promptCard {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 13px 17px;
+}
+
+.promptCard h1 {
+  margin: 0 0 3px;
+  font-size: clamp(1.18rem, 3vw, 1.75rem);
+}
+
+.promptCard p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.promptIcon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 16px;
+  background: rgba(126, 111, 201, 0.14);
+  font-size: 1.45rem;
+}
+
+.assemblyCard {
+  min-height: 126px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 17px;
+}
+
+.syllablePiece,
+.resultPiece {
+  min-width: 96px;
+  min-height: 76px;
+  display: grid;
+  place-items: center;
+  border-radius: 20px;
+  border: 2px solid rgba(103, 91, 169, 0.28);
+  background: linear-gradient(180deg, #ffffff, #f5f2ff);
+  font-size: clamp(1.35rem, 5vw, 2rem);
+  font-weight: 950;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+}
+
+.resultPiece {
+  border-style: dashed;
+  color: #5b4e99;
+  background: linear-gradient(180deg, #faf9ff, #eeeaff);
+  font-size: clamp(1.6rem, 6vw, 2.2rem);
+}
+
+.resultGood {
+  border-style: solid;
+  border-color: rgba(68, 148, 87, 0.55);
+  color: #356d43;
+  background: linear-gradient(180deg, #fbfffb, #eaf8ed);
+}
+
+.operator {
+  flex: 0 0 auto;
+  font-size: 1.45rem;
+  font-weight: 950;
+  opacity: 0.54;
+}
+
+.cueCard {
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+  padding: 9px 13px;
+  text-align: center;
+}
+
+.cueCard > span {
+  font-size: 0.7rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.58;
+}
+
+.cueCard > strong {
+  font-size: 0.96rem;
+}
+
+.choiceGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.choiceButton {
+  min-height: 68px;
+  border-radius: 18px;
+  border: 2px solid rgba(77, 102, 83, 0.18);
+  background: linear-gradient(180deg, #ffffff, #f7fbf7);
+  box-shadow: 0 9px 20px rgba(57, 76, 61, 0.09);
+  color: inherit;
+  display: grid;
+  place-items: center;
+  padding: 8px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 900;
+  text-transform: lowercase;
+  transition: transform 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
+}
+
+.choiceButton:hover:not(:disabled),
+.choiceButton:focus-visible {
+  transform: translateY(-3px);
+  border-color: rgba(70, 121, 83, 0.62);
+  box-shadow: 0 13px 24px rgba(54, 76, 60, 0.13);
+  outline: none;
+}
+
+.choiceButton:disabled {
+  cursor: default;
+}
+
+.selected {
+  border-color: rgba(60, 103, 70, 0.7);
+}
+
+.wrong {
+  border-color: #d97863;
+  background: linear-gradient(180deg, #fff9f7, #fff1ed);
+}
+
+.correct {
+  border-color: #56a36a;
+  background: linear-gradient(180deg, #fbfffb, #eaf8ed);
+}
+
+.status {
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 13px;
+  text-align: center;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.statusTry {
+  border-color: rgba(208, 119, 91, 0.35);
+  background: #fff8f4;
+}
+
+.statusGood {
+  border-color: rgba(71, 151, 91, 0.35);
+  background: #f1fbf3;
+}
+
+.nextLink {
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  padding: 10px 18px;
+  border-radius: 16px;
+  background: #3f784d;
+  color: white;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+@media (max-width: 560px) {
+  .scene {
+    gap: 8px;
+    padding-bottom: 8px;
+  }
+
+  .promptCard {
+    gap: 9px;
+    padding: 9px 10px;
+  }
+
+  .promptIcon {
+    width: 39px;
+    height: 39px;
+    border-radius: 13px;
+    font-size: 1.15rem;
+  }
+
+  .promptCard h1 {
+    font-size: 1.03rem;
+  }
+
+  .promptCard p {
+    font-size: 0.76rem;
+  }
+
+  .assemblyCard {
+    min-height: 92px;
+    gap: 7px;
+    padding: 10px 8px;
+  }
+
+  .syllablePiece,
+  .resultPiece {
+    min-width: 68px;
+    min-height: 58px;
+    border-radius: 15px;
+    font-size: 1.25rem;
+  }
+
+  .resultPiece {
+    font-size: 1.5rem;
+  }
+
+  .operator {
+    font-size: 1rem;
+  }
+
+  .cueCard {
+    padding: 7px 8px;
+  }
+
+  .cueCard > strong {
+    font-size: 0.78rem;
+  }
+
+  .choiceGrid {
+    gap: 6px;
+  }
+
+  .choiceButton {
+    min-height: 56px;
+    border-radius: 15px;
+    padding: 6px 4px;
+    font-size: 0.9rem;
+  }
+
+  .status {
+    min-height: 45px;
+    padding: 7px 8px;
+    font-size: 0.78rem;
+  }
+
+  .sceneDone {
+    gap: 7px;
+  }
+
+  .sceneDone .promptCard {
+    display: none;
+  }
+}
+
+@media (max-width: 360px) {
+  .promptCard {
+    display: none;
+  }
+
+  .scene {
+    gap: 7px;
+  }
+
+  .assemblyCard {
+    min-height: 84px;
+    padding: 8px 5px;
+    gap: 5px;
+  }
+
+  .syllablePiece,
+  .resultPiece {
+    min-width: 61px;
+    min-height: 54px;
+    border-radius: 14px;
+    font-size: 1.12rem;
+  }
+
+  .resultPiece {
+    font-size: 1.35rem;
+  }
+
+  .operator {
+    font-size: 0.88rem;
+  }
+
+  .cueCard {
+    padding: 6px;
+  }
+
+  .choiceButton {
+    min-height: 52px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .choiceButton {
+    transition: none;
+  }
+}

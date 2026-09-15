@@ -1,7 +1,7 @@
 import type { LearningActivity } from "./system";
 
 export type MatchingPresentation = "grid_pairs" | "memory_pairs" | "drag_targets";
-export type ChoiceGameplayPresentation = "default" | "sequence_slot" | "sorting_buckets" | "odd_one_out" | "rule_pipeline" | "set_reasoning" | "transitive_chain" | "spatial_transform" | "relative_order_track" | "count_select" | "number_line" | "more_less_balance" | "pattern_completion" | "cause_effect" | "compare_properties" | "healthy_habit_routine" | "material_lab" | "feature_function_link" | "investigation_board";
+export type ChoiceGameplayPresentation = "default" | "sequence_slot" | "syllable_assembly" | "sorting_buckets" | "odd_one_out" | "rule_pipeline" | "set_reasoning" | "transitive_chain" | "spatial_transform" | "relative_order_track" | "count_select" | "number_line" | "more_less_balance" | "pattern_completion" | "cause_effect" | "compare_properties" | "healthy_habit_routine" | "material_lab" | "feature_function_link" | "investigation_board";
 export type GameplayPattern =
   | "choice_grid"
   | "symbol_hunt"
@@ -10,6 +10,7 @@ export type GameplayPattern =
   | "memory_pair"
   | "drag_to_target"
   | "missing_sequence_slot"
+  | "syllable_assembly"
   | "sorting_buckets"
   | "odd_one_out"
   | "rule_pipeline"
@@ -32,6 +33,14 @@ export type GameplayPattern =
   | "motion_game"
   | "coloring_canvas"
   | "drawing_canvas";
+
+const BAHASA_SYLLABLE_ASSEMBLY_IDS = new Set([
+  "bahasa-gabung-baju",
+  "bahasa-gabung-buku",
+  "bahasa-gabung-meja",
+  "bahasa-gabung-bola",
+  "bahasa-gabung-susu"
+]);
 
 const SCIENCE_DRAG_TARGET_IDS = new Set([
   "science-match-living-nonliving",
@@ -223,6 +232,18 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     choices.includes(correct);
   if (isLetterSequenceFamily) return "sequence_slot";
 
+  const isReviewedBahasaSyllableAssemblyFamily =
+    activity.subjectId === "bahasa" &&
+    activity.stageId === "bahasa-suku-kata-kata" &&
+    BAHASA_SYLLABLE_ASSEMBLY_IDS.has(activity.id) &&
+    choices.length === 3 &&
+    new Set(choices).size === choices.length &&
+    choices.every((choice) => /^[a-z]+$/.test(choice)) &&
+    /^[a-z]+$/.test(correct) &&
+    choices.includes(correct) &&
+    Boolean(activity.prompt);
+  if (isReviewedBahasaSyllableAssemblyFamily) return "syllable_assembly";
+
   const isBasicLogicClassificationFamily =
     activity.subjectId === "logic" &&
     activity.stageId === "logic-classification-rules-basics" &&
@@ -402,6 +423,10 @@ export function isSequenceSlotActivity(activity: LearningActivity | undefined): 
   return choiceGameplayPresentation(activity) === "sequence_slot";
 }
 
+export function isSyllableAssemblyActivity(activity: LearningActivity | undefined): boolean {
+  return choiceGameplayPresentation(activity) === "syllable_assembly";
+}
+
 export function isSortingBucketsActivity(activity: LearningActivity | undefined): boolean {
   return choiceGameplayPresentation(activity) === "sorting_buckets";
 }
@@ -482,6 +507,7 @@ export function gameplayPattern(activity: LearningActivity | undefined): Gamepla
     if (activity.choicePresentation === "symbol_hunt") return "symbol_hunt";
     const presentation = choiceGameplayPresentation(activity);
     if (presentation === "sequence_slot") return "missing_sequence_slot";
+    if (presentation === "syllable_assembly") return "syllable_assembly";
     if (presentation === "sorting_buckets") return "sorting_buckets";
     if (presentation === "odd_one_out") return "odd_one_out";
     if (presentation === "rule_pipeline") return "rule_pipeline";
