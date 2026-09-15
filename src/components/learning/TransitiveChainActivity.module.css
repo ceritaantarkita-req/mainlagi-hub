@@ -311,7 +311,8 @@
     gap: 8px;
   }
 
-  .sceneDone .promptCard {
+  .sceneDone .promptCard,
+  .sceneDone .chainCard {
     display: none;
   }
 }
