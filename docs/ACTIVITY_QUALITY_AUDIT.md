@@ -38,27 +38,16 @@ Merged waves:
 - `cause_effect` — PR #112, exactly 4 Science Wave B water-change choice activities.
 - `compare_properties` — PR #114, exactly 3 Science Wave C direct-comparison activities.
 - `material_lab` — PR #116, exactly 4 Science Wave D material-purpose activities.
+- `feature_function_link` — PR #119, exactly 4 Science Wave D living feature/function activities.
 
-Current active QA wave:
-- `feature_function_link` — PR #119, exactly 4 Science Wave D living feature/function activities; **accepted implementation QA / unmerged**.
+Current active QA wave: none. Next work is a fresh objective-driven Science exact-family audit from the verified 21-pattern baseline.
 
-Merged distribution after PR #116:
-
-```text
-900 / 900 classified
-0 unclassified
-20 active patterns
-choice_grid           355 / 900 = 39.44%
-Science choice_grid     68 / 100
-Logic choice_grid       77 / 100
-```
-
-PR #119 accepted-QA distribution:
+Merged distribution after PR #119:
 
 ```text
 900 / 900 classified
 0 unclassified
-21 active patterns on PR head
+21 active patterns
 choice_grid                 351 / 900 = 39.00%
 feature_function_link         4 / 900 = 0.44%
 Science choice_grid          64 / 100
@@ -67,7 +56,7 @@ Logic choice_grid            77 / 100
 
 Concentration is advisory and does not itself create POLISH/REDESIGN findings.
 
-## Feature Function Link — ACCEPTED IMPLEMENTATION QA / PR #119 / UNMERGED
+## Feature Function Link — MERGED PR #119
 
 Exact scope:
 
@@ -100,16 +89,19 @@ Interaction/evidence:
 - exact four-ID allowlist prevents unrelated Science activities from reclassification;
 - `science-match-feature-function-d` remains canonical visible matching.
 
-Accepted evidence:
+Accepted and merged evidence:
 - CI #541 caught stale default-choice family coverage plus decorative connector pointer interception; fixes preserved the default-family guard and made decoration non-interactive;
-- CI #543 caught an invalid static-test assumption that skill identity existed on the runtime activity; the test now verifies the canonical catalog learning spec instead;
+- CI #543 caught an invalid test assumption that skill identity existed on the runtime activity; the test now verifies the canonical catalog learning spec;
 - CI #544 caught the 320px success CTA below the viewport;
 - success-only phone layout was compacted without shrinking answer controls or changing idle/error layout;
 - implementation head `94effe387912f27d0667e36fbf1d2351d612b62d` passed full CI #545;
+- final docs head `4f7523aad78ed7c76b57d89320cb4b29c2c9263d` passed full CI #547;
 - representative route uses legitimate Science readiness;
 - keyboard wrong-state, pointer completion, assessed evidence persistence, >=44px controls, no horizontal overflow, and CTA visibility all pass at 320/390/768;
-- manual visual review accepted the green #545 idle/error/success screenshots at 320x720, 390x844 and 768x1024;
-- activity-quality remains **900 KEEP / 0 flagged**, structural findings 0.
+- manual visual review accepted green #545 idle/error/success at 320x720, 390x844 and 768x1024;
+- activity-quality remains **900 KEEP / 0 flagged**, structural findings 0;
+- final merge gate had 0 comments, 0 submitted reviews and 0 review threads;
+- exact-head squash merge produced `49850145a918afcba4f8279a6f5da12fe4a9c5b8` and `main` was verified at that SHA.
 
 ## Permanent audits
 
@@ -137,8 +129,8 @@ CI uploads both artifacts. Gameplay-distribution coverage and active-pattern-set
 - WS-05 Cause/Effect DONE — PR #112.
 - WS-05 Compare Properties DONE — PR #114.
 - WS-05 Material Lab DONE — PR #116.
-- WS-05 Feature Function Link — **ACCEPTED QA / PR #119; final docs-head CI + merge pending**.
-- WS-05 NEXT — after #119 closure, fresh Science exact-family audit, then Logic.
+- WS-05 Feature Function Link DONE — PR #119.
+- WS-05 NEXT — fresh Science exact-family audit from the 21-pattern baseline, then Logic if no coherent Science family remains.
 
 ## Completion rule
 
