@@ -13,6 +13,7 @@ const {moreLessBalanceConfig}=require(path.resolve(".learning-test-dist/src/lib/
 const {patternCompletionConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/patternCompletionConfig.js"));
 const {causeEffectConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/causeEffectConfig.js"));
 const {comparePropertiesConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/comparePropertiesConfig.js"));
+const {healthyHabitRoutineConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/healthyHabitRoutineConfig.js"));
 const {materialLabConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/materialLabConfig.js"));
 
 const expectedMemory=new Set([
@@ -222,6 +223,32 @@ const recordingObservation=ACTIVITIES.find(activity=>activity.id==="science-obse
 assert(recordingObservation,"recording observation activity remains in catalog");
 assert.equal(choiceGameplayPresentation(recordingObservation),"default","recording observation stays outside compare-properties scope");
 
+const expectedHealthyHabitRoutine=new Set([
+  "science-body-wash-hands","science-body-teeth-brush",
+  "science-body-water-drink","science-body-sleep-rest"
+]);
+const healthyHabitRoutine=ACTIVITIES.filter(activity=>choiceGameplayPresentation(activity)==="healthy_habit_routine");
+assert.equal(healthyHabitRoutine.length,expectedHealthyHabitRoutine.size,"healthy-habit family size must remain intentional");
+assert.deepEqual(new Set(healthyHabitRoutine.map(activity=>activity.id)),expectedHealthyHabitRoutine,"only the four reviewed Science body-health choices use Healthy Habit Routine");
+for(const activity of healthyHabitRoutine){
+  assert.equal(activity.runtime,"tap_choice");
+  assert.equal(activity.subjectId,"science");
+  assert.equal(activity.stageId,"science-earth-body-environment");
+  assert.equal((activity.choices??[]).length,3);
+  assert.equal(new Set(activity.choices??[]).size,3,"healthy-habit choices remain unique");
+  assert((activity.choices??[]).includes(activity.correctChoice),"healthy habit preserves canonical correctChoice");
+  const config=healthyHabitRoutineConfig(activity);
+  assert(config,`${activity.id} must have explicit Healthy Habit Routine config`);
+  assert.deepEqual(new Set(Object.keys(config.choiceVisuals)),new Set(activity.choices??[]),`${activity.id} habit visuals cover exactly canonical choices`);
+  assert(config.choiceVisuals[activity.correctChoice],`${activity.id} canonical correctChoice keeps an explicit habit visual`);
+  assert(config.routineIcon&&config.routineLabel&&config.cueIcon&&config.cueLabel,`${activity.id} keeps visible health routine context`);
+}
+
+const bodyCareMatching=ACTIVITIES.find(activity=>activity.id==="science-match-body-care-c");
+assert(bodyCareMatching,"body-care matching activity remains in catalog");
+assert.equal(bodyCareMatching.runtime,"matching");
+assert.equal(matchingPresentation(bodyCareMatching),"grid_pairs","body-care matching stays outside healthy-habit scope");
+
 const expectedMaterialLab=new Set([
   "science-material-raincoat-waterproof","science-material-window-transparent",
   "science-material-towel-absorbent","science-material-toy-block-rigid"
@@ -256,9 +283,9 @@ const featureFunctionLink=ACTIVITIES.filter(activity=>choiceGameplayPresentation
 assert.equal(featureFunctionLink.length,expectedFeatureFunctionLink.size,"feature-function-link family size must remain intentional");
 assert.deepEqual(new Set(featureFunctionLink.map(activity=>activity.id)),expectedFeatureFunctionLink,"only the four reviewed Science living feature/function choices use Feature Function Link");
 
-const specializedChoiceIds=new Set([...expectedSequence,...expectedSorting,...expectedCountSelect,...expectedNumberLine,...expectedBalance,...expectedPatternCompletion,...expectedCauseEffect,...expectedCompareProperties,...expectedMaterialLab,...expectedFeatureFunctionLink]);
+const specializedChoiceIds=new Set([...expectedSequence,...expectedSorting,...expectedCountSelect,...expectedNumberLine,...expectedBalance,...expectedPatternCompletion,...expectedCauseEffect,...expectedCompareProperties,...expectedHealthyHabitRoutine,...expectedMaterialLab,...expectedFeatureFunctionLink]);
 const otherChoice=ACTIVITIES.filter(activity=>activity.runtime==="tap_choice"&&!specializedChoiceIds.has(activity.id));
 assert(otherChoice.length>0,"default choice activities remain available");
 assert(otherChoice.every(activity=>choiceGameplayPresentation(activity)==="default"),"other choice families retain default presentation");
 
-console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets + ${countSelect.length} count_select + ${numberLine.length} number_line + ${balance.length} more_less_balance + ${patternCompletion.length} pattern_completion + ${causeEffect.length} cause_effect + ${compareProperties.length} compare_properties + ${materialLab.length} material_lab + ${featureFunctionLink.length} feature_function_link activities.`);
+console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets + ${countSelect.length} count_select + ${numberLine.length} number_line + ${balance.length} more_less_balance + ${patternCompletion.length} pattern_completion + ${causeEffect.length} cause_effect + ${compareProperties.length} compare_properties + ${healthyHabitRoutine.length} healthy_habit_routine + ${materialLab.length} material_lab + ${featureFunctionLink.length} feature_function_link activities.`);

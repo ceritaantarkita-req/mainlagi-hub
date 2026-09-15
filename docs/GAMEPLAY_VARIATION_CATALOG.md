@@ -38,64 +38,63 @@
 21. `feature_function_link` — **MERGED PR #119**
 
 Permanent gameplay-distribution audit: **MERGED PR #105**.  
-Latest gameplay merge: PR #119 `49850145a918afcba4f8279a6f5da12fe4a9c5b8`.
+Latest gameplay merge: PR #119 `49850145a918afcba4f8279a6f5da12fe4a9c5b8`.  
+Latest canonical closure on `main`: PR #120 `92664642287ecdd64ce408d3d08794a24aa2b588`.
 
-### `feature_function_link` — MERGED PR #119
+### `healthy_habit_routine` — QA ACCEPTED / ACTIVE PR #121 / UNMERGED
 
 Exact scope:
 
 ```text
-science-feature-duck-webbed-feet
-science-feature-fish-gills
-science-feature-bird-beak-seeds
-science-feature-cactus-water
+science-body-wash-hands
+science-body-teeth-brush
+science-body-water-drink
+science-body-sleep-rest
 ```
 
 Excluded intentionally:
 
 ```text
-science-match-feature-function-d
+science-match-body-care-c
 ```
 
 Boundaries:
-- Science Wave D stage `science-evidence-review-challenge`;
-- all four scoped choices belong to `science-living-adaptations` and target `science.living.features_function.basic`;
-- all four ask which function matches one familiar organism feature;
+- Science Wave C stage `science-earth-body-environment`;
+- all four scoped choices belong to `science-body-health-habits` and target `science.body.health_habits.basic`;
+- all four ask which healthy everyday habit fits one familiar care context;
 - canonical three choices and `correctChoice` remain the assessed answer set;
 - the matching activity stays `matching` / `visible_matching`;
-- heterogeneous investigation/evidence tasks stay outside scope;
+- heterogeneous investigation/evidence and mixed Science review tasks stay outside scope;
 - runtime remains `tap_choice`;
 - assessment, stars, progression, activity identity and completion identity remain canonical;
-- assessed fidelity `choice_feature_function_link_interaction`;
-- exact four-ID allowlist prevents unrelated Science Wave D families from reclassification.
+- assessed fidelity `choice_healthy_habit_routine_interaction`;
+- exact four-ID allowlist prevents unrelated Science families from reclassification.
 
-Interaction presents organism + feature as a source and the canonical three functions as accessible destination buttons. Wrong links are retryable and cannot complete; correct link completes through the existing activity identity. The mechanic is not drag-only.
+Interaction presents a health focus and routine cue plus the canonical three habits as accessible answer cards. Wrong choices are retryable and cannot complete; correct choice completes through the existing activity identity. The mechanic is not drag-only.
 
-Accepted evidence:
-- CI #541 found stale specialized/default-choice test coverage and decorative connector pointer interception; both were fixed while retaining the old default-family assertion;
-- CI #543 caught a wrong static-test assumption about runtime skill identity; the test was corrected to assert the canonical learning spec;
-- CI #544 caught the 320px success CTA below the viewport;
-- success-only phone layout was compacted while keeping answer controls >=44px and preserving idle/error layout;
-- implementation head `94effe387912f27d0667e36fbf1d2351d612b62d` passed full CI #545;
-- final docs head `4f7523aad78ed7c76b57d89320cb4b29c2c9263d` passed full CI #547;
-- static scope regression confirms exactly 4 `feature_function_link` activities and keeps `science-match-feature-function-d` as visible matching;
+Accepted QA evidence on implementation head `8086670711221dd077c64bdab2eb308040c3db86`:
+- initial noisy formatting diff was cleaned before acceptance; current implementation diff is reviewable and preserves existing-file formatting;
+- full CI #552 / run `34932904970` passed all required jobs;
+- gameplay regression confirms exactly 4 `healthy_habit_routine` activities;
+- dedicated static scope test confirms exactly four IDs and keeps `science-match-body-care-c` as `visible_matching`;
 - deterministic audit remains **900 KEEP / 0 flagged**, structural findings 0;
-- legitimate Science progression, keyboard wrong-state, pointer completion, assessed evidence, >=44px controls, no overflow and CTA visibility pass at 320/390/768;
-- manual visual review accepted green #545 idle/error/success screenshots at 320/390/768;
-- final review gate had 0 comments, 0 reviews and 0 review threads;
-- exact-head squash merge produced `49850145a918afcba4f8279a6f5da12fe4a9c5b8`, verified on `main`.
+- permanent distribution audit verifies the PR-head distribution below;
+- browser QA passes legitimate Wave B progression, keyboard wrong-state, pointer completion, assessed evidence, touch sizing, no overflow and CTA visibility at 320/390/768;
+- manual visual review accepted CI #552 idle/error/success screenshots at 320x720, 390x844 and 768x1024.
 
-Merged distribution:
+PR-head distribution:
 
 ```text
 900 / 900 classified
 0 unclassified
-21 active child-facing patterns
-choice_grid                 351 / 900 = 39.00%
-feature_function_link         4 / 900 = 0.44%
-Science choice_grid          64 / 100
+22 active child-facing patterns
+choice_grid                 347 / 900 = 38.56%
+healthy_habit_routine         4 / 900 = 0.44%
+Science choice_grid          60 / 100
 Logic choice_grid            77 / 100
 ```
+
+This pattern is not counted as merged until final docs-head CI, review gate, exact-head merge, live `main` verification and closure are complete.
 
 ## 60 pola permainan target
 
@@ -169,7 +168,7 @@ Logic choice_grid            77 / 100
 49. `compare_properties` — **MERGED PR #114**
 50. `material_lab` — **MERGED PR #116**
 
-`feature_function_link` is an additional validated Science pattern outside the original illustrative 60-slot naming list; target slots are planning aids, not a prohibition on better objective-fit mechanics.
+`feature_function_link` is an additional validated Science pattern outside the original illustrative 60-slot naming list. `healthy_habit_routine` is another objective-fit Science pattern currently QA-accepted in PR #121. Target slots are planning aids, not a prohibition on better mechanics.
 
 ### K. Creative visual play
 51. `color_by_rule`
@@ -212,8 +211,9 @@ Prinsip alokasi:
 11. Compare Properties — **DONE / #114**.
 12. Material Lab — **DONE / #116**.
 13. Feature Function Link — **DONE / #119**.
-14. Re-audit remaining Science exact families from the verified 21-pattern baseline while Science remains above 60%; do not force heterogeneous objectives together.
-15. If Science no longer yields a coherent family, audit Logic next; continue search/audio/puzzle/literacy/creative/story based on objective fit and distribution.
+14. Healthy Habit Routine — **QA ACCEPTED / PR #121 / merge pending**.
+15. After #121 closure, audit Logic exact families. Logic remains 77% `choice_grid`; Science would be exactly 60%, so do not keep mining weaker Science families merely to lower concentration.
+16. Continue search/audio/puzzle/literacy/creative/story based on objective fit and distribution.
 
 ## Definition of done per mechanic
 

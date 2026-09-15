@@ -1,7 +1,7 @@
 import type { LearningActivity } from "./system";
 
 export type MatchingPresentation = "grid_pairs" | "memory_pairs" | "drag_targets";
-export type ChoiceGameplayPresentation = "default" | "sequence_slot" | "sorting_buckets" | "count_select" | "number_line" | "more_less_balance" | "pattern_completion" | "cause_effect" | "compare_properties" | "material_lab" | "feature_function_link";
+export type ChoiceGameplayPresentation = "default" | "sequence_slot" | "sorting_buckets" | "count_select" | "number_line" | "more_less_balance" | "pattern_completion" | "cause_effect" | "compare_properties" | "healthy_habit_routine" | "material_lab" | "feature_function_link";
 export type GameplayPattern =
   | "choice_grid"
   | "symbol_hunt"
@@ -17,6 +17,7 @@ export type GameplayPattern =
   | "pattern_completion"
   | "cause_effect"
   | "compare_properties"
+  | "healthy_habit_routine"
   | "material_lab"
   | "feature_function_link"
   | "guided_trace"
@@ -44,6 +45,13 @@ const SCIENCE_COMPARE_PROPERTIES_IDS = new Set([
   "science-measure-longer-pencil",
   "science-measure-hot-cold",
   "science-measure-more-water"
+]);
+
+const SCIENCE_HEALTHY_HABIT_ROUTINE_IDS = new Set([
+  "science-body-wash-hands",
+  "science-body-teeth-brush",
+  "science-body-water-drink",
+  "science-body-sleep-rest"
 ]);
 
 const SCIENCE_MATERIAL_LAB_IDS = new Set([
@@ -163,6 +171,9 @@ export function isDragTargetActivity(activity: LearningActivity | undefined): bo
  * Reviewed Science measurement tasks compare two observable properties, so
  * present their qualitative relation directly without inventing numeric data.
  *
+ * Reviewed Science body-health tasks ask which everyday habit best fits one
+ * familiar care context, so present them as a routine cue plus habit cards.
+ *
  * Reviewed Science material-design tasks ask which property makes a familiar
  * object fit its purpose. Present them as a select-and-test material lab so the
  * child commits a sample before testing it against the canonical objective.
@@ -258,6 +269,16 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     Boolean(activity.prompt);
   if (isReviewedScienceComparePropertiesFamily) return "compare_properties";
 
+  const isReviewedScienceHealthyHabitFamily =
+    activity.subjectId === "science" &&
+    activity.stageId === "science-earth-body-environment" &&
+    SCIENCE_HEALTHY_HABIT_ROUTINE_IDS.has(activity.id) &&
+    choices.length === 3 &&
+    new Set(choices).size === choices.length &&
+    choices.includes(correct) &&
+    Boolean(activity.prompt);
+  if (isReviewedScienceHealthyHabitFamily) return "healthy_habit_routine";
+
   const isReviewedScienceMaterialLabFamily =
     activity.subjectId === "science" &&
     activity.stageId === "science-evidence-review-challenge" &&
@@ -313,6 +334,10 @@ export function isComparePropertiesActivity(activity: LearningActivity | undefin
   return choiceGameplayPresentation(activity) === "compare_properties";
 }
 
+export function isHealthyHabitRoutineActivity(activity: LearningActivity | undefined): boolean {
+  return choiceGameplayPresentation(activity) === "healthy_habit_routine";
+}
+
 export function isMaterialLabActivity(activity: LearningActivity | undefined): boolean {
   return choiceGameplayPresentation(activity) === "material_lab";
 }
@@ -340,6 +365,7 @@ export function gameplayPattern(activity: LearningActivity | undefined): Gamepla
     if (presentation === "pattern_completion") return "pattern_completion";
     if (presentation === "cause_effect") return "cause_effect";
     if (presentation === "compare_properties") return "compare_properties";
+    if (presentation === "healthy_habit_routine") return "healthy_habit_routine";
     if (presentation === "material_lab") return "material_lab";
     if (presentation === "feature_function_link") return "feature_function_link";
     return "choice_grid";

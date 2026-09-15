@@ -31,6 +31,7 @@ const EXPECTED_PATTERNS = [
   "pattern_completion",
   "cause_effect",
   "compare_properties",
+  "healthy_habit_routine",
   "material_lab",
   "feature_function_link"
 ];

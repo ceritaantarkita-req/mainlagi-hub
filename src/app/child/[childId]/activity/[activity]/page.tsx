@@ -5,6 +5,7 @@ import { CountAndSelectActivity } from "@/components/learning/CountAndSelectActi
 import { CreativePracticeActivity } from "@/components/learning/CreativePracticeActivity";
 import { DragTargetMatchActivity } from "@/components/learning/DragTargetMatchActivity";
 import { FeatureFunctionLinkActivity } from "@/components/learning/FeatureFunctionLinkActivity";
+import { HealthyHabitRoutineActivity } from "@/components/learning/HealthyHabitRoutineActivity";
 import { MaterialLabActivity } from "@/components/learning/MaterialLabActivity";
 import { MemoryMatchActivity } from "@/components/learning/MemoryMatchActivity";
 import { MoreLessBalanceActivity } from "@/components/learning/MoreLessBalanceActivity";
@@ -21,6 +22,7 @@ import {
   isCountAndSelectActivity,
   isDragTargetActivity,
   isFeatureFunctionLinkActivity,
+  isHealthyHabitRoutineActivity,
   isMaterialLabActivity,
   isMemoryPairActivity,
   isMoreLessBalanceActivity,
@@ -67,6 +69,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
         <CauseEffectActivity childId={childId} activityId={activity} />
       ) : isComparePropertiesActivity(definition) ? (
         <ComparePropertiesActivity childId={childId} activityId={activity} />
+      ) : isHealthyHabitRoutineActivity(definition) ? (
+        <HealthyHabitRoutineActivity childId={childId} activityId={activity} />
       ) : isMaterialLabActivity(definition) ? (
         <MaterialLabActivity childId={childId} activityId={activity} />
       ) : isFeatureFunctionLinkActivity(definition) ? (

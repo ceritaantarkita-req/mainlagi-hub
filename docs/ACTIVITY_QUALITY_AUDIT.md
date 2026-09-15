@@ -40,68 +40,68 @@ Merged waves:
 - `material_lab` — PR #116, exactly 4 Science Wave D material-purpose activities.
 - `feature_function_link` — PR #119, exactly 4 Science Wave D living feature/function activities.
 
-Current active QA wave: none. Next work is a fresh objective-driven Science exact-family audit from the verified 21-pattern baseline.
+Current active QA wave:
+- `healthy_habit_routine` — PR #121, exactly 4 Science Wave C body-health choices; QA accepted / unmerged.
 
-Merged distribution after PR #119:
+Merged distribution on `main` remains 21 patterns. Accepted PR #121 head projects and verifies:
 
 ```text
 900 / 900 classified
 0 unclassified
-21 active patterns
-choice_grid                 351 / 900 = 39.00%
-feature_function_link         4 / 900 = 0.44%
-Science choice_grid          64 / 100
+22 PR-head active patterns
+choice_grid                 347 / 900 = 38.56%
+healthy_habit_routine         4 / 900 = 0.44%
+Science choice_grid          60 / 100
 Logic choice_grid            77 / 100
 ```
 
 Concentration is advisory and does not itself create POLISH/REDESIGN findings.
 
-## Feature Function Link — MERGED PR #119
+## Healthy Habit Routine — QA ACCEPTED / ACTIVE PR #121
 
 Exact scope:
 
 ```text
-science-feature-duck-webbed-feet
-science-feature-fish-gills
-science-feature-bird-beak-seeds
-science-feature-cactus-water
+science-body-wash-hands
+science-body-teeth-brush
+science-body-water-drink
+science-body-sleep-rest
 ```
 
 Explicit exclusion:
 
 ```text
-science-match-feature-function-d
+science-match-body-care-c
 ```
 
 Preserved:
 - canonical runtime `tap_choice`;
 - choices/`correctChoice`;
 - assessment and stars;
-- progression and canonical skill `science.living.features_function.basic`;
+- progression and canonical skill `science.body.health_habits.basic`;
 - activity IDs and completion semantics;
-- Wave D stage identity.
+- Wave C stage/lesson identity.
 
 Interaction/evidence:
-- organism + feature appear as the source context;
-- canonical three functions appear as accessible destination buttons;
+- health focus and routine cue appear as explicit context;
+- canonical three habits appear as accessible answer buttons;
 - wrong choice is measured/retryable and cannot complete;
-- assessed fidelity `choice_feature_function_link_interaction`;
+- assessed fidelity `choice_healthy_habit_routine_interaction`;
 - exact four-ID allowlist prevents unrelated Science activities from reclassification;
-- `science-match-feature-function-d` remains canonical visible matching.
+- `science-match-body-care-c` remains canonical visible matching.
 
-Accepted and merged evidence:
-- CI #541 caught stale default-choice family coverage plus decorative connector pointer interception; fixes preserved the default-family guard and made decoration non-interactive;
-- CI #543 caught an invalid test assumption that skill identity existed on the runtime activity; the test now verifies the canonical catalog learning spec;
-- CI #544 caught the 320px success CTA below the viewport;
-- success-only phone layout was compacted without shrinking answer controls or changing idle/error layout;
-- implementation head `94effe387912f27d0667e36fbf1d2351d612b62d` passed full CI #545;
-- final docs head `4f7523aad78ed7c76b57d89320cb4b29c2c9263d` passed full CI #547;
-- representative route uses legitimate Science readiness;
-- keyboard wrong-state, pointer completion, assessed evidence persistence, >=44px controls, no horizontal overflow, and CTA visibility all pass at 320/390/768;
-- manual visual review accepted green #545 idle/error/success at 320x720, 390x844 and 768x1024;
+Accepted QA evidence:
+- implementation was cleaned to a reviewable minimal diff before acceptance; current accepted implementation head is `8086670711221dd077c64bdab2eb308040c3db86`;
+- full CI #552 / run `34932904970` passed all required jobs;
+- gameplay-presentation regression reports exactly `4 healthy_habit_routine` activities and dedicated exact-family regression passes;
+- representative browser route uses legitimate Science Wave B readiness;
+- keyboard wrong-state, pointer completion, false-completion protection, assessed evidence persistence, >=44px controls, no horizontal overflow, and CTA visibility all pass at 320/390/768;
+- manual visual review accepted CI #552 idle/error/success screenshots at 320x720, 390x844 and 768x1024;
 - activity-quality remains **900 KEEP / 0 flagged**, structural findings 0;
-- final merge gate had 0 comments, 0 submitted reviews and 0 review threads;
-- exact-head squash merge produced `49850145a918afcba4f8279a6f5da12fe4a9c5b8` and `main` was verified at that SHA.
+- gameplay-distribution audit verifies 900/900, 22 PR-head patterns, global `choice_grid` 347/900, Science 60/100 and Logic 77/100;
+- Batch17 final acceptance remains PASS with 9 subjects, 900 activities, 683 assessed, 217 practice, 46 stages, 197 lessons/packs and 200 skills; physical-device certification remains pending external evidence.
+
+The wave is not merged yet. Final canonical docs-head CI, review gate, exact-head merge, `main` verification and post-merge closure remain required.
 
 ## Permanent audits
 
@@ -130,7 +130,8 @@ CI uploads both artifacts. Gameplay-distribution coverage and active-pattern-set
 - WS-05 Compare Properties DONE — PR #114.
 - WS-05 Material Lab DONE — PR #116.
 - WS-05 Feature Function Link DONE — PR #119.
-- WS-05 NEXT — fresh Science exact-family audit from the 21-pattern baseline, then Logic if no coherent Science family remains.
+- WS-05 Healthy Habit Routine — **QA ACCEPTED / PR #121 / merge pending**.
+- WS-05 NEXT after #121 closure — fresh **Logic exact-family audit** from the verified new baseline.
 
 ## Completion rule
 
