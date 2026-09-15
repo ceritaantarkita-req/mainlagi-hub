@@ -1,12 +1,16 @@
 # WS-05 Science Material Lab Wave — 2026-09-15
 
-Status: **implementation / QA pending**.
+Status: **accepted implementation QA / PR #116 / unmerged; final docs-head CI pending**.
+
+Branch: `agent/ws05-science-material-lab-20260915`  
+Base gameplay main: `4f3e2828aa3be804f6d896b10f8e3422c3180811`  
+Current merge target includes docs closure PR #115 at `539b5717f5e77ccd7c883acb3e44a09c5557b54d`.
 
 ## Objective review
 
 The next Science mechanic was selected from exact objective/evidence review, not from pattern-count pressure.
 
-Wave D investigation/evidence was reviewed first, but its four choice activities mix experiment design, control variables, prediction, and conclusion. They are not one sufficiently coherent interaction family and remain outside this wave.
+Wave D investigation/evidence was reviewed first, but its choice activities mix experiment design, control variables, prediction and conclusion. They are not one sufficiently coherent interaction family and remain outside this wave.
 
 The Wave D material-design family is coherent: each activity asks the child to choose a material property that makes a familiar object fit its purpose.
 
@@ -59,9 +63,56 @@ Assessed evidence fidelity is `choice_material_lab_interaction`.
 - browser/mobile QA in `run-material-lab-browser-tests.mjs`
 - mobile CI chain integration through `package.json`
 
-## Expected distribution if accepted
+## QA history
 
-Starting from the merged 19-pattern PR #114 baseline:
+Initial CI #532 correctly failed before acceptance because an edit to `package.json` accidentally omitted the existing `@phosphor-icons/react` dependency. The failure surfaced as TypeScript module-resolution errors. The dependency was restored at its existing `^2.1.10` version; no package migration or unrelated dependency change was introduced.
+
+Implementation head after the fix:
+
+```text
+09dd638748d62da1da264ce3b4f6f8f6880354b7
+```
+
+CI #533: **full green**. Key evidence:
+- typecheck/lint/build pass on Ubuntu and Windows;
+- production build, production dependency audit and secret-history scan pass;
+- gameplay presentation regression locks exactly four Material Lab IDs;
+- deterministic activity quality remains **900 KEEP / 0 flagged / structural 0**;
+- gameplay distribution is 900/900 classified with 20 active patterns;
+- Batch 17 final engineering acceptance remains PASS with external physical-device certification still correctly marked pending external evidence;
+- Mobile Chromium runs the permanent Material Lab browser QA.
+
+Browser QA covers 320x720, 390x844 and 768x1024 with legitimate Science Wave C readiness:
+- progression guard does not redirect;
+- exact canonical three choices render;
+- keyboard can select a wrong sample;
+- selection alone cannot complete;
+- wrong explicit test cannot complete;
+- pointer can select the correct sample;
+- correct selection still requires the explicit test action;
+- assessed attempt persists `choice_material_lab_interaction` plus material-test metadata;
+- incorrect/retry/accuracy accounting is preserved;
+- controls remain >=44px;
+- no horizontal overflow;
+- success CTA remains fully visible;
+- no page or console errors.
+
+## Manual visual review
+
+CI #533 screenshot artifact was reviewed for idle/error/success states at 320, 390 and 768 widths.
+
+Accepted:
+- content hierarchy remains clear;
+- three material samples remain readable and distinct;
+- wrong-state feedback is obvious without blocking retry;
+- success state preserves the selected sample and shows a visible CTA;
+- compact 320 layout does not clip the CTA;
+- 390 and 768 layouts scale without text collision or control overlap;
+- tablet background mascots remain decorative behind translucent panels and do not obscure content or controls.
+
+No visual polish commit was required after this review.
+
+## Verified PR-head distribution
 
 ```text
 900 / 900 classified
@@ -73,25 +124,13 @@ Science choice_grid     68 / 100
 Logic choice_grid       77 / 100
 ```
 
-These are expected branch figures until the distribution audit and CI verify them. They must not be presented as merged production figures before exact-head merge verification.
+These are PR-head QA figures until #116 merges.
 
-## Acceptance requirements
+## Remaining merge gates
 
-Before merge:
-- typecheck/lint/build green;
-- learning/gameplay regression green;
-- deterministic activity-quality audit remains clean;
-- gameplay-distribution audit confirms exact 20-pattern set and 900/900 coverage;
-- legitimate Wave C readiness unlocks the representative Wave D route;
-- keyboard can select a sample;
-- selecting a sample alone cannot complete;
-- wrong explicit test cannot complete;
-- pointer correct selection + explicit test completes;
-- assessed attempt persists `choice_material_lab_interaction` evidence;
-- touch targets remain >=44px and no horizontal overflow at 320/390/768;
-- success CTA remains visible at compact phone height;
-- idle/error/success screenshots receive manual visual review;
-- canonical docs are updated at the accepted implementation head;
-- final docs-head CI is green;
-- review threads/comments are clean;
-- squash merge uses the exact current head SHA and `main` is verified afterward.
+- canonical docs current on this accepted implementation — completed in this docs-finalization pass;
+- final docs-head CI — pending;
+- clean review threads/comments — pending final check;
+- exact-head squash merge — pending;
+- verify `main` after merge;
+- close stale QA wording through a docs-only closure so 20 patterns become the merged canonical baseline.
