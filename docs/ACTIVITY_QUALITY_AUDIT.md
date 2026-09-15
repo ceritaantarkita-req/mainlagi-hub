@@ -39,7 +39,8 @@ Merged waves:
 - `compare_properties` — PR #114, exactly 3 Science Wave C direct-comparison activities.
 - `material_lab` — PR #116, exactly 4 Science Wave D material-purpose activities.
 
-Current active QA wave: none. Next work is a fresh objective-driven Science exact-family audit.
+Current active QA wave:
+- `feature_function_link` — PR #119, exactly 4 Science Wave D living feature/function activities; **accepted implementation QA / unmerged**.
 
 Merged distribution after PR #116:
 
@@ -48,55 +49,67 @@ Merged distribution after PR #116:
 0 unclassified
 20 active patterns
 choice_grid           355 / 900 = 39.44%
-material_lab            4 / 900 = 0.44%
 Science choice_grid     68 / 100
 Logic choice_grid       77 / 100
 ```
 
+PR #119 accepted-QA distribution:
+
+```text
+900 / 900 classified
+0 unclassified
+21 active patterns on PR head
+choice_grid                 351 / 900 = 39.00%
+feature_function_link         4 / 900 = 0.44%
+Science choice_grid          64 / 100
+Logic choice_grid            77 / 100
+```
+
 Concentration is advisory and does not itself create POLISH/REDESIGN findings.
 
-## Material Lab — MERGED PR #116
+## Feature Function Link — ACCEPTED IMPLEMENTATION QA / PR #119 / UNMERGED
 
 Exact scope:
 
 ```text
-science-material-raincoat-waterproof
-science-material-window-transparent
-science-material-towel-absorbent
-science-material-toy-block-rigid
+science-feature-duck-webbed-feet
+science-feature-fish-gills
+science-feature-bird-beak-seeds
+science-feature-cactus-water
 ```
 
 Explicit exclusion:
 
 ```text
-science-match-material-purpose-d
+science-match-feature-function-d
 ```
 
 Preserved:
 - canonical runtime `tap_choice`;
-- choices/correctChoice;
+- choices/`correctChoice`;
 - assessment and stars;
-- progression and skill identity;
+- progression and canonical skill `science.living.features_function.basic`;
 - activity IDs and completion semantics;
 - Wave D stage identity.
 
 Interaction/evidence:
-- child chooses one material-property sample and then explicitly tests it against the visible object purpose;
-- selection alone cannot complete;
-- wrong tested sample is measured/retryable and cannot complete;
-- assessed fidelity `choice_material_lab_interaction`;
-- exact four-ID allowlist prevents unrelated Science activities from reclassification.
+- organism + feature appear as the source context;
+- canonical three functions appear as accessible destination buttons;
+- wrong choice is measured/retryable and cannot complete;
+- assessed fidelity `choice_feature_function_link_interaction`;
+- exact four-ID allowlist prevents unrelated Science activities from reclassification;
+- `science-match-feature-function-d` remains canonical visible matching.
 
 Accepted evidence:
-- CI #532 blocked an accidental package regression before acceptance;
-- existing `@phosphor-icons/react` dependency was restored at `^2.1.10`;
-- implementation head `09dd638748d62da1da264ce3b4f6f8f6880354b7` passed full CI #533;
-- final docs head `974589a39617997093cde9e73241223a1c684935` passed full CI #535;
-- representative route uses legitimate Science Wave C readiness to unlock Wave D;
-- keyboard selection, explicit test action, false-completion guards, pointer completion, assessed evidence persistence, >=44px controls, no horizontal overflow, and CTA visibility all pass at 320/390/768;
-- manual visual review accepted idle/error/success at 320x720, 390x844 and 768x1024;
-- activity-quality remains **900 KEEP / 0 flagged**, structural findings 0;
-- exact-head squash merge produced `5d6b429b64681bc6f2aa055a643a607cf54b1102` and `main` was verified at that SHA.
+- CI #541 caught stale default-choice family coverage plus decorative connector pointer interception; fixes preserved the default-family guard and made decoration non-interactive;
+- CI #543 caught an invalid static-test assumption that skill identity existed on the runtime activity; the test now verifies the canonical catalog learning spec instead;
+- CI #544 caught the 320px success CTA below the viewport;
+- success-only phone layout was compacted without shrinking answer controls or changing idle/error layout;
+- implementation head `94effe387912f27d0667e36fbf1d2351d612b62d` passed full CI #545;
+- representative route uses legitimate Science readiness;
+- keyboard wrong-state, pointer completion, assessed evidence persistence, >=44px controls, no horizontal overflow, and CTA visibility all pass at 320/390/768;
+- manual visual review accepted the green #545 idle/error/success screenshots at 320x720, 390x844 and 768x1024;
+- activity-quality remains **900 KEEP / 0 flagged**, structural findings 0.
 
 ## Permanent audits
 
@@ -124,7 +137,8 @@ CI uploads both artifacts. Gameplay-distribution coverage and active-pattern-set
 - WS-05 Cause/Effect DONE — PR #112.
 - WS-05 Compare Properties DONE — PR #114.
 - WS-05 Material Lab DONE — PR #116.
-- WS-05 NEXT — fresh objective-driven Science audit, then Logic.
+- WS-05 Feature Function Link — **ACCEPTED QA / PR #119; final docs-head CI + merge pending**.
+- WS-05 NEXT — after #119 closure, fresh Science exact-family audit, then Logic.
 
 ## Completion rule
 

@@ -37,59 +37,64 @@
 20. `material_lab` — **MERGED PR #116**
 
 Permanent gameplay-distribution audit: **MERGED PR #105**.  
-Latest gameplay merge: PR #116 `5d6b429b64681bc6f2aa055a643a607cf54b1102`.
+Latest merged gameplay: PR #116 `5d6b429b64681bc6f2aa055a643a607cf54b1102`; canonical docs baseline after PR #117 is `e1082a5ab236e16fad5502155575109c342fbeed`.
 
-### `material_lab` — MERGED PR #116
+### `feature_function_link` — ACCEPTED IMPLEMENTATION QA / PR #119 / UNMERGED
 
 Exact scope:
 
 ```text
-science-material-raincoat-waterproof
-science-material-window-transparent
-science-material-towel-absorbent
-science-material-toy-block-rigid
+science-feature-duck-webbed-feet
+science-feature-fish-gills
+science-feature-bird-beak-seeds
+science-feature-cactus-water
 ```
 
 Excluded intentionally:
 
 ```text
-science-match-material-purpose-d
+science-match-feature-function-d
 ```
 
 Boundaries:
 - Science Wave D stage `science-evidence-review-challenge`;
-- all four scoped objectives select a material property that lets a familiar object fit its purpose;
-- canonical three choices/correctChoice remain the assessed answer set;
+- all four scoped choices belong to `science-living-adaptations` and target `science.living.features_function.basic`;
+- all four ask which function matches one familiar organism feature;
+- canonical three choices and `correctChoice` remain the assessed answer set;
 - the matching activity stays `matching` / `visible_matching`;
 - investigation/evidence tasks stay outside scope because fair-test design, variable control, prediction and conclusion are different objectives;
 - runtime remains `tap_choice`;
 - assessment, stars, progression, activity identity and completion identity remain canonical;
-- assessed fidelity `choice_material_lab_interaction`;
+- assessed fidelity `choice_feature_function_link_interaction`;
 - exact four-ID allowlist prevents unrelated Science Wave D families from reclassification.
 
-Interaction is deliberately two-step: choose a sample, then test it. Selection alone cannot complete. A wrong test is retryable and cannot complete.
+Interaction presents organism + feature as a source and the canonical three functions as accessible destination buttons. Wrong links are retryable and cannot complete; correct link completes through the existing activity identity. The mechanic is not drag-only.
 
-Accepted evidence:
-- CI #532 found a real package regression before acceptance; the omitted existing `@phosphor-icons/react` dependency was restored;
-- CI #533 was full green on implementation head `09dd638748d62da1da264ce3b4f6f8f6880354b7`;
-- final docs head `974589a39617997093cde9e73241223a1c684935` passed full CI #535;
-- static scope regression confirms exactly 4 activities;
+Accepted implementation evidence:
+- CI #541 found a stale specialized/default-choice test boundary and a decorative connector pointer interception; both were fixed while retaining the old default-family assertion;
+- CI #543 caught a wrong static-test assumption about runtime `skillId`; the test was corrected to assert skill identity through the canonical learning spec;
+- CI #544 caught the 320px success CTA below the viewport;
+- success-only phone layout was compacted while keeping answer controls >=44px and preserving idle/error layout;
+- implementation head `94effe387912f27d0667e36fbf1d2351d612b62d` passed full CI #545;
+- static regression confirms exactly 4 `feature_function_link` activities and keeps `science-match-feature-function-d` as visible matching;
 - deterministic audit remains **900 KEEP / 0 flagged**, structural findings 0;
-- legitimate Wave C progression, keyboard selection, explicit test, false-completion guards, pointer completion, assessed evidence, >=44px controls, no overflow and CTA visibility pass at 320/390/768;
-- manual visual review accepted idle/error/success screenshots at 320/390/768;
-- exact-head squash merge produced `5d6b429b64681bc6f2aa055a643a607cf54b1102`, verified on `main`.
+- gameplay distribution verifies **21 PR-head patterns**, `choice_grid` 351/900 (39.00%) and `feature_function_link` 4/900;
+- legitimate Science progression, keyboard wrong-state, pointer completion, assessed evidence, >=44px controls, no overflow and CTA visibility pass at 320/390/768;
+- manual visual review accepted the green #545 idle/error/success screenshots at 320/390/768.
 
-Merged distribution:
+PR-head distribution:
 
 ```text
 900 / 900 classified
 0 unclassified
-20 active child-facing patterns
-choice_grid           355 / 900 = 39.44%
-material_lab            4 / 900 = 0.44%
-Science choice_grid     68 / 100
-Logic choice_grid       77 / 100
+21 active child-facing patterns
+choice_grid                 351 / 900 = 39.00%
+feature_function_link         4 / 900 = 0.44%
+Science choice_grid          64 / 100
+Logic choice_grid            77 / 100
 ```
+
+These figures are not merged product state until #119 is merged and verified.
 
 ## 60 pola permainan target
 
@@ -163,6 +168,8 @@ Logic choice_grid       77 / 100
 49. `compare_properties` — **MERGED PR #114**
 50. `material_lab` — **MERGED PR #116**
 
+`feature_function_link` is a validated additional Science pattern outside the original illustrative 60-slot naming list; target slots are planning aids, not a prohibition on better objective-fit mechanics.
+
 ### K. Creative visual play
 51. `color_by_rule`
 52. `color_mixing`
@@ -203,8 +210,9 @@ Prinsip alokasi:
 10. Cause/Effect — **DONE / #112**.
 11. Compare Properties — **DONE / #114**.
 12. Material Lab — **DONE / #116**.
-13. Re-audit remaining Science exact families from the verified 20-pattern baseline; do not force heterogeneous investigation/evidence tasks into one engine.
-14. Audit Logic after the Science pass; continue search/audio/puzzle/literacy/creative/story based on objective fit and distribution.
+13. Feature Function Link — **ACCEPTED QA / #119; final docs-head CI + merge pending**.
+14. After #119 closure, re-audit remaining Science exact families while Science remains above 60%; do not force heterogeneous objectives together.
+15. Audit Logic after the Science pass; continue search/audio/puzzle/literacy/creative/story based on objective fit and distribution.
 
 ## Definition of done per mechanic
 
