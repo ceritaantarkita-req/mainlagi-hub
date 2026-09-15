@@ -3,9 +3,11 @@
 > Canonical execution plan fase product-quality Mainlagi Hub. Semua human/AI agent wajib membaca dokumen ini, `CURRENT_STATE.md`, `ARCHITECTURE.md`, dan `GAMEPLAY_VARIATION_CATALOG.md` sebelum mengubah learning experience.
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
-**Latest verified gameplay baseline:** `main` @ `2d5b71ca2c8662c1ab2cd98cc83a7a7f7f873de1`  
+**Canonical merged baseline:** `main` @ `c0583c8e07907f02e9671e8254bc35353cf64d24` (Rule Pipeline closure PR #124)  
 **Latest merged gameplay change:** PR #123 — Logic `rule_pipeline`  
-**Active gameplay PR:** none  
+**Active gameplay PR:** #125 — Logic `odd_one_out`  
+**Accepted implementation head:** `d15a5a4c49b4a14d5dd7a49f4a2f6a5a2d2f2c8d`  
+**Active PR status:** **implementation + CI + visual QA accepted; UNMERGED**  
 **Primary focus:** WS-05 gameplay/mechanic diversification.  
 **Principle:** **Quality first. Quantity later.**
 
@@ -22,7 +24,7 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 5. Jangan membuat drag-only interaction; fallback accessible wajib tersedia bila relevan.
 6. Gameplay-distribution coverage/pattern-set regression adalah blocking; concentration hanya planning signal.
 7. **Code merged tanpa canonical docs yang current = pekerjaan belum selesai.**
-8. Work in PR tidak boleh disebut shipped sebelum exact-head merge dan live `main` diverifikasi.
+8. Work in PR tidak boleh disebut shipped sebelum exact-head merge, live `main` verification, dan post-merge closure selesai.
 
 ## Workstream status
 
@@ -32,7 +34,7 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | TODO | parent/public surfaces |
 | WS-04 Activity audit/redesign | deterministic clean | 900 KEEP / 0 flagged |
-| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | 23 merged; next Logic `odd-one-out` exact-family audit |
+| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | 23 merged; #125 accepted QA would make 24 if merged |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | TODO / parallel | Art Bible + permanent human gate |
@@ -41,9 +43,9 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 | WS-11 Governance | TODO | required checks/review discipline |
 | WS-12 Technical cleanup | TODO LATER | after product quality stabilizes |
 
-## WS-05 merged baseline
+## WS-05 merged baseline on `main`
 
-Merged on verified gameplay `main`: **23 active patterns**.
+Merged on verified `main`: **23 active patterns**.
 
 ```text
 900 / 900 classified
@@ -55,58 +57,67 @@ Science choice_grid          60 / 100
 Logic choice_grid            72 / 100
 ```
 
-Science is exactly 60% `choice_grid`. Logic remains above the permanent subject advisory threshold (`>60%`) and is the next audit focus.
+Science is exactly 60% `choice_grid`. Logic remains above the permanent subject advisory threshold (`>60%`).
 
-## PR #123 Logic Rule Pipeline — MERGED
+## PR #125 Logic Odd One Out — ACCEPTED QA / UNMERGED
 
-Exact Logic Wave D scope:
+Exact Logic Wave A scope:
 
 ```text
-logic-compose-red-circle-to-star
-logic-compose-small-left-then-up
-logic-compose-two-to-blue
-logic-compose-triangle-turn-right
-logic-compose-swap-then-grow
+logic-odd-category-animal-vehicle
+logic-odd-shape-angular
+logic-odd-direction-right
+logic-odd-count-three
+logic-odd-pattern-symmetry
 ```
 
-Pattern: `rule_pipeline`.
+Pattern: `odd_one_out`.
 
 Why this family is coherent:
-- all five are assessed `tap_choice` activities in stage `logic-mixed-reasoning-challenge`;
-- all five belong to lesson `logic-composed-rules`;
-- all five target canonical skill `logic.rule.composition.basic`;
-- all five require applying two rules in sequence while retaining the intermediate state;
-- nearby one-step conditional, set, transitive, spatial and odd-one-out families remain outside scope.
+- all five are assessed `tap_choice` activities in stage `logic-classification-rules-basics`;
+- all five belong to lesson `logic-odd-one-out-basic`;
+- all five target canonical skill `logic.discrimination.odd_one_out.basic`;
+- all five ask the child to compare a trio where two options share one visible relation and exactly one differs;
+- classification, comparison, simple sequence-rule, set, spatial, inference and composed-rule families remain outside scope.
 
 Interaction/evidence contract:
-- visible start state + rule 1;
-- accessible explicit execution of rule 1 reveals deterministic intermediate state;
-- rule 2 then exposes exactly the canonical three final choices;
-- final choices stay disabled before rule 1;
-- wrong final choice increments assessed error/retry and cannot complete;
-- correct final choice completes the canonical activity;
-- runtime, activity IDs, choices, `correctChoice`, assessment, stars, progression and skill identity remain canonical;
-- assessed fidelity: `choice_rule_pipeline_interaction`.
+- canonical three choices appear as one comparison trio;
+- relation cue is explicit as `2 mirip • 1 beda` without revealing the answer;
+- child selects the outsider through accessible buttons;
+- wrong choice increments assessed error/retry and cannot complete;
+- correct choice completes the canonical activity identity;
+- success may explain the reviewed shared relation after completion;
+- runtime, IDs, choices, `correctChoice`, assessment, stars, progression and skill identity remain canonical;
+- assessed fidelity: `choice_odd_one_out_interaction`.
 
-Accepted and merged evidence:
-- implementation head `5def5791d3e3b09fbc680ba52e9e6605695e66c4` passed full implementation CI #557 / run `34936058944`;
-- final canonical docs head `3bb4684ae69fcd76a354b6b319fbe9992e6a50d3` passed full CI #558 / run `34937511724`;
-- Ubuntu quality gate, Windows compatibility, production build, dependency audit, secret-history scan and Mobile Chromium all passed;
-- gameplay-presentation regression reports exactly `5 rule_pipeline` activities;
-- dedicated Rule Pipeline regression passes for exactly the five reviewed Logic Wave D activities;
-- deterministic activity-quality remains **900 KEEP / 0 flagged / structural findings 0**;
-- gameplay-distribution audit verifies **900/900 classified, 23 active patterns, `choice_grid` 342/900 (38.00%), `rule_pipeline` 5/900, Logic `choice_grid` 72/100, Science 60/100**;
-- all five simulations report `invariantErrors: 0`;
-- Batch17 remains PASS with **9 subjects / 900 activities / 683 assessed / 217 practice / 46 stages / 197 lessons / 197 packs / 200 skills**; physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`;
-- browser QA passes legitimate Logic Wave C readiness, keyboard rule-1 execution, visible intermediate state, keyboard wrong-state, pointer correct completion, false-completion guards, assessed evidence persistence, >=44px controls, no horizontal overflow and in-viewport success CTA at 320x720, 390x844 and 768x1024;
-- manual review of green #557 idle/intermediate/error/success screenshots at 320/390/768 accepted the visual state;
-- final pre-merge review gate found **0 PR comments, 0 submitted reviews, 0 review threads**;
-- exact-head squash merge of docs head `3bb4684ae69fcd76a354b6b319fbe9992e6a50d3` produced `2d5b71ca2c8662c1ab2cd98cc83a7a7f7f873de1`;
-- live `main` was verified at that exact merge SHA.
+Accepted implementation evidence at head `d15a5a4c49b4a14d5dd7a49f4a2f6a5a2d2f2c8d`:
+- CI #562 exposed a stale Rule Pipeline exclusion sentinel after this exact family was intentionally promoted; the sentinel was replaced with `logic-compare-more-dots`, which must remain `choice_grid`, without weakening Rule Pipeline scope coverage;
+- CI #563 passed non-browser product gates and exposed an incorrect browser-test assumption that this stage was naturally unlocked; the progression guard correctly redirected because prior `logic-foundations` readiness is required;
+- browser QA was corrected to seed the same canonical qualifying Logic foundation evidence used by existing Sorting Buckets QA, preserving rather than bypassing progression;
+- CI #564 / run `34951235607`: **completed / success** across Ubuntu quality gate, Windows compatibility, production build, dependency audit, secret-history scan and Mobile Chromium; production smoke remained normally skipped by workflow condition;
+- gameplay-presentation regression and dedicated exact-family regression pass for exactly five `odd_one_out` activities while Rule Pipeline and unrelated Logic families keep their intended classifications;
+- deterministic activity-quality artifact verifies **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**;
+- gameplay-distribution audit verifies **900/900 classified, 24 PR-head patterns, `choice_grid` 337/900 = 37.44%, `odd_one_out` 5/900, Logic 67/100, Science 60/100**;
+- simulations and Batch17 complete successfully with canonical catalog totals unchanged;
+- browser QA at 320x720, 390x844 and 768x1024 passes canonical Logic foundation progression, keyboard wrong-state, pointer completion, false-completion protection, assessed evidence persistence, >=44px controls, no horizontal overflow and in-viewport success CTA;
+- Mobile log explicitly reports: Odd-one-out browser QA passed all 3 representative viewports with canonical Logic foundation progression, keyboard wrong-state, pointer completion, trio layout, CTA and assessed evidence checks;
+- manual review of green #564 idle/error/success screenshots at 320/390/768 accepted the visual state; no polish commit required.
+
+PR-head distribution, **not yet merged**:
+
+```text
+900 / 900 classified
+0 unclassified
+24 active patterns
+choice_grid                 337 / 900 = 37.44%
+odd_one_out                   5 / 900 = 0.56%
+Science choice_grid          60 / 100
+Logic choice_grid            67 / 100
+```
 
 ## Definition of Done
 
-A mechanic/PR is complete only when implementation, typecheck/lint/build, engine tests, activity-quality audit, gameplay-distribution audit, routes, progression, evidence, accessibility, mobile UX, screenshot review, canonical docs, final docs-head CI, and review-thread checks are current.
+A mechanic/PR is complete only when implementation, typecheck/lint/build, engine tests, activity-quality audit, gameplay-distribution audit, routes, progression, evidence, accessibility, mobile UX, screenshot review, canonical docs, final docs-head CI, review-thread checks, exact-head merge, live-main verification, and required post-merge closure are current.
 
 Before merge:
 - all relevant CI green at **current docs head**;
@@ -116,15 +127,17 @@ Before merge:
 
 After merge:
 - verify `main` contains the merge;
-- update stale QA wording through a docs-only closure when needed;
+- update stale QA wording through a docs-only closure;
 - never present unmerged work as shipped.
 
 ## Current execution order
 
-1. Merge this docs-only post-merge closure for Rule Pipeline from verified gameplay `main` `2d5b71ca2c8662c1ab2cd98cc83a7a7f7f873de1`.
-2. Start a fresh Logic Wave A `odd-one-out` exact-family audit from the verified 23-pattern baseline.
-3. Promote the next mechanic only if objective/evidence fit is exact; do not lower hotspot counts cosmetically.
-4. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics based on objective fit toward 50–60 meaningful patterns.
-5. Continue WS-08 visual system, WS-02 narration, WS-03 parent/public frontend, WS-10 external acceptance, WS-11 governance, then later cleanup.
+1. Run full CI on the finalized canonical-docs head of PR #125.
+2. Re-check PR comments, submitted reviews, review threads, exact head and mergeability.
+3. Exact-head squash merge #125 only if all gates remain green, then verify live `main`.
+4. Create and merge a docs-only post-merge closure so 24 patterns become the canonical merged baseline.
+5. Start a fresh Logic exact-family audit from the verified 24-pattern baseline; Logic would remain above the advisory threshold at 67%.
+6. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics based on objective fit toward 50–60 meaningful patterns.
+7. Continue WS-08 visual system, WS-02 narration, WS-03 parent/public frontend, WS-10 external acceptance, WS-11 governance, then later cleanup.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion, or major mastery/backend rewrites during this quality phase.
