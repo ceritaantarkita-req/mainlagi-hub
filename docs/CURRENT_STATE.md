@@ -8,10 +8,11 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; ac
 
 - repository: `ceritaantarkita-req/mainlagi-hub`
 - canonical branch: `main`
-- current merged gameplay baseline: `49850145a918afcba4f8279a6f5da12fe4a9c5b8`
-- latest merged gameplay change: PR #119 — Science Feature Function Link
-- active gameplay branch: none
-- active gameplay PR: none
+- current merged `main` baseline: `92664642287ecdd64ce408d3d08794a24aa2b588` (docs closure PR #120)
+- latest merged gameplay change: PR #119 — Science Feature Function Link, merge `49850145a918afcba4f8279a6f5da12fe4a9c5b8`
+- active gameplay branch: `agent/ws05-science-healthy-habit-routine-20260915`
+- active gameplay PR: #121 — Healthy Habit Routine, QA accepted / unmerged
+- accepted implementation head before canonical docs finalization: `8086670711221dd077c64bdab2eb308040c3db86`
 - production: `https://mainlagihub.my.id/`
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - source licence: `AGPL-3.0-only`
@@ -46,48 +47,46 @@ Science choice_grid       64 / 100
 Logic choice_grid         77 / 100
 ```
 
-### PR #119 Feature Function Link — MERGED
+### Active PR #121: PR-head 22 patterns — QA ACCEPTED / UNMERGED
 
 Exact scope:
 
 ```text
-science-feature-duck-webbed-feet
-science-feature-fish-gills
-science-feature-bird-beak-seeds
-science-feature-cactus-water
+science-body-wash-hands
+science-body-teeth-brush
+science-body-water-drink
+science-body-sleep-rest
 ```
 
 Explicit exclusion:
 
 ```text
-science-match-feature-function-d
+science-match-body-care-c
 ```
 
-The four scoped activities share the same Science Wave D stage/lesson/skill and ask which function matches one familiar organism feature. The excluded activity remains canonical `matching` / `visible_matching`.
+The four scoped activities share stage `science-earth-body-environment`, lesson `science-body-health-habits`, skill `science.body.health_habits.basic`, assessed choice evidence, and the objective of recognizing a healthy everyday habit. The excluded activity remains canonical `matching` / `visible_matching`.
 
 Interaction/evidence contract:
-- visible organism/feature source plus canonical three function destinations;
+- visible health-focus/routine cue plus canonical three habit choices;
 - keyboard and touch/pointer use accessible buttons; no drag-only requirement;
 - wrong choice increments assessed error/retry and cannot complete;
 - correct choice completes canonical activity identity;
 - runtime stays `tap_choice`;
-- assessed fidelity `choice_feature_function_link_interaction`;
-- exact four-ID allowlist prevents unrelated activities from reclassification.
+- assessed fidelity `choice_healthy_habit_routine_interaction`;
+- exact four-ID allowlist prevents unrelated Science activities from reclassification.
 
-Accepted and merged evidence:
-- CI #541 caught stale default-choice regression coverage and pointer interception by a decorative connector;
-- regression coverage was corrected without weakening the old default-family assertion, and decoration became non-interactive;
-- CI #543 caught an invalid test assumption about `skillId`; static QA now checks the canonical catalog learning spec;
-- CI #544 caught the 320px success CTA below the viewport;
-- success-only phone layout was compacted without shrinking answer controls or changing idle/error layout;
-- implementation head `94effe387912f27d0667e36fbf1d2351d612b62d` passed full CI #545;
-- final docs head `4f7523aad78ed7c76b57d89320cb4b29c2c9263d` passed full CI #547;
-- activity-quality remained **900 KEEP / 0 flagged**, structural findings 0;
-- gameplay distribution verified **21 patterns**, `choice_grid` 351/900 (39.00%), `feature_function_link` 4/900 and Science `choice_grid` 64/100;
-- browser QA passed progression, keyboard wrong-state, pointer completion, assessed evidence persistence, touch sizing, overflow and CTA checks at 320/390/768;
-- manual screenshot review accepted idle/error/success at 320x720, 390x844 and 768x1024;
-- final review gate had 0 comments, 0 submitted reviews and 0 review threads;
-- exact-head squash merge is `49850145a918afcba4f8279a6f5da12fe4a9c5b8` and `main` was verified at that SHA.
+Accepted QA evidence on head `8086670711221dd077c64bdab2eb308040c3db86`:
+- PR diff normalized to a reviewable **12 files, +372/-5** before acceptance;
+- full CI #552 / run `34932904970` is green across Ubuntu, Windows, production build, dependency audit, secret-history scan and Mobile Chromium;
+- gameplay-presentation regression includes exactly `4 healthy_habit_routine` activities;
+- dedicated exact-family regression passes and keeps `science-match-body-care-c` as visible matching;
+- activity-quality remains **900 KEEP / 0 flagged**, structural findings 0;
+- distribution audit verifies **900/900 classified, 22 PR-head patterns, `choice_grid` 347/900 (38.56%), `healthy_habit_routine` 4/900, Science `choice_grid` 60/100, Logic `choice_grid` 77/100**;
+- Batch17 final acceptance remains PASS with the canonical catalog totals; `physicalDeviceCertification` remains `PENDING_EXTERNAL_EVIDENCE`;
+- browser QA passes legitimate Wave B progression, keyboard wrong-state, pointer completion, false-completion protection, assessed evidence, touch sizing, overflow and CTA checks at 320/390/768;
+- manual screenshot review of CI #552 accepted idle/error/success states at 320x720, 390x844 and 768x1024.
+
+PR #121 is not merged yet. Final docs-head CI, review gate, exact-head merge, live `main` verification and docs closure remain required.
 
 ## Deterministic activity-quality baseline
 
@@ -114,9 +113,9 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Re-audit remaining Science exact families from the verified 21-pattern merged baseline while Science remains above the >60% advisory hotspot threshold.
-2. Promote pattern #22 only after exact objective/evidence review; do not combine heterogeneous investigation/evidence tasks merely to add a pattern.
-3. If no coherent Science family remains, move to Logic; Logic remains at 77% `choice_grid`.
+1. Finish PR #121 through final docs-head CI, clean review gate, exact-head merge, `main` verification and post-merge closure.
+2. Then audit **Logic** exact families from the new baseline. Logic remains 77% `choice_grid`; if #121 merges, Science becomes exactly 60% and no longer exceeds the >60% advisory threshold.
+3. Promote only objective-coherent/evidence-safe mechanics; do not combine unrelated tasks to lower concentration counts.
 4. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
 5. Continue Art Bible/permanent visual QA, narration, parent/public frontend, external acceptance and governance.
 

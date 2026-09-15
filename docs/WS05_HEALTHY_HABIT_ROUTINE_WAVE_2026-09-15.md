@@ -1,12 +1,14 @@
 # WS-05 Science Healthy Habit Routine Wave — 2026-09-15
 
-Status: **IMPLEMENTATION IN PROGRESS / QA PENDING**
+Status: **QA ACCEPTED / ACTIVE PR #121 / UNMERGED**
 
 Baseline: `main` @ `92664642287ecdd64ce408d3d08794a24aa2b588` (Feature Function Link closure PR #120).
 
+Accepted implementation head before canonical docs finalization: `8086670711221dd077c64bdab2eb308040c3db86`.
+
 ## Audit decision
 
-Science remains at 64/100 `choice_grid` after pattern #21. A fresh Wave A-D audit rejected heterogeneous investigation/evidence tasks and mixed-review tasks as one mechanic. The strongest remaining exact family is the four Wave C body-health choices: same stage, lesson, assessed evidence contract and canonical skill, all measuring recognition of a healthy everyday habit.
+Science remained at 64/100 `choice_grid` after pattern #21. A fresh Wave A-D audit rejected heterogeneous investigation/evidence tasks and mixed-review tasks as one mechanic. The strongest remaining exact family is the four Wave C body-health choices: same stage, lesson, assessed evidence contract and canonical skill, all measuring recognition of a healthy everyday habit.
 
 Exact scope:
 
@@ -44,7 +46,78 @@ Preserved canonical contract:
 - assessment/stars/progression stay canonical;
 - assessed fidelity: `choice_healthy_habit_routine_interaction`.
 
-## Intended distribution
+## Accepted implementation QA
+
+The initial implementation commit had unnecessary formatting churn in existing files. That state was not accepted. A cleanup commit rebuilt the touched existing files from canonical formatting and reduced the PR to a reviewable **12 files, +372/-5** before acceptance.
+
+Accepted implementation head:
+
+```text
+8086670711221dd077c64bdab2eb308040c3db86
+```
+
+Full CI:
+
+```text
+run #552
+run id: 34932904970
+status: success
+```
+
+Verified gates:
+- Ubuntu structure/assets/source, Batch16 security, device-harness contract, typecheck, lint and engine/learning suites PASS;
+- gameplay-presentation regression includes exactly `4 healthy_habit_routine` activities;
+- dedicated Healthy Habit Routine regression passes for exactly four Science Wave C IDs;
+- `science-match-body-care-c` remains `matching` / `visible_matching`;
+- deterministic activity-quality: **9 subjects / 900 activities / 900 KEEP / 0 flagged / structural findings 0**;
+- five simulations complete with zero invariant errors;
+- Batch17 final acceptance PASS: **9 subjects / 900 activities / 683 assessed / 217 practice / 46 stages / 197 lessons / 197 packs / 200 skills**;
+- physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`, unchanged by this wave;
+- Windows compatibility PASS;
+- production build and Batch16 JS/lazy-load budgets PASS;
+- production dependency audit PASS;
+- secret-history scan PASS;
+- Mobile Chromium route/accessibility/lazy-load matrix PASS.
+
+Dedicated browser QA result:
+
+```text
+Healthy-habit browser QA passed 3 viewports with legitimate Science Wave B progression,
+keyboard wrong-state, pointer completion, layout, CTA and assessed evidence checks.
+```
+
+The representative route is `science-body-wash-hands`. QA verifies:
+- legitimate Wave B prerequisite evidence rather than bypassing progression;
+- exactly three canonical answer choices;
+- keyboard wrong choice cannot complete;
+- pointer correct choice completes;
+- persisted assessed evidence includes fidelity `choice_healthy_habit_routine_interaction`;
+- wrong-then-correct path records `incorrectCount=1`, `retryCount=1`, `accuracy=0.5`;
+- controls remain >=44px;
+- no horizontal overflow;
+- success CTA remains in viewport;
+- no page or console errors.
+
+## Manual visual QA
+
+Green CI #552 uploaded idle/error/success screenshots for:
+
+```text
+320x720
+390x844
+768x1024
+```
+
+Manual review accepted all nine screenshots:
+- phone hierarchy remains readable without clipping;
+- the wrong-state selection and retry feedback are visually clear;
+- the success state highlights the correct habit and exposes the CTA without scrolling it out of view;
+- 390px spacing remains balanced;
+- 768px layout uses the extra space without overlap or distracting scale changes;
+- decorative characters remain non-obstructive;
+- no additional visual-polish commit is required.
+
+## Verified PR-head distribution
 
 ```text
 900 / 900 classified
@@ -56,14 +129,16 @@ Science choice_grid        60 / 100
 Logic choice_grid          77 / 100
 ```
 
-At 60%, Science will no longer exceed the permanent subject-hotspot advisory rule (`>60%`). If this wave passes all gates, the next subject audit should move to Logic rather than forcing weaker Science families.
+At exactly 60%, Science no longer exceeds the permanent subject-hotspot advisory rule (`>60%`). After this wave is merged and closed, the next subject audit should move to **Logic** rather than forcing weaker Science families.
 
-## Required acceptance
+## Remaining merge gates
 
-1. Exact classifier/config/static regression for four IDs only.
-2. `science-match-body-care-c` remains visible matching.
-3. Dedicated browser QA at 320x720, 390x844, 768x1024 with legitimate Wave B progression.
-4. Keyboard wrong-state, pointer completion, false-completion guard, evidence persistence, >=44px controls, no overflow and in-viewport success CTA.
-5. Full CI, deterministic activity audit, gameplay-distribution audit and Batch17 acceptance remain green.
-6. Manual review idle/error/success screenshots from a green run.
-7. Canonical docs finalization, final docs-head CI, clean review gate, exact-head merge and post-merge docs closure before calling pattern #22 shipped.
+1. Canonical docs snapshot is finalized on the PR branch.
+2. Trigger and pass a full **final docs-head CI**.
+3. Verify issue comments, review comments, submitted reviews and review threads are clean.
+4. Re-fetch PR #121 and verify exact current head + mergeability.
+5. Squash merge using the exact current head SHA.
+6. Verify live `main` SHA/message from GitHub.
+7. Create and merge a docs-only post-merge closure that changes this status to `MERGED`, records the exact merge SHA/final CI/review gate, updates merged patterns to 22, and makes Logic the next active WS-05 audit.
+
+Until those gates complete, pattern #22 is **QA accepted but not shipped**.
