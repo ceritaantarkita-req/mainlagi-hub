@@ -40,7 +40,7 @@
 23. `rule_pipeline` — **MERGED PR #123**
 
 Permanent gameplay-distribution audit: **MERGED PR #105**.  
-Latest verified gameplay merge: PR #123 `2d5b71ca2c8662c1ab2cd98cc83a7a7f7f873de1`.
+Canonical merged baseline: `main` @ `c0583c8e07907f02e9671e8254bc35353cf64d24` after Rule Pipeline closure PR #124.
 
 Merged distribution:
 
@@ -54,48 +54,60 @@ Science choice_grid          60 / 100
 Logic choice_grid            72 / 100
 ```
 
-### `rule_pipeline` — MERGED PR #123
+### `odd_one_out` — PR #125 ACCEPTED QA / UNMERGED
 
 Exact scope:
 
 ```text
-logic-compose-red-circle-to-star
-logic-compose-small-left-then-up
-logic-compose-two-to-blue
-logic-compose-triangle-turn-right
-logic-compose-swap-then-grow
+logic-odd-category-animal-vehicle
+logic-odd-shape-angular
+logic-odd-direction-right
+logic-odd-count-three
+logic-odd-pattern-symmetry
 ```
 
 Boundaries:
-- Logic Wave D stage `logic-mixed-reasoning-challenge`;
-- all five belong to lesson `logic-composed-rules`;
-- canonical skill `logic.rule.composition.basic`;
+- Logic stage `logic-classification-rules-basics`;
+- lesson `logic-odd-one-out-basic`;
+- canonical skill `logic.discrimination.odd_one_out.basic`;
 - runtime remains `tap_choice`;
-- canonical three final choices and `correctChoice` remain unchanged;
+- canonical three choices and `correctChoice` remain unchanged;
 - assessment, stars, progression, activity identity and completion semantics remain canonical;
-- assessed fidelity `choice_rule_pipeline_interaction`;
-- nearby one-step conditional, set, transitive, spatial and odd-one-out families remain canonical and outside scope.
+- assessed fidelity `choice_odd_one_out_interaction`;
+- classification, comparison, simple sequence-rule, set, spatial, inference and composed-rule activities remain outside scope.
 
 Interaction:
-- visible start state + rule 1;
-- child explicitly executes rule 1 using an accessible button;
-- deterministic intermediate state becomes visible;
-- rule 2 then exposes the canonical three final choices;
-- final choices are unavailable before rule 1;
-- wrong final answer is retryable and cannot complete;
-- correct final answer completes the existing activity identity;
-- no invented intermediate assessment and no drag-only dependency.
+- show the canonical three options as one comparison trio;
+- frame the task as `2 mirip • 1 beda` without revealing which option differs;
+- child selects the outsider directly using accessible buttons;
+- wrong selection is retryable and cannot complete;
+- correct selection completes the existing activity identity;
+- success may show the reviewed shared relation after completion;
+- no extra confirmation step, invented assessment or drag-only dependency.
 
-Accepted and merged evidence:
-- implementation head `5def5791d3e3b09fbc680ba52e9e6605695e66c4` passed CI #557 / run `34936058944`;
-- final docs head `3bb4684ae69fcd76a354b6b319fbe9992e6a50d3` passed CI #558 / run `34937511724`;
-- exact-family regressions, activity-quality, gameplay distribution, simulations and Batch17 all passed;
-- legitimate Logic Wave C progression plus keyboard/pointer/false-completion/evidence/touch-size/overflow/CTA checks pass at 320/390/768;
-- manual visual review accepted green #557 idle/intermediate/error/success screenshots at 320/390/768;
-- final review gate had **0 PR comments, 0 submitted reviews, 0 review threads**;
-- exact-head squash merge produced `2d5b71ca2c8662c1ab2cd98cc83a7a7f7f873de1`, verified live on `main`.
+Accepted implementation evidence at head `d15a5a4c49b4a14d5dd7a49f4a2f6a5a2d2f2c8d`:
+- CI #562 surfaced a stale Rule Pipeline exclusion sentinel and was correctly blocked; the sentinel was replaced with `logic-compare-more-dots`, preserving the Rule Pipeline scope regression;
+- CI #563 surfaced an incorrect QA assumption that the target stage was naturally unlocked; the progression guard correctly required preceding `logic-foundations` readiness;
+- browser QA now seeds canonical qualifying Logic foundation evidence identical in principle to the established Sorting Buckets readiness path, without bypassing progression;
+- CI #564 / run `34951235607` is the accepted full-green implementation run;
+- gameplay-presentation and dedicated exact-family regressions pass for exactly five Odd One Out activities;
+- deterministic activity-quality remains **900 KEEP / 0 flagged / structural findings 0**;
+- gameplay distribution verifies **900/900 classified, 24 PR-head patterns, `choice_grid` 337/900 (37.44%), `odd_one_out` 5/900, Logic 67/100, Science 60/100**;
+- simulations and Batch17 pass with canonical catalog totals unchanged;
+- canonical Logic foundation progression plus keyboard wrong-state, pointer correct completion, assessed evidence, >=44px controls, no horizontal overflow and in-viewport CTA pass at 320/390/768;
+- manual visual review accepted green #564 idle/error/success screenshots at all three viewports; no UI polish was required.
 
-Logic remains the next subject hotspot at 72% `choice_grid`. Wave A `odd-one-out` is the strongest next exact-family candidate and must be audited separately.
+PR-head distribution, **not yet merged**:
+
+```text
+900 / 900 classified
+0 unclassified
+24 active child-facing patterns
+choice_grid                 337 / 900 = 37.44%
+odd_one_out                   5 / 900 = 0.56%
+Science choice_grid          60 / 100
+Logic choice_grid            67 / 100
+```
 
 ## 60 pola permainan target
 
@@ -103,7 +115,7 @@ Logic remains the next subject hotspot at 72% `choice_grid`. Wave A `odd-one-out
 1. `choice_grid` — **MERGED**
 2. `symbol_hunt` — **MERGED**
 3. `multi_select`
-4. `odd_one_out` — next Logic candidate
+4. `odd_one_out` — **PR #125 accepted QA / unmerged**
 5. `true_false_swipe`
 
 ### B. Matching & memory
@@ -214,8 +226,9 @@ Prinsip alokasi:
 13. Feature Function Link — **DONE / #119**.
 14. Healthy Habit Routine — **DONE / #121**.
 15. Rule Pipeline — **DONE / #123**.
-16. Next: audit Logic Wave A `odd-one-out` from the verified 23-pattern baseline.
-17. Continue search/audio/puzzle/literacy/creative/story based on objective fit and distribution.
+16. Odd One Out — **PR #125 accepted QA / unmerged**.
+17. After #125 closure: run a fresh Logic exact-family audit from the verified 24-pattern baseline; do not assume the next family until objective/evidence fit is rechecked.
+18. Continue search/audio/puzzle/literacy/creative/story based on objective fit and distribution.
 
 ## Definition of done per mechanic
 

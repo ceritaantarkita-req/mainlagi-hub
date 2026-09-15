@@ -8,11 +8,13 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; ac
 
 - repository: `ceritaantarkita-req/mainlagi-hub`
 - canonical branch: `main`
-- latest verified gameplay baseline: `2d5b71ca2c8662c1ab2cd98cc83a7a7f7f873de1`
+- current merged `main` baseline: `c0583c8e07907f02e9671e8254bc35353cf64d24`
 - latest merged gameplay change: PR #123 — Logic Rule Pipeline
-- active gameplay branch: none
-- active gameplay PR: none
-- post-merge docs closure branch: `agent/ws05-rule-pipeline-closure-20260915`
+- latest docs closure: PR #124
+- active gameplay branch: `agent/ws05-logic-odd-one-out-20260915`
+- active gameplay PR: #125 — Logic Odd One Out
+- accepted implementation head: `d15a5a4c49b4a14d5dd7a49f4a2f6a5a2d2f2c8d`
+- active PR status: **implementation + CI + visual QA accepted; UNMERGED**
 - production: `https://mainlagihub.my.id/`
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - source licence: `AGPL-3.0-only`
@@ -33,7 +35,7 @@ Runtime count is not gameplay-pattern count.
 
 Target: minimum **50**, working target **60 meaningful patterns**.
 
-### Merged gameplay baseline: 23 patterns
+### Merged on `main`: 23 patterns
 
 `choice_grid`, `symbol_hunt`, `listen_choose`, `visible_matching`, `guided_trace`, `story_read`, `motion_game`, `coloring_canvas`, `drawing_canvas`, `memory_pair`, `missing_sequence_slot`, `sorting_buckets`, `drag_to_target`, `count_and_select`, `number_line`, `more_less_balance`, `pattern_completion`, `cause_effect`, `compare_properties`, `material_lab`, `feature_function_link`, `healthy_habit_routine`, `rule_pipeline`.
 
@@ -47,48 +49,55 @@ Science choice_grid         60 / 100
 Logic choice_grid           72 / 100
 ```
 
-Science is exactly 60% `choice_grid`. Logic remains above the `>60%` advisory threshold and is the next subject hotspot.
-
-### PR #123 `rule_pipeline` — MERGED
+### PR #125 `odd_one_out` — ACCEPTED QA / UNMERGED
 
 Exact scope:
 
 ```text
-logic-compose-red-circle-to-star
-logic-compose-small-left-then-up
-logic-compose-two-to-blue
-logic-compose-triangle-turn-right
-logic-compose-swap-then-grow
+logic-odd-category-animal-vehicle
+logic-odd-shape-angular
+logic-odd-direction-right
+logic-odd-count-three
+logic-odd-pattern-symmetry
 ```
 
-All five share stage `logic-mixed-reasoning-challenge`, lesson `logic-composed-rules`, canonical skill `logic.rule.composition.basic`, assessed choice evidence, and the objective of applying two rules in sequence without losing the intermediate step.
+All five share stage `logic-classification-rules-basics`, lesson `logic-odd-one-out-basic`, canonical skill `logic.discrimination.odd_one_out.basic`, assessed choice evidence, and the objective of identifying the one member of a trio that does not share the visible relation of the other two.
 
-Nearby one-step conditional rules, set reasoning, transitive comparison, spatial transforms and odd-one-out remain outside the family.
+Nearby Logic classification, comparison, simple sequence-rule, set, spatial, inference and composed-rule activities remain outside this family.
 
 Interaction/evidence contract:
-- start state + rule 1 are visible;
-- explicit accessible execution of rule 1 reveals a deterministic intermediate state;
-- rule 2 then uses the canonical three final choices;
-- final choices cannot be used before rule 1;
-- wrong final answer increments assessed error/retry and cannot complete;
-- correct final answer completes canonical activity identity;
-- runtime remains `tap_choice`;
+- the three canonical choices are presented as one comparison trio;
+- `2 mirip • 1 beda` frames the relation without revealing the answer;
+- keyboard and touch/pointer use accessible direct-selection buttons;
+- wrong choice increments assessed error/retry and cannot complete;
+- correct choice completes the canonical activity identity;
+- runtime stays `tap_choice`;
 - canonical IDs, choices, `correctChoice`, skill, assessment, stars and progression remain unchanged;
-- assessed fidelity `choice_rule_pipeline_interaction`.
+- assessed fidelity `choice_odd_one_out_interaction`.
 
-Accepted and merged evidence:
-- implementation head `5def5791d3e3b09fbc680ba52e9e6605695e66c4` passed CI #557 / run `34936058944`;
-- final docs head `3bb4684ae69fcd76a354b6b319fbe9992e6a50d3` passed CI #558 / run `34937511724`;
-- Ubuntu, Windows, production build, dependency audit, secret-history scan and Mobile Chromium passed;
-- gameplay-presentation regression and dedicated exact-family regression pass for exactly five Rule Pipeline activities;
-- activity-quality remains **900 KEEP / 0 flagged**, structural findings 0;
-- gameplay distribution verifies 900/900 classified, 23 patterns, `choice_grid` 342/900 (38.00%), Logic 72/100 and Science 60/100;
-- five simulations report zero invariant errors;
-- Batch17 remains PASS with canonical catalog totals; `physicalDeviceCertification` remains `PENDING_EXTERNAL_EVIDENCE`;
-- browser QA passes legitimate Logic Wave C progression, keyboard rule-1 execution, visible intermediate state, keyboard wrong-state, pointer completion, false-completion protection, assessed evidence, touch sizing, overflow and CTA checks at 320/390/768;
-- manual screenshot review accepted idle/intermediate/error/success states at 320x720, 390x844 and 768x1024;
-- final review gate had **0 PR comments, 0 submitted reviews and 0 review threads**;
-- exact-head squash merge produced `2d5b71ca2c8662c1ab2cd98cc83a7a7f7f873de1` and live `main` was verified at that SHA.
+Accepted implementation evidence at `d15a5a4c49b4a14d5dd7a49f4a2f6a5a2d2f2c8d`:
+- CI #562 identified one stale Rule Pipeline exclusion sentinel and was not accepted; the sentinel was updated to an unrelated Logic comparison activity that must remain `choice_grid`, preserving the old scope guard;
+- CI #563 passed non-browser gates but Mobile exposed an incorrect test assumption about natural unlock; the progression guard correctly required preceding `logic-foundations` readiness;
+- browser QA now uses canonical qualifying foundation evidence matching the existing Sorting Buckets readiness path, with progression guards still active;
+- CI #564 / run `34951235607` completed success for all required jobs: Ubuntu, Windows, production build, dependency audit, secret-history scan and Mobile Chromium; production smoke was normally skipped by workflow condition;
+- exact-family and gameplay-presentation regressions pass for exactly five `odd_one_out` activities;
+- deterministic activity-quality artifact remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**;
+- gameplay-distribution audit verifies **900/900 classified, 24 PR-head patterns, `choice_grid` 337/900 (37.44%), `odd_one_out` 5/900, Logic 67/100, Science 60/100**;
+- simulations and Batch17 pass with canonical totals unchanged; physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`;
+- browser QA passes canonical Logic foundation progression, keyboard wrong-state, pointer completion, false-completion protection, assessed evidence, touch sizing, overflow and CTA checks at 320/390/768;
+- manual screenshot review accepted idle/error/success states at 320x720, 390x844 and 768x1024; no polish commit was required.
+
+PR-head distribution, **not yet merged**:
+
+```text
+classified:               900 / 900
+unclassified:               0
+active patterns:           24
+choice_grid               337 / 900 = 37.44%
+odd_one_out                 5 / 900 = 0.56%
+Science choice_grid         60 / 100
+Logic choice_grid           67 / 100
+```
 
 ## Deterministic activity-quality baseline
 
@@ -115,10 +124,11 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Merge the Rule Pipeline docs-only post-merge closure from verified gameplay `main` `2d5b71ca2c8662c1ab2cd98cc83a7a7f7f873de1`.
-2. Audit Logic Wave A `odd-one-out` from the verified 23-pattern baseline.
-3. Promote only objective-coherent/evidence-safe mechanics; do not combine unrelated tasks merely to lower concentration counts.
-4. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
-5. Continue Art Bible/permanent visual QA, narration, parent/public frontend, external acceptance and governance.
+1. Run final full CI on PR #125 after canonical docs are finalized on the exact current head.
+2. Re-check comments, reviews, review threads, exact head and mergeability.
+3. Exact-head squash merge only if all gates remain green, then verify live `main`.
+4. Complete a docs-only post-merge closure so pattern #24 becomes the canonical merged baseline.
+5. Continue a fresh Logic exact-family audit from the verified 24-pattern baseline; Logic would remain 67% `choice_grid`.
+6. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns plus Art Bible/permanent visual QA, narration, parent/public frontend, external acceptance and governance.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, or mastery/backend rewrites before this quality phase is substantially complete.
