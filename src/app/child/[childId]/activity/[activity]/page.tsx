@@ -1,4 +1,5 @@
 import { AudioChoiceLearningActivity } from "@/components/learning/AudioChoiceLearningActivity";
+import { CauseEffectActivity } from "@/components/learning/CauseEffectActivity";
 import { CountAndSelectActivity } from "@/components/learning/CountAndSelectActivity";
 import { CreativePracticeActivity } from "@/components/learning/CreativePracticeActivity";
 import { DragTargetMatchActivity } from "@/components/learning/DragTargetMatchActivity";
@@ -12,6 +13,7 @@ import { SymbolHuntChoiceActivity } from "@/components/learning/SymbolHuntChoice
 import { MathTraceWorldActivity } from "@/components/learning/world/MathTraceWorldActivity";
 import { WorldActivityScreen } from "@/components/learning/world/WorldExperience";
 import {
+  isCauseEffectActivity,
   isCountAndSelectActivity,
   isDragTargetActivity,
   isMemoryPairActivity,
@@ -55,6 +57,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
         <MoreLessBalanceActivity childId={childId} activityId={activity} />
       ) : isPatternCompletionActivity(definition) ? (
         <PatternCompletionActivity childId={childId} activityId={activity} />
+      ) : isCauseEffectActivity(definition) ? (
+        <CauseEffectActivity childId={childId} activityId={activity} />
       ) : (
         <WorldActivityScreen childId={childId} activityId={activity} />
       )}
