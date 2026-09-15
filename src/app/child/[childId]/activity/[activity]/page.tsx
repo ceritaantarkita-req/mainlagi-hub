@@ -19,6 +19,7 @@ import { SequenceSlotChoiceActivity } from "@/components/learning/SequenceSlotCh
 import { SetReasoningActivity } from "@/components/learning/SetReasoningActivity";
 import { SortingBucketsChoiceActivity } from "@/components/learning/SortingBucketsChoiceActivity";
 import { SpatialTransformActivity } from "@/components/learning/SpatialTransformActivity";
+import { SyllableAssemblyActivity } from "@/components/learning/SyllableAssemblyActivity";
 import { SymbolHuntChoiceActivity } from "@/components/learning/SymbolHuntChoiceActivity";
 import { TransitiveChainActivity } from "@/components/learning/TransitiveChainActivity";
 import { MathTraceWorldActivity } from "@/components/learning/world/MathTraceWorldActivity";
@@ -43,6 +44,7 @@ import {
   isSetReasoningActivity,
   isSortingBucketsActivity,
   isSpatialTransformActivity,
+  isSyllableAssemblyActivity,
   isTransitiveChainActivity
 } from "@/lib/learning/gameplayPresentation";
 import { getActivity } from "@/lib/learning/system";
@@ -69,6 +71,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
         <DragTargetMatchActivity childId={childId} activityId={activity} />
       ) : isSequenceSlotActivity(definition) ? (
         <SequenceSlotChoiceActivity childId={childId} activityId={activity} />
+      ) : isSyllableAssemblyActivity(definition) ? (
+        <SyllableAssemblyActivity childId={childId} activityId={activity} />
       ) : isSortingBucketsActivity(definition) ? (
         <SortingBucketsChoiceActivity childId={childId} activityId={activity} />
       ) : isOddOneOutActivity(definition) ? (

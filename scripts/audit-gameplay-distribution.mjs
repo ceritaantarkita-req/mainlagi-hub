@@ -23,6 +23,7 @@ const EXPECTED_PATTERNS = [
   "drawing_canvas",
   "memory_pair",
   "missing_sequence_slot",
+  "syllable_assembly",
   "sorting_buckets",
   "drag_to_target",
   "odd_one_out",

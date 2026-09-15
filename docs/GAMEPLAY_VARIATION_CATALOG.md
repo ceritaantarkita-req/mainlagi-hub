@@ -43,10 +43,10 @@
 26. `set_reasoning` — **MERGED PR #130; CLOSED PR #131; metadata PR #132**
 27. `spatial_transform` — **MERGED PR #133; CLOSED PR #134**
 28. `investigation_board` — **MERGED PR #135; CLOSED PR #136**
-29. `relative_order_track` — **MERGED PR #137; CLOSURE PR #138**
+29. `relative_order_track` — **MERGED PR #137; CLOSURE PR #138; FULLY CLOSED**
 
 Permanent gameplay-distribution audit: **MERGED PR #105**.  
-Verified Relative Order Track implementation merge SHA: `ec083b7206fdc7d8d2c21a1bbd6c2abbd1d44949`.
+Final verified Pattern #29 `main` SHA: `2a5e0f35725456e00b4cd85e64999f9f84a29c6c`; CI #639 passed full matrix including Cloudflare production smoke.
 
 Merged distribution:
 
@@ -56,63 +56,84 @@ Merged distribution:
 29 active child-facing patterns
 choice_grid                 313 / 900 = 34.78%
 relative_order_track          5 / 900 = 0.56%
+Bahasa choice_grid           52 / 100
 Science choice_grid          56 / 100
 Logic choice_grid            47 / 100
 ```
 
-Distance remaining: **21** patterns to minimum 50 and **31** to working target 60.
+Distance remaining on merged baseline: **21** patterns to minimum 50 and **31** to working target 60.
 
-### `relative_order_track` — closure record
+### PR #139 accepted head: 30 pola
+
+Pattern #30 `syllable_assembly` is **QA ACCEPTED / UNMERGED**.
+
+```text
+900 / 900 classified
+0 unclassified
+30 active PR-head patterns
+choice_grid                 308 / 900 = 34.22%
+syllable_assembly             5 / 900 = 0.56%
+Bahasa choice_grid           47 / 100
+Science choice_grid          56 / 100
+Logic choice_grid            47 / 100
+```
+
+If merged unchanged, distance remaining becomes **20** patterns to minimum 50 and **30** to working target 60.
+
+### `syllable_assembly` — Pattern #30 QA acceptance
 
 Exact scope:
 
 ```text
-logic-order-first-after-start
-logic-order-before-d
-logic-order-between-blue-green
-logic-order-third-symbol
-logic-order-two-steps-after
+bahasa-gabung-baju
+bahasa-gabung-buku
+bahasa-gabung-meja
+bahasa-gabung-bola
+bahasa-gabung-susu
 ```
 
 Boundaries:
-- stage `logic-conditional-analogy-inference`;
-- lesson `logic-relative-ordering`;
-- pack `logic.pack.relative-ordering`;
-- canonical skill `logic.order.relative.basic`;
+- stage `bahasa-suku-kata-kata`;
+- lesson `bahasa-suku-kata-gabung`;
+- pack `bahasa.pack.suku-kata-gabung`;
+- canonical skill `bahasa.suku_kata.blending`;
 - assessed runtime remains `tap_choice`;
 - canonical three choices and `correctChoice` remain unchanged;
 - assessment, stars, mastery, progression, activity identity and completion semantics remain canonical;
-- Logic conditional/classification/inference remain outside scope;
-- Logic analogies remain `visible_matching`;
-- Math ordering remains `number_line`;
-- Letters ordering remains `missing_sequence_slot`;
-- assessed fidelity `choice_relative_order_track_interaction`;
-- runtime metadata source `relative-order-track-runtime`.
+- Bahasa recognition/picture-word/initial-sound/listening/matching remain outside scope;
+- English phonics, Math and Logic families remain outside scope;
+- assessed fidelity `choice_syllable_assembly_interaction`;
+- runtime metadata source `syllable-assembly-runtime`.
 
 Interaction:
-- show only canonical ordered context already expressed in the prompt;
-- mask exactly the inferred target slot with `?` before assessment;
-- validate that the hidden slot equals canonical `correctChoice`;
+- show only the two canonical syllables already present in title/prompt content;
+- mask assembled result with `?` before a correct assessment;
+- validate that the two syllables concatenate exactly to canonical `correctChoice`;
 - retain accessible direct-selection buttons;
-- wrong selection is retryable, measured, and cannot complete;
-- correct selection completes the existing activity identity;
-- no invented sequence fact, answer leakage, changed choice set, drag-only dependency, extra confirmation or intermediate assessment.
+- wrong selection is retryable, measured, cannot complete, and cannot reveal the result;
+- correct selection completes the existing activity identity and may reveal the canonical word;
+- no invented syllable, answer leakage, changed choice set, drag-only dependency, extra confirmation or intermediate assessment.
 
-Acceptance/closure chain:
-- implementation QA head `e91087aa1176723b0d90f310088b65a51d413ce7` passed full CI #626 / run `34992813094`;
-- canonical docs head `48d92434d83b028d48821e270a025c3a08a859bc` passed full CI #631 / run `34994322707`;
-- all nine idle/wrong/success screenshots at 320x720, 390x844 and 768x1024 passed manual visual acceptance;
-- PR #137 exact-head squash merged as `ec083b7206fdc7d8d2c21a1bbd6c2abbd1d44949`, independently verified live;
-- post-merge `main` CI #632 / run `34994824331` passed every gate including Cloudflare production smoke;
-- closure PR #138 is the final closure gate.
+Acceptance evidence:
+- CI #640 caught missing permanent central-test registration; fixed without weakening default-family coverage;
+- CI #641 caught missing learning-test compile-manifest coverage for the new config; fixed;
+- implementation head `d55c1deb54f1402c38d84417ca7ae8248c9d3b07` passed full CI #642 / run `35000557604`;
+- deterministic audit is 900 KEEP / 0 flagged / structural findings 0;
+- all nine 320x720, 390x844 and 768x1024 idle/wrong/success screenshots passed manual visual acceptance.
+
+Pattern #30 still requires final docs-head CI, exact-head implementation merge/live verification and separate docs-only closure before it becomes fully closed.
+
+### `relative_order_track` — FULLY CLOSED
+
+Relative Order Track implementation PR #137 and closure PR #138 are complete. Final verified `main` SHA is `2a5e0f35725456e00b4cd85e64999f9f84a29c6c`; final CI #639 passed including Cloudflare production smoke.
 
 ### `investigation_board` — FULLY CLOSED
 
-Investigation Board implementation PR #135 and closure PR #136 remain complete. Pattern #29 does not change its evidence, runtime, mastery or progression.
+Investigation Board implementation PR #135 and closure PR #136 remain complete. Pattern #30 does not change its evidence, runtime, mastery or progression.
 
 ### `spatial_transform` — FULLY CLOSED
 
-Spatial Transform implementation PR #133 and closure PR #134 remain complete. Pattern #29 does not change its evidence, runtime, mastery or progression.
+Spatial Transform implementation PR #133 and closure PR #134 remain complete. Pattern #30 does not change its evidence, runtime, mastery or progression.
 
 ## 60 pola permainan target
 
@@ -160,7 +181,7 @@ Spatial Transform implementation PR #133 and closure PR #134 remain complete. Pa
 
 ### G. Literacy construction
 31. `build_word`
-32. `syllable_assembly`
+32. `syllable_assembly` — **QA ACCEPTED / UNMERGED PR #139**
 33. `letter_construction`
 34. `initial_sound_sort`
 35. `word_picture_match`
@@ -228,8 +249,9 @@ Coverage dan implemented-pattern consistency bersifat blocking; concentration be
 18. Set Reasoning — **DONE / #130 + #131 + #132**.
 19. Spatial Transform — **DONE / #133 + #134**.
 20. Investigation Board — **DONE / #135 + #136**.
-21. Relative Order Track — **DONE / #137 + closure #138**, fully closed after closure exact-head merge/live verification.
-22. NEXT — fresh objective/evidence audit for Pattern #30 from the verified 29-pattern baseline; no family is pre-approved.
+21. Relative Order Track — **DONE / #137 + #138**, fully closed and live-verified.
+22. Syllable Assembly — **QA ACCEPTED / UNMERGED PR #139**.
+23. NEXT after Pattern #30 closure — fresh objective/evidence audit for Pattern #31; no family is pre-approved.
 
 ## Definition of done per mechanic
 

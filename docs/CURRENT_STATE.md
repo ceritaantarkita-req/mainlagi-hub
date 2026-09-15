@@ -1,6 +1,6 @@
 # Mainlagi Hub — Current State
 
-Last reviewed: **15 September 2026**
+Last reviewed: **16 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth.
 
@@ -8,11 +8,14 @@ This is the canonical human/AI handoff. `main` is the merged source of truth.
 
 - repository: `ceritaantarkita-req/mainlagi-hub`
 - canonical branch: `main`
-- latest gameplay implementation: PR #137 — Logic Relative Order Track
+- latest fully closed gameplay implementation: PR #137 — Logic Relative Order Track
 - verified Pattern #29 implementation merge SHA: `ec083b7206fdc7d8d2c21a1bbd6c2abbd1d44949`
-- post-merge implementation CI: #632 / run `34994824331`, full success including Cloudflare production smoke
-- post-merge closure: PR #138
-- Pattern #29: **FULLY CLOSED after #138 exact-head merge/live verification**
+- Pattern #29 closure: PR #138, final verified `main` SHA `2a5e0f35725456e00b4cd85e64999f9f84a29c6c`
+- final Pattern #29 live verification: CI #639 / run `34996162783`, full success including Cloudflare production smoke
+- current accepted unmerged gameplay PR: #139 — Bahasa Syllable Assembly
+- accepted Pattern #30 implementation head: `d55c1deb54f1402c38d84417ca7ae8248c9d3b07`
+- accepted Pattern #30 implementation QA: CI #642 / run `35000557604`
+- Pattern #30: **QA ACCEPTED / UNMERGED** pending final docs-head CI, merge/live verification and separate closure PR
 - production: `https://mainlagihub.my.id/`
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - source licence: `AGPL-3.0-only`
@@ -43,49 +46,68 @@ unclassified:               0
 active merged patterns:    29
 choice_grid               313 / 900 = 34.78%
 relative_order_track        5 / 900 = 0.56%
+Bahasa choice_grid          52 / 100
 Science choice_grid         56 / 100
 Logic choice_grid           47 / 100
 ```
 
-Remaining distance: **21** patterns to minimum 50 and **31** to working target 60.
+### PR #139 accepted head: 30 patterns
 
-## Pattern #29 `relative_order_track` — closure record
+Pattern #30 `syllable_assembly` is QA accepted on PR #139 but not yet merged.
+
+```text
+classified:               900 / 900
+unclassified:               0
+active PR-head patterns:   30
+choice_grid               308 / 900 = 34.22%
+syllable_assembly           5 / 900 = 0.56%
+Bahasa choice_grid          47 / 100
+Science choice_grid         56 / 100
+Logic choice_grid           47 / 100
+```
+
+If merged unchanged, remaining distance becomes **20** patterns to minimum 50 and **30** to working target 60.
+
+## Pattern #30 `syllable_assembly` — QA acceptance record
 
 Exact scope:
 
 ```text
-logic-order-first-after-start
-logic-order-before-d
-logic-order-between-blue-green
-logic-order-third-symbol
-logic-order-two-steps-after
+bahasa-gabung-baju
+bahasa-gabung-buku
+bahasa-gabung-meja
+bahasa-gabung-bola
+bahasa-gabung-susu
 ```
 
-All five remain assessed `tap_choice` activities in stage `logic-conditional-analogy-inference`, lesson `logic-relative-ordering`, pack `logic.pack.relative-ordering`, canonical skill `logic.order.relative.basic`, with exactly three canonical choices and unchanged `correctChoice`.
+All five remain assessed `tap_choice` activities in stage `bahasa-suku-kata-kata`, lesson `bahasa-suku-kata-gabung`, pack `bahasa.pack.suku-kata-gabung`, canonical skill `bahasa.suku_kata.blending`, with exactly three canonical choices and unchanged `correctChoice`.
 
-Explicit exclusions remain outside Pattern #29: Logic conditional-rule, multi-classification and elimination-inference families; Logic analogies remain `visible_matching`; Math `math-order-*` remain `number_line`; Letters `letters-order-*` remain `missing_sequence_slot`.
+Explicit exclusions remain outside Pattern #30: Bahasa syllable recognition, picture-word, initial-sound, listening and matching families; English phonics; Math and Logic gameplay families.
 
 Interaction/evidence contract:
-- visualizes only canonical ordered context already present in each prompt;
-- masks exactly the inferred target position with `?` until assessment;
-- config validation requires hidden slot = canonical `correctChoice`;
+- visualizes only the two canonical syllables already present in title/prompt content;
+- masks the assembled result with `?` before a correct assessment;
+- config validation requires the two syllables to concatenate exactly to canonical `correctChoice`;
 - canonical keyboard/touch/pointer direct-selection choices remain unchanged;
-- wrong choice records assessed error/retry and cannot complete;
-- correct choice completes canonical activity identity;
-- no invented sequence fact, answer leakage, changed choices, extra confirmation, drag-only dependency or intermediate assessment;
-- assessed fidelity `choice_relative_order_track_interaction`;
-- runtime metadata source `relative-order-track-runtime`;
+- wrong choice records assessed error/retry, cannot complete, and cannot reveal the word;
+- correct choice completes the canonical activity and may reveal the assembled word;
+- no invented syllable, answer leakage, changed choices, extra confirmation, drag-only dependency or intermediate assessment;
+- assessed fidelity `choice_syllable_assembly_interaction`;
+- runtime metadata source `syllable-assembly-runtime`;
 - runtime, IDs, choices, `correctChoice`, skill, assessment, stars, mastery and progression remain unchanged.
 
-Acceptance/closure history:
-- implementation QA head `e91087aa1176723b0d90f310088b65a51d413ce7` passed full CI #626 / run `34992813094`;
-- canonical docs head `48d92434d83b028d48821e270a025c3a08a859bc` passed full CI #631 / run `34994322707`;
-- manual idle/wrong/success review at 320x720, 390x844 and 768x1024 accepted all nine screenshots;
-- PR #137 exact-head squash merged as `ec083b7206fdc7d8d2c21a1bbd6c2abbd1d44949` and `main` was verified at the exact SHA;
-- post-merge `main` CI #632 / run `34994824331` passed all gates including Cloudflare production smoke;
-- closure PR #138 records the final merged state and is the final closure gate.
+Acceptance evidence:
+- implementation head `d55c1deb54f1402c38d84417ca7ae8248c9d3b07` passed full CI #642 / run `35000557604`;
+- deterministic audit: 900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0;
+- gameplay distribution: 900/900 classified, 0 unclassified, 30 patterns, `choice_grid` 308/900, `syllable_assembly` 5/900, Bahasa 47/100, Logic 47/100, Science 56/100;
+- manual idle/wrong/success review at 320x720, 390x844 and 768x1024 accepted all nine screenshots with no clipping/overflow or answer leakage and with visible retry/success feedback + post-success CTA;
+- CI #640 and #641 caught and forced fixes for permanent-test registration and learning-test compile-manifest coverage before acceptance.
 
-Deterministic audit remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**. Simulations and Batch17 remain clean.
+Pattern #30 is **not fully closed yet**. It still requires fresh exact docs-head CI, clean exact-head merge of PR #139, live-main verification, and a separate docs-only closure PR with its own exact-head CI/merge/live verification.
+
+## Pattern #29 closure state
+
+Pattern #29 `relative_order_track` is **FULLY CLOSED**. PR #137 was exact-head merged, closure PR #138 was merged, final `main` SHA is `2a5e0f35725456e00b4cd85e64999f9f84a29c6c`, and CI #639 / run `34996162783` passed the full matrix including Cloudflare production smoke.
 
 ## Learning/mastery boundaries
 
@@ -102,8 +124,8 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Finish closure PR #138 exact-head CI/gate/merge/live verification.
-2. Run a fresh objective/evidence audit for Pattern #30 from the verified 29-pattern baseline; no family is pre-approved.
+1. Finish Pattern #30 PR #139: final canonical docs -> fresh exact docs-head CI -> clean merge gate -> exact-head merge -> live-main verification -> separate docs-only closure -> closure live verification.
+2. After Pattern #30 is fully closed, run a fresh objective/evidence audit for Pattern #31; no family is pre-approved.
 3. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
 4. Continue Art Bible/permanent visual QA, narration, parent/public frontend, external acceptance and governance.
 

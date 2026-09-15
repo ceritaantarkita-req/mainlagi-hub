@@ -1,6 +1,6 @@
 # Mainlagi Activity Quality Audit
 
-Last reviewed: **15 September 2026**
+Last reviewed: **16 September 2026**
 
 Status: **WS-04 deterministic triage clean; WS-06 Coloring and WS-07 Drawing complete; WS-05 gameplay diversification active. Human pedagogical/art review remains separate.** Canonical plan: `NEXT_PRODUCT_QUALITY_PLAN.md`.
 
@@ -46,7 +46,7 @@ Fully merged waves through verified Pattern #29:
 - `set_reasoning` — PR #130 + closure #131 + metadata #132.
 - `spatial_transform` — PR #133 + closure #134.
 - `investigation_board` — PR #135 + closure #136.
-- `relative_order_track` — PR #137 + closure #138 — **FULLY CLOSED after #138 exact-head merge/live verification**.
+- `relative_order_track` — PR #137 + closure #138 — **FULLY CLOSED**; final verified main `2a5e0f35725456e00b4cd85e64999f9f84a29c6c`, CI #639 full success including Cloudflare smoke.
 
 Current verified merged distribution:
 
@@ -56,56 +56,68 @@ Current verified merged distribution:
 29 active merged patterns
 choice_grid                 313 / 900 = 34.78%
 relative_order_track          5 / 900 = 0.56%
+Bahasa choice_grid           52 / 100
+Science choice_grid          56 / 100
+Logic choice_grid            47 / 100
+```
+
+Pattern #30 `syllable_assembly` is **QA ACCEPTED / UNMERGED** on PR #139. Accepted PR-head distribution:
+
+```text
+900 / 900 classified
+0 unclassified
+30 active PR-head patterns
+choice_grid                 308 / 900 = 34.22%
+syllable_assembly             5 / 900 = 0.56%
+Bahasa choice_grid           47 / 100
 Science choice_grid          56 / 100
 Logic choice_grid            47 / 100
 ```
 
 Concentration remains advisory and does not itself create POLISH/REDESIGN findings.
 
-## Relative Order Track — Pattern #29 closure record
+## Syllable Assembly — Pattern #30 QA acceptance record
 
 Exact scope:
 
 ```text
-logic-order-first-after-start
-logic-order-before-d
-logic-order-between-blue-green
-logic-order-third-symbol
-logic-order-two-steps-after
+bahasa-gabung-baju
+bahasa-gabung-buku
+bahasa-gabung-meja
+bahasa-gabung-bola
+bahasa-gabung-susu
 ```
 
 Preserved:
 - canonical runtime `tap_choice`;
 - exactly three canonical choices and unchanged `correctChoice`;
 - assessment, stars, mastery and progression;
-- canonical skill `logic.order.relative.basic`;
-- stage `logic-conditional-analogy-inference`, lesson `logic-relative-ordering`, pack `logic.pack.relative-ordering`;
+- canonical skill `bahasa.suku_kata.blending`;
+- stage `bahasa-suku-kata-kata`, lesson `bahasa-suku-kata-gabung`, pack `bahasa.pack.suku-kata-gabung`;
 - activity IDs and completion semantics;
-- Logic conditional/classification/inference remain outside scope;
-- Logic analogies remain `visible_matching`;
-- Math ordering remains `number_line`;
-- Letters ordering remains `missing_sequence_slot`.
+- Bahasa syllable recognition, picture-word, initial-sound, listening and matching remain outside scope;
+- English phonics, Math and Logic families remain outside scope.
 
 Interaction/evidence contract:
-- visualizes only canonical sequence context already expressed by the prompt;
-- masks the inferred target slot with `?` before assessment;
-- hidden slot is validated to equal canonical `correctChoice`;
+- visualizes only two canonical syllables already expressed by title/prompt;
+- result stays masked as `?` until a correct assessment;
+- config requires the two syllables to concatenate exactly to canonical `correctChoice`;
 - canonical keyboard/touch/pointer direct selection remains available;
-- wrong choice is measured/retryable and cannot complete;
-- correct choice completes the canonical activity;
-- no invented sequence fact, answer leakage, changed choice set, extra confirmation, drag-only dependency or intermediate assessment;
-- assessed fidelity `choice_relative_order_track_interaction`;
-- runtime metadata source `relative-order-track-runtime`.
+- wrong choice is measured/retryable, cannot complete, and cannot reveal the word;
+- correct choice completes the canonical activity and may reveal the word;
+- no invented syllable, answer leakage, changed choice set, extra confirmation, drag-only dependency or intermediate assessment;
+- assessed fidelity `choice_syllable_assembly_interaction`;
+- runtime metadata source `syllable-assembly-runtime`.
 
-Acceptance/closure chain:
-- implementation QA head `e91087aa1176723b0d90f310088b65a51d413ce7` passed full CI #626 / run `34992813094`;
-- canonical docs head `48d92434d83b028d48821e270a025c3a08a859bc` passed full CI #631 / run `34994322707`;
+Acceptance chain so far:
+- CI #640 / run `34999759651` caught missing registration in the permanent central gameplay-presentation gate and was fixed without weakening the default-family assertion;
+- CI #641 / run `35000289970` caught missing learning-test compile-manifest coverage for the new config and was fixed;
+- accepted implementation head `d55c1deb54f1402c38d84417ca7ae8248c9d3b07` passed full CI #642 / run `35000557604`;
+- full CI includes central + dedicated Syllable Assembly regressions, Ubuntu, Windows, production build, dependency/secret audits, simulations, Batch17 and Chromium mobile/accessibility/browser QA;
 - manual idle/wrong/success screenshot review at 320x720, 390x844 and 768x1024 passed all nine states;
-- PR #137 exact-head squash merged as `ec083b7206fdc7d8d2c21a1bbd6c2abbd1d44949` and was independently verified on `main`;
-- post-merge `main` CI #632 / run `34994824331` passed all gates including Cloudflare production smoke;
-- docs-only closure PR #138 is the final closure gate.
+- deterministic quality remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**.
 
-Permanent evidence remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE**, structural findings 0. Simulations and Batch17 remain clean; physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
+Pattern #30 is not fully closed until PR #139 receives fresh exact final docs-head CI, exact-head merge/live verification, and the separate docs-only closure is also merged and verified.
 
 ## Permanent audits
 
@@ -141,9 +153,10 @@ CI uploads both artifacts. Gameplay-distribution coverage and active-pattern-set
 - WS-05 Set Reasoning DONE — PR #130 + #131 + #132.
 - WS-05 Spatial Transform DONE — PR #133 + #134.
 - WS-05 Investigation Board DONE — PR #135 + #136.
-- WS-05 Relative Order Track DONE — PR #137 + #138, fully closed after closure exact-head merge/live verification.
-- WS-05 NEXT — fresh Pattern #30 objective/evidence audit from the verified 29-pattern baseline; no family pre-approved.
+- WS-05 Relative Order Track DONE — PR #137 + #138, fully closed and live-verified.
+- WS-05 Syllable Assembly — **QA ACCEPTED / UNMERGED PR #139**.
+- WS-05 NEXT after Pattern #30 closure — fresh Pattern #31 objective/evidence audit; no family pre-approved.
 
 ## Completion rule
 
-Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #29 itself is fully closed only after closure PR #138 is exact-head merged and independently verified live on `main`.
+Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #30 itself remains unclosed until its implementation and required post-merge docs closure are both exact-head merged and independently verified live on `main`.
