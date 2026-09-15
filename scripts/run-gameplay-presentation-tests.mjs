@@ -14,6 +14,7 @@ const {patternCompletionConfig}=require(path.resolve(".learning-test-dist/src/li
 const {causeEffectConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/causeEffectConfig.js"));
 const {comparePropertiesConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/comparePropertiesConfig.js"));
 const {materialLabConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/materialLabConfig.js"));
+const {livingFeatureFunctionConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/livingFeatureFunctionConfig.js"));
 
 const expectedMemory=new Set([
   "letters-match-case-cd","letters-match-case-ef","letters-match-case-bce",
@@ -51,7 +52,7 @@ for(const activity of dragTargets){
 const otherMatching=ACTIVITIES.filter(activity=>activity.runtime==="matching"&&!expectedMemory.has(activity.id)&&!expectedDragTargets.has(activity.id));
 assert(otherMatching.length>0,"default matching family remains available for mechanic variety");
 assert(otherMatching.every(activity=>matchingPresentation(activity)==="grid_pairs"),"unreviewed matching activities remain on the canonical visible grid");
-for(const id of ["math-pattern-match-ab","math-pattern-match-aab","science-match-water-states-b","science-match-observation-tools-c","science-match-material-purpose-d"]){
+for(const id of ["math-pattern-match-ab","math-pattern-match-aab","science-match-water-states-b","science-match-observation-tools-c","science-match-material-purpose-d","science-match-feature-function-d"]){
   const activity=ACTIVITIES.find(item=>item.id===id);
   assert(activity,`${id} remains in catalog`);
   assert.equal(activity.runtime,"matching",`${id} remains a matching activity`);
@@ -248,9 +249,41 @@ assert(materialMatching,"material-purpose matching activity remains in catalog")
 assert.equal(materialMatching.runtime,"matching");
 assert.equal(matchingPresentation(materialMatching),"grid_pairs","material-purpose matching stays outside material-lab scope");
 
-const specializedChoiceIds=new Set([...expectedSequence,...expectedSorting,...expectedCountSelect,...expectedNumberLine,...expectedBalance,...expectedPatternCompletion,...expectedCauseEffect,...expectedCompareProperties,...expectedMaterialLab]);
+const expectedLivingFeatureFunction=new Set([
+  "science-feature-duck-webbed-feet","science-feature-fish-gills",
+  "science-feature-bird-beak-seeds","science-feature-cactus-water"
+]);
+const livingFeatureFunction=ACTIVITIES.filter(activity=>choiceGameplayPresentation(activity)==="living_feature_function");
+assert.equal(livingFeatureFunction.length,expectedLivingFeatureFunction.size,"living-feature-function family size must remain intentional");
+assert.deepEqual(new Set(livingFeatureFunction.map(activity=>activity.id)),expectedLivingFeatureFunction,"only the four reviewed Science Wave D feature/function choices use Living Feature Function");
+for(const activity of livingFeatureFunction){
+  assert.equal(activity.runtime,"tap_choice");
+  assert.equal(activity.subjectId,"science");
+  assert.equal(activity.stageId,"science-evidence-review-challenge");
+  assert.equal(activity.lessonId,"science-living-adaptations");
+  assert.equal((activity.choices??[]).length,3);
+  assert.equal(new Set(activity.choices??[]).size,3,"living-feature-function choices remain unique");
+  assert((activity.choices??[]).includes(activity.correctChoice),"living feature function preserves canonical correctChoice");
+  const config=livingFeatureFunctionConfig(activity);
+  assert(config,`${activity.id} must have explicit Living Feature Function config`);
+  assert(config.organismLabel&&config.featureLabel&&config.relationCue,`${activity.id} keeps organism, feature and relation context`);
+  assert.deepEqual(new Set(Object.keys(config.choiceVisuals)),new Set(activity.choices??[]),`${activity.id} function visuals map exactly canonical choices`);
+  assert(config.choiceVisuals[activity.correctChoice],`${activity.id} canonical correctChoice keeps an explicit function visual`);
+}
+
+const featureFunctionMatching=ACTIVITIES.find(activity=>activity.id==="science-match-feature-function-d");
+assert(featureFunctionMatching,"feature-function matching activity remains in catalog");
+assert.equal(featureFunctionMatching.runtime,"matching");
+assert.equal(matchingPresentation(featureFunctionMatching),"grid_pairs","feature-function matching stays outside living-feature-function scope");
+
+const waveAInverse=ACTIVITIES.find(activity=>activity.id==="science-animal-fins-fish");
+assert(waveAInverse,"Wave A inverse feature/function activity remains in catalog");
+assert.equal(waveAInverse.runtime,"tap_choice");
+assert.equal(choiceGameplayPresentation(waveAInverse),"default","Wave A function-to-feature activity stays outside Wave D living-feature-function scope");
+
+const specializedChoiceIds=new Set([...expectedSequence,...expectedSorting,...expectedCountSelect,...expectedNumberLine,...expectedBalance,...expectedPatternCompletion,...expectedCauseEffect,...expectedCompareProperties,...expectedMaterialLab,...expectedLivingFeatureFunction]);
 const otherChoice=ACTIVITIES.filter(activity=>activity.runtime==="tap_choice"&&!specializedChoiceIds.has(activity.id));
 assert(otherChoice.length>0,"default choice activities remain available");
 assert(otherChoice.every(activity=>choiceGameplayPresentation(activity)==="default"),"other choice families retain default presentation");
 
-console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets + ${countSelect.length} count_select + ${numberLine.length} number_line + ${balance.length} more_less_balance + ${patternCompletion.length} pattern_completion + ${causeEffect.length} cause_effect + ${compareProperties.length} compare_properties + ${materialLab.length} material_lab activities.`);
+console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${sorting.length} sorting_buckets + ${countSelect.length} count_select + ${numberLine.length} number_line + ${balance.length} more_less_balance + ${patternCompletion.length} pattern_completion + ${causeEffect.length} cause_effect + ${compareProperties.length} compare_properties + ${materialLab.length} material_lab + ${livingFeatureFunction.length} living_feature_function activities.`);
