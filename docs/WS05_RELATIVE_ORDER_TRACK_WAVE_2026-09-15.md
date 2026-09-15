@@ -1,9 +1,10 @@
 # WS-05 Relative Order Track Wave — 2026-09-15
 
-Status: **IMPLEMENTATION MERGED + LIVE VERIFIED / CLOSURE IN PROGRESS**
+Status: **FULLY CLOSED after closure PR #138 exact-head merge/live verification**
 
 Implementation PR: #137  
 Implementation merge SHA: `ec083b7206fdc7d8d2c21a1bbd6c2abbd1d44949`  
+Closure PR: #138  
 Closure branch: `docs/ws05-relative-order-track-closure-20260915`
 
 ## Audit decision
@@ -59,7 +60,7 @@ Science choice_grid           56 / 100
 
 Remaining distance: **21 patterns to minimum 50** and **31 to working target 60**.
 
-## Acceptance and merge evidence
+## Acceptance and closure evidence
 
 Implementation QA head `e91087aa1176723b0d90f310088b65a51d413ce7` passed full CI #626 / run `34992813094` after two real integration regressions were fixed without weakening gates.
 
@@ -69,10 +70,10 @@ Manual visual acceptance passed all nine generated idle / wrong / success screen
 
 PR #137 exact-head squash merged as `ec083b7206fdc7d8d2c21a1bbd6c2abbd1d44949`. `main` was independently verified at that exact SHA. Post-merge `main` CI #632 / run `34994824331` passed Ubuntu, Windows, production build, dependency audit, secret-history scan, Chromium mobile/accessibility QA, deterministic quality/distribution audits, simulations, Batch17 and **Production smoke (Cloudflare)**.
 
+Docs-only closure PR #138 is the final closure gate. Pattern #29 is fully closed only after #138 itself passes fresh exact-head full CI, clean merge/review gate, exact-head merge, and final live `main` verification.
+
 Permanent merged evidence remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0** with 900/900 gameplay classification.
 
-## Closure rule
+## Next
 
-This docs-only closure must itself pass fresh exact-head full CI, clean merge/review gate, exact-head merge, and final live `main` verification. Only then is Pattern #29 **FULLY CLOSED**.
-
-After closure, NEXT is a fresh Pattern #30 objective/evidence audit from the verified 29-pattern baseline; no family is pre-approved.
+NEXT is a fresh Pattern #30 objective/evidence audit from the verified 29-pattern baseline. No family is pre-approved.
