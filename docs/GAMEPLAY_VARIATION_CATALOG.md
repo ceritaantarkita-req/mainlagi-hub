@@ -40,10 +40,11 @@
 23. `rule_pipeline` — **MERGED PR #123**
 24. `odd_one_out` — **MERGED PR #125**
 25. `transitive_chain` — **MERGED PR #127; CLOSED PR #128; metadata PR #129**
-26. `set_reasoning` — **MERGED PR #130; closure in progress**
+26. `set_reasoning` — **MERGED PR #130; CLOSED PR #131**
 
 Permanent gameplay-distribution audit: **MERGED PR #105**.  
-Verified Set Reasoning merge SHA/live `main`: `678c2b0ec73910181f4a8a8e804f83f0fe0d0392`.
+Verified Set Reasoning implementation SHA: `678c2b0ec73910181f4a8a8e804f83f0fe0d0392`.  
+Verified Set Reasoning closure SHA: `3a07bec3f09381d2ba02726e5b67a71f9f5dc626`.
 
 Merged distribution:
 
@@ -59,7 +60,7 @@ Logic choice_grid            57 / 100
 
 Distance remaining: **24** patterns to minimum 50 and **34** to working target 60.
 
-### `set_reasoning` — MERGED / CLOSURE IN PROGRESS
+### `set_reasoning` — FULLY CLOSED
 
 Exact scope:
 
@@ -90,16 +91,16 @@ Interaction:
 - correct selection completes the existing activity identity;
 - no false Venn geometry, invented intermediate assessment, extra confirmation, changed answer set or drag-only dependency.
 
-Acceptance and merge chain:
+Acceptance/closure chain:
 - CI #583 rejected a stale Rule Pipeline sentinel;
 - CI #584 was manually rejected despite automation success because 320x720 idle/try feedback clipped below the viewport;
-- responsive layout and browser assertions were strengthened;
 - accepted implementation head `acc5ce9d5661818842effcd120346ded3891dd50` passed CI #586 / run `34969198343` plus manual visual QA;
-- final docs head `a725e567898a07bfd4977d5015a179c7a6d88ab2` passed CI #591 / run `34971570563`;
-- final PR #130 gate was clean: 0 comments, 0 reviews, 0 review threads;
-- exact-head squash merge #130 -> `678c2b0ec73910181f4a8a8e804f83f0fe0d0392`, independently verified live on `main`.
+- final implementation/docs head `a725e567898a07bfd4977d5015a179c7a6d88ab2` passed CI #591 / run `34971570563`;
+- PR #130 clean gate -> exact-head squash merge `678c2b0ec73910181f4a8a8e804f83f0fe0d0392`, independently verified live;
+- closure head `3e9ea7300290c94e8774068b80cf028d7f3dcd90` passed CI #593 / run `34972491678`;
+- PR #131 clean gate -> exact-head squash merge `3a07bec3f09381d2ba02726e5b67a71f9f5dc626`, independently verified live.
 
-Pattern #26 is merged but not fully closed until this docs-only closure is merged and live-verified.
+Pattern #26 is fully closed. The current metadata-only update records that completed state and does not modify product behavior.
 
 ## 60 pola permainan target
 
@@ -220,8 +221,8 @@ Prinsip alokasi:
 15. Rule Pipeline — **DONE / #123**.
 16. Odd One Out — **DONE / #125 + closure #126**.
 17. Transitive Chain — **DONE / #127 + closure #128 + metadata #129**.
-18. Set Reasoning — **MERGED / #130; closure in progress**.
-19. NEXT — only after Pattern #26 closure: fresh exact-family audit; no Pattern #27 family is pre-approved.
+18. Set Reasoning — **DONE / #130 + closure #131**.
+19. NEXT — fresh Logic exact-family audit from the verified 26-pattern baseline; no Pattern #27 family is pre-approved.
 20. Continue search/audio/puzzle/literacy/creative/story based on objective fit and distribution.
 
 ## Definition of done per mechanic
