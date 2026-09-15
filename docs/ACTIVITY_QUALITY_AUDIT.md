@@ -40,22 +40,11 @@ Merged waves:
 - `material_lab` — PR #116, exactly 4 Science Wave D material-purpose activities.
 - `feature_function_link` — PR #119, exactly 4 Science Wave D living feature/function activities.
 - `healthy_habit_routine` — PR #121, exactly 4 Science Wave C body-health choices.
+- `rule_pipeline` — PR #123, exactly 5 Logic Wave D composed-rule activities.
 
-Current active QA wave:
-- `rule_pipeline` — PR #123, exactly 5 Logic Wave D composed-rule activities; implementation/CI/visual QA accepted, **unmerged**.
+Current active gameplay QA wave: none. Next work is a fresh Logic Wave A `odd-one-out` exact-family audit from the verified 23-pattern baseline.
 
-Merged distribution on canonical `main` `e46c9ff13fcf0004edbd36ed36bd638dc02cd4e0`:
-
-```text
-900 / 900 classified
-0 unclassified
-22 active patterns
-choice_grid                 347 / 900 = 38.56%
-Science choice_grid          60 / 100
-Logic choice_grid            77 / 100
-```
-
-PR #123 accepted head distribution, **not yet merged**:
+Merged distribution after PR #123:
 
 ```text
 900 / 900 classified
@@ -69,7 +58,7 @@ Logic choice_grid            72 / 100
 
 Concentration remains advisory and does not itself create POLISH/REDESIGN findings.
 
-## Rule Pipeline — PR #123 ACCEPTED QA / UNMERGED
+## Rule Pipeline — MERGED PR #123
 
 Exact scope:
 
@@ -99,26 +88,21 @@ Interaction/evidence:
 - exact five-ID allowlist prevents unrelated Logic activities from reclassification;
 - one-step conditional, set, transitive, spatial and odd-one-out activities remain canonical `choice_grid`.
 
-Accepted evidence on implementation head `5def5791d3e3b09fbc680ba52e9e6605695e66c4`:
-- CI #557 / run `34936058944` completed success;
+Accepted and merged evidence:
+- implementation head `5def5791d3e3b09fbc680ba52e9e6605695e66c4` passed CI #557 / run `34936058944`;
+- final docs head `3bb4684ae69fcd76a354b6b319fbe9992e6a50d3` passed CI #558 / run `34937511724`;
 - Ubuntu and Windows typecheck/lint/engine gates passed;
 - production build, dependency audit and secret-history scan passed;
 - gameplay-presentation regression reports `5 rule_pipeline` and dedicated exact-family regression passes;
 - representative browser route uses legitimate Logic Wave C readiness;
-- keyboard rule-1 execution, visible intermediate state, keyboard wrong final state, pointer correct completion, false-completion guards, assessed evidence persistence, >=44px controls, no horizontal overflow and CTA visibility pass at 320/390/768;
+- keyboard rule-1 execution, visible intermediate state, keyboard wrong final state, pointer correct completion, false-completion guards, assessed evidence persistence, >=44px controls, no horizontal overflow and CTA visibility all pass at 320/390/768;
 - manual review accepted green #557 idle/intermediate/error/success screenshots at 320x720, 390x844 and 768x1024;
 - deterministic activity-quality remains **900 KEEP / 0 flagged**, structural findings 0;
-- gameplay-distribution audit verifies 900/900, 23 PR-head patterns, global `choice_grid` 342/900, `rule_pipeline` 5/900, Science 60/100 and Logic 72/100;
+- gameplay-distribution audit verifies 900/900, 23 patterns, global `choice_grid` 342/900, `rule_pipeline` 5/900, Science 60/100 and Logic 72/100;
 - five simulations all report `invariantErrors: 0`;
-- Batch17 final acceptance remains PASS with 9 subjects, 900 activities, 683 assessed, 217 practice, 46 stages, 197 lessons/packs and 200 skills; physical-device certification remains pending external evidence.
-
-Remaining acceptance before shipping #123:
-1. canonical docs finalization on PR head;
-2. final full CI on that exact docs head;
-3. clean issue-comment/review/review-thread gate;
-4. exact-head squash merge;
-5. verify live `main`;
-6. docs-only post-merge closure and closure CI/merge.
+- Batch17 final acceptance remains PASS with 9 subjects, 900 activities, 683 assessed, 217 practice, 46 stages, 197 lessons/packs and 200 skills; physical-device certification remains pending external evidence;
+- final review gate had **0 PR comments, 0 submitted reviews and 0 review threads**;
+- exact-head squash merge produced `2d5b71ca2c8662c1ab2cd98cc83a7a7f7f873de1` and live `main` was verified at that SHA.
 
 ## Permanent audits
 
@@ -148,8 +132,8 @@ CI uploads both artifacts. Gameplay-distribution coverage and active-pattern-set
 - WS-05 Material Lab DONE — PR #116.
 - WS-05 Feature Function Link DONE — PR #119.
 - WS-05 Healthy Habit Routine DONE — PR #121.
-- WS-05 Rule Pipeline — **PR #123 accepted QA / unmerged**.
-- WS-05 NEXT after #123 closure — fresh Logic Wave A `odd-one-out` exact-family audit.
+- WS-05 Rule Pipeline DONE — PR #123.
+- WS-05 NEXT — fresh Logic Wave A `odd-one-out` exact-family audit from the verified 23-pattern baseline.
 
 ## Completion rule
 
