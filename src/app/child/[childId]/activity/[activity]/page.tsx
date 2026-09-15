@@ -11,6 +11,7 @@ import { MemoryMatchActivity } from "@/components/learning/MemoryMatchActivity";
 import { MoreLessBalanceActivity } from "@/components/learning/MoreLessBalanceActivity";
 import { NumberLineActivity } from "@/components/learning/NumberLineActivity";
 import { PatternCompletionActivity } from "@/components/learning/PatternCompletionActivity";
+import { RulePipelineActivity } from "@/components/learning/RulePipelineActivity";
 import { SequenceSlotChoiceActivity } from "@/components/learning/SequenceSlotChoiceActivity";
 import { SortingBucketsChoiceActivity } from "@/components/learning/SortingBucketsChoiceActivity";
 import { SymbolHuntChoiceActivity } from "@/components/learning/SymbolHuntChoiceActivity";
@@ -28,6 +29,7 @@ import {
   isMoreLessBalanceActivity,
   isNumberLineActivity,
   isPatternCompletionActivity,
+  isRulePipelineActivity,
   isSequenceSlotActivity,
   isSortingBucketsActivity
 } from "@/lib/learning/gameplayPresentation";
@@ -57,6 +59,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
         <SequenceSlotChoiceActivity childId={childId} activityId={activity} />
       ) : isSortingBucketsActivity(definition) ? (
         <SortingBucketsChoiceActivity childId={childId} activityId={activity} />
+      ) : isRulePipelineActivity(definition) ? (
+        <RulePipelineActivity childId={childId} activityId={activity} />
       ) : isCountAndSelectActivity(definition) ? (
         <CountAndSelectActivity childId={childId} activityId={activity} />
       ) : isNumberLineActivity(definition) ? (

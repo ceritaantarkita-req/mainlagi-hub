@@ -3,9 +3,10 @@
 > Canonical execution plan fase product-quality Mainlagi Hub. Semua human/AI agent wajib membaca dokumen ini, `CURRENT_STATE.md`, `ARCHITECTURE.md`, dan `GAMEPLAY_VARIATION_CATALOG.md` sebelum mengubah learning experience.
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
-**Canonical merged baseline:** `main` @ `b61656662f8f6bad8545e7a6236c6bdd07f930ab` (Healthy Habit Routine PR #121)  
-**Latest merged gameplay change:** PR #121 @ `b61656662f8f6bad8545e7a6236c6bdd07f930ab`  
-**Active gameplay PR:** none  
+**Canonical merged baseline:** `main` @ `e46c9ff13fcf0004edbd36ed36bd638dc02cd4e0` (post-merge closure PR #122)  
+**Latest merged gameplay change:** PR #121 — `healthy_habit_routine`  
+**Active gameplay PR:** PR #123 — Logic `rule_pipeline`, accepted implementation/visual QA, **unmerged**  
+**Accepted implementation head:** `5def5791d3e3b09fbc680ba52e9e6605695e66c4`  
 **Primary focus:** WS-05 gameplay/mechanic diversification.  
 **Principle:** **Quality first. Quantity later.**
 
@@ -22,16 +23,17 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 5. Jangan membuat drag-only interaction; fallback accessible wajib tersedia bila relevan.
 6. Gameplay-distribution coverage/pattern-set regression adalah blocking; concentration hanya planning signal.
 7. **Code merged tanpa canonical docs yang current = pekerjaan belum selesai.**
+8. Work in PR tidak boleh disebut shipped sebelum exact-head merge dan live `main` diverifikasi.
 
 ## Workstream status
 
 | Workstream | Status | Current note |
 |---|---|---|
-| WS-01 Canonical docs | DONE | PR #88 |
+| WS-01 Canonical docs | DONE | PR #88; terus dijaga current |
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | TODO | parent/public surfaces |
 | WS-04 Activity audit/redesign | deterministic clean | 900 KEEP / 0 flagged |
-| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | 22 merged; next Logic exact-family audit |
+| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | 22 merged; PR #123 pattern #23 accepted QA, unmerged |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | TODO / parallel | Art Bible + permanent human gate |
@@ -42,7 +44,7 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 
 ## WS-05 merged baseline
 
-Merged patterns on `main`: **22**. Latest gameplay merge is Science Healthy Habit Routine PR #121 `b61656662f8f6bad8545e7a6236c6bdd07f930ab`.
+Merged on `main`: **22 active patterns**.
 
 ```text
 900 / 900 classified
@@ -54,53 +56,64 @@ Science choice_grid          60 / 100
 Logic choice_grid            77 / 100
 ```
 
-Science is now exactly 60% `choice_grid`, so it no longer exceeds the permanent subject advisory threshold (`>60%`). Logic is the next subject hotspot to audit.
+Science is exactly 60% `choice_grid`, so it no longer exceeds the permanent subject advisory threshold (`>60%`). Logic is the current hotspot.
 
-## Healthy Habit Routine PR #121 — MERGED
+## PR #123 Logic Rule Pipeline — ACCEPTED QA / UNMERGED
 
-Exact Science Wave C scope:
-
-```text
-science-body-wash-hands
-science-body-teeth-brush
-science-body-water-drink
-science-body-sleep-rest
-```
-
-Explicit exclusion:
+Exact Logic Wave D scope:
 
 ```text
-science-match-body-care-c
+logic-compose-red-circle-to-star
+logic-compose-small-left-then-up
+logic-compose-two-to-blue
+logic-compose-triangle-turn-right
+logic-compose-swap-then-grow
 ```
+
+Pattern: `rule_pipeline`.
 
 Why this family is coherent:
-- all four are assessed `science-body-health-habits` choices in `science-earth-body-environment`;
-- all four target canonical skill `science.body.health_habits.basic`;
-- all ask the child to choose the healthy everyday habit for one familiar care context;
-- the excluded body-care activity remains canonical `matching` / `visible_matching`;
-- heterogeneous Science investigation/evidence and mixed-review tasks remain intentionally outside this family.
+- all five are assessed `tap_choice` activities in stage `logic-mixed-reasoning-challenge`;
+- all five belong to lesson `logic-composed-rules`;
+- all five target canonical skill `logic.rule.composition.basic`;
+- all five require applying two rules in sequence while retaining the intermediate state;
+- nearby one-step conditional, set, transitive, spatial and odd-one-out families remain outside scope.
 
 Interaction/evidence contract:
-- visible health focus + familiar routine cue;
-- exactly the canonical three answer choices remain accessible buttons;
-- wrong choice increments assessed error/retry evidence and cannot complete;
-- correct choice completes through the canonical activity identity;
-- runtime remains `tap_choice`;
-- assessed fidelity `choice_healthy_habit_routine_interaction`;
-- activity IDs, choices, `correctChoice`, assessment, stars, progression and skill identity remain canonical.
+- visible start state + rule 1;
+- accessible explicit execution of rule 1 reveals deterministic intermediate state;
+- rule 2 then exposes exactly the canonical three final choices;
+- final choices stay disabled before rule 1;
+- wrong final choice increments assessed error/retry and cannot complete;
+- correct final choice completes the canonical activity;
+- runtime, activity IDs, choices, `correctChoice`, assessment, stars, progression and skill identity remain canonical;
+- assessed fidelity: `choice_rule_pipeline_interaction`.
 
-Accepted and merged evidence:
-- initial implementation formatting churn was cleaned before acceptance; accepted implementation head `8086670711221dd077c64bdab2eb308040c3db86` had a reviewable minimal diff;
-- implementation CI #552 / run `34932904970` passed Ubuntu, Windows, production build, dependency audit, secret-history scan and Mobile Chromium;
-- final canonical docs head `f530d88d9b94ccddbceb2ec6fba7c661ff252215` passed full CI #553 / run `34933560692`;
-- gameplay regression confirms exactly 4 `healthy_habit_routine` activities and preserves `science-match-body-care-c` as visible matching;
-- deterministic activity-quality remained **900 KEEP / 0 flagged / structural findings 0**;
-- gameplay distribution verified **22 patterns**, 900/900 classified, `choice_grid` 347/900 (38.56%), `healthy_habit_routine` 4/900, Science `choice_grid` 60/100 and Logic `choice_grid` 77/100;
-- Batch17 remained PASS with **9 subjects / 900 activities / 683 assessed / 217 practice / 46 stages / 197 lessons / 197 packs / 200 skills**; physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`;
-- browser QA passed legitimate Science Wave B progression, keyboard wrong-state, pointer completion, false-completion protection, assessed evidence persistence, >=44px controls, no overflow and in-viewport success CTA at 320/390/768;
-- manual review of green #552 idle/error/success screenshots at 320x720, 390x844 and 768x1024 accepted the visual state;
-- final merge gate found 0 issue comments, 0 combined PR comments, 0 submitted reviews and 0 review threads;
-- exact-head squash merge produced `b61656662f8f6bad8545e7a6236c6bdd07f930ab`, then live `main` was verified at that SHA.
+Accepted implementation evidence on head `5def5791d3e3b09fbc680ba52e9e6605695e66c4`:
+- CI #557 / run `34936058944` completed **success**;
+- Ubuntu quality gate, Windows compatibility, production build, dependency audit, secret-history scan and Mobile Chromium all passed;
+- gameplay-presentation regression reports exactly `5 rule_pipeline` activities;
+- dedicated Rule Pipeline regression passes for exactly the five reviewed Logic Wave D activities;
+- deterministic activity-quality remains **900 KEEP / 0 flagged / structural findings 0**;
+- gameplay-distribution audit verifies **900/900 classified, 23 active patterns, `choice_grid` 342/900 (38.00%), `rule_pipeline` 5/900, Logic `choice_grid` 72/100, Science 60/100**;
+- all five simulations report `invariantErrors: 0`;
+- Batch17 remains PASS with **9 subjects / 900 activities / 683 assessed / 217 practice / 46 stages / 197 lessons / 197 packs / 200 skills**; physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`;
+- browser QA passes legitimate Logic Wave C readiness, keyboard rule-1 execution, visible intermediate state, keyboard wrong-state, pointer correct completion, false-completion guards, assessed evidence persistence, >=44px controls, no horizontal overflow and in-viewport success CTA at 320x720, 390x844 and 768x1024;
+- manual review of the green #557 idle/intermediate/error/success screenshots at 320/390/768 accepted the visual state.
+
+PR-head distribution if #123 merges unchanged:
+
+```text
+900 / 900 classified
+0 unclassified
+23 active patterns
+choice_grid            342 / 900 = 38.00%
+rule_pipeline            5 / 900 = 0.56%
+Logic choice_grid       72 / 100
+Science choice_grid     60 / 100
+```
+
+This is **not yet the merged baseline** until exact-head merge and live `main` verification.
 
 ## Definition of Done
 
@@ -108,21 +121,22 @@ A mechanic/PR is complete only when implementation, typecheck/lint/build, engine
 
 Before merge:
 - all relevant CI green at **current docs head**;
-- visual changes manually reviewed from current screenshots;
+- visual changes manually reviewed from accepted screenshots;
 - review threads/comments checked;
 - merge uses exact current `expected_head_sha`.
 
 After merge:
-- verify `main` contains the merge;
-- update stale QA wording through a docs-only closure if necessary;
+- verify `main` contains the exact squash merge;
+- update stale QA wording through a docs-only closure when needed;
 - never present unmerged work as shipped.
 
 ## Current execution order
 
-1. Complete this post-merge docs closure for Healthy Habit Routine from verified `main` `b61656662f8f6bad8545e7a6236c6bdd07f930ab`.
-2. Start a fresh **Logic exact-family audit** from the verified 22-pattern baseline. Logic remains the largest assessed choice hotspot at 77/100.
-3. Promote Logic mechanics only when objective/evidence fit is exact; do not lower hotspot counts cosmetically.
-4. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics based on objective fit toward 50–60 meaningful patterns.
-5. Continue WS-08 visual system, WS-02 narration, WS-03 parent/public frontend, WS-10 external acceptance, WS-11 governance, then later cleanup.
+1. Finalize these canonical docs for PR #123, then run full CI on the final docs head.
+2. Check issue comments, submitted reviews and review threads; merge only if clean and exact head is unchanged.
+3. Verify live `main`, then create and merge a docs-only post-merge closure so merged baseline becomes **23 patterns**.
+4. After closure, audit Logic Wave A `odd-one-out` as the strongest next exact family; do not bundle it into #123.
+5. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics based on objective fit toward 50–60 meaningful patterns.
+6. Continue WS-08 visual system, WS-02 narration, WS-03 parent/public frontend, WS-10 external acceptance, WS-11 governance, then later cleanup.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion, or major mastery/backend rewrites during this quality phase.
