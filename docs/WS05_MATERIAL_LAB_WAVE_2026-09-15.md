@@ -4,7 +4,8 @@ Status: **accepted implementation QA / PR #116 / unmerged; final docs-head CI pe
 
 Branch: `agent/ws05-science-material-lab-20260915`  
 Base gameplay main: `4f3e2828aa3be804f6d896b10f8e3422c3180811`  
-Current merge target includes docs closure PR #115 at `539b5717f5e77ccd7c883acb3e44a09c5557b54d`.
+Current merge target includes docs closure PR #115 at `539b5717f5e77ccd7c883acb3e44a09c5557b54d`.  
+Branch synchronization before final CI: `ee65ec23b5705f3d7a976af5d373b1715ac782af` includes the current `main` history without changing the accepted runtime tree.
 
 ## Objective review
 
