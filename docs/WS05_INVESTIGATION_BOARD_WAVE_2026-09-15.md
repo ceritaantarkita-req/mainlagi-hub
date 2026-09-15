@@ -1,6 +1,6 @@
 # WS-05 Investigation Board Wave — 2026-09-15
 
-Status: **IMPLEMENTATION IN PROGRESS / PR #135 UNMERGED**
+Status: **QA ACCEPTED / PR #135 UNMERGED**
 
 Branch: `agent/ws05-science-investigation-board-20260915`
 
@@ -35,7 +35,9 @@ For each activity the board shows only prompt-supported scenario facts, highligh
 
 Assessed evidence fidelity: `choice_investigation_board_interaction`. Runtime metadata source: `investigation-board-runtime`.
 
-## Expected PR-head distribution
+## Accepted implementation-head distribution
+
+CI #614 / run `34987172569`, exact implementation head `837c3b8ec46ed4a9bfc17a777adeb86dcbffcdc4`:
 
 ```text
 classified:                900 / 900
@@ -45,6 +47,8 @@ choice_grid                318 / 900 = 35.33%
 investigation_board          4 / 900 = 0.44%
 Science choice_grid          56 / 100
 Logic choice_grid            52 / 100
+activity quality            900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE
+structural findings           0
 ```
 
 If merged unchanged, remaining distance becomes **22 patterns to minimum 50** and **32 to working target 60**.
@@ -53,32 +57,44 @@ If merged unchanged, remaining distance becomes **22 patterns to minimum 50** an
 
 ### CI #611 / run `34983143311` — rejected on real 320px layout defect
 
-All non-browser gates passed: Ubuntu engine/static regressions, deterministic activity-quality, gameplay distribution, simulations, Batch17, Windows compatibility, production build, dependency audit, and secret scan. The permanent classifier/test coverage therefore validated the exact four-ID scope and matching exclusion.
+All non-browser gates passed. Mobile Chromium correctly blocked acceptance because at 320x720 the idle feedback card was not fully inside the viewport. The strict visibility assertion was retained; the implementation was fixed instead of weakening the test.
 
-Mobile Chromium correctly blocked acceptance at the dedicated Investigation Board browser regression. At 320x720 the idle feedback card was not fully inside the viewport. The failure happened before wrong/correct interaction, so CI #611 is diagnosis evidence only and is not an accepted implementation run.
+### Final mobile fix and accepted implementation head
 
-Correct fix:
-- keep process rail, scenario board, focus cue, all three canonical choices, feedback and evidence semantics unchanged;
-- at phone widths <=360px hide only the redundant intro card because the Garden activity frame already exposes the canonical activity title/narration;
-- keep touch targets unchanged;
-- compact board spacing slightly;
-- retain the strict idle/retry/success visibility assertions rather than weakening the test.
+The final phone layout fix is commit `837c3b8ec46ed4a9bfc17a777adeb86dcbffcdc4`.
 
-Responsive fix commit: `062e451a062c2df827c4b44e8c61e216c3376029`.
+The fix preserves the process rail, scenario evidence, focus cue, all three canonical choices, completion/evidence semantics and >=44px interactive touch targets. It compacts redundant/non-interactive mobile presentation so idle/retry/success feedback remains fully visible.
 
-## Required QA gates
+CI #614 / run `34987172569` completed successfully on that exact implementation head:
+- Ubuntu quality gate passed typecheck, lint, engine/static regressions, activity-quality audit, gameplay-distribution audit, simulations and Batch17 acceptance;
+- Windows compatibility passed typecheck, lint and engine tests;
+- production build and JS/lazy-load budgets passed;
+- production dependency audit passed;
+- full Git-history secret scan passed;
+- Mobile route QA passed its complete canonical route/accessibility/lazy-load matrix, including the dedicated Investigation Board browser regression;
+- Cloudflare production smoke was skipped by PR conditions, not failed.
 
-Before this wave may be called QA accepted:
-1. exact-family static regression proves exactly four choice IDs and preserves canonical runtime, assessment, skill, choices and `correctChoice`;
-2. `science-match-observation-tools-d` remains canonical `visible_matching`;
-3. permanent gameplay-presentation regression keeps the exact four-ID allowlist and default-family guard;
-4. gameplay-distribution audit verifies 28 patterns, 900/900 classified, zero unclassified, `choice_grid` 318/900, Science 56/100 and Logic 52/100;
-5. deterministic activity-quality remains 900 KEEP / zero flagged / structural findings 0;
-6. simulations and Batch17 remain clean;
-7. representative browser QA passes 320x720, 390x844 and 768x1024 with legitimate progression readiness, keyboard wrong-state, pointer completion, exact choices, >=44px touch targets, no horizontal overflow, fully visible idle/retry/success feedback + CTA, assessed evidence, and zero console/page errors;
-8. generated idle/try/success screenshots are manually reviewed at all three viewports;
-9. full implementation-head CI is green;
-10. canonical docs are then finalized as QA accepted / unmerged and re-tested on a fresh exact docs-head CI;
-11. implementation exact-head merge + live-main verification and a separate docs-only closure CI/gate/merge are required before Pattern #28 is called fully closed.
+Permanent CI artifacts verify 900/900 classified activities, 28 active patterns, `choice_grid` 318/900, `investigation_board` 4/900, and deterministic activity quality of 900 KEEP with zero POLISH/REDESIGN/REPLACE and zero structural findings.
 
-This document intentionally does not claim acceptance or merge before those gates pass.
+Manual review accepted all nine generated Investigation Board screenshots:
+- 320x720 — idle / try / success;
+- 390x844 — idle / try / success;
+- 768x1024 — idle / try / success.
+
+The reviewed states keep content readable and in viewport with no horizontal clipping, preserve the canonical choices, clearly expose wrong/correct feedback, and keep the success CTA visible.
+
+## QA gate result
+
+1. exact-family static regression proves exactly four choice IDs and preserves canonical runtime, assessment, skill, choices and `correctChoice` — **PASS**;
+2. `science-match-observation-tools-d` remains canonical `visible_matching` — **PASS**;
+3. permanent gameplay-presentation regression keeps the exact four-ID allowlist and default-family guard — **PASS**;
+4. gameplay-distribution audit verifies 28 patterns, 900/900 classified, zero unclassified, `choice_grid` 318/900, Science 56/100 and Logic 52/100 — **PASS**;
+5. deterministic activity-quality remains 900 KEEP / zero flagged / structural findings 0 — **PASS**;
+6. simulations and Batch17 remain clean — **PASS**;
+7. representative browser QA passes 320x720, 390x844 and 768x1024 with legitimate progression readiness, keyboard wrong-state, pointer completion, exact choices, >=44px touch targets, no horizontal overflow, fully visible idle/retry/success feedback + CTA, assessed evidence, and zero console/page errors — **PASS**;
+8. generated idle/try/success screenshots manually reviewed at all three viewports — **PASS**;
+9. full implementation-head CI #614 is green — **PASS**;
+10. canonical docs are finalized by this commit as QA accepted / unmerged — **PENDING fresh exact docs-head CI**;
+11. implementation exact-head merge + live-main verification and a separate docs-only closure CI/gate/merge remain required before Pattern #28 is called fully closed.
+
+Pattern #28 is therefore **QA ACCEPTED but still UNMERGED**. Do not call it fully closed until the fresh docs-head CI passes, PR #135 is exact-head merged and independently verified on live `main`, and the post-merge closure record is merged.
