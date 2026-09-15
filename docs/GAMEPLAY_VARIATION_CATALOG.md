@@ -34,58 +34,59 @@
 17. `pattern_completion` — **MERGED PR #110**
 
 Permanent gameplay-distribution audit: **MERGED PR #105**.  
-Latest gameplay merge: PR #110 `6c5566ea9465a26399f9c4637f252d316552636d`.
+Merged baseline before active PR #112: `main` @ `06477dbc8fc4d2c4f990b19f2edb3e217b3e26ae`.
 
-### Pattern Completion — DONE / PR #110
+### Pattern #18 in accepted QA: `cause_effect` / PR #112
 
-Exact scope: 5 Math Wave B choice activities:
+Exact scope: four Science Wave B water-change choice activities:
 
 ```text
-math-pattern-ab-shapes
-math-pattern-aab-colors
-math-pattern-number-step-one
-math-pattern-number-step-two
-math-pattern-size
+science-water-ice-melts
+science-water-freezes
+science-water-puddle-evaporates
+science-water-cold-glass-droplets
 ```
 
 Excluded intentionally:
-- `math-pattern-match-ab`
-- `math-pattern-match-aab`
+- `science-match-water-states-b`
 
-Keduanya tetap `matching` / `visible_matching` karena evidence dan interaction contract-nya berbeda.
+The excluded activity remains canonical `matching` / `visible_matching` because its interaction/evidence contract differs.
 
 Boundaries:
-- stage `math-banding-bentuk`, lesson pattern sequences, skill `math.pattern.sequence`;
-- observed pattern dan repeating/step rule dikonfigurasi eksplisit per activity, bukan diparsing dari prompt;
-- canonical 3 choices tetap dipakai;
-- wrong answer dapat mengisi slot sebagai feedback tetapi **tidak** complete;
-- runtime tetap `tap_choice`;
-- choices, correctChoice, skill, assessment, stars, progression, activity ID, dan completion identity tetap canonical;
-- assessed fidelity `choice_pattern_completion_interaction`;
-- exact five-ID allowlist mencegah matching family atau Math family lain ikut ter-route.
+- stage/lesson family: Science Wave B water-state changes;
+- assessed skill `science.water.state_changes.basic`;
+- explicit per-activity process config, no prompt parsing;
+- child-facing flow is **Awal -> Kondisi -> Hasil**;
+- result remains unrevealed before a choice;
+- canonical three choices and correctChoice remain intact;
+- wrong answer is retryable and cannot complete;
+- runtime remains `tap_choice`;
+- assessment, stars, progression, activity identity, and completion identity remain canonical;
+- assessed fidelity `choice_cause_effect_interaction`;
+- exact four-ID allowlist prevents unrelated Science families from reclassification.
 
-Accepted QA:
-- implementation CI #503 full green;
-- final docs-head CI #508 full green;
-- browser representative `math-pattern-aab-colors` memakai legitimate previous-stage readiness;
-- pattern `🔴 🔴 🔵 🔴 🔴 ?`, choices `🔴/🔵/🟡`, keyboard wrong-state, false-completion guard, pointer completion, evidence persistence, >=44px controls, no overflow, dan success CTA lolos;
-- manual visual review idle/error/success pada 320, 390, 768 accepted;
-- deterministic audit tetap **900 KEEP / 0 flagged**, structural findings 0.
+Accepted implementation QA at head `ad5f427afc9cb0c755872ee88588534066942d47`:
+- CI #513 full green across Ubuntu, Windows, production build, dependency audit, secret-history scan, and Mobile Chromium;
+- representative route `science-water-ice-melts` uses legitimate Science Wave A progression readiness;
+- keyboard wrong-state, false-completion guard, pointer completion, evidence persistence, >=44px controls, no overflow, and success CTA visibility pass;
+- CI #512 caught a real 320x720 CTA clipping issue; compact layout was fixed and #513 passed the same assertion;
+- manual visual review accepted idle/error/success at 320x720, 390x844, and 768x1024;
+- deterministic audit at the accepted head remains **900 KEEP / 0 flagged**, structural findings 0.
 
-Merged distribution after PR #110:
+Accepted PR #112 QA distribution:
 
 ```text
 900 / 900 classified
 0 unclassified
-17 active child-facing patterns
-choice_grid          366 / 900 = 40.67%
-pattern_completion     5 / 900 = 0.56%
+18 active child-facing patterns
+choice_grid          362 / 900 = 40.22%
+cause_effect           4 / 900 = 0.44%
 Math choice_grid       56 / 100
-Science choice_grid    79 / 100
+Science choice_grid    75 / 100
 Logic choice_grid      77 / 100
 ```
 
-Math sekarang di bawah subject-hotspot threshold >60%. Prioritas audit berpindah ke Science dan Logic.
+`cause_effect` is **not merged yet** in this document state. Final docs-head CI and exact-head merge remain required.
 
 ## 60 pola permainan target
 
@@ -155,7 +156,7 @@ Math sekarang di bawah subject-hotspot threshold >60%. Prioritas audit berpindah
 ### J. Science & logic exploration
 46. `classify_observation`
 47. `predict_result`
-48. `cause_effect` — **NEXT REVIEW: Science Wave B water changes**
+48. `cause_effect` — **PR #112 ACCEPTED QA / PENDING MERGE**
 49. `compare_properties`
 50. `observation_checklist`
 
@@ -196,8 +197,9 @@ Prinsip alokasi:
 7. Number Line — **DONE / #108**.
 8. More/Less Balance — **DONE / #109**.
 9. Pattern Completion — **DONE / #110**.
-10. Next exact review: Science `cause_effect` for the coherent Wave B water-change family; then continue Science hotspot audit.
-11. Audit Logic families after Science; continue search/audio/puzzle/literacy/creative/story based on objective fit and distribution.
+10. Cause/Effect — **IMPLEMENTATION QA ACCEPTED / #112; merge gates remain**.
+11. After #112 merges, run another exact-family Science audit because Science remains at 75% `choice_grid`; choose the next mechanic only from objective fit, not quota pressure.
+12. Audit Logic families after Science; continue search/audio/puzzle/literacy/creative/story based on objective fit and distribution.
 
 ## Definition of done per mechanic
 
