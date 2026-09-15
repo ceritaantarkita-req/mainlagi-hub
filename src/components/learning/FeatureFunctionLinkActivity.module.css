@@ -95,6 +95,7 @@
   display: flex;
   align-items: center;
   min-width: 54px;
+  pointer-events: none;
 }
 
 .connectorDot {
