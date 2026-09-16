@@ -24,32 +24,17 @@ Deterministic zero does **not** mean every activity is human-approved or maximal
 
 ## WS-05 gameplay diversification
 
-Fully merged waves through verified Pattern #30 include `symbol_hunt`, `memory_pair`, `missing_sequence_slot`, `sorting_buckets`, `drag_to_target`, `count_and_select`, `number_line`, `more_less_balance`, `pattern_completion`, `cause_effect`, `compare_properties`, `material_lab`, `feature_function_link`, `healthy_habit_routine`, `rule_pipeline`, `odd_one_out`, `transitive_chain`, `set_reasoning`, `spatial_transform`, `investigation_board`, `relative_order_track`, and `syllable_assembly`.
-
-Pattern #30 `syllable_assembly` is fully closed through implementation PR #139 and closure PR #140; final verified `main` is `53667560d72ca4cfe3556bc59411a71c53a84834`, with CI #655 / run `35005253923` full success including Cloudflare production smoke.
+Gameplay waves through Pattern #31 implementation are now merged on `main`. Pattern #30 `syllable_assembly` remains fully closed through PR #139 + #140. Pattern #31 `make_total` implementation is merged through PR #141; docs-only closure PR #142 is the final closure gate.
 
 Current verified merged distribution:
 
 ```text
 900 / 900 classified
 0 unclassified
-30 active merged patterns
-choice_grid                 308 / 900 = 34.22%
-syllable_assembly             5 / 900 = 0.56%
-Bahasa choice_grid           47 / 100
-Math choice_grid             56 / 100
-Science choice_grid          56 / 100
-Logic choice_grid            47 / 100
-```
-
-Pattern #31 `make_total` is **QA ACCEPTED / UNMERGED** on PR #141. Accepted PR-head distribution:
-
-```text
-900 / 900 classified
-0 unclassified
-31 active PR-head patterns
+31 active merged patterns
 choice_grid                 303 / 900 = 33.67%
 make_total                    5 / 900 = 0.56%
+syllable_assembly             5 / 900 = 0.56%
 Math choice_grid             51 / 100
 Bahasa choice_grid           47 / 100
 Science choice_grid          56 / 100
@@ -60,7 +45,7 @@ Iqro choice_grid             58 / 100
 
 Concentration remains advisory and does not itself create POLISH/REDESIGN findings.
 
-## Make Total — Pattern #31 QA acceptance record
+## Make Total — Pattern #31 merged closure record
 
 Exact scope:
 
@@ -93,15 +78,18 @@ Interaction/evidence contract:
 - assessed fidelity `choice_make_total_interaction`;
 - runtime metadata source `make-total-runtime`.
 
-Acceptance chain so far:
-- CI #656 / run `35042089820` caught a real 320x720 viewport defect: the idle feedback was below the visible viewport;
-- the fix compacted only the narrow/short layout while keeping choice targets >=48px and retaining the strict viewport assertion;
-- accepted implementation head `4b513676c9029fbb7a788a49175ed02954f0d2f7` passed full CI #657 / run `35042439233`;
-- full CI passed central + dedicated Make Total regressions, Ubuntu, Windows, production build, dependency/secret audits, simulations, Batch17 and Chromium mobile/accessibility/browser QA;
-- manual idle/wrong/success screenshot review at 320x720, 390x844 and 768x1024 passed all nine states;
+Acceptance and merge chain:
+- CI #656 / run `35042089820` caught a real 320x720 viewport defect: idle feedback was below the visible viewport;
+- the responsive fix kept choice targets >=48px and retained the strict viewport assertion;
+- implementation QA head `4b513676c9029fbb7a788a49175ed02954f0d2f7` passed full CI #657 / run `35042439233`;
+- all nine 320x720, 390x844 and 768x1024 idle/wrong/success states passed manual visual review;
+- final implementation docs head `7230d87fb5c53d6e164465aa3353531228b8f4c6` passed full CI #662 / run `35043111245`;
+- PR #141 passed the clean exact-head merge gate and squash merged as `de358c3e6610c3ae9b8669ce3df3b0f2a95e3136`;
+- `main` was independently verified at that exact SHA;
+- post-merge `main` CI #663 / run `35044172180` passed Ubuntu, Windows, production build, dependency audit, secret-history scan, Chromium mobile/accessibility/browser QA, deterministic quality/distribution audits, simulations, Batch17 and Cloudflare production smoke;
 - deterministic quality remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**.
 
-Pattern #31 is not fully closed until PR #141 receives fresh exact final docs-head CI, exact-head merge/live verification, and the separate docs-only closure is also merged and verified.
+Pattern #31 is **MERGED / CLOSURE PR #142 PENDING**. It becomes fully closed only after PR #142 passes exact-head CI, clean review/thread/mergeability gate, exact-head merge, independent final `main` verification, and post-closure `main` CI including Cloudflare production smoke.
 
 ## Permanent audits
 
@@ -118,9 +106,10 @@ CI uploads both artifacts. Gameplay-distribution coverage and active-pattern-set
 - WS-06 Coloring DONE — PR #95/#96.
 - WS-07 Drawing DONE — PR #98/#99/#100.
 - WS-05 gameplay waves through Syllable Assembly DONE — Pattern #30 fully closed via #139 + #140.
-- WS-05 Make Total — **QA ACCEPTED / UNMERGED PR #141**.
-- WS-05 NEXT after Pattern #31 closure — fresh Pattern #32 objective/evidence audit; no family pre-approved.
+- WS-05 Make Total implementation — **MERGED PR #141 / LIVE VERIFIED**.
+- WS-05 Make Total closure — **PR #142 PENDING**.
+- WS-05 NEXT after Pattern #31 full closure — fresh Pattern #32 objective/evidence audit; no family pre-approved.
 
 ## Completion rule
 
-Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #31 itself remains unclosed until its implementation and required post-merge docs closure are both exact-head merged and independently verified live on `main`.
+Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #31 itself remains unclosed until closure PR #142 is exact-head merged and independently verified live on `main` with final Cloudflare smoke success.
