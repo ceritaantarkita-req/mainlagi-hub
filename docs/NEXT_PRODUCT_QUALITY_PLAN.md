@@ -1,25 +1,21 @@
 # NEXT PRODUCT QUALITY PLAN
 
-> Canonical execution plan fase product-quality Mainlagi Hub. Semua human/AI agent wajib membaca dokumen ini, `CURRENT_STATE.md`, `ARCHITECTURE.md`, dan `GAMEPLAY_VARIATION_CATALOG.md` sebelum mengubah learning experience.
+> Canonical execution plan fase product-quality Mainlagi Hub. Semua human/AI agent wajib membaca dokumen ini, `CURRENT_STATE.md`, `ARCHITECTURE.md`, `MAINLAGI_ART_BIBLE.md`, dan `GAMEPLAY_VARIATION_CATALOG.md` sebelum mengubah learning experience.
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 **Canonical branch:** `main`  
-**Latest fully closed gameplay:** Pattern #36 — Bahasa `sentence_order_cards`  
-**Current merged gameplay:** Pattern #37 — Bahasa `reading_passage_question`  
-**Pattern #37 implementation PR:** #153 — merged  
-**Pattern #37 final implementation head:** `25baa6f103f4e3bb309fae8f0078c9fb099b9ab6`  
-**Pattern #37 exact-head CI:** #738 / run `35097844249` — success  
-**Pattern #37 merge SHA:** `6a6f99ccb3a733af4e298ed8c48452e019f9980c`  
-**Pattern #37 post-merge CI:** #739 / run `35098428328` — full success including exact Cloudflare production smoke  
-**Pattern #37:** **IMPLEMENTATION MERGED / LIVE VERIFIED; DOCS-ONLY CLOSURE IN PROGRESS**  
-**Current product sequencing:** close #37 -> production visual/product baseline audit -> Pattern #38  
+**Latest fully closed gameplay:** Pattern #37 — Bahasa `reading_passage_question`  
+**Pattern #37 final verified main:** `b1793adaabe19a9c73e021534899f8b50c4097f6`  
+**Pattern #37 final CI:** #741 / run `35103399012` — full success including exact Cloudflare production smoke  
+**Current product gate:** **Production Visual / Product Baseline + P1 remediation**  
+**Pattern #38:** **BLOCKED until P0=0 / P1=0 and permanent visual QA is green**  
 **Principle:** **Quality first. Quantity later.**
 
 ## Product goal
 
-Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menarik, visualnya konsisten, interaction-nya beragam, dan evidence/mastery-nya dapat dipercaya. Target WS-05 adalah minimum **50**, working target **60 meaningful gameplay patterns** melalui reusable interaction engines.
+Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menarik, visualnya konsisten, interaction-nya beragam, dan evidence/mastery-nya dapat dipercaya. WS-05 remains targeted at minimum **50**, working target **60 meaningful gameplay patterns**, but gameplay diversification must not outrun the product shell.
 
-Gameplay diversification must not outrun the product shell. The production visual/product baseline is therefore a required checkpoint before Pattern #38; after that checkpoint, WS-08 visual QA runs in parallel with WS-05.
+The accepted Garden activity direction is the child-facing visual anchor. The current checkpoint is to make the rest of the product converge toward one coherent Mainlagi family and to install a permanent visual gate before Pattern #38.
 
 ## Mandatory rules
 
@@ -30,28 +26,29 @@ Gameplay diversification must not outrun the product shell. The production visua
 5. Jangan membuat drag-only interaction; fallback accessible wajib tersedia bila relevan.
 6. Gameplay-distribution coverage/pattern-set regression adalah blocking; concentration hanya planning signal.
 7. Code merged tanpa canonical docs yang current = pekerjaan belum selesai.
-8. Work tidak boleh disebut fully closed sebelum exact-head implementation merge, live `main` verification, dan required post-merge closure selesai.
-9. Deployment smoke tidak sama dengan whole-product visual acceptance; public, child, parent/account/auth and system states need their own cross-surface QA.
-10. Future WS-05 work must preserve the visual baseline once established.
+8. Deployment smoke tidak sama dengan whole-product visual acceptance.
+9. Public, child, parent/account/auth and system states must preserve the canonical Art Bible once migrated.
+10. A visual QA screenshot is invalid if the route silently redirected away from the expected pathname.
+11. Pattern #38 cannot start while any baseline P0/P1 finding remains open.
 
 ## Workstream status
 
 | Workstream | Status | Current note |
 |---|---|---|
-| WS-01 Canonical docs | DONE / maintained | Pattern #37 closure docs in progress |
+| WS-01 Canonical docs | DONE / maintained | #37 fully closed; visual baseline docs active |
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
-| WS-03 Public/parent frontend | TODO / queued | production audit will define exact backlog |
+| WS-03 Public/parent frontend | **IN_PROGRESS via baseline remediation** | parent/public/auth/account backlog defined |
 | WS-04 Activity audit/redesign | deterministic clean | 900 KEEP / 0 flagged |
-| WS-05 Gameplay diversification | IN_PROGRESS | 37 merged patterns; #37 closure pending |
+| WS-05 Gameplay diversification | **PAUSED AT 37** | Pattern #38 waits for visual gate |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
-| WS-08 Art direction / visual QA | **NEXT PRODUCT CHECKPOINT** | production baseline + Art Bible + permanent visual gate |
-| WS-09 Stage/gallery UX | DONE / re-audit in production baseline | PR #89/#90 |
+| WS-08 Art direction / visual QA | **PRIMARY / IN_PROGRESS** | Art Bible v1 + permanent gate + P1 fixes |
+| WS-09 Stage/gallery UX | DONE / P1 convergence required | progression correct; visual hierarchy needs convergence |
 | WS-10 External acceptance | TODO | real devices, accessibility, Iqro expert |
 | WS-11 Governance | TODO | required checks/review discipline |
 | WS-12 Technical cleanup | TODO LATER | after product quality stabilizes |
 
-## Verified merged gameplay baseline
+## Verified gameplay baseline
 
 ```text
 900 / 900 classified
@@ -59,102 +56,113 @@ Gameplay diversification must not outrun the product shell. The production visua
 37 active merged patterns
 choice_grid                    277 / 900 = 30.78%
 reading_passage_question         5 / 900 = 0.56%
-sentence_order_cards              5 / 900 = 0.56%
-picture_word_match                5 / 900 = 0.56%
-Bahasa choice_grid                29 / 100
+sentence_order_cards             5 / 900 = 0.56%
+picture_word_match               5 / 900 = 0.56%
+Bahasa choice_grid               29 / 100
 ```
 
-Distance remaining: **13 patterns** to minimum 50 and **23 patterns** to working target 60.
+Distance remaining after the visual checkpoint: **13 patterns** to minimum 50 and **23** to working target 60.
 
-## Pattern #37 — Bahasa Reading Passage Question — MERGED / LIVE VERIFIED
+## Pattern #37 — FULLY CLOSED
 
-Exact scope:
+Implementation PR #153 and closure PR #154 are complete. Final verified `main` is `b1793adaabe19a9c73e021534899f8b50c4097f6`; final CI #741 / run `35103399012` passed the full matrix including exact Cloudflare production smoke.
+
+No further #37 code/docs closure is required.
+
+## Production visual/product baseline
+
+Canonical audit: `PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md`.  
+Canonical visual rules: `MAINLAGI_ART_BIBLE.md`.
+
+Current audit result:
 
 ```text
-bahasa-baca-lala-kucing
-bahasa-baca-dodi-sepeda
-bahasa-baca-nina-bunga
-bahasa-baca-raka-sarapan
-bahasa-baca-sari-hujan
+P0 findings: 0
+P1 findings: 5
+P2 findings: 3
+Garden representative activities: ACCEPTED anchor
+Whole-product visual acceptance: NOT YET ACCEPTED
 ```
 
-Canonical boundaries:
-- subject `bahasa`;
-- stage `bahasa-kalimat-pemahaman`;
-- lesson `bahasa-bacaan-pendek`;
-- pack `bahasa.pack.bacaan-pendek`;
-- skill `bahasa.bacaan.short_comprehension`;
-- assessed runtime remains `tap_choice`;
-- exactly three canonical answer choices, same order and unchanged `correctChoice`;
-- all non-scope families, content, activity IDs, assessment, stars, mastery, progression, schema and migrations remain unchanged.
+### P1 backlog
 
-Verified chain:
-- implementation base `461b0fd59a6c238752aa858bf783716b225b548a`;
-- final implementation head `25baa6f103f4e3bb309fae8f0078c9fb099b9ab6`;
-- exact-head CI #738 / run `35097844249` — success;
-- PR #153 squash merge `6a6f99ccb3a733af4e298ed8c48452e019f9980c`;
-- independent `main` CI #739 / run `35098428328` — full success including exact Cloudflare production smoke;
-- all nine dedicated responsive idle/wrong/success screenshots accepted;
-- deterministic quality remains 900 KEEP / 0 flagged / structural findings 0;
-- merged distribution is 900/900 classified with 37 active patterns.
+**VBASE-P1-01 — visual-token fragmentation**  
+Garden/Playroom, `LearningPlatform.module.css`, and `globals.css` currently express different product languages.
 
-Remaining #37 work is docs-only closure: fresh closure-head full CI -> clean exact-scope/review/thread/mergeability gate -> exact-head squash merge -> final independent `main` CI + exact Cloudflare production smoke. Only then may #37 be called **FULLY CLOSED**.
+**VBASE-P1-02 — parent-report density/jargon**  
+Underlying evidence is trustworthy, but primary parent presentation exposes internal analytics terminology and generic dashboard density.
 
-## Production visual/product baseline audit — required before Pattern #38
+**VBASE-P1-03 — stage/readiness hierarchy**  
+Tablet/desktop stage layout is structurally correct but underuses available space and weakly distinguishes progress, recommendation and lesson grouping.
 
-### Scope
+**VBASE-P1-04 — public/adult entry IA**  
+Root currently behaves primarily as child playroom/fast-resume. Clean-session adult/public value proposition and parent-vs-child entry need an explicit contract.
 
-Audit production behavior and visual consistency across:
-- public/home entry;
-- child profile selection;
-- child home/playroom;
-- subject/gallery;
-- stage/readiness/locked/progress states;
-- representative activity families;
-- rewards;
-- parent dashboard;
-- account;
-- login/register/forgot-password/auth states;
-- loading, error, empty and offline/degraded states where applicable;
-- header, nav, menus and back-navigation;
-- desktop, tablet and mobile breakpoints.
+**VBASE-P1-05 — permanent visual QA coverage gap**  
+Current screenshots are strong for gameplay but do not cover enough shell/auth/account/rewards/system states to make whole-product visual drift blocking.
 
-### Evaluation axes
+## Active remediation waves
 
-For every surface, check:
-- information and visual hierarchy;
-- child/family tone and consistency with Garden direction;
-- typography scale and density;
-- spacing/grid consistency;
-- radius, shadows and surface language;
-- icon/illustration/character usage;
-- CTA priority and button consistency;
-- responsive reflow and scroll length;
-- clipping/overflow;
-- focus states, accessible naming, target sizes and keyboard behavior;
-- loading/error/empty-state clarity;
-- route correctness and progression redirects.
+### VQA-01 — Permanent visual baseline gate — NEXT IMPLEMENTATION
 
-### Required outputs
+Required:
+- deterministic fixtures/profile/readiness where needed;
+- exact pathname assertion before capture;
+- stable screenshot names;
+- minimum viewports 390x844, 768x1024, 1280x800;
+- 320px supplemental for high-risk child/activity controls;
+- representative routes: public root clean state, child select, child home, subject/gallery, stage, representative Garden activities, rewards, parent report, account, login/auth state, not-found/empty/error/degraded representative states;
+- screenshots uploaded from CI;
+- no false PASS from progression redirects.
 
-1. Route/surface inventory and viewport matrix.
-2. P0/P1/P2 findings with evidence.
-3. Approved visual baseline screenshots for representative surfaces.
-4. Art Bible/design-system rules covering typography, colors, spacing, cards, buttons, icons, characters, states and responsive behavior.
-5. Permanent screenshot/visual regression gate for stable representative routes.
-6. Explicit backlog for WS-03 public/parent frontend and WS-08 visual QA.
-7. Fix + re-test loop until no P0/P1 visual/product blockers remain.
+### VUI-01 — Parent report convergence
 
-Known direction from current evidence: Garden gameplay samples are the child-facing visual anchor; parent/account/public surfaces need consistency review so they do not drift into a generic SaaS/dashboard feel; full activity-route QA must detect progression redirects instead of false-pass counting.
+Preserve metrics/mastery/evidence semantics. Change only presentation hierarchy and parent-facing language where appropriate. Technical evidence vocabulary belongs in secondary/diagnostic detail, not the first reading layer.
 
-## Definition of Done
+### VUI-02 — Stage/gallery convergence
 
-A mechanic is complete only when implementation, typecheck/lint/build, engine tests, activity-quality audit, gameplay-distribution audit, routes, progression, evidence, accessibility, mobile UX, screenshot review, canonical docs, exact-head CI, review-thread checks, exact-head merge, live-main verification, and required post-merge closure are current.
+Improve Garden continuity, tablet/desktop composition, readiness/progress hierarchy and recommended-state emphasis. Do not alter stage gates or completion requirements.
 
-The broader product-quality phase is complete only after:
+### VUI-03 — Public/auth/account convergence
+
+Define clean-session root behavior, adult/public overview/trust context and explicit parent-vs-child path. Migrate auth/account utility surfaces away from generic legacy dialog styling into the canonical family system.
+
+### VUI-04 — Game shell convergence — P2 after P1
+
+Retain dark camera runtime where functionally useful, but align game catalog/detail/preflight navigation and metadata with Mainlagi.
+
+## Art Bible gate
+
+`MAINLAGI_ART_BIBLE.md` is canonical for new product-surface visual work. Core rules include:
+- cream paper + navy ink + green primary CTA;
+- Nunito Variable for family-facing product UI with Noto fallback/script support;
+- stable spacing/radius/elevation scale;
+- >=44px minimum targets, 52–56px preferred child targets;
+- Mainlagi Icon/LearningSymbol before raw emoji for permanent semantic UI;
+- Garden characters/art used purposefully, never blocking task content;
+- explicit idle/wrong/success/locked/loading/empty/error states;
+- phone/tablet/desktop visual regression evidence.
+
+Do not mass-rewrite already accepted Garden activity mechanics merely to centralize CSS.
+
+## Definition of Done for visual checkpoint
+
+The baseline checkpoint is complete only when:
+- permanent VQA-01 is merged and runs in CI;
+- every baseline P1 finding is fixed or explicitly reclassified with evidence;
+- visual matrix is green at 390 / 768 / 1280 plus required supplemental viewports;
+- Art Bible is current with implemented reality;
+- no route capture passes via unintended redirect;
+- final `main` CI + exact Cloudflare smoke are green;
+- canonical docs record **P0=0 / P1=0**.
+
+Only then may Pattern #38 begin.
+
+## Broader quality-phase completion
+
+The overall product-quality phase remains open until:
 - gameplay diversity reaches an accepted endpoint toward 50–60 meaningful patterns;
-- production visual/product acceptance is current across public/child/parent/account/auth/system states;
-- Art Bible/permanent visual QA exists;
+- visual/product acceptance is current across public/child/parent/account/auth/system states;
 - narration/voice work is addressed;
 - external real-device/accessibility acceptance is complete;
 - Iqro expert acceptance is complete;
@@ -164,15 +172,15 @@ The broader product-quality phase is complete only after:
 
 ## Current execution order
 
-1. Finish Pattern #37 separate docs-only closure from exact implementation merge `6a6f99ccb3a733af4e298ed8c48452e019f9980c`.
-2. Run the production visual/product baseline audit and record P0/P1/P2 backlog.
-3. Fix P0/P1 visual/product findings and establish/update WS-08 Art Bible + permanent visual QA.
-4. Run a fresh objective/evidence audit for Pattern #38; no family is pre-approved.
-5. Continue WS-05 toward 50–60 patterns while WS-08 visual QA runs in parallel.
-6. Execute WS-02 narration and WS-03 public/parent improvements using the audited baseline.
-7. Complete WS-10 external acceptance and WS-11 governance.
-8. Run WS-12 technical cleanup only after product quality is stable.
-9. Run final production end-to-end acceptance: fresh user -> profile -> subject -> activity wrong/retry/success -> mastery/progress -> rewards -> parent report -> account/auth journey.
-10. Final canonical docs + exact Cloudflare release verification, then close the quality phase.
+1. Merge this visual baseline + Art Bible docs from exact fully closed Pattern #37 main.
+2. Implement **VQA-01 permanent visual baseline gate**.
+3. Implement **VUI-01 parent report** and re-run baseline.
+4. Implement **VUI-02 stage/gallery** and re-run baseline.
+5. Implement **VUI-03 public/auth/account** and re-run baseline.
+6. Close P1 findings and verify exact production release.
+7. Run fresh objective/evidence audit for Pattern #38; no family is pre-approved.
+8. Continue WS-05 toward 50–60 while permanent WS-08 visual QA runs in parallel.
+9. Continue WS-02, WS-10, WS-11 and later WS-12 cleanup.
+10. Final end-to-end production acceptance and canonical closure.
 
-Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion, or major mastery/backend rewrites during this quality phase.
+Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.

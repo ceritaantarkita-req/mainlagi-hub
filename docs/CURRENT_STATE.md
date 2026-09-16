@@ -11,24 +11,24 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - production: `https://mainlagihub.my.id/`
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - source licence: `AGPL-3.0-only`
-- latest fully closed gameplay: **Pattern #36 — Bahasa `sentence_order_cards`**
-- current merged gameplay: **Pattern #37 — Bahasa `reading_passage_question`**
-- Pattern #37 implementation PR: **#153 — MERGED**
-- final implementation PR head: `25baa6f103f4e3bb309fae8f0078c9fb099b9ab6`
-- final implementation PR CI: **#738 / run `35097844249` — success**
-- implementation merge on `main`: `6a6f99ccb3a733af4e298ed8c48452e019f9980c`
+- latest fully closed gameplay: **Pattern #37 — Bahasa `reading_passage_question`**
+- Pattern #37 implementation PR: **#153 — merged**
+- final implementation head: `25baa6f103f4e3bb309fae8f0078c9fb099b9ab6`
+- implementation exact-head CI: **#738 / run `35097844249` — success**
+- implementation merge: `6a6f99ccb3a733af4e298ed8c48452e019f9980c`
 - post-implementation `main` CI: **#739 / run `35098428328` — full success including exact Cloudflare production smoke**
-- Pattern #37 status: **IMPLEMENTATION MERGED / LIVE VERIFIED; DOCS-ONLY CLOSURE IN PROGRESS**
+- Pattern #37 closure PR: **#154 — merged**
+- Pattern #37 final verified `main`: `b1793adaabe19a9c73e021534899f8b50c4097f6`
+- Pattern #37 final CI: **#741 / run `35103399012` — full success including exact Cloudflare production smoke**
+- current product task: **Production Visual / Product Baseline + P1 remediation**
 
 ## Engineering status
 
 No known P0 engineering blocker is open on merged `main`.
 
-Pattern #37 is now part of canonical `main`. PR #153 was squash-merged from exact final head `25baa6f103f4e3bb309fae8f0078c9fb099b9ab6` to `6a6f99ccb3a733af4e298ed8c48452e019f9980c`. Exact-head PR CI #738 passed, then independent push CI #739 on the merge SHA passed the complete matrix including **Production smoke (Cloudflare)**.
+Pattern #37 is **FULLY CLOSED**. Its implementation and separate docs-only closure both passed exact-head merge discipline and independent `main` verification including exact Cloudflare production smoke.
 
-Pattern #37 is not yet **FULLY CLOSED** because the separate docs-only closure chain is still required. No gameplay/code/schema change belongs in that closure.
-
-External physical-device acceptance, accessibility-specialist review, human art/pedagogical acceptance, and Iqro expert acceptance remain separate and incomplete. Physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
+External physical-device acceptance, accessibility-specialist review, human pedagogical/art acceptance and Iqro expert acceptance remain separate and incomplete. Physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
 
 ## Learning/catalog baseline
 
@@ -39,8 +39,6 @@ Runtime count is not gameplay-pattern count.
 ## Gameplay variation state
 
 Target: minimum **50**, working target **60 meaningful patterns**.
-
-Merged `main` now has:
 
 ```text
 classified:                    900 / 900
@@ -65,7 +63,7 @@ REPLACE                  0
 structural findings      0
 ```
 
-## Pattern #37 `reading_passage_question` — MERGED / LIVE VERIFIED
+## Pattern #37 `reading_passage_question` — FULLY CLOSED
 
 Exact scope:
 
@@ -77,45 +75,39 @@ bahasa-baca-raka-sarapan
 bahasa-baca-sari-hujan
 ```
 
-Canonical boundaries remain unchanged:
-- subject `bahasa`;
-- stage `bahasa-kalimat-pemahaman`;
-- lesson `bahasa-bacaan-pendek`;
-- pack `bahasa.pack.bacaan-pendek`;
-- skill `bahasa.bacaan.short_comprehension`;
-- assessed runtime remains `tap_choice`;
-- exactly three canonical answer choices with unchanged order and `correctChoice`;
-- content, IDs, stars, assessment, mastery, progression, schema and migrations remain unchanged.
+Canonical content, answer order, `correctChoice`, skill `bahasa.bacaan.short_comprehension`, assessment, stars, mastery, progression, schema and migrations remain unchanged. Presentation fidelity is `choice_reading_passage_question_interaction`; runtime source is `reading-passage-question-runtime` with canonical `selectedChoice`.
 
-Interaction/evidence contract:
-- the existing canonical passage and literal question are separated visually without changing their text;
-- the child still makes one direct canonical keyboard/touch/pointer answer choice;
-- wrong choice records assessed incorrect/retry and cannot complete;
-- correct choice records the canonical answer and completes the existing activity;
-- assessed fidelity `choice_reading_passage_question_interaction`;
-- runtime metadata source `reading-passage-question-runtime` with canonical `selectedChoice`.
+Final chain:
+- implementation PR #153 -> merge `6a6f99ccb3a733af4e298ed8c48452e019f9980c`;
+- post-implementation CI #739 -> exact Cloudflare smoke success;
+- closure PR #154 -> final `main` `b1793adaabe19a9c73e021534899f8b50c4097f6`;
+- final CI #741 / run `35103399012` -> full success including exact Cloudflare production smoke.
 
-Verified implementation chain:
-- exact base: fully closed Pattern #36 `461b0fd59a6c238752aa858bf783716b225b548a`;
-- final implementation head: `25baa6f103f4e3bb309fae8f0078c9fb099b9ab6`;
-- exact-head CI: #738 / run `35097844249` — success;
-- implementation PR #153 merged to `6a6f99ccb3a733af4e298ed8c48452e019f9980c`;
-- independent `main` CI #739 / run `35098428328` — full success including exact Cloudflare production smoke;
-- all dedicated 320x720, 390x844 and 768x1024 idle/wrong/success screenshots passed manual visual acceptance;
-- merged distribution is 900/900 classified, 37 patterns, `choice_grid` 277/900 and Bahasa `choice_grid` 29/100.
+## Production visual/product baseline
 
-## Production visual/product audit baseline
+Canonical audit: `PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md`.  
+Canonical visual direction: `MAINLAGI_ART_BIBLE.md`.
 
-Production verification is green, but visual/product acceptance is broader than deployment smoke or representative gameplay screenshots.
+Baseline decision:
 
-Current direction:
-- Garden activity samples are visually accepted and should remain the child-facing visual anchor;
-- the product still needs a systematic audit across public/home, child select/home, subject/gallery, stage/readiness, rewards, parent, account, auth, loading/error/empty states and responsive navigation;
-- parent/account/public surfaces must be brought into the same family-friendly visual system rather than drifting toward a generic SaaS/dashboard feel;
-- typography scale, spacing, radius, shadows, icon usage, card density, CTA hierarchy and responsive behavior need a permanent cross-surface consistency gate;
-- full activity-route visual coverage must avoid false PASS caused by progression redirects.
+```text
+P0 findings: 0
+P1 findings: 5
+P2 findings: 3
+Garden representative activities: ACCEPTED anchor
+Whole-product visual acceptance: NOT YET ACCEPTED
+Pattern #38: BLOCKED until P1 remediation + permanent visual QA
+```
 
-The **production visual/product baseline audit is the next product task after Pattern #37 closure and before starting Pattern #38**. After that baseline is established, WS-08 visual QA runs in parallel with WS-05 gameplay diversification.
+Primary P1 findings:
+
+1. Garden/Playroom, `LearningPlatform.module.css`, and `globals.css` currently express three different visual/token systems.
+2. Parent report exposes dense internal analytics/evidence language and reads like a generic dashboard.
+3. Stage/readiness layout is structurally correct but underuses tablet/desktop space and has weak progress/recommendation hierarchy.
+4. Clean-session public/adult root-entry information architecture is not yet deliberate; root is primarily a child playroom/resume surface.
+5. Permanent screenshot coverage does not yet represent profile select, rewards, account/auth, public clean state and loading/error/empty/degraded states.
+
+The accepted Garden activity experience remains the child-facing anchor. Visual remediation must not alter curriculum answers, evidence, mastery or progression just to simplify UI.
 
 ## Learning/mastery boundaries
 
@@ -132,12 +124,15 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Finish the separate **Pattern #37 docs-only closure** from exact implementation merge `6a6f99ccb3a733af4e298ed8c48452e019f9980c`; run fresh closure-head CI, clean exact-scope/review/thread gate, exact-head merge, then final independent `main` CI + exact Cloudflare smoke.
-2. Run a **production visual/product baseline audit** across public, child, parent/account/auth and system states on desktop/tablet/mobile; record P0/P1/P2 findings and a reusable visual acceptance matrix.
-3. Establish/update WS-08 Art Bible + permanent visual QA rules from that audit.
-4. Only then run a fresh objective/evidence audit for Pattern #38; no family is pre-approved.
-5. Continue WS-05 toward 50–60 meaningful patterns while WS-08 visual QA runs in parallel.
-6. Continue WS-02 narration, WS-03 public/parent frontend, WS-10 external acceptance, WS-11 governance, then WS-12 technical cleanup after product quality stabilizes.
-7. Finish with full production end-to-end acceptance and canonical-doc/release closure.
+1. Merge the production visual/product baseline docs and Art Bible from exact fully closed Pattern #37 `main`.
+2. **VQA-01:** implement a permanent deterministic visual-baseline route/screenshot gate at 390x844, 768x1024 and 1280x800, with exact-pathname assertions; retain 320px for high-risk child/activity routes.
+3. **VUI-01:** converge parent report to family-friendly copy/hierarchy while preserving underlying evidence semantics.
+4. **VUI-02:** converge stage/gallery tablet/desktop hierarchy, readiness/progress and recommended-state emphasis without changing progression logic.
+5. **VUI-03:** resolve clean-session public entry and converge auth/account/public surfaces on the Art Bible.
+6. Re-run the baseline until **P0=0 / P1=0**.
+7. Only then run a fresh objective/evidence audit for Pattern #38; no gameplay family is pre-approved.
+8. Continue WS-05 toward 50–60 meaningful patterns with WS-08 visual QA permanently running in parallel.
+9. Continue WS-02 narration, WS-10 external acceptance, WS-11 governance and later WS-12 cleanup.
+10. Finish with full production end-to-end acceptance and canonical-doc/release closure.
 
-Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion, or mastery/backend rewrites before this quality phase is substantially complete.
+Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion or mastery/backend rewrites before this quality phase is substantially complete.
