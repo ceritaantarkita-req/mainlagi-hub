@@ -12,6 +12,7 @@ const {numberLineConfig,numberLineValues}=require(path.resolve(".learning-test-d
 const {moreLessBalanceConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/moreLessBalanceConfig.js"));
 const {patternCompletionConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/patternCompletionConfig.js"));
 const {makeTotalConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/makeTotalConfig.js"));
+const {takeAwayConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/takeAwayConfig.js"));
 const {causeEffectConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/causeEffectConfig.js"));
 const {comparePropertiesConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/comparePropertiesConfig.js"));
 const {healthyHabitRoutineConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/healthyHabitRoutineConfig.js"));
@@ -331,6 +332,27 @@ for(const activity of makeTotal){
   assert(config.leftCount+config.rightCount<=10,`${activity.id} remains within canonical addition-within-10 objective`);
 }
 
+const expectedTakeAway=new Set([
+  "math-sub-3-1","math-sub-4-2","math-sub-5-1","math-sub-6-2","math-sub-7-3"
+]);
+const takeAway=ACTIVITIES.filter(activity=>choiceGameplayPresentation(activity)==="take_away");
+assert.equal(takeAway.length,expectedTakeAway.size,"take-away family size must remain intentional");
+assert.deepEqual(new Set(takeAway.map(activity=>activity.id)),expectedTakeAway,"only the five reviewed Math Wave C subtraction activities use Take Away");
+for(const activity of takeAway){
+  assert.equal(activity.runtime,"tap_choice");
+  assert.equal(activity.subjectId,"math");
+  assert.equal(activity.stageId,"math-operasi-awal");
+  assert.equal((activity.choices??[]).length,3);
+  assert.equal(new Set(activity.choices??[]).size,3,"take-away choices remain unique");
+  assert((activity.choices??[]).every(choice=>/^\d+$/.test(choice)),"take-away choices remain numeric");
+  assert((activity.choices??[]).includes(activity.correctChoice),"take away preserves canonical correctChoice");
+  const config=takeAwayConfig(activity);
+  assert(config,`${activity.id} must have explicit Take Away config`);
+  assert(config.startCount>=2&&config.startCount<=10,`${activity.id} keeps a visible within-10 starting group`);
+  assert(config.removeCount>=1&&config.removeCount<config.startCount,`${activity.id} removes a positive proper subset`);
+  assert.equal(config.startCount-config.removeCount,Number(activity.correctChoice),`${activity.id} concrete remainder equals canonical correctChoice`);
+}
+
 const expectedCauseEffect=new Set([
   "science-water-ice-melts","science-water-freezes","science-water-puddle-evaporates","science-water-cold-glass-droplets"
 ]);
@@ -465,9 +487,9 @@ assert(observationTools,"investigation observation-tools matching remains in cat
 assert.equal(observationTools.runtime,"matching");
 assert.equal(matchingPresentation(observationTools),"grid_pairs","investigation matching stays outside choice-only investigation board");
 
-const specializedChoiceIds=new Set([...expectedSequence,...expectedSyllableAssembly,...expectedSorting,...expectedOddOneOut,...expectedRulePipeline,...expectedSetReasoning,...expectedTransitiveChain,...expectedSpatialTransform,...expectedRelativeOrderTrack,...expectedCountSelect,...expectedNumberLine,...expectedBalance,...expectedPatternCompletion,...expectedMakeTotal,...expectedCauseEffect,...expectedCompareProperties,...expectedHealthyHabitRoutine,...expectedMaterialLab,...expectedFeatureFunctionLink,...expectedInvestigationBoard]);
+const specializedChoiceIds=new Set([...expectedSequence,...expectedSyllableAssembly,...expectedSorting,...expectedOddOneOut,...expectedRulePipeline,...expectedSetReasoning,...expectedTransitiveChain,...expectedSpatialTransform,...expectedRelativeOrderTrack,...expectedCountSelect,...expectedNumberLine,...expectedBalance,...expectedPatternCompletion,...expectedMakeTotal,...expectedTakeAway,...expectedCauseEffect,...expectedCompareProperties,...expectedHealthyHabitRoutine,...expectedMaterialLab,...expectedFeatureFunctionLink,...expectedInvestigationBoard]);
 const otherChoice=ACTIVITIES.filter(activity=>activity.runtime==="tap_choice"&&!specializedChoiceIds.has(activity.id));
 assert(otherChoice.length>0,"default choice activities remain available");
 assert(otherChoice.every(activity=>choiceGameplayPresentation(activity)==="default"),"other choice families retain default presentation");
 
-console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${syllableAssembly.length} syllable_assembly + ${sorting.length} sorting_buckets + ${oddOneOut.length} odd_one_out + ${rulePipeline.length} rule_pipeline + ${setReasoning.length} set_reasoning + ${transitiveChain.length} transitive_chain + ${spatialTransform.length} spatial_transform + ${relativeOrderTrack.length} relative_order_track + ${countSelect.length} count_select + ${numberLine.length} number_line + ${balance.length} more_less_balance + ${patternCompletion.length} pattern_completion + ${makeTotal.length} make_total + ${causeEffect.length} cause_effect + ${compareProperties.length} compare_properties + ${healthyHabitRoutine.length} healthy_habit_routine + ${materialLab.length} material_lab + ${featureFunctionLink.length} feature_function_link + ${investigationBoard.length} investigation_board activities.`);
+console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${syllableAssembly.length} syllable_assembly + ${sorting.length} sorting_buckets + ${oddOneOut.length} odd_one_out + ${rulePipeline.length} rule_pipeline + ${setReasoning.length} set_reasoning + ${transitiveChain.length} transitive_chain + ${spatialTransform.length} spatial_transform + ${relativeOrderTrack.length} relative_order_track + ${countSelect.length} count_select + ${numberLine.length} number_line + ${balance.length} more_less_balance + ${patternCompletion.length} pattern_completion + ${makeTotal.length} make_total + ${takeAway.length} take_away + ${causeEffect.length} cause_effect + ${compareProperties.length} compare_properties + ${healthyHabitRoutine.length} healthy_habit_routine + ${materialLab.length} material_lab + ${featureFunctionLink.length} feature_function_link + ${investigationBoard.length} investigation_board activities.`);
