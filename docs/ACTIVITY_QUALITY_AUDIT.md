@@ -22,7 +22,7 @@ All subjects remain 100 KEEP / 0 flagged. Deterministic zero does **not** mean e
 
 ## WS-05 gameplay diversification
 
-Pattern #32 `take_away` is **FULLY CLOSED**. Pattern #33 `equal_groups` implementation PR #145 is **MERGED / LIVE VERIFIED**; docs-only closure is the remaining final gate.
+Pattern #32 `take_away` is **FULLY CLOSED**. Pattern #33 `equal_groups` implementation PR #145 is **MERGED / LIVE VERIFIED**; docs-only closure PR **#146** is open and is the remaining final gate.
 
 Verified merged distribution after PR #145:
 
@@ -86,9 +86,10 @@ Acceptance and merge chain:
 - PR #145 passed the clean exact-head merge gate and squash merged as `3de991e75fdb4fdf33d1cd9cdcf90443ddbb3fb6`;
 - `main` was independently verified at that exact SHA;
 - post-merge `main` CI #693 / run `35054346467` passed all gates including Cloudflare production smoke;
+- closure PR #146 is docs-only and changes exactly the five canonical Pattern #33 docs;
 - deterministic quality remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**.
 
-Pattern #33 is **MERGED / LIVE VERIFIED / CLOSURE PENDING**. It becomes fully closed only after its docs-only closure PR passes fresh exact-head CI, clean review/thread/mergeability gate, exact-head merge, independent final `main` verification, and post-closure `main` CI including Cloudflare production smoke.
+Pattern #33 is **MERGED / LIVE VERIFIED / CLOSURE PR #146 OPEN**. It becomes fully closed only after PR #146 passes fresh exact-head CI, clean review/thread/mergeability gate, exact-head merge, independent final `main` verification, and post-closure `main` CI including Cloudflare production smoke.
 
 ## Permanent audits
 
@@ -108,9 +109,9 @@ CI uploads both artifacts. Gameplay-distribution coverage and active-pattern-set
 - WS-05 Make Total — Pattern #31 fully closed via #141 + #142.
 - WS-05 Take Away — Pattern #32 fully closed via #143 + #144; final CI #684.
 - WS-05 Equal Groups implementation — **MERGED PR #145 / LIVE VERIFIED**; merge SHA `3de991e75fdb4fdf33d1cd9cdcf90443ddbb3fb6`; post-merge CI #693 full success including Cloudflare smoke.
-- WS-05 Equal Groups closure — **PENDING**.
+- WS-05 Equal Groups closure — **PR #146 OPEN**.
 - WS-05 NEXT after Pattern #33 full closure — fresh Pattern #34 objective/evidence audit; no family pre-approved.
 
 ## Completion rule
 
-Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #33 itself remains unclosed until the docs-only closure PR is exact-head merged and independently verified live on `main`.
+Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #33 itself remains unclosed until closure PR #146 is exact-head merged and independently verified live on `main`.
