@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
 import { AuthForm } from "@/components/auth/AuthForm";
+import { AuthFamilyShell } from "@/components/auth/AuthFamilyShell";
 
 export const metadata: Metadata = { title: "Masuk" };
 
 export default function LoginPage() {
   return (
-    <main className="center-page">
-      <section className="dialog-card">
-        <AuthForm mode="login" />
-      </section>
-    </main>
+    <AuthFamilyShell>
+      <AuthForm mode="login" />
+    </AuthFamilyShell>
   );
 }
