@@ -24,6 +24,7 @@ export type GameplayPattern =
   | "pattern_completion"
   | "make_total"
   | "take_away"
+  | "equal_groups"
   | "cause_effect"
   | "compare_properties"
   | "healthy_habit_routine"
@@ -193,6 +194,12 @@ const MATH_TAKE_AWAY_IDS = new Set([
   "math-sub-5-1",
   "math-sub-6-2",
   "math-sub-7-3"
+]);
+
+const MATH_EQUAL_GROUPS_IDS = new Set([
+  "math-group-6-by-2",
+  "math-group-8-by-2",
+  "math-group-9-by-3"
 ]);
 
 /**
@@ -521,6 +528,23 @@ export function isTakeAwayActivity(activity: LearningActivity | undefined): bool
   return choiceGameplayPresentation(activity) === "take_away";
 }
 
+export function isEqualGroupsActivity(activity: LearningActivity | undefined): boolean {
+  if (!activity || activity.runtime !== "tap_choice") return false;
+  const choices = activity.choices ?? [];
+  const correct = activity.correctChoice ?? "";
+  return (
+    activity.subjectId === "math" &&
+    activity.stageId === "math-operasi-awal" &&
+    MATH_EQUAL_GROUPS_IDS.has(activity.id) &&
+    choices.length === 3 &&
+    new Set(choices).size === choices.length &&
+    choices.every((choice) => /^\d+$/.test(choice)) &&
+    /^\d+$/.test(correct) &&
+    choices.includes(correct) &&
+    Boolean(activity.prompt)
+  );
+}
+
 export function isCauseEffectActivity(activity: LearningActivity | undefined): boolean {
   return choiceGameplayPresentation(activity) === "cause_effect";
 }
@@ -555,6 +579,7 @@ export function gameplayPattern(activity: LearningActivity | undefined): Gamepla
 
   if (activity.runtime === "tap_choice") {
     if (activity.choicePresentation === "symbol_hunt") return "symbol_hunt";
+    if (isEqualGroupsActivity(activity)) return "equal_groups";
     const presentation = choiceGameplayPresentation(activity);
     if (presentation === "sequence_slot") return "missing_sequence_slot";
     if (presentation === "syllable_assembly") return "syllable_assembly";
