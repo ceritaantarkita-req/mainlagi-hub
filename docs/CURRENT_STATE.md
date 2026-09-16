@@ -20,8 +20,8 @@ This is the canonical human/AI handoff. `main` is the merged source of truth.
 - final implementation PR CI: #692 / run `35053984870`, full success
 - verified implementation merge SHA: `3de991e75fdb4fdf33d1cd9cdcf90443ddbb3fb6`
 - post-merge implementation CI: #693 / run `35054346467`, full success including Cloudflare production smoke
-- Pattern #33 closure PR: **PENDING**
-- Pattern #33: **MERGED / LIVE VERIFIED / CLOSURE PENDING**
+- Pattern #33 closure PR: **#146**
+- Pattern #33: **MERGED / LIVE VERIFIED / CLOSURE PR #146 OPEN**
 
 ## Engineering status
 
@@ -95,9 +95,10 @@ Acceptance and merge evidence:
 - PR #145 passed exact-head clean gate: mergeable, 15 exact changed files, behind 0, zero comments, zero reviews, zero review threads;
 - PR #145 exact-head squash merged as `3de991e75fdb4fdf33d1cd9cdcf90443ddbb3fb6`;
 - `main` was independently verified at that exact SHA;
-- post-merge `main` CI #693 / run `35054346467` passed Ubuntu, Windows, production build, dependency audit, secret-history scan, Chromium mobile/accessibility/browser QA, deterministic quality/distribution audits, simulations, Batch17 and Cloudflare production smoke.
+- post-merge `main` CI #693 / run `35054346467` passed Ubuntu, Windows, production build, dependency audit, secret-history scan, Chromium mobile/accessibility/browser QA, deterministic quality/distribution audits, simulations, Batch17 and Cloudflare production smoke;
+- docs-only closure PR #146 was opened from exact implementation merge SHA and is restricted to the five canonical Pattern #33 docs.
 
-A docs-only closure PR is the final Pattern #33 gate. Pattern #33 is **not fully closed yet**; full closure still requires fresh exact closure-head CI, clean closure merge gate, exact-head closure merge, independent final `main` verification, and final post-closure `main` CI including Cloudflare production smoke.
+Pattern #33 is **not fully closed yet**. Closure PR #146 still requires fresh exact closure-head CI, clean closure merge gate, exact-head closure merge, independent final `main` verification, and final post-closure `main` CI including Cloudflare production smoke.
 
 ## Pattern #32 `take_away` — FULLY CLOSED
 
@@ -118,7 +119,7 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Finish Pattern #33 docs-only closure: bind closure PR -> fresh exact closure-head CI -> clean review/thread/mergeability gate -> exact-head merge -> independent `main` verification -> final post-closure `main` CI + Cloudflare production smoke.
+1. Finish Pattern #33 closure PR #146: fresh exact closure-head CI -> clean review/thread/mergeability gate -> exact-head merge -> independent `main` verification -> final post-closure `main` CI + Cloudflare production smoke.
 2. Only after Pattern #33 is fully closed, run a fresh objective/evidence audit for Pattern #34; no family is pre-approved.
 3. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
 4. Continue Art Bible/permanent visual QA, narration, parent/public frontend, external acceptance and governance.
