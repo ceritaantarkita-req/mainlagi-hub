@@ -19,6 +19,7 @@ import { PatternCompletionActivity } from "@/components/learning/PatternCompleti
 import { PictureWordMatchActivity } from "@/components/learning/PictureWordMatchActivity";
 import { RelativeOrderTrackActivity } from "@/components/learning/RelativeOrderTrackActivity";
 import { RulePipelineActivity } from "@/components/learning/RulePipelineActivity";
+import { SentenceOrderCardsActivity } from "@/components/learning/SentenceOrderCardsActivity";
 import { SequenceSlotChoiceActivity } from "@/components/learning/SequenceSlotChoiceActivity";
 import { SetReasoningActivity } from "@/components/learning/SetReasoningActivity";
 import { SortingBucketsChoiceActivity } from "@/components/learning/SortingBucketsChoiceActivity";
@@ -57,6 +58,7 @@ import {
   isTakeAwayActivity,
   isTransitiveChainActivity
 } from "@/lib/learning/gameplayPresentation";
+import { isSentenceOrderCardsActivity } from "@/lib/learning/sentenceOrderCardsConfig";
 import { getActivity } from "@/lib/learning/system";
 import styles from "./ActivityPage.module.css";
 
@@ -87,6 +89,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
         <InitialSoundActivity childId={childId} activityId={activity} />
       ) : isPictureWordMatchActivity(definition) ? (
         <PictureWordMatchActivity childId={childId} activityId={activity} />
+      ) : isSentenceOrderCardsActivity(definition) ? (
+        <SentenceOrderCardsActivity childId={childId} activityId={activity} />
       ) : isSortingBucketsActivity(definition) ? (
         <SortingBucketsChoiceActivity childId={childId} activityId={activity} />
       ) : isOddOneOutActivity(definition) ? (

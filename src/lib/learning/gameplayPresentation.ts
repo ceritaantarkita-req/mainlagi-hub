@@ -1,4 +1,5 @@
 import type { LearningActivity } from "./system";
+import { isSentenceOrderCardsActivity } from "./sentenceOrderCardsConfig";
 
 export type MatchingPresentation = "grid_pairs" | "memory_pairs" | "drag_targets";
 export type ChoiceGameplayPresentation = "default" | "sequence_slot" | "syllable_assembly" | "initial_sound" | "sorting_buckets" | "odd_one_out" | "rule_pipeline" | "set_reasoning" | "transitive_chain" | "spatial_transform" | "relative_order_track" | "count_select" | "number_line" | "more_less_balance" | "pattern_completion" | "make_total" | "take_away" | "cause_effect" | "compare_properties" | "healthy_habit_routine" | "material_lab" | "feature_function_link" | "investigation_board";
@@ -13,6 +14,7 @@ export type GameplayPattern =
   | "syllable_assembly"
   | "initial_sound"
   | "picture_word_match"
+  | "sentence_order_cards"
   | "sorting_buckets"
   | "odd_one_out"
   | "rule_pipeline"
@@ -630,6 +632,7 @@ export function gameplayPattern(activity: LearningActivity | undefined): Gamepla
     if (activity.choicePresentation === "symbol_hunt") return "symbol_hunt";
     if (isEqualGroupsActivity(activity)) return "equal_groups";
     if (isPictureWordMatchActivity(activity)) return "picture_word_match";
+    if (isSentenceOrderCardsActivity(activity)) return "sentence_order_cards";
     const presentation = choiceGameplayPresentation(activity);
     if (presentation === "sequence_slot") return "missing_sequence_slot";
     if (presentation === "syllable_assembly") return "syllable_assembly";

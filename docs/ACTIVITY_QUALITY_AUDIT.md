@@ -22,79 +22,70 @@ All subjects remain 100 KEEP / 0 flagged. Deterministic zero does **not** mean e
 
 ## WS-05 gameplay diversification
 
-Pattern #34 `initial_sound` is **FULLY CLOSED** via implementation PR #147 + closure PR #148. Final verified `main` SHA is `8bfb0027a5f4963a6875310c7408cb56018cc422`; final CI #717 / run `35074306579` passed the full matrix including Cloudflare production smoke.
+Pattern #35 `picture_word_match` is **FULLY CLOSED** via implementation PR #149 + closure PR #150. Final verified `main` SHA is `b00a5b59e213dcd3f2410dd2ffb45c2e7f8dc3d0`; final CI #727 / run `35086954102` passed the full matrix including exact Cloudflare production smoke.
 
-Pattern #35 `picture_word_match` implementation PR **#149** is **MERGED / LIVE VERIFIED**. Final implementation docs head `79767b320372ac6dd78bfae90ffb2e2307154401` passed CI #723 / run `35083623316`. Exact implementation merge SHA is `47e3373ed9ba4a96331a8e61286dc80d37b6b518`; post-merge CI #724 / run `35085618422` passed the full matrix including exact Cloudflare production smoke. A separate docs-only closure is now the remaining Pattern #35 gate.
+Pattern #36 `sentence_order_cards` implementation PR **#151** is **QA ACCEPTED / UNMERGED** at accepted code head `595bc4e94065eb5250aef27797858641ca959c67`; CI #728 / run `35089266590` passed the full PR matrix.
 
-Verified merged distribution after PR #149:
+Accepted candidate distribution from CI #728:
 
 ```text
 900 / 900 classified
 0 unclassified
-35 active merged patterns
-choice_grid                 287 / 900 = 31.89%
+36 active candidate patterns
+choice_grid                 282 / 900 = 31.33%
+sentence_order_cards          5 / 900 = 0.56%
 picture_word_match            5 / 900 = 0.56%
 initial_sound                  3 / 900 = 0.33%
-equal_groups                   3 / 900 = 0.33%
-make_total                     5 / 900 = 0.56%
-take_away                      5 / 900 = 0.56%
-Bahasa choice_grid            39 / 100
-Math choice_grid              43 / 100
-Science choice_grid           56 / 100
-Logic choice_grid             47 / 100
-English choice_grid           44 / 100
-Iqro choice_grid              58 / 100
+Bahasa choice_grid            34 / 100
 ```
 
 Concentration remains advisory and does not itself create POLISH/REDESIGN findings. No global hotspot exceeds the advisory 35% threshold.
 
-## Picture Word Match — Pattern #35 merged/live closure record
+## Sentence Order Cards — Pattern #36 QA acceptance record
 
 Exact scope:
 
 ```text
-bahasa-gambar-apel
-bahasa-gambar-mobil
-bahasa-gambar-kucing
-bahasa-gambar-rumah
-bahasa-gambar-pisang
+bahasa-urut-ibu-memasak
+bahasa-urut-adi-berlari
+bahasa-urut-kucing-tidur
+bahasa-urut-siti-membaca
+bahasa-urut-burung-terbang
 ```
 
 Preserved:
-- canonical runtime `tap_choice`;
-- exactly three canonical lowercase word choices and unchanged `correctChoice`;
+- canonical `tap_choice` runtime;
+- exactly three canonical sentence choices and unchanged `correctChoice`;
 - assessment, stars, mastery and progression;
-- canonical skill `bahasa.kata.picture_matching`;
-- stage `bahasa-suku-kata-kata`, lesson `bahasa-kata-gambar`, pack `bahasa.pack.kata-gambar`;
-- activity IDs and completion semantics;
-- `bahasa-pasang-kata-*` remains `visible_matching`;
-- Syllable Assembly, audio word recognition, Initial Sound, English, Math and non-scope families remain unchanged;
-- content seeds, schema and migrations remain unchanged.
+- canonical skill `bahasa.kalimat.order`;
+- stage `bahasa-kalimat-pemahaman`, lesson `bahasa-kalimat-urutan`, pack `bahasa.pack.kalimat-urutan`;
+- activity IDs, content payload and completion semantics;
+- all non-scope Bahasa, Letters, Logic, Math and other subject families;
+- schema and migrations.
 
 Interaction/evidence contract:
-- familiar canonical object is presented as the visual clue;
-- answer text stays masked as `?` until correct;
-- canonical keyboard/touch/pointer direct selection remains available;
-- wrong choice is measured/retryable, cannot complete and cannot reveal the word;
-- correct choice completes the canonical activity and reveals the word;
-- no changed choice set, extra confirmation, drag-only dependency or intermediate assessment;
-- assessed fidelity `choice_picture_word_match_interaction`;
-- runtime metadata source `picture-word-match-runtime` with `picture`, `word` and `selectedChoice`.
+- each unchanged canonical sentence is rendered as a left-to-right sequence of word cards;
+- cards are presentation only: the child still makes one direct canonical sentence choice;
+- keyboard/touch/pointer direct selection remains available; no drag-only dependency;
+- wrong choice increments assessed incorrect/retry and cannot complete;
+- correct choice completes the canonical activity;
+- no invented tokens, changed answer set, extra confirmation or intermediate assessment;
+- assessed fidelity `choice_sentence_order_cards_interaction`;
+- runtime metadata source `sentence-order-cards-runtime` with `selectedChoice` and `selectedWords` derived only from canonical choice text.
 
-Acceptance and merge chain:
-- branch started exactly from Pattern #34 final `main` `8bfb0027a5f4963a6875310c7408cb56018cc422`;
-- accepted code head `e0f93bd20f24c2efaebfbaa7f782427e8d0e1bca` passed CI #718 / run `35082720001`;
-- exact family regression verifies only the five reviewed Bahasa activities classify as `picture_word_match`;
-- representative browser QA uses `bahasa-gambar-apel` and legitimate immediate-prior Wave A readiness;
-- browser QA covers 320x720, 390x844 and 768x1024, keyboard wrong-state, pointer success, false-completion/reveal guards, evidence metadata, touch targets, feedback and CTA visibility;
-- all nine idle/wrong/success screenshots passed manual visual review with no clipping or horizontal overflow;
-- final docs head `79767b320372ac6dd78bfae90ffb2e2307154401` passed full CI #723 / run `35083623316`;
-- PR #149 passed clean exact-head scope/review/thread/mergeability checks and squash merged as `47e3373ed9ba4a96331a8e61286dc80d37b6b518`;
-- independent post-merge `main` CI #724 / run `35085618422` passed Ubuntu, Windows, production build, dependency audit, secret-history scan, Chromium QA and **Production smoke (Cloudflare)**;
-- distribution is 900/900 classified with 35 active merged patterns;
-- deterministic quality remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**.
+Acceptance evidence:
+- branch started exactly from Pattern #35 final `main` `b00a5b59e213dcd3f2410dd2ffb45c2e7f8dc3d0`;
+- accepted code head `595bc4e94065eb5250aef27797858641ca959c67` passed full CI #728 / run `35089266590`;
+- Ubuntu typecheck/lint/engine suite, deterministic quality/distribution, simulations and Batch17 passed;
+- Windows typecheck/lint/engine suite passed;
+- production build/budgets, dependency audit and secret-history scan passed;
+- representative browser QA uses `bahasa-urut-ibu-memasak` with legitimate immediate-prior Bahasa Wave B readiness;
+- Chromium QA covers 320x720, 390x844 and 768x1024, exact three canonical choices, keyboard wrong-state, pointer completion, false-completion guard, evidence metadata, >=44px targets, horizontal overflow and visible feedback/CTA;
+- all nine idle/wrong/success screenshots passed manual visual review;
+- distribution artifact confirms **900/900 classified, 36 active candidate patterns, `choice_grid` 282, `sentence_order_cards` 5, Bahasa `choice_grid` 34**;
+- deterministic quality artifact confirms **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**.
 
-Pattern #35 remains **closure-in-progress**, not fully closed, until this docs-only closure is exact-head CI verified, cleanly merged, and the final `main` run including Cloudflare smoke succeeds.
+Pattern #36 remains **UNMERGED** until canonical docs pass fresh exact-head CI and PR #151 passes clean exact-head scope/review/thread/mergeability gates. Full closure additionally requires implementation live verification plus a separate docs-only closure.
 
 ## Permanent audits
 
@@ -114,10 +105,11 @@ CI uploads both artifacts. Gameplay-distribution coverage and active-pattern-set
 - WS-05 Make Total — Pattern #31 fully closed via #141 + #142.
 - WS-05 Take Away — Pattern #32 fully closed via #143 + #144.
 - WS-05 Equal Groups — Pattern #33 fully closed via #145 + #146.
-- WS-05 Initial Sound — Pattern #34 **FULLY CLOSED** via #147 + #148; final main `8bfb0027a5f4963a6875310c7408cb56018cc422`; final CI #717.
-- WS-05 Picture Word Match — Pattern #35 **IMPLEMENTATION MERGED / LIVE VERIFIED** via PR #149; merge `47e3373ed9ba4a96331a8e61286dc80d37b6b518`; post-merge CI #724 full success; docs-only closure remains.
-- WS-05 NEXT after Pattern #35 full closure — fresh Pattern #36 objective/evidence audit; no family pre-approved.
+- WS-05 Initial Sound — Pattern #34 fully closed via #147 + #148.
+- WS-05 Picture Word Match — Pattern #35 **FULLY CLOSED** via #149 + #150; final main `b00a5b59e213dcd3f2410dd2ffb45c2e7f8dc3d0`; final CI #727.
+- WS-05 Sentence Order Cards — Pattern #36 **PR #151 QA ACCEPTED / UNMERGED**; accepted code CI #728.
+- WS-05 NEXT only after Pattern #36 full closure — fresh Pattern #37 objective/evidence audit; no family pre-approved.
 
 ## Completion rule
 
-Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #35 itself remains unclosed until the separate docs-only closure is exact-head merged and independently verified live on `main` with Cloudflare smoke.
+Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #36 itself remains open until implementation and separate closure are exact-head merged and independently verified live on `main` with Cloudflare smoke.
