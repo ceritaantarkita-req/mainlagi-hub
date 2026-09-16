@@ -30,8 +30,6 @@ export function isReadingPassageQuestionActivity(activity: LearningActivity | un
   return (
     activity.subjectId === "bahasa" &&
     activity.stageId === "bahasa-kalimat-pemahaman" &&
-    activity.lessonId === "bahasa-bacaan-pendek" &&
-    activity.packId === "bahasa.pack.bacaan-pendek" &&
     READING_PASSAGE_QUESTION_IDS.has(activity.id) &&
     choices.length === 3 &&
     new Set(choices).size === 3 &&
