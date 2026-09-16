@@ -2,7 +2,7 @@
 
 Last reviewed: **16 September 2026**
 
-Status: **WS-04 deterministic triage clean; WS-06 Coloring and WS-07 Drawing complete; WS-05 gameplay diversification active. Human pedagogical/art review remains separate.** Canonical plan: `NEXT_PRODUCT_QUALITY_PLAN.md`.
+Status: **WS-04 deterministic triage clean; WS-06 Coloring and WS-07 Drawing complete; WS-05 gameplay diversification active; production visual/product baseline audit queued after Pattern #37 closure.** Canonical plan: `NEXT_PRODUCT_QUALITY_PLAN.md`.
 
 ## Current calibrated state
 
@@ -18,20 +18,27 @@ REPLACE                 0
 flagged total           0
 ```
 
-All subjects remain 100 KEEP / 0 flagged. Deterministic zero does **not** mean every activity is human-approved or maximally varied. Gameplay diversity, art direction, real-device/accessibility, and Iqro expert review remain separate requirements.
+All subjects remain 100 KEEP / 0 flagged. Deterministic zero does **not** mean every activity or product surface is human-approved or visually final. Gameplay diversity, art direction, production cross-surface UX, real-device/accessibility, and Iqro expert review remain separate requirements.
 
 ## WS-05 gameplay diversification
 
 Pattern #36 `sentence_order_cards` is **FULLY CLOSED** via implementation PR #151 + closure PR #152. Final verified `main` SHA is `461b0fd59a6c238752aa858bf783716b225b548a`; final CI #732 / run `35094107947` passed the full matrix including exact Cloudflare production smoke.
 
-Pattern #37 `reading_passage_question` implementation PR **#153** is open. Accepted implementation head `6ac29623ce53940f45cdfea623340d833af68c4d` passed full CI #733 / run `35096952272`, and all nine dedicated responsive screenshots passed manual visual acceptance. Canonical docs and a fresh exact docs-head CI are the next implementation gates.
+Pattern #37 `reading_passage_question` implementation PR **#153 is MERGED and live verified**.
 
-Verified merged distribution on current `main` remains 36 patterns. Accepted Pattern #37 implementation-head distribution is:
+Implementation evidence:
+- final PR head `25baa6f103f4e3bb309fae8f0078c9fb099b9ab6`;
+- exact-head CI #738 / run `35097844249` — success;
+- squash merge `6a6f99ccb3a733af4e298ed8c48452e019f9980c`;
+- independent `main` CI #739 / run `35098428328` — full success including exact Cloudflare production smoke;
+- all nine dedicated 320x720, 390x844 and 768x1024 idle/wrong/success screenshots passed manual visual acceptance.
+
+Merged distribution on current `main` is:
 
 ```text
 900 / 900 classified
 0 unclassified
-37 active candidate patterns
+37 active merged patterns
 choice_grid                    277 / 900 = 30.78%
 reading_passage_question         5 / 900 = 0.56%
 sentence_order_cards              5 / 900 = 0.56%
@@ -39,9 +46,9 @@ picture_word_match                5 / 900 = 0.56%
 Bahasa choice_grid                29 / 100
 ```
 
-Concentration remains advisory and does not itself create POLISH/REDESIGN findings. No global hotspot exceeds the advisory 35% threshold.
+Concentration remains advisory and does not itself create POLISH/REDESIGN findings. No global hotspot exceeds the advisory 35% threshold. Remaining distance is **13 patterns** to minimum 50 and **23 patterns** to working target 60.
 
-## Reading Passage Question — Pattern #37 implementation acceptance
+## Reading Passage Question — Pattern #37 merged acceptance
 
 Exact scope:
 
@@ -72,16 +79,35 @@ Interaction/evidence contract:
 - assessed fidelity `choice_reading_passage_question_interaction`;
 - runtime metadata source `reading-passage-question-runtime` with canonical `selectedChoice`.
 
-Acceptance evidence:
-- exact base was fully closed Pattern #36 `main` `461b0fd59a6c238752aa858bf783716b225b548a`;
-- accepted code head `6ac29623ce53940f45cdfea623340d833af68c4d` passed CI #733 / run `35096952272`;
+Verified evidence:
+- exact implementation base was Pattern #36 final `main` `461b0fd59a6c238752aa858bf783716b225b548a`;
+- final implementation head `25baa6f103f4e3bb309fae8f0078c9fb099b9ab6` passed CI #738 / run `35097844249`;
+- implementation merge `6a6f99ccb3a733af4e298ed8c48452e019f9980c` passed independent `main` CI #739 / run `35098428328` including exact Cloudflare production smoke;
 - dedicated browser QA passed 320x720, 390x844 and 768x1024 idle/wrong/success;
 - all 9 screenshots passed manual visual review with no clipping/overflow and visible wrong/success feedback + CTA;
 - wrong-then-right path records `correctCount=1`, `incorrectCount=1`, `retryCount=1`, `accuracy=0.5`;
-- gameplay-distribution audit passes 900/900 classification with 37 candidate patterns and no global hotspot;
+- gameplay-distribution audit passes 900/900 classification with 37 merged patterns and no global hotspot;
 - deterministic quality remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**.
 
-Pattern #37 remains **implementation-in-progress**, not merged or fully closed. It still requires canonical docs, fresh exact-head PR CI, clean merge gate, implementation merge, independent live-main verification, then the separate docs-only closure chain.
+Pattern #37 is **implementation merged/live verified but not FULLY CLOSED** until this separate docs-only closure passes its own exact-head CI, clean gate, merge and final live-main verification.
+
+## Production visual/product audit boundary
+
+Representative Garden gameplay screenshots are accepted, but this does not equal whole-product visual acceptance.
+
+The next baseline audit after Pattern #37 closure must cover:
+- public/home entry;
+- child select and child home;
+- subject/gallery and stage/readiness states;
+- representative activity families plus loading/error/empty states;
+- rewards;
+- parent, account and auth surfaces;
+- header/navigation/menu behavior;
+- desktop, tablet and mobile breakpoints.
+
+Audit criteria include visual hierarchy, child/family tone, typography, spacing, card/button consistency, iconography, responsive density, CTA clarity, accessibility/focus behavior, overflow/clipping and state consistency. Full activity-route visual coverage must detect progression redirects instead of counting them as successful activity renders.
+
+The audit will produce a P0/P1/P2 backlog and feed WS-08 Art Bible/permanent visual QA. After that baseline is established, visual QA runs in parallel with future WS-05 patterns.
 
 ## Permanent audits
 
@@ -103,10 +129,10 @@ CI uploads both artifacts. Gameplay-distribution coverage and active-pattern-set
 - WS-05 Equal Groups — Pattern #33 fully closed via #145 + #146.
 - WS-05 Initial Sound — Pattern #34 fully closed via #147 + #148.
 - WS-05 Picture Word Match — Pattern #35 fully closed via #149 + #150.
-- WS-05 Sentence Order Cards — Pattern #36 fully closed via #151 + #152; final `main` `461b0fd59a6c238752aa858bf783716b225b548a`; CI #732 full success.
-- WS-05 Reading Passage Question — Pattern #37 **IMPLEMENTATION ACCEPTED / PR #153 OPEN**; accepted head `6ac29623ce53940f45cdfea623340d833af68c4d`; CI #733 full success; docs/fresh exact-head implementation gates pending.
-- WS-05 NEXT only after Pattern #37 full closure — fresh Pattern #38 objective/evidence audit; no family pre-approved.
+- WS-05 Sentence Order Cards — Pattern #36 fully closed via #151 + #152.
+- WS-05 Reading Passage Question — Pattern #37 **IMPLEMENTATION MERGED / LIVE VERIFIED** via #153; docs-only closure in progress.
+- NEXT after Pattern #37 full closure — production visual/product baseline audit, then fresh Pattern #38 objective/evidence audit; no gameplay family pre-approved.
 
 ## Completion rule
 
-Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #37 itself remains open until implementation and its separate post-merge docs closure are exact-head merged and independently verified live on `main` with Cloudflare smoke.
+Product-quality work remains open until gameplay diversity is materially expanded, production cross-surface visual acceptance and Art Bible/permanent QA are established, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #37 itself remains open until its post-merge docs closure is exact-head merged and independently verified live on `main` with Cloudflare smoke.
