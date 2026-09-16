@@ -24,14 +24,14 @@ All subjects remain 100 KEEP / 0 flagged. Deterministic zero does **not** mean e
 
 Pattern #33 `equal_groups` is **FULLY CLOSED** via implementation PR #145 + closure PR #146. Final verified `main` SHA is `0f90a7fae1164ae6ace86f993024cef7b4989ca9`; final CI #700 / run `35058250562` passed the full matrix including Cloudflare production smoke.
 
-Pattern #34 `initial_sound` implementation PR #147 is **QA ACCEPTED / UNMERGED** at accepted code head `207153f8e88f7c5e64949354c12b4feb1ee583e8` after full CI #704 / run `35069389333`.
+Pattern #34 `initial_sound` implementation PR #147 is **MERGED / LIVE VERIFIED**. Exact implementation merge SHA is `42da6cfd2114bd29b9aa4ddd36361bb975db2bf1`; post-merge CI #710 / run `35072815182` passed the full matrix including Cloudflare production smoke. Docs-only closure PR **#148** is open and is the remaining closure gate.
 
-Accepted candidate distribution on PR #147:
+Verified merged distribution after PR #147:
 
 ```text
 900 / 900 classified
 0 unclassified
-34 active candidate patterns
+34 active merged patterns
 choice_grid                 292 / 900 = 32.44%
 initial_sound                 3 / 900 = 0.33%
 equal_groups                  3 / 900 = 0.33%
@@ -45,9 +45,9 @@ English choice_grid          44 / 100
 Iqro choice_grid             58 / 100
 ```
 
-Concentration remains advisory and does not itself create POLISH/REDESIGN findings. There is no global hotspot in the accepted Pattern #34 candidate distribution.
+Concentration remains advisory and does not itself create POLISH/REDESIGN findings. There is no global hotspot on the merged Pattern #34 baseline.
 
-## Initial Sound — Pattern #34 QA acceptance record
+## Initial Sound — Pattern #34 merged/live closure record
 
 Exact scope:
 
@@ -79,17 +79,20 @@ Interaction/evidence contract:
 - assessed fidelity `choice_initial_sound_interaction`;
 - runtime metadata source `initial-sound-runtime` with `word`, `initialSound` and `selectedChoice`.
 
-Acceptance chain:
-- CI #701 / run `35059536603` caught the first invalid progression fixture;
-- CI #702 / run `35068097261` confirmed targeting the first family activity alone did not unlock the target stage;
-- CI #703 / run `35068805216` exposed that the immediate prior Bahasa stage is `bahasa-cerita`, not `bahasa-huruf`;
-- final browser fixture uses canonical historical progress plus required practice `bahasa-cerita-teman` (`completion_only_v1`) to satisfy the real stage-unlock contract;
+Acceptance and merge chain:
+- CI #701 / run `35059536603`, #702 / run `35068097261`, and #703 / run `35068805216` correctly rejected invalid progression fixtures rather than producing a false browser pass;
+- the accepted fixture follows canonical historical Bahasa progress plus immediate prior stage `bahasa-cerita` / required practice `bahasa-cerita-teman`;
 - accepted code head `207153f8e88f7c5e64949354c12b4feb1ee583e8` passed full CI #704 / run `35069389333`;
-- dedicated 320x720, 390x844 and 768x1024 idle/wrong/success browser QA passed progression, keyboard wrong-state, pointer completion, masked answer, false-completion guard, touch-target and evidence checks;
-- all nine Initial Sound screenshots passed manual visual review;
+- all nine 320x720, 390x844 and 768x1024 idle/wrong/success screenshots passed manual visual review;
+- final implementation docs head `e12d9eef073a9989bb8e9b6f8d374e098e17edde` passed full CI #709 / run `35072401631`;
+- PR #147 passed the clean exact-head merge gate with 16 scoped files, behind 0, zero comments, zero reviews and zero review threads;
+- PR #147 squash merged as `42da6cfd2114bd29b9aa4ddd36361bb975db2bf1`;
+- `main` was independently verified at that exact SHA;
+- post-merge `main` CI #710 / run `35072815182` passed all gates including Cloudflare production smoke;
+- closure PR #148 is docs-only and is restricted to exactly the five canonical Pattern #34 docs;
 - deterministic quality remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**.
 
-Pattern #34 remains **UNMERGED** until docs-head CI and clean exact-head merge gates complete. It is not fully closed until the implementation is merged/live-verified and its separate docs-only closure is also exact-head merged and verified on `main` with Cloudflare smoke.
+Pattern #34 is **MERGED / LIVE VERIFIED / CLOSURE PR #148 OPEN**. It becomes fully closed only after PR #148 passes fresh exact-head CI, clean review/thread/mergeability/scope gate, exact-head merge, independent final `main` verification, and post-closure `main` CI including Cloudflare production smoke.
 
 ## Permanent audits
 
@@ -109,9 +112,10 @@ CI uploads both artifacts. Gameplay-distribution coverage and active-pattern-set
 - WS-05 Make Total — Pattern #31 fully closed via #141 + #142.
 - WS-05 Take Away — Pattern #32 fully closed via #143 + #144; final CI #684.
 - WS-05 Equal Groups — Pattern #33 fully closed via #145 + #146; final main `0f90a7fae1164ae6ace86f993024cef7b4989ca9`; final CI #700.
-- WS-05 Initial Sound implementation — **PR #147 QA ACCEPTED / UNMERGED**; accepted code CI #704.
+- WS-05 Initial Sound implementation — **MERGED PR #147 / LIVE VERIFIED**; merge SHA `42da6cfd2114bd29b9aa4ddd36361bb975db2bf1`; post-merge CI #710 full success including Cloudflare smoke.
+- WS-05 Initial Sound closure — **PR #148 OPEN**.
 - WS-05 NEXT after Pattern #34 full closure — fresh Pattern #35 objective/evidence audit; no family pre-approved.
 
 ## Completion rule
 
-Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #34 itself remains unclosed until implementation + separate closure are exact-head merged and independently verified live on `main`.
+Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #34 itself remains unclosed until closure PR #148 is exact-head merged and independently verified live on `main` with Cloudflare smoke.
