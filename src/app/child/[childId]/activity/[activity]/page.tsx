@@ -4,6 +4,7 @@ import { ComparePropertiesActivity } from "@/components/learning/CompareProperti
 import { CountAndSelectActivity } from "@/components/learning/CountAndSelectActivity";
 import { CreativePracticeActivity } from "@/components/learning/CreativePracticeActivity";
 import { DragTargetMatchActivity } from "@/components/learning/DragTargetMatchActivity";
+import { EqualGroupsActivity } from "@/components/learning/EqualGroupsActivity";
 import { FeatureFunctionLinkActivity } from "@/components/learning/FeatureFunctionLinkActivity";
 import { HealthyHabitRoutineActivity } from "@/components/learning/HealthyHabitRoutineActivity";
 import { InvestigationBoardActivity } from "@/components/learning/InvestigationBoardActivity";
@@ -31,6 +32,7 @@ import {
   isComparePropertiesActivity,
   isCountAndSelectActivity,
   isDragTargetActivity,
+  isEqualGroupsActivity,
   isFeatureFunctionLinkActivity,
   isHealthyHabitRoutineActivity,
   isInvestigationBoardActivity,
@@ -99,6 +101,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
         <MoreLessBalanceActivity childId={childId} activityId={activity} />
       ) : isPatternCompletionActivity(definition) ? (
         <PatternCompletionActivity childId={childId} activityId={activity} />
+      ) : isEqualGroupsActivity(definition) ? (
+        <EqualGroupsActivity childId={childId} activityId={activity} />
       ) : isMakeTotalActivity(definition) ? (
         <MakeTotalActivity childId={childId} activityId={activity} />
       ) : isTakeAwayActivity(definition) ? (
