@@ -1,0 +1,473 @@
+.profileHeader {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.reportHero {
+  padding: 22px;
+  border: 2px solid #d8dfcd;
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at top right, rgba(213, 238, 246, .8), transparent 18rem),
+    #fffef8;
+  box-shadow: 0 8px 24px rgba(44, 73, 94, .07);
+}
+
+.heroCopy {
+  max-width: 720px;
+}
+
+.heroCopy h2,
+.sectionHeader h2 {
+  margin: 0;
+  color: #193b55;
+  letter-spacing: -.035em;
+}
+
+.heroCopy h2 {
+  font-size: clamp(26px, 4vw, 38px);
+  line-height: 1.08;
+}
+
+.heroCopy p,
+.sectionHeader p {
+  margin: 8px 0 0;
+  color: #536d78;
+  line-height: 1.6;
+}
+
+.summaryGrid {
+  display: grid;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.metricCard {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid #dbe2d5;
+  border-radius: 22px;
+  background: #fffdf5;
+}
+
+.metricHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #365a53;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.metricIcon,
+.patternIcon,
+.subjectIcon,
+.sectionIcon {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  color: #205b46;
+  background: #e5edd9;
+}
+
+.metricIcon {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+}
+
+.metricValueRow {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.metricValue {
+  color: #193b55;
+  font-size: clamp(30px, 5vw, 42px);
+  font-weight: 950;
+  line-height: 1;
+  letter-spacing: -.045em;
+}
+
+.metricUnit {
+  color: #61766f;
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.metricMeta {
+  margin: 10px 0 0;
+  color: #5d746f;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.reportSection {
+  margin-top: 32px;
+}
+
+.sectionHeader {
+  margin-bottom: 14px;
+}
+
+.sectionHeader h2 {
+  font-size: clamp(22px, 3vw, 29px);
+}
+
+.patternGrid {
+  display: grid;
+  gap: 12px;
+}
+
+.patternCard {
+  display: flex;
+  gap: 14px;
+  min-width: 0;
+  padding: 18px;
+  border: 2px solid #dde4d8;
+  border-radius: 24px;
+  background: #fffef8;
+  box-shadow: 0 5px 0 #e4e9dc;
+}
+
+.patternIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+}
+
+.patternCopy {
+  min-width: 0;
+}
+
+.patternCopy strong {
+  display: block;
+  color: #193b55;
+  font-size: 16px;
+}
+
+.patternCopy p {
+  margin: 6px 0 0;
+  color: #536d78;
+  line-height: 1.55;
+}
+
+.subjectPanel,
+.recentPanel {
+  overflow: hidden;
+  border: 2px solid #dce4d8;
+  border-radius: 26px;
+  background: #fffef8;
+  box-shadow: 0 5px 0 #e4e9dc;
+}
+
+.subjectRow {
+  padding: 20px;
+}
+
+.subjectRow + .subjectRow {
+  border-top: 1px solid #e3e7dc;
+}
+
+.subjectHeading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.subjectIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+}
+
+.subjectTitle {
+  min-width: 0;
+}
+
+.subjectTitle h3 {
+  margin: 0;
+  color: #193b55;
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.subjectTitle p {
+  margin: 4px 0 0;
+  color: #6b7e78;
+  font-size: 13px;
+}
+
+.subjectProgress {
+  margin-top: 16px;
+}
+
+.progressLabel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: #49655e;
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.progressLabel strong {
+  color: #193b55;
+}
+
+.progressTrack {
+  height: 10px;
+  margin-top: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e7eadc;
+}
+
+.progressFill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #58a37b;
+}
+
+.subjectSummary,
+.subjectSupport {
+  margin: 14px 0 0;
+  color: #4f6963;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.subjectSummary strong,
+.subjectSupport strong {
+  color: #193b55;
+}
+
+.recommendation {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 13px 14px;
+  border-radius: 18px;
+  background: #eef4e9;
+  color: #365a53;
+}
+
+.recommendation svg {
+  flex: 0 0 auto;
+  margin-top: 2px;
+}
+
+.recommendation p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.recommendation strong {
+  display: block;
+  color: #205b46;
+}
+
+.details {
+  margin-top: 16px;
+  border-top: 1px dashed #ccd6c9;
+}
+
+.details summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  color: #47645d;
+  font-size: 13px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.details summary:focus-visible {
+  outline: 3px solid #287158;
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+.diagnosticGrid {
+  display: grid;
+  gap: 8px;
+  padding: 4px 0 2px;
+}
+
+.diagnosticGrid p {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0;
+  color: #677b75;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.diagnosticGrid strong {
+  color: #193b55;
+  text-align: right;
+}
+
+.recentList {
+  display: grid;
+  margin: 0;
+  padding: 0 18px;
+  list-style: none;
+}
+
+.recentItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 15px 0;
+}
+
+.recentItem + .recentItem {
+  border-top: 1px solid #e6e9df;
+}
+
+.recentCopy {
+  min-width: 0;
+}
+
+.recentCopy strong {
+  display: block;
+  color: #193b55;
+}
+
+.recentCopy small {
+  display: block;
+  margin-top: 4px;
+  color: #76867f;
+  line-height: 1.4;
+}
+
+.recentResult {
+  flex: 0 0 auto;
+  max-width: 170px;
+  padding: 7px 10px;
+  border-radius: 12px;
+  background: #edf3e7;
+  color: #365a53;
+  text-align: right;
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.sectionTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sectionIcon {
+  width: 38px;
+  height: 38px;
+  border-radius: 13px;
+}
+
+.awardNotice {
+  margin-bottom: 12px;
+  padding: 14px 16px;
+  border: 1px solid #cfdfd4;
+  border-radius: 18px;
+  background: #ecf4e9;
+  color: #345954;
+  line-height: 1.55;
+}
+
+.awardGrid {
+  display: grid;
+  gap: 12px;
+}
+
+.awardCard {
+  padding: 18px;
+  border: 2px solid #dde4d8;
+  border-radius: 22px;
+  background: #fffef8;
+  box-shadow: 0 5px 0 #e4e9dc;
+}
+
+.awardCard strong {
+  color: #193b55;
+}
+
+.awardCard p {
+  margin: 7px 0 0;
+  color: #536d78;
+  line-height: 1.5;
+}
+
+.awardCard small {
+  display: block;
+  margin-top: 10px;
+  color: #75847d;
+}
+
+.emptyText {
+  margin: 0;
+  color: #5c716b;
+  line-height: 1.55;
+}
+
+@media (min-width: 720px) {
+  .reportHero {
+    padding: 28px;
+  }
+
+  .summaryGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .patternGrid,
+  .awardGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .subjectRow {
+    padding: 22px 24px;
+  }
+}
+
+@media (max-width: 560px) {
+  .profileHeader {
+    align-items: flex-start;
+  }
+
+  .reportHero {
+    padding: 18px;
+    border-radius: 24px;
+  }
+
+  .metricCard,
+  .patternCard,
+  .awardCard {
+    padding: 16px;
+  }
+
+  .subjectRow {
+    padding: 18px 16px;
+  }
+
+  .recentItem {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .recentResult {
+    max-width: none;
+    text-align: left;
+  }
+}
