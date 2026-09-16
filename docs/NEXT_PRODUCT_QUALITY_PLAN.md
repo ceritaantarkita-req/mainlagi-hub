@@ -4,15 +4,14 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 **Canonical branch:** `main`  
-**Latest fully closed gameplay:** Pattern #33 — Math `equal_groups`  
-**Latest merged gameplay:** Pattern #34 — Bahasa `initial_sound`  
-**Pattern #34 implementation PR:** #147  
-**Final implementation docs head:** `e12d9eef073a9989bb8e9b6f8d374e098e17edde`  
-**Final implementation PR CI:** #709 / run `35072401631` — full success  
-**Verified implementation merge SHA:** `42da6cfd2114bd29b9aa4ddd36361bb975db2bf1`  
-**Post-merge implementation CI:** #710 / run `35072815182` — full success including Cloudflare production smoke  
-**Pattern #34 closure PR:** #148  
-**Pattern #34:** **MERGED / LIVE VERIFIED / CLOSURE PR #148 OPEN**  
+**Latest fully closed gameplay:** Pattern #34 — Bahasa `initial_sound`  
+**Pattern #34 final main:** `8bfb0027a5f4963a6875310c7408cb56018cc422`  
+**Pattern #34 final CI:** #717 / run `35074306579` — full success including Cloudflare production smoke  
+**Active implementation:** Pattern #35 — Bahasa `picture_word_match`  
+**Pattern #35 implementation PR:** #149  
+**Accepted pre-docs code head:** `e0f93bd20f24c2efaebfbaa7f782427e8d0e1bca`  
+**Accepted code-head CI:** #718 / run `35082720001` — full PR success  
+**Pattern #35:** **QA ACCEPTED / UNMERGED**  
 **Primary focus:** WS-05 gameplay/mechanic diversification  
 **Principle:** **Quality first. Quantity later.**
 
@@ -39,7 +38,7 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | TODO | parent/public surfaces |
 | WS-04 Activity audit/redesign | deterministic clean | 900 KEEP / 0 flagged |
-| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | **34 merged patterns; closure PR #148 open** |
+| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | **34 fully closed; Pattern #35 PR #149 QA accepted** |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | TODO / parallel | Art Bible + permanent human gate |
@@ -50,16 +49,30 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 
 ## Verified merged baseline
 
+Pattern #34 final `main`:
+
 ```text
 900 / 900 classified
 0 unclassified
 34 active merged patterns
 choice_grid                 292 / 900 = 32.44%
 initial_sound                 3 / 900 = 0.33%
+Bahasa choice_grid           44 / 100
+```
+
+Pattern #35 accepted PR candidate from CI #718:
+
+```text
+900 / 900 classified
+0 unclassified
+35 active candidate patterns
+choice_grid                 287 / 900 = 31.89%
+picture_word_match            5 / 900 = 0.56%
+initial_sound                 3 / 900 = 0.33%
 equal_groups                  3 / 900 = 0.33%
 make_total                    5 / 900 = 0.56%
 take_away                     5 / 900 = 0.56%
-Bahasa choice_grid           44 / 100
+Bahasa choice_grid           39 / 100
 Math choice_grid             43 / 100
 Science choice_grid          56 / 100
 Logic choice_grid            47 / 100
@@ -67,58 +80,57 @@ English choice_grid          44 / 100
 Iqro choice_grid             58 / 100
 ```
 
-Distance remaining: **16 patterns** to minimum 50 and **26 patterns** to working target 60.
+If merged, distance remaining becomes **15 patterns** to minimum 50 and **25 patterns** to working target 60.
 
-## Pattern #34 — Bahasa Initial Sound — merged / closure PR #148 open
+## Pattern #35 — Bahasa Picture Word Match — QA ACCEPTED / UNMERGED
 
 Exact scope:
 
 ```text
-bahasa-awal-bola
-bahasa-awal-kucing
-bahasa-awal-pisang
+bahasa-gambar-apel
+bahasa-gambar-mobil
+bahasa-gambar-kucing
+bahasa-gambar-rumah
+bahasa-gambar-pisang
 ```
 
 Canonical boundaries:
 - subject `bahasa`;
-- stage `bahasa-dasar-huruf`;
-- lesson `bahasa-bunyi-awal`;
-- pack `bahasa.pack.bunyi-awal`;
-- skill `bahasa.bunyi.awal.recognition`;
+- stage `bahasa-suku-kata-kata`;
+- lesson `bahasa-kata-gambar`;
+- pack `bahasa.pack.kata-gambar`;
+- skill `bahasa.kata.picture_matching`;
 - assessed runtime remains `tap_choice`;
-- exactly three canonical uppercase single-letter choices and unchanged `correctChoice`;
-- `bahasa-match-awal-tas-susu` remains `visible_matching` and excluded;
-- vowel recognition/classification, Syllable Assembly, English inverse initial-sound tasks, letter ordering, Math and all other subjects are excluded;
+- exactly three canonical lowercase word choices and unchanged `correctChoice`;
+- `bahasa-pasang-kata-*` remains `visible_matching` and excluded;
+- Syllable Assembly, audio word recognition, Initial Sound, English, Math and all other subjects/families are excluded;
 - content, activity IDs, assessment, stars, mastery, progression, schema and migrations remain unchanged.
 
 Interaction/evidence contract:
-- render the existing familiar visual clue and canonical word with its first letter masked;
-- keep the initial-letter result masked as `?` before correct assessment;
-- ask the child to say/read the visible familiar word before choosing the initial letter;
+- render the existing familiar object as the primary visual clue;
+- keep the selected-word result masked as `?` before correct assessment;
 - preserve canonical keyboard/touch/pointer direct-selection evidence;
 - wrong choice records assessed incorrect/retry and cannot complete or reveal the answer;
-- correct choice completes the canonical activity and reveals the initial letter;
+- correct choice completes the canonical activity and reveals the canonical word;
 - no changed answer set, extra confirmation, drag-only dependency or intermediate assessment;
-- assessed fidelity `choice_initial_sound_interaction`;
-- runtime metadata source `initial-sound-runtime` with `word`, `initialSound`, `selectedChoice`.
+- assessed fidelity `choice_picture_word_match_interaction`;
+- runtime metadata source `picture-word-match-runtime` with `picture`, `word`, `selectedChoice`.
 
-QA and merge chain:
-- CI #701 / run `35059536603`, #702 / run `35068097261`, and #703 / run `35068805216` correctly caught invalid progression fixtures instead of allowing a false browser pass;
-- final fixture follows the actual Bahasa stage order: immediate prior stage `bahasa-cerita`, required practice `bahasa-cerita-teman`, completion-only contract;
-- accepted code head `207153f8e88f7c5e64949354c12b4feb1ee583e8` passed full CI #704 / run `35069389333`;
+QA chain so far:
+- branch starts exactly from Pattern #34 final main `8bfb0027a5f4963a6875310c7408cb56018cc422`;
+- accepted code head `e0f93bd20f24c2efaebfbaa7f782427e8d0e1bca` passed full CI #718 / run `35082720001`;
+- Ubuntu passed typecheck, lint, engine/learning regressions including exact Pattern #35 scope test, deterministic quality, distribution, simulations and Batch17;
+- Windows, production build, dependency audit and secret-history scan passed;
+- Chromium canonical mobile/accessibility matrix and dedicated Picture Word Match browser QA passed;
 - all nine 320x720, 390x844 and 768x1024 idle/wrong/success screenshots passed manual visual acceptance;
-- final canonical implementation docs head `e12d9eef073a9989bb8e9b6f8d374e098e17edde` passed full CI #709 / run `35072401631`;
-- PR #147 passed clean exact-head review/thread/mergeability/scope gate and squash merged as `42da6cfd2114bd29b9aa4ddd36361bb975db2bf1`;
-- `main` was independently verified at that exact SHA;
-- post-merge `main` CI #710 / run `35072815182` passed Ubuntu, Windows, production build, dependency audit, secret-history scan, Chromium mobile/accessibility/browser QA, deterministic quality/distribution audits, simulations, Batch17 and Cloudflare production smoke;
-- closure PR #148 is docs-only and restricted to exactly the five canonical Pattern #34 docs;
-- deterministic quality remains 900 KEEP / 0 flagged / structural findings 0.
+- deterministic quality remains 900 KEEP / 0 flagged / structural findings 0;
+- distribution remains 900/900 classified, 35 candidate patterns, no global advisory hotspot above 35%.
 
-Pattern #34 becomes **FULLY CLOSED only after closure PR #148 passes fresh exact-head CI, clean review/thread/mergeability/scope gate, exact-head merge, independent final `main` verification, and final post-closure `main` CI including Cloudflare production smoke**.
+Pattern #35 remains unmerged. Required next gates: fresh canonical docs-head CI -> clean review/thread/mergeability/scope gate -> exact-head squash merge -> independent `main` verification -> post-merge full CI + Cloudflare smoke -> separate docs-only closure branch/PR -> closure exact-head CI/gate/merge -> final `main` + Cloudflare verification.
 
-## Pattern #33 — Equal Groups — FULLY CLOSED
+## Pattern #34 — Initial Sound — FULLY CLOSED
 
-Implementation PR #145 and closure PR #146 are complete. Final verified `main` is `0f90a7fae1164ae6ace86f993024cef7b4989ca9`; CI #700 / run `35058250562` passed the full matrix including Cloudflare production smoke.
+Implementation PR #147 and closure PR #148 are complete. Closure CI #716 / run `35073594364` passed. Final verified `main` is `8bfb0027a5f4963a6875310c7408cb56018cc422`; final CI #717 / run `35074306579` passed the full matrix including Cloudflare production smoke.
 
 ## Definition of Done
 
@@ -126,9 +138,10 @@ A mechanic is complete only when implementation, typecheck/lint/build, engine te
 
 ## Current execution order
 
-1. Finish Pattern #34 closure PR #148 through exact closure-head CI, clean exact-head merge and final `main` + Cloudflare verification.
-2. Only after Pattern #34 is fully closed, run a **fresh objective/evidence audit for Pattern #35**; no family is pre-approved.
-3. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
-4. Continue WS-08 visual system, WS-02 narration, WS-03 parent/public frontend, WS-10 external acceptance, WS-11 governance, then later cleanup.
+1. Finish Pattern #35 PR #149: canonical docs -> fresh exact docs-head CI -> clean exact-head merge gate -> merge -> live `main` + Cloudflare verification.
+2. Complete separate docs-only Pattern #35 closure and final `main` verification.
+3. Only after Pattern #35 is fully closed, run a fresh objective/evidence audit for Pattern #36; no family is pre-approved.
+4. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
+5. Continue WS-08 visual system, WS-02 narration, WS-03 parent/public frontend, WS-10 external acceptance, WS-11 governance, then later cleanup.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion, or major mastery/backend rewrites during this quality phase.
