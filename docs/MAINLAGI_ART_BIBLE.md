@@ -4,12 +4,11 @@ Status: **CANONICAL VISUAL DIRECTION / MIGRATION IN PROGRESS**
 Established: **16 September 2026**  
 Source audit: `PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md`
 
-This document defines the visual language that future Mainlagi product work must converge toward. It does **not** require a one-shot rewrite of every existing screen. Migration is wave-based, evidence-backed and must preserve learning/progression behavior.
+This document defines the visual language that future Mainlagi product work must converge toward. It does **not** require a one-shot rewrite of every existing screen. Migration is wave-based, evidence-backed and must preserve learning/progression/auth behavior.
 
 ## 1. Product feeling
 
 Mainlagi should feel:
-
 - warm, playful and calm rather than noisy;
 - child-friendly without looking babyish;
 - trustworthy for parents without turning into a generic SaaS dashboard;
@@ -27,7 +26,13 @@ Use the fullest Garden expression: cream paper, sky/grass environment, friendly 
 
 ### Parent / family / account / auth
 
-Use the same Mainlagi family, but calmer and denser than child gameplay. Keep cream/white surfaces, navy ink, green primary actions, restrained sky/sage accents and consistent rounded geometry. Avoid enterprise-dashboard styling.
+Use the same Mainlagi family, but calmer and denser than child gameplay. Keep cream/white surfaces, navy ink, green primary actions, restrained sky/sage accents and consistent rounded geometry. Avoid enterprise-dashboard styling and avoid isolated generic utility dialogs that feel unrelated to the family product.
+
+### Public / clean-session entry
+
+The public root must explain the product before assuming child mode. A clean session should make it obvious that Mainlagi is for families with children 3–7, provide a clear child-start action and a distinct parent/account action, and explain that movement-camera play is optional without inventing privacy/security claims that the product cannot substantiate.
+
+Known-child fast resume remains desirable and may bypass the public landing when a valid active child is already known.
 
 ### Motion-game runtime
 
@@ -108,6 +113,7 @@ Rules:
 - Do not create large empty desktop regions unless they improve task focus.
 - Mobile content must respect safe areas.
 - Child task composition should fit the primary decision and feedback state without unnecessary scrolling whenever feasible.
+- Auth/public utility pages should use wide-screen space to provide context, not center a tiny isolated card in a large empty canvas.
 
 ## 6. Radius and shape
 
@@ -167,20 +173,24 @@ Use friendly icon/illustration, clear title, minimal metadata and an obvious sta
 
 Use fewer cards with stronger grouping. Prefer a summary statement first, supporting metric second, technical detail behind disclosure or lower hierarchy.
 
-VUI-01 establishes the accepted family-report example: weekly summary first, evidence-based patterns second, grouped subject detail third, diagnostics behind disclosure. Parent analytics should not default to a grid of equally loud technical cards.
+VUI-01 establishes the accepted family-report example: weekly summary first, evidence-based patterns second, grouped subject detail third, diagnostics behind disclosure.
 
 ### Stage / lesson cards
 
 Must communicate at least one of: progress, readiness, recommendation, completion or lock reason. Do not present repeated white rectangles with equal emphasis if their states differ.
 
 Accepted VUI-02 rules:
-- stage title/subtitle and readiness may share one major Garden panel when this makes the current state easier to read;
+- stage title/subtitle and readiness may share one major Garden panel when this makes current state easier to read;
 - readiness visual emphasis must use existing readiness data and may not invent or weaken a progression gate;
 - lesson title/objective/progress should form a clear group before activity cards;
 - lesson card count must follow usable width **and actual item count**, not a global fixed 3/4-column grid;
 - for one to three stage activities, content-aware layouts such as `auto-fit` are preferred when they prevent accidental empty canvas;
-- recommendation may receive visual emphasis, but the canonical recommendation source and activity ordering must remain unchanged;
+- recommendation may receive visual emphasis, but canonical recommendation source and activity ordering must remain unchanged;
 - optional motion must remain visually distinguishable from required learning steps.
+
+### Auth cards / family utility panels
+
+Auth surfaces should not look like a generic product bolted onto Mainlagi. A login/signup/forgot/callback panel should share family typography, cream/white surfaces, green actions, navy text, visible focus states and restrained Garden context. The visual shell may change; Supabase operations, validation and redirect semantics must not change unless separately justified and tested.
 
 ## 10. Icons and symbols
 
@@ -204,7 +214,7 @@ Use characters when they:
 
 Do not place characters where they obstruct choices, reading surfaces, canvas or motion tracking.
 
-Adult surfaces may use smaller/restrained character presence to preserve family continuity.
+Adult surfaces may use smaller/restrained character presence to preserve family continuity. Public/auth character use should support context, not make parent flows feel like child gameplay.
 
 ## 12. Feedback states
 
@@ -224,6 +234,8 @@ Parent/system surfaces additionally require:
 - degraded/offline when applicable;
 - success/confirmation.
 
+Auth status/error copy must remain readable and must not be visually confused with ordinary helper text.
+
 ## 13. Navigation
 
 ### Child
@@ -231,7 +243,7 @@ Parent/system surfaces additionally require:
 Navigation should be minimal and predictable. Activities hide global navigation when focus is required. Back must have an accessible name even when only an icon is visible.
 
 For subject stage journeys:
-- phone may use a compact horizontal carousel; showing a partial next card is acceptable as a deliberate scroll affordance when the current card remains fully readable;
+- phone may use a compact horizontal carousel; showing a partial next card is acceptable as a deliberate scroll affordance when current card remains fully readable;
 - tablet/desktop should normally expose stage choices without an internal horizontal scroller when usable width is sufficient;
 - changing journey layout must not change stage order, stage status or destination routes.
 
@@ -241,7 +253,9 @@ Navigation may be broader, but should remain clearly separated from child mode. 
 
 ### Root entry
 
-Known-child fast resume is desirable. First-time/signed-out visitors still need a deliberate adult/public entry with a clear path to start/create/select a child profile.
+Known-child fast resume is desirable. First-time/signed-out visitors need a deliberate adult/family entry with a clear path to start/select a child profile and a distinct path to parent/account controls.
+
+The root may use the public navigation rather than the child `PlayroomShell` when there is no active child. Do not create duplicate navigation shells.
 
 ## 14. Responsive baseline
 
@@ -263,7 +277,8 @@ Rules:
 - cards should reflow based on readable width, not fixed desktop assumptions;
 - a layout is not accepted merely because it does not overflow: pathological word wrapping, clipped internal scrollers, cramped columns or visibly poor hierarchy are visual failures;
 - column count must follow **usable content width after sidebars/padding** and actual content count, not viewport width alone;
-- internal horizontal scrolling should be intentional and device-appropriate, not an accidental consequence of desktop card widths.
+- internal horizontal scrolling should be intentional and device-appropriate, not an accidental consequence of desktop card widths;
+- public/auth desktop layouts should use contextual composition rather than leaving the primary panel floating alone in excessive empty space.
 
 VUI-01 precedent: report metrics are one column on phone, 2+1 at 768 because the parent sidebar reduces usable width, and three columns on 1280.
 
@@ -280,13 +295,19 @@ Child copy:
 Parent copy:
 - explain what happened and what to do next;
 - preserve truthfulness of evidence/mastery;
-- translate `attempt`, `assessed`, `qualifying evidence`, `retry`, etc. into normal parent language in the primary UI;
-- technical labels may appear in diagnostic/detail views;
-- moving jargon behind disclosure must not delete or distort underlying evidence semantics.
+- translate internal analytics vocabulary into normal parent language in primary UI;
+- technical labels may appear in diagnostic/detail views.
 
 Public copy:
-- explain what Mainlagi is, who it is for, why it is useful and what camera/data expectations are;
-- distinguish child play from parent controls.
+- explain what Mainlagi is and who it is for;
+- distinguish child play from parent/account controls;
+- explain that movement-camera play is optional when relevant;
+- do not state privacy/security guarantees that are not implemented or documented.
+
+Auth copy:
+- use normal family-facing language;
+- preserve exact validation/error meaning;
+- do not hide account/session consequences behind playful wording.
 
 ## 16. Accessibility
 
@@ -322,6 +343,8 @@ VUI-01 adds a product-level regression: Parent Report primary layer must not lea
 
 VUI-02 adds geometry regressions on canonical Math subject/stage routes: tablet/desktop stage journey may not require internal horizontal scrolling, stage lesson cards must retain readable widths, readiness summary must exist and exactly one canonical recommendation remains visually marked.
 
+VUI-03 must add explicit regression markers for clean-session family/public entry and the shared auth family shell without weakening auth behavior tests.
+
 ## 18. Migration policy
 
 Do not replace all existing CSS at once.
@@ -344,7 +367,8 @@ This Art Bible does not authorize:
 - weakening readiness/mastery gates to make screenshots easier;
 - changing adaptive recommendation ranking merely to make a highlighted card convenient;
 - reordering lessons/activities for visual symmetry without a learning reason;
-- inventing new audio/illustration claims;
+- changing auth/session/security behavior merely to simplify public/auth presentation;
+- inventing privacy or camera guarantees not backed by implementation;
 - replacing Iqro expert review;
 - mass-generating decorative assets without provenance;
 - converting all parent metrics into gamified scores.
@@ -355,7 +379,8 @@ Garden representative activities: **ACCEPTED anchor**.
 Whole-product visual system: **MIGRATION REQUIRED**.  
 Permanent visual QA gate: **FULLY CLOSED / BLOCKING on main `9269e9fd...`, CI #751 including exact Cloudflare smoke**.  
 Parent Report VUI-01: **FULLY CLOSED on main `e212002e...`, CI #758 including exact Cloudflare smoke**.  
-Stage/Gallery VUI-02: **EXACT-HEAD ACCEPTED on PR #158 head `7e85721...`, CI #759; merge/live verification pending**.  
+Stage/Gallery VUI-02: **FULLY CLOSED on main `fe260ba7...`, CI #764 including exact Cloudflare smoke**.  
 Permanent baseline evidence remains **42 / 42 exact-path captures + manifest at 390 / 768 / 1280**.  
-Next migration wave after VUI-02 closure: **VUI-03 Public/Auth/Account convergence**.  
+Next migration wave: **VUI-03 Public/Auth/Account convergence**.  
+Current baseline: **P0=0 / P1=2 / P2=3**.  
 Pattern #38: **BLOCKED until remaining baseline P1 findings are closed**.
