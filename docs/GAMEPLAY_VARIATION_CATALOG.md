@@ -13,7 +13,7 @@
 
 ## Status implementasi
 
-### Verified merged gameplay baseline: 35 pola
+### Verified merged gameplay baseline: 36 pola
 
 Patterns #1–#34 remain as previously closed/merged. Latest entries:
 
@@ -23,36 +23,26 @@ Patterns #1–#34 remain as previously closed/merged. Latest entries:
 33. `equal_groups` — MERGED PR #145; CLOSED PR #146; FULLY CLOSED
 34. `initial_sound` — MERGED PR #147; CLOSED PR #148; FULLY CLOSED
 35. `picture_word_match` — MERGED PR #149; CLOSED PR #150; **FULLY CLOSED**
-36. `sentence_order_cards` — **PR #151 QA ACCEPTED / UNMERGED**
+36. `sentence_order_cards` — MERGED PR #151; **LIVE VERIFIED / CLOSURE IN PROGRESS**
 
 Permanent gameplay-distribution audit: MERGED PR #105.
 
-Verified merged Pattern #35 baseline:
+Current verified merged distribution after PR #151:
 
 ```text
 900 / 900 classified
 0 unclassified
-35 active merged patterns
-choice_grid                 287 / 900 = 31.89%
-picture_word_match            5 / 900 = 0.56%
-Bahasa choice_grid            39 / 100
-```
-
-Accepted Pattern #36 candidate from CI #728:
-
-```text
-900 / 900 classified
-0 unclassified
-36 active candidate patterns
+36 active child-facing patterns
 choice_grid                 282 / 900 = 31.33%
 sentence_order_cards          5 / 900 = 0.56%
 picture_word_match            5 / 900 = 0.56%
+initial_sound                  3 / 900 = 0.33%
 Bahasa choice_grid            34 / 100
 ```
 
-Candidate distance is **14** patterns to minimum 50 and **24** to working target 60.
+Distance remaining is **14** patterns to minimum 50 and **24** to working target 60.
 
-### `sentence_order_cards` — Pattern #36 QA ACCEPTED / UNMERGED
+### `sentence_order_cards` — Pattern #36 MERGED / LIVE VERIFIED
 
 Exact scope:
 
@@ -72,7 +62,7 @@ Boundaries:
 - canonical skill `bahasa.kalimat.order`;
 - assessed runtime remains `tap_choice`;
 - exactly three canonical sentence choices and unchanged `correctChoice`;
-- non-scope Bahasa meaning/comprehension, listening, matching, previous literacy patterns, Letters ordering, Logic ordering, Math ordering and all other families remain unchanged;
+- non-scope Bahasa meaning/comprehension, listening, matching, prior literacy patterns, Letters ordering, Logic ordering, Math ordering and all other families remain unchanged;
 - activity identity, content, assessment, stars, mastery, progression, schema and migrations remain canonical;
 - assessed fidelity `choice_sentence_order_cards_interaction`;
 - runtime metadata source `sentence-order-cards-runtime`.
@@ -82,17 +72,19 @@ Interaction:
 - keep the three sentence choices as direct keyboard/touch/pointer buttons;
 - wrong selection is retryable/measured and cannot complete;
 - correct selection completes the existing canonical activity;
-- no drag-only dependency, changed word order in the payload, invented token, extra confirmation or intermediate assessment.
+- no drag-only dependency, changed answer payload, invented token, extra confirmation or intermediate assessment.
 
-Verified QA evidence:
-- branch started from Pattern #35 fully closed `main` `b00a5b59e213dcd3f2410dd2ffb45c2e7f8dc3d0`;
+Verified evidence:
+- implementation branch started from Pattern #35 fully closed `main` `b00a5b59e213dcd3f2410dd2ffb45c2e7f8dc3d0`;
 - accepted code head `595bc4e94065eb5250aef27797858641ca959c67` passed full CI #728 / run `35089266590`;
-- 900/900 classification passes with 36 active candidate patterns and no global hotspot above 35%;
-- deterministic quality remains 900 KEEP / 0 flagged / structural findings 0;
-- dedicated representative `bahasa-urut-ibu-memasak` passed 320x720, 390x844 and 768x1024 browser QA with legitimate prior-stage readiness, keyboard wrong-state, pointer success, completion/evidence guards, touch targets, overflow and visible feedback/CTA;
-- all nine idle/wrong/success screenshots passed manual visual acceptance.
+- final implementation head `1b7917046d6b3cbe365132a3610d2dddc74286c1` passed full CI #729 / run `35090113449`;
+- all nine 320x720, 390x844 and 768x1024 idle/wrong/success screenshots passed manual visual acceptance;
+- PR #151 passed clean exact-head scope/review/thread/mergeability gates and squash merged as `e27339c32edbad5e9587ebc0b87365318d5d9fad`;
+- post-merge CI #730 / run `35092795526` passed the complete matrix including exact **Production smoke (Cloudflare)**;
+- 900/900 classification passes with 36 active merged patterns and no global hotspot above 35%;
+- deterministic quality remains 900 KEEP / 0 flagged / structural findings 0.
 
-Pattern #36 still requires final canonical docs-head CI, clean exact-head implementation merge, independent live `main` verification + Cloudflare smoke, separate docs-only closure, and final live verification before **FULLY CLOSED**.
+Pattern #36 still requires this separate docs-only closure to pass fresh exact-head CI, clean merge gate, exact-head closure merge, and final independent `main` + Cloudflare verification before **FULLY CLOSED**.
 
 ### `picture_word_match` — Pattern #35 FULLY CLOSED
 
@@ -123,8 +115,8 @@ Coverage dan implemented-pattern consistency bersifat blocking; concentration be
 - Take Away — DONE / #143 + #144, fully closed.
 - Equal Groups — DONE / #145 + #146, fully closed.
 - Initial Sound — DONE / #147 + #148, fully closed.
-- Picture Word Match — DONE / #149 + #150, fully closed; final main `b00a5b59e213dcd3f2410dd2ffb45c2e7f8dc3d0`, final CI #727.
-- Sentence Order Cards — **PR #151 QA ACCEPTED / UNMERGED**; accepted code head `595bc4e94065eb5250aef27797858641ca959c67`, CI #728 full success.
+- Picture Word Match — DONE / #149 + #150, fully closed.
+- Sentence Order Cards implementation — **MERGED / LIVE VERIFIED via PR #151**; implementation merge `e27339c32edbad5e9587ebc0b87365318d5d9fad`; post-merge CI #730 full success; docs-only closure in progress.
 - NEXT only after Pattern #36 full closure — fresh objective/evidence audit for Pattern #37; no family pre-approved.
 
 ## Definition of done per mechanic
