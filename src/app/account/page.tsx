@@ -4,15 +4,16 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Icon } from "@/components/Icon";
 import { getCurrentUser, signOut } from "@/lib/auth/supabase-auth";
+import styles from "./AccountPage.module.css";
 
 const SECTIONS = [
-  { label: "Profil", href: "/account/profile", icon: "account" as const },
-  { label: "Pemain", href: "/account/players", icon: "games" as const },
-  { label: "Preferensi", href: "/account/preferences", icon: "settings" as const },
-  { label: "Keamanan", href: "/account/security", icon: "lock" as const },
-  { label: "Tentang", href: "/account/about", icon: "globe" as const },
-  { label: "FAQ", href: "/faq", icon: "faq" as const },
-  { label: "Hapus akun", href: "/account/delete", icon: "close" as const }
+  { label: "Profil", detail: "Data akun keluarga", href: "/account/profile", icon: "account" as const },
+  { label: "Pemain", detail: "Kelola profil anak", href: "/account/players", icon: "games" as const },
+  { label: "Preferensi", detail: "Atur pengalaman keluarga", href: "/account/preferences", icon: "settings" as const },
+  { label: "Keamanan", detail: "Kata sandi dan akses", href: "/account/security", icon: "lock" as const },
+  { label: "Tentang", detail: "Informasi Mainlagi", href: "/account/about", icon: "globe" as const },
+  { label: "FAQ", detail: "Jawaban pertanyaan umum", href: "/faq", icon: "faq" as const },
+  { label: "Hapus akun", detail: "Kelola penghapusan data akun", href: "/account/delete", icon: "close" as const, danger: true }
 ];
 
 export default function AccountPage() {
@@ -26,23 +27,35 @@ export default function AccountPage() {
   }, []);
 
   return (
-    <main className="fun-home">
-      <section className="page-shell fun-section account-page">
-        <header className="fun-section__head">
+    <main className={styles.page} data-mainlagi-account-family-shell>
+      <section className={styles.shell}>
+        <header className={styles.header}>
+          <p className={styles.eyebrow}>Area orang tua</p>
           <h1>Akun keluarga</h1>
+          <p>
+            Kelola akun, profil anak, preferensi, dan keamanan dari satu tempat. Anak tetap bisa bermain tanpa akun keluarga.
+          </p>
         </header>
 
+        {loading && (
+          <div className={styles.loading} role="status">
+            Menyiapkan akun keluarga…
+          </div>
+        )}
+
         {!loading && !user && (
-          <div className="account-gate">
-            <p>
-              Masuk untuk menyimpan progress, mengelola pemain, dan mengikuti
-              leaderboard. Kamu tetap bisa bermain tanpa akun.
-            </p>
-            <div className="account-gate__actions">
-              <Link className="button button--primary" href="/login">
+          <div className={styles.gate} data-mainlagi-account-signed-out>
+            <div className={styles.gateCopy}>
+              <strong>Simpan progres keluarga di akun Mainlagi.</strong>
+              <p>
+                Masuk untuk menyimpan progres, mengelola pemain, dan mengikuti leaderboard. Kamu tetap bisa bermain tanpa akun.
+              </p>
+            </div>
+            <div className={styles.actions}>
+              <Link className={styles.primary} href="/login">
                 Masuk
               </Link>
-              <Link className="button button--ghost" href="/signup">
+              <Link className={styles.secondary} href="/signup">
                 Buat akun
               </Link>
             </div>
@@ -50,18 +63,18 @@ export default function AccountPage() {
         )}
 
         {!loading && user && (
-          <div className="account-user">
-            <div className="account-user__head">
-              <span className="account-avatar" aria-hidden>
+          <div className={styles.userCard} data-mainlagi-account-signed-in>
+            <div className={styles.userIdentity}>
+              <span className={styles.avatar} aria-hidden>
                 {user.name.slice(0, 1).toUpperCase()}
               </span>
-              <div>
+              <div className={styles.identityCopy}>
                 <strong>{user.name}</strong>
                 <small>{user.email}</small>
               </div>
             </div>
             <button
-              className="button button--ghost"
+              className={styles.secondary}
               type="button"
               onClick={() => void signOut().then(() => setUser(null))}
             >
@@ -70,13 +83,25 @@ export default function AccountPage() {
           </div>
         )}
 
-        <nav className="account-grid" aria-label="Pengaturan akun">
+        <div className={styles.sectionHead}>
+          <h2>Pengaturan keluarga</h2>
+          <p>Pengaturan orang tua tetap terpisah dari area bermain anak.</p>
+        </div>
+
+        <nav className={styles.grid} aria-label="Pengaturan akun" data-mainlagi-account-settings>
           {SECTIONS.map((section) => (
-            <Link key={section.href} href={section.href} className="account-link">
-              <span className="account-link__icon">
+            <Link
+              key={section.href}
+              href={section.href}
+              className={`${styles.link} ${section.danger ? styles.danger : ""}`}
+            >
+              <span className={styles.linkIcon} aria-hidden>
                 <Icon name={section.icon} size={22} />
               </span>
-              <span>{section.label}</span>
+              <span className={styles.linkCopy}>
+                <strong>{section.label}</strong>
+                <small>{section.detail}</small>
+              </span>
             </Link>
           ))}
         </nav>

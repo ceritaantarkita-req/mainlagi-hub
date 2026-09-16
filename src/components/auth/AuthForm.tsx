@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getBrowserClient } from "@/lib/auth/supabase-client";
+import styles from "./AuthForm.module.css";
 
 type Mode = "login" | "signup" | "forgot";
 
@@ -63,12 +64,13 @@ export function AuthForm({ mode }: { mode: Mode }) {
   };
 
   return (
-    <form className="auth-form" onSubmit={(event) => void submit(event)}>
+    <form className={styles.form} onSubmit={(event) => void submit(event)} data-mainlagi-auth-form={mode}>
       <h1>{COPY[mode].title}</h1>
 
-      <label>
+      <label className={styles.label}>
         <span>Email</span>
         <input
+          className={styles.input}
           type="email"
           autoComplete="email"
           value={email}
@@ -78,9 +80,10 @@ export function AuthForm({ mode }: { mode: Mode }) {
       </label>
 
       {mode !== "forgot" && (
-        <label>
+        <label className={styles.label}>
           <span>Kata sandi</span>
           <input
+            className={styles.input}
             type="password"
             autoComplete={mode === "login" ? "current-password" : "new-password"}
             value={password}
@@ -91,13 +94,13 @@ export function AuthForm({ mode }: { mode: Mode }) {
         </label>
       )}
 
-      {message && <p className="auth-form__message">{message}</p>}
+      {message && <p className={styles.message}>{message}</p>}
 
-      <button className="button button--primary" type="submit" disabled={loading}>
+      <button className={styles.submit} type="submit" disabled={loading}>
         {loading ? "Memproses…" : COPY[mode].cta}
       </button>
 
-      <nav className="auth-form__links">
+      <nav className={styles.links} aria-label="Tautan akun">
         {mode === "login" ? (
           <>
             <Link href="/signup">Buat akun</Link>

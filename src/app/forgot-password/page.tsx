@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
 import { AuthForm } from "@/components/auth/AuthForm";
+import { AuthFamilyShell } from "@/components/auth/AuthFamilyShell";
 
 export const metadata: Metadata = { title: "Lupa kata sandi" };
 
 export default function ForgotPasswordPage() {
   return (
-    <main className="center-page">
-      <section className="dialog-card">
-        <AuthForm mode="forgot" />
-      </section>
-    </main>
+    <AuthFamilyShell>
+      <AuthForm mode="forgot" />
+    </AuthFamilyShell>
   );
 }

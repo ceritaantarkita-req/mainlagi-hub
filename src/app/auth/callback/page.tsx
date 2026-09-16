@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { AuthFamilyShell, AuthFamilyStatus } from "@/components/auth/AuthFamilyShell";
 import { exchangeAuthCode, verifyEmailOtp } from "@/lib/auth/supabase-auth";
 
 export default function AuthCallbackPage() {
@@ -17,8 +17,8 @@ export default function AuthCallbackPage() {
     if (errorCode) {
       setMessage(
         errorCode === "otp_expired"
-          ? 'Tautan sudah kedaluwarsa atau sudah terpakai. Minta tautan baru lalu coba lagi.'
-          : 'Tautan tidak valid. Minta tautan baru lalu coba lagi.'
+          ? "Tautan sudah kedaluwarsa atau sudah terpakai. Minta tautan baru lalu coba lagi."
+          : "Tautan tidak valid. Minta tautan baru lalu coba lagi."
       );
       return;
     }
@@ -63,14 +63,8 @@ export default function AuthCallbackPage() {
   }, [router]);
 
   return (
-    <main className="center-page">
-      <section className="dialog-card">
-        <h1>Mainlagi Hub</h1>
-        <p>{message}</p>
-        <Link className="button button--primary" href="/">
-          Kembali
-        </Link>
-      </section>
-    </main>
+    <AuthFamilyShell>
+      <AuthFamilyStatus title="Mainlagi" message={message} />
+    </AuthFamilyShell>
   );
 }

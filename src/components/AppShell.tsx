@@ -8,14 +8,18 @@ import { SiteFooter } from "@/components/SiteFooter";
 
 function isImmersivePath(pathname: string): boolean {
   return (
-    pathname === "/" ||
     pathname.startsWith("/play/") ||
     pathname.startsWith("/admin/") ||
     pathname === "/admin" ||
     pathname.startsWith("/child/") ||
     pathname === "/child" ||
     pathname.startsWith("/parent/") ||
-    pathname === "/parent"
+    pathname === "/parent" ||
+    pathname === "/login" ||
+    pathname === "/signup" ||
+    pathname === "/forgot-password" ||
+    pathname === "/reset-password" ||
+    pathname.startsWith("/auth/")
   );
 }
 
@@ -23,8 +27,9 @@ function isImmersivePath(pathname: string): boolean {
  * Global app shell.
  *
  * Public/legacy pages keep the existing site navigation. Gameplay, admin,
- * child learning, and parent surfaces own their viewport and therefore drop
- * the public navigation entirely.
+ * child learning, parent, and family-auth surfaces own their viewport and
+ * therefore drop the public navigation entirely. The root is public/family-
+ * facing for a clean session; HomePage itself preserves known-child fast resume.
  */
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
