@@ -171,6 +171,8 @@ Use friendly icon/illustration, clear title, minimal metadata and an obvious sta
 
 Use fewer cards with stronger grouping. Prefer a summary statement first, supporting metric second, technical detail behind disclosure or lower hierarchy.
 
+VUI-01 establishes the first accepted family-report example: weekly summary first, evidence-based patterns second, grouped subject detail third, diagnostics behind disclosure. Parent analytics should not default to a grid of equally loud technical cards.
+
 ### Stage / lesson cards
 
 Must communicate at least one of: progress, readiness, recommendation, completion or lock reason. Do not present repeated white rectangles with equal emphasis if their states differ.
@@ -253,7 +255,11 @@ Rules:
 - CTA and current task must remain discoverable without layout ambiguity;
 - tablet/desktop must use available space intentionally, not merely stretch mobile whitespace;
 - navigation must not cover content;
-- cards should reflow based on readable width, not fixed desktop assumptions.
+- cards should reflow based on readable width, not fixed desktop assumptions;
+- a layout is not accepted merely because it does not overflow: pathological word wrapping, cramped columns or visibly poor hierarchy are visual failures;
+- column count must follow **usable content width after sidebars/padding**, not viewport width alone.
+
+VUI-01 evidence is the concrete precedent: three report metrics are one column on phone, 2+1 at the 768 tablet layout because the parent sidebar reduces usable width, and three columns on 1280 desktop.
 
 ## 15. Copy rules
 
@@ -268,8 +274,9 @@ Parent copy:
 
 - explain what happened and what to do next;
 - preserve truthfulness of evidence/mastery;
-- translate `attempt`, `assessed`, `qualifying evidence`, etc. into normal parent language in the primary UI;
-- technical labels may appear in diagnostic/detail views.
+- translate `attempt`, `assessed`, `qualifying evidence`, `retry`, etc. into normal parent language in the primary UI;
+- technical labels may appear in diagnostic/detail views;
+- moving jargon behind disclosure must not delete or distort the underlying evidence semantics.
 
 Public copy:
 
@@ -300,9 +307,12 @@ Visual acceptance requires:
 - hierarchy is readable at actual screenshot scale;
 - interactive controls are fully visible and correctly labeled;
 - state screenshots show intended differences;
-- source/content semantics remain unchanged unless the change explicitly targets content/copy.
+- source/content semantics remain unchanged unless the change explicitly targets content/copy;
+- automated structure checks **and** manual screenshot review agree that the layout is usable.
 
-VQA-01 operationalizes this rule with 42 exact-path captures across 14 canonical surfaces at 390x844, 768x1024 and 1280x800, plus a machine-readable manifest. Browser/structural assertions are blocking; the screenshots remain the visual evidence surface for review rather than a brittle pixel-perfect diff.
+VQA-01 operationalizes this rule with 42 exact-path captures across 14 canonical surfaces at 390x844, 768x1024 and 1280x800, plus a machine-readable manifest. Browser/structural assertions are blocking; screenshots remain the visual evidence surface for human/AI review rather than a brittle pixel-perfect diff.
+
+VUI-01 adds an additional product-level regression: the Parent Report primary layer must not leak guarded internal analytics vocabulary; technical terms remain allowed in explicitly marked diagnostic disclosure.
 
 ## 18. Migration policy
 
@@ -335,7 +345,8 @@ This Art Bible does not authorize:
 
 Garden representative activities: **ACCEPTED anchor**.  
 Whole-product visual system: **MIGRATION REQUIRED**.  
-Permanent visual QA gate: **EXACT-HEAD ACCEPTED on PR #156 CI #745; merge/live verification pending**.  
+Permanent visual QA gate: **FULLY CLOSED / BLOCKING on main `9269e9fd...`, CI #751 including exact Cloudflare smoke**.  
 Permanent baseline evidence: **42 / 42 exact-path captures + manifest at 390 / 768 / 1280**.  
-Next migration wave: **VUI-01 Parent Report convergence**.  
+Parent Report VUI-01: **EXACT-HEAD ACCEPTED on PR #157 head `6a445046...`, CI #753; merge/live verification pending**.  
+Next migration wave after VUI-01 closure: **VUI-02 Stage/Gallery convergence**.  
 Pattern #38: **BLOCKED until remaining baseline P1 findings are closed**.
