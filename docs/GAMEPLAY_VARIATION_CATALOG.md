@@ -15,19 +15,20 @@
 
 ### Verified merged gameplay baseline: 36 pola
 
-Patterns #1–#34 remain as previously closed/merged. Latest entries:
+Patterns #1–#35 remain as previously closed/merged. Latest entries:
 
 30. `syllable_assembly` — MERGED PR #139; CLOSED PR #140; FULLY CLOSED
 31. `make_total` — MERGED PR #141; CLOSED PR #142; FULLY CLOSED
 32. `take_away` — MERGED PR #143; CLOSED PR #144; FULLY CLOSED
 33. `equal_groups` — MERGED PR #145; CLOSED PR #146; FULLY CLOSED
 34. `initial_sound` — MERGED PR #147; CLOSED PR #148; FULLY CLOSED
-35. `picture_word_match` — MERGED PR #149; CLOSED PR #150; **FULLY CLOSED**
-36. `sentence_order_cards` — MERGED PR #151; **LIVE VERIFIED / CLOSURE IN PROGRESS**
+35. `picture_word_match` — MERGED PR #149; CLOSED PR #150; FULLY CLOSED
+36. `sentence_order_cards` — MERGED PR #151; CLOSED PR #152; **FULLY CLOSED**
+37. `reading_passage_question` — **IMPLEMENTATION ACCEPTED / PR #153 OPEN**
 
 Permanent gameplay-distribution audit: MERGED PR #105.
 
-Current verified merged distribution after PR #151:
+Current verified merged distribution on `main` remains:
 
 ```text
 900 / 900 classified
@@ -36,59 +37,67 @@ Current verified merged distribution after PR #151:
 choice_grid                 282 / 900 = 31.33%
 sentence_order_cards          5 / 900 = 0.56%
 picture_word_match            5 / 900 = 0.56%
-initial_sound                  3 / 900 = 0.33%
 Bahasa choice_grid            34 / 100
 ```
 
-Distance remaining is **14** patterns to minimum 50 and **24** to working target 60.
+Accepted Pattern #37 implementation-head distribution:
 
-### `sentence_order_cards` — Pattern #36 MERGED / LIVE VERIFIED
+```text
+900 / 900 classified
+0 unclassified
+37 active candidate patterns
+choice_grid                    277 / 900 = 30.78%
+reading_passage_question         5 / 900 = 0.56%
+Bahasa choice_grid                29 / 100
+```
+
+If Pattern #37 is merged unchanged, distance remaining becomes **13** patterns to minimum 50 and **23** to working target 60.
+
+### `reading_passage_question` — Pattern #37 IMPLEMENTATION ACCEPTED
 
 Exact scope:
 
 ```text
-bahasa-urut-ibu-memasak
-bahasa-urut-adi-berlari
-bahasa-urut-kucing-tidur
-bahasa-urut-siti-membaca
-bahasa-urut-burung-terbang
+bahasa-baca-lala-kucing
+bahasa-baca-dodi-sepeda
+bahasa-baca-nina-bunga
+bahasa-baca-raka-sarapan
+bahasa-baca-sari-hujan
 ```
 
 Boundaries:
 - subject `bahasa`;
 - stage `bahasa-kalimat-pemahaman`;
-- lesson `bahasa-kalimat-urutan`;
-- pack `bahasa.pack.kalimat-urutan`;
-- canonical skill `bahasa.kalimat.order`;
+- lesson `bahasa-bacaan-pendek`;
+- pack `bahasa.pack.bacaan-pendek`;
+- canonical skill `bahasa.bacaan.short_comprehension`;
 - assessed runtime remains `tap_choice`;
-- exactly three canonical sentence choices and unchanged `correctChoice`;
-- non-scope Bahasa meaning/comprehension, listening, matching, prior literacy patterns, Letters ordering, Logic ordering, Math ordering and all other families remain unchanged;
+- exactly three canonical answers, answer order and unchanged `correctChoice`;
+- non-scope Bahasa meaning, listening, sentence-order, picture-word, matching and all other families remain unchanged;
 - activity identity, content, assessment, stars, mastery, progression, schema and migrations remain canonical;
-- assessed fidelity `choice_sentence_order_cards_interaction`;
-- runtime metadata source `sentence-order-cards-runtime`.
+- assessed fidelity `choice_reading_passage_question_interaction`;
+- runtime metadata source `reading-passage-question-runtime`.
 
 Interaction:
-- render each unchanged sentence answer as its canonical words in left-to-right cards;
-- keep the three sentence choices as direct keyboard/touch/pointer buttons;
+- parse the unchanged canonical quoted passage and following literal question fail-closed;
+- render passage and question as separate reading surfaces;
+- keep the three canonical answers as direct keyboard/touch/pointer buttons;
 - wrong selection is retryable/measured and cannot complete;
 - correct selection completes the existing canonical activity;
-- no drag-only dependency, changed answer payload, invented token, extra confirmation or intermediate assessment.
+- no invented passage, changed answer payload, extra confirmation or intermediate assessment.
 
-Verified evidence:
-- implementation branch started from Pattern #35 fully closed `main` `b00a5b59e213dcd3f2410dd2ffb45c2e7f8dc3d0`;
-- accepted code head `595bc4e94065eb5250aef27797858641ca959c67` passed full CI #728 / run `35089266590`;
-- final implementation head `1b7917046d6b3cbe365132a3610d2dddc74286c1` passed full CI #729 / run `35090113449`;
+Accepted evidence:
+- branch started from fully closed Pattern #36 final `main` `461b0fd59a6c238752aa858bf783716b225b548a`;
+- accepted code head `6ac29623ce53940f45cdfea623340d833af68c4d` passed full CI #733 / run `35096952272`;
 - all nine 320x720, 390x844 and 768x1024 idle/wrong/success screenshots passed manual visual acceptance;
-- PR #151 passed clean exact-head scope/review/thread/mergeability gates and squash merged as `e27339c32edbad5e9587ebc0b87365318d5d9fad`;
-- post-merge CI #730 / run `35092795526` passed the complete matrix including exact **Production smoke (Cloudflare)**;
-- 900/900 classification passes with 36 active merged patterns and no global hotspot above 35%;
+- 900/900 classification passes with 37 candidate patterns, `choice_grid` 277/900 (30.78%), Bahasa `choice_grid` 29/100 and no global hotspot above 35%;
 - deterministic quality remains 900 KEEP / 0 flagged / structural findings 0.
 
-Pattern #36 still requires this separate docs-only closure to pass fresh exact-head CI, clean merge gate, exact-head closure merge, and final independent `main` + Cloudflare verification before **FULLY CLOSED**.
+Pattern #37 still requires these implementation docs to receive fresh exact-head CI, clean scope/review/thread/mergeability gates, exact-head implementation merge and independent live `main` + Cloudflare verification. A separate docs-only closure must then also pass its own full chain before **FULLY CLOSED**.
 
-### `picture_word_match` — Pattern #35 FULLY CLOSED
+### `sentence_order_cards` — Pattern #36 FULLY CLOSED
 
-Implementation PR #149 and closure PR #150 are complete. Final verified `main` is `b00a5b59e213dcd3f2410dd2ffb45c2e7f8dc3d0`; final CI #727 / run `35086954102` passed the full matrix including exact Cloudflare production smoke.
+Implementation PR #151 and closure PR #152 are complete. Final verified `main` is `461b0fd59a6c238752aa858bf783716b225b548a`; final CI #732 / run `35094107947` passed the full matrix including exact Cloudflare production smoke.
 
 ## Target mechanics backlog
 
@@ -102,7 +111,7 @@ Priority families still worth fresh objective/evidence audit include:
 - audio: `listen_and_point`, `listen_and_match`, `sound_memory`, `audio_sequence`, `sound_discrimination`;
 - creative/story mechanics after objective fit is proven.
 
-No family is pre-approved for Pattern #37. A fresh audit starts only after Pattern #36 is fully closed.
+No family is pre-approved for Pattern #38. A fresh audit starts only after Pattern #37 is fully closed.
 
 ## Distribution rule
 
@@ -116,8 +125,9 @@ Coverage dan implemented-pattern consistency bersifat blocking; concentration be
 - Equal Groups — DONE / #145 + #146, fully closed.
 - Initial Sound — DONE / #147 + #148, fully closed.
 - Picture Word Match — DONE / #149 + #150, fully closed.
-- Sentence Order Cards implementation — **MERGED / LIVE VERIFIED via PR #151**; implementation merge `e27339c32edbad5e9587ebc0b87365318d5d9fad`; post-merge CI #730 full success; docs-only closure in progress.
-- NEXT only after Pattern #36 full closure — fresh objective/evidence audit for Pattern #37; no family pre-approved.
+- Sentence Order Cards — DONE / #151 + #152, fully closed; final `main` `461b0fd59a6c238752aa858bf783716b225b548a`, CI #732 full success.
+- Reading Passage Question — **IMPLEMENTATION ACCEPTED / PR #153 OPEN**; accepted head `6ac29623ce53940f45cdfea623340d833af68c4d`; CI #733 full success; fresh docs-head implementation gate pending.
+- NEXT only after Pattern #37 full closure — fresh objective/evidence audit for Pattern #38; no family pre-approved.
 
 ## Definition of done per mechanic
 

@@ -22,68 +22,66 @@ All subjects remain 100 KEEP / 0 flagged. Deterministic zero does **not** mean e
 
 ## WS-05 gameplay diversification
 
-Pattern #35 `picture_word_match` is **FULLY CLOSED** via implementation PR #149 + closure PR #150. Final verified `main` SHA is `b00a5b59e213dcd3f2410dd2ffb45c2e7f8dc3d0`; final CI #727 / run `35086954102` passed the full matrix including exact Cloudflare production smoke.
+Pattern #36 `sentence_order_cards` is **FULLY CLOSED** via implementation PR #151 + closure PR #152. Final verified `main` SHA is `461b0fd59a6c238752aa858bf783716b225b548a`; final CI #732 / run `35094107947` passed the full matrix including exact Cloudflare production smoke.
 
-Pattern #36 `sentence_order_cards` implementation PR **#151** is **MERGED / LIVE VERIFIED**. Final implementation head `1b7917046d6b3cbe365132a3610d2dddc74286c1` passed CI #729 / run `35090113449`. Exact implementation merge SHA is `e27339c32edbad5e9587ebc0b87365318d5d9fad`; post-merge CI #730 / run `35092795526` passed the full matrix including exact Cloudflare production smoke. A separate docs-only closure is now the remaining Pattern #36 gate.
+Pattern #37 `reading_passage_question` implementation PR **#153** is open. Accepted implementation head `6ac29623ce53940f45cdfea623340d833af68c4d` passed full CI #733 / run `35096952272`, and all nine dedicated responsive screenshots passed manual visual acceptance. Canonical docs and a fresh exact docs-head CI are the next implementation gates.
 
-Verified merged distribution after PR #151:
+Verified merged distribution on current `main` remains 36 patterns. Accepted Pattern #37 implementation-head distribution is:
 
 ```text
 900 / 900 classified
 0 unclassified
-36 active merged patterns
-choice_grid                 282 / 900 = 31.33%
-sentence_order_cards          5 / 900 = 0.56%
-picture_word_match            5 / 900 = 0.56%
-initial_sound                  3 / 900 = 0.33%
-Bahasa choice_grid            34 / 100
+37 active candidate patterns
+choice_grid                    277 / 900 = 30.78%
+reading_passage_question         5 / 900 = 0.56%
+sentence_order_cards              5 / 900 = 0.56%
+picture_word_match                5 / 900 = 0.56%
+Bahasa choice_grid                29 / 100
 ```
 
 Concentration remains advisory and does not itself create POLISH/REDESIGN findings. No global hotspot exceeds the advisory 35% threshold.
 
-## Sentence Order Cards — Pattern #36 merged/live closure record
+## Reading Passage Question — Pattern #37 implementation acceptance
 
 Exact scope:
 
 ```text
-bahasa-urut-ibu-memasak
-bahasa-urut-adi-berlari
-bahasa-urut-kucing-tidur
-bahasa-urut-siti-membaca
-bahasa-urut-burung-terbang
+bahasa-baca-lala-kucing
+bahasa-baca-dodi-sepeda
+bahasa-baca-nina-bunga
+bahasa-baca-raka-sarapan
+bahasa-baca-sari-hujan
 ```
 
 Preserved:
 - canonical `tap_choice` runtime;
-- exactly three canonical sentence choices and unchanged `correctChoice`;
+- exactly three canonical answers, order, and unchanged `correctChoice`;
 - assessment, stars, mastery and progression;
-- canonical skill `bahasa.kalimat.order`;
-- stage `bahasa-kalimat-pemahaman`, lesson `bahasa-kalimat-urutan`, pack `bahasa.pack.kalimat-urutan`;
-- activity IDs, content payload and completion semantics;
+- canonical skill `bahasa.bacaan.short_comprehension`;
+- stage `bahasa-kalimat-pemahaman`, lesson `bahasa-bacaan-pendek`, pack `bahasa.pack.bacaan-pendek`;
+- activity IDs and content payload;
 - all non-scope families;
 - schema and migrations.
 
 Interaction/evidence contract:
-- each unchanged canonical sentence is rendered as a left-to-right sequence of word cards;
-- cards are presentation only: the child still makes one direct canonical sentence choice;
-- keyboard/touch/pointer direct selection remains available; no drag-only dependency;
+- parse the existing quoted passage and following literal question from the unchanged prompt, failing closed outside the reviewed format;
+- display the passage and question separately without inventing reading content;
+- preserve direct keyboard/touch/pointer selection of the same three answers;
 - wrong choice increments assessed incorrect/retry and cannot complete;
 - correct choice completes the canonical activity;
-- no invented tokens, changed answer set, extra confirmation or intermediate assessment;
-- assessed fidelity `choice_sentence_order_cards_interaction`;
-- runtime metadata source `sentence-order-cards-runtime` with `selectedChoice` and `selectedWords` derived only from canonical choice text.
+- assessed fidelity `choice_reading_passage_question_interaction`;
+- runtime metadata source `reading-passage-question-runtime` with canonical `selectedChoice`.
 
-Acceptance and merge chain:
-- branch started exactly from Pattern #35 final `main` `b00a5b59e213dcd3f2410dd2ffb45c2e7f8dc3d0`;
-- accepted code head `595bc4e94065eb5250aef27797858641ca959c67` passed full CI #728 / run `35089266590`;
-- all nine idle/wrong/success screenshots at 320x720, 390x844 and 768x1024 passed manual visual review;
-- final implementation head `1b7917046d6b3cbe365132a3610d2dddc74286c1` passed full CI #729 / run `35090113449`;
-- PR #151 passed clean exact-head scope/review/thread/mergeability checks and squash merged as `e27339c32edbad5e9587ebc0b87365318d5d9fad`;
-- independent post-merge `main` CI #730 / run `35092795526` passed Ubuntu, Windows, production build, dependency audit, secret-history scan, Chromium QA and **Production smoke (Cloudflare)**;
-- distribution is 900/900 classified with 36 active merged patterns;
+Acceptance evidence:
+- exact base was fully closed Pattern #36 `main` `461b0fd59a6c238752aa858bf783716b225b548a`;
+- accepted code head `6ac29623ce53940f45cdfea623340d833af68c4d` passed CI #733 / run `35096952272`;
+- dedicated browser QA passed 320x720, 390x844 and 768x1024 idle/wrong/success;
+- all 9 screenshots passed manual visual review with no clipping/overflow and visible wrong/success feedback + CTA;
+- wrong-then-right path records `correctCount=1`, `incorrectCount=1`, `retryCount=1`, `accuracy=0.5`;
+- gameplay-distribution audit passes 900/900 classification with 37 candidate patterns and no global hotspot;
 - deterministic quality remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**.
 
-Pattern #36 remains **closure-in-progress**, not fully closed, until this docs-only closure is exact-head CI verified, cleanly merged, and the final `main` run including Cloudflare smoke succeeds.
+Pattern #37 remains **implementation-in-progress**, not merged or fully closed. It still requires canonical docs, fresh exact-head PR CI, clean merge gate, implementation merge, independent live-main verification, then the separate docs-only closure chain.
 
 ## Permanent audits
 
@@ -105,9 +103,10 @@ CI uploads both artifacts. Gameplay-distribution coverage and active-pattern-set
 - WS-05 Equal Groups — Pattern #33 fully closed via #145 + #146.
 - WS-05 Initial Sound — Pattern #34 fully closed via #147 + #148.
 - WS-05 Picture Word Match — Pattern #35 fully closed via #149 + #150.
-- WS-05 Sentence Order Cards — Pattern #36 **IMPLEMENTATION MERGED / LIVE VERIFIED** via PR #151; merge `e27339c32edbad5e9587ebc0b87365318d5d9fad`; post-merge CI #730 full success; docs-only closure remains.
-- WS-05 NEXT only after Pattern #36 full closure — fresh Pattern #37 objective/evidence audit; no family pre-approved.
+- WS-05 Sentence Order Cards — Pattern #36 fully closed via #151 + #152; final `main` `461b0fd59a6c238752aa858bf783716b225b548a`; CI #732 full success.
+- WS-05 Reading Passage Question — Pattern #37 **IMPLEMENTATION ACCEPTED / PR #153 OPEN**; accepted head `6ac29623ce53940f45cdfea623340d833af68c4d`; CI #733 full success; docs/fresh exact-head implementation gates pending.
+- WS-05 NEXT only after Pattern #37 full closure — fresh Pattern #38 objective/evidence audit; no family pre-approved.
 
 ## Completion rule
 
-Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #36 itself remains unclosed until the separate docs-only closure is exact-head merged and independently verified live on `main` with Cloudflare smoke.
+Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #37 itself remains open until implementation and its separate post-merge docs closure are exact-head merged and independently verified live on `main` with Cloudflare smoke.

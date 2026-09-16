@@ -1,4 +1,5 @@
 import type { LearningActivity } from "./system";
+import { isReadingPassageQuestionActivity } from "./readingPassageQuestionConfig";
 import { isSentenceOrderCardsActivity } from "./sentenceOrderCardsConfig";
 
 export type MatchingPresentation = "grid_pairs" | "memory_pairs" | "drag_targets";
@@ -15,6 +16,7 @@ export type GameplayPattern =
   | "initial_sound"
   | "picture_word_match"
   | "sentence_order_cards"
+  | "reading_passage_question"
   | "sorting_buckets"
   | "odd_one_out"
   | "rule_pipeline"
@@ -633,6 +635,7 @@ export function gameplayPattern(activity: LearningActivity | undefined): Gamepla
     if (isEqualGroupsActivity(activity)) return "equal_groups";
     if (isPictureWordMatchActivity(activity)) return "picture_word_match";
     if (isSentenceOrderCardsActivity(activity)) return "sentence_order_cards";
+    if (isReadingPassageQuestionActivity(activity)) return "reading_passage_question";
     const presentation = choiceGameplayPresentation(activity);
     if (presentation === "sequence_slot") return "missing_sequence_slot";
     if (presentation === "syllable_assembly") return "syllable_assembly";
