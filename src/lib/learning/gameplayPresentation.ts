@@ -12,6 +12,7 @@ export type GameplayPattern =
   | "missing_sequence_slot"
   | "syllable_assembly"
   | "initial_sound"
+  | "picture_word_match"
   | "sorting_buckets"
   | "odd_one_out"
   | "rule_pipeline"
@@ -50,6 +51,14 @@ const BAHASA_INITIAL_SOUND_IDS = new Set([
   "bahasa-awal-bola",
   "bahasa-awal-kucing",
   "bahasa-awal-pisang"
+]);
+
+const BAHASA_PICTURE_WORD_MATCH_IDS = new Set([
+  "bahasa-gambar-apel",
+  "bahasa-gambar-mobil",
+  "bahasa-gambar-kucing",
+  "bahasa-gambar-rumah",
+  "bahasa-gambar-pisang"
 ]);
 
 const SCIENCE_DRAG_TARGET_IDS = new Set([
@@ -499,6 +508,23 @@ export function isInitialSoundActivity(activity: LearningActivity | undefined): 
   return choiceGameplayPresentation(activity) === "initial_sound";
 }
 
+export function isPictureWordMatchActivity(activity: LearningActivity | undefined): boolean {
+  if (!activity || activity.runtime !== "tap_choice") return false;
+  const choices = activity.choices ?? [];
+  const correct = activity.correctChoice ?? "";
+  return (
+    activity.subjectId === "bahasa" &&
+    activity.stageId === "bahasa-suku-kata-kata" &&
+    BAHASA_PICTURE_WORD_MATCH_IDS.has(activity.id) &&
+    choices.length === 3 &&
+    new Set(choices).size === choices.length &&
+    choices.every((choice) => /^[a-z]+$/.test(choice)) &&
+    /^[a-z]+$/.test(correct) &&
+    choices.includes(correct) &&
+    Boolean(activity.prompt)
+  );
+}
+
 export function isSortingBucketsActivity(activity: LearningActivity | undefined): boolean {
   return choiceGameplayPresentation(activity) === "sorting_buckets";
 }
@@ -603,6 +629,7 @@ export function gameplayPattern(activity: LearningActivity | undefined): Gamepla
   if (activity.runtime === "tap_choice") {
     if (activity.choicePresentation === "symbol_hunt") return "symbol_hunt";
     if (isEqualGroupsActivity(activity)) return "equal_groups";
+    if (isPictureWordMatchActivity(activity)) return "picture_word_match";
     const presentation = choiceGameplayPresentation(activity);
     if (presentation === "sequence_slot") return "missing_sequence_slot";
     if (presentation === "syllable_assembly") return "syllable_assembly";
