@@ -37,6 +37,7 @@ const EXPECTED_PATTERNS = [
   "more_less_balance",
   "pattern_completion",
   "make_total",
+  "take_away",
   "cause_effect",
   "compare_properties",
   "healthy_habit_routine",
