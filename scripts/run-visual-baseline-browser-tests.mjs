@@ -28,7 +28,11 @@ const ROUTES = [
   { name: "rewards", path: "/child/demo-gian/rewards", expectedPath: "/child/demo-gian/rewards", kind: "child-learning", touch: true },
   { name: "parent-report", path: "/parent/children/demo-gian/reports", expectedPath: "/parent/children/demo-gian/reports", kind: "parent" },
   { name: "account", path: "/account", expectedPath: "/account" },
+  { name: "account-profile", path: "/account/profile", expectedPath: "/account/profile" },
+  { name: "account-players", path: "/account/players", expectedPath: "/account/players" },
   { name: "account-preferences", path: "/account/preferences", expectedPath: "/account/preferences" },
+  { name: "account-security", path: "/account/security", expectedPath: "/account/security" },
+  { name: "account-delete", path: "/account/delete", expectedPath: "/account/delete" },
   { name: "account-about", path: "/account/about", expectedPath: "/account/about" },
   { name: "login", path: "/login", expectedPath: "/login" },
   { name: "signup", path: "/signup", expectedPath: "/signup" },
@@ -279,7 +283,7 @@ async function inspect(page, route, viewport) {
     if (route.name === "subject-math") await assertSubjectJourneyLayout(page, viewport);
     if (route.name === "stage-math-angka") await assertStageHierarchy(page, viewport);
     if (route.name === "account") await assertAccountFamilySurface(page, viewport);
-    if (["account-preferences", "account-about"].includes(route.name)) await assertAccountSectionSurface(page, route, viewport);
+    if (["account-profile", "account-players", "account-preferences", "account-security", "account-delete", "account-about"].includes(route.name)) await assertAccountSectionSurface(page, route, viewport);
     if (["login", "signup", "forgot-password", "reset-password", "auth-error"].includes(route.name)) await assertAuthFamilySurface(page, route, viewport);
     if (route.name === "not-found") await assertSystemState(page, viewport);
 
