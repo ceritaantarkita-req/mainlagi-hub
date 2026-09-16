@@ -36,6 +36,7 @@ const ROUTES = [
 ];
 
 const INTENTIONAL_NOT_FOUND_CONSOLE = "Failed to load resource: the server responded with a status of 404 (Not Found)";
+const PARENT_PRIMARY_JARGON = /\battempts?\b|\bassessed\b|\bpractice\b|qualifying evidence|mastery canonical|\bretry\b/i;
 
 let server = null;
 let serverLog = "";
@@ -82,6 +83,18 @@ function unexpectedConsoleErrors(route, consoleErrors) {
   return consoleErrors.filter((message) => message !== INTENTIONAL_NOT_FOUND_CONSOLE);
 }
 
+async function assertParentReportPrimaryCopy(page, viewport) {
+  const primary = page.locator("[data-mainlagi-parent-report-primary]");
+  assert.equal(await primary.count(), 1, `parent-report primary copy layer missing at ${viewport.width}px`);
+  const primaryCopy = await primary.evaluate((element) => {
+    const clone = element.cloneNode(true);
+    clone.querySelectorAll("[data-mainlagi-parent-report-diagnostic]").forEach((node) => node.remove());
+    return (clone.textContent ?? "").replace(/\s+/g, " ").trim();
+  });
+  assert.match(primaryCopy, /Gambaran belajar minggu ini/i, `parent-report family summary missing at ${viewport.width}px`);
+  assert.doesNotMatch(primaryCopy, PARENT_PRIMARY_JARGON, `parent-report primary layer leaked internal jargon at ${viewport.width}px: ${primaryCopy}`);
+}
+
 async function inspect(page, route, viewport) {
   const consoleErrors = [];
   const pageErrors = [];
@@ -120,6 +133,8 @@ async function inspect(page, route, viewport) {
         `${route.name} is missing route boundary ${route.kind}`
       );
     }
+
+    if (route.name === "parent-report") await assertParentReportPrimaryCopy(page, viewport);
 
     const overlayCount = await page.locator("nextjs-portal, [data-nextjs-dialog-overlay], [data-next-badge-root]").count();
     assert.equal(overlayCount, 0, `${route.name} rendered a Next.js error overlay`);
