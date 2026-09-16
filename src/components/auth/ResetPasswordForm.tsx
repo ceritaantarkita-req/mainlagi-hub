@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getBrowserClient } from "@/lib/auth/supabase-client";
+import styles from "./AuthForm.module.css";
 
 /**
  * Sets a new password after the email recovery link is followed.
@@ -98,12 +99,13 @@ export function ResetPasswordForm() {
   };
 
   return (
-    <form className="auth-form" onSubmit={(event) => void submit(event)}>
+    <form className={styles.form} onSubmit={(event) => void submit(event)} data-mainlagi-auth-form="reset">
       <h1>Atur kata sandi baru</h1>
 
-      <label>
+      <label className={styles.label}>
         <span>Kata sandi baru</span>
         <input
+          className={styles.input}
           type="password"
           autoComplete="new-password"
           value={password}
@@ -114,9 +116,9 @@ export function ResetPasswordForm() {
         />
       </label>
 
-      {message && <p className="auth-form__message">{message}</p>}
+      {message && <p className={styles.message}>{message}</p>}
 
-      <button className="button button--primary" type="submit" disabled={loading || !ready}>
+      <button className={styles.submit} type="submit" disabled={loading || !ready}>
         {loading ? "Memproses…" : "Simpan kata sandi"}
       </button>
     </form>
