@@ -2,9 +2,15 @@
 
 Date: **16 September 2026**  
 Implementation PR: **#145**  
-Branch: `agent/ws05-math-equal-groups-20260916`  
-Base `main`: `63285c6dd39b0cc1a521b042a492a83338bb2582`  
-Status: **QA ACCEPTED / UNMERGED**
+Implementation branch: `agent/ws05-math-equal-groups-20260916`  
+Implementation base `main`: `63285c6dd39b0cc1a521b042a492a83338bb2582`  
+Final implementation docs head: `11f278a0150ff31b1ba89394c23b78fa244038aa`  
+Implementation docs-head CI: **#692 / run `35053984870` — full success**  
+Implementation merge: `3de991e75fdb4fdf33d1cd9cdcf90443ddbb3fb6`  
+Post-merge `main` CI: **#693 / run `35054346467` — full success including Cloudflare production smoke**  
+Closure branch: `docs/ws05-equal-groups-closure-20260916`  
+Closure PR: **PENDING**  
+Status: **MERGED / LIVE VERIFIED / CLOSURE PENDING**
 
 ## Why this family was selected
 
@@ -38,21 +44,9 @@ Canonical boundaries for all three:
 - runtime `tap_choice`;
 - exactly three unique numeric choices including unchanged canonical `correctChoice`.
 
-Explicit exclusions include:
+Explicit exclusions include `math-group-match-2s`, `math-group-match-3s`, missing-number, addition, subtraction, length/size, existing Math specialized mechanics, and all non-Math families. No catalog content, mastery, progression, schema or migration changed.
 
-```text
-math-group-match-2s
-math-group-match-3s
-math-missing-1-3
-math-add-1-1
-math-sub-3-1
-math-length-longer-lines
-science-living-dog
-```
-
-No catalog content, mastery, progression, schema or migration is changed by Pattern #33.
-
-## Mechanic contract
+## Mechanic and evidence contract
 
 `equal_groups`:
 - renders the reviewed total as visibly separated equal-size groups;
@@ -65,101 +59,27 @@ No catalog content, mastery, progression, schema or migration is changed by Patt
 - canonical keyboard/touch/pointer choice buttons remain the assessment interaction;
 - wrong choice increments incorrect/retry evidence, cannot complete, and cannot reveal result;
 - correct choice completes the canonical activity and reveals group count;
-- no changed choices, extra confirmation, drag-only dependency or intermediate assessment.
-
-Assessed evidence:
+- no changed choices, extra confirmation, drag-only dependency or intermediate assessment;
 - fidelity `choice_equal_groups_interaction`;
-- metadata source `equal-groups-runtime`;
-- metadata includes `totalCount`, `groupSize`, `groupCount`, `selectedChoice`;
-- assessed accuracy/score/correct/incorrect/retry remain derived from canonical attempts.
+- metadata source `equal-groups-runtime` with `totalCount`, `groupSize`, `groupCount`, `selectedChoice`.
 
-## Implementation scope
-
-Implementation adds/wires:
-- `src/lib/learning/equalGroupsConfig.ts`;
-- `src/components/learning/EqualGroupsActivity.tsx`;
-- `src/components/learning/EqualGroupsActivity.module.css`;
-- activity-route wiring;
-- `gameplayPresentation` classifier and central regression;
-- permanent gameplay-distribution registration;
-- dedicated static Equal Groups regression;
-- dedicated Chromium browser QA at 320x720, 390x844 and 768x1024;
-- package and learning-test wiring.
-
-No content/mastery/progression/schema/migration files are part of the implementation scope.
-
-## CI defect history
+## CI defect history and acceptance
 
 The browser gate caught two real responsive defects before acceptance.
 
 ### CI #685 / run `35052200287`
 
-Implementation head before responsive fixes: `6bedc089b6ad3a6eca0480796a31c1e08b18f5cf`.
-
-All major non-browser gates passed, but Chromium failed because the Equal Groups **success CTA at 320x720 was not fully visible**. The viewport assertion was retained unchanged.
+Implementation head before responsive fixes: `6bedc089b6ad3a6eca0480796a31c1e08b18f5cf`. Chromium failed because the success CTA at 320x720 was not fully visible. The viewport assertion was retained unchanged.
 
 ### CI #686 / run `35052577160`
 
-First responsive fix head: `8c15144db99feb1620a2523d5ccd384510354cd5`.
+First responsive fix head: `8c15144db99feb1620a2523d5ccd384510354cd5`. The 320 defect was fixed, but Chromium exposed idle Equal Groups feedback clipping at 390x844. The assertion again remained unchanged.
 
-The 320 success-state defect was fixed, but Chromium then exposed a second problem: **idle Equal Groups feedback at 390x844 was not fully visible**. The browser assertion again remained unchanged.
-
-### CI #687 / run `35053008065` — accepted
+### CI #687 / run `35053008065` — accepted code head
 
 Final accepted code head: `26c2b2355099c4097c015ba5767703035b33aa63`.
 
-The final responsive adjustment compacts redundant spacing/content on shorter phone viewports while preserving:
-- explicit equal-group visual structure;
-- idle/wrong cue information;
-- masked result before success;
-- >=48px phone choice targets;
-- success feedback and CTA;
-- the original hard viewport assertions.
-
-CI #687 passed:
-- production build and build budgets;
-- dependency audit;
-- secret-history scan;
-- Ubuntu structure/assets/source/security/device-harness/typecheck/lint;
-- complete engine/learning regressions including exact Equal Groups regression;
-- activity-quality audit;
-- gameplay-distribution audit;
-- simulations and Batch17;
-- Windows typecheck/lint/engine tests;
-- Chromium canonical mobile-route/accessibility/lazy-load matrix and every specialized browser suite including Equal Groups.
-
-Cloudflare production smoke is correctly skipped on the PR event and is required after merge to `main`.
-
-## Accepted audit state
-
-Activity quality:
-
-```text
-activities:              900
-KEEP:                    900
-POLISH:                     0
-REDESIGN:                   0
-REPLACE:                    0
-structural findings:        0
-```
-
-Gameplay distribution at accepted PR head:
-
-```text
-activities:               900
-classified:               900
-unclassified:               0
-active patterns:           33
-choice_grid               295 / 900 = 32.78%
-equal_groups                3 / 900 = 0.33%
-make_total                  5 / 900 = 0.56%
-take_away                   5 / 900 = 0.56%
-Math choice_grid            43 / 100
-```
-
-The audit reports no global hotspot. Subject concentration signals remain advisory.
-
-If merged unchanged, distance is **17** patterns to minimum 50 and **27** to working target 60.
+The final responsive adjustment compacted redundant spacing/content on shorter phone viewports while preserving explicit equal-group visual structure, idle/wrong cue information, masked result before success, >=48px phone choice targets, success feedback/CTA, and the original hard viewport assertions. CI #687 passed production build/budgets, dependency and secret scans, Ubuntu/Windows gates, complete learning regressions including exact Equal Groups regression, deterministic audits, simulations, Batch17 and Chromium specialized/browser QA.
 
 ## Manual visual acceptance
 
@@ -173,8 +93,7 @@ Nine screenshots were reviewed manually:
 
 Accepted observations:
 - group separation is visually clear;
-- reviewed activity `math-group-8-by-2` shows four groups of two;
-- total/group-size context remains legible;
+- representative `math-group-8-by-2` shows four groups of two;
 - result remains `?` for idle and wrong states;
 - wrong state does not complete or reveal the answer;
 - success reveals canonical `4` only after correct selection;
@@ -184,23 +103,48 @@ Accepted observations:
 
 Manual screenshot acceptance is not external physical-device certification, accessibility-specialist review, or human pedagogical/art acceptance.
 
+## Accepted audit state
+
+```text
+activities:               900
+KEEP:                     900
+flagged:                    0
+structural findings:        0
+classified:               900
+unclassified:               0
+active patterns:           33
+choice_grid               295 / 900 = 32.78%
+equal_groups                3 / 900 = 0.33%
+make_total                  5 / 900 = 0.56%
+take_away                   5 / 900 = 0.56%
+Math choice_grid            43 / 100
+```
+
+There is no global hotspot. Distance remaining is **17** patterns to minimum 50 and **27** to working target 60.
+
+## Implementation merge/live verification
+
+- canonical implementation docs were committed on PR #145;
+- final docs head `11f278a0150ff31b1ba89394c23b78fa244038aa` passed fresh full CI #692 / run `35053984870`;
+- final merge gate verified exact head, 15 exact changed files, `behind_by=0`, mergeable true, zero comments, zero reviews and zero review threads;
+- PR #145 was exact-head squash merged as `3de991e75fdb4fdf33d1cd9cdcf90443ddbb3fb6`;
+- `main` was independently verified at that exact SHA;
+- post-merge `main` CI #693 / run `35054346467` passed every required job including Cloudflare production smoke.
+
+This completes the implementation/live portion of Pattern #33.
+
 ## Remaining closure gates
 
-Pattern #33 is **not fully closed** at this record.
+Pattern #33 is **not fully closed** at this record. A docs-only closure branch now exists from exact implementation merge SHA `3de991e75fdb4fdf33d1cd9cdcf90443ddbb3fb6`.
 
-Required remaining sequence:
-1. commit this wave record and canonical docs on PR #145;
-2. require fresh exact docs-head full CI success;
-3. verify PR #145 exact head, changed-file scope, mergeability, comments, reviews and review threads;
-4. squash merge PR #145 only with exact expected head;
-5. independently verify exact implementation merge on `main`;
-6. require post-merge `main` CI full success including Cloudflare production smoke;
-7. create a docs-only closure branch from exact implementation merge SHA;
-8. update canonical docs with implementation merge/live evidence and closure PR identity;
-9. require fresh exact closure-head full CI success and clean docs-only merge gate;
-10. exact-head squash merge the closure PR;
-11. independently verify final `main` SHA and require final post-closure `main` CI full success including Cloudflare production smoke.
+Remaining sequence:
+1. bind the docs-only closure PR identity to the five canonical docs;
+2. require fresh exact closure-head full CI success;
+3. verify closure PR exact head, exactly five docs changed, `behind_by=0`, mergeability, comments, reviews and review threads;
+4. exact-head squash merge the closure PR;
+5. independently verify final `main` SHA;
+6. require final post-closure `main` CI full success including Cloudflare production smoke.
 
-Only after all gates pass may Pattern #33 be marked **FULLY CLOSED**.
+Only after all remaining gates pass may Pattern #33 be marked **FULLY CLOSED**.
 
 No family is pre-approved for Pattern #34; the next mechanic requires a fresh objective/evidence audit after Pattern #33 full closure.
