@@ -5,12 +5,14 @@
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 **Canonical branch:** `main`  
 **Latest fully closed gameplay:** Pattern #32 — Math `take_away`  
-**Pattern #32 final verified `main`:** `63285c6dd39b0cc1a521b042a492a83338bb2582`  
-**Pattern #32 final CI:** #684 / run `35049954680` — full success including Cloudflare production smoke  
-**Active implementation:** Pattern #33 — Math `equal_groups`, PR #145  
-**Pattern #33 accepted code head:** `26c2b2355099c4097c015ba5767703035b33aa63`  
-**Pattern #33 accepted code-head CI:** #687 / run `35053008065` — full success  
-**Pattern #33 status:** **QA ACCEPTED / UNMERGED**  
+**Latest merged gameplay:** Pattern #33 — Math `equal_groups`  
+**Pattern #33 implementation PR:** #145  
+**Final implementation docs head:** `11f278a0150ff31b1ba89394c23b78fa244038aa`  
+**Final implementation PR CI:** #692 / run `35053984870` — full success  
+**Verified implementation merge SHA:** `3de991e75fdb4fdf33d1cd9cdcf90443ddbb3fb6`  
+**Post-merge implementation CI:** #693 / run `35054346467` — full success including Cloudflare production smoke  
+**Pattern #33 closure PR:** PENDING  
+**Pattern #33:** **MERGED / LIVE VERIFIED / CLOSURE PENDING**  
 **Primary focus:** WS-05 gameplay/mechanic diversification  
 **Principle:** **Quality first. Quantity later.**
 
@@ -37,7 +39,7 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | TODO | parent/public surfaces |
 | WS-04 Activity audit/redesign | deterministic clean | 900 KEEP / 0 flagged |
-| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | **32 fully merged; Pattern #33 PR #145 QA accepted** |
+| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | **33 merged patterns; Pattern #33 closure pending** |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | TODO / parallel | Art Bible + permanent human gate |
@@ -51,11 +53,12 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 ```text
 900 / 900 classified
 0 unclassified
-32 active merged patterns
-choice_grid                 298 / 900 = 33.11%
+33 active merged patterns
+choice_grid                 295 / 900 = 32.78%
+equal_groups                  3 / 900 = 0.33%
 make_total                    5 / 900 = 0.56%
 take_away                     5 / 900 = 0.56%
-Math choice_grid             46 / 100
+Math choice_grid             43 / 100
 Bahasa choice_grid           47 / 100
 Science choice_grid          56 / 100
 Logic choice_grid            47 / 100
@@ -63,7 +66,9 @@ English choice_grid          44 / 100
 Iqro choice_grid             58 / 100
 ```
 
-## Pattern #33 — Math Equal Groups — QA accepted / unmerged
+Distance remaining: **17 patterns** to minimum 50 and **27 patterns** to working target 60.
+
+## Pattern #33 — Math Equal Groups — merged / closure pending
 
 Exact scope:
 
@@ -96,40 +101,22 @@ Interaction/evidence contract:
 - assessed fidelity `choice_equal_groups_interaction`;
 - runtime metadata source `equal-groups-runtime` with `totalCount`, `groupSize`, `groupCount`, `selectedChoice`.
 
-QA chain:
-- CI #685 / run `35052200287` correctly caught success CTA clipping at 320x720;
-- first fix preserved hard assertions; CI #686 / run `35052577160` correctly caught idle-feedback clipping at 390x844;
-- final accepted code head `26c2b2355099c4097c015ba5767703035b33aa63` preserved >=48px phone choice targets and passed full CI #687 / run `35053008065`;
+QA and merge chain:
+- CI #685 / run `35052200287` correctly caught 320x720 success CTA clipping;
+- CI #686 / run `35052577160` correctly caught 390x844 idle-feedback clipping after the first fix;
+- accepted code head `26c2b2355099c4097c015ba5767703035b33aa63` passed full CI #687 / run `35053008065`;
 - all nine 320x720, 390x844 and 768x1024 idle/wrong/success screenshots passed manual visual acceptance;
-- deterministic quality remains 900 KEEP / 0 flagged / structural findings 0;
-- PR-head distribution audit is 900/900 classified, 0 unclassified, 33 active patterns, no global hotspot.
+- final canonical implementation docs head `11f278a0150ff31b1ba89394c23b78fa244038aa` passed full CI #692 / run `35053984870`;
+- PR #145 passed clean exact-head review/thread/mergeability/scope gate and squash merged as `3de991e75fdb4fdf33d1cd9cdcf90443ddbb3fb6`;
+- `main` was independently verified at that exact SHA;
+- post-merge `main` CI #693 / run `35054346467` passed Ubuntu, Windows, production build, dependency audit, secret-history scan, Chromium mobile/accessibility/browser QA, deterministic quality/distribution audits, simulations, Batch17 and Cloudflare production smoke;
+- deterministic quality remains 900 KEEP / 0 flagged / structural findings 0.
 
-Accepted PR-head distribution:
-
-```text
-choice_grid                 295 / 900 = 32.78%
-equal_groups                  3 / 900 = 0.33%
-make_total                    5 / 900 = 0.56%
-take_away                     5 / 900 = 0.56%
-Math choice_grid             43 / 100
-```
-
-If Pattern #33 fully closes unchanged, distance is **17 patterns** to minimum 50 and **27 patterns** to working target 60.
-
-Pattern #33 becomes fully closed only after:
-1. canonical implementation docs are committed to PR #145;
-2. fresh exact docs-head full CI succeeds;
-3. PR #145 passes clean review/thread/mergeability gate;
-4. PR #145 exact head is squash merged;
-5. exact implementation merge is independently verified on `main` and post-merge `main` CI including Cloudflare smoke succeeds;
-6. a separate docs-only closure PR is created from that exact implementation merge;
-7. closure PR passes fresh exact closure-head full CI and clean gate;
-8. closure PR exact head is merged;
-9. final `main` SHA and final post-closure CI including Cloudflare smoke are independently verified.
+Pattern #33 becomes **FULLY CLOSED only after the docs-only closure PR passes fresh exact-head CI, clean review/thread/mergeability gate, exact-head merge, independent final `main` verification, and final post-closure `main` CI including Cloudflare production smoke**.
 
 ## Pattern #32 — Take Away — FULLY CLOSED
 
-Implementation PR #143 merged as `3ac5ab049e94f65c3e28a7e4e5cbd18185a9466a`; post-implementation CI #677 / run `35048981508` passed including Cloudflare smoke. Closure PR #144 head `a019a549f7685e0eac7aba0554a1c6d839bfb0d4` passed CI #683 / run `35049573890`, merged as final `main` SHA `63285c6dd39b0cc1a521b042a492a83338bb2582`, and final CI #684 / run `35049954680` passed the full matrix including Cloudflare production smoke.
+Implementation PR #143 and closure PR #144 are complete. Final Pattern #32 verified `main` was `63285c6dd39b0cc1a521b042a492a83338bb2582`; CI #684 / run `35049954680` passed the full matrix including Cloudflare production smoke.
 
 ## Definition of Done
 
@@ -137,10 +124,9 @@ A mechanic is complete only when implementation, typecheck/lint/build, engine te
 
 ## Current execution order
 
-1. Finish Pattern #33 implementation PR #145: docs -> fresh exact docs-head CI -> clean exact-head merge gate -> exact-head merge -> live-main verification + Cloudflare smoke.
-2. Finish separate Pattern #33 docs-only closure PR with exact closure-head CI/gate/merge and final live-main + Cloudflare verification.
-3. Only after Pattern #33 is fully closed, run a **fresh objective/evidence audit for Pattern #34**; no family is pre-approved.
-4. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
-5. Continue WS-08 visual system, WS-02 narration, WS-03 parent/public frontend, WS-10 external acceptance, WS-11 governance, then later cleanup.
+1. Finish Pattern #33 docs-only closure: bind closure PR -> fresh exact closure-head CI -> clean exact-head merge gate -> exact-head merge -> final `main` verification -> post-closure `main` CI + Cloudflare smoke.
+2. Only after Pattern #33 is fully closed, run a **fresh objective/evidence audit for Pattern #34**; no family is pre-approved.
+3. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
+4. Continue WS-08 visual system, WS-02 narration, WS-03 parent/public frontend, WS-10 external acceptance, WS-11 governance, then later cleanup.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion, or major mastery/backend rewrites during this quality phase.
