@@ -48,11 +48,13 @@
 31. `make_total` — MERGED PR #141; CLOSED PR #142; FULLY CLOSED
 32. `take_away` — MERGED PR #143; CLOSED PR #144; FULLY CLOSED
 33. `equal_groups` — MERGED PR #145; CLOSED PR #146; FULLY CLOSED
-34. `initial_sound` — **MERGED PR #147; LIVE VERIFIED; CLOSURE PR #148 OPEN**
+34. `initial_sound` — MERGED PR #147; CLOSED PR #148; **FULLY CLOSED**
+
+Pattern #35 `picture_word_match` is currently **QA ACCEPTED / UNMERGED** on PR #149.
 
 Permanent gameplay-distribution audit: MERGED PR #105.
 
-Current merged distribution:
+Current merged Pattern #34 distribution:
 
 ```text
 900 / 900 classified
@@ -60,10 +62,22 @@ Current merged distribution:
 34 active child-facing patterns
 choice_grid                 292 / 900 = 32.44%
 initial_sound                 3 / 900 = 0.33%
+Bahasa choice_grid           44 / 100
+```
+
+Accepted Pattern #35 PR candidate distribution from CI #718:
+
+```text
+900 / 900 classified
+0 unclassified
+35 active child-facing candidate patterns
+choice_grid                 287 / 900 = 31.89%
+picture_word_match            5 / 900 = 0.56%
+initial_sound                 3 / 900 = 0.33%
 equal_groups                  3 / 900 = 0.33%
 make_total                    5 / 900 = 0.56%
 take_away                     5 / 900 = 0.56%
-Bahasa choice_grid           44 / 100
+Bahasa choice_grid           39 / 100
 Math choice_grid             43 / 100
 Science choice_grid          56 / 100
 Logic choice_grid            47 / 100
@@ -71,80 +85,70 @@ English choice_grid          44 / 100
 Iqro choice_grid             58 / 100
 ```
 
-Distance remaining: **16** patterns to minimum 50 and **26** to working target 60.
+If Pattern #35 merges, distance remaining becomes **15** patterns to minimum 50 and **25** to working target 60.
 
-### `initial_sound` — Pattern #34 merged / closure PR #148 open
+### `picture_word_match` — Pattern #35 QA ACCEPTED / UNMERGED
 
 Exact scope:
 
 ```text
-bahasa-awal-bola
-bahasa-awal-kucing
-bahasa-awal-pisang
+bahasa-gambar-apel
+bahasa-gambar-mobil
+bahasa-gambar-kucing
+bahasa-gambar-rumah
+bahasa-gambar-pisang
 ```
 
 Boundaries:
 - subject `bahasa`;
-- stage `bahasa-dasar-huruf`;
-- lesson `bahasa-bunyi-awal`;
-- pack `bahasa.pack.bunyi-awal`;
-- canonical skill `bahasa.bunyi.awal.recognition`;
+- stage `bahasa-suku-kata-kata`;
+- lesson `bahasa-kata-gambar`;
+- pack `bahasa.pack.kata-gambar`;
+- canonical skill `bahasa.kata.picture_matching`;
 - assessed runtime remains `tap_choice`;
-- canonical three uppercase single-letter choices and `correctChoice` remain unchanged;
-- `bahasa-match-awal-tas-susu` remains `visible_matching`;
-- vowel recognition/classification, Syllable Assembly, English inverse initial-sound tasks, letter ordering and every non-scope family remain unchanged;
+- exactly three canonical lowercase word choices and unchanged `correctChoice`;
+- `bahasa-pasang-kata-*` remains `visible_matching`;
+- Syllable Assembly, audio word recognition, Initial Sound, English, Math and every non-scope family remain unchanged;
 - assessment, stars, mastery, progression, activity identity, content, schema and migrations remain canonical;
-- assessed fidelity `choice_initial_sound_interaction`;
-- runtime metadata source `initial-sound-runtime`.
+- assessed fidelity `choice_picture_word_match_interaction`;
+- runtime metadata source `picture-word-match-runtime`.
 
 Interaction:
-- show the existing familiar clue and the canonical familiar word with its first letter masked;
-- keep `?` as the masked first-letter result before correct assessment;
-- prompt the child to say/read the visible familiar word before choosing its first letter;
+- show the existing familiar object as a large visual clue;
+- mask the word result with `?` before correct assessment;
 - retain accessible keyboard/touch/pointer direct-selection buttons;
-- wrong selection is retryable and measured, cannot complete, and cannot reveal the first letter;
-- correct selection completes the existing activity identity and reveals the canonical first letter;
+- wrong selection is retryable and measured, cannot complete, and cannot reveal the canonical word;
+- correct selection completes the existing activity identity and reveals the canonical word;
 - no changed choice set, drag-only dependency, extra confirmation or intermediate assessment.
 
-Acceptance and merge evidence:
-- CI #701/#702/#703 correctly caught invalid QA progression fixtures rather than allowing a false browser pass;
-- final fixture reflects immediate prior stage `bahasa-cerita` and required practice `bahasa-cerita-teman` with completion-only semantics;
-- accepted code head `207153f8e88f7c5e64949354c12b4feb1ee583e8` passed CI #704 / run `35069389333`;
+Acceptance evidence:
+- implementation branch starts from Pattern #34 final `main` `8bfb0027a5f4963a6875310c7408cb56018cc422`;
+- accepted code head `e0f93bd20f24c2efaebfbaa7f782427e8d0e1bca` passed full CI #718 / run `35082720001`;
+- static regression keeps exact scope at five activities and preserves skill/evidence contracts;
+- representative Chromium QA uses `bahasa-gambar-apel` with legitimate immediate-prior Wave A readiness;
 - all nine 320x720, 390x844 and 768x1024 idle/wrong/success screenshots passed manual visual acceptance;
-- final implementation docs head `e12d9eef073a9989bb8e9b6f8d374e098e17edde` passed full CI #709 / run `35072401631`;
-- PR #147 passed the clean exact-head gate and squash merged as `42da6cfd2114bd29b9aa4ddd36361bb975db2bf1`;
-- `main` was independently verified at that exact SHA;
-- post-merge CI #710 / run `35072815182` passed the full matrix including Cloudflare production smoke;
-- closure PR #148 is restricted to the five canonical Pattern #34 docs;
+- 900/900 classification passed with 35 candidate patterns and no global hotspot above 35%;
 - deterministic quality remains 900 KEEP / 0 flagged / structural findings 0.
 
-Pattern #34 becomes fully closed only after closure PR #148 passes exact closure-head CI, clean merge gate, exact-head merge, final `main` verification and final Cloudflare smoke.
+Pattern #35 still requires fresh canonical docs-head CI, clean exact-head merge gate, exact-head implementation merge, live-main verification including Cloudflare smoke, and separate docs-only closure before it is fully closed.
 
-### `equal_groups` — Pattern #33 FULLY CLOSED
+### `initial_sound` — Pattern #34 FULLY CLOSED
 
-Exact scope:
-
-```text
-math-group-6-by-2
-math-group-8-by-2
-math-group-9-by-3
-```
-
-Pattern #33 implementation PR #145 and closure PR #146 are complete. Final verified `main` is `0f90a7fae1164ae6ace86f993024cef7b4989ca9`; final CI #700 / run `35058250562` passed the full matrix including Cloudflare production smoke.
+Implementation PR #147 and closure PR #148 are complete. Final verified `main` is `8bfb0027a5f4963a6875310c7408cb56018cc422`; final CI #717 / run `35074306579` passed the full matrix including Cloudflare production smoke.
 
 ## Target mechanics backlog
 
 Original 60-pattern planning slots remain guidance, not a fixed taxonomy. Validated extra patterns may sit outside an original illustrative slot when objective fit requires a semantically distinct interaction.
 
-Priority families still worth **fresh** objective/evidence audit include:
+Priority families still worth fresh objective/evidence audit include:
 - search/scene exploration: `find_in_scene`, `hidden_object`, `spot_difference`, `hotspot_discovery`;
 - ordering: `reorder_cards`, `tap_in_order`, `story_sequence`;
-- literacy construction: `build_word`, `letter_construction`, `initial_sound_sort`, `word_picture_match`;
+- literacy construction: `build_word`, `letter_construction`, `initial_sound_sort`;
 - puzzle/path: `maze_path`, `route_planning`, `connect_the_dots`, `missing_piece`, `tile_rotation`;
 - audio: `listen_and_point`, `listen_and_match`, `sound_memory`, `audio_sequence`, `sound_discrimination`;
 - creative/story mechanics after objective fit is proven.
 
-No family is pre-approved for Pattern #35. A fresh audit starts only after Pattern #34 is fully closed.
+No family is pre-approved for Pattern #36. A fresh audit starts only after Pattern #35 is fully closed.
 
 ## Distribution rule
 
@@ -155,10 +159,10 @@ Coverage dan implemented-pattern consistency bersifat blocking; concentration be
 - Syllable Assembly — DONE / #139 + #140, fully closed.
 - Make Total — DONE / #141 + #142, fully closed.
 - Take Away — DONE / #143 + #144, fully closed.
-- Equal Groups — DONE / #145 + #146, fully closed; final CI #700.
-- Initial Sound implementation — DONE / #147, merged and live-verified; post-merge CI #710 incl Cloudflare.
-- Initial Sound closure — **PR #148 OPEN**.
-- NEXT only after Pattern #34 full closure — fresh objective/evidence audit for Pattern #35; no family pre-approved.
+- Equal Groups — DONE / #145 + #146, fully closed.
+- Initial Sound — DONE / #147 + #148, fully closed; final main `8bfb0027a5f4963a6875310c7408cb56018cc422`, final CI #717.
+- Picture Word Match implementation — **PR #149 OPEN / QA ACCEPTED**; code-head CI #718 full success + 9/9 manual screenshot acceptance.
+- NEXT only after Pattern #35 full closure — fresh objective/evidence audit for Pattern #36; no family pre-approved.
 
 ## Definition of done per mechanic
 
