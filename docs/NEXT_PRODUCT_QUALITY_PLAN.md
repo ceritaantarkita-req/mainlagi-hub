@@ -7,11 +7,13 @@
 **Latest fully closed gameplay:** Pattern #35 — Bahasa `picture_word_match`  
 **Pattern #35 final main:** `b00a5b59e213dcd3f2410dd2ffb45c2e7f8dc3d0`  
 **Pattern #35 final CI:** #727 / run `35086954102` — full success including exact Cloudflare production smoke  
-**Active implementation:** Pattern #36 — Bahasa `sentence_order_cards`  
+**Latest merged implementation:** Pattern #36 — Bahasa `sentence_order_cards`  
 **Pattern #36 implementation PR:** #151  
-**Pattern #36 accepted code head:** `595bc4e94065eb5250aef27797858641ca959c67`  
-**Pattern #36 accepted code CI:** #728 / run `35089266590` — full PR success  
-**Pattern #36:** **QA ACCEPTED / UNMERGED; CANONICAL DOCS UPDATE IN PROGRESS**  
+**Pattern #36 final implementation head:** `1b7917046d6b3cbe365132a3610d2dddc74286c1`  
+**Pattern #36 implementation-head CI:** #729 / run `35090113449` — full PR success  
+**Pattern #36 implementation merge:** `e27339c32edbad5e9587ebc0b87365318d5d9fad`  
+**Pattern #36 post-merge CI:** #730 / run `35092795526` — full success including exact Cloudflare production smoke  
+**Pattern #36:** **IMPLEMENTATION MERGED / LIVE VERIFIED; DOCS-ONLY CLOSURE IN PROGRESS**  
 **Primary focus:** WS-05 gameplay/mechanic diversification  
 **Principle:** **Quality first. Quantity later.**
 
@@ -34,11 +36,11 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 
 | Workstream | Status | Current note |
 |---|---|---|
-| WS-01 Canonical docs | DONE / maintained | Pattern #36 implementation docs in progress |
+| WS-01 Canonical docs | DONE / maintained | Pattern #36 closure update in progress |
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | TODO | parent/public surfaces |
 | WS-04 Activity audit/redesign | deterministic clean | 900 KEEP / 0 flagged |
-| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | **35 fully closed; Pattern #36 QA accepted/unmerged** |
+| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | **35 fully closed; Pattern #36 implementation merged/live verified; closure in progress** |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | TODO / parallel | Art Bible + permanent human gate |
@@ -47,34 +49,21 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 | WS-11 Governance | TODO | required checks/review discipline |
 | WS-12 Technical cleanup | TODO LATER | after product quality stabilizes |
 
-## Verified baseline and accepted candidate
-
-Merged Pattern #35 baseline:
+## Verified merged baseline
 
 ```text
 900 / 900 classified
 0 unclassified
-35 active merged patterns
-choice_grid                 287 / 900 = 31.89%
-picture_word_match            5 / 900 = 0.56%
-Bahasa choice_grid            39 / 100
-```
-
-Accepted Pattern #36 candidate from CI #728 artifact:
-
-```text
-900 / 900 classified
-0 unclassified
-36 active candidate patterns
+36 active merged patterns
 choice_grid                 282 / 900 = 31.33%
 sentence_order_cards          5 / 900 = 0.56%
 picture_word_match            5 / 900 = 0.56%
 Bahasa choice_grid            34 / 100
 ```
 
-Candidate distance is **14 patterns** to minimum 50 and **24 patterns** to working target 60.
+Distance remaining is **14 patterns** to minimum 50 and **24 patterns** to working target 60.
 
-## Pattern #36 — Bahasa Sentence Order Cards — QA ACCEPTED / UNMERGED
+## Pattern #36 — Bahasa Sentence Order Cards — IMPLEMENTATION MERGED / LIVE VERIFIED
 
 Exact scope:
 
@@ -105,16 +94,18 @@ Interaction/evidence contract:
 - assessed fidelity `choice_sentence_order_cards_interaction`;
 - runtime metadata source `sentence-order-cards-runtime` with `selectedChoice` and canonical-derived `selectedWords`.
 
-Verified code-head QA:
+Verified chain:
 - branch started exactly from fully closed Pattern #35 `main` `b00a5b59e213dcd3f2410dd2ffb45c2e7f8dc3d0`;
 - accepted code head `595bc4e94065eb5250aef27797858641ca959c67` passed full CI #728 / run `35089266590`;
-- Ubuntu quality, Windows compatibility, production build/budgets, dependency audit, secret-history scan and Chromium mobile/accessibility/browser QA passed;
-- deterministic quality/distribution, simulations and Batch17 passed;
+- final implementation head `1b7917046d6b3cbe365132a3610d2dddc74286c1` passed full CI #729 / run `35090113449`;
+- Ubuntu, Windows, production build/budgets, dependency audit, secret-history scan, Chromium mobile/accessibility/browser QA, deterministic quality/distribution, simulations and Batch17 passed;
 - all nine 320x720, 390x844 and 768x1024 idle/wrong/success screenshots passed manual visual acceptance;
-- candidate distribution is 900/900 classified, 36 active patterns, no global advisory hotspot above 35%;
-- deterministic quality remains 900 KEEP / 0 flagged / structural findings 0.
+- PR #151 passed exact-head clean scope/review/thread/mergeability gate and squash merged as `e27339c32edbad5e9587ebc0b87365318d5d9fad`;
+- independent post-merge CI #730 / run `35092795526` passed the complete matrix including exact **Production smoke (Cloudflare)**;
+- deterministic quality remains 900 KEEP / 0 flagged / structural findings 0;
+- distribution is 900/900 classified, 36 active merged patterns, no global advisory hotspot above 35%.
 
-Required next Pattern #36 gates: canonical docs update -> fresh exact docs-head CI -> clean scope/review/thread/mergeability gate -> exact-head squash merge -> independent live `main` + Cloudflare verification -> separate docs-only closure -> final `main` + Cloudflare verification. Only then mark Pattern #36 **FULLY CLOSED**.
+Required remaining Pattern #36 gate: separate docs-only closure -> fresh exact closure-head CI -> clean closure scope/review/thread/mergeability gate -> exact-head squash merge -> final independent `main` verification + Cloudflare smoke. Only then mark Pattern #36 **FULLY CLOSED**.
 
 ## Pattern #35 — Picture Word Match — FULLY CLOSED
 
@@ -126,10 +117,9 @@ A mechanic is complete only when implementation, typecheck/lint/build, engine te
 
 ## Current execution order
 
-1. Finish Pattern #36 canonical docs and fresh exact docs-head CI.
-2. Clean exact-head merge PR #151 and independently verify live `main` + Cloudflare smoke.
-3. Complete separate docs-only Pattern #36 closure and final live verification.
-4. Only after Pattern #36 is fully closed, run a fresh objective/evidence audit for Pattern #37; no family is pre-approved.
-5. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns, then parallel product-quality workstreams.
+1. Finish the docs-only Pattern #36 closure: fresh exact closure-head CI -> clean exact-head gate -> merge -> final live `main` + Cloudflare verification.
+2. Only after Pattern #36 is fully closed, run a fresh objective/evidence audit for Pattern #37; no family is pre-approved.
+3. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
+4. Continue WS-08 visual system, WS-02 narration, WS-03 parent/public frontend, WS-10 external acceptance, WS-11 governance, then later cleanup.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion, or major mastery/backend rewrites during this quality phase.
