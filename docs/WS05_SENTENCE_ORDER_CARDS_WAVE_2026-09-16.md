@@ -1,10 +1,10 @@
 # WS-05 Sentence Order Cards Wave — 2026-09-16
 
-Status: **Pattern #36 QA ACCEPTED / UNMERGED; CANONICAL DOCS GATE IN PROGRESS**  
+Status: **Pattern #36 IMPLEMENTATION MERGED / LIVE VERIFIED; DOCS-ONLY CLOSURE IN PROGRESS**  
 Implementation PR: **#151**  
 Base: Pattern #35 final `main` `b00a5b59e213dcd3f2410dd2ffb45c2e7f8dc3d0`  
-Accepted code head: `595bc4e94065eb5250aef27797858641ca959c67`  
-Accepted code CI: **#728 / run `35089266590` — full PR success**
+Implementation merge: `e27339c32edbad5e9587ebc0b87365318d5d9fad`  
+Post-merge CI: **#730 / run `35092795526` — full success including exact Cloudflare production smoke**
 
 ## Why this family
 
@@ -76,18 +76,18 @@ Representative wrong-then-right browser path validates:
 - `accuracy = 0.5`;
 - wrong answer cannot complete the activity.
 
-## QA evidence
+## QA and merge evidence
 
 Accepted code head:
 `595bc4e94065eb5250aef27797858641ca959c67`
 
-Exact-head code CI **#728 / run `35089266590`**:
-- Ubuntu structure/assets/source, security boundary, physical-device harness contract, typecheck, lint, engine/learning suite, deterministic activity quality, gameplay distribution, simulations and Batch17 — success;
-- Windows compatibility — success;
-- production build and build budgets — success;
-- production dependency audit — success;
-- secret-history scan — success;
-- Chromium mobile/accessibility/browser matrix — success;
+Final implementation head:
+`1b7917046d6b3cbe365132a3610d2dddc74286c1`
+
+Exact-head implementation CI:
+- CI **#728** / run `35089266590` — accepted code-head full success;
+- CI **#729** / run `35090113449` — final implementation-head full success;
+- Ubuntu quality, Windows compatibility, production build/budgets, dependency audit, secret-history scan, Chromium mobile/accessibility/browser QA, deterministic quality/distribution, simulations and Batch17 — success;
 - Cloudflare production smoke skipped on PR as designed.
 
 Dedicated representative: `bahasa-urut-ibu-memasak`.
@@ -108,14 +108,33 @@ Observed acceptance:
 - feedback and success CTA stay visible;
 - Garden UI character/background framing remains intact.
 
+Exact implementation merge gate:
+- PR #151 head was `1b7917046d6b3cbe365132a3610d2dddc74286c1`;
+- branch was zero commits behind `main`;
+- mergeability was true;
+- scope stayed limited to reviewed Pattern #36 implementation/tests/audit/docs;
+- comments, reviews and review threads were all zero;
+- exact-head squash merge succeeded as `e27339c32edbad5e9587ebc0b87365318d5d9fad`.
+
+Independent live `main` verification:
+- `main` independently resolved to exact implementation merge `e27339c32edbad5e9587ebc0b87365318d5d9fad`;
+- CI **#730** / run `35092795526` completed **success**;
+- Ubuntu quality gate — success;
+- Windows compatibility — success;
+- production build — success;
+- production dependency audit — success;
+- secret-history scan — success;
+- Chromium mobile/accessibility matrix — success;
+- **Production smoke (Cloudflare)** waited for the exact release and successfully smoked public endpoints.
+
 ## Distribution/quality evidence
 
-CI #728 gameplay-distribution artifact:
+Verified merged gameplay-distribution:
 
 ```text
 900 / 900 classified
 0 unclassified
-36 active candidate patterns
+36 active merged patterns
 choice_grid          282 / 900 = 31.33%
 sentence_order_cards   5 / 900 = 0.56%
 Bahasa choice_grid     34 / 100 = 34.00%
@@ -123,7 +142,7 @@ Bahasa choice_grid     34 / 100 = 34.00%
 
 Global advisory hotspots: none.
 
-Deterministic activity-quality artifact:
+Deterministic activity-quality evidence remains:
 
 ```text
 KEEP                  900
@@ -133,16 +152,14 @@ REPLACE                  0
 structural findings      0
 ```
 
-## Remaining implementation chain
+## Remaining closure chain
 
-Pattern #36 is **not yet merged or fully closed**. Required remaining gates:
-1. commit canonical docs from the accepted code head;
-2. fresh exact final implementation docs-head full CI;
-3. clean exact-head implementation scope/review/thread/mergeability gate;
-4. exact-head implementation squash merge;
-5. independent `main` verification and full CI including Cloudflare production smoke;
-6. separate docs-only closure PR based exactly on that implementation merge;
-7. fresh closure-head CI, clean closure gate, exact-head closure merge;
-8. final independent `main` verification and Cloudflare production smoke.
+Pattern #36 implementation is merged and live verified, but Pattern #36 is **not yet FULLY CLOSED**. Required remaining gates:
+1. keep this closure docs-only and based exactly on implementation merge `e27339c32edbad5e9587ebc0b87365318d5d9fad`;
+2. open the separate closure PR;
+3. fresh exact closure-head full CI;
+4. clean exact-head closure scope/review/thread/mergeability gate;
+5. exact-head closure squash merge;
+6. final independent `main` verification and full CI including Cloudflare production smoke.
 
 Only after all gates may Pattern #36 be marked **FULLY CLOSED**. Pattern #37 objective/evidence audit must not start before that point.
