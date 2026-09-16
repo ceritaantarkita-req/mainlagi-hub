@@ -59,7 +59,6 @@ border-soft           #e1e5d7
 ```
 
 Rules:
-
 - Default page/background is cream/paper, not cold blue-gray.
 - Primary CTA is green unless a runtime has a strong semantic reason otherwise.
 - Navy/ink is the default text color.
@@ -89,7 +88,6 @@ Metadata                     12–14px
 ```
 
 Rules:
-
 - No essential product copy below 12px.
 - Child-answer controls should normally be 18px or larger; high-salience symbol/letter activities may be much larger.
 - Long technical labels must not inherit oversized display type.
@@ -105,7 +103,6 @@ Canonical rhythm:
 ```
 
 Rules:
-
 - Prefer 16–24px internal card padding.
 - Section separation should normally be 24–40px.
 - Do not create large empty desktop regions unless they improve task focus.
@@ -155,7 +152,6 @@ Cream/white surface with visible border and navy/green text.
 Text/icon control only when the target remains >=44px and hierarchy is obvious.
 
 Rules:
-
 - Avoid multiple equally loud primary buttons.
 - Disabled state must remain readable and not appear interactive.
 - Hover is enhancement only; touch state must stand alone.
@@ -171,16 +167,24 @@ Use friendly icon/illustration, clear title, minimal metadata and an obvious sta
 
 Use fewer cards with stronger grouping. Prefer a summary statement first, supporting metric second, technical detail behind disclosure or lower hierarchy.
 
-VUI-01 establishes the first accepted family-report example: weekly summary first, evidence-based patterns second, grouped subject detail third, diagnostics behind disclosure. Parent analytics should not default to a grid of equally loud technical cards.
+VUI-01 establishes the accepted family-report example: weekly summary first, evidence-based patterns second, grouped subject detail third, diagnostics behind disclosure. Parent analytics should not default to a grid of equally loud technical cards.
 
 ### Stage / lesson cards
 
 Must communicate at least one of: progress, readiness, recommendation, completion or lock reason. Do not present repeated white rectangles with equal emphasis if their states differ.
 
+Accepted VUI-02 rules:
+- stage title/subtitle and readiness may share one major Garden panel when this makes the current state easier to read;
+- readiness visual emphasis must use existing readiness data and may not invent or weaken a progression gate;
+- lesson title/objective/progress should form a clear group before activity cards;
+- lesson card count must follow usable width **and actual item count**, not a global fixed 3/4-column grid;
+- for one to three stage activities, content-aware layouts such as `auto-fit` are preferred when they prevent accidental empty canvas;
+- recommendation may receive visual emphasis, but the canonical recommendation source and activity ordering must remain unchanged;
+- optional motion must remain visually distinguishable from required learning steps.
+
 ## 10. Icons and symbols
 
 Priority:
-
 1. Mainlagi `LearningSymbol` for learning concepts/runtime;
 2. Mainlagi `Icon` for navigation/product controls;
 3. artwork/character assets for illustration;
@@ -193,7 +197,6 @@ Do not mix several unrelated icon styles in one surface.
 Gavi/Paca and approved Garden artwork are brand assets, not filler.
 
 Use characters when they:
-
 - welcome/encourage;
 - explain a next step;
 - provide visual balance around a child task;
@@ -206,7 +209,6 @@ Adult surfaces may use smaller/restrained character presence to preserve family 
 ## 12. Feedback states
 
 Every assessed child interaction needs visually distinct:
-
 - idle;
 - selected/pending where relevant;
 - wrong/try again;
@@ -216,7 +218,6 @@ Every assessed child interaction needs visually distinct:
 Do not encode state by color alone. Maintain readable copy/iconography and stable layout so feedback does not cause unexpected jumps.
 
 Parent/system surfaces additionally require:
-
 - loading;
 - empty;
 - error;
@@ -228,6 +229,11 @@ Parent/system surfaces additionally require:
 ### Child
 
 Navigation should be minimal and predictable. Activities hide global navigation when focus is required. Back must have an accessible name even when only an icon is visible.
+
+For subject stage journeys:
+- phone may use a compact horizontal carousel; showing a partial next card is acceptable as a deliberate scroll affordance when the current card remains fully readable;
+- tablet/desktop should normally expose stage choices without an internal horizontal scroller when usable width is sufficient;
+- changing journey layout must not change stage order, stage status or destination routes.
 
 ### Parent/public
 
@@ -250,36 +256,35 @@ Permanent visual QA must cover at least:
 Use 320px width additionally for high-risk child/activity flows. Motion-game QA must include suitable landscape viewports.
 
 Rules:
-
-- no horizontal overflow;
+- no horizontal page overflow;
 - CTA and current task must remain discoverable without layout ambiguity;
 - tablet/desktop must use available space intentionally, not merely stretch mobile whitespace;
 - navigation must not cover content;
 - cards should reflow based on readable width, not fixed desktop assumptions;
-- a layout is not accepted merely because it does not overflow: pathological word wrapping, cramped columns or visibly poor hierarchy are visual failures;
-- column count must follow **usable content width after sidebars/padding**, not viewport width alone.
+- a layout is not accepted merely because it does not overflow: pathological word wrapping, clipped internal scrollers, cramped columns or visibly poor hierarchy are visual failures;
+- column count must follow **usable content width after sidebars/padding** and actual content count, not viewport width alone;
+- internal horizontal scrolling should be intentional and device-appropriate, not an accidental consequence of desktop card widths.
 
-VUI-01 evidence is the concrete precedent: three report metrics are one column on phone, 2+1 at the 768 tablet layout because the parent sidebar reduces usable width, and three columns on 1280 desktop.
+VUI-01 precedent: report metrics are one column on phone, 2+1 at 768 because the parent sidebar reduces usable width, and three columns on 1280.
+
+VUI-02 precedent: subject journey stays horizontal on 390 as an intentional carousel, but switches to grid at tablet/desktop; stage lessons with two activities expand to two broad columns rather than occupying two cells of a fixed four-column desktop grid.
 
 ## 15. Copy rules
 
 Child copy:
-
 - short;
 - concrete;
 - action-oriented;
 - no engineering or assessment jargon.
 
 Parent copy:
-
 - explain what happened and what to do next;
 - preserve truthfulness of evidence/mastery;
 - translate `attempt`, `assessed`, `qualifying evidence`, `retry`, etc. into normal parent language in the primary UI;
 - technical labels may appear in diagnostic/detail views;
-- moving jargon behind disclosure must not delete or distort the underlying evidence semantics.
+- moving jargon behind disclosure must not delete or distort underlying evidence semantics.
 
 Public copy:
-
 - explain what Mainlagi is, who it is for, why it is useful and what camera/data expectations are;
 - distinguish child play from parent controls.
 
@@ -295,31 +300,33 @@ Public copy:
 - native/script-correct text rendering;
 - avoid drag-only requirements where an accessible alternative is feasible.
 
+Native elements such as `<progress>` are preferred when they accurately express canonical state without replacing existing semantics.
+
 ## 17. Visual regression rules
 
 A visual change is not accepted solely because build/lint passes.
 
-Permanent representative screenshots must cover public, child shell, subject/gallery, stage, representative activities, rewards, parent, account/auth and system states. Tests must assert the expected pathname so a progression redirect cannot count as a screenshot PASS.
+Permanent representative screenshots must cover public, child shell, subject/gallery, stage, representative activities, rewards, parent, account/auth and system states. Tests must assert expected pathname so a progression redirect cannot count as screenshot PASS.
 
 Visual acceptance requires:
-
 - no clipping/overflow;
-- hierarchy is readable at actual screenshot scale;
-- interactive controls are fully visible and correctly labeled;
+- hierarchy readable at actual screenshot scale;
+- interactive controls fully visible and correctly labeled;
 - state screenshots show intended differences;
 - source/content semantics remain unchanged unless the change explicitly targets content/copy;
 - automated structure checks **and** manual screenshot review agree that the layout is usable.
 
-VQA-01 operationalizes this rule with 42 exact-path captures across 14 canonical surfaces at 390x844, 768x1024 and 1280x800, plus a machine-readable manifest. Browser/structural assertions are blocking; screenshots remain the visual evidence surface for human/AI review rather than a brittle pixel-perfect diff.
+VQA-01 operationalizes this with 42 exact-path captures across 14 canonical surfaces at 390x844, 768x1024 and 1280x800 plus a machine-readable manifest.
 
-VUI-01 adds an additional product-level regression: the Parent Report primary layer must not leak guarded internal analytics vocabulary; technical terms remain allowed in explicitly marked diagnostic disclosure.
+VUI-01 adds a product-level regression: Parent Report primary layer must not leak guarded internal analytics vocabulary; diagnostic disclosure may retain technical terms.
+
+VUI-02 adds geometry regressions on canonical Math subject/stage routes: tablet/desktop stage journey may not require internal horizontal scrolling, stage lesson cards must retain readable widths, readiness summary must exist and exactly one canonical recommendation remains visually marked.
 
 ## 18. Migration policy
 
 Do not replace all existing CSS at once.
 
 Migration order:
-
 1. permanent visual-baseline QA;
 2. parent report;
 3. stage/gallery;
@@ -333,9 +340,10 @@ Every migration wave gets its own browser screenshots, exact-scope regression an
 ## 19. Non-goals
 
 This Art Bible does not authorize:
-
 - changing curriculum answers or learning objectives for visual reasons;
 - weakening readiness/mastery gates to make screenshots easier;
+- changing adaptive recommendation ranking merely to make a highlighted card convenient;
+- reordering lessons/activities for visual symmetry without a learning reason;
 - inventing new audio/illustration claims;
 - replacing Iqro expert review;
 - mass-generating decorative assets without provenance;
@@ -346,7 +354,8 @@ This Art Bible does not authorize:
 Garden representative activities: **ACCEPTED anchor**.  
 Whole-product visual system: **MIGRATION REQUIRED**.  
 Permanent visual QA gate: **FULLY CLOSED / BLOCKING on main `9269e9fd...`, CI #751 including exact Cloudflare smoke**.  
-Permanent baseline evidence: **42 / 42 exact-path captures + manifest at 390 / 768 / 1280**.  
-Parent Report VUI-01: **EXACT-HEAD ACCEPTED on PR #157 head `6a445046...`, CI #753; merge/live verification pending**.  
-Next migration wave after VUI-01 closure: **VUI-02 Stage/Gallery convergence**.  
+Parent Report VUI-01: **FULLY CLOSED on main `e212002e...`, CI #758 including exact Cloudflare smoke**.  
+Stage/Gallery VUI-02: **EXACT-HEAD ACCEPTED on PR #158 head `7e85721...`, CI #759; merge/live verification pending**.  
+Permanent baseline evidence remains **42 / 42 exact-path captures + manifest at 390 / 768 / 1280**.  
+Next migration wave after VUI-02 closure: **VUI-03 Public/Auth/Account convergence**.  
 Pattern #38: **BLOCKED until remaining baseline P1 findings are closed**.
