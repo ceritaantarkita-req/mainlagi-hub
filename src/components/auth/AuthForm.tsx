@@ -64,7 +64,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
   };
 
   return (
-    <form className={styles.form} onSubmit={(event) => void submit(event)}>
+    <form className={styles.form} onSubmit={(event) => void submit(event)} data-mainlagi-auth-form={mode}>
       <h1>{COPY[mode].title}</h1>
 
       <label className={styles.label}>
