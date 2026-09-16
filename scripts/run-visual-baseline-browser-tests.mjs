@@ -134,6 +134,67 @@ async function assertStageHierarchy(page, viewport) {
   assert.ok(Math.min(...geometry.cardWidths) >= minimumReadableWidth, `stage cards underuse available width at ${viewport.width}px: ${JSON.stringify(geometry.cardWidths)}`);
 }
 
+async function assertPublicFamilyEntry(page, viewport) {
+  assert.equal(await page.locator("[data-mainlagi-public-family-entry]").count(), 1, `public family entry missing at ${viewport.width}px`);
+  assert.equal(await page.locator("[data-mainlagi-public-child-cta]").count(), 1, `public child CTA missing at ${viewport.width}px`);
+  assert.equal(await page.locator("[data-mainlagi-public-parent-cta]").count(), 1, `public parent CTA missing at ${viewport.width}px`);
+  const copy = (await page.locator("[data-mainlagi-public-family-entry]").innerText()).replace(/\s+/g, " ");
+  assert.match(copy, /kamera\s+(bersifat\s+)?opsional/i, `public entry must explain optional camera use at ${viewport.width}px`);
+
+  const ctaGeometry = await page.locator("[data-mainlagi-public-child-cta], [data-mainlagi-public-parent-cta]").evaluateAll((elements) =>
+    elements.map((element) => {
+      const rect = element.getBoundingClientRect();
+      return { width: Math.round(rect.width * 10) / 10, height: Math.round(rect.height * 10) / 10 };
+    })
+  );
+  assert.ok(ctaGeometry.every((item) => item.height >= 44), `public family CTAs fell below touch target at ${viewport.width}px: ${JSON.stringify(ctaGeometry)}`);
+}
+
+async function assertAuthFamilySurface(page, route, viewport) {
+  assert.equal(await page.locator("[data-mainlagi-auth-family-shell]").count(), 1, `${route.name} family shell missing at ${viewport.width}px`);
+  assert.equal(await page.locator("[data-mainlagi-auth-context]").count(), 1, `${route.name} family context missing at ${viewport.width}px`);
+  assert.equal(await page.locator("[data-mainlagi-auth-panel]").count(), 1, `${route.name} auth panel missing at ${viewport.width}px`);
+
+  if (route.name === "auth-error") {
+    assert.equal(await page.locator("[data-mainlagi-auth-status]").count(), 1, `auth callback status missing at ${viewport.width}px`);
+  } else {
+    const expectedMode = route.name === "forgot-password" ? "forgot" : route.name;
+    assert.equal(await page.locator(`[data-mainlagi-auth-form="${expectedMode}"]`).count(), 1, `${route.name} auth form mode drifted at ${viewport.width}px`);
+    const controls = await page.locator(`[data-mainlagi-auth-form="${expectedMode}"] input, [data-mainlagi-auth-form="${expectedMode}"] button`).evaluateAll((elements) =>
+      elements.map((element) => {
+        const rect = element.getBoundingClientRect();
+        return { width: Math.round(rect.width * 10) / 10, height: Math.round(rect.height * 10) / 10 };
+      })
+    );
+    assert.ok(controls.length >= 2, `${route.name} auth controls unexpectedly sparse at ${viewport.width}px`);
+    assert.ok(controls.every((item) => item.height >= 44), `${route.name} auth controls fell below target height at ${viewport.width}px: ${JSON.stringify(controls)}`);
+  }
+
+  if (viewport.width >= 700) {
+    const geometry = await page.locator("[data-mainlagi-auth-context], [data-mainlagi-auth-panel]").evaluateAll((elements) =>
+      elements.map((element) => Math.round(element.getBoundingClientRect().width * 10) / 10)
+    );
+    assert.ok(Math.min(...geometry) >= 280, `${route.name} wide auth composition collapsed at ${viewport.width}px: ${JSON.stringify(geometry)}`);
+  }
+}
+
+async function assertAccountFamilySurface(page, viewport) {
+  assert.equal(await page.locator("[data-mainlagi-account-family-shell]").count(), 1, `account family shell missing at ${viewport.width}px`);
+  const settings = page.locator("[data-mainlagi-account-settings]");
+  assert.equal(await settings.count(), 1, `account settings region missing at ${viewport.width}px`);
+  const links = settings.locator("a[href]");
+  assert.ok(await links.count() >= 7, `account settings links unexpectedly sparse at ${viewport.width}px`);
+
+  const geometry = await links.evaluateAll((elements) => elements.map((element) => {
+    const rect = element.getBoundingClientRect();
+    return { width: Math.round(rect.width * 10) / 10, height: Math.round(rect.height * 10) / 10 };
+  }));
+  assert.ok(geometry.every((item) => item.height >= 64), `account settings cards are too cramped at ${viewport.width}px: ${JSON.stringify(geometry)}`);
+  if (viewport.width >= 700) {
+    assert.ok(Math.min(...geometry.map((item) => item.width)) >= 280, `account settings underuse wide layout at ${viewport.width}px: ${JSON.stringify(geometry)}`);
+  }
+}
+
 async function inspect(page, route, viewport) {
   const consoleErrors = [];
   const pageErrors = [];
@@ -173,9 +234,12 @@ async function inspect(page, route, viewport) {
       );
     }
 
+    if (route.name === "public-root") await assertPublicFamilyEntry(page, viewport);
     if (route.name === "parent-report") await assertParentReportPrimaryCopy(page, viewport);
     if (route.name === "subject-math") await assertSubjectJourneyLayout(page, viewport);
     if (route.name === "stage-math-angka") await assertStageHierarchy(page, viewport);
+    if (route.name === "account") await assertAccountFamilySurface(page, viewport);
+    if (["login", "signup", "forgot-password", "auth-error"].includes(route.name)) await assertAuthFamilySurface(page, route, viewport);
 
     const overlayCount = await page.locator("nextjs-portal, [data-nextjs-dialog-overlay], [data-next-badge-root]").count();
     assert.equal(overlayCount, 0, `${route.name} rendered a Next.js error overlay`);
