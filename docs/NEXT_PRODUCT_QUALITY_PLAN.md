@@ -6,11 +6,12 @@
 **Canonical branch:** `main`  
 **Latest merged gameplay:** Pattern #32 — Math `take_away`  
 **Pattern #32 implementation PR:** #143  
+**Pattern #32 closure PR:** #144  
 **Final implementation docs head:** `061b004188e827ff62bd1e5c48377a087f0f9144`  
 **Final implementation PR CI:** #676 / run `35048147580` — full success  
 **Verified implementation merge SHA:** `3ac5ab049e94f65c3e28a7e4e5cbd18185a9466a`  
 **Post-merge implementation CI:** #677 / run `35048981508` — full success including Cloudflare production smoke  
-**Pattern #32:** **MERGED / LIVE VERIFIED / CLOSURE PENDING**  
+**Pattern #32:** **MERGED / LIVE VERIFIED / CLOSURE PR #144 PENDING**  
 **Primary focus:** WS-05 gameplay/mechanic diversification  
 **Principle:** **Quality first. Quantity later.**
 
@@ -37,7 +38,7 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | TODO | parent/public surfaces |
 | WS-04 Activity audit/redesign | deterministic clean | 900 KEEP / 0 flagged |
-| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | **32 merged patterns; Pattern #32 docs-only closure** |
+| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | **32 merged patterns; Pattern #32 closure PR #144** |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | TODO / parallel | Art Bible + permanent human gate |
@@ -65,7 +66,7 @@ Iqro choice_grid             58 / 100
 
 Distance remaining: **18 patterns** to minimum 50 and **28 patterns** to working target 60.
 
-## Pattern #32 — Math Take Away — merged / closure pending
+## Pattern #32 — Math Take Away — merged / closure PR #144 pending
 
 Exact scope:
 
@@ -103,7 +104,7 @@ QA and merge chain:
 - post-merge `main` CI #677 / run `35048981508` passed Ubuntu, Windows, production build, dependency audit, secret-history scan, Chromium mobile/accessibility/browser QA, deterministic quality/distribution audits, simulations, Batch17 and Cloudflare production smoke;
 - deterministic quality remains 900 KEEP / 0 flagged / structural findings 0.
 
-Pattern #32 becomes **FULLY CLOSED only after this separate docs-only closure passes fresh exact-head CI, clean review/thread/mergeability gate, exact-head merge, independent final `main` SHA verification, and final post-closure `main` CI including Cloudflare production smoke**.
+Pattern #32 becomes **FULLY CLOSED only after closure PR #144 passes fresh exact-head CI, clean review/thread/mergeability gate, exact-head merge, independent final `main` SHA verification, and final post-closure `main` CI including Cloudflare production smoke**.
 
 ## Pattern #31 — closed baseline
 
@@ -115,7 +116,7 @@ A mechanic is complete only when implementation, typecheck/lint/build, engine te
 
 ## Current execution order
 
-1. Finish Pattern #32 docs-only closure: exact closure-head CI -> clean review/thread/mergeability gate -> exact-head merge -> final `main` verification -> post-closure `main` CI + Cloudflare smoke.
+1. Finish Pattern #32 closure PR #144: exact closure-head CI -> clean review/thread/mergeability gate -> exact-head merge -> final `main` verification -> post-closure `main` CI + Cloudflare smoke.
 2. Only after Pattern #32 is fully closed, run a **fresh objective/evidence audit for Pattern #33**; no family is pre-approved.
 3. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
 4. Continue WS-08 visual system, WS-02 narration, WS-03 parent/public frontend, WS-10 external acceptance, WS-11 governance, then later cleanup.
