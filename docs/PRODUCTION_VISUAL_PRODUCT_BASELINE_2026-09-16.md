@@ -1,99 +1,120 @@
 # Production Visual / Product Baseline Audit — 2026-09-16
 
-Status: **P0 = 0; P1 = 4 ON MERGED MAIN; VQA-01 CLOSED; VUI-01 EXACT-HEAD ACCEPTED; PATTERN #38 BLOCKED**  
+Status: **P0 = 0; P1 = 3 ON MERGED MAIN; VQA-01 + VUI-01 CLOSED; VUI-02 EXACT-HEAD ACCEPTED; PATTERN #38 BLOCKED**  
 Canonical production: `https://mainlagihub.my.id/`  
 Baseline checkpoint merge: `d3d600ed92e78d30da8172e0bdb300119990614f`  
-Baseline checkpoint CI: **#743 / run `35105996090` — full success including exact Cloudflare production smoke**  
-Permanent VQA merge: `9269e9fd576004d7d91fbd840e8c752acc7a5aae`  
-Permanent VQA final main CI: **#751 / run `35110724150` — full success including exact Cloudflare release smoke**  
-Current product PR: **#157 — VUI-01 Parent Report convergence**  
-VUI-01 accepted code head: `6a4450467b8d9bd01cd9f2bc0806100c84d187f3`  
-VUI-01 code-head CI: **#753 / run `35112741852` — full PR success**
+Permanent VQA merge: `9269e9fd576004d7d91fbd840e8c752acc7a5aae`; main CI **#751 / run `35110724150`** including exact Cloudflare smoke  
+VUI-01 merge: `e212002eafef77a37a220834c6263e433cf9acbb`; main CI **#758 / run `35115248445`** including exact Cloudflare smoke  
+Current product PR: **#158 — VUI-02 Stage / Gallery convergence**  
+VUI-02 accepted implementation head before docs: `7e85721bf42a1b31605bc87cd58594a8bbc55bd7`  
+VUI-02 code-head CI: **#759 / run `35116294362` — full PR success**
 
 ## Evidence boundary
 
-The baseline combines exact repository source, CI/browser screenshot artifacts, route/component review, and exact Cloudflare release smoke. The Garden learning/activity direction remains the accepted child-facing visual anchor. Whole-product visual acceptance remains open until P1 reaches zero.
+This audit combines exact repository source, CI/browser screenshot artifacts, route/component review and exact Cloudflare release smoke. Garden learning/activity remains the accepted child-facing visual anchor. Whole-product visual acceptance remains open until P1 reaches zero.
 
 ## Current baseline result
 
-Merged-main state after VQA-01 closure and before VUI-01 merge:
+Merged-main state after VUI-01 closure:
 
 ```text
 P0 findings: 0
-P1 findings: 4
+P1 findings: 3
 P2 findings: 3
 Garden representative activities: ACCEPTED anchor
 Permanent visual QA: CLOSED / BLOCKING
-VUI-01 Parent Report: exact-head accepted; merge/live verification pending
+Parent Report VUI-01: CLOSED / LIVE VERIFIED
+Stage/Gallery VUI-02: exact-head accepted; merge/live verification pending
 Whole-product visual acceptance: NOT YET ACCEPTED
 Pattern #38: BLOCKED
 ```
 
-If VUI-01 completes exact merge and independent production verification without regression, P1 count becomes **3**.
+If VUI-02 completes exact merge and independent production verification without regression, P1 count becomes **2**.
 
 ## P1 findings
 
 ### VBASE-P1-01 — visual-token fragmentation — OPEN
 
-Garden/Playroom, `LearningPlatform.module.css`, and `globals.css` still express overlapping product languages. Required outcome remains scoped migration, not a one-shot stylesheet rewrite. VUI-01 reduces this fragmentation for Parent Report through a dedicated scoped module.
+Garden/Playroom, `LearningPlatform.module.css`, `globals.css` and migrated scoped modules still represent multiple generations of the product language. Required outcome remains scoped convergence and later targeted consolidation, not a one-shot CSS rewrite.
 
-### VBASE-P1-02 — parent-report density and internal jargon — EXACT-HEAD ACCEPTED
+VUI-01 and VUI-02 intentionally use dedicated scoped modules so presentation can converge without destabilizing accepted activity mechanics.
 
-Original problem: Parent Report exposed `attempt`, `assessed`, `practice`, `qualifying evidence`, mastery internals and retry terminology in the primary family-facing reading layer, with nine equal dashboard-like subject cards.
+### VBASE-P1-02 — parent-report density and internal jargon — CLOSED
 
-VUI-01 PR #157 changes only presentation and visual regression:
-- primary copy is translated into normal parent-facing Indonesian;
-- same `buildBatch15ParentReport` output fields remain the source of counts, accuracy, completion, mastery score/coverage, stage states, recommendations, recent results and awards;
-- technical vocabulary remains available inside per-subject diagnostic disclosure;
-- permanent semantic UI prefers `LearningSymbol` and product icons rather than analytics emoji;
-- subject detail is grouped in one family-report panel instead of nine equally weighted dashboard cards;
-- a dedicated `ParentReport.module.css` keeps the migration local;
-- VQA explicitly fails if guarded internal vocabulary leaks back into the Parent Report primary layer.
+Closed by PR #157 merged as `e212002eafef77a37a220834c6263e433cf9acbb`. Independent main CI **#758 / run `35115248445`** passed every job including exact Cloudflare release smoke.
 
-No change was made to `buildBatch15ParentReport`, mastery/evidence logic, progression, readiness, schema, migrations, activity data or learning answers.
+Accepted outcome:
+- primary parent report reads in normal family-facing Indonesian;
+- underlying report/mastery/evidence values retain their original sources and semantics;
+- technical vocabulary remains in diagnostic disclosure;
+- permanent VQA prevents guarded jargon from returning to the primary report layer;
+- manual screenshots accepted at 390 / 768 / 1280 after tablet layout correction.
 
-#### Evidence and responsive correction
+### VBASE-P1-03 — stage/readiness hierarchy — EXACT-HEAD ACCEPTED
 
-CI #752 initially passed all automation, including visual baseline, but human screenshot review found the 768px summary cards visually too narrow because three columns were forced inside the post-sidebar content width. This was treated as a real visual defect rather than accepted merely because overflow checks were green.
+#### Baseline defect confirmed
 
-The fix changes tablet-class summary layout to **2+1 cards** and restores three columns only from 1020px upward.
+The Subject Gallery itself was structurally healthy, but two issues were visible in the permanent screenshots and source:
 
-Fresh head `6a4450467b8d9bd01cd9f2bc0806100c84d187f3` passed CI **#753 / run `35112741852`** completely. Artifact evidence:
+1. **Subject journey at tablet/desktop:** stage cards lived in a horizontal flex scroller. At 768/1280, later stage cards were partially clipped even though the page itself had no horizontal overflow.
+2. **Stage lesson density:** `StageScreen` inherited the global fixed `.cardGrid` breakpoints. The canonical Math stage's first lesson contains two activities, so desktop rendered two relatively narrow cards on the left while a large right-side region remained unused.
+
+The issue was presentation density/hierarchy, not progression/readiness logic.
+
+#### VUI-02 implementation
+
+Stage:
+- stage title/subtitle and existing readiness become one Garden-aligned hero;
+- readiness uses the same canonical `status`, `completedCount` and `requiredCount` data;
+- lesson title/objective and done counts become explicit lesson panels;
+- stage-only lesson grid uses `repeat(auto-fit, minmax(260px, 1fr))` so one to three cards use available width naturally;
+- the existing adaptive recommendation ID receives visual emphasis without reordering or replacing any activity;
+- motion activities remain separate and optional.
+
+Subject journey:
+- exact same stages, statuses and routes are preserved;
+- phone keeps horizontal journey behavior;
+- >=700px switches to responsive stage grid to remove internal horizontal scrolling and partial clipping.
+
+No change was made to readiness calculation, stage gates, prerequisites, mastery, activity answers, curriculum data, lesson/activity ordering semantics or completion requirements.
+
+#### Permanent regression guard
+
+`run-visual-baseline-browser-tests.mjs` now asserts on the canonical Math subject/stage routes that:
+- tablet/desktop journey has `scrollWidth <= clientWidth + 1`;
+- journey items remain >=200px wide;
+- stage screen and readiness markers exist;
+- exactly one canonical recommended activity remains visually marked;
+- canonical lesson grid does not overflow;
+- canonical lesson cards remain >=240px at tablet and >=320px on wide desktop.
+
+#### CI and artifact evidence
+
+Code head `7e85721bf42a1b31605bc87cd58594a8bbc55bd7` passed **CI #759 / run `35116294362`** completely.
 
 ```text
 artifact: mobile-route-qa-screenshots
-id:       10452654695
-digest:   sha256:c8d985fdf5cc9601d8fe2bbecd4ac0c4f7b39a82ed14bf7f091eec7dd273a170
+id:       10455798162
+size:     43,942,101 bytes
+digest:   sha256:41ee08ebb674a7f2ccebd6d7498c6f60e2c4032618dd268c3db2290686eed012
 captures: 42 / 42
 ```
 
-Parent Report manifest evidence:
+Manual screenshot acceptance:
+- **390x844 subject:** first stage card remains fully readable and the next card intentionally peeks into view as a phone scroll affordance; no page overflow;
+- **768x1024 subject:** six Math stages form a readable 2x3 grid; no clipped journey cards;
+- **1280x800 subject:** responsive stage grid uses desktop width intentionally;
+- **390x844 stage:** hero/readiness stack cleanly and lesson cards become readable single-column items;
+- **768x1024 stage:** readiness hierarchy is clear and the first lesson's two activity cards fill available width evenly;
+- **1280x800 stage:** two-column hero plus two broad lesson cards remove the previous large empty right canvas.
 
-```text
-390x844   /parent/children/demo-gian/reports -> exact same path, HTTP 200
-768x1024  /parent/children/demo-gian/reports -> exact same path, HTTP 200
-1280x800  /parent/children/demo-gian/reports -> exact same path, HTTP 200
-```
+VBASE-P1-03 remains formally open until final docs-head CI, clean PR gate, exact merge and independent `main` + exact Cloudflare verification complete.
 
-Manual review after the fix:
-- 390: readable single-column hierarchy;
-- 768: readable 2+1 summary layout with no pathological word wrapping;
-- 1280: balanced three-column summary layout;
-- primary family copy is readable and technical detail remains behind closed disclosure.
+### VBASE-P1-04 — public/adult root information architecture — OPEN / NEXT
 
-VBASE-P1-02 remains formally open until final docs-head CI, clean PR gate, exact merge, and independent `main` + exact Cloudflare verification complete.
+Root still behaves primarily as a child playroom / fast-resume entry. Clean-session adult/public value proposition, parent-vs-child path and wide-screen utility presentation remain unresolved. Auth/account system surfaces also still look more generic than the accepted Mainlagi family language.
 
-### VBASE-P1-03 — stage/readiness hierarchy — OPEN / NEXT
-
-Tablet/desktop stage layouts are structurally correct but underuse available space and weakly distinguish progress, readiness, recommendation and lesson grouping.
-
-Required outcome: VUI-02 Garden-compatible hierarchy without changing progression/readiness logic.
-
-### VBASE-P1-04 — public/adult root information architecture — OPEN
-
-Root remains primarily a child playroom/fast-resume surface. Clean-session adult/public value proposition and parent-vs-child entry need an explicit contract. Auth/system utility cards also remain under-scaled at wider viewports.
-
-Required outcome: VUI-03 public/auth/account convergence while preserving known-child fast resume.
+Required outcome: VUI-03 Public/Auth/Account convergence while preserving known-child fast resume and existing auth/account security semantics.
 
 ### VBASE-P1-05 — permanent whole-product visual coverage gap — CLOSED
 
@@ -110,9 +131,7 @@ Permanent blocking evidence covers:
 1 manifest.json
 ```
 
-Blocking assertions include expected HTTP status, exact final pathname, nonblank body, main/H1, expected route boundary, no Next.js error overlay, no horizontal overflow, child phone touch-target floor, no uncaught page errors and no unexpected console errors.
-
-The intentional not-found route remains strict: exact HTTP 404 + exact pathname are required; only Chromium's exact document-load 404 console message is scoped out on that explicit expected-404 surface.
+Blocking assertions include expected HTTP status, exact final pathname, nonblank body, main/H1, expected route boundary, no Next.js error overlay, no horizontal page overflow, child phone target floor, no uncaught page errors and no unexpected console errors.
 
 ## P2 findings
 
@@ -132,20 +151,19 @@ Several learning/parent surfaces retain inline colors/margins alongside CSS modu
 
 - Garden activity framing is the child-facing reference.
 - Mainlagi wordmark, cream paper, navy ink, green primary CTA, sky/sage support surfaces and character artwork are the default brand vocabulary.
-- Activities retain large touch targets, explicit wrong/success feedback and low UI clutter.
 - Visual fixes must not alter canonical activity answers, evidence, mastery, progression or readiness merely to simplify screenshots.
-- Motion runtime may remain dark where functionally useful; entry/exit shell still needs Mainlagi continuity.
-- A green structural test does not override visible responsive defects found in screenshot review.
+- A green `no overflow` check is insufficient when internal components remain clipped, cramped or visibly waste available canvas.
+- Fixed viewport breakpoints do not imply fixed card counts: layout density must follow usable content width and actual item count.
+- Stage recommendation may be emphasized visually, but the recommendation source and activity order remain canonical.
 
 ## P1 remediation order
 
-1. Finish **VUI-01 Parent Report** exact merge and production verification.
-2. **VUI-02 Stage/Gallery convergence**.
-3. **VUI-03 Public/Auth/Account convergence**.
-4. Close residual visual-token fragmentation through those scoped migrations and targeted cleanup.
-5. Add deterministic remaining loading/empty/degraded fixtures where product states exist but cannot yet be captured reliably.
-6. Re-run the complete visual matrix until **P0=0 / P1=0**.
-7. Only then begin fresh Pattern #38 objective/evidence audit.
+1. Finish **VUI-02 Stage/Gallery** exact merge and production verification.
+2. **VUI-03 Public/Auth/Account convergence**.
+3. Close residual visual-token fragmentation through these scoped migrations and targeted cleanup.
+4. Add deterministic remaining loading/empty/degraded fixtures where product states exist but cannot yet be captured reliably.
+5. Re-run the complete visual matrix until **P0=0 / P1=0**.
+6. Only then begin fresh Pattern #38 objective/evidence audit.
 
 ## Permanent viewport contract
 
