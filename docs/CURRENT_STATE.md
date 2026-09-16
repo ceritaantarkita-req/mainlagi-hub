@@ -12,17 +12,16 @@ This is the canonical human/AI handoff. `main` is the merged source of truth.
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - source licence: `AGPL-3.0-only`
 - latest fully closed gameplay: Pattern #32 — Math `take_away`
-- Pattern #32 implementation PR: #143
-- Pattern #32 closure PR: #144
-- Pattern #32 final closure head: `a019a549f7685e0eac7aba0554a1c6d839bfb0d4`
-- Pattern #32 closure CI: #683 / run `35049573890`, full success
-- Pattern #32 final verified `main` SHA: `63285c6dd39b0cc1a521b042a492a83338bb2582`
-- Pattern #32 final post-closure `main` CI: #684 / run `35049954680`, full success including Cloudflare production smoke
-- Pattern #32: **FULLY CLOSED**
-- active implementation: Pattern #33 — Math `equal_groups`, PR #145
-- Pattern #33 accepted code head: `26c2b2355099c4097c015ba5767703035b33aa63`
-- Pattern #33 accepted code-head CI: #687 / run `35053008065`, full success
-- Pattern #33: **QA ACCEPTED / UNMERGED**
+- Pattern #32 final verified `main`: `63285c6dd39b0cc1a521b042a492a83338bb2582`
+- Pattern #32 final CI: #684 / run `35049954680`, full success including Cloudflare production smoke
+- latest merged gameplay: Pattern #33 — Math `equal_groups`
+- Pattern #33 implementation PR: #145
+- final implementation docs head: `11f278a0150ff31b1ba89394c23b78fa244038aa`
+- final implementation PR CI: #692 / run `35053984870`, full success
+- verified implementation merge SHA: `3de991e75fdb4fdf33d1cd9cdcf90443ddbb3fb6`
+- post-merge implementation CI: #693 / run `35054346467`, full success including Cloudflare production smoke
+- Pattern #33 closure PR: **PENDING**
+- Pattern #33: **MERGED / LIVE VERIFIED / CLOSURE PENDING**
 
 ## Engineering status
 
@@ -40,48 +39,27 @@ Runtime count is not gameplay-pattern count.
 
 Target: minimum **50**, working target **60 meaningful patterns**.
 
-### Merged `main` baseline: 32 patterns
-
-Pattern #32 `take_away` is fully closed. Merged distribution on exact `main` SHA `63285c6dd39b0cc1a521b042a492a83338bb2582` remains:
+### Verified merged on `main`: 33 patterns
 
 ```text
 classified:               900 / 900
 unclassified:               0
-active merged patterns:    32
-choice_grid               298 / 900 = 33.11%
-make_total                  5 / 900 = 0.56%
-take_away                   5 / 900 = 0.56%
-Bahasa choice_grid          47 / 100
-Math choice_grid            46 / 100
-Science choice_grid         56 / 100
-Logic choice_grid           47 / 100
-English choice_grid         44 / 100
-Iqro choice_grid            58 / 100
-```
-
-### Pattern #33 PR-head accepted distribution: 33 patterns
-
-If PR #145 merges unchanged, gameplay distribution is:
-
-```text
-classified:               900 / 900
-unclassified:               0
-active patterns:           33
+active merged patterns:    33
 choice_grid               295 / 900 = 32.78%
 equal_groups                3 / 900 = 0.33%
 make_total                  5 / 900 = 0.56%
 take_away                   5 / 900 = 0.56%
-Math choice_grid            43 / 100
 Bahasa choice_grid          47 / 100
+Math choice_grid            43 / 100
 Science choice_grid         56 / 100
 Logic choice_grid           47 / 100
 English choice_grid         44 / 100
 Iqro choice_grid            58 / 100
 ```
 
-Remaining distance after Pattern #33 would be **17** patterns to minimum 50 and **27** to working target 60.
+Remaining distance: **17** patterns to minimum 50 and **27** to working target 60.
 
-## Pattern #33 `equal_groups` — QA ACCEPTED / UNMERGED
+## Pattern #33 `equal_groups` — merged/live closure record
 
 Exact scope:
 
@@ -91,44 +69,39 @@ math-group-8-by-2
 math-group-9-by-3
 ```
 
-Canonical boundaries:
-- subject `math`;
-- stage `math-operasi-awal`;
-- lesson `math-grouping`;
-- pack `math.pack.grouping`;
-- canonical skill `math.grouping.equal_groups`;
-- assessed runtime remains `tap_choice`;
-- exactly three canonical numeric choices and unchanged `correctChoice`;
-- the two canonical grouping matching activities `math-group-match-2s` and `math-group-match-3s` remain `visible_matching` and are explicitly outside this mechanic;
-- missing-number, addition, subtraction, length/size, existing Math specialized families and all non-Math families remain outside scope;
-- activity IDs, content, assessment, stars, mastery, progression, schema and migrations remain unchanged.
+All three remain assessed `tap_choice` activities in stage `math-operasi-awal`, lesson `math-grouping`, pack `math.pack.grouping`, canonical skill `math.grouping.equal_groups`, with exactly three canonical numeric choices and unchanged `correctChoice`.
+
+Explicit exclusions remain outside Pattern #33: the grouping matching activities `math-group-match-2s` and `math-group-match-3s` stay `visible_matching`; missing-number, addition, subtraction, length/size, existing Math specialized families, and all non-Math families remain unchanged.
 
 Interaction/evidence contract:
 - renders the reviewed total as visibly separated equal-size groups;
-- validates a positive proper `groupSize`, exact divisibility, total <=10, and `totalCount / groupSize === Number(correctChoice)`;
-- keeps the numeric group count masked as `?` before a correct assessment;
-- canonical keyboard/touch/pointer direct-selection choices remain unchanged;
-- wrong choice records assessed error/retry, cannot complete and cannot reveal the group count;
+- validates total 2..10, a positive proper `groupSize`, exact divisibility, and `totalCount / groupSize === Number(correctChoice)`;
+- keeps the group-count result masked as `?` until a correct assessment;
+- preserves canonical keyboard/touch/pointer direct-selection choices;
+- wrong choice records assessed error/retry, cannot complete, and cannot reveal the result;
 - correct choice completes the canonical activity and reveals the canonical group count;
-- no changed answer set, extra confirmation, drag-only dependency or intermediate assessment;
+- no changed choice set, extra confirmation, drag-only dependency, or intermediate assessment;
 - assessed fidelity `choice_equal_groups_interaction`;
-- runtime metadata source `equal-groups-runtime` with `totalCount`, `groupSize`, `groupCount` and `selectedChoice`.
+- runtime metadata source `equal-groups-runtime` with `totalCount`, `groupSize`, `groupCount`, and `selectedChoice`;
+- content, IDs, stars, mastery, progression, schema, and migrations remain unchanged.
 
-QA evidence:
-- first implementation CI #685 / run `35052200287` correctly failed because the success CTA was clipped at 320x720;
-- fix head `8c15144db99feb1620a2523d5ccd384510354cd5` preserved the hard browser assertion, but CI #686 / run `35052577160` then correctly exposed idle feedback clipping at 390x844;
-- final responsive fix head `26c2b2355099c4097c015ba5767703035b33aa63` preserved >=48px phone choice targets and compacted only redundant/spacing content;
-- full CI #687 / run `35053008065` passed Ubuntu, Windows, production build, dependency audit, secret-history scan and the full Chromium mobile/browser matrix;
-- dedicated static regression passed for the exact three-activity family;
-- all nine 320x720, 390x844 and 768x1024 idle/wrong/success screenshots passed manual visual review;
+Acceptance and merge evidence:
+- CI #685 / run `35052200287` correctly caught success CTA clipping at 320x720;
+- CI #686 / run `35052577160` correctly caught idle-feedback clipping at 390x844 after the first fix;
+- accepted code head `26c2b2355099c4097c015ba5767703035b33aa63` passed full CI #687 / run `35053008065`;
+- all nine 320x720, 390x844 and 768x1024 idle/wrong/success screenshots passed manual visual acceptance;
 - deterministic quality remained **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**;
-- gameplay-distribution audit reported **33 active patterns / 900 classified / 0 unclassified / no global hotspot**.
+- final canonical implementation docs head `11f278a0150ff31b1ba89394c23b78fa244038aa` passed full CI #692 / run `35053984870`;
+- PR #145 passed exact-head clean gate: mergeable, 15 exact changed files, behind 0, zero comments, zero reviews, zero review threads;
+- PR #145 exact-head squash merged as `3de991e75fdb4fdf33d1cd9cdcf90443ddbb3fb6`;
+- `main` was independently verified at that exact SHA;
+- post-merge `main` CI #693 / run `35054346467` passed Ubuntu, Windows, production build, dependency audit, secret-history scan, Chromium mobile/accessibility/browser QA, deterministic quality/distribution audits, simulations, Batch17 and Cloudflare production smoke.
 
-Pattern #33 is **not fully closed**. Remaining gates: canonical docs on PR #145 -> fresh exact docs-head full CI -> clean review/thread/mergeability gate -> exact-head squash merge -> independent live `main` verification + post-merge Cloudflare smoke -> separate docs-only closure PR -> exact closure-head CI/gate/merge -> final live-main verification + Cloudflare smoke.
+A docs-only closure PR is the final Pattern #33 gate. Pattern #33 is **not fully closed yet**; full closure still requires fresh exact closure-head CI, clean closure merge gate, exact-head closure merge, independent final `main` verification, and final post-closure `main` CI including Cloudflare production smoke.
 
 ## Pattern #32 `take_away` — FULLY CLOSED
 
-Pattern #32 implementation PR #143 merged as `3ac5ab049e94f65c3e28a7e4e5cbd18185a9466a`; post-implementation `main` CI #677 / run `35048981508` passed including Cloudflare smoke. Docs-only closure PR #144 head `a019a549f7685e0eac7aba0554a1c6d839bfb0d4` passed CI #683 / run `35049573890`, then exact-head squash merged as final `main` SHA `63285c6dd39b0cc1a521b042a492a83338bb2582`. Final post-closure `main` CI #684 / run `35049954680` passed all gates including Cloudflare production smoke.
+Pattern #32 implementation PR #143 and closure PR #144 are complete. Final verified `main` SHA before Pattern #33 was `63285c6dd39b0cc1a521b042a492a83338bb2582`; final Pattern #32 CI #684 / run `35049954680` passed all gates including Cloudflare production smoke.
 
 ## Learning/mastery boundaries
 
@@ -145,10 +118,9 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Finish Pattern #33 implementation PR #145: canonical docs -> fresh docs-head CI -> clean exact-head merge gate -> exact-head merge -> independent `main` verification -> post-merge `main` CI + Cloudflare production smoke.
-2. Create and finish Pattern #33 docs-only closure PR with fresh exact closure-head CI, clean exact-head merge gate, final `main` verification and final Cloudflare smoke.
-3. Only after Pattern #33 is fully closed, run a fresh objective/evidence audit for Pattern #34; no family is pre-approved.
-4. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
-5. Continue Art Bible/permanent visual QA, narration, parent/public frontend, external acceptance and governance.
+1. Finish Pattern #33 docs-only closure: bind closure PR -> fresh exact closure-head CI -> clean review/thread/mergeability gate -> exact-head merge -> independent `main` verification -> final post-closure `main` CI + Cloudflare production smoke.
+2. Only after Pattern #33 is fully closed, run a fresh objective/evidence audit for Pattern #34; no family is pre-approved.
+3. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
+4. Continue Art Bible/permanent visual QA, narration, parent/public frontend, external acceptance and governance.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, or mastery/backend rewrites before this quality phase is substantially complete.
