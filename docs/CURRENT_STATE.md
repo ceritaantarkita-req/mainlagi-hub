@@ -12,21 +12,21 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - source licence: `AGPL-3.0-only`
 - latest fully closed gameplay: **Pattern #37 — Bahasa `reading_passage_question`**
-- Pattern #37 implementation PR: **#153 — merged**
-- final implementation head: `25baa6f103f4e3bb309fae8f0078c9fb099b9ab6`
-- implementation exact-head CI: **#738 / run `35097844249` — success**
-- implementation merge: `6a6f99ccb3a733af4e298ed8c48452e019f9980c`
-- post-implementation `main` CI: **#739 / run `35098428328` — full success including exact Cloudflare production smoke**
-- Pattern #37 closure PR: **#154 — merged**
 - Pattern #37 final verified `main`: `b1793adaabe19a9c73e021534899f8b50c4097f6`
 - Pattern #37 final CI: **#741 / run `35103399012` — full success including exact Cloudflare production smoke**
-- current product task: **Production Visual / Product Baseline + P1 remediation**
+- production visual baseline / Art Bible checkpoint: PR **#155**, merged as `d3d600ed92e78d30da8172e0bdb300119990614f`
+- baseline checkpoint CI: **#743 / run `35105996090` — full success including exact Cloudflare production smoke**
+- current implementation PR: **#156 — VQA-01 permanent visual product baseline**
 
 ## Engineering status
 
 No known P0 engineering blocker is open on merged `main`.
 
-Pattern #37 is **FULLY CLOSED**. Its implementation and separate docs-only closure both passed exact-head merge discipline and independent `main` verification including exact Cloudflare production smoke.
+Pattern #37 is **FULLY CLOSED**. The visual/product baseline and `MAINLAGI_ART_BIBLE.md` are merged and live verified on `d3d600ed92e78d30da8172e0bdb300119990614f`.
+
+VQA-01 is in final pre-merge acceptance. Its first CI #744 correctly failed only because the intentional not-found route produces Chromium's document-level `404 (Not Found)` console message. The gate was not weakened globally: the allowance is exact and scoped only to routes whose expected status is 404. Fresh exact-head CI **#745 / run `35108485349` passed the complete PR matrix**, including the permanent visual product baseline.
+
+The #745 artifact contains **42 / 42 exact-path captures**: 14 canonical product surfaces across 390x844, 768x1024 and 1280x800, plus a manifest recording requested path, final path, status and screenshot. Manual review confirmed the matrix is useful as the permanent shell baseline. PR #156 still requires its final docs-head CI, clean merge gate, exact-head merge and independent `main` + Cloudflare verification before VBASE-P1-05 is fully closed.
 
 External physical-device acceptance, accessibility-specialist review, human pedagogical/art acceptance and Iqro expert acceptance remain separate and incomplete. Physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
 
@@ -51,63 +51,52 @@ picture_word_match               5 / 900 = 0.56%
 Bahasa choice_grid               29 / 100
 ```
 
-No global gameplay hotspot exceeds the advisory 35% threshold. Remaining distance is **13 patterns** to minimum 50 and **23** to working target 60.
+No global gameplay hotspot exceeds the advisory 35% threshold. Remaining distance is **13 patterns** to minimum 50 and **23** to working target 60. WS-05 is paused before Pattern #38 until the current visual P1 gate is cleared.
 
-Deterministic activity-quality remains:
-
-```text
-KEEP                  900
-POLISH                   0
-REDESIGN                 0
-REPLACE                  0
-structural findings      0
-```
-
-## Pattern #37 `reading_passage_question` — FULLY CLOSED
-
-Exact scope:
-
-```text
-bahasa-baca-lala-kucing
-bahasa-baca-dodi-sepeda
-bahasa-baca-nina-bunga
-bahasa-baca-raka-sarapan
-bahasa-baca-sari-hujan
-```
-
-Canonical content, answer order, `correctChoice`, skill `bahasa.bacaan.short_comprehension`, assessment, stars, mastery, progression, schema and migrations remain unchanged. Presentation fidelity is `choice_reading_passage_question_interaction`; runtime source is `reading-passage-question-runtime` with canonical `selectedChoice`.
-
-Final chain:
-- implementation PR #153 -> merge `6a6f99ccb3a733af4e298ed8c48452e019f9980c`;
-- post-implementation CI #739 -> exact Cloudflare smoke success;
-- closure PR #154 -> final `main` `b1793adaabe19a9c73e021534899f8b50c4097f6`;
-- final CI #741 / run `35103399012` -> full success including exact Cloudflare production smoke.
+Deterministic activity-quality remains 900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / 0 structural findings.
 
 ## Production visual/product baseline
 
 Canonical audit: `PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md`.  
 Canonical visual direction: `MAINLAGI_ART_BIBLE.md`.
 
-Baseline decision:
+Current baseline before PR #156 merges:
 
 ```text
 P0 findings: 0
 P1 findings: 5
 P2 findings: 3
 Garden representative activities: ACCEPTED anchor
+Permanent visual QA: exact-head accepted, merge/live verification pending
 Whole-product visual acceptance: NOT YET ACCEPTED
-Pattern #38: BLOCKED until P1 remediation + permanent visual QA
+Pattern #38: BLOCKED
 ```
 
-Primary P1 findings:
+P1 state:
 
-1. Garden/Playroom, `LearningPlatform.module.css`, and `globals.css` currently express three different visual/token systems.
-2. Parent report exposes dense internal analytics/evidence language and reads like a generic dashboard.
-3. Stage/readiness layout is structurally correct but underuses tablet/desktop space and has weak progress/recommendation hierarchy.
-4. Clean-session public/adult root-entry information architecture is not yet deliberate; root is primarily a child playroom/resume surface.
-5. Permanent screenshot coverage does not yet represent profile select, rewards, account/auth, public clean state and loading/error/empty/degraded states.
+1. **VBASE-P1-01 — visual-token fragmentation:** open; addressed wave-by-wave rather than one-shot CSS rewrite.
+2. **VBASE-P1-02 — parent-report density/jargon:** next product implementation after VQA-01 closure.
+3. **VBASE-P1-03 — stage/readiness hierarchy:** queued after parent report.
+4. **VBASE-P1-04 — public/adult root IA:** queued with public/auth/account convergence.
+5. **VBASE-P1-05 — permanent visual coverage gap:** implementation accepted on CI #745; closes only after PR #156 exact merge + independent production verification.
 
-The accepted Garden activity experience remains the child-facing anchor. Visual remediation must not alter curriculum answers, evidence, mastery or progression just to simplify UI.
+Manual review of the #745 baseline confirms the existing priorities rather than inventing new blockers: parent report is the densest/most technical adult surface; stage desktop/tablet underuses space; auth/system cards are visually under-scaled on desktop. Child home, profile-select, representative Garden activity and rewards are suitable baseline references.
+
+## VQA-01 contract
+
+Permanent blocking coverage is added inside `Mobile route QA (Chromium)` for:
+- 390x844, 768x1024 and 1280x800;
+- public root, child select/home, Math subject/stage/activity, rewards, parent report, account, login, signup, forgot-password, deterministic auth error and not-found;
+- expected HTTP status and **exact final pathname**;
+- main landmark + H1;
+- expected route boundary where applicable;
+- no Next.js error overlay;
+- no horizontal overflow;
+- child phone touch-target floor;
+- no page errors and no unexpected console errors;
+- deterministic screenshots + manifest artifact.
+
+The intentional not-found route remains required to return 404. Only Chromium's exact document-level 404 console message is permitted on that expected-404 surface; unrelated console errors still fail the gate.
 
 ## Learning/mastery boundaries
 
@@ -124,15 +113,14 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Merge the production visual/product baseline docs and Art Bible from exact fully closed Pattern #37 `main`.
-2. **VQA-01:** implement a permanent deterministic visual-baseline route/screenshot gate at 390x844, 768x1024 and 1280x800, with exact-pathname assertions; retain 320px for high-risk child/activity routes.
-3. **VUI-01:** converge parent report to family-friendly copy/hierarchy while preserving underlying evidence semantics.
-4. **VUI-02:** converge stage/gallery tablet/desktop hierarchy, readiness/progress and recommended-state emphasis without changing progression logic.
-5. **VUI-03:** resolve clean-session public entry and converge auth/account/public surfaces on the Art Bible.
-6. Re-run the baseline until **P0=0 / P1=0**.
-7. Only then run a fresh objective/evidence audit for Pattern #38; no gameplay family is pre-approved.
-8. Continue WS-05 toward 50–60 meaningful patterns with WS-08 visual QA permanently running in parallel.
-9. Continue WS-02 narration, WS-10 external acceptance, WS-11 governance and later WS-12 cleanup.
-10. Finish with full production end-to-end acceptance and canonical-doc/release closure.
+1. Finish PR #156: fresh final docs-head CI -> clean exact-scope/review/thread gate -> exact-head squash merge -> independent `main` CI + exact Cloudflare smoke.
+2. **VUI-01 Parent Report:** family-friendly hierarchy/copy while preserving every underlying metric and evidence/mastery semantic.
+3. **VUI-02 Stage/Gallery:** improve tablet/desktop hierarchy, readiness/progress and recommended-state emphasis without progression changes.
+4. **VUI-03 Public/Auth/Account:** resolve clean-session adult/public entry and converge generic utility surfaces on the Art Bible.
+5. Re-run permanent baseline until **P0=0 / P1=0**.
+6. Only then run a fresh objective/evidence audit for Pattern #38; no gameplay family is pre-approved.
+7. Continue WS-05 toward 50–60 meaningful patterns with permanent WS-08 visual QA running in parallel.
+8. Continue WS-02 narration, WS-10 external acceptance, WS-11 governance and later WS-12 cleanup.
+9. Finish with full production end-to-end acceptance and canonical release closure.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion or mastery/backend rewrites before this quality phase is substantially complete.
