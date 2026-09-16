@@ -18,6 +18,7 @@ import { useEffect, useRef, useState } from "react";
 import { speakWithStatus, unlockAudio } from "@/lib/audio/feedback";
 import type { LearningActivity, LearningProgress, LearningSubject } from "@/lib/learning/system";
 import styles from "./ActivityGallery.module.css";
+import convergence from "./StageGalleryConvergence.module.css";
 import { drawingGuide } from "@/lib/learning/drawingGuides";
 
 type StageJourneyItem = {
@@ -184,7 +185,7 @@ export function ActivityGallery({
               <p>Pilih tahap untuk melihat langkah belajarnya.</p>
             </div>
           </div>
-          <nav className={styles.stageJourney} aria-label={`Tahap ${subject.title}`}>
+          <nav className={`${styles.stageJourney} ${convergence.stageJourney}`} aria-label={`Tahap ${subject.title}`} data-stage-journey>
             {stageJourney.map((stage, index) => {
               const body = <>
                 <span className={styles.stageNumber}>{index + 1}</span>
@@ -192,9 +193,9 @@ export function ActivityGallery({
                 {stage.status === "locked" ? <LockKey size={18} weight="fill" aria-hidden /> : <Play size={17} weight="fill" aria-hidden />}
               </>;
               return stage.status === "locked" ? (
-                <span className={styles.stageCard} data-status="locked" key={stage.stageId} aria-label={`${stage.title}, belum terbuka`}>{body}</span>
+                <span className={`${styles.stageCard} ${convergence.stageCard}`} data-status="locked" data-stage-journey-item key={stage.stageId} aria-label={`${stage.title}, belum terbuka`}>{body}</span>
               ) : (
-                <Link className={styles.stageCard} data-status={stage.status} key={stage.stageId} href={`/child/${childId}/stage/${stage.stageId}`}>{body}</Link>
+                <Link className={`${styles.stageCard} ${convergence.stageCard}`} data-status={stage.status} data-stage-journey-item key={stage.stageId} href={`/child/${childId}/stage/${stage.stageId}`}>{body}</Link>
               );
             })}
           </nav>

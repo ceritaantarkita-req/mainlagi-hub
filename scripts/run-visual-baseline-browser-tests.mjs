@@ -95,6 +95,45 @@ async function assertParentReportPrimaryCopy(page, viewport) {
   assert.doesNotMatch(primaryCopy, PARENT_PRIMARY_JARGON, `parent-report primary layer leaked internal jargon at ${viewport.width}px: ${primaryCopy}`);
 }
 
+async function assertSubjectJourneyLayout(page, viewport) {
+  const journey = page.locator("[data-stage-journey]");
+  assert.equal(await journey.count(), 1, `subject journey missing at ${viewport.width}px`);
+  if (viewport.width < 700) return;
+
+  const geometry = await journey.evaluate((element) => {
+    const items = Array.from(element.querySelectorAll("[data-stage-journey-item]"));
+    return {
+      clientWidth: element.clientWidth,
+      scrollWidth: element.scrollWidth,
+      itemWidths: items.map((item) => Math.round(item.getBoundingClientRect().width * 10) / 10)
+    };
+  });
+  assert.ok(geometry.itemWidths.length >= 2, `subject journey unexpectedly sparse at ${viewport.width}px`);
+  assert.ok(geometry.scrollWidth <= geometry.clientWidth + 1, `subject journey still requires internal horizontal scrolling at ${viewport.width}px: ${JSON.stringify(geometry)}`);
+  assert.ok(Math.min(...geometry.itemWidths) >= 200, `subject journey cards are too cramped at ${viewport.width}px: ${JSON.stringify(geometry.itemWidths)}`);
+}
+
+async function assertStageHierarchy(page, viewport) {
+  assert.equal(await page.locator("[data-mainlagi-stage-screen]").count(), 1, `stage screen marker missing at ${viewport.width}px`);
+  assert.equal(await page.locator("[data-stage-readiness]").count(), 1, `stage readiness summary missing at ${viewport.width}px`);
+  assert.ok(await page.locator("[data-stage-lesson-grid]").count(), `stage lesson grid missing at ${viewport.width}px`);
+  assert.equal(await page.locator("[data-stage-recommended='true']").count(), 1, `stage recommendation emphasis drifted at ${viewport.width}px`);
+
+  if (viewport.width < 700) return;
+  const geometry = await page.locator("[data-stage-lesson-grid]").first().evaluate((element) => {
+    const cards = Array.from(element.querySelectorAll("[data-stage-activity-card='true']"));
+    return {
+      clientWidth: element.clientWidth,
+      scrollWidth: element.scrollWidth,
+      cardWidths: cards.map((card) => Math.round(card.getBoundingClientRect().width * 10) / 10)
+    };
+  });
+  assert.ok(geometry.cardWidths.length >= 2, `stage canonical lesson needs at least two cards for layout QA at ${viewport.width}px`);
+  assert.ok(geometry.scrollWidth <= geometry.clientWidth + 1, `stage lesson grid overflows at ${viewport.width}px: ${JSON.stringify(geometry)}`);
+  const minimumReadableWidth = viewport.width >= 1200 ? 320 : 240;
+  assert.ok(Math.min(...geometry.cardWidths) >= minimumReadableWidth, `stage cards underuse available width at ${viewport.width}px: ${JSON.stringify(geometry.cardWidths)}`);
+}
+
 async function inspect(page, route, viewport) {
   const consoleErrors = [];
   const pageErrors = [];
@@ -135,6 +174,8 @@ async function inspect(page, route, viewport) {
     }
 
     if (route.name === "parent-report") await assertParentReportPrimaryCopy(page, viewport);
+    if (route.name === "subject-math") await assertSubjectJourneyLayout(page, viewport);
+    if (route.name === "stage-math-angka") await assertStageHierarchy(page, viewport);
 
     const overlayCount = await page.locator("nextjs-portal, [data-nextjs-dialog-overlay], [data-next-badge-root]").count();
     assert.equal(overlayCount, 0, `${route.name} rendered a Next.js error overlay`);
