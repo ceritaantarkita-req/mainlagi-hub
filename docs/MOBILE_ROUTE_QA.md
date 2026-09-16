@@ -1,30 +1,23 @@
-# Mainlagi Mobile Route QA
+# Mainlagi Mobile Route & Visual Product QA
 
-Last reviewed: 11 September 2026
+Last reviewed: **16 September 2026**
 
-This document describes the automated responsive route gate introduced in Expansion Batch 2 and hardened in Batch 16. It complements the shared design-system contract in `MOBILE_DESIGN_SYSTEM.md`, the route inventory in `MOBILE_ROUTE_MATRIX.md`, and the physical-device acceptance matrix in `BATCH16_PHYSICAL_DEVICE_QA.md`.
+This document describes the blocking Chromium QA inside `Mobile route QA (Chromium)`. It complements `MOBILE_DESIGN_SYSTEM.md`, `MOBILE_ROUTE_MATRIX.md`, `MAINLAGI_ART_BIBLE.md`, `PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md`, and the external physical-device matrix in `BATCH16_PHYSICAL_DEVICE_QA.md`.
 
-## Automated browser gate
+## Blocking browser gates
 
-Source:
+The CI job builds the local production Next.js app once, then runs:
 
 ```text
 scripts/run-mobile-route-browser-tests.mjs
+scripts/run-visual-baseline-browser-tests.mjs
 ```
 
-CI job:
+The first script remains the broad responsive/runtime/accessibility/lazy-load gate. The second script is VQA-01: a stable whole-product screenshot and exact-route baseline. Both must pass before the `Mobile route QA (Chromium)` job is green. On `main`, `Production smoke (Cloudflare)` depends on that job.
 
-```text
-Mobile route QA (Chromium)
-```
+## Existing responsive route matrix
 
-The job installs the repository's pinned dependencies, installs the Chromium binary used by Playwright, builds a local production Next.js app, runs the Batch 16 production JavaScript/lazy-load budget gate, starts the app on `127.0.0.1:4010`, and runs the canonical route matrix against the production build.
-
-Repository automation uses the existing Playwright dependency. This does not add a new production dependency.
-
-## Viewports
-
-Every canonical route is exercised at:
+The broad route matrix continues to exercise:
 
 - 320×720
 - 360×800
@@ -34,113 +27,107 @@ Every canonical route is exercised at:
 - 768×1024
 - 1024×768
 
-The 320–430 widths are the release-critical phone matrix.
+It covers child entry/profile selection, child home/library/subject/stage/activity/games/rewards, Parent routes, global game catalog/detail and `/play/math-choice`.
 
-## Canonical route coverage
+At 320px and 430px it also opens representatives for `tap_choice`, `listen_and_choose`, `matching`, `trace`, `story`, `coloring`, and `drawing`. A 390×844 reduced-motion pass checks representative accessibility and lazy-loading behavior.
 
-The browser gate covers:
+Per-route assertions include non-error navigation, meaningful content, route-boundary presence where applicable, no Next.js error overlay, no document horizontal overflow, phone touch-target sizing for child-facing controls, no uncaught page errors, and no browser console errors.
 
-- child entry and profile selection;
-- demo child entry, home, learning library, subject, stage, activity, games, and rewards;
-- Parent overview, children list, child overview, progress, reports, certificates, plan, privacy, and settings;
-- global game catalog and game detail;
-- the `/play/[slug]` motion/camera wrapper through `math-choice`.
+## VQA-01 permanent visual product baseline
 
-The `demo-gian` profile is the explicit non-account sandbox sentinel used for deterministic CI routing. The test does not create or mutate real account-owned child data.
-
-## Runtime representatives
-
-At the two phone extremes, 320px and 430px, the suite separately opens representative activities for:
-
-- `tap_choice`;
-- `listen_and_choose`;
-- `matching`;
-- `trace`;
-- `story`;
-- `coloring`;
-- `drawing`.
-
-The `/play/math-choice` route represents the motion/camera game wrapper. Camera permission itself is not granted by this headless layout test.
-
-## Per-route responsive assertions
-
-For each route and viewport the gate checks:
-
-1. navigation returns a non-error HTTP response;
-2. meaningful body content renders;
-3. the expected `MobileRouteBoundary` is present;
-4. no Next.js framework error overlay is visible;
-5. document/body scroll width does not exceed the viewport;
-6. child-facing visible non-inline controls on phone widths are approximately 44 CSS px or larger, with a small measurement tolerance;
-7. no uncaught page errors occur;
-8. no browser console errors occur.
-
-Selected routes also produce screenshots which CI uploads as the `mobile-route-qa-screenshots` artifact. The artifact is evidence for review and is intentionally not committed to the repository.
-
-## Batch 16 accessibility and lazy-load regression layer
-
-Batch 16 adds a second representative browser pass at 390×844 with `prefers-reduced-motion: reduce` for:
-
-- `/child/demo-gian/home`;
-- `/child/demo-gian/learn`;
-- `/child/demo-gian/activity/math-count-3`;
-- `/parent/children/demo-gian/reports`;
-- `/play/math-choice`.
-
-This pass asserts:
-
-- the document language remains `id`;
-- visible images expose an `alt` attribute;
-- visible inputs, selects, and textareas expose an accessible label;
-- focusable descendants are not left inside `aria-hidden="true"` content;
-- repeated keyboard `Tab` navigation reaches an actual focus target;
-- long animation/transition durations are suppressed under reduced-motion preference;
-- representative non-vision routes do not eagerly request MediaPipe/landmarker/WASM/task assets;
-- routes do not eagerly request `/api/tts` before user interaction.
-
-The production-build step also runs `scripts/run-batch16-build-budget.mjs`, which enforces explicit JavaScript regression ceilings and verifies that executable MediaPipe remains dynamically imported and TTS does not eagerly initialize through `AudioManager` construction.
-
-The verified Batch 16 automated baseline on CI #317/#318 was approximately:
-
-- largest static JS chunk: **0.35 MiB** against a 5 MiB ceiling;
-- total static JS: **2.03 MiB** against an 18 MiB ceiling;
-- root/main JS: **0.42 MiB** against a 2 MiB ceiling.
-
-These are regression baselines and ceilings, not physical-device latency guarantees.
-
-## Route-boundary migration
-
-Batch 2 added a semantic route boundary on these application families:
+Source:
 
 ```text
-child-select
-child-learning
-parent
-game-catalog
-game-play
+scripts/run-visual-baseline-browser-tests.mjs
 ```
 
-The boundary is width-safe, preserves text wrapping and media containment, and supplies scoped mobile hardening without hiding document-level overflow. Parent navigation becomes a horizontally scrollable sticky control strip on phone widths instead of forcing the desktop sidebar column into a narrow viewport.
+Canonical viewports:
 
-The foundation continues to prohibit `overflow-x: hidden` and `overflow-x: clip` as a way of concealing layout bugs.
+```text
+390×844
+768×1024
+1280×800
+```
+
+Each run captures **14 product surfaces × 3 viewports = 42 deterministic screenshots**:
+
+1. clean-session public root `/`;
+2. child profile selection;
+3. child home;
+4. Math subject/gallery;
+5. Math Angka stage/readiness;
+6. representative Garden activity `math-count-3`;
+7. rewards;
+8. parent report;
+9. account;
+10. login;
+11. signup;
+12. forgot-password;
+13. deterministic expired-auth-link error;
+14. not-found.
+
+Every VQA-01 capture blocks on:
+
+- the exact expected final pathname, so a progression/auth redirect cannot count as a screenshot PASS;
+- the expected HTTP status (`404` is explicit only for the not-found probe);
+- meaningful body content;
+- `<main>` landmark;
+- top-level heading;
+- expected `MobileRouteBoundary` where the route family has one;
+- absence of Next.js framework error overlays;
+- absence of horizontal document overflow;
+- phone touch-target minimums for child-facing baseline routes;
+- zero uncaught page errors;
+- zero browser console errors.
+
+The screenshot artifact lives under:
+
+```text
+.mobile-route-qa/visual-baseline/
+```
+
+The suite also writes `manifest.json` containing viewport, requested path, expected path, final path, HTTP status, and screenshot filename for every capture. CI uploads the directory inside the existing `mobile-route-qa-screenshots` artifact.
+
+VQA-01 is intentionally **not** a brittle pixel-perfect image-diff gate. The structural/browser assertions are blocking; screenshots and the manifest are the permanent evidence surface for human/AI visual review against the Art Bible. Visual changes must be reviewed at actual screenshot scale.
+
+## Exact-path boundary
+
+The old broad mobile route harness predates the production visual checkpoint and may intentionally probe redirect aliases such as `/child`. VQA-01 therefore applies exact-path assertions to the canonical screenshot surfaces rather than pretending every historical alias must remain a non-redirect.
+
+Any route selected as permanent visual evidence must declare its expected canonical pathname. An unintended redirect on such a route is a test failure.
+
+## Artifact rules
+
+Screenshots are evidence, not source assets. They are uploaded by CI and are not committed as product artwork.
+
+Stable VQA-01 filenames use:
+
+```text
+<width>x<height>-<surface-name>.png
+```
+
+Examples:
+
+```text
+390x844-public-root.png
+768x1024-stage-math-angka.png
+1280x800-parent-report.png
+```
 
 ## What this automation does not prove
 
-A green headless-Chromium matrix is strong code-level responsive/accessibility regression evidence, but it is not physical-device certification. The following remain real-device acceptance items in Batch 16:
+A green Chromium matrix does not replace physical-device acceptance. The following remain external evidence items:
 
-- iOS Safari browser chrome and safe-area behavior on physical iPhone hardware;
-- Android Chrome browser chrome on representative physical hardware;
-- virtual-keyboard resizing, focus, and scroll recovery during profile/settings input;
-- real camera permission prompts, portrait/landscape orientation changes, and camera recoverability;
-- actual finger coordinate accuracy on trace/drawing/coloring surfaces after device pixel ratio and orientation changes;
-- audible audio/TTS unlock, replay, cleanup, and fallback behavior on physical devices;
-- VoiceOver/TalkBack navigation and other platform assistive-technology behavior;
-- offline/reconnect/session-isolation behavior under real mobile-network interruption.
+- iOS Safari and Android Chrome browser chrome/safe-area behavior;
+- virtual keyboard resizing and focus recovery;
+- real camera permission/orientation/recovery;
+- real finger precision on trace/drawing/coloring;
+- audible audio/TTS unlock and cleanup;
+- VoiceOver/TalkBack;
+- real offline/network-interruption behavior.
 
-Canonical manual evidence lives in `BATCH16_PHYSICAL_DEVICE_QA.md`. A row must not be marked `PASS` merely because this automated Chromium suite is green.
+Canonical manual evidence remains `BATCH16_PHYSICAL_DEVICE_QA.md`.
 
 ## Release gate
 
-`Production smoke (Cloudflare)` depends on `Mobile route QA (Chromium)`. Since Batch 16, this means a main commit cannot reach final production-smoke success through CI unless the responsive route matrix, production JS/lazy-load budget, and representative accessibility/lazy-load browser layer all pass.
-
-This automated release gate remains necessary but is not sufficient to close Batch 16; representative physical-device acceptance is still required.
+On `main`, `Production smoke (Cloudflare)` depends on `Mobile route QA (Chromium)`. Once VQA-01 is merged, a production SHA cannot receive final CI success unless both the legacy responsive/runtime matrix and the permanent visual product baseline pass first.
