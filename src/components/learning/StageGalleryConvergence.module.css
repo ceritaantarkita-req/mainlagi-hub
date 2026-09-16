@@ -1,0 +1,38 @@
+.stageJourney {
+  min-width: 0;
+}
+
+.stageCard {
+  min-width: 0;
+}
+
+@media (min-width: 700px) {
+  .stageJourney {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    overflow: visible;
+    padding-bottom: 2px;
+    scroll-snap-type: none;
+  }
+
+  .stageCard {
+    width: 100%;
+    min-height: 80px;
+    flex-basis: auto;
+  }
+
+  .stageCard :global(strong) {
+    display: -webkit-box;
+    overflow: hidden;
+    white-space: normal;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+}
+
+@media (min-width: 1080px) {
+  .stageJourney {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
