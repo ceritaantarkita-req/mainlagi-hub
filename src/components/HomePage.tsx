@@ -4,6 +4,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { Icon } from "@/components/Icon";
 import { useProfileCollection } from "@/components/learning/CloudProfileScreens";
 import { readActiveChild, childDestination } from "@/lib/learning/entry";
 import { SubjectDirectory } from "@/components/learning/Playroom";
@@ -66,7 +67,7 @@ export function HomePage() {
         </div>
         <div className={styles.pathGrid}>
           <Link href="/child/select?continue=1" className={styles.pathCard}>
-            <span className={styles.pathIcon} aria-hidden>★</span>
+            <span className={styles.pathIcon} aria-hidden><Icon name="games" size={24} /></span>
             <span className={styles.pathCopy}>
               <strong>Untuk anak</strong>
               <span>Pilih profil, lanjutkan perjalanan belajar, atau mulai dari area yang disukai.</span>
@@ -74,7 +75,7 @@ export function HomePage() {
             <span className={styles.pathArrow} aria-hidden>→</span>
           </Link>
           <Link href="/account" className={styles.pathCard}>
-            <span className={styles.pathIcon} aria-hidden>✓</span>
+            <span className={styles.pathIcon} aria-hidden><Icon name="account" size={24} /></span>
             <span className={styles.pathCopy}>
               <strong>Untuk orang tua</strong>
               <span>Masuk atau buat akun keluarga, lalu kelola pemain dan preferensi dari area orang tua.</span>
