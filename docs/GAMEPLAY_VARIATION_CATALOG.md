@@ -47,7 +47,7 @@
 30. `syllable_assembly` — MERGED PR #139; CLOSED PR #140; FULLY CLOSED
 31. `make_total` — MERGED PR #141; CLOSED PR #142; FULLY CLOSED
 32. `take_away` — MERGED PR #143; CLOSED PR #144; FULLY CLOSED
-33. `equal_groups` — **MERGED PR #145; LIVE VERIFIED; CLOSURE PENDING**
+33. `equal_groups` — **MERGED PR #145; LIVE VERIFIED; CLOSURE PR #146 OPEN**
 
 Permanent gameplay-distribution audit: MERGED PR #105.
 
@@ -71,7 +71,7 @@ Iqro choice_grid             58 / 100
 
 Distance remaining: **17** patterns to minimum 50 and **27** to working target 60.
 
-### `equal_groups` — Pattern #33 merged / closure pending
+### `equal_groups` — Pattern #33 merged / closure PR #146 open
 
 Exact scope:
 
@@ -113,9 +113,10 @@ Acceptance and merge evidence:
 - PR #145 passed the clean exact-head gate and squash merged as `3de991e75fdb4fdf33d1cd9cdcf90443ddbb3fb6`;
 - `main` was independently verified at that exact SHA;
 - post-merge CI #693 / run `35054346467` passed the full matrix including Cloudflare production smoke;
+- closure PR #146 is restricted to the five canonical Pattern #33 docs;
 - deterministic quality remains 900 KEEP / 0 flagged / structural findings 0.
 
-Pattern #33 becomes fully closed only after its docs-only closure PR passes exact closure-head CI, clean merge gate, exact-head merge, final `main` verification and final Cloudflare smoke.
+Pattern #33 becomes fully closed only after closure PR #146 passes exact closure-head CI, clean merge gate, exact-head merge, final `main` verification and final Cloudflare smoke.
 
 ## Target mechanics backlog
 
@@ -141,7 +142,7 @@ Coverage dan implemented-pattern consistency bersifat blocking; concentration be
 - Make Total — DONE / #141 + #142, fully closed.
 - Take Away — DONE / #143 + #144, fully closed.
 - Equal Groups implementation — DONE / #145, merged and live-verified.
-- Equal Groups closure — **PENDING**.
+- Equal Groups closure — **PR #146 OPEN**.
 - NEXT only after Pattern #33 full closure — fresh objective/evidence audit for Pattern #34; no family pre-approved.
 
 ## Definition of done per mechanic
