@@ -24,6 +24,7 @@ const EXPECTED_PATTERNS = [
   "memory_pair",
   "missing_sequence_slot",
   "syllable_assembly",
+  "initial_sound",
   "sorting_buckets",
   "drag_to_target",
   "odd_one_out",

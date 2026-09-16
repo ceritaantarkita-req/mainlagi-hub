@@ -13,7 +13,7 @@
 
 ## Status implementasi
 
-### Verified merged gameplay baseline: 33 pola
+### Merged production baseline: 33 pola
 
 1. `choice_grid`
 2. `symbol_hunt`
@@ -47,11 +47,15 @@
 30. `syllable_assembly` — MERGED PR #139; CLOSED PR #140; FULLY CLOSED
 31. `make_total` — MERGED PR #141; CLOSED PR #142; FULLY CLOSED
 32. `take_away` — MERGED PR #143; CLOSED PR #144; FULLY CLOSED
-33. `equal_groups` — **MERGED PR #145; LIVE VERIFIED; CLOSURE PR #146 OPEN**
+33. `equal_groups` — MERGED PR #145; CLOSED PR #146; **FULLY CLOSED**
+
+Candidate Pattern #34 on implementation PR #147:
+
+34. `initial_sound` — **QA ACCEPTED / UNMERGED**
 
 Permanent gameplay-distribution audit: MERGED PR #105.
 
-Current merged distribution:
+Merged production distribution remains:
 
 ```text
 900 / 900 classified
@@ -69,9 +73,71 @@ English choice_grid          44 / 100
 Iqro choice_grid             58 / 100
 ```
 
-Distance remaining: **17** patterns to minimum 50 and **27** to working target 60.
+Accepted PR #147 candidate distribution:
 
-### `equal_groups` — Pattern #33 merged / closure PR #146 open
+```text
+900 / 900 classified
+0 unclassified
+34 active candidate patterns
+choice_grid                 292 / 900 = 32.44%
+initial_sound                 3 / 900 = 0.33%
+equal_groups                  3 / 900 = 0.33%
+make_total                    5 / 900 = 0.56%
+take_away                     5 / 900 = 0.56%
+Bahasa choice_grid           44 / 100
+Math choice_grid             43 / 100
+Science choice_grid          56 / 100
+Logic choice_grid            47 / 100
+English choice_grid          44 / 100
+Iqro choice_grid             58 / 100
+```
+
+Candidate distance after merge: **16** patterns to minimum 50 and **26** to working target 60.
+
+### `initial_sound` — Pattern #34 QA accepted / unmerged
+
+Exact scope:
+
+```text
+bahasa-awal-bola
+bahasa-awal-kucing
+bahasa-awal-pisang
+```
+
+Boundaries:
+- subject `bahasa`;
+- stage `bahasa-dasar-huruf`;
+- lesson `bahasa-bunyi-awal`;
+- pack `bahasa.pack.bunyi-awal`;
+- canonical skill `bahasa.bunyi.awal.recognition`;
+- assessed runtime remains `tap_choice`;
+- canonical three uppercase single-letter choices and `correctChoice` remain unchanged;
+- `bahasa-match-awal-tas-susu` remains `visible_matching`;
+- vowel recognition/classification, Syllable Assembly, English inverse initial-sound tasks, letter ordering and every non-scope family remain unchanged;
+- assessment, stars, mastery, progression, activity identity, content, schema and migrations remain canonical;
+- assessed fidelity `choice_initial_sound_interaction`;
+- runtime metadata source `initial-sound-runtime`.
+
+Interaction:
+- show the existing familiar clue and the canonical familiar word with its first letter masked;
+- keep `?` as the masked first-letter result before correct assessment;
+- prompt the child to say/read the visible familiar word before choosing its first letter;
+- retain accessible keyboard/touch/pointer direct-selection buttons;
+- wrong selection is retryable and measured, cannot complete, and cannot reveal the first letter;
+- correct selection completes the existing activity identity and reveals the canonical first letter;
+- no changed choice set, drag-only dependency, extra confirmation or intermediate assessment.
+
+Acceptance evidence:
+- CI #701/#702/#703 correctly caught progressively more accurate but still-invalid QA progression fixtures rather than allowing a false browser pass;
+- final fixture reflects immediate prior stage `bahasa-cerita` and required practice `bahasa-cerita-teman` with completion-only evidence semantics;
+- accepted code head `207153f8e88f7c5e64949354c12b4feb1ee583e8` passed full CI #704 / run `35069389333`;
+- dedicated Initial Sound browser QA passed 320x720, 390x844 and 768x1024 idle/wrong/success states, keyboard wrong-path, pointer completion, masked answer, false-completion guard, target sizing, feedback/CTA visibility and evidence checks;
+- all nine Initial Sound screenshots passed manual visual acceptance;
+- deterministic quality remains 900 KEEP / 0 flagged / structural findings 0.
+
+Pattern #34 is not merged/closed until implementation PR #147 passes fresh docs-head CI, clean exact-head merge, live-main verification, then a separate docs-only closure PR is also exact-head merged and verified on `main` with Cloudflare smoke.
+
+### `equal_groups` — Pattern #33 FULLY CLOSED
 
 Exact scope:
 
@@ -81,48 +147,13 @@ math-group-8-by-2
 math-group-9-by-3
 ```
 
-Boundaries:
-- stage `math-operasi-awal`;
-- lesson `math-grouping`;
-- pack `math.pack.grouping`;
-- canonical skill `math.grouping.equal_groups`;
-- assessed runtime remains `tap_choice`;
-- canonical three numeric choices and `correctChoice` remain unchanged;
-- grouping matching activities remain handled by `visible_matching`;
-- missing-number, addition, subtraction, length/size and existing Math specialized mechanics remain outside scope;
-- all non-Math families remain outside scope;
-- assessment, stars, mastery, progression, activity identity, content, schema and migrations remain canonical;
-- assessed fidelity `choice_equal_groups_interaction`;
-- runtime metadata source `equal-groups-runtime`.
-
-Interaction:
-- show the reviewed total as visibly separated equal-size groups;
-- mask numeric group count with `?` before a correct assessment;
-- validate total 2..10, positive proper group size, exact divisibility and quotient equal to canonical `correctChoice`;
-- retain accessible keyboard/touch/pointer direct-selection buttons;
-- wrong selection is retryable and measured, cannot complete, and cannot reveal the group count;
-- correct selection completes the existing activity identity and may reveal the canonical group count;
-- no changed choice set, drag-only dependency, extra confirmation or intermediate assessment.
-
-Acceptance and merge evidence:
-- CI #685 / run `35052200287` caught the 320x720 success CTA defect;
-- CI #686 / run `35052577160` caught the 390x844 idle-feedback defect after the first fix;
-- accepted code head `26c2b2355099c4097c015ba5767703035b33aa63` passed CI #687 / run `35053008065`;
-- all nine 320x720, 390x844 and 768x1024 idle/wrong/success screenshots passed manual visual acceptance;
-- final implementation docs head `11f278a0150ff31b1ba89394c23b78fa244038aa` passed full CI #692 / run `35053984870`;
-- PR #145 passed the clean exact-head gate and squash merged as `3de991e75fdb4fdf33d1cd9cdcf90443ddbb3fb6`;
-- `main` was independently verified at that exact SHA;
-- post-merge CI #693 / run `35054346467` passed the full matrix including Cloudflare production smoke;
-- closure PR #146 is restricted to the five canonical Pattern #33 docs;
-- deterministic quality remains 900 KEEP / 0 flagged / structural findings 0.
-
-Pattern #33 becomes fully closed only after closure PR #146 passes exact closure-head CI, clean merge gate, exact-head merge, final `main` verification and final Cloudflare smoke.
+Pattern #33 implementation PR #145 and closure PR #146 are complete. Final verified `main` is `0f90a7fae1164ae6ace86f993024cef7b4989ca9`; final CI #700 / run `35058250562` passed the full matrix including Cloudflare production smoke.
 
 ## Target mechanics backlog
 
 Original 60-pattern planning slots remain guidance, not a fixed taxonomy. Validated extra patterns may sit outside an original illustrative slot when objective fit requires a semantically distinct interaction.
 
-Priority families still worth fresh objective/evidence audit include:
+Priority families still worth **fresh** objective/evidence audit include:
 - search/scene exploration: `find_in_scene`, `hidden_object`, `spot_difference`, `hotspot_discovery`;
 - ordering: `reorder_cards`, `tap_in_order`, `story_sequence`;
 - literacy construction: `build_word`, `letter_construction`, `initial_sound_sort`, `word_picture_match`;
@@ -130,7 +161,7 @@ Priority families still worth fresh objective/evidence audit include:
 - audio: `listen_and_point`, `listen_and_match`, `sound_memory`, `audio_sequence`, `sound_discrimination`;
 - creative/story mechanics after objective fit is proven.
 
-No family is pre-approved for Pattern #34.
+No family is pre-approved for Pattern #35. A fresh audit starts only after Pattern #34 is fully closed.
 
 ## Distribution rule
 
@@ -141,9 +172,9 @@ Coverage dan implemented-pattern consistency bersifat blocking; concentration be
 - Syllable Assembly — DONE / #139 + #140, fully closed.
 - Make Total — DONE / #141 + #142, fully closed.
 - Take Away — DONE / #143 + #144, fully closed.
-- Equal Groups implementation — DONE / #145, merged and live-verified.
-- Equal Groups closure — **PR #146 OPEN**.
-- NEXT only after Pattern #33 full closure — fresh objective/evidence audit for Pattern #34; no family pre-approved.
+- Equal Groups — DONE / #145 + #146, fully closed; final CI #700.
+- Initial Sound implementation — **PR #147 QA ACCEPTED / UNMERGED**.
+- NEXT only after Pattern #34 full closure — fresh objective/evidence audit for Pattern #35; no family pre-approved.
 
 ## Definition of done per mechanic
 
