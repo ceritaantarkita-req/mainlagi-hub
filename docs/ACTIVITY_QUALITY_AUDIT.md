@@ -24,7 +24,7 @@ Deterministic zero does **not** mean every activity is human-approved or maximal
 
 ## WS-05 gameplay diversification
 
-Pattern #31 `make_total` is **FULLY CLOSED** through PR #141 + #142. Pattern #32 `take_away` implementation PR #143 is **MERGED / LIVE VERIFIED**, with docs-only closure still pending.
+Pattern #31 `make_total` is **FULLY CLOSED** through PR #141 + #142. Pattern #32 `take_away` implementation PR #143 is **MERGED / LIVE VERIFIED**; docs-only closure PR #144 is the final closure gate.
 
 Current verified merged distribution:
 
@@ -87,7 +87,7 @@ Acceptance and merge chain:
 - post-merge `main` CI #677 / run `35048981508` passed all gates including Cloudflare production smoke;
 - deterministic quality remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**.
 
-Pattern #32 is **MERGED / LIVE VERIFIED / CLOSURE PENDING**. It becomes fully closed only after this separate docs-only closure passes exact-head CI, clean review/thread/mergeability gate, exact-head merge, independent final `main` verification, and post-closure `main` CI including Cloudflare production smoke.
+Pattern #32 is **MERGED / LIVE VERIFIED / CLOSURE PR #144 PENDING**. It becomes fully closed only after #144 exact-head CI, clean review/thread/mergeability gate, exact-head merge, independent final `main` verification, and post-closure `main` CI including Cloudflare production smoke.
 
 ## Permanent audits
 
@@ -106,9 +106,9 @@ CI uploads both artifacts. Gameplay-distribution coverage and active-pattern-set
 - WS-05 Syllable Assembly — Pattern #30 fully closed via #139 + #140.
 - WS-05 Make Total — Pattern #31 fully closed via #141 + #142; final CI #670 live-verified.
 - WS-05 Take Away implementation — **MERGED PR #143 / LIVE VERIFIED**; merge SHA `3ac5ab049e94f65c3e28a7e4e5cbd18185a9466a`; post-merge CI #677 full success including Cloudflare smoke.
-- WS-05 Take Away closure — **PENDING exact-head closure PR**.
+- WS-05 Take Away closure — **PR #144 PENDING**.
 - WS-05 NEXT after Pattern #32 full closure — fresh Pattern #33 objective/evidence audit; no family pre-approved.
 
 ## Completion rule
 
-Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #32 itself remains unclosed until its required docs-only closure is exact-head merged and independently verified live on `main`.
+Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #32 itself remains unclosed until PR #144 is exact-head merged and independently verified live on `main`.
