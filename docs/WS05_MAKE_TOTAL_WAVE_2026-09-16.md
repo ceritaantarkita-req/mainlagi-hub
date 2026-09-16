@@ -1,9 +1,11 @@
 # WS-05 Pattern #31 — Math Make Total
 
 Date: **16 September 2026**  
-Status: **MERGED / CLOSURE PENDING**  
+Status: **MERGED / CLOSURE PR #142 PENDING**  
 Implementation PR: **#141**  
+Closure PR: **#142**  
 Implementation branch: `agent/ws05-math-make-total-20260916`  
+Closure branch: `docs/ws05-make-total-closure-20260916`  
 Final implementation docs head: `7230d87fb5c53d6e164465aa3353531228b8f4c6`  
 Implementation merge SHA: `de358c3e6610c3ae9b8669ce3df3b0f2a95e3136`
 
@@ -83,38 +85,22 @@ Runtime measurement:
 
 Initial implementation CI #656 / run `35042089820` passed every non-browser gate but the Chromium matrix correctly failed the new 320x720 visibility assertion because idle feedback extended below the viewport.
 
-The fix did not weaken the assertion. It compacted only the narrow/short presentation while retaining >=48px canonical choice targets and the strict visibility requirement.
+The responsive fix did not weaken the assertion. It compacted only the narrow/short presentation while retaining >=48px canonical choice targets and the strict visibility requirement.
 
-Accepted implementation head:
+Implementation QA head `4b513676c9029fbb7a788a49175ed02954f0d2f7` passed full CI #657 / run `35042439233`. All nine Make Total idle/wrong/success screenshots at 320x720, 390x844 and 768x1024 were manually reviewed and accepted.
 
-```text
-4b513676c9029fbb7a788a49175ed02954f0d2f7
-```
+Canonical docs were then updated on implementation PR #141. Final implementation docs head `7230d87fb5c53d6e164465aa3353531228b8f4c6` passed fresh exact-head CI #662 / run `35043111245` across Ubuntu, Windows, production build, dependency audit, secret-history scan and Chromium browser QA. Cloudflare production smoke was correctly skipped on the PR event.
 
-Full CI #657 / run `35042439233` passed the complete implementation QA matrix. All nine Make Total idle/wrong/success screenshots at 320x720, 390x844 and 768x1024 were then manually reviewed and accepted.
-
-Canonical docs were updated on the implementation PR. The final implementation docs head:
-
-```text
-7230d87fb5c53d6e164465aa3353531228b8f4c6
-```
-
-Fresh exact-head CI #662 / run `35043111245` passed Ubuntu, Windows, production build, dependency audit, secret-history scan and Chromium browser QA. Cloudflare production smoke was correctly skipped on the PR event.
-
-The clean merge gate confirmed:
-- head still exactly `7230d87fb5c53d6e164465aa3353531228b8f4c6`;
+The final implementation merge gate confirmed:
+- exact head `7230d87fb5c53d6e164465aa3353531228b8f4c6`;
 - `mergeable=true`;
 - zero submitted reviews;
 - zero review threads;
-- exactly 16 intended implementation/docs files changed.
+- exactly 16 intended changed files.
 
-PR #141 was exact-head squash merged as:
+PR #141 was exact-head squash merged as `de358c3e6610c3ae9b8669ce3df3b0f2a95e3136`. `main` was independently verified at that exact SHA.
 
-```text
-de358c3e6610c3ae9b8669ce3df3b0f2a95e3136
-```
-
-`main` was independently verified at that exact SHA. Post-merge push CI #663 / run `35044172180` passed every gate including **Production smoke (Cloudflare)**.
+Post-merge push CI #663 / run `35044172180` passed every gate including **Production smoke (Cloudflare)**.
 
 ## Verified merged evidence
 
@@ -165,14 +151,15 @@ Accepted observations:
 - direct-choice targets remain usable across phone/tablet layouts;
 - the 320px compact variant retains the learning relationship while fitting all required feedback in the viewport.
 
-## Closure gate
+## Final closure gate
 
-Pattern #31 implementation is merged and live-verified, but Pattern #31 is **not fully closed yet**. The remaining gate is the separate docs-only closure PR from exact implementation merge SHA `de358c3e6610c3ae9b8669ce3df3b0f2a95e3136`, with:
-1. canonical closure docs synchronized to the merged 31-pattern baseline;
-2. fresh full CI on the exact final closure head;
-3. clean review/thread/mergeability gate;
-4. exact-head squash merge;
-5. independent final `main` SHA verification;
-6. post-closure `main` CI including Cloudflare production smoke.
+Docs-only closure PR #142 is the final Pattern #31 gate. Pattern #31 becomes **FULLY CLOSED after PR #142**:
+1. passes full CI on its exact final closure head;
+2. passes clean review/thread/mergeability and docs-only scope checks;
+3. is squash merged with `expected_head_sha` equal to that exact final closure head;
+4. the resulting `main` SHA is independently verified;
+5. post-closure `main` CI passes every gate including Cloudflare production smoke.
+
+Until all five are complete, the correct status is **MERGED / CLOSURE PR #142 PENDING**.
 
 No Pattern #32 family is pre-approved before Pattern #31 is fully closed.
