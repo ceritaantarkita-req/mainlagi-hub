@@ -13,7 +13,7 @@
 
 ## Status implementasi
 
-### Merged production baseline: 33 pola
+### Verified merged gameplay baseline: 34 pola
 
 1. `choice_grid`
 2. `symbol_hunt`
@@ -47,38 +47,17 @@
 30. `syllable_assembly` — MERGED PR #139; CLOSED PR #140; FULLY CLOSED
 31. `make_total` — MERGED PR #141; CLOSED PR #142; FULLY CLOSED
 32. `take_away` — MERGED PR #143; CLOSED PR #144; FULLY CLOSED
-33. `equal_groups` — MERGED PR #145; CLOSED PR #146; **FULLY CLOSED**
-
-Candidate Pattern #34 on implementation PR #147:
-
-34. `initial_sound` — **QA ACCEPTED / UNMERGED**
+33. `equal_groups` — MERGED PR #145; CLOSED PR #146; FULLY CLOSED
+34. `initial_sound` — **MERGED PR #147; LIVE VERIFIED; CLOSURE PR #148 OPEN**
 
 Permanent gameplay-distribution audit: MERGED PR #105.
 
-Merged production distribution remains:
+Current merged distribution:
 
 ```text
 900 / 900 classified
 0 unclassified
-33 active child-facing patterns
-choice_grid                 295 / 900 = 32.78%
-equal_groups                  3 / 900 = 0.33%
-make_total                    5 / 900 = 0.56%
-take_away                     5 / 900 = 0.56%
-Math choice_grid             43 / 100
-Bahasa choice_grid           47 / 100
-Science choice_grid          56 / 100
-Logic choice_grid            47 / 100
-English choice_grid          44 / 100
-Iqro choice_grid             58 / 100
-```
-
-Accepted PR #147 candidate distribution:
-
-```text
-900 / 900 classified
-0 unclassified
-34 active candidate patterns
+34 active child-facing patterns
 choice_grid                 292 / 900 = 32.44%
 initial_sound                 3 / 900 = 0.33%
 equal_groups                  3 / 900 = 0.33%
@@ -92,9 +71,9 @@ English choice_grid          44 / 100
 Iqro choice_grid             58 / 100
 ```
 
-Candidate distance after merge: **16** patterns to minimum 50 and **26** to working target 60.
+Distance remaining: **16** patterns to minimum 50 and **26** to working target 60.
 
-### `initial_sound` — Pattern #34 QA accepted / unmerged
+### `initial_sound` — Pattern #34 merged / closure PR #148 open
 
 Exact scope:
 
@@ -127,15 +106,19 @@ Interaction:
 - correct selection completes the existing activity identity and reveals the canonical first letter;
 - no changed choice set, drag-only dependency, extra confirmation or intermediate assessment.
 
-Acceptance evidence:
-- CI #701/#702/#703 correctly caught progressively more accurate but still-invalid QA progression fixtures rather than allowing a false browser pass;
-- final fixture reflects immediate prior stage `bahasa-cerita` and required practice `bahasa-cerita-teman` with completion-only evidence semantics;
-- accepted code head `207153f8e88f7c5e64949354c12b4feb1ee583e8` passed full CI #704 / run `35069389333`;
-- dedicated Initial Sound browser QA passed 320x720, 390x844 and 768x1024 idle/wrong/success states, keyboard wrong-path, pointer completion, masked answer, false-completion guard, target sizing, feedback/CTA visibility and evidence checks;
-- all nine Initial Sound screenshots passed manual visual acceptance;
+Acceptance and merge evidence:
+- CI #701/#702/#703 correctly caught invalid QA progression fixtures rather than allowing a false browser pass;
+- final fixture reflects immediate prior stage `bahasa-cerita` and required practice `bahasa-cerita-teman` with completion-only semantics;
+- accepted code head `207153f8e88f7c5e64949354c12b4feb1ee583e8` passed CI #704 / run `35069389333`;
+- all nine 320x720, 390x844 and 768x1024 idle/wrong/success screenshots passed manual visual acceptance;
+- final implementation docs head `e12d9eef073a9989bb8e9b6f8d374e098e17edde` passed full CI #709 / run `35072401631`;
+- PR #147 passed the clean exact-head gate and squash merged as `42da6cfd2114bd29b9aa4ddd36361bb975db2bf1`;
+- `main` was independently verified at that exact SHA;
+- post-merge CI #710 / run `35072815182` passed the full matrix including Cloudflare production smoke;
+- closure PR #148 is restricted to the five canonical Pattern #34 docs;
 - deterministic quality remains 900 KEEP / 0 flagged / structural findings 0.
 
-Pattern #34 is not merged/closed until implementation PR #147 passes fresh docs-head CI, clean exact-head merge, live-main verification, then a separate docs-only closure PR is also exact-head merged and verified on `main` with Cloudflare smoke.
+Pattern #34 becomes fully closed only after closure PR #148 passes exact closure-head CI, clean merge gate, exact-head merge, final `main` verification and final Cloudflare smoke.
 
 ### `equal_groups` — Pattern #33 FULLY CLOSED
 
@@ -173,7 +156,8 @@ Coverage dan implemented-pattern consistency bersifat blocking; concentration be
 - Make Total — DONE / #141 + #142, fully closed.
 - Take Away — DONE / #143 + #144, fully closed.
 - Equal Groups — DONE / #145 + #146, fully closed; final CI #700.
-- Initial Sound implementation — **PR #147 QA ACCEPTED / UNMERGED**.
+- Initial Sound implementation — DONE / #147, merged and live-verified; post-merge CI #710 incl Cloudflare.
+- Initial Sound closure — **PR #148 OPEN**.
 - NEXT only after Pattern #34 full closure — fresh objective/evidence audit for Pattern #35; no family pre-approved.
 
 ## Definition of done per mechanic
