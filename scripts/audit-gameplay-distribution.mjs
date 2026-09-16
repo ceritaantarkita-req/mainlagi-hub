@@ -25,6 +25,7 @@ const EXPECTED_PATTERNS = [
   "missing_sequence_slot",
   "syllable_assembly",
   "initial_sound",
+  "picture_word_match",
   "sorting_buckets",
   "drag_to_target",
   "odd_one_out",

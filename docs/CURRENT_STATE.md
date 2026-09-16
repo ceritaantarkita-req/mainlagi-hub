@@ -11,17 +11,16 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - production: `https://mainlagihub.my.id/`
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - source licence: `AGPL-3.0-only`
-- latest fully closed gameplay: **Pattern #33 — Math `equal_groups`**
-- Pattern #33 final verified `main`: `0f90a7fae1164ae6ace86f993024cef7b4989ca9`
-- Pattern #33 final CI: **#700 / run `35058250562`**, full success including Cloudflare production smoke
-- latest merged gameplay: **Pattern #34 — Bahasa `initial_sound`**
+- latest fully closed gameplay: **Pattern #34 — Bahasa `initial_sound`**
 - Pattern #34 implementation PR: **#147**
-- final implementation docs head: `e12d9eef073a9989bb8e9b6f8d374e098e17edde`
-- final implementation docs-head CI: **#709 / run `35072401631`**, full PR success
-- verified implementation merge SHA: `42da6cfd2114bd29b9aa4ddd36361bb975db2bf1`
-- post-merge implementation CI: **#710 / run `35072815182`**, full success including Cloudflare production smoke
 - Pattern #34 closure PR: **#148**
-- Pattern #34 status: **MERGED / LIVE VERIFIED / CLOSURE PR #148 OPEN**
+- Pattern #34 final verified `main`: `8bfb0027a5f4963a6875310c7408cb56018cc422`
+- Pattern #34 final CI: **#717 / run `35074306579`**, full success including Cloudflare production smoke
+- active implementation: **Pattern #35 — Bahasa `picture_word_match`**
+- Pattern #35 implementation PR: **#149**
+- accepted implementation code head before canonical docs: `e0f93bd20f24c2efaebfbaa7f782427e8d0e1bca`
+- accepted implementation CI: **#718 / run `35082720001`**, full PR success
+- Pattern #35 status: **QA ACCEPTED / UNMERGED**
 
 ## Engineering status
 
@@ -41,16 +40,32 @@ Target: minimum **50**, working target **60 meaningful patterns**.
 
 ### Verified merged on `main`: 34 patterns
 
+Final Pattern #34 baseline remains:
+
 ```text
 classified:               900 / 900
 unclassified:               0
 active merged patterns:    34
 choice_grid               292 / 900 = 32.44%
 initial_sound               3 / 900 = 0.33%
+Bahasa choice_grid          44 / 100
+```
+
+### Pattern #35 accepted PR candidate: 35 patterns
+
+Exact CI #718 distribution artifact from PR #149:
+
+```text
+classified:               900 / 900
+unclassified:               0
+active candidate patterns: 35
+choice_grid               287 / 900 = 31.89%
+picture_word_match          5 / 900 = 0.56%
+initial_sound               3 / 900 = 0.33%
 equal_groups                3 / 900 = 0.33%
 make_total                  5 / 900 = 0.56%
 take_away                   5 / 900 = 0.56%
-Bahasa choice_grid          44 / 100
+Bahasa choice_grid          39 / 100
 Math choice_grid            43 / 100
 Science choice_grid         56 / 100
 Logic choice_grid           47 / 100
@@ -58,55 +73,55 @@ English choice_grid         44 / 100
 Iqro choice_grid            58 / 100
 ```
 
-Remaining distance: **16** patterns to minimum 50 and **26** to working target 60.
+No global gameplay hotspot exceeds the advisory 35% threshold. Subject-level concentration remains advisory. If Pattern #35 merges, remaining distance becomes **15** patterns to minimum 50 and **25** to working target 60.
 
-## Pattern #34 `initial_sound` — merged/live closure record
+## Pattern #35 `picture_word_match` — QA ACCEPTED / UNMERGED
 
 Exact scope:
 
 ```text
-bahasa-awal-bola
-bahasa-awal-kucing
-bahasa-awal-pisang
+bahasa-gambar-apel
+bahasa-gambar-mobil
+bahasa-gambar-kucing
+bahasa-gambar-rumah
+bahasa-gambar-pisang
 ```
 
-All three remain assessed `tap_choice` activities in stage `bahasa-dasar-huruf`, lesson `bahasa-bunyi-awal`, pack `bahasa.pack.bunyi-awal`, canonical skill `bahasa.bunyi.awal.recognition`, with exactly three canonical uppercase single-letter choices and unchanged `correctChoice`.
+All five remain assessed `tap_choice` activities in stage `bahasa-suku-kata-kata`, lesson `bahasa-kata-gambar`, pack `bahasa.pack.kata-gambar`, canonical skill `bahasa.kata.picture_matching`, with exactly three canonical lowercase word choices and unchanged `correctChoice`.
 
-Explicit exclusions remain unchanged: `bahasa-match-awal-tas-susu` stays canonical `visible_matching`; vowel recognition/classification, `syllable_assembly`, English inverse initial-sound tasks, letter ordering, Math and every other subject remain outside Pattern #34.
+Explicit exclusions:
+- `bahasa-pasang-kata-*` remains canonical `visible_matching`;
+- `syllable_assembly`, audio word recognition, `initial_sound`, English, Math and every other subject/family remain unchanged;
+- content seeds, IDs, stars, assessment, mastery, progression, schema and migrations remain unchanged.
 
 Interaction/evidence contract:
-- shows the existing familiar clue (`⚽`, `🐱`, `🍌`) and canonical word with only its first letter masked;
-- asks the child to say/read the familiar word, then choose its first letter from the unchanged canonical choices;
-- first-letter result stays masked as `?` until a correct assessment;
+- presents the existing familiar object as a large visual clue;
+- asks the child to match that visual object to one of the unchanged canonical word choices;
+- selected word result stays masked as `?` until a correct assessment;
 - keyboard/touch/pointer direct selection remains available; no drag-only dependency;
-- wrong choice records assessed incorrect/retry, cannot complete and cannot reveal the first letter;
-- correct choice completes the canonical activity and reveals the canonical initial letter;
-- assessed fidelity `choice_initial_sound_interaction`;
-- runtime metadata source `initial-sound-runtime` with `word`, `initialSound`, and `selectedChoice`;
-- content seeds, activity IDs, stars, mastery, progression, schema and migrations remain unchanged.
+- wrong choice records assessed incorrect/retry, cannot complete and cannot reveal the canonical word;
+- correct choice completes the canonical activity and reveals the canonical word;
+- assessed fidelity `choice_picture_word_match_interaction`;
+- runtime metadata source `picture-word-match-runtime` with `picture`, `word`, and `selectedChoice`.
 
-Acceptance and implementation merge evidence:
-- CI #701 / run `35059536603`, #702 / run `35068097261`, and #703 / run `35068805216` correctly caught invalid browser-QA progression assumptions rather than permitting a false pass;
-- final progression fixture follows the actual immediate-prior-stage contract for `bahasa-cerita` / required practice `bahasa-cerita-teman`;
-- accepted code head `207153f8e88f7c5e64949354c12b4feb1ee583e8` passed full CI #704 / run `35069389333`;
-- all nine 320x720, 390x844 and 768x1024 idle/wrong/success screenshots passed manual visual acceptance;
-- deterministic quality remained **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**;
-- final implementation docs head `e12d9eef073a9989bb8e9b6f8d374e098e17edde` passed full CI #709 / run `35072401631`;
-- PR #147 passed exact-head clean gate: mergeable, 16 scoped files, behind 0, zero comments, zero reviews and zero review threads;
-- PR #147 exact-head squash merged as `42da6cfd2114bd29b9aa4ddd36361bb975db2bf1`;
-- `main` was independently verified at that exact SHA;
-- post-merge `main` CI #710 / run `35072815182` passed Ubuntu, Windows, production build, dependency audit, secret-history scan, Chromium mobile/accessibility/browser QA, deterministic quality/distribution audits, simulations, Batch17 and **Cloudflare production smoke**;
-- docs-only closure PR #148 was opened from the exact implementation merge SHA and is restricted to the five canonical Pattern #34 docs.
+Acceptance evidence so far:
+- implementation branch was created exactly from Pattern #34 final `main` SHA `8bfb0027a5f4963a6875310c7408cb56018cc422`;
+- PR #149 code head `e0f93bd20f24c2efaebfbaa7f782427e8d0e1bca` passed full CI #718 / run `35082720001`;
+- Ubuntu passed typecheck, lint, engine/learning regressions, deterministic quality, 900/900 gameplay distribution, simulations and Batch17;
+- Windows compatibility, production build, dependency audit and secret-history scan passed;
+- Chromium mobile/accessibility/browser matrix passed;
+- all nine 320x720, 390x844 and 768x1024 idle/wrong/success screenshots were manually reviewed and accepted: no horizontal clipping, feedback and CTA remain visible, wrong state retains `?`, success reveals `apel`;
+- deterministic quality remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**.
 
-Pattern #34 is **not fully closed yet**. Closure PR #148 still requires fresh exact closure-head CI, clean closure merge gate, exact-head closure merge, independent final `main` verification, and final post-closure `main` CI including Cloudflare production smoke.
+Pattern #35 is **not merged and not closed**. Remaining implementation gates: canonical docs on PR #149 -> fresh exact docs-head CI -> clean exact-head review/thread/mergeability/scope gate -> squash merge -> independent live `main` verification + Cloudflare smoke -> separate docs-only closure PR -> closure CI/gate/merge -> final `main` + Cloudflare verification.
+
+## Pattern #34 `initial_sound` — FULLY CLOSED
+
+Pattern #34 implementation PR #147 and closure PR #148 are complete. Closure head `fadef258d11e386491df5c112dab7221b097213d` passed CI #716 / run `35073594364`. Final verified `main` is `8bfb0027a5f4963a6875310c7408cb56018cc422`; final CI #717 / run `35074306579` passed Ubuntu, Windows, production build, dependency audit, secret-history scan, Chromium QA and **Cloudflare production smoke**.
 
 ## Pattern #33 `equal_groups` — FULLY CLOSED
 
-Pattern #33 implementation PR #145 and closure PR #146 are complete. Final verified `main` SHA before Pattern #34 was `0f90a7fae1164ae6ace86f993024cef7b4989ca9`; final CI #700 / run `35058250562` passed all gates including Cloudflare production smoke.
-
-## Pattern #32 `take_away` — FULLY CLOSED
-
-Pattern #32 implementation PR #143 and closure PR #144 are complete. Final verified `main` SHA before Pattern #33 was `63285c6dd39b0cc1a521b042a492a83338bb2582`; final Pattern #32 CI #684 / run `35049954680` passed all gates including Cloudflare production smoke.
+Pattern #33 implementation PR #145 and closure PR #146 are complete. Final verified `main` before Pattern #34 was `0f90a7fae1164ae6ace86f993024cef7b4989ca9`; final CI #700 / run `35058250562` passed all gates including Cloudflare production smoke.
 
 ## Learning/mastery boundaries
 
@@ -123,9 +138,9 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Finish Pattern #34 closure PR #148: fresh exact closure-head CI -> clean review/thread/mergeability/scope gate -> exact-head squash merge -> independent final `main` verification -> final post-closure `main` CI + Cloudflare production smoke.
-2. Only after Pattern #34 is fully closed, run a fresh objective/evidence audit for Pattern #35; no family is pre-approved.
-3. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
-4. Continue Art Bible/permanent visual QA, narration, parent/public frontend, external acceptance and governance.
+1. Finish Pattern #35 implementation PR #149 through fresh canonical docs-head CI, clean exact-head gate, exact-head merge and live `main` + Cloudflare verification.
+2. Complete separate docs-only Pattern #35 closure and final verification before calling Pattern #35 fully closed.
+3. Only after Pattern #35 is fully closed, run a fresh objective/evidence audit for Pattern #36; no family is pre-approved.
+4. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns, plus Art Bible, narration, parent/public frontend, external acceptance and governance.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, or mastery/backend rewrites before this quality phase is substantially complete.

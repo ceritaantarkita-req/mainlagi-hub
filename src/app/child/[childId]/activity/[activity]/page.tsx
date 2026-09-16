@@ -16,6 +16,7 @@ import { MoreLessBalanceActivity } from "@/components/learning/MoreLessBalanceAc
 import { NumberLineActivity } from "@/components/learning/NumberLineActivity";
 import { OddOneOutActivity } from "@/components/learning/OddOneOutActivity";
 import { PatternCompletionActivity } from "@/components/learning/PatternCompletionActivity";
+import { PictureWordMatchActivity } from "@/components/learning/PictureWordMatchActivity";
 import { RelativeOrderTrackActivity } from "@/components/learning/RelativeOrderTrackActivity";
 import { RulePipelineActivity } from "@/components/learning/RulePipelineActivity";
 import { SequenceSlotChoiceActivity } from "@/components/learning/SequenceSlotChoiceActivity";
@@ -45,6 +46,7 @@ import {
   isNumberLineActivity,
   isOddOneOutActivity,
   isPatternCompletionActivity,
+  isPictureWordMatchActivity,
   isRelativeOrderTrackActivity,
   isRulePipelineActivity,
   isSequenceSlotActivity,
@@ -83,6 +85,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
         <SyllableAssemblyActivity childId={childId} activityId={activity} />
       ) : isInitialSoundActivity(definition) ? (
         <InitialSoundActivity childId={childId} activityId={activity} />
+      ) : isPictureWordMatchActivity(definition) ? (
+        <PictureWordMatchActivity childId={childId} activityId={activity} />
       ) : isSortingBucketsActivity(definition) ? (
         <SortingBucketsChoiceActivity childId={childId} activityId={activity} />
       ) : isOddOneOutActivity(definition) ? (

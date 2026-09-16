@@ -33,6 +33,7 @@
     "src/lib/learning/takeAwayConfig.ts",
     "src/lib/learning/equalGroupsConfig.ts",
     "src/lib/learning/initialSoundConfig.ts",
+    "src/lib/learning/pictureWordMatchConfig.ts",
     "src/lib/learning/causeEffectConfig.ts",
     "src/lib/learning/comparePropertiesConfig.ts",
     "src/lib/learning/healthyHabitRoutineConfig.ts",
