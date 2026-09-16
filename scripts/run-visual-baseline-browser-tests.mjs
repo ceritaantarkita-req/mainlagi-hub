@@ -1,0 +1,218 @@
+import assert from "node:assert/strict";
+import { spawn } from "node:child_process";
+import { mkdirSync, rmSync, writeFileSync } from "node:fs";
+import path from "node:path";
+import process from "node:process";
+import { chromium } from "playwright";
+
+const root = process.cwd();
+const host = "127.0.0.1";
+const port = Number(process.env.MAINLAGI_VISUAL_QA_PORT ?? 4011);
+const baseUrl = process.env.MAINLAGI_VISUAL_QA_BASE_URL ?? `http://${host}:${port}`;
+const outputDir = process.env.MAINLAGI_VISUAL_QA_SCREENSHOT_DIR ?? path.join(root, ".mobile-route-qa", "visual-baseline");
+const shouldStartServer = !process.env.MAINLAGI_VISUAL_QA_BASE_URL;
+
+const VIEWPORTS = [
+  { width: 390, height: 844 },
+  { width: 768, height: 1024 },
+  { width: 1280, height: 800 }
+];
+
+const ROUTES = [
+  { name: "public-root", path: "/", expectedPath: "/" },
+  { name: "child-select", path: "/child/select", expectedPath: "/child/select", kind: "child-select", touch: true },
+  { name: "child-home", path: "/child/demo-gian/home", expectedPath: "/child/demo-gian/home", kind: "child-learning", touch: true },
+  { name: "subject-math", path: "/child/demo-gian/subject/math", expectedPath: "/child/demo-gian/subject/math", kind: "child-learning", touch: true },
+  { name: "stage-math-angka", path: "/child/demo-gian/stage/math-angka", expectedPath: "/child/demo-gian/stage/math-angka", kind: "child-learning", touch: true },
+  { name: "activity-math-count", path: "/child/demo-gian/activity/math-count-3", expectedPath: "/child/demo-gian/activity/math-count-3", kind: "child-learning", touch: true },
+  { name: "rewards", path: "/child/demo-gian/rewards", expectedPath: "/child/demo-gian/rewards", kind: "child-learning", touch: true },
+  { name: "parent-report", path: "/parent/children/demo-gian/reports", expectedPath: "/parent/children/demo-gian/reports", kind: "parent" },
+  { name: "account", path: "/account", expectedPath: "/account" },
+  { name: "login", path: "/login", expectedPath: "/login" },
+  { name: "signup", path: "/signup", expectedPath: "/signup" },
+  { name: "forgot-password", path: "/forgot-password", expectedPath: "/forgot-password" },
+  { name: "auth-error", path: "/auth/callback?error_code=otp_expired", expectedPath: "/auth/callback" },
+  { name: "not-found", path: "/__visual-baseline-not-found__", expectedPath: "/__visual-baseline-not-found__", expectedStatus: 404 }
+];
+
+const INTENTIONAL_NOT_FOUND_CONSOLE = "Failed to load resource: the server responded with a status of 404 (Not Found)";
+
+let server = null;
+let serverLog = "";
+
+async function waitForServer(url, timeoutMs = 60_000) {
+  const started = Date.now();
+  let lastError = null;
+  while (Date.now() - started < timeoutMs) {
+    try {
+      const response = await fetch(url, { redirect: "follow" });
+      if (response.status < 500) return;
+    } catch (error) {
+      lastError = error;
+    }
+    await new Promise((resolve) => setTimeout(resolve, 500));
+  }
+  throw new Error(`Next server did not become ready at ${url}. ${lastError ?? ""}\n${serverLog.slice(-4000)}`);
+}
+
+function startServer() {
+  const nextBin = path.join(root, "node_modules", "next", "dist", "bin", "next");
+  server = spawn(process.execPath, [nextBin, "start", "-H", host, "-p", String(port)], {
+    cwd: root,
+    env: {
+      ...process.env,
+      NODE_ENV: "production",
+      NEXT_PUBLIC_SITE_URL: baseUrl,
+      NEXT_PUBLIC_DATA_BACKEND: process.env.NEXT_PUBLIC_DATA_BACKEND ?? "local"
+    },
+    stdio: ["ignore", "pipe", "pipe"]
+  });
+  const append = (chunk) => { serverLog += chunk.toString(); };
+  server.stdout.on("data", append);
+  server.stderr.on("data", append);
+}
+
+function stopServer() {
+  if (!server || server.killed) return;
+  server.kill("SIGTERM");
+}
+
+function unexpectedConsoleErrors(route, consoleErrors) {
+  if (route.expectedStatus !== 404) return consoleErrors;
+  return consoleErrors.filter((message) => message !== INTENTIONAL_NOT_FOUND_CONSOLE);
+}
+
+async function inspect(page, route, viewport) {
+  const consoleErrors = [];
+  const pageErrors = [];
+  const onConsole = (message) => {
+    if (message.type() === "error") consoleErrors.push(message.text());
+  };
+  const onPageError = (error) => pageErrors.push(error.message);
+  page.on("console", onConsole);
+  page.on("pageerror", onPageError);
+
+  try {
+    const response = await page.goto(`${baseUrl}${route.path}`, {
+      waitUntil: "domcontentloaded",
+      timeout: 30_000
+    });
+    assert.ok(response, `${route.name} returned no navigation response at ${viewport.width}px`);
+    const expectedStatus = route.expectedStatus ?? 200;
+    if (route.expectedStatus !== undefined) {
+      assert.equal(response.status(), expectedStatus, `${route.name} returned HTTP ${response.status()} instead of ${expectedStatus}`);
+    } else {
+      assert.ok(response.status() < 400, `${route.name} returned HTTP ${response.status()}`);
+    }
+
+    await page.waitForTimeout(240);
+    const finalPath = new URL(page.url()).pathname;
+    assert.equal(finalPath, route.expectedPath, `${route.name} redirected to ${finalPath}; expected ${route.expectedPath}`);
+
+    const bodyText = (await page.locator("body").innerText()).trim();
+    assert.ok(bodyText.length > 20, `${route.name} rendered an unexpectedly blank body`);
+    assert.ok(await page.locator("main").count(), `${route.name} must expose a main landmark`);
+    assert.ok(await page.locator("h1, [role='heading'][aria-level='1']").count(), `${route.name} must expose a top-level heading`);
+
+    if (route.kind) {
+      assert.ok(
+        await page.locator(`[data-mainlagi-route-boundary="${route.kind}"]`).count(),
+        `${route.name} is missing route boundary ${route.kind}`
+      );
+    }
+
+    const overlayCount = await page.locator("nextjs-portal, [data-nextjs-dialog-overlay], [data-next-badge-root]").count();
+    assert.equal(overlayCount, 0, `${route.name} rendered a Next.js error overlay`);
+
+    const layout = await page.evaluate(() => ({
+      viewportWidth: document.documentElement.clientWidth,
+      htmlWidth: document.documentElement.scrollWidth,
+      bodyWidth: document.body.scrollWidth
+    }));
+    assert.ok(
+      layout.htmlWidth <= layout.viewportWidth + 1 && layout.bodyWidth <= layout.viewportWidth + 1,
+      `${route.name} has horizontal overflow: ${JSON.stringify(layout)}`
+    );
+
+    if (route.touch && viewport.width <= 430) {
+      const tooSmall = await page.evaluate(() => {
+        const root = document.querySelector("[data-mainlagi-route-boundary]") ?? document.querySelector("main");
+        if (!root) return [{ label: "missing-root", width: 0, height: 0 }];
+        return Array.from(root.querySelectorAll("a[href], button, input:not([type='hidden']), select, [role='button']"))
+          .map((element) => {
+            const rect = element.getBoundingClientRect();
+            const style = getComputedStyle(element);
+            const hidden = style.display === "none" || style.visibility === "hidden" || Number(style.opacity) === 0 || rect.width === 0 || rect.height === 0;
+            const inlineTextLink = element.tagName === "A" && style.display === "inline";
+            const label = (element.getAttribute("aria-label") || element.textContent || element.getAttribute("name") || element.tagName)
+              .trim().replace(/\s+/g, " ").slice(0, 80);
+            return { hidden, inlineTextLink, label, width: Math.round(rect.width * 10) / 10, height: Math.round(rect.height * 10) / 10 };
+          })
+          .filter((item) => !item.hidden && !item.inlineTextLink && (item.width < 42 || item.height < 42))
+          .slice(0, 12);
+      });
+      assert.deepEqual(tooSmall, [], `${route.name} has undersized touch controls: ${JSON.stringify(tooSmall)}`);
+    }
+
+    assert.deepEqual(pageErrors, [], `${route.name} raised page errors: ${pageErrors.join(" | ")}`);
+    const unexpectedErrors = unexpectedConsoleErrors(route, consoleErrors);
+    assert.deepEqual(unexpectedErrors, [], `${route.name} logged console errors: ${unexpectedErrors.join(" | ")}`);
+
+    const fileName = `${viewport.width}x${viewport.height}-${route.name}.png`;
+    await page.screenshot({ path: path.join(outputDir, fileName), fullPage: false });
+    return {
+      viewport: `${viewport.width}x${viewport.height}`,
+      name: route.name,
+      requestedPath: route.path,
+      expectedPath: route.expectedPath,
+      finalPath,
+      status: response.status(),
+      screenshot: `visual-baseline/${fileName}`
+    };
+  } finally {
+    page.off("console", onConsole);
+    page.off("pageerror", onPageError);
+  }
+}
+
+async function main() {
+  rmSync(outputDir, { recursive: true, force: true });
+  mkdirSync(outputDir, { recursive: true });
+
+  if (shouldStartServer) {
+    startServer();
+    await waitForServer(`${baseUrl}/`);
+  }
+
+  const browser = await chromium.launch({ headless: true });
+  const captures = [];
+  try {
+    for (const viewport of VIEWPORTS) {
+      const context = await browser.newContext({ viewport, reducedMotion: "reduce" });
+      const page = await context.newPage();
+      for (const route of ROUTES) captures.push(await inspect(page, route, viewport));
+      await context.close();
+      console.log(`Visual product baseline passed at ${viewport.width}x${viewport.height}.`);
+    }
+  } finally {
+    await browser.close();
+    stopServer();
+  }
+
+  assert.equal(captures.length, VIEWPORTS.length * ROUTES.length, "visual baseline capture count drifted");
+  writeFileSync(path.join(outputDir, "manifest.json"), `${JSON.stringify({
+    generatedBy: "scripts/run-visual-baseline-browser-tests.mjs",
+    viewports: VIEWPORTS,
+    routes: ROUTES.map(({ name, path: routePath, expectedPath, expectedStatus = 200 }) => ({ name, path: routePath, expectedPath, expectedStatus })),
+    captures
+  }, null, 2)}\n`);
+
+  console.log(`Permanent visual product baseline passed ${captures.length} exact-path captures across ${VIEWPORTS.length} viewports.`);
+}
+
+main().catch((error) => {
+  console.error(error);
+  console.error(serverLog.slice(-6000));
+  stopServer();
+  process.exitCode = 1;
+});

@@ -302,6 +302,8 @@ Visual acceptance requires:
 - state screenshots show intended differences;
 - source/content semantics remain unchanged unless the change explicitly targets content/copy.
 
+VQA-01 operationalizes this rule with 42 exact-path captures across 14 canonical surfaces at 390x844, 768x1024 and 1280x800, plus a machine-readable manifest. Browser/structural assertions are blocking; the screenshots remain the visual evidence surface for review rather than a brittle pixel-perfect diff.
+
 ## 18. Migration policy
 
 Do not replace all existing CSS at once.
@@ -333,5 +335,7 @@ This Art Bible does not authorize:
 
 Garden representative activities: **ACCEPTED anchor**.  
 Whole-product visual system: **MIGRATION REQUIRED**.  
-Permanent visual QA gate: **PENDING IMPLEMENTATION**.  
-Pattern #38: **BLOCKED until baseline P1 findings are closed**.
+Permanent visual QA gate: **EXACT-HEAD ACCEPTED on PR #156 CI #745; merge/live verification pending**.  
+Permanent baseline evidence: **42 / 42 exact-path captures + manifest at 390 / 768 / 1280**.  
+Next migration wave: **VUI-01 Parent Report convergence**.  
+Pattern #38: **BLOCKED until remaining baseline P1 findings are closed**.

@@ -1,149 +1,200 @@
 # Production Visual / Product Baseline Audit — 2026-09-16
 
-Status: **BASELINE AUDIT RECORDED; P0 = 0; P1 REMEDIATION REQUIRED BEFORE PATTERN #38**  
-Canonical production domain: `https://mainlagihub.my.id/`  
-Audited source baseline: `main` `b1793adaabe19a9c73e021534899f8b50c4097f6`  
-Final Pattern #37 closure CI: **#741 / run `35103399012` — full success including exact Cloudflare production smoke**
+Status: **P0 = 0; P1 = 5; VQA-01 EXACT-HEAD ACCEPTED; MERGE/LIVE VERIFICATION PENDING; PATTERN #38 BLOCKED**  
+Canonical production: `https://mainlagihub.my.id/`  
+Baseline checkpoint merge: `d3d600ed92e78d30da8172e0bdb300119990614f`  
+Baseline checkpoint CI: **#743 / run `35105996090` — full success including exact Cloudflare production smoke**  
+VQA-01 implementation PR: **#156**  
+VQA-01 accepted code head: `0197344db13e4fc9e36d86b79a38e2cf726a9069`  
+VQA-01 exact-head CI: **#745 / run `35108485349` — full PR matrix success**
 
 ## Evidence boundary
 
-This audit combines the exact production source, CI/browser screenshot artifacts, route/component source review, and exact Cloudflare release smoke.
+The baseline combines exact production source, CI/browser screenshot artifacts, route/component source review, and exact Cloudflare release smoke. Direct external web-fetch from the assistant environment returned a cache miss and is not treated as outage evidence or as an independent visual walkthrough.
 
-The current UI code on `b1793ada...` is visually identical to implementation merge `6a6f99ccb3a733af4e298ed8c48452e019f9980c` because the only commit between them is the docs-only Pattern #37 closure. Therefore the CI #739 screenshot artifact is valid visual evidence for the current production UI code.
+The Garden learning/activity direction remains the **accepted child-facing visual anchor**. Whole-product visual acceptance is still open.
 
-Representative CI evidence reviewed:
+## Baseline result
 
-- `320-child-demo-gian-home.png`;
-- `375-child-demo-gian-learn.png`;
-- `768-child-demo-gian-stage-math-angka.png`;
-- `390-parent-children-demo-gian-reports.png`;
-- `430-play-math-choice.png`;
-- `1024-games-math-choice.png`;
-- Garden activity screenshots at 320 / 390 / 768, including `reading_passage_question` and `sentence_order_cards` idle/wrong/success states.
-
-The external web-fetch environment used during this audit returned a cache-miss when opening the production domain directly. That is **not** treated as evidence of a production outage. Exact Cloudflare smoke on CI #741 passed. This document therefore does not claim a separate interactive remote-browser walkthrough beyond the CI/browser evidence listed above.
-
-## Baseline decision
-
-The Garden activity direction is the **approved child-facing visual anchor**. Representative learning activities are clear, playful, readable and materially more cohesive than the older generic application surfaces.
-
-The product shell is **not yet visually accepted as a whole**. There are no evidenced P0 blockers, but five P1 findings must be resolved before Pattern #38 begins.
-
-## Route / surface matrix
-
-| Surface | Current evidence | Baseline status | Required next evidence |
-|---|---|---|---|
-| `/` / public-home entry | source review; child-first `HomePage` | **P1** | clean-session 390 / 768 / 1280 screenshots + IA decision |
-| child profile select/create | route exists; no current representative artifact | **P1 QA GAP** | 390 / 768 screenshots; empty/error/profile-created states |
-| child home/playroom | 320 screenshot + source | **ACCEPTED WITH SYSTEM P1** | 390 / 768 / 1280 permanent baseline |
-| subject/gallery | 375 learning screenshot + source | **ACCEPTED WITH SYSTEM P1** | 390 / 768 permanent baseline + locked/open states |
-| stage/readiness | 768 screenshot + source | **P1 VISUAL HIERARCHY** | 390 / 768 / 1280 after remediation |
-| representative Garden activities | extensive 320 / 390 / 768 CI screenshots | **ANCHOR / ACCEPTED** | keep regression coverage on stable representatives |
-| rewards | route exists; no current representative artifact | **P1 QA GAP** | 390 / 768 screenshots incl. empty/earned states |
-| parent report | 390 screenshot + source | **P1 VISUAL + COPY DENSITY** | 390 / 768 / 1280 after remediation |
-| account | route exists; no current representative artifact | **P1 QA GAP** | 390 / 768 screenshots |
-| login/signup/forgot/reset/auth callback | generic global `dialog-card`; no baseline artifact | **P1 QA GAP / VISUAL DRIFT** | 390 / 768 screenshots incl. validation/error states |
-| games catalog/detail | 1024 screenshot | **P2** | 390 / 768 / 1280 baseline after shell convergence |
-| motion-game camera preflight/runtime | 430 screenshot | **FUNCTIONALLY DISTINCT / P2 SHELL** | retain dark runtime where functionally useful; align surrounding shell |
-| not-found/loading/error/empty/degraded | partial source only | **P1 QA GAP** | explicit screenshot/state matrix |
-| legal/about/faq/data-request | route inventory only | **P2** | representative adult/public baseline |
-
-## Findings
-
-### VBASE-P1-01 — three visual token systems are simultaneously active
-
-Evidence:
-
-- Garden / Playroom uses cream paper, navy ink, green CTA, sky/sage surfaces, Nunito and rounded playful cards.
-- `LearningPlatform.module.css` carries a separate white/blue/teal product language.
-- `globals.css` still carries the older blue/navy generic site system and is used by auth/system/public utilities.
-
-Impact: moving between child home, stage, parent, auth/account and legacy public/game surfaces feels like moving between different products. Shared controls cannot be visually regression-tested against one canonical vocabulary.
-
-Required fix: establish the Art Bible as canonical and migrate surfaces wave-by-wave; do not mass-rewrite gameplay components that already match the Garden anchor.
-
-### VBASE-P1-02 — parent reporting reads and looks like an internal analytics dashboard
-
-Evidence: the 390 parent-report screenshot and `ParentBatch15Report.tsx` expose terms such as `attempt`, `assessed`, `practice`, `qualifying evidence`, `mastery canonical`, completion ratios and stage-state counts directly in dense cards.
-
-Impact: technically accurate evidence language leaks into the parent UX, increasing cognitive load and weakening the family-friendly Mainlagi identity.
-
-Required fix: preserve the underlying metrics while rewriting presentation into parent language, stronger hierarchy and progressive disclosure. Technical evidence terms may remain in diagnostics/admin, not as the primary parent reading layer.
-
-### VBASE-P1-03 — stage/readiness presentation is structurally correct but visually under-signaled
-
-Evidence: the 768 `Kelas Angka` stage screenshot has large unused canvas, small repeated cards and weak visual distinction between stage state, lesson group and activity priority.
-
-Impact: tablet/desktop does not use available space to communicate progress, recommendation and lesson grouping. The experience becomes document-like compared with the Garden activities.
-
-Required fix: add stronger Garden surface hierarchy, progress/readiness treatment, responsive lesson grid and clearer recommended/primary activity emphasis without changing progression logic.
-
-### VBASE-P1-04 — public/adult entry information architecture is unresolved
-
-Evidence: root `HomePage` is fundamentally a child playroom entry and redirects an existing active child directly to the child destination. It does not operate as a complete public/family value-proposition page.
-
-Impact: first-time adults do not receive a deliberate Mainlagi overview, trust/safety context and clear parent-vs-child path before entering play.
-
-Required fix: define the clean-session root contract. Preserve fast resume for known child profiles, but provide a deliberate public/adult entry for first-time or signed-out users.
-
-### VBASE-P1-05 — permanent visual coverage is incomplete across product-shell surfaces
-
-Evidence: the current mobile-route artifact is strong for gameplay patterns but only contains a small number of shell screenshots. It does not provide approved representative captures for profile selection, rewards, account, auth flows, public-home clean state, error/loading/empty/degraded states and several adult routes.
-
-Impact: CI can remain green while shell styling drifts. Whole-product visual acceptance cannot be claimed.
-
-Required fix: add a permanent deterministic visual-baseline route suite with exact pathname assertions, fixture/readiness setup and screenshots at canonical viewports.
-
-### VBASE-P2-01 — games detail/preflight uses a legacy visual vocabulary
-
-The 1024 games detail view and the 430 camera preflight differ materially from Garden. The dark camera runtime is functionally defensible for contrast and motion tracking, but surrounding metadata, CTA and navigation should converge on the product system.
-
-### VBASE-P2-02 — iconography mixes custom symbols and raw emoji
-
-Learning surfaces increasingly use `LearningSymbol`/`Icon`, while parent reporting still uses emoji as primary card labels. Emoji may remain decorative/content-level, but primary navigation/status semantics should use the canonical icon system for stable cross-platform rendering.
-
-### VBASE-P2-03 — inline visual styles increase drift risk
-
-Several learning/parent components carry inline colors/margins in addition to CSS modules. This is not currently a blocker, but it weakens token enforcement and visual regression maintainability.
-
-## Accepted anchor rules
-
-Until a later intentional redesign is approved:
-
-- Garden activity framing is the child-facing reference.
-- Mainlagi wordmark, cream paper, navy ink, green primary CTA, sky/sage support surfaces and character artwork are the default brand vocabulary.
-- Activities must keep large touch targets, explicit wrong/success feedback and low UI clutter.
-- Visual fixes must not alter canonical activity answers, evidence, mastery, progression or readiness behavior merely to simplify screenshots.
-- Motion runtime may use a dark functional environment, but entry/exit shell should still read as Mainlagi.
-
-## P1 remediation order
-
-1. **VQA-01 Permanent visual baseline gate** — add deterministic representative routes and screenshot matrix before broad restyling so regressions are measurable.
-2. **VUI-01 Parent report convergence** — family-language hierarchy + Garden-compatible adult visual system; preserve metrics/evidence semantics.
-3. **VUI-02 Stage/gallery convergence** — improve tablet/desktop hierarchy, progress and recommended-state emphasis without progression changes.
-4. **VUI-03 Public/auth/account convergence** — resolve clean-session root IA and migrate generic dialog/account surfaces to the canonical family system.
-5. Re-run the complete baseline matrix and close all P1 findings.
-6. Only after P0=0 and P1=0 with permanent visual QA green may the fresh Pattern #38 objective/evidence audit begin.
-
-## Viewport contract for permanent baseline
-
-Minimum canonical viewports:
-
-- **390x844** — primary phone portrait;
-- **768x1024** — tablet portrait;
-- **1280x800** — desktop/laptop shell acceptance.
-
-Additional 320px width remains required for high-risk child/activity controls. Landscape is mandatory for motion-game-specific QA but not every static shell surface.
-
-## Baseline acceptance status
+Before PR #156 merges and receives independent production verification:
 
 ```text
 P0 findings: 0
 P1 findings: 5
 P2 findings: 3
 Garden representative activities: ACCEPTED anchor
+Permanent visual QA: exact-head accepted; merge/live verification pending
 Whole-product visual acceptance: NOT YET ACCEPTED
-Pattern #38 gate: BLOCKED until P1 remediation + permanent visual QA
+Pattern #38: BLOCKED
 ```
 
-This is a product-quality gate, not a claim that the learning engine or deployment is broken. CI, production build and exact Cloudflare smoke are green on the audited baseline.
+When PR #156 is merged from its final exact head and independent `main` CI + exact Cloudflare smoke pass, **VBASE-P1-05 closes and the baseline P1 count becomes four**. The other P1 findings remain product work; VQA-01 does not hide them.
+
+## P1 findings
+
+### VBASE-P1-01 — visual-token fragmentation
+
+Garden/Playroom uses cream paper, navy ink, green CTA, sky/sage surfaces and Nunito. `LearningPlatform.module.css` and `globals.css` still express overlapping white/blue/teal and generic blue/navy product languages.
+
+Required outcome: migrate product surfaces wave-by-wave to `MAINLAGI_ART_BIBLE.md`; do not mass-rewrite already accepted gameplay mechanics.
+
+### VBASE-P1-02 — parent-report density and internal jargon
+
+Parent reporting exposes terms such as `attempt`, `assessed`, `practice`, `qualifying evidence`, mastery internals and completion ratios directly in the primary reading layer.
+
+Required outcome: preserve the underlying metrics/evidence semantics but present them in normal parent language with stronger hierarchy and progressive disclosure.
+
+Manual VQA-01 screenshot review reconfirmed this as the highest-priority visual/content P1 after permanent QA: the parent report is the densest and most technical family-facing surface in the canonical matrix.
+
+### VBASE-P1-03 — stage/readiness hierarchy
+
+Tablet/desktop stage layouts are structurally correct but underuse available space and weakly distinguish progress, readiness, recommendation and lesson grouping.
+
+Required outcome: Garden-compatible stage hierarchy without changing progression/readiness logic.
+
+VQA-01 768/1280 screenshots reconfirmed the large unused tablet/desktop canvas.
+
+### VBASE-P1-04 — public/adult root information architecture
+
+Root is primarily a child playroom/fast-resume surface and does not yet provide a deliberate first-time adult/public value proposition and parent-vs-child path.
+
+Required outcome: preserve fast resume for known children while defining a clean-session adult/public entry contract.
+
+The permanent matrix also shows that auth/system utility cards are visually under-scaled at wider viewports; that convergence belongs with VUI-03 rather than VQA-01.
+
+### VBASE-P1-05 — permanent whole-product visual coverage gap
+
+**Implementation exact-head accepted; merge/live verification pending.**
+
+PR #156 adds `scripts/run-visual-baseline-browser-tests.mjs` to the existing blocking `Mobile route QA (Chromium)` job.
+
+Canonical viewports:
+
+```text
+390x844
+768x1024
+1280x800
+```
+
+Canonical surfaces:
+
+```text
+public root
+child select
+child home
+Math subject/gallery
+Math Angka stage
+math-count-3 Garden activity
+rewards
+parent report
+account
+login
+signup
+forgot-password
+expired auth-link error
+not-found
+```
+
+Expected and verified evidence: **42 deterministic screenshots** plus `.mobile-route-qa/visual-baseline/manifest.json`.
+
+Blocking assertions:
+- expected HTTP status;
+- exact final pathname;
+- nonblank body;
+- main landmark + top-level heading;
+- expected route boundary where applicable;
+- no Next.js error overlay;
+- no horizontal overflow;
+- child phone touch targets remain >= approximately 44 CSS px with the existing measurement tolerance;
+- no page errors;
+- no unexpected browser console errors.
+
+## VQA-01 failure-driven hardening
+
+Initial PR CI #744 / run `35107021073` was intentionally treated as evidence, not bypassed. Every job except `Mobile route QA (Chromium)` passed; the existing broad mobile/runtime matrix also passed. The new visual step failed on the deliberate not-found surface because:
+
+- the route correctly returned HTTP 404;
+- the exact pathname and structural assertions had passed;
+- Chromium emitted its normal document-load console message: `Failed to load resource: the server responded with a status of 404 (Not Found)`.
+
+The fix is narrowly scoped:
+- expected-404 surfaces still require exact 404 and exact pathname;
+- main/H1, route structure, overflow and page-error assertions remain active;
+- only the exact document-level 404 console string is filtered when the route contract itself expects 404;
+- unrelated console errors still fail;
+- status-200 surfaces retain the zero-console-error contract.
+
+Fresh exact-head CI #745 / run `35108485349` then passed every PR job, including `Run permanent visual product baseline`. This is not a global relaxation of browser-error checking.
+
+## VQA-01 artifact verification
+
+Run #745 artifact:
+
+```text
+name:   mobile-route-qa-screenshots
+id:     10450999235
+size:   43,655,320 bytes
+digest: sha256:07ae0dfc14ebdb13af4c2ebc270644194d8a4972b4630c428aa1c0dbeaa745e2
+```
+
+Manifest verification:
+
+```text
+captures:            42 / 42
+viewports:           390x844, 768x1024, 1280x800
+canonical surfaces:  14
+final paths:         14 unique expected paths
+HTTP responses:      39 x 200, 3 x intentional 404
+missing screenshots: 0
+```
+
+Manual review of all 42 screenshots found no new P0 blocker. It confirmed:
+- child select/home, representative Garden activity and rewards are suitable baseline references;
+- parent report remains the highest-priority dense/technical adult surface;
+- stage tablet/desktop still underuses available space;
+- auth/system cards are visually too small on wide screens;
+- public root remains visually coherent but does not yet solve first-time adult IA.
+
+VBASE-P1-05 remains formally open only until the final docs head passes fresh CI, PR #156 passes the clean merge gate, the exact head is merged, and independent `main` CI including exact Cloudflare smoke succeeds.
+
+## P2 findings
+
+### VBASE-P2-01 — games detail/preflight legacy vocabulary
+
+Dark camera runtime is functionally defensible for contrast and tracking, but surrounding game detail/preflight metadata, navigation and CTA should converge on Mainlagi.
+
+### VBASE-P2-02 — iconography mixes canonical symbols and raw emoji
+
+Emoji may remain decorative/content-level; permanent navigation/status semantics should prefer `LearningSymbol` / `Icon` for stable rendering.
+
+### VBASE-P2-03 — inline visual styles increase drift risk
+
+Several learning/parent surfaces retain inline colors/margins alongside CSS modules. Cleanup comes after visual behavior is stable.
+
+## Accepted anchor rules
+
+- Garden activity framing is the child-facing reference.
+- Mainlagi wordmark, cream paper, navy ink, green primary CTA, sky/sage support surfaces and character artwork are the default brand vocabulary.
+- Activities retain large touch targets, explicit wrong/success feedback and low UI clutter.
+- Visual fixes must not alter canonical activity answers, evidence, mastery, progression or readiness merely to simplify screenshots.
+- Motion runtime may remain dark where functionally useful; entry/exit shell still needs Mainlagi continuity.
+
+## P1 remediation order
+
+1. Finish **VQA-01 Permanent visual baseline gate** with exact merge and production verification.
+2. **VUI-01 Parent report convergence**.
+3. **VUI-02 Stage/gallery convergence**.
+4. **VUI-03 Public/auth/account convergence**.
+5. Add deterministic remaining loading/empty/degraded-state fixtures where product states exist but cannot yet be captured reliably.
+6. Re-run the complete visual matrix until **P0=0 / P1=0**.
+7. Only then begin fresh Pattern #38 objective/evidence audit.
+
+## Permanent viewport contract
+
+- 390x844 — primary phone portrait;
+- 768x1024 — tablet portrait;
+- 1280x800 — desktop/laptop shell acceptance;
+- 320px remains supplemental for high-risk child/activity controls;
+- motion-game acceptance keeps suitable landscape evidence.
+
+This product-quality gate does not claim that the learning engine or deployment is broken. The baseline checkpoint itself is live and verified; the open work is whole-product visual convergence and final VQA-01 merge/live closure.
