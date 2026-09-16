@@ -24,30 +24,14 @@ Deterministic zero does **not** mean every activity is human-approved or maximal
 
 ## WS-05 gameplay diversification
 
-Pattern #31 `make_total` is **FULLY CLOSED** through implementation PR #141 and closure PR #142. Final verified Pattern #31 `main` SHA is `79a1b3871e7494a7f9580ca26e56f4f30d5874b4`; final CI #670 / run `35045153104` passed the full matrix including Cloudflare production smoke.
+Pattern #31 `make_total` is **FULLY CLOSED** through PR #141 + #142. Pattern #32 `take_away` implementation PR #143 is **MERGED / LIVE VERIFIED**, with docs-only closure still pending.
 
 Current verified merged distribution:
 
 ```text
 900 / 900 classified
 0 unclassified
-31 active merged patterns
-choice_grid                 303 / 900 = 33.67%
-make_total                    5 / 900 = 0.56%
-Math choice_grid             51 / 100
-Bahasa choice_grid           47 / 100
-Science choice_grid          56 / 100
-Logic choice_grid            47 / 100
-English choice_grid          44 / 100
-Iqro choice_grid             58 / 100
-```
-
-Pattern #32 `take_away` is **QA ACCEPTED / UNMERGED** on PR #143. Accepted PR-head distribution:
-
-```text
-900 / 900 classified
-0 unclassified
-32 active PR-head patterns
+32 active merged patterns
 choice_grid                 298 / 900 = 33.11%
 make_total                    5 / 900 = 0.56%
 take_away                     5 / 900 = 0.56%
@@ -59,9 +43,9 @@ English choice_grid          44 / 100
 Iqro choice_grid             58 / 100
 ```
 
-Concentration remains advisory and does not itself create POLISH/REDESIGN findings. There is no global >35% hotspot on the accepted PR head.
+Concentration remains advisory and does not itself create POLISH/REDESIGN findings. There is no global >35% hotspot on the merged Pattern #32 baseline.
 
-## Take Away — Pattern #32 QA acceptance record
+## Take Away — Pattern #32 merged/live closure record
 
 Exact scope:
 
@@ -94,15 +78,16 @@ Interaction/evidence contract:
 - assessed fidelity `choice_take_away_interaction`;
 - runtime metadata source `take-away-runtime` with reviewed start/remove counts and selected canonical choice.
 
-Acceptance chain so far:
-- accepted implementation code head `5b6e774b942b5024bbf5fc21beac63ea0caeb7a7` passed full CI #671 / run `35047494614` on its first run;
-- full CI passed central + dedicated Take Away regressions, Ubuntu, Windows, production build, dependency/secret audits, simulations, Batch17 and Chromium mobile/accessibility/browser QA;
-- gameplay distribution remained 900/900 classified with 32 active patterns and `choice_grid` reduced to 298/900;
-- manual idle/wrong/success screenshot review at 320x720, 390x844 and 768x1024 passed all nine states;
-- removed objects remain visually distinct, wrong state keeps `?`, and correct state reveals only the canonical remainder;
+Acceptance and merge chain:
+- implementation code head `5b6e774b942b5024bbf5fc21beac63ea0caeb7a7` passed full CI #671 / run `35047494614` on the first run;
+- all nine 320x720, 390x844 and 768x1024 idle/wrong/success states passed manual visual review;
+- final implementation docs head `061b004188e827ff62bd1e5c48377a087f0f9144` passed full CI #676 / run `35048147580`;
+- PR #143 passed the clean exact-head merge gate and squash merged as `3ac5ab049e94f65c3e28a7e4e5cbd18185a9466a`;
+- `main` was independently verified at that exact SHA;
+- post-merge `main` CI #677 / run `35048981508` passed all gates including Cloudflare production smoke;
 - deterministic quality remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**.
 
-Pattern #32 is not fully closed until PR #143 receives fresh exact final docs-head CI, exact-head merge/live verification, and the separate docs-only closure is also merged and verified.
+Pattern #32 is **MERGED / LIVE VERIFIED / CLOSURE PENDING**. It becomes fully closed only after this separate docs-only closure passes exact-head CI, clean review/thread/mergeability gate, exact-head merge, independent final `main` verification, and post-closure `main` CI including Cloudflare production smoke.
 
 ## Permanent audits
 
@@ -119,10 +104,11 @@ CI uploads both artifacts. Gameplay-distribution coverage and active-pattern-set
 - WS-06 Coloring DONE — PR #95/#96.
 - WS-07 Drawing DONE — PR #98/#99/#100.
 - WS-05 Syllable Assembly — Pattern #30 fully closed via #139 + #140.
-- WS-05 Make Total — Pattern #31 **FULLY CLOSED** via #141 + #142; final CI #670 live-verified.
-- WS-05 Take Away — **QA ACCEPTED / UNMERGED PR #143**.
-- WS-05 NEXT after Pattern #32 closure — fresh Pattern #33 objective/evidence audit; no family pre-approved.
+- WS-05 Make Total — Pattern #31 fully closed via #141 + #142; final CI #670 live-verified.
+- WS-05 Take Away implementation — **MERGED PR #143 / LIVE VERIFIED**; merge SHA `3ac5ab049e94f65c3e28a7e4e5cbd18185a9466a`; post-merge CI #677 full success including Cloudflare smoke.
+- WS-05 Take Away closure — **PENDING exact-head closure PR**.
+- WS-05 NEXT after Pattern #32 full closure — fresh Pattern #33 objective/evidence audit; no family pre-approved.
 
 ## Completion rule
 
-Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #32 itself remains unclosed until its implementation and required post-merge docs closure are both exact-head merged and independently verified live on `main`.
+Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #32 itself remains unclosed until its required docs-only closure is exact-head merged and independently verified live on `main`.
