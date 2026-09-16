@@ -35,6 +35,8 @@ const ROUTES = [
   { name: "not-found", path: "/__visual-baseline-not-found__", expectedPath: "/__visual-baseline-not-found__", expectedStatus: 404 }
 ];
 
+const INTENTIONAL_NOT_FOUND_CONSOLE = "Failed to load resource: the server responded with a status of 404 (Not Found)";
+
 let server = null;
 let serverLog = "";
 
@@ -73,6 +75,11 @@ function startServer() {
 function stopServer() {
   if (!server || server.killed) return;
   server.kill("SIGTERM");
+}
+
+function unexpectedConsoleErrors(route, consoleErrors) {
+  if (route.expectedStatus !== 404) return consoleErrors;
+  return consoleErrors.filter((message) => message !== INTENTIONAL_NOT_FOUND_CONSOLE);
 }
 
 async function inspect(page, route, viewport) {
@@ -148,7 +155,8 @@ async function inspect(page, route, viewport) {
     }
 
     assert.deepEqual(pageErrors, [], `${route.name} raised page errors: ${pageErrors.join(" | ")}`);
-    assert.deepEqual(consoleErrors, [], `${route.name} logged console errors: ${consoleErrors.join(" | ")}`);
+    const unexpectedErrors = unexpectedConsoleErrors(route, consoleErrors);
+    assert.deepEqual(unexpectedErrors, [], `${route.name} logged console errors: ${unexpectedErrors.join(" | ")}`);
 
     const fileName = `${viewport.width}x${viewport.height}-${route.name}.png`;
     await page.screenshot({ path: path.join(outputDir, fileName), fullPage: false });
