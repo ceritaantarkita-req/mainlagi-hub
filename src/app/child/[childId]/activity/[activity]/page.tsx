@@ -7,6 +7,7 @@ import { DragTargetMatchActivity } from "@/components/learning/DragTargetMatchAc
 import { EqualGroupsActivity } from "@/components/learning/EqualGroupsActivity";
 import { FeatureFunctionLinkActivity } from "@/components/learning/FeatureFunctionLinkActivity";
 import { HealthyHabitRoutineActivity } from "@/components/learning/HealthyHabitRoutineActivity";
+import { InitialSoundActivity } from "@/components/learning/InitialSoundActivity";
 import { InvestigationBoardActivity } from "@/components/learning/InvestigationBoardActivity";
 import { MakeTotalActivity } from "@/components/learning/MakeTotalActivity";
 import { MaterialLabActivity } from "@/components/learning/MaterialLabActivity";
@@ -35,6 +36,7 @@ import {
   isEqualGroupsActivity,
   isFeatureFunctionLinkActivity,
   isHealthyHabitRoutineActivity,
+  isInitialSoundActivity,
   isInvestigationBoardActivity,
   isMakeTotalActivity,
   isMaterialLabActivity,
@@ -79,6 +81,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
         <SequenceSlotChoiceActivity childId={childId} activityId={activity} />
       ) : isSyllableAssemblyActivity(definition) ? (
         <SyllableAssemblyActivity childId={childId} activityId={activity} />
+      ) : isInitialSoundActivity(definition) ? (
+        <InitialSoundActivity childId={childId} activityId={activity} />
       ) : isSortingBucketsActivity(definition) ? (
         <SortingBucketsChoiceActivity childId={childId} activityId={activity} />
       ) : isOddOneOutActivity(definition) ? (
