@@ -1,0 +1,445 @@
+.page {
+  min-height: 100dvh;
+  padding: 36px 24px 64px;
+  background:
+    radial-gradient(circle at 10% 6%, rgba(213, 238, 246, .68), transparent 28rem),
+    radial-gradient(circle at 90% 12%, rgba(219, 230, 200, .62), transparent 26rem),
+    #fffcf0;
+  color: #193b55;
+  font-family: 'Nunito Variable', 'Noto Sans Variable', sans-serif;
+}
+
+.shell {
+  width: min(900px, 100%);
+  margin: 0 auto;
+}
+
+.back {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  margin-bottom: 18px;
+  color: #287158;
+  font-size: 14px;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.back:hover { text-decoration: underline; }
+
+.header {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.eyebrow {
+  margin: 0;
+  color: #287158;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.header h1 {
+  margin: 0;
+  color: #193b55;
+  font-size: clamp(34px, 5vw, 48px);
+  font-weight: 950;
+  letter-spacing: -.04em;
+  line-height: 1.06;
+}
+
+.description {
+  max-width: 680px;
+  margin: 0;
+  color: #486e63;
+  font-size: 16px;
+  font-weight: 650;
+  line-height: 1.55;
+}
+
+.panel {
+  padding: 26px;
+  border: 1px solid #e1e5d7;
+  border-radius: 24px;
+  background: #fffef8;
+  box-shadow: 0 8px 24px rgba(44, 73, 94, .07);
+}
+
+.page :is(a, button, input, select):focus-visible {
+  outline: 3px solid #164b43;
+  outline-offset: 4px;
+}
+
+.panel :global(.players),
+.panel :global(.profile-editor),
+.panel :global(.delete-account),
+.panel :global(.preferences) {
+  display: grid;
+  gap: 16px;
+}
+
+.panel :global(.account-gate) {
+  padding: 20px;
+  border: 1px solid #dce4d8;
+  border-radius: 18px;
+  background: #f8faef;
+  color: #355d56;
+}
+
+.panel :global(.account-gate p) {
+  margin: 0 0 14px;
+  color: #486e63;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.panel :global(.account-gate__actions) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.panel :global(.button) {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 18px;
+  border-radius: 15px;
+  font: inherit;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.panel :global(.button--primary) {
+  border-color: #287158;
+  background: #287158;
+  color: #fff;
+  box-shadow: 0 4px 0 #195541;
+}
+
+.panel :global(.button--primary:disabled) {
+  border-color: #cbd9cf;
+  background: #d9e2d9;
+  color: #75857e;
+  box-shadow: none;
+}
+
+.panel :global(.button--ghost) {
+  border: 2px solid #d4decf;
+  background: #fffef8;
+  color: #193b55;
+}
+
+.panel :global(.button--danger) {
+  border-color: #c65e48;
+  background: #b94f3b;
+  color: #fff;
+}
+
+.panel :global(.profile-editor label),
+.panel :global(.delete-account__phrase) {
+  display: grid;
+  gap: 7px;
+  color: #365a60;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.panel :global(.players__add) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(130px, .45fr) auto;
+  gap: 10px;
+}
+
+.panel :global(input:not([type='checkbox'])),
+.panel :global(select) {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 2px solid #cbd9cf;
+  border-radius: 14px;
+  background: #fffdf5;
+  color: #193b55;
+  font: inherit;
+  font-size: 16px;
+}
+
+.panel :global(input[disabled]) {
+  background: #eef1e9;
+  color: #718078;
+}
+
+.panel :global(.players__message),
+.panel :global(.delete-account__message) {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #e5edd9;
+  color: #245743;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.panel :global(.players__list) {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.panel :global(.players__list li) {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid #e1e5d7;
+  border-radius: 16px;
+  background: #fffdf5;
+}
+
+.panel :global(.players__avatar) {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border-radius: 14px;
+  background: #dbe6c8;
+  color: #164b43;
+  font-weight: 900;
+}
+
+.panel :global(.players__list strong),
+.panel :global(.players__list small) {
+  display: block;
+}
+
+.panel :global(.players__list small) {
+  margin-top: 2px;
+  color: #5b756e;
+}
+
+.panel :global(.players__list button) {
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid #e3c2ba;
+  border-radius: 12px;
+  background: #fff7f3;
+  color: #9b4835;
+  font: inherit;
+  font-weight: 850;
+}
+
+.panel :global(.catalog-empty) {
+  margin: 0;
+  padding: 18px;
+  border: 1px dashed #cbd9cf;
+  border-radius: 16px;
+  background: #f8faef;
+  color: #486e63;
+}
+
+.panel :global(.preferences__group) {
+  padding: 18px;
+  border: 1px solid #e1e5d7;
+  border-radius: 18px;
+  background: #fffdf5;
+}
+
+.panel :global(.preferences__group h3) {
+  margin: 0 0 10px;
+  color: #193b55;
+  font-size: 18px;
+}
+
+.panel :global(.preferences__options) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.panel :global(.preferences__options button) {
+  display: inline-flex;
+  min-height: 46px;
+  align-items: center;
+  gap: 8px;
+  padding: 0 15px;
+  border: 2px solid #d4decf;
+  border-radius: 14px;
+  background: #fffef8;
+  color: #193b55;
+  font: inherit;
+  font-weight: 850;
+}
+
+.panel :global(.preferences__options button.is-active) {
+  border-color: #287158;
+  background: #e5edd9;
+  color: #164b43;
+}
+
+.panel :global(.preferences__note) {
+  margin: 0;
+  color: #486e63;
+  line-height: 1.55;
+}
+
+.panel :global(.delete-account > p) {
+  margin: 0;
+  color: #4f6764;
+  line-height: 1.6;
+}
+
+.panel :global(.delete-account__confirm) {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid #ead1c9;
+  border-radius: 14px;
+  background: #fff8f4;
+  color: #6e4a42;
+  font-weight: 750;
+}
+
+.panel :global(.delete-account__confirm input) {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+  margin: 0;
+  accent-color: #b94f3b;
+}
+
+.panel :global(.about-hero__updated) {
+  margin: 0 0 18px;
+  color: #657b75;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.panel :global(.about-lede) {
+  max-width: 66ch;
+  margin: 0 0 22px;
+  color: #355d56;
+  font-size: 18px;
+  font-weight: 750;
+  line-height: 1.6;
+}
+
+.panel :global(.about-facts),
+.panel :global(.about-tags) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+
+.panel :global(.fun-pill),
+.panel :global(.about-tags span) {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: #e5edd9;
+  color: #164b43;
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.panel :global(.about-quote) {
+  margin: 24px 0;
+  padding: 18px 20px;
+  border-left: 4px solid #287158;
+  border-radius: 0 16px 16px 0;
+  background: #f3f7e9;
+  color: #355d56;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.panel :global(.about-hero h2) {
+  margin: 28px 0 12px;
+  color: #193b55;
+  font-size: clamp(22px, 3vw, 28px);
+}
+
+.panel :global(.about-cards),
+.panel :global(.about-grid) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.panel :global(.about-card),
+.panel :global(.about-grid__item) {
+  padding: 18px;
+  border: 1px solid #e1e5d7;
+  border-radius: 18px;
+  background: #fffdf5;
+}
+
+.panel :global(.about-card__icon) {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  margin-bottom: 10px;
+  border-radius: 14px;
+  background: #dbe6c8;
+  color: #164b43;
+}
+
+.panel :global(.about-card h3),
+.panel :global(.about-grid__item h3) {
+  margin: 0 0 6px;
+  color: #193b55;
+  font-size: 16px;
+}
+
+.panel :global(.about-card p),
+.panel :global(.about-grid__item p),
+.panel :global(.about-footnote) {
+  margin: 0;
+  color: #526d68;
+  line-height: 1.55;
+}
+
+.panel :global(.about-footnote) {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #e1e5d7;
+}
+
+.panel :global(.legal-page__back) {
+  margin: 22px 0 0;
+}
+
+.panel :global(.legal-page__back a) {
+  color: #287158;
+  font-weight: 850;
+}
+
+@media (max-width: 700px) {
+  .page { padding: 26px 16px 48px; }
+  .panel { padding: 20px; border-radius: 20px; }
+  .panel :global(.players__add) { grid-template-columns: 1fr; }
+  .panel :global(.players__add .button--primary) { width: 100%; }
+  .panel :global(.account-gate__actions),
+  .panel :global(.account-gate__actions .button) { width: 100%; }
+  .panel :global(.about-cards),
+  .panel :global(.about-grid) { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 430px) {
+  .page { padding-inline: 12px; }
+  .panel { padding: 18px 16px; }
+  .panel :global(.players__list li) { grid-template-columns: auto minmax(0, 1fr); }
+  .panel :global(.players__list li button) { grid-column: 1 / -1; width: 100%; }
+}
