@@ -1,5 +1,5 @@
 .page {
-  min-height: calc(100dvh - 74px);
+  min-height: 100dvh;
   display: grid;
   align-items: center;
   padding: 40px 24px 72px;
