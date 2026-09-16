@@ -13,7 +13,7 @@
 
 ## Status implementasi
 
-### Verified merged gameplay baseline: 34 pola
+### Verified merged gameplay baseline: 35 pola
 
 1. `choice_grid`
 2. `symbol_hunt`
@@ -49,45 +49,33 @@
 32. `take_away` — MERGED PR #143; CLOSED PR #144; FULLY CLOSED
 33. `equal_groups` — MERGED PR #145; CLOSED PR #146; FULLY CLOSED
 34. `initial_sound` — MERGED PR #147; CLOSED PR #148; **FULLY CLOSED**
-
-Pattern #35 `picture_word_match` is currently **QA ACCEPTED / UNMERGED** on PR #149.
+35. `picture_word_match` — MERGED PR #149; **LIVE VERIFIED / CLOSURE IN PROGRESS**
 
 Permanent gameplay-distribution audit: MERGED PR #105.
 
-Current merged Pattern #34 distribution:
+Current verified merged distribution after PR #149:
 
 ```text
 900 / 900 classified
 0 unclassified
-34 active child-facing patterns
-choice_grid                 292 / 900 = 32.44%
-initial_sound                 3 / 900 = 0.33%
-Bahasa choice_grid           44 / 100
-```
-
-Accepted Pattern #35 PR candidate distribution from CI #718:
-
-```text
-900 / 900 classified
-0 unclassified
-35 active child-facing candidate patterns
+35 active child-facing patterns
 choice_grid                 287 / 900 = 31.89%
 picture_word_match            5 / 900 = 0.56%
-initial_sound                 3 / 900 = 0.33%
-equal_groups                  3 / 900 = 0.33%
-make_total                    5 / 900 = 0.56%
-take_away                     5 / 900 = 0.56%
-Bahasa choice_grid           39 / 100
-Math choice_grid             43 / 100
-Science choice_grid          56 / 100
-Logic choice_grid            47 / 100
-English choice_grid          44 / 100
-Iqro choice_grid             58 / 100
+initial_sound                  3 / 900 = 0.33%
+equal_groups                   3 / 900 = 0.33%
+make_total                     5 / 900 = 0.56%
+take_away                      5 / 900 = 0.56%
+Bahasa choice_grid            39 / 100
+Math choice_grid              43 / 100
+Science choice_grid           56 / 100
+Logic choice_grid             47 / 100
+English choice_grid           44 / 100
+Iqro choice_grid              58 / 100
 ```
 
-If Pattern #35 merges, distance remaining becomes **15** patterns to minimum 50 and **25** to working target 60.
+Distance remaining is **15** patterns to minimum 50 and **25** to working target 60.
 
-### `picture_word_match` — Pattern #35 QA ACCEPTED / UNMERGED
+### `picture_word_match` — Pattern #35 MERGED / LIVE VERIFIED
 
 Exact scope:
 
@@ -121,16 +109,17 @@ Interaction:
 - correct selection completes the existing activity identity and reveals the canonical word;
 - no changed choice set, drag-only dependency, extra confirmation or intermediate assessment.
 
-Acceptance evidence:
-- implementation branch starts from Pattern #34 final `main` `8bfb0027a5f4963a6875310c7408cb56018cc422`;
+Verified evidence:
+- implementation branch started from Pattern #34 final `main` `8bfb0027a5f4963a6875310c7408cb56018cc422`;
 - accepted code head `e0f93bd20f24c2efaebfbaa7f782427e8d0e1bca` passed full CI #718 / run `35082720001`;
-- static regression keeps exact scope at five activities and preserves skill/evidence contracts;
-- representative Chromium QA uses `bahasa-gambar-apel` with legitimate immediate-prior Wave A readiness;
+- final implementation docs head `79767b320372ac6dd78bfae90ffb2e2307154401` passed full CI #723 / run `35083623316`;
 - all nine 320x720, 390x844 and 768x1024 idle/wrong/success screenshots passed manual visual acceptance;
-- 900/900 classification passed with 35 candidate patterns and no global hotspot above 35%;
+- PR #149 passed clean exact-head scope/review/thread/mergeability gate and squash merged as `47e3373ed9ba4a96331a8e61286dc80d37b6b518`;
+- post-merge CI #724 / run `35085618422` passed the full matrix including **Production smoke (Cloudflare)**;
+- 900/900 classification passes with 35 active merged patterns and no global hotspot above 35%;
 - deterministic quality remains 900 KEEP / 0 flagged / structural findings 0.
 
-Pattern #35 still requires fresh canonical docs-head CI, clean exact-head merge gate, exact-head implementation merge, live-main verification including Cloudflare smoke, and separate docs-only closure before it is fully closed.
+Pattern #35 still requires this separate docs-only closure to pass fresh exact-head CI, clean merge gate, exact-head closure merge, and final independent `main` + Cloudflare verification before **FULLY CLOSED**.
 
 ### `initial_sound` — Pattern #34 FULLY CLOSED
 
@@ -161,7 +150,7 @@ Coverage dan implemented-pattern consistency bersifat blocking; concentration be
 - Take Away — DONE / #143 + #144, fully closed.
 - Equal Groups — DONE / #145 + #146, fully closed.
 - Initial Sound — DONE / #147 + #148, fully closed; final main `8bfb0027a5f4963a6875310c7408cb56018cc422`, final CI #717.
-- Picture Word Match implementation — **PR #149 OPEN / QA ACCEPTED**; code-head CI #718 full success + 9/9 manual screenshot acceptance.
+- Picture Word Match implementation — **MERGED / LIVE VERIFIED via PR #149**; implementation merge `47e3373ed9ba4a96331a8e61286dc80d37b6b518`; post-merge CI #724 full success; docs-only closure in progress.
 - NEXT only after Pattern #35 full closure — fresh objective/evidence audit for Pattern #36; no family pre-approved.
 
 ## Definition of done per mechanic
