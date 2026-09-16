@@ -8,13 +8,15 @@ This is the canonical human/AI handoff. `main` is the merged source of truth.
 
 - repository: `ceritaantarkita-req/mainlagi-hub`
 - canonical branch: `main`
-- latest gameplay implementation: PR #139 — Bahasa Syllable Assembly
-- verified Pattern #30 implementation merge SHA: `c973dbc9e6010ff167a082cd6759728b590e7626`
-- final implementation PR docs head: `ee891dc99c1f86831ba67b34ae39e71ec50ee886`
-- final implementation PR CI: #647 / run `35001595648`, full success
-- post-merge implementation CI: #648 / run `35003757463`, full success including Cloudflare production smoke
-- post-merge closure: PR #140
-- Pattern #30: **FULLY CLOSED after #140 exact-head merge/live verification**
+- latest fully closed gameplay implementation: Pattern #30 — Bahasa Syllable Assembly
+- Pattern #30 implementation PR: #139
+- Pattern #30 closure PR: #140
+- final verified Pattern #30 `main` SHA: `53667560d72ca4cfe3556bc59411a71c53a84834`
+- final Pattern #30 live verification: CI #655 / run `35005253923`, full success including Cloudflare production smoke
+- current accepted unmerged gameplay PR: #141 — Math Make Total
+- accepted Pattern #31 implementation head: `4b513676c9029fbb7a788a49175ed02954f0d2f7`
+- accepted Pattern #31 implementation QA: CI #657 / run `35042439233`
+- Pattern #31: **QA ACCEPTED / UNMERGED** pending final docs-head CI, merge/live verification and separate closure PR
 - production: `https://mainlagihub.my.id/`
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - source licence: `AGPL-3.0-only`
@@ -46,55 +48,74 @@ active merged patterns:    30
 choice_grid               308 / 900 = 34.22%
 syllable_assembly           5 / 900 = 0.56%
 Bahasa choice_grid          47 / 100
+Math choice_grid            56 / 100
 Science choice_grid         56 / 100
 Logic choice_grid           47 / 100
 ```
 
-Remaining distance: **20** patterns to minimum 50 and **30** to working target 60.
+Merged-baseline distance: **20** patterns to minimum 50 and **30** to working target 60.
 
-## Pattern #30 `syllable_assembly` — closure record
+### PR #141 accepted head: 31 patterns
+
+Pattern #31 `make_total` is QA accepted on PR #141 but not yet merged.
+
+```text
+classified:               900 / 900
+unclassified:               0
+active PR-head patterns:   31
+choice_grid               303 / 900 = 33.67%
+make_total                  5 / 900 = 0.56%
+Bahasa choice_grid          47 / 100
+Math choice_grid            51 / 100
+Science choice_grid         56 / 100
+Logic choice_grid           47 / 100
+English choice_grid         44 / 100
+Iqro choice_grid            58 / 100
+```
+
+If merged unchanged, remaining distance becomes **19** patterns to minimum 50 and **29** to working target 60.
+
+## Pattern #31 `make_total` — QA acceptance record
 
 Exact scope:
 
 ```text
-bahasa-gabung-baju
-bahasa-gabung-buku
-bahasa-gabung-meja
-bahasa-gabung-bola
-bahasa-gabung-susu
+math-add-1-1
+math-add-2-1
+math-add-2-2
+math-add-3-2
+math-add-4-3
 ```
 
-All five remain assessed `tap_choice` activities in stage `bahasa-suku-kata-kata`, lesson `bahasa-suku-kata-gabung`, pack `bahasa.pack.suku-kata-gabung`, canonical skill `bahasa.suku_kata.blending`, with exactly three canonical choices and unchanged `correctChoice`.
+All five remain assessed `tap_choice` activities in stage `math-operasi-awal`, lesson `math-addition`, pack `math.pack.addition`, canonical skill `math.operation.addition.within_10`, with exactly three canonical numeric choices and unchanged `correctChoice`.
 
-Explicit exclusions remain outside Pattern #30: Bahasa syllable recognition, picture-word, initial-sound, listening and matching families; English phonics; Math and Logic gameplay families.
+Explicit exclusions remain outside Pattern #31: Math subtraction, equal-group grouping, missing-number sequences, length/size comparisons, existing Math count/number-line/comparison/pattern families, and all non-Math families.
 
 Interaction/evidence contract:
-- visualizes only the two canonical syllables already present in title/prompt content;
-- masks the assembled result with `?` before a correct assessment;
-- config validation requires the two syllables to concatenate exactly to canonical `correctChoice`;
+- visualizes two reviewed positive addend groups whose sum equals canonical `correctChoice`;
+- masks the total with `?` before a correct assessment;
 - canonical keyboard/touch/pointer direct-selection choices remain unchanged;
-- wrong choice records assessed error/retry, cannot complete, and cannot reveal the word;
-- correct choice completes the canonical activity and may reveal the assembled word;
-- no invented syllable, answer leakage, changed choices, extra confirmation, drag-only dependency or intermediate assessment;
-- assessed fidelity `choice_syllable_assembly_interaction`;
-- runtime metadata source `syllable-assembly-runtime`;
+- wrong choice records assessed error/retry, cannot complete, and cannot reveal the total;
+- correct choice completes the canonical activity and may reveal the total;
+- total remains within the canonical `within_10` objective;
+- no changed choices, extra confirmation, drag-only dependency or intermediate assessment;
+- assessed fidelity `choice_make_total_interaction`;
+- runtime metadata source `make-total-runtime`;
 - runtime, IDs, choices, `correctChoice`, skill, assessment, stars, mastery and progression remain unchanged.
 
-Acceptance/closure history:
-- CI #640 / run `34999759651` caught missing permanent central-test registration and forced a strict fix;
-- CI #641 / run `35000289970` caught missing learning-test compile-manifest coverage and forced a strict fix;
-- implementation QA head `d55c1deb54f1402c38d84417ca7ae8248c9d3b07` passed full CI #642 / run `35000557604`;
-- manual idle/wrong/success review at 320x720, 390x844 and 768x1024 accepted all nine screenshots;
-- final canonical implementation docs head `ee891dc99c1f86831ba67b34ae39e71ec50ee886` passed full CI #647 / run `35001595648`;
-- PR #139 exact-head squash merged as `c973dbc9e6010ff167a082cd6759728b590e7626` and `main` was independently verified at the exact SHA;
-- post-merge `main` CI #648 / run `35003757463` passed all gates including Cloudflare production smoke;
-- closure PR #140 records the final merged state and is the final Pattern #30 closure gate.
+Acceptance evidence:
+- initial CI #656 / run `35042089820` passed every non-browser gate but correctly failed the new 320x720 visibility assertion because idle feedback extended below the viewport;
+- the fix compacted only the <=340px / <=760px presentation while retaining >=48px choice targets and all evidence assertions; the visibility assertion was not weakened;
+- accepted implementation head `4b513676c9029fbb7a788a49175ed02954f0d2f7` passed full CI #657 / run `35042439233`;
+- deterministic audit: 900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0;
+- gameplay distribution: 900/900 classified, 0 unclassified, 31 patterns, `choice_grid` 303/900, `make_total` 5/900, Math `choice_grid` 51/100;
+- manual idle/wrong/success review at 320x720, 390x844 and 768x1024 accepted all nine screenshots with no clipping/overflow or answer leakage and with visible retry/success feedback + post-success CTA.
 
-Deterministic audit remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**. Simulations and Batch17 remain clean.
+Pattern #31 is **not fully closed yet**. It still requires fresh exact docs-head CI, clean exact-head merge of PR #141, live-main verification, and a separate docs-only closure PR with its own exact-head CI/merge/live verification.
 
-## Pattern #29 closure state
+## Pattern #30 closure state
 
-Pattern #29 `relative_order_track` remains **FULLY CLOSED**. PR #137 implementation and PR #138 closure are merged and live-verified.
+Pattern #30 `syllable_assembly` is **FULLY CLOSED**. PR #139 implementation and PR #140 closure are merged; final verified `main` SHA is `53667560d72ca4cfe3556bc59411a71c53a84834`, and CI #655 / run `35005253923` passed the full matrix including Cloudflare production smoke.
 
 ## Learning/mastery boundaries
 
@@ -111,8 +132,8 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Finish closure PR #140 exact-head CI/gate/merge/live verification.
-2. Run a fresh objective/evidence audit for Pattern #31 from the verified 30-pattern baseline; no family is pre-approved.
+1. Finish Pattern #31 PR #141: fresh exact docs-head CI -> clean merge/review gate -> exact-head merge -> live-main verification -> separate docs-only closure -> closure live verification.
+2. After Pattern #31 is fully closed, run a fresh objective/evidence audit for Pattern #32; no family is pre-approved.
 3. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
 4. Continue Art Bible/permanent visual QA, narration, parent/public frontend, external acceptance and governance.
 
