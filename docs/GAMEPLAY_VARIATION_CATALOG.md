@@ -10,10 +10,9 @@
 - Assessed activity wajib menjaga evidence: correct/incorrect, retry, completion, score/accuracy bila relevan, dan metadata interaction.
 - Setiap mechanic baru wajib lolos scope regression, progression, completion/evidence, keyboard, touch/pointer, responsive QA, dan manual visual review.
 - Permanent distribution audit wajib tetap 900/900 classified selama baseline produk masih 900 activities.
+- Setelah Pattern #37 closure, production visual/product baseline audit dilakukan sebelum Pattern #38; sesudah baseline, WS-08 visual QA berjalan paralel dengan WS-05.
 
 ## Status implementasi
-
-### Verified merged gameplay baseline: 36 pola
 
 Patterns #1–#35 remain as previously closed/merged. Latest entries:
 
@@ -24,36 +23,26 @@ Patterns #1–#35 remain as previously closed/merged. Latest entries:
 34. `initial_sound` — MERGED PR #147; CLOSED PR #148; FULLY CLOSED
 35. `picture_word_match` — MERGED PR #149; CLOSED PR #150; FULLY CLOSED
 36. `sentence_order_cards` — MERGED PR #151; CLOSED PR #152; **FULLY CLOSED**
-37. `reading_passage_question` — **IMPLEMENTATION ACCEPTED / PR #153 OPEN**
+37. `reading_passage_question` — MERGED PR #153; **LIVE VERIFIED / DOCS-ONLY CLOSURE IN PROGRESS**
 
 Permanent gameplay-distribution audit: MERGED PR #105.
 
-Current verified merged distribution on `main` remains:
+Current merged distribution on `main`:
 
 ```text
 900 / 900 classified
 0 unclassified
-36 active child-facing patterns
-choice_grid                 282 / 900 = 31.33%
-sentence_order_cards          5 / 900 = 0.56%
-picture_word_match            5 / 900 = 0.56%
-Bahasa choice_grid            34 / 100
-```
-
-Accepted Pattern #37 implementation-head distribution:
-
-```text
-900 / 900 classified
-0 unclassified
-37 active candidate patterns
+37 active child-facing patterns
 choice_grid                    277 / 900 = 30.78%
 reading_passage_question         5 / 900 = 0.56%
+sentence_order_cards              5 / 900 = 0.56%
+picture_word_match                5 / 900 = 0.56%
 Bahasa choice_grid                29 / 100
 ```
 
-If Pattern #37 is merged unchanged, distance remaining becomes **13** patterns to minimum 50 and **23** to working target 60.
+Remaining distance is **13** patterns to minimum 50 and **23** to working target 60.
 
-### `reading_passage_question` — Pattern #37 IMPLEMENTATION ACCEPTED
+### `reading_passage_question` — Pattern #37 MERGED / LIVE VERIFIED
 
 Exact scope:
 
@@ -86,14 +75,17 @@ Interaction:
 - correct selection completes the existing canonical activity;
 - no invented passage, changed answer payload, extra confirmation or intermediate assessment.
 
-Accepted evidence:
-- branch started from fully closed Pattern #36 final `main` `461b0fd59a6c238752aa858bf783716b225b548a`;
-- accepted code head `6ac29623ce53940f45cdfea623340d833af68c4d` passed full CI #733 / run `35096952272`;
+Verified implementation chain:
+- exact base `461b0fd59a6c238752aa858bf783716b225b548a`;
+- final PR head `25baa6f103f4e3bb309fae8f0078c9fb099b9ab6`;
+- exact-head CI #738 / run `35097844249` — success;
+- implementation PR #153 squash merge `6a6f99ccb3a733af4e298ed8c48452e019f9980c`;
+- independent `main` CI #739 / run `35098428328` — full success including exact Cloudflare production smoke;
 - all nine 320x720, 390x844 and 768x1024 idle/wrong/success screenshots passed manual visual acceptance;
-- 900/900 classification passes with 37 candidate patterns, `choice_grid` 277/900 (30.78%), Bahasa `choice_grid` 29/100 and no global hotspot above 35%;
+- merged distribution is 900/900 classified with 37 patterns, `choice_grid` 277/900 (30.78%), Bahasa `choice_grid` 29/100 and no global hotspot above 35%;
 - deterministic quality remains 900 KEEP / 0 flagged / structural findings 0.
 
-Pattern #37 still requires these implementation docs to receive fresh exact-head CI, clean scope/review/thread/mergeability gates, exact-head implementation merge and independent live `main` + Cloudflare verification. A separate docs-only closure must then also pass its own full chain before **FULLY CLOSED**.
+Pattern #37 is not **FULLY CLOSED** until its separate docs-only closure passes fresh exact-head CI, clean closure gate, exact-head merge and final independent `main` + Cloudflare verification.
 
 ### `sentence_order_cards` — Pattern #36 FULLY CLOSED
 
@@ -111,11 +103,15 @@ Priority families still worth fresh objective/evidence audit include:
 - audio: `listen_and_point`, `listen_and_match`, `sound_memory`, `audio_sequence`, `sound_discrimination`;
 - creative/story mechanics after objective fit is proven.
 
-No family is pre-approved for Pattern #38. A fresh audit starts only after Pattern #37 is fully closed.
+No family is pre-approved for Pattern #38. A fresh Pattern #38 objective/evidence audit starts only after:
+1. Pattern #37 is fully closed; and
+2. the production visual/product baseline audit is recorded.
+
+This sequencing prevents gameplay-count work from outrunning the product shell and cross-surface visual quality.
 
 ## Distribution rule
 
-Coverage dan implemented-pattern consistency bersifat blocking; concentration bersifat advisory. Gunakan mechanic karena objective fit, jangan kosmetik mengejar angka.
+Coverage and implemented-pattern consistency are blocking; concentration is advisory. Use a mechanic because it fits the objective, not as cosmetic taxonomy inflation.
 
 ## Rollout order terbaru
 
@@ -125,9 +121,9 @@ Coverage dan implemented-pattern consistency bersifat blocking; concentration be
 - Equal Groups — DONE / #145 + #146, fully closed.
 - Initial Sound — DONE / #147 + #148, fully closed.
 - Picture Word Match — DONE / #149 + #150, fully closed.
-- Sentence Order Cards — DONE / #151 + #152, fully closed; final `main` `461b0fd59a6c238752aa858bf783716b225b548a`, CI #732 full success.
-- Reading Passage Question — **IMPLEMENTATION ACCEPTED / PR #153 OPEN**; accepted head `6ac29623ce53940f45cdfea623340d833af68c4d`; CI #733 full success; fresh docs-head implementation gate pending.
-- NEXT only after Pattern #37 full closure — fresh objective/evidence audit for Pattern #38; no family pre-approved.
+- Sentence Order Cards — DONE / #151 + #152, fully closed.
+- Reading Passage Question — implementation MERGED #153 at `6a6f99ccb3a733af4e298ed8c48452e019f9980c`, live verified by CI #739; docs-only closure in progress.
+- NEXT — close #37 -> production visual/product baseline audit + WS-08 rules -> fresh Pattern #38 objective/evidence audit.
 
 ## Definition of done per mechanic
 

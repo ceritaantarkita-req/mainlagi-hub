@@ -1,16 +1,18 @@
 # WS-05 Reading Passage Question Wave — 2026-09-16
 
-Status: **Pattern #37 IMPLEMENTATION ACCEPTED; PR #153 OPEN**  
-Implementation PR: **#153**  
+Status: **Pattern #37 IMPLEMENTATION MERGED / LIVE VERIFIED; DOCS-ONLY CLOSURE IN PROGRESS**  
+Implementation PR: **#153 — merged**  
 Base: Pattern #36 final `main` `461b0fd59a6c238752aa858bf783716b225b548a`  
-Accepted code head: `6ac29623ce53940f45cdfea623340d833af68c4d`  
-Accepted-head CI: **#733 / run `35096952272` — full success**
+Final implementation head: `25baa6f103f4e3bb309fae8f0078c9fb099b9ab6`  
+Exact-head implementation CI: **#738 / run `35097844249` — success**  
+Implementation merge: `6a6f99ccb3a733af4e298ed8c48452e019f9980c`  
+Post-merge `main` CI: **#739 / run `35098428328` — full success including exact Cloudflare production smoke**
 
 ## Why this family
 
 The fresh objective/evidence audit after fully closing Pattern #36 selected the exact Bahasa short-reading family in lesson `bahasa-bacaan-pendek`. Its canonical objective is to answer literal questions from one- or two-sentence readings. The existing prompts already contain both the reading and the question in the form `Baca: '…' …?`; separating those unchanged strings into distinct reading and question surfaces makes the objective clearer without changing what is assessed.
 
-This is deliberately still a direct canonical answer-choice interaction. Pattern #37 does not invent a new passage, open-ended answer, extra confirmation step or unmeasured reading behavior.
+This remains a direct canonical answer-choice interaction. Pattern #37 does not invent a new passage, open-ended answer, extra confirmation step or unmeasured reading behavior.
 
 ## Exact scope
 
@@ -80,13 +82,13 @@ Representative wrong-then-right browser path validates:
 
 The mechanic does not claim an additional measured “read passage” event; the assessed evidence remains the canonical answer selection.
 
-## QA evidence
+## Implementation QA evidence
 
-Accepted code head:
-`6ac29623ce53940f45cdfea623340d833af68c4d`
+Final implementation head:
+`25baa6f103f4e3bb309fae8f0078c9fb099b9ab6`
 
-Accepted-head implementation CI:
-- CI **#733** / run `35096952272` — full success;
+Exact-head implementation CI:
+- CI **#738** / run `35097844249` — success;
 - typecheck and lint — success;
 - engine + learning regression suites — success;
 - deterministic activity-quality audit — success;
@@ -96,11 +98,22 @@ Accepted-head implementation CI:
 - production dependency audit + production build/budgets — success;
 - secret-history scan — success;
 - Chromium mobile/accessibility/browser matrix — success;
-- Cloudflare production smoke is intentionally a post-merge `main` gate, not a PR-head gate.
+- PR Cloudflare production smoke skipped by design because exact production verification is a post-merge `main` gate.
+
+Implementation PR #153 was squash-merged exactly from that head to:
+`6a6f99ccb3a733af4e298ed8c48452e019f9980c`
+
+Independent post-merge production verification:
+- CI **#739** / run `35098428328` — completed success on exact merge SHA;
+- Production build — success;
+- Production dependency audit — success;
+- Secret history scan — success;
+- Quality gate Ubuntu — success;
+- Windows compatibility — success;
+- Mobile route QA (Chromium) — success;
+- **Production smoke (Cloudflare) — success**.
 
 Dedicated representative: `bahasa-baca-lala-kucing`.
-
-Progression fixture uses legitimate completion + qualifying measured evidence for the ten required activities in immediate prior stage `bahasa-suku-kata-kata`, without seeding the target or future-stage completion.
 
 Manual screenshot review: **9/9 accepted**.
 - 320x720 idle/wrong/success;
@@ -118,12 +131,12 @@ Observed acceptance:
 
 ## Distribution/quality evidence
 
-Accepted implementation-head gameplay-distribution:
+Merged gameplay-distribution:
 
 ```text
 900 / 900 classified
 0 unclassified
-37 active candidate patterns
+37 active merged patterns
 choice_grid                    277 / 900 = 30.78%
 reading_passage_question         5 / 900 = 0.56%
 Bahasa choice_grid                29 / 100 = 29.00%
@@ -141,18 +154,23 @@ REPLACE                  0
 structural findings      0
 ```
 
-## Remaining implementation and closure chain
+Distance remaining: **13** patterns to minimum 50 and **23** to working target 60.
 
-Pattern #37 is **not yet merged or FULLY CLOSED**. Required remaining gates:
-1. this canonical implementation documentation becomes part of the PR head;
-2. fresh exact docs-head full CI;
-3. clean exact-head implementation scope/review/thread/mergeability gate with zero commits behind `main`;
-4. exact-head implementation squash merge;
-5. independent post-implementation `main` verification including exact Cloudflare production smoke;
-6. create a separate docs-only closure branch based exactly on the implementation merge;
-7. fresh exact closure-head full CI;
-8. clean closure scope/review/thread/mergeability gate;
-9. exact-head closure squash merge;
-10. final independent `main` verification including exact Cloudflare production smoke.
+## Docs-only closure chain
 
-Only after all gates may Pattern #37 be marked **FULLY CLOSED**. Pattern #38 objective/evidence audit must not start before that point.
+Pattern #37 implementation is merged and live verified, but Pattern #37 is **not yet FULLY CLOSED**.
+
+Closure branch must remain docs-only and be based exactly on implementation merge `6a6f99ccb3a733af4e298ed8c48452e019f9980c`.
+
+Remaining gates:
+1. update the canonical closure docs with the exact implementation head, merge and post-merge evidence;
+2. fresh exact closure-head full CI;
+3. clean closure scope/review/thread/mergeability gate with zero commits behind `main`;
+4. exact-head docs-only closure squash merge;
+5. final independent `main` verification including exact Cloudflare production smoke.
+
+Only after those gates may Pattern #37 be marked **FULLY CLOSED**.
+
+## Product sequencing after closure
+
+Before Pattern #38 begins, run the production visual/product baseline audit across public/home, child flows, subject/gallery/stage states, representative activities, rewards, parent, account, auth, system states and desktop/tablet/mobile breakpoints. Record P0/P1/P2 findings, establish/update the WS-08 Art Bible and permanent visual QA baseline, fix P0/P1 blockers, then start a fresh Pattern #38 objective/evidence audit. No Pattern #38 family is pre-approved.
