@@ -7,7 +7,7 @@ export function AuthFamilyShell({ children }: { children: ReactNode }) {
   return (
     <main className={styles.page} data-mainlagi-auth-family-shell>
       <div className={styles.layout}>
-        <section className={styles.context} aria-labelledby="auth-family-context-title">
+        <section className={styles.context} aria-labelledby="auth-family-context-title" data-mainlagi-auth-context>
           <Link className={styles.brand} href="/" aria-label="Mainlagi beranda">
             <img src="/artwork/garden-wordmark.webp" alt="Mainlagi" width={600} height={220} />
           </Link>
@@ -27,7 +27,7 @@ export function AuthFamilyShell({ children }: { children: ReactNode }) {
           </div>
         </section>
 
-        <section className={styles.panel}>
+        <section className={styles.panel} data-mainlagi-auth-panel>
           <Link className={styles.backLink} href="/">← Kembali ke beranda</Link>
           {children}
         </section>
