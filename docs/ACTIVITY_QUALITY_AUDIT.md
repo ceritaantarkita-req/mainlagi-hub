@@ -18,20 +18,18 @@ REPLACE                 0
 flagged total           0
 ```
 
-All subjects remain 100 KEEP / 0 flagged. Q101–Q108 remain zero.
-
-Deterministic zero does **not** mean every activity is human-approved or maximally varied. Gameplay diversity, art direction, real-device/accessibility, and Iqro expert review remain separate requirements.
+All subjects remain 100 KEEP / 0 flagged. Deterministic zero does **not** mean every activity is human-approved or maximally varied. Gameplay diversity, art direction, real-device/accessibility, and Iqro expert review remain separate requirements.
 
 ## WS-05 gameplay diversification
 
-Pattern #32 `take_away` is **FULLY CLOSED** through PR #143 + #144. Pattern #33 `equal_groups` implementation PR #145 is **QA ACCEPTED / UNMERGED**.
+Pattern #32 `take_away` is **FULLY CLOSED**. Pattern #33 `equal_groups` implementation PR #145 is **MERGED / LIVE VERIFIED**; docs-only closure is the remaining final gate.
 
-Merged `main` baseline remains 32 patterns. Accepted PR #145 head would produce:
+Verified merged distribution after PR #145:
 
 ```text
 900 / 900 classified
 0 unclassified
-33 active patterns
+33 active merged patterns
 choice_grid                 295 / 900 = 32.78%
 equal_groups                  3 / 900 = 0.33%
 make_total                    5 / 900 = 0.56%
@@ -44,9 +42,9 @@ English choice_grid          44 / 100
 Iqro choice_grid             58 / 100
 ```
 
-Concentration remains advisory and does not itself create POLISH/REDESIGN findings. The accepted Pattern #33 audit reports no global hotspot.
+Concentration remains advisory and does not itself create POLISH/REDESIGN findings. There is no global hotspot on the merged Pattern #33 baseline.
 
-## Equal Groups — Pattern #33 QA accepted / unmerged
+## Equal Groups — Pattern #33 merged/live closure record
 
 Exact scope:
 
@@ -70,7 +68,7 @@ Preserved:
 
 Interaction/evidence contract:
 - the reviewed total is visibly separated into equal-size groups;
-- config requires total 2..10, a positive proper group size, exact divisibility and `totalCount / groupSize` equal to canonical `correctChoice`;
+- config requires total 2..10, a positive proper group size, exact divisibility, and `totalCount / groupSize` equal to canonical `correctChoice`;
 - numeric group count stays masked as `?` until a correct assessment;
 - canonical keyboard/touch/pointer direct selection remains available;
 - wrong choice is measured/retryable, cannot complete and cannot reveal the group count;
@@ -79,20 +77,18 @@ Interaction/evidence contract:
 - assessed fidelity `choice_equal_groups_interaction`;
 - runtime metadata source `equal-groups-runtime` with `totalCount`, `groupSize`, `groupCount` and `selectedChoice`.
 
-QA chain:
-- CI #685 / run `35052200287` correctly failed on success CTA clipping at 320x720;
-- fix head `8c15144db99feb1620a2523d5ccd384510354cd5` preserved the assertion; CI #686 / run `35052577160` then correctly exposed idle-feedback clipping at 390x844;
-- final accepted code head `26c2b2355099c4097c015ba5767703035b33aa63` passed full CI #687 / run `35053008065`;
-- full CI includes exact Equal Groups static regression, Ubuntu/Windows/build/security/dependency gates and complete Chromium route/browser QA;
+Acceptance and merge chain:
+- CI #685 / run `35052200287` correctly caught 320x720 success CTA clipping;
+- CI #686 / run `35052577160` correctly caught 390x844 idle-feedback clipping after the first responsive fix;
+- accepted code head `26c2b2355099c4097c015ba5767703035b33aa63` passed full CI #687 / run `35053008065`;
 - all nine 320x720, 390x844 and 768x1024 idle/wrong/success screenshots passed manual visual review;
-- deterministic quality remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**;
-- gameplay distribution remains 900/900 classified with 33 active patterns and 0 unclassified at the PR head.
+- final implementation docs head `11f278a0150ff31b1ba89394c23b78fa244038aa` passed full CI #692 / run `35053984870`;
+- PR #145 passed the clean exact-head merge gate and squash merged as `3de991e75fdb4fdf33d1cd9cdcf90443ddbb3fb6`;
+- `main` was independently verified at that exact SHA;
+- post-merge `main` CI #693 / run `35054346467` passed all gates including Cloudflare production smoke;
+- deterministic quality remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**.
 
-Pattern #33 is **not fully closed** until canonical docs pass fresh exact docs-head CI, PR #145 passes clean exact-head merge gate, implementation is exact-head merged and live-verified with Cloudflare smoke, and a separate docs-only closure PR is exact-head CI/gate/merge/live verified.
-
-## Take Away — Pattern #32 FULLY CLOSED
-
-Implementation PR #143 merged as `3ac5ab049e94f65c3e28a7e4e5cbd18185a9466a`; post-merge CI #677 / run `35048981508` passed including Cloudflare smoke. Closure PR #144 head `a019a549f7685e0eac7aba0554a1c6d839bfb0d4` passed CI #683 / run `35049573890`, then merged as final `main` SHA `63285c6dd39b0cc1a521b042a492a83338bb2582`. Final post-closure CI #684 / run `35049954680` passed all gates including Cloudflare production smoke.
+Pattern #33 is **MERGED / LIVE VERIFIED / CLOSURE PENDING**. It becomes fully closed only after its docs-only closure PR passes fresh exact-head CI, clean review/thread/mergeability gate, exact-head merge, independent final `main` verification, and post-closure `main` CI including Cloudflare production smoke.
 
 ## Permanent audits
 
@@ -110,10 +106,11 @@ CI uploads both artifacts. Gameplay-distribution coverage and active-pattern-set
 - WS-07 Drawing DONE — PR #98/#99/#100.
 - WS-05 Syllable Assembly — Pattern #30 fully closed via #139 + #140.
 - WS-05 Make Total — Pattern #31 fully closed via #141 + #142.
-- WS-05 Take Away — Pattern #32 fully closed via #143 + #144; final verified `main` `63285c6dd39b0cc1a521b042a492a83338bb2582`; final CI #684.
-- WS-05 Equal Groups implementation — **PR #145 QA ACCEPTED / UNMERGED**; accepted code head `26c2b2355099c4097c015ba5767703035b33aa63`; CI #687 full success.
+- WS-05 Take Away — Pattern #32 fully closed via #143 + #144; final CI #684.
+- WS-05 Equal Groups implementation — **MERGED PR #145 / LIVE VERIFIED**; merge SHA `3de991e75fdb4fdf33d1cd9cdcf90443ddbb3fb6`; post-merge CI #693 full success including Cloudflare smoke.
+- WS-05 Equal Groups closure — **PENDING**.
 - WS-05 NEXT after Pattern #33 full closure — fresh Pattern #34 objective/evidence audit; no family pre-approved.
 
 ## Completion rule
 
-Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #33 itself remains unclosed until implementation and separate closure PRs are exact-head merged and independently verified live on `main`.
+Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #33 itself remains unclosed until the docs-only closure PR is exact-head merged and independently verified live on `main`.
