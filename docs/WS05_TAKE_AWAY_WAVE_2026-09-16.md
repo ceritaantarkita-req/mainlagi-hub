@@ -1,10 +1,12 @@
 # WS-05 Pattern #32 — Math Take Away
 
 Date: **16 September 2026**  
-Status: **QA ACCEPTED / UNMERGED**  
+Status: **MERGED / LIVE VERIFIED / CLOSURE PR #144 PENDING**  
 Implementation PR: **#143**  
-Branch: `agent/ws05-math-take-away-20260916`  
-Verified merged base: `79a1b3871e7494a7f9580ca26e56f4f30d5874b4`
+Closure PR: **#144**  
+Implementation branch: `agent/ws05-math-take-away-20260916`  
+Closure branch: `docs/close-take-away-20260916`  
+Verified implementation merge SHA: `3ac5ab049e94f65c3e28a7e4e5cbd18185a9466a`
 
 ## Why this family
 
@@ -16,8 +18,8 @@ Nearby candidates were not selected for this wave:
 - Math addition already has the distinct `make_total` composition mechanic;
 - Math grouping asks about equal groups rather than removal;
 - Math missing-number activities remain sequence tasks;
-- Bahasa picture-word activities were reviewed but a specialized screen currently risks becoming a mostly cosmetic visual-choice restyle;
-- English initial-sound activities were reviewed but the candidate family is heterogeneous across two direct-choice activities and one matching activity, making it weaker for one exact reusable mechanic.
+- Bahasa picture-word activities risk a mostly cosmetic visual-choice restyle;
+- English initial-sound activities were heterogeneous across direct-choice and matching activities.
 
 ## Exact scope
 
@@ -80,7 +82,7 @@ Runtime measurement:
 - records start count, remove count and selected canonical choice;
 - canonical mastery, stars, progression and activity identity remain unchanged.
 
-## QA history
+## QA and implementation merge history
 
 Accepted implementation code head:
 
@@ -88,22 +90,28 @@ Accepted implementation code head:
 5b6e774b942b5024bbf5fc21beac63ea0caeb7a7
 ```
 
-Full CI #671 / run `35047494614` passed on the first run:
-- Ubuntu quality gate;
-- Windows compatibility;
-- production build and build budgets;
-- production dependency audit;
-- secret-history scan;
-- complete engine/learning suite including central and dedicated Take Away regressions;
-- deterministic activity-quality audit;
-- gameplay-distribution audit;
-- simulations;
-- Batch17 final acceptance contracts;
-- Chromium canonical mobile/accessibility/browser matrix including Take Away responsive QA.
+CI #671 / run `35047494614` passed on the first run across Ubuntu, Windows, production build, dependency/secret audits, complete engine/learning suite, deterministic activity-quality audit, gameplay-distribution audit, simulations, Batch17 and Chromium canonical mobile/accessibility/browser QA.
 
-Cloudflare production smoke is correctly skipped on the unmerged PR and remains a post-merge `main` gate.
+All nine Take Away screenshots were manually reviewed and accepted:
+- 320x720 — idle / wrong / success;
+- 390x844 — idle / wrong / success;
+- 768x1024 — idle / wrong / success.
 
-## Accepted audit evidence
+Final canonical implementation docs head:
+
+```text
+061b004188e827ff62bd1e5c48377a087f0f9144
+```
+
+That exact head passed full CI #676 / run `35048147580`. PR #143 then passed the exact-head clean gate with `mergeable=true`, zero comments, zero reviews and zero review threads, and squash merged as:
+
+```text
+3ac5ab049e94f65c3e28a7e4e5cbd18185a9466a
+```
+
+`main` was independently verified at that exact SHA. Post-merge `main` CI #677 / run `35048981508` passed all primary jobs and **Cloudflare production smoke succeeded**.
+
+## Verified merged audit evidence
 
 Deterministic activity quality:
 
@@ -117,12 +125,12 @@ REPLACE:                 0
 structural findings:     0
 ```
 
-Gameplay distribution on accepted implementation head:
+Gameplay distribution:
 
 ```text
 classified:               900 / 900
 unclassified:               0
-active PR-head patterns:   32
+active merged patterns:    32
 choice_grid               298 / 900 = 33.11%
 make_total                  5 / 900 = 0.56%
 take_away                   5 / 900 = 0.56%
@@ -136,34 +144,14 @@ Iqro choice_grid            58 / 100
 
 Global advisory hotspots: none. Subject advisory hotspots remain Coloring `coloring_canvas` 100%, Drawing `drawing_canvas` 100%, and Letters `symbol_hunt` 64%. These remain planning signals, not automatic redesign findings.
 
-If merged unchanged, remaining distance is **18** patterns to minimum 50 and **28** to working target 60.
-
-## Manual visual acceptance
-
-All nine Take Away browser screenshots were manually reviewed and accepted:
-- 320x720 — idle / wrong / success;
-- 390x844 — idle / wrong / success;
-- 768x1024 — idle / wrong / success.
-
-Accepted observations:
-- no horizontal overflow or required-content viewport clipping;
-- starting group count and removed subset are visually distinct;
-- removed objects are faded/crossed without erasing the original group context;
-- result remains masked as `?` in idle and wrong states;
-- wrong feedback is visible and does not reveal the numeric remainder;
-- correct state reveals only the canonical remainder;
-- success feedback and CTA remain visible;
-- direct-choice targets remain usable across phone/tablet layouts;
-- the 320px compact variant keeps the subtraction relationship, feedback and CTA inside the tested viewport.
+Remaining distance is **18** patterns to minimum 50 and **28** to working target 60.
 
 ## Closure gate
 
-Pattern #32 is **not fully closed yet**. Remaining gates are:
-1. canonical docs are updated to this accepted/unmerged state;
-2. fresh full CI on the exact final docs head;
-3. clean PR #143 mergeability/review-thread gate;
-4. exact-head squash merge and independent `main` SHA verification;
-5. post-merge `main` CI with Cloudflare production smoke;
-6. separate docs-only closure PR with its own exact-head CI/merge/live verification.
+Implementation is merged and live-verified. Pattern #32 is **not fully closed yet**. Closure PR #144 must still pass:
+1. fresh full CI on the exact final closure head;
+2. clean mergeability/comments/reviews/review-thread gate;
+3. exact-head squash merge and independent final `main` SHA verification;
+4. final post-closure `main` CI with Cloudflare production smoke.
 
-No Pattern #33 family is pre-approved before Pattern #32 is fully closed.
+Only after all four closure gates succeed may Pattern #32 be marked **FULLY CLOSED** and a fresh objective/evidence audit for Pattern #33 begin. No Pattern #33 family is pre-approved.

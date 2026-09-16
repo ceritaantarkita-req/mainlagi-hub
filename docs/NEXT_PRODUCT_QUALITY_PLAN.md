@@ -4,14 +4,14 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 **Canonical branch:** `main`  
-**Latest fully closed gameplay:** Pattern #31 — Math `make_total`  
-**Pattern #31 implementation / closure:** PR #141 + #142  
-**Final verified Pattern #31 `main`:** `79a1b3871e7494a7f9580ca26e56f4f30d5874b4`  
-**Pattern #31 final live CI:** #670 / run `35045153104` — full success including Cloudflare production smoke  
-**Current accepted unmerged gameplay:** PR #143 — Math `take_away`  
-**Accepted Pattern #32 implementation code head:** `5b6e774b942b5024bbf5fc21beac63ea0caeb7a7`  
-**Accepted Pattern #32 CI:** #671 / run `35047494614`  
-**Pattern #32:** **QA ACCEPTED / UNMERGED**  
+**Latest merged gameplay:** Pattern #32 — Math `take_away`  
+**Pattern #32 implementation PR:** #143  
+**Pattern #32 closure PR:** #144  
+**Final implementation docs head:** `061b004188e827ff62bd1e5c48377a087f0f9144`  
+**Final implementation PR CI:** #676 / run `35048147580` — full success  
+**Verified implementation merge SHA:** `3ac5ab049e94f65c3e28a7e4e5cbd18185a9466a`  
+**Post-merge implementation CI:** #677 / run `35048981508` — full success including Cloudflare production smoke  
+**Pattern #32:** **MERGED / LIVE VERIFIED / CLOSURE PR #144 PENDING**  
 **Primary focus:** WS-05 gameplay/mechanic diversification  
 **Principle:** **Quality first. Quantity later.**
 
@@ -38,7 +38,7 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | TODO | parent/public surfaces |
 | WS-04 Activity audit/redesign | deterministic clean | 900 KEEP / 0 flagged |
-| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | **31 merged patterns; Pattern #32 PR #143 QA accepted / unmerged** |
+| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | **32 merged patterns; Pattern #32 closure PR #144** |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | TODO / parallel | Art Bible + permanent human gate |
@@ -52,10 +52,11 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 ```text
 900 / 900 classified
 0 unclassified
-31 active merged patterns
-choice_grid                 303 / 900 = 33.67%
+32 active merged patterns
+choice_grid                 298 / 900 = 33.11%
 make_total                    5 / 900 = 0.56%
-Math choice_grid             51 / 100
+take_away                     5 / 900 = 0.56%
+Math choice_grid             46 / 100
 Bahasa choice_grid           47 / 100
 Science choice_grid          56 / 100
 Logic choice_grid            47 / 100
@@ -63,9 +64,9 @@ English choice_grid          44 / 100
 Iqro choice_grid             58 / 100
 ```
 
-Merged-baseline distance remaining: **19 patterns** to minimum 50 and **29 patterns** to working target 60.
+Distance remaining: **18 patterns** to minimum 50 and **28 patterns** to working target 60.
 
-## Pattern #32 — Math Take Away — QA accepted / unmerged
+## Pattern #32 — Math Take Away — merged / closure PR #144 pending
 
 Exact scope:
 
@@ -81,7 +82,7 @@ All five remain assessed `tap_choice` activities in stage `math-operasi-awal`, l
 
 Interaction/evidence contract:
 - one reviewed starting group is rendered with the exact reviewed start count;
-- exactly the reviewed remove count is visually marked as taken away while the original group context remains visible;
+- exactly the reviewed remove count is visibly marked as taken away while the original group context remains visible;
 - numeric remainder stays masked as `?` before a correct assessment;
 - config validation requires a positive proper removed subset, start count <=10 and `startCount - removeCount === Number(correctChoice)`;
 - keyboard/touch/pointer direct selection remains canonical;
@@ -94,33 +95,16 @@ Interaction/evidence contract:
 
 Scope boundaries remain explicit: Math addition stays `make_total`; equal-group grouping, missing-number, length/size and existing Math specialized mechanics remain outside Pattern #32; all non-Math families remain unchanged.
 
-QA chain:
-- accepted implementation code head `5b6e774b942b5024bbf5fc21beac63ea0caeb7a7` passed full CI #671 / run `35047494614` on the first run;
-- CI #671 passed Ubuntu, Windows, production build, dependency audit, secret-history scan, central + dedicated learning regressions, deterministic quality/distribution audits, simulations, Batch17 and Chromium mobile/accessibility/browser QA;
+QA and merge chain:
+- implementation code head `5b6e774b942b5024bbf5fc21beac63ea0caeb7a7` passed full CI #671 / run `35047494614` on the first run;
 - all nine 320x720, 390x844 and 768x1024 idle/wrong/success screenshots passed manual visual acceptance;
-- wrong state keeps the numeric remainder masked and success reveals only the canonical remainder;
+- final canonical implementation docs head `061b004188e827ff62bd1e5c48377a087f0f9144` passed full CI #676 / run `35048147580`;
+- PR #143 passed clean exact-head review/thread/mergeability gate and squash merged as `3ac5ab049e94f65c3e28a7e4e5cbd18185a9466a`;
+- `main` was independently verified at that SHA;
+- post-merge `main` CI #677 / run `35048981508` passed Ubuntu, Windows, production build, dependency audit, secret-history scan, Chromium mobile/accessibility/browser QA, deterministic quality/distribution audits, simulations, Batch17 and Cloudflare production smoke;
 - deterministic quality remains 900 KEEP / 0 flagged / structural findings 0.
 
-Accepted PR-head distribution:
-
-```text
-900 / 900 classified
-0 unclassified
-32 active PR-head patterns
-choice_grid                 298 / 900 = 33.11%
-make_total                    5 / 900 = 0.56%
-take_away                     5 / 900 = 0.56%
-Math choice_grid             46 / 100
-Bahasa choice_grid           47 / 100
-Science choice_grid          56 / 100
-Logic choice_grid            47 / 100
-English choice_grid          44 / 100
-Iqro choice_grid             58 / 100
-```
-
-If merged unchanged, distance becomes **18 patterns** to minimum 50 and **28 patterns** to working target 60.
-
-Pattern #32 is not fully closed until final canonical docs receive fresh exact-head CI, PR #143 exact-head merge/live verification succeeds, and its separate docs-only closure also passes exact-head CI/merge/live verification.
+Pattern #32 becomes **FULLY CLOSED only after closure PR #144 passes fresh exact-head CI, clean review/thread/mergeability gate, exact-head merge, independent final `main` SHA verification, and final post-closure `main` CI including Cloudflare production smoke**.
 
 ## Pattern #31 — closed baseline
 
@@ -132,8 +116,8 @@ A mechanic is complete only when implementation, typecheck/lint/build, engine te
 
 ## Current execution order
 
-1. Finish Pattern #32 PR #143: fresh exact docs-head CI -> clean merge/review gate -> exact-head merge -> post-merge `main` CI + Cloudflare smoke -> separate docs-only closure -> closure live verification.
-2. After Pattern #32 is fully closed, run a **fresh objective/evidence audit for Pattern #33**; no family is pre-approved.
+1. Finish Pattern #32 closure PR #144: exact closure-head CI -> clean review/thread/mergeability gate -> exact-head merge -> final `main` verification -> post-closure `main` CI + Cloudflare smoke.
+2. Only after Pattern #32 is fully closed, run a **fresh objective/evidence audit for Pattern #33**; no family is pre-approved.
 3. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
 4. Continue WS-08 visual system, WS-02 narration, WS-03 parent/public frontend, WS-10 external acceptance, WS-11 governance, then later cleanup.
 
