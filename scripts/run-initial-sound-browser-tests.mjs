@@ -41,23 +41,38 @@ async function seedPrerequisiteReadiness(context){
     const childId="demo-gian";
     const progressKey="mainlagi-learning-progress-v1";
     const attemptsKey="mainlagi-learning-attempts-v1";
-    const seeds=[
-      ["bahasa-cari-a","bahasa.huruf.a.recognition","tap_choice"],
-      ["bahasa-dengar-a","bahasa.huruf.a.recognition","listen_and_choose"],
-      ["bahasa-pasang-awal","bahasa.huruf.awal.matching","matching"]
+    const completedActivityIds=[
+      "bahasa-cari-a",
+      "bahasa-dengar-a",
+      "bahasa-pasang-awal",
+      "bahasa-cerita-teman"
     ];
-    const requiredIds=seeds.map(([id])=>id);
-    localStorage.setItem(progressKey,JSON.stringify({[childId]:{completedActivityIds:requiredIds,stars:0,lastActivityId:requiredIds.at(-1)}}));
-    const attempts=seeds.map(([seedActivityId,skillId,runtime],index)=>{
-      const attemptId=`qa-initial-sound-prereq-${index}`;
-      const completedAt=`2026-09-16T10:${String(index).padStart(2,"0")}:00.000Z`;
-      return{
-        id:attemptId,childId,activityId:seedActivityId,subjectId:"bahasa",stageId:"bahasa-huruf",runtime,difficulty:2,status:"completed",assessed:true,score:1,accuracy:1,correctCount:runtime==="matching"?2:1,incorrectCount:0,hintCount:0,retryCount:0,durationMs:1000,inputMode:"touch",startedAt:completedAt,completedAt,
-        metadata:{source:"initial-sound-browser-prerequisite"},
-        evidence:[{attemptId,activityId:seedActivityId,skillId,score:1,weight:1,createdAt:completedAt,qualifiesForMastery:true}],masteryEligible:true
-      };
-    });
-    localStorage.setItem(attemptsKey,JSON.stringify({[childId]:attempts}));
+    localStorage.setItem(progressKey,JSON.stringify({
+      [childId]:{completedActivityIds,stars:9,lastActivityId:"bahasa-cerita-teman"}
+    }));
+    const completedAt="2026-09-16T10:00:00.000Z";
+    localStorage.setItem(attemptsKey,JSON.stringify({
+      [childId]:[{
+        id:"qa-initial-sound-story-prereq",
+        childId,
+        activityId:"bahasa-cerita-teman",
+        subjectId:"bahasa",
+        stageId:"bahasa-cerita",
+        runtime:"story",
+        difficulty:1,
+        status:"completed",
+        assessed:false,
+        hintCount:0,
+        retryCount:0,
+        durationMs:1000,
+        inputMode:"touch",
+        startedAt:completedAt,
+        completedAt,
+        metadata:{source:"initial-sound-browser-prerequisite",evidenceFidelity:"completion_only"},
+        evidence:[],
+        masteryEligible:false
+      }]
+    }));
   });
 }
 
