@@ -68,6 +68,15 @@
   box-shadow: 0 8px 24px rgba(44, 73, 94, .07);
 }
 
+.panel:empty {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
 .page :is(a, button, input, select):focus-visible {
   outline: 3px solid #164b43;
   outline-offset: 4px;
