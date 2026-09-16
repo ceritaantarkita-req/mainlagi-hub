@@ -11,6 +11,7 @@ const {choiceGameplayPresentation,matchingPresentation}=require(path.resolve(".l
 const {numberLineConfig,numberLineValues}=require(path.resolve(".learning-test-dist/src/lib/learning/numberLineConfig.js"));
 const {moreLessBalanceConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/moreLessBalanceConfig.js"));
 const {patternCompletionConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/patternCompletionConfig.js"));
+const {makeTotalConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/makeTotalConfig.js"));
 const {causeEffectConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/causeEffectConfig.js"));
 const {comparePropertiesConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/comparePropertiesConfig.js"));
 const {healthyHabitRoutineConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/healthyHabitRoutineConfig.js"));
@@ -309,6 +310,27 @@ for(const activity of patternCompletion){
   if(config.unitLength) assert(config.unitLength>=2,`${activity.id} repeating unit remains meaningful`);
 }
 
+const expectedMakeTotal=new Set([
+  "math-add-1-1","math-add-2-1","math-add-2-2","math-add-3-2","math-add-4-3"
+]);
+const makeTotal=ACTIVITIES.filter(activity=>choiceGameplayPresentation(activity)==="make_total");
+assert.equal(makeTotal.length,expectedMakeTotal.size,"make-total family size must remain intentional");
+assert.deepEqual(new Set(makeTotal.map(activity=>activity.id)),expectedMakeTotal,"only the five reviewed Math Wave C addition activities use Make Total");
+for(const activity of makeTotal){
+  assert.equal(activity.runtime,"tap_choice");
+  assert.equal(activity.subjectId,"math");
+  assert.equal(activity.stageId,"math-operasi-awal");
+  assert.equal((activity.choices??[]).length,3);
+  assert.equal(new Set(activity.choices??[]).size,3,"make-total choices remain unique");
+  assert((activity.choices??[]).every(choice=>/^\d+$/.test(choice)),"make-total choices remain numeric");
+  assert((activity.choices??[]).includes(activity.correctChoice),"make total preserves canonical correctChoice");
+  const config=makeTotalConfig(activity);
+  assert(config,`${activity.id} must have explicit Make Total config`);
+  assert(config.leftCount>0&&config.rightCount>0,`${activity.id} keeps two visible non-empty groups`);
+  assert.equal(config.leftCount+config.rightCount,Number(activity.correctChoice),`${activity.id} groups sum exactly to canonical correctChoice`);
+  assert(config.leftCount+config.rightCount<=10,`${activity.id} remains within canonical addition-within-10 objective`);
+}
+
 const expectedCauseEffect=new Set([
   "science-water-ice-melts","science-water-freezes","science-water-puddle-evaporates","science-water-cold-glass-droplets"
 ]);
@@ -443,9 +465,9 @@ assert(observationTools,"investigation observation-tools matching remains in cat
 assert.equal(observationTools.runtime,"matching");
 assert.equal(matchingPresentation(observationTools),"grid_pairs","investigation matching stays outside choice-only investigation board");
 
-const specializedChoiceIds=new Set([...expectedSequence,...expectedSyllableAssembly,...expectedSorting,...expectedOddOneOut,...expectedRulePipeline,...expectedSetReasoning,...expectedTransitiveChain,...expectedSpatialTransform,...expectedRelativeOrderTrack,...expectedCountSelect,...expectedNumberLine,...expectedBalance,...expectedPatternCompletion,...expectedCauseEffect,...expectedCompareProperties,...expectedHealthyHabitRoutine,...expectedMaterialLab,...expectedFeatureFunctionLink,...expectedInvestigationBoard]);
+const specializedChoiceIds=new Set([...expectedSequence,...expectedSyllableAssembly,...expectedSorting,...expectedOddOneOut,...expectedRulePipeline,...expectedSetReasoning,...expectedTransitiveChain,...expectedSpatialTransform,...expectedRelativeOrderTrack,...expectedCountSelect,...expectedNumberLine,...expectedBalance,...expectedPatternCompletion,...expectedMakeTotal,...expectedCauseEffect,...expectedCompareProperties,...expectedHealthyHabitRoutine,...expectedMaterialLab,...expectedFeatureFunctionLink,...expectedInvestigationBoard]);
 const otherChoice=ACTIVITIES.filter(activity=>activity.runtime==="tap_choice"&&!specializedChoiceIds.has(activity.id));
 assert(otherChoice.length>0,"default choice activities remain available");
 assert(otherChoice.every(activity=>choiceGameplayPresentation(activity)==="default"),"other choice families retain default presentation");
 
-console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${syllableAssembly.length} syllable_assembly + ${sorting.length} sorting_buckets + ${oddOneOut.length} odd_one_out + ${rulePipeline.length} rule_pipeline + ${setReasoning.length} set_reasoning + ${transitiveChain.length} transitive_chain + ${spatialTransform.length} spatial_transform + ${relativeOrderTrack.length} relative_order_track + ${countSelect.length} count_select + ${numberLine.length} number_line + ${balance.length} more_less_balance + ${patternCompletion.length} pattern_completion + ${causeEffect.length} cause_effect + ${compareProperties.length} compare_properties + ${healthyHabitRoutine.length} healthy_habit_routine + ${materialLab.length} material_lab + ${featureFunctionLink.length} feature_function_link + ${investigationBoard.length} investigation_board activities.`);
+console.log(`Gameplay presentation regression PASS: ${memory.length} memory_pair + ${dragTargets.length} drag_targets + ${sequence.length} sequence_slot + ${syllableAssembly.length} syllable_assembly + ${sorting.length} sorting_buckets + ${oddOneOut.length} odd_one_out + ${rulePipeline.length} rule_pipeline + ${setReasoning.length} set_reasoning + ${transitiveChain.length} transitive_chain + ${spatialTransform.length} spatial_transform + ${relativeOrderTrack.length} relative_order_track + ${countSelect.length} count_select + ${numberLine.length} number_line + ${balance.length} more_less_balance + ${patternCompletion.length} pattern_completion + ${makeTotal.length} make_total + ${causeEffect.length} cause_effect + ${compareProperties.length} compare_properties + ${healthyHabitRoutine.length} healthy_habit_routine + ${materialLab.length} material_lab + ${featureFunctionLink.length} feature_function_link + ${investigationBoard.length} investigation_board activities.`);

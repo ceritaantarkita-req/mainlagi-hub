@@ -44,11 +44,10 @@
 27. `spatial_transform` — **MERGED PR #133; CLOSED PR #134**
 28. `investigation_board` — **MERGED PR #135; CLOSED PR #136**
 29. `relative_order_track` — **MERGED PR #137; CLOSED PR #138**
-30. `syllable_assembly` — **MERGED PR #139; CLOSURE PR #140**
+30. `syllable_assembly` — **MERGED PR #139; CLOSED PR #140; FULLY CLOSED**
 
 Permanent gameplay-distribution audit: **MERGED PR #105**.  
-Verified Pattern #30 implementation merge SHA: `c973dbc9e6010ff167a082cd6759728b590e7626`.  
-Final implementation PR docs head `ee891dc99c1f86831ba67b34ae39e71ec50ee886` passed CI #647 / run `35001595648`; post-merge `main` CI #648 / run `35003757463` passed including Cloudflare production smoke.
+Final verified Pattern #30 `main` SHA: `53667560d72ca4cfe3556bc59411a71c53a84834`; CI #655 / run `35005253923` passed the full matrix including Cloudflare production smoke.
 
 Merged distribution:
 
@@ -59,67 +58,84 @@ Merged distribution:
 choice_grid                 308 / 900 = 34.22%
 syllable_assembly             5 / 900 = 0.56%
 Bahasa choice_grid           47 / 100
+Math choice_grid             56 / 100
 Science choice_grid          56 / 100
 Logic choice_grid            47 / 100
 ```
 
-Distance remaining: **20** patterns to minimum 50 and **30** to working target 60.
+Distance remaining on merged baseline: **20** patterns to minimum 50 and **30** to working target 60.
 
-### `syllable_assembly` — Pattern #30 closure record
+### PR #141 accepted head: 31 pola
+
+Pattern #31 `make_total` is **QA ACCEPTED / UNMERGED**.
+
+```text
+900 / 900 classified
+0 unclassified
+31 active PR-head patterns
+choice_grid                 303 / 900 = 33.67%
+make_total                    5 / 900 = 0.56%
+Math choice_grid             51 / 100
+Bahasa choice_grid           47 / 100
+Science choice_grid          56 / 100
+Logic choice_grid            47 / 100
+English choice_grid          44 / 100
+Iqro choice_grid             58 / 100
+```
+
+If merged unchanged, distance remaining becomes **19** patterns to minimum 50 and **29** to working target 60.
+
+### `make_total` — Pattern #31 QA acceptance
 
 Exact scope:
 
 ```text
-bahasa-gabung-baju
-bahasa-gabung-buku
-bahasa-gabung-meja
-bahasa-gabung-bola
-bahasa-gabung-susu
+math-add-1-1
+math-add-2-1
+math-add-2-2
+math-add-3-2
+math-add-4-3
 ```
 
 Boundaries:
-- stage `bahasa-suku-kata-kata`;
-- lesson `bahasa-suku-kata-gabung`;
-- pack `bahasa.pack.suku-kata-gabung`;
-- canonical skill `bahasa.suku_kata.blending`;
+- stage `math-operasi-awal`;
+- lesson `math-addition`;
+- pack `math.pack.addition`;
+- canonical skill `math.operation.addition.within_10`;
 - assessed runtime remains `tap_choice`;
-- canonical three choices and `correctChoice` remain unchanged;
+- canonical three numeric choices and `correctChoice` remain unchanged;
 - assessment, stars, mastery, progression, activity identity and completion semantics remain canonical;
-- Bahasa recognition/picture-word/initial-sound/listening/matching remain outside scope;
-- English phonics, Math and Logic families remain outside scope;
-- assessed fidelity `choice_syllable_assembly_interaction`;
-- runtime metadata source `syllable-assembly-runtime`.
+- subtraction, equal-group grouping, missing-number and length/size remain outside scope;
+- existing Math count/number-line/comparison/pattern families remain outside scope;
+- all non-Math families remain outside scope;
+- assessed fidelity `choice_make_total_interaction`;
+- runtime metadata source `make-total-runtime`.
 
 Interaction:
-- show only the two canonical syllables already present in title/prompt content;
-- mask assembled result with `?` before a correct assessment;
-- validate that the two syllables concatenate exactly to canonical `correctChoice`;
+- show two reviewed positive addend groups;
+- mask total with `?` before a correct assessment;
+- validate that the two addends sum exactly to canonical `correctChoice` and remain <=10;
 - retain accessible direct-selection buttons;
-- wrong selection is retryable, measured, cannot complete, and cannot reveal the result;
-- correct selection completes the existing activity identity and may reveal the canonical word;
-- no invented syllable, answer leakage, changed choice set, drag-only dependency, extra confirmation or intermediate assessment.
+- wrong selection is retryable, measured, cannot complete, and cannot reveal the total;
+- correct selection completes the existing activity identity and may reveal the canonical total;
+- no changed choice set, drag-only dependency, extra confirmation or intermediate assessment.
 
-Acceptance/closure chain:
-- CI #640 caught missing permanent central-test registration; fixed without weakening default-family coverage;
-- CI #641 caught missing learning-test compile-manifest coverage for the new config; fixed;
-- implementation head `d55c1deb54f1402c38d84417ca7ae8248c9d3b07` passed full CI #642 / run `35000557604`;
-- final canonical implementation docs head `ee891dc99c1f86831ba67b34ae39e71ec50ee886` passed full CI #647 / run `35001595648`;
-- all nine idle/wrong/success screenshots at 320x720, 390x844 and 768x1024 passed manual visual acceptance;
-- PR #139 exact-head squash merged as `c973dbc9e6010ff167a082cd6759728b590e7626` and was independently verified live;
-- post-merge `main` CI #648 / run `35003757463` passed every gate including Cloudflare production smoke;
-- closure PR #140 is the final closure gate.
+Acceptance evidence:
+- CI #656 / run `35042089820` caught the 320x720 idle-feedback visibility defect;
+- the responsive fix kept >=48px touch targets and preserved the strict visibility assertion;
+- accepted implementation head `4b513676c9029fbb7a788a49175ed02954f0d2f7` passed full CI #657 / run `35042439233`;
+- deterministic audit is 900 KEEP / 0 flagged / structural findings 0;
+- all nine 320x720, 390x844 and 768x1024 idle/wrong/success screenshots passed manual visual acceptance.
+
+Pattern #31 still requires final docs-head CI, exact-head implementation merge/live verification and separate docs-only closure before it becomes fully closed.
+
+### `syllable_assembly` — FULLY CLOSED
+
+Syllable Assembly implementation PR #139 and closure PR #140 are complete. Final verified `main` SHA is `53667560d72ca4cfe3556bc59411a71c53a84834`; final CI #655 passed including Cloudflare production smoke.
 
 ### `relative_order_track` — FULLY CLOSED
 
-Relative Order Track implementation PR #137 and closure PR #138 remain complete. Pattern #30 does not change its evidence, runtime, mastery or progression.
-
-### `investigation_board` — FULLY CLOSED
-
-Investigation Board implementation PR #135 and closure PR #136 remain complete.
-
-### `spatial_transform` — FULLY CLOSED
-
-Spatial Transform implementation PR #133 and closure PR #134 remain complete.
+Relative Order Track implementation PR #137 and closure PR #138 remain complete.
 
 ## 60 pola permainan target
 
@@ -162,12 +178,12 @@ Spatial Transform implementation PR #133 and closure PR #134 remain complete.
 26. `count_and_select` — **MERGED PR #106**
 27. `number_line` — **MERGED PR #108**
 28. `more_less_balance` — **MERGED PR #109**
-29. `make_total`
+29. `make_total` — **QA ACCEPTED / UNMERGED PR #141**
 30. `pattern_completion` — **MERGED PR #110**
 
 ### G. Literacy construction
 31. `build_word`
-32. `syllable_assembly` — **MERGED PR #139; CLOSURE PR #140**
+32. `syllable_assembly` — **MERGED PR #139; CLOSED PR #140**
 33. `letter_construction`
 34. `initial_sound_sort`
 35. `word_picture_match`
@@ -236,8 +252,9 @@ Coverage dan implemented-pattern consistency bersifat blocking; concentration be
 19. Spatial Transform — **DONE / #133 + #134**.
 20. Investigation Board — **DONE / #135 + #136**.
 21. Relative Order Track — **DONE / #137 + #138**.
-22. Syllable Assembly — **DONE / #139 + closure #140**, fully closed after closure exact-head merge/live verification.
-23. NEXT — fresh objective/evidence audit for Pattern #31 from the verified 30-pattern baseline; no family is pre-approved.
+22. Syllable Assembly — **DONE / #139 + #140**, fully closed and live-verified.
+23. Make Total — **QA ACCEPTED / UNMERGED PR #141**.
+24. NEXT after Pattern #31 closure — fresh objective/evidence audit for Pattern #32; no family is pre-approved.
 
 ## Definition of done per mechanic
 

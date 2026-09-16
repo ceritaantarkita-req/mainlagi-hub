@@ -7,6 +7,7 @@ import { DragTargetMatchActivity } from "@/components/learning/DragTargetMatchAc
 import { FeatureFunctionLinkActivity } from "@/components/learning/FeatureFunctionLinkActivity";
 import { HealthyHabitRoutineActivity } from "@/components/learning/HealthyHabitRoutineActivity";
 import { InvestigationBoardActivity } from "@/components/learning/InvestigationBoardActivity";
+import { MakeTotalActivity } from "@/components/learning/MakeTotalActivity";
 import { MaterialLabActivity } from "@/components/learning/MaterialLabActivity";
 import { MemoryMatchActivity } from "@/components/learning/MemoryMatchActivity";
 import { MoreLessBalanceActivity } from "@/components/learning/MoreLessBalanceActivity";
@@ -32,6 +33,7 @@ import {
   isFeatureFunctionLinkActivity,
   isHealthyHabitRoutineActivity,
   isInvestigationBoardActivity,
+  isMakeTotalActivity,
   isMaterialLabActivity,
   isMemoryPairActivity,
   isMoreLessBalanceActivity,
@@ -95,6 +97,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
         <MoreLessBalanceActivity childId={childId} activityId={activity} />
       ) : isPatternCompletionActivity(definition) ? (
         <PatternCompletionActivity childId={childId} activityId={activity} />
+      ) : isMakeTotalActivity(definition) ? (
+        <MakeTotalActivity childId={childId} activityId={activity} />
       ) : isCauseEffectActivity(definition) ? (
         <CauseEffectActivity childId={childId} activityId={activity} />
       ) : isComparePropertiesActivity(definition) ? (
