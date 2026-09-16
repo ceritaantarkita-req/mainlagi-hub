@@ -4,14 +4,14 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 **Canonical branch:** `main`  
-**Latest fully closed gameplay:** Pattern #30 — Bahasa `syllable_assembly`  
-**Pattern #30 implementation / closure:** PR #139 + #140  
-**Final verified Pattern #30 `main`:** `53667560d72ca4cfe3556bc59411a71c53a84834`  
-**Pattern #30 final live CI:** #655 / run `35005253923` — full success including Cloudflare production smoke  
-**Current accepted unmerged gameplay:** PR #141 — Math `make_total`  
-**Accepted Pattern #31 implementation head:** `4b513676c9029fbb7a788a49175ed02954f0d2f7`  
-**Accepted Pattern #31 CI:** #657 / run `35042439233`  
-**Pattern #31:** **QA ACCEPTED / UNMERGED**  
+**Latest merged gameplay:** Pattern #31 — Math `make_total`  
+**Pattern #31 implementation PR:** #141  
+**Pattern #31 closure PR:** #142  
+**Final implementation docs head:** `7230d87fb5c53d6e164465aa3353531228b8f4c6`  
+**Final implementation PR CI:** #662 / run `35043111245` — full success  
+**Verified implementation merge SHA:** `de358c3e6610c3ae9b8669ce3df3b0f2a95e3136`  
+**Post-merge implementation CI:** #663 / run `35044172180` — full success including Cloudflare production smoke  
+**Pattern #31:** **MERGED / CLOSURE PR #142 PENDING**  
 **Primary focus:** WS-05 gameplay/mechanic diversification  
 **Principle:** **Quality first. Quantity later.**
 
@@ -38,7 +38,7 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | TODO | parent/public surfaces |
 | WS-04 Activity audit/redesign | deterministic clean | 900 KEEP / 0 flagged |
-| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | **30 merged patterns; Pattern #31 PR #141 QA accepted / unmerged** |
+| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | **31 merged patterns; Pattern #31 closure PR #142** |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | TODO / parallel | Art Bible + permanent human gate |
@@ -52,18 +52,21 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 ```text
 900 / 900 classified
 0 unclassified
-30 active merged patterns
-choice_grid                 308 / 900 = 34.22%
+31 active merged patterns
+choice_grid                 303 / 900 = 33.67%
+make_total                    5 / 900 = 0.56%
 syllable_assembly             5 / 900 = 0.56%
+Math choice_grid             51 / 100
 Bahasa choice_grid           47 / 100
-Math choice_grid             56 / 100
 Science choice_grid          56 / 100
 Logic choice_grid            47 / 100
+English choice_grid          44 / 100
+Iqro choice_grid             58 / 100
 ```
 
-Merged-baseline distance remaining: **20 patterns** to minimum 50 and **30 patterns** to working target 60.
+Distance remaining: **19 patterns** to minimum 50 and **29 patterns** to working target 60.
 
-## Pattern #31 — Math Make Total — QA accepted / unmerged
+## Pattern #31 — Math Make Total — merged / closure pending
 
 Exact scope:
 
@@ -91,37 +94,22 @@ Interaction/evidence contract:
 
 Scope boundaries remain explicit: subtraction, equal-group grouping, missing-number, length/size and existing Math specialized mechanics remain outside Pattern #31; all non-Math families remain unchanged.
 
-QA chain:
-- initial CI #656 / run `35042089820` correctly caught a 320x720 viewport defect because idle feedback extended below the visible viewport;
+Acceptance and merge chain:
+- CI #656 / run `35042089820` correctly caught a 320x720 viewport defect because idle feedback extended below the visible viewport;
 - the fix compacted only the narrow/short UI, retained >=48px touch targets, and kept the strict visibility assertion;
-- accepted implementation head `4b513676c9029fbb7a788a49175ed02954f0d2f7` passed full CI #657 / run `35042439233`;
-- CI #657 passed Ubuntu, Windows, production build, dependency audit, secret-history scan, central + dedicated learning regressions, deterministic quality/distribution audits, simulations, Batch17 and Chromium mobile/accessibility/browser QA;
+- implementation QA head `4b513676c9029fbb7a788a49175ed02954f0d2f7` passed full CI #657 / run `35042439233`;
 - all nine 320/390/768 idle/wrong/success screenshots passed manual visual acceptance;
+- final canonical implementation docs head `7230d87fb5c53d6e164465aa3353531228b8f4c6` passed full CI #662 / run `35043111245`;
+- PR #141 passed the clean exact-head merge gate and squash merged as `de358c3e6610c3ae9b8669ce3df3b0f2a95e3136`;
+- `main` was independently verified at that exact SHA;
+- post-merge `main` CI #663 / run `35044172180` passed Ubuntu, Windows, production build, dependency audit, secret-history scan, Chromium mobile/accessibility/browser QA, deterministic quality/distribution audits, simulations, Batch17 and Cloudflare production smoke;
 - deterministic quality remains 900 KEEP / 0 flagged / structural findings 0.
 
-Accepted PR-head distribution:
-
-```text
-900 / 900 classified
-0 unclassified
-31 active PR-head patterns
-choice_grid                 303 / 900 = 33.67%
-make_total                    5 / 900 = 0.56%
-Math choice_grid             51 / 100
-Bahasa choice_grid           47 / 100
-Science choice_grid          56 / 100
-Logic choice_grid            47 / 100
-English choice_grid          44 / 100
-Iqro choice_grid             58 / 100
-```
-
-If merged unchanged, distance becomes **19 patterns** to minimum 50 and **29 patterns** to working target 60.
-
-Pattern #31 is not fully closed until final canonical docs receive fresh exact-head CI, PR #141 exact-head merge/live verification succeeds, and its separate docs-only closure also passes exact-head CI/merge/live verification.
+Pattern #31 becomes **FULLY CLOSED only after closure PR #142 passes fresh exact-head CI, clean review/thread/mergeability gate, exact-head merge, independent final `main` SHA verification, and final post-closure `main` CI including Cloudflare production smoke**.
 
 ## Pattern #30 — closed baseline
 
-`syllable_assembly` is fully closed. PR #139 implementation and PR #140 closure are merged; final verified `main` is `53667560d72ca4cfe3556bc59411a71c53a84834`; CI #655 / run `35005253923` passed the full matrix including Cloudflare production smoke.
+`syllable_assembly` remains fully closed through PR #139 implementation + PR #140 closure.
 
 ## Definition of Done
 
@@ -129,8 +117,8 @@ A mechanic is complete only when implementation, typecheck/lint/build, engine te
 
 ## Current execution order
 
-1. Finish Pattern #31 PR #141: fresh exact docs-head CI -> clean merge/review gate -> exact-head merge -> post-merge `main` CI + Cloudflare smoke -> separate docs-only closure -> closure live verification.
-2. After Pattern #31 is fully closed, run a **fresh objective/evidence audit for Pattern #32**; no family is pre-approved.
+1. Finish Pattern #31 closure PR #142: exact final closure-head CI -> clean review/thread/mergeability gate -> exact-head merge -> independent `main` verification -> post-closure `main` CI + Cloudflare production smoke.
+2. Only after Pattern #31 is fully closed, run a **fresh objective/evidence audit for Pattern #32**; no family is pre-approved.
 3. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
 4. Continue WS-08 visual system, WS-02 narration, WS-03 parent/public frontend, WS-10 external acceptance, WS-11 governance, then later cleanup.
 

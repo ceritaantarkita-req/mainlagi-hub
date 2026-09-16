@@ -1,10 +1,13 @@
 # WS-05 Pattern #31 — Math Make Total
 
 Date: **16 September 2026**  
-Status: **QA ACCEPTED / UNMERGED**  
+Status: **MERGED / CLOSURE PR #142 PENDING**  
 Implementation PR: **#141**  
-Branch: `agent/ws05-math-make-total-20260916`  
-Verified merged base: `53667560d72ca4cfe3556bc59411a71c53a84834`
+Closure PR: **#142**  
+Implementation branch: `agent/ws05-math-make-total-20260916`  
+Closure branch: `docs/ws05-make-total-closure-20260916`  
+Final implementation docs head: `7230d87fb5c53d6e164465aa3353531228b8f4c6`  
+Implementation merge SHA: `de358c3e6610c3ae9b8669ce3df3b0f2a95e3136`
 
 ## Why this family
 
@@ -78,34 +81,28 @@ Runtime measurement:
 - records left/right group counts and selected canonical choice;
 - canonical mastery, stars, progression and activity identity remain unchanged.
 
-## QA history
+## QA and merge history
 
-Initial implementation CI #656 / run `35042089820` passed Ubuntu, Windows, production build, deterministic quality/distribution and all non-browser gates, but the Chromium matrix correctly failed the new Make Total assertion at 320x720 because the idle feedback extended below the viewport.
+Initial implementation CI #656 / run `35042089820` passed every non-browser gate but the Chromium matrix correctly failed the new 320x720 visibility assertion because idle feedback extended below the viewport.
 
-The fix did not weaken the assertion. It compacted only the <=340px / <=760px presentation: less vertical spacing, a shorter board/result, hidden secondary prompt copy, and smaller but still >=48px canonical choice targets.
+The responsive fix did not weaken the assertion. It compacted only the narrow/short presentation while retaining >=48px canonical choice targets and the strict visibility requirement.
 
-Accepted implementation head:
+Implementation QA head `4b513676c9029fbb7a788a49175ed02954f0d2f7` passed full CI #657 / run `35042439233`. All nine Make Total idle/wrong/success screenshots at 320x720, 390x844 and 768x1024 were manually reviewed and accepted.
 
-```text
-4b513676c9029fbb7a788a49175ed02954f0d2f7
-```
+Canonical docs were then updated on implementation PR #141. Final implementation docs head `7230d87fb5c53d6e164465aa3353531228b8f4c6` passed fresh exact-head CI #662 / run `35043111245` across Ubuntu, Windows, production build, dependency audit, secret-history scan and Chromium browser QA. Cloudflare production smoke was correctly skipped on the PR event.
 
-Full CI #657 / run `35042439233` passed:
-- Ubuntu quality gate;
-- Windows compatibility;
-- production build and build budgets;
-- production dependency audit;
-- secret-history scan;
-- complete engine/learning suite including central and dedicated Make Total regressions;
-- deterministic activity-quality audit;
-- gameplay-distribution audit;
-- simulations;
-- Batch17 final acceptance contracts;
-- Chromium canonical mobile/accessibility/browser matrix including Make Total responsive QA.
+The final implementation merge gate confirmed:
+- exact head `7230d87fb5c53d6e164465aa3353531228b8f4c6`;
+- `mergeable=true`;
+- zero submitted reviews;
+- zero review threads;
+- exactly 16 intended changed files.
 
-Cloudflare production smoke is correctly skipped on the unmerged PR and remains a post-merge `main` gate.
+PR #141 was exact-head squash merged as `de358c3e6610c3ae9b8669ce3df3b0f2a95e3136`. `main` was independently verified at that exact SHA.
 
-## Accepted audit evidence
+Post-merge push CI #663 / run `35044172180` passed every gate including **Production smoke (Cloudflare)**.
+
+## Verified merged evidence
 
 Deterministic activity quality:
 
@@ -119,12 +116,12 @@ REPLACE:                 0
 structural findings:     0
 ```
 
-Gameplay distribution on accepted PR head:
+Merged gameplay distribution:
 
 ```text
 classified:               900 / 900
 unclassified:               0
-active PR-head patterns:   31
+active merged patterns:    31
 choice_grid               303 / 900 = 33.67%
 make_total                  5 / 900 = 0.56%
 Math choice_grid            51 / 100
@@ -135,7 +132,7 @@ English choice_grid         44 / 100
 Iqro choice_grid            58 / 100
 ```
 
-If merged unchanged, remaining distance is **19** patterns to minimum 50 and **29** to working target 60.
+Remaining distance is **19** patterns to minimum 50 and **29** to working target 60.
 
 ## Manual visual acceptance
 
@@ -154,14 +151,15 @@ Accepted observations:
 - direct-choice targets remain usable across phone/tablet layouts;
 - the 320px compact variant retains the learning relationship while fitting all required feedback in the viewport.
 
-## Closure gate
+## Final closure gate
 
-Pattern #31 is **not fully closed yet**. Remaining gates are:
-1. canonical docs are updated to this accepted/unmerged state;
-2. fresh full CI on the exact final docs head;
-3. clean PR #141 mergeability/review-thread gate;
-4. exact-head squash merge and independent `main` SHA verification;
-5. post-merge `main` CI with Cloudflare production smoke;
-6. separate docs-only closure PR with its own exact-head CI/merge/live verification.
+Docs-only closure PR #142 is the final Pattern #31 gate. Pattern #31 becomes **FULLY CLOSED after PR #142**:
+1. passes full CI on its exact final closure head;
+2. passes clean review/thread/mergeability and docs-only scope checks;
+3. is squash merged with `expected_head_sha` equal to that exact final closure head;
+4. the resulting `main` SHA is independently verified;
+5. post-closure `main` CI passes every gate including Cloudflare production smoke.
+
+Until all five are complete, the correct status is **MERGED / CLOSURE PR #142 PENDING**.
 
 No Pattern #32 family is pre-approved before Pattern #31 is fully closed.

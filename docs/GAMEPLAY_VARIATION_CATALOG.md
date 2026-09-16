@@ -13,7 +13,7 @@
 
 ## Status implementasi
 
-### Verified merged gameplay baseline: 30 pola
+### Verified merged gameplay baseline: 31 pola
 
 1. `choice_grid`
 2. `symbol_hunt`
@@ -45,36 +45,25 @@
 28. `investigation_board` — **MERGED PR #135; CLOSED PR #136**
 29. `relative_order_track` — **MERGED PR #137; CLOSED PR #138**
 30. `syllable_assembly` — **MERGED PR #139; CLOSED PR #140; FULLY CLOSED**
+31. `make_total` — **MERGED PR #141; CLOSURE PR #142 PENDING**
 
-Permanent gameplay-distribution audit: **MERGED PR #105**.  
-Final verified Pattern #30 `main` SHA: `53667560d72ca4cfe3556bc59411a71c53a84834`; CI #655 / run `35005253923` passed the full matrix including Cloudflare production smoke.
+Permanent gameplay-distribution audit: **MERGED PR #105**.
+
+Pattern #31 implementation evidence:
+- final implementation docs head `7230d87fb5c53d6e164465aa3353531228b8f4c6` passed CI #662 / run `35043111245`;
+- PR #141 exact-head squash merged as `de358c3e6610c3ae9b8669ce3df3b0f2a95e3136`;
+- `main` was independently verified at that exact SHA;
+- post-merge `main` CI #663 / run `35044172180` passed the full matrix including Cloudflare production smoke.
 
 Merged distribution:
 
 ```text
 900 / 900 classified
 0 unclassified
-30 active child-facing patterns
-choice_grid                 308 / 900 = 34.22%
-syllable_assembly             5 / 900 = 0.56%
-Bahasa choice_grid           47 / 100
-Math choice_grid             56 / 100
-Science choice_grid          56 / 100
-Logic choice_grid            47 / 100
-```
-
-Distance remaining on merged baseline: **20** patterns to minimum 50 and **30** to working target 60.
-
-### PR #141 accepted head: 31 pola
-
-Pattern #31 `make_total` is **QA ACCEPTED / UNMERGED**.
-
-```text
-900 / 900 classified
-0 unclassified
-31 active PR-head patterns
+31 active child-facing patterns
 choice_grid                 303 / 900 = 33.67%
 make_total                    5 / 900 = 0.56%
+syllable_assembly             5 / 900 = 0.56%
 Math choice_grid             51 / 100
 Bahasa choice_grid           47 / 100
 Science choice_grid          56 / 100
@@ -83,9 +72,9 @@ English choice_grid          44 / 100
 Iqro choice_grid             58 / 100
 ```
 
-If merged unchanged, distance remaining becomes **19** patterns to minimum 50 and **29** to working target 60.
+Distance remaining: **19** patterns to minimum 50 and **29** to working target 60.
 
-### `make_total` — Pattern #31 QA acceptance
+### `make_total` — Pattern #31 merged / closure pending
 
 Exact scope:
 
@@ -120,18 +109,21 @@ Interaction:
 - correct selection completes the existing activity identity and may reveal the canonical total;
 - no changed choice set, drag-only dependency, extra confirmation or intermediate assessment.
 
-Acceptance evidence:
-- CI #656 / run `35042089820` caught the 320x720 idle-feedback visibility defect;
+Acceptance and merge evidence:
+- CI #656 / run `35042089820` caught the real 320x720 idle-feedback visibility defect;
 - the responsive fix kept >=48px touch targets and preserved the strict visibility assertion;
-- accepted implementation head `4b513676c9029fbb7a788a49175ed02954f0d2f7` passed full CI #657 / run `35042439233`;
-- deterministic audit is 900 KEEP / 0 flagged / structural findings 0;
-- all nine 320x720, 390x844 and 768x1024 idle/wrong/success screenshots passed manual visual acceptance.
+- implementation QA head `4b513676c9029fbb7a788a49175ed02954f0d2f7` passed full CI #657 / run `35042439233`;
+- deterministic audit remained 900 KEEP / 0 flagged / structural findings 0;
+- all nine 320x720, 390x844 and 768x1024 idle/wrong/success screenshots passed manual visual acceptance;
+- final implementation docs head `7230d87fb5c53d6e164465aa3353531228b8f4c6` passed full CI #662 / run `35043111245`;
+- PR #141 passed the clean exact-head merge gate and merged as `de358c3e6610c3ae9b8669ce3df3b0f2a95e3136`;
+- post-merge CI #663 / run `35044172180` passed including Cloudflare production smoke.
 
-Pattern #31 still requires final docs-head CI, exact-head implementation merge/live verification and separate docs-only closure before it becomes fully closed.
+Pattern #31 becomes fully closed only after docs-only closure PR #142 passes its exact-head CI/clean merge gate, merges exact-head, and the resulting `main` SHA passes final live verification + Cloudflare production smoke.
 
 ### `syllable_assembly` — FULLY CLOSED
 
-Syllable Assembly implementation PR #139 and closure PR #140 are complete. Final verified `main` SHA is `53667560d72ca4cfe3556bc59411a71c53a84834`; final CI #655 passed including Cloudflare production smoke.
+Syllable Assembly implementation PR #139 and closure PR #140 remain complete.
 
 ### `relative_order_track` — FULLY CLOSED
 
@@ -178,7 +170,7 @@ Relative Order Track implementation PR #137 and closure PR #138 remain complete.
 26. `count_and_select` — **MERGED PR #106**
 27. `number_line` — **MERGED PR #108**
 28. `more_less_balance` — **MERGED PR #109**
-29. `make_total` — **QA ACCEPTED / UNMERGED PR #141**
+29. `make_total` — **MERGED PR #141; CLOSURE PR #142 PENDING**
 30. `pattern_completion` — **MERGED PR #110**
 
 ### G. Literacy construction
@@ -209,7 +201,7 @@ Relative Order Track implementation PR #137 and closure PR #138 remain complete.
 49. `compare_properties` — **MERGED PR #114**
 50. `material_lab` — **MERGED PR #116**
 
-`feature_function_link`, `healthy_habit_routine`, `rule_pipeline`, `odd_one_out`, `transitive_chain`, `set_reasoning`, `spatial_transform`, `investigation_board`, `relative_order_track`, and `syllable_assembly` are additional validated objective-fit patterns outside the original illustrative 60-slot naming list where applicable. Target slots are planning aids, not a prohibition on better mechanics.
+`feature_function_link`, `healthy_habit_routine`, `rule_pipeline`, `odd_one_out`, `transitive_chain`, `set_reasoning`, `spatial_transform`, `investigation_board`, `relative_order_track`, `syllable_assembly`, and `make_total` are validated objective-fit patterns. Target slots are planning aids, not a prohibition on better mechanics.
 
 ### K. Creative visual play
 51. `color_by_rule`
@@ -253,8 +245,9 @@ Coverage dan implemented-pattern consistency bersifat blocking; concentration be
 20. Investigation Board — **DONE / #135 + #136**.
 21. Relative Order Track — **DONE / #137 + #138**.
 22. Syllable Assembly — **DONE / #139 + #140**, fully closed and live-verified.
-23. Make Total — **QA ACCEPTED / UNMERGED PR #141**.
-24. NEXT after Pattern #31 closure — fresh objective/evidence audit for Pattern #32; no family is pre-approved.
+23. Make Total implementation — **MERGED / #141**, live-verified.
+24. Make Total closure — **PR #142 PENDING**.
+25. NEXT only after Pattern #31 full closure — fresh objective/evidence audit for Pattern #32; no family is pre-approved.
 
 ## Definition of done per mechanic
 
