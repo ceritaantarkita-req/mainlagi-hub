@@ -128,6 +128,8 @@ jobs:
         run: npm run test:ui:coloring-art
       - name: Run canonical mobile route, accessibility, and lazy-load matrix
         run: npm run test:ui:mobile-routes
+      - name: Run permanent visual product baseline
+        run: node scripts/run-visual-baseline-browser-tests.mjs
       - name: Upload responsive QA screenshots
         if: always()
         uses: actions/upload-artifact@v4
