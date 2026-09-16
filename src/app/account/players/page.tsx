@@ -1,17 +1,13 @@
 import type { Metadata } from "next";
 import { PlayerProfiles } from "@/components/account/PlayerProfiles";
+import { AccountSectionShell } from "@/components/account/AccountSectionShell";
 
 export const metadata: Metadata = { title: "Pemain" };
 
 export default function PlayersPage() {
   return (
-    <div className="fun-home">
-      <section className="page-shell fun-section account-page">
-        <header className="fun-section__head">
-          <h2>Pemain</h2>
-        </header>
-        <PlayerProfiles />
-      </section>
-    </div>
+    <AccountSectionShell title="Pemain">
+      <PlayerProfiles />
+    </AccountSectionShell>
   );
 }
