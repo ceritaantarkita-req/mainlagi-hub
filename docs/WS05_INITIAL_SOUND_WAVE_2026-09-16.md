@@ -11,8 +11,8 @@ Final implementation docs-head CI: **#709 / run `35072401631` — full PR succes
 Implementation merge SHA: `42da6cfd2114bd29b9aa4ddd36361bb975db2bf1`  
 Post-merge main CI: **#710 / run `35072815182` — full success including Cloudflare production smoke**  
 Closure branch: `docs/ws05-initial-sound-closure-20260916`  
-Closure PR: **pending**  
-Status: **MERGED / LIVE VERIFIED / CLOSURE PR PENDING**
+Closure PR: **#148**  
+Status: **MERGED / LIVE VERIFIED / CLOSURE PR #148 OPEN**
 
 ## Why this family was selected
 
@@ -115,9 +115,9 @@ The three scoped activities move from `choice_grid` to `initial_sound`; all othe
 
 Pattern #34 implementation is therefore **MERGED / LIVE VERIFIED**.
 
-## Docs-only closure
+## Docs-only closure PR #148
 
-The closure branch was created from the exact implementation merge SHA `42da6cfd2114bd29b9aa4ddd36361bb975db2bf1`. Closure is restricted to exactly these five canonical Pattern #34 documentation files:
+Closure PR #148 starts from the exact implementation merge SHA `42da6cfd2114bd29b9aa4ddd36361bb975db2bf1` and is restricted to exactly these five canonical Pattern #34 documentation files:
 
 ```text
 docs/CURRENT_STATE.md
@@ -127,18 +127,17 @@ docs/NEXT_PRODUCT_QUALITY_PLAN.md
 docs/WS05_INITIAL_SOUND_WAVE_2026-09-16.md
 ```
 
-No runtime, catalog, test, mastery, progression, schema, migration or application code belongs in the closure PR.
+No runtime, catalog, test, mastery, progression, schema, migration or application code belongs in PR #148.
 
 ## Remaining closure sequence
 
 Pattern #34 is **not fully closed yet**. Required remaining sequence:
 
-1. open the docs-only closure PR and record its actual PR number in all five canonical docs;
-2. require fresh exact closure-head full CI success;
-3. verify exact head, mergeability, `behind_by=0`, exactly five docs-only files, zero relevant comments, zero reviews and zero unresolved review threads;
-4. exact-head squash merge the closure PR;
-5. independently verify final `main` at the exact closure merge SHA;
-6. require final post-closure `main` CI full success including Cloudflare production smoke.
+1. require fresh exact closure-head full CI success on PR #148;
+2. verify exact head, mergeability, `behind_by=0`, exactly five docs-only files, zero relevant comments, zero reviews and zero unresolved review threads;
+3. exact-head squash merge PR #148;
+4. independently verify final `main` at the exact closure merge SHA;
+5. require final post-closure `main` CI full success including Cloudflare production smoke.
 
 Only after all remaining closure gates pass may Pattern #34 be marked **FULLY CLOSED**.
 
