@@ -1,0 +1,70 @@
+.form { display: grid; gap: 16px; }
+.form h1 {
+  margin: 0 0 4px;
+  color: #193b55;
+  font-size: clamp(30px, 4vw, 42px);
+  line-height: 1.1;
+  letter-spacing: -1px;
+  font-weight: 950;
+}
+.label { display: grid; gap: 7px; color: #365a60; font-size: 14px; font-weight: 900; }
+.input {
+  width: 100%;
+  min-height: 52px;
+  padding: 0 14px;
+  border: 2px solid #cbd9cf;
+  border-radius: 15px;
+  background: #fffdf5;
+  color: #193b55;
+  font: inherit;
+  font-size: 16px;
+  outline: none;
+}
+.input:focus-visible { border-color: #287158; box-shadow: 0 0 0 4px rgba(40,113,88,.14); }
+.message {
+  margin: 0;
+  padding: 12px 14px;
+  border: 1px solid #e5d5b3;
+  border-radius: 14px;
+  background: #fff5d9;
+  color: #6c5120;
+  font-size: 14px;
+  font-weight: 750;
+  line-height: 1.5;
+}
+.submit {
+  display: inline-flex;
+  min-height: 54px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 16px;
+  padding: 12px 20px;
+  background: #287158;
+  color: #fff;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 900;
+  box-shadow: 0 4px 0 #195541;
+  cursor: pointer;
+}
+.submit:disabled { opacity: .55; cursor: wait; box-shadow: none; }
+.submit:focus-visible,
+.links a:focus-visible { outline: 3px solid #19698c; outline-offset: 4px; }
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  padding-top: 4px;
+  font-size: 14px;
+  font-weight: 850;
+}
+.links a { display: inline-flex; min-height: 44px; align-items: center; color: #287158; text-decoration: none; }
+.links a:hover { text-decoration: underline; }
+
+@media (max-width: 520px) {
+  .form { gap: 14px; }
+  .form h1 { font-size: 32px; }
+  .submit { width: 100%; }
+  .links { display: grid; gap: 2px; }
+}
