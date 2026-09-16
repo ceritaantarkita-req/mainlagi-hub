@@ -1,9 +1,12 @@
 # Production Visual / Product Baseline Audit — 2026-09-16
 
-Status: **P0 = 0; P1 = 5; VQA-01 IMPLEMENTATION CANDIDATE; PATTERN #38 BLOCKED**  
+Status: **P0 = 0; P1 = 5; VQA-01 EXACT-HEAD ACCEPTED; MERGE/LIVE VERIFICATION PENDING; PATTERN #38 BLOCKED**  
 Canonical production: `https://mainlagihub.my.id/`  
 Baseline checkpoint merge: `d3d600ed92e78d30da8172e0bdb300119990614f`  
-Baseline checkpoint CI: **#743 / run `35105996090` — full success including exact Cloudflare production smoke**
+Baseline checkpoint CI: **#743 / run `35105996090` — full success including exact Cloudflare production smoke**  
+VQA-01 implementation PR: **#156**  
+VQA-01 accepted code head: `0197344db13e4fc9e36d86b79a38e2cf726a9069`  
+VQA-01 exact-head CI: **#745 / run `35108485349` — full PR matrix success**
 
 ## Evidence boundary
 
@@ -13,20 +16,25 @@ The Garden learning/activity direction remains the **accepted child-facing visua
 
 ## Baseline result
 
+Before PR #156 merges and receives independent production verification:
+
 ```text
 P0 findings: 0
 P1 findings: 5
 P2 findings: 3
 Garden representative activities: ACCEPTED anchor
+Permanent visual QA: exact-head accepted; merge/live verification pending
 Whole-product visual acceptance: NOT YET ACCEPTED
 Pattern #38: BLOCKED
 ```
+
+When PR #156 is merged from its final exact head and independent `main` CI + exact Cloudflare smoke pass, **VBASE-P1-05 closes and the baseline P1 count becomes four**. The other P1 findings remain product work; VQA-01 does not hide them.
 
 ## P1 findings
 
 ### VBASE-P1-01 — visual-token fragmentation
 
-Garden/Playroom uses cream paper, navy ink, green CTA, sky/sage surfaces and Nunito. `LearningPlatform.module.css` and `globals.css` still express separate white/blue/teal and generic blue/navy product languages.
+Garden/Playroom uses cream paper, navy ink, green CTA, sky/sage surfaces and Nunito. `LearningPlatform.module.css` and `globals.css` still express overlapping white/blue/teal and generic blue/navy product languages.
 
 Required outcome: migrate product surfaces wave-by-wave to `MAINLAGI_ART_BIBLE.md`; do not mass-rewrite already accepted gameplay mechanics.
 
@@ -36,11 +44,15 @@ Parent reporting exposes terms such as `attempt`, `assessed`, `practice`, `quali
 
 Required outcome: preserve the underlying metrics/evidence semantics but present them in normal parent language with stronger hierarchy and progressive disclosure.
 
+Manual VQA-01 screenshot review reconfirmed this as the highest-priority visual/content P1 after permanent QA: the parent report is the densest and most technical family-facing surface in the canonical matrix.
+
 ### VBASE-P1-03 — stage/readiness hierarchy
 
 Tablet/desktop stage layouts are structurally correct but underuse available space and weakly distinguish progress, readiness, recommendation and lesson grouping.
 
 Required outcome: Garden-compatible stage hierarchy without changing progression/readiness logic.
+
+VQA-01 768/1280 screenshots reconfirmed the large unused tablet/desktop canvas.
 
 ### VBASE-P1-04 — public/adult root information architecture
 
@@ -48,17 +60,13 @@ Root is primarily a child playroom/fast-resume surface and does not yet provide 
 
 Required outcome: preserve fast resume for known children while defining a clean-session adult/public entry contract.
 
+The permanent matrix also shows that auth/system utility cards are visually under-scaled at wider viewports; that convergence belongs with VUI-03 rather than VQA-01.
+
 ### VBASE-P1-05 — permanent whole-product visual coverage gap
 
-Gameplay screenshots are strong, but the release gate historically lacked a stable product-shell matrix with exact final-path assertions for public root, profile selection, rewards, account/auth and representative system states.
+**Implementation exact-head accepted; merge/live verification pending.**
 
-Required outcome: VQA-01 permanent visual product baseline.
-
-## VQA-01 implementation candidate
-
-Branch: `agent/vqa01-permanent-visual-baseline-20260916`.
-
-The candidate adds `scripts/run-visual-baseline-browser-tests.mjs` to the existing blocking `Mobile route QA (Chromium)` job.
+PR #156 adds `scripts/run-visual-baseline-browser-tests.mjs` to the existing blocking `Mobile route QA (Chromium)` job.
 
 Canonical viewports:
 
@@ -87,7 +95,7 @@ expired auth-link error
 not-found
 ```
 
-Expected evidence: **42 deterministic screenshots** plus `.mobile-route-qa/visual-baseline/manifest.json`.
+Expected and verified evidence: **42 deterministic screenshots** plus `.mobile-route-qa/visual-baseline/manifest.json`.
 
 Blocking assertions:
 - expected HTTP status;
@@ -99,9 +107,55 @@ Blocking assertions:
 - no horizontal overflow;
 - child phone touch targets remain >= approximately 44 CSS px with the existing measurement tolerance;
 - no page errors;
-- no browser console errors.
+- no unexpected browser console errors.
 
-This candidate does not close VBASE-P1-05 until fresh exact-head CI passes, the screenshot artifact is manually reviewed, the PR clean gate passes, and the implementation is merged and independently verified on `main` including exact Cloudflare smoke.
+## VQA-01 failure-driven hardening
+
+Initial PR CI #744 / run `35107021073` was intentionally treated as evidence, not bypassed. Every job except `Mobile route QA (Chromium)` passed; the existing broad mobile/runtime matrix also passed. The new visual step failed on the deliberate not-found surface because:
+
+- the route correctly returned HTTP 404;
+- the exact pathname and structural assertions had passed;
+- Chromium emitted its normal document-load console message: `Failed to load resource: the server responded with a status of 404 (Not Found)`.
+
+The fix is narrowly scoped:
+- expected-404 surfaces still require exact 404 and exact pathname;
+- main/H1, route structure, overflow and page-error assertions remain active;
+- only the exact document-level 404 console string is filtered when the route contract itself expects 404;
+- unrelated console errors still fail;
+- status-200 surfaces retain the zero-console-error contract.
+
+Fresh exact-head CI #745 / run `35108485349` then passed every PR job, including `Run permanent visual product baseline`. This is not a global relaxation of browser-error checking.
+
+## VQA-01 artifact verification
+
+Run #745 artifact:
+
+```text
+name:   mobile-route-qa-screenshots
+id:     10450999235
+size:   43,655,320 bytes
+digest: sha256:07ae0dfc14ebdb13af4c2ebc270644194d8a4972b4630c428aa1c0dbeaa745e2
+```
+
+Manifest verification:
+
+```text
+captures:            42 / 42
+viewports:           390x844, 768x1024, 1280x800
+canonical surfaces:  14
+final paths:         14 unique expected paths
+HTTP responses:      39 x 200, 3 x intentional 404
+missing screenshots: 0
+```
+
+Manual review of all 42 screenshots found no new P0 blocker. It confirmed:
+- child select/home, representative Garden activity and rewards are suitable baseline references;
+- parent report remains the highest-priority dense/technical adult surface;
+- stage tablet/desktop still underuses available space;
+- auth/system cards are visually too small on wide screens;
+- public root remains visually coherent but does not yet solve first-time adult IA.
+
+VBASE-P1-05 remains formally open only until the final docs head passes fresh CI, PR #156 passes the clean merge gate, the exact head is merged, and independent `main` CI including exact Cloudflare smoke succeeds.
 
 ## P2 findings
 
@@ -127,7 +181,7 @@ Several learning/parent surfaces retain inline colors/margins alongside CSS modu
 
 ## P1 remediation order
 
-1. **VQA-01 Permanent visual baseline gate** — current implementation candidate.
+1. Finish **VQA-01 Permanent visual baseline gate** with exact merge and production verification.
 2. **VUI-01 Parent report convergence**.
 3. **VUI-02 Stage/gallery convergence**.
 4. **VUI-03 Public/auth/account convergence**.
@@ -143,4 +197,4 @@ Several learning/parent surfaces retain inline colors/margins alongside CSS modu
 - 320px remains supplemental for high-risk child/activity controls;
 - motion-game acceptance keeps suitable landscape evidence.
 
-This product-quality gate does not claim that the learning engine or deployment is broken. The baseline checkpoint itself is live and verified; the open work is whole-product visual convergence and evidence coverage.
+This product-quality gate does not claim that the learning engine or deployment is broken. The baseline checkpoint itself is live and verified; the open work is whole-product visual convergence and final VQA-01 merge/live closure.
