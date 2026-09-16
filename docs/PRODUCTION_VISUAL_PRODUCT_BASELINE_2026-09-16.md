@@ -1,171 +1,128 @@
 # Production Visual / Product Baseline Audit — 2026-09-16
 
-Status: **P0 = 0; P1 = 5; VQA-01 EXACT-HEAD ACCEPTED; MERGE/LIVE VERIFICATION PENDING; PATTERN #38 BLOCKED**  
+Status: **P0 = 0; P1 = 4 ON MERGED MAIN; VQA-01 CLOSED; VUI-01 EXACT-HEAD ACCEPTED; PATTERN #38 BLOCKED**  
 Canonical production: `https://mainlagihub.my.id/`  
 Baseline checkpoint merge: `d3d600ed92e78d30da8172e0bdb300119990614f`  
 Baseline checkpoint CI: **#743 / run `35105996090` — full success including exact Cloudflare production smoke**  
-VQA-01 implementation PR: **#156**  
-VQA-01 accepted code head: `0197344db13e4fc9e36d86b79a38e2cf726a9069`  
-VQA-01 exact-head CI: **#745 / run `35108485349` — full PR matrix success**
+Permanent VQA merge: `9269e9fd576004d7d91fbd840e8c752acc7a5aae`  
+Permanent VQA final main CI: **#751 / run `35110724150` — full success including exact Cloudflare release smoke**  
+Current product PR: **#157 — VUI-01 Parent Report convergence**  
+VUI-01 accepted code head: `6a4450467b8d9bd01cd9f2bc0806100c84d187f3`  
+VUI-01 code-head CI: **#753 / run `35112741852` — full PR success**
 
 ## Evidence boundary
 
-The baseline combines exact production source, CI/browser screenshot artifacts, route/component source review, and exact Cloudflare release smoke. Direct external web-fetch from the assistant environment returned a cache miss and is not treated as outage evidence or as an independent visual walkthrough.
+The baseline combines exact repository source, CI/browser screenshot artifacts, route/component review, and exact Cloudflare release smoke. The Garden learning/activity direction remains the accepted child-facing visual anchor. Whole-product visual acceptance remains open until P1 reaches zero.
 
-The Garden learning/activity direction remains the **accepted child-facing visual anchor**. Whole-product visual acceptance is still open.
+## Current baseline result
 
-## Baseline result
-
-Before PR #156 merges and receives independent production verification:
+Merged-main state after VQA-01 closure and before VUI-01 merge:
 
 ```text
 P0 findings: 0
-P1 findings: 5
+P1 findings: 4
 P2 findings: 3
 Garden representative activities: ACCEPTED anchor
-Permanent visual QA: exact-head accepted; merge/live verification pending
+Permanent visual QA: CLOSED / BLOCKING
+VUI-01 Parent Report: exact-head accepted; merge/live verification pending
 Whole-product visual acceptance: NOT YET ACCEPTED
 Pattern #38: BLOCKED
 ```
 
-When PR #156 is merged from its final exact head and independent `main` CI + exact Cloudflare smoke pass, **VBASE-P1-05 closes and the baseline P1 count becomes four**. The other P1 findings remain product work; VQA-01 does not hide them.
+If VUI-01 completes exact merge and independent production verification without regression, P1 count becomes **3**.
 
 ## P1 findings
 
-### VBASE-P1-01 — visual-token fragmentation
+### VBASE-P1-01 — visual-token fragmentation — OPEN
 
-Garden/Playroom uses cream paper, navy ink, green CTA, sky/sage surfaces and Nunito. `LearningPlatform.module.css` and `globals.css` still express overlapping white/blue/teal and generic blue/navy product languages.
+Garden/Playroom, `LearningPlatform.module.css`, and `globals.css` still express overlapping product languages. Required outcome remains scoped migration, not a one-shot stylesheet rewrite. VUI-01 reduces this fragmentation for Parent Report through a dedicated scoped module.
 
-Required outcome: migrate product surfaces wave-by-wave to `MAINLAGI_ART_BIBLE.md`; do not mass-rewrite already accepted gameplay mechanics.
+### VBASE-P1-02 — parent-report density and internal jargon — EXACT-HEAD ACCEPTED
 
-### VBASE-P1-02 — parent-report density and internal jargon
+Original problem: Parent Report exposed `attempt`, `assessed`, `practice`, `qualifying evidence`, mastery internals and retry terminology in the primary family-facing reading layer, with nine equal dashboard-like subject cards.
 
-Parent reporting exposes terms such as `attempt`, `assessed`, `practice`, `qualifying evidence`, mastery internals and completion ratios directly in the primary reading layer.
+VUI-01 PR #157 changes only presentation and visual regression:
+- primary copy is translated into normal parent-facing Indonesian;
+- same `buildBatch15ParentReport` output fields remain the source of counts, accuracy, completion, mastery score/coverage, stage states, recommendations, recent results and awards;
+- technical vocabulary remains available inside per-subject diagnostic disclosure;
+- permanent semantic UI prefers `LearningSymbol` and product icons rather than analytics emoji;
+- subject detail is grouped in one family-report panel instead of nine equally weighted dashboard cards;
+- a dedicated `ParentReport.module.css` keeps the migration local;
+- VQA explicitly fails if guarded internal vocabulary leaks back into the Parent Report primary layer.
 
-Required outcome: preserve the underlying metrics/evidence semantics but present them in normal parent language with stronger hierarchy and progressive disclosure.
+No change was made to `buildBatch15ParentReport`, mastery/evidence logic, progression, readiness, schema, migrations, activity data or learning answers.
 
-Manual VQA-01 screenshot review reconfirmed this as the highest-priority visual/content P1 after permanent QA: the parent report is the densest and most technical family-facing surface in the canonical matrix.
+#### Evidence and responsive correction
 
-### VBASE-P1-03 — stage/readiness hierarchy
+CI #752 initially passed all automation, including visual baseline, but human screenshot review found the 768px summary cards visually too narrow because three columns were forced inside the post-sidebar content width. This was treated as a real visual defect rather than accepted merely because overflow checks were green.
+
+The fix changes tablet-class summary layout to **2+1 cards** and restores three columns only from 1020px upward.
+
+Fresh head `6a4450467b8d9bd01cd9f2bc0806100c84d187f3` passed CI **#753 / run `35112741852`** completely. Artifact evidence:
+
+```text
+artifact: mobile-route-qa-screenshots
+id:       10452654695
+digest:   sha256:c8d985fdf5cc9601d8fe2bbecd4ac0c4f7b39a82ed14bf7f091eec7dd273a170
+captures: 42 / 42
+```
+
+Parent Report manifest evidence:
+
+```text
+390x844   /parent/children/demo-gian/reports -> exact same path, HTTP 200
+768x1024  /parent/children/demo-gian/reports -> exact same path, HTTP 200
+1280x800  /parent/children/demo-gian/reports -> exact same path, HTTP 200
+```
+
+Manual review after the fix:
+- 390: readable single-column hierarchy;
+- 768: readable 2+1 summary layout with no pathological word wrapping;
+- 1280: balanced three-column summary layout;
+- primary family copy is readable and technical detail remains behind closed disclosure.
+
+VBASE-P1-02 remains formally open until final docs-head CI, clean PR gate, exact merge, and independent `main` + exact Cloudflare verification complete.
+
+### VBASE-P1-03 — stage/readiness hierarchy — OPEN / NEXT
 
 Tablet/desktop stage layouts are structurally correct but underuse available space and weakly distinguish progress, readiness, recommendation and lesson grouping.
 
-Required outcome: Garden-compatible stage hierarchy without changing progression/readiness logic.
+Required outcome: VUI-02 Garden-compatible hierarchy without changing progression/readiness logic.
 
-VQA-01 768/1280 screenshots reconfirmed the large unused tablet/desktop canvas.
+### VBASE-P1-04 — public/adult root information architecture — OPEN
 
-### VBASE-P1-04 — public/adult root information architecture
+Root remains primarily a child playroom/fast-resume surface. Clean-session adult/public value proposition and parent-vs-child entry need an explicit contract. Auth/system utility cards also remain under-scaled at wider viewports.
 
-Root is primarily a child playroom/fast-resume surface and does not yet provide a deliberate first-time adult/public value proposition and parent-vs-child path.
+Required outcome: VUI-03 public/auth/account convergence while preserving known-child fast resume.
 
-Required outcome: preserve fast resume for known children while defining a clean-session adult/public entry contract.
+### VBASE-P1-05 — permanent whole-product visual coverage gap — CLOSED
 
-The permanent matrix also shows that auth/system utility cards are visually under-scaled at wider viewports; that convergence belongs with VUI-03 rather than VQA-01.
+PR #156 is merged as `9269e9fd576004d7d91fbd840e8c752acc7a5aae`; independent main CI **#751 / run `35110724150`** passed the full matrix including exact Cloudflare release smoke.
 
-### VBASE-P1-05 — permanent whole-product visual coverage gap
-
-**Implementation exact-head accepted; merge/live verification pending.**
-
-PR #156 adds `scripts/run-visual-baseline-browser-tests.mjs` to the existing blocking `Mobile route QA (Chromium)` job.
-
-Canonical viewports:
+Permanent blocking evidence covers:
 
 ```text
 390x844
 768x1024
 1280x800
+14 canonical surfaces
+42 exact-path screenshots
+1 manifest.json
 ```
 
-Canonical surfaces:
+Blocking assertions include expected HTTP status, exact final pathname, nonblank body, main/H1, expected route boundary, no Next.js error overlay, no horizontal overflow, child phone touch-target floor, no uncaught page errors and no unexpected console errors.
 
-```text
-public root
-child select
-child home
-Math subject/gallery
-Math Angka stage
-math-count-3 Garden activity
-rewards
-parent report
-account
-login
-signup
-forgot-password
-expired auth-link error
-not-found
-```
-
-Expected and verified evidence: **42 deterministic screenshots** plus `.mobile-route-qa/visual-baseline/manifest.json`.
-
-Blocking assertions:
-- expected HTTP status;
-- exact final pathname;
-- nonblank body;
-- main landmark + top-level heading;
-- expected route boundary where applicable;
-- no Next.js error overlay;
-- no horizontal overflow;
-- child phone touch targets remain >= approximately 44 CSS px with the existing measurement tolerance;
-- no page errors;
-- no unexpected browser console errors.
-
-## VQA-01 failure-driven hardening
-
-Initial PR CI #744 / run `35107021073` was intentionally treated as evidence, not bypassed. Every job except `Mobile route QA (Chromium)` passed; the existing broad mobile/runtime matrix also passed. The new visual step failed on the deliberate not-found surface because:
-
-- the route correctly returned HTTP 404;
-- the exact pathname and structural assertions had passed;
-- Chromium emitted its normal document-load console message: `Failed to load resource: the server responded with a status of 404 (Not Found)`.
-
-The fix is narrowly scoped:
-- expected-404 surfaces still require exact 404 and exact pathname;
-- main/H1, route structure, overflow and page-error assertions remain active;
-- only the exact document-level 404 console string is filtered when the route contract itself expects 404;
-- unrelated console errors still fail;
-- status-200 surfaces retain the zero-console-error contract.
-
-Fresh exact-head CI #745 / run `35108485349` then passed every PR job, including `Run permanent visual product baseline`. This is not a global relaxation of browser-error checking.
-
-## VQA-01 artifact verification
-
-Run #745 artifact:
-
-```text
-name:   mobile-route-qa-screenshots
-id:     10450999235
-size:   43,655,320 bytes
-digest: sha256:07ae0dfc14ebdb13af4c2ebc270644194d8a4972b4630c428aa1c0dbeaa745e2
-```
-
-Manifest verification:
-
-```text
-captures:            42 / 42
-viewports:           390x844, 768x1024, 1280x800
-canonical surfaces:  14
-final paths:         14 unique expected paths
-HTTP responses:      39 x 200, 3 x intentional 404
-missing screenshots: 0
-```
-
-Manual review of all 42 screenshots found no new P0 blocker. It confirmed:
-- child select/home, representative Garden activity and rewards are suitable baseline references;
-- parent report remains the highest-priority dense/technical adult surface;
-- stage tablet/desktop still underuses available space;
-- auth/system cards are visually too small on wide screens;
-- public root remains visually coherent but does not yet solve first-time adult IA.
-
-VBASE-P1-05 remains formally open only until the final docs head passes fresh CI, PR #156 passes the clean merge gate, the exact head is merged, and independent `main` CI including exact Cloudflare smoke succeeds.
+The intentional not-found route remains strict: exact HTTP 404 + exact pathname are required; only Chromium's exact document-load 404 console message is scoped out on that explicit expected-404 surface.
 
 ## P2 findings
 
 ### VBASE-P2-01 — games detail/preflight legacy vocabulary
 
-Dark camera runtime is functionally defensible for contrast and tracking, but surrounding game detail/preflight metadata, navigation and CTA should converge on Mainlagi.
+Dark camera runtime is functionally defensible, but surrounding game detail/preflight metadata, navigation and CTA should converge on Mainlagi.
 
 ### VBASE-P2-02 — iconography mixes canonical symbols and raw emoji
 
-Emoji may remain decorative/content-level; permanent navigation/status semantics should prefer `LearningSymbol` / `Icon` for stable rendering.
+Emoji may remain decorative/content-level; permanent navigation/status semantics should prefer `LearningSymbol` / `Icon`.
 
 ### VBASE-P2-03 — inline visual styles increase drift risk
 
@@ -178,14 +135,15 @@ Several learning/parent surfaces retain inline colors/margins alongside CSS modu
 - Activities retain large touch targets, explicit wrong/success feedback and low UI clutter.
 - Visual fixes must not alter canonical activity answers, evidence, mastery, progression or readiness merely to simplify screenshots.
 - Motion runtime may remain dark where functionally useful; entry/exit shell still needs Mainlagi continuity.
+- A green structural test does not override visible responsive defects found in screenshot review.
 
 ## P1 remediation order
 
-1. Finish **VQA-01 Permanent visual baseline gate** with exact merge and production verification.
-2. **VUI-01 Parent report convergence**.
-3. **VUI-02 Stage/gallery convergence**.
-4. **VUI-03 Public/auth/account convergence**.
-5. Add deterministic remaining loading/empty/degraded-state fixtures where product states exist but cannot yet be captured reliably.
+1. Finish **VUI-01 Parent Report** exact merge and production verification.
+2. **VUI-02 Stage/Gallery convergence**.
+3. **VUI-03 Public/Auth/Account convergence**.
+4. Close residual visual-token fragmentation through those scoped migrations and targeted cleanup.
+5. Add deterministic remaining loading/empty/degraded fixtures where product states exist but cannot yet be captured reliably.
 6. Re-run the complete visual matrix until **P0=0 / P1=0**.
 7. Only then begin fresh Pattern #38 objective/evidence audit.
 
@@ -197,4 +155,4 @@ Several learning/parent surfaces retain inline colors/margins alongside CSS modu
 - 320px remains supplemental for high-risk child/activity controls;
 - motion-game acceptance keeps suitable landscape evidence.
 
-This product-quality gate does not claim that the learning engine or deployment is broken. The baseline checkpoint itself is live and verified; the open work is whole-product visual convergence and final VQA-01 merge/live closure.
+The learning engine and deployment are not the open issue in this checkpoint. The remaining work is product-surface convergence with evidence-backed acceptance.
