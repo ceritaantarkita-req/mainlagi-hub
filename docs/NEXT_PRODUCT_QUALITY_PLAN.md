@@ -1,23 +1,24 @@
 # NEXT PRODUCT QUALITY PLAN
 
-> Canonical execution plan fase product-quality Mainlagi Hub. Semua human/AI agent wajib membaca dokumen ini, `CURRENT_STATE.md`, `ARCHITECTURE.md`, `MAINLAGI_ART_BIBLE.md`, dan `GAMEPLAY_VARIATION_CATALOG.md` sebelum mengubah learning experience.
+> Canonical execution plan fase product-quality Mainlagi Hub. Human/AI agent wajib membaca dokumen ini, `CURRENT_STATE.md`, `ARCHITECTURE.md`, `MAINLAGI_ART_BIBLE.md`, dan `GAMEPLAY_VARIATION_CATALOG.md` sebelum mengubah learning experience.
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 **Canonical branch:** `main`  
 **Latest fully closed gameplay:** Pattern #37 — Bahasa `reading_passage_question`  
 **Pattern #37 final verified main:** `b1793adaabe19a9c73e021534899f8b50c4097f6`  
-**Permanent visual QA:** **FULLY CLOSED**, PR #156 -> `9269e9fd576004d7d91fbd840e8c752acc7a5aae`, CI #751 / run `35110724150` including exact Cloudflare release smoke  
+**Permanent visual QA:** **FULLY CLOSED**, PR #156 -> `9269e9fd576004d7d91fbd840e8c752acc7a5aae`, CI #751  
 **VUI-01 Parent Report:** **FULLY CLOSED**, PR #157 -> `e212002eafef77a37a220834c6263e433cf9acbb`, CI #758  
 **VUI-02 Stage / Gallery:** **FULLY CLOSED**, PR #158 -> `fe260ba7a239586ca2362fbabfca3e0a5019d453`, CI #764  
-**VUI-03 Public/Auth/Account:** **EXACT-HEAD IMPLEMENTATION ACCEPTED**, PR #160 implementation head `96de380796cdcb16cd10f390805f4c7b62f9b83b`, CI #771 / run `35122985995` full success  
+**VUI-03 Public/Auth/Account:** **FULLY CLOSED**, PR #160 -> `415008a4a0503da98937ee8df0a1e5feb1a08c62`, CI #776 / run `35124809180` including exact Cloudflare release smoke  
+**Current P1:** **1 — residual visual-token fragmentation**  
 **Pattern #38:** **BLOCKED until P0=0 / P1=0**  
 **Principle:** **Quality first. Quantity later.**
 
 ## Product goal
 
-Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menarik, visualnya konsisten, interaction-nya beragam, dan evidence/mastery-nya dapat dipercaya. WS-05 tetap diarahkan ke minimum **50**, working target **60 meaningful gameplay patterns**, tetapi gameplay diversification tidak boleh mendahului kualitas product shell.
+Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menarik, konsisten, interaction-nya beragam, dan evidence/mastery-nya dapat dipercaya. WS-05 tetap diarahkan ke minimum **50**, working target **60 meaningful gameplay patterns**, tetapi gameplay diversification tidak boleh mendahului kualitas product shell.
 
-Garden activity direction tetap child-facing anchor. Permanent visual QA berjalan terus selama public/child/parent/account/auth/system surfaces dikonvergensikan wave-by-wave.
+Garden activity direction tetap child-facing anchor. Permanent visual QA tetap blocking selama public/child/parent/account/auth/system surfaces dikonvergensikan wave-by-wave.
 
 ## Mandatory rules
 
@@ -37,23 +38,25 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA berjala
 14. Stage/readiness visual emphasis tidak boleh mengubah gate, prerequisite, recommendation source, lesson/activity ordering semantic, atau completion requirement.
 15. Public/auth/account convergence tidak boleh mengubah auth security/session semantics hanya untuk menyederhanakan UI.
 16. Known-child fast resume tidak boleh dihapus hanya agar public root selalu tampil.
+17. Residual token cleanup **tidak boleh** menjadi alasan mass rewrite global CSS; hanya migrate surface yang benar-benar user-facing dan terverifikasi drift.
+18. Admin/diagnostic styling boleh tetap utilitarian bila tidak bocor ke public/child/parent flows.
 
 ## Workstream status
 
 | Workstream | Status | Current note |
 |---|---|---|
-| WS-01 Canonical docs | DONE / maintained | #37, VUI-01, VUI-02 closed; VUI-03 acceptance current |
+| WS-01 Canonical docs | DONE / maintained | through VUI-03 live closure |
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
-| WS-03 Public/parent frontend | **IN_PROGRESS** | VUI-01 + VUI-02 closed; VUI-03 exact-head accepted |
+| WS-03 Public/parent frontend | **P1 CLOSURE** | VUI-01/02/03 closed; residual token pass next |
 | WS-04 Activity audit/redesign | deterministic clean | 900 KEEP / 0 flagged |
 | WS-05 Gameplay diversification | **PAUSED AT 37** | Pattern #38 waits for P1=0 |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PRIMARY / RUNNING** | Art Bible + permanent 42-capture gate live |
-| WS-09 Stage/gallery UX | **DONE / VUI-02 CLOSED** | PR #158 / CI #764 live verified |
+| WS-09 Stage/gallery UX | DONE | VUI-02 closed |
 | WS-10 External acceptance | TODO | real devices, accessibility, Iqro expert |
 | WS-11 Governance | TODO | required checks/review discipline |
-| WS-12 Technical cleanup | TODO LATER | residual token cleanup first; broader cleanup after quality stabilizes |
+| WS-12 Technical cleanup | TODO LATER | after P1 visual closure |
 
 ## Verified gameplay baseline
 
@@ -70,35 +73,30 @@ Bahasa choice_grid               29 / 100
 
 Distance remaining: **13 patterns** to minimum 50 and **23** to working target 60.
 
-## Permanent visual/product gate — FULLY CLOSED
+## Permanent visual/product gate — FULLY CLOSED / BLOCKING
 
-PR #156 is independently verified on `main` SHA `9269e9fd576004d7d91fbd840e8c752acc7a5aae`. CI #751 / run `35110724150` passed the complete matrix including exact Cloudflare release smoke.
-
-Permanent browser evidence remains:
+The browser gate remains 14 canonical routes x 3 viewports = **42 exact-path screenshots** at:
 
 ```text
 390x844
 768x1024
 1280x800
-14 canonical surfaces
-42 exact-path screenshots
-1 manifest.json
 ```
 
-Blocking assertions include exact status/path, meaningful content, main/H1, expected route boundary, no Next error overlay, no horizontal overflow, child phone target floor, no page/console errors, Parent Report copy guard, Stage/Subject geometry guards and the VUI-03 public/auth/account guards described below.
+Blocking checks include exact path/status, main/H1, route boundary where applicable, no Next overlay, no horizontal overflow, no page/console errors, child touch floor, Parent Report copy guard, Stage/Subject geometry guards and VUI-03 public/auth/account guards.
 
 ## Current P1 state
 
-Merged-main state remains after VUI-02 closure until PR #160 is live-verified:
+Merged-main state after VUI-03 closure:
 
 ```text
 P0 findings: 0
-P1 findings: 2
+P1 findings: 1
 P2 findings: 3
 ```
 
-**VBASE-P1-01 — visual-token fragmentation — OPEN**  
-VUI-03 removes another large public/auth/account legacy styling cluster through scoped modules, but remaining global/legacy clusters still need an evidence-first closure pass.
+**VBASE-P1-01 — visual-token fragmentation — OPEN / SOLE P1**  
+VUI-01/02/03 removed the major parent/stage/public/auth/account drift. Remaining work is a targeted system/public residual audit, not a global rewrite. Initial evidence: canonical not-found still uses legacy `center-page`, `dialog-card` and blue `.button--primary`.
 
 **VBASE-P1-02 — parent-report density/jargon — CLOSED**  
 PR #157 / CI #758.
@@ -106,104 +104,66 @@ PR #157 / CI #758.
 **VBASE-P1-03 — stage/readiness hierarchy — CLOSED**  
 PR #158 / CI #764.
 
-**VBASE-P1-04 — public/adult root IA — EXACT-HEAD ACCEPTED**  
-PR #160 implementation head `96de380796cdcb16cd10f390805f4c7b62f9b83b`; CI #771 full success. Formal closure waits for final docs-head CI, exact merge, independent `main` CI and exact Cloudflare smoke.
+**VBASE-P1-04 — public/adult root IA — CLOSED**  
+PR #160 -> `415008a4a0503da98937ee8df0a1e5feb1a08c62`; independent CI #776 / run `35124809180` including exact Cloudflare release smoke.
 
 **VBASE-P1-05 — permanent visual coverage gap — CLOSED**  
 PR #156 / CI #751.
 
-If VUI-03 closes live without regression, P1 count becomes **1**.
+## VUI-03 closure
 
-## VUI-03 — Public/Auth/Account convergence — EXACT-HEAD IMPLEMENTATION ACCEPTED
+VUI-03 is live verified. Full evidence is recorded in `VUI03_PUBLIC_AUTH_ACCOUNT_CLOSURE_2026-09-17.md`.
 
-### Implemented public contract
+Functional contracts preserved:
+- valid remembered child still fast-resumes through the existing child destination logic;
+- `/login`, `/signup`, `/forgot-password`, `/reset-password` and `/auth/callback` keep existing Supabase operations, validation, recovery/callback semantics and redirects;
+- `/account` keeps signed-in/signed-out behavior and destination routes;
+- no learning/mastery/evidence/progression/content/schema/database behavior changed.
 
-- clean-session `/` uses public/family navigation and hierarchy instead of child `PlayroomShell`;
-- existing `readActiveChild()` fast resume remains intact for a valid known child;
-- one primary child-start CTA and one parent/account CTA are explicit;
-- root identifies Mainlagi as a family product for children 3–7 and says movement-camera play is optional without inventing privacy guarantees;
-- subject discovery remains available and still routes through profile preparation.
+## Residual P1 closure — NEXT
 
-### Implemented auth contract
+### Goal
 
-- `/login`, `/signup`, `/forgot-password`, `/reset-password` and `/auth/callback` use one Mainlagi family shell;
-- login/signup/forgot/reset form presentation uses scoped Mainlagi styling rather than the legacy global auth classes;
-- family auth routes own the viewport, preventing duplicate public navbar + auth brand composition;
-- Supabase operations, validation, recovery/callback semantics, messages and redirects remain unchanged.
+Reach **P0=0 / P1=0** without destabilizing accepted surfaces.
 
-### Implemented account contract
+### Required audit boundary
 
-- `/account` uses a scoped family account module instead of its legacy global presentation classes;
-- signed-in/signed-out behavior and all existing destinations remain unchanged;
-- phone remains stacked; tablet/desktop use a readable two-column settings grid.
+1. Enumerate remaining uses of legacy global utility shells (`center-page`, `dialog-card`, legacy blue primary actions) on public/family/system routes.
+2. Separate product-facing drift from admin/diagnostic-only utility styling.
+3. Migrate only the product-facing residuals to scoped Mainlagi system/family presentation.
+4. Prefer shared scoped modules and canonical Art Bible tokens; do not mass-edit all global classes.
+5. Add or strengthen permanent VQA markers for any newly migrated canonical surface.
+6. Review 390 / 768 / 1280 screenshots manually.
+7. Require fresh exact-head full CI, clean merge gate, independent `main` CI and exact Cloudflare smoke.
+8. Update canonical docs to **P0=0 / P1=0** only after production verification.
 
-### VUI-03 permanent regression additions
+### Initial evidence
 
-Existing 14-route / 42-capture matrix now additionally asserts:
-- public family marker, child CTA and parent CTA;
-- optional-camera explanation;
-- >=44px family CTA target height;
-- auth family shell/context/panel markers;
-- correct login/signup/forgot form mode and >=44px auth controls;
-- auth callback error status inside the family shell;
-- account family/settings markers, seven settings links, minimum card height and readable tablet/desktop width.
+The permanent not-found route remains a direct residual candidate:
+- `src/app/not-found.tsx` still uses `center-page` + `dialog-card`;
+- its primary action still inherits the old blue `.button--primary` token;
+- the route is already in the permanent screenshot matrix, making it a deterministic closure target.
 
-### Evidence
-
-```text
-implementation head: 96de380796cdcb16cd10f390805f4c7b62f9b83b
-PR CI:              #771 / run 35122985995 — full success
-artifact:           10458188042
-artifact digest:    sha256:c554eca3a218c659b97c07f6bfb6521b00fea7f28c6b9de18ac1a799ea3fcdbb
-captures:           42 / 42
-manifest mismatch:  0
-```
-
-Manual 390/768/1280 review accepted public root, account, login, signup, forgot-password and callback error presentation. Reset-password uses the same accepted shell/form styling but is not a separate route in the canonical 14-surface screenshot matrix.
-
-VUI-03 is not fully closed until the final docs head passes fresh full CI, PR #160 passes clean merge checks, the exact head is merged, and independent `main` CI + exact Cloudflare release smoke succeed.
-
-## VUI-02 — Stage / Gallery convergence — FULLY CLOSED
-
-No readiness/progression/mastery/content contract changed.
-
-Accepted implementation:
-- stage title/subtitle + existing readiness form one Garden-aligned hero;
-- lessons form explicit panels with existing objective/progress;
-- stage-only activity grid is content-aware so one to three cards use available width rather than fixed global 3/4-column slots;
-- existing adaptive recommendation receives visual emphasis without reordering;
-- optional motion remains separate and optional;
-- phone subject journey remains horizontal by intent;
-- tablet/desktop subject journey becomes responsive grid with no internal horizontal scroll.
-
-Closure: PR #158 -> `fe260ba7a239586ca2362fbabfca3e0a5019d453`, main CI #764, exact Cloudflare smoke success.
-
-## VUI-04 — Game shell convergence — P2 after P1
-
-Retain dark camera runtime where functionally useful, but align game catalog/detail/preflight navigation and metadata with Mainlagi. Do not start this P2 wave ahead of the remaining P1 token-fragmentation closure unless evidence changes priority.
+Admin-only `AdminGate` also uses the old utility classes, but admin styling is not automatically a P1 because the Art Bible explicitly allows denser/utilitarian admin presentation. It should only be migrated if the audit proves user-facing leakage or a shared-token risk.
 
 ## Art Bible gate
 
-`MAINLAGI_ART_BIBLE.md` remains canonical. Important constraints:
+`MAINLAGI_ART_BIBLE.md` remains canonical. Key constraints:
 - cream paper + navy ink + green primary CTA;
 - Nunito Variable for family-facing UI with Noto fallback/script support;
-- stable spacing/radius/elevation scale;
 - >=44px minimum targets, 52–56px preferred child targets;
 - Mainlagi Icon/LearningSymbol before raw emoji for permanent semantic UI;
-- explicit idle/wrong/success/locked/loading/empty/error states;
+- explicit loading/empty/error/success states;
 - phone/tablet/desktop visual regression evidence;
-- content-aware grid density;
-- public/auth/account surfaces must feel like one family rather than child UI plus generic utility cards;
-- known-child fast resume and auth/security behavior are functional contracts, not visual cleanup targets.
+- no one-shot stylesheet rewrite;
+- public/auth/account/system surfaces must feel like one product family.
 
 ## Definition of Done for visual checkpoint
 
 The visual checkpoint is complete only when:
 - permanent VQA remains green on merged `main`;
-- every baseline P1 finding is fixed or explicitly reclassified with evidence;
-- visual matrix is green and manually accepted at 390 / 768 / 1280 plus required supplemental viewports;
-- Art Bible matches implemented reality;
-- no permanent route capture passes through unintended redirect;
+- every baseline P1 is closed or explicitly reclassified with evidence;
+- manual 390 / 768 / 1280 review is accepted;
 - final `main` CI + exact Cloudflare smoke are green;
 - canonical docs record **P0=0 / P1=0**.
 
@@ -211,12 +171,11 @@ Only then may Pattern #38 begin.
 
 ## Current execution order
 
-1. Finish **PR #160 / VUI-03**: fresh final docs-head CI -> clean gate -> exact-head squash merge -> independent main/Cloudflare verification.
-2. Run the targeted **VBASE-P1-01 residual visual-token closure** and re-run permanent visual QA.
-3. Reach **P0=0 / P1=0** and record it canonically.
-4. Run fresh objective/evidence audit for Pattern #38; no family is pre-approved.
-5. Continue WS-05 toward 50–60 while permanent WS-08 visual QA runs in parallel.
-6. Continue WS-02, WS-10, WS-11 and later WS-12 cleanup.
-7. Final end-to-end production acceptance and canonical closure.
+1. Execute targeted **VBASE-P1-01 residual visual-token closure**.
+2. Live-verify and document **P0=0 / P1=0**.
+3. Run a fresh objective/evidence audit for Pattern #38; no family is pre-approved.
+4. Continue WS-05 toward 50–60 while permanent WS-08 visual QA runs in parallel.
+5. Continue WS-02, WS-10, WS-11 and later WS-12 cleanup.
+6. Final end-to-end production acceptance and canonical release closure.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
