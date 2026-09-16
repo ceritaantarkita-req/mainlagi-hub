@@ -2,7 +2,7 @@
 
 Last reviewed: **16 September 2026**
 
-This is the canonical human/AI handoff. `main` is the merged source of truth; open implementation work is called out explicitly.
+This is the canonical human/AI handoff. `main` is the merged source of truth; open work is called out explicitly.
 
 ## Canonical baseline
 
@@ -12,21 +12,21 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - source licence: `AGPL-3.0-only`
 - latest fully closed gameplay: **Pattern #36 — Bahasa `sentence_order_cards`**
-- Pattern #36 implementation PR: **#151**
-- Pattern #36 closure PR: **#152**
-- Pattern #36 final verified `main`: `461b0fd59a6c238752aa858bf783716b225b548a`
-- Pattern #36 final CI: **#732 / run `35094107947`**, full success including exact Cloudflare production smoke
-- current implementation candidate: **Pattern #37 — Bahasa `reading_passage_question`**
-- Pattern #37 implementation PR: **#153**
-- Pattern #37 accepted code head: `6ac29623ce53940f45cdfea623340d833af68c4d`
-- Pattern #37 accepted-head CI: **#733 / run `35096952272`**, full success
-- Pattern #37 status: **IMPLEMENTATION ACCEPTED; DOCS + FRESH EXACT-HEAD CI / MERGE GATES PENDING**
+- current merged gameplay: **Pattern #37 — Bahasa `reading_passage_question`**
+- Pattern #37 implementation PR: **#153 — MERGED**
+- final implementation PR head: `25baa6f103f4e3bb309fae8f0078c9fb099b9ab6`
+- final implementation PR CI: **#738 / run `35097844249` — success**
+- implementation merge on `main`: `6a6f99ccb3a733af4e298ed8c48452e019f9980c`
+- post-implementation `main` CI: **#739 / run `35098428328` — full success including exact Cloudflare production smoke**
+- Pattern #37 status: **IMPLEMENTATION MERGED / LIVE VERIFIED; DOCS-ONLY CLOSURE IN PROGRESS**
 
 ## Engineering status
 
-No known P0 engineering blocker is open on merged `main`. Pattern #36 is fully closed on exact final `main` `461b0fd59a6c238752aa858bf783716b225b548a`; CI #732 passed the complete matrix including exact **Production smoke (Cloudflare)**.
+No known P0 engineering blocker is open on merged `main`.
 
-Pattern #37 is still an open PR and is not part of canonical `main` yet. Its accepted implementation head `6ac29623ce53940f45cdfea623340d833af68c4d` passed CI #733 including typecheck, lint, engine/learning tests, deterministic quality and gameplay-distribution audits, simulations, production build/budgets, dependency audit, secret-history scan, Windows compatibility and Chromium mobile/accessibility/browser QA. All nine dedicated 320x720, 390x844 and 768x1024 idle/wrong/success screenshots passed manual visual review.
+Pattern #37 is now part of canonical `main`. PR #153 was squash-merged from exact final head `25baa6f103f4e3bb309fae8f0078c9fb099b9ab6` to `6a6f99ccb3a733af4e298ed8c48452e019f9980c`. Exact-head PR CI #738 passed, then independent push CI #739 on the merge SHA passed the complete matrix including **Production smoke (Cloudflare)**.
+
+Pattern #37 is not yet **FULLY CLOSED** because the separate docs-only closure chain is still required. No gameplay/code/schema change belongs in that closure.
 
 External physical-device acceptance, accessibility-specialist review, human art/pedagogical acceptance, and Iqro expert acceptance remain separate and incomplete. Physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
 
@@ -40,34 +40,32 @@ Runtime count is not gameplay-pattern count.
 
 Target: minimum **50**, working target **60 meaningful patterns**.
 
-### Verified merged on `main`: 36 patterns
-
-```text
-classified:               900 / 900
-unclassified:               0
-active merged patterns:    36
-choice_grid               282 / 900 = 31.33%
-sentence_order_cards        5 / 900 = 0.56%
-picture_word_match          5 / 900 = 0.56%
-Bahasa choice_grid          34 / 100
-```
-
-### Pattern #37 accepted implementation-head audit: 37 patterns
+Merged `main` now has:
 
 ```text
 classified:                    900 / 900
 unclassified:                    0
-active candidate patterns:      37
+active merged patterns:         37
 choice_grid                    277 / 900 = 30.78%
-reading_passage_question        5 / 900 = 0.56%
+reading_passage_question         5 / 900 = 0.56%
 sentence_order_cards             5 / 900 = 0.56%
 picture_word_match               5 / 900 = 0.56%
 Bahasa choice_grid               29 / 100
 ```
 
-No global gameplay hotspot exceeds the advisory 35% threshold. If Pattern #37 is merged without scope changes, remaining distance becomes **13** patterns to minimum 50 and **23** to working target 60.
+No global gameplay hotspot exceeds the advisory 35% threshold. Remaining distance is **13 patterns** to minimum 50 and **23** to working target 60.
 
-## Pattern #37 `reading_passage_question` — IMPLEMENTATION ACCEPTED / PR #153 OPEN
+Deterministic activity-quality remains:
+
+```text
+KEEP                  900
+POLISH                   0
+REDESIGN                 0
+REPLACE                  0
+structural findings      0
+```
+
+## Pattern #37 `reading_passage_question` — MERGED / LIVE VERIFIED
 
 Exact scope:
 
@@ -87,44 +85,37 @@ Canonical boundaries remain unchanged:
 - skill `bahasa.bacaan.short_comprehension`;
 - assessed runtime remains `tap_choice`;
 - exactly three canonical answer choices with unchanged order and `correctChoice`;
-- lesson objective remains literal comprehension of one- or two-sentence short readings;
 - content, IDs, stars, assessment, mastery, progression, schema and migrations remain unchanged.
 
 Interaction/evidence contract:
-- the existing canonical `Baca: '…' …?` prompt is parsed fail-closed into the same passage text and same literal question text;
-- passage and question are rendered as separate visual reading surfaces;
+- the existing canonical passage and literal question are separated visually without changing their text;
 - the child still makes one direct canonical keyboard/touch/pointer answer choice;
-- no invented passage, changed answer payload, extra confirmation or intermediate assessment;
 - wrong choice records assessed incorrect/retry and cannot complete;
 - correct choice records the canonical answer and completes the existing activity;
 - assessed fidelity `choice_reading_passage_question_interaction`;
 - runtime metadata source `reading-passage-question-runtime` with canonical `selectedChoice`.
 
-Accepted implementation evidence:
-- branch started exactly from fully closed Pattern #36 final `main` `461b0fd59a6c238752aa858bf783716b225b548a`;
-- accepted code head `6ac29623ce53940f45cdfea623340d833af68c4d` passed full CI #733 / run `35096952272`;
-- all nine 320x720, 390x844 and 768x1024 idle/wrong/success screenshots passed manual visual review;
-- browser QA validates legitimate prior-stage readiness, canonical passage/question/answer text, keyboard wrong-state, pointer completion, >=44px answer targets, no horizontal overflow, visible feedback/CTA and measured evidence;
-- accepted-head gameplay audit is 900/900 classified with 37 candidate patterns, `choice_grid` 277/900 (30.78%), `reading_passage_question` 5/900 (0.56%), Bahasa `choice_grid` 29/100 and no global hotspot;
-- deterministic quality remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**.
+Verified implementation chain:
+- exact base: fully closed Pattern #36 `461b0fd59a6c238752aa858bf783716b225b548a`;
+- final implementation head: `25baa6f103f4e3bb309fae8f0078c9fb099b9ab6`;
+- exact-head CI: #738 / run `35097844249` — success;
+- implementation PR #153 merged to `6a6f99ccb3a733af4e298ed8c48452e019f9980c`;
+- independent `main` CI #739 / run `35098428328` — full success including exact Cloudflare production smoke;
+- all dedicated 320x720, 390x844 and 768x1024 idle/wrong/success screenshots passed manual visual acceptance;
+- merged distribution is 900/900 classified, 37 patterns, `choice_grid` 277/900 and Bahasa `choice_grid` 29/100.
 
-Pattern #37 is **not merged and not fully closed**. Required next gates: finish canonical implementation docs, run a fresh exact docs-head PR CI, pass clean exact-head scope/review/thread/mergeability checks, squash merge implementation, independently verify `main` including exact Cloudflare smoke, then run the separate docs-only closure chain.
+## Production visual/product audit baseline
 
-## Pattern #36 `sentence_order_cards` — FULLY CLOSED
+Production verification is green, but visual/product acceptance is broader than deployment smoke or representative gameplay screenshots.
 
-Implementation PR #151 and closure PR #152 are complete. Final verified `main` is `461b0fd59a6c238752aa858bf783716b225b548a`; final CI #732 / run `35094107947` passed the complete matrix including exact Cloudflare production smoke.
+Current direction:
+- Garden activity samples are visually accepted and should remain the child-facing visual anchor;
+- the product still needs a systematic audit across public/home, child select/home, subject/gallery, stage/readiness, rewards, parent, account, auth, loading/error/empty states and responsive navigation;
+- parent/account/public surfaces must be brought into the same family-friendly visual system rather than drifting toward a generic SaaS/dashboard feel;
+- typography scale, spacing, radius, shadows, icon usage, card density, CTA hierarchy and responsive behavior need a permanent cross-surface consistency gate;
+- full activity-route visual coverage must avoid false PASS caused by progression redirects.
 
-Exact scope remains:
-
-```text
-bahasa-urut-ibu-memasak
-bahasa-urut-adi-berlari
-bahasa-urut-kucing-tidur
-bahasa-urut-siti-membaca
-bahasa-urut-burung-terbang
-```
-
-Its canonical `tap_choice` answers, `bahasa.kalimat.order` evidence, mastery/progression and content remain unchanged; presentation fidelity is `choice_sentence_order_cards_interaction`.
+The **production visual/product baseline audit is the next product task after Pattern #37 closure and before starting Pattern #38**. After that baseline is established, WS-08 visual QA runs in parallel with WS-05 gameplay diversification.
 
 ## Learning/mastery boundaries
 
@@ -141,9 +132,12 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Finish Pattern #37 implementation PR #153: canonical docs -> fresh exact-head full CI -> clean scope/review/thread/mergeability gate -> exact-head squash merge.
-2. Independently verify Pattern #37 implementation on `main`, including exact Cloudflare production smoke; then run the required separate docs-only closure PR and final `main` verification.
-3. Only after Pattern #37 is **FULLY CLOSED**, run a fresh objective/evidence audit for Pattern #38; no family is pre-approved.
-4. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns, plus Art Bible, narration, parent/public frontend, external acceptance and governance.
+1. Finish the separate **Pattern #37 docs-only closure** from exact implementation merge `6a6f99ccb3a733af4e298ed8c48452e019f9980c`; run fresh closure-head CI, clean exact-scope/review/thread gate, exact-head merge, then final independent `main` CI + exact Cloudflare smoke.
+2. Run a **production visual/product baseline audit** across public, child, parent/account/auth and system states on desktop/tablet/mobile; record P0/P1/P2 findings and a reusable visual acceptance matrix.
+3. Establish/update WS-08 Art Bible + permanent visual QA rules from that audit.
+4. Only then run a fresh objective/evidence audit for Pattern #38; no family is pre-approved.
+5. Continue WS-05 toward 50–60 meaningful patterns while WS-08 visual QA runs in parallel.
+6. Continue WS-02 narration, WS-03 public/parent frontend, WS-10 external acceptance, WS-11 governance, then WS-12 technical cleanup after product quality stabilizes.
+7. Finish with full production end-to-end acceptance and canonical-doc/release closure.
 
-Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, or mastery/backend rewrites before this quality phase is substantially complete.
+Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion, or mastery/backend rewrites before this quality phase is substantially complete.
