@@ -14,23 +14,30 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - latest fully closed gameplay: **Pattern #37 — Bahasa `reading_passage_question`**
 - Pattern #37 final verified `main`: `b1793adaabe19a9c73e021534899f8b50c4097f6`
 - Pattern #37 final CI: **#741 / run `35103399012` — full success including exact Cloudflare production smoke**
-- visual baseline / Art Bible checkpoint: PR **#155** -> `d3d600ed92e78d30da8172e0bdb300119990614f`; CI **#743 / run `35105996090`** full success including exact Cloudflare smoke
-- permanent visual QA: PR **#156 — FULLY CLOSED**
-- VQA-01 verified `main`: `9269e9fd576004d7d91fbd840e8c752acc7a5aae`
-- VQA-01 final `main` CI: **#751 / run `35110724150` — full success including exact Cloudflare release smoke**
-- current product PR: **#157 — VUI-01 Parent Report convergence**
+- permanent visual QA: **VQA-01 FULLY CLOSED**, PR #156 -> `9269e9fd576004d7d91fbd840e8c752acc7a5aae`, CI #751 / run `35110724150` including exact Cloudflare release smoke
+- Parent Report convergence: **VUI-01 FULLY CLOSED**, PR #157 -> `e212002eafef77a37a220834c6263e433cf9acbb`
+- VUI-01 final `main` CI: **#758 / run `35115248445` — full success including exact Cloudflare release smoke**
+- current product PR: **#158 — VUI-02 Stage / Gallery convergence**
+- VUI-02 accepted implementation head before docs: `7e85721bf42a1b31605bc87cd58594a8bbc55bd7`
+- VUI-02 code-head CI: **#759 / run `35116294362` — full PR success**
 
 ## Engineering status
 
 No known P0 engineering blocker is open on merged `main`.
 
-VQA-01 is **FULLY CLOSED**. The permanent blocking browser matrix now produces 42 exact-path captures across 14 canonical product surfaces at 390x844, 768x1024 and 1280x800, with a manifest that records requested path, expected path, final path and HTTP status. The gate is upstream of final Cloudflare smoke on `main`.
+VQA-01 and VUI-01 are **FULLY CLOSED and live verified**. The permanent browser matrix remains blocking and produces 42 exact-path captures across 14 canonical product surfaces at 390x844, 768x1024 and 1280x800. Parent Report presentation is now family-facing while preserving its original report/mastery/evidence semantics.
 
-The intentional not-found probe still requires exact HTTP 404 and exact pathname. Only Chromium's exact document-load `404 (Not Found)` console message is allowed on that explicit expected-404 surface; unrelated console errors still fail and all normal status-200 surfaces retain the zero-console-error contract.
+VUI-02 is **exact-head implementation accepted** on PR #158. It changes Stage / Subject presentation only: readiness calculation, stage gates, prerequisites, mastery, lesson/activity ordering semantics, activity content and completion requirements remain sourced from the existing learning system.
 
-VUI-01 is in exact-head acceptance on PR #157. The implementation does **not** modify `buildBatch15ParentReport`, mastery/evidence calculation, progression, readiness, schema, migrations, activity data or learning answers. It changes only the Parent Report presentation layer and its regression coverage.
+CI #759 passed production build, Windows compatibility, Ubuntu quality gate, secret scan, dependency audit and Chromium route QA including the permanent visual baseline and new geometry assertions. Artifact `10455798162`, digest `sha256:41ee08ebb674a7f2ccebd6d7498c6f60e2c4032618dd268c3db2290686eed012`, contains the 42 canonical screenshots.
 
-Accepted VUI-01 code head before docs closure: `6a4450467b8d9bd01cd9f2bc0806100c84d187f3`. CI **#753 / run `35112741852` passed the complete PR matrix**, including permanent visual QA. The #753 artifact `10452654695` contains all 42 screenshots; manual review of Parent Report at 390/768/1280 is accepted. A cramped three-column tablet layout discovered in CI #752 evidence was fixed before this acceptance by changing 768-class layout to 2+1 cards while retaining 3 columns on wide desktop.
+Manual review accepted the canonical VUI-02 surfaces:
+- **390x844 subject:** phone stage journey intentionally remains a compact horizontal carousel with the next stage peeking into view as a scroll affordance; no page overflow or CTA regression;
+- **768x1024 subject:** all six Math stages are readable in a two-column journey grid with no internal horizontal scrolling;
+- **1280x800 subject:** stages use the available width as a responsive grid instead of clipped horizontal cards;
+- **390x844 stage:** hero/readiness stack cleanly and lesson activity cards remain readable in one column;
+- **768x1024 stage:** stage/readiness hierarchy is explicit and the two canonical lesson activities expand evenly across available width;
+- **1280x800 stage:** hero becomes an intentional two-column composition and the two lesson cards fill the lesson canvas instead of leaving a large empty right region.
 
 External physical-device acceptance, accessibility-specialist review, human pedagogical/art acceptance and Iqro expert acceptance remain separate and incomplete. Physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
 
@@ -64,49 +71,53 @@ Deterministic activity-quality remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 RE
 Canonical audit: `PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md`.  
 Canonical visual direction: `MAINLAGI_ART_BIBLE.md`.
 
-Merged-main state after VQA-01 closure and before VUI-01 merge:
+Merged-main state after VUI-01 closure:
 
 ```text
 P0 findings: 0
-P1 findings: 4
+P1 findings: 3
 P2 findings: 3
 Garden representative activities: ACCEPTED anchor
 Permanent visual QA: FULLY CLOSED / BLOCKING
-VUI-01 Parent Report: exact-head accepted, merge/live verification pending
+VUI-01 Parent Report: FULLY CLOSED / LIVE VERIFIED
+VUI-02 Stage/Gallery: exact-head accepted, merge/live verification pending
 Whole-product visual acceptance: NOT YET ACCEPTED
 Pattern #38: BLOCKED
 ```
 
 P1 state:
 
-1. **VBASE-P1-01 — visual-token fragmentation:** open; closed incrementally through scoped migration waves rather than a one-shot CSS rewrite.
-2. **VBASE-P1-02 — parent-report density/jargon:** VUI-01 exact-head accepted on PR #157; remains formally open until exact merge + independent `main`/Cloudflare verification.
-3. **VBASE-P1-03 — stage/readiness hierarchy:** next implementation wave, VUI-02.
-4. **VBASE-P1-04 — public/adult root IA:** queued with public/auth/account convergence, VUI-03.
+1. **VBASE-P1-01 — visual-token fragmentation:** OPEN; reduced wave-by-wave rather than via a one-shot stylesheet rewrite.
+2. **VBASE-P1-02 — parent-report density/jargon:** **CLOSED** by PR #157, main `e212002e...`, CI #758 including exact Cloudflare smoke.
+3. **VBASE-P1-03 — stage/readiness hierarchy:** VUI-02 implementation accepted on PR #158 / CI #759; remains formally open until final docs-head CI + exact merge + independent `main`/Cloudflare verification.
+4. **VBASE-P1-04 — public/adult root IA:** OPEN; next product wave VUI-03 Public/Auth/Account.
 5. **VBASE-P1-05 — permanent visual coverage gap:** **CLOSED** by PR #156, main `9269e9fd...`, CI #751.
 
-If VUI-01 completes exact merge and independent production verification without regression, P1 count becomes **3**.
+If VUI-02 completes exact merge and independent production verification without regression, P1 count becomes **2**: token fragmentation and public/adult entry IA.
 
-## VUI-01 Parent Report contract
+## VUI-02 Stage / Gallery contract
 
-Primary parent-facing report now follows this hierarchy:
-- family summary for the last 7 days;
-- three readable weekly indicators;
-- patterns that are explicitly framed as observed learning evidence, not diagnosis;
-- grouped per-subject progress and next-step recommendation;
-- recent activity;
-- persisted achievements.
+VUI-02 addresses the specific baseline defect rather than rewriting the learning path.
 
-Internal terms such as `attempt`, `assessed`, `practice`, `qualifying evidence`, `retry` and mastery diagnostics are removed from the **primary reading layer** and preserved behind per-subject diagnostic disclosure. Counts, percentages, mastery score/coverage, stage-state counts, recommendations, recent results and awards continue to come from the same report fields.
+Stage presentation:
+- stage identity + readiness become one Garden-aligned hero;
+- readiness uses the existing status and `completedCount / requiredCount` values;
+- lessons become explicit panels with lesson objective and existing done counts;
+- lesson activity layout uses content-aware `auto-fit` columns so one to three activities use available tablet/desktop width instead of inheriting a fixed global 3/4-column grid;
+- the same existing adaptive `recommendedId` receives visual emphasis without reordering activities;
+- optional motion remains explicitly separate and optional.
 
-Permanent VQA now asserts that the Parent Report primary layer contains the family summary and does not leak the guarded internal terminology. Diagnostic disclosure is intentionally excluded from that copy assertion.
+Subject journey presentation:
+- the same stage items, statuses and links remain canonical;
+- phone keeps the compact horizontal journey behavior;
+- tablet/desktop use a responsive grid so stage cards do not remain partially clipped behind an internal horizontal scroller.
 
-Responsive visual acceptance from CI #753:
-- **390x844:** single-column report hierarchy readable;
-- **768x1024:** 2+1 summary-card layout readable with no pathological word wrapping;
-- **1280x800:** three-column summary layout readable and balanced;
-- all three Parent Report captures: exact expected path and HTTP 200;
-- permanent full matrix: 42/42 captures green.
+Permanent VQA now additionally asserts on the canonical Math routes that:
+- tablet/desktop journey does not require internal horizontal scrolling;
+- journey cards retain readable width;
+- stage readiness summary is present;
+- exactly one canonical recommended stage activity remains visually marked;
+- the canonical lesson grid has no internal overflow and its cards use a minimum readable width appropriate to tablet/desktop.
 
 ## Learning/mastery boundaries
 
@@ -123,13 +134,12 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Finish PR #157 from its final docs head: fresh full CI -> clean exact-scope/review/thread gate -> exact-head squash merge -> independent `main` CI + exact Cloudflare release smoke.
-2. **VUI-02 Stage/Gallery:** improve tablet/desktop composition, readiness/progress hierarchy and recommended-state emphasis without changing progression logic.
-3. **VUI-03 Public/Auth/Account:** resolve clean-session adult/public entry and converge generic utility surfaces on the Art Bible.
-4. Close remaining visual-token fragmentation through these scoped migrations and re-run the permanent baseline until **P0=0 / P1=0**.
-5. Only then run a fresh objective/evidence audit for Pattern #38; no gameplay family is pre-approved.
-6. Continue WS-05 toward 50–60 meaningful patterns with permanent WS-08 visual QA running in parallel.
-7. Continue WS-02 narration, WS-10 external acceptance, WS-11 governance and later WS-12 cleanup.
-8. Finish with full production end-to-end acceptance and canonical release closure.
+1. Finish **PR #158 / VUI-02** from its final docs head: fresh full CI -> clean exact-scope/review/thread gate -> exact-head squash merge -> independent `main` CI + exact Cloudflare release smoke.
+2. **VUI-03 Public/Auth/Account:** resolve clean-session adult/public entry and converge generic utility surfaces on the Art Bible while preserving known-child fast resume.
+3. Close residual visual-token fragmentation through these scoped migrations and targeted cleanup; re-run permanent baseline until **P0=0 / P1=0**.
+4. Only then run a fresh objective/evidence audit for Pattern #38; no gameplay family is pre-approved.
+5. Continue WS-05 toward 50–60 meaningful patterns with permanent WS-08 visual QA running in parallel.
+6. Continue WS-02 narration, WS-10 external acceptance, WS-11 governance and later WS-12 cleanup.
+7. Finish with full production end-to-end acceptance and canonical release closure.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion or mastery/backend rewrites before this quality phase is substantially complete.
