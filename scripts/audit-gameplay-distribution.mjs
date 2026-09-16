@@ -38,6 +38,7 @@ const EXPECTED_PATTERNS = [
   "pattern_completion",
   "make_total",
   "take_away",
+  "equal_groups",
   "cause_effect",
   "compare_properties",
   "healthy_habit_routine",
