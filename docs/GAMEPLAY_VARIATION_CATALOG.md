@@ -13,7 +13,7 @@
 
 ## Status implementasi
 
-### Verified merged gameplay baseline: 32 pola
+### Verified merged gameplay baseline: 33 pola
 
 1. `choice_grid`
 2. `symbol_hunt`
@@ -47,8 +47,7 @@
 30. `syllable_assembly` — MERGED PR #139; CLOSED PR #140; FULLY CLOSED
 31. `make_total` — MERGED PR #141; CLOSED PR #142; FULLY CLOSED
 32. `take_away` — MERGED PR #143; CLOSED PR #144; FULLY CLOSED
-
-Pattern #32 final verified `main` SHA: `63285c6dd39b0cc1a521b042a492a83338bb2582`; final CI #684 / run `35049954680` passed including Cloudflare production smoke.
+33. `equal_groups` — **MERGED PR #145; LIVE VERIFIED; CLOSURE PR #146 OPEN**
 
 Permanent gameplay-distribution audit: MERGED PR #105.
 
@@ -57,11 +56,12 @@ Current merged distribution:
 ```text
 900 / 900 classified
 0 unclassified
-32 active child-facing patterns
-choice_grid                 298 / 900 = 33.11%
+33 active child-facing patterns
+choice_grid                 295 / 900 = 32.78%
+equal_groups                  3 / 900 = 0.33%
 make_total                    5 / 900 = 0.56%
 take_away                     5 / 900 = 0.56%
-Math choice_grid             46 / 100
+Math choice_grid             43 / 100
 Bahasa choice_grid           47 / 100
 Science choice_grid          56 / 100
 Logic choice_grid            47 / 100
@@ -69,9 +69,9 @@ English choice_grid          44 / 100
 Iqro choice_grid             58 / 100
 ```
 
-### Pattern #33 `equal_groups` — QA ACCEPTED / UNMERGED PR #145
+Distance remaining: **17** patterns to minimum 50 and **27** to working target 60.
 
-If PR #145 merges unchanged, it becomes the 33rd active pattern.
+### `equal_groups` — Pattern #33 merged / closure PR #146 open
 
 Exact scope:
 
@@ -82,51 +82,41 @@ math-group-9-by-3
 ```
 
 Boundaries:
-- subject `math`;
 - stage `math-operasi-awal`;
 - lesson `math-grouping`;
 - pack `math.pack.grouping`;
 - canonical skill `math.grouping.equal_groups`;
 - assessed runtime remains `tap_choice`;
 - canonical three numeric choices and `correctChoice` remain unchanged;
-- `math-group-match-2s` and `math-group-match-3s` stay `visible_matching`;
-- missing-number, addition, subtraction, length/size, existing Math specialized mechanics and all non-Math families remain outside scope;
-- assessment, stars, mastery, progression, content, activity identity, schema and migrations remain unchanged;
+- grouping matching activities remain handled by `visible_matching`;
+- missing-number, addition, subtraction, length/size and existing Math specialized mechanics remain outside scope;
+- all non-Math families remain outside scope;
+- assessment, stars, mastery, progression, activity identity, content, schema and migrations remain canonical;
 - assessed fidelity `choice_equal_groups_interaction`;
 - runtime metadata source `equal-groups-runtime`.
 
 Interaction:
-- visibly separate the reviewed total into equal-size groups;
-- display total and group size as the problem context;
+- show the reviewed total as visibly separated equal-size groups;
 - mask numeric group count with `?` before a correct assessment;
-- validate exact divisibility and `totalCount / groupSize === Number(correctChoice)`;
+- validate total 2..10, positive proper group size, exact divisibility and quotient equal to canonical `correctChoice`;
 - retain accessible keyboard/touch/pointer direct-selection buttons;
 - wrong selection is retryable and measured, cannot complete, and cannot reveal the group count;
-- correct selection completes the canonical activity and may reveal the group count;
+- correct selection completes the existing activity identity and may reveal the canonical group count;
 - no changed choice set, drag-only dependency, extra confirmation or intermediate assessment.
 
-Accepted QA evidence:
-- CI #685 / run `35052200287` correctly found success CTA clipping at 320x720;
-- CI #686 / run `35052577160` correctly found idle feedback clipping at 390x844 after the first fix;
-- final accepted code head `26c2b2355099c4097c015ba5767703035b33aa63` passed full CI #687 / run `35053008065` with the hard viewport assertions intact;
+Acceptance and merge evidence:
+- CI #685 / run `35052200287` caught the 320x720 success CTA defect;
+- CI #686 / run `35052577160` caught the 390x844 idle-feedback defect after the first fix;
+- accepted code head `26c2b2355099c4097c015ba5767703035b33aa63` passed CI #687 / run `35053008065`;
 - all nine 320x720, 390x844 and 768x1024 idle/wrong/success screenshots passed manual visual acceptance;
-- deterministic activity quality remains 900 KEEP / 0 flagged / structural findings 0;
-- accepted PR-head distribution:
+- final implementation docs head `11f278a0150ff31b1ba89394c23b78fa244038aa` passed full CI #692 / run `35053984870`;
+- PR #145 passed the clean exact-head gate and squash merged as `3de991e75fdb4fdf33d1cd9cdcf90443ddbb3fb6`;
+- `main` was independently verified at that exact SHA;
+- post-merge CI #693 / run `35054346467` passed the full matrix including Cloudflare production smoke;
+- closure PR #146 is restricted to the five canonical Pattern #33 docs;
+- deterministic quality remains 900 KEEP / 0 flagged / structural findings 0.
 
-```text
-900 / 900 classified
-0 unclassified
-33 active patterns
-choice_grid                 295 / 900 = 32.78%
-equal_groups                  3 / 900 = 0.33%
-make_total                    5 / 900 = 0.56%
-take_away                     5 / 900 = 0.56%
-Math choice_grid             43 / 100
-```
-
-Distance after Pattern #33 would be **17** patterns to minimum 50 and **27** to working target 60.
-
-Pattern #33 is not fully closed until PR #145 passes fresh docs-head CI and exact-head merge/live verification, followed by a separate docs-only closure PR with its own exact-head CI/merge/live verification.
+Pattern #33 becomes fully closed only after closure PR #146 passes exact closure-head CI, clean merge gate, exact-head merge, final `main` verification and final Cloudflare smoke.
 
 ## Target mechanics backlog
 
@@ -150,8 +140,9 @@ Coverage dan implemented-pattern consistency bersifat blocking; concentration be
 
 - Syllable Assembly — DONE / #139 + #140, fully closed.
 - Make Total — DONE / #141 + #142, fully closed.
-- Take Away — DONE / #143 + #144, fully closed; final CI #684.
-- Equal Groups implementation — PR #145 QA ACCEPTED / UNMERGED.
+- Take Away — DONE / #143 + #144, fully closed.
+- Equal Groups implementation — DONE / #145, merged and live-verified.
+- Equal Groups closure — **PR #146 OPEN**.
 - NEXT only after Pattern #33 full closure — fresh objective/evidence audit for Pattern #34; no family pre-approved.
 
 ## Definition of done per mechanic
