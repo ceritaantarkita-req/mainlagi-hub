@@ -18,11 +18,12 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Pattern #34 final CI: **#717 / run `35074306579`**, full success including Cloudflare production smoke
 - latest merged gameplay implementation: **Pattern #35 — Bahasa `picture_word_match`**
 - Pattern #35 implementation PR: **#149**
+- Pattern #35 closure PR: **#150**
 - Pattern #35 final implementation docs head: `79767b320372ac6dd78bfae90ffb2e2307154401`
 - Pattern #35 docs-head CI: **#723 / run `35083623316`**, full PR success
 - Pattern #35 implementation merge: `47e3373ed9ba4a96331a8e61286dc80d37b6b518`
 - Pattern #35 post-merge CI: **#724 / run `35085618422`**, full success including Cloudflare production smoke
-- Pattern #35 status: **IMPLEMENTATION MERGED / LIVE VERIFIED; DOCS-ONLY CLOSURE IN PROGRESS**
+- Pattern #35 status: **IMPLEMENTATION MERGED / LIVE VERIFIED; DOCS-ONLY CLOSURE PR #150 OPEN**
 
 ## Engineering status
 
@@ -101,7 +102,7 @@ Verified implementation chain:
 - post-merge CI #724 / run `35085618422` passed the complete matrix including **Production smoke (Cloudflare)** against the exact release;
 - deterministic quality remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**.
 
-Pattern #35 is live but is **not yet FULLY CLOSED** until this separate docs-only closure passes fresh exact-head CI, clean merge gate, squash merge, and final independent `main` + Cloudflare verification.
+Pattern #35 is live but is **not yet FULLY CLOSED** until closure PR #150 passes fresh exact-head CI, clean merge gate, squash merge, and final independent `main` + Cloudflare verification.
 
 ## Pattern #34 `initial_sound` — FULLY CLOSED
 
@@ -122,7 +123,7 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Finish the separate docs-only Pattern #35 closure through fresh exact-head CI, clean scope/review/thread/mergeability gate, exact-head merge, and final `main` + Cloudflare verification.
+1. Finish docs-only Pattern #35 closure PR #150 through fresh exact-head CI, clean scope/review/thread/mergeability gate, exact-head merge, and final `main` + Cloudflare verification.
 2. Only after Pattern #35 is **FULLY CLOSED**, run a fresh objective/evidence audit for Pattern #36; no family is pre-approved.
 3. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns, plus Art Bible, narration, parent/public frontend, external acceptance and governance.
 

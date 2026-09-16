@@ -1,7 +1,8 @@
 # WS-05 Picture Word Match Wave — 2026-09-16
 
-Status: **Pattern #35 IMPLEMENTATION MERGED / LIVE VERIFIED; DOCS-ONLY CLOSURE IN PROGRESS**  
+Status: **Pattern #35 IMPLEMENTATION MERGED / LIVE VERIFIED; DOCS-ONLY CLOSURE PR #150 OPEN**  
 Implementation PR: **#149**  
+Closure PR: **#150**  
 Base: Pattern #34 final `main` `8bfb0027a5f4963a6875310c7408cb56018cc422`  
 Implementation merge: `47e3373ed9ba4a96331a8e61286dc80d37b6b518`  
 Post-merge CI: **#724 / run `35085618422` — full success including Cloudflare production smoke**
@@ -159,11 +160,10 @@ structural findings      0
 ## Remaining closure chain
 
 Pattern #35 implementation is merged and live verified, but Pattern #35 is **not yet FULLY CLOSED**. Required remaining gates:
-1. keep this closure docs-only and based exactly on implementation merge `47e3373ed9ba4a96331a8e61286dc80d37b6b518`;
-2. open the separate closure PR;
-3. fresh exact closure-head full CI;
-4. clean exact-head closure scope/review/thread/mergeability gate;
-5. exact-head closure squash merge;
-6. final independent `main` verification and full CI including Cloudflare production smoke.
+1. closure PR #150 must remain docs-only and based exactly on implementation merge `47e3373ed9ba4a96331a8e61286dc80d37b6b518`;
+2. fresh exact closure-head full CI;
+3. clean exact-head closure scope/review/thread/mergeability gate;
+4. exact-head closure squash merge;
+5. final independent `main` verification and full CI including Cloudflare production smoke.
 
 Only after all of the above may Pattern #35 be marked **FULLY CLOSED**. Pattern #36 objective/evidence audit must not start before that point.
