@@ -46,7 +46,7 @@
 29. `relative_order_track` — **MERGED PR #137; CLOSED PR #138**
 30. `syllable_assembly` — **MERGED PR #139; CLOSED PR #140; FULLY CLOSED**
 31. `make_total` — **MERGED PR #141; CLOSED PR #142; FULLY CLOSED**
-32. `take_away` — **MERGED PR #143; LIVE VERIFIED; CLOSURE PENDING**
+32. `take_away` — **MERGED PR #143; LIVE VERIFIED; CLOSURE PR #144 PENDING**
 
 Permanent gameplay-distribution audit: **MERGED PR #105**.
 
@@ -69,7 +69,7 @@ Iqro choice_grid             58 / 100
 
 Distance remaining: **18** patterns to minimum 50 and **28** to working target 60.
 
-### `take_away` — Pattern #32 merged / closure pending
+### `take_away` — Pattern #32 merged / closure PR #144 pending
 
 Exact scope:
 
@@ -114,7 +114,7 @@ Acceptance and merge evidence:
 - post-merge CI #677 / run `35048981508` passed the full matrix including Cloudflare production smoke;
 - deterministic quality remains 900 KEEP / 0 flagged / structural findings 0.
 
-Pattern #32 becomes fully closed only after this docs-only closure passes exact-head CI, clean merge gate, exact-head merge, final `main` verification and final Cloudflare smoke.
+Pattern #32 becomes fully closed only after closure PR #144 passes exact-head CI, clean merge gate, exact-head merge, final `main` verification and final Cloudflare smoke.
 
 ### `make_total` — FULLY CLOSED
 
@@ -147,7 +147,7 @@ Coverage dan implemented-pattern consistency bersifat blocking; concentration be
 - Syllable Assembly — **DONE / #139 + #140**, fully closed.
 - Make Total — **DONE / #141 + #142**, fully closed.
 - Take Away implementation — **DONE / #143**, merged and live-verified.
-- Take Away closure — **IN PROGRESS / docs-only closure branch**.
+- Take Away closure — **PR #144 IN PROGRESS**.
 - NEXT only after Pattern #32 full closure — fresh objective/evidence audit for Pattern #33; no family pre-approved.
 
 ## Definition of done per mechanic
