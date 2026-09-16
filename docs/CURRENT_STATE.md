@@ -2,7 +2,7 @@
 
 Last reviewed: **16 September 2026**
 
-This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work is called out explicitly.
+This is the canonical human/AI handoff. `main` is the merged source of truth; open implementation work is called out explicitly.
 
 ## Canonical baseline
 
@@ -11,22 +11,22 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - production: `https://mainlagihub.my.id/`
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - source licence: `AGPL-3.0-only`
-- latest fully closed gameplay: **Pattern #35 — Bahasa `picture_word_match`**
-- Pattern #35 implementation PR: **#149**
-- Pattern #35 closure PR: **#150**
-- Pattern #35 final verified `main`: `b00a5b59e213dcd3f2410dd2ffb45c2e7f8dc3d0`
-- Pattern #35 final CI: **#727 / run `35086954102`**, full success including exact Cloudflare production smoke
-- latest merged gameplay implementation: **Pattern #36 — Bahasa `sentence_order_cards`**
+- latest fully closed gameplay: **Pattern #36 — Bahasa `sentence_order_cards`**
 - Pattern #36 implementation PR: **#151**
-- Pattern #36 final implementation head: `1b7917046d6b3cbe365132a3610d2dddc74286c1`
-- Pattern #36 final implementation-head CI: **#729 / run `35090113449`**, full PR success
-- Pattern #36 implementation merge: `e27339c32edbad5e9587ebc0b87365318d5d9fad`
-- Pattern #36 post-merge CI: **#730 / run `35092795526`**, full success including exact Cloudflare production smoke
-- Pattern #36 status: **IMPLEMENTATION MERGED / LIVE VERIFIED; DOCS-ONLY CLOSURE IN PROGRESS**
+- Pattern #36 closure PR: **#152**
+- Pattern #36 final verified `main`: `461b0fd59a6c238752aa858bf783716b225b548a`
+- Pattern #36 final CI: **#732 / run `35094107947`**, full success including exact Cloudflare production smoke
+- current implementation candidate: **Pattern #37 — Bahasa `reading_passage_question`**
+- Pattern #37 implementation PR: **#153**
+- Pattern #37 accepted code head: `6ac29623ce53940f45cdfea623340d833af68c4d`
+- Pattern #37 accepted-head CI: **#733 / run `35096952272`**, full success
+- Pattern #37 status: **IMPLEMENTATION ACCEPTED; DOCS + FRESH EXACT-HEAD CI / MERGE GATES PENDING**
 
 ## Engineering status
 
-No known P0 engineering blocker is open on merged `main`. Pattern #36 is live on exact merge SHA `e27339c32edbad5e9587ebc0b87365318d5d9fad`. Post-merge CI #730 passed Ubuntu quality, Windows compatibility, production build/budgets, dependency audit, secret-history scan, Chromium mobile/accessibility QA, deterministic activity-quality and gameplay-distribution audits, simulations, Batch17, and **Production smoke (Cloudflare)** against the exact release.
+No known P0 engineering blocker is open on merged `main`. Pattern #36 is fully closed on exact final `main` `461b0fd59a6c238752aa858bf783716b225b548a`; CI #732 passed the complete matrix including exact **Production smoke (Cloudflare)**.
+
+Pattern #37 is still an open PR and is not part of canonical `main` yet. Its accepted implementation head `6ac29623ce53940f45cdfea623340d833af68c4d` passed CI #733 including typecheck, lint, engine/learning tests, deterministic quality and gameplay-distribution audits, simulations, production build/budgets, dependency audit, secret-history scan, Windows compatibility and Chromium mobile/accessibility/browser QA. All nine dedicated 320x720, 390x844 and 768x1024 idle/wrong/success screenshots passed manual visual review.
 
 External physical-device acceptance, accessibility-specialist review, human art/pedagogical acceptance, and Iqro expert acceptance remain separate and incomplete. Physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
 
@@ -49,15 +49,72 @@ active merged patterns:    36
 choice_grid               282 / 900 = 31.33%
 sentence_order_cards        5 / 900 = 0.56%
 picture_word_match          5 / 900 = 0.56%
-initial_sound               3 / 900 = 0.33%
 Bahasa choice_grid          34 / 100
 ```
 
-No global gameplay hotspot exceeds the advisory 35% threshold. Remaining distance is **14** patterns to minimum 50 and **24** to working target 60.
+### Pattern #37 accepted implementation-head audit: 37 patterns
 
-## Pattern #36 `sentence_order_cards` — IMPLEMENTATION MERGED / LIVE VERIFIED
+```text
+classified:                    900 / 900
+unclassified:                    0
+active candidate patterns:      37
+choice_grid                    277 / 900 = 30.78%
+reading_passage_question        5 / 900 = 0.56%
+sentence_order_cards             5 / 900 = 0.56%
+picture_word_match               5 / 900 = 0.56%
+Bahasa choice_grid               29 / 100
+```
+
+No global gameplay hotspot exceeds the advisory 35% threshold. If Pattern #37 is merged without scope changes, remaining distance becomes **13** patterns to minimum 50 and **23** to working target 60.
+
+## Pattern #37 `reading_passage_question` — IMPLEMENTATION ACCEPTED / PR #153 OPEN
 
 Exact scope:
+
+```text
+bahasa-baca-lala-kucing
+bahasa-baca-dodi-sepeda
+bahasa-baca-nina-bunga
+bahasa-baca-raka-sarapan
+bahasa-baca-sari-hujan
+```
+
+Canonical boundaries remain unchanged:
+- subject `bahasa`;
+- stage `bahasa-kalimat-pemahaman`;
+- lesson `bahasa-bacaan-pendek`;
+- pack `bahasa.pack.bacaan-pendek`;
+- skill `bahasa.bacaan.short_comprehension`;
+- assessed runtime remains `tap_choice`;
+- exactly three canonical answer choices with unchanged order and `correctChoice`;
+- lesson objective remains literal comprehension of one- or two-sentence short readings;
+- content, IDs, stars, assessment, mastery, progression, schema and migrations remain unchanged.
+
+Interaction/evidence contract:
+- the existing canonical `Baca: '…' …?` prompt is parsed fail-closed into the same passage text and same literal question text;
+- passage and question are rendered as separate visual reading surfaces;
+- the child still makes one direct canonical keyboard/touch/pointer answer choice;
+- no invented passage, changed answer payload, extra confirmation or intermediate assessment;
+- wrong choice records assessed incorrect/retry and cannot complete;
+- correct choice records the canonical answer and completes the existing activity;
+- assessed fidelity `choice_reading_passage_question_interaction`;
+- runtime metadata source `reading-passage-question-runtime` with canonical `selectedChoice`.
+
+Accepted implementation evidence:
+- branch started exactly from fully closed Pattern #36 final `main` `461b0fd59a6c238752aa858bf783716b225b548a`;
+- accepted code head `6ac29623ce53940f45cdfea623340d833af68c4d` passed full CI #733 / run `35096952272`;
+- all nine 320x720, 390x844 and 768x1024 idle/wrong/success screenshots passed manual visual review;
+- browser QA validates legitimate prior-stage readiness, canonical passage/question/answer text, keyboard wrong-state, pointer completion, >=44px answer targets, no horizontal overflow, visible feedback/CTA and measured evidence;
+- accepted-head gameplay audit is 900/900 classified with 37 candidate patterns, `choice_grid` 277/900 (30.78%), `reading_passage_question` 5/900 (0.56%), Bahasa `choice_grid` 29/100 and no global hotspot;
+- deterministic quality remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**.
+
+Pattern #37 is **not merged and not fully closed**. Required next gates: finish canonical implementation docs, run a fresh exact docs-head PR CI, pass clean exact-head scope/review/thread/mergeability checks, squash merge implementation, independently verify `main` including exact Cloudflare smoke, then run the separate docs-only closure chain.
+
+## Pattern #36 `sentence_order_cards` — FULLY CLOSED
+
+Implementation PR #151 and closure PR #152 are complete. Final verified `main` is `461b0fd59a6c238752aa858bf783716b225b548a`; final CI #732 / run `35094107947` passed the complete matrix including exact Cloudflare production smoke.
+
+Exact scope remains:
 
 ```text
 bahasa-urut-ibu-memasak
@@ -67,40 +124,7 @@ bahasa-urut-siti-membaca
 bahasa-urut-burung-terbang
 ```
 
-Canonical boundaries remain unchanged:
-- subject `bahasa`;
-- stage `bahasa-kalimat-pemahaman`;
-- lesson `bahasa-kalimat-urutan`;
-- pack `bahasa.pack.kalimat-urutan`;
-- skill `bahasa.kalimat.order`;
-- assessed runtime remains `tap_choice`;
-- exactly three canonical sentence choices with unchanged `correctChoice`;
-- content, IDs, stars, assessment, mastery, progression, schema and migrations remain unchanged.
-
-Interaction/evidence contract:
-- each unchanged sentence choice is rendered as its canonical words in left-to-right cards;
-- the child still makes one direct canonical keyboard/touch/pointer choice;
-- no drag-only requirement, invented token, changed answer payload, extra confirmation or intermediate assessment;
-- wrong choice records assessed incorrect/retry and cannot complete;
-- correct choice records the canonical answer and completes the existing activity;
-- assessed fidelity `choice_sentence_order_cards_interaction`;
-- runtime metadata source `sentence-order-cards-runtime` with canonical `selectedChoice` and derived `selectedWords`.
-
-Verified implementation chain:
-- branch started exactly from fully closed Pattern #35 final `main` `b00a5b59e213dcd3f2410dd2ffb45c2e7f8dc3d0`;
-- accepted code head `595bc4e94065eb5250aef27797858641ca959c67` passed CI #728 / run `35089266590`;
-- all nine 320x720, 390x844 and 768x1024 idle/wrong/success screenshots passed manual visual review;
-- final implementation head `1b7917046d6b3cbe365132a3610d2dddc74286c1` passed full CI #729 / run `35090113449`;
-- PR #151 passed exact-head clean scope/review/thread/mergeability gates with zero commits behind `main`;
-- PR #151 squash merged as `e27339c32edbad5e9587ebc0b87365318d5d9fad`;
-- independent post-merge CI #730 / run `35092795526` passed the complete matrix including exact **Production smoke (Cloudflare)**;
-- deterministic quality remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**.
-
-Pattern #36 is live but is **not yet FULLY CLOSED** until this separate docs-only closure passes fresh exact-head CI, clean merge gate, squash merge, and final independent `main` + Cloudflare verification.
-
-## Pattern #35 `picture_word_match` — FULLY CLOSED
-
-Implementation PR #149 and closure PR #150 are complete. Final verified `main` is `b00a5b59e213dcd3f2410dd2ffb45c2e7f8dc3d0`; final CI #727 / run `35086954102` passed the complete matrix including exact Cloudflare production smoke.
+Its canonical `tap_choice` answers, `bahasa.kalimat.order` evidence, mastery/progression and content remain unchanged; presentation fidelity is `choice_sentence_order_cards_interaction`.
 
 ## Learning/mastery boundaries
 
@@ -117,8 +141,9 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Finish the separate docs-only Pattern #36 closure through fresh exact-head CI, clean scope/review/thread/mergeability gate, exact-head merge, and final `main` + Cloudflare verification.
-2. Only after Pattern #36 is **FULLY CLOSED**, run a fresh objective/evidence audit for Pattern #37; no family is pre-approved.
-3. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns, plus Art Bible, narration, parent/public frontend, external acceptance and governance.
+1. Finish Pattern #37 implementation PR #153: canonical docs -> fresh exact-head full CI -> clean scope/review/thread/mergeability gate -> exact-head squash merge.
+2. Independently verify Pattern #37 implementation on `main`, including exact Cloudflare production smoke; then run the required separate docs-only closure PR and final `main` verification.
+3. Only after Pattern #37 is **FULLY CLOSED**, run a fresh objective/evidence audit for Pattern #38; no family is pre-approved.
+4. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns, plus Art Bible, narration, parent/public frontend, external acceptance and governance.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, or mastery/backend rewrites before this quality phase is substantially complete.
