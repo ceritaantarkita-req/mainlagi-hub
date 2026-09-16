@@ -14,19 +14,23 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - latest fully closed gameplay: **Pattern #37 — Bahasa `reading_passage_question`**
 - Pattern #37 final verified `main`: `b1793adaabe19a9c73e021534899f8b50c4097f6`
 - Pattern #37 final CI: **#741 / run `35103399012` — full success including exact Cloudflare production smoke**
-- production visual baseline / Art Bible checkpoint: PR **#155**, merged as `d3d600ed92e78d30da8172e0bdb300119990614f`
-- baseline checkpoint CI: **#743 / run `35105996090` — full success including exact Cloudflare production smoke**
-- current implementation PR: **#156 — VQA-01 permanent visual product baseline**
+- visual baseline / Art Bible checkpoint: PR **#155** -> `d3d600ed92e78d30da8172e0bdb300119990614f`; CI **#743 / run `35105996090`** full success including exact Cloudflare smoke
+- permanent visual QA: PR **#156 — FULLY CLOSED**
+- VQA-01 verified `main`: `9269e9fd576004d7d91fbd840e8c752acc7a5aae`
+- VQA-01 final `main` CI: **#751 / run `35110724150` — full success including exact Cloudflare release smoke**
+- current product PR: **#157 — VUI-01 Parent Report convergence**
 
 ## Engineering status
 
 No known P0 engineering blocker is open on merged `main`.
 
-Pattern #37 is **FULLY CLOSED**. The visual/product baseline and `MAINLAGI_ART_BIBLE.md` are merged and live verified on `d3d600ed92e78d30da8172e0bdb300119990614f`.
+VQA-01 is **FULLY CLOSED**. The permanent blocking browser matrix now produces 42 exact-path captures across 14 canonical product surfaces at 390x844, 768x1024 and 1280x800, with a manifest that records requested path, expected path, final path and HTTP status. The gate is upstream of final Cloudflare smoke on `main`.
 
-VQA-01 is in final pre-merge acceptance. Its first CI #744 correctly failed only because the intentional not-found route produces Chromium's document-level `404 (Not Found)` console message. The gate was not weakened globally: the allowance is exact and scoped only to routes whose expected status is 404. Fresh exact-head CI **#745 / run `35108485349` passed the complete PR matrix**, including the permanent visual product baseline.
+The intentional not-found probe still requires exact HTTP 404 and exact pathname. Only Chromium's exact document-load `404 (Not Found)` console message is allowed on that explicit expected-404 surface; unrelated console errors still fail and all normal status-200 surfaces retain the zero-console-error contract.
 
-The #745 artifact contains **42 / 42 exact-path captures**: 14 canonical product surfaces across 390x844, 768x1024 and 1280x800, plus a manifest recording requested path, final path, status and screenshot. Manual review confirmed the matrix is useful as the permanent shell baseline. PR #156 still requires its final docs-head CI, clean merge gate, exact-head merge and independent `main` + Cloudflare verification before VBASE-P1-05 is fully closed.
+VUI-01 is in exact-head acceptance on PR #157. The implementation does **not** modify `buildBatch15ParentReport`, mastery/evidence calculation, progression, readiness, schema, migrations, activity data or learning answers. It changes only the Parent Report presentation layer and its regression coverage.
+
+Accepted VUI-01 code head before docs closure: `6a4450467b8d9bd01cd9f2bc0806100c84d187f3`. CI **#753 / run `35112741852` passed the complete PR matrix**, including permanent visual QA. The #753 artifact `10452654695` contains all 42 screenshots; manual review of Parent Report at 390/768/1280 is accepted. A cramped three-column tablet layout discovered in CI #752 evidence was fixed before this acceptance by changing 768-class layout to 2+1 cards while retaining 3 columns on wide desktop.
 
 External physical-device acceptance, accessibility-specialist review, human pedagogical/art acceptance and Iqro expert acceptance remain separate and incomplete. Physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
 
@@ -51,52 +55,58 @@ picture_word_match               5 / 900 = 0.56%
 Bahasa choice_grid               29 / 100
 ```
 
-No global gameplay hotspot exceeds the advisory 35% threshold. Remaining distance is **13 patterns** to minimum 50 and **23** to working target 60. WS-05 is paused before Pattern #38 until the current visual P1 gate is cleared.
+Remaining distance is **13 patterns** to minimum 50 and **23** to working target 60. WS-05 remains paused before Pattern #38 until the visual P1 checkpoint reaches zero.
 
-Deterministic activity-quality remains 900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / 0 structural findings.
+Deterministic activity-quality remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / 0 structural findings**.
 
 ## Production visual/product baseline
 
 Canonical audit: `PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md`.  
 Canonical visual direction: `MAINLAGI_ART_BIBLE.md`.
 
-Current baseline before PR #156 merges:
+Merged-main state after VQA-01 closure and before VUI-01 merge:
 
 ```text
 P0 findings: 0
-P1 findings: 5
+P1 findings: 4
 P2 findings: 3
 Garden representative activities: ACCEPTED anchor
-Permanent visual QA: exact-head accepted, merge/live verification pending
+Permanent visual QA: FULLY CLOSED / BLOCKING
+VUI-01 Parent Report: exact-head accepted, merge/live verification pending
 Whole-product visual acceptance: NOT YET ACCEPTED
 Pattern #38: BLOCKED
 ```
 
 P1 state:
 
-1. **VBASE-P1-01 — visual-token fragmentation:** open; addressed wave-by-wave rather than one-shot CSS rewrite.
-2. **VBASE-P1-02 — parent-report density/jargon:** next product implementation after VQA-01 closure.
-3. **VBASE-P1-03 — stage/readiness hierarchy:** queued after parent report.
-4. **VBASE-P1-04 — public/adult root IA:** queued with public/auth/account convergence.
-5. **VBASE-P1-05 — permanent visual coverage gap:** implementation accepted on CI #745; closes only after PR #156 exact merge + independent production verification.
+1. **VBASE-P1-01 — visual-token fragmentation:** open; closed incrementally through scoped migration waves rather than a one-shot CSS rewrite.
+2. **VBASE-P1-02 — parent-report density/jargon:** VUI-01 exact-head accepted on PR #157; remains formally open until exact merge + independent `main`/Cloudflare verification.
+3. **VBASE-P1-03 — stage/readiness hierarchy:** next implementation wave, VUI-02.
+4. **VBASE-P1-04 — public/adult root IA:** queued with public/auth/account convergence, VUI-03.
+5. **VBASE-P1-05 — permanent visual coverage gap:** **CLOSED** by PR #156, main `9269e9fd...`, CI #751.
 
-Manual review of the #745 baseline confirms the existing priorities rather than inventing new blockers: parent report is the densest/most technical adult surface; stage desktop/tablet underuses space; auth/system cards are visually under-scaled on desktop. Child home, profile-select, representative Garden activity and rewards are suitable baseline references.
+If VUI-01 completes exact merge and independent production verification without regression, P1 count becomes **3**.
 
-## VQA-01 contract
+## VUI-01 Parent Report contract
 
-Permanent blocking coverage is added inside `Mobile route QA (Chromium)` for:
-- 390x844, 768x1024 and 1280x800;
-- public root, child select/home, Math subject/stage/activity, rewards, parent report, account, login, signup, forgot-password, deterministic auth error and not-found;
-- expected HTTP status and **exact final pathname**;
-- main landmark + H1;
-- expected route boundary where applicable;
-- no Next.js error overlay;
-- no horizontal overflow;
-- child phone touch-target floor;
-- no page errors and no unexpected console errors;
-- deterministic screenshots + manifest artifact.
+Primary parent-facing report now follows this hierarchy:
+- family summary for the last 7 days;
+- three readable weekly indicators;
+- patterns that are explicitly framed as observed learning evidence, not diagnosis;
+- grouped per-subject progress and next-step recommendation;
+- recent activity;
+- persisted achievements.
 
-The intentional not-found route remains required to return 404. Only Chromium's exact document-level 404 console message is permitted on that expected-404 surface; unrelated console errors still fail the gate.
+Internal terms such as `attempt`, `assessed`, `practice`, `qualifying evidence`, `retry` and mastery diagnostics are removed from the **primary reading layer** and preserved behind per-subject diagnostic disclosure. Counts, percentages, mastery score/coverage, stage-state counts, recommendations, recent results and awards continue to come from the same report fields.
+
+Permanent VQA now asserts that the Parent Report primary layer contains the family summary and does not leak the guarded internal terminology. Diagnostic disclosure is intentionally excluded from that copy assertion.
+
+Responsive visual acceptance from CI #753:
+- **390x844:** single-column report hierarchy readable;
+- **768x1024:** 2+1 summary-card layout readable with no pathological word wrapping;
+- **1280x800:** three-column summary layout readable and balanced;
+- all three Parent Report captures: exact expected path and HTTP 200;
+- permanent full matrix: 42/42 captures green.
 
 ## Learning/mastery boundaries
 
@@ -113,14 +123,13 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Finish PR #156: fresh final docs-head CI -> clean exact-scope/review/thread gate -> exact-head squash merge -> independent `main` CI + exact Cloudflare smoke.
-2. **VUI-01 Parent Report:** family-friendly hierarchy/copy while preserving every underlying metric and evidence/mastery semantic.
-3. **VUI-02 Stage/Gallery:** improve tablet/desktop hierarchy, readiness/progress and recommended-state emphasis without progression changes.
-4. **VUI-03 Public/Auth/Account:** resolve clean-session adult/public entry and converge generic utility surfaces on the Art Bible.
-5. Re-run permanent baseline until **P0=0 / P1=0**.
-6. Only then run a fresh objective/evidence audit for Pattern #38; no gameplay family is pre-approved.
-7. Continue WS-05 toward 50–60 meaningful patterns with permanent WS-08 visual QA running in parallel.
-8. Continue WS-02 narration, WS-10 external acceptance, WS-11 governance and later WS-12 cleanup.
-9. Finish with full production end-to-end acceptance and canonical release closure.
+1. Finish PR #157 from its final docs head: fresh full CI -> clean exact-scope/review/thread gate -> exact-head squash merge -> independent `main` CI + exact Cloudflare release smoke.
+2. **VUI-02 Stage/Gallery:** improve tablet/desktop composition, readiness/progress hierarchy and recommended-state emphasis without changing progression logic.
+3. **VUI-03 Public/Auth/Account:** resolve clean-session adult/public entry and converge generic utility surfaces on the Art Bible.
+4. Close remaining visual-token fragmentation through these scoped migrations and re-run the permanent baseline until **P0=0 / P1=0**.
+5. Only then run a fresh objective/evidence audit for Pattern #38; no gameplay family is pre-approved.
+6. Continue WS-05 toward 50–60 meaningful patterns with permanent WS-08 visual QA running in parallel.
+7. Continue WS-02 narration, WS-10 external acceptance, WS-11 governance and later WS-12 cleanup.
+8. Finish with full production end-to-end acceptance and canonical release closure.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion or mastery/backend rewrites before this quality phase is substantially complete.
