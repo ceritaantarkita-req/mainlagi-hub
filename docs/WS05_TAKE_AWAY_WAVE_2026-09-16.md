@@ -1,8 +1,9 @@
 # WS-05 Pattern #32 — Math Take Away
 
 Date: **16 September 2026**  
-Status: **MERGED / LIVE VERIFIED / CLOSURE PENDING**  
+Status: **MERGED / LIVE VERIFIED / CLOSURE PR #144 PENDING**  
 Implementation PR: **#143**  
+Closure PR: **#144**  
 Implementation branch: `agent/ws05-math-take-away-20260916`  
 Closure branch: `docs/close-take-away-20260916`  
 Verified implementation merge SHA: `3ac5ab049e94f65c3e28a7e4e5cbd18185a9466a`
@@ -147,11 +148,10 @@ Remaining distance is **18** patterns to minimum 50 and **28** to working target
 
 ## Closure gate
 
-Implementation is merged and live-verified. Pattern #32 is **not fully closed yet**. Remaining gates are:
-1. this separate docs-only closure PR contains only the five canonical docs;
-2. fresh full CI on the exact final closure head;
-3. clean closure PR mergeability/comments/reviews/review-thread gate;
-4. exact-head squash merge and independent final `main` SHA verification;
-5. final post-closure `main` CI with Cloudflare production smoke.
+Implementation is merged and live-verified. Pattern #32 is **not fully closed yet**. Closure PR #144 must still pass:
+1. fresh full CI on the exact final closure head;
+2. clean mergeability/comments/reviews/review-thread gate;
+3. exact-head squash merge and independent final `main` SHA verification;
+4. final post-closure `main` CI with Cloudflare production smoke.
 
-Only after all five closure gates succeed may Pattern #32 be marked **FULLY CLOSED** and a fresh objective/evidence audit for Pattern #33 begin. No Pattern #33 family is pre-approved.
+Only after all four closure gates succeed may Pattern #32 be marked **FULLY CLOSED** and a fresh objective/evidence audit for Pattern #33 begin. No Pattern #33 family is pre-approved.
