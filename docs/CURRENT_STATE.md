@@ -8,15 +8,15 @@ This is the canonical human/AI handoff. `main` is the merged source of truth.
 
 - repository: `ceritaantarkita-req/mainlagi-hub`
 - canonical branch: `main`
-- latest merged gameplay implementation: Pattern #31 — Math Make Total
+- latest fully closed gameplay: Pattern #31 — Math Make Total
 - Pattern #31 implementation PR: #141
 - Pattern #31 closure PR: #142
-- final implementation docs head: `7230d87fb5c53d6e164465aa3353531228b8f4c6`
-- verified Pattern #31 implementation merge SHA: `de358c3e6610c3ae9b8669ce3df3b0f2a95e3136`
-- final implementation PR CI: #662 / run `35043111245`, full success
-- post-merge implementation CI: #663 / run `35044172180`, full success including Cloudflare production smoke
-- Pattern #31: **MERGED / CLOSURE PR #142 PENDING**; becomes fully closed only after #142 exact-head merge/live verification
-- Pattern #30 `syllable_assembly`: **FULLY CLOSED** via PR #139 + #140
+- final verified Pattern #31 `main` SHA: `79a1b3871e7494a7f9580ca26e56f4f30d5874b4`
+- final Pattern #31 live verification: CI #670 / run `35045153104`, full success including Cloudflare production smoke
+- current accepted unmerged gameplay PR: #143 — Math Take Away
+- accepted Pattern #32 implementation code head: `5b6e774b942b5024bbf5fc21beac63ea0caeb7a7`
+- accepted Pattern #32 implementation QA: CI #671 / run `35047494614`
+- Pattern #32: **QA ACCEPTED / UNMERGED** pending final docs-head CI, exact-head merge/live verification and separate closure PR
 - production: `https://mainlagihub.my.id/`
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - source licence: `AGPL-3.0-only`
@@ -47,7 +47,6 @@ unclassified:               0
 active merged patterns:    31
 choice_grid               303 / 900 = 33.67%
 make_total                  5 / 900 = 0.56%
-syllable_assembly           5 / 900 = 0.56%
 Bahasa choice_grid          47 / 100
 Math choice_grid            51 / 100
 Science choice_grid         56 / 100
@@ -56,53 +55,70 @@ English choice_grid         44 / 100
 Iqro choice_grid            58 / 100
 ```
 
-Remaining distance: **19** patterns to minimum 50 and **29** to working target 60.
+Merged-baseline distance: **19** patterns to minimum 50 and **29** to working target 60.
 
-## Pattern #31 `make_total` — merged closure record
+### PR #143 accepted head: 32 patterns
+
+Pattern #32 `take_away` is QA accepted on PR #143 but not yet merged.
+
+```text
+classified:               900 / 900
+unclassified:               0
+active PR-head patterns:   32
+choice_grid               298 / 900 = 33.11%
+make_total                  5 / 900 = 0.56%
+take_away                   5 / 900 = 0.56%
+Bahasa choice_grid          47 / 100
+Math choice_grid            46 / 100
+Science choice_grid         56 / 100
+Logic choice_grid           47 / 100
+English choice_grid         44 / 100
+Iqro choice_grid            58 / 100
+```
+
+If merged unchanged, remaining distance becomes **18** patterns to minimum 50 and **28** to working target 60.
+
+## Pattern #32 `take_away` — QA acceptance record
 
 Exact scope:
 
 ```text
-math-add-1-1
-math-add-2-1
-math-add-2-2
-math-add-3-2
-math-add-4-3
+math-sub-3-1
+math-sub-4-2
+math-sub-5-1
+math-sub-6-2
+math-sub-7-3
 ```
 
-All five remain assessed `tap_choice` activities in stage `math-operasi-awal`, lesson `math-addition`, pack `math.pack.addition`, canonical skill `math.operation.addition.within_10`, with exactly three canonical numeric choices and unchanged `correctChoice`.
+All five remain assessed `tap_choice` activities in stage `math-operasi-awal`, lesson `math-subtraction`, pack `math.pack.subtraction`, canonical skill `math.operation.subtraction.within_10`, with exactly three canonical numeric choices and unchanged `correctChoice`.
 
-Explicit exclusions remain outside Pattern #31: Math subtraction, equal-group grouping, missing-number sequences, length/size comparisons, existing Math count/number-line/comparison/pattern families, and all non-Math families.
+Explicit exclusions remain outside Pattern #32: Math addition (`make_total` remains separate), equal-group grouping, missing-number sequences, length/size comparisons, existing Math count/number-line/comparison/pattern families, and all non-Math families.
 
 Interaction/evidence contract:
-- visualizes two reviewed positive addend groups whose sum equals canonical `correctChoice`;
-- masks the total with `?` before a correct assessment;
+- shows one reviewed positive starting group and visibly marks exactly the reviewed `removeCount` subset as taken away;
+- keeps the numeric remainder masked as `?` before a correct assessment;
+- config validates `startCount - removeCount === Number(correctChoice)` and keeps the operation within 10;
 - canonical keyboard/touch/pointer direct-selection choices remain unchanged;
-- wrong choice records assessed error/retry, cannot complete, and cannot reveal the total;
-- correct choice completes the canonical activity and may reveal the total;
-- total remains within the canonical `within_10` objective;
+- wrong choice records assessed error/retry, cannot complete, and cannot reveal the numeric remainder;
+- correct choice completes the canonical activity and may reveal the remainder;
 - no changed choices, extra confirmation, drag-only dependency or intermediate assessment;
-- assessed fidelity `choice_make_total_interaction`;
-- runtime metadata source `make-total-runtime`;
+- assessed fidelity `choice_take_away_interaction`;
+- runtime metadata source `take-away-runtime` with `startCount`, `removeCount` and `selectedChoice`;
 - runtime, IDs, choices, `correctChoice`, skill, assessment, stars, mastery and progression remain unchanged.
 
-Acceptance and merge evidence:
-- CI #656 / run `35042089820` correctly caught the 320x720 idle-feedback visibility defect;
-- the responsive fix preserved >=48px choice targets and the strict viewport assertion;
-- implementation QA head `4b513676c9029fbb7a788a49175ed02954f0d2f7` passed full CI #657 / run `35042439233`;
-- all nine 320/390/768 idle/wrong/success screenshots passed manual visual acceptance;
-- final canonical implementation docs head `7230d87fb5c53d6e164465aa3353531228b8f4c6` passed full CI #662 / run `35043111245`;
-- PR #141 had `mergeable=true`, zero reviews, zero review threads and exactly the intended 16 changed files at the final merge gate;
-- PR #141 exact-head squash merged as `de358c3e6610c3ae9b8669ce3df3b0f2a95e3136`;
-- `main` was independently verified at that exact SHA;
-- post-merge `main` CI #663 / run `35044172180` passed all gates including Cloudflare production smoke;
-- deterministic audit remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**.
+Acceptance evidence:
+- implementation code head `5b6e774b942b5024bbf5fc21beac63ea0caeb7a7` passed full CI #671 / run `35047494614` on the first run;
+- CI #671 passed Ubuntu, Windows, production build, dependency audit, secret-history scan, central + dedicated Take Away regressions, deterministic quality/distribution audits, simulations, Batch17 and Chromium mobile/accessibility/browser QA;
+- deterministic audit remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**;
+- gameplay distribution is 900/900 classified, 0 unclassified, 32 patterns, `choice_grid` 298/900, `take_away` 5/900 and Math `choice_grid` 46/100;
+- no global advisory hotspot exists; subject advisory hotspots remain Coloring 100%, Drawing 100% and Letters `symbol_hunt` 64%;
+- manual idle/wrong/success review at 320x720, 390x844 and 768x1024 accepted all nine screenshots with no clipping/overflow, clear removed-object state, masked wrong-state remainder, canonical success reveal, visible feedback and success CTA.
 
-Docs-only closure PR #142 is the final Pattern #31 closure gate. Pattern #31 becomes **FULLY CLOSED only after #142 exact-head CI, clean merge gate, exact-head merge, independent final `main` verification, and post-closure `main` CI including Cloudflare smoke all succeed**.
+Pattern #32 is **not fully closed yet**. It still requires fresh exact docs-head CI, clean exact-head merge of PR #143, live-main verification, and a separate docs-only closure PR with its own exact-head CI/merge/live verification.
 
-## Pattern #30 closure state
+## Pattern #31 closure state
 
-Pattern #30 `syllable_assembly` remains **FULLY CLOSED**. PR #139 implementation and PR #140 closure are merged and live-verified.
+Pattern #31 `make_total` is **FULLY CLOSED**. Implementation PR #141 and closure PR #142 are merged; closure merge SHA `79a1b3871e7494a7f9580ca26e56f4f30d5874b4` was independently verified on `main`, and final CI #670 / run `35045153104` passed the full matrix including Cloudflare production smoke.
 
 ## Learning/mastery boundaries
 
@@ -119,8 +135,8 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Finish Pattern #31 closure PR #142: exact final closure-head CI -> clean review/thread/mergeability gate -> exact-head merge -> independent `main` verification -> post-closure `main` CI + Cloudflare production smoke.
-2. Only after Pattern #31 is fully closed, run a fresh objective/evidence audit for Pattern #32; no family is pre-approved.
+1. Finish Pattern #32 PR #143: fresh exact docs-head CI -> clean merge/review gate -> exact-head merge -> live-main verification -> separate docs-only closure -> closure live verification.
+2. After Pattern #32 is fully closed, run a fresh objective/evidence audit for Pattern #33; no family is pre-approved.
 3. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
 4. Continue Art Bible/permanent visual QA, narration, parent/public frontend, external acceptance and governance.
 

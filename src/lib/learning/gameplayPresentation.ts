@@ -1,7 +1,7 @@
 import type { LearningActivity } from "./system";
 
 export type MatchingPresentation = "grid_pairs" | "memory_pairs" | "drag_targets";
-export type ChoiceGameplayPresentation = "default" | "sequence_slot" | "syllable_assembly" | "sorting_buckets" | "odd_one_out" | "rule_pipeline" | "set_reasoning" | "transitive_chain" | "spatial_transform" | "relative_order_track" | "count_select" | "number_line" | "more_less_balance" | "pattern_completion" | "make_total" | "cause_effect" | "compare_properties" | "healthy_habit_routine" | "material_lab" | "feature_function_link" | "investigation_board";
+export type ChoiceGameplayPresentation = "default" | "sequence_slot" | "syllable_assembly" | "sorting_buckets" | "odd_one_out" | "rule_pipeline" | "set_reasoning" | "transitive_chain" | "spatial_transform" | "relative_order_track" | "count_select" | "number_line" | "more_less_balance" | "pattern_completion" | "make_total" | "take_away" | "cause_effect" | "compare_properties" | "healthy_habit_routine" | "material_lab" | "feature_function_link" | "investigation_board";
 export type GameplayPattern =
   | "choice_grid"
   | "symbol_hunt"
@@ -23,6 +23,7 @@ export type GameplayPattern =
   | "more_less_balance"
   | "pattern_completion"
   | "make_total"
+  | "take_away"
   | "cause_effect"
   | "compare_properties"
   | "healthy_habit_routine"
@@ -184,6 +185,14 @@ const MATH_MAKE_TOTAL_IDS = new Set([
   "math-add-2-2",
   "math-add-3-2",
   "math-add-4-3"
+]);
+
+const MATH_TAKE_AWAY_IDS = new Set([
+  "math-sub-3-1",
+  "math-sub-4-2",
+  "math-sub-5-1",
+  "math-sub-6-2",
+  "math-sub-7-3"
 ]);
 
 /**
@@ -377,6 +386,18 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     Boolean(activity.prompt);
   if (isReviewedMathMakeTotalFamily) return "make_total";
 
+  const isReviewedMathTakeAwayFamily =
+    activity.subjectId === "math" &&
+    activity.stageId === "math-operasi-awal" &&
+    MATH_TAKE_AWAY_IDS.has(activity.id) &&
+    choices.length === 3 &&
+    new Set(choices).size === choices.length &&
+    choices.every((choice) => /^\d+$/.test(choice)) &&
+    /^\d+$/.test(correct) &&
+    choices.includes(correct) &&
+    Boolean(activity.prompt);
+  if (isReviewedMathTakeAwayFamily) return "take_away";
+
   const isReviewedScienceCauseEffectFamily =
     activity.subjectId === "science" &&
     activity.stageId === "science-life-material-motion" &&
@@ -496,6 +517,10 @@ export function isMakeTotalActivity(activity: LearningActivity | undefined): boo
   return choiceGameplayPresentation(activity) === "make_total";
 }
 
+export function isTakeAwayActivity(activity: LearningActivity | undefined): boolean {
+  return choiceGameplayPresentation(activity) === "take_away";
+}
+
 export function isCauseEffectActivity(activity: LearningActivity | undefined): boolean {
   return choiceGameplayPresentation(activity) === "cause_effect";
 }
@@ -545,6 +570,7 @@ export function gameplayPattern(activity: LearningActivity | undefined): Gamepla
     if (presentation === "more_less_balance") return "more_less_balance";
     if (presentation === "pattern_completion") return "pattern_completion";
     if (presentation === "make_total") return "make_total";
+    if (presentation === "take_away") return "take_away";
     if (presentation === "cause_effect") return "cause_effect";
     if (presentation === "compare_properties") return "compare_properties";
     if (presentation === "healthy_habit_routine") return "healthy_habit_routine";

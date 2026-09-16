@@ -22,6 +22,7 @@ import { SortingBucketsChoiceActivity } from "@/components/learning/SortingBucke
 import { SpatialTransformActivity } from "@/components/learning/SpatialTransformActivity";
 import { SyllableAssemblyActivity } from "@/components/learning/SyllableAssemblyActivity";
 import { SymbolHuntChoiceActivity } from "@/components/learning/SymbolHuntChoiceActivity";
+import { TakeAwayActivity } from "@/components/learning/TakeAwayActivity";
 import { TransitiveChainActivity } from "@/components/learning/TransitiveChainActivity";
 import { MathTraceWorldActivity } from "@/components/learning/world/MathTraceWorldActivity";
 import { WorldActivityScreen } from "@/components/learning/world/WorldExperience";
@@ -47,6 +48,7 @@ import {
   isSortingBucketsActivity,
   isSpatialTransformActivity,
   isSyllableAssemblyActivity,
+  isTakeAwayActivity,
   isTransitiveChainActivity
 } from "@/lib/learning/gameplayPresentation";
 import { getActivity } from "@/lib/learning/system";
@@ -99,6 +101,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
         <PatternCompletionActivity childId={childId} activityId={activity} />
       ) : isMakeTotalActivity(definition) ? (
         <MakeTotalActivity childId={childId} activityId={activity} />
+      ) : isTakeAwayActivity(definition) ? (
+        <TakeAwayActivity childId={childId} activityId={activity} />
       ) : isCauseEffectActivity(definition) ? (
         <CauseEffectActivity childId={childId} activityId={activity} />
       ) : isComparePropertiesActivity(definition) ? (
