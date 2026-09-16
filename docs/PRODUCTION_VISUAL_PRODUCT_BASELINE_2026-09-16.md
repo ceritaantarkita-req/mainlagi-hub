@@ -1,129 +1,95 @@
 # Production Visual / Product Baseline Audit — 2026-09-16
 
-Status: **P0 = 0; P1 = 2 ON MERGED MAIN; VQA-01 + VUI-01 + VUI-02 CLOSED; VUI-03 EXACT-HEAD ACCEPTED; PATTERN #38 BLOCKED**  
-Canonical production: `https://mainlagihub.my.id/`  
-Baseline checkpoint merge: `d3d600ed92e78d30da8172e0bdb300119990614f`  
-Permanent VQA merge: `9269e9fd576004d7d91fbd840e8c752acc7a5aae`; main CI **#751 / run `35110724150`** including exact Cloudflare smoke  
-VUI-01 merge: `e212002eafef77a37a220834c6263e433cf9acbb`; main CI **#758 / run `35115248445`**  
-VUI-02 merge: `fe260ba7a239586ca2362fbabfca3e0a5019d453`; main CI **#764 / run `35118210891`**  
-VUI-03 PR: **#160**; accepted implementation head `96de380796cdcb16cd10f390805f4c7b62f9b83b`; CI **#771 / run `35122985995` — full PR success**
+Last updated: **17 September 2026**  
+Status: **P0 = 0; P1 = 1 ON MERGED MAIN; VQA-01 + VUI-01 + VUI-02 + VUI-03 CLOSED; PATTERN #38 BLOCKED**  
+Canonical production: `https://mainlagihub.my.id/`
 
-## Evidence boundary
+## Verified closure chain
 
-This audit combines exact repository source, CI/browser screenshot artifacts, route/component review and exact Cloudflare release smoke where the change is merged. Garden learning/activity remains the accepted child-facing visual anchor. Whole-product visual acceptance remains open until P1 reaches zero.
+- baseline checkpoint: `d3d600ed92e78d30da8172e0bdb300119990614f`
+- permanent VQA: PR #156 -> `9269e9fd576004d7d91fbd840e8c752acc7a5aae`, CI #751 including exact Cloudflare smoke
+- VUI-01 Parent Report: PR #157 -> `e212002eafef77a37a220834c6263e433cf9acbb`, CI #758
+- VUI-02 Stage/Gallery: PR #158 -> `fe260ba7a239586ca2362fbabfca3e0a5019d453`, CI #764
+- VUI-03 Public/Auth/Account: PR #160 -> `415008a4a0503da98937ee8df0a1e5feb1a08c62`, CI #776 / run `35124809180` including exact Cloudflare release smoke
 
 ## Current baseline result
 
-Merged-main state remains after VUI-02 closure until VUI-03 is merged and independently production-verified:
-
 ```text
 P0 findings: 0
-P1 findings: 2
+P1 findings: 1
 P2 findings: 3
 Garden representative activities: ACCEPTED anchor
 Permanent visual QA: CLOSED / BLOCKING
 Parent Report VUI-01: CLOSED / LIVE VERIFIED
 Stage/Gallery VUI-02: CLOSED / LIVE VERIFIED
-Public/Auth/Account VUI-03: EXACT-HEAD ACCEPTED
+Public/Auth/Account VUI-03: CLOSED / LIVE VERIFIED
 Whole-product visual acceptance: NOT YET ACCEPTED
 Pattern #38: BLOCKED
 ```
 
-If VUI-03 completes exact merge and independent production verification without regression, P1 count becomes **1**.
+Whole-product visual acceptance remains open only because one P1 remains.
 
 ## P1 findings
 
-### VBASE-P1-01 — visual-token fragmentation — OPEN
+### VBASE-P1-01 — visual-token fragmentation — OPEN / SOLE P1
 
-Garden/Playroom, `LearningPlatform.module.css`, `globals.css` and migrated scoped modules still represent multiple generations of the product language. Required outcome remains scoped convergence and targeted consolidation, not a one-shot CSS rewrite.
+The highest-risk child, parent, stage, public, auth and account surfaces are now converged through the Garden/Art Bible direction and scoped modules. Remaining fragmentation is narrower and must be closed by a targeted evidence-first system/public residual pass rather than a one-shot rewrite of `globals.css`.
 
-VUI-01, VUI-02 and VUI-03 deliberately use scoped modules so presentation can converge without destabilizing accepted learning/auth behavior. VUI-03 materially removes the public/auth/account legacy cluster, but residual global/legacy styling still requires a dedicated evidence-first closure pass before P1 can reach zero.
+Initial residual evidence on live `main`:
+- canonical `src/app/not-found.tsx` still uses legacy `center-page` + `dialog-card`;
+- its primary CTA still inherits the older global blue `.button--primary` treatment;
+- not-found is already a permanent visual-baseline route, so it can be migrated and guarded deterministically;
+- `AdminGate` also uses legacy utility classes, but admin/diagnostic styling is explicitly allowed to remain utilitarian and is **not automatically a product P1** unless user-facing leakage is proven.
+
+Closure requirement:
+1. enumerate remaining legacy utility-shell usage on product-facing public/family/system routes;
+2. separate product drift from admin-only utility styling;
+3. migrate only evidenced user-facing residuals to scoped Mainlagi presentation;
+4. keep permanent exact-path/status/error gates intact;
+5. manual review at 390 / 768 / 1280;
+6. exact-head CI + clean merge + independent main CI + exact Cloudflare smoke;
+7. only then mark **P1=0**.
 
 ### VBASE-P1-02 — parent-report density and internal jargon — CLOSED
 
-Closed by PR #157 merged as `e212002eafef77a37a220834c6263e433cf9acbb`. Independent main CI #758 passed including exact Cloudflare release smoke.
+Closed by PR #157. Primary parent copy is family-facing; technical vocabulary remains behind diagnostic disclosure; permanent VQA guards the primary copy layer.
 
 ### VBASE-P1-03 — stage/readiness hierarchy — CLOSED
 
-Closed by PR #158 merged as `fe260ba7a239586ca2362fbabfca3e0a5019d453`, independently verified by main CI #764 including exact Cloudflare smoke.
+Closed by PR #158. Stage hero/readiness/lesson composition and subject journey now use available tablet/desktop width without changing readiness, progression, activity order, recommendation source, mastery or completion semantics.
 
-### VBASE-P1-04 — public/adult root information architecture — EXACT-HEAD ACCEPTED
+### VBASE-P1-04 — public/adult root information architecture — CLOSED
 
-#### Baseline defect confirmed
+Closed by PR #160 and independently live verified on `main` `415008a4a0503da98937ee8df0a1e5feb1a08c62`.
 
-Root:
-- known-child fast resume was already correct through `readActiveChild()` + `childDestination()`;
-- clean session still rendered the child-oriented `PlayroomShell`, so the first impression read as child mode rather than a deliberate family/public entry;
-- first decision point did not clearly separate child-start from parent/account path or summarize optional camera expectations.
+Accepted outcome:
+- clean-session `/` is an explicit family/public entry;
+- valid remembered child still uses the existing fast-resume path;
+- child-start and parent/account routes are distinct;
+- camera-based movement play is described as optional without unsupported privacy claims;
+- `/login`, `/signup`, `/forgot-password`, `/reset-password` and `/auth/callback` use one scoped family auth shell;
+- `/account` uses scoped family presentation;
+- Supabase/session/recovery/redirect semantics are unchanged.
 
-Auth:
-- `/login`, `/signup`, `/forgot-password` and `/auth/callback` used correct behavior but generic global `center-page` / `dialog-card` presentation;
-- desktop produced a small isolated utility card in a large empty canvas;
-- auth focus/link/button styling came from older global tokens.
-
-Account:
-- `/account` was closer to the target family language but still used a narrow legacy global presentation cluster.
-
-#### VUI-03 accepted implementation
-
-Public root:
-- clean session now uses the public/family AppShell and a dedicated scoped `PublicHome` composition;
-- known-child fast resume remains unchanged for a valid remembered child;
-- child and parent actions are explicit and separate;
-- Main Gerak camera use is described as optional without unsupported privacy/security guarantees;
-- canonical subject directory remains available and still routes through profile preparation.
-
-Auth:
-- `/login`, `/signup`, `/forgot-password`, `/reset-password` and `/auth/callback` now share one scoped Mainlagi family visual shell;
-- family auth routes own the viewport so public navigation is not duplicated around the auth shell;
-- email/password/recovery/callback Supabase operations, validation, messages, session behavior and redirects are unchanged;
-- form controls use scoped Mainlagi styling and >=44px targets.
-
-Account:
-- `/account` uses a scoped family account module rather than legacy global presentation classes;
-- signed-in/signed-out behavior and destination routes are unchanged;
-- tablet/desktop use a two-column settings grid while phone remains stacked.
-
-#### Permanent regression guard
-
-The existing 14-route / 42-capture matrix now additionally asserts:
-- clean root family marker plus exactly one child CTA and one parent CTA;
-- optional-camera copy and >=44px family CTA height;
-- shared auth family shell/context/panel markers;
-- login/signup/forgot expected form mode and >=44px form controls;
-- auth callback error status remains inside the family shell;
-- account family/settings markers, seven canonical settings links and readable geometry at tablet/desktop;
-- all previous exact-path, status, overflow, error and console gates remain blocking.
-
-#### CI and artifact evidence
+Closure evidence:
 
 ```text
 accepted implementation head: 96de380796cdcb16cd10f390805f4c7b62f9b83b
-PR CI:                       #771 / run 35122985995 — full success
-artifact:                    mobile-route-qa-screenshots
-artifact id:                 10458188042
-artifact digest:             sha256:c554eca3a218c659b97c07f6bfb6521b00fea7f28c6b9de18ac1a799ea3fcdbb
-captures:                    42 / 42
-manifest path/status mismatch: 0
+accepted PR CI:                #771 / run 35122985995 — full success
+artifact:                      10458188042
+artifact digest:               sha256:c554eca3a218c659b97c07f6bfb6521b00fea7f28c6b9de18ac1a799ea3fcdbb
+final PR head:                 d6569864e0149816abea5bff65cbc2a948b4f58b
+final PR CI:                   #775 / run 35124156787 — full success
+merge main:                    415008a4a0503da98937ee8df0a1e5feb1a08c62
+independent main CI:           #776 / run 35124809180 — full success
+Cloudflare exact release:      success
 ```
 
-Manual screenshot acceptance:
-- **390x844 public:** family proposition, child CTA and parent CTA are visible and legible; public mobile navigation remains usable;
-- **768x1024 public:** hero and child/parent paths use tablet width intentionally;
-- **1280x800 public:** family hero + Gavi/Paca use the desktop canvas instead of child-playroom framing;
-- **390x844 account:** signed-out family gate and settings stack clearly;
-- **768/1280 account:** two-column family settings remove the narrow utility-card feel;
-- **390/768/1280 auth:** login/signup/forgot/callback use one coherent family shell with readable forms/status and no duplicate public navbar.
-
-`/reset-password` is migrated to the same accepted shell/form styling but remains outside the canonical 14-surface screenshot matrix.
-
-VBASE-P1-04 remains formally open until the final docs head passes fresh CI, PR #160 passes clean exact merge checks, exact head is merged, and independent `main` + exact Cloudflare release verification succeeds.
+Manual screenshot review accepted public root, account, login, signup, forgot-password and auth callback at 390x844, 768x1024 and 1280x800. `/reset-password` shares the same accepted family shell/form presentation.
 
 ### VBASE-P1-05 — permanent whole-product visual coverage gap — CLOSED
 
-PR #156 is merged as `9269e9fd576004d7d91fbd840e8c752acc7a5aae`; independent main CI #751 passed the full matrix including exact Cloudflare release smoke.
-
-Permanent blocking evidence remains:
+PR #156 established the blocking permanent matrix.
 
 ```text
 390x844
@@ -134,11 +100,13 @@ Permanent blocking evidence remains:
 1 manifest.json
 ```
 
+The matrix blocks unexpected redirects/status, blank output, missing main/H1, framework overlays, overflow, page/console errors, child target-floor regressions and the additional product-specific VUI guards.
+
 ## P2 findings
 
 ### VBASE-P2-01 — games detail/preflight legacy vocabulary
 
-Dark camera runtime is functionally defensible, but surrounding game detail/preflight metadata, navigation and CTA should converge on Mainlagi.
+Dark camera runtime can remain where functionally useful, but surrounding game detail/preflight metadata/navigation should converge after P1 closure.
 
 ### VBASE-P2-02 — iconography mixes canonical symbols and raw emoji
 
@@ -146,31 +114,31 @@ Emoji may remain decorative/content-level; permanent navigation/status semantics
 
 ### VBASE-P2-03 — inline visual styles increase drift risk
 
-Several learning/parent surfaces retain inline colors/margins alongside CSS modules. Cleanup comes after P1 visual behavior is stable.
+Some learning/parent surfaces retain inline visual values. Technical cleanup follows P1 closure and should not destabilize accepted behavior.
 
 ## Accepted anchor rules
 
 - Garden activity framing is the child-facing reference.
-- Mainlagi wordmark, cream paper, navy ink, green primary CTA, sky/sage support surfaces and character artwork are the default brand vocabulary.
-- Visual fixes must not alter canonical activity answers, evidence, mastery, progression or readiness merely to simplify screenshots.
-- Auth/public fixes must preserve session/security/recovery behavior unless separately justified and tested.
+- Mainlagi wordmark, cream paper, navy ink, green primary CTA, sky/sage support surfaces and character artwork are the default product vocabulary.
+- Visual fixes must not alter activity answers, evidence, mastery, progression, readiness or auth/session behavior merely to simplify screenshots.
 - Known-child fast resume is a product contract, not a visual defect.
-- A green `no overflow` check is insufficient when internal components remain clipped, cramped or visibly waste available canvas.
-- Public/auth/account desktop surfaces should use available width for context rather than centering a tiny generic utility card.
-
-## P1 remediation order
-
-1. Finish **VUI-03 Public/Auth/Account** exact docs-head CI, clean merge and production verification.
-2. Run a targeted **VBASE-P1-01 residual visual-token closure** against remaining legacy/global clusters.
-3. Re-run the complete visual matrix until **P0=0 / P1=0**.
-4. Only then begin fresh Pattern #38 objective/evidence audit.
+- A green `no overflow` check is insufficient if a layout remains visibly cramped, clipped or wasteful.
+- Admin utility styling is evaluated separately from public/child/parent product surfaces.
+- Do not mass-rewrite global CSS for token purity.
 
 ## Permanent viewport contract
 
-- 390x844 — primary phone portrait;
-- 768x1024 — tablet portrait;
-- 1280x800 — desktop/laptop shell acceptance;
-- 320px remains supplemental for high-risk child/activity controls;
-- motion-game acceptance keeps suitable landscape evidence.
+- 390x844 — primary phone portrait
+- 768x1024 — tablet portrait
+- 1280x800 — desktop/laptop shell acceptance
+- 320px — supplemental high-risk child/activity controls
+- motion-game QA — suitable landscape evidence
 
-The learning engine and deployment are not the open issue in this checkpoint. After VUI-03 live closure, the sole remaining P1 should be residual visual-token fragmentation.
+## Current remediation order
+
+1. Close **VBASE-P1-01 residual visual-token fragmentation** with a targeted product-facing wave.
+2. Re-run complete permanent visual QA + manual screenshot review.
+3. Live-verify **P0=0 / P1=0** and update canonical docs.
+4. Only then start a fresh objective/evidence audit for Pattern #38.
+
+The learning engine and deployment are not the open issue in this checkpoint. The sole remaining P1 is residual product-surface token fragmentation.
