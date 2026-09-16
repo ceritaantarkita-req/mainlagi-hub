@@ -1,8 +1,10 @@
 # WS-05 Picture Word Match Wave — 2026-09-16
 
-Status: **Pattern #35 QA ACCEPTED / UNMERGED**  
+Status: **Pattern #35 IMPLEMENTATION MERGED / LIVE VERIFIED; DOCS-ONLY CLOSURE IN PROGRESS**  
 Implementation PR: **#149**  
-Base: Pattern #34 final `main` `8bfb0027a5f4963a6875310c7408cb56018cc422`
+Base: Pattern #34 final `main` `8bfb0027a5f4963a6875310c7408cb56018cc422`  
+Implementation merge: `47e3373ed9ba4a96331a8e61286dc80d37b6b518`  
+Post-merge CI: **#724 / run `35085618422` — full success including Cloudflare production smoke**
 
 ## Why this family
 
@@ -75,13 +77,17 @@ Representative wrong-then-right browser path validates:
 - `accuracy = 0.5`;
 - false completion/reveal is blocked before correct answer.
 
-## QA evidence
+## QA and merge evidence
 
 Accepted code head before canonical docs:
 `e0f93bd20f24c2efaebfbaa7f782427e8d0e1bca`
 
-Exact-head CI:
-- CI **#718** / run `35082720001` — full PR success;
+Final implementation docs head:
+`79767b320372ac6dd78bfae90ffb2e2307154401`
+
+Exact-head implementation CI:
+- CI **#718** / run `35082720001` — accepted code-head full success;
+- CI **#723** / run `35083623316` — final docs-head full success;
 - Ubuntu: structure/assets/source, security boundary, device harness contract, typecheck, lint, engine/learning suite, deterministic activity quality, gameplay distribution, simulations and Batch17 — success;
 - Windows compatibility — success;
 - production build and build budgets — success;
@@ -107,13 +113,32 @@ Observed acceptance:
 - feedback and success CTA stay visible;
 - layout remains consistent with Garden UI.
 
+Exact implementation merge gate:
+- PR #149 head was `79767b320372ac6dd78bfae90ffb2e2307154401`;
+- branch was zero commits behind `main`;
+- mergeability state was clean;
+- scope stayed limited to the reviewed Pattern #35 implementation/tests/audit/docs;
+- comments, inline review comments, reviews and review threads were all zero;
+- exact-head squash merge succeeded as `47e3373ed9ba4a96331a8e61286dc80d37b6b518`.
+
+Independent live `main` verification:
+- `main` independently resolved to exact implementation merge `47e3373ed9ba4a96331a8e61286dc80d37b6b518`;
+- CI **#724** / run `35085618422` completed **success**;
+- Ubuntu quality gate — success;
+- Windows compatibility — success;
+- production build — success;
+- production dependency audit — success;
+- secret-history scan — success;
+- Chromium mobile/accessibility matrix — success;
+- **Production smoke (Cloudflare)** waited for the exact release and successfully smoked public endpoints.
+
 ## Distribution/quality evidence
 
-CI #718 gameplay-distribution artifact:
+Verified merged gameplay-distribution:
 
 ```text
 900 / 900 classified
-35 active candidate patterns
+35 active merged patterns
 choice_grid          287 / 900 = 31.89%
 picture_word_match     5 / 900 = 0.56%
 Bahasa choice_grid     39 / 100
@@ -133,14 +158,12 @@ structural findings      0
 
 ## Remaining closure chain
 
-Pattern #35 is **not closed** at this status. Required remaining gates:
-1. fresh exact canonical docs-head full CI;
-2. clean exact-head implementation PR scope/review/thread/mergeability gate;
-3. exact-head squash merge PR #149;
-4. independent `main` verification and full post-merge CI including Cloudflare production smoke;
-5. separate docs-only closure branch/PR;
-6. fresh exact closure-head CI and clean closure gate;
-7. exact-head closure merge;
-8. final independent `main` verification and full CI including Cloudflare production smoke.
+Pattern #35 implementation is merged and live verified, but Pattern #35 is **not yet FULLY CLOSED**. Required remaining gates:
+1. keep this closure docs-only and based exactly on implementation merge `47e3373ed9ba4a96331a8e61286dc80d37b6b518`;
+2. open the separate closure PR;
+3. fresh exact closure-head full CI;
+4. clean exact-head closure scope/review/thread/mergeability gate;
+5. exact-head closure squash merge;
+6. final independent `main` verification and full CI including Cloudflare production smoke.
 
-Only after all of the above may Pattern #35 be marked **FULLY CLOSED**.
+Only after all of the above may Pattern #35 be marked **FULLY CLOSED**. Pattern #36 objective/evidence audit must not start before that point.

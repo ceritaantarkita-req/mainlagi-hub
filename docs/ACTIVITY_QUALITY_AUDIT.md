@@ -24,14 +24,14 @@ All subjects remain 100 KEEP / 0 flagged. Deterministic zero does **not** mean e
 
 Pattern #34 `initial_sound` is **FULLY CLOSED** via implementation PR #147 + closure PR #148. Final verified `main` SHA is `8bfb0027a5f4963a6875310c7408cb56018cc422`; final CI #717 / run `35074306579` passed the full matrix including Cloudflare production smoke.
 
-Pattern #35 `picture_word_match` implementation PR **#149** is **QA ACCEPTED / UNMERGED**. Accepted code head `e0f93bd20f24c2efaebfbaa7f782427e8d0e1bca` passed full CI #718 / run `35082720001`, including Ubuntu/Windows, production build, dependency audit, secret scan, Chromium browser QA, deterministic quality/distribution audits, simulations and Batch17.
+Pattern #35 `picture_word_match` implementation PR **#149** is **MERGED / LIVE VERIFIED**. Final implementation docs head `79767b320372ac6dd78bfae90ffb2e2307154401` passed CI #723 / run `35083623316`. Exact implementation merge SHA is `47e3373ed9ba4a96331a8e61286dc80d37b6b518`; post-merge CI #724 / run `35085618422` passed the full matrix including exact Cloudflare production smoke. A separate docs-only closure is now the remaining Pattern #35 gate.
 
-Accepted candidate distribution on PR #149:
+Verified merged distribution after PR #149:
 
 ```text
 900 / 900 classified
 0 unclassified
-35 active candidate patterns
+35 active merged patterns
 choice_grid                 287 / 900 = 31.89%
 picture_word_match            5 / 900 = 0.56%
 initial_sound                  3 / 900 = 0.33%
@@ -48,7 +48,7 @@ Iqro choice_grid              58 / 100
 
 Concentration remains advisory and does not itself create POLISH/REDESIGN findings. No global hotspot exceeds the advisory 35% threshold.
 
-## Picture Word Match — Pattern #35 QA record
+## Picture Word Match — Pattern #35 merged/live closure record
 
 Exact scope:
 
@@ -81,21 +81,20 @@ Interaction/evidence contract:
 - assessed fidelity `choice_picture_word_match_interaction`;
 - runtime metadata source `picture-word-match-runtime` with `picture`, `word` and `selectedChoice`.
 
-Acceptance evidence:
+Acceptance and merge chain:
 - branch started exactly from Pattern #34 final `main` `8bfb0027a5f4963a6875310c7408cb56018cc422`;
-- exact code head `e0f93bd20f24c2efaebfbaa7f782427e8d0e1bca` passed CI #718 / run `35082720001`;
-- exact family regression verifies only the five reviewed Bahasa Wave B activities classify as `picture_word_match`;
+- accepted code head `e0f93bd20f24c2efaebfbaa7f782427e8d0e1bca` passed CI #718 / run `35082720001`;
+- exact family regression verifies only the five reviewed Bahasa activities classify as `picture_word_match`;
 - representative browser QA uses `bahasa-gambar-apel` and legitimate immediate-prior Wave A readiness;
 - browser QA covers 320x720, 390x844 and 768x1024, keyboard wrong-state, pointer success, false-completion/reveal guards, evidence metadata, touch targets, feedback and CTA visibility;
 - all nine idle/wrong/success screenshots passed manual visual review with no clipping or horizontal overflow;
-- distribution is 900/900 classified with 35 active candidate patterns;
+- final docs head `79767b320372ac6dd78bfae90ffb2e2307154401` passed full CI #723 / run `35083623316`;
+- PR #149 passed clean exact-head scope/review/thread/mergeability checks and squash merged as `47e3373ed9ba4a96331a8e61286dc80d37b6b518`;
+- independent post-merge `main` CI #724 / run `35085618422` passed Ubuntu, Windows, production build, dependency audit, secret-history scan, Chromium QA and **Production smoke (Cloudflare)**;
+- distribution is 900/900 classified with 35 active merged patterns;
 - deterministic quality remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**.
 
-Pattern #35 remains **UNMERGED**. Canonical docs-head CI, exact-head clean merge gate, live-main verification and the separate post-merge docs closure are still required.
-
-## Initial Sound — Pattern #34 FULLY CLOSED
-
-Implementation PR #147 and closure PR #148 are complete. Closure head `fadef258d11e386491df5c112dab7221b097213d` passed CI #716 / run `35073594364`. Final verified `main` is `8bfb0027a5f4963a6875310c7408cb56018cc422`; final CI #717 / run `35074306579` passed the full matrix including Cloudflare production smoke.
+Pattern #35 remains **closure-in-progress**, not fully closed, until this docs-only closure is exact-head CI verified, cleanly merged, and the final `main` run including Cloudflare smoke succeeds.
 
 ## Permanent audits
 
@@ -116,9 +115,9 @@ CI uploads both artifacts. Gameplay-distribution coverage and active-pattern-set
 - WS-05 Take Away — Pattern #32 fully closed via #143 + #144.
 - WS-05 Equal Groups — Pattern #33 fully closed via #145 + #146.
 - WS-05 Initial Sound — Pattern #34 **FULLY CLOSED** via #147 + #148; final main `8bfb0027a5f4963a6875310c7408cb56018cc422`; final CI #717.
-- WS-05 Picture Word Match — Pattern #35 **QA ACCEPTED / PR #149 OPEN**; code-head CI #718 full success and 9/9 screenshots manually accepted.
+- WS-05 Picture Word Match — Pattern #35 **IMPLEMENTATION MERGED / LIVE VERIFIED** via PR #149; merge `47e3373ed9ba4a96331a8e61286dc80d37b6b518`; post-merge CI #724 full success; docs-only closure remains.
 - WS-05 NEXT after Pattern #35 full closure — fresh Pattern #36 objective/evidence audit; no family pre-approved.
 
 ## Completion rule
 
-Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #35 itself remains unclosed until implementation and docs-only closure are exact-head merged and independently verified live on `main` with Cloudflare smoke.
+Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #35 itself remains unclosed until the separate docs-only closure is exact-head merged and independently verified live on `main` with Cloudflare smoke.

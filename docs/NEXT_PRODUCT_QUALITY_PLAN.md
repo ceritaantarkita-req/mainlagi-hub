@@ -7,11 +7,13 @@
 **Latest fully closed gameplay:** Pattern #34 — Bahasa `initial_sound`  
 **Pattern #34 final main:** `8bfb0027a5f4963a6875310c7408cb56018cc422`  
 **Pattern #34 final CI:** #717 / run `35074306579` — full success including Cloudflare production smoke  
-**Active implementation:** Pattern #35 — Bahasa `picture_word_match`  
+**Latest merged implementation:** Pattern #35 — Bahasa `picture_word_match`  
 **Pattern #35 implementation PR:** #149  
-**Accepted pre-docs code head:** `e0f93bd20f24c2efaebfbaa7f782427e8d0e1bca`  
-**Accepted code-head CI:** #718 / run `35082720001` — full PR success  
-**Pattern #35:** **QA ACCEPTED / UNMERGED**  
+**Pattern #35 final docs head:** `79767b320372ac6dd78bfae90ffb2e2307154401`  
+**Pattern #35 docs-head CI:** #723 / run `35083623316` — full PR success  
+**Pattern #35 implementation merge:** `47e3373ed9ba4a96331a8e61286dc80d37b6b518`  
+**Pattern #35 post-merge CI:** #724 / run `35085618422` — full success including Cloudflare production smoke  
+**Pattern #35:** **IMPLEMENTATION MERGED / LIVE VERIFIED; DOCS-ONLY CLOSURE IN PROGRESS**  
 **Primary focus:** WS-05 gameplay/mechanic diversification  
 **Principle:** **Quality first. Quantity later.**
 
@@ -34,11 +36,11 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 
 | Workstream | Status | Current note |
 |---|---|---|
-| WS-01 Canonical docs | DONE / maintained | terus dijaga current |
+| WS-01 Canonical docs | DONE / maintained | Pattern #35 closure update in progress |
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | TODO | parent/public surfaces |
 | WS-04 Activity audit/redesign | deterministic clean | 900 KEEP / 0 flagged |
-| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | **34 fully closed; Pattern #35 PR #149 QA accepted** |
+| WS-05 Gameplay diversification | **IN_PROGRESS / PRIMARY** | **34 fully closed; Pattern #35 implementation merged/live verified; closure in progress** |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | TODO / parallel | Art Bible + permanent human gate |
@@ -49,40 +51,29 @@ Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menari
 
 ## Verified merged baseline
 
-Pattern #34 final `main`:
+Pattern #35 merged/live state:
 
 ```text
 900 / 900 classified
 0 unclassified
-34 active merged patterns
-choice_grid                 292 / 900 = 32.44%
-initial_sound                 3 / 900 = 0.33%
-Bahasa choice_grid           44 / 100
-```
-
-Pattern #35 accepted PR candidate from CI #718:
-
-```text
-900 / 900 classified
-0 unclassified
-35 active candidate patterns
+35 active merged patterns
 choice_grid                 287 / 900 = 31.89%
 picture_word_match            5 / 900 = 0.56%
-initial_sound                 3 / 900 = 0.33%
-equal_groups                  3 / 900 = 0.33%
-make_total                    5 / 900 = 0.56%
-take_away                     5 / 900 = 0.56%
-Bahasa choice_grid           39 / 100
-Math choice_grid             43 / 100
-Science choice_grid          56 / 100
-Logic choice_grid            47 / 100
-English choice_grid          44 / 100
-Iqro choice_grid             58 / 100
+initial_sound                  3 / 900 = 0.33%
+equal_groups                   3 / 900 = 0.33%
+make_total                     5 / 900 = 0.56%
+take_away                      5 / 900 = 0.56%
+Bahasa choice_grid            39 / 100
+Math choice_grid              43 / 100
+Science choice_grid           56 / 100
+Logic choice_grid             47 / 100
+English choice_grid           44 / 100
+Iqro choice_grid              58 / 100
 ```
 
-If merged, distance remaining becomes **15 patterns** to minimum 50 and **25 patterns** to working target 60.
+Distance remaining is **15 patterns** to minimum 50 and **25 patterns** to working target 60.
 
-## Pattern #35 — Bahasa Picture Word Match — QA ACCEPTED / UNMERGED
+## Pattern #35 — Bahasa Picture Word Match — IMPLEMENTATION MERGED / LIVE VERIFIED
 
 Exact scope:
 
@@ -116,17 +107,18 @@ Interaction/evidence contract:
 - assessed fidelity `choice_picture_word_match_interaction`;
 - runtime metadata source `picture-word-match-runtime` with `picture`, `word`, `selectedChoice`.
 
-QA chain so far:
-- branch starts exactly from Pattern #34 final main `8bfb0027a5f4963a6875310c7408cb56018cc422`;
+Verified chain:
+- branch started exactly from Pattern #34 final main `8bfb0027a5f4963a6875310c7408cb56018cc422`;
 - accepted code head `e0f93bd20f24c2efaebfbaa7f782427e8d0e1bca` passed full CI #718 / run `35082720001`;
-- Ubuntu passed typecheck, lint, engine/learning regressions including exact Pattern #35 scope test, deterministic quality, distribution, simulations and Batch17;
-- Windows, production build, dependency audit and secret-history scan passed;
-- Chromium canonical mobile/accessibility matrix and dedicated Picture Word Match browser QA passed;
+- final canonical implementation docs head `79767b320372ac6dd78bfae90ffb2e2307154401` passed full CI #723 / run `35083623316`;
+- Ubuntu, Windows, production build, dependency audit, secret-history scan, Chromium mobile/accessibility/browser QA, deterministic quality/distribution, simulations and Batch17 passed;
 - all nine 320x720, 390x844 and 768x1024 idle/wrong/success screenshots passed manual visual acceptance;
+- PR #149 passed exact-head clean scope/review/thread/mergeability gate and squash merged as `47e3373ed9ba4a96331a8e61286dc80d37b6b518`;
+- independent post-merge CI #724 / run `35085618422` passed the complete matrix including exact **Production smoke (Cloudflare)**;
 - deterministic quality remains 900 KEEP / 0 flagged / structural findings 0;
-- distribution remains 900/900 classified, 35 candidate patterns, no global advisory hotspot above 35%.
+- distribution is 900/900 classified, 35 active merged patterns, no global advisory hotspot above 35%.
 
-Pattern #35 remains unmerged. Required next gates: fresh canonical docs-head CI -> clean review/thread/mergeability/scope gate -> exact-head squash merge -> independent `main` verification -> post-merge full CI + Cloudflare smoke -> separate docs-only closure branch/PR -> closure exact-head CI/gate/merge -> final `main` + Cloudflare verification.
+Required remaining Pattern #35 gate: separate docs-only closure -> fresh exact closure-head CI -> clean closure scope/review/thread/mergeability gate -> exact-head squash merge -> final independent `main` verification + Cloudflare smoke. Only then mark Pattern #35 **FULLY CLOSED**.
 
 ## Pattern #34 — Initial Sound — FULLY CLOSED
 
@@ -138,10 +130,9 @@ A mechanic is complete only when implementation, typecheck/lint/build, engine te
 
 ## Current execution order
 
-1. Finish Pattern #35 PR #149: canonical docs -> fresh exact docs-head CI -> clean exact-head merge gate -> merge -> live `main` + Cloudflare verification.
-2. Complete separate docs-only Pattern #35 closure and final `main` verification.
-3. Only after Pattern #35 is fully closed, run a fresh objective/evidence audit for Pattern #36; no family is pre-approved.
-4. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
-5. Continue WS-08 visual system, WS-02 narration, WS-03 parent/public frontend, WS-10 external acceptance, WS-11 governance, then later cleanup.
+1. Finish the docs-only Pattern #35 closure: fresh exact closure-head CI -> clean exact-head gate -> merge -> final live `main` + Cloudflare verification.
+2. Only after Pattern #35 is fully closed, run a fresh objective/evidence audit for Pattern #36; no family is pre-approved.
+3. Continue search/scene, audio, ordering, puzzle/path, literacy, creative and story mechanics toward 50–60 meaningful patterns.
+4. Continue WS-08 visual system, WS-02 narration, WS-03 parent/public frontend, WS-10 external acceptance, WS-11 governance, then later cleanup.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion, or major mastery/backend rewrites during this quality phase.
