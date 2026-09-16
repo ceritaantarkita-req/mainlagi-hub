@@ -28,11 +28,19 @@ Use the fullest Garden expression: cream paper, sky/grass environment, friendly 
 
 Use the same Mainlagi family, but calmer and denser than child gameplay. Keep cream/white surfaces, navy ink, green primary actions, restrained sky/sage accents and consistent rounded geometry. Avoid enterprise-dashboard styling and avoid isolated generic utility dialogs that feel unrelated to the family product.
 
+Accepted VUI-03 precedent:
+- auth routes may own the viewport when they already provide their own Mainlagi family navigation/context, preventing duplicate public + auth shells;
+- family auth may use a contextual Garden panel beside a focused form/status panel on desktop, stacking on phone/tablet where needed;
+- account settings may use a calmer two-column family card grid at tablet/desktop and one column on phone;
+- visual migration must not alter session, recovery, validation or redirect semantics.
+
 ### Public / clean-session entry
 
 The public root must explain the product before assuming child mode. A clean session should make it obvious that Mainlagi is for families with children 3–7, provide a clear child-start action and a distinct parent/account action, and explain that movement-camera play is optional without inventing privacy/security claims that the product cannot substantiate.
 
 Known-child fast resume remains desirable and may bypass the public landing when a valid active child is already known.
+
+Accepted VUI-03 precedent: clean-session root uses the public/family navigation and Garden family hero; it must not force the child `PlayroomShell` before a child profile is selected.
 
 ### Motion-game runtime
 
@@ -163,6 +171,8 @@ Rules:
 - Hover is enhancement only; touch state must stand alone.
 - Focus-visible outline is mandatory.
 
+VUI-03 precedent: public child/parent CTAs and auth controls are permanently guarded at >=44px height.
+
 ## 9. Cards
 
 ### Child cards
@@ -190,7 +200,13 @@ Accepted VUI-02 rules:
 
 ### Auth cards / family utility panels
 
-Auth surfaces should not look like a generic product bolted onto Mainlagi. A login/signup/forgot/callback panel should share family typography, cream/white surfaces, green actions, navy text, visible focus states and restrained Garden context. The visual shell may change; Supabase operations, validation and redirect semantics must not change unless separately justified and tested.
+Auth surfaces should not look like a generic product bolted onto Mainlagi. A login/signup/forgot/reset/callback panel should share family typography, cream/white surfaces, green actions, navy text, visible focus states and restrained Garden context. The visual shell may change; Supabase operations, validation, recovery and redirect semantics must not change unless separately justified and tested.
+
+Accepted VUI-03 desktop pattern is a contextual family/Garden panel plus a focused form/status panel; at narrower widths the panels stack rather than shrink into unreadable columns.
+
+### Account/settings cards
+
+Use restrained family utility cards with clear icon, title and short purpose. Do not compress a desktop account surface into one narrow column when usable width allows two readable columns. Destructive actions may receive restrained danger styling but must not dominate the page.
 
 ## 10. Icons and symbols
 
@@ -201,6 +217,8 @@ Priority:
 4. emoji only as decoration/content, not the primary semantic icon for permanent navigation or analytics.
 
 Do not mix several unrelated icon styles in one surface.
+
+VUI-03 public child/parent path icons use canonical `Icon` assets rather than raw semantic emoji/text symbols.
 
 ## 11. Characters and artwork
 
@@ -255,7 +273,14 @@ Navigation may be broader, but should remain clearly separated from child mode. 
 
 Known-child fast resume is desirable. First-time/signed-out visitors need a deliberate adult/family entry with a clear path to start/select a child profile and a distinct path to parent/account controls.
 
-The root may use the public navigation rather than the child `PlayroomShell` when there is no active child. Do not create duplicate navigation shells.
+Accepted VUI-03 behavior:
+- clean session uses public navigation and family hierarchy;
+- a valid remembered child still fast-resumes through the existing child destination logic;
+- public root must not wrap itself in child `PlayroomShell` before profile selection.
+
+### Auth navigation
+
+A family auth route may be immersive if its own shell contains the Mainlagi brand and a clear route back to public entry. Avoid duplicate public navbar + auth brand stacks. Account pages may retain the public/family navigation where it improves orientation.
 
 ## 14. Responsive baseline
 
@@ -283,6 +308,8 @@ Rules:
 VUI-01 precedent: report metrics are one column on phone, 2+1 at 768 because the parent sidebar reduces usable width, and three columns on 1280.
 
 VUI-02 precedent: subject journey stays horizontal on 390 as an intentional carousel, but switches to grid at tablet/desktop; stage lessons with two activities expand to two broad columns rather than occupying two cells of a fixed four-column desktop grid.
+
+VUI-03 precedent: public hero uses wide desktop context, account settings become two columns at tablet/desktop, and auth uses two contextual panels on wide desktop while stacking at <=820px.
 
 ## 15. Copy rules
 
@@ -343,7 +370,14 @@ VUI-01 adds a product-level regression: Parent Report primary layer must not lea
 
 VUI-02 adds geometry regressions on canonical Math subject/stage routes: tablet/desktop stage journey may not require internal horizontal scrolling, stage lesson cards must retain readable widths, readiness summary must exist and exactly one canonical recommendation remains visually marked.
 
-VUI-03 must add explicit regression markers for clean-session family/public entry and the shared auth family shell without weakening auth behavior tests.
+Accepted VUI-03 regressions add:
+- clean-session family/public marker;
+- exactly one child CTA and one parent CTA plus optional-camera copy;
+- >=44px public CTA target height;
+- auth family shell/context/panel markers;
+- expected login/signup/forgot form mode and >=44px controls;
+- callback error family status;
+- account family/settings markers, seven canonical settings destinations and readable account card geometry.
 
 ## 18. Migration policy
 
@@ -354,9 +388,10 @@ Migration order:
 2. parent report;
 3. stage/gallery;
 4. public/auth/account;
-5. game shell/preflight;
-6. lower-priority legal/utility convergence;
-7. technical token consolidation after visual behavior is stable.
+5. residual P1 token consolidation;
+6. game shell/preflight;
+7. lower-priority legal/utility convergence;
+8. broader technical cleanup after visual behavior is stable.
 
 Every migration wave gets its own browser screenshots, exact-scope regression and production verification.
 
@@ -368,6 +403,7 @@ This Art Bible does not authorize:
 - changing adaptive recommendation ranking merely to make a highlighted card convenient;
 - reordering lessons/activities for visual symmetry without a learning reason;
 - changing auth/session/security behavior merely to simplify public/auth presentation;
+- deleting known-child fast resume merely so public root always displays;
 - inventing privacy or camera guarantees not backed by implementation;
 - replacing Iqro expert review;
 - mass-generating decorative assets without provenance;
@@ -378,9 +414,10 @@ This Art Bible does not authorize:
 Garden representative activities: **ACCEPTED anchor**.  
 Whole-product visual system: **MIGRATION REQUIRED**.  
 Permanent visual QA gate: **FULLY CLOSED / BLOCKING on main `9269e9fd...`, CI #751 including exact Cloudflare smoke**.  
-Parent Report VUI-01: **FULLY CLOSED on main `e212002e...`, CI #758 including exact Cloudflare smoke**.  
-Stage/Gallery VUI-02: **FULLY CLOSED on main `fe260ba7...`, CI #764 including exact Cloudflare smoke**.  
+Parent Report VUI-01: **FULLY CLOSED on main `e212002e...`, CI #758**.  
+Stage/Gallery VUI-02: **FULLY CLOSED on main `fe260ba7...`, CI #764**.  
+Public/Auth/Account VUI-03: **EXACT-HEAD IMPLEMENTATION ACCEPTED on PR #160 head `96de380...`, CI #771; final docs-head CI + merge/live verification pending**.  
 Permanent baseline evidence remains **42 / 42 exact-path captures + manifest at 390 / 768 / 1280**.  
-Next migration wave: **VUI-03 Public/Auth/Account convergence**.  
-Current baseline: **P0=0 / P1=2 / P2=3**.  
+Current merged-main baseline: **P0=0 / P1=2 / P2=3**; after VUI-03 live closure, expected **P1=1**.  
+Next P1 work after VUI-03: **residual visual-token fragmentation closure**.  
 Pattern #38: **BLOCKED until remaining baseline P1 findings are closed**.
