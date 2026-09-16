@@ -24,30 +24,9 @@ Deterministic zero does **not** mean every activity is human-approved or maximal
 
 ## WS-05 gameplay diversification
 
-Fully merged waves through verified Pattern #30:
-- `symbol_hunt` — 74 direct-literacy activities.
-- `memory_pair` — PR #101.
-- `missing_sequence_slot` — PR #102.
-- `sorting_buckets` — PR #103.
-- `drag_to_target` — PR #104.
-- permanent gameplay-distribution audit — PR #105.
-- `count_and_select` — PR #106.
-- `number_line` — PR #108.
-- `more_less_balance` — PR #109.
-- `pattern_completion` — PR #110.
-- `cause_effect` — PR #112.
-- `compare_properties` — PR #114.
-- `material_lab` — PR #116.
-- `feature_function_link` — PR #119.
-- `healthy_habit_routine` — PR #121.
-- `rule_pipeline` — PR #123.
-- `odd_one_out` — PR #125 + closure #126.
-- `transitive_chain` — PR #127 + closure #128 + metadata #129.
-- `set_reasoning` — PR #130 + closure #131 + metadata #132.
-- `spatial_transform` — PR #133 + closure #134.
-- `investigation_board` — PR #135 + closure #136.
-- `relative_order_track` — PR #137 + closure #138.
-- `syllable_assembly` — PR #139 + closure #140 — **FULLY CLOSED after #140 exact-head merge/live verification**.
+Fully merged waves through verified Pattern #30 include `symbol_hunt`, `memory_pair`, `missing_sequence_slot`, `sorting_buckets`, `drag_to_target`, `count_and_select`, `number_line`, `more_less_balance`, `pattern_completion`, `cause_effect`, `compare_properties`, `material_lab`, `feature_function_link`, `healthy_habit_routine`, `rule_pipeline`, `odd_one_out`, `transitive_chain`, `set_reasoning`, `spatial_transform`, `investigation_board`, `relative_order_track`, and `syllable_assembly`.
+
+Pattern #30 `syllable_assembly` is fully closed through implementation PR #139 and closure PR #140; final verified `main` is `53667560d72ca4cfe3556bc59411a71c53a84834`, with CI #655 / run `35005253923` full success including Cloudflare production smoke.
 
 Current verified merged distribution:
 
@@ -58,56 +37,71 @@ Current verified merged distribution:
 choice_grid                 308 / 900 = 34.22%
 syllable_assembly             5 / 900 = 0.56%
 Bahasa choice_grid           47 / 100
+Math choice_grid             56 / 100
 Science choice_grid          56 / 100
 Logic choice_grid            47 / 100
 ```
 
+Pattern #31 `make_total` is **QA ACCEPTED / UNMERGED** on PR #141. Accepted PR-head distribution:
+
+```text
+900 / 900 classified
+0 unclassified
+31 active PR-head patterns
+choice_grid                 303 / 900 = 33.67%
+make_total                    5 / 900 = 0.56%
+Math choice_grid             51 / 100
+Bahasa choice_grid           47 / 100
+Science choice_grid          56 / 100
+Logic choice_grid            47 / 100
+English choice_grid          44 / 100
+Iqro choice_grid             58 / 100
+```
+
 Concentration remains advisory and does not itself create POLISH/REDESIGN findings.
 
-## Syllable Assembly — Pattern #30 closure record
+## Make Total — Pattern #31 QA acceptance record
 
 Exact scope:
 
 ```text
-bahasa-gabung-baju
-bahasa-gabung-buku
-bahasa-gabung-meja
-bahasa-gabung-bola
-bahasa-gabung-susu
+math-add-1-1
+math-add-2-1
+math-add-2-2
+math-add-3-2
+math-add-4-3
 ```
 
 Preserved:
 - canonical runtime `tap_choice`;
-- exactly three canonical choices and unchanged `correctChoice`;
+- exactly three canonical numeric choices and unchanged `correctChoice`;
 - assessment, stars, mastery and progression;
-- canonical skill `bahasa.suku_kata.blending`;
-- stage `bahasa-suku-kata-kata`, lesson `bahasa-suku-kata-gabung`, pack `bahasa.pack.suku-kata-gabung`;
+- canonical skill `math.operation.addition.within_10`;
+- stage `math-operasi-awal`, lesson `math-addition`, pack `math.pack.addition`;
 - activity IDs and completion semantics;
-- Bahasa syllable recognition, picture-word, initial-sound, listening and matching remain outside scope;
-- English phonics, Math and Logic families remain outside scope.
+- subtraction, equal-group grouping, missing-number, length/size, and existing Math specialized mechanics remain outside scope;
+- all non-Math families remain outside scope.
 
 Interaction/evidence contract:
-- visualizes only two canonical syllables already expressed by title/prompt;
-- result stays masked as `?` until a correct assessment;
-- config requires the two syllables to concatenate exactly to canonical `correctChoice`;
+- two reviewed positive addend groups are visualized;
+- total stays masked as `?` until a correct assessment;
+- config requires the two addends to sum exactly to canonical `correctChoice` and remain within 10;
 - canonical keyboard/touch/pointer direct selection remains available;
-- wrong choice is measured/retryable, cannot complete, and cannot reveal the word;
-- correct choice completes the canonical activity and may reveal the word;
-- no invented syllable, answer leakage, changed choice set, extra confirmation, drag-only dependency or intermediate assessment;
-- assessed fidelity `choice_syllable_assembly_interaction`;
-- runtime metadata source `syllable-assembly-runtime`.
+- wrong choice is measured/retryable, cannot complete, and cannot reveal the total;
+- correct choice completes the canonical activity and may reveal the total;
+- no changed choice set, extra confirmation, drag-only dependency or intermediate assessment;
+- assessed fidelity `choice_make_total_interaction`;
+- runtime metadata source `make-total-runtime`.
 
-Acceptance/closure chain:
-- CI #640 / run `34999759651` caught missing permanent central-test registration; fixed without weakening the strict default-family assertion;
-- CI #641 / run `35000289970` caught missing learning-test compile-manifest coverage; fixed;
-- implementation QA head `d55c1deb54f1402c38d84417ca7ae8248c9d3b07` passed full CI #642 / run `35000557604`;
-- final canonical implementation docs head `ee891dc99c1f86831ba67b34ae39e71ec50ee886` passed full CI #647 / run `35001595648`;
+Acceptance chain so far:
+- CI #656 / run `35042089820` caught a real 320x720 viewport defect: the idle feedback was below the visible viewport;
+- the fix compacted only the narrow/short layout while keeping choice targets >=48px and retaining the strict viewport assertion;
+- accepted implementation head `4b513676c9029fbb7a788a49175ed02954f0d2f7` passed full CI #657 / run `35042439233`;
+- full CI passed central + dedicated Make Total regressions, Ubuntu, Windows, production build, dependency/secret audits, simulations, Batch17 and Chromium mobile/accessibility/browser QA;
 - manual idle/wrong/success screenshot review at 320x720, 390x844 and 768x1024 passed all nine states;
-- PR #139 exact-head squash merged as `c973dbc9e6010ff167a082cd6759728b590e7626` and was independently verified on `main`;
-- post-merge `main` CI #648 / run `35003757463` passed all gates including Cloudflare production smoke;
-- docs-only closure PR #140 is the final closure gate.
+- deterministic quality remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / structural findings 0**.
 
-Permanent evidence remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE**, structural findings 0. Simulations and Batch17 remain clean; physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
+Pattern #31 is not fully closed until PR #141 receives fresh exact final docs-head CI, exact-head merge/live verification, and the separate docs-only closure is also merged and verified.
 
 ## Permanent audits
 
@@ -123,30 +117,10 @@ CI uploads both artifacts. Gameplay-distribution coverage and active-pattern-set
 - WS-04 deterministic triage DONE — 900 KEEP / 0 flagged.
 - WS-06 Coloring DONE — PR #95/#96.
 - WS-07 Drawing DONE — PR #98/#99/#100.
-- WS-05 Memory Pair DONE — PR #101.
-- WS-05 Sequence Slot DONE — PR #102.
-- WS-05 Sorting Buckets DONE — PR #103.
-- WS-05 Drag-to-Target DONE — PR #104.
-- WS-05 Gameplay Distribution Audit DONE — PR #105.
-- WS-05 Count-and-Select DONE — PR #106.
-- WS-05 Number Line DONE — PR #108.
-- WS-05 More/Less Balance DONE — PR #109.
-- WS-05 Pattern Completion DONE — PR #110.
-- WS-05 Cause/Effect DONE — PR #112.
-- WS-05 Compare Properties DONE — PR #114.
-- WS-05 Material Lab DONE — PR #116.
-- WS-05 Feature Function Link DONE — PR #119.
-- WS-05 Healthy Habit Routine DONE — PR #121.
-- WS-05 Rule Pipeline DONE — PR #123.
-- WS-05 Odd One Out DONE — PR #125 + #126.
-- WS-05 Transitive Chain DONE — PR #127 + #128 + #129.
-- WS-05 Set Reasoning DONE — PR #130 + #131 + #132.
-- WS-05 Spatial Transform DONE — PR #133 + #134.
-- WS-05 Investigation Board DONE — PR #135 + #136.
-- WS-05 Relative Order Track DONE — PR #137 + #138.
-- WS-05 Syllable Assembly DONE — PR #139 + #140, fully closed after closure exact-head merge/live verification.
-- WS-05 NEXT — fresh Pattern #31 objective/evidence audit from the verified 30-pattern baseline; no family pre-approved.
+- WS-05 gameplay waves through Syllable Assembly DONE — Pattern #30 fully closed via #139 + #140.
+- WS-05 Make Total — **QA ACCEPTED / UNMERGED PR #141**.
+- WS-05 NEXT after Pattern #31 closure — fresh Pattern #32 objective/evidence audit; no family pre-approved.
 
 ## Completion rule
 
-Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #30 itself is fully closed only after closure PR #140 is exact-head merged and independently verified live on `main`.
+Product-quality work remains open until gameplay diversity is materially expanded, human pedagogical/art review is addressed, canonical docs stay current, physical-device/accessibility acceptance is completed, and specialist Iqro review is done. Pattern #31 itself remains unclosed until its implementation and required post-merge docs closure are both exact-head merged and independently verified live on `main`.
