@@ -9,9 +9,9 @@ const root=process.cwd();
 const host="127.0.0.1";
 const port=Number(process.env.MAINLAGI_INITIAL_SOUND_QA_PORT??4036);
 const baseUrl=`http://${host}:${port}`;
-const route="/child/demo-gian/activity/bahasa-awal-kucing";
-const activityId="bahasa-awal-kucing";
-const correctLabel="Pilih huruf K";
+const route="/child/demo-gian/activity/bahasa-awal-bola";
+const activityId="bahasa-awal-bola";
+const correctLabel="Pilih huruf B";
 const screenshotDir=path.join(root,".mobile-route-qa");
 const viewports=[{width:320,height:720},{width:390,height:844},{width:768,height:1024}];
 let server=null;
@@ -49,8 +49,7 @@ async function seedPrerequisiteReadiness(context){
       ["bahasa-pilih-vokal-ae","bahasa.huruf.classification","tap_choice"],
       ["bahasa-pilih-konsonan-ks","bahasa.huruf.classification","tap_choice"],
       ["bahasa-match-case-ai","bahasa.huruf.case_matching","matching"],
-      ["bahasa-match-case-bm","bahasa.huruf.case_matching","matching"],
-      ["bahasa-awal-bola","bahasa.bunyi.awal.recognition","tap_choice"]
+      ["bahasa-match-case-bm","bahasa.huruf.case_matching","matching"]
     ];
     const requiredIds=seeds.map(([id])=>id);
     localStorage.setItem(progressKey,JSON.stringify({[childId]:{completedActivityIds:requiredIds,stars:0,lastActivityId:requiredIds.at(-1)}}));
@@ -116,9 +115,9 @@ async function inspect(viewport){
 
     const board=page.locator("[data-initial-sound-board]");
     assert.equal(await board.count(),1,"initial-sound board renders");
-    assert.equal(await board.getByText("🐱").count(),1,"representative board exposes familiar cat clue");
-    assert.equal(await board.getByText("ucing",{exact:true}).count(),1,"word remainder stays visible as canonical cue");
-    assert.equal(await board.getByText("Ucapkan: kucing",{exact:true}).count(),1,"board asks child to articulate the canonical word");
+    assert.equal(await board.getByText("⚽").count(),1,"representative board exposes familiar ball clue");
+    assert.equal(await board.getByText("ola",{exact:true}).count(),1,"word remainder stays visible as canonical cue");
+    assert.equal(await board.getByText("Ucapkan: bola",{exact:true}).count(),1,"board asks child to articulate the canonical word");
 
     const result=page.locator("[data-initial-sound-result]");
     assert.equal((await result.textContent())?.trim(),"?","initial sound stays hidden before assessment");
@@ -127,7 +126,7 @@ async function inspect(viewport){
     const choices=page.locator("[data-initial-sound-choice]");
     assert.equal(await choices.count(),3,"initial sound keeps three canonical choices");
     assert.deepEqual(new Set(await choices.evaluateAll(items=>items.map(node=>node.getAttribute("aria-label")))),new Set([
-      "Pilih huruf G","Pilih huruf K","Pilih huruf T"
+      "Pilih huruf B","Pilih huruf D","Pilih huruf P"
     ]));
     assert.equal(await completed(page),false,"idle initial-sound state cannot complete activity");
 
@@ -156,8 +155,8 @@ async function inspect(viewport){
     await page.getByRole("button",{name:correctLabel}).click();
     await status.filter({hasText:"Tepat"}).waitFor({state:"visible",timeout:2000});
     assert.equal(await completed(page),true,"correct initial letter completes canonical activity");
-    assert.equal((await result.textContent())?.trim(),"K","success may reveal canonical initial sound");
-    assert.equal(await result.getAttribute("aria-label"),"Bunyi awal K");
+    assert.equal((await result.textContent())?.trim(),"B","success may reveal canonical initial sound");
+    assert.equal(await result.getAttribute("aria-label"),"Bunyi awal B");
     await assertFullyVisible(status,viewportHeight,`success initial-sound feedback at ${viewport.width}`);
     const nextLink=page.getByRole("link",{name:"Pilih permainan lain"});
     await assertFullyVisible(nextLink,viewportHeight,`initial-sound success CTA at ${viewport.width}`);
@@ -171,9 +170,9 @@ async function inspect(viewport){
     assert.equal(state.assessed,true,"initial-sound activity remains assessed");
     assert.equal(state.metadata?.source,"initial-sound-runtime");
     assert.equal(state.metadata?.evidenceFidelity,"choice_initial_sound_interaction");
-    assert.equal(state.metadata?.word,"kucing");
-    assert.equal(state.metadata?.initialSound,"K");
-    assert.equal(state.metadata?.selectedChoice,"K");
+    assert.equal(state.metadata?.word,"bola");
+    assert.equal(state.metadata?.initialSound,"B");
+    assert.equal(state.metadata?.selectedChoice,"B");
     assert.equal(state.correctCount,1);
     assert.equal(state.incorrectCount,1);
     assert.equal(state.retryCount,1);
