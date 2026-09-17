@@ -32,9 +32,9 @@ import { TakeAwayActivity } from "@/components/learning/TakeAwayActivity";
 import { TransitiveChainActivity } from "@/components/learning/TransitiveChainActivity";
 import { MathTraceWorldActivity } from "@/components/learning/world/MathTraceWorldActivity";
 import { WorldActivityScreen } from "@/components/learning/world/WorldExperience";
-import { isClozeSentenceChoiceCandidate } from "@/lib/learning/clozeSentenceChoiceConfig";
 import {
   isCauseEffectActivity,
+  isClozeSentenceChoiceActivity,
   isComparePropertiesActivity,
   isCountAndSelectActivity,
   isDragTargetActivity,
@@ -97,7 +97,7 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
         <SentenceOrderCardsActivity childId={childId} activityId={activity} />
       ) : isReadingPassageQuestionActivity(definition) ? (
         <ReadingPassageQuestionActivity childId={childId} activityId={activity} />
-      ) : isClozeSentenceChoiceCandidate(definition) ? (
+      ) : isClozeSentenceChoiceActivity(definition) ? (
         <ClozeSentenceChoiceActivity childId={childId} activityId={activity} />
       ) : isSortingBucketsActivity(definition) ? (
         <SortingBucketsChoiceActivity childId={childId} activityId={activity} />
