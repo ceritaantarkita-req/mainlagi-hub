@@ -27,6 +27,7 @@ Patterns #1–#35 remain as previously closed/merged. Latest entries:
 38. `cloze_sentence_choice` — FULLY CLOSED via implementation #166 + closure #168
 39. `visual_word_problem` — FULLY CLOSED via audit #169 + implementation #170 + closure #171
 40. `spatial_relation_board` — **FULLY CLOSED** via audit #173 + implementation #175 + closure #176
+41. `phrase_scene_match` — **AUDIT CANDIDATE ONLY** in PR #179; implementation not started and not counted in merged distribution
 
 Permanent gameplay-distribution audit foundation: MERGED PR #105.
 
@@ -45,7 +46,7 @@ sentence_order_cards              5 / 900
 picture_word_match                5 / 900
 ```
 
-Remaining distance is **10 patterns** to minimum 50 and **20** to working target 60.
+Remaining merged-main distance is **10 patterns** to minimum 50 and **20** to working target 60. Pattern #41 does not change those numbers until an implementation is merged and independently verified.
 
 ## Pattern #40 — `spatial_relation_board` FULLY CLOSED
 
@@ -60,66 +61,75 @@ logic-spatial-turn-left-from-right
 logic-spatial-opposite-left
 ```
 
-Canonical boundaries:
-
-```text
-subject:     logic
-stage:       logic-patterns-sequences-relations
-lesson:      logic-spatial-relations
-pack:        logic.pack.spatial-relations
-skill:       logic.spatial.relation.basic
-runtime:     tap_choice
-assessment:  assessed
-contract:    choice_accuracy_v1
-```
-
-Verified interaction contract:
-
-- exact six-ID deterministic classifier/config;
-- canonical prompts, choices/order and `correctChoice` unchanged;
-- left/right/between, turn-left/right, and opposite-direction representations are visually explicit;
-- turn/opposite result stays hidden before successful completion and after wrong answers;
-- direct keyboard/touch/pointer choice controls remain the assessed input;
-- wrong answer remains retryable/measured and cannot complete;
-- correct answer completes through the existing canonical evidence path;
-- no drag-only dependency or additional assessed checkpoint;
-- mastery/progression/schema/database remain unchanged;
-- runtime metadata uses `spatial-relation-board-runtime` and `choice_spatial_relation_interaction`;
-- responsive QA passes at 320x720, 390x844 and 768x1024;
-- permanent visual QA remains green.
+Canonical boundaries remain Logic / `logic-patterns-sequences-relations` / `logic-spatial-relations` / `logic.pack.spatial-relations` / `logic.spatial.relation.basic` / assessed `tap_choice` / `choice_accuracy_v1`.
 
 Verified chain:
 
 ```text
 Audit PR:                #173
-Audit main:              f1b4b13d3d9814d2ed06500022218848cd721419
 Implementation PR:       #175
 Implementation main:     fd017b81137f03bb30eca19a2ceb71c734cb3ba9
 Implementation main CI:  #848 / run 35217949039 — full success
 Closure PR:              #176
-Final closure main:      43d69c42ca456ab41011f1d198e021f2b0d53cae
-Final closure CI:        #850 / run 35219083042 — full success
+Closure main:            43d69c42ca456ab41011f1d198e021f2b0d53cae
+Closure CI:              #850 / run 35219083042 — full success
+Truth reconciliation:    #177 -> 7c7f715a18a36e76fbf7483e5bc3e25d9ff8a32f
 ```
 
-Full evidence: `PATTERN40_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`, `WS05_SPATIAL_RELATION_BOARD_WAVE_2026-09-17.md`, `PATTERN40_IMPLEMENTATION_ACCEPTANCE_2026-09-17.md`, and `PATTERN40_SPATIAL_RELATION_BOARD_CLOSURE_2026-09-17.md`.
+## Pattern #41 — `phrase_scene_match` AUDIT CANDIDATE
 
-## Recent closed patterns
+Fresh objective/evidence audit PR #179 selects exactly four assessed direct-choice activities from `english-simple-phrases`:
 
-### Pattern #39 — `visual_word_problem`
+```text
+english-phrase-red-ball
+english-phrase-two-books
+english-phrase-small-cat
+english-phrase-yellow-banana
+```
 
-Fully closed via audit #169, implementation #170, closure #171; final closure main `98725727c866d410b2d0caa206e86e70cd0e5741`, CI #811 / run `35190499794`.
+Canonical boundaries:
 
-### Pattern #38 — `cloze_sentence_choice`
+```text
+subject:     english
+stage:       english-phrases-review
+lesson:      english-simple-phrases
+pack:        english.pack.simple-phrases
+skill:       english.phrase.literal
+runtime:     tap_choice
+assessment:  assessed
+contract:    choice_accuracy_v1
+```
 
-Fully closed via implementation #166 + closure #168; final main `86e6b69d576d72fec73158a7a1c6d8961de36887`, CI #803.
+Why the candidate is justified for implementation review:
 
-### Pattern #37 — `reading_passage_question`
+- the lesson objective is literal understanding of very short compositional English phrases;
+- canonical tasks combine color+noun, quantity+noun and size+noun evidence;
+- current generic `choice_grid` inconsistently mixes emoji scenes and phrase-only choices;
+- deterministic scenes can expose those semantic features while preserving the exact canonical answer label and submitted answer string;
+- this is distinct from `picture_word_match`, which measures a single lexical picture↔word mapping, and from `count_and_select`, which expects a numeric answer.
 
-Fully closed via implementation #153 + closure #154; final verified main `b1793adaabe19a9c73e021534899f8b50c4097f6`, CI #741.
+Strict boundaries:
 
-### Pattern #36 — `sentence_order_cards`
+- no arbitrary phrase parser; use explicit exact-ID config;
+- all twelve canonical choices require deterministic scene config;
+- canonical prompt, choice order, labels and `correctChoice` remain byte-for-byte unchanged;
+- `english-listen-phrase-blue-book` remains outside because its canonical runtime is listening;
+- `english-complete-*` remains outside; cloze reuse is not a new pattern;
+- no drag-only interaction, translation checkpoint, speech scoring, mastery/progression/schema/database change;
+- Pattern #41 is not implemented until a separate implementation PR passes distribution, regression, browser/visual and merged-main gates.
 
-Fully closed via implementation #151 + closure #152; final verified main `461b0fd59a6c238752aa858bf783716b225b548a`, CI #732.
+Expected implementation distribution, **only if** the audited scope is implemented successfully:
+
+```text
+900 / 900 classified
+0 unclassified
+41 active patterns
+choice_grid                     257 / 900
+phrase_scene_match                4 / 900
+spatial_relation_board            6 / 900
+```
+
+These are acceptance targets, not current merged-main claims.
 
 ## Production visual checkpoint
 
@@ -132,21 +142,6 @@ permanent visual QA = 21 canonical routes / 63 captures / blocking
 
 P2 findings remain visible but do not re-block accepted gameplay implementations.
 
-## Pattern #41 objective/evidence audit gate
-
-The next gameplay wave must begin with a fresh Pattern #41 audit that:
-
-1. inspects remaining objectives/content where current interaction representation is weakest;
-2. identifies the evidence actually required by those objectives;
-3. determines whether an existing pattern already measures that evidence adequately;
-4. rejects cosmetic re-skins and taxonomy-only variants;
-5. rejects changes that weaken or ambiguously reinterpret mastery/progression evidence;
-6. selects a small exact activity scope only after the mechanic is justified;
-7. documents why the chosen interaction is materially better than the current representation;
-8. preserves the valid outcome **“no justified Pattern #41 candidate yet.”**
-
-No mechanic name, subject, or content family is pre-approved.
-
 ## Distribution rule
 
 Coverage and implemented-pattern consistency are blocking; concentration is advisory. Use a mechanic because it fits the objective, not as cosmetic taxonomy inflation.
@@ -154,7 +149,8 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 ## Rollout order terbaru
 
 - Patterns #1–#40 — **FULLY CLOSED**.
-- NEXT — fresh Pattern #41 objective/evidence audit.
+- Pattern #41 `phrase_scene_match` — **AUDIT OPEN in PR #179 / IMPLEMENTATION NOT STARTED**.
+- NEXT — exact-head audit acceptance -> docs-only merge -> independent merged-main verification -> separate implementation branch.
 
 ## Definition of done per mechanic
 

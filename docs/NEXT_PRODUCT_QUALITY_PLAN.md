@@ -7,9 +7,10 @@
 **Latest fully closed gameplay:** Pattern #40 — Logic `spatial_relation_board`  
 **Pattern #40 implementation main:** `fd017b81137f03bb30eca19a2ceb71c734cb3ba9`  
 **Pattern #40 implementation CI:** **#848 / run `35217949039` — full success**  
-**Pattern #40 final closure main:** `43d69c42ca456ab41011f1d198e021f2b0d53cae`  
-**Pattern #40 final CI:** **#850 / run `35219083042` — full success**  
-**Next gameplay gate:** **FRESH PATTERN #41 OBJECTIVE/EVIDENCE AUDIT; NO MECHANIC PRE-APPROVED**  
+**Pattern #40 closure main:** `43d69c42ca456ab41011f1d198e021f2b0d53cae`  
+**Pattern #40 closure CI:** **#850 / run `35219083042` — full success**  
+**Pattern #40 truth reconciliation:** PR #177 -> `7c7f715a18a36e76fbf7483e5bc3e25d9ff8a32f`  
+**Pattern #41 audit:** **OPEN PR #179 — `phrase_scene_match`, exact four-activity candidate; implementation not started**  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
 
@@ -24,7 +25,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 1. Mechanic dipilih karena cocok dengan learning objective, bukan demi mengejar angka.
 2. Assessed activity wajib menjaga atau secara eksplisit memigrasikan evidence contract dengan test.
 3. Jangan rewrite mastery/progression/schema tanpa kebutuhan terbukti.
-4. Setiap mechanic baru wajib punya exact-scope regression, progression, completion/evidence, keyboard, touch/pointer, responsive QA dan manual visual review.
+4. Setiap mechanic baru wajib punya exact-scope regression, completion/evidence, keyboard, touch/pointer, responsive QA dan manual visual review.
 5. Jangan membuat drag-only interaction tanpa fallback accessible bila relevan.
 6. Gameplay-distribution coverage/pattern-set regression adalah blocking; concentration hanya planning signal.
 7. Code merged tanpa canonical docs yang current = pekerjaan belum selesai.
@@ -35,17 +36,17 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 12. Green automated checks tidak menggantikan screenshot review.
 13. P1=0 tidak menghapus P2 atau external-evidence backlog. Status harus tetap dipisahkan.
 14. Parallel implementation PR untuk scope yang sama harus ditutup/ditolak setelah canonical candidate terbukti.
-15. New spatial/directional presentation must not reveal the assessed result before successful completion when the canonical task asks the learner to infer that result.
+15. Scene-based answer presentation must not reveal the correct option through styling, semantics or answer-only affordances before selection.
 
 ## Workstream status
 
 | Workstream | Status | Current note |
 |---|---|---|
-| WS-01 Canonical docs | **CURRENT** | Pattern #40 final closure reconciled; Pattern #41 audit is next |
+| WS-01 Canonical docs | **CURRENT ON PR #179** | Pattern #40 fully closed; Pattern #41 audit candidate synchronized |
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **40 FULLY CLOSED / PATTERN #41 AUDIT NEXT** | 10 patterns to minimum 50 |
+| WS-05 Gameplay diversification | **40 FULLY CLOSED / PATTERN #41 AUDIT GATE** | candidate `phrase_scene_match`, implementation not started |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | 21 routes / 63 captures live on main |
@@ -69,7 +70,7 @@ sentence_order_cards              5 / 900
 picture_word_match                5 / 900
 ```
 
-Distance remaining: **10 patterns** to minimum 50 and **20** to working target 60.
+Distance remaining on merged `main`: **10 patterns** to minimum 50 and **20** to working target 60.
 
 ## Pattern #40 — fully closed
 
@@ -77,13 +78,13 @@ Canonical chain:
 
 ```text
 Audit PR:                #173
-Audit main:              f1b4b13d3d9814d2ed06500022218848cd721419
 Implementation PR:       #175
 Implementation main:     fd017b81137f03bb30eca19a2ceb71c734cb3ba9
 Implementation main CI:  #848 / run 35217949039 — full success
 Closure PR:              #176
-Final closure main:      43d69c42ca456ab41011f1d198e021f2b0d53cae
-Final closure CI:        #850 / run 35219083042 — full success
+Closure main:            43d69c42ca456ab41011f1d198e021f2b0d53cae
+Closure CI:              #850 / run 35219083042 — full success
+Truth reconciliation:    #177 -> 7c7f715a18a36e76fbf7483e5bc3e25d9ff8a32f
 ```
 
 Exact scope remains the six audited `logic-spatial-*` activities. Canonical prompts/choices/answers, assessed `tap_choice`, `choice_accuracy_v1`, mastery, progression, schema and database boundaries remain unchanged.
@@ -104,31 +105,68 @@ Open P2 remains:
 - VBASE-P2-02 iconography mixes canonical symbols and raw emoji;
 - VBASE-P2-03 inline visual styles increase drift risk.
 
-## Pattern #41 entry gate
+## Pattern #41 objective/evidence audit — current gate
 
-Pattern #41 starts from a fresh objective/evidence audit. The audit must:
+PR #179 selects `phrase_scene_match` as an implementation candidate for exactly:
 
-1. examine remaining objectives/content where current interaction representation is weakest;
-2. identify the evidence type required by those objectives;
-3. confirm whether a new gameplay family actually improves measurement or learning;
-4. reject candidates that only increase pattern count;
-5. reject candidates already adequately measured by an existing mechanic;
-6. preserve mastery/progression boundaries unless an explicit tested migration is justified;
-7. choose an exact small activity scope before implementation;
-8. record why the selected mechanic is better than existing patterns;
-9. preserve the valid outcome **“no justified Pattern #41 candidate yet.”**
+```text
+english-phrase-red-ball
+english-phrase-two-books
+english-phrase-small-cat
+english-phrase-yellow-banana
+```
 
-No mechanic name, subject, or content family is pre-approved.
+Canonical ownership:
+
+```text
+subject:     english
+stage:       english-phrases-review
+lesson:      english-simple-phrases
+pack:        english.pack.simple-phrases
+skill:       english.phrase.literal
+runtime:     tap_choice
+assessment:  assessed
+contract:    choice_accuracy_v1
+```
+
+Audit decision:
+
+- objective: literal understanding of very short English phrases;
+- evidence combines color, quantity, size and noun features;
+- generic choice presentation inconsistently mixes emoji and phrase-only answers;
+- deterministic scene-per-choice presentation is semantically distinct from single-word `picture_word_match`;
+- canonical prompt, choice labels/order, `correctChoice`, answer payload and evidence semantics can remain unchanged;
+- listening simple phrase, sentence completion, generic vocabulary, opposites, Bahasa punctuation and heterogeneous Science lifecycle activities are excluded.
+
+The audit does not authorize runtime work until its exact head passes CI and is merged.
+
+## Pattern #41 implementation acceptance plan
+
+If PR #179 is accepted, implementation must start from resulting latest `main` on a separate branch and prove all of the following before merge:
+
+1. exact four-ID classifier with canonical stage/runtime/content snapshots and fail-closed negatives;
+2. explicit deterministic semantic config for all twelve canonical choices; no heuristic phrase parser;
+3. canonical prompt, visible choice labels/order and submitted answer strings remain unchanged;
+4. scenes distinguish the task-relevant color, quantity, size and noun features without correctness styling leakage;
+5. direct keyboard/touch/pointer controls remain primary; no drag-only requirement;
+6. wrong attempts remain measured/retryable and cannot complete;
+7. correct completion retains `choice_accuracy_v1` semantics and records `phrase-scene-match-runtime` / `choice_phrase_scene_interaction` metadata;
+8. `english-listen-phrase-blue-book` and `english-complete-*` remain outside Pattern #41;
+9. browser QA covers idle/wrong/success at 320x720, 390x844 and 768x1024, including touch targets, overflow, evidence and visible feedback/CTA;
+10. gameplay distribution remains 900/900 classified and, after implementation, becomes exactly 41 active patterns with `choice_grid` 257/900 and `phrase_scene_match` 4/900;
+11. deterministic activity-quality, Ubuntu, Windows, production build, dependency/security, simulations, permanent visual QA and full CI stay green;
+12. only an exact verified head may merge; merged `main` must then be independently verified before implementation-complete status;
+13. a separate closure-docs gate is still required before Pattern #41 is **FULLY CLOSED**.
 
 ## Current execution order
 
-1. Run the fresh Pattern #41 objective/evidence audit from final verified Pattern #40 main.
-2. If justified, merge the docs-only audit before any Pattern #41 runtime work begins.
-3. Implement only the exact audited scope with full interaction/evidence/progression/visual gates.
-4. Continue WS-05 toward 50–60 while permanent WS-08 visual QA runs in parallel.
-5. Continue WS-02 narration and WS-10 external physical-device/accessibility/Iqro evidence.
-6. Continue WS-11 governance.
-7. Address P2 game-shell/icon/inline-style work without destabilizing accepted P1 surfaces.
-8. Perform later WS-12 cleanup and final end-to-end production acceptance.
+1. Finish PR #179 exact-head audit CI and clean review/thread/mergeability gate.
+2. Squash-merge the audit only if exact-head green, then independently verify resulting `main`.
+3. Create a separate Pattern #41 implementation branch from that latest `main`.
+4. Implement deterministic config, canonical classifier registration, child scene presentation, regression/browser QA, distribution update and implementation docs for exactly four activities.
+5. Run exact-head full CI; diagnose failures rather than weakening gates.
+6. If implementation merges, independently verify merged-main production behavior and then run the separate closure-docs gate.
+7. Continue WS-05 toward 50–60 while permanent WS-08 visual QA runs in parallel.
+8. Continue WS-02 narration, WS-10 external acceptance, WS-11 governance and later P2/WS-12 cleanup.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.

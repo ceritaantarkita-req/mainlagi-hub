@@ -24,24 +24,11 @@ Subsystem docs remain authoritative for their specific scope when they do not co
 
 ## Current execution checkpoint
 
-Pattern #40 `spatial_relation_board` is **FULLY CLOSED / LIVE VERIFIED**.
+Pattern #40 `spatial_relation_board` is **FULLY CLOSED / LIVE VERIFIED**. Its implementation merged via PR #175 as `fd017b81137f03bb30eca19a2ceb71c734cb3ba9`, closure PR #176 merged as `43d69c42ca456ab41011f1d198e021f2b0d53cae`, and final closure CI #850 / run `35219083042` succeeded. Canonical truth reconciliation PR #177 then merged as `7c7f715a18a36e76fbf7483e5bc3e25d9ff8a32f`.
 
-Canonical chain:
+Verified gameplay distribution remains **900/900 classified, 40 active patterns, 0 unclassified**, with `choice_grid` 261/900 and `spatial_relation_board` 6/900.
 
-```text
-Audit PR:                #173
-Audit main:              f1b4b13d3d9814d2ed06500022218848cd721419
-Implementation PR:       #175
-Implementation main:     fd017b81137f03bb30eca19a2ceb71c734cb3ba9
-Implementation main CI:  #848 / run 35217949039 — full success
-Closure PR:              #176
-Final closure main:      43d69c42ca456ab41011f1d198e021f2b0d53cae
-Final closure CI:        #850 / run 35219083042 — full success
-```
-
-Verified gameplay distribution is now **900/900 classified, 40 active patterns, 0 unclassified**, with `choice_grid` 261/900 and `spatial_relation_board` 6/900.
-
-The production visual P1 checkpoint remains closed:
+Pattern #41 objective/evidence audit is **OPEN in PR #179**. The audit selects `phrase_scene_match` as an implementation candidate for exactly four assessed English simple-phrase choice activities. No Pattern #41 runtime is implemented or counted yet.
 
 ```text
 P0 = 0
@@ -51,7 +38,46 @@ Permanent visual QA = 21 routes / 63 captures / BLOCKING
 Pattern #38 = FULLY CLOSED
 Pattern #39 = FULLY CLOSED
 Pattern #40 = FULLY CLOSED
+Pattern #41 = AUDIT OPEN / IMPLEMENTATION NOT STARTED
 ```
+
+## Pattern #41 audit checkpoint
+
+Canonical candidate contract:
+
+```text
+pattern:     phrase_scene_match
+subject:     english
+stage:       english-phrases-review
+lesson:      english-simple-phrases
+pack:        english.pack.simple-phrases
+skill:       english.phrase.literal
+runtime:     tap_choice
+assessment:  assessed
+contract:    choice_accuracy_v1
+status:      AUDIT CANDIDATE ONLY / PR #179
+```
+
+Exact candidate scope:
+
+```text
+english-phrase-red-ball
+english-phrase-two-books
+english-phrase-small-cat
+english-phrase-yellow-banana
+```
+
+The audit preserves these boundaries:
+
+- canonical prompts, choice labels/order and `correctChoice` unchanged;
+- direct `tap_choice` and `choice_accuracy_v1` evidence semantics unchanged;
+- explicit deterministic scene config only; no arbitrary English phrase parser;
+- `english-listen-phrase-blue-book` excluded because it is listening;
+- `english-complete-*` excluded because sentence completion should reuse `cloze_sentence_choice` if separately approved;
+- no translation step, speech scoring, drag-only requirement, mastery/progression/schema/database rewrite;
+- implementation starts only after PR #179 passes exact-head CI and merges.
+
+Full audit rationale and regression requirements: [`PATTERN41_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN41_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md).
 
 ## Pattern #40 closed contract
 
@@ -67,34 +93,15 @@ contract:    choice_accuracy_v1
 status:      FULLY CLOSED / LIVE VERIFIED
 ```
 
-Exact activity scope:
-
-```text
-logic-spatial-star-left-circle
-logic-spatial-circle-right-triangle
-logic-spatial-circle-between-stars
-logic-spatial-turn-right-from-up
-logic-spatial-turn-left-from-right
-logic-spatial-opposite-left
-```
-
-Implementation boundaries remain strict:
-
-- exact six-ID classification only;
-- canonical prompts, choices/order and `correctChoice` unchanged;
-- deterministic config, no heuristic prompt parsing;
-- wrong answers remain measured/retryable and cannot complete;
-- turn/opposite results remain hidden until successful completion;
-- direct keyboard/touch/pointer answer controls remain primary;
-- evidence metadata identifies `spatial-relation-board-runtime` and `choice_spatial_relation_interaction` without redefining `choice_accuracy_v1` correctness;
-- no mastery/progression/schema/database rewrite.
+Exact activity scope remains the six audited `logic-spatial-*` activities. Canonical prompt/choice/answer, mastery, progression, schema and database boundaries remain unchanged.
 
 ## Closure/evidence records
 
-- [`PATTERN40_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN40_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md) — Pattern #40 objective/evidence audit and exact-scope justification.
+- [`PATTERN41_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN41_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md) — active Pattern #41 audit candidate; implementation not started.
+- [`PATTERN40_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN40_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md) — Pattern #40 objective/evidence audit.
 - [`WS05_SPATIAL_RELATION_BOARD_WAVE_2026-09-17.md`](WS05_SPATIAL_RELATION_BOARD_WAVE_2026-09-17.md) — Pattern #40 implementation/QA record.
-- [`PATTERN40_IMPLEMENTATION_ACCEPTANCE_2026-09-17.md`](PATTERN40_IMPLEMENTATION_ACCEPTANCE_2026-09-17.md) — exact-head implementation acceptance evidence.
-- [`PATTERN40_SPATIAL_RELATION_BOARD_CLOSURE_2026-09-17.md`](PATTERN40_SPATIAL_RELATION_BOARD_CLOSURE_2026-09-17.md) — final Pattern #40 closure evidence.
+- [`PATTERN40_IMPLEMENTATION_ACCEPTANCE_2026-09-17.md`](PATTERN40_IMPLEMENTATION_ACCEPTANCE_2026-09-17.md) — Pattern #40 exact-head acceptance evidence.
+- [`PATTERN40_SPATIAL_RELATION_BOARD_CLOSURE_2026-09-17.md`](PATTERN40_SPATIAL_RELATION_BOARD_CLOSURE_2026-09-17.md) — Pattern #40 closure evidence.
 - [`PATTERN39_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN39_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md)
 - [`WS05_VISUAL_WORD_PROBLEM_WAVE_2026-09-17.md`](WS05_VISUAL_WORD_PROBLEM_WAVE_2026-09-17.md)
 - [`PATTERN39_VISUAL_WORD_PROBLEM_CLOSURE_2026-09-17.md`](PATTERN39_VISUAL_WORD_PROBLEM_CLOSURE_2026-09-17.md)
@@ -103,7 +110,7 @@ Historical closure/candidate/audit records must not be rewritten to pretend late
 
 ## Remaining product-quality work
 
-Immediate WS-05 work is now a **fresh Pattern #41 objective/evidence audit**. No mechanic, subject or activity family is pre-approved. The audit may validly conclude that no justified candidate exists.
+Immediate WS-05 gate is Pattern #41 audit PR #179. If its exact head passes the complete docs-only gate and merges, `phrase_scene_match` implementation begins from the resulting latest `main` on a separate branch and must pass exact-scope, evidence, keyboard/touch, responsive browser, distribution and permanent visual QA before any implementation claim.
 
 Other open work remains P2 game-shell/icon/inline-style convergence, WS-02 narration, WS-10 real-device/accessibility/human/Iqro acceptance, WS-11 governance, later WS-12 cleanup, and continued WS-05 progression toward 50–60 meaningful patterns.
 

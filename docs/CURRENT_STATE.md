@@ -15,9 +15,11 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Pattern #40 audit: PR #173 -> main `f1b4b13d3d9814d2ed06500022218848cd721419`
 - Pattern #40 implementation: PR #175 -> main `fd017b81137f03bb30eca19a2ceb71c734cb3ba9`
 - Pattern #40 implementation merged-main CI: **#848 / run `35217949039` — full success**
-- Pattern #40 closure: PR #176 -> final main `43d69c42ca456ab41011f1d198e021f2b0d53cae`
+- Pattern #40 closure: PR #176 -> main `43d69c42ca456ab41011f1d198e021f2b0d53cae`
 - Pattern #40 final closure CI: **#850 / run `35219083042` — full success**
-- Pattern #39 remains **FULLY CLOSED**
+- Pattern #40 final truth reconciliation: PR #177 -> main `7c7f715a18a36e76fbf7483e5bc3e25d9ff8a32f`
+- Pattern #40 truth-reconciliation merged-main CI: **#853 / run `35222303192` — full success including exact Cloudflare production smoke**
+- Pattern #41 objective/evidence audit: **OPEN PR #179**, candidate `phrase_scene_match`; implementation has not started
 - permanent visual QA foundation: **VQA-01 FULLY CLOSED**
 - visual P1 baseline: **P0=0 / P1=0 / P2=3**
 
@@ -37,6 +39,7 @@ VBASE-P1-01 residual token fragmentation: FULLY CLOSED / LIVE VERIFIED
 Pattern #38: FULLY CLOSED
 Pattern #39: FULLY CLOSED
 Pattern #40: FULLY CLOSED
+Pattern #41: AUDIT OPEN / IMPLEMENTATION NOT STARTED
 ```
 
 External physical-device acceptance, accessibility-specialist review, human pedagogical/art acceptance and Iqro expert acceptance remain separate and incomplete. Physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
@@ -66,17 +69,11 @@ sentence_order_cards             5 / 900
 picture_word_match               5 / 900
 ```
 
-Remaining distance is **10 patterns** to minimum 50 and **20** to working target 60.
-
-Deterministic activity-quality remains clean on the verified merged baseline.
+Remaining distance is **10 patterns** to minimum 50 and **20** to working target 60. Pattern #41 is not counted until implementation is merged and independently verified.
 
 ## Pattern #40 — fully closed
 
-Pattern:
-
-```text
-spatial_relation_board
-```
+Pattern: `spatial_relation_board`.
 
 Exact scope:
 
@@ -89,32 +86,9 @@ logic-spatial-turn-left-from-right
 logic-spatial-opposite-left
 ```
 
-Canonical ownership:
+Canonical ownership remains Logic / `logic-patterns-sequences-relations` / `logic-spatial-relations` / `logic.pack.spatial-relations` / `logic.spatial.relation.basic` / assessed `tap_choice` / `choice_accuracy_v1`.
 
-```text
-subject:     logic
-stage:       logic-patterns-sequences-relations
-lesson:      logic-spatial-relations
-pack:        logic.pack.spatial-relations
-skill:       logic.spatial.relation.basic
-runtime:     tap_choice
-assessment:  assessed
-contract:    choice_accuracy_v1
-```
-
-Closed behavior:
-
-- exact six-ID deterministic config;
-- canonical prompt, choice order and `correctChoice` remain unchanged;
-- dedicated child-facing relation/turn/opposite-direction board;
-- inferred turn/opposite result remains hidden before success and after wrong answers;
-- direct keyboard/touch/pointer answer controls remain primary;
-- wrong attempts remain measured/retryable and cannot complete;
-- correct answer completes through the existing measured path;
-- runtime metadata identifies `spatial-relation-board-runtime` and `choice_spatial_relation_interaction` without changing correctness semantics;
-- responsive QA passes at 320x720, 390x844 and 768x1024;
-- permanent visual baseline remains green;
-- mastery, progression, schema and database remain unchanged.
+The implementation remains exact-scoped, deterministic, keyboard/touch/pointer accessible, retry-safe and evidence-safe. Canonical prompts/choices/answers, mastery, progression, schema and database remain unchanged.
 
 Verification chain:
 
@@ -124,11 +98,57 @@ Implementation PR:       #175
 Implementation main:     fd017b81137f03bb30eca19a2ceb71c734cb3ba9
 Implementation main CI:  #848 / run 35217949039 — full success
 Closure PR:              #176
-Final closure main:      43d69c42ca456ab41011f1d198e021f2b0d53cae
-Final closure CI:        #850 / run 35219083042 — full success
+Closure main:            43d69c42ca456ab41011f1d198e021f2b0d53cae
+Closure CI:              #850 / run 35219083042 — full success
+Truth reconciliation:    #177 -> 7c7f715a18a36e76fbf7483e5bc3e25d9ff8a32f
+Truth reconciliation CI: #853 / run 35222303192 — full success + Cloudflare smoke
 ```
 
 Full evidence: `PATTERN40_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`, `WS05_SPATIAL_RELATION_BOARD_WAVE_2026-09-17.md`, `PATTERN40_IMPLEMENTATION_ACCEPTANCE_2026-09-17.md`, and `PATTERN40_SPATIAL_RELATION_BOARD_CLOSURE_2026-09-17.md`.
+
+## Pattern #41 objective/evidence audit — open
+
+PR #179 is a docs-only audit. It selects a candidate but does **not** claim runtime implementation or production availability.
+
+Working pattern:
+
+```text
+phrase_scene_match
+```
+
+Exact candidate scope:
+
+```text
+english-phrase-red-ball
+english-phrase-two-books
+english-phrase-small-cat
+english-phrase-yellow-banana
+```
+
+Canonical ownership:
+
+```text
+subject:     english
+stage:       english-phrases-review
+lesson:      english-simple-phrases
+pack:        english.pack.simple-phrases
+skill:       english.phrase.literal
+runtime:     tap_choice
+assessment:  assessed
+contract:    choice_accuracy_v1
+```
+
+Audit rationale: the objective measures literal understanding of short compositional English phrases, while the four activities currently mix emoji and text-only answer representations. A deterministic scene per canonical choice can make color, quantity, size and noun composition visible without changing the submitted answer or evidence contract.
+
+Audit boundaries:
+
+- exactly four direct-choice activities only;
+- `english-listen-phrase-blue-book` remains outside because it is listening;
+- `english-complete-*` remains outside and should reuse `cloze_sentence_choice` if separately approved;
+- no arbitrary English phrase parser;
+- canonical prompts, labels/order and `correctChoice` stay unchanged;
+- no translation, speech-scoring, drag-only requirement, mastery/progression/schema/database rewrite;
+- implementation begins only after the audit passes exact-head CI and merges to `main`.
 
 ## P1/P2 state
 
@@ -137,8 +157,6 @@ All baseline P1 findings are closed and live verified. Remaining visual backlog 
 - VBASE-P2-01 game detail/preflight legacy vocabulary;
 - VBASE-P2-02 semantic iconography drift;
 - VBASE-P2-03 inline visual-style drift risk.
-
-Admin-only utility styling remains separate unless user-facing leakage is proven.
 
 ## Learning/mastery boundaries
 
@@ -156,12 +174,11 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Run a **fresh Pattern #41 objective/evidence audit**; no mechanic, subject or content family is pre-approved.
-2. If a Pattern #41 candidate is justified, implement only a small exact scope with preserved evidence/mastery/progression semantics.
-3. Continue WS-05 toward 50–60 meaningful patterns with permanent WS-08 visual QA running in parallel.
-4. Continue WS-02 narration and WS-10 external physical-device/accessibility/human/Iqro acceptance.
-5. Continue WS-11 governance.
-6. Address P2 game-shell/icon/inline-style work without destabilizing accepted P1 surfaces.
-7. Perform later WS-12 technical cleanup and final end-to-end production acceptance.
+1. Complete Pattern #41 audit PR #179 on one exact head with clean CI/review/mergeability gates.
+2. If accepted, merge the docs-only audit and independently verify resulting `main`.
+3. Start `phrase_scene_match` implementation from that latest `main` on a separate branch, exact-scoped to the four audited activities.
+4. Require deterministic config, canonical classifier/distribution registration, measured completion regression, keyboard/touch/pointer QA and responsive browser screenshots before implementation merge.
+5. Continue WS-05 toward 50–60 with permanent WS-08 visual QA running in parallel.
+6. Continue WS-02 narration, WS-10 external acceptance, WS-11 governance and later P2/WS-12 work without destabilizing accepted product surfaces.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion or mastery/backend rewrites before the current quality roadmap justifies them.
