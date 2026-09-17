@@ -1,18 +1,20 @@
 import type { LearningActivity } from "./system";
 import { gameplayPattern, type GameplayPattern } from "./gameplayPresentation";
+import { isPhraseSceneMatchActivity } from "./phraseSceneMatchConfig";
 import { isSpatialRelationBoardActivity } from "./spatialRelationBoardConfig";
 
-export type CanonicalGameplayPattern = GameplayPattern | "spatial_relation_board";
+export type CanonicalGameplayPattern = GameplayPattern | "spatial_relation_board" | "phrase_scene_match";
 
 /**
  * Canonical WS-05 gameplay-pattern classifier.
  *
- * Pattern #40 is intentionally isolated here so the audited spatial scope can
- * be registered without broadening any existing presentation family. Older
- * pattern classifiers remain unchanged and are delegated to as the fallback.
+ * New exact-scoped patterns remain isolated here so audited families can be
+ * registered without broadening older presentation classifiers. Older pattern
+ * logic remains unchanged and is delegated to as the fallback.
  */
 export function canonicalGameplayPattern(activity: LearningActivity | undefined): CanonicalGameplayPattern | null {
   if (!activity) return null;
+  if (isPhraseSceneMatchActivity(activity)) return "phrase_scene_match";
   if (isSpatialRelationBoardActivity(activity)) return "spatial_relation_board";
   return gameplayPattern(activity);
 }
