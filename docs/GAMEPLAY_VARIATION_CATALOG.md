@@ -8,9 +8,9 @@
 - Pola permainan bukan berarti 60 engine terpisah; gunakan interaction engine reusable.
 - Mechanic dipilih karena cocok dengan learning objective, bukan untuk mengejar angka.
 - Assessed activity wajib menjaga evidence: correct/incorrect, retry, completion, score/accuracy bila relevan, dan metadata interaction.
-- Setiap mechanic baru wajib lolos scope regression, progression, completion/evidence, keyboard, touch/pointer, responsive QA, dan manual visual review.
+- Setiap mechanic baru wajib lolos exact-scope regression, completion/evidence, keyboard, touch/pointer, responsive QA, manual visual review, dan merged-main verification.
 - Permanent distribution audit wajib tetap 900/900 classified selama baseline produk masih 900 activities.
-- Production visual P1 checkpoint sudah closed/live verified; WS-08 visual QA tetap berjalan paralel dan blocking pada wave WS-05 berikutnya.
+- Production visual P1 checkpoint sudah closed/live verified; WS-08 visual QA tetap blocking pada setiap wave WS-05.
 
 ## Status implementasi
 
@@ -22,21 +22,22 @@ Patterns #1–#35 remain as previously closed/merged. Latest entries:
 33. `equal_groups` — FULLY CLOSED
 34. `initial_sound` — FULLY CLOSED
 35. `picture_word_match` — FULLY CLOSED
-36. `sentence_order_cards` — **FULLY CLOSED**
-37. `reading_passage_question` — **FULLY CLOSED**
-38. `cloze_sentence_choice` — **FULLY CLOSED** via implementation #166 + closure #168
-39. `visual_word_problem` — **FULLY CLOSED** via audit #169 + implementation #170 + closure #171
-40. `spatial_relation_board` — **IMPLEMENTATION IN PROGRESS** in draft PR #175; classifier/distribution/regression/browser QA are wired and awaiting one final exact-head CI; not counted in merged distribution yet
+36. `sentence_order_cards` — FULLY CLOSED
+37. `reading_passage_question` — FULLY CLOSED
+38. `cloze_sentence_choice` — FULLY CLOSED via implementation #166 + closure #168
+39. `visual_word_problem` — FULLY CLOSED via audit #169 + implementation #170 + closure #171
+40. `spatial_relation_board` — **FULLY CLOSED** via audit #173 + implementation #175 + closure #176
 
 Permanent gameplay-distribution audit foundation: MERGED PR #105.
 
-Current verified merged distribution on `main` remains:
+Current verified merged distribution on `main`:
 
 ```text
 900 / 900 classified
 0 unclassified
-39 active child-facing patterns
-choice_grid                     267 / 900
+40 active child-facing patterns
+choice_grid                     261 / 900
+spatial_relation_board            6 / 900
 visual_word_problem               5 / 900
 cloze_sentence_choice             5 / 900
 reading_passage_question          5 / 900
@@ -44,45 +45,11 @@ sentence_order_cards              5 / 900
 picture_word_match                5 / 900
 ```
 
-Pattern #40 branch is expected to move exactly six audited activities from `choice_grid` into `spatial_relation_board`, yielding `choice_grid` 261/900 and `spatial_relation_board` 6/900 while total activities remain 900. That expected branch distribution is not accepted until the exact-head distribution audit proves it.
+Remaining distance is **10 patterns** to minimum 50 and **20** to working target 60.
 
-Remaining merged-main distance is **11** patterns to minimum 50 and **21** to working target 60 until Pattern #40 is merged and independently verified.
-
-### `visual_word_problem` — Pattern #39 FULLY CLOSED
+## Pattern #40 — `spatial_relation_board` FULLY CLOSED
 
 Exact scope:
-
-```text
-math-problem-apples
-math-problem-birds
-math-problem-cars
-math-problem-cookies
-math-problem-balloons
-```
-
-Boundaries:
-- subject `math`;
-- stage `math-ukur-ruang`;
-- lesson `math-visual-problems`;
-- pack `math.pack.visual-problems`;
-- canonical skill `math.problem.visual`;
-- assessed runtime remains `tap_choice`;
-- assessment remains `choice_accuracy_v1`;
-- prompts, three canonical numeric choices/order and `correctChoice` remain unchanged;
-- mastery/progression/schema/database remain unchanged.
-
-Verified chain:
-- objective/evidence audit PR #169;
-- implementation PR #170 exact head `df503b95abf86e2b530dd9ff18bd5d8b9707e2db`;
-- implementation squash merge `bcb8479514f44d46ebc68917981699240aabc3b2`;
-- independent merged-main CI #809 / run `35187506724` — full success including exact Cloudflare release smoke;
-- closure PR #171;
-- final closure main `98725727c866d410b2d0caa206e86e70cd0e5741`;
-- final closure CI #811 / run `35190499794` — success.
-
-### `spatial_relation_board` — Pattern #40 IMPLEMENTATION IN PROGRESS
-
-Audit PR #173 is merged to main `f1b4b13d3d9814d2ed06500022218848cd721419`. Draft implementation PR #175 targets exactly:
 
 ```text
 logic-spatial-star-left-circle
@@ -106,76 +73,55 @@ assessment:  assessed
 contract:    choice_accuracy_v1
 ```
 
-Objective fit:
+Verified interaction contract:
 
-- left/right activities require recognizing object placement relative to another object;
-- between activity requires recognizing an object centered between two references;
-- turn activities require transforming an initial facing direction by a left/right turn;
-- opposite-direction activity requires identifying the inverse direction;
-- generic `choice_grid` records a valid answer but under-represents the explicitly spatial learning objective.
-
-Implemented in PR #175:
-
-- deterministic `spatialRelationBoardConfig` exact-scoped to the six audited IDs;
-- config freezes canonical prompt, choice order and `correctChoice` and fails closed on drift;
-- dedicated child-facing relation board for object position and directional transformations;
-- turn/opposite result stays hidden before success and after wrong answers;
+- exact six-ID deterministic classifier/config;
+- canonical prompts, choices/order and `correctChoice` unchanged;
+- left/right/between, turn-left/right, and opposite-direction representations are visually explicit;
+- turn/opposite result stays hidden before successful completion and after wrong answers;
 - direct keyboard/touch/pointer choice controls remain the assessed input;
 - wrong answer remains retryable/measured and cannot complete;
 - correct answer completes through the existing canonical evidence path;
 - no drag-only dependency or additional assessed checkpoint;
 - mastery/progression/schema/database remain unchanged;
-- runtime metadata uses `spatial-relation-board-runtime`, `choice_spatial_relation_interaction`, `mode`, `relationOrTurn`, and `selectedChoice`;
-- `canonicalGameplayPattern` registers `spatial_relation_board` while delegating all previous patterns to the unchanged legacy classifier;
-- permanent gameplay-distribution audit now expects Pattern #40;
-- exact-scope regression proves six-and-only-six classification, frozen canonical content, skill evidence, relation-variant coverage and malformed/non-scope fail-closed behavior;
-- browser QA covers 320x720, 390x844 and 768x1024 with keyboard wrong-state, pointer success, evidence persistence, touch-target, overflow and result-masking checks;
-- mobile composition is compacted so symbolic choices, feedback and success CTA remain usable at 320x720;
-- foundation head `1889e1b5ea954be3cab6978e1f82a680b8281ca8` passed full CI #821 / run `35213178491`; final implementation acceptance still requires a newer exact-head CI containing all changes above.
+- runtime metadata uses `spatial-relation-board-runtime` and `choice_spatial_relation_interaction`;
+- responsive QA passes at 320x720, 390x844 and 768x1024;
+- permanent visual QA remains green.
 
-Remaining before Pattern #40 can be counted:
-
-1. final exact-head CI must pass the Pattern #40 regression and distribution audit;
-2. branch distribution must prove 900/900 classified, 0 unclassified and exactly 40 active child-facing patterns;
-3. browser/mobile matrix must pass all three Pattern #40 responsive states and permanent visual QA;
-4. activity-quality, Windows, Ubuntu, production build, dependency/security and final-acceptance gates must stay green;
-5. PR #175 must be mergeable with no unresolved review/thread blocker;
-6. exact verified head must be squash-merged;
-7. merged `main` must be independently verified including production smoke;
-8. separate post-merge docs closure is required before **FULLY CLOSED** status.
-
-Full in-progress record: `WS05_SPATIAL_RELATION_BOARD_WAVE_2026-09-17.md`.
-
-### `cloze_sentence_choice` — Pattern #38 FULLY CLOSED
-
-Exact scope:
+Verified chain:
 
 ```text
-bahasa-lengkap-ayah-minum
-bahasa-lengkap-burung-terbang
-bahasa-lengkap-kucing-tidur
-bahasa-lengkap-ibu-pasar
-bahasa-lengkap-rina-payung
+Audit PR:                #173
+Audit main:              f1b4b13d3d9814d2ed06500022218848cd721419
+Implementation PR:       #175
+Implementation main:     fd017b81137f03bb30eca19a2ceb71c734cb3ba9
+Implementation main CI:  #848 / run 35217949039 — full success
+Closure PR:              #176
+Final closure main:      43d69c42ca456ab41011f1d198e021f2b0d53cae
+Final closure CI:        #850 / run 35219083042 — full success
 ```
 
-Canonical chain:
-- audit PR #165;
-- implementation PR #166;
-- implementation main `76a2d87dca3689ed8206f5ce0556760dabe903b6`, CI #801;
-- closure PR #168;
-- final closure main `86e6b69d576d72fec73158a7a1c6d8961de36887`, CI #803 including exact Cloudflare smoke.
+Full evidence: `PATTERN40_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`, `WS05_SPATIAL_RELATION_BOARD_WAVE_2026-09-17.md`, `PATTERN40_IMPLEMENTATION_ACCEPTANCE_2026-09-17.md`, and `PATTERN40_SPATIAL_RELATION_BOARD_CLOSURE_2026-09-17.md`.
 
-### `reading_passage_question` — Pattern #37 FULLY CLOSED
+## Recent closed patterns
 
-Implementation PR #153 and closure PR #154 are complete. Final verified `main` is `b1793adaabe19a9c73e021534899f8b50c4097f6`; CI #741 passed including exact Cloudflare production smoke.
+### Pattern #39 — `visual_word_problem`
 
-### `sentence_order_cards` — Pattern #36 FULLY CLOSED
+Fully closed via audit #169, implementation #170, closure #171; final closure main `98725727c866d410b2d0caa206e86e70cd0e5741`, CI #811 / run `35190499794`.
 
-Implementation PR #151 and closure PR #152 are complete. Final verified `main` is `461b0fd59a6c238752aa858bf783716b225b548a`; CI #732 passed the full matrix including exact Cloudflare production smoke.
+### Pattern #38 — `cloze_sentence_choice`
+
+Fully closed via implementation #166 + closure #168; final main `86e6b69d576d72fec73158a7a1c6d8961de36887`, CI #803.
+
+### Pattern #37 — `reading_passage_question`
+
+Fully closed via implementation #153 + closure #154; final verified main `b1793adaabe19a9c73e021534899f8b50c4097f6`, CI #741.
+
+### Pattern #36 — `sentence_order_cards`
+
+Fully closed via implementation #151 + closure #152; final verified main `461b0fd59a6c238752aa858bf783716b225b548a`, CI #732.
 
 ## Production visual checkpoint
-
-The product-quality gate remains complete:
 
 ```text
 P0 = 0
@@ -186,25 +132,20 @@ permanent visual QA = 21 canonical routes / 63 captures / blocking
 
 P2 findings remain visible but do not re-block accepted gameplay implementations.
 
-## Target mechanics backlog
+## Pattern #41 objective/evidence audit gate
 
-Original 60-pattern planning slots remain guidance, not a fixed taxonomy. Candidate families are never approvals. Search/scene exploration, ordering, literacy construction, puzzle/path, audio and creative/story mechanics may only be selected when a fresh objective/evidence audit proves objective fit.
+The next gameplay wave must begin with a fresh Pattern #41 audit that:
 
-## Pattern #40 final implementation gate
+1. inspects remaining objectives/content where current interaction representation is weakest;
+2. identifies the evidence actually required by those objectives;
+3. determines whether an existing pattern already measures that evidence adequately;
+4. rejects cosmetic re-skins and taxonomy-only variants;
+5. rejects changes that weaken or ambiguously reinterpret mastery/progression evidence;
+6. selects a small exact activity scope only after the mechanic is justified;
+7. documents why the chosen interaction is materially better than the current representation;
+8. preserves the valid outcome **“no justified Pattern #41 candidate yet.”**
 
-Before implementation merge, prove on one exact head:
-
-1. exact six-activity classification and fail-closed negatives;
-2. unchanged canonical IDs, prompts, choices/order and `correctChoice`;
-3. existing Logic stage/lesson/pack/skill ownership and assessed `tap_choice` / `choice_accuracy_v1` semantics;
-4. deterministic spatial config rather than heuristic arbitrary-prompt parsing;
-5. keyboard/touch/pointer answer controls and no drag-only dependency;
-6. wrong attempts remain measured/retryable and cannot complete;
-7. turn/opposite results remain masked before successful completion;
-8. responsive idle/wrong/success acceptance at 320x720, 390x844 and 768x1024;
-9. permanent visual QA stays green;
-10. distribution remains 900/900 classified and becomes exactly 40 active patterns;
-11. exact-head full CI passes before merge and merged-main verification passes after merge.
+No mechanic name, subject, or content family is pre-approved.
 
 ## Distribution rule
 
@@ -212,9 +153,8 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 
 ## Rollout order terbaru
 
-- Patterns #1–#39 — fully closed.
-- Spatial Relation Board — Pattern #40 **IMPLEMENTATION IN PROGRESS** in PR #175; audit #173 merged; final exact-head CI is the current gate; merged distribution still 39.
-- NEXT — exact-head acceptance -> clean PR gates -> exact squash merge -> independent merged-main production verification -> separate closure docs gate.
+- Patterns #1–#40 — **FULLY CLOSED**.
+- NEXT — fresh Pattern #41 objective/evidence audit.
 
 ## Definition of done per mechanic
 
