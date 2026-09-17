@@ -26,7 +26,7 @@ Patterns #1–#35 remain as previously closed/merged. Latest entries:
 37. `reading_passage_question` — **FULLY CLOSED**
 38. `cloze_sentence_choice` — **FULLY CLOSED** via implementation #166 + closure #168
 39. `visual_word_problem` — **FULLY CLOSED** via audit #169 + implementation #170 + closure #171
-40. `spatial_relation_board` — **AUDIT CANDIDATE ONLY** in PR #173; implementation not started and not counted in merged distribution
+40. `spatial_relation_board` — **IMPLEMENTATION IN PROGRESS** in draft PR #175; audit #173 merged, exact six-activity runtime foundation green at CI #821; not counted in merged distribution yet
 
 Permanent gameplay-distribution audit: MERGED PR #105.
 
@@ -44,7 +44,7 @@ sentence_order_cards              5 / 900
 picture_word_match                5 / 900
 ```
 
-Remaining distance is **11** patterns to minimum 50 and **21** to working target 60 until Pattern #40 is actually implemented and merged.
+Remaining distance is **11** patterns to minimum 50 and **21** to working target 60 until Pattern #40 is actually implemented, merged and independently verified.
 
 ### `visual_word_problem` — Pattern #39 FULLY CLOSED
 
@@ -79,9 +79,9 @@ Verified chain:
 - final closure CI #811 / run `35190499794` — success;
 - merged distribution remains 900/900 classified with 39 active patterns.
 
-### `spatial_relation_board` — Pattern #40 AUDIT CANDIDATE
+### `spatial_relation_board` — Pattern #40 IMPLEMENTATION IN PROGRESS
 
-Pattern #40 is not yet implemented. PR #173 is a fresh objective/evidence audit and currently selects this exact candidate:
+Audit PR #173 is merged to main `f1b4b13d3d9814d2ed06500022218848cd721419`. Draft implementation PR #175 currently targets exactly:
 
 ```text
 logic-spatial-star-left-circle
@@ -113,20 +113,33 @@ Objective fit:
 - opposite-direction activity requires identifying the inverse direction;
 - current generic `choice_grid` records a valid final answer but under-represents the explicitly spatial learning objective.
 
-Proposed presentation contract after audit acceptance:
+Implemented foundation in PR #175:
 
+- deterministic `spatialRelationBoardConfig` exact-scoped to the six audited IDs;
+- dedicated child-facing relation board for object position and directional transformations;
 - canonical prompt remains primary and unchanged;
-- deterministic visual relation board represents the existing problem;
 - canonical choices/order and `correctChoice` stay unchanged;
 - direct keyboard/touch/pointer choice controls remain the assessed input;
 - wrong answer remains retryable/measured and cannot complete;
 - correct answer completes through the existing canonical evidence path;
-- no drag-only dependency;
-- no additional assessed checkpoint;
-- classifier is exact-scoped and fails closed outside the six audited activities;
-- mastery/progression/schema/database remain unchanged.
+- no drag-only dependency or additional assessed checkpoint;
+- mastery/progression/schema/database remain unchanged;
+- runtime metadata uses `spatial-relation-board-runtime` and `choice_spatial_relation_board_interaction`;
+- implementation foundation head `1889e1b5ea954be3cab6978e1f82a680b8281ca8` passed full CI #821 / run `35213178491`.
 
-This is **not** approval for all Logic spatial-like content, all directional prompts, or any Science/Math/Bahasa family. It remains audit-only until PR #173 is merged. Pattern count stays at 39 until a separate implementation branch is merged and independently verified.
+Remaining before Pattern #40 can be counted:
+
+1. register `spatial_relation_board` in the canonical gameplay pattern taxonomy/distribution;
+2. exact-scope regression proving six-and-only-six classification plus fail-closed negatives;
+3. evidence/completion/retry regressions;
+4. keyboard/touch/responsive browser QA across idle/wrong/success states;
+5. permanent visual QA remains green;
+6. branch audit proves 900/900 classified and exactly 40 active child-facing patterns;
+7. fresh exact-head full CI and clean PR gates;
+8. independent merged-main verification after squash merge;
+9. separate post-merge docs closure before **FULLY CLOSED** status.
+
+Full in-progress record: `WS05_SPATIAL_RELATION_BOARD_WAVE_2026-09-17.md`.
 
 ### `cloze_sentence_choice` — Pattern #38 FULLY CLOSED
 
@@ -172,22 +185,24 @@ P2 findings remain visible but do not re-block accepted gameplay implementations
 
 Original 60-pattern planning slots remain guidance, not a fixed taxonomy. Candidate families are never approvals. Search/scene exploration, ordering, literacy construction, puzzle/path, audio and creative/story mechanics may only be selected when a fresh objective/evidence audit proves objective fit.
 
-## Pattern #40 objective/evidence audit gate
+## Pattern #40 implementation gate
 
-The fresh Pattern #40 audit is now open in PR #173. Its current decision is that `spatial_relation_board` is justified for exactly six `logic-spatial-*` activities because the current generic interaction under-represents the explicit spatial-relation objective while the canonical assessed choice/evidence contract can remain unchanged.
+The objective/evidence audit gate is complete via PR #173. PR #175 now carries the only canonical implementation candidate for `spatial_relation_board` and must remain exact-scoped.
 
-Before implementation, the audit must remain docs-only and preserve:
+Before implementation merge, prove:
 
-1. exact six-activity scope;
+1. exact six-activity classification and fail-closed negatives;
 2. unchanged canonical IDs, prompts, choices/order and `correctChoice`;
 3. existing Logic stage/lesson/pack/skill ownership;
 4. assessed `tap_choice` and `choice_accuracy_v1` semantics;
 5. unchanged mastery/progression/schema/database;
 6. deterministic spatial config rather than heuristic arbitrary-prompt parsing;
 7. keyboard/touch/pointer answer controls;
-8. valid rejection of unrelated candidate families.
-
-After audit merge, implementation must happen on a separate branch and prove exact classification, evidence-safe completion, responsive visual acceptance, permanent visual QA, 900/900 distribution, and exactly 40 active patterns before Pattern #40 is counted.
+8. wrong attempts remain measured/retryable and cannot complete;
+9. responsive idle/wrong/success acceptance;
+10. permanent visual QA stays green;
+11. distribution remains 900/900 classified and becomes exactly 40 active patterns;
+12. exact-head full CI passes before merge and merged-main verification passes after merge.
 
 ## Distribution rule
 
@@ -195,10 +210,9 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 
 ## Rollout order terbaru
 
-- Patterns #1–#38 — fully closed.
-- Visual Word Problem — **FULLY CLOSED** via #169/#170/#171; final main `98725727c866d410b2d0caa206e86e70cd0e5741`, CI #811.
-- Spatial Relation Board — Pattern #40 **AUDIT OPEN** in PR #173; implementation not started.
-- NEXT — finish/merge the docs-only audit gate, then implement Pattern #40 on a fresh branch from latest `main` if the exact audited scope remains valid.
+- Patterns #1–#39 — fully closed.
+- Spatial Relation Board — Pattern #40 **IMPLEMENTATION IN PROGRESS** in PR #175; audit #173 merged; foundation CI #821 green; merged distribution still 39.
+- NEXT — finish distribution registration + regression/browser/visual gates, exact-head CI, merge verification, then separate closure docs gate.
 
 ## Definition of done per mechanic
 
