@@ -8,6 +8,8 @@ if(compile.status!==0)process.exit(compile.status??1);
 const require=createRequire(import.meta.url);
 const {ACTIVITIES}=require(path.resolve(".learning-test-dist/src/lib/learning/system.js"));
 const {getActivityLearningSpec}=require(path.resolve(".learning-test-dist/src/lib/learning/catalog.js"));
+const {CONTENT_PACKS}=require(path.resolve(".learning-test-dist/src/lib/learning/contentManifest.js"));
+const {LOGIC_BATCH12_WAVE_B}=require(path.resolve(".learning-test-dist/src/lib/learning/logicBatch12WaveB.js"));
 const {canonicalGameplayPattern}=require(path.resolve(".learning-test-dist/src/lib/learning/gameplayPatternClassifier.js"));
 const {isSpatialRelationBoardActivity,spatialRelationBoardConfig}=require(path.resolve(".learning-test-dist/src/lib/learning/spatialRelationBoardConfig.js"));
 
@@ -24,6 +26,17 @@ const scoped=ACTIVITIES.filter(activity=>isSpatialRelationBoardActivity(activity
 assert.equal(scoped.length,6,"spatial-relation-board family must remain exactly six audited activities");
 assert.deepEqual(new Set(scoped.map(activity=>activity.id)),new Set(expected.keys()),"only audited Logic spatial activities use Pattern 40");
 assert.deepEqual(new Set(scoped.map(activity=>canonicalGameplayPattern(activity))),new Set(["spatial_relation_board"]));
+
+const authoring=new Map(
+  LOGIC_BATCH12_WAVE_B.activities
+    .filter(seed=>expected.has(seed.id))
+    .map(seed=>[seed.id,seed])
+);
+assert.equal(authoring.size,6,"all Pattern 40 activities remain owned by Logic Wave B authoring");
+
+const manifestPack=CONTENT_PACKS.find(pack=>pack.id==="logic.pack.spatial-relations");
+assert(manifestPack,"canonical Pattern 40 content pack remains in manifest");
+assert.equal(manifestPack.stageId,"logic-patterns-sequences-relations","Pattern 40 pack keeps canonical stage ownership");
 
 for(const activity of scoped){
   const snapshot=expected.get(activity.id);
@@ -47,8 +60,26 @@ for(const activity of scoped){
 
   const spec=getActivityLearningSpec(activity.id);
   assert(spec,`${activity.id} keeps learning spec`);
+  assert.equal(spec.subjectId,"logic",`${activity.id} learning spec keeps subject`);
+  assert.equal(spec.stageId,"logic-patterns-sequences-relations",`${activity.id} learning spec keeps stage`);
   assert.equal(spec.assessment,"assessed",`${activity.id} remains assessed`);
-  assert((spec.skills??[]).some(link=>link.skillId==="logic.spatial.relation.basic"&&link.weight===1),`${activity.id} keeps canonical spatial-relation skill evidence`);
+  assert.deepEqual(spec.skills,[{skillId:"logic.spatial.relation.basic",weight:1}],`${activity.id} keeps exact spatial-relation skill evidence`);
+
+  const seed=authoring.get(activity.id);
+  assert(seed,`${activity.id} keeps Logic Wave B authoring seed`);
+  assert.equal(seed.packId,"logic.pack.spatial-relations",`${activity.id} keeps canonical pack`);
+  assert.equal(seed.lessonId,"logic-spatial-relations",`${activity.id} keeps canonical lesson`);
+  assert.equal(seed.skillId,"logic.spatial.relation.basic",`${activity.id} keeps canonical skill`);
+  assert.deepEqual(seed.choices,snapshot.choices,`${activity.id} authoring choices remain canonical`);
+  assert.equal(seed.correctChoice,snapshot.correct,`${activity.id} authoring correctChoice remains canonical`);
+
+  const manifestActivity=manifestPack.activities.find(item=>item.activityId===activity.id);
+  assert(manifestActivity,`${activity.id} remains in canonical spatial-relations pack`);
+  assert.equal(manifestActivity.lessonId,"logic-spatial-relations",`${activity.id} manifest keeps canonical lesson`);
+  assert.equal(manifestActivity.mechanicId,"tap_choice",`${activity.id} manifest keeps canonical mechanic`);
+  assert.equal(manifestActivity.assessment,"assessed",`${activity.id} manifest keeps assessed contract`);
+  assert.equal(manifestActivity.evidenceContractId,"choice_accuracy_v1",`${activity.id} keeps canonical evidence contract`);
+  assert.deepEqual(manifestActivity.skills,[{skillId:"logic.spatial.relation.basic",weight:1}],`${activity.id} manifest keeps exact skill evidence`);
 }
 
 assert.deepEqual(new Set(scoped.map(activity=>spatialRelationBoardConfig(activity)?.kind)),new Set(["left_of","right_of","between","turn_right","turn_left","opposite"]),"Pattern 40 covers every audited spatial relation branch exactly");
@@ -77,4 +108,4 @@ assert.equal(spatialRelationBoardConfig({...first,stageId:"logic-mixed-reasoning
 assert.equal(spatialRelationBoardConfig({...first,subjectId:"math"}),null,"wrong subject fails closed");
 assert.equal(spatialRelationBoardConfig({...first,runtime:"matching"}),null,"wrong runtime fails closed");
 
-console.log("Pattern 40 spatial relation board regression passed for exact six audited Logic activities.");
+console.log("Pattern 40 spatial relation board regression passed: exact six activities preserve runtime, authoring, manifest, skill and evidence ownership.");
