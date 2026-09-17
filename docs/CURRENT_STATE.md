@@ -2,7 +2,7 @@
 
 Last reviewed: **17 September 2026**
 
-This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure.
+This is the canonical human/AI handoff. `main` is the merged source of truth; open audit or implementation work must not be mistaken for merged production truth.
 
 ## Canonical baseline
 
@@ -11,14 +11,15 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - production: `https://mainlagihub.my.id/`
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - source licence: `AGPL-3.0-only`
-- latest fully closed gameplay pattern: **Pattern #40 — Logic `spatial_relation_board`**
+- latest fully closed gameplay pattern: **Pattern #41 — English `phrase_scene_match`**
 - Pattern #40 final truth reconciliation: PR #177 -> main `7c7f715a18a36e76fbf7483e5bc3e25d9ff8a32f`
 - Pattern #40 truth-reconciliation merged-main CI: **#853 / run `35222303192` — full success including exact Cloudflare production smoke**
 - Pattern #41 objective/evidence audit: PR #179 -> main `917e933b2d69db3d014b98f3aa49bb6962aec992`
 - Pattern #41 audit merged-main CI: **#860 / run `35223876877` — full success including exact Cloudflare production smoke**
 - Pattern #41 implementation: PR #180 -> main `f90a0d377fa7227b8857f6069a5e957c99eb0b11`
 - Pattern #41 implementation merged-main CI: **#862 / run `35229750381` — full success including exact Cloudflare production smoke**
-- Pattern #41 closure: **IN PROGRESS** on `agent/p41-phrase-scene-match-closure-20260917`
+- Pattern #41 closure: PR #184 -> main `552a3123b7352d6d5ab0eb2d9caecab50d60f09c`
+- Pattern #41 closure merged-main CI: **#867 / run `35240186539` — full success including exact Cloudflare production smoke**
 - permanent visual QA foundation: **VQA-01 FULLY CLOSED**
 - visual P1 baseline: **P0=0 / P1=0 / P2=3**
 
@@ -38,7 +39,7 @@ VBASE-P1-01 residual token fragmentation: FULLY CLOSED / LIVE VERIFIED
 Pattern #38: FULLY CLOSED
 Pattern #39: FULLY CLOSED
 Pattern #40: FULLY CLOSED
-Pattern #41: IMPLEMENTATION LIVE VERIFIED / CLOSURE IN PROGRESS
+Pattern #41: FULLY CLOSED / LIVE VERIFIED
 ```
 
 External physical-device acceptance, accessibility-specialist review, human pedagogical/art acceptance and Iqro expert acceptance remain separate and incomplete. Physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
@@ -53,7 +54,7 @@ Runtime count is not gameplay-pattern count.
 
 Target: minimum **50**, working target **60 meaningful patterns**.
 
-Verified merged-main distribution after Pattern #41 implementation:
+Verified merged-main distribution after Pattern #41 closure:
 
 ```text
 classified:                    900 / 900
@@ -71,13 +72,9 @@ picture_word_match               5 / 900
 
 Remaining distance is **9 patterns** to minimum 50 and **19** to working target 60.
 
-## Pattern #41 — implementation live verified, closure in progress
+## Pattern #41 — fully closed
 
-Pattern:
-
-```text
-phrase_scene_match
-```
+Pattern: `phrase_scene_match`.
 
 Exact scope:
 
@@ -101,7 +98,7 @@ assessment:  assessed
 contract:    choice_accuracy_v1
 ```
 
-Verified implementation behavior:
+Verified behavior:
 
 - exact four-ID deterministic config with all twelve canonical choice scenes;
 - canonical prompts, choice labels/order, answer payloads and `correctChoice` unchanged;
@@ -125,10 +122,13 @@ Implementation PR:       #180
 Verified PR head:        03886f191d089a37bbaf7c9d429d6d9a8020ec6d
 Implementation main:     f90a0d377fa7227b8857f6069a5e957c99eb0b11
 Implementation main CI:  #862 / run 35229750381 — full success + Cloudflare smoke
-Closure docs:            agent/p41-phrase-scene-match-closure-20260917 — in progress
+Closure PR:              #184
+Closure head:            74e3bd0def256f4b4e6a23459af93d8a31866212
+Closure main:            552a3123b7352d6d5ab0eb2d9caecab50d60f09c
+Closure main CI:         #867 / run 35240186539 — full success + Cloudflare smoke
 ```
 
-Full implementation evidence: `PATTERN41_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`, `WS05_PHRASE_SCENE_MATCH_WAVE_2026-09-17.md`, and `PATTERN41_PHRASE_SCENE_MATCH_CLOSURE_2026-09-17.md`.
+Full evidence: `PATTERN41_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`, `WS05_PHRASE_SCENE_MATCH_WAVE_2026-09-17.md`, `PATTERN41_PHRASE_SCENE_MATCH_CLOSURE_2026-09-17.md`, and `PATTERN41_FINAL_CLOSURE_VERIFICATION_2026-09-17.md`.
 
 ## P1/P2 state
 
@@ -154,10 +154,9 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Finish the Pattern #41 closure-docs gate and verify the exact closure head.
-2. Merge only the verified closure head, then independently verify resulting `main` including exact Cloudflare production smoke.
-3. Only after that mark Pattern #41 **FULLY CLOSED** and start a fresh Pattern #42 objective/evidence audit; no mechanic/subject/content family is pre-approved.
-4. Continue WS-05 toward 50–60 meaningful patterns with permanent WS-08 visual QA running in parallel.
-5. Continue WS-02 narration, WS-10 external physical-device/accessibility/Iqro evidence, WS-11 governance and later P2/WS-12 cleanup.
+1. Run a **fresh Pattern #42 objective/evidence audit** from this verified Pattern #41 closure baseline; no mechanic, subject or content family is pre-approved.
+2. If a justified Pattern #42 candidate exists, select only a small exact scope and merge the docs-only audit before runtime implementation.
+3. Continue WS-05 toward 50–60 meaningful patterns with permanent WS-08 visual QA running in parallel.
+4. Continue WS-02 narration, WS-10 external physical-device/accessibility/Iqro evidence, WS-11 governance and later P2/WS-12 cleanup.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion or mastery/backend rewrites before the current quality roadmap justifies them.

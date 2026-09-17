@@ -24,9 +24,9 @@ Subsystem docs remain authoritative for their specific scope when they do not co
 
 ## Current execution checkpoint
 
-Pattern #40 `spatial_relation_board` remains **FULLY CLOSED / LIVE VERIFIED**.
+Pattern #41 `phrase_scene_match` is **FULLY CLOSED / LIVE VERIFIED**.
 
-Pattern #41 `phrase_scene_match` implementation is now **MERGED + LIVE VERIFIED**:
+Canonical chain:
 
 ```text
 Audit PR:                #179
@@ -35,11 +35,12 @@ Audit main CI:           #860 / run 35223876877 — full success + exact Cloudfl
 Implementation PR:       #180
 Implementation main:     f90a0d377fa7227b8857f6069a5e957c99eb0b11
 Implementation main CI:  #862 / run 35229750381 — full success + exact Cloudflare smoke
+Closure PR:              #184
+Closure main:            552a3123b7352d6d5ab0eb2d9caecab50d60f09c
+Closure main CI:         #867 / run 35240186539 — full success + exact Cloudflare smoke
 ```
 
-Pattern #41 closure docs are **IN PROGRESS** on `agent/p41-phrase-scene-match-closure-20260917`. Until that closure PR is merged and its resulting `main` independently verified, Pattern #41 is **IMPLEMENTATION LIVE VERIFIED / CLOSURE IN PROGRESS**, not yet fully closed.
-
-Verified merged gameplay distribution is now **900/900 classified, 41 active patterns, 0 unclassified**, with `choice_grid` 257/900 and `phrase_scene_match` 4/900.
+Verified merged gameplay distribution is **900/900 classified, 41 active patterns, 0 unclassified**, with `choice_grid` 257/900 and `phrase_scene_match` 4/900.
 
 ```text
 P0 = 0
@@ -49,7 +50,7 @@ Permanent visual QA = 21 routes / 63 captures / BLOCKING
 Pattern #38 = FULLY CLOSED
 Pattern #39 = FULLY CLOSED
 Pattern #40 = FULLY CLOSED
-Pattern #41 = IMPLEMENTATION LIVE VERIFIED / CLOSURE IN PROGRESS
+Pattern #41 = FULLY CLOSED / LIVE VERIFIED
 ```
 
 ## Pattern #41 verified contract
@@ -64,7 +65,7 @@ skill:       english.phrase.literal
 runtime:     tap_choice
 assessment:  assessed
 contract:    choice_accuracy_v1
-status:      IMPLEMENTATION LIVE VERIFIED / CLOSURE IN PROGRESS
+status:      FULLY CLOSED / LIVE VERIFIED
 ```
 
 Exact scope:
@@ -94,20 +95,18 @@ Verified boundaries:
 
 - [`PATTERN41_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN41_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md) — merged Pattern #41 objective/evidence audit.
 - [`WS05_PHRASE_SCENE_MATCH_WAVE_2026-09-17.md`](WS05_PHRASE_SCENE_MATCH_WAVE_2026-09-17.md) — Pattern #41 implementation/QA wave record.
-- [`PATTERN41_PHRASE_SCENE_MATCH_CLOSURE_2026-09-17.md`](PATTERN41_PHRASE_SCENE_MATCH_CLOSURE_2026-09-17.md) — Pattern #41 implementation-live verification and active closure gate.
+- [`PATTERN41_PHRASE_SCENE_MATCH_CLOSURE_2026-09-17.md`](PATTERN41_PHRASE_SCENE_MATCH_CLOSURE_2026-09-17.md) — Pattern #41 closure gate record.
+- [`PATTERN41_FINAL_CLOSURE_VERIFICATION_2026-09-17.md`](PATTERN41_FINAL_CLOSURE_VERIFICATION_2026-09-17.md) — final merged-main closure verification and Cloudflare-smoke truth.
 - [`PATTERN40_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN40_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md)
 - [`WS05_SPATIAL_RELATION_BOARD_WAVE_2026-09-17.md`](WS05_SPATIAL_RELATION_BOARD_WAVE_2026-09-17.md)
 - [`PATTERN40_IMPLEMENTATION_ACCEPTANCE_2026-09-17.md`](PATTERN40_IMPLEMENTATION_ACCEPTANCE_2026-09-17.md)
 - [`PATTERN40_SPATIAL_RELATION_BOARD_CLOSURE_2026-09-17.md`](PATTERN40_SPATIAL_RELATION_BOARD_CLOSURE_2026-09-17.md)
-- [`PATTERN39_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN39_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md)
-- [`WS05_VISUAL_WORD_PROBLEM_WAVE_2026-09-17.md`](WS05_VISUAL_WORD_PROBLEM_WAVE_2026-09-17.md)
-- [`PATTERN39_VISUAL_WORD_PROBLEM_CLOSURE_2026-09-17.md`](PATTERN39_VISUAL_WORD_PROBLEM_CLOSURE_2026-09-17.md)
 
 Historical closure/candidate/audit records must not be rewritten to pretend later QA or implementation state existed at their original checkpoint.
 
 ## Remaining product-quality work
 
-Immediate WS-05 work is to finish the Pattern #41 closure PR, pass exact-head CI/review/thread/mergeability checks, merge only the verified head, independently verify resulting `main` including exact Cloudflare production smoke, then promote Pattern #41 to **FULLY CLOSED** and start a fresh Pattern #42 objective/evidence audit.
+Immediate WS-05 work is now a **fresh Pattern #42 objective/evidence audit** from the verified Pattern #41 closure baseline. No mechanic, subject or activity family is pre-approved. The audit may validly conclude that no justified candidate exists.
 
 Other open work remains P2 game-shell/icon/inline-style convergence, WS-02 narration, WS-10 real-device/accessibility/human/Iqro acceptance, WS-11 governance, later WS-12 cleanup, and continued WS-05 progression toward 50–60 meaningful patterns.
 
