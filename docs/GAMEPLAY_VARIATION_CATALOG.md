@@ -27,7 +27,7 @@ Patterns #1–#35 remain as previously closed/merged. Latest entries:
 38. `cloze_sentence_choice` — FULLY CLOSED via implementation #166 + closure #168
 39. `visual_word_problem` — FULLY CLOSED via audit #169 + implementation #170 + closure #171
 40. `spatial_relation_board` — **FULLY CLOSED** via audit #173 + implementation #175 + closure #176
-41. `phrase_scene_match` — **IMPLEMENTATION LIVE VERIFIED / CLOSURE IN PROGRESS** via audit #179 + implementation #180
+41. `phrase_scene_match` — **FULLY CLOSED / LIVE VERIFIED** via audit #179 + implementation #180 + closure #184
 
 Permanent gameplay-distribution audit foundation: MERGED PR #105.
 
@@ -49,7 +49,7 @@ picture_word_match                5 / 900
 
 Remaining distance is **9 patterns** to minimum 50 and **19** to working target 60.
 
-## Pattern #41 — `phrase_scene_match`
+## Pattern #41 — `phrase_scene_match` FULLY CLOSED
 
 Exact scope:
 
@@ -73,7 +73,7 @@ assessment:  assessed
 contract:    choice_accuracy_v1
 ```
 
-Verified implementation contract:
+Verified contract:
 
 - exact four-ID fail-closed config;
 - deterministic scenes for all twelve canonical choices;
@@ -88,7 +88,7 @@ Verified implementation contract:
 - responsive QA passes at 320x720, 390x844 and 768x1024;
 - permanent visual QA remains green.
 
-Verified chain so far:
+Verified chain:
 
 ```text
 Audit PR:                #179
@@ -97,10 +97,12 @@ Audit main CI:           #860 / run 35223876877 — full success + Cloudflare sm
 Implementation PR:       #180
 Implementation main:     f90a0d377fa7227b8857f6069a5e957c99eb0b11
 Implementation main CI:  #862 / run 35229750381 — full success + Cloudflare smoke
-Closure docs:            in progress
+Closure PR:              #184
+Closure main:            552a3123b7352d6d5ab0eb2d9caecab50d60f09c
+Closure main CI:         #867 / run 35240186539 — full success + Cloudflare smoke
 ```
 
-Full evidence: `PATTERN41_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`, `WS05_PHRASE_SCENE_MATCH_WAVE_2026-09-17.md`, and `PATTERN41_PHRASE_SCENE_MATCH_CLOSURE_2026-09-17.md`.
+Full evidence: `PATTERN41_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`, `WS05_PHRASE_SCENE_MATCH_WAVE_2026-09-17.md`, `PATTERN41_PHRASE_SCENE_MATCH_CLOSURE_2026-09-17.md`, and `PATTERN41_FINAL_CLOSURE_VERIFICATION_2026-09-17.md`.
 
 ## Production visual checkpoint
 
@@ -119,13 +121,12 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 
 ## Rollout order terbaru
 
-- Patterns #1–#40 — **FULLY CLOSED**.
-- Pattern #41 `phrase_scene_match` — **IMPLEMENTATION LIVE VERIFIED / CLOSURE IN PROGRESS**.
-- NEXT — finish closure docs -> exact-head CI -> closure merge -> merged-main verification -> fresh Pattern #42 objective/evidence audit.
+- Patterns #1–#41 — **FULLY CLOSED**.
+- NEXT — fresh Pattern #42 objective/evidence audit.
 
 ## Pattern #42 objective/evidence gate
 
-Pattern #42 must begin only after Pattern #41 closure-main verification. No mechanic, subject or content family is pre-approved. The audit must inspect remaining objectives where current representation is weak, identify required evidence, reject cosmetic/taxonomy-only variants, preserve mastery/progression boundaries, select a small exact scope only when justified, and preserve the valid outcome **“no justified Pattern #42 candidate yet.”**
+Pattern #42 begins from the verified Pattern #41 closure baseline. No mechanic, subject or content family is pre-approved. The audit must inspect remaining objectives where current representation is weak, identify required evidence, determine whether an existing pattern already measures it adequately, reject cosmetic/taxonomy-only variants, preserve mastery/progression boundaries, select a small exact scope only when justified, and preserve the valid outcome **“no justified Pattern #42 candidate yet.”**
 
 ## Definition of done per mechanic
 
