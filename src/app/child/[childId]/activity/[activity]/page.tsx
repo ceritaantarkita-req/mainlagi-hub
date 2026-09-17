@@ -20,6 +20,7 @@ import { PictureWordMatchActivity } from "@/components/learning/PictureWordMatch
 import { ReadingPassageQuestionActivity } from "@/components/learning/ReadingPassageQuestionActivity";
 import { RelativeOrderTrackActivity } from "@/components/learning/RelativeOrderTrackActivity";
 import { RulePipelineActivity } from "@/components/learning/RulePipelineActivity";
+import { SentenceCompletionSlotActivity } from "@/components/learning/SentenceCompletionSlotActivity";
 import { SentenceOrderCardsActivity } from "@/components/learning/SentenceOrderCardsActivity";
 import { SequenceSlotChoiceActivity } from "@/components/learning/SequenceSlotChoiceActivity";
 import { SetReasoningActivity } from "@/components/learning/SetReasoningActivity";
@@ -60,6 +61,7 @@ import {
   isTransitiveChainActivity
 } from "@/lib/learning/gameplayPresentation";
 import { isReadingPassageQuestionActivity } from "@/lib/learning/readingPassageQuestionConfig";
+import { isSentenceCompletionSlotActivity } from "@/lib/learning/sentenceCompletionSlotConfig";
 import { isSentenceOrderCardsActivity } from "@/lib/learning/sentenceOrderCardsConfig";
 import { getActivity } from "@/lib/learning/system";
 import styles from "./ActivityPage.module.css";
@@ -95,6 +97,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
         <SentenceOrderCardsActivity childId={childId} activityId={activity} />
       ) : isReadingPassageQuestionActivity(definition) ? (
         <ReadingPassageQuestionActivity childId={childId} activityId={activity} />
+      ) : isSentenceCompletionSlotActivity(definition) ? (
+        <SentenceCompletionSlotActivity childId={childId} activityId={activity} />
       ) : isSortingBucketsActivity(definition) ? (
         <SortingBucketsChoiceActivity childId={childId} activityId={activity} />
       ) : isOddOneOutActivity(definition) ? (
