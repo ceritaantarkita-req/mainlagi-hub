@@ -19,6 +19,7 @@ if (compile.status !== 0) process.exit(compile.status ?? 1);
 const require = createRequire(import.meta.url);
 const { ACTIVITIES } = require(path.join(outDir, "src", "lib", "learning", "system.js"));
 const { getActivityLearningSpec } = require(path.join(outDir, "src", "lib", "learning", "catalog.js"));
+const { CONTENT_PACKS } = require(path.join(outDir, "src", "lib", "learning", "contentManifest.js"));
 const { BAHASA_BATCH8_WAVE_D } = require(path.join(outDir, "src", "lib", "learning", "bahasaBatch8WaveD.js"));
 const { gameplayPattern } = require(path.join(outDir, "src", "lib", "learning", "gameplayPresentation.js"));
 const {
@@ -47,13 +48,15 @@ try {
   );
   assert.equal(authoring.size, 5, "all cloze activities must remain owned by Bahasa Wave D authoring");
 
+  const manifestPack = CONTENT_PACKS.find((pack) => pack.id === "bahasa.pack.kalimat-lengkap");
+  assert(manifestPack, "canonical cloze content pack must remain in content manifest");
+  assert.equal(manifestPack.stageId, "bahasa-literasi-terapan", "cloze content pack keeps canonical stage ownership");
+
   for (const activity of scoped) {
     const fixture = expected.get(activity.id);
     assert(fixture, `${activity.id} must have a frozen canonical fixture`);
     assert.equal(activity.subjectId, "bahasa", `${activity.id} keeps Bahasa ownership`);
     assert.equal(activity.stageId, "bahasa-literasi-terapan", `${activity.id} keeps stage ownership`);
-    assert.equal(activity.lessonId, "bahasa-kalimat-lengkap", `${activity.id} keeps lesson ownership`);
-    assert.equal(activity.packId, "bahasa.pack.kalimat-lengkap", `${activity.id} keeps pack ownership`);
     assert.equal(activity.runtime, "tap_choice", `${activity.id} keeps tap_choice runtime`);
     assert.equal(activity.prompt, fixture.prompt, `${activity.id} prompt remains canonical`);
     assert.deepEqual(activity.choices, fixture.choices, `${activity.id} choice order remains canonical`);
@@ -66,18 +69,29 @@ try {
 
     const spec = getActivityLearningSpec(activity.id);
     assert(spec, `${activity.id} keeps learning spec`);
+    assert.equal(spec.subjectId, "bahasa", `${activity.id} learning spec keeps subject`);
+    assert.equal(spec.stageId, "bahasa-literasi-terapan", `${activity.id} learning spec keeps stage`);
     assert.equal(spec.assessment, "assessed", `${activity.id} remains assessed`);
-    assert.equal(spec.evidenceContract, "choice_accuracy_v1", `${activity.id} keeps choice evidence contract`);
+    assert.equal(spec.requiredForStage, fixture.requiredForStage, `${activity.id} learning spec keeps required-for-stage contract`);
     assert.deepEqual(spec.skills, [{ skillId: "bahasa.kalimat.context_completion", weight: 1 }], `${activity.id} keeps exact skill mapping`);
 
     const seed = authoring.get(activity.id);
     assert(seed, `${activity.id} keeps authoring seed`);
-    assert.equal(seed.packId, "bahasa.pack.kalimat-lengkap");
-    assert.equal(seed.lessonId, "bahasa-kalimat-lengkap");
-    assert.equal(seed.skillId, "bahasa.kalimat.context_completion");
-    assert.equal(seed.requiredForStage, fixture.requiredForStage, `${activity.id} requiredForStage must not drift`);
+    assert.equal(seed.packId, "bahasa.pack.kalimat-lengkap", `${activity.id} keeps canonical pack`);
+    assert.equal(seed.lessonId, "bahasa-kalimat-lengkap", `${activity.id} keeps canonical lesson`);
+    assert.equal(seed.skillId, "bahasa.kalimat.context_completion", `${activity.id} keeps canonical skill`);
+    assert.equal(seed.requiredForStage, fixture.requiredForStage, `${activity.id} authoring requiredForStage must not drift`);
     assert.deepEqual(seed.choices, fixture.choices, `${activity.id} authoring choices remain canonical`);
     assert.equal(seed.correctChoice, fixture.correctChoice, `${activity.id} authoring correctChoice remains canonical`);
+
+    const manifestActivity = manifestPack.activities.find((item) => item.activityId === activity.id);
+    assert(manifestActivity, `${activity.id} remains in canonical cloze content pack`);
+    assert.equal(manifestActivity.lessonId, "bahasa-kalimat-lengkap", `${activity.id} manifest keeps canonical lesson`);
+    assert.equal(manifestActivity.mechanicId, "tap_choice", `${activity.id} manifest keeps canonical mechanic`);
+    assert.equal(manifestActivity.assessment, "assessed", `${activity.id} manifest keeps assessed contract`);
+    assert.equal(manifestActivity.evidenceContractId, "choice_accuracy_v1", `${activity.id} keeps canonical evidence contract`);
+    assert.equal(manifestActivity.requiredForStage, fixture.requiredForStage, `${activity.id} manifest keeps required-for-stage contract`);
+    assert.deepEqual(manifestActivity.skills, [{ skillId: "bahasa.kalimat.context_completion", weight: 1 }], `${activity.id} manifest keeps exact skill evidence`);
   }
 
   assert.deepEqual(parseClozeSentencePrompt("Ibu ___ nasi."), { before: "Ibu", after: "nasi." });
