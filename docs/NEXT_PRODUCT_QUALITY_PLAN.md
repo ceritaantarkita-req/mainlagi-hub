@@ -7,7 +7,9 @@
 **Latest fully closed gameplay:** Pattern #41 — English `phrase_scene_match`  
 **Pattern #41 final truth:** PR #185 -> `e20b50431d907f9ca6f3ef254b7c69aa24a132a5`  
 **Pattern #41 final truth CI:** **#869 / run `35241959755` — full success + exact Cloudflare production smoke**  
-**Pattern #42 audit candidate:** **Science `growth_stage_transition`, exact 3-ID scope, code not started**  
+**Pattern #42 audit:** PR #186 -> `541c2348507e976fb723c9c6e5b8f1b242cff490`  
+**Pattern #42 audit CI:** **#871 / run `35255083348` — full success + exact Cloudflare production smoke**  
+**Pattern #42 implementation:** **PR #187 — IN PROGRESS / NOT MERGED**  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
 
@@ -33,17 +35,17 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 12. Green automated checks tidak menggantikan screenshot review.
 13. P1=0 tidak menghapus P2 atau external-evidence backlog. Status harus tetap dipisahkan.
 14. Parallel implementation PR untuk scope yang sama harus ditutup/ditolak setelah canonical candidate terbukti.
-15. A transition presentation must not reveal the target growth stage before the learner submits the canonical answer.
+15. A transition presentation must not reveal the target growth stage before the learner submits the canonical correct answer.
 
 ## Workstream status
 
 | Workstream | Status | Current note |
 |---|---|---|
-| WS-01 Canonical docs | **CURRENT** | Pattern #41 fully closed; Pattern #42 audit candidate documented |
+| WS-01 Canonical docs | **CURRENT** | Pattern #42 audit merged/live verified; implementation #187 documented |
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **41 FULLY CLOSED / P42 AUDIT CANDIDATE** | implementation not started; 9 patterns to minimum 50 from merged truth |
+| WS-05 Gameplay diversification | **41 FULLY CLOSED / P42 IMPLEMENTATION IN PROGRESS** | PR #187 exact three-ID scope |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | 21 routes / 63 captures live on main |
@@ -68,7 +70,7 @@ sentence_order_cards              5 / 900
 picture_word_match                5 / 900
 ```
 
-Distance remaining from merged truth: **9 patterns** to minimum 50 and **19** to working target 60.
+Merged truth stays at 41 until PR #187 is merged and independently verified.
 
 ## Pattern #41 — fully closed
 
@@ -89,12 +91,15 @@ Final truth main:        e20b50431d907f9ca6f3ef254b7c69aa24a132a5
 Final truth main CI:     #869 / run 35241959755 — full success + Cloudflare smoke
 ```
 
-## Pattern #42 audit result
+## Pattern #42 — `growth_stage_transition`
 
-The fresh audit found a justified candidate:
+Audit verification:
 
 ```text
-growth_stage_transition
+Audit PR:       #186
+Audit main:     541c2348507e976fb723c9c6e5b8f1b242cff490
+Audit main CI:  #871 / run 35255083348 — full success + exact Cloudflare smoke
+Implementation: PR #187 / IN PROGRESS
 ```
 
 Exact scope:
@@ -107,16 +112,23 @@ science-cycle-seed-sprout
 
 Canonical ownership remains Science / `science-life-material-motion` / `science-life-cycles` / `science.pack.life-cycles` / `science.life_cycles.basic` / assessed `tap_choice` / `choice_accuracy_v1`.
 
-The candidate is deliberately narrower than the whole life-cycle lesson:
+PR #187 implementation contract:
 
-- `science-cycle-butterfly` is a complete ordered-sequence task and remains outside;
-- `science-match-young-adult-b` retains its canonical matching runtime/evidence;
-- water physical-state transitions stay in existing `cause_effect`;
-- abstract before/after/index reasoning stays in existing `relative_order_track`.
+- exact-ID fail-closed deterministic config;
+- byte-preserved prompt, choice labels/order and `correctChoice`;
+- known growth stage + hidden target stage board;
+- target remains hidden on idle/wrong and is revealed only after correct answer;
+- explicit previous-stage / next-adult-stage / next-young-stage modes;
+- deterministic visual scene for all nine canonical choices;
+- wrong selection records incorrect/retry and cannot complete;
+- correct completion preserves `choice_accuracy_v1` semantics;
+- keyboard/touch/pointer native buttons with >=44px targets;
+- no drag-only, prompt parser, extra assessed checkpoint, timing score or speech scoring;
+- no mastery/progression/schema/database rewrite.
 
-Implementation must use deterministic exact-ID config, preserve canonical prompt/choices/order/answer payload, show a known growth stage plus an unknown transition target without pre-revealing correctness, preserve retry/completion/evidence semantics, and remain keyboard/touch/pointer accessible.
+Explicit exclusions remain `science-cycle-butterfly`, `science-match-young-adult-b`, and all unrelated existing gameplay families.
 
-Implementation acceptance target only:
+Implementation-branch blocking target:
 
 ```text
 900 / 900 classified
@@ -126,9 +138,7 @@ choice_grid                     254 / 900
 growth_stage_transition           3 / 900
 ```
 
-This is not current merged truth until a later implementation is merged and independently verified.
-
-Full audit: `PATTERN42_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`.
+Permanent tests now include dedicated exact-scope learning regression and 320x720 / 390x844 / 768x1024 browser idle/wrong/success QA. Full implementation evidence is recorded in `WS05_GROWTH_STAGE_TRANSITION_WAVE_2026-09-18.md`.
 
 ## Permanent visual/product gate — LIVE
 
@@ -142,13 +152,12 @@ P2 findings: 3
 
 ## Current execution order
 
-1. Merge the docs-only Pattern #42 audit after exact-head full CI and clean review/thread/mergeability checks.
-2. Independently verify the resulting audit `main`, including exact Cloudflare release smoke.
-3. Create a separate Pattern #42 implementation branch from that verified `main`.
-4. Implement only the exact three audited Science activities with deterministic config, child-facing transition board, evidence/retry/completion regression, keyboard/touch QA and responsive screenshot review.
-5. Verify 900/900 classification and the intended 42-pattern distribution before merge.
-6. Run full Ubuntu/Windows/build/security/dependency/mobile/permanent-visual CI and exact post-merge Cloudflare smoke.
-7. Perform the required Pattern #42 docs closure before moving to Pattern #43.
-8. Continue WS-02 narration, WS-10 external acceptance, WS-11 governance and later P2/WS-12 cleanup in parallel when they do not destabilize accepted surfaces.
+1. Finish PR #187 exact-head CI and inspect dedicated Pattern #42 regression/browser evidence plus permanent visual QA.
+2. Fix any failure without broadening the audited scope.
+3. Require clean review threads and mergeability; merge only the exact verified head.
+4. Independently verify resulting `main`, including 42-pattern distribution and exact Cloudflare production smoke.
+5. Create and merge Pattern #42 closure docs; do not call Pattern #42 fully closed before that closure verifies.
+6. Only then run a fresh Pattern #43 objective/evidence audit with no candidate pre-approved.
+7. Continue WS-02 narration, WS-10 external acceptance, WS-11 governance and later P2/WS-12 cleanup when they do not destabilize accepted surfaces.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
