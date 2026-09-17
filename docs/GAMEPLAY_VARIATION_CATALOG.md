@@ -28,7 +28,7 @@ Patterns #1–#35 remain as previously closed/merged. Latest entries:
 39. `visual_word_problem` — FULLY CLOSED
 40. `spatial_relation_board` — FULLY CLOSED
 41. `phrase_scene_match` — **FULLY CLOSED / LIVE VERIFIED**
-42. `growth_stage_transition` — **AUDIT CANDIDATE JUSTIFIED / NOT IMPLEMENTED**
+42. `growth_stage_transition` — **AUDIT MERGED + LIVE VERIFIED / IMPLEMENTATION PR #187 IN PROGRESS**
 
 Permanent gameplay-distribution audit foundation: MERGED PR #105.
 
@@ -48,9 +48,7 @@ sentence_order_cards              5 / 900
 picture_word_match                5 / 900
 ```
 
-Current merged truth remains **41 patterns**. Pattern #42 is not counted until implementation merges and is independently verified.
-
-Remaining distance from current merged truth is **9 patterns** to minimum 50 and **19** to working target 60.
+Current merged truth remains **41 patterns** while PR #187 is open. Pattern #42 is not counted as production truth until implementation merges and resulting `main` is independently verified.
 
 ## Pattern #41 — `phrase_scene_match` FULLY CLOSED
 
@@ -74,9 +72,18 @@ Final truth main:        e20b50431d907f9ca6f3ef254b7c69aa24a132a5
 Final truth main CI:     #869 / run 35241959755 — full success + Cloudflare smoke
 ```
 
-## Pattern #42 audit candidate — `growth_stage_transition`
+## Pattern #42 — `growth_stage_transition`
 
-The fresh audit found a justified **narrow** Science lifecycle transition family:
+Audit chain:
+
+```text
+Audit PR:       #186
+Audit main:     541c2348507e976fb723c9c6e5b8f1b242cff490
+Audit main CI:  #871 / run 35255083348 — full success + exact Cloudflare smoke
+Implementation: PR #187 / IN PROGRESS / NOT MERGED
+```
+
+Exact scope:
 
 ```text
 science-cycle-frog
@@ -97,22 +104,26 @@ assessment:  assessed
 contract:    choice_accuracy_v1
 ```
 
-Why this exact scope is coherent:
+Implementation contract in PR #187:
 
-- all three ask for one target biological growth stage relative to a known stage;
-- generic `choice_grid` preserves answer evidence but does not explicitly represent the growth transition;
-- explicit deterministic config can show a known stage and an unknown target stage without changing the canonical answer payload;
-- canonical prompt, choice order, `correctChoice`, assessment, mastery and progression can remain unchanged.
+- exact three-ID deterministic config; no lifecycle prompt parser;
+- prompt, canonical choice labels/order, submitted values and `correctChoice` remain unchanged;
+- two-stage board shows known stage plus unknown target slot;
+- target remains hidden on idle and wrong states and is revealed only after correct selection;
+- `previous_stage`, `next_adult_stage`, and `next_young_stage` modes are explicit;
+- all nine choice scenes are deterministic and equal-affordance before answer;
+- native buttons preserve keyboard/touch/pointer input and >=44px target gates;
+- wrong selection increments canonical incorrect/retry evidence and cannot complete;
+- correct selection emits existing assessed evidence plus presentation metadata;
+- no mastery/progression/schema/database migration.
 
-Explicit exclusions:
+Explicit exclusions remain:
 
-- `science-cycle-butterfly` remains outside because it asks for a complete ordered four-stage lifecycle;
-- `science-match-young-adult-b` remains outside because its canonical runtime/evidence is matching;
-- `cause_effect` remains scoped to physical water-state changes under environmental conditions;
-- `relative_order_track` remains abstract multi-item positional reasoning;
-- no arbitrary lifecycle prompt parser is approved.
+- `science-cycle-butterfly` — complete ordered lifecycle sequence;
+- `science-match-young-adult-b` — canonical matching runtime/evidence;
+- existing `cause_effect`, `relative_order_track`, sequence and unrelated Science families.
 
-Implementation target only, **not current merged truth**:
+Implementation-branch blocking distribution target:
 
 ```text
 900 / 900 classified
@@ -120,9 +131,12 @@ Implementation target only, **not current merged truth**:
 42 active patterns
 choice_grid                     254 / 900
 growth_stage_transition           3 / 900
+phrase_scene_match                4 / 900
 ```
 
-Full audit: `PATTERN42_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`.
+The target is enforced by `audit-gameplay-distribution.mjs`; unexpected scope expansion or contraction fails CI.
+
+Evidence: `PATTERN42_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md` and `WS05_GROWTH_STAGE_TRANSITION_WAVE_2026-09-18.md`.
 
 ## Production visual checkpoint
 
@@ -140,8 +154,10 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 ## Rollout order terbaru
 
 - Patterns #1–#41 — **FULLY CLOSED**.
-- Pattern #42 — docs-only audit candidate `growth_stage_transition`; implementation not started.
-- NEXT GATE — merge/verify the audit, then implement only the exact three audited IDs on a separate branch.
+- Pattern #42 audit — **MERGED / LIVE VERIFIED**.
+- Pattern #42 implementation — **PR #187 IN PROGRESS**.
+- NEXT GATE — exact-head implementation QA -> merge -> independent merged-main Cloudflare verification -> closure docs.
+- Pattern #43 must not begin until Pattern #42 closure is complete.
 
 ## Definition of done per mechanic
 
