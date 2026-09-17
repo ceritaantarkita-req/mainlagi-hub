@@ -1,8 +1,8 @@
 # Mainlagi Hub — Current State
 
-Last reviewed: **17 September 2026**
+Last reviewed: **18 September 2026**
 
-This is the canonical human/AI handoff. `main` is the merged source of truth; open audit or implementation work must not be mistaken for merged production truth.
+This is the canonical human/AI handoff. `main` is the merged source of truth; open implementation work must not be mistaken for merged production truth.
 
 ## Canonical baseline
 
@@ -14,6 +14,11 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - latest fully closed gameplay pattern: **Pattern #41 — English `phrase_scene_match`**
 - Pattern #41 final truth reconciliation: PR #185 -> main `e20b50431d907f9ca6f3ef254b7c69aa24a132a5`
 - Pattern #41 final truth merged-main CI: **#869 / run `35241959755` — full success including exact Cloudflare production smoke**
+- Pattern #42 objective/evidence audit: PR #186 -> main `541c2348507e976fb723c9c6e5b8f1b242cff490`
+- Pattern #42 audit merged-main CI: **#871 / run `35255083348` — full success including exact Cloudflare production smoke**
+- Pattern #42 implementation: **PR #187 — implementation code verified / final docs-head gate pending / NOT MERGED**
+- Pattern #42 verified implementation-code checkpoint: `0ded3a43e49654a34e5a35aaffb7edf8c9fa4469`
+- Pattern #42 code-checkpoint CI: **#878 / run `35256885341` — full success**
 - permanent visual QA foundation: **VQA-01 FULLY CLOSED**
 - visual P1 baseline: **P0=0 / P1=0 / P2=3**
 
@@ -34,6 +39,7 @@ Pattern #38: FULLY CLOSED
 Pattern #39: FULLY CLOSED
 Pattern #40: FULLY CLOSED
 Pattern #41: FULLY CLOSED / LIVE VERIFIED
+Pattern #42: AUDIT MERGED + LIVE VERIFIED / IMPLEMENTATION CODE VERIFIED / NOT MERGED
 ```
 
 External physical-device acceptance, accessibility-specialist review, human pedagogical/art acceptance and Iqro expert acceptance remain separate and incomplete. Physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
@@ -48,7 +54,7 @@ Runtime count is not gameplay-pattern count.
 
 Target: minimum **50**, working target **60 meaningful patterns**.
 
-Verified merged-main distribution after Pattern #41 closure:
+Verified merged-main distribution remains:
 
 ```text
 classified:                    900 / 900
@@ -64,47 +70,27 @@ sentence_order_cards             5 / 900
 picture_word_match               5 / 900
 ```
 
-Remaining distance is **9 patterns** to minimum 50 and **19** to working target 60.
-
-## Pattern #41 — fully closed
-
-Pattern #41 `phrase_scene_match` remains fully closed/live verified for exactly:
+Pattern #42 implementation-code checkpoint `0ded3a43...` independently verified the intended branch distribution:
 
 ```text
-english-phrase-red-ball
-english-phrase-two-books
-english-phrase-small-cat
-english-phrase-yellow-banana
+classified:                    900 / 900
+unclassified:                    0
+active implementation patterns: 42
+choice_grid                    254 / 900
+growth_stage_transition          3 / 900
 ```
 
-Canonical ownership remains English / `english-phrases-review` / `english-simple-phrases` / `english.pack.simple-phrases` / `english.phrase.literal` / assessed `tap_choice` / `choice_accuracy_v1`.
+These 42-pattern numbers are **verified implementation evidence, not merged production truth** until PR #187 merges and resulting `main` passes independent CI + exact Cloudflare smoke.
 
-Final verification chain:
+## Pattern #42 — implementation code verified, not merged
 
-```text
-Audit PR:                #179
-Audit main:              917e933b2d69db3d014b98f3aa49bb6962aec992
-Audit main CI:           #860 / run 35223876877 — full success + Cloudflare smoke
-Implementation PR:       #180
-Implementation main:     f90a0d377fa7227b8857f6069a5e957c99eb0b11
-Implementation main CI:  #862 / run 35229750381 — full success + Cloudflare smoke
-Closure PR:              #184
-Closure main:            552a3123b7352d6d5ab0eb2d9caecab50d60f09c
-Closure main CI:         #867 / run 35240186539 — full success + Cloudflare smoke
-Truth PR:                #185
-Final truth main:        e20b50431d907f9ca6f3ef254b7c69aa24a132a5
-Final truth main CI:     #869 / run 35241959755 — full success + Cloudflare smoke
-```
-
-## Pattern #42 audit — candidate justified, not implemented
-
-A fresh objective/evidence audit from verified main `e20b50431d907f9ca6f3ef254b7c69aa24a132a5` identified one narrowly coherent candidate:
+Pattern:
 
 ```text
 growth_stage_transition
 ```
 
-Exact audited scope:
+Exact scope:
 
 ```text
 science-cycle-frog
@@ -125,18 +111,42 @@ assessment:  assessed
 contract:    choice_accuracy_v1
 ```
 
-Why the scope is narrow:
+Verification chain so far:
 
-- `science-cycle-butterfly` is excluded because it asks for a complete ordered lifecycle, not a single growth-stage transition;
-- `science-match-young-adult-b` is excluded because its canonical runtime/evidence is matching;
-- existing `cause_effect` stays limited to physical water-state changes caused by environmental conditions;
-- existing `relative_order_track` stays abstract positional/order reasoning over a multi-item track.
+```text
+Audit PR:                 #186
+Audit main:               541c2348507e976fb723c9c6e5b8f1b242cff490
+Audit main CI:            #871 / run 35255083348 — full success + exact Cloudflare smoke
+Implementation PR:        #187
+Verified code checkpoint: 0ded3a43e49654a34e5a35aaffb7edf8c9fa4469
+Code checkpoint CI:       #878 / run 35256885341 — full success
+```
 
-Pattern #42 is **audit-only at this checkpoint**. No classifier, runtime component, content, mastery, progression, schema or database change has started.
+The verified implementation includes exact three-ID fail-closed config, deterministic `previous_stage` / `next_adult_stage` / `next_young_stage` boards, hidden target until correct completion, unchanged canonical prompt/choices/answers, measured retry/accuracy semantics, exact authoring/manifest/evidence regression, blocking 42-pattern distribution, and permanent browser wiring.
 
-If implementation is later accepted, the target distribution would be **42 active patterns / `choice_grid` 254 / `growth_stage_transition` 3**, but that target is not current merged truth.
+Browser evidence at 320x720, 390x844 and 768x1024 covers idle/wrong/success, keyboard wrong-answer handling, pointer completion, actual touch `tap()` completion at 390x844, measured attempt evidence, zero horizontal overflow and permanent visual QA.
 
-Full audit: `PATTERN42_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`.
+Manual review of all nine Pattern #42 screenshots is **ACCEPTED**: no P0/P1 Pattern #42 visual blocker; idle/wrong do not reveal the target; success reveals the correct target only after completion; feedback/CTA remain readable. The 768px Garden mascot remains decorative and does not obscure controls.
+
+Artifacts for CI #878:
+
+```text
+mobile-route screenshots: 10513557620
+sha256:de116a80764e2b87716cc377e807aabbd4e3c9107961306039d6e480d1cbb5bd
+
+gameplay distribution:    10513402146
+sha256:f20941e33f33cd0a9bca8e519b0137536f6eb66a745bda156697c16230fb8943
+
+activity quality:          10513197363
+sha256:cd85e039cdd632e081b1b0cd3ad42d610c3de0d64fbe9be6be67f2539b1b7244
+```
+
+Explicit exclusions remain `science-cycle-butterfly`, `science-match-young-adult-b`, existing `cause_effect`, `relative_order_track`, sequence and unrelated Science families. No mastery/progression/schema/database migration is part of Pattern #42.
+
+This docs-only truth refresh advances PR #187 beyond checkpoint `0ded3a43...`; therefore the new final PR head must still pass full CI before merge.
+
+Full audit: `PATTERN42_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`.  
+Implementation wave: `WS05_GROWTH_STAGE_TRANSITION_WAVE_2026-09-18.md`.
 
 ## P1/P2 state
 
@@ -162,10 +172,12 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Merge the **Pattern #42 objective/evidence audit** only after exact-head CI and clean review/mergeability checks.
-2. Independently verify resulting audit `main`, including exact Cloudflare production smoke.
-3. Only then start a separate Pattern #42 runtime implementation branch for the exact three audited IDs.
-4. Continue WS-05 toward 50–60 meaningful patterns with permanent WS-08 visual QA running in parallel.
-5. Continue WS-02 narration, WS-10 external physical-device/accessibility/Iqro evidence, WS-11 governance and later P2/WS-12 cleanup.
+1. Run full CI on the final docs-only head of Pattern #42 PR #187.
+2. Re-check exact-head mergeability, reviews/comments and unresolved review threads.
+3. Merge only the clean exact verified final head.
+4. Independently verify resulting `main`, including exact Cloudflare production smoke.
+5. Record post-merge Pattern #42 closure truth before calling it fully closed.
+6. Only after closure begin a fresh Pattern #43 objective/evidence audit; no candidate is pre-approved.
+7. Continue WS-05 toward 50–60 meaningful patterns with permanent WS-08 visual QA, plus WS-02 narration, WS-10 external evidence, WS-11 governance and later P2/WS-12 cleanup.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion or mastery/backend rewrites before the current quality roadmap justifies them.

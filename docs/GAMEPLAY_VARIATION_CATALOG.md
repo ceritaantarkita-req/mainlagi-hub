@@ -28,7 +28,7 @@ Patterns #1–#35 remain as previously closed/merged. Latest entries:
 39. `visual_word_problem` — FULLY CLOSED
 40. `spatial_relation_board` — FULLY CLOSED
 41. `phrase_scene_match` — **FULLY CLOSED / LIVE VERIFIED**
-42. `growth_stage_transition` — **AUDIT CANDIDATE JUSTIFIED / NOT IMPLEMENTED**
+42. `growth_stage_transition` — **IMPLEMENTATION CODE VERIFIED / PR #187 NOT MERGED**
 
 Permanent gameplay-distribution audit foundation: MERGED PR #105.
 
@@ -48,35 +48,22 @@ sentence_order_cards              5 / 900
 picture_word_match                5 / 900
 ```
 
-Current merged truth remains **41 patterns**. Pattern #42 is not counted until implementation merges and is independently verified.
+Current merged truth remains **41 patterns** while PR #187 is open.
 
-Remaining distance from current merged truth is **9 patterns** to minimum 50 and **19** to working target 60.
+## Pattern #42 — `growth_stage_transition`
 
-## Pattern #41 — `phrase_scene_match` FULLY CLOSED
+Verification chain so far:
+
+```text
+Audit PR:                 #186
+Audit main:               541c2348507e976fb723c9c6e5b8f1b242cff490
+Audit main CI:            #871 / run 35255083348 — full success + exact Cloudflare smoke
+Implementation PR:        #187
+Verified code checkpoint: 0ded3a43e49654a34e5a35aaffb7edf8c9fa4469
+Code checkpoint CI:       #878 / run 35256885341 — full success
+```
 
 Exact scope:
-
-```text
-english-phrase-red-ball
-english-phrase-two-books
-english-phrase-small-cat
-english-phrase-yellow-banana
-```
-
-Final truth:
-
-```text
-Closure PR:              #184
-Closure main:            552a3123b7352d6d5ab0eb2d9caecab50d60f09c
-Closure main CI:         #867 / run 35240186539 — full success + Cloudflare smoke
-Truth PR:                #185
-Final truth main:        e20b50431d907f9ca6f3ef254b7c69aa24a132a5
-Final truth main CI:     #869 / run 35241959755 — full success + Cloudflare smoke
-```
-
-## Pattern #42 audit candidate — `growth_stage_transition`
-
-The fresh audit found a justified **narrow** Science lifecycle transition family:
 
 ```text
 science-cycle-frog
@@ -97,22 +84,27 @@ assessment:  assessed
 contract:    choice_accuracy_v1
 ```
 
-Why this exact scope is coherent:
+Verified implementation contract:
 
-- all three ask for one target biological growth stage relative to a known stage;
-- generic `choice_grid` preserves answer evidence but does not explicitly represent the growth transition;
-- explicit deterministic config can show a known stage and an unknown target stage without changing the canonical answer payload;
-- canonical prompt, choice order, `correctChoice`, assessment, mastery and progression can remain unchanged.
+- exact three-ID deterministic config; no lifecycle prompt parser;
+- prompt, canonical choice labels/order, submitted values and `correctChoice` remain unchanged;
+- two-stage board shows known stage plus unknown target slot;
+- target remains hidden on idle and wrong states and is revealed only after correct selection;
+- `previous_stage`, `next_adult_stage`, and `next_young_stage` modes are explicit;
+- all nine choice scenes are deterministic and equal-affordance before answer;
+- native buttons preserve keyboard/touch/pointer input and >=44px target gates;
+- browser QA executes keyboard retry, pointer completion and actual touch `tap()` completion;
+- wrong selection increments canonical incorrect/retry evidence and cannot complete;
+- correct selection emits existing assessed evidence plus presentation metadata;
+- no mastery/progression/schema/database migration.
 
-Explicit exclusions:
+Explicit exclusions remain:
 
-- `science-cycle-butterfly` remains outside because it asks for a complete ordered four-stage lifecycle;
-- `science-match-young-adult-b` remains outside because its canonical runtime/evidence is matching;
-- `cause_effect` remains scoped to physical water-state changes under environmental conditions;
-- `relative_order_track` remains abstract multi-item positional reasoning;
-- no arbitrary lifecycle prompt parser is approved.
+- `science-cycle-butterfly` — complete ordered lifecycle sequence;
+- `science-match-young-adult-b` — canonical matching runtime/evidence;
+- existing `cause_effect`, `relative_order_track`, sequence and unrelated Science families.
 
-Implementation target only, **not current merged truth**:
+Verified implementation-code distribution from CI #878:
 
 ```text
 900 / 900 classified
@@ -120,9 +112,14 @@ Implementation target only, **not current merged truth**:
 42 active patterns
 choice_grid                     254 / 900
 growth_stage_transition           3 / 900
+phrase_scene_match                4 / 900
 ```
 
-Full audit: `PATTERN42_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`.
+This 42-pattern distribution is **branch evidence, not merged production truth** until PR #187 is merged and resulting `main` independently passes full CI + exact Cloudflare smoke.
+
+Manual review of the nine 320/390/768 idle/wrong/success screenshots is accepted with no P0/P1 Pattern #42 visual blocker. Screenshot artifact `10513557620`, digest `sha256:de116a80764e2b87716cc377e807aabbd4e3c9107961306039d6e480d1cbb5bd`.
+
+Evidence: `PATTERN42_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md` and `WS05_GROWTH_STAGE_TRANSITION_WAVE_2026-09-18.md`.
 
 ## Production visual checkpoint
 
@@ -140,8 +137,10 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 ## Rollout order terbaru
 
 - Patterns #1–#41 — **FULLY CLOSED**.
-- Pattern #42 — docs-only audit candidate `growth_stage_transition`; implementation not started.
-- NEXT GATE — merge/verify the audit, then implement only the exact three audited IDs on a separate branch.
+- Pattern #42 audit — **MERGED / LIVE VERIFIED**.
+- Pattern #42 implementation code — **VERIFIED ON CHECKPOINT `0ded3a43...` / PR #187 NOT MERGED**.
+- Current gate — final docs-only PR head CI -> clean review/mergeability -> exact-head merge -> independent merged-main Cloudflare verification -> closure docs.
+- Pattern #43 implementation must not begin until Pattern #42 closure is complete; any Pattern #43 candidate still requires a fresh objective/evidence audit.
 
 ## Definition of done per mechanic
 
