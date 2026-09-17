@@ -11,12 +11,12 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - production: `https://mainlagihub.my.id/`
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - source licence: `AGPL-3.0-only`
-- latest live-verified gameplay implementation: **Pattern #39 — Math `visual_word_problem`**
+- latest fully closed gameplay implementation: **Pattern #39 — Math `visual_word_problem`**
 - Pattern #39 audit: PR #169
 - Pattern #39 implementation: PR #170
 - Pattern #39 implementation merge/main: `bcb8479514f44d46ebc68917981699240aabc3b2`
-- Pattern #39 merged-main CI: **#809 / run `35187506724` — full success including exact Cloudflare production smoke**
-- Pattern #39 docs closure: **IN PROGRESS on dedicated docs-only branch**
+- Pattern #39 implementation merged-main CI: **#809 / run `35187506724` — full success including exact Cloudflare production smoke**
+- Pattern #39 closure: **FULLY CLOSED**, closure PR #171 -> main `98725727c866d410b2d0caa206e86e70cd0e5741`, final main CI **#811 / run `35190499794` — full success including exact Cloudflare production smoke**
 - Pattern #38: **FULLY CLOSED**, closure PR #168 -> main `86e6b69d576d72fec73158a7a1c6d8961de36887`, final main CI #803 including exact Cloudflare smoke
 - permanent visual QA foundation: **VQA-01 FULLY CLOSED**
 - visual P1 baseline: **P0=0 / P1=0 / P2=3**
@@ -37,8 +37,7 @@ VUI-02 Stage/Gallery: FULLY CLOSED / LIVE VERIFIED
 VUI-03 Public/Auth/Account: FULLY CLOSED / LIVE VERIFIED
 VBASE-P1-01 residual token fragmentation: FULLY CLOSED / LIVE VERIFIED
 Pattern #38: FULLY CLOSED
-Pattern #39 implementation: MERGED / LIVE VERIFIED
-Pattern #39 docs closure: IN PROGRESS
+Pattern #39: FULLY CLOSED / LIVE VERIFIED
 ```
 
 External physical-device acceptance, accessibility-specialist review, human pedagogical/art acceptance and Iqro expert acceptance remain separate and incomplete. Physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
@@ -90,7 +89,7 @@ Cloudflare smoke: success
 
 Full evidence: `PATTERN38_CLOZE_SENTENCE_CHOICE_CLOSURE_2026-09-17.md`.
 
-## Pattern #39 live implementation
+## Pattern #39 closure
 
 Exact scope:
 
@@ -130,18 +129,21 @@ Presentation/evidence behavior:
 - runtime source `visual-word-problem-runtime`;
 - evidence fidelity `choice_visual_word_problem_interaction`.
 
-Verification chain:
+Canonical verification chain:
 
 ```text
-Audit PR:            #169
-Implementation PR:   #170
-Implementation head: df503b95abf86e2b530dd9ff18bd5d8b9707e2db
-Merge/main:          bcb8479514f44d46ebc68917981699240aabc3b2
-Main CI:             #809 / run 35187506724 — full success
-Cloudflare smoke:    success
+Audit PR:                #169
+Implementation PR:       #170
+Implementation head:     df503b95abf86e2b530dd9ff18bd5d8b9707e2db
+Implementation main:     bcb8479514f44d46ebc68917981699240aabc3b2
+Implementation main CI:  #809 / run 35187506724 — full success
+Closure PR:              #171
+Closure main:            98725727c866d410b2d0caa206e86e70cd0e5741
+Final main CI:           #811 / run 35190499794 — full success
+Cloudflare exact smoke:  success
 ```
 
-Merged-main gameplay-distribution artifact:
+Merged-main gameplay-distribution artifact from implementation verification:
 
 ```text
 id: 10482459288
@@ -176,9 +178,9 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Finish the **Pattern #39 docs-only closure gate**: fresh exact-head CI, clean merge, then independent merged-main CI + exact Cloudflare smoke.
-2. After Pattern #39 is fully closed, run a **fresh objective/evidence audit for Pattern #40**; no mechanic, subject or activity family is pre-approved.
-3. Continue WS-05 toward 50–60 meaningful patterns with permanent WS-08 visual QA running in parallel.
+1. Run a **fresh objective/evidence audit for Pattern #40**; no mechanic, subject or activity family is pre-approved.
+2. If justified, implement Pattern #40 on a small deterministic scope with permanent WS-08 visual QA running in parallel.
+3. Continue WS-05 toward 50–60 meaningful patterns.
 4. Continue WS-02 narration and WS-10 external physical-device/accessibility/human acceptance.
 5. Continue WS-11 governance.
 6. Address P2 game-shell/icon/inline-style work without destabilizing accepted P1 surfaces.
