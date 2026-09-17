@@ -27,11 +27,11 @@ Patterns #1–#35 remain as previously closed/merged. Latest entries:
 38. `cloze_sentence_choice` — FULLY CLOSED via implementation #166 + closure #168
 39. `visual_word_problem` — FULLY CLOSED via audit #169 + implementation #170 + closure #171
 40. `spatial_relation_board` — **FULLY CLOSED** via audit #173 + implementation #175 + closure #176
-41. `phrase_scene_match` — **AUDIT CANDIDATE ONLY** in PR #179; implementation not started and not counted in merged distribution
+41. `phrase_scene_match` — **AUDIT MERGED + VERIFIED / IMPLEMENTATION IN PROGRESS**; not yet counted in merged production distribution
 
 Permanent gameplay-distribution audit foundation: MERGED PR #105.
 
-Current verified merged distribution on `main`:
+Current verified merged distribution on `main` remains:
 
 ```text
 900 / 900 classified
@@ -46,7 +46,7 @@ sentence_order_cards              5 / 900
 picture_word_match                5 / 900
 ```
 
-Remaining merged-main distance is **10 patterns** to minimum 50 and **20** to working target 60. Pattern #41 does not change those numbers until an implementation is merged and independently verified.
+Remaining merged-main distance is **10 patterns** to minimum 50 and **20** to working target 60. Pattern #41 does not change those numbers until implementation is merged and independently verified.
 
 ## Pattern #40 — `spatial_relation_board` FULLY CLOSED
 
@@ -76,9 +76,11 @@ Closure CI:              #850 / run 35219083042 — full success
 Truth reconciliation:    #177 -> 7c7f715a18a36e76fbf7483e5bc3e25d9ff8a32f
 ```
 
-## Pattern #41 — `phrase_scene_match` AUDIT CANDIDATE
+## Pattern #41 — `phrase_scene_match` IMPLEMENTATION IN PROGRESS
 
-Fresh objective/evidence audit PR #179 selects exactly four assessed direct-choice activities from `english-simple-phrases`:
+Audit PR #179 selected exactly four assessed direct-choice activities from `english-simple-phrases` and merged to `main` as `917e933b2d69db3d014b98f3aa49bb6962aec992`. Merged-main CI #860 / run `35223876877` passed including exact Cloudflare production smoke.
+
+Exact scope:
 
 ```text
 english-phrase-red-ball
@@ -100,25 +102,28 @@ assessment:  assessed
 contract:    choice_accuracy_v1
 ```
 
-Why the candidate is justified for implementation review:
+Implementation branch `agent/p41-phrase-scene-match-20260917` now carries:
 
-- the lesson objective is literal understanding of very short compositional English phrases;
-- canonical tasks combine color+noun, quantity+noun and size+noun evidence;
-- current generic `choice_grid` inconsistently mixes emoji scenes and phrase-only choices;
-- deterministic scenes can expose those semantic features while preserving the exact canonical answer label and submitted answer string;
-- this is distinct from `picture_word_match`, which measures a single lexical picture↔word mapping, and from `count_and_select`, which expects a numeric answer.
+- exact-ID fail-closed config for all four activities;
+- deterministic scene representation for all twelve canonical choices;
+- semantic coverage for color, quantity, size and noun composition;
+- dedicated `PhraseSceneMatchActivity` while preserving canonical prompt, labels/order and submitted answer strings;
+- direct keyboard/touch/pointer answer controls;
+- retry-safe measured completion with `phrase-scene-match-runtime` / `choice_phrase_scene_interaction` metadata;
+- exact authoring/manifest/skill/evidence regression;
+- browser QA for idle/wrong/success at 320x720, 390x844 and 768x1024;
+- distribution gate targeting exactly 41 active patterns, `choice_grid` 257/900 and `phrase_scene_match` 4/900.
 
 Strict boundaries:
 
-- no arbitrary phrase parser; use explicit exact-ID config;
-- all twelve canonical choices require deterministic scene config;
+- no arbitrary phrase parser; explicit exact-ID config only;
 - canonical prompt, choice order, labels and `correctChoice` remain byte-for-byte unchanged;
 - `english-listen-phrase-blue-book` remains outside because its canonical runtime is listening;
 - `english-complete-*` remains outside; cloze reuse is not a new pattern;
 - no drag-only interaction, translation checkpoint, speech scoring, mastery/progression/schema/database change;
-- Pattern #41 is not implemented until a separate implementation PR passes distribution, regression, browser/visual and merged-main gates.
+- branch implementation is not a production claim until exact-head CI, merge and merged-main verification all pass.
 
-Expected implementation distribution, **only if** the audited scope is implemented successfully:
+Expected post-implementation distribution, **only if** the branch passes all gates and is merged:
 
 ```text
 900 / 900 classified
@@ -128,8 +133,6 @@ choice_grid                     257 / 900
 phrase_scene_match                4 / 900
 spatial_relation_board            6 / 900
 ```
-
-These are acceptance targets, not current merged-main claims.
 
 ## Production visual checkpoint
 
@@ -149,8 +152,8 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 ## Rollout order terbaru
 
 - Patterns #1–#40 — **FULLY CLOSED**.
-- Pattern #41 `phrase_scene_match` — **AUDIT OPEN in PR #179 / IMPLEMENTATION NOT STARTED**.
-- NEXT — exact-head audit acceptance -> docs-only merge -> independent merged-main verification -> separate implementation branch.
+- Pattern #41 `phrase_scene_match` — **AUDIT MERGED + VERIFIED / IMPLEMENTATION IN PROGRESS**.
+- NEXT — finish implementation -> exact-head full CI -> implementation merge -> merged-main verification -> separate closure-docs gate.
 
 ## Definition of done per mechanic
 

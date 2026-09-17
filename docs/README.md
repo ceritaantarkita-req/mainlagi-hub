@@ -24,11 +24,19 @@ Subsystem docs remain authoritative for their specific scope when they do not co
 
 ## Current execution checkpoint
 
-Pattern #40 `spatial_relation_board` is **FULLY CLOSED / LIVE VERIFIED**. Its implementation merged via PR #175 as `fd017b81137f03bb30eca19a2ceb71c734cb3ba9`, closure PR #176 merged as `43d69c42ca456ab41011f1d198e021f2b0d53cae`, and final closure CI #850 / run `35219083042` succeeded. Canonical truth reconciliation PR #177 then merged as `7c7f715a18a36e76fbf7483e5bc3e25d9ff8a32f`.
+Pattern #40 `spatial_relation_board` remains **FULLY CLOSED / LIVE VERIFIED**.
 
-Verified gameplay distribution remains **900/900 classified, 40 active patterns, 0 unclassified**, with `choice_grid` 261/900 and `spatial_relation_board` 6/900.
+Pattern #41 objective/evidence audit is now **MERGED + VERIFIED**:
 
-Pattern #41 objective/evidence audit is **OPEN in PR #179**. The audit selects `phrase_scene_match` as an implementation candidate for exactly four assessed English simple-phrase choice activities. No Pattern #41 runtime is implemented or counted yet.
+```text
+Audit PR:             #179
+Audit main:           917e933b2d69db3d014b98f3aa49bb6962aec992
+Audit merged-main CI: #860 / run 35223876877 — full success + exact Cloudflare smoke
+```
+
+Pattern #41 `phrase_scene_match` implementation is **IN PROGRESS** on `agent/p41-phrase-scene-match-20260917`. It is not yet merged and must not yet be counted as production Pattern #41.
+
+Verified merged gameplay distribution therefore remains **900/900 classified, 40 active patterns, 0 unclassified**, with `choice_grid` 261/900 and `spatial_relation_board` 6/900.
 
 ```text
 P0 = 0
@@ -38,12 +46,12 @@ Permanent visual QA = 21 routes / 63 captures / BLOCKING
 Pattern #38 = FULLY CLOSED
 Pattern #39 = FULLY CLOSED
 Pattern #40 = FULLY CLOSED
-Pattern #41 = AUDIT OPEN / IMPLEMENTATION NOT STARTED
+Pattern #41 = AUDIT MERGED + VERIFIED / IMPLEMENTATION IN PROGRESS
 ```
 
-## Pattern #41 audit checkpoint
+## Pattern #41 implementation checkpoint
 
-Canonical candidate contract:
+Canonical contract:
 
 ```text
 pattern:     phrase_scene_match
@@ -55,10 +63,10 @@ skill:       english.phrase.literal
 runtime:     tap_choice
 assessment:  assessed
 contract:    choice_accuracy_v1
-status:      AUDIT CANDIDATE ONLY / PR #179
+status:      IMPLEMENTATION IN PROGRESS / NOT MERGED
 ```
 
-Exact candidate scope:
+Exact scope:
 
 ```text
 english-phrase-red-ball
@@ -67,37 +75,25 @@ english-phrase-small-cat
 english-phrase-yellow-banana
 ```
 
-The audit preserves these boundaries:
+Active implementation boundaries:
 
-- canonical prompts, choice labels/order and `correctChoice` unchanged;
-- direct `tap_choice` and `choice_accuracy_v1` evidence semantics unchanged;
-- explicit deterministic scene config only; no arbitrary English phrase parser;
-- `english-listen-phrase-blue-book` excluded because it is listening;
-- `english-complete-*` excluded because sentence completion should reuse `cloze_sentence_choice` if separately approved;
-- no translation step, speech scoring, drag-only requirement, mastery/progression/schema/database rewrite;
-- implementation starts only after PR #179 passes exact-head CI and merges.
-
-Full audit rationale and regression requirements: [`PATTERN41_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN41_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md).
-
-## Pattern #40 closed contract
-
-```text
-pattern:     spatial_relation_board
-subject:     logic
-stage:       logic-patterns-sequences-relations
-lesson:      logic-spatial-relations
-pack:        logic.pack.spatial-relations
-skill:       logic.spatial.relation.basic
-runtime:     tap_choice
-contract:    choice_accuracy_v1
-status:      FULLY CLOSED / LIVE VERIFIED
-```
-
-Exact activity scope remains the six audited `logic-spatial-*` activities. Canonical prompt/choice/answer, mastery, progression, schema and database boundaries remain unchanged.
+- exact-ID deterministic scene config only; no arbitrary English phrase parser;
+- all twelve canonical choice scenes are explicit;
+- canonical prompt, choice labels/order, answer payload and `correctChoice` unchanged;
+- color, quantity, size and noun composition represented visually;
+- wrong answers remain measured/retryable and cannot complete;
+- correct completion keeps `choice_accuracy_v1` semantics;
+- direct keyboard/touch/pointer answer controls remain primary;
+- `english-listen-phrase-blue-book` and `english-complete-*` remain outside;
+- no translation checkpoint, speech scoring, drag-only requirement, mastery/progression/schema/database rewrite;
+- responsive browser QA covers 320x720, 390x844 and 768x1024;
+- implementation target distribution is 900/900 classified, 41 patterns, `choice_grid` 257/900, `phrase_scene_match` 4/900;
+- none of those implementation targets become merged-main claims until exact-head CI, merge and merged-main verification pass.
 
 ## Closure/evidence records
 
-- [`PATTERN41_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN41_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md) — active Pattern #41 audit candidate; implementation not started.
+- [`PATTERN41_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN41_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md) — merged Pattern #41 objective/evidence audit.
+- [`WS05_PHRASE_SCENE_MATCH_WAVE_2026-09-17.md`](WS05_PHRASE_SCENE_MATCH_WAVE_2026-09-17.md) — active Pattern #41 implementation/QA wave record.
 - [`PATTERN40_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN40_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md) — Pattern #40 objective/evidence audit.
 - [`WS05_SPATIAL_RELATION_BOARD_WAVE_2026-09-17.md`](WS05_SPATIAL_RELATION_BOARD_WAVE_2026-09-17.md) — Pattern #40 implementation/QA record.
 - [`PATTERN40_IMPLEMENTATION_ACCEPTANCE_2026-09-17.md`](PATTERN40_IMPLEMENTATION_ACCEPTANCE_2026-09-17.md) — Pattern #40 exact-head acceptance evidence.
@@ -110,7 +106,7 @@ Historical closure/candidate/audit records must not be rewritten to pretend late
 
 ## Remaining product-quality work
 
-Immediate WS-05 gate is Pattern #41 audit PR #179. If its exact head passes the complete docs-only gate and merges, `phrase_scene_match` implementation begins from the resulting latest `main` on a separate branch and must pass exact-scope, evidence, keyboard/touch, responsive browser, distribution and permanent visual QA before any implementation claim.
+Immediate WS-05 work is to finish the Pattern #41 implementation branch, open one implementation PR, pass exact-head full CI/permanent visual QA, merge only the verified head, independently verify resulting `main`, and then run the separate closure-docs gate.
 
 Other open work remains P2 game-shell/icon/inline-style convergence, WS-02 narration, WS-10 real-device/accessibility/human/Iqro acceptance, WS-11 governance, later WS-12 cleanup, and continued WS-05 progression toward 50–60 meaningful patterns.
 

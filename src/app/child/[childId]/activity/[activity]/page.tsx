@@ -17,6 +17,7 @@ import { MoreLessBalanceActivity } from "@/components/learning/MoreLessBalanceAc
 import { NumberLineActivity } from "@/components/learning/NumberLineActivity";
 import { OddOneOutActivity } from "@/components/learning/OddOneOutActivity";
 import { PatternCompletionActivity } from "@/components/learning/PatternCompletionActivity";
+import { PhraseSceneMatchActivity } from "@/components/learning/PhraseSceneMatchActivity";
 import { PictureWordMatchActivity } from "@/components/learning/PictureWordMatchActivity";
 import { ReadingPassageQuestionActivity } from "@/components/learning/ReadingPassageQuestionActivity";
 import { RelativeOrderTrackActivity } from "@/components/learning/RelativeOrderTrackActivity";
@@ -63,6 +64,7 @@ import {
   isTakeAwayActivity,
   isTransitiveChainActivity
 } from "@/lib/learning/gameplayPresentation";
+import { isPhraseSceneMatchActivity } from "@/lib/learning/phraseSceneMatchConfig";
 import { isReadingPassageQuestionActivity } from "@/lib/learning/readingPassageQuestionConfig";
 import { isSentenceOrderCardsActivity } from "@/lib/learning/sentenceOrderCardsConfig";
 import { isSpatialRelationBoardActivity } from "@/lib/learning/spatialRelationBoardConfig";
@@ -95,6 +97,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
         <SyllableAssemblyActivity childId={childId} activityId={activity} />
       ) : isInitialSoundActivity(definition) ? (
         <InitialSoundActivity childId={childId} activityId={activity} />
+      ) : isPhraseSceneMatchActivity(definition) ? (
+        <PhraseSceneMatchActivity childId={childId} activityId={activity} />
       ) : isPictureWordMatchActivity(definition) ? (
         <PictureWordMatchActivity childId={childId} activityId={activity} />
       ) : isSentenceOrderCardsActivity(definition) ? (

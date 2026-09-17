@@ -2,7 +2,7 @@
 
 Last reviewed: **17 September 2026**
 
-This is the canonical human/AI handoff. `main` is the merged source of truth; open PR work must not be mistaken for production closure.
+This is the canonical human/AI handoff. `main` is the merged source of truth; open implementation work must not be mistaken for production closure.
 
 ## Canonical baseline
 
@@ -19,7 +19,9 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Pattern #40 final closure CI: **#850 / run `35219083042` — full success**
 - Pattern #40 final truth reconciliation: PR #177 -> main `7c7f715a18a36e76fbf7483e5bc3e25d9ff8a32f`
 - Pattern #40 truth-reconciliation merged-main CI: **#853 / run `35222303192` — full success including exact Cloudflare production smoke**
-- Pattern #41 objective/evidence audit: **OPEN PR #179**, candidate `phrase_scene_match`; implementation has not started
+- Pattern #41 objective/evidence audit: PR #179 -> main `917e933b2d69db3d014b98f3aa49bb6962aec992`
+- Pattern #41 audit merged-main CI: **#860 / run `35223876877` — full success including exact Cloudflare production smoke**
+- Pattern #41 implementation: **IN PROGRESS** on `agent/p41-phrase-scene-match-20260917`; not merged and not production-accepted
 - permanent visual QA foundation: **VQA-01 FULLY CLOSED**
 - visual P1 baseline: **P0=0 / P1=0 / P2=3**
 
@@ -39,7 +41,7 @@ VBASE-P1-01 residual token fragmentation: FULLY CLOSED / LIVE VERIFIED
 Pattern #38: FULLY CLOSED
 Pattern #39: FULLY CLOSED
 Pattern #40: FULLY CLOSED
-Pattern #41: AUDIT OPEN / IMPLEMENTATION NOT STARTED
+Pattern #41: AUDIT MERGED + VERIFIED / IMPLEMENTATION IN PROGRESS / NOT MERGED
 ```
 
 External physical-device acceptance, accessibility-specialist review, human pedagogical/art acceptance and Iqro expert acceptance remain separate and incomplete. Physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
@@ -54,7 +56,7 @@ Runtime count is not gameplay-pattern count.
 
 Target: minimum **50**, working target **60 meaningful patterns**.
 
-Verified merged-main distribution after Pattern #40:
+Verified merged-main distribution remains the Pattern #40 baseline:
 
 ```text
 classified:                    900 / 900
@@ -69,7 +71,7 @@ sentence_order_cards             5 / 900
 picture_word_match               5 / 900
 ```
 
-Remaining distance is **10 patterns** to minimum 50 and **20** to working target 60. Pattern #41 is not counted until implementation is merged and independently verified.
+Remaining merged-main distance is **10 patterns** to minimum 50 and **20** to working target 60. Pattern #41 must not be counted until implementation is merged and independently verified.
 
 ## Pattern #40 — fully closed
 
@@ -104,19 +106,15 @@ Truth reconciliation:    #177 -> 7c7f715a18a36e76fbf7483e5bc3e25d9ff8a32f
 Truth reconciliation CI: #853 / run 35222303192 — full success + Cloudflare smoke
 ```
 
-Full evidence: `PATTERN40_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`, `WS05_SPATIAL_RELATION_BOARD_WAVE_2026-09-17.md`, `PATTERN40_IMPLEMENTATION_ACCEPTANCE_2026-09-17.md`, and `PATTERN40_SPATIAL_RELATION_BOARD_CLOSURE_2026-09-17.md`.
+## Pattern #41 — audit merged, implementation in progress
 
-## Pattern #41 objective/evidence audit — open
-
-PR #179 is a docs-only audit. It selects a candidate but does **not** claim runtime implementation or production availability.
-
-Working pattern:
+Pattern:
 
 ```text
 phrase_scene_match
 ```
 
-Exact candidate scope:
+Exact audited scope:
 
 ```text
 english-phrase-red-ball
@@ -138,17 +136,36 @@ assessment:  assessed
 contract:    choice_accuracy_v1
 ```
 
-Audit rationale: the objective measures literal understanding of short compositional English phrases, while the four activities currently mix emoji and text-only answer representations. A deterministic scene per canonical choice can make color, quantity, size and noun composition visible without changing the submitted answer or evidence contract.
+Audit chain:
 
-Audit boundaries:
+```text
+Audit PR:             #179
+Audit main:           917e933b2d69db3d014b98f3aa49bb6962aec992
+Audit merged-main CI: #860 / run 35223876877 — full success + Cloudflare smoke
+```
 
-- exactly four direct-choice activities only;
-- `english-listen-phrase-blue-book` remains outside because it is listening;
-- `english-complete-*` remains outside and should reuse `cloze_sentence_choice` if separately approved;
+Implementation branch currently contains:
+
+- exact four-ID deterministic config with all twelve canonical choice scenes;
+- fail-closed classifier registration as `phrase_scene_match`;
+- dedicated child-facing `PhraseSceneMatchActivity` with canonical prompt and choice labels/order preserved;
+- direct keyboard/touch/pointer answer controls;
+- measured wrong/retry/correct completion using existing `choice_accuracy_v1` semantics;
+- metadata source `phrase-scene-match-runtime` and evidence fidelity `choice_phrase_scene_interaction`;
+- exact-scope regression covering authoring, manifest, lesson, pack, skill and evidence ownership;
+- responsive browser QA for idle/wrong/success at 320x720, 390x844 and 768x1024;
+- gameplay-distribution acceptance target wired as 900/900 classified, 41 active patterns, `choice_grid` 257/900, `phrase_scene_match` 4/900.
+
+These implementation statements describe the open branch only. They are **not** merged-main or production acceptance claims yet.
+
+Strict boundaries remain:
+
+- only the four audited direct-choice activities classify as Pattern #41;
+- `english-listen-phrase-blue-book` remains outside because its canonical runtime is listening;
+- `english-complete-*` remains outside and continues to belong to cloze semantics when applicable;
 - no arbitrary English phrase parser;
-- canonical prompts, labels/order and `correctChoice` stay unchanged;
-- no translation, speech-scoring, drag-only requirement, mastery/progression/schema/database rewrite;
-- implementation begins only after the audit passes exact-head CI and merges to `main`.
+- canonical prompts, labels/order, submitted answer strings and `correctChoice` remain unchanged;
+- no translation checkpoint, speech scoring, drag-only requirement, mastery/progression/schema/database rewrite.
 
 ## P1/P2 state
 
@@ -174,11 +191,12 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Complete Pattern #41 audit PR #179 on one exact head with clean CI/review/mergeability gates.
-2. If accepted, merge the docs-only audit and independently verify resulting `main`.
-3. Start `phrase_scene_match` implementation from that latest `main` on a separate branch, exact-scoped to the four audited activities.
-4. Require deterministic config, canonical classifier/distribution registration, measured completion regression, keyboard/touch/pointer QA and responsive browser screenshots before implementation merge.
-5. Continue WS-05 toward 50–60 with permanent WS-08 visual QA running in parallel.
-6. Continue WS-02 narration, WS-10 external acceptance, WS-11 governance and later P2/WS-12 work without destabilizing accepted product surfaces.
+1. Finish Pattern #41 implementation wiring, exact-scope tests, distribution checks, responsive browser QA and implementation evidence docs on one branch.
+2. Open one implementation PR from `agent/p41-phrase-scene-match-20260917` to `main`.
+3. Require exact-head Ubuntu, Windows, production build, security/dependency, activity-quality, gameplay-distribution, simulations and permanent visual QA to pass before merge.
+4. Merge only the exact verified implementation head, then independently verify resulting `main` including exact Cloudflare production smoke.
+5. Run a separate Pattern #41 closure-docs gate; only after that may Pattern #41 become **FULLY CLOSED**.
+6. Continue WS-05 toward 50–60 with permanent WS-08 visual QA running in parallel.
+7. Continue WS-02 narration, WS-10 external acceptance, WS-11 governance and later P2/WS-12 work without destabilizing accepted product surfaces.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion or mastery/backend rewrites before the current quality roadmap justifies them.
