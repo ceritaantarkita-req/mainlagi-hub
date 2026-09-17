@@ -25,6 +25,7 @@ import { SentenceOrderCardsActivity } from "@/components/learning/SentenceOrderC
 import { SequenceSlotChoiceActivity } from "@/components/learning/SequenceSlotChoiceActivity";
 import { SetReasoningActivity } from "@/components/learning/SetReasoningActivity";
 import { SortingBucketsChoiceActivity } from "@/components/learning/SortingBucketsChoiceActivity";
+import { SpatialRelationBoardActivity } from "@/components/learning/SpatialRelationBoardActivity";
 import { SpatialTransformActivity } from "@/components/learning/SpatialTransformActivity";
 import { SyllableAssemblyActivity } from "@/components/learning/SyllableAssemblyActivity";
 import { SymbolHuntChoiceActivity } from "@/components/learning/SymbolHuntChoiceActivity";
@@ -64,6 +65,7 @@ import {
 } from "@/lib/learning/gameplayPresentation";
 import { isReadingPassageQuestionActivity } from "@/lib/learning/readingPassageQuestionConfig";
 import { isSentenceOrderCardsActivity } from "@/lib/learning/sentenceOrderCardsConfig";
+import { isSpatialRelationBoardActivity } from "@/lib/learning/spatialRelationBoardConfig";
 import { getActivity } from "@/lib/learning/system";
 import { isVisualWordProblemActivity } from "@/lib/learning/visualWordProblemConfig";
 import styles from "./ActivityPage.module.css";
@@ -103,6 +105,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
         <ClozeSentenceChoiceActivity childId={childId} activityId={activity} />
       ) : isVisualWordProblemActivity(definition) ? (
         <VisualWordProblemActivity childId={childId} activityId={activity} />
+      ) : isSpatialRelationBoardActivity(definition) ? (
+        <SpatialRelationBoardActivity childId={childId} activityId={activity} />
       ) : isSortingBucketsActivity(definition) ? (
         <SortingBucketsChoiceActivity childId={childId} activityId={activity} />
       ) : isOddOneOutActivity(definition) ? (

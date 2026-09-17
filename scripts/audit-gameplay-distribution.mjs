@@ -30,6 +30,7 @@ const EXPECTED_PATTERNS = [
   "reading_passage_question",
   "cloze_sentence_choice",
   "visual_word_problem",
+  "spatial_relation_board",
   "sorting_buckets",
   "drag_to_target",
   "odd_one_out",
@@ -63,7 +64,7 @@ if (compile.status !== 0) process.exit(compile.status ?? 1);
 
 const require = createRequire(import.meta.url);
 const { ACTIVITIES, SUBJECTS } = require(path.join(outDir, "src", "lib", "learning", "system.js"));
-const { gameplayPattern } = require(path.join(outDir, "src", "lib", "learning", "gameplayPresentation.js"));
+const { canonicalGameplayPattern } = require(path.join(outDir, "src", "lib", "learning", "gameplayPatternClassifier.js"));
 
 function increment(record, key) {
   record[key] = (record[key] ?? 0) + 1;
@@ -80,7 +81,7 @@ const unknown = [];
 const activityPatterns = [];
 
 for (const activity of ACTIVITIES) {
-  const pattern = gameplayPattern(activity);
+  const pattern = canonicalGameplayPattern(activity);
   if (!pattern) {
     unknown.push({ id: activity.id, subjectId: activity.subjectId, runtime: activity.runtime });
     continue;
