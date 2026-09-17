@@ -24,11 +24,11 @@ Subsystem docs remain authoritative for their specific scope when they do not co
 
 ## Current execution checkpoint
 
-Pattern #39 `visual_word_problem` is the latest live-verified gameplay implementation on `main` `bcb8479514f44d46ebc68917981699240aabc3b2`; CI #809 / run `35187506724` passed the full matrix including exact Cloudflare release/public smoke.
+Pattern #39 `visual_word_problem` is **FULLY CLOSED**. Its implementation is live on main `bcb8479514f44d46ebc68917981699240aabc3b2` with CI #809 / run `35187506724`, and its docs/live closure was merged by PR #171 to `98725727c866d410b2d0caa206e86e70cd0e5741`; final main CI #811 / run `35190499794` passed the full matrix including exact Cloudflare release/public smoke.
 
-Its exact scope is five Math visual story-problem activities. Merged-main gameplay distribution is **900/900 classified, 39 active patterns, 0 unclassified**, with `choice_grid` 267/900 and `visual_word_problem` 5/900.
+Its exact scope is five Math visual story-problem activities. Merged-main gameplay distribution remains **900/900 classified, 39 active patterns, 0 unclassified**, with `choice_grid` 267/900 and `visual_word_problem` 5/900.
 
-Pattern #39 is currently in its separate docs-only closure gate. After that closure is merged and independently production-verified, the next gameplay step is a fresh Pattern #40 objective/evidence audit with no mechanic pre-approved.
+The next gameplay step is a fresh Pattern #40 objective/evidence audit with no mechanic, subject or activity family pre-approved.
 
 Pattern #38 `cloze_sentence_choice` is **FULLY CLOSED** via implementation PR #166 and closure PR #168. Final closure main `86e6b69d576d72fec73158a7a1c6d8961de36887` passed CI #803 / run `35180530822` including exact Cloudflare smoke.
 
@@ -40,37 +40,37 @@ P1 = 0
 P2 = 3
 Permanent visual QA = 21 routes / 63 captures / BLOCKING
 Pattern #38 = FULLY CLOSED
-Pattern #39 implementation = MERGED / LIVE VERIFIED
-Pattern #39 docs closure = IN PROGRESS
+Pattern #39 = FULLY CLOSED / LIVE VERIFIED
 ```
 
-## Pattern #39 verified implementation chain
+## Pattern #39 verified closure chain
 
 - objective/evidence audit PR #169;
 - implementation PR #170 head `df503b95abf86e2b530dd9ff18bd5d8b9707e2db`;
-- squash merge/main `bcb8479514f44d46ebc68917981699240aabc3b2`;
-- independent main CI #809 / run `35187506724` — full success;
-- exact Cloudflare release/public smoke — success;
+- implementation squash merge/main `bcb8479514f44d46ebc68917981699240aabc3b2`;
+- implementation main CI #809 / run `35187506724` — full success including exact Cloudflare smoke;
 - responsive QA at 320x720, 390x844 and 768x1024 across idle/wrong/success;
-- merged-main gameplay-distribution artifact `10482459288`, digest `sha256:4bacc984852eb4befd352a727935daf8e75cb0b30ec1a58af8451895649ae967`.
+- merged-main gameplay-distribution artifact `10482459288`, digest `sha256:4bacc984852eb4befd352a727935daf8e75cb0b30ec1a58af8451895649ae967`;
+- closure PR #171;
+- closure main `98725727c866d410b2d0caa206e86e70cd0e5741`;
+- final main CI #811 / run `35190499794` — full success including exact Cloudflare release/public smoke.
 
 ## Closure/evidence records
 
 - [`PATTERN39_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN39_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md) — historical pre-implementation Pattern #39 audit and exact-scope justification.
-- [`WS05_VISUAL_WORD_PROBLEM_WAVE_2026-09-17.md`](WS05_VISUAL_WORD_PROBLEM_WAVE_2026-09-17.md) — Pattern #39 implementation/QA record.
-- [`PATTERN39_VISUAL_WORD_PROBLEM_CLOSURE_2026-09-17.md`](PATTERN39_VISUAL_WORD_PROBLEM_CLOSURE_2026-09-17.md) — Pattern #39 implementation/main/QA evidence and docs-closure gate.
+- [`WS05_VISUAL_WORD_PROBLEM_WAVE_2026-09-17.md`](WS05_VISUAL_WORD_PROBLEM_WAVE_2026-09-17.md) — Pattern #39 implementation/QA/live-closure record.
+- [`PATTERN39_VISUAL_WORD_PROBLEM_CLOSURE_2026-09-17.md`](PATTERN39_VISUAL_WORD_PROBLEM_CLOSURE_2026-09-17.md) — Pattern #39 implementation/main/final closure evidence.
 - [`PATTERN38_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN38_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md)
 - [`PATTERN38_CLOZE_SENTENCE_CHOICE_CLOSURE_2026-09-17.md`](PATTERN38_CLOZE_SENTENCE_CHOICE_CLOSURE_2026-09-17.md)
 - [`VBASE_P1_01_VISUAL_TOKEN_CLOSURE_2026-09-17.md`](VBASE_P1_01_VISUAL_TOKEN_CLOSURE_2026-09-17.md)
 
-Historical closure/candidate/audit records must not be rewritten to pretend later QA or implementation state existed at their original checkpoint.
+Historical closure/candidate/audit records must not be rewritten to pretend later QA or implementation state existed at their original checkpoint. Active closure records may be finalized when the documented closure gate itself later succeeds.
 
 ## Remaining product-quality work
 
 Still open:
 
-- Pattern #39 docs closure exact-head CI/merge/final main verification;
-- subsequent Pattern #40 objective/evidence audit;
+- Pattern #40 objective/evidence audit;
 - P2 game detail/preflight vocabulary convergence;
 - P2 canonical semantic icon convergence;
 - P2 inline-style drift cleanup;
