@@ -1,6 +1,6 @@
 # Pattern #39 Visual Word Problem Closure — 17 September 2026
 
-Status: **IMPLEMENTATION MERGED / LIVE VERIFIED / DOCS CLOSURE CANDIDATE**
+Status: **FULLY CLOSED / LIVE VERIFIED**
 
 ## Canonical chain
 
@@ -9,10 +9,15 @@ Status: **IMPLEMENTATION MERGED / LIVE VERIFIED / DOCS CLOSURE CANDIDATE**
 - implementation PR: #170
 - implementation head: `df503b95abf86e2b530dd9ff18bd5d8b9707e2db`
 - implementation merge/main: `bcb8479514f44d46ebc68917981699240aabc3b2`
-- independent merged-main CI: **#809 / run `35187506724` — full success**
-- exact Cloudflare release/public smoke: **success**
+- independent implementation merged-main CI: **#809 / run `35187506724` — full success**
+- implementation exact Cloudflare release/public smoke: **success**
 - gameplay-distribution artifact: `10482459288`
 - gameplay-distribution digest: `sha256:4bacc984852eb4befd352a727935daf8e75cb0b30ec1a58af8451895649ae967`
+- docs/live closure PR: #171
+- docs/live closure PR head: `45d8245d6ec68d798adfc9c9c674f884c4dd61bd`
+- closure merge/main: `98725727c866d410b2d0caa206e86e70cd0e5741`
+- independent final merged-main CI: **#811 / run `35190499794` — full success**
+- final exact Cloudflare release/public smoke: **success**
 
 ## Exact scope
 
@@ -80,7 +85,7 @@ Responsive browser QA covers representative `math-problem-birds` at:
 
 The suite verifies idle/wrong/success states, keyboard wrong path, pointer correct completion, touch target floor, no overflow, evidence metadata, and no page/console errors.
 
-Merged-main CI #809 passed:
+Implementation main CI #809 passed:
 
 - Production build;
 - Production dependency audit;
@@ -94,6 +99,8 @@ Merged-main CI #809 passed:
 - mobile route QA / permanent visual baseline;
 - exact Cloudflare production smoke.
 
+Final closure main CI #811 repeated the blocking matrix on closure main `98725727c866d410b2d0caa206e86e70cd0e5741`. All seven jobs passed, including Mobile route QA, Production build, Windows compatibility, Ubuntu quality gate, Secret history scan, Production dependency audit, and **Production smoke (Cloudflare)**. The exact `Wait for exact Cloudflare release and smoke public endpoints` step passed.
+
 ## Verified distribution
 
 ```text
@@ -104,6 +111,6 @@ choice_grid                     267 / 900
 visual_word_problem               5 / 900
 ```
 
-Pattern #39 is therefore implementation-complete and live verified. It becomes **FULLY CLOSED** only after this docs-only closure branch passes its own exact-head CI, clean merge gate, squash merge, and independent merged-main CI including exact Cloudflare smoke.
+Pattern #39 is therefore **FULLY CLOSED / LIVE VERIFIED**. Its implementation, responsive/evidence QA, docs closure, independent merged-main CI and exact production release smoke are all complete.
 
-After full closure, the next WS-05 gameplay step is a fresh Pattern #40 objective/evidence audit. No mechanic, subject or activity family is pre-approved.
+The next WS-05 gameplay step is a fresh Pattern #40 objective/evidence audit. No mechanic, subject or activity family is pre-approved.
