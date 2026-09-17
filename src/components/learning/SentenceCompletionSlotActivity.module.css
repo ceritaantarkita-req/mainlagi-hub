@@ -1,0 +1,200 @@
+.scene {
+  display: grid;
+  width: min(900px, 100%);
+  gap: 22px;
+  margin: 0 auto;
+}
+
+.promptCard {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 22px;
+  border: 1px solid #e1e5d7;
+  border-radius: 24px;
+  background: #fffef8;
+  box-shadow: 0 8px 24px rgba(44, 73, 94, .07);
+}
+
+.promptIcon {
+  display: grid;
+  width: 52px;
+  height: 52px;
+  flex: 0 0 52px;
+  place-items: center;
+  border-radius: 16px;
+  background: #dbe6c8;
+  font-size: 26px;
+}
+
+.promptCard h1 {
+  margin: 0;
+  color: #193b55;
+  font-size: clamp(24px, 4vw, 34px);
+  line-height: 1.08;
+}
+
+.promptCard p {
+  margin: 6px 0 0;
+  color: #486e63;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.sentenceCard {
+  display: flex;
+  min-height: 150px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 28px 24px;
+  border: 2px solid #d0e4ee;
+  border-radius: 28px;
+  background: #fffcf0;
+  color: #193b55;
+  font-size: clamp(28px, 5vw, 44px);
+  font-weight: 950;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.slot {
+  display: inline-flex;
+  min-width: 132px;
+  min-height: 62px;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border: 3px dashed #287158;
+  border-radius: 16px;
+  background: #fffef8;
+  color: #287158;
+  transition: transform .16s ease, border-color .16s ease, background .16s ease;
+}
+
+.slotFilled {
+  border-style: solid;
+  background: #e5edd9;
+}
+
+.slotWrong {
+  border-color: #c65e48;
+  background: #fff1ec;
+  color: #9b4835;
+  transform: translateY(-2px);
+}
+
+.slotCorrect {
+  border-color: #287158;
+  background: #dbe6c8;
+  color: #164b43;
+  transform: translateY(-2px);
+}
+
+.choiceList {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.choiceButton {
+  min-height: 64px;
+  padding: 12px 16px;
+  border: 2px solid #d4decf;
+  border-radius: 18px;
+  background: #fffef8;
+  color: #193b55;
+  font: inherit;
+  font-size: 18px;
+  font-weight: 950;
+  box-shadow: 0 4px 0 #e1e5d7;
+  cursor: pointer;
+}
+
+.choiceButton:hover:not(:disabled) {
+  border-color: #287158;
+  transform: translateY(-1px);
+}
+
+.choiceButton:focus-visible,
+.nextLink:focus-visible {
+  outline: 3px solid #164b43;
+  outline-offset: 4px;
+}
+
+.choiceButton.selected {
+  border-color: #287158;
+  background: #f3f7e9;
+}
+
+.choiceButton.wrong {
+  border-color: #c65e48;
+  background: #fff1ec;
+  color: #9b4835;
+}
+
+.choiceButton.correct {
+  border-color: #287158;
+  background: #dbe6c8;
+  color: #164b43;
+}
+
+.choiceButton:disabled {
+  cursor: default;
+}
+
+.status {
+  min-height: 52px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: #d5eef6;
+  color: #244f63;
+  font-weight: 850;
+  line-height: 1.45;
+}
+
+.statusTry {
+  background: #fff1ec;
+  color: #8b4635;
+}
+
+.statusGood {
+  background: #e5edd9;
+  color: #164b43;
+}
+
+.nextLink {
+  display: inline-flex;
+  min-height: 52px;
+  align-items: center;
+  justify-content: center;
+  justify-self: start;
+  padding: 12px 20px;
+  border-radius: 16px;
+  background: #287158;
+  color: #fff;
+  font-weight: 950;
+  text-decoration: none;
+  box-shadow: 0 4px 0 #195541;
+}
+
+.sceneDone .sentenceCard {
+  border-color: #b8cfaa;
+}
+
+@media (max-width: 700px) {
+  .scene { gap: 16px; }
+  .promptCard { padding: 16px; border-radius: 20px; }
+  .promptIcon { width: 46px; height: 46px; flex-basis: 46px; font-size: 22px; }
+  .sentenceCard { min-height: 132px; padding: 22px 16px; border-radius: 22px; }
+  .slot { min-width: 112px; min-height: 56px; }
+  .choiceList { grid-template-columns: 1fr; }
+  .choiceButton { min-height: 58px; }
+  .nextLink { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slot,
+  .choiceButton { transition: none; }
+}
