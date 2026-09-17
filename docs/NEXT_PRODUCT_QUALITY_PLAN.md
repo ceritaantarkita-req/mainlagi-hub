@@ -5,10 +5,10 @@
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 **Canonical branch:** `main`  
 **Latest fully closed gameplay:** Pattern #40 — Logic `spatial_relation_board`  
-**Pattern #40 truth reconciliation:** PR #177 -> `7c7f715a18a36e76fbf7483e5bc3e25d9ff8a32f`  
 **Pattern #41 audit:** PR #179 -> `917e933b2d69db3d014b98f3aa49bb6962aec992`  
-**Pattern #41 audit merged-main CI:** **#860 / run `35223876877` — full success including exact Cloudflare production smoke**  
-**Pattern #41 implementation:** **IN PROGRESS on `agent/p41-phrase-scene-match-20260917`**  
+**Pattern #41 implementation:** PR #180 -> `f90a0d377fa7227b8857f6069a5e957c99eb0b11`  
+**Pattern #41 implementation merged-main CI:** **#862 / run `35229750381` — full success including exact Cloudflare production smoke**  
+**Pattern #41 closure:** **IN PROGRESS on `agent/p41-closure-20260917`**  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
 
@@ -40,11 +40,11 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 
 | Workstream | Status | Current note |
 |---|---|---|
-| WS-01 Canonical docs | **CURRENT** | Pattern #41 audit merged/verified; implementation state synchronized |
+| WS-01 Canonical docs | **CURRENT / CLOSURE GATE** | Pattern #41 implementation merged/live verified; closure docs being reconciled |
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **40 FULLY CLOSED / PATTERN #41 IMPLEMENTATION IN PROGRESS** | exact four English phrase activities |
+| WS-05 Gameplay diversification | **41 MERGED / PATTERN #41 CLOSURE GATE** | 9 patterns to minimum 50 |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | 21 routes / 63 captures live on main |
@@ -58,8 +58,9 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 ```text
 900 / 900 classified
 0 unclassified
-40 active merged patterns
-choice_grid                     261 / 900
+41 active merged patterns
+choice_grid                     257 / 900
+phrase_scene_match                4 / 900
 spatial_relation_board            6 / 900
 visual_word_problem               5 / 900
 cloze_sentence_choice             5 / 900
@@ -68,11 +69,11 @@ sentence_order_cards              5 / 900
 picture_word_match                5 / 900
 ```
 
-Distance remaining on merged `main`: **10 patterns** to minimum 50 and **20** to working target 60.
+Distance remaining: **9 patterns** to minimum 50 and **19** to working target 60.
 
-## Pattern #41 audit — accepted and merged
+## Pattern #41 implementation — merged and independently verified
 
-Pattern #41 audit selected `phrase_scene_match` for exactly:
+Exact scope remains:
 
 ```text
 english-phrase-red-ball
@@ -81,46 +82,35 @@ english-phrase-small-cat
 english-phrase-yellow-banana
 ```
 
-Canonical ownership:
+Canonical ownership remains English / `english-phrases-review` / `english-simple-phrases` / `english.pack.simple-phrases` / `english.phrase.literal` / assessed `tap_choice` / `choice_accuracy_v1`.
+
+Verified chain:
 
 ```text
-subject:     english
-stage:       english-phrases-review
-lesson:      english-simple-phrases
-pack:        english.pack.simple-phrases
-skill:       english.phrase.literal
-runtime:     tap_choice
-assessment:  assessed
-contract:    choice_accuracy_v1
+Audit PR:                #179
+Audit main:              917e933b2d69db3d014b98f3aa49bb6962aec992
+Audit main CI:           #860 / run 35223876877 — full success + Cloudflare smoke
+Implementation PR:       #180
+Verified PR head:        03886f191d089a37bbaf7c9d429d6d9a8020ec6d
+Implementation PR CI:    #861 / run 35228880841 — full success
+Implementation main:     f90a0d377fa7227b8857f6069a5e957c99eb0b11
+Implementation main CI:  #862 / run 35229750381 — full success + Cloudflare smoke
 ```
 
-Audit verification chain:
+Merged implementation preserves exact canonical prompt/choices/answer payload, deterministic twelve-scene config, measured retry/completion semantics, keyboard/touch/pointer controls, responsive QA and permanent visual P0=0/P1=0. No mastery/progression/schema/database rewrite was introduced.
 
-```text
-Audit PR:             #179
-Audit main:           917e933b2d69db3d014b98f3aa49bb6962aec992
-Audit merged-main CI: #860 / run 35223876877 — full success + Cloudflare smoke
-```
+## Pattern #41 closure gate
 
-## Pattern #41 implementation acceptance plan
+The current closure branch must:
 
-The active branch must prove all of the following before merge:
-
-1. exact four-ID classifier with canonical stage/runtime/content snapshots and fail-closed negatives;
-2. explicit deterministic semantic config for all twelve canonical choices; no heuristic phrase parser;
-3. canonical prompt, visible choice labels/order and submitted answer strings remain unchanged;
-4. scenes distinguish task-relevant color, quantity, size and noun features without correctness styling leakage;
-5. direct keyboard/touch/pointer controls remain primary; no drag-only requirement;
-6. wrong attempts remain measured/retryable and cannot complete;
-7. correct completion retains `choice_accuracy_v1` semantics and records `phrase-scene-match-runtime` / `choice_phrase_scene_interaction` metadata;
-8. `english-listen-phrase-blue-book` and `english-complete-*` remain outside Pattern #41;
-9. browser QA covers idle/wrong/success at 320x720, 390x844 and 768x1024, including touch targets, overflow, evidence and visible feedback/CTA;
-10. gameplay distribution remains 900/900 classified and becomes exactly 41 active patterns with `choice_grid` 257/900 and `phrase_scene_match` 4/900 on the implementation branch;
-11. deterministic activity-quality, Ubuntu, Windows, production build, dependency/security, simulations, permanent visual QA and full CI stay green;
-12. only an exact verified head may merge; merged `main` must then be independently verified before implementation-complete status;
-13. a separate closure-docs gate remains required before Pattern #41 is **FULLY CLOSED**.
-
-Current branch implementation already includes deterministic config, child runtime, classifier/route registration, exact-scope regression, aggregate test wiring, distribution assertions and dedicated responsive browser QA. Those are branch facts, not merged-main acceptance claims.
+1. reconcile `CURRENT_STATE`, gameplay catalog, execution plan and docs index to the verified merged-main implementation truth;
+2. record exact implementation PR/head/main/CI chain and CI artifact evidence;
+3. keep Pattern #41 status as **implementation merged + live verified / closure docs in progress** until the closure PR itself merges and passes merged-main verification;
+4. preserve the verified 900/900 / 41-pattern distribution;
+5. avoid rewriting historical audit/implementation records as if closure already existed;
+6. pass exact-head full CI and clean review/thread/mergeability checks;
+7. after closure merge, independently verify resulting `main` including exact Cloudflare smoke;
+8. only then mark Pattern #41 **FULLY CLOSED** and move WS-05 to a fresh Pattern #42 objective/evidence audit.
 
 ## Permanent visual/product gate — LIVE
 
@@ -140,12 +130,12 @@ Open P2 remains:
 
 ## Current execution order
 
-1. Finish Pattern #41 implementation evidence/docs on `agent/p41-phrase-scene-match-20260917`.
-2. Open the implementation PR against `main`.
-3. Run exact-head full CI and diagnose failures without weakening gates.
-4. If exact-head green and review/thread/mergeability clean, squash-merge the implementation.
-5. Independently verify resulting `main`, including exact Cloudflare production smoke and distribution.
-6. Run a separate Pattern #41 closure-docs gate before declaring it **FULLY CLOSED**.
+1. Open the Pattern #41 closure-docs PR from `agent/p41-closure-20260917`.
+2. Run exact-head full CI; diagnose failures without weakening gates.
+3. Merge only when exact-head green and review/thread/mergeability state is clean.
+4. Independently verify resulting closure `main`, including exact Cloudflare production smoke.
+5. Reconcile final closure identifiers if needed and only then declare Pattern #41 **FULLY CLOSED**.
+6. Start a fresh Pattern #42 objective/evidence audit with no mechanic, subject or content family pre-approved.
 7. Continue WS-05 toward 50–60 while permanent WS-08 visual QA runs in parallel.
 8. Continue WS-02 narration, WS-10 external acceptance, WS-11 governance and later P2/WS-12 cleanup.
 
