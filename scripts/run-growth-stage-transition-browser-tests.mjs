@@ -93,7 +93,8 @@ async function assertFullyVisible(locator,viewportHeight,label){
 async function inspect(viewport){
   const browser=await chromium.launch({headless:true});
   try{
-    const context=await browser.newContext({viewport,reducedMotion:"reduce"});
+    const touchMode=viewport.width===390;
+    const context=await browser.newContext({viewport,reducedMotion:"reduce",hasTouch:touchMode});
     await seedPrerequisiteReadiness(context);
     const page=await context.newPage();
     const pageErrors=[];
@@ -143,7 +144,9 @@ async function inspect(viewport){
     await assertFullyVisible(status,viewportHeight,`retry growth-stage feedback at ${viewport.width}`);
     await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-growth-stage-try.png`),fullPage:false});
 
-    await page.getByRole("button",{name:correctLabel}).click();
+    const correctChoice=page.getByRole("button",{name:correctLabel});
+    if(touchMode)await correctChoice.tap();
+    else await correctChoice.click();
     await status.filter({hasText:"Tepat"}).waitFor({state:"visible",timeout:2000});
     assert.equal(await completed(page),true,"correct growth-stage choice completes canonical activity");
     assert.equal(await target.getAttribute("data-growth-target-state"),"complete","success fills target slot only after correct selection");
@@ -180,7 +183,7 @@ async function main(){
   startServer();
   await waitForServer();
   for(const viewport of viewports)await inspect(viewport);
-  console.log(`Pattern 42 browser QA passed ${viewports.length} viewports with Science readiness, hidden target until correct, keyboard retry, pointer completion, touch targets and assessed evidence checks.`);
+  console.log(`Pattern 42 browser QA passed ${viewports.length} viewports with Science readiness, hidden target until correct, keyboard retry, pointer/touch completion, touch targets and assessed evidence checks.`);
 }
 
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;}).finally(stopServer);
