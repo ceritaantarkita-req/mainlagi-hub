@@ -1,6 +1,6 @@
 # Mainlagi Hub Documentation Index
 
-Last reviewed: **17 September 2026**
+Last reviewed: **18 September 2026**
 
 Use this file to decide which documentation is current and which files are historical snapshots.
 
@@ -24,15 +24,18 @@ Subsystem docs remain authoritative for their specific scope when they do not co
 
 ## Current execution checkpoint
 
-Pattern #41 `phrase_scene_match` is **FULLY CLOSED / LIVE VERIFIED** and its final truth reconciliation is merged.
+Pattern #41 `phrase_scene_match` remains **FULLY CLOSED / LIVE VERIFIED**.
+
+Pattern #42 audit is now merged and independently production-verified:
 
 ```text
-Truth PR:                #185
-Final truth main:        e20b50431d907f9ca6f3ef254b7c69aa24a132a5
-Final truth main CI:     #869 / run 35241959755 — full success + exact Cloudflare production smoke
+Audit PR:          #186
+Audit main:        541c2348507e976fb723c9c6e5b8f1b242cff490
+Audit main CI:     #871 / run 35255083348 — full success + exact Cloudflare production smoke
+Implementation PR: #187 — IN PROGRESS / NOT MERGED
 ```
 
-Verified merged gameplay distribution remains **900/900 classified, 41 active patterns, 0 unclassified**, with `choice_grid` 257/900 and `phrase_scene_match` 4/900.
+Verified merged gameplay distribution remains **900/900 classified, 41 active patterns, 0 unclassified**, with `choice_grid` 257/900. Pattern #42 implementation targets 42 patterns but is not merged production truth yet.
 
 ```text
 P0 = 0
@@ -43,12 +46,10 @@ Pattern #38 = FULLY CLOSED
 Pattern #39 = FULLY CLOSED
 Pattern #40 = FULLY CLOSED
 Pattern #41 = FULLY CLOSED / LIVE VERIFIED
-Pattern #42 = AUDIT CANDIDATE ONLY / NOT IMPLEMENTED
+Pattern #42 = AUDIT LIVE VERIFIED / IMPLEMENTATION IN PROGRESS
 ```
 
-## Pattern #42 objective/evidence audit
-
-Current audit candidate:
+## Pattern #42 implementation checkpoint
 
 ```text
 pattern:     growth_stage_transition
@@ -60,10 +61,11 @@ skill:       science.life_cycles.basic
 runtime:     tap_choice
 assessment:  assessed
 contract:    choice_accuracy_v1
-status:      AUDIT CANDIDATE JUSTIFIED / CODE NOT STARTED
+PR:          #187
+status:      IMPLEMENTATION IN PROGRESS / NOT MERGED
 ```
 
-Exact audited scope:
+Exact scope:
 
 ```text
 science-cycle-frog
@@ -71,13 +73,27 @@ science-cycle-chick
 science-cycle-seed-sprout
 ```
 
-Important exclusions:
+Implementation currently provides:
 
-- `science-cycle-butterfly` remains a complete ordered lifecycle sequence and is not Pattern #42;
-- `science-match-young-adult-b` remains canonical matching and is not Pattern #42;
-- existing water-state `cause_effect` and Logic `relative_order_track` scopes remain unchanged.
+- exact three-ID fail-closed deterministic config;
+- explicit previous-stage / next-adult-stage / next-young-stage modes;
+- child-facing known-stage -> hidden-target transition board;
+- target hidden until the canonical correct answer succeeds;
+- byte-preserved prompts, choice labels/order, answer payload and `correctChoice`;
+- retryable wrong state that cannot complete;
+- existing assessed `choice_accuracy_v1` semantics plus presentation metadata;
+- keyboard/touch/pointer native answer controls;
+- exact-scope authoring/manifest/evidence regression;
+- 320x720, 390x844 and 768x1024 browser idle/wrong/success QA;
+- permanent test and gameplay-distribution wiring.
 
-Implementation target only, not current merged truth:
+Important exclusions remain:
+
+- `science-cycle-butterfly` remains a complete ordered lifecycle sequence;
+- `science-match-young-adult-b` remains canonical matching;
+- existing water-state `cause_effect`, Logic `relative_order_track`, sequence and unrelated gameplay scopes remain unchanged.
+
+Implementation-branch blocking distribution target:
 
 ```text
 900 / 900 classified
@@ -87,11 +103,12 @@ choice_grid                     254 / 900
 growth_stage_transition           3 / 900
 ```
 
-The audit requires deterministic exact-ID config, byte-preserved canonical prompts/choices/order/`correctChoice`, no pre-answer reveal, measured retry/completion evidence, keyboard/touch/pointer support, responsive idle/wrong/success QA, permanent visual QA, full CI and post-merge Cloudflare smoke.
+These 42-pattern numbers become merged truth only after PR #187 merges and resulting `main` passes independent CI + exact Cloudflare smoke.
 
 ## Current evidence records
 
-- [`PATTERN42_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN42_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md) — current Pattern #42 docs-only audit and exact-scope justification.
+- [`PATTERN42_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN42_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md) — merged/live-verified Pattern #42 objective/evidence audit.
+- [`WS05_GROWTH_STAGE_TRANSITION_WAVE_2026-09-18.md`](WS05_GROWTH_STAGE_TRANSITION_WAVE_2026-09-18.md) — Pattern #42 implementation/QA wave record for PR #187.
 - [`PATTERN41_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN41_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md) — Pattern #41 objective/evidence audit.
 - [`WS05_PHRASE_SCENE_MATCH_WAVE_2026-09-17.md`](WS05_PHRASE_SCENE_MATCH_WAVE_2026-09-17.md) — Pattern #41 implementation/QA wave record.
 - [`PATTERN41_PHRASE_SCENE_MATCH_CLOSURE_2026-09-17.md`](PATTERN41_PHRASE_SCENE_MATCH_CLOSURE_2026-09-17.md) — Pattern #41 closure gate record.
@@ -103,7 +120,7 @@ Historical closure/candidate/audit records must not be rewritten to pretend late
 
 ## Remaining product-quality work
 
-Immediate WS-05 gate is to merge and independently verify the Pattern #42 audit before any runtime implementation. If that gate passes, implementation must occur on a separate branch from the verified audit `main` and remain limited to the exact three audited Science activities.
+Immediate WS-05 gate is exact-head PR #187 verification: regression, distribution, Ubuntu/Windows, responsive browser evidence, permanent visual QA, build/security/dependency, clean review/mergeability, then exact-head merge and independent merged-main Cloudflare smoke. Pattern #42 closure docs remain required after that before Pattern #43 begins.
 
 Other open work remains P2 game-shell/icon/inline-style convergence, WS-02 narration, WS-10 real-device/accessibility/human/Iqro acceptance, WS-11 governance, later WS-12 cleanup, and continued WS-05 progression toward 50–60 meaningful patterns.
 
