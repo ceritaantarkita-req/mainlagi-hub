@@ -1,6 +1,6 @@
 # Mainlagi Art Bible — v1
 
-Status: **CANONICAL VISUAL DIRECTION / MIGRATION IN PROGRESS**  
+Status: **CANONICAL VISUAL DIRECTION / P1 CHECKPOINT CLOSED; P2 MIGRATION CONTINUES**  
 Established: **16 September 2026**  
 Source audit: `PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md`
 
@@ -34,6 +34,12 @@ Accepted VUI-03 precedent:
 - account settings may use a calmer two-column family card grid at tablet/desktop and one column on phone;
 - visual migration must not alter session, recovery, validation or redirect semantics.
 
+Accepted VBASE-P1-01 precedent:
+- account subpages should reuse a scoped family shell rather than falling back to unrelated generic utility cards;
+- an empty/stub route must not render a visually false blank card merely to satisfy structural consistency;
+- system states such as not-found should use Mainlagi color/type/control language while preserving exact HTTP and navigation behavior;
+- visual convergence must not invent account/security functionality that does not exist.
+
 ### Public / clean-session entry
 
 The public root must explain the product before assuming child mode. A clean session should make it obvious that Mainlagi is for families with children 3–7, provide a clear child-start action and a distinct parent/account action, and explain that movement-camera play is optional without inventing privacy/security claims that the product cannot substantiate.
@@ -63,7 +69,7 @@ primary-green-pressed #195541
 sky                   #d5eef6
 sage                  #dbe6c8
 soft-sage             #e5edd9
-coral                 #e46c49
+coral                  #e46c49
 yellow                #ffdb7d
 soft-coral            #ffc6ac
 soft-blue             #d0e4ee
@@ -208,6 +214,11 @@ Accepted VUI-03 desktop pattern is a contextual family/Garden panel plus a focus
 
 Use restrained family utility cards with clear icon, title and short purpose. Do not compress a desktop account surface into one narrow column when usable width allows two readable columns. Destructive actions may receive restrained danger styling but must not dominate the page.
 
+Accepted VBASE-P1-01 rules:
+- account profile/player/preferences/security/delete/about routes share family shell vocabulary;
+- route content may remain a genuine stub, but the shell must not imply missing content with a decorative empty card;
+- destructive and utility states remain calmer than child gameplay and preserve existing account semantics.
+
 ## 10. Icons and symbols
 
 Priority:
@@ -311,6 +322,8 @@ VUI-02 precedent: subject journey stays horizontal on 390 as an intentional caro
 
 VUI-03 precedent: public hero uses wide desktop context, account settings become two columns at tablet/desktop, and auth uses two contextual panels on wide desktop while stacking at <=820px.
 
+VBASE-P1-01 precedent: all migrated account/system surfaces are permanently evidenced at 390 / 768 / 1280; manual screenshot review remains mandatory even when structural no-overflow checks pass.
+
 ## 15. Copy rules
 
 Child copy:
@@ -364,7 +377,7 @@ Visual acceptance requires:
 - source/content semantics remain unchanged unless the change explicitly targets content/copy;
 - automated structure checks **and** manual screenshot review agree that the layout is usable.
 
-VQA-01 operationalizes this with 42 exact-path captures across 14 canonical surfaces at 390x844, 768x1024 and 1280x800 plus a machine-readable manifest.
+The live permanent gate now operationalizes this with **63 exact-path captures across 21 canonical routes** at 390x844, 768x1024 and 1280x800 plus a machine-readable manifest. The production-live strengthening was verified on main `2d3f95066e1106c43c76bf91dd29bf5707dca52c`, CI #788 including exact Cloudflare release smoke.
 
 VUI-01 adds a product-level regression: Parent Report primary layer must not leak guarded internal analytics vocabulary; diagnostic disclosure may retain technical terms.
 
@@ -375,15 +388,24 @@ Accepted VUI-03 regressions add:
 - exactly one child CTA and one parent CTA plus optional-camera copy;
 - >=44px public CTA target height;
 - auth family shell/context/panel markers;
-- expected login/signup/forgot form mode and >=44px controls;
+- expected login/signup/forgot/reset form mode and >=44px controls;
 - callback error family status;
 - account family/settings markers, seven canonical settings destinations and readable account card geometry.
+
+Accepted VBASE-P1-01 regressions add:
+- shared account-section shell/panel markers on all six migrated account subpages;
+- readable tablet/desktop account-section panel geometry;
+- preferences control-count and >=44px target guard;
+- reset-password auth form mode in the permanent baseline;
+- canonical not-found system-state and CTA markers;
+- exact HTTP 404/path protection for not-found;
+- manual screenshot review as a release requirement for changed surfaces, with #780 as the concrete negative precedent.
 
 ## 18. Migration policy
 
 Do not replace all existing CSS at once.
 
-Migration order:
+Migration order/history:
 1. permanent visual-baseline QA;
 2. parent report;
 3. stage/gallery;
@@ -392,6 +414,8 @@ Migration order:
 6. game shell/preflight;
 7. lower-priority legal/utility convergence;
 8. broader technical cleanup after visual behavior is stable.
+
+Steps 1–5 are closed/live verified. Steps 6–8 remain later work and must be prioritized against gameplay, external acceptance and governance needs.
 
 Every migration wave gets its own browser screenshots, exact-scope regression and production verification.
 
@@ -405,6 +429,7 @@ This Art Bible does not authorize:
 - changing auth/session/security behavior merely to simplify public/auth presentation;
 - deleting known-child fast resume merely so public root always displays;
 - inventing privacy or camera guarantees not backed by implementation;
+- inventing account/security capabilities for visual completeness;
 - replacing Iqro expert review;
 - mass-generating decorative assets without provenance;
 - converting all parent metrics into gamified scores.
@@ -412,12 +437,12 @@ This Art Bible does not authorize:
 ## Current acceptance
 
 Garden representative activities: **ACCEPTED anchor**.  
-Whole-product visual system: **MIGRATION REQUIRED**.  
-Permanent visual QA gate: **FULLY CLOSED / BLOCKING on main `9269e9fd...`, CI #751 including exact Cloudflare smoke**.  
+Visual P1 checkpoint: **ACCEPTED / LIVE VERIFIED**.  
+Permanent visual QA gate: **21 routes / 63 exact-path captures / BLOCKING**, verified on main `2d3f95066e1106c43c76bf91dd29bf5707dca52c`, CI #788 including exact Cloudflare release smoke.  
 Parent Report VUI-01: **FULLY CLOSED on main `e212002e...`, CI #758**.  
 Stage/Gallery VUI-02: **FULLY CLOSED on main `fe260ba7...`, CI #764**.  
-Public/Auth/Account VUI-03: **EXACT-HEAD IMPLEMENTATION ACCEPTED on PR #160 head `96de380...`, CI #771; final docs-head CI + merge/live verification pending**.  
-Permanent baseline evidence remains **42 / 42 exact-path captures + manifest at 390 / 768 / 1280**.  
-Current merged-main baseline: **P0=0 / P1=2 / P2=3**; after VUI-03 live closure, expected **P1=1**.  
-Next P1 work after VUI-03: **residual visual-token fragmentation closure**.  
-Pattern #38: **BLOCKED until remaining baseline P1 findings are closed**.
+Public/Auth/Account VUI-03: **FULLY CLOSED on main `415008a4...`, CI #776**.  
+Residual visual-token VBASE-P1-01: **FULLY CLOSED on main `2d3f95066...`, CI #788**.  
+Current verified-production baseline: **P0=0 / P1=0 / P2=3**.  
+P2 game-shell/icon/inline-style work remains open and must not be described as complete.  
+Pattern #38: **UNBLOCKED FOR FRESH OBJECTIVE/EVIDENCE AUDIT ONLY; no mechanic is pre-approved**.

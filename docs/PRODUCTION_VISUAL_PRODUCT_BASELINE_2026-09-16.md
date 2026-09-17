@@ -1,7 +1,7 @@
 # Production Visual / Product Baseline Audit — 2026-09-16
 
 Last updated: **17 September 2026**  
-Status: **MERGED MAIN P0=0 / P1=1 / P2=3; FINAL P1 IMPLEMENTATION CANDIDATE ACCEPTED ON PR #162; LIVE CLOSURE PENDING; PATTERN #38 BLOCKED**  
+Status: **P0=0 / P1=0 / P2=3 ON VERIFIED PRODUCTION; VISUAL P1 CHECKPOINT CLOSED; PATTERN #38 UNBLOCKED FOR FRESH AUDIT**  
 Canonical production: `https://mainlagihub.my.id/`
 
 ## Verified closure chain
@@ -12,32 +12,34 @@ Canonical production: `https://mainlagihub.my.id/`
 - VUI-02 Stage/Gallery: PR #158 -> `fe260ba7a239586ca2362fbabfca3e0a5019d453`, CI #764
 - VUI-03 Public/Auth/Account: PR #160 -> `415008a4a0503da98937ee8df0a1e5feb1a08c62`, CI #776 / run `35124809180` including exact Cloudflare release smoke
 - VUI-03 docs/live baseline: PR #161 -> `7c863ad2b1887fe0c39557b408b743036128abe1`, CI #778 / run `35130270215` including exact Cloudflare release smoke
+- VBASE-P1-01 residual token closure: PR #162 -> `2d3f95066e1106c43c76bf91dd29bf5707dca52c`, CI **#788 / run `35168877485` including exact Cloudflare release smoke**
 
-## Current merged-production result
+## Current verified-production result
 
 ```text
 P0 findings: 0
-P1 findings: 1
+P1 findings: 0
 P2 findings: 3
 Garden representative activities: ACCEPTED anchor
-Permanent visual QA: CLOSED / BLOCKING
+Permanent visual QA: CLOSED / BLOCKING / 21 ROUTES / 63 CAPTURES
 Parent Report VUI-01: CLOSED / LIVE VERIFIED
 Stage/Gallery VUI-02: CLOSED / LIVE VERIFIED
 Public/Auth/Account VUI-03: CLOSED / LIVE VERIFIED
-VBASE-P1-01 implementation: ACCEPTED ON PR #162 / LIVE CLOSURE PENDING
-Whole-product visual acceptance: NOT YET ACCEPTED
-Pattern #38: BLOCKED
+VBASE-P1-01 residual token fragmentation: CLOSED / LIVE VERIFIED
+Visual P1 checkpoint: ACCEPTED
+Pattern #38: UNBLOCKED FOR FRESH OBJECTIVE/EVIDENCE AUDIT
 ```
 
-The remaining merged-main P1 is not a statement that the PR #162 implementation failed. It reflects release discipline: production status does not move to zero before exact merged-main CI and Cloudflare verification.
+The P1 checkpoint is complete. This does not erase the P2 backlog or external acceptance requirements.
 
 ## P1 findings
 
-### VBASE-P1-01 — visual-token fragmentation — IMPLEMENTATION CANDIDATE ACCEPTED / LIVE CLOSURE PENDING
+### VBASE-P1-01 — visual-token fragmentation — CLOSED / LIVE VERIFIED
 
-The highest-risk child, parent, stage, public, auth and account-root surfaces were already converged in VUI-01/02/03. PR #162 targets the residual user-facing family/system drift rather than performing a one-shot rewrite of `globals.css`.
+The highest-risk child, parent, stage, public, auth and account-root surfaces were already converged in VUI-01/02/03. PR #162 closed the residual user-facing family/system drift without a one-shot rewrite of `globals.css`.
 
-Candidate migration:
+Closed migration scope:
+
 - `/account/profile`;
 - `/account/players`;
 - `/account/preferences`;
@@ -47,13 +49,13 @@ Candidate migration:
 - canonical not-found system state;
 - `/reset-password` added to permanent visual evidence.
 
-The six account subpages now use one scoped family account-section shell. Existing `ProfileEditor`, `PlayerProfiles`, `Preferences`, delete-account logic, auth/session behavior and route semantics remain unchanged. `/account/about` copy remains unchanged. `/account/security` remains a stub; no password/session functionality is invented.
+The six account subpages use one scoped family account-section shell. Existing `ProfileEditor`, `PlayerProfiles`, `Preferences`, delete-account logic, auth/session behavior and route semantics remain unchanged. `/account/about` copy remains unchanged. `/account/security` remains a stub; no password/session functionality was invented.
 
-The not-found route now uses scoped Mainlagi system-state styling while retaining exact HTTP 404 behavior and the canonical return-home action.
+Canonical not-found now uses scoped Mainlagi system-state styling while retaining exact HTTP 404 behavior and the return-home action.
 
-Admin-only utility styling is still evaluated separately and is not automatically a product P1. Game detail/preflight remains P2. Discover/leaderboard/legal utility cleanup remains lower priority and must not be pulled into the P1 wave merely for token purity.
+Admin-only utility styling remains a separate concern and was not mass-migrated. Game detail/preflight remains P2. Discover/leaderboard/legal utility cleanup remains lower priority.
 
-#### Candidate evidence
+#### PR acceptance evidence
 
 Accepted implementation head before candidate-doc commits:
 
@@ -65,10 +67,9 @@ Accepted implementation CI:
 
 ```text
 #781 / run 35137266315 — full PR success
-Cloudflare smoke — skipped on PR by design
 ```
 
-Final accepted artifact:
+Accepted PR artifact:
 
 ```text
 name:   mobile-route-qa-screenshots
@@ -82,22 +83,64 @@ digest: sha256:83c8181998c78da4faf1841b17a42b5874c14c00f6e557a736e946575a87e292
 0 missing screenshots
 ```
 
-The permanent candidate matrix is now **21 routes × 3 viewports = 63 exact-path screenshots** at 390x844, 768x1024 and 1280x800. It explicitly covers all six migrated account subpages, reset-password and canonical not-found.
+CI #780 was structurally green, but manual screenshot review exposed a large empty utility card on the security stub. The defect was fixed at `92363564...` and re-proven by #781 rather than waived. This remains a permanent precedent: green structure/no-overflow is not sufficient when the screenshot is visibly wrong.
 
-A useful negative result occurred during acceptance: CI #780 was structurally green, but manual screenshots exposed a large empty utility card on the security stub. That presentation defect was fixed at `92363564...`; #781 then passed the full matrix and final manual review confirmed the card was gone at all three canonical viewports. The gate was strengthened rather than relaxed.
+#### Final candidate-doc and merge evidence
 
-Full evidence record: `VBASE_P1_01_VISUAL_TOKEN_CANDIDATE_2026-09-17.md`.
+Final PR #162 head:
 
-#### Remaining closure requirement
+```text
+38b9eb7920d1e6796384b889f928dfcbf4d7e629
+```
 
-1. candidate canonical docs must pass fresh exact-head PR CI;
-2. clean PR gate: mergeable, behind=0, intended scope, no unresolved comments/reviews/threads;
-3. squash-merge exact PR head;
-4. independent `main` CI must fully succeed;
-5. exact Cloudflare release smoke must succeed on that merged SHA;
-6. only then update the live baseline to **P0=0 / P1=0**.
+Fresh exact-head PR CI:
 
-Pattern #38 remains blocked until that sequence is complete.
+```text
+#787 / run 35138385672 — full success
+```
+
+Clean merge gate:
+
+```text
+mergeable: true
+behind main: 0
+changed files: 17, all intended scope
+comments: 0
+reviews: 0
+review threads: 0
+```
+
+Squash merge:
+
+```text
+2d3f95066e1106c43c76bf91dd29bf5707dca52c
+```
+
+#### Independent production verification
+
+Merged-main CI:
+
+```text
+#788 / run 35168877485 — full success
+```
+
+The main run passed Quality, Windows, Production build, dependency audit, secret-history scan, broad Chromium route QA, permanent 63-capture visual QA and Production smoke (Cloudflare).
+
+Exact release step:
+
+```text
+Wait for exact Cloudflare release and smoke public endpoints — SUCCESS
+```
+
+Merged-main visual artifact:
+
+```text
+id: 10476008006
+digest: sha256:6fe0aa3de9bfadfc8e40229948edaca1cf633b33705a429515779b78f077266c
+head SHA: 2d3f95066e1106c43c76bf91dd29bf5707dca52c
+```
+
+Full record: `VBASE_P1_01_VISUAL_TOKEN_CLOSURE_2026-09-17.md`.
 
 ### VBASE-P1-02 — parent-report density and internal jargon — CLOSED
 
@@ -112,23 +155,35 @@ Closed by PR #158. Stage hero/readiness/lesson composition and subject journey u
 Closed by PR #160 and independently live verified on `main` `415008a4a0503da98937ee8df0a1e5feb1a08c62`.
 
 Accepted outcome:
+
 - clean-session `/` is an explicit family/public entry;
-- valid remembered child still uses the existing fast-resume path;
+- valid remembered child still uses existing fast-resume logic;
 - child-start and parent/account routes are distinct;
-- camera-based movement play is described as optional without unsupported privacy claims;
+- movement-camera play is described as optional without unsupported privacy claims;
 - `/login`, `/signup`, `/forgot-password`, `/reset-password` and `/auth/callback` use one scoped family auth shell;
 - `/account` uses scoped family presentation;
 - Supabase/session/recovery/redirect semantics are unchanged.
 
 ### VBASE-P1-05 — permanent whole-product visual coverage gap — CLOSED
 
-PR #156 established the original blocking matrix at 14 canonical surfaces / 42 exact-path screenshots. PR #162 strengthens that permanent evidence on its candidate head to 21 canonical routes / 63 exact-path screenshots so every residual migrated account route is covered rather than relying on the older broad harness.
+PR #156 established the original blocking matrix at 14 canonical surfaces / 42 exact-path screenshots. PR #162 permanently strengthened the production gate to:
+
+```text
+21 canonical routes
+3 canonical viewports
+63 exact-path screenshots
+390x844
+768x1024
+1280x800
+```
+
+Every residual migrated account route, reset-password and canonical not-found now has deterministic exact-path evidence.
 
 ## P2 findings
 
 ### VBASE-P2-01 — games detail/preflight legacy vocabulary
 
-Dark camera runtime can remain where functionally useful, but surrounding game detail/preflight metadata/navigation should converge after P1 closure.
+Dark camera runtime can remain where functionally useful, but surrounding game detail/preflight metadata/navigation should converge in a later targeted wave.
 
 ### VBASE-P2-02 — iconography mixes canonical symbols and raw emoji
 
@@ -136,7 +191,7 @@ Emoji may remain decorative/content-level; permanent navigation/status semantics
 
 ### VBASE-P2-03 — inline visual styles increase drift risk
 
-Some learning/parent surfaces retain inline visual values. Technical cleanup follows P1 closure and should not destabilize accepted behavior.
+Some learning/parent surfaces retain inline visual values. Technical cleanup should not destabilize accepted behavior.
 
 ## Accepted anchor rules
 
@@ -157,12 +212,13 @@ Some learning/parent surfaces retain inline visual values. Technical cleanup fol
 - 320px — supplemental high-risk child/activity controls
 - motion-game QA — suitable landscape evidence
 
-## Current remediation order
+## Next remediation / execution order
 
-1. Finish candidate docs on PR #162 and require fresh exact-head full PR CI.
-2. Clean-gate and merge exact head.
-3. Require independent merged-main CI + exact Cloudflare smoke.
-4. Publish final live closure as **P0=0 / P1=0**.
-5. Only then start a fresh objective/evidence audit for Pattern #38.
+1. Keep the permanent 21-route / 63-capture gate blocking on every relevant main run.
+2. Run a fresh objective/evidence audit for Pattern #38; no mechanic is pre-approved.
+3. Implement Pattern #38 only if the audit identifies a learning/evidence justification and exact small scope.
+4. Continue WS-05 toward 50–60 meaningful patterns while preserving permanent WS-08 visual QA.
+5. Continue external acceptance and narration work.
+6. Address the P2 visual backlog in later targeted waves without reopening closed P1 surfaces.
 
-The learning engine and deployment are not the open issue in this checkpoint. The only remaining boundary is production verification of the accepted residual visual-token candidate.
+The learning engine and deployment are not open issues in this checkpoint. The production visual P1 gate is closed; the next gameplay work must now earn its own justification.

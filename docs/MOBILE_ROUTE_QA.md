@@ -15,7 +15,7 @@ scripts/run-visual-baseline-browser-tests.mjs
 
 The first script is the broad responsive/runtime/accessibility/lazy-load gate. The second script is the permanent whole-product exact-path screenshot/evidence gate. Both must pass before the `Mobile route QA (Chromium)` job is green. On `main`, `Production smoke (Cloudflare)` depends on the blocking CI chain.
 
-VQA-01 was originally established by PR #156. PR #162 strengthens the permanent route set on its candidate head; this expansion is not considered production-live until the merged SHA passes independent main CI and exact Cloudflare release smoke.
+VQA-01 was originally established by PR #156. PR #162 strengthened the production-live permanent route set from 14 routes / 42 captures to **21 routes / 63 captures** and was independently verified on merged main `2d3f95066e1106c43c76bf91dd29bf5707dca52c`, CI #788 including exact Cloudflare release smoke.
 
 ## Broad responsive route matrix
 
@@ -35,9 +35,9 @@ At 320px and 430px it also opens representatives for `tap_choice`, `listen_and_c
 
 Per-route assertions include non-error navigation, meaningful content, route-boundary presence where applicable, no Next.js error overlay, no document horizontal overflow, phone touch-target sizing for child-facing controls, no uncaught page errors, and no browser console errors.
 
-Important boundary: the broad matrix does **not** provide permanent visual evidence for all account subpages. PR #162 explicitly discovered this gap and therefore added every migrated account route to the exact-path permanent baseline rather than treating broad coverage as sufficient.
+Important boundary: the broad matrix does **not** provide permanent visual evidence for all account subpages. PR #162 discovered this gap and explicitly added every migrated account route to the exact-path permanent baseline rather than treating broad coverage as sufficient.
 
-## Permanent visual product baseline
+## Permanent visual product baseline — live production contract
 
 Source:
 
@@ -53,7 +53,7 @@ Canonical viewports:
 1280×800
 ```
 
-On PR #162 candidate head, each run captures **21 canonical routes × 3 viewports = 63 deterministic screenshots**:
+Each run captures **21 canonical routes × 3 viewports = 63 deterministic screenshots**:
 
 1. public root `/`;
 2. child profile selection `/child/select`;
@@ -91,15 +91,15 @@ Every capture blocks on:
 - zero uncaught page errors;
 - zero unexpected browser console errors.
 
-Additional product-specific assertions currently include:
+Additional product-specific assertions include:
 
 - public family entry marker, exactly one child CTA and one parent CTA, optional-camera copy, CTA target height;
 - Parent Report primary-copy jargon guard;
 - subject journey tablet/desktop geometry;
 - stage readiness, recommendation and lesson-grid geometry;
 - account-root family/settings markers and destination geometry;
-- all six account subpages must expose the shared account-section shell/panel and readable tablet/desktop panel geometry;
-- account-preferences controls must remain sufficiently numerous and >=44px high;
+- all six account subpages expose the shared account-section shell/panel and readable tablet/desktop panel geometry;
+- account-preferences controls remain sufficiently numerous and >=44px high;
 - login/signup/forgot/reset auth form modes and controls;
 - callback error status marker;
 - canonical not-found system-state and CTA markers.
@@ -146,7 +146,7 @@ PR #156 established the first stable whole-product baseline at 14 routes / 42 ca
 
 ### PR #162 strengthening
 
-CI #779 first proved the residual-token implementation with 17 routes / 51 captures. A subsequent coverage review found four additional migrated account subpages were not covered by the broad harness, so the permanent route set was strengthened again before closure.
+CI #779 first proved the residual-token implementation with 17 routes / 51 captures. Coverage review then found four migrated account subpages were not represented by the broad harness, so the permanent route set was strengthened again before closure.
 
 CI #780 / run `35136551735` proved 21 routes / 63 captures and produced artifact `10464045751`. Manual review caught an empty white card on the security stub despite green structural checks. That screenshot finding was treated as a real defect, not waived.
 
@@ -154,17 +154,12 @@ Commit `923635645c164f08e9d26cc84be0b527d0e13ae0` fixed the empty-panel visual r
 
 CI #781 / run `35137266315` then passed the complete PR gate on that exact implementation head.
 
-Final accepted implementation artifact:
+Accepted implementation artifact:
 
 ```text
 name: mobile-route-qa-screenshots
 id: 10464427013
 digest: sha256:83c8181998c78da4faf1841b17a42b5874c14c00f6e557a736e946575a87e292
-```
-
-Manifest review verified:
-
-```text
 63 / 63 captures
 21 canonical routes
 3 canonical viewports
@@ -173,9 +168,30 @@ Manifest review verified:
 0 missing screenshot files
 ```
 
-Manual review of the final artifact confirmed the security empty-card defect was gone at 390×844, 768×1024 and 1280×800 and the other migrated account/auth/system surfaces remained coherent.
+Final PR #162 candidate-doc head `38b9eb7920d1e6796384b889f928dfcbf4d7e629` passed CI #787 / run `35138385672`, then clean-gated and squash-merged to:
 
-This is still candidate evidence until PR #162 is merged and the merged SHA passes independent main CI + exact Cloudflare release smoke.
+```text
+2d3f95066e1106c43c76bf91dd29bf5707dca52c
+```
+
+Independent main CI #788 / run `35168877485` passed the broad route matrix, permanent visual baseline and exact Cloudflare release/public smoke.
+
+Merged-main production artifact:
+
+```text
+name: mobile-route-qa-screenshots
+id: 10476008006
+digest: sha256:6fe0aa3de9bfadfc8e40229948edaca1cf633b33705a429515779b78f077266c
+head SHA: 2d3f95066e1106c43c76bf91dd29bf5707dca52c
+```
+
+The 21-route / 63-capture gate is therefore a **live production contract**, not candidate-only evidence.
+
+## Manual screenshot precedent
+
+Automated structural success is necessary but not sufficient. #780 demonstrated this directly: no-overflow and structural assertions were green, yet the security stub contained a visibly false empty card. The defect was discovered through screenshot review and fixed before acceptance.
+
+Changed product surfaces must continue to be reviewed at actual screenshot scale even when the automated baseline is green.
 
 ## Artifact rules
 
@@ -211,7 +227,7 @@ Canonical manual evidence remains `BATCH16_PHYSICAL_DEVICE_QA.md`.
 
 ## Release gate
 
-A visual implementation candidate is not called live-closed from a PR run. The required sequence is:
+A visual implementation candidate is not called live-closed from a PR run. The required sequence remains:
 
 1. exact-head PR CI including broad and permanent Chromium gates;
 2. manual artifact review;
@@ -220,4 +236,4 @@ A visual implementation candidate is not called live-closed from a PR run. The r
 5. exact Cloudflare release and public smoke on the merged SHA;
 6. canonical live-closure documentation.
 
-PR #162 has completed steps 1–2 for the implementation head. Steps 3–6 remain before VBASE-P1-01 can be marked fully closed and merged-production P1 can become zero.
+PR #162 completed all six product-verification steps through main CI #788. The live-closure documentation itself is still subject to its own PR CI, clean merge and independent main smoke before documentation synchronization is considered complete.
