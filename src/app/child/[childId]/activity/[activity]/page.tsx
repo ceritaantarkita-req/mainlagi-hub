@@ -7,6 +7,7 @@ import { CreativePracticeActivity } from "@/components/learning/CreativePractice
 import { DragTargetMatchActivity } from "@/components/learning/DragTargetMatchActivity";
 import { EqualGroupsActivity } from "@/components/learning/EqualGroupsActivity";
 import { FeatureFunctionLinkActivity } from "@/components/learning/FeatureFunctionLinkActivity";
+import { GrowthStageTransitionActivity } from "@/components/learning/GrowthStageTransitionActivity";
 import { HealthyHabitRoutineActivity } from "@/components/learning/HealthyHabitRoutineActivity";
 import { InitialSoundActivity } from "@/components/learning/InitialSoundActivity";
 import { InvestigationBoardActivity } from "@/components/learning/InvestigationBoardActivity";
@@ -64,6 +65,7 @@ import {
   isTakeAwayActivity,
   isTransitiveChainActivity
 } from "@/lib/learning/gameplayPresentation";
+import { isGrowthStageTransitionActivity } from "@/lib/learning/growthStageTransitionConfig";
 import { isPhraseSceneMatchActivity } from "@/lib/learning/phraseSceneMatchConfig";
 import { isReadingPassageQuestionActivity } from "@/lib/learning/readingPassageQuestionConfig";
 import { isSentenceOrderCardsActivity } from "@/lib/learning/sentenceOrderCardsConfig";
@@ -99,6 +101,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
         <InitialSoundActivity childId={childId} activityId={activity} />
       ) : isPhraseSceneMatchActivity(definition) ? (
         <PhraseSceneMatchActivity childId={childId} activityId={activity} />
+      ) : isGrowthStageTransitionActivity(definition) ? (
+        <GrowthStageTransitionActivity childId={childId} activityId={activity} />
       ) : isPictureWordMatchActivity(definition) ? (
         <PictureWordMatchActivity childId={childId} activityId={activity} />
       ) : isSentenceOrderCardsActivity(definition) ? (
