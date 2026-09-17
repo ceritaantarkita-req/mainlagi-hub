@@ -9,7 +9,7 @@ import { completeActivity, getActivity } from "@/lib/learning/system";
 import { isSpatialRelationBoardActivity, spatialRelationBoardConfig } from "@/lib/learning/spatialRelationBoardConfig";
 import styles from "./SpatialRelationBoardActivity.module.css";
 
-function RelationBoard({ kind, anchor, moving }: { kind: string; anchor: string; moving: string }) {
+function RelationBoard({ kind, anchor, moving, revealResult }: { kind: string; anchor: string; moving: string; revealResult: boolean }) {
   if (kind === "between") {
     return <div className={styles.objectRow} aria-hidden><span>{anchor}</span><span className={styles.moving}>{moving}</span><span>{anchor}</span></div>;
   }
@@ -24,11 +24,17 @@ function RelationBoard({ kind, anchor, moving }: { kind: string; anchor: string;
       <div className={styles.turnBoard} aria-hidden>
         <span className={styles.direction}>{anchor}</span>
         <span className={kind === "turn_right" ? styles.turnRight : styles.turnLeft}>{kind === "turn_right" ? "↷" : "↶"}</span>
-        <span className={styles.direction}>{moving}</span>
+        <span className={styles.direction} data-spatial-relation-result>{revealResult ? moving : "?"}</span>
       </div>
     );
   }
-  return <div className={styles.turnBoard} aria-hidden><span className={styles.direction}>{anchor}</span><span className={styles.opposite}>↔</span><span className={styles.direction}>{moving}</span></div>;
+  return (
+    <div className={styles.turnBoard} aria-hidden>
+      <span className={styles.direction}>{anchor}</span>
+      <span className={styles.opposite}>↔</span>
+      <span className={styles.direction} data-spatial-relation-result>{revealResult ? moving : "?"}</span>
+    </div>
+  );
 }
 
 export function SpatialRelationBoardActivity({ childId, activityId }: { childId: string; activityId: string }) {
@@ -76,8 +82,9 @@ export function SpatialRelationBoardActivity({ childId, activityId }: { childId:
         inputMode: activity.preferredMobile,
         metadata: {
           source: "spatial-relation-board-runtime",
-          evidenceFidelity: assessed ? "choice_spatial_relation_board_interaction" : "completion_only",
-          relationKind: config.kind,
+          evidenceFidelity: assessed ? "choice_spatial_relation_interaction" : "completion_only",
+          mode: config.mode,
+          relationOrTurn: config.relationOrTurn,
           selectedChoice: choice
         }
       }
@@ -102,8 +109,14 @@ export function SpatialRelationBoardActivity({ childId, activityId }: { childId:
           <p>{activity.prompt}</p>
         </div>
 
-        <div className={styles.board} data-spatial-relation-visual data-relation-kind={config.kind}>
-          <RelationBoard kind={config.kind} anchor={config.anchor} moving={config.moving} />
+        <div
+          className={styles.board}
+          data-spatial-relation-visual
+          data-relation-kind={config.kind}
+          data-relation-mode={config.mode}
+          aria-label={config.mode === "object_relation" ? `Papan hubungan ${config.kind}` : `Papan arah awal ${config.anchor}; hasil ${feedback === "good" ? config.moving : "belum diketahui"}`}
+        >
+          <RelationBoard kind={config.kind} anchor={config.anchor} moving={config.moving} revealResult={feedback === "good"} />
           <p>{config.cue}</p>
         </div>
 
