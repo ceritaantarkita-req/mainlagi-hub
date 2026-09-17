@@ -8,8 +8,9 @@
 **Pattern #39 final closure main:** `98725727c866d410b2d0caa206e86e70cd0e5741`  
 **Pattern #39 final CI:** **#811 / run `35190499794` — success**  
 **Pattern #40 audit:** **MERGED PR #173 -> main `f1b4b13d3d9814d2ed06500022218848cd721419`**  
-**Pattern #40 implementation:** **DRAFT PR #175 — `spatial_relation_board` exact six-activity scope**  
-**Pattern #40 foundation verification:** head `1889e1b5ea954be3cab6978e1f82a680b8281ca8`, **CI #821 / run `35213178491` — full success**  
+**Pattern #40 implementation:** **DRAFT PR #175 — `spatial_relation_board`, exact six-activity scope**  
+**Pattern #40 foundation:** head `1889e1b5ea954be3cab6978e1f82a680b8281ca8`, **CI #821 / run `35213178491` — full success**  
+**Pattern #40 current gate:** final exact-head implementation CI after classifier/distribution/regression/browser/mobile/docs convergence  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
 
@@ -42,25 +43,26 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 19. Green automated checks tidak menggantikan screenshot review.
 20. P1=0 tidak menghapus P2 atau external-evidence backlog. Status harus tetap dipisahkan.
 21. Parallel implementation PR untuk scope yang sama harus ditutup/ditolak setelah canonical candidate terbukti.
+22. New spatial/directional presentation must not reveal the assessed result before successful completion when the canonical task asks the learner to infer that result.
 
 ## Workstream status
 
 | Workstream | Status | Current note |
 |---|---|---|
-| WS-01 Canonical docs | **IN PROGRESS** | Pattern #40 implementation state synchronized in PR #175 |
+| WS-01 Canonical docs | **CURRENT ON PR #175** | README/current state/catalog/plan + Pattern #40 implementation wave synchronized |
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | 900 KEEP / 0 flagged on merged baseline |
-| WS-05 Gameplay diversification | **39 FULLY CLOSED / PATTERN #40 IMPLEMENTATION IN PROGRESS** | foundation runtime green; distribution/regression/browser gates next |
+| WS-05 Gameplay diversification | **39 FULLY CLOSED / PATTERN #40 FINAL IMPLEMENTATION GATE** | code/tests/docs converged; exact-head CI next |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
-| WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | 21 routes / 63 captures live on main |
+| WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | 21 routes / 63 captures live on main; must stay green on #175 |
 | WS-09 Stage/gallery UX | DONE | VUI-02 closed |
 | WS-10 External acceptance | TODO | real devices, accessibility, Iqro expert |
 | WS-11 Governance | TODO | required checks/review discipline |
 | WS-12 Technical cleanup | TODO LATER | after gameplay/product priorities |
 
-## Verified gameplay baseline
+## Verified merged gameplay baseline
 
 Merged-main gameplay distribution remains:
 
@@ -76,9 +78,19 @@ sentence_order_cards              5 / 900
 picture_word_match                5 / 900
 ```
 
-Distance remaining: **11 patterns** to minimum 50 and **21** to working target 60. Pattern #40 is not included until implementation is merged and independently verified.
+Pattern #40 implementation branch is expected to move exactly six activities from `choice_grid` to `spatial_relation_board`, so the intended branch result is:
 
-No global pattern exceeds the existing >35% advisory hotspot threshold.
+```text
+900 / 900 classified
+0 unclassified
+40 active patterns
+choice_grid                     261 / 900
+spatial_relation_board            6 / 900
+```
+
+Those branch numbers are acceptance targets, not verified merged-main claims, until the exact-head distribution audit and later merged-main verification pass.
+
+Merged-main distance remains **11 patterns** to minimum 50 and **21** to working target 60 until Pattern #40 is actually merged.
 
 ## Pattern #39 — fully closed
 
@@ -93,8 +105,6 @@ Closure PR:            #171
 Final closure main:    98725727c866d410b2d0caa206e86e70cd0e5741
 Final closure CI:      #811 / run 35190499794 — success
 ```
-
-Exact implementation scope remains the five `math-problem-*` activities with unchanged canonical content, assessed `tap_choice`, `choice_accuracy_v1`, mastery/progression and schema boundaries.
 
 ## Permanent visual/product gate — LIVE
 
@@ -114,9 +124,9 @@ Open P2 remains:
 - VBASE-P2-02 iconography mixes canonical symbols and raw emoji;
 - VBASE-P2-03 inline visual styles increase drift risk.
 
-## Pattern #40 implementation — current gate
+## Pattern #40 implementation — final pre-merge gate
 
-Audit PR #173 is merged. Draft implementation PR #175 is the canonical implementation path for:
+Audit PR #173 is merged. Draft implementation PR #175 is the only canonical implementation path for:
 
 ```text
 spatial_relation_board
@@ -146,53 +156,61 @@ assessment:  assessed
 contract:    choice_accuracy_v1
 ```
 
-Implemented foundation:
+Implemented on PR #175:
 
-- exact-scoped deterministic config for left/right, between, right-turn, left-turn and opposite-direction semantics;
-- dedicated child-facing `SpatialRelationBoardActivity`;
-- canonical prompt remains the primary narration/task text;
-- canonical choices/order and `correctChoice` remain unchanged;
+- exact six-ID deterministic config with canonical prompt/choice-order/answer snapshots;
+- fail-closed behavior on scope/content/runtime drift;
+- dedicated child-facing spatial board for object relation, turn and opposite-direction tasks;
+- turn/opposite answer masking until successful completion;
 - direct answer buttons preserve keyboard/touch/pointer access;
-- wrong answers are measured/retryable and cannot complete;
+- wrong answers remain measured/retryable and cannot complete;
 - correct answer completes through the existing measured path;
-- runtime metadata source `spatial-relation-board-runtime` and evidence fidelity `choice_spatial_relation_board_interaction`;
-- no drag-only dependency, extra assessed checkpoint, mastery migration, progression migration, schema change or database migration;
-- verified foundation head `1889e1b5ea954be3cab6978e1f82a680b8281ca8` passed full CI #821 / run `35213178491`.
+- runtime metadata: `spatial-relation-board-runtime`, `choice_spatial_relation_interaction`, `mode`, `relationOrTurn`, `selectedChoice`;
+- `canonicalGameplayPattern` registers Pattern #40 while preserving existing pattern logic;
+- gameplay-distribution expected set includes `spatial_relation_board`;
+- exact-scope regression tests six IDs, canonical snapshots, skill evidence, all relation branches and malformed/non-scope failures;
+- browser QA is wired into the permanent mobile route matrix at 320x720, 390x844 and 768x1024;
+- browser QA verifies masked result, keyboard wrong-state, pointer success, touch targets, overflow, attempt metadata and accuracy/retry semantics;
+- mobile CSS is compacted for 320x720 so feedback/CTA do not get pushed out by three short symbolic answers;
+- no drag-only dependency, extra assessed checkpoint, mastery migration, progression migration, schema change or database migration.
 
-This green foundation is not sufficient for merge. Pattern #40 remains uncounted in merged distribution until all blocking work below is complete.
+Supporting foundation head `1889e1b5ea954be3cab6978e1f82a680b8281ca8` passed CI #821, but final acceptance must use a newer exact head containing all changes above.
 
-## Pattern #40 remaining implementation gates
+## Pattern #40 exact-head acceptance checklist
 
-1. register `spatial_relation_board` in the canonical gameplay pattern taxonomy and permanent distribution audit;
-2. exact classifier must select only the six audited IDs and fail closed outside the canonical Logic lesson/pack/skill/runtime shape;
-3. deterministic config must keep all canonical prompts, choices/order and `correctChoice` unchanged;
-4. runtime remains assessed `tap_choice` with `choice_accuracy_v1` semantics;
-5. wrong answers remain measured/retryable and cannot complete;
-6. correct answer completes through the existing measured activity path;
-7. keyboard, touch and pointer all remain primary controls;
-8. browser QA must prove idle/wrong/success states at 320x720, 390x844 and 768x1024;
-9. no horizontal overflow or hidden answer controls may occur;
-10. permanent visual QA must remain green;
-11. activity-quality must stay deterministic clean;
-12. gameplay distribution must remain 900/900 classified and become exactly 40 active patterns on the implementation branch;
-13. a fresh exact-head full CI must pass after final code/tests/docs;
-14. PR #175 must have clean mergeability/review/thread gates before ready-for-review and merge;
-15. exact implementation head must be squash-merged, then independently verified on merged `main` including exact production smoke;
-16. a separate post-merge closure docs gate is required before Pattern #40 is called **FULLY CLOSED**.
+A single final implementation head must prove:
+
+1. typecheck and lint pass on Ubuntu and Windows;
+2. Pattern #40 exact-scope regression passes;
+3. activity-quality remains deterministic clean;
+4. gameplay distribution is 900/900 classified, 0 unclassified, exactly 40 active patterns, with six `spatial_relation_board` activities;
+5. simulations and Batch 17 acceptance contracts pass;
+6. production Cloudflare/OpenNext build and build budgets pass;
+7. mobile Chromium matrix passes including Pattern #40 browser QA at all three viewports;
+8. permanent visual baseline remains green with no new P0/P1 finding;
+9. security, secret-history and production dependency jobs pass;
+10. PR #175 is mergeable with no unresolved comments/reviews/threads;
+11. only that exact verified SHA is allowed to squash-merge.
+
+After implementation merge:
+
+12. independently verify merged `main` CI and exact production smoke;
+13. update canonical docs with the merged SHA, final distribution artifact/run and production evidence;
+14. run a separate docs-only Pattern #40 closure PR;
+15. independently verify the closure merge before calling Pattern #40 **FULLY CLOSED**.
 
 ## Current execution order
 
-1. Finish canonical Pattern #40 taxonomy/distribution registration in PR #175.
-2. Add exact-scope, canonical-content, evidence/retry/completion regression coverage.
-3. Add browser keyboard/touch/responsive idle/wrong/success QA and verify permanent visual QA remains green.
-4. Prove implementation-branch distribution is 900/900 classified with exactly 40 active patterns.
-5. Run fresh exact-head full CI and clean PR review/thread/mergeability gates.
-6. Mark PR #175 ready only when all implementation gates are green, then squash-merge the exact head.
-7. Independently verify merged `main` and production smoke before claiming Pattern #40 implemented.
-8. Run the separate Pattern #40 closure documentation gate before **FULLY CLOSED** status.
-9. Continue WS-05 toward 50–60 while permanent WS-08 visual QA runs in parallel.
-10. Continue WS-02 narration, WS-10 external physical-device/accessibility/Iqro evidence and WS-11 governance.
-11. Address P2 game-shell/icon/inline-style work without destabilizing accepted P1 surfaces.
-12. Perform later WS-12 cleanup and final end-to-end production acceptance.
+1. Freeze PR #175 implementation/docs head and run the exact-head full CI.
+2. Diagnose any failing job from its exact logs; do not weaken gates to make it green.
+3. If green, inspect distribution artifact/log, browser/permanent visual evidence and PR review/thread/mergeability state.
+4. Mark #175 ready and squash-merge only the exact verified head.
+5. Independently verify merged `main` and production smoke.
+6. Run the separate Pattern #40 closure documentation gate to full verification.
+7. Start Pattern #41 only from a fresh objective/evidence audit after Pattern #40 is fully closed; no mechanic is pre-approved.
+8. Continue WS-05 toward 50–60 while permanent WS-08 visual QA runs in parallel.
+9. Continue WS-02 narration, WS-10 external physical-device/accessibility/Iqro evidence and WS-11 governance.
+10. Address P2 game-shell/icon/inline-style work without destabilizing accepted P1 surfaces.
+11. Perform later WS-12 cleanup and final end-to-end production acceptance.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
