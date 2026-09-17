@@ -35,6 +35,7 @@
     "src/lib/learning/equalGroupsConfig.ts",
     "src/lib/learning/initialSoundConfig.ts",
     "src/lib/learning/pictureWordMatchConfig.ts",
+    "src/lib/learning/phraseSceneMatchConfig.ts",
     "src/lib/learning/sentenceOrderCardsConfig.ts",
     "src/lib/learning/readingPassageQuestionConfig.ts",
     "src/lib/learning/clozeSentenceChoiceConfig.ts",
