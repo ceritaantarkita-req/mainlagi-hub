@@ -30,6 +30,7 @@ import { SyllableAssemblyActivity } from "@/components/learning/SyllableAssembly
 import { SymbolHuntChoiceActivity } from "@/components/learning/SymbolHuntChoiceActivity";
 import { TakeAwayActivity } from "@/components/learning/TakeAwayActivity";
 import { TransitiveChainActivity } from "@/components/learning/TransitiveChainActivity";
+import { VisualWordProblemActivity } from "@/components/learning/VisualWordProblemActivity";
 import { MathTraceWorldActivity } from "@/components/learning/world/MathTraceWorldActivity";
 import { WorldActivityScreen } from "@/components/learning/world/WorldExperience";
 import { isClozeSentenceChoiceActivity } from "@/lib/learning/clozeSentenceChoiceConfig";
@@ -64,6 +65,7 @@ import {
 import { isReadingPassageQuestionActivity } from "@/lib/learning/readingPassageQuestionConfig";
 import { isSentenceOrderCardsActivity } from "@/lib/learning/sentenceOrderCardsConfig";
 import { getActivity } from "@/lib/learning/system";
+import { isVisualWordProblemActivity } from "@/lib/learning/visualWordProblemConfig";
 import styles from "./ActivityPage.module.css";
 
 export default async function ActivityPage({ params }: { params: Promise<{ childId: string; activity: string }> }) {
@@ -99,6 +101,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
         <ReadingPassageQuestionActivity childId={childId} activityId={activity} />
       ) : isClozeSentenceChoiceActivity(definition) ? (
         <ClozeSentenceChoiceActivity childId={childId} activityId={activity} />
+      ) : isVisualWordProblemActivity(definition) ? (
+        <VisualWordProblemActivity childId={childId} activityId={activity} />
       ) : isSortingBucketsActivity(definition) ? (
         <SortingBucketsChoiceActivity childId={childId} activityId={activity} />
       ) : isOddOneOutActivity(definition) ? (
