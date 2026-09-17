@@ -25,11 +25,11 @@ Patterns #1–#35 remain as previously closed/merged. Latest entries:
 36. `sentence_order_cards` — **FULLY CLOSED**
 37. `reading_passage_question` — **FULLY CLOSED**
 38. `cloze_sentence_choice` — **FULLY CLOSED** via implementation #166 + closure #168
-39. `visual_word_problem` — implementation #170 **LIVE VERIFIED / DOCS CLOSURE IN PROGRESS**
+39. `visual_word_problem` — **FULLY CLOSED** via implementation #170 + closure #171
 
 Permanent gameplay-distribution audit: MERGED PR #105.
 
-Current verified merged distribution on `main` from CI #809:
+Current verified merged distribution on `main`, preserved through final Pattern #39 closure CI #811:
 
 ```text
 900 / 900 classified
@@ -45,7 +45,7 @@ picture_word_match                5 / 900
 
 Remaining distance is **11** patterns to minimum 50 and **21** to working target 60.
 
-### `visual_word_problem` — Pattern #39 LIVE VERIFIED
+### `visual_word_problem` — Pattern #39 FULLY CLOSED
 
 Exact scope:
 
@@ -78,16 +78,16 @@ Interaction:
 - runtime source `visual-word-problem-runtime`;
 - assessed fidelity `choice_visual_word_problem_interaction`.
 
-Verified implementation chain:
+Canonical verification chain:
 - objective/evidence audit PR #169;
 - implementation PR #170 exact head `df503b95abf86e2b530dd9ff18bd5d8b9707e2db`;
 - implementation squash merge `bcb8479514f44d46ebc68917981699240aabc3b2`;
-- independent merged-main CI #809 / run `35187506724` — full success including exact Cloudflare release smoke;
+- independent implementation main CI #809 / run `35187506724` — full success including exact Cloudflare release smoke;
 - responsive QA covers 320x720, 390x844 and 768x1024 idle/wrong/success states;
 - merged-main distribution artifact `10482459288`, digest `sha256:4bacc984852eb4befd352a727935daf8e75cb0b30ec1a58af8451895649ae967`;
-- merged distribution is 900/900 classified with 39 active patterns, `choice_grid` 267/900 and `visual_word_problem` 5/900.
-
-Pattern #39 is not called **FULLY CLOSED** until its separate docs-only closure passes exact-head CI, clean merge and independent merged-main production verification.
+- closure PR #171;
+- closure main `98725727c866d410b2d0caa206e86e70cd0e5741`;
+- final main CI #811 / run `35190499794` — full success including exact Cloudflare release/public smoke.
 
 ### `cloze_sentence_choice` — Pattern #38 FULLY CLOSED
 
@@ -133,9 +133,9 @@ P2 findings remain visible but do not re-block accepted gameplay implementations
 
 Original 60-pattern planning slots remain guidance, not a fixed taxonomy. Candidate families are never approvals. Search/scene exploration, ordering, literacy construction, puzzle/path, audio and creative/story mechanics may only be selected when a fresh objective/evidence audit proves objective fit.
 
-## Pattern #40 objective/evidence audit gate
+## Pattern #40 objective/evidence audit gate — ACTIVE
 
-After Pattern #39 is fully closed, the next gameplay wave must begin with a fresh Pattern #40 audit that:
+The next gameplay wave begins with a fresh Pattern #40 audit that:
 
 1. inspects remaining objectives/content where current interaction representation is weakest;
 2. identifies the evidence that the learning objective actually requires;
@@ -156,8 +156,8 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 
 - Patterns #1–#37 — fully closed.
 - Cloze Sentence Choice — **FULLY CLOSED** / #166 + #168; final CI #803.
-- Visual Word Problem — implementation DONE / #170, live verified main `bcb8479514f44d46ebc68917981699240aabc3b2`, CI #809; docs closure current gate.
-- NEXT — finish Pattern #39 docs closure, then fresh Pattern #40 objective/evidence audit; no mechanic pre-approved.
+- Visual Word Problem — **FULLY CLOSED** / #170 + #171; final closure main `98725727c866d410b2d0caa206e86e70cd0e5741`, CI #811 including exact Cloudflare smoke.
+- NEXT — fresh Pattern #40 objective/evidence audit; no mechanic pre-approved.
 
 ## Definition of done per mechanic
 
