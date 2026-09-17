@@ -28,9 +28,16 @@ const ROUTES = [
   { name: "rewards", path: "/child/demo-gian/rewards", expectedPath: "/child/demo-gian/rewards", kind: "child-learning", touch: true },
   { name: "parent-report", path: "/parent/children/demo-gian/reports", expectedPath: "/parent/children/demo-gian/reports", kind: "parent" },
   { name: "account", path: "/account", expectedPath: "/account" },
+  { name: "account-profile", path: "/account/profile", expectedPath: "/account/profile" },
+  { name: "account-players", path: "/account/players", expectedPath: "/account/players" },
+  { name: "account-preferences", path: "/account/preferences", expectedPath: "/account/preferences" },
+  { name: "account-security", path: "/account/security", expectedPath: "/account/security" },
+  { name: "account-delete", path: "/account/delete", expectedPath: "/account/delete" },
+  { name: "account-about", path: "/account/about", expectedPath: "/account/about" },
   { name: "login", path: "/login", expectedPath: "/login" },
   { name: "signup", path: "/signup", expectedPath: "/signup" },
   { name: "forgot-password", path: "/forgot-password", expectedPath: "/forgot-password" },
+  { name: "reset-password", path: "/reset-password", expectedPath: "/reset-password" },
   { name: "auth-error", path: "/auth/callback?error_code=otp_expired", expectedPath: "/auth/callback" },
   { name: "not-found", path: "/__visual-baseline-not-found__", expectedPath: "/__visual-baseline-not-found__", expectedStatus: 404 }
 ];
@@ -158,7 +165,11 @@ async function assertAuthFamilySurface(page, route, viewport) {
   if (route.name === "auth-error") {
     assert.equal(await page.locator("[data-mainlagi-auth-status]").count(), 1, `auth callback status missing at ${viewport.width}px`);
   } else {
-    const expectedMode = route.name === "forgot-password" ? "forgot" : route.name;
+    const expectedMode = route.name === "forgot-password"
+      ? "forgot"
+      : route.name === "reset-password"
+        ? "reset"
+        : route.name;
     assert.equal(await page.locator(`[data-mainlagi-auth-form="${expectedMode}"]`).count(), 1, `${route.name} auth form mode drifted at ${viewport.width}px`);
     const controls = await page.locator(`[data-mainlagi-auth-form="${expectedMode}"] input, [data-mainlagi-auth-form="${expectedMode}"] button`).evaluateAll((elements) =>
       elements.map((element) => {
@@ -193,6 +204,39 @@ async function assertAccountFamilySurface(page, viewport) {
   if (viewport.width >= 700) {
     assert.ok(Math.min(...geometry.map((item) => item.width)) >= 280, `account settings underuse wide layout at ${viewport.width}px: ${JSON.stringify(geometry)}`);
   }
+}
+
+async function assertAccountSectionSurface(page, route, viewport) {
+  const section = page.locator("[data-mainlagi-account-section]");
+  const panel = page.locator("[data-mainlagi-account-section-panel]");
+  assert.equal(await section.count(), 1, `${route.name} account section shell missing at ${viewport.width}px`);
+  assert.equal(await panel.count(), 1, `${route.name} account section panel missing at ${viewport.width}px`);
+
+  if (viewport.width >= 700) {
+    const width = await panel.evaluate((element) => Math.round(element.getBoundingClientRect().width * 10) / 10);
+    assert.ok(width >= 560, `${route.name} account section collapsed at ${viewport.width}px: ${width}`);
+  }
+
+  if (route.name === "account-preferences") {
+    const controls = await panel.locator("button").evaluateAll((elements) => elements.map((element) => {
+      const rect = element.getBoundingClientRect();
+      return { width: Math.round(rect.width * 10) / 10, height: Math.round(rect.height * 10) / 10 };
+    }));
+    assert.ok(controls.length >= 3, `account preferences controls unexpectedly sparse at ${viewport.width}px`);
+    assert.ok(controls.every((item) => item.height >= 44), `account preferences controls fell below target at ${viewport.width}px: ${JSON.stringify(controls)}`);
+  }
+}
+
+async function assertSystemState(page, viewport) {
+  const state = page.locator('[data-mainlagi-system-state="not-found"]');
+  assert.equal(await state.count(), 1, `not-found system state marker missing at ${viewport.width}px`);
+  const cta = page.locator("[data-mainlagi-system-state-cta]");
+  assert.equal(await cta.count(), 1, `not-found canonical CTA missing at ${viewport.width}px`);
+  const geometry = await cta.evaluate((element) => {
+    const rect = element.getBoundingClientRect();
+    return { width: Math.round(rect.width * 10) / 10, height: Math.round(rect.height * 10) / 10 };
+  });
+  assert.ok(geometry.height >= 44, `not-found CTA fell below target height at ${viewport.width}px: ${JSON.stringify(geometry)}`);
 }
 
 async function inspect(page, route, viewport) {
@@ -239,7 +283,9 @@ async function inspect(page, route, viewport) {
     if (route.name === "subject-math") await assertSubjectJourneyLayout(page, viewport);
     if (route.name === "stage-math-angka") await assertStageHierarchy(page, viewport);
     if (route.name === "account") await assertAccountFamilySurface(page, viewport);
-    if (["login", "signup", "forgot-password", "auth-error"].includes(route.name)) await assertAuthFamilySurface(page, route, viewport);
+    if (["account-profile", "account-players", "account-preferences", "account-security", "account-delete", "account-about"].includes(route.name)) await assertAccountSectionSurface(page, route, viewport);
+    if (["login", "signup", "forgot-password", "reset-password", "auth-error"].includes(route.name)) await assertAuthFamilySurface(page, route, viewport);
+    if (route.name === "not-found") await assertSystemState(page, viewport);
 
     const overlayCount = await page.locator("nextjs-portal, [data-nextjs-dialog-overlay], [data-next-badge-root]").count();
     assert.equal(overlayCount, 0, `${route.name} rendered a Next.js error overlay`);
