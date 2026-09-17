@@ -76,7 +76,7 @@ export function SpatialRelationBoardActivity({ childId, activityId }: { childId:
         inputMode: activity.preferredMobile,
         metadata: {
           source: "spatial-relation-board-runtime",
-          evidenceFidelity: assessed ? "choice_spatial_relation_interaction" : "completion_only",
+          evidenceFidelity: assessed ? "choice_spatial_relation_board_interaction" : "completion_only",
           relationKind: config.kind,
           selectedChoice: choice
         }
@@ -102,7 +102,7 @@ export function SpatialRelationBoardActivity({ childId, activityId }: { childId:
           <p>{activity.prompt}</p>
         </div>
 
-        <div className={styles.board} data-spatial-relation-visual>
+        <div className={styles.board} data-spatial-relation-visual data-relation-kind={config.kind}>
           <RelationBoard kind={config.kind} anchor={config.anchor} moving={config.moving} />
           <p>{config.cue}</p>
         </div>
@@ -115,6 +115,7 @@ export function SpatialRelationBoardActivity({ childId, activityId }: { childId:
                 key={choice}
                 type="button"
                 className={`${styles.choiceButton} ${active ? styles.selected : ""} ${active && feedback === "try" ? styles.wrong : ""} ${active && feedback === "good" ? styles.correct : ""}`}
+                aria-label={`Pilih jawaban ${choice}`}
                 aria-pressed={active}
                 onClick={() => choose(choice)}
                 disabled={feedback === "good"}
