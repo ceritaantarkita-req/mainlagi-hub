@@ -31,6 +31,7 @@ const EXPECTED_PATTERNS = [
   "cloze_sentence_choice",
   "visual_word_problem",
   "spatial_relation_board",
+  "phrase_scene_match",
   "sorting_buckets",
   "drag_to_target",
   "odd_one_out",
@@ -194,6 +195,9 @@ try {
 
   const classifiedTotal = Object.values(overall).reduce((sum, count) => sum + count, 0);
   assert.equal(classifiedTotal, totalActivities, "pattern counts must sum to the complete activity catalog");
+  assert.equal(overall.phrase_scene_match, 4, "Pattern 41 must classify exactly four audited phrase-scene activities");
+  assert.equal(overall.choice_grid, 257, "Pattern 41 moves exactly four activities out of choice_grid");
+  assert.equal(activePatterns.length, 41, "Pattern 41 raises the active child-facing pattern count to 41");
 
   console.log("GAMEPLAY_DISTRIBUTION_AUDIT_SUMMARY", JSON.stringify({
     activities: totalActivities,
