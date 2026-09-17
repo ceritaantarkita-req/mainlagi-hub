@@ -1,4 +1,5 @@
 import type { LearningActivity } from "./system";
+import { isClozeSentenceChoiceActivity } from "./clozeSentenceChoiceConfig";
 import { isReadingPassageQuestionActivity } from "./readingPassageQuestionConfig";
 import { isSentenceOrderCardsActivity } from "./sentenceOrderCardsConfig";
 
@@ -17,6 +18,7 @@ export type GameplayPattern =
   | "picture_word_match"
   | "sentence_order_cards"
   | "reading_passage_question"
+  | "cloze_sentence_choice"
   | "sorting_buckets"
   | "odd_one_out"
   | "rule_pipeline"
@@ -636,6 +638,7 @@ export function gameplayPattern(activity: LearningActivity | undefined): Gamepla
     if (isPictureWordMatchActivity(activity)) return "picture_word_match";
     if (isSentenceOrderCardsActivity(activity)) return "sentence_order_cards";
     if (isReadingPassageQuestionActivity(activity)) return "reading_passage_question";
+    if (isClozeSentenceChoiceActivity(activity)) return "cloze_sentence_choice";
     const presentation = choiceGameplayPresentation(activity);
     if (presentation === "sequence_slot") return "missing_sequence_slot";
     if (presentation === "syllable_assembly") return "syllable_assembly";

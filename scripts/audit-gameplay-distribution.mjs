@@ -28,6 +28,7 @@ const EXPECTED_PATTERNS = [
   "picture_word_match",
   "sentence_order_cards",
   "reading_passage_question",
+  "cloze_sentence_choice",
   "sorting_buckets",
   "drag_to_target",
   "odd_one_out",
