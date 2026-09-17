@@ -24,23 +24,15 @@ Subsystem docs remain authoritative for their specific scope when they do not co
 
 ## Current execution checkpoint
 
-Pattern #41 `phrase_scene_match` is **FULLY CLOSED / LIVE VERIFIED**.
-
-Canonical chain:
+Pattern #41 `phrase_scene_match` is **FULLY CLOSED / LIVE VERIFIED** and its final truth reconciliation is merged.
 
 ```text
-Audit PR:                #179
-Audit main:              917e933b2d69db3d014b98f3aa49bb6962aec992
-Audit main CI:           #860 / run 35223876877 — full success + exact Cloudflare smoke
-Implementation PR:       #180
-Implementation main:     f90a0d377fa7227b8857f6069a5e957c99eb0b11
-Implementation main CI:  #862 / run 35229750381 — full success + exact Cloudflare smoke
-Closure PR:              #184
-Closure main:            552a3123b7352d6d5ab0eb2d9caecab50d60f09c
-Closure main CI:         #867 / run 35240186539 — full success + exact Cloudflare smoke
+Truth PR:                #185
+Final truth main:        e20b50431d907f9ca6f3ef254b7c69aa24a132a5
+Final truth main CI:     #869 / run 35241959755 — full success + exact Cloudflare production smoke
 ```
 
-Verified merged gameplay distribution is **900/900 classified, 41 active patterns, 0 unclassified**, with `choice_grid` 257/900 and `phrase_scene_match` 4/900.
+Verified merged gameplay distribution remains **900/900 classified, 41 active patterns, 0 unclassified**, with `choice_grid` 257/900 and `phrase_scene_match` 4/900.
 
 ```text
 P0 = 0
@@ -51,62 +43,67 @@ Pattern #38 = FULLY CLOSED
 Pattern #39 = FULLY CLOSED
 Pattern #40 = FULLY CLOSED
 Pattern #41 = FULLY CLOSED / LIVE VERIFIED
+Pattern #42 = AUDIT CANDIDATE ONLY / NOT IMPLEMENTED
 ```
 
-## Pattern #41 verified contract
+## Pattern #42 objective/evidence audit
+
+Current audit candidate:
 
 ```text
-pattern:     phrase_scene_match
-subject:     english
-stage:       english-phrases-review
-lesson:      english-simple-phrases
-pack:        english.pack.simple-phrases
-skill:       english.phrase.literal
+pattern:     growth_stage_transition
+subject:     science
+stage:       science-life-material-motion
+lesson:      science-life-cycles
+pack:        science.pack.life-cycles
+skill:       science.life_cycles.basic
 runtime:     tap_choice
 assessment:  assessed
 contract:    choice_accuracy_v1
-status:      FULLY CLOSED / LIVE VERIFIED
+status:      AUDIT CANDIDATE JUSTIFIED / CODE NOT STARTED
 ```
 
-Exact scope:
+Exact audited scope:
 
 ```text
-english-phrase-red-ball
-english-phrase-two-books
-english-phrase-small-cat
-english-phrase-yellow-banana
+science-cycle-frog
+science-cycle-chick
+science-cycle-seed-sprout
 ```
 
-Verified boundaries:
+Important exclusions:
 
-- exact-ID deterministic scene config only; no arbitrary English phrase parser;
-- all twelve canonical choice scenes are explicit;
-- canonical prompt, choice labels/order, answer payload and `correctChoice` unchanged;
-- color, quantity, size and noun composition represented visually;
-- wrong answers remain measured/retryable and cannot complete;
-- correct completion keeps `choice_accuracy_v1` semantics;
-- direct keyboard/touch/pointer answer controls remain primary;
-- `english-listen-phrase-blue-book`, sentence-completion activities and unrelated vocabulary/opposites remain outside;
-- no translation checkpoint, speech scoring, drag-only requirement, mastery/progression/schema/database rewrite;
-- responsive browser QA passes 320x720, 390x844 and 768x1024;
-- merged distribution is 900/900 classified, 41 patterns, `choice_grid` 257/900, `phrase_scene_match` 4/900.
+- `science-cycle-butterfly` remains a complete ordered lifecycle sequence and is not Pattern #42;
+- `science-match-young-adult-b` remains canonical matching and is not Pattern #42;
+- existing water-state `cause_effect` and Logic `relative_order_track` scopes remain unchanged.
 
-## Closure/evidence records
+Implementation target only, not current merged truth:
 
-- [`PATTERN41_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN41_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md) — merged Pattern #41 objective/evidence audit.
+```text
+900 / 900 classified
+0 unclassified
+42 active patterns
+choice_grid                     254 / 900
+growth_stage_transition           3 / 900
+```
+
+The audit requires deterministic exact-ID config, byte-preserved canonical prompts/choices/order/`correctChoice`, no pre-answer reveal, measured retry/completion evidence, keyboard/touch/pointer support, responsive idle/wrong/success QA, permanent visual QA, full CI and post-merge Cloudflare smoke.
+
+## Current evidence records
+
+- [`PATTERN42_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN42_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md) — current Pattern #42 docs-only audit and exact-scope justification.
+- [`PATTERN41_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN41_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md) — Pattern #41 objective/evidence audit.
 - [`WS05_PHRASE_SCENE_MATCH_WAVE_2026-09-17.md`](WS05_PHRASE_SCENE_MATCH_WAVE_2026-09-17.md) — Pattern #41 implementation/QA wave record.
 - [`PATTERN41_PHRASE_SCENE_MATCH_CLOSURE_2026-09-17.md`](PATTERN41_PHRASE_SCENE_MATCH_CLOSURE_2026-09-17.md) — Pattern #41 closure gate record.
-- [`PATTERN41_FINAL_CLOSURE_VERIFICATION_2026-09-17.md`](PATTERN41_FINAL_CLOSURE_VERIFICATION_2026-09-17.md) — final merged-main closure verification and Cloudflare-smoke truth.
+- [`PATTERN41_FINAL_CLOSURE_VERIFICATION_2026-09-17.md`](PATTERN41_FINAL_CLOSURE_VERIFICATION_2026-09-17.md) — final Pattern #41 merged-main truth.
 - [`PATTERN40_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN40_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md)
 - [`WS05_SPATIAL_RELATION_BOARD_WAVE_2026-09-17.md`](WS05_SPATIAL_RELATION_BOARD_WAVE_2026-09-17.md)
-- [`PATTERN40_IMPLEMENTATION_ACCEPTANCE_2026-09-17.md`](PATTERN40_IMPLEMENTATION_ACCEPTANCE_2026-09-17.md)
-- [`PATTERN40_SPATIAL_RELATION_BOARD_CLOSURE_2026-09-17.md`](PATTERN40_SPATIAL_RELATION_BOARD_CLOSURE_2026-09-17.md)
 
 Historical closure/candidate/audit records must not be rewritten to pretend later QA or implementation state existed at their original checkpoint.
 
 ## Remaining product-quality work
 
-Immediate WS-05 work is now a **fresh Pattern #42 objective/evidence audit** from the verified Pattern #41 closure baseline. No mechanic, subject or activity family is pre-approved. The audit may validly conclude that no justified candidate exists.
+Immediate WS-05 gate is to merge and independently verify the Pattern #42 audit before any runtime implementation. If that gate passes, implementation must occur on a separate branch from the verified audit `main` and remain limited to the exact three audited Science activities.
 
 Other open work remains P2 game-shell/icon/inline-style convergence, WS-02 narration, WS-10 real-device/accessibility/human/Iqro acceptance, WS-11 governance, later WS-12 cleanup, and continued WS-05 progression toward 50–60 meaningful patterns.
 

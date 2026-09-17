@@ -24,14 +24,15 @@ Patterns #1–#35 remain as previously closed/merged. Latest entries:
 35. `picture_word_match` — FULLY CLOSED
 36. `sentence_order_cards` — FULLY CLOSED
 37. `reading_passage_question` — FULLY CLOSED
-38. `cloze_sentence_choice` — FULLY CLOSED via implementation #166 + closure #168
-39. `visual_word_problem` — FULLY CLOSED via audit #169 + implementation #170 + closure #171
-40. `spatial_relation_board` — **FULLY CLOSED** via audit #173 + implementation #175 + closure #176
-41. `phrase_scene_match` — **FULLY CLOSED / LIVE VERIFIED** via audit #179 + implementation #180 + closure #184
+38. `cloze_sentence_choice` — FULLY CLOSED
+39. `visual_word_problem` — FULLY CLOSED
+40. `spatial_relation_board` — FULLY CLOSED
+41. `phrase_scene_match` — **FULLY CLOSED / LIVE VERIFIED**
+42. `growth_stage_transition` — **AUDIT CANDIDATE JUSTIFIED / NOT IMPLEMENTED**
 
 Permanent gameplay-distribution audit foundation: MERGED PR #105.
 
-Current verified merged distribution on `main`:
+## Current verified merged distribution
 
 ```text
 900 / 900 classified
@@ -47,7 +48,9 @@ sentence_order_cards              5 / 900
 picture_word_match                5 / 900
 ```
 
-Remaining distance is **9 patterns** to minimum 50 and **19** to working target 60.
+Current merged truth remains **41 patterns**. Pattern #42 is not counted until implementation merges and is independently verified.
+
+Remaining distance from current merged truth is **9 patterns** to minimum 50 and **19** to working target 60.
 
 ## Pattern #41 — `phrase_scene_match` FULLY CLOSED
 
@@ -60,49 +63,66 @@ english-phrase-small-cat
 english-phrase-yellow-banana
 ```
 
+Final truth:
+
+```text
+Closure PR:              #184
+Closure main:            552a3123b7352d6d5ab0eb2d9caecab50d60f09c
+Closure main CI:         #867 / run 35240186539 — full success + Cloudflare smoke
+Truth PR:                #185
+Final truth main:        e20b50431d907f9ca6f3ef254b7c69aa24a132a5
+Final truth main CI:     #869 / run 35241959755 — full success + Cloudflare smoke
+```
+
+## Pattern #42 audit candidate — `growth_stage_transition`
+
+The fresh audit found a justified **narrow** Science lifecycle transition family:
+
+```text
+science-cycle-frog
+science-cycle-chick
+science-cycle-seed-sprout
+```
+
 Canonical boundaries:
 
 ```text
-subject:     english
-stage:       english-phrases-review
-lesson:      english-simple-phrases
-pack:        english.pack.simple-phrases
-skill:       english.phrase.literal
+subject:     science
+stage:       science-life-material-motion
+lesson:      science-life-cycles
+pack:        science.pack.life-cycles
+skill:       science.life_cycles.basic
 runtime:     tap_choice
 assessment:  assessed
 contract:    choice_accuracy_v1
 ```
 
-Verified contract:
+Why this exact scope is coherent:
 
-- exact four-ID fail-closed config;
-- deterministic scenes for all twelve canonical choices;
-- canonical prompt, choice labels/order, submitted answer strings and `correctChoice` unchanged;
-- color, quantity, size and noun composition represented visually;
-- wrong answer remains retryable/measured and cannot complete;
-- correct answer completes through the existing canonical evidence path;
-- direct keyboard/touch/pointer choice controls remain primary;
-- no drag-only dependency, translation checkpoint or speech-scoring checkpoint;
-- mastery/progression/schema/database remain unchanged;
-- runtime metadata uses `phrase-scene-match-runtime` and `choice_phrase_scene_interaction`;
-- responsive QA passes at 320x720, 390x844 and 768x1024;
-- permanent visual QA remains green.
+- all three ask for one target biological growth stage relative to a known stage;
+- generic `choice_grid` preserves answer evidence but does not explicitly represent the growth transition;
+- explicit deterministic config can show a known stage and an unknown target stage without changing the canonical answer payload;
+- canonical prompt, choice order, `correctChoice`, assessment, mastery and progression can remain unchanged.
 
-Verified chain:
+Explicit exclusions:
+
+- `science-cycle-butterfly` remains outside because it asks for a complete ordered four-stage lifecycle;
+- `science-match-young-adult-b` remains outside because its canonical runtime/evidence is matching;
+- `cause_effect` remains scoped to physical water-state changes under environmental conditions;
+- `relative_order_track` remains abstract multi-item positional reasoning;
+- no arbitrary lifecycle prompt parser is approved.
+
+Implementation target only, **not current merged truth**:
 
 ```text
-Audit PR:                #179
-Audit main:              917e933b2d69db3d014b98f3aa49bb6962aec992
-Audit main CI:           #860 / run 35223876877 — full success + Cloudflare smoke
-Implementation PR:       #180
-Implementation main:     f90a0d377fa7227b8857f6069a5e957c99eb0b11
-Implementation main CI:  #862 / run 35229750381 — full success + Cloudflare smoke
-Closure PR:              #184
-Closure main:            552a3123b7352d6d5ab0eb2d9caecab50d60f09c
-Closure main CI:         #867 / run 35240186539 — full success + Cloudflare smoke
+900 / 900 classified
+0 unclassified
+42 active patterns
+choice_grid                     254 / 900
+growth_stage_transition           3 / 900
 ```
 
-Full evidence: `PATTERN41_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`, `WS05_PHRASE_SCENE_MATCH_WAVE_2026-09-17.md`, `PATTERN41_PHRASE_SCENE_MATCH_CLOSURE_2026-09-17.md`, and `PATTERN41_FINAL_CLOSURE_VERIFICATION_2026-09-17.md`.
+Full audit: `PATTERN42_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`.
 
 ## Production visual checkpoint
 
@@ -113,8 +133,6 @@ P2 = 3
 permanent visual QA = 21 canonical routes / 63 captures / blocking
 ```
 
-P2 findings remain visible but do not re-block accepted gameplay implementations.
-
 ## Distribution rule
 
 Coverage and implemented-pattern consistency are blocking; concentration is advisory. Use a mechanic because it fits the objective, not as cosmetic taxonomy inflation.
@@ -122,11 +140,8 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 ## Rollout order terbaru
 
 - Patterns #1–#41 — **FULLY CLOSED**.
-- NEXT — fresh Pattern #42 objective/evidence audit.
-
-## Pattern #42 objective/evidence gate
-
-Pattern #42 begins from the verified Pattern #41 closure baseline. No mechanic, subject or content family is pre-approved. The audit must inspect remaining objectives where current representation is weak, identify required evidence, determine whether an existing pattern already measures it adequately, reject cosmetic/taxonomy-only variants, preserve mastery/progression boundaries, select a small exact scope only when justified, and preserve the valid outcome **“no justified Pattern #42 candidate yet.”**
+- Pattern #42 — docs-only audit candidate `growth_stage_transition`; implementation not started.
+- NEXT GATE — merge/verify the audit, then implement only the exact three audited IDs on a separate branch.
 
 ## Definition of done per mechanic
 
