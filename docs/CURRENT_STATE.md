@@ -11,13 +11,14 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - production: `https://mainlagihub.my.id/`
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - source licence: `AGPL-3.0-only`
-- latest live-verified gameplay implementation: **Pattern #39 — Math `visual_word_problem`**
+- latest fully closed gameplay pattern: **Pattern #39 — Math `visual_word_problem`**
 - Pattern #39 audit: PR #169
 - Pattern #39 implementation: PR #170
 - Pattern #39 implementation merge/main: `bcb8479514f44d46ebc68917981699240aabc3b2`
-- Pattern #39 merged-main CI: **#809 / run `35187506724` — full success including exact Cloudflare production smoke**
-- Pattern #39 docs closure: **IN PROGRESS on dedicated docs-only branch**
-- Pattern #38: **FULLY CLOSED**, closure PR #168 -> main `86e6b69d576d72fec73158a7a1c6d8961de36887`, final main CI #803 including exact Cloudflare smoke
+- Pattern #39 implementation merged-main CI: **#809 / run `35187506724` — full success including exact Cloudflare production smoke**
+- Pattern #39 docs closure: PR #171 -> main `98725727c866d410b2d0caa206e86e70cd0e5741`
+- Pattern #39 final closure CI: **#811 / run `35190499794` — success**
+- Pattern #40 objective/evidence audit: **OPEN PR #173**, candidate `spatial_relation_board`; implementation not started
 - permanent visual QA foundation: **VQA-01 FULLY CLOSED**
 - visual P1 baseline: **P0=0 / P1=0 / P2=3**
 
@@ -37,8 +38,8 @@ VUI-02 Stage/Gallery: FULLY CLOSED / LIVE VERIFIED
 VUI-03 Public/Auth/Account: FULLY CLOSED / LIVE VERIFIED
 VBASE-P1-01 residual token fragmentation: FULLY CLOSED / LIVE VERIFIED
 Pattern #38: FULLY CLOSED
-Pattern #39 implementation: MERGED / LIVE VERIFIED
-Pattern #39 docs closure: IN PROGRESS
+Pattern #39: FULLY CLOSED
+Pattern #40 audit: OPEN / IMPLEMENTATION NOT STARTED
 ```
 
 External physical-device acceptance, accessibility-specialist review, human pedagogical/art acceptance and Iqro expert acceptance remain separate and incomplete. Physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
@@ -67,30 +68,13 @@ sentence_order_cards             5 / 900
 picture_word_match               5 / 900
 ```
 
-Remaining distance is **11 patterns** to minimum 50 and **21** to working target 60.
+Remaining distance is **11 patterns** to minimum 50 and **21** to working target 60. Pattern #40 is not counted until an implementation is merged and independently verified.
 
 Deterministic activity-quality remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / 0 structural findings**.
 
-## Pattern #38 closure
+## Pattern #39 closure
 
-Pattern #38 `cloze_sentence_choice` is fully closed.
-
-Canonical chain:
-
-```text
-Audit PR:        #165
-Implementation:  #166
-Implementation main: 76a2d87dca3689ed8206f5ce0556760dabe903b6
-Implementation main CI: #801 / run 35179596668 — full success
-Closure PR:      #168
-Closure main:    86e6b69d576d72fec73158a7a1c6d8961de36887
-Final main CI:   #803 / run 35180530822 — full success
-Cloudflare smoke: success
-```
-
-Full evidence: `PATTERN38_CLOZE_SENTENCE_CHOICE_CLOSURE_2026-09-17.md`.
-
-## Pattern #39 live implementation
+Pattern #39 `visual_word_problem` is fully closed.
 
 Exact scope:
 
@@ -100,12 +84,6 @@ math-problem-birds
 math-problem-cars
 math-problem-cookies
 math-problem-balloons
-```
-
-Pattern:
-
-```text
-visual_word_problem
 ```
 
 Preserved contracts:
@@ -120,35 +98,66 @@ Preserved contracts:
 - `choice_accuracy_v1` evidence semantics;
 - mastery, progression, content schema and database unchanged.
 
-Presentation/evidence behavior:
-
-- canonical everyday story remains primary prompt;
-- deterministic quantity board shows start -> add/remove -> unknown result;
-- result remains hidden before correct completion;
-- wrong answer remains retryable/measured and cannot complete;
-- keyboard/touch/pointer remain direct primary controls;
-- runtime source `visual-word-problem-runtime`;
-- evidence fidelity `choice_visual_word_problem_interaction`.
-
 Verification chain:
 
 ```text
-Audit PR:            #169
-Implementation PR:   #170
-Implementation head: df503b95abf86e2b530dd9ff18bd5d8b9707e2db
-Merge/main:          bcb8479514f44d46ebc68917981699240aabc3b2
-Main CI:             #809 / run 35187506724 — full success
-Cloudflare smoke:    success
+Audit PR:              #169
+Implementation PR:     #170
+Implementation main:   bcb8479514f44d46ebc68917981699240aabc3b2
+Implementation CI:     #809 / run 35187506724 — full success
+Closure PR:            #171
+Final closure main:    98725727c866d410b2d0caa206e86e70cd0e5741
+Final closure CI:      #811 / run 35190499794 — success
 ```
 
-Merged-main gameplay-distribution artifact:
+Full evidence: `PATTERN39_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`, `WS05_VISUAL_WORD_PROBLEM_WAVE_2026-09-17.md`, and `PATTERN39_VISUAL_WORD_PROBLEM_CLOSURE_2026-09-17.md`.
+
+## Pattern #40 objective/evidence audit — open
+
+Fresh audit PR #173 selects a candidate only; it does not claim implementation or production availability.
+
+Working pattern:
 
 ```text
-id: 10482459288
-digest: sha256:4bacc984852eb4befd352a727935daf8e75cb0b30ec1a58af8451895649ae967
+spatial_relation_board
 ```
 
-Full implementation/closure evidence: `WS05_VISUAL_WORD_PROBLEM_WAVE_2026-09-17.md` and `PATTERN39_VISUAL_WORD_PROBLEM_CLOSURE_2026-09-17.md`.
+Exact candidate scope:
+
+```text
+logic-spatial-star-left-circle
+logic-spatial-circle-right-triangle
+logic-spatial-circle-between-stars
+logic-spatial-turn-right-from-up
+logic-spatial-turn-left-from-right
+logic-spatial-opposite-left
+```
+
+Canonical ownership:
+
+```text
+subject:     logic
+stage:       logic-patterns-sequences-relations
+lesson:      logic-spatial-relations
+pack:        logic.pack.spatial-relations
+skill:       logic.spatial.relation.basic
+runtime:     tap_choice
+assessment:  assessed
+contract:    choice_accuracy_v1
+```
+
+Audit rationale: the lesson objective explicitly measures left/right/between, turns and opposite directions, while the current generic `choice_grid` under-represents those spatial relations. A deterministic spatial board can improve objective fidelity while retaining the unchanged canonical answers and evidence contract.
+
+Boundaries:
+
+- audit only until PR #173 is accepted and merged;
+- no Pattern #40 runtime is live yet;
+- no canonical prompt/choice/answer rewrite;
+- no mastery/progression/schema/database rewrite;
+- exact-scope classifier must fail closed;
+- keyboard/touch/pointer controls remain required;
+- wrong attempts remain measured/retryable and cannot complete;
+- implementation must independently prove 900/900 classification and 40 active patterns before Pattern #40 can be called implemented.
 
 ## P1 state
 
@@ -176,12 +185,13 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Finish the **Pattern #39 docs-only closure gate**: fresh exact-head CI, clean merge, then independent merged-main CI + exact Cloudflare smoke.
-2. After Pattern #39 is fully closed, run a **fresh objective/evidence audit for Pattern #40**; no mechanic, subject or activity family is pre-approved.
-3. Continue WS-05 toward 50–60 meaningful patterns with permanent WS-08 visual QA running in parallel.
-4. Continue WS-02 narration and WS-10 external physical-device/accessibility/human acceptance.
-5. Continue WS-11 governance.
-6. Address P2 game-shell/icon/inline-style work without destabilizing accepted P1 surfaces.
-7. Perform later WS-12 technical cleanup and final end-to-end production acceptance.
+1. Complete **Pattern #40 objective/evidence audit PR #173** with canonical docs synchronized and a clean exact-head gate.
+2. If the audit is accepted, merge it without runtime changes, then start Pattern #40 implementation from the resulting latest `main` on a separate branch.
+3. Implement only the exact six audited Logic spatial activities with deterministic config, evidence-safe completion, keyboard/touch/pointer support, responsive browser QA and permanent visual QA.
+4. Independently verify merged-main distribution remains 900/900 classified and becomes exactly 40 active child-facing patterns before claiming Pattern #40 implementation complete.
+5. Continue WS-05 toward 50–60 meaningful patterns with permanent WS-08 visual QA running in parallel.
+6. Continue WS-02 narration and WS-10 external physical-device/accessibility/human acceptance.
+7. Continue WS-11 governance and P2 game-shell/icon/inline-style work without destabilizing accepted P1 surfaces.
+8. Perform later WS-12 technical cleanup and final end-to-end production acceptance.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion or mastery/backend rewrites before the current quality roadmap justifies them.
