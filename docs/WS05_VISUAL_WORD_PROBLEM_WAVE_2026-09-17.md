@@ -1,6 +1,6 @@
 # WS-05 Pattern #39 — Visual Word Problem — 17 September 2026
 
-Status: **IMPLEMENTATION CANDIDATE / AWAITING EXACT-HEAD CI AND LIVE VERIFICATION**
+Status: **IMPLEMENTATION MERGED / LIVE VERIFIED / DOCS CLOSURE IN PROGRESS**
 
 Audit source: `PATTERN39_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`  
 Implementation base: `f8ac7e630392a9bd015d8ed59fe4c275f113ab37`
@@ -70,7 +70,7 @@ This is intentionally not a renamed `make_total` or `take_away` activity. Those 
 
 No arbitrary Indonesian prompt parsing is used.
 
-## Permanent QA added
+## Permanent QA
 
 Regression coverage checks:
 
@@ -89,43 +89,47 @@ Responsive browser QA checks representative `math-problem-birds` at:
 768x1024
 ```
 
-Each viewport verifies:
+Each viewport verifies legitimate progression readiness, unchanged canonical story, subtraction quantity board, hidden result before success, canonical answer order, keyboard wrong path, pointer correct completion, touch-target floor, no overflow, assessed evidence metadata, screenshots, and no page/console errors.
 
-- legitimate prerequisite/progression readiness;
-- unchanged canonical story;
-- subtraction quantity board `5 -> −2 -> ?`;
-- result masked before success and after a wrong answer;
-- three canonical answer labels/order;
-- keyboard wrong-answer path;
-- pointer correct-answer completion;
-- touch-target floor and no horizontal overflow;
-- assessed attempt source/fidelity/count/accuracy/retry metadata;
-- idle, wrong and success screenshots;
-- no page or console errors.
+## Verified implementation chain
 
-The browser suite is wired into the blocking mobile-route QA chain. The focused regression is wired into the blocking learning/engine chain. Gameplay-distribution expects Pattern #39 explicitly.
+```text
+Audit PR:            #169
+Implementation PR:   #170
+Implementation head: df503b95abf86e2b530dd9ff18bd5d8b9707e2db
+Merge/main:          bcb8479514f44d46ebc68917981699240aabc3b2
+Main CI:             #809 / run 35187506724 — full success
+Cloudflare smoke:    success
+```
 
-## Expected distribution after implementation
+Main CI #809 passed production build, dependency/security checks, Windows, Ubuntu quality gate, engine/learning tests, activity-quality and gameplay-distribution audits, simulations/final acceptance, mobile Chromium QA/permanent visual baseline, and exact Cloudflare release/public smoke.
+
+Gameplay-distribution artifact:
+
+```text
+id:     10482459288
+digest: sha256:4bacc984852eb4befd352a727935daf8e75cb0b30ec1a58af8451895649ae967
+```
+
+Verified distribution:
 
 ```text
 activities classified:          900 / 900
+unclassified:                     0
 active merged patterns:          39
 choice_grid                     267 / 900
 visual_word_problem               5 / 900
 ```
 
-The exact counts remain a CI assertion/evidence result, not a reason to keep the mechanic if objective/evidence tests fail.
+## Remaining closure gate
 
-## Acceptance gate
+Implementation is already live verified. Remaining work is documentation/governance only:
 
-Do not mark Pattern #39 fully closed until all are complete:
+1. synchronize canonical current-state, quality-plan, gameplay-catalog and docs index;
+2. add dedicated Pattern #39 closure evidence;
+3. run fresh exact-head CI on the docs-only closure branch;
+4. require clean intended scope, no unresolved review/thread issue and mergeability;
+5. squash-merge exact closure head;
+6. require independent merged-main CI including exact Cloudflare release/public smoke.
 
-1. exact-head implementation CI is fully green;
-2. focused browser screenshots are manually reviewed;
-3. gameplay distribution remains 900/900 with exactly 39 patterns;
-4. PR scope/reviews/threads/behind gate is clean;
-5. exact implementation head is squash-merged;
-6. independent merged-main CI passes, including exact Cloudflare release/public smoke;
-7. separate canonical live-closure docs are merged and independently verified.
-
-Until those gates pass, this file is an implementation candidate record rather than a closure claim.
+Only after those gates may Pattern #39 be called **FULLY CLOSED**. After closure, Pattern #40 must start from a fresh objective/evidence audit with no mechanic pre-approved.
