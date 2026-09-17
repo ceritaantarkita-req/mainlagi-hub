@@ -6,21 +6,16 @@
 **Canonical branch:** `main`  
 **Latest fully closed gameplay:** Pattern #37 — Bahasa `reading_passage_question`  
 **Pattern #37 final verified main:** `b1793adaabe19a9c73e021534899f8b50c4097f6`  
-**Permanent visual QA foundation:** **FULLY CLOSED**, PR #156 -> `9269e9fd576004d7d91fbd840e8c752acc7a5aae`, CI #751  
-**VUI-01 Parent Report:** **FULLY CLOSED**, PR #157 -> `e212002eafef77a37a220834c6263e433cf9acbb`, CI #758  
-**VUI-02 Stage / Gallery:** **FULLY CLOSED**, PR #158 -> `fe260ba7a239586ca2362fbabfca3e0a5019d453`, CI #764  
-**VUI-03 Public/Auth/Account:** **FULLY CLOSED**, PR #160 -> `415008a4a0503da98937ee8df0a1e5feb1a08c62`, CI #776 / run `35124809180` including exact Cloudflare release smoke  
-**VUI-03 docs baseline:** `7c863ad2b1887fe0c39557b408b743036128abe1`, CI #778 / run `35130270215` including exact Cloudflare release smoke  
-**Merged-main P1:** **1 — residual visual-token fragmentation**  
-**PR #162:** final P1 implementation candidate accepted on head `923635645c164f08e9d26cc84be0b527d0e13ae0`; live closure pending  
-**Pattern #38:** **BLOCKED until merged production is P0=0 / P1=0**  
+**Visual checkpoint:** **P0=0 / P1=0 LIVE VERIFIED**  
+**Final P1 closure:** PR #162 -> `2d3f95066e1106c43c76bf91dd29bf5707dca52c`, CI #788 / run `35168877485`, exact Cloudflare release smoke success  
+**Pattern #38:** **UNBLOCKED FOR FRESH OBJECTIVE/EVIDENCE AUDIT — NOT PRE-APPROVED FOR IMPLEMENTATION**  
 **Principle:** **Quality first. Quantity later.**
 
 ## Product goal
 
-Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menarik, konsisten, interaction-nya beragam, dan evidence/mastery-nya dapat dipercaya. WS-05 tetap diarahkan ke minimum **50**, working target **60 meaningful gameplay patterns**, tetapi gameplay diversification tidak boleh mendahului kualitas product shell.
+Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menarik, konsisten, interaction-nya beragam, dan evidence/mastery-nya dapat dipercaya. WS-05 tetap diarahkan ke minimum **50**, working target **60 meaningful gameplay patterns**.
 
-Garden activity direction tetap child-facing anchor. Permanent visual QA tetap blocking selama public/child/parent/account/auth/system surfaces dikonvergensikan wave-by-wave.
+Visual P1 sudah live-closed. Permanent visual QA tetap blocking dan sekarang mencakup 21 canonical routes × 3 viewports = 63 exact-path screenshots.
 
 ## Mandatory rules
 
@@ -34,7 +29,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 8. Deployment smoke tidak sama dengan whole-product visual acceptance.
 9. Public, child, parent/account/auth dan system states harus mengikuti Art Bible setelah dimigrasikan.
 10. Screenshot QA invalid jika route diam-diam redirect dari expected pathname.
-11. Pattern #38 tidak boleh mulai selama merged production masih punya P0/P1 terbuka.
+11. P1=0 tidak berarti mechanic baru otomatis layak; setiap Pattern baru tetap harus melalui objective/evidence audit.
 12. Failing visual gate harus didiagnosis; exception hanya boleh dipersempit jika intentional dan terverifikasi eksplisit.
 13. Responsive acceptance bersifat evidence-based: lolos `no overflow` tidak membenarkan komposisi yang cramped, terpotong, atau menyisakan canvas kosong secara tidak sengaja.
 14. Stage/readiness visual emphasis tidak boleh mengubah gate, prerequisite, recommendation source, lesson/activity ordering semantic, atau completion requirement.
@@ -42,24 +37,24 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 16. Known-child fast resume tidak boleh dihapus hanya agar public root selalu tampil.
 17. Residual token cleanup tidak boleh menjadi alasan mass rewrite global CSS; hanya migrate surface yang benar-benar user-facing dan terverifikasi drift.
 18. Admin/diagnostic styling boleh tetap utilitarian bila tidak bocor ke public/child/parent flows.
-19. Green automated checks tidak menggantikan screenshot review; #780 membuktikan manual review dapat menemukan defect yang structural gate tidak tandai.
+19. Green automated checks tidak menggantikan screenshot review; CI #780 membuktikan manual review dapat menemukan defect yang structural gate tidak tandai.
 
 ## Workstream status
 
 | Workstream | Status | Current note |
 |---|---|---|
-| WS-01 Canonical docs | DONE / maintained | candidate docs through PR #162; production closure still pending |
+| WS-01 Canonical docs | DONE / maintained | live closure through PR #162 / main CI #788 |
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
-| WS-03 Public/parent frontend | **P1 LIVE-VERIFY GATE** | final implementation candidate accepted; merge/main verification next |
+| WS-03 Public/parent frontend | **P1 CLOSED** | P0=0 / P1=0 live verified |
 | WS-04 Activity audit/redesign | deterministic clean | 900 KEEP / 0 flagged |
-| WS-05 Gameplay diversification | **PAUSED AT 37** | Pattern #38 waits for production P1=0 |
+| WS-05 Gameplay diversification | **READY FOR FRESH #38 AUDIT** | 37 active merged patterns |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
-| WS-08 Art direction / visual QA | **PRIMARY / RUNNING** | permanent candidate gate expanded to 63 captures |
+| WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | 63-capture gate live |
 | WS-09 Stage/gallery UX | DONE | VUI-02 closed |
 | WS-10 External acceptance | TODO | real devices, accessibility, Iqro expert |
 | WS-11 Governance | TODO | required checks/review discipline |
-| WS-12 Technical cleanup | TODO LATER | after P1 visual closure |
+| WS-12 Technical cleanup | TODO LATER | after current product-quality waves |
 
 ## Verified gameplay baseline
 
@@ -76,9 +71,11 @@ Bahasa choice_grid               29 / 100
 
 Distance remaining: **13 patterns** to minimum 50 and **23** to working target 60.
 
+Deterministic quality remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / 0 structural findings**.
+
 ## Permanent visual/product gate
 
-Merged `main` has the original blocking VQA foundation. PR #162 strengthens that gate on the candidate head to **21 canonical routes × 3 viewports = 63 exact-path screenshots** at:
+The browser gate is now **21 canonical routes × 3 viewports = 63 exact-path screenshots** at:
 
 ```text
 390x844
@@ -86,92 +83,76 @@ Merged `main` has the original blocking VQA foundation. PR #162 strengthens that
 1280x800
 ```
 
-The 21-route candidate set covers public root, child selection/home/subject/stage/activity/rewards, Parent Report, account root, all six migrated account subpages, login, signup, forgot-password, reset-password, deterministic auth error and canonical not-found.
+Coverage includes public root, child selection/home/subject/stage/activity/rewards, Parent Report, account root, all six migrated account subpages, login, signup, forgot-password, reset-password, deterministic auth error and canonical not-found.
 
 Blocking checks include exact path/status, main/H1, route boundary where applicable, no Next overlay, no horizontal overflow, no page/console errors, child touch floor, Parent Report copy guard, Stage/Subject geometry guards, public/auth/account guards, account-section geometry, reset-password auth mode and canonical not-found markers.
 
-Accepted implementation evidence:
+Final P1 live evidence:
 
 ```text
-head:    923635645c164f08e9d26cc84be0b527d0e13ae0
-CI:      #781 / run 35137266315 — full PR success
-artifact id: 10464427013
-digest: sha256:83c8181998c78da4faf1841b17a42b5874c14c00f6e557a736e946575a87e292
-captures: 63 / 63
-routes:   21
-status:   60 x 200 + 3 intentional 404
-missing:  0
+PR:                       #162
+merge/main SHA:           2d3f95066e1106c43c76bf91dd29bf5707dca52c
+main CI:                  #788 / run 35168877485 — full success
+Cloudflare exact release: success
+visual artifact:          10464427013
+artifact digest:          sha256:83c8181998c78da4faf1841b17a42b5874c14c00f6e557a736e946575a87e292
+captures:                 63 / 63
 ```
 
-Manual review accepted the final artifact. A prior #780 artifact exposed an empty-card defect on the security stub; that defect was fixed before #781 and was not waived.
-
-## Current P1 state
-
-Merged-main state remains:
+## Visual finding state
 
 ```text
 P0 findings: 0
-P1 findings: 1
+P1 findings: 0
 P2 findings: 3
 ```
 
-**VBASE-P1-01 — visual-token fragmentation — IMPLEMENTATION CANDIDATE ACCEPTED / LIVE CLOSURE PENDING**  
-PR #162 removes the evidenced residual family/system drift without a global CSS rewrite. Six account subpages now share a scoped family shell, canonical not-found uses a scoped Mainlagi system state, and permanent evidence covers every migrated route. Final production closure still requires exact-head docs CI, clean merge, independent main CI and exact Cloudflare smoke.
+All five baseline P1 findings are closed. Full record: `VBASE_P1_01_LIVE_CLOSURE_2026-09-17.md` plus the prior VUI closure records.
 
-**VBASE-P1-02 — parent-report density/jargon — CLOSED**  
-PR #157 / CI #758.
+Remaining P2:
+- game detail/preflight legacy vocabulary;
+- mixed canonical symbols/raw emoji;
+- inline visual styles increasing drift risk.
 
-**VBASE-P1-03 — stage/readiness hierarchy — CLOSED**  
-PR #158 / CI #764.
+These are lower priority than the now-unblocked gameplay objective/evidence audit and must be handled without destabilizing accepted surfaces.
 
-**VBASE-P1-04 — public/adult root IA — CLOSED**  
-PR #160 -> `415008a4a0503da98937ee8df0a1e5feb1a08c62`; independent CI #776 / run `35124809180` including exact Cloudflare release smoke.
+## Pattern #38 audit boundary — NEXT
 
-**VBASE-P1-05 — permanent whole-product visual coverage gap — CLOSED**  
-PR #156 established the gate; PR #162 strengthens it from 14 routes / 42 captures to 21 routes / 63 captures on its candidate head.
+Pattern #38 begins with research, not implementation.
 
-## PR #162 functional boundaries
+Required sequence:
+1. Re-read `GAMEPLAY_VARIATION_CATALOG.md`, current activity catalog/distribution and mastery/evidence contracts.
+2. Identify learning objectives still over-concentrated in existing interaction families.
+3. Select a candidate only where a distinct interaction improves the objective, not merely the pattern count.
+4. Verify assessed/practice ownership and whether qualifying measured evidence is required.
+5. Reject any candidate that would duplicate an existing mechanic under a new label.
+6. Define exact activity scope before code changes.
+7. Document expected learning interaction, fallback/accessibility behavior, completion/evidence contract and regression matrix.
+8. Only then implement Pattern #38 on a new branch from the latest live-verified main SHA.
 
-Preserved:
-- valid remembered child fast resume;
-- Supabase auth/session/recovery/callback behavior;
-- account signed-in/signed-out behavior and existing destination routes;
-- account component data operations;
-- learning/mastery/evidence/progression/content/schema/database behavior.
+No gameplay family is pre-approved.
 
-Explicit exclusions:
-- admin-only utility styling unless proven to leak;
-- game detail/preflight P2 convergence;
-- discover/leaderboard/legal lower-priority cleanup;
-- mass rewrite of `globals.css`.
+## Learning/mastery boundaries
 
-`/account/security` remains a stub. The visual pass does not claim that password/session controls exist there.
-
-Full candidate record: `VBASE_P1_01_VISUAL_TOKEN_CANDIDATE_2026-09-17.md`.
-
-## Definition of Done for visual checkpoint
-
-The visual checkpoint is complete only when:
-- final PR #162 exact-head CI is fully green after candidate docs;
-- clean merge gate passes with behind=0 and no unresolved review/thread issue;
-- PR #162 exact head is merged;
-- independent merged-`main` CI is fully green;
-- exact Cloudflare release smoke succeeds on that merged SHA;
-- final live-closure docs record **P0=0 / P1=0**;
-- the live-closure docs themselves are merged and production-verified.
-
-Only then may Pattern #38 move to a **fresh objective/evidence audit**. No gameplay family is pre-approved.
+Non-negotiable unless explicitly redesigned with migration/tests:
+- mastery: `not_started -> exploring -> developing -> proficient -> mastered`;
+- assessed mastery requires qualifying measured evidence;
+- one perfect attempt cannot jump straight to mastery;
+- retry/rapid replay cannot farm mastery;
+- practice/completion-only cannot manufacture assessed mastery;
+- Drawing/Coloring stay creative practice;
+- legacy game scores stay separate from academic mastery;
+- motion remains optional input/context;
+- Iqro remains `expert_required`, not `expert_approved`.
 
 ## Current execution order
 
-1. Finish PR #162 candidate canonical docs.
-2. Require fresh exact-head full PR CI.
-3. Run clean merge gate; squash-merge exact head.
-4. Require independent main CI + exact Cloudflare smoke.
-5. Publish and verify final live-closure docs marking **P0=0 / P1=0**.
-6. Run a fresh objective/evidence audit for Pattern #38.
-7. Continue WS-05 toward 50–60 while permanent WS-08 visual QA runs in parallel.
-8. Continue WS-02, WS-10, WS-11 and later WS-12 cleanup.
-9. Final end-to-end production acceptance and canonical release closure.
+1. Finish and live-verify the P1 closure-doc branch.
+2. Run the fresh Pattern #38 objective/evidence audit from the latest verified main SHA.
+3. If justified, implement Pattern #38 with permanent WS-08 QA and exact evidence/progression tests.
+4. Continue WS-05 toward 50–60 meaningful patterns.
+5. Continue WS-02 narration, WS-10 external acceptance, WS-11 governance and later WS-12 cleanup.
+6. Address P2 visual cleanup without destabilizing the P1-accepted product shell.
+7. Final end-to-end production acceptance and canonical release closure.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
