@@ -2,6 +2,7 @@ import type { LearningActivity } from "./system";
 import { isClozeSentenceChoiceActivity } from "./clozeSentenceChoiceConfig";
 import { isReadingPassageQuestionActivity } from "./readingPassageQuestionConfig";
 import { isSentenceOrderCardsActivity } from "./sentenceOrderCardsConfig";
+import { isVisualWordProblemActivity } from "./visualWordProblemConfig";
 
 export type MatchingPresentation = "grid_pairs" | "memory_pairs" | "drag_targets";
 export type ChoiceGameplayPresentation = "default" | "sequence_slot" | "syllable_assembly" | "initial_sound" | "sorting_buckets" | "odd_one_out" | "rule_pipeline" | "set_reasoning" | "transitive_chain" | "spatial_transform" | "relative_order_track" | "count_select" | "number_line" | "more_less_balance" | "pattern_completion" | "make_total" | "take_away" | "cause_effect" | "compare_properties" | "healthy_habit_routine" | "material_lab" | "feature_function_link" | "investigation_board";
@@ -19,6 +20,7 @@ export type GameplayPattern =
   | "sentence_order_cards"
   | "reading_passage_question"
   | "cloze_sentence_choice"
+  | "visual_word_problem"
   | "sorting_buckets"
   | "odd_one_out"
   | "rule_pipeline"
@@ -639,6 +641,7 @@ export function gameplayPattern(activity: LearningActivity | undefined): Gamepla
     if (isSentenceOrderCardsActivity(activity)) return "sentence_order_cards";
     if (isReadingPassageQuestionActivity(activity)) return "reading_passage_question";
     if (isClozeSentenceChoiceActivity(activity)) return "cloze_sentence_choice";
+    if (isVisualWordProblemActivity(activity)) return "visual_word_problem";
     const presentation = choiceGameplayPresentation(activity);
     if (presentation === "sequence_slot") return "missing_sequence_slot";
     if (presentation === "syllable_assembly") return "syllable_assembly";
