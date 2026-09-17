@@ -1,5 +1,6 @@
 import { AudioChoiceLearningActivity } from "@/components/learning/AudioChoiceLearningActivity";
 import { CauseEffectActivity } from "@/components/learning/CauseEffectActivity";
+import { ClozeSentenceChoiceActivity } from "@/components/learning/ClozeSentenceChoiceActivity";
 import { ComparePropertiesActivity } from "@/components/learning/ComparePropertiesActivity";
 import { CountAndSelectActivity } from "@/components/learning/CountAndSelectActivity";
 import { CreativePracticeActivity } from "@/components/learning/CreativePracticeActivity";
@@ -31,6 +32,7 @@ import { TakeAwayActivity } from "@/components/learning/TakeAwayActivity";
 import { TransitiveChainActivity } from "@/components/learning/TransitiveChainActivity";
 import { MathTraceWorldActivity } from "@/components/learning/world/MathTraceWorldActivity";
 import { WorldActivityScreen } from "@/components/learning/world/WorldExperience";
+import { isClozeSentenceChoiceCandidate } from "@/lib/learning/clozeSentenceChoiceConfig";
 import {
   isCauseEffectActivity,
   isComparePropertiesActivity,
@@ -95,6 +97,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
         <SentenceOrderCardsActivity childId={childId} activityId={activity} />
       ) : isReadingPassageQuestionActivity(definition) ? (
         <ReadingPassageQuestionActivity childId={childId} activityId={activity} />
+      ) : isClozeSentenceChoiceCandidate(definition) ? (
+        <ClozeSentenceChoiceActivity childId={childId} activityId={activity} />
       ) : isSortingBucketsActivity(definition) ? (
         <SortingBucketsChoiceActivity childId={childId} activityId={activity} />
       ) : isOddOneOutActivity(definition) ? (
