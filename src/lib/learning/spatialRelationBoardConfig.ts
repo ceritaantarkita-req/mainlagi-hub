@@ -1,9 +1,12 @@
 import type { LearningActivity } from "./system";
 
 export type SpatialRelationKind = "left_of" | "right_of" | "between" | "turn_right" | "turn_left" | "opposite";
+export type SpatialRelationMode = "object_relation" | "turn" | "opposite";
 
 export type SpatialRelationBoardConfig = {
   kind: SpatialRelationKind;
+  mode: SpatialRelationMode;
+  relationOrTurn: string;
   anchor: string;
   moving: string;
   cue: string;
@@ -16,6 +19,8 @@ export type SpatialRelationBoardConfig = {
 const CONFIGS: Record<string, SpatialRelationBoardConfig> = {
   "logic-spatial-star-left-circle": {
     kind: "left_of",
+    mode: "object_relation",
+    relationOrTurn: "left_of",
     anchor: "○",
     moving: "★",
     cue: "Cari susunan saat bintang berada di sebelah kiri lingkaran.",
@@ -26,6 +31,8 @@ const CONFIGS: Record<string, SpatialRelationBoardConfig> = {
   },
   "logic-spatial-circle-right-triangle": {
     kind: "right_of",
+    mode: "object_relation",
+    relationOrTurn: "right_of",
     anchor: "▲",
     moving: "○",
     cue: "Cari susunan saat lingkaran berada di sebelah kanan segitiga.",
@@ -36,6 +43,8 @@ const CONFIGS: Record<string, SpatialRelationBoardConfig> = {
   },
   "logic-spatial-circle-between-stars": {
     kind: "between",
+    mode: "object_relation",
+    relationOrTurn: "between",
     anchor: "★",
     moving: "○",
     cue: "Cari susunan saat lingkaran berada tepat di antara dua bintang.",
@@ -46,6 +55,8 @@ const CONFIGS: Record<string, SpatialRelationBoardConfig> = {
   },
   "logic-spatial-turn-right-from-up": {
     kind: "turn_right",
+    mode: "turn",
+    relationOrTurn: "right",
     anchor: "↑",
     moving: "→",
     cue: "Mulai menghadap atas, lalu bayangkan satu belokan ke kanan.",
@@ -56,6 +67,8 @@ const CONFIGS: Record<string, SpatialRelationBoardConfig> = {
   },
   "logic-spatial-turn-left-from-right": {
     kind: "turn_left",
+    mode: "turn",
+    relationOrTurn: "left",
     anchor: "→",
     moving: "↑",
     cue: "Mulai menghadap kanan, lalu bayangkan satu belokan ke kiri.",
@@ -66,6 +79,8 @@ const CONFIGS: Record<string, SpatialRelationBoardConfig> = {
   },
   "logic-spatial-opposite-left": {
     kind: "opposite",
+    mode: "opposite",
+    relationOrTurn: "opposite",
     anchor: "←",
     moving: "→",
     cue: "Cari arah yang tepat berlawanan dari panah ke kiri.",
@@ -89,7 +104,7 @@ export function spatialRelationBoardConfig(activity: LearningActivity | undefine
   if (choices.length !== 3 || new Set(choices).size !== 3) return null;
   if (choices.some((choice, index) => choice !== config.expectedChoices[index])) return null;
   if (correct !== config.expectedCorrectChoice || !choices.includes(correct)) return null;
-  if (!config.anchor || !config.moving || !config.cue || !config.successText) return null;
+  if (!config.mode || !config.relationOrTurn || !config.anchor || !config.moving || !config.cue || !config.successText) return null;
 
   return config;
 }
