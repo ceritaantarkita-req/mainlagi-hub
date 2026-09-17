@@ -11,105 +11,35 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - production: `https://mainlagihub.my.id/`
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - source licence: `AGPL-3.0-only`
-- latest live-verified gameplay implementation: **Pattern #38 — Bahasa `cloze_sentence_choice`**
-- Pattern #38 implementation merge: `76a2d87dca3689ed8206f5ce0556760dabe903b6`
-- Pattern #38 merged-main CI: **#801 / run `35179596668` — full success including exact Cloudflare production smoke**
-- Pattern #38 closure docs: **IN PROGRESS on dedicated docs-only branch; implementation itself is live verified**
-- permanent visual QA foundation: **VQA-01 FULLY CLOSED**, PR #156 -> `9269e9fd576004d7d91fbd840e8c752acc7a5aae`, CI #751 / run `35110724150`
-- Parent Report convergence: **VUI-01 FULLY CLOSED**, PR #157 -> `e212002eafef77a37a220834c6263e433cf9acbb`, CI #758
-- Stage / Gallery convergence: **VUI-02 FULLY CLOSED**, PR #158 -> `fe260ba7a239586ca2362fbabfca3e0a5019d453`, CI #764
-- Public/Auth/Account convergence: **VUI-03 FULLY CLOSED**, PR #160 -> `415008a4a0503da98937ee8df0a1e5feb1a08c62`, CI #776 / run `35124809180`
-- VUI-03 docs/live baseline: PR #161 -> `7c863ad2b1887fe0c39557b408b743036128abe1`, CI #778 / run `35130270215`
-- residual visual-token closure: **VBASE-P1-01 FULLY CLOSED / LIVE VERIFIED**, PR #162 -> `2d3f95066e1106c43c76bf91dd29bf5707dca52c`, CI **#788 / run `35168877485` including exact Cloudflare release smoke**
+- latest live-verified gameplay implementation: **Pattern #39 — Math `visual_word_problem`**
+- Pattern #39 audit: PR #169
+- Pattern #39 implementation: PR #170
+- Pattern #39 implementation merge/main: `bcb8479514f44d46ebc68917981699240aabc3b2`
+- Pattern #39 merged-main CI: **#809 / run `35187506724` — full success including exact Cloudflare production smoke**
+- Pattern #39 docs closure: **IN PROGRESS on dedicated docs-only branch**
+- Pattern #38: **FULLY CLOSED**, closure PR #168 -> main `86e6b69d576d72fec73158a7a1c6d8961de36887`, final main CI #803 including exact Cloudflare smoke
+- permanent visual QA foundation: **VQA-01 FULLY CLOSED**
+- visual P1 baseline: **P0=0 / P1=0 / P2=3**
 
 ## Engineering status
 
 No known P0 engineering blocker is open on merged `main`.
 
-The production visual checkpoint remains:
+The production visual checkpoint remains accepted and blocking:
 
 ```text
 P0 findings: 0
 P1 findings: 0
 P2 findings: 3
-Garden representative activities: ACCEPTED anchor
-Permanent visual QA: FULLY CLOSED / BLOCKING / 63 CAPTURES LIVE
+Permanent visual QA: 21 canonical routes / 63 captures / BLOCKING
 VUI-01 Parent Report: FULLY CLOSED / LIVE VERIFIED
 VUI-02 Stage/Gallery: FULLY CLOSED / LIVE VERIFIED
 VUI-03 Public/Auth/Account: FULLY CLOSED / LIVE VERIFIED
 VBASE-P1-01 residual token fragmentation: FULLY CLOSED / LIVE VERIFIED
-Visual P1 checkpoint: ACCEPTED
-Pattern #38 implementation: MERGED / LIVE VERIFIED
-Pattern #38 docs closure: IN PROGRESS
+Pattern #38: FULLY CLOSED
+Pattern #39 implementation: MERGED / LIVE VERIFIED
+Pattern #39 docs closure: IN PROGRESS
 ```
-
-PR #162 closed the final visual P1 without a global CSS rewrite. Its accepted account/system-state scope and permanent 21-route × 3-viewport visual matrix remain unchanged by Pattern #38.
-
-`/account/security` remains a stub; no security feature was invented.
-
-## Pattern #38 live implementation evidence
-
-Objective/evidence audit: PR #165.
-
-Implementation PR #166 exact head:
-
-```text
-7bfb58d93c5c61200dc6a91c5fd5243c1369c3bd
-```
-
-Implementation PR CI:
-
-```text
-#795 / run 35176307842 — full success
-```
-
-Squash merge:
-
-```text
-76a2d87dca3689ed8206f5ce0556760dabe903b6
-```
-
-Independent merged-main verification:
-
-```text
-#801 / run 35179596668 — full success
-Production smoke (Cloudflare) — success
-Wait for exact Cloudflare release and smoke public endpoints — success
-```
-
-Responsive Pattern #38 QA covered 320x720, 390x844 and 768x1024 across idle/wrong/success states. Accepted PR screenshot artifact:
-
-```text
-id: 10478269865
-digest: sha256:92c561e8afd029cc618a966e1686a5e601cbc72580c387c608f73bafc814246b
-```
-
-Merged-main gameplay-distribution evidence:
-
-```text
-900 / 900 classified
-0 unclassified
-38 active child-facing patterns
-choice_grid                    272 / 900 = 30.22%
-cloze_sentence_choice           5 / 900 = 0.56%
-```
-
-Artifact:
-
-```text
-id: 10479619607
-digest: sha256:2bc2b1734091a6de2c71c6545d3e07a27cab02c685c537cf002ac9a8a3092381
-```
-
-Full Pattern #38 closure evidence: `PATTERN38_CLOZE_SENTENCE_CHOICE_CLOSURE_2026-09-17.md`.
-
-Draft PR #167 was a duplicate implementation path and failed its gameplay-presentation regression; it was closed as superseded and is not canonical.
-
-## Final P1 closure evidence
-
-Final visual P1 implementation/closure remains live verified on PR #162 / main `2d3f95066e1106c43c76bf91dd29bf5707dca52c`, CI #788 including exact Cloudflare smoke. The live permanent matrix remains **21 canonical routes × 3 viewports = 63 exact-path screenshots** at 390x844, 768x1024 and 1280x800.
-
-Full visual closure evidence: `VBASE_P1_01_VISUAL_TOKEN_CLOSURE_2026-09-17.md`.
 
 External physical-device acceptance, accessibility-specialist review, human pedagogical/art acceptance and Iqro expert acceptance remain separate and incomplete. Physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
 
@@ -123,51 +53,112 @@ Runtime count is not gameplay-pattern count.
 
 Target: minimum **50**, working target **60 meaningful patterns**.
 
+Verified merged-main distribution after Pattern #39:
+
 ```text
 classified:                    900 / 900
 unclassified:                    0
-active merged patterns:         38
-choice_grid                    272 / 900 = 30.22%
-cloze_sentence_choice            5 / 900 = 0.56%
-reading_passage_question         5 / 900 = 0.56%
-sentence_order_cards             5 / 900 = 0.56%
-picture_word_match               5 / 900 = 0.56%
+active merged patterns:         39
+choice_grid                    267 / 900
+visual_word_problem              5 / 900
+cloze_sentence_choice            5 / 900
+reading_passage_question         5 / 900
+sentence_order_cards             5 / 900
+picture_word_match               5 / 900
 ```
 
-Remaining distance is **12 patterns** to minimum 50 and **22** to working target 60.
-
-Pattern #38 exact scope is five Bahasa context-completion activities. Runtime, assessment/evidence, mastery/progression, schema and activity content remain canonical; only the justified presentation/interaction is specialized.
+Remaining distance is **11 patterns** to minimum 50 and **21** to working target 60.
 
 Deterministic activity-quality remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / 0 structural findings**.
 
+## Pattern #38 closure
+
+Pattern #38 `cloze_sentence_choice` is fully closed.
+
+Canonical chain:
+
+```text
+Audit PR:        #165
+Implementation:  #166
+Implementation main: 76a2d87dca3689ed8206f5ce0556760dabe903b6
+Implementation main CI: #801 / run 35179596668 — full success
+Closure PR:      #168
+Closure main:    86e6b69d576d72fec73158a7a1c6d8961de36887
+Final main CI:   #803 / run 35180530822 — full success
+Cloudflare smoke: success
+```
+
+Full evidence: `PATTERN38_CLOZE_SENTENCE_CHOICE_CLOSURE_2026-09-17.md`.
+
+## Pattern #39 live implementation
+
+Exact scope:
+
+```text
+math-problem-apples
+math-problem-birds
+math-problem-cars
+math-problem-cookies
+math-problem-balloons
+```
+
+Pattern:
+
+```text
+visual_word_problem
+```
+
+Preserved contracts:
+
+- canonical IDs, prompts, choices/order and `correctChoice`;
+- subject `math`;
+- stage `math-ukur-ruang`;
+- lesson `math-visual-problems`;
+- pack `math.pack.visual-problems`;
+- skill `math.problem.visual`;
+- assessed `tap_choice` runtime;
+- `choice_accuracy_v1` evidence semantics;
+- mastery, progression, content schema and database unchanged.
+
+Presentation/evidence behavior:
+
+- canonical everyday story remains primary prompt;
+- deterministic quantity board shows start -> add/remove -> unknown result;
+- result remains hidden before correct completion;
+- wrong answer remains retryable/measured and cannot complete;
+- keyboard/touch/pointer remain direct primary controls;
+- runtime source `visual-word-problem-runtime`;
+- evidence fidelity `choice_visual_word_problem_interaction`.
+
+Verification chain:
+
+```text
+Audit PR:            #169
+Implementation PR:   #170
+Implementation head: df503b95abf86e2b530dd9ff18bd5d8b9707e2db
+Merge/main:          bcb8479514f44d46ebc68917981699240aabc3b2
+Main CI:             #809 / run 35187506724 — full success
+Cloudflare smoke:    success
+```
+
+Merged-main gameplay-distribution artifact:
+
+```text
+id: 10482459288
+digest: sha256:4bacc984852eb4befd352a727935daf8e75cb0b30ec1a58af8451895649ae967
+```
+
+Full implementation/closure evidence: `WS05_VISUAL_WORD_PROBLEM_WAVE_2026-09-17.md` and `PATTERN39_VISUAL_WORD_PROBLEM_CLOSURE_2026-09-17.md`.
+
 ## P1 state
 
-All baseline P1 findings are closed and live verified:
-
-1. **VBASE-P1-01 — visual-token fragmentation:** **CLOSED / LIVE VERIFIED** by PR #162, main `2d3f95066e...`, CI #788 including exact Cloudflare smoke.
-2. **VBASE-P1-02 — parent-report density/jargon:** **CLOSED** by PR #157.
-3. **VBASE-P1-03 — stage/readiness hierarchy:** **CLOSED** by PR #158.
-4. **VBASE-P1-04 — public/adult root IA:** **CLOSED** by PR #160.
-5. **VBASE-P1-05 — permanent visual coverage gap:** **CLOSED** by PR #156; PR #162 strengthened the blocking gate to 21 routes / 63 captures.
-
-The remaining visual backlog is P2, not hidden P1 work:
+All baseline P1 findings are closed and live verified. Remaining visual backlog is P2:
 
 - VBASE-P2-01 game detail/preflight legacy vocabulary;
 - VBASE-P2-02 semantic iconography drift;
 - VBASE-P2-03 inline visual-style drift risk.
 
 Admin-only utility styling remains separate unless user-facing leakage is proven.
-
-## Product contracts preserved
-
-Current visual/gameplay convergence preserves:
-
-- valid remembered child fast-resume through existing destination logic;
-- `/login`, `/signup`, `/forgot-password`, `/reset-password` and `/auth/callback` Supabase operations, validation, recovery/callback semantics and redirects;
-- signed-in/signed-out account behavior and canonical destination routes;
-- optional-camera framing without unsupported privacy/security claims;
-- learning/mastery/evidence/progression/content/schema/database semantics;
-- Pattern #38 canonical prompts, choices, correct answers, `tap_choice` runtime and `bahasa.kalimat.context_completion` evidence.
 
 ## Learning/mastery boundaries
 
@@ -185,8 +176,8 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Finish the **Pattern #38 docs-only closure gate**: exact-head CI, clean merge, then independent merged-main CI + exact Cloudflare smoke.
-2. After Pattern #38 is fully closed, run a **fresh objective/evidence audit for Pattern #39**; do not preselect a mechanic merely to increase the pattern count.
+1. Finish the **Pattern #39 docs-only closure gate**: fresh exact-head CI, clean merge, then independent merged-main CI + exact Cloudflare smoke.
+2. After Pattern #39 is fully closed, run a **fresh objective/evidence audit for Pattern #40**; no mechanic, subject or activity family is pre-approved.
 3. Continue WS-05 toward 50–60 meaningful patterns with permanent WS-08 visual QA running in parallel.
 4. Continue WS-02 narration and WS-10 external physical-device/accessibility/human acceptance.
 5. Continue WS-11 governance.
