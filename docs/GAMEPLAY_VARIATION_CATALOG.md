@@ -25,11 +25,12 @@ Patterns #1–#35 remain as previously closed/merged. Latest entries:
 36. `sentence_order_cards` — **FULLY CLOSED**
 37. `reading_passage_question` — **FULLY CLOSED**
 38. `cloze_sentence_choice` — **FULLY CLOSED** via implementation #166 + closure #168
-39. `visual_word_problem` — implementation #170 **LIVE VERIFIED / DOCS CLOSURE IN PROGRESS**
+39. `visual_word_problem` — **FULLY CLOSED** via audit #169 + implementation #170 + closure #171
+40. `spatial_relation_board` — **AUDIT CANDIDATE ONLY** in PR #173; implementation not started and not counted in merged distribution
 
 Permanent gameplay-distribution audit: MERGED PR #105.
 
-Current verified merged distribution on `main` from CI #809:
+Current verified merged distribution on `main` remains:
 
 ```text
 900 / 900 classified
@@ -43,9 +44,9 @@ sentence_order_cards              5 / 900
 picture_word_match                5 / 900
 ```
 
-Remaining distance is **11** patterns to minimum 50 and **21** to working target 60.
+Remaining distance is **11** patterns to minimum 50 and **21** to working target 60 until Pattern #40 is actually implemented and merged.
 
-### `visual_word_problem` — Pattern #39 LIVE VERIFIED
+### `visual_word_problem` — Pattern #39 FULLY CLOSED
 
 Exact scope:
 
@@ -68,26 +69,64 @@ Boundaries:
 - prompts, three canonical numeric choices/order and `correctChoice` remain unchanged;
 - mastery/progression/schema/database remain unchanged.
 
-Interaction:
-- canonical everyday story remains the primary prompt;
-- deterministic quantity-change board shows start -> add/remove -> unknown result;
-- final result remains hidden before success and after wrong answers;
-- canonical answers remain direct keyboard/touch/pointer buttons;
-- wrong selection is retryable/measured and cannot complete;
-- correct selection completes through the existing canonical activity/evidence path;
-- runtime source `visual-word-problem-runtime`;
-- assessed fidelity `choice_visual_word_problem_interaction`.
-
-Verified implementation chain:
+Verified chain:
 - objective/evidence audit PR #169;
 - implementation PR #170 exact head `df503b95abf86e2b530dd9ff18bd5d8b9707e2db`;
 - implementation squash merge `bcb8479514f44d46ebc68917981699240aabc3b2`;
 - independent merged-main CI #809 / run `35187506724` — full success including exact Cloudflare release smoke;
-- responsive QA covers 320x720, 390x844 and 768x1024 idle/wrong/success states;
-- merged-main distribution artifact `10482459288`, digest `sha256:4bacc984852eb4befd352a727935daf8e75cb0b30ec1a58af8451895649ae967`;
-- merged distribution is 900/900 classified with 39 active patterns, `choice_grid` 267/900 and `visual_word_problem` 5/900.
+- closure PR #171;
+- final closure main `98725727c866d410b2d0caa206e86e70cd0e5741`;
+- final closure CI #811 / run `35190499794` — success;
+- merged distribution remains 900/900 classified with 39 active patterns.
 
-Pattern #39 is not called **FULLY CLOSED** until its separate docs-only closure passes exact-head CI, clean merge and independent merged-main production verification.
+### `spatial_relation_board` — Pattern #40 AUDIT CANDIDATE
+
+Pattern #40 is not yet implemented. PR #173 is a fresh objective/evidence audit and currently selects this exact candidate:
+
+```text
+logic-spatial-star-left-circle
+logic-spatial-circle-right-triangle
+logic-spatial-circle-between-stars
+logic-spatial-turn-right-from-up
+logic-spatial-turn-left-from-right
+logic-spatial-opposite-left
+```
+
+Canonical boundaries:
+
+```text
+subject:     logic
+stage:       logic-patterns-sequences-relations
+lesson:      logic-spatial-relations
+pack:        logic.pack.spatial-relations
+skill:       logic.spatial.relation.basic
+runtime:     tap_choice
+assessment:  assessed
+contract:    choice_accuracy_v1
+```
+
+Objective fit:
+
+- left/right activities require recognizing object placement relative to another object;
+- between activity requires recognizing an object centered between two references;
+- turn activities require transforming an initial facing direction by a left/right turn;
+- opposite-direction activity requires identifying the inverse direction;
+- current generic `choice_grid` records a valid final answer but under-represents the explicitly spatial learning objective.
+
+Proposed presentation contract after audit acceptance:
+
+- canonical prompt remains primary and unchanged;
+- deterministic visual relation board represents the existing problem;
+- canonical choices/order and `correctChoice` stay unchanged;
+- direct keyboard/touch/pointer choice controls remain the assessed input;
+- wrong answer remains retryable/measured and cannot complete;
+- correct answer completes through the existing canonical evidence path;
+- no drag-only dependency;
+- no additional assessed checkpoint;
+- classifier is exact-scoped and fails closed outside the six audited activities;
+- mastery/progression/schema/database remain unchanged.
+
+This is **not** approval for all Logic spatial-like content, all directional prompts, or any Science/Math/Bahasa family. It remains audit-only until PR #173 is merged. Pattern count stays at 39 until a separate implementation branch is merged and independently verified.
 
 ### `cloze_sentence_choice` — Pattern #38 FULLY CLOSED
 
@@ -135,18 +174,20 @@ Original 60-pattern planning slots remain guidance, not a fixed taxonomy. Candid
 
 ## Pattern #40 objective/evidence audit gate
 
-After Pattern #39 is fully closed, the next gameplay wave must begin with a fresh Pattern #40 audit that:
+The fresh Pattern #40 audit is now open in PR #173. Its current decision is that `spatial_relation_board` is justified for exactly six `logic-spatial-*` activities because the current generic interaction under-represents the explicit spatial-relation objective while the canonical assessed choice/evidence contract can remain unchanged.
 
-1. inspects remaining objectives/content where current interaction representation is weakest;
-2. identifies the evidence that the learning objective actually requires;
-3. determines whether an existing pattern already measures that evidence adequately;
-4. rejects cosmetic re-skins and taxonomy-only variants;
-5. rejects changes that weaken or ambiguously reinterpret mastery/progression evidence;
-6. selects a small exact activity scope only after the mechanic is justified;
-7. documents why the chosen interaction is materially better than the current representation;
-8. preserves the valid outcome **“no justified Pattern #40 candidate yet.”**
+Before implementation, the audit must remain docs-only and preserve:
 
-No code/content migration for Pattern #40 should begin before this gate produces a justified exact scope.
+1. exact six-activity scope;
+2. unchanged canonical IDs, prompts, choices/order and `correctChoice`;
+3. existing Logic stage/lesson/pack/skill ownership;
+4. assessed `tap_choice` and `choice_accuracy_v1` semantics;
+5. unchanged mastery/progression/schema/database;
+6. deterministic spatial config rather than heuristic arbitrary-prompt parsing;
+7. keyboard/touch/pointer answer controls;
+8. valid rejection of unrelated candidate families.
+
+After audit merge, implementation must happen on a separate branch and prove exact classification, evidence-safe completion, responsive visual acceptance, permanent visual QA, 900/900 distribution, and exactly 40 active patterns before Pattern #40 is counted.
 
 ## Distribution rule
 
@@ -154,10 +195,10 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 
 ## Rollout order terbaru
 
-- Patterns #1–#37 — fully closed.
-- Cloze Sentence Choice — **FULLY CLOSED** / #166 + #168; final CI #803.
-- Visual Word Problem — implementation DONE / #170, live verified main `bcb8479514f44d46ebc68917981699240aabc3b2`, CI #809; docs closure current gate.
-- NEXT — finish Pattern #39 docs closure, then fresh Pattern #40 objective/evidence audit; no mechanic pre-approved.
+- Patterns #1–#38 — fully closed.
+- Visual Word Problem — **FULLY CLOSED** via #169/#170/#171; final main `98725727c866d410b2d0caa206e86e70cd0e5741`, CI #811.
+- Spatial Relation Board — Pattern #40 **AUDIT OPEN** in PR #173; implementation not started.
+- NEXT — finish/merge the docs-only audit gate, then implement Pattern #40 on a fresh branch from latest `main` if the exact audited scope remains valid.
 
 ## Definition of done per mechanic
 
