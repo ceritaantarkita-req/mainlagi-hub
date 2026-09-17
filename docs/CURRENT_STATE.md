@@ -17,7 +17,8 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Pattern #40 implementation merged-main CI: **#848 / run `35217949039` — full success**
 - Pattern #40 closure: PR #176 -> main `43d69c42ca456ab41011f1d198e021f2b0d53cae`
 - Pattern #40 final closure CI: **#850 / run `35219083042` — full success**
-- Pattern #40 final truth reconciliation: PR #177 -> main `7c7f715a18a36e76fbf7483e5bc3e25d9ff8a32f`; independent merged-main CI #853 is the current verification run
+- Pattern #40 final truth reconciliation: PR #177 -> main `7c7f715a18a36e76fbf7483e5bc3e25d9ff8a32f`
+- Pattern #40 truth-reconciliation merged-main CI: **#853 / run `35222303192` — full success including exact Cloudflare production smoke**
 - Pattern #41 objective/evidence audit: **OPEN PR #179**, candidate `phrase_scene_match`; implementation has not started
 - permanent visual QA foundation: **VQA-01 FULLY CLOSED**
 - visual P1 baseline: **P0=0 / P1=0 / P2=3**
@@ -100,6 +101,7 @@ Closure PR:              #176
 Closure main:            43d69c42ca456ab41011f1d198e021f2b0d53cae
 Closure CI:              #850 / run 35219083042 — full success
 Truth reconciliation:    #177 -> 7c7f715a18a36e76fbf7483e5bc3e25d9ff8a32f
+Truth reconciliation CI: #853 / run 35222303192 — full success + Cloudflare smoke
 ```
 
 Full evidence: `PATTERN40_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`, `WS05_SPATIAL_RELATION_BOARD_WAVE_2026-09-17.md`, `PATTERN40_IMPLEMENTATION_ACCEPTANCE_2026-09-17.md`, and `PATTERN40_SPATIAL_RELATION_BOARD_CLOSURE_2026-09-17.md`.
