@@ -1,9 +1,35 @@
 import type { LearningActivity } from "./system";
+import { isClozeSentenceChoiceCandidate } from "./clozeSentenceChoiceConfig";
 import { isReadingPassageQuestionActivity } from "./readingPassageQuestionConfig";
 import { isSentenceOrderCardsActivity } from "./sentenceOrderCardsConfig";
 
 export type MatchingPresentation = "grid_pairs" | "memory_pairs" | "drag_targets";
-export type ChoiceGameplayPresentation = "default" | "sequence_slot" | "syllable_assembly" | "initial_sound" | "sorting_buckets" | "odd_one_out" | "rule_pipeline" | "set_reasoning" | "transitive_chain" | "spatial_transform" | "relative_order_track" | "count_select" | "number_line" | "more_less_balance" | "pattern_completion" | "make_total" | "take_away" | "cause_effect" | "compare_properties" | "healthy_habit_routine" | "material_lab" | "feature_function_link" | "investigation_board";
+export type ChoiceGameplayPresentation =
+  | "default"
+  | "sequence_slot"
+  | "syllable_assembly"
+  | "initial_sound"
+  | "cloze_sentence_choice"
+  | "sorting_buckets"
+  | "odd_one_out"
+  | "rule_pipeline"
+  | "set_reasoning"
+  | "transitive_chain"
+  | "spatial_transform"
+  | "relative_order_track"
+  | "count_select"
+  | "number_line"
+  | "more_less_balance"
+  | "pattern_completion"
+  | "make_total"
+  | "take_away"
+  | "cause_effect"
+  | "compare_properties"
+  | "healthy_habit_routine"
+  | "material_lab"
+  | "feature_function_link"
+  | "investigation_board";
+
 export type GameplayPattern =
   | "choice_grid"
   | "symbol_hunt"
@@ -14,6 +40,7 @@ export type GameplayPattern =
   | "missing_sequence_slot"
   | "syllable_assembly"
   | "initial_sound"
+  | "cloze_sentence_choice"
   | "picture_word_match"
   | "sentence_order_cards"
   | "reading_passage_question"
@@ -222,11 +249,11 @@ const MATH_EQUAL_GROUPS_IDS = new Set([
   "math-group-9-by-3"
 ]);
 
-/**
- * Presentation classifiers diversify coherent activity families without
- * changing their canonical runtime, activity identity, payload, assessment or
- * progression contract.
- */
+function hasThreeUniqueChoices(activity: LearningActivity, correct: string): boolean {
+  const choices = activity.choices ?? [];
+  return choices.length === 3 && new Set(choices).size === choices.length && choices.includes(correct);
+}
+
 export function matchingPresentation(activity: LearningActivity | undefined): MatchingPresentation {
   if (!activity || activity.runtime !== "matching") return "grid_pairs";
   const items = activity.matchItems ?? [];
@@ -258,11 +285,6 @@ export function isDragTargetActivity(activity: LearningActivity | undefined): bo
   return matchingPresentation(activity) === "drag_targets";
 }
 
-/**
- * Choice presentation families are deliberately exact-scoped. A family only
- * changes how canonical evidence is presented; runtime, answers and completion
- * semantics remain unchanged.
- */
 export function choiceGameplayPresentation(activity: LearningActivity | undefined): ChoiceGameplayPresentation {
   if (!activity || activity.runtime !== "tap_choice") return "default";
   const choices = activity.choices ?? [];
@@ -281,11 +303,9 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     activity.subjectId === "bahasa" &&
     activity.stageId === "bahasa-suku-kata-kata" &&
     BAHASA_SYLLABLE_ASSEMBLY_IDS.has(activity.id) &&
-    choices.length === 3 &&
-    new Set(choices).size === choices.length &&
+    hasThreeUniqueChoices(activity, correct) &&
     choices.every((choice) => /^[a-z]+$/.test(choice)) &&
     /^[a-z]+$/.test(correct) &&
-    choices.includes(correct) &&
     Boolean(activity.prompt);
   if (isReviewedBahasaSyllableAssemblyFamily) return "syllable_assembly";
 
@@ -293,30 +313,26 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     activity.subjectId === "bahasa" &&
     activity.stageId === "bahasa-dasar-huruf" &&
     BAHASA_INITIAL_SOUND_IDS.has(activity.id) &&
-    choices.length === 3 &&
-    new Set(choices).size === choices.length &&
+    hasThreeUniqueChoices(activity, correct) &&
     choices.every((choice) => /^[A-Z]$/.test(choice)) &&
     /^[A-Z]$/.test(correct) &&
-    choices.includes(correct) &&
     Boolean(activity.prompt);
   if (isReviewedBahasaInitialSoundFamily) return "initial_sound";
+
+  if (isClozeSentenceChoiceCandidate(activity)) return "cloze_sentence_choice";
 
   const isBasicLogicClassificationFamily =
     activity.subjectId === "logic" &&
     activity.stageId === "logic-classification-rules-basics" &&
     activity.id.startsWith("logic-classify-") &&
-    choices.length === 3 &&
-    new Set(choices).size === choices.length &&
-    choices.includes(correct);
+    hasThreeUniqueChoices(activity, correct);
   if (isBasicLogicClassificationFamily) return "sorting_buckets";
 
   const isReviewedLogicOddOneOutFamily =
     activity.subjectId === "logic" &&
     activity.stageId === "logic-classification-rules-basics" &&
     LOGIC_ODD_ONE_OUT_IDS.has(activity.id) &&
-    choices.length === 3 &&
-    new Set(choices).size === choices.length &&
-    choices.includes(correct) &&
+    hasThreeUniqueChoices(activity, correct) &&
     Boolean(activity.prompt);
   if (isReviewedLogicOddOneOutFamily) return "odd_one_out";
 
@@ -324,9 +340,7 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     activity.subjectId === "logic" &&
     activity.stageId === "logic-mixed-reasoning-challenge" &&
     LOGIC_RULE_PIPELINE_IDS.has(activity.id) &&
-    choices.length === 3 &&
-    new Set(choices).size === choices.length &&
-    choices.includes(correct) &&
+    hasThreeUniqueChoices(activity, correct) &&
     Boolean(activity.prompt);
   if (isReviewedLogicRulePipelineFamily) return "rule_pipeline";
 
@@ -334,9 +348,7 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     activity.subjectId === "logic" &&
     activity.stageId === "logic-mixed-reasoning-challenge" &&
     LOGIC_SET_REASONING_IDS.has(activity.id) &&
-    choices.length === 3 &&
-    new Set(choices).size === choices.length &&
-    choices.includes(correct) &&
+    hasThreeUniqueChoices(activity, correct) &&
     Boolean(activity.prompt);
   if (isReviewedLogicSetReasoningFamily) return "set_reasoning";
 
@@ -344,9 +356,7 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     activity.subjectId === "logic" &&
     activity.stageId === "logic-mixed-reasoning-challenge" &&
     LOGIC_TRANSITIVE_CHAIN_IDS.has(activity.id) &&
-    choices.length === 3 &&
-    new Set(choices).size === choices.length &&
-    choices.includes(correct) &&
+    hasThreeUniqueChoices(activity, correct) &&
     Boolean(activity.prompt);
   if (isReviewedLogicTransitiveChainFamily) return "transitive_chain";
 
@@ -354,9 +364,7 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     activity.subjectId === "logic" &&
     activity.stageId === "logic-mixed-reasoning-challenge" &&
     LOGIC_SPATIAL_TRANSFORM_IDS.has(activity.id) &&
-    choices.length === 3 &&
-    new Set(choices).size === choices.length &&
-    choices.includes(correct) &&
+    hasThreeUniqueChoices(activity, correct) &&
     Boolean(activity.prompt);
   if (isReviewedLogicSpatialTransformFamily) return "spatial_transform";
 
@@ -364,20 +372,16 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     activity.subjectId === "logic" &&
     activity.stageId === "logic-conditional-analogy-inference" &&
     LOGIC_RELATIVE_ORDER_TRACK_IDS.has(activity.id) &&
-    choices.length === 3 &&
-    new Set(choices).size === choices.length &&
-    choices.includes(correct) &&
+    hasThreeUniqueChoices(activity, correct) &&
     Boolean(activity.prompt);
   if (isReviewedLogicRelativeOrderTrackFamily) return "relative_order_track";
 
   const isReviewedMathCountFamily =
     activity.subjectId === "math" &&
     MATH_COUNT_SELECT_IDS.has(activity.id) &&
-    choices.length === 3 &&
-    new Set(choices).size === choices.length &&
+    hasThreeUniqueChoices(activity, correct) &&
     choices.every((choice) => /^\d+$/.test(choice)) &&
     /^\d+$/.test(correct) &&
-    choices.includes(correct) &&
     Boolean(activity.prompt);
   if (isReviewedMathCountFamily) return "count_select";
 
@@ -385,11 +389,9 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     activity.subjectId === "math" &&
     activity.stageId === "math-banding-bentuk" &&
     MATH_NUMBER_LINE_IDS.has(activity.id) &&
-    choices.length === 3 &&
-    new Set(choices).size === choices.length &&
+    hasThreeUniqueChoices(activity, correct) &&
     choices.every((choice) => /^\d+$/.test(choice)) &&
     /^\d+$/.test(correct) &&
-    choices.includes(correct) &&
     Boolean(activity.prompt);
   if (isReviewedMathNumberLineFamily) return "number_line";
 
@@ -397,9 +399,7 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     activity.subjectId === "math" &&
     activity.stageId === "math-banding-bentuk" &&
     MATH_MORE_LESS_BALANCE_IDS.has(activity.id) &&
-    choices.length === 3 &&
-    new Set(choices).size === choices.length &&
-    choices.includes(correct) &&
+    hasThreeUniqueChoices(activity, correct) &&
     Boolean(activity.prompt);
   if (isReviewedMathComparisonFamily) return "more_less_balance";
 
@@ -407,9 +407,7 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     activity.subjectId === "math" &&
     activity.stageId === "math-banding-bentuk" &&
     MATH_PATTERN_COMPLETION_IDS.has(activity.id) &&
-    choices.length === 3 &&
-    new Set(choices).size === choices.length &&
-    choices.includes(correct) &&
+    hasThreeUniqueChoices(activity, correct) &&
     Boolean(activity.prompt);
   if (isReviewedMathPatternFamily) return "pattern_completion";
 
@@ -417,11 +415,9 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     activity.subjectId === "math" &&
     activity.stageId === "math-operasi-awal" &&
     MATH_MAKE_TOTAL_IDS.has(activity.id) &&
-    choices.length === 3 &&
-    new Set(choices).size === choices.length &&
+    hasThreeUniqueChoices(activity, correct) &&
     choices.every((choice) => /^\d+$/.test(choice)) &&
     /^\d+$/.test(correct) &&
-    choices.includes(correct) &&
     Boolean(activity.prompt);
   if (isReviewedMathMakeTotalFamily) return "make_total";
 
@@ -429,11 +425,9 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     activity.subjectId === "math" &&
     activity.stageId === "math-operasi-awal" &&
     MATH_TAKE_AWAY_IDS.has(activity.id) &&
-    choices.length === 3 &&
-    new Set(choices).size === choices.length &&
+    hasThreeUniqueChoices(activity, correct) &&
     choices.every((choice) => /^\d+$/.test(choice)) &&
     /^\d+$/.test(correct) &&
-    choices.includes(correct) &&
     Boolean(activity.prompt);
   if (isReviewedMathTakeAwayFamily) return "take_away";
 
@@ -441,9 +435,7 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     activity.subjectId === "science" &&
     activity.stageId === "science-life-material-motion" &&
     SCIENCE_CAUSE_EFFECT_IDS.has(activity.id) &&
-    choices.length === 3 &&
-    new Set(choices).size === choices.length &&
-    choices.includes(correct) &&
+    hasThreeUniqueChoices(activity, correct) &&
     Boolean(activity.prompt);
   if (isReviewedScienceCauseEffectFamily) return "cause_effect";
 
@@ -451,9 +443,7 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     activity.subjectId === "science" &&
     activity.stageId === "science-earth-body-environment" &&
     SCIENCE_COMPARE_PROPERTIES_IDS.has(activity.id) &&
-    choices.length === 3 &&
-    new Set(choices).size === choices.length &&
-    choices.includes(correct) &&
+    hasThreeUniqueChoices(activity, correct) &&
     Boolean(activity.prompt);
   if (isReviewedScienceComparePropertiesFamily) return "compare_properties";
 
@@ -461,9 +451,7 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     activity.subjectId === "science" &&
     activity.stageId === "science-earth-body-environment" &&
     SCIENCE_HEALTHY_HABIT_ROUTINE_IDS.has(activity.id) &&
-    choices.length === 3 &&
-    new Set(choices).size === choices.length &&
-    choices.includes(correct) &&
+    hasThreeUniqueChoices(activity, correct) &&
     Boolean(activity.prompt);
   if (isReviewedScienceHealthyHabitFamily) return "healthy_habit_routine";
 
@@ -471,9 +459,7 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     activity.subjectId === "science" &&
     activity.stageId === "science-evidence-review-challenge" &&
     SCIENCE_MATERIAL_LAB_IDS.has(activity.id) &&
-    choices.length === 3 &&
-    new Set(choices).size === choices.length &&
-    choices.includes(correct) &&
+    hasThreeUniqueChoices(activity, correct) &&
     Boolean(activity.prompt);
   if (isReviewedScienceMaterialLabFamily) return "material_lab";
 
@@ -481,9 +467,7 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     activity.subjectId === "science" &&
     activity.stageId === "science-evidence-review-challenge" &&
     SCIENCE_FEATURE_FUNCTION_LINK_IDS.has(activity.id) &&
-    choices.length === 3 &&
-    new Set(choices).size === choices.length &&
-    choices.includes(correct) &&
+    hasThreeUniqueChoices(activity, correct) &&
     Boolean(activity.prompt);
   if (isReviewedScienceFeatureFunctionLinkFamily) return "feature_function_link";
 
@@ -491,9 +475,7 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     activity.subjectId === "science" &&
     activity.stageId === "science-evidence-review-challenge" &&
     SCIENCE_INVESTIGATION_BOARD_IDS.has(activity.id) &&
-    choices.length === 3 &&
-    new Set(choices).size === choices.length &&
-    choices.includes(correct) &&
+    hasThreeUniqueChoices(activity, correct) &&
     Boolean(activity.prompt);
   if (isReviewedScienceInvestigationBoardFamily) return "investigation_board";
 
@@ -510,6 +492,10 @@ export function isSyllableAssemblyActivity(activity: LearningActivity | undefine
 
 export function isInitialSoundActivity(activity: LearningActivity | undefined): boolean {
   return choiceGameplayPresentation(activity) === "initial_sound";
+}
+
+export function isClozeSentenceChoiceActivity(activity: LearningActivity | undefined): boolean {
+  return choiceGameplayPresentation(activity) === "cloze_sentence_choice";
 }
 
 export function isPictureWordMatchActivity(activity: LearningActivity | undefined): boolean {
@@ -622,11 +608,6 @@ export function isInvestigationBoardActivity(activity: LearningActivity | undefi
   return choiceGameplayPresentation(activity) === "investigation_board";
 }
 
-/**
- * Canonical child-facing gameplay-pattern classifier used by the WS-05
- * distribution audit. Every playable learning activity must map to exactly one
- * pattern even when several patterns share the same underlying runtime.
- */
 export function gameplayPattern(activity: LearningActivity | undefined): GameplayPattern | null {
   if (!activity) return null;
 
@@ -640,6 +621,7 @@ export function gameplayPattern(activity: LearningActivity | undefined): Gamepla
     if (presentation === "sequence_slot") return "missing_sequence_slot";
     if (presentation === "syllable_assembly") return "syllable_assembly";
     if (presentation === "initial_sound") return "initial_sound";
+    if (presentation === "cloze_sentence_choice") return "cloze_sentence_choice";
     if (presentation === "sorting_buckets") return "sorting_buckets";
     if (presentation === "odd_one_out") return "odd_one_out";
     if (presentation === "rule_pipeline") return "rule_pipeline";
