@@ -24,9 +24,13 @@ Subsystem docs remain authoritative for their specific scope when they do not co
 
 ## Current execution checkpoint
 
-Pattern #37 remains the latest fully closed gameplay pattern on verified `main` `b1793adaabe19a9c73e021534899f8b50c4097f6`; CI #741 passed including exact Cloudflare smoke.
+Pattern #38 `cloze_sentence_choice` is the latest live-verified gameplay implementation on `main` `76a2d87dca3689ed8206f5ce0556760dabe903b6`; CI #801 / run `35179596668` passed the full matrix including exact Cloudflare release/public smoke.
 
-The production visual P1 checkpoint is now closed:
+Its exact scope is five Bahasa context-completion activities. Merged-main gameplay distribution is now **900/900 classified, 38 active patterns, 0 unclassified**, with `choice_grid` 272/900 (30.22%) and `cloze_sentence_choice` 5/900 (0.56%).
+
+Pattern #38 is currently in its separate docs-only closure gate. After that closure is merged and independently production-verified, the next gameplay step is a fresh Pattern #39 objective/evidence audit with no mechanic pre-approved.
+
+The production visual P1 checkpoint remains closed:
 
 ```text
 P0 = 0
@@ -38,39 +42,43 @@ VUI-02 Stage/Gallery = CLOSED / LIVE VERIFIED
 VUI-03 Public/Auth/Account = CLOSED / LIVE VERIFIED
 VBASE-P1-01 residual visual-token fragmentation = CLOSED / LIVE VERIFIED
 Permanent visual QA = 21 routes / 63 captures / BLOCKING
-Pattern #38 = UNBLOCKED FOR FRESH OBJECTIVE/EVIDENCE AUDIT ONLY
+Pattern #38 implementation = MERGED / LIVE VERIFIED
+Pattern #38 docs closure = IN PROGRESS
 ```
 
-Final P1 closure:
+Pattern #38 verified implementation chain:
 
-- PR #162;
-- final candidate-doc head `38b9eb7920d1e6796384b889f928dfcbf4d7e629`;
-- PR CI #787 / run `35138385672` — full success;
-- squash merge `2d3f95066e1106c43c76bf91dd29bf5707dca52c`;
-- independent main CI #788 / run `35168877485` — full success;
+- objective/evidence audit PR #165;
+- implementation PR #166 head `7bfb58d93c5c61200dc6a91c5fd5243c1369c3bd`;
+- PR CI #795 / run `35176307842` — full success;
+- squash merge `76a2d87dca3689ed8206f5ce0556760dabe903b6`;
+- independent main CI #801 / run `35179596668` — full success;
 - exact Cloudflare release/public smoke — success;
-- merged-main visual artifact `10476008006`;
-- artifact digest `sha256:6fe0aa3de9bfadfc8e40229948edaca1cf633b33705a429515779b78f077266c`.
+- responsive QA at 320x720, 390x844 and 768x1024 across idle/wrong/success;
+- PR screenshot artifact `10478269865`, digest `sha256:92c561e8afd029cc618a966e1686a5e601cbc72580c387c608f73bafc814246b`;
+- merged-main gameplay-distribution artifact `10479619607`, digest `sha256:2bc2b1734091a6de2c71c6545d3e07a27cab02c685c537cf002ac9a8a3092381`.
 
-The permanent production baseline now captures **63 / 63 exact-path screenshots across 21 canonical routes and 3 canonical viewports**.
-
-Pattern #38 has **not** been selected or implemented. The next WS-05 step is a fresh objective/evidence audit with no gameplay family pre-approved. The merged pattern count remains 37.
+Duplicate draft PR #167 was closed as superseded after failing its gameplay-presentation regression; it is not part of the canonical chain.
 
 ## Closure/evidence records
 
+- [`PATTERN38_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN38_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md) — historical pre-implementation Pattern #38 audit and exact-scope justification.
+- [`PATTERN38_CLOZE_SENTENCE_CHOICE_CLOSURE_2026-09-17.md`](PATTERN38_CLOZE_SENTENCE_CHOICE_CLOSURE_2026-09-17.md) — Pattern #38 implementation/main/QA evidence and docs-closure gate.
 - [`VUI02_STAGE_GALLERY_CLOSURE_2026-09-16.md`](VUI02_STAGE_GALLERY_CLOSURE_2026-09-16.md)
 - [`VUI03_PUBLIC_AUTH_ACCOUNT_CLOSURE_2026-09-17.md`](VUI03_PUBLIC_AUTH_ACCOUNT_CLOSURE_2026-09-17.md)
 - [`VBASE_P1_01_VISUAL_TOKEN_CANDIDATE_2026-09-17.md`](VBASE_P1_01_VISUAL_TOKEN_CANDIDATE_2026-09-17.md) — historical candidate/PR acceptance record.
 - [`VBASE_P1_01_VISUAL_TOKEN_CLOSURE_2026-09-17.md`](VBASE_P1_01_VISUAL_TOKEN_CLOSURE_2026-09-17.md) — final merge/main/Cloudflare production closure evidence.
 
-These records preserve exact implementation/CI/merge evidence while the canonical docs stay concise. Historical closure/candidate records must not be rewritten to pretend later QA expansions existed at their original checkpoint.
+These records preserve exact implementation/CI/merge evidence while the canonical docs stay concise. Historical closure/candidate/audit records must not be rewritten to pretend later QA or implementation state existed at their original checkpoint.
 
 ## Remaining product-quality work
 
-The closed P1 checkpoint does not imply all work is done.
+The closed P1 checkpoint and live Pattern #38 implementation do not imply all work is done.
 
 Still open:
 
+- Pattern #38 docs closure exact-head CI/merge/final main verification;
+- subsequent Pattern #39 objective/evidence audit;
 - P2 game detail/preflight vocabulary convergence;
 - P2 canonical semantic icon convergence;
 - P2 inline-style drift cleanup;
@@ -79,7 +87,7 @@ Still open:
 - Iqro expert review;
 - WS-11 governance;
 - later WS-12 cleanup;
-- WS-05 continuation toward 50–60 meaningful patterns after fresh Pattern #38 audit.
+- WS-05 continuation toward 50–60 meaningful patterns.
 
 ## Historical snapshot documents
 
