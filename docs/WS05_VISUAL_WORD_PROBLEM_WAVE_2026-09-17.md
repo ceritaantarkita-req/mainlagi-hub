@@ -1,6 +1,6 @@
 # WS-05 Pattern #39 — Visual Word Problem — 17 September 2026
 
-Status: **IMPLEMENTATION MERGED / LIVE VERIFIED / DOCS CLOSURE IN PROGRESS**
+Status: **FULLY CLOSED / LIVE VERIFIED**
 
 Audit source: `PATTERN39_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`  
 Implementation base: `f8ac7e630392a9bd015d8ed59fe4c275f113ab37`
@@ -91,27 +91,32 @@ Responsive browser QA checks representative `math-problem-birds` at:
 
 Each viewport verifies legitimate progression readiness, unchanged canonical story, subtraction quantity board, hidden result before success, canonical answer order, keyboard wrong path, pointer correct completion, touch-target floor, no overflow, assessed evidence metadata, screenshots, and no page/console errors.
 
-## Verified implementation chain
+## Canonical verification chain
 
 ```text
-Audit PR:            #169
-Implementation PR:   #170
-Implementation head: df503b95abf86e2b530dd9ff18bd5d8b9707e2db
-Merge/main:          bcb8479514f44d46ebc68917981699240aabc3b2
-Main CI:             #809 / run 35187506724 — full success
-Cloudflare smoke:    success
+Audit PR:                #169
+Implementation PR:       #170
+Implementation head:     df503b95abf86e2b530dd9ff18bd5d8b9707e2db
+Implementation main:     bcb8479514f44d46ebc68917981699240aabc3b2
+Implementation main CI:  #809 / run 35187506724 — full success
+Closure PR:              #171
+Closure main:            98725727c866d410b2d0caa206e86e70cd0e5741
+Final main CI:           #811 / run 35190499794 — full success
+Cloudflare exact smoke:  success
 ```
 
-Main CI #809 passed production build, dependency/security checks, Windows, Ubuntu quality gate, engine/learning tests, activity-quality and gameplay-distribution audits, simulations/final acceptance, mobile Chromium QA/permanent visual baseline, and exact Cloudflare release/public smoke.
+Implementation main CI #809 passed production build, dependency/security checks, Windows, Ubuntu quality gate, engine/learning tests, activity-quality and gameplay-distribution audits, simulations/final acceptance, mobile Chromium QA/permanent visual baseline, and exact Cloudflare release/public smoke.
 
-Gameplay-distribution artifact:
+Final closure main CI #811 independently repeated the blocking matrix and passed all seven jobs. Its `Production smoke (Cloudflare)` job passed the exact `Wait for exact Cloudflare release and smoke public endpoints` step for closure main `98725727c866d410b2d0caa206e86e70cd0e5741`.
+
+Gameplay-distribution artifact from implementation verification:
 
 ```text
 id:     10482459288
 digest: sha256:4bacc984852eb4befd352a727935daf8e75cb0b30ec1a58af8451895649ae967
 ```
 
-Verified distribution:
+Verified distribution remains:
 
 ```text
 activities classified:          900 / 900
@@ -121,15 +126,8 @@ choice_grid                     267 / 900
 visual_word_problem               5 / 900
 ```
 
-## Remaining closure gate
+## Closure result
 
-Implementation is already live verified. Remaining work is documentation/governance only:
+Pattern #39 is **FULLY CLOSED / LIVE VERIFIED**. The implementation, permanent QA, documentation closure, final merged-main CI, and exact Cloudflare release smoke have all completed successfully.
 
-1. synchronize canonical current-state, quality-plan, gameplay-catalog and docs index;
-2. add dedicated Pattern #39 closure evidence;
-3. run fresh exact-head CI on the docs-only closure branch;
-4. require clean intended scope, no unresolved review/thread issue and mergeability;
-5. squash-merge exact closure head;
-6. require independent merged-main CI including exact Cloudflare release/public smoke.
-
-Only after those gates may Pattern #39 be called **FULLY CLOSED**. After closure, Pattern #40 must start from a fresh objective/evidence audit with no mechanic pre-approved.
+Pattern #40 now starts from a fresh objective/evidence audit with no mechanic, subject or activity family pre-approved.
