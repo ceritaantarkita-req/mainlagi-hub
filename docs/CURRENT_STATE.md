@@ -11,9 +11,10 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - production: `https://mainlagihub.my.id/`
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - source licence: `AGPL-3.0-only`
-- latest fully closed gameplay: **Pattern #37 — Bahasa `reading_passage_question`**
-- Pattern #37 final verified `main`: `b1793adaabe19a9c73e021534899f8b50c4097f6`
-- Pattern #37 final CI: **#741 / run `35103399012` — full success including exact Cloudflare production smoke**
+- latest live-verified gameplay implementation: **Pattern #38 — Bahasa `cloze_sentence_choice`**
+- Pattern #38 implementation merge: `76a2d87dca3689ed8206f5ce0556760dabe903b6`
+- Pattern #38 merged-main CI: **#801 / run `35179596668` — full success including exact Cloudflare production smoke**
+- Pattern #38 closure docs: **IN PROGRESS on dedicated docs-only branch; implementation itself is live verified**
 - permanent visual QA foundation: **VQA-01 FULLY CLOSED**, PR #156 -> `9269e9fd576004d7d91fbd840e8c752acc7a5aae`, CI #751 / run `35110724150`
 - Parent Report convergence: **VUI-01 FULLY CLOSED**, PR #157 -> `e212002eafef77a37a220834c6263e433cf9acbb`, CI #758
 - Stage / Gallery convergence: **VUI-02 FULLY CLOSED**, PR #158 -> `fe260ba7a239586ca2362fbabfca3e0a5019d453`, CI #764
@@ -25,7 +26,7 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 
 No known P0 engineering blocker is open on merged `main`.
 
-The production visual checkpoint is now:
+The production visual checkpoint remains:
 
 ```text
 P0 findings: 0
@@ -38,88 +39,77 @@ VUI-02 Stage/Gallery: FULLY CLOSED / LIVE VERIFIED
 VUI-03 Public/Auth/Account: FULLY CLOSED / LIVE VERIFIED
 VBASE-P1-01 residual token fragmentation: FULLY CLOSED / LIVE VERIFIED
 Visual P1 checkpoint: ACCEPTED
-Pattern #38: UNBLOCKED FOR FRESH OBJECTIVE/EVIDENCE AUDIT
+Pattern #38 implementation: MERGED / LIVE VERIFIED
+Pattern #38 docs closure: IN PROGRESS
 ```
 
-PR #162 closed the final P1 without a global CSS rewrite. Scope:
-
-- `/account/profile`, `/account/players`, `/account/preferences`, `/account/security`, `/account/delete`, `/account/about` use one scoped family account-section shell;
-- canonical not-found uses a scoped Mainlagi system state instead of the legacy generic dialog / old blue-primary cluster;
-- `/reset-password` and every migrated account subpage are part of permanent exact-path visual evidence;
-- existing account/auth/data behavior remains unchanged;
-- no learning/mastery/evidence/progression/readiness/curriculum/schema/database change.
+PR #162 closed the final visual P1 without a global CSS rewrite. Its accepted account/system-state scope and permanent 21-route × 3-viewport visual matrix remain unchanged by Pattern #38.
 
 `/account/security` remains a stub; no security feature was invented.
 
-## Final P1 closure evidence
+## Pattern #38 live implementation evidence
 
-Accepted implementation head before candidate docs:
+Objective/evidence audit: PR #165.
 
-```text
-923635645c164f08e9d26cc84be0b527d0e13ae0
-```
-
-Accepted implementation CI:
+Implementation PR #166 exact head:
 
 ```text
-#781 / run 35137266315 — full PR success
+7bfb58d93c5c61200dc6a91c5fd5243c1369c3bd
 ```
 
-Accepted implementation artifact:
+Implementation PR CI:
 
 ```text
-name: mobile-route-qa-screenshots
-id: 10464427013
-digest: sha256:83c8181998c78da4faf1841b17a42b5874c14c00f6e557a736e946575a87e292
-63 / 63 captures
-21 canonical routes
-3 canonical viewports
-60 HTTP 200 captures
-3 intentional HTTP 404 captures
-0 missing screenshot files
+#795 / run 35176307842 — full success
 ```
-
-A manual #780 screenshot review found a real empty-card defect on `/account/security` despite green structural checks. The defect was fixed rather than waived; #781 and manual 390 / 768 / 1280 review verified the corrected presentation.
-
-Final PR #162 candidate-doc head:
-
-```text
-38b9eb7920d1e6796384b889f928dfcbf4d7e629
-```
-
-Fresh exact-head PR CI:
-
-```text
-#787 / run 35138385672 — full success
-```
-
-Clean merge gate passed with behind=0, intended 17-file scope, and zero comments/reviews/review threads.
 
 Squash merge:
 
 ```text
-2d3f95066e1106c43c76bf91dd29bf5707dca52c
+76a2d87dca3689ed8206f5ce0556760dabe903b6
 ```
 
 Independent merged-main verification:
 
 ```text
-#788 / run 35168877485 — full success
+#801 / run 35179596668 — full success
 Production smoke (Cloudflare) — success
 Wait for exact Cloudflare release and smoke public endpoints — success
 ```
 
-Merged-main visual artifact:
+Responsive Pattern #38 QA covered 320x720, 390x844 and 768x1024 across idle/wrong/success states. Accepted PR screenshot artifact:
 
 ```text
-id: 10476008006
-digest: sha256:6fe0aa3de9bfadfc8e40229948edaca1cf633b33705a429515779b78f077266c
-head SHA: 2d3f95066e1106c43c76bf91dd29bf5707dca52c
+id: 10478269865
+digest: sha256:92c561e8afd029cc618a966e1686a5e601cbc72580c387c608f73bafc814246b
 ```
 
-The live permanent matrix is therefore **21 canonical routes × 3 viewports = 63 exact-path screenshots** at 390x844, 768x1024 and 1280x800.
+Merged-main gameplay-distribution evidence:
 
-Full closure evidence: `VBASE_P1_01_VISUAL_TOKEN_CLOSURE_2026-09-17.md`.
+```text
+900 / 900 classified
+0 unclassified
+38 active child-facing patterns
+choice_grid                    272 / 900 = 30.22%
+cloze_sentence_choice           5 / 900 = 0.56%
+```
+
+Artifact:
+
+```text
+id: 10479619607
+digest: sha256:2bc2b1734091a6de2c71c6545d3e07a27cab02c685c537cf002ac9a8a3092381
+```
+
+Full Pattern #38 closure evidence: `PATTERN38_CLOZE_SENTENCE_CHOICE_CLOSURE_2026-09-17.md`.
+
+Draft PR #167 was a duplicate implementation path and failed its gameplay-presentation regression; it was closed as superseded and is not canonical.
+
+## Final P1 closure evidence
+
+Final visual P1 implementation/closure remains live verified on PR #162 / main `2d3f95066e1106c43c76bf91dd29bf5707dca52c`, CI #788 including exact Cloudflare smoke. The live permanent matrix remains **21 canonical routes × 3 viewports = 63 exact-path screenshots** at 390x844, 768x1024 and 1280x800.
+
+Full visual closure evidence: `VBASE_P1_01_VISUAL_TOKEN_CLOSURE_2026-09-17.md`.
 
 External physical-device acceptance, accessibility-specialist review, human pedagogical/art acceptance and Iqro expert acceptance remain separate and incomplete. Physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
 
@@ -136,17 +126,17 @@ Target: minimum **50**, working target **60 meaningful patterns**.
 ```text
 classified:                    900 / 900
 unclassified:                    0
-active merged patterns:         37
-choice_grid                    277 / 900 = 30.78%
+active merged patterns:         38
+choice_grid                    272 / 900 = 30.22%
+cloze_sentence_choice            5 / 900 = 0.56%
 reading_passage_question         5 / 900 = 0.56%
 sentence_order_cards             5 / 900 = 0.56%
 picture_word_match               5 / 900 = 0.56%
-Bahasa choice_grid               29 / 100
 ```
 
-Remaining distance is **13 patterns** to minimum 50 and **23** to working target 60.
+Remaining distance is **12 patterns** to minimum 50 and **22** to working target 60.
 
-Pattern #38 is now **unblocked only for a fresh objective/evidence audit**. No gameplay family is pre-approved. The active merged pattern count remains 37 until a future Pattern #38 implementation independently passes its own evidence/progression, interaction, responsive, visual, CI and production gates.
+Pattern #38 exact scope is five Bahasa context-completion activities. Runtime, assessment/evidence, mastery/progression, schema and activity content remain canonical; only the justified presentation/interaction is specialized.
 
 Deterministic activity-quality remains **900 KEEP / 0 POLISH / 0 REDESIGN / 0 REPLACE / 0 structural findings**.
 
@@ -170,13 +160,14 @@ Admin-only utility styling remains separate unless user-facing leakage is proven
 
 ## Product contracts preserved
 
-Current visual convergence preserves:
+Current visual/gameplay convergence preserves:
 
 - valid remembered child fast-resume through existing destination logic;
 - `/login`, `/signup`, `/forgot-password`, `/reset-password` and `/auth/callback` Supabase operations, validation, recovery/callback semantics and redirects;
 - signed-in/signed-out account behavior and canonical destination routes;
 - optional-camera framing without unsupported privacy/security claims;
-- learning/mastery/evidence/progression/content/schema/database semantics.
+- learning/mastery/evidence/progression/content/schema/database semantics;
+- Pattern #38 canonical prompts, choices, correct answers, `tap_choice` runtime and `bahasa.kalimat.context_completion` evidence.
 
 ## Learning/mastery boundaries
 
@@ -194,8 +185,8 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Run a **fresh objective/evidence audit for Pattern #38**; do not preselect a mechanic merely to increase the pattern count.
-2. If the audit identifies a justified Pattern #38 candidate, implement it with exact-scope interaction, evidence/progression, keyboard/touch, responsive, visual and production gates.
+1. Finish the **Pattern #38 docs-only closure gate**: exact-head CI, clean merge, then independent merged-main CI + exact Cloudflare smoke.
+2. After Pattern #38 is fully closed, run a **fresh objective/evidence audit for Pattern #39**; do not preselect a mechanic merely to increase the pattern count.
 3. Continue WS-05 toward 50–60 meaningful patterns with permanent WS-08 visual QA running in parallel.
 4. Continue WS-02 narration and WS-10 external physical-device/accessibility/human acceptance.
 5. Continue WS-11 governance.
