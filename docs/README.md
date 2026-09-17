@@ -24,13 +24,22 @@ Subsystem docs remain authoritative for their specific scope when they do not co
 
 ## Current execution checkpoint
 
-Pattern #39 `visual_word_problem` is **FULLY CLOSED**. Its implementation merged at `bcb8479514f44d46ebc68917981699240aabc3b2` with CI #809 / run `35187506724`; docs closure PR #171 merged as main `98725727c866d410b2d0caa206e86e70cd0e5741`, and final CI #811 / run `35190499794` succeeded.
+Pattern #40 `spatial_relation_board` is **FULLY CLOSED / LIVE VERIFIED**.
 
-Pattern #40 objective/evidence audit PR #173 is **MERGED** to main `f1b4b13d3d9814d2ed06500022218848cd721419`. The accepted exact candidate is `spatial_relation_board` for six `logic-spatial-*` activities in `logic-spatial-relations`.
+Canonical chain:
 
-Pattern #40 implementation is now isolated in **draft PR #175**. The runtime/config foundation already passed CI #821 at head `1889e1b5ea954be3cab6978e1f82a680b8281ca8`; classifier/distribution registration, exact-scope regression, dedicated browser QA, answer-leakage hardening, mobile composition hardening and implementation-wave docs have since been added and require a fresh exact-head CI before merge.
+```text
+Audit PR:                #173
+Audit main:              f1b4b13d3d9814d2ed06500022218848cd721419
+Implementation PR:       #175
+Implementation main:     fd017b81137f03bb30eca19a2ceb71c734cb3ba9
+Implementation main CI:  #848 / run 35217949039 — full success
+Closure PR:              #176
+Final closure main:      43d69c42ca456ab41011f1d198e021f2b0d53cae
+Final closure CI:        #850 / run 35219083042 — full success
+```
 
-Merged-main gameplay distribution is still the last verified production baseline: **900/900 classified, 39 active patterns, 0 unclassified**, with `choice_grid` 267/900 and `visual_word_problem` 5/900. Pattern #40 must not be counted as merged until exact-head branch QA and independent merged-main verification prove it.
+Verified gameplay distribution is now **900/900 classified, 40 active patterns, 0 unclassified**, with `choice_grid` 261/900 and `spatial_relation_board` 6/900.
 
 The production visual P1 checkpoint remains closed:
 
@@ -41,13 +50,10 @@ P2 = 3
 Permanent visual QA = 21 routes / 63 captures / BLOCKING
 Pattern #38 = FULLY CLOSED
 Pattern #39 = FULLY CLOSED
-Pattern #40 audit = MERGED
-Pattern #40 implementation = IN PROGRESS / NOT MERGED
+Pattern #40 = FULLY CLOSED
 ```
 
-## Pattern #40 implementation checkpoint
-
-Canonical contract:
+## Pattern #40 closed contract
 
 ```text
 pattern:     spatial_relation_board
@@ -58,7 +64,7 @@ pack:        logic.pack.spatial-relations
 skill:       logic.spatial.relation.basic
 runtime:     tap_choice
 contract:    choice_accuracy_v1
-status:      IMPLEMENTATION IN PROGRESS / DRAFT PR #175
+status:      FULLY CLOSED / LIVE VERIFIED
 ```
 
 Exact activity scope:
@@ -81,43 +87,23 @@ Implementation boundaries remain strict:
 - turn/opposite results remain hidden until successful completion;
 - direct keyboard/touch/pointer answer controls remain primary;
 - evidence metadata identifies `spatial-relation-board-runtime` and `choice_spatial_relation_interaction` without redefining `choice_accuracy_v1` correctness;
-- no mastery/progression/schema/database rewrite;
-- no claim of 40 merged patterns until branch distribution and independent merged-main verification prove it.
-
-## Pattern #39 verified closure chain
-
-- objective/evidence audit PR #169;
-- implementation PR #170 head `df503b95abf86e2b530dd9ff18bd5d8b9707e2db`;
-- implementation squash merge/main `bcb8479514f44d46ebc68917981699240aabc3b2`;
-- independent implementation main CI #809 / run `35187506724` — full success including exact Cloudflare release/public smoke;
-- closure PR #171;
-- final closure main `98725727c866d410b2d0caa206e86e70cd0e5741`;
-- final closure CI #811 / run `35190499794` — success.
+- no mastery/progression/schema/database rewrite.
 
 ## Closure/evidence records
 
-- [`PATTERN40_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN40_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md) — merged Pattern #40 objective/evidence audit and exact-scope justification.
-- [`WS05_SPATIAL_RELATION_BOARD_WAVE_2026-09-17.md`](WS05_SPATIAL_RELATION_BOARD_WAVE_2026-09-17.md) — active Pattern #40 implementation/QA record.
-- [`PATTERN39_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN39_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md) — historical pre-implementation Pattern #39 audit and exact-scope justification.
-- [`WS05_VISUAL_WORD_PROBLEM_WAVE_2026-09-17.md`](WS05_VISUAL_WORD_PROBLEM_WAVE_2026-09-17.md) — Pattern #39 implementation/QA record.
-- [`PATTERN39_VISUAL_WORD_PROBLEM_CLOSURE_2026-09-17.md`](PATTERN39_VISUAL_WORD_PROBLEM_CLOSURE_2026-09-17.md) — Pattern #39 implementation/main/QA and closure evidence.
-- [`PATTERN38_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN38_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md)
-- [`PATTERN38_CLOZE_SENTENCE_CHOICE_CLOSURE_2026-09-17.md`](PATTERN38_CLOZE_SENTENCE_CHOICE_CLOSURE_2026-09-17.md)
-- [`VBASE_P1_01_VISUAL_TOKEN_CLOSURE_2026-09-17.md`](VBASE_P1_01_VISUAL_TOKEN_CLOSURE_2026-09-17.md)
+- [`PATTERN40_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN40_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md) — Pattern #40 objective/evidence audit and exact-scope justification.
+- [`WS05_SPATIAL_RELATION_BOARD_WAVE_2026-09-17.md`](WS05_SPATIAL_RELATION_BOARD_WAVE_2026-09-17.md) — Pattern #40 implementation/QA record.
+- [`PATTERN40_IMPLEMENTATION_ACCEPTANCE_2026-09-17.md`](PATTERN40_IMPLEMENTATION_ACCEPTANCE_2026-09-17.md) — exact-head implementation acceptance evidence.
+- [`PATTERN40_SPATIAL_RELATION_BOARD_CLOSURE_2026-09-17.md`](PATTERN40_SPATIAL_RELATION_BOARD_CLOSURE_2026-09-17.md) — final Pattern #40 closure evidence.
+- [`PATTERN39_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN39_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md)
+- [`WS05_VISUAL_WORD_PROBLEM_WAVE_2026-09-17.md`](WS05_VISUAL_WORD_PROBLEM_WAVE_2026-09-17.md)
+- [`PATTERN39_VISUAL_WORD_PROBLEM_CLOSURE_2026-09-17.md`](PATTERN39_VISUAL_WORD_PROBLEM_CLOSURE_2026-09-17.md)
 
 Historical closure/candidate/audit records must not be rewritten to pretend later QA or implementation state existed at their original checkpoint.
 
 ## Remaining product-quality work
 
-Immediate Pattern #40 work:
-
-- pass a fresh exact-head CI containing the final classifier/distribution/regression/browser/mobile/docs state;
-- prove branch distribution is 900/900 classified with exactly 40 active patterns;
-- keep activity-quality and permanent visual QA green;
-- pass Windows, Ubuntu, production build and mobile Chromium matrices;
-- clear mergeability/review/thread gates, then squash-merge only the exact verified head;
-- independently verify merged `main` and production smoke;
-- run a separate post-merge Pattern #40 closure-docs gate before **FULLY CLOSED** status.
+Immediate WS-05 work is now a **fresh Pattern #41 objective/evidence audit**. No mechanic, subject or activity family is pre-approved. The audit may validly conclude that no justified candidate exists.
 
 Other open work remains P2 game-shell/icon/inline-style convergence, WS-02 narration, WS-10 real-device/accessibility/human/Iqro acceptance, WS-11 governance, later WS-12 cleanup, and continued WS-05 progression toward 50–60 meaningful patterns.
 
