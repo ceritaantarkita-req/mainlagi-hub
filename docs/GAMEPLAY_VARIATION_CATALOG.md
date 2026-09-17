@@ -10,7 +10,7 @@
 - Assessed activity wajib menjaga evidence: correct/incorrect, retry, completion, score/accuracy bila relevan, dan metadata interaction.
 - Setiap mechanic baru wajib lolos scope regression, progression, completion/evidence, keyboard, touch/pointer, responsive QA, dan manual visual review.
 - Permanent distribution audit wajib tetap 900/900 classified selama baseline produk masih 900 activities.
-- Setelah Pattern #37 closure, production visual/product baseline audit dilakukan sebelum Pattern #38; sesudah baseline, WS-08 visual QA berjalan paralel dengan WS-05.
+- Production visual P1 checkpoint sudah closed/live verified; WS-08 visual QA tetap berjalan paralel dan blocking pada wave WS-05 berikutnya.
 
 ## Status implementasi
 
@@ -23,7 +23,7 @@ Patterns #1–#35 remain as previously closed/merged. Latest entries:
 34. `initial_sound` — MERGED PR #147; CLOSED PR #148; FULLY CLOSED
 35. `picture_word_match` — MERGED PR #149; CLOSED PR #150; FULLY CLOSED
 36. `sentence_order_cards` — MERGED PR #151; CLOSED PR #152; **FULLY CLOSED**
-37. `reading_passage_question` — MERGED PR #153; **LIVE VERIFIED / DOCS-ONLY CLOSURE IN PROGRESS**
+37. `reading_passage_question` — MERGED PR #153; CLOSED PR #154; **FULLY CLOSED**
 
 Permanent gameplay-distribution audit: MERGED PR #105.
 
@@ -35,14 +35,14 @@ Current merged distribution on `main`:
 37 active child-facing patterns
 choice_grid                    277 / 900 = 30.78%
 reading_passage_question         5 / 900 = 0.56%
-sentence_order_cards              5 / 900 = 0.56%
-picture_word_match                5 / 900 = 0.56%
+sentence_order_cards             5 / 900 = 0.56%
+picture_word_match               5 / 900 = 0.56%
 Bahasa choice_grid                29 / 100
 ```
 
 Remaining distance is **13** patterns to minimum 50 and **23** to working target 60.
 
-### `reading_passage_question` — Pattern #37 MERGED / LIVE VERIFIED
+### `reading_passage_question` — Pattern #37 FULLY CLOSED
 
 Exact scope:
 
@@ -75,27 +75,48 @@ Interaction:
 - correct selection completes the existing canonical activity;
 - no invented passage, changed answer payload, extra confirmation or intermediate assessment.
 
-Verified implementation chain:
-- exact base `461b0fd59a6c238752aa858bf783716b225b548a`;
-- final PR head `25baa6f103f4e3bb309fae8f0078c9fb099b9ab6`;
-- exact-head CI #738 / run `35097844249` — success;
+Verified implementation and closure chain:
+- exact implementation base `461b0fd59a6c238752aa858bf783716b225b548a`;
+- final implementation PR head `25baa6f103f4e3bb309fae8f0078c9fb099b9ab6`;
+- exact-head implementation CI #738 / run `35097844249` — success;
 - implementation PR #153 squash merge `6a6f99ccb3a733af4e298ed8c48452e019f9980c`;
-- independent `main` CI #739 / run `35098428328` — full success including exact Cloudflare production smoke;
+- independent implementation-main CI #739 / run `35098428328` — full success including exact Cloudflare production smoke;
+- closure PR #154 completed;
+- final verified `main` `b1793adaabe19a9c73e021534899f8b50c4097f6`;
+- final closure CI #741 / run `35103399012` — full success including exact Cloudflare production smoke;
 - all nine 320x720, 390x844 and 768x1024 idle/wrong/success screenshots passed manual visual acceptance;
 - merged distribution is 900/900 classified with 37 patterns, `choice_grid` 277/900 (30.78%), Bahasa `choice_grid` 29/100 and no global hotspot above 35%;
 - deterministic quality remains 900 KEEP / 0 flagged / structural findings 0.
-
-Pattern #37 is not **FULLY CLOSED** until its separate docs-only closure passes fresh exact-head CI, clean closure gate, exact-head merge and final independent `main` + Cloudflare verification.
 
 ### `sentence_order_cards` — Pattern #36 FULLY CLOSED
 
 Implementation PR #151 and closure PR #152 are complete. Final verified `main` is `461b0fd59a6c238752aa858bf783716b225b548a`; final CI #732 / run `35094107947` passed the full matrix including exact Cloudflare production smoke.
 
+## Production visual checkpoint before Pattern #38
+
+The product-quality gate that intentionally paused WS-05 after Pattern #37 is complete.
+
+Verified production state after PR #162:
+
+```text
+P0 = 0
+P1 = 0
+P2 = 3
+permanent visual QA = 21 canonical routes / 63 captures / blocking
+main SHA = 2d3f95066e1106c43c76bf91dd29bf5707dca52c
+main CI = #788 / run 35168877485 — full success
+exact Cloudflare release/public smoke = success
+```
+
+P2 findings remain visible but do not re-block the completed P1 checkpoint.
+
+Pattern #38 is therefore **unblocked for a fresh objective/evidence audit only**. No gameplay family, subject, activity set or mechanic is pre-approved by the visual closure.
+
 ## Target mechanics backlog
 
 Original 60-pattern planning slots remain guidance, not a fixed taxonomy. Validated extra patterns may sit outside an original illustrative slot when objective fit requires a semantically distinct interaction.
 
-Priority families still worth fresh objective/evidence audit include:
+Families worth considering only when a fresh objective/evidence audit finds a real fit include:
 - search/scene exploration: `find_in_scene`, `hidden_object`, `spot_difference`, `hotspot_discovery`;
 - ordering beyond the reviewed sentence-choice family: `reorder_cards`, `tap_in_order`, `story_sequence`;
 - literacy construction: `build_word`, `letter_construction`, `initial_sound_sort`;
@@ -103,11 +124,24 @@ Priority families still worth fresh objective/evidence audit include:
 - audio: `listen_and_point`, `listen_and_match`, `sound_memory`, `audio_sequence`, `sound_discrimination`;
 - creative/story mechanics after objective fit is proven.
 
-No family is pre-approved for Pattern #38. A fresh Pattern #38 objective/evidence audit starts only after:
-1. Pattern #37 is fully closed; and
-2. the production visual/product baseline audit is recorded.
+These are **audit candidates, not approvals**.
 
-This sequencing prevents gameplay-count work from outrunning the product shell and cross-surface visual quality.
+A valid Pattern #38 audit may conclude that none of these families should be implemented yet.
+
+## Pattern #38 objective/evidence audit gate
+
+Before implementation, the audit must:
+
+1. inspect remaining objectives/content where the current interaction representation is weakest;
+2. identify the evidence that the learning objective actually requires;
+3. determine whether an existing pattern already measures that evidence adequately;
+4. reject cosmetic re-skins and taxonomy-only variants;
+5. reject changes that would weaken or ambiguously reinterpret mastery/progression evidence;
+6. select a small exact activity scope only after the mechanic is justified;
+7. document why the chosen interaction is materially better than the current representation;
+8. preserve the valid outcome **“no justified Pattern #38 candidate yet.”**
+
+No code/content migration for Pattern #38 should begin before this gate produces a justified exact scope.
 
 ## Distribution rule
 
@@ -122,8 +156,9 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 - Initial Sound — DONE / #147 + #148, fully closed.
 - Picture Word Match — DONE / #149 + #150, fully closed.
 - Sentence Order Cards — DONE / #151 + #152, fully closed.
-- Reading Passage Question — implementation MERGED #153 at `6a6f99ccb3a733af4e298ed8c48452e019f9980c`, live verified by CI #739; docs-only closure in progress.
-- NEXT — close #37 -> production visual/product baseline audit + WS-08 rules -> fresh Pattern #38 objective/evidence audit.
+- Reading Passage Question — DONE / #153 + #154, fully closed; final main `b1793adaabe19a9c73e021534899f8b50c4097f6`, CI #741.
+- Production visual P1 checkpoint — DONE / PR #162, main `2d3f95066e1106c43c76bf91dd29bf5707dca52c`, CI #788 exact Cloudflare smoke.
+- NEXT — fresh Pattern #38 objective/evidence audit; no mechanic pre-approved.
 
 ## Definition of done per mechanic
 
