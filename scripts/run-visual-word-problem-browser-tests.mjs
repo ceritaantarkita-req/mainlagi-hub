@@ -143,7 +143,7 @@ async function inspect(viewport){
     assert.equal(await board.getByLabel("Burung mula-mula: 5").count(),1,"board shows audited starting quantity");
     assert.equal(await board.getByLabel("Burung yang terbang pergi: −2").count(),1,"board shows audited story change");
     const result=page.locator("[data-visual-word-problem-result]");
-    assert.equal((await result.textContent())?.replace(/\s+/g," ").trim(),"Sekarang ?","answer remains unknown before assessment");
+    assert.equal((await result.textContent())?.replace(/\s+/g," ").trim(),"Sekarang?","answer remains unknown before assessment");
     assert.equal(await result.getAttribute("aria-label"),"Jawaban akhir masih belum diketahui");
 
     const choices=page.locator("[data-visual-word-problem-choice]");
