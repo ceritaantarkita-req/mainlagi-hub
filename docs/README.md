@@ -24,13 +24,11 @@ Subsystem docs remain authoritative for their specific scope when they do not co
 
 ## Current execution checkpoint
 
-Pattern #39 `visual_word_problem` is the latest live-verified gameplay implementation on `main` `bcb8479514f44d46ebc68917981699240aabc3b2`; CI #809 / run `35187506724` passed the full matrix including exact Cloudflare release/public smoke.
+Pattern #39 `visual_word_problem` is **FULLY CLOSED**. Its implementation merged at `bcb8479514f44d46ebc68917981699240aabc3b2` with CI #809 / run `35187506724`; docs closure PR #171 merged as main `98725727c866d410b2d0caa206e86e70cd0e5741`, and final CI #811 / run `35190499794` succeeded.
 
-Its exact scope is five Math visual story-problem activities. Merged-main gameplay distribution is **900/900 classified, 39 active patterns, 0 unclassified**, with `choice_grid` 267/900 and `visual_word_problem` 5/900.
+Merged-main gameplay distribution remains **900/900 classified, 39 active patterns, 0 unclassified**, with `choice_grid` 267/900 and `visual_word_problem` 5/900.
 
-Pattern #39 is currently in its separate docs-only closure gate. After that closure is merged and independently production-verified, the next gameplay step is a fresh Pattern #40 objective/evidence audit with no mechanic pre-approved.
-
-Pattern #38 `cloze_sentence_choice` is **FULLY CLOSED** via implementation PR #166 and closure PR #168. Final closure main `86e6b69d576d72fec73158a7a1c6d8961de36887` passed CI #803 / run `35180530822` including exact Cloudflare smoke.
+Pattern #40 is now in its fresh objective/evidence audit gate in PR #173. The audit selects `spatial_relation_board` as a candidate for exactly six `logic-spatial-*` activities in `logic-spatial-relations`. This is **audit-only**: no Pattern #40 runtime is implemented or live yet, and merged pattern count remains 39.
 
 The production visual P1 checkpoint remains closed:
 
@@ -40,25 +38,55 @@ P1 = 0
 P2 = 3
 Permanent visual QA = 21 routes / 63 captures / BLOCKING
 Pattern #38 = FULLY CLOSED
-Pattern #39 implementation = MERGED / LIVE VERIFIED
-Pattern #39 docs closure = IN PROGRESS
+Pattern #39 = FULLY CLOSED
+Pattern #40 = AUDIT OPEN / IMPLEMENTATION NOT STARTED
 ```
 
-## Pattern #39 verified implementation chain
+## Pattern #39 verified closure chain
 
 - objective/evidence audit PR #169;
 - implementation PR #170 head `df503b95abf86e2b530dd9ff18bd5d8b9707e2db`;
-- squash merge/main `bcb8479514f44d46ebc68917981699240aabc3b2`;
-- independent main CI #809 / run `35187506724` — full success;
-- exact Cloudflare release/public smoke — success;
-- responsive QA at 320x720, 390x844 and 768x1024 across idle/wrong/success;
-- merged-main gameplay-distribution artifact `10482459288`, digest `sha256:4bacc984852eb4befd352a727935daf8e75cb0b30ec1a58af8451895649ae967`.
+- implementation squash merge/main `bcb8479514f44d46ebc68917981699240aabc3b2`;
+- independent implementation main CI #809 / run `35187506724` — full success including exact Cloudflare release/public smoke;
+- closure PR #171;
+- final closure main `98725727c866d410b2d0caa206e86e70cd0e5741`;
+- final closure CI #811 / run `35190499794` — success.
+
+## Pattern #40 audit checkpoint
+
+Current audit candidate:
+
+```text
+pattern:     spatial_relation_board
+subject:     logic
+stage:       logic-patterns-sequences-relations
+lesson:      logic-spatial-relations
+pack:        logic.pack.spatial-relations
+skill:       logic.spatial.relation.basic
+runtime:     tap_choice
+contract:    choice_accuracy_v1
+status:      AUDIT OPEN / IMPLEMENTATION NOT STARTED
+```
+
+Exact audited activity scope:
+
+```text
+logic-spatial-star-left-circle
+logic-spatial-circle-right-triangle
+logic-spatial-circle-between-stars
+logic-spatial-turn-right-from-up
+logic-spatial-turn-left-from-right
+logic-spatial-opposite-left
+```
+
+If PR #173 is accepted, implementation must start on a separate branch from the resulting latest `main`; it must not broaden scope or alter canonical prompts/choices/answers, mastery/progression, schema or database semantics.
 
 ## Closure/evidence records
 
+- [`PATTERN40_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN40_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md) — active docs-only Pattern #40 audit and exact candidate justification.
 - [`PATTERN39_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN39_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md) — historical pre-implementation Pattern #39 audit and exact-scope justification.
 - [`WS05_VISUAL_WORD_PROBLEM_WAVE_2026-09-17.md`](WS05_VISUAL_WORD_PROBLEM_WAVE_2026-09-17.md) — Pattern #39 implementation/QA record.
-- [`PATTERN39_VISUAL_WORD_PROBLEM_CLOSURE_2026-09-17.md`](PATTERN39_VISUAL_WORD_PROBLEM_CLOSURE_2026-09-17.md) — Pattern #39 implementation/main/QA evidence and docs-closure gate.
+- [`PATTERN39_VISUAL_WORD_PROBLEM_CLOSURE_2026-09-17.md`](PATTERN39_VISUAL_WORD_PROBLEM_CLOSURE_2026-09-17.md) — Pattern #39 implementation/main/QA and closure evidence.
 - [`PATTERN38_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN38_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md)
 - [`PATTERN38_CLOZE_SENTENCE_CHOICE_CLOSURE_2026-09-17.md`](PATTERN38_CLOZE_SENTENCE_CHOICE_CLOSURE_2026-09-17.md)
 - [`VBASE_P1_01_VISUAL_TOKEN_CLOSURE_2026-09-17.md`](VBASE_P1_01_VISUAL_TOKEN_CLOSURE_2026-09-17.md)
@@ -69,8 +97,9 @@ Historical closure/candidate/audit records must not be rewritten to pretend late
 
 Still open:
 
-- Pattern #39 docs closure exact-head CI/merge/final main verification;
-- subsequent Pattern #40 objective/evidence audit;
+- complete/merge Pattern #40 objective/evidence audit PR #173;
+- if accepted, implement Pattern #40 exact six-activity scope on a separate branch;
+- independently verify 900/900 classification, 40 active patterns and live production before implementation closure;
 - P2 game detail/preflight vocabulary convergence;
 - P2 canonical semantic icon convergence;
 - P2 inline-style drift cleanup;
