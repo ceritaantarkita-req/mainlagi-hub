@@ -1,12 +1,12 @@
 # WS-05 Pattern #40 — Spatial Relation Board Implementation Wave — 17 September 2026
 
-Status: **IMPLEMENTATION IN PROGRESS / CLASSIFIER + REGRESSION + BROWSER QA WIRED / EXACT-HEAD CI PENDING**
+Status: **IMPLEMENTATION CANDIDATE VERIFIED / EXACT-HEAD CI GREEN / MERGE + MERGED-MAIN VERIFICATION PENDING**
 
 Canonical audit: PR #173  
 Audit merge/main: `f1b4b13d3d9814d2ed06500022218848cd721419`  
-Implementation PR: #175 (draft)  
-Verified foundation head: `1889e1b5ea954be3cab6978e1f82a680b8281ca8`  
-Foundation CI: #821 / run `35213178491` — full success
+Implementation PR: #175 (draft at this checkpoint)  
+Verified implementation candidate head: `764e8a8760343f7796080055a26223ae39153fec`  
+Exact-head CI: **#843 / run `35216214431` — full success**
 
 ## Exact audited scope
 
@@ -45,31 +45,52 @@ contract:    choice_accuracy_v1
 - runtime metadata uses `source: spatial-relation-board-runtime`, `evidenceFidelity: choice_spatial_relation_interaction`, `mode`, `relationOrTurn`, and `selectedChoice`;
 - mastery, progression, schema, database and canonical content remain unchanged;
 - `canonicalGameplayPattern` registers `spatial_relation_board` ahead of the unchanged legacy classifier;
-- permanent gameplay-distribution audit expects Pattern #40 and must prove 900/900 classified with 40 active patterns;
-- exact-scope regression covers six-and-only-six classification, canonical content, skill evidence and malformed/non-scope fail-closed cases;
-- browser QA is wired into the mobile matrix for 320x720, 390x844 and 768x1024 idle/wrong/success states;
-- mobile composition keeps short symbolic answers in three columns and compacts the board so status/CTA remain usable on 320x720.
+- permanent gameplay-distribution audit now recognizes Pattern #40;
+- exact-scope regression covers six-and-only-six classification, canonical content, authoring/manifest ownership, skill evidence and malformed/non-scope fail-closed cases;
+- browser QA covers 320x720, 390x844 and 768x1024 idle/wrong/success states;
+- mobile composition keeps short symbolic answers in three columns and compacts the success state so feedback and CTA remain visible on 320x720.
 
-## Verification already obtained
+## Exact-head acceptance evidence
 
-Foundation head `1889e1b5ea954be3cab6978e1f82a680b8281ca8` passed CI #821 / run `35213178491` in full. That checkpoint predates Pattern #40 taxonomy/distribution registration and the new dedicated regression/browser gates, so it is supporting evidence only, not final implementation acceptance.
+Verified candidate head:
 
-## Exact-head gate now required
+```text
+764e8a8760343f7796080055a26223ae39153fec
+```
 
-The final implementation candidate must prove on one exact head:
+CI:
 
-1. Pattern #40 regression passes for exactly six audited activities;
-2. gameplay distribution stays 900/900 classified, 0 unclassified and becomes exactly 40 active patterns;
-3. expected distribution change is six activities moving from `choice_grid` into `spatial_relation_board` without catalog-count change;
-4. browser QA passes at 320x720, 390x844 and 768x1024 with hidden directional result, keyboard wrong-state, pointer completion, touch targets and measured evidence;
-5. permanent visual baseline remains green with no new P0/P1 regression;
-6. activity-quality remains deterministic clean;
-7. Windows compatibility, Ubuntu quality gate, production build, dependency/security jobs and the full mobile matrix pass;
-8. PR #175 remains exact-scope, mergeable and free of unresolved review/thread blockers.
+```text
+#843 / run 35216214431 — success
+```
 
-Only after those checks may PR #175 be marked ready and squash-merged at its exact verified head. Merged `main` must then be independently verified, including production smoke, before Pattern #40 can be called implementation-complete.
+The verified branch evidence proves:
 
-A separate post-merge closure-docs gate is still required before Pattern #40 is called **FULLY CLOSED**.
+- Pattern #40 exact scope is six audited Logic spatial activities;
+- gameplay distribution remains **900/900 classified** with **0 unclassified**;
+- branch distribution becomes **40 active child-facing patterns**;
+- `choice_grid` moves from 267/900 to **261/900**;
+- `spatial_relation_board` becomes **6/900**;
+- total activity count remains 900;
+- dedicated Pattern #40 regression passes;
+- keyboard wrong-state and pointer/touch completion behavior pass browser QA;
+- turn/opposite result masking remains intact before success and after wrong answers;
+- measured retry/accuracy/evidence semantics remain on the canonical assessed completion path;
+- short-phone 320x720 success state remains usable with feedback and CTA in view;
+- permanent visual baseline, deterministic activity-quality, Windows compatibility, Ubuntu quality gate, production build, dependency/security jobs and mobile matrix pass on the verified head.
+
+## Remaining merge gate
+
+The implementation is still **not production-complete** until all of these happen:
+
+1. this documentation-final head receives its own fresh exact-head CI after the documentation update;
+2. PR #175 has no unresolved review/thread blocker and remains cleanly mergeable;
+3. PR #175 is marked ready and squash-merged only at the exact verified head;
+4. merged `main` receives an independent full CI including exact Cloudflare production/release smoke;
+5. merged-main gameplay distribution independently confirms 900/900 classified, 40 active patterns, `choice_grid` 261/900 and `spatial_relation_board` 6/900;
+6. a separate docs-only closure gate records final merge SHA, merged-main CI and production evidence.
+
+Only after merged-main verification may Pattern #40 be called implementation-complete. Only after the separate closure-docs gate may Pattern #40 be called **FULLY CLOSED**.
 
 ## Non-negotiable boundaries
 
