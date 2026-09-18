@@ -34,9 +34,11 @@
 **Pattern #46 audit:** PR #199 -> main `b620c78f186b7c8e8612afdb616420d923a57e00`  
 **Pattern #46 audit PR CI:** **#928 / run `35316239193` — full success**  
 **Pattern #46 audit merged-main CI:** **#929 / run `35316693100` — full success + exact Cloudflare production smoke**  
-**Pattern #46 implementation PR:** #200  
-**Pattern #46 accepted checkpoint:** `558f154278a6a75c01e3fad14171e5ae5bc66fdd`  
-**Pattern #46 checkpoint CI:** **#931 / run `35338034584` — full success**  
+**Pattern #46 implementation:** PR #200 -> main `027d81edba9f3b5585eb2c964aa89e80e3337422`  
+**Pattern #46 accepted checkpoint:** `558f154278a6a75c01e3fad14171e5ae5bc66fdd` / CI #931 full success  
+**Pattern #46 final PR head:** `2b8e47b18a29cebf3b3dde0eda31b3d70c73dbaf`  
+**Pattern #46 final PR CI:** **#936 / run `35339040549` — full success**  
+**Pattern #46 merged-main CI:** **#937 / run `35339693569` — full success + exact Cloudflare production smoke**  
 **Pattern #46 manual visual review:** **ACCEPTED / nine screenshots / no P0-P1 blocker**  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
@@ -65,11 +67,11 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 
 | Workstream | Status | Current note |
 |---|---|---|
-| WS-01 Canonical docs | **CURRENT** | Pattern #46 audit merged/live verified; implementation branch current |
+| WS-01 Canonical docs | **CURRENT** | Pattern #46 merged/live verified; closure docs in progress |
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **45 FULLY CLOSED / P46 CHECKPOINT VERIFIED** | PR #200 checkpoint CI #931 green; branch 46/237/4; merged truth remains 45 |
+| WS-05 Gameplay diversification | **46 FULLY CLOSED / LIVE VERIFIED** | Pattern #46 merged-main CI #937 green; 4 patterns remain to finish target 50 |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P45 merged-main permanent visual QA green; nine dedicated screenshots manually accepted |
@@ -95,7 +97,7 @@ spatial_relation_board            6 / 900
 
 Distance remaining: **5 patterns** to the current WS-05 finish target of 50. No 60-pattern expansion is required for this finish scope.
 
-## Pattern #46 — `phenomenon_relation_board` / IMPLEMENTATION CHECKPOINT VERIFIED / NOT MERGED
+## Pattern #46 — `phenomenon_relation_board` / FULLY CLOSED / LIVE VERIFIED
 
 Fresh audit base is Pattern #45 closure main `79788dfb7f88164e699d1c3b9ac62b689d366c74`. Audit PR #199 merged to `b620c78f186b7c8e8612afdb616420d923a57e00`; audit merged-main CI #929 is full success including exact Cloudflare production smoke.
 
@@ -128,7 +130,7 @@ Approved future presentation boundary, if the audit later merges:
 - correct choice resolves the relation and completes through canonical evidence;
 - no prompt parser, timer, speed score, drag-only dependency, extra assessed checkpoint, mastery/progression/schema/database migration.
 
-Expected post-implementation distribution, only if all later gates pass:
+Verified merged distribution:
 
 ```text
 46 active patterns
@@ -155,10 +157,12 @@ CI #930:                  blocked 320px overflow
 accepted head:            558f154278a6a75c01e3fad14171e5ae5bc66fdd
 CI #931:                  full success
 manual review:            ACCEPTED / 9 screenshots / no P0-P1 blocker
-branch distribution:      46 active / choice_grid 237 / phenomenon_relation_board 4
+merged distribution:      46 active / choice_grid 237 / phenomenon_relation_board 4
 ```
 
-The implementation keeps the relation/result slot unresolved after a wrong selection, preserves exact canonical prompts/choices/answers and `choice_accuracy_v1`, and adds no mastery/progression/schema/database migration. The 320px failure in #930 was fixed with CSS-only containment/wrapping and then verified by #931.
+The implementation keeps the relation/result slot unresolved after a wrong selection, preserves exact canonical prompts/choices/answers and `choice_accuracy_v1`, and adds no mastery/progression/schema/database migration. The 320px failure in #930 was fixed with CSS-only containment/wrapping and verified by #931. Final PR head `2b8e47b18a29cebf3b3dde0eda31b3d70c73dbaf` passed CI #936, merged to `027d81edba9f3b5585eb2c964aa89e80e3337422`, and merged-main CI #937 passed full verification including exact Cloudflare production smoke.
+
+Closure evidence: `PATTERN46_PHENOMENON_RELATION_BOARD_CLOSURE_2026-09-18.md`.
 
 ## Pattern #45 — `elimination_board` / FULLY CLOSED / LIVE VERIFIED
 
@@ -334,10 +338,10 @@ P2 findings: 3
 
 ## Current execution order
 
-1. Pattern #46 code checkpoint is accepted at `558f1542`; preserve its exact four-ID scope and accepted screenshots/evidence.
-2. Run full CI on the docs-inclusive final PR #200 head and confirm no code drift from the accepted checkpoint.
-3. Merge only an unchanged green exact head after mergeability/review/thread checks.
-4. Independently verify merged-main 46-pattern distribution, permanent visual QA, and exact Cloudflare production smoke.
-5. Reconcile Pattern #46 closure docs before beginning Pattern #47 implementation; repeat through Pattern #50.
+1. Pattern #46 is fully closed/live verified; preserve its exact four-ID scope and merged 46-pattern baseline.
+2. Start Pattern #47 with a fresh objective/evidence audit only. No mechanic, subject, or content family is pre-approved.
+3. If an existing mechanic already expresses the objective/evidence model, reuse it instead of inventing a new pattern.
+4. If Pattern #47 is justified, require exact-scope regression, keyboard/pointer/actual-touch QA, nine-shot visual review, permanent visual QA, exact-head merge and merged-main Cloudflare verification.
+5. Repeat this path through Pattern #50, then run final overall QA/docs/production closeout.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
