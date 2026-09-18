@@ -11,10 +11,11 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - production: `https://mainlagihub.my.id/`
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - source licence: `AGPL-3.0-only`
-- latest fully closed gameplay pattern: **Pattern #41 — English `phrase_scene_match`**
+- latest fully closed gameplay pattern: **Pattern #42 — Science `growth_stage_transition`**
 - Pattern #42 implementation: PR #187 -> main `37190f5dabd5d8421d7575b8f220d2824e831f23`
 - Pattern #42 implementation merged-main CI: **#884 / run `35260402125` — full success including exact Cloudflare production smoke**
-- Pattern #42 closure documentation: **IN PROGRESS on `docs/p42-closure-20260918`**
+- Pattern #42 closure: PR #188 -> main `ad7deb67dc15eefdb81dc5d5e66f4c10ccdc9710`
+- Pattern #42 closure merged-main CI: **#886 / run `35290502532` — full success including exact Cloudflare production smoke**
 - permanent visual QA foundation: **VQA-01 FULLY CLOSED**
 - visual P1 baseline: **P0=0 / P1=0 / P2=3**
 
@@ -31,7 +32,7 @@ Pattern #38: FULLY CLOSED
 Pattern #39: FULLY CLOSED
 Pattern #40: FULLY CLOSED
 Pattern #41: FULLY CLOSED / LIVE VERIFIED
-Pattern #42: IMPLEMENTATION MERGED / LIVE VERIFIED / CLOSURE DOCS IN PROGRESS
+Pattern #42: FULLY CLOSED / LIVE VERIFIED
 ```
 
 External physical-device acceptance, accessibility-specialist review, human pedagogical/art acceptance and Iqro expert acceptance remain separate and incomplete. Physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
@@ -65,7 +66,7 @@ picture_word_match               5 / 900
 
 Remaining distance is **8 patterns** to minimum 50 and **18** to working target 60.
 
-## Pattern #42 — merged and live verified
+## Pattern #42 — FULLY CLOSED / LIVE VERIFIED
 
 Pattern:
 
@@ -107,6 +108,11 @@ Final PR head:            bc115708c83c1f4829901455d4a5d39d7ea3261c
 Final PR CI:              #883 / run 35259699934 — full success
 Implementation main:      37190f5dabd5d8421d7575b8f220d2824e831f23
 Implementation main CI:   #884 / run 35260402125 — full success + exact Cloudflare production smoke
+Closure PR:               #188
+Closure head:             ee2f57c7fdd89e393cc4fb8dcbb22c2bdb28b885
+Closure PR CI:            #885 / run 35261277441 — full success
+Closure main:             ad7deb67dc15eefdb81dc5d5e66f4c10ccdc9710
+Closure main CI:          #886 / run 35290502532 — full success + exact Cloudflare production smoke
 ```
 
 Merged behavior preserves canonical prompts/choices/answers and `choice_accuracy_v1`, uses exact three-ID fail-closed config, hides the target until correct completion, records measured wrong/retry evidence, supports keyboard/pointer/touch, and introduces no mastery/progression/schema/database migration.
@@ -146,10 +152,9 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Verify and merge the Pattern #42 closure-doc branch from implementation main `37190f5d...`.
-2. Independently verify closure `main`, including exact Cloudflare production smoke.
-3. Reconcile final Pattern #42 closure truth and mark it **FULLY CLOSED / LIVE VERIFIED**.
-4. Only then begin a fresh Pattern #43 objective/evidence audit; no candidate is pre-approved.
-5. Continue WS-05 toward 50–60 meaningful patterns with permanent WS-08 visual QA, plus WS-02 narration, WS-10 external evidence, WS-11 governance and later P2/WS-12 cleanup.
+1. Run a fresh Pattern #43 objective/evidence audit from the verified 42-pattern baseline; no mechanic or content family is pre-approved.
+2. Implement Pattern #43 only if the audit proves an objective/evidence gap that justifies a distinct interaction.
+3. Preserve mastery/progression/evidence boundaries and permanent WS-08 visual QA.
+4. Continue WS-05 toward 50–60 meaningful patterns, plus WS-02 narration, WS-10 external evidence, WS-11 governance and later P2/WS-12 cleanup.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion or mastery/backend rewrites before the current quality roadmap justifies them.
