@@ -4,11 +4,13 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 **Canonical branch:** `main`  
-**Latest fully closed gameplay:** Pattern #42 — Science `growth_stage_transition`  
+**Latest fully closed gameplay:** Pattern #43 — Logic `single_rule_apply`  
 **Pattern #42 implementation:** PR #187 -> main `37190f5dabd5d8421d7575b8f220d2824e831f23`  
 **Pattern #42 implementation main CI:** **#884 / run `35260402125` — full success + exact Cloudflare production smoke**  
 **Pattern #42 closure:** PR #188 -> `ad7deb67dc15eefdb81dc5d5e66f4c10ccdc9710`  
 **Pattern #42 closure main CI:** **#886 / run `35290502532` — full success + exact Cloudflare production smoke**  
+**Pattern #43 implementation:** PR #191 -> main `44f9dee07506a785f184d965b5bbc0a2aab66a8f`  
+**Pattern #43 merged-main CI:** **#900 / run `35297572709` — full success + exact Cloudflare production smoke**  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
 
@@ -36,11 +38,11 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 
 | Workstream | Status | Current note |
 |---|---|---|
-| WS-01 Canonical docs | **CURRENT** | Pattern #43 audit merged/live-verified; implementation PR #191 in progress |
+| WS-01 Canonical docs | **CURRENT** | Pattern #43 merged/live truth synchronized; Pattern #44 next |
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **42 MERGED / P43 IMPLEMENTATION IN PROGRESS** | PR #191 exact five Logic `single_rule_apply`; finish target remains 50 |
+| WS-05 Gameplay diversification | **43 FULLY CLOSED / P44 NEXT** | 7 patterns remain to finish target 50 |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P42 merged-main permanent visual QA green |
@@ -54,14 +56,30 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 ```text
 900 / 900 classified
 0 unclassified
-42 active merged patterns
-choice_grid                     254 / 900
+43 active merged patterns
+choice_grid                     249 / 900
+single_rule_apply                 5 / 900
 growth_stage_transition           3 / 900
 phrase_scene_match                4 / 900
 spatial_relation_board            6 / 900
 ```
 
-Distance remaining: **8 patterns** to the current WS-05 finish target of 50. No 60-pattern expansion is required for this finish scope.
+Distance remaining: **7 patterns** to the current WS-05 finish target of 50. No 60-pattern expansion is required for this finish scope.
+
+## Pattern #43 — `single_rule_apply`
+
+```text
+Audit PR:                #190
+Audit main:              39830a5dfd91734e4cc88b7d79eafaa2f722615f
+Audit main CI:           #890 / run 35295503508 — full success + exact Cloudflare production smoke
+Implementation PR:       #191
+Implementation head:     c893ba0ee63b256bbeb0da61e2bd90355c483a09
+Implementation PR CI:    #899 / run 35296994744 — full success
+Implementation main:     44f9dee07506a785f184d965b5bbc0a2aab66a8f
+Implementation main CI:  #900 / run 35297572709 — full success + exact Cloudflare production smoke
+```
+
+Exactly five Logic Wave C conditional-rule activities use this pattern. Canonical prompts, choices, answer payloads, assessed evidence, mastery and progression are unchanged. Manual 320/390/768 review and permanent visual QA are accepted.
 
 ## Pattern #42 — `growth_stage_transition`
 
@@ -99,9 +117,9 @@ P2 findings: 3
 
 ## Current execution order
 
-1. Verify/merge the Pattern #43 `single_rule_apply` objective/evidence audit for exactly five Logic Wave C activities.
-2. Implement only that exact scope from verified audit `main`; no adjacent Logic family is included.
-3. Keep exact-scope regression, evidence semantics, keyboard/touch/pointer, responsive QA and permanent visual QA blocking.
-4. Independently verify Pattern #43 on merged `main` and exact Cloudflare production before calling it complete.
+1. Start Pattern #44 with one objective/evidence audit from the verified 43-pattern baseline.
+2. Implement only an exact justified scope; do not duplicate an existing gameplay mechanic.
+3. Repeat the same minimal audit -> implementation -> merged-main verification path through Pattern #50.
+4. At Pattern #50, run one final overall QA/docs/production closeout and stop WS-05.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
