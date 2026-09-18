@@ -51,11 +51,11 @@ for(const activity of scoped){
 const pack=CONTENT_PACKS.find(item=>item.id==="math.pack.shapes");
 assert(pack,"missing math shape pack");
 assert.equal(pack.stageId,"math-banding-bentuk");
-assert.equal(pack.lessonId,"math-shapes");
 const packEntries=new Map(pack.activities.map(item=>[item.activityId,item]));
 for(const [id,exp] of expected){
   const entry=packEntries.get(id);
   assert(entry,"missing pack entry for "+id);
+  assert.equal(entry.lessonId,"math-shapes");
   assert.equal(entry.mechanicId,"tap_choice");
   assert.equal(entry.assessment,"assessed");
   assert.equal(entry.evidenceContractId,"choice_accuracy_v1");
