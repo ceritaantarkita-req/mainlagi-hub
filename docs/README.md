@@ -26,7 +26,7 @@ Subsystem docs remain authoritative for their specific scope when they do not co
 
 Pattern #44 `subitizing_glance` is now the latest **FULLY CLOSED / LIVE VERIFIED** gameplay pattern.
 
-Pattern #45 audit candidate is Logic `elimination_board` for exactly five `logic-elimination-inference` activities. This audit is branch-only and implementation code has not started.
+Pattern #45 audit is merged/live verified through PR #196 and audit-main CI #916. Implementation is in progress on the exact five `logic-elimination-inference` activities; merged production remains at 44 patterns until implementation verification completes.
 
 Pattern #42 `growth_stage_transition` implementation is now merged and live verified:
 
@@ -74,6 +74,23 @@ Implementation main CI:  #900 / run 35297572709 — full success + exact Cloudfl
 ```
 
 Exact five-ID Logic scope is live verified. Browser keyboard/pointer/actual-touch QA, manual nine-shot review and permanent visual QA passed. No mastery/progression/schema/database change was introduced.
+
+## Pattern #45 implementation checkpoint
+
+Pattern #45 `elimination_board` audit is **MERGED / LIVE VERIFIED**; runtime implementation is currently branch-only.
+
+```text
+Audit PR:                 #196
+Audit PR head:            e00106f0b65e6d007944d2a87b2f187e0b2dedbb
+Audit PR CI:              #915 / run 35307361453 — full success
+Audit main:               a3a1702ae390fb24c95551d91d31b24b4b867be6
+Audit merged-main CI:     #916 / run 35307880654 — full success + exact Cloudflare production smoke
+Implementation branch:    agent/pattern45-elimination-board-20260918
+```
+
+Exact scope is `logic-infer-not-red`, `logic-infer-only-triangle`, `logic-infer-not-largest`, `logic-infer-common-feature`, and `logic-infer-missing-member`. Canonical assessed `tap_choice` / `choice_accuracy_v1` remains primary; wrong learner selections are only marked visibly `tersisih`, not removed or pre-disabled.
+
+Target branch distribution is **45 active / `choice_grid` 241 / `elimination_board` 5**. This is not merged production truth yet.
 
 ## Pattern #44 live checkpoint
 
@@ -144,7 +161,7 @@ Pattern #42 closure gates are complete. Closure PR #188 merged and closure main 
 
 ## Current evidence records
 
-- [`PATTERN45_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`](PATTERN45_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md) — branch-only Pattern #45 Logic `elimination_board` audit candidate; implementation not started.
+- [`PATTERN45_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`](PATTERN45_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md) — merged/live-verified Pattern #45 Logic `elimination_board` objective/evidence audit.
 - [`PATTERN44_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md`](PATTERN44_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md) — accepted Pattern #44 code checkpoint, automated gates, artifacts and manual nine-shot review.
 - [`WS05_SUBITIZING_GLANCE_WAVE_2026-09-18.md`](WS05_SUBITIZING_GLANCE_WAVE_2026-09-18.md) — Pattern #44 implementation/QA wave and remaining merge gates.
 - [`PATTERN44_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`](PATTERN44_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md) — merged/live-verified Pattern #44 objective/evidence audit.
@@ -163,7 +180,7 @@ Historical closure/candidate/audit records must not be rewritten to pretend late
 
 ## Remaining product-quality work
 
-Immediate WS-05 gate is the docs-only Pattern #45 audit PR for Logic `elimination_board` over exactly five `logic-elimination-inference` activities. The audit must merge and pass merged-main Cloudflare verification before runtime implementation begins. Six patterns remain to the finish target of 50.
+Immediate WS-05 gate is Pattern #45 implementation for exactly five `logic-elimination-inference` activities, followed by exact-scope regression, browser/touch/manual visual QA, exact-head merge, and merged-main Cloudflare verification. Merged production remains at 44 patterns; six patterns remain until Pattern #45 itself is closed, then five would remain to the finish target of 50.
 
 Other open work remains P2 game-shell/icon/inline-style convergence, WS-02 narration, WS-10 real-device/accessibility/human/Iqro acceptance, WS-11 governance, later WS-12 cleanup, and continued WS-05 progression to the current finish target of 50.
 
