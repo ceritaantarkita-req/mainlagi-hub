@@ -33,7 +33,7 @@ Patterns #1–#35 remain as previously closed/merged. Latest entries:
 44. `subitizing_glance` — **FULLY CLOSED / LIVE VERIFIED**
 45. `elimination_board` — **FULLY CLOSED / LIVE VERIFIED**
 46. `phenomenon_relation_board` — **FULLY CLOSED / LIVE VERIFIED**
-47. `shape_attribute_board` — **AUDIT VERIFIED / IMPLEMENTATION IN PROGRESS**
+47. `shape_attribute_board` — **IMPLEMENTATION CHECKPOINT VERIFIED / NOT MERGED**
 
 ## Current verified merged distribution
 
@@ -143,7 +143,7 @@ activity quality:          10534385061 / sha256:eebcc3b932495954314c11b69f7409f9
 
 Evidence records: `PATTERN45_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`, `PATTERN45_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md`, `WS05_ELIMINATION_BOARD_WAVE_2026-09-18.md`, and `PATTERN45_ELIMINATION_BOARD_CLOSURE_2026-09-18.md`.
 
-## Pattern #47 — `shape_attribute_board` / AUDIT VERIFIED / IMPLEMENTATION IN PROGRESS
+## Pattern #47 — `shape_attribute_board` / IMPLEMENTATION CHECKPOINT VERIFIED / NOT MERGED
 
 Exact candidate scope:
 
@@ -184,7 +184,19 @@ Audit merged-main CI:     #941 / run 35351346873 — full success + exact Cloudf
 Implementation branch:    agent/pattern47-shape-attribute-board-20260918
 ```
 
-Audit record: `PATTERN47_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`. Implementation is active only for the exact four audited activities; target distribution remains branch evidence until verification.
+Audit record: `PATTERN47_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
+
+Implementation checkpoint `8d4a2bc1334b853d205cb8981312194ab1deeba5` on PR #203 passed CI #943, branch distribution 47/233/4, and manual nine-shot review with no P0/P1 blocker. CI #942 failed only because a regression asserted the wrong existing baseline for `math-spatial-above`; the accepted fix changed only that assertion.
+
+Checkpoint artifacts:
+
+```text
+mobile screenshots:       10553614390 / sha256:a5211f08e5d0489c9f9a7aaf09a5ef5fe68d14793a18f393607e6c06db18a001
+gameplay distribution:    10554204045 / sha256:3ebabd402a2880d8cdd87a251a1b14851347950c27d94567f10e84ecc86636bb
+activity quality:          10553799372 / sha256:5c65273fb782b35af0524a52a685210266bce01e1d23b6fcf02978e365e78e42
+```
+
+This remains branch evidence until the final docs-inclusive PR head merges and merged-main verification passes.
 
 ## Pattern #46 — `phenomenon_relation_board` / FULLY CLOSED / LIVE VERIFIED
 
@@ -297,8 +309,8 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 - Patterns #1–#46 — **FULLY CLOSED / LIVE VERIFIED**.
 - Pattern #46 final docs closure — PR #201 merged to `49c33ba8c0e25f5ebea962b79eea77ce44acbd06`; closure-main CI #939 passed including exact Cloudflare production smoke.
 - Pattern #47 audit — merged/live verified through PR #202 and audit-main CI #941.
-- Pattern #47 implementation — active on exact four-ID `math-shapes` scope; merged truth remains 46 patterns until implementation verification.
-- Current gate — exact-scope regression + full CI + nine-shot manual review, then exact-head merge and merged-main production verification.
+- Pattern #47 implementation checkpoint — PR #203 head `8d4a2bc1` accepted; CI #943 full green; nine-shot review accepted; branch 47/233/4.
+- Current gate — docs-inclusive final-head full CI, then exact-head merge and merged-main production verification.
 - Continue only with justified exact scopes; reuse an existing mechanic when it already matches the evidence model.
 
 ## Definition of done per mechanic
