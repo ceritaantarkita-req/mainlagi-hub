@@ -53,7 +53,10 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Pattern #46 closure docs: PR #201 -> main `49c33ba8c0e25f5ebea962b79eea77ce44acbd06`
 - Pattern #46 closure docs PR CI: **#938 / run `35345815126` — full success**
 - Pattern #46 closure docs merged-main CI: **#939 / run `35346435744` — full success including exact Cloudflare production smoke**
-- Pattern #47 audit candidate: **Math `shape_attribute_board` / exact 4 activities / code not started**
+- Pattern #47 audit: PR #202 -> main `5978530aff2ad42a0feb28e8bf462b5048a8a69f`
+- Pattern #47 audit PR CI: **#940 / run `35350664877` — full success**
+- Pattern #47 audit merged-main CI: **#941 / run `35351346873` — full success including exact Cloudflare production smoke**
+- Pattern #47 implementation: **IN PROGRESS** on `agent/pattern47-shape-attribute-board-20260918`
 - permanent visual QA foundation: **VQA-01 FULLY CLOSED**
 - visual P1 baseline: **P0=0 / P1=0 / P2=3**
 
@@ -75,7 +78,7 @@ Pattern #43: FULLY CLOSED / LIVE VERIFIED
 Pattern #44: FULLY CLOSED / LIVE VERIFIED
 Pattern #45: FULLY CLOSED / LIVE VERIFIED
 Pattern #46: FULLY CLOSED / LIVE VERIFIED
-Pattern #47: AUDIT CANDIDATE / CODE NOT STARTED
+Pattern #47: AUDIT VERIFIED / IMPLEMENTATION IN PROGRESS
 ```
 
 External physical-device acceptance, accessibility-specialist review, human pedagogical/art acceptance and Iqro expert acceptance remain separate and incomplete. Physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
@@ -119,7 +122,7 @@ Pattern #46 implementation is merged and live verified through PR #200 -> `027d8
 
 Pattern #44 post-merge docs closure remains verified: PR #195 -> `d1d16d1acf5dd8baa2445c2c2901459a1d0e64cc`, closure-main CI #914 full success.
 
-## Pattern #47 — AUDIT CANDIDATE / CODE NOT STARTED
+## Pattern #47 — AUDIT VERIFIED / IMPLEMENTATION IN PROGRESS
 
 Candidate pattern:
 
@@ -161,6 +164,27 @@ Expected distribution only if implementation later passes:
 choice_grid                 233 / 900
 shape_attribute_board         4 / 900
 ```
+
+Audit verification:
+
+```text
+Audit PR:                 #202
+Audit PR head:            1ee6e245a3e150d1b6b4d9a4b0b3a801b0f9fe65
+Audit PR CI:              #940 / run 35350664877 — full success
+Audit main:               5978530aff2ad42a0feb28e8bf462b5048a8a69f
+Audit merged-main CI:     #941 / run 35351346873 — full success + exact Cloudflare production smoke
+Implementation branch:    agent/pattern47-shape-attribute-board-20260918
+```
+
+Audit-main #941 artifacts:
+
+```text
+mobile screenshots:       10548794714 / sha256:c9a78ab214e3206e864951556f484e4e61e2169c1fabaa7753338f048deb9fa3
+gameplay distribution:    10549609851 / sha256:36c73f1b58f0d1b238fa8ffea4492302b83cd33dccd02485c1df10e979befd4c
+activity quality:          10549874667 / sha256:963a1b02dbdf0f72a1bad7313d8b71ac3cb557bd24e5fd0abfc7fed4f7256bab
+```
+
+Implementation target remains **47 active / `choice_grid` 233 / `shape_attribute_board` 4** until implementation verification.
 
 Audit evidence: `PATTERN47_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
 
@@ -502,8 +526,8 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 1. Pattern #46 is the latest fully closed/live-verified gameplay pattern through closure main `49c33ba8` and CI #939.
 2. Preserve the merged 46-pattern baseline: 900/900 classified, `choice_grid` 237, `phenomenon_relation_board` 4.
-3. Pattern #47 audit candidate is Math `shape_attribute_board` for exactly four direct-choice `math-shapes` activities; runtime code has not started.
-4. Merge and independently verify the docs-only Pattern #47 audit before implementation.
-5. If the audit becomes merged truth, implement only the exact four-ID scope and continue the same exact-head QA -> merge -> merged-main verification -> docs-closure path through Pattern #50.
+3. Pattern #47 audit is merged/live verified through main `5978530a` and CI #941.
+4. Complete only the exact four-ID `shape_attribute_board` implementation with canonical order/evidence, keyboard/pointer/actual-touch QA, responsive screenshots and permanent visual QA.
+5. Merge only an unchanged green implementation head, independently verify 47/233/4 + Cloudflare on `main`, then close Pattern #47 docs before Pattern #48 implementation.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion or mastery/backend rewrites before the current quality roadmap justifies them.
