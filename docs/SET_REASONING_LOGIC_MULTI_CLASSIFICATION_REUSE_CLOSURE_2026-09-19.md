@@ -145,4 +145,4 @@ This document deliberately does **not** claim **FULLY CLOSED / LIVE VERIFIED** y
 3. merged-main activity-quality artifact remains clean;
 4. exact Cloudflare production smoke confirms the same main SHA;
 5. update canonical docs and this record to **FULLY CLOSED / LIVE VERIFIED** with exact run/artifact evidence;
-6. merge this docs-closure PR and independently verify closure-main CI before starting the next implementation.
+6. once this pending-closure record reaches `main`, independently verify the resulting closure-main CI; keep the work marked pending until exact production evidence is available, then promote it to **FULLY CLOSED / LIVE VERIFIED** before the next implementation.
