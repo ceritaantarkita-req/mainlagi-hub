@@ -33,7 +33,7 @@ Patterns #1–#35 remain as previously closed/merged. Latest entries:
 44. `subitizing_glance` — **FULLY CLOSED / LIVE VERIFIED**
 45. `elimination_board` — **FULLY CLOSED / LIVE VERIFIED**
 46. `phenomenon_relation_board` — **FULLY CLOSED / LIVE VERIFIED**
-47. `shape_attribute_board` — **AUDIT CANDIDATE / CODE NOT STARTED**
+47. `shape_attribute_board` — **AUDIT VERIFIED / IMPLEMENTATION IN PROGRESS**
 
 ## Current verified merged distribution
 
@@ -143,7 +143,7 @@ activity quality:          10534385061 / sha256:eebcc3b932495954314c11b69f7409f9
 
 Evidence records: `PATTERN45_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`, `PATTERN45_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md`, `WS05_ELIMINATION_BOARD_WAVE_2026-09-18.md`, and `PATTERN45_ELIMINATION_BOARD_CLOSURE_2026-09-18.md`.
 
-## Pattern #47 audit candidate — `shape_attribute_board`
+## Pattern #47 — `shape_attribute_board` / AUDIT VERIFIED / IMPLEMENTATION IN PROGRESS
 
 Exact candidate scope:
 
@@ -173,7 +173,18 @@ choice_grid                      233 / 900
 shape_attribute_board              4 / 900
 ```
 
-Audit record: `PATTERN47_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`. Runtime code has not started.
+Audit verification:
+
+```text
+Audit PR:                 #202
+Audit PR head:            1ee6e245a3e150d1b6b4d9a4b0b3a801b0f9fe65
+Audit PR CI:              #940 / run 35350664877 — full success
+Audit main:               5978530aff2ad42a0feb28e8bf462b5048a8a69f
+Audit merged-main CI:     #941 / run 35351346873 — full success + exact Cloudflare production smoke
+Implementation branch:    agent/pattern47-shape-attribute-board-20260918
+```
+
+Audit record: `PATTERN47_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`. Implementation is active only for the exact four audited activities; target distribution remains branch evidence until verification.
 
 ## Pattern #46 — `phenomenon_relation_board` / FULLY CLOSED / LIVE VERIFIED
 
@@ -285,8 +296,9 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 
 - Patterns #1–#46 — **FULLY CLOSED / LIVE VERIFIED**.
 - Pattern #46 final docs closure — PR #201 merged to `49c33ba8c0e25f5ebea962b79eea77ce44acbd06`; closure-main CI #939 passed including exact Cloudflare production smoke.
-- Pattern #47 audit candidate — Math `shape_attribute_board`, exact four-ID `math-shapes` scope, code not started.
-- Current gate — merge and independently verify the Pattern #47 docs-only audit before implementation.
+- Pattern #47 audit — merged/live verified through PR #202 and audit-main CI #941.
+- Pattern #47 implementation — active on exact four-ID `math-shapes` scope; merged truth remains 46 patterns until implementation verification.
+- Current gate — exact-scope regression + full CI + nine-shot manual review, then exact-head merge and merged-main production verification.
 - Continue only with justified exact scopes; reuse an existing mechanic when it already matches the evidence model.
 
 ## Definition of done per mechanic
