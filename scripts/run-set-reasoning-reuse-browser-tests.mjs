@@ -126,7 +126,7 @@ async function inspect(viewport){
     await waitForScene(page);
     assert.equal(new URL(page.url()).pathname,route,"progression guard must accept Wave C prerequisites at "+viewport.width);
 
-    assert.equal(await page.getByRole("heading",{name:"Cari pilihan yang cocok"}).count(),1);
+    assert.equal(await page.getByText("Cari pilihan yang cocok",{exact:true}).count(),1);
     assert.equal(await page.getByText("Baca dua aturan, lalu pilih jawaban yang memenuhi keduanya.").count(),1);
 
     const rules=page.locator("[data-set-rule]");
