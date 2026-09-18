@@ -46,6 +46,7 @@
     "src/lib/learning/subitizingGlanceConfig.ts",
     "src/lib/learning/eliminationBoardConfig.ts",
     "src/lib/learning/phenomenonRelationBoardConfig.ts",
+    "src/lib/learning/shapeAttributeBoardConfig.ts",
     "src/lib/learning/sentenceOrderCardsConfig.ts",
     "src/lib/learning/readingPassageQuestionConfig.ts",
     "src/lib/learning/clozeSentenceChoiceConfig.ts",
