@@ -24,6 +24,7 @@ import { ReadingPassageQuestionActivity } from "@/components/learning/ReadingPas
 import { RelativeOrderTrackActivity } from "@/components/learning/RelativeOrderTrackActivity";
 import { RulePipelineActivity } from "@/components/learning/RulePipelineActivity";
 import { SingleRuleApplyActivity } from "@/components/learning/SingleRuleApplyActivity";
+import { SubitizingGlanceActivity } from "@/components/learning/SubitizingGlanceActivity";
 import { SentenceOrderCardsActivity } from "@/components/learning/SentenceOrderCardsActivity";
 import { SequenceSlotChoiceActivity } from "@/components/learning/SequenceSlotChoiceActivity";
 import { SetReasoningActivity } from "@/components/learning/SetReasoningActivity";
@@ -71,6 +72,7 @@ import { isPhraseSceneMatchActivity } from "@/lib/learning/phraseSceneMatchConfi
 import { isReadingPassageQuestionActivity } from "@/lib/learning/readingPassageQuestionConfig";
 import { isSentenceOrderCardsActivity } from "@/lib/learning/sentenceOrderCardsConfig";
 import { isSingleRuleApplyActivity } from "@/lib/learning/singleRuleApplyConfig";
+import { isSubitizingGlanceActivity } from "@/lib/learning/subitizingGlanceConfig";
 import { isSpatialRelationBoardActivity } from "@/lib/learning/spatialRelationBoardConfig";
 import { getActivity } from "@/lib/learning/system";
 import { isVisualWordProblemActivity } from "@/lib/learning/visualWordProblemConfig";
@@ -107,6 +109,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
         <GrowthStageTransitionActivity childId={childId} activityId={activity} />
       ) : isSingleRuleApplyActivity(definition) ? (
         <SingleRuleApplyActivity childId={childId} activityId={activity} />
+      ) : isSubitizingGlanceActivity(definition) ? (
+        <SubitizingGlanceActivity childId={childId} activityId={activity} />
       ) : isPictureWordMatchActivity(definition) ? (
         <PictureWordMatchActivity childId={childId} activityId={activity} />
       ) : isSentenceOrderCardsActivity(definition) ? (
