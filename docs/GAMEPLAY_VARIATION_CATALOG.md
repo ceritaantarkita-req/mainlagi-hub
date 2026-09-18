@@ -4,7 +4,7 @@
 
 ## Target dan aturan
 
-- **Minimum:** 50 pola permainan; **target kerja:** 60.
+- **Current finish target:** 50 meaningful gameplay patterns. The former 60-pattern working target is deferred/non-blocking.
 - Pola permainan bukan berarti 60 engine terpisah; gunakan interaction engine reusable.
 - Mechanic dipilih karena cocok dengan learning objective, bukan untuk mengejar angka.
 - Assessed activity wajib menjaga evidence: correct/incorrect, retry, completion, score/accuracy bila relevan, dan metadata interaction.
@@ -28,7 +28,7 @@ Patterns #1–#35 remain as previously closed/merged. Latest entries:
 39. `visual_word_problem` — FULLY CLOSED
 40. `spatial_relation_board` — FULLY CLOSED
 41. `phrase_scene_match` — **FULLY CLOSED / LIVE VERIFIED**
-42. `growth_stage_transition` — **FULLY CLOSED / LIVE VERIFIED**
+42. `growth_stage_transition` — **FULLY CLOSED / LIVE VERIFIED**\n43. `single_rule_apply` — **IMPLEMENTATION IN PROGRESS / PR #191 / NOT MERGED**
 
 ## Current verified merged distribution
 
@@ -47,7 +47,7 @@ sentence_order_cards              5 / 900
 picture_word_match                5 / 900
 ```
 
-Remaining distance is **8 patterns** to minimum 50 and **18** to working target 60.
+Remaining distance is **8 patterns** to the current finish target of 50. Pattern #43 does not count as merged truth until PR #191 is merged and live-verified.
 
 ## Pattern #42 — `growth_stage_transition`
 

@@ -23,6 +23,7 @@ import { PictureWordMatchActivity } from "@/components/learning/PictureWordMatch
 import { ReadingPassageQuestionActivity } from "@/components/learning/ReadingPassageQuestionActivity";
 import { RelativeOrderTrackActivity } from "@/components/learning/RelativeOrderTrackActivity";
 import { RulePipelineActivity } from "@/components/learning/RulePipelineActivity";
+import { SingleRuleApplyActivity } from "@/components/learning/SingleRuleApplyActivity";
 import { SentenceOrderCardsActivity } from "@/components/learning/SentenceOrderCardsActivity";
 import { SequenceSlotChoiceActivity } from "@/components/learning/SequenceSlotChoiceActivity";
 import { SetReasoningActivity } from "@/components/learning/SetReasoningActivity";
@@ -69,6 +70,7 @@ import { isGrowthStageTransitionActivity } from "@/lib/learning/growthStageTrans
 import { isPhraseSceneMatchActivity } from "@/lib/learning/phraseSceneMatchConfig";
 import { isReadingPassageQuestionActivity } from "@/lib/learning/readingPassageQuestionConfig";
 import { isSentenceOrderCardsActivity } from "@/lib/learning/sentenceOrderCardsConfig";
+import { isSingleRuleApplyActivity } from "@/lib/learning/singleRuleApplyConfig";
 import { isSpatialRelationBoardActivity } from "@/lib/learning/spatialRelationBoardConfig";
 import { getActivity } from "@/lib/learning/system";
 import { isVisualWordProblemActivity } from "@/lib/learning/visualWordProblemConfig";
@@ -103,6 +105,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
         <PhraseSceneMatchActivity childId={childId} activityId={activity} />
       ) : isGrowthStageTransitionActivity(definition) ? (
         <GrowthStageTransitionActivity childId={childId} activityId={activity} />
+      ) : isSingleRuleApplyActivity(definition) ? (
+        <SingleRuleApplyActivity childId={childId} activityId={activity} />
       ) : isPictureWordMatchActivity(definition) ? (
         <PictureWordMatchActivity childId={childId} activityId={activity} />
       ) : isSentenceOrderCardsActivity(definition) ? (

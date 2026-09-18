@@ -9,11 +9,16 @@
     "forceConsistentCasingInFileNames": true,
     "rootDir": ".",
     "outDir": ".learning-test-dist",
-    "lib": ["ES2022", "DOM"],
+    "lib": [
+      "ES2022",
+      "DOM"
+    ],
     "types": [],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": [
+        "src/*"
+      ]
     },
     "ignoreDeprecations": "6.0"
   },
@@ -37,6 +42,7 @@
     "src/lib/learning/pictureWordMatchConfig.ts",
     "src/lib/learning/phraseSceneMatchConfig.ts",
     "src/lib/learning/growthStageTransitionConfig.ts",
+    "src/lib/learning/singleRuleApplyConfig.ts",
     "src/lib/learning/sentenceOrderCardsConfig.ts",
     "src/lib/learning/readingPassageQuestionConfig.ts",
     "src/lib/learning/clozeSentenceChoiceConfig.ts",
