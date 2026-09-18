@@ -31,7 +31,7 @@ Patterns #1–#35 remain as previously closed/merged. Latest entries:
 42. `growth_stage_transition` — **FULLY CLOSED / LIVE VERIFIED**
 43. `single_rule_apply` — **FULLY CLOSED / LIVE VERIFIED**
 44. `subitizing_glance` — **FULLY CLOSED / LIVE VERIFIED**
-45. `elimination_board` — **AUDIT VERIFIED / IMPLEMENTATION IN PROGRESS**
+45. `elimination_board` — **IMPLEMENTATION CHECKPOINT VERIFIED / NOT MERGED**
 
 ## Current verified merged distribution
 
@@ -88,7 +88,7 @@ Evidence records: `PATTERN44_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md` and `WS05_
 
 Merged-main CI #912 independently reproduced the accepted 44-pattern distribution and passed mobile/browser QA, permanent visual QA, Ubuntu/Windows gates, production build/security checks, and exact Cloudflare production smoke.
 
-## Pattern #45 — `elimination_board` / AUDIT VERIFIED / IMPLEMENTATION IN PROGRESS
+## Pattern #45 — `elimination_board` / IMPLEMENTATION CHECKPOINT VERIFIED / NOT MERGED
 
 Canonical scope is exactly the five Logic elimination/inference activities in `logic.pack.elimination-inference`, skill `logic.inference.elimination.basic`, assessed `tap_choice` / `choice_accuracy_v1`.
 
@@ -112,7 +112,29 @@ Audit merged-main CI:     #916 / run 35307880654 — full success + exact Cloudf
 Implementation branch:    agent/pattern45-elimination-board-20260918
 ```
 
-Audit record: `PATTERN45_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`. Implementation is now active only for the exact five audited activities; target distribution remains branch evidence until implementation verification.
+Audit record: `PATTERN45_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
+
+Verified implementation checkpoint:
+
+```text
+Implementation PR:        #197
+Verified head:            a182c4882d6eadbfb79a8fb88b96ad92b0e62139
+Checkpoint CI:            #919 / run 35309241809 — full success
+Manual visual review:     ACCEPTED / no P0-P1 Pattern #45 blocker
+Branch distribution:      45 active / choice_grid 241 / elimination_board 5
+```
+
+Artifacts:
+
+```text
+mobile screenshots:       10532478130 / sha256:afb197e83772b4cda39a325e682d32ec79ca17e02c6c5e88e964363895cb0a9b
+gameplay distribution:    10532374574 / sha256:99c7d7b559626ae1b5ff289f3c5225e9ef8e3a3d720ef6bfb9b471de7d0a7c41
+activity quality:          10532174875 / sha256:81a0c866032ad7d7bcd2e54c55ae1a12ab06393a98c524832119764b1e5ab619
+```
+
+Acceptance records: `PATTERN45_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md` and `WS05_ELIMINATION_BOARD_WAVE_2026-09-18.md`.
+
+This remains branch evidence. Pattern #45 is not merged-main truth until the docs-inclusive final PR head passes CI, exact-head merge completes, and resulting `main` passes independent production verification.
 
 ## Pattern #43 — `single_rule_apply`
 
@@ -196,8 +218,8 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 - Patterns #1–#44 — **FULLY CLOSED / LIVE VERIFIED**.
 - Pattern #44 docs closure — PR #195 merged to `d1d16d1acf5dd8baa2445c2c2901459a1d0e64cc`; merged-main CI #914 passed including exact Cloudflare production smoke.
 - Pattern #45 audit — merged/live verified through PR #196 and audit-main CI #916.
-- Pattern #45 implementation — active on exact five-ID `logic-elimination-inference` scope; merged truth remains 44 patterns until implementation verification.
-- Current gate — exact-scope regression + full CI + manual nine-shot review, then exact-head merge and merged-main production verification.
+- Pattern #45 implementation checkpoint — PR #197 head `a182c488...` passed CI #919; nine dedicated screenshots manually accepted.
+- Current gate — full CI on the docs-inclusive final PR #197 head, then exact-head merge and independent merged-main production verification.
 - Continue only with justified exact scopes; reuse an existing mechanic when it already matches the evidence model.
 
 ## Definition of done per mechanic
