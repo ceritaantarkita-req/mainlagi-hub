@@ -44,7 +44,10 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Pattern #46 audit: PR #199 -> main `b620c78f186b7c8e8612afdb616420d923a57e00`
 - Pattern #46 audit PR CI: **#928 / run `35316239193` — full success**
 - Pattern #46 audit merged-main CI: **#929 / run `35316693100` — full success including exact Cloudflare production smoke**
-- Pattern #46 implementation: **IN PROGRESS** on `agent/pattern46-phenomenon-relation-20260918`
+- Pattern #46 implementation checkpoint: PR #200 head `558f154278a6a75c01e3fad14171e5ae5bc66fdd`
+- Pattern #46 implementation checkpoint CI: **#931 / run `35338034584` — full success**
+- Pattern #46 manual visual review: **ACCEPTED / 9 screenshots / no P0-P1 blocker**
+- Pattern #46 branch distribution: **46 active / `choice_grid` 237 / `phenomenon_relation_board` 4**
 - permanent visual QA foundation: **VQA-01 FULLY CLOSED**
 - visual P1 baseline: **P0=0 / P1=0 / P2=3**
 
@@ -65,7 +68,7 @@ Pattern #42: FULLY CLOSED / LIVE VERIFIED
 Pattern #43: FULLY CLOSED / LIVE VERIFIED
 Pattern #44: FULLY CLOSED / LIVE VERIFIED
 Pattern #45: FULLY CLOSED / LIVE VERIFIED
-Pattern #46: AUDIT VERIFIED / IMPLEMENTATION IN PROGRESS
+Pattern #46: IMPLEMENTATION CHECKPOINT VERIFIED / NOT MERGED
 ```
 
 External physical-device acceptance, accessibility-specialist review, human pedagogical/art acceptance and Iqro expert acceptance remain separate and incomplete. Physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
@@ -104,11 +107,11 @@ Remaining distance is **5 patterns** to the WS-05 finish target of 50. Pattern #
 
 Pattern #45 post-merge docs closure is independently verified: PR #198 merged to `79788dfb7f88164e699d1c3b9ac62b689d366c74`, and closure-main CI #927 passed the full gate including exact Cloudflare production smoke.
 
-Pattern #46 audit is merged and live verified through PR #199 and merged-main CI #929. Implementation is now in progress on the exact four-ID Science `phenomenon_relation_board` scope; merged production truth remains 45 active patterns until implementation CI, merge, and independent merged-main verification complete.
+Pattern #46 audit is merged and live verified through PR #199 and merged-main CI #929. Implementation checkpoint `558f154278a6a75c01e3fad14171e5ae5bc66fdd` on PR #200 passed full CI #931, exact-scope distribution 46/237/4, and manual nine-shot visual review. Merged production truth remains 45 active patterns until the final docs-inclusive PR head merges and independent merged-main verification completes.
 
 Pattern #44 post-merge docs closure remains verified: PR #195 -> `d1d16d1acf5dd8baa2445c2c2901459a1d0e64cc`, closure-main CI #914 full success.
 
-## Pattern #46 — AUDIT VERIFIED / IMPLEMENTATION IN PROGRESS
+## Pattern #46 — IMPLEMENTATION CHECKPOINT VERIFIED / NOT MERGED
 
 Candidate pattern:
 
@@ -150,7 +153,27 @@ gameplay distribution:    10536667807 / sha256:7912dbb9580163834188180fa64725dea
 activity quality:          10536706548 / sha256:b24e5d1c56f93c64be20946c7ebe3b676a61885666b906e6906a571245b7e63f
 ```
 
-Implementation target is **46 active patterns / `choice_grid` 237 / `phenomenon_relation_board` 4**. This remains branch-only target truth until implementation CI, exact-head merge, and merged-main verification complete.
+Accepted implementation checkpoint:
+
+```text
+Implementation PR:        #200
+Initial head:             83290426008e0fe81a959337b2af979ac21d3539
+CI #930:                  blocked by 320px horizontal overflow
+Accepted head:            558f154278a6a75c01e3fad14171e5ae5bc66fdd
+Checkpoint CI:            #931 / run 35338034584 — full success
+Manual visual review:     ACCEPTED / nine screenshots / no P0-P1 blocker
+Branch distribution:      46 active / choice_grid 237 / phenomenon_relation_board 4
+```
+
+Checkpoint artifacts:
+
+```text
+mobile screenshots:       10543982425 / sha256:bc213d93d9126ff08c081a2cb5cd714e8fbfd631fe582b5c08832ca635e5441a
+gameplay distribution:    10544171315 / sha256:cbcdda7f641994108ed0e9ae2d63edc1a3b26310ed5b9356eaa2b08679ff8643
+activity quality:          10543852087 / sha256:7f37bd3a8e251aed7ce67e43875ca57b049b810c5fd7599e86af0e57f496f471
+```
+
+Target remains **46 active patterns / `choice_grid` 237 / `phenomenon_relation_board` 4**. This is not merged production truth yet.
 
 Audit evidence: `PATTERN46_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
 
@@ -422,8 +445,8 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 1. Pattern #45 remains the latest fully closed/live-verified gameplay pattern and its docs closure is independently verified through CI #927.
 2. Pattern #46 audit is merged/live verified through main `b620c78f` and CI #929.
-3. Complete only the exact four-ID `phenomenon_relation_board` implementation with unresolved wrong-state target slot, canonical `choice_accuracy_v1`, keyboard/pointer/actual-touch QA, responsive screenshots, and permanent visual QA.
-4. Merge only an unchanged green implementation head, then independently verify 46-pattern distribution and exact Cloudflare production smoke on `main`.
+3. Pattern #46 code checkpoint `558f1542` is accepted: CI #931 full green, 46/237/4 branch distribution, nine-shot manual review accepted, 320px overflow fixed.
+4. Run full CI on the docs-inclusive final PR #200 head; merge only that unchanged green exact head, then independently verify 46-pattern distribution and exact Cloudflare production smoke on `main`.
 5. Reconcile final Pattern #46 closure docs before starting Pattern #47 implementation work.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion or mastery/backend rewrites before the current quality roadmap justifies them.
