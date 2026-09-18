@@ -24,7 +24,7 @@ Subsystem docs remain authoritative for their specific scope when they do not co
 
 ## Current execution checkpoint
 
-Pattern #42 `growth_stage_transition` is now the latest **FULLY CLOSED / LIVE VERIFIED** gameplay pattern.
+Pattern #43 `single_rule_apply` is now the latest **FULLY CLOSED / LIVE VERIFIED** gameplay pattern.
 
 Pattern #42 `growth_stage_transition` implementation is now merged and live verified:
 
@@ -42,7 +42,7 @@ Closure main:             ad7deb67dc15eefdb81dc5d5e66f4c10ccdc9710
 Closure main CI:          #886 / run 35290502532 — full success + exact Cloudflare production smoke
 ```
 
-Verified merged gameplay distribution is now **900/900 classified, 42 active patterns, 0 unclassified**, with `choice_grid` 254/900 and `growth_stage_transition` 3/900.
+Verified merged gameplay distribution is now **900/900 classified, 43 active patterns, 0 unclassified**, with `choice_grid` 249/900 and `single_rule_apply` 5/900.
 
 ```text
 P0 = 0
@@ -54,7 +54,23 @@ Pattern #39 = FULLY CLOSED
 Pattern #40 = FULLY CLOSED
 Pattern #41 = FULLY CLOSED / LIVE VERIFIED
 Pattern #42 = FULLY CLOSED / LIVE VERIFIED
+Pattern #43 = FULLY CLOSED / LIVE VERIFIED
 ```
+
+## Pattern #43 live checkpoint
+
+```text
+Audit PR:                #190
+Audit main:              39830a5dfd91734e4cc88b7d79eafaa2f722615f
+Audit main CI:           #890 / run 35295503508 — full success + exact Cloudflare production smoke
+Implementation PR:       #191
+Implementation head:     c893ba0ee63b256bbeb0da61e2bd90355c483a09
+Implementation PR CI:    #899 / run 35296994744 — full success
+Implementation main:     44f9dee07506a785f184d965b5bbc0a2aab66a8f
+Implementation main CI:  #900 / run 35297572709 — full success + exact Cloudflare production smoke
+```
+
+Exact five-ID Logic scope is live verified. Browser keyboard/pointer/actual-touch QA, manual nine-shot review and permanent visual QA passed. No mastery/progression/schema/database change was introduced.
 
 ## Pattern #42 closure checkpoint
 
@@ -102,9 +118,9 @@ Historical closure/candidate/audit records must not be rewritten to pretend late
 
 ## Remaining product-quality work
 
-Immediate WS-05 gate is now a fresh Pattern #43 objective/evidence audit from the verified 42-pattern baseline. No mechanic, subject or content family is pre-approved, and `no justified candidate` remains a valid audit result.
+Immediate WS-05 gate is Pattern #44 from the verified 43-pattern baseline. Seven patterns remain to the finish target of 50; after Pattern #50, run one final overall QA/docs/production closeout.
 
-Other open work remains P2 game-shell/icon/inline-style convergence, WS-02 narration, WS-10 real-device/accessibility/human/Iqro acceptance, WS-11 governance, later WS-12 cleanup, and continued WS-05 progression toward 50–60 meaningful patterns.
+Other open work remains P2 game-shell/icon/inline-style convergence, WS-02 narration, WS-10 real-device/accessibility/human/Iqro acceptance, WS-11 governance, later WS-12 cleanup, and continued WS-05 progression to the current finish target of 50.
 
 ## Historical snapshot documents
 
