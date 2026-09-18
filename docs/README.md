@@ -83,7 +83,7 @@ Exact five-ID Logic scope is live verified. Browser keyboard/pointer/actual-touc
 
 ## Pattern #47 implementation checkpoint
 
-Pattern #47 `shape_attribute_board` audit is **MERGED / LIVE VERIFIED**; runtime implementation is currently branch-only for exactly four direct-choice activities in `math.pack.shapes`.
+Pattern #47 `shape_attribute_board` has a **VERIFIED IMPLEMENTATION CHECKPOINT / NOT MERGED** for exactly four direct-choice activities in `math.pack.shapes`.
 
 ```text
 Audit base:                 49c33ba8c0e25f5ebea962b79eea77ce44acbd06
@@ -93,6 +93,13 @@ Audit PR CI:                #940 / run 35350664877 — full success
 Audit main:                 5978530aff2ad42a0feb28e8bf462b5048a8a69f
 Audit merged-main CI:       #941 / run 35351346873 — full success + exact Cloudflare production smoke
 Implementation branch:      agent/pattern47-shape-attribute-board-20260918
+Implementation PR:          #203
+Initial implementation:     2bf3eef89b414d25e6e472d4594209e893c6b867
+CI #942:                    failed test-only baseline assertion
+Accepted checkpoint:        8d4a2bc1334b853d205cb8981312194ab1deeba5
+Checkpoint CI:              #943 / run 35360529236 — full success
+Manual visual review:       ACCEPTED / nine screenshots / no P0-P1 blocker
+Branch distribution:        47 active / choice_grid 233 / shape_attribute_board 4
 ```
 
 Exact scope:
@@ -108,7 +115,7 @@ The candidate preserves Math / `math-banding-bentuk` / `math-shapes` / `math.pac
 
 Same-pack `math-shape-match-circle-square` and `math-shape-match-triangle-rectangle` remain canonical matching. Implementation is active only for the four audited direct-choice activities; no mastery/progression/schema/database/content payload change is approved.
 
-Expected distribution only after a later successful implementation would be **47 active / `choice_grid` 233 / `shape_attribute_board` 4**.
+Accepted branch distribution is **47 active / `choice_grid` 233 / `shape_attribute_board` 4**. Merged production remains 46 patterns until final docs-inclusive CI, exact-head merge and independent merged-main verification.
 
 ## Pattern #46 live checkpoint
 
@@ -245,7 +252,8 @@ Pattern #42 closure gates are complete. Closure PR #188 merged and closure main 
 
 ## Current evidence records
 
-- [`WS05_SHAPE_ATTRIBUTE_BOARD_WAVE_2026-09-18.md`](WS05_SHAPE_ATTRIBUTE_BOARD_WAVE_2026-09-18.md) — current Pattern #47 implementation/QA wave.
+- [`PATTERN47_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md`](PATTERN47_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md) — accepted Pattern #47 checkpoint, CI #943 artifacts and nine-shot manual visual review.
+- [`WS05_SHAPE_ATTRIBUTE_BOARD_WAVE_2026-09-18.md`](WS05_SHAPE_ATTRIBUTE_BOARD_WAVE_2026-09-18.md) — Pattern #47 implementation/QA wave and remaining merge gates.
 - [`PATTERN47_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`](PATTERN47_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md) — merged/live-verified Pattern #47 Math `shape_attribute_board` objective/evidence audit.
 - [`PATTERN46_FINAL_CLOSURE_VERIFICATION_2026-09-18.md`](PATTERN46_FINAL_CLOSURE_VERIFICATION_2026-09-18.md) — Pattern #46 final post-merge docs closure verification through PR #201 / CI #939.
 - [`PATTERN46_PHENOMENON_RELATION_BOARD_CLOSURE_2026-09-18.md`](PATTERN46_PHENOMENON_RELATION_BOARD_CLOSURE_2026-09-18.md) — final Pattern #46 merged-main closure truth.
@@ -275,7 +283,7 @@ Historical closure/candidate/audit records must not be rewritten to pretend late
 
 ## Remaining product-quality work
 
-Immediate WS-05 gate is Pattern #47 implementation for exactly four direct-choice `math-shapes` activities, followed by exact-scope regression, browser/touch/manual visual QA, exact-head merge, and merged-main Cloudflare verification. Merged production remains at 46 patterns; four patterns remain until Pattern #47 itself is closed, then three would remain to target 50.
+Immediate WS-05 gate is full CI on the docs-inclusive final Pattern #47 PR #203 head, followed by exact-head merge and independent merged-main/Cloudflare verification. The code checkpoint and nine-shot visual review are already accepted. Merged production remains at 46 patterns; after Pattern #47 closure, three patterns will remain to target 50.
 
 Other open work remains P2 game-shell/icon/inline-style convergence, WS-02 narration, WS-10 real-device/accessibility/human/Iqro acceptance, WS-11 governance, later WS-12 cleanup, and continued WS-05 progression to the current finish target of 50.
 
