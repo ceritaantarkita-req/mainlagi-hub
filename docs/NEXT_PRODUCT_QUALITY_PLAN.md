@@ -11,6 +11,10 @@
 **Pattern #42 closure main CI:** **#886 / run `35290502532` — full success + exact Cloudflare production smoke**  
 **Pattern #43 implementation:** PR #191 -> main `44f9dee07506a785f184d965b5bbc0a2aab66a8f`  
 **Pattern #43 merged-main CI:** **#900 / run `35297572709` — full success + exact Cloudflare production smoke**  
+**Pattern #44 audit:** PR #193 -> main `8b3cb7e73a77502b4c9206936e7736ac9169b1ca`  
+**Pattern #44 audit merged-main CI:** **#904 / run `35299949341` — full success + exact Cloudflare production smoke**  
+**Pattern #44 implementation:** PR #194 / verified code checkpoint `3a4385790a793ed5297db4f6d33fa8e1d084ccf1`  
+**Pattern #44 checkpoint CI:** **#906 / run `35301923329` — full success; final docs-inclusive head still pending**  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
 
@@ -38,14 +42,14 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 
 | Workstream | Status | Current note |
 |---|---|---|
-| WS-01 Canonical docs | **CURRENT** | Pattern #44 audit verified; implementation branch in progress |
+| WS-01 Canonical docs | **CURRENT** | Pattern #44 checkpoint evidence + manual visual acceptance synchronized; final PR head CI pending |
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **43 FULLY CLOSED / P44 IMPLEMENTING** | exact 3-ID Math `subitizing_glance`; 7 patterns remain to finish target 50 |
+| WS-05 Gameplay diversification | **43 FULLY CLOSED / P44 CHECKPOINT VERIFIED** | PR #194 code head CI #906 green; 7 patterns remain until implementation merges |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
-| WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P42 merged-main permanent visual QA green |
+| WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P44 checkpoint permanent visual QA green; nine dedicated screenshots manually accepted |
 | WS-09 Stage/gallery UX | DONE | VUI-02 closed |
 | WS-10 External acceptance | TODO | real devices, accessibility, Iqro expert |
 | WS-11 Governance | TODO | required checks/review discipline |
@@ -66,7 +70,7 @@ spatial_relation_board            6 / 900
 
 Distance remaining: **7 patterns** to the current WS-05 finish target of 50. No 60-pattern expansion is required for this finish scope.
 
-## Pattern #44 — `subitizing_glance` / AUDIT VERIFIED / IMPLEMENTATION IN PROGRESS
+## Pattern #44 — `subitizing_glance` / IMPLEMENTATION CHECKPOINT VERIFIED / NOT MERGED
 
 Audit base: `18a4dd30ce58841dd3717b1e53c13af628e950af`. Audit PR #193 merged to `8b3cb7e73a77502b4c9206936e7736ac9169b1ca`; merged-main CI #904 / run `35299949341` is full success including Cloudflare production smoke.
 
@@ -82,7 +86,7 @@ Canonical ownership is Math / `math-jumlah-dasar` / `math-subitizing` / `math.pa
 
 The objective is recognizing small quantities from spatial arrangements without always counting one by one. Existing `count_and_select` explicitly teaches one-by-one enumeration, so it must remain unchanged. The candidate presentation is allowed only as a deterministic spatial-dot board that preserves exact prompts, choices/order, answers and existing measured retry/accuracy semantics. No forced timer, speed score, mastery/progression/schema/database migration or prompt parsing is approved.
 
-Expected post-implementation distribution, if the implementation gate is passed:
+Verified implementation-checkpoint distribution (branch evidence; not merged-main truth yet):
 
 ```text
 44 active patterns
@@ -90,7 +94,29 @@ choice_grid                     246 / 900
 subitizing_glance                 3 / 900
 ```
 
-Audit record: `PATTERN44_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`. Implementation is active on `agent/pattern44-subitizing-glance-20260918`; branch distribution remains a target until CI verifies it.
+Audit record: `PATTERN44_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
+
+Verified implementation checkpoint:
+
+```text
+PR:                    #194
+branch:                agent/pattern44-subitizing-glance-20260918
+verified code head:    3a4385790a793ed5297db4f6d33fa8e1d084ccf1
+CI:                    #906 / run 35301923329 — full success
+manual visual review:  ACCEPTED / 320, 390, 768 × idle, wrong, success
+```
+
+Checkpoint artifacts:
+
+```text
+mobile screenshots:      10529469378 / sha256:482035f2b37ebf6bbc5cc8207291a55f9d9ff620c5c91994609a60cdb2f4e380
+gameplay distribution:   10529739343 / sha256:f78d5f341d1ae545d6075e4eec2b46361108fe376cc9fcbacddf59e433a2f93f
+activity quality:         10529788890 / sha256:4eb4991cf347e2efbdd6ebcf70f01175078c149dc7cb31a8a9bb5e86d7985538
+```
+
+The previous PR head was correctly blocked by CI #905 because the smallest-viewport success CTA was not fully visible. The corrected responsive success state passed CI #906 without changing canonical learning/evidence behavior.
+
+Detailed records: `PATTERN44_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md` and `WS05_SUBITIZING_GLANCE_WAVE_2026-09-18.md`.
 
 ## Pattern #43 — `single_rule_apply`
 
@@ -143,10 +169,10 @@ P2 findings: 3
 
 ## Current execution order
 
-1. Complete Pattern #44 implementation for only `math-subitize-2`, `math-subitize-4`, and `math-subitize-5`; keep `count_and_select` and unrelated families unchanged.
-2. Require deterministic dot config, exact canonical prompt/choice/answer preservation, regression + distribution gates, keyboard/pointer/actual-touch QA and nine dedicated 320/390/768 screenshots.
-3. Merge only after exact-head CI is green and manual screenshot review has no P0/P1 Pattern #44 blocker; then verify merged-main CI + Cloudflare production smoke.
-4. Repeat the same minimal audit -> implementation -> merged-main verification path through Pattern #50.
-5. At Pattern #50, run one final overall QA/docs/production closeout and stop WS-05.
+1. Run full CI on the docs-inclusive final PR #194 head; code checkpoint CI #906 and manual visual review are already accepted.
+2. Re-check PR mergeability/reviews/threads and merge only the exact unchanged green final head.
+3. Independently verify resulting `main`: 44-pattern distribution, permanent visual QA, Ubuntu/Windows/build/security, and exact Cloudflare production smoke.
+4. Create/merge Pattern #44 final closure docs and verify that closure main before beginning Pattern #45 implementation.
+5. Repeat the same minimal audit -> implementation -> merged-main verification path through Pattern #50, then run one final overall QA/docs/production closeout.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
