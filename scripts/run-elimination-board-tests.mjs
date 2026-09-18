@@ -62,7 +62,7 @@ for(const item of pack.activities){
 }
 
 const exclusions=[
-  ["logic-classify-red-round","choice_grid"],
+  ["logic-classify-red-round","set_reasoning"],
   ["logic-odd-category-animal-vehicle","odd_one_out"],
   ["logic-set-both-red-round","set_reasoning"],
   ["logic-order-first-after-start","relative_order_track"],
