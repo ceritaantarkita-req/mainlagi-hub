@@ -31,6 +31,7 @@ Patterns #1–#35 remain as previously closed/merged. Latest entries:
 42. `growth_stage_transition` — **FULLY CLOSED / LIVE VERIFIED**
 43. `single_rule_apply` — **FULLY CLOSED / LIVE VERIFIED**
 44. `subitizing_glance` — **FULLY CLOSED / LIVE VERIFIED**
+45. `elimination_board` — **AUDIT CANDIDATE / CODE NOT STARTED**
 
 ## Current verified merged distribution
 
@@ -52,6 +53,16 @@ picture_word_match                5 / 900
 ```
 
 Remaining distance is **6 patterns** to the current finish target of 50.
+
+Pattern #45 candidate, if its audit later becomes merged truth and implementation passes:
+
+```text
+45 active child-facing patterns
+choice_grid                     241 / 900
+elimination_board                 5 / 900
+```
+
+Exact candidate scope: `logic-infer-not-red`, `logic-infer-only-triangle`, `logic-infer-not-largest`, `logic-infer-common-feature`, `logic-infer-missing-member`.
 
 Exact scope: `math-subitize-2`, `math-subitize-4`, `math-subitize-5`. Existing `count_and_select` remains unchanged because it measures explicit one-by-one enumeration rather than quantity recognition from spatial patterns.
 
@@ -76,6 +87,21 @@ Pattern #44 uses deterministic pair/square/dice-five 3x3 dot layouts. The stimul
 Evidence records: `PATTERN44_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md` and `WS05_SUBITIZING_GLANCE_WAVE_2026-09-18.md`.
 
 Merged-main CI #912 independently reproduced the accepted 44-pattern distribution and passed mobile/browser QA, permanent visual QA, Ubuntu/Windows gates, production build/security checks, and exact Cloudflare production smoke.
+
+## Pattern #45 audit candidate — `elimination_board`
+
+Canonical scope is exactly the five Logic elimination/inference activities in `logic.pack.elimination-inference`, skill `logic.inference.elimination.basic`, assessed `tap_choice` / `choice_accuracy_v1`.
+
+Why this candidate is distinct:
+- the objective explicitly includes **eliminating choices** before drawing a direct conclusion;
+- `set_reasoning` is a two-rule membership board;
+- `odd_one_out` finds one mismatch among a shared trait;
+- `sorting_buckets` assigns categories;
+- the five candidate tasks span negative exclusion, unique target, size elimination, common-feature inference, and missing-member inference.
+
+Approved future presentation is limited to making wrong/retry selections visibly `tersisih` while preserving the canonical three choices and final correct completion. No choice may be pre-disabled and no additional assessed checkpoint is approved.
+
+Audit record: `PATTERN45_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`. Audit is not merged yet; implementation has not started.
 
 ## Pattern #43 — `single_rule_apply`
 
@@ -157,8 +183,9 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 ## Rollout order terbaru
 
 - Patterns #1–#44 — **FULLY CLOSED / LIVE VERIFIED**.
-- Pattern #44 implementation — PR #194 merged to `8406c89777a68da4bd6e89f01a561e5aa1e90c01`; merged-main CI #912 passed including exact Cloudflare production smoke.
-- Current gate — fresh Pattern #45 objective/evidence audit from the verified 44-pattern baseline.
+- Pattern #44 docs closure — PR #195 merged to `d1d16d1acf5dd8baa2445c2c2901459a1d0e64cc`; merged-main CI #914 passed including exact Cloudflare production smoke.
+- Pattern #45 audit candidate — Logic `elimination_board`, exact five-ID `logic-elimination-inference` scope, code not started.
+- Current gate — merge and independently verify the Pattern #45 docs-only audit before implementation.
 - Continue only with justified exact scopes; reuse an existing mechanic when it already matches the evidence model.
 
 ## Definition of done per mechanic
