@@ -204,6 +204,23 @@ Runtime implementation is blocked until the preceding Set Reasoning live-closure
 
 Reuse audit record: `SPATIAL_RELATION_BOARD_MATH_POSITION_REUSE_AUDIT_2026-09-19.md`.
 
+Audit PR #209 merged to main `3e30a817ef86fa691f9b2f1249ac00bc00dce4e6` after exact-head CI #970 success. Runtime remained unchanged at 47 active / `choice_grid` 228 / `spatial_relation_board` 6 / `set_reasoning` 10; independent audit-main/Cloudflare verification remains pending.
+
+Current next reuse audit: existing `compare_properties` is justified for exactly four Math `math.measure.intuition` direct-choice activities:
+
+```text
+math-measure-longer
+math-measure-more-capacity
+math-measure-fuller
+math-measure-three-lengths
+```
+
+`math-measure-match-length` remains canonical matching / `matching_accuracy_v1`.
+
+The current compare-properties UI uses two primary candidates plus a third other-choice. Math longer/fuller can reuse that binary contract; capacity/three-lengths require a typed multi-candidate variant where all three canonical choices are equivalent first-class property cards. This is existing-mechanic generalization, not Pattern #48. Code has not started.
+
+Reuse audit record: `COMPARE_PROPERTIES_MATH_MEASURE_REUSE_AUDIT_2026-09-19.md`.
+
 ## Pattern #47 — `shape_attribute_board` / FULLY CLOSED / LIVE VERIFIED
 
 Exact candidate scope:
@@ -381,8 +398,9 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 - Pattern #47 final docs closure — PR #204 merged to `bbb61965c951a3dd2628b4b4be6d3b547b7fd68a`; closure-main CI #951 passed including exact Cloudflare production smoke.
 - Pattern #48 fresh audit — merged/live verified through PR #205 / audit-main CI #953; **no justified new pattern yet**.
 - Set Reasoning reuse gate — PR #207 -> main `9debb6cf`; final head `a37fdec7` / CI #963 green / final branch 47/228/10; merged-main + exact Cloudflare verification pending.
-- Math spatial reuse audit — exact five-ID `math.spatial.position` scope -> existing `spatial_relation_board`; **JUSTIFIED / CODE NOT STARTED**.
-- Math runtime implementation remains blocked until the preceding live closure plus this audit merge/verification are complete.
+- Math spatial reuse audit — PR #209 -> main `3e30a817`; exact five-ID scope; PR CI #970 green; independent main/Cloudflare verification pending; **CODE NOT STARTED**.
+- Math measurement reuse audit — exact four direct-choice `math.measure.intuition` scope -> existing `compare_properties`; matching excluded; **JUSTIFIED / CODE NOT STARTED**.
+- Math runtime implementation remains blocked until preceding live/audit gates are complete.
 - Continue only with justified exact scopes; reuse an existing mechanic when it already matches the evidence model.
 
 ## Definition of done per mechanic
