@@ -238,7 +238,7 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 1. Pattern #43 is complete and live verified.
 2. Pattern #44 objective/evidence audit selects Math `subitizing_glance` for exactly three activities; code has not started.
-3. Merge the audit only after merged-main baseline CI #902 / run `35299122394` is fully green.
+3. Merged-main baseline CI #902 / run `35299122394` is fully green; the Pattern #44 audit may proceed through PR verification.
 4. Implement only the audited exact scope; keep `count_and_select` unchanged and preserve canonical evidence.
 5. Continue directly through Pattern #50, then run one final overall QA/docs/production closeout.
 
