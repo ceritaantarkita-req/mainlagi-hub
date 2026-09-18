@@ -26,6 +26,8 @@ Subsystem docs remain authoritative for their specific scope when they do not co
 
 Pattern #44 `subitizing_glance` is now the latest **FULLY CLOSED / LIVE VERIFIED** gameplay pattern.
 
+Pattern #45 audit candidate is Logic `elimination_board` for exactly five `logic-elimination-inference` activities. This audit is branch-only and implementation code has not started.
+
 Pattern #42 `growth_stage_transition` implementation is now merged and live verified:
 
 ```text
@@ -88,6 +90,9 @@ Final PR head:            0835d2b93c0ae3d579518dcfa5964266bcbb1f2c
 Final PR CI:              #911 / run 35302598975 — full success
 Implementation main:      8406c89777a68da4bd6e89f01a561e5aa1e90c01
 Implementation main CI:   #912 / run 35303076429 — full success + exact Cloudflare production smoke
+Closure docs PR:          #195
+Closure docs main:        d1d16d1acf5dd8baa2445c2c2901459a1d0e64cc
+Closure docs main CI:     #914 / run 35306629423 — full success + exact Cloudflare production smoke
 Manual visual review:     ACCEPTED / nine dedicated screenshots / no P0-P1 Pattern #44 blocker
 ```
 
@@ -139,6 +144,7 @@ Pattern #42 closure gates are complete. Closure PR #188 merged and closure main 
 
 ## Current evidence records
 
+- [`PATTERN45_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`](PATTERN45_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md) — branch-only Pattern #45 Logic `elimination_board` audit candidate; implementation not started.
 - [`PATTERN44_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md`](PATTERN44_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md) — accepted Pattern #44 code checkpoint, automated gates, artifacts and manual nine-shot review.
 - [`WS05_SUBITIZING_GLANCE_WAVE_2026-09-18.md`](WS05_SUBITIZING_GLANCE_WAVE_2026-09-18.md) — Pattern #44 implementation/QA wave and remaining merge gates.
 - [`PATTERN44_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`](PATTERN44_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md) — merged/live-verified Pattern #44 objective/evidence audit.
@@ -157,7 +163,7 @@ Historical closure/candidate/audit records must not be rewritten to pretend late
 
 ## Remaining product-quality work
 
-Immediate WS-05 gate is a fresh Pattern #45 objective/evidence audit from the verified 44-pattern baseline. Six patterns remain to the finish target of 50; no Pattern #45 mechanic, subject, or content family is pre-approved.
+Immediate WS-05 gate is the docs-only Pattern #45 audit PR for Logic `elimination_board` over exactly five `logic-elimination-inference` activities. The audit must merge and pass merged-main Cloudflare verification before runtime implementation begins. Six patterns remain to the finish target of 50.
 
 Other open work remains P2 game-shell/icon/inline-style convergence, WS-02 narration, WS-10 real-device/accessibility/human/Iqro acceptance, WS-11 governance, later WS-12 cleanup, and continued WS-05 progression to the current finish target of 50.
 
