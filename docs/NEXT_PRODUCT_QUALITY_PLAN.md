@@ -14,7 +14,7 @@
 
 ## Product goal
 
-Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menarik, konsisten, interaction-nya beragam, dan evidence/mastery-nya dapat dipercaya. WS-05 tetap diarahkan ke minimum **50**, working target **60 meaningful gameplay patterns**, tetapi mechanic baru hanya boleh dipilih karena learning objective dan evidence contract-nya membutuhkan interaction tersebut.
+Mainlagi harus terasa seperti produk belajar anak 3–7 tahun yang jelas, menarik, konsisten, interaction-nya beragam, dan evidence/mastery-nya dapat dipercaya. WS-05 sekarang diarahkan ke **finish target 50 meaningful gameplay patterns**. Target kerja 60 sebelumnya ditunda/non-blocking dan tidak termasuk scope finish saat ini. Mechanic baru tetap hanya boleh dipilih karena learning objective dan evidence contract-nya membutuhkan interaction tersebut.
 
 Garden activity direction tetap child-facing anchor. Permanent visual QA tetap blocking di setiap wave berikutnya.
 
@@ -36,11 +36,11 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 
 | Workstream | Status | Current note |
 |---|---|---|
-| WS-01 Canonical docs | **CURRENT** | Pattern #42 final closure truth reconciled; Pattern #43 audit next |
+| WS-01 Canonical docs | **CURRENT** | Pattern #43 audit merged/live-verified; implementation PR #191 in progress |
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **42 FULLY CLOSED / P43 AUDIT IN PROGRESS** | Candidate: exact five Logic `single_rule_apply`; merged truth remains 42 |
+| WS-05 Gameplay diversification | **42 MERGED / P43 IMPLEMENTATION IN PROGRESS** | PR #191 exact five Logic `single_rule_apply`; finish target remains 50 |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P42 merged-main permanent visual QA green |
@@ -61,7 +61,7 @@ phrase_scene_match                4 / 900
 spatial_relation_board            6 / 900
 ```
 
-Distance remaining: **8 patterns** to minimum 50 and **18** to working target 60.
+Distance remaining: **8 patterns** to the current WS-05 finish target of 50. No 60-pattern expansion is required for this finish scope.
 
 ## Pattern #42 — `growth_stage_transition`
 
