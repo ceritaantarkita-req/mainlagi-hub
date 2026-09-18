@@ -69,7 +69,14 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Pattern #48 audit PR: #205 -> main `ae95f1c494351533e88463f7225d7d07440b708e`
 - Pattern #48 audit PR CI: **#952 / run `35366693120` — full success**
 - Pattern #48 audit merged-main CI: **#953 / run `35367422058` — full success including exact Cloudflare production smoke**
-- Set Reasoning reuse audit: **JUSTIFIED / exact 5-ID Logic multi-attribute scope / code not started**
+- Set Reasoning reuse audit: PR #206 -> main `5f5f7741ee40544c4ab395740ef00fea1880400b`
+- Set Reasoning reuse audit PR CI: **#954 / run `35368506391` — full success**
+- Set Reasoning reuse audit merged-main CI: **#955 / run `35369220787` — full success including exact Cloudflare production smoke**
+- Set Reasoning reuse implementation PR: #207
+- Set Reasoning reuse accepted checkpoint: `a7bb27bbbede42a5833144cab31af3c57ea3fa8a`
+- Set Reasoning reuse checkpoint CI: **#957 / run `35371679720` — full success**
+- Set Reasoning reuse manual visual review: **ACCEPTED / 9 screenshots / no P0-P1 blocker**
+- Set Reasoning reuse branch distribution: **47 active / `choice_grid` 228 / `set_reasoning` 10**
 - permanent visual QA foundation: **VQA-01 FULLY CLOSED**
 - visual P1 baseline: **P0=0 / P1=0 / P2=3**
 
@@ -160,7 +167,7 @@ Reviewed families continue to prefer existing mechanics:
 - Science force/motion and mixed review -> too heterogeneous for one new pattern;
 - Iqro -> deferred until external expert acceptance.
 
-Next engineering gate is the audited reuse of existing `set_reasoning` for exactly five Logic multi-attribute activities. This does not create Pattern #48 and does not change the active pattern count. Runtime code has not started on the audit branch.
+The `set_reasoning` reuse audit is merged/live verified through PR #206 and audit-main CI #955. Implementation is now active for exactly five Logic multi-attribute activities. This does not create Pattern #48 and does not change the active pattern count.
 
 Expected distribution only if later implementation passes:
 
@@ -171,6 +178,32 @@ set_reasoning:     10
 ```
 
 Reuse audit evidence: `SET_REASONING_LOGIC_MULTI_CLASSIFICATION_REUSE_AUDIT_2026-09-18.md`.
+
+Implementation wave: `WS05_SET_REASONING_REUSE_LOGIC_MULTI_WAVE_2026-09-18.md`.
+
+Accepted implementation checkpoint:
+
+```text
+Implementation PR:        #207
+Initial head:             e6d04b4ee90a2085ca33fb16117947175cb3ccf5
+CI #956:                  failed test-only visible-heading selector
+Accepted head:            a7bb27bbbede42a5833144cab31af3c57ea3fa8a
+Checkpoint CI:            #957 / run 35371679720 — full success
+Manual visual review:     ACCEPTED / nine screenshots / no P0-P1 blocker
+Branch distribution:      47 active / choice_grid 228 / set_reasoning 10
+```
+
+CI #956 did not expose a product defect. The new browser QA used an accessibility-role selector that did not expose the visible heading; the accepted fix changed only that test selector.
+
+Checkpoint artifacts:
+
+```text
+mobile screenshots:       10558694718 / sha256:7c3128db3edc178adab8b40520a7619ec449dad6d57b575390211d464430afb8
+gameplay distribution:    10558204450 / sha256:6bc10f976c442e2f46a9ad2a0f75d60cce35c3ab5226751ed234a2c3dce31161
+activity quality:          10558429104 / sha256:967006895beb95eb850e077b021308a4cc0018288b2115e106d4b2ce8d54d07a
+```
+
+This is still branch evidence. Merged production remains 47 active / `choice_grid` 233 / `set_reasoning` 5 until final docs-inclusive CI, exact-head merge and independent merged-main verification.
 
 Audit evidence: `PATTERN48_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
 
@@ -605,7 +638,7 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 1. Pattern #47 is fully closed/live verified through closure main `bbb61965` and CI #951.
 2. Preserve the merged 47-pattern baseline: 900/900 classified, `choice_grid` 233, `shape_attribute_board` 4.
 3. Pattern #48 fresh audit found no justified new mechanic; active pattern count remains 47.
-4. Set Reasoning reuse audit is justified for exactly five Logic multi-attribute activities; merge and independently verify the docs-only reuse audit before implementation.
-5. Keep the finish target at 50 without taxonomy inflation; this reuse work improves presentation coverage while active pattern count stays 47.
+4. Set Reasoning reuse checkpoint `a7bb27bb` is accepted: CI #957 full green, 47/228/10 branch distribution, nine-shot visual review accepted.
+5. Run full CI on the final docs-inclusive PR #207 head; merge only an unchanged green exact head, then independently verify merged-main distribution/Cloudflare and complete reuse docs closure.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion or mastery/backend rewrites before the current quality roadmap justifies them.

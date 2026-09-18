@@ -134,12 +134,20 @@ const LOGIC_RULE_PIPELINE_IDS = new Set([
   "logic-compose-swap-then-grow"
 ]);
 
-const LOGIC_SET_REASONING_IDS = new Set([
+const LOGIC_SET_REASONING_WAVE_D_IDS = new Set([
   "logic-set-both-red-round",
   "logic-set-animal-not-bird",
   "logic-set-shape-not-square",
   "logic-set-only-blue-triangle",
   "logic-set-outside-round-red"
+]);
+
+const LOGIC_SET_REASONING_MULTI_ATTRIBUTE_IDS = new Set([
+  "logic-classify-red-round",
+  "logic-classify-blue-not-round",
+  "logic-classify-two-red-items",
+  "logic-classify-arrow-not-left",
+  "logic-classify-same-shape-different-color"
 ]);
 
 const LOGIC_TRANSITIVE_CHAIN_IDS = new Set([
@@ -334,15 +342,25 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     Boolean(activity.prompt);
   if (isReviewedLogicRulePipelineFamily) return "rule_pipeline";
 
-  const isReviewedLogicSetReasoningFamily =
+  const isReviewedLogicSetReasoningWaveDFamily =
     activity.subjectId === "logic" &&
     activity.stageId === "logic-mixed-reasoning-challenge" &&
-    LOGIC_SET_REASONING_IDS.has(activity.id) &&
+    LOGIC_SET_REASONING_WAVE_D_IDS.has(activity.id) &&
     choices.length === 3 &&
     new Set(choices).size === choices.length &&
     choices.includes(correct) &&
     Boolean(activity.prompt);
-  if (isReviewedLogicSetReasoningFamily) return "set_reasoning";
+  if (isReviewedLogicSetReasoningWaveDFamily) return "set_reasoning";
+
+  const isReviewedLogicSetReasoningMultiAttributeFamily =
+    activity.subjectId === "logic" &&
+    activity.stageId === "logic-conditional-analogy-inference" &&
+    LOGIC_SET_REASONING_MULTI_ATTRIBUTE_IDS.has(activity.id) &&
+    choices.length === 3 &&
+    new Set(choices).size === choices.length &&
+    choices.includes(correct) &&
+    Boolean(activity.prompt);
+  if (isReviewedLogicSetReasoningMultiAttributeFamily) return "set_reasoning";
 
   const isReviewedLogicTransitiveChainFamily =
     activity.subjectId === "logic" &&

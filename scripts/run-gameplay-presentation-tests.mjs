@@ -128,23 +128,25 @@ for(const activity of rulePipeline){
 
 const expectedSetReasoning=new Set([
   "logic-set-both-red-round","logic-set-animal-not-bird","logic-set-shape-not-square",
-  "logic-set-only-blue-triangle","logic-set-outside-round-red"
+  "logic-set-only-blue-triangle","logic-set-outside-round-red",
+  "logic-classify-red-round","logic-classify-blue-not-round","logic-classify-two-red-items",
+  "logic-classify-arrow-not-left","logic-classify-same-shape-different-color"
 ]);
 const setReasoning=ACTIVITIES.filter(activity=>choiceGameplayPresentation(activity)==="set_reasoning");
 assert.equal(setReasoning.length,expectedSetReasoning.size,"set-reasoning family size must remain intentional");
-assert.deepEqual(new Set(setReasoning.map(activity=>activity.id)),expectedSetReasoning,"only the five reviewed Logic Wave D set-reasoning activities use Set Reasoning");
+assert.deepEqual(new Set(setReasoning.map(activity=>activity.id)),expectedSetReasoning,"only the ten audited old+reuse Logic activities use Set Reasoning");
 for(const activity of setReasoning){
   assert.equal(activity.runtime,"tap_choice");
   assert.equal(activity.subjectId,"logic");
-  assert.equal(activity.stageId,"logic-mixed-reasoning-challenge");
+  assert(["logic-mixed-reasoning-challenge","logic-conditional-analogy-inference"].includes(activity.stageId),"set reasoning stays inside audited Logic stages");
   assert.equal((activity.choices??[]).length,3);
   assert.equal(new Set(activity.choices??[]).size,3,"set-reasoning choices remain unique");
   assert((activity.choices??[]).includes(activity.correctChoice),"set reasoning preserves canonical correctChoice");
   const config=setReasoningConfig(activity);
   assert(config,`${activity.id} must have explicit Set Reasoning config`);
-  assert.equal(config.rules.length,2,`${activity.id} keeps exactly two membership constraints`);
-  assert(config.rules.every(rule=>rule.label&&["in","out"].includes(rule.membership)),`${activity.id} keeps valid set-membership rules`);
-  assert.deepEqual(new Set(Object.keys(config.choiceLabels)),new Set(activity.choices??[]),`${activity.id} set board maps exactly canonical choices`);
+  assert.equal(config.rules.length,2,`${activity.id} keeps exactly two reasoning constraints`);
+  assert(config.rules.every(rule=>rule.label&&["in","out"].includes(rule.membership)),`${activity.id} keeps valid two-rule constraints`);
+  assert.deepEqual(Object.keys(config.choiceLabels),activity.choices??[],`${activity.id} set board maps canonical choices in canonical order`);
 }
 
 const expectedTransitiveChain=new Set([

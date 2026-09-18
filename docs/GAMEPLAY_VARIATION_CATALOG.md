@@ -174,7 +174,7 @@ Rejected as new-pattern candidates:
 
 Audit record: `PATTERN48_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
 
-Current reuse audit: existing `set_reasoning` is justified for exactly five Logic `logic.classification.multi_attribute` activities:
+Current reuse implementation: existing `set_reasoning` audit is merged/live verified and implementation is active for exactly five Logic `logic.classification.multi_attribute` activities:
 
 ```text
 logic-classify-red-round
@@ -184,7 +184,7 @@ logic-classify-arrow-not-left
 logic-classify-same-shape-different-color
 ```
 
-This is a generalization of an existing pattern, not Pattern #48. Active pattern count remains 47. Expected distribution only after a later verified implementation is `choice_grid 228` / `set_reasoning 10`.
+This is a generalization of an existing pattern, not Pattern #48. Audit PR #206 merged to `5f5f7741ee40544c4ab395740ef00fea1880400b`; audit-main CI #955 passed including exact Cloudflare production smoke. Implementation checkpoint `a7bb27bbbede42a5833144cab31af3c57ea3fa8a` on PR #207 passed CI #957, branch distribution 47/228/10, and manual nine-shot review with no P0/P1 blocker. Merged production remains 47/233/5 until final merge verification.
 
 Reuse audit record: `SET_REASONING_LOGIC_MULTI_CLASSIFICATION_REUSE_AUDIT_2026-09-18.md`.
 
@@ -364,7 +364,7 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 - Patterns #1–#47 — **FULLY CLOSED / LIVE VERIFIED**.
 - Pattern #47 final docs closure — PR #204 merged to `bbb61965c951a3dd2628b4b4be6d3b547b7fd68a`; closure-main CI #951 passed including exact Cloudflare production smoke.
 - Pattern #48 fresh audit — merged/live verified through PR #205 / audit-main CI #953; **no justified new pattern yet**.
-- Current reuse gate — exact five-ID Logic multi-attribute generalization into existing `set_reasoning`; audit justified, code not started.
+- Current reuse gate — PR #207 checkpoint `a7bb27bb` accepted; CI #957 green; branch 47/228/10; final docs-inclusive CI and merged-main verification pending.
 - Continue only with justified exact scopes; reuse an existing mechanic when it already matches the evidence model.
 
 ## Definition of done per mechanic

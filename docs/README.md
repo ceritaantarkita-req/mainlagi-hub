@@ -100,7 +100,7 @@ The audit did not find a new interaction family that is safer or more faithful t
 
 Runtime Pattern #48 code has not started.
 
-Current reuse audit is **existing `set_reasoning` -> exact five Logic multi-attribute activities / JUSTIFIED / CODE NOT STARTED**. This reuse does not add a gameplay pattern. Expected distribution after a later verified implementation is 47 active / `choice_grid` 228 / `set_reasoning` 10.
+Current reuse implementation is **existing `set_reasoning` -> exact five Logic multi-attribute activities / IMPLEMENTATION CHECKPOINT VERIFIED / NOT MERGED**. Audit #206/#955 is live verified. PR #207 accepted checkpoint `a7bb27bbbede42a5833144cab31af3c57ea3fa8a` passed CI #957; branch distribution is 47 active / `choice_grid` 228 / `set_reasoning` 10; nine reuse screenshots are manually accepted. Merged production remains 47 / 233 / 5 until final merge verification.
 
 ## Pattern #47 live checkpoint
 
@@ -278,7 +278,9 @@ Pattern #42 closure gates are complete. Closure PR #188 merged and closure main 
 
 ## Current evidence records
 
-- [`SET_REASONING_LOGIC_MULTI_CLASSIFICATION_REUSE_AUDIT_2026-09-18.md`](SET_REASONING_LOGIC_MULTI_CLASSIFICATION_REUSE_AUDIT_2026-09-18.md) — current exact five-ID Set Reasoning reuse/generalization audit; code not started.
+- [`SET_REASONING_LOGIC_MULTI_CLASSIFICATION_REUSE_ACCEPTANCE_2026-09-18.md`](SET_REASONING_LOGIC_MULTI_CLASSIFICATION_REUSE_ACCEPTANCE_2026-09-18.md) — accepted PR #207 checkpoint, CI #957 artifacts and nine-shot reuse visual review.
+- [`WS05_SET_REASONING_REUSE_LOGIC_MULTI_WAVE_2026-09-18.md`](WS05_SET_REASONING_REUSE_LOGIC_MULTI_WAVE_2026-09-18.md) — Set Reasoning reuse implementation/QA wave and remaining merge gates.
+- [`SET_REASONING_LOGIC_MULTI_CLASSIFICATION_REUSE_AUDIT_2026-09-18.md`](SET_REASONING_LOGIC_MULTI_CLASSIFICATION_REUSE_AUDIT_2026-09-18.md) — merged/live-verified exact five-ID Set Reasoning reuse/generalization audit.
 - [`PATTERN48_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`](PATTERN48_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md) — merged/live-verified Pattern #48 no-candidate objective/evidence audit; no new mechanic approved.
 - [`PATTERN47_FINAL_CLOSURE_VERIFICATION_2026-09-18.md`](PATTERN47_FINAL_CLOSURE_VERIFICATION_2026-09-18.md) — Pattern #47 final post-merge docs closure verification through PR #204 / CI #951.
 - [`PATTERN47_SHAPE_ATTRIBUTE_BOARD_CLOSURE_2026-09-18.md`](PATTERN47_SHAPE_ATTRIBUTE_BOARD_CLOSURE_2026-09-18.md) — final Pattern #47 implementation merged-main closure truth and #949 artifacts.
@@ -313,7 +315,7 @@ Historical closure/candidate/audit records must not be rewritten to pretend late
 
 ## Remaining product-quality work
 
-Immediate WS-05 gate is the docs-only exact five-ID `set_reasoning` reuse audit for Logic multi-attribute classification. After its merged-main verification, the implementation may generalize child-facing wording to neutral two-rule language and move only those five activities from `choice_grid` into existing `set_reasoning`. Pattern #48 still has no new mechanic candidate. Three patterns remain to target 50, but taxonomy inflation is not allowed.
+Immediate WS-05 gate is full CI on the docs-inclusive final PR #207 head. The code checkpoint, distribution 47/228/10, old-family regression, new-family keyboard/pointer/actual-touch QA, and nine-shot visual review are already accepted. Merge remains blocked until the unchanged final head is green, then merged-main distribution/Cloudflare and post-merge docs closure are required.
 
 Other open work remains P2 game-shell/icon/inline-style convergence, WS-02 narration, WS-10 real-device/accessibility/human/Iqro acceptance, WS-11 governance, later WS-12 cleanup, and continued WS-05 progression to the current finish target of 50.
 

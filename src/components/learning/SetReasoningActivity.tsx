@@ -81,12 +81,12 @@ export function SetReasoningActivity({ childId, activityId }: { childId: string;
         <div className={styles.promptCard}>
           <span className={styles.promptIcon} aria-hidden>🧩</span>
           <div>
-            <h1>Cari anggota yang cocok</h1>
-            <p>Baca dua aturan himpunan, lalu pilih anggota yang memenuhi keduanya.</p>
+            <h1>Cari pilihan yang cocok</h1>
+            <p>Baca dua aturan, lalu pilih jawaban yang memenuhi keduanya.</p>
           </div>
         </div>
 
-        <div className={styles.ruleBoard} role="group" aria-label="Dua aturan himpunan">
+        <div className={styles.ruleBoard} role="group" aria-label="Dua aturan">
           {config.rules.map((rule, index) => (
             <div
               key={`${rule.label}-${index}`}
@@ -97,7 +97,7 @@ export function SetReasoningActivity({ childId, activityId }: { childId: string;
               <span className={styles.ruleIndex}>Aturan {index + 1}</span>
               <span className={styles.ruleState} aria-hidden>{rule.membership === "in" ? "✓" : "✕"}</span>
               <strong>{rule.label}</strong>
-              <small>{rule.membership === "in" ? "harus masuk" : "harus di luar"}</small>
+              <small>{rule.membership === "in" ? "harus cocok" : "harus tidak cocok"}</small>
             </div>
           ))}
           <div className={styles.operationCard} data-set-operation>
@@ -107,11 +107,11 @@ export function SetReasoningActivity({ childId, activityId }: { childId: string;
         </div>
 
         <div className={styles.targetCard}>
-          <span className={styles.targetBadge}>Cari anggota</span>
+          <span className={styles.targetBadge}>Cari pilihan</span>
           <strong>{config.targetLabel}</strong>
         </div>
 
-        <div className={styles.choiceGrid} role="group" aria-label="Pilih anggota himpunan">
+        <div className={styles.choiceGrid} role="group" aria-label="Pilih jawaban">
           {(activity.choices ?? []).map((choice) => {
             const active = selected === choice;
             return (
@@ -119,7 +119,7 @@ export function SetReasoningActivity({ childId, activityId }: { childId: string;
                 key={choice}
                 type="button"
                 className={`${styles.choiceButton} ${active ? styles.selected : ""} ${active && feedback === "try" ? styles.wrong : ""} ${active && feedback === "good" ? styles.correct : ""}`}
-                aria-label={`Pilih anggota himpunan: ${choice}`}
+                aria-label={`Pilih jawaban: ${choice}`}
                 aria-pressed={active}
                 data-set-reasoning-choice
                 onClick={() => choose(choice)}
@@ -140,7 +140,7 @@ export function SetReasoningActivity({ childId, activityId }: { childId: string;
           {feedback === "good"
             ? `⭐ Tepat! ${config.successText}`
             : feedback === "try"
-              ? "💡 Belum tepat. Cek lagi: apakah pilihanmu harus masuk atau justru di luar setiap kelompok?"
+              ? "💡 Belum tepat. Cek lagi apakah pilihanmu cocok dengan kedua aturan."
               : "💡 Gunakan kedua aturan. Satu pilihan harus memenuhi semuanya sekaligus."}
         </div>
 

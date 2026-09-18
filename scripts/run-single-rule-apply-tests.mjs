@@ -94,6 +94,7 @@ for(const id of ["logic-compose-red-circle-to-star","logic-set-both-red-round","
 assert.equal(canonicalGameplayPattern(ACTIVITIES.find(item=>item.id==="logic-compose-red-circle-to-star")),"rule_pipeline");
 assert.equal(canonicalGameplayPattern(ACTIVITIES.find(item=>item.id==="logic-set-both-red-round")),"set_reasoning");
 assert.equal(canonicalGameplayPattern(ACTIVITIES.find(item=>item.id==="logic-order-first-after-start")),"relative_order_track");
+assert.equal(canonicalGameplayPattern(ACTIVITIES.find(item=>item.id==="logic-classify-red-round")),"set_reasoning");
 
 const first=scoped[0];
 assert(first,"Pattern 43 representative exists");
