@@ -5,6 +5,7 @@ import { ComparePropertiesActivity } from "@/components/learning/CompareProperti
 import { CountAndSelectActivity } from "@/components/learning/CountAndSelectActivity";
 import { CreativePracticeActivity } from "@/components/learning/CreativePracticeActivity";
 import { DragTargetMatchActivity } from "@/components/learning/DragTargetMatchActivity";
+import { EliminationBoardActivity } from "@/components/learning/EliminationBoardActivity";
 import { EqualGroupsActivity } from "@/components/learning/EqualGroupsActivity";
 import { FeatureFunctionLinkActivity } from "@/components/learning/FeatureFunctionLinkActivity";
 import { GrowthStageTransitionActivity } from "@/components/learning/GrowthStageTransitionActivity";
@@ -67,6 +68,7 @@ import {
   isTakeAwayActivity,
   isTransitiveChainActivity
 } from "@/lib/learning/gameplayPresentation";
+import { isEliminationBoardActivity } from "@/lib/learning/eliminationBoardConfig";
 import { isGrowthStageTransitionActivity } from "@/lib/learning/growthStageTransitionConfig";
 import { isPhraseSceneMatchActivity } from "@/lib/learning/phraseSceneMatchConfig";
 import { isReadingPassageQuestionActivity } from "@/lib/learning/readingPassageQuestionConfig";
@@ -111,6 +113,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
         <SingleRuleApplyActivity childId={childId} activityId={activity} />
       ) : isSubitizingGlanceActivity(definition) ? (
         <SubitizingGlanceActivity childId={childId} activityId={activity} />
+      ) : isEliminationBoardActivity(definition) ? (
+        <EliminationBoardActivity childId={childId} activityId={activity} />
       ) : isPictureWordMatchActivity(definition) ? (
         <PictureWordMatchActivity childId={childId} activityId={activity} />
       ) : isSentenceOrderCardsActivity(definition) ? (

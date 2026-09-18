@@ -19,7 +19,12 @@
 **Pattern #44 implementation main CI:** **#912 / run `35303076429` — full success + exact Cloudflare production smoke**  
 **Pattern #44 closure docs:** PR #195 -> main `d1d16d1acf5dd8baa2445c2c2901459a1d0e64cc`  
 **Pattern #44 closure docs main CI:** **#914 / run `35306629423` — full success + exact Cloudflare production smoke**  
-**Pattern #45 audit candidate:** Logic `elimination_board` / exact five-ID scope / code not started  
+**Pattern #45 audit:** PR #196 -> main `a3a1702ae390fb24c95551d91d31b24b4b867be6`  
+**Pattern #45 audit PR CI:** **#915 / run `35307361453` — full success**  
+**Pattern #45 audit merged-main CI:** **#916 / run `35307880654` — full success + exact Cloudflare production smoke**  
+**Pattern #45 implementation:** PR #197 / verified checkpoint `a182c4882d6eadbfb79a8fb88b96ad92b0e62139`  
+**Pattern #45 checkpoint CI:** **#919 / run `35309241809` — full success; final docs-inclusive head pending**  
+**Pattern #45 manual visual review:** **ACCEPTED / nine dedicated screenshots / no P0-P1 blocker**  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
 
@@ -47,11 +52,11 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 
 | Workstream | Status | Current note |
 |---|---|---|
-| WS-01 Canonical docs | **CURRENT** | Pattern #44 closure verified; Pattern #45 audit candidate documented, not yet merged |
+| WS-01 Canonical docs | **CURRENT** | Pattern #45 checkpoint evidence + manual visual acceptance synchronized; final PR head CI pending |
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **44 FULLY CLOSED / P45 AUDIT CANDIDATE** | Logic `elimination_board` exact five-ID candidate; implementation not started |
+| WS-05 Gameplay diversification | **44 FULLY CLOSED / P45 CHECKPOINT VERIFIED** | PR #197 checkpoint CI #919 green; merged truth remains 44 until exact-head merge + main verification |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P44 merged-main permanent visual QA green; nine dedicated screenshots remain manually accepted |
@@ -76,9 +81,9 @@ spatial_relation_board            6 / 900
 
 Distance remaining: **6 patterns** to the current WS-05 finish target of 50. No 60-pattern expansion is required for this finish scope.
 
-## Pattern #45 — `elimination_board` / AUDIT CANDIDATE / CODE NOT STARTED
+## Pattern #45 — `elimination_board` / IMPLEMENTATION CHECKPOINT VERIFIED / NOT MERGED
 
-Fresh audit base is Pattern #44 closure main `d1d16d1acf5dd8baa2445c2c2901459a1d0e64cc`, with closure-main CI #914 full success including exact Cloudflare production smoke.
+Fresh audit base is Pattern #44 closure main `d1d16d1acf5dd8baa2445c2c2901459a1d0e64cc`. Audit PR #196 merged to `a3a1702ae390fb24c95551d91d31b24b4b867be6`; audit merged-main CI #916 is full success including exact Cloudflare production smoke.
 
 Exact candidate scope:
 
@@ -115,7 +120,32 @@ choice_grid                     241 / 900
 elimination_board                 5 / 900
 ```
 
-Audit record: `PATTERN45_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`. Current branch is audit-only; runtime implementation must wait for audit PR merge + merged-main verification.
+Audit record: `PATTERN45_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
+
+Implementation PR #197 has a verified checkpoint at `a182c4882d6eadbfb79a8fb88b96ad92b0e62139`.
+
+```text
+CI:                    #919 / run 35309241809 — full success
+manual visual review:  ACCEPTED / 320, 390, 768 × idle, try, success
+```
+
+Checkpoint artifacts:
+
+```text
+mobile screenshots:      10532478130 / sha256:afb197e83772b4cda39a325e682d32ec79ca17e02c6c5e88e964363895cb0a9b
+gameplay distribution:   10532374574 / sha256:99c7d7b559626ae1b5ff289f3c5225e9ef8e3a3d720ef6bfb9b471de7d0a7c41
+activity quality:         10532174875 / sha256:81a0c866032ad7d7bcd2e54c55ae1a12ab06393a98c524832119764b1e5ab619
+```
+
+The verified target distribution remains branch-only until merge:
+
+```text
+45 active patterns
+choice_grid                     241 / 900
+elimination_board                 5 / 900
+```
+
+Implementation keeps the five canonical choices/order/answers exact, marks only learner-selected wrong choices as visibly `tersisih`, preserves retry/completion semantics, and adds no mastery/progression/schema/database migration.
 
 ## Pattern #44 — `subitizing_glance` / FULLY CLOSED / LIVE VERIFIED
 
@@ -222,10 +252,10 @@ P2 findings: 3
 
 ## Current execution order
 
-1. Complete the docs-only Pattern #45 audit PR for exact five-ID Logic `elimination_board`; do not write runtime code on the audit branch.
-2. Require exact-head PR CI, exact merge, and merged-main Cloudflare verification for the audit.
-3. Only after audit verification, implement the exact five-ID elimination board with retry-visible elimination, canonical choices/evidence, keyboard/pointer/actual-touch QA, and nine dedicated screenshots.
-4. Merge implementation only after permanent visual QA + full CI, then independently verify merged-main distribution and exact Cloudflare production smoke.
-5. Close canonical docs and repeat the same path through Pattern #50, then run final overall QA/docs/production closeout.
+1. Run full CI on the docs-inclusive final PR #197 head; the code checkpoint and nine-shot manual visual review are already accepted.
+2. Re-check exact head, mergeability, reviews/comments/threads and merge only the unchanged green final head.
+3. Independently verify resulting `main`: 45-pattern distribution, permanent visual QA, Ubuntu/Windows/build/security, and exact Cloudflare production smoke.
+4. Reconcile Pattern #45 final closure docs and verify that closure main before beginning Pattern #46 implementation.
+5. Repeat this path through Pattern #50, then run final overall QA/docs/production closeout.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
