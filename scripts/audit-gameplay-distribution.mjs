@@ -208,8 +208,9 @@ try {
   assert.equal(overall.elimination_board, 5, "Pattern 45 must classify exactly five audited elimination activities");
   assert.equal(overall.phenomenon_relation_board, 4, "Pattern 46 must classify exactly four audited Earth/sky relation activities");
   assert.equal(overall.shape_attribute_board, 4, "Pattern 47 must classify exactly four audited Math shape activities");
-  assert.equal(overall.choice_grid, 233, "Pattern 47 moves exactly four activities out of choice_grid");
-  assert.equal(activePatterns.length, 47, "Pattern 47 raises the active child-facing pattern count to 47");
+  assert.equal(overall.set_reasoning, 10, "Set Reasoning reuse must classify exactly ten audited old+reuse Logic activities");
+  assert.equal(overall.choice_grid, 228, "Set Reasoning reuse moves exactly five additional Logic activities out of choice_grid");
+  assert.equal(activePatterns.length, 47, "Set Reasoning reuse must not create a new gameplay pattern");
 
   console.log("GAMEPLAY_DISTRIBUTION_AUDIT_SUMMARY", JSON.stringify({
     activities: totalActivities,
