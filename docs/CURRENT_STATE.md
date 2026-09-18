@@ -45,7 +45,7 @@ Runtime count is not gameplay-pattern count.
 
 ## Gameplay variation state
 
-Target: minimum **50**, working target **60 meaningful patterns**.
+Current WS-05 finish target: **50 meaningful patterns**. The former 60-pattern working target is non-blocking/deferred and is not part of the current finish scope.
 
 Verified merged-main distribution after Pattern #42 implementation:
 
@@ -64,7 +64,7 @@ sentence_order_cards             5 / 900
 picture_word_match               5 / 900
 ```
 
-Remaining distance is **8 patterns** to minimum 50. Pattern #43 audit is in progress; merged truth remains 42 until implementation is verified.
+Remaining distance is **8 patterns** to the WS-05 finish target of 50. Pattern #43 audit PR #190 is merged/live-verified; implementation PR #191 is in progress, while merged gameplay truth remains 42 until implementation is verified.
 
 ## Pattern #42 — FULLY CLOSED / LIVE VERIFIED
 
