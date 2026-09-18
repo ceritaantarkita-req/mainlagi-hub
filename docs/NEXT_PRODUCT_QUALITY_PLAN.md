@@ -67,8 +67,12 @@
 **Final PR CI:** **#963 / run `35372830249` — full success**  
 **Final manual visual review:** **ACCEPTED / nine screenshots / no P0-P1 blocker**  
 **Merged-main CI / exact Cloudflare smoke:** **PENDING INDEPENDENT VERIFICATION**  
-**Math spatial reuse audit:** **`spatial_relation_board` / exact 5-ID scope / JUSTIFIED / code not started**  
-**Math spatial implementation:** **BLOCKED by preceding live-closure + audit verification gates**  
+**Math spatial reuse audit:** PR #209 -> main `3e30a817ef86fa691f9b2f1249ac00bc00dce4e6` / exact 5-ID scope / JUSTIFIED / code not started  
+**Math spatial audit PR CI:** **#970 / run `35377295090` — full success**  
+**Math spatial audit main/Cloudflare verification:** **PENDING INDEPENDENT VERIFICATION**  
+**Math measurement reuse audit:** **`compare_properties` / exact 4 direct-choice IDs / JUSTIFIED / code not started**  
+**Math measurement matching exclusion:** **`math-measure-match-length` remains matching**  
+**Math runtime implementation:** **BLOCKED by preceding live/audit gates**  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
 
@@ -219,6 +223,51 @@ spatial_relation_board      11 / 900
 No Pattern #48 is created. Math runtime work is explicitly blocked until Set Reasoning live closure is independently resolved and this docs-only audit is merged/verified.
 
 Reuse audit record: `SPATIAL_RELATION_BOARD_MATH_POSITION_REUSE_AUDIT_2026-09-19.md`.
+
+Audit PR #209 exact head `e34c85c40e86d7b3a2dc5d3686b445b434181b4d` passed CI #970 and merged to main `3e30a817ef86fa691f9b2f1249ac00bc00dce4e6`. Its artifacts preserved the code baseline at 47 active / `choice_grid` 228 / `spatial_relation_board` 6 / `set_reasoning` 10. Independent merged-main/Cloudflare verification remains pending.
+
+### Next reuse audit — Math measurement -> `compare_properties`
+
+Exact direct-choice scope:
+
+```text
+math-measure-longer
+math-measure-more-capacity
+math-measure-fuller
+math-measure-three-lengths
+```
+
+Explicit exclusion:
+
+```text
+math-measure-match-length -> matching / matching_accuracy_v1
+```
+
+Audit result: **reuse justified / code not started**.
+
+The existing Science `compare_properties` mechanic is currently binary. Math `longer` and `fuller` fit the binary model directly. `more-capacity` and `three-lengths` require a typed multi-candidate variant with all three canonical answers represented as equivalent first-class property cards. This remains qualitative property comparison and preserves the same direct-choice evidence contract; it does not justify Pattern #48.
+
+Future distribution from the current code baseline if this four-ID measurement reuse alone is verified:
+
+```text
+47 active patterns
+choice_grid          224 / 900
+compare_properties     7 / 900
+```
+
+Combined only after the separately audited five-ID Math spatial reuse also passes implementation:
+
+```text
+47 active patterns
+choice_grid              219 / 900
+set_reasoning             10 / 900
+spatial_relation_board    11 / 900
+compare_properties         7 / 900
+```
+
+Runtime remains blocked until preceding live/audit gates are resolved.
+
+Reuse audit record: `COMPARE_PROPERTIES_MATH_MEASURE_REUSE_AUDIT_2026-09-19.md`.
 
 Audit record: `PATTERN48_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
 
@@ -550,8 +599,9 @@ P2 findings: 3
 1. Pattern #47 is fully closed/live verified through `bbb61965` / CI #951.
 2. Do not implement a new Pattern #48; no new mechanic candidate is justified.
 3. Set Reasoning reuse PR #207 is merged to main `9debb6cf`; preserve exact scope, final CI #963 and accepted old+new QA evidence.
-4. Math spatial -> `spatial_relation_board` reuse audit is justified for exactly five Math spatial-position activities; keep runtime code unstarted.
-5. Independently verify Set Reasoning merged-main 47/228/10 + exact Cloudflare release, then merge/verify the Math spatial reuse audit.
-6. Only after both gates are resolved may a separate exact-scope Math reuse implementation branch start.
+4. Math spatial audit PR #209 is merged to `3e30a817`; PR CI #970 green; independent merged-main/Cloudflare verification is still pending and runtime stays unstarted.
+5. Math measurement -> `compare_properties` reuse is justified for exactly four direct-choice activities; `math-measure-match-length` remains matching.
+6. Merge/verify the measurement docs audit while keeping runtime blocked.
+7. Only after preceding Set Reasoning + Math spatial live/audit gates are resolved may exact-scope Math runtime implementation begin.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.

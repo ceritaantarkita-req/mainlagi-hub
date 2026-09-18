@@ -102,7 +102,9 @@ Runtime Pattern #48 code has not started.
 
 Current reuse implementation is **existing `set_reasoning` -> exact five Logic multi-attribute activities / MERGED / LIVE VERIFICATION PENDING**. Audit #206/#955 is live verified. PR #207 final head `a37fdec7b3f89789999ce728c245ae17ee7f00bc` passed CI #963 with branch distribution 47 active / `choice_grid` 228 / `set_reasoning` 10 and final nine-shot review accepted; it squash-merged unchanged to main `9debb6cf30f789125c45eff1b88e65e4eaff7978`. Independent main CI + exact Cloudflare smoke remain required.
 
-The next reuse-first audit is now **Math `math.spatial.position` -> existing `spatial_relation_board` / exact five IDs / JUSTIFIED / CODE NOT STARTED**. Expected later distribution, only after implementation verification, is 47 active / `choice_grid` 223 / `spatial_relation_board` 11 / `set_reasoning` 10. Runtime implementation remains blocked until the preceding Set Reasoning live-closure gate and this audit's own merge/verification gate are complete.
+The Math spatial reuse audit is now merged via PR #209 -> main `3e30a817ef86fa691f9b2f1249ac00bc00dce4e6`; PR CI #970 passed while runtime remained 47 active / `choice_grid` 228 / `spatial_relation_board` 6 / `set_reasoning` 10. Independent main/Cloudflare verification remains pending and spatial runtime code has not started.
+
+The next reuse-first audit is **Math `math.measure.intuition` -> existing `compare_properties` / exact four direct-choice IDs / JUSTIFIED / CODE NOT STARTED**. `math-measure-match-length` remains matching. Binary tasks reuse the existing compare layout; three-candidate tasks require an equal first-class candidate variant rather than visually demoting a real answer into the legacy “other” control. Runtime remains blocked by preceding verification gates.
 
 ## Pattern #47 live checkpoint
 
@@ -280,6 +282,7 @@ Pattern #42 closure gates are complete. Closure PR #188 merged and closure main 
 
 ## Current evidence records
 
+- [`COMPARE_PROPERTIES_MATH_MEASURE_REUSE_AUDIT_2026-09-19.md`](COMPARE_PROPERTIES_MATH_MEASURE_REUSE_AUDIT_2026-09-19.md) — exact four-ID Math measurement direct-choice reuse audit; matching excluded; reuse justified, code not started.
 - [`SPATIAL_RELATION_BOARD_MATH_POSITION_REUSE_AUDIT_2026-09-19.md`](SPATIAL_RELATION_BOARD_MATH_POSITION_REUSE_AUDIT_2026-09-19.md) — exact five-ID Math spatial-position reuse audit; reuse justified, code not started, implementation blocked by prerequisite live-verification gates.
 - [`SET_REASONING_LOGIC_MULTI_CLASSIFICATION_REUSE_CLOSURE_2026-09-19.md`](SET_REASONING_LOGIC_MULTI_CLASSIFICATION_REUSE_CLOSURE_2026-09-19.md) — post-merge closure record; currently pending independent merged-main CI + exact Cloudflare verification.
 - [`SET_REASONING_LOGIC_MULTI_CLASSIFICATION_REUSE_ACCEPTANCE_2026-09-18.md`](SET_REASONING_LOGIC_MULTI_CLASSIFICATION_REUSE_ACCEPTANCE_2026-09-18.md) — accepted PR #207 checkpoint plus final exact-head #963 / merge evidence.
@@ -319,7 +322,7 @@ Historical closure/candidate/audit records must not be rewritten to pretend late
 
 ## Remaining product-quality work
 
-Immediate WS-05 runtime gate remains independent merged-main verification for `9debb6cf30f789125c45eff1b88e65e4eaff7978`. Final PR #207 CI #963, distribution 47/228/10, old-family regression, new-family keyboard/pointer/actual-touch QA and final nine-shot review are already accepted. In parallel, the next docs/evidence audit has justified exact five-ID Math spatial reuse into existing `spatial_relation_board`. Exact Cloudflare closure plus Math audit merge/verification are both required before the next runtime implementation.
+Immediate WS-05 runtime gate remains blocked by unresolved independent live/audit verification: Set Reasoning production truth is still pending, and Math spatial PR #209 is merged with PR CI #970 but independent audit-main/Cloudflare verification is not available through the current connector. In parallel, docs/evidence work has now justified exact four-ID Math measurement reuse into existing `compare_properties` while keeping the matching activity excluded. No Math runtime implementation is authorized yet.
 
 Other open work remains P2 game-shell/icon/inline-style convergence, WS-02 narration, WS-10 real-device/accessibility/human/Iqro acceptance, WS-11 governance, later WS-12 cleanup, and continued WS-05 progression to the current finish target of 50.
 
