@@ -33,6 +33,7 @@ const EXPECTED_PATTERNS = [
   "spatial_relation_board",
   "phrase_scene_match",
   "growth_stage_transition",
+  "single_rule_apply",
   "sorting_buckets",
   "drag_to_target",
   "odd_one_out",
@@ -198,8 +199,9 @@ try {
   assert.equal(classifiedTotal, totalActivities, "pattern counts must sum to the complete activity catalog");
   assert.equal(overall.phrase_scene_match, 4, "Pattern 41 must keep exactly four audited phrase-scene activities");
   assert.equal(overall.growth_stage_transition, 3, "Pattern 42 must classify exactly three audited growth-stage activities");
-  assert.equal(overall.choice_grid, 254, "Pattern 42 moves exactly three activities out of choice_grid");
-  assert.equal(activePatterns.length, 42, "Pattern 42 raises the active child-facing pattern count to 42");
+  assert.equal(overall.single_rule_apply, 5, "Pattern 43 must classify exactly five audited single-rule activities");
+  assert.equal(overall.choice_grid, 249, "Pattern 43 moves exactly five activities out of choice_grid");
+  assert.equal(activePatterns.length, 43, "Pattern 43 raises the active child-facing pattern count to 43");
 
   console.log("GAMEPLAY_DISTRIBUTION_AUDIT_SUMMARY", JSON.stringify({
     activities: totalActivities,
