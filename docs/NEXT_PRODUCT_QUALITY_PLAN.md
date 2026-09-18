@@ -31,7 +31,10 @@
 **Pattern #45 closure docs:** PR #198 -> main `79788dfb7f88164e699d1c3b9ac62b689d366c74`  
 **Pattern #45 closure docs PR CI:** **#926 / run `35312712344` — full success**  
 **Pattern #45 closure docs main CI:** **#927 / run `35314983842` — full success + exact Cloudflare production smoke**  
-**Pattern #46 audit candidate:** Science `phenomenon_relation_board` / exact four-ID scope / code not started  
+**Pattern #46 audit:** PR #199 -> main `b620c78f186b7c8e8612afdb616420d923a57e00`  
+**Pattern #46 audit PR CI:** **#928 / run `35316239193` — full success**  
+**Pattern #46 audit merged-main CI:** **#929 / run `35316693100` — full success + exact Cloudflare production smoke**  
+**Pattern #46 implementation:** **IN PROGRESS** on `agent/pattern46-phenomenon-relation-20260918`  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
 
@@ -59,11 +62,11 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 
 | Workstream | Status | Current note |
 |---|---|---|
-| WS-01 Canonical docs | **CURRENT** | Pattern #45 closure verified; Pattern #46 audit candidate documented, not yet merged |
+| WS-01 Canonical docs | **CURRENT** | Pattern #46 audit merged/live verified; implementation branch current |
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **45 FULLY CLOSED / P46 AUDIT CANDIDATE** | Science `phenomenon_relation_board` exact four-ID candidate; implementation not started |
+| WS-05 Gameplay diversification | **45 FULLY CLOSED / P46 IMPLEMENTING** | exact four-ID Science `phenomenon_relation_board`; merged truth remains 45 until implementation verification |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P45 merged-main permanent visual QA green; nine dedicated screenshots manually accepted |
@@ -89,9 +92,9 @@ spatial_relation_board            6 / 900
 
 Distance remaining: **5 patterns** to the current WS-05 finish target of 50. No 60-pattern expansion is required for this finish scope.
 
-## Pattern #46 — `phenomenon_relation_board` / AUDIT CANDIDATE / CODE NOT STARTED
+## Pattern #46 — `phenomenon_relation_board` / AUDIT VERIFIED / IMPLEMENTATION IN PROGRESS
 
-Fresh audit base is Pattern #45 closure main `79788dfb7f88164e699d1c3b9ac62b689d366c74`, with closure-main CI #927 full success including exact Cloudflare production smoke.
+Fresh audit base is Pattern #45 closure main `79788dfb7f88164e699d1c3b9ac62b689d366c74`. Audit PR #199 merged to `b620c78f186b7c8e8612afdb616420d923a57e00`; audit merged-main CI #929 is full success including exact Cloudflare production smoke.
 
 Exact candidate scope:
 
@@ -130,7 +133,17 @@ choice_grid                       237 / 900
 phenomenon_relation_board           4 / 900
 ```
 
-Audit record: `PATTERN46_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`. Current branch is audit-only; runtime implementation must wait for audit PR merge + merged-main verification.
+Audit record: `PATTERN46_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
+
+Implementation is active on `agent/pattern46-phenomenon-relation-20260918`. Target branch distribution:
+
+```text
+46 active patterns
+choice_grid                       237 / 900
+phenomenon_relation_board           4 / 900
+```
+
+This remains branch-only truth until implementation verification. The implementation keeps the relation/result slot unresolved after a wrong selection, preserves exact canonical prompts/choices/answers and `choice_accuracy_v1`, and adds no mastery/progression/schema/database migration.
 
 ## Pattern #45 — `elimination_board` / FULLY CLOSED / LIVE VERIFIED
 
@@ -306,10 +319,10 @@ P2 findings: 3
 
 ## Current execution order
 
-1. Complete the docs-only Pattern #46 audit PR for exact four-ID Science `phenomenon_relation_board`; do not write runtime code on the audit branch.
-2. Require exact-head PR CI, exact merge, and merged-main Cloudflare verification for the audit.
-3. Only after audit verification, implement the exact four-ID phenomenon relation board with unresolved target slot, canonical choices/evidence, keyboard/pointer/actual-touch QA, and nine dedicated screenshots.
-4. Merge implementation only after permanent visual QA + full CI, then independently verify merged-main distribution and exact Cloudflare production smoke.
-5. Close canonical docs and repeat the same path through Pattern #50, then run final overall QA/docs/production closeout.
+1. Complete Pattern #46 implementation for only the four audited `science-earth-sky-patterns` direct-choice activities; keep same-pack matching and existing Science mechanics unchanged.
+2. Require fail-closed exact config, regression + distribution gates, keyboard wrong-state with unresolved result slot, pointer completion, actual touch at 390x844, and nine 320/390/768 dedicated screenshots.
+3. Merge only after exact-head full CI is green and manual screenshot review has no P0/P1 Pattern #46 blocker.
+4. Independently verify merged-main 46-pattern distribution, permanent visual QA, and exact Cloudflare production smoke.
+5. Reconcile Pattern #46 closure docs before beginning Pattern #47 implementation; repeat through Pattern #50.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
