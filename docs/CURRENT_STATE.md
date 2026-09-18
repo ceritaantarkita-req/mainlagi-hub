@@ -20,7 +20,7 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Pattern #43 audit main CI: **#890 / run `35295503508` — full success including exact Cloudflare production smoke**
 - Pattern #43 implementation: PR #191 -> main `44f9dee07506a785f184d965b5bbc0a2aab66a8f`
 - Pattern #43 implementation merged-main CI: **#900 / run `35297572709` — full success including exact Cloudflare production smoke**
-- Pattern #44 audit candidate: **Math `subitizing_glance` / exact 3 activities / code not started** on `agent/pattern44-subitizing-audit-20260918`
+- Pattern #44 audit: PR #193 -> main `8b3cb7e73a77502b4c9206936e7736ac9169b1ca`\n- Pattern #44 audit merged-main CI: **#904 / run `35299949341` — full success including exact Cloudflare production smoke**\n- Pattern #44 implementation: **IN PROGRESS** on `agent/pattern44-subitizing-glance-20260918`
 - permanent visual QA foundation: **VQA-01 FULLY CLOSED**
 - visual P1 baseline: **P0=0 / P1=0 / P2=3**
 
@@ -39,7 +39,7 @@ Pattern #40: FULLY CLOSED
 Pattern #41: FULLY CLOSED / LIVE VERIFIED
 Pattern #42: FULLY CLOSED / LIVE VERIFIED
 Pattern #43: FULLY CLOSED / LIVE VERIFIED
-Pattern #44: AUDIT CANDIDATE / CODE NOT STARTED
+Pattern #44: AUDIT VERIFIED / IMPLEMENTATION IN PROGRESS
 ```
 
 External physical-device acceptance, accessibility-specialist review, human pedagogical/art acceptance and Iqro expert acceptance remain separate and incomplete. Physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
@@ -74,9 +74,9 @@ picture_word_match               5 / 900
 
 Remaining distance is **7 patterns** to the WS-05 finish target of 50. Pattern #43 is merged and live verified.
 
-Pattern #44 audit selects `subitizing_glance` for exactly `math-subitize-2`, `math-subitize-4`, and `math-subitize-5`. Implementation has not started. If implemented and verified, the expected distribution becomes **44 active patterns / `choice_grid` 246 / `subitizing_glance` 3**.
+Pattern #44 audit is merged and live verified. The implementation branch now exact-scopes `subitizing_glance` to `math-subitize-2`, `math-subitize-4`, and `math-subitize-5`. The implementation target is **44 active patterns / `choice_grid` 246 / `subitizing_glance` 3**; this is not merged-main truth until implementation CI and merge verification complete.
 
-## Pattern #44 — AUDIT CANDIDATE / CODE NOT STARTED
+## Pattern #44 — AUDIT VERIFIED / IMPLEMENTATION IN PROGRESS
 
 Pattern:
 
@@ -95,6 +95,19 @@ math-subitize-5
 Canonical ownership remains Math / `math-jumlah-dasar` / `math-subitizing` / `math.pack.subitizing` / `math.quantity.subitizing` / assessed `tap_choice` / `choice_accuracy_v1`.
 
 The candidate is justified because the existing `count_and_select` presentation explicitly teaches one-by-one counting, while this lesson/skill explicitly measures recognizing small quantities from spatial patterns without always counting one by one. The proposed presentation must use deterministic dot layouts, preserve exact canonical prompts/choices/answers, add no timer or speed score, and introduce no mastery/progression/schema/database migration.
+
+Audit verification chain:
+
+```text
+Audit PR:                 #193
+Audit PR head:            994f2150da4e8634ed9a79434fed5a9820daf354
+Audit PR CI:              #903 / run 35299544562 — full success
+Audit main:               8b3cb7e73a77502b4c9206936e7736ac9169b1ca
+Audit merged-main CI:     #904 / run 35299949341 — full success + exact Cloudflare production smoke
+Implementation branch:    agent/pattern44-subitizing-glance-20260918
+```
+
+Implementation keeps the exact three-ID scope, introduces a deterministic 3x3 dot-board config with no timer/auto-hide/speed score, preserves canonical choice order and `choice_accuracy_v1`, and leaves `count_and_select`, mastery, progression, schema and database ownership unchanged. Implementation CI is still required before this can become merged truth.
 
 Audit evidence: `PATTERN44_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
 
@@ -236,10 +249,10 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Pattern #43 is complete and live verified.
-2. Pattern #44 objective/evidence audit selects Math `subitizing_glance` for exactly three activities; code has not started.
-3. Merged-main baseline CI #902 / run `35299122394` is fully green; the Pattern #44 audit may proceed through PR verification.
-4. Implement only the audited exact scope; keep `count_and_select` unchanged and preserve canonical evidence.
+1. Pattern #43 remains the latest fully closed/live-verified gameplay pattern.
+2. Pattern #44 audit is merged/live verified through CI #904; implementation is in progress on the exact three-ID Math `subitizing_glance` scope.
+3. Run exact-scope regression + full learning/mobile-route/build/security CI and manually review the nine 320/390/768 dedicated screenshots.
+4. Merge only an unchanged green implementation head, then independently verify merged-main distribution and Cloudflare production smoke.
 5. Continue directly through Pattern #50, then run one final overall QA/docs/production closeout.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion or mastery/backend rewrites before the current quality roadmap justifies them.
