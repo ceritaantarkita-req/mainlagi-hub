@@ -80,6 +80,8 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Set Reasoning reuse final manual visual review: **ACCEPTED / 9 screenshots / no P0-P1 blocker**
 - Set Reasoning reuse final branch distribution: **47 active / `choice_grid` 228 / `set_reasoning` 10**
 - Set Reasoning reuse merged-main CI / exact Cloudflare smoke: **PENDING INDEPENDENT VERIFICATION**
+- Math spatial -> `spatial_relation_board` reuse audit: **JUSTIFIED / exact 5-ID scope / CODE NOT STARTED**
+- Math spatial reuse implementation: **BLOCKED until preceding Set Reasoning live closure + this audit verification**
 - permanent visual QA foundation: **VQA-01 FULLY CLOSED**
 - visual P1 baseline: **P0=0 / P1=0 / P2=3**
 
@@ -207,6 +209,35 @@ activity quality:          10558429104 / sha256:967006895beb95eb850e077b021308a4
 ```
 
 Final PR head `a37fdec7b3f89789999ce728c245ae17ee7f00bc` passed CI #963 / run `35372830249`, with final artifacts confirming 900/900 classified, 47 active patterns, `choice_grid` 228 and `set_reasoning` 10; the nine final reuse screenshots were manually accepted with no P0/P1 blocker. PR #207 then squash-merged unchanged to main `9debb6cf30f789125c45eff1b88e65e4eaff7978`. **Do not call this live verified until independent merged-main CI and exact Cloudflare smoke pass for that SHA.**
+
+### Current reuse audit — Math spatial -> `spatial_relation_board`
+
+The next reuse-first audit is complete for exactly five Math `math.spatial.position` activities:
+
+```text
+math-spatial-above
+math-spatial-left
+math-spatial-inside
+math-spatial-near
+math-spatial-between
+```
+
+All five belong to Math / `math-ukur-ruang` / `math-spatial-position` / `math.pack.spatial-position` / assessed `tap_choice` / `choice_accuracy_v1`.
+
+Reuse is justified because the canonical lesson/skill explicitly assess above/below, left/right, inside/outside, near/far and between relations, while existing Pattern #40 already represents stated spatial relations through a stable board plus unchanged direct-choice evidence. Required generalization is exact-ID/fail-closed and subject-aware; it may add deterministic vertical, containment and proximity scene modes but may not add drag/pathfinding, prompt parsing, extra assessed checkpoints, content rewrites or mastery/progression/schema changes.
+
+No new gameplay pattern is created. Expected distribution only after a later verified implementation:
+
+```text
+47 active patterns
+choice_grid                223 / 900
+set_reasoning               10 / 900
+spatial_relation_board      11 / 900
+```
+
+Runtime implementation is blocked until the preceding Set Reasoning live-closure gate is independently resolved and this audit itself is merged/verified.
+
+Reuse audit record: `SPATIAL_RELATION_BOARD_MATH_POSITION_REUSE_AUDIT_2026-09-19.md`.
 
 Audit evidence: `PATTERN48_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
 
@@ -642,6 +673,7 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 2. Preserve the merged 47-pattern baseline: 900/900 classified, `choice_grid` 233, `shape_attribute_board` 4.
 3. Pattern #48 fresh audit found no justified new mechanic; active pattern count remains 47.
 4. Set Reasoning reuse PR #207 is merged to main `9debb6cf`; exact final head `a37fdec7` passed CI #963 and final nine-shot review with 47/228/10 branch distribution.
-5. Independently verify merged-main CI/distribution + exact Cloudflare release for `9debb6cf`, then complete and merge the post-merge reuse closure docs before starting the next implementation.
+5. Math spatial -> existing `spatial_relation_board` reuse is audit-justified for exactly five `math.spatial.position` activities; code has not started.
+6. Independently resolve the Set Reasoning merged-main/Cloudflare closure and merge/verify the Math spatial reuse audit before any Math runtime implementation.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion or mastery/backend rewrites before the current quality roadmap justifies them.
