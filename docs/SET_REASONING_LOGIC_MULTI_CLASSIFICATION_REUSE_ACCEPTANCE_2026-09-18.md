@@ -1,6 +1,6 @@
 # Set Reasoning Reuse Implementation Acceptance — Logic Multi-Attribute — 18 September 2026
 
-Status: **IMPLEMENTATION CHECKPOINT VERIFIED / NOT MERGED**
+Status: **MERGED TO MAIN / MAIN CI + CLOUDFLARE VERIFICATION PENDING**
 
 ## Exact reuse scope
 
@@ -43,6 +43,27 @@ Checkpoint CI:            #957 / run 35371679720 — full success
 ```
 
 CI #956 found a **test-only selector issue** in the new reuse browser harness. The component rendered correctly and the Set Reasoning scene was ready, but `getByRole("heading")` did not expose the prompt heading in that harness. The accepted fix changed only the QA selector to exact visible text. Runtime behavior, config, classification, evidence and layout were unchanged.
+
+## Final PR and merge checkpoint
+
+```text
+Final PR head:            a37fdec7b3f89789999ce728c245ae17ee7f00bc
+Final PR CI:              #963 / run 35372830249 — full success
+Final visual review:      ACCEPTED / 9 screenshots / no P0-P1 blocker
+Final branch distribution:47 active / choice_grid 228 / set_reasoning 10
+Implementation main:      9debb6cf30f789125c45eff1b88e65e4eaff7978
+Merge method:             squash
+```
+
+Final PR #207 artifacts:
+
+```text
+mobile screenshots:       10559925402 / sha256:c12ec617921229ca1317e02424369fb85947cd0e12a323e8feefc41c23c6ea73
+gameplay distribution:    10559301397 / sha256:824b9b798721eceb534ccaf6e992806910634d28c88db25222b2d3a1baac5901
+activity quality:          10559091529 / sha256:31e8501a622e36788413a53252a82ac042c6629ca007ff0b7b93625697769f50
+```
+
+The exact final head remained mergeable with no review submissions or unresolved review threads. It was squash-merged unchanged after CI #963 succeeded. This proves the merged code lineage, but **does not yet prove the independent `main` CI or exact Cloudflare release**.
 
 ## Verified config/classification contract
 
@@ -157,9 +178,6 @@ This is reuse of an existing pattern. Pattern #48 remains unimplemented.
 
 ## Remaining gates
 
-1. synchronize canonical docs to checkpoint-verified state;
-2. run full CI on the final docs-inclusive PR #207 head;
-3. require clean exact-head mergeability/review/thread state;
-4. squash-merge only the unchanged green exact head;
-5. independently verify merged-main 47 / 228 / 10 + exact Cloudflare production smoke;
-6. create post-merge reuse closure docs before the next implementation.
+1. independently verify `main` commit `9debb6cf30f789125c45eff1b88e65e4eaff7978` through the full CI matrix and exact Cloudflare production smoke;
+2. verify merged-main artifacts still report 900/900 classified, 47 active patterns, `choice_grid` 228, `set_reasoning` 10, and clean activity-quality results;
+3. promote the post-merge closure docs from pending to **FULLY CLOSED / LIVE VERIFIED**, merge the closure PR, and verify closure-main CI before the next implementation.
