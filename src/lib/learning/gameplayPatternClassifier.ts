@@ -3,11 +3,12 @@ import { gameplayPattern, type GameplayPattern } from "./gameplayPresentation";
 import { isEliminationBoardActivity } from "./eliminationBoardConfig";
 import { isGrowthStageTransitionActivity } from "./growthStageTransitionConfig";
 import { isPhraseSceneMatchActivity } from "./phraseSceneMatchConfig";
+import { isPhenomenonRelationBoardActivity } from "./phenomenonRelationBoardConfig";
 import { isSingleRuleApplyActivity } from "./singleRuleApplyConfig";
 import { isSubitizingGlanceActivity } from "./subitizingGlanceConfig";
 import { isSpatialRelationBoardActivity } from "./spatialRelationBoardConfig";
 
-export type CanonicalGameplayPattern = GameplayPattern | "spatial_relation_board" | "phrase_scene_match" | "growth_stage_transition" | "single_rule_apply" | "subitizing_glance" | "elimination_board";
+export type CanonicalGameplayPattern = GameplayPattern | "spatial_relation_board" | "phrase_scene_match" | "growth_stage_transition" | "single_rule_apply" | "subitizing_glance" | "elimination_board" | "phenomenon_relation_board";
 
 /**
  * Canonical WS-05 gameplay-pattern classifier.
@@ -21,6 +22,7 @@ export function canonicalGameplayPattern(activity: LearningActivity | undefined)
   if (isSingleRuleApplyActivity(activity)) return "single_rule_apply";
   if (isSubitizingGlanceActivity(activity)) return "subitizing_glance";
   if (isEliminationBoardActivity(activity)) return "elimination_board";
+  if (isPhenomenonRelationBoardActivity(activity)) return "phenomenon_relation_board";
   if (isGrowthStageTransitionActivity(activity)) return "growth_stage_transition";
   if (isPhraseSceneMatchActivity(activity)) return "phrase_scene_match";
   if (isSpatialRelationBoardActivity(activity)) return "spatial_relation_board";

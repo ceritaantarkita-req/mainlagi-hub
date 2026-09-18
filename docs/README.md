@@ -28,7 +28,7 @@ Pattern #45 `elimination_board` is now the latest **FULLY CLOSED / LIVE VERIFIED
 
 Pattern #45 docs closure is independently verified through PR #198 -> `79788dfb7f88164e699d1c3b9ac62b689d366c74` and closure-main CI #927 full success including exact Cloudflare production smoke.
 
-Pattern #46 audit candidate is Science `phenomenon_relation_board` for exactly four direct-choice `science-earth-sky-patterns` activities. This audit is branch-only and implementation code has not started.
+Pattern #46 audit is merged/live verified through PR #199 and audit-main CI #929. Implementation PR #200 now has an accepted checkpoint at `558f154278a6a75c01e3fad14171e5ae5bc66fdd`: CI #931 is full green, branch distribution is 46/237/4, and nine dedicated screenshots are manually accepted. Merged production remains at 45 patterns until the docs-inclusive final head merges and `main` is independently verified.
 
 Pattern #45 audit and implementation are merged/live verified. PR #197 final head `ac410e6905da2c7951bdc794715b5604c138a65b` passed CI #924, merged to `43dd857b0fb5b51fe94c4e83da114260a788b4f8`, and merged-main CI #925 passed full verification including exact Cloudflare production smoke. Nine dedicated screenshots remain manually accepted with no P0/P1 blocker.
 
@@ -79,6 +79,43 @@ Implementation main CI:  #900 / run 35297572709 — full success + exact Cloudfl
 ```
 
 Exact five-ID Logic scope is live verified. Browser keyboard/pointer/actual-touch QA, manual nine-shot review and permanent visual QA passed. No mastery/progression/schema/database change was introduced.
+
+## Pattern #46 implementation checkpoint
+
+Pattern #46 `phenomenon_relation_board` is **IMPLEMENTATION CHECKPOINT VERIFIED / NOT MERGED**.
+
+```text
+Audit PR:                 #199
+Audit PR head:            b53a299fafa8058af78797b3cd345984dedc9027
+Audit PR CI:              #928 / run 35316239193 — full success
+Audit main:               b620c78f186b7c8e8612afdb616420d923a57e00
+Audit merged-main CI:     #929 / run 35316693100 — full success + exact Cloudflare production smoke
+Implementation branch:    agent/pattern46-phenomenon-relation-20260918
+```
+
+Exact scope is `science-earth-sun-day`, `science-earth-moon-night`, `science-earth-shadow-sun`, and `science-earth-cloud-rain`. Same-pack `science-match-sky-observation-c` remains canonical matching. Assessed `tap_choice` / `choice_accuracy_v1` remains primary; a wrong choice cannot resolve the relation/result slot or reveal the canonical answer.
+
+Verified implementation checkpoint:
+
+```text
+Implementation PR:        #200
+Initial head:             83290426008e0fe81a959337b2af979ac21d3539
+CI #930:                  blocked by 320px horizontal overflow
+Accepted head:            558f154278a6a75c01e3fad14171e5ae5bc66fdd
+Checkpoint CI:            #931 / run 35338034584 — full success
+Manual visual review:     ACCEPTED / nine screenshots / no P0-P1 blocker
+Branch distribution:      46 active / choice_grid 237 / phenomenon_relation_board 4
+```
+
+Checkpoint artifacts:
+
+```text
+mobile screenshots:       10543982425 / sha256:bc213d93d9126ff08c081a2cb5cd714e8fbfd631fe582b5c08832ca635e5441a
+gameplay distribution:    10544171315 / sha256:cbcdda7f641994108ed0e9ae2d63edc1a3b26310ed5b9356eaa2b08679ff8643
+activity quality:          10543852087 / sha256:7f37bd3a8e251aed7ce67e43875ca57b049b810c5fd7599e86af0e57f496f471
+```
+
+Target branch distribution remains **46 active / `choice_grid` 237 / `phenomenon_relation_board` 4**. This is not merged production truth yet.
 
 ## Pattern #45 live checkpoint
 
@@ -181,7 +218,9 @@ Pattern #42 closure gates are complete. Closure PR #188 merged and closure main 
 
 ## Current evidence records
 
-- [`PATTERN46_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`](PATTERN46_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md) — branch-only Pattern #46 Science `phenomenon_relation_board` audit candidate; implementation not started.
+- [`PATTERN46_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md`](PATTERN46_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md) — accepted Pattern #46 code checkpoint, CI #931 artifacts and manual nine-shot visual review.
+- [`WS05_PHENOMENON_RELATION_BOARD_WAVE_2026-09-18.md`](WS05_PHENOMENON_RELATION_BOARD_WAVE_2026-09-18.md) — Pattern #46 implementation/QA wave and remaining merge gates.
+- [`PATTERN46_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`](PATTERN46_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md) — merged/live-verified Pattern #46 Science `phenomenon_relation_board` objective/evidence audit.
 - [`PATTERN45_FINAL_CLOSURE_VERIFICATION_2026-09-18.md`](PATTERN45_FINAL_CLOSURE_VERIFICATION_2026-09-18.md) — final Pattern #45 post-merge docs closure verification through PR #198 / CI #927.
 - [`PATTERN45_ELIMINATION_BOARD_CLOSURE_2026-09-18.md`](PATTERN45_ELIMINATION_BOARD_CLOSURE_2026-09-18.md) — final Pattern #45 merged-main closure truth.
 - [`PATTERN45_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md`](PATTERN45_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md) — accepted Pattern #45 code checkpoint, CI #919 artifacts and manual nine-shot visual review.
@@ -205,7 +244,7 @@ Historical closure/candidate/audit records must not be rewritten to pretend late
 
 ## Remaining product-quality work
 
-Immediate WS-05 gate is the docs-only Pattern #46 audit PR for Science `phenomenon_relation_board` over exactly four direct-choice `science-earth-sky-patterns` activities. The audit must merge and pass merged-main Cloudflare verification before runtime implementation begins. Five patterns remain to the finish target of 50.
+Immediate WS-05 gate is full CI on the docs-inclusive final Pattern #46 PR #200 head, followed by exact-head merge and independent merged-main/Cloudflare verification. The code checkpoint and nine-shot visual review are already accepted. Merged production remains at 45 patterns; after Pattern #46 closure, four patterns will remain to the finish target of 50.
 
 Other open work remains P2 game-shell/icon/inline-style convergence, WS-02 narration, WS-10 real-device/accessibility/human/Iqro acceptance, WS-11 governance, later WS-12 cleanup, and continued WS-05 progression to the current finish target of 50.
 

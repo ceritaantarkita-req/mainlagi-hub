@@ -31,7 +31,13 @@
 **Pattern #45 closure docs:** PR #198 -> main `79788dfb7f88164e699d1c3b9ac62b689d366c74`  
 **Pattern #45 closure docs PR CI:** **#926 / run `35312712344` — full success**  
 **Pattern #45 closure docs main CI:** **#927 / run `35314983842` — full success + exact Cloudflare production smoke**  
-**Pattern #46 audit candidate:** Science `phenomenon_relation_board` / exact four-ID scope / code not started  
+**Pattern #46 audit:** PR #199 -> main `b620c78f186b7c8e8612afdb616420d923a57e00`  
+**Pattern #46 audit PR CI:** **#928 / run `35316239193` — full success**  
+**Pattern #46 audit merged-main CI:** **#929 / run `35316693100` — full success + exact Cloudflare production smoke**  
+**Pattern #46 implementation PR:** #200  
+**Pattern #46 accepted checkpoint:** `558f154278a6a75c01e3fad14171e5ae5bc66fdd`  
+**Pattern #46 checkpoint CI:** **#931 / run `35338034584` — full success**  
+**Pattern #46 manual visual review:** **ACCEPTED / nine screenshots / no P0-P1 blocker**  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
 
@@ -59,11 +65,11 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 
 | Workstream | Status | Current note |
 |---|---|---|
-| WS-01 Canonical docs | **CURRENT** | Pattern #45 closure verified; Pattern #46 audit candidate documented, not yet merged |
+| WS-01 Canonical docs | **CURRENT** | Pattern #46 audit merged/live verified; implementation branch current |
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **45 FULLY CLOSED / P46 AUDIT CANDIDATE** | Science `phenomenon_relation_board` exact four-ID candidate; implementation not started |
+| WS-05 Gameplay diversification | **45 FULLY CLOSED / P46 CHECKPOINT VERIFIED** | PR #200 checkpoint CI #931 green; branch 46/237/4; merged truth remains 45 |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P45 merged-main permanent visual QA green; nine dedicated screenshots manually accepted |
@@ -89,9 +95,9 @@ spatial_relation_board            6 / 900
 
 Distance remaining: **5 patterns** to the current WS-05 finish target of 50. No 60-pattern expansion is required for this finish scope.
 
-## Pattern #46 — `phenomenon_relation_board` / AUDIT CANDIDATE / CODE NOT STARTED
+## Pattern #46 — `phenomenon_relation_board` / IMPLEMENTATION CHECKPOINT VERIFIED / NOT MERGED
 
-Fresh audit base is Pattern #45 closure main `79788dfb7f88164e699d1c3b9ac62b689d366c74`, with closure-main CI #927 full success including exact Cloudflare production smoke.
+Fresh audit base is Pattern #45 closure main `79788dfb7f88164e699d1c3b9ac62b689d366c74`. Audit PR #199 merged to `b620c78f186b7c8e8612afdb616420d923a57e00`; audit merged-main CI #929 is full success including exact Cloudflare production smoke.
 
 Exact candidate scope:
 
@@ -130,7 +136,29 @@ choice_grid                       237 / 900
 phenomenon_relation_board           4 / 900
 ```
 
-Audit record: `PATTERN46_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`. Current branch is audit-only; runtime implementation must wait for audit PR merge + merged-main verification.
+Audit record: `PATTERN46_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
+
+Implementation is active on `agent/pattern46-phenomenon-relation-20260918`. Target branch distribution:
+
+```text
+46 active patterns
+choice_grid                       237 / 900
+phenomenon_relation_board           4 / 900
+```
+
+Accepted checkpoint:
+
+```text
+PR:                       #200
+initial head:             83290426008e0fe81a959337b2af979ac21d3539
+CI #930:                  blocked 320px overflow
+accepted head:            558f154278a6a75c01e3fad14171e5ae5bc66fdd
+CI #931:                  full success
+manual review:            ACCEPTED / 9 screenshots / no P0-P1 blocker
+branch distribution:      46 active / choice_grid 237 / phenomenon_relation_board 4
+```
+
+The implementation keeps the relation/result slot unresolved after a wrong selection, preserves exact canonical prompts/choices/answers and `choice_accuracy_v1`, and adds no mastery/progression/schema/database migration. The 320px failure in #930 was fixed with CSS-only containment/wrapping and then verified by #931.
 
 ## Pattern #45 — `elimination_board` / FULLY CLOSED / LIVE VERIFIED
 
@@ -306,10 +334,10 @@ P2 findings: 3
 
 ## Current execution order
 
-1. Complete the docs-only Pattern #46 audit PR for exact four-ID Science `phenomenon_relation_board`; do not write runtime code on the audit branch.
-2. Require exact-head PR CI, exact merge, and merged-main Cloudflare verification for the audit.
-3. Only after audit verification, implement the exact four-ID phenomenon relation board with unresolved target slot, canonical choices/evidence, keyboard/pointer/actual-touch QA, and nine dedicated screenshots.
-4. Merge implementation only after permanent visual QA + full CI, then independently verify merged-main distribution and exact Cloudflare production smoke.
-5. Close canonical docs and repeat the same path through Pattern #50, then run final overall QA/docs/production closeout.
+1. Pattern #46 code checkpoint is accepted at `558f1542`; preserve its exact four-ID scope and accepted screenshots/evidence.
+2. Run full CI on the docs-inclusive final PR #200 head and confirm no code drift from the accepted checkpoint.
+3. Merge only an unchanged green exact head after mergeability/review/thread checks.
+4. Independently verify merged-main 46-pattern distribution, permanent visual QA, and exact Cloudflare production smoke.
+5. Reconcile Pattern #46 closure docs before beginning Pattern #47 implementation; repeat through Pattern #50.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.

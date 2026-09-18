@@ -32,7 +32,7 @@ Patterns #1–#35 remain as previously closed/merged. Latest entries:
 43. `single_rule_apply` — **FULLY CLOSED / LIVE VERIFIED**
 44. `subitizing_glance` — **FULLY CLOSED / LIVE VERIFIED**
 45. `elimination_board` — **FULLY CLOSED / LIVE VERIFIED**
-46. `phenomenon_relation_board` — **AUDIT CANDIDATE / CODE NOT STARTED**
+46. `phenomenon_relation_board` — **IMPLEMENTATION CHECKPOINT VERIFIED / NOT MERGED**
 
 ## Current verified merged distribution
 
@@ -56,7 +56,7 @@ picture_word_match                5 / 900
 
 Remaining distance is **5 patterns** to the current finish target of 50.
 
-Pattern #46 candidate, if its audit later becomes merged truth and implementation passes:
+Pattern #46 implementation target (branch-only until verified/merged):
 
 ```text
 46 active child-facing patterns
@@ -141,7 +141,7 @@ activity quality:          10534385061 / sha256:eebcc3b932495954314c11b69f7409f9
 
 Evidence records: `PATTERN45_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`, `PATTERN45_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md`, `WS05_ELIMINATION_BOARD_WAVE_2026-09-18.md`, and `PATTERN45_ELIMINATION_BOARD_CLOSURE_2026-09-18.md`.
 
-## Pattern #46 audit candidate — `phenomenon_relation_board`
+## Pattern #46 — `phenomenon_relation_board` / IMPLEMENTATION CHECKPOINT VERIFIED / NOT MERGED
 
 Canonical scope is exactly the four Science direct-choice activities in `science.pack.earth-sky-patterns`, skill `science.earth.sky_patterns.basic`, assessed `tap_choice` / `choice_accuracy_v1`.
 
@@ -155,7 +155,20 @@ Why this candidate is distinct:
 
 Approved future presentation is limited to a stable observation scene plus unresolved related/result slot and the exact canonical choices. The target may resolve only after the canonical correct choice is selected. No extra assessed checkpoint is approved.
 
-Audit record: `PATTERN46_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`. Audit is not merged yet; implementation has not started.
+Audit verification:
+
+```text
+Audit PR:                 #199
+Audit PR head:            b53a299fafa8058af78797b3cd345984dedc9027
+Audit PR CI:              #928 / run 35316239193 — full success
+Audit main:               b620c78f186b7c8e8612afdb616420d923a57e00
+Audit merged-main CI:     #929 / run 35316693100 — full success + exact Cloudflare production smoke
+Implementation branch:    agent/pattern46-phenomenon-relation-20260918
+```
+
+Audit record: `PATTERN46_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
+
+Implementation checkpoint `558f154278a6a75c01e3fad14171e5ae5bc66fdd` on PR #200 passed CI #931, branch distribution 46/237/4, and manual nine-shot review with no P0/P1 blocker. CI #930 had correctly blocked the previous head on 320px overflow; the accepted head contains only the responsive containment fix on top of the audited implementation. Target distribution remains branch evidence until merge and merged-main verification.
 
 ## Pattern #43 — `single_rule_apply`
 
@@ -238,8 +251,9 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 
 - Patterns #1–#45 — **FULLY CLOSED / LIVE VERIFIED**.
 - Pattern #45 docs closure — PR #198 merged to `79788dfb7f88164e699d1c3b9ac62b689d366c74`; merged-main CI #927 passed including exact Cloudflare production smoke.
-- Pattern #46 audit candidate — Science `phenomenon_relation_board`, exact four-ID `science-earth-sky-patterns` scope, code not started.
-- Current gate — merge and independently verify the Pattern #46 docs-only audit before implementation.
+- Pattern #46 audit — merged/live verified through PR #199 and audit-main CI #929.
+- Pattern #46 implementation checkpoint — PR #200 head `558f1542` accepted; CI #931 full green; nine-shot review accepted; branch 46/237/4.
+- Current gate — docs-inclusive final-head full CI, then exact-head merge and merged-main production verification.
 - Continue only with justified exact scopes; reuse an existing mechanic when it already matches the evidence model.
 
 ## Definition of done per mechanic
