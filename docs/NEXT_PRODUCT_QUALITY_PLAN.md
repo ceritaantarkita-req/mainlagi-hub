@@ -85,7 +85,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 ```text
 900 / 900 classified
 0 unclassified
-45 active merged patterns
+46 active merged patterns
 choice_grid                     241 / 900
 elimination_board                 5 / 900
 subitizing_glance                 3 / 900
@@ -95,7 +95,7 @@ phrase_scene_match                4 / 900
 spatial_relation_board            6 / 900
 ```
 
-Distance remaining: **5 patterns** to the current WS-05 finish target of 50. No 60-pattern expansion is required for this finish scope.
+Distance remaining: **4 patterns** to the current WS-05 finish target of 50. No 60-pattern expansion is required for this finish scope.
 
 ## Pattern #46 — `phenomenon_relation_board` / FULLY CLOSED / LIVE VERIFIED
 
