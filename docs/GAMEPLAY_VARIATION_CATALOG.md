@@ -54,7 +54,7 @@ sentence_order_cards              5 / 900
 picture_word_match                5 / 900
 ```
 
-Remaining distance is **5 patterns** to the current finish target of 50.
+Remaining distance is **4 patterns** to the current finish target of 50.
 
 Pattern #46 verified merged distribution:
 
