@@ -32,6 +32,7 @@ Patterns #1–#35 remain as previously closed/merged. Latest entries:
 43. `single_rule_apply` — **FULLY CLOSED / LIVE VERIFIED**
 44. `subitizing_glance` — **FULLY CLOSED / LIVE VERIFIED**
 45. `elimination_board` — **FULLY CLOSED / LIVE VERIFIED**
+46. `phenomenon_relation_board` — **AUDIT CANDIDATE / CODE NOT STARTED**
 
 ## Current verified merged distribution
 
@@ -54,6 +55,16 @@ picture_word_match                5 / 900
 ```
 
 Remaining distance is **5 patterns** to the current finish target of 50.
+
+Pattern #46 candidate, if its audit later becomes merged truth and implementation passes:
+
+```text
+46 active child-facing patterns
+choice_grid                       237 / 900
+phenomenon_relation_board           4 / 900
+```
+
+Exact candidate scope: `science-earth-sun-day`, `science-earth-moon-night`, `science-earth-shadow-sun`, `science-earth-cloud-rain`.
 
 Pattern #45 merged/live-verified distribution:
 
@@ -129,6 +140,22 @@ activity quality:          10534385061 / sha256:eebcc3b932495954314c11b69f7409f9
 ```
 
 Evidence records: `PATTERN45_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`, `PATTERN45_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md`, `WS05_ELIMINATION_BOARD_WAVE_2026-09-18.md`, and `PATTERN45_ELIMINATION_BOARD_CLOSURE_2026-09-18.md`.
+
+## Pattern #46 audit candidate — `phenomenon_relation_board`
+
+Canonical scope is exactly the four Science direct-choice activities in `science.pack.earth-sky-patterns`, skill `science.earth.sky_patterns.basic`, assessed `tap_choice` / `choice_accuracy_v1`.
+
+Why this candidate is distinct:
+- objective explicitly links familiar sky/light observations to daily/weather patterns;
+- generic `choice_grid` does not expose the observation -> related condition/result relation;
+- `cause_effect` is a physical-state transformation mechanic;
+- `investigation_board` is an explicit scientific-inquiry mechanic;
+- `growth_stage_transition` is biological temporal progression;
+- the same-pack `science-match-sky-observation-c` remains canonical matching and is excluded.
+
+Approved future presentation is limited to a stable observation scene plus unresolved related/result slot and the exact canonical choices. The target may resolve only after the canonical correct choice is selected. No extra assessed checkpoint is approved.
+
+Audit record: `PATTERN46_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`. Audit is not merged yet; implementation has not started.
 
 ## Pattern #43 — `single_rule_apply`
 
@@ -210,8 +237,9 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 ## Rollout order terbaru
 
 - Patterns #1–#45 — **FULLY CLOSED / LIVE VERIFIED**.
-- Pattern #45 implementation — PR #197 merged to `43dd857b0fb5b51fe94c4e83da114260a788b4f8`; merged-main CI #925 passed including exact Cloudflare production smoke.
-- Current gate — fresh Pattern #46 objective/evidence audit from the verified 45-pattern baseline.
+- Pattern #45 docs closure — PR #198 merged to `79788dfb7f88164e699d1c3b9ac62b689d366c74`; merged-main CI #927 passed including exact Cloudflare production smoke.
+- Pattern #46 audit candidate — Science `phenomenon_relation_board`, exact four-ID `science-earth-sky-patterns` scope, code not started.
+- Current gate — merge and independently verify the Pattern #46 docs-only audit before implementation.
 - Continue only with justified exact scopes; reuse an existing mechanic when it already matches the evidence model.
 
 ## Definition of done per mechanic
