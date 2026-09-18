@@ -58,7 +58,6 @@ assert.notEqual(gameplayPattern(spatialTransformSentinel),"rule_pipeline","logic
 for(const id of [
   "logic-if-red-then-circle",
   "logic-infer-not-red",
-  "logic-classify-red-round",
   "logic-compare-more-dots"
 ]){
   const activity=ACTIVITIES.find(item=>item.id===id);
@@ -66,5 +65,9 @@ for(const id of [
   assert.equal(choiceGameplayPresentation(activity),"default",`${id} stays outside rule-pipeline scope`);
   assert.equal(gameplayPattern(activity),"choice_grid",`${id} remains canonical choice_grid`);
 }
+const classificationReuse=ACTIVITIES.find(item=>item.id==="logic-classify-red-round");
+assert(classificationReuse,"logic-classify-red-round remains in catalog");
+assert.equal(choiceGameplayPresentation(classificationReuse),"set_reasoning","logic-classify-red-round now reuses Set Reasoning");
+assert.equal(gameplayPattern(classificationReuse),"set_reasoning","logic-classify-red-round canonical pattern is reused set_reasoning");
 
 console.log("Rule-pipeline regression passed for 5 exact Logic Wave D composed-rule activities.");
