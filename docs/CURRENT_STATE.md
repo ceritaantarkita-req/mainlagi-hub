@@ -64,7 +64,7 @@ sentence_order_cards             5 / 900
 picture_word_match               5 / 900
 ```
 
-Remaining distance is **8 patterns** to minimum 50 and **18** to working target 60.
+Remaining distance is **8 patterns** to minimum 50. Pattern #43 audit is in progress; merged truth remains 42 until implementation is verified.
 
 ## Pattern #42 — FULLY CLOSED / LIVE VERIFIED
 
@@ -152,9 +152,9 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Run a fresh Pattern #43 objective/evidence audit from the verified 42-pattern baseline; no mechanic or content family is pre-approved.
-2. Implement Pattern #43 only if the audit proves an objective/evidence gap that justifies a distinct interaction.
+1. Pattern #43 audit selected `single_rule_apply` for exactly five Logic Wave C conditional-rule activities; implementation has not started.
+2. Verify/merge the audit PR, then implement only that exact scope from the resulting verified `main`.
 3. Preserve mastery/progression/evidence boundaries and permanent WS-08 visual QA.
-4. Continue WS-05 toward 50–60 meaningful patterns, plus WS-02 narration, WS-10 external evidence, WS-11 governance and later P2/WS-12 cleanup.
+4. Continue WS-05 toward minimum 50 without adding unproven families.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion or mastery/backend rewrites before the current quality roadmap justifies them.
