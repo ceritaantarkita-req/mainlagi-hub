@@ -84,9 +84,13 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Math spatial reuse audit PR CI: **#970 / run `35377295090` — full success**
 - Math spatial reuse audit merged-main / Cloudflare verification: **PENDING INDEPENDENT VERIFICATION**
 - Math spatial reuse implementation: **BLOCKED / CODE NOT STARTED**
-- Math measurement -> `compare_properties` reuse audit: **JUSTIFIED / exact 4 direct-choice IDs / CODE NOT STARTED**
+- Math measurement -> `compare_properties` reuse audit: PR #210 -> main `f9833568dea0f021cd5c4ed94f6f6fc7505ad8d8`
+- Math measurement reuse audit PR CI: **#972 / run `35378121937` — full success**
+- Math measurement audit merged-main / Cloudflare verification: **PENDING INDEPENDENT VERIFICATION**
 - Math measurement matching exclusion: **`math-measure-match-length` stays matching / `matching_accuracy_v1`**
-- Math measurement reuse implementation: **BLOCKED by preceding live/audit gates**
+- Math measurement reuse implementation: **BLOCKED / CODE NOT STARTED**
+- English completion -> `cloze_sentence_choice` reuse audit: **JUSTIFIED / exact 5-ID scope / CODE NOT STARTED**
+- English cloze implementation: **BLOCKED by preceding live/audit gates**
 - permanent visual QA foundation: **VQA-01 FULLY CLOSED**
 - visual P1 baseline: **P0=0 / P1=0 / P2=3**
 
@@ -264,6 +268,28 @@ The existing `compare_properties` mechanic already represents qualitative proper
 No runtime code has started. If this four-ID wave alone were later verified from the current code baseline, `choice_grid` would move 228 -> 224 and `compare_properties` 3 -> 7 while active patterns stay 47. If the already-audited five Math spatial IDs are implemented first, the combined later target would be `choice_grid` 219 / `spatial_relation_board` 11 / `compare_properties` 7 / `set_reasoning` 10.
 
 Reuse audit record: `COMPARE_PROPERTIES_MATH_MEASURE_REUSE_AUDIT_2026-09-19.md`.
+
+PR #210 merged this docs-only audit to main `f9833568dea0f021cd5c4ed94f6f6fc7505ad8d8`; exact PR head `0774f29c9658302a4c7bc99f5291c1eb84caad1c` passed CI #972 / run `35378121937`. Artifacts reconfirmed unchanged runtime truth: 900/900 classified, 47 active, `choice_grid` 228, `compare_properties` 3, `spatial_relation_board` 6, `set_reasoning` 10, and activity-quality KEEP 900 / other buckets 0. Independent audit-main/Cloudflare verification remains pending.
+
+### Current reuse audit — English completion -> `cloze_sentence_choice`
+
+Reuse is justified for exactly five assessed English `english.sentence.completion` activities:
+
+```text
+english-complete-cat-sleeps
+english-complete-bird-flies
+english-complete-i-read
+english-complete-two-apples
+english-complete-mother-family
+```
+
+All five have one canonical `___` slot, exactly three direct choices, `tap_choice`, assessed `choice_accuracy_v1`, and one coherent lesson/pack/skill family.
+
+Existing Pattern #38 already measures the same cloze interaction for five Bahasa activities. English reuse therefore does not justify Pattern #48. A later implementation must make the full 10-ID family exact/fail-closed and subject-aware: preserve current Bahasa `id-ID` copy, while English tasks use reviewed English child-facing copy/locale. It must not auto-classify arbitrary blank prompts.
+
+No runtime code has started. From the current code baseline, this reuse alone would move `choice_grid` 228 -> 223 and `cloze_sentence_choice` 5 -> 10 while active patterns remain 47. Combined only after the two separately audited Math reuse waves also ship, the later expected `choice_grid` count would be 214.
+
+Reuse audit record: `CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_AUDIT_2026-09-19.md`.
 
 Audit evidence: `PATTERN48_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
 
@@ -700,7 +726,8 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 3. Pattern #48 fresh audit found no justified new mechanic; active pattern count remains 47.
 4. Set Reasoning reuse PR #207 is merged to main `9debb6cf`; exact final head `a37fdec7` passed CI #963 and final nine-shot review with 47/228/10 branch distribution.
 5. Math spatial reuse audit PR #209 is merged to main `3e30a817`; PR CI #970 is green, independent merged-main/Cloudflare verification remains pending, and runtime code has not started.
-6. Math measurement -> existing `compare_properties` reuse is audit-justified for exactly four direct-choice `math.measure.intuition` activities; matching remains excluded and code has not started.
-7. Resolve the outstanding live/audit verification gates before any Math runtime implementation.
+6. Math measurement audit PR #210 is merged to main `f9833568`; PR CI #972 is green, independent merged-main/Cloudflare verification remains pending, and runtime code has not started.
+7. English completion -> existing `cloze_sentence_choice` reuse is audit-justified for exactly five `english.sentence.completion` activities; code has not started.
+8. Resolve the outstanding live/audit verification chain before any Math or English reuse runtime implementation.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion or mastery/backend rewrites before the current quality roadmap justifies them.
