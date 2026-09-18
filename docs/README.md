@@ -81,14 +81,25 @@ Implementation main CI:  #900 / run 35297572709 — full success + exact Cloudfl
 
 Exact five-ID Logic scope is live verified. Browser keyboard/pointer/actual-touch QA, manual nine-shot review and permanent visual QA passed. No mastery/progression/schema/database change was introduced.
 
-## Pattern #47 audit checkpoint
+## Pattern #47 implementation checkpoint
 
-Pattern #47 candidate is Math `shape_attribute_board` for exactly four direct-choice activities in `math.pack.shapes`.
+Pattern #47 `shape_attribute_board` has a **VERIFIED IMPLEMENTATION CHECKPOINT / NOT MERGED** for exactly four direct-choice activities in `math.pack.shapes`.
 
 ```text
 Audit base:                 49c33ba8c0e25f5ebea962b79eea77ce44acbd06
-Pattern #46 closure CI:     #939 / run 35346435744 — full success + exact Cloudflare production smoke
-Candidate status:           AUDIT CANDIDATE / CODE NOT STARTED
+Audit PR:                   #202
+Audit PR head:              1ee6e245a3e150d1b6b4d9a4b0b3a801b0f9fe65
+Audit PR CI:                #940 / run 35350664877 — full success
+Audit main:                 5978530aff2ad42a0feb28e8bf462b5048a8a69f
+Audit merged-main CI:       #941 / run 35351346873 — full success + exact Cloudflare production smoke
+Implementation branch:      agent/pattern47-shape-attribute-board-20260918
+Implementation PR:          #203
+Initial implementation:     2bf3eef89b414d25e6e472d4594209e893c6b867
+CI #942:                    failed test-only baseline assertion
+Accepted checkpoint:        8d4a2bc1334b853d205cb8981312194ab1deeba5
+Checkpoint CI:              #943 / run 35360529236 — full success
+Manual visual review:       ACCEPTED / nine screenshots / no P0-P1 blocker
+Branch distribution:        47 active / choice_grid 233 / shape_attribute_board 4
 ```
 
 Exact scope:
@@ -102,9 +113,9 @@ math-shape-three-sides
 
 The candidate preserves Math / `math-banding-bentuk` / `math-shapes` / `math.pack.shapes`, assessed `tap_choice` and `choice_accuracy_v1`. Three activities remain `math.shape.recognition`; `math-shape-three-sides` remains `math.shape.properties`.
 
-Same-pack `math-shape-match-circle-square` and `math-shape-match-triangle-rectangle` remain canonical matching. Runtime implementation must not begin until the docs-only audit PR merges and its merged-main verification passes.
+Same-pack `math-shape-match-circle-square` and `math-shape-match-triangle-rectangle` remain canonical matching. Implementation is active only for the four audited direct-choice activities; no mastery/progression/schema/database/content payload change is approved.
 
-Expected distribution only after a later successful implementation would be **47 active / `choice_grid` 233 / `shape_attribute_board` 4**.
+Accepted branch distribution is **47 active / `choice_grid` 233 / `shape_attribute_board` 4**. Merged production remains 46 patterns until final docs-inclusive CI, exact-head merge and independent merged-main verification.
 
 ## Pattern #46 live checkpoint
 
@@ -241,7 +252,9 @@ Pattern #42 closure gates are complete. Closure PR #188 merged and closure main 
 
 ## Current evidence records
 
-- [`PATTERN47_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`](PATTERN47_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md) — current Pattern #47 Math `shape_attribute_board` objective/evidence audit candidate; implementation not started.
+- [`PATTERN47_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md`](PATTERN47_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md) — accepted Pattern #47 checkpoint, CI #943 artifacts and nine-shot manual visual review.
+- [`WS05_SHAPE_ATTRIBUTE_BOARD_WAVE_2026-09-18.md`](WS05_SHAPE_ATTRIBUTE_BOARD_WAVE_2026-09-18.md) — Pattern #47 implementation/QA wave and remaining merge gates.
+- [`PATTERN47_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`](PATTERN47_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md) — merged/live-verified Pattern #47 Math `shape_attribute_board` objective/evidence audit.
 - [`PATTERN46_FINAL_CLOSURE_VERIFICATION_2026-09-18.md`](PATTERN46_FINAL_CLOSURE_VERIFICATION_2026-09-18.md) — Pattern #46 final post-merge docs closure verification through PR #201 / CI #939.
 - [`PATTERN46_PHENOMENON_RELATION_BOARD_CLOSURE_2026-09-18.md`](PATTERN46_PHENOMENON_RELATION_BOARD_CLOSURE_2026-09-18.md) — final Pattern #46 merged-main closure truth.
 - [`PATTERN46_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md`](PATTERN46_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md) — accepted Pattern #46 code checkpoint, CI #931 artifacts and manual nine-shot visual review.
@@ -270,7 +283,7 @@ Historical closure/candidate/audit records must not be rewritten to pretend late
 
 ## Remaining product-quality work
 
-Immediate WS-05 gate is the docs-only Pattern #47 audit PR for Math `shape_attribute_board` over exactly four direct-choice `math-shapes` activities. The audit must merge and pass merged-main Cloudflare verification before runtime implementation begins. Four patterns remain to the finish target of 50.
+Immediate WS-05 gate is full CI on the docs-inclusive final Pattern #47 PR #203 head, followed by exact-head merge and independent merged-main/Cloudflare verification. The code checkpoint and nine-shot visual review are already accepted. Merged production remains at 46 patterns; after Pattern #47 closure, three patterns will remain to target 50.
 
 Other open work remains P2 game-shell/icon/inline-style convergence, WS-02 narration, WS-10 real-device/accessibility/human/Iqro acceptance, WS-11 governance, later WS-12 cleanup, and continued WS-05 progression to the current finish target of 50.
 

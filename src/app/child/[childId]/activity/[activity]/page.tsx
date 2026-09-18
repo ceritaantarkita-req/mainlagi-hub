@@ -21,6 +21,7 @@ import { OddOneOutActivity } from "@/components/learning/OddOneOutActivity";
 import { PatternCompletionActivity } from "@/components/learning/PatternCompletionActivity";
 import { PhraseSceneMatchActivity } from "@/components/learning/PhraseSceneMatchActivity";
 import { PhenomenonRelationBoardActivity } from "@/components/learning/PhenomenonRelationBoardActivity";
+import { ShapeAttributeBoardActivity } from "@/components/learning/ShapeAttributeBoardActivity";
 import { PictureWordMatchActivity } from "@/components/learning/PictureWordMatchActivity";
 import { ReadingPassageQuestionActivity } from "@/components/learning/ReadingPassageQuestionActivity";
 import { RelativeOrderTrackActivity } from "@/components/learning/RelativeOrderTrackActivity";
@@ -73,6 +74,7 @@ import { isEliminationBoardActivity } from "@/lib/learning/eliminationBoardConfi
 import { isGrowthStageTransitionActivity } from "@/lib/learning/growthStageTransitionConfig";
 import { isPhraseSceneMatchActivity } from "@/lib/learning/phraseSceneMatchConfig";
 import { isPhenomenonRelationBoardActivity } from "@/lib/learning/phenomenonRelationBoardConfig";
+import { isShapeAttributeBoardActivity } from "@/lib/learning/shapeAttributeBoardConfig";
 import { isReadingPassageQuestionActivity } from "@/lib/learning/readingPassageQuestionConfig";
 import { isSentenceOrderCardsActivity } from "@/lib/learning/sentenceOrderCardsConfig";
 import { isSingleRuleApplyActivity } from "@/lib/learning/singleRuleApplyConfig";
@@ -119,6 +121,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
         <EliminationBoardActivity childId={childId} activityId={activity} />
       ) : isPhenomenonRelationBoardActivity(definition) ? (
         <PhenomenonRelationBoardActivity childId={childId} activityId={activity} />
+      ) : isShapeAttributeBoardActivity(definition) ? (
+        <ShapeAttributeBoardActivity childId={childId} activityId={activity} />
       ) : isPictureWordMatchActivity(definition) ? (
         <PictureWordMatchActivity childId={childId} activityId={activity} />
       ) : isSentenceOrderCardsActivity(definition) ? (

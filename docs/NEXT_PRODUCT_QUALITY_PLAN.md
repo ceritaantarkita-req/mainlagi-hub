@@ -43,7 +43,13 @@
 **Pattern #46 closure docs:** PR #201 -> main `49c33ba8c0e25f5ebea962b79eea77ce44acbd06`  
 **Pattern #46 closure docs PR CI:** **#938 / run `35345815126` — full success**  
 **Pattern #46 closure docs main CI:** **#939 / run `35346435744` — full success + exact Cloudflare production smoke**  
-**Pattern #47 audit candidate:** Math `shape_attribute_board` / exact four-ID scope / code not started  
+**Pattern #47 audit:** PR #202 -> main `5978530aff2ad42a0feb28e8bf462b5048a8a69f`  
+**Pattern #47 audit PR CI:** **#940 / run `35350664877` — full success**  
+**Pattern #47 audit merged-main CI:** **#941 / run `35351346873` — full success + exact Cloudflare production smoke**  
+**Pattern #47 implementation PR:** #203  
+**Pattern #47 accepted checkpoint:** `8d4a2bc1334b853d205cb8981312194ab1deeba5`  
+**Pattern #47 checkpoint CI:** **#943 / run `35360529236` — full success**  
+**Pattern #47 manual visual review:** **ACCEPTED / nine screenshots / no P0-P1 blocker**  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
 
@@ -71,11 +77,11 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 
 | Workstream | Status | Current note |
 |---|---|---|
-| WS-01 Canonical docs | **CURRENT** | Pattern #46 closure verified; Pattern #47 audit candidate documented |
+| WS-01 Canonical docs | **CURRENT** | Pattern #47 implementation checkpoint verified; final docs-inclusive PR gate pending |
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **46 FULLY CLOSED / P47 AUDIT CANDIDATE** | Math `shape_attribute_board` exact four-ID audit; implementation not started |
+| WS-05 Gameplay diversification | **46 FULLY CLOSED / P47 CHECKPOINT VERIFIED** | PR #203 checkpoint CI #943 green; branch 47/233/4; merged truth remains 46 |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P45 merged-main permanent visual QA green; nine dedicated screenshots manually accepted |
@@ -102,7 +108,7 @@ spatial_relation_board            6 / 900
 
 Distance remaining: **4 patterns** to the current WS-05 finish target of 50. No 60-pattern expansion is required for this finish scope.
 
-## Pattern #47 — `shape_attribute_board` / AUDIT CANDIDATE / CODE NOT STARTED
+## Pattern #47 — `shape_attribute_board` / IMPLEMENTATION CHECKPOINT VERIFIED / NOT MERGED
 
 Fresh audit base is Pattern #46 closure main `49c33ba8c0e25f5ebea962b79eea77ce44acbd06`, with closure-main CI #939 full success including exact Cloudflare production smoke.
 
@@ -142,7 +148,31 @@ choice_grid                     233 / 900
 shape_attribute_board             4 / 900
 ```
 
-Audit record: `PATTERN47_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`. Current branch is audit-only; runtime implementation must wait for audit PR merge + merged-main verification.
+Audit record: `PATTERN47_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
+
+Audit PR #202 merged to `5978530aff2ad42a0feb28e8bf462b5048a8a69f`; merged-main CI #941 passed full verification including exact Cloudflare production smoke.
+
+Implementation is active on `agent/pattern47-shape-attribute-board-20260918`. Target branch distribution:
+
+```text
+47 active patterns
+choice_grid                     233 / 900
+shape_attribute_board             4 / 900
+```
+
+Accepted checkpoint:
+
+```text
+PR:                       #203
+initial head:             2bf3eef89b414d25e6e472d4594209e893c6b867
+CI #942:                  failed test-only baseline assertion
+accepted head:            8d4a2bc1334b853d205cb8981312194ab1deeba5
+CI #943:                  full success
+manual review:            ACCEPTED / 9 screenshots / no P0-P1 blocker
+branch distribution:      47 active / choice_grid 233 / shape_attribute_board 4
+```
+
+This remains branch-only truth until final docs-inclusive CI, exact-head merge and independent merged-main verification.
 
 ## Pattern #46 — `phenomenon_relation_board` / FULLY CLOSED / LIVE VERIFIED
 
@@ -385,10 +415,10 @@ P2 findings: 3
 
 ## Current execution order
 
-1. Complete the docs-only Pattern #47 audit PR for exact four-ID Math `shape_attribute_board`; do not write runtime code on the audit branch.
-2. Require exact-head PR CI, exact merge, and merged-main Cloudflare verification for the audit.
-3. Only after audit verification, implement the exact four-ID shape board while preserving canonical assessed `choice_accuracy_v1`.
-4. Require keyboard/pointer/actual-touch QA, nine dedicated screenshots, permanent visual QA, exact-head merge and independent merged-main verification.
-5. Close canonical docs and repeat through Pattern #50, then run final overall QA/docs/production closeout.
+1. Pattern #47 code checkpoint is accepted at `8d4a2bc1`; preserve exact four-ID scope and accepted screenshots/evidence.
+2. Run full CI on the docs-inclusive final PR #203 head and confirm no code drift from the accepted checkpoint.
+3. Merge only an unchanged green exact head after mergeability/review/thread checks.
+4. Independently verify merged-main 47/233/4 distribution, permanent visual QA and exact Cloudflare production smoke.
+5. Reconcile Pattern #47 closure docs before starting Pattern #48 implementation; repeat through Pattern #50.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
