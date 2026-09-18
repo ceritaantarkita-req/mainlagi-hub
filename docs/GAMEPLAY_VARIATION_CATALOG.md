@@ -188,6 +188,22 @@ This is a generalization of an existing pattern, not Pattern #48. Audit PR #206 
 
 Reuse audit record: `SET_REASONING_LOGIC_MULTI_CLASSIFICATION_REUSE_AUDIT_2026-09-18.md`.
 
+Current next reuse audit: existing `spatial_relation_board` is justified for exactly five Math `math.spatial.position` activities:
+
+```text
+math-spatial-above
+math-spatial-left
+math-spatial-inside
+math-spatial-near
+math-spatial-between
+```
+
+This remains Pattern #40 reuse, not Pattern #48. The exact family is Math / `math-ukur-ruang` / `math-spatial-position` / `math.pack.spatial-position` / assessed `tap_choice` / `choice_accuracy_v1`. Required generalization is explicit/fail-closed; existing six Logic spatial activities must remain unchanged. Expected later verified distribution is 47 active / `choice_grid` 223 / `spatial_relation_board` 11 / `set_reasoning` 10.
+
+Runtime implementation is blocked until the preceding Set Reasoning live-closure gate and this audit's own merge/verification gate are complete.
+
+Reuse audit record: `SPATIAL_RELATION_BOARD_MATH_POSITION_REUSE_AUDIT_2026-09-19.md`.
+
 ## Pattern #47 — `shape_attribute_board` / FULLY CLOSED / LIVE VERIFIED
 
 Exact candidate scope:
@@ -364,7 +380,9 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 - Patterns #1–#47 — **FULLY CLOSED / LIVE VERIFIED**.
 - Pattern #47 final docs closure — PR #204 merged to `bbb61965c951a3dd2628b4b4be6d3b547b7fd68a`; closure-main CI #951 passed including exact Cloudflare production smoke.
 - Pattern #48 fresh audit — merged/live verified through PR #205 / audit-main CI #953; **no justified new pattern yet**.
-- Current reuse gate — PR #207 -> main `9debb6cf`; final head `a37fdec7` / CI #963 green / final branch 47/228/10; merged-main + exact Cloudflare verification pending.
+- Set Reasoning reuse gate — PR #207 -> main `9debb6cf`; final head `a37fdec7` / CI #963 green / final branch 47/228/10; merged-main + exact Cloudflare verification pending.
+- Math spatial reuse audit — exact five-ID `math.spatial.position` scope -> existing `spatial_relation_board`; **JUSTIFIED / CODE NOT STARTED**.
+- Math runtime implementation remains blocked until the preceding live closure plus this audit merge/verification are complete.
 - Continue only with justified exact scopes; reuse an existing mechanic when it already matches the evidence model.
 
 ## Definition of done per mechanic
