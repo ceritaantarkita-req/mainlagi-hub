@@ -31,7 +31,7 @@ Patterns #1–#35 remain as previously closed/merged. Latest entries:
 42. `growth_stage_transition` — **FULLY CLOSED / LIVE VERIFIED**
 43. `single_rule_apply` — **FULLY CLOSED / LIVE VERIFIED**
 44. `subitizing_glance` — **FULLY CLOSED / LIVE VERIFIED**
-45. `elimination_board` — **AUDIT CANDIDATE / CODE NOT STARTED**
+45. `elimination_board` — **AUDIT VERIFIED / IMPLEMENTATION IN PROGRESS**
 
 ## Current verified merged distribution
 
@@ -54,7 +54,7 @@ picture_word_match                5 / 900
 
 Remaining distance is **6 patterns** to the current finish target of 50.
 
-Pattern #45 candidate, if its audit later becomes merged truth and implementation passes:
+Pattern #45 implementation target (branch-only until verified/merged):
 
 ```text
 45 active child-facing patterns
@@ -88,7 +88,7 @@ Evidence records: `PATTERN44_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md` and `WS05_
 
 Merged-main CI #912 independently reproduced the accepted 44-pattern distribution and passed mobile/browser QA, permanent visual QA, Ubuntu/Windows gates, production build/security checks, and exact Cloudflare production smoke.
 
-## Pattern #45 audit candidate — `elimination_board`
+## Pattern #45 — `elimination_board` / AUDIT VERIFIED / IMPLEMENTATION IN PROGRESS
 
 Canonical scope is exactly the five Logic elimination/inference activities in `logic.pack.elimination-inference`, skill `logic.inference.elimination.basic`, assessed `tap_choice` / `choice_accuracy_v1`.
 
@@ -101,7 +101,18 @@ Why this candidate is distinct:
 
 Approved future presentation is limited to making wrong/retry selections visibly `tersisih` while preserving the canonical three choices and final correct completion. No choice may be pre-disabled and no additional assessed checkpoint is approved.
 
-Audit record: `PATTERN45_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`. Audit is not merged yet; implementation has not started.
+Audit verification:
+
+```text
+Audit PR:                 #196
+Audit PR head:            e00106f0b65e6d007944d2a87b2f187e0b2dedbb
+Audit PR CI:              #915 / run 35307361453 — full success
+Audit main:               a3a1702ae390fb24c95551d91d31b24b4b867be6
+Audit merged-main CI:     #916 / run 35307880654 — full success + exact Cloudflare production smoke
+Implementation branch:    agent/pattern45-elimination-board-20260918
+```
+
+Audit record: `PATTERN45_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`. Implementation is now active only for the exact five audited activities; target distribution remains branch evidence until implementation verification.
 
 ## Pattern #43 — `single_rule_apply`
 
@@ -184,8 +195,9 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 
 - Patterns #1–#44 — **FULLY CLOSED / LIVE VERIFIED**.
 - Pattern #44 docs closure — PR #195 merged to `d1d16d1acf5dd8baa2445c2c2901459a1d0e64cc`; merged-main CI #914 passed including exact Cloudflare production smoke.
-- Pattern #45 audit candidate — Logic `elimination_board`, exact five-ID `logic-elimination-inference` scope, code not started.
-- Current gate — merge and independently verify the Pattern #45 docs-only audit before implementation.
+- Pattern #45 audit — merged/live verified through PR #196 and audit-main CI #916.
+- Pattern #45 implementation — active on exact five-ID `logic-elimination-inference` scope; merged truth remains 44 patterns until implementation verification.
+- Current gate — exact-scope regression + full CI + manual nine-shot review, then exact-head merge and merged-main production verification.
 - Continue only with justified exact scopes; reuse an existing mechanic when it already matches the evidence model.
 
 ## Definition of done per mechanic
