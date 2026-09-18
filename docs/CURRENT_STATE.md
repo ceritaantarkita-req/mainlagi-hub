@@ -172,7 +172,7 @@ Reviewed families continue to prefer existing mechanics:
 
 The `set_reasoning` reuse audit is merged/live verified through PR #206 and audit-main CI #955. Implementation PR #207 has now squash-merged to main `9debb6cf30f789125c45eff1b88e65e4eaff7978` for exactly five Logic multi-attribute activities. This does not create Pattern #48 and does not change the active pattern count. Independent main CI and exact Cloudflare release verification are still pending.
 
-Expected distribution only if later implementation passes:
+Final exact-head code distribution verified by PR CI #963:
 
 ```text
 active patterns:  47
