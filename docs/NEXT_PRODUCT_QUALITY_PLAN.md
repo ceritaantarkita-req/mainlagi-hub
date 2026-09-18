@@ -109,7 +109,7 @@ phrase_scene_match                4 / 900
 spatial_relation_board            6 / 900
 ```
 
-Distance remaining: **4 patterns** to the current WS-05 finish target of 50. No 60-pattern expansion is required for this finish scope.
+Distance remaining: **3 patterns** to the current WS-05 finish target of 50. No 60-pattern expansion is required for this finish scope.
 
 ## Pattern #47 — `shape_attribute_board` / FULLY CLOSED / LIVE VERIFIED
 
