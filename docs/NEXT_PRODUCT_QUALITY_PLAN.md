@@ -34,7 +34,10 @@
 **Pattern #46 audit:** PR #199 -> main `b620c78f186b7c8e8612afdb616420d923a57e00`  
 **Pattern #46 audit PR CI:** **#928 / run `35316239193` — full success**  
 **Pattern #46 audit merged-main CI:** **#929 / run `35316693100` — full success + exact Cloudflare production smoke**  
-**Pattern #46 implementation:** **IN PROGRESS** on `agent/pattern46-phenomenon-relation-20260918`  
+**Pattern #46 implementation PR:** #200  
+**Pattern #46 accepted checkpoint:** `558f154278a6a75c01e3fad14171e5ae5bc66fdd`  
+**Pattern #46 checkpoint CI:** **#931 / run `35338034584` — full success**  
+**Pattern #46 manual visual review:** **ACCEPTED / nine screenshots / no P0-P1 blocker**  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
 
@@ -66,7 +69,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **45 FULLY CLOSED / P46 IMPLEMENTING** | exact four-ID Science `phenomenon_relation_board`; merged truth remains 45 until implementation verification |
+| WS-05 Gameplay diversification | **45 FULLY CLOSED / P46 CHECKPOINT VERIFIED** | PR #200 checkpoint CI #931 green; branch 46/237/4; merged truth remains 45 |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P45 merged-main permanent visual QA green; nine dedicated screenshots manually accepted |
@@ -92,7 +95,7 @@ spatial_relation_board            6 / 900
 
 Distance remaining: **5 patterns** to the current WS-05 finish target of 50. No 60-pattern expansion is required for this finish scope.
 
-## Pattern #46 — `phenomenon_relation_board` / AUDIT VERIFIED / IMPLEMENTATION IN PROGRESS
+## Pattern #46 — `phenomenon_relation_board` / IMPLEMENTATION CHECKPOINT VERIFIED / NOT MERGED
 
 Fresh audit base is Pattern #45 closure main `79788dfb7f88164e699d1c3b9ac62b689d366c74`. Audit PR #199 merged to `b620c78f186b7c8e8612afdb616420d923a57e00`; audit merged-main CI #929 is full success including exact Cloudflare production smoke.
 
@@ -143,7 +146,19 @@ choice_grid                       237 / 900
 phenomenon_relation_board           4 / 900
 ```
 
-This remains branch-only truth until implementation verification. The implementation keeps the relation/result slot unresolved after a wrong selection, preserves exact canonical prompts/choices/answers and `choice_accuracy_v1`, and adds no mastery/progression/schema/database migration.
+Accepted checkpoint:
+
+```text
+PR:                       #200
+initial head:             83290426008e0fe81a959337b2af979ac21d3539
+CI #930:                  blocked 320px overflow
+accepted head:            558f154278a6a75c01e3fad14171e5ae5bc66fdd
+CI #931:                  full success
+manual review:            ACCEPTED / 9 screenshots / no P0-P1 blocker
+branch distribution:      46 active / choice_grid 237 / phenomenon_relation_board 4
+```
+
+The implementation keeps the relation/result slot unresolved after a wrong selection, preserves exact canonical prompts/choices/answers and `choice_accuracy_v1`, and adds no mastery/progression/schema/database migration. The 320px failure in #930 was fixed with CSS-only containment/wrapping and then verified by #931.
 
 ## Pattern #45 — `elimination_board` / FULLY CLOSED / LIVE VERIFIED
 
@@ -319,9 +334,9 @@ P2 findings: 3
 
 ## Current execution order
 
-1. Complete Pattern #46 implementation for only the four audited `science-earth-sky-patterns` direct-choice activities; keep same-pack matching and existing Science mechanics unchanged.
-2. Require fail-closed exact config, regression + distribution gates, keyboard wrong-state with unresolved result slot, pointer completion, actual touch at 390x844, and nine 320/390/768 dedicated screenshots.
-3. Merge only after exact-head full CI is green and manual screenshot review has no P0/P1 Pattern #46 blocker.
+1. Pattern #46 code checkpoint is accepted at `558f1542`; preserve its exact four-ID scope and accepted screenshots/evidence.
+2. Run full CI on the docs-inclusive final PR #200 head and confirm no code drift from the accepted checkpoint.
+3. Merge only an unchanged green exact head after mergeability/review/thread checks.
 4. Independently verify merged-main 46-pattern distribution, permanent visual QA, and exact Cloudflare production smoke.
 5. Reconcile Pattern #46 closure docs before beginning Pattern #47 implementation; repeat through Pattern #50.
 
