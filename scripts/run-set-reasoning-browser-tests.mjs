@@ -11,7 +11,7 @@ const port=Number(process.env.MAINLAGI_SET_REASONING_QA_PORT??4029);
 const baseUrl=`http://${host}:${port}`;
 const route="/child/demo-gian/activity/logic-set-both-red-round";
 const activityId="logic-set-both-red-round";
-const correctLabel="Pilih anggota himpunan: lingkaran merah";
+const correctLabel="Pilih jawaban: lingkaran merah";
 const screenshotDir=path.join(root,".mobile-route-qa");
 const viewports=[{width:320,height:720},{width:390,height:844},{width:768,height:1024}];
 let server=null;
@@ -119,9 +119,9 @@ async function inspect(viewport){
     const choices=page.locator("[data-set-reasoning-choice]");
     assert.equal(await choices.count(),3,"set reasoning keeps three canonical choices");
     assert.deepEqual(new Set(await choices.evaluateAll(nodes=>nodes.map(node=>node.getAttribute("aria-label")))),new Set([
-      "Pilih anggota himpunan: lingkaran merah",
-      "Pilih anggota himpunan: kotak merah",
-      "Pilih anggota himpunan: lingkaran biru"
+      "Pilih jawaban: lingkaran merah",
+      "Pilih jawaban: kotak merah",
+      "Pilih jawaban: lingkaran biru"
     ]));
     const rules=page.locator("[data-set-rule]");
     assert.equal(await rules.count(),2,"set-reasoning board exposes exactly two rules");
@@ -189,7 +189,7 @@ async function main(){
   startServer();
   await waitForServer();
   for(const viewport of viewports)await inspect(viewport);
-  console.log(`Set-reasoning browser QA passed ${viewports.length} viewports with canonical Logic Wave C progression, keyboard wrong-state, pointer completion, explicit two-rule board, feedback/CTA visibility and assessed evidence checks.`);
+  console.log(`Set-reasoning legacy browser QA passed ${viewports.length} viewports with neutral two-rule copy, keyboard wrong-state, pointer completion, feedback/CTA visibility and unchanged assessed evidence.`);
 }
 
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;}).finally(stopServer);
