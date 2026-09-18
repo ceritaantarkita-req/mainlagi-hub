@@ -143,7 +143,7 @@ P2 findings: 3
 
 ## Current execution order
 
-1. Finish the Pattern #44 audit gate for exact Math `subitizing_glance` scope and verify merged-main baseline CI #902 / run `35299122394` is fully green.
+1. Finish the Pattern #44 audit gate for exact Math `subitizing_glance` scope from verified merged-main CI #902 / run `35299122394` — full success.
 2. Implement only `math-subitize-2`, `math-subitize-4`, and `math-subitize-5`; keep `count_and_select` and all unrelated families unchanged.
 3. Require deterministic dot config, canonical evidence preservation, exact-scope regression, keyboard/pointer/touch, responsive QA, manual visual review and merged-main production smoke.
 4. Repeat the same minimal audit -> implementation -> merged-main verification path through Pattern #50.
