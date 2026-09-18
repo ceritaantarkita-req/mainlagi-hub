@@ -28,7 +28,7 @@ Pattern #46 `phenomenon_relation_board` is now the latest **FULLY CLOSED / LIVE 
 
 Pattern #45 docs closure is independently verified through PR #198 -> `79788dfb7f88164e699d1c3b9ac62b689d366c74` and closure-main CI #927 full success including exact Cloudflare production smoke.
 
-Pattern #46 audit and implementation are merged/live verified. PR #200 final head `2b8e47b18a29cebf3b3dde0eda31b3d70c73dbaf` passed CI #936, merged to `027d81edba9f3b5585eb2c964aa89e80e3337422`, and merged-main CI #937 passed full verification including exact Cloudflare production smoke. Nine dedicated screenshots remain manually accepted with no P0/P1 blocker.
+Pattern #46 audit, implementation and docs closure are fully verified. PR #200 merged to `027d81edba9f3b5585eb2c964aa89e80e3337422` with implementation-main CI #937 green; closure PR #201 merged to `49c33ba8c0e25f5ebea962b79eea77ce44acbd06` and closure-main CI #939 passed full verification including exact Cloudflare production smoke. Nine dedicated screenshots remain manually accepted with no P0/P1 blocker.
 
 Pattern #45 audit and implementation are merged/live verified. PR #197 final head `ac410e6905da2c7951bdc794715b5604c138a65b` passed CI #924, merged to `43dd857b0fb5b51fe94c4e83da114260a788b4f8`, and merged-main CI #925 passed full verification including exact Cloudflare production smoke. Nine dedicated screenshots remain manually accepted with no P0/P1 blocker.
 
@@ -80,6 +80,31 @@ Implementation main CI:  #900 / run 35297572709 — full success + exact Cloudfl
 ```
 
 Exact five-ID Logic scope is live verified. Browser keyboard/pointer/actual-touch QA, manual nine-shot review and permanent visual QA passed. No mastery/progression/schema/database change was introduced.
+
+## Pattern #47 audit checkpoint
+
+Pattern #47 candidate is Math `shape_attribute_board` for exactly four direct-choice activities in `math.pack.shapes`.
+
+```text
+Audit base:                 49c33ba8c0e25f5ebea962b79eea77ce44acbd06
+Pattern #46 closure CI:     #939 / run 35346435744 — full success + exact Cloudflare production smoke
+Candidate status:           AUDIT CANDIDATE / CODE NOT STARTED
+```
+
+Exact scope:
+
+```text
+math-shape-find-circle
+math-shape-find-triangle
+math-shape-find-square
+math-shape-three-sides
+```
+
+The candidate preserves Math / `math-banding-bentuk` / `math-shapes` / `math.pack.shapes`, assessed `tap_choice` and `choice_accuracy_v1`. Three activities remain `math.shape.recognition`; `math-shape-three-sides` remains `math.shape.properties`.
+
+Same-pack `math-shape-match-circle-square` and `math-shape-match-triangle-rectangle` remain canonical matching. Runtime implementation must not begin until the docs-only audit PR merges and its merged-main verification passes.
+
+Expected distribution only after a later successful implementation would be **47 active / `choice_grid` 233 / `shape_attribute_board` 4**.
 
 ## Pattern #46 live checkpoint
 
@@ -216,6 +241,8 @@ Pattern #42 closure gates are complete. Closure PR #188 merged and closure main 
 
 ## Current evidence records
 
+- [`PATTERN47_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`](PATTERN47_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md) — current Pattern #47 Math `shape_attribute_board` objective/evidence audit candidate; implementation not started.
+- [`PATTERN46_FINAL_CLOSURE_VERIFICATION_2026-09-18.md`](PATTERN46_FINAL_CLOSURE_VERIFICATION_2026-09-18.md) — Pattern #46 final post-merge docs closure verification through PR #201 / CI #939.
 - [`PATTERN46_PHENOMENON_RELATION_BOARD_CLOSURE_2026-09-18.md`](PATTERN46_PHENOMENON_RELATION_BOARD_CLOSURE_2026-09-18.md) — final Pattern #46 merged-main closure truth.
 - [`PATTERN46_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md`](PATTERN46_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md) — accepted Pattern #46 code checkpoint, CI #931 artifacts and manual nine-shot visual review.
 - [`WS05_PHENOMENON_RELATION_BOARD_WAVE_2026-09-18.md`](WS05_PHENOMENON_RELATION_BOARD_WAVE_2026-09-18.md) — Pattern #46 implementation/QA wave and remaining merge gates.
@@ -243,7 +270,7 @@ Historical closure/candidate/audit records must not be rewritten to pretend late
 
 ## Remaining product-quality work
 
-Immediate WS-05 gate is a fresh Pattern #47 objective/evidence audit from the verified 46-pattern baseline. Four patterns remain to the finish target of 50; no Pattern #47 mechanic, subject, or content family is pre-approved.
+Immediate WS-05 gate is the docs-only Pattern #47 audit PR for Math `shape_attribute_board` over exactly four direct-choice `math-shapes` activities. The audit must merge and pass merged-main Cloudflare verification before runtime implementation begins. Four patterns remain to the finish target of 50.
 
 Other open work remains P2 game-shell/icon/inline-style convergence, WS-02 narration, WS-10 real-device/accessibility/human/Iqro acceptance, WS-11 governance, later WS-12 cleanup, and continued WS-05 progression to the current finish target of 50.
 
