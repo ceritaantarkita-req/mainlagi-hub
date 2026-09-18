@@ -33,15 +33,17 @@ Patterns #1–#35 remain as previously closed/merged. Latest entries:
 44. `subitizing_glance` — **FULLY CLOSED / LIVE VERIFIED**
 45. `elimination_board` — **FULLY CLOSED / LIVE VERIFIED**
 46. `phenomenon_relation_board` — **FULLY CLOSED / LIVE VERIFIED**
+47. `shape_attribute_board` — **AUDIT CANDIDATE / CODE NOT STARTED**
 
 ## Current verified merged distribution
 
 ```text
 900 / 900 classified
 0 unclassified
-45 active child-facing patterns
-choice_grid                     241 / 900
+46 active child-facing patterns
+choice_grid                     237 / 900
 elimination_board                 5 / 900
+phenomenon_relation_board         4 / 900
 subitizing_glance                 3 / 900
 single_rule_apply                 5 / 900
 growth_stage_transition           3 / 900
@@ -140,6 +142,38 @@ activity quality:          10534385061 / sha256:eebcc3b932495954314c11b69f7409f9
 ```
 
 Evidence records: `PATTERN45_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`, `PATTERN45_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md`, `WS05_ELIMINATION_BOARD_WAVE_2026-09-18.md`, and `PATTERN45_ELIMINATION_BOARD_CLOSURE_2026-09-18.md`.
+
+## Pattern #47 audit candidate — `shape_attribute_board`
+
+Exact candidate scope:
+
+```text
+math-shape-find-circle
+math-shape-find-triangle
+math-shape-find-square
+math-shape-three-sides
+```
+
+Canonical ownership: Math / `math-banding-bentuk` / `math-shapes` / `math.pack.shapes` / assessed `tap_choice` / `choice_accuracy_v1`.
+
+The candidate is distinct because:
+- the lesson objective is direct recognition of basic shapes and simple visible properties;
+- three activities measure `math.shape.recognition`, one measures `math.shape.properties`;
+- current `symbol_hunt` is letter-specific and completion-only, not compatible reuse for assessed Math shape evidence;
+- same-pack shape matching remains canonical matching;
+- relative comparison and spatial relation mechanics do not represent intrinsic shape identity/property.
+
+Audit-approved future presentation is a geometry board with exactly three canonical shape tiles in exact canonical order. Before submission, styling must be neutral/equivalent and cannot expose side-count or answer-specific clues. Wrong remains retryable/no completion; correct preserves canonical assessed accuracy.
+
+Expected distribution only if implementation later passes:
+
+```text
+47 active child-facing patterns
+choice_grid                      233 / 900
+shape_attribute_board              4 / 900
+```
+
+Audit record: `PATTERN47_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`. Runtime code has not started.
 
 ## Pattern #46 — `phenomenon_relation_board` / FULLY CLOSED / LIVE VERIFIED
 
@@ -250,8 +284,9 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 ## Rollout order terbaru
 
 - Patterns #1–#46 — **FULLY CLOSED / LIVE VERIFIED**.
-- Pattern #46 implementation — PR #200 merged to `027d81edba9f3b5585eb2c964aa89e80e3337422`; merged-main CI #937 passed including exact Cloudflare production smoke.
-- Current gate — fresh Pattern #47 objective/evidence audit from the verified 46-pattern baseline.
+- Pattern #46 final docs closure — PR #201 merged to `49c33ba8c0e25f5ebea962b79eea77ce44acbd06`; closure-main CI #939 passed including exact Cloudflare production smoke.
+- Pattern #47 audit candidate — Math `shape_attribute_board`, exact four-ID `math-shapes` scope, code not started.
+- Current gate — merge and independently verify the Pattern #47 docs-only audit before implementation.
 - Continue only with justified exact scopes; reuse an existing mechanic when it already matches the evidence model.
 
 ## Definition of done per mechanic
