@@ -184,7 +184,7 @@ logic-classify-arrow-not-left
 logic-classify-same-shape-different-color
 ```
 
-This is a generalization of an existing pattern, not Pattern #48. Audit PR #206 merged to `5f5f7741ee40544c4ab395740ef00fea1880400b`; audit-main CI #955 passed including exact Cloudflare production smoke. Implementation checkpoint `a7bb27bbbede42a5833144cab31af3c57ea3fa8a` on PR #207 passed CI #957, branch distribution 47/228/10, and manual nine-shot review with no P0/P1 blocker. Merged production remains 47/233/5 until final merge verification.
+This is a generalization of an existing pattern, not Pattern #48. Audit PR #206 merged to `5f5f7741ee40544c4ab395740ef00fea1880400b`; audit-main CI #955 passed including exact Cloudflare production smoke. PR #207 final head `a37fdec7b3f89789999ce728c245ae17ee7f00bc` passed CI #963, final branch distribution 47/228/10, and final manual nine-shot review with no P0/P1 blocker, then squash-merged unchanged to main `9debb6cf30f789125c45eff1b88e65e4eaff7978`. Independent merged-main CI + exact Cloudflare verification remain pending.
 
 Reuse audit record: `SET_REASONING_LOGIC_MULTI_CLASSIFICATION_REUSE_AUDIT_2026-09-18.md`.
 
@@ -364,7 +364,7 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 - Patterns #1–#47 — **FULLY CLOSED / LIVE VERIFIED**.
 - Pattern #47 final docs closure — PR #204 merged to `bbb61965c951a3dd2628b4b4be6d3b547b7fd68a`; closure-main CI #951 passed including exact Cloudflare production smoke.
 - Pattern #48 fresh audit — merged/live verified through PR #205 / audit-main CI #953; **no justified new pattern yet**.
-- Current reuse gate — PR #207 checkpoint `a7bb27bb` accepted; CI #957 green; branch 47/228/10; final docs-inclusive CI and merged-main verification pending.
+- Current reuse gate — PR #207 -> main `9debb6cf`; final head `a37fdec7` / CI #963 green / final branch 47/228/10; merged-main + exact Cloudflare verification pending.
 - Continue only with justified exact scopes; reuse an existing mechanic when it already matches the evidence model.
 
 ## Definition of done per mechanic

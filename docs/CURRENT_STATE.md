@@ -1,6 +1,6 @@
 # Mainlagi Hub — Current State
 
-Last reviewed: **18 September 2026**
+Last reviewed: **19 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
@@ -72,11 +72,14 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Set Reasoning reuse audit: PR #206 -> main `5f5f7741ee40544c4ab395740ef00fea1880400b`
 - Set Reasoning reuse audit PR CI: **#954 / run `35368506391` — full success**
 - Set Reasoning reuse audit merged-main CI: **#955 / run `35369220787` — full success including exact Cloudflare production smoke**
-- Set Reasoning reuse implementation PR: #207
+- Set Reasoning reuse implementation PR: #207 -> main `9debb6cf30f789125c45eff1b88e65e4eaff7978`
 - Set Reasoning reuse accepted checkpoint: `a7bb27bbbede42a5833144cab31af3c57ea3fa8a`
 - Set Reasoning reuse checkpoint CI: **#957 / run `35371679720` — full success**
-- Set Reasoning reuse manual visual review: **ACCEPTED / 9 screenshots / no P0-P1 blocker**
-- Set Reasoning reuse branch distribution: **47 active / `choice_grid` 228 / `set_reasoning` 10**
+- Set Reasoning reuse final PR head: `a37fdec7b3f89789999ce728c245ae17ee7f00bc`
+- Set Reasoning reuse final PR CI: **#963 / run `35372830249` — full success**
+- Set Reasoning reuse final manual visual review: **ACCEPTED / 9 screenshots / no P0-P1 blocker**
+- Set Reasoning reuse final branch distribution: **47 active / `choice_grid` 228 / `set_reasoning` 10**
+- Set Reasoning reuse merged-main CI / exact Cloudflare smoke: **PENDING INDEPENDENT VERIFICATION**
 - permanent visual QA foundation: **VQA-01 FULLY CLOSED**
 - visual P1 baseline: **P0=0 / P1=0 / P2=3**
 
@@ -167,9 +170,9 @@ Reviewed families continue to prefer existing mechanics:
 - Science force/motion and mixed review -> too heterogeneous for one new pattern;
 - Iqro -> deferred until external expert acceptance.
 
-The `set_reasoning` reuse audit is merged/live verified through PR #206 and audit-main CI #955. Implementation is now active for exactly five Logic multi-attribute activities. This does not create Pattern #48 and does not change the active pattern count.
+The `set_reasoning` reuse audit is merged/live verified through PR #206 and audit-main CI #955. Implementation PR #207 has now squash-merged to main `9debb6cf30f789125c45eff1b88e65e4eaff7978` for exactly five Logic multi-attribute activities. This does not create Pattern #48 and does not change the active pattern count. Independent main CI and exact Cloudflare release verification are still pending.
 
-Expected distribution only if later implementation passes:
+Final exact-head code distribution verified by PR CI #963:
 
 ```text
 active patterns:  47
@@ -203,7 +206,7 @@ gameplay distribution:    10558204450 / sha256:6bc10f976c442e2f46a9ad2a0f75d60cc
 activity quality:          10558429104 / sha256:967006895beb95eb850e077b021308a4cc0018288b2115e106d4b2ce8d54d07a
 ```
 
-This is still branch evidence. Merged production remains 47 active / `choice_grid` 233 / `set_reasoning` 5 until final docs-inclusive CI, exact-head merge and independent merged-main verification.
+Final PR head `a37fdec7b3f89789999ce728c245ae17ee7f00bc` passed CI #963 / run `35372830249`, with final artifacts confirming 900/900 classified, 47 active patterns, `choice_grid` 228 and `set_reasoning` 10; the nine final reuse screenshots were manually accepted with no P0/P1 blocker. PR #207 then squash-merged unchanged to main `9debb6cf30f789125c45eff1b88e65e4eaff7978`. **Do not call this live verified until independent merged-main CI and exact Cloudflare smoke pass for that SHA.**
 
 Audit evidence: `PATTERN48_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
 
@@ -638,7 +641,7 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 1. Pattern #47 is fully closed/live verified through closure main `bbb61965` and CI #951.
 2. Preserve the merged 47-pattern baseline: 900/900 classified, `choice_grid` 233, `shape_attribute_board` 4.
 3. Pattern #48 fresh audit found no justified new mechanic; active pattern count remains 47.
-4. Set Reasoning reuse checkpoint `a7bb27bb` is accepted: CI #957 full green, 47/228/10 branch distribution, nine-shot visual review accepted.
-5. Run full CI on the final docs-inclusive PR #207 head; merge only an unchanged green exact head, then independently verify merged-main distribution/Cloudflare and complete reuse docs closure.
+4. Set Reasoning reuse PR #207 is merged to main `9debb6cf`; exact final head `a37fdec7` passed CI #963 and final nine-shot review with 47/228/10 branch distribution.
+5. Independently verify merged-main CI/distribution + exact Cloudflare release for `9debb6cf`, then complete and merge the post-merge reuse closure docs before starting the next implementation.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion or mastery/backend rewrites before the current quality roadmap justifies them.

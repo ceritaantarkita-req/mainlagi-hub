@@ -60,10 +60,13 @@
 **Set Reasoning reuse audit:** PR #206 -> main `5f5f7741ee40544c4ab395740ef00fea1880400b`  
 **Reuse audit PR CI:** **#954 / run `35368506391` — full success**  
 **Reuse audit merged-main CI:** **#955 / run `35369220787` — full success + exact Cloudflare production smoke**  
-**Set Reasoning reuse implementation PR:** #207  
+**Set Reasoning reuse implementation PR:** #207 -> main `9debb6cf30f789125c45eff1b88e65e4eaff7978`  
 **Accepted checkpoint:** `a7bb27bbbede42a5833144cab31af3c57ea3fa8a`  
 **Checkpoint CI:** **#957 / run `35371679720` — full success**  
-**Manual visual review:** **ACCEPTED / nine screenshots / no P0-P1 blocker**  
+**Final PR head:** `a37fdec7b3f89789999ce728c245ae17ee7f00bc`  
+**Final PR CI:** **#963 / run `35372830249` — full success**  
+**Final manual visual review:** **ACCEPTED / nine screenshots / no P0-P1 blocker**  
+**Merged-main CI / exact Cloudflare smoke:** **PENDING INDEPENDENT VERIFICATION**  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
 
@@ -95,7 +98,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **47 FULLY CLOSED / REUSE CHECKPOINT VERIFIED** | PR #207 checkpoint CI #957 green; branch 47/228/10; merged truth remains 47/233/5 |
+| WS-05 Gameplay diversification | **47 FULLY CLOSED / REUSE MERGED / LIVE VERIFY PENDING** | PR #207 -> `9debb6cf`; final CI #963 green; main/Cloudflare verification pending |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P45 merged-main permanent visual QA green; nine dedicated screenshots manually accepted |
@@ -184,7 +187,7 @@ manual review:            ACCEPTED / 9 screenshots / no P0-P1 blocker
 branch distribution:      47 active / choice_grid 228 / set_reasoning 10
 ```
 
-Merged production remains 47 active / `choice_grid` 233 / `set_reasoning` 5 until final docs-inclusive CI, exact-head merge and independent merged-main verification.
+Final PR head `a37fdec7b3f89789999ce728c245ae17ee7f00bc` passed CI #963 / run `35372830249`; its artifacts verify 47 active / `choice_grid` 228 / `set_reasoning` 10 and the final nine screenshots remain manually accepted. PR #207 squash-merged unchanged to main `9debb6cf30f789125c45eff1b88e65e4eaff7978`. Independent merged-main CI and exact Cloudflare smoke are still required before live closure.
 
 Audit record: `PATTERN48_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
 
@@ -515,8 +518,8 @@ P2 findings: 3
 
 1. Pattern #47 is fully closed/live verified through `bbb61965` / CI #951.
 2. Do not implement a new Pattern #48; no new mechanic candidate is justified.
-3. Set Reasoning reuse checkpoint `a7bb27bb` is accepted; preserve exact scope and accepted old+new QA evidence.
-4. Run full CI on the docs-inclusive final PR #207 head, then merge only an unchanged green exact head after clean mergeability/review/thread checks.
-5. Independently verify merged-main 47/228/10 + Cloudflare, then complete post-merge reuse docs closure before the next implementation.
+3. Set Reasoning reuse PR #207 is merged to main `9debb6cf`; preserve exact scope, final CI #963 and accepted old+new QA evidence.
+4. Independently verify merged-main 47/228/10 and the exact Cloudflare release for `9debb6cf`.
+5. Complete, merge and verify the post-merge reuse closure docs before the next reuse/new-pattern implementation.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
