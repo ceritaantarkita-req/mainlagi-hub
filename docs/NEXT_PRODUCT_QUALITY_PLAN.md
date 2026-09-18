@@ -52,6 +52,10 @@
 **Pattern #47 final PR CI:** **#948 / run `35361686710` — full success**  
 **Pattern #47 merged-main CI:** **#949 / run `35362716105` — full success + exact Cloudflare production smoke**  
 **Pattern #47 manual visual review:** **ACCEPTED / nine screenshots / no P0-P1 blocker**  
+**Pattern #47 closure docs:** PR #204 -> main `bbb61965c951a3dd2628b4b4be6d3b547b7fd68a`  
+**Pattern #47 closure PR CI:** **#950 / run `35364586385` — full success**  
+**Pattern #47 closure-main CI:** **#951 / run `35365286942` — full success + exact Cloudflare production smoke**  
+**Pattern #48 audit:** **NO JUSTIFIED NEW PATTERN YET / code not started**  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
 
@@ -79,11 +83,11 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 
 | Workstream | Status | Current note |
 |---|---|---|
-| WS-01 Canonical docs | **CURRENT** | Pattern #47 implementation merged/live verified; post-merge docs closure in progress |
+| WS-01 Canonical docs | **CURRENT** | Pattern #47 closure verified; Pattern #48 no-candidate audit current |
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **47 LIVE VERIFIED / DOCS CLOSURE IN PROGRESS** | PR #203 merged; CI #949 verified 47/233/4 + Cloudflare; 3 patterns remain |
+| WS-05 Gameplay diversification | **47 FULLY CLOSED / P48 NO CANDIDATE YET** | reuse/generalization audit is next; 3 patterns remain to target 50 |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P45 merged-main permanent visual QA green; nine dedicated screenshots manually accepted |
@@ -110,6 +114,27 @@ spatial_relation_board            6 / 900
 ```
 
 Distance remaining: **3 patterns** to the current WS-05 finish target of 50. No 60-pattern expansion is required for this finish scope.
+
+## Pattern #48 — AUDIT COMPLETE / NO JUSTIFIED NEW PATTERN YET
+
+Fresh audit base is Pattern #47 closure main `bbb61965c951a3dd2628b4b4be6d3b547b7fd68a`, with closure-main CI #951 full success including exact Cloudflare production smoke.
+
+Current result:
+- no runtime implementation approved;
+- no subject/family pre-approved;
+- remaining generic choice families were checked against existing mechanic coverage;
+- Iqro remains outside mechanic transformation until expert acceptance.
+
+Next action is **reuse/generalization validation**, prioritizing:
+1. Logic classification -> `set_reasoning`;
+2. Math spatial -> `spatial_relation_board`;
+3. Math measurement -> `compare_properties`;
+4. English completion -> `cloze_sentence_choice`;
+5. Science environment care -> routine/action mechanic generalization.
+
+A later new Pattern #48 requires evidence that reuse cannot safely preserve the objective/evidence contract.
+
+Audit record: `PATTERN48_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
 
 ## Pattern #47 — `shape_attribute_board` / FULLY CLOSED / LIVE VERIFIED
 
@@ -436,10 +461,10 @@ P2 findings: 3
 
 ## Current execution order
 
-1. Pattern #47 implementation is merged/live verified at `7c5610d5`; preserve exact four-ID scope and 47/233/4 merged baseline.
-2. Complete this docs-only Pattern #47 post-merge closure PR and require exact-head full CI.
-3. Merge closure only if clean, then independently verify closure-main full CI + exact Cloudflare production smoke.
-4. Start Pattern #48 only after closure-main verification, with a fresh objective/evidence audit and no pre-approved mechanic/family.
-5. Repeat the same discipline through Pattern #50, then run final overall QA/docs/production closeout.
+1. Pattern #47 is fully closed/live verified through `bbb61965` / CI #951.
+2. Do not implement a new Pattern #48 from the current audit; no candidate is justified yet.
+3. Run exact-scope reuse/generalization audits on existing mechanics for compatible `choice_grid` families.
+4. Only reopen a new-pattern candidate when reuse is demonstrably insufficient for the learning objective/evidence.
+5. Preserve the finish target of 50 without taxonomy inflation; continue final QA/docs discipline for every accepted change.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
