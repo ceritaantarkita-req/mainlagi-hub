@@ -20,6 +20,7 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Pattern #43 audit main CI: **#890 / run `35295503508` — full success including exact Cloudflare production smoke**
 - Pattern #43 implementation: PR #191 -> main `44f9dee07506a785f184d965b5bbc0a2aab66a8f`
 - Pattern #43 implementation merged-main CI: **#900 / run `35297572709` — full success including exact Cloudflare production smoke**
+- Pattern #44 audit candidate: **Math `subitizing_glance` / exact 3 activities / code not started** on `agent/pattern44-subitizing-audit-20260918`
 - permanent visual QA foundation: **VQA-01 FULLY CLOSED**
 - visual P1 baseline: **P0=0 / P1=0 / P2=3**
 
@@ -38,6 +39,7 @@ Pattern #40: FULLY CLOSED
 Pattern #41: FULLY CLOSED / LIVE VERIFIED
 Pattern #42: FULLY CLOSED / LIVE VERIFIED
 Pattern #43: FULLY CLOSED / LIVE VERIFIED
+Pattern #44: AUDIT CANDIDATE / CODE NOT STARTED
 ```
 
 External physical-device acceptance, accessibility-specialist review, human pedagogical/art acceptance and Iqro expert acceptance remain separate and incomplete. Physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
@@ -71,6 +73,30 @@ picture_word_match               5 / 900
 ```
 
 Remaining distance is **7 patterns** to the WS-05 finish target of 50. Pattern #43 is merged and live verified.
+
+Pattern #44 audit selects `subitizing_glance` for exactly `math-subitize-2`, `math-subitize-4`, and `math-subitize-5`. Implementation has not started. If implemented and verified, the expected distribution becomes **44 active patterns / `choice_grid` 246 / `subitizing_glance` 3**.
+
+## Pattern #44 — AUDIT CANDIDATE / CODE NOT STARTED
+
+Pattern:
+
+```text
+subitizing_glance
+```
+
+Exact scope:
+
+```text
+math-subitize-2
+math-subitize-4
+math-subitize-5
+```
+
+Canonical ownership remains Math / `math-jumlah-dasar` / `math-subitizing` / `math.pack.subitizing` / `math.quantity.subitizing` / assessed `tap_choice` / `choice_accuracy_v1`.
+
+The candidate is justified because the existing `count_and_select` presentation explicitly teaches one-by-one counting, while this lesson/skill explicitly measures recognizing small quantities from spatial patterns without always counting one by one. The proposed presentation must use deterministic dot layouts, preserve exact canonical prompts/choices/answers, add no timer or speed score, and introduce no mastery/progression/schema/database migration.
+
+Audit evidence: `PATTERN44_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
 
 ## Pattern #43 — FULLY CLOSED / LIVE VERIFIED
 
@@ -211,8 +237,9 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 ## Current priority order
 
 1. Pattern #43 is complete and live verified.
-2. Start Pattern #44 with one fresh objective/evidence audit from the verified 43-pattern baseline.
-3. Implement only a justified exact scope; reuse existing mechanics instead of creating duplicates.
-4. Continue directly through Pattern #50, then run one final overall QA/docs/production closeout.
+2. Pattern #44 objective/evidence audit selects Math `subitizing_glance` for exactly three activities; code has not started.
+3. Merged-main baseline CI #902 / run `35299122394` is fully green; the Pattern #44 audit may proceed through PR verification.
+4. Implement only the audited exact scope; keep `count_and_select` unchanged and preserve canonical evidence.
+5. Continue directly through Pattern #50, then run one final overall QA/docs/production closeout.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion or mastery/backend rewrites before the current quality roadmap justifies them.

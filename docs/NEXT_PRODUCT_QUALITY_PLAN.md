@@ -38,11 +38,11 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 
 | Workstream | Status | Current note |
 |---|---|---|
-| WS-01 Canonical docs | **CURRENT** | Pattern #43 merged/live truth synchronized; Pattern #44 next |
+| WS-01 Canonical docs | **CURRENT** | Pattern #44 audit candidate recorded; implementation not started |
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **43 FULLY CLOSED / P44 NEXT** | 7 patterns remain to finish target 50 |
+| WS-05 Gameplay diversification | **43 FULLY CLOSED / P44 AUDIT** | Math `subitizing_glance` exact 3-ID candidate; 7 patterns remain to finish target 50 |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P42 merged-main permanent visual QA green |
@@ -65,6 +65,32 @@ spatial_relation_board            6 / 900
 ```
 
 Distance remaining: **7 patterns** to the current WS-05 finish target of 50. No 60-pattern expansion is required for this finish scope.
+
+## Pattern #44 audit candidate — `subitizing_glance`
+
+Audit base: `18a4dd30ce58841dd3717b1e53c13af628e950af`.
+
+Exact candidate scope:
+
+```text
+math-subitize-2
+math-subitize-4
+math-subitize-5
+```
+
+Canonical ownership is Math / `math-jumlah-dasar` / `math-subitizing` / `math.pack.subitizing` / `math.quantity.subitizing` / assessed `tap_choice` / `choice_accuracy_v1`.
+
+The objective is recognizing small quantities from spatial arrangements without always counting one by one. Existing `count_and_select` explicitly teaches one-by-one enumeration, so it must remain unchanged. The candidate presentation is allowed only as a deterministic spatial-dot board that preserves exact prompts, choices/order, answers and existing measured retry/accuracy semantics. No forced timer, speed score, mastery/progression/schema/database migration or prompt parsing is approved.
+
+Expected post-implementation distribution, if the implementation gate is passed:
+
+```text
+44 active patterns
+choice_grid                     246 / 900
+subitizing_glance                 3 / 900
+```
+
+Audit record: `PATTERN44_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`. Code has not started.
 
 ## Pattern #43 — `single_rule_apply`
 
@@ -117,9 +143,10 @@ P2 findings: 3
 
 ## Current execution order
 
-1. Start Pattern #44 with one objective/evidence audit from the verified 43-pattern baseline.
-2. Implement only an exact justified scope; do not duplicate an existing gameplay mechanic.
-3. Repeat the same minimal audit -> implementation -> merged-main verification path through Pattern #50.
-4. At Pattern #50, run one final overall QA/docs/production closeout and stop WS-05.
+1. Finish the Pattern #44 audit gate for exact Math `subitizing_glance` scope from verified merged-main CI #902 / run `35299122394` — full success.
+2. Implement only `math-subitize-2`, `math-subitize-4`, and `math-subitize-5`; keep `count_and_select` and all unrelated families unchanged.
+3. Require deterministic dot config, canonical evidence preservation, exact-scope regression, keyboard/pointer/touch, responsive QA, manual visual review and merged-main production smoke.
+4. Repeat the same minimal audit -> implementation -> merged-main verification path through Pattern #50.
+5. At Pattern #50, run one final overall QA/docs/production closeout and stop WS-05.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
