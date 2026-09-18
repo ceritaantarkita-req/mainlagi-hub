@@ -19,7 +19,10 @@
 **Pattern #44 implementation main CI:** **#912 / run `35303076429` — full success + exact Cloudflare production smoke**  
 **Pattern #44 closure docs:** PR #195 -> main `d1d16d1acf5dd8baa2445c2c2901459a1d0e64cc`  
 **Pattern #44 closure docs main CI:** **#914 / run `35306629423` — full success + exact Cloudflare production smoke**  
-**Pattern #45 audit candidate:** Logic `elimination_board` / exact five-ID scope / code not started  
+**Pattern #45 audit:** PR #196 -> main `a3a1702ae390fb24c95551d91d31b24b4b867be6`  
+**Pattern #45 audit PR CI:** **#915 / run `35307361453` — full success**  
+**Pattern #45 audit merged-main CI:** **#916 / run `35307880654` — full success + exact Cloudflare production smoke**  
+**Pattern #45 implementation:** **IN PROGRESS** on `agent/pattern45-elimination-board-20260918`  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
 
@@ -47,11 +50,11 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 
 | Workstream | Status | Current note |
 |---|---|---|
-| WS-01 Canonical docs | **CURRENT** | Pattern #44 closure verified; Pattern #45 audit candidate documented, not yet merged |
+| WS-01 Canonical docs | **CURRENT** | Pattern #45 audit merged/live verified; implementation branch current |
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **44 FULLY CLOSED / P45 AUDIT CANDIDATE** | Logic `elimination_board` exact five-ID candidate; implementation not started |
+| WS-05 Gameplay diversification | **44 FULLY CLOSED / P45 IMPLEMENTING** | exact five-ID Logic `elimination_board`; merged truth remains 44 until implementation verification |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P44 merged-main permanent visual QA green; nine dedicated screenshots remain manually accepted |
@@ -76,9 +79,9 @@ spatial_relation_board            6 / 900
 
 Distance remaining: **6 patterns** to the current WS-05 finish target of 50. No 60-pattern expansion is required for this finish scope.
 
-## Pattern #45 — `elimination_board` / AUDIT CANDIDATE / CODE NOT STARTED
+## Pattern #45 — `elimination_board` / AUDIT VERIFIED / IMPLEMENTATION IN PROGRESS
 
-Fresh audit base is Pattern #44 closure main `d1d16d1acf5dd8baa2445c2c2901459a1d0e64cc`, with closure-main CI #914 full success including exact Cloudflare production smoke.
+Fresh audit base is Pattern #44 closure main `d1d16d1acf5dd8baa2445c2c2901459a1d0e64cc`. Audit PR #196 merged to `a3a1702ae390fb24c95551d91d31b24b4b867be6`; audit merged-main CI #916 is full success including exact Cloudflare production smoke.
 
 Exact candidate scope:
 
@@ -115,7 +118,17 @@ choice_grid                     241 / 900
 elimination_board                 5 / 900
 ```
 
-Audit record: `PATTERN45_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`. Current branch is audit-only; runtime implementation must wait for audit PR merge + merged-main verification.
+Audit record: `PATTERN45_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
+
+Implementation is active on `agent/pattern45-elimination-board-20260918`. The target distribution remains branch-only until verified:
+
+```text
+45 active patterns
+choice_grid                     241 / 900
+elimination_board                 5 / 900
+```
+
+Implementation keeps the five canonical choices/order/answers exact, marks only learner-selected wrong choices as visibly `tersisih`, preserves retry/completion semantics, and adds no mastery/progression/schema/database migration.
 
 ## Pattern #44 — `subitizing_glance` / FULLY CLOSED / LIVE VERIFIED
 
@@ -222,10 +235,10 @@ P2 findings: 3
 
 ## Current execution order
 
-1. Complete the docs-only Pattern #45 audit PR for exact five-ID Logic `elimination_board`; do not write runtime code on the audit branch.
-2. Require exact-head PR CI, exact merge, and merged-main Cloudflare verification for the audit.
-3. Only after audit verification, implement the exact five-ID elimination board with retry-visible elimination, canonical choices/evidence, keyboard/pointer/actual-touch QA, and nine dedicated screenshots.
-4. Merge implementation only after permanent visual QA + full CI, then independently verify merged-main distribution and exact Cloudflare production smoke.
-5. Close canonical docs and repeat the same path through Pattern #50, then run final overall QA/docs/production closeout.
+1. Complete Pattern #45 implementation for only the five audited `logic-elimination-inference` activities; keep classification, odd-one-out, set-reasoning and relative-order families unchanged.
+2. Require fail-closed exact config, regression + distribution gates, keyboard wrong-elimination, pointer completion, actual touch at 390x844, and nine 320/390/768 dedicated screenshots.
+3. Merge only after exact-head full CI is green and manual screenshot review has no P0/P1 Pattern #45 blocker.
+4. Independently verify merged-main 45-pattern distribution, permanent visual QA, and exact Cloudflare production smoke.
+5. Reconcile Pattern #45 closure docs before beginning Pattern #46 implementation; repeat through Pattern #50.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
