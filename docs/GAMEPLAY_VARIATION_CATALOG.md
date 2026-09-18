@@ -29,7 +29,7 @@ Patterns #1–#35 remain as previously closed/merged. Latest entries:
 40. `spatial_relation_board` — FULLY CLOSED
 41. `phrase_scene_match` — **FULLY CLOSED / LIVE VERIFIED**
 42. `growth_stage_transition` — **FULLY CLOSED / LIVE VERIFIED**
-43. `single_rule_apply` — **FULLY CLOSED / LIVE VERIFIED**
+43. `single_rule_apply` — **FULLY CLOSED / LIVE VERIFIED**\n44. `subitizing_glance` — **AUDIT VERIFIED / IMPLEMENTATION IN PROGRESS**
 
 ## Current verified merged distribution
 
@@ -50,6 +50,16 @@ picture_word_match                5 / 900
 ```
 
 Remaining distance is **7 patterns** to the current finish target of 50.
+
+Pattern #44 implementation target (branch only until verified/merged):
+
+```text
+44 active child-facing patterns
+choice_grid                     246 / 900
+subitizing_glance                 3 / 900
+```
+
+Exact scope: `math-subitize-2`, `math-subitize-4`, `math-subitize-5`. Existing `count_and_select` remains unchanged because it measures explicit one-by-one enumeration rather than quantity recognition from spatial patterns.
 
 ## Pattern #43 — `single_rule_apply`
 
@@ -131,7 +141,8 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 ## Rollout order terbaru
 
 - Patterns #1–#43 — **FULLY CLOSED / LIVE VERIFIED**.
-- Current gate — Pattern #44 objective/evidence audit from the verified 43-pattern baseline.
+- Pattern #44 audit — merged/live verified through PR #193 and merged-main CI #904.
+- Current gate — exact three-ID `subitizing_glance` implementation + dedicated QA on `agent/pattern44-subitizing-glance-20260918`.
 - Continue only with justified exact scopes; reuse an existing mechanic when it already matches the evidence model.
 
 ## Definition of done per mechanic
