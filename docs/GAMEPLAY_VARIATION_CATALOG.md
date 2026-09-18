@@ -28,15 +28,17 @@ Patterns #1–#35 remain as previously closed/merged. Latest entries:
 39. `visual_word_problem` — FULLY CLOSED
 40. `spatial_relation_board` — FULLY CLOSED
 41. `phrase_scene_match` — **FULLY CLOSED / LIVE VERIFIED**
-42. `growth_stage_transition` — **FULLY CLOSED / LIVE VERIFIED**\n43. `single_rule_apply` — **IMPLEMENTATION IN PROGRESS / PR #191 / NOT MERGED**
+42. `growth_stage_transition` — **FULLY CLOSED / LIVE VERIFIED**
+43. `single_rule_apply` — **FULLY CLOSED / LIVE VERIFIED**
 
 ## Current verified merged distribution
 
 ```text
 900 / 900 classified
 0 unclassified
-42 active child-facing patterns
-choice_grid                     254 / 900
+43 active child-facing patterns
+choice_grid                     249 / 900
+single_rule_apply                 5 / 900
 growth_stage_transition           3 / 900
 phrase_scene_match                4 / 900
 spatial_relation_board            6 / 900
@@ -47,7 +49,24 @@ sentence_order_cards              5 / 900
 picture_word_match                5 / 900
 ```
 
-Remaining distance is **8 patterns** to the current finish target of 50. Pattern #43 does not count as merged truth until PR #191 is merged and live-verified.
+Remaining distance is **7 patterns** to the current finish target of 50.
+
+## Pattern #43 — `single_rule_apply`
+
+Verification chain:
+
+```text
+Audit PR:                #190
+Audit main:              39830a5dfd91734e4cc88b7d79eafaa2f722615f
+Audit main CI:           #890 / run 35295503508 — full success + exact Cloudflare production smoke
+Implementation PR:       #191
+Implementation head:     c893ba0ee63b256bbeb0da61e2bd90355c483a09
+Implementation PR CI:    #899 / run 35296994744 — full success
+Implementation main:     44f9dee07506a785f184d965b5bbc0a2aab66a8f
+Implementation main CI:  #900 / run 35297572709 — full success + exact Cloudflare production smoke
+```
+
+Exact scope is the five audited Logic Wave C conditional-rule activities. Canonical assessed `tap_choice` / `choice_accuracy_v1` evidence is preserved. Existing `rule_pipeline`, `set_reasoning`, inference and unrelated Logic scopes remain unchanged. Browser QA, actual touch, manual nine-shot review and permanent visual QA are green.
 
 ## Pattern #42 — `growth_stage_transition`
 
@@ -111,9 +130,9 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 
 ## Rollout order terbaru
 
-- Patterns #1–#42 — **FULLY CLOSED / LIVE VERIFIED**.
-- Current gate — fresh Pattern #43 objective/evidence audit from the verified 42-pattern baseline.
-- Pattern #43 has no pre-approved mechanic, subject or content family; `no justified candidate` remains a valid outcome.
+- Patterns #1–#43 — **FULLY CLOSED / LIVE VERIFIED**.
+- Current gate — Pattern #44 objective/evidence audit from the verified 43-pattern baseline.
+- Continue only with justified exact scopes; reuse an existing mechanic when it already matches the evidence model.
 
 ## Definition of done per mechanic
 
