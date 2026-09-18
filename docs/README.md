@@ -24,20 +24,23 @@ Subsystem docs remain authoritative for their specific scope when they do not co
 
 ## Current execution checkpoint
 
-Pattern #41 `phrase_scene_match` remains **FULLY CLOSED / LIVE VERIFIED**.
+Pattern #41 `phrase_scene_match` remains the latest **FULLY CLOSED / LIVE VERIFIED** gameplay pattern.
 
-Pattern #42 audit is merged and independently production-verified; its implementation code has also completed the full PR verification checkpoint but is not merged yet:
+Pattern #42 `growth_stage_transition` implementation is now merged and live verified:
 
 ```text
 Audit PR:                 #186
 Audit main:               541c2348507e976fb723c9c6e5b8f1b242cff490
 Audit main CI:            #871 / run 35255083348 — full success + exact Cloudflare production smoke
-Implementation PR:        #187 — NOT MERGED
-Verified code checkpoint: 0ded3a43e49654a34e5a35aaffb7edf8c9fa4469
+Implementation PR:        #187
 Code checkpoint CI:       #878 / run 35256885341 — full success
+Final PR CI:              #883 / run 35259699934 — full success
+Implementation main:      37190f5dabd5d8421d7575b8f220d2824e831f23
+Implementation main CI:   #884 / run 35260402125 — full success + exact Cloudflare production smoke
+Closure docs:             IN PROGRESS
 ```
 
-Verified merged gameplay distribution therefore remains **900/900 classified, 41 active patterns, 0 unclassified**, with `choice_grid` 257/900. The implementation checkpoint independently verifies the intended **42 patterns / `choice_grid` 254 / `growth_stage_transition` 3**, but those numbers are not merged production truth yet.
+Verified merged gameplay distribution is now **900/900 classified, 42 active patterns, 0 unclassified**, with `choice_grid` 254/900 and `growth_stage_transition` 3/900.
 
 ```text
 P0 = 0
@@ -48,26 +51,12 @@ Pattern #38 = FULLY CLOSED
 Pattern #39 = FULLY CLOSED
 Pattern #40 = FULLY CLOSED
 Pattern #41 = FULLY CLOSED / LIVE VERIFIED
-Pattern #42 = IMPLEMENTATION CODE VERIFIED / PR #187 NOT MERGED
+Pattern #42 = IMPLEMENTATION MERGED / LIVE VERIFIED / CLOSURE DOCS IN PROGRESS
 ```
 
-## Pattern #42 implementation checkpoint
+## Pattern #42 closure checkpoint
 
-```text
-pattern:     growth_stage_transition
-subject:     science
-stage:       science-life-material-motion
-lesson:      science-life-cycles
-pack:        science.pack.life-cycles
-skill:       science.life_cycles.basic
-runtime:     tap_choice
-assessment:  assessed
-contract:    choice_accuracy_v1
-PR:          #187
-status:      CODE VERIFIED / FINAL DOCS-HEAD CI REQUIRED / NOT MERGED
-```
-
-Exact scope:
+Exact Pattern #42 scope remains:
 
 ```text
 science-cycle-frog
@@ -75,24 +64,34 @@ science-cycle-chick
 science-cycle-seed-sprout
 ```
 
-Verified behavior includes exact three-ID fail-closed config, explicit previous-stage / next-adult-stage / next-young-stage modes, hidden target until correct completion, byte-preserved prompts/choices/answer payloads, measured retry semantics, permanent exact-scope regression, and browser idle/wrong/success QA at 320x720, 390x844 and 768x1024.
+Canonical Science ownership, assessed `tap_choice`, `choice_accuracy_v1`, prompt/choice/answer payloads, mastery and progression are preserved. Butterfly full-sequence evidence and lifecycle matching remain explicitly outside scope.
 
-CI #878 verified keyboard retry, pointer completion and actual touch `tap()` completion, >=44px controls, no horizontal overflow, full Ubuntu/Windows engine suites, the blocking 42-pattern distribution, production build/budgets, dependency/security scans, simulations/final acceptance and permanent visual QA.
+Merged-main CI #884 reverified the exact 42-pattern distribution, Ubuntu/Windows engine suites, activity quality, simulations/final acceptance, production build, dependency/security gates, mobile route QA, permanent visual QA and exact Cloudflare production smoke.
 
-Manual review of all nine Pattern #42 screenshots is accepted with no P0/P1 Pattern #42 visual blocker. Screenshot artifact `10513557620`, digest `sha256:de116a80764e2b87716cc377e807aabbd4e3c9107961306039d6e480d1cbb5bd`.
+Merged-main artifacts:
 
-Important exclusions remain `science-cycle-butterfly`, `science-match-young-adult-b`, existing water-state `cause_effect`, Logic `relative_order_track`, sequence and unrelated gameplay scopes.
+```text
+mobile-route screenshots: 10514976832
+sha256:ce7f6fc566952f8d20261eda8eb6c86c7fe6a2f0464f4c4fe72658d128451f4d
 
-Because this documentation refresh adds commits after checkpoint `0ded3a43...`, the final docs-only PR #187 head must itself pass the full PR CI before exact-head merge.
+gameplay distribution:    10514382620
+sha256:12212009d77256bb32b08a32de3a8e1dc4067c3899d7d410c8651f5bc2687b4f
+
+activity quality:          10513967944
+sha256:aa38d751cfdb5f24268c818dcf79a84d6d2fc30a2117bf8900df3f52ea3a6cc6
+```
+
+Pattern #42 is not yet labeled **FULLY CLOSED** until the closure-doc PR itself passes exact-head CI, merges, and the resulting closure `main` independently passes exact Cloudflare production smoke.
 
 ## Current evidence records
 
+- [`PATTERN42_GROWTH_STAGE_TRANSITION_CLOSURE_2026-09-18.md`](PATTERN42_GROWTH_STAGE_TRANSITION_CLOSURE_2026-09-18.md) — active Pattern #42 closure record.
+- [`WS05_GROWTH_STAGE_TRANSITION_WAVE_2026-09-18.md`](WS05_GROWTH_STAGE_TRANSITION_WAVE_2026-09-18.md) — Pattern #42 implementation/QA wave.
 - [`PATTERN42_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN42_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md) — merged/live-verified Pattern #42 objective/evidence audit.
-- [`WS05_GROWTH_STAGE_TRANSITION_WAVE_2026-09-18.md`](WS05_GROWTH_STAGE_TRANSITION_WAVE_2026-09-18.md) — Pattern #42 implementation/QA wave with CI #878, artifacts and manual visual review.
-- [`PATTERN41_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN41_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md) — Pattern #41 objective/evidence audit.
-- [`WS05_PHRASE_SCENE_MATCH_WAVE_2026-09-17.md`](WS05_PHRASE_SCENE_MATCH_WAVE_2026-09-17.md) — Pattern #41 implementation/QA wave record.
-- [`PATTERN41_PHRASE_SCENE_MATCH_CLOSURE_2026-09-17.md`](PATTERN41_PHRASE_SCENE_MATCH_CLOSURE_2026-09-17.md) — Pattern #41 closure gate record.
 - [`PATTERN41_FINAL_CLOSURE_VERIFICATION_2026-09-17.md`](PATTERN41_FINAL_CLOSURE_VERIFICATION_2026-09-17.md) — final Pattern #41 merged-main truth.
+- [`PATTERN41_PHRASE_SCENE_MATCH_CLOSURE_2026-09-17.md`](PATTERN41_PHRASE_SCENE_MATCH_CLOSURE_2026-09-17.md) — Pattern #41 closure record.
+- [`WS05_PHRASE_SCENE_MATCH_WAVE_2026-09-17.md`](WS05_PHRASE_SCENE_MATCH_WAVE_2026-09-17.md) — Pattern #41 implementation/QA wave.
+- [`PATTERN41_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN41_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md) — Pattern #41 objective/evidence audit.
 - [`PATTERN40_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md`](PATTERN40_OBJECTIVE_EVIDENCE_AUDIT_2026-09-17.md)
 - [`WS05_SPATIAL_RELATION_BOARD_WAVE_2026-09-17.md`](WS05_SPATIAL_RELATION_BOARD_WAVE_2026-09-17.md)
 
@@ -100,7 +99,7 @@ Historical closure/candidate/audit records must not be rewritten to pretend late
 
 ## Remaining product-quality work
 
-Immediate WS-05 gate is now final docs-head CI for PR #187, followed by review/thread/mergeability verification, exact-head merge and independent merged-main Cloudflare smoke. Pattern #42 closure docs remain required before it is called fully closed and before Pattern #43 implementation work begins.
+Immediate WS-05 gate is Pattern #42 closure-doc exact-head CI, clean review/mergeability, exact-head merge and independent closure-main Cloudflare smoke. After final closure truth is reconciled, Pattern #43 begins with a fresh objective/evidence audit and no pre-approved candidate.
 
 Other open work remains P2 game-shell/icon/inline-style convergence, WS-02 narration, WS-10 real-device/accessibility/human/Iqro acceptance, WS-11 governance, later WS-12 cleanup, and continued WS-05 progression toward 50–60 meaningful patterns.
 
