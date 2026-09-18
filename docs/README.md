@@ -24,7 +24,7 @@ Subsystem docs remain authoritative for their specific scope when they do not co
 
 ## Current execution checkpoint
 
-Pattern #43 `single_rule_apply` is now the latest **FULLY CLOSED / LIVE VERIFIED** gameplay pattern.
+Pattern #44 `subitizing_glance` is now the latest **FULLY CLOSED / LIVE VERIFIED** gameplay pattern.
 
 Pattern #42 `growth_stage_transition` implementation is now merged and live verified:
 
@@ -42,7 +42,7 @@ Closure main:             ad7deb67dc15eefdb81dc5d5e66f4c10ccdc9710
 Closure main CI:          #886 / run 35290502532 — full success + exact Cloudflare production smoke
 ```
 
-Verified merged gameplay distribution is now **900/900 classified, 43 active patterns, 0 unclassified**, with `choice_grid` 249/900 and `single_rule_apply` 5/900.
+Verified merged gameplay distribution is now **900/900 classified, 44 active patterns, 0 unclassified**, with `choice_grid` 246/900 and `subitizing_glance` 3/900.
 
 ```text
 P0 = 0
@@ -55,6 +55,7 @@ Pattern #40 = FULLY CLOSED
 Pattern #41 = FULLY CLOSED / LIVE VERIFIED
 Pattern #42 = FULLY CLOSED / LIVE VERIFIED
 Pattern #43 = FULLY CLOSED / LIVE VERIFIED
+Pattern #44 = FULLY CLOSED / LIVE VERIFIED
 ```
 
 ## Pattern #43 live checkpoint
@@ -72,23 +73,40 @@ Implementation main CI:  #900 / run 35297572709 — full success + exact Cloudfl
 
 Exact five-ID Logic scope is live verified. Browser keyboard/pointer/actual-touch QA, manual nine-shot review and permanent visual QA passed. No mastery/progression/schema/database change was introduced.
 
-## Pattern #44 implementation checkpoint
+## Pattern #44 live checkpoint
 
-Pattern #44 `subitizing_glance` remains **NOT MERGED**. Its audit is merged/live verified, while implementation PR #194 has a verified code checkpoint:
+Pattern #44 `subitizing_glance` is **FULLY CLOSED / LIVE VERIFIED**.
 
 ```text
 Audit PR:                 #193
 Audit main:               8b3cb7e73a77502b4c9206936e7736ac9169b1ca
 Audit merged-main CI:     #904 / run 35299949341 — full success + exact Cloudflare production smoke
 Implementation PR:        #194
-Verified code head:       3a4385790a793ed5297db4f6d33fa8e1d084ccf1
+Verified code checkpoint: 3a4385790a793ed5297db4f6d33fa8e1d084ccf1
 Code checkpoint CI:       #906 / run 35301923329 — full success
+Final PR head:            0835d2b93c0ae3d579518dcfa5964266bcbb1f2c
+Final PR CI:              #911 / run 35302598975 — full success
+Implementation main:      8406c89777a68da4bd6e89f01a561e5aa1e90c01
+Implementation main CI:   #912 / run 35303076429 — full success + exact Cloudflare production smoke
 Manual visual review:     ACCEPTED / nine dedicated screenshots / no P0-P1 Pattern #44 blocker
 ```
 
-Exact scope remains `math-subitize-2`, `math-subitize-4`, and `math-subitize-5`. The verified branch distribution is **44 active / `choice_grid` 246 / `subitizing_glance` 3**, but merged production truth remains 43 active patterns until PR #194 is exactly merged and independently verified on `main`.
+Exact scope remains `math-subitize-2`, `math-subitize-4`, and `math-subitize-5`. Merged production truth is **44 active / `choice_grid` 246 / `subitizing_glance` 3**.
 
 The implementation preserves assessed `tap_choice` / `choice_accuracy_v1`, exact canonical prompts/choice order/answers, and existing mastery/progression/schema/database boundaries. It deliberately does not reuse `count_and_select` because that interaction teaches one-by-one enumeration, while the audited subitizing objective is visual quantity recognition from a spatial pattern.
+
+Merged-main CI #912 artifacts:
+
+```text
+mobile-route screenshots: 10531026015
+sha256:8898d82a8e1f000bd9924b7f3b9e04baeea137f139dfdb21fe83e274397a6021
+
+gameplay distribution:    10531025693
+sha256:05fcac2bfac4fa07b9667c27d4b5ed17d3436911c27918b93b73201f4cb43fec
+
+activity quality:          10530404555
+sha256:2ef4d746d92545e49fd2e6e9519db5f67ee0d26e18d28ccfb3d50c4331122400
+```
 
 ## Pattern #42 closure checkpoint
 
@@ -139,7 +157,7 @@ Historical closure/candidate/audit records must not be rewritten to pretend late
 
 ## Remaining product-quality work
 
-Immediate WS-05 gate is the docs-inclusive final CI for Pattern #44 implementation PR #194, followed by exact-head merge, independent merged-main/Cloudflare verification, and final Pattern #44 closure docs. Merged production remains at 43 patterns until those gates complete. After Pattern #44 fully closes, six patterns will remain to the finish target of 50.
+Immediate WS-05 gate is a fresh Pattern #45 objective/evidence audit from the verified 44-pattern baseline. Six patterns remain to the finish target of 50; no Pattern #45 mechanic, subject, or content family is pre-approved.
 
 Other open work remains P2 game-shell/icon/inline-style convergence, WS-02 narration, WS-10 real-device/accessibility/human/Iqro acceptance, WS-11 governance, later WS-12 cleanup, and continued WS-05 progression to the current finish target of 50.
 
