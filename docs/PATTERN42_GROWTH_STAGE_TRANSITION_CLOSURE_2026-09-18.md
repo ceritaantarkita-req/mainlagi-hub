@@ -1,6 +1,6 @@
 # Pattern #42 `growth_stage_transition` Closure — 18 September 2026
 
-Status: **IMPLEMENTATION MERGED / LIVE VERIFIED / CLOSURE DOCS IN PROGRESS**
+Status: **FULLY CLOSED / LIVE VERIFIED**
 
 ## Scope
 
@@ -34,6 +34,12 @@ Final PR head:             bc115708c83c1f4829901455d4a5d39d7ea3261c
 Final PR CI:               #883 / run 35259699934 — full success
 Implementation main:       37190f5dabd5d8421d7575b8f220d2824e831f23
 Implementation main CI:    #884 / run 35260402125 — full success + exact Cloudflare production smoke
+
+Closure PR:                 #188
+Closure head:               ee2f57c7fdd89e393cc4fb8dcbb22c2bdb28b885
+Closure PR CI:              #885 / run 35261277441 — full success
+Closure main:               ad7deb67dc15eefdb81dc5d5e66f4c10ccdc9710
+Closure main CI:            #886 / run 35290502532 — full success + exact Cloudflare production smoke
 ```
 
 ## Production truth after implementation verification
@@ -109,13 +115,15 @@ artifact id: 10513967944
 sha256:aa38d751cfdb5f24268c818dcf79a84d6d2fc30a2117bf8900df3f52ea3a6cc6
 ```
 
-## Closure gate
+## Closure result
 
-Pattern #42 implementation is live verified, but the pattern is not yet called **FULLY CLOSED** in canonical truth until this closure-doc branch itself:
+All closure gates passed:
 
-1. passes exact-head full PR CI;
-2. has clean comments/reviews/threads and is mergeable;
-3. merges to `main` at the exact verified head;
-4. resulting closure `main` independently passes full CI and exact Cloudflare production smoke.
+1. closure PR #188 exact-head CI #885 passed;
+2. comments/reviews/threads were clean and the PR was mergeable;
+3. exact verified closure head merged to `main`;
+4. closure main `ad7deb67dc15eefdb81dc5d5e66f4c10ccdc9710` passed CI #886 including exact Cloudflare production smoke.
 
-Only after that may the canonical docs mark Pattern #42 **FULLY CLOSED / LIVE VERIFIED** and allow Pattern #43 work to become the next WS-05 gate.
+Pattern #42 is therefore **FULLY CLOSED / LIVE VERIFIED**.
+
+The next WS-05 gate is a fresh Pattern #43 objective/evidence audit. No candidate is pre-approved.
