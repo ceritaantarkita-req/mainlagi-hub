@@ -105,6 +105,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
         <PhraseSceneMatchActivity childId={childId} activityId={activity} />
       ) : isGrowthStageTransitionActivity(definition) ? (
         <GrowthStageTransitionActivity childId={childId} activityId={activity} />
+      ) : isSingleRuleApplyActivity(definition) ? (
+        <SingleRuleApplyActivity childId={childId} activityId={activity} />
       ) : isPictureWordMatchActivity(definition) ? (
         <PictureWordMatchActivity childId={childId} activityId={activity} />
       ) : isSentenceOrderCardsActivity(definition) ? (
