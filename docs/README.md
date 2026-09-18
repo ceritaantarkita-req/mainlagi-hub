@@ -104,7 +104,9 @@ Current reuse implementation is **existing `set_reasoning` -> exact five Logic m
 
 The Math spatial reuse audit is now merged via PR #209 -> main `3e30a817ef86fa691f9b2f1249ac00bc00dce4e6`; PR CI #970 passed while runtime remained 47 active / `choice_grid` 228 / `spatial_relation_board` 6 / `set_reasoning` 10. Independent main/Cloudflare verification remains pending and spatial runtime code has not started.
 
-The next reuse-first audit is **Math `math.measure.intuition` -> existing `compare_properties` / exact four direct-choice IDs / JUSTIFIED / CODE NOT STARTED**. `math-measure-match-length` remains matching. Binary tasks reuse the existing compare layout; three-candidate tasks require an equal first-class candidate variant rather than visually demoting a real answer into the legacy “other” control. Runtime remains blocked by preceding verification gates.
+The Math measurement reuse audit is now merged via PR #210 -> main `f9833568dea0f021cd5c4ed94f6f6fc7505ad8d8`; PR CI #972 passed while runtime remained 47 active / `choice_grid` 228 / `compare_properties` 3 / `spatial_relation_board` 6 / `set_reasoning` 10. Independent main/Cloudflare verification remains pending; measurement runtime code has not started.
+
+The next reuse-first audit is **English `english.sentence.completion` -> existing `cloze_sentence_choice` / exact five IDs / JUSTIFIED / CODE NOT STARTED**. The existing five Bahasa cloze activities remain protected; later implementation must use exact 10-ID config and subject-aware English vs Bahasa child-facing locale/copy rather than auto-classifying arbitrary blank prompts. Runtime remains blocked by preceding verification gates.
 
 ## Pattern #47 live checkpoint
 
@@ -282,6 +284,7 @@ Pattern #42 closure gates are complete. Closure PR #188 merged and closure main 
 
 ## Current evidence records
 
+- [`CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_AUDIT_2026-09-19.md`](CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_AUDIT_2026-09-19.md) — exact five-ID English sentence-completion reuse audit; subject-aware locale/fail-closed config required; reuse justified, code not started.
 - [`COMPARE_PROPERTIES_MATH_MEASURE_REUSE_AUDIT_2026-09-19.md`](COMPARE_PROPERTIES_MATH_MEASURE_REUSE_AUDIT_2026-09-19.md) — exact four-ID Math measurement direct-choice reuse audit; matching excluded; reuse justified, code not started.
 - [`SPATIAL_RELATION_BOARD_MATH_POSITION_REUSE_AUDIT_2026-09-19.md`](SPATIAL_RELATION_BOARD_MATH_POSITION_REUSE_AUDIT_2026-09-19.md) — exact five-ID Math spatial-position reuse audit; reuse justified, code not started, implementation blocked by prerequisite live-verification gates.
 - [`SET_REASONING_LOGIC_MULTI_CLASSIFICATION_REUSE_CLOSURE_2026-09-19.md`](SET_REASONING_LOGIC_MULTI_CLASSIFICATION_REUSE_CLOSURE_2026-09-19.md) — post-merge closure record; currently pending independent merged-main CI + exact Cloudflare verification.
@@ -322,7 +325,7 @@ Historical closure/candidate/audit records must not be rewritten to pretend late
 
 ## Remaining product-quality work
 
-Immediate WS-05 runtime gate remains blocked by unresolved independent live/audit verification: Set Reasoning production truth is still pending, and Math spatial PR #209 is merged with PR CI #970 but independent audit-main/Cloudflare verification is not available through the current connector. In parallel, docs/evidence work has now justified exact four-ID Math measurement reuse into existing `compare_properties` while keeping the matching activity excluded. No Math runtime implementation is authorized yet.
+Immediate WS-05 runtime gate remains blocked by unresolved independent live/audit verification: Set Reasoning production truth is still pending; Math spatial PR #209 and Math measurement PR #210 are merged with green PR CI but independent audit-main/Cloudflare verification is not available through the current connector. In parallel, docs/evidence work has now justified exact five-ID English completion reuse into existing `cloze_sentence_choice`. No Math or English reuse runtime implementation is authorized yet.
 
 Other open work remains P2 game-shell/icon/inline-style convergence, WS-02 narration, WS-10 real-device/accessibility/human/Iqro acceptance, WS-11 governance, later WS-12 cleanup, and continued WS-05 progression to the current finish target of 50.
 
