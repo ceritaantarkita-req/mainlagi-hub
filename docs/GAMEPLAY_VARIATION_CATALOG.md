@@ -29,7 +29,8 @@ Patterns #1–#35 remain as previously closed/merged. Latest entries:
 40. `spatial_relation_board` — FULLY CLOSED
 41. `phrase_scene_match` — **FULLY CLOSED / LIVE VERIFIED**
 42. `growth_stage_transition` — **FULLY CLOSED / LIVE VERIFIED**
-43. `single_rule_apply` — **FULLY CLOSED / LIVE VERIFIED**\n44. `subitizing_glance` — **AUDIT VERIFIED / IMPLEMENTATION IN PROGRESS**
+43. `single_rule_apply` — **FULLY CLOSED / LIVE VERIFIED**
+44. `subitizing_glance` — **IMPLEMENTATION CHECKPOINT VERIFIED / PR #194 / NOT MERGED**
 
 ## Current verified merged distribution
 
@@ -51,7 +52,7 @@ picture_word_match                5 / 900
 
 Remaining distance is **7 patterns** to the current finish target of 50.
 
-Pattern #44 implementation target (branch only until verified/merged):
+Pattern #44 verified implementation-checkpoint distribution (branch evidence; not merged-main truth):
 
 ```text
 44 active child-facing patterns
@@ -60,6 +61,22 @@ subitizing_glance                 3 / 900
 ```
 
 Exact scope: `math-subitize-2`, `math-subitize-4`, `math-subitize-5`. Existing `count_and_select` remains unchanged because it measures explicit one-by-one enumeration rather than quantity recognition from spatial patterns.
+
+Verification checkpoint:
+
+```text
+Audit PR:                 #193
+Audit main:               8b3cb7e73a77502b4c9206936e7736ac9169b1ca
+Audit merged-main CI:     #904 / run 35299949341 — full success + Cloudflare smoke
+Implementation PR:        #194
+Verified code head:       3a4385790a793ed5297db4f6d33fa8e1d084ccf1
+Code checkpoint CI:       #906 / run 35301923329 — full success
+Manual visual review:     ACCEPTED / no P0-P1 Pattern #44 blocker
+```
+
+Pattern #44 uses deterministic pair/square/dice-five 3x3 dot layouts. The stimulus remains visible; there is no forced timer, auto-hide, speed score, prompt parser, extra assessed checkpoint, mastery/progression/schema migration, or change to the existing `count_and_select` family.
+
+Evidence records: `PATTERN44_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md` and `WS05_SUBITIZING_GLANCE_WAVE_2026-09-18.md`.
 
 ## Pattern #43 — `single_rule_apply`
 
@@ -142,8 +159,9 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 
 - Patterns #1–#43 — **FULLY CLOSED / LIVE VERIFIED**.
 - Pattern #44 audit — merged/live verified through PR #193 and merged-main CI #904.
-- Current gate — exact three-ID `subitizing_glance` implementation + dedicated QA on `agent/pattern44-subitizing-glance-20260918`.
-- Continue only with justified exact scopes; reuse an existing mechanic when it already matches the evidence model.
+- Pattern #44 implementation code checkpoint — CI #906 full success; nine dedicated screenshots manually accepted.
+- Current gate — docs-inclusive final PR #194 head must pass full CI, then exact-head merge + merged-main production verification.
+- Continue only with justified exact scopes; Pattern #45 must not start implementation before Pattern #44 final closure truth is merged.
 
 ## Definition of done per mechanic
 
