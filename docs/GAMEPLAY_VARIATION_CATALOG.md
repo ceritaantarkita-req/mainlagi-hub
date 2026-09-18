@@ -33,7 +33,7 @@ Patterns #1–#35 remain as previously closed/merged. Latest entries:
 44. `subitizing_glance` — **FULLY CLOSED / LIVE VERIFIED**
 45. `elimination_board` — **FULLY CLOSED / LIVE VERIFIED**
 46. `phenomenon_relation_board` — **FULLY CLOSED / LIVE VERIFIED**
-47. `shape_attribute_board` — **IMPLEMENTATION CHECKPOINT VERIFIED / NOT MERGED**
+47. `shape_attribute_board` — **FULLY CLOSED / LIVE VERIFIED**
 
 ## Current verified merged distribution
 
@@ -56,7 +56,7 @@ sentence_order_cards              5 / 900
 picture_word_match                5 / 900
 ```
 
-Remaining distance is **4 patterns** to the current finish target of 50.
+Remaining distance is **3 patterns** to the current finish target of 50.
 
 Pattern #46 verified merged distribution:
 
@@ -143,7 +143,7 @@ activity quality:          10534385061 / sha256:eebcc3b932495954314c11b69f7409f9
 
 Evidence records: `PATTERN45_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`, `PATTERN45_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md`, `WS05_ELIMINATION_BOARD_WAVE_2026-09-18.md`, and `PATTERN45_ELIMINATION_BOARD_CLOSURE_2026-09-18.md`.
 
-## Pattern #47 — `shape_attribute_board` / IMPLEMENTATION CHECKPOINT VERIFIED / NOT MERGED
+## Pattern #47 — `shape_attribute_board` / FULLY CLOSED / LIVE VERIFIED
 
 Exact candidate scope:
 
@@ -165,7 +165,7 @@ The candidate is distinct because:
 
 Audit-approved future presentation is a geometry board with exactly three canonical shape tiles in exact canonical order. Before submission, styling must be neutral/equivalent and cannot expose side-count or answer-specific clues. Wrong remains retryable/no completion; correct preserves canonical assessed accuracy.
 
-Expected distribution only if implementation later passes:
+Verified merged distribution:
 
 ```text
 47 active child-facing patterns
@@ -196,7 +196,17 @@ gameplay distribution:    10554204045 / sha256:3ebabd402a2880d8cdd87a251a1b14851
 activity quality:          10553799372 / sha256:5c65273fb782b35af0524a52a685210266bce01e1d23b6fcf02978e365e78e42
 ```
 
-This remains branch evidence until the final docs-inclusive PR head merges and merged-main verification passes.
+Final PR head `aa77de822ca21ba6f4ab4347c946cd349fc2fff5` passed CI #948, merged through PR #203 to `7c5610d5872c572ad37e55a6bcffd5d6c576dc81`, and merged-main CI #949 independently verified 47/233/4 plus exact Cloudflare production smoke.
+
+Merged-main #949 artifacts:
+
+```text
+mobile screenshots:       10554833911 / sha256:1dfb8c532c72e05a738edb515d875a8838e9ff38a9bd34819f298d174e484321
+gameplay distribution:    10554873408 / sha256:abddd15f631bd3ba1432f714b1246c701ce4cbb5665f2794a60f5efb3488d78d
+activity quality:          10555243210 / sha256:533ef27ca61acc255551fd71929e9e5eab8b5f23f2e89e2a8a80525b589834b8
+```
+
+Closure record: `PATTERN47_SHAPE_ATTRIBUTE_BOARD_CLOSURE_2026-09-18.md`.
 
 ## Pattern #46 — `phenomenon_relation_board` / FULLY CLOSED / LIVE VERIFIED
 
@@ -306,11 +316,10 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 
 ## Rollout order terbaru
 
-- Patterns #1–#46 — **FULLY CLOSED / LIVE VERIFIED**.
-- Pattern #46 final docs closure — PR #201 merged to `49c33ba8c0e25f5ebea962b79eea77ce44acbd06`; closure-main CI #939 passed including exact Cloudflare production smoke.
-- Pattern #47 audit — merged/live verified through PR #202 and audit-main CI #941.
-- Pattern #47 implementation checkpoint — PR #203 head `8d4a2bc1` accepted; CI #943 full green; nine-shot review accepted; branch 47/233/4.
-- Current gate — docs-inclusive final-head full CI, then exact-head merge and merged-main production verification.
+- Patterns #1–#47 — **FULLY CLOSED / LIVE VERIFIED** at the implementation level.
+- Pattern #47 implementation — PR #203 merged to `7c5610d5872c572ad37e55a6bcffd5d6c576dc81`; merged-main CI #949 passed including exact Cloudflare production smoke and 47/233/4 distribution.
+- Pattern #47 post-merge docs closure — current gate; closure must merge and pass closure-main Cloudflare verification before Pattern #48 begins.
+- Next product gate after closure — fresh Pattern #48 objective/evidence audit from the verified 47-pattern baseline.
 - Continue only with justified exact scopes; reuse an existing mechanic when it already matches the evidence model.
 
 ## Definition of done per mechanic

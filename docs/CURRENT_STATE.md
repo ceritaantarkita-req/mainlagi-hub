@@ -11,7 +11,7 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - production: `https://mainlagihub.my.id/`
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - source licence: `AGPL-3.0-only`
-- latest fully closed gameplay pattern: **Pattern #46 — Science `phenomenon_relation_board`**
+- latest fully closed gameplay pattern: **Pattern #47 — Math `shape_attribute_board`**
 - Pattern #42 implementation: PR #187 -> main `37190f5dabd5d8421d7575b8f220d2824e831f23`
 - Pattern #42 implementation merged-main CI: **#884 / run `35260402125` — full success including exact Cloudflare production smoke**
 - Pattern #42 closure: PR #188 -> main `ad7deb67dc15eefdb81dc5d5e66f4c10ccdc9710`
@@ -56,11 +56,12 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Pattern #47 audit: PR #202 -> main `5978530aff2ad42a0feb28e8bf462b5048a8a69f`
 - Pattern #47 audit PR CI: **#940 / run `35350664877` — full success**
 - Pattern #47 audit merged-main CI: **#941 / run `35351346873` — full success including exact Cloudflare production smoke**
-- Pattern #47 implementation PR: #203
-- Pattern #47 accepted checkpoint: `8d4a2bc1334b853d205cb8981312194ab1deeba5`
-- Pattern #47 checkpoint CI: **#943 / run `35360529236` — full success**
+- Pattern #47 implementation: PR #203 -> main `7c5610d5872c572ad37e55a6bcffd5d6c576dc81`
+- Pattern #47 accepted checkpoint: `8d4a2bc1334b853d205cb8981312194ab1deeba5` / CI #943 full success
+- Pattern #47 final PR head: `aa77de822ca21ba6f4ab4347c946cd349fc2fff5`
+- Pattern #47 final PR CI: **#948 / run `35361686710` — full success**
+- Pattern #47 implementation merged-main CI: **#949 / run `35362716105` — full success including exact Cloudflare production smoke**
 - Pattern #47 manual visual review: **ACCEPTED / 9 screenshots / no P0-P1 blocker**
-- Pattern #47 branch distribution: **47 active / `choice_grid` 233 / `shape_attribute_board` 4**
 - permanent visual QA foundation: **VQA-01 FULLY CLOSED**
 - visual P1 baseline: **P0=0 / P1=0 / P2=3**
 
@@ -82,7 +83,7 @@ Pattern #43: FULLY CLOSED / LIVE VERIFIED
 Pattern #44: FULLY CLOSED / LIVE VERIFIED
 Pattern #45: FULLY CLOSED / LIVE VERIFIED
 Pattern #46: FULLY CLOSED / LIVE VERIFIED
-Pattern #47: IMPLEMENTATION CHECKPOINT VERIFIED / NOT MERGED
+Pattern #47: FULLY CLOSED / LIVE VERIFIED
 ```
 
 External physical-device acceptance, accessibility-specialist review, human pedagogical/art acceptance and Iqro expert acceptance remain separate and incomplete. Physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
@@ -97,15 +98,16 @@ Runtime count is not gameplay-pattern count.
 
 Current WS-05 finish target: **50 meaningful patterns**. The former 60-pattern working target is non-blocking/deferred and is not part of the current finish scope.
 
-Verified merged-main distribution after Pattern #46 implementation:
+Verified merged-main distribution after Pattern #47 implementation:
 
 ```text
 classified:                    900 / 900
 unclassified:                    0
-active merged patterns:         46
-choice_grid                    237 / 900
+active merged patterns:         47
+choice_grid                    233 / 900
 elimination_board                5 / 900
 phenomenon_relation_board        4 / 900
+shape_attribute_board            4 / 900
 subitizing_glance                3 / 900
 single_rule_apply                 5 / 900
 growth_stage_transition          3 / 900
@@ -118,7 +120,7 @@ sentence_order_cards             5 / 900
 picture_word_match               5 / 900
 ```
 
-Remaining distance is **4 patterns** to the WS-05 finish target of 50. Pattern #46 is fully closed through docs-closure main `49c33ba8c0e25f5ebea962b79eea77ce44acbd06` and closure-main CI #939 including exact Cloudflare production smoke.
+Remaining distance is **3 patterns** to the WS-05 finish target of 50. Pattern #47 implementation is merged and live verified on `main` through CI #949 including exact Cloudflare production smoke; required post-merge docs closure is in progress on this branch.
 
 Pattern #45 post-merge docs closure is independently verified: PR #198 merged to `79788dfb7f88164e699d1c3b9ac62b689d366c74`, and closure-main CI #927 passed the full gate including exact Cloudflare production smoke.
 
@@ -126,7 +128,7 @@ Pattern #46 implementation is merged and live verified through PR #200 -> `027d8
 
 Pattern #44 post-merge docs closure remains verified: PR #195 -> `d1d16d1acf5dd8baa2445c2c2901459a1d0e64cc`, closure-main CI #914 full success.
 
-## Pattern #47 — IMPLEMENTATION CHECKPOINT VERIFIED / NOT MERGED
+## Pattern #47 — FULLY CLOSED / LIVE VERIFIED
 
 Candidate pattern:
 
@@ -188,29 +190,33 @@ gameplay distribution:    10549609851 / sha256:36c73f1b58f0d1b238fa8ffea4492302b
 activity quality:          10549874667 / sha256:963a1b02dbdf0f72a1bad7313d8b71ac3cb557bd24e5fd0abfc7fed4f7256bab
 ```
 
-Accepted implementation checkpoint:
+Implementation verification:
 
 ```text
 Implementation PR:        #203
 Initial head:             2bf3eef89b414d25e6e472d4594209e893c6b867
 CI #942:                  failed test-only baseline assertion
-Accepted head:            8d4a2bc1334b853d205cb8981312194ab1deeba5
+Accepted checkpoint:      8d4a2bc1334b853d205cb8981312194ab1deeba5
 Checkpoint CI:            #943 / run 35360529236 — full success
+Final PR head:            aa77de822ca21ba6f4ab4347c946cd349fc2fff5
+Final PR CI:              #948 / run 35361686710 — full success
+Implementation main:      7c5610d5872c572ad37e55a6bcffd5d6c576dc81
+Implementation main CI:   #949 / run 35362716105 — full success + exact Cloudflare production smoke
 Manual visual review:     ACCEPTED / nine screenshots / no P0-P1 blocker
-Branch distribution:      47 active / choice_grid 233 / shape_attribute_board 4
+Merged distribution:      47 active / choice_grid 233 / shape_attribute_board 4
 ```
 
-CI #942 failure was not a runtime defect: the new regression expected `math-spatial-above` to already classify as `spatial_relation_board`; canonical baseline remains `choice_grid`. The accepted fix changed only that test assertion.
+CI #942 failure was not a runtime defect: the regression expected `math-spatial-above` to already classify as `spatial_relation_board`; verified baseline remains `choice_grid`. The accepted fix changed only that test assertion.
 
-Checkpoint artifacts:
+Merged-main #949 artifacts:
 
 ```text
-mobile screenshots:       10553614390 / sha256:a5211f08e5d0489c9f9a7aaf09a5ef5fe68d14793a18f393607e6c06db18a001
-gameplay distribution:    10554204045 / sha256:3ebabd402a2880d8cdd87a251a1b14851347950c27d94567f10e84ecc86636bb
-activity quality:          10553799372 / sha256:5c65273fb782b35af0524a52a685210266bce01e1d23b6fcf02978e365e78e42
+mobile screenshots:       10554833911 / sha256:1dfb8c532c72e05a738edb515d875a8838e9ff38a9bd34819f298d174e484321
+gameplay distribution:    10554873408 / sha256:abddd15f631bd3ba1432f714b1246c701ce4cbb5665f2794a60f5efb3488d78d
+activity quality:          10555243210 / sha256:533ef27ca61acc255551fd71929e9e5eab8b5f23f2e89e2a8a80525b589834b8
 ```
 
-This is still branch evidence; merged production truth remains 46 active patterns until final docs-inclusive CI, exact-head merge and independent merged-main verification.
+Closure evidence: `PATTERN47_SHAPE_ATTRIBUTE_BOARD_CLOSURE_2026-09-18.md`.
 
 Audit evidence: `PATTERN47_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
 
@@ -550,10 +556,10 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Pattern #46 is the latest fully closed/live-verified gameplay pattern through closure main `49c33ba8` and CI #939.
-2. Preserve the merged 46-pattern baseline: 900/900 classified, `choice_grid` 237, `phenomenon_relation_board` 4.
-3. Pattern #47 code checkpoint `8d4a2bc1` is accepted: CI #943 full green, 47/233/4 branch distribution, nine-shot manual review accepted.
-4. Run full CI on the final docs-inclusive PR #203 head; merge only that unchanged green exact head after mergeability/review/thread checks.
-5. Independently verify merged-main 47/233/4 + Cloudflare, then close Pattern #47 docs before Pattern #48 implementation.
+1. Pattern #47 is the latest implementation-merged/live-verified gameplay pattern through main `7c5610d5` and CI #949.
+2. Preserve the merged 47-pattern baseline: 900/900 classified, `choice_grid` 233, `shape_attribute_board` 4.
+3. Complete and independently verify this post-merge Pattern #47 docs closure.
+4. After closure-main verification, start Pattern #48 with a fresh objective/evidence audit only; no mechanic, subject, or family is pre-approved.
+5. Continue the same audit -> implementation -> visual/browser QA -> merged-main verification -> docs-closure path through Pattern #50.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion or mastery/backend rewrites before the current quality roadmap justifies them.
