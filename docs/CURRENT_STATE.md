@@ -50,6 +50,10 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Pattern #46 implementation: PR #200 -> main `027d81edba9f3b5585eb2c964aa89e80e3337422`
 - Pattern #46 implementation merged-main CI: **#937 / run `35339693569` — full success including exact Cloudflare production smoke**
 - Pattern #46 manual visual review: **ACCEPTED / 9 screenshots / no P0-P1 blocker**
+- Pattern #46 closure docs: PR #201 -> main `49c33ba8c0e25f5ebea962b79eea77ce44acbd06`
+- Pattern #46 closure docs PR CI: **#938 / run `35345815126` — full success**
+- Pattern #46 closure docs merged-main CI: **#939 / run `35346435744` — full success including exact Cloudflare production smoke**
+- Pattern #47 audit candidate: **Math `shape_attribute_board` / exact 4 activities / code not started**
 - permanent visual QA foundation: **VQA-01 FULLY CLOSED**
 - visual P1 baseline: **P0=0 / P1=0 / P2=3**
 
@@ -71,6 +75,7 @@ Pattern #43: FULLY CLOSED / LIVE VERIFIED
 Pattern #44: FULLY CLOSED / LIVE VERIFIED
 Pattern #45: FULLY CLOSED / LIVE VERIFIED
 Pattern #46: FULLY CLOSED / LIVE VERIFIED
+Pattern #47: AUDIT CANDIDATE / CODE NOT STARTED
 ```
 
 External physical-device acceptance, accessibility-specialist review, human pedagogical/art acceptance and Iqro expert acceptance remain separate and incomplete. Physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
@@ -106,13 +111,58 @@ sentence_order_cards             5 / 900
 picture_word_match               5 / 900
 ```
 
-Remaining distance is **4 patterns** to the WS-05 finish target of 50. Pattern #46 implementation is merged and live verified on `main` through CI #937 including exact Cloudflare production smoke.
+Remaining distance is **4 patterns** to the WS-05 finish target of 50. Pattern #46 is fully closed through docs-closure main `49c33ba8c0e25f5ebea962b79eea77ce44acbd06` and closure-main CI #939 including exact Cloudflare production smoke.
 
 Pattern #45 post-merge docs closure is independently verified: PR #198 merged to `79788dfb7f88164e699d1c3b9ac62b689d366c74`, and closure-main CI #927 passed the full gate including exact Cloudflare production smoke.
 
-Pattern #46 implementation is merged and live verified through PR #200 -> `027d81edba9f3b5585eb2c964aa89e80e3337422`. Final PR head `2b8e47b18a29cebf3b3dde0eda31b3d70c73dbaf` passed CI #936, and merged-main CI #937 independently verified 46/237/4 distribution plus exact Cloudflare production smoke.
+Pattern #46 implementation is merged and live verified through PR #200 -> `027d81edba9f3b5585eb2c964aa89e80e3337422`. Final PR head `2b8e47b18a29cebf3b3dde0eda31b3d70c73dbaf` passed CI #936, merged-main CI #937 independently verified 46/237/4 plus exact Cloudflare production smoke, and docs closure PR #201 -> `49c33ba8c0e25f5ebea962b79eea77ce44acbd06` passed closure-main CI #939.
 
 Pattern #44 post-merge docs closure remains verified: PR #195 -> `d1d16d1acf5dd8baa2445c2c2901459a1d0e64cc`, closure-main CI #914 full success.
+
+## Pattern #47 — AUDIT CANDIDATE / CODE NOT STARTED
+
+Candidate pattern:
+
+```text
+shape_attribute_board
+```
+
+Exact audited scope:
+
+```text
+math-shape-find-circle
+math-shape-find-triangle
+math-shape-find-square
+math-shape-three-sides
+```
+
+Canonical ownership is Math / `math-banding-bentuk` / `math-shapes` / `math.pack.shapes` / assessed `tap_choice` / `choice_accuracy_v1`, with three activities on `math.shape.recognition` and one on `math.shape.properties`.
+
+Audit rationale:
+- lesson objective is to recognize basic shapes and their simple visual properties;
+- generic `choice_grid` does not provide a geometry-specific board even though the evidence is visual shape discrimination;
+- existing `symbol_hunt` is letter-specific and completion-only, so it is not evidence-compatible reuse for assessed Math shape choice;
+- same-pack `math-shape-match-circle-square` and `math-shape-match-triangle-rectangle` remain canonical matching / `matching_accuracy_v1`;
+- `compare_properties` is relative comparison, while these activities identify intrinsic shape identity/property;
+- `spatial_relation_board` measures positional relation, not intrinsic geometry.
+
+Implementation boundary if the audit later becomes merged truth:
+- explicit per-ID config only; no prompt parser;
+- exact canonical prompts, choice order and submitted values stay unchanged;
+- neutral/equivalent shape tiles before submission;
+- wrong selection increments incorrect/retry and cannot complete;
+- correct selection completes through canonical `choice_accuracy_v1`;
+- no mastery/progression/schema/database/content-ownership change.
+
+Expected distribution only if implementation later passes:
+
+```text
+47 active child-facing patterns
+choice_grid                 233 / 900
+shape_attribute_board         4 / 900
+```
+
+Audit evidence: `PATTERN47_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
 
 ## Pattern #46 — FULLY CLOSED / LIVE VERIFIED
 
@@ -450,10 +500,10 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Pattern #46 is the latest fully closed/live-verified gameplay pattern through main `027d81ed` and CI #937.
+1. Pattern #46 is the latest fully closed/live-verified gameplay pattern through closure main `49c33ba8` and CI #939.
 2. Preserve the merged 46-pattern baseline: 900/900 classified, `choice_grid` 237, `phenomenon_relation_board` 4.
-3. Pattern #47 must begin with a fresh objective/evidence audit; no mechanic, subject, or content family is pre-approved.
-4. Reuse an existing mechanic whenever it already expresses the required evidence model.
-5. Continue the same audit -> exact-scope implementation -> visual/browser QA -> merged-main verification -> docs-closure path through Pattern #50.
+3. Pattern #47 audit candidate is Math `shape_attribute_board` for exactly four direct-choice `math-shapes` activities; runtime code has not started.
+4. Merge and independently verify the docs-only Pattern #47 audit before implementation.
+5. If the audit becomes merged truth, implement only the exact four-ID scope and continue the same exact-head QA -> merge -> merged-main verification -> docs-closure path through Pattern #50.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion or mastery/backend rewrites before the current quality roadmap justifies them.

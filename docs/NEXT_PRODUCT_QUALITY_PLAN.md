@@ -40,6 +40,10 @@
 **Pattern #46 final PR CI:** **#936 / run `35339040549` — full success**  
 **Pattern #46 merged-main CI:** **#937 / run `35339693569` — full success + exact Cloudflare production smoke**  
 **Pattern #46 manual visual review:** **ACCEPTED / nine screenshots / no P0-P1 blocker**  
+**Pattern #46 closure docs:** PR #201 -> main `49c33ba8c0e25f5ebea962b79eea77ce44acbd06`  
+**Pattern #46 closure docs PR CI:** **#938 / run `35345815126` — full success**  
+**Pattern #46 closure docs main CI:** **#939 / run `35346435744` — full success + exact Cloudflare production smoke**  
+**Pattern #47 audit candidate:** Math `shape_attribute_board` / exact four-ID scope / code not started  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
 
@@ -67,11 +71,11 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 
 | Workstream | Status | Current note |
 |---|---|---|
-| WS-01 Canonical docs | **CURRENT** | Pattern #46 merged/live verified; closure docs in progress |
+| WS-01 Canonical docs | **CURRENT** | Pattern #46 closure verified; Pattern #47 audit candidate documented |
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **46 FULLY CLOSED / LIVE VERIFIED** | Pattern #46 merged-main CI #937 green; 4 patterns remain to finish target 50 |
+| WS-05 Gameplay diversification | **46 FULLY CLOSED / P47 AUDIT CANDIDATE** | Math `shape_attribute_board` exact four-ID audit; implementation not started |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P45 merged-main permanent visual QA green; nine dedicated screenshots manually accepted |
@@ -86,8 +90,9 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 900 / 900 classified
 0 unclassified
 46 active merged patterns
-choice_grid                     241 / 900
+choice_grid                     237 / 900
 elimination_board                 5 / 900
+phenomenon_relation_board           4 / 900
 subitizing_glance                 3 / 900
 single_rule_apply                 5 / 900
 growth_stage_transition           3 / 900
@@ -96,6 +101,48 @@ spatial_relation_board            6 / 900
 ```
 
 Distance remaining: **4 patterns** to the current WS-05 finish target of 50. No 60-pattern expansion is required for this finish scope.
+
+## Pattern #47 — `shape_attribute_board` / AUDIT CANDIDATE / CODE NOT STARTED
+
+Fresh audit base is Pattern #46 closure main `49c33ba8c0e25f5ebea962b79eea77ce44acbd06`, with closure-main CI #939 full success including exact Cloudflare production smoke.
+
+Exact candidate scope:
+
+```text
+math-shape-find-circle
+math-shape-find-triangle
+math-shape-find-square
+math-shape-three-sides
+```
+
+Canonical ownership is Math / `math-banding-bentuk` / `math-shapes` / `math.pack.shapes` / assessed `tap_choice` / `choice_accuracy_v1`.
+
+Why this candidate is justified:
+- lesson objective requires recognition of basic shapes and simple visual properties;
+- three activities assess `math.shape.recognition`, one assesses `math.shape.properties`;
+- generic `choice_grid` under-expresses the geometry-specific evidence;
+- current `symbol_hunt` is letter-specific and completion-only, so reusing it would weaken the assessed evidence contract;
+- same-pack matching remains matching and is explicitly excluded;
+- comparison/spatial mechanics do not represent intrinsic shape identity/property.
+
+Approved future boundary, only after audit verification:
+- explicit exact-ID config; no prompt parser;
+- exact canonical prompts/choices/order/correct answers;
+- three equal shape tiles with no answer-specific cue before submission;
+- wrong selection increments incorrect/retry and cannot complete;
+- correct selection completes with canonical `choice_accuracy_v1`;
+- keyboard, pointer and actual-touch QA;
+- no mastery/progression/schema/database/content-ownership changes.
+
+Expected post-implementation distribution only if later gates pass:
+
+```text
+47 active patterns
+choice_grid                     233 / 900
+shape_attribute_board             4 / 900
+```
+
+Audit record: `PATTERN47_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`. Current branch is audit-only; runtime implementation must wait for audit PR merge + merged-main verification.
 
 ## Pattern #46 — `phenomenon_relation_board` / FULLY CLOSED / LIVE VERIFIED
 
@@ -338,10 +385,10 @@ P2 findings: 3
 
 ## Current execution order
 
-1. Pattern #46 is fully closed/live verified; preserve its exact four-ID scope and merged 46-pattern baseline.
-2. Start Pattern #47 with a fresh objective/evidence audit only. No mechanic, subject, or content family is pre-approved.
-3. If an existing mechanic already expresses the objective/evidence model, reuse it instead of inventing a new pattern.
-4. If Pattern #47 is justified, require exact-scope regression, keyboard/pointer/actual-touch QA, nine-shot visual review, permanent visual QA, exact-head merge and merged-main Cloudflare verification.
-5. Repeat this path through Pattern #50, then run final overall QA/docs/production closeout.
+1. Complete the docs-only Pattern #47 audit PR for exact four-ID Math `shape_attribute_board`; do not write runtime code on the audit branch.
+2. Require exact-head PR CI, exact merge, and merged-main Cloudflare verification for the audit.
+3. Only after audit verification, implement the exact four-ID shape board while preserving canonical assessed `choice_accuracy_v1`.
+4. Require keyboard/pointer/actual-touch QA, nine dedicated screenshots, permanent visual QA, exact-head merge and independent merged-main verification.
+5. Close canonical docs and repeat through Pattern #50, then run final overall QA/docs/production closeout.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
