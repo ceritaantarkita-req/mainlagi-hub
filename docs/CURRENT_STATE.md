@@ -66,6 +66,10 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Pattern #47 closure docs PR CI: **#950 / run `35364586385` — full success**
 - Pattern #47 closure docs merged-main CI: **#951 / run `35365286942` — full success including exact Cloudflare production smoke**
 - Pattern #48 audit: **COMPLETE / NO JUSTIFIED NEW PATTERN YET / CODE NOT STARTED**
+- Pattern #48 audit PR: #205 -> main `ae95f1c494351533e88463f7225d7d07440b708e`
+- Pattern #48 audit PR CI: **#952 / run `35366693120` — full success**
+- Pattern #48 audit merged-main CI: **#953 / run `35367422058` — full success including exact Cloudflare production smoke**
+- Set Reasoning reuse audit: **JUSTIFIED / exact 5-ID Logic multi-attribute scope / code not started**
 - permanent visual QA foundation: **VQA-01 FULLY CLOSED**
 - visual P1 baseline: **P0=0 / P1=0 / P2=3**
 
@@ -156,7 +160,17 @@ Reviewed families continue to prefer existing mechanics:
 - Science force/motion and mixed review -> too heterogeneous for one new pattern;
 - Iqro -> deferred until external expert acceptance.
 
-Next engineering gate is a **reuse/generalization audit** over compatible remaining `choice_grid` families. Runtime Pattern #48 code has not started.
+Next engineering gate is the audited reuse of existing `set_reasoning` for exactly five Logic multi-attribute activities. This does not create Pattern #48 and does not change the active pattern count. Runtime code has not started on the audit branch.
+
+Expected distribution only if later implementation passes:
+
+```text
+active patterns:  47
+choice_grid:      228
+set_reasoning:     10
+```
+
+Reuse audit evidence: `SET_REASONING_LOGIC_MULTI_CLASSIFICATION_REUSE_AUDIT_2026-09-18.md`.
 
 Audit evidence: `PATTERN48_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
 
@@ -590,8 +604,8 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 1. Pattern #47 is fully closed/live verified through closure main `bbb61965` and CI #951.
 2. Preserve the merged 47-pattern baseline: 900/900 classified, `choice_grid` 233, `shape_attribute_board` 4.
-3. Pattern #48 fresh audit found no justified new mechanic yet; do not start runtime code.
-4. Run reuse/generalization audits for existing mechanics over compatible remaining `choice_grid` families before reconsidering a new Pattern #48.
-5. Keep the finish target at 50, but do not inflate taxonomy to reach it.
+3. Pattern #48 fresh audit found no justified new mechanic; active pattern count remains 47.
+4. Set Reasoning reuse audit is justified for exactly five Logic multi-attribute activities; merge and independently verify the docs-only reuse audit before implementation.
+5. Keep the finish target at 50 without taxonomy inflation; this reuse work improves presentation coverage while active pattern count stays 47.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion or mastery/backend rewrites before the current quality roadmap justifies them.

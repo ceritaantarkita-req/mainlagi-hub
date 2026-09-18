@@ -56,6 +56,8 @@
 **Pattern #47 closure PR CI:** **#950 / run `35364586385` — full success**  
 **Pattern #47 closure-main CI:** **#951 / run `35365286942` — full success + exact Cloudflare production smoke**  
 **Pattern #48 audit:** **NO JUSTIFIED NEW PATTERN YET / code not started**  
+**Pattern #48 audit main:** `ae95f1c494351533e88463f7225d7d07440b708e` / CI #953 full success + exact Cloudflare production smoke  
+**Current reuse audit:** existing `set_reasoning` -> exact five Logic multi-attribute activities / justified / code not started  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
 
@@ -87,7 +89,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **47 FULLY CLOSED / P48 NO CANDIDATE YET** | reuse/generalization audit is next; 3 patterns remain to target 50 |
+| WS-05 Gameplay diversification | **47 FULLY CLOSED / REUSE AUDIT ACTIVE** | `set_reasoning` exact five-ID Logic generalization justified; active count stays 47 |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P45 merged-main permanent visual QA green; nine dedicated screenshots manually accepted |
@@ -133,6 +135,32 @@ Next action is **reuse/generalization validation**, prioritizing:
 5. Science environment care -> routine/action mechanic generalization.
 
 A later new Pattern #48 requires evidence that reuse cannot safely preserve the objective/evidence contract.
+
+### Current reuse audit — `set_reasoning` / Logic multi-attribute
+
+Exact audited scope:
+
+```text
+logic-classify-red-round
+logic-classify-blue-not-round
+logic-classify-two-red-items
+logic-classify-arrow-not-left
+logic-classify-same-shape-different-color
+```
+
+All five remain assessed `tap_choice` / `choice_accuracy_v1` under `logic.classification.multi_attribute`.
+
+Reuse is justified because each task can be represented as two explicit simultaneous constraints using the existing Set Reasoning evidence flow. Child-facing wording must be generalized from literal “himpunan” membership to neutral “dua aturan/syarat” language so count, direction and pair candidates remain natural.
+
+No new gameplay pattern is created. Expected post-implementation distribution only after verification:
+
+```text
+47 active patterns
+choice_grid       228 / 900
+set_reasoning      10 / 900
+```
+
+Audit record: `SET_REASONING_LOGIC_MULTI_CLASSIFICATION_REUSE_AUDIT_2026-09-18.md`. Runtime code has not started.
 
 Audit record: `PATTERN48_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
 
@@ -462,9 +490,9 @@ P2 findings: 3
 ## Current execution order
 
 1. Pattern #47 is fully closed/live verified through `bbb61965` / CI #951.
-2. Do not implement a new Pattern #48 from the current audit; no candidate is justified yet.
-3. Run exact-scope reuse/generalization audits on existing mechanics for compatible `choice_grid` families.
-4. Only reopen a new-pattern candidate when reuse is demonstrably insufficient for the learning objective/evidence.
-5. Preserve the finish target of 50 without taxonomy inflation; continue final QA/docs discipline for every accepted change.
+2. Do not implement a new Pattern #48; no new mechanic candidate is justified.
+3. Complete the docs-only Set Reasoning reuse audit for the exact five Logic multi-attribute IDs and require merged-main verification.
+4. Only after that audit is live verified, implement the exact reuse scope with neutral two-rule wording, old-family regressions and new-family browser/touch QA.
+5. Preserve the finish target of 50 without taxonomy inflation; continue exact-head QA/docs discipline for every accepted change.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
