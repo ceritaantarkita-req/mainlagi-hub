@@ -1,6 +1,6 @@
 # WS-05 Pattern #47 — Shape Attribute Board Wave — 18 September 2026
 
-Status: **IMPLEMENTATION IN PROGRESS / NOT MERGED**
+Status: **IMPLEMENTATION CHECKPOINT VERIFIED / NOT MERGED**
 
 ## Goal
 
@@ -101,9 +101,31 @@ choice_grid 233
 shape_attribute_board 4
 ```
 
-## Required gate
+## Accepted checkpoint
 
-1. Full exact-head PR CI.
+```text
+Implementation PR:        #203
+Initial head:             2bf3eef89b414d25e6e472d4594209e893c6b867
+CI #942:                  failed test-only baseline assertion
+Accepted checkpoint:      8d4a2bc1334b853d205cb8981312194ab1deeba5
+Checkpoint CI:            #943 / run 35360529236 — full success
+Manual visual review:     ACCEPTED / 9 screenshots / no P0-P1 blocker
+Branch distribution:      47 active / choice_grid 233 / shape_attribute_board 4
+```
+
+CI #942 did not expose a runtime defect. The regression incorrectly expected `math-spatial-above` to already classify as `spatial_relation_board`; verified baseline classification is `choice_grid`. The accepted fix changed only that assertion.
+
+Checkpoint artifacts:
+
+```text
+mobile screenshots:       10553614390 / sha256:a5211f08e5d0489c9f9a7aaf09a5ef5fe68d14793a18f393607e6c06db18a001
+gameplay distribution:    10554204045 / sha256:3ebabd402a2880d8cdd87a251a1b14851347950c27d94567f10e84ecc86636bb
+activity quality:          10553799372 / sha256:5c65273fb782b35af0524a52a685210266bce01e1d23b6fcf02978e365e78e42
+```
+
+## Remaining gate
+
+1. Full exact-head CI on the final docs-inclusive PR head.
 2. Exact four-ID regression + fail-closed drift checks.
 3. Browser QA at 320x720, 390x844 actual touch, 768x1024.
 4. Idle/wrong/success screenshots at all three viewports.
