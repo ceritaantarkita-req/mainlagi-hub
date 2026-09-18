@@ -46,9 +46,11 @@
 **Pattern #47 audit:** PR #202 -> main `5978530aff2ad42a0feb28e8bf462b5048a8a69f`  
 **Pattern #47 audit PR CI:** **#940 / run `35350664877` — full success**  
 **Pattern #47 audit merged-main CI:** **#941 / run `35351346873` — full success + exact Cloudflare production smoke**  
-**Pattern #47 implementation PR:** #203  
-**Pattern #47 accepted checkpoint:** `8d4a2bc1334b853d205cb8981312194ab1deeba5`  
-**Pattern #47 checkpoint CI:** **#943 / run `35360529236` — full success**  
+**Pattern #47 implementation:** PR #203 -> main `7c5610d5872c572ad37e55a6bcffd5d6c576dc81`  
+**Pattern #47 accepted checkpoint:** `8d4a2bc1334b853d205cb8981312194ab1deeba5` / CI #943 full success  
+**Pattern #47 final PR head:** `aa77de822ca21ba6f4ab4347c946cd349fc2fff5`  
+**Pattern #47 final PR CI:** **#948 / run `35361686710` — full success**  
+**Pattern #47 merged-main CI:** **#949 / run `35362716105` — full success + exact Cloudflare production smoke**  
 **Pattern #47 manual visual review:** **ACCEPTED / nine screenshots / no P0-P1 blocker**  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
@@ -77,11 +79,11 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 
 | Workstream | Status | Current note |
 |---|---|---|
-| WS-01 Canonical docs | **CURRENT** | Pattern #47 implementation checkpoint verified; final docs-inclusive PR gate pending |
+| WS-01 Canonical docs | **CURRENT** | Pattern #47 implementation merged/live verified; post-merge docs closure in progress |
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **46 FULLY CLOSED / P47 CHECKPOINT VERIFIED** | PR #203 checkpoint CI #943 green; branch 47/233/4; merged truth remains 46 |
+| WS-05 Gameplay diversification | **47 LIVE VERIFIED / DOCS CLOSURE IN PROGRESS** | PR #203 merged; CI #949 verified 47/233/4 + Cloudflare; 3 patterns remain |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P45 merged-main permanent visual QA green; nine dedicated screenshots manually accepted |
@@ -95,10 +97,11 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 ```text
 900 / 900 classified
 0 unclassified
-46 active merged patterns
-choice_grid                     237 / 900
+47 active merged patterns
+choice_grid                     233 / 900
 elimination_board                 5 / 900
 phenomenon_relation_board           4 / 900
+shape_attribute_board                4 / 900
 subitizing_glance                 3 / 900
 single_rule_apply                 5 / 900
 growth_stage_transition           3 / 900
@@ -108,7 +111,7 @@ spatial_relation_board            6 / 900
 
 Distance remaining: **4 patterns** to the current WS-05 finish target of 50. No 60-pattern expansion is required for this finish scope.
 
-## Pattern #47 — `shape_attribute_board` / IMPLEMENTATION CHECKPOINT VERIFIED / NOT MERGED
+## Pattern #47 — `shape_attribute_board` / FULLY CLOSED / LIVE VERIFIED
 
 Fresh audit base is Pattern #46 closure main `49c33ba8c0e25f5ebea962b79eea77ce44acbd06`, with closure-main CI #939 full success including exact Cloudflare production smoke.
 
@@ -172,7 +175,25 @@ manual review:            ACCEPTED / 9 screenshots / no P0-P1 blocker
 branch distribution:      47 active / choice_grid 233 / shape_attribute_board 4
 ```
 
-This remains branch-only truth until final docs-inclusive CI, exact-head merge and independent merged-main verification.
+Final implementation verification:
+
+```text
+final PR head:             aa77de822ca21ba6f4ab4347c946cd349fc2fff5
+final PR CI:               #948 / run 35361686710 — full success
+implementation main:       7c5610d5872c572ad37e55a6bcffd5d6c576dc81
+implementation main CI:    #949 / run 35362716105 — full success + exact Cloudflare production smoke
+merged distribution:       47 active / choice_grid 233 / shape_attribute_board 4
+```
+
+Merged-main #949 artifacts:
+
+```text
+mobile screenshots:       10554833911 / sha256:1dfb8c532c72e05a738edb515d875a8838e9ff38a9bd34819f298d174e484321
+gameplay distribution:    10554873408 / sha256:abddd15f631bd3ba1432f714b1246c701ce4cbb5665f2794a60f5efb3488d78d
+activity quality:          10555243210 / sha256:533ef27ca61acc255551fd71929e9e5eab8b5f23f2e89e2a8a80525b589834b8
+```
+
+Post-merge closure evidence: `PATTERN47_SHAPE_ATTRIBUTE_BOARD_CLOSURE_2026-09-18.md`.
 
 ## Pattern #46 — `phenomenon_relation_board` / FULLY CLOSED / LIVE VERIFIED
 
@@ -415,10 +436,10 @@ P2 findings: 3
 
 ## Current execution order
 
-1. Pattern #47 code checkpoint is accepted at `8d4a2bc1`; preserve exact four-ID scope and accepted screenshots/evidence.
-2. Run full CI on the docs-inclusive final PR #203 head and confirm no code drift from the accepted checkpoint.
-3. Merge only an unchanged green exact head after mergeability/review/thread checks.
-4. Independently verify merged-main 47/233/4 distribution, permanent visual QA and exact Cloudflare production smoke.
-5. Reconcile Pattern #47 closure docs before starting Pattern #48 implementation; repeat through Pattern #50.
+1. Pattern #47 implementation is merged/live verified at `7c5610d5`; preserve exact four-ID scope and 47/233/4 merged baseline.
+2. Complete this docs-only Pattern #47 post-merge closure PR and require exact-head full CI.
+3. Merge closure only if clean, then independently verify closure-main full CI + exact Cloudflare production smoke.
+4. Start Pattern #48 only after closure-main verification, with a fresh objective/evidence audit and no pre-approved mechanic/family.
+5. Repeat the same discipline through Pattern #50, then run final overall QA/docs/production closeout.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
