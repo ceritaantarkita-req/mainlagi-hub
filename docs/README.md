@@ -280,7 +280,7 @@ Pattern #42 closure gates are complete. Closure PR #188 merged and closure main 
 
 - [`SET_REASONING_LOGIC_MULTI_CLASSIFICATION_REUSE_CLOSURE_2026-09-19.md`](SET_REASONING_LOGIC_MULTI_CLASSIFICATION_REUSE_CLOSURE_2026-09-19.md) — post-merge closure record; currently pending independent merged-main CI + exact Cloudflare verification.
 - [`SET_REASONING_LOGIC_MULTI_CLASSIFICATION_REUSE_ACCEPTANCE_2026-09-18.md`](SET_REASONING_LOGIC_MULTI_CLASSIFICATION_REUSE_ACCEPTANCE_2026-09-18.md) — accepted PR #207 checkpoint plus final exact-head #963 / merge evidence.
-- [`WS05_SET_REASONING_REUSE_LOGIC_MULTI_WAVE_2026-09-18.md`](WS05_SET_REASONING_REUSE_LOGIC_MULTI_WAVE_2026-09-18.md) — Set Reasoning reuse implementation/QA wave and remaining merge gates.
+- [`WS05_SET_REASONING_REUSE_LOGIC_MULTI_WAVE_2026-09-18.md`](WS05_SET_REASONING_REUSE_LOGIC_MULTI_WAVE_2026-09-18.md) — Set Reasoning reuse implementation/QA wave, final merge evidence and remaining live-closure gates.
 - [`SET_REASONING_LOGIC_MULTI_CLASSIFICATION_REUSE_AUDIT_2026-09-18.md`](SET_REASONING_LOGIC_MULTI_CLASSIFICATION_REUSE_AUDIT_2026-09-18.md) — merged/live-verified exact five-ID Set Reasoning reuse/generalization audit.
 - [`PATTERN48_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`](PATTERN48_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md) — merged/live-verified Pattern #48 no-candidate objective/evidence audit; no new mechanic approved.
 - [`PATTERN47_FINAL_CLOSURE_VERIFICATION_2026-09-18.md`](PATTERN47_FINAL_CLOSURE_VERIFICATION_2026-09-18.md) — Pattern #47 final post-merge docs closure verification through PR #204 / CI #951.
