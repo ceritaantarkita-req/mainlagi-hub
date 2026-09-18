@@ -80,8 +80,13 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Set Reasoning reuse final manual visual review: **ACCEPTED / 9 screenshots / no P0-P1 blocker**
 - Set Reasoning reuse final branch distribution: **47 active / `choice_grid` 228 / `set_reasoning` 10**
 - Set Reasoning reuse merged-main CI / exact Cloudflare smoke: **PENDING INDEPENDENT VERIFICATION**
-- Math spatial -> `spatial_relation_board` reuse audit: **JUSTIFIED / exact 5-ID scope / CODE NOT STARTED**
-- Math spatial reuse implementation: **BLOCKED until preceding Set Reasoning live closure + this audit verification**
+- Math spatial -> `spatial_relation_board` reuse audit: PR #209 -> main `3e30a817ef86fa691f9b2f1249ac00bc00dce4e6`
+- Math spatial reuse audit PR CI: **#970 / run `35377295090` — full success**
+- Math spatial reuse audit merged-main / Cloudflare verification: **PENDING INDEPENDENT VERIFICATION**
+- Math spatial reuse implementation: **BLOCKED / CODE NOT STARTED**
+- Math measurement -> `compare_properties` reuse audit: **JUSTIFIED / exact 4 direct-choice IDs / CODE NOT STARTED**
+- Math measurement matching exclusion: **`math-measure-match-length` stays matching / `matching_accuracy_v1`**
+- Math measurement reuse implementation: **BLOCKED by preceding live/audit gates**
 - permanent visual QA foundation: **VQA-01 FULLY CLOSED**
 - visual P1 baseline: **P0=0 / P1=0 / P2=3**
 
@@ -238,6 +243,27 @@ spatial_relation_board      11 / 900
 Runtime implementation is blocked until the preceding Set Reasoning live-closure gate is independently resolved and this audit itself is merged/verified.
 
 Reuse audit record: `SPATIAL_RELATION_BOARD_MATH_POSITION_REUSE_AUDIT_2026-09-19.md`.
+
+PR #209 merged this docs-only audit to main `3e30a817ef86fa691f9b2f1249ac00bc00dce4e6`; exact PR head `e34c85c40e86d7b3a2dc5d3686b445b434181b4d` passed CI #970 / run `35377295090`. PR artifacts reconfirmed the unchanged runtime baseline: 900/900 classified, 47 active, `choice_grid` 228, `spatial_relation_board` 6, `set_reasoning` 10, and activity-quality KEEP 900 / other buckets 0. Independent merged-main/Cloudflare verification remains pending.
+
+### Current reuse audit — Math measurement -> `compare_properties`
+
+Reuse is justified for exactly four assessed Math `math.measure.intuition` direct-choice activities:
+
+```text
+math-measure-longer
+math-measure-more-capacity
+math-measure-fuller
+math-measure-three-lengths
+```
+
+`math-measure-match-length` remains canonical matching / `matching_accuracy_v1` and is explicitly excluded.
+
+The existing `compare_properties` mechanic already represents qualitative property comparison with canonical direct-choice evidence. Two Math tasks fit its binary variant directly; capacity and three-length tasks require an explicit three-first-class-candidate variant so no real candidate is demoted into the current visually secondary “other choice”. This is still the same compare-properties evidence model, not Pattern #48.
+
+No runtime code has started. If this four-ID wave alone were later verified from the current code baseline, `choice_grid` would move 228 -> 224 and `compare_properties` 3 -> 7 while active patterns stay 47. If the already-audited five Math spatial IDs are implemented first, the combined later target would be `choice_grid` 219 / `spatial_relation_board` 11 / `compare_properties` 7 / `set_reasoning` 10.
+
+Reuse audit record: `COMPARE_PROPERTIES_MATH_MEASURE_REUSE_AUDIT_2026-09-19.md`.
 
 Audit evidence: `PATTERN48_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
 
@@ -673,7 +699,8 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 2. Preserve the merged 47-pattern baseline: 900/900 classified, `choice_grid` 233, `shape_attribute_board` 4.
 3. Pattern #48 fresh audit found no justified new mechanic; active pattern count remains 47.
 4. Set Reasoning reuse PR #207 is merged to main `9debb6cf`; exact final head `a37fdec7` passed CI #963 and final nine-shot review with 47/228/10 branch distribution.
-5. Math spatial -> existing `spatial_relation_board` reuse is audit-justified for exactly five `math.spatial.position` activities; code has not started.
-6. Independently resolve the Set Reasoning merged-main/Cloudflare closure and merge/verify the Math spatial reuse audit before any Math runtime implementation.
+5. Math spatial reuse audit PR #209 is merged to main `3e30a817`; PR CI #970 is green, independent merged-main/Cloudflare verification remains pending, and runtime code has not started.
+6. Math measurement -> existing `compare_properties` reuse is audit-justified for exactly four direct-choice `math.measure.intuition` activities; matching remains excluded and code has not started.
+7. Resolve the outstanding live/audit verification gates before any Math runtime implementation.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion or mastery/backend rewrites before the current quality roadmap justifies them.
