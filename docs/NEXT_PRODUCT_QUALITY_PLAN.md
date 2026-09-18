@@ -67,6 +67,8 @@
 **Final PR CI:** **#963 / run `35372830249` — full success**  
 **Final manual visual review:** **ACCEPTED / nine screenshots / no P0-P1 blocker**  
 **Merged-main CI / exact Cloudflare smoke:** **PENDING INDEPENDENT VERIFICATION**  
+**Math spatial reuse audit:** **`spatial_relation_board` / exact 5-ID scope / JUSTIFIED / code not started**  
+**Math spatial implementation:** **BLOCKED by preceding live-closure + audit verification gates**  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
 
@@ -188,6 +190,35 @@ branch distribution:      47 active / choice_grid 228 / set_reasoning 10
 ```
 
 Final PR head `a37fdec7b3f89789999ce728c245ae17ee7f00bc` passed CI #963 / run `35372830249`; its artifacts verify 47 active / `choice_grid` 228 / `set_reasoning` 10 and the final nine screenshots remain manually accepted. PR #207 squash-merged unchanged to main `9debb6cf30f789125c45eff1b88e65e4eaff7978`. Independent merged-main CI and exact Cloudflare smoke are still required before live closure.
+
+### Next reuse audit — Math spatial -> `spatial_relation_board`
+
+Exact audit scope:
+
+```text
+math-spatial-above
+math-spatial-left
+math-spatial-inside
+math-spatial-near
+math-spatial-between
+```
+
+Canonical ownership is Math / `math-ukur-ruang` / `math-spatial-position` / `math.pack.spatial-position` / `math.spatial.position` / assessed `tap_choice` / `choice_accuracy_v1`.
+
+Audit result: **reuse justified / code not started**. Existing Pattern #40 is semantically aligned with this lesson because both represent stated spatial relations while preserving direct-choice evidence. A later implementation may generalize exact config to vertical, containment and proximity scenes, but must preserve all existing six Logic spatial activities and remain fail-closed on exact prompt/choices/order/answer/subject/stage/runtime.
+
+Expected distribution only if later implementation passes every gate:
+
+```text
+47 active patterns
+choice_grid                223 / 900
+set_reasoning               10 / 900
+spatial_relation_board      11 / 900
+```
+
+No Pattern #48 is created. Math runtime work is explicitly blocked until Set Reasoning live closure is independently resolved and this docs-only audit is merged/verified.
+
+Reuse audit record: `SPATIAL_RELATION_BOARD_MATH_POSITION_REUSE_AUDIT_2026-09-19.md`.
 
 Audit record: `PATTERN48_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
 
@@ -519,7 +550,8 @@ P2 findings: 3
 1. Pattern #47 is fully closed/live verified through `bbb61965` / CI #951.
 2. Do not implement a new Pattern #48; no new mechanic candidate is justified.
 3. Set Reasoning reuse PR #207 is merged to main `9debb6cf`; preserve exact scope, final CI #963 and accepted old+new QA evidence.
-4. Independently verify merged-main 47/228/10 and the exact Cloudflare release for `9debb6cf`.
-5. Complete, merge and verify the post-merge reuse closure docs before the next reuse/new-pattern implementation.
+4. Math spatial -> `spatial_relation_board` reuse audit is justified for exactly five Math spatial-position activities; keep runtime code unstarted.
+5. Independently verify Set Reasoning merged-main 47/228/10 + exact Cloudflare release, then merge/verify the Math spatial reuse audit.
+6. Only after both gates are resolved may a separate exact-scope Math reuse implementation branch start.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
