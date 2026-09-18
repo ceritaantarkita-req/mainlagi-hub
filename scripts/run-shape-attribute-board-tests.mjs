@@ -73,7 +73,7 @@ const exclusions=[
   ["math-pattern-ab-shapes","pattern_completion"],
   ["math-order-next-1-2","number_line"],
   ["math-compare-more-2-4","more_less_balance"],
-  ["math-spatial-above","spatial_relation_board"],
+  ["math-spatial-above","choice_grid"],
   ["letters-find-a","symbol_hunt"]
 ];
 for(const [id,pattern] of exclusions){
