@@ -35,6 +35,7 @@ const EXPECTED_PATTERNS = [
   "growth_stage_transition",
   "single_rule_apply",
   "subitizing_glance",
+  "elimination_board",
   "sorting_buckets",
   "drag_to_target",
   "odd_one_out",
@@ -202,8 +203,9 @@ try {
   assert.equal(overall.growth_stage_transition, 3, "Pattern 42 must classify exactly three audited growth-stage activities");
   assert.equal(overall.single_rule_apply, 5, "Pattern 43 must classify exactly five audited single-rule activities");
   assert.equal(overall.subitizing_glance, 3, "Pattern 44 must classify exactly three audited subitizing activities");
-  assert.equal(overall.choice_grid, 246, "Pattern 44 moves exactly three activities out of choice_grid");
-  assert.equal(activePatterns.length, 44, "Pattern 44 raises the active child-facing pattern count to 44");
+  assert.equal(overall.elimination_board, 5, "Pattern 45 must classify exactly five audited elimination activities");
+  assert.equal(overall.choice_grid, 241, "Pattern 45 moves exactly five activities out of choice_grid");
+  assert.equal(activePatterns.length, 45, "Pattern 45 raises the active child-facing pattern count to 45");
 
   console.log("GAMEPLAY_DISTRIBUTION_AUDIT_SUMMARY", JSON.stringify({
     activities: totalActivities,
