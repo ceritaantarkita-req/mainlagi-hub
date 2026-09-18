@@ -11,7 +11,7 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - production: `https://mainlagihub.my.id/`
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - source licence: `AGPL-3.0-only`
-- latest fully closed gameplay pattern: **Pattern #44 — Math `subitizing_glance`**
+- latest fully closed gameplay pattern: **Pattern #45 — Logic `elimination_board`**
 - Pattern #42 implementation: PR #187 -> main `37190f5dabd5d8421d7575b8f220d2824e831f23`
 - Pattern #42 implementation merged-main CI: **#884 / run `35260402125` — full success including exact Cloudflare production smoke**
 - Pattern #42 closure: PR #188 -> main `ad7deb67dc15eefdb81dc5d5e66f4c10ccdc9710`
@@ -32,8 +32,11 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Pattern #45 audit: PR #196 -> main `a3a1702ae390fb24c95551d91d31b24b4b867be6`
 - Pattern #45 audit PR CI: **#915 / run `35307361453` — full success**
 - Pattern #45 audit merged-main CI: **#916 / run `35307880654` — full success including exact Cloudflare production smoke**
-- Pattern #45 implementation: PR #197 / verified checkpoint `a182c4882d6eadbfb79a8fb88b96ad92b0e62139`
-- Pattern #45 implementation checkpoint CI: **#919 / run `35309241809` — full success; PR production smoke skipped as expected**
+- Pattern #45 implementation: PR #197 -> main `43dd857b0fb5b51fe94c4e83da114260a788b4f8`
+- Pattern #45 accepted code checkpoint: `a182c4882d6eadbfb79a8fb88b96ad92b0e62139` / CI #919 full success
+- Pattern #45 final PR head: `ac410e6905da2c7951bdc794715b5604c138a65b`
+- Pattern #45 final PR CI: **#924 / run `35311598469` — full success**
+- Pattern #45 implementation merged-main CI: **#925 / run `35312057984` — full success including exact Cloudflare production smoke**
 - Pattern #45 manual visual review: **ACCEPTED / 9 screenshots / no P0-P1 blocker**
 - permanent visual QA foundation: **VQA-01 FULLY CLOSED**
 - visual P1 baseline: **P0=0 / P1=0 / P2=3**
@@ -54,7 +57,7 @@ Pattern #41: FULLY CLOSED / LIVE VERIFIED
 Pattern #42: FULLY CLOSED / LIVE VERIFIED
 Pattern #43: FULLY CLOSED / LIVE VERIFIED
 Pattern #44: FULLY CLOSED / LIVE VERIFIED
-Pattern #45: IMPLEMENTATION CHECKPOINT VERIFIED / NOT MERGED
+Pattern #45: FULLY CLOSED / LIVE VERIFIED
 ```
 
 External physical-device acceptance, accessibility-specialist review, human pedagogical/art acceptance and Iqro expert acceptance remain separate and incomplete. Physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
@@ -69,13 +72,14 @@ Runtime count is not gameplay-pattern count.
 
 Current WS-05 finish target: **50 meaningful patterns**. The former 60-pattern working target is non-blocking/deferred and is not part of the current finish scope.
 
-Verified merged-main distribution after Pattern #44 implementation:
+Verified merged-main distribution after Pattern #45 implementation:
 
 ```text
 classified:                    900 / 900
 unclassified:                    0
-active merged patterns:         44
-choice_grid                    246 / 900
+active merged patterns:         45
+choice_grid                    241 / 900
+elimination_board                5 / 900
 subitizing_glance                3 / 900
 single_rule_apply                 5 / 900
 growth_stage_transition          3 / 900
@@ -88,13 +92,11 @@ sentence_order_cards             5 / 900
 picture_word_match               5 / 900
 ```
 
-Remaining distance is **6 patterns** to the WS-05 finish target of 50. Pattern #44 implementation is merged and live verified on `main` through CI #912 including exact Cloudflare production smoke.
+Remaining distance is **5 patterns** to the WS-05 finish target of 50. Pattern #45 implementation is merged and live verified on `main` through CI #925 including exact Cloudflare production smoke.
 
-Pattern #44 post-merge docs closure is also verified: PR #195 merged to `d1d16d1acf5dd8baa2445c2c2901459a1d0e64cc`, and closure-main CI #914 passed the full gate including exact Cloudflare production smoke.
+Pattern #44 post-merge docs closure remains verified: PR #195 -> `d1d16d1acf5dd8baa2445c2c2901459a1d0e64cc`, closure-main CI #914 full success.
 
-Pattern #45 audit is merged/live verified through PR #196 and audit-main CI #916. Implementation PR #197 has a verified checkpoint at `a182c4882d6eadbfb79a8fb88b96ad92b0e62139`: CI #919 is fully green, distribution is 45/241/5 on the branch, and all nine dedicated screenshots are manually accepted. Merged production truth remains 44 active patterns until the final docs-inclusive PR head passes CI, merges exactly, and resulting `main` passes independent Cloudflare verification.
-
-## Pattern #45 — IMPLEMENTATION CHECKPOINT VERIFIED / NOT MERGED
+## Pattern #45 — FULLY CLOSED / LIVE VERIFIED
 
 Candidate pattern:
 
@@ -116,40 +118,40 @@ Canonical ownership is Logic / `logic-conditional-analogy-inference` / `logic-el
 
 The candidate is justified because the lesson objective and skill explicitly require **eliminating choices and drawing a direct conclusion**. Existing `set_reasoning` is a fixed two-rule membership board, `odd_one_out` identifies one mismatch against a shared trait, and `sorting_buckets` expresses category assignment. None covers all five inference forms without weakening its existing contract.
 
-Audit verification chain:
+Verification chain:
 
 ```text
-Audit PR:                 #196
-Audit PR head:            e00106f0b65e6d007944d2a87b2f187e0b2dedbb
-Audit PR CI:              #915 / run 35307361453 — full success
-Audit main:               a3a1702ae390fb24c95551d91d31b24b4b867be6
-Audit merged-main CI:     #916 / run 35307880654 — full success + exact Cloudflare production smoke
-Implementation branch:    agent/pattern45-elimination-board-20260918
+Audit PR:                  #196
+Audit PR head:             e00106f0b65e6d007944d2a87b2f187e0b2dedbb
+Audit PR CI:               #915 / run 35307361453 — full success
+Audit main:                a3a1702ae390fb24c95551d91d31b24b4b867be6
+Audit merged-main CI:      #916 / run 35307880654 — full success + exact Cloudflare production smoke
+Implementation PR:         #197
+Accepted code checkpoint:  a182c4882d6eadbfb79a8fb88b96ad92b0e62139
+Checkpoint CI:             #919 / run 35309241809 — full success
+Final implementation head: ac410e6905da2c7951bdc794715b5604c138a65b
+Final PR CI:                #924 / run 35311598469 — full success
+Implementation main:       43dd857b0fb5b51fe94c4e83da114260a788b4f8
+Implementation main CI:    #925 / run 35312057984 — full success + exact Cloudflare production smoke
 ```
 
-Verified implementation checkpoint:
+Merged-main distribution:
 
 ```text
-Implementation PR:       #197
-Verified head:           a182c4882d6eadbfb79a8fb88b96ad92b0e62139
-Checkpoint CI:           #919 / run 35309241809 — full success
-Branch distribution:     45 active / choice_grid 241 / elimination_board 5
-Manual visual review:    ACCEPTED / 320, 390, 768 × idle, try, success
+45 active / choice_grid 241 / elimination_board 5
 ```
 
-Checkpoint artifacts:
+Merged-main CI #925 artifacts:
 
 ```text
-mobile screenshots:      10532478130 / sha256:afb197e83772b4cda39a325e682d32ec79ca17e02c6c5e88e964363895cb0a9b
-gameplay distribution:   10532374574 / sha256:99c7d7b559626ae1b5ff289f3c5225e9ef8e3a3d720ef6bfb9b471de7d0a7c41
-activity quality:         10532174875 / sha256:81a0c866032ad7d7bcd2e54c55ae1a12ab06393a98c524832119764b1e5ab619
+mobile screenshots:      10534131038 / sha256:ee855f81403a490de077b1add0e4009437caf070a222da3ca860528354a4ea53
+gameplay distribution:   10534385065 / sha256:4bad3ee041353b24b57a2715020aa302cbdbfa4b7d1c9eebd588a48ac0e65d2e
+activity quality:         10534385061 / sha256:eebcc3b932495954314c11b69f7409f9c7d5ea3d38c4287bd9ba6958387c1503
 ```
 
-Branch-only target truth is **45 active patterns / `choice_grid` 241 / `elimination_board` 5**. This is not merged-main truth yet.
+Manual visual review: **ACCEPTED / 320, 390, 768 × idle, try, success / no P0-P1 blocker**.
 
-Evidence records: `PATTERN45_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md` and `WS05_ELIMINATION_BOARD_WAVE_2026-09-18.md`.
-
-Audit evidence: `PATTERN45_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
+Evidence records: `PATTERN45_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`, `PATTERN45_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md`, `WS05_ELIMINATION_BOARD_WAVE_2026-09-18.md`, and `PATTERN45_ELIMINATION_BOARD_CLOSURE_2026-09-18.md`.
 
 ## Pattern #44 — FULLY CLOSED / LIVE VERIFIED
 
@@ -360,10 +362,10 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Pattern #44 remains the latest fully closed/live-verified gameplay pattern.
-2. Pattern #45 code checkpoint `a182c488` is fully green in CI #919 and its nine dedicated screenshots are manually accepted.
-3. Run full CI on the docs-inclusive final PR #197 head because acceptance/docs commits advance the branch beyond the verified checkpoint.
-4. Merge only that exact unchanged green final head; then independently verify 45-pattern distribution and exact Cloudflare production smoke on `main`.
-5. Reconcile Pattern #45 final closure truth before starting Pattern #46 implementation work.
+1. Pattern #45 is the latest fully closed/live-verified gameplay pattern.
+2. Preserve the merged 45-pattern baseline: 900/900 classified, `choice_grid` 241, `elimination_board` 5.
+3. Pattern #46 must begin with a fresh objective/evidence audit; no mechanic, subject, or content family is pre-approved.
+4. Reuse an existing mechanic whenever it already expresses the required evidence model.
+5. Continue the same audit -> exact-scope implementation -> visual/browser QA -> merged-main verification -> docs-closure path through Pattern #50.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion or mastery/backend rewrites before the current quality roadmap justifies them.
