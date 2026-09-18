@@ -24,9 +24,9 @@ Subsystem docs remain authoritative for their specific scope when they do not co
 
 ## Current execution checkpoint
 
-Pattern #44 `subitizing_glance` is now the latest **FULLY CLOSED / LIVE VERIFIED** gameplay pattern.
+Pattern #45 `elimination_board` is now the latest **FULLY CLOSED / LIVE VERIFIED** gameplay pattern.
 
-Pattern #45 audit is merged/live verified through PR #196 and audit-main CI #916. Implementation PR #197 now has a verified checkpoint at `a182c4882d6eadbfb79a8fb88b96ad92b0e62139`: CI #919 is full green, branch distribution is 45/241/5, and nine dedicated screenshots are manually accepted. Merged production remains at 44 patterns until the final docs-inclusive head merges and `main` is independently verified.
+Pattern #45 audit and implementation are merged/live verified. PR #197 final head `ac410e6905da2c7951bdc794715b5604c138a65b` passed CI #924, merged to `43dd857b0fb5b51fe94c4e83da114260a788b4f8`, and merged-main CI #925 passed full verification including exact Cloudflare production smoke. Nine dedicated screenshots remain manually accepted with no P0/P1 blocker.
 
 Pattern #42 `growth_stage_transition` implementation is now merged and live verified:
 
@@ -44,7 +44,7 @@ Closure main:             ad7deb67dc15eefdb81dc5d5e66f4c10ccdc9710
 Closure main CI:          #886 / run 35290502532 — full success + exact Cloudflare production smoke
 ```
 
-Verified merged gameplay distribution is now **900/900 classified, 44 active patterns, 0 unclassified**, with `choice_grid` 246/900 and `subitizing_glance` 3/900.
+Verified merged gameplay distribution is now **900/900 classified, 45 active patterns, 0 unclassified**, with `choice_grid` 241/900 and `elimination_board` 5/900.
 
 ```text
 P0 = 0
@@ -58,6 +58,7 @@ Pattern #41 = FULLY CLOSED / LIVE VERIFIED
 Pattern #42 = FULLY CLOSED / LIVE VERIFIED
 Pattern #43 = FULLY CLOSED / LIVE VERIFIED
 Pattern #44 = FULLY CLOSED / LIVE VERIFIED
+Pattern #45 = FULLY CLOSED / LIVE VERIFIED
 ```
 
 ## Pattern #43 live checkpoint
@@ -75,40 +76,37 @@ Implementation main CI:  #900 / run 35297572709 — full success + exact Cloudfl
 
 Exact five-ID Logic scope is live verified. Browser keyboard/pointer/actual-touch QA, manual nine-shot review and permanent visual QA passed. No mastery/progression/schema/database change was introduced.
 
-## Pattern #45 implementation checkpoint
+## Pattern #45 live checkpoint
 
-Pattern #45 `elimination_board` is **IMPLEMENTATION CHECKPOINT VERIFIED / NOT MERGED**.
+Pattern #45 `elimination_board` is **FULLY CLOSED / LIVE VERIFIED**.
 
 ```text
-Audit PR:                 #196
-Audit PR head:            e00106f0b65e6d007944d2a87b2f187e0b2dedbb
-Audit PR CI:              #915 / run 35307361453 — full success
-Audit main:               a3a1702ae390fb24c95551d91d31b24b4b867be6
-Audit merged-main CI:     #916 / run 35307880654 — full success + exact Cloudflare production smoke
-Implementation branch:    agent/pattern45-elimination-board-20260918
+Audit PR:                  #196
+Audit PR head:             e00106f0b65e6d007944d2a87b2f187e0b2dedbb
+Audit PR CI:               #915 / run 35307361453 — full success
+Audit main:                a3a1702ae390fb24c95551d91d31b24b4b867be6
+Audit merged-main CI:      #916 / run 35307880654 — full success + exact Cloudflare production smoke
+Implementation PR:         #197
+Accepted checkpoint:       a182c4882d6eadbfb79a8fb88b96ad92b0e62139
+Checkpoint CI:             #919 / run 35309241809 — full success
+Final PR head:             ac410e6905da2c7951bdc794715b5604c138a65b
+Final PR CI:               #924 / run 35311598469 — full success
+Implementation main:       43dd857b0fb5b51fe94c4e83da114260a788b4f8
+Implementation main CI:    #925 / run 35312057984 — full success + exact Cloudflare production smoke
+Manual visual review:      ACCEPTED / nine screenshots / no P0-P1 blocker
 ```
 
 Exact scope is `logic-infer-not-red`, `logic-infer-only-triangle`, `logic-infer-not-largest`, `logic-infer-common-feature`, and `logic-infer-missing-member`. Canonical assessed `tap_choice` / `choice_accuracy_v1` remains primary; wrong learner selections are only marked visibly `tersisih`, not removed or pre-disabled.
 
-Verified implementation checkpoint:
+Merged production truth is **45 active / `choice_grid` 241 / `elimination_board` 5**.
+
+Merged-main CI #925 artifacts:
 
 ```text
-Implementation PR:        #197
-Verified head:            a182c4882d6eadbfb79a8fb88b96ad92b0e62139
-Checkpoint CI:            #919 / run 35309241809 — full success
-Manual visual review:     ACCEPTED / nine screenshots / no P0-P1 blocker
-Branch distribution:      45 active / choice_grid 241 / elimination_board 5
+mobile screenshots:       10534131038 / sha256:ee855f81403a490de077b1add0e4009437caf070a222da3ca860528354a4ea53
+gameplay distribution:    10534385065 / sha256:4bad3ee041353b24b57a2715020aa302cbdbfa4b7d1c9eebd588a48ac0e65d2e
+activity quality:          10534385061 / sha256:eebcc3b932495954314c11b69f7409f9c7d5ea3d38c4287bd9ba6958387c1503
 ```
-
-Checkpoint artifacts:
-
-```text
-mobile screenshots:       10532478130 / sha256:afb197e83772b4cda39a325e682d32ec79ca17e02c6c5e88e964363895cb0a9b
-gameplay distribution:    10532374574 / sha256:99c7d7b559626ae1b5ff289f3c5225e9ef8e3a3d720ef6bfb9b471de7d0a7c41
-activity quality:          10532174875 / sha256:81a0c866032ad7d7bcd2e54c55ae1a12ab06393a98c524832119764b1e5ab619
-```
-
-Target branch distribution remains **45 active / `choice_grid` 241 / `elimination_board` 5**. This is not merged production truth yet.
 
 ## Pattern #44 live checkpoint
 
@@ -179,6 +177,7 @@ Pattern #42 closure gates are complete. Closure PR #188 merged and closure main 
 
 ## Current evidence records
 
+- [`PATTERN45_ELIMINATION_BOARD_CLOSURE_2026-09-18.md`](PATTERN45_ELIMINATION_BOARD_CLOSURE_2026-09-18.md) — final Pattern #45 merged-main closure truth.
 - [`PATTERN45_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md`](PATTERN45_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md) — accepted Pattern #45 code checkpoint, CI #919 artifacts and manual nine-shot visual review.
 - [`WS05_ELIMINATION_BOARD_WAVE_2026-09-18.md`](WS05_ELIMINATION_BOARD_WAVE_2026-09-18.md) — Pattern #45 implementation/QA wave and remaining merge gates.
 - [`PATTERN45_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`](PATTERN45_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md) — merged/live-verified Pattern #45 Logic `elimination_board` objective/evidence audit.
@@ -200,7 +199,7 @@ Historical closure/candidate/audit records must not be rewritten to pretend late
 
 ## Remaining product-quality work
 
-Immediate WS-05 gate is full CI on the docs-inclusive final Pattern #45 PR #197 head, followed by exact-head merge and independent merged-main/Cloudflare verification. The code checkpoint and nine-shot visual review are already accepted. Merged production remains at 44 patterns; after Pattern #45 closure, five patterns will remain to the finish target of 50.
+Immediate WS-05 gate is a fresh Pattern #46 objective/evidence audit from the verified 45-pattern baseline. Five patterns remain to the finish target of 50; no Pattern #46 mechanic, subject, or content family is pre-approved.
 
 Other open work remains P2 game-shell/icon/inline-style convergence, WS-02 narration, WS-10 real-device/accessibility/human/Iqro acceptance, WS-11 governance, later WS-12 cleanup, and continued WS-05 progression to the current finish target of 50.
 
