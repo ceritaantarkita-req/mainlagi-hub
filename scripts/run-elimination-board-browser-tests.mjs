@@ -7,7 +7,7 @@ import { chromium } from "playwright";
 
 const root=process.cwd();
 const host="127.0.0.1";
-const port=Number(process.env.MAINLAGI_ELIMINATION_BOARD_QA_PORT??4045);
+const port=Number(process.env.MAINLAGI_ELIMINATION_BOARD_QA_PORT??4046);
 const baseUrl=`http://${host}:${port}`;
 const route="/child/demo-gian/activity/logic-infer-not-red";
 const activityId="logic-infer-not-red";
