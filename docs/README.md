@@ -72,6 +72,24 @@ Implementation main CI:  #900 / run 35297572709 — full success + exact Cloudfl
 
 Exact five-ID Logic scope is live verified. Browser keyboard/pointer/actual-touch QA, manual nine-shot review and permanent visual QA passed. No mastery/progression/schema/database change was introduced.
 
+## Pattern #44 implementation checkpoint
+
+Pattern #44 `subitizing_glance` remains **NOT MERGED**. Its audit is merged/live verified, while implementation PR #194 has a verified code checkpoint:
+
+```text
+Audit PR:                 #193
+Audit main:               8b3cb7e73a77502b4c9206936e7736ac9169b1ca
+Audit merged-main CI:     #904 / run 35299949341 — full success + exact Cloudflare production smoke
+Implementation PR:        #194
+Verified code head:       3a4385790a793ed5297db4f6d33fa8e1d084ccf1
+Code checkpoint CI:       #906 / run 35301923329 — full success
+Manual visual review:     ACCEPTED / nine dedicated screenshots / no P0-P1 Pattern #44 blocker
+```
+
+Exact scope remains `math-subitize-2`, `math-subitize-4`, and `math-subitize-5`. The verified branch distribution is **44 active / `choice_grid` 246 / `subitizing_glance` 3**, but merged production truth remains 43 active patterns until PR #194 is exactly merged and independently verified on `main`.
+
+The implementation preserves assessed `tap_choice` / `choice_accuracy_v1`, exact canonical prompts/choice order/answers, and existing mastery/progression/schema/database boundaries. It deliberately does not reuse `count_and_select` because that interaction teaches one-by-one enumeration, while the audited subitizing objective is visual quantity recognition from a spatial pattern.
+
 ## Pattern #42 closure checkpoint
 
 Exact Pattern #42 scope remains:
@@ -103,6 +121,9 @@ Pattern #42 closure gates are complete. Closure PR #188 merged and closure main 
 
 ## Current evidence records
 
+- [`PATTERN44_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md`](PATTERN44_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md) — accepted Pattern #44 code checkpoint, automated gates, artifacts and manual nine-shot review.
+- [`WS05_SUBITIZING_GLANCE_WAVE_2026-09-18.md`](WS05_SUBITIZING_GLANCE_WAVE_2026-09-18.md) — Pattern #44 implementation/QA wave and remaining merge gates.
+- [`PATTERN44_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`](PATTERN44_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md) — merged/live-verified Pattern #44 objective/evidence audit.
 - [`PATTERN42_FINAL_CLOSURE_VERIFICATION_2026-09-18.md`](PATTERN42_FINAL_CLOSURE_VERIFICATION_2026-09-18.md) — final Pattern #42 merged-main closure truth.
 - [`PATTERN42_GROWTH_STAGE_TRANSITION_CLOSURE_2026-09-18.md`](PATTERN42_GROWTH_STAGE_TRANSITION_CLOSURE_2026-09-18.md) — Pattern #42 closure record.
 - [`WS05_GROWTH_STAGE_TRANSITION_WAVE_2026-09-18.md`](WS05_GROWTH_STAGE_TRANSITION_WAVE_2026-09-18.md) — Pattern #42 implementation/QA wave.
@@ -118,7 +139,7 @@ Historical closure/candidate/audit records must not be rewritten to pretend late
 
 ## Remaining product-quality work
 
-Immediate WS-05 gate is Pattern #44 from the verified 43-pattern baseline. Seven patterns remain to the finish target of 50; after Pattern #50, run one final overall QA/docs/production closeout.
+Immediate WS-05 gate is the docs-inclusive final CI for Pattern #44 implementation PR #194, followed by exact-head merge, independent merged-main/Cloudflare verification, and final Pattern #44 closure docs. Merged production remains at 43 patterns until those gates complete. After Pattern #44 fully closes, six patterns will remain to the finish target of 50.
 
 Other open work remains P2 game-shell/icon/inline-style convergence, WS-02 narration, WS-10 real-device/accessibility/human/Iqro acceptance, WS-11 governance, later WS-12 cleanup, and continued WS-05 progression to the current finish target of 50.
 
