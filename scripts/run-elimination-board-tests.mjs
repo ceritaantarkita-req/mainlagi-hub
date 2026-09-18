@@ -39,7 +39,7 @@ for(const activity of scoped){
   const spec=getActivityLearningSpec(activity.id);
   assert(spec,`missing learning spec for ${activity.id}`);
   assert.equal(spec.assessment,"assessed");
-  assert.deepEqual(spec.skillIds,["logic.inference.elimination.basic"]);
+  assert.deepEqual(spec.skills,[{skillId:"logic.inference.elimination.basic",weight:1}]);
 }
 
 const waveSeeds=LOGIC_BATCH12_WAVE_C.activities.filter(seed=>expected.has(seed.id));
