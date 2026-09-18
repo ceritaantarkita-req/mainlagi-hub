@@ -11,11 +11,15 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - production: `https://mainlagihub.my.id/`
 - deployment: GitHub `main` -> Cloudflare Git integration -> OpenNext Worker
 - source licence: `AGPL-3.0-only`
-- latest fully closed gameplay pattern: **Pattern #42 — Science `growth_stage_transition`**
+- latest fully closed gameplay pattern: **Pattern #43 — Logic `single_rule_apply`**
 - Pattern #42 implementation: PR #187 -> main `37190f5dabd5d8421d7575b8f220d2824e831f23`
 - Pattern #42 implementation merged-main CI: **#884 / run `35260402125` — full success including exact Cloudflare production smoke**
 - Pattern #42 closure: PR #188 -> main `ad7deb67dc15eefdb81dc5d5e66f4c10ccdc9710`
 - Pattern #42 closure merged-main CI: **#886 / run `35290502532` — full success including exact Cloudflare production smoke**
+- Pattern #43 audit: PR #190 -> main `39830a5dfd91734e4cc88b7d79eafaa2f722615f`
+- Pattern #43 audit main CI: **#890 / run `35295503508` — full success including exact Cloudflare production smoke**
+- Pattern #43 implementation: PR #191 -> main `44f9dee07506a785f184d965b5bbc0a2aab66a8f`
+- Pattern #43 implementation merged-main CI: **#900 / run `35297572709` — full success including exact Cloudflare production smoke**
 - permanent visual QA foundation: **VQA-01 FULLY CLOSED**
 - visual P1 baseline: **P0=0 / P1=0 / P2=3**
 
@@ -33,6 +37,7 @@ Pattern #39: FULLY CLOSED
 Pattern #40: FULLY CLOSED
 Pattern #41: FULLY CLOSED / LIVE VERIFIED
 Pattern #42: FULLY CLOSED / LIVE VERIFIED
+Pattern #43: FULLY CLOSED / LIVE VERIFIED
 ```
 
 External physical-device acceptance, accessibility-specialist review, human pedagogical/art acceptance and Iqro expert acceptance remain separate and incomplete. Physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
@@ -47,13 +52,14 @@ Runtime count is not gameplay-pattern count.
 
 Current WS-05 finish target: **50 meaningful patterns**. The former 60-pattern working target is non-blocking/deferred and is not part of the current finish scope.
 
-Verified merged-main distribution after Pattern #42 implementation:
+Verified merged-main distribution after Pattern #43 implementation:
 
 ```text
 classified:                    900 / 900
 unclassified:                    0
-active merged patterns:         42
-choice_grid                    254 / 900
+active merged patterns:         43
+choice_grid                    249 / 900
+single_rule_apply                 5 / 900
 growth_stage_transition          3 / 900
 phrase_scene_match               4 / 900
 spatial_relation_board           6 / 900
@@ -64,7 +70,59 @@ sentence_order_cards             5 / 900
 picture_word_match               5 / 900
 ```
 
-Remaining distance is **8 patterns** to the WS-05 finish target of 50. Pattern #43 audit PR #190 is merged/live-verified; implementation PR #191 is in progress, while merged gameplay truth remains 42 until implementation is verified.
+Remaining distance is **7 patterns** to the WS-05 finish target of 50. Pattern #43 is merged and live verified.
+
+## Pattern #43 — FULLY CLOSED / LIVE VERIFIED
+
+Pattern:
+
+```text
+single_rule_apply
+```
+
+Exact scope:
+
+```text
+logic-if-red-then-circle
+logic-if-two-then-star
+logic-rule-small-goes-left
+logic-rule-up-means-one
+logic-rule-switch-shape
+```
+
+Canonical ownership remains Logic / `logic-conditional-analogy-inference` / `logic-conditional-rules` / `logic.pack.conditional-rules` / `logic.conditional.rule.basic` / assessed `tap_choice` / `choice_accuracy_v1`.
+
+Verification chain:
+
+```text
+Audit PR:                #190
+Audit main:              39830a5dfd91734e4cc88b7d79eafaa2f722615f
+Audit PR CI:             #889 / run 35295077035 — full success
+Audit main CI:           #890 / run 35295503508 — full success + exact Cloudflare production smoke
+Implementation PR:       #191
+Final implementation head:
+                        c893ba0ee63b256bbeb0da61e2bd90355c483a09
+Implementation PR CI:    #899 / run 35296994744 — full success
+Implementation main:     44f9dee07506a785f184d965b5bbc0a2aab66a8f
+Implementation main CI:  #900 / run 35297572709 — full success + exact Cloudflare production smoke
+```
+
+Verified behavior preserves exact prompts/choices/answers and canonical assessed evidence, uses explicit one-rule config without prompt parsing or invented intermediate checkpoints, supports keyboard/pointer/actual touch, and keeps existing `rule_pipeline`, `set_reasoning` and unrelated Logic scopes unchanged.
+
+Manual review of the nine dedicated 320/390/768 idle/wrong/success screenshots is accepted with no P0/P1 Pattern #43 blocker. Merged-main permanent visual QA passed.
+
+Merged-main CI #900 artifacts:
+
+```text
+mobile-route screenshots: 10529175685
+sha256:02f6d161013c2151755352ba1df44319801bbdc62ec9c3dd732f5850f4965640
+
+gameplay distribution:    10528606719
+sha256:1fbc2d437b28ea7862b0be9b6c5363a2bffa83d8b2e0e50839ca826533c87254
+
+activity quality:          10529180435
+sha256:0842fa7688cce28556a914e0ca1e63f69957955d6db100038c527f7641ddc2f7
+```
 
 ## Pattern #42 — FULLY CLOSED / LIVE VERIFIED
 
@@ -152,9 +210,9 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Pattern #43 audit selected `single_rule_apply` for exactly five Logic Wave C conditional-rule activities; implementation has not started.
-2. Verify/merge the audit PR, then implement only that exact scope from the resulting verified `main`.
-3. Preserve mastery/progression/evidence boundaries and permanent WS-08 visual QA.
-4. Continue WS-05 toward minimum 50 without adding unproven families.
+1. Pattern #43 is complete and live verified.
+2. Start Pattern #44 with one fresh objective/evidence audit from the verified 43-pattern baseline.
+3. Implement only a justified exact scope; reuse existing mechanics instead of creating duplicates.
+4. Continue directly through Pattern #50, then run one final overall QA/docs/production closeout.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion or mastery/backend rewrites before the current quality roadmap justifies them.
