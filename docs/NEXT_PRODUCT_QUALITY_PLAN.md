@@ -4,10 +4,11 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 **Canonical branch:** `main`  
-**Latest fully closed gameplay:** Pattern #41 — English `phrase_scene_match`  
+**Latest fully closed gameplay:** Pattern #42 — Science `growth_stage_transition`  
 **Pattern #42 implementation:** PR #187 -> main `37190f5dabd5d8421d7575b8f220d2824e831f23`  
 **Pattern #42 implementation main CI:** **#884 / run `35260402125` — full success + exact Cloudflare production smoke**  
-**Pattern #42 closure docs:** **IN PROGRESS**  
+**Pattern #42 closure:** PR #188 -> `ad7deb67dc15eefdb81dc5d5e66f4c10ccdc9710`  
+**Pattern #42 closure main CI:** **#886 / run `35290502532` — full success + exact Cloudflare production smoke**  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
 
@@ -35,11 +36,11 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 
 | Workstream | Status | Current note |
 |---|---|---|
-| WS-01 Canonical docs | **CURRENT** | Pattern #42 implementation main/live evidence recorded; closure docs in progress |
+| WS-01 Canonical docs | **CURRENT** | Pattern #42 final closure truth reconciled; Pattern #43 audit next |
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **42 MERGED / P42 CLOSURE IN PROGRESS** | 8 patterns to minimum 50; 18 to target 60 |
+| WS-05 Gameplay diversification | **42 FULLY CLOSED / P43 AUDIT NEXT** | 8 patterns to minimum 50; 18 to target 60 |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P42 merged-main permanent visual QA green |
@@ -75,6 +76,9 @@ Code checkpoint CI:       #878 / run 35256885341 — full success
 Final PR CI:              #883 / run 35259699934 — full success
 Implementation main:      37190f5dabd5d8421d7575b8f220d2824e831f23
 Implementation main CI:   #884 / run 35260402125 — full success + exact Cloudflare production smoke
+Closure PR:               #188
+Closure main:             ad7deb67dc15eefdb81dc5d5e66f4c10ccdc9710
+Closure main CI:          #886 / run 35290502532 — full success + exact Cloudflare production smoke
 ```
 
 Exact scope remains `science-cycle-frog`, `science-cycle-chick`, and `science-cycle-seed-sprout`; butterfly/full-sequence and matching lifecycle work remain excluded. Canonical Science ownership, assessed `tap_choice`, `choice_accuracy_v1`, prompts, choices, answer payloads, mastery and progression remain preserved.
@@ -95,11 +99,10 @@ P2 findings: 3
 
 ## Current execution order
 
-1. Run exact-head CI on Pattern #42 closure docs.
-2. Merge closure docs only after clean review/thread/mergeability checks.
-3. Independently verify closure `main`, including exact Cloudflare smoke.
-4. Reconcile final Pattern #42 truth as **FULLY CLOSED / LIVE VERIFIED**.
-5. Only then perform a fresh Pattern #43 objective/evidence audit; no candidate is pre-approved.
-6. Continue WS-02 narration, WS-10 external acceptance, WS-11 governance and later P2/WS-12 cleanup when they do not destabilize accepted surfaces.
+1. Perform a fresh Pattern #43 objective/evidence audit from the verified 42-pattern baseline; no candidate is pre-approved.
+2. Approve implementation only if the audit proves a distinct objective/evidence need that existing mechanics do not satisfy.
+3. Keep exact-scope regression, evidence semantics, keyboard/touch/pointer, responsive QA and permanent visual QA blocking.
+4. Independently verify any future Pattern #43 implementation on merged `main` and exact Cloudflare production before closure.
+5. Continue WS-02 narration, WS-10 external acceptance, WS-11 governance and later P2/WS-12 cleanup when they do not destabilize accepted surfaces.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
