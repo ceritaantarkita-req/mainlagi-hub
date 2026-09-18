@@ -1,6 +1,6 @@
 # WS-05 Set Reasoning Reuse — Logic Multi-Attribute Wave — 18 September 2026
 
-Status: **IMPLEMENTATION IN PROGRESS / NOT MERGED**
+Status: **IMPLEMENTATION CHECKPOINT VERIFIED / NOT MERGED**
 
 ## Purpose
 
@@ -118,9 +118,31 @@ Required:
    - feedback + CTA fully visible.
 8. permanent visual product QA remains blocking.
 
-## Merge gate
+## Accepted checkpoint
 
-- exact-head full CI;
+```text
+Implementation PR:        #207
+Initial head:             e6d04b4ee90a2085ca33fb16117947175cb3ccf5
+CI #956:                  failed test-only visible-heading selector
+Accepted checkpoint:      a7bb27bbbede42a5833144cab31af3c57ea3fa8a
+Checkpoint CI:            #957 / run 35371679720 — full success
+Manual visual review:     ACCEPTED / 9 screenshots / no P0-P1 blocker
+Branch distribution:      47 active / choice_grid 228 / set_reasoning 10
+```
+
+CI #956 did not expose a product defect. The new browser harness used an accessibility-role selector that did not expose the visible prompt heading; the accepted fix changed only that test selector.
+
+Checkpoint artifacts:
+
+```text
+mobile screenshots:       10558694718 / sha256:7c3128db3edc178adab8b40520a7619ec449dad6d57b575390211d464430afb8
+gameplay distribution:    10558204450 / sha256:6bc10f976c442e2f46a9ad2a0f75d60cce35c3ab5226751ed234a2c3dce31161
+activity quality:          10558429104 / sha256:967006895beb95eb850e077b021308a4cc0018288b2115e106d4b2ce8d54d07a
+```
+
+## Remaining merge gate
+
+- exact-head full CI on the final docs-inclusive PR head;
 - manual review of nine new reuse screenshots;
 - clean mergeability/review/thread state;
 - exact-head squash merge;
