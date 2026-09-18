@@ -40,7 +40,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **42 FULLY CLOSED / P43 AUDIT NEXT** | 8 patterns to minimum 50; 18 to target 60 |
+| WS-05 Gameplay diversification | **42 FULLY CLOSED / P43 AUDIT IN PROGRESS** | Candidate: exact five Logic `single_rule_apply`; merged truth remains 42 |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P42 merged-main permanent visual QA green |
@@ -99,10 +99,9 @@ P2 findings: 3
 
 ## Current execution order
 
-1. Perform a fresh Pattern #43 objective/evidence audit from the verified 42-pattern baseline; no candidate is pre-approved.
-2. Approve implementation only if the audit proves a distinct objective/evidence need that existing mechanics do not satisfy.
+1. Verify/merge the Pattern #43 `single_rule_apply` objective/evidence audit for exactly five Logic Wave C activities.
+2. Implement only that exact scope from verified audit `main`; no adjacent Logic family is included.
 3. Keep exact-scope regression, evidence semantics, keyboard/touch/pointer, responsive QA and permanent visual QA blocking.
-4. Independently verify any future Pattern #43 implementation on merged `main` and exact Cloudflare production before closure.
-5. Continue WS-02 narration, WS-10 external acceptance, WS-11 governance and later P2/WS-12 cleanup when they do not destabilize accepted surfaces.
+4. Independently verify Pattern #43 on merged `main` and exact Cloudflare production before calling it complete.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
