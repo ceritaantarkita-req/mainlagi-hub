@@ -57,7 +57,10 @@
 **Pattern #47 closure-main CI:** **#951 / run `35365286942` — full success + exact Cloudflare production smoke**  
 **Pattern #48 audit:** **NO JUSTIFIED NEW PATTERN YET / code not started**  
 **Pattern #48 audit main:** `ae95f1c494351533e88463f7225d7d07440b708e` / CI #953 full success + exact Cloudflare production smoke  
-**Current reuse audit:** existing `set_reasoning` -> exact five Logic multi-attribute activities / justified / code not started  
+**Set Reasoning reuse audit:** PR #206 -> main `5f5f7741ee40544c4ab395740ef00fea1880400b`  
+**Reuse audit PR CI:** **#954 / run `35368506391` — full success**  
+**Reuse audit merged-main CI:** **#955 / run `35369220787` — full success + exact Cloudflare production smoke**  
+**Current reuse implementation:** exact five Logic multi-attribute activities -> existing `set_reasoning` / IN PROGRESS  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
 
@@ -89,7 +92,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **47 FULLY CLOSED / REUSE AUDIT ACTIVE** | `set_reasoning` exact five-ID Logic generalization justified; active count stays 47 |
+| WS-05 Gameplay diversification | **47 FULLY CLOSED / REUSE IMPLEMENTING** | exact five-ID Logic generalization into existing `set_reasoning`; active count stays 47 |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P45 merged-main permanent visual QA green; nine dedicated screenshots manually accepted |
@@ -160,7 +163,11 @@ choice_grid       228 / 900
 set_reasoning      10 / 900
 ```
 
-Audit record: `SET_REASONING_LOGIC_MULTI_CLASSIFICATION_REUSE_AUDIT_2026-09-18.md`. Runtime code has not started.
+Audit record: `SET_REASONING_LOGIC_MULTI_CLASSIFICATION_REUSE_AUDIT_2026-09-18.md`.
+
+Audit PR #206 merged to `5f5f7741ee40544c4ab395740ef00fea1880400b`; audit-main CI #955 passed full verification including exact Cloudflare production smoke.
+
+Implementation is active on `agent/reuse-set-reasoning-logic-multi-20260918`. Wave record: `WS05_SET_REASONING_REUSE_LOGIC_MULTI_WAVE_2026-09-18.md`.
 
 Audit record: `PATTERN48_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
 
@@ -491,8 +498,8 @@ P2 findings: 3
 
 1. Pattern #47 is fully closed/live verified through `bbb61965` / CI #951.
 2. Do not implement a new Pattern #48; no new mechanic candidate is justified.
-3. Complete the docs-only Set Reasoning reuse audit for the exact five Logic multi-attribute IDs and require merged-main verification.
-4. Only after that audit is live verified, implement the exact reuse scope with neutral two-rule wording, old-family regressions and new-family browser/touch QA.
-5. Preserve the finish target of 50 without taxonomy inflation; continue exact-head QA/docs discipline for every accepted change.
+3. Complete the exact five-ID Set Reasoning reuse implementation with fail-closed config and neutral two-rule wording.
+4. Require existing-family regression plus new-family keyboard/pointer/actual-touch QA, nine screenshots, permanent visual QA, exact-head merge and merged-main verification.
+5. Preserve the finish target of 50 without taxonomy inflation; post-merge docs closure remains mandatory before the next implementation.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
