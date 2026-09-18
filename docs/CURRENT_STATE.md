@@ -69,7 +69,10 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Pattern #48 audit PR: #205 -> main `ae95f1c494351533e88463f7225d7d07440b708e`
 - Pattern #48 audit PR CI: **#952 / run `35366693120` — full success**
 - Pattern #48 audit merged-main CI: **#953 / run `35367422058` — full success including exact Cloudflare production smoke**
-- Set Reasoning reuse audit: **JUSTIFIED / exact 5-ID Logic multi-attribute scope / code not started**
+- Set Reasoning reuse audit: PR #206 -> main `5f5f7741ee40544c4ab395740ef00fea1880400b`
+- Set Reasoning reuse audit PR CI: **#954 / run `35368506391` — full success**
+- Set Reasoning reuse audit merged-main CI: **#955 / run `35369220787` — full success including exact Cloudflare production smoke**
+- Set Reasoning reuse implementation: **IN PROGRESS** on `agent/reuse-set-reasoning-logic-multi-20260918`
 - permanent visual QA foundation: **VQA-01 FULLY CLOSED**
 - visual P1 baseline: **P0=0 / P1=0 / P2=3**
 
@@ -160,7 +163,7 @@ Reviewed families continue to prefer existing mechanics:
 - Science force/motion and mixed review -> too heterogeneous for one new pattern;
 - Iqro -> deferred until external expert acceptance.
 
-Next engineering gate is the audited reuse of existing `set_reasoning` for exactly five Logic multi-attribute activities. This does not create Pattern #48 and does not change the active pattern count. Runtime code has not started on the audit branch.
+The `set_reasoning` reuse audit is merged/live verified through PR #206 and audit-main CI #955. Implementation is now active for exactly five Logic multi-attribute activities. This does not create Pattern #48 and does not change the active pattern count.
 
 Expected distribution only if later implementation passes:
 
@@ -171,6 +174,16 @@ set_reasoning:     10
 ```
 
 Reuse audit evidence: `SET_REASONING_LOGIC_MULTI_CLASSIFICATION_REUSE_AUDIT_2026-09-18.md`.
+
+Implementation wave: `WS05_SET_REASONING_REUSE_LOGIC_MULTI_WAVE_2026-09-18.md`.
+
+Current implementation requirements:
+- ten exact Set Reasoning IDs total: existing five + reused five;
+- exact-stage and exact-payload fail-closed config;
+- neutral two-rule child copy;
+- old-family browser regression;
+- new-family keyboard/pointer/actual-touch browser QA;
+- expected verified distribution remains **47 active / `choice_grid` 228 / `set_reasoning` 10**.
 
 Audit evidence: `PATTERN48_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
 
@@ -605,7 +618,7 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 1. Pattern #47 is fully closed/live verified through closure main `bbb61965` and CI #951.
 2. Preserve the merged 47-pattern baseline: 900/900 classified, `choice_grid` 233, `shape_attribute_board` 4.
 3. Pattern #48 fresh audit found no justified new mechanic; active pattern count remains 47.
-4. Set Reasoning reuse audit is justified for exactly five Logic multi-attribute activities; merge and independently verify the docs-only reuse audit before implementation.
-5. Keep the finish target at 50 without taxonomy inflation; this reuse work improves presentation coverage while active pattern count stays 47.
+4. Set Reasoning reuse audit is merged/live verified through `5f5f7741` / CI #955; complete only the exact five-ID implementation scope.
+5. Keep the finish target at 50 without taxonomy inflation; require exact-head CI, old+new browser QA, merged-main distribution/Cloudflare and docs closure for this reuse work.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion or mastery/backend rewrites before the current quality roadmap justifies them.
