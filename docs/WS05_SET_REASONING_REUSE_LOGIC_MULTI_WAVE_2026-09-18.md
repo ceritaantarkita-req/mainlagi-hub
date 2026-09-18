@@ -1,6 +1,6 @@
 # WS-05 Set Reasoning Reuse — Logic Multi-Attribute Wave — 18 September 2026
 
-Status: **IMPLEMENTATION CHECKPOINT VERIFIED / NOT MERGED**
+Status: **MERGED TO MAIN / MAIN CI + CLOUDFLARE VERIFICATION PENDING**
 
 ## Purpose
 
@@ -132,6 +132,26 @@ Branch distribution:      47 active / choice_grid 228 / set_reasoning 10
 
 CI #956 did not expose a product defect. The new browser harness used an accessibility-role selector that did not expose the visible prompt heading; the accepted fix changed only that test selector.
 
+## Final PR and merge checkpoint
+
+```text
+Final PR head:             a37fdec7b3f89789999ce728c245ae17ee7f00bc
+Final PR CI:               #963 / run 35372830249 — full success
+Final visual review:       ACCEPTED / 9 screenshots / no P0-P1 blocker
+Final branch distribution: 47 active / choice_grid 228 / set_reasoning 10
+Implementation main:       9debb6cf30f789125c45eff1b88e65e4eaff7978
+```
+
+Final #963 artifacts:
+
+```text
+mobile screenshots:       10559925402 / sha256:c12ec617921229ca1317e02424369fb85947cd0e12a323e8feefc41c23c6ea73
+gameplay distribution:    10559301397 / sha256:824b9b798721eceb534ccaf6e992806910634d28c88db25222b2d3a1baac5901
+activity quality:          10559091529 / sha256:31e8501a622e36788413a53252a82ac042c6629ca007ff0b7b93625697769f50
+```
+
+PR #207 was mergeable, had no submitted reviews and no unresolved review threads at the exact final head, then squash-merged unchanged. Independent merged-main CI/Cloudflare proof is still required before this wave is called live verified.
+
 Checkpoint artifacts:
 
 ```text
@@ -140,12 +160,10 @@ gameplay distribution:    10558204450 / sha256:6bc10f976c442e2f46a9ad2a0f75d60cc
 activity quality:          10558429104 / sha256:967006895beb95eb850e077b021308a4cc0018288b2115e106d4b2ce8d54d07a
 ```
 
-## Remaining merge gate
+## Remaining closure gate
 
-- exact-head full CI on the final docs-inclusive PR head;
-- manual review of nine new reuse screenshots;
-- clean mergeability/review/thread state;
-- exact-head squash merge;
-- merged-main distribution 47 / choice_grid 228 / set_reasoning 10;
-- exact Cloudflare production smoke;
-- post-merge docs closure before the next reuse/new-pattern implementation.
+- independent full CI for main `9debb6cf30f789125c45eff1b88e65e4eaff7978`;
+- merged-main distribution 47 / `choice_grid` 228 / `set_reasoning` 10;
+- exact Cloudflare production smoke for the same main SHA;
+- post-merge closure docs promoted to fully closed and merged;
+- closure-main CI verified before the next reuse/new-pattern implementation.
