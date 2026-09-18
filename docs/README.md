@@ -24,7 +24,7 @@ Subsystem docs remain authoritative for their specific scope when they do not co
 
 ## Current execution checkpoint
 
-Pattern #47 `shape_attribute_board` is now the latest **FULLY CLOSED / LIVE VERIFIED** gameplay pattern.
+Pattern #47 `shape_attribute_board` is the latest **FULLY CLOSED / LIVE VERIFIED** gameplay pattern, including post-merge docs closure PR #204 and closure-main CI #951.
 
 Pattern #45 docs closure is independently verified through PR #198 -> `79788dfb7f88164e699d1c3b9ac62b689d366c74` and closure-main CI #927 full success including exact Cloudflare production smoke.
 
@@ -81,6 +81,24 @@ Implementation main CI:  #900 / run 35297572709 — full success + exact Cloudfl
 ```
 
 Exact five-ID Logic scope is live verified. Browser keyboard/pointer/actual-touch QA, manual nine-shot review and permanent visual QA passed. No mastery/progression/schema/database change was introduced.
+
+## Pattern #48 audit checkpoint
+
+Pattern #48 fresh audit is **COMPLETE / NO JUSTIFIED NEW PATTERN YET / CODE NOT STARTED**.
+
+```text
+Audit base:                 bbb61965c951a3dd2628b4b4be6d3b547b7fd68a
+Pattern #47 closure PR:     #204
+Pattern #47 closure CI:     #950 / run 35364586385 — full success
+Pattern #47 closure-main:   bbb61965c951a3dd2628b4b4be6d3b547b7fd68a
+Closure-main CI:            #951 / run 35365286942 — full success + exact Cloudflare production smoke
+Merged baseline:            47 active / choice_grid 233
+Remaining to target 50:     3
+```
+
+The audit did not find a new interaction family that is safer or more faithful than existing mechanics. Current direction is reuse/generalization first, especially `set_reasoning`, `spatial_relation_board`, `compare_properties`, `cloze_sentence_choice`, and existing routine/action mechanics. Iqro remains deferred until external expert acceptance.
+
+Runtime Pattern #48 code has not started.
 
 ## Pattern #47 live checkpoint
 
@@ -258,6 +276,8 @@ Pattern #42 closure gates are complete. Closure PR #188 merged and closure main 
 
 ## Current evidence records
 
+- [`PATTERN48_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`](PATTERN48_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md) — current Pattern #48 no-candidate objective/evidence audit; runtime code not started.
+- [`PATTERN47_FINAL_CLOSURE_VERIFICATION_2026-09-18.md`](PATTERN47_FINAL_CLOSURE_VERIFICATION_2026-09-18.md) — Pattern #47 final post-merge docs closure verification through PR #204 / CI #951.
 - [`PATTERN47_SHAPE_ATTRIBUTE_BOARD_CLOSURE_2026-09-18.md`](PATTERN47_SHAPE_ATTRIBUTE_BOARD_CLOSURE_2026-09-18.md) — final Pattern #47 implementation merged-main closure truth and #949 artifacts.
 - [`PATTERN47_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md`](PATTERN47_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md) — accepted Pattern #47 checkpoint, CI #943 artifacts and nine-shot manual visual review.
 - [`WS05_SHAPE_ATTRIBUTE_BOARD_WAVE_2026-09-18.md`](WS05_SHAPE_ATTRIBUTE_BOARD_WAVE_2026-09-18.md) — Pattern #47 implementation/QA wave and remaining merge gates.
@@ -290,7 +310,7 @@ Historical closure/candidate/audit records must not be rewritten to pretend late
 
 ## Remaining product-quality work
 
-Immediate WS-05 gate is this docs-only Pattern #47 post-merge closure PR, followed by closure-main full CI and exact Cloudflare verification. After closure verification, Pattern #48 must begin with a fresh objective/evidence audit. Three patterns remain to the finish target of 50.
+Immediate WS-05 gate is a reuse/generalization audit over existing mechanics for compatible remaining `choice_grid` families. Pattern #48 has no justified new mechanic candidate yet, so runtime code must not start. Three patterns remain to the finish target of 50, but quality/evidence fit remains the blocking rule.
 
 Other open work remains P2 game-shell/icon/inline-style convergence, WS-02 narration, WS-10 real-device/accessibility/human/Iqro acceptance, WS-11 governance, later WS-12 cleanup, and continued WS-05 progression to the current finish target of 50.
 
