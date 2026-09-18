@@ -4,7 +4,7 @@ Status: **AUDIT COMPLETE / IMPLEMENTATION CANDIDATE JUSTIFIED / CODE NOT STARTED
 
 Canonical audit base: `18a4dd30ce58841dd3717b1e53c13af628e950af`  
 Baseline state: **900/900 classified / 43 active patterns / `choice_grid` 249/900**.  
-Baseline verification gate: merged-main CI **#902 / run `35299122394`** must be full success before this audit is merged.
+Verified audit-base CI: **#902 / run `35299122394` — full success including exact merged-main production verification**.
 
 ## Audit rule
 
