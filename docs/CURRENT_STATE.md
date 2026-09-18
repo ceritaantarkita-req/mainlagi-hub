@@ -38,6 +38,10 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Pattern #45 final PR CI: **#924 / run `35311598469` — full success**
 - Pattern #45 implementation merged-main CI: **#925 / run `35312057984` — full success including exact Cloudflare production smoke**
 - Pattern #45 manual visual review: **ACCEPTED / 9 screenshots / no P0-P1 blocker**
+- Pattern #45 closure docs: PR #198 -> main `79788dfb7f88164e699d1c3b9ac62b689d366c74`
+- Pattern #45 closure docs PR CI: **#926 / run `35312712344` — full success**
+- Pattern #45 closure docs merged-main CI: **#927 / run `35314983842` — full success including exact Cloudflare production smoke**
+- Pattern #46 audit candidate: **Science `phenomenon_relation_board` / exact 4 activities / code not started** on `agent/pattern46-phenomenon-relation-audit-20260918`
 - permanent visual QA foundation: **VQA-01 FULLY CLOSED**
 - visual P1 baseline: **P0=0 / P1=0 / P2=3**
 
@@ -58,6 +62,7 @@ Pattern #42: FULLY CLOSED / LIVE VERIFIED
 Pattern #43: FULLY CLOSED / LIVE VERIFIED
 Pattern #44: FULLY CLOSED / LIVE VERIFIED
 Pattern #45: FULLY CLOSED / LIVE VERIFIED
+Pattern #46: AUDIT CANDIDATE / CODE NOT STARTED
 ```
 
 External physical-device acceptance, accessibility-specialist review, human pedagogical/art acceptance and Iqro expert acceptance remain separate and incomplete. Physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
@@ -94,7 +99,38 @@ picture_word_match               5 / 900
 
 Remaining distance is **5 patterns** to the WS-05 finish target of 50. Pattern #45 implementation is merged and live verified on `main` through CI #925 including exact Cloudflare production smoke.
 
+Pattern #45 post-merge docs closure is independently verified: PR #198 merged to `79788dfb7f88164e699d1c3b9ac62b689d366c74`, and closure-main CI #927 passed the full gate including exact Cloudflare production smoke.
+
+Pattern #46 fresh audit selects Science `phenomenon_relation_board` as an implementation candidate for exactly four direct-choice `science-earth-sky-patterns` activities. The audit is branch-only until its own PR and merged-main verification complete; no Pattern #46 runtime code has started.
+
 Pattern #44 post-merge docs closure remains verified: PR #195 -> `d1d16d1acf5dd8baa2445c2c2901459a1d0e64cc`, closure-main CI #914 full success.
+
+## Pattern #46 — AUDIT CANDIDATE / CODE NOT STARTED
+
+Candidate pattern:
+
+```text
+phenomenon_relation_board
+```
+
+Exact audited scope:
+
+```text
+science-earth-sun-day
+science-earth-moon-night
+science-earth-shadow-sun
+science-earth-cloud-rain
+```
+
+Canonical ownership is Science / `science-earth-body-environment` / `science-earth-sky-patterns` / `science.pack.earth-sky-patterns` / `science.earth.sky_patterns.basic` / assessed `tap_choice` / `choice_accuracy_v1`.
+
+The candidate is justified because the lesson/skill explicitly require linking sky/light observations to daily/weather patterns, while generic `choice_grid` hides that observed-condition -> related-result structure. Existing `cause_effect` is a physical-state transformation mechanic; `investigation_board` represents explicit inquiry modes; `growth_stage_transition` represents biological stage progression. None covers all four Earth/sky relations without weakening its current contract.
+
+Explicit exclusion: `science-match-sky-observation-c` remains canonical matching / `matching_accuracy_v1`.
+
+If implementation later passes, expected distribution is **46 active patterns / `choice_grid` 237 / `phenomenon_relation_board` 4**. This is not merged truth and no implementation code is approved until the audit PR itself merges and passes merged-main verification.
+
+Audit evidence: `PATTERN46_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
 
 ## Pattern #45 — FULLY CLOSED / LIVE VERIFIED
 
@@ -362,10 +398,10 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Pattern #45 is the latest fully closed/live-verified gameplay pattern.
-2. Preserve the merged 45-pattern baseline: 900/900 classified, `choice_grid` 241, `elimination_board` 5.
-3. Pattern #46 must begin with a fresh objective/evidence audit; no mechanic, subject, or content family is pre-approved.
-4. Reuse an existing mechanic whenever it already expresses the required evidence model.
-5. Continue the same audit -> exact-scope implementation -> visual/browser QA -> merged-main verification -> docs-closure path through Pattern #50.
+1. Pattern #45 remains the latest fully closed/live-verified gameplay pattern and its docs closure is independently verified through CI #927.
+2. Pattern #46 audit candidate is Science `phenomenon_relation_board` for exactly four direct-choice `science-earth-sky-patterns` activities; implementation code has not started.
+3. Merge and independently verify the Pattern #46 audit docs before writing runtime code.
+4. If the audit becomes merged truth, implement only the exact four-ID scope with unresolved relation slot, canonical `choice_accuracy_v1`, keyboard/pointer/actual-touch QA, responsive/manual visual QA, and permanent visual QA.
+5. Continue the same audit -> implementation -> merged-main verification -> docs-closure path through Pattern #50.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion or mastery/backend rewrites before the current quality roadmap justifies them.

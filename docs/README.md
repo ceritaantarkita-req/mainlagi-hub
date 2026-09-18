@@ -26,6 +26,10 @@ Subsystem docs remain authoritative for their specific scope when they do not co
 
 Pattern #45 `elimination_board` is now the latest **FULLY CLOSED / LIVE VERIFIED** gameplay pattern.
 
+Pattern #45 docs closure is independently verified through PR #198 -> `79788dfb7f88164e699d1c3b9ac62b689d366c74` and closure-main CI #927 full success including exact Cloudflare production smoke.
+
+Pattern #46 audit candidate is Science `phenomenon_relation_board` for exactly four direct-choice `science-earth-sky-patterns` activities. This audit is branch-only and implementation code has not started.
+
 Pattern #45 audit and implementation are merged/live verified. PR #197 final head `ac410e6905da2c7951bdc794715b5604c138a65b` passed CI #924, merged to `43dd857b0fb5b51fe94c4e83da114260a788b4f8`, and merged-main CI #925 passed full verification including exact Cloudflare production smoke. Nine dedicated screenshots remain manually accepted with no P0/P1 blocker.
 
 Pattern #42 `growth_stage_transition` implementation is now merged and live verified:
@@ -177,6 +181,8 @@ Pattern #42 closure gates are complete. Closure PR #188 merged and closure main 
 
 ## Current evidence records
 
+- [`PATTERN46_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`](PATTERN46_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md) — branch-only Pattern #46 Science `phenomenon_relation_board` audit candidate; implementation not started.
+- [`PATTERN45_FINAL_CLOSURE_VERIFICATION_2026-09-18.md`](PATTERN45_FINAL_CLOSURE_VERIFICATION_2026-09-18.md) — final Pattern #45 post-merge docs closure verification through PR #198 / CI #927.
 - [`PATTERN45_ELIMINATION_BOARD_CLOSURE_2026-09-18.md`](PATTERN45_ELIMINATION_BOARD_CLOSURE_2026-09-18.md) — final Pattern #45 merged-main closure truth.
 - [`PATTERN45_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md`](PATTERN45_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md) — accepted Pattern #45 code checkpoint, CI #919 artifacts and manual nine-shot visual review.
 - [`WS05_ELIMINATION_BOARD_WAVE_2026-09-18.md`](WS05_ELIMINATION_BOARD_WAVE_2026-09-18.md) — Pattern #45 implementation/QA wave and remaining merge gates.
@@ -199,7 +205,7 @@ Historical closure/candidate/audit records must not be rewritten to pretend late
 
 ## Remaining product-quality work
 
-Immediate WS-05 gate is a fresh Pattern #46 objective/evidence audit from the verified 45-pattern baseline. Five patterns remain to the finish target of 50; no Pattern #46 mechanic, subject, or content family is pre-approved.
+Immediate WS-05 gate is the docs-only Pattern #46 audit PR for Science `phenomenon_relation_board` over exactly four direct-choice `science-earth-sky-patterns` activities. The audit must merge and pass merged-main Cloudflare verification before runtime implementation begins. Five patterns remain to the finish target of 50.
 
 Other open work remains P2 game-shell/icon/inline-style convergence, WS-02 narration, WS-10 real-device/accessibility/human/Iqro acceptance, WS-11 governance, later WS-12 cleanup, and continued WS-05 progression to the current finish target of 50.
 
