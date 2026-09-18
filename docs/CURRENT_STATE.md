@@ -20,7 +20,10 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Pattern #43 audit main CI: **#890 / run `35295503508` — full success including exact Cloudflare production smoke**
 - Pattern #43 implementation: PR #191 -> main `44f9dee07506a785f184d965b5bbc0a2aab66a8f`
 - Pattern #43 implementation merged-main CI: **#900 / run `35297572709` — full success including exact Cloudflare production smoke**
-- Pattern #44 audit: PR #193 -> main `8b3cb7e73a77502b4c9206936e7736ac9169b1ca`\n- Pattern #44 audit merged-main CI: **#904 / run `35299949341` — full success including exact Cloudflare production smoke**\n- Pattern #44 implementation: **IN PROGRESS** on `agent/pattern44-subitizing-glance-20260918`
+- Pattern #44 audit: PR #193 -> main `8b3cb7e73a77502b4c9206936e7736ac9169b1ca`
+- Pattern #44 audit merged-main CI: **#904 / run `35299949341` — full success including exact Cloudflare production smoke**
+- Pattern #44 implementation: PR #194 / verified code checkpoint `3a4385790a793ed5297db4f6d33fa8e1d084ccf1`
+- Pattern #44 implementation checkpoint CI: **#906 / run `35301923329` — full success; PR run so production smoke skipped**
 - permanent visual QA foundation: **VQA-01 FULLY CLOSED**
 - visual P1 baseline: **P0=0 / P1=0 / P2=3**
 
@@ -39,7 +42,7 @@ Pattern #40: FULLY CLOSED
 Pattern #41: FULLY CLOSED / LIVE VERIFIED
 Pattern #42: FULLY CLOSED / LIVE VERIFIED
 Pattern #43: FULLY CLOSED / LIVE VERIFIED
-Pattern #44: AUDIT VERIFIED / IMPLEMENTATION IN PROGRESS
+Pattern #44: IMPLEMENTATION VERIFIED ON PR CHECKPOINT / NOT MERGED
 ```
 
 External physical-device acceptance, accessibility-specialist review, human pedagogical/art acceptance and Iqro expert acceptance remain separate and incomplete. Physical-device certification remains `PENDING_EXTERNAL_EVIDENCE`.
@@ -74,9 +77,9 @@ picture_word_match               5 / 900
 
 Remaining distance is **7 patterns** to the WS-05 finish target of 50. Pattern #43 is merged and live verified.
 
-Pattern #44 audit is merged and live verified. The implementation branch now exact-scopes `subitizing_glance` to `math-subitize-2`, `math-subitize-4`, and `math-subitize-5`. The implementation target is **44 active patterns / `choice_grid` 246 / `subitizing_glance` 3**; this is not merged-main truth until implementation CI and merge verification complete.
+Pattern #44 audit is merged and live verified. PR #194 now has a verified implementation-code checkpoint at `3a4385790a793ed5297db4f6d33fa8e1d084ccf1` with full CI #906 success, manual nine-shot visual acceptance, and the exact branch distribution **44 active patterns / `choice_grid` 246 / `subitizing_glance` 3**. This is still not merged-main truth until the docs-inclusive final PR head passes CI, merges exactly, and the resulting `main` passes independent Cloudflare verification.
 
-## Pattern #44 — AUDIT VERIFIED / IMPLEMENTATION IN PROGRESS
+## Pattern #44 — IMPLEMENTATION VERIFIED ON PR CHECKPOINT / NOT MERGED
 
 Pattern:
 
@@ -107,7 +110,35 @@ Audit merged-main CI:     #904 / run 35299949341 — full success + exact Cloudf
 Implementation branch:    agent/pattern44-subitizing-glance-20260918
 ```
 
-Implementation keeps the exact three-ID scope, introduces a deterministic 3x3 dot-board config with no timer/auto-hide/speed score, preserves canonical choice order and `choice_accuracy_v1`, and leaves `count_and_select`, mastery, progression, schema and database ownership unchanged. Implementation CI is still required before this can become merged truth.
+Implementation keeps the exact three-ID scope, introduces a deterministic 3x3 dot-board config with no timer/auto-hide/speed score, preserves canonical choice order and `choice_accuracy_v1`, and leaves `count_and_select`, mastery, progression, schema and database ownership unchanged.
+
+Verified implementation checkpoint:
+
+```text
+Implementation PR:       #194
+Verified code head:      3a4385790a793ed5297db4f6d33fa8e1d084ccf1
+Code checkpoint CI:      #906 / run 35301923329 — full success
+Branch distribution:     44 active / choice_grid 246 / subitizing_glance 3
+Manual visual review:    ACCEPTED / nine screenshots / no P0-P1 Pattern #44 blocker
+```
+
+CI #905 on the prior head correctly caught a smallest-viewport success-CTA visibility failure. The responsive success state was fixed without changing the stimulus or evidence contract; corrected code head CI #906 passed the full gate.
+
+Checkpoint artifacts:
+
+```text
+mobile-route screenshots: 10529469378
+sha256:482035f2b37ebf6bbc5cc8207291a55f9d9ff620c5c91994609a60cdb2f4e380
+
+gameplay distribution:    10529739343
+sha256:f78d5f341d1ae545d6075e4eec2b46361108fe376cc9fcbacddf59e433a2f93f
+
+activity quality:          10529788890
+sha256:4eb4991cf347e2efbdd6ebcf70f01175078c149dc7cb31a8a9bb5e86d7985538
+```
+
+Implementation acceptance: `PATTERN44_IMPLEMENTATION_ACCEPTANCE_2026-09-18.md`.  
+Implementation wave: `WS05_SUBITIZING_GLANCE_WAVE_2026-09-18.md`.
 
 Audit evidence: `PATTERN44_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
 
@@ -250,9 +281,9 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 ## Current priority order
 
 1. Pattern #43 remains the latest fully closed/live-verified gameplay pattern.
-2. Pattern #44 audit is merged/live verified through CI #904; implementation is in progress on the exact three-ID Math `subitizing_glance` scope.
-3. Run exact-scope regression + full learning/mobile-route/build/security CI and manually review the nine 320/390/768 dedicated screenshots.
-4. Merge only an unchanged green implementation head, then independently verify merged-main distribution and Cloudflare production smoke.
-5. Continue directly through Pattern #50, then run one final overall QA/docs/production closeout.
+2. Pattern #44 code checkpoint `3a43857` is fully green in CI #906 and its nine dedicated screenshots are manually accepted.
+3. The docs-inclusive final PR #194 head must now pass full CI because this documentation refresh advances the head beyond the verified code checkpoint.
+4. Merge only that unchanged green final head; then independently verify merged-main distribution and exact Cloudflare production smoke.
+5. Write/merge final Pattern #44 closure truth across all canonical docs before starting Pattern #45 implementation work.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion or mastery/backend rewrites before the current quality roadmap justifies them.
