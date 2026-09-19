@@ -142,7 +142,7 @@ async function inspect(viewport){
     await waitForScene(page);
     assert.equal(new URL(page.url()).pathname,route,`progression guard accepts legitimate prior Math readiness at ${viewport.width}`);
 
-    assert.equal(await page.getByText("Untuk menampung lebih banyak air, mana biasanya punya kapasitas lebih besar?").count(),1,"canonical Math prompt remains visible");
+    assert.equal(await page.getByText("Bandingkan kapasitas ketiga benda. Pilih yang biasanya dapat menampung paling banyak air.").count(),1,"Math capacity comparison cue remains visible");
     const choices=page.locator("[data-compare-property-choice]");
     assert.equal(await choices.count(),3);
     assert.deepEqual(await choices.evaluateAll(nodes=>nodes.map(node=>node.getAttribute("aria-label"))),["Pilih: ember","Pilih: cangkir","Pilih: sendok"],"Math capacity choices remain canonical and first-class");
