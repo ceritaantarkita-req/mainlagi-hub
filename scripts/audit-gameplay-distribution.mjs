@@ -211,7 +211,8 @@ try {
   assert.equal(overall.set_reasoning, 10, "Set Reasoning reuse must classify exactly ten audited old+reuse Logic activities");
   assert.equal(overall.spatial_relation_board, 11, "Math spatial reuse must classify exactly six legacy Logic + five Math activities");
   assert.equal(overall.compare_properties, 7, "Math measurement reuse must classify exactly three legacy Science + four Math activities");
-  assert.equal(overall.cloze_sentence_choice, 10, "English sentence-completion reuse must classify exactly five legacy Bahasa + five English activities");\n  assert.equal(overall.choice_grid, 214, "English cloze reuse moves exactly five additional audited English activities out of choice_grid");
+  assert.equal(overall.cloze_sentence_choice, 10, "English sentence-completion reuse must classify exactly five legacy Bahasa + five English activities");
+  assert.equal(overall.choice_grid, 214, "English cloze reuse moves exactly five additional audited English activities out of choice_grid");
   assert.equal(activePatterns.length, 47, "Reuse waves must not create a new gameplay pattern");
 
   console.log("GAMEPLAY_DISTRIBUTION_AUDIT_SUMMARY", JSON.stringify({
