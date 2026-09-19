@@ -102,13 +102,15 @@ Runtime Pattern #48 code has not started.
 
 Current reuse implementation **existing `set_reasoning` -> exact five Logic multi-attribute activities** is **FULLY CLOSED / LIVE VERIFIED**. Audit #206/#955 is live verified; PR #207 final head `a37fdec7b3f89789999ce728c245ae17ee7f00bc` passed CI #963 with branch distribution 47 active / `choice_grid` 228 / `set_reasoning` 10 and accepted nine-shot review; implementation main `9debb6cf30f789125c45eff1b88e65e4eaff7978` passed CI #964 exact Cloudflare smoke, and post-merge docs main `d36a385f131573bb08ec60d4689343ad5e4b8f3c` passed CI #969 exact Cloudflare smoke.
 
-The Math spatial reuse audit is merged via PR #209 -> main `3e30a817ef86fa691f9b2f1249ac00bc00dce4e6`; PR CI #970 passed while runtime remained 47 active / `choice_grid` 228 / `spatial_relation_board` 6 / `set_reasoning` 10. Main CI #971 / run `35377783814` passed exact Cloudflare smoke. The audit is **LIVE VERIFIED**, and Math spatial runtime is the next authorized reuse wave after this closure docs change merges/live-verifies.
+The Math spatial reuse audit is merged via PR #209 -> main `3e30a817ef86fa691f9b2f1249ac00bc00dce4e6`; PR CI #970 passed while runtime remained 47 active / `choice_grid` 228 / `spatial_relation_board` 6 / `set_reasoning` 10. Main CI #971 / run `35377783814` passed exact Cloudflare smoke. The audit is **LIVE VERIFIED**. Runtime reuse is now **ACTIVE** on `agent/math-spatial-reuse-20260919`: exact five Math spatial-position activities are being added to the existing six-ID `spatial_relation_board` family with expected branch distribution 47 active / `choice_grid` 223 / `spatial_relation_board` 11 / `set_reasoning` 10.
 
 The Math measurement reuse audit is merged via PR #210 -> main `f9833568dea0f021cd5c4ed94f6f6fc7505ad8d8`; PR CI #972 passed while runtime remained unchanged. Main CI #973 / run `35378825618` passed exact Cloudflare smoke. The audit is **LIVE VERIFIED**; measurement runtime remains queued behind Math spatial full closure.
 
 The English sentence-completion reuse audit is merged via PR #211 -> main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52`; PR CI #974 passed while runtime remained unchanged. Main CI #975 / run `35409217808` passed exact Cloudflare smoke. The audit is **LIVE VERIFIED**; English runtime remains queued behind prior reuse closures.
 
 The Science environment-care audit is merged via PR #212 -> main `0fccffd769211e5b47be81ec5126c913d9c26fec`; PR CI #976 passed and main CI #977 / run `35409698981` passed exact Cloudflare smoke. The audit is **LIVE VERIFIED**. `science-match-environment-actions-c` remains matching, and any later runtime implementation must use an explicit `environment_care` domain variant while preserving the four legacy body-health activities.
+
+Implementation wave: [`WS05_SPATIAL_RELATION_BOARD_MATH_REUSE_WAVE_2026-09-19.md`](WS05_SPATIAL_RELATION_BOARD_MATH_REUSE_WAVE_2026-09-19.md)
 
 ## Pattern #47 live checkpoint
 
