@@ -86,7 +86,11 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Math spatial reuse audit PR CI: **#970 / run `35377295090` — full success**
 - Math spatial reuse audit merged-main CI: **#971 / run `35377783814` — full success + exact Cloudflare production smoke**
 - Math spatial reuse audit: **MERGED / LIVE VERIFIED**
-- Math spatial reuse implementation: **PR #214 / ACCEPTED CHECKPOINT / final exact-head CI pending / exact 5-ID Math reuse / 11-ID total family**
+- Math spatial reuse implementation: **PR #214 -> main `2cb948d614c90aceaa592ddbfae204ed639bc062` / FULLY CLOSED / LIVE VERIFIED**
+- Math spatial implementation PR CI: **#986 / run `35421866386` — full success**
+- Math spatial implementation main CI: **#987 / run `35422469117` — full success + exact Cloudflare production smoke**
+- Math spatial merged distribution: **47 active / `choice_grid` 223 / `spatial_relation_board` 11 / `set_reasoning` 10**
+- Math measurement runtime: **NEXT / UNBLOCKED / exact 4 direct-choice IDs; matching excluded**
 - Math measurement -> `compare_properties` reuse audit: PR #210 -> main `f9833568dea0f021cd5c4ed94f6f6fc7505ad8d8`
 - Math measurement reuse audit PR CI: **#972 / run `35378121937` — full success**
 - Math measurement audit merged-main CI: **#973 / run `35378825618` — full success + exact Cloudflare production smoke**
@@ -264,11 +268,25 @@ Reuse audit record: `SPATIAL_RELATION_BOARD_MATH_POSITION_REUSE_AUDIT_2026-09-19
 
 PR #209 merged this docs-only audit to main `3e30a817ef86fa691f9b2f1249ac00bc00dce4e6`; exact PR head `e34c85c40e86d7b3a2dc5d3686b445b434181b4d` passed CI #970 / run `35377295090`. PR artifacts reconfirmed the unchanged runtime baseline: 900/900 classified, 47 active, `choice_grid` 228, `spatial_relation_board` 6, `set_reasoning` 10, and activity-quality KEEP 900 / other buckets 0. Main CI #971 / run `35377783814` then passed with exact Cloudflare smoke for `3e30a817...`, so the Math spatial audit is **LIVE VERIFIED**.
 
-### Active runtime wave — Math spatial -> `spatial_relation_board`
+### Math spatial reuse — FULLY CLOSED / LIVE VERIFIED
 
-Implementation branch `agent/math-spatial-reuse-20260919` is active from verified `main` `db49f059b557f1109dceb6f4b5ad397d8641d6af`.
+PR #214 final head `6e0d52f5c76933f698ac53be5120e5b488b89896` passed CI #986 / run `35421866386` and squash-merged to main `2cb948d614c90aceaa592ddbfae204ed639bc062`.
 
-Exact Math scope remains:
+Merged-main CI #987 / run `35422469117` then passed every gate, including exact-SHA Cloudflare production smoke. Merged artifacts independently confirm:
+
+```text
+900 / 900 classified
+0 unclassified
+47 active patterns
+choice_grid               223
+spatial_relation_board     11
+set_reasoning              10
+activity quality KEEP     900
+POLISH / REDESIGN / REPLACE 0 / 0 / 0
+```
+
+Exact Math scope:
+
 ```text
 math-spatial-above
 math-spatial-left
@@ -277,11 +295,14 @@ math-spatial-near
 math-spatial-between
 ```
 
-The existing six Logic activities remain in scope unchanged, making an intended total family size of 11. Config is generalized with exact per-ID subject/stage/prompt/choice-order/correct-answer validation; new deterministic scene modes cover vertical relation, containment and proximity. No content, mastery, progression, schema or database migration is introduced.
+The existing six Logic activities remain unchanged. Config is exact/fail-closed on subject, stage, runtime, prompt, choice order and answer. Math scenes cover above, left-of, containment, proximity and between. No content/mastery/progression/schema/database migration was introduced.
 
-Dedicated Math browser QA is wired for 320x720, 390x844 and 768x1024 using `math-spatial-near`, with keyboard wrong/retry plus actual-touch correct completion. CI #981 / run `35421474731` passed the accepted runtime head `500e71e8a86f4959cffad423b024997d0d06a1b2`; artifacts verify 900/900 classified, 47 active, `choice_grid` 223, `spatial_relation_board` 11, `set_reasoning` 10 and KEEP 900. The nine dedicated Math screenshots were manually accepted with P0=0/P1=0. CI #980's only blocking result was a stale distribution assertion freezing the prior 228 baseline; the product artifact in that same run already reported the correct 223/11 distribution. Final exact-head CI is required after this checkpoint docs update.
+Dedicated Math QA covers 320x720, 390x844 and 768x1024 using `math-spatial-near`, with keyboard wrong/retry + actual-touch correct completion. Nine screenshots were manually accepted with P0=0/P1=0 and rechecked on the final head.
 
-Implementation wave record: `WS05_SPATIAL_RELATION_BOARD_MATH_REUSE_WAVE_2026-09-19.md`.
+Implementation wave record: `WS05_SPATIAL_RELATION_BOARD_MATH_REUSE_WAVE_2026-09-19.md`.  
+Closure record: `SPATIAL_RELATION_BOARD_MATH_POSITION_REUSE_CLOSURE_2026-09-19.md`.
+
+The next authorized runtime implementation is Math measurement -> existing `compare_properties` for exactly four direct-choice activities. `math-measure-match-length` remains matching / `matching_accuracy_v1`.
 
 ### Current reuse audit — Math measurement -> `compare_properties`
 
@@ -779,10 +800,10 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 2. Preserve the merged 47-pattern baseline: 900/900 classified, `choice_grid` 233, `shape_attribute_board` 4.
 3. Pattern #48 fresh audit found no justified new mechanic; active pattern count remains 47.
 4. Set Reasoning reuse PR #207 is merged to main `9debb6cf`; exact final head `a37fdec7` passed CI #963 and final nine-shot review with 47/228/10 branch distribution.
-5. Math spatial reuse audit PR #209 is merged to main `3e30a817`; PR CI #970 is green, independent merged-main/Cloudflare verification remains pending, and runtime code has not started.
-6. Math measurement audit PR #210 is merged to main `f9833568`; PR CI #972 is green, independent merged-main/Cloudflare verification remains pending, and runtime code has not started.
-7. English cloze audit PR #211 -> main `76e1eeb0` is live verified by main CI #975 + exact Cloudflare smoke.
-8. Environment-care audit PR #212 -> main `0fccffd7` is live verified by main CI #977 + exact Cloudflare smoke; matching remains excluded.
-9. The live-verification chain is resolved. After this closure docs PR is merged/live verified, start the exact five-ID Math spatial -> `spatial_relation_board` runtime implementation. Keep measurement, English and environment runtime waves queued behind its full closure.
+5. Math spatial audit PR #209 is live verified by main CI #971 + exact Cloudflare smoke.
+6. Math spatial runtime PR #214 -> main `2cb948d6` is fully live verified by main CI #987 + exact Cloudflare smoke; merged distribution is 47/223/11 and quality KEEP 900.
+7. Math measurement audit PR #210 is live verified by main CI #973; its exact four-ID runtime implementation is now NEXT / UNBLOCKED. `math-measure-match-length` remains matching.
+8. English cloze audit PR #211 -> main `76e1eeb0` is live verified by main CI #975 + exact Cloudflare smoke and remains queued behind Math measurement closure.
+9. Environment-care audit PR #212 -> main `0fccffd7` is live verified by main CI #977 + exact Cloudflare smoke; matching remains excluded and runtime remains queued behind prior closures.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion or mastery/backend rewrites before the current quality roadmap justifies them.
