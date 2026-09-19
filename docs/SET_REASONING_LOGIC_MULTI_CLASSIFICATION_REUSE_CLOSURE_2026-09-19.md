@@ -1,6 +1,6 @@
 # Set Reasoning Reuse Closure — Logic Multi-Attribute — 19 September 2026
 
-Status: **MERGED TO MAIN / INDEPENDENT MAIN CI + CLOUDFLARE VERIFICATION PENDING**
+Status: **FULLY CLOSED / LIVE VERIFIED**
 
 ## Scope
 
@@ -128,21 +128,53 @@ Verified visually:
 - 390 path remains suitable for actual-touch coverage;
 - neutral wording works for both legacy Set Reasoning and reused multi-attribute cases.
 
-## Current truth after merge
+## Merged-main live verification
 
-The code is now on canonical `main` at:
+Implementation main `9debb6cf30f789125c45eff1b88e65e4eaff7978` passed independent push-to-`main` CI:
 
 ```text
-9debb6cf30f789125c45eff1b88e65e4eaff7978
+Implementation-main CI:    #964 / run 35375338099 — full success
+Cloudflare smoke job:      105700643050 — success
+Production exact SHA:      9debb6cf30f789125c45eff1b88e65e4eaff7978
+Branch:                    main
+Site:                      https://mainlagihub.my.id
+Data backend:              supabase
+Supabase project ref:      estvtgflwkebomsqlolv
 ```
 
-This document deliberately does **not** claim **FULLY CLOSED / LIVE VERIFIED** yet. The remaining proof must come from an independent push-to-`main` CI run whose production-smoke job confirms that `https://mainlagihub.my.id/` serves the exact main SHA and canonical Supabase target.
+The smoke response reported `ok:true` and served the exact implementation SHA from canonical production.
 
-## Remaining closure gates
+Merged-main artifacts:
 
-1. independent full `main` CI for `9debb6cf30f789125c45eff1b88e65e4eaff7978`;
-2. merged-main gameplay-distribution artifact confirms 47 active / `choice_grid` 228 / `set_reasoning` 10;
-3. merged-main activity-quality artifact remains clean;
-4. exact Cloudflare production smoke confirms the same main SHA;
-5. update canonical docs and this record to **FULLY CLOSED / LIVE VERIFIED** with exact run/artifact evidence;
-6. once this pending-closure record reaches `main`, independently verify the resulting closure-main CI; keep the work marked pending until exact production evidence is available, then promote it to **FULLY CLOSED / LIVE VERIFIED** before the next implementation.
+```text
+gameplay distribution:
+  id:      10560530656
+  digest:  sha256:b8e69ca43123096486801b799c818725611802cf3b3f5f6e222e7558199b5ad0
+
+activity quality:
+  id:      10560375863
+  digest:  sha256:4a5213b4aeb52626c6bdbbf489e62eb3e9900d490ab5882761c014d0562c0836
+
+mobile route screenshots:
+  id:      10560346259
+  digest:  sha256:75f3bd14d21a7962d28c47fbe365569f3f559d524415606721a258713dcb6b31
+```
+
+The post-merge closure docs then reached `main` at `d36a385f131573bb08ec60d4689343ad5e4b8f3c` and independently passed push-to-`main` CI #969 / run `35376512392`, including Cloudflare smoke job `105704736529` serving that exact closure SHA from the canonical site/Supabase target.
+
+## Closure result
+
+**FULLY CLOSED / LIVE VERIFIED.**
+
+Verified final runtime truth remains:
+
+```text
+900 / 900 classified
+0 unclassified
+47 active patterns
+choice_grid      228
+set_reasoning     10
+activity quality KEEP 900 / all other buckets 0
+```
+
+No Pattern #48 was created. The next implementation may proceed only through a separately merged/live-verified reuse audit.
