@@ -54,10 +54,11 @@ npm documentation states that the Bulk Advisory endpoint is the primary audit en
 
 ## Recovery
 
-The dependency-audit job is hardened in two narrow ways:
+The dependency-audit job is hardened in three narrow layers:
 
-1. pin the audit client to `npm 11.19.1`;
-2. retry only explicitly transient registry conditions up to four total attempts with bounded backoff.
+1. pin the primary audit client to `npm 11.19.1`;
+2. retry only explicitly transient registry conditions up to four total npm attempts with bounded backoff;
+3. if and only if those attempts all fail for an explicit transient registry condition, run pinned Google OSV-Scanner `v2.3.5` against `package-lock.json` as an independent production-only fallback.
 
 Transient retry is limited to signals such as:
 - HTTP 502 / 503 / 504;
@@ -67,7 +68,7 @@ Transient retry is limited to signals such as:
 - `ETIMEDOUT`;
 - `EAI_AGAIN`.
 
-A real vulnerability result does not match those transient conditions and therefore fails immediately. A persistent registry outage also remains blocking after the final retry.
+A real npm vulnerability result does not match those transient conditions and therefore fails immediately. After a persistent npm advisory-service outage, OSV-Scanner becomes the fallback security gate. Its configuration ignores packages classified as dev-only and otherwise fails on any vulnerability finding, which is stricter than the primary npm high-severity threshold. If OSV installation, OSV service access, parsing, or scanning fails, the CI job fails.
 
 The recovery intentionally preserves:
 - Node 22;
@@ -75,12 +76,14 @@ The recovery intentionally preserves:
 - the existing `npm ci --no-audit --no-fund` install;
 - production-only audit scope via `--omit=dev`;
 - blocking severity threshold `--audit-level=high`;
-- dependency-audit as a required upstream dependency of production smoke.
+- dependency-audit as a required upstream dependency of production smoke;
+- fail-closed behavior when neither npm advisory service nor the independent OSV fallback can produce a clean result.
 
 It does **not**:
 - disable `npm audit`;
 - lower the threshold;
 - use `continue-on-error`;
+- treat vulnerability findings as transient;
 - treat `400 Invalid package tree` as transient under the pinned npm 11 client;
 - change dependency versions;
 - run `npm audit fix --force`;
