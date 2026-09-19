@@ -90,7 +90,7 @@
 **English completion reuse audit:** PR #211 -> main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52` / exact 5-ID scope / JUSTIFIED / code not started  
 **English cloze audit PR CI:** **#974 / run `35379084421` — full success**  
 **English cloze audit main CI:** **#975 / run `35409217808` — full success + exact Cloudflare production smoke**  
-**English cloze audit:** **MERGED / LIVE VERIFIED / runtime NEXT / UNBLOCKED**  
+**English cloze audit:** **MERGED / LIVE VERIFIED**  \n**English cloze runtime:** **IMPLEMENTATION ACTIVE on `agent/english-cloze-reuse-20260919` / exact 5-ID reuse -> existing `cloze_sentence_choice`**  \n**English cloze target:** **47 active / `choice_grid` 214 / `cloze_sentence_choice` 10 / KEEP 900**  
 **Science environment-care reuse audit:** PR #212 -> main `0fccffd769211e5b47be81ec5126c913d9c26fec` / exact 4 direct-choice IDs / JUSTIFIED / code not started  
 **Environment-care audit PR CI:** **#976 / run `35409354940` — full success**  
 **Environment-care audit main CI:** **#977 / run `35409698981` — full success + exact Cloudflare production smoke**  
@@ -720,6 +720,6 @@ P2 findings: 3
 8. Merge/live-verify this reuse-chain closure docs change.
 9. Math spatial runtime PR #214 is fully closed/live verified on main `2cb948d6` by CI #987 + exact Cloudflare smoke with merged 47/223/11 distribution and KEEP 900.
 10. Math measurement runtime PR #216 is fully closed/live verified on main `36507077` by CI #995 + exact Cloudflare smoke with merged 47/219/7 distribution and KEEP 900.
-11. Start English sentence-completion runtime reuse next: exactly five `english.sentence.completion` IDs -> existing `cloze_sentence_choice`; preserve five Bahasa cloze activities, exact ten-ID fail-closed config, subject-aware locale/copy, dedicated English keyboard/pointer/actual-touch QA, exact-head CI, nine-shot review, exact merge, merged-main Cloudflare smoke and closure before Science environment-care runtime.
+11. English sentence-completion runtime reuse is ACTIVE on `agent/english-cloze-reuse-20260919`: exactly five `english.sentence.completion` IDs -> existing `cloze_sentence_choice`; preserve five Bahasa cloze activities, exact ten-ID fail-closed config, subject-aware locale/copy, dedicated English keyboard/pointer/actual-touch QA, exact-head CI, nine-shot review, exact merge, merged-main Cloudflare smoke and closure before Science environment-care runtime.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
