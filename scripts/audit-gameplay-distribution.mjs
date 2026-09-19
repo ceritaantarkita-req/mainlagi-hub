@@ -206,14 +206,14 @@ try {
   assert.equal(overall.single_rule_apply, 5, "Pattern 43 must classify exactly five audited single-rule activities");
   assert.equal(overall.subitizing_glance, 3, "Pattern 44 must classify exactly three audited subitizing activities");
   assert.equal(overall.elimination_board, 5, "Pattern 45 must classify exactly five audited elimination activities");
-  assert.equal(overall.phenomenon_relation_board, 4, "Pattern 46 must classify exactly four audited Earth/sky relation activities");
+  assert.equal(overall.phenomenon_relation_board, 8, "Phenomenon relation reuse must classify exactly four Earth/sky + four ecosystem activities");
   assert.equal(overall.shape_attribute_board, 4, "Pattern 47 must classify exactly four audited Math shape activities");
   assert.equal(overall.set_reasoning, 10, "Set Reasoning reuse must classify exactly ten audited old+reuse Logic activities");
   assert.equal(overall.spatial_relation_board, 11, "Math spatial reuse must classify exactly six legacy Logic + five Math activities");
   assert.equal(overall.compare_properties, 7, "Math measurement reuse must classify exactly three legacy Science + four Math activities");
   assert.equal(overall.cloze_sentence_choice, 10, "English sentence-completion reuse must classify exactly five Bahasa + five English activities");
   assert.equal(overall.healthy_habit_routine, 8, "Environment-care reuse must classify exactly four body-health + four environment-care activities");
-  assert.equal(overall.choice_grid, 210, "Environment-care reuse moves exactly four additional audited Science activities out of choice_grid");
+  assert.equal(overall.choice_grid, 206, "Ecosystem relation reuse moves exactly four additional audited Science activities out of choice_grid");
   assert.equal(activePatterns.length, 47, "Reuse waves must not create a new gameplay pattern");
 
   console.log("GAMEPLAY_DISTRIBUTION_AUDIT_SUMMARY", JSON.stringify({
