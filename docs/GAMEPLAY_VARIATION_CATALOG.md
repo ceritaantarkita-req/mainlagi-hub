@@ -206,7 +206,7 @@ math-spatial-between
 
 This remains Pattern #40 reuse, not Pattern #48. The exact family is Math / `math-ukur-ruang` / `math-spatial-position` / `math.pack.spatial-position` / assessed `tap_choice` / `choice_accuracy_v1`. Required generalization is explicit/fail-closed; existing six Logic spatial activities must remain unchanged. Expected later verified distribution is 47 active / `choice_grid` 223 / `spatial_relation_board` 11 / `set_reasoning` 10.
 
-Math spatial audit main CI #971 / run `35377783814` passed exact Cloudflare smoke. Runtime implementation is **UNBLOCKED / NEXT**, pending only merge/live verification of the current reuse-chain closure docs.
+Math spatial audit main CI #971 / run `35377783814` passed exact Cloudflare smoke. Runtime PR #214 has an **ACCEPTED CHECKPOINT** at `500e71e8a86f4959cffad423b024997d0d06a1b2`: CI #981 is green, artifacts verify 47 active / `choice_grid` 223 / `spatial_relation_board` 11 / `set_reasoning` 10, and the dedicated nine-shot Math visual review is P0=0/P1=0. Final exact-head CI is pending after checkpoint docs synchronization.
 
 Reuse audit record: `SPATIAL_RELATION_BOARD_MATH_POSITION_REUSE_AUDIT_2026-09-19.md`.
 
@@ -441,7 +441,8 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 - Math measurement reuse audit — PR #210 -> main `f9833568`; main CI #973 exact Cloudflare smoke; matching excluded; **LIVE VERIFIED / RUNTIME QUEUED / CODE NOT STARTED**.
 - English completion reuse audit — PR #211 -> main `76e1eeb0`; main CI #975 exact Cloudflare smoke; **LIVE VERIFIED / RUNTIME QUEUED / CODE NOT STARTED**.
 - Science environment-care reuse audit — PR #212 -> main `0fccffd7`; main CI #977 exact Cloudflare smoke; explicit `environment_care` domain variant required; matching excluded; **LIVE VERIFIED / RUNTIME QUEUED / CODE NOT STARTED**.
-- After this closure docs change merges/live-verifies, begin Math spatial runtime reuse. No Pattern #48 is created.
+- Math spatial runtime reuse is ACTIVE on `agent/math-spatial-reuse-20260919`; exact five Math IDs join the six legacy Logic IDs under existing `spatial_relation_board`.
+- No Pattern #48 is created.
 - Continue only with justified exact scopes; reuse an existing mechanic when it already matches the evidence model.
 
 ## Definition of done per mechanic

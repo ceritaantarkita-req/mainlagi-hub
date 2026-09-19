@@ -73,7 +73,8 @@
 **Math spatial reuse audit:** PR #209 -> main `3e30a817ef86fa691f9b2f1249ac00bc00dce4e6` / exact 5-ID scope / JUSTIFIED / code not started  
 **Math spatial audit PR CI:** **#970 / run `35377295090` — full success**  
 **Math spatial audit main CI:** **#971 / run `35377783814` — full success + exact Cloudflare production smoke**  
-**Math spatial audit:** **MERGED / LIVE VERIFIED / runtime next**  
+**Math spatial audit:** **MERGED / LIVE VERIFIED**  
+**Math spatial runtime:** **PR #214 / ACCEPTED CHECKPOINT / CI #981 green / nine-shot P0=0-P1=0 / final exact-head CI pending**  
 **Math measurement reuse audit:** PR #210 -> main `f9833568dea0f021cd5c4ed94f6f6fc7505ad8d8` / exact 4 direct-choice IDs / JUSTIFIED / code not started  
 **Math measurement audit PR CI:** **#972 / run `35378121937` — full success**  
 **Math measurement audit main CI:** **#973 / run `35378825618` — full success + exact Cloudflare production smoke**  
@@ -88,7 +89,7 @@
 **Environment-care audit main CI:** **#977 / run `35409698981` — full success + exact Cloudflare production smoke**  
 **Environment-care audit:** **MERGED / LIVE VERIFIED / runtime queued**  
 **Environment matching exclusion:** **`science-match-environment-actions-c` remains matching**  
-**Pending reuse runtime implementation:** **UNBLOCKED — Math spatial is next; later audited waves remain queued**  
+**Pending reuse runtime implementation:** **Math spatial accepted on PR branch; final exact-head CI + exact merge/live closure remain before later waves**  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
 
@@ -710,6 +711,6 @@ P2 findings: 3
 6. English cloze audit PR #211 -> `76e1eeb0` is live verified by main CI #975 + exact Cloudflare smoke.
 7. Environment-care audit PR #212 -> `0fccffd7` is live verified by main CI #977 + exact Cloudflare smoke; matching remains excluded.
 8. Merge/live-verify this reuse-chain closure docs change.
-9. Then start the exact five-ID Math spatial runtime reuse branch. Require exact-head CI, old Logic regression, Math keyboard/pointer/actual-touch QA, manual nine-shot review, exact merge, merged-main distribution and exact Cloudflare smoke before advancing to Math measurement.
+9. Math spatial runtime reuse is now active on `agent/math-spatial-reuse-20260919`. Require exact-head CI, old Logic regression, Math keyboard/actual-touch QA, manual nine-shot review, exact merge, merged-main 47/223/11 distribution and exact Cloudflare smoke before advancing to Math measurement.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
