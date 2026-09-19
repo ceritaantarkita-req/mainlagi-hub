@@ -1,6 +1,6 @@
 # Picture Word Match English Vocabulary Reuse Closure — 19 September 2026
 
-Status: **RUNTIME FULLY VERIFIED / DOCS CLOSURE ACTIVE**
+Status: **FULLY CLOSED / LIVE VERIFIED**
 
 ## Scope closed
 
@@ -214,12 +214,19 @@ The active gameplay-pattern count remains 47. Pattern #48 remains unjustified.
 
 No additional runtime wave is pre-approved by this closure. Any next WS-05 runtime change must begin with a fresh objective/evidence audit.
 
-## Remaining closure gate
+## Final closure verification
 
-This branch is documentation-only. To fully close the wave:
-1. merge these closure docs through exact-head CI;
-2. verify closure-main push CI;
-3. verify exact closure-main SHA in Cloudflare production;
-4. add the final closure verification record.
+Post-merge closure docs completed their independent production gate:
 
-Until then, runtime is live verified but the documentation closure remains active.
+```text
+Closure docs PR:         #229
+Exact PR head:           6eb726d2babccf40fef2777b78e2c4db1548cd05
+PR CI:                   #1055 / run 35450098827 — full success
+Closure main:            a3437888998bf43ec6eb2dcab0ec58657c59a494
+Closure-main CI:         #1056 / run 35450459714 — full success
+Cloudflare smoke:        exact closure-main SHA PASS
+```
+
+Final verification record: `PICTURE_WORD_MATCH_ENGLISH_VOCAB_REUSE_FINAL_CLOSURE_VERIFICATION_2026-09-19.md`.
+
+English concrete-vocabulary -> existing `picture_word_match` is **FULLY CLOSED / LIVE VERIFIED**. No closure gate remains open.

@@ -1,6 +1,6 @@
 # WS-05 Picture Word Match English Reuse Wave — 19 September 2026
 
-Status: **RUNTIME FULLY VERIFIED / DOCS CLOSURE ACTIVE**
+Status: **FULLY CLOSED / LIVE VERIFIED**
 
 ## Verified prerequisite audit
 
@@ -218,4 +218,8 @@ Production health reports `release.sha = 3c9b6058994c58e2f51c2f133842c6b9dfede13
 
 Post-merge closure record: `PICTURE_WORD_MATCH_ENGLISH_VOCAB_REUSE_CLOSURE_2026-09-19.md`.
 
-The runtime implementation is now **LIVE VERIFIED**. The only remaining gate is closure-docs merge plus closure-main exact-SHA production verification.
+Closure docs PR #229 merged to `a3437888998bf43ec6eb2dcab0ec58657c59a494`. Closure-main CI #1056 passed the full gate and exact-SHA Cloudflare production smoke.
+
+Final verification record: `PICTURE_WORD_MATCH_ENGLISH_VOCAB_REUSE_FINAL_CLOSURE_VERIFICATION_2026-09-19.md`.
+
+This English picture-word reuse wave is **FULLY CLOSED / LIVE VERIFIED**.

@@ -129,7 +129,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **47 ACTIVE / ENGLISH PICTURE-WORD RUNTIME LIVE VERIFIED / CLOSURE DOCS ACTIVE** | PR #228 -> main `3c9b6058`; final PR CI #1053 + main CI #1054 exact Cloudflare smoke; 900/900 / `choice_grid` 188 / `picture_word_match` 23 / KEEP 900; 9-shot P0=0/P1=0; closure docs current |
+| WS-05 Gameplay diversification | **47 ACTIVE / ENGLISH PICTURE-WORD FULLY CLOSED / FRESH AUDIT NEXT** | PR #228 -> main `3c9b6058`; closure PR #229 -> main `a3437888`; CI #1053/#1054/#1055/#1056 all green with exact production smoke; 900/900 / `choice_grid` 188 / `picture_word_match` 23 / KEEP 900; 9-shot P0=0/P1=0 |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P45 merged-main permanent visual QA green; nine dedicated screenshots manually accepted |
@@ -719,13 +719,13 @@ P2 findings: 3
 
 ## Current execution order
 
-1. Keep verified merged runtime truth at **900/900 classified / 47 active / `choice_grid` 188 / `picture_word_match` 23 / KEEP 900**.
-2. English concrete-vocabulary audit #227 remains fully live verified through audit-main CI #1047 exact Cloudflare smoke.
-3. English picture-word implementation PR #228 is merged to main `3c9b6058`; final PR CI #1053 and merged-main CI #1054 both passed, including exact-SHA Cloudflare production smoke.
-4. Exact 23-ID fail-closed family, leak-free English frame, legacy Bahasa behavior, browser QA, evidence semantics and 9-shot P0=0/P1=0 acceptance are now merged runtime truth.
-5. Current task is **post-merge closure documentation only** in `PICTURE_WORD_MATCH_ENGLISH_VOCAB_REUSE_CLOSURE_2026-09-19.md`.
-6. Do not start another runtime wave until these closure docs themselves merge and pass closure-main exact-SHA production verification.
-7. After closure is independently verified, the next WS-05 decision must begin with a **fresh objective/evidence audit**. Existing mechanics should be reused when they safely preserve the objective/evidence contract.
-8. Do not create Pattern #48 merely to reach the numeric target of 50. Iqro remains outside mechanic transformation until expert acceptance exists.
+1. Preserve verified merged truth at **900/900 classified / 47 active / `choice_grid` 188 / `picture_word_match` 23 / KEEP 900**.
+2. English concrete-vocabulary -> existing Pattern #35 `picture_word_match` is now **FULLY CLOSED / LIVE VERIFIED** across audit #227, runtime #228 and closure docs #229.
+3. Closure-main `a3437888998bf43ec6eb2dcab0ec58657c59a494` passed CI #1056 including exact-SHA Cloudflare production smoke; no English picture-word closure gate remains open.
+4. Preserve the exact 23-ID fail-closed family, leak-free English frame, existing Bahasa behavior, assessed evidence semantics and explicit exclusions.
+5. Do not start another runtime wave from old assumptions. The next WS-05 decision must begin with a **fresh objective/evidence audit** of remaining learning families.
+6. Prefer reuse of an existing mechanic when the objective/evidence contract already matches; create a new pattern only when distinct interaction evidence justifies it.
+7. Do not create Pattern #48 merely to reach the numeric target of 50. Current distance remains three patterns, but numeric distance is not authorization.
+8. Iqro remains outside mechanic transformation until expert acceptance exists.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
