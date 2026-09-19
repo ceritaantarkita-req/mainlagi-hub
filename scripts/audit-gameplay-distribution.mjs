@@ -214,7 +214,8 @@ try {
   assert.equal(overall.cloze_sentence_choice, 10, "English sentence-completion reuse must classify exactly five Bahasa + five English activities");
   assert.equal(overall.picture_word_match, 23, "English vocabulary reuse must classify exactly five legacy Bahasa + eighteen English activities");
   assert.equal(overall.healthy_habit_routine, 8, "Environment-care reuse must classify exactly four body-health + four environment-care activities");
-  assert.equal(overall.choice_grid, 188, "English picture-word reuse moves exactly eighteen audited English vocabulary activities out of choice_grid");
+  assert.equal(overall.number_line, 11, "Math missing-number reuse must classify exactly six legacy ordering + five Wave C missing-number activities");
+  assert.equal(overall.choice_grid, 183, "Math missing-number reuse moves exactly five audited Wave C activities out of choice_grid");
   assert.equal(activePatterns.length, 47, "Reuse waves must not create a new gameplay pattern");
 
   console.log("GAMEPLAY_DISTRIBUTION_AUDIT_SUMMARY", JSON.stringify({
