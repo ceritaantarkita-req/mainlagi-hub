@@ -185,7 +185,7 @@ Permanent visual product baseline passed both final PR CI #1017 and merged-main 
 
 Science environment-care -> existing `healthy_habit_routine` reuse is **FULLY CLOSED / LIVE VERIFIED**.
 
-All four reuse waves authorized by the Pattern #48 reuse-first audit chain are now closed:
+All five reuse waves authorized by the Pattern #48 reuse-first audit chain are now closed:
 1. Logic multi-attribute -> `set_reasoning`;
 2. Math spatial -> `spatial_relation_board`;
 3. Math measurement -> `compare_properties`;
