@@ -90,13 +90,13 @@
 **English completion reuse audit:** PR #211 -> main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52` / exact 5-ID scope / JUSTIFIED / code not started  
 **English cloze audit PR CI:** **#974 / run `35379084421` — full success**  
 **English cloze audit main CI:** **#975 / run `35409217808` — full success + exact Cloudflare production smoke**  
-**English cloze audit:** **MERGED / LIVE VERIFIED / runtime NEXT / UNBLOCKED**  
+**English cloze implementation:** **PR #219 ACTIVE / accepted code checkpoint `a054b76b` / CI #1003 full success / manual 9-shot P0=0 P1=0 / final docs CI pending**  
 **Science environment-care reuse audit:** PR #212 -> main `0fccffd769211e5b47be81ec5126c913d9c26fec` / exact 4 direct-choice IDs / JUSTIFIED / code not started  
 **Environment-care audit PR CI:** **#976 / run `35409354940` — full success**  
 **Environment-care audit main CI:** **#977 / run `35409698981` — full success + exact Cloudflare production smoke**  
 **Environment-care audit:** **MERGED / LIVE VERIFIED / runtime queued**  
 **Environment matching exclusion:** **`science-match-environment-actions-c` remains matching**  
-**Pending reuse runtime implementation:** **Math measurement -> `compare_properties` is NEXT / UNBLOCKED; English and environment remain queued**  
+**Pending reuse runtime implementation:** **English cloze PR #219 is at final docs gate; Science environment-care becomes NEXT only after English merged-main live closure**  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
 
@@ -309,7 +309,9 @@ english-complete-mother-family
 
 Canonical ownership is English / `english-phrases-review` / `english-sentence-completion` / `english.pack.sentence-completion` / `english.sentence.completion` / assessed `tap_choice` / `choice_accuracy_v1`.
 
-Audit result: **reuse justified / code not started**.
+Audit result: **reuse justified / implementation active in PR #219**.
+
+Accepted code checkpoint `a054b76b1e13cba03a255b9c60f0bd43deb9051f` passed CI #1003 / run `35430916587` across Production build, Ubuntu quality, Windows compatibility, dependency audit, secret-history scan and mobile Chromium QA. Branch evidence is 900/900 classified, 47 active, `choice_grid` 214, `cloze_sentence_choice` 10, KEEP 900 / 0 flagged. Nine dedicated 320/390/768 idle/try/success screenshots were manually accepted with P0=0/P1=0. Final docs exact-head CI remains required before merge.
 
 Pattern #38 already expresses one-slot sentence completion with direct-choice measured evidence. Later implementation must preserve five existing Bahasa cloze activities and add five English IDs through exact fail-closed configuration. The UI must become subject-aware: existing Bahasa child-facing copy and `id-ID` behavior remain stable; English completion uses reviewed English copy/locale. Blank syntax alone must never classify an arbitrary activity.
 
@@ -332,8 +334,9 @@ compare_properties          7 / 900
 cloze_sentence_choice      10 / 900
 ```
 
-Runtime remains blocked until preceding live/audit gates are resolved.
+Runtime prerequisite gates are resolved. PR #219 is now at the final docs/exact-head CI gate; merged-main Cloudflare verification is still required before Science environment-care starts.
 
+Implementation wave: `WS05_CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_WAVE_2026-09-19.md`.  
 Reuse audit record: `CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_AUDIT_2026-09-19.md`.
 
 Audit PR #211 exact head `adc975f119b557f253cd3a366e728efa2fd74810` passed CI #974 and merged to main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52`. Its artifacts preserved 47 active / `choice_grid` 228 / `cloze_sentence_choice` 5 / `compare_properties` 3 / `spatial_relation_board` 6 / `set_reasoning` 10. Independent merged-main/Cloudflare verification remains pending.
