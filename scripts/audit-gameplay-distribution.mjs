@@ -215,7 +215,9 @@ try {
   assert.equal(overall.picture_word_match, 23, "English vocabulary reuse must classify exactly five legacy Bahasa + eighteen English activities");
   assert.equal(overall.healthy_habit_routine, 8, "Environment-care reuse must classify exactly four body-health + four environment-care activities");
   assert.equal(overall.number_line, 11, "Math missing-number reuse must classify exactly six legacy ordering + five Wave C missing-number activities");
-  assert.equal(overall.choice_grid, 183, "Math missing-number reuse moves exactly five audited Wave C activities out of choice_grid");
+  assert.equal(overall.make_total, 7, "Math mixed-add reuse must classify exactly five legacy + two mixed-operation additions");
+  assert.equal(overall.take_away, 7, "Math mixed-sub reuse must classify exactly five legacy + two mixed-operation subtractions");
+  assert.equal(overall.choice_grid, 179, "Math mixed-operation reuse moves exactly four audited direct-result activities out of choice_grid");
   assert.equal(activePatterns.length, 47, "Reuse waves must not create a new gameplay pattern");
 
   console.log("GAMEPLAY_DISTRIBUTION_AUDIT_SUMMARY", JSON.stringify({
