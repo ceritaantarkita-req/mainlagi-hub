@@ -168,6 +168,17 @@ Production build, dependency audit and secret-history scan passed; engine/typech
 
 Fix commit `941c643858a5cce4362f39149a91b3a18407d530` changes only that expected distribution baseline. Runtime/config/UI behavior is unchanged.
 
+Second exact-head CI:
+
+```text
+#992 / run 35424446329
+head before QA fix: 4847268e9f0e47ff202f4141bbdd2f334fdb4d96
+```
+
+Distribution sentinel passed the updated runtime target. Mobile QA then failed only because the new Math browser test asserted that the canonical activity prompt must be visible as body text. Existing `ComparePropertiesActivity` intentionally renders the reviewed `config.cue` in the body while the canonical prompt remains the narration source and is frozen exactly by config regression.
+
+Fix commit `9d4d9d1126abb6511a3cbc41cfb6a72793d73326` changes only that browser assertion to the visible Math capacity comparison cue. Product/runtime behavior is unchanged.
+
 ## Merge gate
 
 Before merge:
