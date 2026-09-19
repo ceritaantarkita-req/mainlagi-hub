@@ -1,6 +1,6 @@
 # Set Reasoning Reuse Closure — Logic Multi-Attribute — 19 September 2026
 
-Status: **MERGED TO MAIN / INDEPENDENT MAIN CI + CLOUDFLARE VERIFICATION PENDING**
+Status: **FULLY CLOSED / LIVE VERIFIED**
 
 ## Scope
 
@@ -130,15 +130,32 @@ Verified visually:
 
 ## Current truth after merge
 
-The code is now on canonical `main` at:
+The code is on canonical `main` at:
 
 ```text
 9debb6cf30f789125c45eff1b88e65e4eaff7978
 ```
 
-This document deliberately does **not** claim **FULLY CLOSED / LIVE VERIFIED** yet. The remaining proof must come from an independent push-to-`main` CI run whose production-smoke job confirms that `https://mainlagihub.my.id/` serves the exact main SHA and canonical Supabase target.
+Independent push-to-`main` CI #964 / run `35375338099` completed successfully. Its `Production smoke (Cloudflare)` job verified that `https://mainlagihub.my.id/api/health` served the exact implementation SHA on branch `main`, with the canonical site URL, Supabase backend, and canonical Supabase target.
 
-## Remaining closure gates
+The post-merge docs commit:
+
+```text
+d36a385f131573bb08ec60d4689343ad5e4b8f3c
+```
+
+then passed push-to-`main` CI #969 / run `35376512392`, again including exact-SHA Cloudflare production smoke.
+
+## Closure result
+
+- implementation main CI: **#964 / run `35375338099` — full success + exact Cloudflare smoke**;
+- post-merge docs main CI: **#969 / run `35376512392` — full success + exact Cloudflare smoke**;
+- merged runtime distribution remains **47 active / `choice_grid` 228 / `set_reasoning` 10**;
+- activity-quality remains **KEEP 900 / 0 flagged**;
+- final nine-shot visual review remains accepted with **P0=0 / P1=0**.
+
+This reuse wave is therefore **FULLY CLOSED / LIVE VERIFIED**.
+
 
 1. independent full `main` CI for `9debb6cf30f789125c45eff1b88e65e4eaff7978`;
 2. merged-main gameplay-distribution artifact confirms 47 active / `choice_grid` 228 / `set_reasoning` 10;

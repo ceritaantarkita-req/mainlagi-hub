@@ -1,6 +1,6 @@
 # Healthy Habit Routine Reuse Audit — Science Environment Care — 19 September 2026
 
-Status: **AUDIT COMPLETE / REUSE JUSTIFIED FOR EXACT 4 ENVIRONMENT-CARE IDS / CODE NOT STARTED / IMPLEMENTATION BLOCKED BY PRIOR LIVE-CLOSURE GATES**
+Status: **AUDIT COMPLETE / LIVE VERIFIED / REUSE JUSTIFIED FOR EXACT 4 ENVIRONMENT-CARE IDS / CODE NOT STARTED / IMPLEMENTATION QUEUED**
 
 ## Purpose
 
@@ -20,7 +20,6 @@ Math compare-properties audit:     PR #210 -> main f9833568 / PR CI #972 success
 English cloze audit:               PR #211 -> main 76e1eeb0 / PR CI #974 success / runtime not started
 ```
 
-Recent docs-only audit PRs have green exact-head CI, but independent merged-main/Cloudflare verification remains unavailable through the current connector. Runtime remains blocked.
 
 ## Canonical environment-care family
 
@@ -312,10 +311,15 @@ This audit does not approve:
 
 This preserves the actual evidence shape—select the correct everyday action for a familiar context—without cosmetic taxonomy inflation.
 
+## Post-merge audit verification
+
+PR #212 merged the docs-only audit to main `0fccffd769211e5b47be81ec5126c913d9c26fec`. Exact-head PR CI #976 / run `35409354940` passed. Push-to-`main` CI #977 / run `35409698981` then passed the full matrix including exact-SHA Cloudflare production smoke for `0fccffd7...`.
+
+This audit is therefore live verified. Runtime stays queued behind the earlier Math and English reuse waves.
+
 ## Next gate
 
-1. merge and verify this docs-only audit;
-2. keep Set Reasoning + Math spatial + Math measurement + English cloze live/audit verification debt explicit;
-3. do not start environment-care runtime reuse before the prerequisite chain is resolved;
-4. when eligible, implement exact eight-ID config, domain-specific copy/metadata, old body-health regressions and environment browser/touch QA on a separate branch;
-5. require exact-head CI, manual visual acceptance, exact merge, merged-main Cloudflare verification and post-merge docs closure.
+1. keep this audit queued behind the prior reuse runtime closures;
+2. when eligible, implement exact eight-ID config with explicit `body_health` vs `environment_care` domain variants;
+3. preserve legacy body-health copy/metadata and keep `science-match-environment-actions-c` as matching;
+4. require exact-head CI, environment keyboard/pointer/actual-touch QA, manual visual acceptance, exact merge and merged-main Cloudflare verification.

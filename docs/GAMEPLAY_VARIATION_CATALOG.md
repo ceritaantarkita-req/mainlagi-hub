@@ -38,13 +38,17 @@ Patterns #1–#35 remain as previously closed/merged. Latest entries:
 
 ## Current verified merged distribution
 
+Current runtime truth after the live-verified Set Reasoning reuse:
+
 ```text
 900 / 900 classified
 0 unclassified
-46 active child-facing patterns
-choice_grid                     237 / 900
+47 active child-facing patterns
+choice_grid                     228 / 900
+set_reasoning                    10 / 900
 elimination_board                 5 / 900
 phenomenon_relation_board         4 / 900
+shape_attribute_board             4 / 900
 subitizing_glance                 3 / 900
 single_rule_apply                 5 / 900
 growth_stage_transition           3 / 900
@@ -55,9 +59,11 @@ cloze_sentence_choice             5 / 900
 reading_passage_question          5 / 900
 sentence_order_cards              5 / 900
 picture_word_match                5 / 900
+compare_properties                3 / 900
+healthy_habit_routine             4 / 900
 ```
 
-Remaining distance is **3 patterns** to the current finish target of 50.
+Active-pattern count remains 47 because Set Reasoning was reuse/generalization, not a new pattern. Remaining distance is **3 patterns** to the current finish target of 50; no new Pattern #48 is justified merely to close that numeric gap.
 
 Pattern #46 verified merged distribution:
 
@@ -184,7 +190,7 @@ logic-classify-arrow-not-left
 logic-classify-same-shape-different-color
 ```
 
-This is a generalization of an existing pattern, not Pattern #48. Audit PR #206 merged to `5f5f7741ee40544c4ab395740ef00fea1880400b`; audit-main CI #955 passed including exact Cloudflare production smoke. PR #207 final head `a37fdec7b3f89789999ce728c245ae17ee7f00bc` passed CI #963, final branch distribution 47/228/10, and final manual nine-shot review with no P0/P1 blocker, then squash-merged unchanged to main `9debb6cf30f789125c45eff1b88e65e4eaff7978`. Independent merged-main CI + exact Cloudflare verification remain pending.
+This is a generalization of an existing pattern, not Pattern #48. Audit PR #206 merged to `5f5f7741ee40544c4ab395740ef00fea1880400b`; audit-main CI #955 passed including exact Cloudflare production smoke. PR #207 final head `a37fdec7b3f89789999ce728c245ae17ee7f00bc` passed CI #963, final branch distribution 47/228/10, and final manual nine-shot review with no P0/P1 blocker, then squash-merged unchanged to main `9debb6cf30f789125c45eff1b88e65e4eaff7978`. Main CI #964 / run `35375338099` passed including exact Cloudflare smoke; post-merge docs main CI #969 / run `35376512392` also passed exact Cloudflare smoke. Set Reasoning reuse is **FULLY CLOSED / LIVE VERIFIED**.
 
 Reuse audit record: `SET_REASONING_LOGIC_MULTI_CLASSIFICATION_REUSE_AUDIT_2026-09-18.md`.
 
@@ -200,11 +206,11 @@ math-spatial-between
 
 This remains Pattern #40 reuse, not Pattern #48. The exact family is Math / `math-ukur-ruang` / `math-spatial-position` / `math.pack.spatial-position` / assessed `tap_choice` / `choice_accuracy_v1`. Required generalization is explicit/fail-closed; existing six Logic spatial activities must remain unchanged. Expected later verified distribution is 47 active / `choice_grid` 223 / `spatial_relation_board` 11 / `set_reasoning` 10.
 
-Runtime implementation is blocked until the preceding Set Reasoning live-closure gate and this audit's own merge/verification gate are complete.
+Math spatial audit main CI #971 / run `35377783814` passed exact Cloudflare smoke. Runtime implementation is **UNBLOCKED / NEXT**, pending only merge/live verification of the current reuse-chain closure docs.
 
 Reuse audit record: `SPATIAL_RELATION_BOARD_MATH_POSITION_REUSE_AUDIT_2026-09-19.md`.
 
-Audit PR #209 merged to main `3e30a817ef86fa691f9b2f1249ac00bc00dce4e6` after exact-head CI #970 success. Runtime remained unchanged at 47 active / `choice_grid` 228 / `spatial_relation_board` 6 / `set_reasoning` 10; independent audit-main/Cloudflare verification remains pending.
+Audit PR #209 merged to main `3e30a817ef86fa691f9b2f1249ac00bc00dce4e6` after exact-head CI #970 success. Runtime remained unchanged at 47 active / `choice_grid` 228 / `spatial_relation_board` 6 / `set_reasoning` 10. Main CI #971 / run `35377783814` passed exact Cloudflare smoke, so this audit is **LIVE VERIFIED**.
 
 Current next reuse audit: existing `compare_properties` is justified for exactly four Math `math.measure.intuition` direct-choice activities:
 
@@ -221,7 +227,7 @@ The current compare-properties UI uses two primary candidates plus a third other
 
 Reuse audit record: `COMPARE_PROPERTIES_MATH_MEASURE_REUSE_AUDIT_2026-09-19.md`.
 
-Audit PR #210 merged to main `f9833568dea0f021cd5c4ed94f6f6fc7505ad8d8` after exact-head CI #972 success. Runtime remained unchanged at 47 active / `choice_grid` 228 / `compare_properties` 3 / `spatial_relation_board` 6 / `set_reasoning` 10; independent audit-main/Cloudflare verification remains pending.
+Audit PR #210 merged to main `f9833568dea0f021cd5c4ed94f6f6fc7505ad8d8` after exact-head CI #972 success. Runtime remained unchanged at 47 active / `choice_grid` 228 / `compare_properties` 3 / `spatial_relation_board` 6 / `set_reasoning` 10. Main CI #973 / run `35378825618` passed exact Cloudflare smoke, so this audit is **LIVE VERIFIED**.
 
 Current next reuse audit: existing Pattern #38 `cloze_sentence_choice` is justified for exactly five English `english.sentence.completion` activities:
 
@@ -237,7 +243,7 @@ The existing five Bahasa cloze activities must remain behaviorally stable. Engli
 
 Reuse audit record: `CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_AUDIT_2026-09-19.md`.
 
-Audit PR #211 merged to main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52` after exact-head CI #974 success. Runtime remained unchanged at 47 active / `choice_grid` 228 / `cloze_sentence_choice` 5 / `compare_properties` 3 / `spatial_relation_board` 6 / `set_reasoning` 10; independent audit-main/Cloudflare verification remains pending.
+Audit PR #211 merged to main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52` after exact-head CI #974 success. Runtime remained unchanged at 47 active / `choice_grid` 228 / `cloze_sentence_choice` 5 / `compare_properties` 3 / `spatial_relation_board` 6 / `set_reasoning` 10. Main CI #975 / run `35409217808` passed exact Cloudflare smoke, so this audit is **LIVE VERIFIED**.
 
 Current next reuse audit: existing Pattern #22 `healthy_habit_routine` is justified for exactly four Science `science.environment.care.basic` direct-choice activities:
 
@@ -250,7 +256,7 @@ science-env-plant-care
 
 `science-match-environment-actions-c` remains canonical matching / `matching_accuracy_v1`.
 
-Reuse requires an explicit domain variant because the current component/copy/metadata are body-health specific. Existing four body-health activities must remain unchanged; environment-care gets domain-correct action-selection copy/metadata. The legacy Pattern #22 identifier remains for compatibility. Code has not started.
+Reuse requires an explicit domain variant because the current component/copy/metadata are body-health specific. Existing four body-health activities must remain unchanged; environment-care gets domain-correct action-selection copy/metadata. The legacy Pattern #22 identifier remains for compatibility. Audit PR #212 -> main `0fccffd769211e5b47be81ec5126c913d9c26fec`; PR CI #976 and main CI #977 both passed, with #977 exact Cloudflare smoke. Audit is **LIVE VERIFIED**; runtime code has not started.
 
 Reuse audit record: `HEALTHY_HABIT_ROUTINE_ENVIRONMENT_CARE_REUSE_AUDIT_2026-09-19.md`.
 
@@ -430,12 +436,12 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 - Patterns #1–#47 — **FULLY CLOSED / LIVE VERIFIED**.
 - Pattern #47 final docs closure — PR #204 merged to `bbb61965c951a3dd2628b4b4be6d3b547b7fd68a`; closure-main CI #951 passed including exact Cloudflare production smoke.
 - Pattern #48 fresh audit — merged/live verified through PR #205 / audit-main CI #953; **no justified new pattern yet**.
-- Set Reasoning reuse gate — PR #207 -> main `9debb6cf`; final head `a37fdec7` / CI #963 green / final branch 47/228/10; merged-main + exact Cloudflare verification pending.
-- Math spatial reuse audit — PR #209 -> main `3e30a817`; exact five-ID scope; PR CI #970 green; independent main/Cloudflare verification pending; **CODE NOT STARTED**.
-- Math measurement reuse audit — PR #210 -> main `f9833568`; exact four direct-choice scope; PR CI #972 green; independent main/Cloudflare verification pending; matching excluded; **CODE NOT STARTED**.
-- English completion reuse audit — PR #211 -> main `76e1eeb0`; exact five-ID scope; PR CI #974 green; independent main/Cloudflare verification pending; **CODE NOT STARTED**.
-- Science environment-care reuse audit — exact four direct-choice `science.environment.care.basic` scope -> Pattern #22 `healthy_habit_routine`; explicit `environment_care` domain variant required; matching excluded; **JUSTIFIED / CODE NOT STARTED**.
-- Pending reuse runtime implementation remains blocked until preceding live/audit gates are complete.
+- Set Reasoning reuse — PR #207 -> main `9debb6cf`; main CI #964 + docs main #969 exact Cloudflare smoke; **FULLY CLOSED / LIVE VERIFIED**.
+- Math spatial reuse audit — PR #209 -> main `3e30a817`; main CI #971 exact Cloudflare smoke; **LIVE VERIFIED / RUNTIME NEXT / CODE NOT STARTED**.
+- Math measurement reuse audit — PR #210 -> main `f9833568`; main CI #973 exact Cloudflare smoke; matching excluded; **LIVE VERIFIED / RUNTIME QUEUED / CODE NOT STARTED**.
+- English completion reuse audit — PR #211 -> main `76e1eeb0`; main CI #975 exact Cloudflare smoke; **LIVE VERIFIED / RUNTIME QUEUED / CODE NOT STARTED**.
+- Science environment-care reuse audit — PR #212 -> main `0fccffd7`; main CI #977 exact Cloudflare smoke; explicit `environment_care` domain variant required; matching excluded; **LIVE VERIFIED / RUNTIME QUEUED / CODE NOT STARTED**.
+- After this closure docs change merges/live-verifies, begin Math spatial runtime reuse. No Pattern #48 is created.
 - Continue only with justified exact scopes; reuse an existing mechanic when it already matches the evidence model.
 
 ## Definition of done per mechanic

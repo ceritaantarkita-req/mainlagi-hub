@@ -1,6 +1,6 @@
 # Spatial Relation Board Reuse Audit — Math Spatial Position — 19 September 2026
 
-Status: **AUDIT COMPLETE / REUSE JUSTIFIED / CODE NOT STARTED / IMPLEMENTATION BLOCKED BY PRIOR LIVE-CLOSURE GATE**
+Status: **AUDIT COMPLETE / LIVE VERIFIED / REUSE JUSTIFIED / CODE NOT STARTED / IMPLEMENTATION NEXT**
 
 ## Purpose
 
@@ -314,12 +314,17 @@ This audit does not approve:
 
 The evidence gap is the same one Pattern #40 was designed to solve: a spatial objective represented mostly as text/direct choices. The existing mechanic can be generalized with explicit vertical, containment and proximity scene modes while preserving the canonical assessed answer contract.
 
+## Post-merge audit verification
+
+PR #209 merged the docs-only audit to main `3e30a817ef86fa691f9b2f1249ac00bc00dce4e6`. Exact-head PR CI #970 / run `35377295090` passed. Push-to-`main` CI #971 / run `35377783814` then passed the full matrix including `Production smoke (Cloudflare)`, whose health response served the exact `3e30a817...` SHA on branch `main` with the canonical site and Supabase target.
+
+The preceding Set Reasoning implementation is also fully live verified by implementation-main CI #964 and post-merge docs main CI #969. Therefore the prerequisite live gate for this Math spatial implementation is resolved.
+
 ## Next gate
 
-1. merge and verify this docs-only audit;
-2. independently close the preceding Set Reasoning reuse production/main gate;
-3. only then create a separate implementation branch from the latest verified `main`;
-4. implement exact 11-ID config, old-family regressions, Math browser/touch QA and distribution gate;
-5. require exact-head CI, manual nine-shot review, exact merge, merged-main Cloudflare verification and post-merge docs closure.
-
-Audit does **not** authorize runtime work before those prerequisites are satisfied.
+1. merge and live-verify the reuse-chain closure docs;
+2. create a separate Math spatial implementation branch from the latest verified `main`;
+3. implement the exact five audited Math IDs while preserving the six existing Logic IDs;
+4. require exact fail-closed config, old-family regression, Math keyboard/pointer/actual-touch QA, 320/390/768 idle-wrong-success visual QA, distribution and activity-quality gates;
+5. exact-head merge only after manual screenshot acceptance;
+6. require merged-main exact-SHA Cloudflare smoke and post-merge docs closure before starting Math measurement runtime reuse.
