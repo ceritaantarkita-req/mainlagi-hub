@@ -1,6 +1,6 @@
 # WS-05 Number Line Math Missing-Number Reuse Wave — 19 September 2026
 
-Status: **RUNTIME IMPLEMENTATION ACTIVE / AUDIT LIVE VERIFIED**
+Status: **IMPLEMENTATION ACCEPTED / FINAL EXACT-HEAD CI REQUIRED / AUDIT LIVE VERIFIED**
 
 ## Audit gate
 
@@ -200,6 +200,85 @@ mobile-route-qa-screenshots
 artifact: 10586869568
 sha256:25a84f6d5d8646a5d32923045a5bf58d83856fd8a4f90fa57f6e6ea29aca1f29
 ```
+
+## Implementation acceptance checkpoint
+
+Accepted branch checkpoint:
+
+```text
+PR:                    #232
+Accepted head:         c51dee54743903525ef5e5cf19c73982421a36e8
+CI:                    #1061 / run 35454486492 — full success
+Production smoke:      skipped on PR by design
+```
+
+Verified CI #1061 artifact truth:
+
+```text
+activities:            900
+classified:            900
+unclassified:            0
+active patterns:        47
+choice_grid:           183
+number_line:            11
+picture_word_match:      23
+Math choice_grid:        17
+Math number_line:        11
+KEEP:                   900
+POLISH:                   0
+REDESIGN:                 0
+REPLACE:                  0
+structural findings:      0
+```
+
+Artifacts:
+
+```text
+activity-quality-audit
+artifact: 10588505346
+sha256:11ecb4fc8a3de3d179bcc8de3172945c88d93ba7c82ba85f31c1781af5ac7888
+
+gameplay-distribution-audit
+artifact: 10588410425
+sha256:2a9ef480e9ba570da7753933442b6cf6bc63fda707e94a3152afbbf05ee3acbb
+
+mobile-route-qa-screenshots
+artifact: 10587907256
+sha256:cc6d3452f735529f35d3217cfae7ff4f14fb599948ec884a5c4a7de74c832ad2
+```
+
+Dedicated missing-number screenshots reviewed manually:
+
+```text
+320-number-line-missing-idle.png
+320-number-line-missing-try.png
+320-number-line-missing-success.png
+390-number-line-missing-idle.png
+390-number-line-missing-try.png
+390-number-line-missing-success.png
+768-number-line-missing-idle.png
+768-number-line-missing-try.png
+768-number-line-missing-success.png
+```
+
+Manual visual acceptance:
+
+```text
+P0 = 0
+P1 = 0
+result = ACCEPTED
+```
+
+Observed acceptance:
+- five-tick line remains legible at all three widths;
+- known values and answer candidates remain visually distinct;
+- wrong-state highlight and retry text are visible;
+- success state and CTA remain visible;
+- no blocking horizontal overflow or clipping;
+- 320 and 768 touchscreen completion and 390 pointer completion passed in browser QA;
+- legacy Number Line browser QA also remained green inside the mobile suite.
+
+Because this acceptance evidence changes docs after the accepted runtime checkpoint, the final PR head must pass the complete CI gate again before merge.
 
 ## Before merge
 
