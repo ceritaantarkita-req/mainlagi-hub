@@ -175,6 +175,7 @@ async function inspect({viewport,completionMode}){
     const wrong=await chooseWrongWithKeyboard(page);
     assert.notEqual(wrong,correctLabel);
     await status.filter({hasText:"Hubungan belum terisi"}).waitFor({state:"visible",timeout:2000});
+    await assertVisible(status,viewportHeight,`ecosystem retry status at ${viewport.width}`);
     assert.equal(await completed(page),false,"wrong ecosystem relation cannot complete");
     assert.equal(await scene.getAttribute("data-relation-resolved"),"false");
     assert.equal(await page.locator("[data-relation-result-label]").textContent(),"Pilih hubungan");
