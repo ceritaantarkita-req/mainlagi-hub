@@ -90,6 +90,13 @@ const SCIENCE_COMPARE_PROPERTIES_IDS = new Set([
   "science-measure-more-water"
 ]);
 
+const MATH_COMPARE_PROPERTIES_IDS = new Set([
+  "math-measure-longer",
+  "math-measure-more-capacity",
+  "math-measure-fuller",
+  "math-measure-three-lengths"
+]);
+
 const SCIENCE_HEALTHY_HABIT_ROUTINE_IDS = new Set([
   "science-body-wash-hands",
   "science-body-teeth-brush",
@@ -478,6 +485,16 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     choices.includes(correct) &&
     Boolean(activity.prompt);
   if (isReviewedScienceComparePropertiesFamily) return "compare_properties";
+
+  const isReviewedMathComparePropertiesFamily =
+    activity.subjectId === "math" &&
+    activity.stageId === "math-ukur-ruang" &&
+    MATH_COMPARE_PROPERTIES_IDS.has(activity.id) &&
+    choices.length === 3 &&
+    new Set(choices).size === choices.length &&
+    choices.includes(correct) &&
+    Boolean(activity.prompt);
+  if (isReviewedMathComparePropertiesFamily) return "compare_properties";
 
   const isReviewedScienceHealthyHabitFamily =
     activity.subjectId === "science" &&
