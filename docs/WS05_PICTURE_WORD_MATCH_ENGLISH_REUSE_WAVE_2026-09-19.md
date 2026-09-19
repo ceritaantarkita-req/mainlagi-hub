@@ -1,6 +1,6 @@
 # WS-05 Picture Word Match English Reuse Wave — 19 September 2026
 
-Status: **CHECKPOINT ACCEPTED / PR #228 CI #1048 FULL SUCCESS / MANUAL VISUAL P0=0 P1=0 / FINAL DOCS CI PENDING**
+Status: **RUNTIME FULLY VERIFIED / DOCS CLOSURE ACTIVE**
 
 ## Verified prerequisite audit
 
@@ -187,22 +187,35 @@ sha256:9646e55bac367a68ad7f3a82145b11a381eee1f25009e5da0c1d6c557e429efc
 
 Manual visual review covered idle / retry / success at 320x720, 390x844 and 768x1024. The reviewed frames preserve the hidden target before submission, readable English instruction/feedback, visible success CTA, stable choice layout and no visible horizontal overflow. No P0/P1 blocker was found.
 
-## Merge gates
+## Final implementation verification
 
-Completed:
-1. learning regression proves exact 23-ID family and fail-closed drift;
-2. gameplay distribution is exactly 900/900, 47 active, `choice_grid` 188, `picture_word_match` 23;
-3. activity-quality is KEEP 900;
-4. legacy Bahasa browser QA is green;
-5. dedicated English 320/390/768 QA is green;
-6. nine English screenshots manually reviewed with P0=0/P1=0;
-7. accepted-head CI #1048 is full success;
-8. canonical docs are reconciled in the final docs checkpoint.
+```text
+Implementation PR:        #228
+Accepted checkpoint:      94eaa68d5be1dc13bf3f7eab2b75514fceedd40c
+Accepted CI:              #1048 / run 35448308040 — full success
+Final PR head:            3dfacb8d77e9e0fff4d34448d1a5311d2081bab3
+Final exact-head CI:      #1053 / run 35449117180 — full success
+Implementation main:     3c9b6058994c58e2f51c2f133842c6b9dfede13f
+Merged-main CI:           #1054 / run 35449535573 — full success
+Cloudflare production:    exact implementation-main SHA PASS
+```
 
-Remaining before merge:
-- final docs exact-head CI must pass after this acceptance record commit.
+Merged-main #1054 verifies:
 
-After merge:
-- require push-to-main CI;
-- require exact-SHA Cloudflare production smoke;
-- create post-merge closure verification before advancing the next WS-05 runtime change.
+```text
+900 / 900 classified
+0 unclassified
+47 active patterns
+choice_grid             188 / 900
+picture_word_match       23 / 900
+KEEP                    900
+POLISH                     0
+REDESIGN                   0
+REPLACE                    0
+```
+
+Production health reports `release.sha = 3c9b6058994c58e2f51c2f133842c6b9dfede13f`, branch `main`, canonical Cloudflare site and canonical Supabase project.
+
+Post-merge closure record: `PICTURE_WORD_MATCH_ENGLISH_VOCAB_REUSE_CLOSURE_2026-09-19.md`.
+
+The runtime implementation is now **LIVE VERIFIED**. The only remaining gate is closure-docs merge plus closure-main exact-SHA production verification.
