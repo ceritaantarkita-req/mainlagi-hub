@@ -110,7 +110,7 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Environment-care audit merged-main CI: **#977 / run `35409698981` — full success + exact Cloudflare production smoke**
 - Environment-care reuse audit: **MERGED / LIVE VERIFIED / exact 4 direct-choice IDs**
 - Environment matching exclusion: **`science-match-environment-actions-c` stays matching / `matching_accuracy_v1`**
-- Environment-care implementation: **PR #221 ACTIVE / accepted code checkpoint `87c0d7ef` / CI #1012 full success / manual 9-shot ACCEPTED P0=0 P1=0 / branch 47 active / `choice_grid` 210 / `healthy_habit_routine` 8 / final docs exact-head CI pending**
+- Environment-care implementation: **PR #221 -> main `986c5c47e2d75366623611f323118b8013f93fe1` / FULLY CLOSED / LIVE VERIFIED**
 - permanent visual QA foundation: **VQA-01 FULLY CLOSED**
 - visual P1 baseline: **P0=0 / P1=0 / P2=3**
 - English cloze implementation main CI: **#1009 / run `35431721131` — full success + exact Cloudflare production smoke**
@@ -121,6 +121,11 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Environment-care branch truth: **900/900 classified / 47 active / `choice_grid` 210 / `healthy_habit_routine` 8 / KEEP 900**
 - Environment-care manual visual review: **ACCEPTED / 9 screenshots / P0=0 / P1=0**
 - Environment-care implementation wave: `docs/WS05_HEALTHY_HABIT_ROUTINE_ENVIRONMENT_REUSE_WAVE_2026-09-19.md`
+- Environment-care final PR CI: **#1017 / run `35436529543` — full success**
+- Environment-care merged-main CI: **#1018 / run `35436868321` — full success + exact Cloudflare production smoke**
+- Environment-care merged truth: **900/900 classified / 47 active / `choice_grid` 210 / `healthy_habit_routine` 8 / KEEP 900**
+- Environment-care closure record: `docs/HEALTHY_HABIT_ROUTINE_ENVIRONMENT_CARE_REUSE_CLOSURE_2026-09-19.md`
+- Next WS-05 runtime work: **fresh objective/evidence audit required; no pre-approved Pattern #48 or reuse wave remains**
 
 ## Engineering status
 
@@ -373,7 +378,7 @@ science-env-plant-care
 
 Pattern #22 already presents one familiar context/goal plus three canonical action choices. The evidence shape matches environment care, but the existing implementation language/metadata is body-health specific. A later implementation must therefore add an explicit domain variant such as `body_health` vs `environment_care`: preserve the four body-health activities exactly, while environment-care uses domain-correct copy and metadata. The historical gameplay-pattern identifier may remain `healthy_habit_routine`; child-facing semantics must not call environmental actions body-health habits.
 
-PR #212 merged the environment-care audit to main `0fccffd769211e5b47be81ec5126c913d9c26fec`. PR CI #976 / run `35409354940` passed, and main CI #977 / run `35409698981` passed with exact Cloudflare smoke. No runtime code has started. From the current code baseline, this reuse alone would move `choice_grid` 228 -> 224 and `healthy_habit_routine` 4 -> 8 while active patterns remain 47. If all already-audited pending reuse waves later ship, expected `choice_grid` becomes 210.
+PR #212 merged the environment-care audit to main `0fccffd769211e5b47be81ec5126c913d9c26fec`; PR CI #976 and main CI #977 passed with exact Cloudflare smoke. Runtime PR #221 final head `208a7fd4bc779a0ac4638718a7edf96c021e2d8a` passed CI #1017 and merged to main `986c5c47e2d75366623611f323118b8013f93fe1`; main CI #1018 passed exact Cloudflare smoke. Merged distribution is 47 active / `choice_grid` 210 / `healthy_habit_routine` 8 / KEEP 900.
 
 Reuse audit record: `HEALTHY_HABIT_ROUTINE_ENVIRONMENT_CARE_REUSE_AUDIT_2026-09-19.md`.
 
