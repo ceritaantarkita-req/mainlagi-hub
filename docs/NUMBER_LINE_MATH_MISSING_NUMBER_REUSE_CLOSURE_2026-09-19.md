@@ -1,6 +1,6 @@
 # Number Line Math Missing-Number Reuse Closure — 19 September 2026
 
-Status: **RUNTIME FULLY VERIFIED / DOCS CLOSURE ACTIVE**
+Status: **FULLY CLOSED / LIVE VERIFIED**
 
 ## Scope closed
 
@@ -207,12 +207,19 @@ The active gameplay-pattern count remains 47. Pattern #48 remains unjustified. T
 
 No next runtime family is pre-approved by this closure. The next WS-05 decision must begin with a fresh objective/evidence audit.
 
-## Remaining closure gate
+## Final closure verification
 
-This docs closure must itself:
-1. pass exact-head full CI;
-2. merge by exact current head;
-3. pass closure-main full CI;
-4. pass exact closure-main Cloudflare production smoke.
+Post-merge closure docs completed their independent production gate:
 
-After those gates, this reuse wave can be marked **FULLY CLOSED / LIVE VERIFIED**.
+```text
+Closure docs PR:       #233
+Exact PR head:         5eb0e919af3b7a4a73e64a9fb9dfc04d6d8e733f
+PR CI:                 #1068 / run 35456023325 — full success
+Closure main:          4858325240f7c3ea9e9b587f5a585275f85e2122
+Closure-main CI:       #1069 / run 35456408297 — full success
+Cloudflare smoke:      exact closure-main SHA PASS
+```
+
+Final verification record: `NUMBER_LINE_MATH_MISSING_NUMBER_REUSE_FINAL_CLOSURE_VERIFICATION_2026-09-19.md`.
+
+Math Wave C missing-number -> existing `number_line` is **FULLY CLOSED / LIVE VERIFIED**. No closure gate remains open.
