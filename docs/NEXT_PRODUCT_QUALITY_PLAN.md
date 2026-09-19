@@ -74,7 +74,7 @@
 **Math spatial audit PR CI:** **#970 / run `35377295090` — full success**  
 **Math spatial audit main CI:** **#971 / run `35377783814` — full success + exact Cloudflare production smoke**  
 **Math spatial audit:** **MERGED / LIVE VERIFIED**  
-**Math spatial runtime:** **ACTIVE on `agent/math-spatial-reuse-20260919` / exact 5-ID reuse / 11-ID total family**  
+**Math spatial runtime:** **PR #214 / ACCEPTED CHECKPOINT / CI #981 green / nine-shot P0=0-P1=0 / final exact-head CI pending**  
 **Math measurement reuse audit:** PR #210 -> main `f9833568dea0f021cd5c4ed94f6f6fc7505ad8d8` / exact 4 direct-choice IDs / JUSTIFIED / code not started  
 **Math measurement audit PR CI:** **#972 / run `35378121937` — full success**  
 **Math measurement audit main CI:** **#973 / run `35378825618` — full success + exact Cloudflare production smoke**  
@@ -89,7 +89,7 @@
 **Environment-care audit main CI:** **#977 / run `35409698981` — full success + exact Cloudflare production smoke**  
 **Environment-care audit:** **MERGED / LIVE VERIFIED / runtime queued**  
 **Environment matching exclusion:** **`science-match-environment-actions-c` remains matching**  
-**Pending reuse runtime implementation:** **Math spatial ACTIVE; later audited waves remain queued behind its full closure**  
+**Pending reuse runtime implementation:** **Math spatial accepted on PR branch; final exact-head CI + exact merge/live closure remain before later waves**  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
 
