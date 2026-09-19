@@ -142,7 +142,7 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Math missing-number implementation wave: `docs/WS05_NUMBER_LINE_MATH_MISSING_REUSE_WAVE_2026-09-19.md`
 - Math missing-number post-merge closure: `docs/NUMBER_LINE_MATH_MISSING_NUMBER_REUSE_CLOSURE_2026-09-19.md`
 - Math missing-number final closure verification: `docs/NUMBER_LINE_MATH_MISSING_NUMBER_REUSE_FINAL_CLOSURE_VERIFICATION_2026-09-19.md`
-- Final verification publication: PR #234 -> main `c023a5757daea7c7948fb09764c672b9c2ff74ea`; push CI #1071 passed product/runtime/build/Windows/Chromium/secret gates but its production dependency audit hit npm registry Quick Audit `400 Invalid package tree` twice before any vulnerability report; **CI RECOVERY ACTIVE** on `agent/fix-production-dependency-audit-20260920`, pinning npm audit client 11.19.1 while preserving `--omit=dev --audit-level=high` and all dependency versions.
+- Final verification publication: PR #234 -> main `c023a5757daea7c7948fb09764c672b9c2ff74ea`; push CI #1071 passed product/runtime/build/Windows/Chromium/secret gates but dependency audit failed twice. Recovery PR #235 with npm 11.19.1 exposed the upstream cause as npm Bulk Advisory `503 Service Unavailable` during registry maintenance; **CI RECOVERY ACTIVE** with bounded retry only for explicit transient 5xx/429/network conditions, while `--omit=dev --audit-level=high`, blocking semantics, lockfile and dependency versions remain unchanged.
 - Dependency-audit recovery record: `docs/PRODUCTION_DEPENDENCY_AUDIT_RECOVERY_2026-09-20.md`
 - Force/motion remains **not authorized** as one relation-board family because push/pull/gravity/friction evidence forms are heterogeneous.
 - Pattern #48 remains **NO JUSTIFIED NEW PATTERN YET**.
