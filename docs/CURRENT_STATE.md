@@ -104,7 +104,7 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - English cloze reuse audit PR CI: **#974 / run `35379084421` — full success**
 - English cloze audit merged-main CI: **#975 / run `35409217808` — full success + exact Cloudflare production smoke**
 - English cloze reuse audit: **MERGED / LIVE VERIFIED**
-- English cloze implementation: **NEXT / UNBLOCKED / exact 5-ID scope -> existing `cloze_sentence_choice`**
+- English cloze implementation: **IMPLEMENTATION ACTIVE on `agent/english-cloze-reuse-20260919` / exact 5-ID scope -> existing `cloze_sentence_choice`**\n- English cloze target distribution: **47 active / `choice_grid` 214 / `cloze_sentence_choice` 10 / KEEP 900**\n- English cloze implementation contract: **exact 10-ID fail-closed config / Bahasa+English subject-aware locale / dedicated English keyboard-pointer-actual-touch QA**
 - Science environment care -> Pattern #22 `healthy_habit_routine` reuse audit: PR #212 -> main `0fccffd769211e5b47be81ec5126c913d9c26fec`
 - Environment-care audit PR CI: **#976 / run `35409354940` — full success**
 - Environment-care audit merged-main CI: **#977 / run `35409698981` — full success + exact Cloudflare production smoke**
@@ -805,8 +805,8 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 4. Set Reasoning reuse PR #207 is merged to main `9debb6cf`; exact final head `a37fdec7` passed CI #963 and final nine-shot review with 47/228/10 branch distribution.
 5. Math spatial audit PR #209 is live verified by main CI #971 + exact Cloudflare smoke.
 6. Math spatial runtime PR #214 -> main `2cb948d6` is fully live verified by main CI #987 + exact Cloudflare smoke; merged distribution is 47/223/11 and quality KEEP 900.
-7. Math measurement audit PR #210 is live verified by main CI #973; its exact four-ID runtime implementation is now NEXT / UNBLOCKED. `math-measure-match-length` remains matching.
-8. English cloze audit PR #211 -> main `76e1eeb0` is live verified by main CI #975 + exact Cloudflare smoke and remains queued behind Math measurement closure.
-9. Environment-care audit PR #212 -> main `0fccffd7` is live verified by main CI #977 + exact Cloudflare smoke; matching remains excluded and runtime remains queued behind prior closures.
+7. Math measurement runtime PR #216 -> main `36507077` is fully closed/live verified by main CI #995 + exact Cloudflare smoke; merged distribution is 47/219/7 and quality KEEP 900.
+8. English cloze audit PR #211 -> main `76e1eeb0` is live verified by main CI #975 + exact Cloudflare smoke; runtime implementation is ACTIVE on `agent/english-cloze-reuse-20260919` for exactly five English sentence-completion IDs -> existing `cloze_sentence_choice`.
+9. Environment-care audit PR #212 -> main `0fccffd7` is live verified by main CI #977 + exact Cloudflare smoke; matching remains excluded and runtime stays queued until English cloze is fully merged/live closed.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion or mastery/backend rewrites before the current quality roadmap justifies them.
