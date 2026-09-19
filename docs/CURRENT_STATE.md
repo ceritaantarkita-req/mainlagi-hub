@@ -127,7 +127,9 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Environment-care closure record: `docs/HEALTHY_HABIT_ROUTINE_ENVIRONMENT_CARE_REUSE_CLOSURE_2026-09-19.md`
 - Environment-care closure docs: **PR #222 -> main `d98ac3794ce32d4308e84d0beecba83156eabd6b` / PR CI #1019 full success / closure-main CI #1020 full success + exact Cloudflare production smoke**
 - Environment-care final verification record: `docs/HEALTHY_HABIT_ROUTINE_ENVIRONMENT_CARE_REUSE_FINAL_CLOSURE_VERIFICATION_2026-09-19.md`
-- Ecosystem relation reuse: **PR #225 / accepted head `6cc75d7e649c88aee99079983e02895c794ed49d` / CI #1028 full success / 9-shot manual review P0=0 P1=0 / branch 47 active / `choice_grid` 206 / `phenomenon_relation_board` 8 / KEEP 900 / final docs exact-head CI pending**
+- Ecosystem relation reuse: **PR #225 -> main `0dd89c5d81ab239ba76549bd9ae17102c7a90274` / final PR CI #1033 / merged-main CI #1034 full success + exact Cloudflare smoke / 9-shot P0=0 P1=0 / 47 active / `choice_grid` 206 / `phenomenon_relation_board` 8 / KEEP 900 / runtime LIVE VERIFIED**
+- Ecosystem relation closure record: `docs/PHENOMENON_RELATION_BOARD_ECOSYSTEM_REUSE_CLOSURE_2026-09-19.md`
+- Ecosystem closure docs: **IN PROGRESS**
 - Force/motion remains **not authorized** as one relation-board family because push/pull/gravity/friction evidence forms are heterogeneous.
 - Pattern #48 remains **NO JUSTIFIED NEW PATTERN YET**.
 

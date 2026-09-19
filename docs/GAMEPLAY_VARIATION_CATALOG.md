@@ -451,7 +451,7 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 - English completion reuse — PR #219 -> main `e3c92cfe`; main CI #1009 exact Cloudflare smoke; closure docs PR #220 -> main `ae29ada7`; closure-main CI #1011 exact Cloudflare smoke; merged 47 active / `choice_grid` 214 / `cloze_sentence_choice` 10 / KEEP 900; **FULLY CLOSED / LIVE VERIFIED**.
 - Science environment-care reuse — audit #212/main `0fccffd7`; runtime #221/main `986c5c47`; docs closure #222/main `d98ac379`; closure-main CI #1020 exact Cloudflare smoke; merged 47 active / `choice_grid` 210 / `healthy_habit_routine` 8 / KEEP 900; **FULLY CLOSED / LIVE VERIFIED**.
 - No Pattern #48 is created.
-- Science ecosystem-dependency reuse -> existing `phenomenon_relation_board`: audit #224/main `20621994` live verified; runtime PR #225 accepted checkpoint `6cc75d7e` / CI #1028 / manual 9-shot P0=0 P1=0; branch 47 active / `choice_grid` 206 / `phenomenon_relation_board` 8 / KEEP 900; matching excluded, force/motion unchanged; **FINAL DOCS CI PENDING**. Pattern #48 is still not justified.
+- Science ecosystem-dependency reuse -> existing `phenomenon_relation_board`: audit #224/main `20621994`; runtime #225/main `0dd89c5d`; final PR CI #1033 + main CI #1034 exact Cloudflare smoke; 9-shot P0=0/P1=0; merged 47 active / `choice_grid` 206 / `phenomenon_relation_board` 8 / KEEP 900; matching excluded, force/motion unchanged; **RUNTIME LIVE VERIFIED / CLOSURE DOCS ACTIVE**. Pattern #48 is still not justified.
 - Continue only with justified exact scopes; reuse an existing mechanic when it already matches the evidence model.
 
 ## Definition of done per mechanic
