@@ -98,6 +98,7 @@ export function PhenomenonRelationBoardActivity({ childId, activityId }: { child
         className={`${styles.scene} ${resolved ? styles.sceneDone : ""}`}
         data-phenomenon-relation-board
         data-relation-domain={config.domainVariant}
+        data-relation-feedback={feedback}
         data-relation-mode={config.mode}
         data-relation-resolved={resolved ? "true" : "false"}
       >
