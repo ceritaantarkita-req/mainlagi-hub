@@ -720,8 +720,8 @@ P2 findings: 3
 
 ## Current execution order
 
-1. Resolve the **final publication CI dependency-audit compatibility gate** before starting another WS-05 audit. PR #234 is already merged at `c023a5757daea7c7948fb09764c672b9c2ff74ea`; #1071 passed every product/runtime/build/Windows/Chromium/secret gate, but npm 10.9.8 fell back to the retiring Quick Audit endpoint and received `400 Invalid package tree` twice.
-2. Recovery keeps the security gate blocking: install remains `npm ci --no-audit --no-fund`, audit remains production-only `--omit=dev`, severity remains `--audit-level=high`, and the audit client is pinned to npm 11.19.1. No dependency or package-lock version change is authorized by this recovery.
+1. Resolve the **final publication CI dependency-audit availability gate** before starting another WS-05 audit. PR #234 is already merged at `c023a5757daea7c7948fb09764c672b9c2ff74ea`; #1071 passed every product/runtime/build/Windows/Chromium/secret gate. npm 11.19.1 on recovery PR #235 confirmed the upstream cause as Bulk Advisory `503 Service Unavailable` during npm registry maintenance.
+2. Recovery keeps the security gate blocking: install remains `npm ci --no-audit --no-fund`, audit remains production-only `--omit=dev`, severity remains `--audit-level=high`, and npm 11.19.1 retries only explicit transient 5xx/429/network failures with bounded backoff. Real vulnerability results and persistent outages still fail. No dependency or package-lock version change is authorized.
 3. Preserve verified merged gameplay truth at **900/900 classified / 47 active / `choice_grid` 183 / `number_line` 11 / KEEP 900**.
 4. Math missing-number -> existing `number_line` remains **FULLY CLOSED / LIVE VERIFIED** across audit #231, runtime #232 and docs closure #233; the CI recovery concerns final publication infrastructure, not the validated learning/runtime behavior.
 5. After recovery PR + merged-main exact-SHA production smoke are green, the next WS-05 decision must begin with a **fresh objective/evidence audit** of remaining learning families.
