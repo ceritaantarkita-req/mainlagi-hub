@@ -420,6 +420,20 @@ assert(mathMeasureMatch,"math-measure-match-length remains in catalog");
 assert.equal(mathMeasureMatch.runtime,"matching","Math measurement matching remains matching");
 assert.equal(matchingPresentation(mathMeasureMatch),"grid_pairs","Math measurement matching remains visible matching");
 
+for(const id of ["math-measure-longer","math-measure-more-capacity","math-measure-fuller","math-measure-three-lengths"]){
+  const activity=ACTIVITIES.find(item=>item.id===id);
+  assert(activity,`${id} remains in canonical catalog`);
+  assert(comparePropertiesConfig(activity),`${id} exact config resolves`);
+  assert.equal(comparePropertiesConfig({...activity,prompt:`${activity.prompt} drift`}),null,`${id} prompt drift fails closed`);
+  assert.equal(comparePropertiesConfig({...activity,choices:[...(activity.choices??[])].reverse()}),null,`${id} choice-order drift fails closed`);
+  const wrongCorrect=(activity.choices??[]).find(choice=>choice!==activity.correctChoice);
+  assert(wrongCorrect,`${id} has a wrong-choice drift fixture`);
+  assert.equal(comparePropertiesConfig({...activity,correctChoice:wrongCorrect}),null,`${id} correct-answer drift fails closed`);
+  assert.equal(comparePropertiesConfig({...activity,subjectId:"science"}),null,`${id} subject drift fails closed`);
+  assert.equal(comparePropertiesConfig({...activity,stageId:"math-operasi-awal"}),null,`${id} stage drift fails closed`);
+  assert.equal(comparePropertiesConfig({...activity,runtime:"listen_and_choose"}),null,`${id} runtime drift fails closed`);
+}
+
 const recordingObservation=ACTIVITIES.find(activity=>activity.id==="science-observe-record-same-time");
 assert(recordingObservation,"recording observation activity remains in catalog");
 assert.equal(choiceGameplayPresentation(recordingObservation),"default","recording observation stays outside compare-properties scope");
