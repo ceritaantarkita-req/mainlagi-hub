@@ -1,6 +1,6 @@
 # Number Line Math Missing-Number Reuse Audit — 19 September 2026
 
-Status: **AUDIT COMPLETE / EXISTING `number_line` REUSE JUSTIFIED / EXACT 5-ID SCOPE / PATTERN COUNT STAYS 47 / CODE NOT STARTED**
+Status: **AUDIT MERGED / LIVE VERIFIED / EXISTING `number_line` REUSE JUSTIFIED / EXACT 5-ID SCOPE / RUNTIME IMPLEMENTATION ACTIVE**
 
 ## Verified baseline
 
@@ -32,6 +32,21 @@ total    188
 ```
 
 Iqro remains outside mechanic transformation until expert acceptance exists.
+
+## Audit merge verification
+
+```text
+Audit PR:             #231
+Audit PR head:        e796a3417d2209e19a9f515a1202843a24671a07
+Audit PR CI:          #1059 / run 35453117130 — full success
+Audit main:           31c03adac0d143e128996321588af514762c4cbd
+Audit-main CI:        #1060 / run 35453492536 — full success
+Cloudflare smoke:     exact audit-main SHA PASS
+```
+
+CI #1060 verified production is serving audit-main `31c03adac0d143e128996321588af514762c4cbd` on branch `main` with canonical Cloudflare + Supabase target.
+
+Runtime implementation is now active on `agent/math-missing-number-line-reuse-20260919`. The audit decision itself remains unchanged: reuse existing `number_line`, do not create Pattern #48.
 
 ## Why this audit exists
 
