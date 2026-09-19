@@ -89,8 +89,13 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Math measurement audit merged-main / Cloudflare verification: **PENDING INDEPENDENT VERIFICATION**
 - Math measurement matching exclusion: **`math-measure-match-length` stays matching / `matching_accuracy_v1`**
 - Math measurement reuse implementation: **BLOCKED / CODE NOT STARTED**
-- English completion -> `cloze_sentence_choice` reuse audit: **JUSTIFIED / exact 5-ID scope / CODE NOT STARTED**
-- English cloze implementation: **BLOCKED by preceding live/audit gates**
+- English completion -> `cloze_sentence_choice` reuse audit: PR #211 -> main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52`
+- English cloze reuse audit PR CI: **#974 / run `35379084421` — full success**
+- English cloze audit merged-main / Cloudflare verification: **PENDING INDEPENDENT VERIFICATION**
+- English cloze implementation: **BLOCKED / CODE NOT STARTED**
+- Science environment care -> Pattern #22 `healthy_habit_routine` reuse audit: **JUSTIFIED / exact 4 direct-choice IDs / CODE NOT STARTED**
+- Environment matching exclusion: **`science-match-environment-actions-c` stays matching / `matching_accuracy_v1`**
+- Environment-care implementation: **BLOCKED by preceding live/audit gates**
 - permanent visual QA foundation: **VQA-01 FULLY CLOSED**
 - visual P1 baseline: **P0=0 / P1=0 / P2=3**
 
@@ -290,6 +295,27 @@ Existing Pattern #38 already measures the same cloze interaction for five Bahasa
 No runtime code has started. From the current code baseline, this reuse alone would move `choice_grid` 228 -> 223 and `cloze_sentence_choice` 5 -> 10 while active patterns remain 47. Combined only after the two separately audited Math reuse waves also ship, the later expected `choice_grid` count would be 214.
 
 Reuse audit record: `CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_AUDIT_2026-09-19.md`.
+
+PR #211 merged this docs-only audit to main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52`; exact PR head `adc975f119b557f253cd3a366e728efa2fd74810` passed CI #974 / run `35379084421`. Artifacts reconfirmed unchanged runtime truth: 900/900 classified, 47 active, `choice_grid` 228, `cloze_sentence_choice` 5, `compare_properties` 3, `spatial_relation_board` 6, `set_reasoning` 10, and activity-quality KEEP 900 / other buckets 0. Independent audit-main/Cloudflare verification remains pending.
+
+### Current reuse audit — Science environment care -> Pattern #22 `healthy_habit_routine`
+
+Reuse is justified for exactly four assessed Science `science.environment.care.basic` direct-choice activities:
+
+```text
+science-env-trash-bin
+science-env-save-water
+science-env-reuse-bottle
+science-env-plant-care
+```
+
+`science-match-environment-actions-c` remains canonical matching / `matching_accuracy_v1` and is explicitly excluded.
+
+Pattern #22 already presents one familiar context/goal plus three canonical action choices. The evidence shape matches environment care, but the existing implementation language/metadata is body-health specific. A later implementation must therefore add an explicit domain variant such as `body_health` vs `environment_care`: preserve the four body-health activities exactly, while environment-care uses domain-correct copy and metadata. The historical gameplay-pattern identifier may remain `healthy_habit_routine`; child-facing semantics must not call environmental actions body-health habits.
+
+No runtime code has started. From the current code baseline, this reuse alone would move `choice_grid` 228 -> 224 and `healthy_habit_routine` 4 -> 8 while active patterns remain 47. If all already-audited pending reuse waves later ship, expected `choice_grid` becomes 210.
+
+Reuse audit record: `HEALTHY_HABIT_ROUTINE_ENVIRONMENT_CARE_REUSE_AUDIT_2026-09-19.md`.
 
 Audit evidence: `PATTERN48_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
 
@@ -727,7 +753,8 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 4. Set Reasoning reuse PR #207 is merged to main `9debb6cf`; exact final head `a37fdec7` passed CI #963 and final nine-shot review with 47/228/10 branch distribution.
 5. Math spatial reuse audit PR #209 is merged to main `3e30a817`; PR CI #970 is green, independent merged-main/Cloudflare verification remains pending, and runtime code has not started.
 6. Math measurement audit PR #210 is merged to main `f9833568`; PR CI #972 is green, independent merged-main/Cloudflare verification remains pending, and runtime code has not started.
-7. English completion -> existing `cloze_sentence_choice` reuse is audit-justified for exactly five `english.sentence.completion` activities; code has not started.
-8. Resolve the outstanding live/audit verification chain before any Math or English reuse runtime implementation.
+7. English cloze audit PR #211 is merged to main `76e1eeb0`; PR CI #974 is green, independent merged-main/Cloudflare verification remains pending, and runtime code has not started.
+8. Science environment care -> Pattern #22 `healthy_habit_routine` reuse is audit-justified for exactly four direct-choice activities; matching remains excluded and code has not started.
+9. Resolve the outstanding live/audit verification chain before any pending reuse runtime implementation.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion or mastery/backend rewrites before the current quality roadmap justifies them.
