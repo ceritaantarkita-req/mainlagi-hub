@@ -104,13 +104,14 @@ Current reuse implementation **existing `set_reasoning` -> exact five Logic mult
 
 The Math spatial reuse audit is merged via PR #209 -> main `3e30a817ef86fa691f9b2f1249ac00bc00dce4e6` and live verified by CI #971. Runtime PR #214 final head `6e0d52f5c76933f698ac53be5120e5b488b89896` passed CI #986 and merged to main `2cb948d614c90aceaa592ddbfae204ed639bc062`. Main CI #987 / run `35422469117` passed exact Cloudflare smoke and independently verifies 47 active / `choice_grid` 223 / `spatial_relation_board` 11 / `set_reasoning` 10 and KEEP 900. Math spatial reuse is **FULLY CLOSED / LIVE VERIFIED**. The next runtime wave is Math measurement -> `compare_properties`.
 
-The Math measurement reuse audit is merged via PR #210 -> main `f9833568dea0f021cd5c4ed94f6f6fc7505ad8d8`; PR CI #972 passed while runtime remained unchanged. Main CI #973 / run `35378825618` passed exact Cloudflare smoke. The audit is **LIVE VERIFIED**; measurement runtime remains queued behind Math spatial full closure.
+The Math measurement reuse audit is merged via PR #210 -> main `f9833568dea0f021cd5c4ed94f6f6fc7505ad8d8`; PR CI #972 passed while runtime remained unchanged. Main CI #973 / run `35378825618` passed exact Cloudflare smoke. The audit is **LIVE VERIFIED**. Math spatial is now fully closed, so measurement runtime is **ACTIVE** on `agent/math-compare-properties-reuse-20260919`: four direct-choice IDs reuse `compare_properties`, while `math-measure-match-length` remains matching. Binary Science behavior stays protected; Math capacity/three-length tasks use three equivalent first-class candidate cards.
 
 The English sentence-completion reuse audit is merged via PR #211 -> main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52`; PR CI #974 passed while runtime remained unchanged. Main CI #975 / run `35409217808` passed exact Cloudflare smoke. The audit is **LIVE VERIFIED**; English runtime remains queued behind prior reuse closures.
 
 The Science environment-care audit is merged via PR #212 -> main `0fccffd769211e5b47be81ec5126c913d9c26fec`; PR CI #976 passed and main CI #977 / run `35409698981` passed exact Cloudflare smoke. The audit is **LIVE VERIFIED**. `science-match-environment-actions-c` remains matching, and any later runtime implementation must use an explicit `environment_care` domain variant while preserving the four legacy body-health activities.
 
 Implementation wave: [`WS05_SPATIAL_RELATION_BOARD_MATH_REUSE_WAVE_2026-09-19.md`](WS05_SPATIAL_RELATION_BOARD_MATH_REUSE_WAVE_2026-09-19.md)  
+Math measurement implementation wave: [`WS05_COMPARE_PROPERTIES_MATH_REUSE_WAVE_2026-09-19.md`](WS05_COMPARE_PROPERTIES_MATH_REUSE_WAVE_2026-09-19.md)  
 Closure: [`SPATIAL_RELATION_BOARD_MATH_POSITION_REUSE_CLOSURE_2026-09-19.md`](SPATIAL_RELATION_BOARD_MATH_POSITION_REUSE_CLOSURE_2026-09-19.md)
 
 ## Pattern #47 live checkpoint
