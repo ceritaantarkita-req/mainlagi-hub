@@ -125,6 +125,8 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Environment-care merged-main CI: **#1018 / run `35436868321` — full success + exact Cloudflare production smoke**
 - Environment-care merged truth: **900/900 classified / 47 active / `choice_grid` 210 / `healthy_habit_routine` 8 / KEEP 900**
 - Environment-care closure record: `docs/HEALTHY_HABIT_ROUTINE_ENVIRONMENT_CARE_REUSE_CLOSURE_2026-09-19.md`
+- Environment-care closure docs: **PR #222 -> main `d98ac3794ce32d4308e84d0beecba83156eabd6b` / PR CI #1019 full success / closure-main CI #1020 full success + exact Cloudflare production smoke**
+- Environment-care final verification record: `docs/HEALTHY_HABIT_ROUTINE_ENVIRONMENT_CARE_REUSE_FINAL_CLOSURE_VERIFICATION_2026-09-19.md`
 - Next WS-05 runtime work: **fresh objective/evidence audit required; no pre-approved Pattern #48 or reuse wave remains**
 
 ## Engineering status
