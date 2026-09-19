@@ -452,8 +452,9 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 - Science environment-care reuse — audit #212/main `0fccffd7`; runtime #221/main `986c5c47`; docs closure #222/main `d98ac379`; closure-main CI #1020 exact Cloudflare smoke; merged 47 active / `choice_grid` 210 / `healthy_habit_routine` 8 / KEEP 900; **FULLY CLOSED / LIVE VERIFIED**.
 - No Pattern #48 is created.
 - Science ecosystem-dependency reuse -> existing `phenomenon_relation_board`: audit #224/main `20621994`; runtime #225/main `0dd89c5d`; final PR CI #1033 + main CI #1034 exact Cloudflare smoke; 9-shot P0=0/P1=0; merged 47 active / `choice_grid` 206 / `phenomenon_relation_board` 8 / KEEP 900; matching excluded, force/motion unchanged; **FULLY CLOSED / LIVE VERIFIED**. Closure docs #226 -> main `fb74c17d`; PR CI #1035 + closure-main CI #1036 full success including exact Cloudflare smoke.
-- English concrete-vocabulary -> existing `picture_word_match`: fresh docs-only audit approves exactly 18 direct-choice IDs across animals/objects/body/family/food/actions; current runtime remains unchanged at `choice_grid` 206 / `picture_word_match` 5; only after later verified implementation would counts become `choice_grid` 188 / `picture_word_match` 23; **CODE NOT STARTED / AUDIT LIVE-VERIFICATION GATE ACTIVE**.
+- English concrete-vocabulary -> existing `picture_word_match`: audit #227 -> main `293db85d` is live verified by CI #1047 exact Cloudflare smoke. Exact 18-ID runtime reuse is now active on `agent/picture-word-english-reuse-20260919`; the exact 23-ID family uses canonical fail-closed validation plus leak-free English presentation. Expected branch distribution is `choice_grid` 188 / `picture_word_match` 23 with 47 active; **IMPLEMENTATION ACTIVE / BRANCH CI + VISUAL ACCEPTANCE PENDING**.
 - Audit record: `PICTURE_WORD_MATCH_ENGLISH_VOCAB_REUSE_AUDIT_2026-09-19.md`.
+- Implementation wave: `WS05_PICTURE_WORD_MATCH_ENGLISH_REUSE_WAVE_2026-09-19.md`.
 - Continue only with justified exact scopes; reuse an existing mechanic when it already matches the evidence model.
 
 ## Definition of done per mechanic
