@@ -38,18 +38,18 @@ Patterns #1–#35 remain as previously closed/merged. Latest entries:
 
 ## Current verified merged distribution
 
-Current merged-main runtime truth after English cloze closure main `ae29ada7f0f7f04e565f6a33e4f6f089d79e8f58`:
+Current merged-main runtime truth after Science environment-care reuse main `986c5c47e2d75366623611f323118b8013f93fe1`:
 
 ```text
 900 / 900 classified
 0 unclassified
 47 active child-facing patterns
-choice_grid                     214 / 900
+choice_grid                     210 / 900
 set_reasoning                    10 / 900
 spatial_relation_board           11 / 900
 compare_properties                7 / 900
 cloze_sentence_choice            10 / 900
-healthy_habit_routine             4 / 900
+healthy_habit_routine             8 / 900
 elimination_board                 5 / 900
 phenomenon_relation_board         4 / 900
 shape_attribute_board             4 / 900
@@ -63,7 +63,7 @@ sentence_order_cards              5 / 900
 picture_word_match                5 / 900
 ```
 
-PR #221 accepted checkpoint `87c0d7efcecb7202f408df2aa24b2445a3834d22` moves exactly four audited environment-care activities from `choice_grid` to existing `healthy_habit_routine`, yielding branch truth `choice_grid=210` / `healthy_habit_routine=8` while active-pattern count remains 47. Remaining distance is **3 patterns** to the finish target of 50; no Pattern #48 is created merely to close the numeric gap.
+PR #221 moved exactly four audited environment-care activities from `choice_grid` to existing `healthy_habit_routine`; final PR CI #1017 and merged-main CI #1018 passed, including exact Cloudflare smoke for `986c5c47e2d75366623611f323118b8013f93fe1`. Active-pattern count remains 47. Remaining distance is **3 patterns** to the finish target of 50; no Pattern #48 is created merely to close the numeric gap.
 
 Pattern #46 verified merged distribution:
 
@@ -247,9 +247,9 @@ Implementation wave: `WS05_CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_WAVE_2026-09-19.m
 Closure record: `CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_CLOSURE_2026-09-19.md`.  
 Reuse audit record: `CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_AUDIT_2026-09-19.md`.
 
-English cloze reuse is **FULLY CLOSED / LIVE VERIFIED** through closure main `ae29ada7f0f7f04e565f6a33e4f6f089d79e8f58` and CI #1011 exact Cloudflare smoke. Science environment-care runtime is active in PR #221; accepted code checkpoint `87c0d7ef` passed CI #1012 and manual nine-shot review P0=0/P1=0.
+English cloze reuse is **FULLY CLOSED / LIVE VERIFIED** through closure main `ae29ada7f0f7f04e565f6a33e4f6f089d79e8f58` and CI #1011 exact Cloudflare smoke. Science environment-care runtime is also **FULLY CLOSED / LIVE VERIFIED** through PR #221 -> main `986c5c47e2d75366623611f323118b8013f93fe1`, final PR CI #1017 and main CI #1018 exact Cloudflare smoke.
 
-Current reuse implementation: existing Pattern #22 `healthy_habit_routine` now serves exactly four additional audited Science `science.environment.care.basic` direct-choice activities on PR #221:
+Closed reuse implementation: existing Pattern #22 `healthy_habit_routine` now serves exactly four additional audited Science `science.environment.care.basic` direct-choice activities:
 
 ```text
 science-env-trash-bin
@@ -260,10 +260,13 @@ science-env-plant-care
 
 `science-match-environment-actions-c` remains canonical matching / `matching_accuracy_v1`.
 
-PR #221 implements the required explicit `body_health` / `environment_care` domain split. The four existing body-health activities keep historical copy/evidence metadata; environment-care receives domain-correct action-selection copy and `choice_environment_care_action_interaction` evidence fidelity. The full eight-ID family is fail-closed on exact ID/subject/stage/runtime/prompt/choice order/answer. Audit PR #212 -> main `0fccffd769211e5b47be81ec5126c913d9c26fec`; PR CI #976 and main CI #977 passed with exact Cloudflare smoke. Checkpoint CI #1012 is full green, branch distribution is 47 active / `choice_grid` 210 / `healthy_habit_routine` 8 / KEEP 900, and manual nine-shot review is P0=0/P1=0.
+PR #221 implements the required explicit `body_health` / `environment_care` domain split. The four existing body-health activities keep historical copy/evidence metadata; environment-care receives domain-correct action-selection copy and `choice_environment_care_action_interaction` evidence fidelity. The full eight-ID family is fail-closed on exact ID/subject/stage/runtime/prompt/choice order/answer. Audit PR #212/main `0fccffd7` is live verified; final PR head `208a7fd4bc779a0ac4638718a7edf96c021e2d8a` passed CI #1017 and merged to main `986c5c47e2d75366623611f323118b8013f93fe1`. Main CI #1018 passed exact Cloudflare smoke and verifies 47 active / `choice_grid` 210 / `healthy_habit_routine` 8 / KEEP 900. Manual nine-shot review is P0=0/P1=0.
 
 Implementation wave: `WS05_HEALTHY_HABIT_ROUTINE_ENVIRONMENT_REUSE_WAVE_2026-09-19.md`.  
+Closure record: `HEALTHY_HABIT_ROUTINE_ENVIRONMENT_CARE_REUSE_CLOSURE_2026-09-19.md`.  
 Reuse audit record: `HEALTHY_HABIT_ROUTINE_ENVIRONMENT_CARE_REUSE_AUDIT_2026-09-19.md`.
+
+No later runtime wave is pre-approved. Next WS-05 runtime work must begin with a fresh objective/evidence audit.
 
 ## Pattern #47 — `shape_attribute_board` / FULLY CLOSED / LIVE VERIFIED
 
