@@ -84,6 +84,45 @@ supabaseProjectRef: estvtgflwkebomsqlolv
 result:             PASS
 ```
 
+## Final verification publication and CI recovery
+
+The final verification record was published through PR #234:
+
+```text
+Final verification PR:       #234
+Exact PR head:               3131c0d22d695db6b8941b2d4b466c22e3e1756c
+PR CI:                       #1070 / run 35456918215 — full success
+Publication main:            c023a5757daea7c7948fb09764c672b9c2ff74ea
+Initial publication CI:      #1071 / run 35457323652
+```
+
+CI #1071 passed the product/runtime/build/Windows/Chromium/secret gates but the blocking production dependency audit encountered npm advisory-service maintenance before a security result could be produced. This did not invalidate the already verified Number Line runtime or closure evidence.
+
+The CI infrastructure recovery was then completed through PR #235:
+
+```text
+Recovery PR:                 #235
+Recovery exact head:         767f09353be48d55f52fe0598b40c2d19f3a7fba
+Recovery PR CI:              #1082 / run 35458478740 — full success
+Recovery main:               0917b8292986d496f96d4150aef9f1fcf5499c4f
+Recovery-main CI:            #1083 / run 35459558615 — full success
+Production dependency audit: 0 vulnerabilities
+Cloudflare smoke:            exact recovery-main SHA PASS
+```
+
+Recovery-main production health verified:
+
+```text
+release.sha:        0917b8292986d496f96d4150aef9f1fcf5499c4f
+release.branch:     main
+siteUrl:            https://mainlagihub.my.id
+dataBackend:        supabase
+supabaseProjectRef: estvtgflwkebomsqlolv
+result:             PASS
+```
+
+The recovery changed CI resilience only. It did not change dependencies, package-lock contents, gameplay runtime, curriculum, mastery, progression or the final gameplay distribution.
+
 ## Final merged gameplay truth
 
 ```text
