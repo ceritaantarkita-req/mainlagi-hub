@@ -91,12 +91,12 @@
 **English cloze audit PR CI:** **#974 / run `35379084421` — full success**  
 **English cloze audit main CI:** **#975 / run `35409217808` — full success + exact Cloudflare production smoke**  
 **English cloze implementation:** **PR #219 -> main `e3c92cfe8c1050fdcca1599ae92d98a9345b04ca` / FULLY CLOSED / LIVE VERIFIED / main CI #1009 full success + exact Cloudflare smoke**  
-**Science environment-care reuse audit:** PR #212 -> main `0fccffd769211e5b47be81ec5126c913d9c26fec` / exact 4 direct-choice IDs / JUSTIFIED / code not started  
+**Science environment-care reuse audit:** PR #212 -> main `0fccffd769211e5b47be81ec5126c913d9c26fec` / exact 4 direct-choice IDs / JUSTIFIED / LIVE VERIFIED  
 **Environment-care audit PR CI:** **#976 / run `35409354940` — full success**  
 **Environment-care audit main CI:** **#977 / run `35409698981` — full success + exact Cloudflare production smoke**  
-**Environment-care audit:** **MERGED / LIVE VERIFIED / runtime queued**  
+**Environment-care audit:** **MERGED / LIVE VERIFIED**  
 **Environment matching exclusion:** **`science-match-environment-actions-c` remains matching**  
-**Pending reuse runtime implementation:** **Science environment-care -> `healthy_habit_routine` is NEXT / UNBLOCKED / exact 4 direct-choice IDs**  
+**Environment-care runtime implementation:** **PR #221 ACTIVE / accepted code checkpoint `87c0d7ef` / CI #1012 full success / manual 9-shot P0=0 P1=0 / final docs exact-head CI pending**  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
 
@@ -128,7 +128,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **47 ACTIVE / SET REASONING REUSE FULLY CLOSED / NEXT REUSE RUNTIME UNBLOCKED** | Set Reasoning main CI #964 + docs #969 live verified; Math spatial audit main #971 live verified |
+| WS-05 Gameplay diversification | **47 ACTIVE / ENVIRONMENT-CARE REUSE CHECKPOINT ACCEPTED** | PR #221 / code head `87c0d7ef` / CI #1012 green / 9-shot P0=0 P1=0 / final docs CI pending |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P45 merged-main permanent visual QA green; nine dedicated screenshots manually accepted |
@@ -233,7 +233,7 @@ math-spatial-between
 
 Canonical ownership is Math / `math-ukur-ruang` / `math-spatial-position` / `math.pack.spatial-position` / `math.spatial.position` / assessed `tap_choice` / `choice_accuracy_v1`.
 
-Audit result: **reuse justified / code not started**. Existing Pattern #40 is semantically aligned with this lesson because both represent stated spatial relations while preserving direct-choice evidence. A later implementation may generalize exact config to vertical, containment and proximity scenes, but must preserve all existing six Logic spatial activities and remain fail-closed on exact prompt/choices/order/answer/subject/stage/runtime.
+Audit result: **reuse justified / implementation active in PR #221 / accepted code checkpoint `87c0d7ef`**. Existing Pattern #40 is semantically aligned with this lesson because both represent stated spatial relations while preserving direct-choice evidence. A later implementation may generalize exact config to vertical, containment and proximity scenes, but must preserve all existing six Logic spatial activities and remain fail-closed on exact prompt/choices/order/answer/subject/stage/runtime.
 
 Expected distribution only if later implementation passes every gate:
 
@@ -361,9 +361,9 @@ science-match-environment-actions-c -> matching / matching_accuracy_v1
 
 Audit result: **reuse justified / code not started**.
 
-The environment-care lesson explicitly measures selecting simple actions that reduce waste/resource waste or care for the environment. Pattern #22 already provides one familiar context/goal plus three direct-choice action cards, but its existing copy and metadata are body-health specific. Later implementation must use an explicit domain variant: old `body_health` behavior remains stable; new `environment_care` copy/metadata is domain-correct. The historical pattern identifier remains for compatibility and does not justify Pattern #48.
+The environment-care lesson explicitly measures selecting simple actions that reduce waste/resource waste or care for the environment. PR #221 reuses Pattern #22 with an explicit domain variant: old `body_health` behavior/metadata stay stable while `environment_care` uses domain-correct copy and evidence metadata. The classifier is exact/fail-closed on ID, subject, stage, runtime, prompt, choice order and answer. The historical pattern identifier remains for compatibility and does not justify Pattern #48.
 
-Future distribution from current code baseline if this environment wave alone is verified:
+Verified PR #221 checkpoint distribution:
 
 ```text
 47 active patterns
@@ -383,8 +383,9 @@ cloze_sentence_choice      10 / 900
 healthy_habit_routine       8 / 900
 ```
 
-Runtime prerequisites are resolved. This Science environment-care wave is **NEXT / UNBLOCKED** and may start after this English closure docs change itself passes exact-head CI and merges/live-verifies.
+Runtime prerequisites are resolved and PR #221 code checkpoint is accepted. CI #1012 / run `35435713520` passed the full matrix, including the dedicated environment route and permanent visual baseline; nine screenshots were manually accepted P0=0/P1=0. Final canonical docs exact-head CI is the remaining pre-merge gate.
 
+Implementation wave: `WS05_HEALTHY_HABIT_ROUTINE_ENVIRONMENT_REUSE_WAVE_2026-09-19.md`.  
 Reuse audit record: `HEALTHY_HABIT_ROUTINE_ENVIRONMENT_CARE_REUSE_AUDIT_2026-09-19.md`.
 
 Audit record: `PATTERN48_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
