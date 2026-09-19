@@ -239,7 +239,7 @@ english-complete-two-apples
 english-complete-mother-family
 ```
 
-The existing five Bahasa cloze activities must remain behaviorally stable. English reuse requires exact 10-ID fail-closed configuration plus subject-aware child-facing locale/copy; it must not generalize by blank syntax alone. Code has not started.
+The existing five Bahasa cloze activities must remain behaviorally stable. English reuse requires exact 10-ID fail-closed configuration plus subject-aware child-facing locale/copy; it must not generalize by blank syntax alone. Runtime implementation is active on `agent/english-cloze-reuse-20260919`, with target distribution 47 active / `choice_grid` 214 / `cloze_sentence_choice` 10.
 
 Reuse audit record: `CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_AUDIT_2026-09-19.md`.
 
