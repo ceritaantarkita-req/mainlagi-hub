@@ -96,7 +96,7 @@
 **Environment-care audit main CI:** **#977 / run `35409698981` — full success + exact Cloudflare production smoke**  
 **Environment-care audit:** **MERGED / LIVE VERIFIED**  
 **Environment matching exclusion:** **`science-match-environment-actions-c` remains matching**  
-**Environment-care runtime implementation:** **PR #221 ACTIVE / accepted code checkpoint `87c0d7ef` / CI #1012 full success / manual 9-shot P0=0 P1=0 / final docs exact-head CI pending**  
+**Environment-care runtime implementation:** **PR #221 -> main `986c5c47e2d75366623611f323118b8013f93fe1` / FULLY CLOSED / LIVE VERIFIED / main CI #1018 exact Cloudflare smoke**  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
 
@@ -128,7 +128,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **47 ACTIVE / ENVIRONMENT-CARE REUSE CHECKPOINT ACCEPTED** | PR #221 / code head `87c0d7ef` / CI #1012 green / 9-shot P0=0 P1=0 / final docs CI pending |
+| WS-05 Gameplay diversification | **47 ACTIVE / REUSE CHAIN FULLY CLOSED / FRESH AUDIT NEXT** | Environment-care PR #221 -> main `986c5c47`; main CI #1018 exact Cloudflare smoke; no runtime wave pre-approved |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P45 merged-main permanent visual QA green; nine dedicated screenshots manually accepted |
@@ -143,15 +143,19 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 900 / 900 classified
 0 unclassified
 47 active merged patterns
-choice_grid                     233 / 900
+choice_grid                     210 / 900
+set_reasoning                    10 / 900
+spatial_relation_board           11 / 900
+compare_properties                7 / 900
+cloze_sentence_choice            10 / 900
+healthy_habit_routine             8 / 900
 elimination_board                 5 / 900
-phenomenon_relation_board           4 / 900
-shape_attribute_board                4 / 900
+phenomenon_relation_board         4 / 900
+shape_attribute_board             4 / 900
 subitizing_glance                 3 / 900
 single_rule_apply                 5 / 900
 growth_stage_transition           3 / 900
 phrase_scene_match                4 / 900
-spatial_relation_board            6 / 900
 ```
 
 Distance remaining: **3 patterns** to the current WS-05 finish target of 50. No 60-pattern expansion is required for this finish scope.
@@ -166,14 +170,9 @@ Current result:
 - remaining generic choice families were checked against existing mechanic coverage;
 - Iqro remains outside mechanic transformation until expert acceptance.
 
-Next action is **reuse/generalization validation**, prioritizing:
-1. Logic classification -> `set_reasoning`;
-2. Math spatial -> `spatial_relation_board`;
-3. Math measurement -> `compare_properties`;
-4. English completion -> `cloze_sentence_choice`;
-5. Science environment care -> routine/action mechanic generalization.
+The five reuse-first candidates from this audit chain are now implemented and live verified: Logic `set_reasoning`, Math `spatial_relation_board`, Math `compare_properties`, English `cloze_sentence_choice`, and Science environment-care `healthy_habit_routine`.
 
-A later new Pattern #48 requires evidence that reuse cannot safely preserve the objective/evidence contract.
+Next action is a **fresh objective/evidence audit** of remaining learning families. A later reuse wave or new Pattern #48 requires new evidence that the selected interaction is pedagogically justified and that existing mechanics cannot more safely preserve the objective/evidence contract.
 
 ### Current reuse audit — `set_reasoning` / Logic multi-attribute
 
@@ -267,7 +266,7 @@ Explicit exclusion:
 math-measure-match-length -> matching / matching_accuracy_v1
 ```
 
-Audit result: **reuse justified / code not started**.
+Audit result: **reuse justified / implementation merged and live verified**.
 
 The existing Science `compare_properties` mechanic is currently binary. Math `longer` and `fuller` fit the binary model directly. `more-capacity` and `three-lengths` require a typed multi-candidate variant with all three canonical answers represented as equivalent first-class property cards. This remains qualitative property comparison and preserves the same direct-choice evidence contract; it does not justify Pattern #48.
 
@@ -361,9 +360,9 @@ science-match-environment-actions-c -> matching / matching_accuracy_v1
 
 Audit result: **reuse justified / code not started**.
 
-The environment-care lesson explicitly measures selecting simple actions that reduce waste/resource waste or care for the environment. PR #221 reuses Pattern #22 with an explicit domain variant: old `body_health` behavior/metadata stay stable while `environment_care` uses domain-correct copy and evidence metadata. The classifier is exact/fail-closed on ID, subject, stage, runtime, prompt, choice order and answer. The historical pattern identifier remains for compatibility and does not justify Pattern #48.
+The environment-care lesson explicitly measures selecting simple actions that reduce waste/resource waste or care for the environment. PR #221 merged to main `986c5c47e2d75366623611f323118b8013f93fe1` with an explicit domain variant: old `body_health` behavior/metadata stay stable while `environment_care` uses domain-correct copy and evidence metadata. The classifier is exact/fail-closed on ID, subject, stage, runtime, prompt, choice order and answer. Main CI #1018 passed exact-SHA Cloudflare smoke. The historical pattern identifier remains for compatibility and does not justify Pattern #48.
 
-Verified PR #221 checkpoint distribution:
+Verified merged-main distribution:
 
 ```text
 47 active patterns
@@ -383,10 +382,13 @@ cloze_sentence_choice      10 / 900
 healthy_habit_routine       8 / 900
 ```
 
-Runtime prerequisites are resolved and PR #221 code checkpoint is accepted. CI #1012 / run `35435713520` passed the full matrix, including the dedicated environment route and permanent visual baseline; nine screenshots were manually accepted P0=0/P1=0. Final canonical docs exact-head CI is the remaining pre-merge gate.
+PR #221 final head `208a7fd4bc779a0ac4638718a7edf96c021e2d8a` passed CI #1017 and merged to main `986c5c47e2d75366623611f323118b8013f93fe1`. Main CI #1018 / run `35436868321` passed the full matrix plus exact-SHA Cloudflare smoke. Nine environment-care screenshots remain manually accepted P0=0/P1=0. This reuse is **FULLY CLOSED / LIVE VERIFIED**.
 
 Implementation wave: `WS05_HEALTHY_HABIT_ROUTINE_ENVIRONMENT_REUSE_WAVE_2026-09-19.md`.  
+Closure record: `HEALTHY_HABIT_ROUTINE_ENVIRONMENT_CARE_REUSE_CLOSURE_2026-09-19.md`.  
 Reuse audit record: `HEALTHY_HABIT_ROUTINE_ENVIRONMENT_CARE_REUSE_AUDIT_2026-09-19.md`.
+
+No later runtime wave is automatically authorized. **Next WS-05 action: fresh objective/evidence audit**; reuse or Pattern #48 implementation may proceed only if that audit justifies it.
 
 Audit record: `PATTERN48_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
 
