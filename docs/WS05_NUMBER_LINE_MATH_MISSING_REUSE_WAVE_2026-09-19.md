@@ -1,6 +1,6 @@
 # WS-05 Number Line Math Missing-Number Reuse Wave — 19 September 2026
 
-Status: **RUNTIME FULLY VERIFIED / DOCS CLOSURE ACTIVE / AUDIT LIVE VERIFIED**
+Status: **FULLY CLOSED / LIVE VERIFIED**
 
 ## Audit gate
 
@@ -294,7 +294,9 @@ Runtime is live verified with merged distribution 900/900 classified, 47 active 
 
 Post-merge closure record: `NUMBER_LINE_MATH_MISSING_NUMBER_REUSE_CLOSURE_2026-09-19.md`.
 
-The remaining gate is the independent docs-closure PR and closure-main exact-SHA production verification.
+Closure docs PR #233 -> main `4858325240f7c3ea9e9b587f5a585275f85e2122`; CI #1068/#1069 full success including exact closure-main Cloudflare smoke. Final verification: `NUMBER_LINE_MATH_MISSING_NUMBER_REUSE_FINAL_CLOSURE_VERIFICATION_2026-09-19.md`.
+
+All runtime and docs-closure gates are complete. No closure gate remains open.
 
 ## Explicit exclusions
 

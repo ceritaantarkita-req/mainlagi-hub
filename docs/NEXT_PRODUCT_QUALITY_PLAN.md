@@ -129,7 +129,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **47 ACTIVE / MATH MISSING-NUMBER NUMBER-LINE RUNTIME LIVE VERIFIED / DOCS CLOSURE ACTIVE** | audit #231 -> main `31c03ada`; runtime #232 final head `2a0da3a4` -> main `3b37520f`; CI #1066/#1067 full success with exact production smoke; 900/900 / `choice_grid` 183 / `number_line` 11 / KEEP 900; nine-shot P0=0/P1=0 |
+| WS-05 Gameplay diversification | **47 ACTIVE / MATH MISSING-NUMBER NUMBER-LINE FULLY CLOSED / FRESH AUDIT NEXT** | audit #231 -> main `31c03ada`; runtime #232 -> main `3b37520f`; closure #233 -> main `48583252`; CI #1066/#1067/#1068/#1069 green with exact production smoke; 900/900 / `choice_grid` 183 / `number_line` 11 / KEEP 900; P0=0/P1=0 |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P45 merged-main permanent visual QA green; nine dedicated screenshots manually accepted |
@@ -721,12 +721,12 @@ P2 findings: 3
 ## Current execution order
 
 1. Preserve verified merged truth at **900/900 classified / 47 active / `choice_grid` 183 / `number_line` 11 / KEEP 900**.
-2. Math missing-number audit is live verified: PR #231 -> main `31c03adac0d143e128996321588af514762c4cbd`, audit-main CI #1060 exact Cloudflare smoke.
-3. Math missing-number runtime is live verified: PR #232 final head `2a0da3a4d6e931393b339fdde746f3711de4428e` -> main `3b37520f3648f477f71eee1ae9c36c870a660403`; final PR CI #1066 and merged-main CI #1067 both full success, including exact implementation-main Cloudflare smoke.
-4. Preserve the exact fail-closed 11-ID Number Line family: six legacy Wave B ordering activities + five Wave C missing-number activities.
-5. Preserve dedicated 320/390/768 Wave C QA, legacy Number Line QA, assessed `choice_number_line_interaction` evidence, and manual nine-shot P0=0/P1=0 acceptance.
-6. Current action is independent post-merge docs closure. No further runtime family is pre-approved by this wave.
-7. After closure-main live verification, the next WS-05 decision must begin with a fresh objective/evidence audit. Reuse existing mechanics when evidence fits.
-8. Do not create Pattern #48 merely to reach the numeric target of 50. English initial-sound direct-choice remains excluded from existing `initial_sound`; Iqro remains outside mechanic transformation until expert acceptance exists.
+2. Math missing-number -> existing `number_line` is **FULLY CLOSED / LIVE VERIFIED** across audit #231, runtime #232 and docs closure #233.
+3. Closure main `4858325240f7c3ea9e9b587f5a585275f85e2122` passed CI #1069 including exact-SHA Cloudflare production smoke.
+4. Preserve the exact fail-closed 11-ID Number Line family, existing evidence semantics, dedicated 320/390/768 Wave C QA, legacy Number Line QA and P0=0/P1=0 visual acceptance.
+5. No next runtime family is pre-approved by this closure. The next WS-05 decision must begin with a **fresh objective/evidence audit** of remaining learning families.
+6. Prefer reuse of an existing mechanic when the objective/evidence contract already matches; create a new pattern only when distinct interaction evidence justifies it.
+7. Do not create Pattern #48 merely to reach the numeric target of 50. Current distance remains three patterns, but numeric distance is not authorization.
+8. English initial-sound direct-choice remains excluded from existing `initial_sound`; Iqro remains outside mechanic transformation until expert acceptance exists.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
