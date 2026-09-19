@@ -100,15 +100,15 @@ The audit did not find a new interaction family that is safer or more faithful t
 
 Runtime Pattern #48 code has not started.
 
-Current reuse implementation is **existing `set_reasoning` -> exact five Logic multi-attribute activities / MERGED / LIVE VERIFICATION PENDING**. Audit #206/#955 is live verified. PR #207 final head `a37fdec7b3f89789999ce728c245ae17ee7f00bc` passed CI #963 with branch distribution 47 active / `choice_grid` 228 / `set_reasoning` 10 and final nine-shot review accepted; it squash-merged unchanged to main `9debb6cf30f789125c45eff1b88e65e4eaff7978`. Independent main CI + exact Cloudflare smoke remain required.
+Current reuse implementation is **existing `set_reasoning` -> exact five Logic multi-attribute activities / FULLY CLOSED / LIVE VERIFIED**. PR #207 final head `a37fdec7b3f89789999ce728c245ae17ee7f00bc` passed CI #963; implementation main `9debb6cf30f789125c45eff1b88e65e4eaff7978` passed push-main CI #964 with exact Cloudflare smoke, and closure-main `d36a385f131573bb08ec60d4689343ad5e4b8f3c` passed #969 with exact Cloudflare smoke.
 
-The Math spatial reuse audit is now merged via PR #209 -> main `3e30a817ef86fa691f9b2f1249ac00bc00dce4e6`; PR CI #970 passed while runtime remained 47 active / `choice_grid` 228 / `spatial_relation_board` 6 / `set_reasoning` 10. Independent main/Cloudflare verification remains pending and spatial runtime code has not started.
+The Math spatial reuse audit is **MERGED / LIVE VERIFIED**: PR #209 -> main `3e30a817ef86fa691f9b2f1249ac00bc00dce4e6`, PR CI #970, audit-main CI #971 with exact Cloudflare smoke. Runtime remains unchanged at 47 active / `choice_grid` 228 / `spatial_relation_board` 6 / `set_reasoning` 10. This is the next authorized implementation after the reuse-live closure docs themselves verify.
 
-The Math measurement reuse audit is now merged via PR #210 -> main `f9833568dea0f021cd5c4ed94f6f6fc7505ad8d8`; PR CI #972 passed while runtime remained 47 active / `choice_grid` 228 / `compare_properties` 3 / `spatial_relation_board` 6 / `set_reasoning` 10. Independent main/Cloudflare verification remains pending; measurement runtime code has not started.
+The Math measurement reuse audit is **MERGED / LIVE VERIFIED**: PR #210 -> main `f9833568dea0f021cd5c4ed94f6f6fc7505ad8d8`, PR CI #972, audit-main CI #973 with exact Cloudflare smoke. Measurement runtime is queued after Math spatial.
 
-The English sentence-completion reuse audit is now merged via PR #211 -> main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52`; PR CI #974 passed while runtime remained 47 active / `choice_grid` 228 / `cloze_sentence_choice` 5 / `compare_properties` 3 / `spatial_relation_board` 6 / `set_reasoning` 10. Independent main/Cloudflare verification remains pending; English runtime code has not started.
+The English sentence-completion reuse audit is **MERGED / LIVE VERIFIED**: PR #211 -> main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52`, PR CI #974, audit-main CI #975 with exact Cloudflare smoke. English runtime is queued after Math measurement.
 
-The next reuse-first audit is **Science `science.environment.care.basic` -> existing Pattern #22 `healthy_habit_routine` / exact four direct-choice IDs / JUSTIFIED / CODE NOT STARTED**. `science-match-environment-actions-c` remains matching. Later implementation must add an explicit `environment_care` domain variant so environment tasks use correct child-facing copy/metadata while the four legacy body-health activities remain unchanged. Runtime remains blocked by preceding verification gates.
+The Science environment-care reuse audit is **MERGED / LIVE VERIFIED**: PR #212 -> main `0fccffd769211e5b47be81ec5126c913d9c26fec`, PR CI #976, audit-main CI #977 with exact Cloudflare smoke. `science-match-environment-actions-c` remains matching; environment runtime is queued behind English cloze.
 
 ## Pattern #47 live checkpoint
 
@@ -286,6 +286,7 @@ Pattern #42 closure gates are complete. Closure PR #188 merged and closure main 
 
 ## Current evidence records
 
+- [`WS05_REUSE_GENERALIZATION_LIVE_CLOSURE_2026-09-19.md`](WS05_REUSE_GENERALIZATION_LIVE_CLOSURE_2026-09-19.md) — canonical live closure for Set Reasoning plus all four reuse audits; opens Math spatial runtime gate after this closure docs change itself live-verifies.
 - [`HEALTHY_HABIT_ROUTINE_ENVIRONMENT_CARE_REUSE_AUDIT_2026-09-19.md`](HEALTHY_HABIT_ROUTINE_ENVIRONMENT_CARE_REUSE_AUDIT_2026-09-19.md) — exact four-ID Science environment-care action-selection reuse audit; matching excluded; explicit domain variant required; code not started.
 - [`CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_AUDIT_2026-09-19.md`](CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_AUDIT_2026-09-19.md) — exact five-ID English sentence-completion reuse audit; subject-aware locale/fail-closed config required; reuse justified, code not started.
 - [`COMPARE_PROPERTIES_MATH_MEASURE_REUSE_AUDIT_2026-09-19.md`](COMPARE_PROPERTIES_MATH_MEASURE_REUSE_AUDIT_2026-09-19.md) — exact four-ID Math measurement direct-choice reuse audit; matching excluded; reuse justified, code not started.
@@ -328,7 +329,7 @@ Historical closure/candidate/audit records must not be rewritten to pretend late
 
 ## Remaining product-quality work
 
-Immediate WS-05 runtime gate remains blocked by unresolved independent live/audit verification: Set Reasoning production truth is still pending; Math spatial PR #209, Math measurement PR #210 and English cloze PR #211 are merged with green PR CI but independent audit-main/Cloudflare verification is not available through the current connector. In parallel, docs/evidence work has now justified exact four-ID Science environment-care action reuse into Pattern #22 while preserving matching evidence. No pending reuse runtime implementation is authorized yet.
+Immediate WS-05 live-verification debt is resolved. Set Reasoning implementation/closure and reuse audits #209–#212 all have successful push-to-main CI with exact Cloudflare smoke against canonical production/Supabase. After this reuse-live closure docs update itself merges and live-verifies, the next authorized runtime work is exact five-ID Math spatial reuse into `spatial_relation_board`.
 
 Other open work remains P2 game-shell/icon/inline-style convergence, WS-02 narration, WS-10 real-device/accessibility/human/Iqro acceptance, WS-11 governance, later WS-12 cleanup, and continued WS-05 progression to the current finish target of 50.
 
