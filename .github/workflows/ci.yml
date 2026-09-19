@@ -169,6 +169,9 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26.2'
       - name: Install dependencies
         run: npm ci --no-audit --no-fund
       - name: Pin current npm audit client
@@ -180,6 +183,7 @@ jobs:
         run: |
           set -Eeuo pipefail
           max_attempts=4
+          transient_exhausted=0
 
           for attempt in $(seq 1 "$max_attempts"); do
             set +e
@@ -200,12 +204,32 @@ jobs:
                 sleep "$delay"
                 continue
               fi
+
+              transient_exhausted=1
+              break
             fi
 
             exit "$audit_status"
           done
 
-          exit 1
+          if [[ "$transient_exhausted" -ne 1 ]]; then
+            exit 1
+          fi
+
+          echo "npm audit advisory service remained unavailable; running pinned production-only OSV fallback."
+          go install github.com/google/osv-scanner/v2/cmd/osv-scanner@v2.3.5
+
+          cat > /tmp/osv-production.toml <<'EOF'
+          [[PackageOverrides]]
+          group = "dev"
+          ignore = true
+          reason = "Production-only fallback while npm advisory service is unavailable"
+          EOF
+
+          "$(go env GOPATH)/bin/osv-scanner" scan source \
+            --lockfile=package-lock.json \
+            --config=/tmp/osv-production.toml \
+            --format=vertical
 
   production-smoke:
     name: Production smoke (Cloudflare)
