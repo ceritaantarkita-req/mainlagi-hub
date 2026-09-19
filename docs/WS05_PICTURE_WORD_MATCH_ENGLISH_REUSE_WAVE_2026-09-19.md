@@ -1,6 +1,6 @@
 # WS-05 Picture Word Match English Reuse Wave — 19 September 2026
 
-Status: **IMPLEMENTATION ACTIVE / EXACT 18-ID ENGLISH REUSE / PATTERN COUNT STAYS 47**
+Status: **CHECKPOINT ACCEPTED / PR #228 CI #1048 FULL SUCCESS / MANUAL VISUAL P0=0 P1=0 / FINAL DOCS CI PENDING**
 
 ## Verified prerequisite audit
 
@@ -154,17 +154,53 @@ picture_word_match       23 / 900
 
 The active pattern count remains 47. Numeric distance to 50 does not authorize a new mechanic.
 
+## Accepted implementation checkpoint
+
+```text
+PR:                         #228
+Accepted head:              94eaa68d5be1dc13bf3f7eab2b75514fceedd40c
+PR CI:                      #1048 / run 35448308040 — full success
+Gameplay classified:        900 / 900
+Active patterns:            47
+choice_grid:                188 / 900
+picture_word_match:          23 / 900
+Activity quality:           KEEP 900 / POLISH 0 / REDESIGN 0 / REPLACE 0
+Manual English screenshots: 9 / 9 reviewed
+Manual visual findings:     P0 0 / P1 0
+```
+
+CI #1048 artifacts:
+
+```text
+mobile-route-qa-screenshots
+artifact: 10586202450
+sha256:fe212481bf6a6b22d6f9262a24ba7408ab04f9a1b7089bb3728dd188499eb591
+
+gameplay-distribution-audit
+artifact: 10586242250
+sha256:8f34aa95874f8e3dd80ebf67d0f63a3ae38575bda7e31b560dbc6cab5dd3a8c3
+
+activity-quality-audit
+artifact: 10586596895
+sha256:9646e55bac367a68ad7f3a82145b11a381eee1f25009e5da0c1d6c557e429efc
+```
+
+Manual visual review covered idle / retry / success at 320x720, 390x844 and 768x1024. The reviewed frames preserve the hidden target before submission, readable English instruction/feedback, visible success CTA, stable choice layout and no visible horizontal overflow. No P0/P1 blocker was found.
+
 ## Merge gates
 
-Before merge:
+Completed:
 1. learning regression proves exact 23-ID family and fail-closed drift;
 2. gameplay distribution is exactly 900/900, 47 active, `choice_grid` 188, `picture_word_match` 23;
-3. activity-quality remains clean;
-4. legacy Bahasa browser QA remains green;
+3. activity-quality is KEEP 900;
+4. legacy Bahasa browser QA is green;
 5. dedicated English 320/390/768 QA is green;
-6. nine English screenshots receive manual P0/P1 review;
-7. exact-head CI is full success;
-8. canonical docs are reconciled.
+6. nine English screenshots manually reviewed with P0=0/P1=0;
+7. accepted-head CI #1048 is full success;
+8. canonical docs are reconciled in the final docs checkpoint.
+
+Remaining before merge:
+- final docs exact-head CI must pass after this acceptance record commit.
 
 After merge:
 - require push-to-main CI;
