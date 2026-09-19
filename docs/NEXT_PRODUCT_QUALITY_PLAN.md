@@ -129,7 +129,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **47 ACTIVE / ECOSYSTEM RELATION RUNTIME LIVE VERIFIED / CLOSURE DOCS ACTIVE** | PR #225 -> main `0dd89c5d`; final PR CI #1033 + main CI #1034 exact Cloudflare smoke; 9-shot P0=0/P1=0; `choice_grid` 206 / `phenomenon_relation_board` 8 / KEEP 900 |
+| WS-05 Gameplay diversification | **47 ACTIVE / ENGLISH PICTURE-WORD REUSE AUDIT ACTIVE** | ecosystem runtime live verified; closure docs #226 merged with PR CI #1035; fresh exact 18-ID English -> `picture_word_match` audit complete; runtime blocked until prior closure-main evidence is independently verified |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P45 merged-main permanent visual QA green; nine dedicated screenshots manually accepted |
@@ -718,16 +718,13 @@ P2 findings: 3
 
 ## Current execution order
 
-1. Pattern #47 is fully closed/live verified through `bbb61965` / CI #951.
-2. Do not implement a new Pattern #48; no new mechanic candidate is justified.
-3. Set Reasoning reuse PR #207 is merged to main `9debb6cf`; preserve exact scope, final CI #963 and accepted old+new QA evidence.
-4. Math spatial audit PR #209 is merged to `3e30a817`; PR CI #970 green; independent merged-main/Cloudflare verification is still pending and runtime stays unstarted.
-5. Math measurement audit PR #210 is merged to `f9833568`; PR CI #972 is green; independent main/Cloudflare verification remains pending and runtime stays unstarted.
-6. English cloze audit PR #211 -> `76e1eeb0` is live verified by main CI #975 + exact Cloudflare smoke.
-7. Environment-care audit PR #212 -> `0fccffd7` is live verified by main CI #977 + exact Cloudflare smoke; matching remains excluded.
-8. Merge/live-verify this reuse-chain closure docs change.
-9. Math spatial runtime PR #214 is fully closed/live verified on main `2cb948d6` by CI #987 + exact Cloudflare smoke with merged 47/223/11 distribution and KEEP 900.
-10. Math measurement runtime PR #216 is fully closed/live verified on main `36507077` by CI #995 + exact Cloudflare smoke with merged 47/219/7 distribution and KEEP 900.
-11. Start English sentence-completion runtime reuse next: exactly five `english.sentence.completion` IDs -> existing `cloze_sentence_choice`; preserve five Bahasa cloze activities, exact ten-ID fail-closed config, subject-aware locale/copy, dedicated English keyboard/pointer/actual-touch QA, exact-head CI, nine-shot review, exact merge, merged-main Cloudflare smoke and closure before Science environment-care runtime.
+1. Keep the verified merged runtime baseline unchanged at **900/900 classified / 47 active / `choice_grid` 206 / `phenomenon_relation_board` 8 / KEEP 900**.
+2. Ecosystem relation runtime is live verified through PR #225 -> main `0dd89c5d`, final PR CI #1033 and merged-main CI #1034 exact Cloudflare smoke.
+3. Ecosystem closure docs PR #226 merged to main `fb74c17d`; exact-head PR CI #1035 is green. Do not mark the docs closure fully closed until independent closure-main push-CI and exact-SHA production evidence are available.
+4. Current docs-only work is the fresh English concrete-vocabulary audit: exactly eighteen direct-choice activities from animals, objects, body, family, food and actions -> existing `picture_word_match`.
+5. Keep English categories, listening, matching, opposites, phrase, sentence-completion and mixed-review activities outside this reuse scope.
+6. Do not start runtime implementation until both the prior closure gate and this audit's merge/live-verification gate are satisfied.
+7. When authorized, generalize Pattern #35 with an exact 23-ID fail-closed config (5 legacy Bahasa + 18 English), subject-aware ID/EN copy, dedicated keyboard/pointer/actual-touch QA, nine-shot manual review, exact-head CI, exact merge and merged-main production verification.
+8. Do not create Pattern #48 merely to reach the numeric target of 50. Iqro remains outside mechanic transformation until expert acceptance exists.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
