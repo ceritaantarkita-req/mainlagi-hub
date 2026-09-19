@@ -171,6 +171,10 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci --no-audit --no-fund
+      - name: Pin current npm audit client
+        run: |
+          npm install --global npm@11.19.1 --no-audit --no-fund
+          npm --version
       - name: Audit production dependencies
         run: npm audit --omit=dev --audit-level=high
 
