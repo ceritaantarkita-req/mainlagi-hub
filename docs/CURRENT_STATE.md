@@ -108,14 +108,19 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Science environment care -> Pattern #22 `healthy_habit_routine` reuse audit: PR #212 -> main `0fccffd769211e5b47be81ec5126c913d9c26fec`
 - Environment-care audit PR CI: **#976 / run `35409354940` — full success**
 - Environment-care audit merged-main CI: **#977 / run `35409698981` — full success + exact Cloudflare production smoke**
-- Environment-care reuse audit: **MERGED / LIVE VERIFIED / exact 4 direct-choice IDs / CODE NOT STARTED**
+- Environment-care reuse audit: **MERGED / LIVE VERIFIED / exact 4 direct-choice IDs**
 - Environment matching exclusion: **`science-match-environment-actions-c` stays matching / `matching_accuracy_v1`**
-- Environment-care implementation: **NEXT / UNBLOCKED / exact 4 direct-choice IDs -> existing `healthy_habit_routine` with explicit `environment_care` variant / CODE NOT STARTED**
+- Environment-care implementation: **PR #221 ACTIVE / accepted code checkpoint `87c0d7ef` / CI #1012 full success / manual 9-shot ACCEPTED P0=0 P1=0 / branch 47 active / `choice_grid` 210 / `healthy_habit_routine` 8 / final docs exact-head CI pending**
 - permanent visual QA foundation: **VQA-01 FULLY CLOSED**
 - visual P1 baseline: **P0=0 / P1=0 / P2=3**
 - English cloze implementation main CI: **#1009 / run `35431721131` — full success + exact Cloudflare production smoke**
 - English cloze merged truth: **47 active / `choice_grid` 214 / `cloze_sentence_choice` 10 / KEEP 900**
 - English cloze closure record: `docs/CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_CLOSURE_2026-09-19.md`
+- English cloze closure docs main: **`ae29ada7f0f7f04e565f6a33e4f6f089d79e8f58` / CI #1011 full success + exact Cloudflare production smoke**
+- Environment-care checkpoint CI: **#1012 / run `35435713520` — full success**
+- Environment-care branch truth: **900/900 classified / 47 active / `choice_grid` 210 / `healthy_habit_routine` 8 / KEEP 900**
+- Environment-care manual visual review: **ACCEPTED / 9 screenshots / P0=0 / P1=0**
+- Environment-care implementation wave: `docs/WS05_HEALTHY_HABIT_ROUTINE_ENVIRONMENT_REUSE_WAVE_2026-09-19.md`
 
 ## Engineering status
 

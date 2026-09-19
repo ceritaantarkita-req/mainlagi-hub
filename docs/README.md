@@ -108,12 +108,13 @@ The Math measurement reuse audit is merged via PR #210 -> main `f9833568dea0f021
 
 The English sentence-completion reuse audit is live verified via PR #211 -> main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52` and main CI #975. Runtime PR #219 final head `e0353c873bb5eee39190a881a6a7e972e136dff6` passed CI #1008 and merged to main `e3c92cfe8c1050fdcca1599ae92d98a9345b04ca`. Main CI #1009 / run `35431721131` passed the full matrix plus exact Cloudflare smoke; merged evidence is 47 active / `choice_grid` 214 / `cloze_sentence_choice` 10 / KEEP 900. Nine dedicated screenshots were manually accepted with P0=0/P1=0. English cloze reuse is **FULLY CLOSED / LIVE VERIFIED**.
 
-The Science environment-care audit is merged via PR #212 -> main `0fccffd769211e5b47be81ec5126c913d9c26fec`; PR CI #976 passed and main CI #977 / run `35409698981` passed exact Cloudflare smoke. The audit is **LIVE VERIFIED**. `science-match-environment-actions-c` remains matching. Runtime is now **NEXT / UNBLOCKED** after this English closure docs change itself merges/live-verifies.
+The Science environment-care audit is merged via PR #212 -> main `0fccffd769211e5b47be81ec5126c913d9c26fec`; PR CI #976 passed and main CI #977 / run `35409698981` passed exact Cloudflare smoke. Runtime PR #221 accepted code checkpoint `87c0d7efcecb7202f408df2aa24b2445a3834d22` passed CI #1012 / run `35435713520`; branch evidence is 900/900 classified, 47 active, `choice_grid` 210, `healthy_habit_routine` 8 and KEEP 900. Nine dedicated environment-care screenshots were manually accepted with P0=0/P1=0. `science-match-environment-actions-c` remains matching. Final canonical docs exact-head CI is the remaining pre-merge gate.
 
 Implementation wave: [`WS05_SPATIAL_RELATION_BOARD_MATH_REUSE_WAVE_2026-09-19.md`](WS05_SPATIAL_RELATION_BOARD_MATH_REUSE_WAVE_2026-09-19.md)  
 Math measurement implementation wave: [`WS05_COMPARE_PROPERTIES_MATH_REUSE_WAVE_2026-09-19.md`](WS05_COMPARE_PROPERTIES_MATH_REUSE_WAVE_2026-09-19.md)  
 English cloze implementation wave: [`WS05_CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_WAVE_2026-09-19.md`](WS05_CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_WAVE_2026-09-19.md)  
 English cloze closure: [`CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_CLOSURE_2026-09-19.md`](CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_CLOSURE_2026-09-19.md)  
+Science environment-care implementation wave: [`WS05_HEALTHY_HABIT_ROUTINE_ENVIRONMENT_REUSE_WAVE_2026-09-19.md`](WS05_HEALTHY_HABIT_ROUTINE_ENVIRONMENT_REUSE_WAVE_2026-09-19.md)  
 Math measurement closure: [`COMPARE_PROPERTIES_MATH_MEASURE_REUSE_CLOSURE_2026-09-19.md`](COMPARE_PROPERTIES_MATH_MEASURE_REUSE_CLOSURE_2026-09-19.md)  
 Math spatial closure: [`SPATIAL_RELATION_BOARD_MATH_POSITION_REUSE_CLOSURE_2026-09-19.md`](SPATIAL_RELATION_BOARD_MATH_POSITION_REUSE_CLOSURE_2026-09-19.md)
 
@@ -294,7 +295,8 @@ Pattern #42 closure gates are complete. Closure PR #188 merged and closure main 
 ## Current evidence records
 
 - [`REUSE_AUDIT_CHAIN_LIVE_VERIFICATION_CLOSURE_2026-09-19.md`](REUSE_AUDIT_CHAIN_LIVE_VERIFICATION_CLOSURE_2026-09-19.md) — exact push-to-main CI + Cloudflare smoke evidence for Set Reasoning and all four reuse audits; runtime gate promoted to Math spatial next.
-- [`HEALTHY_HABIT_ROUTINE_ENVIRONMENT_CARE_REUSE_AUDIT_2026-09-19.md`](HEALTHY_HABIT_ROUTINE_ENVIRONMENT_CARE_REUSE_AUDIT_2026-09-19.md) — exact four-ID Science environment-care action-selection reuse audit; matching excluded; explicit domain variant required; code not started.
+- [`WS05_HEALTHY_HABIT_ROUTINE_ENVIRONMENT_REUSE_WAVE_2026-09-19.md`](WS05_HEALTHY_HABIT_ROUTINE_ENVIRONMENT_REUSE_WAVE_2026-09-19.md) — PR #221 implementation checkpoint; exact eight-ID fail-closed family, explicit domain variants, CI #1012 full green, 900/900 distribution, and accepted nine-shot environment review.
+- [`HEALTHY_HABIT_ROUTINE_ENVIRONMENT_CARE_REUSE_AUDIT_2026-09-19.md`](HEALTHY_HABIT_ROUTINE_ENVIRONMENT_CARE_REUSE_AUDIT_2026-09-19.md) — exact four-ID Science environment-care action-selection reuse audit; matching excluded; explicit domain variant required; live-verified prerequisite for PR #221.
 - [`CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_AUDIT_2026-09-19.md`](CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_AUDIT_2026-09-19.md) — exact five-ID English sentence-completion reuse audit; live verified prerequisite for PR #219 runtime implementation.
 - [`COMPARE_PROPERTIES_MATH_MEASURE_REUSE_AUDIT_2026-09-19.md`](COMPARE_PROPERTIES_MATH_MEASURE_REUSE_AUDIT_2026-09-19.md) — exact four-ID Math measurement direct-choice reuse audit; matching excluded; reuse justified, code not started.
 - [`SPATIAL_RELATION_BOARD_MATH_POSITION_REUSE_AUDIT_2026-09-19.md`](SPATIAL_RELATION_BOARD_MATH_POSITION_REUSE_AUDIT_2026-09-19.md) — exact five-ID Math spatial-position reuse audit; reuse justified, code not started, implementation blocked by prerequisite live-verification gates.

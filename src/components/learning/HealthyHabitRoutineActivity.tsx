@@ -26,6 +26,27 @@ export function HealthyHabitRoutineActivity({ childId, activityId }: { childId: 
 
   if (!activity || !config || !isHealthyHabitRoutineActivity(activity) || !activity.correctChoice) return null;
 
+  const isEnvironmentCare = config.domainVariant === "environment_care";
+  const copy = isEnvironmentCare
+    ? {
+        promptIcon: "🌍",
+        heading: "Jaga lingkungan",
+        boardAriaLabel: "Situasi dan pilihan tindakan menjaga lingkungan",
+        choiceHeading: "Tindakan mana yang paling tepat?",
+        choiceAriaPrefix: "Pilih tindakan",
+        retryText: "💡 Tindakan itu belum paling sesuai. Coba pilih lagi.",
+        idleText: "💡 Pilih tindakan yang paling membantu menjaga lingkungan."
+      }
+    : {
+        promptIcon: "💚",
+        heading: "Bangun rutinitas sehat",
+        boardAriaLabel: "Situasi dan pilihan kebiasaan sehat",
+        choiceHeading: "Kebiasaan mana yang cocok?",
+        choiceAriaPrefix: "Pilih kebiasaan",
+        retryText: "💡 Kebiasaan itu belum paling sesuai. Coba pilih lagi.",
+        idleText: "💡 Pilih kebiasaan yang paling membantu tubuh tetap sehat."
+      };
+
   const chooseHabit = (choice: string) => {
     if (feedback === "good") return;
     setSelected(choice);
@@ -39,6 +60,23 @@ export function HealthyHabitRoutineActivity({ childId, activityId }: { childId: 
     const incorrectCount = incorrectRef.current;
     const accuracy = 1 / (1 + incorrectCount);
     const assessed = spec?.assessment === "assessed";
+    const metadata = isEnvironmentCare
+      ? {
+          source: "healthy-habit-routine-runtime",
+          evidenceFidelity: assessed ? "choice_environment_care_action_interaction" : "completion_only",
+          domainVariant: "environment_care",
+          goalLabel: config.routineLabel,
+          cueLabel: config.cueLabel,
+          selectedAction: choice
+        }
+      : {
+          source: "healthy-habit-routine-runtime",
+          evidenceFidelity: assessed ? "choice_healthy_habit_routine_interaction" : "completion_only",
+          routineLabel: config.routineLabel,
+          cueLabel: config.cueLabel,
+          selectedHabit: choice
+        };
+
     emitLearningRuntimeMeasurement({
       childId,
       activityId: activity.id,
@@ -51,13 +89,7 @@ export function HealthyHabitRoutineActivity({ childId, activityId }: { childId: 
         incorrectCount: assessed ? incorrectCount : undefined,
         retryCount: assessed ? retryRef.current : undefined,
         inputMode: activity.preferredMobile,
-        metadata: {
-          source: "healthy-habit-routine-runtime",
-          evidenceFidelity: assessed ? "choice_healthy_habit_routine_interaction" : "completion_only",
-          routineLabel: config.routineLabel,
-          cueLabel: config.cueLabel,
-          selectedHabit: choice
-        }
+        metadata
       }
     });
     completeActivity(childId, activity.id);
@@ -66,25 +98,39 @@ export function HealthyHabitRoutineActivity({ childId, activityId }: { childId: 
 
   return (
     <GardenActivityFrame backHref={`/child/${childId}/subject/${activity.subjectId}`} title={activity.title} narration={activity.prompt ?? activity.title} lang="id-ID" spacious>
-      <section ref={sceneRef} className={`${styles.scene} ${feedback === "good" ? styles.sceneDone : ""}`} data-healthy-habit-routine>
+      <section
+        ref={sceneRef}
+        className={`${styles.scene} ${feedback === "good" ? styles.sceneDone : ""}`}
+        data-healthy-habit-routine
+        data-healthy-habit-domain={config.domainVariant}
+      >
         <div className={styles.promptCard}>
-          <span className={styles.promptIcon} aria-hidden>💚</span>
-          <div><h1>Bangun rutinitas sehat</h1><p>{config.contextLabel}</p></div>
+          <span className={styles.promptIcon} aria-hidden>{copy.promptIcon}</span>
+          <div><h1>{copy.heading}</h1><p>{config.contextLabel}</p></div>
         </div>
 
-        <div className={styles.board} role="group" aria-label="Situasi dan pilihan kebiasaan sehat">
+        <div className={styles.board} role="group" aria-label={copy.boardAriaLabel}>
           <div className={styles.routineStrip}>
             <div className={styles.routineCard}><span aria-hidden>{config.routineIcon}</span><strong>{config.routineLabel}</strong></div>
             <span className={styles.arrow} aria-hidden>→</span>
             <div className={styles.cueCard}><span aria-hidden>{config.cueIcon}</span><strong>{config.cueLabel}</strong></div>
           </div>
           <div className={styles.choiceColumn}>
-            <span className={styles.choiceHeading}>Kebiasaan mana yang cocok?</span>
+            <span className={styles.choiceHeading}>{copy.choiceHeading}</span>
             {(activity.choices ?? []).map((choice) => {
               const visual = config.choiceVisuals[choice];
               const active = selected === choice;
               return (
-                <button key={choice} type="button" className={`${styles.choiceButton} ${active ? styles.selected : ""} ${active && feedback === "try" ? styles.wrong : ""} ${active && feedback === "good" ? styles.correct : ""}`} aria-label={`Pilih kebiasaan: ${choice}`} aria-pressed={active} data-healthy-habit-choice onClick={() => chooseHabit(choice)} disabled={feedback === "good"}>
+                <button
+                  key={choice}
+                  type="button"
+                  className={`${styles.choiceButton} ${active ? styles.selected : ""} ${active && feedback === "try" ? styles.wrong : ""} ${active && feedback === "good" ? styles.correct : ""}`}
+                  aria-label={`${copy.choiceAriaPrefix}: ${choice}`}
+                  aria-pressed={active}
+                  data-healthy-habit-choice
+                  onClick={() => chooseHabit(choice)}
+                  disabled={feedback === "good"}
+                >
                   <span className={styles.choiceIcon} aria-hidden>{visual?.icon ?? "✨"}</span><span>{visual?.label ?? choice}</span>
                 </button>
               );
@@ -93,7 +139,7 @@ export function HealthyHabitRoutineActivity({ childId, activityId }: { childId: 
         </div>
 
         <div className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.statusGood : ""}`} role="status" aria-live="polite">
-          {feedback === "good" ? `⭐ Tepat! ${config.successText}` : feedback === "try" ? "💡 Kebiasaan itu belum paling sesuai. Coba pilih lagi." : "💡 Pilih kebiasaan yang paling membantu tubuh tetap sehat."}
+          {feedback === "good" ? `⭐ Tepat! ${config.successText}` : feedback === "try" ? copy.retryText : copy.idleText}
         </div>
         {feedback === "good" ? <Link className={styles.nextLink} href={`/child/${childId}/subject/${activity.subjectId}`}>Pilih permainan lain</Link> : null}
       </section>
