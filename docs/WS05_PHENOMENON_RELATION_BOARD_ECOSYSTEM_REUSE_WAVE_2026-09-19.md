@@ -1,6 +1,6 @@
 # WS-05 Phenomenon Relation Board Ecosystem Reuse Wave — 19 September 2026
 
-Status: **ACCEPTED CHECKPOINT / FINAL DOCS EXACT-HEAD CI PENDING**
+Status: **IMPLEMENTATION MERGED / LIVE VERIFIED / CLOSURE DOCS IN PROGRESS**
 
 ## Prerequisite audit
 
@@ -155,9 +155,29 @@ Pattern #48 remains unimplemented.
 - no force/motion transformation;
 - no new gameplay pattern.
 
-## Remaining gates
+## Final implementation verification
 
-1. final exact-head CI after canonical docs;
-2. exact-head merge;
-3. merged-main CI + exact-SHA Cloudflare smoke;
-4. post-merge closure docs/live verification.
+```text
+final PR head:       b5c0e40feddf327448ac39d15943112615965410
+final PR CI:         #1033 / run 35443011165 — full success
+implementation main: 0dd89c5d81ab239ba76549bd9ae17102c7a90274
+main CI:             #1034 / run 35443758101 — full success
+production smoke:    exact implementation-main SHA PASS
+```
+
+Main artifacts:
+
+```text
+mobile-route-qa-screenshots 10584652011
+sha256:7de76848e344549ea4ac94645a94fce1f90ff949b6791c79c2117f50f9e5fca7
+
+gameplay-distribution-audit 10584886074
+sha256:5680efa6ec9b45db6960fff96fb368e453baeb1a1ed5d3744473170c1909a8a9
+
+activity-quality-audit 10584945996
+sha256:06a7e2d5cd5b00df3b56faff8032b8c2723141c08056de249ec3ac142692f48b
+```
+
+## Remaining gate
+
+Post-merge closure docs must pass exact-head CI, merge to `main`, then pass closure-main CI + exact-SHA Cloudflare smoke.
