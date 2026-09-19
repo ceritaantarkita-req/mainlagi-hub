@@ -720,11 +720,11 @@ P2 findings: 3
 
 ## Current execution order
 
-1. Resolve the **final publication CI dependency-audit availability gate** before starting another WS-05 audit. PR #234 is already merged at `c023a5757daea7c7948fb09764c672b9c2ff74ea`; #1071 passed every product/runtime/build/Windows/Chromium/secret gate. npm 11.19.1 on recovery PR #235 confirmed the upstream cause as Bulk Advisory `503 Service Unavailable` during npm registry maintenance.
-2. Recovery keeps the security gate blocking: install remains `npm ci --no-audit --no-fund`, primary audit remains production-only `--omit=dev --audit-level=high`, and npm 11.19.1 retries only explicit transient 5xx/429/network failures. If npm advisory service remains unavailable, pinned OSV-Scanner v2.3.5 scans the production lockfile independently and fails on any vulnerability; fallback/tool/service failure also fails. No dependency or package-lock version change is authorized.
-3. Preserve verified merged gameplay truth at **900/900 classified / 47 active / `choice_grid` 183 / `number_line` 11 / KEEP 900**.
-4. Math missing-number -> existing `number_line` remains **FULLY CLOSED / LIVE VERIFIED** across audit #231, runtime #232 and docs closure #233; the CI recovery concerns final publication infrastructure, not the validated learning/runtime behavior.
-5. After recovery PR + merged-main exact-SHA production smoke are green, the next WS-05 decision must begin with a **fresh objective/evidence audit** of remaining learning families.
+1. Preserve verified merged truth at **900/900 classified / 47 active / `choice_grid` 183 / `number_line` 11 / KEEP 900**.
+2. Math missing-number -> existing `number_line` remains **FULLY CLOSED / LIVE VERIFIED** across audit #231, runtime #232, closure #233 and final publication #234.
+3. Final publication CI infrastructure recovery is also **FULLY CLOSED / LIVE VERIFIED**: PR #235 exact head `767f09353be48d55f52fe0598b40c2d19f3a7fba` -> main `0917b8292986d496f96d4150aef9f1fcf5499c4f`; CI #1082/#1083 full success; exact recovery-main Cloudflare smoke PASS; production dependency audit reported 0 vulnerabilities.
+4. Preserve the fail-closed dependency audit workflow: npm 11.19.1 primary audit with production-only `--omit=dev --audit-level=high`, bounded retry only for explicit transient registry/network failures, and pinned OSV-Scanner v2.3.5 production-lock fallback if npm advisory service remains unavailable.
+5. No next runtime family is pre-approved. The next WS-05 decision must begin with a **fresh objective/evidence audit** of remaining learning families.
 6. Prefer reuse of an existing mechanic when the objective/evidence contract already matches; create a new pattern only when distinct interaction evidence justifies it.
 7. Do not create Pattern #48 merely to reach the numeric target of 50. Current distance remains three patterns, but numeric distance is not authorization.
 8. English initial-sound direct-choice remains excluded from existing `initial_sound`; Iqro remains outside mechanic transformation until expert acceptance exists.
