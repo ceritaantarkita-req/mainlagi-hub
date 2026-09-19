@@ -90,13 +90,15 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Math spatial implementation PR CI: **#986 / run `35421866386` — full success**
 - Math spatial implementation main CI: **#987 / run `35422469117` — full success + exact Cloudflare production smoke**
 - Math spatial merged distribution: **47 active / `choice_grid` 223 / `spatial_relation_board` 11 / `set_reasoning` 10**
-- Math measurement runtime: **NEXT / UNBLOCKED / exact 4 direct-choice IDs; matching excluded**
+- Math measurement runtime: **IMPLEMENTATION ACTIVE / exact 4 direct-choice IDs -> existing `compare_properties`; matching excluded**
 - Math measurement -> `compare_properties` reuse audit: PR #210 -> main `f9833568dea0f021cd5c4ed94f6f6fc7505ad8d8`
 - Math measurement reuse audit PR CI: **#972 / run `35378121937` — full success**
 - Math measurement audit merged-main CI: **#973 / run `35378825618` — full success + exact Cloudflare production smoke**
 - Math measurement reuse audit: **MERGED / LIVE VERIFIED**
 - Math measurement matching exclusion: **`math-measure-match-length` stays matching / `matching_accuracy_v1`**
-- Math measurement reuse implementation: **QUEUED AFTER MATH SPATIAL FULL CLOSURE / CODE NOT STARTED**
+- Math measurement reuse implementation: **ACTIVE on `agent/math-compare-properties-reuse-20260919`**
+- Math measurement target distribution: **47 active / `choice_grid` 219 / `compare_properties` 7 / `spatial_relation_board` 11 / `set_reasoning` 10**
+- Math measurement implementation contract: **binary + 3-first-class-candidate variants / exact fail-closed config / legacy Science regression / dedicated Math actual-touch QA**
 - English completion -> `cloze_sentence_choice` reuse audit: PR #211 -> main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52`
 - English cloze reuse audit PR CI: **#974 / run `35379084421` — full success**
 - English cloze audit merged-main CI: **#975 / run `35409217808` — full success + exact Cloudflare production smoke**
