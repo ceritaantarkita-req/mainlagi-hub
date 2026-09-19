@@ -308,8 +308,8 @@ async function assertOperationSelectionExcluded(){
   const browser=await chromium.launch({headless:true});
   try{
     const context=await browser.newContext({viewport:{width:390,height:844},reducedMotion:"reduce"});
-    const page=await context.newPage();
     await seedPrerequisiteReadiness(context,{kind:"add"});
+    const page=await context.newPage();
     const route="/child/demo-gian/activity/math-mixed-choose-add";
     const response=await page.goto(`${baseUrl}${route}`,{waitUntil:"domcontentloaded",timeout:30000});
     assert(response&&response.status()<400,"operation-selection exclusion route returns healthy response");
