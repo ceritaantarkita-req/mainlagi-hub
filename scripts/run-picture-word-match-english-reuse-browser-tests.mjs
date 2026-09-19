@@ -66,7 +66,7 @@ async function seedPrerequisiteReadiness(context){
       ["english-review-word-book","english.vocab.everyday_integration","tap_choice"],
       ["english-review-match-animal-object","english.vocab.everyday_integration","matching"]
     ];
-    const requiredIds=seeds.map(([id])=>id;
+    const requiredIds=seeds.map(([id])=>id);
     localStorage.setItem(progressKey,JSON.stringify({
       [childId]:{completedActivityIds:requiredIds,stars:0,lastActivityId:requiredIds.at(-1)}
     }));
