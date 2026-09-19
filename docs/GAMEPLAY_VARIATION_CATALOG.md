@@ -430,12 +430,12 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 - Patterns #1–#47 — **FULLY CLOSED / LIVE VERIFIED**.
 - Pattern #47 final docs closure — PR #204 merged to `bbb61965c951a3dd2628b4b4be6d3b547b7fd68a`; closure-main CI #951 passed including exact Cloudflare production smoke.
 - Pattern #48 fresh audit — merged/live verified through PR #205 / audit-main CI #953; **no justified new pattern yet**.
-- Set Reasoning reuse gate — PR #207 -> main `9debb6cf`; final head `a37fdec7` / CI #963 green / final branch 47/228/10; merged-main + exact Cloudflare verification pending.
-- Math spatial reuse audit — PR #209 -> main `3e30a817`; exact five-ID scope; PR CI #970 green; independent main/Cloudflare verification pending; **CODE NOT STARTED**.
-- Math measurement reuse audit — PR #210 -> main `f9833568`; exact four direct-choice scope; PR CI #972 green; independent main/Cloudflare verification pending; matching excluded; **CODE NOT STARTED**.
-- English completion reuse audit — PR #211 -> main `76e1eeb0`; exact five-ID scope; PR CI #974 green; independent main/Cloudflare verification pending; **CODE NOT STARTED**.
-- Science environment-care reuse audit — exact four direct-choice `science.environment.care.basic` scope -> Pattern #22 `healthy_habit_routine`; explicit `environment_care` domain variant required; matching excluded; **JUSTIFIED / CODE NOT STARTED**.
-- Pending reuse runtime implementation remains blocked until preceding live/audit gates are complete.
+- Set Reasoning reuse — PR #207 -> main `9debb6cf`; implementation main CI #964 + closure-main CI #969 both full success with exact Cloudflare smoke; **FULLY CLOSED / LIVE VERIFIED**.
+- Math spatial reuse audit — PR #209 -> main `3e30a817`; PR CI #970 + audit-main CI #971 exact Cloudflare smoke; **LIVE VERIFIED / NEXT IMPLEMENTATION**.
+- Math measurement reuse audit — PR #210 -> main `f9833568`; PR CI #972 + audit-main CI #973 exact Cloudflare smoke; matching excluded; **LIVE VERIFIED / QUEUED**.
+- English completion reuse audit — PR #211 -> main `76e1eeb0`; PR CI #974 + audit-main CI #975 exact Cloudflare smoke; **LIVE VERIFIED / QUEUED**.
+- Science environment-care reuse audit — PR #212 -> main `0fccffd7`; PR CI #976 + audit-main CI #977 exact Cloudflare smoke; explicit `environment_care` domain variant required; matching excluded; **LIVE VERIFIED / QUEUED**.
+- Runtime sequencing is now open after the reuse-live closure docs themselves merge/live-verify.
 - Continue only with justified exact scopes; reuse an existing mechanic when it already matches the evidence model.
 
 ## Definition of done per mechanic
