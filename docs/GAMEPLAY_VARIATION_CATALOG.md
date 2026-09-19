@@ -448,8 +448,8 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 - Math spatial reuse — PR #214 -> main `2cb948d6`; main CI #987 exact Cloudflare smoke; 47 active / `choice_grid` 223 / `spatial_relation_board` 11; **FULLY CLOSED / LIVE VERIFIED**.
 - Math measurement reuse audit — PR #210 -> main `f9833568`; main CI #973 exact Cloudflare smoke; matching excluded; **LIVE VERIFIED**.
 - Math measurement runtime reuse — PR #216 -> main `36507077`; final PR CI #994; main CI #995 exact Cloudflare smoke; merged 47 active / `choice_grid` 219 / `compare_properties` 7; **FULLY CLOSED / LIVE VERIFIED**.
-- English completion reuse implementation — PR #219 active; accepted code checkpoint `a054b76b`; CI #1003 full success; manual 9-shot P0=0/P1=0; branch 47 active / `choice_grid` 214 / `cloze_sentence_choice` 10; **FINAL DOCS CI PENDING**.
-- Science environment-care reuse — audit PR #212/main `0fccffd7` live verified; runtime PR #221 -> main `986c5c47`; final PR CI #1017 + main CI #1018 exact Cloudflare smoke; merged 47 active / `choice_grid` 210 / `healthy_habit_routine` 8 / KEEP 900; **FULLY CLOSED / LIVE VERIFIED**.
+- English completion reuse — PR #219 -> main `e3c92cfe`; main CI #1009 exact Cloudflare smoke; closure docs PR #220 -> main `ae29ada7`; closure-main CI #1011 exact Cloudflare smoke; merged 47 active / `choice_grid` 214 / `cloze_sentence_choice` 10 / KEEP 900; **FULLY CLOSED / LIVE VERIFIED**.
+- Science environment-care reuse — audit #212/main `0fccffd7`; runtime #221/main `986c5c47`; docs closure #222/main `d98ac379`; closure-main CI #1020 exact Cloudflare smoke; merged 47 active / `choice_grid` 210 / `healthy_habit_routine` 8 / KEEP 900; **FULLY CLOSED / LIVE VERIFIED**.
 - No Pattern #48 is created.
 - Continue only with justified exact scopes; reuse an existing mechanic when it already matches the evidence model.
 
