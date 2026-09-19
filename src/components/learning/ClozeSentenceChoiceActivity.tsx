@@ -12,6 +12,31 @@ import { emitLearningRuntimeMeasurement } from "@/lib/learning/runtimeMeasuremen
 import { completeActivity, getActivity } from "@/lib/learning/system";
 import styles from "./ClozeSentenceChoiceActivity.module.css";
 
+const copy = {
+  "id-ID": {
+    heading: "Lengkapi kalimat",
+    instruction: "Pilih kata yang membuat kalimat ini lengkap dan masuk akal.",
+    sentenceLabel: "Kalimat yang perlu dilengkapi",
+    cardLabel: "Kalimat",
+    choiceLabel: "Pilihan kata untuk melengkapi kalimat",
+    good: "⭐ Tepat! Kata itu membuat kalimatnya lengkap.",
+    retry: "💡 Belum tepat. Baca seluruh kalimatnya, lalu coba kata lain.",
+    idle: "💡 Baca kalimat lengkapnya dalam hati setelah memilih kata.",
+    next: "Pilih permainan lain"
+  },
+  "en-US": {
+    heading: "Complete the sentence",
+    instruction: "Choose the word that makes the sentence complete and meaningful.",
+    sentenceLabel: "Sentence to complete",
+    cardLabel: "Sentence",
+    choiceLabel: "Words to complete the sentence",
+    good: "⭐ Correct! That word completes the sentence.",
+    retry: "💡 Not quite. Read the whole sentence, then try another word.",
+    idle: "💡 Read the whole sentence in your head after choosing a word.",
+    next: "Choose another activity"
+  }
+} as const;
+
 export function ClozeSentenceChoiceActivity({ childId, activityId }: { childId: string; activityId: string }) {
   const activity = getActivity(activityId);
   const spec = getActivityLearningSpec(activityId);
@@ -27,6 +52,7 @@ export function ClozeSentenceChoiceActivity({ childId, activityId }: { childId: 
   }, []);
 
   if (!activity || !activity.correctChoice || !config || !isClozeSentenceChoiceActivity(activity)) return null;
+  const ui = copy[config.locale];
 
   const choose = (choice: string) => {
     if (feedback === "good") return;
@@ -72,24 +98,25 @@ export function ClozeSentenceChoiceActivity({ childId, activityId }: { childId: 
       backHref={`/child/${childId}/subject/${activity.subjectId}`}
       title={activity.title}
       narration={activity.prompt ?? activity.title}
-      lang="id-ID"
+      lang={config.locale}
       spacious
     >
       <section
         ref={sceneRef}
         className={`${styles.scene} ${feedback === "good" ? styles.sceneDone : ""}`}
         data-cloze-sentence-choice
+        data-cloze-locale={config.locale}
       >
         <div className={styles.introCard}>
           <span className={styles.introIcon} aria-hidden>✍️</span>
           <div>
-            <h1>Lengkapi kalimat</h1>
-            <p>Pilih kata yang membuat kalimat ini lengkap dan masuk akal.</p>
+            <h1>{ui.heading}</h1>
+            <p>{ui.instruction}</p>
           </div>
         </div>
 
-        <div className={styles.sentenceCard} data-cloze-sentence aria-label="Kalimat yang perlu dilengkapi">
-          <span className={styles.cardLabel}>Kalimat</span>
+        <div className={styles.sentenceCard} data-cloze-sentence aria-label={ui.sentenceLabel}>
+          <span className={styles.cardLabel}>{ui.cardLabel}</span>
           <p className={styles.sentence}>
             <span>{config.before}</span>{" "}
             <span
@@ -104,7 +131,7 @@ export function ClozeSentenceChoiceActivity({ childId, activityId }: { childId: 
           </p>
         </div>
 
-        <div className={styles.choiceList} role="group" aria-label="Pilihan kata untuk melengkapi kalimat">
+        <div className={styles.choiceList} role="group" aria-label={ui.choiceLabel}>
           {(activity.choices ?? []).map((choice) => {
             const active = selected === choice;
             return (
@@ -128,15 +155,11 @@ export function ClozeSentenceChoiceActivity({ childId, activityId }: { childId: 
           role="status"
           aria-live="polite"
         >
-          {feedback === "good"
-            ? "⭐ Tepat! Kata itu membuat kalimatnya lengkap."
-            : feedback === "try"
-              ? "💡 Belum tepat. Baca seluruh kalimatnya, lalu coba kata lain."
-              : "💡 Baca kalimat lengkapnya dalam hati setelah memilih kata."}
+          {feedback === "good" ? ui.good : feedback === "try" ? ui.retry : ui.idle}
         </div>
 
         {feedback === "good" ? (
-          <Link className={styles.nextLink} href={`/child/${childId}/subject/${activity.subjectId}`}>Pilih permainan lain</Link>
+          <Link className={styles.nextLink} href={`/child/${childId}/subject/${activity.subjectId}`}>{ui.next}</Link>
         ) : null}
       </section>
     </GardenActivityFrame>
