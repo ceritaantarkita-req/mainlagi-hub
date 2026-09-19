@@ -135,6 +135,39 @@ healthy_habit_routine         4
 
 Pattern #48 remains unimplemented.
 
+## Initial CI checkpoint
+
+Initial implementation head:
+
+```text
+615c81d4cb0c9e9c49949de837b193696813aa68
+```
+
+CI:
+
+```text
+#990 / run 35424220516
+```
+
+Result: **FAILED ONLY AT THE GAMEPLAY-DISTRIBUTION SENTINEL**.
+
+The generated distribution artifact already reported the intended runtime truth:
+
+```text
+activities:                 900
+classified:                 900
+unclassified:                 0
+active patterns:             47
+choice_grid                 219
+spatial_relation_board       11
+set_reasoning                10
+compare_properties            7
+```
+
+Production build, dependency audit and secret-history scan passed; engine/typecheck/lint had not exposed a product defect. The failure was the audit script still freezing the prior Math-spatial baseline at `choice_grid=223` and without the new exact `compare_properties=7` sentinel.
+
+Fix commit `941c643858a5cce4362f39149a91b3a18407d530` changes only that expected distribution baseline. Runtime/config/UI behavior is unchanged.
+
 ## Merge gate
 
 Before merge:
