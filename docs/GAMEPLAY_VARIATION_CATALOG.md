@@ -206,7 +206,7 @@ math-spatial-between
 
 This remains Pattern #40 reuse, not Pattern #48. The exact family is Math / `math-ukur-ruang` / `math-spatial-position` / `math.pack.spatial-position` / assessed `tap_choice` / `choice_accuracy_v1`. Required generalization is explicit/fail-closed; existing six Logic spatial activities must remain unchanged. Expected later verified distribution is 47 active / `choice_grid` 223 / `spatial_relation_board` 11 / `set_reasoning` 10.
 
-Math spatial audit main CI #971 / run `35377783814` passed exact Cloudflare smoke. Runtime PR #214 has an **ACCEPTED CHECKPOINT** at `500e71e8a86f4959cffad423b024997d0d06a1b2`: CI #981 is green, artifacts verify 47 active / `choice_grid` 223 / `spatial_relation_board` 11 / `set_reasoning` 10, and the dedicated nine-shot Math visual review is P0=0/P1=0. Final exact-head CI is pending after checkpoint docs synchronization.
+Math spatial runtime PR #214 final head `6e0d52f5c76933f698ac53be5120e5b488b89896` passed CI #986, then merged to main `2cb948d614c90aceaa592ddbfae204ed639bc062`. Main CI #987 / run `35422469117` passed exact Cloudflare smoke and independently verifies 47 active / `choice_grid` 223 / `spatial_relation_board` 11 / `set_reasoning` 10, with KEEP 900. Math spatial reuse is **FULLY CLOSED / LIVE VERIFIED**.
 
 Reuse audit record: `SPATIAL_RELATION_BOARD_MATH_POSITION_REUSE_AUDIT_2026-09-19.md`.
 
@@ -437,11 +437,10 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 - Pattern #47 final docs closure — PR #204 merged to `bbb61965c951a3dd2628b4b4be6d3b547b7fd68a`; closure-main CI #951 passed including exact Cloudflare production smoke.
 - Pattern #48 fresh audit — merged/live verified through PR #205 / audit-main CI #953; **no justified new pattern yet**.
 - Set Reasoning reuse — PR #207 -> main `9debb6cf`; main CI #964 + docs main #969 exact Cloudflare smoke; **FULLY CLOSED / LIVE VERIFIED**.
-- Math spatial reuse audit — PR #209 -> main `3e30a817`; main CI #971 exact Cloudflare smoke; **LIVE VERIFIED / RUNTIME NEXT / CODE NOT STARTED**.
-- Math measurement reuse audit — PR #210 -> main `f9833568`; main CI #973 exact Cloudflare smoke; matching excluded; **LIVE VERIFIED / RUNTIME QUEUED / CODE NOT STARTED**.
+- Math spatial reuse — PR #214 -> main `2cb948d6`; main CI #987 exact Cloudflare smoke; 47 active / `choice_grid` 223 / `spatial_relation_board` 11; **FULLY CLOSED / LIVE VERIFIED**.
+- Math measurement reuse audit — PR #210 -> main `f9833568`; main CI #973 exact Cloudflare smoke; matching excluded; **LIVE VERIFIED / RUNTIME NEXT / CODE NOT STARTED**.
 - English completion reuse audit — PR #211 -> main `76e1eeb0`; main CI #975 exact Cloudflare smoke; **LIVE VERIFIED / RUNTIME QUEUED / CODE NOT STARTED**.
 - Science environment-care reuse audit — PR #212 -> main `0fccffd7`; main CI #977 exact Cloudflare smoke; explicit `environment_care` domain variant required; matching excluded; **LIVE VERIFIED / RUNTIME QUEUED / CODE NOT STARTED**.
-- Math spatial runtime reuse is ACTIVE on `agent/math-spatial-reuse-20260919`; exact five Math IDs join the six legacy Logic IDs under existing `spatial_relation_board`.
 - No Pattern #48 is created.
 - Continue only with justified exact scopes; reuse an existing mechanic when it already matches the evidence model.
 
