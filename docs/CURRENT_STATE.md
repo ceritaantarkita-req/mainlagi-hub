@@ -144,6 +144,8 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Math missing-number final closure verification: `docs/NUMBER_LINE_MATH_MISSING_NUMBER_REUSE_FINAL_CLOSURE_VERIFICATION_2026-09-19.md`
 - Final verification publication: PR #234 -> main `c023a5757daea7c7948fb09764c672b9c2ff74ea`; push CI #1071 exposed npm advisory-service maintenance after every product/runtime/build/Windows/Chromium/secret gate passed. Recovery PR #235 exact head `767f09353be48d55f52fe0598b40c2d19f3a7fba` -> main `0917b8292986d496f96d4150aef9f1fcf5499c4f`; CI #1082/#1083 full success; production dependency audit reported 0 vulnerabilities; exact recovery-main Cloudflare smoke PASS; **DEPENDENCY-AUDIT RECOVERY FULLY CLOSED / LIVE VERIFIED** with npm 11.19.1 + bounded transient retry + pinned OSV-Scanner v2.3.5 fallback, no dependency/package-lock/runtime change.
 - Dependency-audit recovery record: `docs/PRODUCTION_DEPENDENCY_AUDIT_RECOVERY_2026-09-20.md`
+- Fresh WS-05 audit: **ACTIVE on `agent/audit-math-mixed-operation-reuse-20260920` / exact 4 Math mixed direct-result IDs / existing `make_total` + `take_away` reuse justified / expected runtime `choice_grid` 179 + `make_total` 7 + `take_away` 7 / active patterns stay 47 / Pattern #48 not justified / CODE NOT STARTED**
+- Math mixed-operation reuse audit record: `docs/MATH_MIXED_OPERATION_EXISTING_MECHANIC_REUSE_AUDIT_2026-09-20.md`
 - Force/motion remains **not authorized** as one relation-board family because push/pull/gravity/friction evidence forms are heterogeneous.
 - Pattern #48 remains **NO JUSTIFIED NEW PATTERN YET**.
 
