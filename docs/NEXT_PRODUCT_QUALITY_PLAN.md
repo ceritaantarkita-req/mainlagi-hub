@@ -97,6 +97,7 @@
 **Environment-care audit:** **MERGED / LIVE VERIFIED**  
 **Environment matching exclusion:** **`science-match-environment-actions-c` remains matching**  
 **Environment-care runtime implementation:** **PR #221 -> main `986c5c47e2d75366623611f323118b8013f93fe1` / FULLY CLOSED / LIVE VERIFIED / main CI #1018 exact Cloudflare smoke**  
+**Environment-care docs closure:** **PR #222 -> main `d98ac3794ce32d4308e84d0beecba83156eabd6b` / PR CI #1019 / closure-main CI #1020 full success + exact Cloudflare smoke**  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
 
@@ -128,7 +129,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **47 ACTIVE / REUSE CHAIN FULLY CLOSED / FRESH AUDIT NEXT** | Environment-care PR #221 -> main `986c5c47`; main CI #1018 exact Cloudflare smoke; no runtime wave pre-approved |
+| WS-05 Gameplay diversification | **47 ACTIVE / REUSE CHAIN FULLY CLOSED / FRESH AUDIT NEXT** | Environment-care runtime #221/main `986c5c47` + docs closure #222/main `d98ac379`; closure-main CI #1020 exact Cloudflare smoke; no runtime wave pre-approved |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P45 merged-main permanent visual QA green; nine dedicated screenshots manually accepted |
