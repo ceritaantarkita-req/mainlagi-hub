@@ -127,7 +127,7 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Environment-care closure record: `docs/HEALTHY_HABIT_ROUTINE_ENVIRONMENT_CARE_REUSE_CLOSURE_2026-09-19.md`
 - Environment-care closure docs: **PR #222 -> main `d98ac3794ce32d4308e84d0beecba83156eabd6b` / PR CI #1019 full success / closure-main CI #1020 full success + exact Cloudflare production smoke**
 - Environment-care final verification record: `docs/HEALTHY_HABIT_ROUTINE_ENVIRONMENT_CARE_REUSE_FINAL_CLOSURE_VERIFICATION_2026-09-19.md`
-- Fresh WS-05 audit: **Science ecosystem dependency -> existing `phenomenon_relation_board` / exact 4 direct-choice IDs / REUSE JUSTIFIED / code not started / audit PR pending**
+- Fresh WS-05 audit: **Science ecosystem dependency -> existing `phenomenon_relation_board` / exact 4 direct-choice IDs / REUSE JUSTIFIED / audit PR #224 -> main `206219947985677576402cdad637bd312cb292c2` / audit-main CI #1024 exact Cloudflare smoke / IMPLEMENTATION ACTIVE**
 - Force/motion remains **not authorized** as one relation-board family because push/pull/gravity/friction evidence forms are heterogeneous.
 - Pattern #48 remains **NO JUSTIFIED NEW PATTERN YET**.
 
