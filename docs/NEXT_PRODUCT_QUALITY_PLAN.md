@@ -129,7 +129,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **47 ACTIVE / ENGLISH PICTURE-WORD CHECKPOINT ACCEPTED** | PR #228 accepted head `94eaa68d`; CI #1048 full success; 900/900 / `choice_grid` 188 / `picture_word_match` 23 / KEEP 900; nine-shot manual P0=0/P1=0; final docs exact-head CI pending before merge |
+| WS-05 Gameplay diversification | **47 ACTIVE / ENGLISH PICTURE-WORD RUNTIME LIVE VERIFIED / CLOSURE DOCS ACTIVE** | PR #228 -> main `3c9b6058`; final PR CI #1053 + main CI #1054 exact Cloudflare smoke; 900/900 / `choice_grid` 188 / `picture_word_match` 23 / KEEP 900; 9-shot P0=0/P1=0; closure docs current |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P45 merged-main permanent visual QA green; nine dedicated screenshots manually accepted |
@@ -144,7 +144,8 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 900 / 900 classified
 0 unclassified
 47 active merged patterns
-choice_grid                     206 / 900
+choice_grid                     188 / 900
+picture_word_match               23 / 900
 set_reasoning                    10 / 900
 spatial_relation_board           11 / 900
 compare_properties                7 / 900
@@ -718,13 +719,13 @@ P2 findings: 3
 
 ## Current execution order
 
-1. Keep merged `main` truth at **900/900 classified / 47 active / `choice_grid` 206 / `picture_word_match` 5 / `phenomenon_relation_board` 8 / KEEP 900** until the current runtime PR merges.
-2. English concrete-vocabulary reuse audit #227 is fully live verified: exact head `2847f6f0` passed PR CI #1046, merged to main `293db85d`, and audit-main CI #1047 passed exact-SHA Cloudflare production smoke.
-3. Current runtime work is exact reuse of Pattern #35 `picture_word_match` for 18 English animal/object/body/family/food/action direct-choice activities.
-4. Implementation must remain exactly 23 IDs total: five legacy Bahasa + eighteen English. Title, prompt, choice order, answer, subject, stage and runtime drift fail closed.
-5. Preserve English categories, listening, matching, opposites, phrase, sentence-completion and mixed-review activities outside this scope.
-6. English specialized presentation must use generic leak-free frame title/narration rather than answer-bearing canonical title/prompt; canonical stored content remains unchanged and exact-validated.
-7. Acceptance through head `94eaa68d` is complete: CI #1048 full success, 900/900 distribution with 47 active / `choice_grid` 188 / `picture_word_match` 23, KEEP 900, legacy + English browser QA green, and nine-shot manual P0=0/P1=0. Final docs exact-head CI is now the only pre-merge gate; after that require exact merge, merged-main production smoke, then closure docs.
+1. Keep verified merged runtime truth at **900/900 classified / 47 active / `choice_grid` 188 / `picture_word_match` 23 / KEEP 900**.
+2. English concrete-vocabulary audit #227 remains fully live verified through audit-main CI #1047 exact Cloudflare smoke.
+3. English picture-word implementation PR #228 is merged to main `3c9b6058`; final PR CI #1053 and merged-main CI #1054 both passed, including exact-SHA Cloudflare production smoke.
+4. Exact 23-ID fail-closed family, leak-free English frame, legacy Bahasa behavior, browser QA, evidence semantics and 9-shot P0=0/P1=0 acceptance are now merged runtime truth.
+5. Current task is **post-merge closure documentation only** in `PICTURE_WORD_MATCH_ENGLISH_VOCAB_REUSE_CLOSURE_2026-09-19.md`.
+6. Do not start another runtime wave until these closure docs themselves merge and pass closure-main exact-SHA production verification.
+7. After closure is independently verified, the next WS-05 decision must begin with a **fresh objective/evidence audit**. Existing mechanics should be reused when they safely preserve the objective/evidence contract.
 8. Do not create Pattern #48 merely to reach the numeric target of 50. Iqro remains outside mechanic transformation until expert acceptance exists.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
