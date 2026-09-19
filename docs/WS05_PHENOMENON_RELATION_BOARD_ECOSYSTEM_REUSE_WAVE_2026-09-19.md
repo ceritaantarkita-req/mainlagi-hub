@@ -1,6 +1,6 @@
 # WS-05 Phenomenon Relation Board Ecosystem Reuse Wave — 19 September 2026
 
-Status: **IMPLEMENTATION ACTIVE / VERIFICATION PENDING**
+Status: **ACCEPTED CHECKPOINT / FINAL DOCS EXACT-HEAD CI PENDING**
 
 ## Prerequisite audit
 
@@ -102,9 +102,34 @@ Viewports:
 
 It verifies ecosystem-only copy, keyboard wrong/retry, unresolved wrong state, touch targets, horizontal overflow, assessed evidence metadata, success CTA visibility, no page/console errors, and nine screenshots (idle/wrong/success × three viewports).
 
-## Expected verified distribution
+## Accepted checkpoint
 
-Only after CI acceptance:
+```text
+PR:                    #225
+accepted head:         6cc75d7e649c88aee99079983e02895c794ed49d
+accepted CI:           #1028 / run 35442529485 — full success
+manual visual review:  ACCEPTED / 9 screenshots / P0=0 / P1=0
+```
+
+The initial #1025 screenshot review found one P1 at 320x720: retry feedback extended below the viewport. The fix is scoped to ecosystem retry at <=340px: the redundant cue is hidden during retry, and browser QA now asserts that retry feedback is fully visible. CI #1028 passed this blocking assertion.
+
+Accepted artifacts:
+
+```text
+mobile-route-qa-screenshots
+artifact: 10583984187
+sha256:0a59bdf84b106fd37248f5ce240298f2362b04712a1cdd18e5c37406fd151c78
+
+gameplay-distribution-audit
+artifact: 10583604498
+sha256:3467c7436c92c41733ef5fc723a9baa583fb254d7be7a00318e531e002a64f5f
+
+activity-quality-audit
+artifact: 10584073796
+sha256:c9c7a42f48ecb2c2921f9f5a55c4744d444d899904c411f8c3aab01a65f6dfe5
+```
+
+## Accepted distribution and activity quality
 
 ```text
 900 / 900 classified
@@ -112,6 +137,10 @@ Only after CI acceptance:
 47 active gameplay patterns
 choice_grid                    206 / 900
 phenomenon_relation_board        8 / 900
+KEEP                           900
+POLISH                           0
+REDESIGN                         0
+REPLACE                          0
 ```
 
 Pattern #48 remains unimplemented.
@@ -128,9 +157,7 @@ Pattern #48 remains unimplemented.
 
 ## Remaining gates
 
-1. implementation PR exact-head full CI;
-2. manual review of all nine ecosystem screenshots with P0=0/P1=0;
-3. verified distribution and deterministic activity quality;
-4. exact-head merge;
-5. merged-main CI + exact-SHA Cloudflare smoke;
-6. post-merge closure docs/live verification.
+1. final exact-head CI after canonical docs;
+2. exact-head merge;
+3. merged-main CI + exact-SHA Cloudflare smoke;
+4. post-merge closure docs/live verification.
