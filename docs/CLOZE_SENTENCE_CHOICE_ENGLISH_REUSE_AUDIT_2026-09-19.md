@@ -1,6 +1,6 @@
 # Cloze Sentence Choice Reuse Audit — English Sentence Completion — 19 September 2026
 
-Status: **AUDIT COMPLETE / REUSE JUSTIFIED FOR EXACT 5 ENGLISH IDS / CODE NOT STARTED / IMPLEMENTATION BLOCKED BY PRIOR LIVE-CLOSURE GATES**
+Status: **AUDIT COMPLETE / LIVE VERIFIED / REUSE JUSTIFIED FOR EXACT 5 ENGLISH IDS / CODE NOT STARTED / IMPLEMENTATION QUEUED**
 
 ## Purpose
 
@@ -19,7 +19,6 @@ Math spatial audit:                PR #209 -> main 3e30a817 / PR CI #970 success
 Math compare-properties audit:     PR #210 -> main f9833568 / PR CI #972 success / runtime not started
 ```
 
-Independent push-to-main/Cloudflare verification for the recent reuse/audit chain is still not available through the current connector. That uncertainty remains explicit.
 
 ## Canonical English family
 
@@ -280,10 +279,15 @@ This audit does not approve:
 
 The objective, interaction and evidence contract already match Pattern #38. Required work is exact-scope subject/locale generalization and stronger fail-closed configuration, not a new gameplay taxonomy entry.
 
+## Post-merge audit verification
+
+PR #211 merged the docs-only audit to main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52`. Exact-head PR CI #974 / run `35379084421` passed. Push-to-`main` CI #975 / run `35409217808` then passed the full matrix including exact-SHA Cloudflare production smoke for `76e1eeb0...`.
+
+This audit is therefore live verified. Runtime stays queued behind the earlier Math reuse waves.
+
 ## Next gate
 
-1. merge and verify this docs-only audit;
-2. keep Set Reasoning, Math spatial and Math compare-properties live/audit verification debt explicit;
-3. do not start English runtime reuse before the prerequisite chain is resolved;
-4. when eligible, implement exact ten-ID config, subject-aware locale/copy, legacy Bahasa regressions and English browser/touch QA on a separate branch;
-5. require exact-head CI, manual visual acceptance, exact merge, merged-main Cloudflare verification and post-merge docs closure.
+1. keep this audit queued behind Math spatial and Math measurement full closures;
+2. when it reaches the front of the queue, implement exact ten-ID fail-closed config plus subject-aware Bahasa/English child-facing locale and copy;
+3. preserve all five legacy Bahasa activities and canonical evidence;
+4. require exact-head CI, English keyboard/pointer/actual-touch QA, manual visual acceptance, exact merge and merged-main Cloudflare verification.
