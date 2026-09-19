@@ -1,6 +1,6 @@
 # Number Line Math Missing-Number Reuse Audit — 19 September 2026
 
-Status: **AUDIT MERGED / LIVE VERIFIED / EXISTING `number_line` REUSE JUSTIFIED / EXACT 5-ID SCOPE / RUNTIME IMPLEMENTATION ACTIVE**
+Status: **AUDIT MERGED / LIVE VERIFIED / RUNTIME IMPLEMENTATION LIVE VERIFIED / EXACT 5-ID SCOPE**
 
 ## Verified baseline
 
@@ -46,7 +46,7 @@ Cloudflare smoke:     exact audit-main SHA PASS
 
 CI #1060 verified production is serving audit-main `31c03adac0d143e128996321588af514762c4cbd` on branch `main` with canonical Cloudflare + Supabase target.
 
-Runtime implementation is now active on `agent/math-missing-number-line-reuse-20260919`. The audit decision itself remains unchanged: reuse existing `number_line`, do not create Pattern #48.
+Runtime implementation is now merged and live verified through PR #232 -> main `3b37520f3648f477f71eee1ae9c36c870a660403`; merged-main CI #1067 passed the full gate including exact Cloudflare production smoke. The audit decision remains unchanged: reuse existing `number_line`, do not create Pattern #48.
 
 ## Why this audit exists
 
