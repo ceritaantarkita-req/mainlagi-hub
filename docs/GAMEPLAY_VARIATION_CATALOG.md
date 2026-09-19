@@ -439,8 +439,8 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 - Set Reasoning reuse — PR #207 -> main `9debb6cf`; main CI #964 + docs main #969 exact Cloudflare smoke; **FULLY CLOSED / LIVE VERIFIED**.
 - Math spatial reuse — PR #214 -> main `2cb948d6`; main CI #987 exact Cloudflare smoke; 47 active / `choice_grid` 223 / `spatial_relation_board` 11; **FULLY CLOSED / LIVE VERIFIED**.
 - Math measurement reuse audit — PR #210 -> main `f9833568`; main CI #973 exact Cloudflare smoke; matching excluded; **LIVE VERIFIED**.
-- Math measurement runtime reuse — active on `agent/math-compare-properties-reuse-20260919`; exact four direct-choice IDs -> existing `compare_properties`; binary + three-first-class-candidate variants; target 47 active / `choice_grid` 219 / `compare_properties` 7; **IMPLEMENTATION ACTIVE**.
-- English completion reuse audit — PR #211 -> main `76e1eeb0`; main CI #975 exact Cloudflare smoke; **LIVE VERIFIED / RUNTIME QUEUED / CODE NOT STARTED**.
+- Math measurement runtime reuse — PR #216 -> main `36507077`; final PR CI #994; main CI #995 exact Cloudflare smoke; merged 47 active / `choice_grid` 219 / `compare_properties` 7; **FULLY CLOSED / LIVE VERIFIED**.
+- English completion reuse audit — PR #211 -> main `76e1eeb0`; main CI #975 exact Cloudflare smoke; **LIVE VERIFIED / RUNTIME NEXT / UNBLOCKED**.
 - Science environment-care reuse audit — PR #212 -> main `0fccffd7`; main CI #977 exact Cloudflare smoke; explicit `environment_care` domain variant required; matching excluded; **LIVE VERIFIED / RUNTIME QUEUED / CODE NOT STARTED**.
 - No Pattern #48 is created.
 - Continue only with justified exact scopes; reuse an existing mechanic when it already matches the evidence model.
