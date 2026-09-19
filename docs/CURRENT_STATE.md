@@ -86,7 +86,7 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Math spatial reuse audit PR CI: **#970 / run `35377295090` — full success**
 - Math spatial reuse audit merged-main CI: **#971 / run `35377783814` — full success + exact Cloudflare production smoke**
 - Math spatial reuse audit: **MERGED / LIVE VERIFIED**
-- Math spatial reuse implementation: **ACTIVE on `agent/math-spatial-reuse-20260919` / exact 5-ID Math reuse / 11-ID total family**
+- Math spatial reuse implementation: **PR #214 / ACCEPTED CHECKPOINT / final exact-head CI pending / exact 5-ID Math reuse / 11-ID total family**
 - Math measurement -> `compare_properties` reuse audit: PR #210 -> main `f9833568dea0f021cd5c4ed94f6f6fc7505ad8d8`
 - Math measurement reuse audit PR CI: **#972 / run `35378121937` — full success**
 - Math measurement audit merged-main CI: **#973 / run `35378825618` — full success + exact Cloudflare production smoke**
@@ -279,7 +279,7 @@ math-spatial-between
 
 The existing six Logic activities remain in scope unchanged, making an intended total family size of 11. Config is generalized with exact per-ID subject/stage/prompt/choice-order/correct-answer validation; new deterministic scene modes cover vertical relation, containment and proximity. No content, mastery, progression, schema or database migration is introduced.
 
-Dedicated Math browser QA is wired for 320x720, 390x844 and 768x1024 using `math-spatial-near`, with keyboard wrong/retry plus actual-touch correct completion. Expected verified branch distribution is 47 active / `choice_grid` 223 / `spatial_relation_board` 11 / `set_reasoning` 10.
+Dedicated Math browser QA is wired for 320x720, 390x844 and 768x1024 using `math-spatial-near`, with keyboard wrong/retry plus actual-touch correct completion. CI #981 / run `35421474731` passed the accepted runtime head `500e71e8a86f4959cffad423b024997d0d06a1b2`; artifacts verify 900/900 classified, 47 active, `choice_grid` 223, `spatial_relation_board` 11, `set_reasoning` 10 and KEEP 900. The nine dedicated Math screenshots were manually accepted with P0=0/P1=0. CI #980's only blocking result was a stale distribution assertion freezing the prior 228 baseline; the product artifact in that same run already reported the correct 223/11 distribution. Final exact-head CI is required after this checkpoint docs update.
 
 Implementation wave record: `WS05_SPATIAL_RELATION_BOARD_MATH_REUSE_WAVE_2026-09-19.md`.
 
