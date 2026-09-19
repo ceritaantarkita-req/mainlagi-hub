@@ -122,7 +122,7 @@ Science ecosystem relation implementation wave: [`WS05_PHENOMENON_RELATION_BOARD
 Science ecosystem relation closure: [`PHENOMENON_RELATION_BOARD_ECOSYSTEM_REUSE_CLOSURE_2026-09-19.md`](PHENOMENON_RELATION_BOARD_ECOSYSTEM_REUSE_CLOSURE_2026-09-19.md) — post-merge closure record; fully verified through closure-main CI #1036 exact Cloudflare smoke.  
 Science ecosystem relation final closure verification: [`PHENOMENON_RELATION_BOARD_ECOSYSTEM_REUSE_FINAL_CLOSURE_VERIFICATION_2026-09-19.md`](PHENOMENON_RELATION_BOARD_ECOSYSTEM_REUSE_FINAL_CLOSURE_VERIFICATION_2026-09-19.md)  
 English concrete-vocabulary picture-word reuse audit: [`PICTURE_WORD_MATCH_ENGLISH_VOCAB_REUSE_AUDIT_2026-09-19.md`](PICTURE_WORD_MATCH_ENGLISH_VOCAB_REUSE_AUDIT_2026-09-19.md) — exact 18-ID reuse audit; PR #227 -> main `293db85d`; audit-main CI #1047 exact Cloudflare smoke; live verified.  
-English picture-word reuse implementation wave: [`WS05_PICTURE_WORD_MATCH_ENGLISH_REUSE_WAVE_2026-09-19.md`](WS05_PICTURE_WORD_MATCH_ENGLISH_REUSE_WAVE_2026-09-19.md) — exact 23-ID Bahasa+English fail-closed family; leak-free English presentation; runtime implementation active, branch CI/visual acceptance pending.  
+English picture-word reuse implementation wave: [`WS05_PICTURE_WORD_MATCH_ENGLISH_REUSE_WAVE_2026-09-19.md`](WS05_PICTURE_WORD_MATCH_ENGLISH_REUSE_WAVE_2026-09-19.md) — PR #228 accepted head `94eaa68d`; CI #1048 full success; exact 23-ID fail-closed family; 900/900 / 47 active / `choice_grid` 188 / `picture_word_match` 23 / KEEP 900; nine-shot manual P0=0/P1=0; final docs CI pending.  
 Math measurement closure: [`COMPARE_PROPERTIES_MATH_MEASURE_REUSE_CLOSURE_2026-09-19.md`](COMPARE_PROPERTIES_MATH_MEASURE_REUSE_CLOSURE_2026-09-19.md)  
 Math spatial closure: [`SPATIAL_RELATION_BOARD_MATH_POSITION_REUSE_CLOSURE_2026-09-19.md`](SPATIAL_RELATION_BOARD_MATH_POSITION_REUSE_CLOSURE_2026-09-19.md)
 
@@ -302,7 +302,7 @@ Pattern #42 closure gates are complete. Closure PR #188 merged and closure main 
 
 ## Current evidence records
 
-- [`WS05_PICTURE_WORD_MATCH_ENGLISH_REUSE_WAVE_2026-09-19.md`](WS05_PICTURE_WORD_MATCH_ENGLISH_REUSE_WAVE_2026-09-19.md) — active exact 18-ID English -> existing Pattern #35 implementation; exact 23-ID fail-closed config, leak-free English frame, dedicated 320/390/768 QA.
+- [`WS05_PICTURE_WORD_MATCH_ENGLISH_REUSE_WAVE_2026-09-19.md`](WS05_PICTURE_WORD_MATCH_ENGLISH_REUSE_WAVE_2026-09-19.md) — PR #228 accepted checkpoint `94eaa68d`; CI #1048 full success; exact 23-ID fail-closed config, leak-free English frame, dedicated 320/390/768 keyboard/pointer/touch QA, and nine-shot manual P0=0/P1=0.
 - [`PICTURE_WORD_MATCH_ENGLISH_VOCAB_REUSE_AUDIT_2026-09-19.md`](PICTURE_WORD_MATCH_ENGLISH_VOCAB_REUSE_AUDIT_2026-09-19.md) — exact 18-ID English concrete-vocabulary reuse audit; PR #227 -> main `293db85d`; audit-main CI #1047 exact Cloudflare smoke; live verified.
 - [`REUSE_AUDIT_CHAIN_LIVE_VERIFICATION_CLOSURE_2026-09-19.md`](REUSE_AUDIT_CHAIN_LIVE_VERIFICATION_CLOSURE_2026-09-19.md) — exact push-to-main CI + Cloudflare smoke evidence for Set Reasoning and all four reuse audits; runtime gate promoted to Math spatial next.
 - [`PHENOMENON_RELATION_BOARD_ECOSYSTEM_REUSE_CLOSURE_2026-09-19.md`](PHENOMENON_RELATION_BOARD_ECOSYSTEM_REUSE_CLOSURE_2026-09-19.md) — post-merge closure record for ecosystem relation reuse: PR #225 -> main `0dd89c5d`; main CI #1034 exact Cloudflare smoke; 47 active / `choice_grid` 206 / `phenomenon_relation_board` 8 / KEEP 900.
