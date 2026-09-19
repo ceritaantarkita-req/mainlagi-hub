@@ -261,15 +261,17 @@ for(const activity of countSelect){
 
 const expectedNumberLine=new Set([
   "math-order-next-1-2","math-order-next-3-4","math-order-before-6",
-  "math-order-between-6-8","math-order-descend-5","math-order-descend-10"
+  "math-order-between-6-8","math-order-descend-5","math-order-descend-10",
+  "math-missing-1-3","math-missing-3-5","math-missing-before-6",
+  "math-missing-after-8","math-missing-descend-10-8"
 ]);
 const numberLine=ACTIVITIES.filter(activity=>choiceGameplayPresentation(activity)==="number_line");
 assert.equal(numberLine.length,expectedNumberLine.size,"number-line family size must remain intentional");
-assert.deepEqual(new Set(numberLine.map(activity=>activity.id)),expectedNumberLine,"only the six reviewed Math ordering activities use number-line presentation");
+assert.deepEqual(new Set(numberLine.map(activity=>activity.id)),expectedNumberLine,"only the eleven audited Math ordering + missing-number activities use number-line presentation");
 for(const activity of numberLine){
   assert.equal(activity.runtime,"tap_choice");
   assert.equal(activity.subjectId,"math");
-  assert.equal(activity.stageId,"math-banding-bentuk");
+  assert(["math-banding-bentuk","math-operasi-awal"].includes(activity.stageId),"number-line stays inside the two audited Math stages");
   assert.equal((activity.choices??[]).length,3);
   assert.equal(new Set(activity.choices??[]).size,3,"number-line choices remain unique");
   assert((activity.choices??[]).every(choice=>/^\d+$/.test(choice)),"number-line choices remain numeric");
