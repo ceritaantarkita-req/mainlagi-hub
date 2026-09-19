@@ -129,7 +129,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **47 ACTIVE / ENGLISH PICTURE-WORD RUNTIME ACTIVE** | audit #227 -> main `293db85d`; CI #1047 exact Cloudflare smoke; exact 18-ID English reuse now implemented on branch with 23-ID fail-closed config and leak-free English presentation; branch CI/visual acceptance pending |
+| WS-05 Gameplay diversification | **47 ACTIVE / ENGLISH PICTURE-WORD CHECKPOINT ACCEPTED** | PR #228 accepted head `94eaa68d`; CI #1048 full success; 900/900 / `choice_grid` 188 / `picture_word_match` 23 / KEEP 900; nine-shot manual P0=0/P1=0; final docs exact-head CI pending before merge |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P45 merged-main permanent visual QA green; nine dedicated screenshots manually accepted |
@@ -724,7 +724,7 @@ P2 findings: 3
 4. Implementation must remain exactly 23 IDs total: five legacy Bahasa + eighteen English. Title, prompt, choice order, answer, subject, stage and runtime drift fail closed.
 5. Preserve English categories, listening, matching, opposites, phrase, sentence-completion and mixed-review activities outside this scope.
 6. English specialized presentation must use generic leak-free frame title/narration rather than answer-bearing canonical title/prompt; canonical stored content remains unchanged and exact-validated.
-7. Required acceptance: learning regression, 900/900 distribution with 47 active / `choice_grid` 188 / `picture_word_match` 23, activity-quality clean, legacy Bahasa browser QA, English keyboard/pointer/actual-touch QA at 320/390/768, nine-shot P0/P1 visual review, exact-head CI, exact merge, merged-main production smoke, then closure docs.
+7. Acceptance through head `94eaa68d` is complete: CI #1048 full success, 900/900 distribution with 47 active / `choice_grid` 188 / `picture_word_match` 23, KEEP 900, legacy + English browser QA green, and nine-shot manual P0=0/P1=0. Final docs exact-head CI is now the only pre-merge gate; after that require exact merge, merged-main production smoke, then closure docs.
 8. Do not create Pattern #48 merely to reach the numeric target of 50. Iqro remains outside mechanic transformation until expert acceptance exists.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
