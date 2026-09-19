@@ -129,7 +129,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **47 ACTIVE / MATH MISSING-NUMBER NUMBER-LINE FULLY CLOSED / FRESH AUDIT NEXT** | audit #231 -> main `31c03ada`; runtime #232 -> main `3b37520f`; closure #233 -> main `48583252`; CI #1066/#1067/#1068/#1069 green with exact production smoke; 900/900 / `choice_grid` 183 / `number_line` 11 / KEEP 900; P0=0/P1=0 |
+| WS-05 Gameplay diversification | **47 ACTIVE / MATH MIXED-OPERATION REUSE AUDIT ACTIVE** | fresh exact 4-ID audit -> existing `make_total` + `take_away`; code not started; expected runtime `choice_grid` 179 / `make_total` 7 / `take_away` 7 / active patterns 47; Pattern #48 still unjustified |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P45 merged-main permanent visual QA green; nine dedicated screenshots manually accepted |
@@ -720,13 +720,13 @@ P2 findings: 3
 
 ## Current execution order
 
-1. Preserve verified merged truth at **900/900 classified / 47 active / `choice_grid` 183 / `number_line` 11 / KEEP 900**.
-2. Math missing-number -> existing `number_line` remains **FULLY CLOSED / LIVE VERIFIED** across audit #231, runtime #232, closure #233 and final publication #234.
-3. Final publication CI infrastructure recovery is also **FULLY CLOSED / LIVE VERIFIED**: PR #235 exact head `767f09353be48d55f52fe0598b40c2d19f3a7fba` -> main `0917b8292986d496f96d4150aef9f1fcf5499c4f`; CI #1082/#1083 full success; exact recovery-main Cloudflare smoke PASS; production dependency audit reported 0 vulnerabilities.
-4. Preserve the fail-closed dependency audit workflow: npm 11.19.1 primary audit with production-only `--omit=dev --audit-level=high`, bounded retry only for explicit transient registry/network failures, and pinned OSV-Scanner v2.3.5 production-lock fallback if npm advisory service remains unavailable.
-5. No next runtime family is pre-approved. The next WS-05 decision must begin with a **fresh objective/evidence audit** of remaining learning families.
-6. Prefer reuse of an existing mechanic when the objective/evidence contract already matches; create a new pattern only when distinct interaction evidence justifies it.
-7. Do not create Pattern #48 merely to reach the numeric target of 50. Current distance remains three patterns, but numeric distance is not authorization.
-8. English initial-sound direct-choice remains excluded from existing `initial_sound`; Iqro remains outside mechanic transformation until expert acceptance exists.
+1. Preserve verified merged truth at **900/900 classified / 47 active / `choice_grid` 183 / `make_total` 5 / `take_away` 5 / `number_line` 11 / KEEP 900** while this audit remains docs-only.
+2. Current fresh audit approves exact reuse candidates inside Math `math.pack.mixed-operations`: `math-mixed-add-2-3` and `math-mixed-add-4-4` -> existing `make_total`; `math-mixed-sub-6-1` and `math-mixed-sub-9-3` -> existing `take_away`.
+3. `math-mixed-choose-add` is explicitly excluded because it asks the learner to choose an operation expression, not compute a numeric result.
+4. If implementation proceeds, harden complete exact families to 7 IDs each and fail closed on ID, subject, stage, runtime, title, prompt, exact choice order, answer and arithmetic config. Do not use broad numeric/prompt inference.
+5. Expected runtime result is **900/900 / 47 active / `choice_grid` 179 / `make_total` 7 / `take_away` 7 / KEEP 900**.
+6. This is existing-mechanic reuse, not Pattern #48. Do not create Pattern #48 merely to reach the numeric target of 50.
+7. English initial-sound direct-choice remains excluded from existing `initial_sound`; Science force/motion remains heterogeneous; Iqro remains outside mechanic transformation until expert acceptance exists.
+8. Runtime code must not start until this audit PR passes exact-head CI and merges.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
