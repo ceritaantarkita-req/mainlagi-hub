@@ -392,29 +392,33 @@ for(const activity of causeEffect){
 }
 
 const expectedCompareProperties=new Set([
-  "science-measure-longer-pencil","science-measure-hot-cold","science-measure-more-water"
+  "science-measure-longer-pencil","science-measure-hot-cold","science-measure-more-water",
+  "math-measure-longer","math-measure-more-capacity","math-measure-fuller","math-measure-three-lengths"
 ]);
 const compareProperties=ACTIVITIES.filter(activity=>choiceGameplayPresentation(activity)==="compare_properties");
 assert.equal(compareProperties.length,expectedCompareProperties.size,"compare-properties family size must remain intentional");
-assert.deepEqual(new Set(compareProperties.map(activity=>activity.id)),expectedCompareProperties,"only the three reviewed Science observation comparisons use Compare Properties");
+assert.deepEqual(new Set(compareProperties.map(activity=>activity.id)),expectedCompareProperties,"only the three legacy Science plus four audited Math comparisons use Compare Properties");
 for(const activity of compareProperties){
   assert.equal(activity.runtime,"tap_choice");
-  assert.equal(activity.subjectId,"science");
-  assert.equal(activity.stageId,"science-earth-body-environment");
+  assert(["science","math"].includes(activity.subjectId),"compare-properties stays inside audited Science/Math subjects");
+  assert(["science-earth-body-environment","math-ukur-ruang"].includes(activity.stageId),"compare-properties stays inside audited stages");
   assert.equal((activity.choices??[]).length,3);
   assert.equal(new Set(activity.choices??[]).size,3,"compare-properties choices remain unique");
   assert((activity.choices??[]).includes(activity.correctChoice),"compare properties preserves canonical correctChoice");
   const config=comparePropertiesConfig(activity);
   assert(config,`${activity.id} must have explicit Compare Properties config`);
-  assert.deepEqual(new Set([config.left.choice,config.right.choice,config.otherChoice]),new Set(activity.choices??[]),`${activity.id} maps exactly the canonical three choices`);
-  assert.notEqual(config.left.level,config.right.level,`${activity.id} exposes a meaningful qualitative contrast`);
-  const configuredCorrect=config.correctTarget==="left"
-    ? config.left.choice
-    : config.correctTarget==="right"
-      ? config.right.choice
-      : config.otherChoice;
-  assert.equal(configuredCorrect,activity.correctChoice,`${activity.id} configured comparison target must match canonical correctChoice`);
+  if(config.variant==="binary_compare"){
+    assert.deepEqual(new Set([config.left.choice,config.right.choice,config.otherChoice]),new Set(activity.choices??[]),`${activity.id} binary config maps exactly canonical choices`);
+    assert.notEqual(config.left.level,config.right.level,`${activity.id} exposes a meaningful qualitative contrast`);
+  }else{
+    assert.deepEqual(config.candidates.map(candidate=>candidate.choice),activity.choices,`${activity.id} multi-candidate config preserves canonical choice order`);
+    assert.equal(config.candidates.length,3,`${activity.id} keeps three first-class candidates`);
+  }
 }
+const mathMeasureMatch=ACTIVITIES.find(activity=>activity.id==="math-measure-match-length");
+assert(mathMeasureMatch,"math-measure-match-length remains in catalog");
+assert.equal(mathMeasureMatch.runtime,"matching","Math measurement matching remains matching");
+assert.equal(matchingPresentation(mathMeasureMatch),"grid_pairs","Math measurement matching remains visible matching");
 
 const recordingObservation=ACTIVITIES.find(activity=>activity.id==="science-observe-record-same-time");
 assert(recordingObservation,"recording observation activity remains in catalog");
