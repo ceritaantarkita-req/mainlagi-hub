@@ -140,13 +140,13 @@ Runtime count is not gameplay-pattern count.
 
 Current WS-05 finish target: **50 meaningful patterns**. The former 60-pattern working target is non-blocking/deferred and is not part of the current finish scope.
 
-Verified merged-main distribution after Pattern #47 implementation:
+Verified current merged-main distribution after Pattern #47 plus live-verified Set Reasoning reuse:
 
 ```text
 classified:                    900 / 900
 unclassified:                    0
 active merged patterns:         47
-choice_grid                    233 / 900
+choice_grid                    228 / 900
 elimination_board                5 / 900
 phenomenon_relation_board        4 / 900
 shape_attribute_board            4 / 900
@@ -154,6 +154,7 @@ subitizing_glance                3 / 900
 single_rule_apply                 5 / 900
 growth_stage_transition          3 / 900
 phrase_scene_match               4 / 900
+set_reasoning                  10 / 900
 spatial_relation_board           6 / 900
 visual_word_problem              5 / 900
 cloze_sentence_choice            5 / 900
@@ -230,7 +231,7 @@ gameplay distribution:    10558204450 / sha256:6bc10f976c442e2f46a9ad2a0f75d60cc
 activity quality:          10558429104 / sha256:967006895beb95eb850e077b021308a4cc0018288b2115e106d4b2ce8d54d07a
 ```
 
-Final PR head `a37fdec7b3f89789999ce728c245ae17ee7f00bc` passed CI #963 / run `35372830249`, with final artifacts confirming 900/900 classified, 47 active patterns, `choice_grid` 228 and `set_reasoning` 10; the nine final reuse screenshots were manually accepted with no P0/P1 blocker. PR #207 then squash-merged unchanged to main `9debb6cf30f789125c45eff1b88e65e4eaff7978`. **Do not call this live verified until independent merged-main CI and exact Cloudflare smoke pass for that SHA.**
+Final PR head `a37fdec7b3f89789999ce728c245ae17ee7f00bc` passed CI #963 / run `35372830249`, with final artifacts confirming 900/900 classified, 47 active patterns, `choice_grid` 228 and `set_reasoning` 10; the nine final reuse screenshots were manually accepted with no P0/P1 blocker. PR #207 then squash-merged unchanged to main `9debb6cf30f789125c45eff1b88e65e4eaff7978`. Main CI #964 / run `35375338099` passed with exact Cloudflare smoke, and post-merge docs main CI #969 / run `35376512392` passed the same production gate. The reuse is **FULLY CLOSED / LIVE VERIFIED**.
 
 ### Current reuse audit — Math spatial -> `spatial_relation_board`
 
