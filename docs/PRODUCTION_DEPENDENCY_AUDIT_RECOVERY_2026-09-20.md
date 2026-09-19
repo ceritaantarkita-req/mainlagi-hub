@@ -1,6 +1,6 @@
 # Production Dependency Audit Recovery — 20 September 2026
 
-Status: **CI RECOVERY ACTIVE / SECURITY THRESHOLD PRESERVED / NO DEPENDENCY VERSION CHANGE**
+Status: **CI RECOVERY ACTIVE / ROOT CAUSE CONFIRMED AS NPM REGISTRY MAINTENANCE / SECURITY THRESHOLD PRESERVED / NO DEPENDENCY VERSION CHANGE**
 
 ## Trigger
 
@@ -32,21 +32,42 @@ npm error audit endpoint returned an error
 
 A targeted retry of only the failed dependency-audit job produced the same registry response.
 
-## Interpretation
+## Root-cause confirmation
 
 This incident did **not** report a high/critical vulnerability.
 
 The installed application tree continued to pass `npm ci`, production build, Ubuntu quality, Windows, Chromium, learning QA, permanent visual QA, and the full runtime test matrix.
 
-npm's own audit documentation states that modern npm first uses the Bulk Advisory endpoint and falls back to the legacy Quick Audit endpoint when the bulk request fails or returns invalid data. The observed failure occurred at that fallback Quick Audit endpoint.
+The initial Node 22 bundled npm 10.9.8 run surfaced the failure after fallback to the legacy Quick Audit endpoint as `400 Invalid package tree`.
+
+Recovery PR #235 then pinned npm 11.19.1. Its first CI attempt exposed the upstream cause directly at the preferred Bulk Advisory endpoint:
+
+```text
+503 Service Unavailable
+POST https://registry.npmjs.org/-/npm/v1/security/advisories/bulk
+We are currently performing maintenance.
+```
+
+This confirms the blocker is npm registry advisory-service availability rather than a newly introduced application dependency or package-lock mutation.
+
+npm documentation states that the Bulk Advisory endpoint is the primary audit endpoint and the Quick Audit endpoint is a fallback when bulk audit fails or returns invalid data.
 
 ## Recovery
 
-The dependency-audit job is hardened by pinning its audit client to:
+The dependency-audit job is hardened in two narrow ways:
 
-```text
-npm 11.19.1
-```
+1. pin the audit client to `npm 11.19.1`;
+2. retry only explicitly transient registry conditions up to four total attempts with bounded backoff.
+
+Transient retry is limited to signals such as:
+- HTTP 502 / 503 / 504;
+- HTTP 429;
+- npm registry maintenance;
+- `ECONNRESET`;
+- `ETIMEDOUT`;
+- `EAI_AGAIN`.
+
+A real vulnerability result does not match those transient conditions and therefore fails immediately. A persistent registry outage also remains blocking after the final retry.
 
 The recovery intentionally preserves:
 - Node 22;
@@ -60,6 +81,7 @@ It does **not**:
 - disable `npm audit`;
 - lower the threshold;
 - use `continue-on-error`;
+- treat `400 Invalid package tree` as transient under the pinned npm 11 client;
 - change dependency versions;
 - run `npm audit fix --force`;
 - rewrite the package lock without evidence.
