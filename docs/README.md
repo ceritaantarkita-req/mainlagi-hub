@@ -48,7 +48,7 @@ Closure main:             ad7deb67dc15eefdb81dc5d5e66f4c10ccdc9710
 Closure main CI:          #886 / run 35290502532 — full success + exact Cloudflare production smoke
 ```
 
-Verified merged gameplay distribution is now **900/900 classified, 47 active patterns, 0 unclassified**, with `choice_grid` 233/900 and `shape_attribute_board` 4/900.
+Verified current gameplay distribution is **900/900 classified, 47 active patterns, 0 unclassified**, with `choice_grid` 228/900 after the live-verified Set Reasoning reuse; `set_reasoning` is 10/900 and `shape_attribute_board` remains 4/900.
 
 ```text
 P0 = 0
@@ -100,7 +100,7 @@ The audit did not find a new interaction family that is safer or more faithful t
 
 Runtime Pattern #48 code has not started.
 
-Current reuse implementation is **existing `set_reasoning` -> exact five Logic multi-attribute activities / MERGED / LIVE VERIFICATION PENDING**. Audit #206/#955 is live verified. PR #207 final head `a37fdec7b3f89789999ce728c245ae17ee7f00bc` passed CI #963 with branch distribution 47 active / `choice_grid` 228 / `set_reasoning` 10 and final nine-shot review accepted; it squash-merged unchanged to main `9debb6cf30f789125c45eff1b88e65e4eaff7978`. Independent main CI + exact Cloudflare smoke remain required.
+Current reuse implementation **existing `set_reasoning` -> exact five Logic multi-attribute activities** is **FULLY CLOSED / LIVE VERIFIED**. Audit #206/#955 is live verified; PR #207 final head `a37fdec7b3f89789999ce728c245ae17ee7f00bc` passed CI #963 with branch distribution 47 active / `choice_grid` 228 / `set_reasoning` 10 and accepted nine-shot review; implementation main `9debb6cf30f789125c45eff1b88e65e4eaff7978` passed CI #964 exact Cloudflare smoke, and post-merge docs main `d36a385f131573bb08ec60d4689343ad5e4b8f3c` passed CI #969 exact Cloudflare smoke.
 
 The Math spatial reuse audit is merged via PR #209 -> main `3e30a817ef86fa691f9b2f1249ac00bc00dce4e6`; PR CI #970 passed while runtime remained 47 active / `choice_grid` 228 / `spatial_relation_board` 6 / `set_reasoning` 10. Main CI #971 / run `35377783814` passed exact Cloudflare smoke. The audit is **LIVE VERIFIED**, and Math spatial runtime is the next authorized reuse wave after this closure docs change merges/live-verifies.
 
