@@ -1,6 +1,7 @@
 import type { LearningActivity } from "./system";
 import { isClozeSentenceChoiceActivity } from "./clozeSentenceChoiceConfig";
 import { healthyHabitRoutineConfig } from "./healthyHabitRoutineConfig";
+import { pictureWordMatchConfig } from "./pictureWordMatchConfig";
 import { isReadingPassageQuestionActivity } from "./readingPassageQuestionConfig";
 import { isSentenceOrderCardsActivity } from "./sentenceOrderCardsConfig";
 import { isVisualWordProblemActivity } from "./visualWordProblemConfig";
@@ -60,14 +61,6 @@ const BAHASA_INITIAL_SOUND_IDS = new Set([
   "bahasa-awal-bola",
   "bahasa-awal-kucing",
   "bahasa-awal-pisang"
-]);
-
-const BAHASA_PICTURE_WORD_MATCH_IDS = new Set([
-  "bahasa-gambar-apel",
-  "bahasa-gambar-mobil",
-  "bahasa-gambar-kucing",
-  "bahasa-gambar-rumah",
-  "bahasa-gambar-pisang"
 ]);
 
 const SCIENCE_DRAG_TARGET_IDS = new Set([
@@ -538,20 +531,7 @@ export function isInitialSoundActivity(activity: LearningActivity | undefined): 
 }
 
 export function isPictureWordMatchActivity(activity: LearningActivity | undefined): boolean {
-  if (!activity || activity.runtime !== "tap_choice") return false;
-  const choices = activity.choices ?? [];
-  const correct = activity.correctChoice ?? "";
-  return (
-    activity.subjectId === "bahasa" &&
-    activity.stageId === "bahasa-suku-kata-kata" &&
-    BAHASA_PICTURE_WORD_MATCH_IDS.has(activity.id) &&
-    choices.length === 3 &&
-    new Set(choices).size === choices.length &&
-    choices.every((choice) => /^[a-z]+$/.test(choice)) &&
-    /^[a-z]+$/.test(correct) &&
-    choices.includes(correct) &&
-    Boolean(activity.prompt)
-  );
+  return Boolean(pictureWordMatchConfig(activity));
 }
 
 export function isSortingBucketsActivity(activity: LearningActivity | undefined): boolean {
