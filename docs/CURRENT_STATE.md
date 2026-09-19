@@ -129,7 +129,10 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Environment-care final verification record: `docs/HEALTHY_HABIT_ROUTINE_ENVIRONMENT_CARE_REUSE_FINAL_CLOSURE_VERIFICATION_2026-09-19.md`
 - Ecosystem relation reuse: **PR #225 -> main `0dd89c5d81ab239ba76549bd9ae17102c7a90274` / final PR CI #1033 / merged-main CI #1034 full success + exact Cloudflare smoke / 9-shot P0=0 P1=0 / 47 active / `choice_grid` 206 / `phenomenon_relation_board` 8 / KEEP 900 / runtime LIVE VERIFIED**
 - Ecosystem relation closure record: `docs/PHENOMENON_RELATION_BOARD_ECOSYSTEM_REUSE_CLOSURE_2026-09-19.md`
-- Ecosystem closure docs: **IN PROGRESS**
+- Ecosystem closure docs: **PR #226 -> main `fb74c17d3af62e8845e7e0f4a2b8ad5ceaf962d5` / exact-head PR CI #1035 + closure-main CI #1036 full success / exact closure-main Cloudflare smoke / FULLY CLOSED / LIVE VERIFIED**
+- Ecosystem final verification record: `docs/PHENOMENON_RELATION_BOARD_ECOSYSTEM_REUSE_FINAL_CLOSURE_VERIFICATION_2026-09-19.md`
+- Fresh English concrete-vocabulary reuse audit: **exact 18 IDs -> existing `picture_word_match` / docs-only / prior ecosystem closure gate resolved by CI #1036 / runtime code not started / expected only after later verified implementation: `choice_grid` 188, `picture_word_match` 23, active patterns remain 47**
+- Audit record: `docs/PICTURE_WORD_MATCH_ENGLISH_VOCAB_REUSE_AUDIT_2026-09-19.md`
 - Force/motion remains **not authorized** as one relation-board family because push/pull/gravity/friction evidence forms are heterogeneous.
 - Pattern #48 remains **NO JUSTIFIED NEW PATTERN YET**.
 

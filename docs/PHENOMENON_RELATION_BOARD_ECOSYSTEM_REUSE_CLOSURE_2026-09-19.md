@@ -1,6 +1,6 @@
 # Phenomenon Relation Board Ecosystem Reuse Closure — 19 September 2026
 
-Status: **RUNTIME FULLY VERIFIED / DOCS CLOSURE IN PROGRESS**
+Status: **FULLY CLOSED / LIVE VERIFIED**
 
 ## Scope closed
 
@@ -175,12 +175,19 @@ Science force/motion remains unapproved as one relation-board family because pus
 
 No later runtime wave is pre-approved. The next WS-05 runtime change must start from another fresh objective/evidence audit.
 
-## Remaining closure gate
+## Final closure verification
 
-This closure record and canonical-doc updates must:
-1. pass exact-head PR CI;
-2. merge exact head to `main`;
-3. pass closure-main CI;
-4. pass exact closure-main Cloudflare production smoke.
+Post-merge closure docs completed the final gate:
 
-Only then is this reuse wave **FULLY CLOSED / LIVE VERIFIED**.
+```text
+Closure docs PR:         #226
+Exact PR head:           6f649c73ad2eaca265f313284e9eea41fefc709f
+PR CI:                   #1035 / run 35444250203 — full success
+Closure main:            fb74c17d3af62e8845e7e0f4a2b8ad5ceaf962d5
+Closure-main CI:         #1036 / run 35444579513 — full success
+Cloudflare smoke:        exact closure-main SHA PASS
+```
+
+Final verification record: `PHENOMENON_RELATION_BOARD_ECOSYSTEM_REUSE_FINAL_CLOSURE_VERIFICATION_2026-09-19.md`.
+
+This reuse wave is **FULLY CLOSED / LIVE VERIFIED**.

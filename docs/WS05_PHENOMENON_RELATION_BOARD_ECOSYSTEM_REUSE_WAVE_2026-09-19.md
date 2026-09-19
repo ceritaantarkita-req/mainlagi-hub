@@ -1,6 +1,6 @@
 # WS-05 Phenomenon Relation Board Ecosystem Reuse Wave — 19 September 2026
 
-Status: **IMPLEMENTATION MERGED / LIVE VERIFIED / CLOSURE DOCS IN PROGRESS**
+Status: **FULLY CLOSED / LIVE VERIFIED**
 
 ## Prerequisite audit
 
@@ -178,6 +178,16 @@ activity-quality-audit 10584945996
 sha256:06a7e2d5cd5b00df3b56faff8032b8c2723141c08056de249ec3ac142692f48b
 ```
 
-## Remaining gate
+## Closure verification
 
-Post-merge closure docs must pass exact-head CI, merge to `main`, then pass closure-main CI + exact-SHA Cloudflare smoke.
+```text
+closure docs PR:      #226
+closure PR CI:        #1035 / run 35444250203 — full success
+closure main:         fb74c17d3af62e8845e7e0f4a2b8ad5ceaf962d5
+closure-main CI:      #1036 / run 35444579513 — full success
+production smoke:     exact closure-main SHA PASS
+```
+
+Final record: `PHENOMENON_RELATION_BOARD_ECOSYSTEM_REUSE_FINAL_CLOSURE_VERIFICATION_2026-09-19.md`.
+
+No ecosystem closure gate remains open.
