@@ -66,20 +66,28 @@
 **Final PR head:** `a37fdec7b3f89789999ce728c245ae17ee7f00bc`  
 **Final PR CI:** **#963 / run `35372830249` — full success**  
 **Final manual visual review:** **ACCEPTED / nine screenshots / no P0-P1 blocker**  
-**Merged-main CI / exact Cloudflare smoke:** **PENDING INDEPENDENT VERIFICATION**  
+**Set Reasoning implementation main CI:** **#964 / run `35375338099` — full success + exact Cloudflare production smoke**  
+**Set Reasoning post-merge docs main CI:** **#969 / run `35376512392` — full success + exact Cloudflare production smoke**  
+**Set Reasoning reuse:** **FULLY CLOSED / LIVE VERIFIED**  
 **Math spatial reuse audit:** PR #209 -> main `3e30a817ef86fa691f9b2f1249ac00bc00dce4e6` / exact 5-ID scope / JUSTIFIED / code not started  
 **Math spatial audit PR CI:** **#970 / run `35377295090` — full success**  
-**Math spatial audit main/Cloudflare verification:** **PENDING INDEPENDENT VERIFICATION**  
+**Math spatial audit main CI:** **#971 / run `35377783814` — full success + exact Cloudflare production smoke**  
+**Math spatial audit:** **MERGED / LIVE VERIFIED / runtime next**  
 **Math measurement reuse audit:** PR #210 -> main `f9833568dea0f021cd5c4ed94f6f6fc7505ad8d8` / exact 4 direct-choice IDs / JUSTIFIED / code not started  
 **Math measurement audit PR CI:** **#972 / run `35378121937` — full success**  
-**Math measurement audit main/Cloudflare verification:** **PENDING INDEPENDENT VERIFICATION**  
+**Math measurement audit main CI:** **#973 / run `35378825618` — full success + exact Cloudflare production smoke**  
+**Math measurement audit:** **MERGED / LIVE VERIFIED / runtime queued**  
 **Math measurement matching exclusion:** **`math-measure-match-length` remains matching**  
 **English completion reuse audit:** PR #211 -> main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52` / exact 5-ID scope / JUSTIFIED / code not started  
 **English cloze audit PR CI:** **#974 / run `35379084421` — full success**  
-**English cloze audit main/Cloudflare verification:** **PENDING INDEPENDENT VERIFICATION**  
-**Science environment-care reuse audit:** **Pattern #22 `healthy_habit_routine` / exact 4 direct-choice IDs / JUSTIFIED / code not started**  
+**English cloze audit main CI:** **#975 / run `35409217808` — full success + exact Cloudflare production smoke**  
+**English cloze audit:** **MERGED / LIVE VERIFIED / runtime queued**  
+**Science environment-care reuse audit:** PR #212 -> main `0fccffd769211e5b47be81ec5126c913d9c26fec` / exact 4 direct-choice IDs / JUSTIFIED / code not started  
+**Environment-care audit PR CI:** **#976 / run `35409354940` — full success**  
+**Environment-care audit main CI:** **#977 / run `35409698981` — full success + exact Cloudflare production smoke**  
+**Environment-care audit:** **MERGED / LIVE VERIFIED / runtime queued**  
 **Environment matching exclusion:** **`science-match-environment-actions-c` remains matching**  
-**Pending reuse runtime implementation:** **BLOCKED by preceding live/audit gates**  
+**Pending reuse runtime implementation:** **UNBLOCKED — Math spatial is next; later audited waves remain queued**  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
 
@@ -111,7 +119,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **47 FULLY CLOSED / REUSE MERGED / LIVE VERIFY PENDING** | PR #207 -> `9debb6cf`; final CI #963 green; main/Cloudflare verification pending |
+| WS-05 Gameplay diversification | **47 ACTIVE / SET REASONING REUSE FULLY CLOSED / NEXT REUSE RUNTIME UNBLOCKED** | Set Reasoning main CI #964 + docs #969 live verified; Math spatial audit main #971 live verified |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P45 merged-main permanent visual QA green; nine dedicated screenshots manually accepted |
@@ -200,7 +208,7 @@ manual review:            ACCEPTED / 9 screenshots / no P0-P1 blocker
 branch distribution:      47 active / choice_grid 228 / set_reasoning 10
 ```
 
-Final PR head `a37fdec7b3f89789999ce728c245ae17ee7f00bc` passed CI #963 / run `35372830249`; its artifacts verify 47 active / `choice_grid` 228 / `set_reasoning` 10 and the final nine screenshots remain manually accepted. PR #207 squash-merged unchanged to main `9debb6cf30f789125c45eff1b88e65e4eaff7978`. Independent merged-main CI and exact Cloudflare smoke are still required before live closure.
+Final PR head `a37fdec7b3f89789999ce728c245ae17ee7f00bc` passed CI #963 / run `35372830249`; its artifacts verify 47 active / `choice_grid` 228 / `set_reasoning` 10 and the final nine screenshots remain manually accepted. PR #207 squash-merged unchanged to main `9debb6cf30f789125c45eff1b88e65e4eaff7978`. Merged-main CI #964 / run `35375338099` and exact Cloudflare smoke verified the Set Reasoning implementation SHA. Post-merge docs main CI #969 / run `35376512392` also passed exact Cloudflare smoke. Set Reasoning reuse is **FULLY CLOSED / LIVE VERIFIED**.
 
 ### Next reuse audit — Math spatial -> `spatial_relation_board`
 
@@ -227,7 +235,7 @@ set_reasoning               10 / 900
 spatial_relation_board      11 / 900
 ```
 
-No Pattern #48 is created. Math runtime work is explicitly blocked until Set Reasoning live closure is independently resolved and this docs-only audit is merged/verified.
+No Pattern #48 is created. Math spatial audit main CI #971 / run `35377783814` passed exact Cloudflare smoke. Its implementation is now the **next authorized runtime wave** after the current live-verification closure docs are merged/live verified.
 
 Reuse audit record: `SPATIAL_RELATION_BOARD_MATH_POSITION_REUSE_AUDIT_2026-09-19.md`.
 
@@ -272,7 +280,7 @@ spatial_relation_board    11 / 900
 compare_properties         7 / 900
 ```
 
-Runtime remains blocked until preceding live/audit gates are resolved.
+This audit is live verified. Its runtime wave remains queued behind the earlier Math spatial full implementation/live closure.
 
 Reuse audit record: `COMPARE_PROPERTIES_MATH_MEASURE_REUSE_AUDIT_2026-09-19.md`.
 
@@ -698,9 +706,9 @@ P2 findings: 3
 3. Set Reasoning reuse PR #207 is merged to main `9debb6cf`; preserve exact scope, final CI #963 and accepted old+new QA evidence.
 4. Math spatial audit PR #209 is merged to `3e30a817`; PR CI #970 green; independent merged-main/Cloudflare verification is still pending and runtime stays unstarted.
 5. Math measurement audit PR #210 is merged to `f9833568`; PR CI #972 is green; independent main/Cloudflare verification remains pending and runtime stays unstarted.
-6. English cloze audit PR #211 is merged to `76e1eeb0`; PR CI #974 is green; independent main/Cloudflare verification remains pending and runtime stays unstarted.
-7. Science environment care -> Pattern #22 `healthy_habit_routine` reuse is justified for exactly four direct-choice activities; matching remains excluded.
-8. Merge/verify the environment-care docs audit while keeping all reuse runtime blocked.
-9. Runtime implementation begins only after the preceding live-verification chain is resolved.
+6. English cloze audit PR #211 -> `76e1eeb0` is live verified by main CI #975 + exact Cloudflare smoke.
+7. Environment-care audit PR #212 -> `0fccffd7` is live verified by main CI #977 + exact Cloudflare smoke; matching remains excluded.
+8. Merge/live-verify this reuse-chain closure docs change.
+9. Then start the exact five-ID Math spatial runtime reuse branch. Require exact-head CI, old Logic regression, Math keyboard/pointer/actual-touch QA, manual nine-shot review, exact merge, merged-main distribution and exact Cloudflare smoke before advancing to Math measurement.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
