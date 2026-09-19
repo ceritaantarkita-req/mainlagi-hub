@@ -132,9 +132,10 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Ecosystem closure docs: **PR #226 -> main `fb74c17d3af62e8845e7e0f4a2b8ad5ceaf962d5` / exact-head PR CI #1035 + closure-main CI #1036 full success / exact closure-main Cloudflare smoke / FULLY CLOSED / LIVE VERIFIED**
 - Ecosystem final verification record: `docs/PHENOMENON_RELATION_BOARD_ECOSYSTEM_REUSE_FINAL_CLOSURE_VERIFICATION_2026-09-19.md`
 - English concrete-vocabulary reuse audit: **PR #227 -> main `293db85d9c64bd714a856fd5f4d68104ff5fc61f` / PR CI #1046 + audit-main CI #1047 full success / exact Cloudflare production smoke / LIVE VERIFIED**
-- English picture-word runtime reuse: **PR #228 accepted checkpoint `94eaa68d5be1dc13bf3f7eab2b75514fceedd40c` / CI #1048 full success / 900/900 / 47 active / `choice_grid` 188 / `picture_word_match` 23 / KEEP 900 / 9-shot manual P0=0 P1=0 / FINAL DOCS CI PENDING**
+- English picture-word runtime reuse: **PR #228 -> main `3c9b6058994c58e2f51c2f133842c6b9dfede13f` / final PR CI #1053 + merged-main CI #1054 full success / exact Cloudflare production smoke / 900/900 / 47 active / `choice_grid` 188 / `picture_word_match` 23 / KEEP 900 / 9-shot P0=0 P1=0 / RUNTIME LIVE VERIFIED / DOCS CLOSURE ACTIVE**
 - Audit record: `docs/PICTURE_WORD_MATCH_ENGLISH_VOCAB_REUSE_AUDIT_2026-09-19.md`
 - Implementation wave: `docs/WS05_PICTURE_WORD_MATCH_ENGLISH_REUSE_WAVE_2026-09-19.md`
+- Post-merge closure record: `docs/PICTURE_WORD_MATCH_ENGLISH_VOCAB_REUSE_CLOSURE_2026-09-19.md`
 - Force/motion remains **not authorized** as one relation-board family because push/pull/gravity/friction evidence forms are heterogeneous.
 - Pattern #48 remains **NO JUSTIFIED NEW PATTERN YET**.
 
@@ -171,27 +172,26 @@ Runtime count is not gameplay-pattern count.
 
 Current WS-05 finish target: **50 meaningful patterns**. The former 60-pattern working target is non-blocking/deferred and is not part of the current finish scope.
 
-Verified current merged-main distribution after Pattern #47 plus live-verified Set Reasoning reuse:
+Verified current merged-main gameplay distribution after English picture-word reuse:
 
 ```text
 classified:                    900 / 900
 unclassified:                    0
 active merged patterns:         47
-choice_grid                    228 / 900
-elimination_board                5 / 900
-phenomenon_relation_board        4 / 900
+choice_grid                    188 / 900
+picture_word_match              23 / 900
+set_reasoning                   10 / 900
+spatial_relation_board          11 / 900
+compare_properties               7 / 900
+cloze_sentence_choice           10 / 900
+healthy_habit_routine            8 / 900
+phenomenon_relation_board        8 / 900
 shape_attribute_board            4 / 900
+elimination_board                5 / 900
 subitizing_glance                3 / 900
 single_rule_apply                 5 / 900
-growth_stage_transition          3 / 900
+growth_stage_transition           3 / 900
 phrase_scene_match               4 / 900
-set_reasoning                  10 / 900
-spatial_relation_board           6 / 900
-visual_word_problem              5 / 900
-cloze_sentence_choice            5 / 900
-reading_passage_question         5 / 900
-sentence_order_cards             5 / 900
-picture_word_match               5 / 900
 ```
 
 Remaining distance is **3 patterns** to the WS-05 finish target of 50. Pattern #47 is fully closed through docs-closure main `bbb61965c951a3dd2628b4b4be6d3b547b7fd68a` and closure-main CI #951 including exact Cloudflare production smoke.
