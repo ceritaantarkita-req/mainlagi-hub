@@ -241,12 +241,13 @@ english-complete-mother-family
 
 The existing five Bahasa cloze activities remain behaviorally stable. The implementation uses exact 10-ID fail-closed configuration plus subject-aware `id-ID` / `en-US` child-facing copy and never classifies by blank syntax alone.
 
-Accepted code checkpoint `a054b76b1e13cba03a255b9c60f0bd43deb9051f` passed CI #1003 / run `35430916587`. Branch distribution is 47 active / `choice_grid` 214 / `cloze_sentence_choice` 10 / `compare_properties` 7 / `spatial_relation_board` 11 / `set_reasoning` 10. Activity quality is KEEP 900 / 0 flagged. Nine dedicated screenshots were manually accepted with P0=0/P1=0.
+Accepted code checkpoint `a054b76b1e13cba03a255b9c60f0bd43deb9051f` passed CI #1003 / run `35430916587`. Final PR head `e0353c873bb5eee39190a881a6a7e972e136dff6` passed CI #1008 and PR #219 merged to main `e3c92cfe8c1050fdcca1599ae92d98a9345b04ca`. Main CI #1009 / run `35431721131` passed the full matrix plus exact-SHA Cloudflare smoke. Merged truth is 47 active / `choice_grid` 214 / `cloze_sentence_choice` 10 / `compare_properties` 7 / `spatial_relation_board` 11 / `set_reasoning` 10 / KEEP 900. Nine dedicated screenshots were manually accepted with P0=0/P1=0.
 
 Implementation wave: `WS05_CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_WAVE_2026-09-19.md`.  
+Closure record: `CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_CLOSURE_2026-09-19.md`.  
 Reuse audit record: `CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_AUDIT_2026-09-19.md`.
 
-Final docs exact-head CI and exact-head merge remain pending. Science environment-care runtime remains blocked until English merged-main CI + exact Cloudflare smoke close this wave.
+English cloze reuse is **FULLY CLOSED / LIVE VERIFIED**. Science environment-care is now the **NEXT / UNBLOCKED** runtime wave after this closure docs PR itself merges/live-verifies.
 
 Current next reuse audit: existing Pattern #22 `healthy_habit_routine` is justified for exactly four Science `science.environment.care.basic` direct-choice activities:
 
@@ -259,7 +260,7 @@ science-env-plant-care
 
 `science-match-environment-actions-c` remains canonical matching / `matching_accuracy_v1`.
 
-Reuse requires an explicit domain variant because the current component/copy/metadata are body-health specific. Existing four body-health activities must remain unchanged; environment-care gets domain-correct action-selection copy/metadata. The legacy Pattern #22 identifier remains for compatibility. Audit PR #212 -> main `0fccffd769211e5b47be81ec5126c913d9c26fec`; PR CI #976 and main CI #977 both passed, with #977 exact Cloudflare smoke. Audit is **LIVE VERIFIED**; runtime code has not started.
+Reuse requires an explicit domain variant because the current component/copy/metadata are body-health specific. Existing four body-health activities must remain unchanged; environment-care gets domain-correct action-selection copy/metadata. The legacy Pattern #22 identifier remains for compatibility. Audit PR #212 -> main `0fccffd769211e5b47be81ec5126c913d9c26fec`; PR CI #976 and main CI #977 both passed, with #977 exact Cloudflare smoke. Audit is **LIVE VERIFIED**; runtime code has not started and is now **NEXT / UNBLOCKED** after the English closure gate.
 
 Reuse audit record: `HEALTHY_HABIT_ROUTINE_ENVIRONMENT_CARE_REUSE_AUDIT_2026-09-19.md`.
 
