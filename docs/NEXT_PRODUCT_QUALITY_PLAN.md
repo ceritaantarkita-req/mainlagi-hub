@@ -724,7 +724,7 @@ P2 findings: 3
 4. Current docs-only work is the fresh English concrete-vocabulary audit: exactly eighteen direct-choice activities from animals, objects, body, family, food and actions -> existing `picture_word_match`.
 5. Keep English categories, listening, matching, opposites, phrase, sentence-completion and mixed-review activities outside this reuse scope.
 6. Do not start runtime implementation until this audit's exact-head merge and merged-main live-verification gate is satisfied.
-7. When authorized, generalize Pattern #35 with an exact 23-ID fail-closed config (5 legacy Bahasa + 18 English), subject-aware ID/EN copy, dedicated keyboard/pointer/actual-touch QA, nine-shot manual review, exact-head CI, exact merge and merged-main production verification.
+7. When authorized, generalize Pattern #35 with an exact 23-ID fail-closed config (5 legacy Bahasa + 18 English), subject-aware ID/EN copy, **leak-free generic English frame title/narration instead of answer-bearing canonical title/prompt**, dedicated keyboard/pointer/actual-touch QA, nine-shot manual review, exact-head CI, exact merge and merged-main production verification.
 8. Do not create Pattern #48 merely to reach the numeric target of 50. Iqro remains outside mechanic transformation until expert acceptance exists.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.

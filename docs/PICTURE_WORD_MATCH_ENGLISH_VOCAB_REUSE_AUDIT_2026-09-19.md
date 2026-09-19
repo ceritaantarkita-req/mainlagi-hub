@@ -257,6 +257,7 @@ For every approved ID, validate exact:
 - subject;
 - stage;
 - runtime `tap_choice`;
+- canonical activity title;
 - canonical prompt;
 - canonical three-choice order;
 - exact `correctChoice`;
@@ -281,13 +282,27 @@ english_word_picture
 Bahasa must preserve existing Indonesian copy and lowercase word behavior.
 
 English must use reviewed English child-facing copy and appropriate language metadata, for example:
+- generic frame title such as "Picture & Word";
+- generic leak-free narration such as "Look at the picture and choose the matching word.";
 - heading: "Look at the picture, find the word";
 - instruction: "Look carefully, then choose the word that matches.";
 - retry and success feedback in English;
 - English ARIA labels;
 - frame language appropriate for English content.
 
-This is presentation localization only. It must not change canonical activity content or correctness.
+### Target-leak prevention
+
+Several canonical English activity titles/prompts contain the answer token itself (for example `Find HEAD`, `Choose the word HAND.`, `Find MOTHER`, `Find RUN`). Those strings remain canonical source data and must be exact-validated, but the specialized English picture-word presentation must **not** expose or narrate those answer-bearing strings before submission.
+
+For the English variant:
+- `GardenActivityFrame` must use reviewed generic frame title/narration from the picture-word config rather than raw `activity.title` / `activity.prompt`;
+- intro copy must remain generic and must not contain the correct word;
+- the visual stimulus and three canonical choices are the evidence-bearing child interaction;
+- the correct word may appear in the answer slot/success copy only after correct submission.
+
+For the Bahasa variant, existing frame title/narration behavior remains stable because the audited Bahasa picture-word prompts use the picture as the target cue rather than spelling the answer.
+
+This is presentation localization and leak prevention only. It must not rewrite canonical stored activity content or change correctness.
 
 ## Evidence contract
 
@@ -319,20 +334,21 @@ An additive `domainVariant` / locale field is allowed for auditability.
 
 Before runtime merge:
 1. exactly 23 activities classify as `picture_word_match`: five legacy Bahasa + eighteen audited English;
-2. every approved config fails closed on ID/subject/stage/runtime/prompt/choice-order/answer/visual drift;
+2. every approved config fails closed on ID/subject/stage/runtime/title/prompt/choice-order/answer/visual drift;
 3. all excluded English direct choices remain outside Pattern #35;
 4. all five legacy Bahasa activities preserve current Indonesian copy, content and evidence;
-5. all eighteen English activities preserve canonical content and use reviewed English copy;
-6. wrong keyboard selection increments incorrect/retry and cannot complete;
-7. correct pointer selection completes;
-8. actual touchscreen completion is verified;
-9. all three choices remain equivalent selectable controls before submission;
-10. 320x720, 390x844 and 768x1024 representative English screenshots cover idle/wrong/success;
-11. no horizontal overflow;
-12. prompt, feedback and success CTA remain fully visible;
-13. permanent visual QA remains P0=0/P1=0;
-14. 900/900 classification remains complete;
-15. activity quality remains KEEP 900.
+5. all eighteen English activities preserve canonical stored content and use reviewed English copy;
+6. representative English idle UI/frame/narration is leak-free: answer-bearing canonical title/prompt strings are not exposed before submission;
+7. wrong keyboard selection increments incorrect/retry and cannot complete;
+8. correct pointer selection completes;
+9. actual touchscreen completion is verified;
+10. all three choices remain equivalent selectable controls before submission;
+11. 320x720, 390x844 and 768x1024 representative English screenshots cover idle/wrong/success;
+12. no horizontal overflow;
+13. instruction, feedback and success CTA remain fully visible;
+14. permanent visual QA remains P0=0/P1=0;
+15. 900/900 classification remains complete;
+16. activity quality remains KEEP 900.
 
 ## Distribution impact
 
