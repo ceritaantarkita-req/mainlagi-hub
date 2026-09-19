@@ -129,7 +129,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **47 ACTIVE / MATH MIXED-OPERATION REUSE AUDIT ACTIVE** | fresh exact 4-ID audit -> existing `make_total` + `take_away`; code not started; expected runtime `choice_grid` 179 / `make_total` 7 / `take_away` 7 / active patterns 47; Pattern #48 still unjustified |
+| WS-05 Gameplay diversification | **47 ACTIVE / MATH MIXED-OPERATION RUNTIME ACTIVE** | audit #237 -> main `c01d0bac`, CI #1087 exact production smoke; exact four direct-result IDs -> existing `make_total` + `take_away`; hardened exact 7+7 families + dedicated add/sub browser QA; expected `choice_grid` 179 / 7 / 7 / 47 active |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P45 merged-main permanent visual QA green; nine dedicated screenshots manually accepted |
@@ -720,13 +720,13 @@ P2 findings: 3
 
 ## Current execution order
 
-1. Preserve verified merged truth at **900/900 classified / 47 active / `choice_grid` 183 / `make_total` 5 / `take_away` 5 / `number_line` 11 / KEEP 900** while this audit remains docs-only.
-2. Current fresh audit approves exact reuse candidates inside Math `math.pack.mixed-operations`: `math-mixed-add-2-3` and `math-mixed-add-4-4` -> existing `make_total`; `math-mixed-sub-6-1` and `math-mixed-sub-9-3` -> existing `take_away`.
-3. `math-mixed-choose-add` is explicitly excluded because it asks the learner to choose an operation expression, not compute a numeric result.
-4. If implementation proceeds, harden complete exact families to 7 IDs each and fail closed on ID, subject, stage, runtime, title, prompt, exact choice order, answer and arithmetic config. Do not use broad numeric/prompt inference.
-5. Expected runtime result is **900/900 / 47 active / `choice_grid` 179 / `make_total` 7 / `take_away` 7 / KEEP 900**.
-6. This is existing-mechanic reuse, not Pattern #48. Do not create Pattern #48 merely to reach the numeric target of 50.
-7. English initial-sound direct-choice remains excluded from existing `initial_sound`; Science force/motion remains heterogeneous; Iqro remains outside mechanic transformation until expert acceptance exists.
-8. Runtime code must not start until this audit PR passes exact-head CI and merges.
+1. Preserve verified merged truth at **900/900 classified / 47 active / `choice_grid` 183 / `make_total` 5 / `take_away` 5 / `number_line` 11 / KEEP 900** until the runtime PR merges.
+2. Math mixed-operation reuse audit is live verified: PR #237 -> main `c01d0bac15e438640cacb5958db31c1a6ad36c66`; CI #1086/#1087 full success with exact audit-main Cloudflare smoke.
+3. Current runtime branch reuses existing `make_total` for exactly `math-mixed-add-2-3` + `math-mixed-add-4-4`, and existing `take_away` for exactly `math-mixed-sub-6-1` + `math-mixed-sub-9-3`.
+4. `math-mixed-choose-add` remains excluded because its assessed evidence is operation selection, not numeric-result computation.
+5. Complete mechanic families must remain exact 7-ID sets and fail closed on subject, stage, runtime, title, prompt, exact choice order, answer and arithmetic config.
+6. Dedicated mixed-operation QA must cover add + subtract at 320/390/768, legitimate progression, keyboard wrong/retry, pointer + actual touchscreen completion, touch targets, overflow, assessed evidence and explicit operation-selection exclusion while legacy mechanic QA remains green.
+7. Expected runtime result is **900/900 / 47 active / `choice_grid` 179 / `make_total` 7 / `take_away` 7 / KEEP 900**.
+8. This is existing-mechanic reuse, not Pattern #48. No next family is pre-approved.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.

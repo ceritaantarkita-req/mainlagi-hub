@@ -332,15 +332,16 @@ for(const activity of patternCompletion){
 }
 
 const expectedMakeTotal=new Set([
-  "math-add-1-1","math-add-2-1","math-add-2-2","math-add-3-2","math-add-4-3"
+  "math-add-1-1","math-add-2-1","math-add-2-2","math-add-3-2","math-add-4-3",
+  "math-mixed-add-2-3","math-mixed-add-4-4"
 ]);
 const makeTotal=ACTIVITIES.filter(activity=>choiceGameplayPresentation(activity)==="make_total");
 assert.equal(makeTotal.length,expectedMakeTotal.size,"make-total family size must remain intentional");
-assert.deepEqual(new Set(makeTotal.map(activity=>activity.id)),expectedMakeTotal,"only the five reviewed Math Wave C addition activities use Make Total");
+assert.deepEqual(new Set(makeTotal.map(activity=>activity.id)),expectedMakeTotal,"only the exact five legacy + two audited mixed-add activities use Make Total");
 for(const activity of makeTotal){
   assert.equal(activity.runtime,"tap_choice");
   assert.equal(activity.subjectId,"math");
-  assert.equal(activity.stageId,"math-operasi-awal");
+  assert(["math-operasi-awal","math-ukur-ruang"].includes(activity.stageId),"make-total stays inside audited Math stages");
   assert.equal((activity.choices??[]).length,3);
   assert.equal(new Set(activity.choices??[]).size,3,"make-total choices remain unique");
   assert((activity.choices??[]).every(choice=>/^\d+$/.test(choice)),"make-total choices remain numeric");
@@ -349,19 +350,20 @@ for(const activity of makeTotal){
   assert(config,`${activity.id} must have explicit Make Total config`);
   assert(config.leftCount>0&&config.rightCount>0,`${activity.id} keeps two visible non-empty groups`);
   assert.equal(config.leftCount+config.rightCount,Number(activity.correctChoice),`${activity.id} groups sum exactly to canonical correctChoice`);
-  assert(config.leftCount+config.rightCount<=10,`${activity.id} remains within canonical addition-within-10 objective`);
+  assert(config.leftCount+config.rightCount<=10,`${activity.id} remains within 10`);
 }
 
 const expectedTakeAway=new Set([
-  "math-sub-3-1","math-sub-4-2","math-sub-5-1","math-sub-6-2","math-sub-7-3"
+  "math-sub-3-1","math-sub-4-2","math-sub-5-1","math-sub-6-2","math-sub-7-3",
+  "math-mixed-sub-6-1","math-mixed-sub-9-3"
 ]);
 const takeAway=ACTIVITIES.filter(activity=>choiceGameplayPresentation(activity)==="take_away");
 assert.equal(takeAway.length,expectedTakeAway.size,"take-away family size must remain intentional");
-assert.deepEqual(new Set(takeAway.map(activity=>activity.id)),expectedTakeAway,"only the five reviewed Math Wave C subtraction activities use Take Away");
+assert.deepEqual(new Set(takeAway.map(activity=>activity.id)),expectedTakeAway,"only the exact five legacy + two audited mixed-sub activities use Take Away");
 for(const activity of takeAway){
   assert.equal(activity.runtime,"tap_choice");
   assert.equal(activity.subjectId,"math");
-  assert.equal(activity.stageId,"math-operasi-awal");
+  assert(["math-operasi-awal","math-ukur-ruang"].includes(activity.stageId),"take-away stays inside audited Math stages");
   assert.equal((activity.choices??[]).length,3);
   assert.equal(new Set(activity.choices??[]).size,3,"take-away choices remain unique");
   assert((activity.choices??[]).every(choice=>/^\d+$/.test(choice)),"take-away choices remain numeric");
