@@ -66,20 +66,22 @@
 **Final PR head:** `a37fdec7b3f89789999ce728c245ae17ee7f00bc`  
 **Final PR CI:** **#963 / run `35372830249` — full success**  
 **Final manual visual review:** **ACCEPTED / nine screenshots / no P0-P1 blocker**  
-**Merged-main CI / exact Cloudflare smoke:** **PENDING INDEPENDENT VERIFICATION**  
+**Set Reasoning merged-main CI:** **#964 / run `35375338099` — full success + exact Cloudflare production smoke**  
+**Set Reasoning closure-main CI:** **#969 / run `35376512392` — full success + exact Cloudflare production smoke**  
 **Math spatial reuse audit:** PR #209 -> main `3e30a817ef86fa691f9b2f1249ac00bc00dce4e6` / exact 5-ID scope / JUSTIFIED / code not started  
 **Math spatial audit PR CI:** **#970 / run `35377295090` — full success**  
-**Math spatial audit main/Cloudflare verification:** **PENDING INDEPENDENT VERIFICATION**  
+**Math spatial audit main verification:** **#971 / run `35377783814` — full success + exact Cloudflare production smoke**  
 **Math measurement reuse audit:** PR #210 -> main `f9833568dea0f021cd5c4ed94f6f6fc7505ad8d8` / exact 4 direct-choice IDs / JUSTIFIED / code not started  
 **Math measurement audit PR CI:** **#972 / run `35378121937` — full success**  
-**Math measurement audit main/Cloudflare verification:** **PENDING INDEPENDENT VERIFICATION**  
+**Math measurement audit main verification:** **#973 / run `35378825618` — full success + exact Cloudflare production smoke**  
 **Math measurement matching exclusion:** **`math-measure-match-length` remains matching**  
 **English completion reuse audit:** PR #211 -> main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52` / exact 5-ID scope / JUSTIFIED / code not started  
 **English cloze audit PR CI:** **#974 / run `35379084421` — full success**  
-**English cloze audit main/Cloudflare verification:** **PENDING INDEPENDENT VERIFICATION**  
+**English cloze audit main verification:** **#975 / run `35409217808` — full success + exact Cloudflare production smoke**  
 **Science environment-care reuse audit:** **Pattern #22 `healthy_habit_routine` / exact 4 direct-choice IDs / JUSTIFIED / code not started**  
 **Environment matching exclusion:** **`science-match-environment-actions-c` remains matching**  
-**Pending reuse runtime implementation:** **BLOCKED by preceding live/audit gates**  
+**Environment-care audit main verification:** **#977 / run `35409698981` — full success + exact Cloudflare production smoke**  
+**Next runtime implementation:** **Math spatial -> `spatial_relation_board` / exact 5-ID scope / AUTHORIZED after this closure docs PR live-verifies**  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
 
@@ -698,9 +700,11 @@ P2 findings: 3
 3. Set Reasoning reuse PR #207 is merged to main `9debb6cf`; preserve exact scope, final CI #963 and accepted old+new QA evidence.
 4. Math spatial audit PR #209 is merged to `3e30a817`; PR CI #970 green; independent merged-main/Cloudflare verification is still pending and runtime stays unstarted.
 5. Math measurement audit PR #210 is merged to `f9833568`; PR CI #972 is green; independent main/Cloudflare verification remains pending and runtime stays unstarted.
-6. English cloze audit PR #211 is merged to `76e1eeb0`; PR CI #974 is green; independent main/Cloudflare verification remains pending and runtime stays unstarted.
-7. Science environment care -> Pattern #22 `healthy_habit_routine` reuse is justified for exactly four direct-choice activities; matching remains excluded.
-8. Merge/verify the environment-care docs audit while keeping all reuse runtime blocked.
-9. Runtime implementation begins only after the preceding live-verification chain is resolved.
+6. Set Reasoning implementation and closure are independently live verified (#964 and #969).
+7. Math spatial audit is independently live verified (#971); after this closure docs PR merges/live-verifies, start exact five-ID Math spatial implementation.
+8. Math measurement audit is independently live verified (#973) and stays queued behind Math spatial.
+9. English cloze audit is independently live verified (#975) and stays queued behind Math measurement.
+10. Science environment-care audit is independently live verified (#977) and stays queued behind English cloze.
+11. Do not create Pattern #48 unless a later fresh audit proves reuse cannot preserve the evidence contract.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
