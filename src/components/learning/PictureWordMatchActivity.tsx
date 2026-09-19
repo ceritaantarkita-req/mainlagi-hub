@@ -10,6 +10,37 @@ import { emitLearningRuntimeMeasurement } from "@/lib/learning/runtimeMeasuremen
 import { completeActivity, getActivity } from "@/lib/learning/system";
 import styles from "./PictureWordMatchActivity.module.css";
 
+const copy = {
+  "id-ID": {
+    heading: "Lihat gambar, cari katanya",
+    instruction: "Amati objeknya lalu sentuh kata yang paling cocok.",
+    pictureHint: "Objek apa ini?",
+    choiceGroup: "Pilih kata yang cocok",
+    choiceAria: "Pilih kata",
+    pictureAria: "Gambar",
+    pendingAnswer: "Kata belum dipilih",
+    answerAria: "Kata",
+    correctLead: "Tepat!",
+    retry: "💡 Belum tepat. Lihat lagi bentuk objeknya lalu cocokkan dengan kata.",
+    idle: "💡 Perhatikan gambarnya dulu, lalu baca tiga pilihan kata.",
+    next: "Pilih permainan lain"
+  },
+  "en-US": {
+    heading: "Look at the picture, find the word",
+    instruction: "Look carefully, then choose the word that matches.",
+    pictureHint: "What does the picture show?",
+    choiceGroup: "Choose the matching word",
+    choiceAria: "Choose word",
+    pictureAria: "Picture of",
+    pendingAnswer: "Word not chosen yet",
+    answerAria: "Word",
+    correctLead: "Correct!",
+    retry: "💡 Not quite. Look at the picture again, then try another word.",
+    idle: "💡 Look at the picture first, then read the three word choices.",
+    next: "Choose another activity"
+  }
+} as const;
+
 export function PictureWordMatchActivity({ childId, activityId }: { childId: string; activityId: string }) {
   const activity = getActivity(activityId);
   const spec = getActivityLearningSpec(activityId);
@@ -25,6 +56,13 @@ export function PictureWordMatchActivity({ childId, activityId }: { childId: str
   }, []);
 
   if (!activity || !config || !isPictureWordMatchActivity(activity) || !activity.correctChoice) return null;
+
+  const ui = copy[config.locale];
+  const isEnglish = config.locale === "en-US";
+  const frameTitle = isEnglish ? "Picture & Word" : activity.title;
+  const narration = isEnglish
+    ? "Look at the picture and choose the matching word."
+    : activity.prompt ?? activity.title;
 
   const choose = (choice: string) => {
     if (feedback === "good") return;
@@ -57,7 +95,8 @@ export function PictureWordMatchActivity({ childId, activityId }: { childId: str
           evidenceFidelity: assessed ? "choice_picture_word_match_interaction" : "completion_only",
           picture: config.picture,
           word: config.spokenWord,
-          selectedChoice: choice
+          selectedChoice: choice,
+          domainVariant: config.domainVariant
         }
       }
     });
@@ -68,33 +107,39 @@ export function PictureWordMatchActivity({ childId, activityId }: { childId: str
   return (
     <GardenActivityFrame
       backHref={`/child/${childId}/subject/${activity.subjectId}`}
-      title={activity.title}
-      narration={activity.prompt ?? activity.title}
-      lang="id-ID"
+      title={frameTitle}
+      narration={narration}
+      lang={config.locale}
       spacious
     >
       <section
         ref={sceneRef}
         className={`${styles.scene} ${feedback === "good" ? styles.sceneDone : ""}`}
         data-picture-word-match
+        data-picture-word-locale={config.locale}
+        data-picture-word-variant={config.domainVariant}
       >
         <div className={styles.promptCard}>
           <span className={styles.promptIcon} aria-hidden>👀</span>
           <div>
-            <h1>Lihat gambar, cari katanya</h1>
-            <p>Amati objeknya lalu sentuh kata yang paling cocok.</p>
+            <h1>{ui.heading}</h1>
+            <p>{ui.instruction}</p>
           </div>
         </div>
 
         <div className={styles.pictureBoard} data-picture-word-match-board>
-          <div className={styles.picture} aria-label={`Gambar ${config.spokenWord}`}>{config.picture}</div>
-          <div className={styles.answerSlot} data-picture-word-match-result aria-label={feedback === "good" ? `Kata ${activity.correctChoice}` : "Kata belum dipilih"}>
+          <div className={styles.picture} aria-label={`${ui.pictureAria} ${config.spokenWord}`}>{config.picture}</div>
+          <div
+            className={styles.answerSlot}
+            data-picture-word-match-result
+            aria-label={feedback === "good" ? `${ui.answerAria} ${activity.correctChoice}` : ui.pendingAnswer}
+          >
             {feedback === "good" ? activity.correctChoice : "?"}
           </div>
-          <span className={styles.pictureHint}>Objek apa ini?</span>
+          <span className={styles.pictureHint}>{ui.pictureHint}</span>
         </div>
 
-        <div className={styles.choiceGrid} role="group" aria-label="Pilih kata yang cocok">
+        <div className={styles.choiceGrid} role="group" aria-label={ui.choiceGroup}>
           {(activity.choices ?? []).map((choice) => {
             const active = selected === choice;
             return (
@@ -102,7 +147,7 @@ export function PictureWordMatchActivity({ childId, activityId }: { childId: str
                 key={choice}
                 type="button"
                 className={`${styles.choiceButton} ${active ? styles.selected : ""} ${active && feedback === "try" ? styles.wrong : ""} ${active && feedback === "good" ? styles.correct : ""}`}
-                aria-label={`Pilih kata ${choice}`}
+                aria-label={`${ui.choiceAria} ${choice}`}
                 aria-pressed={active}
                 data-picture-word-match-choice
                 onClick={() => choose(choice)}
@@ -116,14 +161,14 @@ export function PictureWordMatchActivity({ childId, activityId }: { childId: str
 
         <div className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.statusGood : ""}`} role="status" aria-live="polite">
           {feedback === "good"
-            ? `⭐ Tepat! ${config.successText}`
+            ? `⭐ ${ui.correctLead} ${config.successText}`
             : feedback === "try"
-              ? "💡 Belum tepat. Lihat lagi bentuk objeknya lalu cocokkan dengan kata."
-              : "💡 Perhatikan gambarnya dulu, lalu baca tiga pilihan kata."}
+              ? ui.retry
+              : ui.idle}
         </div>
 
         {feedback === "good" ? (
-          <Link className={styles.nextLink} href={`/child/${childId}/subject/${activity.subjectId}`}>Pilih permainan lain</Link>
+          <Link className={styles.nextLink} href={`/child/${childId}/subject/${activity.subjectId}`}>{ui.next}</Link>
         ) : null}
       </section>
     </GardenActivityFrame>

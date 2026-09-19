@@ -212,8 +212,9 @@ try {
   assert.equal(overall.spatial_relation_board, 11, "Math spatial reuse must classify exactly six legacy Logic + five Math activities");
   assert.equal(overall.compare_properties, 7, "Math measurement reuse must classify exactly three legacy Science + four Math activities");
   assert.equal(overall.cloze_sentence_choice, 10, "English sentence-completion reuse must classify exactly five Bahasa + five English activities");
+  assert.equal(overall.picture_word_match, 23, "English vocabulary reuse must classify exactly five legacy Bahasa + eighteen English activities");
   assert.equal(overall.healthy_habit_routine, 8, "Environment-care reuse must classify exactly four body-health + four environment-care activities");
-  assert.equal(overall.choice_grid, 206, "Ecosystem relation reuse moves exactly four additional audited Science activities out of choice_grid");
+  assert.equal(overall.choice_grid, 188, "English picture-word reuse moves exactly eighteen audited English vocabulary activities out of choice_grid");
   assert.equal(activePatterns.length, 47, "Reuse waves must not create a new gameplay pattern");
 
   console.log("GAMEPLAY_DISTRIBUTION_AUDIT_SUMMARY", JSON.stringify({

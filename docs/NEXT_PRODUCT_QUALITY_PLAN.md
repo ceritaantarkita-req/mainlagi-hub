@@ -129,7 +129,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **47 ACTIVE / ENGLISH PICTURE-WORD REUSE AUDIT ACTIVE** | ecosystem reuse fully closed through closure-main CI #1036 exact Cloudflare smoke; fresh exact 18-ID English -> `picture_word_match` audit complete; runtime waits for this audit merge/live verification |
+| WS-05 Gameplay diversification | **47 ACTIVE / ENGLISH PICTURE-WORD CHECKPOINT ACCEPTED** | PR #228 accepted head `94eaa68d`; CI #1048 full success; 900/900 / `choice_grid` 188 / `picture_word_match` 23 / KEEP 900; nine-shot manual P0=0/P1=0; final docs exact-head CI pending before merge |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P45 merged-main permanent visual QA green; nine dedicated screenshots manually accepted |
@@ -718,13 +718,13 @@ P2 findings: 3
 
 ## Current execution order
 
-1. Keep the verified merged runtime baseline unchanged at **900/900 classified / 47 active / `choice_grid` 206 / `phenomenon_relation_board` 8 / KEEP 900**.
-2. Ecosystem relation runtime is live verified through PR #225 -> main `0dd89c5d`, final PR CI #1033 and merged-main CI #1034 exact Cloudflare smoke.
-3. Ecosystem closure docs PR #226 -> main `fb74c17d` are fully closed: exact-head PR CI #1035 and closure-main CI #1036 passed, including exact-SHA Cloudflare production smoke.
-4. Current docs-only work is the fresh English concrete-vocabulary audit: exactly eighteen direct-choice activities from animals, objects, body, family, food and actions -> existing `picture_word_match`.
-5. Keep English categories, listening, matching, opposites, phrase, sentence-completion and mixed-review activities outside this reuse scope.
-6. Do not start runtime implementation until this audit's exact-head merge and merged-main live-verification gate is satisfied.
-7. When authorized, generalize Pattern #35 with an exact 23-ID fail-closed config (5 legacy Bahasa + 18 English), subject-aware ID/EN copy, **leak-free generic English frame title/narration instead of answer-bearing canonical title/prompt**, dedicated keyboard/pointer/actual-touch QA, nine-shot manual review, exact-head CI, exact merge and merged-main production verification.
+1. Keep merged `main` truth at **900/900 classified / 47 active / `choice_grid` 206 / `picture_word_match` 5 / `phenomenon_relation_board` 8 / KEEP 900** until the current runtime PR merges.
+2. English concrete-vocabulary reuse audit #227 is fully live verified: exact head `2847f6f0` passed PR CI #1046, merged to main `293db85d`, and audit-main CI #1047 passed exact-SHA Cloudflare production smoke.
+3. Current runtime work is exact reuse of Pattern #35 `picture_word_match` for 18 English animal/object/body/family/food/action direct-choice activities.
+4. Implementation must remain exactly 23 IDs total: five legacy Bahasa + eighteen English. Title, prompt, choice order, answer, subject, stage and runtime drift fail closed.
+5. Preserve English categories, listening, matching, opposites, phrase, sentence-completion and mixed-review activities outside this scope.
+6. English specialized presentation must use generic leak-free frame title/narration rather than answer-bearing canonical title/prompt; canonical stored content remains unchanged and exact-validated.
+7. Acceptance through head `94eaa68d` is complete: CI #1048 full success, 900/900 distribution with 47 active / `choice_grid` 188 / `picture_word_match` 23, KEEP 900, legacy + English browser QA green, and nine-shot manual P0=0/P1=0. Final docs exact-head CI is now the only pre-merge gate; after that require exact merge, merged-main production smoke, then closure docs.
 8. Do not create Pattern #48 merely to reach the numeric target of 50. Iqro remains outside mechanic transformation until expert acceptance exists.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.

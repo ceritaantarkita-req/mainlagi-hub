@@ -131,8 +131,10 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Ecosystem relation closure record: `docs/PHENOMENON_RELATION_BOARD_ECOSYSTEM_REUSE_CLOSURE_2026-09-19.md`
 - Ecosystem closure docs: **PR #226 -> main `fb74c17d3af62e8845e7e0f4a2b8ad5ceaf962d5` / exact-head PR CI #1035 + closure-main CI #1036 full success / exact closure-main Cloudflare smoke / FULLY CLOSED / LIVE VERIFIED**
 - Ecosystem final verification record: `docs/PHENOMENON_RELATION_BOARD_ECOSYSTEM_REUSE_FINAL_CLOSURE_VERIFICATION_2026-09-19.md`
-- Fresh English concrete-vocabulary reuse audit: **exact 18 IDs -> existing `picture_word_match` / docs-only / prior ecosystem closure gate resolved by CI #1036 / runtime code not started / expected only after later verified implementation: `choice_grid` 188, `picture_word_match` 23, active patterns remain 47**
+- English concrete-vocabulary reuse audit: **PR #227 -> main `293db85d9c64bd714a856fd5f4d68104ff5fc61f` / PR CI #1046 + audit-main CI #1047 full success / exact Cloudflare production smoke / LIVE VERIFIED**
+- English picture-word runtime reuse: **PR #228 accepted checkpoint `94eaa68d5be1dc13bf3f7eab2b75514fceedd40c` / CI #1048 full success / 900/900 / 47 active / `choice_grid` 188 / `picture_word_match` 23 / KEEP 900 / 9-shot manual P0=0 P1=0 / FINAL DOCS CI PENDING**
 - Audit record: `docs/PICTURE_WORD_MATCH_ENGLISH_VOCAB_REUSE_AUDIT_2026-09-19.md`
+- Implementation wave: `docs/WS05_PICTURE_WORD_MATCH_ENGLISH_REUSE_WAVE_2026-09-19.md`
 - Force/motion remains **not authorized** as one relation-board family because push/pull/gravity/friction evidence forms are heterogeneous.
 - Pattern #48 remains **NO JUSTIFIED NEW PATTERN YET**.
 

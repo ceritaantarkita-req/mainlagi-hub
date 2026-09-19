@@ -1,6 +1,6 @@
 # Picture Word Match Reuse Audit — English Concrete Vocabulary — 19 September 2026
 
-Status: **AUDIT COMPLETE / REUSE JUSTIFIED FOR EXACT 18 ENGLISH IDS / CODE NOT STARTED / IMPLEMENTATION QUEUED AFTER AUDIT LIVE VERIFICATION**
+Status: **AUDIT COMPLETE / LIVE VERIFIED / REUSE JUSTIFIED FOR EXACT 18 ENGLISH IDS / IMPLEMENTATION ACTIVE**
 
 ## Purpose
 
@@ -390,3 +390,17 @@ This audit does not approve:
 **Reuse existing Pattern #35 `picture_word_match` for exactly eighteen English concrete-vocabulary direct-choice activities is justified.**
 
 The next runtime change, after this audit is merged and independently live verified, should generalize Pattern #35 with exact 23-ID fail-closed configuration, explicit Bahasa/English presentation variants, dedicated regression/browser QA, exact-head CI, manual visual acceptance, exact merge, and merged-main production verification.
+
+
+## Post-merge live verification
+
+```text
+Audit PR:                 #227
+Exact PR head:            2847f6f0a4171bfd78d4243eb5ed477e1a4390f9
+PR CI:                    #1046 / run 35446033060 — full success
+Audit main:               293db85d9c64bd714a856fd5f4d68104ff5fc61f
+Audit-main CI:            #1047 / run 35447487277 — full success
+Cloudflare production:    exact audit-main SHA PASS
+```
+
+The audit is **LIVE VERIFIED**. Exact-scope runtime implementation is now authorized; Pattern #48 remains unjustified.
