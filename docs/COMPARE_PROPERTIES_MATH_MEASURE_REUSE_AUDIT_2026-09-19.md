@@ -1,6 +1,6 @@
 # Compare Properties Reuse Audit — Math Measure Intuition — 19 September 2026
 
-Status: **AUDIT COMPLETE / REUSE JUSTIFIED FOR EXACT 4 DIRECT-CHOICE IDS / CODE NOT STARTED / IMPLEMENTATION BLOCKED BY PRIOR LIVE-CLOSURE GATES**
+Status: **AUDIT COMPLETE / LIVE VERIFIED / REUSE JUSTIFIED FOR EXACT 4 DIRECT-CHOICE IDS / CODE NOT STARTED / IMPLEMENTATION QUEUED**
 
 ## Purpose
 
@@ -20,7 +20,6 @@ Math spatial reuse audit:       PR #209 -> main 3e30a817 / PR CI #970 success
 Math spatial runtime:           not started
 ```
 
-This audit may advance documentation/evidence only. Runtime implementation remains blocked until the preceding reuse/live-verification gates are resolved.
 
 ## Canonical Math family
 
@@ -327,10 +326,15 @@ This audit does not approve:
 
 The binary activities can reuse the current presentation model directly. The three-candidate activities require a first-class multi-candidate presentation variant so every canonical answer remains equally represented. This is a controlled generalization of the existing mechanic, not a new gameplay pattern.
 
+## Post-merge audit verification
+
+PR #210 merged the docs-only audit to main `f9833568dea0f021cd5c4ed94f6f6fc7505ad8d8`. Exact-head PR CI #972 / run `35378121937` passed. Push-to-`main` CI #973 / run `35378825618` then passed the full matrix including exact-SHA Cloudflare production smoke for `f9833568...`.
+
+This audit is therefore live verified. Runtime remains intentionally queued behind full Math spatial implementation/live closure so reuse waves stay independently reviewable.
+
 ## Next gate
 
-1. merge and verify this docs-only audit;
-2. keep Set Reasoning live closure and Math spatial audit/live gates explicit;
-3. do not start Math measurement runtime before earlier prerequisite gates are resolved;
-4. when eligible, implement exact config variants, legacy Science regressions, Math browser/touch QA and distribution gates on a separate branch;
-5. require exact-head CI, manual visual acceptance, exact merge, merged-main Cloudflare verification and post-merge docs closure.
+1. keep this audit as the queued second runtime reuse wave;
+2. do not begin implementation until Math spatial reuse is fully merged, live verified and post-merge documented;
+3. then implement exact binary vs multi-candidate config for the four audited Math IDs while preserving the three legacy Science activities and the excluded matching activity;
+4. require exact-head CI, representative multi-candidate keyboard/pointer/actual-touch QA, manual visual acceptance, exact merge and merged-main Cloudflare verification.
