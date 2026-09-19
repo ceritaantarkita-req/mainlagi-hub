@@ -142,6 +142,8 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Math missing-number implementation wave: `docs/WS05_NUMBER_LINE_MATH_MISSING_REUSE_WAVE_2026-09-19.md`
 - Math missing-number post-merge closure: `docs/NUMBER_LINE_MATH_MISSING_NUMBER_REUSE_CLOSURE_2026-09-19.md`
 - Math missing-number final closure verification: `docs/NUMBER_LINE_MATH_MISSING_NUMBER_REUSE_FINAL_CLOSURE_VERIFICATION_2026-09-19.md`
+- Final verification publication: PR #234 -> main `c023a5757daea7c7948fb09764c672b9c2ff74ea`; push CI #1071 passed product/runtime/build/Windows/Chromium/secret gates but dependency audit failed twice. Recovery PR #235 with npm 11.19.1 confirmed npm Bulk Advisory `503 Service Unavailable` during scheduled registry maintenance; **CI RECOVERY ACTIVE** with bounded retry only for explicit transient 5xx/429/network conditions, then pinned Google OSV-Scanner v2.3.5 production-lock fallback if npm remains unavailable. Vulnerability findings, fallback failure, lockfile, dependency versions and blocking semantics remain fail-closed/unchanged.
+- Dependency-audit recovery record: `docs/PRODUCTION_DEPENDENCY_AUDIT_RECOVERY_2026-09-20.md`
 - Force/motion remains **not authorized** as one relation-board family because push/pull/gravity/friction evidence forms are heterogeneous.
 - Pattern #48 remains **NO JUSTIFIED NEW PATTERN YET**.
 

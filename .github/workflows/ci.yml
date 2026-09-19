@@ -169,10 +169,67 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26.2'
       - name: Install dependencies
         run: npm ci --no-audit --no-fund
+      - name: Pin current npm audit client
+        run: |
+          npm install --global npm@11.19.1 --no-audit --no-fund
+          npm --version
       - name: Audit production dependencies
-        run: npm audit --omit=dev --audit-level=high
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          max_attempts=4
+          transient_exhausted=0
+
+          for attempt in $(seq 1 "$max_attempts"); do
+            set +e
+            audit_output="$(npm audit --omit=dev --audit-level=high 2>&1)"
+            audit_status=$?
+            set -e
+
+            printf '%s\n' "$audit_output"
+
+            if [[ "$audit_status" -eq 0 ]]; then
+              exit 0
+            fi
+
+            if grep -Eqi '503 Service Unavailable|502 Bad Gateway|504 Gateway Timeout|429 Too Many Requests|performing maintenance|ECONNRESET|ETIMEDOUT|EAI_AGAIN' <<<"$audit_output"; then
+              if [[ "$attempt" -lt "$max_attempts" ]]; then
+                delay=$((attempt * 15))
+                echo "Transient npm audit registry failure on attempt $attempt/$max_attempts; retrying in ${delay}s."
+                sleep "$delay"
+                continue
+              fi
+
+              transient_exhausted=1
+              break
+            fi
+
+            exit "$audit_status"
+          done
+
+          if [[ "$transient_exhausted" -ne 1 ]]; then
+            exit 1
+          fi
+
+          echo "npm audit advisory service remained unavailable; running pinned production-only OSV fallback."
+          go install github.com/google/osv-scanner/v2/cmd/osv-scanner@v2.3.5
+
+          cat > /tmp/osv-production.toml <<'EOF'
+          [[PackageOverrides]]
+          group = "dev"
+          ignore = true
+          reason = "Production-only fallback while npm advisory service is unavailable"
+          EOF
+
+          "$(go env GOPATH)/bin/osv-scanner" scan source \
+            --lockfile=package-lock.json \
+            --config=/tmp/osv-production.toml \
+            --format=vertical
 
   production-smoke:
     name: Production smoke (Cloudflare)
