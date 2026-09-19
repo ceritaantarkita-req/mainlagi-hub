@@ -49,8 +49,8 @@ const CONFIGS: Record<string, ComparePropertiesConfig> = {
     variant: "binary_compare",
     expectedSubjectId: "science",
     expectedStageId: "science-earth-body-environment",
-    expectedPrompt: "Pensil A panjangnya 12 cm, Pensil B 8 cm. Mana yang lebih pendek?",
-    expectedChoices: ["Pensil A", "Pensil B", "keduanya pasti sama"],
+    expectedPrompt: "Pensil A lebih panjang dari Pensil B. Mana yang lebih pendek?",
+    expectedChoices: ["Pensil B", "Pensil A", "keduanya pasti sama"],
     expectedCorrectChoice: "Pensil B",
     propertyKind: "length",
     goal: "shorter",
@@ -65,7 +65,7 @@ const CONFIGS: Record<string, ComparePropertiesConfig> = {
     variant: "binary_compare",
     expectedSubjectId: "science",
     expectedStageId: "science-earth-body-environment",
-    expectedPrompt: "Mana yang suhunya lebih rendah?",
+    expectedPrompt: "Es terasa dingin dan teh hangat terasa hangat. Mana yang suhunya lebih rendah?",
     expectedChoices: ["es", "teh hangat", "keduanya selalu sama"],
     expectedCorrectChoice: "es",
     propertyKind: "temperature",
@@ -81,7 +81,7 @@ const CONFIGS: Record<string, ComparePropertiesConfig> = {
     variant: "binary_compare",
     expectedSubjectId: "science",
     expectedStageId: "science-earth-body-environment",
-    expectedPrompt: "Gelas A berisi lebih banyak air daripada Gelas B. Mana yang berisi lebih banyak air?",
+    expectedPrompt: "Gelas A berisi lebih banyak air daripada Gelas B. Mana yang isinya lebih banyak?",
     expectedChoices: ["Gelas A", "Gelas B", "tidak ada air"],
     expectedCorrectChoice: "Gelas A",
     propertyKind: "fill",
@@ -182,7 +182,7 @@ export function comparePropertiesConfig(activity: LearningActivity | undefined):
 
   if (config.variant === "binary_compare") {
     const mappedChoices = [config.left.choice, config.right.choice, config.otherChoice];
-    if (!arraysEqual(mappedChoices, config.expectedChoices)) return null;
+    if (new Set(mappedChoices).size !== 3 || mappedChoices.some((choice) => !config.expectedChoices.includes(choice))) return null;
     const correctChoice = compareChoiceForTarget(config, config.correctTarget);
     if (correctChoice !== config.expectedCorrectChoice) return null;
     return config;
