@@ -1,12 +1,12 @@
 # Picture Word Match Reuse Audit — English Concrete Vocabulary — 19 September 2026
 
-Status: **AUDIT COMPLETE / REUSE JUSTIFIED FOR EXACT 18 ENGLISH IDS / CODE NOT STARTED / RUNTIME BLOCKED ON PRIOR CLOSURE GATE**
+Status: **AUDIT COMPLETE / REUSE JUSTIFIED FOR EXACT 18 ENGLISH IDS / CODE NOT STARTED / IMPLEMENTATION QUEUED AFTER AUDIT LIVE VERIFICATION**
 
 ## Purpose
 
 Evaluate whether existing Pattern #35 `picture_word_match` can safely represent the remaining concrete English picture-to-word direct-choice vocabulary families without creating Pattern #48.
 
-This is a docs-only, reuse-first audit. It authorizes no runtime change until the preceding ecosystem relation closure-main verification is independently evidenced.
+This is a docs-only, reuse-first audit. The preceding ecosystem relation closure is now independently verified through closure-main CI #1036 and exact Cloudflare production smoke. Runtime implementation remains gated on this audit itself merging and becoming live verified.
 
 ## Audit base
 
@@ -14,7 +14,7 @@ This is a docs-only, reuse-first audit. It authorizes no runtime change until th
 canonical main:                    fb74c17d3af62e8845e7e0f4a2b8ad5ceaf962d5
 ecosystem closure docs PR:        #226 -> main fb74c17d
 ecosystem closure exact-head CI:  #1035 / run 35444250203 — full success
-ecosystem closure-main CI:        independent run evidence still pending
+ecosystem closure-main CI:        #1036 / run 35444579513 — full success + exact Cloudflare smoke
 classified:                       900 / 900
 unclassified:                       0
 active gameplay patterns:          47
@@ -367,10 +367,10 @@ This audit does not approve:
 - mastery/progression changes;
 - schema/database migration;
 - Pattern #48;
-- runtime implementation before the prior ecosystem closure-main verification is resolved.
+- runtime implementation before this audit is merged and independently live verified.
 
 ## Decision
 
 **Reuse existing Pattern #35 `picture_word_match` for exactly eighteen English concrete-vocabulary direct-choice activities is justified.**
 
-The next runtime change, after prior closure gates are independently satisfied, should generalize Pattern #35 with exact 23-ID fail-closed configuration, explicit Bahasa/English presentation variants, dedicated regression/browser QA, exact-head CI, manual visual acceptance, exact merge, and merged-main production verification.
+The next runtime change, after this audit is merged and independently live verified, should generalize Pattern #35 with exact 23-ID fail-closed configuration, explicit Bahasa/English presentation variants, dedicated regression/browser QA, exact-head CI, manual visual acceptance, exact merge, and merged-main production verification.
