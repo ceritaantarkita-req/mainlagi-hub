@@ -1,6 +1,6 @@
 # WS-05 Number Line Math Missing-Number Reuse Wave — 19 September 2026
 
-Status: **IMPLEMENTATION ACCEPTED / FINAL EXACT-HEAD CI REQUIRED / AUDIT LIVE VERIFIED**
+Status: **RUNTIME FULLY VERIFIED / DOCS CLOSURE ACTIVE / AUDIT LIVE VERIFIED**
 
 ## Audit gate
 
@@ -280,18 +280,21 @@ Observed acceptance:
 
 Because this acceptance evidence changes docs after the accepted runtime checkpoint, the final PR head must pass the complete CI gate again before merge.
 
-## Before merge
+## Runtime merge verification
 
-1. exact-head full CI green;
-2. gameplay distribution exactly 900/900 / 47 / 183 / 11;
-3. activity quality KEEP 900;
-4. dedicated Wave C browser QA green;
-5. legacy Number Line browser QA green;
-6. manual nine-shot P0/P1 review accepted;
-7. review threads/comments clean;
-8. squash merge exact current head SHA;
-9. merged-main full CI + exact Cloudflare production smoke;
-10. post-merge closure documentation.
+```text
+Final PR head:          2a0da3a4d6e931393b339fdde746f3711de4428e
+Final exact-head CI:    #1066 / run 35455042701 — full success
+Implementation main:    3b37520f3648f477f71eee1ae9c36c870a660403
+Merged-main CI:         #1067 / run 35455485997 — full success
+Cloudflare smoke:       exact implementation-main SHA PASS
+```
+
+Runtime is live verified with merged distribution 900/900 classified, 47 active patterns, `choice_grid` 183, `number_line` 11 and KEEP 900.
+
+Post-merge closure record: `NUMBER_LINE_MATH_MISSING_NUMBER_REUSE_CLOSURE_2026-09-19.md`.
+
+The remaining gate is the independent docs-closure PR and closure-main exact-SHA production verification.
 
 ## Explicit exclusions
 
