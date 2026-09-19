@@ -90,20 +90,21 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Math spatial implementation PR CI: **#986 / run `35421866386` — full success**
 - Math spatial implementation main CI: **#987 / run `35422469117` — full success + exact Cloudflare production smoke**
 - Math spatial merged distribution: **47 active / `choice_grid` 223 / `spatial_relation_board` 11 / `set_reasoning` 10**
-- Math measurement runtime: **IMPLEMENTATION ACTIVE / exact 4 direct-choice IDs -> existing `compare_properties`; matching excluded**
+- Math measurement runtime: **PR #216 -> main `365070772554d3f00ff7b8124e9f71e97b5252a6` / FULLY CLOSED / LIVE VERIFIED**
 - Math measurement -> `compare_properties` reuse audit: PR #210 -> main `f9833568dea0f021cd5c4ed94f6f6fc7505ad8d8`
 - Math measurement reuse audit PR CI: **#972 / run `35378121937` — full success**
 - Math measurement audit merged-main CI: **#973 / run `35378825618` — full success + exact Cloudflare production smoke**
 - Math measurement reuse audit: **MERGED / LIVE VERIFIED**
+- Math measurement implementation PR CI: **#994 / run `35424613584` — full success**
+- Math measurement implementation main CI: **#995 / run `35425340216` — full success + exact Cloudflare production smoke**
 - Math measurement matching exclusion: **`math-measure-match-length` stays matching / `matching_accuracy_v1`**
-- Math measurement reuse implementation: **ACTIVE on `agent/math-compare-properties-reuse-20260919`**
-- Math measurement target distribution: **47 active / `choice_grid` 219 / `compare_properties` 7 / `spatial_relation_board` 11 / `set_reasoning` 10**
-- Math measurement implementation contract: **binary + 3-first-class-candidate variants / exact fail-closed config / legacy Science regression / dedicated Math actual-touch QA**
+- Math measurement merged distribution: **47 active / `choice_grid` 219 / `compare_properties` 7 / `spatial_relation_board` 11 / `set_reasoning` 10**
+- Math measurement merged activity-quality: **KEEP 900 / 0 flagged**
 - English completion -> `cloze_sentence_choice` reuse audit: PR #211 -> main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52`
 - English cloze reuse audit PR CI: **#974 / run `35379084421` — full success**
 - English cloze audit merged-main CI: **#975 / run `35409217808` — full success + exact Cloudflare production smoke**
 - English cloze reuse audit: **MERGED / LIVE VERIFIED**
-- English cloze implementation: **QUEUED AFTER PRIOR RUNTIME CLOSURES / CODE NOT STARTED**
+- English cloze implementation: **NEXT / UNBLOCKED / exact 5-ID scope -> existing `cloze_sentence_choice`**
 - Science environment care -> Pattern #22 `healthy_habit_routine` reuse audit: PR #212 -> main `0fccffd769211e5b47be81ec5126c913d9c26fec`
 - Environment-care audit PR CI: **#976 / run `35409354940` — full success**
 - Environment-care audit merged-main CI: **#977 / run `35409698981` — full success + exact Cloudflare production smoke**
