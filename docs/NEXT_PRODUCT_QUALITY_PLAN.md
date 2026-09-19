@@ -90,13 +90,13 @@
 **English completion reuse audit:** PR #211 -> main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52` / exact 5-ID scope / JUSTIFIED / code not started  
 **English cloze audit PR CI:** **#974 / run `35379084421` — full success**  
 **English cloze audit main CI:** **#975 / run `35409217808` — full success + exact Cloudflare production smoke**  
-**English cloze implementation:** **PR #219 ACTIVE / accepted code checkpoint `a054b76b` / CI #1003 full success / manual 9-shot P0=0 P1=0 / final docs CI pending**  
+**English cloze implementation:** **PR #219 -> main `e3c92cfe8c1050fdcca1599ae92d98a9345b04ca` / FULLY CLOSED / LIVE VERIFIED / main CI #1009 full success + exact Cloudflare smoke**  
 **Science environment-care reuse audit:** PR #212 -> main `0fccffd769211e5b47be81ec5126c913d9c26fec` / exact 4 direct-choice IDs / JUSTIFIED / code not started  
 **Environment-care audit PR CI:** **#976 / run `35409354940` — full success**  
 **Environment-care audit main CI:** **#977 / run `35409698981` — full success + exact Cloudflare production smoke**  
 **Environment-care audit:** **MERGED / LIVE VERIFIED / runtime queued**  
 **Environment matching exclusion:** **`science-match-environment-actions-c` remains matching**  
-**Pending reuse runtime implementation:** **English cloze PR #219 is at final docs gate; Science environment-care becomes NEXT only after English merged-main live closure**  
+**Pending reuse runtime implementation:** **Science environment-care -> `healthy_habit_routine` is NEXT / UNBLOCKED / exact 4 direct-choice IDs**  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
 
@@ -334,9 +334,10 @@ compare_properties          7 / 900
 cloze_sentence_choice      10 / 900
 ```
 
-Runtime prerequisite gates are resolved. PR #219 is now at the final docs/exact-head CI gate; merged-main Cloudflare verification is still required before Science environment-care starts.
+English runtime gates are fully resolved. PR #219 merged to main `e3c92cfe8c1050fdcca1599ae92d98a9345b04ca`; main CI #1009 / run `35431721131` passed the full matrix and exact-SHA Cloudflare smoke. English cloze reuse is **FULLY CLOSED / LIVE VERIFIED** and Science environment-care is now the next authorized runtime wave.
 
 Implementation wave: `WS05_CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_WAVE_2026-09-19.md`.  
+Closure record: `CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_CLOSURE_2026-09-19.md`.  
 Reuse audit record: `CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_AUDIT_2026-09-19.md`.
 
 Audit PR #211 exact head `adc975f119b557f253cd3a366e728efa2fd74810` passed CI #974 and merged to main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52`. Its artifacts preserved 47 active / `choice_grid` 228 / `cloze_sentence_choice` 5 / `compare_properties` 3 / `spatial_relation_board` 6 / `set_reasoning` 10. Independent merged-main/Cloudflare verification remains pending.
@@ -366,7 +367,7 @@ Future distribution from current code baseline if this environment wave alone is
 
 ```text
 47 active patterns
-choice_grid               224 / 900
+choice_grid               210 / 900
 healthy_habit_routine       8 / 900
 ```
 
@@ -382,7 +383,7 @@ cloze_sentence_choice      10 / 900
 healthy_habit_routine       8 / 900
 ```
 
-Runtime remains blocked until preceding live/audit gates are resolved.
+Runtime prerequisites are resolved. This Science environment-care wave is **NEXT / UNBLOCKED** and may start after this English closure docs change itself passes exact-head CI and merges/live-verifies.
 
 Reuse audit record: `HEALTHY_HABIT_ROUTINE_ENVIRONMENT_CARE_REUSE_AUDIT_2026-09-19.md`.
 
