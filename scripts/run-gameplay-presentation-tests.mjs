@@ -440,11 +440,13 @@ assert.equal(choiceGameplayPresentation(recordingObservation),"default","recordi
 
 const expectedHealthyHabitRoutine=new Set([
   "science-body-wash-hands","science-body-teeth-brush",
-  "science-body-water-drink","science-body-sleep-rest"
+  "science-body-water-drink","science-body-sleep-rest",
+  "science-env-trash-bin","science-env-save-water",
+  "science-env-reuse-bottle","science-env-plant-care"
 ]);
 const healthyHabitRoutine=ACTIVITIES.filter(activity=>choiceGameplayPresentation(activity)==="healthy_habit_routine");
 assert.equal(healthyHabitRoutine.length,expectedHealthyHabitRoutine.size,"healthy-habit family size must remain intentional");
-assert.deepEqual(new Set(healthyHabitRoutine.map(activity=>activity.id)),expectedHealthyHabitRoutine,"only the four reviewed Science body-health choices use Healthy Habit Routine");
+assert.deepEqual(new Set(healthyHabitRoutine.map(activity=>activity.id)),expectedHealthyHabitRoutine,"only the eight reviewed Science body-health + environment-care choices use Healthy Habit Routine");
 for(const activity of healthyHabitRoutine){
   assert.equal(activity.runtime,"tap_choice");
   assert.equal(activity.subjectId,"science");
@@ -463,6 +465,11 @@ const bodyCareMatching=ACTIVITIES.find(activity=>activity.id==="science-match-bo
 assert(bodyCareMatching,"body-care matching activity remains in catalog");
 assert.equal(bodyCareMatching.runtime,"matching");
 assert.equal(matchingPresentation(bodyCareMatching),"grid_pairs","body-care matching stays outside healthy-habit scope");
+
+const environmentCareMatching=ACTIVITIES.find(activity=>activity.id==="science-match-environment-actions-c");
+assert(environmentCareMatching,"environment-care matching activity remains in catalog");
+assert.equal(environmentCareMatching.runtime,"matching");
+assert.equal(matchingPresentation(environmentCareMatching),"grid_pairs","environment-care matching stays outside healthy-habit scope");
 
 const expectedMaterialLab=new Set([
   "science-material-raincoat-waterproof","science-material-window-transparent",
