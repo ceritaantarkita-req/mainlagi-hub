@@ -28,6 +28,8 @@ export function PhenomenonRelationBoardActivity({ childId, activityId }: { child
 
   if (!activity || !config || !isPhenomenonRelationBoardActivity(activity) || !activity.correctChoice) return null;
 
+  const ecosystem = config.domainVariant === "ecosystem_dependency";
+
   const choose = (choice: string) => {
     if (feedback === "good") return;
     setSelected(choice);
@@ -55,14 +57,24 @@ export function PhenomenonRelationBoardActivity({ childId, activityId }: { child
         incorrectCount: assessed ? incorrectCount : undefined,
         retryCount: assessed ? retryRef.current : undefined,
         inputMode: activity.preferredMobile,
-        metadata: {
-          source: "phenomenon-relation-board-runtime",
-          evidenceFidelity: assessed ? "choice_phenomenon_relation_interaction" : "completion_only",
-          relationMode: config.mode,
-          selectedChoice: choice,
-          observationLabel: config.observationLabel,
-          relationLabel: config.relationLabel
-        }
+        metadata: ecosystem
+          ? {
+              source: "phenomenon-relation-board-runtime",
+              evidenceFidelity: assessed ? "choice_ecosystem_dependency_relation_interaction" : "completion_only",
+              domainVariant: "ecosystem_dependency",
+              relationMode: config.mode,
+              selectedChoice: choice,
+              observationLabel: config.observationLabel,
+              relationLabel: config.relationLabel
+            }
+          : {
+              source: "phenomenon-relation-board-runtime",
+              evidenceFidelity: assessed ? "choice_phenomenon_relation_interaction" : "completion_only",
+              relationMode: config.mode,
+              selectedChoice: choice,
+              observationLabel: config.observationLabel,
+              relationLabel: config.relationLabel
+            }
       }
     });
 
@@ -85,19 +97,24 @@ export function PhenomenonRelationBoardActivity({ childId, activityId }: { child
         ref={sceneRef}
         className={`${styles.scene} ${resolved ? styles.sceneDone : ""}`}
         data-phenomenon-relation-board
+        data-relation-domain={config.domainVariant}
         data-relation-mode={config.mode}
         data-relation-resolved={resolved ? "true" : "false"}
       >
         <div className={styles.promptCard}>
-          <span className={styles.promptIcon} aria-hidden>🔭</span>
+          <span className={styles.promptIcon} aria-hidden>{ecosystem ? "🌿" : "🔭"}</span>
           <div>
-            <span className={styles.badge}>Pola Bumi & langit</span>
-            <h1>Hubungkan pengamatan</h1>
+            <span className={styles.badge}>{ecosystem ? "Hubungan ekosistem" : "Pola Bumi & langit"}</span>
+            <h1>{ecosystem ? "Hubungkan kebutuhan makhluk hidup" : "Hubungkan pengamatan"}</h1>
             <p>{activity.prompt}</p>
           </div>
         </div>
 
-        <div className={styles.relationBoard} role="group" aria-label="Hubungan pengamatan dan hasil">
+        <div
+          className={styles.relationBoard}
+          role="group"
+          aria-label={ecosystem ? "Hubungan makhluk hidup dan kebutuhan lingkungan" : "Hubungan pengamatan dan hasil"}
+        >
           <div className={styles.observationCard} data-relation-observation>
             <span className={styles.cardTag}>Pengamatan</span>
             <span className={styles.bigIcon} aria-hidden>{config.observationIcon}</span>
@@ -155,8 +172,12 @@ export function PhenomenonRelationBoardActivity({ childId, activityId }: { child
           {resolved
             ? `⭐ Tepat! ${config.successText}`
             : feedback === "try"
-              ? "💡 Belum tepat. Slot hubungan tetap kosong—lihat lagi pengamatan dan coba pilihan lain."
-              : "💡 Amati kondisi di kiri, lalu pilih hubungan yang paling sesuai."}
+              ? ecosystem
+                ? "💡 Belum tepat. Hubungan belum terisi—lihat lagi makhluk hidup atau perubahan sumber dayanya, lalu coba pilihan lain."
+                : "💡 Belum tepat. Slot hubungan tetap kosong—lihat lagi pengamatan dan coba pilihan lain."
+              : ecosystem
+                ? "💡 Perhatikan makhluk hidup atau perubahan di kiri, lalu pilih hubungan yang paling sesuai."
+                : "💡 Amati kondisi di kiri, lalu pilih hubungan yang paling sesuai."}
         </div>
 
         {resolved ? (
