@@ -137,8 +137,9 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Implementation wave: `docs/WS05_PICTURE_WORD_MATCH_ENGLISH_REUSE_WAVE_2026-09-19.md`
 - Post-merge closure record: `docs/PICTURE_WORD_MATCH_ENGLISH_VOCAB_REUSE_CLOSURE_2026-09-19.md`
 - Final closure verification: `docs/PICTURE_WORD_MATCH_ENGLISH_VOCAB_REUSE_FINAL_CLOSURE_VERIFICATION_2026-09-19.md`
-- Math missing-number -> existing `number_line` fresh audit: **ACTIVE on `agent/audit-math-missing-number-line-reuse-20260919` / exact 5 Wave C IDs / objective-evidence fit supports reuse / expected runtime distribution `choice_grid` 183 + `number_line` 11 / active patterns stay 47 / Pattern #48 not justified / CODE NOT STARTED**
+- Math missing-number -> existing `number_line`: **audit PR #231 -> main `31c03adac0d143e128996321588af514762c4cbd` / PR CI #1059 + audit-main CI #1060 full success / exact Cloudflare production smoke / exact 5 Wave C IDs / runtime implementation ACTIVE on `agent/math-missing-number-line-reuse-20260919` / expected branch truth `choice_grid` 183 + `number_line` 11 / active patterns stay 47 / Pattern #48 not justified**
 - Math missing-number audit record: `docs/NUMBER_LINE_MATH_MISSING_NUMBER_REUSE_AUDIT_2026-09-19.md`
+- Math missing-number implementation wave: `docs/WS05_NUMBER_LINE_MATH_MISSING_REUSE_WAVE_2026-09-19.md`
 - Force/motion remains **not authorized** as one relation-board family because push/pull/gravity/friction evidence forms are heterogeneous.
 - Pattern #48 remains **NO JUSTIFIED NEW PATTERN YET**.
 
