@@ -74,8 +74,12 @@
 **Math measurement audit PR CI:** **#972 / run `35378121937` — full success**  
 **Math measurement audit main/Cloudflare verification:** **PENDING INDEPENDENT VERIFICATION**  
 **Math measurement matching exclusion:** **`math-measure-match-length` remains matching**  
-**English completion reuse audit:** **`cloze_sentence_choice` / exact 5-ID scope / JUSTIFIED / code not started**  
-**Math/English runtime implementation:** **BLOCKED by preceding live/audit gates**  
+**English completion reuse audit:** PR #211 -> main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52` / exact 5-ID scope / JUSTIFIED / code not started  
+**English cloze audit PR CI:** **#974 / run `35379084421` — full success**  
+**English cloze audit main/Cloudflare verification:** **PENDING INDEPENDENT VERIFICATION**  
+**Science environment-care reuse audit:** **Pattern #22 `healthy_habit_routine` / exact 4 direct-choice IDs / JUSTIFIED / code not started**  
+**Environment matching exclusion:** **`science-match-environment-actions-c` remains matching**  
+**Pending reuse runtime implementation:** **BLOCKED by preceding live/audit gates**  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
 
@@ -314,6 +318,53 @@ cloze_sentence_choice      10 / 900
 Runtime remains blocked until preceding live/audit gates are resolved.
 
 Reuse audit record: `CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_AUDIT_2026-09-19.md`.
+
+Audit PR #211 exact head `adc975f119b557f253cd3a366e728efa2fd74810` passed CI #974 and merged to main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52`. Its artifacts preserved 47 active / `choice_grid` 228 / `cloze_sentence_choice` 5 / `compare_properties` 3 / `spatial_relation_board` 6 / `set_reasoning` 10. Independent merged-main/Cloudflare verification remains pending.
+
+### Next reuse audit — Science environment care -> Pattern #22 `healthy_habit_routine`
+
+Exact direct-choice scope:
+
+```text
+science-env-trash-bin
+science-env-save-water
+science-env-reuse-bottle
+science-env-plant-care
+```
+
+Explicit exclusion:
+
+```text
+science-match-environment-actions-c -> matching / matching_accuracy_v1
+```
+
+Audit result: **reuse justified / code not started**.
+
+The environment-care lesson explicitly measures selecting simple actions that reduce waste/resource waste or care for the environment. Pattern #22 already provides one familiar context/goal plus three direct-choice action cards, but its existing copy and metadata are body-health specific. Later implementation must use an explicit domain variant: old `body_health` behavior remains stable; new `environment_care` copy/metadata is domain-correct. The historical pattern identifier remains for compatibility and does not justify Pattern #48.
+
+Future distribution from current code baseline if this environment wave alone is verified:
+
+```text
+47 active patterns
+choice_grid               224 / 900
+healthy_habit_routine       8 / 900
+```
+
+Combined only after all already-audited pending reuse waves ship:
+
+```text
+47 active patterns
+choice_grid               210 / 900
+set_reasoning              10 / 900
+spatial_relation_board     11 / 900
+compare_properties          7 / 900
+cloze_sentence_choice      10 / 900
+healthy_habit_routine       8 / 900
+```
+
+Runtime remains blocked until preceding live/audit gates are resolved.
+
+Reuse audit record: `HEALTHY_HABIT_ROUTINE_ENVIRONMENT_CARE_REUSE_AUDIT_2026-09-19.md`.
 
 Audit record: `PATTERN48_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
 
@@ -647,8 +698,9 @@ P2 findings: 3
 3. Set Reasoning reuse PR #207 is merged to main `9debb6cf`; preserve exact scope, final CI #963 and accepted old+new QA evidence.
 4. Math spatial audit PR #209 is merged to `3e30a817`; PR CI #970 green; independent merged-main/Cloudflare verification is still pending and runtime stays unstarted.
 5. Math measurement audit PR #210 is merged to `f9833568`; PR CI #972 is green; independent main/Cloudflare verification remains pending and runtime stays unstarted.
-6. English completion -> `cloze_sentence_choice` reuse is justified for exactly five English completion activities; keep runtime code unstarted.
-7. Merge/verify the English docs audit while keeping all reuse runtime blocked.
-8. Runtime implementation begins only after the preceding Set Reasoning/Math live-verification chain is resolved.
+6. English cloze audit PR #211 is merged to `76e1eeb0`; PR CI #974 is green; independent main/Cloudflare verification remains pending and runtime stays unstarted.
+7. Science environment care -> Pattern #22 `healthy_habit_routine` reuse is justified for exactly four direct-choice activities; matching remains excluded.
+8. Merge/verify the environment-care docs audit while keeping all reuse runtime blocked.
+9. Runtime implementation begins only after the preceding live-verification chain is resolved.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
