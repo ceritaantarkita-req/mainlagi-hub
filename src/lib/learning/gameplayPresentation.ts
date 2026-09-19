@@ -1,5 +1,6 @@
 import type { LearningActivity } from "./system";
 import { isClozeSentenceChoiceActivity } from "./clozeSentenceChoiceConfig";
+import { healthyHabitRoutineConfig } from "./healthyHabitRoutineConfig";
 import { isReadingPassageQuestionActivity } from "./readingPassageQuestionConfig";
 import { isSentenceOrderCardsActivity } from "./sentenceOrderCardsConfig";
 import { isVisualWordProblemActivity } from "./visualWordProblemConfig";
@@ -95,13 +96,6 @@ const MATH_COMPARE_PROPERTIES_IDS = new Set([
   "math-measure-more-capacity",
   "math-measure-fuller",
   "math-measure-three-lengths"
-]);
-
-const SCIENCE_HEALTHY_HABIT_ROUTINE_IDS = new Set([
-  "science-body-wash-hands",
-  "science-body-teeth-brush",
-  "science-body-water-drink",
-  "science-body-sleep-rest"
 ]);
 
 const SCIENCE_MATERIAL_LAB_IDS = new Set([
@@ -496,15 +490,7 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     Boolean(activity.prompt);
   if (isReviewedMathComparePropertiesFamily) return "compare_properties";
 
-  const isReviewedScienceHealthyHabitFamily =
-    activity.subjectId === "science" &&
-    activity.stageId === "science-earth-body-environment" &&
-    SCIENCE_HEALTHY_HABIT_ROUTINE_IDS.has(activity.id) &&
-    choices.length === 3 &&
-    new Set(choices).size === choices.length &&
-    choices.includes(correct) &&
-    Boolean(activity.prompt);
-  if (isReviewedScienceHealthyHabitFamily) return "healthy_habit_routine";
+  if (healthyHabitRoutineConfig(activity)) return "healthy_habit_routine";
 
   const isReviewedScienceMaterialLabFamily =
     activity.subjectId === "science" &&
