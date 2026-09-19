@@ -229,7 +229,7 @@ Reuse audit record: `COMPARE_PROPERTIES_MATH_MEASURE_REUSE_AUDIT_2026-09-19.md`.
 
 Audit PR #210 merged to main `f9833568dea0f021cd5c4ed94f6f6fc7505ad8d8` after exact-head CI #972 success. Runtime remained unchanged at 47 active / `choice_grid` 228 / `compare_properties` 3 / `spatial_relation_board` 6 / `set_reasoning` 10. Main CI #973 / run `35378825618` passed exact Cloudflare smoke, so this audit is **LIVE VERIFIED**.
 
-Current next reuse audit: existing Pattern #38 `cloze_sentence_choice` is justified for exactly five English `english.sentence.completion` activities:
+English Pattern #38 `cloze_sentence_choice` reuse is implemented in PR #219 for exactly five English `english.sentence.completion` activities:
 
 ```text
 english-complete-cat-sleeps
@@ -239,11 +239,14 @@ english-complete-two-apples
 english-complete-mother-family
 ```
 
-The existing five Bahasa cloze activities must remain behaviorally stable. English reuse requires exact 10-ID fail-closed configuration plus subject-aware child-facing locale/copy; it must not generalize by blank syntax alone. Code has not started.
+The existing five Bahasa cloze activities remain behaviorally stable. The implementation uses exact 10-ID fail-closed configuration plus subject-aware `id-ID` / `en-US` child-facing copy and never classifies by blank syntax alone.
 
+Accepted code checkpoint `a054b76b1e13cba03a255b9c60f0bd43deb9051f` passed CI #1003 / run `35430916587`. Branch distribution is 47 active / `choice_grid` 214 / `cloze_sentence_choice` 10 / `compare_properties` 7 / `spatial_relation_board` 11 / `set_reasoning` 10. Activity quality is KEEP 900 / 0 flagged. Nine dedicated screenshots were manually accepted with P0=0/P1=0.
+
+Implementation wave: `WS05_CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_WAVE_2026-09-19.md`.  
 Reuse audit record: `CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_AUDIT_2026-09-19.md`.
 
-Audit PR #211 merged to main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52` after exact-head CI #974 success. Runtime remained unchanged at 47 active / `choice_grid` 228 / `cloze_sentence_choice` 5 / `compare_properties` 3 / `spatial_relation_board` 6 / `set_reasoning` 10. Main CI #975 / run `35409217808` passed exact Cloudflare smoke, so this audit is **LIVE VERIFIED**.
+Final docs exact-head CI and exact-head merge remain pending. Science environment-care runtime remains blocked until English merged-main CI + exact Cloudflare smoke close this wave.
 
 Current next reuse audit: existing Pattern #22 `healthy_habit_routine` is justified for exactly four Science `science.environment.care.basic` direct-choice activities:
 
@@ -440,7 +443,7 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 - Math spatial reuse — PR #214 -> main `2cb948d6`; main CI #987 exact Cloudflare smoke; 47 active / `choice_grid` 223 / `spatial_relation_board` 11; **FULLY CLOSED / LIVE VERIFIED**.
 - Math measurement reuse audit — PR #210 -> main `f9833568`; main CI #973 exact Cloudflare smoke; matching excluded; **LIVE VERIFIED**.
 - Math measurement runtime reuse — PR #216 -> main `36507077`; final PR CI #994; main CI #995 exact Cloudflare smoke; merged 47 active / `choice_grid` 219 / `compare_properties` 7; **FULLY CLOSED / LIVE VERIFIED**.
-- English completion reuse audit — PR #211 -> main `76e1eeb0`; main CI #975 exact Cloudflare smoke; **LIVE VERIFIED / RUNTIME NEXT / UNBLOCKED**.
+- English completion reuse implementation — PR #219 active; accepted code checkpoint `a054b76b`; CI #1003 full success; manual 9-shot P0=0/P1=0; branch 47 active / `choice_grid` 214 / `cloze_sentence_choice` 10; **FINAL DOCS CI PENDING**.
 - Science environment-care reuse audit — PR #212 -> main `0fccffd7`; main CI #977 exact Cloudflare smoke; explicit `environment_care` domain variant required; matching excluded; **LIVE VERIFIED / RUNTIME QUEUED / CODE NOT STARTED**.
 - No Pattern #48 is created.
 - Continue only with justified exact scopes; reuse an existing mechanic when it already matches the evidence model.
