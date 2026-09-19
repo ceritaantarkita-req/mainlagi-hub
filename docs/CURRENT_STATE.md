@@ -79,23 +79,27 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Set Reasoning reuse final PR CI: **#963 / run `35372830249` — full success**
 - Set Reasoning reuse final manual visual review: **ACCEPTED / 9 screenshots / no P0-P1 blocker**
 - Set Reasoning reuse final branch distribution: **47 active / `choice_grid` 228 / `set_reasoning` 10**
-- Set Reasoning reuse merged-main CI / exact Cloudflare smoke: **PENDING INDEPENDENT VERIFICATION**
+- Set Reasoning reuse merged-main CI: **#964 / run `35375338099` — full success + exact Cloudflare production smoke**
+- Set Reasoning reuse closure-main CI: **#969 / run `35376512392` — full success + exact Cloudflare production smoke**
+- Set Reasoning reuse: **FULLY CLOSED / LIVE VERIFIED**
 - Math spatial -> `spatial_relation_board` reuse audit: PR #209 -> main `3e30a817ef86fa691f9b2f1249ac00bc00dce4e6`
 - Math spatial reuse audit PR CI: **#970 / run `35377295090` — full success**
-- Math spatial reuse audit merged-main / Cloudflare verification: **PENDING INDEPENDENT VERIFICATION**
-- Math spatial reuse implementation: **BLOCKED / CODE NOT STARTED**
+- Math spatial reuse audit merged-main CI: **#971 / run `35377783814` — full success + exact Cloudflare production smoke**
+- Math spatial reuse implementation: **AUTHORIZED NEXT / CODE NOT STARTED**
 - Math measurement -> `compare_properties` reuse audit: PR #210 -> main `f9833568dea0f021cd5c4ed94f6f6fc7505ad8d8`
 - Math measurement reuse audit PR CI: **#972 / run `35378121937` — full success**
-- Math measurement audit merged-main / Cloudflare verification: **PENDING INDEPENDENT VERIFICATION**
+- Math measurement audit merged-main CI: **#973 / run `35378825618` — full success + exact Cloudflare production smoke**
 - Math measurement matching exclusion: **`math-measure-match-length` stays matching / `matching_accuracy_v1`**
-- Math measurement reuse implementation: **BLOCKED / CODE NOT STARTED**
+- Math measurement reuse implementation: **QUEUED AFTER MATH SPATIAL**
 - English completion -> `cloze_sentence_choice` reuse audit: PR #211 -> main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52`
 - English cloze reuse audit PR CI: **#974 / run `35379084421` — full success**
-- English cloze audit merged-main / Cloudflare verification: **PENDING INDEPENDENT VERIFICATION**
-- English cloze implementation: **BLOCKED / CODE NOT STARTED**
-- Science environment care -> Pattern #22 `healthy_habit_routine` reuse audit: **JUSTIFIED / exact 4 direct-choice IDs / CODE NOT STARTED**
+- English cloze audit merged-main CI: **#975 / run `35409217808` — full success + exact Cloudflare production smoke**
+- English cloze implementation: **QUEUED AFTER MATH MEASUREMENT**
+- Science environment care -> Pattern #22 `healthy_habit_routine` reuse audit: PR #212 -> main `0fccffd769211e5b47be81ec5126c913d9c26fec`
+- Science environment-care audit PR CI: **#976 / run `35409354940` — full success**
+- Science environment-care audit merged-main CI: **#977 / run `35409698981` — full success + exact Cloudflare production smoke**
 - Environment matching exclusion: **`science-match-environment-actions-c` stays matching / `matching_accuracy_v1`**
-- Environment-care implementation: **BLOCKED by preceding live/audit gates**
+- Environment-care implementation: **QUEUED AFTER ENGLISH CLOZE**
 - permanent visual QA foundation: **VQA-01 FULLY CLOSED**
 - visual P1 baseline: **P0=0 / P1=0 / P2=3**
 
@@ -753,8 +757,11 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 4. Set Reasoning reuse PR #207 is merged to main `9debb6cf`; exact final head `a37fdec7` passed CI #963 and final nine-shot review with 47/228/10 branch distribution.
 5. Math spatial reuse audit PR #209 is merged to main `3e30a817`; PR CI #970 is green, independent merged-main/Cloudflare verification remains pending, and runtime code has not started.
 6. Math measurement audit PR #210 is merged to main `f9833568`; PR CI #972 is green, independent merged-main/Cloudflare verification remains pending, and runtime code has not started.
-7. English cloze audit PR #211 is merged to main `76e1eeb0`; PR CI #974 is green, independent merged-main/Cloudflare verification remains pending, and runtime code has not started.
-8. Science environment care -> Pattern #22 `healthy_habit_routine` reuse is audit-justified for exactly four direct-choice activities; matching remains excluded and code has not started.
-9. Resolve the outstanding live/audit verification chain before any pending reuse runtime implementation.
+7. Set Reasoning implementation + closure are fully live verified through main CI #964/#969 and exact Cloudflare smoke.
+8. Math spatial audit is merged/live verified through #971 and is the authorized next implementation for exactly five IDs.
+9. Math measurement audit is merged/live verified through #973 and is queued after Math spatial.
+10. English cloze audit is merged/live verified through #975 and is queued after Math measurement.
+11. Environment-care audit is merged/live verified through #977 and is queued after English cloze.
+12. Pattern #48 remains unimplemented; preserve reuse-first sequencing and exact evidence contracts.
 
 Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion or mastery/backend rewrites before the current quality roadmap justifies them.
