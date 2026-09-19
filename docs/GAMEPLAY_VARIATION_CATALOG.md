@@ -237,6 +237,23 @@ The existing five Bahasa cloze activities must remain behaviorally stable. Engli
 
 Reuse audit record: `CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_AUDIT_2026-09-19.md`.
 
+Audit PR #211 merged to main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52` after exact-head CI #974 success. Runtime remained unchanged at 47 active / `choice_grid` 228 / `cloze_sentence_choice` 5 / `compare_properties` 3 / `spatial_relation_board` 6 / `set_reasoning` 10; independent audit-main/Cloudflare verification remains pending.
+
+Current next reuse audit: existing Pattern #22 `healthy_habit_routine` is justified for exactly four Science `science.environment.care.basic` direct-choice activities:
+
+```text
+science-env-trash-bin
+science-env-save-water
+science-env-reuse-bottle
+science-env-plant-care
+```
+
+`science-match-environment-actions-c` remains canonical matching / `matching_accuracy_v1`.
+
+Reuse requires an explicit domain variant because the current component/copy/metadata are body-health specific. Existing four body-health activities must remain unchanged; environment-care gets domain-correct action-selection copy/metadata. The legacy Pattern #22 identifier remains for compatibility. Code has not started.
+
+Reuse audit record: `HEALTHY_HABIT_ROUTINE_ENVIRONMENT_CARE_REUSE_AUDIT_2026-09-19.md`.
+
 ## Pattern #47 — `shape_attribute_board` / FULLY CLOSED / LIVE VERIFIED
 
 Exact candidate scope:
@@ -416,8 +433,9 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 - Set Reasoning reuse gate — PR #207 -> main `9debb6cf`; final head `a37fdec7` / CI #963 green / final branch 47/228/10; merged-main + exact Cloudflare verification pending.
 - Math spatial reuse audit — PR #209 -> main `3e30a817`; exact five-ID scope; PR CI #970 green; independent main/Cloudflare verification pending; **CODE NOT STARTED**.
 - Math measurement reuse audit — PR #210 -> main `f9833568`; exact four direct-choice scope; PR CI #972 green; independent main/Cloudflare verification pending; matching excluded; **CODE NOT STARTED**.
-- English completion reuse audit — exact five-ID `english.sentence.completion` scope -> existing `cloze_sentence_choice`; subject-aware locale required; **JUSTIFIED / CODE NOT STARTED**.
-- Math/English runtime implementation remains blocked until preceding live/audit gates are complete.
+- English completion reuse audit — PR #211 -> main `76e1eeb0`; exact five-ID scope; PR CI #974 green; independent main/Cloudflare verification pending; **CODE NOT STARTED**.
+- Science environment-care reuse audit — exact four direct-choice `science.environment.care.basic` scope -> Pattern #22 `healthy_habit_routine`; explicit `environment_care` domain variant required; matching excluded; **JUSTIFIED / CODE NOT STARTED**.
+- Pending reuse runtime implementation remains blocked until preceding live/audit gates are complete.
 - Continue only with justified exact scopes; reuse an existing mechanic when it already matches the evidence model.
 
 ## Definition of done per mechanic
