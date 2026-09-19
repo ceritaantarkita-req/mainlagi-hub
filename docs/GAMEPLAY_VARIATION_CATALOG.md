@@ -457,8 +457,9 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 - Implementation wave: `WS05_PICTURE_WORD_MATCH_ENGLISH_REUSE_WAVE_2026-09-19.md`.
 - Closure record: `PICTURE_WORD_MATCH_ENGLISH_VOCAB_REUSE_CLOSURE_2026-09-19.md`.
 - Final verification: `PICTURE_WORD_MATCH_ENGLISH_VOCAB_REUSE_FINAL_CLOSURE_VERIFICATION_2026-09-19.md`.
-- Math missing-number -> existing `number_line`: fresh audit on `1fa2da0` approves exactly five Wave C `math-missing-*` activities for reuse; current merged `number_line` remains 6 until runtime code exists. Expected runtime result: `choice_grid` 183 / `number_line` 11 / 47 active; **AUDIT COMPLETE ON BRANCH / CODE NOT STARTED / NO PATTERN #48**.
+- Math missing-number -> existing `number_line`: audit PR #231 -> main `31c03ada`; CI #1059/#1060 full success including exact audit-main Cloudflare smoke. Runtime implementation is active for exactly five Wave C `math-missing-*` activities, hardening the complete family to exact 11 IDs; expected branch result `choice_grid` 183 / `number_line` 11 / 47 active; **RUNTIME ACTIVE / NO PATTERN #48**.
 - Audit record: `NUMBER_LINE_MATH_MISSING_NUMBER_REUSE_AUDIT_2026-09-19.md`.
+- Implementation wave: `WS05_NUMBER_LINE_MATH_MISSING_REUSE_WAVE_2026-09-19.md`.
 - Continue only with justified exact scopes; reuse an existing mechanic when it already matches the evidence model.
 
 ## Definition of done per mechanic
