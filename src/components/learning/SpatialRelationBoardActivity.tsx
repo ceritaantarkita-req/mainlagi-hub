@@ -6,19 +6,64 @@ import { GardenActivityFrame } from "./GardenActivityFrame";
 import { getActivityLearningSpec } from "@/lib/learning/catalog";
 import { emitLearningRuntimeMeasurement } from "@/lib/learning/runtimeMeasurement";
 import { completeActivity, getActivity } from "@/lib/learning/system";
-import { isSpatialRelationBoardActivity, spatialRelationBoardConfig } from "@/lib/learning/spatialRelationBoardConfig";
+import {
+  isSpatialRelationBoardActivity,
+  spatialRelationBoardConfig,
+  type SpatialRelationBoardConfig
+} from "@/lib/learning/spatialRelationBoardConfig";
 import styles from "./SpatialRelationBoardActivity.module.css";
 
-function RelationBoard({ kind, anchor, moving, revealResult }: { kind: string; anchor: string; moving: string; revealResult: boolean }) {
+function RelationBoard({ config, revealResult }: { config: SpatialRelationBoardConfig; revealResult: boolean }) {
+  const { kind, anchor, moving, secondaryAnchor } = config;
+
   if (kind === "between") {
-    return <div className={styles.objectRow} aria-hidden><span>{anchor}</span><span className={styles.moving}>{moving}</span><span>{anchor}</span></div>;
+    return (
+      <div className={styles.objectRow} aria-hidden>
+        <span>{anchor}</span>
+        <span className={styles.moving}>{moving}</span>
+        <span>{secondaryAnchor ?? anchor}</span>
+      </div>
+    );
   }
+
   if (kind === "left_of") {
     return <div className={styles.objectRow} aria-hidden><span className={styles.moving}>{moving}</span><span className={styles.anchor}>{anchor}</span></div>;
   }
+
   if (kind === "right_of") {
     return <div className={styles.objectRow} aria-hidden><span className={styles.anchor}>{anchor}</span><span className={styles.moving}>{moving}</span></div>;
   }
+
+  if (kind === "above") {
+    return (
+      <div className={styles.verticalRelation} aria-hidden>
+        <span className={styles.moving}>{moving}</span>
+        <span className={styles.verticalArrow}>↑</span>
+        <span className={styles.anchor}>{anchor}</span>
+      </div>
+    );
+  }
+
+  if (kind === "inside") {
+    return (
+      <div className={styles.containmentBoard} aria-hidden>
+        <span className={styles.containerIcon}>{anchor}</span>
+        <span className={styles.containedObject}>{moving}</span>
+      </div>
+    );
+  }
+
+  if (kind === "near") {
+    return (
+      <div className={styles.proximityBoard} aria-hidden>
+        <span className={styles.nearTarget}>{moving}</span>
+        <span className={styles.focusObject}>{anchor}</span>
+        <span className={styles.distanceDots}>······</span>
+        <span className={styles.farTarget}>{secondaryAnchor}</span>
+      </div>
+    );
+  }
+
   if (kind === "turn_right" || kind === "turn_left") {
     return (
       <div className={styles.turnBoard} aria-hidden>
@@ -28,6 +73,7 @@ function RelationBoard({ kind, anchor, moving, revealResult }: { kind: string; a
       </div>
     );
   }
+
   return (
     <div className={styles.turnBoard} aria-hidden>
       <span className={styles.direction}>{anchor}</span>
@@ -35,6 +81,15 @@ function RelationBoard({ kind, anchor, moving, revealResult }: { kind: string; a
       <span className={styles.direction} data-spatial-relation-result>{revealResult ? moving : "?"}</span>
     </div>
   );
+}
+
+function boardAriaLabel(config: SpatialRelationBoardConfig, revealResult: boolean): string {
+  if (config.mode === "turn" || config.mode === "opposite") {
+    return `Papan arah awal ${config.anchor}; hasil ${revealResult ? config.moving : "belum diketahui"}`;
+  }
+  if (config.mode === "containment") return "Papan posisi benda di dalam wadah";
+  if (config.mode === "proximity") return "Papan perbandingan jarak dekat dan jauh";
+  return `Papan hubungan ruang ${config.kind}`;
 }
 
 export function SpatialRelationBoardActivity({ childId, activityId }: { childId: string; activityId: string }) {
@@ -114,9 +169,9 @@ export function SpatialRelationBoardActivity({ childId, activityId }: { childId:
           data-spatial-relation-visual
           data-relation-kind={config.kind}
           data-relation-mode={config.mode}
-          aria-label={config.mode === "object_relation" ? `Papan hubungan ${config.kind}` : `Papan arah awal ${config.anchor}; hasil ${feedback === "good" ? config.moving : "belum diketahui"}`}
+          aria-label={boardAriaLabel(config, feedback === "good")}
         >
-          <RelationBoard kind={config.kind} anchor={config.anchor} moving={config.moving} revealResult={feedback === "good"} />
+          <RelationBoard config={config} revealResult={feedback === "good"} />
           <p>{config.cue}</p>
         </div>
 
