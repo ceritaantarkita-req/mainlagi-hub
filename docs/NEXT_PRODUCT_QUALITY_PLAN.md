@@ -129,7 +129,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **47 ACTIVE / REUSE CHAIN FULLY CLOSED / FRESH AUDIT NEXT** | Environment-care runtime #221/main `986c5c47` + docs closure #222/main `d98ac379`; closure-main CI #1020 exact Cloudflare smoke; no runtime wave pre-approved |
+| WS-05 Gameplay diversification | **47 ACTIVE / ECOSYSTEM RELATION REUSE AUDIT ACTIVE** | Exact 4 Science ecosystem direct-choice IDs -> existing `phenomenon_relation_board`; Pattern #48 not justified; implementation blocked until audit live verification |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P45 merged-main permanent visual QA green; nine dedicated screenshots manually accepted |
