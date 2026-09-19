@@ -82,13 +82,15 @@
 **Math measurement audit PR CI:** **#972 / run `35378121937` — full success**  
 **Math measurement audit main CI:** **#973 / run `35378825618` — full success + exact Cloudflare production smoke**  
 **Math measurement audit:** **MERGED / LIVE VERIFIED**  
-**Math measurement runtime:** **IMPLEMENTATION ACTIVE on `agent/math-compare-properties-reuse-20260919` / exact 4-ID scope**  
-**Math measurement target:** **47 active / `choice_grid` 219 / `compare_properties` 7**  
+**Math measurement runtime:** **PR #216 -> main `365070772554d3f00ff7b8124e9f71e97b5252a6` / FULLY CLOSED / LIVE VERIFIED**  
+**Math measurement final PR CI:** **#994 / run `35424613584` — full success**  
+**Math measurement implementation main CI:** **#995 / run `35425340216` — full success + exact Cloudflare production smoke**  
+**Math measurement merged truth:** **47 active / `choice_grid` 219 / `compare_properties` 7 / KEEP 900**  
 **Math measurement matching exclusion:** **`math-measure-match-length` remains matching**  
 **English completion reuse audit:** PR #211 -> main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52` / exact 5-ID scope / JUSTIFIED / code not started  
 **English cloze audit PR CI:** **#974 / run `35379084421` — full success**  
 **English cloze audit main CI:** **#975 / run `35409217808` — full success + exact Cloudflare production smoke**  
-**English cloze audit:** **MERGED / LIVE VERIFIED / runtime queued**  
+**English cloze audit:** **MERGED / LIVE VERIFIED / runtime NEXT / UNBLOCKED**  
 **Science environment-care reuse audit:** PR #212 -> main `0fccffd769211e5b47be81ec5126c913d9c26fec` / exact 4 direct-choice IDs / JUSTIFIED / code not started  
 **Environment-care audit PR CI:** **#976 / run `35409354940` — full success**  
 **Environment-care audit main CI:** **#977 / run `35409698981` — full success + exact Cloudflare production smoke**  
@@ -717,6 +719,7 @@ P2 findings: 3
 7. Environment-care audit PR #212 -> `0fccffd7` is live verified by main CI #977 + exact Cloudflare smoke; matching remains excluded.
 8. Merge/live-verify this reuse-chain closure docs change.
 9. Math spatial runtime PR #214 is fully closed/live verified on main `2cb948d6` by CI #987 + exact Cloudflare smoke with merged 47/223/11 distribution and KEEP 900.
-10. Math measurement runtime reuse is active on `agent/math-compare-properties-reuse-20260919`: exactly four direct-choice `math.measure.intuition` IDs -> existing `compare_properties`; `math-measure-match-length` remains matching. Require legacy Science regression, exact fail-closed config, binary + three-first-class-candidate QA, exact-head CI, nine-shot review, exact merge, merged-main Cloudflare smoke and closure before English.
+10. Math measurement runtime PR #216 is fully closed/live verified on main `36507077` by CI #995 + exact Cloudflare smoke with merged 47/219/7 distribution and KEEP 900.
+11. Start English sentence-completion runtime reuse next: exactly five `english.sentence.completion` IDs -> existing `cloze_sentence_choice`; preserve five Bahasa cloze activities, exact ten-ID fail-closed config, subject-aware locale/copy, dedicated English keyboard/pointer/actual-touch QA, exact-head CI, nine-shot review, exact merge, merged-main Cloudflare smoke and closure before Science environment-care runtime.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
