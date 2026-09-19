@@ -2,6 +2,7 @@ import type { LearningActivity } from "./system";
 import { isClozeSentenceChoiceActivity } from "./clozeSentenceChoiceConfig";
 import { healthyHabitRoutineConfig } from "./healthyHabitRoutineConfig";
 import { pictureWordMatchConfig } from "./pictureWordMatchConfig";
+import { numberLineConfig } from "./numberLineConfig";
 import { isReadingPassageQuestionActivity } from "./readingPassageQuestionConfig";
 import { isSentenceOrderCardsActivity } from "./sentenceOrderCardsConfig";
 import { isVisualWordProblemActivity } from "./visualWordProblemConfig";
@@ -178,15 +179,6 @@ const MATH_COUNT_SELECT_IDS = new Set([
   "math-count-8",
   "math-count-9",
   "math-count-10"
-]);
-
-const MATH_NUMBER_LINE_IDS = new Set([
-  "math-order-next-1-2",
-  "math-order-next-3-4",
-  "math-order-before-6",
-  "math-order-between-6-8",
-  "math-order-descend-5",
-  "math-order-descend-10"
 ]);
 
 const MATH_MORE_LESS_BALANCE_IDS = new Set([
@@ -397,17 +389,7 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     Boolean(activity.prompt);
   if (isReviewedMathCountFamily) return "count_select";
 
-  const isReviewedMathNumberLineFamily =
-    activity.subjectId === "math" &&
-    activity.stageId === "math-banding-bentuk" &&
-    MATH_NUMBER_LINE_IDS.has(activity.id) &&
-    choices.length === 3 &&
-    new Set(choices).size === choices.length &&
-    choices.every((choice) => /^\d+$/.test(choice)) &&
-    /^\d+$/.test(correct) &&
-    choices.includes(correct) &&
-    Boolean(activity.prompt);
-  if (isReviewedMathNumberLineFamily) return "number_line";
+  if (numberLineConfig(activity)) return "number_line";
 
   const isReviewedMathComparisonFamily =
     activity.subjectId === "math" &&
