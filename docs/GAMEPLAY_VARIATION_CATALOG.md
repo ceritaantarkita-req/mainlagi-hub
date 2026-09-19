@@ -38,13 +38,17 @@ Patterns #1–#35 remain as previously closed/merged. Latest entries:
 
 ## Current verified merged distribution
 
+Current runtime truth after the live-verified Set Reasoning reuse:
+
 ```text
 900 / 900 classified
 0 unclassified
-46 active child-facing patterns
-choice_grid                     237 / 900
+47 active child-facing patterns
+choice_grid                     228 / 900
+set_reasoning                    10 / 900
 elimination_board                 5 / 900
 phenomenon_relation_board         4 / 900
+shape_attribute_board             4 / 900
 subitizing_glance                 3 / 900
 single_rule_apply                 5 / 900
 growth_stage_transition           3 / 900
@@ -55,9 +59,11 @@ cloze_sentence_choice             5 / 900
 reading_passage_question          5 / 900
 sentence_order_cards              5 / 900
 picture_word_match                5 / 900
+compare_properties                3 / 900
+healthy_habit_routine             4 / 900
 ```
 
-Remaining distance is **3 patterns** to the current finish target of 50.
+Active-pattern count remains 47 because Set Reasoning was reuse/generalization, not a new pattern. Remaining distance is **3 patterns** to the current finish target of 50; no new Pattern #48 is justified merely to close that numeric gap.
 
 Pattern #46 verified merged distribution:
 
