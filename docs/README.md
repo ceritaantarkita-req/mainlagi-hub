@@ -125,6 +125,7 @@ English concrete-vocabulary picture-word reuse audit: [`PICTURE_WORD_MATCH_ENGLI
 English picture-word reuse implementation wave: [`WS05_PICTURE_WORD_MATCH_ENGLISH_REUSE_WAVE_2026-09-19.md`](WS05_PICTURE_WORD_MATCH_ENGLISH_REUSE_WAVE_2026-09-19.md) — PR #228 -> main `3c9b6058`; final PR CI #1053 + main CI #1054 exact Cloudflare smoke; 900/900 / 47 active / `choice_grid` 188 / `picture_word_match` 23 / KEEP 900; nine-shot P0=0/P1=0; runtime live verified.  
 English picture-word reuse closure: [`PICTURE_WORD_MATCH_ENGLISH_VOCAB_REUSE_CLOSURE_2026-09-19.md`](PICTURE_WORD_MATCH_ENGLISH_VOCAB_REUSE_CLOSURE_2026-09-19.md) — closure PR #229 -> main `a3437888`; closure CI #1055/#1056 full success including exact Cloudflare smoke; fully closed/live verified.  
 English picture-word final closure verification: [`PICTURE_WORD_MATCH_ENGLISH_VOCAB_REUSE_FINAL_CLOSURE_VERIFICATION_2026-09-19.md`](PICTURE_WORD_MATCH_ENGLISH_VOCAB_REUSE_FINAL_CLOSURE_VERIFICATION_2026-09-19.md) — exact audit/runtime/closure production chain and closure-main artifact evidence.  
+Math missing-number Number Line reuse audit: [`NUMBER_LINE_MATH_MISSING_NUMBER_REUSE_AUDIT_2026-09-19.md`](NUMBER_LINE_MATH_MISSING_NUMBER_REUSE_AUDIT_2026-09-19.md) — fresh exact 5-ID Wave C audit; existing `number_line` reuse justified; expected runtime `choice_grid` 183 / `number_line` 11 / 47 active; Pattern #48 not required; code not started.  
 Math measurement closure: [`COMPARE_PROPERTIES_MATH_MEASURE_REUSE_CLOSURE_2026-09-19.md`](COMPARE_PROPERTIES_MATH_MEASURE_REUSE_CLOSURE_2026-09-19.md)  
 Math spatial closure: [`SPATIAL_RELATION_BOARD_MATH_POSITION_REUSE_CLOSURE_2026-09-19.md`](SPATIAL_RELATION_BOARD_MATH_POSITION_REUSE_CLOSURE_2026-09-19.md)
 
@@ -304,6 +305,7 @@ Pattern #42 closure gates are complete. Closure PR #188 merged and closure main 
 
 ## Current evidence records
 
+- [`NUMBER_LINE_MATH_MISSING_NUMBER_REUSE_AUDIT_2026-09-19.md`](NUMBER_LINE_MATH_MISSING_NUMBER_REUSE_AUDIT_2026-09-19.md) — fresh objective/evidence audit for five Math Wave C missing-number activities; reuse existing `number_line`, harden exact 11-ID family on implementation, no Pattern #48.
 - [`PICTURE_WORD_MATCH_ENGLISH_VOCAB_REUSE_FINAL_CLOSURE_VERIFICATION_2026-09-19.md`](PICTURE_WORD_MATCH_ENGLISH_VOCAB_REUSE_FINAL_CLOSURE_VERIFICATION_2026-09-19.md) — final audit/runtime/docs-closure verification: closure PR #229 -> main `a3437888`; CI #1056 exact Cloudflare smoke; English picture-word reuse fully closed/live verified.
 - [`PICTURE_WORD_MATCH_ENGLISH_VOCAB_REUSE_CLOSURE_2026-09-19.md`](PICTURE_WORD_MATCH_ENGLISH_VOCAB_REUSE_CLOSURE_2026-09-19.md) — post-merge runtime closure: PR #228 -> main `3c9b6058`; closure PR #229 -> main `a3437888`; 47 active / `choice_grid` 188 / `picture_word_match` 23 / KEEP 900.
 - [`WS05_PICTURE_WORD_MATCH_ENGLISH_REUSE_WAVE_2026-09-19.md`](WS05_PICTURE_WORD_MATCH_ENGLISH_REUSE_WAVE_2026-09-19.md) — exact 23-ID fail-closed implementation wave; final PR CI #1053 + main CI #1054 green, dedicated 320/390/768 keyboard/pointer/touch QA, and nine-shot manual P0=0/P1=0.
