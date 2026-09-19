@@ -1,6 +1,6 @@
 # WS-05 Math Spatial Relation Board Reuse Wave — 19 September 2026
 
-Status: **IMPLEMENTATION ACCEPTED ON PR BRANCH / FINAL EXACT-HEAD CI REQUIRED BEFORE MERGE**
+Status: **FULLY CLOSED / LIVE VERIFIED**
 
 ## Authorized base
 
@@ -213,22 +213,49 @@ Manual visual review accepted the dedicated nine Math `math-spatial-near` screen
 
 Review result: **P0=0 / P1=0**. The proximity relation stays readable without horizontal clipping, wrong-state retry is clear, success CTA remains visible, and the scene does not introduce answer-specific pre-submit success styling.
 
-This docs checkpoint changes the PR head, therefore the next required gate is one final **exact-head full CI** before merge.
+Final checkpoint docs produced head `6e0d52f5c76933f698ac53be5120e5b488b89896`. CI #986 / run `35421866386` passed every PR gate. PR #214 then squash-merged unchanged to main `2cb948d614c90aceaa592ddbfae204ed639bc062`.
 
-## Merge gates
+Main CI #987 / run `35422469117` passed every job including exact-SHA Cloudflare production smoke. Merged-main artifacts independently verify:
 
-Before merge:
-1. exact-head full CI green;
-2. distribution exactly 900/900, 47 active, `choice_grid` 223, `spatial_relation_board` 11;
-3. activity quality KEEP 900 / no structural findings;
+```text
+900 / 900 classified
+47 active patterns
+choice_grid               223
+spatial_relation_board     11
+set_reasoning              10
+activity quality KEEP     900
+```
+
+Merged-main artifacts:
+
+```text
+mobile-route-qa-screenshots  10578955102
+sha256:0a1a026da811b9fa56c47b4c345aa7bf7d092943712fd6a5ea31061da6735cf6
+
+gameplay-distribution-audit  10577864840
+sha256:2de881ba65144e60f269e6083ab11713714f4254014e3b39ab8368c2afb8428d
+
+activity-quality-audit       10577759869
+sha256:4316399ccf695ff40aa0613f94443987634ce43f7b8ae105bfb010ba2fd96c6b
+```
+
+The implementation is therefore fully live verified.
+
+## Closure
+
+All merge and post-merge gates are satisfied:
+1. final exact-head CI #986 full success;
+2. exact distribution 900/900 / 47 active / 223 choice_grid / 11 spatial_relation_board;
+3. activity quality KEEP 900 / no flagged findings;
 4. legacy Logic regression green;
-5. new Math keyboard + actual-touch browser QA green;
-6. nine dedicated Math screenshots manually reviewed with P0=0/P1=0;
-7. no unresolved review threads;
-8. exact-head squash merge only.
+5. Math keyboard + actual-touch QA green;
+6. nine-shot Math review P0=0/P1=0;
+7. clean review/thread state;
+8. exact-head squash merge to `2cb948d614c90aceaa592ddbfae204ed639bc062`;
+9. main CI #987 full success;
+10. exact-SHA Cloudflare smoke success;
+11. merged-main artifacts independently confirm 47/223/11.
 
-After merge:
-1. merged-main CI full success;
-2. exact-SHA Cloudflare smoke;
-3. merged-main distribution independently confirms 47/223/11;
-4. docs-only post-merge closure before Math measurement runtime begins.
+Post-merge closure record: `SPATIAL_RELATION_BOARD_MATH_POSITION_REUSE_CLOSURE_2026-09-19.md`.
+
+Next runtime wave: Math measurement -> existing `compare_properties`, exact four direct-choice IDs only; `math-measure-match-length` remains matching.
