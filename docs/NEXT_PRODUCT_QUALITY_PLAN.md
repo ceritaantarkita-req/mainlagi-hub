@@ -129,7 +129,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **47 ACTIVE / MATH MISSING-NUMBER REUSE AUDIT ACTIVE** | fresh exact 5-ID Wave C audit -> existing `number_line`; code not started; expected runtime result `choice_grid` 183 / `number_line` 11 / active patterns 47; Pattern #48 still not justified |
+| WS-05 Gameplay diversification | **47 ACTIVE / MATH MISSING-NUMBER NUMBER-LINE RUNTIME ACTIVE** | audit #231 -> main `31c03ada`, CI #1060 exact production smoke; exact five Wave C IDs -> existing `number_line`; hardened exact 11-ID family + dedicated browser QA in implementation branch; expected `choice_grid` 183 / `number_line` 11 / active patterns 47 |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P45 merged-main permanent visual QA green; nine dedicated screenshots manually accepted |
@@ -719,13 +719,13 @@ P2 findings: 3
 
 ## Current execution order
 
-1. Preserve verified merged truth at **900/900 classified / 47 active / `choice_grid` 188 / `number_line` 6 / `picture_word_match` 23 / KEEP 900** while the fresh audit remains docs-only.
-2. English concrete-vocabulary -> existing `picture_word_match` is fully closed/live verified through final publication main `1fa2da0ace6c3e90dd37483f4585adae90a70d4d` and CI #1058 exact Cloudflare smoke.
-3. Current fresh audit is exact reuse of existing `number_line` for five Math Wave C missing-number activities: `math-missing-1-3`, `math-missing-3-5`, `math-missing-before-6`, `math-missing-after-8`, `math-missing-descend-10-8`.
-4. The original Number Line wave explicitly excluded this family pending separate objective review. That review now supports reuse because the evidence remains one missing-position numeric choice.
-5. If runtime implementation proceeds, harden the complete Number Line family to exact fail-closed validation for 11 IDs total: six legacy Wave B + five Wave C reuse IDs.
-6. Expected implementation distribution is **900/900 / 47 active / `choice_grid` 183 / `number_line` 11 / KEEP 900**. This is a reuse wave, not Pattern #48.
-7. English initial-sound direct-choice remains excluded from existing `initial_sound` reuse because it asks for a word beginning with the target sound, while the existing mechanic asks for the initial letter.
-8. Iqro remains outside mechanic transformation until expert acceptance exists. Do not create Pattern #48 merely to reach the numeric target of 50.
+1. Preserve verified merged truth at **900/900 classified / 47 active / `choice_grid` 188 / `number_line` 6 / KEEP 900** until the runtime PR merges.
+2. Math missing-number audit is now live verified: PR #231 -> main `31c03adac0d143e128996321588af514762c4cbd`; CI #1059/#1060 full success with exact audit-main Cloudflare smoke.
+3. Current runtime branch reuses existing `number_line` for exactly five Wave C activities: `math-missing-1-3`, `math-missing-3-5`, `math-missing-before-6`, `math-missing-after-8`, `math-missing-descend-10-8`.
+4. Complete Number Line family must remain exactly 11 IDs: six legacy Wave B + five audited Wave C. Classification must fail closed on subject, stage, runtime, title, prompt, exact choice order and answer.
+5. Dedicated Wave C browser QA must cover 320/390/768, legitimate progression, keyboard wrong/retry, pointer + touchscreen completion, touch targets, overflow, evidence, screenshots and false-completion guard while legacy Number Line QA remains green.
+6. Expected runtime result is **900/900 / 47 active / `choice_grid` 183 / `number_line` 11 / KEEP 900**.
+7. This is mechanic reuse, not Pattern #48. Do not create Pattern #48 merely to reach 50.
+8. English initial-sound direct-choice remains excluded from existing `initial_sound`; Iqro remains outside mechanic transformation until expert acceptance exists.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
