@@ -38,14 +38,18 @@ Patterns #1–#35 remain as previously closed/merged. Latest entries:
 
 ## Current verified merged distribution
 
-Current runtime truth after the live-verified Set Reasoning reuse:
+Current merged-main runtime truth after English cloze closure main `ae29ada7f0f7f04e565f6a33e4f6f089d79e8f58`:
 
 ```text
 900 / 900 classified
 0 unclassified
 47 active child-facing patterns
-choice_grid                     228 / 900
+choice_grid                     214 / 900
 set_reasoning                    10 / 900
+spatial_relation_board           11 / 900
+compare_properties                7 / 900
+cloze_sentence_choice            10 / 900
+healthy_habit_routine             4 / 900
 elimination_board                 5 / 900
 phenomenon_relation_board         4 / 900
 shape_attribute_board             4 / 900
@@ -53,17 +57,13 @@ subitizing_glance                 3 / 900
 single_rule_apply                 5 / 900
 growth_stage_transition           3 / 900
 phrase_scene_match                4 / 900
-spatial_relation_board            6 / 900
 visual_word_problem               5 / 900
-cloze_sentence_choice             5 / 900
 reading_passage_question          5 / 900
 sentence_order_cards              5 / 900
 picture_word_match                5 / 900
-compare_properties                3 / 900
-healthy_habit_routine             4 / 900
 ```
 
-Active-pattern count remains 47 because Set Reasoning was reuse/generalization, not a new pattern. Remaining distance is **3 patterns** to the current finish target of 50; no new Pattern #48 is justified merely to close that numeric gap.
+PR #221 accepted checkpoint `87c0d7efcecb7202f408df2aa24b2445a3834d22` moves exactly four audited environment-care activities from `choice_grid` to existing `healthy_habit_routine`, yielding branch truth `choice_grid=210` / `healthy_habit_routine=8` while active-pattern count remains 47. Remaining distance is **3 patterns** to the finish target of 50; no Pattern #48 is created merely to close the numeric gap.
 
 Pattern #46 verified merged distribution:
 
@@ -247,9 +247,9 @@ Implementation wave: `WS05_CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_WAVE_2026-09-19.m
 Closure record: `CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_CLOSURE_2026-09-19.md`.  
 Reuse audit record: `CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_AUDIT_2026-09-19.md`.
 
-English cloze reuse is **FULLY CLOSED / LIVE VERIFIED**. Science environment-care is now the **NEXT / UNBLOCKED** runtime wave after this closure docs PR itself merges/live-verifies.
+English cloze reuse is **FULLY CLOSED / LIVE VERIFIED** through closure main `ae29ada7f0f7f04e565f6a33e4f6f089d79e8f58` and CI #1011 exact Cloudflare smoke. Science environment-care runtime is active in PR #221; accepted code checkpoint `87c0d7ef` passed CI #1012 and manual nine-shot review P0=0/P1=0.
 
-Current next reuse audit: existing Pattern #22 `healthy_habit_routine` is justified for exactly four Science `science.environment.care.basic` direct-choice activities:
+Current reuse implementation: existing Pattern #22 `healthy_habit_routine` now serves exactly four additional audited Science `science.environment.care.basic` direct-choice activities on PR #221:
 
 ```text
 science-env-trash-bin
@@ -260,8 +260,9 @@ science-env-plant-care
 
 `science-match-environment-actions-c` remains canonical matching / `matching_accuracy_v1`.
 
-Reuse requires an explicit domain variant because the current component/copy/metadata are body-health specific. Existing four body-health activities must remain unchanged; environment-care gets domain-correct action-selection copy/metadata. The legacy Pattern #22 identifier remains for compatibility. Audit PR #212 -> main `0fccffd769211e5b47be81ec5126c913d9c26fec`; PR CI #976 and main CI #977 both passed, with #977 exact Cloudflare smoke. Audit is **LIVE VERIFIED**; runtime code has not started and is now **NEXT / UNBLOCKED** after the English closure gate.
+PR #221 implements the required explicit `body_health` / `environment_care` domain split. The four existing body-health activities keep historical copy/evidence metadata; environment-care receives domain-correct action-selection copy and `choice_environment_care_action_interaction` evidence fidelity. The full eight-ID family is fail-closed on exact ID/subject/stage/runtime/prompt/choice order/answer. Audit PR #212 -> main `0fccffd769211e5b47be81ec5126c913d9c26fec`; PR CI #976 and main CI #977 passed with exact Cloudflare smoke. Checkpoint CI #1012 is full green, branch distribution is 47 active / `choice_grid` 210 / `healthy_habit_routine` 8 / KEEP 900, and manual nine-shot review is P0=0/P1=0.
 
+Implementation wave: `WS05_HEALTHY_HABIT_ROUTINE_ENVIRONMENT_REUSE_WAVE_2026-09-19.md`.  
 Reuse audit record: `HEALTHY_HABIT_ROUTINE_ENVIRONMENT_CARE_REUSE_AUDIT_2026-09-19.md`.
 
 ## Pattern #47 — `shape_attribute_board` / FULLY CLOSED / LIVE VERIFIED
@@ -445,7 +446,7 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 - Math measurement reuse audit — PR #210 -> main `f9833568`; main CI #973 exact Cloudflare smoke; matching excluded; **LIVE VERIFIED**.
 - Math measurement runtime reuse — PR #216 -> main `36507077`; final PR CI #994; main CI #995 exact Cloudflare smoke; merged 47 active / `choice_grid` 219 / `compare_properties` 7; **FULLY CLOSED / LIVE VERIFIED**.
 - English completion reuse implementation — PR #219 active; accepted code checkpoint `a054b76b`; CI #1003 full success; manual 9-shot P0=0/P1=0; branch 47 active / `choice_grid` 214 / `cloze_sentence_choice` 10; **FINAL DOCS CI PENDING**.
-- Science environment-care reuse audit — PR #212 -> main `0fccffd7`; main CI #977 exact Cloudflare smoke; explicit `environment_care` domain variant required; matching excluded; **LIVE VERIFIED / RUNTIME QUEUED / CODE NOT STARTED**.
+- Science environment-care reuse — audit PR #212/main `0fccffd7` live verified; runtime PR #221 accepted checkpoint `87c0d7ef` / CI #1012 / manual 9-shot P0=0 P1=0; branch 47 active / `choice_grid` 210 / `healthy_habit_routine` 8; **FINAL DOCS CI PENDING**.
 - No Pattern #48 is created.
 - Continue only with justified exact scopes; reuse an existing mechanic when it already matches the evidence model.
 
