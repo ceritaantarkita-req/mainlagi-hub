@@ -221,6 +221,22 @@ The current compare-properties UI uses two primary candidates plus a third other
 
 Reuse audit record: `COMPARE_PROPERTIES_MATH_MEASURE_REUSE_AUDIT_2026-09-19.md`.
 
+Audit PR #210 merged to main `f9833568dea0f021cd5c4ed94f6f6fc7505ad8d8` after exact-head CI #972 success. Runtime remained unchanged at 47 active / `choice_grid` 228 / `compare_properties` 3 / `spatial_relation_board` 6 / `set_reasoning` 10; independent audit-main/Cloudflare verification remains pending.
+
+Current next reuse audit: existing Pattern #38 `cloze_sentence_choice` is justified for exactly five English `english.sentence.completion` activities:
+
+```text
+english-complete-cat-sleeps
+english-complete-bird-flies
+english-complete-i-read
+english-complete-two-apples
+english-complete-mother-family
+```
+
+The existing five Bahasa cloze activities must remain behaviorally stable. English reuse requires exact 10-ID fail-closed configuration plus subject-aware child-facing locale/copy; it must not generalize by blank syntax alone. Code has not started.
+
+Reuse audit record: `CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_AUDIT_2026-09-19.md`.
+
 ## Pattern #47 — `shape_attribute_board` / FULLY CLOSED / LIVE VERIFIED
 
 Exact candidate scope:
@@ -399,8 +415,9 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 - Pattern #48 fresh audit — merged/live verified through PR #205 / audit-main CI #953; **no justified new pattern yet**.
 - Set Reasoning reuse gate — PR #207 -> main `9debb6cf`; final head `a37fdec7` / CI #963 green / final branch 47/228/10; merged-main + exact Cloudflare verification pending.
 - Math spatial reuse audit — PR #209 -> main `3e30a817`; exact five-ID scope; PR CI #970 green; independent main/Cloudflare verification pending; **CODE NOT STARTED**.
-- Math measurement reuse audit — exact four direct-choice `math.measure.intuition` scope -> existing `compare_properties`; matching excluded; **JUSTIFIED / CODE NOT STARTED**.
-- Math runtime implementation remains blocked until preceding live/audit gates are complete.
+- Math measurement reuse audit — PR #210 -> main `f9833568`; exact four direct-choice scope; PR CI #972 green; independent main/Cloudflare verification pending; matching excluded; **CODE NOT STARTED**.
+- English completion reuse audit — exact five-ID `english.sentence.completion` scope -> existing `cloze_sentence_choice`; subject-aware locale required; **JUSTIFIED / CODE NOT STARTED**.
+- Math/English runtime implementation remains blocked until preceding live/audit gates are complete.
 - Continue only with justified exact scopes; reuse an existing mechanic when it already matches the evidence model.
 
 ## Definition of done per mechanic

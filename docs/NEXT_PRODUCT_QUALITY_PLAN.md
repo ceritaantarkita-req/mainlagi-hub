@@ -70,9 +70,12 @@
 **Math spatial reuse audit:** PR #209 -> main `3e30a817ef86fa691f9b2f1249ac00bc00dce4e6` / exact 5-ID scope / JUSTIFIED / code not started  
 **Math spatial audit PR CI:** **#970 / run `35377295090` — full success**  
 **Math spatial audit main/Cloudflare verification:** **PENDING INDEPENDENT VERIFICATION**  
-**Math measurement reuse audit:** **`compare_properties` / exact 4 direct-choice IDs / JUSTIFIED / code not started**  
+**Math measurement reuse audit:** PR #210 -> main `f9833568dea0f021cd5c4ed94f6f6fc7505ad8d8` / exact 4 direct-choice IDs / JUSTIFIED / code not started  
+**Math measurement audit PR CI:** **#972 / run `35378121937` — full success**  
+**Math measurement audit main/Cloudflare verification:** **PENDING INDEPENDENT VERIFICATION**  
 **Math measurement matching exclusion:** **`math-measure-match-length` remains matching**  
-**Math runtime implementation:** **BLOCKED by preceding live/audit gates**  
+**English completion reuse audit:** **`cloze_sentence_choice` / exact 5-ID scope / JUSTIFIED / code not started**  
+**Math/English runtime implementation:** **BLOCKED by preceding live/audit gates**  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
 
@@ -268,6 +271,49 @@ compare_properties         7 / 900
 Runtime remains blocked until preceding live/audit gates are resolved.
 
 Reuse audit record: `COMPARE_PROPERTIES_MATH_MEASURE_REUSE_AUDIT_2026-09-19.md`.
+
+Audit PR #210 exact head `0774f29c9658302a4c7bc99f5291c1eb84caad1c` passed CI #972 and merged to main `f9833568dea0f021cd5c4ed94f6f6fc7505ad8d8`. Its artifacts preserved 47 active / `choice_grid` 228 / `compare_properties` 3 / `spatial_relation_board` 6 / `set_reasoning` 10. Independent merged-main/Cloudflare verification remains pending.
+
+### Next reuse audit — English completion -> `cloze_sentence_choice`
+
+Exact scope:
+
+```text
+english-complete-cat-sleeps
+english-complete-bird-flies
+english-complete-i-read
+english-complete-two-apples
+english-complete-mother-family
+```
+
+Canonical ownership is English / `english-phrases-review` / `english-sentence-completion` / `english.pack.sentence-completion` / `english.sentence.completion` / assessed `tap_choice` / `choice_accuracy_v1`.
+
+Audit result: **reuse justified / code not started**.
+
+Pattern #38 already expresses one-slot sentence completion with direct-choice measured evidence. Later implementation must preserve five existing Bahasa cloze activities and add five English IDs through exact fail-closed configuration. The UI must become subject-aware: existing Bahasa child-facing copy and `id-ID` behavior remain stable; English completion uses reviewed English copy/locale. Blank syntax alone must never classify an arbitrary activity.
+
+Future distribution from current code baseline if this English wave alone is verified:
+
+```text
+47 active patterns
+choice_grid               223 / 900
+cloze_sentence_choice      10 / 900
+```
+
+Combined only after both separately audited Math reuse waves are implemented:
+
+```text
+47 active patterns
+choice_grid               214 / 900
+set_reasoning              10 / 900
+spatial_relation_board     11 / 900
+compare_properties          7 / 900
+cloze_sentence_choice      10 / 900
+```
+
+Runtime remains blocked until preceding live/audit gates are resolved.
+
+Reuse audit record: `CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_AUDIT_2026-09-19.md`.
 
 Audit record: `PATTERN48_OBJECTIVE_EVIDENCE_AUDIT_2026-09-18.md`.
 
@@ -600,8 +646,9 @@ P2 findings: 3
 2. Do not implement a new Pattern #48; no new mechanic candidate is justified.
 3. Set Reasoning reuse PR #207 is merged to main `9debb6cf`; preserve exact scope, final CI #963 and accepted old+new QA evidence.
 4. Math spatial audit PR #209 is merged to `3e30a817`; PR CI #970 green; independent merged-main/Cloudflare verification is still pending and runtime stays unstarted.
-5. Math measurement -> `compare_properties` reuse is justified for exactly four direct-choice activities; `math-measure-match-length` remains matching.
-6. Merge/verify the measurement docs audit while keeping runtime blocked.
-7. Only after preceding Set Reasoning + Math spatial live/audit gates are resolved may exact-scope Math runtime implementation begin.
+5. Math measurement audit PR #210 is merged to `f9833568`; PR CI #972 is green; independent main/Cloudflare verification remains pending and runtime stays unstarted.
+6. English completion -> `cloze_sentence_choice` reuse is justified for exactly five English completion activities; keep runtime code unstarted.
+7. Merge/verify the English docs audit while keeping all reuse runtime blocked.
+8. Runtime implementation begins only after the preceding Set Reasoning/Math live-verification chain is resolved.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
