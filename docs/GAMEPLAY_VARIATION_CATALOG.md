@@ -206,7 +206,7 @@ math-spatial-between
 
 This remains Pattern #40 reuse, not Pattern #48. The exact family is Math / `math-ukur-ruang` / `math-spatial-position` / `math.pack.spatial-position` / assessed `tap_choice` / `choice_accuracy_v1`. Required generalization is explicit/fail-closed; existing six Logic spatial activities must remain unchanged. Expected later verified distribution is 47 active / `choice_grid` 223 / `spatial_relation_board` 11 / `set_reasoning` 10.
 
-Math spatial audit main CI #971 / run `35377783814` passed exact Cloudflare smoke. The reuse-chain closure is now live verified, and runtime implementation is **ACTIVE** on `agent/math-spatial-reuse-20260919`. Intended branch result remains 47 active / `choice_grid` 223 / `spatial_relation_board` 11 / `set_reasoning` 10.
+Math spatial audit main CI #971 / run `35377783814` passed exact Cloudflare smoke. Runtime PR #214 has an **ACCEPTED CHECKPOINT** at `500e71e8a86f4959cffad423b024997d0d06a1b2`: CI #981 is green, artifacts verify 47 active / `choice_grid` 223 / `spatial_relation_board` 11 / `set_reasoning` 10, and the dedicated nine-shot Math visual review is P0=0/P1=0. Final exact-head CI is pending after checkpoint docs synchronization.
 
 Reuse audit record: `SPATIAL_RELATION_BOARD_MATH_POSITION_REUSE_AUDIT_2026-09-19.md`.
 
