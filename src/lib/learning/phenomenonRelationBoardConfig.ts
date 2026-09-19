@@ -1,10 +1,16 @@
 import type { LearningActivity } from "./system";
 
+export type PhenomenonRelationDomainVariant = "earth_sky" | "ecosystem_dependency";
+
 export type PhenomenonRelationMode =
   | "sun_day_relation"
   | "night_sky_observation"
   | "light_shadow_relation"
-  | "cloud_rain_prediction";
+  | "cloud_rain_prediction"
+  | "plant_resource_dependency"
+  | "bee_flower_food_relation"
+  | "bird_tree_habitat_relation"
+  | "food_resource_change_consequence";
 
 export type PhenomenonRelationChoiceVisual = {
   icon: string;
@@ -12,6 +18,7 @@ export type PhenomenonRelationChoiceVisual = {
 };
 
 export type PhenomenonRelationBoardConfig = {
+  domainVariant: PhenomenonRelationDomainVariant;
   mode: PhenomenonRelationMode;
   observationIcon: string;
   observationLabel: string;
@@ -26,6 +33,7 @@ export type PhenomenonRelationBoardConfig = {
 
 const CONFIGS: Record<string, PhenomenonRelationBoardConfig> = {
   "science-earth-sun-day": {
+    domainVariant: "earth_sky",
     mode: "sun_day_relation",
     observationIcon: "☀️🌍",
     observationLabel: "Tempat kita menghadap Matahari",
@@ -42,6 +50,7 @@ const CONFIGS: Record<string, PhenomenonRelationBoardConfig> = {
     }
   },
   "science-earth-moon-night": {
+    domainVariant: "earth_sky",
     mode: "night_sky_observation",
     observationIcon: "🌌",
     observationLabel: "Langit pada malam hari",
@@ -58,6 +67,7 @@ const CONFIGS: Record<string, PhenomenonRelationBoardConfig> = {
     }
   },
   "science-earth-shadow-sun": {
+    domainVariant: "earth_sky",
     mode: "light_shadow_relation",
     observationIcon: "🔦🧱",
     observationLabel: "Benda menghalangi cahaya",
@@ -74,6 +84,7 @@ const CONFIGS: Record<string, PhenomenonRelationBoardConfig> = {
     }
   },
   "science-earth-cloud-rain": {
+    domainVariant: "earth_sky",
     mode: "cloud_rain_prediction",
     observationIcon: "☁️☁️",
     observationLabel: "Awan makin gelap dan tebal",
@@ -87,6 +98,74 @@ const CONFIGS: Record<string, PhenomenonRelationBoardConfig> = {
       "hujan turun": { icon: "🌧️", accessibleLabel: "hujan turun" },
       "bintang muncul siang hari": { icon: "⭐☀️", accessibleLabel: "bintang pada siang hari" },
       "tanah langsung membeku": { icon: "🧊", accessibleLabel: "tanah membeku" }
+    }
+  },
+  "science-eco-plant-sun-water": {
+    domainVariant: "ecosystem_dependency",
+    mode: "plant_resource_dependency",
+    observationIcon: "🌱",
+    observationLabel: "Tanaman di kebun",
+    relationLabel: "Sumber daya yang dibutuhkan",
+    cue: "Hubungkan tanaman dengan sumber daya lingkungan yang membantu pertumbuhannya.",
+    successText: "Tanaman membutuhkan air dan cahaya untuk membantu proses pertumbuhannya.",
+    expectedPrompt: "Tanaman di kebun membutuhkan kombinasi mana untuk tumbuh?",
+    expectedChoices: ["air dan cahaya", "plastik dan kaca", "mainan dan kertas"],
+    expectedCorrectChoice: "air dan cahaya",
+    choiceVisuals: {
+      "air dan cahaya": { icon: "💧☀️", accessibleLabel: "air dan cahaya matahari" },
+      "plastik dan kaca": { icon: "🧴🪟", accessibleLabel: "plastik dan kaca" },
+      "mainan dan kertas": { icon: "🧸📄", accessibleLabel: "mainan dan kertas" }
+    }
+  },
+  "science-eco-bee-flower": {
+    domainVariant: "ecosystem_dependency",
+    mode: "bee_flower_food_relation",
+    observationIcon: "🐝🌸",
+    observationLabel: "Lebah mendatangi bunga",
+    relationLabel: "Sumber yang dicari",
+    cue: "Hubungkan perilaku lebah dengan sumber makanan yang relevan di bunga.",
+    successText: "Lebah sering mendatangi bunga untuk mencari nektar.",
+    expectedPrompt: "Mengapa lebah sering mendatangi bunga?",
+    expectedChoices: ["mencari nektar", "mencari batu", "mencari plastik"],
+    expectedCorrectChoice: "mencari nektar",
+    choiceVisuals: {
+      "mencari nektar": { icon: "🌼", accessibleLabel: "nektar pada bunga" },
+      "mencari batu": { icon: "🪨", accessibleLabel: "batu" },
+      "mencari plastik": { icon: "🧴", accessibleLabel: "plastik" }
+    }
+  },
+  "science-eco-bird-tree": {
+    domainVariant: "ecosystem_dependency",
+    mode: "bird_tree_habitat_relation",
+    observationIcon: "🐦🌳",
+    observationLabel: "Burung berada dekat pohon",
+    relationLabel: "Dukungan yang dapat diberikan pohon",
+    cue: "Hubungkan pohon dengan kebutuhan tempat hidup yang dapat digunakan burung.",
+    successText: "Pohon dapat menyediakan tempat bagi burung untuk bertengger atau bersarang.",
+    expectedPrompt: "Pohon dapat membantu burung dengan menyediakan apa?",
+    expectedChoices: ["tempat bertengger atau bersarang", "air laut", "roda kendaraan"],
+    expectedCorrectChoice: "tempat bertengger atau bersarang",
+    choiceVisuals: {
+      "tempat bertengger atau bersarang": { icon: "🪺", accessibleLabel: "tempat bertengger atau bersarang" },
+      "air laut": { icon: "🌊", accessibleLabel: "air laut" },
+      "roda kendaraan": { icon: "🛞", accessibleLabel: "roda kendaraan" }
+    }
+  },
+  "science-eco-food-chain-change": {
+    domainVariant: "ecosystem_dependency",
+    mode: "food_resource_change_consequence",
+    observationIcon: "🍽️⬇️",
+    observationLabel: "Makanan utama hewan sangat berkurang",
+    relationLabel: "Dampak yang mungkin terjadi",
+    cue: "Hubungkan perubahan sumber makanan dengan dampak sederhana bagi hewan.",
+    successText: "Jika makanan utama berkurang, hewan dapat menjadi lebih sulit mendapatkan makanan.",
+    expectedPrompt: "Jika makanan utama suatu hewan sangat berkurang, apa yang mungkin terjadi?",
+    expectedChoices: ["hewan lebih sulit mendapat makanan", "hewan tidak perlu makan lagi", "semua benda menjadi hidup"],
+    expectedCorrectChoice: "hewan lebih sulit mendapat makanan",
+    choiceVisuals: {
+      "hewan lebih sulit mendapat makanan": { icon: "🐾🍽️", accessibleLabel: "hewan mencari makanan yang makin sedikit" },
+      "hewan tidak perlu makan lagi": { icon: "🚫🍽️", accessibleLabel: "tidak makan" },
+      "semua benda menjadi hidup": { icon: "✨🪨", accessibleLabel: "benda tidak hidup" }
     }
   }
 };
