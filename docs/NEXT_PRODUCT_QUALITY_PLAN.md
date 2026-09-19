@@ -129,7 +129,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **47 ACTIVE / ECOSYSTEM RELATION REUSE CHECKPOINT ACCEPTED** | PR #225 head `6cc75d7e`; CI #1028 green; 9-shot P0=0/P1=0; `choice_grid` 206 / `phenomenon_relation_board` 8 / KEEP 900; final docs CI pending |
+| WS-05 Gameplay diversification | **47 ACTIVE / ECOSYSTEM RELATION RUNTIME LIVE VERIFIED / CLOSURE DOCS ACTIVE** | PR #225 -> main `0dd89c5d`; final PR CI #1033 + main CI #1034 exact Cloudflare smoke; 9-shot P0=0/P1=0; `choice_grid` 206 / `phenomenon_relation_board` 8 / KEEP 900 |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P45 merged-main permanent visual QA green; nine dedicated screenshots manually accepted |
@@ -144,14 +144,14 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 900 / 900 classified
 0 unclassified
 47 active merged patterns
-choice_grid                     210 / 900
+choice_grid                     206 / 900
 set_reasoning                    10 / 900
 spatial_relation_board           11 / 900
 compare_properties                7 / 900
 cloze_sentence_choice            10 / 900
 healthy_habit_routine             8 / 900
 elimination_board                 5 / 900
-phenomenon_relation_board         4 / 900
+phenomenon_relation_board         8 / 900
 shape_attribute_board             4 / 900
 subitizing_glance                 3 / 900
 single_rule_apply                 5 / 900
@@ -171,9 +171,9 @@ Current result:
 - remaining generic choice families were checked against existing mechanic coverage;
 - Iqro remains outside mechanic transformation until expert acceptance.
 
-The five reuse-first candidates from this audit chain are now implemented and live verified: Logic `set_reasoning`, Math `spatial_relation_board`, Math `compare_properties`, English `cloze_sentence_choice`, and Science environment-care `healthy_habit_routine`.
+The five reuse-first candidates from the original Pattern #48 audit chain are implemented and live verified: Logic `set_reasoning`, Math `spatial_relation_board`, Math `compare_properties`, English `cloze_sentence_choice`, and Science environment-care `healthy_habit_routine`. A subsequent fresh audit also justified Science ecosystem-dependency reuse of existing `phenomenon_relation_board`; that runtime is now live verified through main CI #1034.
 
-Next action is a **fresh objective/evidence audit** of remaining learning families. A later reuse wave or new Pattern #48 requires new evidence that the selected interaction is pedagogically justified and that existing mechanics cannot more safely preserve the objective/evidence contract.
+After ecosystem closure docs are live verified, the next runtime action is another **fresh objective/evidence audit** of remaining learning families. A later reuse wave or new Pattern #48 requires new evidence that the selected interaction is pedagogically justified and that existing mechanics cannot more safely preserve the objective/evidence contract.
 
 ### Current reuse audit — `set_reasoning` / Logic multi-attribute
 
