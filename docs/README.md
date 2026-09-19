@@ -48,7 +48,7 @@ Closure main:             ad7deb67dc15eefdb81dc5d5e66f4c10ccdc9710
 Closure main CI:          #886 / run 35290502532 — full success + exact Cloudflare production smoke
 ```
 
-Verified current merged gameplay distribution is **900/900 classified, 47 active patterns, 0 unclassified**, with `choice_grid` 206/900 after the live-verified ecosystem relation reuse; `phenomenon_relation_board` is 8/900, `set_reasoning` 10/900, and `shape_attribute_board` remains 4/900. Ecosystem closure docs PR #226 merged to `fb74c17d` with exact-head PR CI #1035 green; independent closure-main evidence is still pending.
+Verified current merged gameplay distribution is **900/900 classified, 47 active patterns, 0 unclassified**, with `choice_grid` 206/900 after the live-verified ecosystem relation reuse; `phenomenon_relation_board` is 8/900, `set_reasoning` 10/900, and `shape_attribute_board` remains 4/900. Ecosystem closure docs PR #226 merged to `fb74c17d`; exact-head PR CI #1035 and closure-main CI #1036 both passed, including exact-SHA Cloudflare production smoke.
 
 ```text
 P0 = 0
@@ -119,8 +119,9 @@ Science environment-care closure: [`HEALTHY_HABIT_ROUTINE_ENVIRONMENT_CARE_REUSE
 Science environment-care final closure verification: [`HEALTHY_HABIT_ROUTINE_ENVIRONMENT_CARE_REUSE_FINAL_CLOSURE_VERIFICATION_2026-09-19.md`](HEALTHY_HABIT_ROUTINE_ENVIRONMENT_CARE_REUSE_FINAL_CLOSURE_VERIFICATION_2026-09-19.md)  
 Science ecosystem relation reuse audit: [`PHENOMENON_RELATION_BOARD_ECOSYSTEM_REUSE_AUDIT_2026-09-19.md`](PHENOMENON_RELATION_BOARD_ECOSYSTEM_REUSE_AUDIT_2026-09-19.md)  
 Science ecosystem relation implementation wave: [`WS05_PHENOMENON_RELATION_BOARD_ECOSYSTEM_REUSE_WAVE_2026-09-19.md`](WS05_PHENOMENON_RELATION_BOARD_ECOSYSTEM_REUSE_WAVE_2026-09-19.md) — PR #225 -> main `0dd89c5d`; final PR CI #1033 + main CI #1034 exact Cloudflare smoke; 9-shot P0=0/P1=0; 47 active / `choice_grid` 206 / `phenomenon_relation_board` 8 / KEEP 900; runtime live verified.  
-Science ecosystem relation closure: [`PHENOMENON_RELATION_BOARD_ECOSYSTEM_REUSE_CLOSURE_2026-09-19.md`](PHENOMENON_RELATION_BOARD_ECOSYSTEM_REUSE_CLOSURE_2026-09-19.md) — post-merge closure record; closure docs verification in progress.  
-English concrete-vocabulary picture-word reuse audit: [`PICTURE_WORD_MATCH_ENGLISH_VOCAB_REUSE_AUDIT_2026-09-19.md`](PICTURE_WORD_MATCH_ENGLISH_VOCAB_REUSE_AUDIT_2026-09-19.md) — exact 18-ID docs-only reuse audit; Pattern #35 generalization justified, runtime code not started and blocked on prior closure verification.  
+Science ecosystem relation closure: [`PHENOMENON_RELATION_BOARD_ECOSYSTEM_REUSE_CLOSURE_2026-09-19.md`](PHENOMENON_RELATION_BOARD_ECOSYSTEM_REUSE_CLOSURE_2026-09-19.md) — post-merge closure record; fully verified through closure-main CI #1036 exact Cloudflare smoke.  
+Science ecosystem relation final closure verification: [`PHENOMENON_RELATION_BOARD_ECOSYSTEM_REUSE_FINAL_CLOSURE_VERIFICATION_2026-09-19.md`](PHENOMENON_RELATION_BOARD_ECOSYSTEM_REUSE_FINAL_CLOSURE_VERIFICATION_2026-09-19.md)  
+English concrete-vocabulary picture-word reuse audit: [`PICTURE_WORD_MATCH_ENGLISH_VOCAB_REUSE_AUDIT_2026-09-19.md`](PICTURE_WORD_MATCH_ENGLISH_VOCAB_REUSE_AUDIT_2026-09-19.md) — exact 18-ID docs-only reuse audit; Pattern #35 generalization justified, runtime code not started; implementation waits for this audit merge/live verification.  
 Math measurement closure: [`COMPARE_PROPERTIES_MATH_MEASURE_REUSE_CLOSURE_2026-09-19.md`](COMPARE_PROPERTIES_MATH_MEASURE_REUSE_CLOSURE_2026-09-19.md)  
 Math spatial closure: [`SPATIAL_RELATION_BOARD_MATH_POSITION_REUSE_CLOSURE_2026-09-19.md`](SPATIAL_RELATION_BOARD_MATH_POSITION_REUSE_CLOSURE_2026-09-19.md)
 
