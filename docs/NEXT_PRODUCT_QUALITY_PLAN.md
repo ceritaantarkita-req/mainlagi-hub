@@ -4,7 +4,8 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 **Canonical branch:** `main`  
-**Latest fully closed gameplay:** Pattern #45 — Logic `elimination_board`  
+**Latest fully closed gameplay pattern:** Pattern #47 — Math `shape_attribute_board`  
+**Latest fully closed reuse wave:** Logic `set_reasoning` multi-attribute reuse  
 **Pattern #42 implementation:** PR #187 -> main `37190f5dabd5d8421d7575b8f220d2824e831f23`  
 **Pattern #42 implementation main CI:** **#884 / run `35260402125` — full success + exact Cloudflare production smoke**  
 **Pattern #42 closure:** PR #188 -> `ad7deb67dc15eefdb81dc5d5e66f4c10ccdc9710`  
