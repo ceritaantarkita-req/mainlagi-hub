@@ -129,7 +129,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **47 ACTIVE / ENGLISH PICTURE-WORD FULLY CLOSED / FRESH AUDIT NEXT** | PR #228 -> main `3c9b6058`; closure PR #229 -> main `a3437888`; CI #1053/#1054/#1055/#1056 all green with exact production smoke; 900/900 / `choice_grid` 188 / `picture_word_match` 23 / KEEP 900; 9-shot P0=0/P1=0 |
+| WS-05 Gameplay diversification | **47 ACTIVE / MATH MISSING-NUMBER REUSE AUDIT ACTIVE** | fresh exact 5-ID Wave C audit -> existing `number_line`; code not started; expected runtime result `choice_grid` 183 / `number_line` 11 / active patterns 47; Pattern #48 still not justified |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P45 merged-main permanent visual QA green; nine dedicated screenshots manually accepted |
@@ -719,13 +719,13 @@ P2 findings: 3
 
 ## Current execution order
 
-1. Preserve verified merged truth at **900/900 classified / 47 active / `choice_grid` 188 / `picture_word_match` 23 / KEEP 900**.
-2. English concrete-vocabulary -> existing Pattern #35 `picture_word_match` is now **FULLY CLOSED / LIVE VERIFIED** across audit #227, runtime #228 and closure docs #229.
-3. Closure-main `a3437888998bf43ec6eb2dcab0ec58657c59a494` passed CI #1056 including exact-SHA Cloudflare production smoke; no English picture-word closure gate remains open.
-4. Preserve the exact 23-ID fail-closed family, leak-free English frame, existing Bahasa behavior, assessed evidence semantics and explicit exclusions.
-5. Do not start another runtime wave from old assumptions. The next WS-05 decision must begin with a **fresh objective/evidence audit** of remaining learning families.
-6. Prefer reuse of an existing mechanic when the objective/evidence contract already matches; create a new pattern only when distinct interaction evidence justifies it.
-7. Do not create Pattern #48 merely to reach the numeric target of 50. Current distance remains three patterns, but numeric distance is not authorization.
-8. Iqro remains outside mechanic transformation until expert acceptance exists.
+1. Preserve verified merged truth at **900/900 classified / 47 active / `choice_grid` 188 / `number_line` 6 / `picture_word_match` 23 / KEEP 900** while the fresh audit remains docs-only.
+2. English concrete-vocabulary -> existing `picture_word_match` is fully closed/live verified through final publication main `1fa2da0ace6c3e90dd37483f4585adae90a70d4d` and CI #1058 exact Cloudflare smoke.
+3. Current fresh audit is exact reuse of existing `number_line` for five Math Wave C missing-number activities: `math-missing-1-3`, `math-missing-3-5`, `math-missing-before-6`, `math-missing-after-8`, `math-missing-descend-10-8`.
+4. The original Number Line wave explicitly excluded this family pending separate objective review. That review now supports reuse because the evidence remains one missing-position numeric choice.
+5. If runtime implementation proceeds, harden the complete Number Line family to exact fail-closed validation for 11 IDs total: six legacy Wave B + five Wave C reuse IDs.
+6. Expected implementation distribution is **900/900 / 47 active / `choice_grid` 183 / `number_line` 11 / KEEP 900**. This is a reuse wave, not Pattern #48.
+7. English initial-sound direct-choice remains excluded from existing `initial_sound` reuse because it asks for a word beginning with the target sound, while the existing mechanic asks for the initial letter.
+8. Iqro remains outside mechanic transformation until expert acceptance exists. Do not create Pattern #48 merely to reach the numeric target of 50.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
