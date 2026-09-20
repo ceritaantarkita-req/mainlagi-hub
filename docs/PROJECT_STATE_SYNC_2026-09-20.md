@@ -8,7 +8,7 @@ This document summarizes the repository/product state after the WS-13 parent/pro
 
 ## 1. Source of truth and production verification
 
-Current `main` at the time this sync started:
+Sync-base `main` at the time this documentation synchronization started:
 
 ```text
 a04bd51fb02dedf56b5cd62f7f579eb53c4be251
@@ -24,7 +24,7 @@ Cloudflare exact-SHA production smoke: PASS
 Responsive QA artifact:                10608044389
 ```
 
-The docs-only `a04bd51...` main run is CI #1162 / run `35521404941`; it later completed successfully as CI #1162 / run `35521404941`. Runtime behavior at `77bee682...` remains independently live verified by CI #1160, while the docs-only closure main is independently green as well.
+The sync-base docs-only `a04bd51...` main run is CI #1162 / run `35521404941`; it later completed successfully as CI #1162 / run `35521404941`. Runtime behavior at `77bee682...` remains independently live verified by CI #1160, while the docs-only closure main is independently green as well.
 
 Canonical production path remains:
 
