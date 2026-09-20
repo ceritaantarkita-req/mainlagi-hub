@@ -383,6 +383,35 @@ async function main() {
     {
       const viewport = { width: 390, height: 844 };
       const context = await browser.newContext({ viewport });
+      await context.addInitScript(() => {
+        const childId = "demo-gian";
+        const progressKey = "mainlagi-learning-progress-v1";
+        const attemptsKey = "mainlagi-learning-attempts-v1";
+        const ids = ["math-recognize-0", "math-recognize-7", "math-count-4", "math-count-8", "math-count-10", "math-match-number-quantity-1-2", "math-subitize-4"];
+        localStorage.setItem(progressKey, JSON.stringify({
+          [childId]: { completedActivityIds: ids, stars: 0, lastActivityId: ids.at(-1) }
+        }));
+        const seeds = [
+          ["math-recognize-0", "math.numeral.recognition.0_10", "tap_choice"],
+          ["math-count-4", "math.count.4_10", "tap_choice"],
+          ["math-match-number-quantity-1-2", "math.quantity.matching", "matching"],
+          ["math-subitize-4", "math.quantity.subitizing", "tap_choice"]
+        ];
+        const attempts = seeds.map(([id, skillId, runtime], index) => {
+          const attemptId = `qa-shared-completion-prereq-${index}`;
+          const completedAt = `2026-09-20T08:0${index}:00.000Z`;
+          return {
+            id: attemptId, childId, activityId: id, subjectId: "math", stageId: "math-jumlah-dasar",
+            runtime, difficulty: 2, status: "completed", assessed: true, score: 1, accuracy: 1,
+            correctCount: runtime === "matching" ? 2 : 1, incorrectCount: 0, hintCount: 0, retryCount: 0,
+            durationMs: 1000, inputMode: "touch", startedAt: completedAt, completedAt,
+            metadata: { source: "shared-completion-browser-prerequisite" },
+            evidence: [{ attemptId, activityId: id, skillId, score: 1, weight: 1, createdAt: completedAt, qualifiesForMastery: true }],
+            masteryEligible: true
+          };
+        });
+        localStorage.setItem(attemptsKey, JSON.stringify({ [childId]: attempts }));
+      });
       const page = await context.newPage();
       await page.goto(`${baseUrl}/child/demo-gian/activity/math-pattern-size`, { waitUntil: "domcontentloaded" });
       await page.getByRole("button", { name: "Pilih •", exact: true }).click();
