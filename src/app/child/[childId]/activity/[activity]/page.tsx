@@ -81,6 +81,7 @@ import { isSentenceOrderCardsActivity } from "@/lib/learning/sentenceOrderCardsC
 import { isSingleRuleApplyActivity } from "@/lib/learning/singleRuleApplyConfig";
 import { isSubitizingGlanceActivity } from "@/lib/learning/subitizingGlanceConfig";
 import { isSpatialRelationBoardActivity } from "@/lib/learning/spatialRelationBoardConfig";
+import { resolveActivityVisualTheme } from "@/lib/learning/activityVisualTheme";
 import { getActivity } from "@/lib/learning/system";
 import { isVisualWordProblemActivity } from "@/lib/learning/visualWordProblemConfig";
 import styles from "./ActivityPage.module.css";
@@ -89,9 +90,10 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
   const { childId, activity } = await params;
   const definition = getActivity(activity);
   const runtime = String(definition?.runtime ?? "");
+  const visualTheme = resolveActivityVisualTheme(definition);
 
   return (
-    <ActivityVisualThemeProvider activityId={activity}>
+    <ActivityVisualThemeProvider visualTheme={visualTheme}>
       <div className={styles.immersive}>
       {activity === "math-trace-5-touch" ? (
         <MathTraceWorldActivity childId={childId} />
