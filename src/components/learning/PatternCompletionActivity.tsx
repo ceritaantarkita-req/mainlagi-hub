@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { GardenActivityFrame } from "./GardenActivityFrame";
+import { ActivityCompletion } from "./ActivityCompletion";
 import { getActivityLearningSpec } from "@/lib/learning/catalog";
 import { isPatternCompletionActivity } from "@/lib/learning/gameplayPresentation";
 import { patternCompletionConfig, type PatternCompletionVisualMode } from "@/lib/learning/patternCompletionConfig";
@@ -177,11 +177,7 @@ export function PatternCompletionActivity({ childId, activityId }: { childId: st
               : "💡 Perhatikan urutannya, lalu pilih yang datang berikutnya."}
         </div>
 
-        {feedback === "good" ? (
-          <Link className={styles.nextLink} href={`/child/${childId}/subject/${activity.subjectId}`}>
-            Pilih permainan lain
-          </Link>
-        ) : null}
+        {feedback === "good" ? <ActivityCompletion childId={childId} activity={activity} /> : null}
       </section>
     </GardenActivityFrame>
   );
