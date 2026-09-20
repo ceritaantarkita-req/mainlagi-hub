@@ -18,13 +18,13 @@ export function Batch14WorldHome({ childId }: { childId: string }) {
   const next=ranked[0] ? getActivity(ranked[0].id) : undefined;
   return <main className={styles.page}>
     <section className={styles.continue} aria-labelledby="child-home-title">
-      <div className={styles.continueCopy}>
+      <div className={styles.continueCopy} data-mainlagi-home-copy>
         <p>Hai, {profile.name}! 👋</p>
         <h1 id="child-home-title" className={styles.greeting}>Belajar sambil bermain.</h1>
         <p className={styles.lead}>{next ? `Lanjutkan “${next.title}” atau pilih pelajaran yang kamu suka.` : "Pilih pelajaran yang kamu suka dan mulai bermain."}</p>
         <Link className={styles.primary} href={next ? `/child/${childId}/activity/${next.id}` : "#choose-subject"}>{next ? "Lanjut bermain" : "Pilih pelajaran"}</Link>
       </div>
-      <div className={styles.heroCast} aria-hidden><CharacterGroup /></div>
+      <div className={styles.heroCast} data-mainlagi-home-cast aria-hidden><CharacterGroup /></div>
     </section>
     <section id="choose-subject" aria-labelledby="choose-subject-title">
       <h2 id="choose-subject-title" className={styles.sectionTitle}>Pilih yang mau dipelajari</h2>
