@@ -175,7 +175,9 @@ Active branch: `agent/ws13-canonical-ui-warning-audit-20260920`. The route-owner
 
 Shared completion is **MERGED / LIVE VERIFIED**: PR #245 -> `main` `53a5f04c6d5430f3feb6273d42f178c5419fe418`; merged-main CI #1129 / run `35502667819` passed all gates including exact Cloudflare production smoke. The accepted mobile completion is a focused overlay with praise, three stars, Back / Try Again / Next and parent-gated privacy-safe Share.
 
-Current active UX branch: `agent/ws13-matching-randomization-20260920`. Scope is generic visible matching only: split canonical pairs across left/right columns, independently shuffle both sides, prevent correct-pair same-row leakage, and make Try Again produce a different valid layout without changing `matching_accuracy_v1`, mastery, progression, schema, or WS-05 pattern count.
+Visible matching randomization is **MERGED / LIVE VERIFIED**: PR #247 -> `main` `61f8fb64bca412b13abd5570e3c322b2ab158c8a`; merged-main CI #1134 / run `35504645189` passed all gates including exact Cloudflare production smoke. Generic visible matching now uses randomized left/right columns, prevents same-row answer leakage, and reshuffles on Try Again without changing `matching_accuracy_v1`, mastery, progression, schema, or WS-05 pattern count.
+
+Next WS-13/WS-02 product-UX step: **audio first-instruction latency**. Scope is preload/warm-up, measurable start latency, reliable replay, and honest browser autoplay handling before English voice-quality/provider work.
 
 ## Engineering status
 
