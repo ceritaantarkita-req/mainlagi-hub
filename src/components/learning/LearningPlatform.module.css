@@ -726,18 +726,28 @@
 
 .matchGrid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 14px;
+}
+
+.matchColumn {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
 }
 
 .matchButton {
+  min-width: 0;
   min-height: 82px;
+  padding: 12px 10px;
+  overflow-wrap: anywhere;
   border: 2px solid #dce6ed;
   border-radius: 22px;
   background: white;
   color: #24445e;
   font: inherit;
-  font-size: 24px;
+  font-size: clamp(18px, 5vw, 24px);
   font-weight: 900;
   cursor: pointer;
 }
