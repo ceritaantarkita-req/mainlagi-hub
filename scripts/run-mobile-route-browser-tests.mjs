@@ -386,13 +386,16 @@ async function main() {
       const page = await context.newPage();
       await page.goto(`${baseUrl}/child/demo-gian/activity/math-pattern-size`, { waitUntil: "domcontentloaded" });
       await page.getByRole("button", { name: "Pilih •", exact: true }).click();
-      const completion = page.locator("[data-activity-completion]");
+      let completion = page.locator("[data-activity-completion]");
+      await completion.waitFor();
+      await page.waitForTimeout(250);
+      completion = page.locator("[data-activity-completion]");
       await completion.waitFor();
       assert.equal(await completion.getByLabel("Tiga bintang").locator("svg").count(), 3, "shared completion must render three stars");
       assert.equal(await completion.getByRole("button", { name: "Back", exact: true }).count(), 1, "shared completion must expose Back");
       assert.equal(await completion.getByRole("button", { name: "Try Again", exact: true }).count(), 1, "shared completion must expose Try Again");
       assert.equal(await completion.getByRole("link", { name: "Next", exact: true }).count(), 1, "shared completion must expose Next");
-      await completion.getByRole("button", { name: "Share", exact: true }).click();
+      await page.getByRole("button", { name: "Share", exact: true }).click();
       const shareDialog = page.getByRole("dialog", { name: "Bagikan pencapaian" });
       await shareDialog.waitFor();
       await shareDialog.getByText("Yang dibagikan hanya tautan Mainlagi", { exact: false }).waitFor();
