@@ -1,8 +1,8 @@
 # Mainlagi Mobile Route Matrix
 
-Last reviewed: 10 September 2026
+Last reviewed: 20 September 2026
 
-This is the canonical route inventory and acceptance contract for the mobile rebuild. Batch 1 established the shared responsive system. Batch 2 migrated the route families to that system and added automated production-build browser verification.
+This is the canonical route inventory and acceptance contract for responsive product QA. Batch 1/2 established the foundation; later WS-13 work extends the same contract rather than replacing it.
 
 ## Required viewport matrix
 
@@ -58,6 +58,18 @@ Existing motion/camera games are optional activity runtimes and are not allowed 
 | `/parent/plan` | plan/tier surface | comparison content and actions |
 | `/parent/privacy` | privacy controls | readable text, toggles, safe wrapping |
 | `/parent/settings` | parent settings | forms, toggles, keyboard, narrow labels |
+
+### WS-13 parent responsive contract — live verified
+
+- below 760px: parent sidebar is hidden; sticky parent header + fixed five-destination bottom navigation own navigation;
+- at/above 760px: desktop parent sidebar is visible and mobile bottom nav is hidden;
+- `Mode anak` is visually separated from parent destinations;
+- parent root distinguishes real family profiles from `demo-gian`;
+- profile identity and guide-character identity are rendered separately on parent surfaces;
+- the broad browser suite captures parent root at 320, 390, 768 and 1024 for this wave;
+- the accepted 768px dashboard keeps its hero stacked; the wide hero does not force a cramped tablet two-column composition.
+
+PR #251 -> main `77bee682...`, CI #1160 and artifact `10608044389` independently verify this contract.
 
 ## Activity/runtime matrix
 

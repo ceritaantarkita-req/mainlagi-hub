@@ -6,6 +6,11 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 
 ## Canonical baseline
 
+- documentation sync base: `a04bd51fb02dedf56b5cd62f7f579eb53c4be251` (PR #252 docs-only parent-wave closure)
+- latest independently live-verified runtime/product main: `77bee682f84b5d68b85d2c91b1d6f2ca4c93d2d9` (PR #251)
+- latest runtime merged-main CI: **#1160 / run `35520629179` — full success including exact Cloudflare production smoke**
+- parent responsive QA artifact: **`10608044389`**
+- parent docs closure main: `a04bd51fb02dedf56b5cd62f7f579eb53c4be251`; parent docs closure main CI: **#1162 / run `35521404941` — full success**
 - repository: `ceritaantarkita-req/mainlagi-hub`
 - canonical branch: `main`
 - production: `https://mainlagihub.my.id/`
@@ -150,7 +155,7 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Math mixed-operation terminal closure: `docs/MATH_MIXED_OPERATION_EXISTING_MECHANIC_REUSE_CLOSURE_2026-09-20.md`
 - Force/motion remains **not authorized** as one relation-board family because push/pull/gravity/friction evidence forms are heterogeneous.
 - Pattern #48 remains **NO JUSTIFIED NEW PATTERN YET**.
-- Fresh Logic repeating-pattern -> existing `pattern_completion` reuse audit: **ACTIVE on `agent/audit-logic-pattern-completion-reuse-20260920` / exact 5-ID scope / expected runtime `choice_grid` 174 + `pattern_completion` 10 / active patterns stay 47 / Pattern #48 still not justified / CODE NOT STARTED**
+- Fresh Logic repeating-pattern -> existing `pattern_completion` reuse audit: **MERGED / LIVE VERIFIED via PR #240 -> main `7109db41134f18884b6c08fba99ad2af997b3fed`, main CI #1100 / run `35492367065` success / exact 5-ID scope / expected runtime `choice_grid` 174 + `pattern_completion` 10 / active patterns stay 47 / Pattern #48 still not justified / RUNTIME CODE NOT STARTED**
 - Logic pattern-completion reuse audit record: `docs/PATTERN_COMPLETION_LOGIC_REPEATING_PATTERN_REUSE_AUDIT_2026-09-20.md`
 
 ### Active fresh audit — Logic repeating patterns -> `pattern_completion`
@@ -180,6 +185,17 @@ Visible matching randomization is **MERGED / LIVE VERIFIED**: PR #247 -> `main` 
 Audio first-instruction latency is **MERGED / LIVE VERIFIED**: PR #249 -> `main` `770d8b66dac20765fd96a66e9d752931e1a56d66`; PR CI #1144 passed all gates, manual 390px listening review accepted, browser warnings = 0, and merged-main CI #1145 / run `35511068490` passed exact Cloudflare production smoke. Correct-language pre-warm, faster generic entry, listen-and-choose auto-entry, replay recovery, fail-closed no-start timeout, and privacy-safe entry-latency evidence are now live.
 
 Current product-UX state: **parent/profile/settings responsive redesign is MERGED / LIVE VERIFIED** via PR #251 -> main `77bee682f84b5d68b85d2c91b1d6f2ca4c93d2d9`; PR CI #1159 and merged-main CI #1160 both passed, including exact Cloudflare production smoke on main. `CloudParentOverviewScreen` remains canonical; family profiles are separated from `demo-gian`; child profile identity is separated from guide-character presentation; mobile parent navigation replaces the legacy forced aside below 760px. Next product-UX step: **character bible + Naya/Gian/Zia production assets**. Do not alter learning evidence/mastery/progression/schema while advancing presentation.
+
+### Character / artwork state — 20 September 2026
+
+- Paca production artwork: `public/artwork/garden-paca.webp`.
+- Gavi production artwork: `public/artwork/garden-gavi.webp`.
+- Paca/Gavi coloring-preview assets exist.
+- Naya/Gian/Zia have no production image files under `public/artwork` yet.
+- `CharacterAvatar` currently uses inline fallback SVG representations for Naya/Gian/Zia.
+- Canonical identity remains: Naya ~8 / hijab / warm-encouraging; Gian ~5 / active-curious-playful; Zia ~3 / expressive-beginner-friendly; Paca hints/system/discovery; Gavi humor/rewards/reactions.
+- Child profile identity and guide-character identity are separate concepts.
+- Next WS-13 product work is production character specification + reviewed Naya/Gian/Zia assets, then subject themes/backgrounds.
 
 ## Engineering status
 
@@ -868,14 +884,12 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Pattern #47 is fully closed/live verified through closure main `bbb61965` and CI #951.
-2. Preserve the merged 47-pattern baseline: 900/900 classified, `choice_grid` 233, `shape_attribute_board` 4.
-3. Pattern #48 fresh audit found no justified new mechanic; active pattern count remains 47.
-4. Set Reasoning reuse PR #207 is merged to main `9debb6cf`; exact final head `a37fdec7` passed CI #963 and final nine-shot review with 47/228/10 branch distribution.
-5. Math spatial audit PR #209 is live verified by main CI #971 + exact Cloudflare smoke.
-6. Math spatial runtime PR #214 -> main `2cb948d6` is fully live verified by main CI #987 + exact Cloudflare smoke; merged distribution is 47/223/11 and quality KEEP 900.
-7. Math measurement audit PR #210 is live verified by main CI #973; its exact four-ID runtime implementation is now NEXT / UNBLOCKED. `math-measure-match-length` remains matching.
-8. English cloze audit PR #211 -> main `76e1eeb0` is live verified by main CI #975 + exact Cloudflare smoke and remains queued behind Math measurement closure.
-9. Environment-care audit PR #212 -> main `0fccffd7` is live verified by main CI #977 + exact Cloudflare smoke; matching remains excluded and runtime remains queued behind prior closures.
+1. Treat `main` as source of truth. This sync was based on parent docs closure `a04bd51f...`; latest independently live-verified runtime/product behavior is `77bee682...` via main CI #1160.
+2. Parent/profile/settings responsive redesign is closed/live verified. Preserve the <760px mobile header + five-item bottom nav, >=760px desktop sidebar, family/demo separation and profile-vs-guide identity boundary.
+3. Execute the next WS-13 product wave: extend the Art Bible character production contract and create/review Naya/Gian/Zia production assets. Do not invent unsupported character biography or silently replace profile identity with guide identity.
+4. Preserve Paca/Gavi current production artwork and provenance. Naya/Gian/Zia generated candidates are not production-approved until reviewed and their rights/provenance are recorded.
+5. WS-05 remains separate. The exact five-ID Logic repeating-pattern audit is merged/live verified via PR #240 / `7109db41...` / CI #1100; runtime remains not started and must reuse existing `pattern_completion`, not create Pattern #48.
+6. Preserve the merged 9-subject / 900-activity / 47-active-pattern baseline and existing mastery/evidence/progression/schema contracts unless a separately justified migration is approved.
+7. After character production: subject visual themes/backgrounds, English narration quality, expanded visual/usability cleanup, physical-device/accessibility acceptance and Iqro expert review.
 
-Do not prioritize activity-count expansion, OCR, major AI tutor work, subscription/paywall, marketplace expansion or mastery/backend rewrites before the current quality roadmap justifies them.
+Do not prioritize activity-count expansion, OCR rollout, large AI tutor work, subscription/paywall, marketplace expansion or major mastery/backend rewrites before the current quality roadmap justifies them.

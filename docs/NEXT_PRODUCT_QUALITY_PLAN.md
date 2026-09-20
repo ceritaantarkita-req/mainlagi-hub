@@ -5,7 +5,7 @@
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 **Canonical branch:** `main`  
 **Latest fully closed gameplay pattern:** Pattern #47 — Math `shape_attribute_board`  
-**Latest fully closed reuse wave:** Logic `set_reasoning` multi-attribute reuse  
+**Latest fully closed reuse wave:** Math mixed-operation existing-mechanic reuse (`make_total` / `take_away`)  
 **Pattern #42 implementation:** PR #187 -> main `37190f5dabd5d8421d7575b8f220d2824e831f23`  
 **Pattern #42 implementation main CI:** **#884 / run `35260402125` — full success + exact Cloudflare production smoke**  
 **Pattern #42 closure:** PR #188 -> `ad7deb67dc15eefdb81dc5d5e66f4c10ccdc9710`  
@@ -70,7 +70,7 @@
 **Set Reasoning implementation main CI:** **#964 / run `35375338099` — full success + exact Cloudflare production smoke**  
 **Set Reasoning post-merge docs main CI:** **#969 / run `35376512392` — full success + exact Cloudflare production smoke**  
 **Set Reasoning reuse:** **FULLY CLOSED / LIVE VERIFIED**  
-**Math spatial reuse audit:** PR #209 -> main `3e30a817ef86fa691f9b2f1249ac00bc00dce4e6` / exact 5-ID scope / JUSTIFIED / code not started  
+**Math spatial reuse audit:** PR #209 -> main `3e30a817ef86fa691f9b2f1249ac00bc00dce4e6` / exact 5-ID scope / JUSTIFIED / historical audit checkpoint; runtime later closed  
 **Math spatial audit PR CI:** **#970 / run `35377295090` — full success**  
 **Math spatial audit main CI:** **#971 / run `35377783814` — full success + exact Cloudflare production smoke**  
 **Math spatial audit:** **MERGED / LIVE VERIFIED**  
@@ -78,7 +78,7 @@
 **Math spatial final PR CI:** **#986 / run `35421866386` — full success**  
 **Math spatial implementation main CI:** **#987 / run `35422469117` — full success + exact Cloudflare production smoke**  
 **Math spatial merged truth:** **47 active / `choice_grid` 223 / `spatial_relation_board` 11 / KEEP 900**  
-**Math measurement reuse audit:** PR #210 -> main `f9833568dea0f021cd5c4ed94f6f6fc7505ad8d8` / exact 4 direct-choice IDs / JUSTIFIED / code not started  
+**Math measurement reuse audit:** PR #210 -> main `f9833568dea0f021cd5c4ed94f6f6fc7505ad8d8` / exact 4 direct-choice IDs / JUSTIFIED / historical audit checkpoint; runtime later closed  
 **Math measurement audit PR CI:** **#972 / run `35378121937` — full success**  
 **Math measurement audit main CI:** **#973 / run `35378825618` — full success + exact Cloudflare production smoke**  
 **Math measurement audit:** **MERGED / LIVE VERIFIED**  
@@ -87,7 +87,7 @@
 **Math measurement implementation main CI:** **#995 / run `35425340216` — full success + exact Cloudflare production smoke**  
 **Math measurement merged truth:** **47 active / `choice_grid` 219 / `compare_properties` 7 / KEEP 900**  
 **Math measurement matching exclusion:** **`math-measure-match-length` remains matching**  
-**English completion reuse audit:** PR #211 -> main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52` / exact 5-ID scope / JUSTIFIED / code not started  
+**English completion reuse audit:** PR #211 -> main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52` / exact 5-ID scope / JUSTIFIED / historical audit checkpoint; runtime later closed  
 **English cloze audit PR CI:** **#974 / run `35379084421` — full success**  
 **English cloze audit main CI:** **#975 / run `35409217808` — full success + exact Cloudflare production smoke**  
 **English cloze implementation:** **PR #219 -> main `e3c92cfe8c1050fdcca1599ae92d98a9345b04ca` / FULLY CLOSED / LIVE VERIFIED / main CI #1009 full success + exact Cloudflare smoke**  
@@ -100,6 +100,20 @@
 **Environment-care docs closure:** **PR #222 -> main `d98ac3794ce32d4308e84d0beecba83156eabd6b` / PR CI #1019 / closure-main CI #1020 full success + exact Cloudflare smoke**  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
+
+## Current synchronized checkpoint — 20 September 2026
+
+```text
+current main:                 a04bd51fb02dedf56b5cd62f7f579eb53c4be251
+latest live-verified runtime: 77bee682f84b5d68b85d2c91b1d6f2ca4c93d2d9
+runtime main CI:              #1160 / run 35520629179 — success + exact Cloudflare smoke
+WS-13 next:                   character production spec + Naya/Gian/Zia assets
+WS-05 current audit:          PR #240 -> 7109db41 / CI #1100 success
+WS-05 runtime:                not started
+gameplay taxonomy:            900/900 classified / 47 active / no Pattern #48
+```
+
+Product-UX and WS-05 remain separate work tracks. The parent/profile/settings redesign is already closed/live verified; the next product-UX wave is character production, not another parent-shell rewrite.
 
 ## Product goal
 
@@ -125,19 +139,19 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 
 | Workstream | Status | Current note |
 |---|---|---|
-| WS-01 Canonical docs | **CURRENT** | Pattern #47 closure verified; Pattern #48 no-candidate audit current |
-| WS-02 Voice & narration | **ACTIVE NEXT** | reduce first-instruction latency; improve English voice quality; evaluate cached/pre-generated production narration with browser TTS fallback |
-| WS-03 Public/parent frontend | **REOPENED BY USER ACCEPTANCE** | parent/profile/settings responsive UX, information architecture and child/parent boundary need another pass |
+| WS-01 Canonical docs | **CURRENT / SYNCING** | 20 Sep current-state sync after parent wave; Pattern #48 remains unjustified |
+| WS-02 Voice & narration | **LATENCY WAVE LIVE VERIFIED / QUALITY LATER** | first-instruction latency/preload closed; English voice quality and reviewed production narration remain later work |
+| WS-03 Public/parent frontend | **PARENT WAVE LIVE VERIFIED** | PR #251 -> `77bee682...`; <760px mobile nav / >=760px sidebar; family/demo and profile/guide separation preserved |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **47 ACTIVE / LOGIC PATTERN-COMPLETION REUSE AUDIT ACTIVE** | docs-only exact 5-ID Logic repeating-pattern audit -> existing `pattern_completion`; baseline remains 900/900 / `choice_grid` 179 / `pattern_completion` 5 / KEEP 900; expected runtime 174 / 10 / 47 active; Pattern #48 still unjustified |
+| WS-05 Gameplay diversification | **47 ACTIVE / LOGIC AUDIT LIVE VERIFIED / RUNTIME NOT STARTED** | PR #240 -> `7109db41...`, CI #1100; exact 5-ID reuse of existing `pattern_completion`; baseline 900/900 / `choice_grid` 179 / `pattern_completion` 5 / KEEP 900; expected runtime 174 / 10 / 47 active; no Pattern #48 |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
-| WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P45 merged-main permanent visual QA green; nine dedicated screenshots manually accepted |
-| WS-09 Stage/gallery UX | **REOPENED BY USER ACCEPTANCE** | gallery previews, density, grouping and QA access need redesign |
+| WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | 21-route/63-capture baseline stays blocking; parent responsive artifact/manual review accepted; character production is next visual wave |
+| WS-09 Stage/gallery UX | **CURRENT WAVE MERGED** | gallery hierarchy + isolated QA unlock merged; progression/evidence boundaries remain unchanged |
 | WS-10 External acceptance | TODO | real devices, accessibility, Iqro expert |
 | WS-11 Governance | TODO | required checks/review discipline |
 | WS-12 Technical cleanup | TODO LATER | after gameplay/product priorities |
-| WS-13 Product UX coherence | **ACTIVE NEXT** | canonical UI ownership, five-character hero, 3-column subject directory, shared completion, matching shuffle, console-warning cleanup; see `PRODUCT_UX_NEXT_WORK_2026-09-20.md` |
+| WS-13 Product UX coherence | **CHARACTER PRODUCTION NEXT** | canonical audit, child home/directory, gallery, completion, matching, audio latency and parent wave complete; next = Art Bible character spec + Naya/Gian/Zia production assets |
 
 ## Verified merged gameplay baseline
 
@@ -178,9 +192,9 @@ Current result:
 
 The five reuse-first candidates from the original Pattern #48 audit chain are implemented and live verified: Logic `set_reasoning`, Math `spatial_relation_board`, Math `compare_properties`, English `cloze_sentence_choice`, and Science environment-care `healthy_habit_routine`. A subsequent fresh audit also justified Science ecosystem-dependency reuse of existing `phenomenon_relation_board`; that runtime is now live verified through main CI #1034.
 
-After ecosystem closure docs are live verified, the next runtime action is another **fresh objective/evidence audit** of remaining learning families. A later reuse wave or new Pattern #48 requires new evidence that the selected interaction is pedagogically justified and that existing mechanics cannot more safely preserve the objective/evidence contract.
+Later fresh audits continued the reuse-first approach through additional verified waves. The current fresh audit is Logic repeating-pattern -> existing `pattern_completion`, merged/live verified via PR #240 / `7109db41...` / CI #1100; runtime is not started. A later reuse wave or new Pattern #48 still requires fresh evidence that the selected interaction is pedagogically justified and that existing mechanics cannot more safely preserve the objective/evidence contract.
 
-### Current reuse audit — `set_reasoning` / Logic multi-attribute
+### Verified reuse checkpoint — `set_reasoning` / Logic multi-attribute
 
 Exact audited scope:
 
@@ -208,7 +222,7 @@ Audit record: `SET_REASONING_LOGIC_MULTI_CLASSIFICATION_REUSE_AUDIT_2026-09-18.m
 
 Audit PR #206 merged to `5f5f7741ee40544c4ab395740ef00fea1880400b`; audit-main CI #955 passed full verification including exact Cloudflare production smoke.
 
-Implementation is active on `agent/reuse-set-reasoning-logic-multi-20260918`. Wave record: `WS05_SET_REASONING_REUSE_LOGIC_MULTI_WAVE_2026-09-18.md`.
+Implementation wave record: `WS05_SET_REASONING_REUSE_LOGIC_MULTI_WAVE_2026-09-18.md`. The branch-era checkpoint below is historical evidence; the wave is now fully closed/live verified.
 
 Accepted checkpoint:
 
@@ -224,7 +238,7 @@ branch distribution:      47 active / choice_grid 228 / set_reasoning 10
 
 Final PR head `a37fdec7b3f89789999ce728c245ae17ee7f00bc` passed CI #963 / run `35372830249`; its artifacts verify 47 active / `choice_grid` 228 / `set_reasoning` 10 and the final nine screenshots remain manually accepted. PR #207 squash-merged unchanged to main `9debb6cf30f789125c45eff1b88e65e4eaff7978`. Merged-main CI #964 / run `35375338099` and exact Cloudflare smoke verified the Set Reasoning implementation SHA. Post-merge docs main CI #969 / run `35376512392` also passed exact Cloudflare smoke. Set Reasoning reuse is **FULLY CLOSED / LIVE VERIFIED**.
 
-### Next reuse audit — Math spatial -> `spatial_relation_board`
+### Verified reuse checkpoint — Math spatial -> `spatial_relation_board`
 
 Exact audit scope:
 
@@ -238,7 +252,7 @@ math-spatial-between
 
 Canonical ownership is Math / `math-ukur-ruang` / `math-spatial-position` / `math.pack.spatial-position` / `math.spatial.position` / assessed `tap_choice` / `choice_accuracy_v1`.
 
-Audit result: **reuse justified / implementation active in PR #221 / accepted code checkpoint `87c0d7ef`**. Existing Pattern #40 is semantically aligned with this lesson because both represent stated spatial relations while preserving direct-choice evidence. A later implementation may generalize exact config to vertical, containment and proximity scenes, but must preserve all existing six Logic spatial activities and remain fail-closed on exact prompt/choices/order/answer/subject/stage/runtime.
+Audit result: **reuse justified; runtime fully closed/live verified via PR #214 -> main `2cb948d614c90aceaa592ddbfae204ed639bc062`, main CI #987 exact Cloudflare smoke**. Existing Pattern #40 is semantically aligned with this lesson because both represent stated spatial relations while preserving direct-choice evidence. A later implementation may generalize exact config to vertical, containment and proximity scenes, but must preserve all existing six Logic spatial activities and remain fail-closed on exact prompt/choices/order/answer/subject/stage/runtime.
 
 Expected distribution only if later implementation passes every gate:
 
@@ -249,13 +263,13 @@ set_reasoning               10 / 900
 spatial_relation_board      11 / 900
 ```
 
-No Pattern #48 is created. Math spatial audit main CI #971 / run `35377783814` passed exact Cloudflare smoke. Its implementation is now the **next authorized runtime wave** after the current live-verification closure docs are merged/live verified.
+No Pattern #48 is created. Math spatial audit main CI #971 / run `35377783814` passed exact Cloudflare smoke; runtime PR #214 then merged to main `2cb948d614c90aceaa592ddbfae204ed639bc062`, with main CI #987 / run `35422469117` passing exact Cloudflare smoke.
 
 Reuse audit record: `SPATIAL_RELATION_BOARD_MATH_POSITION_REUSE_AUDIT_2026-09-19.md`.
 
-Audit PR #209 exact head `e34c85c40e86d7b3a2dc5d3686b445b434181b4d` passed CI #970 and merged to main `3e30a817ef86fa691f9b2f1249ac00bc00dce4e6`. Its artifacts preserved the code baseline at 47 active / `choice_grid` 228 / `spatial_relation_board` 6 / `set_reasoning` 10. Independent merged-main/Cloudflare verification remains pending.
+Audit PR #209 exact head `e34c85c40e86d7b3a2dc5d3686b445b434181b4d` passed CI #970 and merged to main `3e30a817ef86fa691f9b2f1249ac00bc00dce4e6`. Its artifacts preserved the code baseline at 47 active / `choice_grid` 228 / `spatial_relation_board` 6 / `set_reasoning` 10. Independent merged-main/Cloudflare verification subsequently passed; use the closure/current-state records for final evidence.
 
-### Next reuse audit — Math measurement -> `compare_properties`
+### Verified reuse checkpoint — Math measurement -> `compare_properties`
 
 Exact direct-choice scope:
 
@@ -276,7 +290,7 @@ Audit result: **reuse justified / implementation merged and live verified**.
 
 The existing Science `compare_properties` mechanic is currently binary. Math `longer` and `fuller` fit the binary model directly. `more-capacity` and `three-lengths` require a typed multi-candidate variant with all three canonical answers represented as equivalent first-class property cards. This remains qualitative property comparison and preserves the same direct-choice evidence contract; it does not justify Pattern #48.
 
-Future distribution from the current code baseline if this four-ID measurement reuse alone is verified:
+Historical expected distribution before runtime verification:
 
 ```text
 47 active patterns
@@ -294,13 +308,13 @@ spatial_relation_board    11 / 900
 compare_properties         7 / 900
 ```
 
-This audit is live verified. Its runtime wave remains queued behind the earlier Math spatial full implementation/live closure.
+This audit and runtime are fully closed/live verified. Runtime PR #216 merged to main `365070772554d3f00ff7b8124e9f71e97b5252a6`; main CI #995 / run `35425340216` passed exact Cloudflare smoke.
 
 Reuse audit record: `COMPARE_PROPERTIES_MATH_MEASURE_REUSE_AUDIT_2026-09-19.md`.
 
-Audit PR #210 exact head `0774f29c9658302a4c7bc99f5291c1eb84caad1c` passed CI #972 and merged to main `f9833568dea0f021cd5c4ed94f6f6fc7505ad8d8`. Its artifacts preserved 47 active / `choice_grid` 228 / `compare_properties` 3 / `spatial_relation_board` 6 / `set_reasoning` 10. Independent merged-main/Cloudflare verification remains pending.
+Audit PR #210 exact head `0774f29c9658302a4c7bc99f5291c1eb84caad1c` passed CI #972 and merged to main `f9833568dea0f021cd5c4ed94f6f6fc7505ad8d8`. Its audit artifacts preserved 47 active / `choice_grid` 228 / `compare_properties` 3 / `spatial_relation_board` 6 / `set_reasoning` 10; later runtime/main verification is recorded above.
 
-### Next reuse audit — English completion -> `cloze_sentence_choice`
+### Verified reuse checkpoint — English completion -> `cloze_sentence_choice`
 
 Exact scope:
 
@@ -314,9 +328,9 @@ english-complete-mother-family
 
 Canonical ownership is English / `english-phrases-review` / `english-sentence-completion` / `english.pack.sentence-completion` / `english.sentence.completion` / assessed `tap_choice` / `choice_accuracy_v1`.
 
-Audit result: **reuse justified / implementation active in PR #219**.
+Audit result: **reuse justified; runtime fully closed/live verified via PR #219 -> main `e3c92cfe8c1050fdcca1599ae92d98a9345b04ca`, main CI #1009, with closure main `ae29ada7...` / CI #1011**.
 
-Accepted code checkpoint `a054b76b1e13cba03a255b9c60f0bd43deb9051f` passed CI #1003 / run `35430916587` across Production build, Ubuntu quality, Windows compatibility, dependency audit, secret-history scan and mobile Chromium QA. Branch evidence is 900/900 classified, 47 active, `choice_grid` 214, `cloze_sentence_choice` 10, KEEP 900 / 0 flagged. Nine dedicated 320/390/768 idle/try/success screenshots were manually accepted with P0=0/P1=0. Final docs exact-head CI remains required before merge.
+Historical accepted code checkpoint `a054b76b1e13cba03a255b9c60f0bd43deb9051f` passed CI #1003 / run `35430916587`. Branch evidence was 900/900 classified, 47 active, `choice_grid` 214, `cloze_sentence_choice` 10, KEEP 900 / 0 flagged, with nine dedicated screenshots accepted P0=0/P1=0. Final runtime and closure verification later completed successfully as recorded below.
 
 Pattern #38 already expresses one-slot sentence completion with direct-choice measured evidence. Later implementation must preserve five existing Bahasa cloze activities and add five English IDs through exact fail-closed configuration. The UI must become subject-aware: existing Bahasa child-facing copy and `id-ID` behavior remain stable; English completion uses reviewed English copy/locale. Blank syntax alone must never classify an arbitrary activity.
 
@@ -339,15 +353,15 @@ compare_properties          7 / 900
 cloze_sentence_choice      10 / 900
 ```
 
-English runtime gates are fully resolved. PR #219 merged to main `e3c92cfe8c1050fdcca1599ae92d98a9345b04ca`; main CI #1009 / run `35431721131` passed the full matrix and exact-SHA Cloudflare smoke. English cloze reuse is **FULLY CLOSED / LIVE VERIFIED** and Science environment-care is now the next authorized runtime wave.
+English runtime gates are fully resolved. PR #219 merged to main `e3c92cfe8c1050fdcca1599ae92d98a9345b04ca`; main CI #1009 / run `35431721131` passed the full matrix and exact-SHA Cloudflare smoke. English cloze reuse is **FULLY CLOSED / LIVE VERIFIED**; the subsequent Science environment-care wave also later closed.
 
 Implementation wave: `WS05_CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_WAVE_2026-09-19.md`.  
 Closure record: `CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_CLOSURE_2026-09-19.md`.  
 Reuse audit record: `CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_AUDIT_2026-09-19.md`.
 
-Audit PR #211 exact head `adc975f119b557f253cd3a366e728efa2fd74810` passed CI #974 and merged to main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52`. Its artifacts preserved 47 active / `choice_grid` 228 / `cloze_sentence_choice` 5 / `compare_properties` 3 / `spatial_relation_board` 6 / `set_reasoning` 10. Independent merged-main/Cloudflare verification remains pending.
+Audit PR #211 exact head `adc975f119b557f253cd3a366e728efa2fd74810` passed CI #974 and merged to main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52`. Its audit artifacts preserved 47 active / `choice_grid` 228 / `cloze_sentence_choice` 5 / `compare_properties` 3 / `spatial_relation_board` 6 / `set_reasoning` 10; later runtime/main verification is recorded above.
 
-### Next reuse audit — Science environment care -> Pattern #22 `healthy_habit_routine`
+### Verified reuse checkpoint — Science environment care -> Pattern #22 `healthy_habit_routine`
 
 Exact direct-choice scope:
 
@@ -364,7 +378,7 @@ Explicit exclusion:
 science-match-environment-actions-c -> matching / matching_accuracy_v1
 ```
 
-Audit result: **reuse justified / code not started**.
+Audit result: **reuse justified; runtime and docs closure fully closed/live verified via PR #221 -> main `986c5c47e2d75366623611f323118b8013f93fe1`, main CI #1018, and closure PR #222 -> `d98ac3794ce32d4308e84d0beecba83156eabd6b`, CI #1020**.
 
 The environment-care lesson explicitly measures selecting simple actions that reduce waste/resource waste or care for the environment. PR #221 merged to main `986c5c47e2d75366623611f323118b8013f93fe1` with an explicit domain variant: old `body_health` behavior/metadata stay stable while `environment_care` uses domain-correct copy and evidence metadata. The classifier is exact/fail-closed on ID, subject, stage, runtime, prompt, choice order and answer. Main CI #1018 passed exact-SHA Cloudflare smoke. The historical pattern identifier remains for compatibility and does not justify Pattern #48.
 
@@ -723,28 +737,32 @@ P2 findings: 3
 
 ## Current WS-05 execution order
 
-1. Preserve verified merged truth at **900/900 classified / 47 active / `choice_grid` 179 / `pattern_completion` 5 / `make_total` 7 / `take_away` 7 / KEEP 900** while the current audit remains docs-only.
-2. Current fresh audit approves exactly five Logic `logic.pattern.repeat.intermediate` activities for reuse of existing `pattern_completion`: `logic-pattern-aab-stars`, `logic-pattern-abb-shapes`, `logic-pattern-abc-shapes`, `logic-pattern-paired-blocks`, and `logic-pattern-abba`.
-3. Runtime implementation is blocked until the audit PR passes exact-head CI, merges to `main`, and the merged audit SHA passes exact production verification.
-4. If runtime proceeds, harden the complete `pattern_completion` family to exactly ten IDs and fail closed on canonical identity, prompt, exact choice order, answer and deterministic sequence config. Do not broaden by prefix or generic parser.
-5. Expected runtime result is **900/900 / 47 active / `choice_grid` 174 / `pattern_completion` 10 / Logic `choice_grid` 21 / KEEP 900**.
-6. This is existing-mechanic reuse, not Pattern #48. Do not create Pattern #48 merely to reach the numeric target of 50.
-7. Neighboring Logic sequence/comparison/spatial/rule families remain excluded; Math review remains heterogeneous at pack level; Science force/motion remains heterogeneous; English initial-sound remains a distinct evidence structure; Iqro remains outside mechanic transformation until expert acceptance exists.
-8. After this exact audit chain is closed, start another fresh objective/evidence audit rather than inheriting any unreviewed family automatically.
+1. Preserve verified merged truth at **900/900 classified / 47 active / `choice_grid` 179 / `pattern_completion` 5 / `make_total` 7 / `take_away` 7 / KEEP 900**.
+2. The exact five-ID Logic repeating-pattern audit is **MERGED / LIVE VERIFIED** via PR #240 -> main `7109db41134f18884b6c08fba99ad2af997b3fed`; main CI #1100 / run `35492367065` passed.
+3. Runtime implementation is now audit-unblocked but **NOT STARTED**. It may only target the five audited `logic.pattern.repeat.intermediate` activities and harden the full exact ten-ID `pattern_completion` family fail-closed.
+4. Expected runtime result remains **900/900 / 47 active / `choice_grid` 174 / `pattern_completion` 10 / Logic `choice_grid` 21 / KEEP 900**.
+5. This is existing-mechanic reuse, not Pattern #48. Do not create Pattern #48 to satisfy a numeric pattern target.
+6. Preserve canonical identity, prompt, exact choice order, answer, deterministic sequence config, evidence and progression behavior.
+7. Iqro remains excluded from mechanic transformation until expert acceptance exists. Neighboring Logic families remain excluded unless a fresh objective/evidence audit justifies them.
+8. After any runtime closure, begin another fresh objective/evidence audit instead of inheriting an unreviewed family automatically.
 
 ## Approved product UX execution order
 
-This is a separate track from WS-05 and must not be mixed into mechanic-reuse PRs. Canonical detail: `docs/PRODUCT_UX_NEXT_WORK_2026-09-20.md`.
+This track is separate from WS-05. Canonical detail: `docs/PRODUCT_UX_NEXT_WORK_2026-09-20.md`.
 
-1. Canonical component/route ownership + unexpected-console-warning audit.
-2. Homepage/header/navigation + five-character hero + responsive 3-column subject directory; remove activity-count subtitles.
-3. Activity gallery/catalog redesign and QA-only unlock-all mode.
-4. Shared completion system: praise animation, three stars, Back / Try Again / Next / parent-gated Share.
-5. Matching randomization and age/difficulty presentation without changing canonical evidence.
-6. First-instruction narration latency/preload.
-7. Parent/profile/settings responsive redesign and information architecture.
-8. Character bible + Naya/Gian/Zia production assets.
-9. Subject theme/background system and clearer learning illustrations.
-10. English narration quality upgrade and expanded human visual/usability acceptance.
+Completed/live-verified sequence:
+1. canonical component/route ownership + warning audit;
+2. homepage/header/navigation + responsive 3-column subject directory;
+3. activity gallery/catalog + QA-only unlock;
+4. shared completion;
+5. matching randomization/retry behavior;
+6. first-instruction narration latency/preload;
+7. parent/profile/settings responsive redesign.
+
+Current and next:
+8. **NOW:** extend the canonical Art Bible character-production specification and create/review Naya/Gian/Zia production assets;
+9. subject theme/background system + clearer learning illustrations;
+10. English narration quality upgrade;
+11. expanded human visual/usability and physical-device acceptance plus cleanup of superseded presentation paths.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.

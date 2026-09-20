@@ -1,6 +1,6 @@
 # Mainlagi Production Deployment
 
-Last reviewed: 11 September 2026
+Last reviewed: 20 September 2026
 
 ## Canonical production architecture
 
@@ -27,27 +27,20 @@ On pushes to `main`, `Production smoke (Cloudflare)` succeeds only when producti
 
 ## Latest verified production release
 
-**Batch 17 engineering final acceptance remains complete. The production release now also includes the guided physical-device QA harness required to collect the remaining external hardware evidence.**
+The latest independently live-verified runtime/product implementation is the WS-13 parent/profile/settings responsive redesign:
 
 ```text
-Follow-up PR:            #85 — guided physical-device QA harness
-Git SHA:                 ee7040ccff82b1d868bd0ca935ab80eb9136024c
-Main CI:                 #328
-Quality gate (Ubuntu):   success
-Device-QA contract:      success
-Windows compatibility:  success
-Mobile route QA:         success
-Production build:        success
-Dependency audit:        success
-Secret history scan:    success
-Production smoke:        success, exact SHA
-Batch 17 final gate:     PASS
-Physical-device cert:    PENDING_EXTERNAL_EVIDENCE
+PR:                       #251
+Implementation main:      77bee682f84b5d68b85d2c91b1d6f2ca4c93d2d9
+Exact-head PR CI:         #1159 / run 35520233825 — success
+Merged-main CI:           #1160 / run 35520629179 — success
+Production smoke:         PASS, exact SHA
+Responsive QA artifact:   10608044389
 ```
 
-The Batch 17 engineering implementation itself landed in PR #82 at SHA `d27b32124d3df1613c648132aa2f1ff0ed94ebaa`. Detailed evidence: `EXPANSION_BATCH17_ENGINEERING_ACCEPTANCE_2026-09-11.md`.
+The current `main` when the 20 September documentation sync started is `a04bd51fb02dedf56b5cd62f7f579eb53c4be251`, a docs-only closure commit from PR #252. Its push CI #1162 / run `35521404941` completed successfully. Runtime/product behavior remains anchored to the independently green `77bee682...` implementation run (#1160), while `a04bd51...` is the verified docs-only closure main.
 
-PR #85 is application/QA-tooling-only. It introduces no Supabase migration/DDL and no catalog/evidence-classification change.
+Batch 17 engineering/device-QA foundations remain valid historical prerequisites. They are no longer the latest application release checkpoint.
 
 ## Guided physical-device QA route
 
@@ -178,7 +171,7 @@ focused branch
   -> canonical docs/evidence sync
 ```
 
-All repository/CI/Cloudflare/Supabase engineering work through Batch 17 plus the physical-device evidence recorder is complete. Only actual external acceptance evidence/action in issue #83 remains.
+Repository/CI/Cloudflare/Supabase foundations through Batch 17 remain complete, and later product/UX/gameplay waves continue to use the same release flow. External physical-device/accessibility evidence in issue #83 remains pending and is not replaced by the later Chromium/Cloudflare successes.
 
 ## Manual deployment fallback
 

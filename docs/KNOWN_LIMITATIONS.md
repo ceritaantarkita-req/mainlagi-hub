@@ -1,6 +1,6 @@
 # Known Limitations
 
-Last reviewed: **14 September 2026**
+Last reviewed: **20 September 2026**
 
 This file describes current known limitations. Historical ZIP/build-environment limitations belong in historical audit documents and must not be treated as current production state.
 
@@ -21,13 +21,13 @@ The canonical remediation plan is `NEXT_PRODUCT_QUALITY_PLAN.md`.
 
 ## Stage progression vs activity gallery
 
-The underlying learning model is stage/progression-based, while the current subject UI can display a broad 100-card gallery with locked or age-ineligible activities visible.
+The 20 September gallery/home work improved hierarchy and added isolated QA-unlock behavior, but the underlying product boundary remains: stage/progression truth and broad child browsing are different concerns.
 
-The final child-facing model is not yet resolved. The next product-quality phase must reconcile recommendation, progression, browse-all behavior, and locked-content visibility without weakening evidence/mastery rules.
+Current presentation must continue to preserve recommendation, age eligibility, lock reasons and direct-route guards while avoiding an undifferentiated wall of activities. QA unlock must remain isolated from normal production profiles.
 
 ## Voice and narration
 
-Mainlagi has audio/TTS infrastructure but does **not** yet claim final production-quality native Indonesian and English character narration.
+The first-instruction narration latency/preload wave is merged/live verified, but Mainlagi still does **not** claim final production-quality native Indonesian and English character narration.
 
 Remaining work:
 
@@ -39,6 +39,12 @@ Remaining work:
 - runtime TTS only for justified dynamic content.
 
 Iqro/Hijaiyah pronunciation requires competent human review. Generic TTS must not be treated as final pronunciation authority.
+
+## Character production assets
+
+Paca and Gavi have production Garden WebP artwork. Naya, Gian and Zia still lack production image files under `public/artwork`; their current fallback representations are not final brand assets.
+
+The next product-UX wave must lock production character specifications, review candidate artwork, and document provenance/redistribution rights before integration. Child profile identity must remain separate from guide-character identity.
 
 ## About, FAQ, and affiliate discoverability
 

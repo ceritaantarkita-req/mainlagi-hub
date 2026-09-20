@@ -1,7 +1,8 @@
 # Mainlagi Art Bible — v1
 
-Status: **CANONICAL VISUAL DIRECTION / P1 CHECKPOINT CLOSED; P2 MIGRATION CONTINUES**  
+Status: **CANONICAL VISUAL DIRECTION / P1 CHECKPOINT CLOSED / WS-13 PARENT WAVE LIVE VERIFIED / CHARACTER PRODUCTION NEXT**  
 Established: **16 September 2026**  
+Last synchronized: **20 September 2026**  
 Source audit: `PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md`
 
 This document defines the visual language that future Mainlagi product work must converge toward. It does **not** require a one-shot rewrite of every existing screen. Migration is wave-based, evidence-backed and must preserve learning/progression/auth behavior.
@@ -244,6 +245,46 @@ Use characters when they:
 Do not place characters where they obstruct choices, reading surfaces, canvas or motion tracking.
 
 Adult surfaces may use smaller/restrained character presence to preserve family continuity. Public/auth character use should support context, not make parent flows feel like child gameplay.
+
+### Canonical five-character production contract
+
+Canonical identities are intentionally narrow:
+
+- **Naya** — older sister figure, approximately 8, wears hijab; warm and encouraging.
+- **Gian** — boy, approximately 5; active, curious and playful.
+- **Zia** — girl, approximately 3; expressive and beginner-friendly.
+- **Paca** — friendly male-coded robot; hints, system guidance and discovery.
+- **Gavi** — orange cat; humor, rewards and reactions.
+
+Do not invent unsupported biography, hobby, hairstyle, clothing details beyond Naya's documented hijab, family relationship, or personality traits merely to make generated art more specific.
+
+Current production-asset truth:
+
+```text
+Paca  -> public/artwork/garden-paca.webp       production asset exists
+Gavi  -> public/artwork/garden-gavi.webp       production asset exists
+Naya  -> no production file in public/artwork  fallback representation only
+Gian  -> no production file in public/artwork  fallback representation only
+Zia   -> no production file in public/artwork  fallback representation only
+```
+
+The next character-production wave must preserve the Garden style and define/review, at minimum:
+
+- stable silhouette and age-readable proportions;
+- front, three-quarter and back reference views;
+- neutral, happy/encouraging, curious/focused and celebration expressions where appropriate;
+- canonical palette slots and clothing continuity;
+- consistent outline/stroke language with Paca/Gavi and Garden artwork;
+- transparent-background export for reusable character placement;
+- small-avatar legibility and full-body scene legibility;
+- pose/motion constraints that do not obstruct learning controls;
+- provenance/rights record before public-repository production use.
+
+Generated candidates are **review material**, not production truth. A visually plausible image is not approved until identity consistency, asset quality and redistribution/provenance requirements are satisfied.
+
+Child profile identity and guide-character identity are separate concepts. Never use a guide character as the child's actual profile identity by default.
+
+The current Coloring content contract remains separate: existing coloring-character support is Paca/Gavi only. This Art Bible does not authorize new Naya/Gian/Zia coloring activities or evidence changes.
 
 ## 12. Feedback states
 

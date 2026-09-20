@@ -1,6 +1,6 @@
 # Mainlagi Hub Documentation Index
 
-Last reviewed: **19 September 2026**
+Last reviewed: **20 September 2026**
 
 Use this file to decide which documentation is current and which files are historical snapshots.
 
@@ -10,19 +10,41 @@ Read these first for current work:
 
 1. [`NEXT_PRODUCT_QUALITY_PLAN.md`](NEXT_PRODUCT_QUALITY_PLAN.md) — current execution order, workstreams, status and mandatory gates.
 2. [`CURRENT_STATE.md`](CURRENT_STATE.md) — current repository/product/production baseline.
-3. [`PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md`](PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md) — active production visual/product audit and P0/P1/P2 state.
-4. [`MAINLAGI_ART_BIBLE.md`](MAINLAGI_ART_BIBLE.md) — canonical visual direction.
-5. [`MOBILE_ROUTE_QA.md`](MOBILE_ROUTE_QA.md) — blocking browser route and permanent visual QA contract.
-6. [`ARCHITECTURE.md`](ARCHITECTURE.md) — current technical boundaries and system architecture.
-7. [`MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md`](MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md) — child/product/UX/activity rules.
-8. [`LEARNING_ATTEMPTS_MASTERY.md`](LEARNING_ATTEMPTS_MASTERY.md) — evidence/mastery/progression contract.
-9. [`GAMEPLAY_VARIATION_CATALOG.md`](GAMEPLAY_VARIATION_CATALOG.md) — canonical gameplay-pattern catalog and WS-05 boundaries.
-10. [`PRODUCT_DIRECTION.md`](PRODUCT_DIRECTION.md) — product principles and direction.
-11. [`KNOWN_LIMITATIONS.md`](KNOWN_LIMITATIONS.md) — current known limitations and external acceptance gaps.
+3. [`PROJECT_STATE_SYNC_2026-09-20.md`](PROJECT_STATE_SYNC_2026-09-20.md) — compact handoff after the WS-13 parent wave: exact current main/runtime verification, character asset truth, next work and guardrails.
+4. [`PRODUCT_UX_NEXT_WORK_2026-09-20.md`](PRODUCT_UX_NEXT_WORK_2026-09-20.md) — active product-UX execution order and acceptance gates.
+5. [`PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md`](PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md) — active production visual/product audit and P0/P1/P2 state.
+6. [`MAINLAGI_ART_BIBLE.md`](MAINLAGI_ART_BIBLE.md) — canonical visual direction.
+7. [`MOBILE_ROUTE_QA.md`](MOBILE_ROUTE_QA.md) — blocking browser route and permanent visual QA contract.
+8. [`ARCHITECTURE.md`](ARCHITECTURE.md) — current technical boundaries and system architecture.
+9. [`MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md`](MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md) — child/product/UX/activity rules.
+10. [`LEARNING_ATTEMPTS_MASTERY.md`](LEARNING_ATTEMPTS_MASTERY.md) — evidence/mastery/progression contract.
+11. [`GAMEPLAY_VARIATION_CATALOG.md`](GAMEPLAY_VARIATION_CATALOG.md) — canonical gameplay-pattern catalog and WS-05 boundaries.
+12. [`PRODUCT_DIRECTION.md`](PRODUCT_DIRECTION.md) — product principles and direction.
+13. [`KNOWN_LIMITATIONS.md`](KNOWN_LIMITATIONS.md) — current known limitations and external acceptance gaps.
 
 Subsystem docs remain authoritative for their specific scope when they do not conflict with the canonical documents above.
 
-## Current execution checkpoint
+## Current project checkpoint — 20 September 2026
+
+```text
+documentation sync base:       a04bd51fb02dedf56b5cd62f7f579eb53c4be251
+latest live-verified runtime:    77bee682f84b5d68b85d2c91b1d6f2ca4c93d2d9
+runtime main CI:                 #1160 / run 35520629179 — success + exact Cloudflare smoke
+learning catalog:                9 subjects / 900 activities
+gameplay taxonomy:               900/900 classified / 47 active / no Pattern #48
+current WS-13 state:             parent/profile/settings wave closed/live verified
+next product-UX work:            character production spec + Naya/Gian/Zia assets
+WS-05 fresh audit:               PR #240 -> 7109db41 / CI #1100 success / runtime not started
+```
+
+Paca/Gavi have production Garden WebP assets. Naya/Gian/Zia currently use non-production fallback representations and still need reviewed production assets. Child profile identity remains separate from guide-character identity.
+
+Historical audit/closure files remain immutable evidence for their checkpoint; use the canonical documents above for current truth.
+
+## Gameplay verification history / checkpoint ledger
+
+The compact current project checkpoint above overrides older sequencing language in this ledger. Entries below preserve verification history and may describe what was “next” at an earlier checkpoint; they are not a replacement for `CURRENT_STATE.md` or `PROJECT_STATE_SYNC_2026-09-20.md`.
+
 
 Pattern #47 `shape_attribute_board` is the latest **FULLY CLOSED / LIVE VERIFIED** gameplay pattern, including post-merge docs closure PR #204 and closure-main CI #951.
 
@@ -377,9 +399,11 @@ Historical closure/candidate/audit records must not be rewritten to pretend late
 
 ## Remaining product-quality work
 
-Immediate WS-05 live-verification debt is resolved. Set Reasoning implementation main CI #964 and docs main CI #969 passed exact Cloudflare smoke; Math spatial/measurement/English/environment audit mains passed #971/#973/#975/#977 respectively, each with exact-SHA Cloudflare smoke. After this closure docs PR itself merges/live-verifies, the next authorized runtime work is exact five-ID Math spatial reuse into existing `spatial_relation_board`. No Pattern #48 is created.
+Immediate product-UX work is now the character-production wave: extend the canonical Art Bible with production-grade Naya/Gian/Zia specifications, establish provenance/asset acceptance, review candidate artwork, then integrate approved assets. After that come subject themes/backgrounds, English voice-quality work and broader visual/usability cleanup.
 
-Other open work remains P2 game-shell/icon/inline-style convergence, WS-02 narration, WS-10 real-device/accessibility/human/Iqro acceptance, WS-11 governance, later WS-12 cleanup, and continued WS-05 progression to the current finish target of 50.
+The WS-05 Logic repeating-pattern audit is no longer an unmerged branch: PR #240 is on main `7109db41134f18884b6c08fba99ad2af997b3fed`, and main CI #1100 passed. Runtime implementation remains not started and, if executed, must reuse existing `pattern_completion` for the exact audited scope without creating Pattern #48.
+
+External acceptance debt remains real-device/accessibility testing and Iqro expert review. P2 visual cleanup, governance hardening and later cleanup remain lower-priority work unless they become release blockers.
 
 ## Historical snapshot documents
 

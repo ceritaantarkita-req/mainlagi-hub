@@ -1,6 +1,6 @@
 # Mainlagi Learning Platform — Product, UX, and Activity Specification
 
-Last reviewed: **14 September 2026**
+Last reviewed: **20 September 2026**
 
 Status: **canonical current UX/product specification**.
 
@@ -56,7 +56,7 @@ The child does not need to understand the internal hierarchy. Data/progression t
 
 ## 5. Current frontend baseline
 
-The Garden/Playroom redesign merged in PR #87 is the visual baseline.
+The Garden/Playroom redesign remains the visual anchor. The current implementation also includes the 20 September WS-13 child-home/gallery/completion/matching/audio-latency/parent-responsive waves.
 
 Preserve and improve:
 
@@ -300,6 +300,23 @@ Young children get forgiving retry/hint behavior. Practice-only creative content
 Parent/public surfaces should provide clear access to About, FAQ/help, child/account management, progress/reporting, privacy/data information, suitable parent recommendations, and affiliate disclosure.
 
 Current About/FAQ copy needs updating. Affiliate shopping CTA must never appear inside child learning flow.
+
+Current parent responsive contract:
+
+- below 760px: sticky parent header + fixed five-destination bottom navigation;
+- at/above 760px: parent sidebar;
+- parent/product destinations remain separated from child navigation;
+- real family profiles and demo data are visually separated;
+- child profile identity is not represented by the selected guide character;
+- primary parent summaries use existing completion/stars/activity data and do not invent mastery.
+
+Current character-production boundary:
+
+- Paca/Gavi production Garden assets exist;
+- Naya/Gian/Zia still require reviewed production artwork;
+- canonical character roles come from the documented character system;
+- generated art is not automatically approved;
+- coloring-character content remains a separate content decision.
 
 ## 20. Main Gerak
 

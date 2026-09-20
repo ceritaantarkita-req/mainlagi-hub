@@ -1,6 +1,6 @@
 # Mainlagi Mobile Design System
 
-Last reviewed: 10 September 2026
+Last reviewed: 20 September 2026
 
 This document defines the shared mobile layout foundation introduced in Expansion Batch 1. Batch 1 establishes the primitives and inherited tokens. Batch 2 is responsible for migrating every canonical child/parent/game route and proving visual behavior at the viewport matrix in `MOBILE_ROUTE_MATRIX.md`.
 
@@ -87,6 +87,17 @@ Images/video/canvas should not exceed their containing mobile layout width. SVG/
 ## Batch 2 migration rule
 
 A route is considered migrated only when its production component uses the shared primitives/tokens or an intentionally documented compatible equivalent, and it passes targeted responsive acceptance. Batch 1 does not mark every route mobile-clean merely because all routes inherit `MobileFoundation`.
+
+## Parent shell breakpoint — 20 September
+
+The current parent shell uses a dedicated product breakpoint at **760px**:
+
+- below 760px: parent sidebar hidden; sticky parent header + fixed five-item bottom nav;
+- >=760px: parent sidebar visible; mobile bottom nav hidden;
+- parent content must reserve safe-area/bottom-nav space on phone;
+- generic `MobileFoundation` rules must not force a hidden parent sidebar back into view.
+
+This breakpoint was live verified in PR #251 / main `77bee682...` and is protected by the mobile-route browser suite.
 
 ## Test contract
 

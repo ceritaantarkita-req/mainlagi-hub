@@ -1,6 +1,6 @@
 # Mainlagi Mobile Route & Visual Product QA
 
-Last reviewed: **17 September 2026**
+Last reviewed: **20 September 2026**
 
 This document describes the blocking Chromium QA inside `Mobile route QA (Chromium)`. It complements `MOBILE_DESIGN_SYSTEM.md`, `MOBILE_ROUTE_MATRIX.md`, `MAINLAGI_ART_BIBLE.md`, `PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md`, and the external physical-device matrix in `BATCH16_PHYSICAL_DEVICE_QA.md`.
 
@@ -36,6 +36,30 @@ At 320px and 430px it also opens representatives for `tap_choice`, `listen_and_c
 Per-route assertions include non-error navigation, meaningful content, route-boundary presence where applicable, no Next.js error overlay, no document horizontal overflow, phone touch-target sizing for child-facing controls, no uncaught page errors, and no browser console errors.
 
 Important boundary: the broad matrix does **not** provide permanent visual evidence for all account subpages. PR #162 discovered this gap and explicitly added every migrated account route to the exact-path permanent baseline rather than treating broad coverage as sufficient.
+
+### WS-13 parent-route extension
+
+PR #251 extended the broad route harness for the redesigned parent shell and root dashboard. The blocking checks now also protect:
+
+- family/demo separation on parent root;
+- exactly five primary mobile parent destinations;
+- fixed mobile parent navigation below 760px;
+- hidden mobile nav / visible sidebar at desktop breakpoint;
+- parent settings links to Profiles, Privacy & AI, and Plan;
+- parent-root screenshots at 320 / 390 / 768 / 1024 for manual review.
+
+Accepted evidence:
+
+```text
+PR head:        1c2017e28c8c74b6cdf50adad07b59511a3c3d56
+PR CI:          #1159 / run 35520233825 — success
+main:           77bee682f84b5d68b85d2c91b1d6f2ca4c93d2d9
+main CI:        #1160 / run 35520629179 — success + exact Cloudflare smoke
+artifact:       10608044389
+manual review:  320 / 390 / 768 / 1024 accepted, no P0-P1 blocker
+```
+
+The 768 screenshot review caught an overly narrow two-column hero before merge. The fix deliberately keeps tablet hero content stacked and moves the wide composition to a larger usable-width breakpoint. This remains a precedent that breakpoint correctness includes readable composition, not only absence of overflow.
 
 ## Permanent visual product baseline — live production contract
 

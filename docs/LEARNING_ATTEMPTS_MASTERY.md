@@ -1,6 +1,6 @@
 # Mainlagi Learning Attempts & Mastery
 
-Last reviewed: **14 September 2026**
+Last reviewed: **20 September 2026**
 
 Status: production implementation active on canonical `main`. Core learning/security migrations `0001–0007` are applied; later content migrations extend the catalog. Cloudflare exact-commit deployment/smoke has been validated.
 
@@ -276,6 +276,19 @@ Canonical project:
 - region: `ap-southeast-1`
 
 Core ownership/RLS boundaries are active in production. Current catalog/database verification has matched the nine-subject/900-activity repository baseline.
+
+## 20 September presentation-wave non-impact
+
+The WS-13 child-home/gallery/completion/matching/audio-latency/parent-responsive work does not redefine mastery, evidence, stage readiness or progression.
+
+In particular:
+
+- parent overview may summarize completed activities, stars and recent activity using existing data;
+- presentation must not infer mastery from stars/completion;
+- family/demo visual separation does not change ownership or evidence storage;
+- profile identity vs guide-character separation is visual/domain clarity, not a schema migration;
+- QA unlock behavior must stay isolated and may not weaken normal production progression;
+- the current Logic `pattern_completion` reuse audit does not authorize mastery/schema changes.
 
 ## 20. Change rule
 

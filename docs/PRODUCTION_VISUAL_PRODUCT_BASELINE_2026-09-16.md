@@ -1,8 +1,34 @@
 # Production Visual / Product Baseline Audit — 2026-09-16
 
-Last updated: **17 September 2026**  
-Status: **P0=0 / P1=0 / P2=3 ON VERIFIED PRODUCTION; VISUAL P1 CHECKPOINT CLOSED; PATTERN #38 UNBLOCKED FOR FRESH AUDIT**  
+Last updated: **20 September 2026**  
+Status: **P0=0 / P1=0 / P2=3 BASELINE PRESERVED; WS-13 PRODUCT UX THROUGH PARENT WAVE LIVE VERIFIED; CHARACTER PRODUCTION NEXT**  
 Canonical production: `https://mainlagihub.my.id/`
+
+## 20 September WS-13 product-UX addendum
+
+The original 16–17 September visual P1 baseline remains valid as a visual-system checkpoint, but product UX continued after it. The following WS-13 work is now merged, and the parent wave is independently live verified:
+
+- canonical route/component + warning audit;
+- child home/header/navigation + responsive 3-column subject directory;
+- activity gallery + isolated QA unlock;
+- shared completion;
+- matching randomization/retry behavior;
+- first-instruction narration latency;
+- parent/profile/settings responsive redesign.
+
+Latest independently live-verified runtime/product state:
+
+```text
+PR:                #251
+main:              77bee682f84b5d68b85d2c91b1d6f2ca4c93d2d9
+main CI:           #1160 / run 35520629179
+Cloudflare smoke:  PASS, exact SHA
+QA artifact:       10608044389
+```
+
+Parent responsive contract is <760px mobile header + fixed five-item bottom nav and >=760px desktop sidebar. Manual review at 320 / 390 / 768 / 1024 was accepted; the 768 hero remains stacked to avoid pathological wrapping.
+
+Current visual-product gap is character production: Paca/Gavi have production Garden WebP assets, while Naya/Gian/Zia still lack production files under `public/artwork`. The next WS-13 visual wave extends the canonical Art Bible character contract and reviews production candidates before integration.
 
 ## Verified closure chain
 
@@ -214,11 +240,12 @@ Some learning/parent surfaces retain inline visual values. Technical cleanup sho
 
 ## Next remediation / execution order
 
-1. Keep the permanent 21-route / 63-capture gate blocking on every relevant main run.
-2. Run a fresh objective/evidence audit for Pattern #38; no mechanic is pre-approved.
-3. Implement Pattern #38 only if the audit identifies a learning/evidence justification and exact small scope.
-4. Continue WS-05 toward 50–60 meaningful patterns while preserving permanent WS-08 visual QA.
-5. Continue external acceptance and narration work.
-6. Address the P2 visual backlog in later targeted waves without reopening closed P1 surfaces.
+1. Keep the permanent 21-route / 63-capture visual baseline blocking and continue the broad route/browser QA matrix.
+2. Execute the character-production wave: production spec + provenance + reviewed Naya/Gian/Zia assets, preserving Paca/Gavi continuity.
+3. Follow with subject theme/background system and clearer learning illustrations.
+4. Continue English narration-quality work after the completed first-instruction latency wave.
+5. Keep WS-05 mechanic work separate and evidence-driven; the Logic `pattern_completion` audit is already merged/live verified and runtime is not started.
+6. Continue physical-device/accessibility and Iqro expert acceptance.
+7. Address remaining P2 game-shell/icon/inline-style cleanup in targeted waves without reopening closed P1 surfaces.
 
-The learning engine and deployment are not open issues in this checkpoint. The production visual P1 gate is closed; the next gameplay work must now earn its own justification.
+The permanent visual baseline remains a gate, not a claim that every later product surface is visually final.
