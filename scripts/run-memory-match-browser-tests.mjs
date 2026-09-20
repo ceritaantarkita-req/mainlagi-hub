@@ -257,6 +257,11 @@ async function inspect(viewport) {
     assert.equal(state.attempt.metadata?.evidenceFidelity, "matching_memory_interaction", "explicit memory evidence wins over DOM fallback");
     assert.equal(state.attempt.correctCount, 2, "two canonical pairs are counted");
 
+    const completion = page.locator("[data-activity-completion]");
+    await completion.waitFor({ state: "visible", timeout: 2_000 });
+    assert.equal(await completion.getByLabel("Tiga bintang").locator("svg").count(), 3, "memory match shared completion renders three stars");
+    assert.equal(await completion.getByRole("link", { name: "Next", exact: true }).count(), 1, "memory match shared completion exposes Next");
+
     await page.screenshot({
       path: path.join(screenshotDir, `${viewport.width}-memory-match-success.png`),
       fullPage: false
