@@ -164,6 +164,18 @@ async function inspectPage(page, route, viewport) {
     const overlayCount = await page.locator("nextjs-portal, [data-nextjs-dialog-overlay], [data-next-badge-root]").count();
     assert.equal(overlayCount, 0, `${route.path} rendered a Next.js error overlay at ${viewport.width}px`);
 
+    if (route.path === "/child/demo-gian/home") {
+      assert.equal(await page.getByRole("link", { name: "Belajar", exact: true }).count(), 1, "child home must expose Belajar navigation");
+      assert.equal(await page.getByRole("link", { name: "Bermain", exact: true }).count(), 1, "child home must expose Bermain navigation");
+      const subjectLinks = page.locator('a[href^="/child/demo-gian/subject/"]');
+      assert.equal(await subjectLinks.count(), 9, "child home must expose all nine subject cards");
+      assert.equal(await page.getByText(/\b100 aktivitas\b/).count(), 0, "subject cards must not expose activity-count subtitles");
+      const columns = await subjectLinks.first().evaluate((element) =>
+        getComputedStyle(element.parentElement).gridTemplateColumns.split(" ").filter(Boolean).length
+      );
+      assert.equal(columns, 3, `child home subject directory must stay three columns at ${viewport.width}px`);
+    }
+
     const metrics = await page.evaluate(() => {
       const viewportWidth = document.documentElement.clientWidth;
       const htmlWidth = document.documentElement.scrollWidth;
