@@ -148,7 +148,8 @@ Other subject pairings/backgrounds remain to be designed. Each subject may have 
 - Homepage/header/3-column subject directory: **merged**.
 - Activity gallery + isolated QA unlock: **merged**.
 - Shared completion: **merged / live verified** at `53a5f04`, CI #1129 exact Cloudflare smoke.
-- Matching randomization/difficulty: **active** on `agent/ws13-matching-randomization-20260920`.
+- Matching randomization/difficulty: **merged / live verified** at `61f8fb6`, CI #1134 exact Cloudflare smoke.
+- Audio first-instruction latency: **next active step**.
 
 ## Implementation order
 
