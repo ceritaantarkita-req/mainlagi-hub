@@ -1,6 +1,6 @@
 # Math Mixed-Operation Existing-Mechanic Reuse Audit — 20 September 2026
 
-Status: **AUDIT MERGED / LIVE VERIFIED / EXISTING `make_total` + `take_away` REUSE JUSTIFIED / EXACT 4-ID SCOPE / RUNTIME IMPLEMENTATION ACTIVE**
+Status: **AUDIT MERGED / LIVE VERIFIED / EXACT 4-ID RUNTIME FULLY CLOSED / NO PATTERN #48**
 
 ## Verified baseline
 
@@ -45,7 +45,7 @@ Cloudflare smoke:     exact audit-main SHA PASS
 
 CI #1087 verified production is serving exact audit-main `c01d0bac15e438640cacb5958db31c1a6ad36c66` on branch `main` with canonical Cloudflare + Supabase target.
 
-Runtime implementation is active on `agent/math-mixed-operation-reuse-20260920`. The audit decision remains exact: two mixed additions -> `make_total`, two mixed subtractions -> `take_away`, operation-selection excluded, no Pattern #48.
+Runtime implementation is merged and live verified through PR #238 -> main `710ecdbad3f68b88bc3d6330f9c77cc7f9ad7f24`; final PR CI #1095 and runtime-main CI #1096 both passed, including exact Cloudflare production smoke. The audit decision remains exact: two mixed additions -> `make_total`, two mixed subtractions -> `take_away`, operation-selection excluded, no Pattern #48.
 
 ## Why this audit exists
 
@@ -308,4 +308,4 @@ Keep `math-mixed-choose-add` outside both mechanics.
 
 Do not create Pattern #48.
 
-No runtime code is approved beyond this exact four-ID reuse scope until the audit branch passes CI and merges.
+Runtime implementation was limited to this exact four-ID reuse scope and is now live verified. No additional family is pre-approved by this audit.
