@@ -1,6 +1,10 @@
 # Mainlagi — redesign seluruh frontend
 
-Status 13 September: implementasi lokal desain 1 dan validasi bertahap. Interaksi Garden desktop/HP lolos; acceptance seluruh 900 layar belum selesai karena ditemukan false-positive redirect dalam crawl lama. Laporan QA versi Playroom sebelumnya adalah riwayat, bukan acceptance desain Garden. Belum commit, push, atau deploy. Lihat [hasil validasi terakhir](GARDEN_REDESIGN_VALIDATION_2026-09-13.md).
+Status update 20 September: Garden sudah menjadi baseline produk yang ter-merge/deploy, tetapi user acceptance terbaru membuka kembali pekerjaan UX pada homepage, katalog, activity completion, matching, audio, parent/settings, character system dan visual per subject. Dokumen ini tetap menjadi fondasi/history redesign; rencana eksekusi terbaru ada di [PRODUCT_UX_NEXT_WORK_2026-09-20.md](PRODUCT_UX_NEXT_WORK_2026-09-20.md). Bukti validasi Garden 13 September tetap historis dan tidak boleh dipakai sebagai klaim bahwa UX 20 September sudah diterima final.
+
+## User acceptance update — 20 September 2026
+
+Temuan produk terbaru menegaskan bahwa green CI tidak cukup untuk acceptance visual/usability. Prioritas baru mencakup canonicalisasi komponen aktif, warning cleanup, lima karakter utama (Naya/Gian/Zia/Paca/Gavi), hero dan grid subject, QA unlock mode, katalog activity, completion bersama, matching shuffle, narration latency/quality, parent/profile/settings responsive, serta subject themes. Progression/mastery/evidence tetap di luar redesign kecuali ada kebutuhan terpisah yang disetujui.
 
 ## Alternatif visual yang sudah ditampilkan
 
