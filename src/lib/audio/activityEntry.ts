@@ -56,6 +56,10 @@ function readIntent(activityId: string): StoredIntent | null {
   }
 }
 
+export function hasActivityAudioIntent(activityId: string): boolean {
+  return readIntent(activityId) !== null;
+}
+
 function clearIntent(activityId: string): void {
   if (typeof window === "undefined") return;
   try {
