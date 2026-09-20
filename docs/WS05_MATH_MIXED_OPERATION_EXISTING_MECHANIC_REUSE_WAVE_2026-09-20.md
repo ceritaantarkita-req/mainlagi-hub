@@ -1,6 +1,6 @@
 # WS-05 Math Mixed-Operation Existing-Mechanic Reuse Wave — 20 September 2026
 
-Status: **IMPLEMENTATION ACCEPTED / FINAL EXACT-HEAD CI REQUIRED / AUDIT LIVE VERIFIED**
+Status: **FULLY CLOSED / LIVE VERIFIED**
 
 ## Audit gate
 
@@ -338,20 +338,28 @@ Acceptance notes:
 - legacy Make Total and Take Away browser QA remained green;
 - explicit operation-selection exclusion remained green.
 
-Because this acceptance evidence updates docs after the accepted runtime checkpoint, the final PR head must pass the complete CI gate once more before merge.
+The acceptance evidence changed the PR head, so the final exact head was revalidated by CI #1095 before merge.
 
-## Before merge
+## Runtime merge verification
 
-1. exact runtime PR head full CI green;
-2. focused Make Total / Take Away regressions green;
-3. dedicated mixed-operation browser QA green;
-4. legacy mechanic browser QA green;
-5. distribution exactly 900/900 / 47 / 179 / 7 / 7;
-6. activity quality KEEP 900;
-7. manual visual review of all 18 dedicated screenshots with P0=0/P1=0;
-8. review threads/comments clean;
-9. exact-head squash merge;
-10. merged-main full CI + exact Cloudflare production smoke;
-11. post-merge closure documentation.
+```text
+Final PR head:          643369783d0f9d08c136485854c6f26349c0b4d5
+Final exact-head CI:    #1095 / run 35488941575 — full success
+Runtime main:           710ecdbad3f68b88bc3d6330f9c77cc7f9ad7f24
+Runtime-main CI:        #1096 / run 35490566915 — full success
+Cloudflare smoke:       exact runtime-main SHA PASS
+```
 
-Pattern #48 remains **not justified**.
+Merged-main artifacts independently confirm:
+- 900 / 900 classified;
+- 0 unclassified;
+- 47 active patterns;
+- `choice_grid` 179;
+- `make_total` 7;
+- `take_away` 7;
+- Math `choice_grid` 13;
+- KEEP 900 / POLISH 0 / REDESIGN 0 / REPLACE 0.
+
+Terminal closure record: `MATH_MIXED_OPERATION_EXISTING_MECHANIC_REUSE_CLOSURE_2026-09-20.md`.
+
+All runtime gates are complete. Pattern #48 remains **not justified**.

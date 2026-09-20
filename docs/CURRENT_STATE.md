@@ -144,9 +144,10 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Math missing-number final closure verification: `docs/NUMBER_LINE_MATH_MISSING_NUMBER_REUSE_FINAL_CLOSURE_VERIFICATION_2026-09-19.md`
 - Final verification publication: PR #234 -> main `c023a5757daea7c7948fb09764c672b9c2ff74ea`; push CI #1071 exposed npm advisory-service maintenance after every product/runtime/build/Windows/Chromium/secret gate passed. Recovery PR #235 exact head `767f09353be48d55f52fe0598b40c2d19f3a7fba` -> main `0917b8292986d496f96d4150aef9f1fcf5499c4f`; CI #1082/#1083 full success; production dependency audit reported 0 vulnerabilities; exact recovery-main Cloudflare smoke PASS; **DEPENDENCY-AUDIT RECOVERY FULLY CLOSED / LIVE VERIFIED** with npm 11.19.1 + bounded transient retry + pinned OSV-Scanner v2.3.5 fallback, no dependency/package-lock/runtime change.
 - Dependency-audit recovery record: `docs/PRODUCTION_DEPENDENCY_AUDIT_RECOVERY_2026-09-20.md`
-- Math mixed-operation -> existing `make_total` + `take_away`: **audit PR #237 -> main `c01d0bac15e438640cacb5958db31c1a6ad36c66` / runtime PR #238 accepted head `33d05c520ee6439f0c4d60ed80e8d238a2e18218` / CI #1090 full success / 900/900 / 47 active / `choice_grid` 179 / `make_total` 7 / `take_away` 7 / KEEP 900 / 18-shot P0=0 P1=0 / FINAL EXACT-HEAD CI REQUIRED / Pattern #48 not justified**
+- Math mixed-operation -> existing `make_total` + `take_away`: **audit PR #237 -> main `c01d0bac15e438640cacb5958db31c1a6ad36c66` / runtime PR #238 final head `643369783d0f9d08c136485854c6f26349c0b4d5` -> main `710ecdbad3f68b88bc3d6330f9c77cc7f9ad7f24` / CI #1086/#1087/#1090/#1095/#1096 full success / exact runtime-main Cloudflare smoke / 900/900 / 47 active / `choice_grid` 179 / `make_total` 7 / `take_away` 7 / KEEP 900 / 18-shot P0=0 P1=0 / FULLY CLOSED / LIVE VERIFIED / Pattern #48 not justified**
 - Math mixed-operation reuse audit record: `docs/MATH_MIXED_OPERATION_EXISTING_MECHANIC_REUSE_AUDIT_2026-09-20.md`
 - Math mixed-operation runtime wave: `docs/WS05_MATH_MIXED_OPERATION_EXISTING_MECHANIC_REUSE_WAVE_2026-09-20.md`
+- Math mixed-operation terminal closure: `docs/MATH_MIXED_OPERATION_EXISTING_MECHANIC_REUSE_CLOSURE_2026-09-20.md`
 - Force/motion remains **not authorized** as one relation-board family because push/pull/gravity/friction evidence forms are heterogeneous.
 - Pattern #48 remains **NO JUSTIFIED NEW PATTERN YET**.
 
@@ -183,13 +184,15 @@ Runtime count is not gameplay-pattern count.
 
 Current WS-05 finish target: **50 meaningful patterns**. The former 60-pattern working target is non-blocking/deferred and is not part of the current finish scope.
 
-Verified current merged-main gameplay distribution after Math missing-number Number Line reuse:
+Verified current merged-main gameplay distribution after Math mixed-operation existing-mechanic reuse:
 
 ```text
 classified:                    900 / 900
 unclassified:                    0
 active merged patterns:         47
-choice_grid                    183 / 900
+choice_grid                    179 / 900
+make_total                       7 / 900
+take_away                        7 / 900
 number_line                     11 / 900
 picture_word_match              23 / 900
 set_reasoning                   10 / 900
