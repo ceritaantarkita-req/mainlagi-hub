@@ -177,7 +177,9 @@ Shared completion is **MERGED / LIVE VERIFIED**: PR #245 -> `main` `53a5f04c6d54
 
 Visible matching randomization is **MERGED / LIVE VERIFIED**: PR #247 -> `main` `61f8fb64bca412b13abd5570e3c322b2ab158c8a`; merged-main CI #1134 / run `35504645189` passed all gates including exact Cloudflare production smoke. Generic visible matching now uses randomized left/right columns, prevents same-row answer leakage, and reshuffles on Try Again without changing `matching_accuracy_v1`, mastery, progression, schema, or WS-05 pattern count.
 
-Current WS-02/WS-13 branch: `agent/ws02-audio-entry-latency-20260920`. The first-instruction latency wave pre-warms the destination locale from the activity-link gesture, removes the extra generic-entry animation-frame delay, auto-starts listen-and-choose when browser audio is already unlocked, keeps Dengar as replay/recovery, and records privacy-safe navigation-intent -> speech-start latency. Browser autoplay restrictions remain fail-closed and visible.
+Audio first-instruction latency is **MERGED / LIVE VERIFIED**: PR #249 -> `main` `770d8b66dac20765fd96a66e9d752931e1a56d66`; PR CI #1144 passed all gates, manual 390px listening review accepted, browser warnings = 0, and merged-main CI #1145 / run `35511068490` passed exact Cloudflare production smoke. Correct-language pre-warm, faster generic entry, listen-and-choose auto-entry, replay recovery, fail-closed no-start timeout, and privacy-safe entry-latency evidence are now live.
+
+Next product-UX step: **parent/profile/settings responsive redesign**. Route ownership must follow current parent/public canonical components before implementation; do not alter learning evidence/mastery while reorganizing presentation.
 
 ## Engineering status
 
