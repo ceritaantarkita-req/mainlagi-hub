@@ -46,7 +46,8 @@ try {
     page.on("pageerror",error=>errors.push(error.message));
     page.on("console",message=>{if(message.type()==="error")errors.push(message.text());});
     await page.goto(base);
-    await page.getByRole("link",{name:"Mewarnai 100 aktivitas",exact:true}).click();
+    assert.equal(await page.getByText("100 aktivitas",{exact:true}).count(),0,"subject cards do not expose activity-count subtitles");
+    await page.getByRole("link",{name:"Mewarnai",exact:true}).click();
     await page.waitForURL(/child\/select\?continue=1&subject=color/);
     await page.getByRole("link",{name:/Gian — Demo/}).click();
     await page.waitForURL(/child\/demo-gian\/subject\/color$/);
@@ -70,8 +71,14 @@ try {
     result.checks.push("legacy learn route returns home "+viewport.width);
     await page.goto(base);
     await page.waitForURL(/child\/demo-gian\/home$/);
-    assert.equal(await page.getByRole("heading",{name:"Hai, Gian.",exact:true}).count(),1);
-    assert.equal(await page.locator('a[href^="/child/demo-gian/subject/"]').count(),9);
+    assert.equal(await page.getByRole("heading",{name:"Belajar sambil bermain.",exact:true}).count(),1);
+    assert.equal(await page.getByRole("link",{name:"Belajar",exact:true}).count(),1);
+    assert.equal(await page.getByRole("link",{name:"Bermain",exact:true}).count(),1);
+    const subjectLinks=page.locator('a[href^="/child/demo-gian/subject/"]');
+    assert.equal(await subjectLinks.count(),9);
+    assert.equal(await page.getByText(/\b100 aktivitas\b/).count(),0,"child home hides activity-count subtitles");
+    const subjectGridColumns=await subjectLinks.first().evaluate(element=>getComputedStyle(element.parentElement).gridTemplateColumns.split(" ").filter(Boolean).length);
+    assert.equal(subjectGridColumns,3,"subject directory keeps three columns at "+viewport.width+"px");
     await page.screenshot({path:path.join(output,`home-${viewport.width}.png`),fullPage:true});
     result.screenshots.push(`home-${viewport.width}.png`);
     result.checks.push("returning child bypasses setup "+viewport.width);
