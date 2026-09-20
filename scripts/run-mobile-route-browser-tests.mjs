@@ -216,9 +216,9 @@ async function inspectPage(page, route, viewport) {
 
     if (route.path === "/parent/settings") {
       assert.equal(await page.getByRole("heading", { name: "Pengaturan", exact: true }).count(), 1, "parent settings heading must use Indonesian product copy");
-      assert.equal(await page.getByRole("link", { name: "Kelola profil anak", exact: true }).count(), 1, "parent settings must link to family profiles");
-      assert.equal(await page.getByRole("link", { name: "Privasi & AI", exact: true }).count(), 1, "parent settings must link to privacy controls");
-      assert.equal(await page.getByRole("link", { name: "Paket Mainlagi", exact: true }).count(), 1, "parent settings must link to plan surface");
+      assert.equal(await page.locator('main a[href="/parent/children"]').count(), 1, "parent settings must link to family profiles");
+      assert.equal(await page.locator('main a[href="/parent/privacy"]').count(), 1, "parent settings must link to privacy controls");
+      assert.equal(await page.locator('main a[href="/parent/plan"]').count(), 1, "parent settings must link to plan surface");
     }
 
     const metrics = await page.evaluate(() => {
