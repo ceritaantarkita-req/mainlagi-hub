@@ -1,6 +1,6 @@
 # WS-05 Math Mixed-Operation Existing-Mechanic Reuse Wave — 20 September 2026
 
-Status: **RUNTIME IMPLEMENTATION ACTIVE / AUDIT LIVE VERIFIED**
+Status: **IMPLEMENTATION ACCEPTED / FINAL EXACT-HEAD CI REQUIRED / AUDIT LIVE VERIFIED**
 
 ## Audit gate
 
@@ -251,6 +251,94 @@ activity-quality-audit
 artifact: 10588919924
 sha256:4483c5e6746f096ebf4058fb5dd84a834a7bdbd7910ac9662ae3264ee927569e
 ```
+
+## Implementation acceptance checkpoint
+
+```text
+Implementation PR:       #238
+Accepted runtime head:   33d05c520ee6439f0c4d60ed80e8d238a2e18218
+CI:                      #1090 / run 35488429991 — full success
+Production smoke:        skipped on PR by design
+```
+
+Verified CI #1090 artifact truth:
+
+```text
+activities:              900
+classified:              900
+unclassified:              0
+active patterns:          47
+choice_grid:             179
+make_total:                7
+take_away:                 7
+number_line:              11
+Math choice_grid:         13
+KEEP:                     900
+POLISH:                     0
+REDESIGN:                   0
+REPLACE:                    0
+structural findings:        0
+```
+
+Artifacts:
+
+```text
+activity-quality-audit
+artifact: 10598637144
+sha256:63013a2f2f706e1edf55bf05423b4fb805035e11ad398e993741d6ba12a5dfda
+
+gameplay-distribution-audit
+artifact: 10598622505
+sha256:506375fc7a7ecef83a93d46fe301bfdaa1db49a8b64eb7b3e95aaeb3885df7f6
+
+mobile-route-qa-screenshots
+artifact: 10597782774
+sha256:eb30b78ec09f27a7173f8fb1d4284176ce934ce6780602bcc9b8eed27ad40066
+```
+
+Dedicated screenshots reviewed manually:
+
+```text
+320-mixed-add-idle.png
+320-mixed-add-try.png
+320-mixed-add-success.png
+390-mixed-add-idle.png
+390-mixed-add-try.png
+390-mixed-add-success.png
+768-mixed-add-idle.png
+768-mixed-add-try.png
+768-mixed-add-success.png
+
+320-mixed-sub-idle.png
+320-mixed-sub-try.png
+320-mixed-sub-success.png
+390-mixed-sub-idle.png
+390-mixed-sub-try.png
+390-mixed-sub-success.png
+768-mixed-sub-idle.png
+768-mixed-sub-try.png
+768-mixed-sub-success.png
+```
+
+Manual visual acceptance:
+
+```text
+P0 = 0
+P1 = 0
+result = ACCEPTED
+```
+
+Acceptance notes:
+- mixed-add and mixed-sub quantities remain visually clear at all three widths;
+- wrong/retry state remains visible without completing or revealing the result;
+- success state remains visible with feedback + CTA in viewport;
+- the initial 320px CTA overflow was fixed;
+- the subsequent 390px CTA overflow was fixed;
+- 320 and 768 actual-touch completion plus 390 pointer completion passed;
+- legacy Make Total and Take Away browser QA remained green;
+- explicit operation-selection exclusion remained green.
+
+Because this acceptance evidence updates docs after the accepted runtime checkpoint, the final PR head must pass the complete CI gate once more before merge.
 
 ## Before merge
 
