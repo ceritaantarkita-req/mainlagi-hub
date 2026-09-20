@@ -129,7 +129,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **47 ACTIVE / MATH MIXED-OPERATION RUNTIME ACTIVE** | audit #237 -> main `c01d0bac`, CI #1087 exact production smoke; exact four direct-result IDs -> existing `make_total` + `take_away`; hardened exact 7+7 families + dedicated add/sub browser QA; expected `choice_grid` 179 / 7 / 7 / 47 active |
+| WS-05 Gameplay diversification | **47 ACTIVE / MATH MIXED-OPERATION ACCEPTED / FINAL CI ACTIVE** | audit #237 -> main `c01d0bac`; runtime #238 accepted head `33d05c52`; CI #1090 full success; 900/900 / `choice_grid` 179 / `make_total` 7 / `take_away` 7 / KEEP 900; 18-shot P0=0/P1=0; final exact-head CI required |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P45 merged-main permanent visual QA green; nine dedicated screenshots manually accepted |
