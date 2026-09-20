@@ -40,7 +40,8 @@ const report = {
     activityRoutesChecked: 0,
     screenshots: [],
     flow: {},
-    subjectExposure: []
+    subjectExposure: [],
+    consoleWarnings: []
   },
   blockers: [],
   warnings: [],
@@ -54,6 +55,7 @@ const report = {
 
 let server = null;
 let serverLog = "";
+const seenConsoleWarnings = new Set();
 
 function gitSha() {
   const result = spawnSync("git", ["rev-parse", "HEAD"], { cwd: root, encoding: "utf8" });
@@ -299,11 +301,13 @@ function stopServer() {
 
 async function inspectRoute(page, routePath, options = {}) {
   const consoleErrors = [];
+  const consoleWarnings = [];
   const pageErrors = [];
   const onConsole = (message) => {
     // A running local server is not evidence that a reset was harmless.
     // Keep every console error actionable, including connection resets.
     if (message.type() === "error") consoleErrors.push(message.text());
+    if (message.type() === "warning") consoleWarnings.push(message.text());
   };
   const onPageError = (error) => pageErrors.push(error.message);
   page.on("console", onConsole);
@@ -344,6 +348,13 @@ async function inspectRoute(page, routePath, options = {}) {
 
     if (pageErrors.length) throw new Error(`page errors: ${pageErrors.join(" | ")}`);
     if (consoleErrors.length) throw new Error(`console errors: ${consoleErrors.join(" | ")}`);
+
+    for (const message of [...new Set(consoleWarnings)]) {
+      const key = `${routePath}\u0000${message}`;
+      if (seenConsoleWarnings.has(key)) continue;
+      seenConsoleWarnings.add(key);
+      report.browser.consoleWarnings.push({ route: routePath, message });
+    }
 
     report.browser.routesChecked += 1;
     return { ok: true, bodyTextLength: bodyText.length };
@@ -571,6 +582,14 @@ async function browserAudit({ system, curriculum }) {
         );
       }
     }
+
+    if (report.browser.consoleWarnings.length) {
+      warning(
+        "browser.console_warnings_detected",
+        `${report.browser.consoleWarnings.length} unique route/message browser warning exposure(s) detected.`,
+        report.browser.consoleWarnings.slice(0, 25)
+      );
+    }
   } finally {
     await browser.close();
   }
@@ -592,6 +611,7 @@ function writeReports() {
   report.summary.screenshotCount = report.browser.screenshots.length;
   report.summary.routesChecked = report.browser.routesChecked;
   report.summary.activityRoutesChecked = report.browser.activityRoutesChecked;
+  report.summary.consoleWarningCount = report.browser.consoleWarnings.length;
 
   writeFileSync(reportJsonPath, `${JSON.stringify(report, null, 2)}\n`);
 

@@ -120,6 +120,8 @@ The command exits non-zero for machine-verifiable blockers such as catalog drift
 
 Product/UX findings such as low fresh-profile activity exposure are recorded as warnings. They do not automatically fail the build because a heuristic cannot truthfully decide whether a product is attractive, understandable, or pedagogically good.
 
+The runner also inventories browser `console.warning` messages separately from product heuristics. Warning-level console messages are deduplicated by route + message and written to the JSON/Markdown report. They are non-blocking during the WS-13 inventory phase so exact causes can be fixed rather than hidden; the target after cleanup is zero unexpected browser warnings on canonical QA routes.
+
 Screenshot evidence is therefore a required human review input for the next UI/UX teardown rather than an automated “design score.”
 
 ## Product truth boundaries
