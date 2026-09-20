@@ -249,3 +249,16 @@ export function getNextActivity(age: number, progress: LearningProgress): Learni
   const recommended = getRecommendedActivities(age);
   return recommended.find((activity) => !progress.completedActivityIds.includes(activity.id)) ?? recommended[0];
 }
+
+export function getNextActivityInStage(activityId: string): LearningActivity | undefined {
+  const activity = getActivity(activityId);
+  if (!activity) return undefined;
+  const stage = getStage(activity.stageId);
+  if (!stage) return undefined;
+  const index = stage.activityIds.indexOf(activity.id);
+  if (index < 0) return undefined;
+  return stage.activityIds
+    .slice(index + 1)
+    .map((id) => getActivity(id))
+    .find((item): item is LearningActivity => Boolean(item));
+}
