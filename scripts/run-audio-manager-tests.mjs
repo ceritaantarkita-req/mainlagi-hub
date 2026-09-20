@@ -231,6 +231,17 @@ try {
   assert.equal(warm.synth.cancelCount, 0, "canceling a not-yet-started warmup must not touch native speech queue");
   assert.equal(warm.synth.spoken[0]?.text, "Halo");
 
+  const eagerWarm = harness(voices);
+  eagerWarm.manager.warmup("id-ID");
+  assert.equal(eagerWarm.timers.size, 0, "explicit navigation warmup must not wait for another timer tick");
+  assert.equal(eagerWarm.synth.spoken.length, 1, "explicit navigation warmup should start silent speech immediately");
+  assert.equal(eagerWarm.synth.spoken[0].voice?.name, "Indonesia local");
+  eagerWarm.synth.endCurrent();
+  eagerWarm.manager.warmup("en-US");
+  assert.equal(eagerWarm.synth.spoken.length, 2, "warming Indonesian must not suppress a later English warmup");
+  assert.equal(eagerWarm.synth.spoken[1].voice?.name, "English local", "destination locale must warm its own matching voice");
+  eagerWarm.synth.endCurrent();
+
   const silentWarm = harness(voices);
   silentWarm.manager.unlock("id-ID");
   silentWarm.runTimers();
