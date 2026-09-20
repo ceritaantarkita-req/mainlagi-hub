@@ -424,6 +424,20 @@ async function main() {
       assert.equal(await completion.getByRole("button", { name: "Back", exact: true }).count(), 1, "shared completion must expose Back");
       assert.equal(await completion.getByRole("button", { name: "Try Again", exact: true }).count(), 1, "shared completion must expose Try Again");
       assert.equal(await completion.getByRole("link", { name: "Next", exact: true }).count(), 1, "shared completion must expose Next");
+      const completionGeometry = await completion.evaluate((root) => {
+        const rootBox = root.getBoundingClientRect();
+        const controls = Array.from(root.querySelectorAll("button, a")).map((element) => {
+          const box = element.getBoundingClientRect();
+          return { text: element.textContent?.trim() ?? "", left: box.left, right: box.right, top: box.top, bottom: box.bottom };
+        });
+        return { root: { left: rootBox.left, right: rootBox.right, top: rootBox.top, bottom: rootBox.bottom }, controls };
+      });
+      assert.ok(completionGeometry.root.left >= -1 && completionGeometry.root.right <= viewport.width + 1, "completion overlay must remain inside viewport width");
+      assert.ok(completionGeometry.root.top >= -1 && completionGeometry.root.bottom <= viewport.height + 1, "completion overlay must remain inside viewport height");
+      for (const control of completionGeometry.controls.filter((item) => ["Back", "Try Again", "Next", "Share"].includes(item.text))) {
+        assert.ok(control.left >= -1 && control.right <= viewport.width + 1 && control.top >= -1 && control.bottom <= viewport.height + 1, `completion control ${control.text} must be immediately visible`);
+      }
+      await page.screenshot({ path: path.join(screenshotDir, "390-shared-completion-success.png"), fullPage: false });
       await page.getByRole("button", { name: "Share", exact: true }).click();
       const shareDialog = page.getByRole("dialog", { name: "Bagikan pencapaian" });
       await shareDialog.waitFor();
