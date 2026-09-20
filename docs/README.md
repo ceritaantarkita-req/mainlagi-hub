@@ -41,7 +41,10 @@ Paca/Gavi have production Garden WebP assets. Naya/Gian/Zia currently use non-pr
 
 Historical audit/closure files remain immutable evidence for their checkpoint; use the canonical documents above for current truth.
 
-## Current execution checkpoint
+## Gameplay verification history / checkpoint ledger
+
+The compact current project checkpoint above overrides older sequencing language in this ledger. Entries below preserve verification history and may describe what was “next” at an earlier checkpoint; they are not a replacement for `CURRENT_STATE.md` or `PROJECT_STATE_SYNC_2026-09-20.md`.
+
 
 Pattern #47 `shape_attribute_board` is the latest **FULLY CLOSED / LIVE VERIFIED** gameplay pattern, including post-merge docs closure PR #204 and closure-main CI #951.
 
