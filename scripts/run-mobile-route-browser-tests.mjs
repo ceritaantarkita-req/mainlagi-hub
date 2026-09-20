@@ -380,6 +380,30 @@ async function main() {
       console.log("WS-13 isolated QA unlock-all passed at 390px.");
     }
 
+    {
+      const viewport = { width: 390, height: 844 };
+      const context = await browser.newContext({ viewport });
+      const page = await context.newPage();
+      await page.goto(`${baseUrl}/child/demo-gian/activity/math-pattern-size`, { waitUntil: "domcontentloaded" });
+      await page.getByRole("button", { name: "Pilih •", exact: true }).click();
+      const completion = page.locator("[data-activity-completion]");
+      await completion.waitFor();
+      assert.equal(await completion.getByLabel("Tiga bintang").locator("svg").count(), 3, "shared completion must render three stars");
+      assert.equal(await completion.getByRole("button", { name: "Back", exact: true }).count(), 1, "shared completion must expose Back");
+      assert.equal(await completion.getByRole("button", { name: "Try Again", exact: true }).count(), 1, "shared completion must expose Try Again");
+      assert.equal(await completion.getByRole("link", { name: "Next", exact: true }).count(), 1, "shared completion must expose Next");
+      await completion.getByRole("button", { name: "Share", exact: true }).click();
+      const shareDialog = page.getByRole("dialog", { name: "Bagikan pencapaian" });
+      await shareDialog.waitFor();
+      await shareDialog.getByText("Yang dibagikan hanya tautan Mainlagi", { exact: false }).waitFor();
+      for (const label of ["Copy link", "WhatsApp", "Telegram", "X", "Facebook", "Threads"]) {
+        assert.equal(await shareDialog.getByRole(label === "Copy link" ? "button" : "link", { name: label, exact: true }).count(), 1, `share dialog missing ${label}`);
+      }
+      await page.screenshot({ path: path.join(screenshotDir, "390-shared-completion.png"), fullPage: false });
+      await context.close();
+      console.log("WS-13 shared completion + parent-gated share passed at 390px.");
+    }
+
     for (const width of [320, 430]) {
       const viewport = VIEWPORTS.find((item) => item.width === width);
       assert.ok(viewport, `missing viewport ${width}px`);
