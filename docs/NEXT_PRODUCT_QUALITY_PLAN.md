@@ -129,7 +129,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **47 ACTIVE / MATH MIXED-OPERATION FULLY CLOSED / FRESH AUDIT NEXT** | audit #237 -> main `c01d0bac`; runtime #238 final head `64336978` -> main `710ecdb`; CI #1095/#1096 full success with exact production smoke; 900/900 / `choice_grid` 179 / `make_total` 7 / `take_away` 7 / KEEP 900; 18-shot P0=0/P1=0 |
+| WS-05 Gameplay diversification | **47 ACTIVE / LOGIC PATTERN-COMPLETION REUSE AUDIT ACTIVE** | docs-only exact 5-ID Logic repeating-pattern audit -> existing `pattern_completion`; baseline remains 900/900 / `choice_grid` 179 / `pattern_completion` 5 / KEEP 900; expected runtime 174 / 10 / 47 active; Pattern #48 still unjustified |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P45 merged-main permanent visual QA green; nine dedicated screenshots manually accepted |
@@ -722,13 +722,13 @@ P2 findings: 3
 
 ## Current execution order
 
-1. Preserve verified merged truth at **900/900 classified / 47 active / `choice_grid` 179 / `make_total` 7 / `take_away` 7 / `number_line` 11 / KEEP 900**.
-2. Math mixed-operation direct-result -> existing `make_total` / `take_away` is **FULLY CLOSED / LIVE VERIFIED** through audit #237 and runtime #238 -> main `710ecdbad3f68b88bc3d6330f9c77cc7f9ad7f24`, with exact production smoke in CI #1096.
-3. Preserve exact seven-ID fail-closed families, canonical `math.operation.mixed` identity for the four reused activities, explicit `math-mixed-choose-add` exclusion, and dedicated add/sub 320/390/768 QA.
-4. Preserve the responsive success-state fixes found by QA at 320x720 and 390x844; do not relax the full-visibility assertions.
-5. No next runtime family is pre-approved by this closure. The next WS-05 action must begin with a **fresh objective/evidence audit** of the remaining 179 `choice_grid` activities.
-6. Prefer reuse of an existing mechanic when the objective/evidence contract already matches; create Pattern #48 only if distinct interaction evidence justifies it.
-7. Iqro remains outside mechanic transformation until expert acceptance exists; English word-selection initial-sound and heterogeneous Science force/motion remain excluded from previously reviewed mismatched mechanics.
-8. The numeric distance to the 50-pattern target remains three; that number is not authorization to invent patterns.
+1. Preserve verified merged truth at **900/900 classified / 47 active / `choice_grid` 179 / `pattern_completion` 5 / `make_total` 7 / `take_away` 7 / KEEP 900** while the current audit remains docs-only.
+2. Current fresh audit approves exactly five Logic `logic.pattern.repeat.intermediate` activities for reuse of existing `pattern_completion`: `logic-pattern-aab-stars`, `logic-pattern-abb-shapes`, `logic-pattern-abc-shapes`, `logic-pattern-paired-blocks`, and `logic-pattern-abba`.
+3. Runtime implementation is blocked until the audit PR passes exact-head CI, merges to `main`, and the merged audit SHA passes exact production verification.
+4. If runtime proceeds, harden the complete `pattern_completion` family to exactly ten IDs and fail closed on canonical identity, prompt, exact choice order, answer and deterministic sequence config. Do not broaden by prefix or generic parser.
+5. Expected runtime result is **900/900 / 47 active / `choice_grid` 174 / `pattern_completion` 10 / Logic `choice_grid` 21 / KEEP 900**.
+6. This is existing-mechanic reuse, not Pattern #48. Do not create Pattern #48 merely to reach the numeric target of 50.
+7. Neighboring Logic sequence/comparison/spatial/rule families remain excluded; Math review remains heterogeneous at pack level; Science force/motion remains heterogeneous; English initial-sound remains a distinct evidence structure; Iqro remains outside mechanic transformation until expert acceptance exists.
+8. After this exact audit chain is closed, start another fresh objective/evidence audit rather than inheriting any unreviewed family automatically.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
