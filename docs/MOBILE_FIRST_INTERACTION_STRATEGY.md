@@ -9,6 +9,8 @@ This document records a product decision that applies to the future Mainlagi lea
 - `docs/ARCHITECTURE.md`
 - `docs/AI_OCR_OPENROUTER.md`
 
+**Current implementation note — 20 September 2026:** the WS-13 child-home/gallery/completion/matching/audio-latency and parent-responsive waves preserve this strategy. Core learning remains touch-first; the new parent mobile navigation does not add camera/motion requirements, and motion remains optional.
+
 ## 1. Product decision
 
 Mainlagi is **mobile-first and touch-first** for the core child learning experience.
