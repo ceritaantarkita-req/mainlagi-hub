@@ -196,7 +196,7 @@ async function inspectPage(page, route, viewport) {
       assert.equal(await page.getByRole("heading", { name: "Mode demo", exact: true }).count(), 1, "parent overview must separate demo profile");
       const mobileNav = page.locator("[data-mainlagi-parent-mobile-nav]");
       const sidebar = page.locator("[data-mainlagi-parent-sidebar]");
-      if (viewport.width < 720) {
+      if (viewport.width < 760) {
         assert.equal(await sidebar.isVisible(), false, `parent desktop sidebar must be hidden at ${viewport.width}px`);
         assert.ok(await mobileNav.isVisible(), `parent mobile navigation must be visible at ${viewport.width}px`);
         assert.equal(await mobileNav.locator("a").count(), 5, "parent mobile navigation must expose five primary destinations");
