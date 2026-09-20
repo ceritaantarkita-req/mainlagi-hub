@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { GardenActivityFrame } from "./GardenActivityFrame";
+import { ActivityCompletion } from "./ActivityCompletion";
 import { getActivityLearningSpec } from "@/lib/learning/catalog";
 import { isTakeAwayActivity } from "@/lib/learning/gameplayPresentation";
 import { takeAwayConfig } from "@/lib/learning/takeAwayConfig";
@@ -176,9 +176,7 @@ export function TakeAwayActivity({ childId, activityId }: { childId: string; act
               : `💡 ${config.cue}`}
         </div>
 
-        {feedback === "good" ? (
-          <Link className={styles.nextLink} href={`/child/${childId}/subject/${activity.subjectId}`}>Pilih permainan lain</Link>
-        ) : null}
+        {feedback === "good" ? <ActivityCompletion childId={childId} activity={activity} /> : null}
       </section>
     </GardenActivityFrame>
   );
