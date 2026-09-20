@@ -856,7 +856,9 @@
 .parentMobileBrand {
   display: flex;
   min-width: 0;
+  min-height: 44px;
   flex-direction: column;
+  justify-content: center;
   color: #164b43;
   text-decoration: none;
   font-weight: 950;
