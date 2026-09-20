@@ -312,6 +312,7 @@ Pattern #42 closure gates are complete. Closure PR #188 merged and closure main 
 
 ## Current evidence records
 
+- [`PATTERN_COMPLETION_LOGIC_REPEATING_PATTERN_REUSE_AUDIT_2026-09-20.md`](PATTERN_COMPLETION_LOGIC_REPEATING_PATTERN_REUSE_AUDIT_2026-09-20.md) — fresh docs-only exact five-ID Logic repeating-pattern audit approving reuse of existing `pattern_completion`; expected runtime `choice_grid` 174 / `pattern_completion` 10 / 47 active; no Pattern #48; runtime code not started.
 - [`MATH_MIXED_OPERATION_EXISTING_MECHANIC_REUSE_CLOSURE_2026-09-20.md`](MATH_MIXED_OPERATION_EXISTING_MECHANIC_REUSE_CLOSURE_2026-09-20.md) — fully closed/live verified: runtime #238 -> main `710ecdb`, CI #1096 exact production smoke, 900/900 / 47 / `choice_grid` 179 / `make_total` 7 / `take_away` 7 / KEEP 900, 18-shot P0=0/P1=0.
 - [`WS05_MATH_MIXED_OPERATION_EXISTING_MECHANIC_REUSE_WAVE_2026-09-20.md`](WS05_MATH_MIXED_OPERATION_EXISTING_MECHANIC_REUSE_WAVE_2026-09-20.md) — exact four-ID runtime reuse with hardened 7+7 mechanic families and dedicated browser QA.
 - [`MATH_MIXED_OPERATION_EXISTING_MECHANIC_REUSE_AUDIT_2026-09-20.md`](MATH_MIXED_OPERATION_EXISTING_MECHANIC_REUSE_AUDIT_2026-09-20.md) — audit #237 / main `c01d0bac` live-verified objective/evidence audit approving exact four-ID reuse of existing `make_total`/`take_away`; no Pattern #48.
