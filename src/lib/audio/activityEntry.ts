@@ -2,6 +2,7 @@
 
 import {
   SPEECH_LATENCY_EVENT,
+  stopSpeech,
   type SpeechLatencySample,
   type SpeechStartStatus
 } from "./feedback";
@@ -10,7 +11,7 @@ export const ACTIVITY_AUDIO_ENTRY_LATENCY_EVENT = "mainlagi-activity-audio-entry
 
 const INTENT_KEY = "mainlagi-audio-entry-intent-v1";
 const INTENT_TTL_MS = 15_000;
-const OBSERVER_TTL_MS = 8_000;
+const OBSERVER_TTL_MS = 3_500;
 
 interface StoredIntent {
   activityId: string;
@@ -106,18 +107,25 @@ export function observeActivityEntrySpeech({
   const requestedAtEpochMs = nowEpochMs();
   const intentToRequestMs = intent ? Math.max(0, requestedAtEpochMs - intent.atMs) : undefined;
   let settled = false;
+  let lastWarmed = false;
 
-  const finish = (sample: SpeechLatencySample) => {
+  const resolve = (detail: ActivityAudioEntryLatencyDetail) => {
     if (settled) return;
-    if (sample.channel !== "prompt" || sample.lang !== lang || sample.textLength !== textLength) return;
-    if (!["started", "blocked", "error"].includes(sample.phase)) return;
     settled = true;
     window.removeEventListener(SPEECH_LATENCY_EVENT, onLatency as EventListener);
     clearTimeout(timeout);
     clearIntent(activityId);
+    emitEntryLatency(detail);
+  };
+
+  const onLatency = (event: Event) => {
+    const sample = (event as CustomEvent<SpeechLatencySample>).detail;
+    if (sample.channel !== "prompt" || sample.lang !== lang || sample.textLength !== textLength) return;
+    lastWarmed = sample.warmed;
+    if (!["started", "blocked", "error"].includes(sample.phase)) return;
 
     const requestToStartMs = sample.phase === "started" ? sample.startLatencyMs : undefined;
-    emitEntryLatency({
+    resolve({
       activityId,
       lang,
       source,
@@ -131,16 +139,20 @@ export function observeActivityEntrySpeech({
     });
   };
 
-  const onLatency = (event: Event) => {
-    finish((event as CustomEvent<SpeechLatencySample>).detail);
-  };
-
   window.addEventListener(SPEECH_LATENCY_EVENT, onLatency as EventListener);
   const timeout = window.setTimeout(() => {
     if (settled) return;
-    settled = true;
-    window.removeEventListener(SPEECH_LATENCY_EVENT, onLatency as EventListener);
-    clearIntent(activityId);
+    // A browser can accept speech synthesis yet never dispatch "start".
+    // Fail closed instead of leaving a pre-reader in a silent waiting state.
+    stopSpeech();
+    resolve({
+      activityId,
+      lang,
+      source,
+      status: "error",
+      intentToRequestMs,
+      warmed: lastWarmed
+    });
   }, OBSERVER_TTL_MS);
 
   return request();
