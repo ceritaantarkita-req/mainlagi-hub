@@ -59,6 +59,20 @@ export function CharacterAvatar({ id, large = false }: { id: CharacterId; large?
   );
 }
 
+export function ProfileIdentityBadge({ profile, large = false }: { profile: LearningChildProfile; large?: boolean }) {
+  const initial = profile.name.trim().charAt(0).toLocaleUpperCase("id-ID") || "•";
+  return (
+    <span
+      className={`${styles.profileIdentityBadge} ${large ? styles.profileIdentityBadgeLarge : ""}`}
+      data-mainlagi-profile-identity
+      aria-label={`Profil ${profile.name}`}
+      title={`Profil ${profile.name}`}
+    >
+      {initial}
+    </span>
+  );
+}
+
 export function CharacterGroup() {
   return (
     <div className={styles.characterCluster} aria-label="Karakter Mainlagi">
