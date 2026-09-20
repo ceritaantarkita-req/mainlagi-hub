@@ -27,7 +27,7 @@ Subsystem docs remain authoritative for their specific scope when they do not co
 ## Current project checkpoint — 20 September 2026
 
 ```text
-current main:                    a04bd51fb02dedf56b5cd62f7f579eb53c4be251
+documentation sync base:       a04bd51fb02dedf56b5cd62f7f579eb53c4be251
 latest live-verified runtime:    77bee682f84b5d68b85d2c91b1d6f2ca4c93d2d9
 runtime main CI:                 #1160 / run 35520629179 — success + exact Cloudflare smoke
 learning catalog:                9 subjects / 900 activities
