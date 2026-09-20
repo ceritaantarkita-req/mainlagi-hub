@@ -467,6 +467,8 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 - Implementation wave: `WS05_NUMBER_LINE_MATH_MISSING_REUSE_WAVE_2026-09-19.md`.
 - Post-merge closure: `NUMBER_LINE_MATH_MISSING_NUMBER_REUSE_CLOSURE_2026-09-19.md`.
 - Final verification: `NUMBER_LINE_MATH_MISSING_NUMBER_REUSE_FINAL_CLOSURE_VERIFICATION_2026-09-19.md`.
+- Logic repeating-pattern -> existing `pattern_completion`: fresh exact five-ID docs-only audit on `97473569`; expected runtime `choice_grid` 174 / `pattern_completion` 10 / 47 active / KEEP 900; neighboring Logic sequence/comparison/spatial/rule families excluded; **AUDIT ACTIVE / CODE NOT STARTED / NO PATTERN #48**.
+- Audit record: `PATTERN_COMPLETION_LOGIC_REPEATING_PATTERN_REUSE_AUDIT_2026-09-20.md`.
 - Continue only with justified exact scopes; reuse an existing mechanic when it already matches the evidence model.
 
 ## Definition of done per mechanic

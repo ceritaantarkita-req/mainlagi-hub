@@ -1,6 +1,6 @@
 # Mainlagi Hub — Current State
 
-Last reviewed: **19 September 2026**
+Last reviewed: **20 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
@@ -150,6 +150,14 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - Math mixed-operation terminal closure: `docs/MATH_MIXED_OPERATION_EXISTING_MECHANIC_REUSE_CLOSURE_2026-09-20.md`
 - Force/motion remains **not authorized** as one relation-board family because push/pull/gravity/friction evidence forms are heterogeneous.
 - Pattern #48 remains **NO JUSTIFIED NEW PATTERN YET**.
+- Fresh Logic repeating-pattern -> existing `pattern_completion` reuse audit: **ACTIVE on `agent/audit-logic-pattern-completion-reuse-20260920` / exact 5-ID scope / expected runtime `choice_grid` 174 + `pattern_completion` 10 / active patterns stay 47 / Pattern #48 still not justified / CODE NOT STARTED**
+- Logic pattern-completion reuse audit record: `docs/PATTERN_COMPLETION_LOGIC_REPEATING_PATTERN_REUSE_AUDIT_2026-09-20.md`
+
+### Active fresh audit — Logic repeating patterns -> `pattern_completion`
+
+The current docs-only WS-05 audit reviews exactly five `logic.pattern.repeat.intermediate` activities for reuse of existing `pattern_completion`. The verified merged baseline remains **900/900 / 47 active / `choice_grid` 179 / `pattern_completion` 5 / KEEP 900** while this audit is open. If the audit gate passes and the exact scope is later implemented, expected distribution is **`choice_grid` 174 / `pattern_completion` 10 / Logic `choice_grid` 21**, with no Pattern #48 and no curriculum/evidence migration.
+
+Runtime code is not authorized until this audit PR passes CI, merges, and merged-main production verification is recorded.
 
 ## Engineering status
 
