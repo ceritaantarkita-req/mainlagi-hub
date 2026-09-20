@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { getActivity, getStage } from "@/lib/learning/system";
 import { getUnlockedStageIds } from "@/lib/learning/insights";
@@ -22,6 +22,7 @@ export function LearningProgressionGuard({ childId }: { childId: string }) {
   const router = useRouter();
   const progressState = useLearningProgressState(childId);
   const analyticsState = useLearningAnalyticsState(childId);
+  const allowedPathRef = useRef<string | null>(null);
 
   useEffect(() => {
     if (!progressState.ready || !analyticsState.ready) return;
@@ -30,10 +31,22 @@ export function LearningProgressionGuard({ childId }: { childId: string }) {
     const activityId = activityFromPath(pathname);
     const activityStage = activityId ? getActivity(activityId)?.stageId ?? null : null;
     const targetStage = directStage ?? activityStage;
-    if (!targetStage) return;
+    if (!targetStage) {
+      allowedPathRef.current = null;
+      return;
+    }
 
     const unlocked = getUnlockedStageIds(progressState.progress, analyticsState.analytics);
-    if (unlocked.has(targetStage)) return;
+    if (unlocked.has(targetStage)) {
+      allowedPathRef.current = pathname;
+      return;
+    }
+
+    // Progress and attempt analytics are updated by separate client events.
+    // Once this exact route was legitimately open, do not eject the child
+    // during the short recomputation window after completion.
+    if (allowedPathRef.current === pathname) return;
+
     const subjectId = getStage(targetStage)?.subjectId ?? (activityId ? getActivity(activityId)?.subjectId : null);
     router.replace(subjectId ? `/child/${childId}/subject/${subjectId}` : `/child/${childId}/home#choose-subject`);
   }, [analyticsState.analytics, analyticsState.ready, childId, pathname, progressState.progress, progressState.ready, router]);
