@@ -1588,3 +1588,6 @@ a.stageCard:hover,a.activityCard:hover,a.profileCard:hover,a.gameCard:hover { bo
 @media(max-width:600px) { .rewardShelf { grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; } }
 .input,.select { border:2px solid #c9d8ce; border-radius:14px; min-height:50px; color:#193b55; background:#fffef8; }
 @media(max-width:600px) { .choiceGrid { gap:12px; margin:30px auto; } .bigChoice { border-radius:22px; padding:14px 6px; } .activityPrompt { letter-spacing:-.5px; margin-bottom:26px; } .stageCard,.activityCard,.gameCard { padding:18px; } }
+@media(max-width:719px) {
+  .parentSidebar { display:none; }
+}
