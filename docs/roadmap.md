@@ -1,5 +1,13 @@
 # Roadmap — Mainlagi Hub Motion Learning Hub
 
+Status: **LEGACY PHASE ROADMAP / HISTORICAL PRODUCT EXPANSION FRAME**  
+Current execution source of truth: `CURRENT_STATE.md`, `PROJECT_STATE_SYNC_2026-09-20.md`, `NEXT_PRODUCT_QUALITY_PLAN.md`, and `PRODUCT_UX_NEXT_WORK_2026-09-20.md`.
+
+This phase roadmap predates the current 9-subject / 900-activity learning-platform baseline. Keep it for historical architectural intent and unfinished long-horizon items, but do **not** interpret old “belum dikerjakan” notes or phase ordering as the current implementation state without checking canonical current docs and code.
+
+Current 20 September checkpoint: WS-13 product UX is live verified through the parent/profile/settings wave; next UX work is character production. WS-05 remains at 47 active patterns with no justified Pattern #48; the Logic `pattern_completion` reuse audit is merged/live verified and runtime is not started.
+
+
 Dokumen ini mendefinisikan **fase** dan **batas MVP**. Setiap fase memiliki exit criteria. Detail task masuk `docs/tickets.md`.
 
 Keputusan terkunci: auth = server cookie session, leaderboard launch = family + personal. Lihat `docs/adr-0001-architecture.md`.
