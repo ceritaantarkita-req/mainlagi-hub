@@ -4,7 +4,7 @@ Status: **CURRENT HANDOFF SNAPSHOT**
 Repository: `ceritaantarkita-req/mainlagi-hub`  
 Canonical branch: `main`
 
-This document summarizes the repository/product state after the WS-13 parent/profile/settings wave and before the next character-production wave. It does not replace historical audit/closure records; it links the current truth that active work must preserve.
+This document summarizes the repository/product state after the WS-13 parent/profile/settings wave and during the current character/background visual-asset review wave. It does not replace historical audit/closure records; it links the current truth that active work must preserve.
 
 ## 1. Source of truth and production verification
 
@@ -110,7 +110,20 @@ Current asset state:
 
 The next character wave must first lock the production character specification and provenance, then create/review Naya/Gian/Zia assets. Generated candidates are not production-approved merely because they render.
 
-## 6. WS-05 gameplay track
+## 6. Subject background pilot
+
+Canonical execution detail: `SUBJECT_BACKGROUND_SYSTEM.md`.
+
+- Math + Science are the first background pilot subjects.
+- Twelve landscape candidates exist in external review storage: six Math scenes and six Science scenes.
+- Math scenes: Number Park, Playground Park, Mini Market, Shape Playground, Block Yard, Measurement Workshop.
+- Science scenes: Garden Lab, Pond, Weather Meadow, Greenhouse, Nature Trail, Material Workshop.
+- These files are candidate artwork only: not committed to `public/artwork`, not runtime-integrated, and not production-approved.
+- Immediate image task: generate 12 matching mobile/portrait counterparts; recompose rather than crop.
+- No background runtime code should start until wide/mobile pairs are visually reviewed.
+- After approval: implement `SubjectTheme` + `SceneVariant` + central deterministic activity-theme resolver, then integrate shared Garden activities before special runtime exceptions.
+
+## 7. WS-05 gameplay track
 
 WS-05 remains separate from broad product-UX refactors.
 
@@ -131,20 +144,22 @@ Runtime:    NOT STARTED
 
 If implemented, this remains existing-mechanic reuse; it must not create Pattern #48 or change mastery/progression/schema.
 
-## 7. Active next work
+## 8. Active next work
 
 Product UX next order:
 
-1. extend the canonical Art Bible with production-grade Naya/Gian/Zia character specification and asset contract;
-2. create/review production candidates for Naya/Gian/Zia while preserving Paca/Gavi style continuity and provenance rules;
-3. integrate approved character assets without conflating guide identity with child profile identity;
-4. build the subject theme/background system;
-5. improve English narration quality;
-6. expand visual/usability cleanup and physical-device/human acceptance.
+1. finish visual/provenance review of Naya/Gian/Zia character candidates;
+2. generate and review the 12 Math/Science mobile background counterparts against the existing landscape candidates;
+3. lock the responsive background contract in `SUBJECT_BACKGROUND_SYSTEM.md`;
+4. after asset approval, implement the central `SubjectTheme` / `SceneVariant` resolver and shared `GardenActivityFrame` integration;
+5. cover explicit runtime exceptions without duplicating theme logic;
+6. expand approved background generation to the remaining subjects;
+7. improve English narration quality;
+8. continue broader visual/usability and physical-device/human acceptance.
 
 WS-05 may proceed independently only through its objective/evidence gates.
 
-## 8. Non-negotiable boundaries
+## 9. Non-negotiable boundaries
 
 Do not silently change:
 
@@ -156,7 +171,7 @@ Do not silently change:
 - Iqro status from `expert_required` to `expert_approved` without expert evidence;
 - child/parent information architecture in a way that exposes parent/product controls inside child navigation.
 
-## 9. Documentation synchronization policy
+## 10. Documentation synchronization policy
 
 Active/canonical docs should describe the current state. Dated audits, implementation acceptance records and closure documents are historical evidence and should not be rewritten to pretend later state existed at their original checkpoint.
 
