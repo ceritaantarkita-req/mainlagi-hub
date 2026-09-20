@@ -10,17 +10,18 @@ Read these first for current work:
 
 1. [`NEXT_PRODUCT_QUALITY_PLAN.md`](NEXT_PRODUCT_QUALITY_PLAN.md) — current execution order, workstreams, status and mandatory gates.
 2. [`CURRENT_STATE.md`](CURRENT_STATE.md) — current repository/product/production baseline.
-3. [`PROJECT_STATE_SYNC_2026-09-20.md`](PROJECT_STATE_SYNC_2026-09-20.md) — compact handoff after the WS-13 parent wave: exact current main/runtime verification, character asset truth, next work and guardrails.
+3. [`PROJECT_STATE_SYNC_2026-09-20.md`](PROJECT_STATE_SYNC_2026-09-20.md) — compact current handoff and next-work state.
 4. [`PRODUCT_UX_NEXT_WORK_2026-09-20.md`](PRODUCT_UX_NEXT_WORK_2026-09-20.md) — active product-UX execution order and acceptance gates.
-5. [`PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md`](PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md) — active production visual/product audit and P0/P1/P2 state.
-6. [`MAINLAGI_ART_BIBLE.md`](MAINLAGI_ART_BIBLE.md) — canonical visual direction.
-7. [`MOBILE_ROUTE_QA.md`](MOBILE_ROUTE_QA.md) — blocking browser route and permanent visual QA contract.
-8. [`ARCHITECTURE.md`](ARCHITECTURE.md) — current technical boundaries and system architecture.
-9. [`MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md`](MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md) — child/product/UX/activity rules.
-10. [`LEARNING_ATTEMPTS_MASTERY.md`](LEARNING_ATTEMPTS_MASTERY.md) — evidence/mastery/progression contract.
-11. [`GAMEPLAY_VARIATION_CATALOG.md`](GAMEPLAY_VARIATION_CATALOG.md) — canonical gameplay-pattern catalog and WS-05 boundaries.
-12. [`PRODUCT_DIRECTION.md`](PRODUCT_DIRECTION.md) — product principles and direction.
-13. [`KNOWN_LIMITATIONS.md`](KNOWN_LIMITATIONS.md) — current known limitations and external acceptance gaps.
+5. [`SUBJECT_BACKGROUND_SYSTEM.md`](SUBJECT_BACKGROUND_SYSTEM.md) — concise human/agent contract for scene generation, responsive pairs, runtime architecture and QA.
+6. [`PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md`](PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md) — active production visual/product audit and P0/P1/P2 state.
+7. [`MAINLAGI_ART_BIBLE.md`](MAINLAGI_ART_BIBLE.md) — canonical visual direction.
+8. [`MOBILE_ROUTE_QA.md`](MOBILE_ROUTE_QA.md) — blocking browser route and permanent visual QA contract.
+9. [`ARCHITECTURE.md`](ARCHITECTURE.md) — current technical boundaries and system architecture.
+10. [`MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md`](MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md) — child/product/UX/activity rules.
+11. [`LEARNING_ATTEMPTS_MASTERY.md`](LEARNING_ATTEMPTS_MASTERY.md) — evidence/mastery/progression contract.
+12. [`GAMEPLAY_VARIATION_CATALOG.md`](GAMEPLAY_VARIATION_CATALOG.md) — canonical gameplay-pattern catalog and WS-05 boundaries.
+13. [`PRODUCT_DIRECTION.md`](PRODUCT_DIRECTION.md) — product principles and direction.
+14. [`KNOWN_LIMITATIONS.md`](KNOWN_LIMITATIONS.md) — current known limitations and external acceptance gaps.
 
 Subsystem docs remain authoritative for their specific scope when they do not conflict with the canonical documents above.
 
@@ -33,7 +34,7 @@ runtime main CI:                 #1160 / run 35520629179 — success + exact Clo
 learning catalog:                9 subjects / 900 activities
 gameplay taxonomy:               900/900 classified / 47 active / no Pattern #48
 current WS-13 state:             parent/profile/settings wave closed/live verified
-next product-UX work:            character production spec + Naya/Gian/Zia assets
+next product-UX work:            character review + Math/Science wide/mobile background pilot
 WS-05 fresh audit:               PR #240 -> 7109db41 / CI #1100 success / runtime not started
 ```
 
@@ -338,7 +339,8 @@ Pattern #42 closure gates are complete. Closure PR #188 merged and closure main 
 - [`WS13_VISIBLE_MATCHING_RANDOMIZATION_2026-09-20.md`](WS13_VISIBLE_MATCHING_RANDOMIZATION_2026-09-20.md) — **MERGED / LIVE VERIFIED** via PR #247 -> main `61f8fb6`, CI #1134 exact Cloudflare smoke; randomized left/right matching with no same-row answer leak and guaranteed retry reshuffle.
 - [`WS13_SHARED_COMPLETION_WAVE_2026-09-20.md`](WS13_SHARED_COMPLETION_WAVE_2026-09-20.md) — **MERGED / LIVE VERIFIED** via PR #245 -> main `53a5f04`, CI #1129 exact Cloudflare smoke; shared praise, three stars, Back/Try Again/Next and server-gated privacy-safe sharing.
 - [`WS13_CANONICAL_UI_WARNING_AUDIT_2026-09-20.md`](WS13_CANONICAL_UI_WARNING_AUDIT_2026-09-20.md) — WS-13 Phase 1 route/component ownership audit plus browser console-warning inventory instrumentation; identifies `Batch14WorldHome`, `ActivityGallery`, `PlayroomShell`, current parent aliases, and legacy overlaps before UX refactor.
-- [`PRODUCT_UX_NEXT_WORK_2026-09-20.md`](PRODUCT_UX_NEXT_WORK_2026-09-20.md) — user-approved next product-UX handoff: canonical UI cleanup, five-character hero, 3-column subject directory, QA unlock mode, gallery redesign, shared completion, matching randomization, narration latency/quality, parent/settings redesign, character/theme system and updated acceptance gates.
+- [`PRODUCT_UX_NEXT_WORK_2026-09-20.md`](PRODUCT_UX_NEXT_WORK_2026-09-20.md) — active user-approved product-UX handoff and acceptance gates.
+- [`SUBJECT_BACKGROUND_SYSTEM.md`](SUBJECT_BACKGROUND_SYSTEM.md) — canonical background pilot: 12 Math/Science landscape candidates, next 12 mobile counterparts, responsive scene contract, central resolver plan and rollout order.
 - [`PATTERN_COMPLETION_LOGIC_REPEATING_PATTERN_REUSE_AUDIT_2026-09-20.md`](PATTERN_COMPLETION_LOGIC_REPEATING_PATTERN_REUSE_AUDIT_2026-09-20.md) — fresh docs-only exact five-ID Logic repeating-pattern audit approving reuse of existing `pattern_completion`; expected runtime `choice_grid` 174 / `pattern_completion` 10 / 47 active; no Pattern #48; runtime code not started.
 - [`MATH_MIXED_OPERATION_EXISTING_MECHANIC_REUSE_CLOSURE_2026-09-20.md`](MATH_MIXED_OPERATION_EXISTING_MECHANIC_REUSE_CLOSURE_2026-09-20.md) — fully closed/live verified: runtime #238 -> main `710ecdb`, CI #1096 exact production smoke, 900/900 / 47 / `choice_grid` 179 / `make_total` 7 / `take_away` 7 / KEEP 900, 18-shot P0=0/P1=0.
 - [`WS05_MATH_MIXED_OPERATION_EXISTING_MECHANIC_REUSE_WAVE_2026-09-20.md`](WS05_MATH_MIXED_OPERATION_EXISTING_MECHANIC_REUSE_WAVE_2026-09-20.md) — exact four-ID runtime reuse with hardened 7+7 mechanic families and dedicated browser QA.
@@ -399,7 +401,7 @@ Historical closure/candidate/audit records must not be rewritten to pretend late
 
 ## Remaining product-quality work
 
-Immediate product-UX work is now the character-production wave: extend the canonical Art Bible with production-grade Naya/Gian/Zia specifications, establish provenance/asset acceptance, review candidate artwork, then integrate approved assets. After that come subject themes/backgrounds, English voice-quality work and broader visual/usability cleanup.
+Immediate product-UX work is now visual-asset review before code integration: finish character candidate/provenance review and complete the Math/Science background pilot as approved wide/mobile pairs. Background runtime code starts only after pair review, using the central SubjectTheme/SceneVariant contract in `SUBJECT_BACKGROUND_SYSTEM.md`; English voice-quality and broader visual/usability cleanup follow.
 
 The WS-05 Logic repeating-pattern audit is no longer an unmerged branch: PR #240 is on main `7109db41134f18884b6c08fba99ad2af997b3fed`, and main CI #1100 passed. Runtime implementation remains not started and, if executed, must reuse existing `pattern_completion` for the exact audited scope without creating Pattern #48.
 

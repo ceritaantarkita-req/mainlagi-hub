@@ -184,7 +184,7 @@ Visible matching randomization is **MERGED / LIVE VERIFIED**: PR #247 -> `main` 
 
 Audio first-instruction latency is **MERGED / LIVE VERIFIED**: PR #249 -> `main` `770d8b66dac20765fd96a66e9d752931e1a56d66`; PR CI #1144 passed all gates, manual 390px listening review accepted, browser warnings = 0, and merged-main CI #1145 / run `35511068490` passed exact Cloudflare production smoke. Correct-language pre-warm, faster generic entry, listen-and-choose auto-entry, replay recovery, fail-closed no-start timeout, and privacy-safe entry-latency evidence are now live.
 
-Current product-UX state: **parent/profile/settings responsive redesign is MERGED / LIVE VERIFIED** via PR #251 -> main `77bee682f84b5d68b85d2c91b1d6f2ca4c93d2d9`; PR CI #1159 and merged-main CI #1160 both passed, including exact Cloudflare production smoke on main. `CloudParentOverviewScreen` remains canonical; family profiles are separated from `demo-gian`; child profile identity is separated from guide-character presentation; mobile parent navigation replaces the legacy forced aside below 760px. Next product-UX step: **character bible + Naya/Gian/Zia production assets**. Do not alter learning evidence/mastery/progression/schema while advancing presentation.
+Current product-UX state: **parent/profile/settings responsive redesign is MERGED / LIVE VERIFIED** via PR #251 -> main `77bee682f84b5d68b85d2c91b1d6f2ca4c93d2d9`; PR CI #1159 and merged-main CI #1160 both passed, including exact Cloudflare production smoke on main. `CloudParentOverviewScreen` remains canonical; family profiles are separated from `demo-gian`; child profile identity is separated from guide-character presentation; mobile parent navigation replaces the legacy forced aside below 760px. Current visual work is **character candidate review + Math/Science background pilot before code integration**. Do not alter learning evidence/mastery/progression/schema while advancing presentation.
 
 ### Character / artwork state — 20 September 2026
 
@@ -195,7 +195,9 @@ Current product-UX state: **parent/profile/settings responsive redesign is MERGE
 - `CharacterAvatar` currently uses inline fallback SVG representations for Naya/Gian/Zia.
 - Canonical identity remains: Naya ~8 / hijab / warm-encouraging; Gian ~5 / active-curious-playful; Zia ~3 / expressive-beginner-friendly; Paca hints/system/discovery; Gavi humor/rewards/reactions.
 - Child profile identity and guide-character identity are separate concepts.
-- Next WS-13 product work is production character specification + reviewed Naya/Gian/Zia assets, then subject themes/backgrounds.
+- Character candidates and the first Math/Science landscape background candidates now exist outside the public repo for review; they are not production-approved assets.
+- Canonical background execution contract: `docs/SUBJECT_BACKGROUND_SYSTEM.md`.
+- Immediate background task: generate/review 12 matching mobile counterparts; runtime integration starts only after wide/mobile pair approval.
 
 ## Engineering status
 
@@ -890,6 +892,6 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 4. Preserve Paca/Gavi current production artwork and provenance. Naya/Gian/Zia generated candidates are not production-approved until reviewed and their rights/provenance are recorded.
 5. WS-05 remains separate. The exact five-ID Logic repeating-pattern audit is merged/live verified via PR #240 / `7109db41...` / CI #1100; runtime remains not started and must reuse existing `pattern_completion`, not create Pattern #48.
 6. Preserve the merged 9-subject / 900-activity / 47-active-pattern baseline and existing mastery/evidence/progression/schema contracts unless a separately justified migration is approved.
-7. After character production: subject visual themes/backgrounds, English narration quality, expanded visual/usability cleanup, physical-device/accessibility acceptance and Iqro expert review.
+7. Finish character/background visual-asset review first; then implement the approved SubjectTheme/SceneVariant background system, followed by English narration quality, expanded visual/usability cleanup, physical-device/accessibility acceptance and Iqro expert review.
 
 Do not prioritize activity-count expansion, OCR rollout, large AI tutor work, subscription/paywall, marketplace expansion or major mastery/backend rewrites before the current quality roadmap justifies them.

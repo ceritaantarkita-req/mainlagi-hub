@@ -1,7 +1,7 @@
 # Mainlagi — Product UX Next Work
 
 Date: **20 September 2026**  
-Status: **ACTIVE ROADMAP / P0 THROUGH PARENT WAVE LIVE VERIFIED / CHARACTER PRODUCTION NEXT**  
+Status: **ACTIVE ROADMAP / P0 THROUGH PARENT WAVE LIVE VERIFIED / CHARACTER + BACKGROUND ASSET REVIEW ACTIVE**  
 Current synchronized baseline: `main` = `a04bd51fb02dedf56b5cd62f7f579eb53c4be251`; latest independently live-verified runtime/product main = `77bee682f84b5d68b85d2c91b1d6f2ca4c93d2d9` (CI #1160).
 
 This document is the short human/AI handoff for the next Mainlagi product-quality wave. It records the user-accepted UX direction without changing curriculum, mastery, evidence, progression, or the active WS-05 gameplay audit.
@@ -134,16 +134,20 @@ Share opens a modal with at least Copy Link, WhatsApp, Threads, X, Telegram, and
 - Keep Indonesian and English voice paths language-correct.
 - Review voice provider/licensing/cost before locking the implementation.
 
-### Subject visual themes
+### Subject visual themes / backgrounds
 
-Use a data-driven `SubjectTheme` system instead of one background for every activity.
+Canonical execution spec: [`SUBJECT_BACKGROUND_SYSTEM.md`](SUBJECT_BACKGROUND_SYSTEM.md).
 
-Approved examples:
-- Bahasa Indonesia -> **Paca + Gavi**
-- English -> **Naya + Zia**
-- Math -> **Gian + Paca**
-
-Other subject pairings/backgrounds remain to be designed. Each subject may have several scene variants; do not create 900 unrelated backgrounds.
+- Use a data-driven `SubjectTheme -> SceneVariant -> activity resolver`; do not hardcode backgrounds per renderer.
+- Math + Science are the pilot subjects.
+- Twelve landscape scene candidates now exist in external review storage: six Math + six Science; they are not production-approved/public-repo assets yet.
+- **Next image task:** create the 12 matching mobile/portrait counterparts and review each wide/mobile pair before coding the runtime integration.
+- Desktop/mobile artwork must be art-directed as a pair; a simple `background-size: cover` crop is not sufficient for complex scenes.
+- Keep gameplay/text in a separate safe foreground layer; backgrounds must never contain answers/instructions or alter learning semantics.
+- After pilot approval, implement the central theme/resolver and integrate `GardenActivityFrame` first, then explicit runtime exceptions.
+- Expand later in this order: Bahasa + English -> Logic + Iqro -> Huruf & Menulis -> Coloring + Drawing.
+- Target roughly 5–8 reusable scene families per normal subject; do not create 900 unrelated backgrounds.
+- Existing character pairing examples remain: Bahasa Indonesia -> **Paca + Gavi**, English -> **Naya + Zia**, Math -> **Gian + Paca**.
 
 ### Learning illustrations
 
@@ -160,7 +164,7 @@ Other subject pairings/backgrounds remain to be designed. Each subject may have 
 - Matching randomization/difficulty: **merged / live verified** at `61f8fb6`, CI #1134 exact Cloudflare smoke.
 - Audio first-instruction latency: **merged / live verified** at `770d8b6`, PR CI #1144 + merged-main CI #1145 exact Cloudflare smoke.
 - Parent/profile/settings responsive redesign: **merged / live verified** at `77bee68`, PR #251; exact-head CI #1159 + merged-main CI #1160 exact Cloudflare smoke.
-- Next active product-UX step: **extend the canonical Art Bible character-production contract + create/review Naya/Gian/Zia production assets**.
+- Current visual-asset work: **character candidates + Math/Science background pilot are in external review; background runtime integration has not started**. Immediate background task is 12 mobile counterparts, then wide/mobile pair approval.
 
 ## Implementation order
 
@@ -172,7 +176,7 @@ Other subject pairings/backgrounds remain to be designed. Each subject may have 
 6. Audio first-instruction latency.
 7. Parent/profile/settings responsive redesign.
 8. Extend canonical Art Bible character production spec + create/review Naya/Gian/Zia production assets.
-9. Subject theme/background system.
+9. Finalize Math/Science wide + mobile background pairs; then implement the SubjectTheme/SceneVariant resolver and shared-frame integration.
 10. English voice-quality upgrade.
 11. Expanded visual/usability QA and cleanup of superseded components.
 
