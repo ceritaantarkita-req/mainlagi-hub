@@ -174,6 +174,15 @@ async function inspectPage(page, route, viewport) {
         getComputedStyle(element.parentElement).gridTemplateColumns.split(" ").filter(Boolean).length
       );
       assert.equal(columns, 3, `child home subject directory must stay three columns at ${viewport.width}px`);
+      if (viewport.width <= 430) {
+        const heroLayout = await page.evaluate(() => {
+          const copy = document.querySelector("[data-mainlagi-home-copy]")?.getBoundingClientRect();
+          const cast = document.querySelector("[data-mainlagi-home-cast]")?.getBoundingClientRect();
+          return copy && cast ? { copyBottom: copy.bottom, castTop: cast.top } : null;
+        });
+        assert.ok(heroLayout, "child home hero layout markers must exist");
+        assert.ok(heroLayout.copyBottom <= heroLayout.castTop + 1, `child home hero copy overlaps characters at ${viewport.width}px: ${JSON.stringify(heroLayout)}`);
+      }
     }
 
     const metrics = await page.evaluate(() => {
