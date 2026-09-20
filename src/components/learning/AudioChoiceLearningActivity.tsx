@@ -10,7 +10,11 @@ import {
   warmAudio,
   type SpeechStartStatus
 } from "@/lib/audio/feedback";
-import { observeActivityEntrySpeech } from "@/lib/audio/activityEntry";
+import {
+  ACTIVITY_AUDIO_ENTRY_LATENCY_EVENT,
+  observeActivityEntrySpeech,
+  type ActivityAudioEntryLatencyDetail
+} from "@/lib/audio/activityEntry";
 import { completeActivity, getActivity } from "@/lib/learning/system";
 import { useLearningProgress } from "./LearningCommon";
 import styles from "./LearningPlatform.module.css";
@@ -34,6 +38,16 @@ export function AudioChoiceLearningActivity({ childId, activityId }: { childId: 
   const lang = activity?.subjectId === "english" ? "en-US" : "id-ID";
 
   useEffect(() => {
+    const onEntryLatency = (event: Event) => {
+      const detail = (event as CustomEvent<ActivityAudioEntryLatencyDetail>).detail;
+      if (!activity || detail.activityId !== activity.id) return;
+      setSpeechStatus(detail.status);
+    };
+    window.addEventListener(ACTIVITY_AUDIO_ENTRY_LATENCY_EVENT, onEntryLatency);
+    return () => window.removeEventListener(ACTIVITY_AUDIO_ENTRY_LATENCY_EVENT, onEntryLatency);
+  }, [activity]);
+
+  useEffect(() => {
     autoAttemptedRef.current = false;
     if (!activity || activity.runtime !== "listen_and_choose") return;
 
@@ -41,7 +55,8 @@ export function AudioChoiceLearningActivity({ childId, activityId }: { childId: 
     const startEntryNarration = () => {
       if (cancelled || autoAttemptedRef.current || !audioStatus().unlocked || audioStatus().muted) return;
       autoAttemptedRef.current = true;
-      const status = observeActivityEntrySpeech({
+      setSpeechStatus(null);
+      observeActivityEntrySpeech({
         activityId: activity.id,
         lang,
         textLength: spokenPrompt.trim().length,
@@ -50,7 +65,6 @@ export function AudioChoiceLearningActivity({ childId, activityId }: { childId: 
           key: `activity-entry:${activity.id}`
         })
       });
-      setSpeechStatus(status);
     };
 
     const timer = window.setTimeout(startEntryNarration, 0);
@@ -83,10 +97,18 @@ export function AudioChoiceLearningActivity({ childId, activityId }: { childId: 
     unlockAudio(lang);
     playTone("tick");
     setFeedback(null);
-    setSpeechStatus(speakPrompt(spokenPrompt, {
+    setSpeechStatus(null);
+    observeActivityEntrySpeech({
+      activityId: activity.id,
       lang,
-      key: `activity-entry:${activity.id}`
-    }));
+      textLength: spokenPrompt.trim().length,
+      request: () => speakPrompt(spokenPrompt, {
+        lang,
+        key: `activity-replay:${activity.id}`,
+        interrupt: true,
+        dedupeMs: 0
+      })
+    });
   };
 
   const choose = (choice: string) => {
