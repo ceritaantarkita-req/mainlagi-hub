@@ -1,8 +1,10 @@
 # WS-13 — Shared Completion Wave
 
 Date: **20 September 2026**  
-Status: **IMPLEMENTATION PR / VALIDATION PENDING**  
+Status: **MERGED / LIVE VERIFIED**  
 Base when branch opened: `main` = `fc49ca3f26133203024695bee3cf8b973617326e`
+
+Closure: PR #245 -> `main` `53a5f04c6d5430f3feb6273d42f178c5419fe418`; merged-main CI #1129 / run `35502667819` passed all gates including exact Cloudflare production smoke. Manual 320/390/768 review accepted the full-screen completion overlay with all actions visible without scrolling.
 
 ## Goal
 
