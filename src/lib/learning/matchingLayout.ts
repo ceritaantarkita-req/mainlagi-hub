@@ -10,6 +10,15 @@ export type MatchingColumns = {
   right: MatchingLayoutCard[];
 };
 
+export function matchingSeedFromText(value: string) {
+  let hash = 2166136261;
+  for (let index = 0; index < value.length; index += 1) {
+    hash ^= value.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+  return hash >>> 0 || 1;
+}
+
 function mulberry32(seed: number) {
   let value = seed >>> 0;
   return () => {
