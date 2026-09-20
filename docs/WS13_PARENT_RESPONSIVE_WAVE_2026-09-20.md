@@ -88,3 +88,16 @@ This wave does **not**:
 - Merged-main responsive QA artifact: **`10608044389`**.
 - Canonical browser matrix passed with no unexpected console/page errors or document-level overflow on the gated routes.
 - Parent mobile breakpoint is canonicalized at **760px**; legacy MobileFoundation parent-aside forcing was retired.
+
+## Documentation closure
+
+Post-implementation closure:
+
+```text
+Closure PR:        #252
+Closure head:      163b9c537deaef26dbbf98f73d07b988083f5901
+Closure main:      a04bd51fb02dedf56b5cd62f7f579eb53c4be251
+Closure main CI:   #1162 / run 35521404941 — in progress when the project-state sync branch was opened
+```
+
+The implementation itself is already independently live verified through `77bee682...` / CI #1160. A pending docs-only closure run must not be confused with missing runtime verification.
