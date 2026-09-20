@@ -38,7 +38,7 @@ Production smoke:         PASS, exact SHA
 Responsive QA artifact:   10608044389
 ```
 
-The current `main` when the 20 September documentation sync started is `a04bd51fb02dedf56b5cd62f7f579eb53c4be251`, a docs-only closure commit from PR #252. Its push CI #1162 / run `35521404941` was still in progress at sync start. Runtime/product verification therefore remains anchored to the independently green `77bee682...` main run until a later main run provides newer exact-SHA evidence.
+The current `main` when the 20 September documentation sync started is `a04bd51fb02dedf56b5cd62f7f579eb53c4be251`, a docs-only closure commit from PR #252. Its push CI #1162 / run `35521404941` completed successfully. Runtime/product behavior remains anchored to the independently green `77bee682...` implementation run (#1160), while `a04bd51...` is the verified docs-only closure main.
 
 Batch 17 engineering/device-QA foundations remain valid historical prerequisites. They are no longer the latest application release checkpoint.
 
