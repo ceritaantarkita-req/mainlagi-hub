@@ -106,6 +106,8 @@ Phase 1 adds warning-level capture to `run-local-product-qa.mjs`:
 - record one product warning when browser warnings exist;
 - do not hide or allowlist unknown warnings in this audit.
 
+The blocking mobile-route suite also records warning evidence to `.mobile-route-qa/browser-warnings.json`, which is included with the existing mobile-route QA artifact. This keeps warning discovery visible in CI without making previously unknown warning-level messages an immediate blocker before classification.
+
 Browser warnings stay non-blocking for this inventory step. After exact messages are known, each warning must be classified as:
 - product bug -> fix;
 - dependency/browser noise -> document narrowly;
