@@ -86,7 +86,8 @@ export function ActivityCompletion({
   };
 
   return (
-    <section className={styles.completion} data-activity-completion aria-labelledby="completion-title">
+    <section className={styles.overlay} data-activity-completion aria-labelledby="completion-title">
+      <div className={styles.completion}>
       <div className={styles.praise} id="completion-title">{praise}</div>
       <div className={styles.stars} aria-label="Tiga bintang">
         {[0, 1, 2].map((index) => <Star key={index} size={46} weight="fill" aria-hidden style={{ animationDelay: `${index * 100}ms` }} />)}
@@ -102,6 +103,8 @@ export function ActivityCompletion({
       <button type="button" className={styles.shareButton} onClick={() => void openShare()}>
         <ShareNetwork size={22} weight="bold" aria-hidden />Share
       </button>
+
+      </div>
 
       <dialog ref={dialogRef} className={styles.shareDialog} aria-labelledby="share-title">
         <div className={styles.dialogHead}>
