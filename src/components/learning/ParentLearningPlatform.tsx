@@ -18,20 +18,135 @@ import {
 } from "@/lib/learning/system";
 import { CharacterAvatar, useLearningProfile, useLearningProgress } from "./LearningCommon";
 import styles from "./LearningPlatform.module.css";
-import { House, Users, ShieldCheck, Sparkle, Gear, GameController } from "@phosphor-icons/react";
+import {
+  FileText,
+  GameController,
+  Gear,
+  House,
+  Info,
+  Question,
+  ShieldCheck,
+  ShoppingBagOpen,
+  Sparkle,
+  Users,
+  X
+} from "@phosphor-icons/react";
 
 const DEFAULT_PREFS: LearningPreferences = { allowMotionRecommendations: false, allowAiFeatures: false, reducedMotion: false, language: "id" };
-const PARENT_NAV = [
+const PARENT_PRIMARY_NAV = [
   { href: "/parent", label: "Ringkasan", icon: House },
   { href: "/parent/children", label: "Anak", icon: Users },
-  { href: "/parent/privacy", label: "Privasi & AI", icon: ShieldCheck },
-  { href: "/parent/plan", label: "Paket", icon: Sparkle },
-  { href: "/parent/settings", label: "Pengaturan", icon: Gear }
+  { href: "/parent/privacy", label: "Privasi", icon: ShieldCheck }
 ];
+
+const PARENT_MORE_NAV = [
+  { href: "/parent/plan", label: "Paket", icon: Sparkle },
+  { href: "/parent/settings", label: "Pengaturan", icon: Gear },
+  { href: "/parent/about", label: "Tentang Mainlagi", icon: Info },
+  { href: "/parent/faq", label: "FAQ", icon: Question },
+  { href: "/parent/policy", label: "Kebijakan", icon: FileText },
+  { href: "/parent/recommendations", label: "Rekomendasi", icon: ShoppingBagOpen }
+];
+
+function parentNavActive(pathname: string, href: string) {
+  return href === "/parent" ? pathname === "/parent" : pathname.startsWith(href);
+}
 
 export function ParentShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  return <div className={styles.parentSurface}><div className={styles.parentLayout}><aside className={styles.parentSidebar}><Link className={styles.parentBrand} href="/"><span>Mainlagi<small className={styles.parentBrandHint}>Ruang orang tua</small></span></Link><nav aria-label="Navigasi orang tua">{PARENT_NAV.map((item) => { const active = item.href === "/parent" ? pathname === "/parent" : pathname.startsWith(item.href); return <Link key={item.href} href={item.href} aria-current={active ? "page" : undefined} className={`${styles.parentNavItem} ${active ? styles.parentNavItemActive : ""}`}><item.icon size={23} weight="duotone" aria-hidden/><span>{item.label}</span></Link>; })}</nav><Link href="/child/select" className={styles.parentNavItem}><GameController size={23} weight="duotone" aria-hidden/><span>Mode anak</span></Link></aside><div>{children}</div></div></div>;
+  const [moreOpen, setMoreOpen] = useState(false);
+
+  useEffect(() => {
+    setMoreOpen(false);
+  }, [pathname]);
+
+  return (
+    <div className={styles.parentSurface}>
+      <div className={styles.parentLayout}>
+        <aside className={styles.parentSidebar}>
+          <Link className={styles.parentBrand} href="/parent">
+            <span>Mainlagi<small className={styles.parentBrandHint}>Ruang orang tua</small></span>
+          </Link>
+          <nav aria-label="Navigasi orang tua">
+            {[...PARENT_PRIMARY_NAV, ...PARENT_MORE_NAV.slice(0, 2)].map((item) => {
+              const active = parentNavActive(pathname, item.href);
+              return (
+                <Link key={item.href} href={item.href} aria-current={active ? "page" : undefined} className={`${styles.parentNavItem} ${active ? styles.parentNavItemActive : ""}`}>
+                  <item.icon size={23} weight="duotone" aria-hidden />
+                  <span>{item.label}</span>
+                </Link>
+              );
+            })}
+          </nav>
+          <div className={styles.parentSidebarSection}>
+            <span>Bantuan & lainnya</span>
+            {PARENT_MORE_NAV.slice(2).map((item) => {
+              const active = parentNavActive(pathname, item.href);
+              return (
+                <Link key={item.href} href={item.href} aria-current={active ? "page" : undefined} className={`${styles.parentNavItem} ${active ? styles.parentNavItemActive : ""}`}>
+                  <item.icon size={22} weight="duotone" aria-hidden />
+                  <span>{item.label}</span>
+                </Link>
+              );
+            })}
+          </div>
+          <Link href="/child/select" className={`${styles.parentNavItem} ${styles.parentModeChild}`}>
+            <GameController size={23} weight="duotone" aria-hidden />
+            <span>Mode anak</span>
+          </Link>
+        </aside>
+
+        <div className={styles.parentContent}>
+          <header className={styles.parentMobileHeader}>
+            <Link className={styles.parentMobileBrand} href="/parent">Mainlagi <small>Orang tua</small></Link>
+            <button type="button" className={styles.parentMoreButton} aria-expanded={moreOpen} aria-controls="parent-more-sheet" onClick={() => setMoreOpen(true)}>
+              Lainnya
+            </button>
+          </header>
+          {children}
+        </div>
+      </div>
+
+      <nav className={styles.parentMobileNav} aria-label="Navigasi orang tua mobile">
+        {PARENT_PRIMARY_NAV.map((item) => {
+          const active = parentNavActive(pathname, item.href);
+          return (
+            <Link key={item.href} href={item.href} aria-current={active ? "page" : undefined}>
+              <item.icon size={22} weight="duotone" aria-hidden />
+              <span>{item.label}</span>
+            </Link>
+          );
+        })}
+        <button type="button" aria-expanded={moreOpen} aria-controls="parent-more-sheet" onClick={() => setMoreOpen(true)}>
+          <Gear size={22} weight="duotone" aria-hidden />
+          <span>Lainnya</span>
+        </button>
+      </nav>
+
+      {moreOpen ? (
+        <div className={styles.parentSheetBackdrop} role="presentation" onClick={() => setMoreOpen(false)}>
+          <section id="parent-more-sheet" className={styles.parentSheet} role="dialog" aria-modal="true" aria-labelledby="parent-more-title" onClick={(event) => event.stopPropagation()}>
+            <div className={styles.parentSheetHead}>
+              <div>
+                <small>Ruang orang tua</small>
+                <h2 id="parent-more-title">Lainnya</h2>
+              </div>
+              <button type="button" aria-label="Tutup menu" onClick={() => setMoreOpen(false)}><X size={22} weight="bold" /></button>
+            </div>
+            <nav aria-label="Menu orang tua lainnya">
+              {PARENT_MORE_NAV.map((item) => (
+                <Link key={item.href} href={item.href}>
+                  <item.icon size={22} weight="duotone" aria-hidden />
+                  <span>{item.label}</span>
+                </Link>
+              ))}
+              <Link href="/child/select"><GameController size={22} weight="duotone" aria-hidden /><span>Mode anak</span></Link>
+            </nav>
+          </section>
+        </div>
+      ) : null}
+    </div>
+  );
 }
 
 function useAllProfiles() {
