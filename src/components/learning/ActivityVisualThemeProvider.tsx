@@ -1,23 +1,17 @@
 "use client";
 
-import { createContext, useContext, useMemo, type ReactNode } from "react";
-import { resolveActivityVisualTheme, type ResolvedActivityVisualTheme } from "@/lib/learning/activityVisualTheme";
-import { getActivity } from "@/lib/learning/system";
+import { createContext, useContext, type ReactNode } from "react";
+import type { ResolvedActivityVisualTheme } from "@/lib/learning/activityVisualTheme";
 
 const ActivityVisualThemeContext = createContext<ResolvedActivityVisualTheme | null>(null);
 
 export function ActivityVisualThemeProvider({
-  activityId,
+  visualTheme,
   children
 }: {
-  activityId: string;
+  visualTheme: ResolvedActivityVisualTheme | null;
   children: ReactNode;
 }) {
-  const visualTheme = useMemo(
-    () => resolveActivityVisualTheme(getActivity(activityId)),
-    [activityId]
-  );
-
   return (
     <ActivityVisualThemeContext.Provider value={visualTheme}>
       {children}
