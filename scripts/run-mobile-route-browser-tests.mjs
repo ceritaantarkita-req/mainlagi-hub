@@ -364,6 +364,22 @@ async function main() {
       console.log(`Mobile route matrix passed at ${viewport.width}px.`);
     }
 
+    {
+      const viewport = { width: 390, height: 844 };
+      const context = await browser.newContext({ viewport });
+      const page = await context.newPage();
+      const route = { path: "/child/demo-gian/subject/math?qa=unlock-all", kind: "child-learning", touch: true };
+      await inspectPage(page, route, viewport);
+      await page.locator("[data-qa-unlock-all]").waitFor();
+      assert.equal(await page.locator("[data-activity-id]").count(), 100, "QA unlock-all must expose all 100 math catalog cards");
+      assert.equal(await page.locator('[data-activity-id] a[href^="/child/demo-gian/activity/"]').count(), 100, "QA unlock-all must make all math cards directly playable");
+      assert.equal(await page.locator("[data-all-activity-gallery]").count(), 0, "QA unlock-all must leave no locked remainder");
+      assert.ok(await page.locator("[data-activity-stage-group]").count() > 1, "QA unlock-all catalog must stay grouped by stage");
+      await page.screenshot({ path: path.join(screenshotDir, "390-child-demo-gian-subject-math-qa-unlock.png"), fullPage: false });
+      await context.close();
+      console.log("WS-13 isolated QA unlock-all passed at 390px.");
+    }
+
     for (const width of [320, 430]) {
       const viewport = VIEWPORTS.find((item) => item.width === width);
       assert.ok(viewport, `missing viewport ${width}px`);
