@@ -18,10 +18,14 @@ export {
 } from "./CloudProfileScreens";
 export { ParentCoreProgressScreen as ParentProgressScreen } from "./ParentCoreProgress";
 export {
+  ParentAboutScreen,
   ParentCertificatesScreen,
   ParentChildScreen,
+  ParentFaqScreen,
   ParentPlanScreen,
+  ParentPolicyScreen,
   ParentPrivacyScreen,
+  ParentRecommendationsScreen,
   ParentReportsScreen,
   ParentSettingsScreen,
   ParentShell
