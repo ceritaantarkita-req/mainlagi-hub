@@ -1464,6 +1464,22 @@
     padding: 28px;
   }
 
+  .parentDashboardHero {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    padding: 28px;
+  }
+
+  .parentCardActions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .parentGridThree {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 760px) {
   .parentMobileHeader,
   .parentMobileNav {
     display: none;
@@ -1504,20 +1520,6 @@
 
   .parentMain {
     padding: 40px 28px 80px;
-  }
-
-  .parentDashboardHero {
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: end;
-    padding: 28px;
-  }
-
-  .parentCardActions {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .parentGridThree {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
@@ -1588,6 +1590,6 @@ a.stageCard:hover,a.activityCard:hover,a.profileCard:hover,a.gameCard:hover { bo
 @media(max-width:600px) { .rewardShelf { grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; } }
 .input,.select { border:2px solid #c9d8ce; border-radius:14px; min-height:50px; color:#193b55; background:#fffef8; }
 @media(max-width:600px) { .choiceGrid { gap:12px; margin:30px auto; } .bigChoice { border-radius:22px; padding:14px 6px; } .activityPrompt { letter-spacing:-.5px; margin-bottom:26px; } .stageCard,.activityCard,.gameCard { padding:18px; } }
-@media(max-width:719px) {
+@media(max-width:759px) {
   .parentSidebar { display:none; }
 }
