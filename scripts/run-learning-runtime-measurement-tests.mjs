@@ -77,8 +77,10 @@ try {
   for (const status of ["muted", "unavailable", "error"]) {
     assert.match(audioUi, new RegExp(`status === "${status}"\\) return "[^"\\n]+"`), `${status} must have readable fallback copy`);
   }
-  assert.match(audioUi, /speakWithStatus/, "listening UI must use status-aware speech");
-  assert.match(audioUi, /activity\.audioPrompt \?\? activity\.prompt/, "listening UI must prefer the audio-only prompt for speech");
+  assert.match(audioUi, /speakPrompt/, "listening UI must use status-aware managed speech");
+  assert.match(audioUi, /observeActivityEntrySpeech/, "listening UI must publish entry-latency evidence for automatic narration");
+  assert.match(audioUi, /warmAudio\(lang\)/, "listening UI must warm the correct language on the first eligible gesture");
+  assert.match(audioUi, /activity\?\.audioPrompt \?\? activity\?\.prompt/, "listening UI must prefer the audio-only prompt for speech");
   assert.match(audioUi, /title=\{visiblePrompt\}/, "listening UI must render only the visible instruction, never the audio target directly");
   assert.match(audioUi, /const heardPrompt = speechStatus === "spoken"/, "listening UI must track whether the prompt actually started speaking");
   assert.match(audioUi, /if \(!heardPrompt\) return;/, "a listening answer must be ignored until the child has heard the prompt");

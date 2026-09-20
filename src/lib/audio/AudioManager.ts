@@ -185,7 +185,7 @@ export class AudioManager {
   private audioContext: AudioContext | null = null;
   private muted = false;
   private unlocked = false;
-  private warmedSpeech = false;
+  private warmedLocales = new Set<string>();
   private warmupTimer: ReturnType<typeof setTimeout> | null = null;
   private warmupUtterance: SpeechUtteranceLike | null = null;
   private active: SpeechRequest | null = null;
@@ -240,7 +240,7 @@ export class AudioManager {
     return {
       muted: this.muted,
       unlocked: this.unlocked,
-      warmedSpeech: this.warmedSpeech,
+      warmedSpeech: this.warmedLocales.size > 0,
       speech: this.speechCapability(),
       audioState,
       speaking: Boolean(this.active || synth?.speaking),
@@ -261,6 +261,7 @@ export class AudioManager {
 
   private readonly handleVoicesChanged = (): void => {
     this.refreshVoices();
+    this.warmedLocales.clear();
   };
 
   refreshVoices(): SpeechVoiceLike[] {
@@ -316,13 +317,14 @@ export class AudioManager {
     const context = this.audio();
     if (context?.state === "suspended") void context.resume().catch(() => undefined);
     this.refreshVoices();
-    this.scheduleSpeechWarmup(locale, 0);
+    this.clearWarmupTimer();
+    this.runSpeechWarmup(locale);
   }
 
   private scheduleSpeechWarmup(locale: string, delayMs = SPEECH_WARMUP_DELAY_MS): void {
     if (
       this.muted ||
-      this.warmedSpeech ||
+      this.isLocaleWarmed(locale) ||
       this.active ||
       this.queue.length > 0 ||
       this.warmupTimer !== null ||
@@ -336,7 +338,7 @@ export class AudioManager {
   }
 
   private runSpeechWarmup(locale: string): void {
-    if (this.muted || this.warmedSpeech || this.active || this.queue.length > 0 || this.warmupUtterance) return;
+    if (this.muted || this.isLocaleWarmed(locale) || this.active || this.queue.length > 0 || this.warmupUtterance) return;
     const synth = this.synth();
     const utterance = this.createUtterance(".");
     const voice = this.selectVoice(locale);
@@ -353,7 +355,7 @@ export class AudioManager {
     const finish = () => {
       if (generation !== this.generation || this.warmupUtterance !== utterance) return;
       this.warmupUtterance = null;
-      this.warmedSpeech = true;
+      this.warmedLocales.add(normalizeLocale(locale));
     };
     utterance.addEventListener("end", finish, { once: true });
     utterance.addEventListener("error", finish, { once: true });
@@ -368,7 +370,7 @@ export class AudioManager {
         rate: utterance.rate,
         textLength: 0,
         requestedAtMs: this.deps.now(),
-        warmed: this.warmedSpeech,
+        warmed: this.isLocaleWarmed(locale),
         queueDepth: this.queue.length,
         voiceLang: utterance.voice?.lang,
         voiceLocalService: utterance.voice?.localService
@@ -405,7 +407,7 @@ export class AudioManager {
         rate,
         textLength: text.length,
         requestedAtMs,
-        warmed: this.warmedSpeech,
+        warmed: this.isLocaleWarmed(lang),
         queueDepth: this.queue.length
       });
       return text ? capability : "error";
@@ -426,7 +428,7 @@ export class AudioManager {
         rate,
         textLength: text.length,
         requestedAtMs,
-        warmed: this.warmedSpeech,
+        warmed: this.isLocaleWarmed(lang),
         queueDepth: this.queue.length
       });
       return "spoken";
@@ -452,7 +454,7 @@ export class AudioManager {
       rate,
       textLength: text.length,
       requestedAtMs,
-      warmed: this.warmedSpeech,
+      warmed: this.isLocaleWarmed(lang),
       queueDepth: this.queue.length
     });
 
@@ -478,7 +480,7 @@ export class AudioManager {
       rate: request.rate,
       textLength: request.text.length,
       requestedAtMs: request.requestedAtMs,
-      warmed: this.warmedSpeech,
+      warmed: this.isLocaleWarmed(request.lang),
       queueDepth: this.queue.length
     });
   }
@@ -496,7 +498,7 @@ export class AudioManager {
         rate: request.rate,
         textLength: request.text.length,
         requestedAtMs: request.requestedAtMs,
-        warmed: this.warmedSpeech,
+        warmed: this.isLocaleWarmed(request.lang),
         queueDepth: this.queue.length
       });
       this.drainQueue();
@@ -514,7 +516,7 @@ export class AudioManager {
     utterance.addEventListener("start", () => {
       if (generation !== this.generation || this.active?.id !== request.id) return;
       const startedAtMs = this.deps.now();
-      this.warmedSpeech = true;
+      this.warmedLocales.add(normalizeLocale(request.lang));
       this.deps.emitLatency({
         phase: "started",
         status: "spoken",
@@ -525,7 +527,7 @@ export class AudioManager {
         requestedAtMs: request.requestedAtMs,
         startedAtMs,
         startLatencyMs: Math.max(0, startedAtMs - request.requestedAtMs),
-        warmed: this.warmedSpeech,
+        warmed: this.isLocaleWarmed(request.lang),
         queueDepth: this.queue.length,
         voiceLang: utterance.voice?.lang,
         voiceLocalService: utterance.voice?.localService
@@ -542,7 +544,7 @@ export class AudioManager {
         rate: request.rate,
         textLength: request.text.length,
         requestedAtMs: request.requestedAtMs,
-        warmed: this.warmedSpeech,
+        warmed: this.isLocaleWarmed(request.lang),
         queueDepth: this.queue.length
       });
       this.active = null;
@@ -559,7 +561,7 @@ export class AudioManager {
         rate: request.rate,
         textLength: request.text.length,
         requestedAtMs: request.requestedAtMs,
-        warmed: this.warmedSpeech,
+        warmed: this.isLocaleWarmed(request.lang),
         queueDepth: this.queue.length
       });
       this.active = null;
@@ -578,7 +580,7 @@ export class AudioManager {
         rate: request.rate,
         textLength: request.text.length,
         requestedAtMs: request.requestedAtMs,
-        warmed: this.warmedSpeech,
+        warmed: this.isLocaleWarmed(request.lang),
         queueDepth: this.queue.length
       });
       this.drainQueue();
@@ -613,7 +615,7 @@ export class AudioManager {
         rate: previous.rate,
         textLength: previous.text.length,
         requestedAtMs: previous.requestedAtMs,
-        warmed: this.warmedSpeech,
+        warmed: this.isLocaleWarmed(previous.lang),
         queueDepth: 0
       });
     }
@@ -644,7 +646,7 @@ export class AudioManager {
         rate: previous.rate,
         textLength: previous.text.length,
         requestedAtMs: previous.requestedAtMs,
-        warmed: this.warmedSpeech,
+        warmed: this.isLocaleWarmed(previous.lang),
         queueDepth: 0
       });
     }
@@ -704,6 +706,10 @@ export class AudioManager {
     } catch {
       // Continue with the real prompt.
     }
+  }
+
+  private isLocaleWarmed(locale: string): boolean {
+    return this.warmedLocales.has(normalizeLocale(locale));
   }
 
   private clearWarmupTimer(): void {

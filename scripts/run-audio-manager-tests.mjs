@@ -231,6 +231,17 @@ try {
   assert.equal(warm.synth.cancelCount, 0, "canceling a not-yet-started warmup must not touch native speech queue");
   assert.equal(warm.synth.spoken[0]?.text, "Halo");
 
+  const eagerWarm = harness(voices);
+  eagerWarm.manager.warmup("id-ID");
+  assert.equal(eagerWarm.timers.size, 0, "explicit navigation warmup must not wait for another timer tick");
+  assert.equal(eagerWarm.synth.spoken.length, 1, "explicit navigation warmup should start silent speech immediately");
+  assert.equal(eagerWarm.synth.spoken[0].voice?.name, "Indonesia local");
+  eagerWarm.synth.endCurrent();
+  eagerWarm.manager.warmup("en-US");
+  assert.equal(eagerWarm.synth.spoken.length, 2, "warming Indonesian must not suppress a later English warmup");
+  assert.equal(eagerWarm.synth.spoken[1].voice?.name, "English local", "destination locale must warm its own matching voice");
+  eagerWarm.synth.endCurrent();
+
   const silentWarm = harness(voices);
   silentWarm.manager.unlock("id-ID");
   silentWarm.runTimers();
@@ -286,9 +297,17 @@ try {
   assert.doesNotMatch(feedbackSource, /SpeechSynthesisUtterance|speechSynthesis\.cancel/);
 
   const routeBridge = readFileSync(path.join(root, "src", "components", "audio", "AudioRouteBridge.tsx"), "utf8");
+  const activityEntry = readFileSync(path.join(root, "src", "lib", "audio", "activityEntry.ts"), "utf8");
   assert.match(routeBridge, /usePathname/, "audio route bridge must observe navigation");
   assert.match(routeBridge, /stopSpeech\(\)/, "navigation must stop stale speech");
-  assert.match(routeBridge, /pointerdown/, "first user gesture should unlock/warm audio");
+  assert.match(routeBridge, /markActivityAudioIntent/, "activity-link gestures must record entry intent before navigation");
+  assert.match(routeBridge, /warmAudio\(activityLocale\(activity\.subjectId\)\)/, "activity-link gestures must warm the destination language");
+  assert.match(routeBridge, /observeActivityEntrySpeech/, "activity entry narration must emit end-to-end latency evidence");
+  assert.doesNotMatch(routeBridge, /requestAnimationFrame\(narrate\)/, "activity narration must not add an avoidable animation-frame delay after mount");
+  assert.match(activityEntry, /mainlagi-activity-audio-entry-latency/, "entry latency must expose one stable local instrumentation event");
+  assert.match(activityEntry, /intentToRequestMs/, "entry latency must measure navigation-intent to speech request time");
+  assert.match(activityEntry, /totalStartLatencyMs/, "entry latency must combine route delay with AudioManager speech-start delay");
+  assert.doesNotMatch(activityEntry, /childId/, "entry latency telemetry must not include child identity");
 
   const legacyLearning = readFileSync(path.join(root, "src", "components", "learning", "ChildLearningPlatform.tsx"), "utf8");
   assert.doesNotMatch(legacyLearning, /SpeechSynthesisUtterance|utterance\.rate\s*=\s*0\.85|speechSynthesis\.cancel/);

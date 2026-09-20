@@ -1,8 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { playTone, speakWithStatus, unlockAudio, type SpeechStartStatus } from "@/lib/audio/feedback";
+import { useEffect, useRef, useState } from "react";
+import {
+  audioStatus,
+  playTone,
+  speakPrompt,
+  unlockAudio,
+  warmAudio,
+  type SpeechStartStatus
+} from "@/lib/audio/feedback";
+import {
+  ACTIVITY_AUDIO_ENTRY_LATENCY_EVENT,
+  observeActivityEntrySpeech,
+  type ActivityAudioEntryLatencyDetail
+} from "@/lib/audio/activityEntry";
 import { completeActivity, getActivity } from "@/lib/learning/system";
 import { useLearningProgress } from "./LearningCommon";
 import styles from "./LearningPlatform.module.css";
@@ -20,6 +32,56 @@ export function AudioChoiceLearningActivity({ childId, activityId }: { childId: 
   const progress = useLearningProgress(childId);
   const [feedback, setFeedback] = useState<"good" | "try" | null>(null);
   const [speechStatus, setSpeechStatus] = useState<SpeechStartStatus | null>(null);
+  const autoAttemptedRef = useRef(false);
+
+  const spokenPrompt = activity?.audioPrompt ?? activity?.prompt ?? activity?.title ?? "";
+  const lang = activity?.subjectId === "english" ? "en-US" : "id-ID";
+
+  useEffect(() => {
+    const onEntryLatency = (event: Event) => {
+      const detail = (event as CustomEvent<ActivityAudioEntryLatencyDetail>).detail;
+      if (!activity || detail.activityId !== activity.id) return;
+      setSpeechStatus(detail.status);
+    };
+    window.addEventListener(ACTIVITY_AUDIO_ENTRY_LATENCY_EVENT, onEntryLatency);
+    return () => window.removeEventListener(ACTIVITY_AUDIO_ENTRY_LATENCY_EVENT, onEntryLatency);
+  }, [activity]);
+
+  useEffect(() => {
+    autoAttemptedRef.current = false;
+    if (!activity || activity.runtime !== "listen_and_choose") return;
+
+    let cancelled = false;
+    const startEntryNarration = () => {
+      if (cancelled || autoAttemptedRef.current || !audioStatus().unlocked || audioStatus().muted) return;
+      autoAttemptedRef.current = true;
+      setSpeechStatus(null);
+      observeActivityEntrySpeech({
+        activityId: activity.id,
+        lang,
+        textLength: spokenPrompt.trim().length,
+        request: () => speakPrompt(spokenPrompt, {
+          lang,
+          key: `activity-entry:${activity.id}`
+        })
+      });
+    };
+
+    const timer = window.setTimeout(startEntryNarration, 0);
+    const afterGesture = () => {
+      warmAudio(lang);
+      startEntryNarration();
+    };
+    window.addEventListener("pointerdown", afterGesture, { once: true, capture: true });
+    window.addEventListener("keydown", afterGesture, { once: true, capture: true });
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+      window.removeEventListener("pointerdown", afterGesture, { capture: true });
+      window.removeEventListener("keydown", afterGesture, { capture: true });
+    };
+  }, [activity, lang, spokenPrompt]);
 
   if (!activity || activity.runtime !== "listen_and_choose") {
     return <main className={styles.contentNarrow}><div className={styles.emptyState}>Aktivitas audio tidak ditemukan.</div></main>;
@@ -27,16 +89,26 @@ export function AudioChoiceLearningActivity({ childId, activityId }: { childId: 
 
   const done = progress.completedActivityIds.includes(activity.id);
   const visiblePrompt = activity.prompt ?? (activity.subjectId === "english" ? "Listen, then choose the best answer." : "Dengarkan, lalu pilih jawaban yang paling sesuai.");
-  const spokenPrompt = activity.audioPrompt ?? activity.prompt ?? activity.title;
-  const lang = activity.subjectId === "english" ? "en-US" : "id-ID";
   const fallback = audioFallback(speechStatus);
   const heardPrompt = speechStatus === "spoken";
 
   const hear = () => {
+    autoAttemptedRef.current = true;
     unlockAudio(lang);
     playTone("tick");
     setFeedback(null);
-    setSpeechStatus(speakWithStatus(spokenPrompt, lang));
+    setSpeechStatus(null);
+    observeActivityEntrySpeech({
+      activityId: activity.id,
+      lang,
+      textLength: spokenPrompt.trim().length,
+      request: () => speakPrompt(spokenPrompt, {
+        lang,
+        key: `activity-replay:${activity.id}`,
+        interrupt: true,
+        dedupeMs: 0
+      })
+    });
   };
 
   const choose = (choice: string) => {
@@ -62,7 +134,7 @@ export function AudioChoiceLearningActivity({ childId, activityId }: { childId: 
           </div>
         ) : !heardPrompt ? (
           <div className={styles.infoBanner} role="status" style={{ marginTop: 14 }}>
-            Dengarkan petunjuk dulu. Pilihan akan aktif setelah suara berhasil diputar.
+            Menyiapkan suara. Kamu juga bisa tekan tombol Dengar.
           </div>
         ) : null}
 

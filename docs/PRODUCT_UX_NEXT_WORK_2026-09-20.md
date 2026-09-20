@@ -149,7 +149,7 @@ Other subject pairings/backgrounds remain to be designed. Each subject may have 
 - Activity gallery + isolated QA unlock: **merged**.
 - Shared completion: **merged / live verified** at `53a5f04`, CI #1129 exact Cloudflare smoke.
 - Matching randomization/difficulty: **merged / live verified** at `61f8fb6`, CI #1134 exact Cloudflare smoke.
-- Audio first-instruction latency: **next active step**.
+- Audio first-instruction latency: **active** on `agent/ws02-audio-entry-latency-20260920`.
 
 ## Implementation order
 

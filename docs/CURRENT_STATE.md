@@ -177,7 +177,7 @@ Shared completion is **MERGED / LIVE VERIFIED**: PR #245 -> `main` `53a5f04c6d54
 
 Visible matching randomization is **MERGED / LIVE VERIFIED**: PR #247 -> `main` `61f8fb64bca412b13abd5570e3c322b2ab158c8a`; merged-main CI #1134 / run `35504645189` passed all gates including exact Cloudflare production smoke. Generic visible matching now uses randomized left/right columns, prevents same-row answer leakage, and reshuffles on Try Again without changing `matching_accuracy_v1`, mastery, progression, schema, or WS-05 pattern count.
 
-Next WS-13/WS-02 product-UX step: **audio first-instruction latency**. Scope is preload/warm-up, measurable start latency, reliable replay, and honest browser autoplay handling before English voice-quality/provider work.
+Current WS-02/WS-13 branch: `agent/ws02-audio-entry-latency-20260920`. The first-instruction latency wave pre-warms the destination locale from the activity-link gesture, removes the extra generic-entry animation-frame delay, auto-starts listen-and-choose when browser audio is already unlocked, keeps Dengar as replay/recovery, and records privacy-safe navigation-intent -> speech-start latency. Browser autoplay restrictions remain fail-closed and visible.
 
 ## Engineering status
 

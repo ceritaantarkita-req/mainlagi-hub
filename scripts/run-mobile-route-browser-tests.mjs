@@ -431,6 +431,106 @@ async function main() {
       const viewport = { width: 390, height: 844 };
       const context = await browser.newContext({ viewport });
       await context.addInitScript(() => {
+        window.__mainlagiAudioEntrySamples = [];
+
+        class QaSpeechUtterance {
+          constructor(text) {
+            this.text = text;
+            this.lang = "";
+            this.pitch = 1;
+            this.rate = 1;
+            this.volume = 1;
+            this.voice = null;
+            this.listeners = new Map();
+          }
+          addEventListener(type, listener) {
+            const list = this.listeners.get(type) ?? [];
+            list.push(listener);
+            this.listeners.set(type, list);
+          }
+          emit(type) {
+            for (const listener of this.listeners.get(type) ?? []) listener();
+          }
+        }
+
+        const voices = [
+          { default: false, lang: "en-US", localService: true, name: "QA English", voiceURI: "qa-en" },
+          { default: true, lang: "id-ID", localService: true, name: "QA Indonesia", voiceURI: "qa-id" }
+        ];
+        const qaSynth = {
+          speaking: false,
+          pending: false,
+          current: null,
+          getVoices() { return voices; },
+          addEventListener() {},
+          cancel() { this.current = null; this.speaking = false; this.pending = false; },
+          speak(utterance) {
+            this.current = utterance;
+            this.speaking = true;
+            setTimeout(() => { if (this.current === utterance) utterance.emit("start"); }, 8);
+            setTimeout(() => {
+              if (this.current !== utterance) return;
+              this.current = null;
+              this.speaking = false;
+              utterance.emit("end");
+            }, 36);
+          }
+        };
+
+        Object.defineProperty(window, "SpeechSynthesisUtterance", { configurable: true, value: QaSpeechUtterance });
+        Object.defineProperty(window, "speechSynthesis", { configurable: true, value: qaSynth });
+        window.addEventListener("mainlagi-activity-audio-entry-latency", (event) => {
+          window.__mainlagiAudioEntrySamples.push(event.detail);
+        });
+      });
+      const page = await context.newPage();
+
+      const openFromCatalog = async (activityId) => {
+        await page.goto(baseUrl + "/child/demo-gian/subject/english?qa=unlock-all", { waitUntil: "networkidle" });
+        const activityLink = page.locator("[data-activity-id=\"" + activityId + "\"] a");
+        await activityLink.waitFor();
+        await page.waitForTimeout(120);
+        const documentMarker = "qa-client-nav-" + activityId;
+        await page.evaluate((value) => { window.__mainlagiAudioQaDocumentMarker = value; }, documentMarker);
+        await activityLink.click();
+        await page.waitForURL(new RegExp("/child/demo-gian/activity/" + activityId + "$"), { timeout: 10000 });
+        assert.equal(await page.evaluate(() => window.__mainlagiAudioQaDocumentMarker), documentMarker, "audio QA requires hydrated client-side navigation");
+        await page.waitForFunction(
+          (expectedId) => window.__mainlagiAudioEntrySamples?.some((sample) => sample.activityId === expectedId),
+          activityId,
+          { timeout: 10000 }
+        );
+        return page.evaluate((expectedId) => window.__mainlagiAudioEntrySamples.find((sample) => sample.activityId === expectedId), activityId);
+      };
+
+      const genericSample = await openFromCatalog("english-find-blue");
+      assert.equal(genericSample.activityId, "english-find-blue");
+      assert.equal(genericSample.lang, "en-US", "English navigation must pre-warm English");
+      assert.equal(genericSample.source, "navigation", "activity-link gesture must correlate with entry narration");
+      assert.ok(Number.isFinite(genericSample.intentToRequestMs) && genericSample.intentToRequestMs >= 0 && genericSample.intentToRequestMs < 5000, "entry intent-to-request latency must be measurable");
+      assert.equal("childId" in genericSample, false, "audio entry telemetry must not expose child identity");
+      assert.equal("text" in genericSample, false, "audio entry telemetry must not expose narration text");
+      assert.equal(genericSample.status, "spoken", "deterministic QA speech must actually start");
+      assert.ok(Number.isFinite(genericSample.requestToStartMs), "spoken entry must include request-to-start latency");
+      assert.ok(Number.isFinite(genericSample.totalStartLatencyMs), "spoken entry must include total start latency");
+
+      const listeningSample = await openFromCatalog("english-find-blue-audio");
+      assert.equal(listeningSample.activityId, "english-find-blue-audio");
+      assert.equal(listeningSample.lang, "en-US");
+      assert.equal(listeningSample.source, "navigation");
+      assert.ok(Number.isFinite(listeningSample.intentToRequestMs) && listeningSample.intentToRequestMs < 5000, "listen-and-choose entry latency must be measurable");
+      assert.equal(listeningSample.status, "spoken", "deterministic listening speech must actually start");
+      assert.equal(await page.locator("[data-choices] button:disabled").count(), 0, "listening choices unlock only after narration starts");
+
+      await page.screenshot({ path: path.join(screenshotDir, "390-audio-first-instruction.png"), fullPage: false });
+      await context.close();
+      console.log("WS-02 activity-entry audio warmup + latency instrumentation passed at 390px.");
+    }
+
+    {
+      const viewport = { width: 390, height: 844 };
+      const context = await browser.newContext({ viewport });
+      await context.addInitScript(() => {
         const childId = "demo-gian";
         const progressKey = "mainlagi-learning-progress-v1";
         const attemptsKey = "mainlagi-learning-attempts-v1";
