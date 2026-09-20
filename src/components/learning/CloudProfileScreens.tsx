@@ -17,7 +17,7 @@ import {
   type CharacterId,
   type LearningChildProfile
 } from "@/lib/learning/system";
-import { CharacterAvatar, useLearningProgress } from "./LearningCommon";
+import { ChildIdentityAvatar, useLearningProgress } from "./LearningCommon";
 import styles from "./LearningPlatform.module.css";
 import { childDestination, readActiveChild, rememberChild } from "@/lib/learning/entry";
 import { PlayroomShell } from "./Playroom";
@@ -86,13 +86,13 @@ export function useProfileCollection(): ProfileCollection & { refresh: () => Pro
 function ProfileLink({ profile, subjectId }: { profile: LearningChildProfile; subjectId?: string | null }) {
   return (
     <Link className={styles.profileCard} href={childDestination(profile.id, subjectId)} onClick={() => rememberChild(profile.id)}>
-      <CharacterAvatar id={profile.guide} />
+      <ChildIdentityAvatar name={profile.name} />
       <span className={styles.profileCardText}>
         <strong>{profile.id === DEMO_PROFILE.id ? `${profile.name} — Demo` : profile.name}</strong>
         <span>
           {profile.id === DEMO_PROFILE.id
             ? `${profile.age} tahun · Coba tanpa membuat profil`
-            : `${profile.age} tahun · Guide ${CHARACTERS[profile.guide].name}`}
+            : `${profile.age} tahun · Teman: ${CHARACTERS[profile.guide].name}`}
         </span>
       </span>
       <span aria-hidden>→</span>
@@ -225,36 +225,79 @@ export function CloudChildSelectScreen() {
   );
 }
 
-function ParentProfileCard({ profile }: { profile: LearningChildProfile }) {
+function ParentProfileCard({ profile, demo = false }: { profile: LearningChildProfile; demo?: boolean }) {
   const progress = useLearningProgress(profile.id);
   return (
-    <Link
-      href={`/parent/children/${profile.id}`}
-      className={styles.parentCard}
-      style={{ textDecoration: "none", color: "inherit" }}
-    >
-      <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-        <CharacterAvatar id={profile.guide} />
-        <div>
-          <strong style={{ color: "#24445e" }}>{profile.id === DEMO_PROFILE.id ? `${profile.name} — Demo` : profile.name}</strong>
-          <p>{profile.age} tahun · {progress.completedActivityIds.length} aktivitas · ⭐ {progress.stars}</p>
+    <article className={`${styles.parentCard} ${demo ? styles.parentDemoCard : ""}`}>
+      <div className={styles.parentProfileHead}>
+        <ChildIdentityAvatar name={profile.name} />
+        <div className={styles.parentProfileCopy}>
+          <strong>{demo ? `${profile.name} — Demo` : profile.name}</strong>
+          <span>{profile.age} tahun · Teman: {CHARACTERS[profile.guide].name}</span>
         </div>
       </div>
-    </Link>
+      <div className={styles.parentProfileStats} aria-label={`Ringkasan ${profile.name}`}>
+        <span><strong>{progress.completedActivityIds.length}</strong> aktivitas</span>
+        <span><strong>{progress.stars}</strong> bintang</span>
+      </div>
+      <div className={styles.parentProfileActions}>
+        <Link href={`/parent/children/${profile.id}`}>{demo ? "Lihat demo" : "Lihat profil"}</Link>
+        {!demo ? <Link href={`/parent/children/${profile.id}/progress`}>Progress</Link> : null}
+      </div>
+    </article>
   );
 }
 
 export function CloudParentOverviewScreen() {
   const collection = useProfileCollection();
+  const demoProfile = collection.profiles.find((profile) => profile.id === DEMO_PROFILE.id) ?? DEMO_PROFILE;
+  const familyProfiles = collection.profiles.filter((profile) => profile.id !== DEMO_PROFILE.id);
+
   return (
     <main className={styles.parentMain}>
-      <p className={styles.eyebrow}>Area orang tua</p>
-      <h1 className={styles.pageTitle}>Ringkasan belajar</h1>
-      <p className={styles.pageLead}>Saat login, profil, progress, attempt, dan mastery dibaca dari cloud account yang sedang aktif.</p>
+      <header className={styles.parentPageHeader}>
+        <div>
+          <p className={styles.eyebrow}>Area orang tua</p>
+          <h1 className={styles.pageTitle}>Ringkasan belajar</h1>
+          <p className={styles.pageLead}>Lihat aktivitas anak, buka progress, dan lanjut ke report tanpa masuk ke mode anak.</p>
+        </div>
+        <Link className={styles.secondaryButton} href="/child/select">Kelola profil anak</Link>
+      </header>
+
       {collection.error ? <div className={styles.infoBanner}>{collection.error}</div> : null}
-      <section className={styles.section}>
-        <div className={styles.parentGrid}>
-          {collection.profiles.map((profile) => <ParentProfileCard profile={profile} key={profile.id} />)}
+
+      <section className={styles.parentOverviewSection} aria-labelledby="family-profiles-title" data-parent-family-section>
+        <div className={styles.parentSectionHeading}>
+          <div>
+            <p className={styles.eyebrow}>Keluarga</p>
+            <h2 id="family-profiles-title">Anak Anda</h2>
+          </div>
+          <span>{familyProfiles.length} profil</span>
+        </div>
+
+        {collection.loading ? <div className={styles.emptyState}>Memuat profil…</div> : familyProfiles.length ? (
+          <div className={styles.parentGrid}>
+            {familyProfiles.map((profile) => <ParentProfileCard profile={profile} demo={profile.id === DEMO_PROFILE.id} key={profile.id} />)}
+          </div>
+        ) : (
+          <div className={styles.parentEmptyCard}>
+            <strong>Belum ada profil anak.</strong>
+            <p>Buat profil supaya progress setiap anak tidak tercampur dengan demo.</p>
+            <Link className={styles.primaryButton} href="/child/select">Tambah profil anak</Link>
+          </div>
+        )}
+      </section>
+
+      <section className={styles.parentOverviewSection} aria-labelledby="demo-profile-title" data-parent-demo-section>
+        <div className={styles.parentSectionHeading}>
+          <div>
+            <p className={styles.eyebrow}>Coba produk</p>
+            <h2 id="demo-profile-title">Profil demo</h2>
+          </div>
+        </div>
+        <p className={styles.parentSectionLead}>Demo dipisahkan dari profil keluarga supaya data uji tidak terlihat seperti progress anak sungguhan.</p>
+        <div className={styles.parentDemoGrid}>
+          <ParentProfileCard profile={demoProfile} demo />
         </div>
       </section>
     </main>
@@ -265,6 +308,8 @@ export function CloudParentChildrenScreen() {
   const collection = useProfileCollection();
   const [removingId, setRemovingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const demoProfile = collection.profiles.find((profile) => profile.id === DEMO_PROFILE.id) ?? DEMO_PROFILE;
+  const familyProfiles = collection.profiles.filter((profile) => profile.id !== DEMO_PROFILE.id);
 
   const remove = async (profile: LearningChildProfile) => {
     if (!collection.authenticated || profile.id === DEMO_PROFILE.id || removingId) return;
@@ -285,36 +330,53 @@ export function CloudParentChildrenScreen() {
 
   return (
     <main className={styles.parentMain}>
-      <p className={styles.eyebrow}>Profiles</p>
-      <h1 className={styles.pageTitle}>Anak</h1>
-      <p className={styles.pageLead}>
-        {collection.authenticated
-          ? "Profil anak tersimpan di Supabase dan dibatasi oleh ownership akun."
-          : "Mode development tanpa session memakai profil lokal."}
-      </p>
-      {collection.error || error ? <div className={styles.infoBanner}>{error ?? collection.error}</div> : null}
-      <section className={styles.section}>
-        <div className={styles.parentGrid}>
-          {collection.profiles.map((profile) => (
-            <div key={profile.id} style={{ display: "grid", gap: 8 }}>
-              <ParentProfileCard profile={profile} />
-              {collection.authenticated && profile.id !== DEMO_PROFILE.id ? (
-                <button
-                  type="button"
-                  className={styles.secondaryButton}
-                  disabled={removingId === profile.id}
-                  onClick={() => void remove(profile)}
-                >
-                  {removingId === profile.id ? "Menghapus..." : "Hapus profil"}
-                </button>
-              ) : null}
-            </div>
-          ))}
+      <header className={styles.parentPageHeader}>
+        <div>
+          <p className={styles.eyebrow}>Profil anak</p>
+          <h1 className={styles.pageTitle}>Anak</h1>
+          <p className={styles.pageLead}>
+            {collection.authenticated
+              ? "Profil keluarga tersimpan di akun dan dipisahkan dari profil demo."
+              : "Mode lokal menyimpan profil keluarga hanya di perangkat ini."}
+          </p>
         </div>
+        <Link className={styles.primaryButton} href="/child/select">Tambah profil</Link>
+      </header>
+
+      {collection.error || error ? <div className={styles.infoBanner}>{error ?? collection.error}</div> : null}
+
+      <section className={styles.parentOverviewSection} data-parent-family-section>
+        <div className={styles.parentSectionHeading}>
+          <div><p className={styles.eyebrow}>Keluarga</p><h2>Profil anak</h2></div>
+          <span>{familyProfiles.length} profil</span>
+        </div>
+        {familyProfiles.length ? (
+          <div className={styles.parentGrid}>
+            {familyProfiles.map((profile) => (
+              <div key={profile.id} className={styles.parentProfileManage}>
+                <ParentProfileCard profile={profile} />
+                {collection.authenticated ? (
+                  <button type="button" className={styles.secondaryButton} disabled={removingId === profile.id} onClick={() => void remove(profile)}>
+                    {removingId === profile.id ? "Menghapus..." : "Hapus profil"}
+                  </button>
+                ) : null}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className={styles.parentEmptyCard}>
+            <strong>Belum ada profil keluarga.</strong>
+            <p>Tambah profil supaya data belajar tidak tercampur dengan demo.</p>
+          </div>
+        )}
       </section>
-      <div className={styles.heroActionRow}>
-        <Link className={styles.primaryButton} href="/child/select">Tambah / pilih profil</Link>
-      </div>
+
+      <section className={styles.parentOverviewSection} data-parent-demo-section>
+        <div className={styles.parentSectionHeading}>
+          <div><p className={styles.eyebrow}>Demo</p><h2>Profil percobaan</h2></div>
+        </div>
+        <div className={styles.parentDemoGrid}><ParentProfileCard profile={demoProfile} demo /></div>
+      </section>
     </main>
   );
 }
