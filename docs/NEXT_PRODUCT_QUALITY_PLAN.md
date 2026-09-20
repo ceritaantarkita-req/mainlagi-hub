@@ -70,7 +70,7 @@
 **Set Reasoning implementation main CI:** **#964 / run `35375338099` — full success + exact Cloudflare production smoke**  
 **Set Reasoning post-merge docs main CI:** **#969 / run `35376512392` — full success + exact Cloudflare production smoke**  
 **Set Reasoning reuse:** **FULLY CLOSED / LIVE VERIFIED**  
-**Math spatial reuse audit:** PR #209 -> main `3e30a817ef86fa691f9b2f1249ac00bc00dce4e6` / exact 5-ID scope / JUSTIFIED / code not started  
+**Math spatial reuse audit:** PR #209 -> main `3e30a817ef86fa691f9b2f1249ac00bc00dce4e6` / exact 5-ID scope / JUSTIFIED / historical audit checkpoint; runtime later closed  
 **Math spatial audit PR CI:** **#970 / run `35377295090` — full success**  
 **Math spatial audit main CI:** **#971 / run `35377783814` — full success + exact Cloudflare production smoke**  
 **Math spatial audit:** **MERGED / LIVE VERIFIED**  
@@ -78,7 +78,7 @@
 **Math spatial final PR CI:** **#986 / run `35421866386` — full success**  
 **Math spatial implementation main CI:** **#987 / run `35422469117` — full success + exact Cloudflare production smoke**  
 **Math spatial merged truth:** **47 active / `choice_grid` 223 / `spatial_relation_board` 11 / KEEP 900**  
-**Math measurement reuse audit:** PR #210 -> main `f9833568dea0f021cd5c4ed94f6f6fc7505ad8d8` / exact 4 direct-choice IDs / JUSTIFIED / code not started  
+**Math measurement reuse audit:** PR #210 -> main `f9833568dea0f021cd5c4ed94f6f6fc7505ad8d8` / exact 4 direct-choice IDs / JUSTIFIED / historical audit checkpoint; runtime later closed  
 **Math measurement audit PR CI:** **#972 / run `35378121937` — full success**  
 **Math measurement audit main CI:** **#973 / run `35378825618` — full success + exact Cloudflare production smoke**  
 **Math measurement audit:** **MERGED / LIVE VERIFIED**  
@@ -87,7 +87,7 @@
 **Math measurement implementation main CI:** **#995 / run `35425340216` — full success + exact Cloudflare production smoke**  
 **Math measurement merged truth:** **47 active / `choice_grid` 219 / `compare_properties` 7 / KEEP 900**  
 **Math measurement matching exclusion:** **`math-measure-match-length` remains matching**  
-**English completion reuse audit:** PR #211 -> main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52` / exact 5-ID scope / JUSTIFIED / code not started  
+**English completion reuse audit:** PR #211 -> main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52` / exact 5-ID scope / JUSTIFIED / historical audit checkpoint; runtime later closed  
 **English cloze audit PR CI:** **#974 / run `35379084421` — full success**  
 **English cloze audit main CI:** **#975 / run `35409217808` — full success + exact Cloudflare production smoke**  
 **English cloze implementation:** **PR #219 -> main `e3c92cfe8c1050fdcca1599ae92d98a9345b04ca` / FULLY CLOSED / LIVE VERIFIED / main CI #1009 full success + exact Cloudflare smoke**  
@@ -312,7 +312,7 @@ This audit and runtime are fully closed/live verified. Runtime PR #216 merged to
 
 Reuse audit record: `COMPARE_PROPERTIES_MATH_MEASURE_REUSE_AUDIT_2026-09-19.md`.
 
-Audit PR #210 exact head `0774f29c9658302a4c7bc99f5291c1eb84caad1c` passed CI #972 and merged to main `f9833568dea0f021cd5c4ed94f6f6fc7505ad8d8`. Its artifacts preserved 47 active / `choice_grid` 228 / `compare_properties` 3 / `spatial_relation_board` 6 / `set_reasoning` 10. Independent merged-main/Cloudflare verification remains pending.
+Audit PR #210 exact head `0774f29c9658302a4c7bc99f5291c1eb84caad1c` passed CI #972 and merged to main `f9833568dea0f021cd5c4ed94f6f6fc7505ad8d8`. Its audit artifacts preserved 47 active / `choice_grid` 228 / `compare_properties` 3 / `spatial_relation_board` 6 / `set_reasoning` 10; later runtime/main verification is recorded above.
 
 ### Verified reuse checkpoint — English completion -> `cloze_sentence_choice`
 
@@ -353,13 +353,13 @@ compare_properties          7 / 900
 cloze_sentence_choice      10 / 900
 ```
 
-English runtime gates are fully resolved. PR #219 merged to main `e3c92cfe8c1050fdcca1599ae92d98a9345b04ca`; main CI #1009 / run `35431721131` passed the full matrix and exact-SHA Cloudflare smoke. English cloze reuse is **FULLY CLOSED / LIVE VERIFIED** and Science environment-care is now the next authorized runtime wave.
+English runtime gates are fully resolved. PR #219 merged to main `e3c92cfe8c1050fdcca1599ae92d98a9345b04ca`; main CI #1009 / run `35431721131` passed the full matrix and exact-SHA Cloudflare smoke. English cloze reuse is **FULLY CLOSED / LIVE VERIFIED**; the subsequent Science environment-care wave also later closed.
 
 Implementation wave: `WS05_CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_WAVE_2026-09-19.md`.  
 Closure record: `CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_CLOSURE_2026-09-19.md`.  
 Reuse audit record: `CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_AUDIT_2026-09-19.md`.
 
-Audit PR #211 exact head `adc975f119b557f253cd3a366e728efa2fd74810` passed CI #974 and merged to main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52`. Its artifacts preserved 47 active / `choice_grid` 228 / `cloze_sentence_choice` 5 / `compare_properties` 3 / `spatial_relation_board` 6 / `set_reasoning` 10. Independent merged-main/Cloudflare verification remains pending.
+Audit PR #211 exact head `adc975f119b557f253cd3a366e728efa2fd74810` passed CI #974 and merged to main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52`. Its audit artifacts preserved 47 active / `choice_grid` 228 / `cloze_sentence_choice` 5 / `compare_properties` 3 / `spatial_relation_board` 6 / `set_reasoning` 10; later runtime/main verification is recorded above.
 
 ### Verified reuse checkpoint — Science environment care -> Pattern #22 `healthy_habit_routine`
 
