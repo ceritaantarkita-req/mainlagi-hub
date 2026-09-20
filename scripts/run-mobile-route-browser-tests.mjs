@@ -383,6 +383,53 @@ async function main() {
     {
       const viewport = { width: 390, height: 844 };
       const context = await browser.newContext({ viewport });
+      const page = await context.newPage();
+      await page.goto(`${baseUrl}/child/demo-gian/activity/english-match-hello`, { waitUntil: "domcontentloaded" });
+      const board = page.locator("[data-visible-matching]");
+      await board.waitFor();
+      const readColumns = async () => {
+        const left = await page.locator('[data-match-column="left"] [data-match-card]').allTextContents();
+        const right = await page.locator('[data-match-column="right"] [data-match-card]').allTextContents();
+        return {
+          left: left.map((value) => value.replace(/^✓\s*/, "").trim()),
+          right: right.map((value) => value.replace(/^✓\s*/, "").trim())
+        };
+      };
+      const pairOf = (label) => ({ CAT: "cat", "🐱": "cat", SUN: "sun", "☀️": "sun" })[label];
+      const initial = await readColumns();
+      assert.equal(initial.left.length, 2, "visible matching must split one card per pair into the left column");
+      assert.equal(initial.right.length, 2, "visible matching must split one card per pair into the right column");
+      for (let row = 0; row < initial.left.length; row += 1) {
+        assert.notEqual(pairOf(initial.left[row]), pairOf(initial.right[row]), `matching row ${row + 1} must not reveal a correct adjacent pair`);
+      }
+      await page.screenshot({ path: path.join(screenshotDir, "390-visible-matching-randomized.png"), fullPage: false });
+
+      await page.getByRole("button", { name: "CAT", exact: true }).click();
+      await page.getByRole("button", { name: "🐱", exact: true }).click();
+      await page.getByRole("button", { name: "SUN", exact: true }).click();
+      await page.getByRole("button", { name: "☀️", exact: true }).click();
+
+      const completion = page.locator("[data-activity-completion]");
+      await completion.waitFor();
+      assert.equal(await completion.getByLabel("Tiga bintang").locator("svg").count(), 3, "visible matching completion must use shared three-star success");
+      const beforeRetry = [initial.left.join(","), initial.right.join(",")].join("|");
+      await completion.getByRole("button", { name: "Try Again", exact: true }).click();
+      await board.waitFor();
+      await page.waitForTimeout(80);
+      const retried = await readColumns();
+      const afterRetry = [retried.left.join(","), retried.right.join(",")].join("|");
+      assert.notEqual(afterRetry, beforeRetry, "Try Again must produce a different valid matching arrangement");
+      for (let row = 0; row < retried.left.length; row += 1) {
+        assert.notEqual(pairOf(retried.left[row]), pairOf(retried.right[row]), `retry matching row ${row + 1} must not reveal a correct adjacent pair`);
+      }
+      await page.screenshot({ path: path.join(screenshotDir, "390-visible-matching-retry.png"), fullPage: false });
+      await context.close();
+      console.log("WS-13 visible matching randomization + retry passed at 390px.");
+    }
+
+    {
+      const viewport = { width: 390, height: 844 };
+      const context = await browser.newContext({ viewport });
       await context.addInitScript(() => {
         const childId = "demo-gian";
         const progressKey = "mainlagi-learning-progress-v1";
