@@ -47,7 +47,7 @@ export function ParentShell({ children }: { children: ReactNode }) {
       </header>
 
       <div className={styles.parentLayout}>
-        <aside className={styles.parentSidebar}>
+        <aside className={styles.parentSidebar} data-mainlagi-parent-sidebar>
           <Link className={styles.parentBrand} href="/parent">
             <span>Mainlagi<small className={styles.parentBrandHint}>Ruang orang tua</small></span>
           </Link>
