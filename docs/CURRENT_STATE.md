@@ -171,9 +171,11 @@ This product-UX track must stay separate from WS-05 objective/evidence mechanic 
 
 Active branch: `agent/ws13-canonical-ui-warning-audit-20260920`. The route-owner audit confirms the live child home is `Batch14WorldHome`, subject catalog is `ChildLearningPathViews.SubjectScreen` -> `ActivityGallery`, child shell is `PlayroomShell`, and current parent root/children routes use cloud aliases through `LearningPlatform`. Duplicate similarly named legacy presentation components must not be edited as source of truth without route tracing. Local product QA is being extended to inventory browser warning-level console messages separately from existing product heuristic warnings.
 
-### WS-13 shared completion wave
+### WS-13 product UX status
 
-After merged homepage/directory (#243) and grouped activity gallery + isolated QA unlock (#244), the next active branch is `agent/ws13-shared-completion-20260920`. It introduces one reusable completion surface with praise + three stars + Back / Try Again / Next / parent-gated Share. Initial adoption is intentionally limited to PatternCompletion, TakeAway, and MemoryMatch so scoring/evidence behavior remains untouched while the shared UX is validated.
+Shared completion is **MERGED / LIVE VERIFIED**: PR #245 -> `main` `53a5f04c6d5430f3feb6273d42f178c5419fe418`; merged-main CI #1129 / run `35502667819` passed all gates including exact Cloudflare production smoke. The accepted mobile completion is a focused overlay with praise, three stars, Back / Try Again / Next and parent-gated privacy-safe Share.
+
+Current active UX branch: `agent/ws13-matching-randomization-20260920`. Scope is generic visible matching only: split canonical pairs across left/right columns, independently shuffle both sides, prevent correct-pair same-row leakage, and make Try Again produce a different valid layout without changing `matching_accuracy_v1`, mastery, progression, schema, or WS-05 pattern count.
 
 ## Engineering status
 

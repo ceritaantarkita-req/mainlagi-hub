@@ -142,6 +142,14 @@ Other subject pairings/backgrounds remain to be designed. Each subject may have 
 - Minimum requirement: the pictured object must be recognizable without relying on the text answer.
 - Maintain one visual language across Windows, Android, and iOS rather than depending on platform emoji rendering.
 
+## Execution status — 20 September 2026
+
+- Canonical UI / warning audit: **done**.
+- Homepage/header/3-column subject directory: **merged**.
+- Activity gallery + isolated QA unlock: **merged**.
+- Shared completion: **merged / live verified** at `53a5f04`, CI #1129 exact Cloudflare smoke.
+- Matching randomization/difficulty: **active** on `agent/ws13-matching-randomization-20260920`.
+
 ## Implementation order
 
 1. Canonical component/route audit + console-warning audit.
