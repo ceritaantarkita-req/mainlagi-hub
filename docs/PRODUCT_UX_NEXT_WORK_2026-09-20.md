@@ -1,7 +1,7 @@
 # Mainlagi — Product UX Next Work
 
 Date: **20 September 2026**  
-Status: **APPROVED DIRECTION / DOCS-ONLY / IMPLEMENTATION NOT STARTED**  
+Status: **ACTIVE ROADMAP / P0 THROUGH PARENT WAVE LIVE VERIFIED**  
 Canonical baseline when this plan was written: `main` = `7109db41134f18884b6c08fba99ad2af997b3fed`.
 
 This document is the short human/AI handoff for the next Mainlagi product-quality wave. It records the user-accepted UX direction without changing curriculum, mastery, evidence, progression, or the active WS-05 gameplay audit.
@@ -150,7 +150,8 @@ Other subject pairings/backgrounds remain to be designed. Each subject may have 
 - Shared completion: **merged / live verified** at `53a5f04`, CI #1129 exact Cloudflare smoke.
 - Matching randomization/difficulty: **merged / live verified** at `61f8fb6`, CI #1134 exact Cloudflare smoke.
 - Audio first-instruction latency: **merged / live verified** at `770d8b6`, PR CI #1144 + merged-main CI #1145 exact Cloudflare smoke.
-- Parent/profile/settings responsive redesign: **implementation active** on `agent/ws13-parent-responsive-redesign-20260920`; validation pending.
+- Parent/profile/settings responsive redesign: **merged / live verified** at `77bee68`, PR #251; exact-head CI #1159 + merged-main CI #1160 exact Cloudflare smoke.
+- Next active product-UX step: **character bible + Naya/Gian/Zia production assets**.
 
 ## Implementation order
 
