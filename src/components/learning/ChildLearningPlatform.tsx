@@ -27,7 +27,7 @@ import {
 } from "@/lib/learning/system";
 import { getLearningPathsForSubject, getLessonsForStage } from "@/lib/learning/curriculum";
 import { getNextBestLearningRecommendation } from "@/lib/learning/insights";
-import { buildMatchingColumns, nextDistinctMatchingSeed } from "@/lib/learning/matchingLayout";
+import { buildMatchingColumns, matchingSeedFromText, nextDistinctMatchingSeed } from "@/lib/learning/matchingLayout";
 import { CharacterAvatar, CharacterGroup, ChildLoading, useLearningProfile, useLearningProgress } from "./LearningCommon";
 import { useLearningAnalytics } from "./useLearningAnalytics";
 import styles from "./LearningPlatform.module.css";
@@ -180,30 +180,16 @@ function ChoiceActivity({ childId, activity, onDone }: { childId: string; activi
   </>;
 }
 
-function clientMatchingSeed() {
-  const values = new Uint32Array(1);
-  crypto.getRandomValues(values);
-  return values[0] || 1;
-}
-
 function MatchingActivity({ childId, activity, onDone }: { childId: string; activity: LearningActivity; onDone: (value: LearningProgress) => void }) {
-  const items = activity.matchItems ?? [];
-  const [seed, setSeed] = useState<number | null>(null);
+  const items = useMemo(() => activity.matchItems ?? [], [activity.matchItems]);
+  const [seed, setSeed] = useState(() => matchingSeedFromText(`${childId}:${activity.id}`));
   const [selected, setSelected] = useState<{ id: string; side: "left" | "right" } | null>(null);
   const [matched, setMatched] = useState<string[]>([]);
   const [completed, setCompleted] = useState(false);
   const [message, setMessage] = useState("Pilih satu kartu di kiri, lalu cari pasangannya di kanan.");
 
-  useEffect(() => {
-    setSeed(clientMatchingSeed());
-    setSelected(null);
-    setMatched([]);
-    setCompleted(false);
-    setMessage("Pilih satu kartu di kiri, lalu cari pasangannya di kanan.");
-  }, [activity.id]);
-
-  const layout = useMemo(() => seed === null ? null : buildMatchingColumns(items, seed), [items, seed]);
-  const cards = useMemo(() => layout ? [...layout.left, ...layout.right] : [], [layout]);
+  const layout = useMemo(() => buildMatchingColumns(items, seed), [items, seed]);
+  const cards = useMemo(() => [...layout.left, ...layout.right], [layout]);
 
   const pick = (id: string, side: "left" | "right") => {
     if (matched.includes(id) || completed) return;
@@ -249,10 +235,6 @@ function MatchingActivity({ childId, activity, onDone }: { childId: string; acti
     setMessage("Susunannya berubah. Cari pasangan baru.");
     setSeed((current) => nextDistinctMatchingSeed(items, current ?? 1));
   };
-
-  if (!layout) {
-    return <><h1 className={styles.activityPrompt}>{activity.prompt ?? "Pasangkan kartu"}</h1><div className={styles.infoBanner} role="status">Menyiapkan kartu…</div></>;
-  }
 
   const renderColumn = (side: "left" | "right", column: typeof layout.left) => (
     <div className={styles.matchColumn} data-match-column={side}>
@@ -322,7 +304,7 @@ export function ActivityScreen({ childId, activityId }: { childId: string; activ
   const done = progress.completedActivityIds.includes(activity.id);
   return <GardenActivityFrame backHref={`/child/${childId}/subject/${activity.subjectId}`} narration={activity.runtime === "story" ? (activity.storyLines ?? []).join(" ") : activity.prompt ?? activity.title} lang={activity.subjectId === "english" ? "en-US" : "id-ID"} spacious={activity.runtime === "tap_choice" && (activity.prompt?.length ?? 0)<45}>
     {activity.runtime === "tap_choice" || activity.runtime === "listen_and_choose" ? <ChoiceActivity childId={childId} activity={activity} onDone={setProgress} /> : null}
-    {activity.runtime === "matching" ? <MatchingActivity childId={childId} activity={activity} onDone={setProgress} /> : null}
+    {activity.runtime === "matching" ? <MatchingActivity key={activity.id} childId={childId} activity={activity} onDone={setProgress} /> : null}
     {activity.runtime === "trace" ? <TraceActivity childId={childId} activity={activity} onDone={setProgress} /> : null}
     {activity.runtime === "coloring" ? <ColoringActivity childId={childId} activity={activity} onDone={setProgress} /> : null}
     {activity.runtime === "story" ? <StoryActivity childId={childId} activity={activity} onDone={setProgress} /> : null}
