@@ -1,8 +1,8 @@
 # Mainlagi — Product UX Next Work
 
 Date: **20 September 2026**  
-Status: **ACTIVE ROADMAP / P0 THROUGH PARENT WAVE LIVE VERIFIED**  
-Canonical baseline when this plan was written: `main` = `7109db41134f18884b6c08fba99ad2af997b3fed`.
+Status: **ACTIVE ROADMAP / P0 THROUGH PARENT WAVE LIVE VERIFIED / CHARACTER PRODUCTION NEXT**  
+Current synchronized baseline: `main` = `a04bd51fb02dedf56b5cd62f7f579eb53c4be251`; latest independently live-verified runtime/product main = `77bee682f84b5d68b85d2c91b1d6f2ca4c93d2d9` (CI #1160).
 
 This document is the short human/AI handoff for the next Mainlagi product-quality wave. It records the user-accepted UX direction without changing curriculum, mastery, evidence, progression, or the active WS-05 gameplay audit.
 
@@ -18,20 +18,29 @@ This document is the short human/AI handoff for the next Mainlagi product-qualit
 
 Mainlagi has five primary characters:
 
-1. **Naya** — older girl wearing hijab.
-2. **Gian** — boy.
-3. **Zia** — younger girl with short hair who likes dolls.
-4. **Paca** — robot.
-5. **Gavi** — orange cat.
+1. **Naya** — older sister figure, approximately 8, wears hijab; warm and encouraging.
+2. **Gian** — boy, approximately 5; active, curious and playful.
+3. **Zia** — girl, approximately 3; expressive and beginner-friendly.
+4. **Paca** — friendly male-coded robot; hints, system guidance and discovery.
+5. **Gavi** — orange cat; humor, rewards and reactions.
 
 Paca and Gavi are already exposed in the current Garden UI. Naya, Gian, and Zia still need production-ready visual assets.
 
 ### Character rules
 
 - Homepage hero must eventually show all five characters in one coherent Mainlagi scene.
-- Create a character bible before generating many new assets: proportions, clothing, face, palette, front/three-quarter/back views, expressions, and allowed variations.
+- Extend the existing canonical `MAINLAGI_ART_BIBLE.md` with a production-grade character section before generating many new assets: proportions, clothing, face, palette, front/three-quarter/back views, expressions, and allowed variations.
 - Do not use unrelated emoji as a substitute for production character art.
 - Child profile identity and Mainlagi guide character are separate concepts.
+
+### Current character asset truth
+
+- Paca: production Garden WebP exists at `public/artwork/garden-paca.webp`.
+- Gavi: production Garden WebP exists at `public/artwork/garden-gavi.webp`.
+- Naya/Gian/Zia: no production image files under `public/artwork` yet.
+- Current `CharacterAvatar` uses inline fallback SVGs for Naya/Gian/Zia.
+- Paca/Gavi coloring previews exist; this art wave does not authorize new Naya/Gian/Zia coloring activities.
+- Generated character candidates require visual review plus asset provenance/rights documentation before production integration.
 
 ## P0 — next implementation wave
 
@@ -151,7 +160,7 @@ Other subject pairings/backgrounds remain to be designed. Each subject may have 
 - Matching randomization/difficulty: **merged / live verified** at `61f8fb6`, CI #1134 exact Cloudflare smoke.
 - Audio first-instruction latency: **merged / live verified** at `770d8b6`, PR CI #1144 + merged-main CI #1145 exact Cloudflare smoke.
 - Parent/profile/settings responsive redesign: **merged / live verified** at `77bee68`, PR #251; exact-head CI #1159 + merged-main CI #1160 exact Cloudflare smoke.
-- Next active product-UX step: **character bible + Naya/Gian/Zia production assets**.
+- Next active product-UX step: **extend the canonical Art Bible character-production contract + create/review Naya/Gian/Zia production assets**.
 
 ## Implementation order
 
@@ -162,7 +171,7 @@ Other subject pairings/backgrounds remain to be designed. Each subject may have 
 5. Matching randomization and difficulty rules.
 6. Audio first-instruction latency.
 7. Parent/profile/settings responsive redesign.
-8. Character bible + Naya/Gian/Zia production assets.
+8. Extend canonical Art Bible character production spec + create/review Naya/Gian/Zia production assets.
 9. Subject theme/background system.
 10. English voice-quality upgrade.
 11. Expanded visual/usability QA and cleanup of superseded components.
