@@ -179,7 +179,7 @@ Visible matching randomization is **MERGED / LIVE VERIFIED**: PR #247 -> `main` 
 
 Audio first-instruction latency is **MERGED / LIVE VERIFIED**: PR #249 -> `main` `770d8b66dac20765fd96a66e9d752931e1a56d66`; PR CI #1144 passed all gates, manual 390px listening review accepted, browser warnings = 0, and merged-main CI #1145 / run `35511068490` passed exact Cloudflare production smoke. Correct-language pre-warm, faster generic entry, listen-and-choose auto-entry, replay recovery, fail-closed no-start timeout, and privacy-safe entry-latency evidence are now live.
 
-Next product-UX step: **parent/profile/settings responsive redesign**. Route ownership must follow current parent/public canonical components before implementation; do not alter learning evidence/mastery while reorganizing presentation.
+Current product-UX implementation: **parent/profile/settings responsive redesign** on `agent/ws13-parent-responsive-redesign-20260920`. The active wave keeps `CloudParentOverviewScreen` canonical, rebuilds the responsive parent shell/settings, separates real family profiles from `demo-gian`, and separates child profile identity from guide character presentation. Validation is pending; do not alter learning evidence/mastery/progression/schema while reorganizing presentation.
 
 ## Engineering status
 
