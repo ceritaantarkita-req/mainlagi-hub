@@ -10,6 +10,7 @@ import {
   warmAudio
 } from "@/lib/audio/feedback";
 import {
+  hasActivityAudioIntent,
   markActivityAudioIntent,
   observeActivityEntrySpeech
 } from "@/lib/audio/activityEntry";
@@ -51,6 +52,9 @@ export function AudioRouteBridge() {
       if (event instanceof KeyboardEvent && !["Enter", " "].includes(event.key)) return;
       const activity = activityFromGestureTarget(event.target);
       if (activity) {
+        // Cancel stale speech before priming the destination. The route-change
+        // effect below then preserves this new warmup using the recorded intent.
+        stopSpeech();
         markActivityAudioIntent(activity.id);
         warmAudio(activityLocale(activity.subjectId));
         return;
@@ -68,7 +72,9 @@ export function AudioRouteBridge() {
 
   useEffect(() => {
     if (previousPath.current !== pathname) {
-      stopSpeech();
+      const activityMatch = pathname.match(/^\/child\/[^/]+\/activity\/([^/]+)$/);
+      const preserveDestinationWarmup = activityMatch ? hasActivityAudioIntent(activityMatch[1]) : false;
+      if (!preserveDestinationWarmup) stopSpeech();
       previousPath.current = pathname;
     }
   }, [pathname]);
