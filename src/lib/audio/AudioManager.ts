@@ -370,7 +370,7 @@ export class AudioManager {
         rate: utterance.rate,
         textLength: 0,
         requestedAtMs: this.deps.now(),
-        warmed: this.isLocaleWarmed(lang),
+        warmed: this.isLocaleWarmed(locale),
         queueDepth: this.queue.length,
         voiceLang: utterance.voice?.lang,
         voiceLocalService: utterance.voice?.localService
@@ -480,7 +480,7 @@ export class AudioManager {
       rate: request.rate,
       textLength: request.text.length,
       requestedAtMs: request.requestedAtMs,
-      warmed: this.isLocaleWarmed(lang),
+      warmed: this.isLocaleWarmed(request.lang),
       queueDepth: this.queue.length
     });
   }
@@ -498,7 +498,7 @@ export class AudioManager {
         rate: request.rate,
         textLength: request.text.length,
         requestedAtMs: request.requestedAtMs,
-        warmed: this.isLocaleWarmed(lang),
+        warmed: this.isLocaleWarmed(request.lang),
         queueDepth: this.queue.length
       });
       this.drainQueue();
@@ -527,7 +527,7 @@ export class AudioManager {
         requestedAtMs: request.requestedAtMs,
         startedAtMs,
         startLatencyMs: Math.max(0, startedAtMs - request.requestedAtMs),
-        warmed: this.isLocaleWarmed(lang),
+        warmed: this.isLocaleWarmed(request.lang),
         queueDepth: this.queue.length,
         voiceLang: utterance.voice?.lang,
         voiceLocalService: utterance.voice?.localService
@@ -544,7 +544,7 @@ export class AudioManager {
         rate: request.rate,
         textLength: request.text.length,
         requestedAtMs: request.requestedAtMs,
-        warmed: this.isLocaleWarmed(lang),
+        warmed: this.isLocaleWarmed(request.lang),
         queueDepth: this.queue.length
       });
       this.active = null;
@@ -561,7 +561,7 @@ export class AudioManager {
         rate: request.rate,
         textLength: request.text.length,
         requestedAtMs: request.requestedAtMs,
-        warmed: this.isLocaleWarmed(lang),
+        warmed: this.isLocaleWarmed(request.lang),
         queueDepth: this.queue.length
       });
       this.active = null;
@@ -580,7 +580,7 @@ export class AudioManager {
         rate: request.rate,
         textLength: request.text.length,
         requestedAtMs: request.requestedAtMs,
-        warmed: this.isLocaleWarmed(lang),
+        warmed: this.isLocaleWarmed(request.lang),
         queueDepth: this.queue.length
       });
       this.drainQueue();
@@ -615,7 +615,7 @@ export class AudioManager {
         rate: previous.rate,
         textLength: previous.text.length,
         requestedAtMs: previous.requestedAtMs,
-        warmed: this.isLocaleWarmed(lang),
+        warmed: this.isLocaleWarmed(previous.lang),
         queueDepth: 0
       });
     }
@@ -646,7 +646,7 @@ export class AudioManager {
         rate: previous.rate,
         textLength: previous.text.length,
         requestedAtMs: previous.requestedAtMs,
-        warmed: this.isLocaleWarmed(lang),
+        warmed: this.isLocaleWarmed(previous.lang),
         queueDepth: 0
       });
     }
