@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import { Icon, type IconName } from "@/components/Icon";
-import { ACTIVITIES, SUBJECTS } from "@/lib/learning/system";
+import { SUBJECTS } from "@/lib/learning/system";
 import { rememberChild } from "@/lib/learning/entry";
 import { isMuted, setMuted, unlockAudio } from "@/lib/audio/feedback";
 import { useLearningProfile } from "./LearningCommon";
@@ -23,12 +23,11 @@ const SUBJECT_ART: Record<string, { icon?: IconName; label?: string; color: stri
 export function SubjectDirectory({ childId }: { childId?: string }) {
   return <div className={styles.subjects}>{SUBJECTS.map(subject => {
     const art=SUBJECT_ART[subject.id];
-    const count=ACTIVITIES.filter(activity=>activity.subjectId===subject.id).length;
     return <Link key={subject.id} className={styles.subject} href={childId ? `/child/${childId}/subject/${subject.id}` : `/child/select?continue=1&subject=${subject.id}`}>
       <span aria-hidden className={styles.subjectIcon} style={{"--subject-color":art?.color} as CSSProperties}>
         <LearningSymbol name={subject.id} size={36}/>
       </span>
-      <span><strong>{subject.id === "english" ? "Bahasa Inggris" : subject.title}</strong><small>{count} aktivitas</small></span>
+      <span><strong>{subject.id === "english" ? "Bahasa Inggris" : subject.title}</strong></span>
     </Link>;
   })}</div>;
 }
@@ -41,8 +40,8 @@ export function PlayroomShell({childId,children}:{childId?:string;children:React
   useEffect(()=>{ const frame=requestAnimationFrame(()=>updateMuted(isMuted())); return()=>cancelAnimationFrame(frame); },[]);
   const base=childId ? `/child/${childId}` : "";
   const items=[
-    {href:base ? `${base}/home` : "/",label:"Beranda",active:pathname==="/" || pathname===`${base}/home`},
-    {href:base ? `${base}/games` : "/games",label:"Main gerak",active:pathname.includes("/games")}
+    {href:base ? `${base}/home` : "/",label:"Belajar",active:pathname==="/" || pathname===`${base}/home`},
+    {href:base ? `${base}/games` : "/games",label:"Bermain",active:pathname.includes("/games")}
   ];
   return <div className={styles.shell}>
     {!pathname.includes("/activity/") ? <header className={styles.header}>
