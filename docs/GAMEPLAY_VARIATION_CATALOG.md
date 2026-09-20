@@ -38,20 +38,23 @@ Patterns #1–#35 remain as previously closed/merged. Latest entries:
 
 ## Current verified merged distribution
 
-Current merged-main runtime truth after Science environment-care reuse main `986c5c47e2d75366623611f323118b8013f93fe1`:
+Current merged runtime truth after the fully closed Math mixed-operation existing-mechanic reuse (PR #238 -> main `710ecdb...`, main CI #1096):
 
 ```text
 900 / 900 classified
 0 unclassified
 47 active child-facing patterns
-choice_grid                     210 / 900
+choice_grid                     179 / 900
+pattern_completion                5 / 900
+make_total                        7 / 900
+take_away                         7 / 900
 set_reasoning                    10 / 900
 spatial_relation_board           11 / 900
 compare_properties                7 / 900
 cloze_sentence_choice            10 / 900
 healthy_habit_routine             8 / 900
 elimination_board                 5 / 900
-phenomenon_relation_board         4 / 900
+phenomenon_relation_board         8 / 900
 shape_attribute_board             4 / 900
 subitizing_glance                 3 / 900
 single_rule_apply                 5 / 900
@@ -60,10 +63,13 @@ phrase_scene_match                4 / 900
 visual_word_problem               5 / 900
 reading_passage_question          5 / 900
 sentence_order_cards              5 / 900
-picture_word_match                5 / 900
+picture_word_match               23 / 900
+number_line                      11 / 900
 ```
 
-PR #221 moved exactly four audited environment-care activities from `choice_grid` to existing `healthy_habit_routine`; final PR CI #1017 and merged-main CI #1018 passed, including exact Cloudflare smoke for `986c5c47e2d75366623611f323118b8013f93fe1`. Active-pattern count remains 47. Remaining distance is **3 patterns** to the finish target of 50; no Pattern #48 is created merely to close the numeric gap.
+The active-pattern count remains 47. Pattern #48 is still not justified.
+
+The fresh Logic repeating-pattern audit is now **MERGED / LIVE VERIFIED** via PR #240 -> main `7109db41134f18884b6c08fba99ad2af997b3fed`, main CI #1100 / run `35492367065`. It approves existing `pattern_completion` reuse for exactly five activities; runtime code is not started. If implemented, expected merged distribution is `choice_grid` 174 / `pattern_completion` 10 with 47 active patterns and KEEP 900.
 
 Pattern #46 verified merged distribution:
 
@@ -467,7 +473,7 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 - Implementation wave: `WS05_NUMBER_LINE_MATH_MISSING_REUSE_WAVE_2026-09-19.md`.
 - Post-merge closure: `NUMBER_LINE_MATH_MISSING_NUMBER_REUSE_CLOSURE_2026-09-19.md`.
 - Final verification: `NUMBER_LINE_MATH_MISSING_NUMBER_REUSE_FINAL_CLOSURE_VERIFICATION_2026-09-19.md`.
-- Logic repeating-pattern -> existing `pattern_completion`: fresh exact five-ID docs-only audit on `97473569`; expected runtime `choice_grid` 174 / `pattern_completion` 10 / 47 active / KEEP 900; neighboring Logic sequence/comparison/spatial/rule families excluded; **AUDIT ACTIVE / CODE NOT STARTED / NO PATTERN #48**.
+- Logic repeating-pattern -> existing `pattern_completion`: exact five-ID audit **MERGED / LIVE VERIFIED** via PR #240 -> main `7109db41`; main CI #1100 success; expected runtime `choice_grid` 174 / `pattern_completion` 10 / 47 active / KEEP 900; neighboring Logic sequence/comparison/spatial/rule families excluded; **RUNTIME CODE NOT STARTED / NO PATTERN #48**.
 - Audit record: `PATTERN_COMPLETION_LOGIC_REPEATING_PATTERN_REUSE_AUDIT_2026-09-20.md`.
 - Continue only with justified exact scopes; reuse an existing mechanic when it already matches the evidence model.
 
