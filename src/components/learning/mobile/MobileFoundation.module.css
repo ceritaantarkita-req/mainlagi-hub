@@ -246,32 +246,7 @@
   }
 
   .routeBoundary[data-mainlagi-route-boundary="parent"] aside {
-    position: sticky;
-    top: 0;
-    z-index: 75;
-    display: flex !important;
-    width: 100%;
-    max-width: 100%;
-    min-height: calc(var(--ml-touch-min) + 12px);
-    flex-direction: row !important;
-    align-items: center;
-    gap: 6px;
-    padding: max(8px, var(--ml-safe-top)) max(10px, var(--ml-safe-right)) 8px max(10px, var(--ml-safe-left));
-    overflow-x: auto;
-    overscroll-behavior-inline: contain;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .routeBoundary[data-mainlagi-route-boundary="parent"] aside::-webkit-scrollbar {
-    display: none;
-  }
-
-  .routeBoundary[data-mainlagi-route-boundary="parent"] aside > a {
-    min-width: max-content;
-    min-height: var(--ml-touch-min);
-    flex: 0 0 auto;
-    white-space: nowrap;
+    display: none !important;
   }
 
   .routeBoundary[data-mainlagi-route-boundary="parent"] aside + div {
