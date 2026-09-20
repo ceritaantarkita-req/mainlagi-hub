@@ -1,8 +1,10 @@
 # WS-13 — Visible Matching Randomization
 
 Date: **20 September 2026**  
-Status: **IMPLEMENTATION PR / VALIDATION PENDING**  
+Status: **MERGED / LIVE VERIFIED**  
 Base: `main` = `53a5f04c6d5430f3feb6273d42f178c5419fe418`
+
+Closure: PR #247 -> `main` `61f8fb64bca412b13abd5570e3c322b2ab158c8a`; merged-main CI #1134 / run `35504645189` passed all gates including exact Cloudflare production smoke. Manual 390px review accepted both the initial randomized layout and Try Again reshuffle with no same-row answer leak.
 
 ## Scope
 
