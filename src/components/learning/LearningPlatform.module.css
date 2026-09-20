@@ -832,26 +832,80 @@
 
 .parentSurface {
   min-height: 100dvh;
-  background: #f4f7fa;
+  background:
+    radial-gradient(circle at 8% 0%, rgba(255, 229, 164, .34), transparent 24rem),
+    #f6f8f3;
   color: #1d3447;
+}
+
+.parentMobileHeader {
+  position: sticky;
+  top: 0;
+  z-index: 45;
+  display: flex;
+  min-height: 66px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px max(14px, env(safe-area-inset-left)) 10px max(14px, env(safe-area-inset-right));
+  border-bottom: 1px solid #dfe6da;
+  background: rgba(255, 254, 247, .96);
+  backdrop-filter: blur(14px);
+}
+
+.parentMobileBrand {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  color: #164b43;
+  text-decoration: none;
+  font-weight: 950;
+  letter-spacing: -.03em;
+}
+
+.parentMobileBrand small {
+  margin-top: 1px;
+  color: #70837d;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .02em;
+}
+
+.parentModeChild {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 7px;
+  padding: 0 12px;
+  border: 1px solid #d9e3d8;
+  border-radius: 14px;
+  background: white;
+  color: #315e54;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 900;
 }
 
 .parentLayout {
   min-height: 100dvh;
 }
 
+.parentContent {
+  min-width: 0;
+}
+
 .parentSidebar {
-  display: flex;
-  gap: 8px;
-  padding: 10px 12px;
-  overflow-x: auto;
-  border-bottom: 1px solid #dce5eb;
-  background: white;
-  scrollbar-width: none;
+  display: none;
+}
+
+.parentSidebarNav {
+  display: grid;
+  gap: 5px;
 }
 
 .parentBrand {
   display: none;
+  text-decoration: none;
 }
 
 .parentNavItem {
@@ -859,7 +913,7 @@
   min-height: 44px;
   flex: 0 0 auto;
   align-items: center;
-  gap: 7px;
+  gap: 9px;
   padding: 0 12px;
   border-radius: 14px;
   color: #60788a;
@@ -873,15 +927,381 @@
   color: #087d69;
 }
 
+.parentSidebarModeChild {
+  margin-top: auto;
+  border: 1px solid #dce5df;
+  background: #fffef7;
+}
+
+.parentMobileNav {
+  position: fixed;
+  z-index: 55;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 2px;
+  padding: 7px max(4px, env(safe-area-inset-right)) calc(7px + env(safe-area-inset-bottom)) max(4px, env(safe-area-inset-left));
+  border-top: 1px solid #dfe6da;
+  background: rgba(255, 254, 247, .98);
+  box-shadow: 0 -8px 28px rgba(35, 68, 79, .08);
+  backdrop-filter: blur(14px);
+}
+
+.parentMobileNavItem {
+  display: flex;
+  min-width: 0;
+  min-height: 58px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 3px;
+  border-radius: 14px;
+  color: #6a7e87;
+  text-decoration: none;
+  font-size: 9.5px;
+  font-weight: 850;
+  line-height: 1.05;
+  text-align: center;
+}
+
+.parentMobileNavItem span {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.parentMobileNavItemActive {
+  background: #e5f6f1;
+  color: #087d69;
+}
+
 .parentMain {
   width: min(1120px, 100%);
   margin: 0 auto;
-  padding: 24px 16px 60px;
+  padding: 26px 14px calc(104px + env(safe-area-inset-bottom));
 }
 
-.parentGrid {
+.parentDashboardHero {
+  display: grid;
+  gap: 18px;
+  padding: 20px;
+  border: 2px solid #dce4d8;
+  border-radius: 28px;
+  background: linear-gradient(135deg, #fffef7 0%, #eef8f0 100%);
+  box-shadow: 0 6px 0 #e2e8dc;
+}
+
+.parentDashboardHero .pageLead {
+  margin-bottom: 0;
+}
+
+.parentDashboardHero .primaryButton {
+  width: fit-content;
+}
+
+.parentDashboardSection {
+  margin-top: 28px;
+}
+
+.parentSectionHeading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.parentSectionHeading h2 {
+  margin: 2px 0 0;
+  color: #24445e;
+  font-size: 22px;
+  letter-spacing: -.02em;
+}
+
+.parentSectionHeading > a {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  color: #087d69;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.parentSectionLead {
+  margin: -4px 0 14px;
+  color: #627986;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.parentOverviewGrid,
+.parentGrid,
+.settingsGrid {
   display: grid;
   gap: 12px;
+}
+
+.parentOverviewCard {
+  min-width: 0;
+  padding: 18px;
+  border: 2px solid #dce4d8;
+  border-radius: 24px;
+  background: #fffef7;
+  box-shadow: 0 5px 0 #e4e9dc;
+}
+
+.parentOverviewHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.parentProfileIdentity {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 12px;
+}
+
+.parentProfileIdentity > div {
+  min-width: 0;
+}
+
+.parentProfileIdentity strong,
+.parentProfileIdentity h3 {
+  margin: 0;
+  color: #24445e;
+  font-size: 16px;
+}
+
+.parentProfileIdentity p {
+  margin: 4px 0 0;
+}
+
+.parentProfileIdentity small {
+  display: block;
+  margin-top: 4px;
+  color: #70837d;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.profileIdentityBadge {
+  display: grid;
+  width: 54px;
+  height: 54px;
+  flex: 0 0 54px;
+  place-items: center;
+  border: 3px solid white;
+  border-radius: 18px;
+  background: #dff3ec;
+  color: #176b5e;
+  box-shadow: 0 0 0 1px #cfe2da;
+  font-size: 22px;
+  font-weight: 950;
+}
+
+.profileIdentityBadgeLarge {
+  width: 74px;
+  height: 74px;
+  flex-basis: 74px;
+  border-radius: 24px;
+  font-size: 30px;
+}
+
+.parentProfileTitleRow {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.parentDemoBadge {
+  display: inline-flex;
+  min-height: 24px;
+  align-items: center;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: #fff0c8;
+  color: #775813;
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.parentOverviewMetrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.parentOverviewMetrics > div {
+  min-width: 0;
+  padding: 12px;
+  border-radius: 16px;
+  background: #f2f6ef;
+}
+
+.parentOverviewMetrics strong,
+.parentOverviewMetrics span {
+  display: block;
+}
+
+.parentOverviewMetrics strong {
+  color: #164b43;
+  font-size: 24px;
+  letter-spacing: -.04em;
+}
+
+.parentOverviewMetrics span {
+  margin-top: 2px;
+  color: #70837d;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.parentRecentActivity {
+  display: grid;
+  gap: 4px;
+  margin-top: 12px;
+  padding: 13px 14px;
+  border: 1px solid #e2e7dc;
+  border-radius: 17px;
+  background: white;
+}
+
+.parentRecentActivity span,
+.parentRecentActivity small {
+  color: #71837d;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.parentRecentActivity strong {
+  color: #29465d;
+  font-size: 14px;
+}
+
+.parentCardActions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.parentCardActions :is(a, button) {
+  width: 100%;
+}
+
+.parentEmptyState {
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+  border: 2px dashed #cedbd1;
+  border-radius: 22px;
+  background: rgba(255, 254, 247, .78);
+  color: #61766f;
+  line-height: 1.5;
+}
+
+.parentEmptyState p {
+  margin: 0;
+}
+
+.parentEmptyState :is(a, button) {
+  width: fit-content;
+  margin-top: 4px;
+}
+
+.parentProfileManageCard {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.parentChildHeader {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.settingsGrid {
+  margin-top: 22px;
+}
+
+.settingsCard {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+  min-width: 0;
+  padding: 18px;
+  border: 2px solid #dce4d8;
+  border-radius: 24px;
+  background: #fffef7;
+  box-shadow: 0 5px 0 #e4e9dc;
+}
+
+.settingsCard h2 {
+  margin: 2px 0 6px;
+  color: #24445e;
+  font-size: 19px;
+}
+
+.settingsCard p {
+  margin: 0;
+  color: #627986;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.settingsKicker {
+  margin: 0 !important;
+  color: #17846f !important;
+  font-size: 11px !important;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.settingsLinks {
+  display: grid;
+  gap: 8px;
+}
+
+.settingsLink,
+.settingsInfoRow {
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 11px 12px;
+  border-radius: 15px;
+  background: #f3f7f1;
+  color: #315e54;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.settingsInfoRow {
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.settingsInfoRow small {
+  color: #7a8a84;
+  font-size: 11px;
+  font-weight: 700;
 }
 
 .parentCard,
@@ -1032,12 +1452,19 @@
   }
 
   .profileGrid,
-  .parentGrid {
+  .parentGrid,
+  .parentOverviewGrid,
+  .settingsGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .activityViewport {
     padding: 28px;
+  }
+
+  .parentMobileHeader,
+  .parentMobileNav {
+    display: none;
   }
 
   .parentLayout {
@@ -1055,7 +1482,7 @@
     padding: 22px 14px;
     overflow: auto;
     border-right: 1px solid #dce5eb;
-    border-bottom: 0;
+    background: #fffef7;
   }
 
   .parentBrand {
@@ -1077,6 +1504,16 @@
     padding: 40px 28px 80px;
   }
 
+  .parentDashboardHero {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    padding: 28px;
+  }
+
+  .parentCardActions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .parentGridThree {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -1088,6 +1525,10 @@
   }
 
   .stageGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .settingsGrid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
