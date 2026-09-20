@@ -69,6 +69,7 @@
     "src/lib/learning/attempts.ts",
     "src/lib/learning/progression.ts",
     "src/lib/learning/system.ts",
+    "src/lib/learning/activityVisualTheme.ts",
     "src/lib/learning/coloringScenes.ts",
     "src/lib/learning/drawingGuides.ts",
     "src/lib/learning/entry.ts",
