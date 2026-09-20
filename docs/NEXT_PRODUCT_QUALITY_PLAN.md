@@ -139,19 +139,19 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 
 | Workstream | Status | Current note |
 |---|---|---|
-| WS-01 Canonical docs | **CURRENT** | Pattern #47 closure verified; Pattern #48 no-candidate audit current |
-| WS-02 Voice & narration | **ACTIVE NEXT** | reduce first-instruction latency; improve English voice quality; evaluate cached/pre-generated production narration with browser TTS fallback |
-| WS-03 Public/parent frontend | **REOPENED BY USER ACCEPTANCE** | parent/profile/settings responsive UX, information architecture and child/parent boundary need another pass |
+| WS-01 Canonical docs | **CURRENT / SYNCING** | 20 Sep current-state sync after parent wave; Pattern #48 remains unjustified |
+| WS-02 Voice & narration | **LATENCY WAVE LIVE VERIFIED / QUALITY LATER** | first-instruction latency/preload closed; English voice quality and reviewed production narration remain later work |
+| WS-03 Public/parent frontend | **PARENT WAVE LIVE VERIFIED** | PR #251 -> `77bee682...`; <760px mobile nav / >=760px sidebar; family/demo and profile/guide separation preserved |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **47 ACTIVE / LOGIC PATTERN-COMPLETION REUSE AUDIT ACTIVE** | docs-only exact 5-ID Logic repeating-pattern audit -> existing `pattern_completion`; baseline remains 900/900 / `choice_grid` 179 / `pattern_completion` 5 / KEEP 900; expected runtime 174 / 10 / 47 active; Pattern #48 still unjustified |
+| WS-05 Gameplay diversification | **47 ACTIVE / LOGIC AUDIT LIVE VERIFIED / RUNTIME NOT STARTED** | PR #240 -> `7109db41...`, CI #1100; exact 5-ID reuse of existing `pattern_completion`; baseline 900/900 / `choice_grid` 179 / `pattern_completion` 5 / KEEP 900; expected runtime 174 / 10 / 47 active; no Pattern #48 |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
-| WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P45 merged-main permanent visual QA green; nine dedicated screenshots manually accepted |
-| WS-09 Stage/gallery UX | **REOPENED BY USER ACCEPTANCE** | gallery previews, density, grouping and QA access need redesign |
+| WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | 21-route/63-capture baseline stays blocking; parent responsive artifact/manual review accepted; character production is next visual wave |
+| WS-09 Stage/gallery UX | **CURRENT WAVE MERGED** | gallery hierarchy + isolated QA unlock merged; progression/evidence boundaries remain unchanged |
 | WS-10 External acceptance | TODO | real devices, accessibility, Iqro expert |
 | WS-11 Governance | TODO | required checks/review discipline |
 | WS-12 Technical cleanup | TODO LATER | after gameplay/product priorities |
-| WS-13 Product UX coherence | **ACTIVE NEXT** | canonical UI ownership, five-character hero, 3-column subject directory, shared completion, matching shuffle, console-warning cleanup; see `PRODUCT_UX_NEXT_WORK_2026-09-20.md` |
+| WS-13 Product UX coherence | **CHARACTER PRODUCTION NEXT** | canonical audit, child home/directory, gallery, completion, matching, audio latency and parent wave complete; next = Art Bible character spec + Naya/Gian/Zia production assets |
 
 ## Verified merged gameplay baseline
 
