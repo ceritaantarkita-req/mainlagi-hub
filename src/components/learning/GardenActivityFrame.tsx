@@ -3,8 +3,9 @@
 
 import Link from "next/link";
 import { ArrowLeft, SpeakerHigh } from "@phosphor-icons/react";
-import { useState, type ReactNode } from "react";
+import { useState, type CSSProperties, type ReactNode } from "react";
 import { speakWithStatus, unlockAudio } from "@/lib/audio/feedback";
+import { useActivityVisualTheme } from "./ActivityVisualThemeProvider";
 import styles from "./GardenActivityFrame.module.css";
 
 /** Presentation only: completion and evidence stay with each activity runtime. */
@@ -13,6 +14,13 @@ export function GardenActivityFrame({ backHref, title, narration, lang = "id-ID"
   onHear?: () => void; hint?: string; children: ReactNode; spacious?: boolean; workspace?: boolean;
 }) {
   const [audioNotice, setAudioNotice] = useState<string | null>(null);
+  const visualTheme = useActivityVisualTheme();
+  const runtimeAssets = visualTheme?.scene.runtimeAssets;
+  const sceneStyle = runtimeAssets ? ({
+    "--ml-scene-wide": `url("${runtimeAssets.wideSrc}")`,
+    "--ml-scene-mobile": `url("${runtimeAssets.mobileSrc}")`,
+    "--ml-scene-color": visualTheme.scene.fallbackColor
+  } as CSSProperties) : undefined;
   const hear = () => {
     if (onHear) { onHear(); return; }
     unlockAudio(lang);
@@ -23,7 +31,15 @@ export function GardenActivityFrame({ backHref, title, narration, lang = "id-ID"
         ? "Narasi Bahasa Indonesia belum tersedia di browser atau perangkat ini. Petunjuknya tetap bisa dibaca bersama."
         : "Narasi belum tersedia di browser atau perangkat ini. Petunjuknya tetap bisa dibaca bersama.");
   };
-  return <main className={`${styles.garden} ${workspace ? styles.workspace : ""}`} data-activity-frame="garden">
+  return <main
+    className={`${styles.garden} ${runtimeAssets ? styles.themedScene : ""} ${workspace ? styles.workspace : ""}`}
+    style={sceneStyle}
+    data-activity-frame="garden"
+    data-subject-theme={visualTheme?.subjectId}
+    data-scene-variant={visualTheme?.scene.id}
+    data-scene-source={visualTheme?.source}
+    data-scene-assets={runtimeAssets ? "approved" : "fallback"}
+  >
     <header className={styles.header}>
       <Link href={backHref} className={styles.control} aria-label="Kembali"><ArrowLeft size={25} weight="bold" aria-hidden/><span>Kembali</span></Link>
       <img className={styles.brand} src="/artwork/garden-wordmark.webp" alt="Mainlagi" width={600} height={220}/>

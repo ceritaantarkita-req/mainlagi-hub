@@ -1,4 +1,6 @@
 .garden { position:relative; isolation:isolate; min-height:100dvh; background:#d5eef6 url('/artwork/garden-background.webp') center bottom / cover no-repeat; color:#193b55; padding:24px max(24px,env(safe-area-inset-right)) 100px max(24px,env(safe-area-inset-left)); font-family:'Nunito Variable','Noto Sans Variable',sans-serif; }
+.themedScene { background-color:var(--ml-scene-color,#d5eef6); background-image:var(--ml-scene-wide); background-position:center bottom; background-size:cover; background-repeat:no-repeat; }
+
 .header { max-width:1320px; margin:auto; display:flex; align-items:center; justify-content:space-between; gap:14px; }
 .brand { width:220px; height:80px; object-fit:contain; }
 .control { display:inline-flex; align-items:center; justify-content:center; gap:12px; background:#fffbed; color:#193b55; border:2px solid #e2dfc5; border-radius:999px; padding:12px 22px; min-height:58px; font-weight:900; font-size:19px; box-shadow:0 4px 0 #bbcdce; text-decoration:none; }
@@ -27,6 +29,7 @@
 @media(min-width:1100px) { .play { width:min(800px,64%); } }
 @media(max-width:760px) {
  .garden { padding:16px 16px 145px; background-size:auto 100%; }
+ .themedScene { background-image:var(--ml-scene-mobile); background-position:center bottom; background-size:cover; }
  .header { gap:8px; } .brand { width:112px; height:44px; }
  .control { font-size:15px; min-height:48px; gap:6px; padding:9px 12px; } .control svg { width:20px; }
  .play,.spacious { margin-top:36px; } .title { letter-spacing:-.6px; margin-bottom:24px; }

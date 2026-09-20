@@ -1,3 +1,4 @@
+import { ActivityVisualThemeProvider } from "@/components/learning/ActivityVisualThemeProvider";
 import { AudioChoiceLearningActivity } from "@/components/learning/AudioChoiceLearningActivity";
 import { CauseEffectActivity } from "@/components/learning/CauseEffectActivity";
 import { ClozeSentenceChoiceActivity } from "@/components/learning/ClozeSentenceChoiceActivity";
@@ -80,6 +81,7 @@ import { isSentenceOrderCardsActivity } from "@/lib/learning/sentenceOrderCardsC
 import { isSingleRuleApplyActivity } from "@/lib/learning/singleRuleApplyConfig";
 import { isSubitizingGlanceActivity } from "@/lib/learning/subitizingGlanceConfig";
 import { isSpatialRelationBoardActivity } from "@/lib/learning/spatialRelationBoardConfig";
+import { resolveActivityVisualTheme } from "@/lib/learning/activityVisualTheme";
 import { getActivity } from "@/lib/learning/system";
 import { isVisualWordProblemActivity } from "@/lib/learning/visualWordProblemConfig";
 import styles from "./ActivityPage.module.css";
@@ -88,9 +90,11 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
   const { childId, activity } = await params;
   const definition = getActivity(activity);
   const runtime = String(definition?.runtime ?? "");
+  const visualTheme = resolveActivityVisualTheme(definition);
 
   return (
-    <div className={styles.immersive}>
+    <ActivityVisualThemeProvider visualTheme={visualTheme}>
+      <div className={styles.immersive}>
       {activity === "math-trace-5-touch" ? (
         <MathTraceWorldActivity childId={childId} />
       ) : runtime === "drawing" || runtime === "coloring" ? (
@@ -178,6 +182,7 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
       ) : (
         <WorldActivityScreen childId={childId} activityId={activity} />
       )}
-    </div>
+      </div>
+    </ActivityVisualThemeProvider>
   );
 }
