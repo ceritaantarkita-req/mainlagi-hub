@@ -31,9 +31,9 @@ type StageJourneyItem = {
 
 function ActivityPreview({ activity }: { activity: LearningActivity }) {
   if (activity.runtime === "coloring" || drawingGuide(activity.id)) {
-    return <img src={`/artwork/activity-previews/${activity.id}.webp`} width={480} height={360} alt="" loading="lazy" />;
+    return <img data-preview-kind="art" src={`/artwork/activity-previews/${activity.id}.webp`} width={480} height={360} alt="" loading="lazy" />;
   }
-  if (activity.traceGlyph) return <div className={styles.tracePreview} aria-hidden>{activity.traceGlyph}</div>;
+  if (activity.traceGlyph) return <div className={styles.tracePreview} data-preview-kind="trace" aria-hidden>{activity.traceGlyph}</div>;
 
   const PreviewIcon = activity.runtime === "drawing"
     ? PencilLine
@@ -48,7 +48,7 @@ function ActivityPreview({ activity }: { activity: LearningActivity }) {
             : Play;
 
   return (
-    <div className={styles.picturePreview} aria-hidden>
+    <div className={styles.picturePreview} data-preview-kind="picture" aria-hidden>
       <span className={styles.activityEmoji}>{activity.emoji}</span>
       <span className={styles.previewIcon}><PreviewIcon size={34} weight="duotone" /></span>
     </div>
