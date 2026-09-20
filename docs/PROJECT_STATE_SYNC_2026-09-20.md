@@ -24,7 +24,7 @@ Cloudflare exact-SHA production smoke: PASS
 Responsive QA artifact:                10608044389
 ```
 
-The docs-only `a04bd51...` main run is CI #1162 / run `35521404941`; it was still in progress when this synchronization branch was opened. Do not treat that pending docs-only run as evidence of a runtime regression. Runtime behavior at `77bee682...` is independently live verified.
+The docs-only `a04bd51...` main run is CI #1162 / run `35521404941`; it later completed successfully as CI #1162 / run `35521404941`. Runtime behavior at `77bee682...` remains independently live verified by CI #1160, while the docs-only closure main is independently green as well.
 
 Canonical production path remains:
 
