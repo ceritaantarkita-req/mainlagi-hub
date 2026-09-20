@@ -3,7 +3,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from "react";
 
 import { GAME_LIST } from "@/lib/data/games";
 import {
@@ -27,10 +27,12 @@ import {
 } from "@/lib/learning/system";
 import { getLearningPathsForSubject, getLessonsForStage } from "@/lib/learning/curriculum";
 import { getNextBestLearningRecommendation } from "@/lib/learning/insights";
+import { buildMatchingColumns, nextDistinctMatchingSeed } from "@/lib/learning/matchingLayout";
 import { CharacterAvatar, CharacterGroup, ChildLoading, useLearningProfile, useLearningProgress } from "./LearningCommon";
 import { useLearningAnalytics } from "./useLearningAnalytics";
 import styles from "./LearningPlatform.module.css";
 import { GardenActivityFrame } from "./GardenActivityFrame";
+import { ActivityCompletion } from "./ActivityCompletion";
 
 function coreActivities(activities: LearningActivity[]) {
   return activities.filter((activity) => !activity.motionOptional && activity.runtime !== "motion_game");
@@ -178,10 +180,114 @@ function ChoiceActivity({ childId, activity, onDone }: { childId: string; activi
   </>;
 }
 
+function clientMatchingSeed() {
+  const values = new Uint32Array(1);
+  crypto.getRandomValues(values);
+  return values[0] || 1;
+}
+
 function MatchingActivity({ childId, activity, onDone }: { childId: string; activity: LearningActivity; onDone: (value: LearningProgress) => void }) {
-  const items = activity.matchItems ?? []; const [selected, setSelected] = useState<number | null>(null); const [matched, setMatched] = useState<number[]>([]); const [message, setMessage] = useState("Pilih dua kartu yang cocok.");
-  const pick = (index: number) => { if (matched.includes(index)) return; if (selected === null) { setSelected(index); return; } if (selected === index) { setSelected(null); return; } if (items[selected]?.pair === items[index]?.pair) { const next = [...matched, selected, index]; setMatched(next); setSelected(null); setMessage("Cocok! Lanjutkan."); if (next.length === items.length) onDone(completeActivity(childId, activity.id)); } else { setSelected(null); setMessage("Belum cocok. Coba pasangan lain."); } };
-  return <><h1 className={styles.activityPrompt}>{activity.prompt ?? "Pasangkan kartu"}</h1><div className={styles.matchGrid}>{items.map((item, index) => <button type="button" className={`${styles.matchButton} ${selected === index ? styles.matchSelected : ""} ${matched.includes(index) ? styles.matchDone : ""}`} aria-pressed={selected === index} disabled={matched.includes(index)} onClick={() => pick(index)} key={`${item.label}-${index}`}>{matched.includes(index) ? "✓ " : ""}{item.label}</button>)}</div><div role="status" className={matched.length === items.length ? styles.feedbackGood : styles.infoBanner}>{message}</div></>;
+  const items = activity.matchItems ?? [];
+  const [seed, setSeed] = useState<number | null>(null);
+  const [selected, setSelected] = useState<{ id: string; side: "left" | "right" } | null>(null);
+  const [matched, setMatched] = useState<string[]>([]);
+  const [completed, setCompleted] = useState(false);
+  const [message, setMessage] = useState("Pilih satu kartu di kiri, lalu cari pasangannya di kanan.");
+
+  useEffect(() => {
+    setSeed(clientMatchingSeed());
+    setSelected(null);
+    setMatched([]);
+    setCompleted(false);
+    setMessage("Pilih satu kartu di kiri, lalu cari pasangannya di kanan.");
+  }, [activity.id]);
+
+  const layout = useMemo(() => seed === null ? null : buildMatchingColumns(items, seed), [items, seed]);
+  const cards = useMemo(() => layout ? [...layout.left, ...layout.right] : [], [layout]);
+
+  const pick = (id: string, side: "left" | "right") => {
+    if (matched.includes(id) || completed) return;
+    if (selected === null) {
+      setSelected({ id, side });
+      return;
+    }
+    if (selected.id === id) {
+      setSelected(null);
+      return;
+    }
+    if (selected.side === side) return;
+
+    const first = cards.find((card) => card.id === selected.id);
+    const second = cards.find((card) => card.id === id);
+    if (!first || !second) {
+      setSelected(null);
+      return;
+    }
+
+    if (first.pair === second.pair) {
+      const next = [...matched, first.id, second.id];
+      setMatched(next);
+      setSelected(null);
+      if (next.length === items.length) {
+        setCompleted(true);
+        setMessage("Semua pasangan cocok!");
+        onDone(completeActivity(childId, activity.id));
+      } else {
+        setMessage("Cocok! Cari pasangan berikutnya.");
+      }
+      return;
+    }
+
+    setSelected(null);
+    setMessage("Belum cocok. Coba pasangan lain.");
+  };
+
+  const retry = () => {
+    setSelected(null);
+    setMatched([]);
+    setCompleted(false);
+    setMessage("Susunannya berubah. Cari pasangan baru.");
+    setSeed((current) => nextDistinctMatchingSeed(items, current ?? 1));
+  };
+
+  if (!layout) {
+    return <><h1 className={styles.activityPrompt}>{activity.prompt ?? "Pasangkan kartu"}</h1><div className={styles.infoBanner} role="status">Menyiapkan kartu…</div></>;
+  }
+
+  const renderColumn = (side: "left" | "right", column: typeof layout.left) => (
+    <div className={styles.matchColumn} data-match-column={side}>
+      {column.map((item) => {
+        const isSelected = selected?.id === item.id;
+        const isMatched = matched.includes(item.id);
+        const wrongSideLocked = selected !== null && selected.side === side && !isSelected;
+        return (
+          <button
+            type="button"
+            data-match-card
+            data-source-index={item.sourceIndex}
+            className={`${styles.matchButton} ${isSelected ? styles.matchSelected : ""} ${isMatched ? styles.matchDone : ""}`}
+            aria-pressed={isSelected}
+            disabled={isMatched || completed || wrongSideLocked}
+            onClick={() => pick(item.id, side)}
+            key={item.id}
+          >
+            {isMatched ? "✓ " : ""}{item.label}
+          </button>
+        );
+      })}
+    </div>
+  );
+
+  return <>
+    <h1 className={styles.activityPrompt}>{activity.prompt ?? "Pasangkan kartu"}</h1>
+    <p className={styles.matchHint}>{layout.left.length} pasangan · kiri ↔ kanan</p>
+    <div className={styles.matchGrid} data-visible-matching data-pair-count={layout.left.length}>
+      {renderColumn("left", layout.left)}
+      {renderColumn("right", layout.right)}
+    </div>
+    <div role="status" className={completed ? styles.feedbackGood : styles.infoBanner}>{message}</div>
+    {completed ? <ActivityCompletion childId={childId} activity={activity} onTryAgain={retry} /> : null}
+  </>;
 }
 
 function TraceActivity({ childId, activity, onDone }: { childId: string; activity: LearningActivity; onDone: (value: LearningProgress) => void }) {
@@ -221,7 +327,7 @@ export function ActivityScreen({ childId, activityId }: { childId: string; activ
     {activity.runtime === "coloring" ? <ColoringActivity childId={childId} activity={activity} onDone={setProgress} /> : null}
     {activity.runtime === "story" ? <StoryActivity childId={childId} activity={activity} onDone={setProgress} /> : null}
     {activity.runtime === "motion_game" ? <MotionActivity childId={childId} activity={activity} /> : null}
-    {done && activity.runtime !== "motion_game" ? <Link className={styles.secondaryButton} href={`/child/${childId}/subject/${activity.subjectId}`}>Pilih permainan lain</Link> : null}
+    {done && activity.runtime !== "motion_game" && activity.runtime !== "matching" ? <Link className={styles.secondaryButton} href={`/child/${childId}/subject/${activity.subjectId}`}>Pilih permainan lain</Link> : null}
   </GardenActivityFrame>;
 }
 
