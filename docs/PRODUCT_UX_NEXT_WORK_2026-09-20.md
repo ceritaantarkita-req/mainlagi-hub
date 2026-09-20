@@ -1,7 +1,7 @@
 # Mainlagi — Product UX Next Work
 
 Date: **20 September 2026**  
-Status: **ACTIVE ROADMAP / P0 THROUGH PARENT WAVE LIVE VERIFIED / CHARACTER PRODUCTION NEXT**  
+Status: **ACTIVE ROADMAP / P0 THROUGH PARENT WAVE LIVE VERIFIED / CHARACTER + BACKGROUND ASSET REVIEW ACTIVE**  
 Current synchronized baseline: `main` = `a04bd51fb02dedf56b5cd62f7f579eb53c4be251`; latest independently live-verified runtime/product main = `77bee682f84b5d68b85d2c91b1d6f2ca4c93d2d9` (CI #1160).
 
 This document is the short human/AI handoff for the next Mainlagi product-quality wave. It records the user-accepted UX direction without changing curriculum, mastery, evidence, progression, or the active WS-05 gameplay audit.
