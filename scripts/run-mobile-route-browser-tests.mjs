@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { mkdirSync, rmSync } from "node:fs";
+import { mkdirSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
@@ -81,6 +81,7 @@ const SCREENSHOTS = new Set([
 
 let server = null;
 let serverLog = "";
+const browserWarnings = new Map();
 
 function slug(value) {
   return value.replace(/^\//, "").replace(/[^a-zA-Z0-9_-]+/g, "-") || "root";
@@ -125,9 +126,11 @@ function stopServer() {
 
 async function inspectPage(page, route, viewport) {
   let consoleErrors = [];
+  let consoleWarnings = [];
   let pageErrors = [];
   const onConsole = (message) => {
     if (message.type() === "error") consoleErrors.push(message.text());
+    if (message.type() === "warning") consoleWarnings.push(message.text());
   };
   const onPageError = (error) => pageErrors.push(error.message);
   page.on("console", onConsole);
@@ -207,6 +210,13 @@ async function inspectPage(page, route, viewport) {
 
     assert.deepEqual(pageErrors, [], `${route.path} raised page errors at ${viewport.width}px: ${pageErrors.join(" | ")}`);
     assert.deepEqual(consoleErrors, [], `${route.path} logged console errors at ${viewport.width}px: ${consoleErrors.join(" | ")}`);
+
+    for (const message of [...new Set(consoleWarnings)]) {
+      const key = `${route.path}\u0000${message}`;
+      const existing = browserWarnings.get(key) ?? { route: route.path, message, viewports: [] };
+      if (!existing.viewports.includes(viewport.width)) existing.viewports.push(viewport.width);
+      browserWarnings.set(key, existing);
+    }
 
     if (SCREENSHOTS.has(`${viewport.width}:${route.path}`)) {
       await page.screenshot({
@@ -363,6 +373,15 @@ async function main() {
     await browser.close();
   }
 
+  const warningEvidence = [...browserWarnings.values()]
+    .map((item) => ({ ...item, viewports: [...item.viewports].sort((a, b) => a - b) }))
+    .sort((a, b) => a.route.localeCompare(b.route) || a.message.localeCompare(b.message));
+  writeFileSync(
+    path.join(screenshotDir, "browser-warnings.json"),
+    `${JSON.stringify({ generatedAt: new Date().toISOString(), count: warningEvidence.length, warnings: warningEvidence }, null, 2)}\n`
+  );
+
+  console.log(`Browser warning inventory: ${warningEvidence.length} unique route/message exposure(s). Evidence: ${path.join(screenshotDir, "browser-warnings.json")}`);
   console.log(`Mainlagi browser mobile route QA passed ${ROUTES.length} canonical routes across ${VIEWPORTS.length} viewport widths, ${RUNTIME_ROUTES.length} runtime representatives at phone extremes, and ${BATCH16_ACCESSIBILITY_ROUTES.length} reduced-motion/accessibility/lazy-load representatives.`);
 }
 
