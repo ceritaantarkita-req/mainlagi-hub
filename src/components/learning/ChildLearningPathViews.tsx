@@ -182,7 +182,7 @@ export function ChildHomeScreen({ childId }: { childId: string }) {
   );
 }
 
-export function SubjectScreen({ childId, subjectId }: { childId: string; subjectId: string }) {
+export function SubjectScreen({ childId, subjectId, qaUnlockAll = false }: { childId: string; subjectId: string; qaUnlockAll?: boolean }) {
   const profile = useLearningProfile(childId);
   const progress = useLearningProgress(childId);
   const analytics = useLearningAnalytics(childId);
@@ -191,7 +191,9 @@ export function SubjectScreen({ childId, subjectId }: { childId: string; subject
 
   const readiness = getSubjectStageReadiness(subject.id, progress, analytics);
   const totalActivities = ACTIVITIES.filter((activity) => activity.subjectId === subject.id);
-  const openStageIds = new Set(readiness.filter((row) => row.status !== "locked").map((row) => row.stageId));
+  const openStageIds = new Set(
+    (qaUnlockAll ? readiness : readiness.filter((row) => row.status !== "locked")).map((row) => row.stageId)
+  );
   const recommendation = adaptiveTop({ age: profile.age, progress, analytics, subjectId: subject.id });
   const stageJourney = readiness.map((row) => ({
     ...row,
@@ -208,6 +210,7 @@ export function SubjectScreen({ childId, subjectId }: { childId: string; subject
       age={profile.age}
       stageJourney={stageJourney}
       recommendedActivityId={recommendation?.activity.id ?? null}
+      qaUnlockAll={qaUnlockAll}
     />
   );
 }

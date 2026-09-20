@@ -31,16 +31,10 @@ type StageJourneyItem = {
 
 function ActivityPreview({ activity }: { activity: LearningActivity }) {
   if (activity.runtime === "coloring" || drawingGuide(activity.id)) {
-    return <img src={`/artwork/activity-previews/${activity.id}.webp`} width={480} height={360} alt="" loading="lazy" />;
+    return <img data-preview-kind="art" src={`/artwork/activity-previews/${activity.id}.webp`} width={480} height={360} alt="" loading="lazy" />;
   }
-  const values = activity.runtime === "matching"
-    ? (activity.matchItems ?? []).slice(0, 4).map((item) => item.label)
-    : activity.choices?.slice(0, 3) ?? [];
-  const shortValues = values.every((value) => value.length <= 12);
-  if (values.length && shortValues) {
-    return <div className={styles.taskPreview} data-kind={activity.runtime} aria-hidden>{values.map((value, i) => <span key={i}>{value}</span>)}</div>;
-  }
-  if (activity.traceGlyph) return <div className={styles.tracePreview} aria-hidden>{activity.traceGlyph}</div>;
+  if (activity.traceGlyph) return <div className={styles.tracePreview} data-preview-kind="trace" aria-hidden>{activity.traceGlyph}</div>;
+
   const PreviewIcon = activity.runtime === "drawing"
     ? PencilLine
     : activity.runtime === "story"
@@ -52,15 +46,17 @@ function ActivityPreview({ activity }: { activity: LearningActivity }) {
           : activity.runtime === "listen_and_choose"
             ? Headphones
             : Play;
+
   return (
-    <div className={styles.picturePreview} aria-hidden>
-      <img src={`/artwork/${activity.subjectId === "math" ? "garden-apple" : activity.runtime === "story" ? "garden-gavi" : "garden-paca"}.webp`} width={180} height={180} alt="" loading="lazy" />
-      <PreviewIcon size={42} weight="duotone" />
+    <div className={styles.picturePreview} data-preview-kind="picture" aria-hidden>
+      <span className={styles.activityEmoji}>{activity.emoji}</span>
+      <span className={styles.previewIcon}><PreviewIcon size={34} weight="duotone" /></span>
     </div>
   );
 }
 
-function stageStatusLabel(stage: StageJourneyItem) {
+function stageStatusLabel(stage: StageJourneyItem, qaUnlockAll: boolean) {
+  if (qaUnlockAll) return "QA terbuka";
   if (stage.status === "locked") return "Belum terbuka";
   if (stage.status === "ready") return "Siap lanjut";
   if (stage.status === "evidence_needed") return "Latihan lagi";
@@ -75,7 +71,8 @@ export function ActivityGallery({
   openStageIds,
   age,
   stageJourney,
-  recommendedActivityId
+  recommendedActivityId,
+  qaUnlockAll = false
 }: {
   childId: string;
   subject: LearningSubject;
@@ -85,6 +82,7 @@ export function ActivityGallery({
   age: number;
   stageJourney: StageJourneyItem[];
   recommendedActivityId?: string | null;
+  qaUnlockAll?: boolean;
 }) {
   const [notice, setNotice] = useState<string | null>(null);
   const noticeRef = useRef<HTMLDialogElement>(null);
@@ -92,15 +90,38 @@ export function ActivityGallery({
     if (notice && !noticeRef.current?.open) noticeRef.current?.showModal();
   }, [notice]);
 
-  const isPlayable = (activity: LearningActivity) => openStageIds.has(activity.stageId) && age >= activity.ageMin && age <= activity.ageMax;
+  const isPlayable = (activity: LearningActivity) =>
+    qaUnlockAll || (openStageIds.has(activity.stageId) && age >= activity.ageMin && age <= activity.ageMax);
+
   const playableActivities = activities.filter(isPlayable);
   const unavailableActivities = activities.filter((activity) => !isPlayable(activity));
   const recommendedActivity = playableActivities.find((activity) => activity.id === recommendedActivityId) ?? playableActivities[0] ?? null;
   const toneById = new Map(activities.map((activity, index) => [activity.id, index % 5]));
+  const stageMeta = new Map(stageJourney.map((stage, index) => [stage.stageId, { ...stage, index }]));
+
+  const groupByStage = (items: LearningActivity[]) => {
+    const grouped = new Map<string, LearningActivity[]>();
+    for (const activity of items) {
+      const list = grouped.get(activity.stageId) ?? [];
+      list.push(activity);
+      grouped.set(activity.stageId, list);
+    }
+    return [...grouped.entries()]
+      .map(([stageId, stageActivities]) => ({
+        stageId,
+        title: stageMeta.get(stageId)?.title ?? "Permainan lainnya",
+        index: stageMeta.get(stageId)?.index ?? Number.MAX_SAFE_INTEGER,
+        activities: stageActivities
+      }))
+      .sort((a, b) => a.index - b.index || a.title.localeCompare(b.title));
+  };
+
+  const playableGroups = groupByStage(playableActivities);
+  const unavailableGroups = groupByStage(unavailableActivities);
 
   const renderActivity = (activity: LearningActivity) => {
-    const unlocked = openStageIds.has(activity.stageId);
-    const eligible = age >= activity.ageMin && age <= activity.ageMax;
+    const unlocked = qaUnlockAll || openStageIds.has(activity.stageId);
+    const eligible = qaUnlockAll || (age >= activity.ageMin && age <= activity.ageMax);
     const playable = unlocked && eligible;
     const done = progress.completedActivityIds.includes(activity.id);
     const recommended = playable && activity.id === recommendedActivity?.id;
@@ -146,17 +167,39 @@ export function ActivityGallery({
     );
   };
 
+  const renderGroups = (groups: ReturnType<typeof groupByStage>) => (
+    <div className={styles.groupList}>
+      {groups.map((group) => (
+        <section className={styles.activityGroup} key={group.stageId} data-activity-stage-group={group.stageId}>
+          <div className={styles.groupHead}>
+            <h3>{group.title}</h3>
+            <span>{group.activities.length} permainan</span>
+          </div>
+          <div className={styles.grid}>
+            {group.activities.map(renderActivity)}
+          </div>
+        </section>
+      ))}
+    </div>
+  );
+
   return (
     <main className={styles.page}>
-      <Link className={styles.back} href={`/child/${childId}/home#choose-subject`}><ArrowLeft size={24} weight="bold" aria-hidden />Beranda</Link>
+      <Link className={styles.back} href={`/child/${childId}/home#choose-subject`}><ArrowLeft size={24} weight="bold" aria-hidden />Belajar</Link>
 
       <header className={styles.heading}>
         <div>
           <h1>{subject.id === "english" ? "Bahasa Inggris" : subject.title}</h1>
-          <p>Lanjutkan perjalananmu, lalu pilih permainan yang sudah terbuka.</p>
+          <p>Pilih tahap, lalu mainkan aktivitas yang sedang terbuka.</p>
         </div>
         <span aria-label={`${activities.length} aktivitas`}>{activities.length} permainan</span>
       </header>
+
+      {qaUnlockAll ? (
+        <div className={styles.qaBanner} data-qa-unlock-all role="status">
+          QA unlock-all aktif untuk demo lokal. Progression produk tidak diubah.
+        </div>
+      ) : null}
 
       <dialog ref={noticeRef} className={styles.notice} aria-labelledby="activity-availability-title" onClose={() => setNotice(null)}>
         <h2 id="activity-availability-title">Ikuti perjalanan belajarmu</h2>
@@ -189,13 +232,13 @@ export function ActivityGallery({
             {stageJourney.map((stage, index) => {
               const body = <>
                 <span className={styles.stageNumber}>{index + 1}</span>
-                <span className={styles.stageCopy}><strong>{stage.title}</strong><small>{stageStatusLabel(stage)}</small></span>
-                {stage.status === "locked" ? <LockKey size={18} weight="fill" aria-hidden /> : <Play size={17} weight="fill" aria-hidden />}
+                <span className={styles.stageCopy}><strong>{stage.title}</strong><small>{stageStatusLabel(stage, qaUnlockAll)}</small></span>
+                {stage.status === "locked" && !qaUnlockAll ? <LockKey size={18} weight="fill" aria-hidden /> : <Play size={17} weight="fill" aria-hidden />}
               </>;
-              return stage.status === "locked" ? (
+              return stage.status === "locked" && !qaUnlockAll ? (
                 <span className={`${styles.stageCard} ${convergence.stageCard}`} data-status="locked" data-stage-journey-item key={stage.stageId} aria-label={`${stage.title}, belum terbuka`}>{body}</span>
               ) : (
-                <Link className={`${styles.stageCard} ${convergence.stageCard}`} data-status={stage.status} data-stage-journey-item key={stage.stageId} href={`/child/${childId}/stage/${stage.stageId}`}>{body}</Link>
+                <Link className={`${styles.stageCard} ${convergence.stageCard}`} data-status={qaUnlockAll ? "qa-open" : stage.status} data-stage-journey-item key={stage.stageId} href={`/child/${childId}/stage/${stage.stageId}`}>{body}</Link>
               );
             })}
           </nav>
@@ -205,25 +248,25 @@ export function ActivityGallery({
       <section className={styles.activitySection} data-activity-gallery>
         <div className={styles.sectionHead}>
           <div>
-            <h2>Bisa dimainkan sekarang</h2>
-            <p>{playableActivities.length} permainan sesuai perjalanan dan usia saat ini.</p>
+            <h2>{qaUnlockAll ? "Semua permainan untuk QA" : "Bisa dimainkan sekarang"}</h2>
+            <p>{qaUnlockAll ? "Seluruh katalog dibuka hanya untuk inspeksi demo lokal." : `${playableActivities.length} permainan sesuai perjalanan dan usia saat ini.`}</p>
           </div>
         </div>
 
         {playableActivities.length ? (
-          <div className={styles.grid} data-playable-activity-gallery aria-label={`Aktivitas ${subject.title} yang bisa dimainkan sekarang`}>
-            {playableActivities.map(renderActivity)}
+          <div data-playable-activity-gallery aria-label={`Aktivitas ${subject.title} yang bisa dimainkan sekarang`}>
+            {renderGroups(playableGroups)}
           </div>
         ) : (
-          <div className={styles.emptyState}>Belum ada permainan yang terbuka untuk usia ini. Kembali ke Beranda untuk melihat saran belajar.</div>
+          <div className={styles.emptyState}>Belum ada permainan yang terbuka untuk usia ini. Kembali ke Belajar untuk melihat saran berikutnya.</div>
         )}
 
         {unavailableActivities.length ? (
           <details className={styles.browseAll}>
             <summary>Lihat semua {activities.length} permainan <span>({unavailableActivities.length} lainnya)</span></summary>
             <p className={styles.browseHint}>Permainan bertanda kunci akan terbuka mengikuti perjalanan belajar atau rentang usia.</p>
-            <div className={styles.grid} data-all-activity-gallery aria-label={`Aktivitas ${subject.title} lainnya`}>
-              {unavailableActivities.map(renderActivity)}
+            <div data-all-activity-gallery aria-label={`Aktivitas ${subject.title} lainnya`}>
+              {renderGroups(unavailableGroups)}
             </div>
           </details>
         ) : null}

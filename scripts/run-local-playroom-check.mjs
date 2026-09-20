@@ -25,7 +25,7 @@ assert.equal(childDestination("test","color"),"/child/test/subject/color");
 assert.equal(childDestination("../escape","color"),"/child/..%2Fescape/subject/color");
 
 let log="";
-const server=spawn(process.execPath,["node_modules/next/dist/bin/next","start","-H","127.0.0.1","-p","4022"],{cwd:root,stdio:["ignore","pipe","pipe"]});
+const server=spawn(process.execPath,["node_modules/next/dist/bin/next","start","-H","127.0.0.1","-p","4022"],{cwd:root,env:{...process.env,MAINLAGI_QA_UNLOCK_ALL:"1"},stdio:["ignore","pipe","pipe"]});
 server.stdout.on("data",chunk=>{log+=chunk;});
 server.stderr.on("data",chunk=>{log+=chunk;});
 let browser;
@@ -64,8 +64,23 @@ try {
     await page.getByRole("dialog",{name:"Ikuti perjalanan belajarmu"}).waitFor();
     await page.getByRole("button",{name:"Oke, pilih lagi",exact:true}).click();
     assert.equal(await page.locator("dialog[open]").count(),0,"availability dialog closes");
+    assert(await page.locator("[data-activity-stage-group]").count()>0,"catalog is grouped by learning stage");
+    assert.equal(await page.locator("[data-preview-kind]").count(),100,"every catalog card has a visual preview");
+
+    await page.goto(base+"/child/demo-gian/subject/color?qa=unlock-all");
+    await page.locator("[data-qa-unlock-all]").waitFor();
+    assert.equal(await page.locator("[data-activity-id]").count(),100,"QA unlock-all keeps the complete catalog visible");
+    assert.equal(await page.locator('[data-activity-id] a[href^="/child/demo-gian/activity/"]').count(),100,"QA unlock-all makes all demo catalog cards directly playable");
+    assert.equal(await page.locator("[data-all-activity-gallery]").count(),0,"QA unlock-all has no locked browse-all remainder");
+    assert(await page.locator("[data-activity-stage-group]").count()>1,"QA catalog remains grouped instead of becoming one wall");
+    const stageItems=await page.locator("[data-stage-journey-item]").count();
+    assert.equal(await page.locator('[data-stage-journey] a[href^="/child/demo-gian/stage/"]').count(),stageItems,"QA unlock-all exposes every stage journey link");
+    const qaShot=`color-gallery-qa-${viewport.width}.png`;
+    await page.screenshot({path:path.join(output,qaShot),fullPage:false});
+    result.screenshots.push(qaShot);
+
     result.checks.push("subject intent preserved "+viewport.width);
-    result.checks.push("recommended path + stage journey + browse all "+viewport.width);
+    result.checks.push("recommended path + grouped browse all + isolated QA unlock "+viewport.width);
     await page.goto(base+"/child/demo-gian/learn");
     await page.waitForURL(/child\/demo-gian\/home#choose-subject$/);
     result.checks.push("legacy learn route returns home "+viewport.width);
