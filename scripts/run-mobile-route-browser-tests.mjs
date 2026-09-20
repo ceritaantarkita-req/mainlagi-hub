@@ -439,9 +439,9 @@ async function main() {
       const page = await context.newPage();
 
       const openFromCatalog = async (activityId) => {
-        await page.goto(\`\${baseUrl}/child/demo-gian/subject/english?qa=unlock-all\`, { waitUntil: "domcontentloaded" });
-        await page.locator(\`[data-activity-id="\${activityId}"] a\`).click();
-        await page.waitForURL(new RegExp(\`/child/demo-gian/activity/\${activityId}$\`), { timeout: 10_000 });
+        await page.goto(`${baseUrl}/child/demo-gian/subject/english?qa=unlock-all`, { waitUntil: "domcontentloaded" });
+        await page.locator(`[data-activity-id="${activityId}"] a`).click();
+        await page.waitForURL(new RegExp(`/child/demo-gian/activity/${activityId}$`), { timeout: 10_000 });
         await page.waitForFunction(
           (expectedId) => window.__mainlagiAudioEntrySamples?.some((sample) => sample.activityId === expectedId),
           activityId,
