@@ -1,7 +1,7 @@
 # Design QA — Mainlagi Garden (desain 1)
 
 Tanggal: 12–13 September 2026
-Status: interaksi Garden perwakilan PASS; acceptance menyeluruh blocked karena coverage aktivitas. Belum release, commit atau deploy.
+Status: historical Garden QA evidence. Garden kemudian ter-merge/deploy, tetapi user acceptance 20 September membuka kembali product-UX work; current plan is `docs/PRODUCT_UX_NEXT_WORK_2026-09-20.md`. PASS di dokumen ini tidak berarti UX saat ini accepted final.
 
 ## Target dan bukti
 

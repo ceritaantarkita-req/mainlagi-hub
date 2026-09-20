@@ -126,17 +126,18 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 | Workstream | Status | Current note |
 |---|---|---|
 | WS-01 Canonical docs | **CURRENT** | Pattern #47 closure verified; Pattern #48 no-candidate audit current |
-| WS-02 Voice & narration | TODO | reviewed ID/EN narration |
-| WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
+| WS-02 Voice & narration | **ACTIVE NEXT** | reduce first-instruction latency; improve English voice quality; evaluate cached/pre-generated production narration with browser TTS fallback |
+| WS-03 Public/parent frontend | **REOPENED BY USER ACCEPTANCE** | parent/profile/settings responsive UX, information architecture and child/parent boundary need another pass |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
 | WS-05 Gameplay diversification | **47 ACTIVE / LOGIC PATTERN-COMPLETION REUSE AUDIT ACTIVE** | docs-only exact 5-ID Logic repeating-pattern audit -> existing `pattern_completion`; baseline remains 900/900 / `choice_grid` 179 / `pattern_completion` 5 / KEEP 900; expected runtime 174 / 10 / 47 active; Pattern #48 still unjustified |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P45 merged-main permanent visual QA green; nine dedicated screenshots manually accepted |
-| WS-09 Stage/gallery UX | DONE | VUI-02 closed |
+| WS-09 Stage/gallery UX | **REOPENED BY USER ACCEPTANCE** | gallery previews, density, grouping and QA access need redesign |
 | WS-10 External acceptance | TODO | real devices, accessibility, Iqro expert |
 | WS-11 Governance | TODO | required checks/review discipline |
 | WS-12 Technical cleanup | TODO LATER | after gameplay/product priorities |
+| WS-13 Product UX coherence | **ACTIVE NEXT** | canonical UI ownership, five-character hero, 3-column subject directory, shared completion, matching shuffle, console-warning cleanup; see `PRODUCT_UX_NEXT_WORK_2026-09-20.md` |
 
 ## Verified merged gameplay baseline
 
@@ -720,7 +721,7 @@ P1 findings: 0
 P2 findings: 3
 ```
 
-## Current execution order
+## Current WS-05 execution order
 
 1. Preserve verified merged truth at **900/900 classified / 47 active / `choice_grid` 179 / `pattern_completion` 5 / `make_total` 7 / `take_away` 7 / KEEP 900** while the current audit remains docs-only.
 2. Current fresh audit approves exactly five Logic `logic.pattern.repeat.intermediate` activities for reuse of existing `pattern_completion`: `logic-pattern-aab-stars`, `logic-pattern-abb-shapes`, `logic-pattern-abc-shapes`, `logic-pattern-paired-blocks`, and `logic-pattern-abba`.
@@ -730,5 +731,20 @@ P2 findings: 3
 6. This is existing-mechanic reuse, not Pattern #48. Do not create Pattern #48 merely to reach the numeric target of 50.
 7. Neighboring Logic sequence/comparison/spatial/rule families remain excluded; Math review remains heterogeneous at pack level; Science force/motion remains heterogeneous; English initial-sound remains a distinct evidence structure; Iqro remains outside mechanic transformation until expert acceptance exists.
 8. After this exact audit chain is closed, start another fresh objective/evidence audit rather than inheriting any unreviewed family automatically.
+
+## Approved product UX execution order
+
+This is a separate track from WS-05 and must not be mixed into mechanic-reuse PRs. Canonical detail: `docs/PRODUCT_UX_NEXT_WORK_2026-09-20.md`.
+
+1. Canonical component/route ownership + unexpected-console-warning audit.
+2. Homepage/header/navigation + five-character hero + responsive 3-column subject directory; remove activity-count subtitles.
+3. Activity gallery/catalog redesign and QA-only unlock-all mode.
+4. Shared completion system: praise animation, three stars, Back / Try Again / Next / parent-gated Share.
+5. Matching randomization and age/difficulty presentation without changing canonical evidence.
+6. First-instruction narration latency/preload.
+7. Parent/profile/settings responsive redesign and information architecture.
+8. Character bible + Naya/Gian/Zia production assets.
+9. Subject theme/background system and clearer learning illustrations.
+10. English narration quality upgrade and expanded human visual/usability acceptance.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.

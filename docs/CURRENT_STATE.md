@@ -159,9 +159,17 @@ The current docs-only WS-05 audit reviews exactly five `logic.pattern.repeat.int
 
 Runtime code is not authorized until this audit PR passes CI, merges, and merged-main production verification is recorded.
 
+## Approved product UX next wave — 20 September 2026
+
+User acceptance on the live child/parent product reopened a product-UX track even though the merged engineering/mechanic baseline is green. Canonical plan: `docs/PRODUCT_UX_NEXT_WORK_2026-09-20.md`.
+
+Approved priorities: canonicalize overlapping UI paths; audit/fix unexpected browser warnings; rebuild the five-character homepage hero; change child nav to **Belajar / Bermain**; remove subject-card activity counts and use a clean responsive 3-column directory; add QA-only unlock-all without weakening real progression; redesign the activity gallery; harden matching randomization/difficulty; introduce one shared success/completion flow with three stars + Back/Try Again/Next + parent-gated Share; reduce narration entry latency; redesign parent/profile/settings mobile UX; then add character bible, subject themes/backgrounds, learning illustrations and higher-quality English narration.
+
+This product-UX track must stay separate from WS-05 objective/evidence mechanic work. Garden is live, but current child/parent visual usability is **not** considered finally accepted by the 20 September review.
+
 ## Engineering status
 
-No known P0 engineering blocker is open on merged `main`.
+No known P0 mechanic/runtime engineering blocker is open on merged `main`. Separate product-UX P0 work is now open under `PRODUCT_UX_NEXT_WORK_2026-09-20.md`.
 
 ```text
 P0 findings: 0
