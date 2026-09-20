@@ -10,6 +10,7 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 - latest independently live-verified runtime/product main: `77bee682f84b5d68b85d2c91b1d6f2ca4c93d2d9` (PR #251)
 - latest runtime merged-main CI: **#1160 / run `35520629179` — full success including exact Cloudflare production smoke**
 - parent responsive QA artifact: **`10608044389`**
+- parent docs closure main: `a04bd51fb02dedf56b5cd62f7f579eb53c4be251`; parent docs closure main CI: **#1162 / run `35521404941` — full success**
 - repository: `ceritaantarkita-req/mainlagi-hub`
 - canonical branch: `main`
 - production: `https://mainlagihub.my.id/`
