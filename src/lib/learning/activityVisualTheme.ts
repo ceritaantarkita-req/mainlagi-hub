@@ -1,6 +1,6 @@
-import type { LearningActivity, LearningSubjectId } from "./system";
+import type { LearningActivity } from "./system";
 
-export type PilotSubjectId = Extract<LearningSubjectId, "math" | "science">;
+export type PilotSubjectId = "math" | "science";
 
 export type MathSceneId =
   | "number-park"
@@ -122,9 +122,11 @@ const SCIENCE_RULES: readonly SemanticRule[] = [
 ];
 
 function sceneById(theme: SubjectTheme, sceneId: SceneId): SceneVariant {
-  return theme.scenes.find((scene) => scene.id === sceneId)
-    ?? theme.scenes.find((scene) => scene.id === theme.defaultSceneId)
+  const scene = theme.scenes.find((candidate) => candidate.id === sceneId)
+    ?? theme.scenes.find((candidate) => candidate.id === theme.defaultSceneId)
     ?? theme.scenes[0];
+  if (!scene) throw new Error(`Subject theme ${theme.subjectId} has no scene variants`);
+  return scene;
 }
 
 function semanticSceneId(activity: LearningActivity): SceneId | null {
