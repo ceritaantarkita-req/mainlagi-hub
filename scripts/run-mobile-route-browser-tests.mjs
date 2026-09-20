@@ -432,6 +432,61 @@ async function main() {
       const context = await browser.newContext({ viewport });
       await context.addInitScript(() => {
         window.__mainlagiAudioEntrySamples = [];
+
+        class QaSpeechUtterance {
+          constructor(text) {
+            this.text = text;
+            this.lang = "";
+            this.pitch = 1;
+            this.rate = 1;
+            this.volume = 1;
+            this.voice = null;
+            this.listeners = new Map();
+          }
+          addEventListener(type, listener) {
+            const list = this.listeners.get(type) ?? [];
+            list.push(listener);
+            this.listeners.set(type, list);
+          }
+          emit(type) {
+            for (const listener of this.listeners.get(type) ?? []) listener();
+          }
+        }
+
+        const voices = [
+          { default: false, lang: "en-US", localService: true, name: "QA English", voiceURI: "qa-en" },
+          { default: true, lang: "id-ID", localService: true, name: "QA Indonesia", voiceURI: "qa-id" }
+        ];
+        const qaSynth = {
+          speaking: false,
+          pending: false,
+          current: null,
+          getVoices() { return voices; },
+          addEventListener() {},
+          cancel() {
+            this.current = null;
+            this.speaking = false;
+            this.pending = false;
+          },
+          speak(utterance) {
+            this.current = utterance;
+            this.speaking = true;
+            setTimeout(() => {
+              if (this.current !== utterance) return;
+              utterance.emit("start");
+            }, 8);
+            setTimeout(() => {
+              if (this.current !== utterance) return;
+              this.current = null;
+              this.speaking = false;
+              utterance.emit("end");
+            }, 36);
+          }
+        };
+
+        Object.defineProperty(window, "SpeechSynthesisUtterance", { configurable: true, value: QaSpeechUtterance });
+        Object.defineProperty(window, "speechSynthesis", { configurable: true, value: qaSynth });
+
         window.addEventListener("mainlagi-activity-audio-entry-latency", (event) => {
           window.__mainlagiAudioEntrySamples.push(event.detail);
         });
@@ -459,22 +514,17 @@ async function main() {
       assert.ok(Number.isFinite(genericSample.intentToRequestMs) && genericSample.intentToRequestMs >= 0 && genericSample.intentToRequestMs < 5_000, "entry intent-to-request latency must be measurable and bounded");
       assert.equal("childId" in genericSample, false, "audio entry telemetry must not expose child identity");
       assert.equal("text" in genericSample, false, "audio entry telemetry must not expose narration text");
-      assert.ok(["spoken", "unavailable", "error", "muted"].includes(genericSample.status), "generic entry narration must resolve to an honest speech status");
-      if (genericSample.status === "spoken") {
-        assert.ok(Number.isFinite(genericSample.requestToStartMs), "spoken entry must include request-to-start latency");
-        assert.ok(Number.isFinite(genericSample.totalStartLatencyMs), "spoken navigation entry must include total start latency");
-      }
+      assert.equal(genericSample.status, "spoken", "deterministic QA speech must actually start");
+      assert.ok(Number.isFinite(genericSample.requestToStartMs), "spoken entry must include request-to-start latency");
+      assert.ok(Number.isFinite(genericSample.totalStartLatencyMs), "spoken navigation entry must include total start latency");
 
       const listeningSample = await openFromCatalog("english-find-blue-audio");
       assert.equal(listeningSample.activityId, "english-find-blue-audio");
       assert.equal(listeningSample.lang, "en-US");
       assert.equal(listeningSample.source, "navigation");
       assert.ok(Number.isFinite(listeningSample.intentToRequestMs) && listeningSample.intentToRequestMs < 5_000, "listen-and-choose entry latency must be measurable");
-      if (listeningSample.status === "spoken") {
-        assert.equal(await page.locator("[data-choices] button:disabled").count(), 0, "listening choices must unlock after automatic narration starts");
-      } else {
-        assert.ok(await page.getByRole("status").count(), "unsupported speech must leave a readable live fallback");
-      }
+      assert.equal(listeningSample.status, "spoken", "deterministic QA listening speech must actually start");
+      assert.equal(await page.locator("[data-choices] button:disabled").count(), 0, "listening choices must unlock only after automatic narration actually starts");
 
       await page.screenshot({ path: path.join(screenshotDir, "390-audio-first-instruction.png"), fullPage: false });
       await context.close();
