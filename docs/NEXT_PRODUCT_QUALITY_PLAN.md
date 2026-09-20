@@ -5,7 +5,7 @@
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 **Canonical branch:** `main`  
 **Latest fully closed gameplay pattern:** Pattern #47 — Math `shape_attribute_board`  
-**Latest fully closed reuse wave:** Logic `set_reasoning` multi-attribute reuse  
+**Latest fully closed reuse wave:** Math mixed-operation existing-mechanic reuse (`make_total` / `take_away`)  
 **Pattern #42 implementation:** PR #187 -> main `37190f5dabd5d8421d7575b8f220d2824e831f23`  
 **Pattern #42 implementation main CI:** **#884 / run `35260402125` — full success + exact Cloudflare production smoke**  
 **Pattern #42 closure:** PR #188 -> `ad7deb67dc15eefdb81dc5d5e66f4c10ccdc9710`  
@@ -100,6 +100,20 @@
 **Environment-care docs closure:** **PR #222 -> main `d98ac3794ce32d4308e84d0beecba83156eabd6b` / PR CI #1019 / closure-main CI #1020 full success + exact Cloudflare smoke**  
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
+
+## Current synchronized checkpoint — 20 September 2026
+
+```text
+current main:                 a04bd51fb02dedf56b5cd62f7f579eb53c4be251
+latest live-verified runtime: 77bee682f84b5d68b85d2c91b1d6f2ca4c93d2d9
+runtime main CI:              #1160 / run 35520629179 — success + exact Cloudflare smoke
+WS-13 next:                   character production spec + Naya/Gian/Zia assets
+WS-05 current audit:          PR #240 -> 7109db41 / CI #1100 success
+WS-05 runtime:                not started
+gameplay taxonomy:            900/900 classified / 47 active / no Pattern #48
+```
+
+Product-UX and WS-05 remain separate work tracks. The parent/profile/settings redesign is already closed/live verified; the next product-UX wave is character production, not another parent-shell rewrite.
 
 ## Product goal
 
@@ -723,28 +737,32 @@ P2 findings: 3
 
 ## Current WS-05 execution order
 
-1. Preserve verified merged truth at **900/900 classified / 47 active / `choice_grid` 179 / `pattern_completion` 5 / `make_total` 7 / `take_away` 7 / KEEP 900** while the current audit remains docs-only.
-2. Current fresh audit approves exactly five Logic `logic.pattern.repeat.intermediate` activities for reuse of existing `pattern_completion`: `logic-pattern-aab-stars`, `logic-pattern-abb-shapes`, `logic-pattern-abc-shapes`, `logic-pattern-paired-blocks`, and `logic-pattern-abba`.
-3. Runtime implementation is blocked until the audit PR passes exact-head CI, merges to `main`, and the merged audit SHA passes exact production verification.
-4. If runtime proceeds, harden the complete `pattern_completion` family to exactly ten IDs and fail closed on canonical identity, prompt, exact choice order, answer and deterministic sequence config. Do not broaden by prefix or generic parser.
-5. Expected runtime result is **900/900 / 47 active / `choice_grid` 174 / `pattern_completion` 10 / Logic `choice_grid` 21 / KEEP 900**.
-6. This is existing-mechanic reuse, not Pattern #48. Do not create Pattern #48 merely to reach the numeric target of 50.
-7. Neighboring Logic sequence/comparison/spatial/rule families remain excluded; Math review remains heterogeneous at pack level; Science force/motion remains heterogeneous; English initial-sound remains a distinct evidence structure; Iqro remains outside mechanic transformation until expert acceptance exists.
-8. After this exact audit chain is closed, start another fresh objective/evidence audit rather than inheriting any unreviewed family automatically.
+1. Preserve verified merged truth at **900/900 classified / 47 active / `choice_grid` 179 / `pattern_completion` 5 / `make_total` 7 / `take_away` 7 / KEEP 900**.
+2. The exact five-ID Logic repeating-pattern audit is **MERGED / LIVE VERIFIED** via PR #240 -> main `7109db41134f18884b6c08fba99ad2af997b3fed`; main CI #1100 / run `35492367065` passed.
+3. Runtime implementation is now audit-unblocked but **NOT STARTED**. It may only target the five audited `logic.pattern.repeat.intermediate` activities and harden the full exact ten-ID `pattern_completion` family fail-closed.
+4. Expected runtime result remains **900/900 / 47 active / `choice_grid` 174 / `pattern_completion` 10 / Logic `choice_grid` 21 / KEEP 900**.
+5. This is existing-mechanic reuse, not Pattern #48. Do not create Pattern #48 to satisfy a numeric pattern target.
+6. Preserve canonical identity, prompt, exact choice order, answer, deterministic sequence config, evidence and progression behavior.
+7. Iqro remains excluded from mechanic transformation until expert acceptance exists. Neighboring Logic families remain excluded unless a fresh objective/evidence audit justifies them.
+8. After any runtime closure, begin another fresh objective/evidence audit instead of inheriting an unreviewed family automatically.
 
 ## Approved product UX execution order
 
-This is a separate track from WS-05 and must not be mixed into mechanic-reuse PRs. Canonical detail: `docs/PRODUCT_UX_NEXT_WORK_2026-09-20.md`.
+This track is separate from WS-05. Canonical detail: `docs/PRODUCT_UX_NEXT_WORK_2026-09-20.md`.
 
-1. Canonical component/route ownership + unexpected-console-warning audit.
-2. Homepage/header/navigation + five-character hero + responsive 3-column subject directory; remove activity-count subtitles.
-3. Activity gallery/catalog redesign and QA-only unlock-all mode.
-4. Shared completion system: praise animation, three stars, Back / Try Again / Next / parent-gated Share.
-5. Matching randomization and age/difficulty presentation without changing canonical evidence.
-6. First-instruction narration latency/preload.
-7. Parent/profile/settings responsive redesign and information architecture.
-8. Character bible + Naya/Gian/Zia production assets.
-9. Subject theme/background system and clearer learning illustrations.
-10. English narration quality upgrade and expanded human visual/usability acceptance.
+Completed/live-verified sequence:
+1. canonical component/route ownership + warning audit;
+2. homepage/header/navigation + responsive 3-column subject directory;
+3. activity gallery/catalog + QA-only unlock;
+4. shared completion;
+5. matching randomization/retry behavior;
+6. first-instruction narration latency/preload;
+7. parent/profile/settings responsive redesign.
+
+Current and next:
+8. **NOW:** extend the canonical Art Bible character-production specification and create/review Naya/Gian/Zia production assets;
+9. subject theme/background system + clearer learning illustrations;
+10. English narration quality upgrade;
+11. expanded human visual/usability and physical-device acceptance plus cleanup of superseded presentation paths.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
