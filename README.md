@@ -15,23 +15,38 @@ GitHub protected `main`
 
 Production tidak memakai VPS/SSH sebagai jalur canonical.
 
-## Current baseline — 14 September 2026
+## Current baseline — 20 September 2026
 
-PR #87, **Redesign child learning experience and product QA**, sudah merged ke `main` pada commit:
+Current source-of-truth branch is `main`. The documentation closure for the latest parent UX wave is currently at:
 
 ```text
-25c83840b74c4eca1dd3d3b71e888f7dfc4d8b21
+a04bd51fb02dedf56b5cd62f7f579eb53c4be251
 ```
 
-Post-merge CI dan exact-SHA Cloudflare smoke sudah lulus. Current learning catalog:
+The latest independently live-verified runtime/product implementation is parent/profile/settings responsive redesign PR #251:
+
+```text
+implementation main: 77bee682f84b5d68b85d2c91b1d6f2ca4c93d2d9
+main CI:             #1160 / run 35520629179
+Cloudflare smoke:    PASS, exact SHA
+```
+
+Current learning/product baseline:
 
 - 9 subjects;
 - 900 activities;
+- 900/900 gameplay-classified;
+- 47 active gameplay patterns;
+- no approved Pattern #48;
 - 683 assessed / 217 practice;
 - 46 stages;
 - 197 lessons;
 - 197 content packs;
 - 200 active skills.
+
+Product UX work completed in the current WS-13 sequence includes canonical component/warning audit, child home/navigation + 3-column subject directory, activity gallery + QA unlock, shared completion, matching randomization, first-instruction narration latency, and parent/profile/settings responsive redesign.
+
+Current next product-UX step is **character production**: extend the canonical Art Bible character specification and create/review production-ready Naya/Gian/Zia assets. Paca/Gavi already have production WebP artwork; Naya/Gian/Zia currently do not.
 
 Current subjects:
 
@@ -45,7 +60,9 @@ Current subjects:
 8. Mewarnai
 9. Menggambar
 
-Current frontend memakai Garden/Playroom visual system, child profile + continue-learning flow, subject/activity browsing, stage/progression protection, activity runtimes, parent reporting, and retained motion games.
+Current frontend uses the Garden/Playroom visual system, responsive child and parent shells, child profile + continue-learning flow, subject/activity browsing, stage/progression protection, reusable activity runtimes, parent reporting, and retained motion games.
+
+See `docs/PROJECT_STATE_SYNC_2026-09-20.md` for the compact current handoff.
 
 ## Retained Mainlagi games
 
@@ -98,19 +115,21 @@ The next phase prioritizes **quality and variety of the existing 900 activities*
 
 ## Current product-quality priorities
 
-Canonical execution plan: [`docs/NEXT_PRODUCT_QUALITY_PLAN.md`](docs/NEXT_PRODUCT_QUALITY_PLAN.md).
+Canonical execution plans:
 
-The next phase focuses on:
+- [`docs/PRODUCT_UX_NEXT_WORK_2026-09-20.md`](docs/PRODUCT_UX_NEXT_WORK_2026-09-20.md) for the active product-UX sequence;
+- [`docs/NEXT_PRODUCT_QUALITY_PLAN.md`](docs/NEXT_PRODUCT_QUALITY_PLAN.md) for broader product/gameplay quality gates.
 
-- native-feeling Indonesian and English narration with reviewed/licensed audio;
-- current About/FAQ and discoverable parent-facing affiliate recommendations;
-- audit/redesign of trivial, invalid, or repetitive activities;
-- broader meaningful gameplay mechanics;
-- rebuilding weak/duplicate Coloring and Drawing visuals;
-- an explicit Mainlagi art direction and visual QA gate;
-- reconciling stage progression with the current 100-card activity gallery;
-- physical-device/accessibility acceptance and Iqro expert review;
-- repository governance hardening.
+Immediate priorities are:
+
+- production-grade character specification + Naya/Gian/Zia assets;
+- subject theme/background system and clearer learning illustrations;
+- English narration quality after the completed first-instruction latency wave;
+- continued visual/usability cleanup without weakening progression/evidence;
+- real-device/accessibility acceptance and Iqro expert review;
+- repository/security/governance hardening.
+
+WS-05 gameplay reuse remains a separate track. The current Logic repeating-pattern audit is already merged/live verified through PR #240 -> `7109db41...`, CI #1100, while runtime implementation remains not started. It must reuse existing `pattern_completion` and must not create Pattern #48.
 
 **Quality first. Quantity later.**
 
@@ -219,6 +238,8 @@ Start with [`docs/README.md`](docs/README.md), then read:
 
 - [`docs/NEXT_PRODUCT_QUALITY_PLAN.md`](docs/NEXT_PRODUCT_QUALITY_PLAN.md)
 - [`docs/CURRENT_STATE.md`](docs/CURRENT_STATE.md)
+- [`docs/PROJECT_STATE_SYNC_2026-09-20.md`](docs/PROJECT_STATE_SYNC_2026-09-20.md)
+- [`docs/PRODUCT_UX_NEXT_WORK_2026-09-20.md`](docs/PRODUCT_UX_NEXT_WORK_2026-09-20.md)
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
 - [`docs/MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md`](docs/MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md)
 - [`docs/LEARNING_ATTEMPTS_MASTERY.md`](docs/LEARNING_ATTEMPTS_MASTERY.md)
