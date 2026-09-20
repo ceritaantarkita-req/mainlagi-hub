@@ -1,9 +1,12 @@
 # WS-13 — Parent / Profile / Settings Responsive Redesign
 
 Date: **20 September 2026**  
-Status: **IMPLEMENTATION BRANCH / VALIDATION PENDING**  
+Status: **MERGED / LIVE VERIFIED**  
 Base: `main` = `a3223fa96788c12dcfcce575f0cb8a4e34206793`  
-Branch: `agent/ws13-parent-responsive-redesign-20260920`
+Implementation branch: `agent/ws13-parent-responsive-redesign-20260920`  
+PR: **#251**  
+Final PR head: `1c2017e28c8c74b6cdf50adad07b59511a3c3d56`  
+Merged main: `77bee682f84b5d68b85d2c91b1d6f2ca4c93d2d9`
 
 This wave continues the approved product-UX plan after audio first-instruction latency was merged and live verified. Scope is deliberately presentation-only: parent/profile/settings UX is reorganized without changing curriculum, mastery, evidence, progression, database schema, or WS-05 gameplay mechanics.
 
@@ -43,9 +46,9 @@ This is a presentation separation only. No profile schema or character ownership
 - family/profile management;
 - privacy & AI;
 - product/plan access;
-- reserved parent/public information slots for About/FAQ and policy/terms/recommendation surfaces.
+- existing public About, FAQ, Privacy, Terms, and Recommendations/Affiliate routes.
 
-No broken public routes are invented in this wave.
+No broken public routes are invented in this wave; settings links only to routes that already exist.
 
 ## Regression gates
 
@@ -53,7 +56,7 @@ The canonical mobile-route browser suite is extended to require:
 
 - parent root heading and family/demo separation;
 - five primary mobile parent destinations;
-- mobile parent navigation pinned to the viewport bottom below 720px;
+- mobile parent navigation pinned to the viewport bottom below 760px;
 - mobile navigation hidden on desktop layouts;
 - minimum readable parent mobile navigation geometry;
 - parent settings links to Profiles, Privacy & AI, and Plan;
@@ -72,17 +75,16 @@ This wave does **not**:
 - change child-profile storage schema;
 - make demo data count as family data;
 - expose parent/product links in the child navigation;
-- claim About/FAQ/Terms/affiliate routes are complete before those routes exist.
+- invent new parent/public routes when an existing canonical route already owns the surface.
 
-## Validation still required
+## Validation evidence
 
-Before merge:
-
-1. exact-head CI;
-2. browser/mobile-route QA;
-3. review parent screenshots at 320 / 390 / 768 / 1024;
-4. confirm 0 unexpected console errors/warnings on affected canonical routes;
-5. confirm no parent nav/content overlap;
-6. merge only after the branch is current with `main`;
-7. run independent merged-main CI + exact Cloudflare production smoke;
-8. then update `CURRENT_STATE.md` and this document to **MERGED / LIVE VERIFIED**.
+- PR #251 final head: `1c2017e28c8c74b6cdf50adad07b59511a3c3d56`.
+- Exact-head PR CI: **#1159 / run `35520233825` — full success**.
+- Manual artifact review: **ACCEPTED** at 320 / 390 / 768 / 1024 with no parent-nav overlap or P0-P1 visual blocker.
+- The 768px review caught and fixed an overly narrow two-column hero before merge; the accepted tablet hero stays stacked.
+- PR #251 merged to main: `77bee682f84b5d68b85d2c91b1d6f2ca4c93d2d9`.
+- Independent merged-main CI: **#1160 / run `35520629179` — full success including exact Cloudflare production smoke**.
+- Merged-main responsive QA artifact: **`10608044389`**.
+- Canonical browser matrix passed with no unexpected console/page errors or document-level overflow on the gated routes.
+- Parent mobile breakpoint is canonicalized at **760px**; legacy MobileFoundation parent-aside forcing was retired.
