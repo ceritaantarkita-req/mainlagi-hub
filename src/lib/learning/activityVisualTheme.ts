@@ -129,12 +129,8 @@ function sceneById(theme: SubjectTheme, sceneId: SceneId): SceneVariant {
   return scene;
 }
 
-function semanticSceneId(activity: LearningActivity): SceneId | null {
-  const rules = activity.subjectId === "math"
-    ? MATH_RULES
-    : activity.subjectId === "science"
-      ? SCIENCE_RULES
-      : [];
+function semanticSceneId(activity: LearningActivity, subjectId: PilotSubjectId): SceneId | null {
+  const rules = subjectId === "math" ? MATH_RULES : SCIENCE_RULES;
 
   const normalizedId = activity.id.toLowerCase();
   const rule = rules.find((candidate) =>
@@ -163,9 +159,9 @@ export function resolveActivityVisualTheme(
     return null;
   }
 
-  const subjectId = activity.subjectId;
+  const subjectId: PilotSubjectId = activity.subjectId === "math" ? "math" : "science";
   const theme = SUBJECT_THEMES[subjectId];
-  const matchedSceneId = semanticSceneId(activity);
+  const matchedSceneId = semanticSceneId(activity, subjectId);
 
   if (matchedSceneId) {
     return {
