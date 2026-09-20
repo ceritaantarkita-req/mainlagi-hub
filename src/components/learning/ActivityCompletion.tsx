@@ -80,7 +80,6 @@ export function ActivityCompletion({
   };
 
   const nativeShare = async () => {
-    if (!navigator.share) return;
     try {
       await navigator.share({ title: "Mainlagi", text: shareText, url: shareUrl });
     } catch {}
@@ -125,7 +124,7 @@ export function ActivityCompletion({
             <p className={styles.safeNote}>Yang dibagikan hanya tautan Mainlagi dan pesan umum—tanpa nama anak, umur, akun, atau detail progres.</p>
             <div className={styles.shareGrid}>
               <button type="button" onClick={() => void copyLink()}><Copy size={20} aria-hidden />Copy link</button>
-              {typeof navigator !== "undefined" && navigator.share ? <button type="button" onClick={() => void nativeShare()}><ShareNetwork size={20} aria-hidden />Share device</button> : null}
+              <button type="button" onClick={() => void nativeShare()}><ShareNetwork size={20} aria-hidden />Share device</button>
               <a href={`https://wa.me/?text=${encodedText}`} target="_blank" rel="noreferrer">WhatsApp</a>
               <a href={`https://t.me/share/url?url=${encodedUrl}&text=${encodeURIComponent(shareText)}`} target="_blank" rel="noreferrer">Telegram</a>
               <a href={`https://twitter.com/intent/tweet?text=${encodedText}`} target="_blank" rel="noreferrer">X</a>
