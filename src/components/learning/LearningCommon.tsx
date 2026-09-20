@@ -59,6 +59,15 @@ export function CharacterAvatar({ id, large = false }: { id: CharacterId; large?
   );
 }
 
+export function ChildIdentityAvatar({ name, large = false }: { name: string; large?: boolean }) {
+  const initial = name.trim().charAt(0).toUpperCase() || "?";
+  return (
+    <span className={large ? styles.childIdentityAvatarLarge : styles.childIdentityAvatar} role="img" aria-label={`Profil ${name}`}>
+      {initial}
+    </span>
+  );
+}
+
 export function CharacterGroup() {
   return (
     <div className={styles.characterCluster} aria-label="Karakter Mainlagi">
