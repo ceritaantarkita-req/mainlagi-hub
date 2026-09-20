@@ -110,7 +110,8 @@ function startServer() {
       ...process.env,
       NODE_ENV: "production",
       NEXT_PUBLIC_SITE_URL: baseUrl,
-      NEXT_PUBLIC_DATA_BACKEND: process.env.NEXT_PUBLIC_DATA_BACKEND ?? "local"
+      NEXT_PUBLIC_DATA_BACKEND: process.env.NEXT_PUBLIC_DATA_BACKEND ?? "local",
+      MAINLAGI_QA_UNLOCK_ALL: "1"
     },
     stdio: ["ignore", "pipe", "pipe"]
   });
