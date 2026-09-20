@@ -1,6 +1,6 @@
 # Architecture — Mainlagi Hub
 
-Last reviewed: **14 September 2026**
+Last reviewed: **20 September 2026**
 
 This document describes the current implemented architecture and the explicit boundaries for planned work. `main` is the implementation source of truth.
 
@@ -34,6 +34,26 @@ Next.js App Router
 ```
 
 The current motion/vision engine is a retained capability. It must not be rewritten merely because the product is now a broader learning platform.
+
+### Current parent presentation ownership
+
+The 20 September WS-13 parent wave converged active presentation ownership without changing the learning/data model:
+
+- `/parent/*` routes enter through `LearningPlatform`;
+- canonical parent overview is `CloudParentOverviewScreen`;
+- shared parent shell/settings are owned by `ParentLearningPlatform.tsx`;
+- below 760px the parent shell uses a sticky header + fixed five-destination bottom nav;
+- at/above 760px it uses the parent sidebar;
+- legacy MobileFoundation behavior that forced a parent sidebar on mobile is retired.
+
+The parent overview uses existing completion/stars/recent-activity/recommendation data. It does not create a second mastery model.
+
+Character/profile architecture boundary:
+
+- `LearningChildProfile.guide` points to a Mainlagi guide-character ID;
+- the child's profile identity is not the guide character;
+- parent surfaces now render neutral child identity separately from guide metadata;
+- Paca/Gavi use production image assets; Naya/Gian/Zia currently use fallback visual representations pending production assets.
 
 ## 2. Current learning hierarchy
 
