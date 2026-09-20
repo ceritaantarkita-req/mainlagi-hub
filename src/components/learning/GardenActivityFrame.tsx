@@ -3,9 +3,8 @@
 
 import Link from "next/link";
 import { ArrowLeft, SpeakerHigh } from "@phosphor-icons/react";
-import { useEffect, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { speakWithStatus, unlockAudio } from "@/lib/audio/feedback";
-import { ACTIVITY_AUDIO_ENTRY_LATENCY_EVENT, type ActivityAudioEntryLatencyDetail } from "@/lib/audio/activityEntry";
 import styles from "./GardenActivityFrame.module.css";
 
 /** Presentation only: completion and evidence stay with each activity runtime. */
@@ -14,22 +13,6 @@ export function GardenActivityFrame({ backHref, title, narration, lang = "id-ID"
   onHear?: () => void; hint?: string; children: ReactNode; spacious?: boolean; workspace?: boolean;
 }) {
   const [audioNotice, setAudioNotice] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (onHear) return;
-    const onEntryAudio = (event: Event) => {
-      const detail = (event as CustomEvent<ActivityAudioEntryLatencyDetail>).detail;
-      if (detail.lang !== lang) return;
-      setAudioNotice(detail.status === "spoken" ? null : detail.status === "muted"
-        ? "Suara sedang dimatikan. Kamu tetap bisa membaca petunjuknya."
-        : lang.toLowerCase().startsWith("id")
-          ? "Narasi Bahasa Indonesia belum tersedia di browser atau perangkat ini. Petunjuknya tetap bisa dibaca bersama."
-          : "Narasi belum tersedia di browser atau perangkat ini. Petunjuknya tetap bisa dibaca bersama.");
-    };
-    window.addEventListener(ACTIVITY_AUDIO_ENTRY_LATENCY_EVENT, onEntryAudio);
-    return () => window.removeEventListener(ACTIVITY_AUDIO_ENTRY_LATENCY_EVENT, onEntryAudio);
-  }, [lang, onHear]);
-
   const hear = () => {
     if (onHear) { onHear(); return; }
     unlockAudio(lang);
