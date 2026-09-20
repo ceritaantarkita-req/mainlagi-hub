@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { GardenActivityFrame } from "./GardenActivityFrame";
+import { ActivityCompletion } from "./ActivityCompletion";
 import { completeActivity, getActivity } from "@/lib/learning/system";
 import { getActivityLearningSpec } from "@/lib/learning/catalog";
 import { isMemoryPairActivity } from "@/lib/learning/gameplayPresentation";
@@ -88,7 +88,7 @@ export function MemoryMatchActivity({ childId, activityId }: { childId: string; 
       <div className={styles.promptCard}><span aria-hidden>🧠</span><div><h1>{activity.prompt ?? activity.title}</h1><p>Ingat posisi kartunya. Temukan pasangan huruf besar dan kecil.</p></div></div>
       <div className={`${styles.board} ${cards.length===4?styles.boardFour:""}`} role="group" aria-label="Papan kartu memori">{cards.map((card, index) => { const visible=open.includes(index)||matched.includes(index); const isMatched=matched.includes(index); return <button key={`${card.label}-${card.sourceIndex}`} type="button" className={`${styles.card} ${visible?styles.cardOpen:""} ${isMatched?styles.cardMatched:""}`} aria-label={visible?`Kartu ${card.label}${isMatched?", sudah cocok":""}`:`Kartu tertutup ${index+1}`} aria-pressed={visible} disabled={isMatched||done} onClick={()=>reveal(index)}>{visible?card.label:"?"}</button>; })}</div>
       <div className={`${styles.status} ${done?styles.statusDone:""}`} role="status" aria-live="polite">{done?"⭐":"💡"} {message}</div>
-      {done?<Link className={styles.nextLink} href={`/child/${childId}/subject/${activity.subjectId}`}>Pilih permainan lain</Link>:null}
+      {done?<ActivityCompletion childId={childId} activity={activity}/>:null}
     </section>
   </GardenActivityFrame>;
 }
