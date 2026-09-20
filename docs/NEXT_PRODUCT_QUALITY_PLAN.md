@@ -192,9 +192,9 @@ Current result:
 
 The five reuse-first candidates from the original Pattern #48 audit chain are implemented and live verified: Logic `set_reasoning`, Math `spatial_relation_board`, Math `compare_properties`, English `cloze_sentence_choice`, and Science environment-care `healthy_habit_routine`. A subsequent fresh audit also justified Science ecosystem-dependency reuse of existing `phenomenon_relation_board`; that runtime is now live verified through main CI #1034.
 
-After ecosystem closure docs are live verified, the next runtime action is another **fresh objective/evidence audit** of remaining learning families. A later reuse wave or new Pattern #48 requires new evidence that the selected interaction is pedagogically justified and that existing mechanics cannot more safely preserve the objective/evidence contract.
+Later fresh audits continued the reuse-first approach through additional verified waves. The current fresh audit is Logic repeating-pattern -> existing `pattern_completion`, merged/live verified via PR #240 / `7109db41...` / CI #1100; runtime is not started. A later reuse wave or new Pattern #48 still requires fresh evidence that the selected interaction is pedagogically justified and that existing mechanics cannot more safely preserve the objective/evidence contract.
 
-### Current reuse audit — `set_reasoning` / Logic multi-attribute
+### Verified reuse checkpoint — `set_reasoning` / Logic multi-attribute
 
 Exact audited scope:
 
@@ -222,7 +222,7 @@ Audit record: `SET_REASONING_LOGIC_MULTI_CLASSIFICATION_REUSE_AUDIT_2026-09-18.m
 
 Audit PR #206 merged to `5f5f7741ee40544c4ab395740ef00fea1880400b`; audit-main CI #955 passed full verification including exact Cloudflare production smoke.
 
-Implementation is active on `agent/reuse-set-reasoning-logic-multi-20260918`. Wave record: `WS05_SET_REASONING_REUSE_LOGIC_MULTI_WAVE_2026-09-18.md`.
+Implementation wave record: `WS05_SET_REASONING_REUSE_LOGIC_MULTI_WAVE_2026-09-18.md`. The branch-era checkpoint below is historical evidence; the wave is now fully closed/live verified.
 
 Accepted checkpoint:
 
@@ -238,7 +238,7 @@ branch distribution:      47 active / choice_grid 228 / set_reasoning 10
 
 Final PR head `a37fdec7b3f89789999ce728c245ae17ee7f00bc` passed CI #963 / run `35372830249`; its artifacts verify 47 active / `choice_grid` 228 / `set_reasoning` 10 and the final nine screenshots remain manually accepted. PR #207 squash-merged unchanged to main `9debb6cf30f789125c45eff1b88e65e4eaff7978`. Merged-main CI #964 / run `35375338099` and exact Cloudflare smoke verified the Set Reasoning implementation SHA. Post-merge docs main CI #969 / run `35376512392` also passed exact Cloudflare smoke. Set Reasoning reuse is **FULLY CLOSED / LIVE VERIFIED**.
 
-### Next reuse audit — Math spatial -> `spatial_relation_board`
+### Verified reuse checkpoint — Math spatial -> `spatial_relation_board`
 
 Exact audit scope:
 
@@ -252,7 +252,7 @@ math-spatial-between
 
 Canonical ownership is Math / `math-ukur-ruang` / `math-spatial-position` / `math.pack.spatial-position` / `math.spatial.position` / assessed `tap_choice` / `choice_accuracy_v1`.
 
-Audit result: **reuse justified / implementation active in PR #221 / accepted code checkpoint `87c0d7ef`**. Existing Pattern #40 is semantically aligned with this lesson because both represent stated spatial relations while preserving direct-choice evidence. A later implementation may generalize exact config to vertical, containment and proximity scenes, but must preserve all existing six Logic spatial activities and remain fail-closed on exact prompt/choices/order/answer/subject/stage/runtime.
+Audit result: **reuse justified; runtime fully closed/live verified via PR #214 -> main `2cb948d614c90aceaa592ddbfae204ed639bc062`, main CI #987 exact Cloudflare smoke**. Existing Pattern #40 is semantically aligned with this lesson because both represent stated spatial relations while preserving direct-choice evidence. A later implementation may generalize exact config to vertical, containment and proximity scenes, but must preserve all existing six Logic spatial activities and remain fail-closed on exact prompt/choices/order/answer/subject/stage/runtime.
 
 Expected distribution only if later implementation passes every gate:
 
@@ -263,13 +263,13 @@ set_reasoning               10 / 900
 spatial_relation_board      11 / 900
 ```
 
-No Pattern #48 is created. Math spatial audit main CI #971 / run `35377783814` passed exact Cloudflare smoke. Its implementation is now the **next authorized runtime wave** after the current live-verification closure docs are merged/live verified.
+No Pattern #48 is created. Math spatial audit main CI #971 / run `35377783814` passed exact Cloudflare smoke; runtime PR #214 then merged to main `2cb948d614c90aceaa592ddbfae204ed639bc062`, with main CI #987 / run `35422469117` passing exact Cloudflare smoke.
 
 Reuse audit record: `SPATIAL_RELATION_BOARD_MATH_POSITION_REUSE_AUDIT_2026-09-19.md`.
 
-Audit PR #209 exact head `e34c85c40e86d7b3a2dc5d3686b445b434181b4d` passed CI #970 and merged to main `3e30a817ef86fa691f9b2f1249ac00bc00dce4e6`. Its artifacts preserved the code baseline at 47 active / `choice_grid` 228 / `spatial_relation_board` 6 / `set_reasoning` 10. Independent merged-main/Cloudflare verification remains pending.
+Audit PR #209 exact head `e34c85c40e86d7b3a2dc5d3686b445b434181b4d` passed CI #970 and merged to main `3e30a817ef86fa691f9b2f1249ac00bc00dce4e6`. Its artifacts preserved the code baseline at 47 active / `choice_grid` 228 / `spatial_relation_board` 6 / `set_reasoning` 10. Independent merged-main/Cloudflare verification subsequently passed; use the closure/current-state records for final evidence.
 
-### Next reuse audit — Math measurement -> `compare_properties`
+### Verified reuse checkpoint — Math measurement -> `compare_properties`
 
 Exact direct-choice scope:
 
@@ -290,7 +290,7 @@ Audit result: **reuse justified / implementation merged and live verified**.
 
 The existing Science `compare_properties` mechanic is currently binary. Math `longer` and `fuller` fit the binary model directly. `more-capacity` and `three-lengths` require a typed multi-candidate variant with all three canonical answers represented as equivalent first-class property cards. This remains qualitative property comparison and preserves the same direct-choice evidence contract; it does not justify Pattern #48.
 
-Future distribution from the current code baseline if this four-ID measurement reuse alone is verified:
+Historical expected distribution before runtime verification:
 
 ```text
 47 active patterns
@@ -308,13 +308,13 @@ spatial_relation_board    11 / 900
 compare_properties         7 / 900
 ```
 
-This audit is live verified. Its runtime wave remains queued behind the earlier Math spatial full implementation/live closure.
+This audit and runtime are fully closed/live verified. Runtime PR #216 merged to main `365070772554d3f00ff7b8124e9f71e97b5252a6`; main CI #995 / run `35425340216` passed exact Cloudflare smoke.
 
 Reuse audit record: `COMPARE_PROPERTIES_MATH_MEASURE_REUSE_AUDIT_2026-09-19.md`.
 
 Audit PR #210 exact head `0774f29c9658302a4c7bc99f5291c1eb84caad1c` passed CI #972 and merged to main `f9833568dea0f021cd5c4ed94f6f6fc7505ad8d8`. Its artifacts preserved 47 active / `choice_grid` 228 / `compare_properties` 3 / `spatial_relation_board` 6 / `set_reasoning` 10. Independent merged-main/Cloudflare verification remains pending.
 
-### Next reuse audit — English completion -> `cloze_sentence_choice`
+### Verified reuse checkpoint — English completion -> `cloze_sentence_choice`
 
 Exact scope:
 
@@ -328,9 +328,9 @@ english-complete-mother-family
 
 Canonical ownership is English / `english-phrases-review` / `english-sentence-completion` / `english.pack.sentence-completion` / `english.sentence.completion` / assessed `tap_choice` / `choice_accuracy_v1`.
 
-Audit result: **reuse justified / implementation active in PR #219**.
+Audit result: **reuse justified; runtime fully closed/live verified via PR #219 -> main `e3c92cfe8c1050fdcca1599ae92d98a9345b04ca`, main CI #1009, with closure main `ae29ada7...` / CI #1011**.
 
-Accepted code checkpoint `a054b76b1e13cba03a255b9c60f0bd43deb9051f` passed CI #1003 / run `35430916587` across Production build, Ubuntu quality, Windows compatibility, dependency audit, secret-history scan and mobile Chromium QA. Branch evidence is 900/900 classified, 47 active, `choice_grid` 214, `cloze_sentence_choice` 10, KEEP 900 / 0 flagged. Nine dedicated 320/390/768 idle/try/success screenshots were manually accepted with P0=0/P1=0. Final docs exact-head CI remains required before merge.
+Historical accepted code checkpoint `a054b76b1e13cba03a255b9c60f0bd43deb9051f` passed CI #1003 / run `35430916587`. Branch evidence was 900/900 classified, 47 active, `choice_grid` 214, `cloze_sentence_choice` 10, KEEP 900 / 0 flagged, with nine dedicated screenshots accepted P0=0/P1=0. Final runtime and closure verification later completed successfully as recorded below.
 
 Pattern #38 already expresses one-slot sentence completion with direct-choice measured evidence. Later implementation must preserve five existing Bahasa cloze activities and add five English IDs through exact fail-closed configuration. The UI must become subject-aware: existing Bahasa child-facing copy and `id-ID` behavior remain stable; English completion uses reviewed English copy/locale. Blank syntax alone must never classify an arbitrary activity.
 
@@ -361,7 +361,7 @@ Reuse audit record: `CLOZE_SENTENCE_CHOICE_ENGLISH_REUSE_AUDIT_2026-09-19.md`.
 
 Audit PR #211 exact head `adc975f119b557f253cd3a366e728efa2fd74810` passed CI #974 and merged to main `76e1eeb0c0d50280c612b57af7d6e85e5a079f52`. Its artifacts preserved 47 active / `choice_grid` 228 / `cloze_sentence_choice` 5 / `compare_properties` 3 / `spatial_relation_board` 6 / `set_reasoning` 10. Independent merged-main/Cloudflare verification remains pending.
 
-### Next reuse audit — Science environment care -> Pattern #22 `healthy_habit_routine`
+### Verified reuse checkpoint — Science environment care -> Pattern #22 `healthy_habit_routine`
 
 Exact direct-choice scope:
 
@@ -378,7 +378,7 @@ Explicit exclusion:
 science-match-environment-actions-c -> matching / matching_accuracy_v1
 ```
 
-Audit result: **reuse justified / code not started**.
+Audit result: **reuse justified; runtime and docs closure fully closed/live verified via PR #221 -> main `986c5c47e2d75366623611f323118b8013f93fe1`, main CI #1018, and closure PR #222 -> `d98ac3794ce32d4308e84d0beecba83156eabd6b`, CI #1020**.
 
 The environment-care lesson explicitly measures selecting simple actions that reduce waste/resource waste or care for the environment. PR #221 merged to main `986c5c47e2d75366623611f323118b8013f93fe1` with an explicit domain variant: old `body_health` behavior/metadata stay stable while `environment_care` uses domain-correct copy and evidence metadata. The classifier is exact/fail-closed on ID, subject, stage, runtime, prompt, choice order and answer. Main CI #1018 passed exact-SHA Cloudflare smoke. The historical pattern identifier remains for compatibility and does not justify Pattern #48.
 
