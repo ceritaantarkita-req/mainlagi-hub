@@ -121,3 +121,16 @@ Use this document as the short source of truth for subject/activity backgrounds.
 6. Run responsive screenshots at the required viewports and review them manually.
 7. Only after the pilot is accepted, expand scene generation to the remaining subjects.
 8. Update current-state docs with exact PR/SHA/CI evidence after implementation.
+
+
+## 21 September 2026 pair-review checkpoint
+
+The first Math + Science pilot now has all 12 wide/mobile scene pairs available outside the public repository and the composition-level pair review is complete.
+
+- 6 Math scene pairs: PASS for pair identity / mobile recomposition / gameplay-safe composition.
+- 6 Science scene pairs: PASS for pair identity / mobile recomposition / gameplay-safe composition.
+- Candidate binaries remain **non-production** pending provenance / redistribution approval.
+- Runtime integration must stay fail-closed until approved WebP assets exist under the canonical public artwork path.
+- Detailed review record: `docs/SUBJECT_BACKGROUND_PAIR_REVIEW_2026-09-21.md`.
+
+The runtime foundation may now be implemented independently of binary activation: typed subject/scene contracts, deterministic activity-to-scene resolution, route-level theme context, and `GardenActivityFrame` support for approved responsive sources. This separation lets architecture move forward without silently promoting candidate art into the public AGPL tree.
