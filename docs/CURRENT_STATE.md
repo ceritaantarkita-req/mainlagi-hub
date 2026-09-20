@@ -167,6 +167,10 @@ Approved priorities: canonicalize overlapping UI paths; audit/fix unexpected bro
 
 This product-UX track must stay separate from WS-05 objective/evidence mechanic work. Garden is live, but current child/parent visual usability is **not** considered finally accepted by the 20 September review.
 
+### WS-13 Phase 1 — canonical UI / warning audit
+
+Active branch: `agent/ws13-canonical-ui-warning-audit-20260920`. The route-owner audit confirms the live child home is `Batch14WorldHome`, subject catalog is `ChildLearningPathViews.SubjectScreen` -> `ActivityGallery`, child shell is `PlayroomShell`, and current parent root/children routes use cloud aliases through `LearningPlatform`. Duplicate similarly named legacy presentation components must not be edited as source of truth without route tracing. Local product QA is being extended to inventory browser warning-level console messages separately from existing product heuristic warnings.
+
 ## Engineering status
 
 No known P0 mechanic/runtime engineering blocker is open on merged `main`. Separate product-UX P0 work is now open under `PRODUCT_UX_NEXT_WORK_2026-09-20.md`.
