@@ -212,8 +212,11 @@ export function ParentSettingsScreen() {
           </div>
           <div className={styles.settingsLinks}>
             <Link href="/parent/plan" className={styles.settingsLink}><span>Paket Mainlagi</span><strong aria-hidden>→</strong></Link>
-            <div className={styles.settingsInfoRow}><span>Tentang & FAQ</span><small>Surface parent/public berikutnya</small></div>
-            <div className={styles.settingsInfoRow}><span>Kebijakan, Terms & rekomendasi</span><small>Belum dibuat sebagai route terpisah</small></div>
+            <Link href="/about" className={styles.settingsLink}><span>Tentang Mainlagi</span><strong aria-hidden>→</strong></Link>
+            <Link href="/faq" className={styles.settingsLink}><span>FAQ</span><strong aria-hidden>→</strong></Link>
+            <Link href="/privacy" className={styles.settingsLink}><span>Kebijakan privasi</span><strong aria-hidden>→</strong></Link>
+            <Link href="/terms" className={styles.settingsLink}><span>Syarat layanan</span><strong aria-hidden>→</strong></Link>
+            <Link href="/discover/products" className={styles.settingsLink}><span>Rekomendasi produk</span><small>Tautan afiliasi</small></Link>
           </div>
         </section>
       </div>
