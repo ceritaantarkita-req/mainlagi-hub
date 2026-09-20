@@ -738,9 +738,9 @@ This is a separate track from WS-05 and must not be mixed into mechanic-reuse PR
 
 1. Canonical component/route ownership + unexpected-console-warning audit.
 2. Homepage/header/navigation + five-character hero + responsive 3-column subject directory; remove activity-count subtitles.
-3. Activity gallery/catalog redesign and QA-only unlock-all mode.
-4. Shared completion system: praise animation, three stars, Back / Try Again / Next / parent-gated Share.
-5. Matching randomization and age/difficulty presentation without changing canonical evidence.
+3. **DONE / LIVE VERIFIED** — Activity gallery/catalog redesign and QA-only unlock-all mode (#244 -> `fc49ca3`).
+4. **DONE / LIVE VERIFIED** — Shared completion system: praise animation, three stars, Back / Try Again / Next / parent-gated Share (#245 -> `53a5f04`).
+5. **ACTIVE** — Matching randomization and age/difficulty presentation without changing canonical evidence; current wave removes same-row answer leakage and keeps pair-count changes out of scope until content review.
 6. First-instruction narration latency/preload.
 7. Parent/profile/settings responsive redesign and information architecture.
 8. Character bible + Naya/Gian/Zia production assets.

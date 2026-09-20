@@ -1,8 +1,10 @@
 # WS-13 — Shared Completion Wave
 
 Date: **20 September 2026**  
-Status: **IMPLEMENTATION PR / VALIDATION PENDING**  
+Status: **MERGED / LIVE VERIFIED**  
 Base when branch opened: `main` = `fc49ca3f26133203024695bee3cf8b973617326e`
+Merged PR: **#245** -> `53a5f04c6d5430f3feb6273d42f178c5419fe418`  
+Validation: CI **#1128** exact-head success; merged-main CI **#1129** success including **Production smoke (Cloudflare)** for exact SHA `53a5f04`. Manual screenshot acceptance passed at 320px, 390px and 768px after the completion surface was changed to a focused overlay with all primary actions immediately visible.
 
 ## Goal
 

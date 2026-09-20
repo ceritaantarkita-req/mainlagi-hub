@@ -19,6 +19,7 @@ interface RuntimeStats {
   retryCount: number;
   resetCount: number;
   selectedMatchPair: string | null;
+  selectedMatchColumn: "left" | "right" | null;
 }
 
 function emptyStats(): RuntimeStats {
@@ -28,7 +29,8 @@ function emptyStats(): RuntimeStats {
     incorrectCount: 0,
     retryCount: 0,
     resetCount: 0,
-    selectedMatchPair: null
+    selectedMatchPair: null,
+    selectedMatchColumn: null
   };
 }
 
@@ -159,15 +161,28 @@ export function LearningAttemptBridge({ childId }: { childId: string }) {
 
       if (activity.runtime === "matching") {
         if (button.className.includes("matchDone") || (button.textContent ?? "").trim().startsWith("✓")) return;
-        const item = (activity.matchItems ?? []).find((candidate) => candidate.label === label);
+        const datasetPair = button.dataset.matchPair;
+        const item = datasetPair
+          ? (activity.matchItems ?? []).find((candidate) => candidate.pair === datasetPair)
+          : (activity.matchItems ?? []).find((candidate) => candidate.label === label);
         if (!item) return;
         touchStats(stats);
+        const column = button.dataset.matchColumn === "left" || button.dataset.matchColumn === "right"
+          ? button.dataset.matchColumn
+          : null;
         if (button.className.includes("matchSelected")) {
           stats.selectedMatchPair = null;
+          stats.selectedMatchColumn = null;
           return;
         }
         if (stats.selectedMatchPair === null) {
           stats.selectedMatchPair = item.pair;
+          stats.selectedMatchColumn = column;
+          return;
+        }
+        if (column && stats.selectedMatchColumn === column) {
+          stats.selectedMatchPair = item.pair;
+          stats.selectedMatchColumn = column;
           return;
         }
         if (stats.selectedMatchPair === item.pair) stats.correctCount += 1;
@@ -176,6 +191,7 @@ export function LearningAttemptBridge({ childId }: { childId: string }) {
           stats.retryCount += 1;
         }
         stats.selectedMatchPair = null;
+        stats.selectedMatchColumn = null;
         return;
       }
 

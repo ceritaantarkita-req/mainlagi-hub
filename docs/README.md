@@ -312,6 +312,7 @@ Pattern #42 closure gates are complete. Closure PR #188 merged and closure main 
 
 ## Current evidence records
 
+- [`WS13_VISIBLE_MATCHING_RANDOMIZATION_2026-09-20.md`](WS13_VISIBLE_MATCHING_RANDOMIZATION_2026-09-20.md) — active WS-13 matching UX wave: left/right independent ordering, no same-row answer leak, evidence-safe same-column reselection, shared completion and retry reshuffle.
 - [`WS13_SHARED_COMPLETION_WAVE_2026-09-20.md`](WS13_SHARED_COMPLETION_WAVE_2026-09-20.md) — shared success UX with praise, three stars, Back/Try Again/Next and server-gated privacy-safe sharing; first adopted by representative mechanics before wider rollout.
 - [`WS13_CANONICAL_UI_WARNING_AUDIT_2026-09-20.md`](WS13_CANONICAL_UI_WARNING_AUDIT_2026-09-20.md) — WS-13 Phase 1 route/component ownership audit plus browser console-warning inventory instrumentation; identifies `Batch14WorldHome`, `ActivityGallery`, `PlayroomShell`, current parent aliases, and legacy overlaps before UX refactor.
 - [`PRODUCT_UX_NEXT_WORK_2026-09-20.md`](PRODUCT_UX_NEXT_WORK_2026-09-20.md) — user-approved next product-UX handoff: canonical UI cleanup, five-character hero, 3-column subject directory, QA unlock mode, gallery redesign, shared completion, matching randomization, narration latency/quality, parent/settings redesign, character/theme system and updated acceptance gates.
