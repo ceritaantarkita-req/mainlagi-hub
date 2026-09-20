@@ -1,8 +1,10 @@
 # WS-02 / WS-13 — Audio First-Instruction Latency
 
 Date: **20 September 2026**  
-Status: **IMPLEMENTATION PR / VALIDATION PENDING**  
+Status: **MERGED / LIVE VERIFIED**  
 Base: `main` = `689b2d2fa8c5c381c6e75282ba3badf9857e089c`
+
+Closure: PR #249 -> `main` `770d8b66dac20765fd96a66e9d752931e1a56d66`; exact-head PR CI #1144 passed all gates, manual 390px listening review accepted, `browser-warnings.json` = 0, and merged-main CI #1145 / run `35511068490` passed all gates including exact Cloudflare production smoke.
 
 ## Problem
 
