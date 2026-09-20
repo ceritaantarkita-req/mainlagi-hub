@@ -195,7 +195,9 @@ async function inspectPage(page, route, viewport) {
       assert.equal(await page.getByRole("heading", { name: "Profil keluarga", exact: true }).count(), 1, "parent overview must separate family profiles");
       assert.equal(await page.getByRole("heading", { name: "Mode demo", exact: true }).count(), 1, "parent overview must separate demo profile");
       const mobileNav = page.locator("[data-mainlagi-parent-mobile-nav]");
+      const sidebar = page.locator("[data-mainlagi-parent-sidebar]");
       if (viewport.width < 720) {
+        assert.equal(await sidebar.isVisible(), false, `parent desktop sidebar must be hidden at ${viewport.width}px`);
         assert.ok(await mobileNav.isVisible(), `parent mobile navigation must be visible at ${viewport.width}px`);
         assert.equal(await mobileNav.locator("a").count(), 5, "parent mobile navigation must expose five primary destinations");
         const navGeometry = await mobileNav.evaluate((element) => {
@@ -210,6 +212,7 @@ async function inspectPage(page, route, viewport) {
         assert.ok(Math.abs(navGeometry.rect.bottom - viewport.height) <= 2, `parent mobile nav must stay pinned to viewport bottom at ${viewport.width}px`);
         assert.ok(navGeometry.links.every((item) => item.height >= 58 && item.width > 0), `parent mobile nav items must stay readable at ${viewport.width}px: ${JSON.stringify(navGeometry.links)}`);
       } else {
+        assert.ok(await sidebar.isVisible(), `parent desktop sidebar must be visible at ${viewport.width}px`);
         assert.equal(await mobileNav.isVisible(), false, `parent mobile navigation must be hidden on desktop at ${viewport.width}px`);
       }
     }
