@@ -6,7 +6,7 @@ This is the canonical human/AI handoff. `main` is the merged source of truth; op
 
 ## Canonical baseline
 
-- current main: `a04bd51fb02dedf56b5cd62f7f579eb53c4be251` (PR #252 docs-only parent-wave closure)
+- documentation sync base: `a04bd51fb02dedf56b5cd62f7f579eb53c4be251` (PR #252 docs-only parent-wave closure)
 - latest independently live-verified runtime/product main: `77bee682f84b5d68b85d2c91b1d6f2ca4c93d2d9` (PR #251)
 - latest runtime merged-main CI: **#1160 / run `35520629179` — full success including exact Cloudflare production smoke**
 - parent responsive QA artifact: **`10608044389`**
@@ -884,7 +884,7 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Treat `main` as source of truth; current docs closure is `a04bd51f...`, while latest independently live-verified runtime/product behavior is `77bee682...` via main CI #1160.
+1. Treat `main` as source of truth. This sync was based on parent docs closure `a04bd51f...`; latest independently live-verified runtime/product behavior is `77bee682...` via main CI #1160.
 2. Parent/profile/settings responsive redesign is closed/live verified. Preserve the <760px mobile header + five-item bottom nav, >=760px desktop sidebar, family/demo separation and profile-vs-guide identity boundary.
 3. Execute the next WS-13 product wave: extend the Art Bible character production contract and create/review Naya/Gian/Zia production assets. Do not invent unsupported character biography or silently replace profile identity with guide identity.
 4. Preserve Paca/Gavi current production artwork and provenance. Naya/Gian/Zia generated candidates are not production-approved until reviewed and their rights/provenance are recorded.
