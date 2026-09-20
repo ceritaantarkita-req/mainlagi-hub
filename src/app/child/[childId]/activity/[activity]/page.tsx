@@ -1,3 +1,4 @@
+import { ActivityVisualThemeProvider } from "@/components/learning/ActivityVisualThemeProvider";
 import { AudioChoiceLearningActivity } from "@/components/learning/AudioChoiceLearningActivity";
 import { CauseEffectActivity } from "@/components/learning/CauseEffectActivity";
 import { ClozeSentenceChoiceActivity } from "@/components/learning/ClozeSentenceChoiceActivity";
@@ -90,7 +91,8 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
   const runtime = String(definition?.runtime ?? "");
 
   return (
-    <div className={styles.immersive}>
+    <ActivityVisualThemeProvider activityId={activity}>
+      <div className={styles.immersive}>
       {activity === "math-trace-5-touch" ? (
         <MathTraceWorldActivity childId={childId} />
       ) : runtime === "drawing" || runtime === "coloring" ? (
@@ -178,6 +180,7 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
       ) : (
         <WorldActivityScreen childId={childId} activityId={activity} />
       )}
-    </div>
+      </div>
+    </ActivityVisualThemeProvider>
   );
 }
