@@ -96,7 +96,7 @@ export function ActivityCompletion({
       <div className={styles.actions}>
         <button type="button" onClick={goBack}><ArrowLeft size={22} weight="bold" aria-hidden />Back</button>
         <button type="button" onClick={retry}><ArrowClockwise size={22} weight="bold" aria-hidden />Try Again</button>
-        <Link href={nextHref}><ArrowRight size={22} weight="bold" aria-hidden />Next</Link>
+        <Link href={nextHref} aria-label="Next"><ArrowRight size={22} weight="bold" aria-hidden />Next</Link>
       </div>
 
       <button type="button" className={styles.shareButton} onClick={() => void openShare()}>
