@@ -1,6 +1,6 @@
 # Mainlagi Hub — Product Direction
 
-Last reviewed: **14 September 2026**
+Last reviewed: **20 September 2026**
 
 Status: **current product direction**. Some items are implemented, some remain next-phase work. Implementation claims must be checked against `CURRENT_STATE.md` and code.
 
@@ -118,6 +118,14 @@ Five canonical Mainlagi characters:
 - **Paca** — friendly male-coded robot;
 - **Gavi** — orange cat.
 
+Current production-asset truth:
+
+- Paca and Gavi have production Garden WebP assets in `public/artwork`;
+- Naya, Gian and Zia do not yet have production image files under `public/artwork`;
+- current Naya/Gian/Zia avatars are fallback representations, not final production art;
+- child profile identity is separate from guide-character identity;
+- generated character candidates require review and provenance before production use.
+
 Characters are a reusable narrative/feedback system, not decoration only. Roles can include narration, introductions, hints, retry guidance, celebrations, stage transitions, story continuity and bilingual voice identity.
 
 ## 9. Voice and language
@@ -190,19 +198,18 @@ See `AI_OCR_OPENROUTER.md`.
 
 ## 15. Current execution priority
 
-Before major new features or catalog expansion, finish `NEXT_PRODUCT_QUALITY_PLAN.md` workstreams:
+The 20 September WS-13 product sequence has already closed canonical component/warning audit, child home + subject directory, activity gallery/QA unlock, shared completion, matching randomization, first-instruction narration latency, and parent/profile/settings responsive redesign.
 
-1. canonical docs;
-2. stage/gallery UX coherence;
-3. 900-activity quality audit/redesign;
-4. meaningful mechanic diversification;
-5. Coloring rebuild;
-6. Drawing rebuild;
-7. art direction/visual QA;
-8. native Indonesian/English narration;
-9. About/FAQ/parent affiliate UX;
-10. external device/accessibility/Iqro acceptance;
-11. governance hardening;
-12. technical cleanup.
+Current order:
+
+1. production-grade character specification in the canonical Art Bible;
+2. reviewed/provenance-cleared Naya/Gian/Zia production assets;
+3. subject theme/background system and learning-illustration consistency;
+4. English narration quality;
+5. broader human visual/usability + physical-device/accessibility acceptance;
+6. Iqro expert review;
+7. targeted remaining P2 visual/governance/technical cleanup.
+
+WS-05 gameplay-mechanic work continues separately through objective/evidence audits. Pattern #48 remains unjustified; existing-mechanic reuse is preferred when it faithfully measures the objective.
 
 **Quality first. Quantity later.**
