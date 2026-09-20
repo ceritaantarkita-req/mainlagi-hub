@@ -129,7 +129,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 | WS-02 Voice & narration | TODO | reviewed ID/EN narration |
 | WS-03 Public/parent frontend | **P1 COMPLETE** | VUI-01/02/03 + residual token closure live verified |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **47 ACTIVE / MATH MIXED-OPERATION ACCEPTED / FINAL CI ACTIVE** | audit #237 -> main `c01d0bac`; runtime #238 accepted head `33d05c52`; CI #1090 full success; 900/900 / `choice_grid` 179 / `make_total` 7 / `take_away` 7 / KEEP 900; 18-shot P0=0/P1=0; final exact-head CI required |
+| WS-05 Gameplay diversification | **47 ACTIVE / MATH MIXED-OPERATION FULLY CLOSED / FRESH AUDIT NEXT** | audit #237 -> main `c01d0bac`; runtime #238 final head `64336978` -> main `710ecdb`; CI #1095/#1096 full success with exact production smoke; 900/900 / `choice_grid` 179 / `make_total` 7 / `take_away` 7 / KEEP 900; 18-shot P0=0/P1=0 |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | P45 merged-main permanent visual QA green; nine dedicated screenshots manually accepted |
@@ -144,7 +144,9 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 900 / 900 classified
 0 unclassified
 47 active merged patterns
-choice_grid                     183 / 900
+choice_grid                     179 / 900
+make_total                        7 / 900
+take_away                         7 / 900
 number_line                      11 / 900
 picture_word_match               23 / 900
 set_reasoning                    10 / 900
@@ -720,13 +722,13 @@ P2 findings: 3
 
 ## Current execution order
 
-1. Preserve verified merged truth at **900/900 classified / 47 active / `choice_grid` 183 / `make_total` 5 / `take_away` 5 / `number_line` 11 / KEEP 900** until the runtime PR merges.
-2. Math mixed-operation reuse audit is live verified: PR #237 -> main `c01d0bac15e438640cacb5958db31c1a6ad36c66`; CI #1086/#1087 full success with exact audit-main Cloudflare smoke.
-3. Current runtime branch reuses existing `make_total` for exactly `math-mixed-add-2-3` + `math-mixed-add-4-4`, and existing `take_away` for exactly `math-mixed-sub-6-1` + `math-mixed-sub-9-3`.
-4. `math-mixed-choose-add` remains excluded because its assessed evidence is operation selection, not numeric-result computation.
-5. Complete mechanic families must remain exact 7-ID sets and fail closed on subject, stage, runtime, title, prompt, exact choice order, answer and arithmetic config.
-6. Dedicated mixed-operation QA must cover add + subtract at 320/390/768, legitimate progression, keyboard wrong/retry, pointer + actual touchscreen completion, touch targets, overflow, assessed evidence and explicit operation-selection exclusion while legacy mechanic QA remains green.
-7. Expected runtime result is **900/900 / 47 active / `choice_grid` 179 / `make_total` 7 / `take_away` 7 / KEEP 900**.
-8. This is existing-mechanic reuse, not Pattern #48. No next family is pre-approved.
+1. Preserve verified merged truth at **900/900 classified / 47 active / `choice_grid` 179 / `make_total` 7 / `take_away` 7 / `number_line` 11 / KEEP 900**.
+2. Math mixed-operation direct-result -> existing `make_total` / `take_away` is **FULLY CLOSED / LIVE VERIFIED** through audit #237 and runtime #238 -> main `710ecdbad3f68b88bc3d6330f9c77cc7f9ad7f24`, with exact production smoke in CI #1096.
+3. Preserve exact seven-ID fail-closed families, canonical `math.operation.mixed` identity for the four reused activities, explicit `math-mixed-choose-add` exclusion, and dedicated add/sub 320/390/768 QA.
+4. Preserve the responsive success-state fixes found by QA at 320x720 and 390x844; do not relax the full-visibility assertions.
+5. No next runtime family is pre-approved by this closure. The next WS-05 action must begin with a **fresh objective/evidence audit** of the remaining 179 `choice_grid` activities.
+6. Prefer reuse of an existing mechanic when the objective/evidence contract already matches; create Pattern #48 only if distinct interaction evidence justifies it.
+7. Iqro remains outside mechanic transformation until expert acceptance exists; English word-selection initial-sound and heterogeneous Science force/motion remain excluded from previously reviewed mismatched mechanics.
+8. The numeric distance to the 50-pattern target remains three; that number is not authorization to invent patterns.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
