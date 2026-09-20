@@ -25,7 +25,7 @@ assert.equal(childDestination("test","color"),"/child/test/subject/color");
 assert.equal(childDestination("../escape","color"),"/child/..%2Fescape/subject/color");
 
 let log="";
-const server=spawn(process.execPath,["node_modules/next/dist/bin/next","start","-H","127.0.0.1","-p","4022"],{cwd:root,stdio:["ignore","pipe","pipe"]});
+const server=spawn(process.execPath,["node_modules/next/dist/bin/next","start","-H","127.0.0.1","-p","4022"],{cwd:root,env:{...process.env,MAINLAGI_QA_UNLOCK_ALL:"1"},stdio:["ignore","pipe","pipe"]});
 server.stdout.on("data",chunk=>{log+=chunk;});
 server.stderr.on("data",chunk=>{log+=chunk;});
 let browser;
