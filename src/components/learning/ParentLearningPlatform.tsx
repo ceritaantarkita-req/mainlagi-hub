@@ -56,10 +56,6 @@ export function ParentShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const [moreOpen, setMoreOpen] = useState(false);
 
-  useEffect(() => {
-    setMoreOpen(false);
-  }, [pathname]);
-
   return (
     <div className={styles.parentSurface}>
       <div className={styles.parentLayout}>
@@ -135,12 +131,12 @@ export function ParentShell({ children }: { children: ReactNode }) {
             </div>
             <nav aria-label="Menu orang tua lainnya">
               {PARENT_MORE_NAV.map((item) => (
-                <Link key={item.href} href={item.href}>
+                <Link key={item.href} href={item.href} onClick={() => setMoreOpen(false)}>
                   <item.icon size={22} weight="duotone" aria-hidden />
                   <span>{item.label}</span>
                 </Link>
               ))}
-              <Link href="/child/select"><GameController size={22} weight="duotone" aria-hidden /><span>Mode anak</span></Link>
+              <Link href="/child/select" onClick={() => setMoreOpen(false)}><GameController size={22} weight="duotone" aria-hidden /><span>Mode anak</span></Link>
             </nav>
           </section>
         </div>
