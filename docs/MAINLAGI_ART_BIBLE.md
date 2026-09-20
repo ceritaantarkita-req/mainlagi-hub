@@ -286,6 +286,21 @@ Child profile identity and guide-character identity are separate concepts. Never
 
 The current Coloring content contract remains separate: existing coloring-character support is Paca/Gavi only. This Art Bible does not authorize new Naya/Gian/Zia coloring activities or evidence changes.
 
+
+### Subject background / scene contract
+
+Detailed execution source: [`SUBJECT_BACKGROUND_SYSTEM.md`](SUBJECT_BACKGROUND_SYSTEM.md).
+
+- A subject uses a small reusable scene family, not one identical Garden background and not 100 one-off backgrounds.
+- Math + Science are the first pilot; review wide/mobile scene pairs before code integration.
+- Backgrounds remain decorative and sit behind a separate gameplay-safe UI layer.
+- Keep central gameplay space quiet; place major decorative context near edges; protect header/title and bottom controls.
+- Never bake answers, task text, progress, assessment evidence or interactive-looking fake controls into scenery.
+- Use explicit mobile art direction when wide artwork cannot crop safely.
+- Scene resolution must be deterministic and data-driven through a central subject/theme resolver.
+- Visual changes must not alter curriculum, answers, mastery, evidence, progression, activity order or runtime semantics.
+- Generated scene candidates are review material until visual acceptance and provenance/redistribution checks are complete.
+
 ## 12. Feedback states
 
 Every assessed child interaction needs visually distinct:
