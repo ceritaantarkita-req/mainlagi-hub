@@ -55,7 +55,7 @@ const expected = {
   "math-measure-longer": "measurement-workshop",
   "science-water-ice-melts": "pond",
   "science-weather-rain-clue": "weather-meadow",
-  "science-plant-parts-root": "greenhouse",
+  "science-plant-roots": "greenhouse",
   "science-feature-duck-webbed-feet": "nature-trail",
   "science-material-raincoat-waterproof": "material-workshop",
   "science-investigate-plant-light": "greenhouse"
