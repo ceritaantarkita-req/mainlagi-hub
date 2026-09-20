@@ -266,7 +266,7 @@ export function CloudParentOverviewScreen() {
 
       {collection.error ? <div className={styles.infoBanner}>{collection.error}</div> : null}
 
-      <section className={styles.parentOverviewSection} aria-labelledby="family-profiles-title">
+      <section className={styles.parentOverviewSection} aria-labelledby="family-profiles-title" data-parent-family-section>
         <div className={styles.parentSectionHeading}>
           <div>
             <p className={styles.eyebrow}>Keluarga</p>
@@ -288,7 +288,7 @@ export function CloudParentOverviewScreen() {
         )}
       </section>
 
-      <section className={styles.parentOverviewSection} aria-labelledby="demo-profile-title">
+      <section className={styles.parentOverviewSection} aria-labelledby="demo-profile-title" data-parent-demo-section>
         <div className={styles.parentSectionHeading}>
           <div>
             <p className={styles.eyebrow}>Coba produk</p>
@@ -308,6 +308,8 @@ export function CloudParentChildrenScreen() {
   const collection = useProfileCollection();
   const [removingId, setRemovingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const demoProfile = collection.profiles.find((profile) => profile.id === DEMO_PROFILE.id) ?? DEMO_PROFILE;
+  const familyProfiles = collection.profiles.filter((profile) => profile.id !== DEMO_PROFILE.id);
 
   const remove = async (profile: LearningChildProfile) => {
     if (!collection.authenticated || profile.id === DEMO_PROFILE.id || removingId) return;
@@ -328,36 +330,53 @@ export function CloudParentChildrenScreen() {
 
   return (
     <main className={styles.parentMain}>
-      <p className={styles.eyebrow}>Profiles</p>
-      <h1 className={styles.pageTitle}>Anak</h1>
-      <p className={styles.pageLead}>
-        {collection.authenticated
-          ? "Profil anak tersimpan di Supabase dan dibatasi oleh ownership akun."
-          : "Mode development tanpa session memakai profil lokal."}
-      </p>
-      {collection.error || error ? <div className={styles.infoBanner}>{error ?? collection.error}</div> : null}
-      <section className={styles.section}>
-        <div className={styles.parentGrid}>
-          {collection.profiles.map((profile) => (
-            <div key={profile.id} style={{ display: "grid", gap: 8 }}>
-              <ParentProfileCard profile={profile} />
-              {collection.authenticated && profile.id !== DEMO_PROFILE.id ? (
-                <button
-                  type="button"
-                  className={styles.secondaryButton}
-                  disabled={removingId === profile.id}
-                  onClick={() => void remove(profile)}
-                >
-                  {removingId === profile.id ? "Menghapus..." : "Hapus profil"}
-                </button>
-              ) : null}
-            </div>
-          ))}
+      <header className={styles.parentPageHeader}>
+        <div>
+          <p className={styles.eyebrow}>Profil anak</p>
+          <h1 className={styles.pageTitle}>Anak</h1>
+          <p className={styles.pageLead}>
+            {collection.authenticated
+              ? "Profil keluarga tersimpan di akun dan dipisahkan dari profil demo."
+              : "Mode lokal menyimpan profil keluarga hanya di perangkat ini."}
+          </p>
         </div>
+        <Link className={styles.primaryButton} href="/child/select">Tambah profil</Link>
+      </header>
+
+      {collection.error || error ? <div className={styles.infoBanner}>{error ?? collection.error}</div> : null}
+
+      <section className={styles.parentOverviewSection} data-parent-family-section>
+        <div className={styles.parentSectionHeading}>
+          <div><p className={styles.eyebrow}>Keluarga</p><h2>Profil anak</h2></div>
+          <span>{familyProfiles.length} profil</span>
+        </div>
+        {familyProfiles.length ? (
+          <div className={styles.parentGrid}>
+            {familyProfiles.map((profile) => (
+              <div key={profile.id} className={styles.parentProfileManage}>
+                <ParentProfileCard profile={profile} />
+                {collection.authenticated ? (
+                  <button type="button" className={styles.secondaryButton} disabled={removingId === profile.id} onClick={() => void remove(profile)}>
+                    {removingId === profile.id ? "Menghapus..." : "Hapus profil"}
+                  </button>
+                ) : null}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className={styles.parentEmptyCard}>
+            <strong>Belum ada profil keluarga.</strong>
+            <p>Tambah profil supaya data belajar tidak tercampur dengan demo.</p>
+          </div>
+        )}
       </section>
-      <div className={styles.heroActionRow}>
-        <Link className={styles.primaryButton} href="/child/select">Tambah / pilih profil</Link>
-      </div>
+
+      <section className={styles.parentOverviewSection} data-parent-demo-section>
+        <div className={styles.parentSectionHeading}>
+          <div><p className={styles.eyebrow}>Demo</p><h2>Profil percobaan</h2></div>
+        </div>
+        <div className={styles.parentDemoGrid}><ParentProfileCard profile={demoProfile} demo /></div>
+      </section>
     </main>
   );
 }
