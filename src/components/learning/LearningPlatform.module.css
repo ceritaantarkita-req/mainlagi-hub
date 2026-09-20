@@ -1145,3 +1145,297 @@ a.stageCard:hover,a.activityCard:hover,a.profileCard:hover,a.gameCard:hover { bo
 @media(max-width:600px) { .rewardShelf { grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; } }
 .input,.select { border:2px solid #c9d8ce; border-radius:14px; min-height:50px; color:#193b55; background:#fffef8; }
 @media(max-width:600px) { .choiceGrid { gap:12px; margin:30px auto; } .bigChoice { border-radius:22px; padding:14px 6px; } .activityPrompt { letter-spacing:-.5px; margin-bottom:26px; } .stageCard,.activityCard,.gameCard { padding:18px; } }
+
+
+/* WS-03 parent/profile/settings responsive convergence. */
+.childIdentityAvatar,
+.childIdentityAvatarLarge {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  background: linear-gradient(145deg,#dfeee0,#cfe3ef);
+  color: #193b55;
+  box-shadow: 0 4px 0 #d8e1d5;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+.childIdentityAvatar { width: 54px; height: 54px; font-size: 23px; }
+.childIdentityAvatarLarge { width: 78px; height: 78px; font-size: 32px; }
+
+.parentContent { min-width: 0; padding-bottom: 82px; }
+
+.parentMobileHeader {
+  position: sticky;
+  z-index: 30;
+  top: 0;
+  display: flex;
+  min-height: 64px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  border-bottom: 1px solid #d8e2d8;
+  background: rgba(255,254,247,.96);
+  backdrop-filter: blur(12px);
+}
+.parentMobileBrand {
+  color: #193b55;
+  font-size: 22px;
+  font-weight: 950;
+  text-decoration: none;
+}
+.parentMobileBrand small {
+  display: block;
+  margin-top: -2px;
+  color: #60776f;
+  font-size: 11px;
+  font-weight: 750;
+}
+.parentMoreButton {
+  min-height: 42px;
+  padding: 0 14px;
+  border: 1px solid #d4ded5;
+  border-radius: 14px;
+  background: #fffbed;
+  color: #193b55;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.parentMobileNav {
+  position: fixed;
+  z-index: 45;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: grid;
+  grid-template-columns: repeat(4,minmax(0,1fr));
+  min-height: 68px;
+  padding: 6px max(8px,env(safe-area-inset-right)) max(6px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left));
+  border-top: 1px solid #d4ded5;
+  background: rgba(255,254,247,.98);
+  box-shadow: 0 -8px 24px #193b5510;
+}
+.parentMobileNav a,
+.parentMobileNav button {
+  display: flex;
+  min-width: 0;
+  min-height: 52px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  border: 0;
+  border-radius: 14px;
+  background: transparent;
+  color: #536d78;
+  font: inherit;
+  font-size: 10px;
+  font-weight: 850;
+  text-decoration: none;
+}
+.parentMobileNav a[aria-current="page"] {
+  background: #deeddc;
+  color: #205b46;
+}
+
+.parentSheetBackdrop {
+  position: fixed;
+  z-index: 70;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 14px;
+  background: #193b555c;
+}
+.parentSheet {
+  width: min(520px,100%);
+  max-height: min(78dvh,680px);
+  overflow: auto;
+  padding: 18px;
+  border-radius: 26px 26px 18px 18px;
+  background: #fffef7;
+  box-shadow: 0 24px 80px #193b5545;
+}
+.parentSheetHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+.parentSheetHead small { color:#657b73; font-weight:800; text-transform:uppercase; letter-spacing:.06em; }
+.parentSheetHead h2 { margin:2px 0 0; color:#193b55; font-size:28px; }
+.parentSheetHead button {
+  display:grid;
+  width:44px;
+  height:44px;
+  place-items:center;
+  border:0;
+  border-radius:50%;
+  background:#edf3e7;
+  color:#193b55;
+}
+.parentSheet nav { display:grid; gap:7px; }
+.parentSheet nav a {
+  display:flex;
+  min-height:52px;
+  align-items:center;
+  gap:12px;
+  padding:10px 12px;
+  border-radius:16px;
+  color:#264b5a;
+  font-weight:850;
+  text-decoration:none;
+}
+.parentSheet nav a:hover { background:#eef5e9; }
+
+.parentSidebarSection {
+  display: grid;
+  gap: 3px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid #e1e7df;
+}
+.parentSidebarSection > span {
+  padding: 0 10px 5px;
+  color: #778a82;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+.parentModeChild { margin-top: auto; }
+
+.parentPageHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+}
+.parentPageHeader > div { min-width: 0; }
+
+.parentOverviewSection { margin-top: 30px; }
+.parentSectionHeading {
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:14px;
+}
+.parentSectionHeading h2 { margin:0; color:#193b55; font-size:clamp(22px,3vw,30px); }
+.parentSectionHeading > span { color:#60776f; font-size:13px; font-weight:850; }
+.parentSectionLead { margin:-4px 0 14px; color:#60776f; line-height:1.55; }
+
+.parentProfileHead { display:flex; align-items:center; gap:12px; }
+.parentProfileCopy { display:grid; gap:3px; min-width:0; }
+.parentProfileCopy strong { color:#193b55; font-size:18px; }
+.parentProfileCopy span { color:#60776f; font-size:13px; }
+.parentProfileStats {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+  margin-top:16px;
+}
+.parentProfileStats > span {
+  display:grid;
+  gap:1px;
+  padding:11px 12px;
+  border-radius:16px;
+  background:#f1f5eb;
+  color:#60776f;
+  font-size:12px;
+}
+.parentProfileStats strong { color:#193b55; font-size:21px; }
+.parentProfileActions { display:flex; gap:8px; margin-top:14px; }
+.parentProfileActions a {
+  display:inline-flex;
+  min-height:42px;
+  flex:1;
+  align-items:center;
+  justify-content:center;
+  padding:0 12px;
+  border:1px solid #d4ded5;
+  border-radius:14px;
+  background:#fffbed;
+  color:#264b5a;
+  font-size:13px;
+  font-weight:900;
+  text-decoration:none;
+}
+.parentProfileActions a:first-child { background:#287158; border-color:#287158; color:#fff; }
+.parentDemoCard { background:#f5f4ec; }
+.parentDemoGrid { width:min(520px,100%); }
+
+.parentEmptyCard {
+  display:grid;
+  gap:10px;
+  padding:22px;
+  border:2px dashed #cfdacf;
+  border-radius:24px;
+  background:#fffef7;
+  color:#536d78;
+}
+.parentEmptyCard strong { color:#193b55; font-size:20px; }
+.parentEmptyCard p { margin:0; line-height:1.55; }
+.parentEmptyCard .primaryButton { width:max-content; }
+
+.parentChildHeader { display:flex; align-items:center; gap:14px; margin-bottom:22px; }
+
+.parentSettingNote { margin:12px 0 0; color:#71879a; font-size:13px; line-height:1.6; }
+.parentSettingsLinks { display:grid; gap:10px; }
+.parentSettingsLinks a {
+  display:flex;
+  min-height:68px;
+  align-items:center;
+  gap:13px;
+  padding:13px 15px;
+  border:2px solid #dce4d8;
+  border-radius:18px;
+  background:#fffef7;
+  color:#264b5a;
+  text-decoration:none;
+}
+.parentSettingsLinks a > span { display:grid; gap:3px; }
+.parentSettingsLinks strong { color:#193b55; }
+.parentSettingsLinks small { color:#6a8078; line-height:1.4; }
+
+.parentInfoStack { display:grid; gap:14px; margin-top:24px; }
+.parentInfoStack h2 { margin:0 0 7px; color:#193b55; font-size:20px; }
+.parentInfoStack p { margin:0; color:#60776f; line-height:1.6; }
+.parentInfoStack .secondaryButton { width:max-content; margin-top:14px; }
+
+.parentFaqList { display:grid; gap:10px; margin-top:24px; }
+.parentFaqList details {
+  border:2px solid #dce4d8;
+  border-radius:18px;
+  background:#fffef7;
+  overflow:hidden;
+}
+.parentFaqList summary {
+  min-height:58px;
+  padding:16px;
+  color:#193b55;
+  font-weight:900;
+  cursor:pointer;
+}
+.parentFaqList details p { margin:0; padding:0 16px 18px; color:#60776f; line-height:1.6; }
+
+@media (max-width:719px) {
+  .parentSidebar { display:none; }
+  .parentMain { padding:24px 16px 100px; }
+  .parentPageHeader { align-items:flex-start; flex-direction:column; }
+  .parentPageHeader .secondaryButton { width:100%; }
+  .parentChildHeader { align-items:flex-start; }
+}
+
+@media (min-width:720px) {
+  .parentContent { padding-bottom:0; }
+  .parentMobileHeader,
+  .parentMobileNav,
+  .parentSheetBackdrop { display:none; }
+}
