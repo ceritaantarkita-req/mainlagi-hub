@@ -1,5 +1,7 @@
 # Mainlagi Hub Asset Provenance Policy
 
+Last reviewed: **20 September 2026**
+
 Mainlagi Hub is a public AGPL repository, so committing a binary asset can redistribute that asset to everyone who clones, forks, archives, or mirrors the repository. A disclaimer by itself does not create redistribution rights.
 
 This policy defines the minimum evidence required before public binary assets are added or retained.
@@ -117,6 +119,21 @@ Before expanding public character/voice/art assets, create an equivalent provena
 - future audio, TTS voice, animation, curriculum images, and model/dataset artifacts.
 
 Premium character/audio/content intended to remain proprietary should normally live outside the public AGPL repository.
+
+### Current character asset inventory
+
+As of 20 September 2026:
+
+- `public/artwork/garden-paca.webp` exists and is used by production UI;
+- `public/artwork/garden-gavi.webp` exists and is used by production UI;
+- `public/artwork/activity-previews/color-paca.webp` exists;
+- `public/artwork/activity-previews/color-gavi.webp` exists;
+- Naya/Gian/Zia do not yet have production image files under `public/artwork`;
+- current Naya/Gian/Zia inline/fallback representations are not a substitute for a production provenance record.
+
+Before a new Naya/Gian/Zia binary is committed or treated as production art, the PR must state whether the asset is owned or licensed, identify the source/creation basis, confirm public redistribution rights where it enters the public repository, and record any proprietary boundary if the final asset is intentionally kept outside the AGPL tree.
+
+AI/image-generation output is not automatically safe to redistribute or claim as an official Mainlagi asset. Review identity consistency, tool/output terms, source/reference rights, and downstream trademark/copyright implications before production use.
 
 ## 7. Third-party software, fonts, and model assets
 
