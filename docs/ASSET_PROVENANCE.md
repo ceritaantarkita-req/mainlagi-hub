@@ -135,6 +135,16 @@ Before a new Naya/Gian/Zia binary is committed or treated as production art, the
 
 AI/image-generation output is not automatically safe to redistribute or claim as an official Mainlagi asset. Review identity consistency, tool/output terms, source/reference rights, and downstream trademark/copyright implications before production use.
 
+
+### Current subject-background candidates
+
+- Twelve Math/Science landscape backgrounds are currently staged outside the public repository for visual review.
+- They are candidate assets, not production truth, until wide/mobile visual acceptance and rights/provenance review are complete.
+- The planned 12 mobile counterparts inherit the same status.
+- Do not commit candidate PNG batches merely because they were generated successfully.
+- After approval, record creation/source basis and redistribution rights, then optimize/export production files (normally WebP) before public-repo integration.
+- Canonical candidate names and rollout rules live in `SUBJECT_BACKGROUND_SYSTEM.md`.
+
 ## 7. Third-party software, fonts, and model assets
 
 Binary provenance policy complements, rather than replaces, `THIRD_PARTY_NOTICES.md`.
