@@ -3,6 +3,8 @@ import { isClozeSentenceChoiceActivity } from "./clozeSentenceChoiceConfig";
 import { healthyHabitRoutineConfig } from "./healthyHabitRoutineConfig";
 import { pictureWordMatchConfig } from "./pictureWordMatchConfig";
 import { numberLineConfig } from "./numberLineConfig";
+import { makeTotalConfig } from "./makeTotalConfig";
+import { takeAwayConfig } from "./takeAwayConfig";
 import { isReadingPassageQuestionActivity } from "./readingPassageQuestionConfig";
 import { isSentenceOrderCardsActivity } from "./sentenceOrderCardsConfig";
 import { isVisualWordProblemActivity } from "./visualWordProblemConfig";
@@ -196,22 +198,6 @@ const MATH_PATTERN_COMPLETION_IDS = new Set([
   "math-pattern-number-step-one",
   "math-pattern-number-step-two",
   "math-pattern-size"
-]);
-
-const MATH_MAKE_TOTAL_IDS = new Set([
-  "math-add-1-1",
-  "math-add-2-1",
-  "math-add-2-2",
-  "math-add-3-2",
-  "math-add-4-3"
-]);
-
-const MATH_TAKE_AWAY_IDS = new Set([
-  "math-sub-3-1",
-  "math-sub-4-2",
-  "math-sub-5-1",
-  "math-sub-6-2",
-  "math-sub-7-3"
 ]);
 
 const MATH_EQUAL_GROUPS_IDS = new Set([
@@ -411,29 +397,9 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     Boolean(activity.prompt);
   if (isReviewedMathPatternFamily) return "pattern_completion";
 
-  const isReviewedMathMakeTotalFamily =
-    activity.subjectId === "math" &&
-    activity.stageId === "math-operasi-awal" &&
-    MATH_MAKE_TOTAL_IDS.has(activity.id) &&
-    choices.length === 3 &&
-    new Set(choices).size === choices.length &&
-    choices.every((choice) => /^\d+$/.test(choice)) &&
-    /^\d+$/.test(correct) &&
-    choices.includes(correct) &&
-    Boolean(activity.prompt);
-  if (isReviewedMathMakeTotalFamily) return "make_total";
+  if (makeTotalConfig(activity)) return "make_total";
 
-  const isReviewedMathTakeAwayFamily =
-    activity.subjectId === "math" &&
-    activity.stageId === "math-operasi-awal" &&
-    MATH_TAKE_AWAY_IDS.has(activity.id) &&
-    choices.length === 3 &&
-    new Set(choices).size === choices.length &&
-    choices.every((choice) => /^\d+$/.test(choice)) &&
-    /^\d+$/.test(correct) &&
-    choices.includes(correct) &&
-    Boolean(activity.prompt);
-  if (isReviewedMathTakeAwayFamily) return "take_away";
+  if (takeAwayConfig(activity)) return "take_away";
 
   const isReviewedScienceCauseEffectFamily =
     activity.subjectId === "science" &&

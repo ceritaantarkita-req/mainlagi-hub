@@ -1,6 +1,6 @@
 # Math Mixed-Operation Existing-Mechanic Reuse Audit — 20 September 2026
 
-Status: **AUDIT COMPLETE / EXISTING `make_total` + `take_away` REUSE JUSTIFIED / EXACT 4-ID SCOPE / PATTERN COUNT STAYS 47 / CODE NOT STARTED**
+Status: **AUDIT MERGED / LIVE VERIFIED / EXISTING `make_total` + `take_away` REUSE JUSTIFIED / EXACT 4-ID SCOPE / RUNTIME IMPLEMENTATION ACTIVE**
 
 ## Verified baseline
 
@@ -31,6 +31,21 @@ total    183
 ```
 
 Iqro remains excluded from mechanic transformation until expert acceptance exists.
+
+## Audit merge verification
+
+```text
+Audit PR:             #237
+Audit exact head:     64952f163ff426c2f79e1e5ca18d243627022072
+Audit PR CI:          #1086 / run 35461546179 — full success
+Audit main:           c01d0bac15e438640cacb5958db31c1a6ad36c66
+Audit-main CI:        #1087 / run 35461876251 — full success
+Cloudflare smoke:     exact audit-main SHA PASS
+```
+
+CI #1087 verified production is serving exact audit-main `c01d0bac15e438640cacb5958db31c1a6ad36c66` on branch `main` with canonical Cloudflare + Supabase target.
+
+Runtime implementation is active on `agent/math-mixed-operation-reuse-20260920`. The audit decision remains exact: two mixed additions -> `make_total`, two mixed subtractions -> `take_away`, operation-selection excluded, no Pattern #48.
 
 ## Why this audit exists
 
