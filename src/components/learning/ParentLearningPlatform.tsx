@@ -16,7 +16,7 @@ import {
   type LearningChildProfile,
   type LearningPreferences
 } from "@/lib/learning/system";
-import { CharacterAvatar, useLearningProfile, useLearningProgress } from "./LearningCommon";
+import { ProfileIdentityBadge, useLearningProfile, useLearningProgress } from "./LearningCommon";
 import styles from "./LearningPlatform.module.css";
 import { House, Users, ShieldCheck, Sparkle, Gear, GameController } from "@phosphor-icons/react";
 
@@ -31,7 +31,68 @@ const PARENT_NAV = [
 
 export function ParentShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  return <div className={styles.parentSurface}><div className={styles.parentLayout}><aside className={styles.parentSidebar}><Link className={styles.parentBrand} href="/"><span>Mainlagi<small className={styles.parentBrandHint}>Ruang orang tua</small></span></Link><nav aria-label="Navigasi orang tua">{PARENT_NAV.map((item) => { const active = item.href === "/parent" ? pathname === "/parent" : pathname.startsWith(item.href); return <Link key={item.href} href={item.href} aria-current={active ? "page" : undefined} className={`${styles.parentNavItem} ${active ? styles.parentNavItemActive : ""}`}><item.icon size={23} weight="duotone" aria-hidden/><span>{item.label}</span></Link>; })}</nav><Link href="/child/select" className={styles.parentNavItem}><GameController size={23} weight="duotone" aria-hidden/><span>Mode anak</span></Link></aside><div>{children}</div></div></div>;
+  const isActive = (href: string) => href === "/parent" ? pathname === "/parent" : pathname.startsWith(href);
+
+  return (
+    <div className={styles.parentSurface}>
+      <header className={styles.parentMobileHeader}>
+        <Link className={styles.parentMobileBrand} href="/parent">
+          <span>Mainlagi</span>
+          <small>Ruang orang tua</small>
+        </Link>
+        <Link href="/child/select" className={styles.parentModeChild}>
+          <GameController size={20} weight="duotone" aria-hidden />
+          <span>Mode anak</span>
+        </Link>
+      </header>
+
+      <div className={styles.parentLayout}>
+        <aside className={styles.parentSidebar} data-mainlagi-parent-sidebar>
+          <Link className={styles.parentBrand} href="/parent">
+            <span>Mainlagi<small className={styles.parentBrandHint}>Ruang orang tua</small></span>
+          </Link>
+          <nav className={styles.parentSidebarNav} aria-label="Navigasi orang tua">
+            {PARENT_NAV.map((item) => {
+              const active = isActive(item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  aria-current={active ? "page" : undefined}
+                  className={`${styles.parentNavItem} ${active ? styles.parentNavItemActive : ""}`}
+                >
+                  <item.icon size={23} weight="duotone" aria-hidden />
+                  <span>{item.label}</span>
+                </Link>
+              );
+            })}
+          </nav>
+          <Link href="/child/select" className={`${styles.parentNavItem} ${styles.parentSidebarModeChild}`}>
+            <GameController size={23} weight="duotone" aria-hidden />
+            <span>Mode anak</span>
+          </Link>
+        </aside>
+        <div className={styles.parentContent}>{children}</div>
+      </div>
+
+      <nav className={styles.parentMobileNav} data-mainlagi-parent-mobile-nav aria-label="Navigasi orang tua">
+        {PARENT_NAV.map((item) => {
+          const active = isActive(item.href);
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              aria-current={active ? "page" : undefined}
+              className={`${styles.parentMobileNavItem} ${active ? styles.parentMobileNavItemActive : ""}`}
+            >
+              <item.icon size={22} weight="duotone" aria-hidden />
+              <span>{item.label}</span>
+            </Link>
+          );
+        })}
+      </nav>
+    </div>
+  );
 }
 
 function useAllProfiles() {
@@ -60,7 +121,7 @@ export function ParentOverviewScreen() {
 
 function ParentProfileCard({ profile }: { profile: LearningChildProfile }) {
   const progress = useLearningProgress(profile.id);
-  return <Link href={`/parent/children/${profile.id}`} className={styles.parentCard} style={{ textDecoration: "none", color: "inherit" }}><div style={{ display: "flex", gap: 12, alignItems: "center" }}><CharacterAvatar id={profile.guide} /><div><strong style={{ color: "#24445e" }}>{profile.name}</strong><p>{profile.age} tahun · {progress.completedActivityIds.length} aktivitas · ⭐ {progress.stars}</p></div></div></Link>;
+  return <Link href={`/parent/children/${profile.id}`} className={styles.parentCard} style={{ textDecoration: "none", color: "inherit" }}><div className={styles.parentProfileIdentity}><ProfileIdentityBadge profile={profile} /><div><strong>{profile.name}</strong><p>{profile.age} tahun · {progress.completedActivityIds.length} aktivitas · ⭐ {progress.stars}</p><small>Teman panduan: {CHARACTERS[profile.guide].name}</small></div></div></Link>;
 }
 
 export function ParentChildrenScreen() {
@@ -71,7 +132,7 @@ export function ParentChildrenScreen() {
 function ParentChildHeader({ childId }: { childId: string }) {
   const profile = useLearningProfile(childId);
   if (!profile) return <div className={styles.emptyState}>Profil anak tidak ditemukan.</div>;
-  return <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 22 }}><CharacterAvatar id={profile.guide} large /><div><p className={styles.eyebrow}>Profil anak</p><h1 className={styles.pageTitle}>{profile.name}</h1><p className={styles.pageLead}>{profile.age} tahun · Guide {CHARACTERS[profile.guide].name}</p></div></div>;
+  return <div className={styles.parentChildHeader}><ProfileIdentityBadge profile={profile} large /><div><p className={styles.eyebrow}>Profil anak</p><h1 className={styles.pageTitle}>{profile.name}</h1><p className={styles.pageLead}>{profile.age} tahun · Teman panduan {CHARACTERS[profile.guide].name}</p></div></div>;
 }
 
 export function ParentChildScreen({ childId }: { childId: string }) {
@@ -111,5 +172,58 @@ export function ParentPlanScreen() {
 export function ParentSettingsScreen() {
   const [prefs, persist] = usePreferences();
   const setLanguage = (language: "id" | "en") => persist({ ...prefs, language });
-  return <main className={styles.parentMain}><p className={styles.eyebrow}>Preferences</p><h1 className={styles.pageTitle}>Settings</h1><section className={styles.formCard}><span className={styles.formLabel}>Bahasa antarmuka prototype</span><div className={styles.choiceRow}><button type="button" className={`${styles.choicePill} ${prefs.language === "id" ? styles.choicePillActive : ""}`} onClick={() => setLanguage("id")}>Bahasa Indonesia</button><button type="button" className={`${styles.choicePill} ${prefs.language === "en" ? styles.choicePillActive : ""}`} onClick={() => setLanguage("en")}>English</button></div><p style={{ color: "#71879a", fontSize: 13, lineHeight: 1.6 }}>Preference tersimpan lokal. Full localization seluruh string belum diklaim selesai.</p></section><section className={styles.section}><div className={styles.infoBanner}>OpenRouter API key, billing, dan admin CMS tidak ditampilkan ke mode anak.</div></section></main>;
+
+  return (
+    <main className={styles.parentMain}>
+      <p className={styles.eyebrow}>Pengaturan keluarga</p>
+      <h1 className={styles.pageTitle}>Pengaturan</h1>
+      <p className={styles.pageLead}>Atur bahasa, profil keluarga, privasi, dan akses produk dari satu tempat yang terpisah dari mode anak.</p>
+
+      <div className={styles.settingsGrid}>
+        <section className={styles.settingsCard} aria-labelledby="settings-language">
+          <div>
+            <p className={styles.settingsKicker}>Bahasa</p>
+            <h2 id="settings-language">Bahasa antarmuka</h2>
+            <p>Pilih bahasa utama untuk pengalaman Mainlagi. Lokalisasi penuh seluruh string masih dikembangkan.</p>
+          </div>
+          <div className={styles.choiceRow}>
+            <button type="button" className={`${styles.choicePill} ${prefs.language === "id" ? styles.choicePillActive : ""}`} onClick={() => setLanguage("id")}>Bahasa Indonesia</button>
+            <button type="button" className={`${styles.choicePill} ${prefs.language === "en" ? styles.choicePillActive : ""}`} onClick={() => setLanguage("en")}>English</button>
+          </div>
+        </section>
+
+        <section className={styles.settingsCard} aria-labelledby="settings-family">
+          <div>
+            <p className={styles.settingsKicker}>Keluarga & data</p>
+            <h2 id="settings-family">Profil dan privasi</h2>
+            <p>Kelola profil anak serta pilihan motion dan AI tanpa memasukkan kontrol orang tua ke menu anak.</p>
+          </div>
+          <div className={styles.settingsLinks}>
+            <Link href="/parent/children" className={styles.settingsLink}><span>Kelola profil anak</span><strong aria-hidden>→</strong></Link>
+            <Link href="/parent/privacy" className={styles.settingsLink}><span>Privasi & AI</span><strong aria-hidden>→</strong></Link>
+          </div>
+        </section>
+
+        <section className={styles.settingsCard} aria-labelledby="settings-product">
+          <div>
+            <p className={styles.settingsKicker}>Produk & bantuan</p>
+            <h2 id="settings-product">Informasi untuk orang tua</h2>
+            <p>Informasi produk ditempatkan di area orang tua/public, bukan di navigasi anak.</p>
+          </div>
+          <div className={styles.settingsLinks}>
+            <Link href="/parent/plan" className={styles.settingsLink}><span>Paket Mainlagi</span><strong aria-hidden>→</strong></Link>
+            <Link href="/about" className={styles.settingsLink}><span>Tentang Mainlagi</span><strong aria-hidden>→</strong></Link>
+            <Link href="/faq" className={styles.settingsLink}><span>FAQ</span><strong aria-hidden>→</strong></Link>
+            <Link href="/privacy" className={styles.settingsLink}><span>Kebijakan privasi</span><strong aria-hidden>→</strong></Link>
+            <Link href="/terms" className={styles.settingsLink}><span>Syarat layanan</span><strong aria-hidden>→</strong></Link>
+            <Link href="/discover/products" className={styles.settingsLink}><span>Rekomendasi produk</span><small>Tautan afiliasi</small></Link>
+          </div>
+        </section>
+      </div>
+
+      <section className={styles.section}>
+        <div className={styles.infoBanner}>API key, billing, admin CMS, affiliate, dan social sharing tidak ditampilkan ke mode anak.</div>
+      </section>
+    </main>
+  );
 }

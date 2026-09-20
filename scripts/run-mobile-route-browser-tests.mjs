@@ -36,7 +36,7 @@ const ROUTES = [
   { path: "/child/demo-gian/activity/drawing-line-vertical", kind: "child-learning", touch: true },
   { path: "/child/demo-gian/games", kind: "child-learning", touch: true },
   { path: "/child/demo-gian/rewards", kind: "child-learning", touch: true },
-  { path: "/parent", kind: "parent", touch: false },
+  { path: "/parent", kind: "parent", touch: true },
   { path: "/parent/children", kind: "parent", touch: false },
   { path: "/parent/children/demo-gian", kind: "parent", touch: false },
   { path: "/parent/children/demo-gian/progress", kind: "parent", touch: false },
@@ -44,7 +44,7 @@ const ROUTES = [
   { path: "/parent/children/demo-gian/certificates", kind: "parent", touch: false },
   { path: "/parent/plan", kind: "parent", touch: false },
   { path: "/parent/privacy", kind: "parent", touch: false },
-  { path: "/parent/settings", kind: "parent", touch: false },
+  { path: "/parent/settings", kind: "parent", touch: true },
   { path: "/games", kind: "game-catalog", touch: false },
   { path: "/games/math-choice", kind: "game-catalog", touch: false },
   { path: "/play/math-choice", kind: "game-play", touch: true }
@@ -70,6 +70,10 @@ const BATCH16_ACCESSIBILITY_ROUTES = [
 
 const SCREENSHOTS = new Set([
   "320:/child/demo-gian/home",
+  "320:/parent",
+  "390:/parent",
+  "768:/parent",
+  "1024:/parent",
   "320:/child/demo-gian/activity/color-gavi",
   "375:/child/demo-gian/learn",
   "390:/parent/children/demo-gian/reports",
@@ -184,6 +188,40 @@ async function inspectPage(page, route, viewport) {
         assert.ok(heroLayout, "child home hero layout markers must exist");
         assert.ok(heroLayout.copyBottom <= heroLayout.castTop + 1, `child home hero copy overlaps characters at ${viewport.width}px: ${JSON.stringify(heroLayout)}`);
       }
+    }
+
+    if (route.path === "/parent") {
+      assert.equal(await page.getByRole("heading", { name: "Ringkasan belajar keluarga", exact: true }).count(), 1, "parent overview heading must be canonical");
+      assert.equal(await page.getByRole("heading", { name: "Profil keluarga", exact: true }).count(), 1, "parent overview must separate family profiles");
+      assert.equal(await page.getByRole("heading", { name: "Mode demo", exact: true }).count(), 1, "parent overview must separate demo profile");
+      const mobileNav = page.locator("[data-mainlagi-parent-mobile-nav]");
+      const sidebar = page.locator("[data-mainlagi-parent-sidebar]");
+      if (viewport.width < 760) {
+        assert.equal(await sidebar.isVisible(), false, `parent desktop sidebar must be hidden at ${viewport.width}px`);
+        assert.ok(await mobileNav.isVisible(), `parent mobile navigation must be visible at ${viewport.width}px`);
+        assert.equal(await mobileNav.locator("a").count(), 5, "parent mobile navigation must expose five primary destinations");
+        const navGeometry = await mobileNav.evaluate((element) => {
+          const rect = element.getBoundingClientRect();
+          const links = Array.from(element.querySelectorAll("a")).map((link) => {
+            const item = link.getBoundingClientRect();
+            return { width: item.width, height: item.height, top: item.top, bottom: item.bottom };
+          });
+          return { rect: { left: rect.left, right: rect.right, bottom: rect.bottom }, links };
+        });
+        assert.ok(navGeometry.rect.left >= -1 && navGeometry.rect.right <= viewport.width + 1, `parent mobile nav must fit viewport at ${viewport.width}px: ${JSON.stringify(navGeometry)}`);
+        assert.ok(Math.abs(navGeometry.rect.bottom - viewport.height) <= 2, `parent mobile nav must stay pinned to viewport bottom at ${viewport.width}px`);
+        assert.ok(navGeometry.links.every((item) => item.height >= 58 && item.width > 0), `parent mobile nav items must stay readable at ${viewport.width}px: ${JSON.stringify(navGeometry.links)}`);
+      } else {
+        assert.ok(await sidebar.isVisible(), `parent desktop sidebar must be visible at ${viewport.width}px`);
+        assert.equal(await mobileNav.isVisible(), false, `parent mobile navigation must be hidden on desktop at ${viewport.width}px`);
+      }
+    }
+
+    if (route.path === "/parent/settings") {
+      assert.equal(await page.getByRole("heading", { name: "Pengaturan", exact: true }).count(), 1, "parent settings heading must use Indonesian product copy");
+      assert.equal(await page.locator('main a[href="/parent/children"]').count(), 1, "parent settings must link to family profiles");
+      assert.equal(await page.locator('main a[href="/parent/privacy"]').count(), 1, "parent settings must link to privacy controls");
+      assert.equal(await page.locator('main a[href="/parent/plan"]').count(), 1, "parent settings must link to plan surface");
     }
 
     const metrics = await page.evaluate(() => {
