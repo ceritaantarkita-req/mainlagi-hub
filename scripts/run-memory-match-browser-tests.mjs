@@ -142,7 +142,7 @@ async function focusFirstCardWithKeyboard(page) {
 }
 
 async function solve(page) {
-  const cards = page.locator("[data-memory-match] button");
+  const cards = page.locator("[data-memory-card]");
   while ((await cards.evaluateAll((nodes) => nodes.filter((node) => !node.disabled).length)) > 0) {
     const count = await cards.count();
     let first = -1;
@@ -164,7 +164,7 @@ async function solve(page) {
       const secondLabel = cleanLabel(await cards.nth(second).getAttribute("aria-label"));
       if (firstLabel.toLowerCase() === secondLabel.toLowerCase()) {
         await page.waitForFunction(([a, b]) => {
-          const buttons = document.querySelectorAll("[data-memory-match] button");
+          const buttons = document.querySelectorAll("[data-memory-card]");
           return buttons[a]?.disabled && buttons[b]?.disabled;
         }, [first, second]);
         paired = true;
@@ -197,7 +197,7 @@ async function inspect(viewport) {
 
     const scene = page.locator("[data-memory-match]");
     await scene.waitFor({ state: "visible", timeout: 5_000 });
-    const cards = scene.getByRole("button");
+    const cards = scene.locator("[data-memory-card]");
     assert.equal(await cards.count(), 4, "representative case-match has four cards");
     const geometry = await cards.evaluateAll((nodes) => nodes.map((node) => {
       const rect = node.getBoundingClientRect();
@@ -256,6 +256,11 @@ async function inspect(viewport) {
     assert.equal(state.attempt.assessed, true, "case matching remains assessed");
     assert.equal(state.attempt.metadata?.evidenceFidelity, "matching_memory_interaction", "explicit memory evidence wins over DOM fallback");
     assert.equal(state.attempt.correctCount, 2, "two canonical pairs are counted");
+
+    const completion = page.locator("[data-activity-completion]");
+    await completion.waitFor({ state: "visible", timeout: 2_000 });
+    assert.equal(await completion.getByLabel("Tiga bintang").locator("svg").count(), 3, "memory match shared completion renders three stars");
+    assert.equal(await completion.getByRole("link", { name: "Next", exact: true }).count(), 1, "memory match shared completion exposes Next");
 
     await page.screenshot({
       path: path.join(screenshotDir, `${viewport.width}-memory-match-success.png`),

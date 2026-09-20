@@ -380,6 +380,76 @@ async function main() {
       console.log("WS-13 isolated QA unlock-all passed at 390px.");
     }
 
+    {
+      const viewport = { width: 390, height: 844 };
+      const context = await browser.newContext({ viewport });
+      await context.addInitScript(() => {
+        const childId = "demo-gian";
+        const progressKey = "mainlagi-learning-progress-v1";
+        const attemptsKey = "mainlagi-learning-attempts-v1";
+        const ids = ["math-recognize-0", "math-recognize-7", "math-count-4", "math-count-8", "math-count-10", "math-match-number-quantity-1-2", "math-subitize-4"];
+        localStorage.setItem(progressKey, JSON.stringify({
+          [childId]: { completedActivityIds: ids, stars: 0, lastActivityId: ids.at(-1) }
+        }));
+        const seeds = [
+          ["math-recognize-0", "math.numeral.recognition.0_10", "tap_choice"],
+          ["math-count-4", "math.count.4_10", "tap_choice"],
+          ["math-match-number-quantity-1-2", "math.quantity.matching", "matching"],
+          ["math-subitize-4", "math.quantity.subitizing", "tap_choice"]
+        ];
+        const attempts = seeds.map(([id, skillId, runtime], index) => {
+          const attemptId = `qa-shared-completion-prereq-${index}`;
+          const completedAt = `2026-09-20T08:0${index}:00.000Z`;
+          return {
+            id: attemptId, childId, activityId: id, subjectId: "math", stageId: "math-jumlah-dasar",
+            runtime, difficulty: 2, status: "completed", assessed: true, score: 1, accuracy: 1,
+            correctCount: runtime === "matching" ? 2 : 1, incorrectCount: 0, hintCount: 0, retryCount: 0,
+            durationMs: 1000, inputMode: "touch", startedAt: completedAt, completedAt,
+            metadata: { source: "shared-completion-browser-prerequisite" },
+            evidence: [{ attemptId, activityId: id, skillId, score: 1, weight: 1, createdAt: completedAt, qualifiesForMastery: true }],
+            masteryEligible: true
+          };
+        });
+        localStorage.setItem(attemptsKey, JSON.stringify({ [childId]: attempts }));
+      });
+      const page = await context.newPage();
+      await page.goto(`${baseUrl}/child/demo-gian/activity/math-pattern-size`, { waitUntil: "domcontentloaded" });
+      await page.getByRole("button", { name: "Pilih •", exact: true }).click();
+      let completion = page.locator("[data-activity-completion]");
+      await completion.waitFor();
+      await page.waitForTimeout(250);
+      completion = page.locator("[data-activity-completion]");
+      await completion.waitFor();
+      assert.equal(await completion.getByLabel("Tiga bintang").locator("svg").count(), 3, "shared completion must render three stars");
+      assert.equal(await completion.getByRole("button", { name: "Back", exact: true }).count(), 1, "shared completion must expose Back");
+      assert.equal(await completion.getByRole("button", { name: "Try Again", exact: true }).count(), 1, "shared completion must expose Try Again");
+      assert.equal(await completion.getByRole("link", { name: "Next", exact: true }).count(), 1, "shared completion must expose Next");
+      const completionGeometry = await completion.evaluate((root) => {
+        const rootBox = root.getBoundingClientRect();
+        const controls = Array.from(root.querySelectorAll("button, a")).map((element) => {
+          const box = element.getBoundingClientRect();
+          return { text: element.textContent?.trim() ?? "", left: box.left, right: box.right, top: box.top, bottom: box.bottom };
+        });
+        return { root: { left: rootBox.left, right: rootBox.right, top: rootBox.top, bottom: rootBox.bottom }, controls };
+      });
+      assert.ok(completionGeometry.root.left >= -1 && completionGeometry.root.right <= viewport.width + 1, "completion overlay must remain inside viewport width");
+      assert.ok(completionGeometry.root.top >= -1 && completionGeometry.root.bottom <= viewport.height + 1, "completion overlay must remain inside viewport height");
+      for (const control of completionGeometry.controls.filter((item) => ["Back", "Try Again", "Next", "Share"].includes(item.text))) {
+        assert.ok(control.left >= -1 && control.right <= viewport.width + 1 && control.top >= -1 && control.bottom <= viewport.height + 1, `completion control ${control.text} must be immediately visible`);
+      }
+      await page.screenshot({ path: path.join(screenshotDir, "390-shared-completion-success.png"), fullPage: false });
+      await page.getByRole("button", { name: "Share", exact: true }).click();
+      const shareDialog = page.getByRole("dialog", { name: "Bagikan pencapaian" });
+      await shareDialog.waitFor();
+      await shareDialog.getByText("Yang dibagikan hanya tautan Mainlagi", { exact: false }).waitFor();
+      for (const label of ["Copy link", "WhatsApp", "Telegram", "X", "Facebook", "Threads"]) {
+        assert.equal(await shareDialog.getByRole(label === "Copy link" ? "button" : "link", { name: label, exact: true }).count(), 1, `share dialog missing ${label}`);
+      }
+      await page.screenshot({ path: path.join(screenshotDir, "390-shared-completion.png"), fullPage: false });
+      await context.close();
+      console.log("WS-13 shared completion + parent-gated share passed at 390px.");
+    }
+
     for (const width of [320, 430]) {
       const viewport = VIEWPORTS.find((item) => item.width === width);
       assert.ok(viewport, `missing viewport ${width}px`);

@@ -171,6 +171,10 @@ This product-UX track must stay separate from WS-05 objective/evidence mechanic 
 
 Active branch: `agent/ws13-canonical-ui-warning-audit-20260920`. The route-owner audit confirms the live child home is `Batch14WorldHome`, subject catalog is `ChildLearningPathViews.SubjectScreen` -> `ActivityGallery`, child shell is `PlayroomShell`, and current parent root/children routes use cloud aliases through `LearningPlatform`. Duplicate similarly named legacy presentation components must not be edited as source of truth without route tracing. Local product QA is being extended to inventory browser warning-level console messages separately from existing product heuristic warnings.
 
+### WS-13 shared completion wave
+
+After merged homepage/directory (#243) and grouped activity gallery + isolated QA unlock (#244), the next active branch is `agent/ws13-shared-completion-20260920`. It introduces one reusable completion surface with praise + three stars + Back / Try Again / Next / parent-gated Share. Initial adoption is intentionally limited to PatternCompletion, TakeAway, and MemoryMatch so scoring/evidence behavior remains untouched while the shared UX is validated.
+
 ## Engineering status
 
 No known P0 mechanic/runtime engineering blocker is open on merged `main`. Separate product-UX P0 work is now open under `PRODUCT_UX_NEXT_WORK_2026-09-20.md`.

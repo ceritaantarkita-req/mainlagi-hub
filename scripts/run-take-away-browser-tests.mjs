@@ -171,8 +171,10 @@ async function inspect(viewport){
     assert.equal(await completed(page),true,"correct remainder completes canonical activity");
     assert.equal((await result.textContent())?.trim(),"2","success may reveal canonical remainder");
     await assertFullyVisible(status,viewportHeight,`success take-away feedback at ${viewport.width}`);
-    const nextLink=page.getByRole("link",{name:"Pilih permainan lain"});
-    await assertFullyVisible(nextLink,viewportHeight,`take-away success CTA at ${viewport.width}`);
+    const completion=page.locator("[data-activity-completion]");
+    await completion.waitFor({state:"visible",timeout:2000});
+    assert.equal(await completion.getByLabel("Tiga bintang").locator("svg").count(),3,"take-away shared completion renders three stars");
+    assert.equal(await completion.getByRole("link",{name:"Next",exact:true}).count(),1,"take-away shared completion exposes Next");
 
     const state=await page.evaluate(({id})=>{
       const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
