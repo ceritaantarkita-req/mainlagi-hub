@@ -32,9 +32,10 @@ Subsystem docs remain authoritative for their specific scope when they do not co
 ## Current project checkpoint — 21 September 2026
 
 ```text
-latest production main:         b5acbfcde66ea1451f3e55a8d469d33ba4845af1
-character foundation:            PR #259 / merged + live verified
-character foundation CI:         #1190 / run 35589937017 — success + exact Cloudflare smoke
+latest production main:         ceb2546b6c626810901c5542e7f718acfad55341
+character runtime registry:       PR #262 / merged + live verified
+character registry CI:            #1196 / run 35594336327 — success + exact Cloudflare smoke
+character foundation:             PR #259 / merged + live verified
 background runtime main:         7502c708c998c87bb273639025fcb10ba6c81e12
 background runtime CI:           #1183 / run 35565937149 — success + exact Cloudflare smoke
 learning catalog:                9 subjects / 900 activities
