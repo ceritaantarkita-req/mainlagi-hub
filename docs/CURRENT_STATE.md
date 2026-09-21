@@ -41,7 +41,7 @@ This user-supplied preview is desktop evidence only. Automated responsive/mobile
 
 ## 21 September activity character presentation foundation
 
-A fail-closed dynamic character-presentation foundation is active on branch `agent/activity-character-layer-foundation-20260921`.
+The fail-closed dynamic character-presentation foundation is **MERGED / LIVE VERIFIED**.
 
 - `GardenActivityFrame` no longer owns hardcoded Gavi/Paca file paths.
 - Character presentation is resolved centrally with the activity visual theme.
@@ -57,13 +57,13 @@ A fail-closed dynamic character-presentation foundation is active on branch `age
 - This foundation does not change child profile identity, learning evidence, mastery, progression, schema, narration or activity identity.
 - Canonical contract: `CHARACTER_PRESENTATION_SYSTEM.md`.
 
-This wave is implementation truth only until PR CI, responsive review, merge, merged-main CI and exact production smoke pass.
+Implementation PR **#259** merged to `b5acbfcde66ea1451f3e55a8d469d33ba4845af1`; PR CI **#1189** passed, and merged-main CI **#1190 / run 35589937017** passed the full matrix including exact Cloudflare production smoke. The next gate is isolated transparent production assets for Naya/Gian/Zia.
 
 ## Canonical baseline
 
-- documentation sync base: `41df41c9dc0edc449af8260bbfe3887e0175bfb0` (PR #257 subject-background docs closure)
-- latest independently live-verified runtime/product implementation: `7502c708c998c87bb273639025fcb10ba6c81e12` (PR #256)
-- latest runtime merged-main CI: **#1183 / run `35565937149` — full success including exact Cloudflare production smoke**
+- latest live-verified production main: `b5acbfcde66ea1451f3e55a8d469d33ba4845af1` (PR #259 character-presentation foundation)
+- latest independently live-verified runtime/product implementation: `b5acbfcde66ea1451f3e55a8d469d33ba4845af1` (PR #259)
+- latest runtime merged-main CI: **#1190 / run `35589937017` — full success including exact Cloudflare production smoke**
 - latest production main/docs closure: `41df41c9dc0edc449af8260bbfe3887e0175bfb0` (PR #257)
 - latest production main CI: **#1186 / run `35567718494` — full success including exact Cloudflare production smoke**
 - parent responsive QA artifact: **`10608044389`**
