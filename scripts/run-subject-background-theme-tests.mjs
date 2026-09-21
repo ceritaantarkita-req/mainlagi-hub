@@ -62,8 +62,8 @@ for (const subjectId of THEMED_SUBJECT_IDS) {
 assert.equal(resolvedCount, 900, "all 900 activities must resolve to an approved subject background");
 
 const frameCss = fs.readFileSync(path.resolve("src/components/learning/GardenActivityFrame.module.css"), "utf8");
-assert.match(frameCss, /\\.workspace\\{background-color:#fffbee;/, "workspace must keep its paper color without resetting background-image");
-assert.doesNotMatch(frameCss, /\\.workspace\\{background:#fffbee;/, "workspace must not wipe themed background images with the background shorthand");
+assert.match(frameCss, /\.workspace\{background-color:#fffbee;/, "workspace must keep its paper color without resetting background-image");
+assert.doesNotMatch(frameCss, /\.workspace\{background:#fffbee;/, "workspace must not wipe themed background images with the background shorthand");
 
 const byId = new Map(ACTIVITIES.map((activity) => [activity.id, activity]));
 const expected = {
