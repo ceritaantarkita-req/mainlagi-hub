@@ -22,6 +22,8 @@
 - Cloud learning analytics bug sudah ditutup melalui PR #267 -> main `89a2bc629e...`: fixed-cap 500 attempts / 2000 evidence diganti complete pagination; authenticated cloud failure tidak lagi diam-diam memakai local browser analytics.
 - Regression baru mengunci 1.201 attempts + 3.603 evidence rows, small server caps, later-page failure, reconnect, stale request dan guest isolation; `test:learning:cloud-analytics` masuk aggregate learning suite.
 - Merged-main CI #1205 / run `35621724090` full success termasuk exact Cloudflare production smoke; analytics closure record ada di `CLOUD_ANALYTICS_PAGINATION_CLOSURE_2026-09-21.md`.
+- Secret-history governance gap ditutup lewat PR #269 -> main `6fd9e3fc...`: Gitleaks full-history scan dipusatkan di satu script pinned dan juga dijalankan di dalam ruleset-required `Production dependency audit`, sehingga failure secret sekarang merge-blocking.
+- PR CI #1208 dan merged-main CI #1209 membuktikan `Required full-history secret gate` PASS; #1209 juga lulus exact Cloudflare production smoke. Standalone `Secret history scan` tetap dipertahankan untuk visibility.
 - Tidak ada perubahan mastery/evidence/progression/schema dari sinkronisasi dokumentasi ini.
 
 
