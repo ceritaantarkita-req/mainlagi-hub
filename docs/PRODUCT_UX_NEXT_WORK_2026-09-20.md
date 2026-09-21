@@ -2,8 +2,8 @@
 
 Date: **20 September 2026**  
 Last synchronized: **21 September 2026**  
-Status: **ACTIVE ROADMAP / SUBJECT BACKGROUNDS LIVE VERIFIED / CHARACTER LAYER FOUNDATION ACTIVE**  
-Current synchronized baseline: production `main` = `b5acbfcde66ea1451f3e55a8d469d33ba4845af1` (PR #259 activity character presentation foundation, merged-main CI #1190 / run `35589937017` including exact Cloudflare smoke); subject-background runtime implementation remains `7502c708c998c87bb273639025fcb10ba6c81e12` (PR #256, CI #1183 exact Cloudflare smoke).
+Status: **ACTIVE ROADMAP / CHARACTER ASSET PIPELINE LIVE VERIFIED / HUMAN ASSETS NOT YET ACTIVATED**  
+Current synchronized baseline: production `main` = `e4d7b4285db17a2010c22cdd1bc29451208f6a1b` (PR #263 fail-closed human character asset pipeline, merged-main CI #1198 / run `35599025558` including exact Cloudflare smoke); subject-background runtime implementation remains `7502c708c998c87bb273639025fcb10ba6c81e12` (PR #256, CI #1183 exact Cloudflare smoke).
 
 This document is the short human/AI handoff for the next Mainlagi product-quality wave. It records the user-accepted UX direction without changing curriculum, mastery, evidence, progression, or the active WS-05 gameplay audit.
 
@@ -178,7 +178,8 @@ Canonical execution spec: [`SUBJECT_BACKGROUND_SYSTEM.md`](SUBJECT_BACKGROUND_SY
 - Audio first-instruction latency: **merged / live verified** at `770d8b6`, PR CI #1144 + merged-main CI #1145 exact Cloudflare smoke.
 - Parent/profile/settings responsive redesign: **merged / live verified** at `77bee68`, PR #251; exact-head CI #1159 + merged-main CI #1160 exact Cloudflare smoke.
 - Subject-background wave: **merged / live verified** via PR #256 at `7502c708c998c87bb273639025fcb10ba6c81e12`, with 54 scene families / 108 responsive WebP assets / deterministic 900-activity mapping and merged-main CI #1183 exact production smoke. Project-owner desktop preview represents all nine subjects; docs closure PR #257 is live at `41df41c9dc0edc449af8260bbfe3887e0175bfb0` with CI #1186 exact production smoke.
-- Activity character presentation foundation: **merged / live verified** via PR #259 at `b5acbfcde66ea1451f3e55a8d469d33ba4845af1`; merged-main CI #1190 / run `35589937017` passed including exact Cloudflare production smoke. Runtime remains fail closed to approved Gavi/Paca assets until Naya/Gian/Zia production files pass the next gate.
+- Activity character presentation foundation: **merged / live verified** via PR #259 at `b5acbfcde66ea1451f3e55a8d469d33ba4845af1`; merged-main CI #1190 / run `35589937017` passed including exact Cloudflare production smoke.
+- Character runtime registry + production asset pipeline: **merged / live verified** through PR #262 and PR #263; current main `e4d7b4285db17a2010c22cdd1bc29451208f6a1b`, CI #1198 / run `35599025558` full success including exact Cloudflare smoke. Naya/Gian/Zia remain `reference-only`; no human binary or runtime activation is live.
 
 ## Implementation order
 
@@ -194,16 +195,17 @@ Completed / live-verified:
 9. Activity character presentation foundation.
 
 Current character-production gate:
-10. Lock the canonical production character specification against the reviewed Naya/Gian/Zia design sheets.
-11. Create isolated transparent Naya/Gian/Zia runtime assets and document provenance/redistribution.
-12. Run responsive visual QA, then activate approved human-character assets only through the central allowlist/resolver.
-13. Validate English -> Naya + Zia and Math -> Gian + Paca; preserve fail-closed fallback and leave other subject pairings unchanged.
-14. Revisit the five-character homepage hero using approved production identities; keep hero composition separate from activity foreground assets.
+10. Production specification, runtime registry, provenance registry and blocking asset validator — **closed / merged / live verified**.
+11. **NOW:** create/review isolated transparent Naya/Gian/Zia candidates outside the public production directory.
+12. Confirm visual identity + source/creation basis + public redistribution rights, then integrate exact approved WebP binaries and provenance records while runtime remains fail closed.
+13. Activate approved human-character assets only through the central resolver and run responsive visual QA.
+14. Validate English -> Naya + Zia and Math -> Gian + Paca; preserve fail-closed fallback and leave other subject pairings unchanged.
+15. Revisit the five-character homepage hero using approved production identities; keep hero composition separate from activity foreground assets.
 
 After the character gate:
-15. English voice-quality upgrade.
-16. Learning-illustration consistency improvements.
-17. Expanded human visual/usability + physical-device acceptance and cleanup of superseded components.
+16. English voice-quality upgrade.
+17. Learning-illustration consistency improvements.
+18. Expanded human visual/usability + physical-device acceptance and cleanup of superseded components.
 
 WS-05 gameplay-mechanic work may continue independently only when it preserves its existing objective/evidence gates. Do not mix a broad UX refactor into a mechanic-reuse PR.
 
