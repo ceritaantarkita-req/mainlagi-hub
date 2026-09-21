@@ -1,6 +1,6 @@
 .garden { position:relative; isolation:isolate; min-height:100dvh; background:#d5eef6 url('/artwork/garden-background.webp') center bottom / cover no-repeat; color:#193b55; padding:24px max(24px,env(safe-area-inset-right)) 100px max(24px,env(safe-area-inset-left)); font-family:'Nunito Variable','Noto Sans Variable',sans-serif; }
 .themedScene { background-color:var(--ml-scene-color,#d5eef6); background-image:var(--ml-scene-wide); background-position:center bottom; background-size:cover; background-repeat:no-repeat; }
-.themedScene[data-subject-theme="logic"] .title { background:rgba(255,251,237,.9); border:2px solid rgba(226,223,197,.9); border-radius:20px; padding:6px 16px; width:fit-content; max-width:100%; }
+.themedScene[data-subject-theme="logic"] .title { background:rgba(255,251,237,.9); border-radius:14px; width:fit-content; max-width:100%; }
 
 .header { max-width:1320px; margin:auto; display:flex; align-items:center; justify-content:space-between; gap:14px; }
 .brand { width:220px; height:80px; object-fit:contain; }
