@@ -1,6 +1,6 @@
 # Mainlagi Subject Background System
 
-Status: **IMPLEMENTED ON INTEGRATION BRANCH — PENDING CI / MERGE / PRODUCTION VERIFICATION**  
+Status: **PRODUCTION / LIVE VERIFIED**  
 Last reviewed: **21 September 2026**
 
 Use this document as the canonical contract for activity backgrounds. Read it with `MAINLAGI_ART_BIBLE.md`, `ASSET_PROVENANCE.md`, and `SUBJECT_BACKGROUND_ALL_SUBJECTS_INTEGRATION_2026-09-21.md`.
@@ -205,14 +205,14 @@ Do not silently replace a production background with third-party/reference image
 
 This test is also part of the aggregate `npm run test:learning` chain.
 
-## Completion gate for this wave
+## Production closure
 
-The integration branch is not production truth until all of the following are complete:
+This system is live in production.
 
-1. branch tests/typecheck/lint/asset validation pass;
-2. responsive browser QA is reviewed for representative routes;
-3. PR is merged to `main`;
-4. merged-main CI passes;
-5. exact deployed SHA is verified on Cloudflare production.
+- PR: **#256**
+- production main: `7502c708c998c87bb273639025fcb10ba6c81e12`
+- merged-main CI: **#1183 / run 35565937149 — full success**
+- exact Cloudflare production smoke: **PASS**
+- canonical site: `https://mainlagihub.my.id`
 
-Detailed branch record: `docs/SUBJECT_BACKGROUND_ALL_SUBJECTS_INTEGRATION_2026-09-21.md`.
+Detailed closure record: `docs/SUBJECT_BACKGROUND_ALL_SUBJECTS_INTEGRATION_2026-09-21.md`.
