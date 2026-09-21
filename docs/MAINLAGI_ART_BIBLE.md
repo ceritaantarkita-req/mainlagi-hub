@@ -1,8 +1,8 @@
 # Mainlagi Art Bible — v1
 
-Status: **CANONICAL VISUAL DIRECTION / P1 CHECKPOINT CLOSED / WS-13 PARENT WAVE LIVE VERIFIED / CHARACTER + SUBJECT BACKGROUND ASSET REVIEW ACTIVE**  
+Status: **CANONICAL VISUAL DIRECTION / SUBJECT BACKGROUNDS LIVE VERIFIED / CHARACTER PRODUCTION NEXT**  
 Established: **16 September 2026**  
-Last synchronized: **20 September 2026**  
+Last synchronized: **21 September 2026**  
 Source audit: `PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md`
 
 This document defines the visual language that future Mainlagi product work must converge toward. It does **not** require a one-shot rewrite of every existing screen. Migration is wave-based, evidence-backed and must preserve learning/progression/auth behavior.
@@ -292,14 +292,17 @@ The current Coloring content contract remains separate: existing coloring-charac
 Detailed execution source: [`SUBJECT_BACKGROUND_SYSTEM.md`](SUBJECT_BACKGROUND_SYSTEM.md).
 
 - A subject uses a small reusable scene family, not one identical Garden background and not 100 one-off backgrounds.
-- Math + Science are the first pilot; review wide/mobile scene pairs before code integration.
+- Production now covers **9 subjects / 54 scene families / 108 responsive WebP assets**.
 - Backgrounds remain decorative and sit behind a separate gameplay-safe UI layer.
 - Keep central gameplay space quiet; place major decorative context near edges; protect header/title and bottom controls.
 - Never bake answers, task text, progress, assessment evidence or interactive-looking fake controls into scenery.
-- Use explicit mobile art direction when wide artwork cannot crop safely.
-- Scene resolution must be deterministic and data-driven through a central subject/theme resolver.
+- Wide/mobile scene pairs are separately art-directed; mobile is not treated as a blind crop.
+- Scene resolution is deterministic and data-driven through the central subject/theme resolver.
+- Normal gameplay keeps character art as separate foreground layers; do not bake Naya/Gian/Zia/Paca/Gavi into gameplay scenery.
+- Creative Coloring/Drawing workspaces keep their subject environment visible behind the canvas/tools.
 - Visual changes must not alter curriculum, answers, mastery, evidence, progression, activity order or runtime semantics.
-- Generated scene candidates are review material until visual acceptance and provenance/redistribution checks are complete.
+- The 21 September project-owner production preview represents all nine subjects and is recorded in `SUBJECT_BACKGROUND_PRODUCTION_PREVIEW_REVIEW_2026-09-21.md`.
+- Future replacement artwork returns to review status until visual acceptance and provenance/redistribution checks are complete.
 
 ## 12. Feedback states
 
