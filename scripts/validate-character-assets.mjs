@@ -183,7 +183,7 @@ for (const id of CHARACTER_IDS) {
     continue;
   }
 
-  const absolute = path.join(root, relative);
+  const absolute = path.join(root, "public", relative);
   if (!existsSync(absolute)) {
     fail(`${id}: approved production asset does not exist (${record.productionPath})`);
     continue;
