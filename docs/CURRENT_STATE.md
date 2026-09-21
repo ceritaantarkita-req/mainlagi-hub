@@ -39,6 +39,26 @@ The supplied desktop previews show the intended subject environments live behind
 This user-supplied preview is desktop evidence only. Automated responsive/mobile QA remains the source for wider viewport coverage. Canonical review record: `SUBJECT_BACKGROUND_PRODUCTION_PREVIEW_REVIEW_2026-09-21.md`.
 
 
+## 21 September activity character presentation foundation
+
+A fail-closed dynamic character-presentation foundation is active on branch `agent/activity-character-layer-foundation-20260921`.
+
+- `GardenActivityFrame` no longer owns hardcoded Gavi/Paca file paths.
+- Character presentation is resolved centrally with the activity visual theme.
+- Only production-approved activity foreground assets can render today: **Gavi** and **Paca**.
+- Existing established future pairings are encoded without activating unapproved art:
+  - Bahasa Indonesia -> Gavi + Paca;
+  - English -> Naya + Zia;
+  - Matematika -> Gian + Paca.
+- English/Math fail closed to Gavi/Paca until Naya/Zia/Gian production files are separately approved.
+- Iqro, Huruf & Menulis, Logika, Sains, Mewarnai and Menggambar remain on the current mascot pair until a pairing is explicitly approved.
+- Coloring/Drawing workspace mode continues to hide decorative character layers.
+- Naya/Gian/Zia Google Drive design sets were reviewed as **multi-view reference sheets**, not runtime sprites; isolated transparent production assets are still required.
+- This foundation does not change child profile identity, learning evidence, mastery, progression, schema, narration or activity identity.
+- Canonical contract: `CHARACTER_PRESENTATION_SYSTEM.md`.
+
+This wave is implementation truth only until PR CI, responsive review, merge, merged-main CI and exact production smoke pass.
+
 ## Canonical baseline
 
 - documentation sync base: `41df41c9dc0edc449af8260bbfe3887e0175bfb0` (PR #257 subject-background docs closure)
