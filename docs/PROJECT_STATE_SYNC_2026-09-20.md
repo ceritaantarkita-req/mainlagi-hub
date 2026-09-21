@@ -11,10 +11,10 @@ This document summarizes the repository/product state after the all-subject back
 Current production/documentation main:
 
 ```text
-b5acbfcde66ea1451f3e55a8d469d33ba4845af1
+e4d7b4285db17a2010c22cdd1bc29451208f6a1b
 ```
 
-This is the activity character-presentation foundation merge from PR #259. Merged-main CI #1190 / run `35589937017` passed, including the exact Cloudflare production smoke. The subject-background runtime implementation remains the earlier PR #256 baseline:
+This is the fail-closed human character asset pipeline merge from PR #263. Merged-main CI #1198 / run `35599025558` passed the full matrix including exact Cloudflare production smoke. The activity character-presentation foundation remains PR #259 and the runtime asset lifecycle registry remains PR #262. The subject-background runtime implementation remains the earlier PR #256 baseline:
 
 ```text
 Background implementation main:       7502c708c998c87bb273639025fcb10ba6c81e12
@@ -28,6 +28,14 @@ Background docs closure smoke:          PASS
 Character foundation main:              b5acbfcde66ea1451f3e55a8d469d33ba4845af1
 Character foundation merged-main CI:    #1190 / run 35589937017
 Character foundation exact smoke:       PASS
+
+Character registry main:                ceb2546b6c626810901c5542e7f718acfad55341
+Character registry merged-main CI:      #1196 / run 35594336327
+Character registry exact smoke:         PASS
+
+Character asset pipeline main:          e4d7b4285db17a2010c22cdd1bc29451208f6a1b
+Character asset pipeline merged-main CI:#1198 / run 35599025558
+Character asset pipeline exact smoke:   PASS
 ```
 
 Canonical production path remains:
@@ -114,7 +122,7 @@ Current asset state:
 - child profile identity and guide-character identity remain separate concepts;
 - coloring-character support remains intentionally limited to Paca/Gavi until a separate content decision changes it.
 
-The activity character-presentation architecture is now merged/live verified through PR #259. The next character wave must lock the production character specification and provenance, create/review isolated transparent Naya/Gian/Zia runtime assets, then activate only approved files through the central allowlist/resolver. Generated candidates are not production-approved merely because they render.
+The activity character-presentation architecture is merged/live verified through PR #259, the runtime asset lifecycle registry through PR #262, and the fail-closed human character asset pipeline through PR #263. Naya/Gian/Zia remain reference-only with no production path and no committed human production binary. The next character wave is candidate asset creation/review outside the production directory, provenance/redistribution approval for the exact reviewed derivative, then binary integration and later runtime activation through the central allowlist/resolver.
 
 ## 6. Subject background production system
 
@@ -171,15 +179,15 @@ If implemented, this remains existing-mechanic reuse; it must not create Pattern
 
 Product UX next order:
 
-1. lock production-grade character specification/provenance for Naya/Gian/Zia against the reviewed design sheets;
-2. create isolated transparent production runtime assets for Naya/Gian/Zia;
-3. review visual consistency and responsive placement, then activate approved assets through the central character allowlist/resolver;
-4. validate English -> Naya + Zia and Math -> Gian + Paca while preserving fail-closed fallback and leaving other subject pairings unchanged;
-5. revisit the five-character homepage hero only with approved production identities, keeping hero composition separate from activity foreground assets;
-6. improve English narration quality;
-7. continue learning-illustration consistency work where emoji/symbol recognition is ambiguous;
-8. continue broader visual/usability and physical-device/human acceptance;
-9. keep the live background system stable unless a concrete production defect is found.
+1. create/review candidate Naya/Gian/Zia production artwork outside the public production directory against the locked Art Bible/design-sheet identity;
+2. confirm source/creation basis plus public redistribution rights for each exact reviewed derivative;
+3. export only approved transparent WebP binaries to the canonical production paths and promote the provenance records from reference-only to approved;
+4. merge binary/provenance integration while keeping runtime activation separate;
+5. activate approved assets through the central character allowlist/resolver and run responsive activity QA;
+6. validate English -> Naya + Zia and Math -> Gian + Paca while preserving fail-closed fallback and leaving other subject pairings unchanged;
+7. revisit the five-character homepage hero only with approved production identities;
+8. improve English narration quality;
+9. continue learning-illustration consistency and broader human/device acceptance.
 
 The all-subject background generation/integration wave is **closed / merged / live verified** and is no longer an active implementation task.
 
