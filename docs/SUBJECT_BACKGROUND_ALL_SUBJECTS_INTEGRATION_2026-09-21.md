@@ -171,6 +171,28 @@ Merged-main QA artifacts:
 - gameplay distribution: `10623624279`;
 - responsive/mobile screenshots: `10623533407`.
 
+## Post-closure production preview
+
+After PR #256 was live verified, the project owner supplied desktop production screenshots for one representative route in every subject:
+
+| Subject | Route |
+| --- | --- |
+| English | `english-find-blue` |
+| Bahasa Indonesia | `bahasa-cari-a` |
+| Matematika | `math-count-2` |
+| Iqro | `iqro-cari-alif` |
+| Huruf & Menulis | `letters-find-a` |
+| Logika | `logic-match-pairs` |
+| Sains | `science-living-cat` |
+| Mewarnai | `color-gavi` |
+| Menggambar | `drawing-line-horizontal` |
+
+The screenshots show the intended environment family live for all nine subjects, with foreground gameplay/workspace UI preserved. Coloring/Drawing visibly retain their subject scene behind the workspace, and the Logic completion overlay retains the space scene beneath it.
+
+Detailed preview review: `SUBJECT_BACKGROUND_PRODUCTION_PREVIEW_REVIEW_2026-09-21.md`.
+
+The docs-closure PR #257 subsequently merged to `41df41c9dc0edc449af8260bbfe3887e0175bfb0`; merged-main CI **#1186 / run 35567718494** passed all gates including exact Cloudflare production smoke.
+
 ## Provenance
 
 The project owner approved this generated background set for repository integration. The creation basis and redistribution decision for this wave are recorded in `ASSET_PROVENANCE.md`.
@@ -193,4 +215,4 @@ This wave did not:
 
 All implementation, CI, merge, responsive QA, and exact production-verification gates are complete.
 
-Production truth for this wave is `main@7502c708c998c87bb273639025fcb10ba6c81e12`.
+Background runtime truth is `7502c708c998c87bb273639025fcb10ba6c81e12` from PR #256. The latest production/docs-closure main at this review is `41df41c9dc0edc449af8260bbfe3887e0175bfb0` from PR #257; both exact production smoke checks passed.
