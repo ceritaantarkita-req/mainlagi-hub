@@ -65,8 +65,9 @@ The foundation and asset-pipeline waves are closed. Candidate intake audit found
 
 ## Canonical baseline
 
-- current production `main`: `e4d7b4285db17a2010c22cdd1bc29451208f6a1b` (PR #263 fail-closed human character asset pipeline)
-- latest merged-main CI: **#1198 / run `35599025558` — full success including exact Cloudflare production smoke**
+- current production `main`: `bb0645d298a645483fb10e12bc0550a8eccf0870` (PR #264 character asset pipeline docs closure)
+- latest merged-main CI: **#1201 / run `35600793815` — full success including exact Cloudflare production smoke**
+- character asset pipeline implementation: PR #263 at `e4d7b4285db17a2010c22cdd1bc29451208f6a1b`, CI #1198 full success
 - previous runtime registry checkpoint: PR #262 at `ceb2546b6c626810901c5542e7f718acfad55341`, CI #1196 full success
 - activity character presentation foundation: PR #259 at `b5acbfcde66ea1451f3e55a8d469d33ba4845af1`, CI #1190 full success
 - latest independently live-verified runtime/product implementation: `7502c708c998c87bb273639025fcb10ba6c81e12` (PR #256)
