@@ -760,9 +760,13 @@ Completed/live-verified sequence:
 7. parent/profile/settings responsive redesign.
 
 Current and next:
-8. **NOW:** extend the canonical Art Bible character-production specification and create/review Naya/Gian/Zia production assets;
-9. subject theme/background system + clearer learning illustrations;
-10. English narration quality upgrade;
-11. expanded human visual/usability and physical-device acceptance plus cleanup of superseded presentation paths.
+8. subject theme/background system: **CLOSED / MERGED / LIVE VERIFIED** across 9 subjects / 900 activities;
+9. activity character-presentation foundation: **CLOSED / MERGED / LIVE VERIFIED** via PR #259 -> main `b5acbfcde66ea1451f3e55a8d469d33ba4845af1`, merged-main CI #1190 / run `35589937017` including exact Cloudflare production smoke;
+10. **NOW:** lock the production character specification and create/review isolated transparent Naya/Gian/Zia runtime assets with provenance/redistribution evidence;
+11. activate approved human-character assets only through the central allowlist/resolver, then run responsive visual acceptance for English -> Naya + Zia and Math -> Gian + Paca while preserving fail-closed fallback;
+12. revisit the five-character homepage hero only with approved production identities; keep hero composition separate from activity foreground assets;
+13. English narration quality upgrade;
+14. learning-illustration consistency improvements;
+15. expanded human visual/usability and physical-device acceptance plus cleanup of superseded presentation paths.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.

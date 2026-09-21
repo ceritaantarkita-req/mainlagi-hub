@@ -31,16 +31,17 @@ Subsystem docs remain authoritative for their specific scope when they do not co
 ## Current project checkpoint — 21 September 2026
 
 ```text
-latest production main:         41df41c9dc0edc449af8260bbfe3887e0175bfb0
+latest production main:         b5acbfcde66ea1451f3e55a8d469d33ba4845af1
+character foundation:            PR #259 / merged + live verified
+character foundation CI:         #1190 / run 35589937017 — success + exact Cloudflare smoke
 background runtime main:         7502c708c998c87bb273639025fcb10ba6c81e12
 background runtime CI:           #1183 / run 35565937149 — success + exact Cloudflare smoke
-docs-closure main CI:            #1186 / run 35567718494 — success + exact Cloudflare smoke
 learning catalog:                9 subjects / 900 activities
 subject backgrounds:             54 scene families / 108 WebP / live verified
 project-owner preview:           9/9 subjects represented on production desktop routes
 gameplay taxonomy:               900/900 classified / 47 active / no Pattern #48
-next product-UX work:            activity character layer foundation + Naya/Gian/Zia production assets
-WS-05 fresh audit:               remains separate from visual-background closure
+next product-UX work:            Naya/Gian/Zia production assets -> approval -> resolver activation
+WS-05 fresh audit:               remains separate from product-visual work
 ```
 
 Paca/Gavi have production Garden WebP assets. Naya/Gian/Zia currently use non-production fallback representations and still need reviewed production assets. Child profile identity remains separate from guide-character identity.
