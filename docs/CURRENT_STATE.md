@@ -4,6 +4,21 @@ Last reviewed: **21 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
+## 21 September required secret-scan enforcement closure
+
+Repository secret scanning is now **MERGE-BLOCKING / MERGED / LIVE VERIFIED** through PR **#269**.
+
+- Merged main: `6fd9e3fc7ffa57aab687b5529033f1a995e0e5ba`.
+- PR CI: **#1208 / run `35625095287` — full success**.
+- Merged-main CI: **#1209 / run `35625953536` — full success including exact Cloudflare production smoke**.
+- The active `Protect main` ruleset still requires four status contexts; it was not mutated by the connector.
+- `Production dependency audit`, which is already required by that ruleset, now performs a full-history Gitleaks scan before dependency auditing.
+- The standalone `Secret history scan` remains for visibility and uses the same shared pinned scanner script.
+- PR and merged-main evidence both show `Required full-history secret gate` succeeding inside the required dependency job.
+- A secret-scan failure therefore fails a required status check and blocks merge.
+- Canonical closure record: `REQUIRED_SECRET_SCAN_ENFORCEMENT_2026-09-21.md`.
+
+
 ## 21 September cloud learning analytics integrity closure
 
 Cloud learning analytics pagination and authenticated failure-state handling are **FULLY CLOSED / MERGED / LIVE VERIFIED** through PR **#267**.
@@ -80,8 +95,9 @@ The foundation and asset-pipeline waves are closed. Candidate intake audit found
 
 ## Canonical baseline
 
-- current production `main`: `89a2bc629e8535bddbf2ab78ae1990a063f0f361` (PR #267 cloud analytics pagination + failure-state integrity fix)
-- latest merged-main CI: **#1205 / run `35621724090` — full success including exact Cloudflare production smoke**
+- current production `main`: `6fd9e3fc7ffa57aab687b5529033f1a995e0e5ba` (PR #269 required secret-scan enforcement)
+- latest merged-main CI: **#1209 / run `35625953536` — full success including exact Cloudflare production smoke**
+- required secret-scan enforcement: PR #269 / standalone scan + embedded required `Production dependency audit` gate / merge-blocking
 - cloud analytics integrity closure: PR #267 / regression `1201 attempts + 3603 evidence rows` / complete pagination + fail-closed authenticated failure handling
 - character asset pipeline implementation: PR #263 at `e4d7b4285db17a2010c22cdd1bc29451208f6a1b`, CI #1198 full success
 - previous runtime registry checkpoint: PR #262 at `ceb2546b6c626810901c5542e7f718acfad55341`, CI #1196 full success
