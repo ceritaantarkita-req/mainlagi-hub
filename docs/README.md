@@ -32,9 +32,10 @@ Subsystem docs remain authoritative for their specific scope when they do not co
 ## Current project checkpoint — 21 September 2026
 
 ```text
-latest production main:         ceb2546b6c626810901c5542e7f718acfad55341
+latest production main:         e4d7b4285db17a2010c22cdd1bc29451208f6a1b
+character asset pipeline:         PR #263 / merged + live verified
+character asset pipeline CI:      #1198 / run 35599025558 — success + exact Cloudflare smoke
 character runtime registry:       PR #262 / merged + live verified
-character registry CI:            #1196 / run 35594336327 — success + exact Cloudflare smoke
 character foundation:             PR #259 / merged + live verified
 background runtime main:         7502c708c998c87bb273639025fcb10ba6c81e12
 background runtime CI:           #1183 / run 35565937149 — success + exact Cloudflare smoke
@@ -42,7 +43,7 @@ learning catalog:                9 subjects / 900 activities
 subject backgrounds:             54 scene families / 108 WebP / live verified
 project-owner preview:           9/9 subjects represented on production desktop routes
 gameplay taxonomy:               900/900 classified / 47 active / no Pattern #48
-next product-UX work:            Naya/Gian/Zia production assets -> approval -> resolver activation
+next product-UX work:            Naya/Gian/Zia candidate review -> provenance/binary approval -> responsive QA -> resolver activation
 WS-05 fresh audit:               remains separate from product-visual work
 ```
 
