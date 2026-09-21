@@ -4,6 +4,21 @@ Last reviewed: **21 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
+## 21 September cloud learning analytics integrity closure
+
+Cloud learning analytics pagination and authenticated failure-state handling are **FULLY CLOSED / MERGED / LIVE VERIFIED** through PR **#267**.
+
+- Merged main: `89a2bc629e8535bddbf2ab78ae1990a063f0f361`.
+- PR CI: **#1204 / run `35620911905` — full success**.
+- Merged-main CI: **#1205 / run `35621724090` — full success including exact Cloudflare production smoke**.
+- Fixed-cap reads (`500` attempts / `2000` evidence rows) were replaced by complete paged reads with stable ordering and a shared snapshot timestamp.
+- Analytics reads are explicitly scoped to authenticated account + child; a later-page failure fails the whole cloud read closed instead of returning partial analytics.
+- Authenticated cloud failure no longer silently substitutes local browser analytics; parent reports expose loading/unavailable state and explicit retry.
+- Stale request/auth-transition protection prevents an older request from overwriting newer analytics.
+- Blocking regression covers **1,201 attempts / 3,603 evidence rows**, small server caps, later-page failure, reconnect, stale requests and guest isolation.
+- No schema, mastery, evidence, progression, curriculum or activity-identity rule changed.
+- Canonical closure record: `CLOUD_ANALYTICS_PAGINATION_CLOSURE_2026-09-21.md`.
+
 ## 21 September subject-background integration closure
 
 Subject backgrounds are **FULLY CLOSED / MERGED / LIVE VERIFIED**.
@@ -65,8 +80,9 @@ The foundation and asset-pipeline waves are closed. Candidate intake audit found
 
 ## Canonical baseline
 
-- current production `main`: `bb0645d298a645483fb10e12bc0550a8eccf0870` (PR #264 character asset pipeline docs closure)
-- latest merged-main CI: **#1201 / run `35600793815` — full success including exact Cloudflare production smoke**
+- current production `main`: `89a2bc629e8535bddbf2ab78ae1990a063f0f361` (PR #267 cloud analytics pagination + failure-state integrity fix)
+- latest merged-main CI: **#1205 / run `35621724090` — full success including exact Cloudflare production smoke**
+- cloud analytics integrity closure: PR #267 / regression `1201 attempts + 3603 evidence rows` / complete pagination + fail-closed authenticated failure handling
 - character asset pipeline implementation: PR #263 at `e4d7b4285db17a2010c22cdd1bc29451208f6a1b`, CI #1198 full success
 - previous runtime registry checkpoint: PR #262 at `ceb2546b6c626810901c5542e7f718acfad55341`, CI #1196 full success
 - activity character presentation foundation: PR #259 at `b5acbfcde66ea1451f3e55a8d469d33ba4845af1`, CI #1190 full success
