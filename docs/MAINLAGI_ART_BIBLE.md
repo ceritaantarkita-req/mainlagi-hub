@@ -1,6 +1,6 @@
 # Mainlagi Art Bible — v1
 
-Status: **CANONICAL VISUAL DIRECTION / SUBJECT BACKGROUNDS LIVE VERIFIED / CHARACTER PRODUCTION NEXT**  
+Status: **CANONICAL VISUAL DIRECTION / SUBJECT BACKGROUNDS + CHARACTER FOUNDATION LIVE VERIFIED / HUMAN CHARACTER ASSETS NEXT**  
 Established: **16 September 2026**  
 Last synchronized: **21 September 2026**  
 Source audit: `PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md`
@@ -299,6 +299,7 @@ Detailed execution source: [`CHARACTER_PRESENTATION_SYSTEM.md`](CHARACTER_PRESEN
 - Creative Coloring/Drawing workspaces may suppress decorative foreground characters when they compete with the canvas/tools.
 - Child profile identity and guide-character identity remain separate from activity presentation.
 - Character presentation must not change activity identity, answers, evidence, mastery, progression or narration semantics.
+- The presentation foundation is live via PR #259 / main `b5acbfcde66ea1451f3e55a8d469d33ba4845af1`; human-character activation remains blocked on isolated transparent production assets and review.
 
 ### Subject background / scene contract
 
