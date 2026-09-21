@@ -8,10 +8,10 @@ This document summarizes the repository/product state after the all-subject back
 
 ## 1. Source of truth and production verification
 
-Current production/documentation main:
+Current production main:
 
 ```text
-41df41c9dc0edc449af8260bbfe3887e0175bfb0
+b5acbfcde66ea1451f3e55a8d469d33ba4845af1
 ```
 
 This is the docs-closure merge from PR #257. The subject-background runtime implementation itself was merged through PR #256:
@@ -142,6 +142,29 @@ The project-owner desktop preview covers one live production route in every subj
 
 Responsive/mobile coverage remains backed by CI/browser QA rather than by those desktop screenshots alone.
 
+## 6A. Activity character presentation foundation
+
+The foreground character architecture is now **merged / live verified** through PR #259.
+
+- character selection is centralized with the activity visual-theme resolver;
+- `GardenActivityFrame` no longer hardcodes Gavi/Paca file paths;
+- only approved Gavi/Paca runtime assets can currently render;
+- English preference is Naya + Zia, but fails closed to Gavi + Paca;
+- Math preference is Gian + Paca, but fails closed to Gavi + Paca until Gian is approved;
+- Coloring/Drawing continue to suppress decorative character overlays in workspace mode;
+- Naya/Gian/Zia Drive files are design/reference sheets, not runtime sprites.
+
+Verification:
+
+```text
+PR #259
+main: b5acbfcde66ea1451f3e55a8d469d33ba4845af1
+PR CI: #1189 — success
+main CI: #1190 / run 35589937017 — full success + exact Cloudflare smoke
+```
+
+Next gate: create isolated transparent production sprites for Naya, Gian and Zia, review them against the design sheets, then activate only through the approved central asset map.
+
 ## 7. WS-05 gameplay track
 
 WS-05 remains separate from broad product-UX refactors.
@@ -167,8 +190,8 @@ If implemented, this remains existing-mechanic reuse; it must not create Pattern
 
 Product UX next order:
 
-1. finish production-grade character specification/provenance for Naya/Gian/Zia;
-2. integrate the dynamic character layer on top of the now-live subject-background system without baking characters into scenery;
+1. create/review isolated transparent production sprites for Naya/Gian/Zia from the approved design references;
+2. activate approved human characters through the now-live fail-closed character presentation layer;
 3. improve English narration quality;
 4. continue broader visual/usability and physical-device/human acceptance;
 5. continue learning-illustration consistency work where emoji/symbol recognition is ambiguous;
