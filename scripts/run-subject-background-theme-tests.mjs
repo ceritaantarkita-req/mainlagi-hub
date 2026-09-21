@@ -14,37 +14,51 @@ const require = createRequire(import.meta.url);
 const { ACTIVITIES } = require(path.resolve(".learning-test-dist/src/lib/learning/system.js"));
 const {
   SUBJECT_THEMES,
+  THEMED_SUBJECT_IDS,
   resolveActivityVisualTheme
 } = require(path.resolve(".learning-test-dist/src/lib/learning/activityVisualTheme.js"));
 
-for (const subjectId of ["math", "science"]) {
+assert.deepEqual(
+  [...THEMED_SUBJECT_IDS],
+  ["bahasa", "english", "math", "iqro", "letters", "logic", "science", "color", "drawing"],
+  "background system must cover the canonical nine subjects"
+);
+
+let resolvedCount = 0;
+for (const subjectId of THEMED_SUBJECT_IDS) {
   const activities = ACTIVITIES.filter((activity) => activity.subjectId === subjectId);
-  assert(activities.length > 0, `${subjectId} pilot must contain activities`);
+  assert.equal(activities.length, 100, `${subjectId} must keep the 100-activity baseline`);
 
-  const sceneIds = new Set(SUBJECT_THEMES[subjectId].scenes.map((scene) => scene.id));
-  assert.equal(sceneIds.size, 6, `${subjectId} pilot must expose exactly six scene families`);
+  const theme = SUBJECT_THEMES[subjectId];
+  assert(theme, `${subjectId} must expose a subject theme`);
+  const sceneIds = new Set(theme.scenes.map((scene) => scene.id));
+  assert.equal(sceneIds.size, 6, `${subjectId} must expose exactly six scene families`);
 
-  for (const scene of SUBJECT_THEMES[subjectId].scenes) {
-    assert.equal(scene.assetStatus, "candidate", `${subjectId}/${scene.id} stays candidate until provenance approval`);
-    assert.equal(scene.runtimeAssets, null, `${subjectId}/${scene.id} must not activate unapproved binary assets`);
-    assert(scene.candidateWideName.endsWith("-v1.png"));
-    assert(scene.candidateMobileName.endsWith("-mobile-v1.png"));
+  for (const scene of theme.scenes) {
+    assert.equal(scene.assetStatus, "approved", `${subjectId}/${scene.id} must be approved for runtime`);
+    assert(scene.runtimeAssets, `${subjectId}/${scene.id} must have runtime assets`);
+    assert(scene.candidateWideName.endsWith("-v1.png"), `${subjectId}/${scene.id} keeps its reviewed PNG source name`);
+    assert(scene.candidateMobileName.endsWith("-mobile-v1.png"), `${subjectId}/${scene.id} keeps its reviewed mobile PNG source name`);
+    assert(scene.runtimeAssets.wideSrc.endsWith("-wide.webp"), `${subjectId}/${scene.id} must use optimized wide WebP`);
+    assert(scene.runtimeAssets.mobileSrc.endsWith("-mobile.webp"), `${subjectId}/${scene.id} must use optimized mobile WebP`);
+    assert(scene.runtimeAssets.wideSrc.startsWith("/artwork/backgrounds/"));
+    assert(scene.runtimeAssets.mobileSrc.startsWith("/artwork/backgrounds/"));
   }
 
   for (const activity of activities) {
     const first = resolveActivityVisualTheme(activity);
     const second = resolveActivityVisualTheme(activity);
-    assert(first, `${activity.id} receives a pilot visual theme`);
+    assert(first, `${activity.id} receives a visual theme`);
     assert.deepEqual(second, first, `${activity.id} visual resolution is deterministic`);
     assert.equal(first.subjectId, subjectId);
     assert.equal(first.scene.subjectId, subjectId);
-    assert(sceneIds.has(first.scene.id), `${activity.id} resolves inside its subject scene set`);
+    assert(sceneIds.has(first.scene.id), `${activity.id} resolves inside its subject scene family`);
+    assert(first.scene.runtimeAssets, `${activity.id} resolves to active runtime artwork`);
+    resolvedCount += 1;
   }
 }
 
-for (const activity of ACTIVITIES.filter((item) => item.subjectId !== "math" && item.subjectId !== "science")) {
-  assert.equal(resolveActivityVisualTheme(activity), null, `${activity.id} stays outside the Math/Science pilot`);
-}
+assert.equal(resolvedCount, 900, "all 900 activities must resolve to an approved subject background");
 
 const byId = new Map(ACTIVITIES.map((activity) => [activity.id, activity]));
 const expected = {
@@ -58,7 +72,13 @@ const expected = {
   "science-plant-roots": "greenhouse",
   "science-feature-duck-webbed-feet": "nature-trail",
   "science-material-raincoat-waterproof": "material-workshop",
-  "science-investigate-plant-light": "greenhouse"
+  "science-investigate-plant-light": "greenhouse",
+  "bahasa-cari-a": "letter-garden",
+  "english-find-blue": "seaside-learning-cove",
+  "letters-find-a": "alphabet-city-02",
+  "logic-match-pairs": "space-observatory-01",
+  "color-gavi": "art-gallery-01",
+  "drawing-line-vertical": "meadow-activity-05"
 };
 
 for (const [activityId, sceneId] of Object.entries(expected)) {
@@ -67,4 +87,4 @@ for (const [activityId, sceneId] of Object.entries(expected)) {
   assert.equal(resolveActivityVisualTheme(activity)?.scene.id, sceneId, `${activityId} keeps semantic scene mapping`);
 }
 
-console.log("Subject background theme regression passed: six Math + six Science scene families, deterministic resolution, and fail-closed candidate assets.");
+console.log("Subject background theme regression passed: nine subjects, 54 scene families, 108 responsive WebP assets, and deterministic coverage for all 900 activities.");
