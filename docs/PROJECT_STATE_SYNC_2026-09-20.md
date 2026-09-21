@@ -11,10 +11,10 @@ This document summarizes the repository/product state after the all-subject back
 Current production/documentation main:
 
 ```text
-e4d7b4285db17a2010c22cdd1bc29451208f6a1b
+bb0645d298a645483fb10e12bc0550a8eccf0870
 ```
 
-This is the fail-closed human character asset pipeline merge from PR #263. Merged-main CI #1198 / run `35599025558` passed the full matrix including exact Cloudflare production smoke. The activity character-presentation foundation remains PR #259 and the runtime asset lifecycle registry remains PR #262. The subject-background runtime implementation remains the earlier PR #256 baseline:
+This is the character asset pipeline docs closure from PR #264. Merged-main CI #1201 / run `35600793815` passed the full matrix including exact Cloudflare production smoke. The fail-closed human character asset pipeline implementation itself remains PR #263 at `e4d7b4285db17a2010c22cdd1bc29451208f6a1b`. The activity character-presentation foundation remains PR #259 and the runtime asset lifecycle registry remains PR #262. The subject-background runtime implementation remains the earlier PR #256 baseline:
 
 ```text
 Background implementation main:       7502c708c998c87bb273639025fcb10ba6c81e12
