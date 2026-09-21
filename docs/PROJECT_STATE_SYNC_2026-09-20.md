@@ -11,10 +11,10 @@ This document summarizes the repository/product state after the all-subject back
 Current production/documentation main:
 
 ```text
-e4d7b4285db17a2010c22cdd1bc29451208f6a1b
+bb0645d298a645483fb10e12bc0550a8eccf0870
 ```
 
-This is the fail-closed human character asset pipeline merge from PR #263. Merged-main CI #1198 / run `35599025558` passed the full matrix including exact Cloudflare production smoke. The activity character-presentation foundation remains PR #259 and the runtime asset lifecycle registry remains PR #262. The subject-background runtime implementation remains the earlier PR #256 baseline:
+This is the character asset pipeline docs closure from PR #264. Merged-main CI #1201 / run `35600793815` passed the full matrix including exact Cloudflare production smoke. The fail-closed human character asset pipeline implementation itself remains PR #263 at `e4d7b4285db17a2010c22cdd1bc29451208f6a1b`. The activity character-presentation foundation remains PR #259 and the runtime asset lifecycle registry remains PR #262. The subject-background runtime implementation remains the earlier PR #256 baseline:
 
 ```text
 Background implementation main:       7502c708c998c87bb273639025fcb10ba6c81e12
@@ -122,7 +122,7 @@ Current asset state:
 - child profile identity and guide-character identity remain separate concepts;
 - coloring-character support remains intentionally limited to Paca/Gavi until a separate content decision changes it.
 
-The activity character-presentation architecture is merged/live verified through PR #259, the runtime asset lifecycle registry through PR #262, and the fail-closed human character asset pipeline through PR #263. Naya/Gian/Zia remain reference-only with no production path and no committed human production binary. The next character wave is candidate asset creation/review outside the production directory, provenance/redistribution approval for the exact reviewed derivative, then binary integration and later runtime activation through the central allowlist/resolver.
+The activity character-presentation architecture is merged/live verified through PR #259, the runtime asset lifecycle registry through PR #262, and the fail-closed human character asset pipeline through PR #263. A fresh Drive intake audit found **no separate Naya/Gian/Zia activity-foreground candidate**; the only canonical human art found is the three reviewed design sheets. Naya/Gian/Zia therefore remain reference-only with no production path and no committed human production binary. The next character wave is candidate asset creation/review outside the production directory, provenance/redistribution approval for the exact reviewed derivative, then binary integration and later runtime activation through the central allowlist/resolver.
 
 ## 6. Subject background production system
 
@@ -179,7 +179,7 @@ If implemented, this remains existing-mechanic reuse; it must not create Pattern
 
 Product UX next order:
 
-1. create/review candidate Naya/Gian/Zia production artwork outside the public production directory against the locked Art Bible/design-sheet identity;
+1. create/review one isolated **Naya** candidate outside the public production directory against the locked Art Bible/design-sheet identity, then repeat for Gian and Zia only after each prior candidate review is closed;
 2. confirm source/creation basis plus public redistribution rights for each exact reviewed derivative;
 3. export only approved transparent WebP binaries to the canonical production paths and promote the provenance records from reference-only to approved;
 4. merge binary/provenance integration while keeping runtime activation separate;

@@ -56,6 +56,7 @@ Paca and Gavi are already exposed in the current Garden UI. Naya, Gian, and Zia 
 - Paca/Gavi coloring previews exist; this art wave does not authorize new Naya/Gian/Zia coloring activities.
 - Generated character candidates require visual review plus asset provenance/rights documentation before production integration.
 - Naya/Gian/Zia provenance records remain `reference-only` with no production path; `public/artwork/characters/` contains no approved human production binary yet.
+- Fresh Drive intake audit found no separate human foreground candidate beyond the canonical design sheets; product/QA screenshots such as `child-demo-gian-*` are explicitly excluded as source artwork.
 
 ## P0 — next implementation wave
 
@@ -198,7 +199,7 @@ Completed / live-verified:
 
 Current character-production gate:
 10. Character production specification + fail-closed asset/provenance infrastructure: **CLOSED / MERGED / LIVE VERIFIED** through PR #263.
-11. **NOW:** create/review isolated Naya/Gian/Zia candidate assets outside the public production directory.
+11. **NOW:** create/review an isolated Naya candidate outside the public production directory; after acceptance repeat the same gated process for Gian, then Zia.
 12. Confirm provenance/redistribution for each exact reviewed derivative, then integrate only approved transparent WebP binaries at the canonical production paths.
 13. Keep runtime activation as a separate wave; then run responsive visual QA through the central allowlist/resolver.
 14. Validate English -> Naya + Zia and Math -> Gian + Paca; preserve fail-closed fallback and leave other subject pairings unchanged.

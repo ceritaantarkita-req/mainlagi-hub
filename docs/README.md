@@ -17,24 +17,26 @@ Read these first for current work:
 7. [`SUBJECT_BACKGROUND_PRODUCTION_PREVIEW_REVIEW_2026-09-21.md`](SUBJECT_BACKGROUND_PRODUCTION_PREVIEW_REVIEW_2026-09-21.md) — project-owner desktop production preview covering one route in every subject.
 8. [`CHARACTER_PRESENTATION_SYSTEM.md`](CHARACTER_PRESENTATION_SYSTEM.md) — fail-closed activity character layer, approved asset boundary and Naya/Gian/Zia activation gate.
 9. [`CHARACTER_ASSET_PIPELINE.md`](CHARACTER_ASSET_PIPELINE.md) — production-only character directory, provenance registry, technical validator and approval sequence.
-10. [`PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md`](PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md) — active production visual/product audit and P0/P1/P2 state.
-11. [`MAINLAGI_ART_BIBLE.md`](MAINLAGI_ART_BIBLE.md) — canonical visual direction.
-12. [`MOBILE_ROUTE_QA.md`](MOBILE_ROUTE_QA.md) — blocking browser route and permanent visual QA contract.
-13. [`ARCHITECTURE.md`](ARCHITECTURE.md) — current technical boundaries and system architecture.
-14. [`MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md`](MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md) — child/product/UX/activity rules.
-15. [`LEARNING_ATTEMPTS_MASTERY.md`](LEARNING_ATTEMPTS_MASTERY.md) — evidence/mastery/progression contract.
-16. [`GAMEPLAY_VARIATION_CATALOG.md`](GAMEPLAY_VARIATION_CATALOG.md) — canonical gameplay-pattern catalog and WS-05 boundaries.
-17. [`PRODUCT_DIRECTION.md`](PRODUCT_DIRECTION.md) — product principles and direction.
-18. [`KNOWN_LIMITATIONS.md`](KNOWN_LIMITATIONS.md) — current known limitations and external acceptance gaps.
+10. [`CHARACTER_CANDIDATE_INTAKE_AUDIT_2026-09-21.md`](CHARACTER_CANDIDATE_INTAKE_AUDIT_2026-09-21.md) — Drive candidate audit; no separate Naya/Gian/Zia foreground candidate found.
+11. [`PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md`](PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md) — active production visual/product audit and P0/P1/P2 state.
+12. [`MAINLAGI_ART_BIBLE.md`](MAINLAGI_ART_BIBLE.md) — canonical visual direction.
+13. [`MOBILE_ROUTE_QA.md`](MOBILE_ROUTE_QA.md) — blocking browser route and permanent visual QA contract.
+14. [`ARCHITECTURE.md`](ARCHITECTURE.md) — current technical boundaries and system architecture.
+15. [`MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md`](MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md) — child/product/UX/activity rules.
+16. [`LEARNING_ATTEMPTS_MASTERY.md`](LEARNING_ATTEMPTS_MASTERY.md) — evidence/mastery/progression contract.
+17. [`GAMEPLAY_VARIATION_CATALOG.md`](GAMEPLAY_VARIATION_CATALOG.md) — canonical gameplay-pattern catalog and WS-05 boundaries.
+18. [`PRODUCT_DIRECTION.md`](PRODUCT_DIRECTION.md) — product principles and direction.
+19. [`KNOWN_LIMITATIONS.md`](KNOWN_LIMITATIONS.md) — current known limitations and external acceptance gaps.
 
 Subsystem docs remain authoritative for their specific scope when they do not conflict with the canonical documents above.
 
 ## Current project checkpoint — 21 September 2026
 
 ```text
-latest production main:          e4d7b4285db17a2010c22cdd1bc29451208f6a1b
+latest production main:          bb0645d298a645483fb10e12bc0550a8eccf0870
+character pipeline docs closure:  PR #264 / merged + live verified
+character pipeline closure CI:    #1201 / run 35600793815 — success + exact Cloudflare smoke
 character asset pipeline:         PR #263 / merged + live verified
-character asset pipeline CI:      #1198 / run 35599025558 — success + exact Cloudflare smoke
 character runtime registry:       PR #262 / merged + live verified
 character foundation:             PR #259 / merged + live verified
 background runtime main:         7502c708c998c87bb273639025fcb10ba6c81e12
@@ -43,7 +45,7 @@ learning catalog:                9 subjects / 900 activities
 subject backgrounds:             54 scene families / 108 WebP / live verified
 project-owner preview:           9/9 subjects represented on production desktop routes
 gameplay taxonomy:               900/900 classified / 47 active / no Pattern #48
-next product-UX work:            create/review Naya/Gian/Zia candidate production assets -> provenance approval -> binary integration -> resolver activation
+next product-UX work:            Naya candidate creation/review first -> Gian -> Zia -> provenance approval -> binary integration -> separate runtime activation
 WS-05 fresh audit:               remains separate from product-visual work
 ```
 
