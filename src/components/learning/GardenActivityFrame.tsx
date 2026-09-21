@@ -16,6 +16,7 @@ export function GardenActivityFrame({ backHref, title, narration, lang = "id-ID"
   const [audioNotice, setAudioNotice] = useState<string | null>(null);
   const visualTheme = useActivityVisualTheme();
   const runtimeAssets = visualTheme?.scene.runtimeAssets;
+  const runtimeCharacters = visualTheme?.characters.runtimeCharacters ?? [];
   const sceneStyle = runtimeAssets ? ({
     "--ml-scene-wide": `url("${runtimeAssets.wideSrc}")`,
     "--ml-scene-mobile": `url("${runtimeAssets.mobileSrc}")`,
@@ -39,6 +40,9 @@ export function GardenActivityFrame({ backHref, title, narration, lang = "id-ID"
     data-scene-variant={visualTheme?.scene.id}
     data-scene-source={visualTheme?.source}
     data-scene-assets={runtimeAssets ? "approved" : "fallback"}
+    data-character-source={visualTheme?.characters.source}
+    data-character-left={runtimeCharacters[0]?.id}
+    data-character-right={runtimeCharacters[1]?.id}
   >
     <header className={styles.header}>
       <Link href={backHref} className={styles.control} aria-label="Kembali"><ArrowLeft size={25} weight="bold" aria-hidden/><span>Kembali</span></Link>
@@ -51,7 +55,17 @@ export function GardenActivityFrame({ backHref, title, narration, lang = "id-ID"
       {children}
       {hint ? <p className={styles.hint}>{hint}</p> : null}
     </div>
-    <img src="/artwork/garden-gavi.webp" className={styles.gavi} alt="" width={500} height={650}/>
-    <img src="/artwork/garden-paca.webp" className={styles.paca} alt="" width={500} height={650}/>
+    {runtimeCharacters.map((character) => (
+      <img
+        key={`${character.side}:${character.id}`}
+        src={character.src}
+        className={`${styles.character} ${character.side === "left" ? styles.characterLeft : styles.characterRight}`}
+        data-character-id={character.id}
+        data-character-side={character.side}
+        alt=""
+        width={500}
+        height={650}
+      />
+    ))}
   </main>;
 }
