@@ -1,7 +1,7 @@
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
 
-const root = process.cwd();
+const root = process.env.CHARACTER_ASSET_ROOT ? path.resolve(process.env.CHARACTER_ASSET_ROOT) : process.cwd();
 const registryPath = path.join(root, "src", "lib", "data", "character-asset-provenance.json");
 const CHARACTER_IDS = ["naya", "gian", "zia"];
 const ALLOWED_LIFECYCLE = new Set(["reference-only", "approved"]);
@@ -33,6 +33,7 @@ function inspectWebp(buffer) {
   let width = null;
   let height = null;
   let hasAlpha = false;
+  let hasImagePayload = false;
   let offset = 12;
 
   while (offset + 8 <= buffer.length) {
@@ -49,16 +50,17 @@ function inspectWebp(buffer) {
       height = readUInt24LE(buffer, dataStart + 7) + 1;
     } else if (type === "ALPH") {
       hasAlpha = true;
-    } else if (type === "VP8 " && size >= 10 && (width === null || height === null)) {
-      if (
+    } else if (type === "VP8 " && size >= 10) {
+      hasImagePayload = true;
+      if ((width === null || height === null) &&
         buffer[dataStart + 3] === 0x9d &&
         buffer[dataStart + 4] === 0x01 &&
-        buffer[dataStart + 5] === 0x2a
-      ) {
+        buffer[dataStart + 5] === 0x2a) {
         width = buffer.readUInt16LE(dataStart + 6) & 0x3fff;
         height = buffer.readUInt16LE(dataStart + 8) & 0x3fff;
       }
     } else if (type === "VP8L" && size >= 5 && buffer[dataStart] === 0x2f) {
+      hasImagePayload = true;
       const bits = buffer.readUInt32LE(dataStart + 1);
       width = (bits & 0x3fff) + 1;
       height = ((bits >>> 14) & 0x3fff) + 1;
@@ -68,6 +70,7 @@ function inspectWebp(buffer) {
     offset = dataEnd + (size % 2);
   }
 
+  if (!hasImagePayload) throw new Error("missing VP8/VP8L image payload");
   if (!width || !height) throw new Error("unable to read WebP dimensions");
   return { width, height, hasAlpha };
 }
