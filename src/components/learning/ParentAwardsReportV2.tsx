@@ -11,7 +11,8 @@ import {
 import { buildWeeklyLearningReport } from "@/lib/learning/reporting";
 import type { PersistedLearningCertificate } from "@/lib/learning/awardsCloud";
 import { CharacterAvatar, useLearningProfile, useLearningProgress } from "./LearningCommon";
-import { useLearningAnalytics } from "./useLearningAnalytics";
+import { useLearningAnalyticsState } from "./useLearningAnalytics";
+import { LearningAnalyticsStatus } from "./LearningAnalyticsStatus";
 import { useLearningAwards } from "./useLearningAwards";
 import styles from "./LearningPlatform.module.css";
 
@@ -51,12 +52,15 @@ function trendText(delta: number): string {
 export function ParentWeeklyReportV2Screen({ childId }: { childId: string }) {
   const profile = useLearningProfile(childId);
   const progress = useLearningProgress(childId);
-  const analytics = useLearningAnalytics(childId);
+  const analyticsState = useLearningAnalyticsState(childId);
+  const { analytics } = analyticsState;
   const awards = useLearningAwards(childId);
   const weekly = buildWeeklyLearningReport(analytics);
   const recent = [...analytics.attempts]
     .sort((a, b) => Date.parse(b.completedAt) - Date.parse(a.completedAt))
     .slice(0, 8);
+
+  if (!analyticsState.ready) return <LearningAnalyticsStatus {...analyticsState} />;
 
   if (!profile) return <main className={styles.parentMain}><ParentChildHeader childId={childId} /></main>;
 
@@ -208,9 +212,12 @@ function downloadIssuedCertificate(args: { childName: string; subject: string; c
 export function ParentIssuedCertificatesScreen({ childId }: { childId: string }) {
   const profile = useLearningProfile(childId);
   const progress = useLearningProgress(childId);
-  const analytics = useLearningAnalytics(childId);
+  const analyticsState = useLearningAnalyticsState(childId);
+  const { analytics } = analyticsState;
   const awards = useLearningAwards(childId);
   const [shareStatus, setShareStatus] = useState<string | null>(null);
+
+  if (!analyticsState.ready) return <LearningAnalyticsStatus {...analyticsState} />;
 
   if (!profile) return <main className={styles.parentMain}><ParentChildHeader childId={childId} /></main>;
 

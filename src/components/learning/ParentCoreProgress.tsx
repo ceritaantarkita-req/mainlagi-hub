@@ -11,7 +11,8 @@ import {
   getSubjectStageReadiness
 } from "@/lib/learning/insights";
 import { CharacterAvatar, useLearningProfile, useLearningProgress } from "./LearningCommon";
-import { useLearningAnalytics } from "./useLearningAnalytics";
+import { useLearningAnalyticsState } from "./useLearningAnalytics";
+import { LearningAnalyticsStatus } from "./LearningAnalyticsStatus";
 import styles from "./LearningPlatform.module.css";
 
 function percent(value: number): number {
@@ -27,7 +28,10 @@ function attemptResult(assessed: boolean, accuracy: number | null): string {
 export function ParentCoreProgressScreen({ childId }: { childId: string }) {
   const profile = useLearningProfile(childId);
   const progress = useLearningProgress(childId);
-  const analytics = useLearningAnalytics(childId);
+  const analyticsState = useLearningAnalyticsState(childId);
+  const { analytics } = analyticsState;
+
+  if (!analyticsState.ready) return <LearningAnalyticsStatus {...analyticsState} />;
 
   if (!profile) {
     return <main className={styles.parentMain}><div className={styles.emptyState}>Profil anak tidak ditemukan.</div></main>;

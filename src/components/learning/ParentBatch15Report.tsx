@@ -5,7 +5,8 @@ import { buildBatch15ParentReport } from "@/lib/learning/batch15";
 import { CHARACTERS, SUBJECTS } from "@/lib/learning/system";
 import { CharacterAvatar, useLearningProfile, useLearningProgress } from "./LearningCommon";
 import { LearningSymbol } from "./LearningSymbol";
-import { useLearningAnalytics } from "./useLearningAnalytics";
+import { useLearningAnalyticsState } from "./useLearningAnalytics";
+import { LearningAnalyticsStatus } from "./LearningAnalyticsStatus";
 import { useLearningAwards } from "./useLearningAwards";
 import styles from "./LearningPlatform.module.css";
 import reportStyles from "./ParentReport.module.css";
@@ -31,8 +32,11 @@ function trendText(delta: number): string {
 export function ParentBatch15ReportScreen({ childId }: { childId: string }) {
   const profile = useLearningProfile(childId);
   const progress = useLearningProgress(childId);
-  const analytics = useLearningAnalytics(childId);
+  const analyticsState = useLearningAnalyticsState(childId);
+  const { analytics } = analyticsState;
   const awards = useLearningAwards(childId);
+
+  if (!analyticsState.ready) return <LearningAnalyticsStatus {...analyticsState} />;
 
   if (!profile) {
     return <main className={styles.parentMain}><div className={styles.emptyState}>Profil anak tidak ditemukan.</div></main>;
