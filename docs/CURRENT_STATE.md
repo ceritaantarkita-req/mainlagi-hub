@@ -4,25 +4,27 @@ Last reviewed: **21 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
-## 21 September subject-background integration checkpoint
+## 21 September subject-background integration closure
 
-Background status has advanced beyond the older Math/Science-pilot notes retained later in this file.
+Subject backgrounds are **FULLY CLOSED / MERGED / LIVE VERIFIED**.
 
-- Active implementation branch: `agent/subject-backgrounds-all-9-20260921`.
+- Implementation PR: **#256**.
+- Merged main: `7502c708c998c87bb273639025fcb10ba6c81e12`.
+- Merged-main CI: **#1183 / run 35565937149 — full success including exact Cloudflare production smoke**.
 - Scope: all **9 subjects / 900 activities**.
 - Scene system: **54 scene families** (6 per subject).
-- Production derivatives: **108 optimized WebP assets** (54 wide + 54 mobile) under `public/artwork/backgrounds/`.
+- Production assets: **108 optimized WebP files** (54 wide + 54 mobile) under `public/artwork/backgrounds/`.
 - `activityVisualTheme.ts` resolves every canonical activity deterministically to an approved scene in its own subject.
-- The existing route-level provider + `GardenActivityFrame` responsive runtime is reused; learning/evidence/progression/schema behavior is unchanged.
-- Provenance/creation basis for this generated set is recorded in `ASSET_PROVENANCE.md`.
-- PR **#256** is open. Initial PR CI **#1176 / run 35563573804** passed all jobs; manual responsive review then found and fixed the creative-workspace background reset. Final-head CI, PR merge, merged-main CI and exact Cloudflare production verification remain required.
-- Detailed wave record: `SUBJECT_BACKGROUND_ALL_SUBJECTS_INTEGRATION_2026-09-21.md`.
+- Shared route/provider + `GardenActivityFrame` architecture remains canonical; learning/evidence/progression/schema behavior is unchanged.
+- Creative Coloring/Drawing workspace layering and Logic title readability were fixed before merge and are regression-covered.
+- Exact production health confirmed `mainlagihub.my.id` is serving SHA `7502c708c998c87bb273639025fcb10ba6c81e12` with the canonical Supabase target.
+- Detailed closure record: `SUBJECT_BACKGROUND_ALL_SUBJECTS_INTEGRATION_2026-09-21.md`.
 
 ## Canonical baseline
 
 - documentation sync base: `a04bd51fb02dedf56b5cd62f7f579eb53c4be251` (PR #252 docs-only parent-wave closure)
-- latest independently live-verified runtime/product main: `77bee682f84b5d68b85d2c91b1d6f2ca4c93d2d9` (PR #251)
-- latest runtime merged-main CI: **#1160 / run `35520629179` — full success including exact Cloudflare production smoke**
+- latest independently live-verified runtime/product main: `7502c708c998c87bb273639025fcb10ba6c81e12` (PR #256)
+- latest runtime merged-main CI: **#1183 / run `35565937149` — full success including exact Cloudflare production smoke**
 - parent responsive QA artifact: **`10608044389`**
 - parent docs closure main: `a04bd51fb02dedf56b5cd62f7f579eb53c4be251`; parent docs closure main CI: **#1162 / run `35521404941` — full success**
 - repository: `ceritaantarkita-req/mainlagi-hub`
