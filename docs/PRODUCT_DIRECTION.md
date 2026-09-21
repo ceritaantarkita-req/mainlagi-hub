@@ -1,6 +1,6 @@
 # Mainlagi Hub — Product Direction
 
-Last reviewed: **20 September 2026**
+Last reviewed: **21 September 2026**
 
 Status: **current product direction**. Some items are implemented, some remain next-phase work. Implementation claims must be checked against `CURRENT_STATE.md` and code.
 
@@ -149,20 +149,30 @@ Iqro/Hijaiyah pronunciation requires competent human review and must not be appr
 
 ## 10. Visual direction
 
-The Garden/Playroom redesign is the frontend baseline.
+The Garden/Playroom redesign remains the frontend baseline.
 
-Next goals:
+The subject-background system is now production truth:
 
-- coherent Mainlagi illustration language;
+- 9 subjects;
+- 54 scene families;
+- 108 responsive WebP assets;
+- deterministic activity-to-scene mapping;
+- one project-owner production preview route for each subject;
+- automated responsive/mobile QA plus exact Cloudflare production verification.
+
+Next visual goals:
+
+- production-grade Naya/Gian/Zia character assets and dynamic foreground character use;
+- coherent Mainlagi illustration language for learning objects/icons;
 - simple readable silhouettes;
 - consistent stroke/shape language;
 - controlled complexity by age;
 - large interaction/fill areas;
 - strong mobile readability;
 - less procedural/generated visual slop;
-- human visual approval for important child-facing art.
+- continued human visual approval for important child-facing art.
 
-Coloring and Drawing need dedicated asset/scaffolding cleanup. A Mainlagi Art Bible and visual quality gate should become permanent controls.
+The Mainlagi Art Bible and visual quality gate remain permanent controls.
 
 ## 11. Child navigation
 
@@ -204,11 +214,14 @@ Current order:
 
 1. production-grade character specification in the canonical Art Bible;
 2. reviewed/provenance-cleared Naya/Gian/Zia production assets;
-3. subject theme/background system and learning-illustration consistency;
-4. English narration quality;
-5. broader human visual/usability + physical-device/accessibility acceptance;
-6. Iqro expert review;
-7. targeted remaining P2 visual/governance/technical cleanup.
+3. dynamic character-layer integration on top of the live subject-background system;
+4. learning-illustration consistency;
+5. English narration quality;
+6. broader human visual/usability + physical-device/accessibility acceptance;
+7. Iqro expert review;
+8. targeted remaining P2 visual/governance/technical cleanup.
+
+The subject theme/background system itself is **closed / merged / live verified** and should not be reopened without a concrete defect.
 
 WS-05 gameplay-mechanic work continues separately through objective/evidence audits. Pattern #48 remains unjustified; existing-mechanic reuse is preferred when it faithfully measures the objective.
 
