@@ -37,7 +37,7 @@
  .hint { font-size:17px; margin-top:24px; }
 }
 @media(max-width:380px) { .control span { display:none; } .control { width:48px; } }
-.workspace{background:#fffbee;padding-bottom:32px}
+.workspace{background-color:#fffbee;padding-bottom:32px}
 .workspace .header{max-width:1280px}
 .workspace .control{min-height:52px;font-size:17px;padding:10px 18px}
 .workspace .brand{width:170px;height:62px}
