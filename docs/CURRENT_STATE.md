@@ -57,14 +57,16 @@ The fail-closed dynamic character-presentation foundation is **MERGED / LIVE VER
 - This foundation does not change child profile identity, learning evidence, mastery, progression, schema, narration or activity identity.
 - Canonical runtime contract: `CHARACTER_PRESENTATION_SYSTEM.md`.
 - Canonical human production-binary/provenance contract: `CHARACTER_ASSET_PIPELINE.md`.
-- Runtime asset lifecycle registry is merged/live verified through PR #262; Naya/Gian/Zia remain `reference-only` with no runtime path.
+- Human character asset pipeline is merged/live verified through PR #263: production-only directory, provenance registry, alpha/dimension/size validator, regression fixtures, and deliberate git-staging friction are active.
+- Runtime asset lifecycle registry remains merged/live verified through PR #262; Naya/Gian/Zia remain `reference-only` with no runtime path and no human production binary is committed yet.
 
 The foundation wave is closed. The next character gate is productionization of **Naya, Gian, and Zia**: lock the production spec against the reviewed design sheets, create isolated transparent runtime assets, document provenance/redistribution, run responsive visual QA, then activate approved assets only through the central allowlist/resolver. The five-character homepage hero remains a separate composition task and must not be finalized from unapproved human-character sprites.
 
 ## Canonical baseline
 
-- current production `main`: `ceb2546b6c626810901c5542e7f718acfad55341` (PR #262 canonical character production registry)
-- latest merged-main CI: **#1196 / run `35594336327` — full success including exact Cloudflare production smoke**
+- current production `main`: `e4d7b4285db17a2010c22cdd1bc29451208f6a1b` (PR #263 fail-closed human character asset pipeline)
+- latest merged-main CI: **#1198 / run `35599025558` — full success including exact Cloudflare production smoke**
+- previous runtime registry checkpoint: PR #262 at `ceb2546b6c626810901c5542e7f718acfad55341`, CI #1196 full success
 - activity character presentation foundation: PR #259 at `b5acbfcde66ea1451f3e55a8d469d33ba4845af1`, CI #1190 full success
 - latest independently live-verified runtime/product implementation: `7502c708c998c87bb273639025fcb10ba6c81e12` (PR #256)
 - latest runtime merged-main CI: **#1183 / run `35565937149` — full success including exact Cloudflare production smoke**

@@ -2,8 +2,8 @@
 
 Date: **20 September 2026**  
 Last synchronized: **21 September 2026**  
-Status: **ACTIVE ROADMAP / SUBJECT BACKGROUNDS LIVE VERIFIED / CHARACTER LAYER FOUNDATION ACTIVE**  
-Current synchronized baseline: production `main` = `b5acbfcde66ea1451f3e55a8d469d33ba4845af1` (PR #259 activity character presentation foundation, merged-main CI #1190 / run `35589937017` including exact Cloudflare smoke); subject-background runtime implementation remains `7502c708c998c87bb273639025fcb10ba6c81e12` (PR #256, CI #1183 exact Cloudflare smoke).
+Status: **ACTIVE ROADMAP / SUBJECT BACKGROUNDS LIVE VERIFIED / CHARACTER ASSET PIPELINE LIVE VERIFIED**  
+Current synchronized baseline: production `main` = `e4d7b4285db17a2010c22cdd1bc29451208f6a1b` (PR #263 fail-closed human character asset pipeline, merged-main CI #1198 / run `35599025558` including exact Cloudflare smoke). Character runtime registry PR #262 remains live at `ceb2546b6c626810901c5542e7f718acfad55341`; subject-background runtime implementation remains `7502c708c998c87bb273639025fcb10ba6c81e12` (PR #256, CI #1183 exact Cloudflare smoke).
 
 This document is the short human/AI handoff for the next Mainlagi product-quality wave. It records the user-accepted UX direction without changing curriculum, mastery, evidence, progression, or the active WS-05 gameplay audit.
 
@@ -20,7 +20,9 @@ This document is the short human/AI handoff for the next Mainlagi product-qualit
 
 Canonical contract: [`CHARACTER_PRESENTATION_SYSTEM.md`](CHARACTER_PRESENTATION_SYSTEM.md).
 
-- Activity character placement is now centralized in the presentation resolver and is merged/live verified on production `main`.
+- Activity character placement is centralized in the presentation resolver and remains merged/live verified.
+- Canonical runtime asset lifecycle registry is live through PR #262.
+- Production-only human asset directory, machine-readable provenance registry, WebP alpha/dimension/size validation, regression fixtures and deliberate git-staging friction are live through PR #263.
 - Runtime remains fail closed to approved assets: Gavi/Paca only today.
 - English is prepared for Naya + Zia and Math for Gian + Paca, but those human characters do not activate until isolated transparent production files pass visual/provenance/responsive QA.
 - Naya/Gian/Zia design-set PNGs in Drive are reference sheets, not direct runtime sprites.
@@ -53,6 +55,7 @@ Paca and Gavi are already exposed in the current Garden UI. Naya, Gian, and Zia 
 - Current `CharacterAvatar` uses inline fallback SVGs for Naya/Gian/Zia.
 - Paca/Gavi coloring previews exist; this art wave does not authorize new Naya/Gian/Zia coloring activities.
 - Generated character candidates require visual review plus asset provenance/rights documentation before production integration.
+- Naya/Gian/Zia provenance records remain `reference-only` with no production path; `public/artwork/characters/` contains no approved human production binary yet.
 
 ## P0 — next implementation wave
 
@@ -194,16 +197,17 @@ Completed / live-verified:
 9. Activity character presentation foundation.
 
 Current character-production gate:
-10. Lock the canonical production character specification against the reviewed Naya/Gian/Zia design sheets.
-11. Create isolated transparent Naya/Gian/Zia runtime assets and document provenance/redistribution.
-12. Run responsive visual QA, then activate approved human-character assets only through the central allowlist/resolver.
-13. Validate English -> Naya + Zia and Math -> Gian + Paca; preserve fail-closed fallback and leave other subject pairings unchanged.
-14. Revisit the five-character homepage hero using approved production identities; keep hero composition separate from activity foreground assets.
+10. Character production specification + fail-closed asset/provenance infrastructure: **CLOSED / MERGED / LIVE VERIFIED** through PR #263.
+11. **NOW:** create/review isolated Naya/Gian/Zia candidate assets outside the public production directory.
+12. Confirm provenance/redistribution for each exact reviewed derivative, then integrate only approved transparent WebP binaries at the canonical production paths.
+13. Keep runtime activation as a separate wave; then run responsive visual QA through the central allowlist/resolver.
+14. Validate English -> Naya + Zia and Math -> Gian + Paca; preserve fail-closed fallback and leave other subject pairings unchanged.
+15. Revisit the five-character homepage hero using approved production identities; keep hero composition separate from activity foreground assets.
 
 After the character gate:
-15. English voice-quality upgrade.
-16. Learning-illustration consistency improvements.
-17. Expanded human visual/usability + physical-device acceptance and cleanup of superseded components.
+16. English voice-quality upgrade.
+17. Learning-illustration consistency improvements.
+18. Expanded human visual/usability + physical-device acceptance and cleanup of superseded components.
 
 WS-05 gameplay-mechanic work may continue independently only when it preserves its existing objective/evidence gates. Do not mix a broad UX refactor into a mechanic-reuse PR.
 

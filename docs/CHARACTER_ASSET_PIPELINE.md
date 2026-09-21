@@ -1,8 +1,10 @@
 # Character Asset Production Pipeline — 21 September 2026
 
-Status: **CANONICAL PRODUCTION GATE / NO HUMAN RUNTIME ASSET ACTIVATED**
+Status: **MERGED / LIVE VERIFIED PRODUCTION GATE / NO HUMAN RUNTIME ASSET ACTIVATED**
 
 This document defines the production path for the first Mainlagi human activity-foreground assets: **Naya, Gian, and Zia**.
+
+Implementation checkpoint: PR **#263** -> `e4d7b4285db17a2010c22cdd1bc29451208f6a1b`; merged-main CI **#1198 / run `35599025558`** passed the full quality matrix and exact Cloudflare production smoke.
 
 It complements:
 
@@ -38,11 +40,12 @@ Canonical file:
 src/lib/data/character-asset-provenance.json
 ```
 
-Current state:
+Current state after the live-verified pipeline merge:
 
 - Naya: `reference-only`, no production path;
 - Gian: `reference-only`, no production path;
-- Zia: `reference-only`, no production path.
+- Zia: `reference-only`, no production path;
+- no human production binary is committed under `public/artwork/characters/` yet.
 
 The registry records:
 
