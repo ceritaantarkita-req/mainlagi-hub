@@ -115,8 +115,8 @@ for (const [activityId, sceneId] of Object.entries(expected)) {
 assert.deepEqual(SUBJECT_CHARACTER_PREFERENCES.english, ["naya", "zia"], "English is ready for the Naya/Zia production pair");
 assert.deepEqual(SUBJECT_CHARACTER_PREFERENCES.math, ["gian", "paca"], "Math is ready for the Gian/Paca production pair");
 assert.deepEqual(SUBJECT_CHARACTER_PREFERENCES.bahasa, ["gavi", "paca"], "Bahasa keeps the approved mascot pair today");
-assert.deepEqual(SUBJECT_CHARACTER_PREFERENCES.science, ["gian", "paca"], "Science is ready for the Gian/Paca production pair");
-assert.deepEqual(SUBJECT_CHARACTER_PREFERENCES.letters, ["gian", "naya"], "Letters is ready for the Gian/Naya production pair");
+assert.deepEqual(SUBJECT_CHARACTER_PREFERENCES.science, ["gavi", "paca"], "Science stays on the approved mascot pair until a product pairing is approved");
+assert.deepEqual(SUBJECT_CHARACTER_PREFERENCES.letters, ["gavi", "paca"], "Letters stays on the approved mascot pair until a product pairing is approved");
 
 const englishCharacters = resolveActivityVisualTheme(byId.get("english-find-blue"))?.characters;
 assert.deepEqual(
