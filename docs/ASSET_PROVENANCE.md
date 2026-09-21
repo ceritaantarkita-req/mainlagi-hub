@@ -170,7 +170,7 @@ Subject asset folders:
 
 This is the project's provenance/redistribution decision for this specific generated set. It does not waive the policy for future replacements or third-party reference images. Any replacement must record its own creation/source basis and redistribution decision.
 
-Canonical scene inventory and runtime paths live in `SUBJECT_BACKGROUND_SYSTEM.md`. The implementation checkpoint is `SUBJECT_BACKGROUND_ALL_SUBJECTS_INTEGRATION_2026-09-21.md`.
+Canonical scene inventory and runtime paths live in `SUBJECT_BACKGROUND_SYSTEM.md`. The implementation checkpoint is `SUBJECT_BACKGROUND_ALL_SUBJECTS_INTEGRATION_2026-09-21.md`. The project-owner live production preview across all nine subjects is recorded in `SUBJECT_BACKGROUND_PRODUCTION_PREVIEW_REVIEW_2026-09-21.md`.
 
 ## 7. Third-party software, fonts, and model assets
 

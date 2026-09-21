@@ -4,6 +4,16 @@ Reviewed: **21 September 2026**
 
 This note records the visual pair review for the first Mainlagi subject-background pilot. It is intentionally separate from copyright/provenance approval and from final production viewport QA.
 
+## Historical note / superseded production state
+
+This file preserves the first Math/Science wide/mobile pilot review. It is historical evidence, not current production scope.
+
+The background system has since expanded to all nine subjects and is fully merged/live verified. Use:
+
+- `SUBJECT_BACKGROUND_SYSTEM.md` for the current contract;
+- `SUBJECT_BACKGROUND_ALL_SUBJECTS_INTEGRATION_2026-09-21.md` for implementation/closure;
+- `SUBJECT_BACKGROUND_PRODUCTION_PREVIEW_REVIEW_2026-09-21.md` for the project-owner 9-subject production preview.
+
 ## Scope
 
 The reviewed candidate set contains **12 scene families / 24 PNG candidates**:

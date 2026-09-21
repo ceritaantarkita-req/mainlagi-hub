@@ -1,30 +1,30 @@
 # Mainlagi Hub — Project State Sync — 20 September 2026
 
-Status: **CURRENT HANDOFF SNAPSHOT**  
+Status: **CURRENT HANDOFF SNAPSHOT — SYNCHRONIZED 21 SEPTEMBER 2026**  
 Repository: `ceritaantarkita-req/mainlagi-hub`  
 Canonical branch: `main`
 
-This document summarizes the repository/product state after the WS-13 parent/profile/settings wave and during the current character/background visual-asset review wave. It does not replace historical audit/closure records; it links the current truth that active work must preserve.
+This document summarizes the repository/product state after the all-subject background integration and production-preview review. It does not replace historical audit/closure records; it links the current truth that active work must preserve.
 
 ## 1. Source of truth and production verification
 
-Sync-base `main` at the time this documentation synchronization started:
+Current production/documentation main:
 
 ```text
-a04bd51fb02dedf56b5cd62f7f579eb53c4be251
+41df41c9dc0edc449af8260bbfe3887e0175bfb0
 ```
 
-That commit is the docs-only closure of PR #252. The latest independently verified runtime/product implementation is:
+This is the docs-closure merge from PR #257. The subject-background runtime implementation itself was merged through PR #256:
 
 ```text
-Parent responsive implementation PR:  #251
-Implementation main:                   77bee682f84b5d68b85d2c91b1d6f2ca4c93d2d9
-Implementation main CI:                #1160 / run 35520629179
-Cloudflare exact-SHA production smoke: PASS
-Responsive QA artifact:                10608044389
-```
+Background implementation main:       7502c708c998c87bb273639025fcb10ba6c81e12
+Implementation merged-main CI:         #1183 / run 35565937149
+Implementation exact production smoke: PASS
 
-The sync-base docs-only `a04bd51...` main run later completed successfully as CI #1162 / run `35521404941`. Runtime behavior at `77bee682...` remains independently live verified by CI #1160, while the docs-only closure main is independently green as well.
+Docs closure main:                      41df41c9dc0edc449af8260bbfe3887e0175bfb0
+Docs closure merged-main CI:            #1186 / run 35567718494
+Docs closure exact production smoke:    PASS
+```
 
 Canonical production path remains:
 
@@ -33,6 +33,8 @@ GitHub main -> Cloudflare Git integration -> OpenNext Worker -> https://mainlagi
 ```
 
 No VPS/SSH path is canonical production.
+
+The project owner subsequently supplied one production screenshot for each of the nine subjects. Review record: `SUBJECT_BACKGROUND_PRODUCTION_PREVIEW_REVIEW_2026-09-21.md`.
 
 ## 2. Learning/product baseline
 
@@ -110,18 +112,35 @@ Current asset state:
 
 The next character wave must first lock the production character specification and provenance, then create/review Naya/Gian/Zia assets. Generated candidates are not production-approved merely because they render.
 
-## 6. Subject background pilot
+## 6. Subject background production system
 
 Canonical execution detail: `SUBJECT_BACKGROUND_SYSTEM.md`.
 
-- Math + Science are the first background pilot subjects.
-- Twelve landscape candidates exist in external review storage: six Math scenes and six Science scenes.
-- Math scenes: Number Park, Playground Park, Mini Market, Shape Playground, Block Yard, Measurement Workshop.
-- Science scenes: Garden Lab, Pond, Weather Meadow, Greenhouse, Nature Trail, Material Workshop.
-- These files are candidate artwork only: not committed to `public/artwork`, not runtime-integrated, and not production-approved.
-- Immediate image task: generate 12 matching mobile/portrait counterparts; recompose rather than crop.
-- No background runtime code should start until wide/mobile pairs are visually reviewed.
-- After approval: implement `SubjectTheme` + `SceneVariant` + central deterministic activity-theme resolver, then integrate shared Garden activities before special runtime exceptions.
+The pilot is complete and superseded by the production all-subject system:
+
+- **9 subjects / 900 activities** are covered;
+- **54 scene families** are active, six per subject;
+- **108 optimized WebP assets** are in `public/artwork/backgrounds/`: 54 wide + 54 mobile;
+- activity-to-scene resolution is centralized and deterministic;
+- wide/mobile artwork is art-directed as a pair;
+- gameplay UI remains a separate foreground layer;
+- gameplay backgrounds do not bake in Naya/Gian/Zia/Paca/Gavi;
+- Coloring/Drawing preserve the themed scene behind the creative workspace;
+- normal gameplay routes keep Gavi/Paca as separate foreground layers.
+
+Production implementation:
+
+```text
+PR #256
+main: 7502c708c998c87bb273639025fcb10ba6c81e12
+CI:   #1183 / run 35565937149 — full success + exact Cloudflare smoke
+```
+
+The project-owner desktop preview covers one live production route in every subject:
+
+`english-find-blue`, `bahasa-cari-a`, `math-count-2`, `iqro-cari-alif`, `letters-find-a`, `logic-match-pairs`, `science-living-cat`, `color-gavi`, and `drawing-line-horizontal`.
+
+Responsive/mobile coverage remains backed by CI/browser QA rather than by those desktop screenshots alone.
 
 ## 7. WS-05 gameplay track
 
@@ -148,14 +167,14 @@ If implemented, this remains existing-mechanic reuse; it must not create Pattern
 
 Product UX next order:
 
-1. finish visual/provenance review of Naya/Gian/Zia character candidates;
-2. generate and review the 12 Math/Science mobile background counterparts against the existing landscape candidates;
-3. lock the responsive background contract in `SUBJECT_BACKGROUND_SYSTEM.md`;
-4. after asset approval, implement the central `SubjectTheme` / `SceneVariant` resolver and shared `GardenActivityFrame` integration;
-5. cover explicit runtime exceptions without duplicating theme logic;
-6. expand approved background generation to the remaining subjects;
-7. improve English narration quality;
-8. continue broader visual/usability and physical-device/human acceptance.
+1. finish production-grade character specification/provenance for Naya/Gian/Zia;
+2. integrate the dynamic character layer on top of the now-live subject-background system without baking characters into scenery;
+3. improve English narration quality;
+4. continue broader visual/usability and physical-device/human acceptance;
+5. continue learning-illustration consistency work where emoji/symbol recognition is ambiguous;
+6. keep the live background system stable unless a concrete production defect is found.
+
+The all-subject background generation/integration wave is **closed / merged / live verified** and is no longer an active implementation task.
 
 WS-05 may proceed independently only through its objective/evidence gates.
 

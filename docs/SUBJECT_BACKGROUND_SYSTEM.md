@@ -205,13 +205,35 @@ Do not silently replace a production background with third-party/reference image
 
 This test is also part of the aggregate `npm run test:learning` chain.
 
+## Project-owner production preview
+
+On 21 September 2026, the project owner supplied one live production desktop screenshot for each canonical subject:
+
+- English — `english-find-blue`;
+- Bahasa Indonesia — `bahasa-cari-a`;
+- Matematika — `math-count-2`;
+- Iqro — `iqro-cari-alif`;
+- Huruf & Menulis — `letters-find-a`;
+- Logika — `logic-match-pairs`;
+- Sains — `science-living-cat`;
+- Mewarnai — `color-gavi`;
+- Menggambar — `drawing-line-horizontal`.
+
+These previews confirm subject-specific environments are visible behind the intended gameplay/workspace surfaces. They also show normal gameplay keeping Gavi/Paca as foreground layers and creative workspace routes preserving their subject scenery.
+
+This is desktop preview evidence only; automated responsive/mobile QA remains authoritative for broader viewport coverage.
+
+Review record: `docs/SUBJECT_BACKGROUND_PRODUCTION_PREVIEW_REVIEW_2026-09-21.md`.
+
 ## Production closure
 
 This system is live in production.
 
 - PR: **#256**
-- production main: `7502c708c998c87bb273639025fcb10ba6c81e12`
-- merged-main CI: **#1183 / run 35565937149 — full success**
+- background implementation main: `7502c708c998c87bb273639025fcb10ba6c81e12`
+- implementation merged-main CI: **#1183 / run 35565937149 — full success**
+- latest production main/docs closure: `41df41c9dc0edc449af8260bbfe3887e0175bfb0`
+- docs-closure merged-main CI: **#1186 / run 35567718494 — full success**
 - exact Cloudflare production smoke: **PASS**
 - canonical site: `https://mainlagihub.my.id`
 
