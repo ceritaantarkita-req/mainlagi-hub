@@ -1,6 +1,6 @@
 # Activity Character Presentation System — 21 September 2026
 
-Status: **FOUNDATION IMPLEMENTED / HUMAN PRODUCTION ASSETS NOT YET ACTIVATED**
+Status: **FOUNDATION MERGED / LIVE VERIFIED / HUMAN PRODUCTION ASSETS NOT YET ACTIVATED**
 
 This document defines how Mainlagi activity characters sit above the now-live subject-background system.
 
@@ -119,6 +119,27 @@ This foundation does not:
 - change narration identity;
 - change learning evidence/mastery/progression/schema.
 
+## Merge / production verification
+
+The character-presentation foundation is merged through PR **#259** at `b5acbfcde66ea1451f3e55a8d469d33ba4845af1`.
+
+Merged-main CI **#1190 / run `35589937017`** passed the quality gate, production build, mobile-route/permanent visual QA, Windows compatibility, dependency audit, and exact Cloudflare production smoke.
+
+This closes the architecture/fail-closed foundation. It does **not** approve Naya/Gian/Zia artwork for runtime.
+
 ## Next gate
 
-Create and review isolated transparent production assets for **Naya, Gian, and Zia** from the approved design references. After those assets pass visual/provenance/responsive QA, activate them through the central approved asset map rather than adding character logic inside individual activity renderers.
+Execute the human-character production wave in this order:
+
+1. lock the production character specification against the reviewed Naya/Gian/Zia design sheets;
+2. create isolated transparent full-body runtime assets with stable scale, silhouette, pose and identity;
+3. record provenance, ownership and redistribution status for each production file;
+4. review visual consistency against the design references;
+5. run responsive activity screenshots and check that foreground characters never cover instructions, choices, canvas/tools or completion controls;
+6. activate only approved assets through the central approved-character map/resolver;
+7. verify English -> Naya + Zia and Math -> Gian + Paca while preserving fail-closed fallback for any missing asset;
+8. keep all other subject pairings unchanged until separately approved.
+
+The **five-character homepage hero is a separate composition task**. It should use the same approved production identities, but it must not be treated as the source asset for activity foreground characters or finalized from unapproved human-character sprites.
+
+After this gate closes, the next product-quality work is English narration quality, learning-illustration consistency, and broader human/physical-device acceptance.
