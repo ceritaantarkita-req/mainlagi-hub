@@ -1,10 +1,10 @@
 # Account-Level Actions
 
-Last reviewed: 11 September 2026
+Last reviewed: 21 September 2026
 
 Only actions that genuinely require account/UI or physical-hardware access belong here. Never commit or paste secret values into repository issues, docs, screenshots, logs, or chat.
 
-Canonical external tracker: **issue #83 — `Final external acceptance: physical-device QA and required secret-scan check`**.
+Canonical external tracker: **issue #83 — physical-device acceptance**. The prior required-secret-scan governance item is closed through PR #269.
 
 ## Resolved engineering/production state
 
@@ -23,28 +23,20 @@ Final contract:      PASS
 
 Repository, CI, Cloudflare production, and canonical Supabase work through Batch 17 engineering acceptance are complete.
 
-## Required account action — Protect main
+## Protect main — secret gate resolved
 
-The active `Protect main` ruleset currently requires exactly:
+The active `Protect main` ruleset still requires exactly:
 
 1. `Production build`
 2. `Quality gate (Ubuntu)`
 3. `Windows compatibility`
 4. `Production dependency audit`
 
-`Secret history scan` runs and passes, including main CI #322, but is **not mandatory in the ruleset**.
+The connector cannot administer the ruleset itself, so it did not add a fifth context. Instead, PR #269 made the full-history secret scan part of required `Production dependency audit`, with full-history checkout and the shared pinned Gitleaks script. PR CI #1208 and merged-main CI #1209 both show `Required full-history secret gate` passing, and #1209 passed exact Cloudflare production smoke.
 
-In GitHub repository Settings, add:
+This means the previously required account action is **resolved at repository level**: a secret-scan failure now fails a required status context and blocks merge. Adding standalone `Secret history scan` as a fifth required context is optional UI clarity, not an unresolved enforcement requirement.
 
-```text
-Secret history scan
-```
-
-to the required status checks. Do not remove or weaken existing checks.
-
-The connected GitHub API surface can inspect rulesets but does not expose ruleset-administration writes, so this cannot be truthfully completed by the current automation session.
-
-`Mobile route QA (Chromium)` also runs and is green; it is not currently mandatory in the ruleset. The explicit required governance action remains `Secret history scan`.
+`Mobile route QA (Chromium)` still runs in CI and gates the main production smoke through workflow dependencies, but it is not directly listed in the repository ruleset.
 
 ## Required physical-device acceptance
 
@@ -133,4 +125,4 @@ Periodically recheck:
 - deployment history/custom domain state;
 - physical-device compatibility after significant browser/runtime changes.
 
-Full external acceptance may be marked complete only after issue #83's required conditions are actually resolved or explicitly accepted as reviewed governance exceptions.
+Full external acceptance may be marked complete only after issue #83's remaining physical-device conditions are actually resolved. The secret-scan governance condition is already closed by PR #269.
