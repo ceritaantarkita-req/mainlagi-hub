@@ -11,10 +11,10 @@ This document summarizes the repository/product state after the all-subject back
 Current production/documentation main:
 
 ```text
-bb0645d298a645483fb10e12bc0550a8eccf0870
+89a2bc629e8535bddbf2ab78ae1990a063f0f361
 ```
 
-This is the character asset pipeline docs closure from PR #264. Merged-main CI #1201 / run `35600793815` passed the full matrix including exact Cloudflare production smoke. The fail-closed human character asset pipeline implementation itself remains PR #263 at `e4d7b4285db17a2010c22cdd1bc29451208f6a1b`. The activity character-presentation foundation remains PR #259 and the runtime asset lifecycle registry remains PR #262. The subject-background runtime implementation remains the earlier PR #256 baseline:
+This is the cloud learning analytics pagination/failure-state integrity fix from PR #267. PR CI #1204 passed and merged-main CI #1205 / run `35621724090` passed the full matrix including exact Cloudflare production smoke. The previous character asset pipeline docs closure remains PR #264 at `bb0645d298a645483fb10e12bc0550a8eccf0870`. The fail-closed human character asset pipeline implementation itself remains PR #263 at `e4d7b4285db17a2010c22cdd1bc29451208f6a1b`. The activity character-presentation foundation remains PR #259 and the runtime asset lifecycle registry remains PR #262. The subject-background runtime implementation remains the earlier PR #256 baseline:
 
 ```text
 Background implementation main:       7502c708c998c87bb273639025fcb10ba6c81e12
@@ -47,6 +47,20 @@ GitHub main -> Cloudflare Git integration -> OpenNext Worker -> https://mainlagi
 No VPS/SSH path is canonical production.
 
 The project owner subsequently supplied one production screenshot for each of the nine subjects. Review record: `SUBJECT_BACKGROUND_PRODUCTION_PREVIEW_REVIEW_2026-09-21.md`.
+
+## 1A. Cloud analytics integrity now
+
+The previously reproduced long-history reporting defect is closed on production main:
+
+- attempts/evidence are read page-by-page instead of stopping at fixed 500/2000 caps;
+- all pages are scoped to authenticated account + child and frozen to one snapshot timestamp;
+- a later-page failure produces unavailable state rather than partial analytics;
+- authenticated cloud failure does not silently fall back to local browser analytics;
+- parent report surfaces expose explicit loading/unavailable/retry behavior;
+- stale async reads are invalidated across refresh/auth transitions;
+- regression coverage proves 1,201 attempts + 3,603 evidence rows and is part of `npm run test:learning`.
+
+Canonical record: `CLOUD_ANALYTICS_PAGINATION_CLOSURE_2026-09-21.md`.
 
 ## 2. Learning/product baseline
 
