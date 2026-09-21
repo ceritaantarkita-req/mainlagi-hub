@@ -13,7 +13,7 @@ Read these first for current work:
 3. [`PROJECT_STATE_SYNC_2026-09-20.md`](PROJECT_STATE_SYNC_2026-09-20.md) — compact current handoff and next-work state.
 4. [`PRODUCT_UX_NEXT_WORK_2026-09-20.md`](PRODUCT_UX_NEXT_WORK_2026-09-20.md) — active product-UX execution order and acceptance gates.
 5. [`SUBJECT_BACKGROUND_SYSTEM.md`](SUBJECT_BACKGROUND_SYSTEM.md) — concise human/agent contract for scene generation, responsive pairs, runtime architecture and QA.
-6. [`SUBJECT_BACKGROUND_ALL_SUBJECTS_INTEGRATION_2026-09-21.md`](SUBJECT_BACKGROUND_ALL_SUBJECTS_INTEGRATION_2026-09-21.md) — active 9-subject / 54-scene / 108-WebP integration wave and closure gates.
+6. [`SUBJECT_BACKGROUND_ALL_SUBJECTS_INTEGRATION_2026-09-21.md`](SUBJECT_BACKGROUND_ALL_SUBJECTS_INTEGRATION_2026-09-21.md) — closed/live-verified 9-subject / 54-scene / 108-WebP production integration.
 7. [`PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md`](PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md) — active production visual/product audit and P0/P1/P2 state.
 8. [`MAINLAGI_ART_BIBLE.md`](MAINLAGI_ART_BIBLE.md) — canonical visual direction.
 9. [`MOBILE_ROUTE_QA.md`](MOBILE_ROUTE_QA.md) — blocking browser route and permanent visual QA contract.
