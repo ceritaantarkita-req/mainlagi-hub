@@ -113,6 +113,18 @@ This wave does not:
 - create one unique background per activity;
 - replace dedicated visual surfaces that are required by a special runtime.
 
+## PR / CI checkpoint
+
+- PR: **#256** — `feat: integrate responsive backgrounds across all subjects`.
+- Initial PR head: `cd0a383afe5a711e3dda7c1a7104c9ca6c62822b`.
+- PR CI: **#1176 / run 35563573804 — full success** across production build, dependency audit, Ubuntu quality gate, mobile route QA, secret-history scan, and Windows compatibility.
+- Visual-theme regression output: **9 subjects / 54 scene families / 108 responsive WebP assets / deterministic coverage for all 900 activities**.
+- Batch 17 final acceptance remained **PASS** at 9 subjects / 900 activities.
+- Artifact-tree audit: every production background folder contains exactly 12 WebP files; total background payload is approximately **9.58 MiB**, largest individual file about **200 KB**.
+- Manual review of PR #256 responsive screenshots confirmed Math, English, Science, Logic, and Letters subject scenery is loading through the shared frame.
+- Manual review also caught one creative-workspace layering defect: `.workspace { background: ... }` reset the themed `background-image`, hiding Coloring/Drawing scenery. This was fixed by changing the workspace override to `background-color` only and adding a regression guard.
+- Current post-fix head begins at `c8a7f952252be9607f5c0553d0343c00958e9eca`; final-head CI is required before merge.
+
 ## Remaining closure gates
 
 1. Verify all 9 production directories contain 12 files each.
