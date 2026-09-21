@@ -11,19 +11,23 @@ This document summarizes the repository/product state after the all-subject back
 Current production/documentation main:
 
 ```text
-41df41c9dc0edc449af8260bbfe3887e0175bfb0
+b5acbfcde66ea1451f3e55a8d469d33ba4845af1
 ```
 
-This is the docs-closure merge from PR #257. The subject-background runtime implementation itself was merged through PR #256:
+This is the activity character-presentation foundation merge from PR #259. Merged-main CI #1190 / run `35589937017` passed, including the exact Cloudflare production smoke. The subject-background runtime implementation remains the earlier PR #256 baseline:
 
 ```text
 Background implementation main:       7502c708c998c87bb273639025fcb10ba6c81e12
 Implementation merged-main CI:         #1183 / run 35565937149
 Implementation exact production smoke: PASS
 
-Docs closure main:                      41df41c9dc0edc449af8260bbfe3887e0175bfb0
-Docs closure merged-main CI:            #1186 / run 35567718494
-Docs closure exact production smoke:    PASS
+Background docs closure main:           41df41c9dc0edc449af8260bbfe3887e0175bfb0
+Background docs closure CI:             #1186 / run 35567718494
+Background docs closure smoke:          PASS
+
+Character foundation main:              b5acbfcde66ea1451f3e55a8d469d33ba4845af1
+Character foundation merged-main CI:    #1190 / run 35589937017
+Character foundation exact smoke:       PASS
 ```
 
 Canonical production path remains:
@@ -110,7 +114,7 @@ Current asset state:
 - child profile identity and guide-character identity remain separate concepts;
 - coloring-character support remains intentionally limited to Paca/Gavi until a separate content decision changes it.
 
-The next character wave must first lock the production character specification and provenance, then create/review Naya/Gian/Zia assets. Generated candidates are not production-approved merely because they render.
+The activity character-presentation architecture is now merged/live verified through PR #259. The next character wave must lock the production character specification and provenance, create/review isolated transparent Naya/Gian/Zia runtime assets, then activate only approved files through the central allowlist/resolver. Generated candidates are not production-approved merely because they render.
 
 ## 6. Subject background production system
 
@@ -167,12 +171,15 @@ If implemented, this remains existing-mechanic reuse; it must not create Pattern
 
 Product UX next order:
 
-1. finish production-grade character specification/provenance for Naya/Gian/Zia;
-2. integrate the dynamic character layer on top of the now-live subject-background system without baking characters into scenery;
-3. improve English narration quality;
-4. continue broader visual/usability and physical-device/human acceptance;
-5. continue learning-illustration consistency work where emoji/symbol recognition is ambiguous;
-6. keep the live background system stable unless a concrete production defect is found.
+1. lock production-grade character specification/provenance for Naya/Gian/Zia against the reviewed design sheets;
+2. create isolated transparent production runtime assets for Naya/Gian/Zia;
+3. review visual consistency and responsive placement, then activate approved assets through the central character allowlist/resolver;
+4. validate English -> Naya + Zia and Math -> Gian + Paca while preserving fail-closed fallback and leaving other subject pairings unchanged;
+5. revisit the five-character homepage hero only with approved production identities, keeping hero composition separate from activity foreground assets;
+6. improve English narration quality;
+7. continue learning-illustration consistency work where emoji/symbol recognition is ambiguous;
+8. continue broader visual/usability and physical-device/human acceptance;
+9. keep the live background system stable unless a concrete production defect is found.
 
 The all-subject background generation/integration wave is **closed / merged / live verified** and is no longer an active implementation task.
 
