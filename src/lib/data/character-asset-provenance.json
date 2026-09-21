@@ -1,0 +1,76 @@
+{
+  "version": 1,
+  "scope": "human-activity-foreground",
+  "productionDirectory": "/artwork/characters",
+  "items": {
+    "naya": {
+      "lifecycle": "reference-only",
+      "identityReference": "kak-naya-character-design-set-v1.png",
+      "expectedProductionPath": "/artwork/characters/naya-activity-v1.webp",
+      "productionPath": null,
+      "provenance": {
+        "status": "pending",
+        "source": "Mainlagi project Drive identity reference: kak-naya-character-design-set-v1.png",
+        "rightsHolder": null,
+        "licenseBasis": null,
+        "redistributionAllowed": false,
+        "reviewedAt": "2026-09-21"
+      },
+      "technical": {
+        "format": "webp",
+        "requireAlpha": true,
+        "minWidth": 384,
+        "minHeight": 512,
+        "maxWidth": 2048,
+        "maxHeight": 2048,
+        "maxBytes": 1000000
+      }
+    },
+    "gian": {
+      "lifecycle": "reference-only",
+      "identityReference": "gian-character-design-set-v1.png",
+      "expectedProductionPath": "/artwork/characters/gian-activity-v1.webp",
+      "productionPath": null,
+      "provenance": {
+        "status": "pending",
+        "source": "Mainlagi project Drive identity reference: gian-character-design-set-v1.png",
+        "rightsHolder": null,
+        "licenseBasis": null,
+        "redistributionAllowed": false,
+        "reviewedAt": "2026-09-21"
+      },
+      "technical": {
+        "format": "webp",
+        "requireAlpha": true,
+        "minWidth": 384,
+        "minHeight": 512,
+        "maxWidth": 2048,
+        "maxHeight": 2048,
+        "maxBytes": 1000000
+      }
+    },
+    "zia": {
+      "lifecycle": "reference-only",
+      "identityReference": "zia-character-design-set-v1.png",
+      "expectedProductionPath": "/artwork/characters/zia-activity-v1.webp",
+      "productionPath": null,
+      "provenance": {
+        "status": "pending",
+        "source": "Mainlagi project Drive identity reference: zia-character-design-set-v1.png",
+        "rightsHolder": null,
+        "licenseBasis": null,
+        "redistributionAllowed": false,
+        "reviewedAt": "2026-09-21"
+      },
+      "technical": {
+        "format": "webp",
+        "requireAlpha": true,
+        "minWidth": 384,
+        "minHeight": 512,
+        "maxWidth": 2048,
+        "maxHeight": 2048,
+        "maxBytes": 1000000
+      }
+    }
+  }
+}

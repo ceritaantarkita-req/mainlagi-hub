@@ -36,6 +36,15 @@ public/affiliate/*.webp
 public/affiliate/*.avif
 public/affiliate/*.svg
 
+# Character production binaries are also fail-closed by default.
+# After provenance + visual approval, add the exact reviewed file with git add -f.
+public/artwork/characters/*.jpg
+public/artwork/characters/*.jpeg
+public/artwork/characters/*.png
+public/artwork/characters/*.webp
+public/artwork/characters/*.avif
+public/artwork/characters/*.svg
+
 # local-only, not served by Next.js
 internal/
 

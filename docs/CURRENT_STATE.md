@@ -55,15 +55,17 @@ The fail-closed dynamic character-presentation foundation is **MERGED / LIVE VER
 - Coloring/Drawing workspace mode continues to hide decorative character layers.
 - Naya/Gian/Zia Google Drive design sets were reviewed as **multi-view reference sheets**, not runtime sprites; isolated transparent production assets are still required.
 - This foundation does not change child profile identity, learning evidence, mastery, progression, schema, narration or activity identity.
-- Canonical contract: `CHARACTER_PRESENTATION_SYSTEM.md`.
+- Canonical runtime contract: `CHARACTER_PRESENTATION_SYSTEM.md`.
+- Canonical human production-binary/provenance contract: `CHARACTER_ASSET_PIPELINE.md`.
+- Runtime asset lifecycle registry is merged/live verified through PR #262; Naya/Gian/Zia remain `reference-only` with no runtime path.
 
 The foundation wave is closed. The next character gate is productionization of **Naya, Gian, and Zia**: lock the production spec against the reviewed design sheets, create isolated transparent runtime assets, document provenance/redistribution, run responsive visual QA, then activate approved assets only through the central allowlist/resolver. The five-character homepage hero remains a separate composition task and must not be finalized from unapproved human-character sprites.
 
 ## Canonical baseline
 
-- current production `main`: `b5acbfcde66ea1451f3e55a8d469d33ba4845af1` (PR #259 activity character presentation foundation)
-- latest merged-main CI: **#1190 / run `35589937017` — full success including exact Cloudflare production smoke**
-- documentation sync base before this docs-only handoff: `b5acbfcde66ea1451f3e55a8d469d33ba4845af1`
+- current production `main`: `ceb2546b6c626810901c5542e7f718acfad55341` (PR #262 canonical character production registry)
+- latest merged-main CI: **#1196 / run `35594336327` — full success including exact Cloudflare production smoke**
+- activity character presentation foundation: PR #259 at `b5acbfcde66ea1451f3e55a8d469d33ba4845af1`, CI #1190 full success
 - latest independently live-verified runtime/product implementation: `7502c708c998c87bb273639025fcb10ba6c81e12` (PR #256)
 - latest runtime merged-main CI: **#1183 / run `35565937149` — full success including exact Cloudflare production smoke**
 - latest production main/docs closure: `41df41c9dc0edc449af8260bbfe3887e0175bfb0` (PR #257)
