@@ -2,7 +2,7 @@
 
 Date: **20 September 2026**  
 Last synchronized: **21 September 2026**  
-Status: **ACTIVE ROADMAP / P0 THROUGH SUBJECT-BACKGROUND WAVE LIVE VERIFIED**  
+Status: **ACTIVE ROADMAP / SUBJECT BACKGROUNDS LIVE VERIFIED / CHARACTER LAYER FOUNDATION ACTIVE**  
 Current synchronized baseline: production `main` = `41df41c9dc0edc449af8260bbfe3887e0175bfb0` (PR #257 docs closure, CI #1186 exact Cloudflare smoke); subject-background runtime implementation = `7502c708c998c87bb273639025fcb10ba6c81e12` (PR #256, CI #1183 exact Cloudflare smoke).
 
 This document is the short human/AI handoff for the next Mainlagi product-quality wave. It records the user-accepted UX direction without changing curriculum, mastery, evidence, progression, or the active WS-05 gameplay audit.
@@ -16,6 +16,17 @@ This document is the short human/AI handoff for the next Mainlagi product-qualit
 - The current codebase contains overlapping child/parent presentation paths. Before broad redesign, active/canonical components must be identified and legacy presentation paths retired or clearly isolated.
 
 ## Product characters
+### Activity character presentation foundation
+
+Canonical contract: [`CHARACTER_PRESENTATION_SYSTEM.md`](CHARACTER_PRESENTATION_SYSTEM.md).
+
+- Activity character placement is moving from hardcoded Garden mascots to a central presentation resolver.
+- Runtime remains fail closed to approved assets: Gavi/Paca only today.
+- English is prepared for Naya + Zia and Math for Gian + Paca, but those human characters do not activate until isolated transparent production files pass visual/provenance/responsive QA.
+- Naya/Gian/Zia design-set PNGs in Drive are reference sheets, not direct runtime sprites.
+- Creative workspace routes continue to hide decorative character layers.
+- No new pairing is inferred for the other subjects without product approval.
+
 
 Mainlagi has five primary characters:
 
@@ -179,7 +190,8 @@ Canonical execution spec: [`SUBJECT_BACKGROUND_SYSTEM.md`](SUBJECT_BACKGROUND_SY
 7. Parent/profile/settings responsive redesign.
 8. Extend canonical Art Bible character production spec + create/review Naya/Gian/Zia production assets.
 9. All-subject background integration — **closed / live verified**.
-10. English voice-quality upgrade.
+10. Activity character presentation foundation + production Naya/Gian/Zia assets.
+11. English voice-quality upgrade.
 11. Expanded visual/usability QA and cleanup of superseded components.
 
 WS-05 gameplay-mechanic work may continue independently only when it preserves its existing objective/evidence gates. Do not mix a broad UX refactor into a mechanic-reuse PR.
