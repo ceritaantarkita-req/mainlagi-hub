@@ -1,6 +1,6 @@
 # Mainlagi Hub Asset Provenance Policy
 
-Last reviewed: **20 September 2026**
+Last reviewed: **21 September 2026**
 
 Mainlagi Hub is a public AGPL repository, so committing a binary asset can redistribute that asset to everyone who clones, forks, archives, or mirrors the repository. A disclaimer by itself does not create redistribution rights.
 
@@ -136,14 +136,41 @@ Before a new Naya/Gian/Zia binary is committed or treated as production art, the
 AI/image-generation output is not automatically safe to redistribute or claim as an official Mainlagi asset. Review identity consistency, tool/output terms, source/reference rights, and downstream trademark/copyright implications before production use.
 
 
-### Current subject-background candidates
+### Current subject-background production set
 
-- Twelve Math/Science landscape backgrounds are currently staged outside the public repository for visual review.
-- They are candidate assets, not production truth, until wide/mobile visual acceptance and rights/provenance review are complete.
-- The planned 12 mobile counterparts inherit the same status.
-- Do not commit candidate PNG batches merely because they were generated successfully.
-- After approval, record creation/source basis and redistribution rights, then optimize/export production files (normally WebP) before public-repo integration.
-- Canonical candidate names and rollout rules live in `SUBJECT_BACKGROUND_SYSTEM.md`.
+As of 21 September 2026, the project owner approved the generated subject-background outputs from the Mainlagi project workflow for repository integration.
+
+Creation/review basis:
+
+- the artwork was generated inside the Mainlagi project workflow with ChatGPT image generation;
+- visual direction was based on project-owner-supplied Mainlagi references and the canonical Mainlagi Art Bible;
+- no third-party marketplace/stock imagery was intentionally imported into this background wave;
+- wide/mobile pairs were separately generated and reviewed rather than treating mobile as a simple crop;
+- the project owner explicitly requested integration of these outputs into the Mainlagi Hub repository;
+- production derivatives are optimized WebP files; the PNG generation outputs remain review/source material in the project Google Drive workflow.
+
+Approved production scope:
+
+- 9 subjects;
+- 54 scene families;
+- 108 WebP binaries (54 wide + 54 mobile);
+- canonical path: `public/artwork/backgrounds/<asset-folder>/`.
+
+Subject asset folders:
+
+- `bahasa`
+- `english`
+- `math`
+- `iqro`
+- `letters`
+- `logic`
+- `science`
+- `creative` for the `color` subject
+- `drawing`
+
+This is the project's provenance/redistribution decision for this specific generated set. It does not waive the policy for future replacements or third-party reference images. Any replacement must record its own creation/source basis and redistribution decision.
+
+Canonical scene inventory and runtime paths live in `SUBJECT_BACKGROUND_SYSTEM.md`. The implementation checkpoint is `SUBJECT_BACKGROUND_ALL_SUBJECTS_INTEGRATION_2026-09-21.md`.
 
 ## 7. Third-party software, fonts, and model assets
 

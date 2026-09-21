@@ -1,136 +1,218 @@
 # Mainlagi Subject Background System
 
-Status: **CANONICAL DESIGN/IMPLEMENTATION HANDOFF — ASSET REVIEW BEFORE CODE**  
-Date: **20 September 2026**
+Status: **IMPLEMENTED ON INTEGRATION BRANCH — PENDING CI / MERGE / PRODUCTION VERIFICATION**  
+Last reviewed: **21 September 2026**
 
-Use this document as the short source of truth for subject/activity backgrounds. Read it with `MAINLAGI_ART_BIBLE.md` and `PRODUCT_UX_NEXT_WORK_2026-09-20.md`.
+Use this document as the canonical contract for activity backgrounds. Read it with `MAINLAGI_ART_BIBLE.md`, `ASSET_PROVENANCE.md`, and `SUBJECT_BACKGROUND_ALL_SUBJECTS_INTEGRATION_2026-09-21.md`.
 
 ## Goal
 
-- Stop using one Garden background for most activities.
-- Keep Mainlagi as one coherent visual world while giving subjects and activities distinct scene identity.
-- Keep backgrounds decorative; gameplay, text, answers and evidence stay in UI/runtime layers.
-- Build a reusable system, not 900 unrelated background files.
+- Give every learning subject a coherent environment instead of reusing one Garden background everywhere.
+- Keep gameplay, text, answers, evidence and progression in foreground/runtime layers.
+- Reuse a small family of scenes per subject rather than creating 900 unrelated backgrounds.
+- Keep wide and phone artwork as an art-directed pair, not a blind crop.
+- Keep characters separate from the background artwork so character presentation can remain dynamic.
 
-## Current pilot — Math + Science
+## Current implementation scope
 
-- Pilot subjects: **Math** and **Science**.
-- Current landscape candidates are staged outside the public repo for visual review; they are **not production-approved assets yet**.
-- Math candidates:
-  - `math-scene-number-park-v1.png`
-  - `math-scene-playground-park-v1.png`
-  - `math-scene-mini-market-v1.png`
-  - `math-scene-shape-playground-v1.png`
-  - `math-scene-block-yard-v1.png`
-  - `math-scene-measurement-workshop-v1.png`
-- Science candidates:
-  - `science-scene-garden-lab-v1.png`
-  - `science-scene-pond-v1.png`
-  - `science-scene-weather-meadow-v1.png`
-  - `science-scene-greenhouse-v1.png`
-  - `science-scene-nature-trail-v1.png`
-  - `science-scene-material-workshop-v1.png`
+The system now covers the canonical **9 subjects / 900 activities**:
 
-## Immediate next image work
+| Subject ID | Product label | Theme | Scene families |
+| --- | --- | --- | ---: |
+| `bahasa` | Bahasa Indonesia | garden / village literacy | 6 |
+| `english` | English | beach | 6 |
+| `math` | Matematika | playful learning spaces | 6 |
+| `iqro` | Iqro | mosque | 6 |
+| `letters` | Huruf & Menulis | city | 6 |
+| `logic` | Logika | outer space | 6 |
+| `science` | Sains | nature / lab | 6 |
+| `color` | Mewarnai | art gallery / museum | 6 |
+| `drawing` | Menggambar | nature | 6 |
 
-- Generate **12 mobile/portrait counterparts**, one for every Math/Science landscape candidate.
-- Recompose each scene for portrait; **do not merely crop the landscape file**.
-- Keep the same scene identity, palette and major edge props between wide/mobile pairs.
-- Suggested candidate naming: same base name plus `-mobile-v1.png`.
-- Review each wide/mobile pair before any runtime integration.
-- Do not generate the remaining subjects until the Math/Science pair system is visually accepted.
+Total:
+
+- **54 reusable scene families**;
+- **108 production WebP files**: 54 wide + 54 mobile;
+- deterministic visual-theme resolution for all **900 activities**.
+
+## Scene families
+
+### Bahasa Indonesia
+
+- `letter-garden`
+- `sound-garden`
+- `word-playground`
+- `village-market`
+- `reading-garden`
+- `story-garden`
+
+### English
+
+- `seaside-learning-cove`
+- `phonics-cove`
+- `beach-playground`
+- `beach-market`
+- `seaside-reading-nook`
+- `storybook-beach`
+
+### Math
+
+- `number-park`
+- `playground-park`
+- `mini-market`
+- `shape-playground`
+- `block-yard`
+- `measurement-workshop`
+
+### Iqro
+
+- `mosque-courtyard-01`
+- `mosque-courtyard-02`
+- `mosque-courtyard-03`
+- `mosque-library-04`
+- `mosque-courtyard-05`
+- `mosque-study-06`
+
+### Huruf & Menulis
+
+- `city-plaza-01`
+- `alphabet-city-02`
+- `library-plaza-03`
+- `mail-town-04`
+- `notebook-park-05`
+- `storybook-town-06`
+
+### Logic
+
+- `space-observatory-01`
+- `space-observation-deck-02`
+- `space-under-stars-03`
+- `space-maze-04`
+- `space-playroom-05`
+- `space-workshop-06`
+
+### Coloring
+
+- `art-gallery-01`
+- `art-gallery-02`
+- `art-gallery-03`
+- `art-gallery-04`
+- `art-gallery-05`
+- `art-gallery-06`
+
+### Drawing
+
+- `meadow-art-01`
+- `woodland-art-02`
+- `garden-art-03`
+- `lakeside-art-04`
+- `meadow-activity-05`
+- `mountain-art-06`
+
+### Science
+
+- `garden-lab`
+- `pond`
+- `weather-meadow`
+- `greenhouse`
+- `nature-trail`
+- `material-workshop`
+
+## Runtime architecture
+
+Canonical implementation:
+
+- `src/lib/learning/activityVisualTheme.ts`
+  - owns the nine `SubjectTheme` records;
+  - owns the 54 `SceneVariant` records;
+  - maps activity IDs through subject-specific semantic rules;
+  - falls back to a stable hash when no semantic rule matches;
+  - never reads the correct answer or mutates learning state.
+- `src/app/child/[childId]/activity/[activity]/page.tsx`
+  - resolves one visual theme at route entry;
+  - provides it through `ActivityVisualThemeProvider`.
+- `GardenActivityFrame`
+  - consumes approved wide/mobile sources;
+  - switches to the mobile composition below the existing mobile breakpoint;
+  - keeps gameplay/UI above the scene.
+
+The same activity therefore receives the same scene across renders unless the mapping contract is intentionally changed.
+
+## Production storage
+
+Production binaries live under:
+
+```text
+public/artwork/backgrounds/<asset-folder>/<scene>-wide.webp
+public/artwork/backgrounds/<asset-folder>/<scene>-mobile.webp
+```
+
+Asset folders are the subject IDs except Coloring, whose files use:
+
+```text
+public/artwork/backgrounds/creative/
+```
+
+The reviewed PNG generation outputs remain separate source/review material. Runtime code references only optimized WebP production assets.
 
 ## Visual composition contract
 
-- Style: current Mainlagi Garden 2D illustration language; friendly, rounded, clean and low-noise.
-- No photorealism, no unrelated style changes, no platform emoji as core artwork.
-- Keep the central gameplay zone visually quiet and lower-contrast.
-- Prefer large decorative props near the outer edges; avoid critical objects at crop-sensitive extremes.
-- Keep top/header space readable and avoid busy detail behind titles/instructions.
-- Keep bottom foreground controlled so it cannot cover answers, CTA or completion controls.
-- Do not bake task text, answers, letters, numbers, progress or instructions into the background.
-- Do not draw decorative objects that look like tappable answer controls unless the runtime actually uses them.
-- A scene may communicate context (market, pond, greenhouse, workshop) but must not change the learning objective.
+- Mainlagi 2D illustration language: friendly, rounded, clean, soft shading, low noise.
+- No photorealism or cinematic/glowing treatment.
+- Keep the gameplay center comparatively quiet.
+- Decorative detail belongs mainly near scene edges.
+- Do not bake answers, task text, letters, numbers, progress or instructions into backgrounds.
+- Do not bake Naya, Gian, Zia, Paca or Gavi into normal gameplay backgrounds.
+- Characters remain separate foreground/presentation assets.
+- A scene communicates context only; it must not alter the learning objective.
 
-## Responsive art-direction contract
+## Responsive contract
 
-- Treat desktop/tablet landscape and phone portrait as one **scene pair**.
-- Use separate mobile artwork when a `cover` crop would remove context or place decoration behind controls.
-- The background layer must be bounded to the activity viewport; never solve overflow by hiding document-level overflow.
-- Gameplay/UI lives in its own foreground layer above the scene.
-- A scene is acceptable only when the same activity remains readable and usable at:
+- Wide and mobile files are a matched scene pair.
+- Mobile art is recomposed, not merely cropped from landscape.
+- Required review viewports:
   - 320x720;
   - 390x844;
   - 768x1024;
   - 1280x800;
-  - 1440x900 for wide-crop review.
-- Motion-game/camera surfaces may keep their dedicated dark runtime and are not forced into Garden scenery.
+  - 1440x900.
+- `background-size: cover` is allowed only because a dedicated mobile source exists; it is not a substitute for mobile art direction.
+- The frame must not introduce horizontal document overflow.
+- Foreground controls, choices, boards and creative canvases must remain reachable and readable.
 
-## Runtime architecture to implement after asset approval
+## Runtime exceptions
 
-- Add a data-driven `SubjectTheme`.
-- Add reusable `SceneVariant` records for wide/mobile assets and positioning.
-- Resolve visual treatment centrally with a function equivalent to `resolveActivityVisualTheme(activity)`.
-- Resolution must be deterministic: the same activity should not receive a random scene on each render.
-- Scene selection may use subject + stage/lesson + activity identity; it must not parse answers or change content.
-- Shared Garden activities should consume the resolved scene through `GardenActivityFrame`.
-- Special runtimes (Math Trace, creative workspace, World runtime, motion, etc.) may render differently but should consume the same visual-theme context where appropriate.
-- Do not hardcode subject background choices independently across dozens of activity components.
+The resolver covers every activity route, but a dedicated runtime may still intentionally render its own visual surface when the activity itself requires it, for example camera/motion gameplay. Such exceptions must remain explicit and must not duplicate subject-theme mapping logic.
 
-## Scale rule
+Creative Coloring and Drawing already use `GardenActivityFrame workspace`, so their gallery/nature backgrounds remain behind the actual canvas and tools.
 
-- Target roughly **5–8 scene families per normal subject**, not one asset per activity.
-- Reuse is allowed when neighboring activities still feel varied and the scene remains semantically appropriate.
-- Current rollout order after Math/Science approval:
-  - Bahasa Indonesia + English;
-  - Logic + Iqro;
-  - Huruf & Menulis;
-  - Coloring + Drawing with lighter workspace-oriented scenery.
-- Candidate ideas already approved for later exploration:
-  - Bahasa: Taman Baca, Perpustakaan Kecil, Kebun Huruf, Panggung Cerita, Kampung Kata, Picnic Story Garden.
-  - English: Playroom, Playground, Picnic Park, Little Town, Story Corner, Adventure Garden.
+## Provenance boundary
 
-## Production naming and storage
+The 108 WebP files integrated by the 21 September wave are derived from the project-approved generated PNG pairs stored in the project Google Drive workflow. Their production approval record is documented in `ASSET_PROVENANCE.md`.
 
-- Candidate PNGs may stay outside the public repository during review.
-- After approval, optimize production assets and prefer a structure equivalent to:
-  - `public/artwork/backgrounds/<subject>/<scene>-wide.webp`
-  - `public/artwork/backgrounds/<subject>/<scene>-mobile.webp`
-- Final file naming must be stable; runtime config should reference scene IDs, not ad-hoc filenames scattered through components.
-- Public-repo binaries require the provenance/rights review in `ASSET_PROVENANCE.md`.
+Do not silently replace a production background with third-party/reference imagery. A replacement must pass the same visual-pair and provenance review.
 
-## Acceptance checklist
+## Automated regression contract
 
-- Wide/mobile pair clearly represents the same scene.
-- No important object is lost on phone.
-- No horizontal page overflow.
-- Title/instruction contrast remains readable.
-- Choices, board, characters and feedback are not covered.
-- Foreground decoration does not look interactive by accident.
-- Scene variation is visible without making the product feel like unrelated mini-apps.
-- Manual screenshot review passes in addition to automated QA.
-- No mastery, evidence, answer, progression, schema or activity-order behavior changes.
+`npm run test:learning:visual-theme` must verify:
 
-## AI-agent execution order
+- exactly nine themed subjects;
+- exactly six scene families per subject;
+- all 54 scenes have approved wide/mobile WebP runtime assets;
+- all 900 activities resolve deterministically;
+- no activity resolves outside its own subject scene family;
+- representative semantic mappings remain stable.
 
-1. Read this file, `MAINLAGI_ART_BIBLE.md`, `MOBILE_DESIGN_SYSTEM.md`, and the current activity route/frame code.
-2. Confirm the Math/Science wide + mobile pairs have been visually approved.
-3. Confirm provenance/redistribution status before adding binaries to the public repo.
-4. Implement `SubjectTheme` + `SceneVariant` + one central resolver.
-5. Integrate the shared Garden frame first; then cover explicit runtime exceptions.
-6. Run responsive screenshots at the required viewports and review them manually.
-7. Only after the pilot is accepted, expand scene generation to the remaining subjects.
-8. Update current-state docs with exact PR/SHA/CI evidence after implementation.
+This test is also part of the aggregate `npm run test:learning` chain.
 
+## Completion gate for this wave
 
-## 21 September 2026 pair-review checkpoint
+The integration branch is not production truth until all of the following are complete:
 
-The first Math + Science pilot now has all 12 wide/mobile scene pairs available outside the public repository and the composition-level pair review is complete.
+1. branch tests/typecheck/lint/asset validation pass;
+2. responsive browser QA is reviewed for representative routes;
+3. PR is merged to `main`;
+4. merged-main CI passes;
+5. exact deployed SHA is verified on Cloudflare production.
 
-- 6 Math scene pairs: PASS for pair identity / mobile recomposition / gameplay-safe composition.
-- 6 Science scene pairs: PASS for pair identity / mobile recomposition / gameplay-safe composition.
-- Candidate binaries remain **non-production** pending provenance / redistribution approval.
-- Runtime integration must stay fail-closed until approved WebP assets exist under the canonical public artwork path.
-- Detailed review record: `docs/SUBJECT_BACKGROUND_PAIR_REVIEW_2026-09-21.md`.
-
-The runtime foundation may now be implemented independently of binary activation: typed subject/scene contracts, deterministic activity-to-scene resolution, route-level theme context, and `GardenActivityFrame` support for approved responsive sources. This separation lets architecture move forward without silently promoting candidate art into the public AGPL tree.
+Detailed branch record: `docs/SUBJECT_BACKGROUND_ALL_SUBJECTS_INTEGRATION_2026-09-21.md`.
