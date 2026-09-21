@@ -179,6 +179,13 @@ Canonical execution spec: [`SUBJECT_BACKGROUND_SYSTEM.md`](SUBJECT_BACKGROUND_SY
 - Parent/profile/settings responsive redesign: **merged / live verified** at `77bee68`, PR #251; exact-head CI #1159 + merged-main CI #1160 exact Cloudflare smoke.
 - Subject-background wave: **merged / live verified** via PR #256 at `7502c708c998c87bb273639025fcb10ba6c81e12`, with 54 scene families / 108 responsive WebP assets / deterministic 900-activity mapping and merged-main CI #1183 exact production smoke. Project-owner desktop preview now represents all nine subjects; docs closure PR #257 is live at `41df41c9dc0edc449af8260bbfe3887e0175bfb0` with CI #1186 exact production smoke.
 
+### Activity character presentation
+
+- Character presentation foundation: **merged / live verified** via PR #259 -> `b5acbfcde66ea1451f3e55a8d469d33ba4845af1`.
+- PR CI #1189 and merged-main CI #1190 passed; #1190 includes exact Cloudflare production smoke.
+- Runtime remains fail-closed to approved Gavi/Paca assets while Naya/Gian/Zia are reference-only.
+- Next asset gate: isolated transparent full-body Naya/Gian/Zia sprites + provenance + responsive review, then central allowlist activation.
+
 ## Implementation order
 
 1. Canonical component/route audit + console-warning audit.
@@ -188,7 +195,7 @@ Canonical execution spec: [`SUBJECT_BACKGROUND_SYSTEM.md`](SUBJECT_BACKGROUND_SY
 5. Matching randomization and difficulty rules.
 6. Audio first-instruction latency.
 7. Parent/profile/settings responsive redesign.
-8. Extend canonical Art Bible character production spec + create/review Naya/Gian/Zia production assets.
+8. Activity character-presentation foundation — **closed / live verified**; create/review Naya/Gian/Zia production sprites next.
 9. All-subject background integration — **closed / live verified**.
 10. Activity character presentation foundation + production Naya/Gian/Zia assets.
 11. English voice-quality upgrade.
