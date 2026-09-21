@@ -280,6 +280,65 @@ The next character-production wave must preserve the Garden style and define/rev
 - pose/motion constraints that do not obstruct learning controls;
 - provenance/rights record before public-repository production use.
 
+#### Reviewed human-character identity lock
+
+The 21 September reviewed design sheets are the canonical visual identity references for the first human-character production pass:
+
+- `kak-naya-character-design-set-v1.png`;
+- `gian-character-design-set-v1.png`;
+- `zia-character-design-set-v1.png`.
+
+Visible traits that production assets must preserve:
+
+**Naya**
+- pink hijab with a darker inner face-framing layer; hair remains fully covered;
+- pink long-sleeve top with a simple white flower motif;
+- blue wide-leg trousers;
+- pink sneakers with white sole/details;
+- large dark-brown eyes, rounded child face and soft rosy cheeks;
+- tallest/oldest-readable silhouette of the human trio.
+
+**Gian**
+- black side-swept hair with the small top/side tuft shown in the sheet;
+- white shirt with blue raglan sleeves and the blue car motif;
+- blue shorts;
+- white socks and blue sneakers;
+- large dark-brown eyes, rounded child face and rosy cheeks;
+- middle-height silhouette: younger/smaller than Naya, older/taller than Zia.
+
+**Zia**
+- black hair in two rounded side buns with pink ties and straight bangs;
+- purple short-sleeve dress with a simple white flower motif;
+- white socks and purple shoes;
+- large dark-brown eyes, rounded toddler face and rosy cheeks;
+- shortest/youngest-readable silhouette of the human trio.
+
+The design sheets also contain alternate expressions, gestures, poses and props. Those are **reference options**, not automatically canonical runtime requirements. Props such as books, toys, sports items, magnifiers or bags must not become permanent identity features unless a later product decision explicitly approves them.
+
+#### Activity production export contract
+
+For the first activity-foreground production asset of Naya, Gian and Zia:
+
+- one isolated full-body character per file;
+- transparent background / alpha preserved;
+- no text, labels, floor shadow, scenery or baked-in task content;
+- neutral-friendly or lightly encouraging pose suitable for repeated use;
+- feet/body fully inside the canvas with no clipped hijab, hair, hands or shoes;
+- consistent foot baseline and transparent padding so Naya > Gian > Zia remains visibly age-readable when the shared activity slot renders them;
+- preserve the reviewed outfit, face, palette and hairstyle/hijab identity above;
+- optimize the reviewed production derivative for web delivery without flattening transparency;
+- do not activate the file until provenance/redistribution and responsive screenshot review are complete.
+
+Planned public runtime naming convention, if redistribution is approved:
+
+```text
+public/artwork/characters/naya-activity-v1.webp
+public/artwork/characters/gian-activity-v1.webp
+public/artwork/characters/zia-activity-v1.webp
+```
+
+These paths are a production convention only; their presence in a branch does not imply approval. Runtime activation is controlled separately by the canonical character asset registry.
+
 Generated candidates are **review material**, not production truth. A visually plausible image is not approved until identity consistency, asset quality and redistribution/provenance requirements are satisfied.
 
 Child profile identity and guide-character identity are separate concepts. Never use a guide character as the child's actual profile identity by default.
