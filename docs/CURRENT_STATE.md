@@ -57,10 +57,11 @@ The fail-closed dynamic character-presentation foundation is **MERGED / LIVE VER
 - This foundation does not change child profile identity, learning evidence, mastery, progression, schema, narration or activity identity.
 - Canonical runtime contract: `CHARACTER_PRESENTATION_SYSTEM.md`.
 - Canonical human production-binary/provenance contract: `CHARACTER_ASSET_PIPELINE.md`.
+- Candidate intake audit: `CHARACTER_CANDIDATE_INTAKE_AUDIT_2026-09-21.md` confirms no separate Naya/Gian/Zia activity-foreground candidate currently exists in Drive; only the three canonical design sheets are present.
 - Human character asset pipeline is merged/live verified through PR #263: production-only directory, provenance registry, alpha/dimension/size validator, regression fixtures, and deliberate git-staging friction are active.
 - Runtime asset lifecycle registry remains merged/live verified through PR #262; Naya/Gian/Zia remain `reference-only` with no runtime path and no human production binary is committed yet.
 
-The foundation wave is closed. The next character gate is productionization of **Naya, Gian, and Zia**: lock the production spec against the reviewed design sheets, create isolated transparent runtime assets, document provenance/redistribution, run responsive visual QA, then activate approved assets only through the central allowlist/resolver. The five-character homepage hero remains a separate composition task and must not be finalized from unapproved human-character sprites.
+The foundation and asset-pipeline waves are closed. Candidate intake audit found no separate Naya/Gian/Zia foreground candidate. The next character gate is **asset creation/review outside the public production directory**, beginning with Naya, followed by Gian and Zia; only accepted exact derivatives may proceed to provenance/redistribution and later binary integration. The five-character homepage hero remains a separate composition task and must not be finalized from unapproved human-character sprites.
 
 ## Canonical baseline
 
