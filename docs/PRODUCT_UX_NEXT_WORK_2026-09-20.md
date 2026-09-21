@@ -3,7 +3,7 @@
 Date: **20 September 2026**  
 Last synchronized: **21 September 2026**  
 Status: **ACTIVE ROADMAP / SUBJECT BACKGROUNDS LIVE VERIFIED / CHARACTER LAYER FOUNDATION ACTIVE**  
-Current synchronized baseline: production `main` = `41df41c9dc0edc449af8260bbfe3887e0175bfb0` (PR #257 docs closure, CI #1186 exact Cloudflare smoke); subject-background runtime implementation = `7502c708c998c87bb273639025fcb10ba6c81e12` (PR #256, CI #1183 exact Cloudflare smoke).
+Current synchronized baseline: production `main` = `b5acbfcde66ea1451f3e55a8d469d33ba4845af1` (PR #259 activity character presentation foundation, merged-main CI #1190 / run `35589937017` including exact Cloudflare smoke); subject-background runtime implementation remains `7502c708c998c87bb273639025fcb10ba6c81e12` (PR #256, CI #1183 exact Cloudflare smoke).
 
 This document is the short human/AI handoff for the next Mainlagi product-quality wave. It records the user-accepted UX direction without changing curriculum, mastery, evidence, progression, or the active WS-05 gameplay audit.
 
@@ -20,7 +20,7 @@ This document is the short human/AI handoff for the next Mainlagi product-qualit
 
 Canonical contract: [`CHARACTER_PRESENTATION_SYSTEM.md`](CHARACTER_PRESENTATION_SYSTEM.md).
 
-- Activity character placement is moving from hardcoded Garden mascots to a central presentation resolver.
+- Activity character placement is now centralized in the presentation resolver and is merged/live verified on production `main`.
 - Runtime remains fail closed to approved assets: Gavi/Paca only today.
 - English is prepared for Naya + Zia and Math for Gian + Paca, but those human characters do not activate until isolated transparent production files pass visual/provenance/responsive QA.
 - Naya/Gian/Zia design-set PNGs in Drive are reference sheets, not direct runtime sprites.
@@ -177,10 +177,12 @@ Canonical execution spec: [`SUBJECT_BACKGROUND_SYSTEM.md`](SUBJECT_BACKGROUND_SY
 - Matching randomization/difficulty: **merged / live verified** at `61f8fb6`, CI #1134 exact Cloudflare smoke.
 - Audio first-instruction latency: **merged / live verified** at `770d8b6`, PR CI #1144 + merged-main CI #1145 exact Cloudflare smoke.
 - Parent/profile/settings responsive redesign: **merged / live verified** at `77bee68`, PR #251; exact-head CI #1159 + merged-main CI #1160 exact Cloudflare smoke.
-- Subject-background wave: **merged / live verified** via PR #256 at `7502c708c998c87bb273639025fcb10ba6c81e12`, with 54 scene families / 108 responsive WebP assets / deterministic 900-activity mapping and merged-main CI #1183 exact production smoke. Project-owner desktop preview now represents all nine subjects; docs closure PR #257 is live at `41df41c9dc0edc449af8260bbfe3887e0175bfb0` with CI #1186 exact production smoke.
+- Subject-background wave: **merged / live verified** via PR #256 at `7502c708c998c87bb273639025fcb10ba6c81e12`, with 54 scene families / 108 responsive WebP assets / deterministic 900-activity mapping and merged-main CI #1183 exact production smoke. Project-owner desktop preview represents all nine subjects; docs closure PR #257 is live at `41df41c9dc0edc449af8260bbfe3887e0175bfb0` with CI #1186 exact production smoke.
+- Activity character presentation foundation: **merged / live verified** via PR #259 at `b5acbfcde66ea1451f3e55a8d469d33ba4845af1`; merged-main CI #1190 / run `35589937017` passed including exact Cloudflare production smoke. Runtime remains fail closed to approved Gavi/Paca assets until Naya/Gian/Zia production files pass the next gate.
 
 ## Implementation order
 
+Completed / live-verified:
 1. Canonical component/route audit + console-warning audit.
 2. Homepage/header/navigation + 3-column subject directory.
 3. Activity gallery/catalog.
@@ -188,11 +190,20 @@ Canonical execution spec: [`SUBJECT_BACKGROUND_SYSTEM.md`](SUBJECT_BACKGROUND_SY
 5. Matching randomization and difficulty rules.
 6. Audio first-instruction latency.
 7. Parent/profile/settings responsive redesign.
-8. Extend canonical Art Bible character production spec + create/review Naya/Gian/Zia production assets.
-9. All-subject background integration — **closed / live verified**.
-10. Activity character presentation foundation + production Naya/Gian/Zia assets.
-11. English voice-quality upgrade.
-11. Expanded visual/usability QA and cleanup of superseded components.
+8. All-subject background integration.
+9. Activity character presentation foundation.
+
+Current character-production gate:
+10. Lock the canonical production character specification against the reviewed Naya/Gian/Zia design sheets.
+11. Create isolated transparent Naya/Gian/Zia runtime assets and document provenance/redistribution.
+12. Run responsive visual QA, then activate approved human-character assets only through the central allowlist/resolver.
+13. Validate English -> Naya + Zia and Math -> Gian + Paca; preserve fail-closed fallback and leave other subject pairings unchanged.
+14. Revisit the five-character homepage hero using approved production identities; keep hero composition separate from activity foreground assets.
+
+After the character gate:
+15. English voice-quality upgrade.
+16. Learning-illustration consistency improvements.
+17. Expanded human visual/usability + physical-device acceptance and cleanup of superseded components.
 
 WS-05 gameplay-mechanic work may continue independently only when it preserves its existing objective/evidence gates. Do not mix a broad UX refactor into a mechanic-reuse PR.
 
