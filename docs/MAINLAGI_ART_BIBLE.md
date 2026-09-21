@@ -287,6 +287,19 @@ Child profile identity and guide-character identity are separate concepts. Never
 The current Coloring content contract remains separate: existing coloring-character support is Paca/Gavi only. This Art Bible does not authorize new Naya/Gian/Zia coloring activities or evidence changes.
 
 
+### Activity foreground character contract
+
+Detailed execution source: [`CHARACTER_PRESENTATION_SYSTEM.md`](CHARACTER_PRESENTATION_SYSTEM.md).
+
+- Characters are a foreground presentation layer and remain separate from gameplay background art.
+- Activity renderers must not hardcode character asset paths; one central presentation resolver owns runtime character selection.
+- A preferred character cannot render until its production asset is explicitly approved.
+- Unapproved human-character preferences fail closed to approved mascot artwork rather than using design sheets or fallback emoji as full-size activity art.
+- Naya/Gian/Zia design sheets are identity references only; production activity assets require isolated transparent full-body files.
+- Creative Coloring/Drawing workspaces may suppress decorative foreground characters when they compete with the canvas/tools.
+- Child profile identity and guide-character identity remain separate from activity presentation.
+- Character presentation must not change activity identity, answers, evidence, mastery, progression or narration semantics.
+
 ### Subject background / scene contract
 
 Detailed execution source: [`SUBJECT_BACKGROUND_SYSTEM.md`](SUBJECT_BACKGROUND_SYSTEM.md).
