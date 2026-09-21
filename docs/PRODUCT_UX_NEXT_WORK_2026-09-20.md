@@ -1,8 +1,8 @@
 # Mainlagi — Product UX Next Work
 
 Date: **20 September 2026**  
-Status: **ACTIVE ROADMAP / P0 THROUGH PARENT WAVE LIVE VERIFIED / ALL-SUBJECT BACKGROUND INTEGRATION ACTIVE**  
-Current synchronized baseline: `main` = `a04bd51fb02dedf56b5cd62f7f579eb53c4be251`; latest independently live-verified runtime/product main = `77bee682f84b5d68b85d2c91b1d6f2ca4c93d2d9` (CI #1160).
+Status: **ACTIVE ROADMAP / P0 THROUGH SUBJECT-BACKGROUND WAVE LIVE VERIFIED**  
+Current synchronized baseline: `main` = `7502c708c998c87bb273639025fcb10ba6c81e12`; latest independently live-verified runtime/product main = the same SHA (CI #1183, exact Cloudflare production smoke).
 
 This document is the short human/AI handoff for the next Mainlagi product-quality wave. It records the user-accepted UX direction without changing curriculum, mastery, evidence, progression, or the active WS-05 gameplay audit.
 
@@ -146,7 +146,7 @@ Canonical execution spec: [`SUBJECT_BACKGROUND_SYSTEM.md`](SUBJECT_BACKGROUND_SY
 - Desktop/mobile artwork remains an art-directed pair rather than a blind crop.
 - Gameplay/text/canvas UI stays in a safe foreground layer; gameplay backgrounds do not bake in characters, answers or instructions.
 - Drawing and Coloring use the same shared frame in workspace mode; dedicated runtime surfaces may remain explicit exceptions.
-- Current closure gates are CI, responsive QA, PR merge, merged-main CI and exact Cloudflare verification.
+- Integration is **merged / live verified** at `7502c708c998c87bb273639025fcb10ba6c81e12`; merged-main CI #1183 passed exact Cloudflare production smoke.
 - Detailed implementation record: [`SUBJECT_BACKGROUND_ALL_SUBJECTS_INTEGRATION_2026-09-21.md`](SUBJECT_BACKGROUND_ALL_SUBJECTS_INTEGRATION_2026-09-21.md).
 
 ### Learning illustrations
@@ -164,7 +164,7 @@ Canonical execution spec: [`SUBJECT_BACKGROUND_SYSTEM.md`](SUBJECT_BACKGROUND_SY
 - Matching randomization/difficulty: **merged / live verified** at `61f8fb6`, CI #1134 exact Cloudflare smoke.
 - Audio first-instruction latency: **merged / live verified** at `770d8b6`, PR CI #1144 + merged-main CI #1145 exact Cloudflare smoke.
 - Parent/profile/settings responsive redesign: **merged / live verified** at `77bee68`, PR #251; exact-head CI #1159 + merged-main CI #1160 exact Cloudflare smoke.
-- Current visual-asset work: **all-subject background integration is active on `agent/subject-backgrounds-all-9-20260921`** with 54 scene families / 108 responsive WebP assets / deterministic 900-activity mapping. CI, merge and production verification are still pending.
+- Subject-background wave: **merged / live verified** via PR #256 at `7502c708c998c87bb273639025fcb10ba6c81e12`, with 54 scene families / 108 responsive WebP assets / deterministic 900-activity mapping and merged-main CI #1183 exact production smoke.
 
 ## Implementation order
 
@@ -176,7 +176,7 @@ Canonical execution spec: [`SUBJECT_BACKGROUND_SYSTEM.md`](SUBJECT_BACKGROUND_SY
 6. Audio first-instruction latency.
 7. Parent/profile/settings responsive redesign.
 8. Extend canonical Art Bible character production spec + create/review Naya/Gian/Zia production assets.
-9. Close the all-subject background integration: CI + responsive QA + PR merge + merged-main production verification.
+9. All-subject background integration — **closed / live verified**.
 10. English voice-quality upgrade.
 11. Expanded visual/usability QA and cleanup of superseded components.
 
