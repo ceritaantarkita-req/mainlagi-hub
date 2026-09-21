@@ -104,14 +104,19 @@
 ## Current synchronized checkpoint — 20 September 2026
 
 ```text
-current main:                 a04bd51fb02dedf56b5cd62f7f579eb53c4be251
-latest live-verified runtime: 77bee682f84b5d68b85d2c91b1d6f2ca4c93d2d9
-runtime main CI:              #1160 / run 35520629179 — success + exact Cloudflare smoke
-WS-13 next:                   character production spec + Naya/Gian/Zia assets
+current main:                 89a2bc629e8535bddbf2ab78ae1990a063f0f361
+latest live-verified fix:     PR #267 cloud analytics pagination/failure-state integrity
+merged-main CI:               #1205 / run 35621724090 — success + exact Cloudflare smoke
+analytics regression:         1201 attempts / 3603 evidence rows / paged + fail-closed
+WS-13 next:                   Naya candidate creation/review -> Gian -> Zia
 WS-05 current audit:          PR #240 -> 7109db41 / CI #1100 success
 WS-05 runtime:                not started
 gameplay taxonomy:            900/900 classified / 47 active / no Pattern #48
 ```
+
+Cloud analytics integrity: **CLOSED / MERGED / LIVE VERIFIED** via PR #267 -> main `89a2bc629e8535bddbf2ab78ae1990a063f0f361`, merged-main CI #1205 exact Cloudflare smoke. The old fixed 500-attempt / 2000-evidence cap and authenticated silent-local-fallback defect must not be listed as open debt again.
+
+Next repository-governance follow-up from the audit: verify/enforce secret-history scan as a required merge status check where branch-protection permissions allow. This is separate from the already-running scan job.
 
 Product-UX and WS-05 remain separate work tracks. The parent/profile/settings redesign is already closed/live verified; the next product-UX wave is character production, not another parent-shell rewrite.
 
