@@ -204,10 +204,10 @@ export const SUBJECT_CHARACTER_PREFERENCES: Readonly<Record<ThemedSubjectId, rea
   bahasa: ["gavi", "paca"],
   english: ["naya", "zia"],
   math: ["gian", "paca"],
-  iqro: ["naya", "paca"],
-  letters: ["gian", "naya"],
+  iqro: ["gavi", "paca"],
+  letters: ["gavi", "paca"],
   logic: ["gavi", "paca"],
-  science: ["gian", "paca"],
+  science: ["gavi", "paca"],
   color: ["gavi", "paca"],
   drawing: ["gavi", "paca"]
 };
