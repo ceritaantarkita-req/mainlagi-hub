@@ -1,8 +1,9 @@
 # Mainlagi — Product UX Next Work
 
 Date: **20 September 2026**  
+Last synchronized: **21 September 2026**  
 Status: **ACTIVE ROADMAP / P0 THROUGH SUBJECT-BACKGROUND WAVE LIVE VERIFIED**  
-Current synchronized baseline: `main` = `7502c708c998c87bb273639025fcb10ba6c81e12`; latest independently live-verified runtime/product main = the same SHA (CI #1183, exact Cloudflare production smoke).
+Current synchronized baseline: production `main` = `41df41c9dc0edc449af8260bbfe3887e0175bfb0` (PR #257 docs closure, CI #1186 exact Cloudflare smoke); subject-background runtime implementation = `7502c708c998c87bb273639025fcb10ba6c81e12` (PR #256, CI #1183 exact Cloudflare smoke).
 
 This document is the short human/AI handoff for the next Mainlagi product-quality wave. It records the user-accepted UX direction without changing curriculum, mastery, evidence, progression, or the active WS-05 gameplay audit.
 
@@ -138,7 +139,7 @@ Share opens a modal with at least Copy Link, WhatsApp, Threads, X, Telegram, and
 
 Canonical execution spec: [`SUBJECT_BACKGROUND_SYSTEM.md`](SUBJECT_BACKGROUND_SYSTEM.md).
 
-- The system now covers all **9 subjects / 900 activities** on the active integration branch.
+- The system is live in production across all **9 subjects / 900 activities**.
 - There are **54 reusable scene families**: six per subject.
 - The approved production set contains **108 optimized WebP assets**: 54 wide + 54 mobile.
 - Activity mapping remains centralized in `activityVisualTheme.ts`; no renderer owns its own subject mapping.
@@ -148,6 +149,7 @@ Canonical execution spec: [`SUBJECT_BACKGROUND_SYSTEM.md`](SUBJECT_BACKGROUND_SY
 - Drawing and Coloring use the same shared frame in workspace mode; dedicated runtime surfaces may remain explicit exceptions.
 - Integration is **merged / live verified** at `7502c708c998c87bb273639025fcb10ba6c81e12`; merged-main CI #1183 passed exact Cloudflare production smoke.
 - Detailed implementation record: [`SUBJECT_BACKGROUND_ALL_SUBJECTS_INTEGRATION_2026-09-21.md`](SUBJECT_BACKGROUND_ALL_SUBJECTS_INTEGRATION_2026-09-21.md).
+- Project-owner production preview now covers one live desktop route in each of the nine subjects; see [`SUBJECT_BACKGROUND_PRODUCTION_PREVIEW_REVIEW_2026-09-21.md`](SUBJECT_BACKGROUND_PRODUCTION_PREVIEW_REVIEW_2026-09-21.md).
 
 ### Learning illustrations
 
@@ -164,7 +166,7 @@ Canonical execution spec: [`SUBJECT_BACKGROUND_SYSTEM.md`](SUBJECT_BACKGROUND_SY
 - Matching randomization/difficulty: **merged / live verified** at `61f8fb6`, CI #1134 exact Cloudflare smoke.
 - Audio first-instruction latency: **merged / live verified** at `770d8b6`, PR CI #1144 + merged-main CI #1145 exact Cloudflare smoke.
 - Parent/profile/settings responsive redesign: **merged / live verified** at `77bee68`, PR #251; exact-head CI #1159 + merged-main CI #1160 exact Cloudflare smoke.
-- Subject-background wave: **merged / live verified** via PR #256 at `7502c708c998c87bb273639025fcb10ba6c81e12`, with 54 scene families / 108 responsive WebP assets / deterministic 900-activity mapping and merged-main CI #1183 exact production smoke.
+- Subject-background wave: **merged / live verified** via PR #256 at `7502c708c998c87bb273639025fcb10ba6c81e12`, with 54 scene families / 108 responsive WebP assets / deterministic 900-activity mapping and merged-main CI #1183 exact production smoke. Project-owner desktop preview now represents all nine subjects; docs closure PR #257 is live at `41df41c9dc0edc449af8260bbfe3887e0175bfb0` with CI #1186 exact production smoke.
 
 ## Implementation order
 
