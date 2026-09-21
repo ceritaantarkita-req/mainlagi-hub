@@ -122,7 +122,7 @@ For each of Naya, Gian, and Zia:
 3. confirm the source/creation basis and public redistribution rights;
 4. export the reviewed derivative as transparent WebP meeting the technical contract;
 5. update the exact registry record to `approved`, including rights holder, license basis and `redistributionAllowed=true`;
-6. add the exact production binary under `public/artwork/characters/`;
+6. add the exact production binary under `public/artwork/characters/`; image extensions in this directory are git-ignored by default, so intentionally stage the reviewed file with `git add -f <exact-path>`;
 7. run the blocking asset validation suite;
 8. merge the asset/provenance wave while `characterAssets.ts` may still remain fail-closed;
 9. in a separate activation wave, update `src/lib/learning/characterAssets.ts` to expose the approved runtime path;
