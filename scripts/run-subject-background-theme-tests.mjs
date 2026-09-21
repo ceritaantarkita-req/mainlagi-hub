@@ -15,6 +15,7 @@ const require = createRequire(import.meta.url);
 const { ACTIVITIES } = require(path.resolve(".learning-test-dist/src/lib/learning/system.js"));
 const {
   SUBJECT_THEMES,
+  SUBJECT_CHARACTER_PREFERENCES,
   THEMED_SUBJECT_IDS,
   resolveActivityVisualTheme
 } = require(path.resolve(".learning-test-dist/src/lib/learning/activityVisualTheme.js"));
@@ -55,6 +56,22 @@ for (const subjectId of THEMED_SUBJECT_IDS) {
     assert.equal(first.scene.subjectId, subjectId);
     assert(sceneIds.has(first.scene.id), `${activity.id} resolves inside its subject scene family`);
     assert(first.scene.runtimeAssets, `${activity.id} resolves to active runtime artwork`);
+    assert.equal(first.characters.runtimeCharacters.length, 2, `${activity.id} keeps two presentation character slots`);
+    assert.deepEqual(
+      first.characters.preferredIds,
+      SUBJECT_CHARACTER_PREFERENCES[subjectId],
+      `${activity.id} keeps the subject character preference`
+    );
+    for (const character of first.characters.runtimeCharacters) {
+      assert(["gavi", "paca"].includes(character.id), `${activity.id} must fail closed to production-approved character assets`);
+      assert(character.src.startsWith("/artwork/garden-"), `${activity.id} character must resolve to production artwork`);
+      assert(["left", "right"].includes(character.side), `${activity.id} character must have a safe side placement`);
+    }
+    assert.notEqual(
+      first.characters.runtimeCharacters[0].id,
+      first.characters.runtimeCharacters[1].id,
+      `${activity.id} must not render the same character twice`
+    );
     resolvedCount += 1;
   }
 }
@@ -62,8 +79,11 @@ for (const subjectId of THEMED_SUBJECT_IDS) {
 assert.equal(resolvedCount, 900, "all 900 activities must resolve to an approved subject background");
 
 const frameCss = fs.readFileSync(path.resolve("src/components/learning/GardenActivityFrame.module.css"), "utf8");
+const frameSource = fs.readFileSync(path.resolve("src/components/learning/GardenActivityFrame.tsx"), "utf8");
 assert.match(frameCss, /\.workspace\{background-color:#fffbee;/, "workspace must keep its paper color without resetting background-image");
 assert.doesNotMatch(frameCss, /\.workspace\{background:#fffbee;/, "workspace must not wipe themed background images with the background shorthand");
+assert.match(frameCss, /\.workspace \.character\{display:none\}/, "creative workspace must keep decorative character layers out of the canvas");
+assert.doesNotMatch(frameSource, /garden-gavi\.webp|garden-paca\.webp/, "GardenActivityFrame must not hardcode mascot assets outside the presentation resolver");
 
 const byId = new Map(ACTIVITIES.map((activity) => [activity.id, activity]));
 const expected = {
@@ -92,4 +112,4 @@ for (const [activityId, sceneId] of Object.entries(expected)) {
   assert.equal(resolveActivityVisualTheme(activity)?.scene.id, sceneId, `${activityId} keeps semantic scene mapping`);
 }
 
-console.log("Subject background theme regression passed: nine subjects, 54 scene families, 108 responsive WebP assets, and deterministic coverage for all 900 activities.");
+console.log("Subject visual theme regression passed: nine subjects, 54 scene families, 108 responsive WebP assets, deterministic coverage for all 900 activities, and fail-closed character presentation.");
