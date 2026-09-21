@@ -1,6 +1,6 @@
 # Known Limitations
 
-Last reviewed: **20 September 2026**
+Last reviewed: **22 September 2026**
 
 This file describes current known limitations. Historical ZIP/build-environment limitations belong in historical audit documents and must not be treated as current production state.
 
@@ -123,9 +123,9 @@ Affiliate recommendations belong to parent/public surfaces, not child learning a
 
 ## Repository governance
 
-The protected `main` branch requires PR-based changes and four required CI checks. `Secret history scan` currently runs but is not required by the ruleset, and approving-review count is zero.
+The protected `main` branch requires PR-based changes and four required CI contexts. The standalone `Secret history scan` is still not directly listed as a ruleset-required context, but PR #269 closed the enforcement gap by running the same pinned full-history Gitleaks scan inside ruleset-required `Production dependency audit`. A secret-scan failure therefore fails a required context and blocks merge.
 
-This is a governance limitation tracked for hardening; it is not evidence that the current code failed secret scanning.
+Remaining governance limitations include approving-review count = 0 and `Mobile route QA (Chromium)` not being directly listed as a required ruleset context. Secret-scan enforcement itself is no longer an open limitation.
 
 ## OCR / AI
 
