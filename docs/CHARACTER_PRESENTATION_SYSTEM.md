@@ -1,6 +1,6 @@
 # Activity Character Presentation System — 21 September 2026
 
-Status: **FOUNDATION IMPLEMENTED / HUMAN PRODUCTION ASSETS NOT YET ACTIVATED**
+Status: **FOUNDATION MERGED / LIVE VERIFIED / HUMAN PRODUCTION ASSETS NOT YET ACTIVATED**
 
 This document defines how Mainlagi activity characters sit above the now-live subject-background system.
 
@@ -122,3 +122,15 @@ This foundation does not:
 ## Next gate
 
 Create and review isolated transparent production assets for **Naya, Gian, and Zia** from the approved design references. After those assets pass visual/provenance/responsive QA, activate them through the central approved asset map rather than adding character logic inside individual activity renderers.
+
+## Production closure
+
+The fail-closed character-presentation foundation is live in production.
+
+- implementation PR: **#259**;
+- merged main: `b5acbfcde66ea1451f3e55a8d469d33ba4845af1`;
+- PR CI: **#1189 / run 35587881989 — full success**;
+- merged-main CI: **#1190 / run 35589937017 — full success including exact Cloudflare production smoke**;
+- production smoke confirmed `https://mainlagihub.my.id` is serving exact SHA `b5acbfcde66ea1451f3e55a8d469d33ba4845af1` with the canonical Supabase target.
+
+Runtime behavior remains intentionally unchanged for unapproved human artwork: English and Math still fail closed to the approved Gavi/Paca pair until Naya/Zia/Gian production sprites pass the next asset gate.
