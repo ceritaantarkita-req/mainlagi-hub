@@ -104,9 +104,10 @@
 ## Current synchronized checkpoint — 20 September 2026
 
 ```text
-current main:                 89a2bc629e8535bddbf2ab78ae1990a063f0f361
-latest live-verified fix:     PR #267 cloud analytics pagination/failure-state integrity
-merged-main CI:               #1205 / run 35621724090 — success + exact Cloudflare smoke
+current main:                 6fd9e3fc7ffa57aab687b5529033f1a995e0e5ba
+latest live-verified hardening: PR #269 required secret-scan enforcement
+merged-main CI:               #1209 / run 35625953536 — success + exact Cloudflare smoke
+secret merge gate:            standalone scan + embedded required dependency gate
 analytics regression:         1201 attempts / 3603 evidence rows / paged + fail-closed
 WS-13 next:                   Naya candidate creation/review -> Gian -> Zia
 WS-05 current audit:          PR #240 -> 7109db41 / CI #1100 success
@@ -116,7 +117,7 @@ gameplay taxonomy:            900/900 classified / 47 active / no Pattern #48
 
 Cloud analytics integrity: **CLOSED / MERGED / LIVE VERIFIED** via PR #267 -> main `89a2bc629e8535bddbf2ab78ae1990a063f0f361`, merged-main CI #1205 exact Cloudflare smoke. The old fixed 500-attempt / 2000-evidence cap and authenticated silent-local-fallback defect must not be listed as open debt again.
 
-Next repository-governance follow-up from the audit: verify/enforce secret-history scan as a required merge status check where branch-protection permissions allow. This is separate from the already-running scan job.
+Repository secret-scan governance: **CLOSED / MERGED / LIVE VERIFIED** via PR #269 -> main `6fd9e3fc7ffa57aab687b5529033f1a995e0e5ba`, merged-main CI #1209 exact Cloudflare smoke. The standalone scan remains visible, and the same full-history scan is embedded inside ruleset-required `Production dependency audit`, so a secret-scan failure is merge-blocking.
 
 Product-UX and WS-05 remain separate work tracks. The parent/profile/settings redesign is already closed/live verified; the next product-UX wave is character production, not another parent-shell rewrite.
 
