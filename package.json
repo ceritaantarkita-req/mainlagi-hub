@@ -116,7 +116,7 @@
     "test:engine": "npm run test:engine:core && npm run test:gesture && npm run test:interaction && npm run test:tracing && npm run test:audio-manager && npm run test:ui:mobile-foundation && npm run test:learning",
     "simulate": "node scripts/run-five-simulations.mjs",
     "validate:structure": "node scripts/validate-structure.mjs",
-    "validate:assets": "npm run validate:assets:affiliate && npm run validate:assets:characters",
+    "validate:assets": "npm run validate:assets:affiliate && npm run validate:assets:characters && npm run test:assets:characters",
     "preview:build": "node scripts/build-preview.mjs",
     "check:portable": "npm run validate:structure && npm run validate:assets && npm run audit:source && npm run test:batch16:security && npm run test:qa:device && npm run typecheck:portable && npm run test:engine && npm run qa:activity-quality && npm run qa:gameplay-distribution && npm run simulate && npm run test:batch17:final && npm run preview:build",
     "check": "npm run validate:structure && npm run validate:assets && npm run audit:source && npm run test:batch16:security && npm run test:qa:device && npm run typecheck && npm run lint && npm run test:engine && npm run qa:activity-quality && npm run qa:gameplay-distribution && npm run simulate && npm run test:batch17:final && npm run build && npm run test:batch16:build",
@@ -146,7 +146,8 @@
     "test:ui:picture-word-match-english-reuse": "node scripts/run-picture-word-match-english-reuse-browser-tests.mjs",
     "test:learning:visual-theme": "node scripts/run-subject-background-theme-tests.mjs",
     "validate:assets:affiliate": "node scripts/validate-asset-provenance.mjs",
-    "validate:assets:characters": "node scripts/validate-character-assets.mjs"
+    "validate:assets:characters": "node scripts/validate-character-assets.mjs",
+    "test:assets:characters": "node scripts/run-character-asset-validator-tests.mjs"
   },
   "dependencies": {
     "@capacitor/cli": "^7.6.8",
