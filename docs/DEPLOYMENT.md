@@ -1,6 +1,6 @@
 # Mainlagi Production Deployment
 
-Last reviewed: 20 September 2026
+Last reviewed: 22 September 2026
 
 ## Canonical production architecture
 
@@ -27,20 +27,20 @@ On pushes to `main`, `Production smoke (Cloudflare)` succeeds only when producti
 
 ## Latest verified production release
 
-The latest independently live-verified runtime/product implementation is the WS-13 parent/profile/settings responsive redesign:
+Current production `main` is the repository-governance hardening merge from PR #269:
 
 ```text
-PR:                       #251
-Implementation main:      77bee682f84b5d68b85d2c91b1d6f2ca4c93d2d9
-Exact-head PR CI:         #1159 / run 35520233825 — success
-Merged-main CI:           #1160 / run 35520629179 — success
+PR:                       #269
+Current main:             6fd9e3fc7ffa57aab687b5529033f1a995e0e5ba
+PR CI:                    #1208 / run 35625095287 — success
+Merged-main CI:           #1209 / run 35625953536 — success
 Production smoke:         PASS, exact SHA
-Responsive QA artifact:   10608044389
+Required secret gate:     PASS inside Production dependency audit
 ```
 
-The current `main` when the 20 September documentation sync started is `a04bd51fb02dedf56b5cd62f7f579eb53c4be251`, a docs-only closure commit from PR #252. Its push CI #1162 / run `35521404941` completed successfully. Runtime/product behavior remains anchored to the independently green `77bee682...` implementation run (#1160), while `a04bd51...` is the verified docs-only closure main.
+The latest application-data integrity change remains PR #267 (`89a2bc629e...`), which closed cloud analytics pagination/failure-state defects. PR #269 changes CI/governance only; it does not change application runtime behavior.
 
-Batch 17 engineering/device-QA foundations remain valid historical prerequisites. They are no longer the latest application release checkpoint.
+Batch 17 engineering/device-QA foundations remain valid historical prerequisites.
 
 ## Guided physical-device QA route
 
@@ -69,8 +69,8 @@ GitHub Actions now validates:
 - `Quality gate (Ubuntu)` — structure/assets/source, Batch 16 security regressions, physical-device QA harness contract, typecheck, lint, engine/learning tests, simulations, and Batch 17 final acceptance contracts;
 - `Windows compatibility`;
 - `Mobile route QA (Chromium)` — responsive/accessibility/lazy-load matrix and build budgets;
-- `Production dependency audit`;
-- `Secret history scan` — pinned full-history Gitleaks;
+- `Production dependency audit` — ruleset-required and now includes the merge-blocking pinned full-history Gitleaks gate before dependency auditing;
+- `Secret history scan` — separate pinned full-history Gitleaks visibility job;
 - `Production smoke (Cloudflare)` on `main`.
 
 `test:batch17:final` locks the final catalog counts/IDs/content-pack coverage/evidence boundaries, required learning/outbox/isolation test wiring, Batch 16 gate wiring, CI topology, and exact-SHA production-smoke contract.
@@ -156,7 +156,7 @@ A successful Cloudflare smoke, the guided recorder, and Chromium QA do not prove
 
 All 22 physical-device rows remain pending until those tests are actually exercised.
 
-Canonical external tracker: issue #83 — `Final external acceptance: physical-device QA and required secret-scan check`.
+Canonical external tracker: issue #83 — `Final external acceptance: physical-device QA`.
 
 ## Production verification flow
 
