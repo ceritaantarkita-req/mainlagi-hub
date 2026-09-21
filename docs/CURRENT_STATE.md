@@ -1,8 +1,22 @@
 # Mainlagi Hub — Current State
 
-Last reviewed: **20 September 2026**
+Last reviewed: **21 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
+
+## 21 September subject-background integration checkpoint
+
+Background status has advanced beyond the older Math/Science-pilot notes retained later in this file.
+
+- Active implementation branch: `agent/subject-backgrounds-all-9-20260921`.
+- Scope: all **9 subjects / 900 activities**.
+- Scene system: **54 scene families** (6 per subject).
+- Production derivatives: **108 optimized WebP assets** (54 wide + 54 mobile) under `public/artwork/backgrounds/`.
+- `activityVisualTheme.ts` resolves every canonical activity deterministically to an approved scene in its own subject.
+- The existing route-level provider + `GardenActivityFrame` responsive runtime is reused; learning/evidence/progression/schema behavior is unchanged.
+- Provenance/creation basis for this generated set is recorded in `ASSET_PROVENANCE.md`.
+- This checkpoint is **not production truth yet**: CI, PR merge, merged-main CI and exact Cloudflare production verification remain required.
+- Detailed wave record: `SUBJECT_BACKGROUND_ALL_SUBJECTS_INTEGRATION_2026-09-21.md`.
 
 ## Canonical baseline
 
