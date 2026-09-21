@@ -148,7 +148,7 @@ Automated browser gates are green, but full hardware acceptance is still open.
 
 Canonical matrix: `BATCH16_PHYSICAL_DEVICE_QA.md`.
 
-Headless Chromium/responsive desktop evidence must not be relabeled as physical-device certification. This is the other external item in issue #83.
+Headless Chromium/responsive desktop evidence must not be relabeled as physical-device certification. This is the remaining external acceptance item in issue #83.
 
 ## Optional controlled end-user browser acceptance
 
