@@ -112,4 +112,18 @@ for (const [activityId, sceneId] of Object.entries(expected)) {
   assert.equal(resolveActivityVisualTheme(activity)?.scene.id, sceneId, `${activityId} keeps semantic scene mapping`);
 }
 
+assert.deepEqual(SUBJECT_CHARACTER_PREFERENCES.english, ["naya", "zia"], "English is ready for the Naya/Zia production pair");
+assert.deepEqual(SUBJECT_CHARACTER_PREFERENCES.math, ["gian", "paca"], "Math is ready for the Gian/Paca production pair");
+assert.deepEqual(SUBJECT_CHARACTER_PREFERENCES.bahasa, ["gavi", "paca"], "Bahasa keeps the approved mascot pair today");
+assert.deepEqual(SUBJECT_CHARACTER_PREFERENCES.science, ["gian", "paca"], "Science is ready for the Gian/Paca production pair");
+assert.deepEqual(SUBJECT_CHARACTER_PREFERENCES.letters, ["gian", "naya"], "Letters is ready for the Gian/Naya production pair");
+
+const englishCharacters = resolveActivityVisualTheme(byId.get("english-find-blue"))?.characters;
+assert.deepEqual(
+  englishCharacters?.runtimeCharacters.map((character) => character.id),
+  ["gavi", "paca"],
+  "unapproved Naya/Zia production files must fail closed to Gavi/Paca"
+);
+assert.equal(englishCharacters?.source, "approved-fallback", "fallback must be explicit while human character assets are unapproved");
+
 console.log("Subject visual theme regression passed: nine subjects, 54 scene families, 108 responsive WebP assets, deterministic coverage for all 900 activities, and fail-closed character presentation.");
