@@ -32,7 +32,7 @@ Read these first for current work:
 
 Subsystem docs remain authoritative for their specific scope when they do not conflict with the canonical documents above.
 
-## Current project checkpoint — 21 September 2026
+## Current project checkpoint — 22 September 2026
 
 ```text
 latest production main:          6fd9e3fc7ffa57aab687b5529033f1a995e0e5ba
