@@ -764,12 +764,14 @@ Current and next:
 9. activity character-presentation foundation: **CLOSED / MERGED / LIVE VERIFIED** via PR #259 -> main `b5acbfcde66ea1451f3e55a8d469d33ba4845af1`, merged-main CI #1190 / run `35589937017`;
 10. character runtime asset registry: **CLOSED / MERGED / LIVE VERIFIED** via PR #262 -> main `ceb2546b6c626810901c5542e7f718acfad55341`, CI #1196 exact smoke;
 11. character production asset pipeline: **CLOSED / MERGED / LIVE VERIFIED** via PR #263 -> main `e4d7b4285db17a2010c22cdd1bc29451208f6a1b`, CI #1198 exact smoke;
-12. **NOW:** create/review isolated Naya/Gian/Zia candidate artwork outside the public production directory, then establish provenance/redistribution for each exact derivative;
-13. integrate approved transparent WebP binaries + provenance records without automatically activating runtime;
-14. separately activate approved human-character assets through the central allowlist/resolver and run responsive visual acceptance for English -> Naya + Zia and Math -> Gian + Paca;
-15. revisit the five-character homepage hero only with approved production identities;
-16. English narration quality upgrade;
-17. learning-illustration consistency improvements;
-18. expanded human visual/usability and physical-device acceptance plus cleanup of superseded presentation paths.
+12. candidate intake audit: **COMPLETE / NO SEPARATE FOREGROUND CANDIDATE FOUND**; canonical Drive inputs remain the three design sheets;
+13. **NOW:** create/review one isolated Naya candidate outside the public production directory, then repeat for Gian and Zia only after acceptance;
+14. establish provenance/redistribution for each exact accepted derivative;
+15. integrate approved transparent WebP binaries + provenance records without automatically activating runtime;
+16. separately activate approved human-character assets through the central allowlist/resolver and run responsive visual acceptance for English -> Naya + Zia and Math -> Gian + Paca;
+17. revisit the five-character homepage hero only with approved production identities;
+18. English narration quality upgrade;
+19. learning-illustration consistency improvements;
+20. expanded human visual/usability and physical-device acceptance plus cleanup of superseded presentation paths.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
