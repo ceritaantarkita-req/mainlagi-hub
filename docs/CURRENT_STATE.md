@@ -20,11 +20,32 @@ Subject backgrounds are **FULLY CLOSED / MERGED / LIVE VERIFIED**.
 - Exact production health confirmed `mainlagihub.my.id` is serving SHA `7502c708c998c87bb273639025fcb10ba6c81e12` with the canonical Supabase target.
 - Detailed closure record: `SUBJECT_BACKGROUND_ALL_SUBJECTS_INTEGRATION_2026-09-21.md`.
 
+### Project-owner production preview — 21 September 2026
+
+The project owner supplied production screenshots for one representative route in **each of the nine subjects**:
+
+- English: `english-find-blue`;
+- Bahasa Indonesia: `bahasa-cari-a`;
+- Matematika: `math-count-2`;
+- Iqro: `iqro-cari-alif`;
+- Huruf & Menulis: `letters-find-a`;
+- Logika: `logic-match-pairs`;
+- Sains: `science-living-cat`;
+- Mewarnai: `color-gavi`;
+- Menggambar: `drawing-line-horizontal`.
+
+The supplied desktop previews show the intended subject environments live behind the foreground gameplay/workspace UI. Normal gameplay previews keep Gavi/Paca as separate foreground layers; Coloring/Drawing show their gallery/nature scenes behind the creative workspace; the Logic completion modal preserves the space scene under the dimmed overlay.
+
+This user-supplied preview is desktop evidence only. Automated responsive/mobile QA remains the source for wider viewport coverage. Canonical review record: `SUBJECT_BACKGROUND_PRODUCTION_PREVIEW_REVIEW_2026-09-21.md`.
+
+
 ## Canonical baseline
 
-- documentation sync base: `a04bd51fb02dedf56b5cd62f7f579eb53c4be251` (PR #252 docs-only parent-wave closure)
-- latest independently live-verified runtime/product main: `7502c708c998c87bb273639025fcb10ba6c81e12` (PR #256)
+- documentation sync base: `41df41c9dc0edc449af8260bbfe3887e0175bfb0` (PR #257 subject-background docs closure)
+- latest independently live-verified runtime/product implementation: `7502c708c998c87bb273639025fcb10ba6c81e12` (PR #256)
 - latest runtime merged-main CI: **#1183 / run `35565937149` — full success including exact Cloudflare production smoke**
+- latest production main/docs closure: `41df41c9dc0edc449af8260bbfe3887e0175bfb0` (PR #257)
+- latest production main CI: **#1186 / run `35567718494` — full success including exact Cloudflare production smoke**
 - parent responsive QA artifact: **`10608044389`**
 - parent docs closure main: `a04bd51fb02dedf56b5cd62f7f579eb53c4be251`; parent docs closure main CI: **#1162 / run `35521404941` — full success**
 - repository: `ceritaantarkita-req/mainlagi-hub`
@@ -200,7 +221,7 @@ Visible matching randomization is **MERGED / LIVE VERIFIED**: PR #247 -> `main` 
 
 Audio first-instruction latency is **MERGED / LIVE VERIFIED**: PR #249 -> `main` `770d8b66dac20765fd96a66e9d752931e1a56d66`; PR CI #1144 passed all gates, manual 390px listening review accepted, browser warnings = 0, and merged-main CI #1145 / run `35511068490` passed exact Cloudflare production smoke. Correct-language pre-warm, faster generic entry, listen-and-choose auto-entry, replay recovery, fail-closed no-start timeout, and privacy-safe entry-latency evidence are now live.
 
-Current product-UX state: **parent/profile/settings responsive redesign is MERGED / LIVE VERIFIED** via PR #251 -> main `77bee682f84b5d68b85d2c91b1d6f2ca4c93d2d9`; PR CI #1159 and merged-main CI #1160 both passed, including exact Cloudflare production smoke on main. `CloudParentOverviewScreen` remains canonical; family profiles are separated from `demo-gian`; child profile identity is separated from guide-character presentation; mobile parent navigation replaces the legacy forced aside below 760px. Current visual work is **character candidate review + Math/Science background pilot before code integration**. Do not alter learning evidence/mastery/progression/schema while advancing presentation.
+Current product-UX state: **parent/profile/settings responsive redesign is MERGED / LIVE VERIFIED** via PR #251, and the **all-subject background system is also MERGED / LIVE VERIFIED** via PR #256. `CloudParentOverviewScreen` remains canonical; family profiles are separated from `demo-gian`; child profile identity is separated from guide-character presentation; mobile parent navigation replaces the legacy forced aside below 760px. The next visual work is the production character layer/spec for Naya/Gian/Zia and broader human visual/usability review. Do not alter learning evidence/mastery/progression/schema while advancing presentation.
 
 ### Character / artwork state — 20 September 2026
 
@@ -211,9 +232,9 @@ Current product-UX state: **parent/profile/settings responsive redesign is MERGE
 - `CharacterAvatar` currently uses inline fallback SVG representations for Naya/Gian/Zia.
 - Canonical identity remains: Naya ~8 / hijab / warm-encouraging; Gian ~5 / active-curious-playful; Zia ~3 / expressive-beginner-friendly; Paca hints/system/discovery; Gavi humor/rewards/reactions.
 - Child profile identity and guide-character identity are separate concepts.
-- Character candidates and the first Math/Science landscape background candidates now exist outside the public repo for review; they are not production-approved assets.
-- Canonical background execution contract: `docs/SUBJECT_BACKGROUND_SYSTEM.md`.
-- Immediate background task: generate/review 12 matching mobile counterparts; runtime integration starts only after wide/mobile pair approval.
+- Character candidates for Naya/Gian/Zia still require production review/provenance before runtime use.
+- Subject backgrounds are now production assets: **9 subjects / 54 scene families / 108 optimized WebP files**, merged through PR #256 and live verified.
+- Canonical background execution contract: `docs/SUBJECT_BACKGROUND_SYSTEM.md`; final production preview record: `docs/SUBJECT_BACKGROUND_PRODUCTION_PREVIEW_REVIEW_2026-09-21.md`.
 
 ## Engineering status
 
