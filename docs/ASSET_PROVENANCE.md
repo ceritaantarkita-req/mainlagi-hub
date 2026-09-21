@@ -133,6 +133,14 @@ As of 20 September 2026:
 
 Before a new Naya/Gian/Zia binary is committed or treated as production art, the PR must state whether the asset is owned or licensed, identify the source/creation basis, confirm public redistribution rights where it enters the public repository, and record any proprietary boundary if the final asset is intentionally kept outside the AGPL tree.
 
+Current project Drive references reviewed on 21 September 2026:
+
+- `kak-naya-character-design-set-v1.png`;
+- `gian-character-design-set-v1.png`;
+- `zia-character-design-set-v1.png`.
+
+These are multi-view identity/design sheets, not direct production foreground sprites. Their existence does not approve isolated runtime derivatives or public-repository redistribution. The production character layer must continue to fail closed to the already-approved Gavi/Paca assets until new Naya/Gian/Zia production files pass the required review.
+
 AI/image-generation output is not automatically safe to redistribute or claim as an official Mainlagi asset. Review identity consistency, tool/output terms, source/reference rights, and downstream trademark/copyright implications before production use.
 
 
