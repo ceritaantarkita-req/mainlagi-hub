@@ -11,10 +11,10 @@ This document summarizes the repository/product state after the all-subject back
 Current production/documentation main:
 
 ```text
-89a2bc629e8535bddbf2ab78ae1990a063f0f361
+6fd9e3fc7ffa57aab687b5529033f1a995e0e5ba
 ```
 
-This is the cloud learning analytics pagination/failure-state integrity fix from PR #267. PR CI #1204 passed and merged-main CI #1205 / run `35621724090` passed the full matrix including exact Cloudflare production smoke. The previous character asset pipeline docs closure remains PR #264 at `bb0645d298a645483fb10e12bc0550a8eccf0870`. The fail-closed human character asset pipeline implementation itself remains PR #263 at `e4d7b4285db17a2010c22cdd1bc29451208f6a1b`. The activity character-presentation foundation remains PR #259 and the runtime asset lifecycle registry remains PR #262. The subject-background runtime implementation remains the earlier PR #256 baseline:
+This is the required secret-scan enforcement from PR #269. PR CI #1208 passed and merged-main CI #1209 / run `35625953536` passed the full matrix including exact Cloudflare production smoke. The cloud learning analytics integrity fix remains PR #267 at `89a2bc629e8535bddbf2ab78ae1990a063f0f361`. The previous character asset pipeline docs closure remains PR #264 at `bb0645d298a645483fb10e12bc0550a8eccf0870`. The fail-closed human character asset pipeline implementation itself remains PR #263 at `e4d7b4285db17a2010c22cdd1bc29451208f6a1b`. The activity character-presentation foundation remains PR #259 and the runtime asset lifecycle registry remains PR #262. The subject-background runtime implementation remains the earlier PR #256 baseline:
 
 ```text
 Background implementation main:       7502c708c998c87bb273639025fcb10ba6c81e12
@@ -61,6 +61,19 @@ The previously reproduced long-history reporting defect is closed on production 
 - regression coverage proves 1,201 attempts + 3,603 evidence rows and is part of `npm run test:learning`.
 
 Canonical record: `CLOUD_ANALYTICS_PAGINATION_CLOSURE_2026-09-21.md`.
+
+## 1B. Required secret-scan enforcement now
+
+The previous governance gap is closed without claiming a ruleset mutation that did not occur:
+
+- `Protect main` still lists four required status contexts;
+- `Production dependency audit` is one of those required contexts;
+- that required job now performs the same pinned full-history Gitleaks scan before dependency auditing;
+- the standalone `Secret history scan` remains visible as a separate job;
+- PR #269 CI #1208 and merged-main CI #1209 both proved the embedded `Required full-history secret gate` passes;
+- a future secret finding will fail the required dependency context and block merge.
+
+Canonical record: `REQUIRED_SECRET_SCAN_ENFORCEMENT_2026-09-21.md`.
 
 ## 2. Learning/product baseline
 
