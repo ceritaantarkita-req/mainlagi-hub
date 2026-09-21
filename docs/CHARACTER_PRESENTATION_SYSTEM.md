@@ -26,6 +26,8 @@ Naya, Gian, and Zia have reviewed **design/reference sheets** in the project Goo
 
 Those three files are multi-view / expression / pose design sheets on a white canvas. They are useful as identity references, but they are **not direct production foreground sprites** and must not be wired into runtime as-is.
 
+Production binary/provenance contract: [`CHARACTER_ASSET_PIPELINE.md`](CHARACTER_ASSET_PIPELINE.md).
+
 Before Naya/Gian/Zia activation, each character still needs:
 
 1. an isolated production-ready full-body asset;
@@ -133,6 +135,8 @@ Merged-main CI **#1190 / run `35589937017`** passed the quality gate, production
 This closes the architecture/fail-closed foundation. It does **not** approve Naya/Gian/Zia artwork for runtime.
 
 ## Next gate
+
+The production asset directory, machine-readable provenance registry, and blocking character-asset validator are now defined as the pre-activation gate. No human production binary is approved or activated by that infrastructure alone.
 
 Execute the human-character production wave in this order:
 
