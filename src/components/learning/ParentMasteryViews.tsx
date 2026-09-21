@@ -8,7 +8,8 @@ import {
   getSubjectSkillRows
 } from "@/lib/learning/insights";
 import { CharacterAvatar, useLearningProfile, useLearningProgress } from "./LearningCommon";
-import { useLearningAnalytics } from "./useLearningAnalytics";
+import { useLearningAnalyticsState } from "./useLearningAnalytics";
+import { LearningAnalyticsStatus } from "./LearningAnalyticsStatus";
 import styles from "./LearningPlatform.module.css";
 
 function percent(value: number): number {
@@ -33,9 +34,12 @@ function ParentChildHeader({ childId }: { childId: string }) {
 export function ParentMasteryReportsScreen({ childId }: { childId: string }) {
   const profile = useLearningProfile(childId);
   const progress = useLearningProgress(childId);
-  const analytics = useLearningAnalytics(childId);
+  const analyticsState = useLearningAnalyticsState(childId);
+  const { analytics } = analyticsState;
   const achievements = getLearningAchievements(progress, analytics);
   const recent = [...analytics.attempts].reverse().slice(0, 6);
+
+  if (!analyticsState.ready) return <LearningAnalyticsStatus {...analyticsState} />;
 
   return (
     <main className={styles.parentMain}>
@@ -170,7 +174,10 @@ function downloadCertificateSvg(args: { childName: string; subject: string; subj
 export function ParentMasteryCertificatesScreen({ childId }: { childId: string }) {
   const profile = useLearningProfile(childId);
   const progress = useLearningProgress(childId);
-  const analytics = useLearningAnalytics(childId);
+  const analyticsState = useLearningAnalyticsState(childId);
+  const { analytics } = analyticsState;
+
+  if (!analyticsState.ready) return <LearningAnalyticsStatus {...analyticsState} />;
 
   return (
     <main className={styles.parentMain}>

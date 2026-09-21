@@ -10,6 +10,20 @@ import type { CharacterId, LearningChildProfile, LearningProgress } from "./syst
 const VALID_GUIDES = new Set<CharacterId>(["naya", "gian", "zia", "paca", "gavi"]);
 const VALID_LEVELS = new Set<MasteryLevel>(["not_started", "exploring", "developing", "proficient", "mastered"]);
 
+// Follow actual returned offsets, including when the server's row cap is
+// smaller than our requested page. Never publish a partial report on failure.
+async function readAnalyticsPages<T>(
+  query: (from: number, to: number) => PromiseLike<{ data: T[] | null; error: unknown }>
+): Promise<T[]> {
+  const rows: T[] = [];
+  for (;;) {
+    const result = await query(rows.length, rows.length + 499);
+    if (result.error || !result.data) throw new Error("Learning analytics unavailable");
+    if (result.data.length === 0) return rows;
+    rows.push(...result.data);
+  }
+}
+
 function numberOrNull(value: unknown): number | null {
   if (value === null || value === undefined || value === "") return null;
   const parsed = Number(value);
@@ -87,32 +101,42 @@ export async function syncLearningAttemptCloud(attempt: LearningAttemptRecord): 
  */
 export async function readCloudLearningAnalytics(childId: string): Promise<LearningAnalyticsSnapshot | null> {
   const client = getBrowserClient();
-  if (!client || !await getCurrentUserId()) return null;
+  const accountId = await getCurrentUserId();
+  if (!client || !accountId) return null;
 
   try {
-    const [attemptResult, evidenceResult, masteryResult] = await Promise.all([
-      client
+    const snapshotAt = new Date().toISOString();
+    const [attemptRows, evidenceRows, masteryResult] = await Promise.all([
+      readAnalyticsPages((from, to) => client
         .from("learning_attempts")
         .select("id,child_key,client_attempt_id,activity_id,subject_id,stage_id,runtime,status,assessed,score,accuracy,correct_count,incorrect_count,hint_count,retry_count,duration_ms,input_mode,started_at,completed_at,metadata,created_at")
+        .eq("account_id", accountId)
         .eq("child_key", childId)
+        .lte("created_at", snapshotAt)
         .order("created_at", { ascending: true })
-        .limit(500),
-      client
+        .order("id", { ascending: true })
+        .range(from, to)),
+      readAnalyticsPages((from, to) => client
         .from("learning_attempt_skill_evidence")
         .select("attempt_id,activity_id,skill_key,evidence_score,evidence_weight,qualifies_for_mastery,created_at")
+        .eq("account_id", accountId)
         .eq("child_key", childId)
+        .lte("created_at", snapshotAt)
         .order("created_at", { ascending: true })
-        .limit(2000),
+        .order("attempt_id", { ascending: true })
+        .order("skill_key", { ascending: true })
+        .range(from, to)),
       client
         .from("child_skill_mastery")
         .select("skill_key,mastery_score,confidence,mastery_level,evidence_count,qualifying_evidence_count,last_evidence_at")
+        .eq("account_id", accountId)
         .eq("child_key", childId)
     ]);
 
-    if (attemptResult.error || evidenceResult.error || masteryResult.error) return null;
+    if (masteryResult.error) return null;
 
     const evidenceByAttempt = new Map<string, SkillEvidence[]>();
-    for (const row of evidenceResult.data ?? []) {
+    for (const row of evidenceRows) {
       const attemptId = typeof row.attempt_id === "string" ? row.attempt_id : "";
       const activityId = typeof row.activity_id === "string" ? row.activity_id : "";
       const skillId = typeof row.skill_key === "string" ? row.skill_key : "";
@@ -132,7 +156,7 @@ export async function readCloudLearningAnalytics(childId: string): Promise<Learn
       evidenceByAttempt.set(attemptId, [...(evidenceByAttempt.get(attemptId) ?? []), item]);
     }
 
-    const attempts: LearningAttemptRecord[] = (attemptResult.data ?? []).flatMap((row) => {
+    const attempts: LearningAttemptRecord[] = attemptRows.flatMap((row) => {
       if (typeof row.id !== "string" || typeof row.activity_id !== "string") return [];
       const status = row.status === "abandoned" || row.status === "interrupted" ? row.status : "completed";
       const completedAt = typeof row.completed_at === "string"
@@ -164,7 +188,7 @@ export async function readCloudLearningAnalytics(childId: string): Promise<Learn
         evidence,
         masteryEligible: evidence.some((item) => item.qualifiesForMastery)
       } satisfies LearningAttemptRecord];
-    });
+    }).sort((a, b) => Date.parse(a.completedAt) - Date.parse(b.completedAt) || a.id.localeCompare(b.id));
 
     const masteryBySkill: Record<string, SkillMasterySnapshot> = Object.fromEntries(
       LEARNING_SKILLS.map((skill) => [skill.id, calculateSkillMastery(skill.id, [])])
