@@ -123,7 +123,7 @@ This wave does not:
 - Artifact-tree audit: every production background folder contains exactly 12 WebP files; total background payload is approximately **9.58 MiB**, largest individual file about **200 KB**.
 - Manual review of PR #256 responsive screenshots confirmed Math, English, Science, Logic, and Letters subject scenery is loading through the shared frame.
 - Manual review also caught one creative-workspace layering defect: `.workspace { background: ... }` reset the themed `background-image`, hiding Coloring/Drawing scenery. This was fixed by changing the workspace override to `background-color` only and adding a regression guard.
-- Current post-fix head begins at `c8a7f952252be9607f5c0553d0343c00958e9eca`; final-head CI is required before merge.
+- Follow-up PR CI **#1177 / run 35564462025** exposed a test-only escaping bug in the new workspace CSS regression assertion; typecheck/lint and the runtime CSS fix itself were valid. The assertion was corrected. Final-head CI is required before merge.
 
 ## Remaining closure gates
 
