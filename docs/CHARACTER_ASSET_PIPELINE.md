@@ -1,6 +1,6 @@
 # Character Asset Production Pipeline — 21 September 2026
 
-Status: **CANONICAL PRODUCTION GATE / NO HUMAN RUNTIME ASSET ACTIVATED**
+Status: **CANONICAL PRODUCTION GATE / MERGED + LIVE VERIFIED / NO HUMAN RUNTIME ASSET ACTIVATED**
 
 This document defines the production path for the first Mainlagi human activity-foreground assets: **Naya, Gian, and Zia**.
 
@@ -152,7 +152,15 @@ Paca and Gavi remain existing production runtime assets at their current Garden 
 
 This Naya/Gian/Zia pipeline does **not** invent or retroactively backfill copyright/provenance facts for those older binaries. A separate provenance-backfill review may be performed later if needed.
 
-## 8. Non-goals
+## 8. Merge / production verification
+
+Character asset production infrastructure is merged through PR **#263** at `e4d7b4285db17a2010c22cdd1bc29451208f6a1b`.
+
+Merged-main CI **#1198 / run `35599025558`** passed the character asset validator fixtures, Ubuntu quality gate, Windows compatibility, production build, browser route/permanent visual QA, dependency audit, secret scan, and exact Cloudflare production smoke.
+
+This closes the **infrastructure** wave only. Naya, Gian and Zia remain `reference-only`; no production binary or runtime activation is approved by this closure.
+
+## 9. Non-goals
 
 This pipeline does not:
 
