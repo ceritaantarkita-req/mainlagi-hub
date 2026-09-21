@@ -15,7 +15,7 @@ Background status has advanced beyond the older Math/Science-pilot notes retaine
 - `activityVisualTheme.ts` resolves every canonical activity deterministically to an approved scene in its own subject.
 - The existing route-level provider + `GardenActivityFrame` responsive runtime is reused; learning/evidence/progression/schema behavior is unchanged.
 - Provenance/creation basis for this generated set is recorded in `ASSET_PROVENANCE.md`.
-- This checkpoint is **not production truth yet**: CI, PR merge, merged-main CI and exact Cloudflare production verification remain required.
+- PR **#256** is open. Initial PR CI **#1176 / run 35563573804** passed all jobs; manual responsive review then found and fixed the creative-workspace background reset. Final-head CI, PR merge, merged-main CI and exact Cloudflare production verification remain required.
 - Detailed wave record: `SUBJECT_BACKGROUND_ALL_SUBJECTS_INTEGRATION_2026-09-21.md`.
 
 ## Canonical baseline
