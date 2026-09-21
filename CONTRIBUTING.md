@@ -76,7 +76,7 @@ npm run build
 npm audit --omit=dev --audit-level=high
 ```
 
-The repository CI also performs a redacted full-Git-history secret scan.
+The repository CI performs a redacted pinned full-Git-history secret scan. The scan also runs inside ruleset-required `Production dependency audit`, so a secret finding fails a required merge check.
 
 Physical camera QA is required for changes whose correctness depends on real hand/body tracking. Meaningful UI changes require representative visual verification before completion.
 

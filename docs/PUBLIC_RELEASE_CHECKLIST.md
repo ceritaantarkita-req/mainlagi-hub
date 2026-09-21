@@ -1,17 +1,17 @@
 # Public Repository Readiness & Ongoing Audit Checklist
 
-Last reviewed: 11 September 2026
+Last reviewed: 22 September 2026
 
-`ceritaantarkita-req/mainlagi-hub` is Public. This checklist separates verified engineering/release evidence from external physical-device and account-governance acceptance.
+`ceritaantarkita-req/mainlagi-hub` is Public. This checklist separates verified engineering/release evidence from remaining external physical-device acceptance.
 
-Canonical external tracker: issue #83 — `Final external acceptance: physical-device QA and required secret-scan check`.
+Canonical external tracker: issue #83 — `Final external acceptance: physical-device QA`.
 
 ## Latest verified engineering release
 
 ```text
-main SHA:               d27b32124d3df1613c648132aa2f1ff0ed94ebaa
-Batch 17 PR:            #82
-Main CI:                #322
+main SHA:               6fd9e3fc7ffa57aab687b5529033f1a995e0e5ba
+Governance hardening PR: #269
+Main CI:                #1209 / run 35625953536
 Production smoke:       success, exact SHA
 Supabase target:        estvtgflwkebomsqlolv
 Final acceptance gate:  PASS
@@ -26,7 +26,7 @@ Physical-device cert:   PENDING_EXTERNAL_EVIDENCE
 - [x] Ubuntu quality gate is active.
 - [x] Windows compatibility gate is active.
 - [x] Production dependency audit is active.
-- [x] Full-history Gitleaks `Secret history scan` runs and passes.
+- [x] Full-history pinned Gitleaks runs and passes both as standalone `Secret history scan` and inside ruleset-required `Production dependency audit`, making secret-scan failure merge-blocking.
 - [x] Chromium mobile-route/accessibility/lazy-load QA is active.
 - [x] Batch 16 production JS/lazy-load budgets are active.
 - [x] Batch 16 security-boundary regressions are active.
@@ -125,9 +125,9 @@ Verified active controls:
 - [x] required `Quality gate (Ubuntu)`;
 - [x] required `Windows compatibility`;
 - [x] required `Production dependency audit`;
-- [ ] **required `Secret history scan`** — scan itself is green, but the ruleset does not currently require it.
+- [x] **merge-blocking secret scan** — PR #269 embeds pinned full-history Gitleaks inside ruleset-required `Production dependency audit`; PR CI #1208 and main CI #1209 passed the embedded gate.
 
-The current GitHub connector can inspect but cannot modify ruleset administration. This is one of the two external items in issue #83.
+The standalone `Secret history scan` context remains separate for visibility. The ruleset itself still directly names four contexts, and approving-review count remains zero.
 
 ## Physical-device product acceptance
 
@@ -148,7 +148,7 @@ Automated browser gates are green, but full hardware acceptance is still open.
 
 Canonical matrix: `BATCH16_PHYSICAL_DEVICE_QA.md`.
 
-Headless Chromium/responsive desktop evidence must not be relabeled as physical-device certification. This is the other external item in issue #83.
+Headless Chromium/responsive desktop evidence must not be relabeled as physical-device certification. This is the remaining external acceptance item in issue #83.
 
 ## Optional controlled end-user browser acceptance
 
@@ -168,4 +168,4 @@ The underlying ownership/outbox/isolation behavior is already covered by automat
 
 All repository/code/CI/Cloudflare/Supabase work through Batch 17 engineering acceptance is complete and production-verified.
 
-Full product acceptance remains **PENDING issue #83** because physical-hardware evidence and one GitHub ruleset administration action remain external to the current automation surface.
+Full product acceptance remains **PENDING issue #83** because representative physical-hardware evidence remains external. The prior secret-scan enforcement gap is closed by PR #269.

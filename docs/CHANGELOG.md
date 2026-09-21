@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased — 21 September 2026
+## Unreleased — 22 September 2026
 
 - Menyelesaikan rangkaian WS-13 product UX sampai parent/profile/settings responsive redesign.
 - Menambahkan child home/header/navigation baru dan subject directory 3 kolom.
@@ -22,6 +22,9 @@
 - Cloud learning analytics bug sudah ditutup melalui PR #267 -> main `89a2bc629e...`: fixed-cap 500 attempts / 2000 evidence diganti complete pagination; authenticated cloud failure tidak lagi diam-diam memakai local browser analytics.
 - Regression baru mengunci 1.201 attempts + 3.603 evidence rows, small server caps, later-page failure, reconnect, stale request dan guest isolation; `test:learning:cloud-analytics` masuk aggregate learning suite.
 - Merged-main CI #1205 / run `35621724090` full success termasuk exact Cloudflare production smoke; analytics closure record ada di `CLOUD_ANALYTICS_PAGINATION_CLOSURE_2026-09-21.md`.
+- Repository governance hardening PR #269 sudah merged/live verified di `6fd9e3fc...`; PR CI #1208 dan merged-main CI #1209 full success termasuk exact Cloudflare production smoke.
+- Pinned full-history Gitleaks sekarang juga berjalan sebagai `Required full-history secret gate` di dalam ruleset-required `Production dependency audit`, sehingga secret finding memblok merge; standalone `Secret history scan` tetap dipertahankan untuk visibility.
+- Issue #83 sekarang hanya melacak physical-device acceptance; tidak ada lagi account/UI action terpisah untuk secret-scan enforcement.
 - Tidak ada perubahan mastery/evidence/progression/schema dari sinkronisasi dokumentasi ini.
 
 

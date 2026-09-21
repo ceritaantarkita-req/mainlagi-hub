@@ -1,10 +1,10 @@
 # Account-Level Actions
 
-Last reviewed: 11 September 2026
+Last reviewed: 22 September 2026
 
 Only actions that genuinely require account/UI or physical-hardware access belong here. Never commit or paste secret values into repository issues, docs, screenshots, logs, or chat.
 
-Canonical external tracker: **issue #83 — `Final external acceptance: physical-device QA and required secret-scan check`**.
+Canonical external tracker: **issue #83 — `Final external acceptance: physical-device QA`**.
 
 ## Resolved engineering/production state
 
@@ -15,36 +15,30 @@ production:          https://mainlagihub.my.id/
 Supabase project:    estvtgflwkebomsqlolv
 region:              ap-southeast-1
 status:              ACTIVE_HEALTHY
-Batch 17 main SHA:   d27b32124d3df1613c648132aa2f1ff0ed94ebaa
-Main CI:             #322
+Current main SHA:    6fd9e3fc7ffa57aab687b5529033f1a995e0e5ba
+Main CI:             #1209 / run 35625953536
 Production smoke:    success, exact SHA
 Final contract:      PASS
 ```
 
 Repository, CI, Cloudflare production, and canonical Supabase work through Batch 17 engineering acceptance are complete.
 
-## Required account action — Protect main
+## Resolved repository action — secret-scan enforcement
 
-The active `Protect main` ruleset currently requires exactly:
+The active `Protect main` ruleset still directly requires these four contexts:
 
 1. `Production build`
 2. `Quality gate (Ubuntu)`
 3. `Windows compatibility`
 4. `Production dependency audit`
 
-`Secret history scan` runs and passes, including main CI #322, but is **not mandatory in the ruleset**.
+PR #269 closed the earlier secret-scan enforcement gap without requiring a manual Settings change. `Production dependency audit` now performs `fetch-depth: 0` and runs the same pinned/redacted full-history Gitleaks scan as `Required full-history secret gate` before dependency auditing.
 
-In GitHub repository Settings, add:
+PR CI #1208 and merged-main CI #1209 both passed that embedded gate. Because `Production dependency audit` is ruleset-required, a secret finding now blocks merge.
 
-```text
-Secret history scan
-```
+The standalone `Secret history scan` remains for visibility. No separate account/UI action remains for secret-scan enforcement.
 
-to the required status checks. Do not remove or weaken existing checks.
-
-The connected GitHub API surface can inspect rulesets but does not expose ruleset-administration writes, so this cannot be truthfully completed by the current automation session.
-
-`Mobile route QA (Chromium)` also runs and is green; it is not currently mandatory in the ruleset. The explicit required governance action remains `Secret history scan`.
+`Mobile route QA (Chromium)` still runs and is green but is not directly required by the ruleset. Approving-review count remains zero; those are separate governance choices, not secret-scan blockers.
 
 ## Required physical-device acceptance
 

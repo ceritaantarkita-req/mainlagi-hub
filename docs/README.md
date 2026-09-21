@@ -1,6 +1,6 @@
 # Mainlagi Hub Documentation Index
 
-Last reviewed: **21 September 2026**
+Last reviewed: **22 September 2026**
 
 Use this file to decide which documentation is current and which files are historical snapshots.
 
@@ -19,24 +19,26 @@ Read these first for current work:
 9. [`CHARACTER_ASSET_PIPELINE.md`](CHARACTER_ASSET_PIPELINE.md) — production-only character directory, provenance registry, technical validator and approval sequence.
 10. [`CHARACTER_CANDIDATE_INTAKE_AUDIT_2026-09-21.md`](CHARACTER_CANDIDATE_INTAKE_AUDIT_2026-09-21.md) — Drive candidate audit; no separate Naya/Gian/Zia foreground candidate found.
 11. [`CLOUD_ANALYTICS_PAGINATION_CLOSURE_2026-09-21.md`](CLOUD_ANALYTICS_PAGINATION_CLOSURE_2026-09-21.md) — closed/live-verified complete cloud analytics pagination + explicit authenticated failure/retry behavior.
-12. [`PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md`](PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md) — active production visual/product audit and P0/P1/P2 state.
-13. [`MAINLAGI_ART_BIBLE.md`](MAINLAGI_ART_BIBLE.md) — canonical visual direction.
-14. [`MOBILE_ROUTE_QA.md`](MOBILE_ROUTE_QA.md) — blocking browser route and permanent visual QA contract.
-15. [`ARCHITECTURE.md`](ARCHITECTURE.md) — current technical boundaries and system architecture.
-16. [`MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md`](MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md) — child/product/UX/activity rules.
-17. [`LEARNING_ATTEMPTS_MASTERY.md`](LEARNING_ATTEMPTS_MASTERY.md) — evidence/mastery/progression contract.
-18. [`GAMEPLAY_VARIATION_CATALOG.md`](GAMEPLAY_VARIATION_CATALOG.md) — canonical gameplay-pattern catalog and WS-05 boundaries.
-19. [`PRODUCT_DIRECTION.md`](PRODUCT_DIRECTION.md) — product principles and direction.
-20. [`KNOWN_LIMITATIONS.md`](KNOWN_LIMITATIONS.md) — current known limitations and external acceptance gaps.
+12. [`SECRET_SCAN_REQUIRED_GATE_CLOSURE_2026-09-22.md`](SECRET_SCAN_REQUIRED_GATE_CLOSURE_2026-09-22.md) — closed/live-verified merge-blocking full-history secret scan through ruleset-required dependency gate.
+13. [`PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md`](PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md) — active production visual/product audit and P0/P1/P2 state.
+14. [`MAINLAGI_ART_BIBLE.md`](MAINLAGI_ART_BIBLE.md) — canonical visual direction.
+15. [`MOBILE_ROUTE_QA.md`](MOBILE_ROUTE_QA.md) — blocking browser route and permanent visual QA contract.
+16. [`ARCHITECTURE.md`](ARCHITECTURE.md) — current technical boundaries and system architecture.
+17. [`MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md`](MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md) — child/product/UX/activity rules.
+18. [`LEARNING_ATTEMPTS_MASTERY.md`](LEARNING_ATTEMPTS_MASTERY.md) — evidence/mastery/progression contract.
+19. [`GAMEPLAY_VARIATION_CATALOG.md`](GAMEPLAY_VARIATION_CATALOG.md) — canonical gameplay-pattern catalog and WS-05 boundaries.
+20. [`PRODUCT_DIRECTION.md`](PRODUCT_DIRECTION.md) — product principles and direction.
+21. [`KNOWN_LIMITATIONS.md`](KNOWN_LIMITATIONS.md) — current known limitations and external acceptance gaps.
 
 Subsystem docs remain authoritative for their specific scope when they do not conflict with the canonical documents above.
 
-## Current project checkpoint — 21 September 2026
+## Current project checkpoint — 22 September 2026
 
 ```text
-latest production main:          89a2bc629e8535bddbf2ab78ae1990a063f0f361
+latest production main:          6fd9e3fc7ffa57aab687b5529033f1a995e0e5ba
+required secret-scan hardening:   PR #269 / merged + live verified
+latest main CI:                   #1209 / run 35625953536 — success + exact Cloudflare smoke
 cloud analytics integrity fix:    PR #267 / merged + live verified
-cloud analytics main CI:          #1205 / run 35621724090 — success + exact Cloudflare smoke
 analytics regression:             1201 attempts / 3603 evidence rows / complete pagination
 character pipeline docs closure:  PR #264 / merged + live verified
 character asset pipeline:         PR #263 / merged + live verified
