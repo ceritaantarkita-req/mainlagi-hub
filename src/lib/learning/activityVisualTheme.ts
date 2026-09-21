@@ -1,4 +1,5 @@
 import type { CharacterId, LearningActivity } from "./system";
+import { approvedCharacterRuntimeSrc } from "./characterAssets";
 
 export const THEMED_SUBJECT_IDS = [
   "bahasa",
@@ -195,11 +196,6 @@ export const SUBJECT_THEMES: Readonly<Record<ThemedSubjectId, SubjectTheme>> = {
   drawing: { subjectId: "drawing", defaultSceneId: "meadow-art-01", scenes: DRAWING_SCENES }
 };
 
-const APPROVED_CHARACTER_ASSETS: Partial<Record<CharacterId, string>> = {
-  gavi: "/artwork/garden-gavi.webp",
-  paca: "/artwork/garden-paca.webp"
-};
-
 export const SUBJECT_CHARACTER_PREFERENCES: Readonly<Record<ThemedSubjectId, readonly [CharacterId, CharacterId]>> = {
   bahasa: ["gavi", "paca"],
   english: ["naya", "zia"],
@@ -213,7 +209,7 @@ export const SUBJECT_CHARACTER_PREFERENCES: Readonly<Record<ThemedSubjectId, rea
 };
 
 function approvedCharacter(id: CharacterId, side: "left" | "right"): RuntimeCharacterAsset | null {
-  const src = APPROVED_CHARACTER_ASSETS[id];
+  const src = approvedCharacterRuntimeSrc(id);
   return src ? { id, src, side } : null;
 }
 

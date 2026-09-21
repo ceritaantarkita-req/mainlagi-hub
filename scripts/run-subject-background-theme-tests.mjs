@@ -19,12 +19,35 @@ const {
   THEMED_SUBJECT_IDS,
   resolveActivityVisualTheme
 } = require(path.resolve(".learning-test-dist/src/lib/learning/activityVisualTheme.js"));
+const {
+  CHARACTER_ASSET_REGISTRY,
+  approvedCharacterRuntimeSrc
+} = require(path.resolve(".learning-test-dist/src/lib/learning/characterAssets.js"));
 
 assert.deepEqual(
   [...THEMED_SUBJECT_IDS],
   ["bahasa", "english", "math", "iqro", "letters", "logic", "science", "color", "drawing"],
   "background system must cover the canonical nine subjects"
 );
+
+assert.deepEqual(
+  Object.keys(CHARACTER_ASSET_REGISTRY).sort(),
+  ["gavi", "gian", "naya", "paca", "zia"],
+  "character asset registry must cover the canonical five characters"
+);
+for (const id of ["naya", "gian", "zia"]) {
+  const record = CHARACTER_ASSET_REGISTRY[id];
+  assert.equal(record.lifecycle, "reference-only", `${id} must remain reference-only until production approval`);
+  assert.equal(record.runtimeSrc, null, `${id} must not expose an unapproved runtime asset`);
+  assert(record.referenceAsset?.endsWith("-character-design-set-v1.png"), `${id} keeps its reviewed design-sheet reference`);
+  assert.equal(approvedCharacterRuntimeSrc(id), null, `${id} must fail closed at the runtime gate`);
+}
+for (const id of ["gavi", "paca"]) {
+  const record = CHARACTER_ASSET_REGISTRY[id];
+  assert.equal(record.lifecycle, "approved", `${id} remains an approved runtime character`);
+  assert(record.runtimeSrc?.startsWith("/artwork/garden-"), `${id} keeps production Garden artwork`);
+  assert.equal(approvedCharacterRuntimeSrc(id), record.runtimeSrc, `${id} resolves through the central registry`);
+}
 
 let resolvedCount = 0;
 for (const subjectId of THEMED_SUBJECT_IDS) {
@@ -126,4 +149,4 @@ assert.deepEqual(
 );
 assert.equal(englishCharacters?.source, "approved-fallback", "fallback must be explicit while human character assets are unapproved");
 
-console.log("Subject visual theme regression passed: nine subjects, 54 scene families, 108 responsive WebP assets, deterministic coverage for all 900 activities, and fail-closed character presentation.");
+console.log("Subject visual theme regression passed: nine subjects, 54 scene families, 108 responsive WebP assets, deterministic coverage for all 900 activities, and a five-character fail-closed asset registry.");

@@ -55,12 +55,14 @@ This table is presentation-only. It does not make a guide character the child's 
 
 ## Runtime architecture
 
-`src/lib/learning/activityVisualTheme.ts` now owns:
+`src/lib/learning/activityVisualTheme.ts` owns subject scene resolution, subject character preference, and fail-closed presentation fallback.
 
-- subject scene resolution;
-- subject character preference;
-- approved runtime character asset allowlist;
-- fail-closed character fallback.
+`src/lib/learning/characterAssets.ts` is the canonical activity-character asset lifecycle gate. It records all five character IDs and distinguishes:
+
+- `approved` — a concrete runtime path may resolve;
+- `reference-only` — design/reference material exists but no runtime path may resolve.
+
+Current registry truth keeps **Gavi/Paca = approved** and **Naya/Gian/Zia = reference-only**.
 
 `ResolvedActivityVisualTheme` includes a `characters` presentation object with:
 
@@ -85,7 +87,7 @@ Coloring and Drawing continue to use their subject scenery, but decorative foreg
 
 ## Fail-closed rule
 
-A preferred character may not render until it exists in the production-approved character asset map.
+A preferred character may not render until `characterAssets.ts` marks it `approved` **and** exposes a concrete `runtimeSrc`. Merely adding a file under `public/artwork` must not activate a character.
 
 Example:
 
@@ -102,6 +104,9 @@ The visual-theme regression must verify:
 
 - all 900 activities still resolve deterministically;
 - two foreground character slots resolve for normal Garden activities;
+- the canonical five-character registry is complete;
+- only `approved` registry entries can expose a runtime path;
+- Naya/Gian/Zia remain `reference-only` with `runtimeSrc=null` until explicit production approval;
 - only production-approved asset IDs are returned;
 - the same character cannot occupy both slots;
 - GardenActivityFrame contains no hardcoded Gavi/Paca runtime path;

@@ -141,6 +141,8 @@ Current project Drive references reviewed on 21 September 2026:
 
 These are multi-view identity/design sheets, not direct production foreground sprites. Their existence does not approve isolated runtime derivatives or public-repository redistribution. The production character layer must continue to fail closed to the already-approved Gavi/Paca assets until new Naya/Gian/Zia production files pass the required review.
 
+Runtime lifecycle enforcement is centralized in `src/lib/learning/characterAssets.ts`. That registry is a **runtime approval gate, not legal proof**: `approved` means the app may resolve a reviewed production file, while `reference-only` means runtime must remain blocked. A registry status must not be changed to `approved` until the provenance/redistribution decision and visual QA for the exact binary are documented.
+
 AI/image-generation output is not automatically safe to redistribute or claim as an official Mainlagi asset. Review identity consistency, tool/output terms, source/reference rights, and downstream trademark/copyright implications before production use.
 
 
