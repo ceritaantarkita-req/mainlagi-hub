@@ -761,12 +761,14 @@ Completed/live-verified sequence:
 
 Current and next:
 8. subject theme/background system: **CLOSED / MERGED / LIVE VERIFIED** across 9 subjects / 900 activities;
-9. activity character-presentation foundation: **CLOSED / MERGED / LIVE VERIFIED** via PR #259 -> main `b5acbfcde66ea1451f3e55a8d469d33ba4845af1`, merged-main CI #1190 / run `35589937017` including exact Cloudflare production smoke;
-10. **NOW:** lock the production character specification and create/review isolated transparent Naya/Gian/Zia runtime assets with provenance/redistribution evidence;
-11. activate approved human-character assets only through the central allowlist/resolver, then run responsive visual acceptance for English -> Naya + Zia and Math -> Gian + Paca while preserving fail-closed fallback;
-12. revisit the five-character homepage hero only with approved production identities; keep hero composition separate from activity foreground assets;
-13. English narration quality upgrade;
-14. learning-illustration consistency improvements;
-15. expanded human visual/usability and physical-device acceptance plus cleanup of superseded presentation paths.
+9. activity character-presentation foundation: **CLOSED / MERGED / LIVE VERIFIED** via PR #259;
+10. character runtime registry + production asset pipeline/provenance validator: **CLOSED / MERGED / LIVE VERIFIED** through PR #262 and PR #263 -> main `e4d7b4285db17a2010c22cdd1bc29451208f6a1b`, merged-main CI #1198 / run `35599025558` including exact Cloudflare production smoke;
+11. **NOW:** create/review isolated transparent Naya/Gian/Zia candidates outside the public production directory, preserving the locked Art Bible identity;
+12. after visual + rights approval, integrate exact WebP binaries and provenance records while runtime remains fail closed;
+13. activate approved human-character assets only through the central resolver, then run responsive visual acceptance for English -> Naya + Zia and Math -> Gian + Paca;
+14. revisit the five-character homepage hero only with approved production identities;
+15. English narration quality upgrade;
+16. learning-illustration consistency improvements;
+17. expanded human visual/usability and physical-device acceptance plus cleanup of superseded presentation paths.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
