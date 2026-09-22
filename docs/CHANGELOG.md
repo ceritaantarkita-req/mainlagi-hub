@@ -11,6 +11,7 @@
 - Provider-pilot harness PR #283 sudah merged/live verified ke implementation baseline `4b975130bf6e5fc28cecbf6aea5373b7a1430c65`; PR CI #1395 / run `35719163695` dan merged-main CI #1396 / run `35719862989` full success, termasuk exact Cloudflare smoke.
 - Harness mengunci exact empat activity, candidate OpenAI `gpt-4o-mini-tts-2025-12-15`, voice `marin`/`cedar`, dry-run default, output hanya di gitignored `internal/`, dan explicit `OPENAI_API_KEY` gate. Tidak ada audio candidate yang di-generate/commit oleh wave ini, registry tetap 27 `review-required`, 0 approved, 0 production binary, dan runtime static audio tetap tidak aktif.
 - Next aman WS-02 sekarang adalah actual local/server-side candidate generation + human listening/provenance review untuk empat item itu; jangan bulk generate 27 dan jangan activate runtime playback dalam approval step yang sama.
+- Active follow-up wave menambahkan fail-closed human-review evidence gate: exact candidate manifest/path/MP3/bytes/SHA/transcript diverifikasi dulu, review sheet terikat ke manifest SHA + file SHA, dan human `accepted` wajib 16/16 rubric checks pass + reviewer/timestamp/listening attestation. Tool ini tidak bisa auto-approve registry, copy ke `public/`, atau activate runtime. Status audio tetap 0 generated / 0 approved.
 
 - Menyelesaikan rangkaian WS-13 product UX sampai parent/profile/settings responsive redesign.
 - Menambahkan child home/header/navigation baru dan subject directory 3 kolom.
