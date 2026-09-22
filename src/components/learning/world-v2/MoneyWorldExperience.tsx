@@ -210,10 +210,6 @@ function SpeechCard({
   const [audioNotice, setAudioNotice] = useState("");
   const autoAttemptedRef = useRef(false);
 
-  const applySpeechStatus = (status: ReturnType<typeof speakPrompt>) => {
-    setAudioNotice(status === "spoken" ? "" : status === "muted" ? "Suara sedang dimatikan." : "Suara belum tersedia. Teks tetap bisa dibaca.");
-  };
-
   useEffect(() => {
     autoAttemptedRef.current = false;
     let cancelled = false;
@@ -221,11 +217,12 @@ function SpeechCard({
     const startNarration = () => {
       if (cancelled || autoAttemptedRef.current || !audioStatus().unlocked || audioStatus().muted) return;
       autoAttemptedRef.current = true;
-      applySpeechStatus(speakPrompt(text, {
+      const status = speakPrompt(text, {
         lang: "id-ID",
         key: "world-narration:" + text,
         interrupt: true
-      }));
+      });
+      setAudioNotice(status === "spoken" ? "" : status === "muted" ? "Suara sedang dimatikan." : "Suara belum tersedia. Teks tetap bisa dibaca.");
     };
 
     const timer = window.setTimeout(startNarration, 0);
@@ -247,12 +244,13 @@ function SpeechCard({
   const hear = () => {
     autoAttemptedRef.current = true;
     unlockAudio("id-ID");
-    applySpeechStatus(speakPrompt(text, {
+    const status = speakPrompt(text, {
       lang: "id-ID",
       key: "world-replay:" + text,
       interrupt: true,
       dedupeMs: 0
-    }));
+    });
+    setAudioNotice(status === "spoken" ? "" : status === "muted" ? "Suara sedang dimatikan." : "Suara belum tersedia. Teks tetap bisa dibaca.");
   };
 
   return (
