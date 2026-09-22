@@ -1,6 +1,6 @@
 # Mainlagi World — Petualangan Uang Social Card — 22 September 2026
 
-Status: **IMPLEMENTED ON ISOLATED WORLD PRODUCTION BRANCH / CI VALIDATION PENDING**
+Status: **VALIDATED GREEN AT `9f6953302ee82db62a7362288233a77db2251743`**
 
 Branch:
 
@@ -162,8 +162,44 @@ This wave does not:
 - activate World -> Evidence;
 - modify database schemas.
 
-## 8. Checkpoint rule
+## 8. Green validation / checkpoint
 
-Do not label this wave green until the exact branch head passes the full Draft PR #282 CI matrix.
+Exact validated head:
 
-After green validation, freeze a new immutable social-card checkpoint branch and record the exact head/run in the safe checkpoint doc.
+```text
+9f6953302ee82db62a7362288233a77db2251743
+```
+
+Draft PR / CI:
+
+```text
+PR #282
+Mainlagi TV V3 CI #1391
+run 35716360918
+
+Quality gate (Ubuntu):        PASS
+Windows compatibility:        PASS
+Production build:             PASS
+Production dependency audit:  PASS
+Secret history scan:          PASS
+Mobile route QA (Chromium):   PASS
+overall:                      SUCCESS
+```
+
+Relevant CI artifact:
+
+```text
+mobile-route-qa-screenshots
+artifact id 10689696970
+```
+
+Frozen immutable checkpoint:
+
+```text
+checkpoint/world-petualangan-uang-social-green-20260922
+@ 9f6953302ee82db62a7362288233a77db2251743
+```
+
+Do not move or force-push that checkpoint branch.
+
+PR #282 remains Draft and is not merge authorization. PR #272 remains untouched.
