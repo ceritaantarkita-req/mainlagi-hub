@@ -1320,39 +1320,6 @@
   align-items: center;
 }
 
-.stageRow[data-stage-order="1"],
-.stageRow[data-stage-order="5"] {
-  margin-top: 74px;
-}
-
-.stageRow[data-stage-order="1"]::before,
-.stageRow[data-stage-order="5"]::before {
-  position: absolute;
-  top: -48px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 4;
-  min-width: 210px;
-  padding: 8px 15px;
-  border-radius: 999px;
-  border: 2px solid rgba(255,255,255,.82);
-  background: rgba(27, 85, 67, .9);
-  color: white;
-  box-shadow: 0 5px 0 rgba(22, 72, 56, .18);
-  text-align: center;
-  font-size: 13px;
-  font-weight: 950;
-  letter-spacing: .02em;
-}
-
-.stageRow[data-stage-order="1"]::before {
-  content: "Chapter 1 · Jalan ke Festival";
-}
-
-.stageRow[data-stage-order="5"]::before {
-  content: "Chapter 2 · Siapkan Festival!";
-}
-
 .stageLink {
   width: min(390px, 70%);
 }
@@ -1698,12 +1665,6 @@
 }
 
 @media(max-width: 390px) {
-  .stageRow[data-stage-order="1"]::before,
-  .stageRow[data-stage-order="5"]::before {
-    min-width: 190px;
-    font-size: 12px;
-  }
-
   .stageCopy small {
     font-size: 10px;
   }
@@ -2387,17 +2348,7 @@
 }
 
 
-/* === Journey-map spacing polish: keep banners, stars and finale from colliding === */
-.mapShell .stageRow[data-stage-order="1"],
-.mapShell .stageRow[data-stage-order="5"] {
-  margin-top: 112px;
-}
-
-.mapShell .stageRow[data-stage-order="1"]::before,
-.mapShell .stageRow[data-stage-order="5"]::before {
-  top: -72px;
-}
-
+/* === Journey-map spacing polish: keep finale from colliding === */
 .mapShell[data-world-complete="true"] {
   padding-bottom: 180px;
 }
@@ -2411,16 +2362,6 @@
 }
 
 @media(max-width: 760px) {
-  .mapShell .stageRow[data-stage-order="1"],
-  .mapShell .stageRow[data-stage-order="5"] {
-    margin-top: 104px;
-  }
-
-  .mapShell .stageRow[data-stage-order="1"]::before,
-  .mapShell .stageRow[data-stage-order="5"]::before {
-    top: -66px;
-  }
-
   .mapShell[data-world-complete="true"] {
     padding-bottom: 170px;
   }
@@ -2681,17 +2622,6 @@
 
 
 /* === Production wave 12: semantic Chapter hierarchy / visual navigation polish === */
-.mapShell .stageRow[data-stage-order="1"],
-.mapShell .stageRow[data-stage-order="5"] {
-  margin-top: 10px;
-}
-
-.mapShell .stageRow[data-stage-order="1"]::before,
-.mapShell .stageRow[data-stage-order="5"]::before {
-  display: none;
-  content: none;
-}
-
 .chapterMapBanner {
   position: relative;
   z-index: 4;
