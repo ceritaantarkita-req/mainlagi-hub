@@ -101,24 +101,32 @@
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
 
-## Current synchronized checkpoint — 20 September 2026
+## Current synchronized checkpoint — 22 September 2026
 
 ```text
-current main:                 6fd9e3fc7ffa57aab687b5529033f1a995e0e5ba
-latest live-verified hardening: PR #269 required secret-scan enforcement
-merged-main CI:               #1209 / run 35625953536 — success + exact Cloudflare smoke
+current main:                 8af5ce8a13d19f8aaeb3d8f06229dbcdeb555a41
+latest merged-main CI:        #1212 / run 35632779986 — success + exact Cloudflare smoke
 analytics regression:         1201 attempts / 3603 evidence rows / paged + fail-closed
-WS-13 next:                   Naya candidate creation/review -> Gian -> Zia
-WS-05 current audit:          PR #240 -> 7109db41 / CI #1100 success
-WS-05 runtime:                not started
-gameplay taxonomy:            900/900 classified / 47 active / no Pattern #48
+WS-13 character work:         PAUSED BY PROJECT OWNER / reference-only assets
+WS-05 audit:                  PR #240 -> 7109db41 / CI #1100 success
+WS-05 runtime PR:             #273 / checkpoint ec050bf / CI #1312 full success / merge pending
+verified PR distribution:     900/900 / 47 / choice_grid 174 / pattern_completion 10 / KEEP 900
+gameplay taxonomy:            47 active / no Pattern #48
 ```
 
 Cloud analytics integrity: **CLOSED / MERGED / LIVE VERIFIED** via PR #267 -> main `89a2bc629e8535bddbf2ab78ae1990a063f0f361`, merged-main CI #1205 exact Cloudflare smoke. The old fixed 500-attempt / 2000-evidence cap and authenticated silent-local-fallback defect must not be listed as open debt again.
 
 Repository secret-scan governance: **CLOSED / MERGED / LIVE VERIFIED** via PR #269 -> main `6fd9e3fc7ffa57aab687b5529033f1a995e0e5ba`, merged-main CI #1209 exact Cloudflare smoke. The standalone scan remains visible, while the same pinned full-history scan now executes inside ruleset-required `Production dependency audit`, so a secret finding fails a required merge gate.
 
-Product-UX and WS-05 remain separate work tracks. The parent/profile/settings redesign is already closed/live verified; the next product-UX wave is character production, not another parent-shell rewrite.
+Product-UX and WS-05 remain separate work tracks. Character production is currently **PAUSED by the project owner**; it must not be resumed implicitly. Mainlagi World is also a separate development track and is out of scope for this plan execution.
+
+
+### 22 September user execution boundary
+
+- **Do not modify Mainlagi World**; it is being developed separately by the user.
+- Character production/development is **PAUSED**. Existing Drive character assets are reference material only for this wave.
+- Current active implementation is Mainlagi Belajar WS-05 exact five-ID Logic `pattern_completion` reuse.
+- Do not mix World, character runtime, broad UX refactors, or Pattern #48 into this PR.
 
 ## Product goal
 
@@ -148,23 +156,24 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 | WS-02 Voice & narration | **LATENCY WAVE LIVE VERIFIED / QUALITY LATER** | first-instruction latency/preload closed; English voice quality and reviewed production narration remain later work |
 | WS-03 Public/parent frontend | **PARENT WAVE LIVE VERIFIED** | PR #251 -> `77bee682...`; <760px mobile nav / >=760px sidebar; family/demo and profile/guide separation preserved |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **47 ACTIVE / LOGIC AUDIT LIVE VERIFIED / RUNTIME NOT STARTED** | PR #240 -> `7109db41...`, CI #1100; exact 5-ID reuse of existing `pattern_completion`; baseline 900/900 / `choice_grid` 179 / `pattern_completion` 5 / KEEP 900; expected runtime 174 / 10 / 47 active; no Pattern #48 |
+| WS-05 Gameplay diversification | **47 ACTIVE / PR #273 BRANCH VERIFIED / MERGE PENDING** | checkpoint `ec050bf...`, CI #1312 full success; 900/900 / `choice_grid` 174 / `pattern_completion` 10 / KEEP 900; exact five Logic IDs; no Pattern #48 |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
-| WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | 21-route/63-capture baseline stays blocking; parent responsive artifact/manual review accepted; character production is next visual wave |
+| WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | 63-capture permanent baseline remains blocking; character production is paused until explicit project-owner resume |
 | WS-09 Stage/gallery UX | **CURRENT WAVE MERGED** | gallery hierarchy + isolated QA unlock merged; progression/evidence boundaries remain unchanged |
 | WS-10 External acceptance | TODO | real devices, accessibility, Iqro expert |
 | WS-11 Governance | TODO | required checks/review discipline |
 | WS-12 Technical cleanup | TODO LATER | after gameplay/product priorities |
-| WS-13 Product UX coherence | **CHARACTER PRODUCTION NEXT** | canonical audit, child home/directory, gallery, completion, matching, audio latency and parent wave complete; next = Art Bible character spec + Naya/Gian/Zia production assets |
+| WS-13 Product UX coherence | **CHARACTER DEVELOPMENT PAUSED** | existing UX waves remain closed/live verified; Drive character assets are reference-only until explicit resume |
 
-## Verified merged gameplay baseline
+## Verified PR #273 gameplay checkpoint — merge pending
 
 ```text
 900 / 900 classified
 0 unclassified
-47 active merged patterns
-choice_grid                     179 / 900
+47 active patterns
+choice_grid                     174 / 900
+pattern_completion                 10 / 900
 make_total                        7 / 900
 take_away                         7 / 900
 number_line                      11 / 900
@@ -742,10 +751,10 @@ P2 findings: 3
 
 ## Current WS-05 execution order
 
-1. Preserve verified merged truth at **900/900 classified / 47 active / `choice_grid` 179 / `pattern_completion` 5 / `make_total` 7 / `take_away` 7 / KEEP 900**.
+1. Production `main` remains at the pre-merge 179/5 distribution until PR #273 merges; the verified PR checkpoint is **900/900 / 47 active / `choice_grid` 174 / `pattern_completion` 10 / KEEP 900**.
 2. The exact five-ID Logic repeating-pattern audit is **MERGED / LIVE VERIFIED** via PR #240 -> main `7109db41134f18884b6c08fba99ad2af997b3fed`; main CI #1100 / run `35492367065` passed.
-3. Runtime implementation is now audit-unblocked but **NOT STARTED**. It may only target the five audited `logic.pattern.repeat.intermediate` activities and harden the full exact ten-ID `pattern_completion` family fail-closed.
-4. Expected runtime result remains **900/900 / 47 active / `choice_grid` 174 / `pattern_completion` 10 / Logic `choice_grid` 21 / KEEP 900**.
+3. Runtime implementation is **BRANCH VERIFIED** on PR #273 at `ec050bf...`; CI #1312 passed exact-family regression, distribution, 320/390/768 Logic browser QA, Windows/Ubuntu, production build and the 63-capture permanent visual baseline. Final docs-only exact-head CI and merge remain.
+4. Verified PR runtime result is **900/900 / 47 active / `choice_grid` 174 / `pattern_completion` 10 / Logic `choice_grid` 21 / KEEP 900**.
 5. This is existing-mechanic reuse, not Pattern #48. Do not create Pattern #48 to satisfy a numeric pattern target.
 6. Preserve canonical identity, prompt, exact choice order, answer, deterministic sequence config, evidence and progression behavior.
 7. Iqro remains excluded from mechanic transformation until expert acceptance exists. Neighboring Logic families remain excluded unless a fresh objective/evidence audit justifies them.
