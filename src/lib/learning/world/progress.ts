@@ -35,15 +35,22 @@ function readStore(): WorldProgressStore {
 
 function normalizeProgress(value: MoneyWorldProgress | undefined): MoneyWorldProgress {
   if (!value || value.worldId !== MONEY_WORLD_ID) return { ...EMPTY_PROGRESS };
-  const validStageIds = new Set(MONEY_WORLD_STAGES.map((stage) => stage.id));
-  const completedStageIds = Array.isArray(value.completedStageIds)
-    ? [...new Set(value.completedStageIds.filter((stageId) => validStageIds.has(stageId)))]
-    : [];
+  const requested = Array.isArray(value.completedStageIds) ? value.completedStageIds : [];
+  const completedStageIds: string[] = [];
+  for (const stage of MONEY_WORLD_STAGES) {
+    if (requested[completedStageIds.length] !== stage.id) break;
+    completedStageIds.push(stage.id);
+  }
+
+  const currentStage = value.currentStageId ? getMoneyWorldStage(value.currentStageId) : undefined;
+  const currentAllowed = Boolean(currentStage && currentStage.order <= completedStageIds.length + 1);
   return {
     worldId: MONEY_WORLD_ID,
     completedStageIds,
-    currentStageId: value.currentStageId && validStageIds.has(value.currentStageId) ? value.currentStageId : null,
-    currentSegmentIndex: Number.isInteger(value.currentSegmentIndex) && value.currentSegmentIndex >= 0 ? value.currentSegmentIndex : 0,
+    currentStageId: currentAllowed ? currentStage?.id ?? null : null,
+    currentSegmentIndex: currentAllowed && Number.isInteger(value.currentSegmentIndex) && value.currentSegmentIndex >= 0
+      ? Math.min(100, value.currentSegmentIndex)
+      : 0,
     updatedAt: typeof value.updatedAt === "string" ? value.updatedAt : ""
   };
 }
@@ -66,6 +73,18 @@ export function readMoneyWorldProgress(childId: string): MoneyWorldProgress {
   return normalizeProgress(readStore()[childId]?.[MONEY_WORLD_ID]);
 }
 
+export function replaceMoneyWorldProgress(
+  childId: string,
+  progress: MoneyWorldProgress
+): MoneyWorldProgress {
+  return writeProgress(childId, normalizeProgress(progress));
+}
+
+export function moneyWorldProgressTimestamp(progress: MoneyWorldProgress): number {
+  const parsed = Date.parse(progress.updatedAt);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
 export function checkpointMoneyWorldStage(
   childId: string,
   stageId: string,
@@ -82,26 +101,32 @@ export function checkpointMoneyWorldStage(
 
 export function completeMoneyWorldStage(childId: string, stageId: string): MoneyWorldProgress {
   const current = readMoneyWorldProgress(childId);
-  const completedStageIds = current.completedStageIds.includes(stageId)
+  const stage = getMoneyWorldStage(stageId);
+  if (!stage || !isMoneyWorldStageUnlocked(current, stageId)) return current;
+
+  const alreadyComplete = current.completedStageIds.includes(stageId);
+  const completedStageIds = alreadyComplete
     ? current.completedStageIds
     : [...current.completedStageIds, stageId];
-  return writeProgress(childId, {
+
+  return writeProgress(childId, normalizeProgress({
     ...current,
     completedStageIds,
     currentStageId: null,
     currentSegmentIndex: 0,
     updatedAt: new Date().toISOString()
-  });
+  }));
 }
 
 export function restartMoneyWorldStage(childId: string, stageId: string): MoneyWorldProgress {
   const current = readMoneyWorldProgress(childId);
-  return writeProgress(childId, {
+  if (!isMoneyWorldStageUnlocked(current, stageId) && !current.completedStageIds.includes(stageId)) return current;
+  return writeProgress(childId, normalizeProgress({
     ...current,
     currentStageId: stageId,
     currentSegmentIndex: 0,
     updatedAt: new Date().toISOString()
-  });
+  }));
 }
 
 export function isMoneyWorldStageUnlocked(progress: MoneyWorldProgress, stageId: string): boolean {
