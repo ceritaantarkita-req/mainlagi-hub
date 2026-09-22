@@ -1,6 +1,6 @@
 # English Narration Quality Wave 1 — 2026-09-22
 
-Status: **IMPLEMENTED ON BRANCH / CI + LIVE VERIFICATION PENDING**
+Status: **CLOSED / MERGED / LIVE VERIFIED**
 
 ## Scope
 
@@ -128,4 +128,18 @@ Base main:
 
 `bda96275213368a8ec3d0a25bf6547ea1ba9efb1`
 
-PR, CI, merged-main SHA, production smoke, and final status will be recorded after executable verification.
+Verified implementation:
+
+```text
+PR:                       #278
+Final PR head:            440f4864c1f4854747141706a5f4faac29ace376
+Final PR CI:              #1366 / run 35697216106 — FULL SUCCESS
+Merged main:              8d60a69a076cc6e5253650112f2ffe79add345ea
+Merged-main CI:           #1367 / run 35697909785 — FULL SUCCESS
+Cloudflare production:    SUCCESS — exact merged main SHA
+English listening audit:  27 reviewed / 22 target-first / 5 comprehension
+```
+
+Merged-main production smoke explicitly verified that `https://mainlagihub.my.id` served release SHA `8d60a69a076cc6e5253650112f2ffe79add345ea` with the canonical production target.
+
+Closure boundary: this wave closes the current browser-fallback/listening-copy quality improvement only. Final reviewed native/pre-generated production narration remains intentionally open as a later provider/audio-asset wave.
