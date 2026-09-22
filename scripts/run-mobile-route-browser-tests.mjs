@@ -542,6 +542,12 @@ async function main() {
 
       const initialWorldNext = page.locator("[data-world-next]").first();
       await initialWorldNext.waitFor();
+      await page.locator('[data-world-audio-id="money-s01-narrative-01"]').waitFor();
+      assert.equal(
+        await page.locator('[data-world-audio-id="money-s01-narrative-01"]').count(),
+        1,
+        "World opening narration must expose its stable production audio cue ID"
+      );
       assert.equal(await initialWorldNext.isDisabled(), true, "World story must require a narration attempt before progression");
       await page.locator("[data-world-hear]").first().click();
       await page.waitForFunction(() => {
@@ -555,6 +561,12 @@ async function main() {
 
       const activityPromptHear = page.locator("[data-world-prompt-hear]").first();
       await activityPromptHear.waitFor();
+      await page.locator('[data-world-audio-id="money-s01-activity-01-prompt"]').waitFor();
+      assert.equal(
+        await page.locator('[data-world-audio-id="money-s01-activity-01-prompt"]').count(),
+        1,
+        "World first mini-game prompt must expose its stable production audio cue ID"
+      );
       assert.equal(await activityPromptHear.getByText("Dengar", { exact: true }).count(), 1, "World mini-game prompt must expose replayable audio");
       await activityPromptHear.click();
       await page.screenshot({ path: path.join(screenshotDir, "390-world-money-stage-01-activity.png"), fullPage: false });
@@ -569,6 +581,13 @@ async function main() {
       await page.locator("[data-world-next]").waitFor();
       await advanceWorldNarrative(page);
       await advanceWorldNarrative(page);
+
+      await page.locator('[data-world-audio-id="money-s01-activity-02-prompt"]').waitFor();
+      assert.equal(
+        await page.locator('[data-world-audio-id="money-s01-activity-02-prompt"]').count(),
+        1,
+        "World second mini-game prompt must preserve its stable production audio cue ID"
+      );
 
       await page.getByRole("button", { name: "🎈 Balon", exact: true }).click();
       await page.getByRole("button", { name: "Rp3", exact: true }).click();
