@@ -1254,3 +1254,59 @@ Current provider state remains unselected. Generation remains unauthorized. No a
 No Belajar, Bermain/motion, SQL schema, mastery/evidence, age migration, World progression or final character artwork is changed.
 
 Checkpoint rule: validate the exact wave-11 head through Draft PR #282. If fully green, freeze a new immutable provider-pilot-review checkpoint without moving any prior checkpoint branches.
+
+
+## 38. Provider-pilot human-review green checkpoint — CI #1429
+
+Production wave 11 is independently green and frozen.
+
+```text
+head:   a2e46c9c3b023f04c19042e1dabebe4a55f82053
+CI:     #1429 / run 35732394571
+branch: checkpoint/world-petualangan-uang-provider-pilot-review-green-20260922
+```
+
+Full matrix:
+
+```text
+Quality gate (Ubuntu):        PASS
+Windows compatibility:        PASS
+Production build:             PASS
+Production dependency audit:  PASS
+Secret history scan:          PASS
+Mobile route QA (Chromium):   PASS
+overall:                      SUCCESS
+```
+
+Relevant artifacts:
+
+```text
+mobile-route-qa-screenshots — 10696402137
+activity-quality-audit      — 10696012304
+gameplay-distribution-audit — 10696097090
+```
+
+This checkpoint freezes the exact provider-neutral human review contract:
+
+- four pilot cues exactly;
+- nine blocking review dimensions;
+- untouched templates may remain pending without reviewer metadata;
+- once review starts, reviewer + timestamp become mandatory;
+- stale cue fingerprint invalidates review;
+- partial scope is invalid;
+- all four cues must pass all nine dimensions before `accepted=true`;
+- no provider, voice, binary, or runtime activation is authorized.
+
+Current narration truth remains:
+
+```text
+provider selected:            NO
+voice selected:               NO
+generation authorized:        NO
+approved fixed binaries:      0/88
+browser speech fallback:      ACTIVE
+```
+
+Do not move or force-push this checkpoint branch.
+
+PR #282 remains Draft and is not merge authorization. PR #272 remains Draft and untouched. Character production remains paused. World -> Belajar evidence remains disabled.
