@@ -19,7 +19,7 @@ import {
   type DragEvent
 } from "react";
 import { CharacterAvatar, useLearningProfile } from "@/components/learning/LearningCommon";
-import { playTone, speakWithStatus, unlockAudio } from "@/lib/audio/feedback";
+import { audioStatus, playTone, speakPrompt, unlockAudio, warmAudio } from "@/lib/audio/feedback";
 import {
   MONEY_WORLD_ID,
   MONEY_WORLD_STAGES,
@@ -208,11 +208,51 @@ function SpeechCard({
   nextLabel: string;
 }) {
   const [audioNotice, setAudioNotice] = useState("");
+  const autoAttemptedRef = useRef(false);
+
+  const applySpeechStatus = (status: ReturnType<typeof speakPrompt>) => {
+    setAudioNotice(status === "spoken" ? "" : status === "muted" ? "Suara sedang dimatikan." : "Suara belum tersedia. Teks tetap bisa dibaca.");
+  };
+
+  useEffect(() => {
+    autoAttemptedRef.current = false;
+    let cancelled = false;
+
+    const startNarration = () => {
+      if (cancelled || autoAttemptedRef.current || !audioStatus().unlocked || audioStatus().muted) return;
+      autoAttemptedRef.current = true;
+      applySpeechStatus(speakPrompt(text, {
+        lang: "id-ID",
+        key: "world-narration:" + text,
+        interrupt: true
+      }));
+    };
+
+    const timer = window.setTimeout(startNarration, 0);
+    const afterGesture = () => {
+      warmAudio("id-ID");
+      startNarration();
+    };
+    window.addEventListener("pointerdown", afterGesture, { once: true, capture: true });
+    window.addEventListener("keydown", afterGesture, { once: true, capture: true });
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+      window.removeEventListener("pointerdown", afterGesture, { capture: true });
+      window.removeEventListener("keydown", afterGesture, { capture: true });
+    };
+  }, [text]);
 
   const hear = () => {
+    autoAttemptedRef.current = true;
     unlockAudio("id-ID");
-    const status = speakWithStatus(text, "id-ID");
-    setAudioNotice(status === "spoken" ? "" : "Suara belum tersedia. Teks tetap bisa dibaca.");
+    applySpeechStatus(speakPrompt(text, {
+      lang: "id-ID",
+      key: "world-replay:" + text,
+      interrupt: true,
+      dedupeMs: 0
+    }));
   };
 
   return (
@@ -228,7 +268,7 @@ function SpeechCard({
           <button type="button" className={styles.secondaryButton} onClick={hear}>
             <SpeakerHigh size={21} weight="fill" aria-hidden /> Dengar
           </button>
-          <button type="button" className={styles.primaryButton} onClick={() => { hear(); onNext(); }}>
+          <button type="button" className={styles.primaryButton} onClick={onNext}>
             {nextLabel} <ArrowRight size={20} weight="bold" aria-hidden />
           </button>
         </div>
