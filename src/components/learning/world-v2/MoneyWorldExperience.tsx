@@ -192,6 +192,7 @@ export function MoneyWorldMapScreen({ childId, worldId }: { childId: string; wor
   const state = useMoneyWorldProgress(childId);
   const worldsHref = "/child/" + childId + "/worlds";
   const mapBase = "/child/" + childId + "/world/" + MONEY_WORLD_ID;
+  const worldComplete = state.ready && state.progress.completedStageIds.length === MONEY_WORLD_STAGES.length;
 
   if (worldId !== MONEY_WORLD_ID) {
     return (
@@ -212,8 +213,20 @@ export function MoneyWorldMapScreen({ childId, worldId }: { childId: string; wor
         <span>{state.ready ? String(state.progress.completedStageIds.length) + "/8 Stage" : "Memuat…"}</span>
       </div>
 
-      <section className={styles.mapShell} aria-label="Peta Petualangan Uang" data-world-map="money-festival">
+      <section
+        className={styles.mapShell}
+        aria-label="Peta Petualangan Uang"
+        data-world-map="money-festival"
+        data-world-complete={worldComplete ? "true" : "false"}
+      >
         <div className={styles.mapPath} aria-hidden />
+        {worldComplete ? (
+          <div className={styles.festivalFinish} role="status">
+            <span aria-hidden>🎪 🎉</span>
+            <strong>Festival siap!</strong>
+            <small>Semua 8 Stage sudah selesai.</small>
+          </div>
+        ) : null}
         {MONEY_WORLD_STAGES.map((stage, index) => {
           const unlocked = state.ready && isMoneyWorldStageUnlocked(state.progress, stage.id);
           const stars = moneyWorldStars(state.progress, stage.id);
