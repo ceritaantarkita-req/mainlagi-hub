@@ -4,6 +4,7 @@ import { mkdirSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
+import { assertLearningVisualContainment } from "./lib/assert-learning-visual-containment.mjs";
 
 const root=process.cwd();
 const host="127.0.0.1";
@@ -13,7 +14,7 @@ const route="/child/demo-gian/activity/science-feature-duck-webbed-feet";
 const activityId="science-feature-duck-webbed-feet";
 const correctLabel="Hubungkan fungsi: Berenang di air";
 const screenshotDir=path.join(root,".mobile-route-qa");
-const viewports=[{width:320,height:720},{width:390,height:844},{width:768,height:1024}];
+const viewports=[{width:320,height:720},{width:390,height:844},{width:768,height:1024},{width:1280,height:800}];
 let server=null;
 let serverLog="";
 
@@ -106,6 +107,7 @@ async function inspect(viewport){
     const response=await page.goto(`${baseUrl}${route}`,{waitUntil:"domcontentloaded",timeout:30000});
     assert(response&&response.status()<400,`feature-function bad HTTP at ${viewport.width}`);
     await waitForScene(page);
+    await assertLearningVisualContainment(page,"[data-feature-function-link]",`feature-function visual containment at ${viewport.width}`);
     assert.equal(new URL(page.url()).pathname,route,`progression guard must accept seeded Science Wave C readiness at ${viewport.width}`);
 
     const choices=page.locator("[data-feature-function-choice]");
