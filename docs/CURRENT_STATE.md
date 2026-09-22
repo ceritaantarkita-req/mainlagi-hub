@@ -12,7 +12,10 @@ User-approved execution boundary:
 - character production/development is **PAUSED**; current external character assets remain reference-only unless separately re-authorized.
 - the active engineering wave is **Mainlagi Belajar / WS-05 Logic repeating-pattern -> existing `pattern_completion` reuse**.
 - exact scope is the five IDs approved by the 20 September audit; Pattern #48 remains unjustified.
-- active implementation branch: `agent/ws05-logic-pattern-completion-reuse-20260922`.
+- implementation PR **#273** is branch-verified at `ec050bf919ebe534a719ef22a37691248e1b233d`; CI **#1312 / run `35682142457`** passed the full PR matrix.
+- verified branch distribution: **900/900 / 47 active / `choice_grid` 174 / `pattern_completion` 10 / KEEP 900**.
+- dedicated Logic browser QA passed 320/390/768 and permanent visual baseline passed 63 exact-path captures.
+- active branch: `agent/ws05-logic-pattern-completion-reuse-20260922`; merge is still pending final exact-head docs CI.
 - wave checkpoint: `WS05_LOGIC_PATTERN_COMPLETION_REUSE_WAVE_2026-09-22.md`.
 
 
@@ -103,12 +106,13 @@ The fail-closed dynamic character-presentation foundation is **MERGED / LIVE VER
 - Human character asset pipeline is merged/live verified through PR #263: production-only directory, provenance registry, alpha/dimension/size validator, regression fixtures, and deliberate git-staging friction are active.
 - Runtime asset lifecycle registry remains merged/live verified through PR #262; Naya/Gian/Zia remain `reference-only` with no runtime path and no human production binary is committed yet.
 
-The foundation and asset-pipeline waves are closed. Candidate intake audit found no separate Naya/Gian/Zia foreground candidate. The next character gate is **asset creation/review outside the public production directory**, beginning with Naya, followed by Gian and Zia; only accepted exact derivatives may proceed to provenance/redistribution and later binary integration. The five-character homepage hero remains a separate composition task and must not be finalized from unapproved human-character sprites.
+The foundation and asset-pipeline waves are closed. Candidate intake audit found no separate Naya/Gian/Zia foreground candidate. **Character production/development is currently PAUSED by the project owner.** Existing Drive character material is reference-only for current engineering work; no character binary/runtime activation should resume unless explicitly re-authorized. The five-character homepage hero remains a separate future composition task.
 
 ## Canonical baseline
 
-- current production `main`: `6fd9e3fc7ffa57aab687b5529033f1a995e0e5ba` (PR #269 required secret-scan enforcement hardening)
-- latest merged-main CI: **#1209 / run `35625953536` — full success including exact Cloudflare production smoke**
+- current production `main`: `8af5ce8a13d19f8aaeb3d8f06229dbcdeb555a41` (PR #271 docs closure)
+- latest merged-main CI: **#1212 / run `35632779986` — full success including exact Cloudflare production smoke**
+- active learning implementation: PR #273 / verified checkpoint `ec050bf919ebe534a719ef22a37691248e1b233d` / CI #1312 full success / merge pending
 - required secret-scan enforcement: PR #269 / embedded `Required full-history secret gate` inside ruleset-required `Production dependency audit` / merge-blocking
 - cloud analytics integrity closure: PR #267 / regression `1201 attempts + 3603 evidence rows` / complete pagination + fail-closed authenticated failure handling
 - character asset pipeline implementation: PR #263 at `e4d7b4285db17a2010c22cdd1bc29451208f6a1b`, CI #1198 full success
@@ -997,10 +1001,10 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 1. Treat `main` as source of truth. This sync was based on parent docs closure `a04bd51f...`; latest independently live-verified runtime/product behavior is `77bee682...` via main CI #1160.
 2. Parent/profile/settings responsive redesign is closed/live verified. Preserve the <760px mobile header + five-item bottom nav, >=760px desktop sidebar, family/demo separation and profile-vs-guide identity boundary.
-3. Execute the next WS-13 product wave: extend the Art Bible character production contract and create/review Naya/Gian/Zia production assets. Do not invent unsupported character biography or silently replace profile identity with guide identity.
+3. **Keep character production paused** until the project owner explicitly resumes it. Existing character references remain reference-only and profile identity must remain separate from guide identity.
 4. Preserve Paca/Gavi current production artwork and provenance. Naya/Gian/Zia generated candidates are not production-approved until reviewed and their rights/provenance are recorded.
-5. WS-05 is now the active Mainlagi Belajar engineering wave. The exact five-ID Logic repeating-pattern audit is merged/live verified via PR #240 / `7109db41...` / CI #1100; runtime implementation is active on `agent/ws05-logic-pattern-completion-reuse-20260922` and must reuse existing `pattern_completion`, not create Pattern #48.
+5. WS-05 is the active Mainlagi Belajar engineering wave. PR #273 is branch-verified at `ec050bf...` / CI #1312 with 900/900 / 47 active / `choice_grid` 174 / `pattern_completion` 10 / KEEP 900; final exact-head docs CI and merge remain.
 6. Preserve the merged 9-subject / 900-activity / 47-active-pattern baseline and existing mastery/evidence/progression/schema contracts unless a separately justified migration is approved.
-7. Finish character/background visual-asset review first; then implement the approved SubjectTheme/SceneVariant background system, followed by English narration quality, expanded visual/usability cleanup, physical-device/accessibility acceptance and Iqro expert review.
+7. Do not touch Mainlagi World and do not resume character development in this workstream. Close PR #273 first; later product work must be selected as a separate approved wave.
 
 Do not prioritize activity-count expansion, OCR rollout, large AI tutor work, subscription/paywall, marketplace expansion or major mastery/backend rewrites before the current quality roadmap justifies them.
