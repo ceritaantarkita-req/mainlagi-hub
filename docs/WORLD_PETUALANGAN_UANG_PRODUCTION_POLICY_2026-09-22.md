@@ -246,6 +246,26 @@ Required checks:
 9. passes existing browser QA after replacement;
 10. checkpoint is created before large asset batches are swapped.
 
+## 10A. Canonical World hierarchy
+
+Production wave 02 locks the reusable authoring hierarchy:
+
+```text
+World -> Chapter -> Stage -> Scene -> Segment
+```
+
+Source contracts:
+
+```text
+src/lib/learning/world/worldStructure.ts
+src/lib/learning/world/moneyWorldStructure.ts
+docs/WORLD_CANONICAL_STRUCTURE_2026-09-22.md
+```
+
+Petualangan Uang currently validates as **1 World / 2 Chapters / 8 Stages / 44 Scenes / 89 Segments** with exact Segment-order preservation.
+
+The Scene layer is presentation structure only. Existing Stage completion and Segment-index resume compatibility remain unchanged.
+
 ## 11. Evidence boundary remains unchanged
 
 This policy does **not** turn World activities into mastery evidence.
