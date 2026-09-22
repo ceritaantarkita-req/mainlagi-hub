@@ -567,10 +567,10 @@ async function main() {
 
       const activityPromptHear = page.locator("[data-world-prompt-hear]").first();
       await activityPromptHear.waitFor();
-      assert.ok(await page.getByRole("img", { name: "Gavi", exact: true }).count() >= 1, "World activity shell must present approved Gavi artwork");
-      assert.ok(await page.getByRole("img", { name: "Paca", exact: true }).count() >= 1, "World activity shell must present approved Paca artwork");
-      assert.equal(await page.getByRole("img", { name: "Gian", exact: true }).count(), 0, "World activity shell must not activate fallback Gian artwork");
-      assert.equal(await page.getByRole("img", { name: "Naya", exact: true }).count(), 0, "World activity shell must not activate fallback Naya artwork");
+      assert.ok(await page.locator('[role="img"][aria-label="Gavi"]').count() >= 1, "World activity shell must present approved Gavi artwork");
+      assert.ok(await page.locator('[role="img"][aria-label="Paca"]').count() >= 1, "World activity shell must present approved Paca artwork");
+      assert.equal(await page.locator('[role="img"][aria-label="Gian"]').count(), 0, "World activity shell must not activate fallback Gian artwork");
+      assert.equal(await page.locator('[role="img"][aria-label="Naya"]').count(), 0, "World activity shell must not activate fallback Naya artwork");
       await page.locator('[data-world-audio-id="money-s01-activity-01-prompt"]').waitFor();
       assert.equal(
         await page.locator('[data-world-audio-id="money-s01-activity-01-prompt"]').count(),
