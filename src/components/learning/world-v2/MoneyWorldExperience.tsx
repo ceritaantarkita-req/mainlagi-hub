@@ -166,7 +166,17 @@ export function WorldCatalogScreen({ childId }: { childId: string }) {
   const state = useMoneyWorldProgress(childId);
   const age = profile?.age;
   const completed = state.progress.completedStageIds.length;
+  const nextStage = state.ready
+    ? MONEY_WORLD_STAGES.find((stage) => !state.progress.completedStageIds.includes(stage.id)) ?? null
+    : null;
   const cardHref = "/child/" + childId + "/world/" + MONEY_WORLD_ID;
+  const cta = !state.ready
+    ? "Memuat…"
+    : completed === MONEY_WORLD_STAGES.length
+      ? "Main lagi →"
+      : completed === 0
+        ? "Mulai petualangan →"
+        : "Lanjut Stage " + (nextStage?.order ?? completed + 1) + " →";
 
   return (
     <main className={styles.catalogPage}>
@@ -181,7 +191,8 @@ export function WorldCatalogScreen({ childId }: { childId: string }) {
         <div className={styles.worldCardMeta}>
           <span>Usia rekomendasi 6–8</span>
           <span>{state.ready ? String(completed) + "/8 Stage selesai" : "Memuat progres…"}</span>
-          <strong>{age && (age < 6 || age > 8) ? "Bisa dijelajahi →" : "Mulai petualangan →"}</strong>
+          <strong data-world-catalog-cta>{cta}</strong>
+          {age && (age < 6 || age > 8) ? <small className={styles.ageNote}>Tetap bisa dijelajahi bersama orang dewasa.</small> : null}
         </div>
       </Link>
     </main>
