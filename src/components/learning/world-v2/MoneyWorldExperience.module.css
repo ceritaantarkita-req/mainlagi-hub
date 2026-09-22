@@ -2678,3 +2678,118 @@
     padding-top: 12px;
   }
 }
+
+
+/* === Production wave 12: semantic Chapter hierarchy / visual navigation polish === */
+.mapShell .stageRow[data-stage-order="1"],
+.mapShell .stageRow[data-stage-order="5"] {
+  margin-top: 10px;
+}
+
+.mapShell .stageRow[data-stage-order="1"]::before,
+.mapShell .stageRow[data-stage-order="5"]::before {
+  display: none;
+  content: none;
+}
+
+.chapterMapBanner {
+  position: relative;
+  z-index: 4;
+  width: min(430px, calc(100% - 32px));
+  margin: 42px auto 18px;
+  padding: 12px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  border: 2px solid rgba(255,255,255,.9);
+  border-radius: 22px;
+  background: rgba(27, 85, 67, .93);
+  color: white;
+  box-shadow:
+    0 6px 0 rgba(22, 72, 56, .2),
+    0 12px 24px rgba(35, 75, 56, .12);
+  text-align: left;
+}
+
+.chapterMapBanner > div {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.chapterMapBanner small {
+  color: rgba(255,255,255,.82);
+  font-size: 10px;
+  font-weight: 950;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.chapterMapBanner strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 16px;
+  font-weight: 950;
+  white-space: nowrap;
+}
+
+.chapterMapBanner > span {
+  flex: 0 0 auto;
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.16);
+  font-size: 11px;
+  font-weight: 950;
+  white-space: nowrap;
+}
+
+.stageShellTitle > span,
+.stageShellTitle > small {
+  max-width: 100%;
+  flex-wrap: wrap;
+  line-height: 1.25;
+  text-align: center;
+}
+
+@media(max-width: 760px) {
+  .chapterMapBanner {
+    width: min(360px, calc(100% - 24px));
+    margin: 34px auto 14px;
+    padding: 10px 12px;
+    border-radius: 18px;
+  }
+
+  .chapterMapBanner strong {
+    font-size: 14px;
+  }
+
+  .chapterMapBanner > span {
+    min-height: 30px;
+    padding-inline: 9px;
+    font-size: 10px;
+  }
+
+  .stageShellTitle > small {
+    max-width: min(310px, 100%);
+  }
+}
+
+@media(max-width: 360px) {
+  .chapterMapBanner {
+    width: calc(100% - 18px);
+    gap: 8px;
+  }
+
+  .chapterMapBanner strong {
+    font-size: 13px;
+  }
+
+  .chapterMapBanner > span {
+    padding-inline: 8px;
+  }
+}
