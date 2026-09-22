@@ -407,3 +407,16 @@ There is no score-based override. One failed or pending dimension keeps the pilo
 The review is fingerprint-bound to current canonical narration copy and must cover the exact four-cue provider pilot.
 
 Detailed record: `WORLD_NARRATION_REVIEW_GATE_2026-09-22.md`.
+
+
+## 17. Human-review gate green checkpoint
+
+Production wave 11 is validated green at:
+
+```text
+a2e46c9c3b023f04c19042e1dabebe4a55f82053
+CI #1429 / run 35732394571
+checkpoint/world-petualangan-uang-provider-pilot-review-green-20260922
+```
+
+This freezes the exact four-cue listening acceptance contract. It does not authorize generation or runtime activation.
