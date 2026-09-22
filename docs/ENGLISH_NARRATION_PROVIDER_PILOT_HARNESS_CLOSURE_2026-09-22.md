@@ -53,7 +53,7 @@ PR #283 did not change assessed activity content, answers, evidence, mastery, pr
 
 ## 5. What is still open
 
-The harness is closed; the **audio pilot itself is not**. Next sequence: put `OPENAI_API_KEY` only in an authorized local/server environment; generate the exact four candidates with `marin`; use `cedar` as the planned comparison; listen to the exact binaries; approve/reject pronunciation, child-learning pacing, word fidelity and audio cleanliness; recheck provider terms at approval time; then and only then update accepted registry records and deliberately add accepted binaries. Static-audio runtime resolution remains a later separate wave.
+The harness is closed; the **audio pilot itself is not**. Before actual candidate generation, the active follow-up wave adds a fail-closed human-review evidence tool that binds the review to the exact generation manifest and exact candidate SHA-256 values. After that gate is merged/live verified: put `OPENAI_API_KEY` only in an authorized local/server environment; generate the exact four candidates with `marin`; use `cedar` as the planned comparison; listen to the exact binaries; record exact-word fidelity, pronunciation, child-learning pace and audio cleanliness; recheck provider terms at production-approval time; then and only then consider production provenance changes. Static-audio runtime resolution remains a later separate wave.
 
 Do not bulk-generate all 27 before the four-item pilot is accepted.
 
