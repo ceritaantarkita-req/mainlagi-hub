@@ -100,6 +100,19 @@ Current visual production pass reuses approved existing Mainlagi backgrounds plu
 
 Safe restart record: `WORLD_PETUALANGAN_UANG_SAFE_CHECKPOINT_2026-09-22.md`.
 
+Age/presentation + production asset policy: `WORLD_PETUALANGAN_UANG_PRODUCTION_POLICY_2026-09-22.md`.
+
+Current World age boundary:
+
+```text
+3–5  = future separate variant
+6–8  = current Petualangan Uang pilot
+9–12 = future separate series/variant
+same World auto-morph across 3–12 = forbidden
+```
+
+Current explicit production gaps: Gian foreground, Naya foreground, fixed reviewed narration, dedicated public World social card. Existing Mainlagi backgrounds/Paca/Gavi remain approved reuse for the pilot unless final art review replaces them intentionally.
+
 ## 2. Learning/product baseline
 
 Current learning baseline remains:
