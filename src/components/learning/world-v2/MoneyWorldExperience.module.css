@@ -980,3 +980,15 @@
     grid-template-columns: 1fr;
   }
 }
+
+
+@media (prefers-reduced-motion: reduce) {
+  .worldCard,
+  .stageLink .stageNode,
+  .stageProgressBar span,
+  .completionStars svg {
+    transition-duration: 1ms !important;
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+  }
+}
