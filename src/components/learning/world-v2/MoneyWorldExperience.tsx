@@ -1248,6 +1248,9 @@ function MoneyWorldStageRuntime({
     "--world-scene-mobile": `url("${pilotStage.backgroundMobile}")`
   };
   const percent = ((segmentIndex + 1) / segments.length) * 100;
+  const sceneSegmentPosition = activeScene.segmentIds.indexOf(segment.id) + 1;
+  const sceneSegmentCount = activeScene.segmentIds.length;
+  if (sceneSegmentPosition <= 0) return <div className={styles.runtimeError}>Segment tidak terdaftar di Scene aktif.</div>;
   const hasNarrationControl = segment.type !== "recap";
   const hearCurrentSegment = () => {
     const control = stageRuntimeRef.current?.querySelector<HTMLButtonElement>("[data-world-hear], [data-world-prompt-hear]");
@@ -1299,8 +1302,8 @@ function MoneyWorldStageRuntime({
 
       <WorldSceneRenderer
         scene={activeScene}
-        segmentPosition={segmentIndex + 1}
-        segmentCount={segments.length}
+        sceneSegmentPosition={sceneSegmentPosition}
+        sceneSegmentCount={sceneSegmentCount}
         companionLayer={(
           <div className={styles.stageShellCharacters} aria-hidden>
             <div className={styles.stageShellCharacterLeft}><CharacterAvatar id="gavi" large /></div>
