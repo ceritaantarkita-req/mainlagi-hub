@@ -365,3 +365,37 @@ docs/WORLD_CONTENT_AUDIT_2026-09-22.md
 ```
 
 CI status for this exact wave head must be recorded before freezing a content-audit checkpoint.
+
+
+## 16. Production wave 15 — World accessibility QA
+
+Focused accessibility contracts were added without changing World progression/content ownership.
+
+Browser QA now locks:
+
+```text
+Stage progressbar min/current/max/text semantics
+active Scene role=region
+Scene context aria-live=polite + aria-atomic=true
+completion heading receives focus
+next journey Stage aria-current=step
+locked Stage accessible label/state
+```
+
+Static QA additionally locks:
+
+```text
+ordering + recap list semantics
+take-away visualization text alternative
+open choice polite status
+journey/share focus-visible treatment
+forced-colors selected/current state support
+```
+
+Detailed record:
+
+```text
+docs/WORLD_ACCESSIBILITY_PASS_2026-09-22.md
+```
+
+CI status for this exact wave head must be recorded before freezing an accessibility checkpoint.
