@@ -237,4 +237,18 @@ Mainlagi World:                          untouched
 Character development:                   paused
 ```
 
-The next safe step is a **four-item provider/voice pilot with human listening review**, not bulk generation of all 27 assets and not runtime activation. Safe handoff: `ENGLISH_NARRATION_SAFE_CHECKPOINT_2026-09-22.md`.
+The next safe step is the **generation-ready four-item provider/voice pilot with human listening review**, not bulk generation of all 27 assets and not runtime activation. The primary pilot candidate is OpenAI API with the pinned `gpt-4o-mini-tts-2025-12-15` snapshot and `marin`/`cedar` voice candidates; this is a pilot choice, not a production-provider lock. See `ENGLISH_NARRATION_PROVIDER_PILOT_2026-09-22.md`. Safe handoff: `ENGLISH_NARRATION_SAFE_CHECKPOINT_2026-09-22.md`.
+
+
+## 11. Provider-pilot harness prepared after asset-gate closure
+
+The four-item pilot now has a machine-readable spec and an offline/server-side generation harness:
+
+```text
+src/lib/data/english-narration-pilot-spec.json
+scripts/generate-english-narration-openai-pilot.mjs
+scripts/run-english-narration-pilot-tests.mjs
+docs/ENGLISH_NARRATION_PROVIDER_PILOT_2026-09-22.md
+```
+
+The harness defaults to dry-run, writes real candidates only under gitignored `internal/`, requires `OPENAI_API_KEY` only for explicit `--generate`, never auto-updates the production registry, and never activates runtime audio. `npm run validate:assets` now includes the provider-pilot regression.

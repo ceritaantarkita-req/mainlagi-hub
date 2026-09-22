@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "scope": "english-narration-four-item-provider-pilot",
+  "state": "generation-ready-human-review-required",
+  "provider": {
+    "name": "OpenAI",
+    "status": "primary-pilot-candidate-not-production-locked",
+    "endpoint": "https://api.openai.com/v1/audio/speech",
+    "model": "gpt-4o-mini-tts-2025-12-15",
+    "voiceCandidates": [
+      "marin",
+      "cedar"
+    ],
+    "defaultVoice": "marin",
+    "outputFormat": "mp3",
+    "instructions": "Read the exact input text only. Use clear, warm, neutral American English at a child-learning pace. Pronounce each word naturally and distinctly. Do not add, remove, explain, repeat, spell out, or paraphrase any words. Keep pauses short and natural.",
+    "evidenceReviewedOn": "2026-09-22",
+    "sourceDocs": [
+      "https://developers.openai.com/api/docs/guides/text-to-speech",
+      "https://developers.openai.com/api/docs/models/gpt-4o-mini-tts",
+      "https://openai.com/policies/services-agreement/",
+      "https://openai.com/policies/service-terms/"
+    ],
+    "rightsReview": {
+      "state": "pilot-evidence-reviewed-final-asset-review-still-required",
+      "outputOwnershipEvidence": "OpenAI Services Agreement says the customer owns Output, to the extent permitted by applicable law.",
+      "distributionEvidence": "OpenAI Service Terms for the API explicitly contemplate Customer use or distribution of Output; exact terms must be rechecked when a binary is approved.",
+      "aiDisclosureRequired": true
+    }
+  },
+  "output": {
+    "root": "internal/english-narration-pilot/openai",
+    "public": false,
+    "production": false,
+    "runtimeActive": false,
+    "registryAutoApproval": false
+  },
+  "items": [
+    {
+      "activityId": "english-listen-bird",
+      "transcript": "Bird."
+    },
+    {
+      "activityId": "english-listen-letter-a",
+      "transcript": "Letter A."
+    },
+    {
+      "activityId": "english-listen-phrase-blue-book",
+      "transcript": "A blue book."
+    },
+    {
+      "activityId": "english-detail-red-ball",
+      "transcript": "The ball is red. What color is the ball?"
+    }
+  ]
+}
