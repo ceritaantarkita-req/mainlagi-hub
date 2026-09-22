@@ -144,8 +144,8 @@ The foundation and asset-pipeline waves are closed. Candidate intake audit found
 
 ## Canonical baseline
 
-- current production `main`: `2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48` (PR #280 English narration production asset gate)
-- latest merged-main CI: **#1372 / run `35701448136` — full success including exact Cloudflare production smoke**
+- latest English-narration product/runtime implementation baseline: `2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48` (PR #280 English narration production asset gate)
+- implementation merged-main CI: **#1372 / run `35701448136` — full success including exact Cloudflare production smoke**
 - English narration quality Wave 1: PR #278 / 27 reviewed / 22 target-first / 5 comprehension / merged-main CI #1367 exact smoke
 - English narration production asset gate: PR #280 / 27 registry slots / 27 review-required / 0 approved / 0 binary / no static-audio runtime activation / merged-main CI #1372 exact smoke
 - latest WS-05 learning runtime closure: PR #273 / final PR head `299d493da2e74e6e583322d3a16af69455d8d926` / PR CI #1321 / production distribution 174 `choice_grid` + 10 `pattern_completion` / KEEP 900
@@ -1038,7 +1038,7 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Treat `main` as source of truth. Current independently live-verified main is `2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48` via merged-main CI #1372 / run `35701448136` with exact Cloudflare production smoke.
+1. Treat the actual branch tip of `main` as source of truth. The latest English-narration product/runtime implementation baseline is `2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48`, live verified by merged-main CI #1372 / run `35701448136` with exact Cloudflare production smoke; later docs-only closure commits may advance `main` without changing that runtime baseline.
 2. English narration Wave 1 and the Wave 2 production asset gate are closed/live verified. Preserve **27 reviewed / 27 registry slots / 0 approved production audio / 0 static runtime activation**.
 3. If narration continues, start only with the documented four-item provider/voice pilot + human listening/provenance review. Do not bulk-generate all 27 assets and do not activate runtime playback in the same pilot step.
 4. Parent/profile/settings responsive redesign is closed/live verified. Preserve the <760px mobile header + five-item bottom nav, >=760px desktop sidebar, family/demo separation and profile-vs-guide identity boundary.
