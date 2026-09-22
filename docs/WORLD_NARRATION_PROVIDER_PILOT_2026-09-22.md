@@ -164,3 +164,18 @@ checkpoint/world-petualangan-uang-provider-pilot-green-20260922
 Do not move or force-push this checkpoint branch.
 
 This checkpoint freezes only the four-cue provider-neutral pilot scope and its fail-closed decision boundary. It does not select or authorize any provider/voice.
+
+
+## 9. Human-review gate follow-through
+
+Production wave 11 adds a deterministic provider-neutral listening review contract:
+
+```text
+src/lib/learning/world/moneyWorldNarrationReview.ts
+scripts/prepare-world-money-narration-review-sheet.mjs
+docs/WORLD_NARRATION_REVIEW_GATE_2026-09-22.md
+```
+
+All four pilot cues must pass all nine blocking dimensions. Partial review, stale copy fingerprints, any pending dimension, or any failed dimension keeps the pilot unaccepted.
+
+This does not change the current provider/voice/generation state.
