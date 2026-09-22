@@ -540,6 +540,11 @@ async function main() {
       const viewport = { width: 390, height: 844 };
       const context = await browser.newContext({ viewport });
       const page = await context.newPage();
+      const stageArtworkRequests = [];
+      page.on("request", (request) => {
+        const pathname = new URL(request.url()).pathname;
+        if (pathname.startsWith("/artwork/")) stageArtworkRequests.push(pathname);
+      });
       const stageUrl = baseUrl + "/child/demo-gian/world/money-festival/stage/money-stage-01-money-use";
       await page.goto(stageUrl, { waitUntil: "domcontentloaded" });
       await page.getByText("Uang Buat Apa?", { exact: true }).waitFor();
@@ -547,6 +552,21 @@ async function main() {
       await stageOneScene.waitFor();
       const stageOneBackground = await stageOneScene.evaluate((node) => getComputedStyle(node, "::before").backgroundImage);
       assert.match(stageOneBackground, /playground-park-mobile\.webp/, "World Stage 1 must use the illustrated playground environment on mobile");
+      await page.waitForTimeout(120);
+      assert.ok(
+        stageArtworkRequests.some((pathname) => pathname.endsWith("/backgrounds/math/playground-park-mobile.webp")),
+        "Stage 1 mobile route must load its mobile background"
+      );
+      assert.equal(
+        stageArtworkRequests.some((pathname) => pathname.endsWith("/backgrounds/math/playground-park-wide.webp")),
+        false,
+        "Stage 1 mobile route must not fetch the unused wide background"
+      );
+      assert.equal(
+        stageArtworkRequests.some((pathname) => /\/backgrounds\/math\/(mini-market|number-park)-/.test(pathname)),
+        false,
+        "Stage 1 route must not eagerly fetch other Stage backgrounds"
+      );
 
       const initialWorldNext = page.locator("[data-world-next]").first();
       await initialWorldNext.waitFor();
@@ -737,6 +757,11 @@ async function main() {
         updatedAt: "2026-09-22T00:00:00.000Z"
       });
       const page = await context.newPage();
+      const mapArtworkRequests = [];
+      page.on("request", (request) => {
+        const pathname = new URL(request.url()).pathname;
+        if (pathname.startsWith("/artwork/")) mapArtworkRequests.push(pathname);
+      });
       await page.goto(baseUrl + "/child/demo-gian/world/money-festival", { waitUntil: "domcontentloaded" });
       const map = page.locator('[data-world-map="money-festival"]');
       await map.waitFor();
@@ -775,6 +800,11 @@ async function main() {
         };
       });
       assert.ok(geometry.scrollWidth <= geometry.viewportWidth + 1, "semantic Chapter map must not create horizontal overflow at " + width + "px");
+      assert.equal(
+        mapArtworkRequests.some((pathname) => pathname.includes("/artwork/backgrounds/math/")),
+        false,
+        "World map must not eagerly fetch Stage-specific backgrounds at " + width + "px"
+      );
       assert.ok(
         geometry.heroHeadingLines > 0 && geometry.heroHeadingLines <= 2.2,
         "World map hero title must stay within two readable lines at " + width + "px"
