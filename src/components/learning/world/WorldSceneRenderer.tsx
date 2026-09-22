@@ -5,16 +5,16 @@ import styles from "./WorldSceneRenderer.module.css";
 
 export interface WorldSceneRendererProps {
   scene: CanonicalWorldSceneDefinition;
-  segmentPosition: number;
-  segmentCount: number;
+  sceneSegmentPosition: number;
+  sceneSegmentCount: number;
   companionLayer?: ReactNode;
   children: ReactNode;
 }
 
 export function WorldSceneRenderer({
   scene,
-  segmentPosition,
-  segmentCount,
+  sceneSegmentPosition,
+  sceneSegmentCount,
   companionLayer,
   children
 }: WorldSceneRendererProps) {
@@ -36,7 +36,7 @@ export function WorldSceneRenderer({
       >
         <span>{presentation.label}</span>
         <strong id={headingId} data-world-scene-label={scene.id}>{scene.title}</strong>
-        <small>{"Bagian " + segmentPosition + "/" + segmentCount}</small>
+        <small data-world-scene-progress>{"Bagian " + sceneSegmentPosition + "/" + sceneSegmentCount}</small>
       </div>
 
       {presentation.showAmbientCompanions ? companionLayer : null}
