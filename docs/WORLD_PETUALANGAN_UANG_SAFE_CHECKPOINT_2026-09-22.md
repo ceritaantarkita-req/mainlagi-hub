@@ -9,7 +9,10 @@ Accepted code checkpoint head: `5c76f9812a93eb7ef07fff1880af4da5af2b4927`
 Frozen checkpoint branch: `checkpoint/world-petualangan-uang-green-20260922`  
 Frozen checkpoint head: `faaca0eba4cbf6a75dfabb5f261cbf8e98e0912b`  
 Latest visual-green checkpoint branch: `checkpoint/world-petualangan-uang-visual-green-20260922`  
-Latest visual-green checkpoint head: `3b033405b41abcfab4c70d9db76265095ff7c5e2`
+Latest visual-green checkpoint head: `3b033405b41abcfab4c70d9db76265095ff7c5e2`  
+Policy-green checkpoint branch: `checkpoint/world-petualangan-uang-policy-green-20260922`  
+Policy-green checkpoint head: `6aacda2adc52906c9a505096defd376df098d685`  
+Policy-green CI: #1334 / run `35683630094` — full PR matrix success
 
 ## 1. Verification at this checkpoint
 
@@ -456,3 +459,24 @@ Detailed record: `WORLD_AGE_MIGRATION_AUDIT_2026-09-22.md`.
 
 No profile/UI/schema/catalog/adaptive/public-copy migration is performed by this wave.
 
+
+
+## 19. Policy-green frozen checkpoint
+
+The age-presentation + asset-production policy wave is independently frozen at:
+
+```text
+branch: checkpoint/world-petualangan-uang-policy-green-20260922
+head:   6aacda2adc52906c9a505096defd376df098d685
+CI:     #1334 / run 35683630094
+Ubuntu: PASS
+Windows: PASS
+Production build: PASS
+Dependency audit: PASS
+Secret scan: PASS
+Mobile Chromium: PASS
+```
+
+This checkpoint includes the 6–8 pilot presentation policy, explicit 3–5 / 9–12 future boundaries, asset production manifest, and related docs/tests. It predates the newer evidence-bridge and global-age migration audits.
+
+The evidence/age-audit work on the active feature branch must not cause this checkpoint branch to move.
