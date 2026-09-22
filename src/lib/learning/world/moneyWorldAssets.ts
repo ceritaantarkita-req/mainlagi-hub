@@ -1,6 +1,7 @@
 export type MoneyWorldAssetStatus =
   | "approved-reused"
   | "temporary-runtime"
+  | "production-ready"
   | "production-needed";
 
 export interface MoneyWorldAssetSlot {
@@ -133,17 +134,17 @@ export const MONEY_WORLD_ASSET_SLOTS: readonly MoneyWorldAssetSlot[] = [
   {
     id: "public-share-card",
     kind: "social-card",
-    status: "temporary-runtime",
-    currentSource: "/og/math-warung.png",
+    status: "production-ready",
+    currentSource: "dynamic ImageResponse route /worlds/money-festival/social-card",
     usedIn: ["/worlds/money-festival"],
-    finalRequirement: "Dedicated public-safe Petualangan Uang social card after World visual identity is locked."
+    finalRequirement: "Keep the dedicated 1200x630 card public-safe, child/account-progress free, and aligned with the active World presentation identity."
   }
 ] as const;
 
 export const MONEY_WORLD_REUSED_PUBLIC_ASSET_PATHS = MONEY_WORLD_ASSET_SLOTS
-  .filter((slot) => slot.currentSource.startsWith("/"))
+  .filter((slot) => slot.status === "approved-reused" && slot.currentSource.startsWith("/"))
   .map((slot) => "public" + slot.currentSource);
 
 export const MONEY_WORLD_PRODUCTION_GAPS = MONEY_WORLD_ASSET_SLOTS
-  .filter((slot) => slot.status !== "approved-reused")
+  .filter((slot) => slot.status !== "approved-reused" && slot.status !== "production-ready")
   .map((slot) => slot.id);
