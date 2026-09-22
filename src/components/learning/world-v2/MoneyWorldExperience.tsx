@@ -105,13 +105,16 @@ function useMoneyWorldProgress(childId: string) {
       const detail = (event as CustomEvent<{ childId?: string }>).detail;
       if (!detail?.childId || detail.childId === childId) refresh();
     };
+    const onOnline = () => { void hydrateCloud(); };
     window.addEventListener(WORLD_PROGRESS_EVENT, onProgress);
     window.addEventListener("storage", refresh);
+    window.addEventListener("online", onOnline);
     return () => {
       cancelled = true;
       window.cancelAnimationFrame(frame);
       window.removeEventListener(WORLD_PROGRESS_EVENT, onProgress);
       window.removeEventListener("storage", refresh);
+      window.removeEventListener("online", onOnline);
     };
   }, [childId]);
 
