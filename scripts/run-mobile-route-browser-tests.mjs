@@ -562,6 +562,15 @@ async function main() {
         const button = document.querySelector("[data-world-next]");
         return button instanceof HTMLButtonElement && !button.disabled;
       });
+      await page.waitForFunction(() => {
+        const cue = document.querySelector('[data-world-audio-id="money-s01-narrative-01"]');
+        return cue?.getAttribute("data-world-narration-mode") === "browser-speech";
+      });
+      assert.equal(
+        await page.locator('[data-world-audio-id="money-s01-narrative-01"]').getAttribute("data-world-narration-mode"),
+        "browser-speech",
+        "unapproved fixed narration must fail closed to browser speech"
+      );
 
       for (let index = 0; index < 4; index += 1) {
         await advanceWorldNarrative(page);
@@ -583,6 +592,15 @@ async function main() {
       );
       assert.equal(await activityPromptHear.getByText("Dengar", { exact: true }).count(), 1, "World mini-game prompt must expose replayable audio");
       await activityPromptHear.click();
+      await page.waitForFunction(() => {
+        const cue = document.querySelector('[data-world-audio-id="money-s01-activity-01-prompt"]');
+        return cue?.getAttribute("data-world-narration-mode") === "browser-speech";
+      });
+      assert.equal(
+        await page.locator('[data-world-audio-id="money-s01-activity-01-prompt"]').getAttribute("data-world-narration-mode"),
+        "browser-speech",
+        "activity prompt must use the same fail-closed narration resolver"
+      );
       await page.screenshot({ path: path.join(screenshotDir, "390-world-money-stage-01-activity.png"), fullPage: false });
 
       await page.getByRole("button", { name: "Rp3", exact: true }).click();
