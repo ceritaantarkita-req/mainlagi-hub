@@ -430,6 +430,56 @@ async function main() {
       const viewport = { width: 390, height: 844 };
       const context = await browser.newContext({ viewport });
       const page = await context.newPage();
+      const stageUrl = baseUrl + "/child/demo-gian/world/money-festival/stage/money-stage-01-money-use";
+      await page.goto(stageUrl, { waitUntil: "domcontentloaded" });
+      await page.getByRole("heading", { name: "Uang Buat Apa?", exact: true }).waitFor();
+
+      for (let index = 0; index < 4; index += 1) {
+        await page.getByRole("button", { name: /Lanjut/ }).click();
+      }
+
+      await page.getByRole("button", { name: "Rp3", exact: true }).click();
+      await page.getByRole("button", { name: /Balon.*Rp3/ }).click();
+      await page.getByRole("button", { name: "Rp4", exact: true }).click();
+      await page.getByRole("button", { name: /Buah.*Rp4/ }).click();
+      await page.getByRole("button", { name: "Rp5", exact: true }).click();
+      await page.getByRole("button", { name: /Jus.*Rp5/ }).click();
+
+      await page.getByRole("button", { name: /Lanjut/ }).waitFor();
+      await page.getByRole("button", { name: /Lanjut/ }).click();
+      await page.getByRole("button", { name: /Lanjut/ }).click();
+
+      await page.getByRole("button", { name: "🎈 Balon", exact: true }).click();
+      await page.getByRole("button", { name: "Rp3", exact: true }).click();
+      await page.getByRole("button", { name: "🍎 Buah", exact: true }).click();
+      await page.getByRole("button", { name: "Rp4", exact: true }).click();
+      await page.getByRole("button", { name: "🧃 Jus", exact: true }).click();
+      await page.getByRole("button", { name: "Rp5", exact: true }).click();
+
+      await page.getByRole("button", { name: /Lanjut/ }).waitFor();
+      await page.getByRole("button", { name: /Lanjut/ }).click();
+      await page.getByRole("button", { name: /Selesai/ }).click();
+
+      await page.getByRole("heading", { name: "Awesome!", exact: true }).waitFor();
+      assert.equal(await page.locator('[aria-label="Tiga bintang"] svg').count(), 3, "World Stage 1 completion must show exactly three stars");
+      assert.equal(await page.getByRole("link", { name: /Back/ }).count(), 1, "World completion must expose Back");
+      assert.equal(await page.getByRole("button", { name: /Again/ }).count(), 1, "World completion must expose Again");
+      assert.equal(await page.getByRole("link", { name: /Next/ }).count(), 1, "World completion must expose Next");
+      assert.equal(await page.getByRole("button", { name: /Share/ }).count(), 1, "World completion must expose Share below navigation actions");
+      await page.screenshot({ path: path.join(screenshotDir, "390-world-money-stage-01-complete.png"), fullPage: false });
+
+      await page.getByRole("link", { name: /Back/ }).click();
+      await page.getByText("Kok Jadi Lebih Mahal?", { exact: true }).waitFor();
+      const stageTwoLink = page.locator('a[href="/child/demo-gian/world/money-festival/stage/money-stage-02-price-change"]');
+      assert.equal(await stageTwoLink.count(), 1, "World Stage 1 completion must unlock Stage 2");
+      await context.close();
+      console.log("World Petualangan Uang Stage 1 end-to-end checkpoint passed at 390px.");
+    }
+
+    {
+      const viewport = { width: 390, height: 844 };
+      const context = await browser.newContext({ viewport });
+      const page = await context.newPage();
       await page.goto(`${baseUrl}/child/demo-gian/activity/english-match-hello`, { waitUntil: "domcontentloaded" });
       const board = page.locator("[data-visible-matching]");
       await board.waitFor();
