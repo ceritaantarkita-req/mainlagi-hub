@@ -90,6 +90,7 @@
     "src/lib/learning/world/moneyWorldNarrationProduction.ts",
     "src/lib/learning/world/moneyWorldNarrationPlan.ts",
     "src/lib/learning/world/moneyWorldNarrationPilot.ts",
+    "src/lib/learning/world/moneyWorldNarrationReview.ts",
     "src/lib/learning/world/moneyWorldNarrationPlayback.ts",
     "src/lib/learning/world/worldStructure.ts",
     "src/lib/learning/world/worldScenePresentation.ts",
