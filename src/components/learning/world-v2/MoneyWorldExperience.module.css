@@ -573,6 +573,98 @@
   color: #7c9b8e;
 }
 
+
+.compareBoard {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  width: min(620px, 100%);
+  margin: 0 auto;
+}
+
+.compareCard {
+  min-height: 130px;
+  border: 2px solid #d8d9bd;
+  border-radius: 24px;
+  background: #fff8cf;
+  color: #193b55;
+  font: inherit;
+  font-size: clamp(20px, 3vw, 30px);
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.sortTray {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  width: min(680px, 100%);
+  margin: 0 auto 20px;
+}
+
+.sortItem {
+  min-height: 62px;
+  border: 2px solid #d4ddca;
+  border-radius: 18px;
+  background: #fffdf5;
+  color: #193b55;
+  font: inherit;
+  font-size: 19px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.sortGroups {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  width: min(680px, 100%);
+  margin: 0 auto;
+}
+
+.sortGroup {
+  min-height: 130px;
+  display: grid;
+  align-content: center;
+  gap: 8px;
+  padding: 16px;
+  border: 2px dashed #8eb49b;
+  border-radius: 24px;
+  background: #eff7df;
+  color: #193b55;
+  font: inherit;
+  cursor: pointer;
+}
+
+.sortGroup:disabled {
+  cursor: default;
+  opacity: .72;
+}
+
+.sortGroup strong {
+  font-size: 22px;
+}
+
+.sortGroup span {
+  line-height: 1.4;
+}
+
+@media(max-width: 520px) {
+  .compareBoard,
+  .sortTray,
+  .sortGroups {
+    grid-template-columns: 1fr;
+  }
+
+  .compareCard {
+    min-height: 88px;
+  }
+
+  .sortGroup {
+    min-height: 96px;
+  }
+}
+
 .activityStatus {
   width: min(700px, 100%);
   min-height: 52px;
