@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { MoneyWorldPublicLanding } from "@/components/learning/world-v2/MoneyWorldExperience";
+import { MONEY_WORLD_SOCIAL_CARD } from "@/lib/learning/world/moneyWorldSocial";
 
 const title = "Petualangan Uang — Mainlagi World";
-const description = "Bantu Gian dan Naya menyiapkan Festival Mainlagi lewat cerita, audio, dan mini-game tentang harga, pilihan, menabung, dan risiko.";
+const description = MONEY_WORLD_SOCIAL_CARD.description;
 
 export const metadata: Metadata = {
   title,
@@ -13,10 +14,10 @@ export const metadata: Metadata = {
     url: "/worlds/money-festival",
     images: [
       {
-        url: "/og/math-warung.png",
-        width: 1200,
-        height: 630,
-        alt: "Petualangan Uang — Mainlagi World"
+        url: MONEY_WORLD_SOCIAL_CARD.path,
+        width: MONEY_WORLD_SOCIAL_CARD.width,
+        height: MONEY_WORLD_SOCIAL_CARD.height,
+        alt: MONEY_WORLD_SOCIAL_CARD.alt
       }
     ],
     type: "website"
@@ -25,7 +26,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title,
     description,
-    images: ["/og/math-warung.png"]
+    images: [MONEY_WORLD_SOCIAL_CARD.path]
   }
 };
 
