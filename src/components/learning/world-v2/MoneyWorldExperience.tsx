@@ -345,7 +345,7 @@ function WorldMatching({
 }) {
   const validation = validateReusableMechanicPayload("matching", placement.payload);
   const pairs = useMemo(() => placement.payload.pairs ?? [], [placement.payload.pairs]);
-  const right = useMemo(() => [...pairs].reverse(), [pairs]);
+  const right = useMemo(() => pairs.length > 1 ? [...pairs.slice(1), pairs[0]] : [...pairs], [pairs]);
   const [selectedPairId, setSelectedPairId] = useState<string | null>(null);
   const [matched, setMatched] = useState<string[]>([]);
   const [incorrectCount, setIncorrectCount] = useState(0);
