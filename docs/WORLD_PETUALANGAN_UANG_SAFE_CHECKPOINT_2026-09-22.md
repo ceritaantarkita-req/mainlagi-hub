@@ -562,3 +562,47 @@ QA contracts added:
 - mobile/browser World QA asserts the Garden-baseline shell, centered wordmark, top Dengar control, Gavi/Paca activity presentation, and absence of Gian/Naya fallback artwork.
 
 This section documents the branch work only. It does **not** move any frozen green checkpoint and does not authorize merging PR #272 or this production-wave branch.
+
+
+## 23. Production wave 02 — canonical World hierarchy
+
+The isolated production branch now has an explicit reusable hierarchy contract:
+
+```text
+World -> Chapter -> Stage -> Scene -> Segment
+```
+
+New sources:
+
+```text
+src/lib/learning/world/worldStructure.ts
+src/lib/learning/world/moneyWorldStructure.ts
+docs/WORLD_CANONICAL_STRUCTURE_2026-09-22.md
+```
+
+Current Petualangan Uang topology:
+
+```text
+Worlds:   1
+Chapters: 2
+Stages:   8
+Scenes:   44
+Segments: 89
+```
+
+Important compatibility decisions:
+
+- all existing Stage IDs remain unchanged;
+- all existing Segment IDs and order remain unchanged;
+- narration cue identity remains unchanged;
+- activity IDs remain unchanged;
+- Stage ★★★ completion remains unchanged;
+- local/cloud resume continues using the existing Segment index;
+- Scene is an authored presentation layer and does not require a persistence/schema migration;
+- every rendered Segment must resolve to one canonical Scene or runtime fails closed.
+
+Runtime proof now exposes `data-world-scene-id` and `data-world-scene-kind`. Browser QA locks Stage 1 opening -> `money-scene-s01-opening` and the first mini-game -> `money-scene-s01-money-price-match`.
+
+Static QA validates hierarchy uniqueness, ordering, no orphan Stage/Scene, no duplicate Segment, and exact 89-Segment coverage.
+
+This wave does not modify Belajar, Bermain/motion, mastery/evidence activation, global age migration, or final human-character production.
