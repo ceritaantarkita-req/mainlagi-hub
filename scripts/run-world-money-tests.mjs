@@ -18,10 +18,12 @@ if (compile.status !== 0) process.exit(compile.status ?? 1);
 
 const require = createRequire(import.meta.url);
 const world = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorld.js"));
+const evidenceBridge = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldEvidenceBridge.js"));
 const presentation = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldPresentation.js"));
 const assets = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldAssets.js"));
 const progress = require(path.join(outDir, "src", "lib", "learning", "world", "progress.js"));
 const mechanics = require(path.join(outDir, "src", "lib", "learning", "mechanicLibrary.js"));
+const catalog = require(path.join(outDir, "src", "lib", "learning", "catalog.js"));
 
 try {
   assert.equal(world.MONEY_WORLD_ID, "money-festival");
@@ -107,6 +109,37 @@ try {
   assert.equal(activityCount, 16, "eight-stage dummy must expose sixteen reusable mechanic placements");
   assert.equal(narrativeChoiceCount, 1, "dummy must contain exactly one telemetry-only narrative choice");
 
+  assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_BRIDGE_VERSION, "money-world-evidence-bridge-v0");
+  assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_BRIDGE_ENABLED, false, "World evidence bridge must remain disabled until server/catalog blockers close");
+  assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_CANDIDATES.length, 2, "pilot evidence audit should expose only two defensible canonical-skill candidates");
+  assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_EXCLUSIONS.length, 14, "every other pilot activity must stay explicitly excluded from mastery");
+  assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_BRIDGE_AUDIT.length, activityCount, "evidence audit must cover all World activity placements exactly once");
+  assert.equal(
+    new Set(evidenceBridge.MONEY_WORLD_EVIDENCE_BRIDGE_AUDIT.map((entry) => entry.worldActivityId)).size,
+    activityCount,
+    "World evidence audit activity IDs must be unique"
+  );
+  assert.deepEqual(
+    new Set(evidenceBridge.MONEY_WORLD_EVIDENCE_BRIDGE_AUDIT.map((entry) => entry.worldActivityId)),
+    new Set(placementIds),
+    "World evidence audit must cover the exact runtime activity placements"
+  );
+  for (const candidate of evidenceBridge.MONEY_WORLD_EVIDENCE_CANDIDATES) {
+    assert.equal(candidate.decision, "candidate");
+    assert.ok(candidate.canonicalSkillId, candidate.worldActivityId + " candidate must name a canonical skill");
+    const canonicalSkill = catalog.getLearningSkill(candidate.canonicalSkillId);
+    assert.ok(canonicalSkill, candidate.worldActivityId + " candidate skill must exist in canonical catalog");
+    assert.equal(
+      mechanics.resolveMechanicEvidenceContract(candidate.mechanicId, "assessed"),
+      candidate.assessedEvidenceContract,
+      candidate.worldActivityId + " candidate evidence contract must match the reusable mechanic"
+    );
+  }
+  assert.ok(
+    evidenceBridge.MONEY_WORLD_EVIDENCE_BRIDGE_BLOCKERS.includes("canonical-learning-skill-age-contract-currently-stops-at-7"),
+    "age-8 blocker must remain explicit until canonical learning age migration is complete"
+  );
+
   const stageEight = world.getMoneyWorldSegments("money-stage-08-final-festival");
   const subtraction = stageEight.find((segment) => segment.type === "activity" && segment.activity.id === "money-s08-activity-02");
   assert.ok(subtraction && subtraction.type === "activity", "final subtraction activity must exist");
@@ -186,7 +219,7 @@ try {
     "current background reuse must remain explicitly approved in the pilot manifest"
   );
 
-  console.log("Petualangan Uang eight-stage payload, linear progress, age policy, practice boundary, low-text language, recap, asset plan, and financial-safety contracts passed.");
+  console.log("Petualangan Uang eight-stage payload, linear progress, age policy, fail-closed evidence audit, practice boundary, low-text language, recap, asset plan, and financial-safety contracts passed.");
 } finally {
   rmSync(outDir, { recursive: true, force: true });
 }
