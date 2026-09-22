@@ -112,6 +112,7 @@ export function PictureWordMatchActivity({ childId, activityId }: { childId: str
       narration={narration}
       lang={config.locale}
       spacious
+      compactShortDesktop={isEnglish}
     >
       <section
         ref={sceneRef}
