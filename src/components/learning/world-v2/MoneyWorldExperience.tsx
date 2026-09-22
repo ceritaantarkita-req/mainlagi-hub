@@ -385,6 +385,41 @@ function SpeechCard({
   );
 }
 
+function WorldActivityPrompt({
+  prompt,
+  helper,
+  tag = "Mini-game"
+}: {
+  prompt: string;
+  helper?: string;
+  tag?: string;
+}) {
+  const [audioNotice, setAudioNotice] = useState("");
+
+  const hearPrompt = () => {
+    unlockAudio("id-ID");
+    const status = speakPrompt(prompt, {
+      lang: "id-ID",
+      key: "world-activity-prompt:" + prompt,
+      interrupt: true,
+      dedupeMs: 0
+    });
+    setAudioNotice(status === "spoken" ? "" : status === "muted" ? "Suara sedang dimatikan." : "Suara belum tersedia. Prompt tetap bisa dibaca.");
+  };
+
+  return (
+    <div className={styles.activityHeading}>
+      <span className={styles.sceneType}>{tag}</span>
+      <h2>{prompt}</h2>
+      <button type="button" className={styles.promptAudioButton} onClick={hearPrompt} data-world-prompt-hear>
+        <SpeakerHigh size={19} weight="fill" aria-hidden /> Dengar
+      </button>
+      {helper ? <p>{helper}</p> : null}
+      {audioNotice ? <small className={styles.promptAudioNotice} role="status">{audioNotice}</small> : null}
+    </div>
+  );
+}
+
 function WorldDragTarget({
   placement,
   onComplete
@@ -432,11 +467,10 @@ function WorldDragTarget({
 
   return (
     <section className={styles.activityScene}>
-      <div className={styles.activityHeading}>
-        <span className={styles.sceneType}>Mini-game</span>
-        <h2>{placement.payload.prompt}</h2>
-        <p>Sentuh uang lalu sentuh barang. Di desktop, kartu juga bisa diseret.</p>
-      </div>
+      <WorldActivityPrompt
+        prompt={placement.payload.prompt}
+        helper="Sentuh kartu lalu sentuh tujuan. Di desktop, kartu juga bisa diseret."
+      />
       <div className={styles.dragBoard}>
         <div className={styles.sourceColumn}>
           <strong>Kartu</strong>
@@ -524,11 +558,10 @@ function WorldMatching({
 
   return (
     <section className={styles.activityScene}>
-      <div className={styles.activityHeading}>
-        <span className={styles.sceneType}>Mini-game</span>
-        <h2>{placement.payload.prompt}</h2>
-        <p>Pasangkan kartu di kiri dengan pasangannya di kanan.</p>
-      </div>
+      <WorldActivityPrompt
+        prompt={placement.payload.prompt}
+        helper="Pasangkan kartu di kiri dengan pasangannya di kanan."
+      />
       <div className={styles.matchBoard}>
         <div className={styles.matchColumn}>
           {pairs.map((pair) => (
@@ -597,11 +630,10 @@ function WorldCompare({
 
   return (
     <section className={styles.activityScene}>
-      <div className={styles.activityHeading}>
-        <span className={styles.sceneType}>Mini-game</span>
-        <h2>{placement.payload.prompt}</h2>
-        <p>Lihat harga kemarin dan harga sekarang.</p>
-      </div>
+      <WorldActivityPrompt
+        prompt={placement.payload.prompt}
+        helper="Lihat harga kemarin dan harga sekarang."
+      />
       <div className={styles.compareBoard} role="group" aria-label="Bandingkan dua harga">
         {options.map((option) => (
           <button
@@ -662,11 +694,10 @@ function WorldSortClassify({
 
   return (
     <section className={styles.activityScene}>
-      <div className={styles.activityHeading}>
-        <span className={styles.sceneType}>Mini-game</span>
-        <h2>{placement.payload.prompt}</h2>
-        <p>Pilih satu perubahan harga, lalu masukkan ke kelompok yang sesuai.</p>
-      </div>
+      <WorldActivityPrompt
+        prompt={placement.payload.prompt}
+        helper="Pilih satu kartu, lalu masukkan ke kelompok yang sesuai."
+      />
 
       <div className={styles.sortTray} role="group" aria-label="Kartu perubahan harga">
         {items.filter((item) => !placed[item.id]).map((item) => (
@@ -740,11 +771,10 @@ function WorldTapChoice({
 
   return (
     <section className={styles.activityScene}>
-      <div className={styles.activityHeading}>
-        <span className={styles.sceneType}>Mini-game</span>
-        <h2>{placement.payload.prompt}</h2>
-        <p>Pilih satu jawaban.</p>
-      </div>
+      <WorldActivityPrompt
+        prompt={placement.payload.prompt}
+        helper="Pilih satu jawaban."
+      />
 
       {takeAway ? (
         <div className={styles.tokenBoard} aria-label={startCount + " token, " + removeCount + " dipakai"}>
@@ -823,11 +853,10 @@ function WorldOrdering({
 
   return (
     <section className={styles.activityScene}>
-      <div className={styles.activityHeading}>
-        <span className={styles.sceneType}>Mini-game</span>
-        <h2>{placement.payload.prompt}</h2>
-        <p>Sentuh kartu dari langkah pertama sampai terakhir.</p>
-      </div>
+      <WorldActivityPrompt
+        prompt={placement.payload.prompt}
+        helper="Sentuh kartu dari langkah pertama sampai terakhir."
+      />
 
       <div className={styles.orderSlots} aria-label="Urutan yang dipilih">
         {items.map((_, index) => (
@@ -869,11 +898,11 @@ function NarrativeChoiceCard({
 
   return (
     <section className={styles.activityScene}>
-      <div className={styles.activityHeading}>
-        <span className={styles.sceneType}>Pilihanmu</span>
-        <h2>{prompt}</h2>
-        <p>Tidak ada jawaban salah di bagian ini. Pilih yang kamu mau.</p>
-      </div>
+      <WorldActivityPrompt
+        prompt={prompt}
+        tag="Pilihanmu"
+        helper="Tidak ada jawaban salah di bagian ini. Pilih yang kamu mau."
+      />
       <div className={styles.choiceBoard} role="group" aria-label="Pilihan cerita">
         {options.map((option) => (
           <button
