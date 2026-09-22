@@ -472,6 +472,13 @@ async function main() {
       assert.equal(await page.getByRole("button", { name: /Share/ }).count(), 1, "World completion must expose Share below navigation actions");
       await page.screenshot({ path: path.join(screenshotDir, "390-world-money-stage-01-complete.png"), fullPage: false });
 
+      await page.getByRole("button", { name: /Share/ }).click();
+      const worldShareDialog = page.getByRole("dialog", { name: "Bagikan pencapaian" });
+      await worldShareDialog.waitFor();
+      await worldShareDialog.getByText("Fitur berbagi hanya tersedia melalui sesi orang tua.", { exact: true }).waitFor();
+      assert.equal(await worldShareDialog.getByRole("link", { name: "Buka Area Orang Tua", exact: true }).count(), 1, "World external share must stay parent-gated in child session");
+      await worldShareDialog.getByRole("button", { name: "Tutup", exact: true }).click();
+
       await page.getByRole("link", { name: /Back/ }).click();
       await page.getByText("Kok Jadi Lebih Mahal?", { exact: true }).waitFor();
       const worldMap = page.locator('[data-world-map="money-festival"]');
