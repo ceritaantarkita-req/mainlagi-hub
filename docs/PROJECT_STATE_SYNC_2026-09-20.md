@@ -8,7 +8,7 @@ This document summarizes the current repository/product state through the 22 Sep
 
 ## 1. Source of truth and production verification
 
-Current production/documentation main:
+Latest English-narration product/runtime implementation baseline:
 
 ```text
 2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48
@@ -61,8 +61,8 @@ Wave 1 docs closure main:      397bcab1ee2d101ebd89f2377bd7dffb2705d7c0
 Wave 1 docs closure main CI:   #1369 / run 35699976551 — exact smoke
 Wave 2 asset-gate PR:          #280
 Wave 2 final PR CI:            #1371 / run 35700739978 — full success
-current main:                  2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48
-current merged-main CI:        #1372 / run 35701448136 — exact smoke
+product runtime baseline:      2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48
+runtime baseline main CI:      #1372 / run 35701448136 — exact smoke
 ```
 
 Current narration truth:
