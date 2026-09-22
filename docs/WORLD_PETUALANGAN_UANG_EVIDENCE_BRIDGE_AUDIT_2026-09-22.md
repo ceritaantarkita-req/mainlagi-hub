@@ -48,6 +48,8 @@ world-completion-stars-must-remain-separate-from-mastery
 
 The 6–8 pilot is especially important here: existing canonical skill age metadata still tops out at 7, so an age-8 learner cannot be silently treated as fully covered by the current Belajar skill-age contract.
 
+The exact profile/catalog/database/runtime blockers and safe migration phases are recorded in `WORLD_AGE_MIGRATION_AUDIT_2026-09-22.md`.
+
 ## 4. Evidence audit result
 
 Only **2 of 16** World activities currently have a defensible objective-level match to an existing canonical Skill.
