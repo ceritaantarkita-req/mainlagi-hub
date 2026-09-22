@@ -37,8 +37,10 @@ Read these first for current work:
 25. [`PRODUCT_DIRECTION.md`](PRODUCT_DIRECTION.md) — product principles and direction.
 26. [`LEARNING_ILLUSTRATION_CONSISTENCY_AUDIT_2026-09-22.md`](LEARNING_ILLUSTRATION_CONSISTENCY_AUDIT_2026-09-22.md) — closed illustration audit; containment follow-up closed, semantic-art work remains open.
 27. [`LEARNING_VISUAL_CONTAINMENT_PILOT_2026-09-22.md`](LEARNING_VISUAL_CONTAINMENT_PILOT_2026-09-22.md) — merged/live-verified shared containment implementation and browser contract.
-28. [`LEARNING_VISUAL_CONTAINMENT_CLOSURE_2026-09-23.md`](LEARNING_VISUAL_CONTAINMENT_CLOSURE_2026-09-23.md) — final PR #294 / CI #1529 / main CI #1531 exact-smoke closure and next semantic-art boundary.
-29. [`KNOWN_LIMITATIONS.md`](KNOWN_LIMITATIONS.md) — current known limitations and external acceptance gaps.
+28. [`LEARNING_VISUAL_CONTAINMENT_CLOSURE_2026-09-23.md`](LEARNING_VISUAL_CONTAINMENT_CLOSURE_2026-09-23.md) — final PR #294 / CI #1529 / main CI #1531 exact-smoke containment closure.
+29. [`LEARNING_SEMANTIC_ILLUSTRATION_REGISTRY_PILOT_2026-09-23.md`](LEARNING_SEMANTIC_ILLUSTRATION_REGISTRY_PILOT_2026-09-23.md) — 17-slot fail-closed semantic asset/provenance gate implementation record.
+30. [`LEARNING_SEMANTIC_ILLUSTRATION_REGISTRY_CLOSURE_2026-09-23.md`](LEARNING_SEMANTIC_ILLUSTRATION_REGISTRY_CLOSURE_2026-09-23.md) — PR #297 / CI #1536 / main CI #1537 exact-smoke closure and P0 art handoff.
+31. [`KNOWN_LIMITATIONS.md`](KNOWN_LIMITATIONS.md) — current known limitations and external acceptance gaps.
 
 Subsystem docs remain authoritative for their specific scope when they do not conflict with the canonical documents above.
 
