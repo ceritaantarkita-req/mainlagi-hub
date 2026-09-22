@@ -22,6 +22,7 @@ const worldStructure = require(path.join(outDir, "src", "lib", "learning", "worl
 const moneyStructure = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldStructure.js"));
 const pilot = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldPilot.js"));
 const narration = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldNarration.js"));
+const narrationProduction = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldNarrationProduction.js"));
 const ageMigration = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldAgeMigrationAudit.js"));
 const evidenceBridge = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldEvidenceBridge.js"));
 const presentation = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldPresentation.js"));
@@ -163,6 +164,14 @@ try {
   assert.equal(narration.MONEY_WORLD_NARRATION_CONTRACT_VERSION, "money-world-narration-v1");
   assert.equal(narration.MONEY_WORLD_NARRATION_LOCALE, "id-ID");
   assert.equal(narration.MONEY_WORLD_NARRATION_PRODUCTION_READY, false, "fixed World narration assets are not production-ready yet");
+  assert.equal(narrationProduction.MONEY_WORLD_NARRATION_PRODUCTION_VERSION, "money-world-narration-production-v1");
+  assert.equal(narrationProduction.MONEY_WORLD_NARRATION_PRODUCTION_VALIDATION.valid, true, narrationProduction.MONEY_WORLD_NARRATION_PRODUCTION_VALIDATION.errors.join("; "));
+  assert.deepEqual(narrationProduction.MONEY_WORLD_NARRATION_PRODUCTION_VALIDATION.errors, []);
+  assert.equal(narrationProduction.MONEY_WORLD_NARRATION_PRODUCTION_SUMMARY.total, 88, "fixed narration cue sheet must cover all 88 spoken World units");
+  assert.equal(narrationProduction.MONEY_WORLD_NARRATION_PRODUCTION_SUMMARY.approved, 0, "no fixed narration binary is approved in this wave");
+  assert.equal(narrationProduction.MONEY_WORLD_NARRATION_PRODUCTION_SUMMARY.pending, 88);
+  assert.equal(narrationProduction.MONEY_WORLD_NARRATION_PRODUCTION_SUMMARY.productionReady, false);
+  assert.deepEqual(narrationProduction.MONEY_WORLD_NARRATION_APPROVALS, [], "generated audio must never auto-approve itself");
   const expectedNarrationIds = [];
   for (const stage of world.MONEY_WORLD_STAGES) {
     for (const segment of world.getMoneyWorldSegments(stage.id)) {
@@ -186,6 +195,23 @@ try {
     assert.equal(cue.locale, "id-ID");
     assert.equal(cue.expectedProductionSrc, "/audio/world/money-festival/id-ID/" + cue.id + ".mp3");
   }
+  for (const cue of narration.MONEY_WORLD_NARRATION_CUES) {
+    const entry = narrationProduction.getMoneyWorldNarrationProductionEntry(cue.id);
+    assert.ok(entry, cue.id + " must exist in fixed narration production cue sheet");
+    assert.equal(entry.expectedSrc, cue.expectedProductionSrc);
+    assert.equal(entry.productionSrc, null, cue.id + " must fail closed until reviewed");
+    assert.equal(entry.status, "pending-review");
+    assert.match(entry.textFingerprint, /^fnv1a32-[0-9a-f]{8}$/);
+    assert.equal(narrationProduction.resolveMoneyWorldNarrationProductionSrc(cue.id), null);
+  }
+
+  const narrationRuntimeSource = readFileSync(path.join(root, "src/components/learning/world-v2/MoneyWorldExperience.tsx"), "utf8");
+  const narrationPlaybackSource = readFileSync(path.join(root, "src/lib/learning/world/moneyWorldNarrationPlayback.ts"), "utf8");
+  assert.match(narrationRuntimeSource, /playMoneyWorldNarration/, "World runtime must route narration through the fixed-audio resolver");
+  assert.doesNotMatch(narrationRuntimeSource, /\bspeakPrompt\s*\(/, "World runtime must not bypass fixed-audio resolution with direct browser speech");
+  assert.match(narrationPlaybackSource, /resolveMoneyWorldNarrationProductionSrc/, "playback adapter must resolve reviewed fixed assets");
+  assert.match(narrationPlaybackSource, /onFixedAudioFallback/, "fixed audio failure must retain browser-speech fallback");
+  assert.match(narrationPlaybackSource, /new Audio\(productionSrc\)/, "reviewed production audio must use deterministic fixed-file playback");
 
   assert.equal(world.MONEY_WORLD_CHAPTERS.length, 2, "money dummy must keep two chapters");
   assert.equal(world.MONEY_WORLD_STAGES.length, 8, "money dummy must keep eight stages");
@@ -369,7 +395,7 @@ try {
     "current background reuse must remain explicitly approved in the pilot manifest"
   );
 
-  console.log("Petualangan Uang canonical hierarchy, eight-stage production manifest, data-driven Stage visuals, linear progress, age policy/migration audit, fixed-narration contract, fail-closed evidence audit, practice boundary, low-text language, recap, mascot-dummy runtime policy, asset plan, and financial-safety contracts passed.");
+  console.log("Petualangan Uang canonical hierarchy, eight-stage production manifest, data-driven Stage visuals, fixed-narration production/review resolver, linear progress, age policy/migration audit, fail-closed evidence audit, practice boundary, low-text language, recap, mascot-dummy runtime policy, asset plan, and financial-safety contracts passed.");
 } finally {
   rmSync(outDir, { recursive: true, force: true });
 }
