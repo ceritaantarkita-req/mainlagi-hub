@@ -22,8 +22,8 @@ import { CharacterAvatar, useLearningProfile } from "@/components/learning/Learn
 import { playTone, speakWithStatus, unlockAudio } from "@/lib/audio/feedback";
 import {
   MONEY_WORLD_ID,
-  MONEY_WORLD_STAGE_ONE_SEGMENTS,
   MONEY_WORLD_STAGES,
+  getMoneyWorldSegments,
   getMoneyWorldStage,
   nextMoneyWorldStage,
   type MoneyWorldActivityPlacement
@@ -417,10 +417,152 @@ function WorldMatching({
   );
 }
 
+function WorldCompare({
+  placement,
+  onComplete
+}: {
+  placement: MoneyWorldActivityPlacement;
+  onComplete: () => void;
+}) {
+  const validation = validateReusableMechanicPayload("compare", placement.payload);
+  const options = placement.payload.options ?? [];
+  const correctOptionId = placement.payload.correctOptionId ?? "";
+  const [selected, setSelected] = useState<string | null>(null);
+  const [incorrectCount, setIncorrectCount] = useState(0);
+  const [message, setMessage] = useState("Bandingkan kedua harga.");
+
+  if (!validation.valid) return <div className={styles.runtimeError}>Payload compare tidak valid.</div>;
+
+  const choose = (optionId: string) => {
+    if (optionId !== correctOptionId) {
+      const nextWrong = incorrectCount + 1;
+      setIncorrectCount(nextWrong);
+      setSelected(optionId);
+      setMessage(nextWrong >= 2 ? "Bandingkan angkanya: sepuluh dan dua belas." : "Belum tepat. Coba bandingkan lagi.");
+      playTone("wrong");
+      return;
+    }
+    setSelected(optionId);
+    setMessage("Betul. Dua belas lebih mahal daripada sepuluh.");
+    playTone("correct");
+    window.setTimeout(onComplete, 450);
+  };
+
+  return (
+    <section className={styles.activityScene}>
+      <div className={styles.activityHeading}>
+        <span className={styles.sceneType}>Mini-game</span>
+        <h2>{placement.payload.prompt}</h2>
+        <p>Lihat harga kemarin dan harga sekarang.</p>
+      </div>
+      <div className={styles.compareBoard} role="group" aria-label="Bandingkan dua harga">
+        {options.map((option) => (
+          <button
+            type="button"
+            key={option.id}
+            className={cx(styles.compareCard, selected === option.id && styles.selectedCard)}
+            onClick={() => choose(option.id)}
+            aria-pressed={selected === option.id}
+          >
+            {option.label}
+          </button>
+        ))}
+      </div>
+      <p className={styles.activityStatus} role="status">{message}</p>
+    </section>
+  );
+}
+
+function WorldSortClassify({
+  placement,
+  onComplete
+}: {
+  placement: MoneyWorldActivityPlacement;
+  onComplete: () => void;
+}) {
+  const validation = validateReusableMechanicPayload("sort_classify", placement.payload);
+  const items = placement.payload.items ?? [];
+  const groups = placement.payload.groups ?? [];
+  const assignments = placement.payload.assignments ?? {};
+  const [selected, setSelected] = useState<string | null>(null);
+  const [placed, setPlaced] = useState<Record<string, string>>({});
+  const [incorrectCount, setIncorrectCount] = useState(0);
+  const [message, setMessage] = useState("Pilih satu kartu, lalu pilih kelompoknya.");
+
+  if (!validation.valid) return <div className={styles.runtimeError}>Payload sort tidak valid.</div>;
+
+  const place = (groupId: string) => {
+    if (!selected) return;
+    if (assignments[selected] !== groupId) {
+      const nextWrong = incorrectCount + 1;
+      setIncorrectCount(nextWrong);
+      setMessage(nextWrong >= 2 ? "Kalau angka kedua lebih besar, harganya naik." : "Belum tepat. Coba kelompok satunya.");
+      playTone("wrong");
+      return;
+    }
+
+    const next = { ...placed, [selected]: groupId };
+    setPlaced(next);
+    setSelected(null);
+    playTone("correct");
+    if (Object.keys(next).length === items.length) {
+      setMessage("Semua kartu sudah dikelompokkan.");
+      window.setTimeout(onComplete, 450);
+    } else {
+      setMessage("Cocok. Pilih kartu berikutnya.");
+    }
+  };
+
+  return (
+    <section className={styles.activityScene}>
+      <div className={styles.activityHeading}>
+        <span className={styles.sceneType}>Mini-game</span>
+        <h2>{placement.payload.prompt}</h2>
+        <p>Pilih satu perubahan harga, lalu masukkan ke kelompok yang sesuai.</p>
+      </div>
+
+      <div className={styles.sortTray} role="group" aria-label="Kartu perubahan harga">
+        {items.filter((item) => !placed[item.id]).map((item) => (
+          <button
+            type="button"
+            key={item.id}
+            className={cx(styles.sortItem, selected === item.id && styles.selectedCard)}
+            aria-pressed={selected === item.id}
+            onClick={() => setSelected(item.id)}
+          >
+            {item.label}
+          </button>
+        ))}
+      </div>
+
+      <div className={styles.sortGroups} role="group" aria-label="Kelompok harga">
+        {groups.map((group) => {
+          const contents = items.filter((item) => placed[item.id] === group.id);
+          return (
+            <button
+              type="button"
+              key={group.id}
+              className={styles.sortGroup}
+              disabled={!selected}
+              onClick={() => place(group.id)}
+            >
+              <strong>{group.label}</strong>
+              <span>{contents.map((item) => item.label).join(" · ") || "Taruh di sini"}</span>
+            </button>
+          );
+        })}
+      </div>
+      <p className={styles.activityStatus} role="status">{message}</p>
+    </section>
+  );
+}
+
 function WorldActivity({ placement, onComplete }: { placement: MoneyWorldActivityPlacement; onComplete: () => void }) {
   if (placement.mechanicId === "drag_to_target") return <WorldDragTarget placement={placement} onComplete={onComplete} />;
   if (placement.mechanicId === "matching") return <WorldMatching placement={placement} onComplete={onComplete} />;
-  return <div className={styles.runtimeError}>Mechanic belum aktif di checkpoint Stage 1.</div>;
+  if (placement.mechanicId === "compare") return <WorldCompare placement={placement} onComplete={onComplete} />;
+  if (placement.mechanicId === "sort_classify") return <WorldSortClassify placement={placement} onComplete={onComplete} />;
+  return <div className={styles.runtimeError}>Mechanic ini belum aktif di World dummy.</div>;
 }
 
 function WorldStageCompletion({
@@ -525,16 +667,23 @@ function WorldStageCompletion({
   );
 }
 
-function StageOneRuntime({ childId }: { childId: string }) {
+function MoneyWorldStageRuntime({
+  childId,
+  stageId
+}: {
+  childId: string;
+  stageId: string;
+}) {
   const state = useMoneyWorldProgress(childId);
-  const stageId = "money-stage-01-money-use";
-  const lastIndex = MONEY_WORLD_STAGE_ONE_SEGMENTS.length - 1;
+  const stage = getMoneyWorldStage(stageId);
+  const segments = getMoneyWorldSegments(stageId);
+  const lastIndex = segments.length - 1;
   const [segmentIndex, setSegmentIndex] = useState(0);
   const [completed, setCompleted] = useState(false);
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    if (!state.ready || hydrated) return;
+    if (!state.ready || hydrated || lastIndex < 0) return;
     const resume = state.progress.currentStageId === stageId
       ? Math.min(lastIndex, state.progress.currentSegmentIndex)
       : 0;
@@ -545,7 +694,7 @@ function StageOneRuntime({ childId }: { childId: string }) {
       setHydrated(true);
     });
     return () => window.cancelAnimationFrame(frame);
-  }, [childId, hydrated, lastIndex, state.progress.currentSegmentIndex, state.progress.currentStageId, state.ready]);
+  }, [childId, hydrated, lastIndex, stageId, state.progress.currentSegmentIndex, state.progress.currentStageId, state.ready]);
 
   const advance = () => {
     if (segmentIndex >= lastIndex) {
@@ -566,23 +715,24 @@ function StageOneRuntime({ childId }: { childId: string }) {
     setHydrated(true);
   };
 
+  if (!stage || !segments.length) return <div className={styles.runtimeError}>Stage belum memiliki segment runtime.</div>;
   if (!state.ready || !hydrated) return <div className={styles.stageLoading}>Menyiapkan petualangan…</div>;
   if (completed) return <WorldStageCompletion childId={childId} stageId={stageId} onAgain={again} />;
 
-  const segment = MONEY_WORLD_STAGE_ONE_SEGMENTS[segmentIndex];
-  const percent = ((segmentIndex + 1) / MONEY_WORLD_STAGE_ONE_SEGMENTS.length) * 100;
+  const segment = segments[segmentIndex];
+  const percent = ((segmentIndex + 1) / segments.length) * 100;
 
   return (
     <div className={styles.stageRuntime}>
-      <div className={styles.stageProgressBar} aria-label={"Bagian " + (segmentIndex + 1) + " dari " + MONEY_WORLD_STAGE_ONE_SEGMENTS.length}>
+      <div className={styles.stageProgressBar} aria-label={"Bagian " + (segmentIndex + 1) + " dari " + segments.length}>
         <span style={{ width: String(percent) + "%" }} />
       </div>
       <div className={styles.stageRuntimeTop}>
         <Link href={"/child/" + childId + "/world/" + MONEY_WORLD_ID} className={styles.roundBack} aria-label="Kembali ke peta">
           <ArrowLeft size={24} weight="bold" aria-hidden />
         </Link>
-        <div><small>Stage 1</small><strong>Uang Buat Apa?</strong></div>
-        <span className={styles.stageCount}>{String(segmentIndex + 1) + "/" + MONEY_WORLD_STAGE_ONE_SEGMENTS.length}</span>
+        <div><small>{"Stage " + stage.order}</small><strong>{stage.title}</strong></div>
+        <span className={styles.stageCount}>{String(segmentIndex + 1) + "/" + segments.length}</span>
       </div>
 
       {segment.type === "activity" ? (
@@ -637,7 +787,8 @@ export function MoneyWorldStageScreen({
     );
   }
 
-  if (stageId !== "money-stage-01-money-use") {
+  const segments = getMoneyWorldSegments(stageId);
+  if (!stage.playable || !segments.length) {
     return (
       <main className={styles.stagePage}>
         <div className={styles.placeholderScene}>
@@ -645,14 +796,14 @@ export function MoneyWorldStageScreen({
           <span className={styles.eyebrow}>{"Stage " + stage.order + " sudah terbuka"}</span>
           <h1>{stage.title}</h1>
           <p>{stage.subtitle}</p>
-          <p className={styles.placeholderNote}>Runtime Stage ini sengaja belum diaktifkan pada checkpoint pertama. Stage 1 menjadi reference implementation sebelum pola yang sama diperluas ke Stage 2–8.</p>
+          <p className={styles.placeholderNote}>Stage ini sudah masuk World Map, tetapi runtime-nya belum dibuka pada checkpoint implementasi saat ini.</p>
           <Link href={mapHref} className={styles.primaryButton}><ArrowLeft size={20} weight="bold" aria-hidden />Kembali ke peta</Link>
         </div>
       </main>
     );
   }
 
-  return <main className={styles.stagePage}><StageOneRuntime childId={childId} /></main>;
+  return <main className={styles.stagePage}><MoneyWorldStageRuntime childId={childId} stageId={stageId} /></main>;
 }
 
 export function MoneyWorldPublicLanding() {
