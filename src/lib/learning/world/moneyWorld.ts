@@ -18,6 +18,11 @@ export interface MoneyWorldActivityPlacement {
   mechanicId: ReusableMechanicId;
   assessment: MechanicAssessmentMode;
   payload: ReusableMechanicPayload;
+  presentation?: {
+    kind: string;
+    startCount?: number;
+    removeCount?: number;
+  };
 }
 
 export type MoneyWorldSegment =
@@ -43,6 +48,16 @@ export type MoneyWorldSegment =
       type: "payoff";
       speaker: "Gian" | "Naya";
       text: string;
+    }
+  | {
+      id: string;
+      type: "narrative_choice";
+      prompt: string;
+      options: Array<{
+        id: string;
+        label: string;
+        reaction: string;
+      }>;
     };
 
 export const MONEY_WORLD_CHAPTERS = [
@@ -97,7 +112,7 @@ export const MONEY_WORLD_STAGES: MoneyWorldStageDefinition[] = [
     subtitle: "Kenalan dengan bekerja dan usaha.",
     emoji: "🧃",
     locationLabel: "Jalan kios",
-    playable: false
+    playable: true
   },
   {
     id: "money-stage-04-needs-wants",
@@ -107,7 +122,7 @@ export const MONEY_WORLD_STAGES: MoneyWorldStageDefinition[] = [
     subtitle: "Pilih yang paling dibutuhkan dulu.",
     emoji: "🛒",
     locationLabel: "Mini market",
-    playable: false
+    playable: true
   },
   {
     id: "money-stage-05-saving",
@@ -117,7 +132,7 @@ export const MONEY_WORLD_STAGES: MoneyWorldStageDefinition[] = [
     subtitle: "Simpan sedikit demi sedikit untuk tujuan nanti.",
     emoji: "🐷",
     locationLabel: "Taman tabungan",
-    playable: false
+    playable: true
   },
   {
     id: "money-stage-06-investment-intro",
@@ -127,7 +142,7 @@ export const MONEY_WORLD_STAGES: MoneyWorldStageDefinition[] = [
     subtitle: "Kenalan dengan ide mengembangkan nilai.",
     emoji: "🌱",
     locationLabel: "Kebun nilai",
-    playable: false
+    playable: true
   },
   {
     id: "money-stage-07-risk",
@@ -137,7 +152,7 @@ export const MONEY_WORLD_STAGES: MoneyWorldStageDefinition[] = [
     subtitle: "Hasil tidak selalu sama.",
     emoji: "↕️",
     locationLabel: "Jembatan festival",
-    playable: false
+    playable: true
   },
   {
     id: "money-stage-08-final-festival",
@@ -147,7 +162,7 @@ export const MONEY_WORLD_STAGES: MoneyWorldStageDefinition[] = [
     subtitle: "Pakai semua yang sudah dipelajari.",
     emoji: "🎪",
     locationLabel: "Festival Mainlagi",
-    playable: false
+    playable: true
   }
 ];
 
@@ -378,9 +393,666 @@ export const MONEY_WORLD_STAGE_TWO_SEGMENTS: MoneyWorldSegment[] = [
   }
 ];
 
+export const MONEY_WORLD_STAGE_THREE_SEGMENTS: MoneyWorldSegment[] = [
+  {
+    id: "money-s03-narrative-01",
+    type: "narrative",
+    speaker: "Gian",
+    text: "Mereka semua lagi ngapain?"
+  },
+  {
+    id: "money-s03-narrative-02",
+    type: "narrative",
+    speaker: "Naya",
+    text: "Mereka sedang bekerja."
+  },
+  {
+    id: "money-s03-narrative-03",
+    type: "narrative",
+    speaker: "Gian",
+    text: "Terus mereka dapat uang?"
+  },
+  {
+    id: "money-s03-concept-01",
+    type: "concept",
+    speaker: "Naya",
+    text: "Orang bisa mendapatkan uang dari pekerjaan."
+  },
+  {
+    id: "money-s03-narrative-04",
+    type: "narrative",
+    speaker: "Gian",
+    text: "Kalau punya kios sendiri?"
+  },
+  {
+    id: "money-s03-concept-02",
+    type: "concept",
+    speaker: "Naya",
+    text: "Itu bisa disebut usaha."
+  },
+  {
+    id: "money-s03-activity-01",
+    type: "activity",
+    activity: {
+      id: "money-s03-activity-01",
+      mechanicId: "matching",
+      assessment: "practice",
+      payload: {
+        prompt: "Pasangkan kegiatan dengan hasilnya.",
+        pairs: [
+          {
+            id: "baker-bread",
+            left: { id: "baker", label: "👩‍🍳 Membuat roti" },
+            right: { id: "bread", label: "🥖 Roti" }
+          },
+          {
+            id: "gardener-plant",
+            left: { id: "gardener", label: "🧑‍🌾 Merawat tanaman" },
+            right: { id: "plant", label: "🌱 Tanaman" }
+          },
+          {
+            id: "juice-stall-juice",
+            left: { id: "juice-seller", label: "🧃 Menjual jus" },
+            right: { id: "juice-cup", label: "🥤 Jus" }
+          },
+          {
+            id: "bike-repair-bike",
+            left: { id: "bike-repair", label: "🔧 Memperbaiki sepeda" },
+            right: { id: "bike", label: "🚲 Sepeda" }
+          }
+        ]
+      }
+    }
+  },
+  {
+    id: "money-s03-concept-03",
+    type: "concept",
+    speaker: "Naya",
+    text: "Ada banyak cara orang mendapatkan uang. Bisa dari bekerja, bisa juga dari usaha."
+  },
+  {
+    id: "money-s03-activity-02",
+    type: "activity",
+    activity: {
+      id: "money-s03-activity-02",
+      mechanicId: "sort_classify",
+      assessment: "practice",
+      payload: {
+        prompt: "Mana yang bisa dilakukan orang? Mana yang cuma khayalan?",
+        items: [
+          { id: "make-bread", label: "🥖 Membuat roti untuk dijual" },
+          { id: "repair-bike", label: "🔧 Memperbaiki sepeda pelanggan" },
+          { id: "sell-juice", label: "🧃 Menjual jus" },
+          { id: "coin-cloud", label: "☁️ Menunggu uang turun dari awan" }
+        ],
+        groups: [
+          { id: "can-do", label: "Bisa dilakukan" },
+          { id: "fantasy", label: "Cuma khayalan" }
+        ],
+        assignments: {
+          "make-bread": "can-do",
+          "repair-bike": "can-do",
+          "sell-juice": "can-do",
+          "coin-cloud": "fantasy"
+        }
+      }
+    }
+  },
+  {
+    id: "money-s03-payoff-01",
+    type: "payoff",
+    speaker: "Gian",
+    text: "Jadi uang tidak muncul sendiri."
+  },
+  {
+    id: "money-s03-payoff-02",
+    type: "payoff",
+    speaker: "Naya",
+    text: "Iya. Sekarang kita pilih cara memakainya."
+  }
+];
+
+export const MONEY_WORLD_STAGE_FOUR_SEGMENTS: MoneyWorldSegment[] = [
+  {
+    id: "money-s04-narrative-01",
+    type: "narrative",
+    speaker: "Gian",
+    text: "Aku mau balon!"
+  },
+  {
+    id: "money-s04-narrative-02",
+    type: "narrative",
+    speaker: "Gian",
+    text: "Aku juga mau robot!"
+  },
+  {
+    id: "money-s04-narrative-03",
+    type: "narrative",
+    speaker: "Naya",
+    text: "Tapi uang kita tidak cukup untuk semua."
+  },
+  {
+    id: "money-s04-narrative-04",
+    type: "narrative",
+    speaker: "Gian",
+    text: "Terus gimana?"
+  },
+  {
+    id: "money-s04-concept-01",
+    type: "concept",
+    speaker: "Naya",
+    text: "Kita pilih yang paling dibutuhkan dulu."
+  },
+  {
+    id: "money-s04-activity-01",
+    type: "activity",
+    activity: {
+      id: "money-s04-activity-01",
+      mechanicId: "sort_classify",
+      assessment: "practice",
+      payload: {
+        prompt: "Untuk meja festival ini, pilih yang dibutuhkan dulu.",
+        items: [
+          { id: "water", label: "💧 Air minum" },
+          { id: "cups", label: "🥤 Gelas" },
+          { id: "fruit", label: "🍎 Buah" },
+          { id: "robot", label: "🤖 Robot mainan" },
+          { id: "extra-balloon", label: "🎈 Balon tambahan" },
+          { id: "fun-hat", label: "🥳 Topi lucu tambahan" }
+        ],
+        groups: [
+          { id: "need-first", label: "Butuh dulu" },
+          { id: "want-too", label: "Mau juga" }
+        ],
+        assignments: {
+          "water": "need-first",
+          "cups": "need-first",
+          "fruit": "need-first",
+          "robot": "want-too",
+          "extra-balloon": "want-too",
+          "fun-hat": "want-too"
+        }
+      }
+    }
+  },
+  {
+    id: "money-s04-concept-02",
+    type: "concept",
+    speaker: "Naya",
+    text: "Butuh adalah sesuatu yang penting untuk tujuan kita."
+  },
+  {
+    id: "money-s04-concept-03",
+    type: "concept",
+    speaker: "Naya",
+    text: "Mau adalah sesuatu yang kita suka, tapi bisa ditunda."
+  },
+  {
+    id: "money-s04-activity-02",
+    type: "activity",
+    activity: {
+      id: "money-s04-activity-02",
+      mechanicId: "tap_choice",
+      assessment: "practice",
+      payload: {
+        prompt: "Meja festival belum punya air minum. Pilih dulu yang mana?",
+        options: [
+          { id: "choose-water", label: "💧 Air minum" },
+          { id: "choose-robot", label: "🤖 Robot mainan" },
+          { id: "choose-balloon", label: "🎈 Balon tambahan" }
+        ],
+        correctOptionId: "choose-water"
+      }
+    }
+  },
+  {
+    id: "money-s04-payoff-01",
+    type: "payoff",
+    speaker: "Gian",
+    text: "Jadi boleh mau, tapi pilih dulu?"
+  },
+  {
+    id: "money-s04-payoff-02",
+    type: "payoff",
+    speaker: "Naya",
+    text: "Betul."
+  }
+];
+
+export const MONEY_WORLD_STAGE_FIVE_SEGMENTS: MoneyWorldSegment[] = [
+  {
+    id: "money-s05-narrative-01",
+    type: "narrative",
+    speaker: "Gian",
+    text: "Kalau uangnya belum cukup gimana?"
+  },
+  {
+    id: "money-s05-concept-01",
+    type: "concept",
+    speaker: "Naya",
+    text: "Kita bisa menabung."
+  },
+  {
+    id: "money-s05-narrative-02",
+    type: "narrative",
+    speaker: "Gian",
+    text: "Menabung?"
+  },
+  {
+    id: "money-s05-concept-02",
+    type: "concept",
+    speaker: "Naya",
+    text: "Simpan sebagian untuk nanti."
+  },
+  {
+    id: "money-s05-activity-01",
+    type: "activity",
+    activity: {
+      id: "money-s05-activity-01",
+      mechanicId: "drag_to_target",
+      assessment: "practice",
+      payload: {
+        prompt: "Simpan tiga token untuk tujuan nanti.",
+        items: [
+          { id: "token-1", label: "🪙 1" },
+          { id: "token-2", label: "🪙 1" },
+          { id: "token-3", label: "🪙 1" }
+        ],
+        targets: [
+          { id: "save-box", label: "🐷 Simpan" },
+          { id: "spend-now", label: "🛍️ Pakai sekarang" }
+        ],
+        assignments: {
+          "token-1": "save-box",
+          "token-2": "save-box",
+          "token-3": "save-box"
+        }
+      }
+    }
+  },
+  {
+    id: "money-s05-concept-03",
+    type: "concept",
+    speaker: "Naya",
+    text: "Sedikit demi sedikit bisa terkumpul."
+  },
+  {
+    id: "money-s05-narrative-03",
+    type: "narrative",
+    speaker: "Gian",
+    text: "Jadi aku tidak harus pakai semuanya sekarang."
+  },
+  {
+    id: "money-s05-activity-02",
+    type: "activity",
+    activity: {
+      id: "money-s05-activity-02",
+      mechanicId: "ordering_sequence",
+      assessment: "practice",
+      payload: {
+        prompt: "Urutkan cara menabung untuk tujuan.",
+        items: [
+          { id: "goal", label: "🎯 Punya tujuan" },
+          { id: "save", label: "🐷 Simpan sebagian" },
+          { id: "collect", label: "⭐ Uang terkumpul" },
+          { id: "use-later", label: "🎁 Pakai saat sudah cukup" }
+        ],
+        correctOrder: ["goal", "save", "collect", "use-later"]
+      }
+    }
+  },
+  {
+    id: "money-s05-payoff-01",
+    type: "payoff",
+    speaker: "Gian",
+    text: "Aku simpan dulu."
+  }
+];
+
+export const MONEY_WORLD_STAGE_SIX_SEGMENTS: MoneyWorldSegment[] = [
+  {
+    id: "money-s06-narrative-01",
+    type: "narrative",
+    speaker: "Gian",
+    text: "Kalau ditabung, uangnya tetap ada."
+  },
+  {
+    id: "money-s06-narrative-02",
+    type: "narrative",
+    speaker: "Gian",
+    text: "Apa uang bisa bertambah?"
+  },
+  {
+    id: "money-s06-concept-01",
+    type: "concept",
+    speaker: "Naya",
+    text: "Ada cara orang dewasa mencoba mengembangkan nilai uang."
+  },
+  {
+    id: "money-s06-narrative-03",
+    type: "narrative",
+    speaker: "Gian",
+    text: "Apa namanya?"
+  },
+  {
+    id: "money-s06-concept-02",
+    type: "concept",
+    speaker: "Naya",
+    text: "Investasi."
+  },
+  {
+    id: "money-s06-activity-01",
+    type: "activity",
+    activity: {
+      id: "money-s06-activity-01",
+      mechanicId: "matching",
+      assessment: "practice",
+      payload: {
+        prompt: "Pasangkan pilihan dengan tujuannya.",
+        pairs: [
+          {
+            id: "spend-now",
+            left: { id: "buy-juice", label: "🧃 Beli jus sekarang" },
+            right: { id: "purpose-use", label: "Pakai sekarang" }
+          },
+          {
+            id: "save-later",
+            left: { id: "saving-box", label: "🐷 Masukkan ke tabungan" },
+            right: { id: "purpose-save", label: "Simpan untuk nanti" }
+          },
+          {
+            id: "invest-grow",
+            left: { id: "investment-icon", label: "↗️↘️ Investasi" },
+            right: { id: "purpose-grow", label: "Mencoba mengembangkan nilai" }
+          }
+        ]
+      }
+    }
+  },
+  {
+    id: "money-s06-concept-03",
+    type: "concept",
+    speaker: "Naya",
+    text: "Menabung berarti menyimpan uang untuk nanti."
+  },
+  {
+    id: "money-s06-concept-04",
+    type: "concept",
+    speaker: "Naya",
+    text: "Investasi berarti mencoba mengembangkan nilai uang."
+  },
+  {
+    id: "money-s06-concept-05",
+    type: "concept",
+    speaker: "Naya",
+    text: "Tapi hasilnya tidak selalu naik."
+  },
+  {
+    id: "money-s06-activity-02",
+    type: "activity",
+    activity: {
+      id: "money-s06-activity-02",
+      mechanicId: "tap_choice",
+      assessment: "practice",
+      payload: {
+        prompt: "Mana yang berarti mencoba mengembangkan nilai uang?",
+        options: [
+          { id: "spend", label: "🧃 Membeli jus sekarang" },
+          { id: "save", label: "🐷 Menyimpan untuk nanti" },
+          { id: "invest", label: "↗️↘️ Mencoba investasi" }
+        ],
+        correctOptionId: "invest"
+      }
+    }
+  },
+  {
+    id: "money-s06-payoff-01",
+    type: "payoff",
+    speaker: "Gian",
+    text: "Aku tahu bedanya simpan dan coba kembangkan."
+  }
+];
+
+export const MONEY_WORLD_STAGE_SEVEN_SEGMENTS: MoneyWorldSegment[] = [
+  {
+    id: "money-s07-narrative-01",
+    type: "narrative",
+    speaker: "Gian",
+    text: "Yang ini naik!"
+  },
+  {
+    id: "money-s07-narrative-02",
+    type: "narrative",
+    speaker: "Gian",
+    text: "Yang ini malah turun."
+  },
+  {
+    id: "money-s07-narrative-03",
+    type: "narrative",
+    speaker: "Gian",
+    text: "Jadi investasi tidak selalu naik?"
+  },
+  {
+    id: "money-s07-concept-01",
+    type: "concept",
+    speaker: "Naya",
+    text: "Tidak selalu."
+  },
+  {
+    id: "money-s07-activity-01",
+    type: "activity",
+    activity: {
+      id: "money-s07-activity-01",
+      mechanicId: "sort_classify",
+      assessment: "practice",
+      payload: {
+        prompt: "Mana yang naik? Mana yang turun?",
+        items: [
+          { id: "value-5-7", label: "5 → 7" },
+          { id: "value-8-6", label: "8 → 6" },
+          { id: "value-4-5", label: "4 → 5" },
+          { id: "value-9-7", label: "9 → 7" }
+        ],
+        groups: [
+          { id: "up", label: "⬆️ Naik" },
+          { id: "down", label: "⬇️ Turun" }
+        ],
+        assignments: {
+          "value-5-7": "up",
+          "value-8-6": "down",
+          "value-4-5": "up",
+          "value-9-7": "down"
+        }
+      }
+    }
+  },
+  {
+    id: "money-s07-concept-02",
+    type: "concept",
+    speaker: "Naya",
+    text: "Kalau hasil bisa berbeda dari yang kita harapkan, ada risiko."
+  },
+  {
+    id: "money-s07-narrative-04",
+    type: "narrative",
+    speaker: "Gian",
+    text: "Risiko artinya hasilnya belum pasti?"
+  },
+  {
+    id: "money-s07-concept-03",
+    type: "concept",
+    speaker: "Naya",
+    text: "Iya. Bisa lebih baik, bisa juga lebih kecil."
+  },
+  {
+    id: "money-s07-activity-02",
+    type: "activity",
+    activity: {
+      id: "money-s07-activity-02",
+      mechanicId: "tap_choice",
+      assessment: "practice",
+      payload: {
+        prompt: "Kalimat mana yang benar tentang investasi?",
+        options: [
+          { id: "always-profit", label: "Pasti selalu untung" },
+          { id: "up-or-down", label: "Bisa naik atau turun" },
+          { id: "never-change", label: "Tidak pernah berubah" }
+        ],
+        correctOptionId: "up-or-down"
+      }
+    }
+  },
+  {
+    id: "money-s07-payoff-01",
+    type: "payoff",
+    speaker: "Naya",
+    text: "Karena itu, keputusan uang perlu dipikirkan."
+  },
+  {
+    id: "money-s07-payoff-02",
+    type: "payoff",
+    speaker: "Gian",
+    text: "Oke. Jangan asal pilih."
+  }
+];
+
+export const MONEY_WORLD_STAGE_EIGHT_SEGMENTS: MoneyWorldSegment[] = [
+  {
+    id: "money-s08-narrative-01",
+    type: "narrative",
+    speaker: "Gian",
+    text: "Festival sebentar lagi mulai!"
+  },
+  {
+    id: "money-s08-concept-01",
+    type: "concept",
+    speaker: "Naya",
+    text: "Kita punya dua puluh token. Ayo siapkan yang dibutuhkan dulu."
+  },
+  {
+    id: "money-s08-activity-01",
+    type: "activity",
+    activity: {
+      id: "money-s08-activity-01",
+      mechanicId: "drag_to_target",
+      assessment: "practice",
+      payload: {
+        prompt: "Taruh yang dibutuhkan di meja festival.",
+        items: [
+          { id: "water", label: "💧 Air · 5" },
+          { id: "fruit", label: "🍎 Buah · 4" },
+          { id: "cups", label: "🥤 Gelas · 3" },
+          { id: "balloon", label: "🎈 Balon · 3" },
+          { id: "ribbon", label: "🎀 Pita · 2" },
+          { id: "robot", label: "🤖 Robot · 6" }
+        ],
+        targets: [
+          { id: "festival-table", label: "🎪 Meja festival" },
+          { id: "later", label: "⏳ Bisa nanti" }
+        ],
+        assignments: {
+          "water": "festival-table",
+          "fruit": "festival-table",
+          "cups": "festival-table",
+          "balloon": "later",
+          "ribbon": "later",
+          "robot": "later"
+        }
+      }
+    }
+  },
+  {
+    id: "money-s08-concept-02",
+    type: "concept",
+    speaker: "Naya",
+    text: "Kebutuhan utama memakai dua belas token. Kita masih punya delapan."
+  },
+  {
+    id: "money-s08-narrative-choice-01",
+    type: "narrative_choice",
+    prompt: "Kebutuhan sudah lengkap. Masih ada delapan token. Kamu mau apa?",
+    options: [
+      {
+        id: "save-some",
+        label: "🐷 Simpan sebagian",
+        reaction: "Kamu memilih menyimpan sebagian."
+      },
+      {
+        id: "buy-ribbon",
+        label: "🎀 Tambah pita · 2",
+        reaction: "Kamu memilih membuat meja lebih meriah."
+      },
+      {
+        id: "buy-robot",
+        label: "🤖 Beli robot mini · 6",
+        reaction: "Kamu memilih mainan tambahan."
+      }
+    ]
+  },
+  {
+    id: "money-s08-concept-03",
+    type: "concept",
+    speaker: "Naya",
+    text: "Sekarang coba latihan hitung. Kalau delapan token dipakai dua, sisanya berapa?"
+  },
+  {
+    id: "money-s08-activity-02",
+    type: "activity",
+    activity: {
+      id: "money-s08-activity-02",
+      mechanicId: "tap_choice",
+      assessment: "practice",
+      presentation: {
+        kind: "take_away",
+        startCount: 8,
+        removeCount: 2
+      },
+      payload: {
+        prompt: "Ada 8 token. Dipakai 2. Berapa sisanya?",
+        options: [
+          { id: "answer-4", label: "4" },
+          { id: "answer-6", label: "6" },
+          { id: "answer-8", label: "8" }
+        ],
+        correctOptionId: "answer-6"
+      }
+    }
+  },
+  {
+    id: "money-s08-payoff-01",
+    type: "payoff",
+    speaker: "Naya",
+    text: "Kebutuhan sudah siap."
+  },
+  {
+    id: "money-s08-payoff-02",
+    type: "payoff",
+    speaker: "Gian",
+    text: "Kita juga tidak pakai uang sembarangan."
+  },
+  {
+    id: "money-s08-payoff-03",
+    type: "payoff",
+    speaker: "Naya",
+    text: "Kita lihat harga, pilih kebutuhan, dan pikirkan sisa uang."
+  },
+  {
+    id: "money-s08-payoff-04",
+    type: "payoff",
+    speaker: "Gian",
+    text: "Festival siap!"
+  }
+];
+
 export const MONEY_WORLD_SEGMENTS: Record<string, MoneyWorldSegment[]> = {
   "money-stage-01-money-use": MONEY_WORLD_STAGE_ONE_SEGMENTS,
-  "money-stage-02-price-change": MONEY_WORLD_STAGE_TWO_SEGMENTS
+  "money-stage-02-price-change": MONEY_WORLD_STAGE_TWO_SEGMENTS,
+  "money-stage-03-income-sources": MONEY_WORLD_STAGE_THREE_SEGMENTS,
+  "money-stage-04-needs-wants": MONEY_WORLD_STAGE_FOUR_SEGMENTS,
+  "money-stage-05-saving": MONEY_WORLD_STAGE_FIVE_SEGMENTS,
+  "money-stage-06-investment-intro": MONEY_WORLD_STAGE_SIX_SEGMENTS,
+  "money-stage-07-risk": MONEY_WORLD_STAGE_SEVEN_SEGMENTS,
+  "money-stage-08-final-festival": MONEY_WORLD_STAGE_EIGHT_SEGMENTS
 };
 
 export function getMoneyWorldSegments(stageId: string): MoneyWorldSegment[] {
