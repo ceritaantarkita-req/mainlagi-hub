@@ -20,12 +20,12 @@ Production tidak memakai VPS/SSH sebagai jalur canonical.
 Current source-of-truth branch is `main`:
 
 ```text
-main:                8af5ce8a13d19f8aaeb3d8f06229dbcdeb555a41
-main CI:             #1212 / run 35632779986
+main:                709e2b7d3e529cf37f10a05e9c9dc92884e0a781
+main CI:             #1353 / run 35687996669
 Cloudflare smoke:    PASS, exact SHA
 ```
 
-The active Mainlagi Belajar implementation is WS-05 Logic repeating-pattern reuse PR #273. Its verified implementation checkpoint is `ec050bf919ebe534a719ef22a37691248e1b233d` / CI #1312 full success; merge is pending final docs-head CI.
+Mainlagi Belajar WS-05 Logic repeating-pattern reuse is **FULLY CLOSED / MERGED / LIVE VERIFIED** via PR #273 -> `709e2b7d3e529cf37f10a05e9c9dc92884e0a781`; final PR CI #1321 and merged-main CI #1353 passed, including exact-SHA Cloudflare production smoke.
 
 Current learning/product baseline:
 
@@ -118,7 +118,7 @@ Canonical execution plans:
 
 Immediate priorities are:
 
-- close WS-05 Logic `pattern_completion` reuse PR #273 and verify merged production;
+- preserve the closed WS-05 Logic `pattern_completion` reuse baseline; any next mechanic work starts from a fresh objective/evidence audit;
 - keep character development paused until explicit resume;
 - keep Mainlagi World outside this workstream;
 - maintain subject-background and learning-illustration consistency;
@@ -127,7 +127,7 @@ Immediate priorities are:
 - real-device/accessibility acceptance and Iqro expert review;
 - repository/security/governance hardening.
 
-WS-05 Logic repeating-pattern runtime reuse is implemented on PR #273. Checkpoint `ec050bf...` / CI #1312 verifies 900/900 activities, 47 active patterns, `choice_grid` 174, `pattern_completion` 10, KEEP 900, exact five-ID Logic scope and no Pattern #48. Merge remains pending final docs-head CI.
+WS-05 Logic repeating-pattern runtime reuse is **fully closed/live verified** through PR #273 -> main `709e2b7d...`, merged-main CI #1353. Production truth is 900/900 activities, 47 active patterns, `choice_grid` 174, `pattern_completion` 10, KEEP 900, exact five-ID Logic scope and no Pattern #48.
 
 **Quality first. Quantity later.**
 
