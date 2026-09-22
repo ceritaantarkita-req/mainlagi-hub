@@ -655,7 +655,14 @@ async function main() {
       await advanceWorldNarrative(page);
 
       await page.getByRole("heading", { name: "Awesome!", exact: true }).waitFor();
-      assert.equal(await page.locator('[aria-label="Tiga bintang"] svg').count(), 3, "World Stage 1 completion must show exactly three stars");
+      const stageOneCompletion = page.locator('[data-world-completion-stage="money-stage-01-money-use"]');
+      await stageOneCompletion.waitFor();
+      assert.equal(await stageOneCompletion.getAttribute("data-world-completion-chapter"), "money-chapter-01-road-to-festival", "Stage 1 completion must retain Chapter 1 identity");
+      assert.equal(await stageOneCompletion.getAttribute("data-world-completion-final"), "false", "Stage 1 completion must not look like final World completion");
+      assert.equal((await stageOneCompletion.locator("[data-world-completion-context]").textContent())?.trim(), "Chapter 1 · Stage 1/8", "Stage 1 completion must expose concise hierarchy context");
+      assert.equal((await stageOneCompletion.locator("[data-world-completion-message]").textContent())?.trim(), "Uang Buat Apa? selesai. Stage 2 sekarang terbuka.", "Stage 1 completion must explain what unlocked next");
+      assert.equal(await stageOneCompletion.locator('[aria-label="Tiga bintang"] svg').count(), 3, "World Stage 1 completion must show exactly three stars");
+      assert.equal(await stageOneCompletion.getByRole("link", { name: /Next/ }).getAttribute("href"), "/child/demo-gian/world/money-festival/stage/money-stage-02-price-change", "Stage 1 Next must point directly to Stage 2");
       await page.waitForTimeout(700);
       assert.equal(await page.getByRole("link", { name: /Back/ }).count(), 1, "World completion must expose Back");
       assert.equal(await page.getByRole("button", { name: /Again/ }).count(), 1, "World completion must expose Again");
@@ -815,6 +822,13 @@ async function main() {
           "World completion control " + control.text + " must be immediately visible at " + width + "px"
         );
       }
+      const navControls = geometry.controls.filter((item) => ["Back", "Again", "Next"].includes(item.text));
+      const shareControl = geometry.controls.find((item) => item.text === "Share");
+      assert.ok(navControls.length === 3 && shareControl, "World completion must keep Back / Again / Next plus Share at " + width + "px");
+      assert.ok(
+        shareControl.top >= Math.max(...navControls.map((item) => item.bottom)) - 1,
+        "World Share must remain below Back / Again / Next at " + width + "px"
+      );
       await page.screenshot({ path: path.join(screenshotDir, width + "-world-money-stage-01-complete.png"), fullPage: false });
       await context.close();
       console.log("World Stage 1 completion controls passed at " + width + "px.");
@@ -867,6 +881,8 @@ async function main() {
         await shell.locator("[data-world-next]").click();
         const completion = page.locator('[aria-labelledby="world-stage-complete-title"]');
         await completion.waitFor();
+        assert.equal(await completion.getAttribute("data-world-completion-stage"), stage.id, stage.id + " completion must preserve exact Stage identity");
+        assert.equal(await completion.getAttribute("data-world-completion-final"), stage.id === "money-stage-08-final-festival" ? "true" : "false", stage.id + " final-completion status must be deterministic");
         assert.equal(await completion.locator('[aria-label="Tiga bintang"] svg').count(), 3, stage.id + " must complete with three Stage stars");
         await context.close();
       }
@@ -946,6 +962,10 @@ async function main() {
       await page.waitForTimeout(700);
       await page.getByText("Chapter 1 selesai", { exact: true }).waitFor();
       await page.getByText("Pilih Pintar", { exact: true }).waitFor();
+      const chapterOneCompletion = page.locator('[data-world-completion-stage="money-stage-04-needs-wants"]');
+      assert.equal(await chapterOneCompletion.getAttribute("data-world-completion-chapter"), "money-chapter-01-road-to-festival", "Stage 4 completion must retain canonical Chapter 1 identity");
+      assert.equal(await chapterOneCompletion.locator('[data-world-completion-chapter-milestone="money-chapter-01-road-to-festival"]').count(), 1, "Stage 4 must expose Chapter 1 milestone semantics");
+      assert.equal((await chapterOneCompletion.locator("[data-world-completion-context]").textContent())?.trim(), "Chapter 1 · Stage 4/8", "Stage 4 completion must expose Chapter 1 / Stage 4 context");
       await page.screenshot({ path: path.join(screenshotDir, "390-world-money-chapter-01-complete.png"), fullPage: false });
       await context.close();
       console.log("World Petualangan Uang Chapter 1 milestone reward passed at 390px.");
@@ -1041,7 +1061,13 @@ async function main() {
       await page.getByRole("heading", { name: "Luar biasa!", exact: true }).waitFor();
       await page.waitForTimeout(700);
       await page.getByText("Petualangan Uang selesai. Festival Mainlagi siap!", { exact: true }).waitFor();
-      assert.equal(await page.locator('[aria-label="Tiga bintang"] svg').count(), 3, "Final World Stage must show exactly three stars");
+      const finalCompletion = page.locator('[data-world-completion-stage="money-stage-08-final-festival"]');
+      assert.equal(await finalCompletion.getAttribute("data-world-completion-chapter"), "money-chapter-02-prepare-festival", "Final completion must retain canonical Chapter 2 identity");
+      assert.equal(await finalCompletion.getAttribute("data-world-completion-final"), "true", "Final completion must identify World completion");
+      assert.equal((await finalCompletion.locator("[data-world-completion-context]").textContent())?.trim(), "Chapter 2 · Stage 8/8", "Final completion must expose Chapter 2 / Stage 8 context");
+      assert.equal(await finalCompletion.locator('[data-world-completion-chapter-milestone="money-chapter-02-prepare-festival"]').count(), 1, "Final completion must expose Chapter 2 milestone semantics");
+      await finalCompletion.getByText("Festival Siap", { exact: true }).waitFor();
+      assert.equal(await finalCompletion.locator('[aria-label="Tiga bintang"] svg').count(), 3, "Final World Stage must show exactly three stars");
       assert.equal(await page.getByRole("button", { name: /Share/ }).count(), 1, "Final World Stage must retain Share below completion navigation");
       await page.screenshot({ path: path.join(screenshotDir, "390-world-money-stage-08-complete.png"), fullPage: false });
 
