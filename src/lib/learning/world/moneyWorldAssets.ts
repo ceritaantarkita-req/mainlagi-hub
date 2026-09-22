@@ -14,6 +14,17 @@ export interface MoneyWorldAssetSlot {
 
 export const MONEY_WORLD_ASSET_PLAN_VERSION = "money-world-assets-v1";
 
+export const MONEY_WORLD_RUNTIME_CHARACTER_POLICY = {
+  version: "money-world-runtime-character-dummy-v1",
+  mode: "approved-mascot-dummy",
+  storyRoleToRuntimeCharacter: {
+    Gian: "gavi",
+    Naya: "paca"
+  },
+  finalHumanCharactersActivated: false,
+  rationale: "Character development is paused. Use approved Gavi/Paca production assets to validate the World shell without activating fallback human artwork."
+} as const;
+
 export const MONEY_WORLD_ASSET_SLOTS: readonly MoneyWorldAssetSlot[] = [
   {
     id: "world-hero-warung",
@@ -84,22 +95,22 @@ export const MONEY_WORLD_ASSET_SLOTS: readonly MoneyWorldAssetSlot[] = [
     kind: "mascot",
     status: "approved-reused",
     currentSource: "/artwork/garden-paca.webp",
-    usedIn: ["stage-ambience"],
-    finalRequirement: "Keep Paca secondary to Gian/Naya story beats."
+    usedIn: ["world-hero", "stage-shell", "stage-ambience", "temporary-naya-story-role"],
+    finalRequirement: "Approved pilot mascot. May temporarily present the Naya story role while human character production remains paused."
   },
   {
     id: "gavi-ambient",
     kind: "mascot",
     status: "approved-reused",
     currentSource: "/artwork/garden-gavi.webp",
-    usedIn: ["stage-ambience"],
-    finalRequirement: "Keep Gavi as world-liveliness/comic support, not instructional authority."
+    usedIn: ["world-hero", "stage-shell", "stage-ambience", "temporary-gian-story-role"],
+    finalRequirement: "Approved pilot mascot. May temporarily present the Gian story role while human character production remains paused."
   },
   {
     id: "gian-foreground",
     kind: "character",
     status: "production-needed",
-    currentSource: "CharacterAvatar(gian)",
+    currentSource: "Gian story role -> approved Gavi runtime dummy; no Gian production binary activated",
     usedIn: ["narrative", "concept", "payoff"],
     finalRequirement: "Approved foreground character set with consistent pose scale, expression system, and transparent background."
   },
@@ -107,7 +118,7 @@ export const MONEY_WORLD_ASSET_SLOTS: readonly MoneyWorldAssetSlot[] = [
     id: "naya-foreground",
     kind: "character",
     status: "production-needed",
-    currentSource: "CharacterAvatar(naya)",
+    currentSource: "Naya story role -> approved Paca runtime dummy; no Naya production binary activated",
     usedIn: ["narrative", "concept", "payoff"],
     finalRequirement: "Approved foreground character set matching Gian/Paca/Gavi visual universe."
   },
