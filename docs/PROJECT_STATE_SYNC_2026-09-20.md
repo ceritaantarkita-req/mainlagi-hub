@@ -113,6 +113,8 @@ same World auto-morph across 3–12 = forbidden
 
 Current explicit production gaps: Gian foreground, Naya foreground, fixed reviewed narration, dedicated public World social card. Existing Mainlagi backgrounds/Paca/Gavi remain approved reuse for the pilot unless final art review replaces them intentionally.
 
+World → canonical Evidence is still **disabled**. Audit result: 2 candidate mappings (`money-s02-activity-01` → `math.quantity.comparison`; `money-s08-activity-02` → `math.operation.subtraction.within_10`) and 14 explicit exclusions. Activation is blocked by missing canonical World activity registration, current skill-age contract ending at 7, missing server-owned World activity → Skill linkage, and the requirement that World stars remain separate from mastery. See `WORLD_PETUALANGAN_UANG_EVIDENCE_BRIDGE_AUDIT_2026-09-22.md`.
+
 ## 2. Learning/product baseline
 
 Current learning baseline remains:
