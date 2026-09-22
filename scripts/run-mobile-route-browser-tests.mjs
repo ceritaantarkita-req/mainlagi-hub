@@ -732,7 +732,7 @@ async function main() {
       assert.equal(await stageTwoLink.count(), 1, "World Stage 1 completion must unlock Stage 2");
       assert.equal(await page.locator('[data-stage-order="2"][data-current-stage="true"]').count(), 1, "World map must visibly mark Stage 2 as the next journey stop");
       assert.equal(await stageTwoLink.getAttribute("aria-current"), "step", "World map must expose Stage 2 as the current journey step to assistive technology");
-      assert.equal(await page.locator('[aria-label="Stage 3 terkunci · Dari Mana Uang Datang?"][aria-disabled="true"]').count(), 1, "locked World Stage must expose a semantic locked-state label");
+      assert.equal(await page.locator('[aria-label="Stage 3 terkunci · Uang Datang dari Mana?"][aria-disabled="true"]').count(), 1, "locked World Stage must expose a semantic locked-state label");
       await page.waitForTimeout(50);
       const stageTwoBox = await page.locator('[data-world-stage-id="money-stage-02-price-change"]').boundingBox();
       assert.ok(stageTwoBox && stageTwoBox.y < viewport.height && stageTwoBox.y + stageTwoBox.height > 0, "World map must return the child near the next unlocked Stage");
