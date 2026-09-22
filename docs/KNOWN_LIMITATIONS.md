@@ -25,23 +25,31 @@ The 20 September gallery/home work improved hierarchy and added isolated QA-unlo
 
 Current presentation must continue to preserve recommendation, age eligibility, lock reasons and direct-route guards while avoiding an undifferentiated wall of activities. QA unlock must remain isolated from normal production profiles.
 
-## Learning visual clarity and containment
+## Learning illustration semantic clarity
 
-Learning content still contains recognition visuals that depend on emoji/platform glyph rendering. This can change the silhouette, detail, color, expression, or apparent identity of an object across Windows, Android and iOS.
+Learning-visual **containment/readability infrastructure is closed/live verified** through PR #294 -> main `6d0f9bd8972297e316bdf031603d160d901d8d04`, merged-main CI #1531 exact Cloudflare smoke.
 
-The remaining limitation is broader than emoji consistency. The project owner has confirmed real desktop/mobile cases where:
+The pilot now blocks the defect class where covered learning visuals escape their card/frame, collapse below the readability floor, or push required feedback/CTA outside the supported viewport. Covered pilot surfaces include Activity Gallery, Initial Sound, Picture & Word, Feature/Function and Material Lab.
 
-- a visual intended to sit inside a card/choice box appears to escape or collide with the box;
-- the visual is clipped or too close to the border;
-- the visual is present but too small, faint, or ambiguous to identify;
-- overlays/badges can compete with the visual safe area;
-- a desktop-readable visual becomes unclear at mobile dimensions.
+The remaining limitation is **semantic clarity and cross-platform pictorial consistency**. Recognition-critical content still contains platform emoji/glyph fallbacks whose silhouette or meaning can vary and, in some cases, does not accurately depict the intended concept.
 
-The active learning-illustration consistency wave therefore treats **semantic clarity, cross-platform consistency, and containment/readability** as one product-quality contract. Gallery thumbnail containment and in-activity choice containment must be verified independently.
+Confirmed examples include:
 
-The current static inventory finds 43 source files with literal `emoji:` fields and 280 such fields across the 32 canonical subject batch-wave files. Those counts are not defect counts and must not trigger blind replacement. Latin/Arabic learning glyphs, stable symbols and decorative UI require different treatment from recognition-critical pictorial content.
+- English HEAD -> `🙂`;
+- English JUMP -> `🤸`;
+- Science gills -> `🫧`;
+- Science beak -> `👄`;
+- Science thick cactus stem -> `💚`;
+- Science towel -> `🧺`;
+- raincoat and toy-block cases using generic neighboring-object emoji.
 
-Canonical audit/checkpoint: `LEARNING_ILLUSTRATION_CONSISTENCY_AUDIT_2026-09-22.md`.
+The 43-source-file / 280-field emoji inventory remains an inventory signal, not a defect or replacement count. Exact letter/script glyphs, stable instructional symbols and decorative UI must not be swept into the pictorial-art migration.
+
+The next safe implementation is a small semantic illustration registry/provenance pilot with fail-closed runtime mapping and human child-readability review.
+
+Canonical records:
+- `LEARNING_ILLUSTRATION_CONSISTENCY_AUDIT_2026-09-22.md`;
+- `LEARNING_VISUAL_CONTAINMENT_CLOSURE_2026-09-23.md`.
 
 ## Voice and narration
 

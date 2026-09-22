@@ -1,8 +1,29 @@
 # Learning Visual Containment Pilot — 22 September 2026
 
-Status: **IMPLEMENTATION PILOT / STACKED ON ILLUSTRATION AUDIT**
+Status: **CLOSED / MERGED / LIVE VERIFIED**
 
 Parent audit: PR #287 / `docs/LEARNING_ILLUSTRATION_CONSISTENCY_AUDIT_2026-09-22.md`
+
+## Production closure — 23 September 2026
+
+Final implementation record:
+
+```text
+PR:                         #294
+Final PR head:              38fe722a63fe073a6ad3ffcfe8fa0e846559dff6
+PR CI:                      #1529 / run 35763091032 — full success
+Merged main:                6d0f9bd8972297e316bdf031603d160d901d8d04
+Merged-main CI:             #1531 / run 35764397545 — full success
+Cloudflare exact-SHA smoke: success
+```
+
+The final PR CI passed all quality/build/security/Windows/browser/permanent-visual gates. Merged-main CI repeated the full matrix and production smoke confirmed that `https://mainlagihub.my.id` was serving exact SHA `6d0f9bd8972297e316bdf031603d160d901d8d04`.
+
+The earlier PRs #288–#293 were superseded/closed without merge during CI-driven stabilization. Only PR #294 is the merged runtime truth.
+
+Representative screenshot review from PR CI artifact `10710764036` found no P0/P1 containment/readability blocker in the reviewed pilot surfaces.
+
+Containment is now closed. Semantic illustration clarity/provenance remains a separate open wave.
 
 ## Purpose
 
@@ -146,22 +167,23 @@ The new containment assertion is additive and does not weaken those checks.
 
 ## Acceptance boundary
 
-This pilot can be considered engineering-complete only when:
+This pilot is engineering-complete:
 
-1. audit PR #287 is merged;
-2. implementation PR CI is green;
-3. all five affected browser suites pass all four viewports;
+1. audit PR #287 is merged/live verified;
+2. final implementation PR #294 exact-head CI is green;
+3. affected dedicated browser suites pass all four target viewports;
 4. quality/build/Windows/security gates pass;
 5. merged-main exact-SHA Cloudflare smoke passes;
-6. human screenshot review finds no P0/P1 containment/readability blocker.
+6. representative human/model screenshot review found no P0/P1 containment/readability blocker.
 
 Even after this pilot closes, **recognition-critical emoji are not automatically approved final illustrations**. The next art wave must use centralized semantic illustration mapping plus provenance/rights and child-readable asset review before replacing fallback glyphs.
 
 ## Safe handoff
 
-If work stops here:
+Safe handoff after closure:
 
 - audit truth lives in `LEARNING_ILLUSTRATION_CONSISTENCY_AUDIT_2026-09-22.md`;
-- this file is the runtime containment pilot handoff;
+- final closure truth lives in `LEARNING_VISUAL_CONTAINMENT_CLOSURE_2026-09-23.md`;
+- containment infrastructure should not be reopened without a reproduced defect;
 - no World, character, narration, evidence, mastery, progression, schema or gameplay-pattern contract is authorized to change;
-- next safe execution is CI/visual acceptance for this pilot, then a separate production-illustration resolver/asset wave.
+- next safe execution is a separate semantic illustration registry/provenance + small P0 asset pilot.

@@ -1,6 +1,6 @@
 # Mainlagi Hub Documentation Index
 
-Last reviewed: **22 September 2026**
+Last reviewed: **23 September 2026**
 
 Use this file to decide which documentation is current and which files are historical snapshots.
 
@@ -35,11 +35,14 @@ Read these first for current work:
    - [`WS05_LOGIC_PATTERN_COMPLETION_REUSE_WAVE_2026-09-22.md`](WS05_LOGIC_PATTERN_COMPLETION_REUSE_WAVE_2026-09-22.md) — PR #273 implementation wave, exact scope and verification evidence.
    - [`PATTERN_COMPLETION_LOGIC_REPEATING_PATTERN_REUSE_CLOSURE_2026-09-22.md`](PATTERN_COMPLETION_LOGIC_REPEATING_PATTERN_REUSE_CLOSURE_2026-09-22.md) — final merged/live-verified production closure for the exact five-ID Logic reuse.
 25. [`PRODUCT_DIRECTION.md`](PRODUCT_DIRECTION.md) — product principles and direction.
-26. [`KNOWN_LIMITATIONS.md`](KNOWN_LIMITATIONS.md) — current known limitations and external acceptance gaps.
+26. [`LEARNING_ILLUSTRATION_CONSISTENCY_AUDIT_2026-09-22.md`](LEARNING_ILLUSTRATION_CONSISTENCY_AUDIT_2026-09-22.md) — closed illustration audit; containment follow-up closed, semantic-art work remains open.
+27. [`LEARNING_VISUAL_CONTAINMENT_PILOT_2026-09-22.md`](LEARNING_VISUAL_CONTAINMENT_PILOT_2026-09-22.md) — merged/live-verified shared containment implementation and browser contract.
+28. [`LEARNING_VISUAL_CONTAINMENT_CLOSURE_2026-09-23.md`](LEARNING_VISUAL_CONTAINMENT_CLOSURE_2026-09-23.md) — final PR #294 / CI #1529 / main CI #1531 exact-smoke closure and next semantic-art boundary.
+29. [`KNOWN_LIMITATIONS.md`](KNOWN_LIMITATIONS.md) — current known limitations and external acceptance gaps.
 
 Subsystem docs remain authoritative for their specific scope when they do not conflict with the canonical documents above.
 
-## Current project checkpoint — 22 September 2026
+## Current project checkpoint — 23 September 2026
 
 ```text
 English narration runtime main:  2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48
@@ -57,6 +60,9 @@ background runtime main:          7502c708c998c87bb273639025fcb10ba6c81e12
 learning catalog:                 9 subjects / 900 activities
 subject backgrounds:              54 scene families / 108 WebP / live verified
 gameplay taxonomy:                900/900 classified / 47 active / no Pattern #48
+illustration audit:               PR #287 / merged + live verified
+visual containment:               PR #294 -> 6d0f9bd8 / PR CI #1529 / main CI #1531 exact smoke
+semantic illustration:            OPEN / small registry+provenance pilot next
 character development:            PAUSED BY PROJECT OWNER / Drive assets reference-only
 Mainlagi World:                   separate user development / DO NOT TOUCH in this workstream
 WS-05 production truth:           900/900 / 47 / choice_grid 174 / pattern_completion 10 / KEEP 900

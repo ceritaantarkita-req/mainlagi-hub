@@ -101,7 +101,7 @@
 **Merged-main P1:** **0**  
 **Principle:** **Quality first. Quantity later.**
 
-## Current synchronized checkpoint — 22 September 2026
+## Current synchronized checkpoint — 23 September 2026
 
 ```text
 narration runtime baseline:   2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48
@@ -117,6 +117,9 @@ WS-13 character work:         PAUSED BY PROJECT OWNER / reference-only assets
 WS-05 runtime closure:        #273 -> 709e2b7d / main CI #1353 live verified
 verified gameplay truth:      900/900 / 47 / choice_grid 174 / pattern_completion 10 / KEEP 900
 gameplay taxonomy:            47 active / no Pattern #48
+illustration audit:           #287 -> bea1380e / main CI #1453 exact smoke
+visual containment:           #294 -> 6d0f9bd8 / PR CI #1529 / main CI #1531 exact smoke
+semantic illustration art:    OPEN / small registry+provenance pilot next
 ```
 
 Cloud analytics integrity: **CLOSED / MERGED / LIVE VERIFIED** via PR #267 -> main `89a2bc629e8535bddbf2ab78ae1990a063f0f361`, merged-main CI #1205 exact Cloudflare smoke. The old fixed 500-attempt / 2000-evidence cap and authenticated silent-local-fallback defect must not be listed as open debt again.
@@ -124,6 +127,8 @@ Cloud analytics integrity: **CLOSED / MERGED / LIVE VERIFIED** via PR #267 -> ma
 Repository secret-scan governance: **CLOSED / MERGED / LIVE VERIFIED** via PR #269 -> main `6fd9e3fc7ffa57aab687b5529033f1a995e0e5ba`, merged-main CI #1209 exact Cloudflare smoke. The standalone scan remains visible, while the same pinned full-history scan now executes inside ruleset-required `Production dependency audit`, so a secret finding fails a required merge gate.
 
 Product-UX and WS-05 remain separate work tracks. Character production is currently **PAUSED by the project owner**; it must not be resumed implicitly. Mainlagi World is also a separate development track and is out of scope for this plan execution.
+
+Learning visual containment is now **CLOSED / MERGED / LIVE VERIFIED** through PR #294 -> main `6d0f9bd...`, merged-main CI #1531 exact smoke. The active illustration task is semantic clarity/provenance for a small recognition-critical pilot; do not reopen generic containment unless a reproduced defect exists.
 
 
 ### 22 September user execution boundary
@@ -783,17 +788,17 @@ Completed/live-verified sequence:
 
 Current and next:
 8. subject theme/background system: **CLOSED / MERGED / LIVE VERIFIED** across 9 subjects / 900 activities;
-9. activity character-presentation foundation: **CLOSED / MERGED / LIVE VERIFIED** via PR #259 -> main `b5acbfcde66ea1451f3e55a8d469d33ba4845af1`, merged-main CI #1190 / run `35589937017`;
-10. character runtime asset registry: **CLOSED / MERGED / LIVE VERIFIED** via PR #262 -> main `ceb2546b6c626810901c5542e7f718acfad55341`, CI #1196 exact smoke;
-11. character production asset pipeline: **CLOSED / MERGED / LIVE VERIFIED** via PR #263 -> main `e4d7b4285db17a2010c22cdd1bc29451208f6a1b`, CI #1198 exact smoke;
-12. candidate intake audit: **COMPLETE / NO SEPARATE FOREGROUND CANDIDATE FOUND**; canonical Drive inputs remain the three design sheets;
-13. **NOW:** create/review one isolated Naya candidate outside the public production directory, then repeat for Gian and Zia only after acceptance;
-14. establish provenance/redistribution for each exact accepted derivative;
-15. integrate approved transparent WebP binaries + provenance records without automatically activating runtime;
-16. separately activate approved human-character assets through the central allowlist/resolver and run responsive visual acceptance for English -> Naya + Zia and Math -> Gian + Paca;
-17. revisit the five-character homepage hero only with approved production identities;
-18. English narration quality upgrade;
-19. learning-illustration consistency improvements;
-20. expanded human visual/usability and physical-device acceptance plus cleanup of superseded presentation paths.
+9. activity character-presentation foundation: **CLOSED / MERGED / LIVE VERIFIED** via PR #259;
+10. character runtime asset registry + production gate: **CLOSED / MERGED / LIVE VERIFIED**, but **character development remains PAUSED** by project-owner instruction;
+11. English narration copy/asset/provider/human-review engineering gates: **CLOSED / MERGED / LIVE VERIFIED**; real fixed-audio generation/listening remains **DEFERRED**;
+12. learning-illustration audit: **CLOSED / LIVE VERIFIED** via PR #287;
+13. learning visual containment/readability foundation: **CLOSED / MERGED / LIVE VERIFIED** via PR #294 -> main `6d0f9bd8972297e316bdf031603d160d901d8d04`, main CI #1531 exact smoke;
+14. **NOW:** small semantic illustration registry/provenance pilot for recognition-critical English/Bahasa/Science visuals;
+15. review exact existing Mainlagi artwork for semantic reuse; do not trust filenames or repository presence as approval;
+16. replace only reviewed P0 semantic mismatches first, keeping `LearningVisualToken` and all canonical learning/evidence contracts;
+17. expand semantic artwork only from measured recognition/readability evidence;
+18. real-device/accessibility acceptance and cleanup of superseded presentation paths;
+19. resume fixed English audio only when separately re-authorized;
+20. resume character production only when separately re-authorized.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.

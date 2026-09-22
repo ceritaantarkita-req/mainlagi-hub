@@ -58,6 +58,8 @@ Current subjects:
 
 Current frontend uses the Garden/Playroom visual system, responsive child and parent shells, child profile + continue-learning flow, subject/activity browsing, stage/progression protection, reusable activity runtimes, parent reporting, and retained motion games.
 
+Learning visual containment/readability is **merged/live verified** through PR #294 -> main `6d0f9bd8972297e316bdf031603d160d901d8d04`. Shared gallery and recognition-heavy Bahasa/English/Science surfaces now use bounded visual frames with blocking responsive containment QA. The next illustration wave is semantic clarity/provenance for a small recognition-critical asset set; platform emoji are not treated as final production art.
+
 See `docs/PROJECT_STATE_SYNC_2026-09-20.md` for the compact current handoff.
 
 ## Retained Mainlagi games

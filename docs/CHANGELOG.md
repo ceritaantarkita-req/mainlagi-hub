@@ -1,7 +1,12 @@
 # Changelog
 
-## Unreleased — 22 September 2026
+## Unreleased — 23 September 2026
 
+- Learning-illustration audit PR #287 sudah merged/live verified ke main `bea1380e...`, main CI #1453 exact Cloudflare smoke; inventory 43 source files / 280 canonical batch-wave `emoji:` fields tetap dianggap inventory signal, bukan 280 defect.
+- Learning visual containment PR #294 sudah merged/live verified ke main `6d0f9bd8972297e316bdf031603d160d901d8d04`; PR CI #1529 / run `35763091032` dan merged-main CI #1531 / run `35764397545` full success termasuk exact Cloudflare production smoke.
+- Menambahkan shared `LearningVisualToken` + blocking bounding-box QA untuk Activity Gallery, Bahasa Initial Sound, Bahasa/English Picture & Word, Science Feature/Function, dan Science Material Lab pada 320/390/768/1280 plus canonical gallery matrix. CI menemukan dan memaksa fix Material Lab 30px collapse serta short-desktop feedback/CTA fit tanpa melemahkan assertion.
+- Representative screenshot artifact #10710764036 direview; tidak ditemukan P0/P1 containment/readability blocker pada pilot surfaces.
+- Containment sekarang closed. Next aktif adalah semantic illustration/provenance pilot kecil; mismatch seperti HEAD=`🙂`, JUMP=`🤸`, gills=`🫧`, beak=`👄`, towel=`🧺` tidak dianggap final production art.
 - English narration quality Wave 1 PR #278 sudah merged/live verified: 27 English listening activities direview, terdiri dari 22 target-first narration + 5 sentence-level comprehension; browser English fallback sekarang memprioritaskan exact-locale Natural/Neural/Premium/Enhanced voice bila tersedia dan memakai prompt rate 0.92.
 - English narration docs closure PR #279 sudah merged/live verified di main `397bcab1...`, CI #1369 exact Cloudflare smoke.
 - English narration production asset gate PR #280 sudah merged/live verified ke main `2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48`; PR CI #1371 dan merged-main CI #1372 full success termasuk exact Cloudflare smoke.

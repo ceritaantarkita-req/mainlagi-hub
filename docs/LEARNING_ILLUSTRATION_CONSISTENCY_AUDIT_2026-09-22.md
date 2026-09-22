@@ -1,6 +1,6 @@
 # Learning Illustration Consistency Audit — 22 September 2026
 
-Status: **AUDIT / NO RUNTIME CHANGE**
+Status: **AUDIT CLOSED / CONTAINMENT FOLLOW-UP CLOSED / SEMANTIC ART OPEN**
 
 Baseline audited: `25369a559d25f016f4be585b663069f6ff648cc5`
 
@@ -173,10 +173,35 @@ Before a recognition-critical illustration can be treated as production-ready:
 - automated route coverage plus human screenshot review;
 - exact-main CI and Cloudflare smoke after merge.
 
+## Implementation follow-up — 23 September 2026
+
+The containment/readability recommendation from this audit has now been implemented and live verified.
+
+```text
+Audit PR:                    #287
+Audit main:                  bea1380e29106388eea415d3733e95d092095d97
+Audit main CI:               #1453 / run 35746899947 — full success + exact smoke
+Containment PR:              #294
+Containment final PR head:   38fe722a63fe073a6ad3ffcfe8fa0e846559dff6
+Containment PR CI:           #1529 / run 35763091032 — full success
+Containment main:            6d0f9bd8972297e316bdf031603d160d901d8d04
+Containment main CI:         #1531 / run 35764397545 — full success + exact smoke
+```
+
+The implementation added the shared bounded `LearningVisualToken`, migrated the pilot catalog/runtime surfaces, added blocking bounding-box assertions and closed the known containment/readability defect class for those surfaces across phone/tablet/desktop QA.
+
+The next open requirement from this audit is **semantic clarity / cross-platform consistency / provenance** for recognition-critical pictorial content.
+
+Known mismatches such as HEAD=`🙂`, JUMP=`🤸`, gills=`🫧`, beak=`👄` and towel=`🧺` confirm why containment alone is not final illustration quality.
+
+Canonical containment closure: `LEARNING_VISUAL_CONTAINMENT_CLOSURE_2026-09-23.md`.
+
 ## Current conclusion
 
-Learning-illustration consistency is a valid next independent workstream while audio and character production are paused.
+Learning-illustration consistency remains a valid active product-quality track while audio and character production are paused.
 
-The first engineering step should be a **small recognition-critical pilot**, not a catalog-wide visual rewrite. English, Bahasa Indonesia and Science contain the clearest object-recognition cases and should be audited at activity-ID level before any production binary is added.
+The **containment foundation is closed/live verified**. The next engineering step is a **small semantic illustration registry/provenance pilot**, not another generic containment refactor and not a catalog-wide 280-field replacement.
 
-This document is an audit checkpoint only. No runtime or production asset is changed by this branch.
+English, Bahasa Indonesia and Science remain the first semantic-art focus. Existing Mainlagi artwork may be reused only after exact semantic/readability/provenance review; filename or repository presence alone is insufficient.
+
+This audit does not authorize World, character, narration, learning-contract or gameplay-pattern changes.

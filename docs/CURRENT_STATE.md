@@ -66,34 +66,54 @@ Canonical safe handoff: `ENGLISH_NARRATION_SAFE_CHECKPOINT_2026-09-22.md`.
 Next safe narration step is now actual local/server-side generation of the exact four pilot candidates followed by human listening through the merged/live-verified review gate. Human `accepted` means only that the exact local candidate set passed listening review; it is **not production approval**. Do not bulk-generate all 27 assets, auto-approve the registry, copy candidates into `public/`, or activate runtime static audio in the same step. Review contract: `ENGLISH_NARRATION_HUMAN_REVIEW_GATE_2026-09-22.md`; closure record: `ENGLISH_NARRATION_HUMAN_REVIEW_GATE_CLOSURE_2026-09-22.md`.
 
 
-## 22 September learning illustration consistency checkpoint
+## 23 September learning visual containment closure / semantic illustration next
 
-Learning-illustration consistency is now the **active independent product-quality track** while character production remains paused and fixed English audio generation/listening is deferred.
+Learning-illustration consistency remains the active independent product-quality track, but the **containment/readability foundation is now CLOSED / MERGED / LIVE VERIFIED**.
 
-Safe boundary:
+Verification:
 
-- Mainlagi World remains untouched.
-- Character production/development remains paused.
-- English fixed-audio generation/review is deferred at **0 generated pilot audio / 0 human-reviewed generated audio / 0 approved production audio / 0 static runtime activation**; browser speech fallback remains preserved.
-- WS-05 Logic repeating-pattern reuse remains closed/live verified at **900/900 activities / 47 active gameplay patterns / `choice_grid` 174 / `pattern_completion` 10 / Logic `choice_grid` 21 / KEEP 900 / no Pattern #48**.
-- No learning-illustration runtime or production binary has been approved by the audit branch yet.
+- audit PR **#287** -> main `bea1380e29106388eea415d3733e95d092095d97`;
+- audit merged-main CI **#1453 / run `35746899947`** — full success + exact Cloudflare smoke;
+- containment implementation PR **#294** final head `38fe722a63fe073a6ad3ffcfe8fa0e846559dff6`;
+- PR CI **#1529 / run `35763091032`** — full success;
+- merged implementation main **`6d0f9bd8972297e316bdf031603d160d901d8d04`**;
+- merged-main CI **#1531 / run `35764397545`** — full success including exact-SHA Cloudflare production smoke;
+- production health served exact SHA `6d0f9bd8972297e316bdf031603d160d901d8d04`, branch `main`, 9 modules and canonical Supabase backend;
+- PR #1529 screenshot artifact `10710764036` received a representative human/model spot-check with no P0/P1 containment/readability blocker.
 
-Current audit finding:
+Live containment foundation now covers:
 
-- repository search finds **43 source files** with literal `emoji:` fields;
-- the 32 canonical subject batch-wave files contain **280 `emoji:` fields**: English 57, Huruf & Menulis 56, Math 48, Bahasa Indonesia 41, Science 29, Logic 23, Iqro 18, Creative/Drawing 8;
-- that number is an inventory signal, not 280 defects: letter/script glyphs, stable symbols and decorative UI must be separated from recognition-critical pictorial content;
-- the project owner additionally confirmed a cross-device **containment/readability defect class**: icons/illustrations that should remain inside a card/choice box can overflow, clip, collide with edges/overlays, become too small, or become too ambiguous on desktop/mobile.
+- shared Activity Gallery picture previews;
+- Bahasa Initial Sound;
+- Bahasa + English Picture & Word;
+- Science Feature/Function;
+- Science Material Lab;
+- bounded `LearningVisualToken`;
+- blocking parent/frame/glyph containment assertions;
+- 320x720 / 390x844 / 768x1024 / 1280x800 dedicated activity QA;
+- canonical gallery responsive matrix plus 1280 catalog QA.
 
-The pilot acceptance contract now has three equal dimensions:
+CI itself found and forced fixes for real layout defects, including the Material Lab 30px grid collapse and short-desktop feedback/CTA fit issues. Assertions were not weakened.
 
-1. semantic clarity;
-2. cross-platform consistency;
-3. box containment/readability across **320x720, 390x844, 768x1024 and 1280x800**.
+What remains open is **semantic illustration clarity/provenance**, not containment infrastructure. Current recognition-critical fallbacks still include known mismatches such as HEAD -> `🙂`, JUMP -> `🤸`, gills -> `🫧`, beak -> `👄`, cactus thick stem -> `💚`, towel -> `🧺`, plus weak generic raincoat/toy-block representations.
 
-Pilot priority remains recognition-critical learning visuals in **Science, English and Bahasa Indonesia**. The first engineering wave must use centralized deterministic mapping and shared containment rules; it must not change canonical prompt, choice order, answer, evidence, mastery, progression, schema, stage ownership, narration, World, character runtime or gameplay-pattern classification.
+The original inventory remains **43 source files / 280 canonical batch-wave `emoji:` fields**, but that is not a replacement count. Exact Latin/Arabic glyphs, stable instructional symbols, decorative UI and pictorial recognition content must continue to be treated separately.
 
-Canonical audit/checkpoint: `LEARNING_ILLUSTRATION_CONSISTENCY_AUDIT_2026-09-22.md`.
+Next safe wave:
+
+1. define centralized semantic illustration keys/resolver;
+2. add a fail-closed learning-illustration provenance/technical registry;
+3. review existing Mainlagi artwork for exact semantic reuse rather than trusting filenames;
+4. start with a small P0 mismatch/reuse pilot;
+5. keep `LearningVisualToken` as the containment layer;
+6. preserve activity identity, prompt, choice order, answer, evidence, mastery, progression, schema, stage ownership and gameplay taxonomy.
+
+Safe boundaries remain unchanged: **Mainlagi World untouched; character development paused; fixed English audio deferred; WS-05 closed at 900/900 / 47 active / no Pattern #48.**
+
+Canonical records:
+- `LEARNING_ILLUSTRATION_CONSISTENCY_AUDIT_2026-09-22.md`;
+- `LEARNING_VISUAL_CONTAINMENT_PILOT_2026-09-22.md`;
+- `LEARNING_VISUAL_CONTAINMENT_CLOSURE_2026-09-23.md`.
 
 ## 22 September required secret-scan enforcement closure
 
