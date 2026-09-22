@@ -32,12 +32,13 @@ WS-05 remains closed at 900/900 activities / 47 active gameplay patterns, with n
 
 ## Pilot surfaces
 
-The first containment implementation is intentionally small and cross-subject:
+The first containment implementation is intentionally small but covers both the catalog entry surface and recognition-heavy runtime surfaces:
 
-1. Bahasa Indonesia — `InitialSoundActivity`;
-2. Bahasa Indonesia + English — `PictureWordMatchActivity`;
-3. Science — `FeatureFunctionLinkActivity`;
-4. Science — `MaterialLabActivity`.
+1. shared subject catalog — `ActivityGallery` picture previews;
+2. Bahasa Indonesia — `InitialSoundActivity`;
+3. Bahasa Indonesia + English — `PictureWordMatchActivity`;
+4. Science — `FeatureFunctionLinkActivity`;
+5. Science — `MaterialLabActivity`.
 
 Representative existing QA routes include:
 
@@ -72,6 +73,10 @@ Contract:
 The component is deliberately future-compatible with approved local illustration assets so runtime renderers do not need another layout rewrite when emoji fallback is replaced.
 
 ## Runtime containment changes
+
+### Activity Gallery
+
+Picture-preview activity glyphs now use the same bounded token instead of raw unconstrained emoji spans. The picture-preview container explicitly owns overflow. Canonical mobile-route QA checks playable gallery tokens across its existing responsive matrix, plus a dedicated 1280x800 QA-unlock catalog inspection.
 
 ### Initial Sound
 
@@ -111,12 +116,14 @@ This specifically prevents the previous class of defect where a page had no hori
 
 ## Viewports
 
-Affected browser suites now run at:
+Affected dedicated activity browser suites now run at:
 
 - 320x720;
 - 390x844;
 - 768x1024;
 - 1280x800.
+
+The canonical subject-gallery path is additionally exercised by the broader mobile route matrix at 320, 360, 375, 390, 430, 768 and 1024 widths, plus a dedicated 1280x800 QA-unlock catalog inspection.
 
 Desktop 1280 is deliberately included because the project owner reported unclear/poorly contained visuals on both desktop and mobile.
 
