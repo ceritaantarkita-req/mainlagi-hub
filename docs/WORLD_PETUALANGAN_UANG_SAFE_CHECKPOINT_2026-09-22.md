@@ -1465,3 +1465,42 @@ This checkpoint freezes:
 Do not move or force-push this checkpoint branch.
 
 Narration generation remains deferred. PR #282 remains Draft and is not merge authorization. PR #272 remains Draft and untouched. Character production remains paused. World -> Belajar evidence remains disabled.
+
+
+## 43. Production wave 14 — eight-Stage content audit checkpoint candidate
+
+The active production branch now audits the complete Indonesian Petualangan Uang content as one eight-Stage progression.
+
+New source:
+
+```text
+src/lib/learning/world/moneyWorldContentAudit.ts
+docs/WORLD_CONTENT_AUDIT_2026-09-22.md
+```
+
+The audit locks:
+
+- exact canonical eight-Stage order;
+- 89 Segment topology;
+- exactly two practice challenges per Stage / 16 total;
+- narrative opening + payoff closing per Stage;
+- final narrative choice + recap only in Stage 8;
+- <=18 spoken words per child-facing cue;
+- required concept vocabulary per Stage;
+- no factual guaranteed-return claim;
+- no Bermain motion dependency.
+
+Four content transitions were tightened without changing IDs or progression:
+
+```text
+Stage 2: clearer inflation definition
+Stage 6: saving = disimpan untuk nanti
+Stage 7: risk = hasil dapat berbeda dari harapan
+Stage 8: arithmetic explicitly separated from the open child choice
+```
+
+Browser QA additionally verifies the Stage-8 post-choice arithmetic bridge.
+
+No narration binary is generated or approved. No Belajar, Bermain/motion, SQL schema, mastery/evidence, or final character artwork is changed.
+
+Checkpoint rule: validate the exact wave-14 head through Draft PR #282. If fully green, freeze a new immutable content-audit checkpoint.
