@@ -554,6 +554,13 @@ async function main() {
       await worldStageShell.waitFor();
       assert.equal(await worldStageShell.getAttribute("data-world-scene-id"), "money-scene-s01-opening", "Stage 1 must begin inside the authored opening Scene");
       assert.equal(await worldStageShell.getAttribute("data-world-scene-kind"), "story", "opening Scene must expose its canonical kind");
+      assert.equal(await worldStageShell.getAttribute("data-world-chapter-id"), "money-chapter-01-road-to-festival", "Stage 1 shell must expose canonical Chapter identity");
+      assert.equal(await worldStageShell.getAttribute("data-world-chapter-order"), "1", "Stage 1 shell must expose Chapter order");
+      assert.equal(
+        (await worldStageShell.locator('[data-world-chapter-label="money-chapter-01-road-to-festival"]').textContent())?.trim(),
+        "Chapter 1 · Jalan ke Festival",
+        "Stage shell must render the authored Chapter title instead of hardcoded CSS content"
+      );
       const openingSceneFrame = page.locator('[data-world-scene-frame="money-scene-s01-opening"]');
       await openingSceneFrame.waitFor();
       assert.equal(await openingSceneFrame.getAttribute("data-world-scene-presentation"), "dialogue", "story Scene must resolve the reusable dialogue presentation");
@@ -675,10 +682,14 @@ async function main() {
       await worldMap.waitFor();
       const worldMapBackground = await worldMap.evaluate((node) => getComputedStyle(node).backgroundImage);
       assert.match(worldMapBackground, /garden-background\.webp/, "World map must use the illustrated Mainlagi garden environment");
-      const chapterOneLabel = await page.locator('[data-stage-order="1"]').first().evaluate((node) => getComputedStyle(node, "::before").content);
-      const chapterTwoLabel = await page.locator('[data-stage-order="5"]').first().evaluate((node) => getComputedStyle(node, "::before").content);
-      assert.match(chapterOneLabel, /Chapter 1/, "World map must expose the Chapter 1 journey marker");
-      assert.match(chapterTwoLabel, /Chapter 2/, "World map must expose the Chapter 2 journey marker");
+      const chapterOneBanner = worldMap.locator('[data-world-chapter-id="money-chapter-01-road-to-festival"]');
+      const chapterTwoBanner = worldMap.locator('[data-world-chapter-id="money-chapter-02-prepare-festival"]');
+      await chapterOneBanner.waitFor();
+      await chapterTwoBanner.waitFor();
+      assert.equal((await chapterOneBanner.locator("strong").textContent())?.trim(), "Jalan ke Festival", "World map must expose authored Chapter 1 title");
+      assert.equal((await chapterTwoBanner.locator("strong").textContent())?.trim(), "Siapkan Festival!", "World map must expose authored Chapter 2 title");
+      assert.equal((await chapterOneBanner.locator("span").textContent())?.trim(), "1/4 Stage selesai", "Chapter 1 map progress must reflect completed Stage 1");
+      assert.equal((await chapterTwoBanner.locator("span").textContent())?.trim(), "0/4 Stage selesai", "Chapter 2 map progress must remain locked at zero after Stage 1");
       const stageTwoLink = page.locator('a[href="/child/demo-gian/world/money-festival/stage/money-stage-02-price-change"]');
       await stageTwoLink.waitFor();
       assert.equal(await stageTwoLink.count(), 1, "World Stage 1 completion must unlock Stage 2");
@@ -973,6 +984,16 @@ async function main() {
       await completedMap.waitFor();
       await page.getByText("Festival siap!", { exact: true }).waitFor();
       assert.equal(await completedMap.locator('[aria-label="Tiga bintang"]').count(), 8, "Completed World map must retain three-star completion on all eight stages");
+      assert.equal(
+        (await completedMap.locator('[data-world-chapter-id="money-chapter-01-road-to-festival"] > span').textContent())?.trim(),
+        "4/4 Stage selesai",
+        "completed map must show Chapter 1 fully complete"
+      );
+      assert.equal(
+        (await completedMap.locator('[data-world-chapter-id="money-chapter-02-prepare-festival"] > span').textContent())?.trim(),
+        "4/4 Stage selesai",
+        "completed map must show Chapter 2 fully complete"
+      );
       const stageEightBox = await completedMap.locator('[data-world-stage-id="money-stage-08-final-festival"]').boundingBox();
       const festivalFinishBox = await completedMap.getByRole("status").filter({ hasText: "Festival siap!" }).boundingBox();
       assert.ok(
