@@ -2372,3 +2372,56 @@
     font-size: 31px;
   }
 }
+
+
+/* === In-scene activity pass: gameplay floats inside the illustrated location === */
+@media(max-width: 760px) {
+  .stageRuntime .activityScene {
+    width: calc(100% - 18px);
+    min-height: 0;
+    margin: clamp(72px, 13vh, 112px) auto 18px;
+    padding: 16px 12px 18px;
+    border: 2px solid rgba(255,255,255,.9);
+    border-radius: 26px;
+    background: rgba(255, 253, 245, .88);
+    box-shadow:
+      0 6px 0 rgba(193, 210, 181, .55),
+      0 14px 28px rgba(38, 73, 54, .1);
+  }
+
+  .stageRuntime .activityHeading {
+    margin-bottom: 13px;
+  }
+
+  .stageRuntime .activityHeading h2 {
+    margin: 7px auto 4px;
+    max-width: 320px;
+    font-size: clamp(22px, 6.5vw, 28px);
+    line-height: 1.15;
+  }
+
+  .stageRuntime .activityHeading p {
+    max-width: 310px;
+    font-size: 12px;
+    line-height: 1.3;
+  }
+
+  .stageRuntime .promptAudioButton {
+    min-height: 40px;
+    margin-bottom: 5px;
+  }
+
+  .stageRuntime .activityStatus {
+    min-height: 46px;
+    margin-top: 15px;
+    padding: 9px 10px;
+    font-size: 13px;
+  }
+}
+
+@media(max-width: 360px) {
+  .stageRuntime .activityScene {
+    margin-top: 62px;
+    padding-inline: 9px;
+  }
+}
