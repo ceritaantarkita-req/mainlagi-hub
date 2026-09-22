@@ -471,6 +471,7 @@ async function main() {
       await page.getByRole("link", { name: /Back/ }).click();
       await page.getByText("Kok Jadi Lebih Mahal?", { exact: true }).waitFor();
       const stageTwoLink = page.locator('a[href="/child/demo-gian/world/money-festival/stage/money-stage-02-price-change"]');
+      await stageTwoLink.waitFor();
       assert.equal(await stageTwoLink.count(), 1, "World Stage 1 completion must unlock Stage 2");
       await context.close();
       console.log("World Petualangan Uang Stage 1 end-to-end checkpoint passed at 390px.");
