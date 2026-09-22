@@ -150,7 +150,7 @@ export function MaterialLabActivity({ childId, activityId }: { childId: string; 
             onClick={testSelection}
             disabled={!selected || feedback === "good"}
           >
-            {config.testIcon} {config.testLabel}
+            <LearningVisualToken className={styles.testButtonIcon}>{config.testIcon}</LearningVisualToken><span>{config.testLabel}</span>
           </button>
         </div>
 
