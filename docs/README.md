@@ -27,6 +27,7 @@ Read these first for current work:
 17. [`MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md`](MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md) — child/product/UX/activity rules.
 18. [`LEARNING_ATTEMPTS_MASTERY.md`](LEARNING_ATTEMPTS_MASTERY.md) — evidence/mastery/progression contract.
 19. [`GAMEPLAY_VARIATION_CATALOG.md`](GAMEPLAY_VARIATION_CATALOG.md) — canonical gameplay-pattern catalog and WS-05 boundaries.
+   - [`WS05_LOGIC_PATTERN_COMPLETION_REUSE_WAVE_2026-09-22.md`](WS05_LOGIC_PATTERN_COMPLETION_REUSE_WAVE_2026-09-22.md) — PR #273 implementation checkpoint, exact scope and verification evidence.
 20. [`PRODUCT_DIRECTION.md`](PRODUCT_DIRECTION.md) — product principles and direction.
 21. [`KNOWN_LIMITATIONS.md`](KNOWN_LIMITATIONS.md) — current known limitations and external acceptance gaps.
 
@@ -35,9 +36,9 @@ Subsystem docs remain authoritative for their specific scope when they do not co
 ## Current project checkpoint — 22 September 2026
 
 ```text
-latest production main:          6fd9e3fc7ffa57aab687b5529033f1a995e0e5ba
+latest production main:          8af5ce8a13d19f8aaeb3d8f06229dbcdeb555a41
+latest main CI:                   #1212 / run 35632779986 — success + exact Cloudflare smoke
 required secret-scan hardening:   PR #269 / merged + live verified
-latest main CI:                   #1209 / run 35625953536 — success + exact Cloudflare smoke
 cloud analytics integrity fix:    PR #267 / merged + live verified
 analytics regression:             1201 attempts / 3603 evidence rows / complete pagination
 character pipeline docs closure:  PR #264 / merged + live verified
@@ -50,8 +51,10 @@ learning catalog:                9 subjects / 900 activities
 subject backgrounds:             54 scene families / 108 WebP / live verified
 project-owner preview:           9/9 subjects represented on production desktop routes
 gameplay taxonomy:               900/900 classified / 47 active / no Pattern #48
-next product-UX work:            Naya candidate creation/review first -> Gian -> Zia -> provenance approval -> binary integration -> separate runtime activation
-WS-05 fresh audit:               remains separate from product-visual work
+character development:           PAUSED BY PROJECT OWNER / Drive assets reference-only
+Mainlagi World:                  separate user development / DO NOT TOUCH in this workstream
+WS-05 runtime PR:                #273 / checkpoint ec050bf / CI #1312 full success / merge pending
+WS-05 verified branch truth:     900/900 / 47 / choice_grid 174 / pattern_completion 10 / KEEP 900
 ```
 
 Paca/Gavi have production Garden WebP assets. Naya/Gian/Zia currently use non-production fallback representations and still need reviewed production assets. Child profile identity remains separate from guide-character identity.
@@ -357,7 +360,7 @@ Pattern #42 closure gates are complete. Closure PR #188 merged and closure main 
 - [`WS13_CANONICAL_UI_WARNING_AUDIT_2026-09-20.md`](WS13_CANONICAL_UI_WARNING_AUDIT_2026-09-20.md) — WS-13 Phase 1 route/component ownership audit plus browser console-warning inventory instrumentation; identifies `Batch14WorldHome`, `ActivityGallery`, `PlayroomShell`, current parent aliases, and legacy overlaps before UX refactor.
 - [`PRODUCT_UX_NEXT_WORK_2026-09-20.md`](PRODUCT_UX_NEXT_WORK_2026-09-20.md) — active user-approved product-UX handoff and acceptance gates.
 - [`SUBJECT_BACKGROUND_SYSTEM.md`](SUBJECT_BACKGROUND_SYSTEM.md) — production background system: 9 subjects, 54 scene families, 108 responsive WebP assets and centralized deterministic resolver.
-- [`PATTERN_COMPLETION_LOGIC_REPEATING_PATTERN_REUSE_AUDIT_2026-09-20.md`](PATTERN_COMPLETION_LOGIC_REPEATING_PATTERN_REUSE_AUDIT_2026-09-20.md) — fresh docs-only exact five-ID Logic repeating-pattern audit approving reuse of existing `pattern_completion`; expected runtime `choice_grid` 174 / `pattern_completion` 10 / 47 active; no Pattern #48; runtime code not started.
+- [`PATTERN_COMPLETION_LOGIC_REPEATING_PATTERN_REUSE_AUDIT_2026-09-20.md`](PATTERN_COMPLETION_LOGIC_REPEATING_PATTERN_REUSE_AUDIT_2026-09-20.md) — exact five-ID Logic repeating-pattern audit that authorized the now-implemented PR #273 reuse of existing `pattern_completion`; no Pattern #48.
 - [`MATH_MIXED_OPERATION_EXISTING_MECHANIC_REUSE_CLOSURE_2026-09-20.md`](MATH_MIXED_OPERATION_EXISTING_MECHANIC_REUSE_CLOSURE_2026-09-20.md) — fully closed/live verified: runtime #238 -> main `710ecdb`, CI #1096 exact production smoke, 900/900 / 47 / `choice_grid` 179 / `make_total` 7 / `take_away` 7 / KEEP 900, 18-shot P0=0/P1=0.
 - [`WS05_MATH_MIXED_OPERATION_EXISTING_MECHANIC_REUSE_WAVE_2026-09-20.md`](WS05_MATH_MIXED_OPERATION_EXISTING_MECHANIC_REUSE_WAVE_2026-09-20.md) — exact four-ID runtime reuse with hardened 7+7 mechanic families and dedicated browser QA.
 - [`MATH_MIXED_OPERATION_EXISTING_MECHANIC_REUSE_AUDIT_2026-09-20.md`](MATH_MIXED_OPERATION_EXISTING_MECHANIC_REUSE_AUDIT_2026-09-20.md) — audit #237 / main `c01d0bac` live-verified objective/evidence audit approving exact four-ID reuse of existing `make_total`/`take_away`; no Pattern #48.
@@ -419,7 +422,7 @@ Historical closure/candidate/audit records must not be rewritten to pretend late
 
 Immediate product-UX work is now visual-asset review before code integration: finish character candidate/provenance review and complete the Math/Science background pilot as approved wide/mobile pairs. Background runtime code starts only after pair review, using the central SubjectTheme/SceneVariant contract in `SUBJECT_BACKGROUND_SYSTEM.md`; English voice-quality and broader visual/usability cleanup follow.
 
-The WS-05 Logic repeating-pattern audit is no longer an unmerged branch: PR #240 is on main `7109db41134f18884b6c08fba99ad2af997b3fed`, and main CI #1100 passed. Runtime implementation remains not started and, if executed, must reuse existing `pattern_completion` for the exact audited scope without creating Pattern #48.
+The WS-05 Logic repeating-pattern audit is on main via PR #240. Runtime implementation PR #273 is branch-verified at `ec050bf...` / CI #1312 with the exact audited five-ID scope, 174 `choice_grid`, 10 `pattern_completion`, 47 active patterns and KEEP 900; merge remains pending final docs-head CI.
 
 External acceptance debt remains real-device/accessibility testing and Iqro expert review. P2 visual cleanup, governance hardening and later cleanup remain lower-priority work unless they become release blockers.
 
