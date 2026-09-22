@@ -62,7 +62,7 @@ subject backgrounds:              54 scene families / 108 WebP / live verified
 gameplay taxonomy:                900/900 classified / 47 active / no Pattern #48
 illustration audit:               PR #287 / merged + live verified
 visual containment:               PR #294 -> 6d0f9bd8 / PR CI #1529 / main CI #1531 exact smoke
-semantic illustration:            OPEN / small registry+provenance pilot next
+semantic illustration gate:       PR #297 -> ed7db8a6 / 17 review-required / 0 approved / main CI #1537 exact smoke\nsemantic production art:          OPEN / exact P0 candidate production-review next
 character development:            PAUSED BY PROJECT OWNER / Drive assets reference-only
 Mainlagi World:                   separate user development / DO NOT TOUCH in this workstream
 WS-05 production truth:           900/900 / 47 / choice_grid 174 / pattern_completion 10 / KEEP 900
