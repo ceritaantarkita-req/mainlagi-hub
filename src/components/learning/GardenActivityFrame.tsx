@@ -9,9 +9,9 @@ import { useActivityVisualTheme } from "./ActivityVisualThemeProvider";
 import styles from "./GardenActivityFrame.module.css";
 
 /** Presentation only: completion and evidence stay with each activity runtime. */
-export function GardenActivityFrame({ backHref, title, narration, lang = "id-ID", onHear, hint, children, spacious = false, workspace = false }: {
+export function GardenActivityFrame({ backHref, title, narration, lang = "id-ID", onHear, hint, children, spacious = false, workspace = false, compactShortDesktop = false }: {
   backHref: string; title?: string; narration?: string; lang?: string;
-  onHear?: () => void; hint?: string; children: ReactNode; spacious?: boolean; workspace?: boolean;
+  onHear?: () => void; hint?: string; children: ReactNode; spacious?: boolean; workspace?: boolean; compactShortDesktop?: boolean;
 }) {
   const [audioNotice, setAudioNotice] = useState<string | null>(null);
   const visualTheme = useActivityVisualTheme();
@@ -49,7 +49,7 @@ export function GardenActivityFrame({ backHref, title, narration, lang = "id-ID"
       <img className={styles.brand} src="/artwork/garden-wordmark.webp" alt="Mainlagi" width={600} height={220}/>
       <button type="button" className={styles.control} onClick={hear} aria-label="Dengar petunjuk"><SpeakerHigh size={26} weight="fill" aria-hidden/><span>Dengar</span></button>
     </header>
-    <div className={`${styles.play} ${spacious ? styles.spacious : ""}`}>
+    <div className={`${styles.play} ${spacious ? styles.spacious : ""} ${compactShortDesktop ? styles.compactShortDesktop : ""}`}>
       {title ? <h1 className={styles.title}>{title}</h1> : null}
       {audioNotice ? <p className={styles.notice} role="status">{audioNotice}</p> : null}
       {children}
