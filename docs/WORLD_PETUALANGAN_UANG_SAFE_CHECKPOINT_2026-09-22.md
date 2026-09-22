@@ -770,3 +770,77 @@ docs/WORLD_PRODUCTION_QA_2026-09-22.md
 This is **not yet a green checkpoint**. Freeze a new checkpoint branch only after GitHub Actions validates the exact production-wave head.
 
 PR #272 remains untouched and Draft. Production-wave validation must stay isolated from merge/integration decisions.
+
+
+## 28. Production-green checkpoint — PR #282 / CI #1382
+
+The production-wave responsive/runtime pass is now independently green.
+
+Validation surface:
+
+```text
+Draft PR: #282
+base:     feature/world-petualangan-uang-dummy-20260922
+head:     feature/world-petualangan-uang-production-wave-20260922
+```
+
+This PR exists only to run pull-request CI. It does **not** target `main`, does not replace PR #272, and is not merge authorization.
+
+Exact validated code head:
+
+```text
+e8f795b7d26a2cb3bf19fc787f6f58b2b85ed60a
+```
+
+CI:
+
+```text
+Mainlagi TV V3 CI
+#1382
+run 35704255936
+
+Quality gate (Ubuntu):        PASS
+Windows compatibility:        PASS
+Production build:             PASS
+Production dependency audit:  PASS
+Secret history scan:          PASS
+Mobile route QA (Chromium):   PASS
+overall:                      SUCCESS
+```
+
+The 320/390/430 responsive Scene matrix initially found a sub-44px challenge control. The final code head fixes this in two layers:
+
+- prompt audio control minimum height = 44px;
+- every button/link inside `data-world-scene-content` is guaranteed at least 44 × 44px.
+
+The final mobile matrix passed after that fix.
+
+Frozen checkpoint:
+
+```text
+branch: checkpoint/world-petualangan-uang-production-green-20260922
+head:   e8f795b7d26a2cb3bf19fc787f6f58b2b85ed60a
+```
+
+CI artifact reviewed:
+
+```text
+mobile-route-qa-screenshots
+artifact id 10683524631
+```
+
+Selected visual review:
+
+- `320-world-scene-story.png`;
+- `320-world-scene-challenge.png`;
+- `430-world-scene-choice.png`;
+- `430-world-scene-recap.png`;
+- `430-world-scene-closing.png`.
+
+No P0/P1 World-specific visual blocker was observed in those selected screenshots.
+
+### Checkpoint rule
+
+Do not move or force-push `checkpoint/world-petualangan-uang-production-green-20260922`.
+
+PR #272 remains Draft and untouched. Character development remains paused. World -> Belajar evidence remains disabled. Fixed narration production remains **0/88 approved assets** even though its pipeline is implemented.
