@@ -893,6 +893,36 @@ function NarrativeChoiceCard({
   );
 }
 
+function WorldRecapCard({
+  title,
+  items,
+  onNext
+}: {
+  title: string;
+  items: Array<{ id: string; icon: string; label: string }>;
+  onNext: () => void;
+}) {
+  return (
+    <section className={cx(styles.activityScene, styles.recapScene)}>
+      <div className={styles.activityHeading}>
+        <span className={styles.sceneType}>Kita ingat sebentar</span>
+        <h2>{title}</h2>
+      </div>
+      <div className={styles.recapGrid} aria-label="Ringkasan Petualangan Uang">
+        {items.map((item) => (
+          <div key={item.id} className={styles.recapCard}>
+            <span aria-hidden>{item.icon}</span>
+            <strong>{item.label}</strong>
+          </div>
+        ))}
+      </div>
+      <button type="button" className={styles.primaryButton} onClick={onNext}>
+        Lanjut <ArrowRight size={20} weight="bold" aria-hidden />
+      </button>
+    </section>
+  );
+}
+
 function WorldActivity({ placement, onComplete }: { placement: MoneyWorldActivityPlacement; onComplete: () => void }) {
   if (placement.mechanicId === "drag_to_target") return <WorldDragTarget placement={placement} onComplete={onComplete} />;
   if (placement.mechanicId === "matching") return <WorldMatching placement={placement} onComplete={onComplete} />;
@@ -1102,6 +1132,8 @@ function MoneyWorldStageRuntime({
         <WorldActivity placement={segment.activity} onComplete={advance} />
       ) : segment.type === "narrative_choice" ? (
         <NarrativeChoiceCard prompt={segment.prompt} options={segment.options} onNext={advance} />
+      ) : segment.type === "recap" ? (
+        <WorldRecapCard title={segment.title} items={segment.items} onNext={advance} />
       ) : (
         <SpeechCard
           speaker={segment.speaker}
