@@ -2023,3 +2023,29 @@
     font-size: 12px;
   }
 }
+
+
+.primaryButton:disabled {
+  cursor: not-allowed;
+  background: #aebdb4;
+  color: rgba(255,255,255,.92);
+  box-shadow: 0 4px 0 #87968d;
+  opacity: .78;
+}
+
+.primaryButton:focus-visible,
+.secondaryButton:focus-visible,
+.moneyChip:focus-visible,
+.targetCard:focus-visible,
+.matchCard:focus-visible,
+.compareCard:focus-visible,
+.sortItem:focus-visible,
+.sortGroup:focus-visible,
+.choiceCard:focus-visible,
+.orderCard:focus-visible,
+.completionActions a:focus-visible,
+.completionActions button:focus-visible,
+.shareButton:focus-visible {
+  outline: 4px solid #164b43;
+  outline-offset: 3px;
+}
