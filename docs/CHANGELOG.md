@@ -2,6 +2,10 @@
 
 ## Unreleased — 23 September 2026
 
+- Semantic illustration provenance gate PR #297 sudah merged/live verified ke main `ed7db8a6c5b8a3ee4acc9bcca260b4e0b5776773`; PR CI #1536 / run `35769098899` dan merged-main CI #1537 / run `35770021133` full success termasuk exact Cloudflare smoke.
+- Menambahkan registry semantic illustration 17-slot + dedicated `public/artwork/learning-illustrations/` fail-closed validator: 17 review-required / 0 approved / 0 production binary / 0 runtime activation.
+- Preliminary reuse review: apple/cat/fish/umbrella/car/cup/house/bird visually-suitable tetapi provenance-pending; `color-object-ball.webp` eksplisit rejected sebagai semantic ball.
+- Next aktif bukan infrastructure lagi: exact P0 art untuk HEAD/JUMP/gills/beak/cactus stem/towel/raincoat/toy-block, lalu provenance + child-readability approval + SHA, dan runtime mapping terpisah.
 - Learning-illustration audit PR #287 sudah merged/live verified ke main `bea1380e...`, main CI #1453 exact Cloudflare smoke; inventory 43 source files / 280 canonical batch-wave `emoji:` fields tetap dianggap inventory signal, bukan 280 defect.
 - Learning visual containment PR #294 sudah merged/live verified ke main `6d0f9bd8972297e316bdf031603d160d901d8d04`; PR CI #1529 / run `35763091032` dan merged-main CI #1531 / run `35764397545` full success termasuk exact Cloudflare production smoke.
 - Menambahkan shared `LearningVisualToken` + blocking bounding-box QA untuk Activity Gallery, Bahasa Initial Sound, Bahasa/English Picture & Word, Science Feature/Function, dan Science Material Lab pada 320/390/768/1280 plus canonical gallery matrix. CI menemukan dan memaksa fix Material Lab 30px collapse serta short-desktop feedback/CTA fit tanpa melemahkan assertion.
