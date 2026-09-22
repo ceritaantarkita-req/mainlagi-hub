@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { existsSync, rmSync } from "node:fs";
+import { existsSync, readFileSync, rmSync } from "node:fs";
 import { createRequire } from "node:module";
 import { spawnSync } from "node:child_process";
 import path from "node:path";
@@ -71,6 +71,26 @@ try {
     ageMigration.MONEY_WORLD_AGE_MIGRATION_BLOCKERS.some((item) => item.id === "age-filtered-belajar-runtime"),
     "Belajar age-filter empty-state risk must stay explicit"
   );
+
+  const ageBoundarySources = {
+    cloud: readFileSync(path.join(root, "src/lib/learning/cloud.ts"), "utf8"),
+    localProfile: readFileSync(path.join(root, "src/components/learning/ChildLearningPlatform.tsx"), "utf8"),
+    cloudProfile: readFileSync(path.join(root, "src/components/learning/CloudProfileScreens.tsx"), "utf8"),
+    contentArchitecture: readFileSync(path.join(root, "src/lib/learning/contentArchitecture.ts"), "utf8"),
+    learningSchema: readFileSync(path.join(root, "supabase/migrations/0002_learning_attempt_schema.sql"), "utf8"),
+    contentSchema: readFileSync(path.join(root, "supabase/migrations/0011_scalable_content_architecture.sql"), "utf8"),
+    homepage: readFileSync(path.join(root, "src/components/HomePage.tsx"), "utf8"),
+    curriculumTests: readFileSync(path.join(root, "scripts/run-curriculum-tests.mjs"), "utf8")
+  };
+  assert.match(ageBoundarySources.cloud, /input\.age\s*>\s*7/, "cloud profile create boundary changed; update the World age migration audit");
+  assert.match(ageBoundarySources.cloud, /numeric\s*>=\s*3\s*&&\s*numeric\s*<=\s*7/, "cloud profile parser boundary changed; update the World age migration audit");
+  assert.match(ageBoundarySources.localProfile, /\[3,\s*4,\s*5,\s*6,\s*7\]/, "local child profile age choices changed; update the World age migration audit");
+  assert.match(ageBoundarySources.cloudProfile, /\[3,\s*4,\s*5,\s*6,\s*7\]/, "cloud child profile age choices changed; update the World age migration audit");
+  assert.match(ageBoundarySources.contentArchitecture, /ageMax\s*<=\s*7/, "content architecture age ceiling changed; update the World age migration audit");
+  assert.match(ageBoundarySources.learningSchema, /age_max\s+smallint\s+not\s+null\s+check\s*\(age_max\s+between\s+3\s+and\s+7/i, "learning skill DB age ceiling changed; update the World age migration audit");
+  assert.match(ageBoundarySources.contentSchema, /age_max\s+smallint\s+not\s+null\s+check\s*\(age_max\s+between\s+3\s+and\s+7/i, "content-pack DB age ceiling changed; update the World age migration audit");
+  assert.match(ageBoundarySources.homepage, /usia\s+3[–-]7\s+tahun/i, "public product age claim changed; update the World age migration audit");
+  assert.match(ageBoundarySources.curriculumTests, /ageMax\s*<=\s*7/, "canonical curriculum age test changed; update the World age migration audit");
 
   assert.equal(world.MONEY_WORLD_CHAPTERS.length, 2, "money dummy must keep two chapters");
   assert.equal(world.MONEY_WORLD_STAGES.length, 8, "money dummy must keep eight stages");
