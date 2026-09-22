@@ -1709,3 +1709,53 @@ checkpoint/world-petualangan-uang-non-audio-production-green-20260922
 ```
 
 Checkpoint rule: validate the exact design-contract head through CI before freezing a new immutable design checkpoint. Do not move prior checkpoints.
+
+
+## 49. World → Evidence v1 green design checkpoint — CI #1530
+
+The fail-closed World → Evidence architecture contract is independently green and frozen.
+
+```text
+head:   38bbe5704d4d63781410842cbf134dcb76c3ab54
+CI:     #1530 / run 35764121287
+branch: checkpoint/world-evidence-bridge-contract-green-20260923
+PR:     #295 Draft / unmerged
+```
+
+Full matrix:
+
+```text
+Quality gate (Ubuntu):        PASS
+Windows compatibility:        PASS
+Production build:             PASS
+Production dependency audit:  PASS
+Secret history scan:          PASS
+Mobile route QA (Chromium):   PASS
+overall:                      SUCCESS
+```
+
+Artifacts:
+
+```text
+mobile-route-qa-screenshots — 10711921117
+activity-quality-audit      — 10711900290
+gameplay-distribution-audit — 10710879966
+```
+
+Frozen guarantees:
+
+- World → Evidence mode remains `design-only-disabled`;
+- all 16 current World activity placements remain `practice`;
+- 2 Math relations remain candidate-only/unapproved;
+- 14 placements remain explicitly excluded;
+- no candidate has a canonical `learning_activity` ID;
+- direct World use of `record_learning_attempt(...)` remains forbidden;
+- local/cloud attempt writes, evidence writes, mastery recompute, Belajar progress/reward mutation, certificates, schema changes and runtime hooks remain unauthorized;
+- `practice -> assessed` spoofing fails closed;
+- valid candidate observations still return `blocked`;
+- World ★★★ remains independent from Belajar mastery/evidence;
+- age 8, pedagogy review, server-owned ingestion, side-effect isolation and anti-farming/security remain activation blockers.
+
+This checkpoint is a **design checkpoint**, not a production activation checkpoint.
+
+Do not move or force-push this branch. PR #295 must remain Draft unless separately authorized.

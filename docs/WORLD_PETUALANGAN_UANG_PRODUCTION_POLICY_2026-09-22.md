@@ -387,8 +387,8 @@ Current ordered work:
 18. **DONE / GREEN / CHECKPOINTED** — accessibility semantics/focus/forced-colors pass validated in CI #1516 at `1a74e5da...`;
 19. **DONE / GREEN / CHECKPOINTED** — World-specific visual budgets + route-scoped background lazy-load boundary validated in the same CI #1516;
 20. **DONE / FROZEN** — combined non-audio checkpoint `checkpoint/world-petualangan-uang-non-audio-production-green-20260922` at `1a74e5da...`;
-21. **DONE / DESIGN ONLY / DISABLED** — World -> Evidence v1 architecture is now explicit and fail-closed: 16/16 World activities audited, 2 unapproved Math candidates, 14 exclusions, direct `record_learning_attempt` reuse forbidden, no runtime/schema/write activation;
-22. **NEXT EVIDENCE BOUNDARY** — activation requires separate authorization for pedagogical mappings, age-8 handling, server-owned ingestion, progression/reward isolation and security regression;
+21. **DONE / GREEN / CHECKPOINTED / DESIGN ONLY** — World -> Evidence v1 architecture validated by CI #1530 at `38bbe570...`; checkpoint `checkpoint/world-evidence-bridge-contract-green-20260923`; 16/16 World activities audited, 2 unapproved Math candidates, 14 exclusions, direct `record_learning_attempt` reuse forbidden, no runtime/schema/write activation;
+22. **NEXT EVIDENCE BOUNDARY** — activation remains separately unauthorized and requires explicit approval for pedagogical mappings, age-8 handling, server-owned ingestion, progression/reward isolation and security regression;
 23. Gian/Naya visual character production remains paused;
 24. bespoke Stage/background art remains optional because current reused backgrounds are approved for the pilot;
 25. World -> Evidence runtime remains disabled until separately authorized.

@@ -1,6 +1,6 @@
 # Mainlagi World → Evidence Bridge Architecture — 23 September 2026
 
-Status: **DESIGN CONTRACT IMPLEMENTED / BRIDGE DISABLED / NO MASTERY ACTIVATION**
+Status: **VALIDATED GREEN / DESIGN-ONLY / BRIDGE DISABLED / CHECKPOINTED**
 
 Branch:
 
@@ -424,3 +424,48 @@ Until then the correct production state is:
 ```text
 World → Evidence = designed, fail-closed, disabled
 ```
+
+
+## 19. Green validation / immutable design checkpoint
+
+Exact validated design head:
+
+```text
+38bbe5704d4d63781410842cbf134dcb76c3ab54
+```
+
+CI:
+
+```text
+Mainlagi TV V3 CI #1530
+run 35764121287
+
+Quality gate (Ubuntu):        PASS
+Windows compatibility:        PASS
+Production build:             PASS
+Production dependency audit:  PASS
+Secret history scan:          PASS
+Mobile route QA (Chromium):   PASS
+overall:                      SUCCESS
+```
+
+Relevant artifacts:
+
+```text
+mobile-route-qa-screenshots — 10711921117
+activity-quality-audit      — 10711900290
+gameplay-distribution-audit — 10710879966
+```
+
+Frozen immutable checkpoint:
+
+```text
+checkpoint/world-evidence-bridge-contract-green-20260923
+@ 38bbe5704d4d63781410842cbf134dcb76c3ab54
+```
+
+This checkpoint validates the **architecture contract only**. It does not authorize an active evidence bridge, SQL/RPC changes, runtime event emission, activity promotion to assessed, mastery writes, Belajar progress changes, rewards, or certificates.
+
+PR #295 remains Draft and is a CI/review surface only.
+
+Do not move or force-push the checkpoint branch.

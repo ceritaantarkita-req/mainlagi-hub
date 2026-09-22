@@ -325,6 +325,8 @@ The bridge remains disabled until explicit product authorization, pedagogical ma
 
 No SQL/RPC/schema change is authorized by the design contract.
 
+The disabled contract is validated by CI #1530 at `38bbe570...` and frozen in `checkpoint/world-evidence-bridge-contract-green-20260923`. This is design evidence only; canonical Belajar mastery behavior remains unchanged.
+
 ## 20. Change rule
 
 The learning/mastery foundation is currently considered healthy. The next product-quality phase should **not rewrite it by default**.

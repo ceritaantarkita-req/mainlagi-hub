@@ -504,3 +504,51 @@ permanent visual product baseline
 One earlier candidate run failed because browser QA looked for a non-canonical Stage-3 title string. The authored runtime title remained `Uang Datang dari Mana?`; the test literal was corrected and the exact corrected head above passed.
 
 This checkpoint is the safe rollback for the completed non-audio World production sequence after the separate content-audit checkpoint.
+
+
+## 20. World → Evidence v1 design QA — CI #1530
+
+Validated exact head:
+
+```text
+38bbe5704d4d63781410842cbf134dcb76c3ab54
+checkpoint: checkpoint/world-evidence-bridge-contract-green-20260923
+PR: #295 Draft
+```
+
+Full matrix:
+
+```text
+Quality gate (Ubuntu):        PASS
+Windows compatibility:        PASS
+Production build:             PASS
+Production dependency audit:  PASS
+Secret history scan:          PASS
+Mobile route QA (Chromium):   PASS
+overall:                      SUCCESS
+```
+
+The World regression suite now locks:
+
+```text
+bridge version = money-world-evidence-bridge-v1
+mode = design-only-disabled
+enabled = false
+16/16 World activity audit coverage
+16 current placements remain practice
+2 candidate-only canonical Math relations
+14 explicit exclusions
+0 canonical learning_activity mappings
+all write/schema/runtime flags false
+all activation prerequisites unsatisfied
+valid candidate observation remains blocked
+practice -> assessed spoof fails closed
+excluded activity remains unmapped
+unknown source identity fails closed
+World runtime has no learning-attempt/evidence write hook
+existing record_learning_attempt still has Belajar progress/star side effects
+```
+
+The last point is intentional evidence for why direct reuse of the existing RPC is forbidden.
+
+Passing this QA does not authorize activation.

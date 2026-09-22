@@ -199,6 +199,8 @@ Current candidate audit: 2 unapproved Math candidates / 14 explicit exclusions a
 
 See `WORLD_EVIDENCE_BRIDGE_ARCHITECTURE_2026-09-23.md`.
 
+The World → Evidence v1 design contract was validated at `38bbe570...` by CI #1530 and frozen at `checkpoint/world-evidence-bridge-contract-green-20260923`. Validation confirms the bridge remains disabled; it is not activation approval.
+
 ## 7. Progression vs presentation
 
 The **data model remains stage/progression-based**.
