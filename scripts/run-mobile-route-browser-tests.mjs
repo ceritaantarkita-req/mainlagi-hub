@@ -433,6 +433,10 @@ async function main() {
       const stageUrl = baseUrl + "/child/demo-gian/world/money-festival/stage/money-stage-01-money-use";
       await page.goto(stageUrl, { waitUntil: "domcontentloaded" });
       await page.getByText("Uang Buat Apa?", { exact: true }).waitFor();
+      const stageOneScene = page.locator('[data-world-scene="1"]');
+      await stageOneScene.waitFor();
+      const stageOneBackground = await stageOneScene.evaluate((node) => getComputedStyle(node, "::before").backgroundImage);
+      assert.match(stageOneBackground, /playground-park-mobile\.webp/, "World Stage 1 must use the illustrated playground environment on mobile");
 
       for (let index = 0; index < 4; index += 1) {
         await page.getByRole("button", { name: /Lanjut/ }).click();
@@ -470,6 +474,14 @@ async function main() {
 
       await page.getByRole("link", { name: /Back/ }).click();
       await page.getByText("Kok Jadi Lebih Mahal?", { exact: true }).waitFor();
+      const worldMap = page.locator('[data-world-map="money-festival"]');
+      await worldMap.waitFor();
+      const worldMapBackground = await worldMap.evaluate((node) => getComputedStyle(node).backgroundImage);
+      assert.match(worldMapBackground, /garden-background\.webp/, "World map must use the illustrated Mainlagi garden environment");
+      const chapterOneLabel = await page.locator('[data-stage-order="1"]').first().evaluate((node) => getComputedStyle(node, "::before").content);
+      const chapterTwoLabel = await page.locator('[data-stage-order="5"]').first().evaluate((node) => getComputedStyle(node, "::before").content);
+      assert.match(chapterOneLabel, /Chapter 1/, "World map must expose the Chapter 1 journey marker");
+      assert.match(chapterTwoLabel, /Chapter 2/, "World map must expose the Chapter 2 journey marker");
       const stageTwoLink = page.locator('a[href="/child/demo-gian/world/money-festival/stage/money-stage-02-price-change"]');
       await stageTwoLink.waitFor();
       assert.equal(await stageTwoLink.count(), 1, "World Stage 1 completion must unlock Stage 2");
@@ -494,6 +506,9 @@ async function main() {
       const page = await context.newPage();
       await page.goto(baseUrl + "/child/demo-gian/world/money-festival/stage/money-stage-02-price-change", { waitUntil: "domcontentloaded" });
       await page.getByText("Kok Jadi Lebih Mahal?", { exact: true }).waitFor();
+      const stageTwoScene = page.locator('[data-world-scene="2"]');
+      const stageTwoBackground = await stageTwoScene.evaluate((node) => getComputedStyle(node, "::before").backgroundImage);
+      assert.match(stageTwoBackground, /mini-market-mobile\.webp/, "World Stage 2 must use the illustrated market environment");
 
       await page.getByRole("button", { name: "Sekarang · Rp12", exact: true }).click();
       await page.getByRole("button", { name: /Lanjut/ }).waitFor();
@@ -543,6 +558,9 @@ async function main() {
       const page = await context.newPage();
       await page.goto(baseUrl + "/child/demo-gian/world/money-festival/stage/money-stage-05-saving", { waitUntil: "domcontentloaded" });
       await page.getByText("Simpan Dulu Yuk", { exact: true }).waitFor();
+      const stageFiveScene = page.locator('[data-world-scene="5"]');
+      const stageFiveBackground = await stageFiveScene.evaluate((node) => getComputedStyle(node, "::before").backgroundImage);
+      assert.match(stageFiveBackground, /number-park-mobile\.webp/, "World Stage 5 must move the story into the illustrated saving-park environment");
       await page.getByRole("button", { name: /Punya tujuan/ }).click();
       await page.getByRole("button", { name: /Simpan sebagian/ }).click();
       await page.getByRole("button", { name: /Uang terkumpul/ }).click();
@@ -581,6 +599,9 @@ async function main() {
       const page = await context.newPage();
       await page.goto(baseUrl + "/child/demo-gian/world/money-festival/stage/money-stage-08-final-festival", { waitUntil: "domcontentloaded" });
       await page.getByText("Kebutuhan sudah lengkap. Masih ada delapan token. Kamu mau apa?", { exact: true }).waitFor();
+      const stageEightScene = page.locator('[data-world-scene="8"]');
+      const stageEightBackground = await stageEightScene.evaluate((node) => getComputedStyle(node, "::before").backgroundImage);
+      assert.match(stageEightBackground, /garden-background\.webp/, "World finale must return to the illustrated festival garden environment");
       await page.getByRole("button", { name: /Tambah pita/ }).click();
       await page.getByText("Kamu memilih membuat meja lebih meriah.", { exact: true }).waitFor();
       await page.getByRole("button", { name: /Lanjut/ }).click();
