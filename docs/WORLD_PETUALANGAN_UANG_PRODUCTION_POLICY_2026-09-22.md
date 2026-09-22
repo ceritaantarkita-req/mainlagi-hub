@@ -383,7 +383,7 @@ Current ordered work:
 14. **DEFERRED WHILE NON-AUDIO WORK CONTINUES** — narration voice identity/source/rights decision remains required before the four-cue listening pilot may be generated;
 15. **DONE / GREEN / CHECKPOINTED** — semantic Chapter navigation + 320px map-hero polish validated by CI #1457 at `55505f17...`; checkpoint `checkpoint/world-petualangan-uang-visual-nav-polish-green-20260922`;
 16. **DONE / GREEN / CHECKPOINTED** — completion UX derives canonical Chapter milestones, preserves ★★★ + Back / Again / Next + Share, and is validated by CI #1467 at `40436d41...`; checkpoint `checkpoint/world-petualangan-uang-completion-ux-green-20260922`;
-17. **DONE on isolated branch, CI pending** — eight-Stage content consistency audit adds machine-readable focus/safety/continuity gates and tightens four weak Indonesian transitions;
+17. **DONE / GREEN / CHECKPOINTED** — eight-Stage content consistency audit + four Indonesian continuity refinements validated by CI #1491 at `ef0a0ab6...`; checkpoint `checkpoint/world-petualangan-uang-content-audit-green-20260922`;
 18. **DONE on isolated branch, CI pending** — focused accessibility pass adds progressbar/current-step/locked-state semantics, polite Scene announcements, completion focus, list/image semantics, forced-colors support, and visible keyboard focus;
 19. **DONE on isolated branch, CI pending** — World-specific performance/lazy-load pass locks visual byte budgets and verifies route-scoped background requests without touching shared Belajar components;
 20. **NEXT** — wait for exact CI-green validation of content audit + accessibility + performance heads, then freeze a new immutable World production checkpoint;
