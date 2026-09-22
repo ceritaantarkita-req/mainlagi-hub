@@ -1,6 +1,6 @@
 # Mainlagi World — Production QA / Responsive Checkpoint Pass — 22 September 2026
 
-Status: **IMPLEMENTED ON ISOLATED WORLD PRODUCTION BRANCH / CI VALIDATION PENDING**
+Status: **VALIDATED GREEN AT CODE HEAD `e8f795b7d26a2cb3bf19fc787f6f58b2b85ed60a`**
 
 Branch:
 
@@ -119,18 +119,77 @@ The deeper representative mechanics/finale/share/map tests are also retained.
 - `data-world-scene-progress` remains exposed for QA;
 - the wrapper-aware responsive fit rule remains in World CSS.
 
-## 8. CI/checkpoint rule
+## 8. CI/checkpoint result
 
-Do not label this production wave green until GitHub Actions validates the exact branch head.
+A dedicated CI-only Draft PR was opened without touching PR #272:
 
-After a full successful PR matrix:
+```text
+PR:      #282
+base:    feature/world-petualangan-uang-dummy-20260922
+head:    feature/world-petualangan-uang-production-wave-20260922
+target:  NOT main
+```
 
-1. record PR/run/head in the safe checkpoint doc;
-2. create a new immutable checkpoint branch from the validated head;
-3. do not force-push/move older World checkpoint branches;
-4. keep production integration separate from PR #272 unless explicitly approved.
+First responsive run exposed a real QA issue: one Stage challenge control did not meet the new 44px touch-target gate at 320px. The production CSS was hardened so every interactive control inside `data-world-scene-content` has at least **44 × 44 CSS px**.
 
-## 9. Next after green
+Validated exact code head:
+
+```text
+head: e8f795b7d26a2cb3bf19fc787f6f58b2b85ed60a
+CI:   #1382 / run 35704255936
+```
+
+Full matrix result:
+
+```text
+Quality gate (Ubuntu):        PASS
+Windows compatibility:        PASS
+Production build:             PASS
+Production dependency audit:  PASS
+Secret history scan:          PASS
+Mobile route QA (Chromium):   PASS
+```
+
+Frozen rollback branch:
+
+```text
+checkpoint/world-petualangan-uang-production-green-20260922
+@ e8f795b7d26a2cb3bf19fc787f6f58b2b85ed60a
+```
+
+Do not move or force-push this checkpoint branch.
+
+## 9. Manual screenshot review
+
+Reviewed CI artifact:
+
+```text
+mobile-route-qa-screenshots
+artifact id: 10683524631
+run: 35704255936
+```
+
+Selected new responsive screenshots reviewed:
+
+```text
+320-world-scene-story.png
+320-world-scene-challenge.png
+430-world-scene-choice.png
+430-world-scene-recap.png
+430-world-scene-closing.png
+```
+
+Review result:
+
+- 320px story shell remains readable and horizontally contained;
+- 320px challenge keeps the illustrated environment and uses natural vertical scrolling instead of horizontal compression;
+- Scene metadata pills remain inside viewport;
+- 430px choice/recap/closing surfaces remain visually separated from the Stage shell;
+- recap cards stay readable;
+- closing dialogue does not overlap top controls or Scene metadata;
+- no P0/P1 World-specific visual blocker was observed in these selected CI screenshots.
+
+## 10. Next after green
 
 Once this exact production-wave head is green, the remaining product gaps are primarily **assets/integration**, not core World runtime architecture:
 
