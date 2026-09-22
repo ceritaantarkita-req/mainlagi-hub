@@ -1,6 +1,6 @@
 # Mainlagi World — Production QA / Responsive Checkpoint Pass — 22 September 2026
 
-Status: **VALIDATED GREEN AT CODE HEAD `e8f795b7d26a2cb3bf19fc787f6f58b2b85ed60a`**
+Status: **LATEST VALIDATED GREEN HEAD `9f6953302ee82db62a7362288233a77db2251743`**
 
 Branch:
 
@@ -216,4 +216,25 @@ Detailed record:
 docs/WORLD_SOCIAL_CARD_2026-09-22.md
 ```
 
-This wave is not green until Draft PR #282 validates the exact social-card head.
+Validated result:
+
+```text
+head: 9f6953302ee82db62a7362288233a77db2251743
+CI:   #1391 / run 35716360918
+
+Quality gate (Ubuntu):        PASS
+Windows compatibility:        PASS
+Production build:             PASS
+Production dependency audit:  PASS
+Secret history scan:          PASS
+Mobile route QA (Chromium):   PASS
+overall:                      SUCCESS
+```
+
+Frozen social-card checkpoint:
+
+```text
+checkpoint/world-petualangan-uang-social-green-20260922
+```
+
+The previous runtime-responsive checkpoint remains valid and unmoved.
