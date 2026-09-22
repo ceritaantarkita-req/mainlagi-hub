@@ -252,8 +252,15 @@ getMoneyWorldCanonicalSegmentIds(stageId)
 
 These provide a migration path from the earlier Stage -> Segment implementation toward reusable Scene renderers without breaking the current pilot.
 
-## 11. Next structural step
+## 11. Production follow-through
 
-After this contract, the next production step is to build the **reusable Scene renderer/presentation layer** on top of the canonical Scene kinds, while preserving the current Gavi/Paca dummy and fixed narration IDs.
+Production wave 03 now consumes this hierarchy through the eight-Stage pilot production manifest:
 
-That next step should consume this hierarchy, not create a second parallel World structure.
+```text
+src/lib/learning/world/moneyWorldPilot.ts
+docs/WORLD_PETUALANGAN_UANG_PILOT_PRODUCTION_2026-09-22.md
+```
+
+All eight Stages resolve their tracked presentation data from that manifest instead of per-Stage React/CSS visual hardcodes.
+
+The next production step is the **fixed narration production pass**. Future reusable Scene renderer work must continue to consume this canonical hierarchy rather than creating a parallel content structure.
