@@ -723,6 +723,10 @@ async function main() {
       await map.waitFor();
       const chapterBanners = map.locator("[data-world-chapter-id]");
       assert.equal(await chapterBanners.count(), 2, "World map must render exactly two semantic Chapter banners at " + width + "px");
+      await page.waitForFunction(() => {
+        const progress = document.querySelector('[data-world-chapter-id="money-chapter-01-road-to-festival"] > span');
+        return progress?.textContent?.trim() === "1/4 Stage selesai";
+      });
       assert.equal(
         (await map.locator('[data-world-chapter-id="money-chapter-01-road-to-festival"] > span').textContent())?.trim(),
         "1/4 Stage selesai",
