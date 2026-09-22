@@ -1,8 +1,8 @@
 # Mainlagi World — Petualangan Uang Narration Contract — 22 September 2026
 
-Status: **ACTIVE CONTRACT / FIXED AUDIO NOT YET PRODUCED**
+Status: **ACTIVE CONTRACT / FIXED-AUDIO PIPELINE IMPLEMENTED / 0 OF 88 CUES APPROVED**
 
-This wave prepares Petualangan Uang for reviewed fixed narration without pretending that final audio binaries already exist.
+This contract defines the stable cue layer. Production wave 04 now adds a fail-closed generation/review/playback pipeline without pretending that final audio binaries already exist.
 
 ## 1. Current production truth
 
@@ -77,9 +77,9 @@ No file at these paths is claimed to exist yet.
 
 This is a role contract, not approval of a final voice provider, performer, cloned voice, license or distribution model.
 
-## 6. Current fallback
+## 6. Current fallback and production resolver
 
-All cues currently declare:
+Canonical cues still declare:
 
 ```text
 status: fallback-runtime
@@ -87,24 +87,36 @@ productionSrc: null
 fallback: browser-speech
 ```
 
-The existing AudioManager remains responsible for locale, replay, unlock/warmup, mute state and unavailable-speech fallback.
+Production approval is now tracked separately in:
+
+```text
+src/lib/learning/world/moneyWorldNarrationProduction.ts
+version: money-world-narration-production-v1
+```
+
+Current production truth is **88 total / 0 approved / 88 pending / productionReady=false**.
+
+World narration/prompt runtime now goes through `moneyWorldNarrationPlayback.ts`. An explicitly approved deterministic MP3 is attempted first; construction/load/playback failure falls back to browser speech. Unapproved cues go directly to browser speech.
+
+The existing AudioManager remains responsible for browser-speech locale, replay, unlock/warmup, mute state and unavailable-speech behavior.
 
 ## 7. Production acceptance gate
 
-A cue may become `production-ready` only after:
+A cue may become fixed-audio eligible only after:
 
 1. final Indonesian copy is reviewed;
-2. speaker/voice identity is approved;
-3. provider or recording source is documented;
-4. rights and redistribution boundary are explicit;
-5. pronunciation is reviewed;
-6. loudness, trim and pacing are consistent;
-7. mobile playback is verified;
-8. caption text matches spoken semantic content;
-9. browser-speech fallback still works if the fixed file fails;
-10. automated tests verify every production-ready cue has a real asset.
+2. the approval fingerprint matches current locale + speaker + cue kind + copy;
+3. speaker/voice identity is approved;
+4. provider or recording source is documented;
+5. redistribution rights are explicitly approved;
+6. pronunciation is reviewed;
+7. loudness and pacing are reviewed;
+8. mobile playback is verified;
+9. caption text matches spoken semantic content;
+10. browser-speech fallback still works if the fixed file fails;
+11. the file exists at the deterministic expected path.
 
-Do not set `productionSrc` merely because an MP3 has been generated.
+Do not add an approval record merely because an MP3 has been generated. Generated files are inert until the review record passes validation.
 
 ## 8. Child-language rules
 
@@ -129,17 +141,26 @@ docs/CHARACTER_ASSET_PIPELINE.md
 
 Approving narration must not auto-approve human foreground artwork, and fallback avatars must not be treated as final World production art.
 
-## 10. Safe next production wave
+## 10. Production wave 04 implementation
 
-1. review/freeze the Indonesian cue sheet;
-2. decide recording/TTS provider and rights boundary;
-3. produce **Stage 1 only** first;
-4. review pronunciation, pacing, loudness and child comprehension;
-5. wire fixed-file playback with AudioManager/browser speech fallback;
-6. run 320/390/430 mobile plus audio-failure QA;
-7. only then produce all eight Stages.
+Completed on the isolated World branch:
 
-This branch intentionally stops before claiming final audio binaries.
+1. deterministic production/review manifest for all 88 spoken cue slots;
+2. copy/speaker/kind fingerprint drift protection;
+3. explicit provider/source + redistribution-rights review fields;
+4. fixed-file runtime resolver;
+5. fixed-file playback failure -> browser-speech fallback;
+6. cue-sheet export + approved-asset audit utility;
+7. static QA for 88/88 manifest coverage and current 0/88 approval truth;
+8. browser QA proving current unapproved narrative/activity prompts resolve to browser speech.
+
+Detailed record:
+
+```text
+docs/WORLD_PETUALANGAN_UANG_NARRATION_PRODUCTION_2026-09-22.md
+```
+
+The branch still intentionally stops before claiming final audio binaries or final voices.
 
 
 ## Runtime-character dummy note — production wave 01
@@ -154,3 +175,14 @@ Naya -> Paca
 Browser-speech fallback uses the temporary presented copy, so visible/spoken names stay consistent during the dummy phase. Stable cue IDs do **not** change.
 
 This does not approve final Gian/Naya artwork or voices, and it does not make `productionReady=true`.
+
+
+## Production artifact boundary
+
+Use:
+
+```text
+node scripts/export-world-money-narration-cue-sheet.mjs
+```
+
+to generate the current cue sheet for a recording/TTS handoff. The generated export is not a second source of truth and should not be used to bypass repository review metadata.
