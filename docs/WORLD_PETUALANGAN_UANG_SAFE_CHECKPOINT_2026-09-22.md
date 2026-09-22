@@ -1000,3 +1000,49 @@ No audio binary is created or approved by this wave.
 No Belajar, Bermain/motion, SQL schema, mastery/evidence, age migration, progression, or final character artwork is changed.
 
 Checkpoint rule: validate the exact wave-08 head through Draft PR #282. If fully green, freeze a new immutable narration-readiness checkpoint without moving any prior checkpoint branches.
+
+
+## 32. Production wave 09 — fixed narration binary provenance gate
+
+The active production branch now has a fail-closed binary provenance gate before any fixed World narration can enter production.
+
+New files:
+
+```text
+scripts/world-money-narration-asset-gate.mjs
+scripts/validate-world-money-narration-assets.mjs
+scripts/run-world-money-narration-asset-validator-tests.mjs
+docs/WORLD_NARRATION_ASSET_GATE_2026-09-22.md
+```
+
+Approval metadata was strengthened to require:
+
+- provider model;
+- voice identity;
+- source terms;
+- rights basis;
+- commercial-use clearance;
+- redistribution clearance;
+- explicit AI-disclosure decision;
+- child-learning review;
+- exact SHA-256.
+
+The gate validates deterministic production paths, MP3 signature, file size, checksum, duplicate paths and rejects stray public narration binaries.
+
+Regression fixtures cover stray audio, rights, disclosure, human review, invalid MP3, checksum drift and a valid approved fixture.
+
+Current runtime/production truth remains:
+
+```text
+88 canonical spoken cues
+0 approved fixed binaries
+0 generation-authorized cues
+88 voice-gated cues
+browser speech fallback active
+```
+
+No provider/voice is selected by this wave.
+
+No Belajar, Bermain/motion, SQL schema, evidence/mastery, age migration, World progression or final character artwork is changed.
+
+Checkpoint rule: validate the exact wave-09 head through Draft PR #282. If fully green, freeze a new immutable narration-readiness checkpoint without moving any prior checkpoint.
