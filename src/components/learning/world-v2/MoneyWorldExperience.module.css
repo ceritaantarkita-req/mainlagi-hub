@@ -1884,3 +1884,38 @@
     font-size: 17px;
   }
 }
+
+
+.chapterReward {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0 2px;
+  padding: 10px 15px;
+  border-radius: 20px;
+  border: 2px solid #e8cf78;
+  background: #fff5bd;
+  color: #695316;
+  box-shadow: 0 5px 0 rgba(204, 164, 63, .24);
+  text-align: left;
+}
+
+.chapterReward > span {
+  font-size: 30px;
+}
+
+.chapterReward strong,
+.chapterReward small {
+  display: block;
+}
+
+.chapterReward strong {
+  font-size: 15px;
+}
+
+.chapterReward small {
+  margin-top: 1px;
+  color: #876b1f;
+  font-size: 12px;
+  font-weight: 850;
+}
