@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { rmSync } from "node:fs";
+import { readFileSync, rmSync } from "node:fs";
 import { createRequire } from "node:module";
 import { spawnSync } from "node:child_process";
 import path from "node:path";
@@ -20,6 +20,9 @@ const require = createRequire(import.meta.url);
 const system = require(path.join(outDir, "src", "lib", "learning", "system.js"));
 const systemBase = require(path.join(outDir, "src", "lib", "learning", "systemBase.js"));
 const englishBatch9 = require(path.join(outDir, "src", "lib", "learning", "englishBatch9.js"));
+const narrationRegistry = JSON.parse(
+  readFileSync(path.join(root, "src", "lib", "data", "english-narration-asset-provenance.json"), "utf8")
+);
 
 const targetOnlyPrompts = new Map(Object.entries({
   "english-find-blue-audio": "Blue.",
@@ -95,7 +98,20 @@ try {
   }
 
   assert.equal(targetOnlyPrompts.size + comprehensionPrompts.size, englishListening.length, "all English listening activities must be reviewed by this wave");
-  console.log(`English narration quality tests passed: ${englishListening.length} listening activities reviewed, ${targetOnlyPrompts.size} target-first prompts, ${comprehensionPrompts.size} comprehension prompts.`);
+
+  assert.equal(narrationRegistry.version, 1, "English narration asset registry version must stay explicit");
+  assert.equal(narrationRegistry.scope, "english-learning-fixed-narration", "English narration registry scope must stay fixed");
+  const registryIds = Object.keys(narrationRegistry.items ?? {}).sort();
+  const runtimeIds = englishListening.map((activity) => activity.id).sort();
+  assert.deepEqual(registryIds, runtimeIds, "English narration asset registry must cover exactly the live 27 listening activities");
+  for (const activity of englishListening) {
+    const assetRecord = narrationRegistry.items[activity.id];
+    assert(assetRecord, `${activity.id} must have a narration asset registry slot`);
+    assert.equal(assetRecord.language, "en-US", `${activity.id} asset language must stay en-US`);
+    assert.equal(assetRecord.transcript, activity.audioPrompt, `${activity.id} asset transcript must exactly match the reviewed runtime audioPrompt`);
+  }
+
+  console.log(`English narration quality tests passed: ${englishListening.length} listening activities reviewed, ${targetOnlyPrompts.size} target-first prompts, ${comprehensionPrompts.size} comprehension prompts, asset registry transcripts synchronized.`);
 } finally {
   rmSync(outDir, { recursive: true, force: true });
 }
