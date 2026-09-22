@@ -480,3 +480,46 @@ Mobile Chromium: PASS
 This checkpoint includes the 6–8 pilot presentation policy, explicit 3–5 / 9–12 future boundaries, asset production manifest, and related docs/tests. It predates the newer evidence-bridge and global-age migration audits.
 
 The evidence/age-audit work on the active feature branch must not cause this checkpoint branch to move.
+
+## 20. Age/evidence-green frozen checkpoint
+
+Before the fixed-narration wave, the feature branch reached another independently green rollback:
+
+```text
+branch: checkpoint/world-petualangan-uang-age-evidence-green-20260922
+head:   f09c01dc54061cd3ce2d895bfa7f7477b9bf39c7
+CI:     #1352 / run 35684673952
+Ubuntu: PASS
+Windows: PASS
+Production build: PASS
+Dependency audit: PASS
+Secret scan: PASS
+Mobile Chromium: PASS
+```
+
+This checkpoint includes the fail-closed evidence and global age-migration audits. Do not move this checkpoint branch.
+
+## 21. Fixed narration contract wave
+
+After the age/evidence-green checkpoint, the active feature branch adds:
+
+```text
+src/lib/learning/world/moneyWorldNarration.ts
+version: money-world-narration-v1
+productionReady: false
+```
+
+All currently spoken narrative/concept/payoff/activity prompts now have deterministic cue IDs. Runtime speech dedupe/replay keys use those IDs instead of copy text.
+
+Fixed audio remains intentionally absent:
+
+```text
+status: fallback-runtime
+productionSrc: null
+fallback: browser-speech
+expected path: /audio/world/money-festival/id-ID/<cue-id>.mp3
+```
+
+Detailed contract: `WORLD_PETUALANGAN_UANG_NARRATION_CONTRACT_2026-09-22.md`.
+
+This wave does not approve a voice provider, final audio binary, Naya/Gian production artwork, evidence activation, or global age migration.

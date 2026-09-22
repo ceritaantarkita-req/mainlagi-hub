@@ -117,6 +117,8 @@ World → canonical Evidence is still **disabled**. Audit result: 2 candidate ma
 
 Age 3–12 migration is also **not active**. `WORLD_AGE_MIGRATION_AUDIT_2026-09-22.md` records 13 current blockers and a staged sequence. The important runtime risk is that profile age 8+ cannot be exposed safely while canonical Belajar content remains ageMax 7 unless a deliberate no-reviewed-content behavior exists. Historical 3–7 content must not be blanket-widened.
 
+World fixed narration is also **not production-ready**. `moneyWorldNarration.ts` now gives every currently spoken unit a stable ID and deterministic future MP3 path while runtime remains on AudioManager/browser-speech fallback. See `WORLD_PETUALANGAN_UANG_NARRATION_CONTRACT_2026-09-22.md`.
+
 ## 2. Learning/product baseline
 
 Current learning baseline remains:

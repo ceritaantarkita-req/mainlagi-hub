@@ -39,6 +39,10 @@
 - Global age migration tetap fail-closed: audit menemukan blocker di cloud profile parser/create, local+cloud profile UI, content validator, learning-skill/content-pack SQL age constraints, canonical catalog 3–7, age-filtered Belajar runtime, public copy, dan regression tests.
 - Audit age migration menegaskan `player_profiles.age_group` sendiri adalah text tanpa numeric 3–7 SQL check; hard stop profile saat ini berada pada parser/UI/app contract.
 - Age migration audit/handoff: `WORLD_AGE_MIGRATION_AUDIT_2026-09-22.md`; tidak ada blanket `ageMax 7 -> 12` rewrite.
+- Narration registry World sekarang memakai stable cue ID untuk narrative/concept/payoff/activity prompt + final narrative-choice prompt; runtime speech key tidak lagi berbasis copy text.
+- Fixed narration tetap fail-closed: semua cue `fallback-runtime`, `productionSrc=null`, future path deterministic di `/audio/world/money-festival/id-ID/<cue-id>.mp3`.
+- Narration contract/handoff: `WORLD_PETUALANGAN_UANG_NARRATION_CONTRACT_2026-09-22.md`.
+- Age/evidence-green rollback: `checkpoint/world-petualangan-uang-age-evidence-green-20260922` @ `f09c01dc54061cd3ce2d895bfa7f7477b9bf39c7`, CI #1352 / run `35684673952` full success.
 
 
 ## 2.0.1 — 5 Agustus 2026
