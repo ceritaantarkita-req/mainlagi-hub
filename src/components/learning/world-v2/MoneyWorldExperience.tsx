@@ -20,6 +20,7 @@ import {
 } from "react";
 import { CharacterAvatar } from "@/components/learning/LearningCommon";
 import { MONEY_WORLD_PILOT_AGE_BAND } from "@/lib/learning/world/moneyWorldPresentation";
+import { MONEY_WORLD_RUNTIME_CHARACTER_POLICY } from "@/lib/learning/world/moneyWorldAssets";
 import { audioStatus, playTone, speakPrompt, unlockAudio, warmAudio, type SpeechStartStatus } from "@/lib/audio/feedback";
 import {
   MONEY_WORLD_ID,
@@ -58,6 +59,20 @@ const EMPTY_PROGRESS: MoneyWorldProgress = {
 
 function cx(...values: Array<string | false | null | undefined>) {
   return values.filter(Boolean).join(" ");
+}
+
+type MoneyWorldStorySpeaker = keyof typeof MONEY_WORLD_RUNTIME_CHARACTER_POLICY.storyRoleToRuntimeCharacter;
+
+function runtimeCharacterForStoryRole(speaker: MoneyWorldStorySpeaker) {
+  const id = MONEY_WORLD_RUNTIME_CHARACTER_POLICY.storyRoleToRuntimeCharacter[speaker];
+  return { id, name: id === "gavi" ? "Gavi" : "Paca" } as const;
+}
+
+function presentDummyCharacterCopy(text: string) {
+  return text
+    .replace(/\bKak Naya\b/g, "Paca")
+    .replace(/\bNaya\b/g, "Paca")
+    .replace(/\bGian\b/g, "Gavi");
 }
 
 const WORLD_STAGE_AMBIENCE: Record<number, string[]> = {
@@ -150,13 +165,11 @@ function WorldHero({ compact = false }: { compact?: boolean }) {
       <div className={styles.worldHeroCopy}>
         <span className={styles.eyebrow}>Mainlagi World</span>
         <h1>Petualangan Uang</h1>
-        <p>Bantu Gian dan Naya menyiapkan Festival Mainlagi!</p>
+        <p>Bantu Gavi dan Paca menyiapkan Festival Mainlagi!</p>
       </div>
-      <div className={styles.heroCharacters} aria-label="Gian, Naya, Paca, dan Gavi">
-        <CharacterAvatar id="gian" large />
-        <CharacterAvatar id="naya" large />
-        <CharacterAvatar id="paca" />
-        <CharacterAvatar id="gavi" />
+      <div className={styles.heroCharacters} aria-label="Gavi dan Paca">
+        <CharacterAvatar id="gavi" large />
+        <CharacterAvatar id="paca" large />
       </div>
     </div>
   );
@@ -314,7 +327,7 @@ function SpeechCard({
   nextLabel
 }: {
   audioId: string;
-  speaker: "Gian" | "Naya";
+  speaker: MoneyWorldStorySpeaker;
   text: string;
   kind: "narrative" | "concept" | "payoff";
   onNext: () => void;
@@ -322,6 +335,8 @@ function SpeechCard({
 }) {
   const [speechStatus, setSpeechStatus] = useState<SpeechStartStatus | null>(null);
   const autoAttemptedRef = useRef(false);
+  const runtimeCharacter = runtimeCharacterForStoryRole(speaker);
+  const presentedText = presentDummyCharacterCopy(text);
 
   useEffect(() => {
     autoAttemptedRef.current = false;
@@ -330,7 +345,7 @@ function SpeechCard({
     const startNarration = () => {
       if (cancelled || autoAttemptedRef.current || !audioStatus().unlocked || audioStatus().muted) return;
       autoAttemptedRef.current = true;
-      setSpeechStatus(speakPrompt(text, {
+      setSpeechStatus(speakPrompt(presentedText, {
         lang: "id-ID",
         key: "world-narration:" + audioId,
         interrupt: true
@@ -351,12 +366,12 @@ function SpeechCard({
       window.removeEventListener("pointerdown", afterGesture, { capture: true });
       window.removeEventListener("keydown", afterGesture, { capture: true });
     };
-  }, [audioId, text]);
+  }, [audioId, presentedText]);
 
   const hear = () => {
     autoAttemptedRef.current = true;
     unlockAudio("id-ID");
-    setSpeechStatus(speakPrompt(text, {
+    setSpeechStatus(speakPrompt(presentedText, {
       lang: "id-ID",
       key: "world-replay:" + audioId,
       interrupt: true,
@@ -376,12 +391,12 @@ function SpeechCard({
   return (
     <section className={cx(styles.storyScene, kind === "concept" && styles.conceptScene)} data-world-audio-id={audioId}>
       <div className={styles.storyCharacter}>
-        <CharacterAvatar id={speaker === "Naya" ? "naya" : "gian"} large />
-        <strong>{speaker}</strong>
+        <CharacterAvatar id={runtimeCharacter.id} large />
+        <strong>{runtimeCharacter.name}</strong>
       </div>
       <div className={styles.speechBubble}>
         <span className={styles.sceneType}>{kind === "concept" ? "Temukan idenya" : kind === "payoff" ? "Cerita berlanjut" : "Cerita"}</span>
-        <p>{text}</p>
+        <p>{presentedText}</p>
         <div className={styles.storyActions}>
           <button type="button" className={styles.secondaryButton} onClick={hear} data-world-hear>
             <SpeakerHigh size={21} weight="fill" aria-hidden /> Dengar
@@ -1125,6 +1140,7 @@ function MoneyWorldStageRuntime({
   const [segmentIndex, setSegmentIndex] = useState(0);
   const [completed, setCompleted] = useState(false);
   const [hydrated, setHydrated] = useState(false);
+  const stageRuntimeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!state.ready || !state.settled || hydrated || lastIndex < 0) return;
@@ -1169,25 +1185,56 @@ function MoneyWorldStageRuntime({
 
   const segment = segments[segmentIndex];
   const percent = ((segmentIndex + 1) / segments.length) * 100;
+  const hasNarrationControl = segment.type !== "recap";
+  const showAmbientGuides = segment.type === "activity" || segment.type === "narrative_choice" || segment.type === "recap";
+  const hearCurrentSegment = () => {
+    const control = stageRuntimeRef.current?.querySelector<HTMLButtonElement>("[data-world-hear], [data-world-prompt-hear]");
+    control?.click();
+  };
 
   return (
-    <div className={styles.stageRuntime} data-stage-order={stage.order} data-world-scene={stage.order}>
+    <div
+      ref={stageRuntimeRef}
+      className={styles.stageRuntime}
+      data-stage-order={stage.order}
+      data-world-scene={stage.order}
+      data-world-stage-shell="garden-baseline-v1"
+      data-world-runtime-character-policy={MONEY_WORLD_RUNTIME_CHARACTER_POLICY.mode}
+    >
       <div className={styles.stageProgressBar} aria-label={"Bagian " + (segmentIndex + 1) + " dari " + segments.length}>
         <span style={{ width: String(percent) + "%" }} />
       </div>
-      <div className={styles.stageRuntimeTop}>
-        <Link href={"/child/" + childId + "/world/" + MONEY_WORLD_ID} className={styles.roundBack} aria-label="Kembali ke peta">
-          <ArrowLeft size={24} weight="bold" aria-hidden />
+      <header className={styles.stageShellHeader}>
+        <Link href={"/child/" + childId + "/world/" + MONEY_WORLD_ID} className={styles.stageShellControl} aria-label="Kembali">
+          <ArrowLeft size={25} weight="bold" aria-hidden />
+          <span>Kembali</span>
         </Link>
-        <div>
-          <small>{"Stage " + stage.order}</small>
-          <strong>{stage.title}</strong>
-          <span className={styles.locationPill}>{stage.locationLabel}</span>
-        </div>
-        <span className={styles.stageCount}>{String(segmentIndex + 1) + "/" + segments.length}</span>
+        <span className={styles.stageShellBrand} role="img" aria-label="Mainlagi" />
+        <button
+          type="button"
+          className={styles.stageShellControl}
+          onClick={hearCurrentSegment}
+          disabled={!hasNarrationControl}
+          aria-label={hasNarrationControl ? "Dengar petunjuk aktif" : "Tidak ada narasi pada bagian ini"}
+          data-world-shell-hear
+        >
+          <SpeakerHigh size={26} weight="fill" aria-hidden />
+          <span>Dengar</span>
+        </button>
+      </header>
+      <div className={styles.stageShellTitle}>
+        <span>{"Stage " + stage.order + " · " + stage.locationLabel}</span>
+        <h1>{stage.title}</h1>
+        <small>{String(segmentIndex + 1) + "/" + segments.length}</small>
       </div>
 
       <StageAmbience stageOrder={stage.order} />
+      {showAmbientGuides ? (
+        <div className={styles.stageShellCharacters} aria-hidden>
+          <div className={styles.stageShellCharacterLeft}><CharacterAvatar id="gavi" large /></div>
+          <div className={styles.stageShellCharacterRight}><CharacterAvatar id="paca" large /></div>
+        </div>
+      ) : null}
 
       {segment.type === "activity" ? (
         <WorldActivity placement={segment.activity} onComplete={advance} />
