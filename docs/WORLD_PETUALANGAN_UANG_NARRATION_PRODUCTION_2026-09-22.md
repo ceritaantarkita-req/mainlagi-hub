@@ -376,3 +376,34 @@ narrative + concept + activity_prompt + payoff
 Current state remains `providerStatus=unselected` and `generationAuthorized=false`.
 
 The packet is offline/provider-neutral and exists only to make the eventual human listening comparison small and reproducible.
+
+
+## 16. Production wave 11 — provider-pilot human review gate
+
+A future generated four-cue pilot now has a deterministic human listening acceptance contract.
+
+Source:
+
+```text
+src/lib/learning/world/moneyWorldNarrationReview.ts
+```
+
+Every pilot cue must pass all nine blocking dimensions:
+
+```text
+exact copy
+pronunciation
+child comprehension
+pacing
+warmth
+role fit
+loudness consistency
+artifact free
+mobile playback
+```
+
+There is no score-based override. One failed or pending dimension keeps the pilot unaccepted.
+
+The review is fingerprint-bound to current canonical narration copy and must cover the exact four-cue provider pilot.
+
+Detailed record: `WORLD_NARRATION_REVIEW_GATE_2026-09-22.md`.
