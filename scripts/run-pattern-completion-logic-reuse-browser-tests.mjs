@@ -44,8 +44,29 @@ function stop(){if(server&&!server.killed)server.kill("SIGTERM");}
 async function seed(context){
   await context.addInitScript(()=>{
     const childId="demo-gian";
-    localStorage.setItem("mainlagi-learning-progress-v1",JSON.stringify({[childId]:{completedActivityIds:[],stars:0,lastActivityId:null}}));
-    localStorage.setItem("mainlagi-learning-attempts-v1",JSON.stringify({[childId]:[]}));
+    const seeds=[
+      ["logic-match-identical-shapes","logic.relations.matching.basic","matching"],
+      ["logic-classify-animal","logic.classification.visual.basic","tap_choice"],
+      ["logic-odd-category-animal-vehicle","logic.discrimination.odd_one_out.basic","tap_choice"],
+      ["logic-compare-more-dots","logic.comparison.visual.basic","tap_choice"],
+      ["logic-rule-alternate-shapes","logic.sequence.rules.basic","tap_choice"]
+    ];
+    const requiredIds=seeds.map(([id])=>id);
+    localStorage.setItem("mainlagi-learning-progress-v1",JSON.stringify({[childId]:{completedActivityIds:requiredIds,stars:0,lastActivityId:requiredIds.at(-1)}}));
+    const attempts=seeds.map(([seedActivityId,skillId,runtime],index)=>{
+      const attemptId="qa-logic-pattern-prereq-"+index;
+      const at="2026-09-22T02:0"+index+":00.000Z";
+      return{
+        id:attemptId,childId,activityId:seedActivityId,subjectId:"logic",
+        stageId:"logic-classification-rules-basics",runtime,difficulty:2,status:"completed",assessed:true,
+        score:1,accuracy:1,correctCount:runtime==="matching"?3:1,incorrectCount:0,hintCount:0,retryCount:0,
+        durationMs:1000,inputMode:"touch",startedAt:at,completedAt:at,
+        metadata:{source:"logic-pattern-completion-browser-prerequisite"},
+        evidence:[{attemptId,activityId:seedActivityId,skillId,score:1,weight:1,createdAt:at,qualifiesForMastery:true}],
+        masteryEligible:true
+      };
+    });
+    localStorage.setItem("mainlagi-learning-attempts-v1",JSON.stringify({[childId]:attempts}));
   });
 }
 
