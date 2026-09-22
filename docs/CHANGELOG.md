@@ -34,6 +34,8 @@
 - World presentation policy dikunci di code: pilot tetap usia **6–8**, 3–5 adalah future separate variant, 9–12 future separate series; satu World tidak boleh diam-diam berubah menjadi rentang 3–12 berdasarkan umur.
 - Asset production manifest baru mencatat reuse yang sudah approved dan gap yang belum final: Gian foreground, Naya foreground, fixed narration, dan dedicated World social card.
 - Production policy/handoff: `WORLD_PETUALANGAN_UANG_PRODUCTION_POLICY_2026-09-22.md`.
+- World → Evidence audit ditambahkan fail-closed: hanya `money-s02-activity-01` → `math.quantity.comparison` dan `money-s08-activity-02` → `math.operation.subtraction.within_10` yang lolos sebagai **candidate only**; 14 activity lain eksplisit excluded; bridge tetap disabled.
+- Evidence audit/handoff: `WORLD_PETUALANGAN_UANG_EVIDENCE_BRIDGE_AUDIT_2026-09-22.md`.
 
 
 ## 2.0.1 — 5 Agustus 2026
