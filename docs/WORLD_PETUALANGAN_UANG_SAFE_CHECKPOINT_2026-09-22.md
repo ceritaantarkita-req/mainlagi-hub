@@ -645,3 +645,51 @@ docs/WORLD_PETUALANGAN_UANG_PILOT_PRODUCTION_2026-09-22.md
 No Belajar runtime, Bermain/motion engine, SQL schema, mastery/evidence activation, global age migration, or final human-character production is changed.
 
 CI note: contracts are committed, but this wave is not labeled CI-green until a workflow run validates the new branch head.
+
+
+## 25. Production wave 04 — fixed narration production/review pipeline
+
+Production wave 04 turns the stable narration cue registry into a fail-closed fixed-audio pipeline.
+
+New sources:
+
+```text
+src/lib/learning/world/moneyWorldNarrationProduction.ts
+src/lib/learning/world/moneyWorldNarrationPlayback.ts
+scripts/export-world-money-narration-cue-sheet.mjs
+docs/WORLD_PETUALANGAN_UANG_NARRATION_PRODUCTION_2026-09-22.md
+```
+
+Canonical narration topology:
+
+```text
+89 total World Segments
+1 visual-only recap
+88 spoken cue slots
+```
+
+Current production truth:
+
+```text
+approved:        0
+pending:        88
+productionReady: false
+```
+
+Important behavior:
+
+- every cue gets a deterministic copy/speaker/kind fingerprint;
+- fixed files use `/audio/world/money-festival/id-ID/<cue-id>.mp3`;
+- generated files do not self-approve;
+- approval requires deterministic path + current fingerprint + speaker/locale + provider/source + redistribution rights + reviewer + pronunciation/pacing/loudness/mobile review;
+- World narration/prompt runtime no longer calls browser speech directly;
+- the runtime resolver attempts fixed audio only for an approved cue;
+- failed fixed playback falls back to browser speech;
+- current unapproved cues resolve to `data-world-narration-mode="browser-speech"`;
+- cue-sheet export is generated from repository contracts and checks that approved asset files exist.
+
+The `fixed-narration` production gap remains open because there are **no approved fixed binaries or final voices yet**. This wave closes the pipeline, not the asset-production work.
+
+No Belajar runtime, Bermain/motion, SQL schema, mastery/evidence activation, age migration, or final human-character production is changed.
+
+CI note: this wave must not be called CI-green until a workflow run validates the resulting branch head.
