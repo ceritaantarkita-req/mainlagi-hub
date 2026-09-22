@@ -712,6 +712,56 @@ async function main() {
 
     {
       const viewport = { width: 390, height: 844 };
+      const pilotStages = [
+        { id: "money-stage-01-money-use", lastIndex: 9, previous: [] },
+        { id: "money-stage-02-price-change", lastIndex: 13, previous: ["money-stage-01-money-use"] },
+        { id: "money-stage-03-income-sources", lastIndex: 10, previous: ["money-stage-01-money-use", "money-stage-02-price-change"] },
+        { id: "money-stage-04-needs-wants", lastIndex: 10, previous: ["money-stage-01-money-use", "money-stage-02-price-change", "money-stage-03-income-sources"] },
+        { id: "money-stage-05-saving", lastIndex: 8, previous: ["money-stage-01-money-use", "money-stage-02-price-change", "money-stage-03-income-sources", "money-stage-04-needs-wants"] },
+        { id: "money-stage-06-investment-intro", lastIndex: 10, previous: ["money-stage-01-money-use", "money-stage-02-price-change", "money-stage-03-income-sources", "money-stage-04-needs-wants", "money-stage-05-saving"] },
+        { id: "money-stage-07-risk", lastIndex: 10, previous: ["money-stage-01-money-use", "money-stage-02-price-change", "money-stage-03-income-sources", "money-stage-04-needs-wants", "money-stage-05-saving", "money-stage-06-investment-intro"] },
+        { id: "money-stage-08-final-festival", lastIndex: 11, previous: ["money-stage-01-money-use", "money-stage-02-price-change", "money-stage-03-income-sources", "money-stage-04-needs-wants", "money-stage-05-saving", "money-stage-06-investment-intro", "money-stage-07-risk"] }
+      ];
+
+      for (const stage of pilotStages) {
+        const context = await browser.newContext({ viewport });
+        await context.addInitScript((seed) => {
+          window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
+            "demo-gian": {
+              "money-festival": {
+                worldId: "money-festival",
+                completedStageIds: seed.previous,
+                currentStageId: seed.id,
+                currentSegmentIndex: seed.lastIndex,
+                updatedAt: "2026-09-22T00:00:00.000Z"
+              }
+            }
+          }));
+        }, stage);
+        const page = await context.newPage();
+        await page.goto(baseUrl + "/child/demo-gian/world/money-festival/stage/" + stage.id, { waitUntil: "domcontentloaded" });
+        const shell = page.locator('[data-world-pilot-stage="' + stage.id + '"]');
+        await shell.waitFor();
+        assert.equal(await shell.getAttribute("data-world-pilot-runtime-status"), "pilot-runtime-covered", stage.id + " must resolve the pilot production manifest");
+        assert.equal(await shell.getAttribute("data-world-scene-kind"), "closing", stage.id + " final checkpoint must resolve to an authored closing Scene");
+        const backgroundImage = await shell.evaluate((node) => getComputedStyle(node, "::before").backgroundImage);
+        assert.notEqual(backgroundImage, "none", stage.id + " must render an approved illustrated environment");
+        await shell.locator("[data-world-hear]").click();
+        await page.waitForFunction(() => {
+          const button = document.querySelector("[data-world-next]");
+          return button instanceof HTMLButtonElement && !button.disabled;
+        });
+        await shell.locator("[data-world-next]").click();
+        const completion = page.locator('[aria-labelledby="world-stage-complete-title"]');
+        await completion.waitFor();
+        assert.equal(await completion.locator('[aria-label="Tiga bintang"] svg').count(), 3, stage.id + " must complete with three Stage stars");
+        await context.close();
+      }
+      console.log("World Petualangan Uang all-eight Stage production closure checkpoints passed at 390px.");
+    }
+
+    {
+      const viewport = { width: 390, height: 844 };
       const context = await browser.newContext({ viewport });
       await context.addInitScript((progress) => {
         window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
