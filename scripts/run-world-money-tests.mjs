@@ -27,6 +27,7 @@ const social = require(path.join(outDir, "src", "lib", "learning", "world", "mon
 const narration = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldNarration.js"));
 const narrationProduction = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldNarrationProduction.js"));
 const narrationPlan = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldNarrationPlan.js"));
+const narrationPilot = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldNarrationPilot.js"));
 const ageMigration = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldAgeMigrationAudit.js"));
 const evidenceBridge = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldEvidenceBridge.js"));
 const presentation = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldPresentation.js"));
@@ -233,6 +234,26 @@ try {
     narrationPlan.MONEY_WORLD_NARRATION_STAGE_BATCHES.every((batch) => batch.status === "blocked-voice-identity"),
     "all narration Stage batches must remain blocked before voice identity approval"
   );
+  assert.equal(narrationPilot.MONEY_WORLD_NARRATION_PROVIDER_PILOT_VERSION, "money-world-narration-provider-pilot-v1");
+  assert.equal(narrationPilot.MONEY_WORLD_NARRATION_PROVIDER_PILOT_VALIDATION.valid, true, narrationPilot.MONEY_WORLD_NARRATION_PROVIDER_PILOT_VALIDATION.errors.join("; "));
+  assert.deepEqual(narrationPilot.MONEY_WORLD_NARRATION_PROVIDER_PILOT_VALIDATION.errors, []);
+  assert.equal(narrationPilot.MONEY_WORLD_NARRATION_PROVIDER_PILOT.cues.length, 4);
+  assert.equal(narrationPilot.MONEY_WORLD_NARRATION_PROVIDER_PILOT.providerStatus, "unselected");
+  assert.equal(narrationPilot.MONEY_WORLD_NARRATION_PROVIDER_PILOT.generationAuthorized, false);
+  assert.equal(narrationPilot.MONEY_WORLD_NARRATION_PROVIDER_PILOT.publicOutput, false);
+  assert.equal(narrationPilot.MONEY_WORLD_NARRATION_PROVIDER_PILOT.productionOutput, false);
+  assert.equal(narrationPilot.MONEY_WORLD_NARRATION_PROVIDER_PILOT.runtimeActive, false);
+  assert.equal(narrationPilot.MONEY_WORLD_NARRATION_PROVIDER_PILOT.registryAutoApproval, false);
+  assert.deepEqual(
+    narrationPilot.MONEY_WORLD_NARRATION_PROVIDER_PILOT.cues.map((cue) => cue.speaker).sort(),
+    ["Gian", "Gian", "Naya", "Naya"].sort(),
+    "provider pilot must cover both canonical speaker roles evenly"
+  );
+  assert.deepEqual(
+    [...new Set(narrationPilot.MONEY_WORLD_NARRATION_PROVIDER_PILOT.cues.map((cue) => cue.kind))].sort(),
+    ["activity_prompt", "concept", "narrative", "payoff"],
+    "provider pilot must cover four representative narration use cases"
+  );
   assert.deepEqual(
     narrationPlan.MONEY_WORLD_NARRATION_STAGE_BATCHES.map((batch) => batch.stageId),
     world.MONEY_WORLD_STAGES.map((stage) => stage.id),
@@ -274,6 +295,7 @@ try {
   const narrationRuntimeSource = readFileSync(path.join(root, "src/components/learning/world-v2/MoneyWorldExperience.tsx"), "utf8");
   const narrationPlaybackSource = readFileSync(path.join(root, "src/lib/learning/world/moneyWorldNarrationPlayback.ts"), "utf8");
   const narrationBatchToolSource = readFileSync(path.join(root, "scripts/prepare-world-money-narration-batch.mjs"), "utf8");
+  const narrationProviderPilotToolSource = readFileSync(path.join(root, "scripts/prepare-world-money-narration-provider-pilot.mjs"), "utf8");
   assert.match(narrationRuntimeSource, /playMoneyWorldNarration/, "World runtime must route narration through the fixed-audio resolver");
   assert.doesNotMatch(narrationRuntimeSource, /\bspeakPrompt\s*\(/, "World runtime must not bypass fixed-audio resolution with direct browser speech");
   assert.match(narrationPlaybackSource, /resolveMoneyWorldNarrationProductionSrc/, "playback adapter must resolve reviewed fixed assets");
@@ -281,6 +303,8 @@ try {
   assert.match(narrationPlaybackSource, /new Audio\(productionSrc\)/, "reviewed production audio must use deterministic fixed-file playback");
   assert.match(narrationBatchToolSource, /STOP: audio generation is not authorized/, "production packet must fail visibly when voice generation is not authorized");
   assert.match(narrationBatchToolSource, /--stage=/, "narration packet tool must support Stage-scoped production batches");
+  assert.match(narrationProviderPilotToolSource, /STOP: provider\/voice decision is not approved/, "provider pilot packet must remain explicitly generation-blocked");
+  assert.doesNotMatch(narrationProviderPilotToolSource, /OPENAI_API_KEY|api\.openai\.com|fetch\s*\(/, "provider pilot preparation must remain provider-neutral and offline");
 
   assert.equal(world.MONEY_WORLD_CHAPTERS.length, 2, "money dummy must keep two chapters");
   assert.equal(world.MONEY_WORLD_STAGES.length, 8, "money dummy must keep eight stages");

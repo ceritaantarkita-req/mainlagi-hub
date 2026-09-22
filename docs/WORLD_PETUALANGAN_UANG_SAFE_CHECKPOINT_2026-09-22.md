@@ -1121,3 +1121,44 @@ browser speech fallback active
 No provider/voice has been selected. Gian/Naya character development remains paused. PR #282 remains Draft; PR #272 remains Draft and untouched; World -> Belajar evidence remains disabled.
 
 Do not move or force-push this checkpoint branch.
+
+
+## 35. Production wave 10 — provider-neutral four-cue narration pilot scope
+
+The active production branch now defines the smallest useful listening pilot without selecting a provider or voice.
+
+New sources:
+
+```text
+src/lib/learning/world/moneyWorldNarrationPilot.ts
+scripts/prepare-world-money-narration-provider-pilot.mjs
+docs/WORLD_NARRATION_PROVIDER_PILOT_2026-09-22.md
+```
+
+Exact scope:
+
+```text
+money-s01-narrative-01       Gian · narrative
+money-s01-concept-money      Naya · concept
+money-s01-activity-01-prompt Naya · activity_prompt
+money-s01-payoff-01          Gian · payoff
+```
+
+Machine truth:
+
+```text
+providerStatus:      unselected
+generationAuthorized:false
+publicOutput:        false
+productionOutput:    false
+runtimeActive:       false
+registryAutoApproval:false
+```
+
+The pilot preparation tool is offline/provider-neutral and contains no provider API endpoint, credential requirement or generation call.
+
+This wave does not authorize any audio generation. It only freezes a reproducible four-cue human-review scope.
+
+No Belajar, Bermain/motion, SQL schema, evidence/mastery, age migration, World progression or final character artwork is changed.
+
+Checkpoint rule: validate the exact wave-10 head through Draft PR #282. If fully green, freeze a new immutable provider-pilot-readiness checkpoint.

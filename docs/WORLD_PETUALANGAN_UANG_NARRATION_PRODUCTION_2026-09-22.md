@@ -353,3 +353,26 @@ Current production truth is still:
 88/88 voice-gated
 browser speech fallback active
 ```
+
+
+## 17. Production wave 10 — provider-neutral four-cue pilot
+
+A four-cue Stage-1 listening pilot is now machine-scoped without selecting or calling any provider:
+
+```text
+src/lib/learning/world/moneyWorldNarrationPilot.ts
+scripts/prepare-world-money-narration-provider-pilot.mjs
+docs/WORLD_NARRATION_PROVIDER_PILOT_2026-09-22.md
+```
+
+Scope:
+
+```text
+2 Gian-role cues
+2 Naya-role cues
+narrative + concept + activity_prompt + payoff
+```
+
+Current state remains `providerStatus=unselected` and `generationAuthorized=false`.
+
+The packet is offline/provider-neutral and exists only to make the eventual human listening comparison small and reproducible.
