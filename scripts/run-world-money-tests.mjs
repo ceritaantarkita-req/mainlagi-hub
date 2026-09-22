@@ -18,6 +18,8 @@ if (compile.status !== 0) process.exit(compile.status ?? 1);
 
 const require = createRequire(import.meta.url);
 const world = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorld.js"));
+const worldStructure = require(path.join(outDir, "src", "lib", "learning", "world", "worldStructure.js"));
+const moneyStructure = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldStructure.js"));
 const narration = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldNarration.js"));
 const ageMigration = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldAgeMigrationAudit.js"));
 const evidenceBridge = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldEvidenceBridge.js"));
@@ -29,6 +31,35 @@ const catalog = require(path.join(outDir, "src", "lib", "learning", "catalog.js"
 
 try {
   assert.equal(world.MONEY_WORLD_ID, "money-festival");
+
+  assert.equal(worldStructure.WORLD_STRUCTURE_CONTRACT_VERSION, "world-structure-v1");
+  assert.equal(moneyStructure.MONEY_WORLD_STRUCTURE_VERSION, "money-world-structure-v1");
+  assert.equal(moneyStructure.MONEY_WORLD_CANONICAL_STRUCTURE.world.id, world.MONEY_WORLD_ID);
+  assert.equal(moneyStructure.MONEY_WORLD_CANONICAL_STRUCTURE.chapters.length, 2, "canonical World must keep two Chapters");
+  assert.equal(moneyStructure.MONEY_WORLD_CANONICAL_STRUCTURE.stages.length, 8, "canonical World must keep eight Stages");
+  assert.equal(moneyStructure.MONEY_WORLD_CANONICAL_STRUCTURE.scenes.length, 44, "Petualangan Uang authored Scene count must stay explicit");
+  assert.equal(moneyStructure.MONEY_WORLD_STRUCTURE_VALIDATION.valid, true, moneyStructure.MONEY_WORLD_STRUCTURE_VALIDATION.errors.join("; "));
+  assert.deepEqual(moneyStructure.MONEY_WORLD_STRUCTURE_VALIDATION.errors, []);
+  for (const stage of world.MONEY_WORLD_STAGES) {
+    assert.deepEqual(
+      moneyStructure.getMoneyWorldCanonicalSegmentIds(stage.id),
+      world.getMoneyWorldSegments(stage.id).map((segment) => segment.id),
+      stage.id + " canonical Scene flattening must preserve exact Segment order"
+    );
+    for (const segment of world.getMoneyWorldSegments(stage.id)) {
+      const scene = moneyStructure.getMoneyWorldSceneForSegment(stage.id, segment.id);
+      assert.ok(scene, stage.id + "/" + segment.id + " must belong to exactly one authored Scene");
+      assert.equal(scene.stageId, stage.id);
+    }
+  }
+  assert.equal(
+    moneyStructure.getMoneyWorldSceneForSegment("money-stage-01-money-use", "money-s01-narrative-01")?.id,
+    "money-scene-s01-opening"
+  );
+  assert.equal(
+    moneyStructure.getMoneyWorldSceneForSegment("money-stage-01-money-use", "money-s01-activity-01")?.id,
+    "money-scene-s01-money-price-match"
+  );
 
   assert.equal(presentation.MONEY_WORLD_PRESENTATION_POLICY.version, "money-world-presentation-v1");
   assert.equal(presentation.MONEY_WORLD_PRESENTATION_POLICY.pilotBandId, "6-8");
@@ -302,7 +333,7 @@ try {
     "current background reuse must remain explicitly approved in the pilot manifest"
   );
 
-  console.log("Petualangan Uang eight-stage payload, linear progress, age policy/migration audit, fixed-narration contract, fail-closed evidence audit, practice boundary, low-text language, recap, mascot-dummy runtime policy, asset plan, and financial-safety contracts passed.");
+  console.log("Petualangan Uang canonical World/Chapter/Stage/Scene/Segment hierarchy, eight-stage payload, linear progress, age policy/migration audit, fixed-narration contract, fail-closed evidence audit, practice boundary, low-text language, recap, mascot-dummy runtime policy, asset plan, and financial-safety contracts passed.");
 } finally {
   rmSync(outDir, { recursive: true, force: true });
 }
