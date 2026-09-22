@@ -40,8 +40,8 @@ Subsystem docs remain authoritative for their specific scope when they do not co
 ## Current project checkpoint — 22 September 2026
 
 ```text
-latest production main:          2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48
-latest main CI:                   #1372 / run 35701448136 — full success + exact Cloudflare smoke
+English narration runtime main:  2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48
+runtime baseline main CI:         #1372 / run 35701448136 — full success + exact Cloudflare smoke
 English narration Wave 1:        PR #278 / 27 reviewed / 22 target-first / 5 comprehension
 English narration docs closure:  PR #279 / merged + live verified
 English narration asset gate:    PR #280 / 27 review-required / 0 approved / 0 binary / live verified
