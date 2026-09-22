@@ -270,3 +270,31 @@ docs/WORLD_VISUAL_NAVIGATION_POLISH_2026-09-22.md
 ```
 
 CI status for this exact wave head must be recorded before freezing a new checkpoint.
+
+
+## 13. Production wave 13 — Stage completion UX QA
+
+The Stage-end contract remains `★★★ + Back / Again / Next + Share`, but completion is now canonical Chapter-aware.
+
+New QA locks:
+
+```text
+Stage completion Stage ID
+Stage completion Chapter ID
+final/non-final completion state
+Chapter/Stage context label
+Stage 1 Next -> Stage 2
+Stage 4 -> Chapter 1 milestone
+Stage 8 -> Chapter 2 milestone + final World
+all eight Stage completion identities
+320/430 Share below Back / Again / Next
+no Stage-4 hardcoded Chapter completion shortcut
+```
+
+Detailed record:
+
+```text
+docs/WORLD_COMPLETION_UX_POLISH_2026-09-22.md
+```
+
+CI status for this exact wave head must be recorded before freezing a completion-UX checkpoint.
