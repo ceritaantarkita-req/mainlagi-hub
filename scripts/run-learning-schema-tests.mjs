@@ -13,6 +13,7 @@ const contentExpansion = readFileSync(path.join(root, "supabase/migrations/0008_
 const contentArchitecture = readFileSync(path.join(root, "supabase/migrations/0011_scalable_content_architecture.sql"), "utf8");
 const reusableMechanics = readFileSync(path.join(root, "supabase/migrations/0012_reusable_mechanic_library.sql"), "utf8");
 const subjectFoundations = readFileSync(path.join(root, "supabase/migrations/0013_new_subject_curriculum_foundations.sql"), "utf8");
+const worldProgress = readFileSync(path.join(root, "supabase/migrations/0047_world_progress_persistence.sql"), "utf8");
 
 const requiredTables = [
   "learning_skills", "learning_activities", "learning_activity_skills", "learning_attempts",
@@ -141,15 +142,33 @@ assert.match(subjectFoundations, /on conflict \(activity_id, skill_key\) do upda
 assert.doesNotMatch(subjectFoundations, /drop\s+table/i, "Batch 6 must not drop learning tables");
 assert.doesNotMatch(subjectFoundations, /delete\s+from\s+public\.learning_/i, "Batch 6 must not delete learning data");
 
+assert.match(worldProgress, /create table if not exists public\.child_world_progress/i, "World progress table missing");
+assert.match(worldProgress, /primary key \(account_id, child_key, world_id\)/i, "World progress identity must be account + child + world");
+assert.match(worldProgress, /alter table public\.child_world_progress enable row level security/i, "World progress must enable RLS");
+assert.match(worldProgress, /create policy "child world progress own select"[\s\S]*account_id = \(select auth\.uid\(\)\)/i, "World progress read policy must stay account-owned");
+assert.match(worldProgress, /revoke insert, update, delete on public\.child_world_progress from anon, authenticated/i, "World progress clients must not mutate the table directly");
+assert.match(worldProgress, /create or replace function public\.save_world_progress\s*\(/i, "World progress RPC missing");
+assert.match(worldProgress, /security definer[\s\S]*set search_path = pg_catalog, public/i, "World progress RPC must pin search_path");
+assert.match(worldProgress, /p_world_id is distinct from 'money-festival'/i, "World progress RPC must fail closed to registered World IDs");
+assert.match(worldProgress, /world stages must complete in order/i, "World progress RPC must enforce linear stage completion");
+assert.match(worldProgress, /v_current_order > v_completed_count \+ 1/i, "World progress RPC must reject locked current stages");
+assert.match(worldProgress, /pp\.id::text = p_child_key[\s\S]*pp\.account_id = v_account_id[\s\S]*pp\.deleted_at is null/i, "World progress RPC must enforce real child ownership");
+assert.match(worldProgress, /grant execute on function public\.save_world_progress[\s\S]*to authenticated, service_role/i, "World progress RPC execute grant must be explicit");
+assert.doesNotMatch(worldProgress, /insert into public\.child_learning_progress/i, "World progress must not forge canonical Belajar completion");
+assert.doesNotMatch(worldProgress, /insert into public\.child_skill_mastery/i, "World progress must not forge mastery");
+assert.doesNotMatch(worldProgress, /insert into public\.learning_certificates/i, "World progress must not issue certificates");
+assert.doesNotMatch(worldProgress, /insert into public\.child_learning_achievements/i, "World progress must not issue achievements");
+
 for (const legacy of ["game_sessions", "game_scores", "progress"]) {
   for (const [name, migration] of [
     ["schema", schema], ["functions", functions], ["hardening", hardening], ["advisor hardening", advisorHardening],
     ["private-admin migration", privateAdmin], ["child-ownership migration", childOwnership],
     ["content-expansion migration", contentExpansion], ["content-architecture migration", contentArchitecture],
-    ["reusable-mechanic migration", reusableMechanics], ["subject-foundation migration", subjectFoundations]
+    ["reusable-mechanic migration", reusableMechanics], ["subject-foundation migration", subjectFoundations],
+    ["World progress migration", worldProgress]
   ]) {
     assert.doesNotMatch(migration, new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`, "i"), `${name} must not drop legacy table ${legacy}`);
   }
 }
 
-console.log("Learning migration, anti-farming, ownership, scalable-content, reusable-mechanic, and Batch 6 subject schema contract tests passed.");
+console.log("Learning migration, anti-farming, ownership, scalable-content, reusable-mechanic, Batch 6 subject, and isolated World progress schema contract tests passed.");
