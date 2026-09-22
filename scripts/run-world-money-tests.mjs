@@ -18,6 +18,7 @@ if (compile.status !== 0) process.exit(compile.status ?? 1);
 
 const require = createRequire(import.meta.url);
 const world = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorld.js"));
+const narration = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldNarration.js"));
 const ageMigration = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldAgeMigrationAudit.js"));
 const evidenceBridge = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldEvidenceBridge.js"));
 const presentation = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldPresentation.js"));
@@ -91,6 +92,33 @@ try {
   assert.match(ageBoundarySources.contentSchema, /age_max\s+smallint\s+not\s+null\s+check\s*\(age_max\s+between\s+3\s+and\s+7/i, "content-pack DB age ceiling changed; update the World age migration audit");
   assert.match(ageBoundarySources.homepage, /usia\s+3[–-]7\s+tahun/i, "public product age claim changed; update the World age migration audit");
   assert.match(ageBoundarySources.curriculumTests, /ageMax\s*<=\s*7/, "canonical curriculum age test changed; update the World age migration audit");
+
+  assert.equal(narration.MONEY_WORLD_NARRATION_CONTRACT_VERSION, "money-world-narration-v1");
+  assert.equal(narration.MONEY_WORLD_NARRATION_LOCALE, "id-ID");
+  assert.equal(narration.MONEY_WORLD_NARRATION_PRODUCTION_READY, false, "fixed World narration assets are not production-ready yet");
+  const expectedNarrationIds = [];
+  for (const stage of world.MONEY_WORLD_STAGES) {
+    for (const segment of world.getMoneyWorldSegments(stage.id)) {
+      if (segment.type === "activity") expectedNarrationIds.push(segment.activity.id + "-prompt");
+      else if (segment.type === "narrative_choice") expectedNarrationIds.push(segment.id + "-prompt");
+      else if (segment.type !== "recap") expectedNarrationIds.push(segment.id);
+    }
+  }
+  assert.deepEqual(
+    new Set(narration.MONEY_WORLD_NARRATION_CUES.map((cue) => cue.id)),
+    new Set(expectedNarrationIds),
+    "narration cue registry must cover every currently spoken World unit exactly once"
+  );
+  assert.equal(new Set(narration.MONEY_WORLD_NARRATION_CUES.map((cue) => cue.id)).size, narration.MONEY_WORLD_NARRATION_CUES.length);
+  assert.ok(narration.MONEY_WORLD_NARRATION_CUES.some((cue) => cue.speaker === "Gian"));
+  assert.ok(narration.MONEY_WORLD_NARRATION_CUES.some((cue) => cue.speaker === "Naya"));
+  for (const cue of narration.MONEY_WORLD_NARRATION_CUES) {
+    assert.equal(cue.status, "fallback-runtime");
+    assert.equal(cue.productionSrc, null);
+    assert.equal(cue.fallback, "browser-speech");
+    assert.equal(cue.locale, "id-ID");
+    assert.equal(cue.expectedProductionSrc, "/audio/world/money-festival/id-ID/" + cue.id + ".mp3");
+  }
 
   assert.equal(world.MONEY_WORLD_CHAPTERS.length, 2, "money dummy must keep two chapters");
   assert.equal(world.MONEY_WORLD_STAGES.length, 8, "money dummy must keep eight stages");
@@ -270,7 +298,7 @@ try {
     "current background reuse must remain explicitly approved in the pilot manifest"
   );
 
-  console.log("Petualangan Uang eight-stage payload, linear progress, age policy/migration audit, fail-closed evidence audit, practice boundary, low-text language, recap, asset plan, and financial-safety contracts passed.");
+  console.log("Petualangan Uang eight-stage payload, linear progress, age policy/migration audit, fixed-narration contract, fail-closed evidence audit, practice boundary, low-text language, recap, asset plan, and financial-safety contracts passed.");
 } finally {
   rmSync(outDir, { recursive: true, force: true });
 }

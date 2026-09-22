@@ -115,7 +115,7 @@ export const MONEY_WORLD_ASSET_SLOTS: readonly MoneyWorldAssetSlot[] = [
     id: "fixed-narration",
     kind: "audio",
     status: "temporary-runtime",
-    currentSource: "AudioManager/browser speech path",
+    currentSource: "moneyWorldNarration.ts stable cue IDs -> AudioManager/browser speech fallback",
     usedIn: ["narrative", "concept", "payoff", "activity-prompt"],
     finalRequirement: "Pre-generated/reviewed Indonesian narration with stable asset IDs, captions, replay, and failure fallback."
   },

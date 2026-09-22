@@ -306,12 +306,14 @@ export function MoneyWorldMapScreen({ childId, worldId }: { childId: string; wor
 }
 
 function SpeechCard({
+  audioId,
   speaker,
   text,
   kind,
   onNext,
   nextLabel
 }: {
+  audioId: string;
   speaker: "Gian" | "Naya";
   text: string;
   kind: "narrative" | "concept" | "payoff";
@@ -330,7 +332,7 @@ function SpeechCard({
       autoAttemptedRef.current = true;
       setSpeechStatus(speakPrompt(text, {
         lang: "id-ID",
-        key: "world-narration:" + text,
+        key: "world-narration:" + audioId,
         interrupt: true
       }));
     };
@@ -349,14 +351,14 @@ function SpeechCard({
       window.removeEventListener("pointerdown", afterGesture, { capture: true });
       window.removeEventListener("keydown", afterGesture, { capture: true });
     };
-  }, [text]);
+  }, [audioId, text]);
 
   const hear = () => {
     autoAttemptedRef.current = true;
     unlockAudio("id-ID");
     setSpeechStatus(speakPrompt(text, {
       lang: "id-ID",
-      key: "world-replay:" + text,
+      key: "world-replay:" + audioId,
       interrupt: true,
       dedupeMs: 0
     }));
@@ -372,7 +374,7 @@ function SpeechCard({
         : "Suara belum tersedia. Teks tetap bisa dibaca.";
 
   return (
-    <section className={cx(styles.storyScene, kind === "concept" && styles.conceptScene)}>
+    <section className={cx(styles.storyScene, kind === "concept" && styles.conceptScene)} data-world-audio-id={audioId}>
       <div className={styles.storyCharacter}>
         <CharacterAvatar id={speaker === "Naya" ? "naya" : "gian"} large />
         <strong>{speaker}</strong>
@@ -395,10 +397,12 @@ function SpeechCard({
 }
 
 function WorldActivityPrompt({
+  audioId,
   prompt,
   helper,
   tag = "Mini-game"
 }: {
+  audioId: string;
   prompt?: string;
   helper?: string;
   tag?: string;
@@ -410,7 +414,7 @@ function WorldActivityPrompt({
     unlockAudio("id-ID");
     const status = speakPrompt(spokenPrompt, {
       lang: "id-ID",
-      key: "world-activity-prompt:" + spokenPrompt,
+      key: "world-activity-prompt:" + audioId,
       interrupt: true,
       dedupeMs: 0
     });
@@ -418,7 +422,7 @@ function WorldActivityPrompt({
   };
 
   return (
-    <div className={styles.activityHeading}>
+    <div className={styles.activityHeading} data-world-audio-id={audioId}>
       <span className={styles.sceneType}>{tag}</span>
       <h2>{spokenPrompt}</h2>
       <button type="button" className={styles.promptAudioButton} onClick={hearPrompt} data-world-prompt-hear>
@@ -478,6 +482,7 @@ function WorldDragTarget({
   return (
     <section className={styles.activityScene}>
       <WorldActivityPrompt
+        audioId={placement.id + "-prompt"}
         prompt={placement.payload.prompt}
         helper="Sentuh kartu lalu sentuh tujuan. Di desktop, kartu juga bisa diseret."
       />
@@ -569,6 +574,7 @@ function WorldMatching({
   return (
     <section className={styles.activityScene}>
       <WorldActivityPrompt
+        audioId={placement.id + "-prompt"}
         prompt={placement.payload.prompt}
         helper="Pasangkan kartu di kiri dengan pasangannya di kanan."
       />
@@ -641,6 +647,7 @@ function WorldCompare({
   return (
     <section className={styles.activityScene}>
       <WorldActivityPrompt
+        audioId={placement.id + "-prompt"}
         prompt={placement.payload.prompt}
         helper="Lihat harga kemarin dan harga sekarang."
       />
@@ -705,6 +712,7 @@ function WorldSortClassify({
   return (
     <section className={styles.activityScene}>
       <WorldActivityPrompt
+        audioId={placement.id + "-prompt"}
         prompt={placement.payload.prompt}
         helper="Pilih satu kartu, lalu masukkan ke kelompok yang sesuai."
       />
@@ -782,6 +790,7 @@ function WorldTapChoice({
   return (
     <section className={styles.activityScene}>
       <WorldActivityPrompt
+        audioId={placement.id + "-prompt"}
         prompt={placement.payload.prompt}
         helper="Pilih satu jawaban."
       />
@@ -864,6 +873,7 @@ function WorldOrdering({
   return (
     <section className={styles.activityScene}>
       <WorldActivityPrompt
+        audioId={placement.id + "-prompt"}
         prompt={placement.payload.prompt}
         helper="Sentuh kartu dari langkah pertama sampai terakhir."
       />
@@ -895,10 +905,12 @@ function WorldOrdering({
 }
 
 function NarrativeChoiceCard({
+  audioId,
   prompt,
   options,
   onNext
 }: {
+  audioId: string;
   prompt: string;
   options: Array<{ id: string; label: string; reaction: string }>;
   onNext: () => void;
@@ -909,6 +921,7 @@ function NarrativeChoiceCard({
   return (
     <section className={styles.activityScene}>
       <WorldActivityPrompt
+        audioId={audioId}
         prompt={prompt}
         tag="Pilihanmu"
         helper="Tidak ada jawaban salah di bagian ini. Pilih yang kamu mau."
@@ -1179,12 +1192,13 @@ function MoneyWorldStageRuntime({
       {segment.type === "activity" ? (
         <WorldActivity placement={segment.activity} onComplete={advance} />
       ) : segment.type === "narrative_choice" ? (
-        <NarrativeChoiceCard prompt={segment.prompt} options={segment.options} onNext={advance} />
+        <NarrativeChoiceCard audioId={segment.id + "-prompt"} prompt={segment.prompt} options={segment.options} onNext={advance} />
       ) : segment.type === "recap" ? (
         <WorldRecapCard title={segment.title} items={segment.items} onNext={advance} />
       ) : (
         <SpeechCard
           key={segment.id}
+          audioId={segment.id}
           speaker={segment.speaker}
           text={segment.text}
           kind={segment.type}
@@ -1257,7 +1271,7 @@ export function MoneyWorldPublicLanding() {
     <main className={styles.publicPage}>
       <WorldHero />
       <section className={styles.publicCard}>
-        <span className={styles.eyebrow}>Petualangan belajar · Usia rekomendasi 6–8</span>
+        <span className={styles.eyebrow}>{"Petualangan belajar · Usia rekomendasi " + MONEY_WORLD_PILOT_AGE_BAND.label}</span>
         <h2>Bantu siapkan Festival Mainlagi</h2>
         <p>World ini mengenalkan barang dan harga, perubahan harga, bekerja dan usaha, kebutuhan dan keinginan, menabung, investasi, risiko, dan budget sederhana melalui cerita serta mini-game.</p>
         <p>Halaman ini aman untuk dibagikan dan tidak menampilkan nama, umur, akun, atau progres anak.</p>
