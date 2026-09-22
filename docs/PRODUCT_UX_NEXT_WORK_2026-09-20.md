@@ -7,6 +7,15 @@ Current synchronized baseline: production `main` = `e4d7b4285db17a2010c22cdd1bc2
 
 This document is the short human/AI handoff for the next Mainlagi product-quality wave. It records the user-accepted UX direction without changing curriculum, mastery, evidence, progression, or the active WS-05 gameplay audit.
 
+## 22 September execution override
+
+- **Mainlagi World is being developed separately and must not be modified by this workstream.**
+- Character development is **PAUSED**; Drive character assets are reference-only.
+- Active Mainlagi Belajar engineering is WS-05 Logic repeating-pattern -> existing `pattern_completion` reuse, PR #273.
+- PR #273 checkpoint `ec050bf...` passed CI #1312 with 900/900 / 47 active / `choice_grid` 174 / `pattern_completion` 10 / KEEP 900.
+- Do not mix World, character runtime, or broad UX refactors into WS-05.
+
+
 ## Current product truth
 
 - Production source of truth remains GitHub `main`; `mainlagihub.my.id` is deployed from `main`.
@@ -205,7 +214,9 @@ Current character-production gate:
 14. Validate English -> Naya + Zia and Math -> Gian + Paca; preserve fail-closed fallback and leave other subject pairings unchanged.
 15. Revisit the five-character homepage hero using approved production identities; keep hero composition separate from activity foreground assets.
 
-After the character gate:
+Character production is currently **PAUSED by the project owner**. The sequence below remains future/reference planning only and must not be resumed implicitly.
+
+After the character gate eventually resumes and closes:
 16. English voice-quality upgrade.
 17. Learning-illustration consistency improvements.
 18. Expanded human visual/usability + physical-device acceptance and cleanup of superseded components.
