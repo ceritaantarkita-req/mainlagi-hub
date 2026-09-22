@@ -312,15 +312,20 @@ for(const activity of balance){
 
 const expectedPatternCompletion=new Set([
   "math-pattern-ab-shapes","math-pattern-aab-colors","math-pattern-number-step-one",
-  "math-pattern-number-step-two","math-pattern-size"
+  "math-pattern-number-step-two","math-pattern-size",
+  "logic-pattern-aab-stars","logic-pattern-abb-shapes","logic-pattern-abc-shapes",
+  "logic-pattern-paired-blocks","logic-pattern-abba"
 ]);
 const patternCompletion=ACTIVITIES.filter(activity=>choiceGameplayPresentation(activity)==="pattern_completion");
 assert.equal(patternCompletion.length,expectedPatternCompletion.size,"pattern-completion family size must remain intentional");
-assert.deepEqual(new Set(patternCompletion.map(activity=>activity.id)),expectedPatternCompletion,"only the five reviewed Math pattern choice activities use Pattern Completion");
+assert.deepEqual(new Set(patternCompletion.map(activity=>activity.id)),expectedPatternCompletion,"only the exact five legacy Math + five audited Logic activities use Pattern Completion");
 for(const activity of patternCompletion){
   assert.equal(activity.runtime,"tap_choice");
-  assert.equal(activity.subjectId,"math");
-  assert.equal(activity.stageId,"math-banding-bentuk");
+  if(activity.subjectId==="math") assert.equal(activity.stageId,"math-banding-bentuk");
+  else {
+    assert.equal(activity.subjectId,"logic");
+    assert.equal(activity.stageId,"logic-patterns-sequences-relations");
+  }
   assert.equal((activity.choices??[]).length,3);
   assert.equal(new Set(activity.choices??[]).size,3,"pattern-completion choices remain unique");
   assert((activity.choices??[]).includes(activity.correctChoice),"pattern completion preserves canonical correctChoice");
@@ -328,6 +333,7 @@ for(const activity of patternCompletion){
   assert(config,`${activity.id} must have explicit Pattern Completion config`);
   assert(config.sequence.length>=3,`${activity.id} exposes enough observed tokens to infer a pattern`);
   assert(config.sequence.every(token=>Boolean(token)),`${activity.id} observed sequence tokens stay non-empty`);
+  assert.equal(config.nextValue,activity.correctChoice,`${activity.id} unresolved slot maps to the canonical answer`);
   if(config.unitLength) assert(config.unitLength>=2,`${activity.id} repeating unit remains meaningful`);
 }
 
