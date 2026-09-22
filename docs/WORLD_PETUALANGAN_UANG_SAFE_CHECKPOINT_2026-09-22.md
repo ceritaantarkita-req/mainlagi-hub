@@ -844,3 +844,43 @@ No P0/P1 World-specific visual blocker was observed in those selected screenshot
 Do not move or force-push `checkpoint/world-petualangan-uang-production-green-20260922`.
 
 PR #272 remains Draft and untouched. Character development remains paused. World -> Belajar evidence remains disabled. Fixed narration production remains **0/88 approved assets** even though its pipeline is implemented.
+
+
+## 29. Production wave 07 — dedicated social card
+
+The next isolated production wave closes the Petualangan Uang public social-card gap.
+
+New sources:
+
+```text
+src/lib/learning/world/moneyWorldSocial.ts
+src/app/worlds/money-festival/social-card/route.tsx
+docs/WORLD_SOCIAL_CARD_2026-09-22.md
+```
+
+Public metadata now uses:
+
+```text
+/worlds/money-festival/social-card
+1200 × 630 PNG
+```
+
+for both Open Graph and Twitter.
+
+The previous generic `/og/math-warung.png` social fallback is removed from the World page.
+
+Asset manifest truth:
+
+```text
+public-share-card: production-ready
+remaining gaps:
+- fixed-narration
+- gian-foreground
+- naya-foreground
+```
+
+The dedicated card is generated from repository-owned public-safe copy and does not include child identity, account identity, progress, mastery, attempts, or private routes.
+
+Character production remains paused. Fixed narration remains **0/88 approved**. World -> Belajar evidence remains disabled.
+
+This section is a checkpoint candidate only. Record a new immutable checkpoint only after Draft PR #282 validates the exact branch head.
