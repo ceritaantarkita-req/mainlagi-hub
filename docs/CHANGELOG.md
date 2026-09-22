@@ -31,6 +31,9 @@
 - World checkpoint/restart record: `WORLD_PETUALANGAN_UANG_SAFE_CHECKPOINT_2026-09-22.md`.
 - Visual World wave: Stage map diubah dari card-list menjadi compact alternating game-map nodes mengikuti winding path; activity UI dibuat sebagai floating tray di dalam illustrated scene; Chapter banner/star/finale spacing dipoles agar tidak saling menutup.
 - Latest visual-green rollback: `checkpoint/world-petualangan-uang-visual-green-20260922` @ `3b033405b41abcfab4c70d9db76265095ff7c5e2`, CI #1314 / run `35682393320` full pass.
+- World presentation policy dikunci di code: pilot tetap usia **6–8**, 3–5 adalah future separate variant, 9–12 future separate series; satu World tidak boleh diam-diam berubah menjadi rentang 3–12 berdasarkan umur.
+- Asset production manifest baru mencatat reuse yang sudah approved dan gap yang belum final: Gian foreground, Naya foreground, fixed narration, dan dedicated World social card.
+- Production policy/handoff: `WORLD_PETUALANGAN_UANG_PRODUCTION_POLICY_2026-09-22.md`.
 
 
 ## 2.0.1 — 5 Agustus 2026
