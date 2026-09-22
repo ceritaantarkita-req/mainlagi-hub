@@ -149,7 +149,7 @@ function WorldHero({ compact = false }: { compact?: boolean }) {
       <div className={styles.worldHeroCopy}>
         <span className={styles.eyebrow}>Mainlagi World</span>
         <h1>Petualangan Uang</h1>
-        <p>Bantu Gian dan Naya menyiapkan Festival Mainlagi sambil mengenal harga, pilihan, dan cara memakai uang.</p>
+        <p>Bantu Gian dan Naya menyiapkan Festival Mainlagi!</p>
       </div>
       <div className={styles.heroCharacters} aria-label="Gian, Naya, Paca, dan Gavi">
         <CharacterAvatar id="gian" large />
@@ -173,7 +173,7 @@ export function WorldCatalogScreen({ childId }: { childId: string }) {
       <section className={styles.catalogIntro}>
         <span className={styles.eyebrow}>World</span>
         <h1>Pilih petualangan</h1>
-        <p>Belajar lewat cerita, suara, dan permainan singkat. World berbagi skill dengan Belajar, tapi ceritanya punya perjalanan sendiri.</p>
+        <p>Pilih cerita, dengarkan, mainkan, lalu buka Stage berikutnya.</p>
       </section>
 
       <Link className={styles.worldCard} href={cardHref}>
@@ -181,7 +181,7 @@ export function WorldCatalogScreen({ childId }: { childId: string }) {
         <div className={styles.worldCardMeta}>
           <span>Usia rekomendasi 6–8</span>
           <span>{state.ready ? String(completed) + "/8 Stage selesai" : "Memuat progres…"}</span>
-          <strong>{age && (age < 6 || age > 8) ? "Dummy tetap bisa dicoba" : "Mulai petualangan →"}</strong>
+          <strong>{age && (age < 6 || age > 8) ? "Bisa dijelajahi →" : "Mulai petualangan →"}</strong>
         </div>
       </Link>
     </main>
