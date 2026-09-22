@@ -2744,3 +2744,130 @@
     padding-inline: 8px;
   }
 }
+
+
+/* === Production wave 13: Stage completion UX polish === */
+.completionCard {
+  position: relative;
+}
+
+.completionCard > .eyebrow {
+  max-width: 100%;
+  text-align: center;
+}
+
+.completionCard [data-world-completion-message] {
+  margin: 12px 0 0;
+  text-wrap: balance;
+}
+
+.completionActions a,
+.completionActions button,
+.shareButton {
+  justify-content: center;
+  gap: 8px;
+  font-weight: 950;
+}
+
+.completionActions a:focus-visible,
+.completionActions button:focus-visible,
+.shareButton:focus-visible {
+  outline: 4px solid #155f86;
+  outline-offset: 4px;
+}
+
+.completionActions a:last-child {
+  box-shadow: 0 4px 0 #1d5947;
+}
+
+.shareButton {
+  width: min(590px, 100%);
+}
+
+.chapterReward[data-world-completion-chapter-milestone] {
+  max-width: min(360px, 100%);
+}
+
+@media(max-width: 760px) {
+  .completion {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .completionCard {
+    padding: 22px 12px 18px;
+    border-radius: 28px;
+  }
+
+  .completionCard h2 {
+    margin-top: 8px;
+    font-size: clamp(38px, 12vw, 54px);
+    line-height: 1;
+  }
+
+  .completionStars {
+    gap: 4px;
+  }
+
+  .completionStars svg {
+    width: 48px;
+    height: 48px;
+  }
+
+  .completionCard [data-world-completion-message] {
+    max-width: 440px;
+    margin-top: 10px;
+    font-size: 15px;
+    line-height: 1.35;
+  }
+
+  .chapterReward {
+    margin-top: 9px;
+    padding: 8px 12px;
+  }
+
+  .chapterReward > span {
+    font-size: 25px;
+  }
+
+  .completionActions {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 7px;
+    width: 100%;
+    margin-top: 14px;
+  }
+
+  .completionActions a,
+  .completionActions button {
+    min-width: 0;
+    min-height: 48px;
+    padding: 9px 7px;
+    font-size: 13px;
+  }
+
+  .completionActions svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .shareButton {
+    min-height: 48px;
+    margin-top: 9px;
+  }
+}
+
+@media(max-width: 360px) {
+  .completionCard {
+    padding-inline: 9px;
+  }
+
+  .completionActions {
+    gap: 5px;
+  }
+
+  .completionActions a,
+  .completionActions button {
+    padding-inline: 5px;
+    font-size: 12px;
+  }
+}
