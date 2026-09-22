@@ -499,14 +499,22 @@ async function main() {
         ogTitle: document.querySelector('meta[property="og:title"]')?.getAttribute("content") ?? "",
         ogImage: document.querySelector('meta[property="og:image"]')?.getAttribute("content") ?? "",
         twitterCard: document.querySelector('meta[name="twitter:card"]')?.getAttribute("content") ?? "",
+        twitterImage: document.querySelector('meta[name="twitter:image"]')?.getAttribute("content") ?? "",
         description: document.querySelector('meta[name="description"]')?.getAttribute("content") ?? "",
         body: document.body.innerText
       }));
       assert.match(socialMeta.ogTitle, /Petualangan Uang/, "public World share landing must expose World-specific Open Graph title");
-      assert.match(socialMeta.ogImage, /\/og\/math-warung\.png$/, "public World share landing must expose a safe large social image");
+      assert.match(socialMeta.ogImage, /\/worlds\/money-festival\/social-card$/, "public World share landing must expose the dedicated World social card");
+      assert.match(socialMeta.twitterImage, /\/worlds\/money-festival\/social-card$/, "Twitter metadata must use the same dedicated World social card");
       assert.equal(socialMeta.twitterCard, "summary_large_image", "public World share landing must use a large social card");
-      assert.match(socialMeta.description, /Festival Mainlagi/, "public World share landing must expose safe descriptive metadata");
+      assert.match(socialMeta.description, /Gavi dan Paca/, "public World share landing must match the active Gavi/Paca presentation identity");
       assert.doesNotMatch(socialMeta.body, /demo-gian|account[_ -]?id|mastery score/i, "public World share landing must not leak child/account progress identifiers");
+
+      const cardResponse = await context.request.get(baseUrl + "/worlds/money-festival/social-card");
+      assert.equal(cardResponse.status(), 200, "dedicated World social card route must return 200");
+      assert.match(cardResponse.headers()["content-type"] ?? "", /^image\/png\b/, "dedicated World social card must render PNG");
+      const cardBytes = await cardResponse.body();
+      assert.ok(cardBytes.byteLength > 10_000, "dedicated World social card must render a non-trivial 1200x630 image");
       await page.screenshot({ path: path.join(screenshotDir, "390-world-money-public-share.png"), fullPage: false });
       await context.close();
       console.log("World Petualangan Uang public-safe social metadata passed at 390px.");
