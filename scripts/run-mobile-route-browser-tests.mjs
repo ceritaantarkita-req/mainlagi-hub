@@ -558,6 +558,36 @@ async function main() {
         completedStageIds: [
           "money-stage-01-money-use",
           "money-stage-02-price-change",
+          "money-stage-03-income-sources"
+        ],
+        currentStageId: "money-stage-04-needs-wants",
+        currentSegmentIndex: 10,
+        updatedAt: "2026-09-22T00:00:00.000Z"
+      });
+      const page = await context.newPage();
+      await page.goto(baseUrl + "/child/demo-gian/world/money-festival/stage/money-stage-04-needs-wants", { waitUntil: "domcontentloaded" });
+      await page.getByText("Butuh atau Mau?", { exact: true }).waitFor();
+      await page.getByRole("button", { name: /Selesai/ }).click();
+      await page.getByRole("heading", { name: "Excellent!", exact: true }).waitFor();
+      await page.getByText("Chapter 1 selesai", { exact: true }).waitFor();
+      await page.getByText("Pilih Pintar", { exact: true }).waitFor();
+      await page.screenshot({ path: path.join(screenshotDir, "390-world-money-chapter-01-complete.png"), fullPage: false });
+      await context.close();
+      console.log("World Petualangan Uang Chapter 1 milestone reward passed at 390px.");
+    }
+
+    {
+      const viewport = { width: 390, height: 844 };
+      const context = await browser.newContext({ viewport });
+      await context.addInitScript((progress) => {
+        window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
+          "demo-gian": { "money-festival": progress }
+        }));
+      }, {
+        worldId: "money-festival",
+        completedStageIds: [
+          "money-stage-01-money-use",
+          "money-stage-02-price-change",
           "money-stage-03-income-sources",
           "money-stage-04-needs-wants"
         ],
