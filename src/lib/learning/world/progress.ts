@@ -33,7 +33,7 @@ function readStore(): WorldProgressStore {
   }
 }
 
-function normalizeProgress(value: MoneyWorldProgress | undefined): MoneyWorldProgress {
+export function normalizeMoneyWorldProgress(value: MoneyWorldProgress | undefined): MoneyWorldProgress {
   if (!value || value.worldId !== MONEY_WORLD_ID) return { ...EMPTY_PROGRESS };
   const requested = Array.isArray(value.completedStageIds) ? value.completedStageIds : [];
   const completedStageIds: string[] = [];
@@ -70,14 +70,14 @@ function writeProgress(childId: string, progress: MoneyWorldProgress): MoneyWorl
 
 export function readMoneyWorldProgress(childId: string): MoneyWorldProgress {
   if (!childId || typeof window === "undefined") return { ...EMPTY_PROGRESS };
-  return normalizeProgress(readStore()[childId]?.[MONEY_WORLD_ID]);
+  return normalizeMoneyWorldProgress(readStore()[childId]?.[MONEY_WORLD_ID]);
 }
 
 export function replaceMoneyWorldProgress(
   childId: string,
   progress: MoneyWorldProgress
 ): MoneyWorldProgress {
-  return writeProgress(childId, normalizeProgress(progress));
+  return writeProgress(childId, normalizeMoneyWorldProgress(progress));
 }
 
 export function moneyWorldProgressTimestamp(progress: MoneyWorldProgress): number {
@@ -92,7 +92,7 @@ export function checkpointMoneyWorldStage(
 ): MoneyWorldProgress {
   const current = readMoneyWorldProgress(childId);
   if (!isMoneyWorldStageUnlocked(current, stageId) && !current.completedStageIds.includes(stageId)) return current;
-  return writeProgress(childId, normalizeProgress({
+  return writeProgress(childId, normalizeMoneyWorldProgress({
     ...current,
     currentStageId: stageId,
     currentSegmentIndex: Math.min(100, Math.max(0, Math.round(segmentIndex))),
@@ -110,7 +110,7 @@ export function completeMoneyWorldStage(childId: string, stageId: string): Money
     ? current.completedStageIds
     : [...current.completedStageIds, stageId];
 
-  return writeProgress(childId, normalizeProgress({
+  return writeProgress(childId, normalizeMoneyWorldProgress({
     ...current,
     completedStageIds,
     currentStageId: null,
@@ -122,7 +122,7 @@ export function completeMoneyWorldStage(childId: string, stageId: string): Money
 export function restartMoneyWorldStage(childId: string, stageId: string): MoneyWorldProgress {
   const current = readMoneyWorldProgress(childId);
   if (!isMoneyWorldStageUnlocked(current, stageId) && !current.completedStageIds.includes(stageId)) return current;
-  return writeProgress(childId, normalizeProgress({
+  return writeProgress(childId, normalizeMoneyWorldProgress({
     ...current,
     currentStageId: stageId,
     currentSegmentIndex: 0,
