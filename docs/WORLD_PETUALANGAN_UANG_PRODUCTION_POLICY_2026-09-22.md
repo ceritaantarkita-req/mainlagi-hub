@@ -376,8 +376,10 @@ Current ordered work:
 7. **DONE / GREEN** — CI #1382 validated code head `e8f795b7...` and froze `checkpoint/world-petualangan-uang-production-green-20260922`;
 8. **DONE / GREEN** — dedicated public-safe 1200×630 Petualangan Uang social card, validated at `9f695330...` by CI #1391;
 9. **DONE / CHECKPOINTED** — froze `checkpoint/world-petualangan-uang-social-green-20260922` at the exact validated head;
-10. **NEXT PRODUCT GAP** — fixed narration still requires actual reviewed binaries (currently 0/88 approved), while Gian/Naya character production remains paused;
-11. bespoke Stage/background art remains optional because current reused backgrounds are approved for the pilot;
-12. World -> Evidence bridge remains disabled until separately authorized.
+10. **DONE on isolated branch, CI pending** — fixed narration is grouped into eight Stage batches with an explicit fail-closed voice-identity authorization gate;
+11. **NEXT PRODUCT DECISION** — approve final narration voice identity/source/rights before any of the 88 permanent MP3 cues may be generated;
+12. Gian/Naya visual character production remains paused;
+13. bespoke Stage/background art remains optional because current reused backgrounds are approved for the pilot;
+14. World -> Evidence bridge remains disabled until separately authorized.
 
 This policy is intentionally narrower than the long-term Mainlagi 3–12 ambition. It prevents the pilot runtime from drifting into an incoherent one-World-fits-all model.
