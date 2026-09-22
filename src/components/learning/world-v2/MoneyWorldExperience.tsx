@@ -20,6 +20,7 @@ import {
   type DragEvent
 } from "react";
 import { CharacterAvatar } from "@/components/learning/LearningCommon";
+import { WorldSceneRenderer } from "@/components/learning/world/WorldSceneRenderer";
 import { MONEY_WORLD_PILOT_AGE_BAND } from "@/lib/learning/world/moneyWorldPresentation";
 import { MONEY_WORLD_RUNTIME_CHARACTER_POLICY } from "@/lib/learning/world/moneyWorldAssets";
 import { audioStatus, playTone, unlockAudio, warmAudio, type SpeechStartStatus } from "@/lib/audio/feedback";
@@ -1248,7 +1249,6 @@ function MoneyWorldStageRuntime({
   };
   const percent = ((segmentIndex + 1) / segments.length) * 100;
   const hasNarrationControl = segment.type !== "recap";
-  const showAmbientGuides = segment.type === "activity" || segment.type === "narrative_choice" || segment.type === "recap";
   const hearCurrentSegment = () => {
     const control = stageRuntimeRef.current?.querySelector<HTMLButtonElement>("[data-world-hear], [data-world-prompt-hear]");
     control?.click();
@@ -1292,34 +1292,40 @@ function MoneyWorldStageRuntime({
       <div className={styles.stageShellTitle}>
         <span>{"Stage " + stage.order + " · " + stage.locationLabel}</span>
         <h1>{stage.title}</h1>
-        <small data-world-scene-label={activeScene.id}>{activeScene.title + " · " + String(segmentIndex + 1) + "/" + segments.length}</small>
+        <small>{"Bagian " + String(segmentIndex + 1) + "/" + segments.length}</small>
       </div>
 
       <StageAmbience stageId={stage.id} />
-      {showAmbientGuides ? (
-        <div className={styles.stageShellCharacters} aria-hidden>
-          <div className={styles.stageShellCharacterLeft}><CharacterAvatar id="gavi" large /></div>
-          <div className={styles.stageShellCharacterRight}><CharacterAvatar id="paca" large /></div>
-        </div>
-      ) : null}
 
-      {segment.type === "activity" ? (
-        <WorldActivity placement={segment.activity} onComplete={advance} />
-      ) : segment.type === "narrative_choice" ? (
-        <NarrativeChoiceCard audioId={segment.id + "-prompt"} prompt={segment.prompt} options={segment.options} onNext={advance} />
-      ) : segment.type === "recap" ? (
-        <WorldRecapCard title={segment.title} items={segment.items} onNext={advance} />
-      ) : (
-        <SpeechCard
-          key={segment.id}
-          audioId={segment.id}
-          speaker={segment.speaker}
-          text={segment.text}
-          kind={segment.type}
-          onNext={advance}
-          nextLabel={segmentIndex === lastIndex ? "Selesai" : "Lanjut"}
-        />
-      )}
+      <WorldSceneRenderer
+        scene={activeScene}
+        segmentPosition={segmentIndex + 1}
+        segmentCount={segments.length}
+        companionLayer={(
+          <div className={styles.stageShellCharacters} aria-hidden>
+            <div className={styles.stageShellCharacterLeft}><CharacterAvatar id="gavi" large /></div>
+            <div className={styles.stageShellCharacterRight}><CharacterAvatar id="paca" large /></div>
+          </div>
+        )}
+      >
+        {segment.type === "activity" ? (
+          <WorldActivity placement={segment.activity} onComplete={advance} />
+        ) : segment.type === "narrative_choice" ? (
+          <NarrativeChoiceCard audioId={segment.id + "-prompt"} prompt={segment.prompt} options={segment.options} onNext={advance} />
+        ) : segment.type === "recap" ? (
+          <WorldRecapCard title={segment.title} items={segment.items} onNext={advance} />
+        ) : (
+          <SpeechCard
+            key={segment.id}
+            audioId={segment.id}
+            speaker={segment.speaker}
+            text={segment.text}
+            kind={segment.type}
+            onNext={advance}
+            nextLabel={segmentIndex === lastIndex ? "Selesai" : "Lanjut"}
+          />
+        )}
+      </WorldSceneRenderer>
     </div>
   );
 }
