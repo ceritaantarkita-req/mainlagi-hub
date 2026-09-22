@@ -141,7 +141,7 @@ The public audio directory is production-only and ignored by default. An approve
 
 ## 4. What remains intentionally open
 
-Final production English voice is **not** selected and **not** activated.
+Final production English voice is **not** selected and **not** activated. A primary **pilot candidate** is now prepared (OpenAI API, pinned GPT-4o mini TTS snapshot, `marin`/`cedar` comparison), but this does not lock the production provider.
 
 Still open:
 
@@ -161,7 +161,7 @@ The current browser `speechSynthesis` path remains the production fallback until
 
 ## 5. Next safe English narration step
 
-The next safe step is a **four-item provider/voice pilot only**:
+The next safe step is to **generate and human-review the already prepared four-item provider/voice pilot only**:
 
 ```text
 english-listen-bird
@@ -232,3 +232,17 @@ If later work changes `main`, this file remains a historical safe checkpoint. Cu
 - `PROJECT_STATE_SYNC_2026-09-20.md`;
 - `docs/README.md`;
 - subsystem closure records as appropriate.
+
+
+## 9. Provider-pilot harness checkpoint
+
+Prepared files:
+
+```text
+src/lib/data/english-narration-pilot-spec.json
+scripts/generate-english-narration-openai-pilot.mjs
+scripts/run-english-narration-pilot-tests.mjs
+docs/ENGLISH_NARRATION_PROVIDER_PILOT_2026-09-22.md
+```
+
+The provider-specific harness is intentionally outside runtime architecture: default dry-run, no network in CI, local output under `internal/`, explicit credential gate, no registry auto-approval, and no static-audio activation.
