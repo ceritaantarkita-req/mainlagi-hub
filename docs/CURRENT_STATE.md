@@ -13,7 +13,7 @@ User-approved execution boundary:
 - Mainlagi Belajar WS-05 Logic repeating-pattern -> existing `pattern_completion` reuse is **FULLY CLOSED / MERGED / LIVE VERIFIED**.
 - exact scope remains the five IDs approved by the 20 September audit; Pattern #48 remains unjustified.
 - implementation PR **#273** final head `299d493da2e74e6e583322d3a16af69455d8d926` passed PR CI **#1321 / run `35682848171`**.
-- merged production main is `709e2b7d3e529cf37f10a05e9c9dc92884e0a781`; merged-main CI **#1353 / run `35687996669`** passed including exact-SHA Cloudflare production smoke.
+- WS-05 merged runtime main is `709e2b7d3e529cf37f10a05e9c9dc92884e0a781`; its merged-main CI **#1353 / run `35687996669`** passed including exact-SHA Cloudflare production smoke. This is a closed subsystem checkpoint, **not the current repository head**; current production main is recorded in the English narration safe checkpoint below.
 - production distribution is **900/900 / 47 active / `choice_grid` 174 / `pattern_completion` 10 / Logic `choice_grid` 21 / KEEP 900**.
 - dedicated Logic browser QA passed 320/390/768 and permanent visual baseline passed 63 exact-path captures.
 - closure record: `PATTERN_COMPLETION_LOGIC_REPEATING_PATTERN_REUSE_CLOSURE_2026-09-22.md`.
@@ -334,7 +334,7 @@ English narration quality Wave 1 is **MERGED / LIVE VERIFIED** via PR #278 -> ma
 
 English narration production-asset Wave 2 is **MERGED / LIVE VERIFIED** via PR #280 -> main `2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48`; final PR CI #1371 / run `35700739978` and merged-main CI #1372 / run `35701448136` both passed, including exact Cloudflare smoke. The exact 27-slot production registry remains fail-closed at **27 review-required / 0 approved / 0 binary / no runtime static-audio activation**.
 
-Current product-UX state: **parent/profile/settings responsive redesign is MERGED / LIVE VERIFIED** via PR #251, and the **all-subject background system is also MERGED / LIVE VERIFIED** via PR #256. `CloudParentOverviewScreen` remains canonical; family profiles are separated from `demo-gian`; child profile identity is separated from guide-character presentation; mobile parent navigation replaces the legacy forced aside below 760px. The next visual work is the production character layer/spec for Naya/Gian/Zia and broader human visual/usability review. Do not alter learning evidence/mastery/progression/schema while advancing presentation.
+Current product-UX state: **parent/profile/settings responsive redesign is MERGED / LIVE VERIFIED** via PR #251, and the **all-subject background system is also MERGED / LIVE VERIFIED** via PR #256. `CloudParentOverviewScreen` remains canonical; family profiles are separated from `demo-gian`; child profile identity is separated from guide-character presentation; mobile parent navigation replaces the legacy forced aside below 760px. **Character production/development is paused**, so Naya/Gian/Zia production work is not an active next step. The current safe English narration continuation is the four-item provider/voice pilot; any unrelated visual/usability wave must be selected separately. Do not alter learning evidence/mastery/progression/schema while advancing presentation.
 
 ### Character / artwork state — 20 September 2026
 
