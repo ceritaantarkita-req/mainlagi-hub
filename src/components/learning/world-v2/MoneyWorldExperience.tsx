@@ -12,6 +12,7 @@ import {
   Star
 } from "@phosphor-icons/react";
 import {
+  Fragment,
   useEffect,
   useMemo,
   useRef,
@@ -25,6 +26,7 @@ import { MONEY_WORLD_PILOT_AGE_BAND } from "@/lib/learning/world/moneyWorldPrese
 import { MONEY_WORLD_RUNTIME_CHARACTER_POLICY } from "@/lib/learning/world/moneyWorldAssets";
 import { audioStatus, playTone, unlockAudio, warmAudio, type SpeechStartStatus } from "@/lib/audio/feedback";
 import {
+  MONEY_WORLD_CHAPTERS,
   MONEY_WORLD_ID,
   MONEY_WORLD_STAGES,
   getMoneyWorldSegments,
@@ -270,6 +272,12 @@ export function MoneyWorldMapScreen({ childId, worldId }: { childId: string; wor
           </div>
         ) : null}
         {MONEY_WORLD_STAGES.map((stage, index) => {
+          const chapterIndex = MONEY_WORLD_CHAPTERS.findIndex((chapter) => chapter.id === stage.chapterId);
+          const chapter = chapterIndex >= 0 ? MONEY_WORLD_CHAPTERS[chapterIndex] : null;
+          const isChapterStart = chapter?.stageIds[0] === stage.id;
+          const chapterCompleted = chapter
+            ? chapter.stageIds.filter((chapterStageId) => state.progress.completedStageIds.includes(chapterStageId)).length
+            : 0;
           const unlocked = state.ready && isMoneyWorldStageUnlocked(state.progress, stage.id);
           const stars = moneyWorldStars(state.progress, stage.id);
           const node = (
@@ -302,18 +310,33 @@ export function MoneyWorldMapScreen({ childId, worldId }: { childId: string; wor
           );
           const rowClass = index % 2 ? styles.stageRowRight : styles.stageRowLeft;
           return (
-            <div
-              key={stage.id}
-              className={cx(styles.stageRow, rowClass)}
-              data-stage-order={stage.order}
-              data-world-stage-id={stage.id}
-            >
-              {unlocked ? (
-                <Link href={mapBase + "/stage/" + stage.id} className={styles.stageLink}>{node}</Link>
-              ) : (
-                <div className={styles.stageLink} aria-disabled="true">{node}</div>
-              )}
-            </div>
+            <Fragment key={stage.id}>
+              {isChapterStart && chapter ? (
+                <div
+                  className={styles.chapterMapBanner}
+                  data-world-chapter-id={chapter.id}
+                  data-world-chapter-order={chapterIndex + 1}
+                >
+                  <div>
+                    <small>{"Chapter " + String(chapterIndex + 1)}</small>
+                    <strong>{chapter.title}</strong>
+                  </div>
+                  <span>{String(chapterCompleted) + "/" + String(chapter.stageIds.length) + " Stage selesai"}</span>
+                </div>
+              ) : null}
+              <div
+                className={cx(styles.stageRow, rowClass)}
+                data-stage-order={stage.order}
+                data-world-stage-id={stage.id}
+                data-world-stage-chapter-id={stage.chapterId}
+              >
+                {unlocked ? (
+                  <Link href={mapBase + "/stage/" + stage.id} className={styles.stageLink}>{node}</Link>
+                ) : (
+                  <div className={styles.stageLink} aria-disabled="true">{node}</div>
+                )}
+              </div>
+            </Fragment>
           );
         })}
       </section>
@@ -1241,8 +1264,11 @@ function MoneyWorldStageRuntime({
   const segment = segments[segmentIndex];
   const activeScene = getMoneyWorldSceneForSegment(stageId, segment.id);
   const pilotStage = getMoneyWorldPilotStage(stageId);
+  const chapterIndex = MONEY_WORLD_CHAPTERS.findIndex((chapter) => chapter.id === stage.chapterId);
+  const chapter = chapterIndex >= 0 ? MONEY_WORLD_CHAPTERS[chapterIndex] : null;
   if (!activeScene) return <div className={styles.runtimeError}>Struktur Scene World tidak valid untuk Segment ini.</div>;
   if (!pilotStage) return <div className={styles.runtimeError}>Manifest produksi Stage World tidak ditemukan.</div>;
+  if (!chapter) return <div className={styles.runtimeError}>Chapter World untuk Stage ini tidak ditemukan.</div>;
   const stageVisualStyle: MoneyWorldStageVisualStyle = {
     "--world-scene-wide": `url("${pilotStage.backgroundWide}")`,
     "--world-scene-mobile": `url("${pilotStage.backgroundMobile}")`
@@ -1268,6 +1294,8 @@ function MoneyWorldStageRuntime({
       data-world-scene={stage.order}
       data-world-stage-shell="garden-baseline-v1"
       data-world-runtime-character-policy={MONEY_WORLD_RUNTIME_CHARACTER_POLICY.mode}
+      data-world-chapter-id={chapter.id}
+      data-world-chapter-order={chapterIndex + 1}
       data-world-scene-id={activeScene.id}
       data-world-scene-kind={activeScene.kind}
     >
@@ -1293,9 +1321,9 @@ function MoneyWorldStageRuntime({
         </button>
       </header>
       <div className={styles.stageShellTitle}>
-        <span>{"Stage " + stage.order + " · " + stage.locationLabel}</span>
+        <span data-world-chapter-label={chapter.id}>{"Chapter " + String(chapterIndex + 1) + " · " + chapter.title}</span>
         <h1>{stage.title}</h1>
-        <small>{"Bagian " + String(segmentIndex + 1) + "/" + segments.length}</small>
+        <small>{"Stage " + stage.order + " · " + stage.locationLabel + " · Bagian " + String(segmentIndex + 1) + "/" + segments.length}</small>
       </div>
 
       <StageAmbience stageId={stage.id} />
