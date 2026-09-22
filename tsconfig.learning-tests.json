@@ -86,6 +86,8 @@
     "src/lib/learning/world/moneyWorldAssets.ts",
     "src/lib/learning/world/moneyWorldEvidenceBridge.ts",
     "src/lib/learning/world/moneyWorldAgeMigrationAudit.ts",
-    "src/lib/learning/world/moneyWorldNarration.ts"
+    "src/lib/learning/world/moneyWorldNarration.ts",
+    "src/lib/learning/world/worldStructure.ts",
+    "src/lib/learning/world/moneyWorldStructure.ts"
   ]
 }
