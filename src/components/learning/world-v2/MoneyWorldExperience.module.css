@@ -2465,3 +2465,229 @@
     padding-bottom: 170px;
   }
 }
+
+
+/* === World production wave 01: Garden-baseline stage shell === */
+.stagePage {
+  display: block;
+  padding: 0;
+}
+
+.stageRuntime {
+  width: 100%;
+  min-height: 100dvh;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: hidden;
+  padding: 24px max(24px, env(safe-area-inset-right)) 80px max(24px, env(safe-area-inset-left));
+}
+
+.stageProgressBar {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 8;
+  height: 7px;
+}
+
+.stageShellHeader {
+  position: relative;
+  z-index: 7;
+  width: min(1320px, 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(118px, auto) 1fr minmax(118px, auto);
+  align-items: center;
+  gap: 14px;
+}
+
+.stageShellControl {
+  min-height: 58px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border: 2px solid #e2dfc5;
+  border-radius: 999px;
+  background: #fffbed;
+  color: #193b55;
+  box-shadow: 0 4px 0 #bbcdce;
+  font: inherit;
+  font-size: 18px;
+  font-weight: 950;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.stageShellControl:last-child {
+  justify-self: end;
+}
+
+.stageShellControl:hover:not(:disabled) {
+  background: #fff;
+}
+
+.stageShellControl:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #bbcdce;
+}
+
+.stageShellControl:disabled {
+  opacity: .52;
+  cursor: default;
+}
+
+.stageShellControl:focus-visible {
+  outline: 4px solid #155f86;
+  outline-offset: 5px;
+}
+
+.stageShellBrand {
+  justify-self: center;
+  width: 220px;
+  height: 80px;
+  background: url("/artwork/garden-wordmark.webp") center / contain no-repeat;
+}
+
+.stageShellTitle {
+  position: relative;
+  z-index: 5;
+  width: min(820px, 100%);
+  margin: 28px auto 0;
+  text-align: center;
+}
+
+.stageShellTitle > span,
+.stageShellTitle > small {
+  display: inline-flex;
+  min-height: 30px;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: rgba(255, 253, 245, .9);
+  color: #486d62;
+  font-size: 12px;
+  font-weight: 950;
+  box-shadow: 0 3px 10px rgba(40, 70, 53, .08);
+}
+
+.stageShellTitle h1 {
+  margin: 10px auto 6px;
+  font-size: clamp(38px, 5.4vw, 72px);
+  line-height: 1.04;
+  letter-spacing: -1.8px;
+  text-wrap: balance;
+  text-shadow: 0 2px 0 rgba(255,255,255,.7);
+}
+
+.stageShellTitle > small {
+  min-height: 26px;
+  padding: 3px 9px;
+  font-size: 11px;
+}
+
+.stageShellCharacters {
+  position: absolute;
+  inset: 150px 0 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.stageShellCharacterLeft,
+.stageShellCharacterRight {
+  position: absolute;
+  bottom: 13%;
+  filter: drop-shadow(0 16px 12px rgba(32, 67, 50, .16));
+}
+
+.stageShellCharacterLeft {
+  left: clamp(18px, 3vw, 58px);
+  transform: rotate(-2deg) scale(1.2);
+}
+
+.stageShellCharacterRight {
+  right: clamp(18px, 3vw, 58px);
+  transform: rotate(2deg) scale(1.2);
+}
+
+.stageShellCharacterLeft > span,
+.stageShellCharacterRight > span {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.stageRuntime[data-world-stage-shell="garden-baseline-v1"] .storyScene,
+.stageRuntime[data-world-stage-shell="garden-baseline-v1"] .activityScene {
+  margin-top: 18px;
+}
+
+@media (min-width: 900px) {
+  .stageShellControl {
+    min-height: 72px;
+    padding: 15px 24px;
+    font-size: 22px;
+  }
+
+  .stageShellControl svg {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .stageShellCharacters {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .stageRuntime {
+    padding: 16px 14px 54px;
+  }
+
+  .stageShellHeader {
+    grid-template-columns: minmax(48px, auto) 1fr minmax(48px, auto);
+    gap: 8px;
+  }
+
+  .stageShellBrand {
+    width: 112px;
+    height: 44px;
+  }
+
+  .stageShellControl {
+    min-height: 48px;
+    padding: 9px 12px;
+    gap: 6px;
+    font-size: 15px;
+  }
+
+  .stageShellControl svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .stageShellTitle {
+    margin-top: 22px;
+  }
+
+  .stageShellTitle h1 {
+    margin-top: 8px;
+    font-size: clamp(34px, 10vw, 48px);
+    letter-spacing: -.8px;
+  }
+
+}
+
+@media (max-width: 380px) {
+  .stageShellControl span {
+    display: none;
+  }
+
+  .stageShellControl {
+    width: 48px;
+    padding-inline: 0;
+  }
+}
