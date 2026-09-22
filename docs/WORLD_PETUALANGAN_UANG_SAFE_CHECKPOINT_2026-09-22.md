@@ -1419,3 +1419,49 @@ docs/WORLD_COMPLETION_UX_POLISH_2026-09-22.md
 No narration generation, final character production, Belajar, Bermain/motion, SQL schema, mastery/evidence, or progression persistence is changed.
 
 Checkpoint rule: validate this exact wave head through Draft PR #282. If fully green, freeze a new immutable completion-UX checkpoint without moving earlier checkpoints.
+
+
+## 42. Stage completion UX green checkpoint — CI #1467
+
+Production wave 13 is independently green and frozen.
+
+```text
+head:   40436d41678f41d08516c3029b554dee5b7f339d
+CI:     #1467 / run 35750690235
+branch: checkpoint/world-petualangan-uang-completion-ux-green-20260922
+```
+
+Full matrix:
+
+```text
+Quality gate (Ubuntu):        PASS
+Windows compatibility:        PASS
+Production build:             PASS
+Production dependency audit:  PASS
+Secret history scan:          PASS
+Mobile route QA (Chromium):   PASS
+overall:                      SUCCESS
+```
+
+Artifact:
+
+```text
+mobile-route-qa-screenshots — 10705397615
+```
+
+This checkpoint freezes:
+
+- exact Stage + canonical Chapter completion identity;
+- `Chapter N · Stage N/8` completion context;
+- Stage 4 canonical Chapter 1 milestone;
+- Stage 8 canonical Chapter 2 + final World milestone;
+- ★★★ completion;
+- rotating praise;
+- Back / Again / Next together;
+- Share below navigation;
+- 320/430 completion geometry;
+- no Stage-4 hardcoded Chapter-completion shortcut.
+
+Do not move or force-push this checkpoint branch.
+
+Narration generation remains deferred. PR #282 remains Draft and is not merge authorization. PR #272 remains Draft and untouched. Character production remains paused. World -> Belajar evidence remains disabled.
