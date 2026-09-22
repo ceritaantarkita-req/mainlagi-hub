@@ -7,7 +7,9 @@ Draft PR: **#272**
 Production/main baseline at branch start: `8af5ce8a13d19f8aaeb3d8f06229dbcdeb555a41`  
 Accepted code checkpoint head: `5c76f9812a93eb7ef07fff1880af4da5af2b4927`  
 Frozen checkpoint branch: `checkpoint/world-petualangan-uang-green-20260922`  
-Frozen checkpoint head: `faaca0eba4cbf6a75dfabb5f261cbf8e98e0912b`
+Frozen checkpoint head: `faaca0eba4cbf6a75dfabb5f261cbf8e98e0912b`  
+Latest visual-green checkpoint branch: `checkpoint/world-petualangan-uang-visual-green-20260922`  
+Latest visual-green checkpoint head: `3b033405b41abcfab4c70d9db76265095ff7c5e2`
 
 ## 1. Verification at this checkpoint
 
@@ -304,3 +306,49 @@ the latest known-green World code checkpoint is preserved
 ```
 
 This file is a safe handoff/checkpoint, not a declaration that the World is already production-complete.
+
+## 15. Visual-green checkpoint — game-map node pass
+
+A second safe checkpoint was created after the World map and activity presentation were pushed closer to the intended illustrated adventure reference:
+
+```text
+Checkpoint branch: checkpoint/world-petualangan-uang-visual-green-20260922
+Checkpoint head:   3b033405b41abcfab4c70d9db76265095ff7c5e2
+CI:                #1314
+Run:               35682393320
+Ubuntu:            PASS
+Windows:           PASS
+Production build:  PASS
+Dependency audit:  PASS
+Secret scan:       PASS
+Mobile Chromium:   PASS
+Production smoke:  skipped on draft PR, as expected
+```
+
+What changed in this visual wave:
+
+- the Stage map no longer presents each Stage as a full-width lesson card;
+- Stages are now compact illustrated game-map nodes alternating left/right along the winding path;
+- the three-star indicator sits with each node and remains separate from mastery;
+- Chapter 1 / Chapter 2 banners are spaced away from node stars and labels;
+- current/unlocked/completed/locked map states remain visible after the compact-node change;
+- the Stage activity panel is now a floating tray inside the illustrated environment instead of occupying the entire location;
+- Stage 1 activity QA confirms the environment remains visible around gameplay;
+- final `Festival siap!` payoff is explicitly kept below Stage 8 instead of overlapping the final node;
+- Chromium QA now locks the compact-node width, left/right alternation, and final payoff non-overlap.
+
+Reviewed CI artifact at this checkpoint:
+
+```text
+390-child-demo-gian-world-money-festival.png
+390-world-money-stage-01-activity.png
+390-world-money-map-stage-02-unlocked.png
+390-world-money-map-complete.png
+```
+
+Manual visual review of the CI artifact confirms that the map is now substantially closer to the intended illustrated winding-level-map reference: children primarily read the path, icon node, stars and short label rather than a vertical list of cards.
+
+### Checkpoint rule
+
+Use `checkpoint/world-petualangan-uang-visual-green-20260922` as the newest known-green rollback point for the visual World work. Do not rewrite or force-push that checkpoint branch. The active feature branch may continue beyond it.
+
