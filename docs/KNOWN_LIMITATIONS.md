@@ -25,6 +25,24 @@ The 20 September gallery/home work improved hierarchy and added isolated QA-unlo
 
 Current presentation must continue to preserve recommendation, age eligibility, lock reasons and direct-route guards while avoiding an undifferentiated wall of activities. QA unlock must remain isolated from normal production profiles.
 
+## Learning visual clarity and containment
+
+Learning content still contains recognition visuals that depend on emoji/platform glyph rendering. This can change the silhouette, detail, color, expression, or apparent identity of an object across Windows, Android and iOS.
+
+The remaining limitation is broader than emoji consistency. The project owner has confirmed real desktop/mobile cases where:
+
+- a visual intended to sit inside a card/choice box appears to escape or collide with the box;
+- the visual is clipped or too close to the border;
+- the visual is present but too small, faint, or ambiguous to identify;
+- overlays/badges can compete with the visual safe area;
+- a desktop-readable visual becomes unclear at mobile dimensions.
+
+The active learning-illustration consistency wave therefore treats **semantic clarity, cross-platform consistency, and containment/readability** as one product-quality contract. Gallery thumbnail containment and in-activity choice containment must be verified independently.
+
+The current static inventory finds 43 source files with literal `emoji:` fields and 280 such fields across the 32 canonical subject batch-wave files. Those counts are not defect counts and must not trigger blind replacement. Latin/Arabic learning glyphs, stable symbols and decorative UI require different treatment from recognition-critical pictorial content.
+
+Canonical audit/checkpoint: `LEARNING_ILLUSTRATION_CONSISTENCY_AUDIT_2026-09-22.md`.
+
 ## Voice and narration
 
 The first-instruction narration latency/preload wave is merged/live verified. English narration quality Wave 1 is also merged/live verified via PR #278 -> main `8d60a69a...`: all 27 English listening activities are explicitly reviewed, 22 vocabulary/letter/phrase activities use target-first spoken copy, 5 comprehension activities retain sentence-level narration, and the browser fallback now prefers higher-quality exact-locale English voices when available.
