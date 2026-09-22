@@ -2655,6 +2655,12 @@
 
 
 /* === Production wave 06: Scene wrapper responsive fit === */
+.stageRuntime [data-world-scene-content] button,
+.stageRuntime [data-world-scene-content] a {
+  min-width: 44px;
+  min-height: 44px;
+}
+
 @media(max-width: 760px) {
   .stageRuntime [data-world-scene-content] > .storyScene,
   .stageRuntime [data-world-scene-content] > .activityScene {
