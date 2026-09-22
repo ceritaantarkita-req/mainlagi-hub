@@ -91,12 +91,13 @@ export function checkpointMoneyWorldStage(
   segmentIndex: number
 ): MoneyWorldProgress {
   const current = readMoneyWorldProgress(childId);
-  return writeProgress(childId, {
+  if (!isMoneyWorldStageUnlocked(current, stageId) && !current.completedStageIds.includes(stageId)) return current;
+  return writeProgress(childId, normalizeProgress({
     ...current,
     currentStageId: stageId,
-    currentSegmentIndex: Math.max(0, Math.round(segmentIndex)),
+    currentSegmentIndex: Math.min(100, Math.max(0, Math.round(segmentIndex))),
     updatedAt: new Date().toISOString()
-  });
+  }));
 }
 
 export function completeMoneyWorldStage(childId: string, stageId: string): MoneyWorldProgress {
