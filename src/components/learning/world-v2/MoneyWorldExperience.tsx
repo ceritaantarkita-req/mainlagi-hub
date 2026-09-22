@@ -263,13 +263,13 @@ function WorldDragTarget({
       const nextWrong = incorrectCount + 1;
       setIncorrectCount(nextWrong);
       setMessage(nextWrong >= 2 ? "Lihat angka uang dan angka pada label harga." : "Belum cocok. Coba target lain.");
-      playTone("error");
+      playTone("wrong");
       return;
     }
     const next = [...matched, itemId];
     setMatched(next);
     setSelected(null);
-    playTone("success");
+    playTone("correct");
     if (next.length === items.length) {
       setMessage("Semua cocok! Barang punya harga.");
       window.setTimeout(onComplete, 450);
@@ -361,13 +361,13 @@ function WorldMatching({
       setIncorrectCount(nextWrong);
       setSelectedPairId(null);
       setMessage(nextWrong >= 2 ? "Ingat harga yang tadi kamu lihat." : "Belum cocok. Coba pasangan lain.");
-      playTone("error");
+      playTone("wrong");
       return;
     }
     const next = [...matched, pairId];
     setMatched(next);
     setSelectedPairId(null);
-    playTone("success");
+    playTone("correct");
     if (next.length === pairs.length) {
       setMessage("Semua pasangan cocok!");
       window.setTimeout(onComplete, 450);
