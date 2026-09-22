@@ -88,6 +88,7 @@
     "src/lib/learning/world/moneyWorldAgeMigrationAudit.ts",
     "src/lib/learning/world/moneyWorldNarration.ts",
     "src/lib/learning/world/moneyWorldNarrationProduction.ts",
+    "src/lib/learning/world/moneyWorldNarrationPlayback.ts",
     "src/lib/learning/world/worldStructure.ts",
     "src/lib/learning/world/moneyWorldStructure.ts",
     "src/lib/learning/world/moneyWorldPilot.ts"
