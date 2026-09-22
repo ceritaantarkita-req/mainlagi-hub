@@ -31,6 +31,7 @@ const require = createRequire(import.meta.url);
 const {
   AudioManager,
   DEFAULT_PROMPT_RATE,
+  ENGLISH_PROMPT_RATE,
   DEFAULT_FEEDBACK_RATE,
   SPEECH_LATENCY_EVENT
 } = require(path.join(outDir, "AudioManager.js"));
@@ -162,6 +163,7 @@ function walkFiles(directory) {
 try {
   assert.equal(SPEECH_LATENCY_EVENT, "mainlagi-speech-latency");
   assert.ok(DEFAULT_PROMPT_RATE > 0.9 && DEFAULT_PROMPT_RATE <= 1, "default prompt rate should be close to natural speed");
+  assert.ok(ENGLISH_PROMPT_RATE >= 0.88 && ENGLISH_PROMPT_RATE < DEFAULT_PROMPT_RATE, "English learning prompts should use a slightly slower clear-learning pace");
   assert.ok(DEFAULT_FEEDBACK_RATE >= 1, "feedback should not inherit an unexplained slow global rate");
 
   const voices = [
@@ -172,6 +174,38 @@ try {
   const selection = harness(voices);
   assert.equal(selection.manager.selectVoice("id-ID")?.name, "Indonesia local", "exact local locale should win voice selection");
   assert.equal(selection.manager.selectVoice("en-GB")?.name, "English local", "same-language fallback should be available");
+
+  const qualityEnglish = harness([
+    voice({ name: "English local", lang: "en-US" }),
+    voice({ name: "Microsoft Aria Natural", lang: "en-US", localService: false })
+  ]);
+  assert.equal(
+    qualityEnglish.manager.selectVoice("en-US")?.name,
+    "Microsoft Aria Natural",
+    "an exact-locale natural English voice should outrank a generic exact-locale local voice"
+  );
+  qualityEnglish.manager.speakPrompt("Bird.", { lang: "en-US" });
+  assert.equal(qualityEnglish.synth.spoken[0].rate, ENGLISH_PROMPT_RATE, "English prompt speech must use the clear-learning default rate");
+
+  const localePriority = harness([
+    voice({ name: "English US local", lang: "en-US" }),
+    voice({ name: "English UK Natural", lang: "en-GB", localService: false })
+  ]);
+  assert.equal(
+    localePriority.manager.selectVoice("en-US")?.name,
+    "English US local",
+    "exact English locale must still outrank a quality hint from another English locale"
+  );
+
+  const lowQualityEnglish = harness([
+    voice({ name: "eSpeak English", lang: "en-US" }),
+    voice({ name: "English Enhanced", lang: "en-US", localService: false })
+  ]);
+  assert.equal(
+    lowQualityEnglish.manager.selectVoice("en-US")?.name,
+    "English Enhanced",
+    "known low-quality English voice hints must lose to enhanced exact-locale alternatives"
+  );
 
   const foreignOnly = harness([voice({ name: "English only", lang: "en-US" })]);
   assert.equal(foreignOnly.manager.speechCapability("id-ID"), "unavailable", "Indonesian narration must fail closed without an Indonesian voice");

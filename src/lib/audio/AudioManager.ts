@@ -109,8 +109,12 @@ const TONES: Record<Tone, Array<[number, number, number]>> = {
 
 export const SPEECH_LATENCY_EVENT = "mainlagi-speech-latency";
 export const DEFAULT_PROMPT_RATE = 0.96;
+export const ENGLISH_PROMPT_RATE = 0.92;
 export const DEFAULT_FEEDBACK_RATE = 1.02;
 export const DEFAULT_SYSTEM_RATE = 1;
+
+const ENGLISH_HIGH_QUALITY_VOICE_HINTS = /\b(natural|neural|premium|enhanced)\b/i;
+const ENGLISH_LOW_QUALITY_VOICE_HINTS = /\b(espeak|festival|flite|compact)\b/i;
 
 const MAX_PENDING_SPEECH = 2;
 const DEFAULT_DEDUPE_MS = 650;
@@ -169,10 +173,17 @@ function clampRate(value: number): number {
   return Math.min(1.5, Math.max(0.5, value));
 }
 
-function defaultRate(channel: SpeechChannel): number {
+function defaultRate(channel: SpeechChannel, lang: string): number {
   if (channel === "feedback") return DEFAULT_FEEDBACK_RATE;
   if (channel === "system") return DEFAULT_SYSTEM_RATE;
+  if (localeBase(lang) === "en") return ENGLISH_PROMPT_RATE;
   return DEFAULT_PROMPT_RATE;
+}
+
+function englishVoiceQualityScore(voice: SpeechVoiceLike): number {
+  if (ENGLISH_HIGH_QUALITY_VOICE_HINTS.test(voice.name)) return 30;
+  if (ENGLISH_LOW_QUALITY_VOICE_HINTS.test(voice.name)) return -24;
+  return 0;
 }
 
 function requestKey(channel: SpeechChannel, lang: string, text: string, explicit?: string): string {
@@ -292,6 +303,7 @@ export class AudioManager {
         let score = 0;
         if (voiceLocale === key) score += 100;
         else if (localeBase(voiceLocale) === base) score += 60;
+        if (base === "en") score += englishVoiceQualityScore(voice);
         if (voice.localService) score += 12;
         if (voice.default) score += 5;
         return { voice, score };
@@ -395,7 +407,7 @@ export class AudioManager {
   private requestSpeech(channel: SpeechChannel, rawText: string, options: SpeechOptions): SpeechStartStatus {
     const text = rawText.trim();
     const lang = options.lang?.trim() || "id-ID";
-    const rate = clampRate(options.rate ?? defaultRate(channel));
+    const rate = clampRate(options.rate ?? defaultRate(channel, lang));
     const requestedAtMs = this.deps.now();
     const capability = this.speechCapability(lang);
     if (!text || capability !== "spoken") {
