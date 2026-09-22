@@ -104,10 +104,13 @@
 ## Current synchronized checkpoint — 22 September 2026
 
 ```text
-product runtime baseline:     2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48
+narration runtime baseline:   2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48
 runtime baseline main CI:     #1372 / run 35701448136 — full success + exact Cloudflare smoke
+provider-pilot tooling base:  4b975130bf6e5fc28cecbf6aea5373b7a1430c65
+provider-pilot main CI:       #1396 / run 35719862989 — full success + exact Cloudflare smoke
 English narration Wave 1:     #278 -> 8d60a69a / 27 reviewed / 22 target-first / 5 comprehension
 English narration asset gate: #280 -> 2cc7d5be / 27 review-required / 0 approved / 0 binary
+provider-pilot harness:       #283 -> 4b975130 / OpenAI candidate / marin+cedar / 0 generated audio
 analytics regression:         1201 attempts / 3603 evidence rows / paged + fail-closed
 WS-13 character work:         PAUSED BY PROJECT OWNER / reference-only assets
 WS-05 runtime closure:        #273 -> 709e2b7d / main CI #1353 live verified
@@ -128,8 +131,9 @@ Product-UX and WS-05 remain separate work tracks. Character production is curren
 - Character production/development is **PAUSED**. Existing Drive character assets are reference material only for this wave.
 - Mainlagi Belajar WS-05 exact five-ID Logic `pattern_completion` reuse is closed/live verified through PR #273.
 - Do not mix World, character runtime, broad UX refactors, or Pattern #48 into any follow-up WS-05 audit/runtime wave.
-- English narration asset gate PR #280 is closed/live verified. Preserve 27 registry slots, 0 approved production audio and no static-audio runtime activation until a separately reviewed pilot is accepted.
-- If WS-02 continues, use `ENGLISH_NARRATION_SAFE_CHECKPOINT_2026-09-22.md` as the handoff and begin with only the four-item provider/voice pilot.
+- English narration asset gate PR #280 is closed/live verified. Preserve 27 registry slots, 0 approved production audio and no static-audio runtime activation until separately reviewed pilot outputs are accepted.
+- Provider-pilot harness PR #283 is also closed/live verified at implementation baseline `4b975130...`; it pins the exact four-item scope, OpenAI API candidate snapshot, `marin`/`cedar`, dry-run default, local-only output, credential gate, and no registry/runtime activation.
+- If WS-02 continues, use `ENGLISH_NARRATION_SAFE_CHECKPOINT_2026-09-22.md` plus `ENGLISH_NARRATION_PROVIDER_PILOT_HARNESS_CLOSURE_2026-09-22.md`; next work is actual local/server-side candidate generation + human listening review, not another harness rewrite.
 
 ## Product goal
 
@@ -156,7 +160,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 | Workstream | Status | Current note |
 |---|---|---|
 | WS-01 Canonical docs | **CURRENT / SYNCING** | 20 Sep current-state sync after parent wave; Pattern #48 remains unjustified |
-| WS-02 Voice & narration | **WAVE 1 + ASSET GATE LIVE VERIFIED / PROVIDER PILOT NEXT** | PR #278 closed browser/listening-copy quality; PR #280 -> main `2cc7d5be...` closed the exact 27-slot fail-closed production asset gate at 27 review-required / 0 approved / 0 binary; next safe work is four-item provider/voice + human listening/provenance pilot only, runtime activation later |
+| WS-02 Voice & narration | **PILOT HARNESS LIVE VERIFIED / CANDIDATE GENERATION + HUMAN REVIEW NEXT** | PR #278 closed browser/listening-copy quality; PR #280 closed the 27-slot fail-closed production asset gate; PR #283 -> `4b975130...` closed the exact four-item generation harness with pinned OpenAI candidate + `marin`/`cedar`, dry-run/local-only/credential gates; 27 review-required / 0 approved / 0 production binary / 0 runtime activation remain true |
 | WS-03 Public/parent frontend | **PARENT WAVE LIVE VERIFIED** | PR #251 -> `77bee682...`; <760px mobile nav / >=760px sidebar; family/demo and profile/guide separation preserved |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
 | WS-05 Gameplay diversification | **47 ACTIVE / LOGIC REUSE LIVE VERIFIED** | PR #273 -> main `709e2b7d...`; final PR CI #1321 + main CI #1353 exact smoke; 900/900 / `choice_grid` 174 / `pattern_completion` 10 / KEEP 900; exact five Logic IDs; no Pattern #48 |
