@@ -475,7 +475,7 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 - Implementation wave: `WS05_NUMBER_LINE_MATH_MISSING_REUSE_WAVE_2026-09-19.md`.
 - Post-merge closure: `NUMBER_LINE_MATH_MISSING_NUMBER_REUSE_CLOSURE_2026-09-19.md`.
 - Final verification: `NUMBER_LINE_MATH_MISSING_NUMBER_REUSE_FINAL_CLOSURE_VERIFICATION_2026-09-19.md`.
-- Logic repeating-pattern -> existing `pattern_completion`: exact five-ID audit **MERGED / LIVE VERIFIED** via PR #240 -> main `7109db41`; main CI #1100 success; expected runtime `choice_grid` 174 / `pattern_completion` 10 / 47 active / KEEP 900; neighboring Logic sequence/comparison/spatial/rule families excluded; **RUNTIME CODE NOT STARTED / NO PATTERN #48**.
+- Logic repeating-pattern -> existing `pattern_completion`: exact five-ID audit PR #240 plus runtime PR #273 are **FULLY CLOSED / MERGED / LIVE VERIFIED**; production main `709e2b7d...`, main CI #1353 exact smoke, `choice_grid` 174 / `pattern_completion` 10 / 47 active / KEEP 900; neighboring Logic sequence/comparison/spatial/rule families remain excluded; **NO PATTERN #48**.
 - Audit record: `PATTERN_COMPLETION_LOGIC_REPEATING_PATTERN_REUSE_AUDIT_2026-09-20.md`.
 - Continue only with justified exact scopes; reuse an existing mechanic when it already matches the evidence model.
 
