@@ -193,6 +193,7 @@ async function inspectPage(page, route, viewport) {
 
     if (route.path === "/child/demo-gian/worlds") {
       await page.locator("[data-world-catalog-cta]").waitFor();
+      await page.waitForFunction(() => document.querySelector("[data-world-catalog-cta]")?.textContent === "Mulai petualangan →");
       assert.equal(
         await page.locator("[data-world-catalog-cta]").textContent(),
         "Mulai petualangan →",
@@ -454,6 +455,7 @@ async function main() {
       const page = await context.newPage();
       await page.goto(baseUrl + "/child/demo-gian/worlds", { waitUntil: "domcontentloaded" });
       await page.locator("[data-world-catalog-cta]").waitFor();
+      await page.waitForFunction(() => document.querySelector("[data-world-catalog-cta]")?.textContent === "Lanjut Stage 3 →");
       assert.equal(
         await page.locator("[data-world-catalog-cta]").textContent(),
         "Lanjut Stage 3 →",
