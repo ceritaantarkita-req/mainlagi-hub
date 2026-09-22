@@ -62,6 +62,7 @@ function cx(...values: Array<string | false | null | undefined>) {
 function useMoneyWorldProgress(childId: string) {
   const [progress, setProgress] = useState<MoneyWorldProgress>(EMPTY_PROGRESS);
   const [ready, setReady] = useState(false);
+  const [settled, setSettled] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -72,26 +73,31 @@ function useMoneyWorldProgress(childId: string) {
     };
 
     const hydrateCloud = async () => {
-      const cloud = await readCloudMoneyWorldProgress(childId);
-      if (cancelled || !cloud) return;
+      try {
+        const cloud = await readCloudMoneyWorldProgress(childId);
+        if (cancelled || !cloud) return;
 
-      const local = readMoneyWorldProgress(childId);
-      const cloudCompleted = cloud.completedStageIds.length;
-      const localCompleted = local.completedStageIds.length;
-      const cloudIsNewer = cloudCompleted > localCompleted
-        || (cloudCompleted === localCompleted && moneyWorldProgressTimestamp(cloud) > moneyWorldProgressTimestamp(local));
+        const local = readMoneyWorldProgress(childId);
+        const cloudCompleted = cloud.completedStageIds.length;
+        const localCompleted = local.completedStageIds.length;
+        const cloudIsNewer = cloudCompleted > localCompleted
+          || (cloudCompleted === localCompleted && moneyWorldProgressTimestamp(cloud) > moneyWorldProgressTimestamp(local));
 
-      if (cloudIsNewer) {
-        replaceMoneyWorldProgress(childId, cloud);
-        return;
+        if (cloudIsNewer) {
+          replaceMoneyWorldProgress(childId, cloud);
+          return;
+        }
+
+        const localIsNewer = localCompleted > cloudCompleted
+          || (localCompleted === cloudCompleted && moneyWorldProgressTimestamp(local) > moneyWorldProgressTimestamp(cloud));
+        if (localIsNewer) void syncMoneyWorldProgressCloud(childId, local);
+      } finally {
+        if (!cancelled) setSettled(true);
       }
-
-      const localIsNewer = localCompleted > cloudCompleted
-        || (localCompleted === cloudCompleted && moneyWorldProgressTimestamp(local) > moneyWorldProgressTimestamp(cloud));
-      if (localIsNewer) void syncMoneyWorldProgressCloud(childId, local);
     };
 
     const frame = window.requestAnimationFrame(() => {
+      setSettled(false);
       refresh();
       void hydrateCloud();
     });
@@ -109,7 +115,7 @@ function useMoneyWorldProgress(childId: string) {
     };
   }, [childId]);
 
-  return { progress, ready };
+  return { progress, ready, settled };
 }
 
 function WorldHero({ compact = false }: { compact?: boolean }) {
@@ -957,7 +963,7 @@ function MoneyWorldStageRuntime({
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    if (!state.ready || hydrated || lastIndex < 0) return;
+    if (!state.ready || !state.settled || hydrated || lastIndex < 0) return;
     const resume = state.progress.currentStageId === stageId
       ? Math.min(lastIndex, state.progress.currentSegmentIndex)
       : 0;
@@ -969,7 +975,7 @@ function MoneyWorldStageRuntime({
       setHydrated(true);
     });
     return () => window.cancelAnimationFrame(frame);
-  }, [childId, hydrated, lastIndex, stageId, state.progress.currentSegmentIndex, state.progress.currentStageId, state.ready]);
+  }, [childId, hydrated, lastIndex, stageId, state.progress.currentSegmentIndex, state.progress.currentStageId, state.ready, state.settled]);
 
   const advance = () => {
     if (segmentIndex >= lastIndex) {
@@ -994,7 +1000,7 @@ function MoneyWorldStageRuntime({
   };
 
   if (!stage || !segments.length) return <div className={styles.runtimeError}>Stage belum memiliki segment runtime.</div>;
-  if (!state.ready || !hydrated) return <div className={styles.stageLoading}>Menyiapkan petualangan…</div>;
+  if (!state.ready || !state.settled || !hydrated) return <div className={styles.stageLoading}>Menyiapkan petualangan…</div>;
   if (completed) return <WorldStageCompletion childId={childId} stageId={stageId} onAgain={again} />;
 
   const segment = segments[segmentIndex];
@@ -1052,7 +1058,7 @@ export function MoneyWorldStageScreen({
     );
   }
 
-  if (!state.ready) return <main className={styles.stagePage}><div className={styles.stageLoading}>Memeriksa progres…</div></main>;
+  if (!state.ready || !state.settled) return <main className={styles.stagePage}><div className={styles.stageLoading}>Memeriksa progres…</div></main>;
 
   if (!isMoneyWorldStageUnlocked(state.progress, stageId)) {
     return (
