@@ -20,6 +20,7 @@ const require = createRequire(import.meta.url);
 const world = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorld.js"));
 const worldStructure = require(path.join(outDir, "src", "lib", "learning", "world", "worldStructure.js"));
 const moneyStructure = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldStructure.js"));
+const pilot = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldPilot.js"));
 const narration = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldNarration.js"));
 const ageMigration = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldAgeMigrationAudit.js"));
 const evidenceBridge = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldEvidenceBridge.js"));
@@ -65,6 +66,36 @@ try {
     moneyStructure.getMoneyWorldSceneForSegment("money-stage-01-money-use", "money-s01-activity-01")?.id,
     "money-scene-s01-money-price-match"
   );
+
+  assert.equal(pilot.MONEY_WORLD_PILOT_CONTRACT_VERSION, "money-world-pilot-v1");
+  assert.equal(pilot.MONEY_WORLD_PILOT_STAGES.length, 8, "pilot production manifest must cover all eight Stages");
+  assert.equal(pilot.MONEY_WORLD_PILOT_PRODUCTION_VALIDATION.valid, true, pilot.MONEY_WORLD_PILOT_PRODUCTION_VALIDATION.errors.join("; "));
+  assert.deepEqual(pilot.MONEY_WORLD_PILOT_PRODUCTION_VALIDATION.errors, []);
+  assert.deepEqual(
+    pilot.MONEY_WORLD_PILOT_STAGES.map((stage) => stage.stageId),
+    world.MONEY_WORLD_STAGES.map((stage) => stage.id),
+    "pilot Stage presentation must follow canonical World order"
+  );
+  const approvedAssetPaths = new Set(assets.MONEY_WORLD_REUSED_PUBLIC_ASSET_PATHS.map((asset) => asset.replace(/^public/, "")));
+  for (const stage of pilot.MONEY_WORLD_PILOT_STAGES) {
+    assert.equal(stage.runtimeStatus, "pilot-runtime-covered");
+    assert.equal(stage.assetStatus, "approved-reused");
+    assert.equal(stage.ambience.length, 3);
+    assert.ok(approvedAssetPaths.has(stage.backgroundWide), stage.stageId + " wide background must come from the approved World asset manifest");
+    assert.ok(approvedAssetPaths.has(stage.backgroundMobile), stage.stageId + " mobile background must come from the approved World asset manifest");
+    assert.equal(existsSync(path.join(root, "public" + stage.backgroundWide)), true, stage.stageId + " wide background file must exist");
+    assert.equal(existsSync(path.join(root, "public" + stage.backgroundMobile)), true, stage.stageId + " mobile background file must exist");
+    const scenes = moneyStructure.getMoneyWorldScenes(stage.stageId);
+    assert.equal(scenes[0]?.kind, "story", stage.stageId + " must start as authored story");
+    assert.ok(scenes.some((scene) => scene.kind === "challenge"), stage.stageId + " must include challenge gameplay");
+    assert.equal(scenes.at(-1)?.kind, "closing", stage.stageId + " must end in a closing Scene");
+  }
+
+  const worldRuntimeSource = readFileSync(path.join(root, "src/components/learning/world-v2/MoneyWorldExperience.tsx"), "utf8");
+  const worldRuntimeCss = readFileSync(path.join(root, "src/components/learning/world-v2/MoneyWorldExperience.module.css"), "utf8");
+  assert.doesNotMatch(worldRuntimeSource, /WORLD_STAGE_AMBIENCE/, "Stage ambience must be data-driven by the pilot manifest");
+  assert.doesNotMatch(worldRuntimeCss, /\.stageRuntime\[data-stage-order="[1-8]"\]\s*\{\s*--world-scene-wide/, "Stage background selection must not return to per-order CSS hardcoding");
+  assert.match(worldRuntimeSource, /getMoneyWorldPilotStage\(stageId\)/, "Stage runtime must resolve its pilot production manifest");
 
   assert.equal(presentation.MONEY_WORLD_PRESENTATION_POLICY.version, "money-world-presentation-v1");
   assert.equal(presentation.MONEY_WORLD_PRESENTATION_POLICY.pilotBandId, "6-8");
@@ -338,7 +369,7 @@ try {
     "current background reuse must remain explicitly approved in the pilot manifest"
   );
 
-  console.log("Petualangan Uang canonical World/Chapter/Stage/Scene/Segment hierarchy, eight-stage payload, linear progress, age policy/migration audit, fixed-narration contract, fail-closed evidence audit, practice boundary, low-text language, recap, mascot-dummy runtime policy, asset plan, and financial-safety contracts passed.");
+  console.log("Petualangan Uang canonical hierarchy, eight-stage production manifest, data-driven Stage visuals, linear progress, age policy/migration audit, fixed-narration contract, fail-closed evidence audit, practice boundary, low-text language, recap, mascot-dummy runtime policy, asset plan, and financial-safety contracts passed.");
 } finally {
   rmSync(outDir, { recursive: true, force: true });
 }
