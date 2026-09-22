@@ -544,6 +544,8 @@ async function main() {
       await initialWorldNext.waitFor();
       const worldStageShell = page.locator('[data-world-stage-shell="garden-baseline-v1"]');
       await worldStageShell.waitFor();
+      assert.equal(await worldStageShell.getAttribute("data-world-scene-id"), "money-scene-s01-opening", "Stage 1 must begin inside the authored opening Scene");
+      assert.equal(await worldStageShell.getAttribute("data-world-scene-kind"), "story", "opening Scene must expose its canonical kind");
       assert.equal(await page.locator('[data-world-runtime-character-policy="approved-mascot-dummy"]').count(), 1, "World Stage runtime must expose the approved mascot-dummy policy");
       assert.equal(await worldStageShell.getByRole("link", { name: "Kembali", exact: true }).count(), 1, "World Stage shell must keep the Garden-style back control");
       assert.equal(await worldStageShell.locator("[data-world-shell-hear]").count(), 1, "World Stage shell must keep a top-level Dengar control");
@@ -567,6 +569,8 @@ async function main() {
 
       const activityPromptHear = page.locator("[data-world-prompt-hear]").first();
       await activityPromptHear.waitFor();
+      assert.equal(await worldStageShell.getAttribute("data-world-scene-id"), "money-scene-s01-money-price-match", "first mini-game must advance into its authored challenge Scene");
+      assert.equal(await worldStageShell.getAttribute("data-world-scene-kind"), "challenge", "mini-game Scene must expose challenge kind");
       assert.ok(await page.locator('[role="img"][aria-label="Gavi"]').count() >= 1, "World activity shell must present approved Gavi artwork");
       assert.ok(await page.locator('[role="img"][aria-label="Paca"]').count() >= 1, "World activity shell must present approved Paca artwork");
       assert.equal(await page.locator('[role="img"][aria-label="Gian"]').count(), 0, "World activity shell must not activate fallback Gian artwork");
