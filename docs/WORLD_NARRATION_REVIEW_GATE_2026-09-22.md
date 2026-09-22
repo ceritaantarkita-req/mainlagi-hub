@@ -1,6 +1,6 @@
 # Mainlagi World — Narration Provider Pilot Human Review Gate — 22 September 2026
 
-Status: **IMPLEMENTED / PROVIDER-NEUTRAL / GENERATION STILL BLOCKED**
+Status: **VALIDATED GREEN / PROVIDER-NEUTRAL / GENERATION STILL BLOCKED**
 
 Branch:
 
@@ -196,3 +196,45 @@ voice identity + provider/source + rights boundary
 ```
 
 Until that is explicitly approved, generation must remain blocked.
+
+
+## 12. Green validation / checkpoint
+
+Exact validated head:
+
+```text
+a2e46c9c3b023f04c19042e1dabebe4a55f82053
+```
+
+Draft PR / CI:
+
+```text
+PR #282
+Mainlagi TV V3 CI #1429
+run 35732394571
+
+Quality gate (Ubuntu):        PASS
+Windows compatibility:        PASS
+Production build:             PASS
+Production dependency audit:  PASS
+Secret history scan:          PASS
+Mobile route QA (Chromium):   PASS
+overall:                      SUCCESS
+```
+
+Relevant artifacts:
+
+```text
+mobile-route-qa-screenshots — artifact 10696402137
+activity-quality-audit      — artifact 10696012304
+gameplay-distribution-audit — artifact 10696097090
+```
+
+Frozen immutable checkpoint:
+
+```text
+checkpoint/world-petualangan-uang-provider-pilot-review-green-20260922
+@ a2e46c9c3b023f04c19042e1dabebe4a55f82053
+```
+
+Do not move or force-push this checkpoint branch.
