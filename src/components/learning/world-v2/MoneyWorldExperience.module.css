@@ -1959,3 +1959,67 @@
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-4px); }
 }
+
+
+.recapScene {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 18px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 244, 169, .78), transparent 38%),
+    rgba(255, 253, 245, .92);
+}
+
+.recapGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  width: min(720px, 100%);
+  margin: 0 auto;
+}
+
+.recapCard {
+  min-height: 118px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 8px;
+  padding: 14px;
+  border: 2px solid rgba(211, 220, 194, .86);
+  border-radius: 22px;
+  background: rgba(255,255,255,.88);
+  text-align: center;
+  box-shadow: 0 5px 0 rgba(194, 207, 174, .48);
+}
+
+.recapCard > span {
+  font-size: 34px;
+  line-height: 1;
+}
+
+.recapCard > strong {
+  max-width: 150px;
+  font-size: 14px;
+  line-height: 1.25;
+}
+
+@media(max-width: 560px) {
+  .recapGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+  }
+
+  .recapCard {
+    min-height: 96px;
+    padding: 10px;
+  }
+
+  .recapCard > span {
+    font-size: 29px;
+  }
+
+  .recapCard > strong {
+    font-size: 12px;
+  }
+}
