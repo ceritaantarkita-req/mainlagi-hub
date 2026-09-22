@@ -382,7 +382,7 @@ Current ordered work:
 13. **DONE / GREEN / CHECKPOINTED** — provider-neutral four-cue human listening review gate validated by CI #1429 at `a2e46c9c...`; checkpoint `checkpoint/world-petualangan-uang-provider-pilot-review-green-20260922`;
 14. **DEFERRED WHILE NON-AUDIO WORK CONTINUES** — narration voice identity/source/rights decision remains required before the four-cue listening pilot may be generated;
 15. **DONE / GREEN / CHECKPOINTED** — semantic Chapter navigation + 320px map-hero polish validated by CI #1457 at `55505f17...`; checkpoint `checkpoint/world-petualangan-uang-visual-nav-polish-green-20260922`;
-16. **DONE on isolated branch, CI pending** — completion UX now derives canonical Chapter milestones, preserves ★★★ + Back / Again / Next + Share, and locks narrow mobile action layout;
+16. **DONE / GREEN / CHECKPOINTED** — completion UX derives canonical Chapter milestones, preserves ★★★ + Back / Again / Next + Share, and is validated by CI #1467 at `40436d41...`; checkpoint `checkpoint/world-petualangan-uang-completion-ux-green-20260922`;
 17. **NEXT NON-AUDIO PASS** — run an eight-Stage content consistency audit;
 18. then accessibility + performance/lazy-load passes;
 19. Gian/Naya visual character production remains paused;
