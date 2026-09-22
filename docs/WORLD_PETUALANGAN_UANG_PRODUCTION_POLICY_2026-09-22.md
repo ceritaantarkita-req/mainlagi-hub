@@ -308,6 +308,28 @@ Current runtime truth remains **0/88 approved**, so narration resolves to browse
 
 Detailed record: `WORLD_PETUALANGAN_UANG_NARRATION_PRODUCTION_2026-09-22.md`.
 
+## 10D. Reusable Scene presentation layer
+
+Production wave 05 adds a World-generic Scene presentation policy and renderer:
+
+```text
+src/lib/learning/world/worldScenePresentation.ts
+src/components/learning/world/WorldSceneRenderer.tsx
+docs/WORLD_SCENE_PRESENTATION_2026-09-22.md
+```
+
+The five canonical Scene kinds now resolve to reusable surfaces:
+
+```text
+story -> dialogue
+challenge -> activity
+choice -> choice
+recap -> recap
+closing -> payoff
+```
+
+Petualangan Uang no longer owns the ambient-companion visibility rule. It supplies Gavi/Paca as a companion slot while the generic Scene policy decides when that slot appears.
+
 ## 11. Evidence boundary remains unchanged
 
 This policy does **not** turn World activities into mastery evidence.
@@ -332,11 +354,11 @@ Current ordered work:
 2. **DONE on isolated branch** — canonical World -> Chapter -> Stage -> Scene -> Segment contract;
 3. **DONE on isolated branch** — eight-Stage Petualangan Uang pilot production manifest + closure QA;
 4. **DONE on isolated branch** — fixed narration production/review/resolution pipeline, currently 0/88 assets approved;
-5. **NEXT** — reusable Scene presentation/renderer layer on top of canonical `Scene.kind`;
-6. keep Gavi/Paca as the only active World runtime characters while character development is paused;
-7. create bespoke World social card after visual/narration identity is stable;
-8. replace approved reused backgrounds only where bespoke World art materially improves storytelling;
-9. rerun full visual/mobile/playthrough QA and freeze a new green checkpoint;
-10. only then revisit World -> Evidence bridge design.
+5. **DONE on isolated branch** — reusable Scene presentation/renderer layer for all five canonical Scene kinds;
+6. **NEXT** — end-to-end production QA, responsive cleanup and new green checkpoint;
+7. keep Gavi/Paca as the only active World runtime characters while character development is paused;
+8. create bespoke World social card after visual/narration identity is stable;
+9. replace approved reused backgrounds only where bespoke World art materially improves storytelling;
+10. only after a new green checkpoint revisit World -> Evidence bridge design.
 
 This policy is intentionally narrower than the long-term Mainlagi 3–12 ambition. It prevents the pilot runtime from drifting into an incoherent one-World-fits-all model.
