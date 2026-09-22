@@ -31,7 +31,7 @@ The first-instruction narration latency/preload wave is merged/live verified. En
 
 This is still a browser-dependent fallback improvement. Mainlagi does **not** yet claim final production-quality native Indonesian and English character narration.
 
-The English fixed-narration production-asset gate is now implemented on branch `agent/english-narration-asset-pipeline-20260922`: exact 27-slot provenance metadata, provider/right review fields, human pronunciation/child-learning approval fields, checksum validation, and stray-public-audio rejection. It currently approves **zero** production audio binaries and does not change runtime playback.
+The English fixed-narration production-asset gate is **merged/live verified** via PR #280 -> main `2cc7d5be...`, merged-main CI #1372 / run `35701448136` with exact Cloudflare production smoke. The gate locks exact 27-slot provenance metadata, provider/right review fields, human pronunciation/child-learning approval fields, checksum validation, registry/runtime transcript synchronization, and stray-public-audio rejection. It intentionally remains at **27 review-required / 0 approved production audio / 0 production binary / no static runtime activation**.
 
 Remaining work:
 
