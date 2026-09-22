@@ -32,10 +32,7 @@ try {
   const entries = production.MONEY_WORLD_NARRATION_PRODUCTION_ENTRIES;
 
   if (!validation.valid) {
-    console.error("Narration production manifest is invalid:");
-    for (const error of validation.errors) console.error("- " + error);
-    process.exitCode = 1;
-    process.exit();
+    throw new Error("Narration production manifest is invalid: " + validation.errors.join("; "));
   }
 
   const missingApprovedAssets = entries
@@ -43,10 +40,10 @@ try {
     .filter((entry) => !entry.productionSrc || !existsSync(path.join(root, "public" + entry.productionSrc)));
 
   if (missingApprovedAssets.length) {
-    console.error("Approved narration assets are missing:");
-    for (const entry of missingApprovedAssets) console.error("- " + entry.cueId + " -> " + entry.productionSrc);
-    process.exitCode = 1;
-    process.exit();
+    throw new Error(
+      "Approved narration assets are missing: " +
+      missingApprovedAssets.map((entry) => entry.cueId + " -> " + entry.productionSrc).join("; ")
+    );
   }
 
   const cueSheet = {
