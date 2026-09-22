@@ -154,9 +154,12 @@ export function validateMoneyWorldNarrationPilotReviewRecords(
       records.some((record) => record.cueId === cueId)
     );
 
+  if (!completeScope) {
+    errors.push("pilot review must cover the exact four-cue provider pilot scope");
+  }
+
   const accepted =
     errors.length === 0 &&
-    completeScope &&
     records.every((record) =>
       MONEY_WORLD_NARRATION_REVIEW_DIMENSION_IDS.every(
         (dimension) => record.decisions[dimension] === "pass"
@@ -166,9 +169,7 @@ export function validateMoneyWorldNarrationPilotReviewRecords(
   return {
     valid: errors.length === 0,
     accepted,
-    errors: completeScope
-      ? errors
-      : [...errors, "pilot review must cover the exact four-cue provider pilot scope"]
+    errors
   };
 }
 
