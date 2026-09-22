@@ -1,0 +1,302 @@
+# Mainlagi World — Petualangan Uang Safe Checkpoint — 22 September 2026
+
+Status: **SAFE CODE CHECKPOINT / DRAFT PR / NOT MERGED TO MAIN**  
+Repository: `ceritaantarkita-req/mainlagi-hub`  
+Branch: `feature/world-petualangan-uang-dummy-20260922`  
+Draft PR: **#272**  
+Production/main baseline at branch start: `8af5ce8a13d19f8aaeb3d8f06229dbcdeb555a41`  
+Accepted code checkpoint head: `5c76f9812a93eb7ef07fff1880af4da5af2b4927`
+
+## 1. Verification at this checkpoint
+
+Exact code head `5c76f9812a93eb7ef07fff1880af4da5af2b4927` passed PR CI:
+
+```text
+CI:                         #1290
+Run:                        35679390492
+Quality gate (Ubuntu):      PASS
+Windows compatibility:      PASS
+Secret history scan:        PASS
+Production dependency audit:PASS
+Production build:           PASS
+Mobile route QA (Chromium): PASS
+Production smoke:           skipped on draft PR, as expected
+```
+
+This is the safe rollback/restart point for the current World implementation. Later work should preserve this head as the known-green code checkpoint unless a newer checkpoint is explicitly recorded.
+
+## 2. Product boundary now implemented
+
+Child-facing top-level product model:
+
+```text
+Belajar | World | Bermain
+```
+
+World is now a separate child experience rather than a renamed subject page.
+
+Current pilot World:
+
+```text
+World: Petualangan Uang
+Theme: preparing Festival Mainlagi
+Structure: 2 Chapters × 4 Stages = 8 Stages
+Primary age presentation: 6–8
+Motion/camera dependency: none
+```
+
+The pilot stages are:
+
+1. Uang Buat Apa?
+2. Kok Jadi Lebih Mahal?
+3. Uang Datang dari Mana?
+4. Butuh atau Mau?
+5. Simpan Dulu Yuk
+6. Uang Bisa Bertambah?
+7. Kalau Naik dan Turun?
+8. Siapkan Festival!
+
+## 3. Runtime contract implemented
+
+The current runtime follows the agreed pattern:
+
+```text
+illustrated scene
+-> short narrative / concept beat
+-> mini-game or child choice
+-> short feedback / story continuation
+-> next segment
+-> Stage completion
+-> return to journey map
+```
+
+Important behavior now present:
+
+- story text is intentionally short;
+- fixed story segments are audio-first;
+- the child must attempt narration before advancing a narrative/concept/payoff segment;
+- if speech is muted or unavailable, readable caption text remains and progression fails open instead of trapping the child;
+- mini-game prompts have an explicit replayable **Dengar** control;
+- World remains usable without motion/camera;
+- Stage checkpoint/resume is persisted;
+- returning from a completed Stage focuses the next unlocked map stop.
+
+## 4. World map and progression
+
+The World map is now the main progression shell, not a generic list.
+
+Current behavior:
+
+- winding illustrated journey map;
+- Chapter 1 and Chapter 2 markers;
+- locked / unlocked / current / completed Stage states;
+- next playable Stage gets a visible current-journey marker;
+- each completed Stage shows three visual stars;
+- completion of Stage 4 grants the Chapter 1 milestone **Pilih Pintar**;
+- completing all 8 Stages changes the map to **Festival siap!**;
+- World completion stars remain separate from canonical Skill Mastery.
+
+Three-star World completion is currently a progression/reward signal. It is **not** canonical Belajar mastery evidence.
+
+## 5. Current illustrated environment pass
+
+This branch deliberately reuses approved existing Mainlagi artwork instead of introducing unreviewed binary art.
+
+Current environment mapping:
+
+```text
+World hero             -> existing warung artwork
+World map              -> existing Mainlagi garden artwork
+Stage 1                -> playground
+Stage 2                -> mini market
+Stage 3                -> warung
+Stage 4                -> mini market
+Stage 5                -> number park
+Stage 6                -> garden
+Stage 7                -> playground
+Stage 8                -> festival garden
+Ambient companions     -> existing Paca / Gavi artwork
+```
+
+The Stage runtime now layers narrative/activity UI over illustrated locations rather than replacing the World with white cards.
+
+Mobile rendering also reduces layered blur/backdrop effects to keep the illustrated World lighter on low/mid-range phones.
+
+## 6. Visual QA reviewed from CI artifacts
+
+World-specific CI screenshots include:
+
+```text
+390-child-demo-gian-worlds.png
+390-child-demo-gian-world-money-festival.png
+390-child-demo-gian-world-money-festival-stage-money-stage-01-money-use.png
+320-world-money-stage-01-complete.png
+390-world-money-stage-01-complete.png
+430-world-money-stage-01-complete.png
+390-world-money-stage-02-complete.png
+390-world-money-chapter-01-complete.png
+390-world-money-stage-05-order-complete.png
+390-world-money-stage-08-complete.png
+390-world-money-map-complete.png
+390-world-money-public-share.png
+```
+
+Spot review at this checkpoint confirms:
+
+- journey map is visually primary on mobile;
+- initial Stage runtime reads as an illustrated place rather than a lesson page;
+- audio-first state is visually clear;
+- completion actions fit at 320 / 390 / 430 widths;
+- Chapter 1 milestone is visible without overwhelming the completion card;
+- completed 8/8 journey visibly pays off on the map.
+
+No World-specific P0/P1 visual blocker was observed in the reviewed CI screenshots at this checkpoint.
+
+## 7. Mini-game architecture retained
+
+World content continues to use reusable mechanics instead of one source-code game per lesson.
+
+Current World pilot reuses/configures:
+
+- `drag_to_target`
+- `matching`
+- `compare`
+- `sort_classify`
+- `tap_choice`
+- `ordering_sequence`
+- `tap_choice + take_away presentation`
+- narrative choice
+
+The intended authoring rule remains:
+
+```text
+MECHANIC + CONTENT + ART + RULE = ACTIVITY
+```
+
+## 8. Final Stage recap
+
+Stage 8 now includes one visual recap before the final payoff.
+
+It shows six concrete learning moments:
+
+- barang punya harga;
+- harga bisa berubah;
+- kerja dan usaha;
+- pilih yang dibutuhkan;
+- simpan untuk nanti;
+- hasil punya risiko.
+
+The recap is visual and glanceable; it is not a long quiz or paragraph-heavy summary.
+
+## 9. Share and privacy boundary
+
+World completion retains:
+
+```text
+Back | Again | Next
+        Share
+```
+
+The existing server-side parent gate remains authoritative.
+
+Current fallback share options align with the shared Mainlagi completion surface:
+
+- Copy link
+- native device share
+- WhatsApp
+- Telegram
+- X
+- Facebook
+- Threads
+
+The public shared page is `/worlds/money-festival` and now has World-specific Open Graph/Twitter metadata.
+
+Share payloads use a public World URL and generic completion message; they do not include child ID, account ID, mastery score, or private child progress.
+
+Local/unconfigured QA still follows the existing project rule that the share gate is allowed. Configured production still requires the authenticated parent gate.
+
+## 10. Progress and learning boundary
+
+World progress is intentionally separate from canonical Belajar mastery.
+
+Implemented World persistence:
+
+- local/offline checkpoint fallback;
+- authenticated `child_world_progress` cloud path;
+- account-owned read boundary;
+- server-owned `save_world_progress` write path;
+- ownership + registered World + bounded segment + linear completion validation;
+- fail-closed normalization of invalid local progress.
+
+Not implemented by design:
+
+- World completion does not automatically award canonical mastery;
+- World does not bypass `record_learning_attempt`;
+- World does not issue Belajar certificates/achievements;
+- World does not weaken Belajar progression rules.
+
+A future World -> Evidence bridge must be designed explicitly against the existing learning activity/evidence contract.
+
+## 11. Current non-final assets / deliberate temporary boundaries
+
+The following are still prototype/production-gap areas, not hidden as complete:
+
+- Naya/Gian/Zia still do not have approved production foreground character binaries;
+- the World currently uses existing fallback/avatar representation for human characters;
+- narration uses the existing browser/AudioManager speech path, not final recorded character voice production;
+- social preview currently reuses the safe existing `/og/math-warung.png`, not a custom final World share card;
+- the World art pass reuses existing Mainlagi backgrounds rather than a final bespoke 8-Stage World art pack;
+- World activity attempts remain practice/completion-only with respect to canonical mastery.
+
+## 12. Important failures already found and fixed during this wave
+
+Do not reintroduce these:
+
+- synchronous state reset inside the narration effect triggered the React lint gate;
+- old browser QA tried to click disabled **Lanjut** without satisfying the new audio-first gate;
+- local QA incorrectly expected production parent-share denial even though the canonical local/unconfigured rule permits QA sharing;
+- optional mechanic prompts were passed into a required-string audio helper and failed TypeScript;
+- earlier World visuals were too card-centric; the map/runtime were changed to use illustrated environments as the primary surface.
+
+Exact head `5c76f9812a93eb7ef07fff1880af4da5af2b4927` is green after these fixes.
+
+## 13. Safe next work
+
+Do not merge PR #272 only because the dummy is now functional.
+
+Recommended next sequence:
+
+1. keep this checkpoint and the PR draft intact;
+2. review World-specific CI screenshots with the product owner;
+3. if the visual direction is accepted, create the final World visual asset plan rather than adding ad-hoc images;
+4. decide whether the pilot remains 6–8 only or receives explicit 3–5 / 9–12 presentation policies before generalizing the runtime;
+5. decide the future World -> canonical Evidence bridge separately from World progress;
+6. replace temporary human/avatar and narration assets only through the existing character/provenance/audio quality gates;
+7. create a custom public World share card after visual identity is locked;
+8. only after those decisions, evaluate merge/integration into `main`.
+
+## 14. Restart instructions for another agent
+
+Another developer/agent should begin by reading:
+
+1. this checkpoint;
+2. PR #272 description;
+3. `src/lib/learning/world/moneyWorld.ts`;
+4. `src/lib/learning/world/progress.ts`;
+5. `src/components/learning/world-v2/MoneyWorldExperience.tsx`;
+6. `src/components/learning/world-v2/MoneyWorldExperience.module.css`;
+7. `scripts/run-world-money-tests.mjs`;
+8. `scripts/run-mobile-route-browser-tests.mjs`;
+9. the World migrations in `supabase/migrations/`;
+10. existing canonical learning/evidence docs before designing any mastery bridge.
+
+Before editing, verify:
+
+```text
+branch is still the isolated World branch
+main has not moved in a way that requires rebase/reconciliation
+PR #272 remains draft unless the product owner explicitly approves integration
+the latest known-green World code checkpoint is preserved
+```
+
+This file is a safe handoff/checkpoint, not a declaration that the World is already production-complete.
