@@ -1,6 +1,6 @@
 # Mainlagi World — Narration Provider/Voice Pilot Scope — 22 September 2026
 
-Status: **DECISION-READY / GENERATION BLOCKED / NO PROVIDER SELECTED**
+Status: **VALIDATED GREEN / DECISION-READY / GENERATION BLOCKED / NO PROVIDER SELECTED**
 
 Branch:
 
@@ -128,3 +128,39 @@ runtime fixed audio activated:NO
 ```
 
 This is a decision-ready handoff, not an implicit authorization.
+
+
+## 8. Green validation / checkpoint
+
+Exact validated head:
+
+```text
+76443c05dcf6f50a0e65787180f7c13542ca87f9
+```
+
+Draft PR / CI:
+
+```text
+PR #282
+Mainlagi TV V3 CI #1414
+run 35725346949
+
+Quality gate (Ubuntu):        PASS
+Windows compatibility:        PASS
+Production build:             PASS
+Production dependency audit:  PASS
+Secret history scan:          PASS
+Mobile route QA (Chromium):   PASS
+overall:                      SUCCESS
+```
+
+Frozen immutable checkpoint:
+
+```text
+checkpoint/world-petualangan-uang-provider-pilot-green-20260922
+@ 76443c05dcf6f50a0e65787180f7c13542ca87f9
+```
+
+Do not move or force-push this checkpoint branch.
+
+This checkpoint freezes only the four-cue provider-neutral pilot scope and its fail-closed decision boundary. It does not select or authorize any provider/voice.
