@@ -143,6 +143,12 @@ try {
   assert.match(worldRuntimeSource, /data-world-chapter-id/, "World map and Stage shell must expose canonical Chapter identity for QA");
   assert.match(worldRuntimeSource, /data-world-chapter-label/, "Stage shell must render authored Chapter context");
   assert.match(worldRuntimeSource, /chapter\.stageIds\.filter/, "Chapter progress must derive from canonical Chapter membership and completed Stage IDs");
+  assert.match(worldRuntimeSource, /chapter\.stageIds\.at\(-1\) === stageId/, "Chapter completion milestone must derive from canonical Chapter membership");
+  assert.match(worldRuntimeSource, /data-world-completion-stage/, "Stage completion must expose stable Stage identity for QA");
+  assert.match(worldRuntimeSource, /data-world-completion-chapter/, "Stage completion must expose canonical Chapter identity for QA");
+  assert.match(worldRuntimeSource, /data-world-completion-final/, "Stage completion must expose final-World status for QA");
+  assert.match(worldRuntimeSource, /data-world-completion-context/, "Stage completion must expose concise Chapter/Stage context");
+  assert.doesNotMatch(worldRuntimeSource, /chapterOneComplete|stage\?\.order === 4/, "Chapter completion must not regress to Stage-4 hardcoding");
   assert.match(worldSceneRendererSource, /getWorldScenePresentation\(scene\.kind\)/, "reusable Scene renderer must resolve canonical Scene.kind policy");
   assert.match(worldSceneRendererSource, /data-world-scene-presentation/, "reusable Scene renderer must expose its presentation surface for QA");
   assert.match(worldRuntimeSource, /sceneSegmentPosition = activeScene\.segmentIds\.indexOf\(segment\.id\) \+ 1/, "Scene-local progress must derive from authored Scene membership");
@@ -150,6 +156,9 @@ try {
   assert.match(worldRuntimeCss, /Production wave 06: Scene wrapper responsive fit/, "World CSS must retain the mobile Scene-wrapper fit correction");
   assert.match(worldRuntimeCss, /\.chapterMapBanner/, "World map must retain semantic Chapter banner styling");
   assert.doesNotMatch(worldRuntimeCss, /content:\s*"Chapter 1|content:\s*"Chapter 2/, "Chapter titles must not be hardcoded as CSS pseudo-content");
+  assert.match(worldRuntimeCss, /Production wave 13: Stage completion UX polish/, "World CSS must retain completion UX polish");
+  assert.match(worldRuntimeCss, /\.completionActions\s*\{[\s\S]*grid-template-columns:\s*repeat\(3,\s*minmax\(0,\s*1fr\)\)/, "completion navigation must remain one compact three-action row on mobile");
+  assert.match(worldRuntimeCss, /\.shareButton\s*\{[\s\S]*width:\s*min\(590px,\s*100%\)/, "Share must remain a separate full completion action below navigation");
 
   assert.equal(presentation.MONEY_WORLD_PRESENTATION_POLICY.version, "money-world-presentation-v1");
   assert.equal(presentation.MONEY_WORLD_PRESENTATION_POLICY.pilotBandId, "6-8");
@@ -573,7 +582,7 @@ try {
       (narrationAssetRegression.stderr ?? "")
   );
 
-  console.log("Petualangan Uang canonical hierarchy, semantic Chapter navigation, reusable Scene renderer/presentation policy, eight-stage production manifest, dedicated public-safe social card, data-driven Stage visuals, fixed-narration production/review resolver, narration binary provenance gate, provider-neutral four-cue pilot review gate, linear progress, age policy/migration audit, fail-closed evidence audit, practice boundary, low-text language, recap, mascot-dummy runtime policy, asset plan, and financial-safety contracts passed.");
+  console.log("Petualangan Uang canonical hierarchy, semantic Chapter navigation, polished Stage completion UX, reusable Scene renderer/presentation policy, eight-stage production manifest, dedicated public-safe social card, data-driven Stage visuals, fixed-narration production/review resolver, narration binary provenance gate, provider-neutral four-cue pilot review gate, linear progress, age policy/migration audit, fail-closed evidence audit, practice boundary, low-text language, recap, mascot-dummy runtime policy, asset plan, and financial-safety contracts passed.");
 } finally {
   rmSync(outDir, { recursive: true, force: true });
 }
