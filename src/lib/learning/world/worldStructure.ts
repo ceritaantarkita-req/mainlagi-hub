@@ -115,8 +115,16 @@ export function validateCanonicalWorldStructure(
   for (const duplicate of duplicateIds(sceneIds)) errors.push("duplicate scene id: " + duplicate);
 
   const orderedChapters = [...structure.chapters].sort((a, b) => a.order - b.order);
+  if (!orderedChapters.every((chapter, index) => chapter.order === index + 1)) {
+    errors.push("chapter order must be contiguous from 1");
+  }
   if (!equalOrder(structure.world.chapterIds, orderedChapters.map((chapter) => chapter.id))) {
     errors.push("world.chapterIds must match chapter order exactly");
+  }
+
+  const orderedStages = [...structure.stages].sort((a, b) => a.order - b.order);
+  if (!orderedStages.every((stage, index) => stage.order === index + 1)) {
+    errors.push("stage order must be contiguous from 1 across the World");
   }
 
   for (const chapter of structure.chapters) {
@@ -167,6 +175,11 @@ export function validateCanonicalWorldStructure(
     if (!equalOrder(flattened, expected)) {
       errors.push("stage " + stage.id + " scene coverage/order does not match source segments");
     }
+  }
+
+  const allSegmentIds = structure.scenes.flatMap((scene) => [...scene.segmentIds]);
+  for (const duplicate of duplicateIds(allSegmentIds)) {
+    errors.push("segment id is not globally unique: " + duplicate);
   }
 
   for (const scene of structure.scenes) {
