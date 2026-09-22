@@ -199,6 +199,9 @@ async function inspectPage(page, route, viewport) {
         "Mulai petualangan →",
         "fresh World catalog must offer a clear start CTA"
       );
+      const agePolicy = page.locator('[data-world-age-policy="pilot-6-8"]');
+      await agePolicy.waitFor();
+      assert.equal(await agePolicy.textContent(), "Usia rekomendasi 6–8", "World catalog must expose the explicit 6–8 pilot age policy");
     }
 
     if (route.path === "/child/demo-gian/world/money-festival" && viewport.width <= 430) {
