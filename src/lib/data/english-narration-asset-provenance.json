@@ -1,0 +1,871 @@
+{
+  "version": 1,
+  "scope": "english-learning-fixed-narration",
+  "productionDirectory": "/audio/narration/en",
+  "items": {
+    "english-find-blue-audio": {
+      "lifecycle": "review-required",
+      "activityId": "english-find-blue-audio",
+      "language": "en-US",
+      "transcript": "Blue.",
+      "expectedProductionPath": "/audio/narration/en/english-find-blue-audio-v1.mp3",
+      "productionPath": null,
+      "provider": {
+        "status": "pending",
+        "name": null,
+        "model": null,
+        "voice": null,
+        "sourceTerms": null,
+        "rightsBasis": null,
+        "commercialUseAllowed": false,
+        "redistributionAllowed": false,
+        "aiDisclosureRequired": null,
+        "reviewedAt": null
+      },
+      "review": {
+        "pronunciationStatus": "pending",
+        "childLearningStatus": "pending",
+        "reviewedBy": null,
+        "reviewedAt": null
+      },
+      "technical": {
+        "format": "mp3",
+        "minBytes": 512,
+        "maxBytes": 500000,
+        "sha256": null
+      }
+    },
+    "english-listen-cat": {
+      "lifecycle": "review-required",
+      "activityId": "english-listen-cat",
+      "language": "en-US",
+      "transcript": "Cat.",
+      "expectedProductionPath": "/audio/narration/en/english-listen-cat-v1.mp3",
+      "productionPath": null,
+      "provider": {
+        "status": "pending",
+        "name": null,
+        "model": null,
+        "voice": null,
+        "sourceTerms": null,
+        "rightsBasis": null,
+        "commercialUseAllowed": false,
+        "redistributionAllowed": false,
+        "aiDisclosureRequired": null,
+        "reviewedAt": null
+      },
+      "review": {
+        "pronunciationStatus": "pending",
+        "childLearningStatus": "pending",
+        "reviewedBy": null,
+        "reviewedAt": null
+      },
+      "technical": {
+        "format": "mp3",
+        "minBytes": 512,
+        "maxBytes": 500000,
+        "sha256": null
+      }
+    },
+    "english-listen-cat-2": {
+      "lifecycle": "review-required",
+      "activityId": "english-listen-cat-2",
+      "language": "en-US",
+      "transcript": "Cat.",
+      "expectedProductionPath": "/audio/narration/en/english-listen-cat-2-v1.mp3",
+      "productionPath": null,
+      "provider": {
+        "status": "pending",
+        "name": null,
+        "model": null,
+        "voice": null,
+        "sourceTerms": null,
+        "rightsBasis": null,
+        "commercialUseAllowed": false,
+        "redistributionAllowed": false,
+        "aiDisclosureRequired": null,
+        "reviewedAt": null
+      },
+      "review": {
+        "pronunciationStatus": "pending",
+        "childLearningStatus": "pending",
+        "reviewedBy": null,
+        "reviewedAt": null
+      },
+      "technical": {
+        "format": "mp3",
+        "minBytes": 512,
+        "maxBytes": 500000,
+        "sha256": null
+      }
+    },
+    "english-listen-letter-a": {
+      "lifecycle": "review-required",
+      "activityId": "english-listen-letter-a",
+      "language": "en-US",
+      "transcript": "Letter A.",
+      "expectedProductionPath": "/audio/narration/en/english-listen-letter-a-v1.mp3",
+      "productionPath": null,
+      "provider": {
+        "status": "pending",
+        "name": null,
+        "model": null,
+        "voice": null,
+        "sourceTerms": null,
+        "rightsBasis": null,
+        "commercialUseAllowed": false,
+        "redistributionAllowed": false,
+        "aiDisclosureRequired": null,
+        "reviewedAt": null
+      },
+      "review": {
+        "pronunciationStatus": "pending",
+        "childLearningStatus": "pending",
+        "reviewedBy": null,
+        "reviewedAt": null
+      },
+      "technical": {
+        "format": "mp3",
+        "minBytes": 512,
+        "maxBytes": 500000,
+        "sha256": null
+      }
+    },
+    "english-listen-letter-m": {
+      "lifecycle": "review-required",
+      "activityId": "english-listen-letter-m",
+      "language": "en-US",
+      "transcript": "Letter M.",
+      "expectedProductionPath": "/audio/narration/en/english-listen-letter-m-v1.mp3",
+      "productionPath": null,
+      "provider": {
+        "status": "pending",
+        "name": null,
+        "model": null,
+        "voice": null,
+        "sourceTerms": null,
+        "rightsBasis": null,
+        "commercialUseAllowed": false,
+        "redistributionAllowed": false,
+        "aiDisclosureRequired": null,
+        "reviewedAt": null
+      },
+      "review": {
+        "pronunciationStatus": "pending",
+        "childLearningStatus": "pending",
+        "reviewedBy": null,
+        "reviewedAt": null
+      },
+      "technical": {
+        "format": "mp3",
+        "minBytes": 512,
+        "maxBytes": 500000,
+        "sha256": null
+      }
+    },
+    "english-listen-yellow": {
+      "lifecycle": "review-required",
+      "activityId": "english-listen-yellow",
+      "language": "en-US",
+      "transcript": "Yellow.",
+      "expectedProductionPath": "/audio/narration/en/english-listen-yellow-v1.mp3",
+      "productionPath": null,
+      "provider": {
+        "status": "pending",
+        "name": null,
+        "model": null,
+        "voice": null,
+        "sourceTerms": null,
+        "rightsBasis": null,
+        "commercialUseAllowed": false,
+        "redistributionAllowed": false,
+        "aiDisclosureRequired": null,
+        "reviewedAt": null
+      },
+      "review": {
+        "pronunciationStatus": "pending",
+        "childLearningStatus": "pending",
+        "reviewedBy": null,
+        "reviewedAt": null
+      },
+      "technical": {
+        "format": "mp3",
+        "minBytes": 512,
+        "maxBytes": 500000,
+        "sha256": null
+      }
+    },
+    "english-listen-three": {
+      "lifecycle": "review-required",
+      "activityId": "english-listen-three",
+      "language": "en-US",
+      "transcript": "Three.",
+      "expectedProductionPath": "/audio/narration/en/english-listen-three-v1.mp3",
+      "productionPath": null,
+      "provider": {
+        "status": "pending",
+        "name": null,
+        "model": null,
+        "voice": null,
+        "sourceTerms": null,
+        "rightsBasis": null,
+        "commercialUseAllowed": false,
+        "redistributionAllowed": false,
+        "aiDisclosureRequired": null,
+        "reviewedAt": null
+      },
+      "review": {
+        "pronunciationStatus": "pending",
+        "childLearningStatus": "pending",
+        "reviewedBy": null,
+        "reviewedAt": null
+      },
+      "technical": {
+        "format": "mp3",
+        "minBytes": 512,
+        "maxBytes": 500000,
+        "sha256": null
+      }
+    },
+    "english-listen-bird": {
+      "lifecycle": "review-required",
+      "activityId": "english-listen-bird",
+      "language": "en-US",
+      "transcript": "Bird.",
+      "expectedProductionPath": "/audio/narration/en/english-listen-bird-v1.mp3",
+      "productionPath": null,
+      "provider": {
+        "status": "pending",
+        "name": null,
+        "model": null,
+        "voice": null,
+        "sourceTerms": null,
+        "rightsBasis": null,
+        "commercialUseAllowed": false,
+        "redistributionAllowed": false,
+        "aiDisclosureRequired": null,
+        "reviewedAt": null
+      },
+      "review": {
+        "pronunciationStatus": "pending",
+        "childLearningStatus": "pending",
+        "reviewedBy": null,
+        "reviewedAt": null
+      },
+      "technical": {
+        "format": "mp3",
+        "minBytes": 512,
+        "maxBytes": 500000,
+        "sha256": null
+      }
+    },
+    "english-listen-bag": {
+      "lifecycle": "review-required",
+      "activityId": "english-listen-bag",
+      "language": "en-US",
+      "transcript": "Bag.",
+      "expectedProductionPath": "/audio/narration/en/english-listen-bag-v1.mp3",
+      "productionPath": null,
+      "provider": {
+        "status": "pending",
+        "name": null,
+        "model": null,
+        "voice": null,
+        "sourceTerms": null,
+        "rightsBasis": null,
+        "commercialUseAllowed": false,
+        "redistributionAllowed": false,
+        "aiDisclosureRequired": null,
+        "reviewedAt": null
+      },
+      "review": {
+        "pronunciationStatus": "pending",
+        "childLearningStatus": "pending",
+        "reviewedBy": null,
+        "reviewedAt": null
+      },
+      "technical": {
+        "format": "mp3",
+        "minBytes": 512,
+        "maxBytes": 500000,
+        "sha256": null
+      }
+    },
+    "english-listen-eyes": {
+      "lifecycle": "review-required",
+      "activityId": "english-listen-eyes",
+      "language": "en-US",
+      "transcript": "Eyes.",
+      "expectedProductionPath": "/audio/narration/en/english-listen-eyes-v1.mp3",
+      "productionPath": null,
+      "provider": {
+        "status": "pending",
+        "name": null,
+        "model": null,
+        "voice": null,
+        "sourceTerms": null,
+        "rightsBasis": null,
+        "commercialUseAllowed": false,
+        "redistributionAllowed": false,
+        "aiDisclosureRequired": null,
+        "reviewedAt": null
+      },
+      "review": {
+        "pronunciationStatus": "pending",
+        "childLearningStatus": "pending",
+        "reviewedBy": null,
+        "reviewedAt": null
+      },
+      "technical": {
+        "format": "mp3",
+        "minBytes": 512,
+        "maxBytes": 500000,
+        "sha256": null
+      }
+    },
+    "english-listen-sister": {
+      "lifecycle": "review-required",
+      "activityId": "english-listen-sister",
+      "language": "en-US",
+      "transcript": "Sister.",
+      "expectedProductionPath": "/audio/narration/en/english-listen-sister-v1.mp3",
+      "productionPath": null,
+      "provider": {
+        "status": "pending",
+        "name": null,
+        "model": null,
+        "voice": null,
+        "sourceTerms": null,
+        "rightsBasis": null,
+        "commercialUseAllowed": false,
+        "redistributionAllowed": false,
+        "aiDisclosureRequired": null,
+        "reviewedAt": null
+      },
+      "review": {
+        "pronunciationStatus": "pending",
+        "childLearningStatus": "pending",
+        "reviewedBy": null,
+        "reviewedAt": null
+      },
+      "technical": {
+        "format": "mp3",
+        "minBytes": 512,
+        "maxBytes": 500000,
+        "sha256": null
+      }
+    },
+    "english-review-listen-father": {
+      "lifecycle": "review-required",
+      "activityId": "english-review-listen-father",
+      "language": "en-US",
+      "transcript": "Father.",
+      "expectedProductionPath": "/audio/narration/en/english-review-listen-father-v1.mp3",
+      "productionPath": null,
+      "provider": {
+        "status": "pending",
+        "name": null,
+        "model": null,
+        "voice": null,
+        "sourceTerms": null,
+        "rightsBasis": null,
+        "commercialUseAllowed": false,
+        "redistributionAllowed": false,
+        "aiDisclosureRequired": null,
+        "reviewedAt": null
+      },
+      "review": {
+        "pronunciationStatus": "pending",
+        "childLearningStatus": "pending",
+        "reviewedBy": null,
+        "reviewedAt": null
+      },
+      "technical": {
+        "format": "mp3",
+        "minBytes": 512,
+        "maxBytes": 500000,
+        "sha256": null
+      }
+    },
+    "english-review-listen-fish": {
+      "lifecycle": "review-required",
+      "activityId": "english-review-listen-fish",
+      "language": "en-US",
+      "transcript": "Fish.",
+      "expectedProductionPath": "/audio/narration/en/english-review-listen-fish-v1.mp3",
+      "productionPath": null,
+      "provider": {
+        "status": "pending",
+        "name": null,
+        "model": null,
+        "voice": null,
+        "sourceTerms": null,
+        "rightsBasis": null,
+        "commercialUseAllowed": false,
+        "redistributionAllowed": false,
+        "aiDisclosureRequired": null,
+        "reviewedAt": null
+      },
+      "review": {
+        "pronunciationStatus": "pending",
+        "childLearningStatus": "pending",
+        "reviewedBy": null,
+        "reviewedAt": null
+      },
+      "technical": {
+        "format": "mp3",
+        "minBytes": 512,
+        "maxBytes": 500000,
+        "sha256": null
+      }
+    },
+    "english-listen-milk": {
+      "lifecycle": "review-required",
+      "activityId": "english-listen-milk",
+      "language": "en-US",
+      "transcript": "Milk.",
+      "expectedProductionPath": "/audio/narration/en/english-listen-milk-v1.mp3",
+      "productionPath": null,
+      "provider": {
+        "status": "pending",
+        "name": null,
+        "model": null,
+        "voice": null,
+        "sourceTerms": null,
+        "rightsBasis": null,
+        "commercialUseAllowed": false,
+        "redistributionAllowed": false,
+        "aiDisclosureRequired": null,
+        "reviewedAt": null
+      },
+      "review": {
+        "pronunciationStatus": "pending",
+        "childLearningStatus": "pending",
+        "reviewedBy": null,
+        "reviewedAt": null
+      },
+      "technical": {
+        "format": "mp3",
+        "minBytes": 512,
+        "maxBytes": 500000,
+        "sha256": null
+      }
+    },
+    "english-listen-sleep": {
+      "lifecycle": "review-required",
+      "activityId": "english-listen-sleep",
+      "language": "en-US",
+      "transcript": "Sleep.",
+      "expectedProductionPath": "/audio/narration/en/english-listen-sleep-v1.mp3",
+      "productionPath": null,
+      "provider": {
+        "status": "pending",
+        "name": null,
+        "model": null,
+        "voice": null,
+        "sourceTerms": null,
+        "rightsBasis": null,
+        "commercialUseAllowed": false,
+        "redistributionAllowed": false,
+        "aiDisclosureRequired": null,
+        "reviewedAt": null
+      },
+      "review": {
+        "pronunciationStatus": "pending",
+        "childLearningStatus": "pending",
+        "reviewedBy": null,
+        "reviewedAt": null
+      },
+      "technical": {
+        "format": "mp3",
+        "minBytes": 512,
+        "maxBytes": 500000,
+        "sha256": null
+      }
+    },
+    "english-listen-apple-review": {
+      "lifecycle": "review-required",
+      "activityId": "english-listen-apple-review",
+      "language": "en-US",
+      "transcript": "Apple.",
+      "expectedProductionPath": "/audio/narration/en/english-listen-apple-review-v1.mp3",
+      "productionPath": null,
+      "provider": {
+        "status": "pending",
+        "name": null,
+        "model": null,
+        "voice": null,
+        "sourceTerms": null,
+        "rightsBasis": null,
+        "commercialUseAllowed": false,
+        "redistributionAllowed": false,
+        "aiDisclosureRequired": null,
+        "reviewedAt": null
+      },
+      "review": {
+        "pronunciationStatus": "pending",
+        "childLearningStatus": "pending",
+        "reviewedBy": null,
+        "reviewedAt": null
+      },
+      "technical": {
+        "format": "mp3",
+        "minBytes": 512,
+        "maxBytes": 500000,
+        "sha256": null
+      }
+    },
+    "english-listen-jump-review": {
+      "lifecycle": "review-required",
+      "activityId": "english-listen-jump-review",
+      "language": "en-US",
+      "transcript": "Jump.",
+      "expectedProductionPath": "/audio/narration/en/english-listen-jump-review-v1.mp3",
+      "productionPath": null,
+      "provider": {
+        "status": "pending",
+        "name": null,
+        "model": null,
+        "voice": null,
+        "sourceTerms": null,
+        "rightsBasis": null,
+        "commercialUseAllowed": false,
+        "redistributionAllowed": false,
+        "aiDisclosureRequired": null,
+        "reviewedAt": null
+      },
+      "review": {
+        "pronunciationStatus": "pending",
+        "childLearningStatus": "pending",
+        "reviewedBy": null,
+        "reviewedAt": null
+      },
+      "technical": {
+        "format": "mp3",
+        "minBytes": 512,
+        "maxBytes": 500000,
+        "sha256": null
+      }
+    },
+    "english-listen-book-review": {
+      "lifecycle": "review-required",
+      "activityId": "english-listen-book-review",
+      "language": "en-US",
+      "transcript": "Book.",
+      "expectedProductionPath": "/audio/narration/en/english-listen-book-review-v1.mp3",
+      "productionPath": null,
+      "provider": {
+        "status": "pending",
+        "name": null,
+        "model": null,
+        "voice": null,
+        "sourceTerms": null,
+        "rightsBasis": null,
+        "commercialUseAllowed": false,
+        "redistributionAllowed": false,
+        "aiDisclosureRequired": null,
+        "reviewedAt": null
+      },
+      "review": {
+        "pronunciationStatus": "pending",
+        "childLearningStatus": "pending",
+        "reviewedBy": null,
+        "reviewedAt": null
+      },
+      "technical": {
+        "format": "mp3",
+        "minBytes": 512,
+        "maxBytes": 500000,
+        "sha256": null
+      }
+    },
+    "english-listen-hand-review": {
+      "lifecycle": "review-required",
+      "activityId": "english-listen-hand-review",
+      "language": "en-US",
+      "transcript": "Hand.",
+      "expectedProductionPath": "/audio/narration/en/english-listen-hand-review-v1.mp3",
+      "productionPath": null,
+      "provider": {
+        "status": "pending",
+        "name": null,
+        "model": null,
+        "voice": null,
+        "sourceTerms": null,
+        "rightsBasis": null,
+        "commercialUseAllowed": false,
+        "redistributionAllowed": false,
+        "aiDisclosureRequired": null,
+        "reviewedAt": null
+      },
+      "review": {
+        "pronunciationStatus": "pending",
+        "childLearningStatus": "pending",
+        "reviewedBy": null,
+        "reviewedAt": null
+      },
+      "technical": {
+        "format": "mp3",
+        "minBytes": 512,
+        "maxBytes": 500000,
+        "sha256": null
+      }
+    },
+    "english-listen-baby-review": {
+      "lifecycle": "review-required",
+      "activityId": "english-listen-baby-review",
+      "language": "en-US",
+      "transcript": "Baby.",
+      "expectedProductionPath": "/audio/narration/en/english-listen-baby-review-v1.mp3",
+      "productionPath": null,
+      "provider": {
+        "status": "pending",
+        "name": null,
+        "model": null,
+        "voice": null,
+        "sourceTerms": null,
+        "rightsBasis": null,
+        "commercialUseAllowed": false,
+        "redistributionAllowed": false,
+        "aiDisclosureRequired": null,
+        "reviewedAt": null
+      },
+      "review": {
+        "pronunciationStatus": "pending",
+        "childLearningStatus": "pending",
+        "reviewedBy": null,
+        "reviewedAt": null
+      },
+      "technical": {
+        "format": "mp3",
+        "minBytes": 512,
+        "maxBytes": 500000,
+        "sha256": null
+      }
+    },
+    "english-listen-phrase-blue-book": {
+      "lifecycle": "review-required",
+      "activityId": "english-listen-phrase-blue-book",
+      "language": "en-US",
+      "transcript": "A blue book.",
+      "expectedProductionPath": "/audio/narration/en/english-listen-phrase-blue-book-v1.mp3",
+      "productionPath": null,
+      "provider": {
+        "status": "pending",
+        "name": null,
+        "model": null,
+        "voice": null,
+        "sourceTerms": null,
+        "rightsBasis": null,
+        "commercialUseAllowed": false,
+        "redistributionAllowed": false,
+        "aiDisclosureRequired": null,
+        "reviewedAt": null
+      },
+      "review": {
+        "pronunciationStatus": "pending",
+        "childLearningStatus": "pending",
+        "reviewedBy": null,
+        "reviewedAt": null
+      },
+      "technical": {
+        "format": "mp3",
+        "minBytes": 512,
+        "maxBytes": 500000,
+        "sha256": null
+      }
+    },
+    "english-review-listen-yellow-ball": {
+      "lifecycle": "review-required",
+      "activityId": "english-review-listen-yellow-ball",
+      "language": "en-US",
+      "transcript": "A yellow ball.",
+      "expectedProductionPath": "/audio/narration/en/english-review-listen-yellow-ball-v1.mp3",
+      "productionPath": null,
+      "provider": {
+        "status": "pending",
+        "name": null,
+        "model": null,
+        "voice": null,
+        "sourceTerms": null,
+        "rightsBasis": null,
+        "commercialUseAllowed": false,
+        "redistributionAllowed": false,
+        "aiDisclosureRequired": null,
+        "reviewedAt": null
+      },
+      "review": {
+        "pronunciationStatus": "pending",
+        "childLearningStatus": "pending",
+        "reviewedBy": null,
+        "reviewedAt": null
+      },
+      "technical": {
+        "format": "mp3",
+        "minBytes": 512,
+        "maxBytes": 500000,
+        "sha256": null
+      }
+    },
+    "english-detail-red-ball": {
+      "lifecycle": "review-required",
+      "activityId": "english-detail-red-ball",
+      "language": "en-US",
+      "transcript": "The ball is red. What color is the ball?",
+      "expectedProductionPath": "/audio/narration/en/english-detail-red-ball-v1.mp3",
+      "productionPath": null,
+      "provider": {
+        "status": "pending",
+        "name": null,
+        "model": null,
+        "voice": null,
+        "sourceTerms": null,
+        "rightsBasis": null,
+        "commercialUseAllowed": false,
+        "redistributionAllowed": false,
+        "aiDisclosureRequired": null,
+        "reviewedAt": null
+      },
+      "review": {
+        "pronunciationStatus": "pending",
+        "childLearningStatus": "pending",
+        "reviewedBy": null,
+        "reviewedAt": null
+      },
+      "technical": {
+        "format": "mp3",
+        "minBytes": 512,
+        "maxBytes": 500000,
+        "sha256": null
+      }
+    },
+    "english-detail-two-books": {
+      "lifecycle": "review-required",
+      "activityId": "english-detail-two-books",
+      "language": "en-US",
+      "transcript": "I have two books. How many books?",
+      "expectedProductionPath": "/audio/narration/en/english-detail-two-books-v1.mp3",
+      "productionPath": null,
+      "provider": {
+        "status": "pending",
+        "name": null,
+        "model": null,
+        "voice": null,
+        "sourceTerms": null,
+        "rightsBasis": null,
+        "commercialUseAllowed": false,
+        "redistributionAllowed": false,
+        "aiDisclosureRequired": null,
+        "reviewedAt": null
+      },
+      "review": {
+        "pronunciationStatus": "pending",
+        "childLearningStatus": "pending",
+        "reviewedBy": null,
+        "reviewedAt": null
+      },
+      "technical": {
+        "format": "mp3",
+        "minBytes": 512,
+        "maxBytes": 500000,
+        "sha256": null
+      }
+    },
+    "english-detail-dog-runs": {
+      "lifecycle": "review-required",
+      "activityId": "english-detail-dog-runs",
+      "language": "en-US",
+      "transcript": "The dog runs. What does the dog do?",
+      "expectedProductionPath": "/audio/narration/en/english-detail-dog-runs-v1.mp3",
+      "productionPath": null,
+      "provider": {
+        "status": "pending",
+        "name": null,
+        "model": null,
+        "voice": null,
+        "sourceTerms": null,
+        "rightsBasis": null,
+        "commercialUseAllowed": false,
+        "redistributionAllowed": false,
+        "aiDisclosureRequired": null,
+        "reviewedAt": null
+      },
+      "review": {
+        "pronunciationStatus": "pending",
+        "childLearningStatus": "pending",
+        "reviewedBy": null,
+        "reviewedAt": null
+      },
+      "technical": {
+        "format": "mp3",
+        "minBytes": 512,
+        "maxBytes": 500000,
+        "sha256": null
+      }
+    },
+    "english-detail-baby-sleeps": {
+      "lifecycle": "review-required",
+      "activityId": "english-detail-baby-sleeps",
+      "language": "en-US",
+      "transcript": "The baby sleeps. Who sleeps?",
+      "expectedProductionPath": "/audio/narration/en/english-detail-baby-sleeps-v1.mp3",
+      "productionPath": null,
+      "provider": {
+        "status": "pending",
+        "name": null,
+        "model": null,
+        "voice": null,
+        "sourceTerms": null,
+        "rightsBasis": null,
+        "commercialUseAllowed": false,
+        "redistributionAllowed": false,
+        "aiDisclosureRequired": null,
+        "reviewedAt": null
+      },
+      "review": {
+        "pronunciationStatus": "pending",
+        "childLearningStatus": "pending",
+        "reviewedBy": null,
+        "reviewedAt": null
+      },
+      "technical": {
+        "format": "mp3",
+        "minBytes": 512,
+        "maxBytes": 500000,
+        "sha256": null
+      }
+    },
+    "english-detail-bird-up": {
+      "lifecycle": "review-required",
+      "activityId": "english-detail-bird-up",
+      "language": "en-US",
+      "transcript": "The bird is up. Which word did you hear?",
+      "expectedProductionPath": "/audio/narration/en/english-detail-bird-up-v1.mp3",
+      "productionPath": null,
+      "provider": {
+        "status": "pending",
+        "name": null,
+        "model": null,
+        "voice": null,
+        "sourceTerms": null,
+        "rightsBasis": null,
+        "commercialUseAllowed": false,
+        "redistributionAllowed": false,
+        "aiDisclosureRequired": null,
+        "reviewedAt": null
+      },
+      "review": {
+        "pronunciationStatus": "pending",
+        "childLearningStatus": "pending",
+        "reviewedBy": null,
+        "reviewedAt": null
+      },
+      "technical": {
+        "format": "mp3",
+        "minBytes": 512,
+        "maxBytes": 500000,
+        "sha256": null
+      }
+    }
+  }
+}

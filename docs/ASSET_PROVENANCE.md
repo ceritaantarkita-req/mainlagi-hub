@@ -97,6 +97,15 @@ Character production assets have a separate blocking registry/validator:
 
 `npm run validate:assets` now runs both affiliate and character provenance checks plus the character-validator regression fixtures. `public/artwork/characters/` is production-only: any image binary found there without an approved character provenance record is rejected.
 
+English narration production assets now have a separate fail-closed gate:
+
+- `src/lib/data/english-narration-asset-provenance.json`;
+- `scripts/validate-english-narration-assets.mjs`;
+- `scripts/run-english-narration-asset-validator-tests.mjs`;
+- reserved production directory: `public/audio/narration/en/`.
+
+The narration registry covers exactly the 27 reviewed English listening activities. All records currently remain `review-required` with `productionPath=null`; no production narration binary is activated by the pipeline itself. Approval requires provider/model/voice terms review, commercial-use and redistribution clearance, explicit AI-disclosure decision, human pronunciation + child-learning review, and exact SHA-256. `npm run validate:assets` includes this narration gate and its regression fixtures.
+
 The affiliate runtime also fails closed: a catalog entry only receives a local image path when the provenance registry explicitly approves the slug/path for redistribution.
 
 ## 5. Adding a new approved local image

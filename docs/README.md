@@ -20,17 +20,19 @@ Read these first for current work:
 10. [`CHARACTER_CANDIDATE_INTAKE_AUDIT_2026-09-21.md`](CHARACTER_CANDIDATE_INTAKE_AUDIT_2026-09-21.md) — Drive candidate audit; no separate Naya/Gian/Zia foreground candidate found.
 11. [`CLOUD_ANALYTICS_PAGINATION_CLOSURE_2026-09-21.md`](CLOUD_ANALYTICS_PAGINATION_CLOSURE_2026-09-21.md) — closed/live-verified complete cloud analytics pagination + explicit authenticated failure/retry behavior.
 12. [`SECRET_SCAN_REQUIRED_GATE_CLOSURE_2026-09-22.md`](SECRET_SCAN_REQUIRED_GATE_CLOSURE_2026-09-22.md) — closed/live-verified merge-blocking full-history secret scan through ruleset-required dependency gate.
-13. [`PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md`](PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md) — active production visual/product audit and P0/P1/P2 state.
-14. [`MAINLAGI_ART_BIBLE.md`](MAINLAGI_ART_BIBLE.md) — canonical visual direction.
-15. [`MOBILE_ROUTE_QA.md`](MOBILE_ROUTE_QA.md) — blocking browser route and permanent visual QA contract.
-16. [`ARCHITECTURE.md`](ARCHITECTURE.md) — current technical boundaries and system architecture.
-17. [`MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md`](MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md) — child/product/UX/activity rules.
-18. [`LEARNING_ATTEMPTS_MASTERY.md`](LEARNING_ATTEMPTS_MASTERY.md) — evidence/mastery/progression contract.
-19. [`GAMEPLAY_VARIATION_CATALOG.md`](GAMEPLAY_VARIATION_CATALOG.md) — canonical gameplay-pattern catalog and WS-05 boundaries.
+13. [`ENGLISH_NARRATION_QUALITY_WAVE_2026-09-22.md`](ENGLISH_NARRATION_QUALITY_WAVE_2026-09-22.md) — closed/live-verified 27-activity English narration-copy + browser-fallback quality wave.
+14. [`ENGLISH_NARRATION_ASSET_PIPELINE_2026-09-22.md`](ENGLISH_NARRATION_ASSET_PIPELINE_2026-09-22.md) — fail-closed pre-generated English narration asset/provenance pipeline; no production audio activated.
+15. [`PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md`](PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md) — active production visual/product audit and P0/P1/P2 state.
+16. [`MAINLAGI_ART_BIBLE.md`](MAINLAGI_ART_BIBLE.md) — canonical visual direction.
+17. [`MOBILE_ROUTE_QA.md`](MOBILE_ROUTE_QA.md) — blocking browser route and permanent visual QA contract.
+18. [`ARCHITECTURE.md`](ARCHITECTURE.md) — current technical boundaries and system architecture.
+19. [`MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md`](MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md) — child/product/UX/activity rules.
+20. [`LEARNING_ATTEMPTS_MASTERY.md`](LEARNING_ATTEMPTS_MASTERY.md) — evidence/mastery/progression contract.
+21. [`GAMEPLAY_VARIATION_CATALOG.md`](GAMEPLAY_VARIATION_CATALOG.md) — canonical gameplay-pattern catalog and WS-05 boundaries.
    - [`WS05_LOGIC_PATTERN_COMPLETION_REUSE_WAVE_2026-09-22.md`](WS05_LOGIC_PATTERN_COMPLETION_REUSE_WAVE_2026-09-22.md) — PR #273 implementation wave, exact scope and verification evidence.
    - [`PATTERN_COMPLETION_LOGIC_REPEATING_PATTERN_REUSE_CLOSURE_2026-09-22.md`](PATTERN_COMPLETION_LOGIC_REPEATING_PATTERN_REUSE_CLOSURE_2026-09-22.md) — final merged/live-verified production closure for the exact five-ID Logic reuse.
-20. [`PRODUCT_DIRECTION.md`](PRODUCT_DIRECTION.md) — product principles and direction.
-21. [`KNOWN_LIMITATIONS.md`](KNOWN_LIMITATIONS.md) — current known limitations and external acceptance gaps.
+22. [`PRODUCT_DIRECTION.md`](PRODUCT_DIRECTION.md) — product principles and direction.
+23. [`KNOWN_LIMITATIONS.md`](KNOWN_LIMITATIONS.md) — current known limitations and external acceptance gaps.
 
 Subsystem docs remain authoritative for their specific scope when they do not conflict with the canonical documents above.
 

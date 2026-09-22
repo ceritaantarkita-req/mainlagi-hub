@@ -153,7 +153,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 | Workstream | Status | Current note |
 |---|---|---|
 | WS-01 Canonical docs | **CURRENT / SYNCING** | 20 Sep current-state sync after parent wave; Pattern #48 remains unjustified |
-| WS-02 Voice & narration | **LATENCY + ENGLISH QUALITY WAVE LIVE VERIFIED / FINAL VOICE LATER** | PR #278 -> main `8d60a69a...`; 27/27 English listening narrations reviewed (22 target-first + 5 comprehension), browser fallback quality policy improved, evidence unchanged; final reviewed native/pre-generated production narration remains later work |
+| WS-02 Voice & narration | **WAVE 1 LIVE VERIFIED / PRODUCTION-ASSET GATE IN IMPLEMENTATION / FINAL VOICE LATER** | PR #278 -> main `8d60a69a...` closed browser/listening-copy quality; branch `agent/english-narration-asset-pipeline-20260922` adds an exact 27-slot fail-closed provenance/human-review/checksum gate with 0 approved binaries; provider/voice pilot + runtime activation remain later |
 | WS-03 Public/parent frontend | **PARENT WAVE LIVE VERIFIED** | PR #251 -> `77bee682...`; <760px mobile nav / >=760px sidebar; family/demo and profile/guide separation preserved |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
 | WS-05 Gameplay diversification | **47 ACTIVE / LOGIC REUSE LIVE VERIFIED** | PR #273 -> main `709e2b7d...`; final PR CI #1321 + main CI #1353 exact smoke; 900/900 / `choice_grid` 174 / `pattern_completion` 10 / KEEP 900; exact five Logic IDs; no Pattern #48 |

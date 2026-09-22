@@ -31,13 +31,15 @@ The first-instruction narration latency/preload wave is merged/live verified. En
 
 This is still a browser-dependent fallback improvement. Mainlagi does **not** yet claim final production-quality native Indonesian and English character narration.
 
+The English fixed-narration production-asset gate is now implemented on branch `agent/english-narration-asset-pipeline-20260922`: exact 27-slot provenance metadata, provider/right review fields, human pronunciation/child-learning approval fields, checksum validation, and stray-public-audio rejection. It currently approves **zero** production audio binaries and does not change runtime playback.
+
 Remaining work:
 
-- provider abstraction;
-- reviewed Indonesian and English voices;
-- character voice registry;
-- voice/model licence and provenance tracking;
-- pre-generated reviewed audio for fixed lesson narration;
+- select and human-review an English provider/model/voice pilot;
+- generate and approve fixed English narration assets through the new gate;
+- add the later runtime static-audio resolver/playback activation with browser speech fallback;
+- define stable character/voice identity only when character development is explicitly resumed;
+- reviewed Indonesian production voices/assets;
 - runtime TTS only for justified dynamic content.
 
 Iqro/Hijaiyah pronunciation requires competent human review. Generic TTS must not be treated as final pronunciation authority.
