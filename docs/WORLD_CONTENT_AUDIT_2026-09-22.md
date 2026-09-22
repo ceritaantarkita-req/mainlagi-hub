@@ -125,6 +125,8 @@ The content validator now requires:
 - spoken child copy stays <=18 words per cue;
 - required concept vocabulary remains present per Stage;
 - no guaranteed-return claim appears as factual narration/concept/payoff;
+- no direct child instruction to buy an investment product;
+- open financial-choice reactions remain neutral (no “correct/best/smart” praise);
 - narrative choice + recap stay exclusive to Stage 8;
 - Stage 6 saving bridge uses “disimpan untuk nanti”;
 - Stage 7 explains risk through outcome uncertainty;
@@ -143,7 +145,7 @@ belum pasti
 bisa naik atau turun
 ```
 
-The World does not tell the child to buy an investment, pick a product, expect profit, or treat stars/completion as financial mastery.
+The World does not tell the child to buy an investment, pick a product, expect profit, or treat stars/completion as financial mastery. The Stage-8 open choice is also protected from value-laden feedback: each reaction only reflects what the child selected.
 
 ## 6. What did not change
 
