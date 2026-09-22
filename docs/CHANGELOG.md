@@ -9,8 +9,8 @@
 - Parent mobile sekarang memakai sticky header + fixed 5-item bottom navigation di bawah 760px; desktop memakai sidebar.
 - Memisahkan identity child profile dari guide character pada parent UI dan memisahkan real family data dari `demo-gian`.
 - Parent runtime live verified melalui PR #251 -> main `77bee682...`, CI #1160 exact Cloudflare smoke.
-- Logic repeating-pattern audit PR #240 sudah merged/live verified; runtime reuse sekarang di PR #273 dan branch checkpoint `ec050bf...` / CI #1312 full success: 900/900, 47 active, `choice_grid` 174, `pattern_completion` 10, KEEP 900, tanpa Pattern #48.
-- Dedicated Logic Pattern Completion browser QA lulus 320/390/768 dengan legitimate Wave A progression prerequisites, keyboard retry, touch/pointer completion, grouped `● ●` one-step evidence, dan permanent visual baseline 63 exact-path captures.
+- Logic repeating-pattern audit PR #240 dan runtime reuse PR #273 sekarang **fully closed/live verified**; PR #273 merged ke main `709e2b7d...`, final PR CI #1321 dan merged-main CI #1353 full success termasuk exact Cloudflare smoke: 900/900, 47 active, `choice_grid` 174, `pattern_completion` 10, KEEP 900, tanpa Pattern #48.
+- Dedicated Logic Pattern Completion browser QA lulus 320/390/768 dengan legitimate Wave A progression prerequisites, keyboard retry, touch/pointer completion, grouped `● ●` one-step evidence, dan permanent visual baseline 63 exact-path captures; merged-main artifacts tersimpan pada CI #1353.
 - Subject-background system sudah merged/live verified untuk 9 subject / 900 activity dengan 54 scene family dan 108 responsive WebP.
 - Activity character-presentation foundation sudah merged/live verified via PR #259 -> `b5acbfcde66ea1451f3e55a8d469d33ba4845af1`; merged-main CI #1190 / run `35589937017` sukses termasuk exact Cloudflare production smoke.
 - Runtime character sekarang fail closed: Gavi/Paca tetap satu-satunya approved foreground runtime asset; Naya/Gian/Zia design sheets hanya reference sampai production asset terpisah lolos review.
