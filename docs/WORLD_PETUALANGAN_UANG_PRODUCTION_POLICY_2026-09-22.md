@@ -385,10 +385,11 @@ Current ordered work:
 16. **DONE / GREEN / CHECKPOINTED** — completion UX derives canonical Chapter milestones, preserves ★★★ + Back / Again / Next + Share, and is validated by CI #1467 at `40436d41...`; checkpoint `checkpoint/world-petualangan-uang-completion-ux-green-20260922`;
 17. **DONE on isolated branch, CI pending** — eight-Stage content consistency audit adds machine-readable focus/safety/continuity gates and tightens four weak Indonesian transitions;
 18. **DONE on isolated branch, CI pending** — focused accessibility pass adds progressbar/current-step/locked-state semantics, polite Scene announcements, completion focus, list/image semantics, forced-colors support, and visible keyboard focus;
-19. **NEXT NON-AUDIO PASS** — performance / lazy-load;
-20. Gian/Naya visual character production remains paused;
-21. bespoke Stage/background art remains optional because current reused backgrounds are approved for the pilot;
-22. World -> Evidence bridge remains disabled until separately authorized.
+19. **DONE on isolated branch, CI pending** — World-specific performance/lazy-load pass locks visual byte budgets and verifies route-scoped background requests without touching shared Belajar components;
+20. **NEXT** — wait for exact CI-green validation of content audit + accessibility + performance heads, then freeze a new immutable World production checkpoint;
+21. Gian/Naya visual character production remains paused;
+22. bespoke Stage/background art remains optional because current reused backgrounds are approved for the pilot;
+23. World -> Evidence bridge remains disabled until separately authorized.
 
 
 This policy is intentionally narrower than the long-term Mainlagi 3–12 ambition. It prevents the pilot runtime from drifting into an incoherent one-World-fits-all model.
