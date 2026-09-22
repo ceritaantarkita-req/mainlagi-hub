@@ -553,6 +553,58 @@ async function main() {
       console.log("World Petualangan Uang Stage 1 end-to-end checkpoint passed at 390px.");
     }
 
+    for (const width of [320, 430]) {
+      const viewport = VIEWPORTS.find((item) => item.width === width);
+      assert.ok(viewport, "missing World completion viewport " + width);
+      const context = await browser.newContext({ viewport });
+      await context.addInitScript((progress) => {
+        window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
+          "demo-gian": { "money-festival": progress }
+        }));
+      }, {
+        worldId: "money-festival",
+        completedStageIds: [],
+        currentStageId: "money-stage-01-money-use",
+        currentSegmentIndex: 9,
+        updatedAt: "2026-09-22T00:00:00.000Z"
+      });
+      const page = await context.newPage();
+      await page.goto(baseUrl + "/child/demo-gian/world/money-festival/stage/money-stage-01-money-use", { waitUntil: "domcontentloaded" });
+      await page.locator("[data-world-next]").waitFor();
+      await advanceWorldNarrative(page);
+      await page.getByRole("heading", { name: "Awesome!", exact: true }).waitFor();
+
+      const completion = page.locator('[aria-labelledby="world-stage-complete-title"]');
+      const geometry = await completion.evaluate((root) => {
+        const rootBox = root.getBoundingClientRect();
+        const controls = Array.from(root.querySelectorAll("button, a")).map((element) => {
+          const box = element.getBoundingClientRect();
+          return {
+            text: element.textContent?.trim() ?? "",
+            left: box.left,
+            right: box.right,
+            top: box.top,
+            bottom: box.bottom
+          };
+        });
+        return {
+          root: { left: rootBox.left, right: rootBox.right, top: rootBox.top, bottom: rootBox.bottom },
+          controls
+        };
+      });
+      assert.ok(geometry.root.left >= -1 && geometry.root.right <= viewport.width + 1, "World completion must fit width at " + width + "px");
+      assert.ok(geometry.root.top >= -1 && geometry.root.bottom <= viewport.height + 1, "World completion must fit height at " + width + "px");
+      for (const control of geometry.controls.filter((item) => ["Back", "Again", "Next", "Share"].includes(item.text))) {
+        assert.ok(
+          control.left >= -1 && control.right <= viewport.width + 1 && control.top >= -1 && control.bottom <= viewport.height + 1,
+          "World completion control " + control.text + " must be immediately visible at " + width + "px"
+        );
+      }
+      await page.screenshot({ path: path.join(screenshotDir, width + "-world-money-stage-01-complete.png"), fullPage: false });
+      await context.close();
+      console.log("World Stage 1 completion controls passed at " + width + "px.");
+    }
+
     {
       const viewport = { width: 390, height: 844 };
       const context = await browser.newContext({ viewport });
