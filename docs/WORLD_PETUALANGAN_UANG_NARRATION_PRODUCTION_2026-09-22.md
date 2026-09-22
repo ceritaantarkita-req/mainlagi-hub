@@ -254,6 +254,13 @@ productionReady == true
 
 Until then browser speech remains the authoritative fail-safe runtime path.
 
-## 13. Next product step
+## 13. Scene-layer follow-through
 
-With the narration pipeline now deterministic, the next unresolved World presentation layer is the reusable Scene presentation/renderer system. It should consume the canonical `Scene.kind` contract and current Gavi/Paca dummy policy without changing Stage/Segment progression.
+The reusable Scene presentation/renderer system is now implemented separately from narration:
+
+```text
+src/lib/learning/world/worldScenePresentation.ts
+src/components/learning/world/WorldSceneRenderer.tsx
+```
+
+Narration continues to bind by stable cue ID inside those Scene surfaces. The next branch task is end-to-end production QA and responsive cleanup before freezing a new green checkpoint.
