@@ -2469,7 +2469,8 @@
 
 /* === World production wave 01: Garden-baseline stage shell === */
 .stagePage {
-  display: block;
+  display: grid;
+  place-items: center;
   padding: 0;
 }
 
