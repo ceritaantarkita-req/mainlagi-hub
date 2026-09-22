@@ -1667,3 +1667,45 @@ Bermain/motion: out of scope
 PR #282: Draft / no merge authorization
 PR #272: Draft / untouched
 ```
+
+
+## 48. World → Evidence v1 design checkpoint candidate — 23 September 2026
+
+A separate design branch was created from the green non-audio handoff:
+
+```text
+branch: feature/world-evidence-bridge-contract-20260923
+base:   6aaee9323e53bea1a531a7e1013bf222c367b00e
+```
+
+The existing `moneyWorldEvidenceBridge.ts` v0 audit manifest is upgraded to a v1 fail-closed architecture contract.
+
+New/strengthened guarantees:
+
+- bridge mode is `design-only-disabled`;
+- all 16 current World activity placements remain `practice`;
+- exactly two mappings remain unapproved Math candidates;
+- the other fourteen placements remain explicit exclusions;
+- no canonical `learning_activity` ID is assigned to either candidate;
+- all local/cloud attempt, evidence, mastery, Belajar progress, reward, certificate, schema and runtime-hook permissions remain false;
+- a caller cannot promote World `practice -> assessed`;
+- valid candidate observations still return `blocked`;
+- direct World use of `record_learning_attempt(...)` is forbidden because the current RPC owns Belajar completion/star side effects;
+- age 8, pedagogy review, server ingestion, progression/reward isolation and anti-farming/security remain explicit blockers.
+
+Design record:
+
+```text
+docs/WORLD_EVIDENCE_BRIDGE_ARCHITECTURE_2026-09-23.md
+```
+
+This wave contains no SQL migration, no RPC change, no World runtime event hook and no mastery activation.
+
+The safe production rollback remains:
+
+```text
+checkpoint/world-petualangan-uang-non-audio-production-green-20260922
+@ 1a74e5da7803c736a9ccff6b1fda52975501bfeb
+```
+
+Checkpoint rule: validate the exact design-contract head through CI before freezing a new immutable design checkpoint. Do not move prior checkpoints.
