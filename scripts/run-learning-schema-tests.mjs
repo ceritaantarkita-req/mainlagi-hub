@@ -152,6 +152,9 @@ assert.match(worldProgress, /security definer[\s\S]*set search_path = pg_catalog
 assert.match(worldProgress, /p_world_id is distinct from 'money-festival'/i, "World progress RPC must fail closed to registered World IDs");
 assert.match(worldProgress, /world stages must complete in order/i, "World progress RPC must enforce linear stage completion");
 assert.match(worldProgress, /v_current_order > v_completed_count \+ 1/i, "World progress RPC must reject locked current stages");
+assert.match(worldProgress, /for update/i, "World progress RPC must serialize existing progress before overwrite");
+assert.match(worldProgress, /v_completed_count < v_existing_completed_count/i, "World progress RPC must reject stale completion regressions");
+assert.match(worldProgress, /world completion regression rejected/i, "World progress regression failure must be explicit");
 assert.match(worldProgress, /pp\.id::text = p_child_key[\s\S]*pp\.account_id = v_account_id[\s\S]*pp\.deleted_at is null/i, "World progress RPC must enforce real child ownership");
 assert.match(worldProgress, /grant execute on function public\.save_world_progress[\s\S]*to authenticated, service_role/i, "World progress RPC execute grant must be explicit");
 assert.doesNotMatch(worldProgress, /insert into public\.child_learning_progress/i, "World progress must not forge canonical Belajar completion");
