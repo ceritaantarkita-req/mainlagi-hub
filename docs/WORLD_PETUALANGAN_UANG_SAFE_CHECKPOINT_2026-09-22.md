@@ -693,3 +693,54 @@ The `fixed-narration` production gap remains open because there are **no approve
 No Belajar runtime, Bermain/motion, SQL schema, mastery/evidence activation, age migration, or final human-character production is changed.
 
 CI note: this wave must not be called CI-green until a workflow run validates the resulting branch head.
+
+
+## 26. Production wave 05 — reusable Scene presentation/renderer
+
+Production wave 05 makes canonical `Scene.kind` an actual reusable runtime presentation layer.
+
+New sources:
+
+```text
+src/lib/learning/world/worldScenePresentation.ts
+src/components/learning/world/WorldSceneRenderer.tsx
+src/components/learning/world/WorldSceneRenderer.module.css
+docs/WORLD_SCENE_PRESENTATION_2026-09-22.md
+```
+
+Reusable mapping:
+
+```text
+story     -> dialogue
+challenge -> activity
+choice    -> choice
+recap     -> recap
+closing   -> payoff
+```
+
+Runtime changes:
+
+- every Petualangan Uang active Segment is rendered inside `WorldSceneRenderer`;
+- the renderer consumes the already-authored canonical Scene;
+- Scene label/title/surface metadata is now owned outside Petualangan Uang;
+- ambient Gavi/Paca visibility is controlled by generic Scene presentation policy rather than a Petualangan-Uang-specific Segment conditional;
+- the renderer accepts companion/content slots, so future Worlds are not required to use Gavi/Paca or finance payloads;
+- Stage/Segment progress, IDs, narration cue IDs and completion behavior remain unchanged.
+
+Static QA locks exact coverage of all five canonical Scene kinds and requires every authored Petualangan Uang Scene to resolve a generic presentation.
+
+Browser QA now verifies:
+
+```text
+Stage 1 opening   story     -> dialogue
+Stage 1 challenge challenge -> activity
+Stage 8 choice    choice    -> choice
+Stage 8 recap     recap     -> recap
+all Stage endings closing   -> payoff
+```
+
+This covers all canonical Scene kinds while keeping World-specific content renderers separate.
+
+No Belajar runtime, Bermain/motion, SQL schema, mastery/evidence activation, age migration or final human-character production is changed.
+
+CI note: this wave is committed but must not be called CI-green until the branch receives a validating workflow run. The next task is end-to-end production QA/responsive cleanup and then a new green checkpoint.
