@@ -421,11 +421,13 @@ Historical closure/candidate/audit records must not be rewritten to pretend late
 
 ## Remaining product-quality work
 
-Immediate product-UX work is now visual-asset review before code integration: finish character candidate/provenance review and complete the Math/Science background pilot as approved wide/mobile pairs. Background runtime code starts only after pair review, using the central SubjectTheme/SceneVariant contract in `SUBJECT_BACKGROUND_SYSTEM.md`; English voice-quality and broader visual/usability cleanup follow.
+The subject-background system is **closed / merged / live verified**: all 9 subjects use the production `SubjectTheme` / `SceneVariant` system with 54 scene families, 108 responsive WebP assets, deterministic 900-activity mapping, and a project-owner production preview covering 9/9 subjects. Do not reopen the old Math/Science pilot sequence unless a concrete production defect is found.
 
-The WS-05 Logic repeating-pattern audit is on main via PR #240. Runtime implementation is fully closed/live verified through PR #273 -> main `709e2b7d...` / merged-main CI #1353 with the exact audited five-ID scope, 174 `choice_grid`, 10 `pattern_completion`, 47 active patterns and KEEP 900.
+Character production/development is currently **PAUSED by the project owner**. Existing Naya/Gian/Zia Drive assets remain reference-only; do not resume character-generation or activation work implicitly. Mainlagi World is being developed in a separate user workstream and must not be modified from this product-quality track.
 
-External acceptance debt remains real-device/accessibility testing and Iqro expert review. P2 visual cleanup, governance hardening and later cleanup remain lower-priority work unless they become release blockers.
+Mainlagi Belajar WS-05 Logic repeating-pattern reuse is fully closed/live verified through PR #273 -> main `709e2b7d...` / merged-main CI #1353 with the exact audited five-ID scope, 174 `choice_grid`, 10 `pattern_completion`, 47 active patterns and KEEP 900. Any later WS-05 runtime wave requires a fresh objective/evidence audit and must remain separate from World/character work.
+
+External acceptance debt remains real-device/accessibility testing and Iqro expert review. English voice quality, learning-illustration consistency and P2 visual/governance cleanup remain follow-up product-quality work when explicitly prioritized.
 
 ## Historical snapshot documents
 
