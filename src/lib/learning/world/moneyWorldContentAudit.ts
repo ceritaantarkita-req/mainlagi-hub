@@ -160,7 +160,7 @@ export function validateMoneyWorldContentAudit(): {
         if (segment.activity.assessment !== "practice") {
           errors.push(segment.activity.id + " must remain practice-only");
         }
-        if (segment.activity.mechanicId === "motion_game") {
+        if (String(segment.activity.mechanicId) === "motion_game") {
           errors.push(segment.activity.id + " must not require the Bermain motion engine");
         }
       }
