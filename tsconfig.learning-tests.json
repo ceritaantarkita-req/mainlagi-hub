@@ -81,6 +81,8 @@
     "src/lib/learning/reporting.ts",
     "src/lib/learning/outboxCore.ts",
     "src/lib/learning/world/moneyWorld.ts",
-    "src/lib/learning/world/progress.ts"
+    "src/lib/learning/world/progress.ts",
+    "src/lib/learning/world/moneyWorldPresentation.ts",
+    "src/lib/learning/world/moneyWorldAssets.ts"
   ]
 }
