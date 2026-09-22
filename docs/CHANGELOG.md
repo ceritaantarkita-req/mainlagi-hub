@@ -7,7 +7,10 @@
 - English narration production asset gate PR #280 sudah merged/live verified ke main `2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48`; PR CI #1371 dan merged-main CI #1372 full success termasuk exact Cloudflare smoke.
 - Registry produksi English narration sekarang mengunci exact 27 slot + exact runtime transcript, dengan status sengaja tetap 27 `review-required` / 0 approved / 0 binary / tanpa static-audio runtime activation.
 - Permanent narration gate memblok stray public audio, missing provider/model/voice rights review, commercial-use/redistribution clearance, unresolved AI-disclosure decision, missing pronunciation/child-learning approval, invalid MP3 payload, SHA-256 drift, dan registry/runtime transcript drift.
-- Safe handoff baru: `ENGLISH_NARRATION_SAFE_CHECKPOINT_2026-09-22.md`. Next aman adalah four-item provider/voice pilot + human listening/provenance review; jangan bulk generate 27 dan jangan activate runtime playback dulu.
+- Safe handoff baru: `ENGLISH_NARRATION_SAFE_CHECKPOINT_2026-09-22.md`.
+- Provider-pilot harness PR #283 sudah merged/live verified ke implementation baseline `4b975130bf6e5fc28cecbf6aea5373b7a1430c65`; PR CI #1395 / run `35719163695` dan merged-main CI #1396 / run `35719862989` full success, termasuk exact Cloudflare smoke.
+- Harness mengunci exact empat activity, candidate OpenAI `gpt-4o-mini-tts-2025-12-15`, voice `marin`/`cedar`, dry-run default, output hanya di gitignored `internal/`, dan explicit `OPENAI_API_KEY` gate. Tidak ada audio candidate yang di-generate/commit oleh wave ini, registry tetap 27 `review-required`, 0 approved, 0 production binary, dan runtime static audio tetap tidak aktif.
+- Next aman WS-02 sekarang adalah actual local/server-side candidate generation + human listening/provenance review untuk empat item itu; jangan bulk generate 27 dan jangan activate runtime playback dalam approval step yang sama.
 
 - Menyelesaikan rangkaian WS-13 product UX sampai parent/profile/settings responsive redesign.
 - Menambahkan child home/header/navigation baru dan subject directory 3 kolom.
