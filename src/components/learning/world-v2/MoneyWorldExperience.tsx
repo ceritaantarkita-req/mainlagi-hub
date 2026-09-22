@@ -916,6 +916,7 @@ function WorldStageCompletion({
   const praiseByStage = ["Awesome!", "Hebat!", "Good job!", "Excellent!", "Keren!", "Bagus sekali!", "Mantap!", "Luar biasa!"];
   const praise = stage ? praiseByStage[Math.max(0, Math.min(praiseByStage.length - 1, stage.order - 1))] : "Awesome!";
   const finalStage = stage?.order === MONEY_WORLD_STAGES.length;
+  const chapterOneComplete = stage?.order === 4;
   const shareText = finalStage
     ? "⭐⭐⭐ Petualangan Uang selesai. Festival Mainlagi siap!"
     : "⭐⭐⭐ Stage “" + (stage?.title ?? "Petualangan Uang") + "” selesai di Mainlagi!";
@@ -947,6 +948,15 @@ function WorldStageCompletion({
             <Star key={index} size={58} weight="fill" aria-hidden style={{ animationDelay: String(index * 140) + "ms" }} />
           ))}
         </div>
+        {chapterOneComplete ? (
+          <div className={styles.chapterReward}>
+            <span aria-hidden>🏅</span>
+            <div>
+              <strong>Chapter 1 selesai</strong>
+              <small>Pilih Pintar</small>
+            </div>
+          </div>
+        ) : null}
         <p>{finalStage ? "Petualangan Uang selesai. Festival Mainlagi siap!" : stage?.title + " selesai. Stage berikutnya sekarang terbuka."}</p>
         <div className={styles.completionActions}>
           <Link href={mapHref}><ArrowLeft size={21} weight="bold" aria-hidden />Back</Link>
