@@ -36,6 +36,9 @@
 - Production policy/handoff: `WORLD_PETUALANGAN_UANG_PRODUCTION_POLICY_2026-09-22.md`.
 - World → Evidence audit ditambahkan fail-closed: hanya `money-s02-activity-01` → `math.quantity.comparison` dan `money-s08-activity-02` → `math.operation.subtraction.within_10` yang lolos sebagai **candidate only**; 14 activity lain eksplisit excluded; bridge tetap disabled.
 - Evidence audit/handoff: `WORLD_PETUALANGAN_UANG_EVIDENCE_BRIDGE_AUDIT_2026-09-22.md`.
+- Global age migration tetap fail-closed: audit menemukan blocker di cloud profile parser/create, local+cloud profile UI, content validator, learning-skill/content-pack SQL age constraints, canonical catalog 3–7, age-filtered Belajar runtime, public copy, dan regression tests.
+- Audit age migration menegaskan `player_profiles.age_group` sendiri adalah text tanpa numeric 3–7 SQL check; hard stop profile saat ini berada pada parser/UI/app contract.
+- Age migration audit/handoff: `WORLD_AGE_MIGRATION_AUDIT_2026-09-22.md`; tidak ada blanket `ageMax 7 -> 12` rewrite.
 
 
 ## 2.0.1 — 5 Agustus 2026
