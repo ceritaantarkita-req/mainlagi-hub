@@ -534,6 +534,7 @@ async function main() {
       await activityPromptHear.waitFor();
       assert.equal(await activityPromptHear.getByText("Dengar", { exact: true }).count(), 1, "World mini-game prompt must expose replayable audio");
       await activityPromptHear.click();
+      await page.screenshot({ path: path.join(screenshotDir, "390-world-money-stage-01-activity.png"), fullPage: false });
 
       await page.getByRole("button", { name: "Rp3", exact: true }).click();
       await page.getByRole("button", { name: /Balon.*Rp3/ }).click();
@@ -596,6 +597,7 @@ async function main() {
       await page.waitForTimeout(50);
       const stageTwoBox = await page.locator('[data-world-stage-id="money-stage-02-price-change"]').boundingBox();
       assert.ok(stageTwoBox && stageTwoBox.y < viewport.height && stageTwoBox.y + stageTwoBox.height > 0, "World map must return the child near the next unlocked Stage");
+      await page.screenshot({ path: path.join(screenshotDir, "390-world-money-map-stage-02-unlocked.png"), fullPage: false });
       await context.close();
       console.log("World Petualangan Uang Stage 1 end-to-end checkpoint passed at 390px.");
     }
@@ -807,6 +809,7 @@ async function main() {
       }
       await page.getByRole("heading", { name: "Yang kita temukan", exact: true }).waitFor();
       assert.equal(await page.locator('[aria-label="Ringkasan Petualangan Uang"] > *').count(), 6, "World finale recap must show six concrete learning moments");
+      await page.screenshot({ path: path.join(screenshotDir, "390-world-money-stage-08-recap.png"), fullPage: false });
       await page.getByRole("button", { name: /Lanjut/ }).click();
       await advanceWorldNarrative(page);
 
