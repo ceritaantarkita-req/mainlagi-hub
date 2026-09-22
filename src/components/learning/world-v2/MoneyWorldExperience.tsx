@@ -16,6 +16,7 @@ import {
   useMemo,
   useRef,
   useState,
+  type CSSProperties,
   type DragEvent
 } from "react";
 import { CharacterAvatar } from "@/components/learning/LearningCommon";
@@ -31,6 +32,7 @@ import {
   type MoneyWorldActivityPlacement
 } from "@/lib/learning/world/moneyWorld";
 import { getMoneyWorldSceneForSegment } from "@/lib/learning/world/moneyWorldStructure";
+import { getMoneyWorldPilotStage } from "@/lib/learning/world/moneyWorldPilot";
 import {
   WORLD_PROGRESS_EVENT,
   checkpointMoneyWorldStage,
@@ -76,22 +78,12 @@ function presentDummyCharacterCopy(text: string) {
     .replace(/\bGian\b/g, "Gavi");
 }
 
-const WORLD_STAGE_AMBIENCE: Record<number, string[]> = {
-  1: ["🏠", "🎈", "🧃"],
-  2: ["🏪", "🤖", "🏷️"],
-  3: ["🥖", "🌱", "🚲"],
-  4: ["🛒", "💧", "🍎"],
-  5: ["🌳", "🐷", "🎯"],
-  6: ["🌱", "↗️", "🪙"],
-  7: ["🌉", "⬆️", "⬇️"],
-  8: ["🎪", "🎀", "🎉"]
-};
-
-function StageAmbience({ stageOrder }: { stageOrder: number }) {
-  const props = WORLD_STAGE_AMBIENCE[stageOrder] ?? [];
+function StageAmbience({ stageId }: { stageId: string }) {
+  const pilotStage = getMoneyWorldPilotStage(stageId);
+  if (!pilotStage) return null;
   return (
-    <div className={styles.sceneDecor} aria-hidden>
-      {props.map((item, index) => (
+    <div className={styles.sceneDecor} aria-hidden data-world-ambience-stage={stageId}>
+      {pilotStage.ambience.map((item, index) => (
         <span key={item + index} data-decor-index={index}>{item}</span>
       ))}
     </div>
@@ -203,7 +195,7 @@ export function WorldCatalogScreen({ childId }: { childId: string }) {
         <WorldHero compact />
         <div className={styles.worldCardMeta}>
           <span data-world-age-policy={"pilot-" + MONEY_WORLD_PILOT_AGE_BAND.id}>{"Usia rekomendasi " + MONEY_WORLD_PILOT_AGE_BAND.label}</span>
-          <span>{state.ready ? String(completed) + "/8 Stage selesai" : "Memuat progres…"}</span>
+          <span>{state.ready ? String(completed) + "/" + MONEY_WORLD_STAGES.length + " Stage selesai" : "Memuat progres…"}</span>
           <strong data-world-catalog-cta>{cta}</strong>
         </div>
       </Link>
@@ -249,7 +241,7 @@ export function MoneyWorldMapScreen({ childId, worldId }: { childId: string; wor
       <WorldHero />
       <div className={styles.mapTopline}>
         <Link href={worldsHref} className={styles.textButton}>← Semua World</Link>
-        <span>{state.ready ? String(state.progress.completedStageIds.length) + "/8 Stage" : "Memuat…"}</span>
+        <span>{state.ready ? String(state.progress.completedStageIds.length) + "/" + MONEY_WORLD_STAGES.length + " Stage" : "Memuat…"}</span>
       </div>
 
       <section
@@ -264,7 +256,7 @@ export function MoneyWorldMapScreen({ childId, worldId }: { childId: string; wor
           <div className={styles.festivalFinish} role="status">
             <span aria-hidden>🎪 🎉</span>
             <strong>Festival siap!</strong>
-            <small>Semua 8 Stage sudah selesai.</small>
+            <small>{"Semua " + MONEY_WORLD_STAGES.length + " Stage sudah selesai."}</small>
           </div>
         ) : null}
         {MONEY_WORLD_STAGES.map((stage, index) => {
@@ -1186,7 +1178,13 @@ function MoneyWorldStageRuntime({
 
   const segment = segments[segmentIndex];
   const activeScene = getMoneyWorldSceneForSegment(stageId, segment.id);
+  const pilotStage = getMoneyWorldPilotStage(stageId);
   if (!activeScene) return <div className={styles.runtimeError}>Struktur Scene World tidak valid untuk Segment ini.</div>;
+  if (!pilotStage) return <div className={styles.runtimeError}>Manifest produksi Stage World tidak ditemukan.</div>;
+  const stageVisualStyle = {
+    "--world-scene-wide": `url("${pilotStage.backgroundWide}")`,
+    "--world-scene-mobile": `url("${pilotStage.backgroundMobile}")`
+  } as CSSProperties;
   const percent = ((segmentIndex + 1) / segments.length) * 100;
   const hasNarrationControl = segment.type !== "recap";
   const showAmbientGuides = segment.type === "activity" || segment.type === "narrative_choice" || segment.type === "recap";
@@ -1199,7 +1197,10 @@ function MoneyWorldStageRuntime({
     <div
       ref={stageRuntimeRef}
       className={styles.stageRuntime}
+      style={stageVisualStyle}
       data-stage-order={stage.order}
+      data-world-pilot-stage={pilotStage.stageId}
+      data-world-pilot-runtime-status={pilotStage.runtimeStatus}
       data-world-scene={stage.order}
       data-world-stage-shell="garden-baseline-v1"
       data-world-runtime-character-policy={MONEY_WORLD_RUNTIME_CHARACTER_POLICY.mode}
@@ -1233,7 +1234,7 @@ function MoneyWorldStageRuntime({
         <small data-world-scene-label={activeScene.id}>{activeScene.title + " · " + String(segmentIndex + 1) + "/" + segments.length}</small>
       </div>
 
-      <StageAmbience stageOrder={stage.order} />
+      <StageAmbience stageId={stage.id} />
       {showAmbientGuides ? (
         <div className={styles.stageShellCharacters} aria-hidden>
           <div className={styles.stageShellCharacterLeft}><CharacterAvatar id="gavi" large /></div>
