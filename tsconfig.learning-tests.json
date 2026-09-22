@@ -92,6 +92,7 @@
     "src/lib/learning/world/worldStructure.ts",
     "src/lib/learning/world/worldScenePresentation.ts",
     "src/lib/learning/world/moneyWorldStructure.ts",
-    "src/lib/learning/world/moneyWorldPilot.ts"
+    "src/lib/learning/world/moneyWorldPilot.ts",
+    "src/lib/learning/world/moneyWorldSocial.ts"
   ]
 }
