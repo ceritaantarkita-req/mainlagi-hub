@@ -68,7 +68,9 @@ provider-pilot main CI:        #1396 / run 35719862989 — full success + exact 
 
 Current narration truth: 27 reviewed activities = 22 target-first + 5 comprehension; 27 synchronized registry slots remain `review-required`; 0 approved audio; 0 production binaries; 0 generated pilot candidates in PR #283; no static-audio runtime activation; browser fallback preserved.
 
-OpenAI `gpt-4o-mini-tts-2025-12-15` with `marin`/`cedar` is a pilot candidate only, not final production-provider selection. The next safe step is actual local/server-side candidate generation + human listening/provenance review for the exact four items. Do not bulk-generate all 27 assets, auto-approve registry entries, or activate static playback before pilot acceptance.
+Active follow-up implementation adds a fail-closed human-review evidence gate. It binds review to the exact generation-manifest SHA-256 and exact candidate SHA-256 values, requires explicit human listening/reviewer evidence, and treats human acceptance as non-production state. It has no code path to mutate the production registry, public narration directory, or runtime resolver.
+
+OpenAI `gpt-4o-mini-tts-2025-12-15` with `marin`/`cedar` is a pilot candidate only, not final production-provider selection. The next safe step is to merge/live-verify the human-review gate first, then perform actual local/server-side candidate generation + human listening/provenance review for the exact four items. Do not bulk-generate all 27 assets, auto-approve registry entries, copy candidates into `public/`, or activate static playback before later production approval.
 
 Canonical handoff: `ENGLISH_NARRATION_SAFE_CHECKPOINT_2026-09-22.md` and `ENGLISH_NARRATION_PROVIDER_PILOT_HARNESS_CLOSURE_2026-09-22.md`.
 
