@@ -38,6 +38,11 @@ try {
   assert.equal(moneyStructure.MONEY_WORLD_CANONICAL_STRUCTURE.chapters.length, 2, "canonical World must keep two Chapters");
   assert.equal(moneyStructure.MONEY_WORLD_CANONICAL_STRUCTURE.stages.length, 8, "canonical World must keep eight Stages");
   assert.equal(moneyStructure.MONEY_WORLD_CANONICAL_STRUCTURE.scenes.length, 44, "Petualangan Uang authored Scene count must stay explicit");
+  assert.equal(
+    Object.values(moneyStructure.MONEY_WORLD_SEGMENT_IDS_BY_STAGE).flat().length,
+    89,
+    "Petualangan Uang canonical hierarchy must keep all 89 existing Segments"
+  );
   assert.equal(moneyStructure.MONEY_WORLD_STRUCTURE_VALIDATION.valid, true, moneyStructure.MONEY_WORLD_STRUCTURE_VALIDATION.errors.join("; "));
   assert.deepEqual(moneyStructure.MONEY_WORLD_STRUCTURE_VALIDATION.errors, []);
   for (const stage of world.MONEY_WORLD_STAGES) {
