@@ -4,17 +4,17 @@ Status: **CURRENT HANDOFF SNAPSHOT — SYNCHRONIZED 22 SEPTEMBER 2026**
 Repository: `ceritaantarkita-req/mainlagi-hub`  
 Canonical branch: `main`
 
-This document summarizes the current repository/product state through the 22 September English narration quality + production asset-gate closure. It does not replace historical audit/closure records; it links the current truth that active work must preserve.
+This document summarizes the current repository/product state through the 22 September English narration quality + production asset gate + provider-pilot harness closure. It does not replace historical audit/closure records; it links the current truth that active work must preserve.
 
 ## 1. Source of truth and production verification
 
-Latest English-narration product/runtime implementation baseline:
+Latest English-narration tooling implementation baseline:
 
 ```text
-2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48
+4b975130bf6e5fc28cecbf6aea5373b7a1430c65
 ```
 
-This is the English narration production asset-gate main from PR #280. Final PR CI #1371 / run `35700739978` passed the full matrix and merged-main CI #1372 / run `35701448136` passed including exact Cloudflare production smoke. The earlier WS-05 Logic `pattern_completion` reuse remains closed/live verified at PR #273 / main `709e2b7d...` and its 900/900 / 47-pattern gameplay truth is unchanged. Required secret-scan enforcement from PR #269 and cloud learning analytics integrity from PR #267 remain closed/live verified. The previous character asset pipeline docs closure remains PR #264 at `bb0645d298a645483fb10e12bc0550a8eccf0870`. The fail-closed human character asset pipeline implementation itself remains PR #263 at `e4d7b4285db17a2010c22cdd1bc29451208f6a1b`. The activity character-presentation foundation remains PR #259 and the runtime asset lifecycle registry remains PR #262. The subject-background runtime implementation remains the earlier PR #256 baseline:
+This is the provider-pilot harness main from PR #283. Exact-head PR CI #1395 / run `35719163695` passed the full matrix and merged-main CI #1396 / run `35719862989` passed including exact Cloudflare production smoke. The smoke served exact SHA `4b975130bf6e5fc28cecbf6aea5373b7a1430c65` with the canonical Supabase target. Runtime narration behavior remains the browser-fallback behavior from the PR #280 asset-gate baseline `2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48`; PR #283 adds offline/server-side pilot tooling and gates, not static-audio runtime playback. The earlier WS-05 Logic `pattern_completion` reuse remains closed/live verified at PR #273 / main `709e2b7d...` and its 900/900 / 47-pattern gameplay truth is unchanged. Required secret-scan enforcement from PR #269 and cloud learning analytics integrity from PR #267 remain closed/live verified. The previous character asset pipeline docs closure remains PR #264 at `bb0645d298a645483fb10e12bc0550a8eccf0870`. The fail-closed human character asset pipeline implementation itself remains PR #263 at `e4d7b4285db17a2010c22cdd1bc29451208f6a1b`. The activity character-presentation foundation remains PR #259 and the runtime asset lifecycle registry remains PR #262. The subject-background runtime implementation remains the earlier PR #256 baseline:
 
 ```text
 Background implementation main:       7502c708c998c87bb273639025fcb10ba6c81e12
@@ -50,36 +50,27 @@ The project owner subsequently supplied one production screenshot for each of th
 
 ## 1A. English narration safe checkpoint
 
-English narration now has two closed/live-verified waves:
+English narration now has the following closed/live-verified engineering checkpoints:
 
 ```text
 Wave 1 quality PR:             #278
 Wave 1 main:                   8d60a69a076cc6e5253650112f2ffe79add345ea
 Wave 1 merged-main CI:         #1367 / run 35697909785 — exact smoke
 Wave 1 docs closure PR:        #279
-Wave 1 docs closure main:      397bcab1ee2d101ebd89f2377bd7dffb2705d7c0
-Wave 1 docs closure main CI:   #1369 / run 35699976551 — exact smoke
 Wave 2 asset-gate PR:          #280
-Wave 2 final PR CI:            #1371 / run 35700739978 — full success
-product runtime baseline:      2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48
+runtime behavior baseline:     2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48
 runtime baseline main CI:      #1372 / run 35701448136 — exact smoke
+provider-pilot harness PR:     #283
+provider-pilot PR head:        ed1a0d08107fb35b5030fe296268eeb90b759170
+provider-pilot tooling base:   4b975130bf6e5fc28cecbf6aea5373b7a1430c65
+provider-pilot main CI:        #1396 / run 35719862989 — full success + exact smoke
 ```
 
-Current narration truth:
+Current narration truth: 27 reviewed activities = 22 target-first + 5 comprehension; 27 synchronized registry slots remain `review-required`; 0 approved audio; 0 production binaries; 0 generated pilot candidates in PR #283; no static-audio runtime activation; browser fallback preserved.
 
-- 27 reviewed English listening activities;
-- 22 target-first vocabulary/letter/phrase narrations;
-- 5 sentence-level comprehension narrations;
-- 27 production asset registry slots synchronized to runtime transcripts;
-- 27 `review-required`;
-- 0 approved production audio;
-- 0 production audio binaries;
-- no static-audio runtime activation;
-- browser speech fallback preserved.
+OpenAI `gpt-4o-mini-tts-2025-12-15` with `marin`/`cedar` is a pilot candidate only, not final production-provider selection. The next safe step is actual local/server-side candidate generation + human listening/provenance review for the exact four items. Do not bulk-generate all 27 assets, auto-approve registry entries, or activate static playback before pilot acceptance.
 
-The next safe step is a four-item provider/voice pilot with human pronunciation, child-learning suitability, commercial-use, redistribution, disclosure and checksum review. Do not bulk-generate all 27 assets before pilot acceptance.
-
-Canonical handoff: `ENGLISH_NARRATION_SAFE_CHECKPOINT_2026-09-22.md`.
+Canonical handoff: `ENGLISH_NARRATION_SAFE_CHECKPOINT_2026-09-22.md` and `ENGLISH_NARRATION_PROVIDER_PILOT_HARNESS_CLOSURE_2026-09-22.md`.
 
 ## 1B. Cloud analytics integrity now
 

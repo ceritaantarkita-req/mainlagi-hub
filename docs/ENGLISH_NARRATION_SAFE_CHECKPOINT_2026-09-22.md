@@ -246,3 +246,21 @@ docs/ENGLISH_NARRATION_PROVIDER_PILOT_2026-09-22.md
 ```
 
 The provider-specific harness is intentionally outside runtime architecture: default dry-run, no network in CI, local output under `internal/`, explicit credential gate, no registry auto-approval, and no static-audio activation.
+
+
+## 10. Provider-pilot harness live-verification addendum
+
+The next-step harness described above is now **MERGED / LIVE VERIFIED**:
+
+```text
+implementation PR:            #283
+final PR head:                ed1a0d08107fb35b5030fe296268eeb90b759170
+PR CI:                        #1395 / run 35719163695 — FULL SUCCESS
+implementation main baseline: 4b975130bf6e5fc28cecbf6aea5373b7a1430c65
+merged-main CI:               #1396 / run 35719862989 — FULL SUCCESS
+Cloudflare production smoke:  SUCCESS — exact 4b975130bf6e5fc28cecbf6aea5373b7a1430c65
+```
+
+The live harness preserves the original checkpoint boundary: exact four-item pilot only; OpenAI API is a primary pilot candidate rather than the final provider lock; pinned `gpt-4o-mini-tts-2025-12-15`; `marin`/`cedar`; dry-run default; local-only `internal/` output; explicit `OPENAI_API_KEY` gate; no registry auto-approval; no public production binary; and no static-audio runtime activation.
+
+Actual candidate generation/human listening is still open. This repository wave generated **0 audio candidates**, so all 27 canonical registry slots remain `review-required`.

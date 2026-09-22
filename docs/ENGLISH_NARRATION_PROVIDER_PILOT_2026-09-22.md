@@ -1,6 +1,6 @@
 # English Narration Provider Pilot — 2026-09-22
 
-Status: **GENERATION-READY / HUMAN REVIEW REQUIRED / NOT RUNTIME-ACTIVE**
+Status: **HARNESS CLOSED / MERGED / LIVE VERIFIED / CANDIDATE GENERATION + HUMAN REVIEW OPEN / NOT RUNTIME-ACTIVE**
 
 This document advances the closed English narration asset gate into the next reversible step: a four-item provider/voice pilot. It does **not** select a permanent production provider and it does **not** approve or activate any narration binary.
 
@@ -165,3 +165,26 @@ provider pilot approval != runtime activation
 A separate runtime wave must add the static-audio resolver, AI-voice disclosure surface if required, fallback behavior, browser/device tests, and rollback behavior.
 
 Current production behavior remains browser `speechSynthesis`.
+
+
+## 9. Harness verification record
+
+```text
+PR:                         #283
+final PR head:              ed1a0d08107fb35b5030fe296268eeb90b759170
+PR CI:                      #1395 / run 35719163695 — FULL SUCCESS
+merged implementation main: 4b975130bf6e5fc28cecbf6aea5373b7a1430c65
+merged-main CI:             #1396 / run 35719862989 — FULL SUCCESS
+Cloudflare production:      SUCCESS — exact merged implementation SHA
+generated pilot audio:      0
+approved production audio:  0
+runtime static audio:       NOT ACTIVATED
+```
+
+Merged-main production smoke verified `https://mainlagihub.my.id` serving exact SHA `4b975130bf6e5fc28cecbf6aea5373b7a1430c65` from branch `main` with the canonical Supabase target.
+
+## 10. Next execution step
+
+The harness itself is closed. Next work is **candidate generation and human listening**, not more provider-harness architecture. Provide `OPENAI_API_KEY` only through a local/server environment, generate the exact four-item set with `marin`, use `cedar` as the planned comparison candidate, and keep production registry lifecycles unchanged until human review is complete. Do not copy candidates into `public/` or activate static playback in the same step.
+
+Closure summary: `ENGLISH_NARRATION_PROVIDER_PILOT_HARNESS_CLOSURE_2026-09-22.md`.

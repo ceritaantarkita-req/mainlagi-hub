@@ -33,10 +33,12 @@ This is still a browser-dependent fallback improvement. Mainlagi does **not** ye
 
 The English fixed-narration production-asset gate is **merged/live verified** via PR #280 -> main `2cc7d5be...`, merged-main CI #1372 / run `35701448136` with exact Cloudflare production smoke. The gate locks exact 27-slot provenance metadata, provider/right review fields, human pronunciation/child-learning approval fields, checksum validation, registry/runtime transcript synchronization, and stray-public-audio rejection. It intentionally remains at **27 review-required / 0 approved production audio / 0 production binary / no static runtime activation**.
 
+The four-item provider-pilot **harness** is also merged/live verified via PR #283 -> implementation baseline `4b975130...`, merged-main CI #1396 / run `35719862989` with exact Cloudflare production smoke. It prepares an OpenAI API pilot candidate using pinned `gpt-4o-mini-tts-2025-12-15` plus `marin`/`cedar`, but deliberately generated **0 audio candidates** in the repository wave and did not approve or activate anything.
+
 Remaining work:
 
-- select and human-review an English provider/model/voice pilot;
-- generate and approve fixed English narration assets through the new gate;
+- run the prepared four-item local/server-side provider pilot and human-review the exact candidate audio;
+- choose/confirm a production provider/model/voice only from reviewed evidence, then approve fixed English narration assets through the existing gate;
 - add the later runtime static-audio resolver/playback activation with browser speech fallback;
 - define stable character/voice identity only when character development is explicitly resumed;
 - reviewed Indonesian production voices/assets;

@@ -440,3 +440,24 @@ If a historical document conflicts with current code or a canonical current docu
 Every developer/AI agent completing product-quality work must update affected canonical docs, workstream status, QA/results/remaining work, avoid unsupported deployment/approval claims, and keep visual documentation aligned with implemented reality.
 
 **Code merged without related documentation updates is not complete.**
+
+
+## 22 September English narration provider-pilot harness checkpoint
+
+The exact four-item provider-pilot harness is **MERGED / LIVE VERIFIED** through PR #283.
+
+```text
+runtime narration behavior baseline: 2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48
+provider-pilot tooling baseline:      4b975130bf6e5fc28cecbf6aea5373b7a1430c65
+provider-pilot PR CI:                 #1395 / run 35719163695 — full success
+provider-pilot merged-main CI:        #1396 / run 35719862989 — full success + exact Cloudflare smoke
+pilot scope:                          4 exact English listening activities
+pilot candidate:                      OpenAI / gpt-4o-mini-tts-2025-12-15 / marin + cedar
+generated candidate audio:            0
+approved production audio:            0
+static-audio runtime activation:      none
+```
+
+Canonical records: `ENGLISH_NARRATION_PROVIDER_PILOT_2026-09-22.md`, `ENGLISH_NARRATION_PROVIDER_PILOT_HARNESS_CLOSURE_2026-09-22.md`, and `ENGLISH_NARRATION_SAFE_CHECKPOINT_2026-09-22.md`.
+
+Next work is candidate generation + human listening review. Mainlagi World remains untouched; character development remains paused; WS-05 remains closed; 900 activities / 47 active patterns / no Pattern #48 remain unchanged.
