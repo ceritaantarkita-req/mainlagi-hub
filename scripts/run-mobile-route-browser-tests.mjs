@@ -191,6 +191,16 @@ async function inspectPage(page, route, viewport) {
     const overlayCount = await page.locator("nextjs-portal, [data-nextjs-dialog-overlay], [data-next-badge-root]").count();
     assert.equal(overlayCount, 0, `${route.path} rendered a Next.js error overlay at ${viewport.width}px`);
 
+    if (route.path === "/child/demo-gian/worlds") {
+      await page.locator("[data-world-catalog-cta]").waitFor();
+      assert.equal(
+        await page.locator("[data-world-catalog-cta]").textContent(),
+        "Mulai petualangan →",
+        "fresh World catalog must offer a clear start CTA"
+      );
+      await page.getByText("Tetap bisa dijelajahi bersama orang dewasa.", { exact: true }).waitFor();
+    }
+
     if (route.path === "/child/demo-gian/home") {
       assert.equal(await page.getByRole("link", { name: "Belajar", exact: true }).count(), 1, "child home must expose Belajar navigation");
       assert.equal(await page.getByRole("link", { name: "World", exact: true }).count(), 1, "child home must expose World navigation");
@@ -423,6 +433,36 @@ async function main() {
       }
       await context.close();
       console.log(`Mobile route matrix passed at ${viewport.width}px.`);
+    }
+
+    {
+      const viewport = { width: 390, height: 844 };
+      const context = await browser.newContext({ viewport });
+      await context.addInitScript((progress) => {
+        window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
+          "demo-gian": { "money-festival": progress }
+        }));
+      }, {
+        worldId: "money-festival",
+        completedStageIds: [
+          "money-stage-01-money-use",
+          "money-stage-02-price-change"
+        ],
+        currentStageId: "money-stage-03-income-sources",
+        currentSegmentIndex: 3,
+        updatedAt: "2026-09-22T00:00:00.000Z"
+      });
+      const page = await context.newPage();
+      await page.goto(baseUrl + "/child/demo-gian/worlds", { waitUntil: "domcontentloaded" });
+      await page.locator("[data-world-catalog-cta]").waitFor();
+      assert.equal(
+        await page.locator("[data-world-catalog-cta]").textContent(),
+        "Lanjut Stage 3 →",
+        "World catalog must resume at the next unfinished Stage"
+      );
+      await page.getByText("2/8 Stage selesai", { exact: true }).waitFor();
+      await context.close();
+      console.log("World Petualangan Uang resume-aware catalog CTA passed at 390px.");
     }
 
     {
