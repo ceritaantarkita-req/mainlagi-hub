@@ -18,13 +18,22 @@ export interface MoneyWorldNarrationApproval {
   speaker: MoneyWorldNarrationSpeaker;
   locale: typeof MONEY_WORLD_NARRATION_LOCALE;
   providerOrSource: string;
+  providerModel: string;
+  voiceIdentity: string;
+  sourceTerms: string;
+  rightsBasis: string;
   rightsStatus: MoneyWorldNarrationRightsStatus;
+  commercialUseAllowed: true;
+  redistributionAllowed: true;
+  aiDisclosureRequired: boolean;
   reviewedBy: string;
   reviewedAt: string;
   pronunciationReviewed: true;
   pacingReviewed: true;
   loudnessReviewed: true;
   mobilePlaybackReviewed: true;
+  childLearningReviewed: true;
+  technicalSha256: string;
 }
 
 export interface MoneyWorldNarrationProductionEntry {
@@ -93,13 +102,22 @@ function isApprovalValidForCue(
     && approval.speaker === cue.speaker
     && approval.locale === cue.locale
     && approval.rightsStatus === "redistribution-approved"
+    && approval.commercialUseAllowed
+    && approval.redistributionAllowed
+    && typeof approval.aiDisclosureRequired === "boolean"
     && Boolean(approval.providerOrSource.trim())
+    && Boolean(approval.providerModel.trim())
+    && Boolean(approval.voiceIdentity.trim())
+    && Boolean(approval.sourceTerms.trim())
+    && Boolean(approval.rightsBasis.trim())
     && Boolean(approval.reviewedBy.trim())
     && Boolean(Date.parse(approval.reviewedAt))
     && approval.pronunciationReviewed
     && approval.pacingReviewed
     && approval.loudnessReviewed
-    && approval.mobilePlaybackReviewed;
+    && approval.mobilePlaybackReviewed
+    && approval.childLearningReviewed
+    && /^[a-f0-9]{64}$/i.test(approval.technicalSha256);
 }
 
 function buildProductionEntries(): MoneyWorldNarrationProductionEntry[] {
@@ -158,16 +176,34 @@ export function validateMoneyWorldNarrationProduction(): MoneyWorldNarrationProd
     if (approval.rightsStatus !== "redistribution-approved") {
       errors.push(approval.cueId + " distribution rights are not approved");
     }
-    if (!approval.providerOrSource.trim() || !approval.reviewedBy.trim() || !Date.parse(approval.reviewedAt)) {
+    if (!approval.commercialUseAllowed || !approval.redistributionAllowed) {
+      errors.push(approval.cueId + " commercial/redistribution rights must both be approved");
+    }
+    if (typeof approval.aiDisclosureRequired !== "boolean") {
+      errors.push(approval.cueId + " AI disclosure decision must be explicit");
+    }
+    if (
+      !approval.providerOrSource.trim() ||
+      !approval.providerModel.trim() ||
+      !approval.voiceIdentity.trim() ||
+      !approval.sourceTerms.trim() ||
+      !approval.rightsBasis.trim() ||
+      !approval.reviewedBy.trim() ||
+      !Date.parse(approval.reviewedAt)
+    ) {
       errors.push(approval.cueId + " approval provenance/reviewer metadata is incomplete");
     }
     if (
       !approval.pronunciationReviewed ||
       !approval.pacingReviewed ||
       !approval.loudnessReviewed ||
-      !approval.mobilePlaybackReviewed
+      !approval.mobilePlaybackReviewed ||
+      !approval.childLearningReviewed
     ) {
       errors.push(approval.cueId + " approval review gates are incomplete");
+    }
+    if (!/^[a-f0-9]{64}$/i.test(approval.technicalSha256)) {
+      errors.push(approval.cueId + " approval technicalSha256 must be a 64-character hex digest");
     }
   }
 
