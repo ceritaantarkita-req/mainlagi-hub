@@ -264,3 +264,39 @@ src/components/learning/world/WorldSceneRenderer.tsx
 ```
 
 Narration continues to bind by stable cue ID inside those Scene surfaces. The next branch task is end-to-end production QA and responsive cleanup before freezing a new green checkpoint.
+
+
+## 14. Production wave 08 — Stage batch readiness / voice gate
+
+The 88 cue slots are now grouped into eight canonical Stage batches by:
+
+```text
+src/lib/learning/world/moneyWorldNarrationPlan.ts
+```
+
+Current voice-production policy is deliberately fail-closed:
+
+```text
+fixedAudioGenerationAuthorized=false
+blockerId=voice-identity-not-approved
+```
+
+This prevents the temporary Gavi/Paca runtime presentation mapping from silently becoming a permanent Gian/Naya voice decision.
+
+A provider-neutral Stage packet tool is available at:
+
+```text
+scripts/prepare-world-money-narration-batch.mjs
+```
+
+Detailed plan: `WORLD_NARRATION_BATCH_PLAN_2026-09-22.md`.
+
+Current truth remains:
+
+```text
+8 Stage batches
+88 total cues
+0 approved
+0 generation-authorized
+88 blocked
+```
