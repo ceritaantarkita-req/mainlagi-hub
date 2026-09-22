@@ -2425,3 +2425,43 @@
     padding-inline: 9px;
   }
 }
+
+
+/* === Journey-map spacing polish: keep banners, stars and finale from colliding === */
+.mapShell .stageRow[data-stage-order="1"],
+.mapShell .stageRow[data-stage-order="5"] {
+  margin-top: 112px;
+}
+
+.mapShell .stageRow[data-stage-order="1"]::before,
+.mapShell .stageRow[data-stage-order="5"]::before {
+  top: -72px;
+}
+
+.mapShell[data-world-complete="true"] {
+  padding-bottom: 180px;
+}
+
+.mapShell[data-world-complete="true"]::after {
+  display: none;
+}
+
+.mapShell[data-world-complete="true"] .festivalFinish {
+  bottom: 28px;
+}
+
+@media(max-width: 760px) {
+  .mapShell .stageRow[data-stage-order="1"],
+  .mapShell .stageRow[data-stage-order="5"] {
+    margin-top: 104px;
+  }
+
+  .mapShell .stageRow[data-stage-order="1"]::before,
+  .mapShell .stageRow[data-stage-order="5"]::before {
+    top: -66px;
+  }
+
+  .mapShell[data-world-complete="true"] {
+    padding-bottom: 170px;
+  }
+}
