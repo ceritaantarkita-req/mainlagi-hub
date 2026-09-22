@@ -82,7 +82,10 @@ An isolated Mainlagi World pilot is currently active on:
 Branch: feature/world-petualangan-uang-dummy-20260922
 Draft PR: #272
 Known-green code head: 5c76f9812a93eb7ef07fff1880af4da5af2b4927
-PR CI: #1290 / run 35679390492 — full success
+Code CI: #1290 / run 35679390492 — full success
+Frozen checkpoint branch: checkpoint/world-petualangan-uang-green-20260922
+Frozen checkpoint head: faaca0eba4cbf6a75dfabb5f261cbf8e98e0912b
+Frozen checkpoint CI: #1293 / run 35680206722 — full success
 Merge state: NOT MERGED / NOT PRODUCTION
 ```
 
