@@ -36,7 +36,7 @@ export const MONEY_WORLD_CONTENT_FOCUS: readonly MoneyWorldContentFocus[] = [
     stageId: "money-stage-02-price-change",
     focus: "price-change-and-inflation",
     continuityGoal: "Build from one observed price change to the child-safe idea that many prices can rise over time.",
-    requiredTerms: ["harga bisa berubah", "inflasi"]
+    requiredTerms: ["harga berubah", "inflasi"]
   },
   {
     stageId: "money-stage-03-income-sources",
@@ -93,11 +93,16 @@ function segmentCorpus(segment: MoneyWorldSegment): string[] {
   if (segment.type === "recap") {
     return [segment.title, ...segment.items.map((item) => item.label)];
   }
-  const prompt =
-    "prompt" in segment.activity.payload && typeof segment.activity.payload.prompt === "string"
-      ? segment.activity.payload.prompt
-      : "";
-  return prompt ? [prompt] : [];
+  return collectStrings(segment.activity.payload);
+}
+
+function collectStrings(value: unknown): string[] {
+  if (typeof value === "string") return [value];
+  if (Array.isArray(value)) return value.flatMap(collectStrings);
+  if (value && typeof value === "object") {
+    return Object.values(value).flatMap(collectStrings);
+  }
+  return [];
 }
 
 function factualSpokenText(segment: MoneyWorldSegment): string | null {
