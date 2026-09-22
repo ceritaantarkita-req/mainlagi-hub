@@ -18,6 +18,7 @@ import { useEffect, useRef, useState } from "react";
 import { speakWithStatus, unlockAudio } from "@/lib/audio/feedback";
 import type { LearningActivity, LearningProgress, LearningSubject } from "@/lib/learning/system";
 import styles from "./ActivityGallery.module.css";
+import { LearningVisualToken } from "./LearningVisualToken";
 import convergence from "./StageGalleryConvergence.module.css";
 import { drawingGuide } from "@/lib/learning/drawingGuides";
 
@@ -49,7 +50,7 @@ function ActivityPreview({ activity }: { activity: LearningActivity }) {
 
   return (
     <div className={styles.picturePreview} data-preview-kind="picture" aria-hidden>
-      <span className={styles.activityEmoji}>{activity.emoji}</span>
+      <LearningVisualToken className={styles.activityEmoji}>{activity.emoji}</LearningVisualToken>
       <span className={styles.previewIcon}><PreviewIcon size={34} weight="duotone" /></span>
     </div>
   );
