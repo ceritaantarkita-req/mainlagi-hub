@@ -546,6 +546,10 @@ async function main() {
       await worldStageShell.waitFor();
       assert.equal(await worldStageShell.getAttribute("data-world-scene-id"), "money-scene-s01-opening", "Stage 1 must begin inside the authored opening Scene");
       assert.equal(await worldStageShell.getAttribute("data-world-scene-kind"), "story", "opening Scene must expose its canonical kind");
+      const openingSceneFrame = page.locator('[data-world-scene-frame="money-scene-s01-opening"]');
+      await openingSceneFrame.waitFor();
+      assert.equal(await openingSceneFrame.getAttribute("data-world-scene-presentation"), "dialogue", "story Scene must resolve the reusable dialogue presentation");
+      assert.equal(await openingSceneFrame.locator('[data-world-scene-label="money-scene-s01-opening"]').count(), 1, "reusable Scene renderer must expose the authored Scene title");
       assert.equal(await page.locator('[data-world-runtime-character-policy="approved-mascot-dummy"]').count(), 1, "World Stage runtime must expose the approved mascot-dummy policy");
       assert.equal(await worldStageShell.getByRole("link", { name: "Kembali", exact: true }).count(), 1, "World Stage shell must keep the Garden-style back control");
       assert.equal(await worldStageShell.locator("[data-world-shell-hear]").count(), 1, "World Stage shell must keep a top-level Dengar control");
@@ -580,6 +584,9 @@ async function main() {
       await activityPromptHear.waitFor();
       assert.equal(await worldStageShell.getAttribute("data-world-scene-id"), "money-scene-s01-money-price-match", "first mini-game must advance into its authored challenge Scene");
       assert.equal(await worldStageShell.getAttribute("data-world-scene-kind"), "challenge", "mini-game Scene must expose challenge kind");
+      const challengeSceneFrame = page.locator('[data-world-scene-frame="money-scene-s01-money-price-match"]');
+      await challengeSceneFrame.waitFor();
+      assert.equal(await challengeSceneFrame.getAttribute("data-world-scene-presentation"), "activity", "challenge Scene must resolve the reusable activity presentation");
       assert.ok(await page.locator('[role="img"][aria-label="Gavi"]').count() >= 1, "World activity shell must present approved Gavi artwork");
       assert.ok(await page.locator('[role="img"][aria-label="Paca"]').count() >= 1, "World activity shell must present approved Paca artwork");
       assert.equal(await page.locator('[role="img"][aria-label="Gian"]').count(), 0, "World activity shell must not activate fallback Gian artwork");
@@ -922,6 +929,9 @@ async function main() {
       const stageEightScene = page.locator('[data-world-scene="8"]');
       const stageEightBackground = await stageEightScene.evaluate((node) => getComputedStyle(node, "::before").backgroundImage);
       assert.match(stageEightBackground, /garden-background\.webp/, "World finale must return to the illustrated festival garden environment");
+      const choiceSceneFrame = page.locator('[data-world-scene-frame="money-scene-s08-child-choice"]');
+      await choiceSceneFrame.waitFor();
+      assert.equal(await choiceSceneFrame.getAttribute("data-world-scene-presentation"), "choice", "final child choice must use the reusable choice presentation");
       await page.getByRole("button", { name: /Tambah pita/ }).click();
       await page.getByText("Kamu memilih membuat meja lebih meriah.", { exact: true }).waitFor();
       await page.getByRole("button", { name: /Lanjut/ }).click();
@@ -932,6 +942,9 @@ async function main() {
         await advanceWorldNarrative(page);
       }
       await page.getByRole("heading", { name: "Yang kita temukan", exact: true }).waitFor();
+      const recapSceneFrame = page.locator('[data-world-scene-frame="money-scene-s08-recap"]');
+      await recapSceneFrame.waitFor();
+      assert.equal(await recapSceneFrame.getAttribute("data-world-scene-presentation"), "recap", "final recap must use the reusable recap presentation");
       assert.equal(await page.locator('[aria-label="Ringkasan Petualangan Uang"] > *').count(), 6, "World finale recap must show six concrete learning moments");
       await page.screenshot({ path: path.join(screenshotDir, "390-world-money-stage-08-recap.png"), fullPage: false });
       await page.getByRole("button", { name: /Lanjut/ }).click();
