@@ -45,6 +45,16 @@ public/artwork/characters/*.webp
 public/artwork/characters/*.avif
 public/artwork/characters/*.svg
 
+# Pre-generated narration is production-only and must pass the narration
+# provenance + human-review gate before being force-added to the public tree.
+public/audio/narration/en/*.mp3
+public/audio/narration/en/*.wav
+public/audio/narration/en/*.ogg
+public/audio/narration/en/*.opus
+public/audio/narration/en/*.aac
+public/audio/narration/en/*.m4a
+public/audio/narration/en/*.flac
+
 # local-only, not served by Next.js
 internal/
 
