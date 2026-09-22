@@ -652,6 +652,9 @@ async function main() {
       for (let index = 0; index < 3; index += 1) {
         await page.getByRole("button", { name: /Lanjut/ }).click();
       }
+      await page.getByRole("heading", { name: "Yang kita temukan", exact: true }).waitFor();
+      assert.equal(await page.locator('[aria-label="Ringkasan Petualangan Uang"] > *').count(), 6, "World finale recap must show six concrete learning moments");
+      await page.getByRole("button", { name: /Lanjut/ }).click();
       await page.getByRole("button", { name: /Selesai/ }).click();
 
       await page.getByRole("heading", { name: "Luar biasa!", exact: true }).waitFor();
