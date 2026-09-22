@@ -1,6 +1,6 @@
 # Mainlagi World — Chapter Navigation Visual Polish — 22 September 2026
 
-Status: **IMPLEMENTED ON ISOLATED WORLD PRODUCTION BRANCH / CI VALIDATION PENDING**
+Status: **VALIDATED GREEN AT `55505f17d08a3a0218e142a7a9d637ba561f75fe`**
 
 Branch:
 
@@ -130,3 +130,58 @@ completion UX polish
 ```
 
 Audio can remain blocked behind the existing voice/provider/rights decision while those runtime/product passes continue.
+
+
+## 8. Green validation / screenshot review
+
+Exact validated head:
+
+```text
+55505f17d08a3a0218e142a7a9d637ba561f75fe
+```
+
+CI:
+
+```text
+Mainlagi TV V3 CI #1457
+run 35747546100
+
+Quality gate (Ubuntu):        PASS
+Windows compatibility:        PASS
+Production build:             PASS
+Production dependency audit:  PASS
+Secret history scan:          PASS
+Mobile route QA (Chromium):   PASS
+overall:                      SUCCESS
+```
+
+Relevant screenshot artifact:
+
+```text
+mobile-route-qa-screenshots
+artifact id 10703377795
+```
+
+Manual review of `320-world-money-map-chapter-nav.png` caught an awkward three-line split of `Petualangan` in the compact map hero. The mobile hero grid/gap/avatar width/title typography were tightened and a browser gate now requires the World title to remain within two readable lines.
+
+The final 320px screenshot confirms:
+
+- `Petualangan Uang` remains two lines without splitting a word;
+- Chapter 1 banner remains inside viewport;
+- Stage 1/2 path remains readable;
+- Chapter 2 banner remains visually separated from Stage 4/5;
+- no horizontal overflow is introduced.
+
+Frozen final visual-navigation checkpoint:
+
+```text
+checkpoint/world-petualangan-uang-visual-nav-polish-green-20260922
+@ 55505f17d08a3a0218e142a7a9d637ba561f75fe
+```
+
+Earlier semantic-navigation rollback checkpoint also remains immutable:
+
+```text
+checkpoint/world-petualangan-uang-chapter-nav-green-20260922
+@ 35dd5c7ba0a2bebb08a4b31764e3fcf2ba1f303c
+```
