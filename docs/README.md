@@ -39,6 +39,7 @@ The current **Petualangan Uang** implementation is intentionally isolated on dra
 Read:
 
 - [`WORLD_PETUALANGAN_UANG_SAFE_CHECKPOINT_2026-09-22.md`](WORLD_PETUALANGAN_UANG_SAFE_CHECKPOINT_2026-09-22.md) — known-green World code checkpoint, product/runtime contract, visual QA, privacy/progress boundaries, production gaps and restart instructions.
+- [`WORLD_PETUALANGAN_UANG_PRODUCTION_POLICY_2026-09-22.md`](WORLD_PETUALANGAN_UANG_PRODUCTION_POLICY_2026-09-22.md) — locks the 6–8 pilot presentation, forbids silent 3–12 runtime morphing, and tracks final art/audio/social-card production gaps.
 
 Known-green base checkpoint: `checkpoint/world-petualangan-uang-green-20260922` @ `faaca0eba4cbf6a75dfabb5f261cbf8e98e0912b`. Latest visual-green checkpoint: `checkpoint/world-petualangan-uang-visual-green-20260922` @ `3b033405b41abcfab4c70d9db76265095ff7c5e2`, verified by CI #1314 / run `35682393320` — Ubuntu, Windows, production build, dependency audit, secret scan and Mobile Chromium all pass. PR #272 remains **draft / not merged**.
 
