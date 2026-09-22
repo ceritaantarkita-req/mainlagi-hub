@@ -19,6 +19,7 @@ if (compile.status !== 0) process.exit(compile.status ?? 1);
 const require = createRequire(import.meta.url);
 const world = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorld.js"));
 const worldStructure = require(path.join(outDir, "src", "lib", "learning", "world", "worldStructure.js"));
+const scenePresentation = require(path.join(outDir, "src", "lib", "learning", "world", "worldScenePresentation.js"));
 const moneyStructure = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldStructure.js"));
 const pilot = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldPilot.js"));
 const narration = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldNarration.js"));
@@ -35,6 +36,25 @@ try {
   assert.equal(world.MONEY_WORLD_ID, "money-festival");
 
   assert.equal(worldStructure.WORLD_STRUCTURE_CONTRACT_VERSION, "world-structure-v1");
+  assert.equal(scenePresentation.WORLD_SCENE_PRESENTATION_VERSION, "world-scene-presentation-v1");
+  assert.equal(scenePresentation.WORLD_SCENE_PRESENTATION_VALIDATION.valid, true, scenePresentation.WORLD_SCENE_PRESENTATION_VALIDATION.errors.join("; "));
+  assert.deepEqual(scenePresentation.WORLD_SCENE_PRESENTATION_VALIDATION.errors, []);
+  assert.deepEqual(
+    Object.keys(scenePresentation.WORLD_SCENE_PRESENTATIONS).sort(),
+    ["challenge", "choice", "closing", "recap", "story"],
+    "every canonical Scene kind must have exactly one reusable presentation policy"
+  );
+  assert.equal(scenePresentation.WORLD_SCENE_PRESENTATIONS.story.surface, "dialogue");
+  assert.equal(scenePresentation.WORLD_SCENE_PRESENTATIONS.challenge.surface, "activity");
+  assert.equal(scenePresentation.WORLD_SCENE_PRESENTATIONS.choice.surface, "choice");
+  assert.equal(scenePresentation.WORLD_SCENE_PRESENTATIONS.recap.surface, "recap");
+  assert.equal(scenePresentation.WORLD_SCENE_PRESENTATIONS.closing.surface, "payoff");
+  assert.equal(scenePresentation.WORLD_SCENE_PRESENTATIONS.story.showAmbientCompanions, false);
+  assert.equal(scenePresentation.WORLD_SCENE_PRESENTATIONS.challenge.showAmbientCompanions, true);
+  assert.equal(scenePresentation.WORLD_SCENE_PRESENTATIONS.choice.showAmbientCompanions, true);
+  assert.equal(scenePresentation.WORLD_SCENE_PRESENTATIONS.recap.showAmbientCompanions, true);
+  assert.equal(scenePresentation.WORLD_SCENE_PRESENTATIONS.closing.showAmbientCompanions, false);
+
   assert.equal(moneyStructure.MONEY_WORLD_STRUCTURE_VERSION, "money-world-structure-v1");
   assert.equal(moneyStructure.MONEY_WORLD_CANONICAL_STRUCTURE.world.id, world.MONEY_WORLD_ID);
   assert.equal(moneyStructure.MONEY_WORLD_CANONICAL_STRUCTURE.chapters.length, 2, "canonical World must keep two Chapters");
@@ -48,6 +68,11 @@ try {
   assert.equal(moneyStructure.MONEY_WORLD_STRUCTURE_VALIDATION.valid, true, moneyStructure.MONEY_WORLD_STRUCTURE_VALIDATION.errors.join("; "));
   assert.deepEqual(moneyStructure.MONEY_WORLD_STRUCTURE_VALIDATION.errors, []);
   for (const stage of world.MONEY_WORLD_STAGES) {
+    for (const scene of moneyStructure.getMoneyWorldScenes(stage.id)) {
+      const presentationForScene = scenePresentation.getWorldScenePresentation(scene.kind);
+      assert.ok(presentationForScene, scene.id + " must resolve a reusable Scene presentation");
+      assert.equal(presentationForScene.kind, scene.kind);
+    }
     assert.deepEqual(
       moneyStructure.getMoneyWorldCanonicalSegmentIds(stage.id),
       world.getMoneyWorldSegments(stage.id).map((segment) => segment.id),
@@ -94,9 +119,14 @@ try {
 
   const worldRuntimeSource = readFileSync(path.join(root, "src/components/learning/world-v2/MoneyWorldExperience.tsx"), "utf8");
   const worldRuntimeCss = readFileSync(path.join(root, "src/components/learning/world-v2/MoneyWorldExperience.module.css"), "utf8");
+  const worldSceneRendererSource = readFileSync(path.join(root, "src/components/learning/world/WorldSceneRenderer.tsx"), "utf8");
   assert.doesNotMatch(worldRuntimeSource, /WORLD_STAGE_AMBIENCE/, "Stage ambience must be data-driven by the pilot manifest");
   assert.doesNotMatch(worldRuntimeCss, /\.stageRuntime\[data-stage-order="[1-8]"\]\s*\{\s*--world-scene-wide/, "Stage background selection must not return to per-order CSS hardcoding");
   assert.match(worldRuntimeSource, /getMoneyWorldPilotStage\(stageId\)/, "Stage runtime must resolve its pilot production manifest");
+  assert.match(worldRuntimeSource, /<WorldSceneRenderer/, "Petualangan Uang must render through the reusable Scene presentation layer");
+  assert.doesNotMatch(worldRuntimeSource, /showAmbientGuides/, "Scene companion policy must not be hardcoded in Petualangan Uang runtime");
+  assert.match(worldSceneRendererSource, /getWorldScenePresentation\(scene\.kind\)/, "reusable Scene renderer must resolve canonical Scene.kind policy");
+  assert.match(worldSceneRendererSource, /data-world-scene-presentation/, "reusable Scene renderer must expose its presentation surface for QA");
 
   assert.equal(presentation.MONEY_WORLD_PRESENTATION_POLICY.version, "money-world-presentation-v1");
   assert.equal(presentation.MONEY_WORLD_PRESENTATION_POLICY.pilotBandId, "6-8");
@@ -395,7 +425,7 @@ try {
     "current background reuse must remain explicitly approved in the pilot manifest"
   );
 
-  console.log("Petualangan Uang canonical hierarchy, eight-stage production manifest, data-driven Stage visuals, fixed-narration production/review resolver, linear progress, age policy/migration audit, fail-closed evidence audit, practice boundary, low-text language, recap, mascot-dummy runtime policy, asset plan, and financial-safety contracts passed.");
+  console.log("Petualangan Uang canonical hierarchy, reusable Scene renderer/presentation policy, eight-stage production manifest, data-driven Stage visuals, fixed-narration production/review resolver, linear progress, age policy/migration audit, fail-closed evidence audit, practice boundary, low-text language, recap, mascot-dummy runtime policy, asset plan, and financial-safety contracts passed.");
 } finally {
   rmSync(outDir, { recursive: true, force: true });
 }
