@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { GardenActivityFrame } from "./GardenActivityFrame";
+import { LearningVisualToken } from "./LearningVisualToken";
 import { getActivityLearningSpec } from "@/lib/learning/catalog";
 import { isPictureWordMatchActivity } from "@/lib/learning/gameplayPresentation";
 import { pictureWordMatchConfig } from "@/lib/learning/pictureWordMatchConfig";
@@ -128,7 +129,7 @@ export function PictureWordMatchActivity({ childId, activityId }: { childId: str
         </div>
 
         <div className={styles.pictureBoard} data-picture-word-match-board>
-          <div className={styles.picture} aria-label={`${ui.pictureAria} ${config.spokenWord}`}>{config.picture}</div>
+          <LearningVisualToken className={styles.picture} label={`${ui.pictureAria} ${config.spokenWord}`}>{config.picture}</LearningVisualToken>
           <div
             className={styles.answerSlot}
             data-picture-word-match-result
