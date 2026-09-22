@@ -66,54 +66,59 @@ Canonical safe handoff: `ENGLISH_NARRATION_SAFE_CHECKPOINT_2026-09-22.md`.
 Next safe narration step is now actual local/server-side generation of the exact four pilot candidates followed by human listening through the merged/live-verified review gate. Human `accepted` means only that the exact local candidate set passed listening review; it is **not production approval**. Do not bulk-generate all 27 assets, auto-approve the registry, copy candidates into `public/`, or activate runtime static audio in the same step. Review contract: `ENGLISH_NARRATION_HUMAN_REVIEW_GATE_2026-09-22.md`; closure record: `ENGLISH_NARRATION_HUMAN_REVIEW_GATE_CLOSURE_2026-09-22.md`.
 
 
-## 23 September learning visual containment closure / semantic illustration next
+## 23 September learning illustration checkpoint — containment + semantic gate closed
 
-Learning-illustration consistency remains the active independent product-quality track, but the **containment/readability foundation is now CLOSED / MERGED / LIVE VERIFIED**.
+The learning-illustration quality track now has two closed engineering foundations:
 
-Verification:
+1. **containment/readability** — CLOSED / MERGED / LIVE VERIFIED through PR #294;
+2. **semantic illustration registry/provenance gate** — CLOSED / MERGED / LIVE VERIFIED through PR #297.
 
-- audit PR **#287** -> main `bea1380e29106388eea415d3733e95d092095d97`;
-- audit merged-main CI **#1453 / run `35746899947`** — full success + exact Cloudflare smoke;
-- containment implementation PR **#294** final head `38fe722a63fe073a6ad3ffcfe8fa0e846559dff6`;
-- PR CI **#1529 / run `35763091032`** — full success;
-- merged implementation main **`6d0f9bd8972297e316bdf031603d160d901d8d04`**;
-- merged-main CI **#1531 / run `35764397545`** — full success including exact-SHA Cloudflare production smoke;
-- production health served exact SHA `6d0f9bd8972297e316bdf031603d160d901d8d04`, branch `main`, 9 modules and canonical Supabase backend;
-- PR #1529 screenshot artifact `10710764036` received a representative human/model spot-check with no P0/P1 containment/readability blocker.
+Semantic-gate verification:
 
-Live containment foundation now covers:
+- implementation PR **#297** final head `098a6c242569e5a45030ddaeb1dc5db8035dbe14`;
+- PR CI **#1536 / run `35769098899`** — full success;
+- merged implementation main **`ed7db8a6c5b8a3ee4acc9bcca260b4e0b5776773`**;
+- merged-main CI **#1537 / run `35770021133`** — full success including exact-SHA Cloudflare smoke;
+- production health served exact SHA `ed7db8a6c5b8a3ee4acc9bcca260b4e0b5776773`, branch `main`, 9 modules and canonical Supabase backend.
 
-- shared Activity Gallery picture previews;
-- Bahasa Initial Sound;
-- Bahasa + English Picture & Word;
-- Science Feature/Function;
-- Science Material Lab;
-- bounded `LearningVisualToken`;
-- blocking parent/frame/glyph containment assertions;
-- 320x720 / 390x844 / 768x1024 / 1280x800 dedicated activity QA;
-- canonical gallery responsive matrix plus 1280 catalog QA.
+Current semantic registry truth:
 
-CI itself found and forced fixes for real layout defects, including the Material Lab 30px grid collapse and short-desktop feedback/CTA fit issues. Assertions were not weakened.
+```text
+semantic slots:                    17
+review-required:                   17
+visually-suitable reuse candidates: 8
+explicitly rejected reuse candidate:1
+approved semantic illustrations:    0
+production semantic binaries:       0
+runtime semantic activation:        0
+```
 
-What remains open is **semantic illustration clarity/provenance**, not containment infrastructure. Current recognition-critical fallbacks still include known mismatches such as HEAD -> `🙂`, JUMP -> `🤸`, gills -> `🫧`, beak -> `👄`, cactus thick stem -> `💚`, towel -> `🧺`, plus weak generic raincoat/toy-block representations.
+Preliminary reuse candidates are apple, cat, fish, umbrella, car, cup, house and bird. They remain provenance-pending and semantic-review-pending. The existing `color-object-ball.webp` is explicitly rejected for semantic ball use.
 
-The original inventory remains **43 source files / 280 canonical batch-wave `emoji:` fields**, but that is not a replacement count. Exact Latin/Arabic glyphs, stable instructional symbols, decorative UI and pictorial recognition content must continue to be treated separately.
+P0 semantic-art targets that still need exact production candidates:
 
-Next safe wave:
+- HEAD -> current `🙂`;
+- JUMP -> current `🤸`;
+- gills -> current `🫧`;
+- beak -> current `👄`;
+- cactus thick stem -> current `💚`;
+- towel -> current `🧺`;
+- generic raincoat;
+- generic toy block.
 
-1. define centralized semantic illustration keys/resolver;
-2. add a fail-closed learning-illustration provenance/technical registry;
-3. review existing Mainlagi artwork for exact semantic reuse rather than trusting filenames;
-4. start with a small P0 mismatch/reuse pilot;
-5. keep `LearningVisualToken` as the containment layer;
-6. preserve activity identity, prompt, choice order, answer, evidence, mastery, progression, schema, stage ownership and gameplay taxonomy.
+The dedicated production subtree is `public/artwork/learning-illustrations/`. A binary cannot become approved unless the exact registry record has owned/licensed provenance, redistribution clearance, child-readable semantic approval, technical validation and matching SHA-256. Stray production binaries fail CI.
+
+**Next active work is exact P0 semantic-art candidate production/review, not another registry or containment architecture wave.** Runtime mapping remains separate even after asset approval.
+
+The original inventory remains 43 source files / 280 canonical batch-wave `emoji:` fields, but that is not a replacement count.
 
 Safe boundaries remain unchanged: **Mainlagi World untouched; character development paused; fixed English audio deferred; WS-05 closed at 900/900 / 47 active / no Pattern #48.**
 
 Canonical records:
 - `LEARNING_ILLUSTRATION_CONSISTENCY_AUDIT_2026-09-22.md`;
-- `LEARNING_VISUAL_CONTAINMENT_PILOT_2026-09-22.md`;
-- `LEARNING_VISUAL_CONTAINMENT_CLOSURE_2026-09-23.md`.
+- `LEARNING_VISUAL_CONTAINMENT_CLOSURE_2026-09-23.md`;
+- `LEARNING_SEMANTIC_ILLUSTRATION_REGISTRY_PILOT_2026-09-23.md`;
+- `LEARNING_SEMANTIC_ILLUSTRATION_REGISTRY_CLOSURE_2026-09-23.md`.
 
 ## 22 September required secret-scan enforcement closure
 
