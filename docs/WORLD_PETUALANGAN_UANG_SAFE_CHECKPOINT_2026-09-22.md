@@ -385,3 +385,35 @@ Detailed policy: `WORLD_PETUALANGAN_UANG_PRODUCTION_POLICY_2026-09-22.md`.
 
 Until this wave receives a new green checkpoint, the safe rollback remains `checkpoint/world-petualangan-uang-visual-green-20260922` @ `3b033405b41abcfab4c70d9db76265095ff7c5e2`.
 
+## 17. Fail-closed World → Evidence audit
+
+A machine-readable audit now covers all 16 World activity placements:
+
+```text
+src/lib/learning/world/moneyWorldEvidenceBridge.ts
+version: money-world-evidence-bridge-v0
+enabled: false
+```
+
+Audit result:
+
+- 2 candidate objective/evidence matches only;
+- 14 explicit exclusions;
+- all 16 placements covered exactly once;
+- candidate canonical Skill IDs must exist in the catalog;
+- candidate assessed evidence contract must match the reusable mechanic;
+- no World placement changes from `practice` to `assessed`.
+
+Candidates:
+
+```text
+money-s02-activity-01 -> math.quantity.comparison
+money-s08-activity-02 -> math.operation.subtraction.within_10
+```
+
+The bridge remains disabled because World activity IDs are not canonical `learning_activities`, the current canonical Skill age contract still stops at 7, server-owned World activity → Skill registration is undefined, and World ★★★ must stay separate from mastery.
+
+Detailed audit: `WORLD_PETUALANGAN_UANG_EVIDENCE_BRIDGE_AUDIT_2026-09-22.md`.
+
+No SQL/evidence/mastery/progression mutation is authorized by this audit.
+
