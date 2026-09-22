@@ -22,7 +22,7 @@ import {
 import { CharacterAvatar } from "@/components/learning/LearningCommon";
 import { MONEY_WORLD_PILOT_AGE_BAND } from "@/lib/learning/world/moneyWorldPresentation";
 import { MONEY_WORLD_RUNTIME_CHARACTER_POLICY } from "@/lib/learning/world/moneyWorldAssets";
-import { audioStatus, playTone, speakPrompt, unlockAudio, warmAudio, type SpeechStartStatus } from "@/lib/audio/feedback";
+import { audioStatus, playTone, unlockAudio, warmAudio, type SpeechStartStatus } from "@/lib/audio/feedback";
 import {
   MONEY_WORLD_ID,
   MONEY_WORLD_STAGES,
@@ -33,6 +33,11 @@ import {
 } from "@/lib/learning/world/moneyWorld";
 import { getMoneyWorldSceneForSegment } from "@/lib/learning/world/moneyWorldStructure";
 import { getMoneyWorldPilotStage } from "@/lib/learning/world/moneyWorldPilot";
+import {
+  playMoneyWorldNarration,
+  stopMoneyWorldFixedNarration,
+  type MoneyWorldNarrationPlaybackMode
+} from "@/lib/learning/world/moneyWorldNarrationPlayback";
 import {
   WORLD_PROGRESS_EVENT,
   checkpointMoneyWorldStage,
@@ -331,6 +336,7 @@ function SpeechCard({
   nextLabel: string;
 }) {
   const [speechStatus, setSpeechStatus] = useState<SpeechStartStatus | null>(null);
+  const [playbackMode, setPlaybackMode] = useState<MoneyWorldNarrationPlaybackMode | null>(null);
   const autoAttemptedRef = useRef(false);
   const runtimeCharacter = runtimeCharacterForStoryRole(speaker);
   const presentedText = presentDummyCharacterCopy(text);
@@ -342,11 +348,21 @@ function SpeechCard({
     const startNarration = () => {
       if (cancelled || autoAttemptedRef.current || !audioStatus().unlocked || audioStatus().muted) return;
       autoAttemptedRef.current = true;
-      setSpeechStatus(speakPrompt(presentedText, {
-        lang: "id-ID",
-        key: "world-narration:" + audioId,
-        interrupt: true
-      }));
+      const result = playMoneyWorldNarration({
+        cueId: audioId,
+        fallbackText: presentedText,
+        speech: {
+          lang: "id-ID",
+          key: "world-narration:" + audioId,
+          interrupt: true
+        },
+        onFixedAudioFallback: (fallback) => {
+          setSpeechStatus(fallback.status);
+          setPlaybackMode(fallback.mode);
+        }
+      });
+      setSpeechStatus(result.status);
+      setPlaybackMode(result.mode);
     };
 
     const timer = window.setTimeout(startNarration, 0);
@@ -362,18 +378,29 @@ function SpeechCard({
       window.clearTimeout(timer);
       window.removeEventListener("pointerdown", afterGesture, { capture: true });
       window.removeEventListener("keydown", afterGesture, { capture: true });
+      stopMoneyWorldFixedNarration();
     };
   }, [audioId, presentedText]);
 
   const hear = () => {
     autoAttemptedRef.current = true;
     unlockAudio("id-ID");
-    setSpeechStatus(speakPrompt(presentedText, {
-      lang: "id-ID",
-      key: "world-replay:" + audioId,
-      interrupt: true,
-      dedupeMs: 0
-    }));
+    const result = playMoneyWorldNarration({
+      cueId: audioId,
+      fallbackText: presentedText,
+      speech: {
+        lang: "id-ID",
+        key: "world-replay:" + audioId,
+        interrupt: true,
+        dedupeMs: 0
+      },
+      onFixedAudioFallback: (fallback) => {
+        setSpeechStatus(fallback.status);
+        setPlaybackMode(fallback.mode);
+      }
+    });
+    setSpeechStatus(result.status);
+    setPlaybackMode(result.mode);
   };
 
   const canContinue = speechStatus !== null;
@@ -386,7 +413,11 @@ function SpeechCard({
         : "Suara belum tersedia. Teks tetap bisa dibaca.";
 
   return (
-    <section className={cx(styles.storyScene, kind === "concept" && styles.conceptScene)} data-world-audio-id={audioId}>
+    <section
+      className={cx(styles.storyScene, kind === "concept" && styles.conceptScene)}
+      data-world-audio-id={audioId}
+      data-world-narration-mode={playbackMode ?? "idle"}
+    >
       <div className={styles.storyCharacter}>
         <CharacterAvatar id={runtimeCharacter.id} large />
         <strong>{runtimeCharacter.name}</strong>
@@ -420,21 +451,47 @@ function WorldActivityPrompt({
   tag?: string;
 }) {
   const [audioNotice, setAudioNotice] = useState("");
+  const [playbackMode, setPlaybackMode] = useState<MoneyWorldNarrationPlaybackMode | null>(null);
   const spokenPrompt = prompt?.trim() || "Dengarkan petunjuknya.";
 
   const hearPrompt = () => {
     unlockAudio("id-ID");
-    const status = speakPrompt(spokenPrompt, {
-      lang: "id-ID",
-      key: "world-activity-prompt:" + audioId,
-      interrupt: true,
-      dedupeMs: 0
+    const result = playMoneyWorldNarration({
+      cueId: audioId,
+      fallbackText: spokenPrompt,
+      speech: {
+        lang: "id-ID",
+        key: "world-activity-prompt:" + audioId,
+        interrupt: true,
+        dedupeMs: 0
+      },
+      onFixedAudioFallback: (fallback) => {
+        setPlaybackMode(fallback.mode);
+        setAudioNotice(
+          fallback.status === "spoken"
+            ? ""
+            : fallback.status === "muted"
+              ? "Suara sedang dimatikan."
+              : "Suara belum tersedia. Prompt tetap bisa dibaca."
+        );
+      }
     });
-    setAudioNotice(status === "spoken" ? "" : status === "muted" ? "Suara sedang dimatikan." : "Suara belum tersedia. Prompt tetap bisa dibaca.");
+    setPlaybackMode(result.mode);
+    setAudioNotice(
+      result.status === "spoken"
+        ? ""
+        : result.status === "muted"
+          ? "Suara sedang dimatikan."
+          : "Suara belum tersedia. Prompt tetap bisa dibaca."
+    );
   };
 
   return (
-    <div className={styles.activityHeading} data-world-audio-id={audioId}>
+    <div
+      className={styles.activityHeading}
+      data-world-audio-id={audioId}
+      data-world-narration-mode={playbackMode ?? "idle"}
+    >
       <span className={styles.sceneType}>{tag}</span>
       <h2>{spokenPrompt}</h2>
       <button type="button" className={styles.promptAudioButton} onClick={hearPrompt} data-world-prompt-hear>
