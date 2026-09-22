@@ -120,7 +120,7 @@
     "test:engine": "npm run test:engine:core && npm run test:gesture && npm run test:interaction && npm run test:tracing && npm run test:audio-manager && npm run test:ui:mobile-foundation && npm run test:learning",
     "simulate": "node scripts/run-five-simulations.mjs",
     "validate:structure": "node scripts/validate-structure.mjs",
-    "validate:assets": "npm run validate:assets:affiliate && npm run validate:assets:characters && npm run test:assets:characters && npm run validate:assets:narration && npm run test:assets:narration && npm run test:assets:narration-pilot && npm run test:assets:narration-pilot-review",
+    "validate:assets": "npm run validate:assets:affiliate && npm run validate:assets:characters && npm run test:assets:characters && npm run validate:assets:learning-illustrations && npm run test:assets:learning-illustrations && npm run validate:assets:narration && npm run test:assets:narration && npm run test:assets:narration-pilot && npm run test:assets:narration-pilot-review",
     "preview:build": "node scripts/build-preview.mjs",
     "check:portable": "npm run validate:structure && npm run validate:assets && npm run audit:source && npm run test:batch16:security && npm run test:qa:device && npm run typecheck:portable && npm run test:engine && npm run qa:activity-quality && npm run qa:gameplay-distribution && npm run simulate && npm run test:batch17:final && npm run preview:build",
     "check": "npm run validate:structure && npm run validate:assets && npm run audit:source && npm run test:batch16:security && npm run test:qa:device && npm run typecheck && npm run lint && npm run test:engine && npm run qa:activity-quality && npm run qa:gameplay-distribution && npm run simulate && npm run test:batch17:final && npm run build && npm run test:batch16:build",
@@ -157,7 +157,9 @@
     "test:assets:narration-pilot": "node scripts/run-english-narration-pilot-tests.mjs",
     "pilot:narration:generate": "node scripts/generate-english-narration-openai-pilot.mjs",
     "pilot:narration:review": "node scripts/review-english-narration-pilot.mjs",
-    "test:assets:narration-pilot-review": "node scripts/run-english-narration-pilot-review-tests.mjs"
+    "test:assets:narration-pilot-review": "node scripts/run-english-narration-pilot-review-tests.mjs",
+    "validate:assets:learning-illustrations": "node scripts/validate-learning-illustration-assets.mjs",
+    "test:assets:learning-illustrations": "node scripts/run-learning-illustration-asset-validator-tests.mjs"
   },
   "dependencies": {
     "@capacitor/cli": "^7.6.8",

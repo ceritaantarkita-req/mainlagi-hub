@@ -202,6 +202,30 @@ This is the project's provenance/redistribution decision for this specific gener
 
 Canonical scene inventory and runtime paths live in `SUBJECT_BACKGROUND_SYSTEM.md`. The implementation checkpoint is `SUBJECT_BACKGROUND_ALL_SUBJECTS_INTEGRATION_2026-09-21.md`. The project-owner live production preview across all nine subjects is recorded in `SUBJECT_BACKGROUND_PRODUCTION_PREVIEW_REVIEW_2026-09-21.md`.
 
+## Learning semantic illustration production gate
+
+Learning semantic illustrations now have a dedicated fail-closed registry/validator pilot:
+
+- `src/lib/data/learning-illustration-asset-provenance.json`;
+- `scripts/validate-learning-illustration-assets.mjs`;
+- `scripts/run-learning-illustration-asset-validator-tests.mjs`;
+- reserved production directory: `public/artwork/learning-illustrations/`.
+
+The first registry contains 17 recognition-critical semantic slots and starts entirely `review-required`: **0 approved semantic illustrations / 0 production binaries / 0 runtime activation**.
+
+Existing `public/artwork/activity-previews/` files may be recorded as candidate sources, but repository presence and filenames are not provenance approval. Preliminary candidate review may mark a file `visually-suitable` or `rejected`; production approval still requires exact owned/licensed provenance, public redistribution clearance, approved child-readability/semantic review, exact canonical path, technical validation and SHA-256.
+
+The gate deliberately separates:
+
+1. candidate visual suitability;
+2. provenance/redistribution approval;
+3. semantic child-readability approval;
+4. later runtime activation.
+
+Any image binary under `public/artwork/learning-illustrations/` without an approved registry record is rejected. Non-approved records must keep `productionPath=null`, `productionSha256=null` and `redistributionAllowed=false`.
+
+Canonical pilot record: `LEARNING_SEMANTIC_ILLUSTRATION_REGISTRY_PILOT_2026-09-23.md`.
+
 ## 7. Third-party software, fonts, and model assets
 
 Binary provenance policy complements, rather than replaces, `THIRD_PARTY_NOTICES.md`.
