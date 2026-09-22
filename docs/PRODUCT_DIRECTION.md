@@ -208,16 +208,16 @@ See `AI_OCR_OPENROUTER.md`.
 
 ## 15. Current execution priority
 
-**22 September project-owner override:** Mainlagi World is a separate development track and must not be touched by the current workstream. Character development is paused; current character assets are reference-only. Active Mainlagi Belajar engineering is WS-05 Logic `pattern_completion` reuse PR #273, branch-verified at `ec050bf...` / CI #1312, merge pending.
+**22 September project-owner override:** Mainlagi World is a separate development track and must not be touched by this workstream. Character development is paused; current character assets are reference-only. Mainlagi Belajar WS-05 Logic `pattern_completion` reuse is now fully closed/live verified through PR #273 -> main `709e2b7d...` / merged-main CI #1353.
 
 The 20 September WS-13 product sequence has already closed canonical component/warning audit, child home + subject directory, activity gallery/QA unlock, shared completion, matching randomization, first-instruction narration latency, and parent/profile/settings responsive redesign.
 
 Current order while the override is active:
 
-1. close WS-05 PR #273 through final exact-head CI, merge, and merged-main production smoke;
+1. preserve the closed WS-05 PR #273 production baseline;
 2. keep Mainlagi World untouched;
 3. keep character development paused until explicit project-owner resume;
-4. select the next product wave separately after WS-05 closure.
+4. select the next product wave separately; any later WS-05 runtime change starts from a fresh objective/evidence audit.
 
 Historical/planned order below remains reference context:
 

@@ -1,26 +1,26 @@
 # Mainlagi — Product UX Next Work
 
 Date: **20 September 2026**  
-Last synchronized: **21 September 2026**  
+Last synchronized: **22 September 2026**  
 Status: **ACTIVE ROADMAP / SUBJECT BACKGROUNDS LIVE VERIFIED / CHARACTER ASSET PIPELINE LIVE VERIFIED**  
-Current synchronized baseline: production `main` = `e4d7b4285db17a2010c22cdd1bc29451208f6a1b` (PR #263 fail-closed human character asset pipeline, merged-main CI #1198 / run `35599025558` including exact Cloudflare smoke). Character runtime registry PR #262 remains live at `ceb2546b6c626810901c5542e7f718acfad55341`; subject-background runtime implementation remains `7502c708c998c87bb273639025fcb10ba6c81e12` (PR #256, CI #1183 exact Cloudflare smoke).
+Current synchronized baseline: production `main` = `709e2b7d3e529cf37f10a05e9c9dc92884e0a781` (PR #273 WS-05 Logic `pattern_completion` reuse, merged-main CI #1353 / run `35687996669` including exact Cloudflare smoke). Character asset pipeline PR #263 remains live and character production is paused; subject-background runtime implementation remains PR #256 live verified.
 
-This document is the short human/AI handoff for the next Mainlagi product-quality wave. It records the user-accepted UX direction without changing curriculum, mastery, evidence, progression, or the active WS-05 gameplay audit.
+This document is the short human/AI handoff for Mainlagi product-quality work. It records the user-accepted UX direction without changing curriculum, mastery, evidence or progression. The latest WS-05 Logic reuse wave is closed; any later mechanic work remains a separate audited track.
 
 ## 22 September execution override
 
 - **Mainlagi World is being developed separately and must not be modified by this workstream.**
 - Character development is **PAUSED**; Drive character assets are reference-only.
-- Active Mainlagi Belajar engineering is WS-05 Logic repeating-pattern -> existing `pattern_completion` reuse, PR #273.
-- PR #273 checkpoint `ec050bf...` passed CI #1312 with 900/900 / 47 active / `choice_grid` 174 / `pattern_completion` 10 / KEEP 900.
-- Do not mix World, character runtime, or broad UX refactors into WS-05.
+- Mainlagi Belajar WS-05 Logic repeating-pattern -> existing `pattern_completion` reuse is **CLOSED / MERGED / LIVE VERIFIED** through PR #273 -> main `709e2b7d...`.
+- Final PR CI #1321 and merged-main CI #1353 passed; production truth is 900/900 / 47 active / `choice_grid` 174 / `pattern_completion` 10 / KEEP 900.
+- Do not mix World, character runtime, or broad UX refactors into any later WS-05 audit/runtime wave.
 
 
 ## Current product truth
 
 - Production source of truth remains GitHub `main`; `mainlagihub.my.id` is deployed from `main`.
 - Current learning catalog remains **9 subjects / 900 activities**.
-- Current merged gameplay baseline remains **47 active patterns**; the Logic repeating-pattern -> existing `pattern_completion` audit is a separate WS-05 track.
+- Current merged gameplay baseline is **47 active patterns / `choice_grid` 174 / `pattern_completion` 10**; the Logic repeating-pattern reuse is closed/live verified and any later WS-05 work requires a fresh audit.
 - Garden visual identity is already live, but **20 September user acceptance reopened product UX work**. Automated green checks do not mean the current child/parent UX is accepted.
 - The current codebase contains overlapping child/parent presentation paths. Before broad redesign, active/canonical components must be identified and legacy presentation paths retired or clearly isolated.
 

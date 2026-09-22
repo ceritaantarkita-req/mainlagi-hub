@@ -104,13 +104,13 @@
 ## Current synchronized checkpoint — 22 September 2026
 
 ```text
-current main:                 8af5ce8a13d19f8aaeb3d8f06229dbcdeb555a41
-latest merged-main CI:        #1212 / run 35632779986 — success + exact Cloudflare smoke
+current main:                 709e2b7d3e529cf37f10a05e9c9dc92884e0a781
+latest merged-main CI:        #1353 / run 35687996669 — success + exact Cloudflare smoke
 analytics regression:         1201 attempts / 3603 evidence rows / paged + fail-closed
 WS-13 character work:         PAUSED BY PROJECT OWNER / reference-only assets
 WS-05 audit:                  PR #240 -> 7109db41 / CI #1100 success
-WS-05 runtime PR:             #273 / checkpoint ec050bf / CI #1312 full success / merge pending
-verified PR distribution:     900/900 / 47 / choice_grid 174 / pattern_completion 10 / KEEP 900
+WS-05 runtime closure:        #273 -> 709e2b7d / final PR CI #1321 / main CI #1353 live verified
+verified production truth:    900/900 / 47 / choice_grid 174 / pattern_completion 10 / KEEP 900
 gameplay taxonomy:            47 active / no Pattern #48
 ```
 
@@ -125,8 +125,8 @@ Product-UX and WS-05 remain separate work tracks. Character production is curren
 
 - **Do not modify Mainlagi World**; it is being developed separately by the user.
 - Character production/development is **PAUSED**. Existing Drive character assets are reference material only for this wave.
-- Current active implementation is Mainlagi Belajar WS-05 exact five-ID Logic `pattern_completion` reuse.
-- Do not mix World, character runtime, broad UX refactors, or Pattern #48 into this PR.
+- Mainlagi Belajar WS-05 exact five-ID Logic `pattern_completion` reuse is closed/live verified through PR #273.
+- Do not mix World, character runtime, broad UX refactors, or Pattern #48 into any follow-up WS-05 audit/runtime wave.
 
 ## Product goal
 
@@ -156,7 +156,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 | WS-02 Voice & narration | **LATENCY WAVE LIVE VERIFIED / QUALITY LATER** | first-instruction latency/preload closed; English voice quality and reviewed production narration remain later work |
 | WS-03 Public/parent frontend | **PARENT WAVE LIVE VERIFIED** | PR #251 -> `77bee682...`; <760px mobile nav / >=760px sidebar; family/demo and profile/guide separation preserved |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **47 ACTIVE / PR #273 BRANCH VERIFIED / MERGE PENDING** | checkpoint `ec050bf...`, CI #1312 full success; 900/900 / `choice_grid` 174 / `pattern_completion` 10 / KEEP 900; exact five Logic IDs; no Pattern #48 |
+| WS-05 Gameplay diversification | **47 ACTIVE / LOGIC REUSE LIVE VERIFIED** | PR #273 -> main `709e2b7d...`; final PR CI #1321 + main CI #1353 exact smoke; 900/900 / `choice_grid` 174 / `pattern_completion` 10 / KEEP 900; exact five Logic IDs; no Pattern #48 |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | 63-capture permanent baseline remains blocking; character production is paused until explicit project-owner resume |
@@ -166,7 +166,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 | WS-12 Technical cleanup | TODO LATER | after gameplay/product priorities |
 | WS-13 Product UX coherence | **CHARACTER DEVELOPMENT PAUSED** | existing UX waves remain closed/live verified; Drive character assets are reference-only until explicit resume |
 
-## Verified PR #273 gameplay checkpoint — merge pending
+## PR #273 Logic pattern-completion reuse — production closure
 
 ```text
 900 / 900 classified
@@ -206,7 +206,7 @@ Current result:
 
 The five reuse-first candidates from the original Pattern #48 audit chain are implemented and live verified: Logic `set_reasoning`, Math `spatial_relation_board`, Math `compare_properties`, English `cloze_sentence_choice`, and Science environment-care `healthy_habit_routine`. A subsequent fresh audit also justified Science ecosystem-dependency reuse of existing `phenomenon_relation_board`; that runtime is now live verified through main CI #1034.
 
-Later fresh audits continued the reuse-first approach through additional verified waves. The current fresh audit is Logic repeating-pattern -> existing `pattern_completion`, merged/live verified via PR #240 / `7109db41...` / CI #1100; runtime is not started. A later reuse wave or new Pattern #48 still requires fresh evidence that the selected interaction is pedagogically justified and that existing mechanics cannot more safely preserve the objective/evidence contract.
+Later fresh audits continued the reuse-first approach through additional verified waves. Logic repeating-pattern -> existing `pattern_completion` is now **fully closed/live verified** through audit PR #240 and runtime PR #273 -> main `709e2b7d...` / main CI #1353. Any later reuse wave or new Pattern #48 still requires fresh evidence that the selected interaction is pedagogically justified and that existing mechanics cannot more safely preserve the objective/evidence contract.
 
 ### Verified reuse checkpoint — `set_reasoning` / Logic multi-attribute
 
@@ -751,10 +751,10 @@ P2 findings: 3
 
 ## Current WS-05 execution order
 
-1. Production `main` remains at the pre-merge 179/5 distribution until PR #273 merges; the verified PR checkpoint is **900/900 / 47 active / `choice_grid` 174 / `pattern_completion` 10 / KEEP 900**.
-2. The exact five-ID Logic repeating-pattern audit is **MERGED / LIVE VERIFIED** via PR #240 -> main `7109db41134f18884b6c08fba99ad2af997b3fed`; main CI #1100 / run `35492367065` passed.
-3. Runtime implementation is **BRANCH VERIFIED** on PR #273 at `ec050bf...`; CI #1312 passed exact-family regression, distribution, 320/390/768 Logic browser QA, Windows/Ubuntu, production build and the 63-capture permanent visual baseline. Final docs-only exact-head CI and merge remain.
-4. Verified PR runtime result is **900/900 / 47 active / `choice_grid` 174 / `pattern_completion` 10 / Logic `choice_grid` 21 / KEEP 900**.
+1. Production `main` is **709e2b7d3e529cf37f10a05e9c9dc92884e0a781** with **900/900 / 47 active / `choice_grid` 174 / `pattern_completion` 10 / KEEP 900**.
+2. The exact five-ID Logic repeating-pattern audit remains **MERGED / LIVE VERIFIED** via PR #240 -> main `7109db41134f18884b6c08fba99ad2af997b3fed`; main CI #1100 / run `35492367065` passed.
+3. Runtime implementation is **FULLY CLOSED / MERGED / LIVE VERIFIED** via PR #273. Final PR head `299d493...` passed CI #1321; merged-main CI #1353 passed exact-family regression, distribution, 320/390/768 Logic browser QA, Windows/Ubuntu, production build, 63-capture permanent visual baseline and exact-SHA Cloudflare production smoke.
+4. Verified production result is **900/900 / 47 active / `choice_grid` 174 / `pattern_completion` 10 / Logic `choice_grid` 21 / KEEP 900**.
 5. This is existing-mechanic reuse, not Pattern #48. Do not create Pattern #48 to satisfy a numeric pattern target.
 6. Preserve canonical identity, prompt, exact choice order, answer, deterministic sequence config, evidence and progression behavior.
 7. Iqro remains excluded from mechanic transformation until expert acceptance exists. Neighboring Logic families remain excluded unless a fresh objective/evidence audit justifies them.

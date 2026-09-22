@@ -27,7 +27,8 @@ Read these first for current work:
 17. [`MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md`](MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md) — child/product/UX/activity rules.
 18. [`LEARNING_ATTEMPTS_MASTERY.md`](LEARNING_ATTEMPTS_MASTERY.md) — evidence/mastery/progression contract.
 19. [`GAMEPLAY_VARIATION_CATALOG.md`](GAMEPLAY_VARIATION_CATALOG.md) — canonical gameplay-pattern catalog and WS-05 boundaries.
-   - [`WS05_LOGIC_PATTERN_COMPLETION_REUSE_WAVE_2026-09-22.md`](WS05_LOGIC_PATTERN_COMPLETION_REUSE_WAVE_2026-09-22.md) — PR #273 implementation checkpoint, exact scope and verification evidence.
+   - [`WS05_LOGIC_PATTERN_COMPLETION_REUSE_WAVE_2026-09-22.md`](WS05_LOGIC_PATTERN_COMPLETION_REUSE_WAVE_2026-09-22.md) — PR #273 implementation wave, exact scope and verification evidence.
+   - [`PATTERN_COMPLETION_LOGIC_REPEATING_PATTERN_REUSE_CLOSURE_2026-09-22.md`](PATTERN_COMPLETION_LOGIC_REPEATING_PATTERN_REUSE_CLOSURE_2026-09-22.md) — final merged/live-verified production closure for the exact five-ID Logic reuse.
 20. [`PRODUCT_DIRECTION.md`](PRODUCT_DIRECTION.md) — product principles and direction.
 21. [`KNOWN_LIMITATIONS.md`](KNOWN_LIMITATIONS.md) — current known limitations and external acceptance gaps.
 
@@ -36,8 +37,8 @@ Subsystem docs remain authoritative for their specific scope when they do not co
 ## Current project checkpoint — 22 September 2026
 
 ```text
-latest production main:          8af5ce8a13d19f8aaeb3d8f06229dbcdeb555a41
-latest main CI:                   #1212 / run 35632779986 — success + exact Cloudflare smoke
+latest production main:          709e2b7d3e529cf37f10a05e9c9dc92884e0a781
+latest main CI:                   #1353 / run 35687996669 — success + exact Cloudflare smoke
 required secret-scan hardening:   PR #269 / merged + live verified
 cloud analytics integrity fix:    PR #267 / merged + live verified
 analytics regression:             1201 attempts / 3603 evidence rows / complete pagination
@@ -53,8 +54,8 @@ project-owner preview:           9/9 subjects represented on production desktop 
 gameplay taxonomy:               900/900 classified / 47 active / no Pattern #48
 character development:           PAUSED BY PROJECT OWNER / Drive assets reference-only
 Mainlagi World:                  separate user development / DO NOT TOUCH in this workstream
-WS-05 runtime PR:                #273 / checkpoint ec050bf / CI #1312 full success / merge pending
-WS-05 verified branch truth:     900/900 / 47 / choice_grid 174 / pattern_completion 10 / KEEP 900
+WS-05 Logic runtime closure:     #273 -> 709e2b7d / PR CI #1321 + main CI #1353 live verified
+WS-05 production truth:          900/900 / 47 / choice_grid 174 / pattern_completion 10 / KEEP 900
 ```
 
 Paca/Gavi have production Garden WebP assets. Naya/Gian/Zia currently use non-production fallback representations and still need reviewed production assets. Child profile identity remains separate from guide-character identity.
@@ -422,7 +423,7 @@ Historical closure/candidate/audit records must not be rewritten to pretend late
 
 Immediate product-UX work is now visual-asset review before code integration: finish character candidate/provenance review and complete the Math/Science background pilot as approved wide/mobile pairs. Background runtime code starts only after pair review, using the central SubjectTheme/SceneVariant contract in `SUBJECT_BACKGROUND_SYSTEM.md`; English voice-quality and broader visual/usability cleanup follow.
 
-The WS-05 Logic repeating-pattern audit is on main via PR #240. Runtime implementation PR #273 is branch-verified at `ec050bf...` / CI #1312 with the exact audited five-ID scope, 174 `choice_grid`, 10 `pattern_completion`, 47 active patterns and KEEP 900; merge remains pending final docs-head CI.
+The WS-05 Logic repeating-pattern audit is on main via PR #240. Runtime implementation is fully closed/live verified through PR #273 -> main `709e2b7d...` / merged-main CI #1353 with the exact audited five-ID scope, 174 `choice_grid`, 10 `pattern_completion`, 47 active patterns and KEEP 900.
 
 External acceptance debt remains real-device/accessibility testing and Iqro expert review. P2 visual cleanup, governance hardening and later cleanup remain lower-priority work unless they become release blockers.
 

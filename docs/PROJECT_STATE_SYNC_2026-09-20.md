@@ -11,10 +11,10 @@ This document summarizes the repository/product state after the all-subject back
 Current production/documentation main:
 
 ```text
-6fd9e3fc7ffa57aab687b5529033f1a995e0e5ba
+709e2b7d3e529cf37f10a05e9c9dc92884e0a781
 ```
 
-This is the required secret-scan enforcement hardening from PR #269. PR CI #1208 passed and merged-main CI #1209 / run `35625953536` passed the full matrix including exact Cloudflare production smoke. The cloud learning analytics pagination/failure-state integrity fix remains PR #267 at `89a2bc629e8535bddbf2ab78ae1990a063f0f361`. The previous character asset pipeline docs closure remains PR #264 at `bb0645d298a645483fb10e12bc0550a8eccf0870`. The fail-closed human character asset pipeline implementation itself remains PR #263 at `e4d7b4285db17a2010c22cdd1bc29451208f6a1b`. The activity character-presentation foundation remains PR #259 and the runtime asset lifecycle registry remains PR #262. The subject-background runtime implementation remains the earlier PR #256 baseline:
+This is the WS-05 Logic `pattern_completion` reuse production main from PR #273. Final PR CI #1321 passed and merged-main CI #1353 / run `35687996669` passed the full matrix including exact Cloudflare production smoke. Required secret-scan enforcement from PR #269 and cloud learning analytics integrity from PR #267 remain closed/live verified. The previous character asset pipeline docs closure remains PR #264 at `bb0645d298a645483fb10e12bc0550a8eccf0870`. The fail-closed human character asset pipeline implementation itself remains PR #263 at `e4d7b4285db17a2010c22cdd1bc29451208f6a1b`. The activity character-presentation foundation remains PR #259 and the runtime asset lifecycle registry remains PR #262. The subject-background runtime implementation remains the earlier PR #256 baseline:
 
 ```text
 Background implementation main:       7502c708c998c87bb273639025fcb10ba6c81e12
@@ -190,17 +190,18 @@ Pattern #48 remains:
 NO JUSTIFIED NEW PATTERN YET
 ```
 
-The current fresh Logic repeating-pattern audit approved reuse of existing `pattern_completion` for exactly five activities:
+The Logic repeating-pattern audit approved reuse of existing `pattern_completion` for exactly five activities, and the runtime wave is now fully closed/live verified:
 
 ```text
 Audit PR:                  #240
 Audit main:                7109db41134f18884b6c08fba99ad2af997b3fed
 Audit main CI:             #1100 / run 35492367065 — success
 Runtime PR:                #273
-Verified runtime checkpoint: ec050bf919ebe534a719ef22a37691248e1b233d
-PR CI:                     #1312 / run 35682142457 — full success
-Verified distribution:     900/900 / 47 / choice_grid 174 / pattern_completion 10 / KEEP 900
-Merge:                     PENDING final docs-head CI
+Final PR head:              299d493da2e74e6e583322d3a16af69455d8d926
+Final PR CI:                #1321 / run 35682848171 — full success
+Merged runtime main:        709e2b7d3e529cf37f10a05e9c9dc92884e0a781
+Merged-main CI:             #1353 / run 35687996669 — full success + exact Cloudflare smoke
+Verified distribution:      900/900 / 47 / choice_grid 174 / pattern_completion 10 / KEEP 900
 ```
 
 The implementation remains existing-mechanic reuse; it creates no Pattern #48 and changes no mastery/progression/schema contract.
@@ -211,9 +212,9 @@ Current project-owner boundary:
 
 1. **Do not touch Mainlagi World**; it is being developed separately.
 2. **Do not resume character development**; Drive character assets are reference-only while paused.
-3. Finish Mainlagi Belajar WS-05 PR #273: final exact-head docs CI -> merge -> merged-main exact-SHA Cloudflare smoke.
+3. Preserve the closed Mainlagi Belajar WS-05 PR #273 production baseline; any later mechanic runtime starts from a fresh objective/evidence audit.
 4. Preserve 900 activities, 47 active patterns and all mastery/evidence/progression/schema contracts.
-5. Select any later product wave separately after #273 is fully closed.
+5. Select any later product wave separately.
 
 The all-subject background generation/integration wave remains **closed / merged / live verified**.
 

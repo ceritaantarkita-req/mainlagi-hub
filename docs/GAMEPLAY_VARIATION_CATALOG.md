@@ -71,7 +71,7 @@ The active-pattern count remains 47. Pattern #48 is still not justified.
 
 PR #273 verification also confirms exactly five Logic `pattern_completion` activities (`logic.pattern.repeat.intermediate`), legitimate progression-aware browser QA at 320/390/768, grouped `● ●` as one canonical choice/evidence step, and no neighboring-family spillover.
 
-The fresh Logic repeating-pattern audit is **MERGED / LIVE VERIFIED** via PR #240. Runtime reuse is now implemented on PR #273 and branch-verified at `ec050bf919ebe534a719ef22a37691248e1b233d`; CI #1312 / run `35682142457` passed. Verified PR distribution is `choice_grid` 174 / `pattern_completion` 10 with 47 active patterns and KEEP 900. This is still merge-pending; production `main` remains the pre-PR distribution until #273 merges.
+The Logic repeating-pattern audit is **MERGED / LIVE VERIFIED** via PR #240, and runtime reuse is now **FULLY CLOSED / MERGED / LIVE VERIFIED** via PR #273 -> main `709e2b7d3e529cf37f10a05e9c9dc92884e0a781`. Final PR CI #1321 and merged-main CI #1353 passed including exact-SHA Cloudflare smoke. Production distribution is `choice_grid` 174 / `pattern_completion` 10 with 47 active patterns and KEEP 900; exactly five Logic activities use this existing mechanic and Pattern #48 remains unjustified.
 
 Pattern #46 verified merged distribution:
 
@@ -475,7 +475,7 @@ Coverage and implemented-pattern consistency are blocking; concentration is advi
 - Implementation wave: `WS05_NUMBER_LINE_MATH_MISSING_REUSE_WAVE_2026-09-19.md`.
 - Post-merge closure: `NUMBER_LINE_MATH_MISSING_NUMBER_REUSE_CLOSURE_2026-09-19.md`.
 - Final verification: `NUMBER_LINE_MATH_MISSING_NUMBER_REUSE_FINAL_CLOSURE_VERIFICATION_2026-09-19.md`.
-- Logic repeating-pattern -> existing `pattern_completion`: exact five-ID audit **MERGED / LIVE VERIFIED** via PR #240 -> main `7109db41`; main CI #1100 success; expected runtime `choice_grid` 174 / `pattern_completion` 10 / 47 active / KEEP 900; neighboring Logic sequence/comparison/spatial/rule families excluded; **RUNTIME CODE NOT STARTED / NO PATTERN #48**.
+- Logic repeating-pattern -> existing `pattern_completion`: exact five-ID audit PR #240 plus runtime PR #273 are **FULLY CLOSED / MERGED / LIVE VERIFIED**; production main `709e2b7d...`, main CI #1353 exact smoke, `choice_grid` 174 / `pattern_completion` 10 / 47 active / KEEP 900; neighboring Logic sequence/comparison/spatial/rule families remain excluded; **NO PATTERN #48**.
 - Audit record: `PATTERN_COMPLETION_LOGIC_REPEATING_PATTERN_REUSE_AUDIT_2026-09-20.md`.
 - Continue only with justified exact scopes; reuse an existing mechanic when it already matches the evidence model.
 
