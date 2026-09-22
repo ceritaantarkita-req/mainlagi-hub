@@ -11,10 +11,10 @@ This document summarizes the repository/product state after the all-subject back
 Current production/documentation main:
 
 ```text
-709e2b7d3e529cf37f10a05e9c9dc92884e0a781
+2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48
 ```
 
-This is the WS-05 Logic `pattern_completion` reuse production main from PR #273. Final PR CI #1321 passed and merged-main CI #1353 / run `35687996669` passed the full matrix including exact Cloudflare production smoke. Required secret-scan enforcement from PR #269 and cloud learning analytics integrity from PR #267 remain closed/live verified. The previous character asset pipeline docs closure remains PR #264 at `bb0645d298a645483fb10e12bc0550a8eccf0870`. The fail-closed human character asset pipeline implementation itself remains PR #263 at `e4d7b4285db17a2010c22cdd1bc29451208f6a1b`. The activity character-presentation foundation remains PR #259 and the runtime asset lifecycle registry remains PR #262. The subject-background runtime implementation remains the earlier PR #256 baseline:
+This is the English narration production asset-gate main from PR #280. Final PR CI #1371 / run `35700739978` passed the full matrix and merged-main CI #1372 / run `35701448136` passed including exact Cloudflare production smoke. The earlier WS-05 Logic `pattern_completion` reuse remains closed/live verified at PR #273 / main `709e2b7d...` and its 900/900 / 47-pattern gameplay truth is unchanged. Required secret-scan enforcement from PR #269 and cloud learning analytics integrity from PR #267 remain closed/live verified. The previous character asset pipeline docs closure remains PR #264 at `bb0645d298a645483fb10e12bc0550a8eccf0870`. The fail-closed human character asset pipeline implementation itself remains PR #263 at `e4d7b4285db17a2010c22cdd1bc29451208f6a1b`. The activity character-presentation foundation remains PR #259 and the runtime asset lifecycle registry remains PR #262. The subject-background runtime implementation remains the earlier PR #256 baseline:
 
 ```text
 Background implementation main:       7502c708c998c87bb273639025fcb10ba6c81e12
@@ -48,7 +48,40 @@ No VPS/SSH path is canonical production.
 
 The project owner subsequently supplied one production screenshot for each of the nine subjects. Review record: `SUBJECT_BACKGROUND_PRODUCTION_PREVIEW_REVIEW_2026-09-21.md`.
 
-## 1A. Cloud analytics integrity now
+## 1A. English narration safe checkpoint
+
+English narration now has two closed/live-verified waves:
+
+```text
+Wave 1 quality PR:             #278
+Wave 1 main:                   8d60a69a076cc6e5253650112f2ffe79add345ea
+Wave 1 merged-main CI:         #1367 / run 35697909785 — exact smoke
+Wave 1 docs closure PR:        #279
+Wave 1 docs closure main:      397bcab1ee2d101ebd89f2377bd7dffb2705d7c0
+Wave 1 docs closure main CI:   #1369 / run 35699976551 — exact smoke
+Wave 2 asset-gate PR:          #280
+Wave 2 final PR CI:            #1371 / run 35700739978 — full success
+current main:                  2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48
+current merged-main CI:        #1372 / run 35701448136 — exact smoke
+```
+
+Current narration truth:
+
+- 27 reviewed English listening activities;
+- 22 target-first vocabulary/letter/phrase narrations;
+- 5 sentence-level comprehension narrations;
+- 27 production asset registry slots synchronized to runtime transcripts;
+- 27 `review-required`;
+- 0 approved production audio;
+- 0 production audio binaries;
+- no static-audio runtime activation;
+- browser speech fallback preserved.
+
+The next safe step is a four-item provider/voice pilot with human pronunciation, child-learning suitability, commercial-use, redistribution, disclosure and checksum review. Do not bulk-generate all 27 assets before pilot acceptance.
+
+Canonical handoff: `ENGLISH_NARRATION_SAFE_CHECKPOINT_2026-09-22.md`.
+
+## 1B. Cloud analytics integrity now
 
 The previously reproduced long-history reporting defect is closed on production main:
 
@@ -62,7 +95,7 @@ The previously reproduced long-history reporting defect is closed on production 
 
 Canonical record: `CLOUD_ANALYTICS_PAGINATION_CLOSURE_2026-09-21.md`.
 
-## 1B. Required secret-scan enforcement now
+## 1C. Required secret-scan enforcement now
 
 The previous governance gap is closed:
 
@@ -214,7 +247,9 @@ Current project-owner boundary:
 2. **Do not resume character development**; Drive character assets are reference-only while paused.
 3. Preserve the closed Mainlagi Belajar WS-05 PR #273 production baseline; any later mechanic runtime starts from a fresh objective/evidence audit.
 4. Preserve 900 activities, 47 active patterns and all mastery/evidence/progression/schema contracts.
-5. Select any later product wave separately.
+5. English narration Wave 1 + Wave 2 asset gate are closed/live verified. Preserve 27 reviewed / 27 registry slots / 0 approved production audio / 0 runtime static-audio activation.
+6. If narration continues, begin only with the four-item provider/voice pilot defined in `ENGLISH_NARRATION_SAFE_CHECKPOINT_2026-09-22.md`; human listening/provenance approval comes before runtime activation.
+7. Select any unrelated later product wave separately.
 
 The all-subject background generation/integration wave remains **closed / merged / live verified**.
 
