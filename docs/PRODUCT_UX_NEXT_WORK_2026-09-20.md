@@ -261,8 +261,8 @@ Current active independent track:
 18. **NOW:** exact P0 semantic-art candidate production/review, then separate approved runtime mapping.
 19. Expand semantic artwork only from measured recognition/readability evidence; never bulk-replace all emoji.
 20. Expanded human visual/usability + physical-device acceptance and cleanup of superseded components.
-19. Resume fixed English audio candidate generation/listening only when re-authorized.
-20. Resume character production only when re-authorized.
+21. Resume fixed English audio candidate generation/listening only when re-authorized.
+22. Resume character production only when re-authorized.
 
 WS-05 gameplay-mechanic work may continue independently only when it preserves its existing objective/evidence gates. Do not mix a broad UX refactor into a mechanic-reuse PR.
 
