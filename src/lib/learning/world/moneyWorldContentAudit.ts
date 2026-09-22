@@ -184,6 +184,24 @@ export function validateMoneyWorldContentAudit(): {
       errors.push(stage.id + " contains a guaranteed-return factual claim");
     }
 
+    if (
+      /\b(beli|belilah|harus membeli|pilihlah)\s+(saham|obligasi|kripto|crypto|reksa dana|investasi)\b/i.test(corpus)
+    ) {
+      errors.push(stage.id + " must not give a child direct investment-product advice");
+    }
+
+    for (const segment of segments) {
+      if (segment.type !== "narrative_choice") continue;
+      if (segment.options.length !== 3) {
+        errors.push(segment.id + " must keep exactly three open child choices");
+      }
+      for (const option of segment.options) {
+        if (/\b(benar|salah|terbaik|hebat|pintar)\b/i.test(option.reaction)) {
+          errors.push(option.id + " open financial choice reaction must remain neutral");
+        }
+      }
+    }
+
     if (stage.order < 8 && (row.narrativeChoiceCount !== 0 || row.recapCount !== 0)) {
       errors.push(stage.id + " must not introduce final-choice/recap structure early");
     }
