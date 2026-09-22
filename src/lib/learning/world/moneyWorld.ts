@@ -58,6 +58,16 @@ export type MoneyWorldSegment =
         label: string;
         reaction: string;
       }>;
+    }
+  | {
+      id: string;
+      type: "recap";
+      title: string;
+      items: Array<{
+        id: string;
+        icon: string;
+        label: string;
+      }>;
     };
 
 export const MONEY_WORLD_CHAPTERS = [
@@ -1035,6 +1045,19 @@ export const MONEY_WORLD_STAGE_EIGHT_SEGMENTS: MoneyWorldSegment[] = [
     type: "payoff",
     speaker: "Naya",
     text: "Kita lihat harga, pilih kebutuhan, dan pikirkan sisa uang."
+  },
+  {
+    id: "money-s08-recap-01",
+    type: "recap",
+    title: "Yang kita temukan",
+    items: [
+      { id: "price", icon: "🏷️", label: "Barang punya harga" },
+      { id: "change", icon: "↕️", label: "Harga bisa berubah" },
+      { id: "work", icon: "🧃", label: "Kerja dan usaha" },
+      { id: "priority", icon: "🛒", label: "Pilih yang dibutuhkan" },
+      { id: "saving", icon: "🐷", label: "Simpan untuk nanti" },
+      { id: "risk", icon: "↗️↘️", label: "Hasil punya risiko" }
+    ]
   },
   {
     id: "money-s08-payoff-04",
