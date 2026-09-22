@@ -18,6 +18,7 @@ if (compile.status !== 0) process.exit(compile.status ?? 1);
 
 const require = createRequire(import.meta.url);
 const world = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorld.js"));
+const progress = require(path.join(outDir, "src", "lib", "learning", "world", "progress.js"));
 const mechanics = require(path.join(outDir, "src", "lib", "learning", "mechanicLibrary.js"));
 
 try {
@@ -99,6 +100,40 @@ try {
   assert.equal(subtraction.activity.presentation?.removeCount, 2);
   assert.equal(subtraction.activity.payload.correctOptionId, "answer-6");
 
+  const normalizedCorrupt = progress.normalizeMoneyWorldProgress({
+    worldId: world.MONEY_WORLD_ID,
+    completedStageIds: [
+      "money-stage-01-money-use",
+      "money-stage-03-income-sources",
+      "money-stage-02-price-change"
+    ],
+    currentStageId: "money-stage-08-final-festival",
+    currentSegmentIndex: 999,
+    updatedAt: "2026-09-22T00:00:00.000Z"
+  });
+  assert.deepEqual(
+    normalizedCorrupt.completedStageIds,
+    ["money-stage-01-money-use"],
+    "local World progress must fail closed to the valid linear completion prefix"
+  );
+  assert.equal(normalizedCorrupt.currentStageId, null, "locked current World stage must be discarded");
+  assert.equal(normalizedCorrupt.currentSegmentIndex, 0, "discarded current stage must reset segment position");
+
+  const normalizedReplay = progress.normalizeMoneyWorldProgress({
+    worldId: world.MONEY_WORLD_ID,
+    completedStageIds: [
+      "money-stage-01-money-use",
+      "money-stage-02-price-change"
+    ],
+    currentStageId: "money-stage-01-money-use",
+    currentSegmentIndex: 150,
+    updatedAt: "2026-09-22T00:00:00.000Z"
+  });
+  assert.equal(normalizedReplay.currentStageId, "money-stage-01-money-use", "completed World stage replay must remain valid");
+  assert.equal(normalizedReplay.currentSegmentIndex, 100, "World segment checkpoints must remain bounded");
+  assert.equal(progress.isMoneyWorldStageUnlocked(normalizedReplay, "money-stage-03-income-sources"), true);
+  assert.equal(progress.isMoneyWorldStageUnlocked(normalizedReplay, "money-stage-04-needs-wants"), false);
+
   const riskyClaim = /pasti\s+(selalu\s+)?(untung|naik)|dijamin\s+(untung|naik)/i;
   for (const stage of world.MONEY_WORLD_STAGES) {
     for (const segment of world.getMoneyWorldSegments(stage.id)) {
@@ -108,7 +143,7 @@ try {
     }
   }
 
-  console.log("Petualangan Uang eight-stage payload, progression, practice boundary, and financial-language contracts passed.");
+  console.log("Petualangan Uang eight-stage payload, linear progress, practice boundary, and financial-language contracts passed.");
 } finally {
   rmSync(outDir, { recursive: true, force: true });
 }
