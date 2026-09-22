@@ -300,3 +300,28 @@ Current truth remains:
 0 generation-authorized
 88 blocked
 ```
+
+
+## 15. Production wave 09 — binary provenance gate
+
+Before any permanent MP3 can be approved, the World narration approval record now also requires provider model, voice identity, source terms, rights basis, explicit commercial/redistribution clearance, explicit AI-disclosure decision, child-learning review, and exact SHA-256.
+
+New gate:
+
+```text
+scripts/world-money-narration-asset-gate.mjs
+scripts/validate-world-money-narration-assets.mjs
+scripts/run-world-money-narration-asset-validator-tests.mjs
+```
+
+The validator rejects stray audio under:
+
+```text
+public/audio/world/money-festival/id-ID/
+```
+
+unless it belongs to an approved cue with matching binary checksum.
+
+Current truth remains **0 approved binaries / 88 voice-gated cues**.
+
+Detailed record: `WORLD_NARRATION_ASSET_GATE_2026-09-22.md`.
