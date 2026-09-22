@@ -1210,3 +1210,47 @@ browser speech fallback active
 Do not move or force-push this checkpoint branch.
 
 PR #282 remains Draft and is not merge authorization. PR #272 remains Draft and untouched. Character production remains paused. World -> Belajar evidence remains disabled.
+
+
+## 37. Production wave 11 — provider-pilot human review gate
+
+The active production branch now defines the deterministic human listening gate for the exact four-cue narration provider pilot.
+
+New sources:
+
+```text
+src/lib/learning/world/moneyWorldNarrationReview.ts
+scripts/prepare-world-money-narration-review-sheet.mjs
+docs/WORLD_NARRATION_REVIEW_GATE_2026-09-22.md
+```
+
+Every pilot cue must pass all nine blocking dimensions:
+
+```text
+exact_copy
+pronunciation
+child_comprehension
+pacing
+warmth
+role_fit
+loudness_consistency
+artifact_free
+mobile_playback
+```
+
+Acceptance is fail-closed:
+
+- exact four-cue scope required;
+- cue fingerprint must still match canonical copy;
+- reviewer + timestamp required;
+- all dimensions must equal `pass`;
+- any `pending` or `fail` keeps `accepted=false`;
+- partial review is invalid.
+
+Static QA includes pending/all-pass/fail/stale-fingerprint/partial-scope fixtures.
+
+Current provider state remains unselected. Generation remains unauthorized. No audio binary is created.
+
+No Belajar, Bermain/motion, SQL schema, mastery/evidence, age migration, World progression or final character artwork is changed.
+
+Checkpoint rule: validate the exact wave-11 head through Draft PR #282. If fully green, freeze a new immutable provider-pilot-review checkpoint without moving any prior checkpoint branches.
