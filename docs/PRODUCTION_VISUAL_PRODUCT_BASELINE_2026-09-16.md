@@ -1,7 +1,7 @@
 # Production Visual / Product Baseline Audit — 2026-09-16
 
-Last updated: **20 September 2026**  
-Status: **P0=0 / P1=0 / P2=3 BASELINE PRESERVED; WS-13 PRODUCT UX THROUGH PARENT WAVE LIVE VERIFIED; CHARACTER PRODUCTION NEXT**  
+Last updated: **22 September 2026**  
+Status: **P0=0 / P1=0 / P2=3 BASELINE PRESERVED; WS-13 PRODUCT UX THROUGH PARENT WAVE LIVE VERIFIED; CHARACTER DEVELOPMENT PAUSED**  
 Canonical production: `https://mainlagihub.my.id/`
 
 ## 20 September WS-13 product-UX addendum
@@ -28,7 +28,7 @@ QA artifact:       10608044389
 
 Parent responsive contract is <760px mobile header + fixed five-item bottom nav and >=760px desktop sidebar. Manual review at 320 / 390 / 768 / 1024 was accepted; the 768 hero remains stacked to avoid pathological wrapping.
 
-Current visual-product gap is character production: Paca/Gavi have production Garden WebP assets, while Naya/Gian/Zia still lack production files under `public/artwork`. The next WS-13 visual wave extends the canonical Art Bible character contract and reviews production candidates before integration.
+Current visual-product gap still includes human-character production: Paca/Gavi have production Garden WebP assets, while Naya/Gian/Zia still lack production files under `public/artwork`. **Execution is currently paused by the project owner.** Existing Drive character material is reference-only; no candidate review, binary integration, runtime activation, or five-character hero composition should resume until explicitly authorized. Mainlagi World is developed separately and remains out of scope for this workstream.
 
 ## Verified closure chain
 
