@@ -233,6 +233,8 @@ The future World -> canonical Evidence bridge must be a separate architecture de
 
 Do not let age adaptation or final art production become a shortcut around the existing learning-attempt/evidence contract.
 
+Global profile/content/schema age expansion is a separate migration boundary. See `WORLD_AGE_MIGRATION_AUDIT_2026-09-22.md`; the current pilot must not trigger a blanket `ageMax 7 -> 12` rewrite.
+
 ## 12. Next production sequence
 
 Recommended next work after this policy:
