@@ -43,7 +43,7 @@ Read:
 - [`WORLD_PETUALANGAN_UANG_EVIDENCE_BRIDGE_AUDIT_2026-09-22.md`](WORLD_PETUALANGAN_UANG_EVIDENCE_BRIDGE_AUDIT_2026-09-22.md) — fail-closed World → canonical Skill audit; only 2/16 activities are candidates and the bridge remains disabled.
 - [`WORLD_AGE_MIGRATION_AUDIT_2026-09-22.md`](WORLD_AGE_MIGRATION_AUDIT_2026-09-22.md) — audited profile/content/DB/runtime/test blockers between the 6–8 World pilot and the canonical 3–7 Belajar contract; no blanket 3–12 migration.
 
-Known-green base checkpoint: `checkpoint/world-petualangan-uang-green-20260922` @ `faaca0eba4cbf6a75dfabb5f261cbf8e98e0912b`. Latest visual-green checkpoint: `checkpoint/world-petualangan-uang-visual-green-20260922` @ `3b033405b41abcfab4c70d9db76265095ff7c5e2`, verified by CI #1314 / run `35682393320` — Ubuntu, Windows, production build, dependency audit, secret scan and Mobile Chromium all pass. PR #272 remains **draft / not merged**.
+Known-green base checkpoint: `checkpoint/world-petualangan-uang-green-20260922` @ `faaca0eba4cbf6a75dfabb5f261cbf8e98e0912b`. Latest visual-green checkpoint: `checkpoint/world-petualangan-uang-visual-green-20260922` @ `3b033405b41abcfab4c70d9db76265095ff7c5e2` (CI #1314). Newer policy-green checkpoint: `checkpoint/world-petualangan-uang-policy-green-20260922` @ `6aacda2adc52906c9a505096defd376df098d685`, verified by CI #1334 / run `35683630094` — full PR matrix success. PR #272 remains **draft / not merged**.
 
 ## Current project checkpoint — 22 September 2026
 
