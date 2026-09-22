@@ -144,18 +144,20 @@ The foundation and asset-pipeline waves are closed. Candidate intake audit found
 
 ## Canonical baseline
 
-- current production `main`: `709e2b7d3e529cf37f10a05e9c9dc92884e0a781` (PR #273 WS-05 Logic `pattern_completion` reuse)
-- latest merged-main CI: **#1353 / run `35687996669` — full success including exact Cloudflare production smoke**
-- latest learning runtime closure: PR #273 / final PR head `299d493da2e74e6e583322d3a16af69455d8d926` / PR CI #1321 / production distribution 174 `choice_grid` + 10 `pattern_completion` / KEEP 900
+- current production `main`: `2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48` (PR #280 English narration production asset gate)
+- latest merged-main CI: **#1372 / run `35701448136` — full success including exact Cloudflare production smoke**
+- English narration quality Wave 1: PR #278 / 27 reviewed / 22 target-first / 5 comprehension / merged-main CI #1367 exact smoke
+- English narration production asset gate: PR #280 / 27 registry slots / 27 review-required / 0 approved / 0 binary / no static-audio runtime activation / merged-main CI #1372 exact smoke
+- latest WS-05 learning runtime closure: PR #273 / final PR head `299d493da2e74e6e583322d3a16af69455d8d926` / PR CI #1321 / production distribution 174 `choice_grid` + 10 `pattern_completion` / KEEP 900
 - required secret-scan enforcement: PR #269 / embedded `Required full-history secret gate` inside ruleset-required `Production dependency audit` / merge-blocking
 - cloud analytics integrity closure: PR #267 / regression `1201 attempts + 3603 evidence rows` / complete pagination + fail-closed authenticated failure handling
 - character asset pipeline implementation: PR #263 at `e4d7b4285db17a2010c22cdd1bc29451208f6a1b`, CI #1198 full success
 - previous runtime registry checkpoint: PR #262 at `ceb2546b6c626810901c5542e7f718acfad55341`, CI #1196 full success
 - activity character presentation foundation: PR #259 at `b5acbfcde66ea1451f3e55a8d469d33ba4845af1`, CI #1190 full success
-- latest independently live-verified runtime/product implementation: `7502c708c998c87bb273639025fcb10ba6c81e12` (PR #256)
-- latest runtime merged-main CI: **#1183 / run `35565937149` — full success including exact Cloudflare production smoke**
-- latest production main/docs closure: `41df41c9dc0edc449af8260bbfe3887e0175bfb0` (PR #257)
-- latest production main CI: **#1186 / run `35567718494` — full success including exact Cloudflare production smoke**
+- subject-background runtime implementation checkpoint: `7502c708c998c87bb273639025fcb10ba6c81e12` (PR #256)
+- subject-background runtime merged-main CI: **#1183 / run `35565937149` — full success including exact Cloudflare production smoke**
+- subject-background docs closure checkpoint: `41df41c9dc0edc449af8260bbfe3887e0175bfb0` (PR #257)
+- subject-background docs-closure main CI: **#1186 / run `35567718494` — full success including exact Cloudflare production smoke**
 - parent responsive QA artifact: **`10608044389`**
 - parent docs closure main: `a04bd51fb02dedf56b5cd62f7f579eb53c4be251`; parent docs closure main CI: **#1162 / run `35521404941` — full success**
 - repository: `ceritaantarkita-req/mainlagi-hub`
