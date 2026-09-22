@@ -52,7 +52,9 @@
 
 .subjectCard,
 .featureCard {
+  min-width: 0;
   min-height: 96px;
+  overflow: hidden;
   border-radius: 18px;
   display: grid;
   place-items: center;
@@ -73,7 +75,9 @@
 
 .subjectIcon,
 .featureIcon {
-  font-size: clamp(2rem, 9vw, 3.25rem);
+  --learning-visual-frame-size: 76px;
+  --learning-visual-font-size: clamp(2rem, 8vw, 3.1rem);
+  --learning-visual-padding: 6px;
 }
 
 .cardTag,
@@ -121,7 +125,9 @@
 
 .functionButton {
   width: 100%;
+  min-width: 0;
   min-height: 62px;
+  overflow: hidden;
   border-radius: 16px;
   border: 2px solid #dfe7f0;
   background: #fff;
@@ -164,7 +170,9 @@
 }
 
 .functionIcon {
-  font-size: 1.7rem;
+  --learning-visual-frame-size: 42px;
+  --learning-visual-font-size: 1.7rem;
+  --learning-visual-padding: 4px;
   flex: 0 0 auto;
 }
 
@@ -228,6 +236,13 @@
   .featureCard {
     min-height: 82px;
     padding: 10px;
+  }
+
+  .subjectIcon,
+  .featureIcon {
+    --learning-visual-frame-size: 64px;
+    --learning-visual-font-size: 2.5rem;
+    --learning-visual-padding: 5px;
   }
 
   .connector {
