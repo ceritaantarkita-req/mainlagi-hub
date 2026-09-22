@@ -35,7 +35,7 @@ export function WorldSceneRenderer({
         data-world-scene-emphasis={presentation.emphasizeSceneTitle ? "strong" : "quiet"}
       >
         <span>{presentation.label}</span>
-        <strong id={headingId}>{scene.title}</strong>
+        <strong id={headingId} data-world-scene-label={scene.id}>{scene.title}</strong>
         <small>{"Bagian " + segmentPosition + "/" + segmentCount}</small>
       </div>
 
