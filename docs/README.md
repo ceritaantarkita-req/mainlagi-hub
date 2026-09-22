@@ -32,6 +32,16 @@ Read these first for current work:
 
 Subsystem docs remain authoritative for their specific scope when they do not conflict with the canonical documents above.
 
+## Active isolated World branch checkpoint — not production
+
+The current **Petualangan Uang** implementation is intentionally isolated on draft PR #272 and is not yet canonical production truth.
+
+Read:
+
+- [`WORLD_PETUALANGAN_UANG_SAFE_CHECKPOINT_2026-09-22.md`](WORLD_PETUALANGAN_UANG_SAFE_CHECKPOINT_2026-09-22.md) — known-green World code checkpoint, product/runtime contract, visual QA, privacy/progress boundaries, production gaps and restart instructions.
+
+Known-green code checkpoint: `5c76f9812a93eb7ef07fff1880af4da5af2b4927` / CI #1290 / run `35679390492` — full PR matrix success. PR #272 remains **draft / not merged**.
+
 ## Current project checkpoint — 22 September 2026
 
 ```text
