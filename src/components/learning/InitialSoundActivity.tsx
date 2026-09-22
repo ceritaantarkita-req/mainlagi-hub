@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { GardenActivityFrame } from "./GardenActivityFrame";
+import { LearningVisualToken } from "./LearningVisualToken";
 import { getActivityLearningSpec } from "@/lib/learning/catalog";
 import { initialSoundConfig } from "@/lib/learning/initialSoundConfig";
 import { isInitialSoundActivity } from "@/lib/learning/gameplayPresentation";
@@ -87,7 +88,7 @@ export function InitialSoundActivity({ childId, activityId }: { childId: string;
         </div>
 
         <div className={styles.wordBoard} data-initial-sound-board>
-          <div className={styles.clue} aria-hidden>{config.clue}</div>
+          <LearningVisualToken className={styles.clue} label={`Gambar ${config.word}`}>{config.clue}</LearningVisualToken>
           <div className={styles.wordRow} aria-label={`Kata ${config.word}`}>
             <span
               className={`${styles.initialSlot} ${feedback === "good" ? styles.initialSlotGood : ""}`}
