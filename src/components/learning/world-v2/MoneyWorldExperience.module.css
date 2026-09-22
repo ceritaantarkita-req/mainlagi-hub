@@ -1919,3 +1919,43 @@
   font-size: 12px;
   font-weight: 850;
 }
+
+
+.stageCurrent {
+  border-color: #f3c85d;
+  box-shadow:
+    0 7px 0 rgba(203, 150, 48, .28),
+    0 0 0 7px rgba(255, 219, 101, .18),
+    0 18px 36px rgba(47, 87, 64, .14);
+}
+
+.stageCurrent .stageIcon {
+  position: relative;
+}
+
+.currentPin {
+  position: absolute;
+  right: -12px;
+  bottom: -8px;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 3px solid white;
+  background: #e56d49;
+  color: white;
+  box-shadow: 0 4px 0 #ba5135;
+  font-size: 12px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .stageCurrent .currentPin {
+    animation: worldCurrentPin 1.35s ease-in-out infinite;
+  }
+}
+
+@keyframes worldCurrentPin {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
