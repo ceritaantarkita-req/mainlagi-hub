@@ -1,0 +1,100 @@
+.sceneFrame {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: grid;
+  justify-items: center;
+}
+
+.sceneMeta {
+  position: relative;
+  z-index: 5;
+  max-width: min(720px, calc(100% - 32px));
+  margin: 14px auto -2px;
+  padding: 8px 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 2px solid rgba(255,255,255,.92);
+  border-radius: 999px;
+  background: rgba(255,253,245,.9);
+  box-shadow: 0 6px 18px rgba(42,72,57,.1);
+  backdrop-filter: blur(7px);
+  color: #244d49;
+  text-align: center;
+}
+
+.sceneMeta > span,
+.sceneMeta > small {
+  font-size: 11px;
+  font-weight: 950;
+  white-space: nowrap;
+}
+
+.sceneMeta > span {
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(224,239,211,.9);
+}
+
+.sceneMeta > strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 13px;
+  font-weight: 950;
+  white-space: nowrap;
+}
+
+.sceneMeta[data-world-scene-emphasis="quiet"] > strong {
+  font-weight: 850;
+}
+
+.sceneFrame[data-world-scene-presentation="activity"] .sceneMeta > span {
+  background: rgba(222,242,213,.96);
+}
+
+.sceneFrame[data-world-scene-presentation="choice"] .sceneMeta > span {
+  background: rgba(255,239,174,.96);
+}
+
+.sceneFrame[data-world-scene-presentation="recap"] .sceneMeta > span {
+  background: rgba(215,238,247,.96);
+}
+
+.sceneFrame[data-world-scene-presentation="payoff"] .sceneMeta > span {
+  background: rgba(235,226,250,.96);
+}
+
+.sceneBody {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: grid;
+  justify-items: center;
+}
+
+@media(max-width: 760px) {
+  .sceneMeta {
+    max-width: calc(100% - 20px);
+    margin-top: 10px;
+    padding: 7px 9px;
+    gap: 6px;
+  }
+
+  .sceneMeta > strong {
+    max-width: 48vw;
+    font-size: 12px;
+  }
+
+  .sceneMeta > span,
+  .sceneMeta > small {
+    font-size: 10px;
+  }
+}
+
+@media(max-width: 380px) {
+  .sceneMeta > strong {
+    max-width: 42vw;
+  }
+}
