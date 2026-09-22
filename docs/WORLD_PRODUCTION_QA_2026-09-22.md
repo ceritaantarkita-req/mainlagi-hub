@@ -1,6 +1,6 @@
 # Mainlagi World — Production QA / Responsive Checkpoint Pass — 22 September 2026
 
-Status: **LATEST VALIDATED GREEN HEAD `9f6953302ee82db62a7362288233a77db2251743`**
+Status: **LATEST NON-AUDIO VALIDATED GREEN HEAD `1a74e5da7803c736a9ccff6b1fda52975501bfeb` / CI #1516**
 
 Branch:
 
@@ -398,7 +398,7 @@ Detailed record:
 docs/WORLD_ACCESSIBILITY_PASS_2026-09-22.md
 ```
 
-CI status for this exact wave head must be recorded before freezing an accessibility checkpoint.
+Green validation is recorded in section 19; accessibility is included in the frozen non-audio checkpoint.
 
 
 ## 17. Production wave 16 — World performance / lazy-load QA
@@ -434,7 +434,7 @@ Detailed record:
 docs/WORLD_PERFORMANCE_LAZY_LOAD_2026-09-22.md
 ```
 
-CI status for this exact wave head must be recorded before freezing a final non-audio production checkpoint.
+Green validation is recorded in section 19; performance/lazy-load is included in the frozen non-audio checkpoint.
 
 
 ## 18. Production wave 14 green result
@@ -460,3 +460,47 @@ overall:                      SUCCESS
 ```
 
 Earlier audit-candidate failures were fail-closed test-contract drift while the audit was being introduced; the exact checkpoint above is the first frozen full-green content-audit closure.
+
+
+## 19. Production waves 15–16 joint green result
+
+The corrected accessibility + performance/lazy-load head is fully green:
+
+```text
+head: 1a74e5da7803c736a9ccff6b1fda52975501bfeb
+CI:   #1516 / run 35755761647
+checkpoint: checkpoint/world-petualangan-uang-non-audio-production-green-20260922
+```
+
+Full matrix:
+
+```text
+Quality gate (Ubuntu):        PASS
+Windows compatibility:        PASS
+Production build:             PASS
+Production dependency audit:  PASS
+Secret history scan:          PASS
+Mobile route QA (Chromium):   PASS
+overall:                      SUCCESS
+```
+
+Relevant artifacts:
+
+```text
+mobile-route-qa-screenshots — 10707813193
+activity-quality-audit      — 10707852606
+gameplay-distribution-audit — 10707742788
+```
+
+The mobile job passed:
+
+```text
+canonical mobile route matrix
+World accessibility assertions
+World route-scoped artwork/lazy-load assertions
+permanent visual product baseline
+```
+
+One earlier candidate run failed because browser QA looked for a non-canonical Stage-3 title string. The authored runtime title remained `Uang Datang dari Mana?`; the test literal was corrected and the exact corrected head above passed.
+
+This checkpoint is the safe rollback for the completed non-audio World production sequence after the separate content-audit checkpoint.

@@ -384,12 +384,13 @@ Current ordered work:
 15. **DONE / GREEN / CHECKPOINTED** — semantic Chapter navigation + 320px map-hero polish validated by CI #1457 at `55505f17...`; checkpoint `checkpoint/world-petualangan-uang-visual-nav-polish-green-20260922`;
 16. **DONE / GREEN / CHECKPOINTED** — completion UX derives canonical Chapter milestones, preserves ★★★ + Back / Again / Next + Share, and is validated by CI #1467 at `40436d41...`; checkpoint `checkpoint/world-petualangan-uang-completion-ux-green-20260922`;
 17. **DONE / GREEN / CHECKPOINTED** — eight-Stage content consistency audit + four Indonesian continuity refinements validated by CI #1491 at `ef0a0ab6...`; checkpoint `checkpoint/world-petualangan-uang-content-audit-green-20260922`;
-18. **DONE on isolated branch, CI pending** — focused accessibility pass adds progressbar/current-step/locked-state semantics, polite Scene announcements, completion focus, list/image semantics, forced-colors support, and visible keyboard focus;
-19. **DONE on isolated branch, CI pending** — World-specific performance/lazy-load pass locks visual byte budgets and verifies route-scoped background requests without touching shared Belajar components;
-20. **NEXT** — wait for exact CI-green validation of content audit + accessibility + performance heads, then freeze a new immutable World production checkpoint;
-21. Gian/Naya visual character production remains paused;
-22. bespoke Stage/background art remains optional because current reused backgrounds are approved for the pilot;
-23. World -> Evidence bridge remains disabled until separately authorized.
+18. **DONE / GREEN / CHECKPOINTED** — accessibility semantics/focus/forced-colors pass validated in CI #1516 at `1a74e5da...`;
+19. **DONE / GREEN / CHECKPOINTED** — World-specific visual budgets + route-scoped background lazy-load boundary validated in the same CI #1516;
+20. **DONE / FROZEN** — combined non-audio checkpoint `checkpoint/world-petualangan-uang-non-audio-production-green-20260922` at `1a74e5da...`;
+21. **NEXT BOUNDARY** — no speculative World architecture work; continue only for a verified defect or separately authorized audio, art/character, or World -> Evidence scope;
+22. Gian/Naya visual character production remains paused;
+23. bespoke Stage/background art remains optional because current reused backgrounds are approved for the pilot;
+24. World -> Evidence bridge remains disabled until separately authorized.
 
 
 This policy is intentionally narrower than the long-term Mainlagi 3–12 ambition. It prevents the pilot runtime from drifting into an incoherent one-World-fits-all model.

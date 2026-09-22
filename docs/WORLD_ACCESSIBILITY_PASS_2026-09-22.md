@@ -1,6 +1,6 @@
 # Mainlagi World — Accessibility Pass — 22 September 2026
 
-Status: **IMPLEMENTED ON ISOLATED WORLD PRODUCTION BRANCH / CI VALIDATION PENDING**
+Status: **VALIDATED GREEN / INCLUDED IN NON-AUDIO PRODUCTION CHECKPOINT**
 
 Branch:
 
@@ -131,12 +131,38 @@ This wave does not:
 - touch Bermain/motion;
 - change database schemas.
 
-## 10. Next
+## 10. Green validation
 
-After this exact head is green:
+Accessibility plus the subsequent World-specific performance/lazy-load contract were validated together at the corrected non-audio head:
 
 ```text
-performance / lazy-load pass
+head: 1a74e5da7803c736a9ccff6b1fda52975501bfeb
+CI:   #1516 / run 35755761647
 ```
 
-Content-audit and accessibility checkpoints should be frozen only at exact CI-green heads.
+Full matrix:
+
+```text
+Quality gate (Ubuntu):        PASS
+Windows compatibility:        PASS
+Production build:             PASS
+Production dependency audit:  PASS
+Secret history scan:          PASS
+Mobile route QA (Chromium):   PASS
+overall:                      SUCCESS
+```
+
+Frozen checkpoint:
+
+```text
+checkpoint/world-petualangan-uang-non-audio-production-green-20260922
+@ 1a74e5da7803c736a9ccff6b1fda52975501bfeb
+```
+
+The mobile route matrix includes the progressbar, Scene-region/live-region, completion-focus, current-Stage and locked-Stage assertions described above.
+
+The earlier candidate failure was a QA literal mismatch for the authored Stage-3 title; runtime semantics were not changed to satisfy the typo. The assertion was corrected to the canonical title `Uang Datang dari Mana?`, then the exact corrected head passed the full matrix.
+
+## 11. Next boundary
+
+No further speculative accessibility refactor is authorized by this pass. Continue only for a verified defect or a separately approved World feature/art/evidence scope.

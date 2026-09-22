@@ -1605,3 +1605,65 @@ This checkpoint freezes the complete eight-Stage content consistency/safety audi
 Do not move or force-push this checkpoint branch.
 
 Accessibility/performance work remains a later wave and does not change this rollback point.
+
+
+## 47. Non-audio production green checkpoint — CI #1516
+
+The planned non-audio sequence through content consistency, accessibility and performance/lazy-load is now closed behind an immutable green rollback point.
+
+```text
+head:   1a74e5da7803c736a9ccff6b1fda52975501bfeb
+CI:     #1516 / run 35755761647
+branch: checkpoint/world-petualangan-uang-non-audio-production-green-20260922
+```
+
+Full matrix:
+
+```text
+Quality gate (Ubuntu):        PASS
+Windows compatibility:        PASS
+Production build:             PASS
+Production dependency audit:  PASS
+Secret history scan:          PASS
+Mobile route QA (Chromium):   PASS
+overall:                      SUCCESS
+```
+
+Relevant artifacts:
+
+```text
+mobile-route-qa-screenshots — 10707813193
+activity-quality-audit      — 10707852606
+gameplay-distribution-audit — 10707742788
+```
+
+This checkpoint includes:
+
+- the green eight-Stage content consistency/safety implementation;
+- the four Indonesian continuity refinements;
+- neutral/non-advisory Stage-8 open financial choice;
+- Stage progressbar semantics;
+- current/locked journey Stage semantics;
+- labelled/politely announced Scene context;
+- completion focus management;
+- activity/list/image accessibility semantics;
+- keyboard focus + forced-colors handling;
+- visual repository-byte budgets;
+- route-scoped Stage background loading assertions;
+- the corrected canonical Stage-3 locked-state QA title.
+
+The earlier candidate browser failures were fail-closed QA assertion drift, not a reason to rename authored product copy. The corrected exact head passed the full CI matrix.
+
+Do not move or force-push this checkpoint branch.
+
+Current boundaries remain:
+
+```text
+fixed narration approved: 0/88
+narration generation: unauthorized
+Gian/Naya final character production: paused
+World -> Belajar evidence: disabled
+Bermain/motion: out of scope
+PR #282: Draft / no merge authorization
+PR #272: Draft / untouched
+```

@@ -1,6 +1,6 @@
 # Mainlagi World — Performance / Lazy-Load Pass — 22 September 2026
 
-Status: **IMPLEMENTED AS WORLD-SPECIFIC QA CONTRACT / CI VALIDATION PENDING**
+Status: **VALIDATED GREEN / INCLUDED IN NON-AUDIO PRODUCTION CHECKPOINT**
 
 Branch:
 
@@ -140,8 +140,47 @@ This wave does not:
 - modify Bermain/motion;
 - change SQL/evidence/mastery contracts.
 
-## 7. Next
+## 7. Green validation / checkpoint
 
-After the content, accessibility, and performance heads are independently green, freeze the latest immutable World production checkpoint.
+The exact corrected non-audio head passed the full PR matrix:
 
-Remaining non-audio work should then be limited to verified defects or explicitly authorized art/character/evidence work rather than speculative architecture churn.
+```text
+head: 1a74e5da7803c736a9ccff6b1fda52975501bfeb
+CI:   #1516 / run 35755761647
+checkpoint: checkpoint/world-petualangan-uang-non-audio-production-green-20260922
+```
+
+Full matrix:
+
+```text
+Quality gate (Ubuntu):        PASS
+Windows compatibility:        PASS
+Production build:             PASS
+Production dependency audit:  PASS
+Secret history scan:          PASS
+Mobile route QA (Chromium):   PASS
+overall:                      SUCCESS
+```
+
+Relevant artifacts:
+
+```text
+mobile-route-qa-screenshots — 10707813193
+activity-quality-audit      — 10707852606
+gameplay-distribution-audit — 10707742788
+```
+
+The browser job passed the route-scoped artwork-request assertions and then the permanent visual product baseline.
+
+## 8. Next boundary
+
+The planned non-audio sequence through content consistency, accessibility and performance/lazy-load is now closed at an immutable green checkpoint.
+
+Further work should be limited to:
+
+- a verified World defect;
+- explicit art/character authorization;
+- explicit narration provider/voice/rights authorization;
+- a separately authorized World -> Evidence architecture decision.
+
+Do not introduce speculative cross-product optimization merely because this pass is complete.
