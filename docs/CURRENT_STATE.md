@@ -4,19 +4,19 @@ Last reviewed: **22 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
-## 22 September execution boundary — World untouched / Belajar WS-05 active
+## 22 September execution boundary — World untouched / Belajar WS-05 closed
 
 User-approved execution boundary:
 
 - **Mainlagi World is under separate development and must not be modified by this workstream.**
 - character production/development is **PAUSED**; current external character assets remain reference-only unless separately re-authorized.
-- the active engineering wave is **Mainlagi Belajar / WS-05 Logic repeating-pattern -> existing `pattern_completion` reuse**.
-- exact scope is the five IDs approved by the 20 September audit; Pattern #48 remains unjustified.
-- implementation PR **#273** is branch-verified at `ec050bf919ebe534a719ef22a37691248e1b233d`; CI **#1312 / run `35682142457`** passed the full PR matrix.
-- verified branch distribution: **900/900 / 47 active / `choice_grid` 174 / `pattern_completion` 10 / KEEP 900**.
+- Mainlagi Belajar WS-05 Logic repeating-pattern -> existing `pattern_completion` reuse is **FULLY CLOSED / MERGED / LIVE VERIFIED**.
+- exact scope remains the five IDs approved by the 20 September audit; Pattern #48 remains unjustified.
+- implementation PR **#273** final head `299d493da2e74e6e583322d3a16af69455d8d926` passed PR CI **#1321 / run `35682848171`**.
+- merged production main is `709e2b7d3e529cf37f10a05e9c9dc92884e0a781`; merged-main CI **#1353 / run `35687996669`** passed including exact-SHA Cloudflare production smoke.
+- production distribution is **900/900 / 47 active / `choice_grid` 174 / `pattern_completion` 10 / Logic `choice_grid` 21 / KEEP 900**.
 - dedicated Logic browser QA passed 320/390/768 and permanent visual baseline passed 63 exact-path captures.
-- active branch: `agent/ws05-logic-pattern-completion-reuse-20260922`; merge is still pending final exact-head docs CI.
-- wave checkpoint: `WS05_LOGIC_PATTERN_COMPLETION_REUSE_WAVE_2026-09-22.md`.
+- closure record: `PATTERN_COMPLETION_LOGIC_REPEATING_PATTERN_REUSE_CLOSURE_2026-09-22.md`.
 
 
 ## 22 September required secret-scan enforcement closure
@@ -110,9 +110,9 @@ The foundation and asset-pipeline waves are closed. Candidate intake audit found
 
 ## Canonical baseline
 
-- current production `main`: `8af5ce8a13d19f8aaeb3d8f06229dbcdeb555a41` (PR #271 docs closure)
-- latest merged-main CI: **#1212 / run `35632779986` — full success including exact Cloudflare production smoke**
-- active learning implementation: PR #273 / verified checkpoint `ec050bf919ebe534a719ef22a37691248e1b233d` / CI #1312 full success / merge pending
+- current production `main`: `709e2b7d3e529cf37f10a05e9c9dc92884e0a781` (PR #273 WS-05 Logic `pattern_completion` reuse)
+- latest merged-main CI: **#1353 / run `35687996669` — full success including exact Cloudflare production smoke**
+- latest learning runtime closure: PR #273 / final PR head `299d493da2e74e6e583322d3a16af69455d8d926` / PR CI #1321 / production distribution 174 `choice_grid` + 10 `pattern_completion` / KEEP 900
 - required secret-scan enforcement: PR #269 / embedded `Required full-history secret gate` inside ruleset-required `Production dependency audit` / merge-blocking
 - cloud analytics integrity closure: PR #267 / regression `1201 attempts + 3603 evidence rows` / complete pagination + fail-closed authenticated failure handling
 - character asset pipeline implementation: PR #263 at `e4d7b4285db17a2010c22cdd1bc29451208f6a1b`, CI #1198 full success
@@ -268,14 +268,13 @@ The foundation and asset-pipeline waves are closed. Candidate intake audit found
 - Math mixed-operation terminal closure: `docs/MATH_MIXED_OPERATION_EXISTING_MECHANIC_REUSE_CLOSURE_2026-09-20.md`
 - Force/motion remains **not authorized** as one relation-board family because push/pull/gravity/friction evidence forms are heterogeneous.
 - Pattern #48 remains **NO JUSTIFIED NEW PATTERN YET**.
-- Fresh Logic repeating-pattern -> existing `pattern_completion` reuse audit: **MERGED / LIVE VERIFIED via PR #240 -> main `7109db41134f18884b6c08fba99ad2af997b3fed`, main CI #1100 / run `35492367065` success / exact 5-ID scope / expected runtime `choice_grid` 174 + `pattern_completion` 10 / active patterns stay 47 / Pattern #48 still not justified / RUNTIME CODE NOT STARTED**
-- Logic pattern-completion reuse audit record: `docs/PATTERN_COMPLETION_LOGIC_REPEATING_PATTERN_REUSE_AUDIT_2026-09-20.md`
+- Logic repeating-pattern -> existing `pattern_completion` reuse: **FULLY CLOSED / MERGED / LIVE VERIFIED via audit PR #240 and runtime PR #273 -> main `709e2b7d3e529cf37f10a05e9c9dc92884e0a781` / merged-main CI #1353 / exact 5-ID Logic scope / `choice_grid` 174 + `pattern_completion` 10 / active patterns 47 / KEEP 900 / Pattern #48 not created**.
+- Audit record: `docs/PATTERN_COMPLETION_LOGIC_REPEATING_PATTERN_REUSE_AUDIT_2026-09-20.md`.
+- Production closure record: `docs/PATTERN_COMPLETION_LOGIC_REPEATING_PATTERN_REUSE_CLOSURE_2026-09-22.md`.
 
-### Active fresh audit — Logic repeating patterns -> `pattern_completion`
+### Closed reuse wave — Logic repeating patterns -> `pattern_completion`
 
-The current docs-only WS-05 audit reviews exactly five `logic.pattern.repeat.intermediate` activities for reuse of existing `pattern_completion`. The verified merged baseline remains **900/900 / 47 active / `choice_grid` 179 / `pattern_completion` 5 / KEEP 900** while this audit is open. If the audit gate passes and the exact scope is later implemented, expected distribution is **`choice_grid` 174 / `pattern_completion` 10 / Logic `choice_grid` 21**, with no Pattern #48 and no curriculum/evidence migration.
-
-Runtime code is not authorized until this audit PR passes CI, merges, and merged-main production verification is recorded.
+The five `logic.pattern.repeat.intermediate` activities now reuse the existing fail-closed `pattern_completion` runtime in production. Canonical identity, exact choice order, answer, skill/evidence ownership, progression and schema boundaries are preserved. No neighboring Logic family was moved and no Pattern #48 was created.
 
 ## Approved product UX next wave — 20 September 2026
 
@@ -1003,8 +1002,8 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 2. Parent/profile/settings responsive redesign is closed/live verified. Preserve the <760px mobile header + five-item bottom nav, >=760px desktop sidebar, family/demo separation and profile-vs-guide identity boundary.
 3. **Keep character production paused** until the project owner explicitly resumes it. Existing character references remain reference-only and profile identity must remain separate from guide identity.
 4. Preserve Paca/Gavi current production artwork and provenance. Naya/Gian/Zia generated candidates are not production-approved until reviewed and their rights/provenance are recorded.
-5. WS-05 is the active Mainlagi Belajar engineering wave. PR #273 is branch-verified at `ec050bf...` / CI #1312 with 900/900 / 47 active / `choice_grid` 174 / `pattern_completion` 10 / KEEP 900; final exact-head docs CI and merge remain.
+5. WS-05 Logic `pattern_completion` reuse is closed/live verified via PR #273 -> main `709e2b7d...` / merged-main CI #1353 with 900/900 / 47 active / `choice_grid` 174 / `pattern_completion` 10 / KEEP 900. Any later WS-05 runtime change requires a fresh objective/evidence audit.
 6. Preserve the merged 9-subject / 900-activity / 47-active-pattern baseline and existing mastery/evidence/progression/schema contracts unless a separately justified migration is approved.
-7. Do not touch Mainlagi World and do not resume character development in this workstream. Close PR #273 first; later product work must be selected as a separate approved wave.
+7. Do not touch Mainlagi World and do not resume character development in this workstream. PR #273 is closed; later product work must be selected as a separate approved wave.
 
 Do not prioritize activity-count expansion, OCR rollout, large AI tutor work, subscription/paywall, marketplace expansion or major mastery/backend rewrites before the current quality roadmap justifies them.
