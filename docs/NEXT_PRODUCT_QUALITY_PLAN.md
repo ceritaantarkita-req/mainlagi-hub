@@ -104,8 +104,8 @@
 ## Current synchronized checkpoint — 22 September 2026
 
 ```text
-current main:                 2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48
-latest merged-main CI:        #1372 / run 35701448136 — full success + exact Cloudflare smoke
+product runtime baseline:     2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48
+runtime baseline main CI:     #1372 / run 35701448136 — full success + exact Cloudflare smoke
 English narration Wave 1:     #278 -> 8d60a69a / 27 reviewed / 22 target-first / 5 comprehension
 English narration asset gate: #280 -> 2cc7d5be / 27 review-required / 0 approved / 0 binary
 analytics regression:         1201 attempts / 3603 evidence rows / paged + fail-closed
