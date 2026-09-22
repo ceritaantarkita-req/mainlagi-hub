@@ -314,7 +314,6 @@ function SpeechCard({
 
   useEffect(() => {
     autoAttemptedRef.current = false;
-    setSpeechStatus(null);
     let cancelled = false;
 
     const startNarration = () => {
@@ -1146,6 +1145,7 @@ function MoneyWorldStageRuntime({
         <WorldRecapCard title={segment.title} items={segment.items} onNext={advance} />
       ) : (
         <SpeechCard
+          key={segment.id}
           speaker={segment.speaker}
           text={segment.text}
           kind={segment.type}
