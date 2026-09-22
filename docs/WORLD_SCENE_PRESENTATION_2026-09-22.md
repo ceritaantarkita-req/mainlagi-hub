@@ -200,24 +200,16 @@ This wave does not:
 - touch Bermain/motion;
 - change database schemas.
 
-## 10. Next production step
+## 10. Production QA follow-through
 
-The World runtime architecture now has:
+Production wave 06 now adds the dedicated responsive QA/cleanup pass documented in:
 
 ```text
-Stage shell
-canonical World hierarchy
-eight-Stage production manifest
-fixed narration production resolver
-reusable Scene presentation layer
+docs/WORLD_PRODUCTION_QA_2026-09-22.md
 ```
 
-The next useful pass is **end-to-end production QA + cleanup/checkpoint work**:
+It covers all five Scene kinds at 320 / 390 / 430, adds Scene-local progress, hardens metadata overflow behavior and adjusts story/activity minimum height for the reusable Scene wrapper.
 
-- audit all eight Stages for visual/layout regressions introduced by the new Scene frame;
-- run static/type/lint/browser coverage through CI;
-- fix any responsive issues;
-- review 320 / 390 / 430 screenshots;
-- only after green validation freeze a new production-wave checkpoint.
+The remaining gate is CI validation of the exact branch head. Only after that succeeds should a new immutable production-wave green checkpoint be frozen.
 
 Do not move the older frozen World checkpoint branches.
