@@ -480,6 +480,130 @@ async function main() {
     {
       const viewport = { width: 390, height: 844 };
       const context = await browser.newContext({ viewport });
+      await context.addInitScript((progress) => {
+        window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
+          "demo-gian": { "money-festival": progress }
+        }));
+      }, {
+        worldId: "money-festival",
+        completedStageIds: ["money-stage-01-money-use"],
+        currentStageId: "money-stage-02-price-change",
+        currentSegmentIndex: 4,
+        updatedAt: "2026-09-22T00:00:00.000Z"
+      });
+      const page = await context.newPage();
+      await page.goto(baseUrl + "/child/demo-gian/world/money-festival/stage/money-stage-02-price-change", { waitUntil: "domcontentloaded" });
+      await page.getByText("Kok Jadi Lebih Mahal?", { exact: true }).waitFor();
+
+      await page.getByRole("button", { name: "Sekarang · Rp12", exact: true }).click();
+      await page.getByRole("button", { name: /Lanjut/ }).waitFor();
+      for (let index = 0; index < 6; index += 1) {
+        await page.getByRole("button", { name: /Lanjut/ }).click();
+      }
+
+      for (const [card, group] of [
+        ["5 → 7", /Naik/],
+        ["8 → 8", /Tetap/],
+        ["3 → 4", /Naik/],
+        ["6 → 6", /Tetap/]
+      ]) {
+        await page.getByRole("button", { name: card, exact: true }).click();
+        await page.getByRole("button", { name: group }).click();
+      }
+
+      await page.getByRole("button", { name: /Lanjut/ }).waitFor();
+      await page.getByRole("button", { name: /Lanjut/ }).click();
+      await page.getByRole("button", { name: /Selesai/ }).click();
+      await page.getByRole("heading", { name: "Hebat!", exact: true }).waitFor();
+      assert.equal(await page.locator('[aria-label="Tiga bintang"] svg').count(), 3, "World Stage 2 completion must show exactly three stars");
+      await page.screenshot({ path: path.join(screenshotDir, "390-world-money-stage-02-complete.png"), fullPage: false });
+      await context.close();
+      console.log("World Petualangan Uang Stage 2 compare/classify checkpoint passed at 390px.");
+    }
+
+    {
+      const viewport = { width: 390, height: 844 };
+      const context = await browser.newContext({ viewport });
+      await context.addInitScript((progress) => {
+        window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
+          "demo-gian": { "money-festival": progress }
+        }));
+      }, {
+        worldId: "money-festival",
+        completedStageIds: [
+          "money-stage-01-money-use",
+          "money-stage-02-price-change",
+          "money-stage-03-income-sources",
+          "money-stage-04-needs-wants"
+        ],
+        currentStageId: "money-stage-05-saving",
+        currentSegmentIndex: 7,
+        updatedAt: "2026-09-22T00:00:00.000Z"
+      });
+      const page = await context.newPage();
+      await page.goto(baseUrl + "/child/demo-gian/world/money-festival/stage/money-stage-05-saving", { waitUntil: "domcontentloaded" });
+      await page.getByText("Simpan Dulu Yuk", { exact: true }).waitFor();
+      await page.getByRole("button", { name: /Punya tujuan/ }).click();
+      await page.getByRole("button", { name: /Simpan sebagian/ }).click();
+      await page.getByRole("button", { name: /Uang terkumpul/ }).click();
+      await page.getByRole("button", { name: /Pakai saat sudah cukup/ }).click();
+      await page.getByRole("button", { name: "Cek urutan", exact: true }).click();
+      await page.getByRole("button", { name: /Selesai/ }).waitFor();
+      await page.getByRole("button", { name: /Selesai/ }).click();
+      await page.getByRole("heading", { name: "Keren!", exact: true }).waitFor();
+      await page.screenshot({ path: path.join(screenshotDir, "390-world-money-stage-05-order-complete.png"), fullPage: false });
+      await context.close();
+      console.log("World Petualangan Uang Stage 5 ordering checkpoint passed at 390px.");
+    }
+
+    {
+      const viewport = { width: 390, height: 844 };
+      const context = await browser.newContext({ viewport });
+      await context.addInitScript((progress) => {
+        window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
+          "demo-gian": { "money-festival": progress }
+        }));
+      }, {
+        worldId: "money-festival",
+        completedStageIds: [
+          "money-stage-01-money-use",
+          "money-stage-02-price-change",
+          "money-stage-03-income-sources",
+          "money-stage-04-needs-wants",
+          "money-stage-05-saving",
+          "money-stage-06-investment-intro",
+          "money-stage-07-risk"
+        ],
+        currentStageId: "money-stage-08-final-festival",
+        currentSegmentIndex: 4,
+        updatedAt: "2026-09-22T00:00:00.000Z"
+      });
+      const page = await context.newPage();
+      await page.goto(baseUrl + "/child/demo-gian/world/money-festival/stage/money-stage-08-final-festival", { waitUntil: "domcontentloaded" });
+      await page.getByText("Kebutuhan sudah lengkap. Masih ada delapan token. Kamu mau apa?", { exact: true }).waitFor();
+      await page.getByRole("button", { name: /Tambah pita/ }).click();
+      await page.getByText("Kamu memilih membuat meja lebih meriah.", { exact: true }).waitFor();
+      await page.getByRole("button", { name: /Lanjut/ }).click();
+      await page.getByRole("button", { name: /Lanjut/ }).click();
+      await page.getByRole("button", { name: "6", exact: true }).click();
+      await page.getByRole("button", { name: /Lanjut/ }).waitFor();
+      for (let index = 0; index < 3; index += 1) {
+        await page.getByRole("button", { name: /Lanjut/ }).click();
+      }
+      await page.getByRole("button", { name: /Selesai/ }).click();
+
+      await page.getByRole("heading", { name: "Luar biasa!", exact: true }).waitFor();
+      await page.getByText("Petualangan Uang selesai. Festival Mainlagi siap!", { exact: true }).waitFor();
+      assert.equal(await page.locator('[aria-label="Tiga bintang"] svg').count(), 3, "Final World Stage must show exactly three stars");
+      assert.equal(await page.getByRole("button", { name: /Share/ }).count(), 1, "Final World Stage must retain Share below completion navigation");
+      await page.screenshot({ path: path.join(screenshotDir, "390-world-money-stage-08-complete.png"), fullPage: false });
+      await context.close();
+      console.log("World Petualangan Uang final narrative-choice/subtraction checkpoint passed at 390px.");
+    }
+
+    {
+      const viewport = { width: 390, height: 844 };
+      const context = await browser.newContext({ viewport });
       const page = await context.newPage();
       await page.goto(`${baseUrl}/child/demo-gian/activity/english-match-hello`, { waitUntil: "domcontentloaded" });
       const board = page.locator("[data-visible-matching]");
