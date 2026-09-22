@@ -25,6 +25,7 @@ const pilot = require(path.join(outDir, "src", "lib", "learning", "world", "mone
 const social = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldSocial.js"));
 const narration = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldNarration.js"));
 const narrationProduction = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldNarrationProduction.js"));
+const narrationPlan = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldNarrationPlan.js"));
 const ageMigration = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldAgeMigrationAudit.js"));
 const evidenceBridge = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldEvidenceBridge.js"));
 const presentation = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldPresentation.js"));
@@ -215,6 +216,27 @@ try {
   assert.equal(narrationProduction.MONEY_WORLD_NARRATION_PRODUCTION_SUMMARY.pending, 88);
   assert.equal(narrationProduction.MONEY_WORLD_NARRATION_PRODUCTION_SUMMARY.productionReady, false);
   assert.deepEqual(narrationProduction.MONEY_WORLD_NARRATION_APPROVALS, [], "generated audio must never auto-approve itself");
+  assert.equal(narrationPlan.MONEY_WORLD_NARRATION_PLAN_VERSION, "money-world-narration-plan-v1");
+  assert.equal(narrationPlan.MONEY_WORLD_NARRATION_VOICE_POLICY.version, "money-world-narration-voice-policy-v1");
+  assert.equal(narrationPlan.MONEY_WORLD_NARRATION_VOICE_POLICY.fixedAudioGenerationAuthorized, false, "fixed audio generation must remain blocked until final voice identity is explicitly approved");
+  assert.equal(narrationPlan.MONEY_WORLD_NARRATION_VOICE_POLICY.finalHumanCharactersActivated, false);
+  assert.deepEqual(narrationPlan.MONEY_WORLD_NARRATION_VOICE_POLICY.runtimePresentationMapping, { Gian: "gavi", Naya: "paca" });
+  assert.equal(narrationPlan.MONEY_WORLD_NARRATION_PLAN_VALIDATION.valid, true, narrationPlan.MONEY_WORLD_NARRATION_PLAN_VALIDATION.errors.join("; "));
+  assert.deepEqual(narrationPlan.MONEY_WORLD_NARRATION_PLAN_VALIDATION.errors, []);
+  assert.equal(narrationPlan.MONEY_WORLD_NARRATION_PLAN_SUMMARY.stageBatches, 8);
+  assert.equal(narrationPlan.MONEY_WORLD_NARRATION_PLAN_SUMMARY.totalCues, 88);
+  assert.equal(narrationPlan.MONEY_WORLD_NARRATION_PLAN_SUMMARY.approvedCues, 0);
+  assert.equal(narrationPlan.MONEY_WORLD_NARRATION_PLAN_SUMMARY.generationAuthorizedCues, 0);
+  assert.equal(narrationPlan.MONEY_WORLD_NARRATION_PLAN_SUMMARY.blockedCues, 88);
+  assert.ok(
+    narrationPlan.MONEY_WORLD_NARRATION_STAGE_BATCHES.every((batch) => batch.status === "blocked-voice-identity"),
+    "all narration Stage batches must remain blocked before voice identity approval"
+  );
+  assert.deepEqual(
+    narrationPlan.MONEY_WORLD_NARRATION_STAGE_BATCHES.map((batch) => batch.stageId),
+    world.MONEY_WORLD_STAGES.map((stage) => stage.id),
+    "narration Stage batches must follow canonical Stage order"
+  );
   const expectedNarrationIds = [];
   for (const stage of world.MONEY_WORLD_STAGES) {
     for (const segment of world.getMoneyWorldSegments(stage.id)) {
@@ -250,11 +272,14 @@ try {
 
   const narrationRuntimeSource = readFileSync(path.join(root, "src/components/learning/world-v2/MoneyWorldExperience.tsx"), "utf8");
   const narrationPlaybackSource = readFileSync(path.join(root, "src/lib/learning/world/moneyWorldNarrationPlayback.ts"), "utf8");
+  const narrationBatchToolSource = readFileSync(path.join(root, "scripts/prepare-world-money-narration-batch.mjs"), "utf8");
   assert.match(narrationRuntimeSource, /playMoneyWorldNarration/, "World runtime must route narration through the fixed-audio resolver");
   assert.doesNotMatch(narrationRuntimeSource, /\bspeakPrompt\s*\(/, "World runtime must not bypass fixed-audio resolution with direct browser speech");
   assert.match(narrationPlaybackSource, /resolveMoneyWorldNarrationProductionSrc/, "playback adapter must resolve reviewed fixed assets");
   assert.match(narrationPlaybackSource, /onFixedAudioFallback/, "fixed audio failure must retain browser-speech fallback");
   assert.match(narrationPlaybackSource, /new Audio\(productionSrc\)/, "reviewed production audio must use deterministic fixed-file playback");
+  assert.match(narrationBatchToolSource, /STOP: audio generation is not authorized/, "production packet must fail visibly when voice generation is not authorized");
+  assert.match(narrationBatchToolSource, /--stage=/, "narration packet tool must support Stage-scoped production batches");
 
   assert.equal(world.MONEY_WORLD_CHAPTERS.length, 2, "money dummy must keep two chapters");
   assert.equal(world.MONEY_WORLD_STAGES.length, 8, "money dummy must keep eight stages");
