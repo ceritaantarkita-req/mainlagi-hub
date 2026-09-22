@@ -977,6 +977,173 @@ async function main() {
     }
 
     {
+      const responsiveWorldViewports = [
+        { width: 320, height: 720 },
+        { width: 390, height: 844 },
+        { width: 430, height: 860 }
+      ];
+      const completedBeforeStageEight = [
+        "money-stage-01-money-use",
+        "money-stage-02-price-change",
+        "money-stage-03-income-sources",
+        "money-stage-04-needs-wants",
+        "money-stage-05-saving",
+        "money-stage-06-investment-intro",
+        "money-stage-07-risk"
+      ];
+      const sceneScenarios = [
+        {
+          name: "story",
+          stageId: "money-stage-01-money-use",
+          segmentIndex: 0,
+          completedStageIds: [],
+          sceneId: "money-scene-s01-opening",
+          kind: "story",
+          presentation: "dialogue",
+          progress: "Bagian 1/4"
+        },
+        {
+          name: "challenge",
+          stageId: "money-stage-01-money-use",
+          segmentIndex: 4,
+          completedStageIds: [],
+          sceneId: "money-scene-s01-money-price-match",
+          kind: "challenge",
+          presentation: "activity",
+          progress: "Bagian 1/1"
+        },
+        {
+          name: "choice",
+          stageId: "money-stage-08-final-festival",
+          segmentIndex: 4,
+          completedStageIds: completedBeforeStageEight,
+          sceneId: "money-scene-s08-child-choice",
+          kind: "choice",
+          presentation: "choice",
+          progress: "Bagian 1/1"
+        },
+        {
+          name: "recap",
+          stageId: "money-stage-08-final-festival",
+          segmentIndex: 10,
+          completedStageIds: completedBeforeStageEight,
+          sceneId: "money-scene-s08-recap",
+          kind: "recap",
+          presentation: "recap",
+          progress: "Bagian 1/1"
+        },
+        {
+          name: "closing",
+          stageId: "money-stage-01-money-use",
+          segmentIndex: 9,
+          completedStageIds: [],
+          sceneId: "money-scene-s01-closing",
+          kind: "closing",
+          presentation: "payoff",
+          progress: "Bagian 2/2"
+        }
+      ];
+
+      for (const viewport of responsiveWorldViewports) {
+        for (const scenario of sceneScenarios) {
+          const context = await browser.newContext({ viewport, reducedMotion: "reduce" });
+          await context.addInitScript((seed) => {
+            window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
+              "demo-gian": {
+                "money-festival": {
+                  worldId: "money-festival",
+                  completedStageIds: seed.completedStageIds,
+                  currentStageId: seed.stageId,
+                  currentSegmentIndex: seed.segmentIndex,
+                  updatedAt: "2026-09-22T00:00:00.000Z"
+                }
+              }
+            }));
+          }, scenario);
+
+          const page = await context.newPage();
+          const pageErrors = [];
+          const consoleErrors = [];
+          page.on("pageerror", (error) => pageErrors.push(error.message));
+          page.on("console", (message) => {
+            if (message.type() === "error") consoleErrors.push(message.text());
+          });
+
+          await page.goto(
+            baseUrl + "/child/demo-gian/world/money-festival/stage/" + scenario.stageId,
+            { waitUntil: "domcontentloaded" }
+          );
+
+          const shell = page.locator('[data-world-stage-shell="garden-baseline-v1"]');
+          await shell.waitFor();
+          const frame = page.locator('[data-world-scene-frame="' + scenario.sceneId + '"]');
+          await frame.waitFor();
+
+          assert.equal(await shell.getAttribute("data-world-scene-id"), scenario.sceneId, scenario.name + " must keep canonical Scene identity at " + viewport.width);
+          assert.equal(await shell.getAttribute("data-world-scene-kind"), scenario.kind, scenario.name + " must keep canonical Scene kind at " + viewport.width);
+          assert.equal(await frame.getAttribute("data-world-scene-presentation"), scenario.presentation, scenario.name + " must resolve reusable presentation at " + viewport.width);
+          assert.equal(
+            (await frame.locator("[data-world-scene-progress]").textContent())?.trim(),
+            scenario.progress,
+            scenario.name + " must expose Scene-local progress at " + viewport.width
+          );
+
+          const geometry = await page.evaluate((sceneId) => {
+            const frame = document.querySelector('[data-world-scene-frame="' + sceneId + '"]');
+            const meta = frame?.querySelector("[data-world-scene-emphasis]");
+            const content = frame?.querySelector("[data-world-scene-content]");
+            const viewportWidth = document.documentElement.clientWidth;
+            const scrollWidth = Math.max(document.documentElement.scrollWidth, document.body.scrollWidth);
+            const box = (node) => {
+              if (!(node instanceof HTMLElement)) return null;
+              const rect = node.getBoundingClientRect();
+              return { left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom, width: rect.width, height: rect.height };
+            };
+            const interactive = Array.from(frame?.querySelectorAll("button, a") ?? [])
+              .filter((node) => node instanceof HTMLElement && node.getBoundingClientRect().width > 0)
+              .map(box)
+              .filter(Boolean);
+            return {
+              viewportWidth,
+              scrollWidth,
+              frame: box(frame),
+              meta: box(meta),
+              content: box(content),
+              interactive
+            };
+          }, scenario.sceneId);
+
+          assert.ok(geometry.scrollWidth <= geometry.viewportWidth + 1, scenario.name + " Scene must not overflow horizontally at " + viewport.width);
+          for (const [label, box] of [["frame", geometry.frame], ["meta", geometry.meta], ["content", geometry.content]]) {
+            assert.ok(box, scenario.name + " " + label + " geometry missing at " + viewport.width);
+            assert.ok(box.left >= -1 && box.right <= geometry.viewportWidth + 1, scenario.name + " " + label + " must remain inside viewport at " + viewport.width);
+          }
+          for (const control of geometry.interactive) {
+            assert.ok(control.width >= 44 && control.height >= 44, scenario.name + " interactive controls keep 44px touch target at " + viewport.width);
+            assert.ok(control.left >= -1 && control.right <= geometry.viewportWidth + 1, scenario.name + " interactive controls remain inside viewport at " + viewport.width);
+          }
+
+          assert.deepEqual(pageErrors, [], scenario.name + " page errors at " + viewport.width + ": " + pageErrors.join(" | "));
+          assert.deepEqual(consoleErrors, [], scenario.name + " console errors at " + viewport.width + ": " + consoleErrors.join(" | "));
+
+          if (
+            (viewport.width === 320 && ["story", "challenge"].includes(scenario.name)) ||
+            (viewport.width === 430 && ["choice", "recap", "closing"].includes(scenario.name))
+          ) {
+            await page.screenshot({
+              path: path.join(screenshotDir, viewport.width + "-world-scene-" + scenario.name + ".png"),
+              fullPage: false
+            });
+          }
+
+          await context.close();
+        }
+      }
+
+      console.log("World reusable Scene responsive matrix passed at 320/390/430px.");
+    }
+
+    {
       const viewport = { width: 390, height: 844 };
       const context = await browser.newContext({ viewport });
       const page = await context.newPage();
