@@ -28,6 +28,9 @@ const ROUTES = [
   { path: "/child/demo-gian", kind: "child-learning", touch: true },
   { path: "/child/demo-gian/home", kind: "child-learning", touch: true },
   { path: "/child/demo-gian/learn", kind: "child-learning", touch: true },
+  { path: "/child/demo-gian/worlds", kind: "child-learning", touch: true },
+  { path: "/child/demo-gian/world/money-festival", kind: "child-learning", touch: true },
+  { path: "/child/demo-gian/world/money-festival/stage/money-stage-01-money-use", kind: "child-learning", touch: true },
   { path: "/child/demo-gian/subject/math", kind: "child-learning", touch: true },
   { path: "/child/demo-gian/stage/math-angka", kind: "child-learning", touch: true },
   { path: "/child/demo-gian/activity/math-count-3", kind: "child-learning", touch: true },
@@ -63,6 +66,7 @@ const RUNTIME_ROUTES = [
 const BATCH16_ACCESSIBILITY_ROUTES = [
   { path: "/child/demo-gian/home", kind: "child-learning", touch: true },
   { path: "/child/demo-gian/learn", kind: "child-learning", touch: true },
+  { path: "/child/demo-gian/world/money-festival", kind: "child-learning", touch: true },
   { path: "/child/demo-gian/activity/math-count-3", kind: "child-learning", touch: true },
   { path: "/parent/children/demo-gian/reports", kind: "parent", touch: false },
   { path: "/play/math-choice", kind: "game-play", touch: true }
@@ -76,6 +80,9 @@ const SCREENSHOTS = new Set([
   "1024:/parent",
   "320:/child/demo-gian/activity/color-gavi",
   "375:/child/demo-gian/learn",
+  "390:/child/demo-gian/worlds",
+  "390:/child/demo-gian/world/money-festival",
+  "390:/child/demo-gian/world/money-festival/stage/money-stage-01-money-use",
   "390:/parent/children/demo-gian/reports",
   "430:/play/math-choice",
   "768:/child/demo-gian/stage/math-angka",
@@ -171,6 +178,7 @@ async function inspectPage(page, route, viewport) {
 
     if (route.path === "/child/demo-gian/home") {
       assert.equal(await page.getByRole("link", { name: "Belajar", exact: true }).count(), 1, "child home must expose Belajar navigation");
+      assert.equal(await page.getByRole("link", { name: "World", exact: true }).count(), 1, "child home must expose World navigation");
       assert.equal(await page.getByRole("link", { name: "Bermain", exact: true }).count(), 1, "child home must expose Bermain navigation");
       const subjectLinks = page.locator('a[href^="/child/demo-gian/subject/"]');
       assert.equal(await subjectLinks.count(), 9, "child home must expose all nine subject cards");
