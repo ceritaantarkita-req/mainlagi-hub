@@ -20,7 +20,7 @@ export interface MoneyWorldActivityPlacement {
   payload: ReusableMechanicPayload;
 }
 
-export type MoneyWorldStageOneSegment =
+export type MoneyWorldSegment =
   | {
       id: string;
       type: "narrative";
@@ -87,7 +87,7 @@ export const MONEY_WORLD_STAGES: MoneyWorldStageDefinition[] = [
     subtitle: "Lihat bagaimana harga bisa berubah.",
     emoji: "🤖",
     locationLabel: "Toko mainan",
-    playable: false
+    playable: true
   },
   {
     id: "money-stage-03-income-sources",
@@ -151,7 +151,7 @@ export const MONEY_WORLD_STAGES: MoneyWorldStageDefinition[] = [
   }
 ];
 
-export const MONEY_WORLD_STAGE_ONE_SEGMENTS: MoneyWorldStageOneSegment[] = [
+export const MONEY_WORLD_STAGE_ONE_SEGMENTS: MoneyWorldSegment[] = [
   {
     id: "money-s01-narrative-01",
     type: "narrative",
@@ -257,6 +257,135 @@ export const MONEY_WORLD_STAGE_ONE_SEGMENTS: MoneyWorldStageOneSegment[] = [
     text: "Ayo lanjut perjalanan kita."
   }
 ];
+
+export const MONEY_WORLD_STAGE_TWO_SEGMENTS: MoneyWorldSegment[] = [
+  {
+    id: "money-s02-narrative-01",
+    type: "narrative",
+    speaker: "Gian",
+    text: "Lho!"
+  },
+  {
+    id: "money-s02-narrative-02",
+    type: "narrative",
+    speaker: "Naya",
+    text: "Kenapa?"
+  },
+  {
+    id: "money-s02-narrative-03",
+    type: "narrative",
+    speaker: "Gian",
+    text: "Kemarin robot ini sepuluh. Sekarang dua belas."
+  },
+  {
+    id: "money-s02-narrative-04",
+    type: "narrative",
+    speaker: "Gian",
+    text: "Kok jadi lebih mahal?"
+  },
+  {
+    id: "money-s02-activity-01",
+    type: "activity",
+    activity: {
+      id: "money-s02-activity-01",
+      mechanicId: "compare",
+      assessment: "practice",
+      payload: {
+        prompt: "Mana harga yang lebih mahal?",
+        options: [
+          { id: "old-price", label: "Kemarin · Rp10" },
+          { id: "new-price", label: "Sekarang · Rp12" }
+        ],
+        correctOptionId: "new-price"
+      }
+    }
+  },
+  {
+    id: "money-s02-concept-01",
+    type: "concept",
+    speaker: "Naya",
+    text: "Harga barang bisa berubah."
+  },
+  {
+    id: "money-s02-narrative-05",
+    type: "narrative",
+    speaker: "Gian",
+    text: "Bisa naik?"
+  },
+  {
+    id: "money-s02-narrative-06",
+    type: "narrative",
+    speaker: "Naya",
+    text: "Bisa."
+  },
+  {
+    id: "money-s02-concept-02",
+    type: "concept",
+    speaker: "Naya",
+    text: "Kalau banyak harga naik dari waktu ke waktu, ada istilah inflasi."
+  },
+  {
+    id: "money-s02-narrative-07",
+    type: "narrative",
+    speaker: "Gian",
+    text: "In-fla-si?"
+  },
+  {
+    id: "money-s02-concept-03",
+    type: "concept",
+    speaker: "Naya",
+    text: "Iya. Kita ingat satu hal dulu: harga bisa berubah."
+  },
+  {
+    id: "money-s02-activity-02",
+    type: "activity",
+    activity: {
+      id: "money-s02-activity-02",
+      mechanicId: "sort_classify",
+      assessment: "practice",
+      payload: {
+        prompt: "Kelompokkan harga yang naik dan yang tetap.",
+        items: [
+          { id: "change-5-7", label: "5 → 7" },
+          { id: "change-8-8", label: "8 → 8" },
+          { id: "change-3-4", label: "3 → 4" },
+          { id: "change-6-6", label: "6 → 6" }
+        ],
+        groups: [
+          { id: "group-up", label: "⬆️ Naik" },
+          { id: "group-same", label: "➖ Tetap" }
+        ],
+        assignments: {
+          "change-5-7": "group-up",
+          "change-8-8": "group-same",
+          "change-3-4": "group-up",
+          "change-6-6": "group-same"
+        }
+      }
+    }
+  },
+  {
+    id: "money-s02-payoff-01",
+    type: "payoff",
+    speaker: "Gian",
+    text: "Kalau harga berubah, aku harus lihat dulu sebelum beli."
+  },
+  {
+    id: "money-s02-payoff-02",
+    type: "payoff",
+    speaker: "Naya",
+    text: "Betul."
+  }
+];
+
+export const MONEY_WORLD_SEGMENTS: Record<string, MoneyWorldSegment[]> = {
+  "money-stage-01-money-use": MONEY_WORLD_STAGE_ONE_SEGMENTS,
+  "money-stage-02-price-change": MONEY_WORLD_STAGE_TWO_SEGMENTS
+};
+
+export function getMoneyWorldSegments(stageId: string): MoneyWorldSegment[] {
+  return MONEY_WORLD_SEGMENTS[stageId] ?? [];
+}
 
 export function getMoneyWorldStage(stageId: string): MoneyWorldStageDefinition | undefined {
   return MONEY_WORLD_STAGES.find((stage) => stage.id === stageId);
