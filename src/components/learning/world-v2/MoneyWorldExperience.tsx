@@ -333,7 +333,14 @@ export function MoneyWorldMapScreen({ childId, worldId }: { childId: string; wor
                 {unlocked ? (
                   <Link href={mapBase + "/stage/" + stage.id} className={styles.stageLink}>{node}</Link>
                 ) : (
-                  <div className={styles.stageLink} aria-disabled="true">{node}</div>
+                  <div
+                    className={styles.stageLink}
+                    aria-disabled="true"
+                    role="group"
+                    aria-label={"Stage " + stage.order + " terkunci · " + stage.title}
+                  >
+                    {node}
+                  </div>
                 )}
               </div>
             </Fragment>
@@ -580,7 +587,7 @@ function WorldDragTarget({
         helper="Sentuh kartu lalu sentuh tujuan. Di desktop, kartu juga bisa diseret."
       />
       <div className={styles.dragBoard}>
-        <div className={styles.sourceColumn}>
+        <div className={styles.sourceColumn} role="group" aria-label="Kartu yang belum dipasangkan">
           <strong>Kartu</strong>
           {items.map((item) => {
             const done = matched.includes(item.id);
@@ -600,7 +607,7 @@ function WorldDragTarget({
             );
           })}
         </div>
-        <div className={styles.targetColumn}>
+        <div className={styles.targetColumn} role="group" aria-label="Tujuan pasangan">
           <strong>Tujuan</strong>
           {targets.map((target) => {
             const landed = items.filter((item) => matched.includes(item.id) && assignments[item.id] === target.id);
@@ -672,7 +679,7 @@ function WorldMatching({
         helper="Pasangkan kartu di kiri dengan pasangannya di kanan."
       />
       <div className={styles.matchBoard}>
-        <div className={styles.matchColumn}>
+        <div className={styles.matchColumn} role="group" aria-label="Kartu kiri">
           {pairs.map((pair) => (
             <button
               type="button"
@@ -687,7 +694,7 @@ function WorldMatching({
           ))}
         </div>
         <div className={styles.matchArrow} aria-hidden>↔</div>
-        <div className={styles.matchColumn}>
+        <div className={styles.matchColumn} role="group" aria-label="Kartu kanan">
           {right.map((pair) => (
             <button
               type="button"
@@ -889,7 +896,7 @@ function WorldTapChoice({
       />
 
       {takeAway ? (
-        <div className={styles.tokenBoard} aria-label={startCount + " token, " + removeCount + " dipakai"}>
+        <div className={styles.tokenBoard} role="img" aria-label={startCount + " token, " + removeCount + " dipakai"}>
           {Array.from({ length: startCount }, (_, index) => (
             <span key={index} className={cx(styles.tokenDot, index >= startCount - removeCount && styles.tokenRemoved)} aria-hidden>🪙</span>
           ))}
@@ -971,9 +978,9 @@ function WorldOrdering({
         helper="Sentuh kartu dari langkah pertama sampai terakhir."
       />
 
-      <div className={styles.orderSlots} aria-label="Urutan yang dipilih">
+      <div className={styles.orderSlots} role="list" aria-label="Urutan yang dipilih">
         {items.map((_, index) => (
-          <div key={index} className={styles.orderSlot}>
+          <div key={index} className={styles.orderSlot} role="listitem">
             <span>{index + 1}</span>
             <strong>{orderedItems[index]?.label ?? "?"}</strong>
           </div>
@@ -1037,7 +1044,7 @@ function NarrativeChoiceCard({
       </div>
       {selected ? (
         <div className={styles.choiceReaction}>
-          <p>{selected.reaction}</p>
+          <p role="status" aria-live="polite">{selected.reaction}</p>
           <button type="button" className={styles.primaryButton} onClick={onNext}>Lanjut <ArrowRight size={20} weight="bold" aria-hidden /></button>
         </div>
       ) : null}
@@ -1060,9 +1067,9 @@ function WorldRecapCard({
         <span className={styles.sceneType}>Kita ingat sebentar</span>
         <h2>{title}</h2>
       </div>
-      <div className={styles.recapGrid} aria-label="Ringkasan Petualangan Uang">
+      <div className={styles.recapGrid} role="list" aria-label="Ringkasan Petualangan Uang">
         {items.map((item) => (
-          <div key={item.id} className={styles.recapCard}>
+          <div key={item.id} className={styles.recapCard} role="listitem">
             <span aria-hidden>{item.icon}</span>
             <strong>{item.label}</strong>
           </div>
@@ -1095,6 +1102,7 @@ function WorldStageCompletion({
   onAgain: () => void;
 }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const completionTitleRef = useRef<HTMLHeadingElement>(null);
   const [shareGate, setShareGate] = useState<"idle" | "checking" | "allowed" | "denied">("idle");
   const [copyStatus, setCopyStatus] = useState("");
   const next = nextMoneyWorldStage(stageId);
@@ -1137,6 +1145,11 @@ function WorldStageCompletion({
   const encodedText = encodeURIComponent(shareText + " " + shareUrl);
   const encodedUrl = encodeURIComponent(shareUrl);
 
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => completionTitleRef.current?.focus());
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+
   return (
     <section
       className={styles.completion}
@@ -1147,7 +1160,7 @@ function WorldStageCompletion({
     >
       <div className={styles.completionCard}>
         <span className={styles.eyebrow} data-world-completion-context>{completionContext}</span>
-        <h2 id="world-stage-complete-title">{praise}</h2>
+        <h2 id="world-stage-complete-title" ref={completionTitleRef} tabIndex={-1}>{praise}</h2>
         <div className={styles.completionStars} aria-label="Tiga bintang">
           {[0, 1, 2].map((index) => (
             <Star key={index} size={58} weight="fill" aria-hidden style={{ animationDelay: String(index * 140) + "ms" }} />
@@ -1319,7 +1332,15 @@ function MoneyWorldStageRuntime({
       data-world-scene-id={activeScene.id}
       data-world-scene-kind={activeScene.kind}
     >
-      <div className={styles.stageProgressBar} aria-label={"Bagian " + (segmentIndex + 1) + " dari " + segments.length}>
+      <div
+        className={styles.stageProgressBar}
+        role="progressbar"
+        aria-label="Progres Stage"
+        aria-valuemin={1}
+        aria-valuemax={segments.length}
+        aria-valuenow={segmentIndex + 1}
+        aria-valuetext={"Bagian " + (segmentIndex + 1) + " dari " + segments.length}
+      >
         <span style={{ width: String(percent) + "%" }} />
       </div>
       <header className={styles.stageShellHeader}>
