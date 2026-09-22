@@ -435,3 +435,28 @@ docs/WORLD_PERFORMANCE_LAZY_LOAD_2026-09-22.md
 ```
 
 CI status for this exact wave head must be recorded before freezing a final non-audio production checkpoint.
+
+
+## 18. Production wave 14 green result
+
+Validated exact content-audit head:
+
+```text
+ef0a0ab60b66e9ed19da27b9b5a64e8a86f9f524
+CI #1491 / run 35752625951
+checkpoint/world-petualangan-uang-content-audit-green-20260922
+```
+
+Full matrix:
+
+```text
+Quality gate (Ubuntu):        PASS
+Windows compatibility:        PASS
+Production build:             PASS
+Production dependency audit:  PASS
+Secret history scan:          PASS
+Mobile route QA (Chromium):   PASS
+overall:                      SUCCESS
+```
+
+Earlier audit-candidate failures were fail-closed test-contract drift while the audit was being introduced; the exact checkpoint above is the first frozen full-green content-audit closure.
