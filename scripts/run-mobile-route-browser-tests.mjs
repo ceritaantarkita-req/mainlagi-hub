@@ -201,6 +201,25 @@ async function inspectPage(page, route, viewport) {
       );
     }
 
+    if (route.path === "/child/demo-gian/world/money-festival" && viewport.width <= 430) {
+      const geometry = await page.evaluate(() => {
+        const one = document.querySelector('[data-world-stage-id="money-stage-01-money-use"]');
+        const two = document.querySelector('[data-world-stage-id="money-stage-02-price-change"]');
+        const oneNode = one?.querySelector('[class*="stageNode"]');
+        const twoNode = two?.querySelector('[class*="stageNode"]');
+        if (!(oneNode instanceof HTMLElement) || !(twoNode instanceof HTMLElement)) return null;
+        const a = oneNode.getBoundingClientRect();
+        const b = twoNode.getBoundingClientRect();
+        return {
+          first: { left: a.left, right: a.right, width: a.width, center: a.left + a.width / 2 },
+          second: { left: b.left, right: b.right, width: b.width, center: b.left + b.width / 2 }
+        };
+      });
+      assert.ok(geometry, "World map stage-node geometry must exist");
+      assert.ok(geometry.first.width <= 190 && geometry.second.width <= 190, "World map must use compact game nodes instead of full-width lesson cards");
+      assert.ok(Math.abs(geometry.first.center - geometry.second.center) >= 90, "World map nodes must alternate across the winding path");
+    }
+
     if (route.path === "/child/demo-gian/home") {
       assert.equal(await page.getByRole("link", { name: "Belajar", exact: true }).count(), 1, "child home must expose Belajar navigation");
       assert.equal(await page.getByRole("link", { name: "World", exact: true }).count(), 1, "child home must expose World navigation");
