@@ -100,8 +100,11 @@ Every World asset slot has an explicit state:
 ```text
 approved-reused
 temporary-runtime
+production-ready
 production-needed
 ```
+
+`production-ready` is reserved for a production asset/route that is complete for the current pilot but is not part of the reused-public-file inventory.
 
 This prevents placeholder/fallback assets from being mistaken for finished production art.
 
@@ -371,9 +374,10 @@ Current ordered work:
 5. **DONE on isolated branch** — reusable Scene presentation/renderer layer for all five canonical Scene kinds;
 6. **DONE / GREEN** — 320/390/430 production QA matrix + responsive Scene cleanup;
 7. **DONE / GREEN** — CI #1382 validated code head `e8f795b7...` and froze `checkpoint/world-petualangan-uang-production-green-20260922`;
-8. **DONE on isolated branch, CI pending** — dedicated public-safe 1200×630 Petualangan Uang social card;
-9. **NEXT PRODUCT GAP** — fixed narration still requires actual reviewed binaries (currently 0/88 approved), while Gian/Naya character production remains paused;
-10. bespoke Stage/background art remains optional because current reused backgrounds are approved for the pilot;
-11. World -> Evidence bridge remains disabled until separately authorized.
+8. **DONE / GREEN** — dedicated public-safe 1200×630 Petualangan Uang social card, validated at `9f695330...` by CI #1391;
+9. **DONE / CHECKPOINTED** — froze `checkpoint/world-petualangan-uang-social-green-20260922` at the exact validated head;
+10. **NEXT PRODUCT GAP** — fixed narration still requires actual reviewed binaries (currently 0/88 approved), while Gian/Naya character production remains paused;
+11. bespoke Stage/background art remains optional because current reused backgrounds are approved for the pilot;
+12. World -> Evidence bridge remains disabled until separately authorized.
 
 This policy is intentionally narrower than the long-term Mainlagi 3–12 ambition. It prevents the pilot runtime from drifting into an incoherent one-World-fits-all model.
