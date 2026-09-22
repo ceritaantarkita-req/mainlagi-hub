@@ -347,6 +347,50 @@
   }
 
   .sceneDone {
-    gap: 6px;
+    gap: 5px;
+  }
+
+  .sceneDone .map {
+    gap: 4px;
+    padding: 6px;
+  }
+
+  .sceneDone .connector {
+    display: none;
+  }
+
+  .sceneDone .featureColumn,
+  .sceneDone .functionColumn {
+    gap: 4px;
+  }
+
+  .sceneDone .subjectCard,
+  .sceneDone .featureCard {
+    min-height: 62px;
+    padding: 4px;
+  }
+
+  .sceneDone .subjectIcon,
+  .sceneDone .featureIcon {
+    --learning-visual-frame-size: 42px;
+    --learning-visual-font-size: 1.7rem;
+    --learning-visual-padding: 3px;
+  }
+
+  .sceneDone .functionButton {
+    min-height: 44px;
+    gap: 5px;
+    padding: 4px 6px;
+  }
+
+  .sceneDone .functionIcon {
+    --learning-visual-frame-size: 32px;
+    --learning-visual-font-size: 1.2rem;
+    --learning-visual-padding: 2px;
+  }
+
+  .sceneDone .status {
+    min-height: 40px;
+    padding: 6px 8px;
   }
 }
