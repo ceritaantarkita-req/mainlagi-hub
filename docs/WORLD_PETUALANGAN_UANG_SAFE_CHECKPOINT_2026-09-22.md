@@ -417,3 +417,42 @@ Detailed audit: `WORLD_PETUALANGAN_UANG_EVIDENCE_BRIDGE_AUDIT_2026-09-22.md`.
 
 No SQL/evidence/mastery/progression mutation is authorized by this audit.
 
+## 18. Global age migration audit — still fail-closed
+
+The branch now also owns a machine-readable audit of the canonical 3–7 boundaries that block a safe age-8+ Belajar/evidence rollout:
+
+```text
+src/lib/learning/world/moneyWorldAgeMigrationAudit.ts
+version: money-world-age-migration-v0
+enabled: false
+```
+
+Verified blocker groups:
+
+- cloud profile parser and profile creation;
+- local/cloud profile age controls;
+- canonical content age validator;
+- `learning_skills` SQL age checks;
+- content-pack SQL age checks;
+- canonical 3–7 content metadata;
+- age-filtered Belajar recommendation/playability;
+- public 3–7 product copy;
+- regression tests that intentionally preserve current ranges;
+- age-8 incompatibility for the two World evidence candidates.
+
+The audit specifically records that `player_profiles.age_group` is text and is not itself protected by a numeric 3–7 SQL check; the current profile hard stop is in learning app/parser/UI code.
+
+Safe migration rule:
+
+```text
+do not change profile max first
+do not blanket-rewrite ageMax 7 -> 12
+do not activate World mastery to make age 8 look supported
+```
+
+Automated World tests now inspect the actual source/schema files for these audited boundaries. If a later branch changes them, the audit test must be updated rather than allowing stale documentation.
+
+Detailed record: `WORLD_AGE_MIGRATION_AUDIT_2026-09-22.md`.
+
+No profile/UI/schema/catalog/adaptive/public-copy migration is performed by this wave.
+
