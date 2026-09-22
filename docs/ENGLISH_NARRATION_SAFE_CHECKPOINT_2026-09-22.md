@@ -7,11 +7,11 @@ Canonical branch: `main`
 
 This document is the compact handoff for the English learning narration work completed on 22 September 2026. It is intentionally conservative: it records what is live, what is still blocked, and what a future agent may safely do next without reopening closed work.
 
-## 1. Current production source of truth
+## 1. Safe product implementation baseline
 
 ```text
-current main:                    2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48
-merged-main CI:                  #1372 / run 35701448136
+product implementation main:     2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48
+implementation merged-main CI:    #1372 / run 35701448136
 merged-main CI result:           FULL SUCCESS
 Cloudflare production smoke:     SUCCESS — exact merged main SHA
 production URL:                  https://mainlagihub.my.id
@@ -24,7 +24,7 @@ The production health check explicitly returned release SHA:
 2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48
 ```
 
-Do not use an older gameplay/documentation checkpoint as the current production head.
+`2cc7d5be...` is the safe English-narration **product/runtime implementation baseline**. Documentation-only closure commits may make the branch tip newer without changing this runtime baseline. For any new branch, fetch and start from the actual current `main` tip, then verify that this implementation baseline is still an ancestor.
 
 ## 2. English narration work now closed
 
@@ -221,7 +221,7 @@ These remain non-negotiable for the narration workstream:
 
 A future agent can safely resume from this checkpoint with:
 
-> Start from main `2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48`. Preserve Mainlagi World untouched, keep character development paused, keep WS-05 closed, and preserve the 900-activity / 47-pattern learning baseline. English narration Wave 1 and the production asset gate are closed/live verified. There are 27 narration registry slots, 0 approved production audio files and 0 runtime static-audio activation. If continuing narration, begin with a four-item provider/voice pilot and human listening/provenance review; do not bulk-generate all 27 and do not activate runtime playback until the pilot assets are separately approved.
+> Fetch current `main` and verify it contains product implementation baseline `2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48`. Preserve Mainlagi World untouched, keep character development paused, keep WS-05 closed, and preserve the 900-activity / 47-pattern learning baseline. English narration Wave 1 and the production asset gate are closed/live verified. There are 27 narration registry slots, 0 approved production audio files and 0 runtime static-audio activation. If continuing narration, begin with a four-item provider/voice pilot and human listening/provenance review; do not bulk-generate all 27 and do not activate runtime playback until the pilot assets are separately approved.
 
 ## 8. Checkpoint rule
 
