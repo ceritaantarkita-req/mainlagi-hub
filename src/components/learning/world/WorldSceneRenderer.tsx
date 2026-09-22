@@ -24,7 +24,7 @@ export function WorldSceneRenderer({
   return (
     <div
       className={styles.sceneFrame}
-      role="group"
+      role="region"
       aria-labelledby={headingId}
       data-world-scene-frame={scene.id}
       data-world-scene-kind={scene.kind}
@@ -32,6 +32,8 @@ export function WorldSceneRenderer({
     >
       <div
         className={styles.sceneMeta}
+        aria-live="polite"
+        aria-atomic="true"
         data-world-scene-emphasis={presentation.emphasizeSceneTitle ? "strong" : "quiet"}
       >
         <span>{presentation.label}</span>
