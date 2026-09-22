@@ -266,6 +266,21 @@ Petualangan Uang currently validates as **1 World / 2 Chapters / 8 Stages / 44 S
 
 The Scene layer is presentation structure only. Existing Stage completion and Segment-index resume compatibility remain unchanged.
 
+## 10B. Eight-Stage pilot production manifest
+
+Production wave 03 makes the eight-Stage presentation contract data-driven:
+
+```text
+src/lib/learning/world/moneyWorldPilot.ts
+version: money-world-pilot-v1
+```
+
+The manifest owns Stage background selection and ambience. React/CSS no longer owns eight separate visual mappings.
+
+The pilot validator requires all canonical Stages in exact order and confirms every Stage has authored story/challenge/closing coverage. Stage 8 additionally requires its choice and recap Scenes.
+
+Detailed implementation record: `WORLD_PETUALANGAN_UANG_PILOT_PRODUCTION_2026-09-22.md`.
+
 ## 11. Evidence boundary remains unchanged
 
 This policy does **not** turn World activities into mastery evidence.
@@ -284,15 +299,16 @@ Global profile/content/schema age expansion is a separate migration boundary. Se
 
 ## 12. Next production sequence
 
-Recommended next work after this policy:
+Current ordered work:
 
-1. keep 6–8 as the current pilot;
-2. keep Gavi/Paca as the only active World runtime characters while character development is paused;
-3. define fixed narration asset generation/review workflow;
-4. create bespoke World social card;
-5. replace reused backgrounds only where a dedicated World scene materially improves storytelling;
-6. rerun visual/mobile/full-playthrough QA;
-7. create a new green checkpoint;
-8. only then begin World -> Evidence bridge design.
+1. **DONE on isolated branch** — Garden-baseline Stage runtime shell;
+2. **DONE on isolated branch** — canonical World -> Chapter -> Stage -> Scene -> Segment contract;
+3. **DONE on isolated branch** — eight-Stage Petualangan Uang pilot production manifest + closure QA;
+4. **NEXT** — fixed narration asset resolution/generation/review workflow;
+5. keep Gavi/Paca as the only active World runtime characters while character development is paused;
+6. create bespoke World social card after visual/narration identity is stable;
+7. replace approved reused backgrounds only where bespoke World art materially improves storytelling;
+8. rerun full visual/mobile/playthrough QA and freeze a new green checkpoint;
+9. only then revisit World -> Evidence bridge design.
 
 This policy is intentionally narrower than the long-term Mainlagi 3–12 ambition. It prevents the pilot runtime from drifting into an incoherent one-World-fits-all model.
