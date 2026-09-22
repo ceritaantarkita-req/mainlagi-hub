@@ -2871,3 +2871,59 @@
     font-size: 12px;
   }
 }
+
+
+/* === Production wave 15: World accessibility pass === */
+.textButton:focus-visible,
+.stageLink[href]:focus-visible,
+.shareGrid a:focus-visible,
+.shareGrid button:focus-visible,
+.dialogHead > button:focus-visible,
+.parentGate a:focus-visible {
+  outline: 4px solid #155f86;
+  outline-offset: 4px;
+}
+
+.stageLink[href]:focus-visible {
+  border-radius: 28px;
+}
+
+.stageLink[aria-current="step"] .stageNode {
+  box-shadow:
+    0 0 0 5px rgba(21, 95, 134, .18),
+    0 7px 0 rgba(109, 139, 88, .26),
+    0 15px 32px rgba(47, 87, 64, .12);
+}
+
+.completionCard h2[tabindex="-1"]:focus {
+  outline: none;
+}
+
+@media (forced-colors: active) {
+  .stageNode,
+  .chapterMapBanner,
+  .storyScene,
+  .activityScene,
+  .completionCard,
+  .shareDialog,
+  .moneyChip,
+  .targetCard,
+  .matchCard,
+  .compareCard,
+  .sortItem,
+  .sortGroup,
+  .choiceCard,
+  .orderCard,
+  .primaryButton,
+  .secondaryButton,
+  .shareButton {
+    border: 2px solid CanvasText;
+  }
+
+  .selectedCard,
+  .doneCard,
+  .stageLink[aria-current="step"] .stageNode {
+    outline: 3px solid Highlight;
+    outline-offset: 2px;
+  }
+}
