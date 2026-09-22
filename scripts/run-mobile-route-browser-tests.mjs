@@ -704,6 +704,55 @@ async function main() {
 
     for (const width of [320, 430]) {
       const viewport = VIEWPORTS.find((item) => item.width === width);
+      assert.ok(viewport, "missing World map viewport " + width);
+      const context = await browser.newContext({ viewport, reducedMotion: "reduce" });
+      await context.addInitScript((progress) => {
+        window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
+          "demo-gian": { "money-festival": progress }
+        }));
+      }, {
+        worldId: "money-festival",
+        completedStageIds: ["money-stage-01-money-use"],
+        currentStageId: "money-stage-02-price-change",
+        currentSegmentIndex: 0,
+        updatedAt: "2026-09-22T00:00:00.000Z"
+      });
+      const page = await context.newPage();
+      await page.goto(baseUrl + "/child/demo-gian/world/money-festival", { waitUntil: "domcontentloaded" });
+      const map = page.locator('[data-world-map="money-festival"]');
+      await map.waitFor();
+      const chapterBanners = map.locator("[data-world-chapter-id]");
+      assert.equal(await chapterBanners.count(), 2, "World map must render exactly two semantic Chapter banners at " + width + "px");
+      assert.equal(
+        (await map.locator('[data-world-chapter-id="money-chapter-01-road-to-festival"] > span').textContent())?.trim(),
+        "1/4 Stage selesai",
+        "Chapter 1 progress must remain semantic at " + width + "px"
+      );
+      assert.equal(
+        (await map.locator('[data-world-chapter-id="money-chapter-02-prepare-festival"] > span').textContent())?.trim(),
+        "0/4 Stage selesai",
+        "Chapter 2 progress must remain semantic at " + width + "px"
+      );
+      const geometry = await page.evaluate(() => {
+        const viewportWidth = document.documentElement.clientWidth;
+        const scrollWidth = Math.max(document.documentElement.scrollWidth, document.body.scrollWidth);
+        const banners = Array.from(document.querySelectorAll("[data-world-chapter-id]")).map((node) => {
+          const box = node.getBoundingClientRect();
+          return { left: box.left, right: box.right, width: box.width };
+        });
+        return { viewportWidth, scrollWidth, banners };
+      });
+      assert.ok(geometry.scrollWidth <= geometry.viewportWidth + 1, "semantic Chapter map must not create horizontal overflow at " + width + "px");
+      for (const box of geometry.banners) {
+        assert.ok(box.left >= -1 && box.right <= geometry.viewportWidth + 1, "Chapter banner must fit viewport width at " + width + "px");
+      }
+      await page.screenshot({ path: path.join(screenshotDir, width + "-world-money-map-chapter-nav.png"), fullPage: true });
+      await context.close();
+      console.log("World semantic Chapter navigation passed at " + width + "px.");
+    }
+
+    for (const width of [320, 430]) {
+      const viewport = VIEWPORTS.find((item) => item.width === width);
       assert.ok(viewport, "missing World completion viewport " + width);
       const context = await browser.newContext({ viewport });
       await context.addInitScript((progress) => {
