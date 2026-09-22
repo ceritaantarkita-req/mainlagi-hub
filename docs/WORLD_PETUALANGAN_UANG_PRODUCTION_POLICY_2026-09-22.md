@@ -105,6 +105,31 @@ production-needed
 
 This prevents placeholder/fallback assets from being mistaken for finished production art.
 
+## 6A. Current runtime-character override — production wave 01
+
+Character development remains **paused** by the project owner.
+
+Until that boundary is explicitly resumed, World runtime presentation uses only the two approved production mascot assets:
+
+```text
+canonical story role Gian -> runtime dummy Gavi
+canonical story role Naya -> runtime dummy Paca
+```
+
+Code source of truth:
+
+```text
+src/lib/learning/world/moneyWorldAssets.ts
+MONEY_WORLD_RUNTIME_CHARACTER_POLICY
+version: money-world-runtime-character-dummy-v1
+mode: approved-mascot-dummy
+finalHumanCharactersActivated: false
+```
+
+This is a **presentation mapping**, not a rewrite of canonical story-role metadata. Stable World IDs, narration cue IDs, progression, evidence semantics, and the future Gian/Naya production slots remain unchanged.
+
+The World hero and Stage runtime must not render the current fallback human `CharacterAvatar(gian|naya)` representations while this override is active.
+
 ## 7. Approved reused assets in the pilot
 
 Current approved reuse:
@@ -128,7 +153,8 @@ The pilot must continue to report these as unfinished:
 Current source:
 
 ```text
-CharacterAvatar(gian)
+Gian story role -> approved Gavi runtime dummy
+(no Gian production binary active)
 ```
 
 Final requirement:
@@ -144,7 +170,8 @@ Final requirement:
 Current source:
 
 ```text
-CharacterAvatar(naya)
+Naya story role -> approved Paca runtime dummy
+(no Naya production binary active)
 ```
 
 Final requirement:
@@ -240,7 +267,7 @@ Global profile/content/schema age expansion is a separate migration boundary. Se
 Recommended next work after this policy:
 
 1. keep 6–8 as the current pilot;
-2. create/approve Gian + Naya production foreground set;
+2. keep Gavi/Paca as the only active World runtime characters while character development is paused;
 3. define fixed narration asset generation/review workflow;
 4. create bespoke World social card;
 5. replace reused backgrounds only where a dedicated World scene materially improves storytelling;
