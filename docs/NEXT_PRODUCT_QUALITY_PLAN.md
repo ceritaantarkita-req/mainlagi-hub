@@ -110,7 +110,7 @@ merged-main CI:               #1209 / run 35625953536 — success + exact Cloudf
 analytics regression:         1201 attempts / 3603 evidence rows / paged + fail-closed
 WS-13 next:                   Naya candidate creation/review -> Gian -> Zia
 WS-05 current audit:          PR #240 -> 7109db41 / CI #1100 success
-WS-05 runtime:                not started
+WS-05 runtime:                ACTIVE on agent/ws05-logic-pattern-completion-reuse-20260922
 gameplay taxonomy:            900/900 classified / 47 active / no Pattern #48
 ```
 
@@ -119,6 +119,14 @@ Cloud analytics integrity: **CLOSED / MERGED / LIVE VERIFIED** via PR #267 -> ma
 Repository secret-scan governance: **CLOSED / MERGED / LIVE VERIFIED** via PR #269 -> main `6fd9e3fc7ffa57aab687b5529033f1a995e0e5ba`, merged-main CI #1209 exact Cloudflare smoke. The standalone scan remains visible, while the same pinned full-history scan now executes inside ruleset-required `Production dependency audit`, so a secret finding fails a required merge gate.
 
 Product-UX and WS-05 remain separate work tracks. The parent/profile/settings redesign is already closed/live verified; the next product-UX wave is character production, not another parent-shell rewrite.
+
+
+### 22 September user execution boundary
+
+- **Do not modify Mainlagi World**; it is being developed separately by the user.
+- Character production/development is **PAUSED**. Existing Drive character assets are reference material only for this wave.
+- Current active implementation is Mainlagi Belajar WS-05 exact five-ID Logic `pattern_completion` reuse.
+- Do not mix World, character runtime, broad UX refactors, or Pattern #48 into this PR.
 
 ## Product goal
 
@@ -148,7 +156,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 | WS-02 Voice & narration | **LATENCY WAVE LIVE VERIFIED / QUALITY LATER** | first-instruction latency/preload closed; English voice quality and reviewed production narration remain later work |
 | WS-03 Public/parent frontend | **PARENT WAVE LIVE VERIFIED** | PR #251 -> `77bee682...`; <760px mobile nav / >=760px sidebar; family/demo and profile/guide separation preserved |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
-| WS-05 Gameplay diversification | **47 ACTIVE / LOGIC AUDIT LIVE VERIFIED / RUNTIME NOT STARTED** | PR #240 -> `7109db41...`, CI #1100; exact 5-ID reuse of existing `pattern_completion`; baseline 900/900 / `choice_grid` 179 / `pattern_completion` 5 / KEEP 900; expected runtime 174 / 10 / 47 active; no Pattern #48 |
+| WS-05 Gameplay diversification | **47 ACTIVE / LOGIC RUNTIME IN PROGRESS** | PR #240 -> `7109db41...`, CI #1100; exact 5-ID reuse of existing `pattern_completion`; baseline 900/900 / `choice_grid` 179 / `pattern_completion` 5 / KEEP 900; expected runtime 174 / 10 / 47 active; no Pattern #48 |
 | WS-06 Coloring rebuild | DONE | PR #95/#96 |
 | WS-07 Drawing rebuild | DONE | PR #98/#99/#100 |
 | WS-08 Art direction / visual QA | **PERMANENT / BLOCKING** | 21-route/63-capture baseline stays blocking; parent responsive artifact/manual review accepted; character production is next visual wave |
@@ -744,7 +752,7 @@ P2 findings: 3
 
 1. Preserve verified merged truth at **900/900 classified / 47 active / `choice_grid` 179 / `pattern_completion` 5 / `make_total` 7 / `take_away` 7 / KEEP 900**.
 2. The exact five-ID Logic repeating-pattern audit is **MERGED / LIVE VERIFIED** via PR #240 -> main `7109db41134f18884b6c08fba99ad2af997b3fed`; main CI #1100 / run `35492367065` passed.
-3. Runtime implementation is now audit-unblocked but **NOT STARTED**. It may only target the five audited `logic.pattern.repeat.intermediate` activities and harden the full exact ten-ID `pattern_completion` family fail-closed.
+3. Runtime implementation is **ACTIVE** on `agent/ws05-logic-pattern-completion-reuse-20260922`. It may only target the five audited `logic.pattern.repeat.intermediate` activities and harden the full exact ten-ID `pattern_completion` family fail-closed.
 4. Expected runtime result remains **900/900 / 47 active / `choice_grid` 174 / `pattern_completion` 10 / Logic `choice_grid` 21 / KEEP 900**.
 5. This is existing-mechanic reuse, not Pattern #48. Do not create Pattern #48 to satisfy a numeric pattern target.
 6. Preserve canonical identity, prompt, exact choice order, answer, deterministic sequence config, evidence and progression behavior.
