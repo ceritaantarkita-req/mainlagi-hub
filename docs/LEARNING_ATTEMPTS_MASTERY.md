@@ -290,6 +290,41 @@ In particular:
 - QA unlock behavior must stay isolated and may not weaken normal production progression;
 - the current Logic `pattern_completion` reuse audit does not authorize mastery/schema changes.
 
+## 19A. World → Evidence design boundary
+
+Petualangan Uang now has a **design-only, disabled** World → Evidence contract.
+
+Source:
+
+```text
+src/lib/learning/world/moneyWorldEvidenceBridge.ts
+docs/WORLD_EVIDENCE_BRIDGE_ARCHITECTURE_2026-09-23.md
+```
+
+Current rule:
+
+```text
+World completion / ★★★
+≠
+Belajar activity completion
+≠
+skill evidence
+≠
+mastery
+≠
+Belajar stars
+≠
+stage readiness
+```
+
+All 16 current World activity placements remain `practice`. Two activities have unapproved candidate relationships to existing Math skills; the other 14 are explicitly excluded from canonical mastery mapping. Candidate status is not activation.
+
+The current `record_learning_attempt(...)` RPC must not be called directly from World because a completed canonical learning attempt can also mutate `child_learning_progress` and canonical star rewards. A future bridge requires a server-owned write boundary that isolates evidence from Belajar completion/reward effects.
+
+The bridge remains disabled until explicit product authorization, pedagogical mapping approval, age-8 handling, server canonicalization, progression/reward isolation and security/anti-farming regression coverage are complete.
+
+No SQL/RPC/schema change is authorized by the design contract.
+
 ## 20. Change rule
 
 The learning/mastery foundation is currently considered healthy. The next product-quality phase should **not rewrite it by default**.
