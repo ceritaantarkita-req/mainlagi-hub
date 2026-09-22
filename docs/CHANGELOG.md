@@ -26,6 +26,9 @@
 - Pinned full-history Gitleaks sekarang juga berjalan sebagai `Required full-history secret gate` di dalam ruleset-required `Production dependency audit`, sehingga secret finding memblok merge; standalone `Secret history scan` tetap dipertahankan untuk visibility.
 - Issue #83 sekarang hanya melacak physical-device acceptance; tidak ada lagi account/UI action terpisah untuk secret-scan enforcement.
 - Tidak ada perubahan mastery/evidence/progression/schema dari sinkronisasi dokumentasi ini.
+- Draft PR #272 menambahkan implementasi terisolasi **Mainlagi World / Petualangan Uang**: 8 Stage, illustrated journey map, audio-first story segments, reusable mini-game mechanics, Chapter 1 milestone, final visual recap, public-safe share landing, dan World-progress persistence terpisah dari canonical mastery.
+- Known-green World code checkpoint `5c76f9812a93eb7ef07fff1880af4da5af2b4927` lulus CI #1290 / run `35679390492` pada Ubuntu, Windows, secret scan, dependency audit, production build, dan Mobile Chromium. PR tetap draft dan belum production.
+- World checkpoint/restart record: `WORLD_PETUALANGAN_UANG_SAFE_CHECKPOINT_2026-09-22.md`.
 
 
 ## 2.0.1 — 5 Agustus 2026
