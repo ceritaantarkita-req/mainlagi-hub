@@ -188,3 +188,31 @@ Merged-main production smoke verified `https://mainlagihub.my.id` serving exact 
 The harness itself is closed. Next work is **candidate generation and human listening**, not more provider-harness architecture. Provide `OPENAI_API_KEY` only through a local/server environment, generate the exact four-item set with `marin`, use `cedar` as the planned comparison candidate, and keep production registry lifecycles unchanged until human review is complete. Do not copy candidates into `public/` or activate static playback in the same step.
 
 Closure summary: `ENGLISH_NARRATION_PROVIDER_PILOT_HARNESS_CLOSURE_2026-09-22.md`.
+
+
+## 11. Human-review gate implementation wave
+
+A separate review tool is now part of the active implementation wave:
+
+```text
+scripts/review-english-narration-pilot.mjs
+scripts/run-english-narration-pilot-review-tests.mjs
+docs/ENGLISH_NARRATION_HUMAN_REVIEW_GATE_2026-09-22.md
+```
+
+It validates the exact generated candidate set before any human decision is trusted:
+
+- manifest provider/model/voice/output contract;
+- exact four activity IDs and transcripts;
+- canonical local candidate paths;
+- MP3 header/size;
+- byte counts and SHA-256 against the generation manifest;
+- production registry still `review-required`;
+- review sheet bound to the exact manifest SHA-256 and exact file SHA-256;
+- reviewer identity + timestamp for completed review;
+- explicit listened-to-exact-files attestation;
+- four rubric fields per activity: exact-word fidelity, pronunciation, child-learning pace, and audio cleanliness.
+
+An `accepted` human review is deliberately **not** production approval. The tool does not update the production registry, copy audio into `public/`, recheck legal rights on the reviewer's behalf, or activate runtime playback.
+
+This wave remains at **0 generated pilot audio / 0 approved production audio / no runtime static audio** until the project owner actually runs and listens to candidates.

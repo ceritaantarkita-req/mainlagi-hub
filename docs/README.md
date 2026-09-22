@@ -22,7 +22,8 @@ Read these first for current work:
 12. [`SECRET_SCAN_REQUIRED_GATE_CLOSURE_2026-09-22.md`](SECRET_SCAN_REQUIRED_GATE_CLOSURE_2026-09-22.md) — closed/live-verified merge-blocking full-history secret scan through ruleset-required dependency gate.
 13. [`ENGLISH_NARRATION_QUALITY_WAVE_2026-09-22.md`](ENGLISH_NARRATION_QUALITY_WAVE_2026-09-22.md) — closed/live-verified 27-activity English narration-copy + browser-fallback quality wave.
 14. [`ENGLISH_NARRATION_ASSET_PIPELINE_2026-09-22.md`](ENGLISH_NARRATION_ASSET_PIPELINE_2026-09-22.md) — closed/live-verified fail-closed pre-generated English narration asset/provenance gate; 27 review-required / 0 approved / 0 runtime static audio.
-15. [`ENGLISH_NARRATION_SAFE_CHECKPOINT_2026-09-22.md`](ENGLISH_NARRATION_SAFE_CHECKPOINT_2026-09-22.md) — compact safe handoff for English narration, exact production SHA/CI, hard boundaries and four-item next pilot.
+15. [`ENGLISH_NARRATION_SAFE_CHECKPOINT_2026-09-22.md`](ENGLISH_NARRATION_SAFE_CHECKPOINT_2026-09-22.md) — compact safe handoff for English narration, exact production SHA/CI, hard boundaries and four-item pilot.
+16. [`ENGLISH_NARRATION_HUMAN_REVIEW_GATE_2026-09-22.md`](ENGLISH_NARRATION_HUMAN_REVIEW_GATE_2026-09-22.md) — fail-closed exact-candidate integrity + human listening evidence gate; acceptance is not production approval.
 16. [`PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md`](PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md) — active production visual/product audit and P0/P1/P2 state.
 17. [`MAINLAGI_ART_BIBLE.md`](MAINLAGI_ART_BIBLE.md) — canonical visual direction.
 18. [`MOBILE_ROUTE_QA.md`](MOBILE_ROUTE_QA.md) — blocking browser route and permanent visual QA contract.
@@ -57,7 +58,7 @@ gameplay taxonomy:                900/900 classified / 47 active / no Pattern #4
 character development:            PAUSED BY PROJECT OWNER / Drive assets reference-only
 Mainlagi World:                   separate user development / DO NOT TOUCH in this workstream
 WS-05 production truth:           900/900 / 47 / choice_grid 174 / pattern_completion 10 / KEEP 900
-next safe narration step:         four-item provider/voice pilot + human review; no runtime activation yet
+next safe narration step:         finish human-review gate verification, then generate/listen to exact four-item local candidates; no production approval/runtime activation yet
 ```
 
 Paca/Gavi have production Garden WebP assets. Naya/Gian/Zia currently use non-production fallback representations and still need reviewed production assets. Child profile identity remains separate from guide-character identity.

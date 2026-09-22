@@ -133,7 +133,7 @@ Product-UX and WS-05 remain separate work tracks. Character production is curren
 - Do not mix World, character runtime, broad UX refactors, or Pattern #48 into any follow-up WS-05 audit/runtime wave.
 - English narration asset gate PR #280 is closed/live verified. Preserve 27 registry slots, 0 approved production audio and no static-audio runtime activation until separately reviewed pilot outputs are accepted.
 - Provider-pilot harness PR #283 is also closed/live verified at implementation baseline `4b975130...`; it pins the exact four-item scope, OpenAI API candidate snapshot, `marin`/`cedar`, dry-run default, local-only output, credential gate, and no registry/runtime activation.
-- If WS-02 continues, use `ENGLISH_NARRATION_SAFE_CHECKPOINT_2026-09-22.md` plus `ENGLISH_NARRATION_PROVIDER_PILOT_HARNESS_CLOSURE_2026-09-22.md`; next work is actual local/server-side candidate generation + human listening review, not another harness rewrite.
+- Current WS-02 wave adds `ENGLISH_NARRATION_HUMAN_REVIEW_GATE_2026-09-22.md` and a permanent regression for candidate integrity + human review. After this gate is merged/live verified, next work is actual local/server-side candidate generation + human listening review, not another architecture rewrite.
 
 ## Product goal
 
@@ -160,7 +160,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 | Workstream | Status | Current note |
 |---|---|---|
 | WS-01 Canonical docs | **CURRENT / SYNCING** | 20 Sep current-state sync after parent wave; Pattern #48 remains unjustified |
-| WS-02 Voice & narration | **PILOT HARNESS LIVE VERIFIED / CANDIDATE GENERATION + HUMAN REVIEW NEXT** | PR #278 closed browser/listening-copy quality; PR #280 closed the 27-slot fail-closed production asset gate; PR #283 -> `4b975130...` closed the exact four-item generation harness with pinned OpenAI candidate + `marin`/`cedar`, dry-run/local-only/credential gates; 27 review-required / 0 approved / 0 production binary / 0 runtime activation remain true |
+| WS-02 Voice & narration | **PILOT HARNESS LIVE VERIFIED / HUMAN-REVIEW GATE IN VERIFICATION / AUDIO NOT GENERATED** | PR #278 closed browser/listening-copy quality; PR #280 closed the 27-slot asset gate; PR #283 -> `4b975130...` closed the exact four-item generation harness; current wave adds candidate-integrity + human-listening review evidence without any registry/public/runtime mutation; 27 review-required / 0 approved / 0 generated pilot audio / 0 production binary / 0 runtime activation remain true |
 | WS-03 Public/parent frontend | **PARENT WAVE LIVE VERIFIED** | PR #251 -> `77bee682...`; <760px mobile nav / >=760px sidebar; family/demo and profile/guide separation preserved |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
 | WS-05 Gameplay diversification | **47 ACTIVE / LOGIC REUSE LIVE VERIFIED** | PR #273 -> main `709e2b7d...`; final PR CI #1321 + main CI #1353 exact smoke; 900/900 / `choice_grid` 174 / `pattern_completion` 10 / KEEP 900; exact five Logic IDs; no Pattern #48 |

@@ -264,3 +264,41 @@ Cloudflare production smoke:  SUCCESS — exact 4b975130bf6e5fc28cecbf6aea5373b7
 The live harness preserves the original checkpoint boundary: exact four-item pilot only; OpenAI API is a primary pilot candidate rather than the final provider lock; pinned `gpt-4o-mini-tts-2025-12-15`; `marin`/`cedar`; dry-run default; local-only `internal/` output; explicit `OPENAI_API_KEY` gate; no registry auto-approval; no public production binary; and no static-audio runtime activation.
 
 Actual candidate generation/human listening is still open. This repository wave generated **0 audio candidates**, so all 27 canonical registry slots remain `review-required`.
+
+
+## 11. Active human-review gate wave
+
+A fail-closed human-review gate is now implemented on the active WS-02 branch and must pass CI/merge/live verification before operator use is treated as canonical.
+
+Canonical new record:
+
+```text
+ENGLISH_NARRATION_HUMAN_REVIEW_GATE_2026-09-22.md
+```
+
+The gate verifies exact local candidate manifest + MP3 path + byte count + SHA-256 + transcript, then creates a non-overwriting human review sheet bound to the exact manifest SHA and file SHA values.
+
+A completed `accepted` review requires all 16 checks to pass:
+
+```text
+4 activities ×
+  exactWordFidelity
+  pronunciation
+  childLearningPace
+  audioCleanliness
+= 16 required pass checks
+```
+
+It also requires reviewer identity, timestamp and explicit confirmation that the reviewer listened to the exact files.
+
+This state remains deliberately separate from production approval:
+
+```text
+generated pilot audio:         0
+human-reviewed pilot audio:    0
+approved production audio:     0
+production binary:             0
+runtime static audio:          NOT ACTIVATED
+```
+
+The tool cannot mutate the production registry, copy candidate audio into `public/`, or activate runtime playback.
