@@ -208,6 +208,12 @@ export function patternCompletionConfig(activity: LearningActivity | undefined):
   if (choices.length !== 3 || new Set(choices).size !== 3 || !choices.includes(definition.correctChoice)) return null;
   if (definition.nextValue !== definition.correctChoice) return null;
 
-  const { subjectId: _subjectId, stageId: _stageId, runtime: _runtime, title: _title, prompt: _prompt, choices: _choices, correctChoice: _correctChoice, ...config } = definition;
-  return { ...config, sequence: [...config.sequence] };
+  return {
+    kind: definition.kind,
+    visualMode: definition.visualMode,
+    sequence: [...definition.sequence],
+    nextValue: definition.nextValue,
+    unitLength: definition.unitLength,
+    cue: definition.cue
+  };
 }
