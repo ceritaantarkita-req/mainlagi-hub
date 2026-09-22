@@ -136,6 +136,21 @@ function stopServer() {
   server.kill("SIGTERM");
 }
 
+async function advanceWorldNarrative(page) {
+  const next = page.locator("[data-world-next]").first();
+  await next.waitFor();
+  if (await next.isDisabled()) {
+    const hear = page.locator("[data-world-hear]").first();
+    await hear.waitFor();
+    await hear.click();
+    await page.waitForFunction(() => {
+      const button = document.querySelector("[data-world-next]");
+      return button instanceof HTMLButtonElement && !button.disabled;
+    });
+  }
+  await next.click();
+}
+
 async function inspectPage(page, route, viewport) {
   let consoleErrors = [];
   let consoleWarnings = [];
@@ -462,8 +477,17 @@ async function main() {
       const stageOneBackground = await stageOneScene.evaluate((node) => getComputedStyle(node, "::before").backgroundImage);
       assert.match(stageOneBackground, /playground-park-mobile\.webp/, "World Stage 1 must use the illustrated playground environment on mobile");
 
+      const initialWorldNext = page.locator("[data-world-next]").first();
+      await initialWorldNext.waitFor();
+      assert.equal(await initialWorldNext.isDisabled(), true, "World story must require a narration attempt before progression");
+      await page.locator("[data-world-hear]").first().click();
+      await page.waitForFunction(() => {
+        const button = document.querySelector("[data-world-next]");
+        return button instanceof HTMLButtonElement && !button.disabled;
+      });
+
       for (let index = 0; index < 4; index += 1) {
-        await page.getByRole("button", { name: /Lanjut/ }).click();
+        await advanceWorldNarrative(page);
       }
 
       await page.getByRole("button", { name: "Rp3", exact: true }).click();
@@ -473,9 +497,9 @@ async function main() {
       await page.getByRole("button", { name: "Rp5", exact: true }).click();
       await page.getByRole("button", { name: /Jus.*Rp5/ }).click();
 
-      await page.getByRole("button", { name: /Lanjut/ }).waitFor();
-      await page.getByRole("button", { name: /Lanjut/ }).click();
-      await page.getByRole("button", { name: /Lanjut/ }).click();
+      await page.locator("[data-world-next]").waitFor();
+      await advanceWorldNarrative(page);
+      await advanceWorldNarrative(page);
 
       await page.getByRole("button", { name: "🎈 Balon", exact: true }).click();
       await page.getByRole("button", { name: "Rp3", exact: true }).click();
@@ -484,9 +508,9 @@ async function main() {
       await page.getByRole("button", { name: "🧃 Jus", exact: true }).click();
       await page.getByRole("button", { name: "Rp5", exact: true }).click();
 
-      await page.getByRole("button", { name: /Lanjut/ }).waitFor();
-      await page.getByRole("button", { name: /Lanjut/ }).click();
-      await page.getByRole("button", { name: /Selesai/ }).click();
+      await page.locator("[data-world-next]").waitFor();
+      await advanceWorldNarrative(page);
+      await advanceWorldNarrative(page);
 
       await page.getByRole("heading", { name: "Awesome!", exact: true }).waitFor();
       assert.equal(await page.locator('[aria-label="Tiga bintang"] svg').count(), 3, "World Stage 1 completion must show exactly three stars");
@@ -546,9 +570,9 @@ async function main() {
       assert.match(stageTwoBackground, /mini-market-mobile\.webp/, "World Stage 2 must use the illustrated market environment");
 
       await page.getByRole("button", { name: "Sekarang · Rp12", exact: true }).click();
-      await page.getByRole("button", { name: /Lanjut/ }).waitFor();
+      await page.locator("[data-world-next]").waitFor();
       for (let index = 0; index < 6; index += 1) {
-        await page.getByRole("button", { name: /Lanjut/ }).click();
+        await advanceWorldNarrative(page);
       }
 
       for (const [card, group] of [
@@ -561,9 +585,9 @@ async function main() {
         await page.getByRole("button", { name: group }).click();
       }
 
-      await page.getByRole("button", { name: /Lanjut/ }).waitFor();
-      await page.getByRole("button", { name: /Lanjut/ }).click();
-      await page.getByRole("button", { name: /Selesai/ }).click();
+      await page.locator("[data-world-next]").waitFor();
+      await advanceWorldNarrative(page);
+      await advanceWorldNarrative(page);
       await page.getByRole("heading", { name: "Hebat!", exact: true }).waitFor();
       assert.equal(await page.locator('[aria-label="Tiga bintang"] svg').count(), 3, "World Stage 2 completion must show exactly three stars");
       await page.screenshot({ path: path.join(screenshotDir, "390-world-money-stage-02-complete.png"), fullPage: false });
@@ -592,7 +616,7 @@ async function main() {
       const page = await context.newPage();
       await page.goto(baseUrl + "/child/demo-gian/world/money-festival/stage/money-stage-04-needs-wants", { waitUntil: "domcontentloaded" });
       await page.getByText("Butuh atau Mau?", { exact: true }).waitFor();
-      await page.getByRole("button", { name: /Selesai/ }).click();
+      await advanceWorldNarrative(page);
       await page.getByRole("heading", { name: "Excellent!", exact: true }).waitFor();
       await page.getByText("Chapter 1 selesai", { exact: true }).waitFor();
       await page.getByText("Pilih Pintar", { exact: true }).waitFor();
@@ -631,8 +655,8 @@ async function main() {
       await page.getByRole("button", { name: /Uang terkumpul/ }).click();
       await page.getByRole("button", { name: /Pakai saat sudah cukup/ }).click();
       await page.getByRole("button", { name: "Cek urutan", exact: true }).click();
-      await page.getByRole("button", { name: /Selesai/ }).waitFor();
-      await page.getByRole("button", { name: /Selesai/ }).click();
+      await page.locator("[data-world-next]").waitFor();
+      await advanceWorldNarrative(page);
       await page.getByRole("heading", { name: "Keren!", exact: true }).waitFor();
       await page.screenshot({ path: path.join(screenshotDir, "390-world-money-stage-05-order-complete.png"), fullPage: false });
       await context.close();
@@ -670,16 +694,16 @@ async function main() {
       await page.getByRole("button", { name: /Tambah pita/ }).click();
       await page.getByText("Kamu memilih membuat meja lebih meriah.", { exact: true }).waitFor();
       await page.getByRole("button", { name: /Lanjut/ }).click();
-      await page.getByRole("button", { name: /Lanjut/ }).click();
+      await advanceWorldNarrative(page);
       await page.getByRole("button", { name: "6", exact: true }).click();
-      await page.getByRole("button", { name: /Lanjut/ }).waitFor();
+      await page.locator("[data-world-next]").waitFor();
       for (let index = 0; index < 3; index += 1) {
-        await page.getByRole("button", { name: /Lanjut/ }).click();
+        await advanceWorldNarrative(page);
       }
       await page.getByRole("heading", { name: "Yang kita temukan", exact: true }).waitFor();
       assert.equal(await page.locator('[aria-label="Ringkasan Petualangan Uang"] > *').count(), 6, "World finale recap must show six concrete learning moments");
       await page.getByRole("button", { name: /Lanjut/ }).click();
-      await page.getByRole("button", { name: /Selesai/ }).click();
+      await advanceWorldNarrative(page);
 
       await page.getByRole("heading", { name: "Luar biasa!", exact: true }).waitFor();
       await page.getByText("Petualangan Uang selesai. Festival Mainlagi siap!", { exact: true }).waitFor();
