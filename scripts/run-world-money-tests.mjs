@@ -139,11 +139,17 @@ try {
   assert.match(worldRuntimeSource, /getMoneyWorldPilotStage\(stageId\)/, "Stage runtime must resolve its pilot production manifest");
   assert.match(worldRuntimeSource, /<WorldSceneRenderer/, "Petualangan Uang must render through the reusable Scene presentation layer");
   assert.doesNotMatch(worldRuntimeSource, /showAmbientGuides/, "Scene companion policy must not be hardcoded in Petualangan Uang runtime");
+  assert.match(worldRuntimeSource, /MONEY_WORLD_CHAPTERS/, "World runtime must derive visible Chapter navigation from the canonical Chapter registry");
+  assert.match(worldRuntimeSource, /data-world-chapter-id/, "World map and Stage shell must expose canonical Chapter identity for QA");
+  assert.match(worldRuntimeSource, /data-world-chapter-label/, "Stage shell must render authored Chapter context");
+  assert.match(worldRuntimeSource, /chapter\.stageIds\.filter/, "Chapter progress must derive from canonical Chapter membership and completed Stage IDs");
   assert.match(worldSceneRendererSource, /getWorldScenePresentation\(scene\.kind\)/, "reusable Scene renderer must resolve canonical Scene.kind policy");
   assert.match(worldSceneRendererSource, /data-world-scene-presentation/, "reusable Scene renderer must expose its presentation surface for QA");
   assert.match(worldRuntimeSource, /sceneSegmentPosition = activeScene\.segmentIds\.indexOf\(segment\.id\) \+ 1/, "Scene-local progress must derive from authored Scene membership");
   assert.match(worldSceneRendererSource, /data-world-scene-progress/, "reusable Scene renderer must expose Scene-local progress for QA");
   assert.match(worldRuntimeCss, /Production wave 06: Scene wrapper responsive fit/, "World CSS must retain the mobile Scene-wrapper fit correction");
+  assert.match(worldRuntimeCss, /\.chapterMapBanner/, "World map must retain semantic Chapter banner styling");
+  assert.doesNotMatch(worldRuntimeCss, /content:\s*"Chapter 1|content:\s*"Chapter 2/, "Chapter titles must not be hardcoded as CSS pseudo-content");
 
   assert.equal(presentation.MONEY_WORLD_PRESENTATION_POLICY.version, "money-world-presentation-v1");
   assert.equal(presentation.MONEY_WORLD_PRESENTATION_POLICY.pilotBandId, "6-8");
@@ -567,7 +573,7 @@ try {
       (narrationAssetRegression.stderr ?? "")
   );
 
-  console.log("Petualangan Uang canonical hierarchy, reusable Scene renderer/presentation policy, eight-stage production manifest, dedicated public-safe social card, data-driven Stage visuals, fixed-narration production/review resolver, narration binary provenance gate, provider-neutral four-cue pilot review gate, linear progress, age policy/migration audit, fail-closed evidence audit, practice boundary, low-text language, recap, mascot-dummy runtime policy, asset plan, and financial-safety contracts passed.");
+  console.log("Petualangan Uang canonical hierarchy, semantic Chapter navigation, reusable Scene renderer/presentation policy, eight-stage production manifest, dedicated public-safe social card, data-driven Stage visuals, fixed-narration production/review resolver, narration binary provenance gate, provider-neutral four-cue pilot review gate, linear progress, age policy/migration audit, fail-closed evidence audit, practice boundary, low-text language, recap, mascot-dummy runtime policy, asset plan, and financial-safety contracts passed.");
 } finally {
   rmSync(outDir, { recursive: true, force: true });
 }
