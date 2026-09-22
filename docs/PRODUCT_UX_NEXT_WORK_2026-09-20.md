@@ -177,9 +177,40 @@ Canonical execution spec: [`SUBJECT_BACKGROUND_SYSTEM.md`](SUBJECT_BACKGROUND_SY
 
 ### Learning illustrations
 
-- Replace ambiguous or tiny learning emoji/icons with consistent child-readable artwork where recognition is part of the task.
-- Minimum requirement: the pictured object must be recognizable without relying on the text answer.
-- Maintain one visual language across Windows, Android, and iOS rather than depending on platform emoji rendering.
+Canonical audit/checkpoint: [`LEARNING_ILLUSTRATION_CONSISTENCY_AUDIT_2026-09-22.md`](LEARNING_ILLUSTRATION_CONSISTENCY_AUDIT_2026-09-22.md).
+
+This track is now the **active independent product-quality track** while character production remains paused and fixed English audio generation/listening is deferred.
+
+Learning-illustration consistency includes three linked requirements:
+
+1. **semantic clarity** — when recognition is part of the task, the pictured object/action/material must be recognizable without relying on answer text;
+2. **cross-platform consistency** — recognition-critical content must not depend on OS/browser emoji rendering;
+3. **layout containment/readability** — every learning visual must stay inside its intended card/choice box, preserve safe padding and centering, and remain clearly readable on desktop and mobile.
+
+The current source inventory finds 43 source files with literal `emoji:` fields and 280 such fields across the 32 canonical subject batch-wave files. This is an inventory signal, not a bulk-replacement target.
+
+Pilot rules:
+
+- start only with recognition-critical visuals;
+- prioritize Science, English and Bahasa Indonesia;
+- treat gallery-thumbnail containment and in-activity choice containment as separate QA surfaces;
+- centralize illustration resolution/registry rather than hardcoding production paths in individual renderers;
+- use bounded responsive sizing; image assets use intrinsic aspect ratio plus `object-fit: contain`;
+- prevent clipping, edge collision and overlap with badges/play controls/feedback;
+- define a safe missing-asset fallback;
+- keep exact canonical identity, prompt, choices, answer, evidence, mastery and progression unchanged;
+- do not replace Latin/Arabic instructional glyphs with decorative pictures;
+- do not mix World, character, narration or broad icon-library refactors into the pilot.
+
+Acceptance criteria:
+
+- no visual escapes its intended box;
+- no clipped or barely visible icon/illustration;
+- no ambiguous recognition-critical object at supported sizes;
+- stable centering, padding, aspect ratio and contrast;
+- explicit QA at 320x720, 390x844, 768x1024 and 1280x800;
+- idle, wrong/retry and success states reviewed where the visual participates;
+- human screenshot review remains mandatory in addition to automated checks.
 
 ## Execution status — 20 September 2026
 
@@ -214,12 +245,16 @@ Current character-production gate:
 14. Validate English -> Naya + Zia and Math -> Gian + Paca; preserve fail-closed fallback and leave other subject pairings unchanged.
 15. Revisit the five-character homepage hero using approved production identities; keep hero composition separate from activity foreground assets.
 
-Character production is currently **PAUSED by the project owner**. The sequence below remains future/reference planning only and must not be resumed implicitly.
+Character production is currently **PAUSED by the project owner**. The character-specific sequence above remains future/reference planning only and must not be resumed implicitly.
 
-After the character gate eventually resumes and closes:
-16. English voice-quality upgrade.
-17. Learning-illustration consistency improvements.
+Fixed English audio generation/listening is also **DEFERRED** by the project owner after the merged/live-verified narration gates. It remains a resumable future track, not the active execution item.
+
+Current active independent track:
+16. **Learning-illustration consistency audit + recognition-critical containment/clarity pilot**.
+17. After the pilot is closed, expand only from measured recognition/containment evidence rather than bulk-replacing all emoji.
 18. Expanded human visual/usability + physical-device acceptance and cleanup of superseded components.
+19. Resume fixed English audio candidate generation/listening only when re-authorized.
+20. Resume character production only when re-authorized.
 
 WS-05 gameplay-mechanic work may continue independently only when it preserves its existing objective/evidence gates. Do not mix a broad UX refactor into a mechanic-reuse PR.
 
