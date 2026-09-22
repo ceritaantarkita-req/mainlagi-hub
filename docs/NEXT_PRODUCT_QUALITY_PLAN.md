@@ -119,7 +119,8 @@ verified gameplay truth:      900/900 / 47 / choice_grid 174 / pattern_completio
 gameplay taxonomy:            47 active / no Pattern #48
 illustration audit:           #287 -> bea1380e / main CI #1453 exact smoke
 visual containment:           #294 -> 6d0f9bd8 / PR CI #1529 / main CI #1531 exact smoke
-semantic registry gate:       #297 -> ed7db8a6 / PR CI #1536 / main CI #1537 exact smoke\nsemantic production art:      OPEN / exact P0 candidate production-review next
+semantic registry gate:       #297 -> ed7db8a6 / PR CI #1536 / main CI #1537 exact smoke
+semantic production art:      OPEN / exact P0 candidate production-review next
 ```
 
 Cloud analytics integrity: **CLOSED / MERGED / LIVE VERIFIED** via PR #267 -> main `89a2bc629e8535bddbf2ab78ae1990a063f0f361`, merged-main CI #1205 exact Cloudflare smoke. The old fixed 500-attempt / 2000-evidence cap and authenticated silent-local-fallback defect must not be listed as open debt again.
