@@ -35,6 +35,8 @@ The English fixed-narration production-asset gate is **merged/live verified** vi
 
 The four-item provider-pilot **harness** is also merged/live verified via PR #283 -> implementation baseline `4b975130...`, merged-main CI #1396 / run `35719862989` with exact Cloudflare production smoke. It prepares an OpenAI API pilot candidate using pinned `gpt-4o-mini-tts-2025-12-15` plus `marin`/`cedar`, but deliberately generated **0 audio candidates** in the repository wave and did not approve or activate anything.
 
+The four-item **human-review evidence gate** is now also merged/live verified via PR #285 -> main `dd845796...`, PR CI #1412 and merged-main CI #1415 with exact Cloudflare production smoke. It binds human review to the exact generation manifest and candidate SHA-256 values and requires 16/16 listening-rubric checks for `accepted`, but it deliberately cannot approve the production registry, copy audio to `public/`, or activate runtime playback. The current limitation therefore remains actual candidate generation/listening: **0 generated pilot audio / 0 human-reviewed generated pilot audio / 0 approved production audio**.
+
 Remaining work:
 
 - run the prepared four-item local/server-side provider pilot and human-review the exact candidate audio;

@@ -23,18 +23,19 @@ Read these first for current work:
 13. [`ENGLISH_NARRATION_QUALITY_WAVE_2026-09-22.md`](ENGLISH_NARRATION_QUALITY_WAVE_2026-09-22.md) — closed/live-verified 27-activity English narration-copy + browser-fallback quality wave.
 14. [`ENGLISH_NARRATION_ASSET_PIPELINE_2026-09-22.md`](ENGLISH_NARRATION_ASSET_PIPELINE_2026-09-22.md) — closed/live-verified fail-closed pre-generated English narration asset/provenance gate; 27 review-required / 0 approved / 0 runtime static audio.
 15. [`ENGLISH_NARRATION_SAFE_CHECKPOINT_2026-09-22.md`](ENGLISH_NARRATION_SAFE_CHECKPOINT_2026-09-22.md) — compact safe handoff for English narration, exact production SHA/CI, hard boundaries and four-item pilot.
-16. [`ENGLISH_NARRATION_HUMAN_REVIEW_GATE_2026-09-22.md`](ENGLISH_NARRATION_HUMAN_REVIEW_GATE_2026-09-22.md) — fail-closed exact-candidate integrity + human listening evidence gate; acceptance is not production approval.
-16. [`PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md`](PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md) — active production visual/product audit and P0/P1/P2 state.
-17. [`MAINLAGI_ART_BIBLE.md`](MAINLAGI_ART_BIBLE.md) — canonical visual direction.
-18. [`MOBILE_ROUTE_QA.md`](MOBILE_ROUTE_QA.md) — blocking browser route and permanent visual QA contract.
-19. [`ARCHITECTURE.md`](ARCHITECTURE.md) — current technical boundaries and system architecture.
-20. [`MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md`](MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md) — child/product/UX/activity rules.
-21. [`LEARNING_ATTEMPTS_MASTERY.md`](LEARNING_ATTEMPTS_MASTERY.md) — evidence/mastery/progression contract.
-22. [`GAMEPLAY_VARIATION_CATALOG.md`](GAMEPLAY_VARIATION_CATALOG.md) — canonical gameplay-pattern catalog and WS-05 boundaries.
+16. [`ENGLISH_NARRATION_HUMAN_REVIEW_GATE_2026-09-22.md`](ENGLISH_NARRATION_HUMAN_REVIEW_GATE_2026-09-22.md) — closed/live-verified fail-closed exact-candidate integrity + human listening evidence gate; acceptance is not production approval.
+17. [`ENGLISH_NARRATION_HUMAN_REVIEW_GATE_CLOSURE_2026-09-22.md`](ENGLISH_NARRATION_HUMAN_REVIEW_GATE_CLOSURE_2026-09-22.md) — PR #285 exact-head + merged-main CI/Cloudflare closure record for the human-review gate.
+18. [`PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md`](PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md) — active production visual/product audit and P0/P1/P2 state.
+19. [`MAINLAGI_ART_BIBLE.md`](MAINLAGI_ART_BIBLE.md) — canonical visual direction.
+20. [`MOBILE_ROUTE_QA.md`](MOBILE_ROUTE_QA.md) — blocking browser route and permanent visual QA contract.
+21. [`ARCHITECTURE.md`](ARCHITECTURE.md) — current technical boundaries and system architecture.
+22. [`MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md`](MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md) — child/product/UX/activity rules.
+23. [`LEARNING_ATTEMPTS_MASTERY.md`](LEARNING_ATTEMPTS_MASTERY.md) — evidence/mastery/progression contract.
+24. [`GAMEPLAY_VARIATION_CATALOG.md`](GAMEPLAY_VARIATION_CATALOG.md) — canonical gameplay-pattern catalog and WS-05 boundaries.
    - [`WS05_LOGIC_PATTERN_COMPLETION_REUSE_WAVE_2026-09-22.md`](WS05_LOGIC_PATTERN_COMPLETION_REUSE_WAVE_2026-09-22.md) — PR #273 implementation wave, exact scope and verification evidence.
    - [`PATTERN_COMPLETION_LOGIC_REPEATING_PATTERN_REUSE_CLOSURE_2026-09-22.md`](PATTERN_COMPLETION_LOGIC_REPEATING_PATTERN_REUSE_CLOSURE_2026-09-22.md) — final merged/live-verified production closure for the exact five-ID Logic reuse.
-23. [`PRODUCT_DIRECTION.md`](PRODUCT_DIRECTION.md) — product principles and direction.
-24. [`KNOWN_LIMITATIONS.md`](KNOWN_LIMITATIONS.md) — current known limitations and external acceptance gaps.
+25. [`PRODUCT_DIRECTION.md`](PRODUCT_DIRECTION.md) — product principles and direction.
+26. [`KNOWN_LIMITATIONS.md`](KNOWN_LIMITATIONS.md) — current known limitations and external acceptance gaps.
 
 Subsystem docs remain authoritative for their specific scope when they do not conflict with the canonical documents above.
 
@@ -46,6 +47,7 @@ runtime baseline main CI:         #1372 / run 35701448136 — full success + exa
 English narration Wave 1:        PR #278 / 27 reviewed / 22 target-first / 5 comprehension
 English narration docs closure:  PR #279 / merged + live verified
 English narration asset gate:    PR #280 / 27 review-required / 0 approved / 0 binary / live verified
+English narration review gate:   PR #285 -> dd845796 / PR CI #1412 / main CI #1415 exact smoke
 required secret-scan hardening:   PR #269 / merged + live verified
 cloud analytics integrity fix:    PR #267 / merged + live verified
 analytics regression:             1201 attempts / 3603 evidence rows / complete pagination
@@ -58,7 +60,7 @@ gameplay taxonomy:                900/900 classified / 47 active / no Pattern #4
 character development:            PAUSED BY PROJECT OWNER / Drive assets reference-only
 Mainlagi World:                   separate user development / DO NOT TOUCH in this workstream
 WS-05 production truth:           900/900 / 47 / choice_grid 174 / pattern_completion 10 / KEEP 900
-next safe narration step:         finish human-review gate verification, then generate/listen to exact four-item local candidates; no production approval/runtime activation yet
+next safe narration step:         generate/listen to exact four-item local candidates through verified gate; no production approval/runtime activation yet
 ```
 
 Paca/Gavi have production Garden WebP assets. Naya/Gian/Zia currently use non-production fallback representations and still need reviewed production assets. Child profile identity remains separate from guide-character identity.

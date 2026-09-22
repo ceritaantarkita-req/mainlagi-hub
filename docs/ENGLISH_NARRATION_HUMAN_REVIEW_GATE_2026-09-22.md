@@ -1,6 +1,6 @@
 # English Narration Human-Review Gate — 22 September 2026
 
-Status: **IMPLEMENTED IN ACTIVE WAVE / CI + MERGE VERIFICATION REQUIRED / NO AUDIO GENERATED**
+Status: **CLOSED / MERGED / LIVE VERIFIED / NO AUDIO GENERATED / NO PRODUCTION APPROVAL**
 
 This document defines the human listening evidence gate between local/server-side provider generation and any later production-asset approval.
 
@@ -89,7 +89,7 @@ An `accepted` decision fails closed unless **all 16 rubric checks pass**. A `rej
 
 ## 5. Operator sequence
 
-After this wave is merged/live verified:
+After the merged/live-verified PR #285:
 
 ```powershell
 # 1. Dry run — no network / no writes
@@ -153,3 +153,21 @@ Provider evidence was rechecked on 22 September 2026 before this implementation 
 - WS-05: **CLOSED**.
 - Preserve 9 subjects / 900 activities / 47 active gameplay patterns.
 - No Pattern #48.
+
+
+## 9. Closure evidence
+
+```text
+implementation PR:             #285
+exact PR head:                 6e2a22057abb59c4bf6fc0f3298cd92e32de6463
+exact-head PR CI:              #1412 / run 35724918622 — FULL SUCCESS
+merged main:                   dd84579624212b387a4e54dc93a5892c04de83d6
+merged-main CI:                #1415 / run 35725713601 — FULL SUCCESS
+Cloudflare production smoke:   SUCCESS / exact merged SHA + canonical Supabase target
+```
+
+PR CI passed Ubuntu quality, Windows compatibility, secret history scan, required production dependency audit, mobile route QA including permanent visual baseline, and production build.
+
+Merged-main CI passed the same blocking matrix plus production smoke. The smoke verified production was serving exact SHA `dd84579624212b387a4e54dc93a5892c04de83d6` on branch `main`, `https://mainlagihub.my.id`, backend `supabase`, with the canonical Supabase target.
+
+Closure record: `ENGLISH_NARRATION_HUMAN_REVIEW_GATE_CLOSURE_2026-09-22.md`.

@@ -111,6 +111,7 @@ provider-pilot main CI:       #1396 / run 35719862989 — full success + exact C
 English narration Wave 1:     #278 -> 8d60a69a / 27 reviewed / 22 target-first / 5 comprehension
 English narration asset gate: #280 -> 2cc7d5be / 27 review-required / 0 approved / 0 binary
 provider-pilot harness:       #283 -> 4b975130 / OpenAI candidate / marin+cedar / 0 generated audio
+human-review gate:              #285 -> dd845796 / PR CI #1412 / main CI #1415 exact smoke
 analytics regression:         1201 attempts / 3603 evidence rows / paged + fail-closed
 WS-13 character work:         PAUSED BY PROJECT OWNER / reference-only assets
 WS-05 runtime closure:        #273 -> 709e2b7d / main CI #1353 live verified
@@ -133,7 +134,7 @@ Product-UX and WS-05 remain separate work tracks. Character production is curren
 - Do not mix World, character runtime, broad UX refactors, or Pattern #48 into any follow-up WS-05 audit/runtime wave.
 - English narration asset gate PR #280 is closed/live verified. Preserve 27 registry slots, 0 approved production audio and no static-audio runtime activation until separately reviewed pilot outputs are accepted.
 - Provider-pilot harness PR #283 is also closed/live verified at implementation baseline `4b975130...`; it pins the exact four-item scope, OpenAI API candidate snapshot, `marin`/`cedar`, dry-run default, local-only output, credential gate, and no registry/runtime activation.
-- Current WS-02 wave adds `ENGLISH_NARRATION_HUMAN_REVIEW_GATE_2026-09-22.md` and a permanent regression for candidate integrity + human review. After this gate is merged/live verified, next work is actual local/server-side candidate generation + human listening review, not another architecture rewrite.
+- WS-02 human-review gate is now merged/live verified through PR #285 -> `dd845796...`, PR CI #1412 and merged-main CI #1415 exact Cloudflare smoke. Next work is actual local/server-side candidate generation + human listening review, not another architecture rewrite.
 
 ## Product goal
 
@@ -160,7 +161,7 @@ Garden activity direction tetap child-facing anchor. Permanent visual QA tetap b
 | Workstream | Status | Current note |
 |---|---|---|
 | WS-01 Canonical docs | **CURRENT / SYNCING** | 20 Sep current-state sync after parent wave; Pattern #48 remains unjustified |
-| WS-02 Voice & narration | **PILOT HARNESS LIVE VERIFIED / HUMAN-REVIEW GATE IN VERIFICATION / AUDIO NOT GENERATED** | PR #278 closed browser/listening-copy quality; PR #280 closed the 27-slot asset gate; PR #283 -> `4b975130...` closed the exact four-item generation harness; current wave adds candidate-integrity + human-listening review evidence without any registry/public/runtime mutation; 27 review-required / 0 approved / 0 generated pilot audio / 0 production binary / 0 runtime activation remain true |
+| WS-02 Voice & narration | **HUMAN-REVIEW GATE LIVE VERIFIED / AUDIO GENERATION + LISTENING NEXT** | PR #278 closed browser/listening-copy quality; PR #280 closed the 27-slot asset gate; PR #283 closed the exact four-item generation harness; PR #285 -> `dd845796...` closed/live-verified candidate-integrity + human-listening evidence gate; 27 review-required / 0 approved / 0 generated pilot audio / 0 production binary / 0 runtime activation remain true |
 | WS-03 Public/parent frontend | **PARENT WAVE LIVE VERIFIED** | PR #251 -> `77bee682...`; <760px mobile nav / >=760px sidebar; family/demo and profile/guide separation preserved |
 | WS-04 Activity audit/redesign | deterministic clean | merged baseline remains clean |
 | WS-05 Gameplay diversification | **47 ACTIVE / LOGIC REUSE LIVE VERIFIED** | PR #273 -> main `709e2b7d...`; final PR CI #1321 + main CI #1353 exact smoke; 900/900 / `choice_grid` 174 / `pattern_completion` 10 / KEEP 900; exact five Logic IDs; no Pattern #48 |

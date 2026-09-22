@@ -190,9 +190,9 @@ The harness itself is closed. Next work is **candidate generation and human list
 Closure summary: `ENGLISH_NARRATION_PROVIDER_PILOT_HARNESS_CLOSURE_2026-09-22.md`.
 
 
-## 11. Human-review gate implementation wave
+## 11. Human-review gate closure
 
-A separate review tool is now part of the active implementation wave:
+A separate review tool is now **MERGED / LIVE VERIFIED** through PR #285:
 
 ```text
 scripts/review-english-narration-pilot.mjs
@@ -215,4 +215,8 @@ It validates the exact generated candidate set before any human decision is trus
 
 An `accepted` human review is deliberately **not** production approval. The tool does not update the production registry, copy audio into `public/`, recheck legal rights on the reviewer's behalf, or activate runtime playback.
 
-This wave remains at **0 generated pilot audio / 0 approved production audio / no runtime static audio** until the project owner actually runs and listens to candidates.
+PR #285 exact head `6e2a22057abb59c4bf6fc0f3298cd92e32de6463` passed PR CI #1412 / run `35724918622`. Merged main `dd84579624212b387a4e54dc93a5892c04de83d6` passed merged-main CI #1415 / run `35725713601`, including exact Cloudflare smoke.
+
+The state remains **0 generated pilot audio / 0 human-reviewed generated pilot audio / 0 approved production audio / no runtime static audio** until the project owner actually runs and listens to candidates.
+
+Closure record: `ENGLISH_NARRATION_HUMAN_REVIEW_GATE_CLOSURE_2026-09-22.md`.
