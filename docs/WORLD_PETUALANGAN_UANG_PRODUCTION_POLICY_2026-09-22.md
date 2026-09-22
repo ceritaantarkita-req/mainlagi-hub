@@ -355,10 +355,10 @@ Current ordered work:
 3. **DONE on isolated branch** — eight-Stage Petualangan Uang pilot production manifest + closure QA;
 4. **DONE on isolated branch** — fixed narration production/review/resolution pipeline, currently 0/88 assets approved;
 5. **DONE on isolated branch** — reusable Scene presentation/renderer layer for all five canonical Scene kinds;
-6. **NEXT** — end-to-end production QA, responsive cleanup and new green checkpoint;
-7. keep Gavi/Paca as the only active World runtime characters while character development is paused;
-8. create bespoke World social card after visual/narration identity is stable;
-9. replace approved reused backgrounds only where bespoke World art materially improves storytelling;
+6. **DONE on isolated branch, CI pending** — 320/390/430 production QA matrix + responsive Scene cleanup;
+7. **NEXT GATE** — run full PR CI and freeze a new immutable production-wave checkpoint only if exact head is green;
+8. keep Gavi/Paca as the only active World runtime characters while character development is paused;
+9. create bespoke World social card after visual/narration identity is stable;
 10. only after a new green checkpoint revisit World -> Evidence bridge design.
 
 This policy is intentionally narrower than the long-term Mainlagi 3–12 ambition. It prevents the pilot runtime from drifting into an incoherent one-World-fits-all model.
