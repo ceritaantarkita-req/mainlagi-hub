@@ -80,6 +80,7 @@
     "src/lib/learning/traceMeasurement.ts",
     "src/lib/learning/reporting.ts",
     "src/lib/learning/outboxCore.ts",
-    "src/lib/learning/world/moneyWorld.ts"
+    "src/lib/learning/world/moneyWorld.ts",
+    "src/lib/learning/world/progress.ts"
   ]
 }
