@@ -618,6 +618,13 @@ async function main() {
       assert.equal(await page.locator('[aria-label="Tiga bintang"] svg').count(), 3, "Final World Stage must show exactly three stars");
       assert.equal(await page.getByRole("button", { name: /Share/ }).count(), 1, "Final World Stage must retain Share below completion navigation");
       await page.screenshot({ path: path.join(screenshotDir, "390-world-money-stage-08-complete.png"), fullPage: false });
+
+      await page.getByRole("link", { name: /Back/ }).click();
+      const completedMap = page.locator('[data-world-map="money-festival"][data-world-complete="true"]');
+      await completedMap.waitFor();
+      await page.getByText("Festival siap!", { exact: true }).waitFor();
+      assert.equal(await completedMap.locator('[aria-label="Tiga bintang"]').count(), 8, "Completed World map must retain three-star completion on all eight stages");
+      await page.screenshot({ path: path.join(screenshotDir, "390-world-money-map-complete.png"), fullPage: true });
       await context.close();
       console.log("World Petualangan Uang final narrative-choice/subtraction checkpoint passed at 390px.");
     }
