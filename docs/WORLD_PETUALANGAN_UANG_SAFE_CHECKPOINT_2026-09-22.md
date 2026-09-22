@@ -959,3 +959,44 @@ naya-foreground
 Character development remains paused by owner decision, so the practical next gap is fixed narration asset production/approval. The fixed narration pipeline is already implemented, but approved assets remain **0/88**.
 
 PR #282 remains Draft and is not merge authorization. PR #272 remains Draft and untouched. World -> Belajar evidence remains disabled.
+
+
+## 31. Production wave 08 — narration Stage batches / voice-identity gate
+
+The active production branch now makes the remaining fixed-narration work operationally batchable without authorizing premature permanent audio.
+
+New sources:
+
+```text
+src/lib/learning/world/moneyWorldNarrationPlan.ts
+scripts/prepare-world-money-narration-batch.mjs
+docs/WORLD_NARRATION_BATCH_PLAN_2026-09-22.md
+```
+
+Current machine-readable truth:
+
+```text
+Stage batches:               8
+total cues:                 88
+approved cues:              0
+generation-authorized cues: 0
+blocked cues:              88
+voice blocker: voice-identity-not-approved
+```
+
+Reason:
+
+- canonical story roles remain Gian/Naya;
+- runtime presentation temporarily maps those roles to Gavi/Paca;
+- character development remains paused;
+- temporary presentation mapping must not silently become a permanent voice identity decision.
+
+Every Stage batch is therefore `blocked-voice-identity` until an explicit future product/production authorization resolves voice identity/source/rights.
+
+The new Stage packet tool exports deterministic cue IDs, text, fingerprints, expected MP3 paths and required approval metadata, but prints an explicit STOP instruction while generation is unauthorized.
+
+No audio binary is created or approved by this wave.
+
+No Belajar, Bermain/motion, SQL schema, mastery/evidence, age migration, progression, or final character artwork is changed.
+
+Checkpoint rule: validate the exact wave-08 head through Draft PR #282. If fully green, freeze a new immutable narration-readiness checkpoint without moving any prior checkpoint branches.
