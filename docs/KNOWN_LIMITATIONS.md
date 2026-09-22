@@ -1,6 +1,6 @@
 # Known Limitations
 
-Last reviewed: **22 September 2026**
+Last reviewed: **23 September 2026**
 
 This file describes current known limitations. Historical ZIP/build-environment limitations belong in historical audit documents and must not be treated as current production state.
 
