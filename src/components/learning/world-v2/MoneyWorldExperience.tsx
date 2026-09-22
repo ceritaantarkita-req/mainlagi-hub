@@ -33,11 +33,17 @@ import {
   checkpointMoneyWorldStage,
   completeMoneyWorldStage,
   isMoneyWorldStageUnlocked,
+  moneyWorldProgressTimestamp,
   moneyWorldStars,
   readMoneyWorldProgress,
+  replaceMoneyWorldProgress,
   restartMoneyWorldStage,
   type MoneyWorldProgress
 } from "@/lib/learning/world/progress";
+import {
+  readCloudMoneyWorldProgress,
+  syncMoneyWorldProgressCloud
+} from "@/lib/learning/world/cloud";
 import { validateReusableMechanicPayload } from "@/lib/learning/mechanicLibrary";
 import styles from "./MoneyWorldExperience.module.css";
 
@@ -58,11 +64,37 @@ function useMoneyWorldProgress(childId: string) {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
+    let cancelled = false;
     const refresh = () => {
+      if (cancelled) return;
       setProgress(readMoneyWorldProgress(childId));
       setReady(true);
     };
-    const frame = window.requestAnimationFrame(refresh);
+
+    const hydrateCloud = async () => {
+      const cloud = await readCloudMoneyWorldProgress(childId);
+      if (cancelled || !cloud) return;
+
+      const local = readMoneyWorldProgress(childId);
+      const cloudCompleted = cloud.completedStageIds.length;
+      const localCompleted = local.completedStageIds.length;
+      const cloudIsNewer = cloudCompleted > localCompleted
+        || (cloudCompleted === localCompleted && moneyWorldProgressTimestamp(cloud) > moneyWorldProgressTimestamp(local));
+
+      if (cloudIsNewer) {
+        replaceMoneyWorldProgress(childId, cloud);
+        return;
+      }
+
+      const localIsNewer = localCompleted > cloudCompleted
+        || (localCompleted === cloudCompleted && moneyWorldProgressTimestamp(local) > moneyWorldProgressTimestamp(cloud));
+      if (localIsNewer) void syncMoneyWorldProgressCloud(childId, local);
+    };
+
+    const frame = window.requestAnimationFrame(() => {
+      refresh();
+      void hydrateCloud();
+    });
     const onProgress = (event: Event) => {
       const detail = (event as CustomEvent<{ childId?: string }>).detail;
       if (!detail?.childId || detail.childId === childId) refresh();
@@ -70,6 +102,7 @@ function useMoneyWorldProgress(childId: string) {
     window.addEventListener(WORLD_PROGRESS_EVENT, onProgress);
     window.addEventListener("storage", refresh);
     return () => {
+      cancelled = true;
       window.cancelAnimationFrame(frame);
       window.removeEventListener(WORLD_PROGRESS_EVENT, onProgress);
       window.removeEventListener("storage", refresh);
@@ -931,7 +964,8 @@ function MoneyWorldStageRuntime({
     const frame = window.requestAnimationFrame(() => {
       setSegmentIndex(resume);
       setCompleted(false);
-      checkpointMoneyWorldStage(childId, stageId, resume);
+      const checkpoint = checkpointMoneyWorldStage(childId, stageId, resume);
+      void syncMoneyWorldProgressCloud(childId, checkpoint);
       setHydrated(true);
     });
     return () => window.cancelAnimationFrame(frame);
@@ -939,18 +973,21 @@ function MoneyWorldStageRuntime({
 
   const advance = () => {
     if (segmentIndex >= lastIndex) {
-      completeMoneyWorldStage(childId, stageId);
+      const completion = completeMoneyWorldStage(childId, stageId);
+      void syncMoneyWorldProgressCloud(childId, completion);
       playTone("celebrate");
       setCompleted(true);
       return;
     }
     const next = segmentIndex + 1;
-    checkpointMoneyWorldStage(childId, stageId, next);
+    const checkpoint = checkpointMoneyWorldStage(childId, stageId, next);
+    void syncMoneyWorldProgressCloud(childId, checkpoint);
     setSegmentIndex(next);
   };
 
   const again = () => {
-    restartMoneyWorldStage(childId, stageId);
+    const restarted = restartMoneyWorldStage(childId, stageId);
+    void syncMoneyWorldProgressCloud(childId, restarted);
     setSegmentIndex(0);
     setCompleted(false);
     setHydrated(true);
