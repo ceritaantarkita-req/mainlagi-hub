@@ -2,6 +2,13 @@
 
 ## Unreleased — 22 September 2026
 
+- English narration quality Wave 1 PR #278 sudah merged/live verified: 27 English listening activities direview, terdiri dari 22 target-first narration + 5 sentence-level comprehension; browser English fallback sekarang memprioritaskan exact-locale Natural/Neural/Premium/Enhanced voice bila tersedia dan memakai prompt rate 0.92.
+- English narration docs closure PR #279 sudah merged/live verified di main `397bcab1...`, CI #1369 exact Cloudflare smoke.
+- English narration production asset gate PR #280 sudah merged/live verified ke main `2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48`; PR CI #1371 dan merged-main CI #1372 full success termasuk exact Cloudflare smoke.
+- Registry produksi English narration sekarang mengunci exact 27 slot + exact runtime transcript, dengan status sengaja tetap 27 `review-required` / 0 approved / 0 binary / tanpa static-audio runtime activation.
+- Permanent narration gate memblok stray public audio, missing provider/model/voice rights review, commercial-use/redistribution clearance, unresolved AI-disclosure decision, missing pronunciation/child-learning approval, invalid MP3 payload, SHA-256 drift, dan registry/runtime transcript drift.
+- Safe handoff baru: `ENGLISH_NARRATION_SAFE_CHECKPOINT_2026-09-22.md`. Next aman adalah four-item provider/voice pilot + human listening/provenance review; jangan bulk generate 27 dan jangan activate runtime playback dulu.
+
 - Menyelesaikan rangkaian WS-13 product UX sampai parent/profile/settings responsive redesign.
 - Menambahkan child home/header/navigation baru dan subject directory 3 kolom.
 - Menambahkan activity gallery hierarchy + QA unlock yang terisolasi.

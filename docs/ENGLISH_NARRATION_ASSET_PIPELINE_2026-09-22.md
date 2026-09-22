@@ -1,6 +1,6 @@
 # English Narration Asset Pipeline — 22 September 2026
 
-Status: **IMPLEMENTED ON BRANCH / CI + LIVE VERIFICATION PENDING / NO PRODUCTION AUDIO ACTIVATED**
+Status: **CLOSED / MERGED / LIVE VERIFIED PRODUCTION GATE / NO PRODUCTION AUDIO ACTIVATED**
 
 This document defines the production gate for fixed English learning narration after English Narration Quality Wave 1.
 
@@ -199,9 +199,33 @@ This four-item sample covers:
 
 A provider/voice is not selected by code in this wave. Human listening acceptance is required before any of the four can become `approved`.
 
-## 9. Current boundary after this wave
+## 9. Verification record
 
-Expected merged state:
+```text
+PR:                         #280
+final PR head:              6d66ce14847440d54c6778a35cc6f116d4b9cb24
+final PR CI:                #1371 / run 35700739978 — FULL SUCCESS
+merged main:                2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48
+merged-main CI:             #1372 / run 35701448136 — FULL SUCCESS
+Cloudflare production:      SUCCESS — exact merged main SHA
+approved production audio:  0
+review-required slots:      27
+runtime static audio:       NOT ACTIVATED
+```
+
+Merged CI explicitly proved the fail-closed state:
+
+```text
+narration assets OK: 0 approved English production asset(s); 27 review-required slot(s)
+English narration asset validator regression passed
+English narration quality regression passed: 27 reviewed / 22 target-first / 5 comprehension / asset registry transcripts synchronized
+```
+
+Production smoke verified `https://mainlagihub.my.id` serving exact SHA `2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48` with the canonical Supabase target.
+
+## 10. Current boundary after this wave
+
+Merged/live-verified state:
 
 ```text
 Wave 1 browser fallback/listening copy: closed/live verified
@@ -213,4 +237,4 @@ Mainlagi World:                          untouched
 Character development:                   paused
 ```
 
-The next safe step after this pipeline is live verified is a **four-item provider/voice pilot with human listening review**, not bulk generation of all 27 assets and not runtime activation.
+The next safe step is a **four-item provider/voice pilot with human listening review**, not bulk generation of all 27 assets and not runtime activation. Safe handoff: `ENGLISH_NARRATION_SAFE_CHECKPOINT_2026-09-22.md`.

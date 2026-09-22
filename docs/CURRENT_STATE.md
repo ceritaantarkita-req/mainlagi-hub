@@ -13,10 +13,44 @@ User-approved execution boundary:
 - Mainlagi Belajar WS-05 Logic repeating-pattern -> existing `pattern_completion` reuse is **FULLY CLOSED / MERGED / LIVE VERIFIED**.
 - exact scope remains the five IDs approved by the 20 September audit; Pattern #48 remains unjustified.
 - implementation PR **#273** final head `299d493da2e74e6e583322d3a16af69455d8d926` passed PR CI **#1321 / run `35682848171`**.
-- merged production main is `709e2b7d3e529cf37f10a05e9c9dc92884e0a781`; merged-main CI **#1353 / run `35687996669`** passed including exact-SHA Cloudflare production smoke.
+- WS-05 merged runtime main is `709e2b7d3e529cf37f10a05e9c9dc92884e0a781`; its merged-main CI **#1353 / run `35687996669`** passed including exact-SHA Cloudflare production smoke. This is a closed subsystem checkpoint, **not the current repository head**; current production main is recorded in the English narration safe checkpoint below.
 - production distribution is **900/900 / 47 active / `choice_grid` 174 / `pattern_completion` 10 / Logic `choice_grid` 21 / KEEP 900**.
 - dedicated Logic browser QA passed 320/390/768 and permanent visual baseline passed 63 exact-path captures.
 - closure record: `PATTERN_COMPLETION_LOGIC_REPEATING_PATTERN_REUSE_CLOSURE_2026-09-22.md`.
+
+
+## 22 September English narration safe checkpoint
+
+English narration quality + production asset-gating are now **MERGED / LIVE VERIFIED** without activating any static production audio.
+
+```text
+Wave 1 PR:                    #278
+Wave 1 main:                  8d60a69a076cc6e5253650112f2ffe79add345ea
+Wave 1 main CI:               #1367 / run 35697909785 — full success + exact smoke
+Wave 1 docs closure PR:       #279
+Wave 1 docs closure main:     397bcab1ee2d101ebd89f2377bd7dffb2705d7c0
+Wave 1 docs closure main CI:  #1369 / run 35699976551 — full success + exact smoke
+Wave 2 asset gate PR:         #280
+Wave 2 final PR CI:           #1371 / run 35700739978 — full success
+current production main:      2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48
+current merged-main CI:       #1372 / run 35701448136 — full success + exact Cloudflare smoke
+```
+
+Current English narration truth:
+
+- 27 English `listen_and_choose` activities are reviewed;
+- 22 use target-first vocabulary/letter/phrase spoken copy;
+- 5 preserve sentence-level listening-comprehension narration;
+- browser fallback remains language-correct and quality-ranked;
+- machine-readable asset registry contains exactly 27 synchronized transcript slots;
+- **27 remain `review-required`; 0 production audio assets are approved; 0 production audio binaries are committed/activated**;
+- provider/model/voice selection remains open;
+- runtime static-audio playback remains unimplemented by design;
+- permanent validation blocks stray public audio, missing commercial/redistribution clearance, unresolved disclosure decision, missing human pronunciation/child-learning approval, invalid MP3 payload, checksum drift, and registry/runtime transcript drift.
+
+Canonical safe handoff: `ENGLISH_NARRATION_SAFE_CHECKPOINT_2026-09-22.md`.
+
+Next safe narration step is a four-item provider/voice pilot with human listening/provenance review. Do not bulk-generate all 27 assets and do not activate runtime static audio in the pilot approval step.
 
 
 ## 22 September required secret-scan enforcement closure
@@ -110,18 +144,20 @@ The foundation and asset-pipeline waves are closed. Candidate intake audit found
 
 ## Canonical baseline
 
-- current production `main`: `709e2b7d3e529cf37f10a05e9c9dc92884e0a781` (PR #273 WS-05 Logic `pattern_completion` reuse)
-- latest merged-main CI: **#1353 / run `35687996669` — full success including exact Cloudflare production smoke**
-- latest learning runtime closure: PR #273 / final PR head `299d493da2e74e6e583322d3a16af69455d8d926` / PR CI #1321 / production distribution 174 `choice_grid` + 10 `pattern_completion` / KEEP 900
+- latest English-narration product/runtime implementation baseline: `2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48` (PR #280 English narration production asset gate)
+- implementation merged-main CI: **#1372 / run `35701448136` — full success including exact Cloudflare production smoke**
+- English narration quality Wave 1: PR #278 / 27 reviewed / 22 target-first / 5 comprehension / merged-main CI #1367 exact smoke
+- English narration production asset gate: PR #280 / 27 registry slots / 27 review-required / 0 approved / 0 binary / no static-audio runtime activation / merged-main CI #1372 exact smoke
+- latest WS-05 learning runtime closure: PR #273 / final PR head `299d493da2e74e6e583322d3a16af69455d8d926` / PR CI #1321 / production distribution 174 `choice_grid` + 10 `pattern_completion` / KEEP 900
 - required secret-scan enforcement: PR #269 / embedded `Required full-history secret gate` inside ruleset-required `Production dependency audit` / merge-blocking
 - cloud analytics integrity closure: PR #267 / regression `1201 attempts + 3603 evidence rows` / complete pagination + fail-closed authenticated failure handling
 - character asset pipeline implementation: PR #263 at `e4d7b4285db17a2010c22cdd1bc29451208f6a1b`, CI #1198 full success
 - previous runtime registry checkpoint: PR #262 at `ceb2546b6c626810901c5542e7f718acfad55341`, CI #1196 full success
 - activity character presentation foundation: PR #259 at `b5acbfcde66ea1451f3e55a8d469d33ba4845af1`, CI #1190 full success
-- latest independently live-verified runtime/product implementation: `7502c708c998c87bb273639025fcb10ba6c81e12` (PR #256)
-- latest runtime merged-main CI: **#1183 / run `35565937149` — full success including exact Cloudflare production smoke**
-- latest production main/docs closure: `41df41c9dc0edc449af8260bbfe3887e0175bfb0` (PR #257)
-- latest production main CI: **#1186 / run `35567718494` — full success including exact Cloudflare production smoke**
+- subject-background runtime implementation checkpoint: `7502c708c998c87bb273639025fcb10ba6c81e12` (PR #256)
+- subject-background runtime merged-main CI: **#1183 / run `35565937149` — full success including exact Cloudflare production smoke**
+- subject-background docs closure checkpoint: `41df41c9dc0edc449af8260bbfe3887e0175bfb0` (PR #257)
+- subject-background docs-closure main CI: **#1186 / run `35567718494` — full success including exact Cloudflare production smoke**
 - parent responsive QA artifact: **`10608044389`**
 - parent docs closure main: `a04bd51fb02dedf56b5cd62f7f579eb53c4be251`; parent docs closure main CI: **#1162 / run `35521404941` — full success**
 - repository: `ceritaantarkita-req/mainlagi-hub`
@@ -294,9 +330,13 @@ Shared completion is **MERGED / LIVE VERIFIED**: PR #245 -> `main` `53a5f04c6d54
 
 Visible matching randomization is **MERGED / LIVE VERIFIED**: PR #247 -> `main` `61f8fb64bca412b13abd5570e3c322b2ab158c8a`; merged-main CI #1134 / run `35504645189` passed all gates including exact Cloudflare production smoke. Generic visible matching now uses randomized left/right columns, prevents same-row answer leakage, and reshuffles on Try Again without changing `matching_accuracy_v1`, mastery, progression, schema, or WS-05 pattern count.
 
-Audio first-instruction latency is **MERGED / LIVE VERIFIED**: PR #249 -> `main` `770d8b66dac20765fd96a66e9d752931e1a56d66`; PR CI #1144 passed all gates, manual 390px listening review accepted, browser warnings = 0, and merged-main CI #1145 / run `35511068490` passed exact Cloudflare production smoke. Correct-language pre-warm, faster generic entry, listen-and-choose auto-entry, replay recovery, fail-closed no-start timeout, and privacy-safe entry-latency evidence are now live.\n\nEnglish narration quality Wave 1 is **MERGED / LIVE VERIFIED** via PR #278 -> main `8d60a69a076cc6e5253650112f2ffe79add345ea`; final PR CI #1366 / run `35697216106` and merged-main CI #1367 / run `35697909785` both passed, with exact-SHA Cloudflare production smoke. All 27 English `listen_and_choose` activities are reviewed: 22 vocabulary/letter/phrase activities use explicit target-first spoken copy while 5 sentence-level comprehension activities retain their full sentence + question. Browser fallback prefers exact-locale English voices labelled Natural/Neural/Premium/Enhanced when available and uses a 0.92 English prompt rate. Choices, answers, stage ownership, runtime, mastery, progression, schema, Mainlagi World and character work are unchanged. This does **not** close the later reviewed native/pre-generated production narration requirement.\n\nEnglish narration production-asset Wave 2 is **IMPLEMENTED ON BRANCH / CI PENDING** on `agent/english-narration-asset-pipeline-20260922`. It introduces a machine-readable registry for the exact 27 reviewed English listening activities, production-only `/audio/narration/en/<activity-id>-v1.mp3` paths, fail-closed provider/commercial-use/redistribution/AI-disclosure/human-pronunciation/child-learning/SHA-256 validation, validator regression fixtures, and deliberate git-staging friction. Current activation remains **0 approved / 0 production binary**; browser speech remains runtime fallback and no provider key/runtime provider integration is added.
+Audio first-instruction latency is **MERGED / LIVE VERIFIED**: PR #249 -> `main` `770d8b66dac20765fd96a66e9d752931e1a56d66`; PR CI #1144 passed all gates, manual 390px listening review accepted, browser warnings = 0, and merged-main CI #1145 / run `35511068490` passed exact Cloudflare production smoke. Correct-language pre-warm, faster generic entry, listen-and-choose auto-entry, replay recovery, fail-closed no-start timeout, and privacy-safe entry-latency evidence are now live.
 
-Current product-UX state: **parent/profile/settings responsive redesign is MERGED / LIVE VERIFIED** via PR #251, and the **all-subject background system is also MERGED / LIVE VERIFIED** via PR #256. `CloudParentOverviewScreen` remains canonical; family profiles are separated from `demo-gian`; child profile identity is separated from guide-character presentation; mobile parent navigation replaces the legacy forced aside below 760px. The next visual work is the production character layer/spec for Naya/Gian/Zia and broader human visual/usability review. Do not alter learning evidence/mastery/progression/schema while advancing presentation.
+English narration quality Wave 1 is **MERGED / LIVE VERIFIED** via PR #278 -> main `8d60a69a076cc6e5253650112f2ffe79add345ea`; final PR CI #1366 / run `35697216106` and merged-main CI #1367 / run `35697909785` both passed, with exact-SHA Cloudflare production smoke. All 27 English `listen_and_choose` activities are reviewed: 22 vocabulary/letter/phrase activities use explicit target-first spoken copy while 5 sentence-level comprehension activities retain their full sentence + question. Browser fallback prefers exact-locale English voices labelled Natural/Neural/Premium/Enhanced when available and uses a 0.92 English prompt rate. Choices, answers, stage ownership, runtime, mastery, progression, schema, Mainlagi World and character work are unchanged.
+
+English narration production-asset Wave 2 is **MERGED / LIVE VERIFIED** via PR #280 -> main `2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48`; final PR CI #1371 / run `35700739978` and merged-main CI #1372 / run `35701448136` both passed, including exact Cloudflare smoke. The exact 27-slot production registry remains fail-closed at **27 review-required / 0 approved / 0 binary / no runtime static-audio activation**.
+
+Current product-UX state: **parent/profile/settings responsive redesign is MERGED / LIVE VERIFIED** via PR #251, and the **all-subject background system is also MERGED / LIVE VERIFIED** via PR #256. `CloudParentOverviewScreen` remains canonical; family profiles are separated from `demo-gian`; child profile identity is separated from guide-character presentation; mobile parent navigation replaces the legacy forced aside below 760px. **Character production/development is paused**, so Naya/Gian/Zia production work is not an active next step. The current safe English narration continuation is the four-item provider/voice pilot; any unrelated visual/usability wave must be selected separately. Do not alter learning evidence/mastery/progression/schema while advancing presentation.
 
 ### Character / artwork state — 20 September 2026
 
@@ -998,12 +1038,14 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Treat `main` as source of truth. Current independently live-verified main is `8d60a69a076cc6e5253650112f2ffe79add345ea` via merged-main CI #1367 / run `35697909785` with exact Cloudflare production smoke.
-2. Parent/profile/settings responsive redesign is closed/live verified. Preserve the <760px mobile header + five-item bottom nav, >=760px desktop sidebar, family/demo separation and profile-vs-guide identity boundary.
-3. **Keep character production paused** until the project owner explicitly resumes it. Existing character references remain reference-only and profile identity must remain separate from guide identity.
-4. Preserve Paca/Gavi current production artwork and provenance. Naya/Gian/Zia generated candidates are not production-approved until reviewed and their rights/provenance are recorded.
-5. WS-05 Logic `pattern_completion` reuse is closed/live verified via PR #273 -> main `709e2b7d...` / merged-main CI #1353 with 900/900 / 47 active / `choice_grid` 174 / `pattern_completion` 10 / KEEP 900. Any later WS-05 runtime change requires a fresh objective/evidence audit.
-6. Preserve the merged 9-subject / 900-activity / 47-active-pattern baseline and existing mastery/evidence/progression/schema contracts unless a separately justified migration is approved.
-7. English narration quality Wave 1 is closed/live verified via PR #278 -> main `8d60a69a...`: 27 English listening activities reviewed, no mechanic/evidence/progression migration. Preserve the result; final native/pre-generated production voice remains a later provider/audio-asset decision.\n8. Do not touch Mainlagi World and do not resume character development in this workstream. PR #273 is closed; later product work must be selected as a separate approved wave.
+1. Treat the actual branch tip of `main` as source of truth. The latest English-narration product/runtime implementation baseline is `2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48`, live verified by merged-main CI #1372 / run `35701448136` with exact Cloudflare production smoke; later docs-only closure commits may advance `main` without changing that runtime baseline.
+2. English narration Wave 1 and the Wave 2 production asset gate are closed/live verified. Preserve **27 reviewed / 27 registry slots / 0 approved production audio / 0 static runtime activation**.
+3. If narration continues, start only with the documented four-item provider/voice pilot + human listening/provenance review. Do not bulk-generate all 27 assets and do not activate runtime playback in the same pilot step.
+4. Parent/profile/settings responsive redesign is closed/live verified. Preserve the <760px mobile header + five-item bottom nav, >=760px desktop sidebar, family/demo separation and profile-vs-guide identity boundary.
+5. **Keep character production paused** until the project owner explicitly resumes it. Existing character references remain reference-only and profile identity must remain separate from guide identity.
+6. Preserve Paca/Gavi current production artwork and provenance. Naya/Gian/Zia generated candidates are not production-approved until reviewed and their rights/provenance are recorded.
+7. WS-05 Logic `pattern_completion` reuse is closed/live verified via PR #273 -> main `709e2b7d...` / merged-main CI #1353 with 900/900 / 47 active / `choice_grid` 174 / `pattern_completion` 10 / KEEP 900. Any later WS-05 runtime change requires a fresh objective/evidence audit.
+8. Preserve the merged 9-subject / 900-activity / 47-active-pattern baseline and existing mastery/evidence/progression/schema contracts unless a separately justified migration is approved.
+9. Do not touch Mainlagi World and do not resume character development in this workstream.
 
 Do not prioritize activity-count expansion, OCR rollout, large AI tutor work, subscription/paywall, marketplace expansion or major mastery/backend rewrites before the current quality roadmap justifies them.

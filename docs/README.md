@@ -21,43 +21,43 @@ Read these first for current work:
 11. [`CLOUD_ANALYTICS_PAGINATION_CLOSURE_2026-09-21.md`](CLOUD_ANALYTICS_PAGINATION_CLOSURE_2026-09-21.md) — closed/live-verified complete cloud analytics pagination + explicit authenticated failure/retry behavior.
 12. [`SECRET_SCAN_REQUIRED_GATE_CLOSURE_2026-09-22.md`](SECRET_SCAN_REQUIRED_GATE_CLOSURE_2026-09-22.md) — closed/live-verified merge-blocking full-history secret scan through ruleset-required dependency gate.
 13. [`ENGLISH_NARRATION_QUALITY_WAVE_2026-09-22.md`](ENGLISH_NARRATION_QUALITY_WAVE_2026-09-22.md) — closed/live-verified 27-activity English narration-copy + browser-fallback quality wave.
-14. [`ENGLISH_NARRATION_ASSET_PIPELINE_2026-09-22.md`](ENGLISH_NARRATION_ASSET_PIPELINE_2026-09-22.md) — fail-closed pre-generated English narration asset/provenance pipeline; no production audio activated.
-15. [`PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md`](PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md) — active production visual/product audit and P0/P1/P2 state.
-16. [`MAINLAGI_ART_BIBLE.md`](MAINLAGI_ART_BIBLE.md) — canonical visual direction.
-17. [`MOBILE_ROUTE_QA.md`](MOBILE_ROUTE_QA.md) — blocking browser route and permanent visual QA contract.
-18. [`ARCHITECTURE.md`](ARCHITECTURE.md) — current technical boundaries and system architecture.
-19. [`MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md`](MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md) — child/product/UX/activity rules.
-20. [`LEARNING_ATTEMPTS_MASTERY.md`](LEARNING_ATTEMPTS_MASTERY.md) — evidence/mastery/progression contract.
-21. [`GAMEPLAY_VARIATION_CATALOG.md`](GAMEPLAY_VARIATION_CATALOG.md) — canonical gameplay-pattern catalog and WS-05 boundaries.
+14. [`ENGLISH_NARRATION_ASSET_PIPELINE_2026-09-22.md`](ENGLISH_NARRATION_ASSET_PIPELINE_2026-09-22.md) — closed/live-verified fail-closed pre-generated English narration asset/provenance gate; 27 review-required / 0 approved / 0 runtime static audio.
+15. [`ENGLISH_NARRATION_SAFE_CHECKPOINT_2026-09-22.md`](ENGLISH_NARRATION_SAFE_CHECKPOINT_2026-09-22.md) — compact safe handoff for English narration, exact production SHA/CI, hard boundaries and four-item next pilot.
+16. [`PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md`](PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md) — active production visual/product audit and P0/P1/P2 state.
+17. [`MAINLAGI_ART_BIBLE.md`](MAINLAGI_ART_BIBLE.md) — canonical visual direction.
+18. [`MOBILE_ROUTE_QA.md`](MOBILE_ROUTE_QA.md) — blocking browser route and permanent visual QA contract.
+19. [`ARCHITECTURE.md`](ARCHITECTURE.md) — current technical boundaries and system architecture.
+20. [`MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md`](MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md) — child/product/UX/activity rules.
+21. [`LEARNING_ATTEMPTS_MASTERY.md`](LEARNING_ATTEMPTS_MASTERY.md) — evidence/mastery/progression contract.
+22. [`GAMEPLAY_VARIATION_CATALOG.md`](GAMEPLAY_VARIATION_CATALOG.md) — canonical gameplay-pattern catalog and WS-05 boundaries.
    - [`WS05_LOGIC_PATTERN_COMPLETION_REUSE_WAVE_2026-09-22.md`](WS05_LOGIC_PATTERN_COMPLETION_REUSE_WAVE_2026-09-22.md) — PR #273 implementation wave, exact scope and verification evidence.
    - [`PATTERN_COMPLETION_LOGIC_REPEATING_PATTERN_REUSE_CLOSURE_2026-09-22.md`](PATTERN_COMPLETION_LOGIC_REPEATING_PATTERN_REUSE_CLOSURE_2026-09-22.md) — final merged/live-verified production closure for the exact five-ID Logic reuse.
-22. [`PRODUCT_DIRECTION.md`](PRODUCT_DIRECTION.md) — product principles and direction.
-23. [`KNOWN_LIMITATIONS.md`](KNOWN_LIMITATIONS.md) — current known limitations and external acceptance gaps.
+23. [`PRODUCT_DIRECTION.md`](PRODUCT_DIRECTION.md) — product principles and direction.
+24. [`KNOWN_LIMITATIONS.md`](KNOWN_LIMITATIONS.md) — current known limitations and external acceptance gaps.
 
 Subsystem docs remain authoritative for their specific scope when they do not conflict with the canonical documents above.
 
 ## Current project checkpoint — 22 September 2026
 
 ```text
-latest production main:          709e2b7d3e529cf37f10a05e9c9dc92884e0a781
-latest main CI:                   #1353 / run 35687996669 — success + exact Cloudflare smoke
+English narration runtime main:  2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48
+runtime baseline main CI:         #1372 / run 35701448136 — full success + exact Cloudflare smoke
+English narration Wave 1:        PR #278 / 27 reviewed / 22 target-first / 5 comprehension
+English narration docs closure:  PR #279 / merged + live verified
+English narration asset gate:    PR #280 / 27 review-required / 0 approved / 0 binary / live verified
 required secret-scan hardening:   PR #269 / merged + live verified
 cloud analytics integrity fix:    PR #267 / merged + live verified
 analytics regression:             1201 attempts / 3603 evidence rows / complete pagination
-character pipeline docs closure:  PR #264 / merged + live verified
 character asset pipeline:         PR #263 / merged + live verified
 character runtime registry:       PR #262 / merged + live verified
-character foundation:             PR #259 / merged + live verified
-background runtime main:         7502c708c998c87bb273639025fcb10ba6c81e12
-background runtime CI:           #1183 / run 35565937149 — success + exact Cloudflare smoke
-learning catalog:                9 subjects / 900 activities
-subject backgrounds:             54 scene families / 108 WebP / live verified
-project-owner preview:           9/9 subjects represented on production desktop routes
-gameplay taxonomy:               900/900 classified / 47 active / no Pattern #48
-character development:           PAUSED BY PROJECT OWNER / Drive assets reference-only
-Mainlagi World:                  separate user development / DO NOT TOUCH in this workstream
-WS-05 Logic runtime closure:     #273 -> 709e2b7d / PR CI #1321 + main CI #1353 live verified
-WS-05 production truth:          900/900 / 47 / choice_grid 174 / pattern_completion 10 / KEEP 900
+background runtime main:          7502c708c998c87bb273639025fcb10ba6c81e12
+learning catalog:                 9 subjects / 900 activities
+subject backgrounds:              54 scene families / 108 WebP / live verified
+gameplay taxonomy:                900/900 classified / 47 active / no Pattern #48
+character development:            PAUSED BY PROJECT OWNER / Drive assets reference-only
+Mainlagi World:                   separate user development / DO NOT TOUCH in this workstream
+WS-05 production truth:           900/900 / 47 / choice_grid 174 / pattern_completion 10 / KEEP 900
+next safe narration step:         four-item provider/voice pilot + human review; no runtime activation yet
 ```
 
 Paca/Gavi have production Garden WebP assets. Naya/Gian/Zia currently use non-production fallback representations and still need reviewed production assets. Child profile identity remains separate from guide-character identity.
