@@ -399,3 +399,39 @@ docs/WORLD_ACCESSIBILITY_PASS_2026-09-22.md
 ```
 
 CI status for this exact wave head must be recorded before freezing an accessibility checkpoint.
+
+
+## 17. Production wave 16 — World performance / lazy-load QA
+
+World-specific performance QA now adds repository-byte budgets and route-scoped artwork loading assertions.
+
+Static budgets:
+
+```text
+single reused visual <= 80 KiB
+approved reused World visual library <= 600 KiB
+Stage-shell wordmark <= 40 KiB
+map core artwork <= 230 KiB
+single Stage shell artwork set <= 190 KiB
+```
+
+Browser network QA:
+
+```text
+320/430 World map:
+  no /artwork/backgrounds/math/* Stage background requests
+
+390 Stage 1:
+  playground-park-mobile.webp requested
+  playground-park-wide.webp not requested
+  mini-market-* not requested
+  number-park-* not requested
+```
+
+Detailed record:
+
+```text
+docs/WORLD_PERFORMANCE_LAZY_LOAD_2026-09-22.md
+```
+
+CI status for this exact wave head must be recorded before freezing a final non-audio production checkpoint.
