@@ -523,3 +523,42 @@ expected path: /audio/world/money-festival/id-ID/<cue-id>.mp3
 Detailed contract: `WORLD_PETUALANGAN_UANG_NARRATION_CONTRACT_2026-09-22.md`.
 
 This wave does not approve a voice provider, final audio binary, Naya/Gian production artwork, evidence activation, or global age migration.
+
+## 22. Production wave 01 — Garden-baseline runtime shell + Gavi/Paca dummy
+
+Work continues on the isolated branch:
+
+```text
+feature/world-petualangan-uang-production-wave-20260922
+base: db0cdfcb81d68a7fe2e8d67445e1b635090158e3
+```
+
+Scope completed in this wave:
+
+- Stage runtime is now a full-viewport immersive shell instead of a centered card container;
+- top chrome follows the approved Garden activity language: **Kembali | centered Mainlagi wordmark | Dengar**;
+- the existing World environment artwork remains the primary background;
+- Stage title/location/progress remain visible without reintroducing the global child navigation;
+- the top-level Dengar control delegates to the active narration/prompt contract, so the existing audio-first gate remains intact;
+- activity / narrative-choice / recap scenes can stage approved **Gavi + Paca** as ambient companions;
+- story-role presentation maps **Gian -> Gavi** and **Naya -> Paca** while character development is paused;
+- fallback human Gian/Naya `CharacterAvatar` artwork is no longer activated by the World hero or Stage story runtime;
+- canonical story-role metadata and stable narration cue IDs are intentionally preserved for future final-character production;
+- no Belajar runtime, motion engine, mastery/evidence activation, SQL schema, or global age migration was changed.
+
+Machine-readable character policy:
+
+```text
+src/lib/learning/world/moneyWorldAssets.ts
+MONEY_WORLD_RUNTIME_CHARACTER_POLICY
+version: money-world-runtime-character-dummy-v1
+mode: approved-mascot-dummy
+finalHumanCharactersActivated: false
+```
+
+QA contracts added:
+
+- static World contract asserts the dummy mapping and keeps human activation false;
+- mobile/browser World QA asserts the Garden-baseline shell, centered wordmark, top Dengar control, Gavi/Paca activity presentation, and absence of Gian/Naya fallback artwork.
+
+This section documents the branch work only. It does **not** move any frozen green checkpoint and does not authorize merging PR #272 or this production-wave branch.
