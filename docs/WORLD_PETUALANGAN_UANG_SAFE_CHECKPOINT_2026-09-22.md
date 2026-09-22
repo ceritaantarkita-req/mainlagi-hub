@@ -744,3 +744,29 @@ This covers all canonical Scene kinds while keeping World-specific content rende
 No Belajar runtime, Bermain/motion, SQL schema, mastery/evidence activation, age migration or final human-character production is changed.
 
 CI note: this wave is committed but must not be called CI-green until the branch receives a validating workflow run. The next task is end-to-end production QA/responsive cleanup and then a new green checkpoint.
+
+
+## 27. Production wave 06 — responsive QA / checkpoint candidate
+
+Production wave 06 is a checkpoint-candidate QA pass after the reusable Scene renderer.
+
+Changes:
+
+- reusable Scene progress is now local to the authored Scene rather than duplicating global Stage Segment position;
+- active Segment membership inside the resolved Scene fails closed if inconsistent;
+- Scene renderer metadata/content is hardened against narrow-width overflow;
+- mobile story/activity minimum height now accounts for the Scene wrapper;
+- permanent browser QA covers all five Scene kinds at **320 / 390 / 430**;
+- the matrix checks horizontal overflow, frame/meta/content viewport containment, >=44px touch targets, page errors and console errors;
+- selected 320px/430px screenshots are emitted for manual review;
+- previous all-eight Stage closure QA remains intact.
+
+Detailed QA record:
+
+```text
+docs/WORLD_PRODUCTION_QA_2026-09-22.md
+```
+
+This is **not yet a green checkpoint**. Freeze a new checkpoint branch only after GitHub Actions validates the exact production-wave head.
+
+PR #272 remains untouched and Draft. Production-wave validation must stay isolated from merge/integration decisions.
