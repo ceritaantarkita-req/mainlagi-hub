@@ -769,6 +769,9 @@ async function main() {
         await shell.waitFor();
         assert.equal(await shell.getAttribute("data-world-pilot-runtime-status"), "pilot-runtime-covered", stage.id + " must resolve the pilot production manifest");
         assert.equal(await shell.getAttribute("data-world-scene-kind"), "closing", stage.id + " final checkpoint must resolve to an authored closing Scene");
+        const closingFrame = shell.locator('[data-world-scene-presentation="payoff"]');
+        await closingFrame.waitFor();
+        assert.equal(await closingFrame.getAttribute("data-world-scene-kind"), "closing", stage.id + " closing Scene must use the reusable payoff presentation");
         const backgroundImage = await shell.evaluate((node) => getComputedStyle(node, "::before").backgroundImage);
         assert.notEqual(backgroundImage, "none", stage.id + " must render an approved illustrated environment");
         await shell.locator("[data-world-hear]").click();
