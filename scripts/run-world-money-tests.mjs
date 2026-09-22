@@ -18,11 +18,27 @@ if (compile.status !== 0) process.exit(compile.status ?? 1);
 
 const require = createRequire(import.meta.url);
 const world = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorld.js"));
+const presentation = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldPresentation.js"));
+const assets = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldAssets.js"));
 const progress = require(path.join(outDir, "src", "lib", "learning", "world", "progress.js"));
 const mechanics = require(path.join(outDir, "src", "lib", "learning", "mechanicLibrary.js"));
 
 try {
   assert.equal(world.MONEY_WORLD_ID, "money-festival");
+
+  assert.equal(presentation.MONEY_WORLD_PRESENTATION_POLICY.version, "money-world-presentation-v1");
+  assert.equal(presentation.MONEY_WORLD_PRESENTATION_POLICY.pilotBandId, "6-8");
+  assert.equal(presentation.MONEY_WORLD_PILOT_AGE_BAND.minAge, 6);
+  assert.equal(presentation.MONEY_WORLD_PILOT_AGE_BAND.maxAge, 8);
+  assert.equal(presentation.MONEY_WORLD_PILOT_AGE_BAND.shippingStatus, "pilot");
+  assert.equal(presentation.MONEY_WORLD_PRESENTATION_POLICY.autoMorphSameWorldByAge, false, "one World must not silently morph across ages");
+  assert.equal(presentation.MONEY_WORLD_PRESENTATION_POLICY.sameWorldSpansAge3To12, false, "one World must not span ages 3–12 by later harder Stages");
+  assert.equal(presentation.MONEY_WORLD_PRESENTATION_POLICY.bands["3-5"].shippingStatus, "future-separate-variant");
+  assert.equal(presentation.MONEY_WORLD_PRESENTATION_POLICY.bands["9-12"].shippingStatus, "future-separate-series");
+  assert.equal(presentation.MONEY_WORLD_PRESENTATION_POLICY.invariants.wrongAnswerNeverReducesStars, true);
+  assert.equal(presentation.MONEY_WORLD_PRESENTATION_POLICY.invariants.completionStarsAreNotMastery, true);
+  assert.equal(presentation.MONEY_WORLD_PRESENTATION_POLICY.invariants.motionCameraRequired, false);
+
   assert.equal(world.MONEY_WORLD_CHAPTERS.length, 2, "money dummy must keep two chapters");
   assert.equal(world.MONEY_WORLD_STAGES.length, 8, "money dummy must keep eight stages");
   assert.deepEqual(
@@ -155,24 +171,22 @@ try {
   }
   assert.equal(recapCount, 1, "dummy World must keep exactly one final visual recap");
 
-  const visualAssets = [
-    "public/artwork/math-warung.webp",
-    "public/artwork/garden-background.webp",
-    "public/artwork/garden-paca.webp",
-    "public/artwork/garden-gavi.webp",
-    "public/artwork/backgrounds/math/playground-park-wide.webp",
-    "public/artwork/backgrounds/math/playground-park-mobile.webp",
-    "public/artwork/backgrounds/math/mini-market-wide.webp",
-    "public/artwork/backgrounds/math/mini-market-mobile.webp",
-    "public/artwork/backgrounds/math/number-park-wide.webp",
-    "public/artwork/backgrounds/math/number-park-mobile.webp",
-    "public/og/math-warung.png"
-  ];
-  for (const asset of visualAssets) {
+  assert.equal(assets.MONEY_WORLD_ASSET_PLAN_VERSION, "money-world-assets-v1");
+  assert.equal(new Set(assets.MONEY_WORLD_ASSET_SLOTS.map((slot) => slot.id)).size, assets.MONEY_WORLD_ASSET_SLOTS.length, "World asset slot IDs must stay unique");
+  for (const asset of assets.MONEY_WORLD_REUSED_PUBLIC_ASSET_PATHS) {
     assert.equal(existsSync(path.join(root, asset)), true, "World visual/share asset missing: " + asset);
   }
+  assert.deepEqual(
+    [...assets.MONEY_WORLD_PRODUCTION_GAPS].sort(),
+    ["fixed-narration", "gian-foreground", "naya-foreground", "public-share-card"].sort(),
+    "World production gaps must stay explicit instead of silently appearing complete"
+  );
+  assert.ok(
+    assets.MONEY_WORLD_ASSET_SLOTS.filter((slot) => slot.kind === "background").every((slot) => slot.status === "approved-reused"),
+    "current background reuse must remain explicitly approved in the pilot manifest"
+  );
 
-  console.log("Petualangan Uang eight-stage payload, linear progress, practice boundary, low-text language, recap, visual assets, and financial-safety contracts passed.");
+  console.log("Petualangan Uang eight-stage payload, linear progress, age policy, practice boundary, low-text language, recap, asset plan, and financial-safety contracts passed.");
 } finally {
   rmSync(outDir, { recursive: true, force: true });
 }
