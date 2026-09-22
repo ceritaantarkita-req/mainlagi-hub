@@ -556,6 +556,12 @@ async function main() {
       assert.equal(await worldStageShell.getAttribute("data-world-scene-kind"), "story", "opening Scene must expose its canonical kind");
       assert.equal(await worldStageShell.getAttribute("data-world-chapter-id"), "money-chapter-01-road-to-festival", "Stage 1 shell must expose canonical Chapter identity");
       assert.equal(await worldStageShell.getAttribute("data-world-chapter-order"), "1", "Stage 1 shell must expose Chapter order");
+      const worldProgress = worldStageShell.getByRole("progressbar", { name: "Progres Stage", exact: true });
+      await worldProgress.waitFor();
+      assert.equal(await worldProgress.getAttribute("aria-valuemin"), "1", "Stage progressbar must expose minimum Segment position");
+      assert.equal(await worldProgress.getAttribute("aria-valuenow"), "1", "Stage progressbar must expose current Segment position");
+      assert.equal(await worldProgress.getAttribute("aria-valuemax"), "10", "Stage 1 progressbar must expose exact Segment count");
+      assert.equal(await worldProgress.getAttribute("aria-valuetext"), "Bagian 1 dari 10", "Stage progressbar must expose a child-readable position");
       assert.equal(
         (await worldStageShell.locator('[data-world-chapter-label="money-chapter-01-road-to-festival"]').textContent())?.trim(),
         "Chapter 1 · Jalan ke Festival",
@@ -564,6 +570,8 @@ async function main() {
       const openingSceneFrame = page.locator('[data-world-scene-frame="money-scene-s01-opening"]');
       await openingSceneFrame.waitFor();
       assert.equal(await openingSceneFrame.getAttribute("data-world-scene-presentation"), "dialogue", "story Scene must resolve the reusable dialogue presentation");
+      assert.equal(await openingSceneFrame.getAttribute("role"), "region", "active World Scene must expose a labelled region");
+      assert.equal(await openingSceneFrame.locator('[aria-live="polite"][aria-atomic="true"]').count(), 1, "Scene context changes must be announced politely");
       assert.equal(await openingSceneFrame.locator('[data-world-scene-label="money-scene-s01-opening"]').count(), 1, "reusable Scene renderer must expose the authored Scene title");
       assert.equal(await page.locator('[data-world-runtime-character-policy="approved-mascot-dummy"]').count(), 1, "World Stage runtime must expose the approved mascot-dummy policy");
       assert.equal(await worldStageShell.getByRole("link", { name: "Kembali", exact: true }).count(), 1, "World Stage shell must keep the Garden-style back control");
@@ -657,6 +665,8 @@ async function main() {
       await page.getByRole("heading", { name: "Awesome!", exact: true }).waitFor();
       const stageOneCompletion = page.locator('[data-world-completion-stage="money-stage-01-money-use"]');
       await stageOneCompletion.waitFor();
+      await page.waitForFunction(() => document.activeElement?.id === "world-stage-complete-title");
+      assert.equal(await page.evaluate(() => document.activeElement?.id), "world-stage-complete-title", "Stage completion must move keyboard/screen-reader focus to its completion heading");
       assert.equal(await stageOneCompletion.getAttribute("data-world-completion-chapter"), "money-chapter-01-road-to-festival", "Stage 1 completion must retain Chapter 1 identity");
       assert.equal(await stageOneCompletion.getAttribute("data-world-completion-final"), "false", "Stage 1 completion must not look like final World completion");
       assert.equal((await stageOneCompletion.locator("[data-world-completion-context]").textContent())?.trim(), "Chapter 1 · Stage 1/8", "Stage 1 completion must expose concise hierarchy context");
@@ -701,6 +711,8 @@ async function main() {
       await stageTwoLink.waitFor();
       assert.equal(await stageTwoLink.count(), 1, "World Stage 1 completion must unlock Stage 2");
       assert.equal(await page.locator('[data-stage-order="2"][data-current-stage="true"]').count(), 1, "World map must visibly mark Stage 2 as the next journey stop");
+      assert.equal(await stageTwoLink.getAttribute("aria-current"), "step", "World map must expose Stage 2 as the current journey step to assistive technology");
+      assert.equal(await page.locator('[aria-label="Stage 3 terkunci · Dari Mana Uang Datang?"][aria-disabled="true"]').count(), 1, "locked World Stage must expose a semantic locked-state label");
       await page.waitForTimeout(50);
       const stageTwoBox = await page.locator('[data-world-stage-id="money-stage-02-price-change"]').boundingBox();
       assert.ok(stageTwoBox && stageTwoBox.y < viewport.height && stageTwoBox.y + stageTwoBox.height > 0, "World map must return the child near the next unlocked Stage");
