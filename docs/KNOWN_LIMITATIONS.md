@@ -44,7 +44,7 @@ Iqro/Hijaiyah pronunciation requires competent human review. Generic TTS must no
 
 Paca and Gavi have production Garden WebP artwork. Naya, Gian and Zia still lack production image files under `public/artwork`; their current fallback representations are not final brand assets.
 
-The next product-UX wave must lock production character specifications, review candidate artwork, and document provenance/redistribution rights before integration. Child profile identity must remain separate from guide-character identity.
+Character production/development is **paused by the project owner**. Existing Drive character material is reference-only while paused. When explicitly resumed, the next character-specific gate is to lock production specifications, review candidate artwork, and document provenance/redistribution rights before integration. Child profile identity must remain separate from guide-character identity.
 
 ## About, FAQ, and affiliate discoverability
 

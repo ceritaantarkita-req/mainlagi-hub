@@ -504,7 +504,7 @@ Dedicated Math QA covers 320x720, 390x844 and 768x1024 using `math-spatial-near`
 Implementation wave record: `WS05_SPATIAL_RELATION_BOARD_MATH_REUSE_WAVE_2026-09-19.md`.  
 Closure record: `SPATIAL_RELATION_BOARD_MATH_POSITION_REUSE_CLOSURE_2026-09-19.md`.
 
-The next authorized runtime implementation is Math measurement -> existing `compare_properties` for exactly four direct-choice activities. `math-measure-match-length` remains matching / `matching_accuracy_v1`.
+Historical handoff note: at that earlier checkpoint, Math measurement -> existing `compare_properties` was the next authorized runtime implementation for exactly four direct-choice activities. That wave is now fully closed/live verified; this sentence is retained only to explain the sequence. `math-measure-match-length` remains matching / `matching_accuracy_v1`. **Do not treat this historical note as current authorization for new runtime work.**
 
 ### Current reuse audit — Math measurement -> `compare_properties`
 

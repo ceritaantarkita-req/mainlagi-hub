@@ -1,11 +1,13 @@
 # Mainlagi Art Bible — v1
 
-Status: **CANONICAL VISUAL DIRECTION / SUBJECT BACKGROUNDS LIVE VERIFIED / CHARACTER PRODUCTION NEXT**  
+Status: **CANONICAL VISUAL DIRECTION / SUBJECT BACKGROUNDS LIVE VERIFIED / CHARACTER DEVELOPMENT PAUSED**  
 Established: **16 September 2026**  
-Last synchronized: **21 September 2026**  
+Last synchronized: **22 September 2026**  
 Source audit: `PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md`
 
 This document defines the visual language that future Mainlagi product work must converge toward. It does **not** require a one-shot rewrite of every existing screen. Migration is wave-based, evidence-backed and must preserve learning/progression/auth behavior.
+
+Current project-owner boundary: **Mainlagi World is developed separately and must not be modified by the current Mainlagi Belajar workstream. Character production/development is paused; Drive character material is reference-only until explicit resume.** This pause changes execution priority, not the underlying visual identity contract below.
 
 ## 1. Product feeling
 
