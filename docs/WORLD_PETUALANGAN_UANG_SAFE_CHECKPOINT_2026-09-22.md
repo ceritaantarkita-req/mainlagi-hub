@@ -1504,3 +1504,35 @@ Browser QA additionally verifies the Stage-8 post-choice arithmetic bridge.
 No narration binary is generated or approved. No Belajar, Bermain/motion, SQL schema, mastery/evidence, or final character artwork is changed.
 
 Checkpoint rule: validate the exact wave-14 head through Draft PR #282. If fully green, freeze a new immutable content-audit checkpoint.
+
+
+## 44. Production wave 15 — accessibility checkpoint candidate
+
+The active production branch now includes a focused accessibility pass for Petualangan Uang.
+
+Implemented:
+
+- journey current Stage exposes `aria-current="step"`;
+- locked Stage exposes semantic disabled + locked-state label;
+- Stage progress strip is a real progressbar with min/max/current/text values;
+- active Scene is a labelled region;
+- Scene title/progress changes are announced politely;
+- drag/matching group semantics are explicit;
+- take-away visualization has a text alternative;
+- ordering and recap outputs use list/listitem semantics;
+- open narrative-choice reaction is a polite status;
+- Stage completion moves focus to its completion heading;
+- map/share controls have explicit keyboard focus treatment;
+- forced-colors selected/current states are preserved.
+
+Focused browser QA covers Stage 1 progress/Scene/completion focus and Stage 2/3 journey accessibility state.
+
+Detailed record:
+
+```text
+docs/WORLD_ACCESSIBILITY_PASS_2026-09-22.md
+```
+
+No narration generation, final character production, Belajar, Bermain/motion, SQL schema, mastery/evidence, or progression persistence is changed.
+
+Checkpoint rule: validate the exact accessibility-wave head through Draft PR #282. If fully green, freeze a new immutable accessibility checkpoint. Until then, the latest safe green rollback remains `checkpoint/world-petualangan-uang-completion-ux-green-20260922`.
