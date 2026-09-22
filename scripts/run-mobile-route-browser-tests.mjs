@@ -559,6 +559,7 @@ async function main() {
 
       await page.getByRole("heading", { name: "Awesome!", exact: true }).waitFor();
       assert.equal(await page.locator('[aria-label="Tiga bintang"] svg').count(), 3, "World Stage 1 completion must show exactly three stars");
+      await page.waitForTimeout(700);
       assert.equal(await page.getByRole("link", { name: /Back/ }).count(), 1, "World completion must expose Back");
       assert.equal(await page.getByRole("button", { name: /Again/ }).count(), 1, "World completion must expose Again");
       assert.equal(await page.getByRole("link", { name: /Next/ }).count(), 1, "World completion must expose Next");
@@ -721,6 +722,7 @@ async function main() {
       await page.getByText("Butuh atau Mau?", { exact: true }).waitFor();
       await advanceWorldNarrative(page);
       await page.getByRole("heading", { name: "Excellent!", exact: true }).waitFor();
+      await page.waitForTimeout(700);
       await page.getByText("Chapter 1 selesai", { exact: true }).waitFor();
       await page.getByText("Pilih Pintar", { exact: true }).waitFor();
       await page.screenshot({ path: path.join(screenshotDir, "390-world-money-chapter-01-complete.png"), fullPage: false });
@@ -809,6 +811,7 @@ async function main() {
       await advanceWorldNarrative(page);
 
       await page.getByRole("heading", { name: "Luar biasa!", exact: true }).waitFor();
+      await page.waitForTimeout(700);
       await page.getByText("Petualangan Uang selesai. Festival Mainlagi siap!", { exact: true }).waitFor();
       assert.equal(await page.locator('[aria-label="Tiga bintang"] svg').count(), 3, "Final World Stage must show exactly three stars");
       assert.equal(await page.getByRole("button", { name: /Share/ }).count(), 1, "Final World Stage must retain Share below completion navigation");
