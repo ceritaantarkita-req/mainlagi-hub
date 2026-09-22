@@ -744,9 +744,22 @@ async function main() {
           const box = node.getBoundingClientRect();
           return { left: box.left, right: box.right, width: box.width };
         });
-        return { viewportWidth, scrollWidth, banners };
+        const heroHeading = Array.from(document.querySelectorAll("h1")).find((node) => node.textContent?.trim() === "Petualangan Uang");
+        const heroStyle = heroHeading ? getComputedStyle(heroHeading) : null;
+        const heroLineHeight = heroStyle ? Number.parseFloat(heroStyle.lineHeight) : 0;
+        const heroHeight = heroHeading instanceof HTMLElement ? heroHeading.getBoundingClientRect().height : 0;
+        return {
+          viewportWidth,
+          scrollWidth,
+          banners,
+          heroHeadingLines: heroLineHeight > 0 ? heroHeight / heroLineHeight : 0
+        };
       });
       assert.ok(geometry.scrollWidth <= geometry.viewportWidth + 1, "semantic Chapter map must not create horizontal overflow at " + width + "px");
+      assert.ok(
+        geometry.heroHeadingLines > 0 && geometry.heroHeadingLines <= 2.2,
+        "World map hero title must stay within two readable lines at " + width + "px"
+      );
       for (const box of geometry.banners) {
         assert.ok(box.left >= -1 && box.right <= geometry.viewportWidth + 1, "Chapter banner must fit viewport width at " + width + "px");
       }
