@@ -845,6 +845,12 @@ async function main() {
       await completedMap.waitFor();
       await page.getByText("Festival siap!", { exact: true }).waitFor();
       assert.equal(await completedMap.locator('[aria-label="Tiga bintang"]').count(), 8, "Completed World map must retain three-star completion on all eight stages");
+      const stageEightBox = await completedMap.locator('[data-world-stage-id="money-stage-08-final-festival"]').boundingBox();
+      const festivalFinishBox = await completedMap.getByRole("status").filter({ hasText: "Festival siap!" }).boundingBox();
+      assert.ok(
+        stageEightBox && festivalFinishBox && stageEightBox.y + stageEightBox.height <= festivalFinishBox.y + 1,
+        "Completed World map must keep the Festival payoff below Stage 8 instead of overlapping it"
+      );
       await page.screenshot({ path: path.join(screenshotDir, "390-world-money-map-complete.png"), fullPage: true });
       await context.close();
       console.log("World Petualangan Uang final narrative-choice/subtraction checkpoint passed at 390px.");
