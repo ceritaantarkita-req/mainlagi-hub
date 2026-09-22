@@ -390,17 +390,18 @@ function WorldActivityPrompt({
   helper,
   tag = "Mini-game"
 }: {
-  prompt: string;
+  prompt?: string;
   helper?: string;
   tag?: string;
 }) {
   const [audioNotice, setAudioNotice] = useState("");
+  const spokenPrompt = prompt?.trim() || "Dengarkan petunjuknya.";
 
   const hearPrompt = () => {
     unlockAudio("id-ID");
-    const status = speakPrompt(prompt, {
+    const status = speakPrompt(spokenPrompt, {
       lang: "id-ID",
-      key: "world-activity-prompt:" + prompt,
+      key: "world-activity-prompt:" + spokenPrompt,
       interrupt: true,
       dedupeMs: 0
     });
@@ -410,7 +411,7 @@ function WorldActivityPrompt({
   return (
     <div className={styles.activityHeading}>
       <span className={styles.sceneType}>{tag}</span>
-      <h2>{prompt}</h2>
+      <h2>{spokenPrompt}</h2>
       <button type="button" className={styles.promptAudioButton} onClick={hearPrompt} data-world-prompt-hear>
         <SpeakerHigh size={19} weight="fill" aria-hidden /> Dengar
       </button>
