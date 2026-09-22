@@ -2,6 +2,7 @@
   position: relative;
   z-index: 2;
   width: 100%;
+  min-width: 0;
   display: grid;
   justify-items: center;
 }
@@ -9,6 +10,7 @@
 .sceneMeta {
   position: relative;
   z-index: 5;
+  width: fit-content;
   max-width: min(720px, calc(100% - 32px));
   margin: 14px auto -2px;
   padding: 8px 12px;
@@ -39,6 +41,7 @@
 }
 
 .sceneMeta > strong {
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 13px;
@@ -70,6 +73,7 @@
   position: relative;
   z-index: 2;
   width: 100%;
+  min-width: 0;
   display: grid;
   justify-items: center;
 }
