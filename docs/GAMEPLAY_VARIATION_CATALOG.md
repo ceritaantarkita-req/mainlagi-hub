@@ -38,14 +38,14 @@ Patterns #1–#35 remain as previously closed/merged. Latest entries:
 
 ## Current verified merged distribution
 
-Current merged runtime truth after the fully closed Math mixed-operation existing-mechanic reuse (PR #238 -> main `710ecdb...`, main CI #1096):
+Current merged runtime truth after the fully closed Logic repeating-pattern reuse (PR #273 -> main `709e2b7d3e529cf37f10a05e9c9dc92884e0a781`, merged-main CI #1353 / run `35687996669`):
 
 ```text
 900 / 900 classified
 0 unclassified
 47 active child-facing patterns
-choice_grid                     179 / 900
-pattern_completion                5 / 900
+choice_grid                     174 / 900
+pattern_completion               10 / 900
 make_total                        7 / 900
 take_away                         7 / 900
 set_reasoning                    10 / 900
@@ -67,7 +67,14 @@ picture_word_match               23 / 900
 number_line                      11 / 900
 ```
 
-The active-pattern count remains 47. Pattern #48 is still not justified.
+Logic subject distribution after the same closure:
+
+```text
+Logic choice_grid                 21 / 100
+Logic pattern_completion           5 / 100
+```
+
+The active-pattern count remains 47. Pattern #48 is still not justified. Activity quality remains KEEP 900 / 0 flagged.
 
 PR #273 verification also confirms exactly five Logic `pattern_completion` activities (`logic.pattern.repeat.intermediate`), legitimate progression-aware browser QA at 320/390/768, grouped `● ●` as one canonical choice/evidence step, and no neighboring-family spillover.
 
