@@ -492,6 +492,7 @@ async function main() {
       const stageTwoLink = page.locator('a[href="/child/demo-gian/world/money-festival/stage/money-stage-02-price-change"]');
       await stageTwoLink.waitFor();
       assert.equal(await stageTwoLink.count(), 1, "World Stage 1 completion must unlock Stage 2");
+      assert.equal(await page.locator('[data-stage-order="2"][data-current-stage="true"]').count(), 1, "World map must visibly mark Stage 2 as the next journey stop");
       await page.waitForTimeout(50);
       const stageTwoBox = await page.locator('[data-world-stage-id="money-stage-02-price-change"]').boundingBox();
       assert.ok(stageTwoBox && stageTwoBox.y < viewport.height && stageTwoBox.y + stageTwoBox.height > 0, "World map must return the child near the next unlocked Stage");
