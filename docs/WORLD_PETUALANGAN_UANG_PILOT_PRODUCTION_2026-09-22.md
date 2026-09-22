@@ -175,8 +175,16 @@ The implementation and QA contracts are committed on the isolated production bra
 
 Do **not** label this wave CI-green until a workflow run validates the resulting branch head. Existing frozen green World checkpoints remain untouched.
 
-## 10. Next production step
+## 10. Narration follow-through
 
-The next point is the **fixed narration production pass**.
+Production wave 04 now adds the deterministic fixed-narration review/resolution pipeline:
 
-The stable cue-ID contract already exists. The next work should make narration asset resolution/review deterministic while preserving browser speech as fail-safe fallback until approved fixed audio binaries are available.
+```text
+src/lib/learning/world/moneyWorldNarrationProduction.ts
+src/lib/learning/world/moneyWorldNarrationPlayback.ts
+docs/WORLD_PETUALANGAN_UANG_NARRATION_PRODUCTION_2026-09-22.md
+```
+
+Current fixed-audio truth remains **0/88 approved**, so browser speech stays active.
+
+The next unresolved runtime layer is reusable Scene presentation/rendering based on canonical `Scene.kind`, without changing Stage/Segment progression.
