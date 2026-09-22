@@ -193,7 +193,7 @@ Current asset state:
 - child profile identity and guide-character identity remain separate concepts;
 - coloring-character support remains intentionally limited to Paca/Gavi until a separate content decision changes it.
 
-The activity character-presentation architecture is merged/live verified through PR #259, the runtime asset lifecycle registry through PR #262, and the fail-closed human character asset pipeline through PR #263. A fresh Drive intake audit found **no separate Naya/Gian/Zia activity-foreground candidate**; the only canonical human art found is the three reviewed design sheets. Naya/Gian/Zia therefore remain reference-only with no production path and no committed human production binary. The next character wave is candidate asset creation/review outside the production directory, provenance/redistribution approval for the exact reviewed derivative, then binary integration and later runtime activation through the central allowlist/resolver.
+The activity character-presentation architecture is merged/live verified through PR #259, the runtime asset lifecycle registry through PR #262, and the fail-closed human character asset pipeline through PR #263. Naya/Gian/Zia remain reference-only with no production path and no committed human production binary. **Character production/development is now PAUSED by the project owner**; current Drive character material is reference-only until an explicit resume instruction.
 
 ## 6. Subject background production system
 
@@ -238,31 +238,29 @@ NO JUSTIFIED NEW PATTERN YET
 The current fresh Logic repeating-pattern audit approved reuse of existing `pattern_completion` for exactly five activities:
 
 ```text
-PR #240
-Audit main: 7109db41134f18884b6c08fba99ad2af997b3fed
-Main CI:    #1100 / run 35492367065 — success
-Runtime:    NOT STARTED
+Audit PR:                  #240
+Audit main:                7109db41134f18884b6c08fba99ad2af997b3fed
+Audit main CI:             #1100 / run 35492367065 — success
+Runtime PR:                #273
+Verified runtime checkpoint: ec050bf919ebe534a719ef22a37691248e1b233d
+PR CI:                     #1312 / run 35682142457 — full success
+Verified distribution:     900/900 / 47 / choice_grid 174 / pattern_completion 10 / KEEP 900
+Merge:                     PENDING final docs-head CI
 ```
 
-If implemented, this remains existing-mechanic reuse; it must not create Pattern #48 or change mastery/progression/schema.
+The implementation remains existing-mechanic reuse; it creates no Pattern #48 and changes no mastery/progression/schema contract.
 
 ## 8. Active next work
 
-Product UX next order:
+Current project-owner boundary:
 
-1. create/review one isolated **Naya** candidate outside the public production directory against the locked Art Bible/design-sheet identity, then repeat for Gian and Zia only after each prior candidate review is closed;
-2. confirm source/creation basis plus public redistribution rights for each exact reviewed derivative;
-3. export only approved transparent WebP binaries to the canonical production paths and promote the provenance records from reference-only to approved;
-4. merge binary/provenance integration while keeping runtime activation separate;
-5. activate approved assets through the central character allowlist/resolver and run responsive activity QA;
-6. validate English -> Naya + Zia and Math -> Gian + Paca while preserving fail-closed fallback and leaving other subject pairings unchanged;
-7. revisit the five-character homepage hero only with approved production identities;
-8. improve English narration quality;
-9. continue learning-illustration consistency and broader human/device acceptance.
+1. **Do not touch Mainlagi World**; it is being developed separately.
+2. **Do not resume character development**; Drive character assets are reference-only while paused.
+3. Finish Mainlagi Belajar WS-05 PR #273: final exact-head docs CI -> merge -> merged-main exact-SHA Cloudflare smoke.
+4. Preserve 900 activities, 47 active patterns and all mastery/evidence/progression/schema contracts.
+5. Select any later product wave separately after #273 is fully closed.
 
-The all-subject background generation/integration wave is **closed / merged / live verified** and is no longer an active implementation task.
-
-WS-05 may proceed independently only through its objective/evidence gates.
+The all-subject background generation/integration wave remains **closed / merged / live verified**.
 
 ## 9. Non-negotiable boundaries
 
