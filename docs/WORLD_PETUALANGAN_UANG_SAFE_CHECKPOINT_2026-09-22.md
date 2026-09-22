@@ -1162,3 +1162,51 @@ This wave does not authorize any audio generation. It only freezes a reproducibl
 No Belajar, Bermain/motion, SQL schema, evidence/mastery, age migration, World progression or final character artwork is changed.
 
 Checkpoint rule: validate the exact wave-10 head through Draft PR #282. If fully green, freeze a new immutable provider-pilot-readiness checkpoint.
+
+
+## 36. Provider-pilot readiness green checkpoint — CI #1414
+
+Production wave 10 is independently green and frozen.
+
+```text
+head:   76443c05dcf6f50a0e65787180f7c13542ca87f9
+CI:     #1414 / run 35725346949
+branch: checkpoint/world-petualangan-uang-provider-pilot-green-20260922
+```
+
+Full matrix:
+
+```text
+Quality gate (Ubuntu):        PASS
+Windows compatibility:        PASS
+Production build:             PASS
+Production dependency audit:  PASS
+Secret history scan:          PASS
+Mobile route QA (Chromium):   PASS
+overall:                      SUCCESS
+```
+
+This checkpoint freezes:
+
+- exact four-cue Stage-1 provider-neutral listening pilot scope;
+- 2 Gian-role + 2 Naya-role sample balance;
+- narrative/concept/activity_prompt/payoff coverage;
+- provider remains unselected;
+- generation remains unauthorized;
+- output remains internal/non-public/non-production;
+- no registry auto-approval;
+- no runtime fixed-audio activation.
+
+Current production truth remains:
+
+```text
+88 canonical spoken cues
+0 approved fixed binaries
+0 generation-authorized cues
+88 voice-gated cues
+browser speech fallback active
+```
+
+Do not move or force-push this checkpoint branch.
+
+PR #282 remains Draft and is not merge authorization. PR #272 remains Draft and untouched. Character production remains paused. World -> Belajar evidence remains disabled.
