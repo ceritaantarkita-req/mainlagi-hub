@@ -198,3 +198,22 @@ Once this exact production-wave head is green, the remaining product gaps are pr
 - dedicated public World social card remains open;
 - bespoke World background art remains optional/future;
 - World -> Belajar evidence bridge remains deliberately disabled.
+
+
+## 11. Production wave 07 — dedicated social-card QA
+
+The generic `/og/math-warung.png` fallback has been replaced for Petualangan Uang by:
+
+```text
+/worlds/money-festival/social-card
+```
+
+Static/browser QA now locks the public-safe 1200×630 ImageResponse contract, Open Graph/Twitter metadata routing, PNG response, and absence of child/account/progress identity.
+
+Detailed record:
+
+```text
+docs/WORLD_SOCIAL_CARD_2026-09-22.md
+```
+
+This wave is not green until Draft PR #282 validates the exact social-card head.
