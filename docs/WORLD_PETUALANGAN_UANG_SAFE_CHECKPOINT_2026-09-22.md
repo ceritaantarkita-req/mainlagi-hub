@@ -1310,3 +1310,39 @@ browser speech fallback:      ACTIVE
 Do not move or force-push this checkpoint branch.
 
 PR #282 remains Draft and is not merge authorization. PR #272 remains Draft and untouched. Character production remains paused. World -> Belajar evidence remains disabled.
+
+
+## 39. Production wave 12 — semantic Chapter navigation checkpoint candidate
+
+The active production branch continues with non-audio World polish.
+
+Changes:
+
+- journey-map Chapter banners are now real runtime DOM derived from `MONEY_WORLD_CHAPTERS`;
+- CSS pseudo-content Chapter titles were removed;
+- each Chapter banner exposes completed Stage count from canonical membership;
+- Stage shell exposes canonical Chapter ID/order/title;
+- Stage shell secondary metadata now carries Stage/location/global Segment position;
+- narrow Chapter banners are explicitly QA'd at 320 and 430px.
+
+Browser QA additionally requires:
+
+```text
+after Stage 1:
+Chapter 1 = 1/4 Stage selesai
+Chapter 2 = 0/4 Stage selesai
+
+completed World:
+Chapter 1 = 4/4 Stage selesai
+Chapter 2 = 4/4 Stage selesai
+```
+
+Detailed record:
+
+```text
+docs/WORLD_VISUAL_NAVIGATION_POLISH_2026-09-22.md
+```
+
+No audio generation, provider selection, final character art, Belajar, Bermain/motion, SQL schema, mastery/evidence, or World progression contract is changed.
+
+Checkpoint rule: validate this exact wave head through Draft PR #282. If fully green, freeze a new immutable visual-navigation checkpoint without moving earlier checkpoints.
