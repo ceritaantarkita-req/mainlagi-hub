@@ -4,6 +4,7 @@ import { mkdirSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
+import { assertLearningVisualContainment } from "./lib/assert-learning-visual-containment.mjs";
 
 const root=process.cwd();
 const host="127.0.0.1";
@@ -13,7 +14,7 @@ const route="/child/demo-gian/activity/bahasa-awal-bola";
 const activityId="bahasa-awal-bola";
 const correctLabel="Pilih huruf B";
 const screenshotDir=path.join(root,".mobile-route-qa");
-const viewports=[{width:320,height:720},{width:390,height:844},{width:768,height:1024}];
+const viewports=[{width:320,height:720},{width:390,height:844},{width:768,height:1024},{width:1280,height:800}];
 let server=null;
 let serverLog="";
 
@@ -121,6 +122,7 @@ async function inspect(viewport){
     const response=await page.goto(`${baseUrl}${route}`,{waitUntil:"domcontentloaded",timeout:30000});
     assert(response&&response.status()<400,`initial-sound bad HTTP at ${viewport.width}`);
     await waitForScene(page);
+    await assertLearningVisualContainment(page,"[data-initial-sound]",`initial-sound visual containment at ${viewport.width}`);
     assert.equal(new URL(page.url()).pathname,route,`progression guard must accept legitimate prior Bahasa readiness at ${viewport.width}`);
 
     const board=page.locator("[data-initial-sound-board]");
