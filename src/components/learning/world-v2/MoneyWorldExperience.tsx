@@ -18,7 +18,7 @@ import {
   useState,
   type DragEvent
 } from "react";
-import { CharacterAvatar, useLearningProfile } from "@/components/learning/LearningCommon";
+import { CharacterAvatar } from "@/components/learning/LearningCommon";
 import { audioStatus, playTone, speakPrompt, unlockAudio, warmAudio, type SpeechStartStatus } from "@/lib/audio/feedback";
 import {
   MONEY_WORLD_ID,
@@ -162,9 +162,7 @@ function WorldHero({ compact = false }: { compact?: boolean }) {
 }
 
 export function WorldCatalogScreen({ childId }: { childId: string }) {
-  const profile = useLearningProfile(childId);
   const state = useMoneyWorldProgress(childId);
-  const age = profile?.age;
   const completed = state.progress.completedStageIds.length;
   const nextStage = state.ready
     ? MONEY_WORLD_STAGES.find((stage) => !state.progress.completedStageIds.includes(stage.id)) ?? null
@@ -192,7 +190,6 @@ export function WorldCatalogScreen({ childId }: { childId: string }) {
           <span>Usia rekomendasi 6–8</span>
           <span>{state.ready ? String(completed) + "/8 Stage selesai" : "Memuat progres…"}</span>
           <strong data-world-catalog-cta>{cta}</strong>
-          {age && (age < 6 || age > 8) ? <small className={styles.ageNote}>Tetap bisa dijelajahi bersama orang dewasa.</small> : null}
         </div>
       </Link>
     </main>
