@@ -19,7 +19,7 @@ import {
   type DragEvent
 } from "react";
 import { CharacterAvatar, useLearningProfile } from "@/components/learning/LearningCommon";
-import { audioStatus, playTone, speakPrompt, unlockAudio, warmAudio } from "@/lib/audio/feedback";
+import { audioStatus, playTone, speakPrompt, unlockAudio, warmAudio, type SpeechStartStatus } from "@/lib/audio/feedback";
 import {
   MONEY_WORLD_ID,
   MONEY_WORLD_STAGES,
@@ -309,22 +309,22 @@ function SpeechCard({
   onNext: () => void;
   nextLabel: string;
 }) {
-  const [audioNotice, setAudioNotice] = useState("");
+  const [speechStatus, setSpeechStatus] = useState<SpeechStartStatus | null>(null);
   const autoAttemptedRef = useRef(false);
 
   useEffect(() => {
     autoAttemptedRef.current = false;
+    setSpeechStatus(null);
     let cancelled = false;
 
     const startNarration = () => {
       if (cancelled || autoAttemptedRef.current || !audioStatus().unlocked || audioStatus().muted) return;
       autoAttemptedRef.current = true;
-      const status = speakPrompt(text, {
+      setSpeechStatus(speakPrompt(text, {
         lang: "id-ID",
         key: "world-narration:" + text,
         interrupt: true
-      });
-      setAudioNotice(status === "spoken" ? "" : status === "muted" ? "Suara sedang dimatikan." : "Suara belum tersedia. Teks tetap bisa dibaca.");
+      }));
     };
 
     const timer = window.setTimeout(startNarration, 0);
@@ -346,14 +346,22 @@ function SpeechCard({
   const hear = () => {
     autoAttemptedRef.current = true;
     unlockAudio("id-ID");
-    const status = speakPrompt(text, {
+    setSpeechStatus(speakPrompt(text, {
       lang: "id-ID",
       key: "world-replay:" + text,
       interrupt: true,
       dedupeMs: 0
-    });
-    setAudioNotice(status === "spoken" ? "" : status === "muted" ? "Suara sedang dimatikan." : "Suara belum tersedia. Teks tetap bisa dibaca.");
+    }));
   };
+
+  const canContinue = speechStatus !== null;
+  const audioNotice = speechStatus === null
+    ? "Dengarkan dulu untuk lanjut."
+    : speechStatus === "spoken"
+      ? ""
+      : speechStatus === "muted"
+        ? "Suara sedang dimatikan. Kamu tetap bisa lanjut."
+        : "Suara belum tersedia. Teks tetap bisa dibaca.";
 
   return (
     <section className={cx(styles.storyScene, kind === "concept" && styles.conceptScene)}>
@@ -365,10 +373,10 @@ function SpeechCard({
         <span className={styles.sceneType}>{kind === "concept" ? "Temukan idenya" : kind === "payoff" ? "Cerita berlanjut" : "Cerita"}</span>
         <p>{text}</p>
         <div className={styles.storyActions}>
-          <button type="button" className={styles.secondaryButton} onClick={hear}>
+          <button type="button" className={styles.secondaryButton} onClick={hear} data-world-hear>
             <SpeakerHigh size={21} weight="fill" aria-hidden /> Dengar
           </button>
-          <button type="button" className={styles.primaryButton} onClick={onNext}>
+          <button type="button" className={styles.primaryButton} onClick={onNext} disabled={!canContinue} data-world-next>
             {nextLabel} <ArrowRight size={20} weight="bold" aria-hidden />
           </button>
         </div>
