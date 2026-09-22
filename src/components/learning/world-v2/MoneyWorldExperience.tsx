@@ -59,6 +59,28 @@ function cx(...values: Array<string | false | null | undefined>) {
   return values.filter(Boolean).join(" ");
 }
 
+const WORLD_STAGE_AMBIENCE: Record<number, string[]> = {
+  1: ["🏠", "🎈", "🧃"],
+  2: ["🏪", "🤖", "🏷️"],
+  3: ["🥖", "🌱", "🚲"],
+  4: ["🛒", "💧", "🍎"],
+  5: ["🌳", "🐷", "🎯"],
+  6: ["🌱", "↗️", "🪙"],
+  7: ["🌉", "⬆️", "⬇️"],
+  8: ["🎪", "🎀", "🎉"]
+};
+
+function StageAmbience({ stageOrder }: { stageOrder: number }) {
+  const props = WORLD_STAGE_AMBIENCE[stageOrder] ?? [];
+  return (
+    <div className={styles.sceneDecor} aria-hidden>
+      {props.map((item, index) => (
+        <span key={item + index} data-decor-index={index}>{item}</span>
+      ))}
+    </div>
+  );
+}
+
 function useMoneyWorldProgress(childId: string) {
   const [progress, setProgress] = useState<MoneyWorldProgress>(EMPTY_PROGRESS);
   const [ready, setReady] = useState(false);
@@ -222,7 +244,7 @@ export function MoneyWorldMapScreen({ childId, worldId }: { childId: string; wor
           );
           const rowClass = index % 2 ? styles.stageRowRight : styles.stageRowLeft;
           return (
-            <div key={stage.id} className={cx(styles.stageRow, rowClass)}>
+            <div key={stage.id} className={cx(styles.stageRow, rowClass)} data-stage-order={stage.order}>
               {unlocked ? (
                 <Link href={mapBase + "/stage/" + stage.id} className={styles.stageLink}>{node}</Link>
               ) : (
@@ -1010,7 +1032,7 @@ function MoneyWorldStageRuntime({
   const percent = ((segmentIndex + 1) / segments.length) * 100;
 
   return (
-    <div className={styles.stageRuntime}>
+    <div className={styles.stageRuntime} data-stage-order={stage.order}>
       <div className={styles.stageProgressBar} aria-label={"Bagian " + (segmentIndex + 1) + " dari " + segments.length}>
         <span style={{ width: String(percent) + "%" }} />
       </div>
@@ -1018,9 +1040,15 @@ function MoneyWorldStageRuntime({
         <Link href={"/child/" + childId + "/world/" + MONEY_WORLD_ID} className={styles.roundBack} aria-label="Kembali ke peta">
           <ArrowLeft size={24} weight="bold" aria-hidden />
         </Link>
-        <div><small>{"Stage " + stage.order}</small><strong>{stage.title}</strong></div>
+        <div>
+          <small>{"Stage " + stage.order}</small>
+          <strong>{stage.title}</strong>
+          <span className={styles.locationPill}>{stage.locationLabel}</span>
+        </div>
         <span className={styles.stageCount}>{String(segmentIndex + 1) + "/" + segments.length}</span>
       </div>
+
+      <StageAmbience stageOrder={stage.order} />
 
       {segment.type === "activity" ? (
         <WorldActivity placement={segment.activity} onComplete={advance} />
