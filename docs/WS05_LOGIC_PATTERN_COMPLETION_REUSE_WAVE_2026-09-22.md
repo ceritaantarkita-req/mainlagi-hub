@@ -1,6 +1,6 @@
 # WS-05 Logic Pattern Completion Reuse Wave — 22 September 2026
 
-Status: **IN PROGRESS / SAFE CHECKPOINT**
+Status: **IMPLEMENTATION CHECKPOINT VERIFIED / PR #273 / MERGE PENDING**
 
 ## Scope lock
 
@@ -40,7 +40,7 @@ Logic choice_grid:          26
 activity quality:           KEEP 900
 ```
 
-Expected post-runtime result:
+Verified PR #273 implementation checkpoint:
 
 ```text
 activities:                900 / 900 classified
@@ -74,11 +74,41 @@ activity quality:           KEEP 900
 - mastery/progression/schema/database migration;
 - catalog expansion.
 
-## Checkpoint rule
+## Verification checkpoint
 
-If the wave cannot be closed in one session, leave this branch in a tested state and update this document with:
-- exact head SHA;
-- files changed;
-- tests passed/failed;
-- remaining blocker;
-- next safe command/action.
+Implementation checkpoint:
+
+```text
+PR:                         #273
+verified head:              ec050bf919ebe534a719ef22a37691248e1b233d
+PR CI:                      #1312 / run 35682142457 — full success
+activity quality:           KEEP 900 / 0 flagged
+gameplay distribution:      900/900 / 47 active / choice_grid 174 / pattern_completion 10
+Logic distribution:         choice_grid 21 / pattern_completion 5
+Logic browser QA:           PASS 320 / 390 / 768
+permanent visual baseline:  PASS / 63 exact-path captures
+mobile QA artifact:         10675830590
+distribution artifact:      10675775215
+activity-quality artifact:  10675555464
+```
+
+The first PR run (#1310) correctly failed two stale/test-harness assumptions:
+- gameplay distribution still asserted the pre-reuse `choice_grid=179` baseline;
+- the dedicated Logic browser QA had no legitimate Wave A progression evidence and redirected to the Logic subject page.
+
+Both were corrected without weakening progression:
+- the permanent distribution gate now asserts the audited post-reuse truth;
+- browser QA seeds the five real Wave A required activities plus qualifying evidence to unlock Wave B legitimately.
+
+Static regression verifies exact 10-ID family membership, exact five-ID Logic scope, canonical choice order/answer, fail-closed payload drift, grouped `● ●` one-step behavior, skill ownership and neighboring exclusions.
+
+## Current safe checkpoint
+
+The implementation itself is verified. This document update creates a new docs-only head, so final exact-head PR CI must pass again before merge.
+
+If the wave cannot be closed in one session:
+- keep PR #273 open;
+- do not merge unless its current exact head is fully green;
+- do not modify Mainlagi World;
+- do not resume character development;
+- after merge, wait for merged-main exact-SHA Cloudflare smoke and then record closure truth.
