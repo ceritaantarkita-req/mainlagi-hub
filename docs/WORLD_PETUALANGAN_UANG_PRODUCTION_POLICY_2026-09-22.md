@@ -357,7 +357,7 @@ Current World pilot remains:
 practice/completion-only
 ```
 
-The future World -> canonical Evidence bridge must be a separate architecture decision.
+The World -> canonical Evidence bridge is now specified as a **design-only, fail-closed v1 contract** in `WORLD_EVIDENCE_BRIDGE_ARCHITECTURE_2026-09-23.md`. It remains disabled and is not an activation decision.
 
 Do not let age adaptation or final art production become a shortcut around the existing learning-attempt/evidence contract.
 
@@ -387,10 +387,11 @@ Current ordered work:
 18. **DONE / GREEN / CHECKPOINTED** — accessibility semantics/focus/forced-colors pass validated in CI #1516 at `1a74e5da...`;
 19. **DONE / GREEN / CHECKPOINTED** — World-specific visual budgets + route-scoped background lazy-load boundary validated in the same CI #1516;
 20. **DONE / FROZEN** — combined non-audio checkpoint `checkpoint/world-petualangan-uang-non-audio-production-green-20260922` at `1a74e5da...`;
-21. **NEXT BOUNDARY** — no speculative World architecture work; continue only for a verified defect or separately authorized audio, art/character, or World -> Evidence scope;
-22. Gian/Naya visual character production remains paused;
-23. bespoke Stage/background art remains optional because current reused backgrounds are approved for the pilot;
-24. World -> Evidence bridge remains disabled until separately authorized.
+21. **DONE / DESIGN ONLY / DISABLED** — World -> Evidence v1 architecture is now explicit and fail-closed: 16/16 World activities audited, 2 unapproved Math candidates, 14 exclusions, direct `record_learning_attempt` reuse forbidden, no runtime/schema/write activation;
+22. **NEXT EVIDENCE BOUNDARY** — activation requires separate authorization for pedagogical mappings, age-8 handling, server-owned ingestion, progression/reward isolation and security regression;
+23. Gian/Naya visual character production remains paused;
+24. bespoke Stage/background art remains optional because current reused backgrounds are approved for the pilot;
+25. World -> Evidence runtime remains disabled until separately authorized.
 
 
 This policy is intentionally narrower than the long-term Mainlagi 3–12 ambition. It prevents the pilot runtime from drifting into an incoherent one-World-fits-all model.
