@@ -1,3 +1,4 @@
+import type { MoneyWorldNarrationKind } from "./moneyWorldNarration";
 import {
   MONEY_WORLD_NARRATION_PROVIDER_PILOT,
   MONEY_WORLD_NARRATION_PROVIDER_PILOT_CUE_IDS
@@ -28,7 +29,7 @@ export interface MoneyWorldNarrationReviewDimensionDefinition {
 export interface MoneyWorldNarrationCueReviewTemplate {
   cueId: string;
   speaker: "Gian" | "Naya";
-  kind: "narrative" | "concept" | "activity_prompt" | "payoff";
+  kind: MoneyWorldNarrationKind;
   text: string;
   textFingerprint: string;
   requiredDimensions: readonly MoneyWorldNarrationReviewDimension[];
