@@ -22,6 +22,7 @@ const world = require(path.join(outDir, "src", "lib", "learning", "world", "mone
 const worldStructure = require(path.join(outDir, "src", "lib", "learning", "world", "worldStructure.js"));
 const scenePresentation = require(path.join(outDir, "src", "lib", "learning", "world", "worldScenePresentation.js"));
 const moneyStructure = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldStructure.js"));
+const contentAudit = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldContentAudit.js"));
 const pilot = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldPilot.js"));
 const social = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldSocial.js"));
 const narration = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldNarration.js"));
@@ -72,6 +73,21 @@ try {
   );
   assert.equal(moneyStructure.MONEY_WORLD_STRUCTURE_VALIDATION.valid, true, moneyStructure.MONEY_WORLD_STRUCTURE_VALIDATION.errors.join("; "));
   assert.deepEqual(moneyStructure.MONEY_WORLD_STRUCTURE_VALIDATION.errors, []);
+  assert.equal(contentAudit.MONEY_WORLD_CONTENT_AUDIT_VERSION, "money-world-content-audit-v1");
+  assert.equal(contentAudit.MONEY_WORLD_CONTENT_AUDIT_VALIDATION.valid, true, contentAudit.MONEY_WORLD_CONTENT_AUDIT_VALIDATION.errors.join("; "));
+  assert.deepEqual(contentAudit.MONEY_WORLD_CONTENT_AUDIT_VALIDATION.errors, []);
+  assert.equal(contentAudit.MONEY_WORLD_CONTENT_AUDIT_SUMMARY.stages, 8);
+  assert.equal(contentAudit.MONEY_WORLD_CONTENT_AUDIT_SUMMARY.segments, 89);
+  assert.equal(contentAudit.MONEY_WORLD_CONTENT_AUDIT_SUMMARY.activities, 16);
+  assert.equal(contentAudit.MONEY_WORLD_CONTENT_AUDIT_SUMMARY.narrativeChoices, 1);
+  assert.equal(contentAudit.MONEY_WORLD_CONTENT_AUDIT_SUMMARY.recaps, 1);
+  assert.ok(contentAudit.MONEY_WORLD_CONTENT_AUDIT_SUMMARY.maxSpokenWords <= 18);
+  assert.ok(contentAudit.MONEY_WORLD_CONTENT_AUDIT_ROWS.every((row) => row.activityCount === 2), "each Stage must keep exactly two practice challenges");
+  assert.deepEqual(
+    contentAudit.MONEY_WORLD_CONTENT_FOCUS.map((entry) => entry.stageId),
+    world.MONEY_WORLD_STAGES.map((stage) => stage.id),
+    "content audit focus registry must follow canonical Stage order"
+  );
   for (const stage of world.MONEY_WORLD_STAGES) {
     for (const scene of moneyStructure.getMoneyWorldScenes(stage.id)) {
       const presentationForScene = scenePresentation.getWorldScenePresentation(scene.kind);
@@ -582,7 +598,7 @@ try {
       (narrationAssetRegression.stderr ?? "")
   );
 
-  console.log("Petualangan Uang canonical hierarchy, semantic Chapter navigation, polished Stage completion UX, reusable Scene renderer/presentation policy, eight-stage production manifest, dedicated public-safe social card, data-driven Stage visuals, fixed-narration production/review resolver, narration binary provenance gate, provider-neutral four-cue pilot review gate, linear progress, age policy/migration audit, fail-closed evidence audit, practice boundary, low-text language, recap, mascot-dummy runtime policy, asset plan, and financial-safety contracts passed.");
+  console.log("Petualangan Uang canonical hierarchy, semantic Chapter navigation, polished Stage completion UX, eight-stage content consistency audit, reusable Scene renderer/presentation policy, eight-stage production manifest, dedicated public-safe social card, data-driven Stage visuals, fixed-narration production/review resolver, narration binary provenance gate, provider-neutral four-cue pilot review gate, linear progress, age policy/migration audit, fail-closed evidence audit, practice boundary, low-text language, recap, mascot-dummy runtime policy, asset plan, and financial-safety contracts passed.");
 } finally {
   rmSync(outDir, { recursive: true, force: true });
 }
