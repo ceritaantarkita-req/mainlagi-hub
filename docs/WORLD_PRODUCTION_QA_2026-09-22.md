@@ -329,3 +329,39 @@ Mobile screenshots artifact:
 ```
 
 The required completion contract remains visible and responsive: ★★★, rotating praise, Back / Again / Next, then Share below.
+
+
+## 15. Production wave 14 — eight-Stage content consistency QA
+
+Machine-readable audit:
+
+```text
+src/lib/learning/world/moneyWorldContentAudit.ts
+money-world-content-audit-v1
+```
+
+The audit locks:
+
+```text
+8 canonical Stage focus rows
+89 Segments
+16 practice activities
+2 practice challenges per Stage
+1 Stage-8 open narrative choice
+1 Stage-8 recap
+<=18 spoken words per cue
+no factual guaranteed-return claim
+no Bermain motion dependency
+```
+
+Targeted continuity gates additionally lock the clearer inflation wording, Stage-6 saving bridge, Stage-7 uncertainty explanation, and Stage-8 post-choice arithmetic separation.
+
+Browser QA now waits for the explicit Stage-8 “latihan hitung lain” bridge after an open child choice.
+
+Detailed record:
+
+```text
+docs/WORLD_CONTENT_AUDIT_2026-09-22.md
+```
+
+CI status for this exact wave head must be recorded before freezing a content-audit checkpoint.
