@@ -1049,6 +1049,8 @@ function WorldStageCompletion({
               <a href={"https://wa.me/?text=" + encodedText} target="_blank" rel="noreferrer">WhatsApp</a>
               <a href={"https://t.me/share/url?url=" + encodedUrl + "&text=" + encodeURIComponent(shareText)} target="_blank" rel="noreferrer">Telegram</a>
               <a href={"https://twitter.com/intent/tweet?text=" + encodedText} target="_blank" rel="noreferrer">X</a>
+              <a href={"https://www.facebook.com/sharer/sharer.php?u=" + encodedUrl} target="_blank" rel="noreferrer">Facebook</a>
+              <a href={"https://www.threads.net/intent/post?text=" + encodedText} target="_blank" rel="noreferrer">Threads</a>
             </div>
             {copyStatus ? <p role="status">{copyStatus}</p> : null}
           </>
