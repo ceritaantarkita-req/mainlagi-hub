@@ -155,6 +155,8 @@ assert.match(worldProgress, /v_current_order > v_completed_count \+ 1/i, "World 
 assert.match(worldProgress, /for update/i, "World progress RPC must serialize existing progress before overwrite");
 assert.match(worldProgress, /v_completed_count < v_existing_completed_count/i, "World progress RPC must reject stale completion regressions");
 assert.match(worldProgress, /world completion regression rejected/i, "World progress regression failure must be explicit");
+assert.match(worldProgress, /where cardinality\(excluded\.completed_stage_ids\) >= cardinality\(public\.child_world_progress\.completed_stage_ids\)/i, "World progress upsert must reject a concurrent shorter prefix");
+assert.match(worldProgress, /if v_result\.account_id is null then[\s\S]*world completion regression rejected/i, "Concurrent World regression must fail closed after conflict filtering");
 assert.match(worldProgress, /pp\.id::text = p_child_key[\s\S]*pp\.account_id = v_account_id[\s\S]*pp\.deleted_at is null/i, "World progress RPC must enforce real child ownership");
 assert.match(worldProgress, /grant execute on function public\.save_world_progress[\s\S]*to authenticated, service_role/i, "World progress RPC execute grant must be explicit");
 assert.doesNotMatch(worldProgress, /insert into public\.child_learning_progress/i, "World progress must not forge canonical Belajar completion");
