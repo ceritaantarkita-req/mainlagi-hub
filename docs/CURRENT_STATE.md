@@ -1,8 +1,54 @@
 # Mainlagi Hub — Current State
 
-Last reviewed: **22 September 2026**
+Last reviewed: **23 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
+
+
+## 23 September isolated World → Evidence design closure
+
+A separate isolated World architecture branch now contains a **design-only, fail-closed World → Evidence v1 contract**. This is not merged production truth and does not activate evidence/mastery.
+
+```text
+branch: feature/world-evidence-bridge-contract-20260923
+PR:     #295 Draft / open / unmerged
+base:   feature/world-petualangan-uang-production-wave-20260922
+```
+
+Validated design checkpoint:
+
+```text
+checkpoint/world-evidence-bridge-contract-green-20260923
+@ 38bbe5704d4d63781410842cbf134dcb76c3ab54
+CI #1530 / run 35764121287 — full success
+```
+
+Validated docs-sync checkpoint:
+
+```text
+checkpoint/world-evidence-bridge-docs-green-20260923
+@ eb793f442cbee8d38f528cb5dbff0d15784a6200
+CI #1532 / run 35765390710 — full success
+```
+
+Current design truth:
+
+- World completion / ★★★ remain separate from canonical Belajar activity completion, skill evidence, mastery, stars, stage readiness and certificates.
+- all **16/16** current Petualangan Uang activity placements remain `practice`;
+- exactly **2** Math relationships are candidate-only/unapproved;
+- the remaining **14** are explicit exclusions;
+- no candidate has a canonical `learning_activity` mapping;
+- direct World use of `record_learning_attempt(...)` is forbidden because the current RPC also owns canonical Belajar completion/star side effects;
+- local/cloud learning-attempt writes, evidence writes, mastery recompute, Belajar progress/reward mutation, certificate mutation, schema migration and runtime hook remain disabled;
+- activation still requires explicit product authorization, pedagogical mapping approval, age-8 handling, a server-owned ingestion boundary, progression/reward isolation, and ownership/idempotency/replay/security regression coverage.
+
+Canonical isolated design docs:
+
+- `WORLD_EVIDENCE_BRIDGE_ARCHITECTURE_2026-09-23.md`;
+- `WORLD_EVIDENCE_BRIDGE_DESIGN_CLOSURE_2026-09-23.md`;
+- World checkpoint/policy/QA docs.
+
+Do not wire World runtime to the learning-attempt/evidence system from this branch without a separate activation decision.
 
 ## 22 September execution boundary — World untouched / Belajar WS-05 active
 

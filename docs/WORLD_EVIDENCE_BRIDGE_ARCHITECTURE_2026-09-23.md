@@ -469,3 +469,30 @@ This checkpoint validates the **architecture contract only**. It does not author
 PR #295 remains Draft and is a CI/review surface only.
 
 Do not move or force-push the checkpoint branch.
+
+
+## 20. Documentation handoff checkpoint
+
+The design implementation checkpoint remains immutable:
+
+```text
+checkpoint/world-evidence-bridge-contract-green-20260923
+@ 38bbe5704d4d63781410842cbf134dcb76c3ab54
+CI #1530 / run 35764121287
+```
+
+A later docs-only synchronization head was also validated and frozen before final handoff cleanup:
+
+```text
+checkpoint/world-evidence-bridge-docs-green-20260923
+@ eb793f442cbee8d38f528cb5dbff0d15784a6200
+CI #1532 / run 35765390710
+```
+
+The second checkpoint does not activate the bridge; it only synchronizes architecture/mastery/World documentation around the already-green v1 contract.
+
+Canonical compact handoff:
+
+```text
+docs/WORLD_EVIDENCE_BRIDGE_DESIGN_CLOSURE_2026-09-23.md
+```

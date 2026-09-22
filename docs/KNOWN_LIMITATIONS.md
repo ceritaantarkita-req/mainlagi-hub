@@ -1,6 +1,6 @@
 # Known Limitations
 
-Last reviewed: **22 September 2026**
+Last reviewed: **23 September 2026**
 
 This file describes current known limitations. Historical ZIP/build-environment limitations belong in historical audit documents and must not be treated as current production state.
 
@@ -18,6 +18,23 @@ Current known issues include:
 - activity variety needs to improve before expanding the catalog further.
 
 The canonical remediation plan is `NEXT_PRODUCT_QUALITY_PLAN.md`.
+
+## World → Evidence activation
+
+The World → Evidence architecture is now designed and regression-covered, but **activation remains intentionally disabled**.
+
+Current limitations/blockers:
+
+- all 16 Petualangan Uang activities are still authored as `practice`;
+- only 2 activities have candidate-only Math relationships, with no approved canonical `learning_activity` mapping;
+- 14 activities intentionally have no current canonical mastery mapping;
+- the canonical Belajar catalog currently tops out at age 7 while the World pilot targets ages 6–8;
+- no server-owned World evidence ingestion/canonicalization path exists yet;
+- the existing `record_learning_attempt(...)` RPC also mutates canonical Belajar completion/star state and therefore cannot be used directly by World;
+- pedagogy approval, progression/reward isolation, ownership/idempotency/replay protection and security regressions are still required before activation;
+- no SQL/RPC/schema/runtime hook is authorized by the design checkpoint.
+
+The current correct state is: **designed, fail-closed, disabled**. See `WORLD_EVIDENCE_BRIDGE_ARCHITECTURE_2026-09-23.md`.
 
 ## Stage progression vs activity gallery
 

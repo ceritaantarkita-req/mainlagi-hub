@@ -1,6 +1,6 @@
 # Mainlagi Hub Documentation Index
 
-Last reviewed: **22 September 2026**
+Last reviewed: **23 September 2026**
 
 Use this file to decide which documentation is current and which files are historical snapshots.
 
@@ -35,17 +35,19 @@ Subsystem docs remain authoritative for their specific scope when they do not co
 
 ## Active isolated World branch checkpoint — not production
 
-The current **Petualangan Uang** implementation is intentionally isolated on draft PR #272 and is not yet canonical production truth.
+Petualangan Uang remains isolated from canonical `main` across Draft review surfaces. PR #272 is the original World pilot surface, PR #282 is the later production-wave CI surface, and PR #295 is the design-only World → Evidence v1 surface. None of these Draft PRs is merge authorization or canonical production truth.
 
 Read:
 
 - [`WORLD_PETUALANGAN_UANG_SAFE_CHECKPOINT_2026-09-22.md`](WORLD_PETUALANGAN_UANG_SAFE_CHECKPOINT_2026-09-22.md) — known-green World code checkpoint, product/runtime contract, visual QA, privacy/progress boundaries, production gaps and restart instructions.
 - [`WORLD_PETUALANGAN_UANG_PRODUCTION_POLICY_2026-09-22.md`](WORLD_PETUALANGAN_UANG_PRODUCTION_POLICY_2026-09-22.md) — locks the 6–8 pilot presentation, forbids silent 3–12 runtime morphing, and tracks final art/audio/social-card production gaps.
 - [`WORLD_PETUALANGAN_UANG_EVIDENCE_BRIDGE_AUDIT_2026-09-22.md`](WORLD_PETUALANGAN_UANG_EVIDENCE_BRIDGE_AUDIT_2026-09-22.md) — fail-closed World → canonical Skill audit; only 2/16 activities are candidates and the bridge remains disabled.
+- [`WORLD_EVIDENCE_BRIDGE_ARCHITECTURE_2026-09-23.md`](WORLD_EVIDENCE_BRIDGE_ARCHITECTURE_2026-09-23.md) — validated v1 architecture contract: 16/16 World placements remain practice, 2 candidate-only Math relations, 14 exclusions, all writes/runtime hooks disabled.
+- [`WORLD_EVIDENCE_BRIDGE_DESIGN_CLOSURE_2026-09-23.md`](WORLD_EVIDENCE_BRIDGE_DESIGN_CLOSURE_2026-09-23.md) — compact handoff for the design-only bridge, checkpoints, blockers and next activation boundary.
 - [`WORLD_AGE_MIGRATION_AUDIT_2026-09-22.md`](WORLD_AGE_MIGRATION_AUDIT_2026-09-22.md) — audited profile/content/DB/runtime/test blockers between the 6–8 World pilot and the canonical 3–7 Belajar contract; no blanket 3–12 migration.
 - [`WORLD_PETUALANGAN_UANG_NARRATION_CONTRACT_2026-09-22.md`](WORLD_PETUALANGAN_UANG_NARRATION_CONTRACT_2026-09-22.md) — stable World narration cue IDs, deterministic future MP3 paths, speaker roles, and browser-speech fallback while fixed audio remains unproduced.
 
-Known-green base checkpoint: `checkpoint/world-petualangan-uang-green-20260922` @ `faaca0eba4cbf6a75dfabb5f261cbf8e98e0912b`. Latest visual-green checkpoint: `checkpoint/world-petualangan-uang-visual-green-20260922` @ `3b033405b41abcfab4c70d9db76265095ff7c5e2` (CI #1314). Newer policy-green checkpoint: `checkpoint/world-petualangan-uang-policy-green-20260922` @ `6aacda2adc52906c9a505096defd376df098d685`, verified by CI #1334 / run `35683630094` — full PR matrix success. Latest age/evidence-green checkpoint: `checkpoint/world-petualangan-uang-age-evidence-green-20260922` @ `f09c01dc54061cd3ce2d895bfa7f7477b9bf39c7`, CI #1352 / run `35684673952` full success. PR #272 remains **draft / not merged**.
+Known-green base checkpoint: `checkpoint/world-petualangan-uang-green-20260922` @ `faaca0eba4cbf6a75dfabb5f261cbf8e98e0912b`. Latest visual-green checkpoint: `checkpoint/world-petualangan-uang-visual-green-20260922` @ `3b033405b41abcfab4c70d9db76265095ff7c5e2` (CI #1314). Newer policy-green checkpoint: `checkpoint/world-petualangan-uang-policy-green-20260922` @ `6aacda2adc52906c9a505096defd376df098d685`, verified by CI #1334 / run `35683630094` — full PR matrix success. Latest age/evidence-green checkpoint: `checkpoint/world-petualangan-uang-age-evidence-green-20260922` @ `f09c01dc54061cd3ce2d895bfa7f7477b9bf39c7`, CI #1352 / run `35684673952` full success. PR #272 remains **draft / not merged**. Latest World → Evidence design checkpoint: `checkpoint/world-evidence-bridge-contract-green-20260923` @ `38bbe5704d4d63781410842cbf134dcb76c3ab54`, CI #1530 full success. Latest design-doc sync checkpoint: `checkpoint/world-evidence-bridge-docs-green-20260923` @ `eb793f442cbee8d38f528cb5dbff0d15784a6200`, CI #1532 full success. PR #295 remains **Draft / unmerged / bridge disabled**.
 
 ## Current project checkpoint — 22 September 2026
 
