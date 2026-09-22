@@ -380,9 +380,13 @@ Current ordered work:
 11. **DONE / GREEN / CHECKPOINTED** — permanent narration binary provenance gate blocks stray audio, rights gaps, unresolved disclosure, missing human review, invalid MP3 payloads and SHA-256 drift; CI #1411; checkpoint `checkpoint/world-petualangan-uang-narration-gate-green-20260922`;
 12. **DONE / GREEN / CHECKPOINTED** — exact four-cue Stage-1 provider/voice pilot scope validated by CI #1414 at `76443c05...`; checkpoint `checkpoint/world-petualangan-uang-provider-pilot-green-20260922`;
 13. **DONE / GREEN / CHECKPOINTED** — provider-neutral four-cue human listening review gate validated by CI #1429 at `a2e46c9c...`; checkpoint `checkpoint/world-petualangan-uang-provider-pilot-review-green-20260922`;
-14. **NEXT PRODUCT DECISION** — approve final narration voice identity/source/rights before the four-cue listening pilot may be generated;
-15. Gian/Naya visual character production remains paused;
-16. bespoke Stage/background art remains optional because current reused backgrounds are approved for the pilot;
-17. World -> Evidence bridge remains disabled until separately authorized.
+14. **DEFERRED WHILE NON-AUDIO WORK CONTINUES** — narration voice identity/source/rights decision remains required before the four-cue listening pilot may be generated;
+15. **DONE on isolated branch, CI pending** — semantic Chapter navigation replaces CSS-hardcoded Chapter banners and exposes Chapter progress on map + Stage shell;
+16. **NEXT NON-AUDIO PASS** — completion UX polish while preserving Back / Again / Next / Share contract;
+17. then run an eight-Stage content consistency audit;
+18. then accessibility + performance/lazy-load passes;
+19. Gian/Naya visual character production remains paused;
+20. bespoke Stage/background art remains optional because current reused backgrounds are approved for the pilot;
+21. World -> Evidence bridge remains disabled until separately authorized.
 
 This policy is intentionally narrower than the long-term Mainlagi 3–12 ambition. It prevents the pilot runtime from drifting into an incoherent one-World-fits-all model.
