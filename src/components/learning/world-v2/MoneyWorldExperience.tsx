@@ -19,6 +19,7 @@ import {
   type DragEvent
 } from "react";
 import { CharacterAvatar } from "@/components/learning/LearningCommon";
+import { MONEY_WORLD_PILOT_AGE_BAND } from "@/lib/learning/world/moneyWorldPresentation";
 import { audioStatus, playTone, speakPrompt, unlockAudio, warmAudio, type SpeechStartStatus } from "@/lib/audio/feedback";
 import {
   MONEY_WORLD_ID,
@@ -187,7 +188,7 @@ export function WorldCatalogScreen({ childId }: { childId: string }) {
       <Link className={styles.worldCard} href={cardHref}>
         <WorldHero compact />
         <div className={styles.worldCardMeta}>
-          <span>Usia rekomendasi 6–8</span>
+          <span data-world-age-policy={"pilot-" + MONEY_WORLD_PILOT_AGE_BAND.id}>{"Usia rekomendasi " + MONEY_WORLD_PILOT_AGE_BAND.label}</span>
           <span>{state.ready ? String(completed) + "/8 Stage selesai" : "Memuat progres…"}</span>
           <strong data-world-catalog-cta>{cta}</strong>
         </div>
