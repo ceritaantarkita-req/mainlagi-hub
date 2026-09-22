@@ -5,6 +5,7 @@ import { pictureWordMatchConfig } from "./pictureWordMatchConfig";
 import { numberLineConfig } from "./numberLineConfig";
 import { makeTotalConfig } from "./makeTotalConfig";
 import { takeAwayConfig } from "./takeAwayConfig";
+import { patternCompletionConfig } from "./patternCompletionConfig";
 import { isReadingPassageQuestionActivity } from "./readingPassageQuestionConfig";
 import { isSentenceOrderCardsActivity } from "./sentenceOrderCardsConfig";
 import { isVisualWordProblemActivity } from "./visualWordProblemConfig";
@@ -192,13 +193,6 @@ const MATH_MORE_LESS_BALANCE_IDS = new Set([
   "math-compare-more-10-8"
 ]);
 
-const MATH_PATTERN_COMPLETION_IDS = new Set([
-  "math-pattern-ab-shapes",
-  "math-pattern-aab-colors",
-  "math-pattern-number-step-one",
-  "math-pattern-number-step-two",
-  "math-pattern-size"
-]);
 
 const MATH_EQUAL_GROUPS_IDS = new Set([
   "math-group-6-by-2",
@@ -387,15 +381,7 @@ export function choiceGameplayPresentation(activity: LearningActivity | undefine
     Boolean(activity.prompt);
   if (isReviewedMathComparisonFamily) return "more_less_balance";
 
-  const isReviewedMathPatternFamily =
-    activity.subjectId === "math" &&
-    activity.stageId === "math-banding-bentuk" &&
-    MATH_PATTERN_COMPLETION_IDS.has(activity.id) &&
-    choices.length === 3 &&
-    new Set(choices).size === choices.length &&
-    choices.includes(correct) &&
-    Boolean(activity.prompt);
-  if (isReviewedMathPatternFamily) return "pattern_completion";
+  if (patternCompletionConfig(activity)) return "pattern_completion";
 
   if (makeTotalConfig(activity)) return "make_total";
 
