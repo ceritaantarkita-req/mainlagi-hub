@@ -1536,3 +1536,43 @@ docs/WORLD_ACCESSIBILITY_PASS_2026-09-22.md
 No narration generation, final character production, Belajar, Bermain/motion, SQL schema, mastery/evidence, or progression persistence is changed.
 
 Checkpoint rule: validate the exact accessibility-wave head through Draft PR #282. If fully green, freeze a new immutable accessibility checkpoint. Until then, the latest safe green rollback remains `checkpoint/world-petualangan-uang-completion-ux-green-20260922`.
+
+
+## 45. Production wave 16 — performance/lazy-load checkpoint candidate
+
+The active production branch now includes a World-specific performance/lazy-load pass.
+
+Static QA budgets:
+
+```text
+single approved reused visual <= 80 KiB
+approved reused visual library <= 600 KiB
+Stage-shell wordmark <= 40 KiB
+map core artwork <= 230 KiB
+single Stage shell artwork set <= 190 KiB
+```
+
+Browser network QA now verifies:
+
+```text
+World map (320/430):
+no Stage-specific /artwork/backgrounds/math/* requests
+
+Stage 1 mobile (390):
+playground-park-mobile.webp requested
+playground-park-wide.webp not requested
+mini-market-* not requested
+number-park-* not requested
+```
+
+The pass deliberately avoids changing shared `CharacterAvatar` / Belajar code because the current approved mascot assets are already small and no cross-product rewrite is justified.
+
+Detailed record:
+
+```text
+docs/WORLD_PERFORMANCE_LAZY_LOAD_2026-09-22.md
+```
+
+No narration generation, final character production, Belajar, Bermain/motion, SQL schema, mastery/evidence, or World progression changes are introduced.
+
+Checkpoint rule: validate the exact wave-16 head through Draft PR #282. If fully green, freeze a new immutable non-audio production checkpoint. Until then, the latest immutable green rollback remains `checkpoint/world-petualangan-uang-completion-ux-green-20260922`.
