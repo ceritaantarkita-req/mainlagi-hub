@@ -1390,3 +1390,32 @@ This checkpoint freezes:
 Do not move or force-push this checkpoint branch.
 
 Audio generation remains deferred. PR #282 remains Draft and is not merge authorization. PR #272 remains Draft and untouched. Character production remains paused. World -> Belajar evidence remains disabled.
+
+
+## 41. Production wave 13 — Stage completion UX checkpoint candidate
+
+The active World production branch now has canonical Chapter-aware Stage completion UX.
+
+Changes:
+
+- completion exposes Stage, Chapter and final-World identity;
+- context shows `Chapter N · Stage N/8`;
+- Chapter milestone is derived from canonical `chapter.stageIds`, not Stage-4 hardcoding;
+- Stage 4 closes Chapter 1;
+- Stage 8 closes Chapter 2 and final World state;
+- non-final copy names the exact Stage that unlocks;
+- Back / Again / Next remain together;
+- Share remains below them;
+- narrow mobile layout uses one compact three-action navigation row.
+
+Static/browser QA locks the completion contract across all eight Stages plus 320/430 geometry.
+
+Detailed record:
+
+```text
+docs/WORLD_COMPLETION_UX_POLISH_2026-09-22.md
+```
+
+No narration generation, final character production, Belajar, Bermain/motion, SQL schema, mastery/evidence, or progression persistence is changed.
+
+Checkpoint rule: validate this exact wave head through Draft PR #282. If fully green, freeze a new immutable completion-UX checkpoint without moving earlier checkpoints.
