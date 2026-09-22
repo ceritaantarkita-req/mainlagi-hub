@@ -1346,3 +1346,47 @@ docs/WORLD_VISUAL_NAVIGATION_POLISH_2026-09-22.md
 No audio generation, provider selection, final character art, Belajar, Bermain/motion, SQL schema, mastery/evidence, or World progression contract is changed.
 
 Checkpoint rule: validate this exact wave head through Draft PR #282. If fully green, freeze a new immutable visual-navigation checkpoint without moving earlier checkpoints.
+
+
+## 40. Visual-navigation green checkpoint — CI #1457
+
+Production wave 12 is green and frozen after semantic Chapter navigation plus the 320px map-hero refinement.
+
+```text
+head:   55505f17d08a3a0218e142a7a9d637ba561f75fe
+CI:     #1457 / run 35747546100
+branch: checkpoint/world-petualangan-uang-visual-nav-polish-green-20260922
+```
+
+Full matrix:
+
+```text
+Quality gate (Ubuntu):        PASS
+Windows compatibility:        PASS
+Production build:             PASS
+Production dependency audit:  PASS
+Secret history scan:          PASS
+Mobile route QA (Chromium):   PASS
+overall:                      SUCCESS
+```
+
+Relevant artifact:
+
+```text
+mobile-route-qa-screenshots — 10703377795
+```
+
+Manual screenshot review found and fixed one narrow visual issue: at 320px the compact map hero previously split `Petualangan` across two fragments, producing a three-line title. The final validated CSS keeps `Petualangan Uang` within two readable lines and the browser matrix now locks that condition.
+
+This checkpoint freezes:
+
+- semantic Chapter 1/2 map banners;
+- dynamic Chapter completion counts;
+- Stage-shell Chapter identity/title;
+- no CSS pseudo-content Chapter titles;
+- 320/430 Chapter-map containment QA;
+- two-line compact map-hero title QA.
+
+Do not move or force-push this checkpoint branch.
+
+Audio generation remains deferred. PR #282 remains Draft and is not merge authorization. PR #272 remains Draft and untouched. Character production remains paused. World -> Belajar evidence remains disabled.
