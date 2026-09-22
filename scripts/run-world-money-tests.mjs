@@ -28,6 +28,7 @@ const narration = require(path.join(outDir, "src", "lib", "learning", "world", "
 const narrationProduction = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldNarrationProduction.js"));
 const narrationPlan = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldNarrationPlan.js"));
 const narrationPilot = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldNarrationPilot.js"));
+const narrationReview = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldNarrationReview.js"));
 const ageMigration = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldAgeMigrationAudit.js"));
 const evidenceBridge = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldEvidenceBridge.js"));
 const presentation = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldPresentation.js"));
@@ -254,6 +255,50 @@ try {
     ["activity_prompt", "concept", "narrative", "payoff"],
     "provider pilot must cover four representative narration use cases"
   );
+  assert.equal(narrationReview.MONEY_WORLD_NARRATION_REVIEW_VERSION, "money-world-narration-review-v1");
+  assert.equal(narrationReview.MONEY_WORLD_NARRATION_REVIEW_VALIDATION.valid, true, narrationReview.MONEY_WORLD_NARRATION_REVIEW_VALIDATION.errors.join("; "));
+  assert.deepEqual(narrationReview.MONEY_WORLD_NARRATION_REVIEW_VALIDATION.errors, []);
+  assert.equal(narrationReview.MONEY_WORLD_NARRATION_REVIEW_DIMENSIONS.length, 9, "pilot review must keep nine blocking dimensions");
+  assert.ok(narrationReview.MONEY_WORLD_NARRATION_REVIEW_DIMENSIONS.every((dimension) => dimension.blocking === true));
+  assert.deepEqual(
+    narrationReview.MONEY_WORLD_NARRATION_PROVIDER_PILOT_REVIEW_TEMPLATES.map((template) => template.cueId),
+    narrationPilot.MONEY_WORLD_NARRATION_PROVIDER_PILOT_CUE_IDS,
+    "review templates must follow the exact four-cue pilot order"
+  );
+  const pendingPilotReview = narrationReview.createPendingMoneyWorldNarrationPilotReviewRecords();
+  const pendingPilotReviewValidation = narrationReview.validateMoneyWorldNarrationPilotReviewRecords(pendingPilotReview);
+  assert.equal(pendingPilotReviewValidation.valid, true);
+  assert.equal(pendingPilotReviewValidation.accepted, false, "pending human review must never count as accepted");
+  const fullyPassedPilotReview = pendingPilotReview.map((record) => ({
+    ...record,
+    reviewer: "fixture-reviewer",
+    reviewedAt: "2026-09-22T00:00:00.000Z",
+    decisions: Object.fromEntries(
+      narrationReview.MONEY_WORLD_NARRATION_REVIEW_DIMENSION_IDS.map((dimension) => [dimension, "pass"])
+    )
+  }));
+  const fullyPassedPilotValidation = narrationReview.validateMoneyWorldNarrationPilotReviewRecords(fullyPassedPilotReview);
+  assert.equal(fullyPassedPilotValidation.valid, true);
+  assert.equal(fullyPassedPilotValidation.accepted, true, "all four cues must pass all dimensions before pilot review can be accepted");
+  const failedPilotReview = structuredClone(fullyPassedPilotReview);
+  failedPilotReview[0].decisions.pronunciation = "fail";
+  assert.equal(
+    narrationReview.validateMoneyWorldNarrationPilotReviewRecords(failedPilotReview).accepted,
+    false,
+    "one blocking dimension failure must reject pilot acceptance"
+  );
+  const stalePilotReview = structuredClone(fullyPassedPilotReview);
+  stalePilotReview[0].textFingerprint = "fnv1a32-stale";
+  assert.equal(
+    narrationReview.validateMoneyWorldNarrationPilotReviewRecords(stalePilotReview).valid,
+    false,
+    "stale copy fingerprint must invalidate human review"
+  );
+  assert.equal(
+    narrationReview.validateMoneyWorldNarrationPilotReviewRecords(fullyPassedPilotReview.slice(0, 3)).valid,
+    false,
+    "partial review scope must fail closed"
+  );
   assert.deepEqual(
     narrationPlan.MONEY_WORLD_NARRATION_STAGE_BATCHES.map((batch) => batch.stageId),
     world.MONEY_WORLD_STAGES.map((stage) => stage.id),
@@ -296,6 +341,7 @@ try {
   const narrationPlaybackSource = readFileSync(path.join(root, "src/lib/learning/world/moneyWorldNarrationPlayback.ts"), "utf8");
   const narrationBatchToolSource = readFileSync(path.join(root, "scripts/prepare-world-money-narration-batch.mjs"), "utf8");
   const narrationProviderPilotToolSource = readFileSync(path.join(root, "scripts/prepare-world-money-narration-provider-pilot.mjs"), "utf8");
+  const narrationReviewSheetToolSource = readFileSync(path.join(root, "scripts/prepare-world-money-narration-review-sheet.mjs"), "utf8");
   assert.match(narrationRuntimeSource, /playMoneyWorldNarration/, "World runtime must route narration through the fixed-audio resolver");
   assert.doesNotMatch(narrationRuntimeSource, /\bspeakPrompt\s*\(/, "World runtime must not bypass fixed-audio resolution with direct browser speech");
   assert.match(narrationPlaybackSource, /resolveMoneyWorldNarrationProductionSrc/, "playback adapter must resolve reviewed fixed assets");
@@ -305,6 +351,8 @@ try {
   assert.match(narrationBatchToolSource, /--stage=/, "narration packet tool must support Stage-scoped production batches");
   assert.match(narrationProviderPilotToolSource, /STOP: provider\/voice decision is not approved/, "provider pilot packet must remain explicitly generation-blocked");
   assert.doesNotMatch(narrationProviderPilotToolSource, /OPENAI_API_KEY|api\.openai\.com|fetch\s*\(/, "provider pilot preparation must remain provider-neutral and offline");
+  assert.match(narrationReviewSheetToolSource, /every one of the four cues passes every blocking dimension/, "review sheet must state the all-cues/all-dimensions acceptance rule");
+  assert.doesNotMatch(narrationReviewSheetToolSource, /OPENAI_API_KEY|api\.openai\.com|fetch\s*\(/, "human-review sheet preparation must remain provider-neutral and offline");
 
   assert.equal(world.MONEY_WORLD_CHAPTERS.length, 2, "money dummy must keep two chapters");
   assert.equal(world.MONEY_WORLD_STAGES.length, 8, "money dummy must keep eight stages");
@@ -519,7 +567,7 @@ try {
       (narrationAssetRegression.stderr ?? "")
   );
 
-  console.log("Petualangan Uang canonical hierarchy, reusable Scene renderer/presentation policy, eight-stage production manifest, dedicated public-safe social card, data-driven Stage visuals, fixed-narration production/review resolver, narration binary provenance gate, linear progress, age policy/migration audit, fail-closed evidence audit, practice boundary, low-text language, recap, mascot-dummy runtime policy, asset plan, and financial-safety contracts passed.");
+  console.log("Petualangan Uang canonical hierarchy, reusable Scene renderer/presentation policy, eight-stage production manifest, dedicated public-safe social card, data-driven Stage visuals, fixed-narration production/review resolver, narration binary provenance gate, provider-neutral four-cue pilot review gate, linear progress, age policy/migration audit, fail-closed evidence audit, practice boundary, low-text language, recap, mascot-dummy runtime policy, asset plan, and financial-safety contracts passed.");
 } finally {
   rmSync(outDir, { recursive: true, force: true });
 }
