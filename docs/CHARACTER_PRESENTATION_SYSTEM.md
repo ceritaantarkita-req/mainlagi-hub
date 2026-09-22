@@ -1,6 +1,6 @@
 # Activity Character Presentation System — 21 September 2026
 
-Status: **FOUNDATION MERGED / LIVE VERIFIED / HUMAN PRODUCTION ASSETS NOT YET ACTIVATED**
+Status: **FOUNDATION MERGED / LIVE VERIFIED / HUMAN PRODUCTION ASSETS NOT YET ACTIVATED / CHARACTER DEVELOPMENT PAUSED**
 
 This document defines how Mainlagi activity characters sit above the now-live subject-background system.
 
@@ -134,11 +134,13 @@ Merged-main CI **#1190 / run `35589937017`** passed the quality gate, production
 
 This closes the architecture/fail-closed foundation. It does **not** approve Naya/Gian/Zia artwork for runtime.
 
-## Next gate
+## Paused gate / resume conditions
 
-The production asset directory, machine-readable provenance registry, and blocking character-asset validator are now defined as the pre-activation gate. No human production binary is approved or activated by that infrastructure alone.
+The production asset directory, machine-readable provenance registry, and blocking character-asset validator remain the pre-activation gate. No human production binary is approved or activated by that infrastructure alone.
 
-Execute the human-character production wave in this order:
+**Character production/development is currently paused by the project owner. Do not execute the steps below until an explicit resume instruction is given. Mainlagi World is developed separately and is not part of this character workstream.**
+
+When explicitly resumed, execute the human-character production wave in this order:
 
 1. lock the production character specification against the reviewed Naya/Gian/Zia design sheets;
 2. create isolated transparent full-body runtime assets with stable scale, silhouette, pose and identity;
@@ -151,4 +153,4 @@ Execute the human-character production wave in this order:
 
 The **five-character homepage hero is a separate composition task**. It should use the same approved production identities, but it must not be treated as the source asset for activity foreground characters or finalized from unapproved human-character sprites.
 
-After this gate closes, the next product-quality work is English narration quality, learning-illustration consistency, and broader human/physical-device acceptance.
+The paused character gate does not block separately approved Mainlagi Belajar work such as English narration quality, learning-illustration consistency, public/parent information architecture cleanup, or external physical-device acceptance. Any such work should be opened as its own scoped wave.
