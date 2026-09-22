@@ -212,6 +212,10 @@
   background: linear-gradient(90deg, #58ae79, #4a99d8);
 }
 
+.sceneDone .promptCard {
+  display: none;
+}
+
 @media (max-width: 560px) {
   .scene {
     gap: 10px;
@@ -262,10 +266,6 @@
 
   .sceneDone {
     gap: 8px;
-  }
-
-  .sceneDone .promptCard {
-    display: none;
   }
 }
 
