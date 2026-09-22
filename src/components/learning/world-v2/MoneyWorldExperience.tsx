@@ -1104,7 +1104,18 @@ function WorldStageCompletion({
   const praiseByStage = ["Awesome!", "Hebat!", "Good job!", "Excellent!", "Keren!", "Bagus sekali!", "Mantap!", "Luar biasa!"];
   const praise = stage ? praiseByStage[Math.max(0, Math.min(praiseByStage.length - 1, stage.order - 1))] : "Awesome!";
   const finalStage = stage?.order === MONEY_WORLD_STAGES.length;
-  const chapterOneComplete = stage?.order === 4;
+  const chapterIndex = stage ? MONEY_WORLD_CHAPTERS.findIndex((chapter) => chapter.id === stage.chapterId) : -1;
+  const chapter = chapterIndex >= 0 ? MONEY_WORLD_CHAPTERS[chapterIndex] : null;
+  const chapterComplete = Boolean(chapter && chapter.stageIds.at(-1) === stageId);
+  const chapterRewardLabel = chapterIndex === 0 ? "Pilih Pintar" : "Festival Siap";
+  const completionContext = stage && chapter
+    ? "Chapter " + String(chapterIndex + 1) + " · Stage " + String(stage.order) + "/" + String(MONEY_WORLD_STAGES.length)
+    : "Stage selesai";
+  const completionMessage = finalStage
+    ? "Petualangan Uang selesai. Festival Mainlagi siap!"
+    : chapterComplete
+      ? "Chapter " + String(chapterIndex + 1) + " selesai. Stage " + String(next?.order ?? stage?.order ?? "") + " sekarang terbuka."
+      : (stage?.title ?? "Stage") + " selesai. Stage " + String(next?.order ?? "") + " sekarang terbuka.";
   const shareText = finalStage
     ? "⭐⭐⭐ Petualangan Uang selesai. Festival Mainlagi siap!"
     : "⭐⭐⭐ Stage “" + (stage?.title ?? "Petualangan Uang") + "” selesai di Mainlagi!";
@@ -1127,26 +1138,35 @@ function WorldStageCompletion({
   const encodedUrl = encodeURIComponent(shareUrl);
 
   return (
-    <section className={styles.completion} aria-labelledby="world-stage-complete-title">
+    <section
+      className={styles.completion}
+      aria-labelledby="world-stage-complete-title"
+      data-world-completion-stage={stageId}
+      data-world-completion-chapter={chapter?.id ?? ""}
+      data-world-completion-final={finalStage ? "true" : "false"}
+    >
       <div className={styles.completionCard}>
-        <span className={styles.eyebrow}>Stage selesai</span>
+        <span className={styles.eyebrow} data-world-completion-context>{completionContext}</span>
         <h2 id="world-stage-complete-title">{praise}</h2>
         <div className={styles.completionStars} aria-label="Tiga bintang">
           {[0, 1, 2].map((index) => (
             <Star key={index} size={58} weight="fill" aria-hidden style={{ animationDelay: String(index * 140) + "ms" }} />
           ))}
         </div>
-        {chapterOneComplete ? (
-          <div className={styles.chapterReward}>
+        {chapterComplete && chapter ? (
+          <div
+            className={styles.chapterReward}
+            data-world-completion-chapter-milestone={chapter.id}
+          >
             <span aria-hidden>🏅</span>
             <div>
-              <strong>Chapter 1 selesai</strong>
-              <small>Pilih Pintar</small>
+              <strong>{"Chapter " + String(chapterIndex + 1) + " selesai"}</strong>
+              <small>{chapterRewardLabel}</small>
             </div>
           </div>
         ) : null}
-        <p>{finalStage ? "Petualangan Uang selesai. Festival Mainlagi siap!" : stage?.title + " selesai. Stage berikutnya sekarang terbuka."}</p>
-        <div className={styles.completionActions}>
+        <p data-world-completion-message>{completionMessage}</p>
+        <div className={styles.completionActions} aria-label="Navigasi setelah Stage selesai">
           <Link href={mapHref}><ArrowLeft size={21} weight="bold" aria-hidden />Back</Link>
           <button type="button" onClick={onAgain}><ArrowClockwise size={21} weight="bold" aria-hidden />Again</button>
           <Link href={nextHref}><ArrowRight size={21} weight="bold" aria-hidden />Next</Link>
