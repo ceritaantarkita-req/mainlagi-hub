@@ -8,7 +8,9 @@ import { useLearningProgressState } from "./LearningCommon";
 import { useLearningAnalyticsState } from "./useLearningAnalytics";
 
 function stageFromPath(pathname: string): string | null {
-  const match = pathname.match(/\/stage\/([^/]+)/);
+  // Belajar owns only the direct /child/:id/stage/:stageId route. World has
+  // its own independent progression under /child/:id/world/:worldId/stage/:stageId.
+  const match = pathname.match(/^\/child\/[^/]+\/stage\/([^/]+)(?:\/|$)/);
   return match?.[1] ? decodeURIComponent(match[1]) : null;
 }
 
