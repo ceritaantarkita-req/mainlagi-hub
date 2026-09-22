@@ -1,12 +1,12 @@
 # Learning Visual Containment Closure — 23 September 2026
 
-Status: **IMPLEMENTATION MERGED / MERGED-MAIN VERIFICATION IN PROGRESS**
+Status: **CLOSED / MERGED / LIVE VERIFIED**
 
 Implementation PR: **#294**  
 Final PR head: `38fe722a63fe073a6ad3ffcfe8fa0e846559dff6`  
 PR CI: **#1529 / run `35763091032` — FULL SUCCESS**  
 Merged implementation main: `6d0f9bd8972297e316bdf031603d160d901d8d04`  
-Merged-main CI: **#1531 / run `35764397545` — IN PROGRESS at checkpoint creation**
+Merged-main CI: **#1531 / run `35764397545` — FULL SUCCESS + exact Cloudflare smoke**
 
 Parent audit:
 - PR **#287**
@@ -179,11 +179,29 @@ This implementation does not authorize changes to:
 
 WS-05 remains closed at 900/900 activities / 47 active patterns, and Pattern #48 remains unjustified.
 
-## 9. Finalization condition
+## 9. Final production verification
 
-Update this document to **CLOSED / MERGED / LIVE VERIFIED** only after:
+Merged-main CI **#1531 / run `35764397545`** completed with all required jobs successful:
 
-1. merged-main CI #1531 is fully successful; and
-2. exact-SHA Cloudflare production smoke confirms `6d0f9bd8972297e316bdf031603d160d901d8d04`.
+- Production dependency audit;
+- Secret history scan;
+- Production build;
+- Quality gate Ubuntu;
+- Windows compatibility;
+- Mobile route QA Chromium;
+- Production smoke Cloudflare.
 
-Until then, this document is the safe post-merge checkpoint, not final production closure.
+Exact production smoke confirmed:
+
+```text
+EXPECTED_SHA: 6d0f9bd8972297e316bdf031603d160d901d8d04
+branch: main
+site: https://mainlagihub.my.id
+data backend: supabase
+modules: 9
+result: production is serving the expected commit
+```
+
+The containment foundation is therefore **CLOSED / MERGED / LIVE VERIFIED**.
+
+The next open item is semantic illustration clarity/provenance, not more containment infrastructure.
