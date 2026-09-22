@@ -4,6 +4,7 @@ import { createRequire } from "node:module";
 import { spawnSync } from "node:child_process";
 import path from "node:path";
 import process from "node:process";
+import { validateWorldMoneyNarrationAssetGate } from "./world-money-narration-asset-gate.mjs";
 
 const root = process.cwd();
 const outDir = path.join(root, ".learning-test-dist");
@@ -473,7 +474,28 @@ try {
     "current background reuse must remain explicitly approved in the pilot manifest"
   );
 
-  console.log("Petualangan Uang canonical hierarchy, reusable Scene renderer/presentation policy, eight-stage production manifest, dedicated public-safe social card, data-driven Stage visuals, fixed-narration production/review resolver, linear progress, age policy/migration audit, fail-closed evidence audit, practice boundary, low-text language, recap, mascot-dummy runtime policy, asset plan, and financial-safety contracts passed.");
+  const narrationAssetGate = validateWorldMoneyNarrationAssetGate({
+    root,
+    entries: narrationProduction.MONEY_WORLD_NARRATION_PRODUCTION_ENTRIES,
+    expectedCount: 88
+  });
+  assert.equal(narrationAssetGate.valid, true, narrationAssetGate.errors.join("; "));
+  assert.equal(narrationAssetGate.approvedPaths.length, 0, "no fixed World narration binary is approved yet");
+
+  const narrationAssetRegression = spawnSync(
+    process.execPath,
+    [path.join(root, "scripts", "run-world-money-narration-asset-validator-tests.mjs")],
+    { cwd: root, encoding: "utf8" }
+  );
+  assert.equal(
+    narrationAssetRegression.status,
+    0,
+    "World narration asset-gate regression failed:\n" +
+      (narrationAssetRegression.stdout ?? "") +
+      (narrationAssetRegression.stderr ?? "")
+  );
+
+  console.log("Petualangan Uang canonical hierarchy, reusable Scene renderer/presentation policy, eight-stage production manifest, dedicated public-safe social card, data-driven Stage visuals, fixed-narration production/review resolver, narration binary provenance gate, linear progress, age policy/migration audit, fail-closed evidence audit, practice boundary, low-text language, recap, mascot-dummy runtime policy, asset plan, and financial-safety contracts passed.");
 } finally {
   rmSync(outDir, { recursive: true, force: true });
 }
