@@ -266,9 +266,9 @@ The live harness preserves the original checkpoint boundary: exact four-item pil
 Actual candidate generation/human listening is still open. This repository wave generated **0 audio candidates**, so all 27 canonical registry slots remain `review-required`.
 
 
-## 11. Active human-review gate wave
+## 11. Closed human-review gate wave
 
-A fail-closed human-review gate is now implemented on the active WS-02 branch and must pass CI/merge/live verification before operator use is treated as canonical.
+The fail-closed human-review gate is now **MERGED / LIVE VERIFIED** through PR #285.
 
 Canonical new record:
 
@@ -302,3 +302,14 @@ runtime static audio:          NOT ACTIVATED
 ```
 
 The tool cannot mutate the production registry, copy candidate audio into `public/`, or activate runtime playback.
+
+Verification checkpoint:
+
+```text
+PR #285 head:         6e2a22057abb59c4bf6fc0f3298cd92e32de6463
+PR CI:                #1412 / run 35724918622 — full success
+merged main:          dd84579624212b387a4e54dc93a5892c04de83d6
+merged-main CI:       #1415 / run 35725713601 — full success + exact Cloudflare production smoke
+```
+
+Next safe step is actual exact-four candidate generation + human listening; production approval and runtime activation remain later separate gates.
