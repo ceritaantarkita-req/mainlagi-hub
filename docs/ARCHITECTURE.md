@@ -166,6 +166,39 @@ Core learning ownership/security migrations `0001–0007` remain part of the fou
 
 See `LEARNING_ATTEMPTS_MASTERY.md`.
 
+## 6A. World → Evidence bridge — design-only / disabled
+
+Petualangan Uang and Belajar remain separate progression domains.
+
+The approved architecture contract is:
+
+```text
+World runtime
+  -> WorldEvidenceObservation
+      -> future server-owned World Evidence Gate
+          -> approved source/skill mapping
+              -> validated measured evaluator
+                  -> evidence-only canonical write boundary
+                      -> canonical skill evidence / mastery
+```
+
+The bridge is currently `design-only-disabled`.
+
+Hard invariants:
+
+- World ★★★ never equals mastery;
+- World Stage completion never equals Belajar activity completion;
+- a measurable mechanic does not override a World activity's `practice` classification;
+- clients cannot select target skills or promote `practice -> assessed`;
+- the current `record_learning_attempt` RPC is not a safe direct World target because it also owns Belajar completion/star side effects;
+- a future active bridge must preserve `progressionEffect = none` and `rewardEffect = none` unless separately authorized;
+- World age 8 remains blocked by the current canonical Belajar age-3–7 contract;
+- no financial-literacy skill family is invented implicitly.
+
+Current candidate audit: 2 unapproved Math candidates / 14 explicit exclusions across the 16 World activity placements.
+
+See `WORLD_EVIDENCE_BRIDGE_ARCHITECTURE_2026-09-23.md`.
+
 ## 7. Progression vs presentation
 
 The **data model remains stage/progression-based**.
