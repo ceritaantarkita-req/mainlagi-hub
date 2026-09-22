@@ -175,6 +175,19 @@ try {
   assert.match(worldRuntimeCss, /Production wave 13: Stage completion UX polish/, "World CSS must retain completion UX polish");
   assert.match(worldRuntimeCss, /\.completionActions\s*\{[\s\S]*grid-template-columns:\s*repeat\(3,\s*minmax\(0,\s*1fr\)\)/, "completion navigation must remain one compact three-action row on mobile");
   assert.match(worldRuntimeCss, /\.shareButton\s*\{[\s\S]*width:\s*min\(590px,\s*100%\)/, "Share must remain a separate full completion action below navigation");
+  assert.match(worldRuntimeSource, /role="progressbar"/, "Stage progress must expose progressbar semantics");
+  assert.match(worldRuntimeSource, /aria-valuenow=\{segmentIndex \+ 1\}/, "Stage progress must expose current Segment position");
+  assert.match(worldRuntimeSource, /aria-current=\{stage\.id === nextJourneyStageId \? "step"/, "journey map must expose the current Stage semantically");
+  assert.match(worldRuntimeSource, /completionTitleRef\.current\?\.focus\(\)/, "Stage completion must move focus to its completion heading");
+  assert.match(worldRuntimeSource, /role="img" aria-label=\{startCount \+ " token, " \+ removeCount \+ " dipakai"\}/, "take-away token board must expose a text alternative");
+  assert.match(worldRuntimeSource, /className=\{styles\.orderSlots\} role="list"/, "ordering output must expose list semantics");
+  assert.match(worldRuntimeSource, /className=\{styles\.recapGrid\} role="list"/, "final recap must expose list semantics");
+  assert.match(worldRuntimeSource, /<p role="status" aria-live="polite">\{selected\.reaction\}<\/p>/, "open choice reaction must be politely announced");
+  assert.match(worldSceneRendererSource, /role="region"/, "active World Scene must expose a labelled region");
+  assert.match(worldSceneRendererSource, /aria-live="polite"/, "Scene title/progress changes must be announced politely");
+  assert.match(worldRuntimeCss, /Production wave 15: World accessibility pass/, "World CSS must retain accessibility focus/high-contrast support");
+  assert.match(worldRuntimeCss, /@media \(forced-colors: active\)/, "World must preserve selected/current states in forced-colors mode");
+  assert.match(worldRuntimeCss, /\.stageLink\[href\]:focus-visible/, "journey Stage links must keep a visible keyboard focus ring");
 
   assert.equal(presentation.MONEY_WORLD_PRESENTATION_POLICY.version, "money-world-presentation-v1");
   assert.equal(presentation.MONEY_WORLD_PRESENTATION_POLICY.pilotBandId, "6-8");
@@ -598,7 +611,7 @@ try {
       (narrationAssetRegression.stderr ?? "")
   );
 
-  console.log("Petualangan Uang canonical hierarchy, semantic Chapter navigation, polished Stage completion UX, eight-stage content consistency audit, reusable Scene renderer/presentation policy, eight-stage production manifest, dedicated public-safe social card, data-driven Stage visuals, fixed-narration production/review resolver, narration binary provenance gate, provider-neutral four-cue pilot review gate, linear progress, age policy/migration audit, fail-closed evidence audit, practice boundary, low-text language, recap, mascot-dummy runtime policy, asset plan, and financial-safety contracts passed.");
+  console.log("Petualangan Uang canonical hierarchy, semantic Chapter navigation, polished Stage completion UX, eight-stage content consistency audit, World accessibility semantics/focus/high-contrast support, reusable Scene renderer/presentation policy, eight-stage production manifest, dedicated public-safe social card, data-driven Stage visuals, fixed-narration production/review resolver, narration binary provenance gate, provider-neutral four-cue pilot review gate, linear progress, age policy/migration audit, fail-closed evidence audit, practice boundary, low-text language, recap, mascot-dummy runtime policy, asset plan, and financial-safety contracts passed.");
 } finally {
   rmSync(outDir, { recursive: true, force: true });
 }
