@@ -1,6 +1,6 @@
 # WS-05 Logic Pattern Completion Reuse Wave — 22 September 2026
 
-Status: **IMPLEMENTATION CHECKPOINT VERIFIED / PR #273 / MERGE PENDING**
+Status: **FULLY CLOSED / MERGED / LIVE VERIFIED**
 
 ## Scope lock
 
@@ -74,22 +74,27 @@ activity quality:           KEEP 900
 - mastery/progression/schema/database migration;
 - catalog expansion.
 
-## Verification checkpoint
+## Verification and production closure
 
-Implementation checkpoint:
+Implementation and production verification:
 
 ```text
 PR:                         #273
-verified head:              ec050bf919ebe534a719ef22a37691248e1b233d
-PR CI:                      #1312 / run 35682142457 — full success
+first green code head:      ec050bf919ebe534a719ef22a37691248e1b233d
+checkpoint PR CI:           #1312 / run 35682142457 — full success
+final PR head:              299d493da2e74e6e583322d3a16af69455d8d926
+final PR CI:                #1321 / run 35682848171 — full success
+merged main:                709e2b7d3e529cf37f10a05e9c9dc92884e0a781
+merged-main CI:             #1353 / run 35687996669 — full success
+Cloudflare production smoke: PASS / exact merged SHA
 activity quality:           KEEP 900 / 0 flagged
 gameplay distribution:      900/900 / 47 active / choice_grid 174 / pattern_completion 10
 Logic distribution:         choice_grid 21 / pattern_completion 5
 Logic browser QA:           PASS 320 / 390 / 768
 permanent visual baseline:  PASS / 63 exact-path captures
-mobile QA artifact:         10675830590
-distribution artifact:      10675775215
-activity-quality artifact:  10675555464
+merged mobile QA artifact:  10678150644
+merged distribution artifact: 10677401293
+merged activity-quality artifact: 10677436310
 ```
 
 The first PR run (#1310) correctly failed two stale/test-harness assumptions:
@@ -102,13 +107,14 @@ Both were corrected without weakening progression:
 
 Static regression verifies exact 10-ID family membership, exact five-ID Logic scope, canonical choice order/answer, fail-closed payload drift, grouped `● ●` one-step behavior, skill ownership and neighboring exclusions.
 
-## Current safe checkpoint
+## Closure truth
 
-The implementation itself is verified. This document update creates a new docs-only head, so final exact-head PR CI must pass again before merge.
+The implementation, exact-head PR validation, merge and merged-main exact-SHA Cloudflare production smoke are complete.
 
-If the wave cannot be closed in one session:
-- keep PR #273 open;
-- do not merge unless its current exact head is fully green;
-- do not modify Mainlagi World;
-- do not resume character development;
-- after merge, wait for merged-main exact-SHA Cloudflare smoke and then record closure truth.
+- production main: `709e2b7d3e529cf37f10a05e9c9dc92884e0a781`;
+- no Mainlagi World file was modified by this wave;
+- character development remains paused;
+- no Pattern #48 was created;
+- any later WS-05 runtime change requires a fresh objective/evidence audit.
+
+Canonical final record: `PATTERN_COMPLETION_LOGIC_REPEATING_PATTERN_REUSE_CLOSURE_2026-09-22.md`.
