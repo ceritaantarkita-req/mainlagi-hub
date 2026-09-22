@@ -1043,6 +1043,7 @@ async function main() {
       await page.getByRole("button", { name: /Tambah pita/ }).click();
       await page.getByText("Kamu memilih membuat meja lebih meriah.", { exact: true }).waitFor();
       await page.getByRole("button", { name: /Lanjut/ }).click();
+      await page.getByText("Sekarang latihan hitung lain. Bayangkan ada delapan token, lalu dua dipakai. Sisanya berapa?", { exact: true }).waitFor();
       await advanceWorldNarrative(page);
       await page.getByRole("button", { name: "6", exact: true }).click();
       await page.locator("[data-world-next]").waitFor();
