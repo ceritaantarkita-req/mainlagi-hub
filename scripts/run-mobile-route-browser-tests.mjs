@@ -432,7 +432,7 @@ async function main() {
       const page = await context.newPage();
       const stageUrl = baseUrl + "/child/demo-gian/world/money-festival/stage/money-stage-01-money-use";
       await page.goto(stageUrl, { waitUntil: "domcontentloaded" });
-      await page.getByRole("heading", { name: "Uang Buat Apa?", exact: true }).waitFor();
+      await page.getByText("Uang Buat Apa?", { exact: true }).waitFor();
 
       for (let index = 0; index < 4; index += 1) {
         await page.getByRole("button", { name: /Lanjut/ }).click();
