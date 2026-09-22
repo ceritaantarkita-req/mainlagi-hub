@@ -414,6 +414,30 @@ async function main() {
       const viewport = { width: 390, height: 844 };
       const context = await browser.newContext({ viewport });
       const page = await context.newPage();
+      const response = await page.goto(baseUrl + "/worlds/money-festival", { waitUntil: "domcontentloaded" });
+      assert.ok(response && response.status() < 400, "public World share landing must load without authentication");
+      await page.getByRole("heading", { name: "Petualangan Uang", exact: true }).waitFor();
+      const socialMeta = await page.evaluate(() => ({
+        ogTitle: document.querySelector('meta[property="og:title"]')?.getAttribute("content") ?? "",
+        ogImage: document.querySelector('meta[property="og:image"]')?.getAttribute("content") ?? "",
+        twitterCard: document.querySelector('meta[name="twitter:card"]')?.getAttribute("content") ?? "",
+        description: document.querySelector('meta[name="description"]')?.getAttribute("content") ?? "",
+        body: document.body.innerText
+      }));
+      assert.match(socialMeta.ogTitle, /Petualangan Uang/, "public World share landing must expose World-specific Open Graph title");
+      assert.match(socialMeta.ogImage, /\/og\/math-warung\.png$/, "public World share landing must expose a safe large social image");
+      assert.equal(socialMeta.twitterCard, "summary_large_image", "public World share landing must use a large social card");
+      assert.match(socialMeta.description, /Festival Mainlagi/, "public World share landing must expose safe descriptive metadata");
+      assert.doesNotMatch(socialMeta.body, /demo-gian|account[_ -]?id|mastery score/i, "public World share landing must not leak child/account progress identifiers");
+      await page.screenshot({ path: path.join(screenshotDir, "390-world-money-public-share.png"), fullPage: false });
+      await context.close();
+      console.log("World Petualangan Uang public-safe social metadata passed at 390px.");
+    }
+
+    {
+      const viewport = { width: 390, height: 844 };
+      const context = await browser.newContext({ viewport });
+      const page = await context.newPage();
       const route = { path: "/child/demo-gian/subject/math?qa=unlock-all", kind: "child-learning", touch: true };
       await inspectPage(page, route, viewport);
       await page.locator("[data-qa-unlock-all]").waitFor();
