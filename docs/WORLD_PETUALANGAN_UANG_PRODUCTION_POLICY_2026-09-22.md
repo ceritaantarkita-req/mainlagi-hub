@@ -378,7 +378,7 @@ Current ordered work:
 9. **DONE / CHECKPOINTED** — froze `checkpoint/world-petualangan-uang-social-green-20260922` at the exact validated head;
 10. **DONE / GREEN / CHECKPOINTED** — eight narration Stage batches + fail-closed voice-identity gate; CI #1403; checkpoint `checkpoint/world-petualangan-uang-narration-readiness-green-20260922`;
 11. **DONE / GREEN / CHECKPOINTED** — permanent narration binary provenance gate blocks stray audio, rights gaps, unresolved disclosure, missing human review, invalid MP3 payloads and SHA-256 drift; CI #1411; checkpoint `checkpoint/world-petualangan-uang-narration-gate-green-20260922`;
-12. **DONE on isolated branch, CI pending** — exact four-cue Stage-1 provider/voice pilot scope prepared; provider remains unselected and generation remains blocked;
+12. **DONE / GREEN / CHECKPOINTED** — exact four-cue Stage-1 provider/voice pilot scope validated by CI #1414 at `76443c05...`; checkpoint `checkpoint/world-petualangan-uang-provider-pilot-green-20260922`;
 13. **NEXT PRODUCT DECISION** — approve final narration voice identity/source/rights before the four-cue listening pilot may be generated;
 14. Gian/Naya visual character production remains paused;
 15. bespoke Stage/background art remains optional because current reused backgrounds are approved for the pilot;
