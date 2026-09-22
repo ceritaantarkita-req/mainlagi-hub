@@ -190,9 +190,22 @@ export function WorldCatalogScreen({ childId }: { childId: string }) {
 
 export function MoneyWorldMapScreen({ childId, worldId }: { childId: string; worldId: string }) {
   const state = useMoneyWorldProgress(childId);
+  const mapRef = useRef<HTMLElement>(null);
   const worldsHref = "/child/" + childId + "/worlds";
   const mapBase = "/child/" + childId + "/world/" + MONEY_WORLD_ID;
   const worldComplete = state.ready && state.progress.completedStageIds.length === MONEY_WORLD_STAGES.length;
+
+  useEffect(() => {
+    if (!state.ready || state.progress.completedStageIds.length === 0) return;
+    const nextStage = MONEY_WORLD_STAGES.find((stage) => !state.progress.completedStageIds.includes(stage.id))
+      ?? MONEY_WORLD_STAGES.at(-1);
+    if (!nextStage) return;
+    const frame = window.requestAnimationFrame(() => {
+      const target = mapRef.current?.querySelector<HTMLElement>('[data-world-stage-id="' + nextStage.id + '"]');
+      target?.scrollIntoView({ block: "center", inline: "nearest", behavior: "auto" });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [state.progress.completedStageIds, state.ready]);
 
   if (worldId !== MONEY_WORLD_ID) {
     return (
@@ -218,6 +231,7 @@ export function MoneyWorldMapScreen({ childId, worldId }: { childId: string; wor
         aria-label="Peta Petualangan Uang"
         data-world-map="money-festival"
         data-world-complete={worldComplete ? "true" : "false"}
+        ref={mapRef}
       >
         <div className={styles.mapPath} aria-hidden />
         {worldComplete ? (
@@ -257,7 +271,12 @@ export function MoneyWorldMapScreen({ childId, worldId }: { childId: string; wor
           );
           const rowClass = index % 2 ? styles.stageRowRight : styles.stageRowLeft;
           return (
-            <div key={stage.id} className={cx(styles.stageRow, rowClass)} data-stage-order={stage.order}>
+            <div
+              key={stage.id}
+              className={cx(styles.stageRow, rowClass)}
+              data-stage-order={stage.order}
+              data-world-stage-id={stage.id}
+            >
               {unlocked ? (
                 <Link href={mapBase + "/stage/" + stage.id} className={styles.stageLink}>{node}</Link>
               ) : (
