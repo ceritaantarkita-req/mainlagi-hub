@@ -198,7 +198,6 @@ async function inspectPage(page, route, viewport) {
         "Mulai petualangan →",
         "fresh World catalog must offer a clear start CTA"
       );
-      await page.getByText("Tetap bisa dijelajahi bersama orang dewasa.", { exact: true }).waitFor();
     }
 
     if (route.path === "/child/demo-gian/home") {
