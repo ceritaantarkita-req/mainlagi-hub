@@ -83,6 +83,7 @@
     "src/lib/learning/world/moneyWorld.ts",
     "src/lib/learning/world/progress.ts",
     "src/lib/learning/world/moneyWorldPresentation.ts",
-    "src/lib/learning/world/moneyWorldAssets.ts"
+    "src/lib/learning/world/moneyWorldAssets.ts",
+    "src/lib/learning/world/moneyWorldEvidenceBridge.ts"
   ]
 }
