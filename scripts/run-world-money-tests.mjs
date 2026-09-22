@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { rmSync } from "node:fs";
+import { existsSync, rmSync } from "node:fs";
 import { createRequire } from "node:module";
 import { spawnSync } from "node:child_process";
 import path from "node:path";
@@ -155,7 +155,24 @@ try {
   }
   assert.equal(recapCount, 1, "dummy World must keep exactly one final visual recap");
 
-  console.log("Petualangan Uang eight-stage payload, linear progress, practice boundary, low-text language, recap, and financial-safety contracts passed.");
+  const visualAssets = [
+    "public/artwork/math-warung.webp",
+    "public/artwork/garden-background.webp",
+    "public/artwork/garden-paca.webp",
+    "public/artwork/garden-gavi.webp",
+    "public/artwork/backgrounds/math/playground-park-wide.webp",
+    "public/artwork/backgrounds/math/playground-park-mobile.webp",
+    "public/artwork/backgrounds/math/mini-market-wide.webp",
+    "public/artwork/backgrounds/math/mini-market-mobile.webp",
+    "public/artwork/backgrounds/math/number-park-wide.webp",
+    "public/artwork/backgrounds/math/number-park-mobile.webp",
+    "public/og/math-warung.png"
+  ];
+  for (const asset of visualAssets) {
+    assert.equal(existsSync(path.join(root, asset)), true, "World visual/share asset missing: " + asset);
+  }
+
+  console.log("Petualangan Uang eight-stage payload, linear progress, practice boundary, low-text language, recap, visual assets, and financial-safety contracts passed.");
 } finally {
   rmSync(outDir, { recursive: true, force: true });
 }
