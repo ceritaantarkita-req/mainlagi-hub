@@ -45,11 +45,11 @@ Confirmed examples include:
 
 The 43-source-file / 280-field emoji inventory remains an inventory signal, not a defect or replacement count. Exact letter/script glyphs, stable instructional symbols and decorative UI must not be swept into the pictorial-art migration.
 
-The next safe implementation is a small semantic illustration registry/provenance pilot with fail-closed runtime mapping and human child-readability review.
+The semantic illustration registry/provenance gate is now closed/live verified through PR #297 -> main `ed7db8a6c5b8a3ee4acc9bcca260b4e0b5776773`, merged-main CI #1537 exact Cloudflare smoke. It contains 17 review-required semantic slots and blocks stray/unapproved production binaries. The remaining limitation is the **actual exact semantic art**: 0 semantic illustration slots are approved, 0 production binaries exist in the dedicated subtree, and runtime activation remains 0. The next safe implementation is exact P0 candidate production/review followed by separate provenance approval and later runtime mapping.
 
 Canonical records:
 - `LEARNING_ILLUSTRATION_CONSISTENCY_AUDIT_2026-09-22.md`;
-- `LEARNING_VISUAL_CONTAINMENT_CLOSURE_2026-09-23.md`.
+- `LEARNING_VISUAL_CONTAINMENT_CLOSURE_2026-09-23.md`;\n- `LEARNING_SEMANTIC_ILLUSTRATION_REGISTRY_CLOSURE_2026-09-23.md`.
 
 ## Voice and narration
 
