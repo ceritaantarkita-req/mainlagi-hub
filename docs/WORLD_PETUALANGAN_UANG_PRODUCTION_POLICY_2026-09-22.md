@@ -210,18 +210,32 @@ Final requirement:
 
 ### Public World social card
 
+Status: **production-ready pilot asset**
+
 Current source:
 
 ```text
-/og/math-warung.png
+/worlds/money-festival/social-card
+dynamic ImageResponse
+1200 × 630 PNG
 ```
 
-Final requirement:
+Contract:
+
+```text
+src/lib/learning/world/moneyWorldSocial.ts
+version: money-world-social-card-v1
+```
+
+Requirements now locked in code/QA:
 
 - dedicated Petualangan Uang card;
 - public-safe;
 - no child name, child ID, exact age, mastery, attempt history or private route;
+- Open Graph and Twitter use the same dedicated route;
 - World title and Mainlagi identity remain readable on small social previews.
+
+Detailed record: `WORLD_SOCIAL_CARD_2026-09-22.md`.
 
 ## 9. Naming proposal for final production assets
 
@@ -357,9 +371,9 @@ Current ordered work:
 5. **DONE on isolated branch** — reusable Scene presentation/renderer layer for all five canonical Scene kinds;
 6. **DONE / GREEN** — 320/390/430 production QA matrix + responsive Scene cleanup;
 7. **DONE / GREEN** — CI #1382 validated code head `e8f795b7...` and froze `checkpoint/world-petualangan-uang-production-green-20260922`;
-8. **NEXT PRODUCT GAP** — keep Gavi/Paca active while character development is paused and decide which remaining production asset gap to close first;
-9. fixed narration still requires actual reviewed binaries (currently 0/88 approved);
-10. dedicated World social card remains open;
+8. **DONE on isolated branch, CI pending** — dedicated public-safe 1200×630 Petualangan Uang social card;
+9. **NEXT PRODUCT GAP** — fixed narration still requires actual reviewed binaries (currently 0/88 approved), while Gian/Naya character production remains paused;
+10. bespoke Stage/background art remains optional because current reused backgrounds are approved for the pilot;
 11. World -> Evidence bridge remains disabled until separately authorized.
 
 This policy is intentionally narrower than the long-term Mainlagi 3–12 ambition. It prevents the pilot runtime from drifting into an incoherent one-World-fits-all model.
