@@ -30,6 +30,7 @@ import {
   nextMoneyWorldStage,
   type MoneyWorldActivityPlacement
 } from "@/lib/learning/world/moneyWorld";
+import { getMoneyWorldSceneForSegment } from "@/lib/learning/world/moneyWorldStructure";
 import {
   WORLD_PROGRESS_EVENT,
   checkpointMoneyWorldStage,
@@ -1184,6 +1185,8 @@ function MoneyWorldStageRuntime({
   if (completed) return <WorldStageCompletion childId={childId} stageId={stageId} onAgain={again} />;
 
   const segment = segments[segmentIndex];
+  const activeScene = getMoneyWorldSceneForSegment(stageId, segment.id);
+  if (!activeScene) return <div className={styles.runtimeError}>Struktur Scene World tidak valid untuk Segment ini.</div>;
   const percent = ((segmentIndex + 1) / segments.length) * 100;
   const hasNarrationControl = segment.type !== "recap";
   const showAmbientGuides = segment.type === "activity" || segment.type === "narrative_choice" || segment.type === "recap";
@@ -1200,6 +1203,8 @@ function MoneyWorldStageRuntime({
       data-world-scene={stage.order}
       data-world-stage-shell="garden-baseline-v1"
       data-world-runtime-character-policy={MONEY_WORLD_RUNTIME_CHARACTER_POLICY.mode}
+      data-world-scene-id={activeScene.id}
+      data-world-scene-kind={activeScene.kind}
     >
       <div className={styles.stageProgressBar} aria-label={"Bagian " + (segmentIndex + 1) + " dari " + segments.length}>
         <span style={{ width: String(percent) + "%" }} />
@@ -1225,7 +1230,7 @@ function MoneyWorldStageRuntime({
       <div className={styles.stageShellTitle}>
         <span>{"Stage " + stage.order + " · " + stage.locationLabel}</span>
         <h1>{stage.title}</h1>
-        <small>{String(segmentIndex + 1) + "/" + segments.length}</small>
+        <small data-world-scene-label={activeScene.id}>{activeScene.title + " · " + String(segmentIndex + 1) + "/" + segments.length}</small>
       </div>
 
       <StageAmbience stageOrder={stage.order} />
