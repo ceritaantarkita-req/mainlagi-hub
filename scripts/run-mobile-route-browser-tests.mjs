@@ -542,6 +542,12 @@ async function main() {
 
       const initialWorldNext = page.locator("[data-world-next]").first();
       await initialWorldNext.waitFor();
+      const worldStageShell = page.locator('[data-world-stage-shell="garden-baseline-v1"]');
+      await worldStageShell.waitFor();
+      assert.equal(await page.locator('[data-world-runtime-character-policy="approved-mascot-dummy"]').count(), 1, "World Stage runtime must expose the approved mascot-dummy policy");
+      assert.equal(await worldStageShell.getByRole("link", { name: "Kembali", exact: true }).count(), 1, "World Stage shell must keep the Garden-style back control");
+      assert.equal(await worldStageShell.locator("[data-world-shell-hear]").count(), 1, "World Stage shell must keep a top-level Dengar control");
+      assert.equal(await worldStageShell.getByRole("img", { name: "Mainlagi", exact: true }).count(), 1, "World Stage shell must keep the centered Mainlagi wordmark");
       await page.locator('[data-world-audio-id="money-s01-narrative-01"]').waitFor();
       assert.equal(
         await page.locator('[data-world-audio-id="money-s01-narrative-01"]').count(),
@@ -561,6 +567,10 @@ async function main() {
 
       const activityPromptHear = page.locator("[data-world-prompt-hear]").first();
       await activityPromptHear.waitFor();
+      assert.ok(await page.getByRole("img", { name: "Gavi", exact: true }).count() >= 1, "World activity shell must present approved Gavi artwork");
+      assert.ok(await page.getByRole("img", { name: "Paca", exact: true }).count() >= 1, "World activity shell must present approved Paca artwork");
+      assert.equal(await page.getByRole("img", { name: "Gian", exact: true }).count(), 0, "World activity shell must not activate fallback Gian artwork");
+      assert.equal(await page.getByRole("img", { name: "Naya", exact: true }).count(), 0, "World activity shell must not activate fallback Naya artwork");
       await page.locator('[data-world-audio-id="money-s01-activity-01-prompt"]').waitFor();
       assert.equal(
         await page.locator('[data-world-audio-id="money-s01-activity-01-prompt"]').count(),
