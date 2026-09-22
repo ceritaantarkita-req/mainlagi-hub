@@ -66,6 +66,35 @@ Canonical safe handoff: `ENGLISH_NARRATION_SAFE_CHECKPOINT_2026-09-22.md`.
 Next safe narration step is now actual local/server-side generation of the exact four pilot candidates followed by human listening through the merged/live-verified review gate. Human `accepted` means only that the exact local candidate set passed listening review; it is **not production approval**. Do not bulk-generate all 27 assets, auto-approve the registry, copy candidates into `public/`, or activate runtime static audio in the same step. Review contract: `ENGLISH_NARRATION_HUMAN_REVIEW_GATE_2026-09-22.md`; closure record: `ENGLISH_NARRATION_HUMAN_REVIEW_GATE_CLOSURE_2026-09-22.md`.
 
 
+## 22 September learning illustration consistency checkpoint
+
+Learning-illustration consistency is now the **active independent product-quality track** while character production remains paused and fixed English audio generation/listening is deferred.
+
+Safe boundary:
+
+- Mainlagi World remains untouched.
+- Character production/development remains paused.
+- English fixed-audio generation/review is deferred at **0 generated pilot audio / 0 human-reviewed generated audio / 0 approved production audio / 0 static runtime activation**; browser speech fallback remains preserved.
+- WS-05 Logic repeating-pattern reuse remains closed/live verified at **900/900 activities / 47 active gameplay patterns / `choice_grid` 174 / `pattern_completion` 10 / Logic `choice_grid` 21 / KEEP 900 / no Pattern #48**.
+- No learning-illustration runtime or production binary has been approved by the audit branch yet.
+
+Current audit finding:
+
+- repository search finds **43 source files** with literal `emoji:` fields;
+- the 32 canonical subject batch-wave files contain **280 `emoji:` fields**: English 57, Huruf & Menulis 56, Math 48, Bahasa Indonesia 41, Science 29, Logic 23, Iqro 18, Creative/Drawing 8;
+- that number is an inventory signal, not 280 defects: letter/script glyphs, stable symbols and decorative UI must be separated from recognition-critical pictorial content;
+- the project owner additionally confirmed a cross-device **containment/readability defect class**: icons/illustrations that should remain inside a card/choice box can overflow, clip, collide with edges/overlays, become too small, or become too ambiguous on desktop/mobile.
+
+The pilot acceptance contract now has three equal dimensions:
+
+1. semantic clarity;
+2. cross-platform consistency;
+3. box containment/readability across **320x720, 390x844, 768x1024 and 1280x800**.
+
+Pilot priority remains recognition-critical learning visuals in **Science, English and Bahasa Indonesia**. The first engineering wave must use centralized deterministic mapping and shared containment rules; it must not change canonical prompt, choice order, answer, evidence, mastery, progression, schema, stage ownership, narration, World, character runtime or gameplay-pattern classification.
+
+Canonical audit/checkpoint: `LEARNING_ILLUSTRATION_CONSISTENCY_AUDIT_2026-09-22.md`.
+
 ## 22 September required secret-scan enforcement closure
 
 Repository secret-history enforcement is **FULLY CLOSED / MERGED / LIVE VERIFIED** through PR **#269**.
