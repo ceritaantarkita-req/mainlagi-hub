@@ -2652,3 +2652,23 @@
     padding-inline: 0;
   }
 }
+
+
+/* === Production wave 06: Scene wrapper responsive fit === */
+@media(max-width: 760px) {
+  .stageRuntime [data-world-scene-content] > .storyScene,
+  .stageRuntime [data-world-scene-content] > .activityScene {
+    min-height: max(430px, calc(100dvh - 250px));
+  }
+}
+
+@media(max-width: 390px) {
+  .stageRuntime [data-world-scene-content] > .storyScene,
+  .stageRuntime [data-world-scene-content] > .activityScene {
+    min-height: max(400px, calc(100dvh - 245px));
+  }
+
+  .stageRuntime [data-world-scene-content] > .storyScene {
+    padding-top: 12px;
+  }
+}
