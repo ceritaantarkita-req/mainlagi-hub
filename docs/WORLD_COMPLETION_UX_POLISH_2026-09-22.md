@@ -1,6 +1,6 @@
 # Mainlagi World — Stage Completion UX Polish — 22 September 2026
 
-Status: **IMPLEMENTED ON ISOLATED WORLD PRODUCTION BRANCH / CI VALIDATION PENDING**
+Status: **VALIDATED GREEN / CHECKPOINTED**
 
 Branch:
 
@@ -143,3 +143,53 @@ After this exact wave is green:
 ```
 
 Narration remains safely deferred behind the existing provider/voice/rights gate.
+
+
+## 9. Green validation / checkpoint
+
+Exact validated head:
+
+```text
+40436d41678f41d08516c3029b554dee5b7f339d
+```
+
+CI:
+
+```text
+Mainlagi TV V3 CI #1467
+run 35750690235
+
+Quality gate (Ubuntu):        PASS
+Windows compatibility:        PASS
+Production build:             PASS
+Production dependency audit:  PASS
+Secret history scan:          PASS
+Mobile route QA (Chromium):   PASS
+overall:                      SUCCESS
+```
+
+Screenshot artifact:
+
+```text
+mobile-route-qa-screenshots — 10705397615
+```
+
+Completion screenshots reviewed during this wave include:
+
+```text
+320-world-money-stage-01-complete.png
+390-world-money-chapter-01-complete.png
+390-world-money-stage-08-complete.png
+430-world-money-stage-01-complete.png
+```
+
+The compact layout preserves ★★★, keeps Back / Again / Next on one row, and leaves Share as the separate action below. Chapter 1 and Chapter 2 milestone cards remain readable without pushing the required controls out of the Stage-end surface.
+
+Frozen checkpoint:
+
+```text
+checkpoint/world-petualangan-uang-completion-ux-green-20260922
+@ 40436d41678f41d08516c3029b554dee5b7f339d
+```
+
+Do not move or force-push this checkpoint branch.
