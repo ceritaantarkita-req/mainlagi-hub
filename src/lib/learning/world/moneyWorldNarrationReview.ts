@@ -136,9 +136,18 @@ export function validateMoneyWorldNarrationPilotReviewRecords(
     if (record.textFingerprint !== template.textFingerprint) {
       errors.push(record.cueId + " review fingerprint is stale");
     }
-    if (!record.reviewer.trim()) errors.push(record.cueId + " reviewer is required");
-    if (!record.reviewedAt.trim() || Number.isNaN(Date.parse(record.reviewedAt))) {
-      errors.push(record.cueId + " reviewedAt must be a valid timestamp");
+
+    const decisions = template.requiredDimensions.map((dimension) => record.decisions[dimension]);
+    const hasStartedReview = decisions.some((decision) => decision !== "pending");
+
+    if (hasStartedReview && !record.reviewer.trim()) {
+      errors.push(record.cueId + " reviewer is required once review starts");
+    }
+    if (
+      hasStartedReview &&
+      (!record.reviewedAt.trim() || Number.isNaN(Date.parse(record.reviewedAt)))
+    ) {
+      errors.push(record.cueId + " reviewedAt must be a valid timestamp once review starts");
     }
 
     for (const dimension of template.requiredDimensions) {
