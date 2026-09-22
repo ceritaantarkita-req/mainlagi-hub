@@ -884,3 +884,78 @@ The dedicated card is generated from repository-owned public-safe copy and does 
 Character production remains paused. Fixed narration remains **0/88 approved**. World -> Belajar evidence remains disabled.
 
 This section is a checkpoint candidate only. Record a new immutable checkpoint only after Draft PR #282 validates the exact branch head.
+
+
+## 30. Social-card green checkpoint — PR #282 / CI #1391
+
+Production wave 07 is independently green and frozen.
+
+Exact validated head:
+
+```text
+9f6953302ee82db62a7362288233a77db2251743
+```
+
+Validation surface:
+
+```text
+Draft PR: #282
+base:     feature/world-petualangan-uang-dummy-20260922
+head:     feature/world-petualangan-uang-production-wave-20260922
+target:   NOT main
+```
+
+CI:
+
+```text
+Mainlagi TV V3 CI
+#1391
+run 35716360918
+
+Quality gate (Ubuntu):        PASS
+Windows compatibility:        PASS
+Production build:             PASS
+Production dependency audit:  PASS
+Secret history scan:          PASS
+Mobile route QA (Chromium):   PASS
+overall:                      SUCCESS
+```
+
+Relevant artifact:
+
+```text
+mobile-route-qa-screenshots
+artifact id 10689696970
+```
+
+Frozen checkpoint:
+
+```text
+branch: checkpoint/world-petualangan-uang-social-green-20260922
+head:   9f6953302ee82db62a7362288233a77db2251743
+```
+
+Do not move or force-push this checkpoint branch.
+
+What this checkpoint includes beyond the earlier responsive/runtime checkpoint:
+
+- dedicated public-safe Petualangan Uang social-card contract;
+- dedicated `/worlds/money-festival/social-card` 1200×630 PNG route;
+- Open Graph + Twitter metadata pointed to that route;
+- Gavi/Paca social copy aligned with the active dummy-character policy;
+- generic `/og/math-warung.png` fallback removed from Petualangan Uang metadata;
+- static QA for social-card dimensions/privacy/contract;
+- browser QA for metadata + HTTP 200 PNG social-card response;
+- `public-share-card` production gap closed.
+
+Remaining explicit production gaps at this checkpoint:
+
+```text
+fixed-narration
+gian-foreground
+naya-foreground
+```
+
+Character development remains paused by owner decision, so the practical next gap is fixed narration asset production/approval. The fixed narration pipeline is already implemented, but approved assets remain **0/88**.
+
+PR #282 remains Draft and is not merge authorization. PR #272 remains Draft and untouched. World -> Belajar evidence remains disabled.
