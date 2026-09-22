@@ -194,6 +194,9 @@ export function MoneyWorldMapScreen({ childId, worldId }: { childId: string; wor
   const worldsHref = "/child/" + childId + "/worlds";
   const mapBase = "/child/" + childId + "/world/" + MONEY_WORLD_ID;
   const worldComplete = state.ready && state.progress.completedStageIds.length === MONEY_WORLD_STAGES.length;
+  const nextJourneyStageId = state.ready
+    ? MONEY_WORLD_STAGES.find((stage) => !state.progress.completedStageIds.includes(stage.id))?.id ?? null
+    : null;
 
   useEffect(() => {
     if (!state.ready || state.progress.completedStageIds.length === 0) return;
@@ -249,7 +252,8 @@ export function MoneyWorldMapScreen({ childId, worldId }: { childId: string; wor
               className={cx(
                 styles.stageNode,
                 unlocked ? styles.stageUnlocked : styles.stageLocked,
-                stars === 3 && styles.stageDone
+                stars === 3 && styles.stageDone,
+                stage.id === nextJourneyStageId && styles.stageCurrent
               )}
               data-stage-order={stage.order}
             >
@@ -260,6 +264,7 @@ export function MoneyWorldMapScreen({ childId, worldId }: { childId: string; wor
               </div>
               <div className={styles.stageIcon} aria-hidden>
                 {unlocked ? stage.emoji : <LockKey size={26} weight="fill" />}
+                {stage.id === nextJourneyStageId ? <span className={styles.currentPin}>▶</span> : null}
               </div>
               <div className={styles.stageCopy}>
                 <small>{"Stage " + stage.order + " · " + stage.locationLabel}</small>
