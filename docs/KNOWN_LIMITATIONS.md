@@ -27,7 +27,7 @@ Current presentation must continue to preserve recommendation, age eligibility, 
 
 ## Voice and narration
 
-The first-instruction narration latency/preload wave is merged/live verified. English narration quality Wave 1 is implemented in PR #278: all 27 English listening activities are explicitly reviewed, 22 vocabulary/letter/phrase activities use target-first spoken copy, 5 comprehension activities retain sentence-level narration, and the browser fallback now prefers higher-quality exact-locale English voices when available.
+The first-instruction narration latency/preload wave is merged/live verified. English narration quality Wave 1 is also merged/live verified via PR #278 -> main `8d60a69a...`: all 27 English listening activities are explicitly reviewed, 22 vocabulary/letter/phrase activities use target-first spoken copy, 5 comprehension activities retain sentence-level narration, and the browser fallback now prefers higher-quality exact-locale English voices when available.
 
 This is still a browser-dependent fallback improvement. Mainlagi does **not** yet claim final production-quality native Indonesian and English character narration.
 
