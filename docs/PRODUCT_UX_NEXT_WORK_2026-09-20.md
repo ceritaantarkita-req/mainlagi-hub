@@ -180,7 +180,7 @@ Canonical execution spec: [`SUBJECT_BACKGROUND_SYSTEM.md`](SUBJECT_BACKGROUND_SY
 Canonical records:
 - [`LEARNING_ILLUSTRATION_CONSISTENCY_AUDIT_2026-09-22.md`](LEARNING_ILLUSTRATION_CONSISTENCY_AUDIT_2026-09-22.md)
 - [`LEARNING_VISUAL_CONTAINMENT_PILOT_2026-09-22.md`](LEARNING_VISUAL_CONTAINMENT_PILOT_2026-09-22.md)
-- [`LEARNING_VISUAL_CONTAINMENT_CLOSURE_2026-09-23.md`](LEARNING_VISUAL_CONTAINMENT_CLOSURE_2026-09-23.md)
+- [`LEARNING_VISUAL_CONTAINMENT_CLOSURE_2026-09-23.md`](LEARNING_VISUAL_CONTAINMENT_CLOSURE_2026-09-23.md)\n- [`LEARNING_SEMANTIC_ILLUSTRATION_REGISTRY_PILOT_2026-09-23.md`](LEARNING_SEMANTIC_ILLUSTRATION_REGISTRY_PILOT_2026-09-23.md)\n- [`LEARNING_SEMANTIC_ILLUSTRATION_REGISTRY_CLOSURE_2026-09-23.md`](LEARNING_SEMANTIC_ILLUSTRATION_REGISTRY_CLOSURE_2026-09-23.md)
 
 The containment/readability foundation is **CLOSED / MERGED / LIVE VERIFIED** through PR #294 -> main `6d0f9bd8972297e316bdf031603d160d901d8d04`, PR CI #1529 and merged-main CI #1531 exact Cloudflare smoke.
 
@@ -195,7 +195,7 @@ Closed containment scope:
 - 320/390/768/1280 dedicated runtime QA;
 - responsive gallery matrix plus desktop 1280 catalog QA.
 
-The active next sub-wave is now **semantic clarity + cross-platform consistency + provenance**, not more generic containment work.
+The semantic registry/provenance gate is now **CLOSED / MERGED / LIVE VERIFIED** through PR #297 -> main `ed7db8a6c5b8a3ee4acc9bcca260b4e0b5776773`, PR CI #1536 and merged-main CI #1537 exact Cloudflare smoke. It starts at 17 review-required / 0 approved / 0 production binary / 0 runtime activation. The active next sub-wave is **exact P0 semantic-art candidate production/review**, not more generic containment or registry work.
 
 Rules for the next semantic-art pilot:
 
@@ -254,9 +254,11 @@ Character production is currently **PAUSED by the project owner**. The character
 Fixed English audio generation/listening is also **DEFERRED** by the project owner after the merged/live-verified narration gates. It remains a resumable future track, not the active execution item.
 
 Current active independent track:
-16. **Learning-illustration consistency audit + recognition-critical containment/clarity pilot**.
-17. After the pilot is closed, expand only from measured recognition/containment evidence rather than bulk-replacing all emoji.
-18. Expanded human visual/usability + physical-device acceptance and cleanup of superseded components.
+16. learning-illustration audit + containment/readability foundation: **CLOSED / LIVE VERIFIED**.
+17. semantic illustration registry/provenance gate: **CLOSED / LIVE VERIFIED** via PR #297.
+18. **NOW:** exact P0 semantic-art candidate production/review, then separate approved runtime mapping.
+19. Expand semantic artwork only from measured recognition/readability evidence; never bulk-replace all emoji.
+20. Expanded human visual/usability + physical-device acceptance and cleanup of superseded components.
 19. Resume fixed English audio candidate generation/listening only when re-authorized.
 20. Resume character production only when re-authorized.
 
