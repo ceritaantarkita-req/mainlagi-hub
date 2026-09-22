@@ -150,6 +150,8 @@ try {
   const worldRuntimeSource = readFileSync(path.join(root, "src/components/learning/world-v2/MoneyWorldExperience.tsx"), "utf8");
   const worldRuntimeCss = readFileSync(path.join(root, "src/components/learning/world-v2/MoneyWorldExperience.module.css"), "utf8");
   const worldSceneRendererSource = readFileSync(path.join(root, "src/components/learning/world/WorldSceneRenderer.tsx"), "utf8");
+  const learningAttemptBridgeSource = readFileSync(path.join(root, "src/components/learning/LearningAttemptBridge.tsx"), "utf8");
+  const learningAttemptRpcSource = readFileSync(path.join(root, "supabase/migrations/0004_learning_rpc_hardening.sql"), "utf8");
   assert.doesNotMatch(worldRuntimeSource, /WORLD_STAGE_AMBIENCE/, "Stage ambience must be data-driven by the pilot manifest");
   assert.doesNotMatch(worldRuntimeCss, /\.stageRuntime\[data-stage-order="[1-8]"\]\s*\{\s*--world-scene-wide/, "Stage background selection must not return to per-order CSS hardcoding");
   assert.match(worldRuntimeSource, /getMoneyWorldPilotStage\(stageId\)/, "Stage runtime must resolve its pilot production manifest");
@@ -189,6 +191,11 @@ try {
   assert.doesNotMatch(worldRuntimeCss, /playground-park-(wide|mobile)\.webp[\s\S]*mini-market-(wide|mobile)\.webp[\s\S]*number-park-(wide|mobile)\.webp/, "World CSS must not eagerly hardcode all Stage backgrounds");
   assert.match(worldRuntimeCss, /@media \(forced-colors: active\)/, "World must preserve selected/current states in forced-colors mode");
   assert.match(worldRuntimeCss, /\.stageLink\[href\]:focus-visible/, "journey Stage links must keep a visible keyboard focus ring");
+  assert.doesNotMatch(worldRuntimeSource, /moneyWorldEvidenceBridge|recordLearningAttempt|syncOrQueueLearningAttempt|LEARNING_MEASUREMENT_EVENT/, "World runtime must not activate or write through the evidence bridge");
+  assert.match(learningAttemptBridgeSource, /parts\.indexOf\("activity"\)/, "canonical LearningAttemptBridge must stay scoped to Belajar activity routes");
+  assert.match(learningAttemptBridgeSource, /if \(!activity\) return;/, "canonical attempt bridge must reject unknown/non-catalog activity IDs");
+  assert.match(learningAttemptRpcSource, /insert into public\.child_learning_progress/, "existing record_learning_attempt RPC still has Belajar progression side effects");
+  assert.match(learningAttemptRpcSource, /coalesce\(v_activity\.star_reward,0\)/, "existing record_learning_attempt RPC still owns Belajar star rewards");
 
   assert.equal(presentation.MONEY_WORLD_PRESENTATION_POLICY.version, "money-world-presentation-v1");
   assert.equal(presentation.MONEY_WORLD_PRESENTATION_POLICY.pilotBandId, "6-8");
@@ -467,11 +474,14 @@ try {
   assert.equal(activityCount, 16, "eight-stage dummy must expose sixteen reusable mechanic placements");
   assert.equal(narrativeChoiceCount, 1, "dummy must contain exactly one telemetry-only narrative choice");
 
-  assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_BRIDGE_VERSION, "money-world-evidence-bridge-v0");
-  assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_BRIDGE_ENABLED, false, "World evidence bridge must remain disabled until server/catalog blockers close");
-  assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_CANDIDATES.length, 2, "pilot evidence audit should expose only two defensible canonical-skill candidates");
-  assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_EXCLUSIONS.length, 14, "every other pilot activity must stay explicitly excluded from mastery");
-  assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_BRIDGE_AUDIT.length, activityCount, "evidence audit must cover all World activity placements exactly once");
+  assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_BRIDGE_VERSION, "money-world-evidence-bridge-v1");
+  assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_BRIDGE_MODE, "design-only-disabled");
+  assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_BRIDGE_ENABLED, false, "World evidence bridge must remain disabled until separately authorized");
+  assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_BRIDGE_VALIDATION.valid, true, evidenceBridge.MONEY_WORLD_EVIDENCE_BRIDGE_VALIDATION.errors.join("; "));
+  assert.deepEqual(evidenceBridge.MONEY_WORLD_EVIDENCE_BRIDGE_VALIDATION.errors, []);
+  assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_CANDIDATES.length, 2, "only two World activities may remain unapproved canonical-skill candidates");
+  assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_EXCLUSIONS.length, 14, "all other World activities must stay explicitly excluded from mastery");
+  assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_BRIDGE_AUDIT.length, activityCount, "bridge audit must cover all World activity placements exactly once");
   assert.equal(
     new Set(evidenceBridge.MONEY_WORLD_EVIDENCE_BRIDGE_AUDIT.map((entry) => entry.worldActivityId)).size,
     activityCount,
@@ -482,20 +492,111 @@ try {
     new Set(placementIds),
     "World evidence audit must cover the exact runtime activity placements"
   );
+  assert.ok(
+    evidenceBridge.MONEY_WORLD_EVIDENCE_BRIDGE_AUDIT.every((entry) => entry.sourceAssessment === "practice"),
+    "all current World placements must remain practice even when their mechanic can measure accuracy"
+  );
+  assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_WRITE_BOUNDARY.directRecordLearningAttemptAllowed, false);
+  assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_WRITE_BOUNDARY.learningProgressMutationAllowed, false);
+  assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_WRITE_BOUNDARY.rewardMutationAllowed, false);
+  assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_WRITE_BOUNDARY.masteryRecomputeAllowed, false);
+  assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_WRITE_BOUNDARY.runtimeHookAuthorized, false);
+  assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_WRITE_BOUNDARY.schemaMigrationAuthorized, false);
+  assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_WRITE_BOUNDARY.futureServerOwnedAdapterRequired, true);
+  assert.ok(
+    evidenceBridge.MONEY_WORLD_EVIDENCE_ACTIVATION_REQUIREMENTS.every((requirement) => requirement.satisfied === false),
+    "no activation prerequisite may be silently marked satisfied in design-only mode"
+  );
+
   for (const candidate of evidenceBridge.MONEY_WORLD_EVIDENCE_CANDIDATES) {
     assert.equal(candidate.decision, "candidate");
+    assert.equal(candidate.mappingStatus, "candidate-unapproved");
+    assert.equal(candidate.sourceAssessment, "practice");
+    assert.equal(candidate.canonicalLearningActivityId, null, "candidate must not fake a canonical learning_activity mapping");
+    assert.equal(candidate.progressionEffect, "none");
+    assert.equal(candidate.rewardEffect, "none");
+    assert.equal(candidate.requiresPedagogyReview, true);
     assert.ok(candidate.canonicalSkillId, candidate.worldActivityId + " candidate must name a canonical skill");
     const canonicalSkill = catalog.getLearningSkill(candidate.canonicalSkillId);
     assert.ok(canonicalSkill, candidate.worldActivityId + " candidate skill must exist in canonical catalog");
+    assert.equal(candidate.canonicalSubjectId, canonicalSkill.subjectId, candidate.worldActivityId + " candidate subject must match the canonical skill");
     assert.equal(
       mechanics.resolveMechanicEvidenceContract(candidate.mechanicId, "assessed"),
       candidate.assessedEvidenceContract,
       candidate.worldActivityId + " candidate evidence contract must match the reusable mechanic"
     );
   }
+
+  const blockedCandidate = evidenceBridge.evaluateMoneyWorldEvidenceObservation({
+    worldId: world.MONEY_WORLD_ID,
+    stageId: "money-stage-08-final-festival",
+    worldActivityId: "money-s08-activity-02",
+    mechanicId: "tap_choice",
+    assessment: "practice",
+    status: "completed",
+    accuracy: 1,
+    correctCount: 1,
+    incorrectCount: 0,
+    retryCount: 0
+  });
+  assert.equal(blockedCandidate.validSourceIdentity, true);
+  assert.equal(blockedCandidate.disposition, "blocked");
+  assert.equal(blockedCandidate.candidateSkillId, "math.operation.subtraction.within_10");
+  assert.equal(blockedCandidate.canWriteLearningAttempt, false);
+  assert.equal(blockedCandidate.canCreateSkillEvidence, false);
+  assert.equal(blockedCandidate.canAffectMastery, false);
+  assert.equal(blockedCandidate.canAffectLearningProgress, false);
+  assert.equal(blockedCandidate.canAwardStars, false);
+  assert.equal(blockedCandidate.canIssueCertificate, false);
+  assert.ok(blockedCandidate.blockers.includes("bridge-disabled"));
+  assert.ok(blockedCandidate.blockers.includes("world-activity-practice-only"));
+  assert.ok(blockedCandidate.blockers.includes("candidate-mapping-not-approved"));
+  assert.ok(blockedCandidate.blockers.includes("progression-reward-side-effects-not-isolated"));
+
+  const spoofedAssessment = evidenceBridge.evaluateMoneyWorldEvidenceObservation({
+    worldId: world.MONEY_WORLD_ID,
+    stageId: "money-stage-08-final-festival",
+    worldActivityId: "money-s08-activity-02",
+    mechanicId: "tap_choice",
+    assessment: "assessed",
+    status: "completed",
+    accuracy: 1
+  });
+  assert.equal(spoofedAssessment.validSourceIdentity, false);
+  assert.ok(spoofedAssessment.blockers.includes("source-assessment-spoofed"), "caller must not promote World practice to assessed");
+
+  const excludedObservation = evidenceBridge.evaluateMoneyWorldEvidenceObservation({
+    worldId: world.MONEY_WORLD_ID,
+    stageId: "money-stage-05-saving",
+    worldActivityId: "money-s05-activity-01",
+    mechanicId: "drag_to_target",
+    assessment: "practice",
+    status: "completed",
+    accuracy: 1
+  });
+  assert.equal(excludedObservation.validSourceIdentity, true);
+  assert.equal(excludedObservation.candidateSkillId, null);
+  assert.ok(excludedObservation.blockers.includes("no-approved-canonical-skill-mapping"));
+
+  const unknownObservation = evidenceBridge.evaluateMoneyWorldEvidenceObservation({
+    worldId: world.MONEY_WORLD_ID,
+    stageId: "money-stage-01-money-use",
+    worldActivityId: "money-unknown",
+    mechanicId: "tap_choice",
+    assessment: "practice",
+    status: "completed",
+    accuracy: 1
+  });
+  assert.equal(unknownObservation.validSourceIdentity, false);
+  assert.ok(unknownObservation.blockers.includes("source-identity-mismatch"));
+
   assert.ok(
     evidenceBridge.MONEY_WORLD_EVIDENCE_BRIDGE_BLOCKERS.includes("canonical-learning-skill-age-contract-currently-stops-at-7"),
     "age-8 blocker must remain explicit until canonical learning age migration is complete"
+  );
+  assert.ok(
+    evidenceBridge.MONEY_WORLD_EVIDENCE_BRIDGE_BLOCKERS.includes("progression-reward-side-effects-not-isolated"),
+    "existing Belajar progression/reward side effects must remain an explicit blocker"
   );
 
   const stageEight = world.getMoneyWorldSegments("money-stage-08-final-festival");
@@ -644,7 +745,7 @@ try {
       (narrationAssetRegression.stderr ?? "")
   );
 
-  console.log("Petualangan Uang canonical hierarchy, semantic Chapter navigation, polished Stage completion UX, eight-stage content consistency audit, World accessibility semantics/focus/high-contrast support, World visual asset budgets/lazy background boundary, reusable Scene renderer/presentation policy, eight-stage production manifest, dedicated public-safe social card, data-driven Stage visuals, fixed-narration production/review resolver, narration binary provenance gate, provider-neutral four-cue pilot review gate, linear progress, age policy/migration audit, fail-closed evidence audit, practice boundary, low-text language, recap, mascot-dummy runtime policy, asset plan, and financial-safety contracts passed.");
+  console.log("Petualangan Uang canonical hierarchy, semantic Chapter navigation, polished Stage completion UX, eight-stage content consistency audit, fail-closed World-to-Evidence v1 design contract, World accessibility semantics/focus/high-contrast support, World visual asset budgets/lazy background boundary, reusable Scene renderer/presentation policy, eight-stage production manifest, dedicated public-safe social card, data-driven Stage visuals, fixed-narration production/review resolver, narration binary provenance gate, provider-neutral four-cue pilot review gate, linear progress, age policy/migration audit, fail-closed evidence audit, practice boundary, low-text language, recap, mascot-dummy runtime policy, asset plan, and financial-safety contracts passed.");
 } finally {
   rmSync(outDir, { recursive: true, force: true });
 }
