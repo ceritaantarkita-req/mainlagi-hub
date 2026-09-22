@@ -377,6 +377,14 @@
     --learning-visual-padding: 3px;
   }
 
+  .sceneDone .functionHeading {
+    display: none;
+  }
+
+  .sceneDone .functionButton:not(.functionCorrect) {
+    display: none;
+  }
+
   .sceneDone .functionButton {
     min-height: 44px;
     gap: 5px;
