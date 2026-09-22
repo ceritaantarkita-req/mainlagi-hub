@@ -1576,3 +1576,32 @@ docs/WORLD_PERFORMANCE_LAZY_LOAD_2026-09-22.md
 No narration generation, final character production, Belajar, Bermain/motion, SQL schema, mastery/evidence, or World progression changes are introduced.
 
 Checkpoint rule: validate the exact wave-16 head through Draft PR #282. If fully green, freeze a new immutable non-audio production checkpoint. Until then, the latest immutable green rollback remains `checkpoint/world-petualangan-uang-completion-ux-green-20260922`.
+
+
+## 46. Eight-Stage content audit green checkpoint — CI #1491
+
+Production wave 14 is independently green and frozen.
+
+```text
+head:   ef0a0ab60b66e9ed19da27b9b5a64e8a86f9f524
+CI:     #1491 / run 35752625951
+branch: checkpoint/world-petualangan-uang-content-audit-green-20260922
+```
+
+Full matrix:
+
+```text
+Quality gate (Ubuntu):        PASS
+Windows compatibility:        PASS
+Production build:             PASS
+Production dependency audit:  PASS
+Secret history scan:          PASS
+Mobile route QA (Chromium):   PASS
+overall:                      SUCCESS
+```
+
+This checkpoint freezes the complete eight-Stage content consistency/safety audit, including the Stage 2/6/7/8 Indonesian continuity refinements, neutral open financial choice, 89-Segment topology, and 16 practice-only activities.
+
+Do not move or force-push this checkpoint branch.
+
+Accessibility/performance work remains a later wave and does not change this rollback point.
