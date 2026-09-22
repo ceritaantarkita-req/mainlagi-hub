@@ -284,6 +284,10 @@ try {
   assert.equal(recapCount, 1, "dummy World must keep exactly one final visual recap");
 
   assert.equal(assets.MONEY_WORLD_ASSET_PLAN_VERSION, "money-world-assets-v1");
+  assert.equal(assets.MONEY_WORLD_RUNTIME_CHARACTER_POLICY.version, "money-world-runtime-character-dummy-v1");
+  assert.equal(assets.MONEY_WORLD_RUNTIME_CHARACTER_POLICY.mode, "approved-mascot-dummy");
+  assert.deepEqual(assets.MONEY_WORLD_RUNTIME_CHARACTER_POLICY.storyRoleToRuntimeCharacter, { Gian: "gavi", Naya: "paca" });
+  assert.equal(assets.MONEY_WORLD_RUNTIME_CHARACTER_POLICY.finalHumanCharactersActivated, false, "World runtime must not activate fallback human characters while character development is paused");
   assert.equal(new Set(assets.MONEY_WORLD_ASSET_SLOTS.map((slot) => slot.id)).size, assets.MONEY_WORLD_ASSET_SLOTS.length, "World asset slot IDs must stay unique");
   for (const asset of assets.MONEY_WORLD_REUSED_PUBLIC_ASSET_PATHS) {
     assert.equal(existsSync(path.join(root, asset)), true, "World visual/share asset missing: " + asset);
@@ -298,7 +302,7 @@ try {
     "current background reuse must remain explicitly approved in the pilot manifest"
   );
 
-  console.log("Petualangan Uang eight-stage payload, linear progress, age policy/migration audit, fixed-narration contract, fail-closed evidence audit, practice boundary, low-text language, recap, asset plan, and financial-safety contracts passed.");
+  console.log("Petualangan Uang eight-stage payload, linear progress, age policy/migration audit, fixed-narration contract, fail-closed evidence audit, practice boundary, low-text language, recap, mascot-dummy runtime policy, asset plan, and financial-safety contracts passed.");
 } finally {
   rmSync(outDir, { recursive: true, force: true });
 }
