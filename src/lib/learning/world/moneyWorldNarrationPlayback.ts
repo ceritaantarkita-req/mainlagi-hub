@@ -116,6 +116,7 @@ export function playMoneyWorldNarration(
       src: productionSrc
     };
   } catch {
+    activeFixedAudio = null;
     return browserSpeechFallback(options.cueId, fallbackText, speech);
   }
 }
