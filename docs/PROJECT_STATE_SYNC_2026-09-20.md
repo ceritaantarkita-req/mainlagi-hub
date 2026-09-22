@@ -74,6 +74,26 @@ The previous governance gap is closed:
 
 Canonical record: `SECRET_SCAN_REQUIRED_GATE_CLOSURE_2026-09-22.md`.
 
+## 1C. Active isolated World branch — not production
+
+An isolated Mainlagi World pilot is currently active on:
+
+```text
+Branch: feature/world-petualangan-uang-dummy-20260922
+Draft PR: #272
+Known-green code head: 5c76f9812a93eb7ef07fff1880af4da5af2b4927
+PR CI: #1290 / run 35679390492 — full success
+Merge state: NOT MERGED / NOT PRODUCTION
+```
+
+The pilot is **Petualangan Uang**, structured as 2 Chapters × 4 Stages. It implements the separate child-facing `Belajar | World | Bermain` model, illustrated journey map, short audio-first story segments, reusable mini-game configurations, Stage completion/share, checkpoint/resume, authenticated World-progress persistence and a final visual recap.
+
+Important boundary: World progress/reward is separate from canonical Belajar Skill Mastery. Current World activities are practice/completion-only and do not bypass the existing learning-attempt/evidence contract.
+
+Current visual production pass reuses approved existing Mainlagi backgrounds plus Paca/Gavi. Naya/Gian/Zia production foreground assets, final character voice production, a bespoke World art pack, custom World OG card and any World -> canonical Evidence bridge remain future gated work.
+
+Safe restart record: `WORLD_PETUALANGAN_UANG_SAFE_CHECKPOINT_2026-09-22.md`.
+
 ## 2. Learning/product baseline
 
 Current learning baseline remains:
