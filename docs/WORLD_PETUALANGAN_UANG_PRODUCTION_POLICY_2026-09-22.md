@@ -384,9 +384,11 @@ Current ordered work:
 15. **DONE / GREEN / CHECKPOINTED** — semantic Chapter navigation + 320px map-hero polish validated by CI #1457 at `55505f17...`; checkpoint `checkpoint/world-petualangan-uang-visual-nav-polish-green-20260922`;
 16. **DONE / GREEN / CHECKPOINTED** — completion UX derives canonical Chapter milestones, preserves ★★★ + Back / Again / Next + Share, and is validated by CI #1467 at `40436d41...`; checkpoint `checkpoint/world-petualangan-uang-completion-ux-green-20260922`;
 17. **DONE on isolated branch, CI pending** — eight-Stage content consistency audit adds machine-readable focus/safety/continuity gates and tightens four weak Indonesian transitions;
-18. **NEXT NON-AUDIO PASS** — accessibility pass, then performance/lazy-load;
-19. Gian/Naya visual character production remains paused;
-20. bespoke Stage/background art remains optional because current reused backgrounds are approved for the pilot;
-21. World -> Evidence bridge remains disabled until separately authorized.
+18. **DONE on isolated branch, CI pending** — focused accessibility pass adds progressbar/current-step/locked-state semantics, polite Scene announcements, completion focus, list/image semantics, forced-colors support, and visible keyboard focus;
+19. **NEXT NON-AUDIO PASS** — performance / lazy-load;
+20. Gian/Naya visual character production remains paused;
+21. bespoke Stage/background art remains optional because current reused backgrounds are approved for the pilot;
+22. World -> Evidence bridge remains disabled until separately authorized.
+
 
 This policy is intentionally narrower than the long-term Mainlagi 3–12 ambition. It prevents the pilot runtime from drifting into an incoherent one-World-fits-all model.
