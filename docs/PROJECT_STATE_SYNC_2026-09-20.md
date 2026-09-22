@@ -1,12 +1,22 @@
 # Mainlagi Hub — Project State Sync — 20 September 2026
 
-Status: **CURRENT HANDOFF SNAPSHOT — SYNCHRONIZED 22 SEPTEMBER 2026**  
+Status: **CURRENT HANDOFF SNAPSHOT — SYNCHRONIZED 23 SEPTEMBER 2026**  
 Repository: `ceritaantarkita-req/mainlagi-hub`  
 Canonical branch: `main`
 
-This document summarizes the current repository/product state through the 22 September English narration quality + production asset gate + provider-pilot harness closure. It does not replace historical audit/closure records; it links the current truth that active work must preserve.
+This document summarizes the current repository/product state through the 23 September learning-visual containment closure, while preserving the earlier English narration and WS-05 closures. It does not replace historical audit/closure records; it links the current truth that active work must preserve.
 
 ## 1. Source of truth and production verification
+
+Latest production main:
+
+```text
+6d0f9bd8972297e316bdf031603d160d901d8d04
+```
+
+This is learning visual containment PR #294. Exact-head PR CI **#1529 / run `35763091032`** passed the full matrix; merged-main CI **#1531 / run `35764397545`** repeated the full matrix and exact Cloudflare smoke confirmed production served `6d0f9bd8972297e316bdf031603d160d901d8d04` on branch `main` with 9 modules and the canonical Supabase backend.
+
+Containment is closed/live verified for Activity Gallery, Initial Sound, Bahasa+English Picture & Word, Science Feature/Function and Material Lab. Semantic illustration clarity/provenance remains open.
 
 Latest English-narration tooling implementation baseline:
 
