@@ -15,21 +15,17 @@ GitHub protected `main`
 
 Production tidak memakai VPS/SSH sebagai jalur canonical.
 
-## Current baseline — 20 September 2026
+## Current baseline — 22 September 2026
 
-Current source-of-truth branch is `main`. The documentation closure for the latest parent UX wave is currently at:
-
-```text
-a04bd51fb02dedf56b5cd62f7f579eb53c4be251
-```
-
-The latest independently live-verified runtime/product implementation is parent/profile/settings responsive redesign PR #251:
+Current source-of-truth branch is `main`:
 
 ```text
-implementation main: 77bee682f84b5d68b85d2c91b1d6f2ca4c93d2d9
-main CI:             #1160 / run 35520629179
+main:                8af5ce8a13d19f8aaeb3d8f06229dbcdeb555a41
+main CI:             #1212 / run 35632779986
 Cloudflare smoke:    PASS, exact SHA
 ```
+
+The active Mainlagi Belajar implementation is WS-05 Logic repeating-pattern reuse PR #273. Its verified implementation checkpoint is `ec050bf919ebe534a719ef22a37691248e1b233d` / CI #1312 full success; merge is pending final docs-head CI.
 
 Current learning/product baseline:
 
@@ -46,7 +42,7 @@ Current learning/product baseline:
 
 Product UX work completed in the current WS-13 sequence includes canonical component/warning audit, child home/navigation + 3-column subject directory, activity gallery + QA unlock, shared completion, matching randomization, first-instruction narration latency, and parent/profile/settings responsive redesign.
 
-Current next product-UX step is **character production**: extend the canonical Art Bible character specification and create/review production-ready Naya/Gian/Zia assets. Paca/Gavi already have production WebP artwork; Naya/Gian/Zia currently do not.
+**Character production/development is paused by the project owner.** Existing character assets in Drive are reference-only until explicitly resumed. **Mainlagi World is developed separately and must not be modified by the current Mainlagi Belajar WS-05 workstream.**
 
 Current subjects:
 
@@ -122,14 +118,16 @@ Canonical execution plans:
 
 Immediate priorities are:
 
-- production-grade character specification + Naya/Gian/Zia assets;
-- subject theme/background system and clearer learning illustrations;
+- close WS-05 Logic `pattern_completion` reuse PR #273 and verify merged production;
+- keep character development paused until explicit resume;
+- keep Mainlagi World outside this workstream;
+- maintain subject-background and learning-illustration consistency;
 - English narration quality after the completed first-instruction latency wave;
 - continued visual/usability cleanup without weakening progression/evidence;
 - real-device/accessibility acceptance and Iqro expert review;
 - repository/security/governance hardening.
 
-WS-05 gameplay reuse remains a separate track. The current Logic repeating-pattern audit is already merged/live verified through PR #240 -> `7109db41...`, CI #1100, while runtime implementation remains not started. It must reuse existing `pattern_completion` and must not create Pattern #48.
+WS-05 Logic repeating-pattern runtime reuse is implemented on PR #273. Checkpoint `ec050bf...` / CI #1312 verifies 900/900 activities, 47 active patterns, `choice_grid` 174, `pattern_completion` 10, KEEP 900, exact five-ID Logic scope and no Pattern #48. Merge remains pending final docs-head CI.
 
 **Quality first. Quantity later.**
 

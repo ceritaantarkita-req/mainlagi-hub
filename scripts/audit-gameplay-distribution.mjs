@@ -217,7 +217,10 @@ try {
   assert.equal(overall.number_line, 11, "Math missing-number reuse must classify exactly six legacy ordering + five Wave C missing-number activities");
   assert.equal(overall.make_total, 7, "Math mixed-add reuse must classify exactly five legacy + two mixed-operation additions");
   assert.equal(overall.take_away, 7, "Math mixed-sub reuse must classify exactly five legacy + two mixed-operation subtractions");
-  assert.equal(overall.choice_grid, 179, "Math mixed-operation reuse moves exactly four audited direct-result activities out of choice_grid");
+  assert.equal(overall.pattern_completion, 10, "Logic repeating-pattern reuse must classify exactly five legacy Math + five audited Logic activities");
+  assert.equal(overall.choice_grid, 174, "Logic repeating-pattern reuse moves exactly five audited Logic activities out of choice_grid");
+  assert.equal(bySubject.logic?.patterns?.pattern_completion, 5, "Logic must contain exactly five audited pattern_completion activities");
+  assert.equal(bySubject.logic?.patterns?.choice_grid, 21, "Logic repeating-pattern reuse must reduce Logic choice_grid from 26 to 21");
   assert.equal(activePatterns.length, 47, "Reuse waves must not create a new gameplay pattern");
 
   console.log("GAMEPLAY_DISTRIBUTION_AUDIT_SUMMARY", JSON.stringify({
