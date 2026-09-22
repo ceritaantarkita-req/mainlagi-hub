@@ -212,7 +212,7 @@ export function MoneyWorldMapScreen({ childId, worldId }: { childId: string; wor
         <span>{state.ready ? String(state.progress.completedStageIds.length) + "/8 Stage" : "Memuat…"}</span>
       </div>
 
-      <section className={styles.mapShell} aria-label="Peta Petualangan Uang">
+      <section className={styles.mapShell} aria-label="Peta Petualangan Uang" data-world-map="money-festival">
         <div className={styles.mapPath} aria-hidden />
         {MONEY_WORLD_STAGES.map((stage, index) => {
           const unlocked = state.ready && isMoneyWorldStageUnlocked(state.progress, stage.id);
@@ -1032,7 +1032,7 @@ function MoneyWorldStageRuntime({
   const percent = ((segmentIndex + 1) / segments.length) * 100;
 
   return (
-    <div className={styles.stageRuntime} data-stage-order={stage.order}>
+    <div className={styles.stageRuntime} data-stage-order={stage.order} data-world-scene={stage.order}>
       <div className={styles.stageProgressBar} aria-label={"Bagian " + (segmentIndex + 1) + " dari " + segments.length}>
         <span style={{ width: String(percent) + "%" }} />
       </div>
