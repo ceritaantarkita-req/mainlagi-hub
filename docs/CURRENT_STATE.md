@@ -4,6 +4,18 @@ Last reviewed: **22 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
+## 22 September execution boundary — World untouched / Belajar WS-05 active
+
+User-approved execution boundary:
+
+- **Mainlagi World is under separate development and must not be modified by this workstream.**
+- character production/development is **PAUSED**; current external character assets remain reference-only unless separately re-authorized.
+- the active engineering wave is **Mainlagi Belajar / WS-05 Logic repeating-pattern -> existing `pattern_completion` reuse**.
+- exact scope is the five IDs approved by the 20 September audit; Pattern #48 remains unjustified.
+- active implementation branch: `agent/ws05-logic-pattern-completion-reuse-20260922`.
+- wave checkpoint: `WS05_LOGIC_PATTERN_COMPLETION_REUSE_WAVE_2026-09-22.md`.
+
+
 ## 22 September required secret-scan enforcement closure
 
 Repository secret-history enforcement is **FULLY CLOSED / MERGED / LIVE VERIFIED** through PR **#269**.
@@ -987,7 +999,7 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 2. Parent/profile/settings responsive redesign is closed/live verified. Preserve the <760px mobile header + five-item bottom nav, >=760px desktop sidebar, family/demo separation and profile-vs-guide identity boundary.
 3. Execute the next WS-13 product wave: extend the Art Bible character production contract and create/review Naya/Gian/Zia production assets. Do not invent unsupported character biography or silently replace profile identity with guide identity.
 4. Preserve Paca/Gavi current production artwork and provenance. Naya/Gian/Zia generated candidates are not production-approved until reviewed and their rights/provenance are recorded.
-5. WS-05 remains separate. The exact five-ID Logic repeating-pattern audit is merged/live verified via PR #240 / `7109db41...` / CI #1100; runtime remains not started and must reuse existing `pattern_completion`, not create Pattern #48.
+5. WS-05 is now the active Mainlagi Belajar engineering wave. The exact five-ID Logic repeating-pattern audit is merged/live verified via PR #240 / `7109db41...` / CI #1100; runtime implementation is active on `agent/ws05-logic-pattern-completion-reuse-20260922` and must reuse existing `pattern_completion`, not create Pattern #48.
 6. Preserve the merged 9-subject / 900-activity / 47-active-pattern baseline and existing mastery/evidence/progression/schema contracts unless a separately justified migration is approved.
 7. Finish character/background visual-asset review first; then implement the approved SubjectTheme/SceneVariant background system, followed by English narration quality, expanded visual/usability cleanup, physical-device/accessibility acceptance and Iqro expert review.
 
