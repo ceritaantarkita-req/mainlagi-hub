@@ -883,7 +883,7 @@
 }
 
 @keyframes starPop {
-  from { opacity: 0; transform: scale(.25) rotate(-18deg); }
+  from { opacity: .24; transform: scale(.55) rotate(-12deg); }
   to { opacity: 1; transform: scale(1) rotate(0); }
 }
 
