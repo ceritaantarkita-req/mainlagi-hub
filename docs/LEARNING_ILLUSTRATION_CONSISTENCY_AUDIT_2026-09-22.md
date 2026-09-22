@@ -22,7 +22,38 @@ The active Product UX roadmap lists learning-illustration consistency after the 
 
 The accepted product requirement is:
 
-> Replace ambiguous or tiny learning emoji/icons with consistent child-readable artwork where recognition is part of the task. The pictured object must be recognizable without relying on the text answer, and the visual language must not depend on platform-specific emoji rendering.
+> Replace ambiguous or tiny learning emoji/icons with consistent child-readable artwork where recognition is part of the task. The pictured object must be recognizable without relying on the text answer, the visual language must not depend on platform-specific emoji rendering, and every icon/illustration must remain clearly contained inside its intended box on both desktop and mobile.
+
+## Project-owner containment and readability requirement
+
+The project owner explicitly added a second class of visual defects that must be treated as first-class product-quality issues, not cosmetic follow-up:
+
+- many icons/illustrations are intended to sit **inside a card/choice box but visually escape or collide with the box**;
+- some visuals are clipped, badly scaled, or too close to the card edge;
+- some are technically present but **too small, too faint, or too ambiguous to identify**;
+- the problem occurs on both **desktop and mobile**, so a desktop-only fix is not acceptable.
+
+The first implementation wave therefore has three equal acceptance dimensions:
+
+1. **semantic clarity** — a child can tell what the pictured object/action/material is;
+2. **cross-platform consistency** — recognition-critical learning content does not change with OS emoji rendering;
+3. **containment/readability** — the full visual stays inside its intended frame with stable padding, centering, scale and contrast at all supported viewports.
+
+### Containment contract
+
+Any shared visual container introduced by the pilot must:
+
+- own clipping/overflow explicitly rather than relying on font metrics;
+- center the visual in both axes;
+- preserve an internal safe area so the visible mark does not touch the border;
+- use bounded responsive sizing instead of unconstrained emoji/font scaling;
+- use `object-fit: contain` for raster/vector image assets;
+- preserve intrinsic aspect ratio;
+- define minimum readable visual size and maximum box-relative scale;
+- avoid accidental overlap with badges, labels, play controls, feedback or other overlays;
+- fail visibly/safely when an asset is missing instead of stretching another visual into the slot.
+
+The gallery thumbnail and the in-activity choice surface are separate containment layers. Passing one does not prove the other.
 
 ## Static source inventory
 
@@ -131,6 +162,8 @@ Before a recognition-critical illustration can be treated as production-ready:
 
 - one canonical semantic identity per asset;
 - child-readable at the smallest supported viewport;
+- full visual remains inside its intended box/card with no clipping, edge collision or overlay collision;
+- stable centering, safe padding, aspect ratio and contrast on desktop and mobile;
 - recognizable without answer text when recognition is the assessed task;
 - no platform emoji dependency for the replaced concept;
 - deterministic asset mapping;
