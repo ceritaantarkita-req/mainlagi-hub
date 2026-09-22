@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import Link from "next/link";
@@ -345,7 +344,7 @@ function WorldMatching({
   onComplete: () => void;
 }) {
   const validation = validateReusableMechanicPayload("matching", placement.payload);
-  const pairs = placement.payload.pairs ?? [];
+  const pairs = useMemo(() => placement.payload.pairs ?? [], [placement.payload.pairs]);
   const right = useMemo(() => [...pairs].reverse(), [pairs]);
   const [selectedPairId, setSelectedPairId] = useState<string | null>(null);
   const [matched, setMatched] = useState<string[]>([]);
@@ -539,10 +538,13 @@ function StageOneRuntime({ childId }: { childId: string }) {
     const resume = state.progress.currentStageId === stageId
       ? Math.min(lastIndex, state.progress.currentSegmentIndex)
       : 0;
-    setSegmentIndex(resume);
-    setCompleted(false);
-    checkpointMoneyWorldStage(childId, stageId, resume);
-    setHydrated(true);
+    const frame = window.requestAnimationFrame(() => {
+      setSegmentIndex(resume);
+      setCompleted(false);
+      checkpointMoneyWorldStage(childId, stageId, resume);
+      setHydrated(true);
+    });
+    return () => window.cancelAnimationFrame(frame);
   }, [childId, hydrated, lastIndex, state.progress.currentSegmentIndex, state.progress.currentStageId, state.ready]);
 
   const advance = () => {
