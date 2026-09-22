@@ -1414,46 +1414,6 @@
   background: #e6f4df;
 }
 
-.stageRuntime[data-stage-order="1"] {
-  --world-scene-wide: url("/artwork/backgrounds/math/playground-park-wide.webp");
-  --world-scene-mobile: url("/artwork/backgrounds/math/playground-park-mobile.webp");
-}
-
-.stageRuntime[data-stage-order="2"] {
-  --world-scene-wide: url("/artwork/backgrounds/math/mini-market-wide.webp");
-  --world-scene-mobile: url("/artwork/backgrounds/math/mini-market-mobile.webp");
-}
-
-.stageRuntime[data-stage-order="3"] {
-  --world-scene-wide: url("/artwork/math-warung.webp");
-  --world-scene-mobile: url("/artwork/math-warung.webp");
-}
-
-.stageRuntime[data-stage-order="4"] {
-  --world-scene-wide: url("/artwork/backgrounds/math/mini-market-wide.webp");
-  --world-scene-mobile: url("/artwork/backgrounds/math/mini-market-mobile.webp");
-}
-
-.stageRuntime[data-stage-order="5"] {
-  --world-scene-wide: url("/artwork/backgrounds/math/number-park-wide.webp");
-  --world-scene-mobile: url("/artwork/backgrounds/math/number-park-mobile.webp");
-}
-
-.stageRuntime[data-stage-order="6"] {
-  --world-scene-wide: url("/artwork/garden-background.webp");
-  --world-scene-mobile: url("/artwork/garden-background.webp");
-}
-
-.stageRuntime[data-stage-order="7"] {
-  --world-scene-wide: url("/artwork/backgrounds/math/playground-park-wide.webp");
-  --world-scene-mobile: url("/artwork/backgrounds/math/playground-park-mobile.webp");
-}
-
-.stageRuntime[data-stage-order="8"] {
-  --world-scene-wide: url("/artwork/garden-background.webp");
-  --world-scene-mobile: url("/artwork/garden-background.webp");
-}
-
 .stageRuntime::before,
 .stageRuntime::after {
   content: "";
