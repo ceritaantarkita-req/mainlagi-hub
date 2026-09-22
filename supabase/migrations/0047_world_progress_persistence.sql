@@ -150,7 +150,15 @@ begin
     current_stage_id = excluded.current_stage_id,
     current_segment_index = excluded.current_segment_index,
     updated_at = excluded.updated_at
+  where cardinality(excluded.completed_stage_ids) >= cardinality(public.child_world_progress.completed_stage_ids)
   returning * into v_result;
+
+  -- The WHERE clause above closes the first-row race where two devices both
+  -- observed no existing row before competing inserts. A shorter prefix can
+  -- never win the conflict update.
+  if v_result.account_id is null then
+    raise exception using errcode = '40001', message = 'world completion regression rejected';
+  end if;
 
   return v_result;
 end;
