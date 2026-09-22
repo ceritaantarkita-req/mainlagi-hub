@@ -29,7 +29,7 @@
  .spacious :global([data-choices]) { margin-top:190px; }
 }
 @media(min-width:1100px) { .play { width:min(800px,64%); } }
-@media(max-width:760px) {
+@media(min-width:900px) and (max-height:820px) {\n .spacious.compactShortDesktop { margin-top:30px; min-height:0; }\n .spacious.compactShortDesktop > .title { font-size:64px; margin-bottom:12px; }\n}\n@media(max-width:760px) {
  .garden { padding:16px 16px 145px; background-size:auto 100%; }
  .themedScene { background-image:var(--ml-scene-mobile); background-position:center bottom; background-size:cover; }
  .header { gap:8px; } .brand { width:112px; height:44px; }
