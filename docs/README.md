@@ -40,7 +40,7 @@ Read:
 
 - [`WORLD_PETUALANGAN_UANG_SAFE_CHECKPOINT_2026-09-22.md`](WORLD_PETUALANGAN_UANG_SAFE_CHECKPOINT_2026-09-22.md) — known-green World code checkpoint, product/runtime contract, visual QA, privacy/progress boundaries, production gaps and restart instructions.
 
-Known-green code checkpoint: `5c76f9812a93eb7ef07fff1880af4da5af2b4927` / CI #1290 / run `35679390492`. Docs-integrated frozen checkpoint: `checkpoint/world-petualangan-uang-green-20260922` @ `faaca0eba4cbf6a75dfabb5f261cbf8e98e0912b`, verified by CI #1293 / run `35680206722` — full PR matrix success. PR #272 remains **draft / not merged**.
+Known-green base checkpoint: `checkpoint/world-petualangan-uang-green-20260922` @ `faaca0eba4cbf6a75dfabb5f261cbf8e98e0912b`. Latest visual-green checkpoint: `checkpoint/world-petualangan-uang-visual-green-20260922` @ `3b033405b41abcfab4c70d9db76265095ff7c5e2`, verified by CI #1314 / run `35682393320` — Ubuntu, Windows, production build, dependency audit, secret scan and Mobile Chromium all pass. PR #272 remains **draft / not merged**.
 
 ## Current project checkpoint — 22 September 2026
 
