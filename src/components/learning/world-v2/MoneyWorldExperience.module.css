@@ -2081,3 +2081,26 @@
   font-size: 12px;
   font-weight: 750;
 }
+
+
+/* Keep the illustrated World light on low/mid-range phones. */
+@media(max-width: 760px) {
+  .stageNode,
+  .stageRuntimeTop,
+  .speechBubble,
+  .activityScene,
+  .sceneDecor span,
+  .festivalFinish {
+    backdrop-filter: none;
+  }
+
+  .stageNode,
+  .speechBubble,
+  .activityScene {
+    box-shadow: 0 5px 0 rgba(196, 211, 185, .52);
+  }
+
+  .sceneDecor span {
+    box-shadow: 0 5px 12px rgba(40, 70, 53, .1);
+  }
+}
