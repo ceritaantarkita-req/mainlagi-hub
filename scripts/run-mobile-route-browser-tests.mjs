@@ -485,6 +485,9 @@ async function main() {
       const stageTwoLink = page.locator('a[href="/child/demo-gian/world/money-festival/stage/money-stage-02-price-change"]');
       await stageTwoLink.waitFor();
       assert.equal(await stageTwoLink.count(), 1, "World Stage 1 completion must unlock Stage 2");
+      await page.waitForTimeout(50);
+      const stageTwoBox = await page.locator('[data-world-stage-id="money-stage-02-price-change"]').boundingBox();
+      assert.ok(stageTwoBox && stageTwoBox.y < viewport.height && stageTwoBox.y + stageTwoBox.height > 0, "World map must return the child near the next unlocked Stage");
       await context.close();
       console.log("World Petualangan Uang Stage 1 end-to-end checkpoint passed at 390px.");
     }
