@@ -115,6 +115,8 @@ Current explicit production gaps: Gian foreground, Naya foreground, fixed review
 
 World → canonical Evidence is still **disabled**. Audit result: 2 candidate mappings (`money-s02-activity-01` → `math.quantity.comparison`; `money-s08-activity-02` → `math.operation.subtraction.within_10`) and 14 explicit exclusions. Activation is blocked by missing canonical World activity registration, current skill-age contract ending at 7, missing server-owned World activity → Skill linkage, and the requirement that World stars remain separate from mastery. See `WORLD_PETUALANGAN_UANG_EVIDENCE_BRIDGE_AUDIT_2026-09-22.md`.
 
+Age 3–12 migration is also **not active**. `WORLD_AGE_MIGRATION_AUDIT_2026-09-22.md` records 13 current blockers and a staged sequence. The important runtime risk is that profile age 8+ cannot be exposed safely while canonical Belajar content remains ageMax 7 unless a deliberate no-reviewed-content behavior exists. Historical 3–7 content must not be blanket-widened.
+
 ## 2. Learning/product baseline
 
 Current learning baseline remains:
