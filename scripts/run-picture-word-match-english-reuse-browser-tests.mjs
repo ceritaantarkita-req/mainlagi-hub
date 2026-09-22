@@ -18,7 +18,8 @@ const screenshotDir=path.join(root,".mobile-route-qa");
 const cases=[
   {viewport:{width:320,height:720},completionMode:"touch"},
   {viewport:{width:390,height:844},completionMode:"pointer"},
-  {viewport:{width:768,height:1024},completionMode:"touch"}
+  {viewport:{width:768,height:1024},completionMode:"touch"},
+  {viewport:{width:1280,height:800},completionMode:"pointer"}
 ];
 let server=null;
 let serverLog="";
