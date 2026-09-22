@@ -86,6 +86,9 @@ Code CI: #1290 / run 35679390492 — full success
 Frozen checkpoint branch: checkpoint/world-petualangan-uang-green-20260922
 Frozen checkpoint head: faaca0eba4cbf6a75dfabb5f261cbf8e98e0912b
 Frozen checkpoint CI: #1293 / run 35680206722 — full success
+Latest visual-green branch: checkpoint/world-petualangan-uang-visual-green-20260922
+Latest visual-green head: 3b033405b41abcfab4c70d9db76265095ff7c5e2
+Latest visual-green CI: #1314 / run 35682393320 — full success
 Merge state: NOT MERGED / NOT PRODUCTION
 ```
 
