@@ -210,6 +210,14 @@ docs/WORLD_PRODUCTION_QA_2026-09-22.md
 
 It covers all five Scene kinds at 320 / 390 / 430, adds Scene-local progress, hardens metadata overflow behavior and adjusts story/activity minimum height for the reusable Scene wrapper.
 
-The remaining gate is CI validation of the exact branch head. Only after that succeeds should a new immutable production-wave green checkpoint be frozen.
+The responsive pass is now green at code head `e8f795b7d26a2cb3bf19fc787f6f58b2b85ed60a` through CI #1382 / run 35704255936.
 
-Do not move the older frozen World checkpoint branches.
+Frozen checkpoint:
+
+```text
+checkpoint/world-petualangan-uang-production-green-20260922
+```
+
+The CI matrix includes Ubuntu, Windows, production build, dependency audit, secret history scan and mobile Chromium. Selected 320/430 Scene screenshots were manually reviewed with no P0/P1 World-specific blocker observed.
+
+Do not move the older frozen World checkpoint branches or the new production-green checkpoint.
