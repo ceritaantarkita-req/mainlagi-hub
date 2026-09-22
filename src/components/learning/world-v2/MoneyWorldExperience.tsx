@@ -252,7 +252,7 @@ function WorldDragTarget({
   const [selected, setSelected] = useState<string | null>(null);
   const [matched, setMatched] = useState<string[]>([]);
   const [incorrectCount, setIncorrectCount] = useState(0);
-  const [message, setMessage] = useState("Pilih atau seret uang ke barang yang cocok.");
+  const [message, setMessage] = useState("Pilih atau seret kartu ke tujuan yang cocok.");
 
   if (!validation.valid) return <div className={styles.runtimeError}>Payload drag tidak valid.</div>;
 
@@ -270,7 +270,7 @@ function WorldDragTarget({
     setSelected(null);
     playTone("correct");
     if (next.length === items.length) {
-      setMessage("Semua cocok! Barang punya harga.");
+      setMessage("Semua kartu sudah cocok!");
       window.setTimeout(onComplete, 450);
     } else {
       setMessage("Cocok! Cari pasangan berikutnya.");
@@ -292,7 +292,7 @@ function WorldDragTarget({
       </div>
       <div className={styles.dragBoard}>
         <div className={styles.sourceColumn}>
-          <strong>Uang</strong>
+          <strong>Kartu</strong>
           {items.map((item) => {
             const done = matched.includes(item.id);
             return (
@@ -312,7 +312,7 @@ function WorldDragTarget({
           })}
         </div>
         <div className={styles.targetColumn}>
-          <strong>Barang</strong>
+          <strong>Tujuan</strong>
           {targets.map((target) => {
             const landed = items.filter((item) => matched.includes(item.id) && assignments[item.id] === target.id);
             return (
@@ -380,7 +380,7 @@ function WorldMatching({
       <div className={styles.activityHeading}>
         <span className={styles.sceneType}>Mini-game</span>
         <h2>{placement.payload.prompt}</h2>
-        <p>Pasangkan tiga barang dengan harga yang tepat.</p>
+        <p>Pasangkan kartu di kiri dengan pasangannya di kanan.</p>
       </div>
       <div className={styles.matchBoard}>
         <div className={styles.matchColumn}>
@@ -496,7 +496,7 @@ function WorldSortClassify({
     if (assignments[selected] !== groupId) {
       const nextWrong = incorrectCount + 1;
       setIncorrectCount(nextWrong);
-      setMessage(nextWrong >= 2 ? "Kalau angka kedua lebih besar, harganya naik." : "Belum tepat. Coba kelompok satunya.");
+      setMessage(nextWrong >= 2 ? "Perhatikan contoh dan nama kelompoknya." : "Belum tepat. Coba kelompok satunya.");
       playTone("wrong");
       return;
     }
@@ -557,11 +557,209 @@ function WorldSortClassify({
   );
 }
 
+function WorldTapChoice({
+  placement,
+  onComplete
+}: {
+  placement: MoneyWorldActivityPlacement;
+  onComplete: () => void;
+}) {
+  const validation = validateReusableMechanicPayload("tap_choice", placement.payload);
+  const options = placement.payload.options ?? [];
+  const correctOptionId = placement.payload.correctOptionId ?? "";
+  const [selected, setSelected] = useState<string | null>(null);
+  const [incorrectCount, setIncorrectCount] = useState(0);
+  const [message, setMessage] = useState("Pilih jawaban yang paling cocok.");
+
+  if (!validation.valid) return <div className={styles.runtimeError}>Payload pilihan tidak valid.</div>;
+
+  const choose = (optionId: string) => {
+    setSelected(optionId);
+    if (optionId !== correctOptionId) {
+      const nextWrong = incorrectCount + 1;
+      setIncorrectCount(nextWrong);
+      setMessage(nextWrong >= 2 ? "Dengarkan pertanyaannya lagi, lalu lihat semua pilihan." : "Belum tepat. Coba pilihan lain.");
+      playTone("wrong");
+      return;
+    }
+    setMessage("Betul!");
+    playTone("correct");
+    window.setTimeout(onComplete, 450);
+  };
+
+  const takeAway = placement.presentation?.kind === "take_away";
+  const startCount = placement.presentation?.startCount ?? 0;
+  const removeCount = placement.presentation?.removeCount ?? 0;
+
+  return (
+    <section className={styles.activityScene}>
+      <div className={styles.activityHeading}>
+        <span className={styles.sceneType}>Mini-game</span>
+        <h2>{placement.payload.prompt}</h2>
+        <p>Pilih satu jawaban.</p>
+      </div>
+
+      {takeAway ? (
+        <div className={styles.tokenBoard} aria-label={startCount + " token, " + removeCount + " dipakai"}>
+          {Array.from({ length: startCount }, (_, index) => (
+            <span key={index} className={cx(styles.tokenDot, index >= startCount - removeCount && styles.tokenRemoved)} aria-hidden>🪙</span>
+          ))}
+        </div>
+      ) : null}
+
+      <div className={styles.choiceBoard} role="group" aria-label="Pilihan jawaban">
+        {options.map((option) => (
+          <button
+            type="button"
+            key={option.id}
+            className={cx(styles.choiceCard, selected === option.id && styles.selectedCard)}
+            aria-pressed={selected === option.id}
+            onClick={() => choose(option.id)}
+          >
+            {option.label}
+          </button>
+        ))}
+      </div>
+      <p className={styles.activityStatus} role="status">{message}</p>
+    </section>
+  );
+}
+
+function WorldOrdering({
+  placement,
+  onComplete
+}: {
+  placement: MoneyWorldActivityPlacement;
+  onComplete: () => void;
+}) {
+  const validation = validateReusableMechanicPayload("ordering_sequence", placement.payload);
+  const items = placement.payload.items ?? [];
+  const correctOrder = placement.payload.correctOrder ?? [];
+  const [order, setOrder] = useState<string[]>([]);
+  const [incorrectCount, setIncorrectCount] = useState(0);
+  const [message, setMessage] = useState("Sentuh kartu sesuai urutan.");
+
+  if (!validation.valid) return <div className={styles.runtimeError}>Payload urutan tidak valid.</div>;
+
+  const add = (itemId: string) => {
+    if (order.includes(itemId)) return;
+    setOrder([...order, itemId]);
+    setMessage("Bagus. Pilih langkah berikutnya.");
+  };
+
+  const reset = () => {
+    setOrder([]);
+    setMessage("Mulai lagi dari langkah pertama.");
+  };
+
+  const check = () => {
+    if (order.length !== items.length) {
+      setMessage("Lengkapi semua langkah dulu.");
+      return;
+    }
+    const correct = order.every((id, index) => id === correctOrder[index]);
+    if (!correct) {
+      const nextWrong = incorrectCount + 1;
+      setIncorrectCount(nextWrong);
+      setOrder([]);
+      setMessage(nextWrong >= 2 ? "Coba mulai dari tujuan, lalu simpan sedikit demi sedikit." : "Belum urut. Coba lagi dari awal.");
+      playTone("wrong");
+      return;
+    }
+    setMessage("Urutannya tepat!");
+    playTone("correct");
+    window.setTimeout(onComplete, 450);
+  };
+
+  const orderedItems = order.map((id) => items.find((item) => item.id === id)).filter(Boolean);
+  const remaining = items.filter((item) => !order.includes(item.id));
+
+  return (
+    <section className={styles.activityScene}>
+      <div className={styles.activityHeading}>
+        <span className={styles.sceneType}>Mini-game</span>
+        <h2>{placement.payload.prompt}</h2>
+        <p>Sentuh kartu dari langkah pertama sampai terakhir.</p>
+      </div>
+
+      <div className={styles.orderSlots} aria-label="Urutan yang dipilih">
+        {items.map((_, index) => (
+          <div key={index} className={styles.orderSlot}>
+            <span>{index + 1}</span>
+            <strong>{orderedItems[index]?.label ?? "?"}</strong>
+          </div>
+        ))}
+      </div>
+
+      <div className={styles.orderTray} role="group" aria-label="Kartu urutan">
+        {remaining.map((item) => (
+          <button type="button" key={item.id} className={styles.orderCard} onClick={() => add(item.id)}>
+            {item.label}
+          </button>
+        ))}
+      </div>
+
+      <div className={styles.orderActions}>
+        <button type="button" className={styles.secondaryButton} onClick={reset}>Ulang urutan</button>
+        <button type="button" className={styles.primaryButton} onClick={check}>Cek urutan</button>
+      </div>
+      <p className={styles.activityStatus} role="status">{message}</p>
+    </section>
+  );
+}
+
+function NarrativeChoiceCard({
+  prompt,
+  options,
+  onNext
+}: {
+  prompt: string;
+  options: Array<{ id: string; label: string; reaction: string }>;
+  onNext: () => void;
+}) {
+  const [choiceId, setChoiceId] = useState<string | null>(null);
+  const selected = options.find((option) => option.id === choiceId);
+
+  return (
+    <section className={styles.activityScene}>
+      <div className={styles.activityHeading}>
+        <span className={styles.sceneType}>Pilihanmu</span>
+        <h2>{prompt}</h2>
+        <p>Tidak ada jawaban salah di bagian ini. Pilih yang kamu mau.</p>
+      </div>
+      <div className={styles.choiceBoard} role="group" aria-label="Pilihan cerita">
+        {options.map((option) => (
+          <button
+            type="button"
+            key={option.id}
+            className={cx(styles.choiceCard, choiceId === option.id && styles.selectedCard)}
+            aria-pressed={choiceId === option.id}
+            onClick={() => {
+              setChoiceId(option.id);
+              playTone("correct");
+            }}
+          >
+            {option.label}
+          </button>
+        ))}
+      </div>
+      {selected ? (
+        <div className={styles.choiceReaction}>
+          <p>{selected.reaction}</p>
+          <button type="button" className={styles.primaryButton} onClick={onNext}>Lanjut <ArrowRight size={20} weight="bold" aria-hidden /></button>
+        </div>
+      ) : null}
+    </section>
+  );
+}
+
 function WorldActivity({ placement, onComplete }: { placement: MoneyWorldActivityPlacement; onComplete: () => void }) {
   if (placement.mechanicId === "drag_to_target") return <WorldDragTarget placement={placement} onComplete={onComplete} />;
   if (placement.mechanicId === "matching") return <WorldMatching placement={placement} onComplete={onComplete} />;
   if (placement.mechanicId === "compare") return <WorldCompare placement={placement} onComplete={onComplete} />;
   if (placement.mechanicId === "sort_classify") return <WorldSortClassify placement={placement} onComplete={onComplete} />;
+  if (placement.mechanicId === "tap_choice") return <WorldTapChoice placement={placement} onComplete={onComplete} />;
+  if (placement.mechanicId === "ordering_sequence") return <WorldOrdering placement={placement} onComplete={onComplete} />;
   return <div className={styles.runtimeError}>Mechanic ini belum aktif di World dummy.</div>;
 }
 
@@ -581,7 +779,12 @@ function WorldStageCompletion({
   const stage = getMoneyWorldStage(stageId);
   const mapHref = "/child/" + childId + "/world/" + MONEY_WORLD_ID;
   const nextHref = next ? mapHref + "/stage/" + next.id : mapHref;
-  const shareText = "⭐⭐⭐ Stage “" + (stage?.title ?? "Petualangan Uang") + "” selesai di Mainlagi!";
+  const praiseByStage = ["Awesome!", "Hebat!", "Good job!", "Excellent!", "Keren!", "Bagus sekali!", "Mantap!", "Luar biasa!"];
+  const praise = stage ? praiseByStage[Math.max(0, Math.min(praiseByStage.length - 1, stage.order - 1))] : "Awesome!";
+  const finalStage = stage?.order === MONEY_WORLD_STAGES.length;
+  const shareText = finalStage
+    ? "⭐⭐⭐ Petualangan Uang selesai. Festival Mainlagi siap!"
+    : "⭐⭐⭐ Stage “" + (stage?.title ?? "Petualangan Uang") + "” selesai di Mainlagi!";
 
   const openShare = async () => {
     setShareGate("checking");
@@ -604,13 +807,13 @@ function WorldStageCompletion({
     <section className={styles.completion} aria-labelledby="world-stage-complete-title">
       <div className={styles.completionCard}>
         <span className={styles.eyebrow}>Stage selesai</span>
-        <h2 id="world-stage-complete-title">Awesome!</h2>
+        <h2 id="world-stage-complete-title">{praise}</h2>
         <div className={styles.completionStars} aria-label="Tiga bintang">
           {[0, 1, 2].map((index) => (
             <Star key={index} size={58} weight="fill" aria-hidden style={{ animationDelay: String(index * 140) + "ms" }} />
           ))}
         </div>
-        <p>{stage?.title} selesai. Stage berikutnya sekarang terbuka.</p>
+        <p>{finalStage ? "Petualangan Uang selesai. Festival Mainlagi siap!" : stage?.title + " selesai. Stage berikutnya sekarang terbuka."}</p>
         <div className={styles.completionActions}>
           <Link href={mapHref}><ArrowLeft size={21} weight="bold" aria-hidden />Back</Link>
           <button type="button" onClick={onAgain}><ArrowClockwise size={21} weight="bold" aria-hidden />Again</button>
@@ -737,6 +940,8 @@ function MoneyWorldStageRuntime({
 
       {segment.type === "activity" ? (
         <WorldActivity placement={segment.activity} onComplete={advance} />
+      ) : segment.type === "narrative_choice" ? (
+        <NarrativeChoiceCard prompt={segment.prompt} options={segment.options} onNext={advance} />
       ) : (
         <SpeechCard
           speaker={segment.speaker}
