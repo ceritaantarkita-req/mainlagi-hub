@@ -1,0 +1,636 @@
+{
+  "version": 1,
+  "scope": "learning-semantic-illustration",
+  "productionDirectory": "/artwork/learning-illustrations",
+  "items": {
+    "object.apple": {
+      "category": "object",
+      "lifecycle": "review-required",
+      "expectedProductionPath": "/artwork/learning-illustrations/object-apple-v1.webp",
+      "productionPath": null,
+      "fallbackGlyph": "🍎",
+      "candidate": {
+        "sourcePath": "/artwork/activity-previews/color-object-apple.webp",
+        "reviewStatus": "visually-suitable",
+        "reviewedAt": "2026-09-23",
+        "notes": "Preliminary semantic review: recognizable apple silhouette; provenance still unresolved."
+      },
+      "provenance": {
+        "status": "pending",
+        "source": "Existing Mainlagi activity-preview candidate; creation/rights basis not yet documented for semantic reuse.",
+        "rightsHolder": null,
+        "licenseBasis": null,
+        "redistributionAllowed": false,
+        "reviewedAt": "2026-09-23"
+      },
+      "semanticReview": {
+        "status": "pending",
+        "childReadable": null,
+        "reviewedAt": null,
+        "notes": "Requires exact child-readability approval before production."
+      },
+      "productionSha256": null,
+      "technical": {
+        "format": "webp",
+        "requireAlpha": true,
+        "minWidth": 128,
+        "minHeight": 128,
+        "maxWidth": 1024,
+        "maxHeight": 1024,
+        "maxBytes": 300000
+      }
+    },
+    "animal.cat": {
+      "category": "animal",
+      "lifecycle": "review-required",
+      "expectedProductionPath": "/artwork/learning-illustrations/animal-cat-v1.webp",
+      "productionPath": null,
+      "fallbackGlyph": "🐱",
+      "candidate": {
+        "sourcePath": "/artwork/activity-previews/color-parts-cat.webp",
+        "reviewStatus": "visually-suitable",
+        "reviewedAt": "2026-09-23",
+        "notes": "Preliminary semantic review: stylized but clearly cat-like; provenance unresolved."
+      },
+      "provenance": {
+        "status": "pending",
+        "source": "Existing Mainlagi activity-preview candidate; creation/rights basis not yet documented for semantic reuse.",
+        "rightsHolder": null,
+        "licenseBasis": null,
+        "redistributionAllowed": false,
+        "reviewedAt": "2026-09-23"
+      },
+      "semanticReview": {
+        "status": "pending",
+        "childReadable": null,
+        "reviewedAt": null,
+        "notes": "Requires exact child-readability approval before production."
+      },
+      "productionSha256": null,
+      "technical": {
+        "format": "webp",
+        "requireAlpha": true,
+        "minWidth": 128,
+        "minHeight": 128,
+        "maxWidth": 1024,
+        "maxHeight": 1024,
+        "maxBytes": 300000
+      }
+    },
+    "animal.fish": {
+      "category": "animal",
+      "lifecycle": "review-required",
+      "expectedProductionPath": "/artwork/learning-illustrations/animal-fish-v1.webp",
+      "productionPath": null,
+      "fallbackGlyph": "🐟",
+      "candidate": {
+        "sourcePath": "/artwork/activity-previews/color-palette-fish.webp",
+        "reviewStatus": "visually-suitable",
+        "reviewedAt": "2026-09-23",
+        "notes": "Preliminary semantic review: clear fish silhouette; provenance unresolved."
+      },
+      "provenance": {
+        "status": "pending",
+        "source": "Existing Mainlagi activity-preview candidate; creation/rights basis not yet documented for semantic reuse.",
+        "rightsHolder": null,
+        "licenseBasis": null,
+        "redistributionAllowed": false,
+        "reviewedAt": "2026-09-23"
+      },
+      "semanticReview": {
+        "status": "pending",
+        "childReadable": null,
+        "reviewedAt": null,
+        "notes": "Requires exact child-readability approval before production."
+      },
+      "productionSha256": null,
+      "technical": {
+        "format": "webp",
+        "requireAlpha": true,
+        "minWidth": 128,
+        "minHeight": 128,
+        "maxWidth": 1024,
+        "maxHeight": 1024,
+        "maxBytes": 300000
+      }
+    },
+    "object.umbrella": {
+      "category": "object",
+      "lifecycle": "review-required",
+      "expectedProductionPath": "/artwork/learning-illustrations/object-umbrella-v1.webp",
+      "productionPath": null,
+      "fallbackGlyph": "☂️",
+      "candidate": {
+        "sourcePath": "/artwork/activity-previews/color-object-umbrella.webp",
+        "reviewStatus": "visually-suitable",
+        "reviewedAt": "2026-09-23",
+        "notes": "Preliminary semantic review: clear umbrella silhouette; provenance unresolved."
+      },
+      "provenance": {
+        "status": "pending",
+        "source": "Existing Mainlagi activity-preview candidate; creation/rights basis not yet documented for semantic reuse.",
+        "rightsHolder": null,
+        "licenseBasis": null,
+        "redistributionAllowed": false,
+        "reviewedAt": "2026-09-23"
+      },
+      "semanticReview": {
+        "status": "pending",
+        "childReadable": null,
+        "reviewedAt": null,
+        "notes": "Requires exact child-readability approval before production."
+      },
+      "productionSha256": null,
+      "technical": {
+        "format": "webp",
+        "requireAlpha": true,
+        "minWidth": 128,
+        "minHeight": 128,
+        "maxWidth": 1024,
+        "maxHeight": 1024,
+        "maxBytes": 300000
+      }
+    },
+    "vehicle.car": {
+      "category": "vehicle",
+      "lifecycle": "review-required",
+      "expectedProductionPath": "/artwork/learning-illustrations/vehicle-car-v1.webp",
+      "productionPath": null,
+      "fallbackGlyph": "🚗",
+      "candidate": {
+        "sourcePath": "/artwork/activity-previews/color-palette-car.webp",
+        "reviewStatus": "visually-suitable",
+        "reviewedAt": "2026-09-23",
+        "notes": "Preliminary semantic review: clear compact-car silhouette; provenance unresolved."
+      },
+      "provenance": {
+        "status": "pending",
+        "source": "Existing Mainlagi activity-preview candidate; creation/rights basis not yet documented for semantic reuse.",
+        "rightsHolder": null,
+        "licenseBasis": null,
+        "redistributionAllowed": false,
+        "reviewedAt": "2026-09-23"
+      },
+      "semanticReview": {
+        "status": "pending",
+        "childReadable": null,
+        "reviewedAt": null,
+        "notes": "Requires exact child-readability approval before production."
+      },
+      "productionSha256": null,
+      "technical": {
+        "format": "webp",
+        "requireAlpha": true,
+        "minWidth": 128,
+        "minHeight": 128,
+        "maxWidth": 1024,
+        "maxHeight": 1024,
+        "maxBytes": 300000
+      }
+    },
+    "object.cup": {
+      "category": "object",
+      "lifecycle": "review-required",
+      "expectedProductionPath": "/artwork/learning-illustrations/object-cup-v1.webp",
+      "productionPath": null,
+      "fallbackGlyph": "🥤",
+      "candidate": {
+        "sourcePath": "/artwork/activity-previews/color-palette-cup.webp",
+        "reviewStatus": "visually-suitable",
+        "reviewedAt": "2026-09-23",
+        "notes": "Preliminary semantic review: clearly a handled cup on saucer; provenance unresolved."
+      },
+      "provenance": {
+        "status": "pending",
+        "source": "Existing Mainlagi activity-preview candidate; creation/rights basis not yet documented for semantic reuse.",
+        "rightsHolder": null,
+        "licenseBasis": null,
+        "redistributionAllowed": false,
+        "reviewedAt": "2026-09-23"
+      },
+      "semanticReview": {
+        "status": "pending",
+        "childReadable": null,
+        "reviewedAt": null,
+        "notes": "Requires exact child-readability approval before production."
+      },
+      "productionSha256": null,
+      "technical": {
+        "format": "webp",
+        "requireAlpha": true,
+        "minWidth": 128,
+        "minHeight": 128,
+        "maxWidth": 1024,
+        "maxHeight": 1024,
+        "maxBytes": 300000
+      }
+    },
+    "object.house": {
+      "category": "object",
+      "lifecycle": "review-required",
+      "expectedProductionPath": "/artwork/learning-illustrations/object-house-v1.webp",
+      "productionPath": null,
+      "fallbackGlyph": "🏠",
+      "candidate": {
+        "sourcePath": "/artwork/activity-previews/color-object-house.webp",
+        "reviewStatus": "visually-suitable",
+        "reviewedAt": "2026-09-23",
+        "notes": "Preliminary semantic review: simple canonical house silhouette; provenance unresolved."
+      },
+      "provenance": {
+        "status": "pending",
+        "source": "Existing Mainlagi activity-preview candidate; creation/rights basis not yet documented for semantic reuse.",
+        "rightsHolder": null,
+        "licenseBasis": null,
+        "redistributionAllowed": false,
+        "reviewedAt": "2026-09-23"
+      },
+      "semanticReview": {
+        "status": "pending",
+        "childReadable": null,
+        "reviewedAt": null,
+        "notes": "Requires exact child-readability approval before production."
+      },
+      "productionSha256": null,
+      "technical": {
+        "format": "webp",
+        "requireAlpha": true,
+        "minWidth": 128,
+        "minHeight": 128,
+        "maxWidth": 1024,
+        "maxHeight": 1024,
+        "maxBytes": 300000
+      }
+    },
+    "animal.bird": {
+      "category": "animal",
+      "lifecycle": "review-required",
+      "expectedProductionPath": "/artwork/learning-illustrations/animal-bird-v1.webp",
+      "productionPath": null,
+      "fallbackGlyph": "🐦",
+      "candidate": {
+        "sourcePath": "/artwork/activity-previews/color-contrast-bird.webp",
+        "reviewStatus": "visually-suitable",
+        "reviewedAt": "2026-09-23",
+        "notes": "Preliminary semantic review: recognizable bird silhouette; provenance unresolved."
+      },
+      "provenance": {
+        "status": "pending",
+        "source": "Existing Mainlagi activity-preview candidate; creation/rights basis not yet documented for semantic reuse.",
+        "rightsHolder": null,
+        "licenseBasis": null,
+        "redistributionAllowed": false,
+        "reviewedAt": "2026-09-23"
+      },
+      "semanticReview": {
+        "status": "pending",
+        "childReadable": null,
+        "reviewedAt": null,
+        "notes": "Requires exact child-readability approval before production."
+      },
+      "productionSha256": null,
+      "technical": {
+        "format": "webp",
+        "requireAlpha": true,
+        "minWidth": 128,
+        "minHeight": 128,
+        "maxWidth": 1024,
+        "maxHeight": 1024,
+        "maxBytes": 300000
+      }
+    },
+    "object.ball": {
+      "category": "object",
+      "lifecycle": "review-required",
+      "expectedProductionPath": "/artwork/learning-illustrations/object-ball-v1.webp",
+      "productionPath": null,
+      "fallbackGlyph": "⚽",
+      "candidate": {
+        "sourcePath": "/artwork/activity-previews/color-object-ball.webp",
+        "reviewStatus": "rejected",
+        "reviewedAt": "2026-09-23",
+        "notes": "Rejected for semantic reuse: artwork is a circle containing a pentagon and does not read reliably as a ball."
+      },
+      "provenance": {
+        "status": "pending",
+        "source": "Rejected existing Mainlagi activity-preview candidate; no semantic production approval.",
+        "rightsHolder": null,
+        "licenseBasis": null,
+        "redistributionAllowed": false,
+        "reviewedAt": "2026-09-23"
+      },
+      "semanticReview": {
+        "status": "pending",
+        "childReadable": null,
+        "reviewedAt": null,
+        "notes": "Needs a new/reviewed ball illustration if emoji fallback is later retired."
+      },
+      "productionSha256": null,
+      "technical": {
+        "format": "webp",
+        "requireAlpha": true,
+        "minWidth": 128,
+        "minHeight": 128,
+        "maxWidth": 1024,
+        "maxHeight": 1024,
+        "maxBytes": 300000
+      }
+    },
+    "body.head": {
+      "category": "body",
+      "lifecycle": "review-required",
+      "expectedProductionPath": "/artwork/learning-illustrations/body-head-v1.webp",
+      "productionPath": null,
+      "fallbackGlyph": "🙂",
+      "candidate": {
+        "sourcePath": null,
+        "reviewStatus": "none",
+        "reviewedAt": null,
+        "notes": "P0 mismatch: current smiling face is not an explicit head/body-part illustration."
+      },
+      "provenance": {
+        "status": "pending",
+        "source": "No candidate production asset selected.",
+        "rightsHolder": null,
+        "licenseBasis": null,
+        "redistributionAllowed": false,
+        "reviewedAt": "2026-09-23"
+      },
+      "semanticReview": {
+        "status": "pending",
+        "childReadable": null,
+        "reviewedAt": null,
+        "notes": "P0 semantic replacement target."
+      },
+      "productionSha256": null,
+      "technical": {
+        "format": "webp",
+        "requireAlpha": true,
+        "minWidth": 128,
+        "minHeight": 128,
+        "maxWidth": 1024,
+        "maxHeight": 1024,
+        "maxBytes": 300000
+      }
+    },
+    "action.jump": {
+      "category": "action",
+      "lifecycle": "review-required",
+      "expectedProductionPath": "/artwork/learning-illustrations/action-jump-v1.webp",
+      "productionPath": null,
+      "fallbackGlyph": "🤸",
+      "candidate": {
+        "sourcePath": null,
+        "reviewStatus": "none",
+        "reviewedAt": null,
+        "notes": "P0 mismatch: current cartwheel/gymnast glyph is not a stable canonical jump depiction."
+      },
+      "provenance": {
+        "status": "pending",
+        "source": "No candidate production asset selected.",
+        "rightsHolder": null,
+        "licenseBasis": null,
+        "redistributionAllowed": false,
+        "reviewedAt": "2026-09-23"
+      },
+      "semanticReview": {
+        "status": "pending",
+        "childReadable": null,
+        "reviewedAt": null,
+        "notes": "P0 semantic replacement target."
+      },
+      "productionSha256": null,
+      "technical": {
+        "format": "webp",
+        "requireAlpha": true,
+        "minWidth": 128,
+        "minHeight": 128,
+        "maxWidth": 1024,
+        "maxHeight": 1024,
+        "maxBytes": 300000
+      }
+    },
+    "feature.gills": {
+      "category": "feature",
+      "lifecycle": "review-required",
+      "expectedProductionPath": "/artwork/learning-illustrations/feature-gills-v1.webp",
+      "productionPath": null,
+      "fallbackGlyph": "🫧",
+      "candidate": {
+        "sourcePath": null,
+        "reviewStatus": "none",
+        "reviewedAt": null,
+        "notes": "P0 mismatch: bubbles do not depict fish gills."
+      },
+      "provenance": {
+        "status": "pending",
+        "source": "No candidate production asset selected.",
+        "rightsHolder": null,
+        "licenseBasis": null,
+        "redistributionAllowed": false,
+        "reviewedAt": "2026-09-23"
+      },
+      "semanticReview": {
+        "status": "pending",
+        "childReadable": null,
+        "reviewedAt": null,
+        "notes": "P0 semantic replacement target."
+      },
+      "productionSha256": null,
+      "technical": {
+        "format": "webp",
+        "requireAlpha": true,
+        "minWidth": 128,
+        "minHeight": 128,
+        "maxWidth": 1024,
+        "maxHeight": 1024,
+        "maxBytes": 300000
+      }
+    },
+    "feature.beak": {
+      "category": "feature",
+      "lifecycle": "review-required",
+      "expectedProductionPath": "/artwork/learning-illustrations/feature-beak-v1.webp",
+      "productionPath": null,
+      "fallbackGlyph": "👄",
+      "candidate": {
+        "sourcePath": null,
+        "reviewStatus": "none",
+        "reviewedAt": null,
+        "notes": "P0 mismatch: human lips do not depict a bird beak."
+      },
+      "provenance": {
+        "status": "pending",
+        "source": "No candidate production asset selected.",
+        "rightsHolder": null,
+        "licenseBasis": null,
+        "redistributionAllowed": false,
+        "reviewedAt": "2026-09-23"
+      },
+      "semanticReview": {
+        "status": "pending",
+        "childReadable": null,
+        "reviewedAt": null,
+        "notes": "P0 semantic replacement target."
+      },
+      "productionSha256": null,
+      "technical": {
+        "format": "webp",
+        "requireAlpha": true,
+        "minWidth": 128,
+        "minHeight": 128,
+        "maxWidth": 1024,
+        "maxHeight": 1024,
+        "maxBytes": 300000
+      }
+    },
+    "feature.cactus-thick-stem": {
+      "category": "feature",
+      "lifecycle": "review-required",
+      "expectedProductionPath": "/artwork/learning-illustrations/feature-cactus-thick-stem-v1.webp",
+      "productionPath": null,
+      "fallbackGlyph": "💚",
+      "candidate": {
+        "sourcePath": null,
+        "reviewStatus": "none",
+        "reviewedAt": null,
+        "notes": "P0 mismatch: green heart does not depict a thick water-storing cactus stem."
+      },
+      "provenance": {
+        "status": "pending",
+        "source": "No candidate production asset selected.",
+        "rightsHolder": null,
+        "licenseBasis": null,
+        "redistributionAllowed": false,
+        "reviewedAt": "2026-09-23"
+      },
+      "semanticReview": {
+        "status": "pending",
+        "childReadable": null,
+        "reviewedAt": null,
+        "notes": "P0 semantic replacement target."
+      },
+      "productionSha256": null,
+      "technical": {
+        "format": "webp",
+        "requireAlpha": true,
+        "minWidth": 128,
+        "minHeight": 128,
+        "maxWidth": 1024,
+        "maxHeight": 1024,
+        "maxBytes": 300000
+      }
+    },
+    "object.towel": {
+      "category": "object",
+      "lifecycle": "review-required",
+      "expectedProductionPath": "/artwork/learning-illustrations/object-towel-v1.webp",
+      "productionPath": null,
+      "fallbackGlyph": "🧺",
+      "candidate": {
+        "sourcePath": null,
+        "reviewStatus": "none",
+        "reviewedAt": null,
+        "notes": "P0 mismatch: basket is not a towel."
+      },
+      "provenance": {
+        "status": "pending",
+        "source": "No candidate production asset selected.",
+        "rightsHolder": null,
+        "licenseBasis": null,
+        "redistributionAllowed": false,
+        "reviewedAt": "2026-09-23"
+      },
+      "semanticReview": {
+        "status": "pending",
+        "childReadable": null,
+        "reviewedAt": null,
+        "notes": "P0 semantic replacement target."
+      },
+      "productionSha256": null,
+      "technical": {
+        "format": "webp",
+        "requireAlpha": true,
+        "minWidth": 128,
+        "minHeight": 128,
+        "maxWidth": 1024,
+        "maxHeight": 1024,
+        "maxBytes": 300000
+      }
+    },
+    "object.raincoat": {
+      "category": "object",
+      "lifecycle": "review-required",
+      "expectedProductionPath": "/artwork/learning-illustrations/object-raincoat-v1.webp",
+      "productionPath": null,
+      "fallbackGlyph": "🧥",
+      "candidate": {
+        "sourcePath": null,
+        "reviewStatus": "none",
+        "reviewedAt": null,
+        "notes": "P0 mismatch: generic coat is not reliably a raincoat."
+      },
+      "provenance": {
+        "status": "pending",
+        "source": "No candidate production asset selected.",
+        "rightsHolder": null,
+        "licenseBasis": null,
+        "redistributionAllowed": false,
+        "reviewedAt": "2026-09-23"
+      },
+      "semanticReview": {
+        "status": "pending",
+        "childReadable": null,
+        "reviewedAt": null,
+        "notes": "P0 semantic replacement target."
+      },
+      "productionSha256": null,
+      "technical": {
+        "format": "webp",
+        "requireAlpha": true,
+        "minWidth": 128,
+        "minHeight": 128,
+        "maxWidth": 1024,
+        "maxHeight": 1024,
+        "maxBytes": 300000
+      }
+    },
+    "object.toy-block": {
+      "category": "object",
+      "lifecycle": "review-required",
+      "expectedProductionPath": "/artwork/learning-illustrations/object-toy-block-v1.webp",
+      "productionPath": null,
+      "fallbackGlyph": "🧱",
+      "candidate": {
+        "sourcePath": null,
+        "reviewStatus": "none",
+        "reviewedAt": null,
+        "notes": "P0 mismatch: masonry brick is not a child's stacking block."
+      },
+      "provenance": {
+        "status": "pending",
+        "source": "No candidate production asset selected.",
+        "rightsHolder": null,
+        "licenseBasis": null,
+        "redistributionAllowed": false,
+        "reviewedAt": "2026-09-23"
+      },
+      "semanticReview": {
+        "status": "pending",
+        "childReadable": null,
+        "reviewedAt": null,
+        "notes": "P0 semantic replacement target."
+      },
+      "productionSha256": null,
+      "technical": {
+        "format": "webp",
+        "requireAlpha": true,
+        "minWidth": 128,
+        "minHeight": 128,
+        "maxWidth": 1024,
+        "maxHeight": 1024,
+        "maxBytes": 300000
+      }
+    }
+  }
+}
