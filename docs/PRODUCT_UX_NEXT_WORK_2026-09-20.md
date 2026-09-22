@@ -177,40 +177,44 @@ Canonical execution spec: [`SUBJECT_BACKGROUND_SYSTEM.md`](SUBJECT_BACKGROUND_SY
 
 ### Learning illustrations
 
-Canonical audit/checkpoint: [`LEARNING_ILLUSTRATION_CONSISTENCY_AUDIT_2026-09-22.md`](LEARNING_ILLUSTRATION_CONSISTENCY_AUDIT_2026-09-22.md).
+Canonical records:
+- [`LEARNING_ILLUSTRATION_CONSISTENCY_AUDIT_2026-09-22.md`](LEARNING_ILLUSTRATION_CONSISTENCY_AUDIT_2026-09-22.md)
+- [`LEARNING_VISUAL_CONTAINMENT_PILOT_2026-09-22.md`](LEARNING_VISUAL_CONTAINMENT_PILOT_2026-09-22.md)
+- [`LEARNING_VISUAL_CONTAINMENT_CLOSURE_2026-09-23.md`](LEARNING_VISUAL_CONTAINMENT_CLOSURE_2026-09-23.md)
 
-This track is now the **active independent product-quality track** while character production remains paused and fixed English audio generation/listening is deferred.
+The containment/readability foundation is **CLOSED / MERGED / LIVE VERIFIED** through PR #294 -> main `6d0f9bd8972297e316bdf031603d160d901d8d04`, PR CI #1529 and merged-main CI #1531 exact Cloudflare smoke.
 
-Learning-illustration consistency includes three linked requirements:
+Closed containment scope:
+- shared Activity Gallery;
+- Bahasa Initial Sound;
+- Bahasa + English Picture & Word;
+- Science Feature/Function;
+- Science Material Lab;
+- bounded `LearningVisualToken`;
+- blocking parent/frame/glyph assertions;
+- 320/390/768/1280 dedicated runtime QA;
+- responsive gallery matrix plus desktop 1280 catalog QA.
 
-1. **semantic clarity** — when recognition is part of the task, the pictured object/action/material must be recognizable without relying on answer text;
-2. **cross-platform consistency** — recognition-critical content must not depend on OS/browser emoji rendering;
-3. **layout containment/readability** — every learning visual must stay inside its intended card/choice box, preserve safe padding and centering, and remain clearly readable on desktop and mobile.
+The active next sub-wave is now **semantic clarity + cross-platform consistency + provenance**, not more generic containment work.
 
-The current source inventory finds 43 source files with literal `emoji:` fields and 280 such fields across the 32 canonical subject batch-wave files. This is an inventory signal, not a bulk-replacement target.
+Rules for the next semantic-art pilot:
 
-Pilot rules:
+- do not bulk-replace all 280 inventoried `emoji:` fields;
+- prioritize recognition-critical content only;
+- start with known semantic mismatches and a small set of high-confidence reusable Mainlagi assets;
+- use centralized semantic keys such as `object.apple`, `body.head`, `action.jump`, `feature.gills`;
+- separate asset provenance approval from runtime mapping;
+- fail closed when an asset is missing/unapproved;
+- use `LearningSymbol` for controlled concept/symbol semantics where pictorial artwork is not appropriate;
+- keep Latin/Arabic instructional glyphs as controlled typography/vector rendering;
+- preserve the merged `LearningVisualToken` containment contract for all pictorial assets;
+- require exact semantic recognition, provenance/redistribution review and human screenshot review before scale-up;
+- keep canonical activity identity, prompt, choices/order, answer, evidence, mastery, progression, schema and stage ownership unchanged;
+- do not mix World, character, narration or gameplay-pattern work into this wave.
 
-- start only with recognition-critical visuals;
-- prioritize Science, English and Bahasa Indonesia;
-- treat gallery-thumbnail containment and in-activity choice containment as separate QA surfaces;
-- centralize illustration resolution/registry rather than hardcoding production paths in individual renderers;
-- use bounded responsive sizing; image assets use intrinsic aspect ratio plus `object-fit: contain`;
-- prevent clipping, edge collision and overlap with badges/play controls/feedback;
-- define a safe missing-asset fallback;
-- keep exact canonical identity, prompt, choices, answer, evidence, mastery and progression unchanged;
-- do not replace Latin/Arabic instructional glyphs with decorative pictures;
-- do not mix World, character, narration or broad icon-library refactors into the pilot.
+Known P0/P1 semantic candidates include HEAD=`🙂`, JUMP=`🤸`, gills=`🫧`, beak=`👄`, cactus thick stem=`💚`, towel=`🧺`, generic raincoat and generic toy-block representations.
 
-Acceptance criteria:
-
-- no visual escapes its intended box;
-- no clipped or barely visible icon/illustration;
-- no ambiguous recognition-critical object at supported sizes;
-- stable centering, padding, aspect ratio and contrast;
-- explicit QA at 320x720, 390x844, 768x1024 and 1280x800;
-- idle, wrong/retry and success states reviewed where the visual participates;
-- human screenshot review remains mandatory in addition to automated checks.
+Existing `public/artwork/activity-previews/` contains some visually clear candidates (for example apple, cat, fish, umbrella, car, cup, house, bird and flower), but **file existence/name does not equal semantic or provenance approval**. The existing `color-object-ball.webp` was visually reviewed and rejected as a semantic ball candidate.
 
 ## Execution status — 20 September 2026
 
