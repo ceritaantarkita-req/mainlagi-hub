@@ -50,6 +50,7 @@ declare
   v_completed text[] := coalesce(p_completed_stage_ids, '{}'::text[]);
   v_completed_count integer := cardinality(coalesce(p_completed_stage_ids, '{}'::text[]));
   v_current_order integer;
+  v_existing_completed_count integer := 0;
   v_index integer;
   v_result public.child_world_progress;
 begin
@@ -108,6 +109,22 @@ begin
       and pp.deleted_at is null
   ) then
     raise exception using errcode = '42501', message = 'world child is not owned by account';
+  end if;
+
+  -- Never let an older device erase stages already completed on another
+  -- device. Replays/restarts remain valid when the completed prefix length is
+  -- unchanged; only backwards completion movement is rejected.
+  select cardinality(cwp.completed_stage_ids)
+  into v_existing_completed_count
+  from public.child_world_progress cwp
+  where cwp.account_id = v_account_id
+    and cwp.child_key = p_child_key
+    and cwp.world_id = p_world_id
+  for update;
+
+  v_existing_completed_count := coalesce(v_existing_completed_count, 0);
+  if v_completed_count < v_existing_completed_count then
+    raise exception using errcode = '40001', message = 'world completion regression rejected';
   end if;
 
   insert into public.child_world_progress(
