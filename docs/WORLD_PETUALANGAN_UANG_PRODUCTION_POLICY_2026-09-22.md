@@ -185,7 +185,18 @@ Final requirement:
 Current source:
 
 ```text
-AudioManager / browser speech path
+moneyWorldNarrationProduction.ts approval manifest
+-> fixed deterministic MP3 when explicitly approved
+-> browser speech fail-safe when pending/failing
+```
+
+Current approval truth:
+
+```text
+88 total cues
+0 approved
+88 pending
+productionReady=false
 ```
 
 Final requirement:
@@ -281,6 +292,22 @@ The pilot validator requires all canonical Stages in exact order and confirms ev
 
 Detailed implementation record: `WORLD_PETUALANGAN_UANG_PILOT_PRODUCTION_2026-09-22.md`.
 
+## 10C. Fixed narration production/review pipeline
+
+Production wave 04 adds:
+
+```text
+src/lib/learning/world/moneyWorldNarrationProduction.ts
+src/lib/learning/world/moneyWorldNarrationPlayback.ts
+scripts/export-world-money-narration-cue-sheet.mjs
+```
+
+The pipeline covers all **88 spoken cue slots** and fails closed. A generated MP3 is not runtime-eligible until its explicit approval record matches the current cue fingerprint, deterministic path, speaker/locale, provider/source, redistribution rights, reviewer metadata, pronunciation, pacing, loudness and mobile playback gates.
+
+Current runtime truth remains **0/88 approved**, so narration resolves to browser speech. Fixed-file playback is wired and automatically falls back to browser speech on construction/load/playback failure.
+
+Detailed record: `WORLD_PETUALANGAN_UANG_NARRATION_PRODUCTION_2026-09-22.md`.
+
 ## 11. Evidence boundary remains unchanged
 
 This policy does **not** turn World activities into mastery evidence.
@@ -304,11 +331,12 @@ Current ordered work:
 1. **DONE on isolated branch** — Garden-baseline Stage runtime shell;
 2. **DONE on isolated branch** — canonical World -> Chapter -> Stage -> Scene -> Segment contract;
 3. **DONE on isolated branch** — eight-Stage Petualangan Uang pilot production manifest + closure QA;
-4. **NEXT** — fixed narration asset resolution/generation/review workflow;
-5. keep Gavi/Paca as the only active World runtime characters while character development is paused;
-6. create bespoke World social card after visual/narration identity is stable;
-7. replace approved reused backgrounds only where bespoke World art materially improves storytelling;
-8. rerun full visual/mobile/playthrough QA and freeze a new green checkpoint;
-9. only then revisit World -> Evidence bridge design.
+4. **DONE on isolated branch** — fixed narration production/review/resolution pipeline, currently 0/88 assets approved;
+5. **NEXT** — reusable Scene presentation/renderer layer on top of canonical `Scene.kind`;
+6. keep Gavi/Paca as the only active World runtime characters while character development is paused;
+7. create bespoke World social card after visual/narration identity is stable;
+8. replace approved reused backgrounds only where bespoke World art materially improves storytelling;
+9. rerun full visual/mobile/playthrough QA and freeze a new green checkpoint;
+10. only then revisit World -> Evidence bridge design.
 
 This policy is intentionally narrower than the long-term Mainlagi 3–12 ambition. It prevents the pilot runtime from drifting into an incoherent one-World-fits-all model.
