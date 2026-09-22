@@ -65,6 +65,10 @@ function cx(...values: Array<string | false | null | undefined>) {
 }
 
 type MoneyWorldStorySpeaker = keyof typeof MONEY_WORLD_RUNTIME_CHARACTER_POLICY.storyRoleToRuntimeCharacter;
+type MoneyWorldStageVisualStyle = CSSProperties & {
+  "--world-scene-wide": string;
+  "--world-scene-mobile": string;
+};
 
 function runtimeCharacterForStoryRole(speaker: MoneyWorldStorySpeaker) {
   const id = MONEY_WORLD_RUNTIME_CHARACTER_POLICY.storyRoleToRuntimeCharacter[speaker];
@@ -1181,10 +1185,10 @@ function MoneyWorldStageRuntime({
   const pilotStage = getMoneyWorldPilotStage(stageId);
   if (!activeScene) return <div className={styles.runtimeError}>Struktur Scene World tidak valid untuk Segment ini.</div>;
   if (!pilotStage) return <div className={styles.runtimeError}>Manifest produksi Stage World tidak ditemukan.</div>;
-  const stageVisualStyle = {
+  const stageVisualStyle: MoneyWorldStageVisualStyle = {
     "--world-scene-wide": `url("${pilotStage.backgroundWide}")`,
     "--world-scene-mobile": `url("${pilotStage.backgroundMobile}")`
-  } as CSSProperties;
+  };
   const percent = ((segmentIndex + 1) / segments.length) * 100;
   const hasNarrationControl = segment.type !== "recap";
   const showAmbientGuides = segment.type === "activity" || segment.type === "narrative_choice" || segment.type === "recap";
