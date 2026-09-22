@@ -1,6 +1,6 @@
 # Mainlagi World — Eight-Stage Content Consistency Audit — 22 September 2026
 
-Status: **IMPLEMENTED ON ISOLATED WORLD PRODUCTION BRANCH / CI VALIDATION PENDING**
+Status: **VALIDATED GREEN / CHECKPOINTED**
 
 Branch:
 
@@ -175,3 +175,38 @@ accessibility pass
 ```
 
 Audio remains safely deferred behind provider/voice/rights approval.
+
+
+## 8. Green validation / checkpoint
+
+Exact validated head:
+
+```text
+ef0a0ab60b66e9ed19da27b9b5a64e8a86f9f524
+```
+
+CI:
+
+```text
+Mainlagi TV V3 CI #1491
+run 35752625951
+
+Quality gate (Ubuntu):        PASS
+Windows compatibility:        PASS
+Production build:             PASS
+Production dependency audit:  PASS
+Secret history scan:          PASS
+Mobile route QA (Chromium):   PASS
+overall:                      SUCCESS
+```
+
+Frozen immutable checkpoint:
+
+```text
+checkpoint/world-petualangan-uang-content-audit-green-20260922
+@ ef0a0ab60b66e9ed19da27b9b5a64e8a86f9f524
+```
+
+Do not move or force-push this checkpoint branch.
+
+This checkpoint freezes the eight-Stage Indonesian content/safety/continuity audit only. Later accessibility/performance work is intentionally outside this rollback point.
