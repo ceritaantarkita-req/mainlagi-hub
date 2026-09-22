@@ -528,8 +528,14 @@ async function main() {
       await page.getByRole("button", { name: /Share/ }).click();
       const worldShareDialog = page.getByRole("dialog", { name: "Bagikan pencapaian" });
       await worldShareDialog.waitFor();
-      await worldShareDialog.getByText("Fitur berbagi hanya tersedia melalui sesi orang tua.", { exact: true }).waitFor();
-      assert.equal(await worldShareDialog.getByRole("link", { name: "Buka Area Orang Tua", exact: true }).count(), 1, "World external share must stay parent-gated in child session");
+      await worldShareDialog.getByText("Yang dibagikan hanya pesan umum dan halaman World", { exact: false }).waitFor();
+      for (const label of ["Copy link", "WhatsApp", "Telegram", "X", "Facebook", "Threads"]) {
+        assert.equal(
+          await worldShareDialog.getByRole(label === "Copy link" ? "button" : "link", { name: label, exact: true }).count(),
+          1,
+          "World share dialog missing " + label
+        );
+      }
       await worldShareDialog.getByRole("button", { name: "Tutup", exact: true }).click();
 
       await page.getByRole("link", { name: /Back/ }).click();
