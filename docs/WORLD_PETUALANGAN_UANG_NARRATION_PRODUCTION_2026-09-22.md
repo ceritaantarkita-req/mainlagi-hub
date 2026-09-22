@@ -325,3 +325,31 @@ unless it belongs to an approved cue with matching binary checksum.
 Current truth remains **0 approved binaries / 88 voice-gated cues**.
 
 Detailed record: `WORLD_NARRATION_ASSET_GATE_2026-09-22.md`.
+
+
+## 16. Narration-readiness green checkpoints
+
+Two immutable narration checkpoints now exist:
+
+```text
+Stage-batch / voice gate:
+checkpoint/world-petualangan-uang-narration-readiness-green-20260922
+@ e545b3b0355b1edbb152667bd7b37ef8aa271217
+CI #1403 / run 35722329709
+
+Binary provenance gate:
+checkpoint/world-petualangan-uang-narration-gate-green-20260922
+@ 31a2bdd41add5bca57e1606e875519cb83704bbe
+CI #1411 / run 35723689117
+```
+
+Both are green, immutable rollback points. Neither authorizes generation or approval of a fixed voice.
+
+Current production truth is still:
+
+```text
+0/88 approved
+0/88 generation-authorized
+88/88 voice-gated
+browser speech fallback active
+```

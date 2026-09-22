@@ -1,6 +1,6 @@
 # Mainlagi World — Fixed Narration Stage Batch Plan — 22 September 2026
 
-Status: **IMPLEMENTED / AUDIO GENERATION STILL BLOCKED BY VOICE-IDENTITY GATE**
+Status: **VALIDATED GREEN / AUDIO GENERATION STILL BLOCKED BY VOICE-IDENTITY GATE**
 
 Branch:
 
@@ -199,3 +199,34 @@ browser speech fallback active
 ```
 
 Do not create permanent narration binaries merely to make the counter move.
+
+
+## 10. Green validation
+
+The Stage-batch/voice-gate wave is independently green at:
+
+```text
+head: e545b3b0355b1edbb152667bd7b37ef8aa271217
+CI:   #1403 / run 35722329709
+```
+
+Full PR CI passed:
+
+```text
+Quality gate (Ubuntu):        PASS
+Windows compatibility:        PASS
+Production build:             PASS
+Production dependency audit:  PASS
+Secret history scan:          PASS
+Mobile route QA (Chromium):   PASS
+overall:                      SUCCESS
+```
+
+Frozen checkpoint:
+
+```text
+checkpoint/world-petualangan-uang-narration-readiness-green-20260922
+@ e545b3b0355b1edbb152667bd7b37ef8aa271217
+```
+
+Do not move or force-push that checkpoint branch.

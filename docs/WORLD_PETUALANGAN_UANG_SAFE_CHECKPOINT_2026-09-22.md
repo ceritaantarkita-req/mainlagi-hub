@@ -1046,3 +1046,78 @@ No provider/voice is selected by this wave.
 No Belajar, Bermain/motion, SQL schema, evidence/mastery, age migration, World progression or final character artwork is changed.
 
 Checkpoint rule: validate the exact wave-09 head through Draft PR #282. If fully green, freeze a new immutable narration-readiness checkpoint without moving any prior checkpoint.
+
+
+## 33. Narration-readiness green checkpoint — CI #1403
+
+Production wave 08 is independently green and frozen.
+
+```text
+head:   e545b3b0355b1edbb152667bd7b37ef8aa271217
+CI:     #1403 / run 35722329709
+branch: checkpoint/world-petualangan-uang-narration-readiness-green-20260922
+```
+
+Full matrix:
+
+```text
+Quality gate (Ubuntu):        PASS
+Windows compatibility:        PASS
+Production build:             PASS
+Production dependency audit:  PASS
+Secret history scan:          PASS
+Mobile route QA (Chromium):   PASS
+overall:                      SUCCESS
+```
+
+This checkpoint freezes the eight-Stage narration batch plan and explicit `voice-identity-not-approved` gate.
+
+Do not move or force-push the checkpoint branch.
+
+## 34. Narration binary-gate green checkpoint — CI #1411
+
+Production wave 09 is independently green and frozen.
+
+```text
+head:   31a2bdd41add5bca57e1606e875519cb83704bbe
+CI:     #1411 / run 35723689117
+branch: checkpoint/world-petualangan-uang-narration-gate-green-20260922
+```
+
+Full matrix:
+
+```text
+Quality gate (Ubuntu):        PASS
+Windows compatibility:        PASS
+Production build:             PASS
+Production dependency audit:  PASS
+Secret history scan:          PASS
+Mobile route QA (Chromium):   PASS
+overall:                      SUCCESS
+```
+
+This checkpoint adds the permanent fixed-narration binary provenance gate:
+
+- provider model + voice identity provenance;
+- source terms + rights basis;
+- commercial and redistribution clearance;
+- explicit AI-disclosure decision;
+- human pronunciation/child-learning/pacing/loudness/mobile review;
+- exact SHA-256 binding;
+- MP3 signature/size/path checks;
+- stray-public-audio rejection;
+- regression fixtures for the fail-closed cases.
+
+Current truth remains:
+
+```text
+88 canonical spoken cues
+0 approved fixed binaries
+0 generation-authorized cues
+88 voice-gated cues
+browser speech fallback active
+```
+
+No provider/voice has been selected. Gian/Naya character development remains paused. PR #282 remains Draft; PR #272 remains Draft and untouched; World -> Belajar evidence remains disabled.
+
+Do not move or force-push this checkpoint branch.

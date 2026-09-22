@@ -1,6 +1,6 @@
 # Mainlagi World — Fixed Narration Binary Provenance Gate — 22 September 2026
 
-Status: **IMPLEMENTED / NO WORLD FIXED NARRATION BINARY APPROVED**
+Status: **VALIDATED GREEN / NO WORLD FIXED NARRATION BINARY APPROVED**
 
 Branch:
 
@@ -158,14 +158,43 @@ This wave does not:
 - change Stage/Scene/Segment progression;
 - touch Belajar, Bermain/motion, evidence/mastery or database schemas.
 
-## 8. Next safe step
+## 8. Green validation / checkpoint
 
-After CI validates this exact head, freeze another immutable narration-readiness checkpoint.
+Exact validated head:
 
-The next product decision remains the same:
+```text
+31a2bdd41add5bca57e1606e875519cb83704bbe
+```
+
+Draft PR / CI:
+
+```text
+PR #282
+Mainlagi TV V3 CI #1411
+run 35723689117
+
+Quality gate (Ubuntu):        PASS
+Windows compatibility:        PASS
+Production build:             PASS
+Production dependency audit:  PASS
+Secret history scan:          PASS
+Mobile route QA (Chromium):   PASS
+overall:                      SUCCESS
+```
+
+Frozen immutable checkpoint:
+
+```text
+checkpoint/world-petualangan-uang-narration-gate-green-20260922
+@ 31a2bdd41add5bca57e1606e875519cb83704bbe
+```
+
+Do not move or force-push that checkpoint branch.
+
+The next product decision remains:
 
 ```text
 approve voice identity / source / rights boundary
 ```
 
-Only after that decision should a very small Stage-1 narration pilot be generated outside the public production tree for human listening review.
+Only after that decision should a small Stage-1 narration pilot be generated outside the public production tree for human listening review.

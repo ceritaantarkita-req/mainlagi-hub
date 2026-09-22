@@ -376,8 +376,8 @@ Current ordered work:
 7. **DONE / GREEN** — CI #1382 validated code head `e8f795b7...` and froze `checkpoint/world-petualangan-uang-production-green-20260922`;
 8. **DONE / GREEN** — dedicated public-safe 1200×630 Petualangan Uang social card, validated at `9f695330...` by CI #1391;
 9. **DONE / CHECKPOINTED** — froze `checkpoint/world-petualangan-uang-social-green-20260922` at the exact validated head;
-10. **DONE on isolated branch** — fixed narration is grouped into eight Stage batches with an explicit fail-closed voice-identity authorization gate;
-11. **DONE on isolated branch, CI pending** — permanent narration binary provenance gate now blocks stray audio, rights gaps, unresolved disclosure, missing human review, invalid MP3 payloads and SHA-256 drift;
+10. **DONE / GREEN / CHECKPOINTED** — eight narration Stage batches + fail-closed voice-identity gate; CI #1403; checkpoint `checkpoint/world-petualangan-uang-narration-readiness-green-20260922`;
+11. **DONE / GREEN / CHECKPOINTED** — permanent narration binary provenance gate blocks stray audio, rights gaps, unresolved disclosure, missing human review, invalid MP3 payloads and SHA-256 drift; CI #1411; checkpoint `checkpoint/world-petualangan-uang-narration-gate-green-20260922`;
 12. **NEXT PRODUCT DECISION** — approve final narration voice identity/source/rights before any permanent MP3 cue may be generated;
 13. Gian/Naya visual character production remains paused;
 14. bespoke Stage/background art remains optional because current reused backgrounds are approved for the pilot;
