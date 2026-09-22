@@ -1,6 +1,6 @@
 "use client";
 
-import { getCurrentUserId, getValidAccessToken, isSupabaseConfigured } from "@/lib/auth/supabase-auth";
+import { getCurrentUserId } from "@/lib/auth/supabase-auth";
 import { getBrowserClient } from "@/lib/auth/supabase-client";
 import { MONEY_WORLD_ID, MONEY_WORLD_STAGES } from "./moneyWorld";
 import type { MoneyWorldProgress } from "./progress";
@@ -10,6 +10,16 @@ const VALID_STAGE_IDS = new Set(MONEY_WORLD_STAGES.map((stage) => stage.id));
 function stringArray(value: unknown): string[] {
   if (!Array.isArray(value)) return [];
   return value.filter((item): item is string => typeof item === "string" && VALID_STAGE_IDS.has(item));
+}
+
+function emptyCloudProgress(): MoneyWorldProgress {
+  return {
+    worldId: MONEY_WORLD_ID,
+    completedStageIds: [],
+    currentStageId: null,
+    currentSegmentIndex: 0,
+    updatedAt: ""
+  };
 }
 
 function normalizeCloudWorldProgress(row: Record<string, unknown>): MoneyWorldProgress | null {
@@ -28,8 +38,9 @@ function normalizeCloudWorldProgress(row: Record<string, unknown>): MoneyWorldPr
 }
 
 /**
- * Cloud state is optional. null means no authenticated/configured cloud context
- * or a failed read, not "empty progress".
+ * null means there is no authenticated/configured cloud context or the read
+ * failed. A valid authenticated child with no row returns explicit empty
+ * progress so newer local checkpoints can seed cloud on reconciliation.
  */
 export async function readCloudMoneyWorldProgress(childId: string): Promise<MoneyWorldProgress | null> {
   const client = getBrowserClient();
@@ -45,7 +56,8 @@ export async function readCloudMoneyWorldProgress(childId: string): Promise<Mone
       .eq("world_id", MONEY_WORLD_ID)
       .maybeSingle();
 
-    if (error || !data) return null;
+    if (error) return null;
+    if (!data) return emptyCloudProgress();
     return normalizeCloudWorldProgress(data as Record<string, unknown>);
   } catch {
     return null;
@@ -53,39 +65,28 @@ export async function readCloudMoneyWorldProgress(childId: string): Promise<Mone
 }
 
 /**
- * Persists only World narrative/stage progress. This RPC is deliberately
- * separate from record_learning_attempt, child_skill_mastery, achievements,
- * and certificates.
+ * Persists only World narrative/stage progress through the server-owned RPC.
+ * It is deliberately separate from learning attempts, mastery, achievements,
+ * certificates, and canonical Belajar stars.
  */
 export async function syncMoneyWorldProgressCloud(
   childId: string,
   progress: MoneyWorldProgress
 ): Promise<boolean> {
-  if (!isSupabaseConfigured() || progress.worldId !== MONEY_WORLD_ID) return false;
-  const token = await getValidAccessToken();
-  if (!token) return false;
+  if (progress.worldId !== MONEY_WORLD_ID) return false;
 
-  const url = (process.env.NEXT_PUBLIC_SUPABASE_URL ?? "").replace(/\/$/, "");
-  const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
-  if (!url || !anon) return false;
+  const client = getBrowserClient();
+  if (!client || !await getCurrentUserId()) return false;
 
   try {
-    const response = await fetch(`${url}/rest/v1/rpc/save_world_progress`, {
-      method: "POST",
-      headers: {
-        apikey: anon,
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        p_child_key: childId,
-        p_world_id: MONEY_WORLD_ID,
-        p_completed_stage_ids: progress.completedStageIds,
-        p_current_stage_id: progress.currentStageId,
-        p_current_segment_index: progress.currentSegmentIndex
-      })
+    const { error } = await client.rpc("save_world_progress", {
+      p_child_key: childId,
+      p_world_id: MONEY_WORLD_ID,
+      p_completed_stage_ids: progress.completedStageIds,
+      p_current_stage_id: progress.currentStageId,
+      p_current_segment_index: progress.currentSegmentIndex
     });
-    return response.ok;
+    return !error;
   } catch {
     return false;
   }
