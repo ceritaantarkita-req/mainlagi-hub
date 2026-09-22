@@ -127,6 +127,9 @@ try {
   assert.doesNotMatch(worldRuntimeSource, /showAmbientGuides/, "Scene companion policy must not be hardcoded in Petualangan Uang runtime");
   assert.match(worldSceneRendererSource, /getWorldScenePresentation\(scene\.kind\)/, "reusable Scene renderer must resolve canonical Scene.kind policy");
   assert.match(worldSceneRendererSource, /data-world-scene-presentation/, "reusable Scene renderer must expose its presentation surface for QA");
+  assert.match(worldRuntimeSource, /sceneSegmentPosition = activeScene\.segmentIds\.indexOf\(segment\.id\) \+ 1/, "Scene-local progress must derive from authored Scene membership");
+  assert.match(worldSceneRendererSource, /data-world-scene-progress/, "reusable Scene renderer must expose Scene-local progress for QA");
+  assert.match(worldRuntimeCss, /Production wave 06: Scene wrapper responsive fit/, "World CSS must retain the mobile Scene-wrapper fit correction");
 
   assert.equal(presentation.MONEY_WORLD_PRESENTATION_POLICY.version, "money-world-presentation-v1");
   assert.equal(presentation.MONEY_WORLD_PRESENTATION_POLICY.pilotBandId, "6-8");
