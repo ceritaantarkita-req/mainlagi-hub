@@ -5,7 +5,9 @@ Repository: `ceritaantarkita-req/mainlagi-hub`
 Branch: `feature/world-petualangan-uang-dummy-20260922`  
 Draft PR: **#272**  
 Production/main baseline at branch start: `8af5ce8a13d19f8aaeb3d8f06229dbcdeb555a41`  
-Accepted code checkpoint head: `5c76f9812a93eb7ef07fff1880af4da5af2b4927`
+Accepted code checkpoint head: `5c76f9812a93eb7ef07fff1880af4da5af2b4927`  
+Frozen checkpoint branch: `checkpoint/world-petualangan-uang-green-20260922`  
+Frozen checkpoint head: `faaca0eba4cbf6a75dfabb5f261cbf8e98e0912b`
 
 ## 1. Verification at this checkpoint
 
@@ -23,7 +25,9 @@ Mobile route QA (Chromium): PASS
 Production smoke:           skipped on draft PR, as expected
 ```
 
-This is the safe rollback/restart point for the current World implementation. Later work should preserve this head as the known-green code checkpoint unless a newer checkpoint is explicitly recorded.
+This is the safe rollback/restart point for the current World implementation. The checkpoint documentation/index synchronization was then verified again at `faaca0eba4cbf6a75dfabb5f261cbf8e98e0912b` by CI #1293 / run `35680206722`, with Ubuntu, Windows, secret scan, dependency audit, production build, and Mobile Chromium all passing. That exact docs-integrated state is frozen on `checkpoint/world-petualangan-uang-green-20260922`.
+
+Later work on the feature branch may continue past this point without moving the frozen checkpoint branch.
 
 ## 2. Product boundary now implemented
 
