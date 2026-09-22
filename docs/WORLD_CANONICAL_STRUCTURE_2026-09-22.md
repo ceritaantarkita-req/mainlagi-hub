@@ -196,7 +196,25 @@ The current World Stage runtime resolves the active Scene for every active Segme
 
 If a Segment cannot resolve to an authored Scene, the runtime fails closed instead of silently rendering content outside the canonical hierarchy.
 
-The Scene contract is presentation-agnostic: a future reusable Scene renderer can use the same IDs/kinds for dialogue, exploration, challenge, choice, recap, or other World presentations.
+The reusable Scene presentation layer is now implemented:
+
+```text
+src/lib/learning/world/worldScenePresentation.ts
+src/components/learning/world/WorldSceneRenderer.tsx
+docs/WORLD_SCENE_PRESENTATION_2026-09-22.md
+```
+
+Canonical mapping:
+
+```text
+story     -> dialogue
+challenge -> activity
+choice    -> choice
+recap     -> recap
+closing   -> payoff
+```
+
+World-specific content remains inside the reusable Scene frame, so future Worlds can reuse Scene presentation without inheriting Petualangan Uang payloads.
 
 ## 7. Character and narration boundaries
 
@@ -254,13 +272,16 @@ These provide a migration path from the earlier Stage -> Segment implementation 
 
 ## 11. Production follow-through
 
-Production wave 03 now consumes this hierarchy through the eight-Stage pilot production manifest:
+The production branch now consumes this hierarchy through:
 
 ```text
 src/lib/learning/world/moneyWorldPilot.ts
-docs/WORLD_PETUALANGAN_UANG_PILOT_PRODUCTION_2026-09-22.md
+src/lib/learning/world/worldScenePresentation.ts
+src/components/learning/world/WorldSceneRenderer.tsx
 ```
 
-All eight Stages resolve their tracked presentation data from that manifest instead of per-Stage React/CSS visual hardcodes.
+All eight Stages resolve tracked Stage presentation from the pilot manifest, while every active canonical Scene resolves a reusable presentation from `Scene.kind`.
 
-The next production step is the **fixed narration production pass**. Future reusable Scene renderer work must continue to consume this canonical hierarchy rather than creating a parallel content structure.
+The fixed narration production/review resolver is also wired separately, so content structure, Scene presentation and narration assets remain independent contracts.
+
+Next work should focus on **end-to-end production QA, responsive cleanup and a new green checkpoint**, not another parallel World hierarchy.
