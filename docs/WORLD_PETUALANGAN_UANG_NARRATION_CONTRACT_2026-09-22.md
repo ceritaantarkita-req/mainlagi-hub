@@ -140,3 +140,17 @@ Approving narration must not auto-approve human foreground artwork, and fallback
 7. only then produce all eight Stages.
 
 This branch intentionally stops before claiming final audio binaries.
+
+
+## Runtime-character dummy note — production wave 01
+
+Character development is currently paused. The canonical World story/narration metadata still uses the future story roles **Gian** and **Naya**, but the rendered pilot maps those roles to approved mascot production assets:
+
+```text
+Gian -> Gavi
+Naya -> Paca
+```
+
+Browser-speech fallback uses the temporary presented copy, so visible/spoken names stay consistent during the dummy phase. Stable cue IDs do **not** change.
+
+This does not approve final Gian/Naya artwork or voices, and it does not make `productionReady=true`.
