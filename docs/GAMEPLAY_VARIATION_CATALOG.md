@@ -71,7 +71,7 @@ The active-pattern count remains 47. Pattern #48 is still not justified.
 
 PR #273 verification also confirms exactly five Logic `pattern_completion` activities (`logic.pattern.repeat.intermediate`), legitimate progression-aware browser QA at 320/390/768, grouped `● ●` as one canonical choice/evidence step, and no neighboring-family spillover.
 
-The fresh Logic repeating-pattern audit is **MERGED / LIVE VERIFIED** via PR #240. Runtime reuse is now implemented on PR #273 and branch-verified at `ec050bf919ebe534a719ef22a37691248e1b233d`; CI #1312 / run `35682142457` passed. Verified PR distribution is `choice_grid` 174 / `pattern_completion` 10 with 47 active patterns and KEEP 900. This is still merge-pending; production `main` remains the pre-PR distribution until #273 merges.
+The Logic repeating-pattern audit is **MERGED / LIVE VERIFIED** via PR #240, and runtime reuse is now **FULLY CLOSED / MERGED / LIVE VERIFIED** via PR #273 -> main `709e2b7d3e529cf37f10a05e9c9dc92884e0a781`. Final PR CI #1321 and merged-main CI #1353 passed including exact-SHA Cloudflare smoke. Production distribution is `choice_grid` 174 / `pattern_completion` 10 with 47 active patterns and KEEP 900; exactly five Logic activities use this existing mechanic and Pattern #48 remains unjustified.
 
 Pattern #46 verified merged distribution:
 
