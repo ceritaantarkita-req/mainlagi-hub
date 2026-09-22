@@ -347,7 +347,7 @@ export const MONEY_WORLD_STAGE_TWO_SEGMENTS: MoneyWorldSegment[] = [
     id: "money-s02-concept-02",
     type: "concept",
     speaker: "Naya",
-    text: "Kalau banyak harga naik dari waktu ke waktu, ada istilah inflasi."
+    text: "Kalau banyak harga naik dari waktu ke waktu, itu disebut inflasi."
   },
   {
     id: "money-s02-narrative-07",
@@ -724,7 +724,7 @@ export const MONEY_WORLD_STAGE_SIX_SEGMENTS: MoneyWorldSegment[] = [
     id: "money-s06-narrative-01",
     type: "narrative",
     speaker: "Gian",
-    text: "Kalau ditabung, uangnya tetap ada."
+    text: "Kalau ditabung, uangnya disimpan untuk nanti."
   },
   {
     id: "money-s06-narrative-02",
@@ -892,7 +892,7 @@ export const MONEY_WORLD_STAGE_SEVEN_SEGMENTS: MoneyWorldSegment[] = [
     id: "money-s07-concept-03",
     type: "concept",
     speaker: "Naya",
-    text: "Iya. Bisa lebih baik, bisa juga lebih kecil."
+    text: "Iya. Hasilnya bisa berbeda dari yang kita harapkan."
   },
   {
     id: "money-s07-activity-02",
@@ -1003,7 +1003,7 @@ export const MONEY_WORLD_STAGE_EIGHT_SEGMENTS: MoneyWorldSegment[] = [
     id: "money-s08-concept-03",
     type: "concept",
     speaker: "Naya",
-    text: "Sekarang coba latihan hitung. Kalau delapan token dipakai dua, sisanya berapa?"
+    text: "Sekarang latihan hitung lain. Bayangkan ada delapan token, lalu dua dipakai. Sisanya berapa?"
   },
   {
     id: "money-s08-activity-02",
