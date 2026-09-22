@@ -4,6 +4,7 @@ import { mkdirSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
+import { assertLearningVisualContainment } from "./lib/assert-learning-visual-containment.mjs";
 
 const root=process.cwd();
 const host="127.0.0.1";
@@ -17,7 +18,8 @@ const screenshotDir=path.join(root,".mobile-route-qa");
 const cases=[
   {viewport:{width:320,height:720},completionMode:"touch"},
   {viewport:{width:390,height:844},completionMode:"pointer"},
-  {viewport:{width:768,height:1024},completionMode:"touch"}
+  {viewport:{width:768,height:1024},completionMode:"touch"},
+  {viewport:{width:1280,height:800},completionMode:"pointer"}
 ];
 let server=null;
 let serverLog="";
@@ -147,6 +149,7 @@ async function inspect({viewport,completionMode}){
     const response=await page.goto(`${baseUrl}${route}`,{waitUntil:"domcontentloaded",timeout:30000});
     assert(response&&response.status()<400,`English picture-word bad HTTP at ${viewport.width}`);
     await waitForScene(page);
+    await assertLearningVisualContainment(page,"[data-picture-word-match]",`picture-word English visual containment at ${viewport.width}`);
     assert.equal(new URL(page.url()).pathname,route,`progression guard must accept legitimate English Wave B readiness at ${viewport.width}`);
 
     assert.equal(await page.getByRole("heading",{name:"Picture & Word",exact:true}).count(),1,"generic leak-free English frame title must render");

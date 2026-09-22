@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { GardenActivityFrame } from "./GardenActivityFrame";
+import { LearningVisualToken } from "./LearningVisualToken";
 import { getActivityLearningSpec } from "@/lib/learning/catalog";
 import { featureFunctionLinkConfig } from "@/lib/learning/featureFunctionLinkConfig";
 import { isFeatureFunctionLinkActivity } from "@/lib/learning/gameplayPresentation";
@@ -91,12 +92,12 @@ export function FeatureFunctionLinkActivity({ childId, activityId }: { childId: 
         <div className={styles.map} role="group" aria-label="Ciri makhluk hidup dan pilihan fungsi">
           <div className={styles.featureColumn}>
             <div className={styles.subjectCard}>
-              <span className={styles.subjectIcon} aria-hidden>{config.subjectIcon}</span>
+              <LearningVisualToken className={styles.subjectIcon} label={config.subjectLabel}>{config.subjectIcon}</LearningVisualToken>
               <strong>{config.subjectLabel}</strong>
             </div>
             <div className={styles.featureCard}>
               <span className={styles.cardTag}>Ciri</span>
-              <span className={styles.featureIcon} aria-hidden>{config.featureIcon}</span>
+              <LearningVisualToken className={styles.featureIcon} label={config.featureLabel}>{config.featureIcon}</LearningVisualToken>
               <strong>{config.featureLabel}</strong>
             </div>
           </div>
@@ -125,7 +126,7 @@ export function FeatureFunctionLinkActivity({ childId, activityId }: { childId: 
                   onClick={() => chooseFunction(choice)}
                   disabled={feedback === "good"}
                 >
-                  <span className={styles.functionIcon} aria-hidden>{visual?.icon ?? "✨"}</span>
+                  <LearningVisualToken className={styles.functionIcon}>{visual?.icon ?? "✨"}</LearningVisualToken>
                   <span>{visual?.label ?? choice}</span>
                 </button>
               );

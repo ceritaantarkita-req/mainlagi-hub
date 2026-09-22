@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { GardenActivityFrame } from "./GardenActivityFrame";
+import { LearningVisualToken } from "./LearningVisualToken";
 import { getActivityLearningSpec } from "@/lib/learning/catalog";
 import { isMaterialLabActivity } from "@/lib/learning/gameplayPresentation";
 import { materialLabConfig } from "@/lib/learning/materialLabConfig";
@@ -99,13 +100,13 @@ export function MaterialLabActivity({ childId, activityId }: { childId: string; 
         <div className={styles.labBench} role="group" aria-label="Benda dan tujuan pengujian bahan">
           <div className={styles.objectCard}>
             <span className={styles.cardTag}>Benda</span>
-            <span className={styles.objectIcon} aria-hidden>{config.objectIcon}</span>
+            <LearningVisualToken className={styles.objectIcon}>{config.objectIcon}</LearningVisualToken>
             <strong>{config.objectLabel}</strong>
           </div>
           <span className={styles.arrow} aria-hidden>→</span>
           <div className={styles.purposeCard}>
             <span className={styles.cardTag}>Tujuan</span>
-            <span className={styles.testIcon} aria-hidden>{config.testIcon}</span>
+            <LearningVisualToken className={styles.testIcon}>{config.testIcon}</LearningVisualToken>
             <strong>{config.purposeLabel}</strong>
           </div>
         </div>
@@ -125,7 +126,7 @@ export function MaterialLabActivity({ childId, activityId }: { childId: string; 
                 onClick={() => selectChoice(choice)}
                 disabled={feedback === "good"}
               >
-                <span className={styles.sampleIcon} aria-hidden>{visual?.icon ?? "🔬"}</span>
+                <LearningVisualToken className={styles.sampleIcon}>{visual?.icon ?? "🔬"}</LearningVisualToken>
                 <strong>{visual?.sampleLabel ?? choice}</strong>
                 <span className={styles.choiceText}>{choice}</span>
               </button>
@@ -139,7 +140,7 @@ export function MaterialLabActivity({ childId, activityId }: { childId: string; 
         >
           <div className={styles.selectedSample}>
             <span className={styles.cardTag}>Sampel</span>
-            <span className={styles.selectedIcon} aria-hidden>{selectedVisual?.icon ?? "❔"}</span>
+            <LearningVisualToken className={styles.selectedIcon}>{selectedVisual?.icon ?? "❔"}</LearningVisualToken>
             <strong>{selectedVisual?.sampleLabel ?? "Pilih sifat dulu"}</strong>
           </div>
           <button
@@ -149,7 +150,7 @@ export function MaterialLabActivity({ childId, activityId }: { childId: string; 
             onClick={testSelection}
             disabled={!selected || feedback === "good"}
           >
-            {config.testIcon} {config.testLabel}
+            <LearningVisualToken className={styles.testButtonIcon}>{config.testIcon}</LearningVisualToken><span>{config.testLabel}</span>
           </button>
         </div>
 

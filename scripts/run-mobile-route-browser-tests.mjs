@@ -4,6 +4,7 @@ import { mkdirSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
+import { assertLearningVisualContainment } from "./lib/assert-learning-visual-containment.mjs";
 
 const root = process.cwd();
 const host = "127.0.0.1";
@@ -149,6 +150,15 @@ async function inspectPage(page, route, viewport) {
     assert.ok(response, `${route.path} returned no navigation response at ${viewport.width}px`);
     assert.ok(response.status() < 400, `${route.path} returned HTTP ${response.status()} at ${viewport.width}px`);
     await page.waitForTimeout(120);
+
+    if (route.path.startsWith("/child/demo-gian/subject/math")) {
+      await page.locator("[data-playable-activity-gallery]").waitFor({ state: "visible", timeout: 5_000 });
+      await assertLearningVisualContainment(
+        page,
+        "[data-playable-activity-gallery]",
+        `activity gallery visual containment at ${viewport.width}`
+      );
+    }
 
     const bodyText = (await page.locator("body").innerText()).trim();
     assert.ok(bodyText.length > 20, `${route.path} rendered an unexpectedly blank body at ${viewport.width}px`);
@@ -416,6 +426,18 @@ async function main() {
       await page.screenshot({ path: path.join(screenshotDir, "390-child-demo-gian-subject-math-qa-unlock.png"), fullPage: false });
       await context.close();
       console.log("WS-13 isolated QA unlock-all passed at 390px.");
+    }
+
+    {
+      const viewport = { width: 1280, height: 800 };
+      const context = await browser.newContext({ viewport, reducedMotion: "reduce" });
+      const page = await context.newPage();
+      const route = { path: "/child/demo-gian/subject/math?qa=unlock-all", kind: "child-learning", touch: false };
+      await inspectPage(page, route, viewport);
+      assert.equal(await page.locator("[data-activity-id]").count(), 100, "desktop QA gallery must preserve all 100 math cards");
+      await page.screenshot({ path: path.join(screenshotDir, "1280-child-demo-gian-subject-math-visual-containment.png"), fullPage: false });
+      await context.close();
+      console.log("Activity gallery desktop containment passed at 1280px.");
     }
 
     {
