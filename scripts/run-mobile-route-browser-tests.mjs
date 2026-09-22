@@ -490,6 +490,11 @@ async function main() {
         await advanceWorldNarrative(page);
       }
 
+      const activityPromptHear = page.locator("[data-world-prompt-hear]").first();
+      await activityPromptHear.waitFor();
+      assert.equal(await activityPromptHear.getByText("Dengar", { exact: true }).count(), 1, "World mini-game prompt must expose replayable audio");
+      await activityPromptHear.click();
+
       await page.getByRole("button", { name: "Rp3", exact: true }).click();
       await page.getByRole("button", { name: /Balon.*Rp3/ }).click();
       await page.getByRole("button", { name: "Rp4", exact: true }).click();
