@@ -187,6 +187,14 @@ export function validateMoneyWorldContentAudit(): {
     }
   }
 
+  const stageTwoFactual = getMoneyWorldSegments("money-stage-02-price-change")
+    .map(factualSpokenText)
+    .filter((value): value is string => Boolean(value))
+    .join(" ");
+  if (!stageTwoFactual.includes("Kalau banyak harga naik dari waktu ke waktu, itu disebut inflasi.")) {
+    errors.push("Stage 2 must explain inflation as many prices rising over time");
+  }
+
   const stageSix = getMoneyWorldSegments("money-stage-06-investment-intro");
   const stageSixOpening = stageSix.find((segment) => segment.id === "money-s06-narrative-01");
   if (
