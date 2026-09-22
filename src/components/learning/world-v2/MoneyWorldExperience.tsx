@@ -1,0 +1,669 @@
+/* eslint-disable @next/next/no-img-element */
+"use client";
+
+import Link from "next/link";
+import {
+  ArrowClockwise,
+  ArrowLeft,
+  ArrowRight,
+  Copy,
+  LockKey,
+  ShareNetwork,
+  SpeakerHigh,
+  Star
+} from "@phosphor-icons/react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type DragEvent
+} from "react";
+import { CharacterAvatar, useLearningProfile } from "@/components/learning/LearningCommon";
+import { playTone, speakWithStatus, unlockAudio } from "@/lib/audio/feedback";
+import {
+  MONEY_WORLD_ID,
+  MONEY_WORLD_STAGE_ONE_SEGMENTS,
+  MONEY_WORLD_STAGES,
+  getMoneyWorldStage,
+  nextMoneyWorldStage,
+  type MoneyWorldActivityPlacement
+} from "@/lib/learning/world/moneyWorld";
+import {
+  WORLD_PROGRESS_EVENT,
+  checkpointMoneyWorldStage,
+  completeMoneyWorldStage,
+  isMoneyWorldStageUnlocked,
+  moneyWorldStars,
+  readMoneyWorldProgress,
+  restartMoneyWorldStage,
+  type MoneyWorldProgress
+} from "@/lib/learning/world/progress";
+import { validateReusableMechanicPayload } from "@/lib/learning/mechanicLibrary";
+import styles from "./MoneyWorldExperience.module.css";
+
+const EMPTY_PROGRESS: MoneyWorldProgress = {
+  worldId: MONEY_WORLD_ID,
+  completedStageIds: [],
+  currentStageId: null,
+  currentSegmentIndex: 0,
+  updatedAt: ""
+};
+
+function cx(...values: Array<string | false | null | undefined>) {
+  return values.filter(Boolean).join(" ");
+}
+
+function useMoneyWorldProgress(childId: string) {
+  const [progress, setProgress] = useState<MoneyWorldProgress>(EMPTY_PROGRESS);
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    const refresh = () => {
+      setProgress(readMoneyWorldProgress(childId));
+      setReady(true);
+    };
+    const frame = window.requestAnimationFrame(refresh);
+    const onProgress = (event: Event) => {
+      const detail = (event as CustomEvent<{ childId?: string }>).detail;
+      if (!detail?.childId || detail.childId === childId) refresh();
+    };
+    window.addEventListener(WORLD_PROGRESS_EVENT, onProgress);
+    window.addEventListener("storage", refresh);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener(WORLD_PROGRESS_EVENT, onProgress);
+      window.removeEventListener("storage", refresh);
+    };
+  }, [childId]);
+
+  return { progress, ready };
+}
+
+function WorldHero({ compact = false }: { compact?: boolean }) {
+  return (
+    <div className={cx(styles.worldHero, compact && styles.worldHeroCompact)}>
+      <div className={styles.worldHeroCopy}>
+        <span className={styles.eyebrow}>Mainlagi World</span>
+        <h1>Petualangan Uang</h1>
+        <p>Bantu Gian dan Naya menyiapkan Festival Mainlagi sambil mengenal harga, pilihan, dan cara memakai uang.</p>
+      </div>
+      <div className={styles.heroCharacters} aria-label="Gian, Naya, Paca, dan Gavi">
+        <CharacterAvatar id="gian" large />
+        <CharacterAvatar id="naya" large />
+        <CharacterAvatar id="paca" />
+        <CharacterAvatar id="gavi" />
+      </div>
+    </div>
+  );
+}
+
+export function WorldCatalogScreen({ childId }: { childId: string }) {
+  const profile = useLearningProfile(childId);
+  const state = useMoneyWorldProgress(childId);
+  const age = profile?.age;
+  const completed = state.progress.completedStageIds.length;
+  const cardHref = "/child/" + childId + "/world/" + MONEY_WORLD_ID;
+
+  return (
+    <main className={styles.catalogPage}>
+      <section className={styles.catalogIntro}>
+        <span className={styles.eyebrow}>World</span>
+        <h1>Pilih petualangan</h1>
+        <p>Belajar lewat cerita, suara, dan permainan singkat. World berbagi skill dengan Belajar, tapi ceritanya punya perjalanan sendiri.</p>
+      </section>
+
+      <Link className={styles.worldCard} href={cardHref}>
+        <WorldHero compact />
+        <div className={styles.worldCardMeta}>
+          <span>Usia rekomendasi 6–8</span>
+          <span>{state.ready ? String(completed) + "/8 Stage selesai" : "Memuat progres…"}</span>
+          <strong>{age && (age < 6 || age > 8) ? "Dummy tetap bisa dicoba" : "Mulai petualangan →"}</strong>
+        </div>
+      </Link>
+    </main>
+  );
+}
+
+export function MoneyWorldMapScreen({ childId, worldId }: { childId: string; worldId: string }) {
+  const state = useMoneyWorldProgress(childId);
+  const worldsHref = "/child/" + childId + "/worlds";
+  const mapBase = "/child/" + childId + "/world/" + MONEY_WORLD_ID;
+
+  if (worldId !== MONEY_WORLD_ID) {
+    return (
+      <main className={styles.catalogPage}>
+        <div className={styles.noticeCard}>
+          <h1>World belum tersedia.</h1>
+          <Link href={worldsHref}>Kembali ke World</Link>
+        </div>
+      </main>
+    );
+  }
+
+  return (
+    <main className={styles.mapPage}>
+      <WorldHero />
+      <div className={styles.mapTopline}>
+        <Link href={worldsHref} className={styles.textButton}>← Semua World</Link>
+        <span>{state.ready ? String(state.progress.completedStageIds.length) + "/8 Stage" : "Memuat…"}</span>
+      </div>
+
+      <section className={styles.mapShell} aria-label="Peta Petualangan Uang">
+        <div className={styles.mapPath} aria-hidden />
+        {MONEY_WORLD_STAGES.map((stage, index) => {
+          const unlocked = state.ready && isMoneyWorldStageUnlocked(state.progress, stage.id);
+          const stars = moneyWorldStars(state.progress, stage.id);
+          const node = (
+            <div
+              className={cx(
+                styles.stageNode,
+                unlocked ? styles.stageUnlocked : styles.stageLocked,
+                stars === 3 && styles.stageDone
+              )}
+              data-stage-order={stage.order}
+            >
+              <div className={styles.stageStars} aria-label={stars === 3 ? "Tiga bintang" : "Belum selesai"}>
+                {[0, 1, 2].map((star) => (
+                  <Star key={star} size={17} weight={stars === 3 ? "fill" : "regular"} aria-hidden />
+                ))}
+              </div>
+              <div className={styles.stageIcon} aria-hidden>
+                {unlocked ? stage.emoji : <LockKey size={26} weight="fill" />}
+              </div>
+              <div className={styles.stageCopy}>
+                <small>{"Stage " + stage.order + " · " + stage.locationLabel}</small>
+                <strong>{stage.title}</strong>
+                <span>{stage.subtitle}</span>
+                {unlocked && !stage.playable ? <em>Checkpoint berikutnya</em> : null}
+              </div>
+            </div>
+          );
+          const rowClass = index % 2 ? styles.stageRowRight : styles.stageRowLeft;
+          return (
+            <div key={stage.id} className={cx(styles.stageRow, rowClass)}>
+              {unlocked ? (
+                <Link href={mapBase + "/stage/" + stage.id} className={styles.stageLink}>{node}</Link>
+              ) : (
+                <div className={styles.stageLink} aria-disabled="true">{node}</div>
+              )}
+            </div>
+          );
+        })}
+      </section>
+    </main>
+  );
+}
+
+function SpeechCard({
+  speaker,
+  text,
+  kind,
+  onNext,
+  nextLabel
+}: {
+  speaker: "Gian" | "Naya";
+  text: string;
+  kind: "narrative" | "concept" | "payoff";
+  onNext: () => void;
+  nextLabel: string;
+}) {
+  const [audioNotice, setAudioNotice] = useState("");
+
+  const hear = () => {
+    unlockAudio("id-ID");
+    const status = speakWithStatus(text, "id-ID");
+    setAudioNotice(status === "spoken" ? "" : "Suara belum tersedia. Teks tetap bisa dibaca.");
+  };
+
+  return (
+    <section className={cx(styles.storyScene, kind === "concept" && styles.conceptScene)}>
+      <div className={styles.storyCharacter}>
+        <CharacterAvatar id={speaker === "Naya" ? "naya" : "gian"} large />
+        <strong>{speaker}</strong>
+      </div>
+      <div className={styles.speechBubble}>
+        <span className={styles.sceneType}>{kind === "concept" ? "Temukan idenya" : kind === "payoff" ? "Cerita berlanjut" : "Cerita"}</span>
+        <p>{text}</p>
+        <div className={styles.storyActions}>
+          <button type="button" className={styles.secondaryButton} onClick={hear}>
+            <SpeakerHigh size={21} weight="fill" aria-hidden /> Dengar
+          </button>
+          <button type="button" className={styles.primaryButton} onClick={() => { hear(); onNext(); }}>
+            {nextLabel} <ArrowRight size={20} weight="bold" aria-hidden />
+          </button>
+        </div>
+        {audioNotice ? <small role="status">{audioNotice}</small> : null}
+      </div>
+    </section>
+  );
+}
+
+function WorldDragTarget({
+  placement,
+  onComplete
+}: {
+  placement: MoneyWorldActivityPlacement;
+  onComplete: () => void;
+}) {
+  const validation = validateReusableMechanicPayload("drag_to_target", placement.payload);
+  const items = placement.payload.items ?? [];
+  const targets = placement.payload.targets ?? [];
+  const assignments = placement.payload.assignments ?? {};
+  const [selected, setSelected] = useState<string | null>(null);
+  const [matched, setMatched] = useState<string[]>([]);
+  const [incorrectCount, setIncorrectCount] = useState(0);
+  const [message, setMessage] = useState("Pilih atau seret uang ke barang yang cocok.");
+
+  if (!validation.valid) return <div className={styles.runtimeError}>Payload drag tidak valid.</div>;
+
+  const place = (itemId: string, targetId: string) => {
+    if (matched.includes(itemId)) return;
+    if (assignments[itemId] !== targetId) {
+      const nextWrong = incorrectCount + 1;
+      setIncorrectCount(nextWrong);
+      setMessage(nextWrong >= 2 ? "Lihat angka uang dan angka pada label harga." : "Belum cocok. Coba target lain.");
+      playTone("error");
+      return;
+    }
+    const next = [...matched, itemId];
+    setMatched(next);
+    setSelected(null);
+    playTone("success");
+    if (next.length === items.length) {
+      setMessage("Semua cocok! Barang punya harga.");
+      window.setTimeout(onComplete, 450);
+    } else {
+      setMessage("Cocok! Cari pasangan berikutnya.");
+    }
+  };
+
+  const drop = (event: DragEvent<HTMLButtonElement>, targetId: string) => {
+    event.preventDefault();
+    const itemId = event.dataTransfer.getData("text/plain");
+    if (itemId) place(itemId, targetId);
+  };
+
+  return (
+    <section className={styles.activityScene}>
+      <div className={styles.activityHeading}>
+        <span className={styles.sceneType}>Mini-game</span>
+        <h2>{placement.payload.prompt}</h2>
+        <p>Sentuh uang lalu sentuh barang. Di desktop, kartu juga bisa diseret.</p>
+      </div>
+      <div className={styles.dragBoard}>
+        <div className={styles.sourceColumn}>
+          <strong>Uang</strong>
+          {items.map((item) => {
+            const done = matched.includes(item.id);
+            return (
+              <button
+                type="button"
+                key={item.id}
+                draggable={!done}
+                disabled={done}
+                className={cx(styles.moneyChip, selected === item.id && styles.selectedCard, done && styles.doneCard)}
+                onClick={() => setSelected(item.id)}
+                onDragStart={(event) => event.dataTransfer.setData("text/plain", item.id)}
+                aria-pressed={selected === item.id}
+              >
+                {done ? "✓ " : ""}{item.label}
+              </button>
+            );
+          })}
+        </div>
+        <div className={styles.targetColumn}>
+          <strong>Barang</strong>
+          {targets.map((target) => {
+            const landed = items.filter((item) => matched.includes(item.id) && assignments[item.id] === target.id);
+            return (
+              <button
+                type="button"
+                key={target.id}
+                className={styles.targetCard}
+                onClick={() => selected && place(selected, target.id)}
+                onDragOver={(event) => event.preventDefault()}
+                onDrop={(event) => drop(event, target.id)}
+              >
+                <span>{target.label}</span>
+                <small>{landed.map((item) => item.label).join(", ") || "Taruh di sini"}</small>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+      <p className={styles.activityStatus} role="status">{message}</p>
+    </section>
+  );
+}
+
+function WorldMatching({
+  placement,
+  onComplete
+}: {
+  placement: MoneyWorldActivityPlacement;
+  onComplete: () => void;
+}) {
+  const validation = validateReusableMechanicPayload("matching", placement.payload);
+  const pairs = placement.payload.pairs ?? [];
+  const right = useMemo(() => [...pairs].reverse(), [pairs]);
+  const [selectedPairId, setSelectedPairId] = useState<string | null>(null);
+  const [matched, setMatched] = useState<string[]>([]);
+  const [incorrectCount, setIncorrectCount] = useState(0);
+  const [message, setMessage] = useState("Pilih barang di kiri, lalu pilih harganya di kanan.");
+
+  if (!validation.valid) return <div className={styles.runtimeError}>Payload matching tidak valid.</div>;
+
+  const chooseRight = (pairId: string) => {
+    if (!selectedPairId || matched.includes(pairId)) return;
+    if (selectedPairId !== pairId) {
+      const nextWrong = incorrectCount + 1;
+      setIncorrectCount(nextWrong);
+      setSelectedPairId(null);
+      setMessage(nextWrong >= 2 ? "Ingat harga yang tadi kamu lihat." : "Belum cocok. Coba pasangan lain.");
+      playTone("error");
+      return;
+    }
+    const next = [...matched, pairId];
+    setMatched(next);
+    setSelectedPairId(null);
+    playTone("success");
+    if (next.length === pairs.length) {
+      setMessage("Semua pasangan cocok!");
+      window.setTimeout(onComplete, 450);
+    } else {
+      setMessage("Cocok! Cari pasangan berikutnya.");
+    }
+  };
+
+  return (
+    <section className={styles.activityScene}>
+      <div className={styles.activityHeading}>
+        <span className={styles.sceneType}>Mini-game</span>
+        <h2>{placement.payload.prompt}</h2>
+        <p>Pasangkan tiga barang dengan harga yang tepat.</p>
+      </div>
+      <div className={styles.matchBoard}>
+        <div className={styles.matchColumn}>
+          {pairs.map((pair) => (
+            <button
+              type="button"
+              key={pair.id}
+              disabled={matched.includes(pair.id)}
+              aria-pressed={selectedPairId === pair.id}
+              className={cx(styles.matchCard, selectedPairId === pair.id && styles.selectedCard, matched.includes(pair.id) && styles.doneCard)}
+              onClick={() => setSelectedPairId(pair.id)}
+            >
+              {matched.includes(pair.id) ? "✓ " : ""}{pair.left.label}
+            </button>
+          ))}
+        </div>
+        <div className={styles.matchArrow} aria-hidden>↔</div>
+        <div className={styles.matchColumn}>
+          {right.map((pair) => (
+            <button
+              type="button"
+              key={pair.id}
+              disabled={matched.includes(pair.id)}
+              className={cx(styles.matchCard, matched.includes(pair.id) && styles.doneCard)}
+              onClick={() => chooseRight(pair.id)}
+            >
+              {matched.includes(pair.id) ? "✓ " : ""}{pair.right.label}
+            </button>
+          ))}
+        </div>
+      </div>
+      <p className={styles.activityStatus} role="status">{message}</p>
+    </section>
+  );
+}
+
+function WorldActivity({ placement, onComplete }: { placement: MoneyWorldActivityPlacement; onComplete: () => void }) {
+  if (placement.mechanicId === "drag_to_target") return <WorldDragTarget placement={placement} onComplete={onComplete} />;
+  if (placement.mechanicId === "matching") return <WorldMatching placement={placement} onComplete={onComplete} />;
+  return <div className={styles.runtimeError}>Mechanic belum aktif di checkpoint Stage 1.</div>;
+}
+
+function WorldStageCompletion({
+  childId,
+  stageId,
+  onAgain
+}: {
+  childId: string;
+  stageId: string;
+  onAgain: () => void;
+}) {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const [shareGate, setShareGate] = useState<"idle" | "checking" | "allowed" | "denied">("idle");
+  const [copyStatus, setCopyStatus] = useState("");
+  const next = nextMoneyWorldStage(stageId);
+  const stage = getMoneyWorldStage(stageId);
+  const mapHref = "/child/" + childId + "/world/" + MONEY_WORLD_ID;
+  const nextHref = next ? mapHref + "/stage/" + next.id : mapHref;
+  const shareText = "⭐⭐⭐ Stage “" + (stage?.title ?? "Petualangan Uang") + "” selesai di Mainlagi!";
+
+  const openShare = async () => {
+    setShareGate("checking");
+    setCopyStatus("");
+    dialogRef.current?.showModal();
+    try {
+      const response = await fetch("/api/parent/share-gate", { cache: "no-store" });
+      const payload = await response.json() as { allowed?: boolean };
+      setShareGate(payload.allowed ? "allowed" : "denied");
+    } catch {
+      setShareGate("denied");
+    }
+  };
+
+  const shareUrl = typeof window !== "undefined" ? window.location.origin + "/worlds/" + MONEY_WORLD_ID : "";
+  const encodedText = encodeURIComponent(shareText + " " + shareUrl);
+  const encodedUrl = encodeURIComponent(shareUrl);
+
+  return (
+    <section className={styles.completion} aria-labelledby="world-stage-complete-title">
+      <div className={styles.completionCard}>
+        <span className={styles.eyebrow}>Stage selesai</span>
+        <h2 id="world-stage-complete-title">Awesome!</h2>
+        <div className={styles.completionStars} aria-label="Tiga bintang">
+          {[0, 1, 2].map((index) => (
+            <Star key={index} size={58} weight="fill" aria-hidden style={{ animationDelay: String(index * 140) + "ms" }} />
+          ))}
+        </div>
+        <p>{stage?.title} selesai. Stage berikutnya sekarang terbuka.</p>
+        <div className={styles.completionActions}>
+          <Link href={mapHref}><ArrowLeft size={21} weight="bold" aria-hidden />Back</Link>
+          <button type="button" onClick={onAgain}><ArrowClockwise size={21} weight="bold" aria-hidden />Again</button>
+          <Link href={nextHref}><ArrowRight size={21} weight="bold" aria-hidden />Next</Link>
+        </div>
+        <button type="button" className={styles.shareButton} onClick={() => void openShare()}>
+          <ShareNetwork size={21} weight="bold" aria-hidden />Share
+        </button>
+      </div>
+
+      <dialog ref={dialogRef} className={styles.shareDialog} aria-labelledby="world-share-title">
+        <div className={styles.dialogHead}>
+          <div><small>Area orang tua</small><h2 id="world-share-title">Bagikan pencapaian</h2></div>
+          <button type="button" onClick={() => dialogRef.current?.close()} aria-label="Tutup">×</button>
+        </div>
+        {shareGate === "checking" ? <p role="status">Memeriksa akses orang tua…</p> : null}
+        {shareGate === "denied" ? (
+          <div className={styles.parentGate}>
+            <p>Fitur berbagi hanya tersedia melalui sesi orang tua.</p>
+            <Link href="/parent">Buka Area Orang Tua</Link>
+          </div>
+        ) : null}
+        {shareGate === "allowed" ? (
+          <>
+            <p>Yang dibagikan hanya pesan umum dan halaman World—tanpa nama, umur, akun, atau detail progres anak.</p>
+            <div className={styles.shareGrid}>
+              <button
+                type="button"
+                onClick={() => void navigator.clipboard.writeText(shareUrl).then(() => setCopyStatus("Link tersalin.")).catch(() => setCopyStatus("Link belum bisa disalin."))}
+              >
+                <Copy size={19} aria-hidden />Copy link
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  if (!navigator.share) {
+                    setCopyStatus("Gunakan Copy link di browser ini.");
+                    return;
+                  }
+                  void navigator.share({ title: "Mainlagi", text: shareText, url: shareUrl }).catch(() => undefined);
+                }}
+              >
+                <ShareNetwork size={19} aria-hidden />Share device
+              </button>
+              <a href={"https://wa.me/?text=" + encodedText} target="_blank" rel="noreferrer">WhatsApp</a>
+              <a href={"https://t.me/share/url?url=" + encodedUrl + "&text=" + encodeURIComponent(shareText)} target="_blank" rel="noreferrer">Telegram</a>
+              <a href={"https://twitter.com/intent/tweet?text=" + encodedText} target="_blank" rel="noreferrer">X</a>
+            </div>
+            {copyStatus ? <p role="status">{copyStatus}</p> : null}
+          </>
+        ) : null}
+      </dialog>
+    </section>
+  );
+}
+
+function StageOneRuntime({ childId }: { childId: string }) {
+  const state = useMoneyWorldProgress(childId);
+  const stageId = "money-stage-01-money-use";
+  const lastIndex = MONEY_WORLD_STAGE_ONE_SEGMENTS.length - 1;
+  const [segmentIndex, setSegmentIndex] = useState(0);
+  const [completed, setCompleted] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    if (!state.ready || hydrated) return;
+    const resume = state.progress.currentStageId === stageId
+      ? Math.min(lastIndex, state.progress.currentSegmentIndex)
+      : 0;
+    setSegmentIndex(resume);
+    setCompleted(false);
+    checkpointMoneyWorldStage(childId, stageId, resume);
+    setHydrated(true);
+  }, [childId, hydrated, lastIndex, state.progress.currentSegmentIndex, state.progress.currentStageId, state.ready]);
+
+  const advance = () => {
+    if (segmentIndex >= lastIndex) {
+      completeMoneyWorldStage(childId, stageId);
+      playTone("celebrate");
+      setCompleted(true);
+      return;
+    }
+    const next = segmentIndex + 1;
+    checkpointMoneyWorldStage(childId, stageId, next);
+    setSegmentIndex(next);
+  };
+
+  const again = () => {
+    restartMoneyWorldStage(childId, stageId);
+    setSegmentIndex(0);
+    setCompleted(false);
+    setHydrated(true);
+  };
+
+  if (!state.ready || !hydrated) return <div className={styles.stageLoading}>Menyiapkan petualangan…</div>;
+  if (completed) return <WorldStageCompletion childId={childId} stageId={stageId} onAgain={again} />;
+
+  const segment = MONEY_WORLD_STAGE_ONE_SEGMENTS[segmentIndex];
+  const percent = ((segmentIndex + 1) / MONEY_WORLD_STAGE_ONE_SEGMENTS.length) * 100;
+
+  return (
+    <div className={styles.stageRuntime}>
+      <div className={styles.stageProgressBar} aria-label={"Bagian " + (segmentIndex + 1) + " dari " + MONEY_WORLD_STAGE_ONE_SEGMENTS.length}>
+        <span style={{ width: String(percent) + "%" }} />
+      </div>
+      <div className={styles.stageRuntimeTop}>
+        <Link href={"/child/" + childId + "/world/" + MONEY_WORLD_ID} className={styles.roundBack} aria-label="Kembali ke peta">
+          <ArrowLeft size={24} weight="bold" aria-hidden />
+        </Link>
+        <div><small>Stage 1</small><strong>Uang Buat Apa?</strong></div>
+        <span className={styles.stageCount}>{String(segmentIndex + 1) + "/" + MONEY_WORLD_STAGE_ONE_SEGMENTS.length}</span>
+      </div>
+
+      {segment.type === "activity" ? (
+        <WorldActivity placement={segment.activity} onComplete={advance} />
+      ) : (
+        <SpeechCard
+          speaker={segment.speaker}
+          text={segment.text}
+          kind={segment.type}
+          onNext={advance}
+          nextLabel={segmentIndex === lastIndex ? "Selesai" : "Lanjut"}
+        />
+      )}
+    </div>
+  );
+}
+
+export function MoneyWorldStageScreen({
+  childId,
+  worldId,
+  stageId
+}: {
+  childId: string;
+  worldId: string;
+  stageId: string;
+}) {
+  const state = useMoneyWorldProgress(childId);
+  const stage = getMoneyWorldStage(stageId);
+  const worldsHref = "/child/" + childId + "/worlds";
+  const mapHref = "/child/" + childId + "/world/" + MONEY_WORLD_ID;
+
+  if (worldId !== MONEY_WORLD_ID || !stage) {
+    return (
+      <main className={styles.stagePage}>
+        <div className={styles.noticeCard}><h1>Stage tidak ditemukan.</h1><Link href={worldsHref}>Kembali ke World</Link></div>
+      </main>
+    );
+  }
+
+  if (!state.ready) return <main className={styles.stagePage}><div className={styles.stageLoading}>Memeriksa progres…</div></main>;
+
+  if (!isMoneyWorldStageUnlocked(state.progress, stageId)) {
+    return (
+      <main className={styles.stagePage}>
+        <div className={styles.noticeCard}>
+          <LockKey size={40} weight="fill" aria-hidden />
+          <h1>Stage ini belum terbuka.</h1>
+          <p>Selesaikan Stage sebelumnya dulu.</p>
+          <Link href={mapHref}>Kembali ke peta</Link>
+        </div>
+      </main>
+    );
+  }
+
+  if (stageId !== "money-stage-01-money-use") {
+    return (
+      <main className={styles.stagePage}>
+        <div className={styles.placeholderScene}>
+          <span className={styles.placeholderEmoji} aria-hidden>{stage.emoji}</span>
+          <span className={styles.eyebrow}>{"Stage " + stage.order + " sudah terbuka"}</span>
+          <h1>{stage.title}</h1>
+          <p>{stage.subtitle}</p>
+          <p className={styles.placeholderNote}>Runtime Stage ini sengaja belum diaktifkan pada checkpoint pertama. Stage 1 menjadi reference implementation sebelum pola yang sama diperluas ke Stage 2–8.</p>
+          <Link href={mapHref} className={styles.primaryButton}><ArrowLeft size={20} weight="bold" aria-hidden />Kembali ke peta</Link>
+        </div>
+      </main>
+    );
+  }
+
+  return <main className={styles.stagePage}><StageOneRuntime childId={childId} /></main>;
+}
+
+export function MoneyWorldPublicLanding() {
+  return (
+    <main className={styles.publicPage}>
+      <WorldHero />
+      <section className={styles.publicCard}>
+        <span className={styles.eyebrow}>Petualangan belajar · Usia rekomendasi 6–8</span>
+        <h2>Bantu siapkan Festival Mainlagi</h2>
+        <p>World ini mengenalkan barang dan harga, perubahan harga, bekerja dan usaha, kebutuhan dan keinginan, menabung, investasi, risiko, dan budget sederhana melalui cerita serta mini-game.</p>
+        <p>Halaman ini aman untuk dibagikan dan tidak menampilkan nama, umur, akun, atau progres anak.</p>
+        <Link href="/child/select" className={styles.primaryButton}>Pilih profil anak <ArrowRight size={20} weight="bold" aria-hidden /></Link>
+      </section>
+    </main>
+  );
+}
