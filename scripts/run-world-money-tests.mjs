@@ -135,15 +135,27 @@ try {
   assert.equal(progress.isMoneyWorldStageUnlocked(normalizedReplay, "money-stage-04-needs-wants"), false);
 
   const riskyClaim = /pasti\s+(selalu\s+)?(untung|naik)|dijamin\s+(untung|naik)/i;
+  let recapCount = 0;
   for (const stage of world.MONEY_WORLD_STAGES) {
     for (const segment of world.getMoneyWorldSegments(stage.id)) {
       if ("text" in segment) {
         assert.doesNotMatch(segment.text, riskyClaim, stage.id + " must not promise investment returns");
+        assert.ok(segment.text.length <= 96, segment.id + " must keep child-facing narration short");
+        assert.ok(segment.text.split(/\s+/).filter(Boolean).length <= 18, segment.id + " must avoid paragraph-like child narration");
+      }
+      if (segment.type === "recap") {
+        recapCount += 1;
+        assert.equal(stage.order, 8, "visual recap belongs only in the final Stage");
+        assert.equal(segment.items.length, 6, "final recap must keep six concrete learning moments");
+        for (const item of segment.items) {
+          assert.ok(item.label.split(/\s+/).filter(Boolean).length <= 5, item.id + " recap label must stay glanceable");
+        }
       }
     }
   }
+  assert.equal(recapCount, 1, "dummy World must keep exactly one final visual recap");
 
-  console.log("Petualangan Uang eight-stage payload, linear progress, practice boundary, and financial-language contracts passed.");
+  console.log("Petualangan Uang eight-stage payload, linear progress, practice boundary, low-text language, recap, and financial-safety contracts passed.");
 } finally {
   rmSync(outDir, { recursive: true, force: true });
 }
