@@ -331,7 +331,13 @@ export function MoneyWorldMapScreen({ childId, worldId }: { childId: string; wor
                 data-world-stage-chapter-id={stage.chapterId}
               >
                 {unlocked ? (
-                  <Link href={mapBase + "/stage/" + stage.id} className={styles.stageLink}>{node}</Link>
+                  <Link
+                    href={mapBase + "/stage/" + stage.id}
+                    className={styles.stageLink}
+                    aria-current={stage.id === nextJourneyStageId ? "step" : undefined}
+                  >
+                    {node}
+                  </Link>
                 ) : (
                   <div
                     className={styles.stageLink}
