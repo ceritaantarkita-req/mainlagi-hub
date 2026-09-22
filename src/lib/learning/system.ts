@@ -95,6 +95,31 @@ const CHOICE_PRESENTATION_OVERRIDES: Record<string, Pick<LearningActivity, "prom
   }
 };
 
+const ENGLISH_LISTEN_AUDIO_PROMPT_OVERRIDES: Readonly<Record<string, string>> = Object.freeze({
+  "english-find-blue-audio": "Blue.",
+  "english-listen-cat": "Cat.",
+  "english-listen-cat-2": "Cat.",
+  "english-listen-letter-a": "Letter A.",
+  "english-listen-letter-m": "Letter M.",
+  "english-listen-yellow": "Yellow.",
+  "english-listen-three": "Three.",
+  "english-listen-bird": "Bird.",
+  "english-listen-bag": "Bag.",
+  "english-listen-eyes": "Eyes.",
+  "english-listen-sister": "Sister.",
+  "english-review-listen-father": "Father.",
+  "english-review-listen-fish": "Fish.",
+  "english-listen-milk": "Milk.",
+  "english-listen-sleep": "Sleep.",
+  "english-listen-apple-review": "Apple.",
+  "english-listen-jump-review": "Jump.",
+  "english-listen-book-review": "Book.",
+  "english-listen-hand-review": "Hand.",
+  "english-listen-baby-review": "Baby.",
+  "english-listen-phrase-blue-book": "A blue book.",
+  "english-review-listen-yellow-ball": "A yellow ball."
+});
+
 const DIRECT_SYMBOL_SUBJECTS = new Set<LearningSubjectId>(["bahasa", "english", "letters"]);
 
 function promptContainsSymbol(prompt: string | undefined, symbol: string): boolean {
@@ -127,9 +152,13 @@ function normalizeActivityPresentation(activity: LearningActivity): LearningActi
   let normalized = activity;
 
   if (activity.runtime === "listen_and_choose" && activity.prompt) {
+    const authoredAudioPrompt = activity.audioPrompt?.trim();
+    const englishAudioPrompt = activity.subjectId === "english"
+      ? ENGLISH_LISTEN_AUDIO_PROMPT_OVERRIDES[activity.id]
+      : undefined;
     normalized = {
       ...activity,
-      audioPrompt: activity.audioPrompt ?? activity.prompt,
+      audioPrompt: authoredAudioPrompt || englishAudioPrompt || activity.prompt,
       prompt: listeningInstruction(activity.subjectId)
     };
   }
