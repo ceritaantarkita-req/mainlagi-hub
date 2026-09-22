@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { existsSync, readFileSync, rmSync } from "node:fs";
+import { existsSync, readFileSync, rmSync, statSync } from "node:fs";
 import { createRequire } from "node:module";
 import { spawnSync } from "node:child_process";
 import path from "node:path";
@@ -186,6 +186,7 @@ try {
   assert.match(worldSceneRendererSource, /role="region"/, "active World Scene must expose a labelled region");
   assert.match(worldSceneRendererSource, /aria-live="polite"/, "Scene title/progress changes must be announced politely");
   assert.match(worldRuntimeCss, /Production wave 15: World accessibility pass/, "World CSS must retain accessibility focus/high-contrast support");
+  assert.doesNotMatch(worldRuntimeCss, /playground-park-(wide|mobile)\.webp[\s\S]*mini-market-(wide|mobile)\.webp[\s\S]*number-park-(wide|mobile)\.webp/, "World CSS must not eagerly hardcode all Stage backgrounds");
   assert.match(worldRuntimeCss, /@media \(forced-colors: active\)/, "World must preserve selected/current states in forced-colors mode");
   assert.match(worldRuntimeCss, /\.stageLink\[href\]:focus-visible/, "journey Stage links must keep a visible keyboard focus ring");
 
@@ -580,6 +581,38 @@ try {
   for (const asset of assets.MONEY_WORLD_REUSED_PUBLIC_ASSET_PATHS) {
     assert.equal(existsSync(path.join(root, asset)), true, "World visual/share asset missing: " + asset);
   }
+  const uniqueWorldVisualAssets = [...new Set(assets.MONEY_WORLD_REUSED_PUBLIC_ASSET_PATHS)];
+  const visualSizes = uniqueWorldVisualAssets.map((asset) => ({
+    asset,
+    bytes: statSync(path.join(root, asset)).size
+  }));
+  assert.ok(
+    visualSizes.every((entry) => entry.bytes <= 80 * 1024),
+    "every approved reused World visual asset must stay at or below 80 KiB"
+  );
+  assert.ok(
+    visualSizes.reduce((sum, entry) => sum + entry.bytes, 0) <= 600 * 1024,
+    "approved reused World visual asset library must stay at or below 600 KiB"
+  );
+  const worldWordmarkBytes = statSync(path.join(root, "public/artwork/garden-wordmark.webp")).size;
+  assert.ok(worldWordmarkBytes <= 40 * 1024, "World Stage wordmark must stay at or below 40 KiB");
+  const mapCoreAssetBytes = [
+    "public/artwork/math-warung.webp",
+    "public/artwork/garden-background.webp",
+    "public/artwork/garden-gavi.webp",
+    "public/artwork/garden-paca.webp"
+  ].reduce((sum, asset) => sum + statSync(path.join(root, asset)).size, 0);
+  assert.ok(mapCoreAssetBytes <= 230 * 1024, "World map core artwork must stay at or below 230 KiB");
+  const maxStageBackgroundBytes = Math.max(
+    ...pilot.MONEY_WORLD_PILOT_STAGES.flatMap((stage) => [stage.backgroundWide, stage.backgroundMobile])
+      .map((asset) => statSync(path.join(root, "public" + asset)).size)
+  );
+  const maxStageShellArtworkBytes =
+    maxStageBackgroundBytes +
+    worldWordmarkBytes +
+    statSync(path.join(root, "public/artwork/garden-gavi.webp")).size +
+    statSync(path.join(root, "public/artwork/garden-paca.webp")).size;
+  assert.ok(maxStageShellArtworkBytes <= 190 * 1024, "single Stage shell artwork budget must stay at or below 190 KiB");
   assert.deepEqual(
     [...assets.MONEY_WORLD_PRODUCTION_GAPS].sort(),
     ["fixed-narration", "gian-foreground", "naya-foreground"].sort(),
@@ -611,7 +644,7 @@ try {
       (narrationAssetRegression.stderr ?? "")
   );
 
-  console.log("Petualangan Uang canonical hierarchy, semantic Chapter navigation, polished Stage completion UX, eight-stage content consistency audit, World accessibility semantics/focus/high-contrast support, reusable Scene renderer/presentation policy, eight-stage production manifest, dedicated public-safe social card, data-driven Stage visuals, fixed-narration production/review resolver, narration binary provenance gate, provider-neutral four-cue pilot review gate, linear progress, age policy/migration audit, fail-closed evidence audit, practice boundary, low-text language, recap, mascot-dummy runtime policy, asset plan, and financial-safety contracts passed.");
+  console.log("Petualangan Uang canonical hierarchy, semantic Chapter navigation, polished Stage completion UX, eight-stage content consistency audit, World accessibility semantics/focus/high-contrast support, World visual asset budgets/lazy background boundary, reusable Scene renderer/presentation policy, eight-stage production manifest, dedicated public-safe social card, data-driven Stage visuals, fixed-narration production/review resolver, narration binary provenance gate, provider-neutral four-cue pilot review gate, linear progress, age policy/migration audit, fail-closed evidence audit, practice boundary, low-text language, recap, mascot-dummy runtime policy, asset plan, and financial-safety contracts passed.");
 } finally {
   rmSync(outDir, { recursive: true, force: true });
 }
