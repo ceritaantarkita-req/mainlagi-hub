@@ -104,7 +104,7 @@ English narration production assets now have a separate fail-closed gate:
 - `scripts/run-english-narration-asset-validator-tests.mjs`;
 - reserved production directory: `public/audio/narration/en/`.
 
-The narration registry covers exactly the 27 reviewed English listening activities. All records currently remain `review-required` with `productionPath=null`; no production narration binary is activated by the pipeline itself. Approval requires provider/model/voice terms review, commercial-use and redistribution clearance, explicit AI-disclosure decision, human pronunciation + child-learning review, and exact SHA-256. `npm run validate:assets` includes this narration gate and its regression fixtures.
+The narration registry covers exactly the 27 reviewed English listening activities. The gate is **merged/live verified** through PR #280 -> main `2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48`, merged-main CI #1372 / run `35701448136` with exact Cloudflare smoke. All records intentionally remain `review-required` with `productionPath=null`; current approved production audio = **0** and no production narration binary/runtime static-audio activation exists. Approval requires provider/model/voice terms review, commercial-use and redistribution clearance, explicit AI-disclosure decision, human pronunciation + child-learning review, and exact SHA-256. `npm run validate:assets` includes this narration gate and its regression fixtures.
 
 The affiliate runtime also fails closed: a catalog entry only receives a local image path when the provenance registry explicitly approves the slug/path for redistribution.
 
