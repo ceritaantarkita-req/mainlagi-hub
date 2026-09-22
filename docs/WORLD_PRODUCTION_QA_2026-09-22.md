@@ -298,3 +298,34 @@ docs/WORLD_COMPLETION_UX_POLISH_2026-09-22.md
 ```
 
 CI status for this exact wave head must be recorded before freezing a completion-UX checkpoint.
+
+
+## 14. Production wave 13 green result
+
+Validated exact head:
+
+```text
+40436d41678f41d08516c3029b554dee5b7f339d
+CI #1467 / run 35750690235
+checkpoint/world-petualangan-uang-completion-ux-green-20260922
+```
+
+Full matrix:
+
+```text
+Quality gate (Ubuntu):        PASS
+Windows compatibility:        PASS
+Production build:             PASS
+Production dependency audit:  PASS
+Secret history scan:          PASS
+Mobile route QA (Chromium):   PASS
+overall:                      SUCCESS
+```
+
+Mobile screenshots artifact:
+
+```text
+10705397615
+```
+
+The required completion contract remains visible and responsive: ★★★, rotating praise, Back / Again / Next, then Share below.
