@@ -238,3 +238,35 @@ checkpoint/world-petualangan-uang-social-green-20260922
 ```
 
 The previous runtime-responsive checkpoint remains valid and unmoved.
+
+
+## 12. Production wave 12 — semantic Chapter navigation QA
+
+World map Chapter presentation is now runtime-semantic rather than CSS pseudo-content.
+
+New QA locks:
+
+```text
+Stage shell Chapter identity/title
+Chapter 1 progress after Stage 1 = 1/4
+Chapter 2 progress after Stage 1 = 0/4
+completed World Chapter 1 = 4/4
+completed World Chapter 2 = 4/4
+320/430 Chapter-banner horizontal containment
+no CSS-hardcoded Chapter title content
+```
+
+New screenshots:
+
+```text
+320-world-money-map-chapter-nav.png
+430-world-money-map-chapter-nav.png
+```
+
+Detailed record:
+
+```text
+docs/WORLD_VISUAL_NAVIGATION_POLISH_2026-09-22.md
+```
+
+CI status for this exact wave head must be recorded before freezing a new checkpoint.
