@@ -179,3 +179,16 @@ docs/WORLD_NARRATION_REVIEW_GATE_2026-09-22.md
 All four pilot cues must pass all nine blocking dimensions. Partial review, stale copy fingerprints, any pending dimension, or any failed dimension keeps the pilot unaccepted.
 
 This does not change the current provider/voice/generation state.
+
+
+## 10. Human-review checkpoint
+
+The provider-neutral human review gate is now independently green:
+
+```text
+head: a2e46c9c3b023f04c19042e1dabebe4a55f82053
+CI:   #1429 / run 35732394571
+checkpoint/world-petualangan-uang-provider-pilot-review-green-20260922
+```
+
+Generation remains blocked because provider/voice/source/rights are still unselected and unauthorized.
