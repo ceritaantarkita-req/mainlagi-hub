@@ -665,6 +665,164 @@
   }
 }
 
+
+.choiceBoard {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  width: min(720px, 100%);
+  margin: 0 auto;
+}
+
+.choiceCard {
+  min-height: 86px;
+  padding: 14px;
+  border: 2px solid #d4ddca;
+  border-radius: 20px;
+  background: #fffdf5;
+  color: #193b55;
+  font: inherit;
+  font-size: 17px;
+  font-weight: 900;
+  line-height: 1.3;
+  cursor: pointer;
+}
+
+.choiceCard:hover {
+  border-color: #8eb49b;
+  background: #f8f7dc;
+}
+
+.tokenBoard {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 9px;
+  width: min(620px, 100%);
+  margin: 0 auto 20px;
+  padding: 18px;
+  border-radius: 22px;
+  background: #fff8cf;
+  border: 2px solid #ead782;
+}
+
+.tokenDot {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #fffdf5;
+  border: 2px solid #ebc653;
+  font-size: 24px;
+}
+
+.tokenRemoved {
+  opacity: .34;
+  text-decoration: line-through;
+  transform: scale(.88);
+}
+
+.orderSlots {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  width: min(760px, 100%);
+  margin: 0 auto 18px;
+}
+
+.orderSlot {
+  min-height: 112px;
+  display: grid;
+  align-content: center;
+  gap: 6px;
+  padding: 12px;
+  border: 2px dashed #90af9b;
+  border-radius: 20px;
+  background: #eef6df;
+  text-align: center;
+}
+
+.orderSlot > span {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: #287158;
+  color: white;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.orderSlot strong {
+  font-size: 15px;
+  line-height: 1.3;
+}
+
+.orderTray {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  width: min(680px, 100%);
+  margin: 0 auto;
+}
+
+.orderCard {
+  min-height: 62px;
+  padding: 10px 14px;
+  border: 2px solid #d4ddca;
+  border-radius: 18px;
+  background: #fffdf5;
+  color: #193b55;
+  font: inherit;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.orderActions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 18px auto 0;
+}
+
+.choiceReaction {
+  width: min(650px, 100%);
+  margin: 18px auto 0;
+  padding: 18px;
+  border-radius: 20px;
+  background: #eef6df;
+  text-align: center;
+}
+
+.choiceReaction p {
+  margin: 0 0 12px;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+@media(max-width: 620px) {
+  .choiceBoard,
+  .orderTray {
+    grid-template-columns: 1fr;
+  }
+
+  .orderSlots {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .choiceCard {
+    min-height: 64px;
+  }
+
+  .orderActions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+}
+
 .activityStatus {
   width: min(700px, 100%);
   min-height: 52px;
