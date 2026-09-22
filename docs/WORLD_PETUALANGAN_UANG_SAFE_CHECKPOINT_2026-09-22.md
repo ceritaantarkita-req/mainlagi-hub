@@ -606,3 +606,42 @@ Runtime proof now exposes `data-world-scene-id` and `data-world-scene-kind`. Bro
 Static QA validates hierarchy uniqueness, ordering, no orphan Stage/Scene, no duplicate Segment, and exact 89-Segment coverage.
 
 This wave does not modify Belajar, Bermain/motion, mastery/evidence activation, global age migration, or final human-character production.
+
+
+## 24. Production wave 03 — eight-Stage pilot production pass
+
+Production wave 03 closes the pilot runtime coverage contract without touching main or the frozen World checkpoint branches.
+
+New source:
+
+```text
+src/lib/learning/world/moneyWorldPilot.ts
+MONEY_WORLD_PILOT_CONTRACT_VERSION = money-world-pilot-v1
+```
+
+The production manifest now owns all eight Stage background/ambience mappings.
+
+Runtime changes:
+
+- Stage visual CSS variables are resolved from `getMoneyWorldPilotStage(stageId)`;
+- the old `WORLD_STAGE_AMBIENCE` component constant is removed;
+- eight per-order Stage background CSS blocks are removed;
+- Stage count copy derives from `MONEY_WORLD_STAGES.length` rather than literal `8`;
+- runtime exposes `data-world-pilot-stage` and `data-world-pilot-runtime-status`;
+- a missing Stage production manifest fails closed.
+
+Static QA locks all eight manifest entries, approved/existing artwork, canonical Scene coverage, and absence of the removed hardcoding patterns.
+
+Browser QA adds a 390px closure checkpoint for **all eight Stages**. Each final Segment must resolve to a canonical closing Scene and reach ★★★ completion.
+
+Existing deeper browser scenarios remain for representative interaction mechanics, Chapter 1 completion, Stage 5 ordering, Stage 8 choice/recap/finale, map unlock behavior, and share/completion behavior.
+
+Detailed record:
+
+```text
+docs/WORLD_PETUALANGAN_UANG_PILOT_PRODUCTION_2026-09-22.md
+```
+
+No Belajar runtime, Bermain/motion engine, SQL schema, mastery/evidence activation, global age migration, or final human-character production is changed.
+
+CI note: contracts are committed, but this wave is not labeled CI-green until a workflow run validates the new branch head.
