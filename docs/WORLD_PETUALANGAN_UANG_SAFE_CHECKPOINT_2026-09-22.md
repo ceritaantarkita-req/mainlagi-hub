@@ -352,3 +352,36 @@ Manual visual review of the CI artifact confirms that the map is now substantial
 
 Use `checkpoint/world-petualangan-uang-visual-green-20260922` as the newest known-green rollback point for the visual World work. Do not rewrite or force-push that checkpoint branch. The active feature branch may continue beyond it.
 
+## 16. Age-band and production-asset policy wave
+
+After the visual-green checkpoint, the feature branch added explicit contracts so the pilot cannot drift into an ambiguous one-World-for-all-ages implementation.
+
+Code contracts:
+
+```text
+src/lib/learning/world/moneyWorldPresentation.ts
+src/lib/learning/world/moneyWorldAssets.ts
+```
+
+Locked decisions:
+
+- current pilot = **6–8**;
+- 3–5 = future separate content/presentation variant;
+- 9–12 = future separate series/variant;
+- one World does not silently auto-morph across 3–12;
+- completion ★★★ remains separate from mastery;
+- motion/camera remains unnecessary for World V1.
+
+Explicit production gaps now tracked in code/tests:
+
+- `gian-foreground`;
+- `naya-foreground`;
+- `fixed-narration`;
+- `public-share-card`.
+
+Approved reused pilot art is also represented in the manifest and checked for file existence in the World contract test.
+
+Detailed policy: `WORLD_PETUALANGAN_UANG_PRODUCTION_POLICY_2026-09-22.md`.
+
+Until this wave receives a new green checkpoint, the safe rollback remains `checkpoint/world-petualangan-uang-visual-green-20260922` @ `3b033405b41abcfab4c70d9db76265095ff7c5e2`.
+
