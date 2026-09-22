@@ -256,6 +256,7 @@ export function MoneyWorldMapScreen({ childId, worldId }: { childId: string; wor
                 stage.id === nextJourneyStageId && styles.stageCurrent
               )}
               data-stage-order={stage.order}
+              data-current-stage={stage.id === nextJourneyStageId ? "true" : "false"}
             >
               <div className={styles.stageStars} aria-label={stars === 3 ? "Tiga bintang" : "Belum selesai"}>
                 {[0, 1, 2].map((star) => (
