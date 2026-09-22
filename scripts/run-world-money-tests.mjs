@@ -22,6 +22,7 @@ const worldStructure = require(path.join(outDir, "src", "lib", "learning", "worl
 const scenePresentation = require(path.join(outDir, "src", "lib", "learning", "world", "worldScenePresentation.js"));
 const moneyStructure = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldStructure.js"));
 const pilot = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldPilot.js"));
+const social = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldSocial.js"));
 const narration = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldNarration.js"));
 const narrationProduction = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldNarrationProduction.js"));
 const ageMigration = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldAgeMigrationAudit.js"));
@@ -116,6 +117,15 @@ try {
     assert.ok(scenes.some((scene) => scene.kind === "challenge"), stage.stageId + " must include challenge gameplay");
     assert.equal(scenes.at(-1)?.kind, "closing", stage.stageId + " must end in a closing Scene");
   }
+
+  const socialPageSource = readFileSync(path.join(root, "src/app/worlds/money-festival/page.tsx"), "utf8");
+  const socialRouteSource = readFileSync(path.join(root, "src/app/worlds/money-festival/social-card/route.tsx"), "utf8");
+  assert.match(socialPageSource, /MONEY_WORLD_SOCIAL_CARD\.path/, "public World metadata must use the dedicated social-card contract");
+  assert.doesNotMatch(socialPageSource, /\/og\/math-warung\.png/, "public World metadata must not fall back to the generic math-warung social card");
+  assert.match(socialRouteSource, /new ImageResponse/, "dedicated social card must render as an image response");
+  assert.match(socialRouteSource, /MONEY_WORLD_SOCIAL_CARD\.width/, "social card renderer must use contract width");
+  assert.match(socialRouteSource, /MONEY_WORLD_SOCIAL_CARD\.height/, "social card renderer must use contract height");
+  assert.doesNotMatch(socialRouteSource, /demo-gian|childId|accountId|mastery score/i, "social card renderer must remain public-safe");
 
   const worldRuntimeSource = readFileSync(path.join(root, "src/components/learning/world-v2/MoneyWorldExperience.tsx"), "utf8");
   const worldRuntimeCss = readFileSync(path.join(root, "src/components/learning/world-v2/MoneyWorldExperience.module.css"), "utf8");
@@ -409,6 +419,16 @@ try {
   }
   assert.equal(recapCount, 1, "dummy World must keep exactly one final visual recap");
 
+  assert.equal(social.MONEY_WORLD_SOCIAL_CARD_VERSION, "money-world-social-card-v1");
+  assert.equal(social.MONEY_WORLD_SOCIAL_CARD_VALIDATION.valid, true, social.MONEY_WORLD_SOCIAL_CARD_VALIDATION.errors.join("; "));
+  assert.deepEqual(social.MONEY_WORLD_SOCIAL_CARD_VALIDATION.errors, []);
+  assert.equal(social.MONEY_WORLD_SOCIAL_CARD.path, "/worlds/money-festival/social-card");
+  assert.equal(social.MONEY_WORLD_SOCIAL_CARD.width, 1200);
+  assert.equal(social.MONEY_WORLD_SOCIAL_CARD.height, 630);
+  assert.equal(social.MONEY_WORLD_SOCIAL_CARD.publicSafe, true);
+  assert.equal(social.MONEY_WORLD_SOCIAL_CARD.containsChildProgress, false);
+  assert.equal(social.MONEY_WORLD_SOCIAL_CARD.containsAccountIdentity, false);
+
   assert.equal(assets.MONEY_WORLD_ASSET_PLAN_VERSION, "money-world-assets-v1");
   assert.equal(assets.MONEY_WORLD_RUNTIME_CHARACTER_POLICY.version, "money-world-runtime-character-dummy-v1");
   assert.equal(assets.MONEY_WORLD_RUNTIME_CHARACTER_POLICY.mode, "approved-mascot-dummy");
@@ -420,7 +440,7 @@ try {
   }
   assert.deepEqual(
     [...assets.MONEY_WORLD_PRODUCTION_GAPS].sort(),
-    ["fixed-narration", "gian-foreground", "naya-foreground", "public-share-card"].sort(),
+    ["fixed-narration", "gian-foreground", "naya-foreground"].sort(),
     "World production gaps must stay explicit instead of silently appearing complete"
   );
   assert.ok(
@@ -428,7 +448,7 @@ try {
     "current background reuse must remain explicitly approved in the pilot manifest"
   );
 
-  console.log("Petualangan Uang canonical hierarchy, reusable Scene renderer/presentation policy, eight-stage production manifest, data-driven Stage visuals, fixed-narration production/review resolver, linear progress, age policy/migration audit, fail-closed evidence audit, practice boundary, low-text language, recap, mascot-dummy runtime policy, asset plan, and financial-safety contracts passed.");
+  console.log("Petualangan Uang canonical hierarchy, reusable Scene renderer/presentation policy, eight-stage production manifest, dedicated public-safe social card, data-driven Stage visuals, fixed-narration production/review resolver, linear progress, age policy/migration audit, fail-closed evidence audit, practice boundary, low-text language, recap, mascot-dummy runtime policy, asset plan, and financial-safety contracts passed.");
 } finally {
   rmSync(outDir, { recursive: true, force: true });
 }
