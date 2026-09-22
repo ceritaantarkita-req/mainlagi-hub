@@ -18,6 +18,7 @@ if (compile.status !== 0) process.exit(compile.status ?? 1);
 
 const require = createRequire(import.meta.url);
 const world = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorld.js"));
+const ageMigration = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldAgeMigrationAudit.js"));
 const evidenceBridge = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldEvidenceBridge.js"));
 const presentation = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldPresentation.js"));
 const assets = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldAssets.js"));
@@ -40,6 +41,36 @@ try {
   assert.equal(presentation.MONEY_WORLD_PRESENTATION_POLICY.invariants.wrongAnswerNeverReducesStars, true);
   assert.equal(presentation.MONEY_WORLD_PRESENTATION_POLICY.invariants.completionStarsAreNotMastery, true);
   assert.equal(presentation.MONEY_WORLD_PRESENTATION_POLICY.invariants.motionCameraRequired, false);
+
+  assert.equal(ageMigration.MONEY_WORLD_AGE_MIGRATION_AUDIT_VERSION, "money-world-age-migration-v0");
+  assert.equal(ageMigration.MONEY_WORLD_AGE_MIGRATION_ENABLED, false, "platform age migration must remain disabled during audit-only World work");
+  assert.equal(ageMigration.MONEY_WORLD_AGE_MIGRATION_BLOCKERS.length, 13, "age migration audit must keep every verified 3–7 boundary explicit");
+  assert.equal(
+    new Set(ageMigration.MONEY_WORLD_AGE_MIGRATION_BLOCKERS.map((item) => item.id)).size,
+    ageMigration.MONEY_WORLD_AGE_MIGRATION_BLOCKERS.length,
+    "age migration blocker IDs must be unique"
+  );
+  assert.equal(ageMigration.MONEY_WORLD_AGE_MIGRATION_PHASES[0].id, "phase-0-audit");
+  assert.equal(ageMigration.MONEY_WORLD_AGE_MIGRATION_PHASES[0].status, "complete");
+  assert.ok(
+    ageMigration.MONEY_WORLD_AGE_MIGRATION_PHASES.slice(1).every((phase) => phase.status === "blocked"),
+    "profile/content/schema/runtime/evidence migration must stay blocked until separately approved"
+  );
+  assert.equal(ageMigration.MONEY_WORLD_AGE_MIGRATION_INVARIANTS.noBlanketAgeMaxRewrite, true);
+  assert.equal(ageMigration.MONEY_WORLD_AGE_MIGRATION_INVARIANTS.profileRangeMustNotOutrunSafeBelajarFallback, true);
+  assert.equal(ageMigration.MONEY_WORLD_AGE_MIGRATION_INVARIANTS.worldEvidenceMustRemainDisabledUntilAgeContractCloses, true);
+  assert.ok(
+    ageMigration.MONEY_WORLD_AGE_MIGRATION_BLOCKERS.some((item) => item.id === "cloud-profile-create-max-7"),
+    "cloud profile age-7 boundary must stay explicit"
+  );
+  assert.ok(
+    ageMigration.MONEY_WORLD_AGE_MIGRATION_BLOCKERS.some((item) => item.id === "learning-skills-db-max-7"),
+    "learning skill database age constraint must stay explicit"
+  );
+  assert.ok(
+    ageMigration.MONEY_WORLD_AGE_MIGRATION_BLOCKERS.some((item) => item.id === "age-filtered-belajar-runtime"),
+    "Belajar age-filter empty-state risk must stay explicit"
+  );
 
   assert.equal(world.MONEY_WORLD_CHAPTERS.length, 2, "money dummy must keep two chapters");
   assert.equal(world.MONEY_WORLD_STAGES.length, 8, "money dummy must keep eight stages");
@@ -219,7 +250,7 @@ try {
     "current background reuse must remain explicitly approved in the pilot manifest"
   );
 
-  console.log("Petualangan Uang eight-stage payload, linear progress, age policy, fail-closed evidence audit, practice boundary, low-text language, recap, asset plan, and financial-safety contracts passed.");
+  console.log("Petualangan Uang eight-stage payload, linear progress, age policy/migration audit, fail-closed evidence audit, practice boundary, low-text language, recap, asset plan, and financial-safety contracts passed.");
 } finally {
   rmSync(outDir, { recursive: true, force: true });
 }
