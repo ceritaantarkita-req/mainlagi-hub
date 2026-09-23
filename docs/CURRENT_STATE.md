@@ -1110,6 +1110,49 @@ Canonical implementation record:
 docs/WORLD_EVIDENCE_IMPLEMENTATION_WAVE1_2026-09-23.md
 ```
 
+## World → Evidence implementation wave 2 — SOURCE-AWARE / PRE-ACTIVATION
+
+Implementation Wave 2 now exists on an isolated branch based on the frozen Wave 1 checkpoint:
+
+```text
+branch:
+feature/world-evidence-implementation-wave2-20260923
+
+base:
+checkpoint/world-evidence-implementation-wave1-green-20260923
+@ 335a076b795ec349feb204d707ba85f8ac2fdb96
+```
+
+Implemented in branch:
+
+- additive Migration `0049_source_aware_mastery_isolation.sql`;
+- canonical-vs-supplemental provenance on `child_skill_mastery`;
+- source-aware mastery recompute;
+- World-only mastery ceiling = `exploring`;
+- canonical Belajar evidence required for `developing+`;
+- canonical-only Belajar stage readiness and adaptive-learning signals;
+- canonical-only proficiency/mastery achievements;
+- canonical-only competency certificate eligibility;
+- explicit parent-report source labeling;
+- dedicated semantic-isolation regression tests.
+
+Activation remains closed:
+
+```text
+MONEY_WORLD_EVIDENCE_INGESTION_ENABLED = false
+v_mapping_active = false
+money-s08-activity-02 assessment = practice
+World runtime emission = absent
+```
+
+Migration 0049 is not a production migration claim. The branch remains unmerged and the production database is untouched by this isolated work.
+
+Canonical Wave 2 document:
+
+```text
+docs/WORLD_EVIDENCE_IMPLEMENTATION_WAVE2_2026-09-23.md
+```
+
 ## Learning/mastery boundaries
 
 Non-negotiable unless explicitly redesigned with migration/tests:
