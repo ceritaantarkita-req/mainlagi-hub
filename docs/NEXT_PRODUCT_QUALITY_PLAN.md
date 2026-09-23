@@ -808,7 +808,7 @@ Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout,
 
 ### 23 September semantic human-review gate handoff
 
-PR #304 merged the exact-file human review evidence gate to main `f0b48cbdbe162fd19e0665f4b29945f6aaa16a5f`. PR CI #1552 / run `35816166334` passed the full matrix. Merged-main CI #1553 / run `35824198610` is the exact post-merge verification run.
+PR #304 merged the exact-file human review evidence gate to main `f0b48cbdbe162fd19e0665f4b29945f6aaa16a5f`. PR CI #1552 / run `35816166334` passed the full matrix. Merged-main CI #1553 / run `35824198610` passed the full matrix and exact Cloudflare smoke.
 
 The gate is engineering infrastructure only. It records **no human decision** and authorizes **no production approval/runtime activation**.
 
@@ -824,7 +824,7 @@ Do not build another generic illustration infrastructure layer. Current executio
 
 1. keep the nine-item candidate set fixed;
 2. preserve the PR #301 source refinements unless exact review evidence rejects them;
-3. exact-file human review evidence gate: **MERGED through PR #304 -> main `f0b48cbdbe162fd19e0665f4b29945f6aaa16a5f`; PR CI #1552 full success; merged-main CI #1553 is the post-merge verification run**;
+3. exact-file human review evidence gate: **MERGED through PR #304 -> main `f0b48cbdbe162fd19e0665f4b29945f6aaa16a5f`; PR CI #1552 full success; merged-main CI #1553 / run `35824198610` full success + exact smoke**;
 4. **NOW:** generate the exact nine local binaries and create the non-overwriting review template;
 5. a human reviewer views the exact files and accepts/rejects each binary individually;
 6. only after acceptance, perform separate legal provenance + production-asset approval for accepted items;
