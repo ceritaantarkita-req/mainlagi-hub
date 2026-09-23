@@ -262,7 +262,7 @@ export function evaluateMoneyWorldEvidenceIngestion(
       ? {
           childId,
           clientObservationId,
-          worldId: MONEY_WORLD_ID,
+          worldId: "money-festival" as const,
           stageId: "money-stage-08-final-festival" as const,
           worldActivityId: "money-s08-activity-02" as const,
           mechanicId: "tap_choice" as const,
