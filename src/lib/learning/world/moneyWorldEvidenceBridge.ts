@@ -211,7 +211,7 @@ export const MONEY_WORLD_EVIDENCE_EXCLUSIONS: readonly MoneyWorldEvidenceBridgeE
     rewardEffect: "none",
     requiresPedagogyReview: false,
     rationale: "Rejected from canonical Math evidence scope after review: the authored objective is contextual price change and 'more expensive', so a correct response does not isolate the canonical quantity-comparison construct strongly enough for mastery evidence."
-  },,
+  },
   {
     worldActivityId: "money-s01-activity-01",
     stageId: "money-stage-01-money-use",
