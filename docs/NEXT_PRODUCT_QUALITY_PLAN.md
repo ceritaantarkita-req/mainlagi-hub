@@ -120,7 +120,8 @@ gameplay taxonomy:            47 active / no Pattern #48
 illustration audit:           #287 -> bea1380e / main CI #1453 exact smoke
 visual containment:           #294 -> 6d0f9bd8 / PR CI #1529 / main CI #1531 exact smoke
 semantic registry gate:       #297 -> ed7db8a6 / PR CI #1536 / main CI #1537 exact smoke
-semantic production art:      OPEN / exact P0 candidate production-review next
+semantic candidate generator:  #300 -> 89adf887 / main CI #1546 exact smoke
+semantic production art:      OPEN / source prereview refinement -> exact human review next
 ```
 
 Cloud analytics integrity: **CLOSED / MERGED / LIVE VERIFIED** via PR #267 -> main `89a2bc629e8535bddbf2ab78ae1990a063f0f361`, merged-main CI #1205 exact Cloudflare smoke. The old fixed 500-attempt / 2000-evidence cap and authenticated silent-local-fallback defect must not be listed as open debt again.
@@ -803,3 +804,23 @@ Current and next:
 20. resume character production only when separately re-authorized.
 
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
+
+
+### 23 September semantic candidate pre-review handoff
+
+PR #300 candidate generator is merged/live verified at main `89adf887...` with merged-main CI #1546 exact smoke.
+
+Do not build another generic illustration infrastructure layer. Current execution order is:
+
+1. keep the nine-item candidate set fixed;
+2. refine only candidates that fail semantic/small-scale pre-review;
+3. run exact human child-readability review on the generated binaries;
+4. accept/reject each exact binary individually;
+5. only after acceptance, perform separate legal provenance + production-asset approval;
+6. only after production approval, perform separate runtime semantic mapping.
+
+Current source refinements before human review:
+- `action.jump`;
+- `feature.cactus-thick-stem`.
+
+No production binary or runtime mapping is authorized by this pre-review.

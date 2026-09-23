@@ -1,4 +1,6 @@
 # Changelog
+- Semantic P0 candidate generator PR #300 merged/live verified ke main `89adf887e270c2451ae81af8cd6a9bae0b798fbd`; merged-main CI #1546 / run `35805378889` full success termasuk exact Cloudflare production smoke.
+- AI visual pre-review 96/64/48/32px menemukan tujuh candidate cukup jelas untuk lanjut exact human review; source `action.jump` dan `feature.cactus-thick-stem` diperjelas sebelum human review. Tidak ada production approval/runtime activation.
 
 ## Unreleased — 23 September 2026
 

@@ -105,3 +105,19 @@ Runtime mapping remains a separate wave after asset approval.
 - No gameplay-pattern change / no Pattern #48.
 - No production semantic binary.
 - No runtime semantic activation.
+
+
+## 23 September visual pre-review refinement
+
+After PR #300 merged/live verified, the canonical candidate geometry was rendered locally for visual inspection at 96px, 64px, 48px and 32px.
+
+This was an **AI visual pre-review only**. It is not the required human child-readability approval and does not change any registry lifecycle.
+
+Seven concepts were clear enough to proceed to exact human review. Two generator sources were refined before human review:
+
+- `action.jump` — the original splayed pose plus two small arrows could read as jumping-jack/gymnastics movement; the revised source uses one stronger upward-motion cue plus a separated ground reference.
+- `feature.cactus-thick-stem` — the original image emphasized “cactus + water” more than “thick stem”; the revised source makes the central stem dominant, enlarges the water-storage cutaway and adds width cues.
+
+Canonical pre-review checkpoint: `LEARNING_SEMANTIC_P0_VISUAL_PREREVIEW_2026-09-23.md`.
+
+The revised candidates remain review-only. Exact human acceptance is still required before any production approval.
