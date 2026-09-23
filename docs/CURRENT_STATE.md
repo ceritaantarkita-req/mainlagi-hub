@@ -1229,6 +1229,78 @@ Canonical record:
 docs/WORLD_EVIDENCE_STAGE8_ACTIVATION_2026-09-23.md
 ```
 
+## World → Evidence live database deployment — 0047–0051 LIVE / APP UNMERGED
+
+Canonical Supabase was resolved and verified directly:
+
+```text
+project ref: estvtgflwkebomsqlolv
+name:        mainlagi-hub
+region:      ap-southeast-1
+status:      ACTIVE_HEALTHY
+```
+
+After read-only blast-radius checks, the reviewed migrations were applied sequentially and verified live:
+
+```text
+0047_world_progress_persistence
+0048_world_supplemental_evidence_foundation
+0049_source_aware_mastery_isolation
+0050_world_evidence_stage8_activation
+0051_world_evidence_advisor_hardening
+```
+
+Live invariants after 0051:
+
+```text
+World progress rows                 0
+supplemental World evidence rows    0
+mastery rows                        26
+canonical evidence rows             51
+Belajar progress rows               3
+achievement rows                    10
+certificate rows                    0
+```
+
+Migration 0049 preserved existing mastery exactly: all score/confidence/level/evidence-count/qualifying-count/last-evidence comparisons returned zero mismatch.
+
+Live Stage 8 registry contains exactly:
+
+```text
+money-s08-activity-02
+money-world-s08-subtraction-v2-assessed
+active = true
+```
+
+The active evidence RPC remains service-role-only; authenticated/anon execute is denied and it does not call `record_learning_attempt(...)`.
+
+Migration 0051 closed the new RLS-no-policy and unindexed-`skill_key` advisor INFO findings. Existing intentional SECURITY DEFINER warnings for `record_learning_attempt(...)` and `save_world_progress(...)`, plus the unrelated leaked-password-protection warning, remain documented.
+
+Safe hardening checkpoint:
+
+```text
+checkpoint/world-evidence-live-db-hardening-green-20260923
+@ 45638d6d345c294f8a5087eb939d862a0db127b0
+CI #1581 / run 35884912348 — full success
+```
+
+Important application boundary:
+
+```text
+PR #309 activation runtime = Draft / unmerged
+PR #310 DB hardening       = Draft / unmerged
+main observed              = 17b9ca79749e171f62d3adb86df494badef11732
+Cloudflare activation app  = not deployed by this DB wave
+```
+
+The live database is intentionally schema-ahead and backward-compatible. No synthetic child evidence was inserted merely to prove the write path.
+
+Canonical live record:
+
+```text
+docs/WORLD_EVIDENCE_LIVE_DB_DEPLOYMENT_2026-09-23.md
+```
+
 ## Learning/mastery boundaries
 
 Non-negotiable unless explicitly redesigned with migration/tests:

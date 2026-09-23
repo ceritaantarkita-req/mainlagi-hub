@@ -327,3 +327,34 @@ checkpoint/world-evidence-stage8-activation-docs-green-20260923
 ```
 
 Neither checkpoint means production/live activation. PR #309 remains unmerged and live Supabase deployment/verification remains pending.
+
+## 13. Live database deployment follow-up
+
+The earlier Sections 10–12 record the state before a canonical Supabase project was resolved. A later deployment wave resolved the target directly as:
+
+```text
+estvtgflwkebomsqlolv
+mainlagi-hub
+ap-southeast-1
+ACTIVE_HEALTHY
+```
+
+Migrations 0047–0051 are now applied and structurally verified live. Migration 0051 also closes the new RLS-no-policy and unindexed-`skill_key` advisor INFO findings introduced by the supplemental-evidence schema.
+
+Detailed evidence:
+
+```text
+docs/WORLD_EVIDENCE_LIVE_DB_DEPLOYMENT_2026-09-23.md
+```
+
+This changes the database status, not the application release status:
+
+```text
+World evidence DB schema/registry = LIVE
+supplemental evidence rows        = 0
+PR #309 activation app/code       = Draft / unmerged
+PR #310 DB hardening/docs         = Draft / unmerged
+Cloudflare activation runtime     = NOT DEPLOYED BY THIS WAVE
+```
+
+No synthetic child evidence was created during database verification.
