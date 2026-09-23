@@ -420,6 +420,44 @@ Rules:
 
 This is still pre-activation. World ingestion/application and database mapping switches remain false, Stage 8 remains practice, and the World runtime emits no evidence observation.
 
+## 19E. Reviewed Stage 8 World supplemental-evidence activation
+
+The isolated activation branch promotes exactly one World activity:
+
+```text
+money-s08-activity-02
+8 - 2 = 6
+assessment: assessed
+content version: money-world-s08-subtraction-v2-assessed
+skill: math.operation.subtraction.within_10
+role: supplemental
+```
+
+Runtime sends raw answer-sequence observations to the authenticated server-owned World evidence endpoint. The client cannot select skill, accuracy, evidence score/weight, qualification, progression or reward effects.
+
+The prior `money-world-s08-subtraction-v1` practice version is not eligible.
+
+All Wave 2 source-isolation rules remain:
+
+- World-only evidence is capped at `exploring`;
+- `developing+` requires canonical Belajar evidence;
+- Belajar readiness/adaptive signals use canonical provenance;
+- Belajar achievements use canonical mastery;
+- competency certificates require canonical Belajar proficiency/mastery and canonical qualifying evidence;
+- World completion never becomes a Belajar activity completion/star award.
+
+Activation code checkpoint:
+
+```text
+checkpoint/world-evidence-stage8-activation-green-20260923
+@ 15f647b98cedcbe8a4580d15686013f6f066cd73
+CI #1573 / run 35869765210 — full success
+```
+
+This checkpoint is not a live-database claim. PR #309 remains Draft/unmerged and the available Supabase connector exposed no project, so production migrations/RPC behavior were not applied or live-verified in this wave.
+
+See `WORLD_EVIDENCE_STAGE8_ACTIVATION_2026-09-23.md`.
+
 ## 20. Change rule
 
 The learning/mastery foundation is currently considered healthy. The next product-quality phase should **not rewrite it by default**.
