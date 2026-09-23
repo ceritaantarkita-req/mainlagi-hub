@@ -40,7 +40,11 @@ Read these first for current work:
 28. [`LEARNING_VISUAL_CONTAINMENT_CLOSURE_2026-09-23.md`](LEARNING_VISUAL_CONTAINMENT_CLOSURE_2026-09-23.md) — final PR #294 / CI #1529 / main CI #1531 exact-smoke containment closure.
 29. [`LEARNING_SEMANTIC_ILLUSTRATION_REGISTRY_PILOT_2026-09-23.md`](LEARNING_SEMANTIC_ILLUSTRATION_REGISTRY_PILOT_2026-09-23.md) — 17-slot fail-closed semantic asset/provenance gate implementation record.
 30. [`LEARNING_SEMANTIC_ILLUSTRATION_REGISTRY_CLOSURE_2026-09-23.md`](LEARNING_SEMANTIC_ILLUSTRATION_REGISTRY_CLOSURE_2026-09-23.md) — PR #297 / CI #1536 / main CI #1537 exact-smoke closure and P0 art handoff.
-31. [`KNOWN_LIMITATIONS.md`](KNOWN_LIMITATIONS.md) — current known limitations and external acceptance gaps.
+31. [`LEARNING_SEMANTIC_P0_CANDIDATE_GENERATOR_2026-09-23.md`](LEARNING_SEMANTIC_P0_CANDIDATE_GENERATOR_2026-09-23.md) — exact nine-item deterministic review-only candidate generator.
+32. [`LEARNING_SEMANTIC_P0_VISUAL_PREREVIEW_2026-09-23.md`](LEARNING_SEMANTIC_P0_VISUAL_PREREVIEW_2026-09-23.md) — AI small-scale prereview and PR #301 source-refinement record; not human approval.
+33. [`LEARNING_SEMANTIC_P0_HUMAN_REVIEW_GATE_2026-09-23.md`](LEARNING_SEMANTIC_P0_HUMAN_REVIEW_GATE_2026-09-23.md) — exact-file per-item human child-readability evidence gate; acceptance is not production approval.
+34. [`LEARNING_SEMANTIC_SAFE_CHECKPOINT_2026-09-23.md`](LEARNING_SEMANTIC_SAFE_CHECKPOINT_2026-09-23.md) — current safe handoff for semantic illustration work.
+35. [`KNOWN_LIMITATIONS.md`](KNOWN_LIMITATIONS.md) — current known limitations and external acceptance gaps.
 
 Subsystem docs remain authoritative for their specific scope when they do not conflict with the canonical documents above.
 
@@ -66,7 +70,8 @@ illustration audit:               PR #287 / merged + live verified
 visual containment:               PR #294 -> 6d0f9bd8 / PR CI #1529 / main CI #1531 exact smoke
 semantic illustration gate:       PR #297 -> ed7db8a6 / 17 review-required / 0 approved / main CI #1537 exact smoke
 semantic candidate generator:     PR #300 -> 89adf887 / main CI #1546 exact smoke
-semantic production art:          OPEN / source prereview refinement -> exact human review next
+semantic source refinement:       PR #301 -> 9f6270c7 / main CI #1548 exact smoke
+semantic production art:          OPEN / exact human review gate next / 0 approved / 0 production binary / 0 runtime
 character development:            PAUSED BY PROJECT OWNER / Drive assets reference-only
 Mainlagi World:                   separate user development / DO NOT TOUCH in this workstream
 WS-05 production truth:           900/900 / 47 / choice_grid 174 / pattern_completion 10 / KEEP 900
