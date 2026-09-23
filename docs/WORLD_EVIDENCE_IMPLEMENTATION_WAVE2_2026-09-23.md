@@ -361,3 +361,23 @@ World supplemental evidence
 may enrich source-aware mastery
 but cannot replace canonical Belajar evidence.
 ```
+
+## 13. Stage 8 activation handoff
+
+The later separately authorized activation is recorded in:
+
+```text
+docs/WORLD_EVIDENCE_STAGE8_ACTIVATION_2026-09-23.md
+```
+
+Wave 2 remains a historical pre-activation checkpoint and must not be rewritten as if Stage 8 was already assessed at that time.
+
+The later activation code checkpoint is:
+
+```text
+checkpoint/world-evidence-stage8-activation-green-20260923
+@ 15f647b98cedcbe8a4580d15686013f6f066cd73
+CI #1573 / run 35869765210 — full success
+```
+
+That activation branch remains Draft/unmerged and was not live-verified against a Supabase project during this wave.
