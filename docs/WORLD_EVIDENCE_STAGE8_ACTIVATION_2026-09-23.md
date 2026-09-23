@@ -281,3 +281,49 @@ Until then the precise status is:
 Stage 8 activation implementation = GREEN
 production/live activation         = NOT VERIFIED / NOT DEPLOYED
 ```
+
+## 12. Documentation closure checkpoint
+
+After the canonical docs synchronization, the exact docs head passed the full CI matrix:
+
+```text
+checkpoint/world-evidence-stage8-activation-docs-green-20260923
+@ e09b04ad9c8e9fa6a0df8e97d9b2264ca9054b5c
+
+Mainlagi TV V3 CI #1578
+run 35870819543
+conclusion: success
+```
+
+PASS:
+
+- Quality gate (Ubuntu), including engine tests, audits, simulations and final acceptance;
+- Windows compatibility, including engine tests;
+- Production build;
+- Production dependency audit;
+- Secret history scan;
+- Mobile route QA (Chromium), accessibility/lazy-load matrix and permanent visual baseline.
+
+Docs-head artifacts:
+
+```text
+mobile-route-qa-screenshots — 10755447115
+activity-quality-audit      — 10755700829
+gameplay-distribution-audit — 10754737638
+```
+
+The checkpoint is immutable and must not be force-moved.
+
+The two safe recovery points are therefore:
+
+```text
+implementation code:
+checkpoint/world-evidence-stage8-activation-green-20260923
+@ 15f647b98cedcbe8a4580d15686013f6f066cd73
+
+canonical docs:
+checkpoint/world-evidence-stage8-activation-docs-green-20260923
+@ e09b04ad9c8e9fa6a0df8e97d9b2264ca9054b5c
+```
+
+Neither checkpoint means production/live activation. PR #309 remains unmerged and live Supabase deployment/verification remains pending.
