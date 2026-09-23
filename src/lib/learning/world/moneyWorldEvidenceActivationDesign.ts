@@ -153,6 +153,9 @@ export const MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY = {
   schemaImplemented: true,
   endpointImplemented: true,
   serverOnlyWriteFunctionImplemented: true,
+  sourceAwareMasteryImplemented: true,
+  certificateIsolationImplemented: true,
+  parentReportSourceLabelingImplemented: true,
   applicationIngestionEnabled: false,
   databaseMappingEnabled: false
 } as const;
@@ -237,27 +240,27 @@ export const MONEY_WORLD_EVIDENCE_ACTIVATION_REQUIREMENTS: readonly MoneyWorldEv
   },
   {
     id: "mastery-source-aware-recompute",
-    satisfied: false,
+    satisfied: true,
     reason:
-      "Mastery recompute does not yet enforce the World-only exploring ceiling or the canonical-Belajar-evidence requirement above that ceiling."
+      "Migration 0049 separates canonical Belajar provenance from combined source-aware mastery, caps World-only mastery at exploring, and requires canonical Belajar evidence for developing or higher."
   },
   {
     id: "certificate-isolation-implementation",
-    satisfied: false,
+    satisfied: true,
     reason:
-      "Certificate logic has not yet been made source-aware for supplemental World evidence."
+      "Migration 0049 and client eligibility checks require canonical Belajar proficiency plus canonical qualifying evidence; supplemental World evidence cannot issue competency certificates."
   },
   {
     id: "parent-report-source-labeling",
-    satisfied: false,
+    satisfied: true,
     reason:
-      "Parent reporting does not yet label World supplemental evidence separately from direct Belajar attempts."
+      "Parent reporting keeps weekly qualifying evidence Belajar-only and labels combined mastery when supplemental World evidence contributes."
   },
   {
     id: "security-regression",
-    satisfied: false,
+    satisfied: true,
     reason:
-      "Ownership, idempotency, replay, spoofing, age-gate, retry and derived-write regressions still require implementation-level tests."
+      "Implementation regressions cover ownership, idempotency, replay, spoofing, age gate, retry limits, source provenance, progression isolation, certificate isolation, and runtime disconnection."
   }
 ] as const;
 
@@ -351,10 +354,13 @@ export function validateMoneyWorldEvidenceActivationDesign(): {
     !MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.schemaImplemented ||
     !MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.endpointImplemented ||
     !MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.serverOnlyWriteFunctionImplemented ||
+    !MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.sourceAwareMasteryImplemented ||
+    !MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.certificateIsolationImplemented ||
+    !MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.parentReportSourceLabelingImplemented ||
     MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.serverOnlyWriteFunction !== "public.record_world_skill_evidence" ||
     MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.serverOnlyWriteFunctionRole !== "service_role-only"
   ) {
-    errors.push("implementation-wave backend foundation is incomplete");
+    errors.push("implementation-wave backend/source-isolation foundation is incomplete");
   }
 
   if (
