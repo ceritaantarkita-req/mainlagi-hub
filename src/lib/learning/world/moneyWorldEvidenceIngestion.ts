@@ -122,9 +122,10 @@ export function evaluateMoneyWorldEvidenceIngestion(
   if (!MONEY_WORLD_EVIDENCE_INGESTION_ENABLED) blockers.add("ingestion-disabled");
 
   if (!isRecord(raw)) {
+    blockers.add("source-identity-mismatch");
     return {
       disposition: "blocked",
-      blockers: ["ingestion-disabled", "source-identity-mismatch"],
+      blockers: [...blockers],
       serverMappedSkillId: null,
       serverMappedEvidenceContract: null,
       derivedMetrics: null,
