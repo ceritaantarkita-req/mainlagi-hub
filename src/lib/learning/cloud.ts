@@ -4,7 +4,13 @@ import { getCurrentUserId, getValidAccessToken, isSupabaseConfigured } from "@/l
 import { getBrowserClient } from "@/lib/auth/supabase-client";
 import { LEARNING_SKILLS } from "./catalog";
 import { emptyLearningAnalytics, type LearningAnalyticsSnapshot, type LearningAttemptRecord } from "./attempts";
-import { calculateSkillMastery, type MasteryLevel, type SkillEvidence, type SkillMasterySnapshot } from "./mastery";
+import {
+  calculateSkillMastery,
+  type MasteryEvidenceSource,
+  type MasteryLevel,
+  type SkillEvidence,
+  type SkillMasterySnapshot
+} from "./mastery";
 import type { CharacterId, LearningChildProfile, LearningProgress } from "./system";
 
 const VALID_GUIDES = new Set<CharacterId>(["naya", "gian", "zia", "paca", "gavi"]);
@@ -47,6 +53,15 @@ function masteryLevel(value: unknown): MasteryLevel {
   return typeof value === "string" && VALID_LEVELS.has(value as MasteryLevel)
     ? value as MasteryLevel
     : "not_started";
+}
+
+function masteryEvidenceSourceValue(value: unknown): MasteryEvidenceSource {
+  if (
+    value === "belajar-only"
+    || value === "world-supplemental-only"
+    || value === "belajar-plus-world-supplemental"
+  ) return value;
+  return "none";
 }
 
 export async function syncLearningAttemptCloud(attempt: LearningAttemptRecord): Promise<boolean> {
@@ -128,7 +143,7 @@ export async function readCloudLearningAnalytics(childId: string): Promise<Learn
         .range(from, to)),
       client
         .from("child_skill_mastery")
-        .select("skill_key,mastery_score,confidence,mastery_level,evidence_count,qualifying_evidence_count,last_evidence_at")
+        .select("skill_key,mastery_score,confidence,mastery_level,evidence_count,qualifying_evidence_count,last_evidence_at,canonical_mastery_score,canonical_confidence,canonical_mastery_level,canonical_evidence_count,canonical_qualifying_evidence_count,canonical_last_evidence_at,supplemental_evidence_count,supplemental_qualifying_evidence_count,evidence_source_policy")
         .eq("account_id", accountId)
         .eq("child_key", childId)
     ]);
@@ -204,7 +219,16 @@ export async function readCloudLearningAnalytics(childId: string): Promise<Learn
         evidenceCount: Math.max(0, Math.round(numberOrZero(row.evidence_count))),
         qualifyingEvidenceCount: Math.max(0, Math.round(numberOrZero(row.qualifying_evidence_count))),
         lastEvidenceAt: typeof row.last_evidence_at === "string" ? row.last_evidence_at : null,
-        needsPractice: level !== "proficient" && level !== "mastered"
+        needsPractice: level !== "proficient" && level !== "mastered",
+        canonicalScore: Math.max(0, Math.min(1, numberOrZero(row.canonical_mastery_score))),
+        canonicalConfidence: Math.max(0, Math.min(1, numberOrZero(row.canonical_confidence))),
+        canonicalLevel: masteryLevel(row.canonical_mastery_level),
+        canonicalEvidenceCount: Math.max(0, Math.round(numberOrZero(row.canonical_evidence_count))),
+        canonicalQualifyingEvidenceCount: Math.max(0, Math.round(numberOrZero(row.canonical_qualifying_evidence_count))),
+        canonicalLastEvidenceAt: typeof row.canonical_last_evidence_at === "string" ? row.canonical_last_evidence_at : null,
+        supplementalEvidenceCount: Math.max(0, Math.round(numberOrZero(row.supplemental_evidence_count))),
+        supplementalQualifyingEvidenceCount: Math.max(0, Math.round(numberOrZero(row.supplemental_qualifying_evidence_count))),
+        evidenceSource: masteryEvidenceSourceValue(row.evidence_source_policy)
       };
     }
 
