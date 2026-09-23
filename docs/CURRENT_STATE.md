@@ -4,6 +4,60 @@ Last reviewed: **23 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
+## 23 September World evidence main integration release candidate — GREEN / NOT MERGED
+
+The reviewed World evidence stack has now been integrated with the actual current `main` baseline on a dedicated release branch without merging production.
+
+```text
+release branch:
+release/world-evidence-integration-20260923
+
+current-main parent:
+17b9ca79749e171f62d3adb86df494badef11732
+
+World/live-DB parent:
+94062af9944943e5f82011087bff9e4dfd12e2b7
+
+integration merge:
+e4999265033b0263e906c2fe287fc08d09bde0bc
+
+Draft release PR:
+#312 -> main
+```
+
+Immutable integration checkpoint:
+
+```text
+checkpoint/world-evidence-main-integration-green-20260923
+@ e4999265033b0263e906c2fe287fc08d09bde0bc
+
+CI #1584 / run 35892514511
+full matrix: PASS
+```
+
+The integration explicitly preserves both sides of the previous divergence:
+
+- current-main semantic P0 human-review state;
+- English narration gates;
+- learning-illustration semantic/containment gates;
+- World Petualangan Uang runtime/QA;
+- migrations 0047–0051;
+- Stage 8 supplemental evidence;
+- source-aware mastery/certificate isolation;
+- live-DB closure records.
+
+The seven overlapping files were resolved explicitly rather than by replacing current-main files. Combined Ubuntu/Windows engine suites and combined mobile QA all pass.
+
+Database state remains live through 0051 with `0` supplemental evidence rows. No DB write is part of this integration wave.
+
+**Application release is still pending.** PR #312 is Draft/unmerged, production smoke is intentionally skipped until a main deployment exists, and no controlled real/QA-child Stage 8 evidence write has been performed.
+
+Canonical integration record:
+
+```text
+docs/WORLD_EVIDENCE_MAIN_INTEGRATION_2026-09-23.md
+```
+
 ## 22 September execution boundary — World untouched / Belajar WS-05 closed
 
 User-approved execution boundary:
@@ -1122,6 +1176,323 @@ Explicit exclusions remain `science-cycle-butterfly`, `science-match-young-adult
 
 Closure evidence: `PATTERN42_GROWTH_STAGE_TRANSITION_CLOSURE_2026-09-18.md`.
 
+## 23 September isolated World → Evidence design closure
+
+A separate isolated World architecture branch now contains a **design-only, fail-closed World → Evidence v1 contract**. This is not merged production truth and does not activate evidence/mastery.
+
+```text
+branch: feature/world-evidence-bridge-contract-20260923
+PR:     #295 Draft / open / unmerged
+base:   feature/world-petualangan-uang-production-wave-20260922
+```
+
+Validated design checkpoint:
+
+```text
+checkpoint/world-evidence-bridge-contract-green-20260923
+@ 38bbe5704d4d63781410842cbf134dcb76c3ab54
+CI #1530 / run 35764121287 — full success
+```
+
+Validated docs-sync checkpoint:
+
+```text
+checkpoint/world-evidence-bridge-docs-green-20260923
+@ eb793f442cbee8d38f528cb5dbff0d15784a6200
+CI #1532 / run 35765390710 — full success
+```
+
+Current design truth:
+
+- World completion / ★★★ remain separate from canonical Belajar activity completion, skill evidence, mastery, stars, stage readiness and certificates.
+- all **16/16** current Petualangan Uang activity placements remain `practice`;
+- exactly **2** Math relationships are candidate-only/unapproved;
+- the remaining **14** are explicit exclusions;
+- no candidate has a canonical `learning_activity` mapping;
+- direct World use of `record_learning_attempt(...)` is forbidden because the current RPC also owns canonical Belajar completion/star side effects;
+- local/cloud learning-attempt writes, evidence writes, mastery recompute, Belajar progress/reward mutation, certificate mutation, schema migration and runtime hook remain disabled;
+- activation still requires explicit product authorization, pedagogical mapping approval, age-8 handling, a server-owned ingestion boundary, progression/reward isolation, and ownership/idempotency/replay/security regression coverage.
+
+Final isolated design-closure checkpoint:
+
+```text
+checkpoint/world-evidence-bridge-design-closure-green-20260923
+@ 82faddd6b90eac603cb2449b8f16d7aff98a1792
+CI #1535 / run 35768996360 — full success
+```
+
+This checkpoint is still **design-only**. World runtime evidence emission, canonical attempt/evidence/mastery writes, Belajar progression/reward mutation and schema/RPC activation remain disabled.
+
+Canonical isolated design docs:
+
+- `WORLD_EVIDENCE_BRIDGE_ARCHITECTURE_2026-09-23.md`;
+- `WORLD_EVIDENCE_BRIDGE_DESIGN_CLOSURE_2026-09-23.md`;
+- World checkpoint/policy/QA docs.
+
+Do not wire World runtime to the learning-attempt/evidence system from this branch without a separate activation decision.
+
+## World → Evidence activation decision wave — ISOLATED / PRE-ACTIVATION
+
+A new isolated decision branch now follows the immutable v1 fail-closed closure:
+
+```text
+branch: feature/world-evidence-activation-design-20260923
+base:   feature/world-evidence-bridge-contract-20260923 @ 2debc4d...
+mode:   pre-activation-design-disabled
+```
+
+Decision scope:
+
+- `money-s02-activity-01` price comparison is **deferred** from canonical evidence; it remains contextual World financial-literacy practice.
+- `money-s08-activity-02` (`8 - 2`) is the only activity accepted for **future supplemental evidence** to `math.operation.subtraction.within_10`.
+- the Stage 8 activity is still authored as `practice`; no runtime evidence may be emitted yet.
+- eligible future evidence ages are 6–7; age 8 remains World completion-only and must not force a catalog `ageMax` rewrite.
+- World evidence is supplemental, capped at one qualifying item per activity/content version, and World-only evidence may not raise mastery above `exploring`.
+- direct `record_learning_attempt(...)` reuse remains forbidden.
+- selected future architecture is a server-owned `/api/learning/world-evidence` route plus a private supplemental-evidence write boundary.
+- SQL/schema/RPC/runtime/mastery/report/certificate implementation remains **not done**.
+
+Canonical decision record:
+
+```text
+docs/WORLD_EVIDENCE_ACTIVATION_DECISION_2026-09-23.md
+src/lib/learning/world/moneyWorldEvidenceActivationDesign.ts
+```
+
+This branch does not supersede or move the immutable v1 checkpoints and does not authorize merge/activation by itself.
+
+## World → Evidence implementation wave 1 — BACKEND FOUNDATION / DISABLED
+
+The owner-authorized implementation wave now exists on an isolated branch:
+
+```text
+branch: feature/world-evidence-implementation-wave1-20260923
+base checkpoint:
+checkpoint/world-evidence-activation-design-green-20260923
+@ a8cbbada1895d998211a0340c33424b3d2c67f74
+```
+
+Implemented in branch:
+
+- additive migration `0048_world_supplemental_evidence_foundation.sql`;
+- `learning_supplemental_skill_evidence` storage;
+- service-role-only `public.record_world_skill_evidence(...)` SECURITY DEFINER RPC;
+- disabled `POST /api/learning/world-evidence` server route;
+- raw-answer ingestion canonicalization;
+- ownership / age 6–7 / idempotency / replay / retry / one-content-version anti-farming boundaries;
+- schema + World regression tests.
+
+Activation remains closed at two independent gates:
+
+```text
+application:
+MONEY_WORLD_EVIDENCE_INGESTION_ENABLED = false
+
+database:
+v_mapping_active = false
+```
+
+The Stage 8 source activity is also still authored as `practice`.
+
+No World runtime emission, mastery recompute, Belajar completion/star mutation, certificate mutation or parent-report integration is part of this wave.
+
+Canonical implementation record:
+
+```text
+docs/WORLD_EVIDENCE_IMPLEMENTATION_WAVE1_2026-09-23.md
+```
+
+## World → Evidence implementation wave 2 — SOURCE-AWARE / PRE-ACTIVATION
+
+Implementation Wave 2 now exists on an isolated branch based on the frozen Wave 1 checkpoint:
+
+```text
+branch:
+feature/world-evidence-implementation-wave2-20260923
+
+base:
+checkpoint/world-evidence-implementation-wave1-green-20260923
+@ 335a076b795ec349feb204d707ba85f8ac2fdb96
+```
+
+Green implementation checkpoint:
+
+```text
+checkpoint/world-evidence-implementation-wave2-green-20260923
+@ affb5f9baf03d275a3a78a7096c8eeea866e5375
+
+CI #1569 / run 35864470649
+full matrix: PASS
+```
+
+Implemented in branch:
+
+- additive Migration `0049_source_aware_mastery_isolation.sql`;
+- canonical-vs-supplemental provenance on `child_skill_mastery`;
+- source-aware mastery recompute;
+- World-only mastery ceiling = `exploring`;
+- canonical Belajar evidence required for `developing+`;
+- canonical-only Belajar stage readiness and adaptive-learning signals;
+- canonical-only proficiency/mastery achievements;
+- canonical-only competency certificate eligibility;
+- explicit parent-report source labeling;
+- dedicated semantic-isolation regression tests.
+
+Activation remains closed:
+
+```text
+MONEY_WORLD_EVIDENCE_INGESTION_ENABLED = false
+v_mapping_active = false
+money-s08-activity-02 assessment = practice
+World runtime emission = absent
+```
+
+Migration 0049 is not a production migration claim. The branch remains unmerged and the production database is untouched by this isolated work.
+
+Canonical Wave 2 document:
+
+```text
+docs/WORLD_EVIDENCE_IMPLEMENTATION_WAVE2_2026-09-23.md
+```
+
+## World → Evidence Stage 8 activation — CODE GREEN / NOT PRODUCTION DEPLOYED
+
+The separately authorized activation implementation now exists on:
+
+```text
+branch: feature/world-evidence-activation-wave-20260923
+PR:     #309 Draft / open / unmerged
+```
+
+Frozen code checkpoint:
+
+```text
+checkpoint/world-evidence-stage8-activation-green-20260923
+@ 15f647b98cedcbe8a4580d15686013f6f066cd73
+
+CI #1573 / run 35869765210
+full matrix: PASS
+```
+
+Activated in the isolated code branch:
+
+- only `money-s08-activity-02` is now authored `assessed`;
+- active evidence content version is `money-world-s08-subtraction-v2-assessed`;
+- runtime emits raw answer-sequence observations through `/api/learning/world-evidence`;
+- migration `0050_world_evidence_stage8_activation.sql` activates only this source via a private registry;
+- the evidence RPC remains service-role-only;
+- age 6–7, ownership, replay, retry, idempotency and static-content anti-farming remain enforced;
+- World-only mastery remains capped at `exploring`;
+- Belajar progression/adaptive/rewards/certificates remain canonical-Belajar-only;
+- Stage 2 price comparison remains deferred.
+
+Production/live caveat:
+
+```text
+PR #309              = closed / superseded by PR #312
+main                 = untouched
+migration 0050 live  = not applied/verified in this wave
+Supabase connector   = 0 visible projects
+```
+
+Therefore this is **green activation code**, not proof of production database activation.
+
+Docs closure checkpoint:
+
+```text
+checkpoint/world-evidence-stage8-activation-docs-green-20260923
+@ e09b04ad9c8e9fa6a0df8e97d9b2264ca9054b5c
+
+CI #1578 / run 35870819543
+full matrix: PASS
+```
+
+Docs-head artifacts:
+
+```text
+mobile-route-qa-screenshots — 10755447115
+activity-quality-audit      — 10755700829
+gameplay-distribution-audit — 10754737638
+```
+
+Canonical record:
+
+```text
+docs/WORLD_EVIDENCE_STAGE8_ACTIVATION_2026-09-23.md
+```
+
+## World → Evidence live database deployment — 0047–0051 LIVE / APP UNMERGED
+
+Canonical Supabase was resolved and verified directly:
+
+```text
+project ref: estvtgflwkebomsqlolv
+name:        mainlagi-hub
+region:      ap-southeast-1
+status:      ACTIVE_HEALTHY
+```
+
+After read-only blast-radius checks, the reviewed migrations were applied sequentially and verified live:
+
+```text
+0047_world_progress_persistence
+0048_world_supplemental_evidence_foundation
+0049_source_aware_mastery_isolation
+0050_world_evidence_stage8_activation
+0051_world_evidence_advisor_hardening
+```
+
+Live invariants after 0051:
+
+```text
+World progress rows                 0
+supplemental World evidence rows    0
+mastery rows                        26
+canonical evidence rows             51
+Belajar progress rows               3
+achievement rows                    10
+certificate rows                    0
+```
+
+Migration 0049 preserved existing mastery exactly: all score/confidence/level/evidence-count/qualifying-count/last-evidence comparisons returned zero mismatch.
+
+Live Stage 8 registry contains exactly:
+
+```text
+money-s08-activity-02
+money-world-s08-subtraction-v2-assessed
+active = true
+```
+
+The active evidence RPC remains service-role-only; authenticated/anon execute is denied and it does not call `record_learning_attempt(...)`.
+
+Migration 0051 closed the new RLS-no-policy and unindexed-`skill_key` advisor INFO findings. Existing intentional SECURITY DEFINER warnings for `record_learning_attempt(...)` and `save_world_progress(...)`, plus the unrelated leaked-password-protection warning, remain documented.
+
+Safe hardening checkpoint:
+
+```text
+checkpoint/world-evidence-live-db-hardening-green-20260923
+@ 45638d6d345c294f8a5087eb939d862a0db127b0
+CI #1581 / run 35884912348 — full success
+```
+
+Important application boundary:
+
+```text
+PR #309 activation runtime = closed / superseded by PR #312
+PR #310 DB hardening       = closed / superseded by PR #312
+main observed              = 17b9ca79749e171f62d3adb86df494badef11732
+Cloudflare activation app  = not deployed by this DB wave
+```
+
+The live database is intentionally schema-ahead and backward-compatible. No synthetic child evidence was inserted merely to prove the write path.
+
+Canonical live record:
+
+```text
+docs/WORLD_EVIDENCE_LIVE_DB_DEPLOYMENT_2026-09-23.md
+```
+
 ## Learning/mastery boundaries
 
 Non-negotiable unless explicitly redesigned with migration/tests:
@@ -1138,7 +1509,7 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Treat the actual branch tip of `main` as source of truth. The latest English-narration product/runtime implementation baseline is `2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48`, live verified by merged-main CI #1372 / run `35701448136` with exact Cloudflare production smoke; later docs-only closure commits may advance `main` without changing that runtime baseline.
+1. Treat the actual branch tip of `main` as production source of truth. For the currently authorized World evidence release work, the validated release candidate is `checkpoint/world-evidence-main-integration-green-20260923 @ e4999265...` / PR #312; it is not production truth until merged-main CI and exact-SHA Cloudflare smoke succeed.
 2. English narration Wave 1 and the Wave 2 production asset gate are closed/live verified. Preserve **27 reviewed / 27 registry slots / 0 approved production audio / 0 static runtime activation**.
 3. If narration continues, start only with the documented four-item provider/voice pilot + human listening/provenance review. Do not bulk-generate all 27 assets and do not activate runtime playback in the same pilot step.
 4. Parent/profile/settings responsive redesign is closed/live verified. Preserve the <760px mobile header + five-item bottom nav, >=760px desktop sidebar, family/demo separation and profile-vs-guide identity boundary.
@@ -1146,6 +1517,6 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 6. Preserve Paca/Gavi current production artwork and provenance. Naya/Gian/Zia generated candidates are not production-approved until reviewed and their rights/provenance are recorded.
 7. WS-05 Logic `pattern_completion` reuse is closed/live verified via PR #273 -> main `709e2b7d...` / merged-main CI #1353 with 900/900 / 47 active / `choice_grid` 174 / `pattern_completion` 10 / KEEP 900. Any later WS-05 runtime change requires a fresh objective/evidence audit.
 8. Preserve the merged 9-subject / 900-activity / 47-active-pattern baseline and existing mastery/evidence/progression/schema contracts unless a separately justified migration is approved.
-9. Do not touch Mainlagi World and do not resume character development in this workstream.
+9. Mainlagi World changes are authorized only within the reviewed PR #312 release-candidate scope: Stage 8 supplemental evidence and its already-reviewed Petualangan Uang stack. Do not activate a second evidence mapping, expand canonical evidence to age 8, or resume character development without a separate authorization.
 
 Do not prioritize activity-count expansion, OCR rollout, large AI tutor work, subscription/paywall, marketplace expansion or major mastery/backend rewrites before the current quality roadmap justifies them.

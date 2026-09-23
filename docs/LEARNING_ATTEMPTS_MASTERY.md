@@ -290,6 +290,174 @@ In particular:
 - QA unlock behavior must stay isolated and may not weaken normal production progression;
 - the current Logic `pattern_completion` reuse audit does not authorize mastery/schema changes.
 
+## 19A. World → Evidence design boundary
+
+Petualangan Uang now has a **design-only, disabled** World → Evidence contract.
+
+Source:
+
+```text
+src/lib/learning/world/moneyWorldEvidenceBridge.ts
+docs/WORLD_EVIDENCE_BRIDGE_ARCHITECTURE_2026-09-23.md
+```
+
+Current rule:
+
+```text
+World completion / ★★★
+≠
+Belajar activity completion
+≠
+skill evidence
+≠
+mastery
+≠
+Belajar stars
+≠
+stage readiness
+```
+
+All 16 current World activity placements remain `practice`. Two activities have unapproved candidate relationships to existing Math skills; the other 14 are explicitly excluded from canonical mastery mapping. Candidate status is not activation.
+
+The current `record_learning_attempt(...)` RPC must not be called directly from World because a completed canonical learning attempt can also mutate `child_learning_progress` and canonical star rewards. A future bridge requires a server-owned write boundary that isolates evidence from Belajar completion/reward effects.
+
+The bridge remains disabled until explicit product authorization, pedagogical mapping approval, age-8 handling, server canonicalization, progression/reward isolation and security/anti-farming regression coverage are complete.
+
+No SQL/RPC/schema change is authorized by the design contract.
+
+The disabled contract is validated by CI #1530 at `38bbe570...` and frozen in `checkpoint/world-evidence-bridge-contract-green-20260923`. This is design evidence only; canonical Belajar mastery behavior remains unchanged.
+
+## 19B. World supplemental-evidence activation decision
+
+The next isolated design wave resolves the two v1 candidates without activating runtime writes.
+
+Decision:
+
+```text
+money-s02-activity-01
+→ deferred from canonical evidence
+
+money-s08-activity-02
+→ future supplemental evidence candidate
+→ math.operation.subtraction.within_10
+→ choice_accuracy_v1
+```
+
+The subtraction mapping is limited to future child ages 6–7. Age 8 remains World completion-only because the canonical skill contract currently stops at age 7.
+
+World evidence is explicitly **supplemental**:
+
+- at most one qualifying item per World activity + content version;
+- replay of the same static question cannot create repeated qualifying mastery evidence;
+- World-only evidence is capped at `exploring`;
+- `developing`, `proficient`, and `mastered` require qualifying canonical Belajar evidence;
+- World evidence must not mutate Belajar completion, stars, stage readiness or certificate eligibility.
+
+Selected future ingestion is server-owned and separate from `record_learning_attempt(...)`. The proposed additive persistence boundary is `learning_supplemental_skill_evidence`, reached only through a server route/private write function after ownership, source mapping, age, assessment, idempotency, replay and measured-result validation.
+
+Current implementation state remains disabled: no schema migration, endpoint, private write function, runtime emission or source-aware mastery recompute exists yet.
+
+See `WORLD_EVIDENCE_ACTIVATION_DECISION_2026-09-23.md`.
+
+## 19C. World evidence backend foundation
+
+Implementation Wave 1 adds an **inert supplemental-evidence backend** without making it a mastery source.
+
+Source:
+
+```text
+supabase/migrations/0048_world_supplemental_evidence_foundation.sql
+src/lib/learning/world/moneyWorldEvidenceIngestion.ts
+src/app/api/learning/world-evidence/route.ts
+```
+
+Security boundary:
+
+- browser cannot execute `record_world_skill_evidence(...)`;
+- the RPC is granted only to `service_role`;
+- direct supplemental-table mutation is revoked;
+- server route requires authenticated ownership when later enabled;
+- real owned child profile is required;
+- `demo-gian` cannot create canonical supplemental evidence;
+- evidence age remains 6–7;
+- client cannot choose skill, assessment, accuracy, evidence score/weight or mastery qualification;
+- raw answer sequence is canonicalized server-side/database-side;
+- replay/retry/static-content farming is bounded.
+
+Two activation gates remain false:
+
+```text
+MONEY_WORLD_EVIDENCE_INGESTION_ENABLED = false
+v_mapping_active = false
+```
+
+Migration 0048 does not call `recompute_child_skill_mastery(...)` and does not mutate canonical Belajar progress, rewards, achievements or certificates. Source-aware mastery remains a separate future implementation.
+
+## 19D. Source-aware supplemental mastery isolation
+
+Implementation Wave 2 adds source provenance without making World an equivalent canonical assessment source.
+
+Migration:
+
+```text
+0049_source_aware_mastery_isolation.sql
+```
+
+`child_skill_mastery` now preserves both combined/source-aware state and canonical Belajar state.
+
+Rules:
+
+- World-only supplemental evidence is capped at `exploring`;
+- `developing` requires at least one canonical Belajar qualifying evidence;
+- `proficient` requires at least two canonical Belajar qualifying evidence;
+- `mastered` requires at least three canonical Belajar qualifying evidence and the existing strong/repeated evidence conditions;
+- Belajar stage readiness uses canonical score/count only;
+- Adaptive Learning uses canonical score/confidence/level/last-evidence timestamp;
+- proficiency/mastery achievements use canonical level only;
+- competency certificates require canonical `proficient/mastered` plus at least two canonical qualifying evidence per assessed skill;
+- weekly parent-report qualifying-evidence counts remain Belajar-attempt-only;
+- combined parent mastery may show World supplemental contribution only with explicit source labeling.
+
+This is still pre-activation. World ingestion/application and database mapping switches remain false, Stage 8 remains practice, and the World runtime emits no evidence observation.
+
+## 19E. Reviewed Stage 8 World supplemental-evidence activation
+
+The isolated activation branch promotes exactly one World activity:
+
+```text
+money-s08-activity-02
+8 - 2 = 6
+assessment: assessed
+content version: money-world-s08-subtraction-v2-assessed
+skill: math.operation.subtraction.within_10
+role: supplemental
+```
+
+Runtime sends raw answer-sequence observations to the authenticated server-owned World evidence endpoint. The client cannot select skill, accuracy, evidence score/weight, qualification, progression or reward effects.
+
+The prior `money-world-s08-subtraction-v1` practice version is not eligible.
+
+All Wave 2 source-isolation rules remain:
+
+- World-only evidence is capped at `exploring`;
+- `developing+` requires canonical Belajar evidence;
+- Belajar readiness/adaptive signals use canonical provenance;
+- Belajar achievements use canonical mastery;
+- competency certificates require canonical Belajar proficiency/mastery and canonical qualifying evidence;
+- World completion never becomes a Belajar activity completion/star award.
+
+Activation code checkpoint:
+
+```text
+checkpoint/world-evidence-stage8-activation-green-20260923
+@ 15f647b98cedcbe8a4580d15686013f6f066cd73
+CI #1573 / run 35869765210 — full success
+```
+
+This checkpoint is not a live-database claim. PR #309 remains Draft/unmerged and the available Supabase connector exposed no project, so production migrations/RPC behavior were not applied or live-verified in this wave.
+
+See `WORLD_EVIDENCE_STAGE8_ACTIVATION_2026-09-23.md`.
+
 ## 20. Change rule
 
 The learning/mastery foundation is currently considered healthy. The next product-quality phase should **not rewrite it by default**.

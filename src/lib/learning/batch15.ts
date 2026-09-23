@@ -37,6 +37,7 @@ export interface Batch15SubjectReport {
     masteredSkills: number;
     proficientSkills: number;
     totalAssessedSkills: number;
+    supplementalQualifyingEvidence: number;
   };
   stages: {
     total: number;
@@ -172,6 +173,13 @@ export function buildBatch15ParentReport(args: {
     const assessedSkillIds = assessedSkillIdsForSubject(subject.id);
     const assessedSkillSet = new Set(assessedSkillIds);
     const assessedMastery = summarizeSubjectMastery(assessedSkillIds, args.analytics.masteryBySkill);
+    const supplementalQualifyingEvidence = assessedSkillIds.reduce(
+      (sum, skillId) => sum + Math.max(
+        0,
+        Math.round(args.analytics.masteryBySkill[skillId]?.supplementalQualifyingEvidenceCount ?? 0)
+      ),
+      0
+    );
     const skillRows = getSubjectSkillRows(subject.id, args.analytics)
       .filter((row) => assessedSkillSet.has(row.id));
     const needsPractice = skillRows
@@ -196,7 +204,8 @@ export function buildBatch15ParentReport(args: {
         coverage: assessedMastery.coverage,
         masteredSkills: assessedMastery.masteredSkills,
         proficientSkills: assessedMastery.proficientSkills,
-        totalAssessedSkills: assessedMastery.totalSkills
+        totalAssessedSkills: assessedMastery.totalSkills,
+        supplementalQualifyingEvidence
       } : null,
       stages: {
         total: stageRows.length,

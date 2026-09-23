@@ -79,6 +79,27 @@
     "src/lib/learning/batch15.ts",
     "src/lib/learning/traceMeasurement.ts",
     "src/lib/learning/reporting.ts",
-    "src/lib/learning/outboxCore.ts"
+    "src/lib/learning/outboxCore.ts",
+    "src/lib/learning/world/moneyWorld.ts",
+    "src/lib/learning/world/moneyWorldContentAudit.ts",
+    "src/lib/learning/world/progress.ts",
+    "src/lib/learning/world/moneyWorldPresentation.ts",
+    "src/lib/learning/world/moneyWorldAssets.ts",
+    "src/lib/learning/world/moneyWorldEvidenceBridge.ts",
+    "src/lib/learning/world/moneyWorldEvidenceActivationDesign.ts",
+    "src/lib/learning/world/moneyWorldEvidenceIngestion.ts",
+    "src/lib/learning/world/moneyWorldEvidenceClient.ts",
+    "src/lib/learning/world/moneyWorldAgeMigrationAudit.ts",
+    "src/lib/learning/world/moneyWorldNarration.ts",
+    "src/lib/learning/world/moneyWorldNarrationProduction.ts",
+    "src/lib/learning/world/moneyWorldNarrationPlan.ts",
+    "src/lib/learning/world/moneyWorldNarrationPilot.ts",
+    "src/lib/learning/world/moneyWorldNarrationReview.ts",
+    "src/lib/learning/world/moneyWorldNarrationPlayback.ts",
+    "src/lib/learning/world/worldStructure.ts",
+    "src/lib/learning/world/worldScenePresentation.ts",
+    "src/lib/learning/world/moneyWorldStructure.ts",
+    "src/lib/learning/world/moneyWorldPilot.ts",
+    "src/lib/learning/world/moneyWorldSocial.ts"
   ]
 }

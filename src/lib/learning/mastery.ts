@@ -1,5 +1,10 @@
 export type MasteryLevel = "not_started" | "exploring" | "developing" | "proficient" | "mastered";
 export type LearningAttemptStatus = "completed" | "abandoned" | "interrupted";
+export type MasteryEvidenceSource =
+  | "none"
+  | "belajar-only"
+  | "world-supplemental-only"
+  | "belajar-plus-world-supplemental";
 
 export interface LearningAttemptOutcome {
   status?: LearningAttemptStatus;
@@ -52,6 +57,25 @@ export interface SkillMasterySnapshot {
   qualifyingEvidenceCount: number;
   lastEvidenceAt: string | null;
   needsPractice: boolean;
+
+  /**
+   * Canonical Belajar provenance remains authoritative for Belajar stage
+   * readiness, adaptive progression, rewards, and certificates.
+   *
+   * These fields are optional for compatibility with older/local snapshots.
+   * Consumers that enforce Belajar progression must use the canonical helper
+   * functions below rather than the combined score/level directly.
+   */
+  canonicalScore?: number;
+  canonicalConfidence?: number;
+  canonicalLevel?: MasteryLevel;
+  canonicalEvidenceCount?: number;
+  canonicalQualifyingEvidenceCount?: number;
+  canonicalLastEvidenceAt?: string | null;
+
+  supplementalEvidenceCount?: number;
+  supplementalQualifyingEvidenceCount?: number;
+  evidenceSource?: MasteryEvidenceSource;
 }
 
 export interface SubjectMasterySummary {
@@ -61,6 +85,57 @@ export interface SubjectMasterySummary {
   totalSkills: number;
   masteredSkills: number;
   proficientSkills: number;
+}
+
+export function canonicalMasteryScore(snapshot: SkillMasterySnapshot): number {
+  return clamp01(snapshot.canonicalScore ?? snapshot.score);
+}
+
+export function canonicalMasteryConfidence(snapshot: SkillMasterySnapshot): number {
+  return clamp01(snapshot.canonicalConfidence ?? snapshot.confidence);
+}
+
+export function canonicalMasteryLevel(snapshot: SkillMasterySnapshot): MasteryLevel {
+  return snapshot.canonicalLevel ?? snapshot.level;
+}
+
+export function canonicalQualifyingEvidenceCount(snapshot: SkillMasterySnapshot): number {
+  const value = snapshot.canonicalQualifyingEvidenceCount ?? snapshot.qualifyingEvidenceCount;
+  return Number.isFinite(value) ? Math.max(0, Math.round(value)) : 0;
+}
+
+export function canonicalEvidenceCount(snapshot: SkillMasterySnapshot): number {
+  const value = snapshot.canonicalEvidenceCount ?? snapshot.evidenceCount;
+  return Number.isFinite(value) ? Math.max(0, Math.round(value)) : 0;
+}
+
+export function canonicalLastEvidenceAt(snapshot: SkillMasterySnapshot): string | null {
+  return snapshot.canonicalLastEvidenceAt === undefined
+    ? snapshot.lastEvidenceAt
+    : snapshot.canonicalLastEvidenceAt;
+}
+
+export function masteryEvidenceSource(snapshot: SkillMasterySnapshot): MasteryEvidenceSource {
+  if (snapshot.evidenceSource) return snapshot.evidenceSource;
+  const canonical = canonicalEvidenceCount(snapshot);
+  const supplemental = Math.max(0, Math.round(snapshot.supplementalEvidenceCount ?? 0));
+  if (canonical > 0 && supplemental > 0) return "belajar-plus-world-supplemental";
+  if (supplemental > 0) return "world-supplemental-only";
+  if (canonical > 0) return "belajar-only";
+  return "none";
+}
+
+export function masteryEvidenceSourceLabel(snapshot: SkillMasterySnapshot): string {
+  switch (masteryEvidenceSource(snapshot)) {
+    case "belajar-plus-world-supplemental":
+      return "Belajar + evidence tambahan dari World";
+    case "world-supplemental-only":
+      return "Evidence tambahan dari World; belum cukup untuk progres Belajar";
+    case "belajar-only":
+      return "Evidence Belajar";
+    default:
+      return "Belum ada evidence";
+  }
 }
 
 export function clamp01(value: number): number {

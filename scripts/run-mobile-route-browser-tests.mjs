@@ -29,6 +29,9 @@ const ROUTES = [
   { path: "/child/demo-gian", kind: "child-learning", touch: true },
   { path: "/child/demo-gian/home", kind: "child-learning", touch: true },
   { path: "/child/demo-gian/learn", kind: "child-learning", touch: true },
+  { path: "/child/demo-gian/worlds", kind: "child-learning", touch: true },
+  { path: "/child/demo-gian/world/money-festival", kind: "child-learning", touch: true },
+  { path: "/child/demo-gian/world/money-festival/stage/money-stage-01-money-use", kind: "child-learning", touch: true },
   { path: "/child/demo-gian/subject/math", kind: "child-learning", touch: true },
   { path: "/child/demo-gian/stage/math-angka", kind: "child-learning", touch: true },
   { path: "/child/demo-gian/activity/math-count-3", kind: "child-learning", touch: true },
@@ -64,6 +67,7 @@ const RUNTIME_ROUTES = [
 const BATCH16_ACCESSIBILITY_ROUTES = [
   { path: "/child/demo-gian/home", kind: "child-learning", touch: true },
   { path: "/child/demo-gian/learn", kind: "child-learning", touch: true },
+  { path: "/child/demo-gian/world/money-festival", kind: "child-learning", touch: true },
   { path: "/child/demo-gian/activity/math-count-3", kind: "child-learning", touch: true },
   { path: "/parent/children/demo-gian/reports", kind: "parent", touch: false },
   { path: "/play/math-choice", kind: "game-play", touch: true }
@@ -77,6 +81,9 @@ const SCREENSHOTS = new Set([
   "1024:/parent",
   "320:/child/demo-gian/activity/color-gavi",
   "375:/child/demo-gian/learn",
+  "390:/child/demo-gian/worlds",
+  "390:/child/demo-gian/world/money-festival",
+  "390:/child/demo-gian/world/money-festival/stage/money-stage-01-money-use",
   "390:/parent/children/demo-gian/reports",
   "430:/play/math-choice",
   "768:/child/demo-gian/stage/math-angka",
@@ -130,6 +137,21 @@ function stopServer() {
   server.kill("SIGTERM");
 }
 
+async function advanceWorldNarrative(page) {
+  const next = page.locator("[data-world-next]").first();
+  await next.waitFor();
+  if (await next.isDisabled()) {
+    const hear = page.locator("[data-world-hear]").first();
+    await hear.waitFor();
+    await hear.click();
+    await page.waitForFunction(() => {
+      const button = document.querySelector("[data-world-next]");
+      return button instanceof HTMLButtonElement && !button.disabled;
+    });
+  }
+  await next.click();
+}
+
 async function inspectPage(page, route, viewport) {
   let consoleErrors = [];
   let consoleWarnings = [];
@@ -179,8 +201,41 @@ async function inspectPage(page, route, viewport) {
     const overlayCount = await page.locator("nextjs-portal, [data-nextjs-dialog-overlay], [data-next-badge-root]").count();
     assert.equal(overlayCount, 0, `${route.path} rendered a Next.js error overlay at ${viewport.width}px`);
 
+    if (route.path === "/child/demo-gian/worlds") {
+      await page.locator("[data-world-catalog-cta]").waitFor();
+      await page.waitForFunction(() => document.querySelector("[data-world-catalog-cta]")?.textContent === "Mulai petualangan →");
+      assert.equal(
+        await page.locator("[data-world-catalog-cta]").textContent(),
+        "Mulai petualangan →",
+        "fresh World catalog must offer a clear start CTA"
+      );
+      const agePolicy = page.locator('[data-world-age-policy="pilot-6-8"]');
+      await agePolicy.waitFor();
+      assert.equal(await agePolicy.textContent(), "Usia rekomendasi 6–8", "World catalog must expose the explicit 6–8 pilot age policy");
+    }
+
+    if (route.path === "/child/demo-gian/world/money-festival" && viewport.width <= 430) {
+      const geometry = await page.evaluate(() => {
+        const one = document.querySelector('[data-world-stage-id="money-stage-01-money-use"]');
+        const two = document.querySelector('[data-world-stage-id="money-stage-02-price-change"]');
+        const oneNode = one?.querySelector('[class*="stageNode"]');
+        const twoNode = two?.querySelector('[class*="stageNode"]');
+        if (!(oneNode instanceof HTMLElement) || !(twoNode instanceof HTMLElement)) return null;
+        const a = oneNode.getBoundingClientRect();
+        const b = twoNode.getBoundingClientRect();
+        return {
+          first: { left: a.left, right: a.right, width: a.width, center: a.left + a.width / 2 },
+          second: { left: b.left, right: b.right, width: b.width, center: b.left + b.width / 2 }
+        };
+      });
+      assert.ok(geometry, "World map stage-node geometry must exist");
+      assert.ok(geometry.first.width <= 190 && geometry.second.width <= 190, "World map must use compact game nodes instead of full-width lesson cards");
+      assert.ok(Math.abs(geometry.first.center - geometry.second.center) >= 90, "World map nodes must alternate across the winding path");
+    }
+
     if (route.path === "/child/demo-gian/home") {
       assert.equal(await page.getByRole("link", { name: "Belajar", exact: true }).count(), 1, "child home must expose Belajar navigation");
+      assert.equal(await page.getByRole("link", { name: "World", exact: true }).count(), 1, "child home must expose World navigation");
       assert.equal(await page.getByRole("link", { name: "Bermain", exact: true }).count(), 1, "child home must expose Bermain navigation");
       const subjectLinks = page.locator('a[href^="/child/demo-gian/subject/"]');
       assert.equal(await subjectLinks.count(), 9, "child home must expose all nine subject cards");
@@ -415,6 +470,69 @@ async function main() {
     {
       const viewport = { width: 390, height: 844 };
       const context = await browser.newContext({ viewport });
+      await context.addInitScript((progress) => {
+        window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
+          "demo-gian": { "money-festival": progress }
+        }));
+      }, {
+        worldId: "money-festival",
+        completedStageIds: [
+          "money-stage-01-money-use",
+          "money-stage-02-price-change"
+        ],
+        currentStageId: "money-stage-03-income-sources",
+        currentSegmentIndex: 3,
+        updatedAt: "2026-09-22T00:00:00.000Z"
+      });
+      const page = await context.newPage();
+      await page.goto(baseUrl + "/child/demo-gian/worlds", { waitUntil: "domcontentloaded" });
+      await page.locator("[data-world-catalog-cta]").waitFor();
+      await page.waitForFunction(() => document.querySelector("[data-world-catalog-cta]")?.textContent === "Lanjut Stage 3 →");
+      assert.equal(
+        await page.locator("[data-world-catalog-cta]").textContent(),
+        "Lanjut Stage 3 →",
+        "World catalog must resume at the next unfinished Stage"
+      );
+      await page.getByText("2/8 Stage selesai", { exact: true }).waitFor();
+      await context.close();
+      console.log("World Petualangan Uang resume-aware catalog CTA passed at 390px.");
+    }
+
+    {
+      const viewport = { width: 390, height: 844 };
+      const context = await browser.newContext({ viewport });
+      const page = await context.newPage();
+      const response = await page.goto(baseUrl + "/worlds/money-festival", { waitUntil: "domcontentloaded" });
+      assert.ok(response && response.status() < 400, "public World share landing must load without authentication");
+      await page.getByRole("heading", { name: "Petualangan Uang", exact: true }).waitFor();
+      const socialMeta = await page.evaluate(() => ({
+        ogTitle: document.querySelector('meta[property="og:title"]')?.getAttribute("content") ?? "",
+        ogImage: document.querySelector('meta[property="og:image"]')?.getAttribute("content") ?? "",
+        twitterCard: document.querySelector('meta[name="twitter:card"]')?.getAttribute("content") ?? "",
+        twitterImage: document.querySelector('meta[name="twitter:image"]')?.getAttribute("content") ?? "",
+        description: document.querySelector('meta[name="description"]')?.getAttribute("content") ?? "",
+        body: document.body.innerText
+      }));
+      assert.match(socialMeta.ogTitle, /Petualangan Uang/, "public World share landing must expose World-specific Open Graph title");
+      assert.match(socialMeta.ogImage, /\/worlds\/money-festival\/social-card$/, "public World share landing must expose the dedicated World social card");
+      assert.match(socialMeta.twitterImage, /\/worlds\/money-festival\/social-card$/, "Twitter metadata must use the same dedicated World social card");
+      assert.equal(socialMeta.twitterCard, "summary_large_image", "public World share landing must use a large social card");
+      assert.match(socialMeta.description, /Gavi dan Paca/, "public World share landing must match the active Gavi/Paca presentation identity");
+      assert.doesNotMatch(socialMeta.body, /demo-gian|account[_ -]?id|mastery score/i, "public World share landing must not leak child/account progress identifiers");
+
+      const cardResponse = await context.request.get(baseUrl + "/worlds/money-festival/social-card");
+      assert.equal(cardResponse.status(), 200, "dedicated World social card route must return 200");
+      assert.match(cardResponse.headers()["content-type"] ?? "", /^image\/png\b/, "dedicated World social card must render PNG");
+      const cardBytes = await cardResponse.body();
+      assert.ok(cardBytes.byteLength > 10_000, "dedicated World social card must render a non-trivial 1200x630 image");
+      await page.screenshot({ path: path.join(screenshotDir, "390-world-money-public-share.png"), fullPage: false });
+      await context.close();
+      console.log("World Petualangan Uang public-safe social metadata passed at 390px.");
+    }
+
+    {
+      const viewport = { width: 390, height: 844 };
+      const context = await browser.newContext({ viewport });
       const page = await context.newPage();
       const route = { path: "/child/demo-gian/subject/math?qa=unlock-all", kind: "child-learning", touch: true };
       await inspectPage(page, route, viewport);
@@ -438,6 +556,777 @@ async function main() {
       await page.screenshot({ path: path.join(screenshotDir, "1280-child-demo-gian-subject-math-visual-containment.png"), fullPage: false });
       await context.close();
       console.log("Activity gallery desktop containment passed at 1280px.");
+    }
+
+    {
+      const viewport = { width: 390, height: 844 };
+      const context = await browser.newContext({ viewport });
+      const page = await context.newPage();
+      const stageArtworkRequests = [];
+      page.on("request", (request) => {
+        const pathname = new URL(request.url()).pathname;
+        if (pathname.startsWith("/artwork/")) stageArtworkRequests.push(pathname);
+      });
+      const stageUrl = baseUrl + "/child/demo-gian/world/money-festival/stage/money-stage-01-money-use";
+      await page.goto(stageUrl, { waitUntil: "domcontentloaded" });
+      await page.getByText("Uang Buat Apa?", { exact: true }).waitFor();
+      const stageOneScene = page.locator('[data-world-scene="1"]');
+      await stageOneScene.waitFor();
+      const stageOneBackground = await stageOneScene.evaluate((node) => getComputedStyle(node, "::before").backgroundImage);
+      assert.match(stageOneBackground, /playground-park-mobile\.webp/, "World Stage 1 must use the illustrated playground environment on mobile");
+      await page.waitForTimeout(120);
+      assert.ok(
+        stageArtworkRequests.some((pathname) => pathname.endsWith("/backgrounds/math/playground-park-mobile.webp")),
+        "Stage 1 mobile route must load its mobile background"
+      );
+      assert.equal(
+        stageArtworkRequests.some((pathname) => pathname.endsWith("/backgrounds/math/playground-park-wide.webp")),
+        false,
+        "Stage 1 mobile route must not fetch the unused wide background"
+      );
+      assert.equal(
+        stageArtworkRequests.some((pathname) => /\/backgrounds\/math\/(mini-market|number-park)-/.test(pathname)),
+        false,
+        "Stage 1 route must not eagerly fetch other Stage backgrounds"
+      );
+
+      const initialWorldNext = page.locator("[data-world-next]").first();
+      await initialWorldNext.waitFor();
+      const worldStageShell = page.locator('[data-world-stage-shell="garden-baseline-v1"]');
+      await worldStageShell.waitFor();
+      assert.equal(await worldStageShell.getAttribute("data-world-scene-id"), "money-scene-s01-opening", "Stage 1 must begin inside the authored opening Scene");
+      assert.equal(await worldStageShell.getAttribute("data-world-scene-kind"), "story", "opening Scene must expose its canonical kind");
+      assert.equal(await worldStageShell.getAttribute("data-world-chapter-id"), "money-chapter-01-road-to-festival", "Stage 1 shell must expose canonical Chapter identity");
+      assert.equal(await worldStageShell.getAttribute("data-world-chapter-order"), "1", "Stage 1 shell must expose Chapter order");
+      const worldProgress = worldStageShell.getByRole("progressbar", { name: "Progres Stage", exact: true });
+      await worldProgress.waitFor();
+      assert.equal(await worldProgress.getAttribute("aria-valuemin"), "1", "Stage progressbar must expose minimum Segment position");
+      assert.equal(await worldProgress.getAttribute("aria-valuenow"), "1", "Stage progressbar must expose current Segment position");
+      assert.equal(await worldProgress.getAttribute("aria-valuemax"), "10", "Stage 1 progressbar must expose exact Segment count");
+      assert.equal(await worldProgress.getAttribute("aria-valuetext"), "Bagian 1 dari 10", "Stage progressbar must expose a child-readable position");
+      assert.equal(
+        (await worldStageShell.locator('[data-world-chapter-label="money-chapter-01-road-to-festival"]').textContent())?.trim(),
+        "Chapter 1 · Jalan ke Festival",
+        "Stage shell must render the authored Chapter title instead of hardcoded CSS content"
+      );
+      const openingSceneFrame = page.locator('[data-world-scene-frame="money-scene-s01-opening"]');
+      await openingSceneFrame.waitFor();
+      assert.equal(await openingSceneFrame.getAttribute("data-world-scene-presentation"), "dialogue", "story Scene must resolve the reusable dialogue presentation");
+      assert.equal(await openingSceneFrame.getAttribute("role"), "region", "active World Scene must expose a labelled region");
+      assert.equal(await openingSceneFrame.locator('[aria-live="polite"][aria-atomic="true"]').count(), 1, "Scene context changes must be announced politely");
+      assert.equal(await openingSceneFrame.locator('[data-world-scene-label="money-scene-s01-opening"]').count(), 1, "reusable Scene renderer must expose the authored Scene title");
+      assert.equal(await page.locator('[data-world-runtime-character-policy="approved-mascot-dummy"]').count(), 1, "World Stage runtime must expose the approved mascot-dummy policy");
+      assert.equal(await worldStageShell.getByRole("link", { name: "Kembali", exact: true }).count(), 1, "World Stage shell must keep the Garden-style back control");
+      assert.equal(await worldStageShell.locator("[data-world-shell-hear]").count(), 1, "World Stage shell must keep a top-level Dengar control");
+      assert.equal(await worldStageShell.getByRole("img", { name: "Mainlagi", exact: true }).count(), 1, "World Stage shell must keep the centered Mainlagi wordmark");
+      await page.locator('[data-world-audio-id="money-s01-narrative-01"]').waitFor();
+      assert.equal(
+        await page.locator('[data-world-audio-id="money-s01-narrative-01"]').count(),
+        1,
+        "World opening narration must expose its stable production audio cue ID"
+      );
+      assert.equal(await initialWorldNext.isDisabled(), true, "World story must require a narration attempt before progression");
+      await page.locator("[data-world-hear]").first().click();
+      await page.waitForFunction(() => {
+        const button = document.querySelector("[data-world-next]");
+        return button instanceof HTMLButtonElement && !button.disabled;
+      });
+      await page.waitForFunction(() => {
+        const cue = document.querySelector('[data-world-audio-id="money-s01-narrative-01"]');
+        return cue?.getAttribute("data-world-narration-mode") === "browser-speech";
+      });
+      assert.equal(
+        await page.locator('[data-world-audio-id="money-s01-narrative-01"]').getAttribute("data-world-narration-mode"),
+        "browser-speech",
+        "unapproved fixed narration must fail closed to browser speech"
+      );
+
+      for (let index = 0; index < 4; index += 1) {
+        await advanceWorldNarrative(page);
+      }
+
+      const activityPromptHear = page.locator("[data-world-prompt-hear]").first();
+      await activityPromptHear.waitFor();
+      assert.equal(await worldStageShell.getAttribute("data-world-scene-id"), "money-scene-s01-money-price-match", "first mini-game must advance into its authored challenge Scene");
+      assert.equal(await worldStageShell.getAttribute("data-world-scene-kind"), "challenge", "mini-game Scene must expose challenge kind");
+      const challengeSceneFrame = page.locator('[data-world-scene-frame="money-scene-s01-money-price-match"]');
+      await challengeSceneFrame.waitFor();
+      assert.equal(await challengeSceneFrame.getAttribute("data-world-scene-presentation"), "activity", "challenge Scene must resolve the reusable activity presentation");
+      assert.ok(await page.locator('[role="img"][aria-label="Gavi"]').count() >= 1, "World activity shell must present approved Gavi artwork");
+      assert.ok(await page.locator('[role="img"][aria-label="Paca"]').count() >= 1, "World activity shell must present approved Paca artwork");
+      assert.equal(await page.locator('[role="img"][aria-label="Gian"]').count(), 0, "World activity shell must not activate fallback Gian artwork");
+      assert.equal(await page.locator('[role="img"][aria-label="Naya"]').count(), 0, "World activity shell must not activate fallback Naya artwork");
+      await page.locator('[data-world-audio-id="money-s01-activity-01-prompt"]').waitFor();
+      assert.equal(
+        await page.locator('[data-world-audio-id="money-s01-activity-01-prompt"]').count(),
+        1,
+        "World first mini-game prompt must expose its stable production audio cue ID"
+      );
+      assert.equal(await activityPromptHear.getByText("Dengar", { exact: true }).count(), 1, "World mini-game prompt must expose replayable audio");
+      await activityPromptHear.click();
+      await page.waitForFunction(() => {
+        const cue = document.querySelector('[data-world-audio-id="money-s01-activity-01-prompt"]');
+        return cue?.getAttribute("data-world-narration-mode") === "browser-speech";
+      });
+      assert.equal(
+        await page.locator('[data-world-audio-id="money-s01-activity-01-prompt"]').getAttribute("data-world-narration-mode"),
+        "browser-speech",
+        "activity prompt must use the same fail-closed narration resolver"
+      );
+      await page.screenshot({ path: path.join(screenshotDir, "390-world-money-stage-01-activity.png"), fullPage: false });
+
+      await page.getByRole("button", { name: "Rp3", exact: true }).click();
+      await page.getByRole("button", { name: /Balon.*Rp3/ }).click();
+      await page.getByRole("button", { name: "Rp4", exact: true }).click();
+      await page.getByRole("button", { name: /Buah.*Rp4/ }).click();
+      await page.getByRole("button", { name: "Rp5", exact: true }).click();
+      await page.getByRole("button", { name: /Jus.*Rp5/ }).click();
+
+      await page.locator("[data-world-next]").waitFor();
+      await advanceWorldNarrative(page);
+      await advanceWorldNarrative(page);
+
+      await page.locator('[data-world-audio-id="money-s01-activity-02-prompt"]').waitFor();
+      assert.equal(
+        await page.locator('[data-world-audio-id="money-s01-activity-02-prompt"]').count(),
+        1,
+        "World second mini-game prompt must preserve its stable production audio cue ID"
+      );
+
+      await page.getByRole("button", { name: "🎈 Balon", exact: true }).click();
+      await page.getByRole("button", { name: "Rp3", exact: true }).click();
+      await page.getByRole("button", { name: "🍎 Buah", exact: true }).click();
+      await page.getByRole("button", { name: "Rp4", exact: true }).click();
+      await page.getByRole("button", { name: "🧃 Jus", exact: true }).click();
+      await page.getByRole("button", { name: "Rp5", exact: true }).click();
+
+      await page.locator("[data-world-next]").waitFor();
+      await advanceWorldNarrative(page);
+      await advanceWorldNarrative(page);
+
+      await page.getByRole("heading", { name: "Awesome!", exact: true }).waitFor();
+      const stageOneCompletion = page.locator('[data-world-completion-stage="money-stage-01-money-use"]');
+      await stageOneCompletion.waitFor();
+      await page.waitForFunction(() => document.activeElement?.id === "world-stage-complete-title");
+      assert.equal(await page.evaluate(() => document.activeElement?.id), "world-stage-complete-title", "Stage completion must move keyboard/screen-reader focus to its completion heading");
+      assert.equal(await stageOneCompletion.getAttribute("data-world-completion-chapter"), "money-chapter-01-road-to-festival", "Stage 1 completion must retain Chapter 1 identity");
+      assert.equal(await stageOneCompletion.getAttribute("data-world-completion-final"), "false", "Stage 1 completion must not look like final World completion");
+      assert.equal((await stageOneCompletion.locator("[data-world-completion-context]").textContent())?.trim(), "Chapter 1 · Stage 1/8", "Stage 1 completion must expose concise hierarchy context");
+      assert.equal((await stageOneCompletion.locator("[data-world-completion-message]").textContent())?.trim(), "Uang Buat Apa? selesai. Stage 2 sekarang terbuka.", "Stage 1 completion must explain what unlocked next");
+      assert.equal(await stageOneCompletion.locator('[aria-label="Tiga bintang"] svg').count(), 3, "World Stage 1 completion must show exactly three stars");
+      assert.equal(await stageOneCompletion.getByRole("link", { name: /Next/ }).getAttribute("href"), "/child/demo-gian/world/money-festival/stage/money-stage-02-price-change", "Stage 1 Next must point directly to Stage 2");
+      await page.waitForTimeout(700);
+      assert.equal(await page.getByRole("link", { name: /Back/ }).count(), 1, "World completion must expose Back");
+      assert.equal(await page.getByRole("button", { name: /Again/ }).count(), 1, "World completion must expose Again");
+      assert.equal(await page.getByRole("link", { name: /Next/ }).count(), 1, "World completion must expose Next");
+      assert.equal(await page.getByRole("button", { name: /Share/ }).count(), 1, "World completion must expose Share below navigation actions");
+      await page.screenshot({ path: path.join(screenshotDir, "390-world-money-stage-01-complete.png"), fullPage: false });
+
+      await page.getByRole("button", { name: /Share/ }).click();
+      const worldShareDialog = page.getByRole("dialog", { name: "Bagikan pencapaian" });
+      await worldShareDialog.waitFor();
+      await worldShareDialog.getByText("Yang dibagikan hanya pesan umum dan halaman World", { exact: false }).waitFor();
+      for (const label of ["Copy link", "WhatsApp", "Telegram", "X", "Facebook", "Threads"]) {
+        assert.equal(
+          await worldShareDialog.getByRole(label === "Copy link" ? "button" : "link", { name: label, exact: true }).count(),
+          1,
+          "World share dialog missing " + label
+        );
+      }
+      await worldShareDialog.getByRole("button", { name: "Tutup", exact: true }).click();
+
+      await page.getByRole("link", { name: /Back/ }).click();
+      await page.getByText("Kok Jadi Lebih Mahal?", { exact: true }).waitFor();
+      const worldMap = page.locator('[data-world-map="money-festival"]');
+      await worldMap.waitFor();
+      const worldMapBackground = await worldMap.evaluate((node) => getComputedStyle(node).backgroundImage);
+      assert.match(worldMapBackground, /garden-background\.webp/, "World map must use the illustrated Mainlagi garden environment");
+      const chapterOneBanner = worldMap.locator('[data-world-chapter-id="money-chapter-01-road-to-festival"]');
+      const chapterTwoBanner = worldMap.locator('[data-world-chapter-id="money-chapter-02-prepare-festival"]');
+      await chapterOneBanner.waitFor();
+      await chapterTwoBanner.waitFor();
+      assert.equal((await chapterOneBanner.locator("strong").textContent())?.trim(), "Jalan ke Festival", "World map must expose authored Chapter 1 title");
+      assert.equal((await chapterTwoBanner.locator("strong").textContent())?.trim(), "Siapkan Festival!", "World map must expose authored Chapter 2 title");
+      assert.equal((await chapterOneBanner.locator("span").textContent())?.trim(), "1/4 Stage selesai", "Chapter 1 map progress must reflect completed Stage 1");
+      assert.equal((await chapterTwoBanner.locator("span").textContent())?.trim(), "0/4 Stage selesai", "Chapter 2 map progress must remain locked at zero after Stage 1");
+      const stageTwoLink = page.locator('a[href="/child/demo-gian/world/money-festival/stage/money-stage-02-price-change"]');
+      await stageTwoLink.waitFor();
+      assert.equal(await stageTwoLink.count(), 1, "World Stage 1 completion must unlock Stage 2");
+      assert.equal(await page.locator('[data-stage-order="2"][data-current-stage="true"]').count(), 1, "World map must visibly mark Stage 2 as the next journey stop");
+      assert.equal(await stageTwoLink.getAttribute("aria-current"), "step", "World map must expose Stage 2 as the current journey step to assistive technology");
+      assert.equal(await page.locator('[aria-label="Stage 3 terkunci · Uang Datang dari Mana?"][aria-disabled="true"]').count(), 1, "locked World Stage must expose a semantic locked-state label");
+      await page.waitForTimeout(50);
+      const stageTwoBox = await page.locator('[data-world-stage-id="money-stage-02-price-change"]').boundingBox();
+      assert.ok(stageTwoBox && stageTwoBox.y < viewport.height && stageTwoBox.y + stageTwoBox.height > 0, "World map must return the child near the next unlocked Stage");
+      await page.screenshot({ path: path.join(screenshotDir, "390-world-money-map-stage-02-unlocked.png"), fullPage: false });
+      await context.close();
+      console.log("World Petualangan Uang Stage 1 end-to-end checkpoint passed at 390px.");
+    }
+
+    for (const width of [320, 430]) {
+      const viewport = VIEWPORTS.find((item) => item.width === width);
+      assert.ok(viewport, "missing World map viewport " + width);
+      const context = await browser.newContext({ viewport, reducedMotion: "reduce" });
+      await context.addInitScript((progress) => {
+        window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
+          "demo-gian": { "money-festival": progress }
+        }));
+      }, {
+        worldId: "money-festival",
+        completedStageIds: ["money-stage-01-money-use"],
+        currentStageId: "money-stage-02-price-change",
+        currentSegmentIndex: 0,
+        updatedAt: "2026-09-22T00:00:00.000Z"
+      });
+      const page = await context.newPage();
+      const mapArtworkRequests = [];
+      page.on("request", (request) => {
+        const pathname = new URL(request.url()).pathname;
+        if (pathname.startsWith("/artwork/")) mapArtworkRequests.push(pathname);
+      });
+      await page.goto(baseUrl + "/child/demo-gian/world/money-festival", { waitUntil: "domcontentloaded" });
+      const map = page.locator('[data-world-map="money-festival"]');
+      await map.waitFor();
+      const chapterBanners = map.locator("[data-world-chapter-id]");
+      assert.equal(await chapterBanners.count(), 2, "World map must render exactly two semantic Chapter banners at " + width + "px");
+      await page.waitForFunction(() => {
+        const progress = document.querySelector('[data-world-chapter-id="money-chapter-01-road-to-festival"] > span');
+        return progress?.textContent?.trim() === "1/4 Stage selesai";
+      });
+      assert.equal(
+        (await map.locator('[data-world-chapter-id="money-chapter-01-road-to-festival"] > span').textContent())?.trim(),
+        "1/4 Stage selesai",
+        "Chapter 1 progress must remain semantic at " + width + "px"
+      );
+      assert.equal(
+        (await map.locator('[data-world-chapter-id="money-chapter-02-prepare-festival"] > span').textContent())?.trim(),
+        "0/4 Stage selesai",
+        "Chapter 2 progress must remain semantic at " + width + "px"
+      );
+      const geometry = await page.evaluate(() => {
+        const viewportWidth = document.documentElement.clientWidth;
+        const scrollWidth = Math.max(document.documentElement.scrollWidth, document.body.scrollWidth);
+        const banners = Array.from(document.querySelectorAll("[data-world-chapter-id]")).map((node) => {
+          const box = node.getBoundingClientRect();
+          return { left: box.left, right: box.right, width: box.width };
+        });
+        const heroHeading = Array.from(document.querySelectorAll("h1")).find((node) => node.textContent?.trim() === "Petualangan Uang");
+        const heroStyle = heroHeading ? getComputedStyle(heroHeading) : null;
+        const heroLineHeight = heroStyle ? Number.parseFloat(heroStyle.lineHeight) : 0;
+        const heroHeight = heroHeading instanceof HTMLElement ? heroHeading.getBoundingClientRect().height : 0;
+        return {
+          viewportWidth,
+          scrollWidth,
+          banners,
+          heroHeadingLines: heroLineHeight > 0 ? heroHeight / heroLineHeight : 0
+        };
+      });
+      assert.ok(geometry.scrollWidth <= geometry.viewportWidth + 1, "semantic Chapter map must not create horizontal overflow at " + width + "px");
+      assert.equal(
+        mapArtworkRequests.some((pathname) => pathname.includes("/artwork/backgrounds/math/")),
+        false,
+        "World map must not eagerly fetch Stage-specific backgrounds at " + width + "px"
+      );
+      assert.ok(
+        geometry.heroHeadingLines > 0 && geometry.heroHeadingLines <= 2.2,
+        "World map hero title must stay within two readable lines at " + width + "px"
+      );
+      for (const box of geometry.banners) {
+        assert.ok(box.left >= -1 && box.right <= geometry.viewportWidth + 1, "Chapter banner must fit viewport width at " + width + "px");
+      }
+      await page.screenshot({ path: path.join(screenshotDir, width + "-world-money-map-chapter-nav.png"), fullPage: true });
+      await context.close();
+      console.log("World semantic Chapter navigation passed at " + width + "px.");
+    }
+
+    for (const width of [320, 430]) {
+      const viewport = VIEWPORTS.find((item) => item.width === width);
+      assert.ok(viewport, "missing World completion viewport " + width);
+      const context = await browser.newContext({ viewport });
+      await context.addInitScript((progress) => {
+        window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
+          "demo-gian": { "money-festival": progress }
+        }));
+      }, {
+        worldId: "money-festival",
+        completedStageIds: [],
+        currentStageId: "money-stage-01-money-use",
+        currentSegmentIndex: 9,
+        updatedAt: "2026-09-22T00:00:00.000Z"
+      });
+      const page = await context.newPage();
+      await page.goto(baseUrl + "/child/demo-gian/world/money-festival/stage/money-stage-01-money-use", { waitUntil: "domcontentloaded" });
+      await page.locator("[data-world-next]").waitFor();
+      await advanceWorldNarrative(page);
+      await page.getByRole("heading", { name: "Awesome!", exact: true }).waitFor();
+
+      const completion = page.locator('[aria-labelledby="world-stage-complete-title"]');
+      const geometry = await completion.evaluate((root) => {
+        const rootBox = root.getBoundingClientRect();
+        const controls = Array.from(root.querySelectorAll("button, a")).map((element) => {
+          const box = element.getBoundingClientRect();
+          return {
+            text: element.textContent?.trim() ?? "",
+            left: box.left,
+            right: box.right,
+            top: box.top,
+            bottom: box.bottom
+          };
+        });
+        return {
+          root: { left: rootBox.left, right: rootBox.right, top: rootBox.top, bottom: rootBox.bottom },
+          controls
+        };
+      });
+      assert.ok(geometry.root.left >= -1 && geometry.root.right <= viewport.width + 1, "World completion must fit width at " + width + "px");
+      assert.ok(geometry.root.top >= -1 && geometry.root.bottom <= viewport.height + 1, "World completion must fit height at " + width + "px");
+      for (const control of geometry.controls.filter((item) => ["Back", "Again", "Next", "Share"].includes(item.text))) {
+        assert.ok(
+          control.left >= -1 && control.right <= viewport.width + 1 && control.top >= -1 && control.bottom <= viewport.height + 1,
+          "World completion control " + control.text + " must be immediately visible at " + width + "px"
+        );
+      }
+      const navControls = geometry.controls.filter((item) => ["Back", "Again", "Next"].includes(item.text));
+      const shareControl = geometry.controls.find((item) => item.text === "Share");
+      assert.ok(navControls.length === 3 && shareControl, "World completion must keep Back / Again / Next plus Share at " + width + "px");
+      assert.ok(
+        shareControl.top >= Math.max(...navControls.map((item) => item.bottom)) - 1,
+        "World Share must remain below Back / Again / Next at " + width + "px"
+      );
+      await page.screenshot({ path: path.join(screenshotDir, width + "-world-money-stage-01-complete.png"), fullPage: false });
+      await context.close();
+      console.log("World Stage 1 completion controls passed at " + width + "px.");
+    }
+
+    {
+      const viewport = { width: 390, height: 844 };
+      const pilotStages = [
+        { id: "money-stage-01-money-use", lastIndex: 9, previous: [] },
+        { id: "money-stage-02-price-change", lastIndex: 13, previous: ["money-stage-01-money-use"] },
+        { id: "money-stage-03-income-sources", lastIndex: 10, previous: ["money-stage-01-money-use", "money-stage-02-price-change"] },
+        { id: "money-stage-04-needs-wants", lastIndex: 10, previous: ["money-stage-01-money-use", "money-stage-02-price-change", "money-stage-03-income-sources"] },
+        { id: "money-stage-05-saving", lastIndex: 8, previous: ["money-stage-01-money-use", "money-stage-02-price-change", "money-stage-03-income-sources", "money-stage-04-needs-wants"] },
+        { id: "money-stage-06-investment-intro", lastIndex: 10, previous: ["money-stage-01-money-use", "money-stage-02-price-change", "money-stage-03-income-sources", "money-stage-04-needs-wants", "money-stage-05-saving"] },
+        { id: "money-stage-07-risk", lastIndex: 10, previous: ["money-stage-01-money-use", "money-stage-02-price-change", "money-stage-03-income-sources", "money-stage-04-needs-wants", "money-stage-05-saving", "money-stage-06-investment-intro"] },
+        { id: "money-stage-08-final-festival", lastIndex: 11, previous: ["money-stage-01-money-use", "money-stage-02-price-change", "money-stage-03-income-sources", "money-stage-04-needs-wants", "money-stage-05-saving", "money-stage-06-investment-intro", "money-stage-07-risk"] }
+      ];
+
+      for (const stage of pilotStages) {
+        const context = await browser.newContext({ viewport });
+        await context.addInitScript((seed) => {
+          window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
+            "demo-gian": {
+              "money-festival": {
+                worldId: "money-festival",
+                completedStageIds: seed.previous,
+                currentStageId: seed.id,
+                currentSegmentIndex: seed.lastIndex,
+                updatedAt: "2026-09-22T00:00:00.000Z"
+              }
+            }
+          }));
+        }, stage);
+        const page = await context.newPage();
+        await page.goto(baseUrl + "/child/demo-gian/world/money-festival/stage/" + stage.id, { waitUntil: "domcontentloaded" });
+        const shell = page.locator('[data-world-pilot-stage="' + stage.id + '"]');
+        await shell.waitFor();
+        assert.equal(await shell.getAttribute("data-world-pilot-runtime-status"), "pilot-runtime-covered", stage.id + " must resolve the pilot production manifest");
+        assert.equal(await shell.getAttribute("data-world-scene-kind"), "closing", stage.id + " final checkpoint must resolve to an authored closing Scene");
+        const closingFrame = shell.locator('[data-world-scene-presentation="payoff"]');
+        await closingFrame.waitFor();
+        assert.equal(await closingFrame.getAttribute("data-world-scene-kind"), "closing", stage.id + " closing Scene must use the reusable payoff presentation");
+        const backgroundImage = await shell.evaluate((node) => getComputedStyle(node, "::before").backgroundImage);
+        assert.notEqual(backgroundImage, "none", stage.id + " must render an approved illustrated environment");
+        await shell.locator("[data-world-hear]").click();
+        await page.waitForFunction(() => {
+          const button = document.querySelector("[data-world-next]");
+          return button instanceof HTMLButtonElement && !button.disabled;
+        });
+        await shell.locator("[data-world-next]").click();
+        const completion = page.locator('[aria-labelledby="world-stage-complete-title"]');
+        await completion.waitFor();
+        assert.equal(await completion.getAttribute("data-world-completion-stage"), stage.id, stage.id + " completion must preserve exact Stage identity");
+        assert.equal(await completion.getAttribute("data-world-completion-final"), stage.id === "money-stage-08-final-festival" ? "true" : "false", stage.id + " final-completion status must be deterministic");
+        assert.equal(await completion.locator('[aria-label="Tiga bintang"] svg').count(), 3, stage.id + " must complete with three Stage stars");
+        await context.close();
+      }
+      console.log("World Petualangan Uang all-eight Stage production closure checkpoints passed at 390px.");
+    }
+
+    {
+      const viewport = { width: 390, height: 844 };
+      const context = await browser.newContext({ viewport });
+      await context.addInitScript((progress) => {
+        window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
+          "demo-gian": { "money-festival": progress }
+        }));
+      }, {
+        worldId: "money-festival",
+        completedStageIds: ["money-stage-01-money-use"],
+        currentStageId: "money-stage-02-price-change",
+        currentSegmentIndex: 4,
+        updatedAt: "2026-09-22T00:00:00.000Z"
+      });
+      const page = await context.newPage();
+      await page.goto(baseUrl + "/child/demo-gian/world/money-festival/stage/money-stage-02-price-change", { waitUntil: "domcontentloaded" });
+      await page.getByText("Kok Jadi Lebih Mahal?", { exact: true }).waitFor();
+      const stageTwoScene = page.locator('[data-world-scene="2"]');
+      const stageTwoBackground = await stageTwoScene.evaluate((node) => getComputedStyle(node, "::before").backgroundImage);
+      assert.match(stageTwoBackground, /mini-market-mobile\.webp/, "World Stage 2 must use the illustrated market environment");
+
+      await page.getByRole("button", { name: "Sekarang · Rp12", exact: true }).click();
+      await page.locator("[data-world-next]").waitFor();
+      for (let index = 0; index < 6; index += 1) {
+        await advanceWorldNarrative(page);
+      }
+
+      for (const [card, group] of [
+        ["5 → 7", /Naik/],
+        ["8 → 8", /Tetap/],
+        ["3 → 4", /Naik/],
+        ["6 → 6", /Tetap/]
+      ]) {
+        await page.getByRole("button", { name: card, exact: true }).click();
+        await page.getByRole("button", { name: group }).click();
+      }
+
+      await page.locator("[data-world-next]").waitFor();
+      await advanceWorldNarrative(page);
+      await advanceWorldNarrative(page);
+      await page.getByRole("heading", { name: "Hebat!", exact: true }).waitFor();
+      assert.equal(await page.locator('[aria-label="Tiga bintang"] svg').count(), 3, "World Stage 2 completion must show exactly three stars");
+      await page.screenshot({ path: path.join(screenshotDir, "390-world-money-stage-02-complete.png"), fullPage: false });
+      await context.close();
+      console.log("World Petualangan Uang Stage 2 compare/classify checkpoint passed at 390px.");
+    }
+
+    {
+      const viewport = { width: 390, height: 844 };
+      const context = await browser.newContext({ viewport });
+      await context.addInitScript((progress) => {
+        window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
+          "demo-gian": { "money-festival": progress }
+        }));
+      }, {
+        worldId: "money-festival",
+        completedStageIds: [
+          "money-stage-01-money-use",
+          "money-stage-02-price-change",
+          "money-stage-03-income-sources"
+        ],
+        currentStageId: "money-stage-04-needs-wants",
+        currentSegmentIndex: 10,
+        updatedAt: "2026-09-22T00:00:00.000Z"
+      });
+      const page = await context.newPage();
+      await page.goto(baseUrl + "/child/demo-gian/world/money-festival/stage/money-stage-04-needs-wants", { waitUntil: "domcontentloaded" });
+      await page.getByText("Butuh atau Mau?", { exact: true }).waitFor();
+      await advanceWorldNarrative(page);
+      await page.getByRole("heading", { name: "Excellent!", exact: true }).waitFor();
+      await page.waitForTimeout(700);
+      await page.getByText("Chapter 1 selesai", { exact: true }).waitFor();
+      await page.getByText("Pilih Pintar", { exact: true }).waitFor();
+      const chapterOneCompletion = page.locator('[data-world-completion-stage="money-stage-04-needs-wants"]');
+      assert.equal(await chapterOneCompletion.getAttribute("data-world-completion-chapter"), "money-chapter-01-road-to-festival", "Stage 4 completion must retain canonical Chapter 1 identity");
+      assert.equal(await chapterOneCompletion.locator('[data-world-completion-chapter-milestone="money-chapter-01-road-to-festival"]').count(), 1, "Stage 4 must expose Chapter 1 milestone semantics");
+      assert.equal((await chapterOneCompletion.locator("[data-world-completion-context]").textContent())?.trim(), "Chapter 1 · Stage 4/8", "Stage 4 completion must expose Chapter 1 / Stage 4 context");
+      await page.screenshot({ path: path.join(screenshotDir, "390-world-money-chapter-01-complete.png"), fullPage: false });
+      await context.close();
+      console.log("World Petualangan Uang Chapter 1 milestone reward passed at 390px.");
+    }
+
+    {
+      const viewport = { width: 390, height: 844 };
+      const context = await browser.newContext({ viewport });
+      await context.addInitScript((progress) => {
+        window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
+          "demo-gian": { "money-festival": progress }
+        }));
+      }, {
+        worldId: "money-festival",
+        completedStageIds: [
+          "money-stage-01-money-use",
+          "money-stage-02-price-change",
+          "money-stage-03-income-sources",
+          "money-stage-04-needs-wants"
+        ],
+        currentStageId: "money-stage-05-saving",
+        currentSegmentIndex: 7,
+        updatedAt: "2026-09-22T00:00:00.000Z"
+      });
+      const page = await context.newPage();
+      await page.goto(baseUrl + "/child/demo-gian/world/money-festival/stage/money-stage-05-saving", { waitUntil: "domcontentloaded" });
+      await page.getByText("Simpan Dulu Yuk", { exact: true }).waitFor();
+      const stageFiveScene = page.locator('[data-world-scene="5"]');
+      const stageFiveBackground = await stageFiveScene.evaluate((node) => getComputedStyle(node, "::before").backgroundImage);
+      assert.match(stageFiveBackground, /number-park-mobile\.webp/, "World Stage 5 must move the story into the illustrated saving-park environment");
+      await page.getByRole("button", { name: /Punya tujuan/ }).click();
+      await page.getByRole("button", { name: /Simpan sebagian/ }).click();
+      await page.getByRole("button", { name: /Uang terkumpul/ }).click();
+      await page.getByRole("button", { name: /Pakai saat sudah cukup/ }).click();
+      await page.getByRole("button", { name: "Cek urutan", exact: true }).click();
+      await page.locator("[data-world-next]").waitFor();
+      await advanceWorldNarrative(page);
+      await page.getByRole("heading", { name: "Keren!", exact: true }).waitFor();
+      await page.screenshot({ path: path.join(screenshotDir, "390-world-money-stage-05-order-complete.png"), fullPage: false });
+      await context.close();
+      console.log("World Petualangan Uang Stage 5 ordering checkpoint passed at 390px.");
+    }
+
+    {
+      const viewport = { width: 390, height: 844 };
+      const context = await browser.newContext({ viewport });
+      await context.addInitScript((progress) => {
+        window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
+          "demo-gian": { "money-festival": progress }
+        }));
+      }, {
+        worldId: "money-festival",
+        completedStageIds: [
+          "money-stage-01-money-use",
+          "money-stage-02-price-change",
+          "money-stage-03-income-sources",
+          "money-stage-04-needs-wants",
+          "money-stage-05-saving",
+          "money-stage-06-investment-intro",
+          "money-stage-07-risk"
+        ],
+        currentStageId: "money-stage-08-final-festival",
+        currentSegmentIndex: 4,
+        updatedAt: "2026-09-22T00:00:00.000Z"
+      });
+      const page = await context.newPage();
+      await page.goto(baseUrl + "/child/demo-gian/world/money-festival/stage/money-stage-08-final-festival", { waitUntil: "domcontentloaded" });
+      await page.getByText("Kebutuhan sudah lengkap. Masih ada delapan token. Kamu mau apa?", { exact: true }).waitFor();
+      const stageEightScene = page.locator('[data-world-scene="8"]');
+      const stageEightBackground = await stageEightScene.evaluate((node) => getComputedStyle(node, "::before").backgroundImage);
+      assert.match(stageEightBackground, /garden-background\.webp/, "World finale must return to the illustrated festival garden environment");
+      const choiceSceneFrame = page.locator('[data-world-scene-frame="money-scene-s08-child-choice"]');
+      await choiceSceneFrame.waitFor();
+      assert.equal(await choiceSceneFrame.getAttribute("data-world-scene-presentation"), "choice", "final child choice must use the reusable choice presentation");
+      await page.getByRole("button", { name: /Tambah pita/ }).click();
+      await page.getByText("Kamu memilih membuat meja lebih meriah.", { exact: true }).waitFor();
+      await page.getByRole("button", { name: /Lanjut/ }).click();
+      await page.getByText("Sekarang latihan hitung lain. Bayangkan ada delapan token, lalu dua dipakai. Sisanya berapa?", { exact: true }).waitFor();
+      await advanceWorldNarrative(page);
+      await page.getByRole("button", { name: "6", exact: true }).click();
+      await page.locator("[data-world-next]").waitFor();
+      for (let index = 0; index < 3; index += 1) {
+        await advanceWorldNarrative(page);
+      }
+      await page.getByRole("heading", { name: "Yang kita temukan", exact: true }).waitFor();
+      const recapSceneFrame = page.locator('[data-world-scene-frame="money-scene-s08-recap"]');
+      await recapSceneFrame.waitFor();
+      assert.equal(await recapSceneFrame.getAttribute("data-world-scene-presentation"), "recap", "final recap must use the reusable recap presentation");
+      assert.equal(await page.locator('[aria-label="Ringkasan Petualangan Uang"] > *').count(), 6, "World finale recap must show six concrete learning moments");
+      await page.screenshot({ path: path.join(screenshotDir, "390-world-money-stage-08-recap.png"), fullPage: false });
+      await page.getByRole("button", { name: /Lanjut/ }).click();
+      await advanceWorldNarrative(page);
+
+      await page.getByRole("heading", { name: "Luar biasa!", exact: true }).waitFor();
+      await page.waitForTimeout(700);
+      await page.getByText("Petualangan Uang selesai. Festival Mainlagi siap!", { exact: true }).waitFor();
+      const finalCompletion = page.locator('[data-world-completion-stage="money-stage-08-final-festival"]');
+      assert.equal(await finalCompletion.getAttribute("data-world-completion-chapter"), "money-chapter-02-prepare-festival", "Final completion must retain canonical Chapter 2 identity");
+      assert.equal(await finalCompletion.getAttribute("data-world-completion-final"), "true", "Final completion must identify World completion");
+      assert.equal((await finalCompletion.locator("[data-world-completion-context]").textContent())?.trim(), "Chapter 2 · Stage 8/8", "Final completion must expose Chapter 2 / Stage 8 context");
+      assert.equal(await finalCompletion.locator('[data-world-completion-chapter-milestone="money-chapter-02-prepare-festival"]').count(), 1, "Final completion must expose Chapter 2 milestone semantics");
+      await finalCompletion.getByText("Festival Siap", { exact: true }).waitFor();
+      assert.equal(await finalCompletion.locator('[aria-label="Tiga bintang"] svg').count(), 3, "Final World Stage must show exactly three stars");
+      assert.equal(await page.getByRole("button", { name: /Share/ }).count(), 1, "Final World Stage must retain Share below completion navigation");
+      await page.screenshot({ path: path.join(screenshotDir, "390-world-money-stage-08-complete.png"), fullPage: false });
+
+      await page.getByRole("link", { name: /Back/ }).click();
+      const completedMap = page.locator('[data-world-map="money-festival"][data-world-complete="true"]');
+      await completedMap.waitFor();
+      await page.getByText("Festival siap!", { exact: true }).waitFor();
+      assert.equal(await completedMap.locator('[aria-label="Tiga bintang"]').count(), 8, "Completed World map must retain three-star completion on all eight stages");
+      assert.equal(
+        (await completedMap.locator('[data-world-chapter-id="money-chapter-01-road-to-festival"] > span').textContent())?.trim(),
+        "4/4 Stage selesai",
+        "completed map must show Chapter 1 fully complete"
+      );
+      assert.equal(
+        (await completedMap.locator('[data-world-chapter-id="money-chapter-02-prepare-festival"] > span').textContent())?.trim(),
+        "4/4 Stage selesai",
+        "completed map must show Chapter 2 fully complete"
+      );
+      const stageEightBox = await completedMap.locator('[data-world-stage-id="money-stage-08-final-festival"]').boundingBox();
+      const festivalFinishBox = await completedMap.getByRole("status").filter({ hasText: "Festival siap!" }).boundingBox();
+      assert.ok(
+        stageEightBox && festivalFinishBox && stageEightBox.y + stageEightBox.height <= festivalFinishBox.y + 1,
+        "Completed World map must keep the Festival payoff below Stage 8 instead of overlapping it"
+      );
+      await page.screenshot({ path: path.join(screenshotDir, "390-world-money-map-complete.png"), fullPage: true });
+      await context.close();
+      console.log("World Petualangan Uang final narrative-choice/subtraction checkpoint passed at 390px.");
+    }
+
+    {
+      const responsiveWorldViewports = [
+        { width: 320, height: 720 },
+        { width: 390, height: 844 },
+        { width: 430, height: 860 }
+      ];
+      const completedBeforeStageEight = [
+        "money-stage-01-money-use",
+        "money-stage-02-price-change",
+        "money-stage-03-income-sources",
+        "money-stage-04-needs-wants",
+        "money-stage-05-saving",
+        "money-stage-06-investment-intro",
+        "money-stage-07-risk"
+      ];
+      const sceneScenarios = [
+        {
+          name: "story",
+          stageId: "money-stage-01-money-use",
+          segmentIndex: 0,
+          completedStageIds: [],
+          sceneId: "money-scene-s01-opening",
+          kind: "story",
+          presentation: "dialogue",
+          progress: "Bagian 1/4"
+        },
+        {
+          name: "challenge",
+          stageId: "money-stage-01-money-use",
+          segmentIndex: 4,
+          completedStageIds: [],
+          sceneId: "money-scene-s01-money-price-match",
+          kind: "challenge",
+          presentation: "activity",
+          progress: "Bagian 1/1"
+        },
+        {
+          name: "choice",
+          stageId: "money-stage-08-final-festival",
+          segmentIndex: 4,
+          completedStageIds: completedBeforeStageEight,
+          sceneId: "money-scene-s08-child-choice",
+          kind: "choice",
+          presentation: "choice",
+          progress: "Bagian 1/1"
+        },
+        {
+          name: "recap",
+          stageId: "money-stage-08-final-festival",
+          segmentIndex: 10,
+          completedStageIds: completedBeforeStageEight,
+          sceneId: "money-scene-s08-recap",
+          kind: "recap",
+          presentation: "recap",
+          progress: "Bagian 1/1"
+        },
+        {
+          name: "closing",
+          stageId: "money-stage-01-money-use",
+          segmentIndex: 9,
+          completedStageIds: [],
+          sceneId: "money-scene-s01-closing",
+          kind: "closing",
+          presentation: "payoff",
+          progress: "Bagian 2/2"
+        }
+      ];
+
+      for (const viewport of responsiveWorldViewports) {
+        for (const scenario of sceneScenarios) {
+          const context = await browser.newContext({ viewport, reducedMotion: "reduce" });
+          await context.addInitScript((seed) => {
+            window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
+              "demo-gian": {
+                "money-festival": {
+                  worldId: "money-festival",
+                  completedStageIds: seed.completedStageIds,
+                  currentStageId: seed.stageId,
+                  currentSegmentIndex: seed.segmentIndex,
+                  updatedAt: "2026-09-22T00:00:00.000Z"
+                }
+              }
+            }));
+          }, scenario);
+
+          const page = await context.newPage();
+          const pageErrors = [];
+          const consoleErrors = [];
+          page.on("pageerror", (error) => pageErrors.push(error.message));
+          page.on("console", (message) => {
+            if (message.type() === "error") consoleErrors.push(message.text());
+          });
+
+          await page.goto(
+            baseUrl + "/child/demo-gian/world/money-festival/stage/" + scenario.stageId,
+            { waitUntil: "domcontentloaded" }
+          );
+
+          const shell = page.locator('[data-world-stage-shell="garden-baseline-v1"]');
+          await shell.waitFor();
+          const frame = page.locator('[data-world-scene-frame="' + scenario.sceneId + '"]');
+          await frame.waitFor();
+
+          assert.equal(await shell.getAttribute("data-world-scene-id"), scenario.sceneId, scenario.name + " must keep canonical Scene identity at " + viewport.width);
+          assert.equal(await shell.getAttribute("data-world-scene-kind"), scenario.kind, scenario.name + " must keep canonical Scene kind at " + viewport.width);
+          assert.equal(await frame.getAttribute("data-world-scene-presentation"), scenario.presentation, scenario.name + " must resolve reusable presentation at " + viewport.width);
+          assert.equal(
+            (await frame.locator("[data-world-scene-progress]").textContent())?.trim(),
+            scenario.progress,
+            scenario.name + " must expose Scene-local progress at " + viewport.width
+          );
+
+          const geometry = await page.evaluate((sceneId) => {
+            const frame = document.querySelector('[data-world-scene-frame="' + sceneId + '"]');
+            const meta = frame?.querySelector("[data-world-scene-emphasis]");
+            const content = frame?.querySelector("[data-world-scene-content]");
+            const viewportWidth = document.documentElement.clientWidth;
+            const scrollWidth = Math.max(document.documentElement.scrollWidth, document.body.scrollWidth);
+            const box = (node) => {
+              if (!(node instanceof HTMLElement)) return null;
+              const rect = node.getBoundingClientRect();
+              return { left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom, width: rect.width, height: rect.height };
+            };
+            const interactive = Array.from(frame?.querySelectorAll("button, a") ?? [])
+              .filter((node) => node instanceof HTMLElement && node.getBoundingClientRect().width > 0)
+              .map(box)
+              .filter(Boolean);
+            return {
+              viewportWidth,
+              scrollWidth,
+              frame: box(frame),
+              meta: box(meta),
+              content: box(content),
+              interactive
+            };
+          }, scenario.sceneId);
+
+          assert.ok(geometry.scrollWidth <= geometry.viewportWidth + 1, scenario.name + " Scene must not overflow horizontally at " + viewport.width);
+          for (const [label, box] of [["frame", geometry.frame], ["meta", geometry.meta], ["content", geometry.content]]) {
+            assert.ok(box, scenario.name + " " + label + " geometry missing at " + viewport.width);
+            assert.ok(box.left >= -1 && box.right <= geometry.viewportWidth + 1, scenario.name + " " + label + " must remain inside viewport at " + viewport.width);
+          }
+          for (const control of geometry.interactive) {
+            assert.ok(control.width >= 44 && control.height >= 44, scenario.name + " interactive controls keep 44px touch target at " + viewport.width);
+            assert.ok(control.left >= -1 && control.right <= geometry.viewportWidth + 1, scenario.name + " interactive controls remain inside viewport at " + viewport.width);
+          }
+
+          assert.deepEqual(pageErrors, [], scenario.name + " page errors at " + viewport.width + ": " + pageErrors.join(" | "));
+          assert.deepEqual(consoleErrors, [], scenario.name + " console errors at " + viewport.width + ": " + consoleErrors.join(" | "));
+
+          if (
+            (viewport.width === 320 && ["story", "challenge"].includes(scenario.name)) ||
+            (viewport.width === 430 && ["choice", "recap", "closing"].includes(scenario.name))
+          ) {
+            await page.screenshot({
+              path: path.join(screenshotDir, viewport.width + "-world-scene-" + scenario.name + ".png"),
+              fullPage: false
+            });
+          }
+
+          await context.close();
+        }
+      }
+
+      console.log("World reusable Scene responsive matrix passed at 320/390/430px.");
     }
 
     {

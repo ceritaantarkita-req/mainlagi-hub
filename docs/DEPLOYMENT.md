@@ -1,6 +1,6 @@
 # Mainlagi Production Deployment
 
-Last reviewed: 22 September 2026
+Last reviewed: 23 September 2026
 
 ## Canonical production architecture
 
@@ -27,20 +27,68 @@ On pushes to `main`, `Production smoke (Cloudflare)` succeeds only when producti
 
 ## Latest verified production release
 
-Current production `main` is the repository-governance hardening merge from PR #269:
+Repository `main` observed during the 23 September World evidence database rollout:
 
 ```text
-PR:                       #269
-Current main:             6fd9e3fc7ffa57aab687b5529033f1a995e0e5ba
-PR CI:                    #1208 / run 35625095287 — success
-Merged-main CI:           #1209 / run 35625953536 — success
-Production smoke:         PASS, exact SHA
-Required secret gate:     PASS inside Production dependency audit
+main: 17b9ca79749e171f62d3adb86df494badef11732
 ```
 
-The latest application-data integrity change remains PR #267 (`89a2bc629e...`), which closed cloud analytics pagination/failure-state defects. PR #269 changes CI/governance only; it does not change application runtime behavior.
+PR #309 (Stage 8 activation) and PR #310 (live-DB advisor hardening) are now closed as superseded by integrated Draft PR #312. The observed `main` commit still does **not** contain the reviewed World evidence runtime.
+
+This database-only rollout did not perform a new Cloudflare release or claim a new exact-SHA production smoke. The earlier exact-SHA production record from PR #269 remains historical evidence, not a statement that PR #309/#310 are deployed.
 
 Batch 17 engineering/device-QA foundations remain valid historical prerequisites.
+
+## World evidence integrated release candidate
+
+The reviewed World evidence stack has been integrated with current main without overwriting the newer semantic/narration work.
+
+```text
+current main parent:
+17b9ca79749e171f62d3adb86df494badef11732
+
+World/live-DB parent:
+94062af9944943e5f82011087bff9e4dfd12e2b7
+
+integration merge:
+e4999265033b0263e906c2fe287fc08d09bde0bc
+
+branch:
+release/world-evidence-integration-20260923
+
+Draft PR:
+#312 -> main
+```
+
+Safe release-candidate checkpoint:
+
+```text
+checkpoint/world-evidence-main-integration-green-20260923
+@ e4999265033b0263e906c2fe287fc08d09bde0bc
+
+CI #1584 / run 35892514511
+full matrix: PASS
+```
+
+CI #1584 proves the combined current-main + World state on Ubuntu, Windows, production build, dependency audit, secret history scan and Chromium mobile/accessibility/visual QA.
+
+Cloudflare production smoke is **not** claimed for this checkpoint because PR #312 is Draft/unmerged. The smoke job is expected to skip until a main deployment exists.
+
+The canonical Supabase database is already live through migrations 0047–0051 and remains schema-compatible with both the old production app and this release candidate.
+
+Next production flow:
+
+```text
+PR #312 final review
+  -> protected main merge
+  -> merged-main full CI
+  -> Cloudflare Git deployment
+  -> exact-SHA /api/health smoke
+  -> controlled authorized Stage 8 evidence verification
+  -> production docs closure
+```
+
+Canonical integration record: `WORLD_EVIDENCE_MAIN_INTEGRATION_2026-09-23.md`.
 
 ## Guided physical-device QA route
 
@@ -114,28 +162,65 @@ Live state matches repository contracts:
 - Iqro `expert_required` active packs = 22;
 - Iqro `expert_approved` active packs = 0.
 
-Migration registry still ends at `batch14_creative_wave_d`; Batches 15–17 and the QA harness require no DDL.
+The migration registry now additionally contains the reviewed World persistence/evidence sequence:
+
+```text
+20260923154936  0047_world_progress_persistence
+20260923155002  0048_world_supplemental_evidence_foundation
+20260923155050  0049_source_aware_mastery_isolation
+20260923155129  0050_world_evidence_stage8_activation
+20260923160118  0051_world_evidence_advisor_hardening
+```
+
+These migrations are live on canonical Supabase. The application activation PRs remain unmerged, so the database is intentionally schema-ahead/backward-compatible with current production app code.
 
 ## Live ownership/security boundary
 
-RLS is enabled on `player_profiles`, `learning_attempts`, attempt skill evidence, child mastery/progress/achievements, and certificates.
+RLS remains enabled on the canonical learning/profile tables and is also enabled on:
 
-`learning_attempts` retains `learning_attempt_child_ownership`.
+- `child_world_progress`;
+- `learning_supplemental_skill_evidence`.
 
-`record_learning_attempt(...)` is live as:
+Live World progress boundary:
 
-- `SECURITY DEFINER`;
-- `search_path=public`;
-- executable by `authenticated`;
-- not executable by `anon` or `public`.
+- authenticated direct INSERT to `child_world_progress`: denied;
+- authenticated `save_world_progress(...)` RPC: allowed;
+- anon `save_world_progress(...)`: denied.
 
-Security advisor remains at the two previously documented WARN categories: intentional authenticated SECURITY DEFINER execution and leaked-password protection disabled. Performance advisor currently has 17 `unused_index` INFO observations and no WARN regression.
+Live World evidence boundary:
+
+- authenticated direct SELECT/INSERT on supplemental evidence: denied;
+- service-role direct SELECT: allowed;
+- service-role direct INSERT: denied;
+- `record_world_skill_evidence(...)`: service-role execute only;
+- authenticated/anon execute: denied;
+- private activation registry: not directly readable by service_role/authenticated;
+- active registry mapping: only `money-s08-activity-02` + `money-world-s08-subtraction-v2-assessed`;
+- supplemental evidence rows after deployment verification: `0`.
+
+Source-aware migration 0049 preserved all existing Belajar values exactly: 26 mastery rows and 51 canonical evidence rows remained unchanged, with zero score/confidence/level/count/recency mismatches, 10 achievements and 0 certificates.
+
+Migration 0051 closed the two new World-schema advisor INFO findings by adding an explicit deny-all API policy and the missing `skill_key` FK index.
+
+Current security advisor findings are limited to:
+
+- authenticated SECURITY DEFINER warning for `record_learning_attempt(...)` — intentional canonical Belajar RPC;
+- authenticated SECURITY DEFINER warning for `save_world_progress(...)` — intentional ownership-validated World progress RPC;
+- leaked-password protection disabled — existing Supabase Auth configuration, not introduced by World evidence.
+
+Current performance advisor has only `unused_index` INFO observations. There is no remaining supplemental-evidence unindexed-FK finding.
 
 Reference remediation guidance:
 
 - SECURITY DEFINER advisor: https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable
 - leaked-password protection: https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection
 - unused-index advisor: https://supabase.com/docs/guides/database/database-linter?lint=0005_unused_index
+
+Canonical detailed record:
+
+```text
+docs/WORLD_EVIDENCE_LIVE_DB_DEPLOYMENT_2026-09-23.md
+```
 
 ## Protect main status
 

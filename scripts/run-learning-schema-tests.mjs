@@ -13,6 +13,11 @@ const contentExpansion = readFileSync(path.join(root, "supabase/migrations/0008_
 const contentArchitecture = readFileSync(path.join(root, "supabase/migrations/0011_scalable_content_architecture.sql"), "utf8");
 const reusableMechanics = readFileSync(path.join(root, "supabase/migrations/0012_reusable_mechanic_library.sql"), "utf8");
 const subjectFoundations = readFileSync(path.join(root, "supabase/migrations/0013_new_subject_curriculum_foundations.sql"), "utf8");
+const worldProgress = readFileSync(path.join(root, "supabase/migrations/0047_world_progress_persistence.sql"), "utf8");
+const supplementalEvidence = readFileSync(path.join(root, "supabase/migrations/0048_world_supplemental_evidence_foundation.sql"), "utf8");
+const sourceAwareMastery = readFileSync(path.join(root, "supabase/migrations/0049_source_aware_mastery_isolation.sql"), "utf8");
+const worldEvidenceActivation = readFileSync(path.join(root, "supabase/migrations/0050_world_evidence_stage8_activation.sql"), "utf8");
+const worldEvidenceAdvisorHardening = readFileSync(path.join(root, "supabase/migrations/0051_world_evidence_advisor_hardening.sql"), "utf8");
 
 const requiredTables = [
   "learning_skills", "learning_activities", "learning_activity_skills", "learning_attempts",
@@ -141,15 +146,131 @@ assert.match(subjectFoundations, /on conflict \(activity_id, skill_key\) do upda
 assert.doesNotMatch(subjectFoundations, /drop\s+table/i, "Batch 6 must not drop learning tables");
 assert.doesNotMatch(subjectFoundations, /delete\s+from\s+public\.learning_/i, "Batch 6 must not delete learning data");
 
+assert.match(worldProgress, /create table if not exists public\.child_world_progress/i, "World progress table missing");
+assert.match(worldProgress, /primary key \(account_id, child_key, world_id\)/i, "World progress identity must be account + child + world");
+assert.match(worldProgress, /alter table public\.child_world_progress enable row level security/i, "World progress must enable RLS");
+assert.match(worldProgress, /create policy "child world progress own select"[\s\S]*account_id = \(select auth\.uid\(\)\)/i, "World progress read policy must stay account-owned");
+assert.match(worldProgress, /revoke insert, update, delete on public\.child_world_progress from anon, authenticated/i, "World progress clients must not mutate the table directly");
+assert.match(worldProgress, /create or replace function public\.save_world_progress\s*\(/i, "World progress RPC missing");
+assert.match(worldProgress, /security definer[\s\S]*set search_path = pg_catalog, public/i, "World progress RPC must pin search_path");
+assert.match(worldProgress, /p_world_id is distinct from 'money-festival'/i, "World progress RPC must fail closed to registered World IDs");
+assert.match(worldProgress, /world stages must complete in order/i, "World progress RPC must enforce linear stage completion");
+assert.match(worldProgress, /v_current_order > v_completed_count \+ 1/i, "World progress RPC must reject locked current stages");
+assert.match(worldProgress, /for update/i, "World progress RPC must serialize existing progress before overwrite");
+assert.match(worldProgress, /v_completed_count < v_existing_completed_count/i, "World progress RPC must reject stale completion regressions");
+assert.match(worldProgress, /world completion regression rejected/i, "World progress regression failure must be explicit");
+assert.match(worldProgress, /where cardinality\(excluded\.completed_stage_ids\) >= cardinality\(public\.child_world_progress\.completed_stage_ids\)/i, "World progress upsert must reject a concurrent shorter prefix");
+assert.match(worldProgress, /if v_result\.account_id is null then[\s\S]*world completion regression rejected/i, "Concurrent World regression must fail closed after conflict filtering");
+assert.match(worldProgress, /pp\.id::text = p_child_key[\s\S]*pp\.account_id = v_account_id[\s\S]*pp\.deleted_at is null/i, "World progress RPC must enforce real child ownership");
+assert.match(worldProgress, /grant execute on function public\.save_world_progress[\s\S]*to authenticated, service_role/i, "World progress RPC execute grant must be explicit");
+assert.doesNotMatch(worldProgress, /insert into public\.child_learning_progress/i, "World progress must not forge canonical Belajar completion");
+assert.doesNotMatch(worldProgress, /insert into public\.child_skill_mastery/i, "World progress must not forge mastery");
+assert.doesNotMatch(worldProgress, /insert into public\.learning_certificates/i, "World progress must not issue certificates");
+assert.doesNotMatch(worldProgress, /insert into public\.child_learning_achievements/i, "World progress must not issue achievements");
+
+assert.match(supplementalEvidence, /create table if not exists public\.learning_supplemental_skill_evidence/i, "World supplemental evidence table missing");
+assert.match(supplementalEvidence, /alter table public\.learning_supplemental_skill_evidence enable row level security/i, "supplemental evidence table must enable RLS");
+assert.match(supplementalEvidence, /unique \(account_id, child_key, client_observation_id\)/i, "World evidence observations must be idempotent per account\/child\/client observation");
+assert.match(supplementalEvidence, /create unique index if not exists uq_supplemental_world_qualifying_content[\s\S]*where source_kind = 'world' and qualifies_for_mastery = true/i, "one static World item/content version must have a database-level qualifying-evidence cap");
+assert.match(supplementalEvidence, /revoke all on public\.learning_supplemental_skill_evidence[\s\S]*from public, anon, authenticated, service_role/i, "normal clients and service role must not directly mutate supplemental evidence table");
+assert.match(supplementalEvidence, /grant select on public\.learning_supplemental_skill_evidence to service_role/i, "implementation wave may expose supplemental evidence reads only to the server role");
+assert.match(supplementalEvidence, /create or replace function public\.record_world_skill_evidence\s*\(/i, "server-only World evidence RPC missing");
+assert.match(supplementalEvidence, /security definer[\s\S]*set search_path = pg_catalog, public/i, "World evidence RPC must pin search_path");
+assert.match(supplementalEvidence, /v_mapping_active constant boolean := false/i, "database World evidence mapping must remain independently disabled");
+assert.match(supplementalEvidence, /grant execute on function public\.record_world_skill_evidence[\s\S]*to service_role/i, "World evidence RPC must be executable by service role only");
+assert.doesNotMatch(supplementalEvidence, /grant execute on function public\.record_world_skill_evidence[\s\S]*to authenticated/i, "authenticated browser role must never receive direct World evidence RPC execution");
+assert.doesNotMatch(supplementalEvidence, /p_skill_key|p_evidence_weight|p_evidence_score|p_qualifies_for_mastery/i, "client/server caller must not supply canonical mapping, evidence score, weight, or qualification");
+assert.match(supplementalEvidence, /p_world_id is distinct from 'money-festival'[\s\S]*p_stage_id is distinct from 'money-stage-08-final-festival'[\s\S]*p_world_activity_id is distinct from 'money-s08-activity-02'[\s\S]*p_mechanic_id is distinct from 'tap_choice'[\s\S]*p_content_version is distinct from 'money-world-s08-subtraction-v1'/i, "database must own the exact World source mapping");
+assert.match(supplementalEvidence, /'math\.operation\.subtraction\.within_10'/i, "database mapping must target only the approved subtraction skill");
+assert.match(supplementalEvidence, /'choice_accuracy_v1'/i, "database mapping must own the approved evidence contract");
+assert.match(supplementalEvidence, /p_child_key = 'demo-gian'[\s\S]*demo child cannot create canonical supplemental evidence/i, "demo sandbox must be mastery-ineligible");
+assert.match(supplementalEvidence, /pp\.id::text = p_child_key[\s\S]*pp\.account_id = p_account_id[\s\S]*pp\.deleted_at is null[\s\S]*for update/i, "World evidence RPC must enforce and serialize real child ownership");
+assert.match(supplementalEvidence, /when pp\.age_group = 'SD 1' then 6[\s\S]*when pp\.age_group = 'SD 2' then 7/i, "legacy age groups must resolve only to explicit canonical ages");
+assert.match(supplementalEvidence, /v_age is null or v_age < 6 or v_age > 7/i, "World supplemental evidence must stay restricted to ages 6-7");
+assert.match(supplementalEvidence, /created_at > now\(\) - interval '30 seconds'/i, "World evidence replay protection must use server receipt time");
+assert.match(supplementalEvidence, /v_retry_count < 7/i, "seven-or-more retries must remain non-qualifying");
+assert.match(supplementalEvidence, /v_prior_qualifying/i, "World evidence must detect prior qualifying content-version evidence");
+assert.match(supplementalEvidence, /p_answer_sequence\[v_answer_count\] is distinct from 'answer-6'/i, "database must derive correctness from the canonical answer rather than caller accuracy");
+assert.match(supplementalEvidence, /v_accuracy := v_correct_count::numeric \/ v_answer_count::numeric/i, "database must derive accuracy from raw answer sequence");
+assert.match(supplementalEvidence, /0\.5000/i, "World evidence must remain conservatively supplemental-weighted");
+assert.match(supplementalEvidence, /octet_length\(coalesce\(p_metadata, '\{\}'::jsonb\)::text\) > 8192/i, "World evidence metadata must be bounded");
+assert.doesNotMatch(supplementalEvidence, /insert into public\.learning_attempts/i, "supplemental World evidence must not forge a Belajar attempt");
+assert.doesNotMatch(supplementalEvidence, /recompute_child_skill_mastery\s*\(/i, "implementation wave 1 must not recompute mastery");
+assert.doesNotMatch(supplementalEvidence, /insert into public\.child_learning_progress/i, "World evidence must not mutate Belajar progress");
+assert.doesNotMatch(supplementalEvidence, /insert into public\.child_skill_mastery/i, "World evidence must not directly forge mastery rows");
+assert.doesNotMatch(supplementalEvidence, /insert into public\.learning_certificates/i, "World evidence must not issue certificates");
+assert.doesNotMatch(supplementalEvidence, /insert into public\.child_learning_achievements/i, "World evidence must not issue achievements");
+
+for (const column of [
+  "canonical_mastery_score",
+  "canonical_confidence",
+  "canonical_mastery_level",
+  "canonical_evidence_count",
+  "canonical_qualifying_evidence_count",
+  "canonical_last_evidence_at",
+  "supplemental_evidence_count",
+  "supplemental_qualifying_evidence_count",
+  "evidence_source_policy"
+]) {
+  assert.match(sourceAwareMastery, new RegExp(`add column if not exists ${column}\\b`, "i"), `Wave 2 missing child_skill_mastery.${column}`);
+}
+assert.match(sourceAwareMastery, /create or replace function public\.recompute_child_skill_mastery\s*\(/i, "Wave 2 source-aware mastery materializer missing");
+assert.match(sourceAwareMastery, /set search_path = pg_catalog, public/i, "Wave 2 mastery materializer must pin search_path");
+assert.match(sourceAwareMastery, /from public\.learning_attempt_skill_evidence[\s\S]*union all[\s\S]*from public\.learning_supplemental_skill_evidence/i, "Wave 2 mastery must combine Belajar and supplemental evidence explicitly");
+assert.match(sourceAwareMastery, /v_canonical_count >= 3[\s\S]*v_combined_level := 'mastered'/i, "mastered must retain a canonical Belajar evidence-count gate");
+assert.match(sourceAwareMastery, /elsif v_canonical_count >= 2[\s\S]*v_combined_level := 'proficient'/i, "proficient must retain a canonical Belajar evidence-count gate");
+assert.match(sourceAwareMastery, /elsif v_canonical_count >= 1[\s\S]*v_combined_level := 'developing'/i, "developing must require canonical Belajar evidence");
+assert.match(sourceAwareMastery, /else[\s\S]*v_combined_level := 'exploring'/i, "World-only source-aware mastery must remain capped at exploring");
+assert.match(sourceAwareMastery, /create or replace function private\.refresh_world_supplemental_mastery\(\)/i, "supplemental mastery trigger helper missing");
+assert.match(sourceAwareMastery, /after insert or update of[\s\S]*or delete[\s\S]*on public\.learning_supplemental_skill_evidence/i, "supplemental evidence changes must recompute source-aware mastery");
+assert.match(sourceAwareMastery, /revoke all on function private\.refresh_world_supplemental_mastery\(\)[\s\S]*from public, anon, authenticated, service_role/i, "supplemental trigger helper must remain private from API roles");
+assert.match(sourceAwareMastery, /canonical_mastery_level in \('proficient','mastered'\)[\s\S]*canonical_qualifying_evidence_count >= 2/i, "certificate eligibility must remain canonical-Belajar-only");
+assert.match(sourceAwareMastery, /'evidence_policy', 'belajar-canonical-only-v2'/i, "certificate snapshot must record canonical-only evidence policy");
+assert.doesNotMatch(sourceAwareMastery, /insert into public\.child_learning_progress/i, "source-aware mastery migration must not forge Belajar completion");
+assert.doesNotMatch(sourceAwareMastery, /update public\.learning_activities/i, "source-aware mastery migration must not promote or rewrite World activities");
+assert.doesNotMatch(sourceAwareMastery, /grant execute on function private\.refresh_world_supplemental_mastery/i, "private supplemental mastery helper must never receive RPC execute grants");
+
+assert.match(worldEvidenceActivation, /create table if not exists private\.world_evidence_activation_registry/i, "activation registry must live in private schema");
+assert.match(worldEvidenceActivation, /revoke all on private\.world_evidence_activation_registry[\s\S]*from public, anon, authenticated, service_role/i, "activation registry must not be readable or writable by API roles");
+assert.match(worldEvidenceActivation, /'money-s08-activity-02'[\s\S]*'money-world-s08-subtraction-v2-assessed'[\s\S]*true/i, "activation migration must activate only the reviewed Stage 8 assessed content version");
+assert.match(worldEvidenceActivation, /from private\.world_evidence_activation_registry[\s\S]*r\.active = true/i, "World evidence RPC must resolve activation through the private registry");
+assert.match(worldEvidenceActivation, /p_world_id is distinct from 'money-festival'[\s\S]*p_stage_id is distinct from 'money-stage-08-final-festival'[\s\S]*p_world_activity_id is distinct from 'money-s08-activity-02'[\s\S]*p_mechanic_id is distinct from 'tap_choice'[\s\S]*p_content_version is distinct from 'money-world-s08-subtraction-v2-assessed'/i, "active RPC must still own the exact source/content mapping");
+assert.match(worldEvidenceActivation, /grant execute on function public\.record_world_skill_evidence[\s\S]*to service_role/i, "activated evidence RPC must remain server-role only");
+assert.doesNotMatch(worldEvidenceActivation, /grant execute on function public\.record_world_skill_evidence[\s\S]*to authenticated/i, "activation must not grant browser RPC execution");
+assert.doesNotMatch(worldEvidenceActivation, /p_skill_key|p_evidence_weight|p_evidence_score|p_qualifies_for_mastery/i, "activation RPC must not accept caller-selected canonical mapping or evidence qualification");
+assert.match(worldEvidenceActivation, /pp\.id::text = p_child_key[\s\S]*pp\.account_id = p_account_id[\s\S]*pp\.deleted_at is null[\s\S]*for update/i, "activation RPC must retain serialized child ownership enforcement");
+assert.match(worldEvidenceActivation, /v_age is null or v_age < 6 or v_age > 7/i, "activation must retain the age 6-7 evidence boundary");
+assert.match(worldEvidenceActivation, /created_at > now\(\) - interval '30 seconds'/i, "activation must retain server receipt-time replay protection");
+assert.match(worldEvidenceActivation, /v_retry_count < 7/i, "activation must retain excessive-retry non-qualification");
+assert.match(worldEvidenceActivation, /v_prior_qualifying/i, "activation must retain static-content qualifying cap");
+assert.doesNotMatch(worldEvidenceActivation, /insert into public\.learning_attempts/i, "activation must not forge canonical Belajar attempts");
+assert.doesNotMatch(worldEvidenceActivation, /insert into public\.child_learning_progress/i, "activation must not mutate Belajar completion/progress");
+assert.doesNotMatch(worldEvidenceActivation, /total_stars\s*=|total_stars\s*\+/i, "activation must not award Belajar stars");
+assert.doesNotMatch(worldEvidenceActivation, /insert into public\.learning_certificates/i, "activation must not issue certificates directly");
+assert.doesNotMatch(worldEvidenceActivation, /insert into public\.child_learning_achievements/i, "activation must not issue achievements directly");
+
+assert.match(worldEvidenceAdvisorHardening, /create index if not exists idx_supplemental_evidence_skill_key[\s\S]*learning_supplemental_skill_evidence\(skill_key\)/i, "advisor hardening must add a leftmost skill_key FK index");
+assert.match(worldEvidenceAdvisorHardening, /create policy "supplemental evidence deny direct api"[\s\S]*for all[\s\S]*to anon, authenticated[\s\S]*using \(false\)[\s\S]*with check \(false\)/i, "advisor hardening must make the deny-all API posture explicit");
+assert.match(worldEvidenceAdvisorHardening, /revoke all on public\.learning_supplemental_skill_evidence[\s\S]*from public, anon, authenticated, service_role/i, "advisor hardening must preserve direct-table revoke boundary");
+assert.match(worldEvidenceAdvisorHardening, /grant select on public\.learning_supplemental_skill_evidence to service_role/i, "advisor hardening must preserve service-role read access");
+assert.doesNotMatch(worldEvidenceAdvisorHardening, /grant (insert|update|delete)/i, "advisor hardening must not grant direct supplemental evidence mutation");
+assert.doesNotMatch(worldEvidenceAdvisorHardening, /record_world_skill_evidence[\s\S]*grant execute[\s\S]*authenticated/i, "advisor hardening must not expose the evidence RPC to authenticated clients");
+assert.doesNotMatch(worldEvidenceAdvisorHardening, /insert into public\.learning_attempts|insert into public\.child_learning_progress|insert into public\.learning_certificates|insert into public\.child_learning_achievements/i, "advisor hardening must not mutate Belajar learning/reward/certificate state");
+
 for (const legacy of ["game_sessions", "game_scores", "progress"]) {
   for (const [name, migration] of [
     ["schema", schema], ["functions", functions], ["hardening", hardening], ["advisor hardening", advisorHardening],
     ["private-admin migration", privateAdmin], ["child-ownership migration", childOwnership],
     ["content-expansion migration", contentExpansion], ["content-architecture migration", contentArchitecture],
-    ["reusable-mechanic migration", reusableMechanics], ["subject-foundation migration", subjectFoundations]
+    ["reusable-mechanic migration", reusableMechanics], ["subject-foundation migration", subjectFoundations],
+    ["World progress migration", worldProgress],
+    ["World supplemental evidence migration", supplementalEvidence],
+    ["World source-aware mastery migration", sourceAwareMastery],
+    ["World Stage 8 evidence activation migration", worldEvidenceActivation],
+    ["World evidence advisor hardening migration", worldEvidenceAdvisorHardening]
   ]) {
     assert.doesNotMatch(migration, new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`, "i"), `${name} must not drop legacy table ${legacy}`);
   }
 }
 
-console.log("Learning migration, anti-farming, ownership, scalable-content, reusable-mechanic, and Batch 6 subject schema contract tests passed.");
+console.log("Learning migration, anti-farming, ownership, scalable-content, reusable-mechanic, Batch 6 subject, isolated World progress, supplemental evidence, source-aware mastery isolation, reviewed Stage 8 activation, and live advisor hardening schema tests passed.");

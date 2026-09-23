@@ -1,6 +1,11 @@
 import { LEARNING_SKILLS } from "./catalog";
 import type { LearningAnalyticsSnapshot, LearningAttemptRecord } from "./attempts";
-import type { SkillMasterySnapshot } from "./mastery";
+import {
+  masteryEvidenceSource,
+  masteryEvidenceSourceLabel,
+  type MasteryEvidenceSource,
+  type SkillMasterySnapshot
+} from "./mastery";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
@@ -15,8 +20,24 @@ export interface WeeklyLearningReport {
   qualifyingEvidence: number;
   previousAttempts: number;
   attemptDelta: number;
-  strongestSkill: { id: string; title: string; score: number; level: string } | null;
-  needsPracticeSkill: { id: string; title: string; score: number; level: string } | null;
+  strongestSkill: {
+    id: string;
+    title: string;
+    score: number;
+    level: string;
+    evidenceSource: MasteryEvidenceSource;
+    sourceLabel: string;
+    supplementalQualifyingEvidenceCount: number;
+  } | null;
+  needsPracticeSkill: {
+    id: string;
+    title: string;
+    score: number;
+    level: string;
+    evidenceSource: MasteryEvidenceSource;
+    sourceLabel: string;
+    supplementalQualifyingEvidenceCount: number;
+  } | null;
 }
 
 function time(value: string): number | null {
@@ -81,13 +102,25 @@ export function buildWeeklyLearningReport(
       id: strongest.skill.id,
       title: strongest.skill.title,
       score: strongest.snapshot.score,
-      level: strongest.snapshot.level
+      level: strongest.snapshot.level,
+      evidenceSource: masteryEvidenceSource(strongest.snapshot),
+      sourceLabel: masteryEvidenceSourceLabel(strongest.snapshot),
+      supplementalQualifyingEvidenceCount: Math.max(
+        0,
+        Math.round(strongest.snapshot.supplementalQualifyingEvidenceCount ?? 0)
+      )
     } : null,
     needsPracticeSkill: needsPractice ? {
       id: needsPractice.skill.id,
       title: needsPractice.skill.title,
       score: needsPractice.snapshot.score,
-      level: needsPractice.snapshot.level
+      level: needsPractice.snapshot.level,
+      evidenceSource: masteryEvidenceSource(needsPractice.snapshot),
+      sourceLabel: masteryEvidenceSourceLabel(needsPractice.snapshot),
+      supplementalQualifyingEvidenceCount: Math.max(
+        0,
+        Math.round(needsPractice.snapshot.supplementalQualifyingEvidenceCount ?? 0)
+      )
     } : null
   };
 }

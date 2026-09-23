@@ -19,6 +19,23 @@ Current known issues include:
 
 The canonical remediation plan is `NEXT_PRODUCT_QUALITY_PLAN.md`.
 
+## World → Evidence release state
+
+The reviewed World → Evidence implementation is no longer design-only: Supabase migrations `0047`–`0051` are live on canonical project `estvtgflwkebomsqlolv`, but the application runtime is still **release-pending** until the integrated branch is validated and merged through the protected release flow.
+
+Current limitations/boundaries:
+
+- exactly one World activity is approved as supplemental assessed evidence: `money-s08-activity-02` (`8 - 2 = 6`);
+- Stage 2 price comparison remains deferred;
+- canonical evidence remains age 6–7 only; age 8 stays World completion-only;
+- supplemental evidence rows are still `0` at the database-deployment checkpoint;
+- the live DB registry is active for `money-world-s08-subtraction-v2-assessed`, but current production app `main` observed during rollout did not yet contain the activation runtime;
+- no controlled real/QA-child end-to-end evidence write has been performed after app release yet;
+- World-only evidence remains capped at `exploring` and cannot independently unlock Belajar progression, rewards or certificates;
+- no second World mapping or broad age migration is authorized.
+
+Canonical rollout record: `WORLD_EVIDENCE_LIVE_DB_DEPLOYMENT_2026-09-23.md`.
+
 ## Stage progression vs activity gallery
 
 The 20 September gallery/home work improved hierarchy and added isolated QA-unlock behavior, but the underlying product boundary remains: stage/progression truth and broad child browsing are different concerns.

@@ -143,6 +143,71 @@ The previous governance gap is closed:
 
 Canonical record: `SECRET_SCAN_REQUIRED_GATE_CLOSURE_2026-09-22.md`.
 
+## 1D. World evidence database live / application integration pending
+
+The World evidence workstream has progressed beyond the earlier isolated-pilot state.
+
+Verified database state:
+
+```text
+Supabase project: estvtgflwkebomsqlolv / mainlagi-hub / ap-southeast-1
+0047 world progress persistence:          LIVE
+0048 supplemental evidence foundation:    LIVE
+0049 source-aware mastery isolation:      LIVE
+0050 Stage 8 evidence activation registry:LIVE
+0051 advisor hardening:                   LIVE
+supplemental evidence rows:               0
+```
+
+Safe source checkpoints:
+
+```text
+activation closure:
+checkpoint/world-evidence-stage8-activation-final-closure-green-20260923
+@ 3e30cae5f8f8ebb888e4d58c229bd953e576f615
+
+live DB closure:
+checkpoint/world-evidence-live-db-final-closure-green-20260923
+@ 94062af9944943e5f82011087bff9e4dfd12e2b7
+```
+
+The application side remains release-controlled: the Stage 8 runtime must first be integrated with current `main`, pass full CI on the combined state, and then go through exact-SHA Cloudflare smoke before a controlled real/QA-child evidence write is used for end-to-end verification.
+
+Do not interpret the live DB registry as permission to activate any second World evidence mapping or age-8 canonical evidence.
+
+Canonical detailed record: `WORLD_EVIDENCE_LIVE_DB_DEPLOYMENT_2026-09-23.md`.
+
+## 1E. World evidence integrated with current main — release candidate green
+
+The application integration prerequisite described in 1D is now complete on a dedicated release branch.
+
+```text
+release branch:
+release/world-evidence-integration-20260923
+
+current-main parent:
+17b9ca79749e171f62d3adb86df494badef11732
+
+World/live-DB parent:
+94062af9944943e5f82011087bff9e4dfd12e2b7
+
+integration merge:
+e4999265033b0263e906c2fe287fc08d09bde0bc
+
+Draft release PR:
+#312 -> main
+
+safe checkpoint:
+checkpoint/world-evidence-main-integration-green-20260923
+
+CI:
+#1584 / run 35892514511 — full success
+```
+
+The combined state preserves semantic P0, narration, learning-illustration and visual-containment work from current main while adding the full Petualangan Uang + World evidence stack.
+
+Production application deployment is still pending. No real/QA-child evidence write should be fabricated before the reviewed runtime is merged/deployed.
+
 ## 2. Learning/product baseline
 
 Current learning baseline remains:
@@ -279,7 +344,7 @@ The implementation remains existing-mechanic reuse; it creates no Pattern #48 an
 
 Current project-owner boundary:
 
-1. **Do not touch Mainlagi World**; it is being developed separately.
+1. Mainlagi World is currently authorized only for the validated PR #312 release-candidate scope. Preserve the Stage 8-only supplemental evidence mapping; do not add a second mapping or age-8 canonical evidence in this release.
 2. **Do not resume character development**; Drive character assets are reference-only while paused.
 3. Preserve the closed Mainlagi Belajar WS-05 PR #273 production baseline; any later mechanic runtime starts from a fresh objective/evidence audit.
 4. Preserve 900 activities, 47 active patterns and all mastery/evidence/progression/schema contracts.
