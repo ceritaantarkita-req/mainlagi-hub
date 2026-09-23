@@ -136,9 +136,16 @@ AI visual pre-review at 96/64/48/32px found seven concepts clear enough to proce
 - `action.jump` — strengthen one upward-motion cue and ground separation;
 - `feature.cactus-thick-stem` — emphasize the central thick stem, water-storage cutaway and width cue.
 
-This pre-review is **not human approval and not production approval**.
+PR #301 closed the two source refinements and is **MERGED / LIVE VERIFIED**:
 
-Canonical record: `LEARNING_SEMANTIC_P0_VISUAL_PREREVIEW_2026-09-23.md`.
+- final PR head `1fd71de43aff0b8ad0870655266db472408508e1`;
+- PR CI **#1547 / run `35806660962`** — full success;
+- merged main **`9f6270c79bb92f7cb6ce1d29a2165df54801debf`**;
+- merged-main CI **#1548 / run `35807137419`** — full success including exact-SHA Cloudflare smoke.
+
+This pre-review is **not human approval and not production approval**. Current exact P0 truth remains **0 human-reviewed binaries / 0 approved semantic illustrations / 0 production semantic binaries / 0 runtime activation**.
+
+Canonical records: `LEARNING_SEMANTIC_P0_VISUAL_PREREVIEW_2026-09-23.md` and `LEARNING_SEMANTIC_P0_VISUAL_PREREVIEW_CLOSURE_2026-09-23.md`.
 
 ## 22 September required secret-scan enforcement closure
 
