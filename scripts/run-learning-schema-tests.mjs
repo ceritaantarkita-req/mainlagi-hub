@@ -17,6 +17,7 @@ const worldProgress = readFileSync(path.join(root, "supabase/migrations/0047_wor
 const supplementalEvidence = readFileSync(path.join(root, "supabase/migrations/0048_world_supplemental_evidence_foundation.sql"), "utf8");
 const sourceAwareMastery = readFileSync(path.join(root, "supabase/migrations/0049_source_aware_mastery_isolation.sql"), "utf8");
 const worldEvidenceActivation = readFileSync(path.join(root, "supabase/migrations/0050_world_evidence_stage8_activation.sql"), "utf8");
+const worldEvidenceAdvisorHardening = readFileSync(path.join(root, "supabase/migrations/0051_world_evidence_advisor_hardening.sql"), "utf8");
 
 const requiredTables = [
   "learning_skills", "learning_activities", "learning_activity_skills", "learning_attempts",
@@ -248,6 +249,14 @@ assert.doesNotMatch(worldEvidenceActivation, /total_stars\s*=|total_stars\s*\+/i
 assert.doesNotMatch(worldEvidenceActivation, /insert into public\.learning_certificates/i, "activation must not issue certificates directly");
 assert.doesNotMatch(worldEvidenceActivation, /insert into public\.child_learning_achievements/i, "activation must not issue achievements directly");
 
+assert.match(worldEvidenceAdvisorHardening, /create index if not exists idx_supplemental_evidence_skill_key[\s\S]*learning_supplemental_skill_evidence\(skill_key\)/i, "advisor hardening must add a leftmost skill_key FK index");
+assert.match(worldEvidenceAdvisorHardening, /create policy "supplemental evidence deny direct api"[\s\S]*for all[\s\S]*to anon, authenticated[\s\S]*using \(false\)[\s\S]*with check \(false\)/i, "advisor hardening must make the deny-all API posture explicit");
+assert.match(worldEvidenceAdvisorHardening, /revoke all on public\.learning_supplemental_skill_evidence[\s\S]*from public, anon, authenticated, service_role/i, "advisor hardening must preserve direct-table revoke boundary");
+assert.match(worldEvidenceAdvisorHardening, /grant select on public\.learning_supplemental_skill_evidence to service_role/i, "advisor hardening must preserve service-role read access");
+assert.doesNotMatch(worldEvidenceAdvisorHardening, /grant (insert|update|delete)/i, "advisor hardening must not grant direct supplemental evidence mutation");
+assert.doesNotMatch(worldEvidenceAdvisorHardening, /record_world_skill_evidence[\s\S]*grant execute[\s\S]*authenticated/i, "advisor hardening must not expose the evidence RPC to authenticated clients");
+assert.doesNotMatch(worldEvidenceAdvisorHardening, /insert into public\.learning_attempts|insert into public\.child_learning_progress|insert into public\.learning_certificates|insert into public\.child_learning_achievements/i, "advisor hardening must not mutate Belajar learning/reward/certificate state");
+
 for (const legacy of ["game_sessions", "game_scores", "progress"]) {
   for (const [name, migration] of [
     ["schema", schema], ["functions", functions], ["hardening", hardening], ["advisor hardening", advisorHardening],
@@ -257,10 +266,11 @@ for (const legacy of ["game_sessions", "game_scores", "progress"]) {
     ["World progress migration", worldProgress],
     ["World supplemental evidence migration", supplementalEvidence],
     ["World source-aware mastery migration", sourceAwareMastery],
-    ["World Stage 8 evidence activation migration", worldEvidenceActivation]
+    ["World Stage 8 evidence activation migration", worldEvidenceActivation],
+    ["World evidence advisor hardening migration", worldEvidenceAdvisorHardening]
   ]) {
     assert.doesNotMatch(migration, new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`, "i"), `${name} must not drop legacy table ${legacy}`);
   }
 }
 
-console.log("Learning migration, anti-farming, ownership, scalable-content, reusable-mechanic, Batch 6 subject, isolated World progress, supplemental evidence, source-aware mastery isolation, and reviewed Stage 8 activation schema tests passed.");
+console.log("Learning migration, anti-farming, ownership, scalable-content, reusable-mechanic, Batch 6 subject, isolated World progress, supplemental evidence, source-aware mastery isolation, reviewed Stage 8 activation, and live advisor hardening schema tests passed.");
