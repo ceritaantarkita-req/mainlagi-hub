@@ -2,6 +2,12 @@ import { ACTIVITY_LEARNING_SPECS, getActivityLearningSpec } from "./catalog";
 import { rankActivityRecommendations, type RecommendationReason } from "./progression";
 import { ACTIVITIES, STAGES, type LearningActivity, type LearningProgress, type LearningSubjectId } from "./system";
 import type { LearningAnalyticsSnapshot, LearningAttemptRecord } from "./attempts";
+import {
+  canonicalLastEvidenceAt,
+  canonicalMasteryConfidence,
+  canonicalMasteryLevel,
+  canonicalMasteryScore
+} from "./mastery";
 
 export type AdaptiveRecommendationReason =
   | RecommendationReason
@@ -176,21 +182,30 @@ export function rankAdaptiveLearningV2(args: {
 
       // Reasonable score + low confidence needs varied evidence, not premature
       // difficulty escalation.
-      if (snapshot && snapshot.score >= 0.65 && snapshot.confidence < 0.45 && item.id !== latestSkillAttempt?.activityId) {
+      if (
+        snapshot
+        && canonicalMasteryScore(snapshot) >= 0.65
+        && canonicalMasteryConfidence(snapshot) < 0.45
+        && item.id !== latestSkillAttempt?.activityId
+      ) {
         score += 14;
         if (reason !== "remediate_variant") reason = "build_confidence";
       }
 
-      // Proficient/mastered skills are cooled while fresh, then re-enter via
-      // spaced review. Mastery itself is not decayed or rewritten here.
-      if (snapshot && (snapshot.level === "proficient" || snapshot.level === "mastered")) {
-        const ageDays = daysSince(snapshot.lastEvidenceAt, nowMs);
-        const spacingDays = snapshot.level === "mastered" ? 7 : 5;
-        if (ageDays !== null && ageDays >= spacingDays) {
-          score += snapshot.level === "mastered" ? 12 : 9;
-          if (reason === "practice" || reason === "strengthen_skill") reason = "spaced_review";
-        } else {
-          score -= snapshot.level === "mastered" ? 16 : 10;
+      // Belajar recommendation/progression stays canonical. Supplemental World
+      // evidence may enrich parent-facing mastery context, but it cannot cool,
+      // unlock, or space Belajar practice on its own.
+      if (snapshot) {
+        const canonicalLevel = canonicalMasteryLevel(snapshot);
+        if (canonicalLevel === "proficient" || canonicalLevel === "mastered") {
+          const ageDays = daysSince(canonicalLastEvidenceAt(snapshot), nowMs);
+          const spacingDays = canonicalLevel === "mastered" ? 7 : 5;
+          if (ageDays !== null && ageDays >= spacingDays) {
+            score += canonicalLevel === "mastered" ? 12 : 9;
+            if (reason === "practice" || reason === "strengthen_skill") reason = "spaced_review";
+          } else {
+            score -= canonicalLevel === "mastered" ? 16 : 10;
+          }
         }
       }
     } else if (!descriptor.assessed) {
