@@ -109,12 +109,16 @@ function cactusStemSvg() {
 
 function towelSvg() {
   return svg(`
-    <rect x="110" y="105" width="292" height="280" rx="38" fill="${COLORS.sky}" stroke-width="15"/>
-    <rect x="156" y="142" width="214" height="126" rx="28" fill="${COLORS.white}" stroke-width="13"/>
-    <path d="M179 182 Q256 199 347 182 M179 213 Q256 230 347 213" fill="none" stroke="#9abfd0" stroke-width="5"/>
-    <rect x="137" y="286" width="238" height="34" rx="12" fill="${COLORS.coral}" stroke="none"/>
-    <rect x="137" y="332" width="238" height="30" rx="12" fill="${COLORS.sage}" stroke="none"/>
-    <path d="M136 385 V432 M166 385 V432 M196 385 V432 M226 385 V432 M256 385 V432 M286 385 V432 M316 385 V432 M346 385 V432 M376 385 V432" fill="none" stroke-width="7"/>
+    <path d="M112 120 H400" fill="none" stroke-width="18"/>
+    <circle cx="112" cy="120" r="16" fill="${COLORS.sage}" stroke-width="9"/>
+    <circle cx="400" cy="120" r="16" fill="${COLORS.sage}" stroke-width="9"/>
+    <path d="M162 132 H350 V390 Q350 422 318 422 H194 Q162 422 162 390Z" fill="${COLORS.sky}" stroke-width="15"/>
+    <path d="M190 132 V368 Q190 385 207 385 H305 Q322 385 322 368 V132" fill="${COLORS.white}" stroke-width="11"/>
+    <path d="M211 198 Q256 211 301 198 M211 232 Q256 245 301 232" fill="none" stroke="#9abfd0" stroke-width="5"/>
+    <rect x="195" y="286" width="122" height="28" rx="10" fill="${COLORS.coral}" stroke="none"/>
+    <rect x="195" y="326" width="122" height="24" rx="10" fill="${COLORS.sage}" stroke="none"/>
+    <path d="M190 385 V438 M214 385 V438 M238 385 V438 M262 385 V438 M286 385 V438 M310 385 V438 M334 385 V438" fill="none" stroke-width="7"/>
+    <path d="M104 304 Q88 330 104 346 Q120 330 104 304Z M408 316 Q392 342 408 358 Q424 342 408 316Z" fill="${COLORS.blue}" stroke-width="5"/>
   `);
 }
 
