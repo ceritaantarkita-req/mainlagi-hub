@@ -1,4 +1,5 @@
 # Changelog
+- Semantic P0 visual pre-review refinement PR #301 merged/live verified ke main `9f6270c79bb92f7cb6ce1d29a2165df54801debf`; PR CI #1547 / run `35806660962` dan merged-main CI #1548 / run `35807137419` full success termasuk exact Cloudflare production smoke. Next gate: exact human review 9 binaries; status tetap 0 human-approved / 0 production binary / 0 runtime activation.
 - Semantic P0 candidate generator PR #300 merged/live verified ke main `89adf887e270c2451ae81af8cd6a9bae0b798fbd`; merged-main CI #1546 / run `35805378889` full success termasuk exact Cloudflare production smoke.
 - AI visual pre-review 96/64/48/32px menemukan tujuh candidate cukup jelas untuk lanjut exact human review; source `action.jump` dan `feature.cactus-thick-stem` diperjelas sebelum human review. Tidak ada production approval/runtime activation.
 
