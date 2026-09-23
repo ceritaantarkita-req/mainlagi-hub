@@ -1,4 +1,5 @@
 # Changelog
+- Historical World Draft PRs #282/#295/#305/#307/#308/#309/#310 ditutup sebagai superseded setelah ancestry diverifikasi; seluruh head sudah terkandung di PR #312, yang tetap Draft/unmerged sebagai satu-satunya release path.
 - World evidence release candidate integrated current `main` semantic/narration/illustration work with the full Petualangan Uang + evidence stack via two-parent merge `e4999265033b0263e906c2fe287fc08d09bde0bc`; Draft PR #312 / CI #1584 full success. Supabase remains live through 0051; main/Cloudflare deployment and controlled Stage 8 evidence verification remain pending.
 - Semantic P0 human-review gate PR #304 merged ke main `f0b48cbdbe162fd19e0665f4b29945f6aaa16a5f`; PR CI #1552 / run `35816166334` full success. Gate mengikat review ke exact 9 file + manifest/file SHA, mendukung per-item accept/reject, dan tetap 0 human decision / 0 production approval / 0 runtime activation.
 - PR #302 ditutup sebagai superseded agar docs prereview lama tidak mengembalikan wording next-gate yang sudah usang.

@@ -352,8 +352,8 @@ This changes the database status, not the application release status:
 ```text
 World evidence DB schema/registry = LIVE
 supplemental evidence rows        = 0
-PR #309 activation app/code       = Draft / unmerged
-PR #310 DB hardening/docs         = Draft / unmerged
+PR #309 activation app/code       = closed / superseded by PR #312
+PR #310 DB hardening/docs         = closed / superseded by PR #312
 Cloudflare activation runtime     = NOT DEPLOYED BY THIS WAVE
 ```
 
@@ -380,3 +380,14 @@ Draft release PR:
 The seven overlapping main/World files were explicitly resolved. Combined tests retain English narration, semantic learning-illustration gates, visual containment, World runtime QA and evidence isolation.
 
 The activation is therefore **release-candidate green**, but still not Cloudflare production truth until PR #312 is merged and exact-SHA production smoke succeeds.
+
+## 15. PR stack consolidation follow-up
+
+The isolated activation PR #309 and subsequent hardening PR #310 are now closed as superseded by the current-main integrated Draft PR #312.
+
+No code was dropped: both historical heads are ancestors of the validated integration branch. The active application release boundary is therefore single-path:
+
+```text
+PR #312 -> main
+Draft / unmerged
+```

@@ -297,8 +297,8 @@ Supabase migrations 0047–0051: LIVE
 Stage 8 activation DB registry: LIVE
 supplemental evidence rows:     0
 
-PR #309 activation app/code:     Draft / unmerged
-PR #310 DB hardening/docs:       Draft / unmerged
+PR #309 activation app/code:     closed / superseded by PR #312
+PR #310 DB hardening/docs:       closed / superseded by PR #312
 repository main observed:        17b9ca79749e171f62d3adb86df494badef11732
 Cloudflare Stage 8 runtime:      NOT DEPLOYED BY THIS WAVE
 ```
@@ -361,3 +361,20 @@ CI #1584 / run 35892514511 — full success
 The integration preserved current-main semantic/narration/illustration gates while adding the World runtime/evidence stack. Database state was not changed in this integration wave and remains live through 0051 with zero supplemental evidence rows.
 
 This does **not** yet change the production-app claim: PR #312 is Draft/unmerged and exact-SHA Cloudflare smoke remains pending a main deployment.
+
+## 15. PR stack consolidation follow-up
+
+After the current-main integration passed CI, historical Draft PRs #282, #295, #305, #307, #308, #309 and #310 were closed as superseded.
+
+Their heads are all ancestors of the integrated release head with no missing commits.
+
+The only active release path is now:
+
+```text
+PR #312
+release/world-evidence-integration-20260923
+→ main
+Draft / unmerged / mergeable
+```
+
+Historical branches and immutable checkpoints remain intact for audit/recovery.

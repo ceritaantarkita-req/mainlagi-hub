@@ -1389,7 +1389,7 @@ Activated in the isolated code branch:
 Production/live caveat:
 
 ```text
-PR #309              = unmerged
+PR #309              = closed / superseded by PR #312
 main                 = untouched
 migration 0050 live  = not applied/verified in this wave
 Supabase connector   = 0 visible projects
@@ -1479,8 +1479,8 @@ CI #1581 / run 35884912348 — full success
 Important application boundary:
 
 ```text
-PR #309 activation runtime = Draft / unmerged
-PR #310 DB hardening       = Draft / unmerged
+PR #309 activation runtime = closed / superseded by PR #312
+PR #310 DB hardening       = closed / superseded by PR #312
 main observed              = 17b9ca79749e171f62d3adb86df494badef11732
 Cloudflare activation app  = not deployed by this DB wave
 ```

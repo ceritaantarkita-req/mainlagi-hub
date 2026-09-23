@@ -225,3 +225,28 @@ final PR #312 review
 → controlled authorized Stage 8 evidence verification
 → final production docs closure
 ```
+
+## 9. Historical PR consolidation
+
+After both integration checkpoints passed, the older Draft PR chain was closed as superseded:
+
+```text
+#282 World production wave
+#295 evidence bridge v1
+#305 activation decision
+#307 implementation Wave 1
+#308 implementation Wave 2
+#309 Stage 8 activation
+#310 live-DB hardening
+```
+
+Ancestry was verified before closure: every historical PR head is an ancestor of the current PR #312 head with `behind = 0`.
+
+This is housekeeping only. Historical branches/checkpoints remain available and no production merge occurred.
+
+Single active release path:
+
+```text
+PR #312 -> main
+Draft / unmerged / mergeable
+```
