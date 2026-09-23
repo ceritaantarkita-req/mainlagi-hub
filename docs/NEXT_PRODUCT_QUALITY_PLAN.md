@@ -808,19 +808,20 @@ Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout,
 
 ### 23 September semantic candidate pre-review handoff
 
-PR #300 candidate generator is merged/live verified at main `89adf887...` with merged-main CI #1546 exact smoke.
+PR #300 candidate generator is merged/live verified at main `89adf887...` with merged-main CI #1546 exact smoke. PR #301 refined `action.jump` and `feature.cactus-thick-stem` and is merged/live verified at main `9f6270c79...`, merged-main CI #1548 exact smoke.
 
 Do not build another generic illustration infrastructure layer. Current execution order is:
 
 1. keep the nine-item candidate set fixed;
-2. refine only candidates that fail semantic/small-scale pre-review;
-3. run exact human child-readability review on the generated binaries;
-4. accept/reject each exact binary individually;
-5. only after acceptance, perform separate legal provenance + production-asset approval;
-6. only after production approval, perform separate runtime semantic mapping.
+2. preserve the PR #301 source refinements unless exact review evidence rejects them;
+3. finish/live-verify the exact-file human review evidence gate;
+4. generate the exact nine local binaries and create the non-overwriting review template;
+5. a human reviewer views the exact files and accepts/rejects each binary individually;
+6. only after acceptance, perform separate legal provenance + production-asset approval for accepted items;
+7. only after production approval, perform separate runtime semantic mapping.
 
-Current source refinements before human review:
-- `action.jump`;
-- `feature.cactus-thick-stem`.
+Human review must be bound to the candidate manifest SHA + exact file SHA values. The assistant/agent must not fabricate reviewer identity, timestamp, or `viewedExactFiles:true`.
 
-No production binary or runtime mapping is authorized by this pre-review.
+No production binary or runtime mapping is authorized by AI pre-review or by the review-gate implementation itself.
+
+Safe handoff: `LEARNING_SEMANTIC_SAFE_CHECKPOINT_2026-09-23.md`.

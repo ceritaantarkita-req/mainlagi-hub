@@ -138,7 +138,14 @@ AI visual pre-review at 96/64/48/32px found seven concepts clear enough to proce
 
 This pre-review is **not human approval and not production approval**.
 
-Canonical record: `LEARNING_SEMANTIC_P0_VISUAL_PREREVIEW_2026-09-23.md`.
+PR #301 source refinement is now **MERGED / LIVE VERIFIED** at main `9f6270c79bb92f7cb6ce1d29a2165df54801debf`; merged-main CI **#1548 / run `35807137419`** passed the full matrix and exact Cloudflare production smoke served that SHA.
+
+The next engineering step is an exact-file human review evidence gate on branch `agent/semantic-p0-human-review-gate-20260923`. It binds the human decision to the exact nine candidate files + manifest SHA, supports per-item accept/reject, fails on stale/tampered candidates, and has no authority to approve production, copy to `public/`, mutate the semantic registry, or activate runtime mapping.
+
+Canonical records:
+- `LEARNING_SEMANTIC_P0_VISUAL_PREREVIEW_2026-09-23.md`;
+- `LEARNING_SEMANTIC_P0_HUMAN_REVIEW_GATE_2026-09-23.md`;
+- `LEARNING_SEMANTIC_SAFE_CHECKPOINT_2026-09-23.md`.
 
 ## 22 September required secret-scan enforcement closure
 

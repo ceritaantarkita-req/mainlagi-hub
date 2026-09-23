@@ -197,7 +197,11 @@ Closed containment scope:
 - 320/390/768/1280 dedicated runtime QA;
 - responsive gallery matrix plus desktop 1280 catalog QA.
 
-The semantic registry/provenance gate is now **CLOSED / MERGED / LIVE VERIFIED** through PR #297 -> main `ed7db8a6c5b8a3ee4acc9bcca260b4e0b5776773`, PR CI #1536 and merged-main CI #1537 exact Cloudflare smoke. It starts at 17 review-required / 0 approved / 0 production binary / 0 runtime activation. The active next sub-wave is **exact P0 semantic-art candidate production/review**, not more generic containment or registry work.
+The semantic registry/provenance gate is now **CLOSED / MERGED / LIVE VERIFIED** through PR #297 -> main `ed7db8a6c5b8a3ee4acc9bcca260b4e0b5776773`, PR CI #1536 and merged-main CI #1537 exact Cloudflare smoke. It starts at 17 review-required / 0 approved / 0 production binary / 0 runtime activation.
+
+The exact nine-item P0 candidate generator is merged/live verified through PR #300, and PR #301 refined the JUMP + cactus-thick-stem sources and is merged/live verified at main `9f6270c79bb92f7cb6ce1d29a2165df54801debf`, CI #1548 exact smoke. The active next sub-wave is **exact human child-readability review bound to the generated manifest/file SHA values**.
+
+A review decision is per exact binary. Mixed outcomes are valid. Human acceptance is not production approval; legal provenance/public copy/registry approval and runtime mapping remain later separate waves.
 
 Rules for the next semantic-art pilot:
 
