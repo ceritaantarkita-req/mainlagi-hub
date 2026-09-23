@@ -391,10 +391,11 @@ Current ordered work:
 22. **DONE / GREEN / FINAL DESIGN HANDOFF** — synchronized design closure validated by CI #1535 at `82faddd6...`; checkpoint `checkpoint/world-evidence-bridge-design-closure-green-20260923`;
 23. **DONE / DECISION SELECTED / PRE-ACTIVATION** — the isolated activation-decision wave defers Stage 2 price comparison, selects Stage 8 `8 - 2` as the sole future supplemental-evidence mapping to `math.operation.subtraction.within_10`, keeps age 8 World-only, selects a dedicated server-owned supplemental-evidence boundary, and defines replay/mastery-ceiling isolation; runtime/schema/writes remain disabled;
 24. **IMPLEMENTED ON ISOLATED BRANCH / RUNTIME DISABLED** — Implementation Wave 1 adds migration 0048, additive supplemental-evidence storage, a service-role-only write RPC, disabled server ingestion route, raw-answer canonicalization and anti-farming/security contracts; application and database kill switches remain false;
-25. **NEXT EVIDENCE BOUNDARY** — Stage 8 assessed promotion + source-aware mastery implementation + certificate/report source isolation + live database/security verification must be completed before any runtime activation;
-26. Gian/Naya visual character production remains paused;
-27. bespoke Stage/background art remains optional because current reused backgrounds are approved for the pilot;
-28. World -> Evidence runtime remains disconnected and disabled.
+25. **IMPLEMENTED ON ISOLATED BRANCH / PRE-ACTIVATION** — Implementation Wave 2 adds source-aware mastery provenance, World-only `exploring` ceiling, canonical-Belajar-only progression/adaptive/certificate/achievement gates, parent-report source labels and dedicated isolation regression coverage;
+26. **NEXT ACTIVATION DECISION BOUNDARY** — Stage 8 assessed promotion, application/database gate activation, runtime observation emission, production migration, and live database/security verification remain separately blocked;
+27. Gian/Naya visual character production remains paused;
+28. bespoke Stage/background art remains optional because current reused backgrounds are approved for the pilot;
+29. World -> Evidence runtime remains disconnected and disabled.
 
 
 This policy is intentionally narrower than the long-term Mainlagi 3–12 ambition. It prevents the pilot runtime from drifting into an incoherent one-World-fits-all model.
