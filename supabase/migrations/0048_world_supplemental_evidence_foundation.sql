@@ -193,7 +193,7 @@ begin
 
   if exists (
     select 1
-    from unnest(p_answer_sequence) answer_id
+    from unnest(p_answer_sequence) as answer_row(answer_id)
     where answer_id not in ('answer-4', 'answer-6', 'answer-8')
   ) then
     raise exception using errcode = '22023', message = 'unknown answer option';
@@ -201,7 +201,7 @@ begin
 
   select count(*)::integer
   into v_correct_count
-  from unnest(p_answer_sequence) answer_id
+  from unnest(p_answer_sequence) as answer_row(answer_id)
   where answer_id = 'answer-6';
 
   if v_correct_count <> 1 or p_answer_sequence[v_answer_count] is distinct from 'answer-6' then
