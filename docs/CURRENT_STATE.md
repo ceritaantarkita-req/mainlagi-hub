@@ -1069,6 +1069,47 @@ src/lib/learning/world/moneyWorldEvidenceActivationDesign.ts
 
 This branch does not supersede or move the immutable v1 checkpoints and does not authorize merge/activation by itself.
 
+## World → Evidence implementation wave 1 — BACKEND FOUNDATION / DISABLED
+
+The owner-authorized implementation wave now exists on an isolated branch:
+
+```text
+branch: feature/world-evidence-implementation-wave1-20260923
+base checkpoint:
+checkpoint/world-evidence-activation-design-green-20260923
+@ a8cbbada1895d998211a0340c33424b3d2c67f74
+```
+
+Implemented in branch:
+
+- additive migration `0048_world_supplemental_evidence_foundation.sql`;
+- `learning_supplemental_skill_evidence` storage;
+- service-role-only `public.record_world_skill_evidence(...)` SECURITY DEFINER RPC;
+- disabled `POST /api/learning/world-evidence` server route;
+- raw-answer ingestion canonicalization;
+- ownership / age 6–7 / idempotency / replay / retry / one-content-version anti-farming boundaries;
+- schema + World regression tests.
+
+Activation remains closed at two independent gates:
+
+```text
+application:
+MONEY_WORLD_EVIDENCE_INGESTION_ENABLED = false
+
+database:
+v_mapping_active = false
+```
+
+The Stage 8 source activity is also still authored as `practice`.
+
+No World runtime emission, mastery recompute, Belajar completion/star mutation, certificate mutation or parent-report integration is part of this wave.
+
+Canonical implementation record:
+
+```text
+docs/WORLD_EVIDENCE_IMPLEMENTATION_WAVE1_2026-09-23.md
+```
+
 ## Learning/mastery boundaries
 
 Non-negotiable unless explicitly redesigned with migration/tests:
