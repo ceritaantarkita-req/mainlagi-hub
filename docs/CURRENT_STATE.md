@@ -4,59 +4,24 @@ Last reviewed: **23 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
-## 23 September World evidence main integration release candidate — GREEN / NOT MERGED
+## 24 September World evidence production release — MERGED / LIVE VERIFIED
 
-The reviewed World evidence stack has now been integrated with the actual current `main` baseline on a dedicated release branch without merging production.
-
-```text
-release branch:
-release/world-evidence-integration-20260923
-
-current-main parent:
-17b9ca79749e171f62d3adb86df494badef11732
-
-World/live-DB parent:
-94062af9944943e5f82011087bff9e4dfd12e2b7
-
-integration merge:
-e4999265033b0263e906c2fe287fc08d09bde0bc
-
-Draft release PR:
-#312 -> main
-```
-
-Immutable integration checkpoint:
+PR #312 is merged to production `main`.
 
 ```text
-checkpoint/world-evidence-main-integration-green-20260923
-@ e4999265033b0263e906c2fe287fc08d09bde0bc
-
-CI #1584 / run 35892514511
-full matrix: PASS
+main: ca7f0e77b296682935f9ecbe311cc1028168986f
+CI #1587 / run 35899987986 — full success
+Cloudflare exact-SHA production smoke — success
+checkpoint/world-evidence-production-green-20260924
 ```
 
-The integration explicitly preserves both sides of the previous divergence:
+Supabase `estvtgflwkebomsqlolv` remains healthy with migrations 0047–0051 live. Post-release counts remain: World progress 0, supplemental evidence 0, mastery 26, canonical evidence 51, Belajar progress 3, achievements 10, certificates 0.
 
-- current-main semantic P0 human-review state;
-- English narration gates;
-- learning-illustration semantic/containment gates;
-- World Petualangan Uang runtime/QA;
-- migrations 0047–0051;
-- Stage 8 supplemental evidence;
-- source-aware mastery/certificate isolation;
-- live-DB closure records.
+A first live Stage 8 evidence row was not fabricated: there are 3 active child profiles but 0 age-eligible 6–7 profiles and 0 explicit eligible QA/test profiles.
 
-The seven overlapping files were resolved explicitly rather than by replacing current-main files. Combined Ubuntu/Windows engine suites and combined mobile QA all pass.
+Security follow-up: `private.world_evidence_activation_registry` has RLS disabled. Direct anon/authenticated SELECT/INSERT/UPDATE privileges are false, but RLS hardening requires an explicit operator decision and was not silently applied.
 
-Database state remains live through 0051 with `0` supplemental evidence rows. No DB write is part of this integration wave.
-
-**Application release is still pending.** PR #312 is Draft/unmerged, production smoke is intentionally skipped until a main deployment exists, and no controlled real/QA-child Stage 8 evidence write has been performed.
-
-Canonical integration record:
-
-```text
-docs/WORLD_EVIDENCE_MAIN_INTEGRATION_2026-09-23.md
-```
+Canonical closure: `WORLD_EVIDENCE_PRODUCTION_CLOSURE_2026-09-24.md`.
 
 ## 22 September execution boundary — World untouched / Belajar WS-05 closed
 

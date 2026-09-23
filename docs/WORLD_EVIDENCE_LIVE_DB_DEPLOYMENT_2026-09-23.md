@@ -378,3 +378,12 @@ Draft / unmerged / mergeable
 ```
 
 Historical branches and immutable checkpoints remain intact for audit/recovery.
+
+
+## 16. Application production release follow-up
+
+The application has caught up with the live database: PR #312 is merged at `main` `ca7f0e77b296682935f9ecbe311cc1028168986f`; CI #1587 / run `35899987986` and Cloudflare exact-SHA smoke succeeded.
+
+Post-release `learning_supplemental_skill_evidence` remains 0. No current child is age-eligible 6–7 and no explicit eligible QA/test profile exists, so no synthetic evidence write was performed.
+
+See `WORLD_EVIDENCE_PRODUCTION_CLOSURE_2026-09-24.md`.

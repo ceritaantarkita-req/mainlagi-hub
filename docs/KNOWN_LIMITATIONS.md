@@ -19,22 +19,31 @@ Current known issues include:
 
 The canonical remediation plan is `NEXT_PRODUCT_QUALITY_PLAN.md`.
 
-## World → Evidence release state
+## World → Evidence production state
 
-The reviewed World → Evidence implementation is no longer design-only: Supabase migrations `0047`–`0051` are live on canonical project `estvtgflwkebomsqlolv`, but the application runtime is still **release-pending** until the integrated branch is validated and merged through the protected release flow.
+World → Evidence is now **merged / live verified** through PR #312 and production main `ca7f0e77b296682935f9ecbe311cc1028168986f`. CI #1587 / run `35899987986` passed the full matrix including Cloudflare exact-SHA smoke.
 
-Current limitations/boundaries:
+Current boundaries:
 
-- exactly one World activity is approved as supplemental assessed evidence: `money-s08-activity-02` (`8 - 2 = 6`);
+- only `money-s08-activity-02` is active as supplemental assessed evidence;
 - Stage 2 price comparison remains deferred;
 - canonical evidence remains age 6–7 only; age 8 stays World completion-only;
-- supplemental evidence rows are still `0` at the database-deployment checkpoint;
-- the live DB registry is active for `money-world-s08-subtraction-v2-assessed`, but current production app `main` observed during rollout did not yet contain the activation runtime;
-- no controlled real/QA-child end-to-end evidence write has been performed after app release yet;
-- World-only evidence remains capped at `exploring` and cannot independently unlock Belajar progression, rewards or certificates;
-- no second World mapping or broad age migration is authorized.
+- supplemental evidence rows remain `0`;
+- no active age-eligible 6–7 or explicit eligible QA/test profile exists, so no synthetic evidence row was fabricated;
+- World-only mastery remains capped at `exploring`;
+- no second World mapping or broad age migration is authorized;
+- `private.world_evidence_activation_registry` has RLS disabled. Direct anon/authenticated SELECT/INSERT/UPDATE privileges are false, but RLS hardening remains an explicit operator decision.
 
-Canonical rollout record: `WORLD_EVIDENCE_LIVE_DB_DEPLOYMENT_2026-09-23.md`.
+Candidate hardening SQL, **not executed**:
+
+```sql
+ALTER TABLE private.world_evidence_activation_registry
+ENABLE ROW LEVEL SECURITY;
+```
+
+Review function-owner/RLS semantics and policy requirements before applying it.
+
+Canonical closure: `WORLD_EVIDENCE_PRODUCTION_CLOSURE_2026-09-24.md`.
 
 ## Stage progression vs activity gallery
 
