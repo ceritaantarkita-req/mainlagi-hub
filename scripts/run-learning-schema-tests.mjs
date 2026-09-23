@@ -15,6 +15,7 @@ const reusableMechanics = readFileSync(path.join(root, "supabase/migrations/0012
 const subjectFoundations = readFileSync(path.join(root, "supabase/migrations/0013_new_subject_curriculum_foundations.sql"), "utf8");
 const worldProgress = readFileSync(path.join(root, "supabase/migrations/0047_world_progress_persistence.sql"), "utf8");
 const supplementalEvidence = readFileSync(path.join(root, "supabase/migrations/0048_world_supplemental_evidence_foundation.sql"), "utf8");
+const sourceAwareMastery = readFileSync(path.join(root, "supabase/migrations/0049_source_aware_mastery_isolation.sql"), "utf8");
 
 const requiredTables = [
   "learning_skills", "learning_activities", "learning_activity_skills", "learning_attempts",
@@ -198,6 +199,35 @@ assert.doesNotMatch(supplementalEvidence, /insert into public\.child_skill_maste
 assert.doesNotMatch(supplementalEvidence, /insert into public\.learning_certificates/i, "World evidence must not issue certificates");
 assert.doesNotMatch(supplementalEvidence, /insert into public\.child_learning_achievements/i, "World evidence must not issue achievements");
 
+for (const column of [
+  "canonical_mastery_score",
+  "canonical_confidence",
+  "canonical_mastery_level",
+  "canonical_evidence_count",
+  "canonical_qualifying_evidence_count",
+  "canonical_last_evidence_at",
+  "supplemental_evidence_count",
+  "supplemental_qualifying_evidence_count",
+  "evidence_source_policy"
+]) {
+  assert.match(sourceAwareMastery, new RegExp(`add column if not exists ${column}\\b`, "i"), `Wave 2 missing child_skill_mastery.${column}`);
+}
+assert.match(sourceAwareMastery, /create or replace function public\.recompute_child_skill_mastery\s*\(/i, "Wave 2 source-aware mastery materializer missing");
+assert.match(sourceAwareMastery, /set search_path = pg_catalog, public/i, "Wave 2 mastery materializer must pin search_path");
+assert.match(sourceAwareMastery, /from public\.learning_attempt_skill_evidence[\s\S]*union all[\s\S]*from public\.learning_supplemental_skill_evidence/i, "Wave 2 mastery must combine Belajar and supplemental evidence explicitly");
+assert.match(sourceAwareMastery, /v_canonical_count >= 3[\s\S]*v_combined_level := 'mastered'/i, "mastered must retain a canonical Belajar evidence-count gate");
+assert.match(sourceAwareMastery, /elsif v_canonical_count >= 2[\s\S]*v_combined_level := 'proficient'/i, "proficient must retain a canonical Belajar evidence-count gate");
+assert.match(sourceAwareMastery, /elsif v_canonical_count >= 1[\s\S]*v_combined_level := 'developing'/i, "developing must require canonical Belajar evidence");
+assert.match(sourceAwareMastery, /else[\s\S]*v_combined_level := 'exploring'/i, "World-only source-aware mastery must remain capped at exploring");
+assert.match(sourceAwareMastery, /create or replace function private\.refresh_world_supplemental_mastery\(\)/i, "supplemental mastery trigger helper missing");
+assert.match(sourceAwareMastery, /after insert or update of[\s\S]*or delete[\s\S]*on public\.learning_supplemental_skill_evidence/i, "supplemental evidence changes must recompute source-aware mastery");
+assert.match(sourceAwareMastery, /revoke all on function private\.refresh_world_supplemental_mastery\(\)[\s\S]*from public, anon, authenticated, service_role/i, "supplemental trigger helper must remain private from API roles");
+assert.match(sourceAwareMastery, /canonical_mastery_level in \('proficient','mastered'\)[\s\S]*canonical_qualifying_evidence_count >= 2/i, "certificate eligibility must remain canonical-Belajar-only");
+assert.match(sourceAwareMastery, /'evidence_policy', 'belajar-canonical-only-v2'/i, "certificate snapshot must record canonical-only evidence policy");
+assert.doesNotMatch(sourceAwareMastery, /insert into public\.child_learning_progress/i, "source-aware mastery migration must not forge Belajar completion");
+assert.doesNotMatch(sourceAwareMastery, /update public\.learning_activities/i, "source-aware mastery migration must not promote or rewrite World activities");
+assert.doesNotMatch(sourceAwareMastery, /grant execute on function private\.refresh_world_supplemental_mastery/i, "private supplemental mastery helper must never receive RPC execute grants");
+
 for (const legacy of ["game_sessions", "game_scores", "progress"]) {
   for (const [name, migration] of [
     ["schema", schema], ["functions", functions], ["hardening", hardening], ["advisor hardening", advisorHardening],
@@ -205,10 +235,11 @@ for (const legacy of ["game_sessions", "game_scores", "progress"]) {
     ["content-expansion migration", contentExpansion], ["content-architecture migration", contentArchitecture],
     ["reusable-mechanic migration", reusableMechanics], ["subject-foundation migration", subjectFoundations],
     ["World progress migration", worldProgress],
-    ["World supplemental evidence migration", supplementalEvidence]
+    ["World supplemental evidence migration", supplementalEvidence],
+    ["World source-aware mastery migration", sourceAwareMastery]
   ]) {
     assert.doesNotMatch(migration, new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`, "i"), `${name} must not drop legacy table ${legacy}`);
   }
 }
 
-console.log("Learning migration, anti-farming, ownership, scalable-content, reusable-mechanic, Batch 6 subject, isolated World progress, and fail-closed supplemental World evidence schema contract tests passed.");
+console.log("Learning migration, anti-farming, ownership, scalable-content, reusable-mechanic, Batch 6 subject, isolated World progress, fail-closed supplemental evidence, and source-aware mastery isolation schema tests passed.");
