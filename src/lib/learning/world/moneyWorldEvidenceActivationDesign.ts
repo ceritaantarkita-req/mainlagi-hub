@@ -21,7 +21,7 @@ export interface MoneyWorldEvidenceActivationScopeEntry {
   canonicalSkillId: string | null;
   evidenceContract: Exclude<MechanicEvidenceContractId, "completion_only_v1"> | null;
   evidenceRole: MoneyWorldEvidenceRole;
-  currentAssessment: "practice";
+  currentAssessment: "practice" | "assessed";
   requiredAssessmentBeforeActivation: "assessed" | null;
   eligibleAgeMin: number | null;
   eligibleAgeMax: number | null;
@@ -49,10 +49,10 @@ export const MONEY_WORLD_EVIDENCE_ACTIVATION_DESIGN_VERSION =
  * The v1 runtime bridge remains fail-closed. No World runtime caller may use
  * this constant as authorization to emit canonical evidence or mutate mastery.
  */
-export const MONEY_WORLD_EVIDENCE_ACTIVATION_ENABLED = false;
+export const MONEY_WORLD_EVIDENCE_ACTIVATION_ENABLED = true;
 
 export const MONEY_WORLD_EVIDENCE_ACTIVATION_MODE =
-  "pre-activation-design-disabled" as const;
+  "stage8-supplemental-activated" as const;
 
 /**
  * Product/pedagogy decision for the two v1 candidate relationships.
@@ -99,8 +99,8 @@ export const MONEY_WORLD_EVIDENCE_ACTIVATION_SCOPE: readonly MoneyWorldEvidenceA
     canonicalSkillId: "math.operation.subtraction.within_10",
     evidenceContract: "choice_accuracy_v1",
     evidenceRole: "supplemental",
-    currentAssessment: "practice",
-    requiredAssessmentBeforeActivation: "assessed",
+    currentAssessment: "assessed",
+    requiredAssessmentBeforeActivation: null,
     eligibleAgeMin: 6,
     eligibleAgeMax: 7,
     maxQualifyingEvidencePerContentVersion: 1,
@@ -156,8 +156,8 @@ export const MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY = {
   sourceAwareMasteryImplemented: true,
   certificateIsolationImplemented: true,
   parentReportSourceLabelingImplemented: true,
-  applicationIngestionEnabled: false,
-  databaseMappingEnabled: false
+  applicationIngestionEnabled: true,
+  databaseMappingEnabled: true
 } as const;
 
 export const MONEY_WORLD_EVIDENCE_INTEGRITY_POLICY = {
@@ -210,9 +210,9 @@ export const MONEY_WORLD_EVIDENCE_ACTIVATION_REQUIREMENTS: readonly MoneyWorldEv
   },
   {
     id: "assessed-world-activity-promotion",
-    satisfied: false,
+    satisfied: true,
     reason:
-      "money-s08-activity-02 is still authored as practice. A separate reviewed content change is required before evidence activation."
+      "money-s08-activity-02 is explicitly authored as assessed in the activation wave; the other fifteen World activity placements retain their prior semantics."
   },
   {
     id: "supplemental-evidence-schema-migration",
@@ -228,15 +228,15 @@ export const MONEY_WORLD_EVIDENCE_ACTIVATION_REQUIREMENTS: readonly MoneyWorldEv
   },
   {
     id: "database-mapping-activation",
-    satisfied: false,
+    satisfied: true,
     reason:
-      "record_world_skill_evidence keeps v_mapping_active=false; database writes remain impossible until a later reviewed activation migration."
+      "Migration 0050 activates only money-s08-activity-02 for content version money-world-s08-subtraction-v2-assessed through a private server-owned registry."
   },
   {
     id: "runtime-observation-emission",
-    satisfied: false,
+    satisfied: true,
     reason:
-      "Petualangan Uang runtime still emits no World evidence observation and imports no ingestion adapter."
+      "The Stage 8 assessed tap-choice runtime emits raw answer-sequence observations through the same-origin server endpoint; World completion itself remains independent."
   },
   {
     id: "mastery-source-aware-recompute",
@@ -275,11 +275,11 @@ export function validateMoneyWorldEvidenceActivationDesign(): {
   );
   const deferred = scope.filter((entry) => entry.decision === "deferred");
 
-  if (MONEY_WORLD_EVIDENCE_ACTIVATION_ENABLED) {
-    errors.push("pre-activation design must remain disabled");
+  if (!MONEY_WORLD_EVIDENCE_ACTIVATION_ENABLED) {
+    errors.push("reviewed Stage 8 activation must remain enabled on the activation branch");
   }
-  if (MONEY_WORLD_EVIDENCE_ACTIVATION_MODE !== "pre-activation-design-disabled") {
-    errors.push("activation design mode drifted");
+  if (MONEY_WORLD_EVIDENCE_ACTIVATION_MODE !== "stage8-supplemental-activated") {
+    errors.push("activation mode drifted");
   }
   if (scope.length !== 2 || accepted.length !== 1 || deferred.length !== 1) {
     errors.push("activation scope must resolve exactly one accepted and one deferred v1 candidate");
@@ -292,8 +292,8 @@ export function validateMoneyWorldEvidenceActivationDesign(): {
     subtraction.canonicalSkillId !== "math.operation.subtraction.within_10" ||
     subtraction.evidenceContract !== "choice_accuracy_v1" ||
     subtraction.evidenceRole !== "supplemental" ||
-    subtraction.currentAssessment !== "practice" ||
-    subtraction.requiredAssessmentBeforeActivation !== "assessed" ||
+    subtraction.currentAssessment !== "assessed" ||
+    subtraction.requiredAssessmentBeforeActivation !== null ||
     subtraction.eligibleAgeMin !== 6 ||
     subtraction.eligibleAgeMax !== 7 ||
     subtraction.maxQualifyingEvidencePerContentVersion !== 1 ||
@@ -334,7 +334,7 @@ export function validateMoneyWorldEvidenceActivationDesign(): {
     errors.push("age-8 handling must remain explicit and must not rewrite canonical skill ages");
   }
 
-  const writeBoundaryFlags = [
+  const forbiddenWriteBoundaryFlags = [
     MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.browserDirectDatabaseWriteAllowed,
     MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.browserDirectRpcAllowed,
     MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.directRecordLearningAttemptAllowed,
@@ -343,12 +343,16 @@ export function validateMoneyWorldEvidenceActivationDesign(): {
     MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.canonicalLearningAttemptInsertAllowed,
     MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.canonicalLearningProgressMutationAllowed,
     MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.canonicalRewardMutationAllowed,
-    MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.certificateMutationAllowed,
-    MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.applicationIngestionEnabled,
-    MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.databaseMappingEnabled
+    MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.certificateMutationAllowed
   ];
-  if (writeBoundaryFlags.some(Boolean)) {
-    errors.push("pre-activation implementation must not authorize runtime/write effects");
+  if (forbiddenWriteBoundaryFlags.some(Boolean)) {
+    errors.push("activation must not authorize browser/canonical progression/reward/certificate side effects");
+  }
+  if (
+    !MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.applicationIngestionEnabled ||
+    !MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.databaseMappingEnabled
+  ) {
+    errors.push("reviewed Stage 8 activation gates are not both enabled");
   }
   if (
     !MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.schemaImplemented ||
@@ -372,8 +376,8 @@ export function validateMoneyWorldEvidenceActivationDesign(): {
     errors.push("supplemental evidence anti-farming/mastery ceiling drifted");
   }
 
-  if (MONEY_WORLD_EVIDENCE_ACTIVATION_REQUIREMENTS.every((item) => item.satisfied)) {
-    errors.push("implementation requirements must remain open in pre-activation design");
+  if (!MONEY_WORLD_EVIDENCE_ACTIVATION_REQUIREMENTS.every((item) => item.satisfied)) {
+    errors.push("activation requirements must all be satisfied on the reviewed activation branch");
   }
 
   return { valid: errors.length === 0, errors };
