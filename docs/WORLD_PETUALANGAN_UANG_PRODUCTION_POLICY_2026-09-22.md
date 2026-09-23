@@ -395,7 +395,9 @@ Current ordered work:
 26. **NEXT ACTIVATION DECISION BOUNDARY** — Stage 8 assessed promotion, application/database gate activation, runtime observation emission, production migration, and live database/security verification remain separately blocked;
 27. Gian/Naya visual character production remains paused;
 28. bespoke Stage/background art remains optional because current reused backgrounds are approved for the pilot;
-29. World -> Evidence runtime remains disconnected and disabled.
+29. **ACTIVATION CODE GREEN ON ISOLATED BRANCH** — only `money-s08-activity-02` is promoted to assessed supplemental evidence with content version `money-world-s08-subtraction-v2-assessed`, runtime raw-observation emission and migration `0050`; exact code checkpoint `15f647b9...` passed CI #1573;
+30. **NOT PRODUCTION-DEPLOYED / NOT LIVE-VERIFIED** — PR #309 remains Draft/unmerged, `main` is untouched, and the available Supabase connector returned zero projects, so migrations 0048–0050 and live RLS/RPC/idempotency behavior were not applied/verified against production;
+31. no second World evidence mapping, age-8 expansion, direct `record_learning_attempt(...)` reuse, Belajar completion/star mutation or certificate side effect is authorized by this activation wave.
 
 
 This policy is intentionally narrower than the long-term Mainlagi 3–12 ambition. It prevents the pilot runtime from drifting into an incoherent one-World-fits-all model.
