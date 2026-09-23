@@ -143,15 +143,18 @@ export const MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY = {
   serverOwnsChildOwnershipCheck: true,
   serverOwnsAgeGate: true,
   serverOwnsEvidenceScore: true,
-  proposedPersistenceTable: "learning_supplemental_skill_evidence",
-  proposedPrivateWriteFunction: "private.record_world_skill_evidence",
+  persistenceTable: "learning_supplemental_skill_evidence",
+  serverOnlyWriteFunction: "public.record_world_skill_evidence",
+  serverOnlyWriteFunctionRole: "service_role-only",
   canonicalLearningAttemptInsertAllowed: false,
   canonicalLearningProgressMutationAllowed: false,
   canonicalRewardMutationAllowed: false,
   certificateMutationAllowed: false,
-  schemaImplemented: false,
-  endpointImplemented: false,
-  privateWriteFunctionImplemented: false
+  schemaImplemented: true,
+  endpointImplemented: true,
+  serverOnlyWriteFunctionImplemented: true,
+  applicationIngestionEnabled: false,
+  databaseMappingEnabled: false
 } as const;
 
 export const MONEY_WORLD_EVIDENCE_INTEGRITY_POLICY = {
@@ -188,7 +191,7 @@ export const MONEY_WORLD_EVIDENCE_ACTIVATION_REQUIREMENTS: readonly MoneyWorldEv
     id: "server-write-architecture-selected",
     satisfied: true,
     reason:
-      "A dedicated server route plus private supplemental-evidence write boundary is selected; direct record_learning_attempt reuse stays forbidden."
+      "A dedicated server route plus a service-role-only SECURITY DEFINER supplemental-evidence RPC is selected; direct record_learning_attempt reuse stays forbidden."
   },
   {
     id: "progression-reward-isolation-design",
@@ -210,15 +213,27 @@ export const MONEY_WORLD_EVIDENCE_ACTIVATION_REQUIREMENTS: readonly MoneyWorldEv
   },
   {
     id: "supplemental-evidence-schema-migration",
-    satisfied: false,
+    satisfied: true,
     reason:
-      "The additive supplemental-evidence table and private write function are design-selected but not implemented."
+      "Migration 0048 implements the additive supplemental-evidence table and service-role-only write RPC, with its database mapping kill switch still false."
   },
   {
     id: "server-endpoint-implementation",
+    satisfied: true,
+    reason:
+      "The server-owned /api/learning/world-evidence route exists, authenticates before writes when enabled, and remains application-disabled."
+  },
+  {
+    id: "database-mapping-activation",
     satisfied: false,
     reason:
-      "The server-owned /api/learning/world-evidence ingestion route does not exist yet."
+      "record_world_skill_evidence keeps v_mapping_active=false; database writes remain impossible until a later reviewed activation migration."
+  },
+  {
+    id: "runtime-observation-emission",
+    satisfied: false,
+    reason:
+      "Petualangan Uang runtime still emits no World evidence observation and imports no ingestion adapter."
   },
   {
     id: "mastery-source-aware-recompute",
@@ -326,12 +341,20 @@ export function validateMoneyWorldEvidenceActivationDesign(): {
     MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.canonicalLearningProgressMutationAllowed,
     MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.canonicalRewardMutationAllowed,
     MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.certificateMutationAllowed,
-    MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.schemaImplemented,
-    MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.endpointImplemented,
-    MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.privateWriteFunctionImplemented
+    MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.applicationIngestionEnabled,
+    MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.databaseMappingEnabled
   ];
   if (writeBoundaryFlags.some(Boolean)) {
-    errors.push("pre-activation design must not silently implement or authorize write effects");
+    errors.push("pre-activation implementation must not authorize runtime/write effects");
+  }
+  if (
+    !MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.schemaImplemented ||
+    !MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.endpointImplemented ||
+    !MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.serverOnlyWriteFunctionImplemented ||
+    MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.serverOnlyWriteFunction !== "public.record_world_skill_evidence" ||
+    MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.serverOnlyWriteFunctionRole !== "service_role-only"
+  ) {
+    errors.push("implementation-wave backend foundation is incomplete");
   }
 
   if (
