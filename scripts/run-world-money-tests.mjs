@@ -33,6 +33,7 @@ const narrationReview = require(path.join(outDir, "src", "lib", "learning", "wor
 const ageMigration = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldAgeMigrationAudit.js"));
 const evidenceBridge = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldEvidenceBridge.js"));
 const evidenceActivation = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldEvidenceActivationDesign.js"));
+const evidenceIngestion = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldEvidenceIngestion.js"));
 const presentation = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldPresentation.js"));
 const assets = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldAssets.js"));
 const progress = require(path.join(outDir, "src", "lib", "learning", "world", "progress.js"));
@@ -550,8 +551,14 @@ try {
   assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.canonicalLearningProgressMutationAllowed, false);
   assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.canonicalRewardMutationAllowed, false);
   assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.certificateMutationAllowed, false);
-  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.schemaImplemented, false);
-  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.endpointImplemented, false);
+  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.persistenceTable, "learning_supplemental_skill_evidence");
+  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.serverOnlyWriteFunction, "public.record_world_skill_evidence");
+  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.serverOnlyWriteFunctionRole, "service_role-only");
+  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.schemaImplemented, true);
+  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.endpointImplemented, true);
+  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.serverOnlyWriteFunctionImplemented, true);
+  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.applicationIngestionEnabled, false);
+  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.databaseMappingEnabled, false);
   assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_INTEGRITY_POLICY.maxQualifyingEvidencePerActivityContentVersion, 1);
   assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_INTEGRITY_POLICY.repeatedStaticQuestionCanCreateAdditionalMasteryEvidence, false);
   assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_INTEGRITY_POLICY.worldOnlyMasteryCeiling, "exploring");
@@ -563,6 +570,79 @@ try {
   assert.ok(
     evidenceActivation.MONEY_WORLD_EVIDENCE_ACTIVATION_REQUIREMENTS.some((requirement) => requirement.satisfied === false),
     "implementation requirements must remain open before activation"
+  );
+
+  assert.equal(evidenceIngestion.MONEY_WORLD_EVIDENCE_INGESTION_VERSION, "money-world-evidence-ingestion-v1");
+  assert.equal(evidenceIngestion.MONEY_WORLD_EVIDENCE_CONTENT_VERSION, "money-world-s08-subtraction-v1");
+  assert.equal(evidenceIngestion.MONEY_WORLD_EVIDENCE_INGESTION_ENABLED, false, "World evidence ingestion must remain application-disabled");
+
+  const ingestionObservation = {
+    clientObservationId: "world-observation-001",
+    childId: "11111111-1111-4111-8111-111111111111",
+    worldId: world.MONEY_WORLD_ID,
+    stageId: "money-stage-08-final-festival",
+    worldActivityId: "money-s08-activity-02",
+    mechanicId: "tap_choice",
+    contentVersion: evidenceIngestion.MONEY_WORLD_EVIDENCE_CONTENT_VERSION,
+    status: "completed",
+    answerSequence: ["answer-4", "answer-6"],
+    inputMode: "touch",
+    startedAt: "2026-09-23T10:00:00.000Z",
+    completedAt: "2026-09-23T10:00:05.000Z"
+  };
+  const ingestionEvaluation = evidenceIngestion.evaluateMoneyWorldEvidenceIngestion(ingestionObservation);
+  assert.equal(ingestionEvaluation.disposition, "blocked");
+  assert.ok(ingestionEvaluation.blockers.includes("ingestion-disabled"), "application kill switch must block ingestion");
+  assert.ok(ingestionEvaluation.blockers.includes("source-activity-not-assessed"), "current practice-authored Stage 8 activity must remain an independent blocker");
+  assert.equal(ingestionEvaluation.serverMappedSkillId, "math.operation.subtraction.within_10");
+  assert.equal(ingestionEvaluation.serverMappedEvidenceContract, "choice_accuracy_v1");
+  assert.equal(ingestionEvaluation.derivedMetrics.correctCount, 1);
+  assert.equal(ingestionEvaluation.derivedMetrics.incorrectCount, 1);
+  assert.equal(ingestionEvaluation.derivedMetrics.retryCount, 1);
+  assert.equal(ingestionEvaluation.derivedMetrics.accuracy, 0.5);
+  assert.equal(ingestionEvaluation.derivedMetrics.durationMs, 5000);
+  assert.equal(ingestionEvaluation.writePayload, null, "disabled/practice source must not yield an RPC payload");
+
+  const forgedCanonicalObservation = evidenceIngestion.evaluateMoneyWorldEvidenceIngestion({
+    ...ingestionObservation,
+    skillKey: "math.operation.subtraction.within_10",
+    accuracy: 1,
+    evidenceWeight: 3,
+    qualifiesForMastery: true
+  });
+  assert.ok(
+    forgedCanonicalObservation.blockers.includes("client-canonical-field-forbidden"),
+    "client must not choose canonical skill, accuracy, evidence weight, or mastery eligibility"
+  );
+
+  const badAnswerSequence = evidenceIngestion.evaluateMoneyWorldEvidenceIngestion({
+    ...ingestionObservation,
+    answerSequence: ["answer-6", "answer-4"]
+  });
+  assert.ok(
+    badAnswerSequence.blockers.includes("invalid-answer-sequence"),
+    "completed subtraction evidence must end with exactly one canonical correct answer"
+  );
+
+  const demoEvidence = evidenceIngestion.evaluateMoneyWorldEvidenceIngestion({
+    ...ingestionObservation,
+    childId: "demo-gian"
+  });
+  assert.ok(demoEvidence.blockers.includes("invalid-child-id"), "demo sandbox must not create canonical supplemental evidence");
+
+  const worldEvidenceRouteSource = readFileSync(
+    path.join(root, "src/app/api/learning/world-evidence/route.ts"),
+    "utf8"
+  );
+  assert.match(worldEvidenceRouteSource, /MONEY_WORLD_EVIDENCE_INGESTION_ENABLED[\s\S]*world-evidence-ingestion-disabled/, "server route must fail closed behind the application kill switch");
+  assert.match(worldEvidenceRouteSource, /requireParentSession\(\)/, "enabled ingestion must require a server-verified authenticated session");
+  assert.match(worldEvidenceRouteSource, /getAdminClient\(\)/, "World evidence RPC must be called only through the server service-role boundary");
+  assert.match(worldEvidenceRouteSource, /admin\.rpc\("record_world_skill_evidence"/, "server route must use the dedicated supplemental-evidence RPC");
+  assert.doesNotMatch(worldEvidenceRouteSource, /record_learning_attempt/, "World endpoint must never reuse canonical Belajar attempt RPC");
+  assert.doesNotMatch(
+    narrationRuntimeSource,
+    /moneyWorldEvidenceIngestion|\/api\/learning\/world-evidence|record_world_skill_evidence/,
+    "Petualangan Uang runtime must remain disconnected from the evidence backend in implementation wave 1"
   );
 
   for (const candidate of evidenceBridge.MONEY_WORLD_EVIDENCE_CANDIDATES) {
