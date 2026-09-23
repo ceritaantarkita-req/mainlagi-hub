@@ -45,7 +45,9 @@ Confirmed examples include:
 
 The 43-source-file / 280-field emoji inventory remains an inventory signal, not a defect or replacement count. Exact letter/script glyphs, stable instructional symbols and decorative UI must not be swept into the pictorial-art migration.
 
-The semantic illustration registry/provenance gate is now closed/live verified through PR #297 -> main `ed7db8a6c5b8a3ee4acc9bcca260b4e0b5776773`, merged-main CI #1537 exact Cloudflare smoke. It contains 17 review-required semantic slots and blocks stray/unapproved production binaries. The remaining limitation is the **actual exact semantic art**: 0 semantic illustration slots are approved, 0 production binaries exist in the dedicated subtree, and runtime activation remains 0. The next safe implementation is exact P0 candidate production/review followed by separate provenance approval and later runtime mapping.
+The semantic illustration registry/provenance gate is closed/live verified through PR #297. The exact nine-item P0 generator and source refinements are closed/live verified through PR #300/#301. The exact-file human review evidence gate is merged through PR #304 -> main `f0b48cbdbe162fd19e0665f4b29945f6aaa16a5f`, with PR CI #1552 full success and merged-main CI #1553 as the post-merge verification run.
+
+The remaining limitation is now the **actual human decision on the exact nine generated binaries**: 0 exact P0 binaries have a recorded human review, 0 have human acceptance, 0 semantic illustration slots are production-approved, 0 production binaries exist, and runtime semantic activation remains 0. Human acceptance must still be followed by separate legal provenance/production approval and later runtime mapping.
 
 Canonical records:
 - `LEARNING_ILLUSTRATION_CONSISTENCY_AUDIT_2026-09-22.md`;
