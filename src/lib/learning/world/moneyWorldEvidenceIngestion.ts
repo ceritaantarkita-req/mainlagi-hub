@@ -10,13 +10,13 @@ export const MONEY_WORLD_EVIDENCE_INGESTION_VERSION =
   "money-world-evidence-ingestion-v1";
 
 export const MONEY_WORLD_EVIDENCE_CONTENT_VERSION =
-  "money-world-s08-subtraction-v1";
+  "money-world-s08-subtraction-v2-assessed";
 
 /**
  * Application-side kill switch. The database function also remains disabled,
  * so changing this constant alone cannot activate evidence writes.
  */
-export const MONEY_WORLD_EVIDENCE_INGESTION_ENABLED = false;
+export const MONEY_WORLD_EVIDENCE_INGESTION_ENABLED = true;
 
 const MAX_ANSWER_SEQUENCE = 32;
 const MAX_DURATION_MS = 7_200_000;
