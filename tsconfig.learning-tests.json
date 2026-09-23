@@ -88,6 +88,7 @@
     "src/lib/learning/world/moneyWorldEvidenceBridge.ts",
     "src/lib/learning/world/moneyWorldEvidenceActivationDesign.ts",
     "src/lib/learning/world/moneyWorldEvidenceIngestion.ts",
+    "src/lib/learning/world/moneyWorldEvidenceClient.ts",
     "src/lib/learning/world/moneyWorldAgeMigrationAudit.ts",
     "src/lib/learning/world/moneyWorldNarration.ts",
     "src/lib/learning/world/moneyWorldNarrationProduction.ts",
