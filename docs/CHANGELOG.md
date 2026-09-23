@@ -9,6 +9,13 @@
 
 ## Unreleased — 23 September 2026
 
+- Started a separate external vector asset-library workstream under the project-owner Drive folder `asset-vector`; created categorized folders plus a provenance/index area.
+- Added `MAINLAGI_ILLUSTRATION_ASSET_INDEX` with 91 needed-stock rows, 125 existing-artwork rows, license rules and source-collection tracking.
+- First 13-file P0 SVG sourcing experiment was retained as staging evidence but rejected as a unified Mainlagi style because the contact sheet mixed silhouettes, outlines, sketch art and flat-color illustration.
+- Corrected sourcing policy to collection-first/style-family-first. Staged 2 food-family SVGs and 7 weather-family SVGs for the next visual/provenance review.
+- No external stock asset was production-approved, copied into semantic production paths, or runtime-activated. No prompt/choice/answer/evidence/mastery/progression/schema, Mainlagi World, character, or narration-runtime change.
+- Added safe handoff: `LEARNING_ASSET_VECTOR_LIBRARY_SAFE_CHECKPOINT_2026-09-23.md`.
+
 - Semantic illustration provenance gate PR #297 sudah merged/live verified ke main `ed7db8a6c5b8a3ee4acc9bcca260b4e0b5776773`; PR CI #1536 / run `35769098899` dan merged-main CI #1537 / run `35770021133` full success termasuk exact Cloudflare smoke.
 - Menambahkan registry semantic illustration 17-slot + dedicated `public/artwork/learning-illustrations/` fail-closed validator: 17 review-required / 0 approved / 0 production binary / 0 runtime activation.
 - Preliminary reuse review: apple/cat/fish/umbrella/car/cup/house/bird visually-suitable tetapi provenance-pending; `color-object-ball.webp` eksplisit rejected sebagai semantic ball.

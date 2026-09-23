@@ -1149,3 +1149,20 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 9. Do not touch Mainlagi World and do not resume character development in this workstream.
 
 Do not prioritize activity-count expansion, OCR rollout, large AI tutor work, subscription/paywall, marketplace expansion or major mastery/backend rewrites before the current quality roadmap justifies them.
+
+## 23 September 2026 — external vector asset library checkpoint
+
+A provenance-aware external vector asset library was started as a **research/staging-only** workstream. It does not alter the existing semantic illustration registry, production binaries, or runtime mapping.
+
+Current checkpoint:
+- Drive library `asset-vector` now has categorized folders plus `00_INDEX_AND_PROVENANCE`;
+- `MAINLAGI_ILLUSTRATION_ASSET_INDEX` tracks 91 needed-stock rows and 125 existing-artwork rows;
+- 13 P0 SVGs were downloaded as a technical sourcing experiment, but the combined visual set was rejected as a final style family because it mixed silhouettes, outlines, sketch art and flat color art;
+- sourcing strategy is now collection-first / style-family-first;
+- 9 consistent-family SVGs are staged so far: 2 food assets from one family and 7 weather assets from one family;
+- external stock production-approved: **0**;
+- external stock runtime-active: **0**.
+
+Hard boundary remains: no stock file may be copied into production semantic paths, approved in the registry, or runtime-mapped without exact license/provenance review, visual/human review and a later separate production-approval wave.
+
+Safe handoff: `LEARNING_ASSET_VECTOR_LIBRARY_SAFE_CHECKPOINT_2026-09-23.md`.

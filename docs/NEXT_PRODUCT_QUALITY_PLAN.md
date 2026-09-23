@@ -835,3 +835,22 @@ Human review must be bound to the candidate manifest SHA + exact file SHA values
 No production binary or runtime mapping is authorized by AI pre-review or by the review-gate implementation itself.
 
 Safe handoff: `LEARNING_SEMANTIC_SAFE_CHECKPOINT_2026-09-23.md`.
+
+### 23 September external vector library handoff
+
+A separate external-stock sourcing library now exists to improve future semantic candidates without weakening the existing illustration gates.
+
+Safe execution order:
+1. finish contact-sheet review of collection-family downloads;
+2. reject visually inconsistent packs before final Drive intake;
+3. capture exact source/license/attribution/commercial-use/redistribution evidence per accepted file;
+4. move only accepted **reference/library** assets from staging into categorized `asset-vector` folders;
+5. continue P0/P1 sourcing using collection/style consistency as a hard criterion;
+6. when a specific semantic slot has a strong candidate, create a separate exact-candidate wave bound to the existing semantic registry + exact-file human-review gate;
+7. keep production approval and runtime activation as later, separate gates.
+
+Current truth: 91 needed-stock rows indexed / 125 existing artwork rows indexed / 13 mixed P0 files staged but rejected as a unified style / 9 collection-family files staged / **0 external production approvals / 0 runtime activations**.
+
+Do not replace the current semantic human-review workflow with the stock library. The stock library is candidate supply only.
+
+Safe checkpoint: `LEARNING_ASSET_VECTOR_LIBRARY_SAFE_CHECKPOINT_2026-09-23.md`.

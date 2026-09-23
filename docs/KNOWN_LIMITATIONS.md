@@ -169,3 +169,18 @@ Remaining governance limitations include approving-review count = 0 and `Mobile 
 General OCR/AI learning support is planned, not production-complete, and is **not a priority before the current product-quality work is closed**.
 
 Any future provider integration must keep secrets server-side, minimize child data, avoid automatic raw-camera uploads, and remain optional to core learning.
+
+## External vector asset library
+
+External stock sourcing has begun, but it is currently a **reference/staging library**, not a production asset source.
+
+Known limitations at the 23 September checkpoint:
+- the first 13-file P0 download experiment was technically valid but visually inconsistent and therefore rejected as a unified Mainlagi style set;
+- SVG Repo direct PowerShell requests can return HTTP 429; browser-headless retrieval works for known exact SVG URLs but must be throttled;
+- exact source URL/license/attribution evidence must be recorded per accepted file before final library intake;
+- 9 collection-family SVGs are staged but have not yet completed contact-sheet acceptance, per-file provenance capture, semantic human review, production approval or runtime mapping;
+- no external stock asset is production-approved or runtime-active.
+
+Do not infer production suitability from CC0/public-domain status alone. Style consistency, child readability, semantic identity, small-scale/mobile readability and exact-file human review remain required.
+
+Canonical checkpoint: `LEARNING_ASSET_VECTOR_LIBRARY_SAFE_CHECKPOINT_2026-09-23.md`.
