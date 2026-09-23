@@ -120,6 +120,26 @@ Canonical records:
 - `LEARNING_SEMANTIC_ILLUSTRATION_REGISTRY_PILOT_2026-09-23.md`;
 - `LEARNING_SEMANTIC_ILLUSTRATION_REGISTRY_CLOSURE_2026-09-23.md`.
 
+
+
+### 23 September semantic P0 candidate generator + visual pre-review
+
+The exact nine-item semantic P0 candidate generator is **MERGED / LIVE VERIFIED** through PR #300 -> main `89adf887e270c2451ae81af8cd6a9bae0b798fbd`.
+
+- merged-main CI **#1546 / run `35805378889`** — full success including exact Cloudflare production smoke;
+- generator remains dry-run by default and writes review candidates only under gitignored `internal/`;
+- generated candidates remain `production:false`, `runtimeActive:false`, `humanReviewRequired:true`;
+- no semantic registry lifecycle or runtime mapping was changed by PR #300.
+
+AI visual pre-review at 96/64/48/32px found seven concepts clear enough to proceed to exact human review and identified two source refinements before human review:
+
+- `action.jump` — strengthen one upward-motion cue and ground separation;
+- `feature.cactus-thick-stem` — emphasize the central thick stem, water-storage cutaway and width cue.
+
+This pre-review is **not human approval and not production approval**.
+
+Canonical record: `LEARNING_SEMANTIC_P0_VISUAL_PREREVIEW_2026-09-23.md`.
+
 ## 22 September required secret-scan enforcement closure
 
 Repository secret-history enforcement is **FULLY CLOSED / MERGED / LIVE VERIFIED** through PR **#269**.
