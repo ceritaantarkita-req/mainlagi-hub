@@ -140,7 +140,7 @@ This pre-review is **not human approval and not production approval**.
 
 PR #301 source refinement is now **MERGED / LIVE VERIFIED** at main `9f6270c79bb92f7cb6ce1d29a2165df54801debf`; merged-main CI **#1548 / run `35807137419`** passed the full matrix and exact Cloudflare production smoke served that SHA.
 
-The exact-file human review evidence gate is now **MERGED** through PR #304 -> main `f0b48cbdbe162fd19e0665f4b29945f6aaa16a5f`. PR CI **#1552 / run `35816166334`** passed the full matrix. Merged-main CI **#1553 / run `35824198610`** is the exact post-merge verification for this gate.
+The exact-file human review evidence gate is now **MERGED / LIVE VERIFIED** through PR #304 -> main `f0b48cbdbe162fd19e0665f4b29945f6aaa16a5f`. PR CI **#1552 / run `35816166334`** passed the full matrix. Merged-main CI **#1553 / run `35824198610`** passed the full matrix, permanent visual baseline, and exact-SHA Cloudflare production smoke.
 
 The gate binds review to the exact nine candidate files + manifest SHA, supports per-item accept/reject, fails on stale/tampered candidates, and has no authority to approve production, copy to `public/`, mutate the semantic registry, or activate runtime mapping.
 
