@@ -1205,6 +1205,24 @@ Supabase connector   = 0 visible projects
 
 Therefore this is **green activation code**, not proof of production database activation.
 
+Docs closure checkpoint:
+
+```text
+checkpoint/world-evidence-stage8-activation-docs-green-20260923
+@ e09b04ad9c8e9fa6a0df8e97d9b2264ca9054b5c
+
+CI #1578 / run 35870819543
+full matrix: PASS
+```
+
+Docs-head artifacts:
+
+```text
+mobile-route-qa-screenshots — 10755447115
+activity-quality-audit      — 10755700829
+gameplay-distribution-audit — 10754737638
+```
+
 Canonical record:
 
 ```text
