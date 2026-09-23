@@ -16,6 +16,9 @@ import {
   type LearningSubjectKey
 } from "./catalog";
 import {
+  canonicalMasteryLevel,
+  canonicalQualifyingEvidenceCount,
+  masteryEvidenceSource,
   masteryLabel,
   summarizeSubjectMastery,
   type SkillMasterySnapshot
@@ -347,7 +350,16 @@ export function getSubjectLearningSummary(
 export function getSubjectSkillRows(
   subjectId: LearningSubjectId,
   analytics: LearningAnalyticsSnapshot
-): Array<{ id: string; title: string; score: number; confidence: number; level: string; levelLabel: string }> {
+): Array<{
+  id: string;
+  title: string;
+  score: number;
+  confidence: number;
+  level: string;
+  levelLabel: string;
+  evidenceSource: ReturnType<typeof masteryEvidenceSource>;
+  supplementalQualifyingEvidenceCount: number;
+}> {
   return getSkillsForSubject(subjectId as LearningSubjectKey).map((skill) => {
     const snapshot = analytics.masteryBySkill[skill.id];
     return {
@@ -356,7 +368,12 @@ export function getSubjectSkillRows(
       score: snapshot?.score ?? 0,
       confidence: snapshot?.confidence ?? 0,
       level: snapshot?.level ?? "not_started",
-      levelLabel: masteryLabel(snapshot?.level ?? "not_started")
+      levelLabel: masteryLabel(snapshot?.level ?? "not_started"),
+      evidenceSource: snapshot ? masteryEvidenceSource(snapshot) : "none",
+      supplementalQualifyingEvidenceCount: Math.max(
+        0,
+        Math.round(snapshot?.supplementalQualifyingEvidenceCount ?? 0)
+      )
     };
   });
 }
@@ -369,8 +386,11 @@ export function getLearningAchievements(
   if (analytics.totalAttempts >= 1) achievements.push({ id: "first-attempt", title: "Langkah Pertama", description: "Menyelesaikan percobaan belajar pertama.", icon: "🌱" });
   if (progress.completedActivityIds.length >= 5) achievements.push({ id: "five-activities", title: "Penjelajah Belajar", description: "Menyelesaikan lima aktivitas berbeda.", icon: "🧭" });
   const snapshots = Object.values(analytics.masteryBySkill);
-  if (snapshots.some((item) => item.level === "proficient" || item.level === "mastered")) achievements.push({ id: "first-proficient", title: "Mulai Mahir", description: "Mencapai level mahir pada satu skill.", icon: "✨" });
-  if (snapshots.some((item) => item.level === "mastered")) achievements.push({ id: "first-mastered", title: "Skill Dikuasai", description: "Mengumpulkan evidence konsisten sampai satu skill dikuasai.", icon: "🏆" });
+  if (snapshots.some((item) => {
+    const level = canonicalMasteryLevel(item);
+    return level === "proficient" || level === "mastered";
+  })) achievements.push({ id: "first-proficient", title: "Mulai Mahir", description: "Mencapai level mahir pada satu skill.", icon: "✨" });
+  if (snapshots.some((item) => canonicalMasteryLevel(item) === "mastered")) achievements.push({ id: "first-mastered", title: "Skill Dikuasai", description: "Mengumpulkan evidence konsisten sampai satu skill dikuasai.", icon: "🏆" });
   const exploredSubjects = new Set(analytics.attempts.map((attempt) => attempt.subjectId));
   if (exploredSubjects.size >= SUBJECTS.length) achievements.push({ id: "all-subjects", title: "Petualang Mainlagi", description: "Mencoba semua area belajar Mainlagi.", icon: "🌈" });
   return achievements;
@@ -390,8 +410,13 @@ export function getCertificateEligibility(
   const completionReady = summary.completionRatio >= 1;
   const hasAssessedSkills = assessedSkills.length > 0;
   const masteryReady = hasAssessedSkills && assessedSkills.every((skill) => {
-    const level = analytics.masteryBySkill[skill.id]?.level;
-    return level === "proficient" || level === "mastered";
+    const snapshot = analytics.masteryBySkill[skill.id];
+    if (!snapshot) return false;
+    const level = canonicalMasteryLevel(snapshot);
+    return (
+      (level === "proficient" || level === "mastered")
+      && canonicalQualifyingEvidenceCount(snapshot) >= 2
+    );
   });
   return {
     eligible: completionReady && masteryReady,
@@ -403,8 +428,8 @@ export function getCertificateEligibility(
       : !completionReady
         ? "Selesaikan semua aktivitas inti pada area ini."
         : !masteryReady
-          ? "Kumpulkan evidence latihan yang konsisten sampai skill terukur minimal Mahir."
-          : "Syarat completion dan evidence terpenuhi."
+          ? "Kumpulkan evidence Belajar yang konsisten sampai skill terukur minimal Mahir."
+          : "Syarat completion dan evidence canonical Belajar terpenuhi."
   };
 }
 
