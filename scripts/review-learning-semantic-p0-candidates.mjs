@@ -1,4 +1,3 @@
-import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
