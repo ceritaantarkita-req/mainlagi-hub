@@ -370,6 +370,7 @@ Pattern #42 closure gates are complete. Closure PR #188 merged and closure main 
 
 ## Current evidence records
 
+- [`WORLD_EVIDENCE_ACTIVATION_DECISION_2026-09-23.md`](WORLD_EVIDENCE_ACTIVATION_DECISION_2026-09-23.md) — pre-activation decision contract: Stage 2 deferred, Stage 8 subtraction selected as future supplemental evidence, age 8 World-only, server-owned supplemental write architecture selected; runtime/schema/writes remain disabled.
 - [`WORLD_EVIDENCE_BRIDGE_ARCHITECTURE_2026-09-23.md`](WORLD_EVIDENCE_BRIDGE_ARCHITECTURE_2026-09-23.md) — **GREEN / CHECKPOINTED** design-only, fail-closed World → Belajar evidence/mastery bridge contract; CI #1530 at `38bbe570...`; runtime/schema/writes remain disabled.
 
 - [`WS02_AUDIO_FIRST_INSTRUCTION_LATENCY_2026-09-20.md`](WS02_AUDIO_FIRST_INSTRUCTION_LATENCY_2026-09-20.md) — **MERGED / LIVE VERIFIED** via PR #249 -> main `770d8b6`, PR CI #1144 + merged-main CI #1145 exact Cloudflare smoke; correct-language pre-warm, automatic first instruction, replay/fallback and privacy-safe end-to-end latency evidence.
