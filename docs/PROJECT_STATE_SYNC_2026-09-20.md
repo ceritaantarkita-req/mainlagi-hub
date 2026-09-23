@@ -11,12 +11,23 @@ This document summarizes the current repository/product state through the 23 Sep
 Latest production main:
 
 ```text
-ed7db8a6c5b8a3ee4acc9bcca260b4e0b5776773
+9f6270c79bb92f7cb6ce1d29a2165df54801debf
 ```
 
-This is semantic illustration provenance-gate PR #297. Exact-head PR CI **#1536 / run `35769098899`** passed the full matrix; merged-main CI **#1537 / run `35770021133`** repeated the full matrix and exact Cloudflare smoke confirmed production served `ed7db8a6c5b8a3ee4acc9bcca260b4e0b5776773` on branch `main` with 9 modules and the canonical Supabase backend.
+This is PR #301, the review-only P0 semantic candidate source refinement. Merged-main CI **#1548 / run `35807137419`** passed the full matrix and exact Cloudflare smoke confirmed production serves `9f6270c79bb92f7cb6ce1d29a2165df54801debf` on branch `main` with 9 modules and the canonical Supabase backend.
 
-Containment remains closed/live verified through PR #294. The semantic illustration registry/provenance infrastructure is now also closed/live verified through PR #297 at **17 review-required / 0 approved / 0 production binary / 0 runtime activation**. The active open work is exact P0 semantic-art candidate production/review, not another containment or registry architecture wave.
+Current learning-illustration chain:
+
+- containment/readability: closed/live verified through PR #294;
+- semantic illustration registry/provenance gate: closed/live verified through PR #297 at **17 review-required / 0 approved / 0 production binary / 0 runtime activation**;
+- existing-art creation-basis trace: PR #299;
+- deterministic exact nine-item P0 generator: PR #300;
+- AI small-scale prereview source refinement for `action.jump` and `feature.cactus-thick-stem`: PR #301;
+- active next gate: exact human child-readability review bound to candidate manifest/file SHA values.
+
+The human-review gate branch is `agent/semantic-p0-human-review-gate-20260923`. Until it is merged/live verified, production truth remains PR #301 main. The gate itself cannot approve production, copy assets into `public/`, mutate registry lifecycle, or activate runtime semantic mapping.
+
+Safe checkpoint: `LEARNING_SEMANTIC_SAFE_CHECKPOINT_2026-09-23.md`.
 
 Latest English-narration tooling implementation baseline:
 
