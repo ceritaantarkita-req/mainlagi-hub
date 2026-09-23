@@ -479,8 +479,8 @@ try {
   assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_BRIDGE_ENABLED, false, "World evidence bridge must remain disabled until separately authorized");
   assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_BRIDGE_VALIDATION.valid, true, evidenceBridge.MONEY_WORLD_EVIDENCE_BRIDGE_VALIDATION.errors.join("; "));
   assert.deepEqual(evidenceBridge.MONEY_WORLD_EVIDENCE_BRIDGE_VALIDATION.errors, []);
-  assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_CANDIDATES.length, 2, "only two World activities may remain unapproved canonical-skill candidates");
-  assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_EXCLUSIONS.length, 14, "all other World activities must stay explicitly excluded from mastery");
+  assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_CANDIDATES.length, 1, "only the Stage 8 subtraction activity may remain in the approved future evidence scope");
+  assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_EXCLUSIONS.length, 15, "all other World activities must stay explicitly excluded from mastery");
   assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_BRIDGE_AUDIT.length, activityCount, "bridge audit must cover all World activity placements exactly once");
   assert.equal(
     new Set(evidenceBridge.MONEY_WORLD_EVIDENCE_BRIDGE_AUDIT.map((entry) => entry.worldActivityId)).size,
@@ -503,19 +503,25 @@ try {
   assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_WRITE_BOUNDARY.runtimeHookAuthorized, false);
   assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_WRITE_BOUNDARY.schemaMigrationAuthorized, false);
   assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_WRITE_BOUNDARY.futureServerOwnedAdapterRequired, true);
+  const pedagogyRequirement = evidenceBridge.MONEY_WORLD_EVIDENCE_ACTIVATION_REQUIREMENTS.find(
+    (requirement) => requirement.id === "canonical-mapping-pedagogy-review"
+  );
+  assert.equal(pedagogyRequirement?.satisfied, true, "authorized pedagogical mapping decision must be recorded");
   assert.ok(
-    evidenceBridge.MONEY_WORLD_EVIDENCE_ACTIVATION_REQUIREMENTS.every((requirement) => requirement.satisfied === false),
-    "no activation prerequisite may be silently marked satisfied in design-only mode"
+    evidenceBridge.MONEY_WORLD_EVIDENCE_ACTIVATION_REQUIREMENTS
+      .filter((requirement) => requirement.id !== "canonical-mapping-pedagogy-review")
+      .every((requirement) => requirement.satisfied === false),
+    "all non-pedagogy activation requirements must remain unsatisfied"
   );
 
   for (const candidate of evidenceBridge.MONEY_WORLD_EVIDENCE_CANDIDATES) {
     assert.equal(candidate.decision, "candidate");
-    assert.equal(candidate.mappingStatus, "candidate-unapproved");
+    assert.equal(candidate.mappingStatus, "pedagogy-approved-disabled");
     assert.equal(candidate.sourceAssessment, "practice");
     assert.equal(candidate.canonicalLearningActivityId, null, "candidate must not fake a canonical learning_activity mapping");
     assert.equal(candidate.progressionEffect, "none");
     assert.equal(candidate.rewardEffect, "none");
-    assert.equal(candidate.requiresPedagogyReview, true);
+    assert.equal(candidate.requiresPedagogyReview, false);
     assert.ok(candidate.canonicalSkillId, candidate.worldActivityId + " candidate must name a canonical skill");
     const canonicalSkill = catalog.getLearningSkill(candidate.canonicalSkillId);
     assert.ok(canonicalSkill, candidate.worldActivityId + " candidate skill must exist in canonical catalog");
@@ -550,7 +556,7 @@ try {
   assert.equal(blockedCandidate.canIssueCertificate, false);
   assert.ok(blockedCandidate.blockers.includes("bridge-disabled"));
   assert.ok(blockedCandidate.blockers.includes("world-activity-practice-only"));
-  assert.ok(blockedCandidate.blockers.includes("candidate-mapping-not-approved"));
+  assert.equal(blockedCandidate.blockers.includes("candidate-mapping-not-approved"), false, "approved pedagogy mapping must not retain the old mapping blocker");
   assert.ok(blockedCandidate.blockers.includes("progression-reward-side-effects-not-isolated"));
 
   const spoofedAssessment = evidenceBridge.evaluateMoneyWorldEvidenceObservation({
@@ -564,6 +570,28 @@ try {
   });
   assert.equal(spoofedAssessment.validSourceIdentity, false);
   assert.ok(spoofedAssessment.blockers.includes("source-assessment-spoofed"), "caller must not promote World practice to assessed");
+
+  const rejectedPriceMapping = evidenceBridge.MONEY_WORLD_EVIDENCE_EXCLUSIONS.find(
+    (entry) => entry.worldActivityId === "money-s02-activity-01"
+  );
+  assert.ok(rejectedPriceMapping, "Stage 2 price comparison must remain explicitly audited");
+  assert.equal(rejectedPriceMapping.mappingStatus, "rejected-after-pedagogy-review");
+  assert.equal(rejectedPriceMapping.canonicalSkillId, null);
+  assert.equal(rejectedPriceMapping.assessedEvidenceContract, null);
+  assert.equal(rejectedPriceMapping.requiresPedagogyReview, false);
+
+  const rejectedPriceObservation = evidenceBridge.evaluateMoneyWorldEvidenceObservation({
+    worldId: world.MONEY_WORLD_ID,
+    stageId: "money-stage-02-price-change",
+    worldActivityId: "money-s02-activity-01",
+    mechanicId: "compare",
+    assessment: "practice",
+    status: "completed",
+    accuracy: 1
+  });
+  assert.equal(rejectedPriceObservation.validSourceIdentity, true);
+  assert.equal(rejectedPriceObservation.candidateSkillId, null);
+  assert.ok(rejectedPriceObservation.blockers.includes("no-approved-canonical-skill-mapping"));
 
   const excludedObservation = evidenceBridge.evaluateMoneyWorldEvidenceObservation({
     worldId: world.MONEY_WORLD_ID,
