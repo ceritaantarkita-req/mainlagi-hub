@@ -15,6 +15,11 @@
 - Corrected sourcing policy to collection-first/style-family-first. Staged 2 food-family SVGs and 7 weather-family SVGs for the next visual/provenance review.
 - No external stock asset was production-approved, copied into semantic production paths, or runtime-activated. No prompt/choice/answer/evidence/mastery/progression/schema, Mainlagi World, character, or narration-runtime change.
 - Added safe handoff: `LEARNING_ASSET_VECTOR_LIBRARY_SAFE_CHECKPOINT_2026-09-23.md`.
+- Continued the external vector-library audit against the project-owner stock folder (105 SVGs observed).
+- Copied 11 verified owner-uploaded SVGs into categorized stock-library folders without deleting or moving originals: snowflake, wood, soil, fog, spoon, trash-bin, pencil, ribbon, bread, reusable-bottle and rock.
+- Updated the live illustration index to 33 `FINAL_LIBRARY` rows, 11 `library-ready`, 1 `reuse-ready`, 4 programmatic and 75 still needed.
+- Recorded conservative semantic holds/rejections: sand castle is not generic sand; teddy with large LOVE text is not selected; recycle bottle is not Math Warung bottled water; additional exact-name files remain held when exact provenance cannot be proven.
+- No external stock asset was production-approved or runtime-activated; no owner-uploaded original was deleted.
 
 - Semantic illustration provenance gate PR #297 sudah merged/live verified ke main `ed7db8a6c5b8a3ee4acc9bcca260b4e0b5776773`; PR CI #1536 / run `35769098899` dan merged-main CI #1537 / run `35770021133` full success termasuk exact Cloudflare smoke.
 - Menambahkan registry semantic illustration 17-slot + dedicated `public/artwork/learning-illustrations/` fail-closed validator: 17 review-required / 0 approved / 0 production binary / 0 runtime activation.

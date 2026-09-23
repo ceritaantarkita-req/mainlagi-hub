@@ -1166,3 +1166,22 @@ Current checkpoint:
 Hard boundary remains: no stock file may be copied into production semantic paths, approved in the registry, or runtime-mapped without exact license/provenance review, visual/human review and a later separate production-approval wave.
 
 Safe handoff: `LEARNING_ASSET_VECTOR_LIBRARY_SAFE_CHECKPOINT_2026-09-23.md`.
+
+
+## 23 September 2026 — user stock audit continuation
+
+The live asset index and owner-provided stock folder were re-audited.
+
+Current stock-library truth:
+- user stock folder contains 105 SVG files;
+- `FINAL_LIBRARY` contains 33 stock/reference rows;
+- `NEEDED_STOCK`: 11 `library-ready`, 1 `reuse-ready`, 4 `programmatic`, 75 still `needed`;
+- 11 owner-uploaded SVGs have been copied into categorized library folders after visual + exact license/source verification;
+- owner originals were not deleted or moved;
+- all selected files remain `STOCK_LIBRARY_ONLY`;
+- external stock production approvals: **0**;
+- runtime activations: **0**.
+
+Important semantic holds: sand-castle is not generic sand; teddy with large LOVE text is not selected; recycle bottle is for reusable-bottle habit, not Math Warung bottled water; several other exact-name uploads remain held until exact provenance can be proven.
+
+Safe handoff remains `LEARNING_ASSET_VECTOR_LIBRARY_SAFE_CHECKPOINT_2026-09-23.md`.

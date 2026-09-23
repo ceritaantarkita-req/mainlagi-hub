@@ -854,3 +854,22 @@ Current truth: 91 needed-stock rows indexed / 125 existing artwork rows indexed 
 Do not replace the current semantic human-review workflow with the stock library. The stock library is candidate supply only.
 
 Safe checkpoint: `LEARNING_ASSET_VECTOR_LIBRARY_SAFE_CHECKPOINT_2026-09-23.md`.
+
+
+### Continue owner-stock audit before new semantic candidate wave
+
+Current owner stock: 105 SVG files. Continue matching the remaining 75 `needed` rows against this stock.
+
+Execution rule:
+1. semantic fit first;
+2. visual check;
+3. exact source/license binding;
+4. attribution record when required;
+5. copy into categorized `FINAL_LIBRARY` only;
+6. preserve original owner file;
+7. keep status `STOCK_LIBRARY_ONLY`;
+8. only then consider a separate exact semantic candidate wave + human review.
+
+Current library truth: 33 final stock/reference rows / 11 library-ready / 1 reuse-ready / 0 production-approved / 0 runtime-active.
+
+Do not skip directly from stock library to runtime.

@@ -238,3 +238,177 @@ narration-runtime changes:          0
 ```
 
 This is the safe handoff boundary.
+
+
+## Continuation checkpoint — user-uploaded stock audit (23 September 2026, late session)
+
+The project owner updated `MAINLAGI_ILLUSTRATION_ASSET_INDEX` and uploaded a larger stock folder:
+
+```text
+user stock folder:
+https://drive.google.com/drive/folders/1IuvXry8iMbDiRftBglk9JYcCoSDcsI9j
+observed SVG count: 105
+```
+
+Hard rule honored: **no user-uploaded source file was deleted or moved**. Selected files were copied into the categorized final stock-library folders, leaving originals intact.
+
+### Live spreadsheet structure after owner update
+
+The live Google Sheet now includes:
+
+- `NEEDED_STOCK`
+- `EXISTING_ARTWORK`
+- `LICENSE_RULES`
+- `SOURCE_COLLECTIONS`
+- `FINAL_LIBRARY`
+- `ATTRIBUTION_PROVENANCE`
+
+Current live counts at this checkpoint:
+
+```text
+NEEDED_STOCK data rows:      91
+FINAL_LIBRARY data rows:     33
+ATTRIBUTION_PROVENANCE rows: 6
+status counts:
+  needed:        75
+  library-ready: 11
+  reuse-ready:    1
+  programmatic:   4
+```
+
+`FINAL_LIBRARY` remains a **stock/reference library only**. It is not the production semantic registry.
+
+### User-stock files safely copied into final stock library
+
+The following user-uploaded files were visually checked, exact source/license verified, then **copied** (not moved) into categorized library folders:
+
+```text
+weather.snowflake
+  weather-snowflake__svgrepo-402713.svg
+  SVG Repo / CC0
+
+nature.wood
+  nature-wood__svgrepo-289194.svg
+  SVG Repo / CC0
+
+nature.soil
+  nature-soil__svgrepo-227146.svg
+  SVG Repo / CC0
+
+weather.fog-steam
+  weather-fog__svgrepo-405681.svg
+  SVG Repo / CC0
+  note: suitable for fog; steam may still require a separate semantic asset
+
+object.spoon
+  object-spoon__svgrepo-402737.svg
+  SVG Repo / CC0
+
+habit.trash-bin
+  habit-trash-bin__svgrepo-287570.svg
+  SVG Repo / CC0
+
+object.pencil
+  object-pencil__svgrepo-484688.svg
+  SVG Repo / CC0
+
+object.ribbon
+  object-ribbon__svgrepo-484156.svg
+  SVG Repo / CC0
+
+food.bread
+  food-bread__svgrepo-227403.svg
+  SVG Repo / CC0
+  note: canonical stock can be reused by Math Warung
+
+habit.reusable-bottle
+  habit-reusable-bottle__svgrepo-459777.svg
+  SVG Repo / CC0
+  note: selected for reusable/recycling habit, not Math Warung bottled-water product
+
+nature.rock
+  nature-rock__svgrepo-398225.svg
+  SVG Repo / CC0
+```
+
+All eleven are recorded as:
+
+```text
+VISUAL_CHECK_PASS
+STOCK_LIBRARY_ONLY
+```
+
+They are **not** production-approved and are **not** runtime-active.
+
+### Explicit semantic rejections / holds from the user stock
+
+The following decisions were intentionally conservative:
+
+- `sand-castle-svgrepo-com.svg` was **not** selected for `nature.sand`; the illustration means “sand castle”, not generic sand.
+- `teddy-bear-bear-svgrepo-com.svg` was **not** selected for `object.teddy`; the large “LOVE” text is visually distracting for a clean learning semantic.
+- `water-bottle-svgrepo-com.svg` was **not** selected for `game.warung.water`; the recycling mark changes the intended product meaning. The same uploaded asset was instead selected for `habit.reusable-bottle`.
+- `car-svgrepo-com.svg` is visually usable but held because exact provenance/source binding was not successfully proven during this session.
+- other exact-name files such as bucket, ruler, glass-of-milk, faucet, ice, water-drop, sun and moon are **still held** when exact source/license binding was not strong enough. Do not promote them merely from filename similarity.
+- observed index mapping anomalies remain unresolved: `nature.river-sea` currently points to a branch source URL and `nature.nest` points to a bee source URL. These must be corrected before use.
+
+### Math Warung reuse
+
+`game.warung.bread` is now marked `reuse-ready` and should reuse canonical stock `food.bread`. A separate bread download is not required.
+
+### Provenance rule tightened
+
+Filename similarity, visual suitability, and commercial-friendly source-site reputation are **not enough** for final-library intake.
+
+A stock file may be copied into the categorized final library only when:
+
+1. semantic identity is appropriate;
+2. visual check passes;
+3. exact source page or equivalent reliable source binding is established;
+4. license permits the intended commercial use;
+5. attribution requirement is recorded;
+6. original user-uploaded stock remains untouched;
+7. the copy is still labeled `STOCK_LIBRARY_ONLY`.
+
+### Verification limitation discovered
+
+During exact-source matching, SVG Repo began presenting HTTP 429 / Vercel Security Checkpoint responses. This can make browser/hash comparison temporarily unreliable.
+
+Safe behavior:
+
+- do not treat a security-checkpoint HTML response as an SVG reference;
+- do not infer exact provenance from a visually similar search result;
+- hold the candidate until exact binding can be proven later;
+- preserve the uploaded original and continue with other verified items.
+
+### Updated current truth
+
+```text
+user-uploaded stock SVGs observed: 105
+FINAL_LIBRARY stock/reference rows: 33
+NEEDED_STOCK library-ready: 11
+NEEDED_STOCK reuse-ready: 1
+programmatic-only rows: 4
+still needed: 75
+
+external stock production-approved: 0
+external stock runtime-active: 0
+production semantic registry changes: 0
+production semantic binaries added: 0
+Mainlagi World changes: 0
+character-development changes: 0
+narration-runtime changes: 0
+user-uploaded stock deletions: 0
+```
+
+### Exact next safe sequence
+
+1. Continue audit of the remaining 75 `needed` rows against the 105-file user stock folder.
+2. Prefer exact filename/semantic matches, but require exact source/license binding before final-library intake.
+3. Continue to copy only; never delete or move the owner's original stock files.
+4. Fix the known source-mapping anomalies in `NEEDED_STOCK` before those rows are used.
+5. Keep building `FINAL_LIBRARY` as reference supply only.
+6. Only after a semantic slot has a suitable exact stock candidate should a **new exact candidate wave** be created for human review.
+7. Production approval/provenance remains a separate later gate.
+8. Runtime activation remains the final separate gate.
+
+This continuation is the safe handoff boundary for the user-uploaded stock audit.

@@ -184,3 +184,19 @@ Known limitations at the 23 September checkpoint:
 Do not infer production suitability from CC0/public-domain status alone. Style consistency, child readability, semantic identity, small-scale/mobile readability and exact-file human review remain required.
 
 Canonical checkpoint: `LEARNING_ASSET_VECTOR_LIBRARY_SAFE_CHECKPOINT_2026-09-23.md`.
+
+
+## User-uploaded SVG stock verification limitation
+
+The owner-provided stock folder currently contains 105 SVGs, but not every filename match can safely enter `FINAL_LIBRARY`.
+
+SVG Repo may return HTTP 429 / Vercel Security Checkpoint HTML during exact-source verification. When that happens, exact provenance must be considered unresolved.
+
+Do not:
+- treat filename similarity as license proof;
+- treat a visually similar search result as the exact source;
+- promote held files to final stock/library or production on that basis.
+
+Current safe numbers: 33 final stock/reference rows, 11 library-ready rows, 1 reuse-ready row, 0 external production approvals, 0 runtime activations.
+
+Known index anomalies still requiring correction: `nature.river-sea` points to a branch source URL and `nature.nest` points to a bee source URL.
