@@ -157,13 +157,20 @@ export function validateMoneyWorldContentAudit(): {
     if (!segments.length) errors.push(stage.id + " has no content");
     if (segments[0]?.type !== "narrative") errors.push(stage.id + " must open with narrative");
     if (segments.at(-1)?.type !== "payoff") errors.push(stage.id + " must close with payoff");
-    if (row.activityCount !== 2) errors.push(stage.id + " must keep exactly two practice challenges");
+    if (row.activityCount !== 2) errors.push(stage.id + " must keep exactly two challenges");
     if (row.maxSpokenWords > 18) errors.push(stage.id + " child-facing spoken copy exceeds 18 words");
 
     for (const segment of segments) {
       if (segment.type === "activity") {
-        if (segment.activity.assessment !== "practice") {
-          errors.push(segment.activity.id + " must remain practice-only");
+        const reviewedStage8Assessment =
+          segment.activity.id === "money-s08-activity-02"
+            ? "assessed"
+            : "practice";
+        if (segment.activity.assessment !== reviewedStage8Assessment) {
+          errors.push(
+            segment.activity.id
+              + " assessment drifted; only money-s08-activity-02 may be assessed"
+          );
         }
         if (String(segment.activity.mechanicId) === "motion_game") {
           errors.push(segment.activity.id + " must not require the Bermain motion engine");
