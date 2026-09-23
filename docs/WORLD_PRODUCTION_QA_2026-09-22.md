@@ -552,3 +552,30 @@ existing record_learning_attempt still has Belajar progress/star side effects
 The last point is intentional evidence for why direct reuse of the existing RPC is forbidden.
 
 Passing this QA does not authorize activation.
+
+
+## 21. World → Evidence final design-closure QA — CI #1535
+
+Final synchronized design head:
+
+```text
+82faddd6b90eac603cb2449b8f16d7aff98a1792
+checkpoint: checkpoint/world-evidence-bridge-design-closure-green-20260923
+PR: #295 Draft / unmerged
+```
+
+CI #1535 / run 35768996360 passed the full matrix:
+
+```text
+Quality gate (Ubuntu):        PASS
+Windows compatibility:        PASS
+Production build:             PASS
+Production dependency audit:  PASS
+Secret history scan:          PASS
+Mobile route QA (Chromium):   PASS
+overall:                      SUCCESS
+```
+
+This revalidates the disabled v1 architecture together with its final docs/current-state handoff. It does **not** add an evidence write path.
+
+The activation boundary remains fail-closed and separately authorized.

@@ -1759,3 +1759,53 @@ Frozen guarantees:
 This checkpoint is a **design checkpoint**, not a production activation checkpoint.
 
 Do not move or force-push this branch. PR #295 must remain Draft unless separately authorized.
+
+
+## 50. World → Evidence v1 final design-closure checkpoint — CI #1535
+
+The synchronized v1 architecture handoff is green and frozen.
+
+```text
+head:   82faddd6b90eac603cb2449b8f16d7aff98a1792
+CI:     #1535 / run 35768996360
+branch: checkpoint/world-evidence-bridge-design-closure-green-20260923
+PR:     #295 Draft / open / unmerged
+```
+
+Full matrix:
+
+```text
+Quality gate (Ubuntu):        PASS
+Windows compatibility:        PASS
+Production build:             PASS
+Production dependency audit:  PASS
+Secret history scan:          PASS
+Mobile route QA (Chromium):   PASS
+overall:                      SUCCESS
+```
+
+Artifacts:
+
+```text
+mobile-route-qa-screenshots — 10713213659
+activity-quality-audit      — 10713845267
+gameplay-distribution-audit — 10713730435
+```
+
+This checkpoint freezes the **design closure**, not activation.
+
+Still false/disabled:
+
+- World runtime evidence emission;
+- local/cloud canonical attempt writes;
+- skill-evidence writes;
+- mastery recomputation;
+- Belajar progress/star/reward mutation;
+- certificate mutation;
+- schema/RPC migration;
+- direct reuse of `record_learning_attempt(...)`;
+- promotion of current World practice placements to assessed.
+
+The next evidence wave requires a fresh explicit authorization. Do not infer activation permission from CI success.
+
+Do not move or force-push this checkpoint branch.

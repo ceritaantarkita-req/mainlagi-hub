@@ -252,3 +252,36 @@ Until then:
 ```text
 World → Evidence = designed, green, fail-closed, disabled
 ```
+
+
+## 14. Final closure checkpoint
+
+The complete design-closure head is green and immutable:
+
+```text
+checkpoint/world-evidence-bridge-design-closure-green-20260923
+@ 82faddd6b90eac603cb2449b8f16d7aff98a1792
+CI #1535 / run 35768996360 — full success
+```
+
+This checkpoint includes the green v1 contract plus synchronized architecture/current-state/limitations/QA/policy handoff.
+
+Checkpoint hierarchy:
+
+```text
+implementation contract:
+checkpoint/world-evidence-bridge-contract-green-20260923
+@ 38bbe5704d4d63781410842cbf134dcb76c3ab54
+
+docs synchronization:
+checkpoint/world-evidence-bridge-docs-green-20260923
+@ eb793f442cbee8d38f528cb5dbff0d15784a6200
+
+final design closure:
+checkpoint/world-evidence-bridge-design-closure-green-20260923
+@ 82faddd6b90eac603cb2449b8f16d7aff98a1792
+```
+
+Do not move or force-push any of these branches.
+
+The next step is **not implementation activation**. It is a new owner-authorized decision wave covering candidate mapping approval, age-8 handling, isolated server ingestion, progression/reward isolation, and security/anti-farming acceptance.
