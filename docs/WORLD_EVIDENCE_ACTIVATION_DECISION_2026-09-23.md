@@ -262,3 +262,13 @@ enabled: false
 ```
 
 No SQL migration, RPC, runtime hook, mastery write, progression mutation, reward mutation, or certificate mutation is authorized by this decision document.
+
+## 11. Implementation Wave 1 handoff
+
+The separately authorized backend-foundation implementation is documented in:
+
+```text
+docs/WORLD_EVIDENCE_IMPLEMENTATION_WAVE1_2026-09-23.md
+```
+
+It implements additive supplemental storage, a service-role-only write RPC, a server ingestion route and anti-farming contracts, but keeps application ingestion and the database mapping independently disabled. The Stage 8 source also remains `practice`, and supplemental rows are not yet included in mastery recomputation.
