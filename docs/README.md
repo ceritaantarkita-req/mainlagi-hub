@@ -481,3 +481,5 @@ Canonical records: `ENGLISH_NARRATION_PROVIDER_PILOT_2026-09-22.md`, `ENGLISH_NA
 Next work is candidate generation + human listening review. Mainlagi World remains untouched; character development remains paused; WS-05 remains closed; 900 activities / 47 active patterns / no Pattern #48 remain unchanged.
 
 - [`LEARNING_SEMANTIC_P0_VISUAL_PREREVIEW_2026-09-23.md`](LEARNING_SEMANTIC_P0_VISUAL_PREREVIEW_2026-09-23.md) — AI visual pre-review and two source refinements before exact human semantic review.
+
+- [`LEARNING_SEMANTIC_P0_HUMAN_REVIEW_GATE_CLOSURE_2026-09-23.md`](LEARNING_SEMANTIC_P0_HUMAN_REVIEW_GATE_CLOSURE_2026-09-23.md) — PR #304 exact-file human review evidence gate closure; human semantic decision remains open.
