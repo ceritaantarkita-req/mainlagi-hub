@@ -390,10 +390,11 @@ Current ordered work:
 21. **DONE / GREEN / CHECKPOINTED / DESIGN ONLY** — World -> Evidence v1 architecture validated by CI #1530 at `38bbe570...`; checkpoint `checkpoint/world-evidence-bridge-contract-green-20260923`; 16/16 World activities audited, 2 unapproved Math candidates, 14 exclusions, direct `record_learning_attempt` reuse forbidden, no runtime/schema/write activation;
 22. **DONE / GREEN / FINAL DESIGN HANDOFF** — synchronized design closure validated by CI #1535 at `82faddd6...`; checkpoint `checkpoint/world-evidence-bridge-design-closure-green-20260923`;
 23. **DONE / DECISION SELECTED / PRE-ACTIVATION** — the isolated activation-decision wave defers Stage 2 price comparison, selects Stage 8 `8 - 2` as the sole future supplemental-evidence mapping to `math.operation.subtraction.within_10`, keeps age 8 World-only, selects a dedicated server-owned supplemental-evidence boundary, and defines replay/mastery-ceiling isolation; runtime/schema/writes remain disabled;
-24. **NEXT IMPLEMENTATION BOUNDARY / NOT AUTHORIZED BY THIS POLICY** — any future activation still requires the Stage 8 assessed-evaluator/content decision, additive supplemental-evidence persistence/private write implementation, server ingestion endpoint, source-aware mastery recompute, certificate/report isolation and full ownership/idempotency/replay/security regression;
-25. Gian/Naya visual character production remains paused;
-26. bespoke Stage/background art remains optional because current reused backgrounds are approved for the pilot;
-27. World -> Evidence runtime remains disabled until a separately validated implementation wave explicitly authorizes activation.
+24. **IMPLEMENTED ON ISOLATED BRANCH / RUNTIME DISABLED** — Implementation Wave 1 adds migration 0048, additive supplemental-evidence storage, a service-role-only write RPC, disabled server ingestion route, raw-answer canonicalization and anti-farming/security contracts; application and database kill switches remain false;
+25. **NEXT EVIDENCE BOUNDARY** — Stage 8 assessed promotion + source-aware mastery implementation + certificate/report source isolation + live database/security verification must be completed before any runtime activation;
+26. Gian/Naya visual character production remains paused;
+27. bespoke Stage/background art remains optional because current reused backgrounds are approved for the pilot;
+28. World -> Evidence runtime remains disconnected and disabled.
 
 
 This policy is intentionally narrower than the long-term Mainlagi 3–12 ambition. It prevents the pilot runtime from drifting into an incoherent one-World-fits-all model.
