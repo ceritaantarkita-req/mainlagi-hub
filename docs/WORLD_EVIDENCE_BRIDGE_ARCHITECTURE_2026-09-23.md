@@ -134,29 +134,11 @@ A caller is also forbidden from sending `assessment: assessed` to promote a Worl
 
 ## 5. Current mapping audit
 
-Two activities remain **unapproved candidates**, not active mappings.
+The owner-authorized candidate-scope and pedagogical review is now complete.
 
-### Candidate A
+Exactly one relationship remains in the future evidence scope:
 
-```text
-World:
-money-s02-activity-01
-Stage 2 — price comparison
-mechanic: compare
-current assessment: practice
-
-possible canonical skill:
-math.quantity.comparison
-
-possible mechanic evidence contract:
-choice_accuracy_v1
-```
-
-Reason for keeping it only as a candidate:
-
-the child compares numeric price amounts, but contextual price comparison is not automatically identical to canonical quantity-comparison mastery.
-
-### Candidate B
+### Approved mapping — still disabled
 
 ```text
 World:
@@ -165,20 +147,59 @@ Stage 8 — 8 minus 2
 mechanic: tap_choice
 current assessment: practice
 
-possible canonical skill:
+approved canonical skill:
 math.operation.subtraction.within_10
 
-possible mechanic evidence contract:
+compatible measured contract:
 choice_accuracy_v1
+
+mapping status:
+pedagogy-approved-disabled
 ```
 
-Reason for keeping it only as a candidate:
+Approval rationale:
 
-the objective is structurally close to canonical subtraction, but the World activity is still authored as practice and no canonical bridge activity/write path is approved.
+- the authored prompt directly asks `8 - 2`;
+- the presentation is explicit take-away with `startCount=8` and `removeCount=2`;
+- the correct outcome is objectively `6`;
+- the canonical skill is defined as subtraction within ten;
+- canonical Belajar activities for the same skill use equivalent small-number take-away/subtraction prompts;
+- the reusable `tap_choice` mechanic resolves to `choice_accuracy_v1` when assessed.
 
-The remaining 14 World activities are explicitly excluded from canonical mastery mapping today.
+This is **pedagogical mapping approval only**. The World placement remains `practice`, has no canonical `learning_activity` ID, and cannot emit evidence.
 
-Their financial-literacy objectives do not have compatible canonical Belajar skills merely because their interaction mechanics are measurable.
+### Rejected mapping
+
+```text
+World:
+money-s02-activity-01
+Stage 2 — price comparison
+mechanic: compare
+current assessment: practice
+
+previous candidate:
+math.quantity.comparison
+
+decision:
+rejected-after-pedagogy-review
+```
+
+Reason:
+
+the child chooses which **price is more expensive** inside a price-change/inflation story. Although the visible numbers are 10 and 12, the authored construct is contextual financial price comparison. A correct answer therefore does not isolate the canonical Math quantity-comparison construct strongly enough to justify mastery evidence.
+
+Current audited result:
+
+```text
+16 World activity placements
+16 practice
+0 assessed
+1 pedagogy-approved future evidence mapping
+15 exclusions
+0 active evidence mappings
+```
+
+The rejected price relationship now carries no canonical skill/evidence mapping.
 
 ## 6. Financial-literacy catalog gap
 
@@ -391,12 +412,12 @@ Do not activate by simply wiring World to the existing `record_learning_attempt(
 World regression tests must keep verifying:
 
 - all 16 current World activities remain practice;
-- exact 2 candidate / 14 excluded audit coverage;
+- exact 1 pedagogy-approved-disabled candidate / 15 excluded audit coverage;
 - candidate skill IDs exist;
 - candidate mechanic evidence contracts are compatible;
 - candidate mappings have no canonical learning-activity ID yet;
 - all write permissions remain false;
-- all activation requirements remain unsatisfied;
+- the candidate-scope pedagogical-review requirement is satisfied; every remaining activation requirement stays unsatisfied;
 - valid candidate observation still returns blocked;
 - `practice → assessed` spoof fails closed;
 - excluded activity stays unmapped;
@@ -406,25 +427,26 @@ World regression tests must keep verifying:
 
 ## 18. Next boundary
 
-After this design contract is green, there is still **no activation work by default**.
+Candidate selection and pedagogical mapping are now closed for this wave.
 
-The next World → Evidence step requires a separate user/product authorization to choose:
+The next World → Evidence decision boundary is:
 
 ```text
-candidate scope
-+ pedagogical mapping approval
-+ age handling
-+ server write architecture
+age-8 handling
++ validated assessed World evaluator
++ server-owned evidence write architecture
 + progression/reward isolation
 + schema/RPC impact
++ ownership/idempotency/replay/anti-farming/security
 ```
 
-Until then the correct production state is:
+There is still **no runtime activation by default**.
+
+Until those remaining gates are separately authorized and validated:
 
 ```text
-World → Evidence = designed, fail-closed, disabled
+World → Evidence = one pedagogy-approved mapping, fail-closed, disabled
 ```
-
 
 ## 19. Green validation / immutable design checkpoint
 
@@ -534,3 +556,46 @@ This is the final safe handoff for **v1 architecture design only**.
 It does not supersede the narrower implementation checkpoint at `38bbe570...`; it adds the synchronized closure documentation and current-state handoff around the same disabled contract.
 
 No activation permission is implied by this checkpoint.
+
+## 22. Owner-authorized candidate-scope / pedagogy decision wave
+
+Follow-up branch:
+
+```text
+feature/world-evidence-pedagogy-approval-20260923
+```
+
+Owner authorization in this wave covers only:
+
+```text
+1. candidate scope
+2. pedagogical mapping
+```
+
+Decision:
+
+```text
+APPROVE:
+money-s08-activity-02
+→ math.operation.subtraction.within_10
+→ choice_accuracy_v1 compatible
+→ mappingStatus: pedagogy-approved-disabled
+
+REJECT:
+money-s02-activity-01
+→ no canonical skill mapping
+→ mappingStatus: rejected-after-pedagogy-review
+```
+
+Unchanged safety boundary:
+
+- all 16 World placements remain `practice`;
+- bridge remains `enabled: false`;
+- runtime event emission remains absent;
+- attempt/evidence/mastery writes remain false;
+- Belajar completion/stars/progression remain untouched;
+- SQL/RPC/RLS/schema changes remain zero;
+- age 8, assessed evaluator, server ingestion, side-effect isolation and security/anti-farming remain unresolved activation gates.
+
+This decision supersedes the old **2 candidate / 14 excluded** mapping state for the follow-up branch, but it does not alter or move the immutable earlier checkpoints.
+
