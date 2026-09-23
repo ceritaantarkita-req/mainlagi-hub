@@ -393,6 +393,33 @@ v_mapping_active = false
 
 Migration 0048 does not call `recompute_child_skill_mastery(...)` and does not mutate canonical Belajar progress, rewards, achievements or certificates. Source-aware mastery remains a separate future implementation.
 
+## 19D. Source-aware supplemental mastery isolation
+
+Implementation Wave 2 adds source provenance without making World an equivalent canonical assessment source.
+
+Migration:
+
+```text
+0049_source_aware_mastery_isolation.sql
+```
+
+`child_skill_mastery` now preserves both combined/source-aware state and canonical Belajar state.
+
+Rules:
+
+- World-only supplemental evidence is capped at `exploring`;
+- `developing` requires at least one canonical Belajar qualifying evidence;
+- `proficient` requires at least two canonical Belajar qualifying evidence;
+- `mastered` requires at least three canonical Belajar qualifying evidence and the existing strong/repeated evidence conditions;
+- Belajar stage readiness uses canonical score/count only;
+- Adaptive Learning uses canonical score/confidence/level/last-evidence timestamp;
+- proficiency/mastery achievements use canonical level only;
+- competency certificates require canonical `proficient/mastered` plus at least two canonical qualifying evidence per assessed skill;
+- weekly parent-report qualifying-evidence counts remain Belajar-attempt-only;
+- combined parent mastery may show World supplemental contribution only with explicit source labeling.
+
+This is still pre-activation. World ingestion/application and database mapping switches remain false, Stage 8 remains practice, and the World runtime emits no evidence observation.
+
 ## 20. Change rule
 
 The learning/mastery foundation is currently considered healthy. The next product-quality phase should **not rewrite it by default**.
