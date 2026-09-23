@@ -1,4 +1,10 @@
-import type { SkillMasterySnapshot } from "./mastery";
+import {
+  canonicalMasteryConfidence,
+  canonicalMasteryLevel,
+  canonicalMasteryScore,
+  canonicalQualifyingEvidenceCount,
+  type SkillMasterySnapshot
+} from "./mastery";
 
 export interface ProgressionActivityDescriptor {
   id: string;
@@ -60,9 +66,9 @@ export function calculateStageLearningState(args: {
   const assessedSkills = [...new Set(required.filter((item) => item.assessed).flatMap((item) => item.skillIds))];
   const evidenced = assessedSkills
     .map((skillId) => args.masteryBySkill[skillId])
-    .filter((item): item is SkillMasterySnapshot => Boolean(item && item.qualifyingEvidenceCount > 0));
+    .filter((item): item is SkillMasterySnapshot => Boolean(item && canonicalQualifyingEvidenceCount(item) > 0));
   const evidenceReadiness = evidenced.length
-    ? evidenced.reduce((sum, item) => sum + item.score, 0) / evidenced.length
+    ? evidenced.reduce((sum, item) => sum + canonicalMasteryScore(item), 0) / evidenced.length
     : 0;
   const completed = required.length === 0 || completedCount === required.length;
   const evidenceComplete = assessedSkills.length === 0 || evidenced.length === assessedSkills.length;
@@ -117,9 +123,13 @@ function weakestSnapshot(
     .filter((item): item is SkillMasterySnapshot => Boolean(item));
   if (!snapshots.length) return null;
   return [...snapshots].sort((a, b) => {
-    if (a.qualifyingEvidenceCount !== b.qualifyingEvidenceCount) return a.qualifyingEvidenceCount - b.qualifyingEvidenceCount;
-    if (a.score !== b.score) return a.score - b.score;
-    return a.confidence - b.confidence;
+    const aCount = canonicalQualifyingEvidenceCount(a);
+    const bCount = canonicalQualifyingEvidenceCount(b);
+    if (aCount !== bCount) return aCount - bCount;
+    const aScore = canonicalMasteryScore(a);
+    const bScore = canonicalMasteryScore(b);
+    if (aScore !== bScore) return aScore - bScore;
+    return canonicalMasteryConfidence(a) - canonicalMasteryConfidence(b);
   })[0];
 }
 
@@ -167,12 +177,12 @@ export function rankActivityRecommendations(args: {
 
       let reason: RecommendationReason = completed ? "practice" : "new_activity";
       if (activity.assessed) {
-        if (!weak || weak.qualifyingEvidenceCount === 0) {
+        if (!weak || canonicalQualifyingEvidenceCount(weak) === 0) {
           score += 32;
           reason = "first_evidence";
-        } else if (weak.level !== "mastered") {
-          score += (1 - weak.score) * 30;
-          score += (1 - weak.confidence) * 12;
+        } else if (canonicalMasteryLevel(weak) !== "mastered") {
+          score += (1 - canonicalMasteryScore(weak)) * 30;
+          score += (1 - canonicalMasteryConfidence(weak)) * 12;
           reason = "strengthen_skill";
         } else {
           score -= 18;
