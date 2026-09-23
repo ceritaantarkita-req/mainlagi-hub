@@ -35,12 +35,14 @@ Current design truth:
 
 - World completion / ★★★ remain separate from canonical Belajar activity completion, skill evidence, mastery, stars, stage readiness and certificates.
 - all **16/16** current Petualangan Uang activity placements remain `practice`;
-- exactly **2** Math relationships are candidate-only/unapproved;
-- the remaining **14** are explicit exclusions;
-- no candidate has a canonical `learning_activity` mapping;
+- candidate-scope + pedagogical review is now complete on the owner-authorized follow-up branch;
+- exactly **1** future evidence candidate remains: `money-s08-activity-02` → `math.operation.subtraction.within_10`, with pedagogical mapping approved but still disabled;
+- `money-s02-activity-01` price comparison was rejected from canonical Math evidence because its contextual "more expensive" objective does not isolate quantity comparison strongly enough;
+- the remaining **15** World activities are explicit exclusions from canonical mastery mapping;
+- the approved candidate still has no canonical `learning_activity` mapping;
 - direct World use of `record_learning_attempt(...)` is forbidden because the current RPC also owns canonical Belajar completion/star side effects;
 - local/cloud learning-attempt writes, evidence writes, mastery recompute, Belajar progress/reward mutation, certificate mutation, schema migration and runtime hook remain disabled;
-- activation still requires explicit product authorization, pedagogical mapping approval, age-8 handling, a server-owned ingestion boundary, progression/reward isolation, and ownership/idempotency/replay/security regression coverage.
+- activation still requires explicit product authorization, age-8 handling, a validated assessed World evaluator, a server-owned ingestion boundary, progression/reward isolation, and ownership/idempotency/replay/security regression coverage.
 
 Final isolated design-closure checkpoint:
 
@@ -59,6 +61,14 @@ Canonical isolated design docs:
 - World checkpoint/policy/QA docs.
 
 Do not wire World runtime to the learning-attempt/evidence system from this branch without a separate activation decision.
+
+Owner-authorized decision-wave branch:
+
+```text
+feature/world-evidence-pedagogy-approval-20260923
+```
+
+This branch closes only next-work points **candidate scope** and **pedagogical mapping**. It does not authorize `practice → assessed`, runtime hooks, writes, schema/RPC changes, mastery, progression, rewards, or certificates.
 
 ## 22 September execution boundary — World untouched / Belajar WS-05 active
 
