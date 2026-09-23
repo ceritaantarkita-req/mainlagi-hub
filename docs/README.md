@@ -62,6 +62,19 @@ CI #1583 / run 35886307365 — full success
 
 Canonical rollout record: `WORLD_EVIDENCE_LIVE_DB_DEPLOYMENT_2026-09-23.md`.
 
+## World evidence production closure — 24 September 2026
+
+```text
+main: ca7f0e77b296682935f9ecbe311cc1028168986f
+checkpoint/world-evidence-production-green-20260924
+CI #1587 / run 35899987986 — full success
+Cloudflare exact-SHA smoke — success
+```
+
+Supabase remains live through 0047–0051 with zero supplemental evidence rows. First eligible evidence-write verification is pending because no active age-eligible 6–7 or explicit eligible QA/test profile exists.
+
+Read [WORLD_EVIDENCE_PRODUCTION_CLOSURE_2026-09-24.md](WORLD_EVIDENCE_PRODUCTION_CLOSURE_2026-09-24.md).
+
 ## World evidence current-main integration checkpoint
 
 The full World evidence stack has been integrated with current `main` on a Draft release branch and passed the full combined CI matrix.

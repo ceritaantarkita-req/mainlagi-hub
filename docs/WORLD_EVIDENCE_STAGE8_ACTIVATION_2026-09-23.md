@@ -391,3 +391,12 @@ No code was dropped: both historical heads are ancestors of the validated integr
 PR #312 -> main
 Draft / unmerged
 ```
+
+
+## 16. Production release follow-up
+
+Stage 8 activation is production-live through PR #312 at `main` `ca7f0e77b296682935f9ecbe311cc1028168986f`. CI #1587 / run `35899987986` and Cloudflare exact-SHA smoke succeeded.
+
+The active scope remains exactly `money-s08-activity-02` → `math.operation.subtraction.within_10`. Supplemental evidence rows remain zero because there is no current eligible child/QA profile.
+
+Canonical production closure: `WORLD_EVIDENCE_PRODUCTION_CLOSURE_2026-09-24.md`.

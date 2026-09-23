@@ -208,6 +208,22 @@ The combined state preserves semantic P0, narration, learning-illustration and v
 
 Production application deployment is still pending. No real/QA-child evidence write should be fabricated before the reviewed runtime is merged/deployed.
 
+## 1F. World evidence production release — merged/live verified
+
+```text
+PR #312: merged
+main: ca7f0e77b296682935f9ecbe311cc1028168986f
+CI #1587 / run 35899987986: full success
+Cloudflare exact-SHA production smoke: success
+checkpoint/world-evidence-production-green-20260924
+```
+
+Supabase remains healthy with migrations 0047–0051 live and zero supplemental evidence rows. First legitimate Stage 8 evidence verification remains pending because there is no active eligible 6–7 or explicit eligible QA/test profile.
+
+Separate hardening decision: RLS on `private.world_evidence_activation_registry`. Direct anon/authenticated table privileges are already false.
+
+Canonical closure: `WORLD_EVIDENCE_PRODUCTION_CLOSURE_2026-09-24.md`.
+
 ## 2. Learning/product baseline
 
 Current learning baseline remains:
@@ -344,7 +360,7 @@ The implementation remains existing-mechanic reuse; it creates no Pattern #48 an
 
 Current project-owner boundary:
 
-1. Mainlagi World is currently authorized only for the validated PR #312 release-candidate scope. Preserve the Stage 8-only supplemental evidence mapping; do not add a second mapping or age-8 canonical evidence in this release.
+1. Mainlagi World Stage 8 supplemental evidence is production-live through PR #312. Preserve the single Stage 8 mapping; do not add a second mapping or age-8 canonical evidence without a new authorization.
 2. **Do not resume character development**; Drive character assets are reference-only while paused.
 3. Preserve the closed Mainlagi Belajar WS-05 PR #273 production baseline; any later mechanic runtime starts from a fresh objective/evidence audit.
 4. Preserve 900 activities, 47 active patterns and all mastery/evidence/progression/schema contracts.

@@ -250,3 +250,14 @@ Single active release path:
 PR #312 -> main
 Draft / unmerged / mergeable
 ```
+
+
+## 10. Production release closure follow-up
+
+PR #312 is merged to `main` `ca7f0e77b296682935f9ecbe311cc1028168986f`. CI #1587 / run `35899987986` passed the full matrix including Cloudflare exact-SHA smoke.
+
+Production checkpoint: `checkpoint/world-evidence-production-green-20260924`.
+
+Database counts remain unchanged and supplemental evidence rows remain zero. No eligible 6–7/QA profile exists, so no synthetic evidence row was created.
+
+Canonical production closure: `WORLD_EVIDENCE_PRODUCTION_CLOSURE_2026-09-24.md`.
