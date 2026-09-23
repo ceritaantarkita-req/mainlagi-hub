@@ -48,6 +48,20 @@ Read these first for current work:
 
 Subsystem docs remain authoritative for their specific scope when they do not conflict with the canonical documents above.
 
+## World evidence live DB / application release pending
+
+World evidence database migrations `0047`–`0051` are live on canonical Supabase project `estvtgflwkebomsqlolv`, with zero supplemental evidence rows at the closure checkpoint. The application activation stack remains release-controlled until integrated with current `main`, validated through full CI, and deployed through exact-SHA Cloudflare smoke.
+
+Safe closure checkpoint:
+
+```text
+checkpoint/world-evidence-live-db-final-closure-green-20260923
+@ 94062af9944943e5f82011087bff9e4dfd12e2b7
+CI #1583 / run 35886307365 — full success
+```
+
+Canonical rollout record: `WORLD_EVIDENCE_LIVE_DB_DEPLOYMENT_2026-09-23.md`.
+
 ## Current project checkpoint — 23 September 2026
 
 ```text

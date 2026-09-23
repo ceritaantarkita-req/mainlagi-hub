@@ -143,6 +143,40 @@ The previous governance gap is closed:
 
 Canonical record: `SECRET_SCAN_REQUIRED_GATE_CLOSURE_2026-09-22.md`.
 
+## 1D. World evidence database live / application integration pending
+
+The World evidence workstream has progressed beyond the earlier isolated-pilot state.
+
+Verified database state:
+
+```text
+Supabase project: estvtgflwkebomsqlolv / mainlagi-hub / ap-southeast-1
+0047 world progress persistence:          LIVE
+0048 supplemental evidence foundation:    LIVE
+0049 source-aware mastery isolation:      LIVE
+0050 Stage 8 evidence activation registry:LIVE
+0051 advisor hardening:                   LIVE
+supplemental evidence rows:               0
+```
+
+Safe source checkpoints:
+
+```text
+activation closure:
+checkpoint/world-evidence-stage8-activation-final-closure-green-20260923
+@ 3e30cae5f8f8ebb888e4d58c229bd953e576f615
+
+live DB closure:
+checkpoint/world-evidence-live-db-final-closure-green-20260923
+@ 94062af9944943e5f82011087bff9e4dfd12e2b7
+```
+
+The application side remains release-controlled: the Stage 8 runtime must first be integrated with current `main`, pass full CI on the combined state, and then go through exact-SHA Cloudflare smoke before a controlled real/QA-child evidence write is used for end-to-end verification.
+
+Do not interpret the live DB registry as permission to activate any second World evidence mapping or age-8 canonical evidence.
+
+Canonical detailed record: `WORLD_EVIDENCE_LIVE_DB_DEPLOYMENT_2026-09-23.md`.
+
 ## 2. Learning/product baseline
 
 Current learning baseline remains:

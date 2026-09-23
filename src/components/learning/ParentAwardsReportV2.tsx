@@ -69,7 +69,7 @@ export function ParentWeeklyReportV2Screen({ childId }: { childId: string }) {
       <ParentChildHeader childId={childId} />
       <h2 style={{ color: "#24445e" }}>Laporan belajar mingguan</h2>
       <p className={styles.pageLead}>
-        Periode 7 hari terakhir. Ringkasan berasal dari learning attempts dan mastery canonical; bukan diagnosis kecerdasan atau perkembangan anak.
+        Periode 7 hari terakhir. Aktivitas dan qualifying evidence mingguan berasal dari Belajar; mastery dapat menampilkan evidence tambahan dari World bila tersedia, dengan sumber yang dilabeli. Ini bukan diagnosis kecerdasan atau perkembangan anak.
       </p>
 
       <div className={`${styles.parentGrid} ${styles.parentGridThree}`}>
@@ -81,7 +81,7 @@ export function ParentWeeklyReportV2Screen({ childId }: { childId: string }) {
         <div className={styles.parentCard}>
           <strong>📅 Hari aktif</strong>
           <p>{weekly.activeDays} dari 7 hari</p>
-          <small>{weekly.qualifyingEvidence} qualifying evidence terkumpul</small>
+          <small>{weekly.qualifyingEvidence} qualifying evidence Belajar terkumpul</small>
         </div>
         <div className={styles.parentCard}>
           <strong>🎯 Akurasi assessed</strong>
@@ -95,11 +95,11 @@ export function ParentWeeklyReportV2Screen({ childId }: { childId: string }) {
         <div className={styles.parentGrid}>
           <div className={styles.parentCard}>
             <strong>✨ Kekuatan saat ini</strong>
-            <p>{weekly.strongestSkill ? `${weekly.strongestSkill.title} · ${percent(weekly.strongestSkill.score)}%` : "Belum cukup evidence untuk melihat pola."}</p>
+            <p>{weekly.strongestSkill ? `${weekly.strongestSkill.title} · ${percent(weekly.strongestSkill.score)}% · ${weekly.strongestSkill.sourceLabel}` : "Belum cukup evidence untuk melihat pola."}</p>
           </div>
           <div className={styles.parentCard}>
             <strong>🔁 Bagus untuk diperkuat</strong>
-            <p>{weekly.needsPracticeSkill ? `${weekly.needsPracticeSkill.title} · ${percent(weekly.needsPracticeSkill.score)}%` : "Belum ada skill yang perlu ditandai."}</p>
+            <p>{weekly.needsPracticeSkill ? `${weekly.needsPracticeSkill.title} · ${percent(weekly.needsPracticeSkill.score)}% · ${weekly.needsPracticeSkill.sourceLabel}` : "Belum ada skill yang perlu ditandai."}</p>
           </div>
         </div>
       </section>
@@ -120,11 +120,18 @@ export function ParentWeeklyReportV2Screen({ childId }: { childId: string }) {
             const needs = skillRows
               .filter((skill) => skill.level === "exploring" || skill.level === "developing")
               .sort((a, b) => a.score - b.score)[0];
+            const supplementalEvidence = skillRows.reduce(
+              (sum, skill) => sum + skill.supplementalQualifyingEvidenceCount,
+              0
+            );
             return (
               <div className={styles.parentCard} key={subject.id}>
                 <strong>{subject.emoji} {subject.title}</strong>
                 <p>{summary.completedActivities}/{summary.requiredActivities} aktivitas inti · completion {percent(summary.completionRatio)}%</p>
                 <p>Evidence {percent(summary.masteryScore)}% · coverage {percent(summary.masteryCoverage)}%</p>
+                {supplementalEvidence > 0 ? (
+                  <small>{supplementalEvidence} evidence tambahan dari World ikut tampil di mastery; progres Belajar dan sertifikat tetap memakai evidence Belajar.</small>
+                ) : null}
                 {needs ? <p>Perlu diperkuat: <strong>{needs.title}</strong></p> : null}
                 {subjectRecommendation ? <p><strong>Saran:</strong> {subjectRecommendation.activity.title} — {subjectRecommendation.reasonLabel}</p> : null}
               </div>

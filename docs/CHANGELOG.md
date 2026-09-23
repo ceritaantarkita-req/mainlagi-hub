@@ -56,6 +56,24 @@
 - Tidak ada perubahan mastery/evidence/progression/schema dari sinkronisasi dokumentasi ini.
 
 
+- Draft PR #272 menambahkan implementasi terisolasi **Mainlagi World / Petualangan Uang**: 8 Stage, illustrated journey map, audio-first story segments, reusable mini-game mechanics, Chapter 1 milestone, final visual recap, public-safe share landing, dan World-progress persistence terpisah dari canonical mastery.
+- Known-green World code checkpoint `5c76f9812a93eb7ef07fff1880af4da5af2b4927` lulus CI #1290 / run `35679390492` pada Ubuntu, Windows, secret scan, dependency audit, production build, dan Mobile Chromium. PR tetap draft dan belum production.
+- World checkpoint/restart record: `WORLD_PETUALANGAN_UANG_SAFE_CHECKPOINT_2026-09-22.md`.
+- Visual World wave: Stage map diubah dari card-list menjadi compact alternating game-map nodes mengikuti winding path; activity UI dibuat sebagai floating tray di dalam illustrated scene; Chapter banner/star/finale spacing dipoles agar tidak saling menutup.
+- Latest visual-green rollback: `checkpoint/world-petualangan-uang-visual-green-20260922` @ `3b033405b41abcfab4c70d9db76265095ff7c5e2`, CI #1314 / run `35682393320` full pass.
+- World presentation policy dikunci di code: pilot tetap usia **6–8**, 3–5 adalah future separate variant, 9–12 future separate series; satu World tidak boleh diam-diam berubah menjadi rentang 3–12 berdasarkan umur.
+- Asset production manifest baru mencatat reuse yang sudah approved dan gap yang belum final: Gian foreground, Naya foreground, fixed narration, dan dedicated World social card.
+- Production policy/handoff: `WORLD_PETUALANGAN_UANG_PRODUCTION_POLICY_2026-09-22.md`.
+- World → Evidence audit ditambahkan fail-closed: hanya `money-s02-activity-01` → `math.quantity.comparison` dan `money-s08-activity-02` → `math.operation.subtraction.within_10` yang lolos sebagai **candidate only**; 14 activity lain eksplisit excluded; bridge tetap disabled.
+- Evidence audit/handoff: `WORLD_PETUALANGAN_UANG_EVIDENCE_BRIDGE_AUDIT_2026-09-22.md`.
+- Global age migration tetap fail-closed: audit menemukan blocker di cloud profile parser/create, local+cloud profile UI, content validator, learning-skill/content-pack SQL age constraints, canonical catalog 3–7, age-filtered Belajar runtime, public copy, dan regression tests.
+- Audit age migration menegaskan `player_profiles.age_group` sendiri adalah text tanpa numeric 3–7 SQL check; hard stop profile saat ini berada pada parser/UI/app contract.
+- Age migration audit/handoff: `WORLD_AGE_MIGRATION_AUDIT_2026-09-22.md`; tidak ada blanket `ageMax 7 -> 12` rewrite.
+- Narration registry World sekarang memakai stable cue ID untuk narrative/concept/payoff/activity prompt + final narrative-choice prompt; runtime speech key tidak lagi berbasis copy text.
+- Fixed narration tetap fail-closed: semua cue `fallback-runtime`, `productionSrc=null`, future path deterministic di `/audio/world/money-festival/id-ID/<cue-id>.mp3`.
+- Narration contract/handoff: `WORLD_PETUALANGAN_UANG_NARRATION_CONTRACT_2026-09-22.md`.
+- Age/evidence-green rollback: `checkpoint/world-petualangan-uang-age-evidence-green-20260922` @ `f09c01dc54061cd3ce2d895bfa7f7477b9bf39c7`, CI #1352 / run `35684673952` full success.
+
 ## 2.0.1 — 5 Agustus 2026
 
 - Memperbaiki urutan `VERIFY_WINDOWS.ps1`: `npm install` sekarang berjalan sebelum gate yang memerlukan TypeScript.

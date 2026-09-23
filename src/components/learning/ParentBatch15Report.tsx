@@ -67,7 +67,7 @@ export function ParentBatch15ReportScreen({ childId }: { childId: string }) {
             <p className={styles.eyebrow}>7 hari terakhir</p>
             <h2 id="weekly-report-title">Gambaran belajar minggu ini</h2>
             <p>
-              Ringkasan ini menunjukkan kegiatan yang tercatat, pola yang mulai terlihat, dan saran langkah berikutnya. Latihan kreatif tetap dihitung sebagai kegiatan, tetapi tidak diubah menjadi nilai kemampuan.
+              Ringkasan ini menunjukkan kegiatan yang tercatat, pola yang mulai terlihat, dan saran langkah berikutnya. Evidence tambahan dari World, bila ada, dilabeli terpisah dan tidak dipakai untuk membuka progres Belajar atau menerbitkan sertifikat.
             </p>
           </div>
 
@@ -94,7 +94,7 @@ export function ParentBatch15ReportScreen({ childId }: { childId: string }) {
                 <strong className={reportStyles.metricValue}>{report.activeDays}</strong>
                 <span className={reportStyles.metricUnit}>dari 7 hari</span>
               </div>
-              <p className={reportStyles.metricMeta}>{report.qualifyingEvidence} hasil terukur bisa dipakai untuk membaca kemajuan.</p>
+              <p className={reportStyles.metricMeta}>{report.qualifyingEvidence} hasil terukur Belajar bisa dipakai untuk membaca progres Belajar.</p>
             </article>
 
             <article className={reportStyles.metricCard}>
@@ -121,14 +121,14 @@ export function ParentBatch15ReportScreen({ childId }: { childId: string }) {
               <span className={reportStyles.patternIcon} aria-hidden><Sparkle size={26} weight="duotone" /></span>
               <div className={reportStyles.patternCopy}>
                 <strong>Paling konsisten sejauh ini</strong>
-                <p>{report.strongestSkill ? `${report.strongestSkill.title} · ${percent(report.strongestSkill.score)}% hasil terukur` : "Belum cukup hasil terukur untuk membuat ringkasan."}</p>
+                <p>{report.strongestSkill ? `${report.strongestSkill.title} · ${percent(report.strongestSkill.score)}% · ${report.strongestSkill.sourceLabel}` : "Belum cukup hasil terukur untuk membuat ringkasan."}</p>
               </div>
             </article>
             <article className={reportStyles.patternCard}>
               <span className={reportStyles.patternIcon} aria-hidden><Books size={26} weight="duotone" /></span>
               <div className={reportStyles.patternCopy}>
                 <strong>Bagus untuk lebih sering dilatih</strong>
-                <p>{report.needsPracticeSkill ? `${report.needsPracticeSkill.title} · ${percent(report.needsPracticeSkill.score)}% hasil terukur` : "Belum ada keterampilan terukur yang perlu ditandai."}</p>
+                <p>{report.needsPracticeSkill ? `${report.needsPracticeSkill.title} · ${percent(report.needsPracticeSkill.score)}% · ${report.needsPracticeSkill.sourceLabel}` : "Belum ada keterampilan terukur yang perlu ditandai."}</p>
               </div>
             </article>
           </div>
@@ -165,9 +165,16 @@ export function ParentBatch15ReportScreen({ childId }: { childId: string }) {
                   </div>
 
                   {row.mastery ? (
-                    <p className={reportStyles.subjectSummary}>
-                      <strong>Kemampuan yang sudah terukur:</strong> {percent(row.mastery.score)}% · {row.mastery.proficientSkills}/{row.mastery.totalAssessedSkills} keterampilan minimal Mahir.
-                    </p>
+                    <>
+                      <p className={reportStyles.subjectSummary}>
+                        <strong>Mastery source-aware:</strong> {percent(row.mastery.score)}% · {row.mastery.proficientSkills}/{row.mastery.totalAssessedSkills} keterampilan minimal Mahir.
+                      </p>
+                      {row.mastery.supplementalQualifyingEvidence > 0 ? (
+                        <p className={reportStyles.subjectSupport}>
+                          {row.mastery.supplementalQualifyingEvidence} evidence tambahan dari World ikut memperkaya ringkasan; readiness dan sertifikat tetap canonical Belajar.
+                        </p>
+                      ) : null}
+                    </>
                   ) : (
                     <p className={reportStyles.subjectSummary}>
                       <strong>Area kreatif:</strong> kemajuan dilihat dari aktivitas selesai, bukan skor kemampuan.
@@ -196,6 +203,7 @@ export function ParentBatch15ReportScreen({ childId }: { childId: string }) {
                         <p><span>Mastery terukur</span><strong>{percent(row.mastery.score)}%</strong></p>
                         <p><span>Coverage</span><strong>{percent(row.mastery.coverage)}%</strong></p>
                         <p><span>Minimal Mahir</span><strong>{row.mastery.proficientSkills}/{row.mastery.totalAssessedSkills}</strong></p>
+                        <p><span>World supplemental</span><strong>{row.mastery.supplementalQualifyingEvidence}</strong></p>
                       </> : <p><span>Mastery</span><strong>Tidak dihitung untuk practice kreatif</strong></p>}
                       <p><span>Stage</span><strong>{row.stages.ready} siap · {row.stages.inProgress} berjalan · {row.stages.evidenceNeeded} butuh evidence · {row.stages.locked} terkunci</strong></p>
                     </div>
