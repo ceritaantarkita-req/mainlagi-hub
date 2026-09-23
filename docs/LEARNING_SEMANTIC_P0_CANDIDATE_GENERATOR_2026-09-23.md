@@ -120,4 +120,6 @@ Seven concepts were clear enough to proceed to exact human review. Two generator
 
 Canonical pre-review checkpoint: `LEARNING_SEMANTIC_P0_VISUAL_PREREVIEW_2026-09-23.md`.
 
-The revised candidates remain review-only. Exact human acceptance is still required before any production approval.
+The revised candidate sources were merged/live verified through PR #301 -> main `9f6270c79bb92f7cb6ce1d29a2165df54801debf`, merged-main CI #1548 exact smoke.
+
+The candidates remain review-only. Exact human acceptance is still required before any production approval.
