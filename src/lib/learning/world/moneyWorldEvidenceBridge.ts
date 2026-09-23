@@ -5,7 +5,7 @@ import type {
 } from "../mechanicLibrary";
 
 export type MoneyWorldEvidenceDecision = "candidate" | "excluded";
-export type MoneyWorldEvidenceMappingStatus = "candidate-unapproved" | "excluded";
+export type MoneyWorldEvidenceMappingStatus = "pedagogy-approved-disabled" | "rejected-after-pedagogy-review" | "excluded";
 export type MoneyWorldEvidenceDisposition = "blocked";
 
 export type MoneyWorldEvidenceBlocker =
@@ -37,7 +37,7 @@ export interface MoneyWorldEvidenceBridgeEntry {
   assessedEvidenceContract: Exclude<MechanicEvidenceContractId, "completion_only_v1"> | null;
   progressionEffect: "none";
   rewardEffect: "none";
-  requiresPedagogyReview: true;
+  requiresPedagogyReview: boolean;
   rationale: string;
 }
 
@@ -123,8 +123,6 @@ export const MONEY_WORLD_EVIDENCE_BRIDGE_BLOCKERS = [
   "server-owned-world-evidence-ingestion-not-defined",
   "progression-reward-side-effects-not-isolated",
   "canonical-learning-skill-age-contract-currently-stops-at-7",
-  "financial-literacy-skill-catalog-not-defined",
-  "pedagogy-review-not-approved"
 ] as const satisfies readonly MoneyWorldEvidenceBlocker[];
 
 export const MONEY_WORLD_EVIDENCE_ACTIVATION_REQUIREMENTS: readonly MoneyWorldEvidenceActivationRequirement[] = [
@@ -150,8 +148,8 @@ export const MONEY_WORLD_EVIDENCE_ACTIVATION_REQUIREMENTS: readonly MoneyWorldEv
   },
   {
     id: "canonical-mapping-pedagogy-review",
-    satisfied: false,
-    reason: "Candidate mappings require explicit curriculum/pedagogy review before they can become evidence."
+    satisfied: true,
+    reason: "The authorized scope review approved only money-s08-activity-02 -> math.operation.subtraction.within_10; the price-comparison candidate was rejected."
   },
   {
     id: "age-8-learning-contract",
@@ -166,43 +164,30 @@ export const MONEY_WORLD_EVIDENCE_ACTIVATION_REQUIREMENTS: readonly MoneyWorldEv
 ] as const;
 
 /**
- * Only two current World activities have a plausible objective-level relation
- * to existing canonical Math skills. They are intentionally *unapproved*
- * candidates. Neither has a canonical learning_activity mapping, neither is
- * assessed in World, and neither can create evidence at this checkpoint.
+ * The owner-authorized scope review is complete.
+ *
+ * Only the Stage 8 subtraction activity remains in the future evidence candidate
+ * scope, with its pedagogical mapping approved but runtime activation still
+ * disabled. The Stage 2 price-comparison relationship was rejected because its
+ * contextual financial objective does not isolate canonical quantity comparison
+ * strongly enough for mastery evidence.
  */
 export const MONEY_WORLD_EVIDENCE_CANDIDATES: readonly MoneyWorldEvidenceBridgeEntry[] = [
-  {
-    worldActivityId: "money-s02-activity-01",
-    stageId: "money-stage-02-price-change",
-    mechanicId: "compare",
-    sourceAssessment: "practice",
-    decision: "candidate",
-    mappingStatus: "candidate-unapproved",
-    canonicalSubjectId: "math",
-    canonicalLearningActivityId: null,
-    canonicalSkillId: "math.quantity.comparison",
-    assessedEvidenceContract: "choice_accuracy_v1",
-    progressionEffect: "none",
-    rewardEffect: "none",
-    requiresPedagogyReview: true,
-    rationale: "Comparing numeric price amounts may relate to quantity comparison, but contextual price comparison is not automatically equivalent to canonical Math mastery."
-  },
   {
     worldActivityId: "money-s08-activity-02",
     stageId: "money-stage-08-final-festival",
     mechanicId: "tap_choice",
     sourceAssessment: "practice",
     decision: "candidate",
-    mappingStatus: "candidate-unapproved",
+    mappingStatus: "pedagogy-approved-disabled",
     canonicalSubjectId: "math",
     canonicalLearningActivityId: null,
     canonicalSkillId: "math.operation.subtraction.within_10",
     assessedEvidenceContract: "choice_accuracy_v1",
     progressionEffect: "none",
     rewardEffect: "none",
-    requiresPedagogyReview: true,
-    rationale: "The 8 minus 2 challenge is structurally compatible with subtraction-within-10, but World currently classifies it as practice and no bridge mapping is approved."
+    requiresPedagogyReview: false,
+    rationale: "Approved for the future evidence scope because the authored task directly asks 8 minus 2, uses a take-away presentation, has one objectively correct numeric answer, and aligns with the canonical subtraction-within-10 construct. Approval does not promote the World placement from practice or authorize evidence writes."
   }
 ] as const;
 
@@ -210,7 +195,23 @@ export const MONEY_WORLD_EVIDENCE_CANDIDATES: readonly MoneyWorldEvidenceBridgeE
  * Exclusions are intentional. A reusable mechanic being measurable is never,
  * by itself, enough to justify a canonical skill/mastery mapping.
  */
-export const MONEY_WORLD_EVIDENCE_EXCLUSIONS: readonly MoneyWorldEvidenceBridgeEntry[] = [
+export const MONEY_WORLD_EVIDENCE_EXCLUSIONS: readonly MoneyWorldEvidenceBridgeEntry[
+  {
+    worldActivityId: "money-s02-activity-01",
+    stageId: "money-stage-02-price-change",
+    mechanicId: "compare",
+    sourceAssessment: "practice",
+    decision: "excluded",
+    mappingStatus: "rejected-after-pedagogy-review",
+    canonicalSubjectId: null,
+    canonicalLearningActivityId: null,
+    canonicalSkillId: null,
+    assessedEvidenceContract: null,
+    progressionEffect: "none",
+    rewardEffect: "none",
+    requiresPedagogyReview: false,
+    rationale: "Rejected from canonical Math evidence scope after review: the authored objective is contextual price change and 'more expensive', so a correct response does not isolate the canonical quantity-comparison construct strongly enough for mastery evidence."
+  },] = [
   {
     worldActivityId: "money-s01-activity-01",
     stageId: "money-stage-01-money-use",
@@ -468,7 +469,9 @@ export function evaluateMoneyWorldEvidenceObservation(
   if (observation.status !== "completed") blockers.add("attempt-not-completed");
 
   if (entry?.decision === "candidate") {
-    blockers.add("candidate-mapping-not-approved");
+    if (entry.mappingStatus !== "pedagogy-approved-disabled") {
+      blockers.add("candidate-mapping-not-approved");
+    }
     if (typeof observation.accuracy !== "number" || !Number.isFinite(observation.accuracy)) {
       blockers.add("measured-outcome-required");
     }
@@ -507,14 +510,20 @@ export function validateMoneyWorldEvidenceBridgeContract(): {
   if (audit.some((entry) => entry.sourceAssessment !== "practice")) {
     errors.push("all current World activity placements must remain practice");
   }
-  if (MONEY_WORLD_EVIDENCE_CANDIDATES.some((entry) =>
-    !entry.canonicalSkillId ||
-    !entry.assessedEvidenceContract ||
-    entry.canonicalLearningActivityId !== null ||
-    entry.progressionEffect !== "none" ||
-    entry.rewardEffect !== "none"
-  )) {
-    errors.push("candidate mappings must remain unactivated and side-effect-free");
+  if (
+    MONEY_WORLD_EVIDENCE_CANDIDATES.length !== 1 ||
+    MONEY_WORLD_EVIDENCE_CANDIDATES.some((entry) =>
+      entry.worldActivityId !== "money-s08-activity-02" ||
+      entry.mappingStatus !== "pedagogy-approved-disabled" ||
+      entry.requiresPedagogyReview ||
+      !entry.canonicalSkillId ||
+      !entry.assessedEvidenceContract ||
+      entry.canonicalLearningActivityId !== null ||
+      entry.progressionEffect !== "none" ||
+      entry.rewardEffect !== "none"
+    )
+  ) {
+    errors.push("approved candidate scope must contain only the disabled Stage 8 subtraction mapping");
   }
   if (MONEY_WORLD_EVIDENCE_EXCLUSIONS.some((entry) =>
     entry.canonicalSkillId !== null ||
@@ -538,8 +547,18 @@ export function validateMoneyWorldEvidenceBridgeContract(): {
   ];
   if (writeFlags.some(Boolean)) errors.push("disabled bridge must not authorize any write/runtime/schema effect");
 
-  if (MONEY_WORLD_EVIDENCE_ACTIVATION_REQUIREMENTS.some((requirement) => requirement.satisfied)) {
-    errors.push("activation requirements must remain unsatisfied until a separately authorized implementation wave");
+  const pedagogyRequirement = MONEY_WORLD_EVIDENCE_ACTIVATION_REQUIREMENTS.find(
+    (requirement) => requirement.id === "canonical-mapping-pedagogy-review"
+  );
+  if (!pedagogyRequirement?.satisfied) {
+    errors.push("authorized candidate-scope pedagogy review must remain recorded as satisfied");
+  }
+  if (
+    MONEY_WORLD_EVIDENCE_ACTIVATION_REQUIREMENTS.some(
+      (requirement) => requirement.id !== "canonical-mapping-pedagogy-review" && requirement.satisfied
+    )
+  ) {
+    errors.push("non-pedagogy activation requirements must remain unsatisfied until separately authorized");
   }
 
   return { valid: errors.length === 0, errors };
