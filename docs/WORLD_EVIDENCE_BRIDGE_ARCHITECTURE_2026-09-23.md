@@ -534,3 +534,23 @@ This is the final safe handoff for **v1 architecture design only**.
 It does not supersede the narrower implementation checkpoint at `38bbe570...`; it adds the synchronized closure documentation and current-state handoff around the same disabled contract.
 
 No activation permission is implied by this checkpoint.
+
+## 22. Post-v1 activation decision wave
+
+The separately authorized decision wave is recorded in:
+
+```text
+docs/WORLD_EVIDENCE_ACTIVATION_DECISION_2026-09-23.md
+src/lib/learning/world/moneyWorldEvidenceActivationDesign.ts
+```
+
+It resolves the previously open design questions without changing this v1 runtime authority:
+
+- Stage 2 price comparison is deferred from canonical evidence;
+- Stage 8 `8 - 2` is selected as the sole future supplemental-evidence mapping to `math.operation.subtraction.within_10`;
+- future evidence is age 6–7 only; age 8 remains World-only;
+- server ingestion is selected as a dedicated server route + private supplemental-evidence write boundary;
+- repeated static World content cannot farm qualifying evidence;
+- World-only evidence is capped at `exploring` and higher mastery requires canonical Belajar evidence.
+
+The v1 bridge in this document remains fail-closed and disabled until the implementation blockers in the activation-decision contract are separately completed and validated.
