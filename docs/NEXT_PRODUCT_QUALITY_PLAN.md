@@ -121,7 +121,8 @@ illustration audit:           #287 -> bea1380e / main CI #1453 exact smoke
 visual containment:           #294 -> 6d0f9bd8 / PR CI #1529 / main CI #1531 exact smoke
 semantic registry gate:       #297 -> ed7db8a6 / PR CI #1536 / main CI #1537 exact smoke
 semantic candidate generator:  #300 -> 89adf887 / main CI #1546 exact smoke
-semantic production art:      OPEN / source prereview refinement -> exact human review next
+semantic P0 prereview:        #301 -> 9f6270c7 / PR CI #1547 / main CI #1548 exact smoke
+semantic production art:      OPEN / exact human review next
 ```
 
 Cloud analytics integrity: **CLOSED / MERGED / LIVE VERIFIED** via PR #267 -> main `89a2bc629e8535bddbf2ab78ae1990a063f0f361`, merged-main CI #1205 exact Cloudflare smoke. The old fixed 500-attempt / 2000-evidence cap and authenticated silent-local-fallback defect must not be listed as open debt again.
@@ -819,8 +820,12 @@ Do not build another generic illustration infrastructure layer. Current executio
 5. only after acceptance, perform separate legal provenance + production-asset approval;
 6. only after production approval, perform separate runtime semantic mapping.
 
-Current source refinements before human review:
+Source refinement is now closed/live verified through PR #301 -> main `9f6270c7...`, merged-main CI #1548 exact smoke.
+
+Refined sources:
 - `action.jump`;
 - `feature.cactus-thick-stem`.
 
-No production binary or runtime mapping is authorized by this pre-review.
+**NOW:** generate/review the exact nine binaries with the project owner. Record an explicit per-file accept/reject decision. Do not promote accepted candidates directly to runtime.
+
+No production binary or runtime mapping is authorized by the pre-review closure.
