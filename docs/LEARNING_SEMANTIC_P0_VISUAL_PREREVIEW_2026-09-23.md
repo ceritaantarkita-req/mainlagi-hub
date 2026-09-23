@@ -1,6 +1,6 @@
 # Learning Semantic P0 Visual Pre-Review — 23 September 2026
 
-Status: **AI VISUAL PRE-REVIEW / SOURCE REFINEMENT / HUMAN APPROVAL STILL REQUIRED**
+Status: **SOURCE REFINEMENT CLOSED / MERGED / LIVE VERIFIED / HUMAN APPROVAL STILL REQUIRED**
 
 Baseline generator:
 - PR #300;
@@ -70,6 +70,17 @@ Refinement:
 - use a larger internal water-storage cutaway;
 - add explicit width-direction cues;
 - reduce nonessential small decorative marks.
+
+## Merge/live verification
+
+PR #301 closed the source refinement:
+
+- final PR head: `1fd71de43aff0b8ad0870655266db472408508e1`;
+- PR CI #1547 / run `35806660962`: full success;
+- merged main: `9f6270c79bb92f7cb6ce1d29a2165df54801debf`;
+- merged-main CI #1548 / run `35807137419`: full success including exact Cloudflare production smoke.
+
+Closure record: `LEARNING_SEMANTIC_P0_VISUAL_PREREVIEW_CLOSURE_2026-09-23.md`.
 
 ## Approval boundary
 
