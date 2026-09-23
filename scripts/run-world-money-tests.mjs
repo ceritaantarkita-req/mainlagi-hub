@@ -32,6 +32,7 @@ const narrationPilot = require(path.join(outDir, "src", "lib", "learning", "worl
 const narrationReview = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldNarrationReview.js"));
 const ageMigration = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldAgeMigrationAudit.js"));
 const evidenceBridge = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldEvidenceBridge.js"));
+const evidenceActivation = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldEvidenceActivationDesign.js"));
 const presentation = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldPresentation.js"));
 const assets = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldAssets.js"));
 const progress = require(path.join(outDir, "src", "lib", "learning", "world", "progress.js"));
@@ -506,6 +507,62 @@ try {
   assert.ok(
     evidenceBridge.MONEY_WORLD_EVIDENCE_ACTIVATION_REQUIREMENTS.every((requirement) => requirement.satisfied === false),
     "no activation prerequisite may be silently marked satisfied in design-only mode"
+  );
+
+  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_ACTIVATION_DESIGN_VERSION, "money-world-evidence-activation-design-v1");
+  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_ACTIVATION_MODE, "pre-activation-design-disabled");
+  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_ACTIVATION_ENABLED, false, "activation decision wave must remain pre-activation");
+  assert.equal(
+    evidenceActivation.MONEY_WORLD_EVIDENCE_ACTIVATION_DESIGN_VALIDATION.valid,
+    true,
+    evidenceActivation.MONEY_WORLD_EVIDENCE_ACTIVATION_DESIGN_VALIDATION.errors.join("; ")
+  );
+  assert.deepEqual(evidenceActivation.MONEY_WORLD_EVIDENCE_ACTIVATION_DESIGN_VALIDATION.errors, []);
+  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_ACTIVATION_SCOPE.length, 2);
+  const activationSubtraction = evidenceActivation.MONEY_WORLD_EVIDENCE_ACTIVATION_SCOPE.find(
+    (entry) => entry.worldActivityId === "money-s08-activity-02"
+  );
+  const activationPriceComparison = evidenceActivation.MONEY_WORLD_EVIDENCE_ACTIVATION_SCOPE.find(
+    (entry) => entry.worldActivityId === "money-s02-activity-01"
+  );
+  assert.ok(activationSubtraction, "Stage 8 subtraction activation decision must exist");
+  assert.equal(activationSubtraction.decision, "approved-future-supplemental-evidence");
+  assert.equal(activationSubtraction.canonicalSkillId, "math.operation.subtraction.within_10");
+  assert.equal(activationSubtraction.evidenceContract, "choice_accuracy_v1");
+  assert.equal(activationSubtraction.currentAssessment, "practice");
+  assert.equal(activationSubtraction.requiredAssessmentBeforeActivation, "assessed");
+  assert.equal(activationSubtraction.eligibleAgeMin, 6);
+  assert.equal(activationSubtraction.eligibleAgeMax, 7);
+  assert.equal(activationSubtraction.maxQualifyingEvidencePerContentVersion, 1);
+  assert.equal(activationSubtraction.worldOnlyMasteryCeiling, "exploring");
+  assert.equal(activationSubtraction.progressionEffect, "none");
+  assert.equal(activationSubtraction.rewardEffect, "none");
+  assert.equal(activationSubtraction.certificateEffect, "none");
+  assert.ok(activationPriceComparison, "Stage 2 price-comparison activation decision must exist");
+  assert.equal(activationPriceComparison.decision, "deferred");
+  assert.equal(activationPriceComparison.canonicalSkillId, null);
+  assert.equal(activationPriceComparison.evidenceRole, "none");
+  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_AGE_POLICY.age8Behavior, "world-completion-only-no-canonical-evidence");
+  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_AGE_POLICY.mutateCanonicalSkillAgeRange, false);
+  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.directRecordLearningAttemptAllowed, false);
+  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.browserDirectDatabaseWriteAllowed, false);
+  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.canonicalLearningAttemptInsertAllowed, false);
+  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.canonicalLearningProgressMutationAllowed, false);
+  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.canonicalRewardMutationAllowed, false);
+  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.certificateMutationAllowed, false);
+  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.schemaImplemented, false);
+  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.endpointImplemented, false);
+  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_INTEGRITY_POLICY.maxQualifyingEvidencePerActivityContentVersion, 1);
+  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_INTEGRITY_POLICY.repeatedStaticQuestionCanCreateAdditionalMasteryEvidence, false);
+  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_INTEGRITY_POLICY.worldOnlyMasteryCeiling, "exploring");
+  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_INTEGRITY_POLICY.canonicalBelajarEvidenceRequiredForDevelopingOrHigher, true);
+  assert.ok(
+    evidenceActivation.MONEY_WORLD_EVIDENCE_ACTIVATION_REQUIREMENTS.some((requirement) => requirement.satisfied === true),
+    "decision wave should close design requirements"
+  );
+  assert.ok(
+    evidenceActivation.MONEY_WORLD_EVIDENCE_ACTIVATION_REQUIREMENTS.some((requirement) => requirement.satisfied === false),
+    "implementation requirements must remain open before activation"
   );
 
   for (const candidate of evidenceBridge.MONEY_WORLD_EVIDENCE_CANDIDATES) {
