@@ -4,6 +4,60 @@ Last reviewed: **23 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
+## 23 September World evidence main integration release candidate — GREEN / NOT MERGED
+
+The reviewed World evidence stack has now been integrated with the actual current `main` baseline on a dedicated release branch without merging production.
+
+```text
+release branch:
+release/world-evidence-integration-20260923
+
+current-main parent:
+17b9ca79749e171f62d3adb86df494badef11732
+
+World/live-DB parent:
+94062af9944943e5f82011087bff9e4dfd12e2b7
+
+integration merge:
+e4999265033b0263e906c2fe287fc08d09bde0bc
+
+Draft release PR:
+#312 -> main
+```
+
+Immutable integration checkpoint:
+
+```text
+checkpoint/world-evidence-main-integration-green-20260923
+@ e4999265033b0263e906c2fe287fc08d09bde0bc
+
+CI #1584 / run 35892514511
+full matrix: PASS
+```
+
+The integration explicitly preserves both sides of the previous divergence:
+
+- current-main semantic P0 human-review state;
+- English narration gates;
+- learning-illustration semantic/containment gates;
+- World Petualangan Uang runtime/QA;
+- migrations 0047–0051;
+- Stage 8 supplemental evidence;
+- source-aware mastery/certificate isolation;
+- live-DB closure records.
+
+The seven overlapping files were resolved explicitly rather than by replacing current-main files. Combined Ubuntu/Windows engine suites and combined mobile QA all pass.
+
+Database state remains live through 0051 with `0` supplemental evidence rows. No DB write is part of this integration wave.
+
+**Application release is still pending.** PR #312 is Draft/unmerged, production smoke is intentionally skipped until a main deployment exists, and no controlled real/QA-child Stage 8 evidence write has been performed.
+
+Canonical integration record:
+
+```text
+docs/WORLD_EVIDENCE_MAIN_INTEGRATION_2026-09-23.md
+```
+
 ## 22 September execution boundary — World untouched / Belajar WS-05 closed
 
 User-approved execution boundary:
@@ -1455,7 +1509,7 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Treat the actual branch tip of `main` as source of truth. The latest English-narration product/runtime implementation baseline is `2cc7d5be4d14f22a4efbb4ea27580d7a91a5bf48`, live verified by merged-main CI #1372 / run `35701448136` with exact Cloudflare production smoke; later docs-only closure commits may advance `main` without changing that runtime baseline.
+1. Treat the actual branch tip of `main` as production source of truth. For the currently authorized World evidence release work, the validated release candidate is `checkpoint/world-evidence-main-integration-green-20260923 @ e4999265...` / PR #312; it is not production truth until merged-main CI and exact-SHA Cloudflare smoke succeed.
 2. English narration Wave 1 and the Wave 2 production asset gate are closed/live verified. Preserve **27 reviewed / 27 registry slots / 0 approved production audio / 0 static runtime activation**.
 3. If narration continues, start only with the documented four-item provider/voice pilot + human listening/provenance review. Do not bulk-generate all 27 assets and do not activate runtime playback in the same pilot step.
 4. Parent/profile/settings responsive redesign is closed/live verified. Preserve the <760px mobile header + five-item bottom nav, >=760px desktop sidebar, family/demo separation and profile-vs-guide identity boundary.
@@ -1463,6 +1517,6 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 6. Preserve Paca/Gavi current production artwork and provenance. Naya/Gian/Zia generated candidates are not production-approved until reviewed and their rights/provenance are recorded.
 7. WS-05 Logic `pattern_completion` reuse is closed/live verified via PR #273 -> main `709e2b7d...` / merged-main CI #1353 with 900/900 / 47 active / `choice_grid` 174 / `pattern_completion` 10 / KEEP 900. Any later WS-05 runtime change requires a fresh objective/evidence audit.
 8. Preserve the merged 9-subject / 900-activity / 47-active-pattern baseline and existing mastery/evidence/progression/schema contracts unless a separately justified migration is approved.
-9. Do not touch Mainlagi World and do not resume character development in this workstream.
+9. Mainlagi World changes are authorized only within the reviewed PR #312 release-candidate scope: Stage 8 supplemental evidence and its already-reviewed Petualangan Uang stack. Do not activate a second evidence mapping, expand canonical evidence to age 8, or resume character development without a separate authorization.
 
 Do not prioritize activity-count expansion, OCR rollout, large AI tutor work, subscription/paywall, marketplace expansion or major mastery/backend rewrites before the current quality roadmap justifies them.

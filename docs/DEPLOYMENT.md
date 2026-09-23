@@ -39,6 +39,57 @@ This database-only rollout did not perform a new Cloudflare release or claim a n
 
 Batch 17 engineering/device-QA foundations remain valid historical prerequisites.
 
+## World evidence integrated release candidate
+
+The reviewed World evidence stack has been integrated with current main without overwriting the newer semantic/narration work.
+
+```text
+current main parent:
+17b9ca79749e171f62d3adb86df494badef11732
+
+World/live-DB parent:
+94062af9944943e5f82011087bff9e4dfd12e2b7
+
+integration merge:
+e4999265033b0263e906c2fe287fc08d09bde0bc
+
+branch:
+release/world-evidence-integration-20260923
+
+Draft PR:
+#312 -> main
+```
+
+Safe release-candidate checkpoint:
+
+```text
+checkpoint/world-evidence-main-integration-green-20260923
+@ e4999265033b0263e906c2fe287fc08d09bde0bc
+
+CI #1584 / run 35892514511
+full matrix: PASS
+```
+
+CI #1584 proves the combined current-main + World state on Ubuntu, Windows, production build, dependency audit, secret history scan and Chromium mobile/accessibility/visual QA.
+
+Cloudflare production smoke is **not** claimed for this checkpoint because PR #312 is Draft/unmerged. The smoke job is expected to skip until a main deployment exists.
+
+The canonical Supabase database is already live through migrations 0047–0051 and remains schema-compatible with both the old production app and this release candidate.
+
+Next production flow:
+
+```text
+PR #312 final review
+  -> protected main merge
+  -> merged-main full CI
+  -> Cloudflare Git deployment
+  -> exact-SHA /api/health smoke
+  -> controlled authorized Stage 8 evidence verification
+  -> production docs closure
+```
+
+Canonical integration record: `WORLD_EVIDENCE_MAIN_INTEGRATION_2026-09-23.md`.
+
 ## Guided physical-device QA route
 
 The production release now contains:

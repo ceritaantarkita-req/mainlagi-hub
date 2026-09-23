@@ -330,3 +330,34 @@ review stacked PRs
 ```
 
 Do not activate any second World evidence mapping or expand canonical evidence to age 8 as part of that release.
+
+## 14. Application integration release-candidate follow-up
+
+The application stack has now been integrated with the current main baseline on a dedicated release branch.
+
+```text
+current-main parent:
+17b9ca79749e171f62d3adb86df494badef11732
+
+World/live-DB parent:
+94062af9944943e5f82011087bff9e4dfd12e2b7
+
+integration merge:
+e4999265033b0263e906c2fe287fc08d09bde0bc
+
+Draft release PR:
+#312 -> main
+```
+
+Integration checkpoint:
+
+```text
+checkpoint/world-evidence-main-integration-green-20260923
+@ e4999265033b0263e906c2fe287fc08d09bde0bc
+
+CI #1584 / run 35892514511 — full success
+```
+
+The integration preserved current-main semantic/narration/illustration gates while adding the World runtime/evidence stack. Database state was not changed in this integration wave and remains live through 0051 with zero supplemental evidence rows.
+
+This does **not** yet change the production-app claim: PR #312 is Draft/unmerged and exact-SHA Cloudflare smoke remains pending a main deployment.

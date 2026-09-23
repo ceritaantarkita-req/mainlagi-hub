@@ -177,6 +177,37 @@ Do not interpret the live DB registry as permission to activate any second World
 
 Canonical detailed record: `WORLD_EVIDENCE_LIVE_DB_DEPLOYMENT_2026-09-23.md`.
 
+## 1E. World evidence integrated with current main — release candidate green
+
+The application integration prerequisite described in 1D is now complete on a dedicated release branch.
+
+```text
+release branch:
+release/world-evidence-integration-20260923
+
+current-main parent:
+17b9ca79749e171f62d3adb86df494badef11732
+
+World/live-DB parent:
+94062af9944943e5f82011087bff9e4dfd12e2b7
+
+integration merge:
+e4999265033b0263e906c2fe287fc08d09bde0bc
+
+Draft release PR:
+#312 -> main
+
+safe checkpoint:
+checkpoint/world-evidence-main-integration-green-20260923
+
+CI:
+#1584 / run 35892514511 — full success
+```
+
+The combined state preserves semantic P0, narration, learning-illustration and visual-containment work from current main while adding the full Petualangan Uang + World evidence stack.
+
+Production application deployment is still pending. No real/QA-child evidence write should be fabricated before the reviewed runtime is merged/deployed.
+
 ## 2. Learning/product baseline
 
 Current learning baseline remains:
@@ -313,7 +344,7 @@ The implementation remains existing-mechanic reuse; it creates no Pattern #48 an
 
 Current project-owner boundary:
 
-1. **Do not touch Mainlagi World**; it is being developed separately.
+1. Mainlagi World is currently authorized only for the validated PR #312 release-candidate scope. Preserve the Stage 8-only supplemental evidence mapping; do not add a second mapping or age-8 canonical evidence in this release.
 2. **Do not resume character development**; Drive character assets are reference-only while paused.
 3. Preserve the closed Mainlagi Belajar WS-05 PR #273 production baseline; any later mechanic runtime starts from a fresh objective/evidence audit.
 4. Preserve 900 activities, 47 active patterns and all mastery/evidence/progression/schema contracts.

@@ -62,6 +62,19 @@ CI #1583 / run 35886307365 — full success
 
 Canonical rollout record: `WORLD_EVIDENCE_LIVE_DB_DEPLOYMENT_2026-09-23.md`.
 
+## World evidence current-main integration checkpoint
+
+The full World evidence stack has been integrated with current `main` on a Draft release branch and passed the full combined CI matrix.
+
+```text
+checkpoint/world-evidence-main-integration-green-20260923
+@ e4999265033b0263e906c2fe287fc08d09bde0bc
+CI #1584 / run 35892514511 — full success
+PR #312 -> main — Draft / unmerged
+```
+
+Read [WORLD_EVIDENCE_MAIN_INTEGRATION_2026-09-23.md](WORLD_EVIDENCE_MAIN_INTEGRATION_2026-09-23.md) before any release action. The Supabase DB is live through 0051, but Cloudflare runtime activation remains pending the protected main merge + exact-SHA smoke.
+
 ## Current project checkpoint — 23 September 2026
 
 ```text

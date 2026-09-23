@@ -358,3 +358,25 @@ Cloudflare activation runtime     = NOT DEPLOYED BY THIS WAVE
 ```
 
 No synthetic child evidence was created during database verification.
+
+## 14. Current-main integration follow-up
+
+The Stage 8 activation code has now been integrated with the actual current-main line without bypassing the later semantic P0 work.
+
+```text
+integration merge:
+e4999265033b0263e906c2fe287fc08d09bde0bc
+
+checkpoint:
+checkpoint/world-evidence-main-integration-green-20260923
+
+CI:
+#1584 / run 35892514511 — full success
+
+Draft release PR:
+#312 -> main
+```
+
+The seven overlapping main/World files were explicitly resolved. Combined tests retain English narration, semantic learning-illustration gates, visual containment, World runtime QA and evidence isolation.
+
+The activation is therefore **release-candidate green**, but still not Cloudflare production truth until PR #312 is merged and exact-SHA production smoke succeeds.
