@@ -45,12 +45,13 @@ Confirmed examples include:
 
 The 43-source-file / 280-field emoji inventory remains an inventory signal, not a defect or replacement count. Exact letter/script glyphs, stable instructional symbols and decorative UI must not be swept into the pictorial-art migration.
 
-The semantic illustration registry/provenance gate is now closed/live verified through PR #297 -> main `ed7db8a6c5b8a3ee4acc9bcca260b4e0b5776773`, merged-main CI #1537 exact Cloudflare smoke. It contains 17 review-required semantic slots and blocks stray/unapproved production binaries. The remaining limitation is the **actual exact semantic art**: 0 semantic illustration slots are approved, 0 production binaries exist in the dedicated subtree, and runtime activation remains 0. The next safe implementation is exact P0 candidate production/review followed by separate provenance approval and later runtime mapping.
+The semantic illustration registry/provenance gate is now closed/live verified through PR #297 -> main `ed7db8a6c5b8a3ee4acc9bcca260b4e0b5776773`, merged-main CI #1537 exact Cloudflare smoke. It contains 17 review-required semantic slots and blocks stray/unapproved production binaries. The remaining limitation is the **actual exact semantic art**: 0 semantic illustration slots are approved, 0 production binaries exist in the dedicated subtree, and runtime activation remains 0. The exact P0 candidate generator is merged/live verified through PR #300, and the small-scale source-refinement pre-review is merged/live verified through PR #301 -> main `9f6270c79bb92f7cb6ce1d29a2165df54801debf`, main CI #1548 exact smoke. The remaining limitation is now **human acceptance of the exact generated binaries**: 0 exact P0 binaries have human acceptance, 0 semantic illustration slots are approved, 0 production binaries exist, and runtime activation remains 0. Human acceptance must still be followed by separate legal provenance/production approval and later runtime mapping.
 
 Canonical records:
 - `LEARNING_ILLUSTRATION_CONSISTENCY_AUDIT_2026-09-22.md`;
 - `LEARNING_VISUAL_CONTAINMENT_CLOSURE_2026-09-23.md`;
-- `LEARNING_SEMANTIC_ILLUSTRATION_REGISTRY_CLOSURE_2026-09-23.md`.
+- `LEARNING_SEMANTIC_ILLUSTRATION_REGISTRY_CLOSURE_2026-09-23.md`;
+- `LEARNING_SEMANTIC_P0_VISUAL_PREREVIEW_CLOSURE_2026-09-23.md`.
 
 ## Voice and narration
 
