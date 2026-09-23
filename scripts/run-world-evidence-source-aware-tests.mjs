@@ -33,6 +33,10 @@ const wave1Migration = readFileSync(
   path.join(root, "supabase", "migrations", "0048_world_supplemental_evidence_foundation.sql"),
   "utf8"
 );
+const activationMigration = readFileSync(
+  path.join(root, "supabase", "migrations", "0050_world_evidence_stage8_activation.sql"),
+  "utf8"
+);
 const ingestionSource = readFileSync(
   path.join(root, "src", "lib", "learning", "world", "moneyWorldEvidenceIngestion.ts"),
   "utf8"
@@ -317,13 +321,29 @@ try {
     "Wave 2 must not promote Stage 8 or mutate activity assessment"
   );
 
-  // Existing activation blockers remain independently false/disconnected.
+  // Historical Wave 1 remains frozen, while reviewed Stage 8 activation is
+  // additive in migration 0050 and the application/runtime layer.
   assert.match(wave1Migration, /v_mapping_active constant boolean := false/i);
-  assert.match(ingestionSource, /MONEY_WORLD_EVIDENCE_INGESTION_ENABLED = false/i);
+  assert.match(ingestionSource, /MONEY_WORLD_EVIDENCE_INGESTION_ENABLED = true/i);
+  assert.match(
+    activationMigration,
+    /money-world-s08-subtraction-v2-assessed/i,
+    "activation migration must target the assessed v2 content version only"
+  );
+  assert.match(
+    activationMigration,
+    /private\.world_evidence_activation_registry[\s\S]*active[\s\S]*true/i,
+    "activation migration must use the private server-owned mapping registry"
+  );
+  assert.match(
+    worldRuntimeSource,
+    /emitMoneyWorldEvidenceObservation/,
+    "World runtime must emit the reviewed raw Stage 8 observation through the client adapter"
+  );
   assert.doesNotMatch(
     worldRuntimeSource,
-    /moneyWorldEvidenceIngestion|\/api\/learning\/world-evidence|record_world_skill_evidence/,
-    "World runtime must remain disconnected in Wave 2"
+    /record_world_skill_evidence|record_learning_attempt/,
+    "World runtime must not call database RPCs or canonical Belajar writes directly"
   );
 
   assert.match(
@@ -337,7 +357,7 @@ try {
     "adaptive spacing must ignore supplemental-only recency"
   );
 
-  console.log("World evidence source-aware mastery, progression, certificate, report, and activation-isolation tests passed.");
+  console.log("World evidence source-aware mastery, progression, certificate, report, and reviewed Stage 8 activation-isolation tests passed.");
 } finally {
   rmSync(outDir, { recursive: true, force: true });
 }
