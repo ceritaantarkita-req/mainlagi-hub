@@ -266,7 +266,7 @@ export function evaluateMoneyWorldEvidenceIngestion(
           stageId: "money-stage-08-final-festival" as const,
           worldActivityId: "money-s08-activity-02" as const,
           mechanicId: "tap_choice" as const,
-          contentVersion: MONEY_WORLD_EVIDENCE_CONTENT_VERSION,
+          contentVersion: "money-world-s08-subtraction-v1" as const,
           answerSequence,
           inputMode,
           startedAt,
