@@ -119,7 +119,8 @@ verified gameplay truth:      900/900 / 47 / choice_grid 174 / pattern_completio
 gameplay taxonomy:            47 active / no Pattern #48
 illustration audit:           #287 -> bea1380e / main CI #1453 exact smoke
 visual containment:           #294 -> 6d0f9bd8 / PR CI #1529 / main CI #1531 exact smoke
-semantic illustration art:    OPEN / small registry+provenance pilot next
+semantic registry gate:       #297 -> ed7db8a6 / PR CI #1536 / main CI #1537 exact smoke
+semantic production art:      OPEN / exact P0 candidate production-review next
 ```
 
 Cloud analytics integrity: **CLOSED / MERGED / LIVE VERIFIED** via PR #267 -> main `89a2bc629e8535bddbf2ab78ae1990a063f0f361`, merged-main CI #1205 exact Cloudflare smoke. The old fixed 500-attempt / 2000-evidence cap and authenticated silent-local-fallback defect must not be listed as open debt again.
@@ -128,7 +129,7 @@ Repository secret-scan governance: **CLOSED / MERGED / LIVE VERIFIED** via PR #2
 
 Product-UX and WS-05 remain separate work tracks. Character production is currently **PAUSED by the project owner**; it must not be resumed implicitly. Mainlagi World is also a separate development track and is out of scope for this plan execution.
 
-Learning visual containment is now **CLOSED / MERGED / LIVE VERIFIED** through PR #294 -> main `6d0f9bd...`, merged-main CI #1531 exact smoke. The active illustration task is semantic clarity/provenance for a small recognition-critical pilot; do not reopen generic containment unless a reproduced defect exists.
+Learning visual containment is **CLOSED / MERGED / LIVE VERIFIED** through PR #294 -> main `6d0f9bd...`, merged-main CI #1531 exact smoke. The semantic illustration registry/provenance gate is also **CLOSED / MERGED / LIVE VERIFIED** through PR #297 -> main `ed7db8a6...`, merged-main CI #1537 exact smoke. Current registry truth is 17 review-required / 0 approved / 0 production binary / 0 runtime activation. The active illustration task is exact P0 candidate production/review; do not reopen generic containment or registry architecture unless a reproduced defect exists.
 
 
 ### 22 September user execution boundary
@@ -793,10 +794,10 @@ Current and next:
 11. English narration copy/asset/provider/human-review engineering gates: **CLOSED / MERGED / LIVE VERIFIED**; real fixed-audio generation/listening remains **DEFERRED**;
 12. learning-illustration audit: **CLOSED / LIVE VERIFIED** via PR #287;
 13. learning visual containment/readability foundation: **CLOSED / MERGED / LIVE VERIFIED** via PR #294 -> main `6d0f9bd8972297e316bdf031603d160d901d8d04`, main CI #1531 exact smoke;
-14. **NOW:** small semantic illustration registry/provenance pilot for recognition-critical English/Bahasa/Science visuals;
-15. review exact existing Mainlagi artwork for semantic reuse; do not trust filenames or repository presence as approval;
-16. replace only reviewed P0 semantic mismatches first, keeping `LearningVisualToken` and all canonical learning/evidence contracts;
-17. expand semantic artwork only from measured recognition/readability evidence;
+14. semantic illustration registry/provenance gate: **CLOSED / MERGED / LIVE VERIFIED** via PR #297 -> main `ed7db8a6c5b8a3ee4acc9bcca260b4e0b5776773`, main CI #1537 exact smoke; 17 review-required / 0 approved / 0 binary / 0 runtime activation;
+15. **NOW:** produce/review exact P0 semantic-art candidates for HEAD, JUMP, gills, beak, cactus thick stem, towel, raincoat and toy block;
+16. separately resolve provenance for any existing-art reuse candidate before copying/approving it; do not trust filenames or repository presence as approval;
+17. activate only exact reviewed/approved semantic binaries through a later runtime-mapping wave, keeping `LearningVisualToken` and all canonical learning/evidence contracts;
 18. real-device/accessibility acceptance and cleanup of superseded presentation paths;
 19. resume fixed English audio only when separately re-authorized;
 20. resume character production only when separately re-authorized.

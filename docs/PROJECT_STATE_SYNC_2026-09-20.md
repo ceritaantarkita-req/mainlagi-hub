@@ -4,19 +4,19 @@ Status: **CURRENT HANDOFF SNAPSHOT — SYNCHRONIZED 23 SEPTEMBER 2026**
 Repository: `ceritaantarkita-req/mainlagi-hub`  
 Canonical branch: `main`
 
-This document summarizes the current repository/product state through the 23 September learning-visual containment closure, while preserving the earlier English narration and WS-05 closures. It does not replace historical audit/closure records; it links the current truth that active work must preserve.
+This document summarizes the current repository/product state through the 23 September learning-semantic illustration registry/provenance closure, while preserving the earlier containment, English narration and WS-05 closures. It does not replace historical audit/closure records; it links the current truth that active work must preserve.
 
 ## 1. Source of truth and production verification
 
 Latest production main:
 
 ```text
-6d0f9bd8972297e316bdf031603d160d901d8d04
+ed7db8a6c5b8a3ee4acc9bcca260b4e0b5776773
 ```
 
-This is learning visual containment PR #294. Exact-head PR CI **#1529 / run `35763091032`** passed the full matrix; merged-main CI **#1531 / run `35764397545`** repeated the full matrix and exact Cloudflare smoke confirmed production served `6d0f9bd8972297e316bdf031603d160d901d8d04` on branch `main` with 9 modules and the canonical Supabase backend.
+This is semantic illustration provenance-gate PR #297. Exact-head PR CI **#1536 / run `35769098899`** passed the full matrix; merged-main CI **#1537 / run `35770021133`** repeated the full matrix and exact Cloudflare smoke confirmed production served `ed7db8a6c5b8a3ee4acc9bcca260b4e0b5776773` on branch `main` with 9 modules and the canonical Supabase backend.
 
-Containment is closed/live verified for Activity Gallery, Initial Sound, Bahasa+English Picture & Word, Science Feature/Function and Material Lab. Semantic illustration clarity/provenance remains open.
+Containment remains closed/live verified through PR #294. The semantic illustration registry/provenance infrastructure is now also closed/live verified through PR #297 at **17 review-required / 0 approved / 0 production binary / 0 runtime activation**. The active open work is exact P0 semantic-art candidate production/review, not another containment or registry architecture wave.
 
 Latest English-narration tooling implementation baseline:
 
