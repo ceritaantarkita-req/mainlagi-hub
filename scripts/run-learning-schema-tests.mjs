@@ -16,6 +16,7 @@ const subjectFoundations = readFileSync(path.join(root, "supabase/migrations/001
 const worldProgress = readFileSync(path.join(root, "supabase/migrations/0047_world_progress_persistence.sql"), "utf8");
 const supplementalEvidence = readFileSync(path.join(root, "supabase/migrations/0048_world_supplemental_evidence_foundation.sql"), "utf8");
 const sourceAwareMastery = readFileSync(path.join(root, "supabase/migrations/0049_source_aware_mastery_isolation.sql"), "utf8");
+const worldEvidenceActivation = readFileSync(path.join(root, "supabase/migrations/0050_world_evidence_stage8_activation.sql"), "utf8");
 
 const requiredTables = [
   "learning_skills", "learning_activities", "learning_activity_skills", "learning_attempts",
@@ -228,6 +229,25 @@ assert.doesNotMatch(sourceAwareMastery, /insert into public\.child_learning_prog
 assert.doesNotMatch(sourceAwareMastery, /update public\.learning_activities/i, "source-aware mastery migration must not promote or rewrite World activities");
 assert.doesNotMatch(sourceAwareMastery, /grant execute on function private\.refresh_world_supplemental_mastery/i, "private supplemental mastery helper must never receive RPC execute grants");
 
+assert.match(worldEvidenceActivation, /create table if not exists private\.world_evidence_activation_registry/i, "activation registry must live in private schema");
+assert.match(worldEvidenceActivation, /revoke all on private\.world_evidence_activation_registry[\s\S]*from public, anon, authenticated, service_role/i, "activation registry must not be readable or writable by API roles");
+assert.match(worldEvidenceActivation, /'money-s08-activity-02'[\s\S]*'money-world-s08-subtraction-v2-assessed'[\s\S]*true/i, "activation migration must activate only the reviewed Stage 8 assessed content version");
+assert.match(worldEvidenceActivation, /from private\.world_evidence_activation_registry[\s\S]*r\.active = true/i, "World evidence RPC must resolve activation through the private registry");
+assert.match(worldEvidenceActivation, /p_world_id is distinct from 'money-festival'[\s\S]*p_stage_id is distinct from 'money-stage-08-final-festival'[\s\S]*p_world_activity_id is distinct from 'money-s08-activity-02'[\s\S]*p_mechanic_id is distinct from 'tap_choice'[\s\S]*p_content_version is distinct from 'money-world-s08-subtraction-v2-assessed'/i, "active RPC must still own the exact source/content mapping");
+assert.match(worldEvidenceActivation, /grant execute on function public\.record_world_skill_evidence[\s\S]*to service_role/i, "activated evidence RPC must remain server-role only");
+assert.doesNotMatch(worldEvidenceActivation, /grant execute on function public\.record_world_skill_evidence[\s\S]*to authenticated/i, "activation must not grant browser RPC execution");
+assert.doesNotMatch(worldEvidenceActivation, /p_skill_key|p_evidence_weight|p_evidence_score|p_qualifies_for_mastery/i, "activation RPC must not accept caller-selected canonical mapping or evidence qualification");
+assert.match(worldEvidenceActivation, /pp\.id::text = p_child_key[\s\S]*pp\.account_id = p_account_id[\s\S]*pp\.deleted_at is null[\s\S]*for update/i, "activation RPC must retain serialized child ownership enforcement");
+assert.match(worldEvidenceActivation, /v_age is null or v_age < 6 or v_age > 7/i, "activation must retain the age 6-7 evidence boundary");
+assert.match(worldEvidenceActivation, /created_at > now\(\) - interval '30 seconds'/i, "activation must retain server receipt-time replay protection");
+assert.match(worldEvidenceActivation, /v_retry_count < 7/i, "activation must retain excessive-retry non-qualification");
+assert.match(worldEvidenceActivation, /v_prior_qualifying/i, "activation must retain static-content qualifying cap");
+assert.doesNotMatch(worldEvidenceActivation, /insert into public\.learning_attempts/i, "activation must not forge canonical Belajar attempts");
+assert.doesNotMatch(worldEvidenceActivation, /insert into public\.child_learning_progress/i, "activation must not mutate Belajar completion/progress");
+assert.doesNotMatch(worldEvidenceActivation, /total_stars\s*=|total_stars\s*\+/i, "activation must not award Belajar stars");
+assert.doesNotMatch(worldEvidenceActivation, /insert into public\.learning_certificates/i, "activation must not issue certificates directly");
+assert.doesNotMatch(worldEvidenceActivation, /insert into public\.child_learning_achievements/i, "activation must not issue achievements directly");
+
 for (const legacy of ["game_sessions", "game_scores", "progress"]) {
   for (const [name, migration] of [
     ["schema", schema], ["functions", functions], ["hardening", hardening], ["advisor hardening", advisorHardening],
@@ -236,10 +256,11 @@ for (const legacy of ["game_sessions", "game_scores", "progress"]) {
     ["reusable-mechanic migration", reusableMechanics], ["subject-foundation migration", subjectFoundations],
     ["World progress migration", worldProgress],
     ["World supplemental evidence migration", supplementalEvidence],
-    ["World source-aware mastery migration", sourceAwareMastery]
+    ["World source-aware mastery migration", sourceAwareMastery],
+    ["World Stage 8 evidence activation migration", worldEvidenceActivation]
   ]) {
     assert.doesNotMatch(migration, new RegExp(`drop\\s+table(?:\\s+if\\s+exists)?\\s+public\\.${legacy}`, "i"), `${name} must not drop legacy table ${legacy}`);
   }
 }
 
-console.log("Learning migration, anti-farming, ownership, scalable-content, reusable-mechanic, Batch 6 subject, isolated World progress, fail-closed supplemental evidence, and source-aware mastery isolation schema tests passed.");
+console.log("Learning migration, anti-farming, ownership, scalable-content, reusable-mechanic, Batch 6 subject, isolated World progress, supplemental evidence, source-aware mastery isolation, and reviewed Stage 8 activation schema tests passed.");
