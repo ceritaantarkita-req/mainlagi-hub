@@ -57,6 +57,11 @@ import {
   readCloudMoneyWorldProgress,
   syncMoneyWorldProgressCloud
 } from "@/lib/learning/world/cloud";
+import {
+  emitMoneyWorldEvidenceObservation,
+  type MoneyWorldEvidenceCompletionObservation,
+  type MoneyWorldEvidenceInputMode
+} from "@/lib/learning/world/moneyWorldEvidenceClient";
 import { validateReusableMechanicPayload } from "@/lib/learning/mechanicLibrary";
 import styles from "./MoneyWorldExperience.module.css";
 
@@ -77,6 +82,11 @@ type MoneyWorldStageVisualStyle = CSSProperties & {
   "--world-scene-wide": string;
   "--world-scene-mobile": string;
 };
+
+type MoneyWorldActivityCompletion = Omit<
+  MoneyWorldEvidenceCompletionObservation,
+  "childId"
+>;
 
 function runtimeCharacterForStoryRole(speaker: MoneyWorldStorySpeaker) {
   const id = MONEY_WORLD_RUNTIME_CHARACTER_POLICY.storyRoleToRuntimeCharacter[speaker];
@@ -864,19 +874,27 @@ function WorldTapChoice({
   onComplete
 }: {
   placement: MoneyWorldActivityPlacement;
-  onComplete: () => void;
+  onComplete: (completion?: MoneyWorldActivityCompletion) => void;
 }) {
   const validation = validateReusableMechanicPayload("tap_choice", placement.payload);
   const options = placement.payload.options ?? [];
   const correctOptionId = placement.payload.correctOptionId ?? "";
   const [selected, setSelected] = useState<string | null>(null);
   const [incorrectCount, setIncorrectCount] = useState(0);
+  const [answerSequence, setAnswerSequence] = useState<string[]>([]);
+  const [locked, setLocked] = useState(false);
+  const [startedAt] = useState(() => new Date().toISOString());
+  const inputModeRef = useRef<MoneyWorldEvidenceInputMode>("button");
   const [message, setMessage] = useState("Pilih jawaban yang paling cocok.");
 
   if (!validation.valid) return <div className={styles.runtimeError}>Payload pilihan tidak valid.</div>;
 
   const choose = (optionId: string) => {
+    if (locked) return;
+    const nextAnswers = [...answerSequence, optionId];
+    setAnswerSequence(nextAnswers);
     setSelected(optionId);
+
     if (optionId !== correctOptionId) {
       const nextWrong = incorrectCount + 1;
       setIncorrectCount(nextWrong);
@@ -884,9 +902,17 @@ function WorldTapChoice({
       playTone("wrong");
       return;
     }
+
+    const completedAt = new Date().toISOString();
+    setLocked(true);
     setMessage("Betul!");
     playTone("correct");
-    window.setTimeout(onComplete, 450);
+    window.setTimeout(() => onComplete({
+      answerSequence: nextAnswers,
+      startedAt,
+      completedAt,
+      inputMode: inputModeRef.current
+    }), 450);
   };
 
   const takeAway = placement.presentation?.kind === "take_away";
@@ -916,6 +942,11 @@ function WorldTapChoice({
             key={option.id}
             className={cx(styles.choiceCard, selected === option.id && styles.selectedCard)}
             aria-pressed={selected === option.id}
+            disabled={locked}
+            onPointerDown={() => { inputModeRef.current = "pointer"; }}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") inputModeRef.current = "keyboard";
+            }}
             onClick={() => choose(option.id)}
           >
             {option.label}
@@ -1088,7 +1119,13 @@ function WorldRecapCard({
   );
 }
 
-function WorldActivity({ placement, onComplete }: { placement: MoneyWorldActivityPlacement; onComplete: () => void }) {
+function WorldActivity({
+  placement,
+  onComplete
+}: {
+  placement: MoneyWorldActivityPlacement;
+  onComplete: (completion?: MoneyWorldActivityCompletion) => void;
+}) {
   if (placement.mechanicId === "drag_to_target") return <WorldDragTarget placement={placement} onComplete={onComplete} />;
   if (placement.mechanicId === "matching") return <WorldMatching placement={placement} onComplete={onComplete} />;
   if (placement.mechanicId === "compare") return <WorldCompare placement={placement} onComplete={onComplete} />;
@@ -1301,6 +1338,20 @@ function MoneyWorldStageRuntime({
   if (completed) return <WorldStageCompletion childId={childId} stageId={stageId} onAgain={again} />;
 
   const segment = segments[segmentIndex];
+  const completeActivity = (completion?: MoneyWorldActivityCompletion) => {
+    if (
+      segment.type === "activity"
+      && segment.activity.id === "money-s08-activity-02"
+      && segment.activity.assessment === "assessed"
+      && completion
+    ) {
+      void emitMoneyWorldEvidenceObservation({
+        childId,
+        ...completion
+      });
+    }
+    advance();
+  };
   const activeScene = getMoneyWorldSceneForSegment(stageId, segment.id);
   const pilotStage = getMoneyWorldPilotStage(stageId);
   const chapterIndex = MONEY_WORLD_CHAPTERS.findIndex((chapter) => chapter.id === stage.chapterId);
@@ -1387,7 +1438,7 @@ function MoneyWorldStageRuntime({
         )}
       >
         {segment.type === "activity" ? (
-          <WorldActivity placement={segment.activity} onComplete={advance} />
+          <WorldActivity key={segment.activity.id} placement={segment.activity} onComplete={completeActivity} />
         ) : segment.type === "narrative_choice" ? (
           <NarrativeChoiceCard audioId={segment.id + "-prompt"} prompt={segment.prompt} options={segment.options} onNext={advance} />
         ) : segment.type === "recap" ? (
