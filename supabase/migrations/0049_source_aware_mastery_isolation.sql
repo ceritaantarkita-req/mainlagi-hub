@@ -23,6 +23,7 @@ alter table public.child_skill_mastery
     check (canonical_evidence_count >= 0),
   add column if not exists canonical_qualifying_evidence_count integer not null default 0
     check (canonical_qualifying_evidence_count >= 0),
+  add column if not exists canonical_last_evidence_at timestamptz,
   add column if not exists supplemental_evidence_count integer not null default 0
     check (supplemental_evidence_count >= 0),
   add column if not exists supplemental_qualifying_evidence_count integer not null default 0
@@ -37,6 +38,7 @@ set canonical_mastery_score = mastery_score,
     canonical_mastery_level = mastery_level,
     canonical_evidence_count = evidence_count,
     canonical_qualifying_evidence_count = qualifying_evidence_count,
+    canonical_last_evidence_at = last_evidence_at,
     supplemental_evidence_count = 0,
     supplemental_qualifying_evidence_count = 0,
     evidence_source_policy = 'belajar-only';
@@ -270,6 +272,7 @@ begin
     canonical_mastery_level,
     canonical_evidence_count,
     canonical_qualifying_evidence_count,
+    canonical_last_evidence_at,
     supplemental_evidence_count,
     supplemental_qualifying_evidence_count,
     evidence_source_policy,
@@ -290,6 +293,7 @@ begin
     v_canonical_level,
     v_canonical_evidence_total,
     v_canonical_count,
+    v_canonical_last,
     v_supplemental_evidence_total,
     v_supplemental_recent_qualifying,
     v_policy,
@@ -307,6 +311,7 @@ begin
     canonical_mastery_level = excluded.canonical_mastery_level,
     canonical_evidence_count = excluded.canonical_evidence_count,
     canonical_qualifying_evidence_count = excluded.canonical_qualifying_evidence_count,
+    canonical_last_evidence_at = excluded.canonical_last_evidence_at,
     supplemental_evidence_count = excluded.supplemental_evidence_count,
     supplemental_qualifying_evidence_count = excluded.supplemental_qualifying_evidence_count,
     evidence_source_policy = excluded.evidence_source_policy,
@@ -497,6 +502,7 @@ begin
             'canonical_score', csm.canonical_mastery_score,
             'canonical_confidence', csm.canonical_confidence,
             'canonical_qualifying_evidence_count', csm.canonical_qualifying_evidence_count,
+            'canonical_last_evidence_at', csm.canonical_last_evidence_at,
             'combined_level', csm.mastery_level,
             'combined_score', csm.mastery_score,
             'supplemental_qualifying_evidence_count', csm.supplemental_qualifying_evidence_count,
