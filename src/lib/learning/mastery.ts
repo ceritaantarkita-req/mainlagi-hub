@@ -255,16 +255,7 @@ export function calculateSkillMastery(skillId: string, evidence: SkillEvidence[]
       evidenceCount: relevant.length,
       qualifyingEvidenceCount: 0,
       lastEvidenceAt: relevant.at(-1)?.createdAt ?? null,
-      needsPractice: relevant.length > 0,
-      canonicalScore: 0,
-      canonicalConfidence: 0,
-      canonicalLevel: relevant.length > 0 ? "exploring" : "not_started",
-      canonicalEvidenceCount: relevant.length,
-      canonicalQualifyingEvidenceCount: 0,
-      canonicalLastEvidenceAt: relevant.at(-1)?.createdAt ?? null,
-      supplementalEvidenceCount: 0,
-      supplementalQualifyingEvidenceCount: 0,
-      evidenceSource: relevant.length > 0 ? "belajar-only" : "none"
+      needsPractice: relevant.length > 0
     };
   }
 
@@ -301,16 +292,7 @@ export function calculateSkillMastery(skillId: string, evidence: SkillEvidence[]
     evidenceCount: relevant.length,
     qualifyingEvidenceCount: qualifying.length,
     lastEvidenceAt: relevant.at(-1)?.createdAt ?? null,
-    needsPractice: level === "exploring" || level === "developing",
-    canonicalScore: score,
-    canonicalConfidence: confidence,
-    canonicalLevel: level,
-    canonicalEvidenceCount: relevant.length,
-    canonicalQualifyingEvidenceCount: qualifying.length,
-    canonicalLastEvidenceAt: relevant.at(-1)?.createdAt ?? null,
-    supplementalEvidenceCount: 0,
-    supplementalQualifyingEvidenceCount: 0,
-    evidenceSource: "belajar-only"
+    needsPractice: level === "exploring" || level === "developing"
   };
 }
 
