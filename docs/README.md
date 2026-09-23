@@ -65,7 +65,8 @@ gameplay taxonomy:                900/900 classified / 47 active / no Pattern #4
 illustration audit:               PR #287 / merged + live verified
 visual containment:               PR #294 -> 6d0f9bd8 / PR CI #1529 / main CI #1531 exact smoke
 semantic illustration gate:       PR #297 -> ed7db8a6 / 17 review-required / 0 approved / main CI #1537 exact smoke
-semantic production art:          OPEN / exact P0 candidate production-review next
+semantic candidate generator:     PR #300 -> 89adf887 / main CI #1546 exact smoke
+semantic production art:          OPEN / source prereview refinement -> exact human review next
 character development:            PAUSED BY PROJECT OWNER / Drive assets reference-only
 Mainlagi World:                   separate user development / DO NOT TOUCH in this workstream
 WS-05 production truth:           900/900 / 47 / choice_grid 174 / pattern_completion 10 / KEEP 900
@@ -473,3 +474,5 @@ static-audio runtime activation:      none
 Canonical records: `ENGLISH_NARRATION_PROVIDER_PILOT_2026-09-22.md`, `ENGLISH_NARRATION_PROVIDER_PILOT_HARNESS_CLOSURE_2026-09-22.md`, and `ENGLISH_NARRATION_SAFE_CHECKPOINT_2026-09-22.md`.
 
 Next work is candidate generation + human listening review. Mainlagi World remains untouched; character development remains paused; WS-05 remains closed; 900 activities / 47 active patterns / no Pattern #48 remain unchanged.
+
+- [`LEARNING_SEMANTIC_P0_VISUAL_PREREVIEW_2026-09-23.md`](LEARNING_SEMANTIC_P0_VISUAL_PREREVIEW_2026-09-23.md) — AI visual pre-review and two source refinements before exact human semantic review.
