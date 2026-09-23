@@ -1,7 +1,7 @@
 
 ### 23 September semantic P0 human-review gate
 
-The exact-file semantic P0 human-review evidence gate is merged through PR #304 -> main `f0b48cbdbe162fd19e0665f4b29945f6aaa16a5f`. PR CI #1552 / run `35816166334` passed the full matrix; merged-main CI #1553 / run `35824198610` is the exact post-merge verification run.
+The exact-file semantic P0 human-review evidence gate is merged through PR #304 -> main `f0b48cbdbe162fd19e0665f4b29945f6aaa16a5f`. PR CI #1552 / run `35816166334` passed the full matrix; merged-main CI #1553 / run `35824198610` passed the full matrix and exact Cloudflare smoke.
 
 Current truth remains:
 
