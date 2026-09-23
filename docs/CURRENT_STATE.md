@@ -1039,6 +1039,36 @@ Explicit exclusions remain `science-cycle-butterfly`, `science-match-young-adult
 
 Closure evidence: `PATTERN42_GROWTH_STAGE_TRANSITION_CLOSURE_2026-09-18.md`.
 
+## World → Evidence activation decision wave — ISOLATED / PRE-ACTIVATION
+
+A new isolated decision branch now follows the immutable v1 fail-closed closure:
+
+```text
+branch: feature/world-evidence-activation-design-20260923
+base:   feature/world-evidence-bridge-contract-20260923 @ 2debc4d...
+mode:   pre-activation-design-disabled
+```
+
+Decision scope:
+
+- `money-s02-activity-01` price comparison is **deferred** from canonical evidence; it remains contextual World financial-literacy practice.
+- `money-s08-activity-02` (`8 - 2`) is the only activity accepted for **future supplemental evidence** to `math.operation.subtraction.within_10`.
+- the Stage 8 activity is still authored as `practice`; no runtime evidence may be emitted yet.
+- eligible future evidence ages are 6–7; age 8 remains World completion-only and must not force a catalog `ageMax` rewrite.
+- World evidence is supplemental, capped at one qualifying item per activity/content version, and World-only evidence may not raise mastery above `exploring`.
+- direct `record_learning_attempt(...)` reuse remains forbidden.
+- selected future architecture is a server-owned `/api/learning/world-evidence` route plus a private supplemental-evidence write boundary.
+- SQL/schema/RPC/runtime/mastery/report/certificate implementation remains **not done**.
+
+Canonical decision record:
+
+```text
+docs/WORLD_EVIDENCE_ACTIVATION_DECISION_2026-09-23.md
+src/lib/learning/world/moneyWorldEvidenceActivationDesign.ts
+```
+
+This branch does not supersede or move the immutable v1 checkpoints and does not authorize merge/activation by itself.
+
 ## Learning/mastery boundaries
 
 Non-negotiable unless explicitly redesigned with migration/tests:
