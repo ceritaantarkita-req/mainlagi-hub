@@ -1,4 +1,6 @@
 # Changelog
+- Semantic P0 human-review gate PR #304 merged ke main `f0b48cbdbe162fd19e0665f4b29945f6aaa16a5f`; PR CI #1552 / run `35816166334` full success. Gate mengikat review ke exact 9 file + manifest/file SHA, mendukung per-item accept/reject, dan tetap 0 human decision / 0 production approval / 0 runtime activation.
+- PR #302 ditutup sebagai superseded agar docs prereview lama tidak mengembalikan wording next-gate yang sudah usang.
 - Semantic P0 source refinement PR #301 merged/live verified ke main `9f6270c79bb92f7cb6ce1d29a2165df54801debf`; merged-main CI #1548 / run `35807137419` full success termasuk exact Cloudflare production smoke.
 - Semantic P0 human-review evidence gate disiapkan pada branch `agent/semantic-p0-human-review-gate-20260923`: exact 9 files + manifest/file SHA binding, per-item accept/reject, tamper/stale rejection, dan zero registry/public/runtime mutation. Human decision belum direkam dan tidak boleh difabrikasi.
 - Safe checkpoint baru: `LEARNING_SEMANTIC_SAFE_CHECKPOINT_2026-09-23.md`.

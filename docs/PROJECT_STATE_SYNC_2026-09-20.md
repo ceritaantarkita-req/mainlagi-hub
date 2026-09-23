@@ -1,3 +1,21 @@
+
+### 23 September semantic P0 human-review gate
+
+The exact-file semantic P0 human-review evidence gate is merged through PR #304 -> main `f0b48cbdbe162fd19e0665f4b29945f6aaa16a5f`. PR CI #1552 / run `35816166334` passed the full matrix; merged-main CI #1553 / run `35824198610` passed the full matrix and exact Cloudflare smoke.
+
+Current truth remains:
+
+- semantic registry: 17 review-required / 0 approved;
+- exact P0 candidate set: 9;
+- human-reviewed exact P0 binaries: 0;
+- human-accepted exact P0 binaries: 0;
+- production semantic binaries: 0;
+- runtime semantic activation: 0.
+
+The next step is actual human viewing and per-file accept/reject of the exact nine generated binaries. Human acceptance remains separate from later legal provenance/production approval, and runtime mapping remains a later wave.
+
+Canonical closure: `LEARNING_SEMANTIC_P0_HUMAN_REVIEW_GATE_CLOSURE_2026-09-23.md`.
+
 # Mainlagi Hub — Project State Sync — 20 September 2026
 
 Status: **CURRENT HANDOFF SNAPSHOT — SYNCHRONIZED 23 SEPTEMBER 2026**  

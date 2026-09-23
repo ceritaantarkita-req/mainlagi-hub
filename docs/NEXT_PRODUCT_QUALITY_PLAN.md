@@ -806,6 +806,16 @@ Current and next:
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
 
 
+### 23 September semantic human-review gate handoff
+
+PR #304 merged the exact-file human review evidence gate to main `f0b48cbdbe162fd19e0665f4b29945f6aaa16a5f`. PR CI #1552 / run `35816166334` passed the full matrix. Merged-main CI #1553 / run `35824198610` passed the full matrix and exact Cloudflare smoke.
+
+The gate is engineering infrastructure only. It records **no human decision** and authorizes **no production approval/runtime activation**.
+
+Next execution is the exact nine-file human review workflow through `pilot:illustrations:generate` + `pilot:illustrations:review`. Do not build another generic illustration infrastructure layer before that decision.
+
+Canonical closure: `LEARNING_SEMANTIC_P0_HUMAN_REVIEW_GATE_CLOSURE_2026-09-23.md`.
+
 ### 23 September semantic candidate pre-review handoff
 
 PR #300 candidate generator is merged/live verified at main `89adf887...` with merged-main CI #1546 exact smoke. PR #301 refined `action.jump` and `feature.cactus-thick-stem` and is merged/live verified at main `9f6270c79...`, merged-main CI #1548 exact smoke.
@@ -814,8 +824,8 @@ Do not build another generic illustration infrastructure layer. Current executio
 
 1. keep the nine-item candidate set fixed;
 2. preserve the PR #301 source refinements unless exact review evidence rejects them;
-3. finish/live-verify the exact-file human review evidence gate;
-4. generate the exact nine local binaries and create the non-overwriting review template;
+3. exact-file human review evidence gate: **MERGED through PR #304 -> main `f0b48cbdbe162fd19e0665f4b29945f6aaa16a5f`; PR CI #1552 full success; merged-main CI #1553 / run `35824198610` full success + exact smoke**;
+4. **NOW:** generate the exact nine local binaries and create the non-overwriting review template;
 5. a human reviewer views the exact files and accepts/rejects each binary individually;
 6. only after acceptance, perform separate legal provenance + production-asset approval for accepted items;
 7. only after production approval, perform separate runtime semantic mapping.
