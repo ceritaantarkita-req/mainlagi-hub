@@ -1011,7 +1011,7 @@ export const MONEY_WORLD_STAGE_EIGHT_SEGMENTS: MoneyWorldSegment[] = [
     activity: {
       id: "money-s08-activity-02",
       mechanicId: "tap_choice",
-      assessment: "practice",
+      assessment: "assessed",
       presentation: {
         kind: "take_away",
         startCount: 8,
