@@ -13,11 +13,11 @@
         "sourcePath": "/artwork/activity-previews/color-object-apple.webp",
         "reviewStatus": "visually-suitable",
         "reviewedAt": "2026-09-23",
-        "notes": "Preliminary semantic review: recognizable apple silhouette; provenance still unresolved."
+        "notes": "Preliminary semantic review: recognizable apple silhouette; creation basis traced to repository generator; legal rights confirmation still pending."
       },
       "provenance": {
         "status": "pending",
-        "source": "Existing Mainlagi activity-preview candidate; creation/rights basis not yet documented for semantic reuse.",
+        "source": "Repository-generated activity-preview candidate. Exact creation chain: project-authored coloring geometry in src/lib/learning/coloringScenes.ts -> scripts/build-coloring-previews.mjs -> /artwork/activity-previews/color-object-apple.webp; first merged with PR #87 / commit 25c83840b74c4eca1dd3d3b71e888f7dfc4d8b21. Legal rights-holder/license basis still requires explicit confirmation before semantic production reuse.",
         "rightsHolder": null,
         "licenseBasis": null,
         "redistributionAllowed": false,
@@ -50,11 +50,11 @@
         "sourcePath": "/artwork/activity-previews/color-parts-cat.webp",
         "reviewStatus": "visually-suitable",
         "reviewedAt": "2026-09-23",
-        "notes": "Preliminary semantic review: stylized but clearly cat-like; provenance unresolved."
+        "notes": "Preliminary semantic review: stylized but clearly cat-like; creation basis traced to repository generator; legal rights confirmation still pending."
       },
       "provenance": {
         "status": "pending",
-        "source": "Existing Mainlagi activity-preview candidate; creation/rights basis not yet documented for semantic reuse.",
+        "source": "Repository-generated activity-preview candidate. Exact creation chain: project-authored coloring geometry in src/lib/learning/coloringScenes.ts -> scripts/build-coloring-previews.mjs -> /artwork/activity-previews/color-parts-cat.webp; first merged with PR #87 / commit 25c83840b74c4eca1dd3d3b71e888f7dfc4d8b21. Legal rights-holder/license basis still requires explicit confirmation before semantic production reuse.",
         "rightsHolder": null,
         "licenseBasis": null,
         "redistributionAllowed": false,
@@ -87,11 +87,11 @@
         "sourcePath": "/artwork/activity-previews/color-palette-fish.webp",
         "reviewStatus": "visually-suitable",
         "reviewedAt": "2026-09-23",
-        "notes": "Preliminary semantic review: clear fish silhouette; provenance unresolved."
+        "notes": "Preliminary semantic review: clear fish silhouette; creation basis traced to repository generator; legal rights confirmation still pending."
       },
       "provenance": {
         "status": "pending",
-        "source": "Existing Mainlagi activity-preview candidate; creation/rights basis not yet documented for semantic reuse.",
+        "source": "Repository-generated activity-preview candidate. Exact creation chain: project-authored coloring geometry in src/lib/learning/coloringScenes.ts -> scripts/build-coloring-previews.mjs -> /artwork/activity-previews/color-palette-fish.webp; first merged with PR #87 / commit 25c83840b74c4eca1dd3d3b71e888f7dfc4d8b21. Legal rights-holder/license basis still requires explicit confirmation before semantic production reuse.",
         "rightsHolder": null,
         "licenseBasis": null,
         "redistributionAllowed": false,
@@ -124,11 +124,11 @@
         "sourcePath": "/artwork/activity-previews/color-object-umbrella.webp",
         "reviewStatus": "visually-suitable",
         "reviewedAt": "2026-09-23",
-        "notes": "Preliminary semantic review: clear umbrella silhouette; provenance unresolved."
+        "notes": "Preliminary semantic review: clear umbrella silhouette; creation basis traced to repository generator; legal rights confirmation still pending."
       },
       "provenance": {
         "status": "pending",
-        "source": "Existing Mainlagi activity-preview candidate; creation/rights basis not yet documented for semantic reuse.",
+        "source": "Repository-generated activity-preview candidate. Exact creation chain: project-authored coloring geometry in src/lib/learning/coloringScenes.ts -> scripts/build-coloring-previews.mjs -> /artwork/activity-previews/color-object-umbrella.webp; first merged with PR #87 / commit 25c83840b74c4eca1dd3d3b71e888f7dfc4d8b21. Legal rights-holder/license basis still requires explicit confirmation before semantic production reuse.",
         "rightsHolder": null,
         "licenseBasis": null,
         "redistributionAllowed": false,
@@ -161,11 +161,11 @@
         "sourcePath": "/artwork/activity-previews/color-palette-car.webp",
         "reviewStatus": "visually-suitable",
         "reviewedAt": "2026-09-23",
-        "notes": "Preliminary semantic review: clear compact-car silhouette; provenance unresolved."
+        "notes": "Preliminary semantic review: clear compact-car silhouette; creation basis traced to repository generator; legal rights confirmation still pending."
       },
       "provenance": {
         "status": "pending",
-        "source": "Existing Mainlagi activity-preview candidate; creation/rights basis not yet documented for semantic reuse.",
+        "source": "Repository-generated activity-preview candidate. Exact creation chain: project-authored coloring geometry in src/lib/learning/coloringScenes.ts -> scripts/build-coloring-previews.mjs -> /artwork/activity-previews/color-palette-car.webp; first merged with PR #87 / commit 25c83840b74c4eca1dd3d3b71e888f7dfc4d8b21. Legal rights-holder/license basis still requires explicit confirmation before semantic production reuse.",
         "rightsHolder": null,
         "licenseBasis": null,
         "redistributionAllowed": false,
@@ -198,11 +198,11 @@
         "sourcePath": "/artwork/activity-previews/color-palette-cup.webp",
         "reviewStatus": "visually-suitable",
         "reviewedAt": "2026-09-23",
-        "notes": "Preliminary semantic review: clearly a handled cup on saucer; provenance unresolved."
+        "notes": "Preliminary semantic review: clearly a handled cup on saucer; creation basis traced to repository generator; legal rights confirmation still pending."
       },
       "provenance": {
         "status": "pending",
-        "source": "Existing Mainlagi activity-preview candidate; creation/rights basis not yet documented for semantic reuse.",
+        "source": "Repository-generated activity-preview candidate. Exact creation chain: project-authored coloring geometry in src/lib/learning/coloringScenes.ts -> scripts/build-coloring-previews.mjs -> /artwork/activity-previews/color-palette-cup.webp; first merged with PR #87 / commit 25c83840b74c4eca1dd3d3b71e888f7dfc4d8b21. Legal rights-holder/license basis still requires explicit confirmation before semantic production reuse.",
         "rightsHolder": null,
         "licenseBasis": null,
         "redistributionAllowed": false,
@@ -235,11 +235,11 @@
         "sourcePath": "/artwork/activity-previews/color-object-house.webp",
         "reviewStatus": "visually-suitable",
         "reviewedAt": "2026-09-23",
-        "notes": "Preliminary semantic review: simple canonical house silhouette; provenance unresolved."
+        "notes": "Preliminary semantic review: simple canonical house silhouette; creation basis traced to repository generator; legal rights confirmation still pending."
       },
       "provenance": {
         "status": "pending",
-        "source": "Existing Mainlagi activity-preview candidate; creation/rights basis not yet documented for semantic reuse.",
+        "source": "Repository-generated activity-preview candidate. Exact creation chain: project-authored coloring geometry in src/lib/learning/coloringScenes.ts -> scripts/build-coloring-previews.mjs -> /artwork/activity-previews/color-object-house.webp; first merged with PR #87 / commit 25c83840b74c4eca1dd3d3b71e888f7dfc4d8b21. Legal rights-holder/license basis still requires explicit confirmation before semantic production reuse.",
         "rightsHolder": null,
         "licenseBasis": null,
         "redistributionAllowed": false,
@@ -272,11 +272,11 @@
         "sourcePath": "/artwork/activity-previews/color-contrast-bird.webp",
         "reviewStatus": "visually-suitable",
         "reviewedAt": "2026-09-23",
-        "notes": "Preliminary semantic review: recognizable bird silhouette; provenance unresolved."
+        "notes": "Preliminary semantic review: recognizable bird silhouette; creation basis traced to repository generator; legal rights confirmation still pending."
       },
       "provenance": {
         "status": "pending",
-        "source": "Existing Mainlagi activity-preview candidate; creation/rights basis not yet documented for semantic reuse.",
+        "source": "Repository-generated activity-preview candidate. Exact creation chain: project-authored coloring geometry in src/lib/learning/coloringScenes.ts -> scripts/build-coloring-previews.mjs -> /artwork/activity-previews/color-contrast-bird.webp; first merged with PR #87 / commit 25c83840b74c4eca1dd3d3b71e888f7dfc4d8b21. Legal rights-holder/license basis still requires explicit confirmation before semantic production reuse.",
         "rightsHolder": null,
         "licenseBasis": null,
         "redistributionAllowed": false,
