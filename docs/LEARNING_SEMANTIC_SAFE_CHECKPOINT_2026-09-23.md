@@ -1,14 +1,15 @@
 # Learning Semantic Illustration Safe Checkpoint — 23 September 2026
 
-Status: **SAFE HANDOFF / EXACT HUMAN REVIEW IS THE NEXT DECISION GATE**
+Status: **SAFE HANDOFF / REVIEW GATE MERGED / EXACT HUMAN REVIEW IS THE NEXT DECISION GATE**
 
 ## Current production source of truth
 
 ```text
-current main:                         9f6270c79bb92f7cb6ce1d29a2165df54801debf
-current main change:                  PR #301 — refine semantic P0 candidate clarity
-merged-main CI:                       #1548 / run 35807137419 — full success
-exact Cloudflare production smoke:    PASS
+current main:                         f0b48cbdbe162fd19e0665f4b29945f6aaa16a5f
+current main change:                  PR #304 — semantic P0 human review gate
+PR CI:                                #1552 / run 35816166334 — full success
+merged-main CI:                       #1553 / run 35824198610 — verification in progress
+exact Cloudflare production smoke:    pending
 production modules:                   9
 semantic registry slots:              17
 registry review-required:             17
@@ -28,7 +29,8 @@ Cloudflare exact-SHA smoke confirmed production serves `9f6270c79bb92f7cb6ce1d29
 - semantic registry docs closure: PR #298;
 - existing-art creation-basis trace: PR #299;
 - deterministic nine-item P0 generator: PR #300;
-- JUMP + cactus source prereview refinement: PR #301.
+- JUMP + cactus source prereview refinement: PR #301;
+- exact-file human review evidence gate: PR #304 -> main `f0b48cbdbe162fd19e0665f4b29945f6aaa16a5f`, PR CI #1552 full success.
 
 Do not reopen those architecture layers unless new evidence shows a defect.
 
@@ -52,20 +54,17 @@ The candidate generator remains review-only and writes only under gitignored `in
 
 AI pre-review is not human approval.
 
-## Active branch at this checkpoint
+## Engineering gate state
 
-```text
-branch:
-agent/semantic-p0-human-review-gate-20260923
-```
+PR #304 is merged to main `f0b48cbdbe162fd19e0665f4b29945f6aaa16a5f`.
 
-Purpose:
-- add exact-file human review evidence binding;
-- permit per-item accept/reject;
-- fail on stale/tampered candidates;
-- never modify registry/public/runtime state.
+The gate now exists on main and:
+- binds exact-file human review evidence;
+- permits per-item accept/reject;
+- fails on stale/tampered candidates;
+- never modifies registry/public/runtime state.
 
-Until that branch is merged/live verified, production truth remains main `9f6270c79...`.
+Human review itself is still **not recorded**. Do not invent it.
 
 ## Next exact human workflow after gate verification
 
