@@ -307,7 +307,7 @@ checkpoint/world-evidence-bridge-design-closure-green-20260923
 
 Do not move or force-push any of these branches.
 
-The next step is **not implementation activation**. It is a new owner-authorized decision wave covering candidate mapping approval, age-8 handling, isolated server ingestion, progression/reward isolation, and security/anti-farming acceptance.
+At this immutable design-closure checkpoint, the then-next step was an owner-authorized decision wave covering candidate mapping approval, age-8 handling, isolated server ingestion, progression/reward isolation, and security/anti-farming acceptance. Section 15 records the later authorization and closure of the candidate-scope/pedagogy portion only.
 
 ## 15. Follow-up decision-wave boundary
 
