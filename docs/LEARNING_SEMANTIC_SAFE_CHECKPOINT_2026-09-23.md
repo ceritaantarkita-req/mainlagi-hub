@@ -8,8 +8,8 @@ Status: **SAFE HANDOFF / REVIEW GATE MERGED / EXACT HUMAN REVIEW IS THE NEXT DEC
 current main:                         f0b48cbdbe162fd19e0665f4b29945f6aaa16a5f
 current main change:                  PR #304 — semantic P0 human review gate
 PR CI:                                #1552 / run 35816166334 — full success
-merged-main CI:                       #1553 / run 35824198610 — verification in progress
-exact Cloudflare production smoke:    pending
+merged-main CI:                       #1553 / run 35824198610 — full success
+exact Cloudflare production smoke:    PASS
 production modules:                   9
 semantic registry slots:              17
 registry review-required:             17
@@ -56,7 +56,7 @@ AI pre-review is not human approval.
 
 ## Engineering gate state
 
-PR #304 is merged to main `f0b48cbdbe162fd19e0665f4b29945f6aaa16a5f`.
+PR #304 is **MERGED / LIVE VERIFIED** at main `f0b48cbdbe162fd19e0665f4b29945f6aaa16a5f`; merged-main CI #1553 / run `35824198610` passed the full matrix and exact Cloudflare smoke.
 
 The gate now exists on main and:
 - binds exact-file human review evidence;
