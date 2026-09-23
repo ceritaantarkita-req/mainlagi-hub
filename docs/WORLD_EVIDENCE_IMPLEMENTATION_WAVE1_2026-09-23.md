@@ -284,3 +284,13 @@ World completion / ★★★
 ```
 
 Implementation Wave 1 creates infrastructure only. It does not change that invariant.
+
+## 14. Wave 2 handoff
+
+Source-aware mastery/progression/certificate/report isolation is implemented separately in:
+
+```text
+docs/WORLD_EVIDENCE_IMPLEMENTATION_WAVE2_2026-09-23.md
+```
+
+Wave 2 does not change the Wave 1 activation state: application ingestion and database mapping remain disabled, Stage 8 remains practice, and World runtime remains disconnected.
