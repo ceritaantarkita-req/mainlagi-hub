@@ -195,7 +195,7 @@ export const MONEY_WORLD_EVIDENCE_CANDIDATES: readonly MoneyWorldEvidenceBridgeE
  * Exclusions are intentional. A reusable mechanic being measurable is never,
  * by itself, enough to justify a canonical skill/mastery mapping.
  */
-export const MONEY_WORLD_EVIDENCE_EXCLUSIONS: readonly MoneyWorldEvidenceBridgeEntry[
+export const MONEY_WORLD_EVIDENCE_EXCLUSIONS: readonly MoneyWorldEvidenceBridgeEntry[] = [
   {
     worldActivityId: "money-s02-activity-01",
     stageId: "money-stage-02-price-change",
@@ -211,7 +211,7 @@ export const MONEY_WORLD_EVIDENCE_EXCLUSIONS: readonly MoneyWorldEvidenceBridgeE
     rewardEffect: "none",
     requiresPedagogyReview: false,
     rationale: "Rejected from canonical Math evidence scope after review: the authored objective is contextual price change and 'more expensive', so a correct response does not isolate the canonical quantity-comparison construct strongly enough for mastery evidence."
-  },] = [
+  },,
   {
     worldActivityId: "money-s01-activity-01",
     stageId: "money-stage-01-money-use",
