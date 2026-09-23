@@ -38,7 +38,7 @@ const ingestionSource = readFileSync(
   "utf8"
 );
 const worldRuntimeSource = readFileSync(
-  path.join(root, "src", "components", "learning", "MoneyWorldExperience.tsx"),
+  path.join(root, "src", "components", "learning", "world-v2", "MoneyWorldExperience.tsx"),
   "utf8"
 );
 const insightsSource = readFileSync(
