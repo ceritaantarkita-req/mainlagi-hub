@@ -1163,6 +1163,54 @@ Canonical Wave 2 document:
 docs/WORLD_EVIDENCE_IMPLEMENTATION_WAVE2_2026-09-23.md
 ```
 
+## World → Evidence Stage 8 activation — CODE GREEN / NOT PRODUCTION DEPLOYED
+
+The separately authorized activation implementation now exists on:
+
+```text
+branch: feature/world-evidence-activation-wave-20260923
+PR:     #309 Draft / open / unmerged
+```
+
+Frozen code checkpoint:
+
+```text
+checkpoint/world-evidence-stage8-activation-green-20260923
+@ 15f647b98cedcbe8a4580d15686013f6f066cd73
+
+CI #1573 / run 35869765210
+full matrix: PASS
+```
+
+Activated in the isolated code branch:
+
+- only `money-s08-activity-02` is now authored `assessed`;
+- active evidence content version is `money-world-s08-subtraction-v2-assessed`;
+- runtime emits raw answer-sequence observations through `/api/learning/world-evidence`;
+- migration `0050_world_evidence_stage8_activation.sql` activates only this source via a private registry;
+- the evidence RPC remains service-role-only;
+- age 6–7, ownership, replay, retry, idempotency and static-content anti-farming remain enforced;
+- World-only mastery remains capped at `exploring`;
+- Belajar progression/adaptive/rewards/certificates remain canonical-Belajar-only;
+- Stage 2 price comparison remains deferred.
+
+Production/live caveat:
+
+```text
+PR #309              = unmerged
+main                 = untouched
+migration 0050 live  = not applied/verified in this wave
+Supabase connector   = 0 visible projects
+```
+
+Therefore this is **green activation code**, not proof of production database activation.
+
+Canonical record:
+
+```text
+docs/WORLD_EVIDENCE_STAGE8_ACTIVATION_2026-09-23.md
+```
+
 ## Learning/mastery boundaries
 
 Non-negotiable unless explicitly redesigned with migration/tests:
