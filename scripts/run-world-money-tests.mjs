@@ -426,6 +426,7 @@ try {
   const segmentIds = [];
   const placementIds = [];
   let activityCount = 0;
+  let assessedActivityCount = 0;
   let narrativeChoiceCount = 0;
 
   for (const stage of world.MONEY_WORLD_STAGES) {
@@ -440,11 +441,15 @@ try {
       if (segment.type === "activity") {
         activityCount += 1;
         placementIds.push(segment.activity.id);
+        const expectedAssessment = segment.activity.id === "money-s08-activity-02"
+          ? "assessed"
+          : "practice";
         assert.equal(
           segment.activity.assessment,
-          "practice",
-          segment.activity.id + " must remain practice-only until the server-owned World evidence bridge exists"
+          expectedAssessment,
+          segment.activity.id + " assessment drifted"
         );
+        if (segment.activity.assessment === "assessed") assessedActivityCount += 1;
         assert.notEqual(segment.activity.mechanicId, "motion_game", "World V1 must not depend on motion/camera");
         const validation = mechanics.validateReusableMechanicPayload(
           segment.activity.mechanicId,
@@ -456,9 +461,9 @@ try {
           segment.activity.id + " payload invalid: " + validation.errors.join("; ")
         );
         assert.equal(
-          mechanics.resolveMechanicEvidenceContract(segment.activity.mechanicId, "practice"),
-          "completion_only_v1",
-          segment.activity.id + " must resolve to completion-only evidence at this checkpoint"
+          mechanics.resolveMechanicEvidenceContract(segment.activity.mechanicId, segment.activity.assessment),
+          expectedAssessment === "assessed" ? "choice_accuracy_v1" : "completion_only_v1",
+          segment.activity.id + " evidence contract drifted"
         );
       }
 
@@ -473,8 +478,9 @@ try {
 
   assert.equal(new Set(segmentIds).size, segmentIds.length, "segment IDs must be unique");
   assert.equal(new Set(placementIds).size, placementIds.length, "activity placement IDs must be unique");
-  assert.equal(activityCount, 16, "eight-stage dummy must expose sixteen reusable mechanic placements");
-  assert.equal(narrativeChoiceCount, 1, "dummy must contain exactly one telemetry-only narrative choice");
+  assert.equal(activityCount, 16, "eight-stage World must expose sixteen reusable mechanic placements");
+  assert.equal(assessedActivityCount, 1, "only the reviewed Stage 8 subtraction may be assessed");
+  assert.equal(narrativeChoiceCount, 1, "World must contain exactly one telemetry-only narrative choice");
 
   assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_BRIDGE_VERSION, "money-world-evidence-bridge-v1");
   assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_BRIDGE_MODE, "design-only-disabled");
@@ -496,7 +502,7 @@ try {
   );
   assert.ok(
     evidenceBridge.MONEY_WORLD_EVIDENCE_BRIDGE_AUDIT.every((entry) => entry.sourceAssessment === "practice"),
-    "all current World placements must remain practice even when their mechanic can measure accuracy"
+    "historical v1 fail-closed bridge audit must remain frozen at its pre-activation practice baseline"
   );
   assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_WRITE_BOUNDARY.directRecordLearningAttemptAllowed, false);
   assert.equal(evidenceBridge.MONEY_WORLD_EVIDENCE_WRITE_BOUNDARY.learningProgressMutationAllowed, false);
@@ -511,8 +517,8 @@ try {
   );
 
   assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_ACTIVATION_DESIGN_VERSION, "money-world-evidence-activation-design-v1");
-  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_ACTIVATION_MODE, "pre-activation-design-disabled");
-  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_ACTIVATION_ENABLED, false, "activation decision wave must remain pre-activation");
+  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_ACTIVATION_MODE, "stage8-supplemental-activated");
+  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_ACTIVATION_ENABLED, true, "reviewed Stage 8 activation must be enabled on this branch");
   assert.equal(
     evidenceActivation.MONEY_WORLD_EVIDENCE_ACTIVATION_DESIGN_VALIDATION.valid,
     true,
@@ -530,8 +536,8 @@ try {
   assert.equal(activationSubtraction.decision, "approved-future-supplemental-evidence");
   assert.equal(activationSubtraction.canonicalSkillId, "math.operation.subtraction.within_10");
   assert.equal(activationSubtraction.evidenceContract, "choice_accuracy_v1");
-  assert.equal(activationSubtraction.currentAssessment, "practice");
-  assert.equal(activationSubtraction.requiredAssessmentBeforeActivation, "assessed");
+  assert.equal(activationSubtraction.currentAssessment, "assessed");
+  assert.equal(activationSubtraction.requiredAssessmentBeforeActivation, null);
   assert.equal(activationSubtraction.eligibleAgeMin, 6);
   assert.equal(activationSubtraction.eligibleAgeMax, 7);
   assert.equal(activationSubtraction.maxQualifyingEvidencePerContentVersion, 1);
@@ -557,24 +563,20 @@ try {
   assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.schemaImplemented, true);
   assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.endpointImplemented, true);
   assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.serverOnlyWriteFunctionImplemented, true);
-  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.applicationIngestionEnabled, false);
-  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.databaseMappingEnabled, false);
+  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.applicationIngestionEnabled, true);
+  assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_SERVER_BOUNDARY.databaseMappingEnabled, true);
   assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_INTEGRITY_POLICY.maxQualifyingEvidencePerActivityContentVersion, 1);
   assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_INTEGRITY_POLICY.repeatedStaticQuestionCanCreateAdditionalMasteryEvidence, false);
   assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_INTEGRITY_POLICY.worldOnlyMasteryCeiling, "exploring");
   assert.equal(evidenceActivation.MONEY_WORLD_EVIDENCE_INTEGRITY_POLICY.canonicalBelajarEvidenceRequiredForDevelopingOrHigher, true);
   assert.ok(
-    evidenceActivation.MONEY_WORLD_EVIDENCE_ACTIVATION_REQUIREMENTS.some((requirement) => requirement.satisfied === true),
-    "decision wave should close design requirements"
-  );
-  assert.ok(
-    evidenceActivation.MONEY_WORLD_EVIDENCE_ACTIVATION_REQUIREMENTS.some((requirement) => requirement.satisfied === false),
-    "implementation requirements must remain open before activation"
+    evidenceActivation.MONEY_WORLD_EVIDENCE_ACTIVATION_REQUIREMENTS.every((requirement) => requirement.satisfied === true),
+    "reviewed activation requirements must all be closed on the activation branch"
   );
 
   assert.equal(evidenceIngestion.MONEY_WORLD_EVIDENCE_INGESTION_VERSION, "money-world-evidence-ingestion-v1");
-  assert.equal(evidenceIngestion.MONEY_WORLD_EVIDENCE_CONTENT_VERSION, "money-world-s08-subtraction-v1");
-  assert.equal(evidenceIngestion.MONEY_WORLD_EVIDENCE_INGESTION_ENABLED, false, "World evidence ingestion must remain application-disabled");
+  assert.equal(evidenceIngestion.MONEY_WORLD_EVIDENCE_CONTENT_VERSION, "money-world-s08-subtraction-v2-assessed");
+  assert.equal(evidenceIngestion.MONEY_WORLD_EVIDENCE_INGESTION_ENABLED, true, "reviewed Stage 8 ingestion must be application-enabled");
 
   const ingestionObservation = {
     clientObservationId: "world-observation-001",
@@ -591,9 +593,10 @@ try {
     completedAt: "2026-09-23T10:00:05.000Z"
   };
   const ingestionEvaluation = evidenceIngestion.evaluateMoneyWorldEvidenceIngestion(ingestionObservation);
-  assert.equal(ingestionEvaluation.disposition, "blocked");
-  assert.ok(ingestionEvaluation.blockers.includes("ingestion-disabled"), "application kill switch must block ingestion");
-  assert.ok(ingestionEvaluation.blockers.includes("source-activity-not-assessed"), "current practice-authored Stage 8 activity must remain an independent blocker");
+  assert.equal(ingestionEvaluation.disposition, "ready");
+  assert.deepEqual(ingestionEvaluation.blockers, []);
+  assert.ok(ingestionEvaluation.writePayload, "valid reviewed Stage 8 observation must yield a server RPC payload");
+  assert.equal(ingestionEvaluation.writePayload.contentVersion, "money-world-s08-subtraction-v2-assessed");
   assert.equal(ingestionEvaluation.serverMappedSkillId, "math.operation.subtraction.within_10");
   assert.equal(ingestionEvaluation.serverMappedEvidenceContract, "choice_accuracy_v1");
   assert.equal(ingestionEvaluation.derivedMetrics.correctCount, 1);
@@ -601,7 +604,7 @@ try {
   assert.equal(ingestionEvaluation.derivedMetrics.retryCount, 1);
   assert.equal(ingestionEvaluation.derivedMetrics.accuracy, 0.5);
   assert.equal(ingestionEvaluation.derivedMetrics.durationMs, 5000);
-  assert.equal(ingestionEvaluation.writePayload, null, "disabled/practice source must not yield an RPC payload");
+  assert.equal(ingestionEvaluation.writePayload.answerSequence.join(","), "answer-4,answer-6");
 
   const forgedCanonicalObservation = evidenceIngestion.evaluateMoneyWorldEvidenceIngestion({
     ...ingestionObservation,
@@ -634,15 +637,20 @@ try {
     path.join(root, "src/app/api/learning/world-evidence/route.ts"),
     "utf8"
   );
-  assert.match(worldEvidenceRouteSource, /MONEY_WORLD_EVIDENCE_INGESTION_ENABLED[\s\S]*world-evidence-ingestion-disabled/, "server route must fail closed behind the application kill switch");
+  assert.match(worldEvidenceRouteSource, /MONEY_WORLD_EVIDENCE_INGESTION_ENABLED[\s\S]*world-evidence-ingestion-disabled/, "server route must retain an explicit application kill-switch path");
   assert.match(worldEvidenceRouteSource, /requireParentSession\(\)/, "enabled ingestion must require a server-verified authenticated session");
   assert.match(worldEvidenceRouteSource, /getAdminClient\(\)/, "World evidence RPC must be called only through the server service-role boundary");
   assert.match(worldEvidenceRouteSource, /admin\.rpc\("record_world_skill_evidence"/, "server route must use the dedicated supplemental-evidence RPC");
   assert.doesNotMatch(worldEvidenceRouteSource, /record_learning_attempt/, "World endpoint must never reuse canonical Belajar attempt RPC");
+  assert.match(
+    narrationRuntimeSource,
+    /emitMoneyWorldEvidenceObservation/,
+    "Petualangan Uang runtime must emit reviewed Stage 8 raw observations through the client adapter"
+  );
   assert.doesNotMatch(
     narrationRuntimeSource,
-    /moneyWorldEvidenceIngestion|\/api\/learning\/world-evidence|record_world_skill_evidence/,
-    "Petualangan Uang runtime must remain disconnected from the evidence backend in implementation wave 1"
+    /record_world_skill_evidence|record_learning_attempt/,
+    "World runtime must never call database RPCs or canonical Belajar attempt writes directly"
   );
 
   for (const candidate of evidenceBridge.MONEY_WORLD_EVIDENCE_CANDIDATES) {
