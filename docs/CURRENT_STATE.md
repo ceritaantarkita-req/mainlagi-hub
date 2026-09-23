@@ -1123,6 +1123,16 @@ checkpoint/world-evidence-implementation-wave1-green-20260923
 @ 335a076b795ec349feb204d707ba85f8ac2fdb96
 ```
 
+Green implementation checkpoint:
+
+```text
+checkpoint/world-evidence-implementation-wave2-green-20260923
+@ affb5f9baf03d275a3a78a7096c8eeea866e5375
+
+CI #1569 / run 35864470649
+full matrix: PASS
+```
+
 Implemented in branch:
 
 - additive Migration `0049_source_aware_mastery_isolation.sql`;
