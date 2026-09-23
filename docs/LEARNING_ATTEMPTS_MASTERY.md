@@ -327,6 +327,38 @@ No SQL/RPC/schema change is authorized by the design contract.
 
 The disabled contract is validated by CI #1530 at `38bbe570...` and frozen in `checkpoint/world-evidence-bridge-contract-green-20260923`. This is design evidence only; canonical Belajar mastery behavior remains unchanged.
 
+## 19B. World supplemental-evidence activation decision
+
+The next isolated design wave resolves the two v1 candidates without activating runtime writes.
+
+Decision:
+
+```text
+money-s02-activity-01
+→ deferred from canonical evidence
+
+money-s08-activity-02
+→ future supplemental evidence candidate
+→ math.operation.subtraction.within_10
+→ choice_accuracy_v1
+```
+
+The subtraction mapping is limited to future child ages 6–7. Age 8 remains World completion-only because the canonical skill contract currently stops at age 7.
+
+World evidence is explicitly **supplemental**:
+
+- at most one qualifying item per World activity + content version;
+- replay of the same static question cannot create repeated qualifying mastery evidence;
+- World-only evidence is capped at `exploring`;
+- `developing`, `proficient`, and `mastered` require qualifying canonical Belajar evidence;
+- World evidence must not mutate Belajar completion, stars, stage readiness or certificate eligibility.
+
+Selected future ingestion is server-owned and separate from `record_learning_attempt(...)`. The proposed additive persistence boundary is `learning_supplemental_skill_evidence`, reached only through a server route/private write function after ownership, source mapping, age, assessment, idempotency, replay and measured-result validation.
+
+Current implementation state remains disabled: no schema migration, endpoint, private write function, runtime emission or source-aware mastery recompute exists yet.
+
+See `WORLD_EVIDENCE_ACTIVATION_DECISION_2026-09-23.md`.
+
 ## 20. Change rule
 
 The learning/mastery foundation is currently considered healthy. The next product-quality phase should **not rewrite it by default**.
