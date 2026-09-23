@@ -1,6 +1,6 @@
 # Learning Semantic P0 Human Review Gate Closure — 23 September 2026
 
-Status: **IMPLEMENTATION MERGED / MERGED-MAIN VERIFICATION IN PROGRESS / HUMAN DECISION STILL OPEN**
+Status: **CLOSED / MERGED / LIVE VERIFIED / HUMAN DECISION STILL OPEN**
 
 ## 1. Engineering closure
 
@@ -11,8 +11,8 @@ PR:                         #304
 final PR head:              bcb32e238c16f7a1657139a25590d8c7e264f9be
 PR CI:                      #1552 / run 35816166334 — full success
 merged main:                f0b48cbdbe162fd19e0665f4b29945f6aaa16a5f
-merged-main CI:             #1553 / run 35824198610 — verification in progress
-Cloudflare exact-SHA smoke: pending
+merged-main CI:             #1553 / run 35824198610 — full success
+Cloudflare exact-SHA smoke: PASS
 ```
 
 The engineering gate is fail-closed and review-only. It does not contain a human acceptance decision and it does not authorize production asset approval or runtime activation.
@@ -75,7 +75,7 @@ No runtime semantic mapping was activated.
 
 ## 5. Next exact human workflow
 
-From current main after the merged-main verification is complete:
+From current live-verified main:
 
 ```bash
 npm run pilot:illustrations:generate -- --generate
@@ -120,6 +120,6 @@ Runtime semantic mapping remains a later separate wave even after production-ass
 
 ## 8. Safe handoff
 
-If work stops at this checkpoint, resume from current `main`, verify the final state of merged-main CI #1553 and exact Cloudflare smoke, then proceed only to the exact nine-file human review workflow.
+If work stops at this checkpoint, resume from current `main`, start from live-verified main `f0b48cbdbe162fd19e0665f4b29945f6aaa16a5f` and proceed only to the exact nine-file human review workflow.
 
 Do not build another generic illustration architecture layer. Do not bulk-expand the semantic set before the nine-item human decision is recorded.
