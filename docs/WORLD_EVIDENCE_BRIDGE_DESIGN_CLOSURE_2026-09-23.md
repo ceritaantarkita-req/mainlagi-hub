@@ -51,7 +51,7 @@ World and Belajar remain separate progression domains.
 
 ## 4. Current audited World activity state
 
-Petualangan Uang currently contains:
+Petualangan Uang still contains:
 
 ```text
 16 World activity placements
@@ -59,28 +59,43 @@ Petualangan Uang currently contains:
 0 assessed
 ```
 
-Exactly two relationships are kept as **candidate-only / unapproved**:
+The owner-authorized candidate-scope/pedagogy review has reduced the future evidence scope to exactly one activity:
+
+```text
+money-s08-activity-02
+Stage 8 — 8 minus 2
+→ pedagogy-approved-disabled
+→ math.operation.subtraction.within_10
+→ choice_accuracy_v1 compatible
+```
+
+The mapping is approved because the authored task directly represents subtraction within ten: eight tokens, two removed, one objectively correct remaining count.
+
+The former Stage 2 candidate is now rejected:
 
 ```text
 money-s02-activity-01
-→ candidate math.quantity.comparison
-→ possible choice_accuracy_v1 relation
-
-money-s08-activity-02
-→ candidate math.operation.subtraction.within_10
-→ possible choice_accuracy_v1 relation
+Stage 2 — price comparison
+→ rejected-after-pedagogy-review
+→ no canonical skill mapping
 ```
 
-Both remain World `practice`.
+Its objective is contextual price change / "more expensive", so it does not isolate canonical quantity-comparison mastery strongly enough.
 
-Neither candidate has:
+Current mapping totals:
 
-- an approved pedagogical mapping;
-- a canonical `learning_activity` ID;
-- permission to write attempts/evidence;
-- permission to affect mastery/progression/rewards.
+```text
+1 pedagogy-approved future candidate
+15 exclusions
+0 active evidence mappings
+```
 
-The other 14 World activity placements are explicit exclusions from current canonical mastery mapping.
+The approved candidate still has:
+
+- World `assessment: practice`;
+- no canonical `learning_activity` ID;
+- no permission to write attempts/evidence;
+- no permission to affect mastery/progression/rewards.
 
 ## 5. Why direct `record_learning_attempt(...)` reuse is forbidden
 
@@ -145,25 +160,30 @@ Mechanic measurability alone never changes authored assessment semantics.
 
 ## 8. Activation blockers
 
-Every activation prerequisite is currently unsatisfied.
+Candidate scope and pedagogical mapping are now decided for this wave.
 
-Required before any runtime activation:
+The only satisfied activation prerequisite is:
 
-1. explicit product authorization;
-2. approved pedagogical mapping for the chosen candidate scope;
-3. age-8 Belajar/catalog decision;
-4. validated assessed evaluator for each promoted World activity;
-5. server-owned ingestion/canonicalization boundary;
-6. strict isolation from Belajar completion/stars/progression side effects;
-7. ownership and child isolation;
-8. idempotency;
-9. server receipt-time replay protection;
-10. retry/anti-farming handling;
-11. bounded metadata/canonicalization;
-12. cloud/local behavior definition;
-13. security regression coverage;
-14. parent-report wording that distinguishes World evidence from direct Belajar attempts;
-15. separately reviewed SQL/RPC/schema changes if the chosen server architecture requires them.
+```text
+canonical-mapping-pedagogy-review = true
+```
+
+All runtime activation gates remain unsatisfied. Required before any active bridge:
+
+1. explicit product authorization for activation;
+2. age-8 Belajar/catalog decision;
+3. validated assessed evaluator for the approved Stage 8 subtraction activity;
+4. server-owned ingestion/canonicalization boundary;
+5. strict isolation from Belajar completion/stars/progression side effects;
+6. ownership and child isolation;
+7. idempotency;
+8. server receipt-time replay protection;
+9. retry/anti-farming handling;
+10. bounded metadata/canonicalization;
+11. cloud/local behavior definition;
+12. security regression coverage;
+13. parent-report wording that distinguishes World evidence from direct Belajar attempts;
+14. separately reviewed SQL/RPC/schema changes if the chosen server architecture requires them.
 
 ## 9. Financial-literacy catalog gap
 
@@ -196,19 +216,22 @@ Do not solve this by silently changing every Belajar skill/content `ageMax`.
 
 ## 11. QA truth
 
-The green v1 design checkpoint verifies:
+The follow-up decision contract must verify:
 
 - bridge disabled;
 - 16/16 activity audit coverage;
 - 16 practice placements;
-- 2 candidate-only Math relations;
-- 14 exclusions;
+- exactly 1 `pedagogy-approved-disabled` candidate;
+- exactly 15 exclusions;
+- Stage 8 subtraction maps to `math.operation.subtraction.within_10`;
+- Stage 2 price comparison is explicitly `rejected-after-pedagogy-review` and unmapped;
 - 0 canonical learning-activity mappings;
 - all write/runtime/schema permissions false;
-- all activation prerequisites unsatisfied;
-- valid candidate still blocked;
-- practice-to-assessed spoof blocked;
-- excluded and unknown sources blocked;
+- only the pedagogical-review activation requirement is satisfied;
+- every other activation requirement remains unsatisfied;
+- valid approved candidate observation still returns `blocked`;
+- practice-to-assessed spoof remains blocked;
+- excluded and unknown sources remain blocked;
 - World runtime contains no evidence-write hook;
 - direct existing-RPC reuse remains prohibited.
 
@@ -234,14 +257,15 @@ Bermain/motion remains out of scope.
 
 ## 13. Next-work rule
 
-Do not continue into activation automatically.
+Do not continue into runtime activation automatically.
 
-The next World → Evidence wave starts only after the project owner explicitly selects/approves:
+Candidate scope and pedagogical mapping are now closed.
+
+The next World → Evidence work begins only after explicit authorization for:
 
 ```text
-candidate scope
-+ pedagogical mapping
-+ age-8 handling
+age-8 handling
++ assessed evaluator decision
 + server-owned evidence write architecture
 + progression/reward isolation
 + security/anti-farming contract
@@ -250,9 +274,8 @@ candidate scope
 Until then:
 
 ```text
-World → Evidence = designed, green, fail-closed, disabled
+World → Evidence = one pedagogy-approved mapping, green-by-contract target, fail-closed, disabled
 ```
-
 
 ## 14. Final closure checkpoint
 
@@ -285,3 +308,16 @@ checkpoint/world-evidence-bridge-design-closure-green-20260923
 Do not move or force-push any of these branches.
 
 The next step is **not implementation activation**. It is a new owner-authorized decision wave covering candidate mapping approval, age-8 handling, isolated server ingestion, progression/reward isolation, and security/anti-farming acceptance.
+
+## 15. Follow-up decision-wave boundary
+
+Active follow-up branch:
+
+```text
+feature/world-evidence-pedagogy-approval-20260923
+```
+
+This branch is authorized only to close candidate selection and pedagogical mapping. It does not move the immutable checkpoints recorded above and does not authorize merge/activation of World evidence.
+
+No `practice → assessed` promotion, runtime hook, SQL/RPC/RLS change, learning-attempt write, skill-evidence write, mastery recompute, Belajar progression/reward mutation, or certificate mutation is authorized by this decision.
+
