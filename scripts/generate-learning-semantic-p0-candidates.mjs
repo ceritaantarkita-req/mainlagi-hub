@@ -53,18 +53,18 @@ function bodyHeadSvg() {
 
 function actionJumpSvg() {
   return svg(`
-    <circle cx="256" cy="85" r="38" fill="${COLORS.softCoral}" stroke-width="13"/>
-    <rect x="198" y="123" width="116" height="154" rx="34" fill="${COLORS.green}" stroke-width="15"/>
-    <path d="M210 162 L143 111 L104 151" fill="none" stroke-width="18"/>
-    <path d="M302 162 L369 111 L408 151" fill="none" stroke-width="18"/>
-    <circle cx="97" cy="156" r="18" fill="${COLORS.softCoral}" stroke-width="10"/>
-    <circle cx="415" cy="156" r="18" fill="${COLORS.softCoral}" stroke-width="10"/>
-    <path d="M230 270 L178 340 L123 317" fill="none" stroke-width="20"/>
-    <path d="M282 270 L337 337 L397 303" fill="none" stroke-width="20"/>
-    <rect x="94" y="300" width="66" height="34" rx="16" fill="${COLORS.yellow}" stroke-width="10"/>
-    <rect x="372" y="282" width="66" height="34" rx="16" fill="${COLORS.yellow}" stroke-width="10"/>
-    <path d="M156 384 V436 M139 404 L156 380 L173 404" fill="none" stroke="${COLORS.coral}" stroke-width="10"/>
-    <path d="M356 384 V436 M339 404 L356 380 L373 404" fill="none" stroke="${COLORS.coral}" stroke-width="10"/>
+    <circle cx="256" cy="90" r="38" fill="${COLORS.softCoral}" stroke-width="13"/>
+    <rect x="205" y="128" width="102" height="142" rx="34" fill="${COLORS.green}" stroke-width="15"/>
+    <path d="M216 158 L160 112 L126 148" fill="none" stroke-width="18"/>
+    <path d="M296 158 L352 112 L386 148" fill="none" stroke-width="18"/>
+    <circle cx="119" cy="154" r="17" fill="${COLORS.softCoral}" stroke-width="9"/>
+    <circle cx="393" cy="154" r="17" fill="${COLORS.softCoral}" stroke-width="9"/>
+    <path d="M230 266 L183 327 L137 300" fill="none" stroke-width="20"/>
+    <path d="M282 266 L329 327 L375 300" fill="none" stroke-width="20"/>
+    <rect x="105" y="286" width="64" height="34" rx="16" fill="${COLORS.yellow}" stroke-width="9"/>
+    <rect x="343" y="286" width="64" height="34" rx="16" fill="${COLORS.yellow}" stroke-width="9"/>
+    <path d="M256 450 V352 M218 397 L256 345 L294 397" fill="none" stroke="${COLORS.coral}" stroke-width="18"/>
+    <path d="M151 446 Q256 473 361 446" fill="none" stroke="${COLORS.sage}" stroke-width="16"/>
   `);
 }
 
@@ -95,15 +95,15 @@ function featureBeakSvg() {
 
 function cactusStemSvg() {
   return svg(`
-    <rect x="185" y="63" width="142" height="386" rx="64" fill="${COLORS.green}" stroke-width="15"/>
-    <rect x="111" y="182" width="105" height="130" rx="44" fill="${COLORS.green}" stroke-width="14"/>
-    <rect x="296" y="151" width="105" height="139" rx="44" fill="${COLORS.green}" stroke-width="14"/>
-    <circle cx="256" cy="257" r="42" fill="${COLORS.sky}" stroke="${COLORS.teal}" stroke-width="10"/>
-    <path d="M256 224 Q232 257 256 290 Q280 257 256 224Z" fill="#8fd1e5" stroke="none"/>
-    <circle cx="216" cy="142" r="5" fill="${COLORS.yellow}" stroke="none"/>
-    <circle cx="289" cy="167" r="5" fill="${COLORS.yellow}" stroke="none"/>
-    <circle cx="224" cy="358" r="5" fill="${COLORS.yellow}" stroke="none"/>
-    <circle cx="335" cy="218" r="5" fill="${COLORS.yellow}" stroke="none"/>
+    <rect x="180" y="56" width="152" height="398" rx="68" fill="${COLORS.green}" stroke-width="15"/>
+    <rect x="112" y="190" width="92" height="118" rx="40" fill="${COLORS.green}" stroke-width="14"/>
+    <rect x="308" y="164" width="92" height="132" rx="40" fill="${COLORS.green}" stroke-width="14"/>
+    <path d="M222 139 H290 V350 Q290 378 256 390 Q222 378 222 350Z" fill="${COLORS.sky}" stroke="${COLORS.teal}" stroke-width="10"/>
+    <path d="M256 190 Q219 240 256 294 Q293 240 256 190Z" fill="#8fd1e5" stroke="none"/>
+    <path d="M161 319 H104 M128 295 L103 319 L128 343" fill="none" stroke="${COLORS.coral}" stroke-width="11"/>
+    <path d="M351 319 H408 M384 295 L409 319 L384 343" fill="none" stroke="${COLORS.coral}" stroke-width="11"/>
+    <circle cx="214" cy="115" r="5" fill="${COLORS.yellow}" stroke="none"/>
+    <circle cx="302" cy="132" r="5" fill="${COLORS.yellow}" stroke="none"/>
   `);
 }
 
