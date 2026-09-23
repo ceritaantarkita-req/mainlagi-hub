@@ -17,6 +17,43 @@ feature/world-evidence-implementation-wave2-20260923
 
 This wave prepares source-aware mastery, progression isolation, certificate isolation and parent-report provenance **without activating World evidence ingestion**.
 
+
+## Green implementation checkpoint
+
+The implementation surface is frozen at:
+
+```text
+checkpoint/world-evidence-implementation-wave2-green-20260923
+@ affb5f9baf03d275a3a78a7096c8eeea866e5375
+```
+
+Exact-head acceptance:
+
+```text
+Mainlagi TV V3 CI #1569
+run 35864470649
+conclusion: success
+```
+
+PASS matrix:
+
+- Quality gate (Ubuntu), including engine tests, simulations and Batch 17 final acceptance;
+- Windows compatibility, including engine tests;
+- Production build;
+- Production dependency audit;
+- Secret history scan;
+- Mobile route QA (Chromium), including accessibility/lazy-load matrix and permanent visual baseline.
+
+Artifacts:
+
+```text
+mobile-route-qa-screenshots — 10752422084
+activity-quality-audit      — 10752056353
+gameplay-distribution-audit — 10751481676
+```
+
+The checkpoint is immutable and must not be force-moved. Later documentation commits on the feature branch do not redefine the frozen implementation checkpoint.
+
 ## 1. Non-negotiable activation state
 
 These gates remain closed:
