@@ -359,6 +359,40 @@ Current implementation state remains disabled: no schema migration, endpoint, pr
 
 See `WORLD_EVIDENCE_ACTIVATION_DECISION_2026-09-23.md`.
 
+## 19C. World evidence backend foundation
+
+Implementation Wave 1 adds an **inert supplemental-evidence backend** without making it a mastery source.
+
+Source:
+
+```text
+supabase/migrations/0048_world_supplemental_evidence_foundation.sql
+src/lib/learning/world/moneyWorldEvidenceIngestion.ts
+src/app/api/learning/world-evidence/route.ts
+```
+
+Security boundary:
+
+- browser cannot execute `record_world_skill_evidence(...)`;
+- the RPC is granted only to `service_role`;
+- direct supplemental-table mutation is revoked;
+- server route requires authenticated ownership when later enabled;
+- real owned child profile is required;
+- `demo-gian` cannot create canonical supplemental evidence;
+- evidence age remains 6–7;
+- client cannot choose skill, assessment, accuracy, evidence score/weight or mastery qualification;
+- raw answer sequence is canonicalized server-side/database-side;
+- replay/retry/static-content farming is bounded.
+
+Two activation gates remain false:
+
+```text
+MONEY_WORLD_EVIDENCE_INGESTION_ENABLED = false
+v_mapping_active = false
+```
+
+Migration 0048 does not call `recompute_child_skill_mastery(...)` and does not mutate canonical Belajar progress, rewards, achievements or certificates. Source-aware mastery remains a separate future implementation.
+
 ## 20. Change rule
 
 The learning/mastery foundation is currently considered healthy. The next product-quality phase should **not rewrite it by default**.
