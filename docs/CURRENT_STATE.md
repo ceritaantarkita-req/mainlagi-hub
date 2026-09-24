@@ -1485,3 +1485,31 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 9. Mainlagi World changes are authorized only within the reviewed PR #312 release-candidate scope: Stage 8 supplemental evidence and its already-reviewed Petualangan Uang stack. Do not activate a second evidence mapping, expand canonical evidence to age 8, or resume character development without a separate authorization.
 
 Do not prioritize activity-count expansion, OCR rollout, large AI tutor work, subscription/paywall, marketplace expansion or major mastery/backend rewrites before the current quality roadmap justifies them.
+
+## 24 September World evidence private-registry RLS read-only audit
+
+No database change was applied.
+
+Verified production ownership/privilege boundary:
+
+```text
+private.world_evidence_activation_registry
+owner: postgres
+RLS: disabled
+policies: none
+
+public.record_world_skill_evidence(...)
+owner: postgres
+SECURITY DEFINER: true
+
+anon direct table privileges: false
+authenticated direct table privileges: false
+anon/authenticated RPC execute: false
+service_role direct table privileges: false
+service_role RPC execute: true
+```
+
+Therefore the current World evidence write path remains server-only. The separate RLS hardening decision is still open and must not be auto-applied.
+
+Canonical detail:
+`docs/WORLD_EVIDENCE_PRODUCTION_CLOSURE_2026-09-24.md`.

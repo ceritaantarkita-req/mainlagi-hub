@@ -32,7 +32,7 @@ Current boundaries:
 - no active age-eligible 6–7 or explicit eligible QA/test profile exists, so no synthetic evidence row was fabricated;
 - World-only mastery remains capped at `exploring`;
 - no second World mapping or broad age migration is authorized;
-- `private.world_evidence_activation_registry` has RLS disabled. Direct anon/authenticated SELECT/INSERT/UPDATE privileges are false, but RLS hardening remains an explicit operator decision.
+- `private.world_evidence_activation_registry` has RLS disabled and no policies. Read-only audit confirmed table owner `postgres`; `record_world_skill_evidence(...)` is also owned by `postgres` and is `SECURITY DEFINER`. `anon`/`authenticated` have no direct SELECT/INSERT/UPDATE and no RPC execute; `service_role` has RPC execute but no direct table SELECT/INSERT/UPDATE. RLS hardening remains an explicit operator decision.
 
 Candidate hardening SQL, **not executed**:
 

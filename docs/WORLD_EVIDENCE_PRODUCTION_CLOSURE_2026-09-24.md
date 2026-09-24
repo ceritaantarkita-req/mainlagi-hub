@@ -177,3 +177,65 @@ explicit decision on private-registry RLS hardening
 ```
 
 Do not reopen candidate expansion, broad age migration, or character work as part of that follow-up.
+
+## 9. Private registry RLS read-only audit
+
+A follow-up read-only database audit verified the actual ownership and privilege boundary before any RLS change is considered.
+
+Observed production facts:
+
+```text
+table:
+private.world_evidence_activation_registry
+
+table owner:
+postgres
+
+RLS enabled:
+false
+
+RLS policies:
+none
+
+record_world_skill_evidence owner:
+postgres
+
+record_world_skill_evidence:
+SECURITY DEFINER = true
+```
+
+Effective direct privileges:
+
+```text
+anon:
+SELECT=false
+INSERT=false
+UPDATE=false
+RPC EXECUTE=false
+
+authenticated:
+SELECT=false
+INSERT=false
+UPDATE=false
+RPC EXECUTE=false
+
+service_role:
+SELECT=false
+INSERT=false
+UPDATE=false
+RPC EXECUTE=true
+```
+
+This confirms the intended application boundary remains server-owned: browser roles cannot call the World evidence RPC and cannot directly read/write the activation registry.
+
+It does **not** remove the RLS hardening item. The table still has RLS disabled, and no policy currently exists.
+
+Candidate hardening SQL remains **not executed**:
+
+```sql
+ALTER TABLE private.world_evidence_activation_registry
+ENABLE ROW LEVEL SECURITY;
+```
+
+Because both the table and SECURITY DEFINER RPC are owned by `postgres`, the ownership relationship is now documented, but production behavior after enabling RLS still requires an explicit operator decision and validation. No schema/database change was made in this audit.
+
