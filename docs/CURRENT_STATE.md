@@ -22,7 +22,8 @@ Cloudflare exact-SHA smoke: PASS
 - the recolored head is now copied into canonical Drive folder `04_BODY_FAMILY_ACTIONS` as `body-head__svgrepo-271316-cc0-darkhair.svg`, Drive ID `1jJjdsOnWRKTo3wFZHBlfJ6C3XWNOxkGb`;
 - `MAINLAGI_ILLUSTRATION_ASSET_INDEX` tabs `NEEDED_STOCK`, `FINAL_LIBRARY`, and `ATTRIBUTION_PROVENANCE` are synchronized to that decision;
 - exact source/license evidence is clear for **14/17** P0 assets;
-- car/towel/raincoat remain **production-held** only because exact item-page license exceptions for `499718` / `288034` / `212019` could not be independently rechecked;
+- car/towel/raincoat remain **production-held** because exact item-page license exceptions for `499718` / `288034` / `212019` still cannot be independently verified;
+- a fresh 24 September recheck reconfirmed SVG Repo's current default-license rule, attempted both exact item-page and raw asset URLs for all three IDs, and found secondary exact-SVG copies; those secondary copies are identity/provenance evidence only and are not accepted as authority for an item-specific SVG Repo license exception;
 - production semantic approvals remain **0**; production semantic binaries remain **0**; runtime semantic activation remains **0**.
 
 This is not a runtime or production-asset change. Mainlagi World remains untouched; character development remains paused; fixed English audio remains deferred.
