@@ -266,3 +266,21 @@ Important corrections:
 - do not use towel candidates `70178`, `118911`, or `168751` as proof for the accepted towel.
 
 Visually similar or same-label items are insufficient. Production must remain blocked until exact file/item/license binding is proven.
+
+## Session 1 provenance-clean replacement boundary
+
+The four visually approved override files are not being reverse-engineered indefinitely for legal provenance.
+
+Instead, explicit CC0 replacement candidates are prepared:
+- car 490914;
+- raincoat 297932;
+- head 271316;
+- towel 118911.
+
+Limitation: these clean replacements are **not canonical yet**. Session 2 must visually compare/import them before canonical swap.
+
+Do not:
+- treat replacement readiness as visual approval;
+- regenerate the accepted p0-v2 set during provenance-only work;
+- promote any replacement directly to production/runtime.
+
