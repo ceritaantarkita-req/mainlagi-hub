@@ -1032,3 +1032,97 @@ Do not:
 6. Keep runtime activation as the final separate gate.
 
 This is the current safe discussion handoff.
+
+## Session 1 closure — efficient provenance cleanup (24 September 2026)
+
+Status: **COMPLETE / CONNECTOR-FIRST / NO BINARY SWAP YET**
+
+The provenance workstream was intentionally simplified to avoid spending additional time on blocked exact-item reverse matching.
+
+The human-approved p0-v2 binaries remain frozen at:
+
+```text
+manifest SHA-256:
+cf2bbd35103b8c3bd744688077fe4ccfb44b62f33c7061a2a56668988a439197
+
+human review:
+9 accepted / 0 rejected
+
+production approvals:
+0
+
+runtime activations:
+0
+```
+
+### Clean replacement sources selected
+
+Four legally clean replacement candidates are now selected from SVG Repo item pages that explicitly report **CC0**:
+
+```text
+vehicle.car
+  https://www.svgrepo.com/svg/490914/car
+  license: CC0
+  attribution: not required
+
+object.raincoat
+  https://www.svgrepo.com/svg/297932/raincoat
+  license: CC0
+  attribution: not required
+
+body.head
+  https://www.svgrepo.com/svg/271316/man-hair-head
+  license: CC0
+  attribution: not required
+
+object.towel
+  https://www.svgrepo.com/svg/118911/hanger-with-towel
+  license: CC0
+  attribution: not required
+```
+
+These are **replacement candidates**, not yet canonical binaries.
+
+### Why this is safer and faster
+
+The previous four user-selected files remain visually approved, but their exact governing license/source binding is expensive to prove because of incomplete metadata and SVG Repo security/cache barriers.
+
+Instead of continuing open-ended provenance archaeology:
+1. select an explicit CC0 item page;
+2. record the exact source URL/license;
+3. visually compare/import in Session 2;
+4. only then replace the canonical stock binary.
+
+This keeps legal provenance deterministic while preserving the already approved v2 review result.
+
+### Live index state
+
+The live illustration asset index now marks the four rows with:
+
+```text
+CC0_REPLACEMENT_READY_VISUAL_PENDING
+```
+
+A dedicated provenance family row records all four clean replacement URLs.
+
+### Hard boundaries
+
+- accepted p0-v2 binaries were **not regenerated**;
+- current canonical binaries were **not replaced**;
+- production semantic registry was **not mutated**;
+- production asset paths were **not touched**;
+- runtime mapping was **not activated**;
+- owner files were **not deleted**.
+
+### Session 2 handoff
+
+Session 2 should:
+1. import/download the four CC0 replacement SVGs into the Drive asset library;
+2. visually compare them against the current approved versions;
+3. keep only replacements that meet Mainlagi visual quality;
+4. update `FINAL_LIBRARY` canonical file/source/license records;
+5. retain superseded files as historical evidence;
+6. avoid touching production/runtime.
+
+This closes Session 1 safely.
+
