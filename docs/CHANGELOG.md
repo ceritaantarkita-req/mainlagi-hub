@@ -20,6 +20,11 @@
 - Updated the live illustration index to 33 `FINAL_LIBRARY` rows, 11 `library-ready`, 1 `reuse-ready`, 4 programmatic and 75 still needed.
 - Recorded conservative semantic holds/rejections: sand castle is not generic sand; teddy with large LOVE text is not selected; recycle bottle is not Math Warung bottled water; additional exact-name files remain held when exact provenance cannot be proven.
 - No external stock asset was production-approved or runtime-activated; no owner-uploaded original was deleted.
+- Reconciled 18 stale `NEEDED_STOCK` rows against already-verified `FINAL_LIBRARY` entries; live state is now 34 final-library / 30 library-ready / 56 needed / 1 reuse-ready / 4 programmatic.
+- Added `nature.water` from owner-uploaded water-drop SVG after exact SVG Repo CC0 binding + visual pass; original upload preserved.
+- Tightened art policy: Noto/Twemoji-derived SVGs are rejected as Mainlagi illustration stock even when vector/legally reusable; affected uploaded ice/cloud/rainbow/glass/bucket candidates were rejected or redirected to non-emoji replacements.
+- Corrected/replaced bad index sourcing for river/sea, nest, neutral glass, ruler, toothbrush, ice-cube, cloud and rainbow; several remain visual-pending and therefore not library-ready.
+- Preserved all production/runtime boundaries: 0 owner-file deletions, 0 production approvals, 0 runtime activations.
 
 - Semantic illustration provenance gate PR #297 sudah merged/live verified ke main `ed7db8a6c5b8a3ee4acc9bcca260b4e0b5776773`; PR CI #1536 / run `35769098899` dan merged-main CI #1537 / run `35770021133` full success termasuk exact Cloudflare smoke.
 - Menambahkan registry semantic illustration 17-slot + dedicated `public/artwork/learning-illustrations/` fail-closed validator: 17 review-required / 0 approved / 0 production binary / 0 runtime activation.
