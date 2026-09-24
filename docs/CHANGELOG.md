@@ -25,6 +25,11 @@
 - Tightened art policy: Noto/Twemoji-derived SVGs are rejected as Mainlagi illustration stock even when vector/legally reusable; affected uploaded ice/cloud/rainbow/glass/bucket candidates were rejected or redirected to non-emoji replacements.
 - Corrected/replaced bad index sourcing for river/sea, nest, neutral glass, ruler, toothbrush, ice-cube, cloud and rainbow; several remain visual-pending and therefore not library-ready.
 - Preserved all production/runtime boundaries: 0 owner-file deletions, 0 production approvals, 0 runtime activations.
+- P0 stock/reference coverage advanced to 13/17 library-ready; live library state is now 42 `FINAL_LIBRARY` / 38 `library-ready` / 48 `needed`.
+- Added/replaced child-readable, non-emoji P0 stock for umbrella, cup, ball, head, toy-block, towel, cactus thick-stem and jump; all remain `STOCK_LIBRARY_ONLY`.
+- Direct contact-sheet audit rejected black/white/outline or unusable alternatives, including earlier head/towel sources and alternate car/towel/raincoat candidates; broken candidate delivery was treated fail-closed.
+- P0 is now blocked only by car provenance, CC BY derivatives for gills/beak, and a suitable raincoat.
+- Preserved all boundaries: 0 owner-original deletions/moves, 0 production approvals, 0 runtime activations.
 
 - Semantic illustration provenance gate PR #297 sudah merged/live verified ke main `ed7db8a6c5b8a3ee4acc9bcca260b4e0b5776773`; PR CI #1536 / run `35769098899` dan merged-main CI #1537 / run `35770021133` full success termasuk exact Cloudflare smoke.
 - Menambahkan registry semantic illustration 17-slot + dedicated `public/artwork/learning-illustrations/` fail-closed validator: 17 review-required / 0 approved / 0 production binary / 0 runtime activation.
