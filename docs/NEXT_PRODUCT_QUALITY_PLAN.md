@@ -6,11 +6,14 @@
 
 ## 25 September semantic P0 execution boundary
 
-Current production truth after the authorized integration wave:
+The production approval/integration wave is **CLOSED / MERGED / LIVE VERIFIED** through PR #324 -> main `1e27869dfc71186e83ed8bb0a4dff2ca44dddfc9`; PR CI #1609 / run `36035812364` and merged-main CI #1610 / run `36036726413` are full success, including exact-SHA Cloudflare production smoke.
+
+Current production truth:
 
 - 17/17 visual decisions remain frozen;
 - 14/17 source/license-clear assets are production-approved with exact WebP SHA bindings;
 - 14 production binaries live under `public/artwork/learning-illustrations/`;
+- canonical Drive production status is synchronized to 14 approved/integrated/runtime-off + 3 held;
 - car 499718 / towel 288034 / raincoat 212019 remain fail-closed and must not be silently substituted;
 - runtime semantic activation remains 0.
 
