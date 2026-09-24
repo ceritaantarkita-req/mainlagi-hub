@@ -890,3 +890,17 @@ Prioritize the remaining work in this order:
 
 Do not promote stock-library status directly to production or runtime.
 
+### P0 closure plan — 24 September
+
+P0 stock coverage is now **13/17 library-ready**.
+
+Close the remaining four in this order:
+1. `vehicle.car`: prove exact provenance for the visually good owner upload, otherwise replace with a full-color generic car;
+2. `feature.gills`: derive from verified final-library fish, recording CC BY attribution and derivative changes;
+3. `feature.beak`: derive from verified final-library bird, recording CC BY attribution and derivative changes;
+4. `object.raincoat`: source a proper colorful non-emoji raincoat with commercial-compatible provenance.
+
+When P0 reaches **17/17 library-ready**, create a **new semantic candidate v2** from the selected stock/reference assets.
+
+Do not overwrite the rejected P0 v1 candidate evidence. Candidate v2 must still go through exact binary/manifest binding + human review before any production approval or runtime mapping.
+
