@@ -1259,3 +1259,27 @@ All four user-selected overrides remain `PROVENANCE_HELD`.
 
 Production approvals: **0**.
 Runtime activations: **0**.
+
+## 24 September 2026 — Session 1 provenance cleanup complete
+
+Efficient connector-first provenance cleanup is complete.
+
+Clean CC0 replacement candidates selected:
+- `vehicle.car` -> SVG Repo 490914;
+- `object.raincoat` -> SVG Repo 297932;
+- `body.head` -> SVG Repo 271316;
+- `object.towel` -> SVG Repo 118911.
+
+All four item pages explicitly report CC0.
+
+Live index status for these rows:
+`CC0_REPLACEMENT_READY_VISUAL_PENDING`.
+
+The currently human-approved p0-v2 binaries remain frozen and unchanged:
+- manifest SHA `cf2bbd35103b8c3bd744688077fe4ccfb44b62f33c7061a2a56668988a439197`;
+- 9 accepted / 0 rejected;
+- production approvals 0;
+- runtime activations 0.
+
+Session 2 is asset-library sync + visual comparison only.
+
