@@ -217,3 +217,23 @@ Previously invalid index mappings for `nature.river-sea` and `nature.nest` are n
 
 No owner-uploaded original may be deleted or moved during this workstream.
 
+## 24 September P0 replacement limitations
+
+P0 stock coverage is now 13/17, but four blockers remain before a new semantic candidate wave is justified:
+
+- `vehicle.car`: visually acceptable owner-uploaded car remains provenance-held;
+- `feature.gills`: must be a documented derivative of verified CC BY fish;
+- `feature.beak`: must be a documented derivative of verified CC BY bird;
+- `object.raincoat`: no approved stock candidate yet.
+
+The direct P0 visual audit also confirmed that several nominal SVG sources were not usable: some returned broken/unrenderable binaries, while others were black/white outline/icon treatments inconsistent with the preferred child-facing visual direction.
+
+Therefore:
+- legal reuse is necessary but not sufficient;
+- SVG format is necessary neither for quality nor for semantic suitability;
+- broken or outline-heavy candidates must fail closed;
+- derivatives of CC BY bases must preserve attribution and derivative provenance;
+- `FINAL_LIBRARY` still does not authorize production or runtime use.
+
+Current live counts: **42 final-library / 38 library-ready / 48 needed / 0 production approvals / 0 runtime activations**.
+
