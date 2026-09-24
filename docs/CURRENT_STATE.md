@@ -24,9 +24,11 @@ Cloudflare exact-SHA smoke: PASS
 - exact source/license evidence is clear for **14/17** P0 assets;
 - car/towel/raincoat remain **production-held** because exact item-page license exceptions for `499718` / `288034` / `212019` still cannot be independently verified;
 - a fresh 24 September recheck reconfirmed SVG Repo's current default-license rule, attempted both exact item-page and raw asset URLs for all three IDs, and found secondary exact-SVG copies; those secondary copies are identity/provenance evidence only and are not accepted as authority for an item-specific SVG Repo license exception;
-- follow-up upstream provenance hunt refined `vehicle.car` to a strong match with official Icons8 Color Car #15126 / `car--v1`; this improves source identity but still requires an explicit direct Icons8 acquisition/license record before production;
-- `object.towel` remains upstream-unresolved after a close Freepik/Flaticon-style candidate could not be geometry-bound to the exact SVG;
-- `object.raincoat` remains upstream-unresolved after Flaticon/Freepik candidate 263922 was rejected as the exact source because its outline/highlight layers differ from the current SVG;
+- follow-up upstream provenance hunt refined `vehicle.car` to a strong match with official Icons8 Color Car #15126 / `car--v1`;
+- redistribution review then established that an ordinary Icons8 free/paid acquisition does **not** satisfy Mainlagi's public-repository gate because the current Icons8 license restricts standalone-file distribution without express written consent; car therefore remains fail-closed despite the stronger upstream identity;
+- `object.towel` remains authoritative-upstream unresolved; close commercial-library leads are neither exact-source proof nor a safe standalone public-repository redistribution path;
+- `object.raincoat` remains authoritative-upstream unresolved; the tested Flaticon/Freepik candidate is not exact and a related SVG geometry-family copy carries no authoritative rights metadata;
+- the three-item blocker is now finite: exact open redistribution rights, express written standalone-distribution permission, or a later explicit project-owner replacement decision. Repeating the same item-page/source hunt alone is not production clearance;
 - production semantic approvals remain **0**; production semantic binaries remain **0**; runtime semantic activation remains **0**.
 
 This is not a runtime or production-asset change. Mainlagi World remains untouched; character development remains paused; fixed English audio remains deferred.
