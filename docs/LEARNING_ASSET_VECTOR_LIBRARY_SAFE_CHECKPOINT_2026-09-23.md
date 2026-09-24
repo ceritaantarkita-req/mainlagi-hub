@@ -412,3 +412,208 @@ user-uploaded stock deletions: 0
 8. Runtime activation remains the final separate gate.
 
 This continuation is the safe handoff boundary for the user-uploaded stock audit.
+
+## Audit checkpoint — reconcile + non-emoji filter (24 September 2026)
+
+Status: **SAFE CHECKPOINT / STOCK-LIBRARY ONLY / NO PRODUCTION APPROVAL / NO RUNTIME ACTIVATION**
+
+This section supersedes older numeric counts in this file. The live Google Sheet is the source of truth for the current stock-audit state.
+
+### Live counts
+
+```text
+NEEDED_STOCK data rows:      91
+FINAL_LIBRARY data rows:     34
+ATTRIBUTION_PROVENANCE rows: 6
+
+status counts:
+  library-ready: 30
+  needed:        56
+  reuse-ready:    1
+  programmatic:   4
+
+remaining needed by priority:
+  P0: 12
+  P1: 30
+  P2: 14
+```
+
+No production semantic registry entry was approved or activated by this audit.
+
+### 18-row index reconciliation
+
+Eighteen rows were still marked `needed` even though the same `asset_id` already existed in `FINAL_LIBRARY` with visual/provenance data. Those rows were reconciled to `library-ready` using the already-verified final-library source/license record:
+
+```text
+food.apple
+animal.cat
+animal.fish
+object.house
+animal.bird
+food.banana
+animal.dog
+object.chair
+family.mother
+family.father
+family.baby
+animal.duck
+animal.frog
+nature.sun
+nature.moon
+weather.rain
+habit.bed
+object.television
+```
+
+This was an index/state reconciliation only. It did not add production binaries or runtime mappings.
+
+### New final-library intake: nature.water
+
+The owner-uploaded `water-drop-svgrepo-com.svg` was visually checked and bound to the exact SVG Repo source:
+
+```text
+asset_id: nature.water
+final filename: nature-water__svgrepo-503801.svg
+source: https://www.svgrepo.com/svg/503801/water-drop
+license: CC0
+commercial use: YES
+visual: PASS
+semantic status: STOCK_LIBRARY_ONLY
+```
+
+The file was **copied**, not moved. The owner-uploaded original remains untouched.
+
+### Anti-emoji rule made explicit
+
+The project owner explicitly rejected emoji-style illustration for Mainlagi. SVG format alone is not enough: SVGs derived from emoji libraries are not acceptable stock merely because they are vectors.
+
+Uploaded files identified from their XML as emoji-derived and rejected as Mainlagi stock choices include:
+
+- ice upload: `iconify--twemoji`;
+- cloud upload: `iconify--noto`;
+- rainbow upload: `iconify--noto`;
+- glass-of-milk upload: `iconify--noto` and also semantically too specific for neutral `object.glass`;
+- bucket upload: `iconify--twemoji`.
+
+The originals remain untouched. Where available, the live sheet now points to replacement non-emoji sources.
+
+### Corrected/replacement sourcing already recorded in the live sheet
+
+The live sheet now contains safer replacement/correction paths for several earlier bad or ambiguous mappings:
+
+```text
+nature.ice-cube
+  replacement: https://www.svgrepo.com/svg/499238/ice-cube
+  CC0; exact visual still pending
+
+weather.cloud
+  replacement: https://www.svgrepo.com/svg/276635/cloudy-cloud
+  CC0; non-emoji candidate verified; final binary intake pending
+
+nature.rainbow
+  replacement: https://www.svgrepo.com/svg/66005/rainbow
+  CC0; non-emoji candidate verified; final binary intake pending
+
+nature.river-sea
+  corrected from invalid branch mapping to:
+  https://www.svgrepo.com/svg/56048/sea-water
+  CC0; visual still pending
+
+nature.nest
+  corrected from invalid bee mapping to:
+  https://www.svgrepo.com/svg/174815/bird-in-nest
+  CC0; visual still pending
+
+object.glass
+  replacement: https://www.svgrepo.com/svg/468982/glass-water
+  CC0; neutral glass/water concept; visual still pending
+
+object.ruler
+  replacement: https://www.svgrepo.com/svg/79493/ruler
+  CC0; non-emoji candidate verified; final binary intake pending
+
+habit.toothbrush
+  corrected from invalid clean-hands mapping to:
+  https://www.svgrepo.com/svg/530560/toothbrush
+  CC0; visual still pending
+```
+
+### Remaining needed-state breakdown
+
+The 56 remaining `needed` rows currently break down by sourcing state as follows:
+
+```text
+SOURCE_REPLACEMENT_CANDIDATE_VERIFIED:                 5
+UPLOAD_VISUAL_PASS_PROVENANCE_HELD:                    3
+SOURCE_REPLACEMENT_LICENSE_VERIFIED_VISUAL_PENDING:    8
+SOURCE_LICENSE_VERIFIED_VISUAL_PENDING:                3
+DERIVE_FROM_VERIFIED_FINAL_LIBRARY:                    3
+NO_MATCH_IN_USER_STOCK:                                6
+SOURCE_SELECTED_VISUAL_CHECK:                         18
+UPLOAD_ALTERNATIVE_REJECTED_SEMANTIC_MISMATCH:         3
+UPLOAD_ALTERNATIVE_REJECTED_SPECIFIC_VARIANT:          1
+UPLOAD_REJECTED_VISUAL_DISTRACTION:                     1
+UPLOAD_ALTERNATIVE_REJECTED_SCENE_CLUTTER:              1
+UPLOAD_REJECTED_SEMANTIC_MISMATCH:                      2
+UPLOAD_REJECTED_EMOJI_STYLE:                            1
+UPLOAD_ALTERNATIVES_REJECTED_SEMANTIC_OR_CLUTTER:       1
+```
+
+Three uploaded files currently visually pass but remain provenance-held and must **not** enter final library until exact source/license binding is proven:
+
+- `vehicle.car`;
+- `animal.bee`;
+- `habit.faucet`.
+
+### Verified-base derivatives
+
+The following should no longer be derived from random old sources. They should derive only from already verified `FINAL_LIBRARY` base assets, with derivative changes and required attribution preserved:
+
+- `feature.gills` from verified `animal.fish`;
+- `feature.beak` from verified `animal.bird`;
+- `feature.webbed-feet` from verified `animal.duck`.
+
+### Semantic/style rejections that remain intentional
+
+Keep these rejections/holds:
+
+- sand-castle is not generic sand;
+- teddy with large `LOVE` text is visually distracting;
+- recycle-marked bottle is not Math Warung bottled water;
+- sunflower upload is too specific for generic `nature.flower` and does not communicate nectar for `nature.nectar`;
+- fruit-tree scene is too cluttered/specific for standalone `nature.tree`;
+- clean-hands illustration is not neutral `body.hand`;
+- uploaded shop/cart alternatives are too decorated or semantically wrong for a clean standalone shopping cart;
+- generic ice is not ice cream;
+- glass-of-milk is not a milk carton.
+
+### Hard boundaries
+
+Still unchanged:
+
+- owner stock deletions: **0**;
+- owner stock moves: **0**;
+- external stock production approvals: **0**;
+- external stock runtime activations: **0**;
+- production semantic registry changes from this audit: **0**;
+- production semantic binaries added from this audit: **0**;
+- Mainlagi World changes: **0**;
+- character-development changes: **0**;
+- narration-runtime changes: **0**.
+
+`FINAL_LIBRARY` is candidate/reference supply only. It does not bypass exact candidate generation, exact-file human review, production provenance/approval, or later runtime activation.
+
+### Exact next safe sequence
+
+1. Intake + final visual-check the 5 `SOURCE_REPLACEMENT_CANDIDATE_VERIFIED` items before marking them library-ready.
+2. Visually inspect the 8 `SOURCE_REPLACEMENT_LICENSE_VERIFIED_VISUAL_PENDING` items.
+3. Visually inspect the 3 `SOURCE_LICENSE_VERIFIED_VISUAL_PENDING` items.
+4. Create the 3 derivatives only from verified final-library base assets and record attribution/derivative provenance.
+5. Resolve exact provenance for the 3 visually passing owner uploads: car, bee and faucet.
+6. Continue the 18 `SOURCE_SELECTED_VISUAL_CHECK` rows, prioritizing P0 before P1/P2.
+7. Preserve copy-only behavior for owner stock; never delete or move original uploads.
+8. Keep all accepted library assets as `STOCK_LIBRARY_ONLY` until a separate exact semantic candidate + human-review wave.
+9. Production approval and runtime mapping remain later separate gates.
+
+This is the safe continuation point for the next discussion.
+
