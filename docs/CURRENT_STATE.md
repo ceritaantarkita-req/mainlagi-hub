@@ -1205,3 +1205,24 @@ Three visually usable owner uploads remain provenance-held: `vehicle.car`, `anim
 
 For exact remaining-state categories and next sequence, use `LEARNING_ASSET_VECTOR_LIBRARY_SAFE_CHECKPOINT_2026-09-23.md`.
 
+## 24 September 2026 — P0 vector replacement audit checkpoint
+
+Live stock-library state has advanced to:
+
+- `FINAL_LIBRARY`: **42** stock/reference rows;
+- `NEEDED_STOCK`: **38 library-ready / 48 needed / 1 reuse-ready / 4 programmatic**;
+- remaining needed: **P0 4 / P1 30 / P2 14**;
+- P0 semantic slots: **13/17 library-ready**.
+
+New/updated P0 stock assets now include colorful/non-emoji replacements for umbrella, cup, ball, head, toy-block, towel, cactus thick stem and jump.
+
+Only four P0 blockers remain:
+- `vehicle.car` — visual pass on owner upload, exact provenance still held;
+- `feature.gills` — derivative from verified CC BY fish required;
+- `feature.beak` — derivative from verified CC BY bird required;
+- `object.raincoat` — suitable stock still unresolved.
+
+All current assets remain `STOCK_LIBRARY_ONLY`; production approvals and runtime activations remain **0**.
+
+Canonical handoff: `LEARNING_ASSET_VECTOR_LIBRARY_SAFE_CHECKPOINT_2026-09-23.md`.
+
