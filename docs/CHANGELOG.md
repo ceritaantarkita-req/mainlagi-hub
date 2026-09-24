@@ -103,3 +103,8 @@
 - Updated the live illustration index to `CC0_REPLACEMENT_READY_VISUAL_PENDING` for the four rows and added a dedicated provenance-family record.
 - Preserved the frozen p0-v2 9/9 accepted human-review state; no candidate regeneration, production approval, registry mutation, or runtime activation occurred.
 
+- Closed Session 2 visual asset-library sync with current car/raincoat/towel retained.
+- Recorded exact retained item identities: car 499718, raincoat 212019 and towel 288034.
+- Prepared CC0 head item 271316 with hair recolored to `#59474E` and uploaded comparison/review artifacts to Drive.
+- Kept the canonical head and frozen p0-v2 unchanged pending final human visual approval; production/runtime remain untouched.
+
