@@ -50,7 +50,7 @@ Subsystem docs remain authoritative for their specific scope when they do not co
 
 ## World evidence live DB / application release pending
 
-World evidence database migrations `0047`–`0051` are live on canonical Supabase project `estvtgflwkebomsqlolv`, with zero supplemental evidence rows at the closure checkpoint. The application activation stack remains release-controlled until integrated with current `main`, validated through full CI, and deployed through exact-SHA Cloudflare smoke.
+World evidence database migrations `0047`–`0051` are live on canonical Supabase project `estvtgflwkebomsqlolv`, with zero supplemental evidence rows at the closure checkpoint. The application activation stack has since been merged to `main`, validated through full CI, and exact-SHA Cloudflare verified; current truth is recorded in `WORLD_EVIDENCE_PRODUCTION_CLOSURE_2026-09-24.md`.
 
 Safe closure checkpoint:
 
@@ -75,18 +75,18 @@ Supabase remains live through 0047–0051 with zero supplemental evidence rows. 
 
 Read [WORLD_EVIDENCE_PRODUCTION_CLOSURE_2026-09-24.md](WORLD_EVIDENCE_PRODUCTION_CLOSURE_2026-09-24.md).
 
-## World evidence current-main integration checkpoint
+## Historical World evidence current-main integration checkpoint
 
-The full World evidence stack has been integrated with current `main` on a Draft release branch and passed the full combined CI matrix.
+This section records the **pre-release integration checkpoint** that existed before PR #312 was merged. At that time the full World evidence stack had been integrated with the then-current `main` on a Draft release branch and had passed the combined CI matrix.
 
 ```text
 checkpoint/world-evidence-main-integration-green-20260923
 @ e4999265033b0263e906c2fe287fc08d09bde0bc
 CI #1584 / run 35892514511 — full success
-PR #312 -> main — Draft / unmerged
+PR #312 -> main — Draft / unmerged (historical state)
 ```
 
-Read [WORLD_EVIDENCE_MAIN_INTEGRATION_2026-09-23.md](WORLD_EVIDENCE_MAIN_INTEGRATION_2026-09-23.md) before any release action. The Supabase DB is live through 0051, but Cloudflare runtime activation remains pending the protected main merge + exact-SHA smoke.
+That release step is now superseded by the production closure above: PR #312 is merged and exact-SHA Cloudflare verified. Read [WORLD_EVIDENCE_MAIN_INTEGRATION_2026-09-23.md](WORLD_EVIDENCE_MAIN_INTEGRATION_2026-09-23.md) for the integration history and [WORLD_EVIDENCE_PRODUCTION_CLOSURE_2026-09-24.md](WORLD_EVIDENCE_PRODUCTION_CLOSURE_2026-09-24.md) for current truth.
 
 ## Current project checkpoint — 23 September 2026
 

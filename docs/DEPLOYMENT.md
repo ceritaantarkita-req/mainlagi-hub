@@ -25,7 +25,7 @@ On pushes to `main`, `Production smoke (Cloudflare)` succeeds only when producti
 - backend `supabase`;
 - Supabase project ref `estvtgflwkebomsqlolv`.
 
-## Latest verified production release
+## Historical database-rollout production baseline — 23 September 2026
 
 Repository `main` observed during the 23 September World evidence database rollout:
 
@@ -33,7 +33,7 @@ Repository `main` observed during the 23 September World evidence database rollo
 main: 17b9ca79749e171f62d3adb86df494badef11732
 ```
 
-PR #309 (Stage 8 activation) and PR #310 (live-DB advisor hardening) are now closed as superseded by integrated Draft PR #312. The observed `main` commit still does **not** contain the reviewed World evidence runtime.
+PR #309 (Stage 8 activation) and PR #310 (live-DB advisor hardening) were later closed as superseded by PR #312. At this historical database-rollout checkpoint, PR #312 was still Draft and the observed `main` commit did **not yet** contain the reviewed World evidence runtime.
 
 This database-only rollout did not perform a new Cloudflare release or claim a new exact-SHA production smoke. The earlier exact-SHA production record from PR #269 remains historical evidence, not a statement that PR #309/#310 are deployed.
 
