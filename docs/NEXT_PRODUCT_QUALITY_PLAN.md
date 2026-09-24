@@ -797,7 +797,7 @@ Current and next:
 13. learning visual containment/readability foundation: **CLOSED / MERGED / LIVE VERIFIED** via PR #294 -> main `6d0f9bd8972297e316bdf031603d160d901d8d04`, main CI #1531 exact smoke;
 14. semantic illustration registry/provenance gate: **CLOSED / MERGED / LIVE VERIFIED** via PR #297 -> main `ed7db8a6c5b8a3ee4acc9bcca260b4e0b5776773`, main CI #1537 exact smoke; 17 review-required / 0 approved / 0 binary / 0 runtime activation;
 15. semantic P0 candidate production/review + Session 3 stock-library visual freeze: **CLOSED / MERGED / LIVE VERIFIED** via PR #316 -> main `763ed2db21fda86bf96499b49df4b09dc13e9340`, merged-main CI #1595 / run `35997454405` full success + exact Cloudflare smoke; 17/17 P0 library-ready, with car 499718 / raincoat 212019 / towel 288034 kept and head 271316 + #59474E adopted;
-16. **NOW / THREE-ASSET PROVENANCE RESOLUTION:** keep all three fail-closed. For car 499718, upstream identity is now strongly tied to Icons8 Color Car #15126 / `car--v1`; production requires an explicit direct Icons8 acquisition/license record for the exact asset/format before integration. For towel 288034 and raincoat 212019, authoritative upstream identity remains unresolved; continue only evidence-backed upstream/license research. If the project owner later chooses to abandon the KEEP decision, the already-reviewed clean alternatives 118911 (towel), 297932 (raincoat), and 490914 (car) may be reconsidered through a new explicit visual decision; do not silently swap them. Only after all production-held provenance is resolved should a separate production-asset approval/integration wave begin;
+16. **NOW / PROJECT-OWNER DECISION GATE FOR 3 HELD VISUALS:** keep car 499718 / towel 288034 / raincoat 212019 fail-closed for public-repository production. Car's upstream is strongly identified as Icons8 Color Car #15126 / `car--v1`, but ordinary Icons8 licensing restricts standalone-file redistribution and therefore does not satisfy the public AGPL binary gate without express written consent. Towel/raincoat authoritative open-license upstream remains unresolved, and close Flaticon/Freepik-style leads do not provide a safe standalone-file redistribution path. Do not spend another wave repeating the same source hunt as if it could authorize production. The safe exits are: authoritative exact open-redistribution evidence; express written standalone-distribution permission; or a new explicit project-owner visual replacement decision. Previously rejected 118911 / 297932 / 490914 remain historical only and must not be silently adopted;
 17. only after production approval, activate exact approved semantic binaries through a later runtime-mapping wave, keeping `LearningVisualToken` and all canonical learning/evidence contracts;
 18. real-device/accessibility acceptance and cleanup of superseded presentation paths;
 19. resume fixed English audio only when separately re-authorized;
@@ -825,8 +825,8 @@ This handoff is historical. The exact-file review was subsequently completed and
 Current execution order is now:
 
 1. preserve the 17/17 frozen stock-library decisions;
-2. **NOW:** recheck exact SVG Repo item pages `499718`, `288034`, and `212019` for any item-specific license exception;
-3. only after those holds close, perform a separate production-asset approval/integration wave;
+2. **NOW:** treat car `499718`, towel `288034`, and raincoat `212019` as public-repository redistribution-blocked under the currently available evidence; do not repeat the same item-page/source hunt as production clearance;
+3. close each held asset only through authoritative exact open-redistribution evidence, express written standalone-distribution permission, or a later explicit project-owner replacement decision; only then perform a separate production-asset approval/integration wave;
 4. only after production approval, perform a later runtime semantic-mapping wave.
 
 No production binary or runtime mapping was authorized by Session 3.
@@ -844,7 +844,7 @@ Session 3 completed the visual/stock-library decision freeze without touching pr
 - The later project-owner comparison is authoritative: keep current car 499718, raincoat 212019, towel 288034; adopt head 271316 recolored #59474E.
 - The accepted head has been copied into canonical Drive stock folder `04_BODY_FAMILY_ACTIONS` and the asset index/provenance tabs are synchronized.
 - 14/17 have clear source/license evidence for the production gate.
-- 3/17 remain fail-closed for production until exact individual SVG Repo item pages 499718 / 288034 / 212019 are rechecked.
+- 3/17 remain fail-closed for public-repository production. Car has strong Icons8 upstream identity but standalone-file redistribution is not cleared; towel/raincoat authoritative open-license upstream remains unresolved.
 - Production semantic approvals, production binaries, and runtime activation remain 0.
 
 Canonical record: `LEARNING_SEMANTIC_P0_SESSION3_STOCK_LIBRARY_APPROVAL_FREEZE_2026-09-24.md`.
