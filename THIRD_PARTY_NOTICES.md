@@ -46,6 +46,17 @@ Mainlagi logos and the planned Mainlagi character identities are governed by `TR
 
 Trademark reservation also does not substitute for copyright provenance. Public brand, character, animation, voice, or creative binaries should have documented ownership/permission before being distributed from this repository.
 
+## Learning semantic illustration assets
+
+The production subtree `public/artwork/learning-illustrations/` contains separately licensed/open-license artwork. Exact per-asset source, rights holder, license basis, redistribution decision, and SHA-256 are recorded in `src/lib/data/learning-illustration-asset-provenance.json`.
+
+Required CC BY credit in the current 14-asset P0 production set:
+
+- Darius Dan — bird, cat, fish, plus the Mainlagi beak/gills derivatives of the credited bird/fish bases;
+- Yu-Chun Chou — house illustration.
+
+See `public/artwork/learning-illustrations/ATTRIBUTION.md` for the production-directory notice. Public Domain / CC0 assets retain their source/provenance records even where attribution is not required.
+
 ## Adding new third-party material
 
 Before committing a third-party library, model, dataset, image, audio file, icon pack, font, curriculum sample, or other asset:

@@ -3,6 +3,19 @@
 > Canonical execution plan fase product-quality Mainlagi Hub. Human/AI agent wajib membaca dokumen ini, `CURRENT_STATE.md`, `ARCHITECTURE.md`, `MAINLAGI_ART_BIBLE.md`, dan `GAMEPLAY_VARIATION_CATALOG.md` sebelum mengubah learning experience.
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
+
+## 25 September semantic P0 execution boundary
+
+Current production truth after the authorized integration wave:
+
+- 17/17 visual decisions remain frozen;
+- 14/17 source/license-clear assets are production-approved with exact WebP SHA bindings;
+- 14 production binaries live under `public/artwork/learning-illustrations/`;
+- car 499718 / towel 288034 / raincoat 212019 remain fail-closed and must not be silently substituted;
+- runtime semantic activation remains 0.
+
+**NEXT:** a separate runtime semantic-mapping + visual regression wave may activate only the approved 14, preserving `LearningVisualToken`, existing gameplay/evidence contracts, World separation, character pause, and fixed-audio pause.
+
 **Canonical branch:** `main`  
 **Latest fully closed gameplay pattern:** Pattern #47 — Math `shape_attribute_board`  
 **Latest fully closed reuse wave:** Math mixed-operation existing-mechanic reuse (`make_total` / `take_away`)  
