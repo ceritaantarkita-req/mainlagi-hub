@@ -935,3 +935,22 @@ Continue in this order:
 8. runtime semantic activation remains last.
 
 Do not regenerate the accepted v2 binaries during provenance-only work.
+
+### Session 2 — asset-library sync + visual comparison
+
+Session 1 is complete with four explicit CC0 replacement candidates:
+- car 490914;
+- raincoat 297932;
+- head 271316;
+- towel 118911.
+
+Session 2 should:
+1. import/download those four SVGs into the Drive asset library;
+2. compare each against the current human-approved visual;
+3. keep only replacements that meet Mainlagi quality/style;
+4. update `FINAL_LIBRARY` canonical file/source/license only after visual acceptance;
+5. retain superseded files as history;
+6. do not touch production registry/runtime yet.
+
+If a clean replacement fails visual review, choose another explicit-license source instead of resuming deep provenance archaeology.
+
