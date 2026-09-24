@@ -1,4 +1,5 @@
 # Changelog
+- Semantic P0 production integration PR #324 merged/live verified ke `main` `1e27869dfc71186e83ed8bb0a4dff2ca44dddfc9`; PR CI #1609 / run `36035812364` dan merged-main CI #1610 / run `36036726413` full success, termasuk exact-SHA Cloudflare production smoke. Canonical Drive P0 production tab synced: 14 approved/integrated/runtime-off, 3 held, runtime activation 0.
 - Semantic P0 production-integration wave: 14/17 clear assets promoted as exact deterministic 512x512 alpha WebP binaries with SHA-bound provenance and approved child-readability records; car/towel/raincoat remain held; runtime semantic activation stays 0.
 - Added production attribution for Darius Dan CC BY bird/cat/fish + beak/gills derivatives and Yu-Chun Chou CC BY house; Public Domain/CC0 assets remain source-bound in the canonical provenance registry.
 - Hardened the historical P0 production-readiness preflight so clear-scope records may be either pre-approval or approved while the three held keys remain strict fail-closed.
