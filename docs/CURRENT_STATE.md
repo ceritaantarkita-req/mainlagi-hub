@@ -1185,3 +1185,23 @@ Current stock-library truth:
 Important semantic holds: sand-castle is not generic sand; teddy with large LOVE text is not selected; recycle bottle is for reusable-bottle habit, not Math Warung bottled water; several other exact-name uploads remain held until exact provenance can be proven.
 
 Safe handoff remains `LEARNING_ASSET_VECTOR_LIBRARY_SAFE_CHECKPOINT_2026-09-23.md`.
+
+## 24 September 2026 — reconciled vector-library audit state
+
+Live stock-library state now supersedes the older 33/11/75 counts:
+
+- `FINAL_LIBRARY`: **34** stock/reference rows;
+- `NEEDED_STOCK`: **30 library-ready / 56 needed / 1 reuse-ready / 4 programmatic**;
+- remaining needed by priority: **P0 12 / P1 30 / P2 14**;
+- 18 rows were reconciled from stale `needed` state to existing verified `FINAL_LIBRARY` assets;
+- `nature.water` was added as `nature-water__svgrepo-503801.svg`, CC0, visual pass, `STOCK_LIBRARY_ONLY`;
+- uploaded emoji-derived SVGs are explicitly rejected as Mainlagi stock even when technically valid vectors;
+- the live sheet now contains corrected/replacement sources for ice-cube, cloud, rainbow, river/sea, nest, neutral glass, ruler and toothbrush;
+- original owner uploads deleted: **0**;
+- production approvals: **0**;
+- runtime activations: **0**.
+
+Three visually usable owner uploads remain provenance-held: `vehicle.car`, `animal.bee`, and `habit.faucet`.
+
+For exact remaining-state categories and next sequence, use `LEARNING_ASSET_VECTOR_LIBRARY_SAFE_CHECKPOINT_2026-09-23.md`.
+
