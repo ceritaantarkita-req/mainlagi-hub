@@ -35,6 +35,8 @@ This is not a runtime or production-asset change. Mainlagi World remains untouch
 
 Canonical Session 3 record: `LEARNING_SEMANTIC_P0_SESSION3_STOCK_LIBRARY_APPROVAL_FREEZE_2026-09-24.md`.
 
+A non-production **14/17 production-readiness preflight** is now prepared on the active implementation branch. It deliberately excludes the three redistribution-held KEEP-CURRENT keys (`vehicle.car`, `object.towel`, `object.raincoat`) and only validates/render-shapes the 14 clear assets in `internal/`. The tool hard-refuses `public/`, preserves the production registry byte-for-byte, emits deterministic 512×512 alpha WebP preflight files using the registry's expected production basenames, and keeps legal approval / production approval / runtime activation false. Canonical preflight record: `LEARNING_SEMANTIC_P0_PRODUCTION_READINESS_PREFLIGHT_2026-09-24.md`.
+
 ## 24 September World evidence production release — MERGED / LIVE VERIFIED
 
 PR #312 is merged to production `main`.
