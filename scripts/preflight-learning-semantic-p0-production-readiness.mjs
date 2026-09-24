@@ -80,17 +80,48 @@ function readRegistry() {
     throw new Error("registry semantic scope differs from canonical 17-key P0 contract");
   }
 
-  for (const key of ALL_KEYS) {
+  for (const [key] of CLEAR_SCOPE) {
     const record = registry.items[key];
-    if (record.lifecycle !== "review-required") throw new Error(`${key}: preflight requires lifecycle=review-required`);
+    if (!["review-required", "approved"].includes(record.lifecycle)) {
+      throw new Error(`${key}: clear-scope lifecycle must be review-required or approved`);
+    }
+    if (record.lifecycle === "review-required") {
+      if (record.productionPath !== null || record.productionSha256 !== null) {
+        throw new Error(`${key}: review-required preflight requires no production path/SHA`);
+      }
+      if (record.provenance?.redistributionAllowed !== false) {
+        throw new Error(`${key}: review-required preflight requires redistribution to remain fail-closed`);
+      }
+      if (record.semanticReview?.status !== "pending") {
+        throw new Error(`${key}: review-required preflight requires semantic review pending`);
+      }
+    } else {
+      if (record.productionPath !== record.expectedProductionPath) {
+        throw new Error(`${key}: approved clear-scope productionPath must match expectedProductionPath`);
+      }
+      if (typeof record.productionSha256 !== "string" || !/^[a-f0-9]{64}$/.test(record.productionSha256)) {
+        throw new Error(`${key}: approved clear-scope requires production SHA-256`);
+      }
+      if (record.provenance?.redistributionAllowed !== true) {
+        throw new Error(`${key}: approved clear-scope requires redistributionAllowed=true`);
+      }
+      if (record.semanticReview?.status !== "approved" || record.semanticReview?.childReadable !== true) {
+        throw new Error(`${key}: approved clear-scope requires approved child-readable semantic review`);
+      }
+    }
+  }
+
+  for (const key of HELD_KEYS) {
+    const record = registry.items[key];
+    if (record.lifecycle !== "review-required") throw new Error(`${key}: held preflight key must remain review-required`);
     if (record.productionPath !== null || record.productionSha256 !== null) {
-      throw new Error(`${key}: preflight requires no production path/SHA`);
+      throw new Error(`${key}: held preflight key requires no production path/SHA`);
     }
     if (record.provenance?.redistributionAllowed !== false) {
-      throw new Error(`${key}: preflight requires production redistribution to remain fail-closed`);
+      throw new Error(`${key}: held preflight key must remain fail-closed for redistribution`);
     }
     if (record.semanticReview?.status !== "pending") {
-      throw new Error(`${key}: preflight requires semantic review to remain pending in production registry`);
+      throw new Error(`${key}: held preflight key must keep semantic review pending`);
     }
   }
 
