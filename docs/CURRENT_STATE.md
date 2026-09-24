@@ -35,7 +35,21 @@ This is not a runtime or production-asset change. Mainlagi World remains untouch
 
 Canonical Session 3 record: `LEARNING_SEMANTIC_P0_SESSION3_STOCK_LIBRARY_APPROVAL_FREEZE_2026-09-24.md`.
 
-A non-production **14/17 production-readiness preflight** is now prepared on the active implementation branch. It deliberately excludes the three redistribution-held KEEP-CURRENT keys (`vehicle.car`, `object.towel`, `object.raincoat`) and only validates/render-shapes the 14 clear assets in `internal/`. The tool hard-refuses `public/`, preserves the production registry byte-for-byte, emits deterministic 512×512 alpha WebP preflight files using the registry's expected production basenames, and keeps legal approval / production approval / runtime activation false. Canonical preflight record: `LEARNING_SEMANTIC_P0_PRODUCTION_READINESS_PREFLIGHT_2026-09-24.md`.
+The non-production **14/17 production-readiness preflight is now MERGED / LIVE VERIFIED and executed against the real canonical Drive sources**.
+
+```text
+tooling PR:                  #321
+PR CI #1604 / run:          36020304671 — full success
+tooling merged main:         1e623a3416741c8308aa5d4a6c9bb9534bc04596
+merged-main CI #1605:        36021416028 — full success
+Cloudflare exact-SHA smoke:  PASS
+real-source preflight:       14/14 eligible assets PASS
+held/not rendered:           3/17
+```
+
+The exact normalized source staging folder is Drive `1wLcXO5fziyXcdOBH8YC04oi4RJF9UYNZ` (`P0_PRODUCTION_READINESS_PREFLIGHT_14_2026-09-24`) and was audited to exactly 14 SVGs after duplicate-staging cleanup. `MAINLAGI_ILLUSTRATION_ASSET_INDEX` now contains canonical tab `P0_PRODUCTION_PREFLIGHT`: 14 `PREFLIGHT_PASS_NON_PRODUCTION` rows and 3 `HELD_NOT_RENDERED` rows with source SHA, expected production path, preflight WebP SHA/bytes, and all legal-production / registry-production / runtime flags still `NO`. Largest real preflight output is 18,956 bytes; all 14 are 512×512 alpha WebP within the existing technical contract.
+
+This remains non-production: `public/artwork/learning-illustrations/` is unchanged, production semantic approvals remain 0, production binaries remain 0, and runtime activation remains 0. Canonical preflight record: `LEARNING_SEMANTIC_P0_PRODUCTION_READINESS_PREFLIGHT_2026-09-24.md`.
 
 ## 24 September World evidence production release — MERGED / LIVE VERIFIED
 
