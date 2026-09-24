@@ -873,3 +873,20 @@ Execution rule:
 Current library truth: 33 final stock/reference rows / 11 library-ready / 1 reuse-ready / 0 production-approved / 0 runtime-active.
 
 Do not skip directly from stock library to runtime.
+
+### 24 September safe continuation — vector-library audit
+
+Current truth: **34 final-library / 30 library-ready / 56 needed / 1 reuse-ready / 4 programmatic**.
+
+Prioritize the remaining work in this order:
+1. finish the 5 replacement candidates already source/style-verified;
+2. visually inspect the 8 replacement items whose license is verified but visual is pending;
+3. visually inspect the 3 existing sources whose license is verified but visual is pending;
+4. derive gills/beak/webbed-feet only from verified final-library fish/bird/duck bases, preserving attribution;
+5. prove provenance for visually passing car/bee/faucet uploads;
+6. continue the 18 selected-source visual checks, P0 first;
+7. keep semantic/style rejections fail-closed;
+8. keep every library success `STOCK_LIBRARY_ONLY` until a separate exact candidate + human-review wave.
+
+Do not promote stock-library status directly to production or runtime.
+
