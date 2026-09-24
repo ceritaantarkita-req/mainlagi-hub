@@ -1126,3 +1126,69 @@ Session 2 should:
 
 This closes Session 1 safely.
 
+## Session 2 closure — asset-library visual sync (24 September 2026)
+
+Status: **3 CURRENT VISUALS RETAINED / 1 LEGAL-CLEAN HEAD REPLACEMENT PREPARED / PRODUCTION UNCHANGED**
+
+Session 2 followed the connector-first/minimal-change rule.
+
+### Keep current canonical visuals
+
+The following user-selected stock visuals remain canonical after visual comparison:
+
+- `vehicle.car` — keep current; exact SVG Repo item identity already resolved to `499718`;
+- `object.raincoat` — keep current; exact item identity already resolved to `212019`;
+- `object.towel` — keep current; exact item identity already resolved to `288034`.
+
+No binary swap was performed for those three.
+
+Their live index status is now:
+
+```text
+KEEP_CURRENT_VISUAL_EXACT_ITEM_RESOLVED_PRODUCTION_RECHECK
+```
+
+Final production release must still recheck governing item-page license evidence.
+
+### Head replacement prepared
+
+The currently selected head remains visually approved but its legal provenance is blocked.
+
+The clean replacement is SVG Repo item `271316/man-hair-head`, CC0. The replacement hair color was changed from `#C03A2B` to `#59474E` to match the user-selected dark-hair direction. The geometry/source otherwise remains the CC0 replacement.
+
+Review artifacts are stored in:
+
+```text
+P0_V2_HUMAN_REVIEW_20260924/
+  HEAD_LEGAL_REPLACEMENT_REVIEW_20260924/
+    body-head__svgrepo-271316-cc0-darkhair.svg
+    body-head__svgrepo-271316-cc0-darkhair.png
+    compare-current-vs-cc0-darkhair.png
+```
+
+Live status:
+
+```text
+CC0_REPLACEMENT_PREPARED_HUMAN_VISUAL_PENDING
+```
+
+The current canonical head and accepted p0-v2 candidate remain frozen until final human approval of this recolored replacement.
+
+### Hard boundaries
+
+- accepted p0-v2 manifest remains `cf2bbd35103b8c3bd744688077fe4ccfb44b62f33c7061a2a56668988a439197`;
+- p0-v2 human review remains **9 accepted / 0 rejected**;
+- no accepted v2 binary was regenerated;
+- no production approval was granted;
+- no public production path was changed;
+- no semantic production registry was mutated;
+- no runtime mapping was activated.
+
+### Session 3 entry condition
+
+Session 3 production approval may begin only after:
+1. final human visual decision on the recolored CC0 head replacement;
+2. exact item-page license recheck for retained car/raincoat/towel.
+
+This is the safe Session 2 handoff.
+
