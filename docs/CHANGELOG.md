@@ -90,3 +90,10 @@
 - Recorded project-owner canonical stock overrides for car, raincoat, head and towel; the three v2-relevant swaps were regenerated before final human approval.
 - Marked the four user-selected overrides as `PROVENANCE_HELD` / `STOCK_LIBRARY_ONLY_PROVENANCE_HELD` until exact item/license binding is proven.
 - Preserved production/runtime boundaries: 0 production approvals, 0 runtime activations.
+
+
+- Added fail-closed provenance checkpoint for the four human-selected stock overrides.
+- Confirmed exact raw public-mirror identity for accepted raincoat, towel and car.
+- Confirmed accepted car structure matches SVG Repo item `499718` exactly, but kept license status held because direct governing-license evidence is not yet available.
+- Rejected previously suspected exact bindings for head item `271316`, raincoat item `297932`, and towel candidates `70178` / `118911` / `168751`.
+- Preserved the accepted p0-v2 manifest and 9/9 human-review result unchanged; production approvals and runtime activations remain 0.

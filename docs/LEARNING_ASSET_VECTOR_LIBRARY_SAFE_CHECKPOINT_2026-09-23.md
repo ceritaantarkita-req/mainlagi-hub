@@ -883,3 +883,152 @@ Exact next safe sequence:
 6. Runtime semantic mapping remains the final separate gate.
 
 This is the safe handoff boundary after visual approval.
+
+
+## Provenance audit checkpoint - 24 September 2026
+
+Status: **VISUAL APPROVAL CLOSED / PROVENANCE PARTIALLY RESOLVED / PRODUCTION STILL BLOCKED**
+
+The accepted p0-v2 visual set remains frozen:
+
+```text
+candidate set: p0-v2
+manifest SHA-256: cf2bbd35103b8c3bd744688077fe4ccfb44b62f33c7061a2a56668988a439197
+human review: 9 accepted / 0 rejected
+production approvals: 0
+runtime activations: 0
+```
+
+No accepted candidate binary was regenerated during this provenance audit.
+
+### Exact raw-mirror identity evidence
+
+Canonical-XML comparison against public GitHub mirrors produced:
+
+```text
+object.raincoat:
+  local canonical SHA-256:
+  f13afba329ebf8c281dadc0abec8747db10a2e3f642a0d74560f532cfbe1a529
+  exact raw mirror: MATCH
+  mirror:
+  martinelarsen/Wearther
+  commit: d6e476a32dbb9b216f97910d71fd4a730e3f3ac7
+  path: icons/precipitation/rain-coat-svgrepo-com.svg
+
+object.towel:
+  local canonical SHA-256:
+  b01a7289bc2a3d97b6846d92aadcb292b67bbd50723fefa708f973873f06ad06
+  exact raw mirror: MATCH
+  mirror:
+  eth-lre/math2visual
+  commit: 8c42a2c88e8341987a1d7d1c53d451b34ec588d4
+  path: svg_dataset/towel.svg
+
+vehicle.car:
+  local canonical SHA-256:
+  0520a62d3fc3dc5bdee67b21845609f260af096ef401e864ec758eb0409f6fb6
+  exact raw mirror: MATCH
+  mirror:
+  eth-lre/math2visual
+  commit: 8c42a2c88e8341987a1d7d1c53d451b34ec588d4
+  path: svg_dataset/car 2.svg
+```
+
+All three mirror files contain SVG Repo export markers.
+
+### Car item binding
+
+The accepted car structure also matches SVG Repo item **499718** at the path/fill geometry level:
+
+```text
+vehicle.car -> probable exact SVG Repo item: 499718
+structure comparison: exact
+path/fill element count: 9 / 9
+```
+
+A second public mirror names the same exact geometry:
+
+```text
+fakhrul62/free-awesome
+path: freeawesome/colored/499718-Car.svg
+```
+
+This establishes a strong item-ID binding for the car visual. It does **not** yet establish the governing license because the live SVG Repo page is currently blocked by Vercel Security Checkpoint in the available retrieval path.
+
+Therefore car stays `PROVENANCE_HELD`.
+
+### Rejected provenance assumptions
+
+The following previously suspected item bindings were tested and must **not** be treated as exact:
+
+```text
+body.head:
+  candidate SVG Repo item 271316 -> NOT exact structure match
+
+object.raincoat:
+  candidate SVG Repo item 297932 -> NOT exact structure match
+
+object.towel:
+  candidate 70178 -> NOT exact structure match
+  candidate 118911 -> NOT exact match / endpoint not usable
+  candidate 168751 -> NOT exact match / endpoint not usable
+```
+
+The accepted head also did not canonical-match the tested public mirror `andrij-felenko/af_project_main/.../man_hair_42.svg`.
+
+This means earlier references to 271316/297932 as likely exact bindings are historical hypotheses only, not production evidence.
+
+### Current provenance truth for the four user-selected overrides
+
+```text
+vehicle.car:
+  visual approved: YES
+  exact raw mirror: YES
+  probable exact item ID: 499718
+  governing license proven: NO
+  production eligible: NO
+
+object.raincoat:
+  visual approved: YES
+  exact raw mirror: YES
+  exact SVG Repo item ID: unresolved
+  governing license proven: NO
+  production eligible: NO
+
+object.towel:
+  visual approved: YES
+  exact raw mirror: YES
+  exact SVG Repo item ID: unresolved
+  governing license proven: NO
+  production eligible: NO
+
+body.head:
+  visual approved: YES
+  exact accepted local file: preserved
+  tested mirror/item candidates: NOT exact
+  exact SVG Repo item ID: unresolved
+  governing license proven: NO
+  production eligible: NO
+```
+
+### Safe boundary
+
+Do not:
+- change the 9/9 human-review result;
+- regenerate accepted p0-v2 binaries;
+- mark any of the four overrides commercial-cleared from filename alone;
+- infer license from a different visually similar SVG Repo item;
+- copy the accepted candidates into public production paths;
+- mutate the production semantic registry;
+- activate runtime mapping.
+
+### Next exact sequence
+
+1. Resolve the governing license for car item 499718 using a trustworthy source that directly binds that item to a license.
+2. Find the exact SVG Repo item IDs for raincoat and towel using structure/raw-file identity, not visual similarity.
+3. Find the exact source/item for the accepted head; discard candidate 271316 as non-exact.
+4. Record exact source URL, license, attribution and commercial-use evidence in the Sheet.
+5. Only after all four are legally clear, open the separate production-approval gate.
+6. Keep runtime activation as the final separate gate.
+
+This is the current safe discussion handoff.

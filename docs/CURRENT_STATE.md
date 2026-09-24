@@ -1240,3 +1240,22 @@ Canonical handoff: `LEARNING_ASSET_VECTOR_LIBRARY_SAFE_CHECKPOINT_2026-09-23.md`
 - Runtime activations: **0**.
 
 Canonical handoff: `LEARNING_ASSET_VECTOR_LIBRARY_SAFE_CHECKPOINT_2026-09-23.md`.
+
+
+## 24 September 2026 - provenance audit checkpoint
+
+The p0-v2 human-approved set remains frozen at manifest SHA `cf2bbd35103b8c3bd744688077fe4ccfb44b62f33c7061a2a56668988a439197` with **9 accepted / 0 rejected**.
+
+New provenance evidence:
+- raincoat exact raw-matches `martinelarsen/Wearther` commit `d6e476a32dbb9b216f97910d71fd4a730e3f3ac7`, path `icons/precipitation/rain-coat-svgrepo-com.svg`;
+- towel exact raw-matches `eth-lre/math2visual` commit `8c42a2c88e8341987a1d7d1c53d451b34ec588d4`, path `svg_dataset/towel.svg`;
+- car exact raw-matches `eth-lre/math2visual` at the same commit, path `svg_dataset/car 2.svg`;
+- car also structure-matches SVG Repo item **499718** exactly;
+- head candidate item `271316` is not an exact structure match;
+- raincoat candidate item `297932` is not an exact structure match;
+- towel candidates `70178`, `118911`, and `168751` are not exact bindings.
+
+All four user-selected overrides remain `PROVENANCE_HELD`.
+
+Production approvals: **0**.
+Runtime activations: **0**.

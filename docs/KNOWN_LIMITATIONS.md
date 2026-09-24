@@ -250,3 +250,19 @@ The exact p0-v2 set is human-approved at **9 accepted / 0 rejected**, but four u
 Those four must remain `STOCK_LIBRARY_ONLY_PROVENANCE_HELD` until exact legal provenance is proven.
 
 Human visual approval must not be treated as production/legal approval.
+
+
+## 24 September - provenance audit remains fail-closed
+
+The visual gate is complete, but exact legal provenance for the four user-selected overrides is still open.
+
+Verified identity evidence now exists for car, raincoat and towel through exact raw public mirrors. Car additionally structure-matches SVG Repo item `499718`.
+
+However, the governing license has not yet been directly bound to the accepted file/item for all four assets. SVG Repo live pages are currently blocked by Vercel Security Checkpoint in the available retrieval path.
+
+Important corrections:
+- do not use SVG Repo item `271316` as proof for the accepted head;
+- do not use item `297932` as proof for the accepted raincoat;
+- do not use towel candidates `70178`, `118911`, or `168751` as proof for the accepted towel.
+
+Visually similar or same-label items are insufficient. Production must remain blocked until exact file/item/license binding is proven.

@@ -918,3 +918,20 @@ Next:
 5. activate runtime mapping only after production verification.
 
 Freeze accepted v2 at manifest SHA `cf2bbd35103b8c3bd744688077fe4ccfb44b62f33c7061a2a56668988a439197`.
+
+
+### Provenance completion after p0-v2 approval
+
+Accepted p0-v2 remains frozen at **9/9 accepted**.
+
+Continue in this order:
+1. bind SVG Repo item `499718` car to its governing license using direct trustworthy evidence;
+2. derive the exact SVG Repo item ID for the accepted raincoat from its exact raw file identity;
+3. derive the exact item ID for the accepted towel from its exact raw file identity;
+4. identify the exact source/item for the accepted head, explicitly excluding tested non-match `271316`;
+5. write exact source URL/license/attribution/commercial-use evidence into the live asset index;
+6. only after 4/4 legal clearance, create the separate production-approval wave;
+7. production copy/registry mutation follows only after that gate;
+8. runtime semantic activation remains last.
+
+Do not regenerate the accepted v2 binaries during provenance-only work.
