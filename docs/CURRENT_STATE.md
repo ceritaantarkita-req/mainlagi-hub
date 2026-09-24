@@ -4,9 +4,9 @@ Last reviewed: **25 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
-## 25 September semantic P0 production approval / integration — 14 APPROVED / RUNTIME OFF
+## 25 September semantic P0 production approval / integration — CLOSED / MERGED / LIVE VERIFIED
 
-The separately authorized production-approval/integration wave promotes the **14/17 source/license-clear P0 illustrations** into the canonical production subtree with exact deterministic WebP SHA bindings and approved provenance/child-readability records.
+The separately authorized production-approval/integration wave is **CLOSED / MERGED / LIVE VERIFIED** through PR **#324**. It promotes the **14/17 source/license-clear P0 illustrations** into the canonical production subtree with exact deterministic WebP SHA bindings and approved provenance/child-readability records.
 
 ```text
 production semantic approvals: 14
@@ -15,7 +15,17 @@ held:                          3
 runtime semantic activation:    0
 ```
 
-The held keys remain unchanged: `vehicle.car`, `object.towel`, `object.raincoat`. No runtime mapping is activated by this wave. Canonical integration record: `LEARNING_SEMANTIC_P0_PRODUCTION_APPROVAL_INTEGRATION_2026-09-25.md`.
+The held keys remain unchanged: `vehicle.car`, `object.towel`, `object.raincoat`. No runtime mapping is activated by this wave.
+
+```text
+PR #324 final head:        6fb74cac152f55f3ba8fa81344990c942cd4f982
+PR CI #1609 / run:         36035812364 — full success
+merged main:               1e27869dfc71186e83ed8bb0a4dff2ca44dddfc9
+merged-main CI #1610/run:  36036726413 — full success
+Cloudflare exact-SHA smoke: PASS
+```
+
+The canonical Drive P0 production tab is synchronized to 14 approved/integrated/runtime-off rows and 3 held rows. Canonical integration record: `LEARNING_SEMANTIC_P0_PRODUCTION_APPROVAL_INTEGRATION_2026-09-25.md`.
 
 ## 24 September semantic P0 Session 3 stock-library freeze — MERGED / LIVE VERIFIED
 
