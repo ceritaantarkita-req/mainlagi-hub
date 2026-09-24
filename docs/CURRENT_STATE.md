@@ -4,18 +4,31 @@ Last reviewed: **25 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
-## 25 September semantic P0 production approval / integration — 14 APPROVED / RUNTIME OFF
+## 25 September semantic P0 production approval / integration — MERGED / LIVE VERIFIED
 
-The separately authorized production-approval/integration wave promotes the **14/17 source/license-clear P0 illustrations** into the canonical production subtree with exact deterministic WebP SHA bindings and approved provenance/child-readability records.
+The production-approval/integration wave is **CLOSED / MERGED / LIVE VERIFIED** through PR **#324**.
 
 ```text
-production semantic approvals: 14
-production semantic binaries:  14
-held:                          3
-runtime semantic activation:    0
+PR #324 final head:             6fb74cac152f55f3ba8fa81344990c942cd4f982
+PR CI #1609 / run:             36035812364 — full success
+merged main:                   1e27869dfc71186e83ed8bb0a4dff2ca44dddfc9
+merged-main CI #1610 / run:    36036726413 — full success
+Cloudflare exact-release smoke: PASS
+
+visual decisions frozen:       17/17
+production approvals:          14/17
+production binaries:           14/17
+held:                           3/17
+runtime semantic activation:      0
 ```
 
-The held keys remain unchanged: `vehicle.car`, `object.towel`, `object.raincoat`. No runtime mapping is activated by this wave. Canonical integration record: `LEARNING_SEMANTIC_P0_PRODUCTION_APPROVAL_INTEGRATION_2026-09-25.md`.
+The 14 source/license-clear P0 illustrations now exist as exact deterministic production WebP binaries with matching SHA-256, approved provenance/redistribution records, child-readability approval, and required attribution. The held keys remain unchanged and fail-closed: `vehicle.car`, `object.towel`, `object.raincoat`.
+
+No runtime mapping was activated. Mainlagi World was not touched; character development remains paused; fixed English narration activation remains unchanged.
+
+Canonical integration record: `LEARNING_SEMANTIC_P0_PRODUCTION_APPROVAL_INTEGRATION_2026-09-25.md`. Canonical resume handoff: `LEARNING_SEMANTIC_P0_PRODUCTION_SAFE_CHECKPOINT_2026-09-25.md`.
+
+**Next is discussion, not automatic implementation:** agree the runtime semantic resolver, activation scope, held-key fallback behavior, surface scope, and QA/rollout contract before changing runtime code.
 
 ## 24 September semantic P0 Session 3 stock-library freeze — MERGED / LIVE VERIFIED
 
