@@ -617,3 +617,205 @@ Still unchanged:
 
 This is the safe continuation point for the next discussion.
 
+## P0 replacement audit checkpoint — 24 September 2026
+
+Status: **SAFE CHECKPOINT / P0 STOCK-LIBRARY 13 OF 17 READY / NO PRODUCTION APPROVAL / NO RUNTIME ACTIVATION**
+
+This section supersedes older P0 counts in this file. The live `MAINLAGI_ILLUSTRATION_ASSET_INDEX` Google Sheet is the source of truth.
+
+### Current live counts
+
+```text
+NEEDED_STOCK rows:          91
+FINAL_LIBRARY rows:         42
+ATTRIBUTION_PROVENANCE:      7
+
+library-ready:              38
+needed:                     48
+reuse-ready:                 1
+programmatic:                4
+
+remaining needed by priority:
+  P0: 4
+  P1: 30
+  P2: 14
+```
+
+For the 17 semantic-registry P0 slots:
+
+```text
+P0 library-ready: 13 / 17
+P0 still open:     4 / 17
+```
+
+The four remaining P0 blockers are:
+
+1. `vehicle.car`
+2. `feature.gills`
+3. `feature.beak`
+4. `object.raincoat`
+
+### Exact P0 visual audit performed
+
+A direct binary/contact-sheet audit was performed on the earlier/replacement P0 candidates.
+
+Earlier/source candidates that were rejected or invalid:
+
+- prior `body.head`: black/white icon treatment, too icon-like;
+- prior `object.towel`: technical/outline treatment, not suitable as final child learning stock;
+- prior `action.jump`, `feature.cactus-thick-stem`, `object.ball`, and `object.cup` fetches produced unusable/broken candidate binaries in that audit path;
+- alternate `vehicle.car` candidate `455215`: black/white outline, rejected for current Mainlagi stock direction;
+- alternate `object.towel` candidate `203092`: outline-only, rejected;
+- alternate `feature.cactus` candidate `206070`: unusable/broken in visual audit;
+- alternate raincoat `482604`: outline-heavy, rejected.
+
+The project rule remains: **do not accept a vector merely because it is SVG or legally reusable**. It must also be visually appropriate, non-emoji, child-readable and semantically clear.
+
+### New P0 final stock-library entries
+
+The following P0 stock/reference assets are now recorded as `VISUAL_CHECK_PASS / STOCK_LIBRARY_ONLY` in `FINAL_LIBRARY`:
+
+```text
+object.umbrella
+  object-umbrella__svgrepo-261746.svg
+  SVG Repo / CC0
+
+object.cup
+  object-cup__svgrepo-427612.svg
+  SVG Repo / CC0
+
+object.ball
+  object-ball__svgrepo-484685.svg
+  SVG Repo / CC0
+
+body.head
+  body-head__svgrepo-382104.svg
+  SVG Repo / CC0
+
+object.toy-block
+  object-toy-block__svgrepo-72145.svg
+  SVG Repo / CC0
+
+object.towel
+  object-towel__svgrepo-184686.svg
+  SVG Repo / CC0
+
+feature.cactus-thick-stem
+  feature-cactus-thick-stem__svgrepo-298951.svg
+  SVG Repo / CC0
+
+action.jump
+  action-jump__freesvg-18487.svg
+  FreeSVG / OpenClipart
+  Public Domain / CC0-equivalent
+```
+
+Important visual intent:
+
+- umbrella: colorful and immediately readable;
+- cup: colorful cup illustration, preferred over earlier broken/incorrect cup source;
+- ball: full-color soccer ball, preferred over technical/outline alternatives;
+- head: colored child/boy head avatar, preferred over rejected black/white head icon;
+- toy-block: colorful A/B/C children’s blocks;
+- towel: colorful folded/hanging towel, preferred over outline towel candidates;
+- cactus: colorful cactus with a clearly thick central stem;
+- jump: full-color happy child visibly jumping, preferred over pictogram-like jump candidates.
+
+All remain **stock/reference only**. None is production-approved.
+
+### Drive intake
+
+Accepted files were placed into the categorized project-owner Google Drive library under:
+
+```text
+https://drive.google.com/drive/folders/1K-k_Uc0CPk-uSIGFuieZ52H38LsSnIiM
+```
+
+Relevant final category folders remain:
+
+- `01_OBJECTS`
+- `04_BODY_FAMILY_ACTIONS`
+- `05_NATURE_SCIENCE`
+
+No owner-uploaded original stock file was deleted or moved.
+
+### Remaining four P0 blockers
+
+#### vehicle.car
+
+Current state:
+
+- owner-uploaded `car-svgrepo-com.svg` visually passed as a generic car;
+- exact source/provenance binding remains unresolved;
+- alternate sourced car `455215` was rejected as black/white outline.
+
+Safe next action: either prove exact provenance for the visually good owner upload, or source a new full-color generic non-brand car with exact commercial-compatible provenance.
+
+#### feature.gills
+
+Must derive from the verified final-library fish:
+
+```text
+animal-fish-single__animals-bordered__454555.svg
+source: SVG Repo
+license: CC BY
+author: Darius Dan
+```
+
+Derivative provenance + attribution must be recorded. Do not use the old random fish/gills source.
+
+#### feature.beak
+
+Must derive from the verified final-library bird:
+
+```text
+animal-bird__animals-bordered__454538.svg
+source: SVG Repo
+license: CC BY
+author: Darius Dan
+```
+
+Derivative provenance + attribution must be recorded.
+
+#### object.raincoat
+
+Still unresolved.
+
+Rules:
+
+- do not substitute rain/weather art for a raincoat;
+- user stock has no suitable raincoat;
+- an outline-heavy raincoat candidate was rejected;
+- the active sourcing path remains a commercial-compatible raincoat source, currently tracked via Pixabay until a better exact vector candidate is proven.
+
+### Hard boundaries
+
+Unchanged:
+
+```text
+owner original deletions:                  0
+owner original moves:                      0
+external stock production approvals:       0
+external stock runtime activations:        0
+production semantic registry mutations:    0
+production semantic binaries added:        0
+Mainlagi World changes:                    0
+character-development changes:             0
+narration-runtime changes:                 0
+```
+
+Do not copy `FINAL_LIBRARY` directly into production semantic paths. After all 17 P0 slots have suitable stock candidates, the next step is still a **new exact semantic candidate wave**, followed by exact-file human review, later production provenance/approval, then separate runtime activation.
+
+### Exact safe next sequence
+
+1. Close `vehicle.car` provenance or replace it with a fully verified colorful car.
+2. Create `feature.gills` derivative from verified fish with attribution/provenance.
+3. Create `feature.beak` derivative from verified bird with attribution/provenance.
+4. Source and visually approve a proper `object.raincoat`.
+5. Confirm P0 reaches `17/17 library-ready`.
+6. Only then create semantic candidate v2; do not overwrite rejected P0 v1 evidence.
+7. Perform exact-file human review on v2.
+8. Keep production approval and runtime activation as later separate gates.
+
+This is the safe discussion handoff point.
+
