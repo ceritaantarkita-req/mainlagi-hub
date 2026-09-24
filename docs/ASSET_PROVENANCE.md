@@ -1,6 +1,6 @@
 # Mainlagi Hub Asset Provenance Policy
 
-Last reviewed: **21 September 2026**
+Last reviewed: **25 September 2026**
 
 Mainlagi Hub is a public AGPL repository, so committing a binary asset can redistribute that asset to everyone who clones, forks, archives, or mirrors the repository. A disclaimer by itself does not create redistribution rights.
 
@@ -211,7 +211,7 @@ Learning semantic illustrations now have a dedicated fail-closed registry/valida
 - `scripts/run-learning-illustration-asset-validator-tests.mjs`;
 - reserved production directory: `public/artwork/learning-illustrations/`.
 
-The registry contains 17 recognition-critical semantic slots. After the authorized 25 September production-integration wave, **14 are approved with exact production WebP binaries / 3 remain review-required and fail-closed / runtime activation remains 0**.
+The registry contains 17 recognition-critical semantic slots. The authorized 25 September production-integration wave is **merged/live verified through PR #324 -> main `1e27869dfc71186e83ed8bb0a4dff2ca44dddfc9`, merged-main CI #1610 / run `36036726413` with exact Cloudflare release smoke**. Current state: **14 approved with exact production WebP binaries / 3 remain review-required and fail-closed / runtime activation remains 0**.
 
 Existing `public/artwork/activity-previews/` files may be recorded as candidate sources, but repository presence and filenames are not provenance approval. Preliminary candidate review may mark a file `visually-suitable` or `rejected`; production approval still requires exact owned/licensed provenance, public redistribution clearance, approved child-readability/semantic review, exact canonical path, technical validation and SHA-256.
 
@@ -224,7 +224,7 @@ The gate deliberately separates:
 
 Any image binary under `public/artwork/learning-illustrations/` without an approved registry record is rejected. Non-approved records must keep `productionPath=null`, `productionSha256=null` and `redistributionAllowed=false`.
 
-Canonical pilot record: `LEARNING_SEMANTIC_ILLUSTRATION_REGISTRY_PILOT_2026-09-23.md`. Current production-integration record: `LEARNING_SEMANTIC_P0_PRODUCTION_APPROVAL_INTEGRATION_2026-09-25.md`.
+Canonical pilot record: `LEARNING_SEMANTIC_ILLUSTRATION_REGISTRY_PILOT_2026-09-23.md`. Production integration: `LEARNING_SEMANTIC_P0_PRODUCTION_APPROVAL_INTEGRATION_2026-09-25.md`. Safe resume handoff: `LEARNING_SEMANTIC_P0_PRODUCTION_SAFE_CHECKPOINT_2026-09-25.md`.
 
 ## 7. Third-party software, fonts, and model assets
 

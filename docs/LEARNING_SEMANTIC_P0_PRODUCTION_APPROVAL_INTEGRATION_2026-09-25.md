@@ -2,7 +2,7 @@
 
 Date: **25 September 2026**
 
-Status: **PRODUCTION APPROVAL + BINARIES INTEGRATED / RUNTIME ACTIVATION OFF / 3 HELD**
+Status: **CLOSED / MERGED / LIVE VERIFIED / RUNTIME ACTIVATION OFF / 3 HELD**
 
 ## Scope
 
@@ -53,8 +53,20 @@ The production registry now records concrete source, rights holder, license basi
 
 CC BY attribution is preserved for Darius Dan's bird/cat/fish art and the beak/gills derivatives, plus Yu-Chun Chou's house illustration. Public Domain / CC0 records remain source-bound even where attribution is not required.
 
+## Merge / live verification
+
+```text
+PR #324 final head:              6fb74cac152f55f3ba8fa81344990c942cd4f982
+PR CI #1609 / run:              36035812364 — full success
+merged main:                    1e27869dfc71186e83ed8bb0a4dff2ca44dddfc9
+merged-main CI #1610 / run:     36036726413 — full success
+Cloudflare exact-release smoke: PASS
+```
+
+Merged-main validation passed production build, Ubuntu quality/asset gate, Windows compatibility, dependency/security gates, full-history secret scan, mobile route/accessibility/lazy-load QA, permanent visual baseline, and exact Cloudflare release smoke.
+
 ## Runtime boundary
 
 No learning component, activity config, `LearningVisualToken`, emoji fallback, gameplay presentation, progression, mastery, evidence, World, character, or narration runtime mapping is changed here.
 
-Next safe wave: **runtime semantic mapping + visual regression QA for the approved 14 only**.
+Next boundary is **discussion first**: agree the runtime semantic-mapping/resolver/rollout contract before any runtime code is changed. Safe handoff: `LEARNING_SEMANTIC_P0_PRODUCTION_SAFE_CHECKPOINT_2026-09-25.md`.

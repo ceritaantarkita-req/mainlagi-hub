@@ -4,17 +4,21 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 
-## 25 September semantic P0 execution boundary
+## 25 September semantic P0 execution boundary — PRODUCTION CLOSED / RUNTIME DISCUSSION NEXT
 
-Current production truth after the authorized integration wave:
+Verified production truth:
 
-- 17/17 visual decisions remain frozen;
-- 14/17 source/license-clear assets are production-approved with exact WebP SHA bindings;
-- 14 production binaries live under `public/artwork/learning-illustrations/`;
-- car 499718 / towel 288034 / raincoat 212019 remain fail-closed and must not be silently substituted;
+- PR #324 merged to `main` `1e27869dfc71186e83ed8bb0a4dff2ca44dddfc9`;
+- PR CI #1609 / run `36035812364` full success;
+- merged-main CI #1610 / run `36036726413` full success including exact Cloudflare release smoke;
+- 17/17 visual decisions frozen;
+- 14/17 assets production-approved and present as exact SHA-bound WebP binaries;
+- car 499718 / towel 288034 / raincoat 212019 remain held and fail-closed;
 - runtime semantic activation remains 0.
 
-**NEXT:** a separate runtime semantic-mapping + visual regression wave may activate only the approved 14, preserving `LearningVisualToken`, existing gameplay/evidence contracts, World separation, character pause, and fixed-audio pause.
+**NEXT DISCUSSION — do not implement automatically:** define the centralized semantic resolver/mapping contract, choose all-14 vs pilot activation scope, preserve explicit fallbacks for the three held keys, confirm allowed learning surfaces, and lock the visual-regression/accessibility rollout gate.
+
+Safe resume doc: `LEARNING_SEMANTIC_P0_PRODUCTION_SAFE_CHECKPOINT_2026-09-25.md`.
 
 **Canonical branch:** `main`  
 **Latest fully closed gameplay pattern:** Pattern #47 — Math `shape_attribute_board`  
