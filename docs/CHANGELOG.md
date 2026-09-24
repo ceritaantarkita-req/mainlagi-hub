@@ -97,3 +97,9 @@
 - Confirmed accepted car structure matches SVG Repo item `499718` exactly, but kept license status held because direct governing-license evidence is not yet available.
 - Rejected previously suspected exact bindings for head item `271316`, raincoat item `297932`, and towel candidates `70178` / `118911` / `168751`.
 - Preserved the accepted p0-v2 manifest and 9/9 human-review result unchanged; production approvals and runtime activations remain 0.
+
+- Closed efficient provenance Session 1 using connector-first workflow.
+- Selected explicit CC0 replacement candidates for car (490914), raincoat (297932), head (271316), and towel (118911).
+- Updated the live illustration index to `CC0_REPLACEMENT_READY_VISUAL_PENDING` for the four rows and added a dedicated provenance-family record.
+- Preserved the frozen p0-v2 9/9 accepted human-review state; no candidate regeneration, production approval, registry mutation, or runtime activation occurred.
+
