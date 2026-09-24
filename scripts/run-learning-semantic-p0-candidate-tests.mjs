@@ -74,8 +74,8 @@ try {
   assert.notEqual(publicAttempt.status, 0, "generator must refuse production subtree");
   assert.match(publicAttempt.stderr, /refuses to write under public/);
 } finally {
-  rmSync(a, { recursive: true, force: true });
-  rmSync(b, { recursive: true, force: true });
+  try { rmSync(a, { recursive: true, force: true }); } catch (error) { if (error?.code !== "EBUSY") throw error; }
+  try { rmSync(b, { recursive: true, force: true }); } catch (error) { if (error?.code !== "EBUSY") throw error; }
 }
 
 console.log("Learning semantic P0 candidate generator regression passed: exact keys, deterministic WebP+alpha, dry-run, overwrite guard and public-tree refusal.");

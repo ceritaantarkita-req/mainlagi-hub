@@ -1,8 +1,25 @@
 # Mainlagi Hub — Current State
 
-Last reviewed: **23 September 2026**
+Last reviewed: **24 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
+
+## 24 September semantic P0 Session 3 stock-library freeze — BRANCH CHECKPOINT
+
+Session 3 is complete as a **stock-library approval/freeze gate** on branch `agent/semantic-p0-stock-v2-candidates-20260924`; this branch is not production truth until merged.
+
+- all **17/17 P0** stock targets are `library-ready` with a frozen visual decision;
+- the exact P0 v2 review record is **9/9 accepted**, with exact-file viewing attested and with no production/runtime approval requested;
+- project-owner replacement decisions are frozen as: car **KEEP 499718**, raincoat **KEEP 212019**, towel **KEEP 288034**, head **ADOPT CC0 271316** recolored to dark brown `#59474E`;
+- the recolored head is now copied into canonical Drive folder `04_BODY_FAMILY_ACTIONS` as `body-head__svgrepo-271316-cc0-darkhair.svg`, Drive ID `1jJjdsOnWRKTo3wFZHBlfJ6C3XWNOxkGb`;
+- `MAINLAGI_ILLUSTRATION_ASSET_INDEX` tabs `NEEDED_STOCK`, `FINAL_LIBRARY`, and `ATTRIBUTION_PROVENANCE` are synchronized to that decision;
+- exact source/license evidence is clear for **14/17** P0 assets;
+- car/towel/raincoat remain **production-held** only because exact item-page license exceptions for `499718` / `288034` / `212019` could not be independently rechecked;
+- production semantic approvals remain **0**; production semantic binaries remain **0**; runtime semantic activation remains **0**.
+
+This is not a runtime or production-asset change. Mainlagi World remains untouched; character development remains paused; fixed English audio remains deferred.
+
+Canonical Session 3 record: `LEARNING_SEMANTIC_P0_SESSION3_STOCK_LIBRARY_APPROVAL_FREEZE_2026-09-24.md`.
 
 ## 24 September World evidence production release — MERGED / LIVE VERIFIED
 
@@ -127,7 +144,7 @@ P0 semantic-art targets that still need exact production candidates:
 
 The dedicated production subtree is `public/artwork/learning-illustrations/`. A binary cannot become approved unless the exact registry record has owned/licensed provenance, redistribution clearance, child-readable semantic approval, technical validation and matching SHA-256. Stray production binaries fail CI.
 
-**Next active work is exact P0 semantic-art candidate production/review, not another registry or containment architecture wave.** Runtime mapping remains separate even after asset approval.
+**Exact P0 stock-library candidate production/review and visual freeze are now complete.** The next safe step is to close the three exact item-page production-license rechecks, then perform a separate production-asset approval/integration wave. Runtime mapping remains a later separate wave.
 
 The original inventory remains 43 source files / 280 canonical batch-wave `emoji:` fields, but that is not a replacement count.
 
@@ -163,7 +180,7 @@ The exact-file human review evidence gate is now **MERGED / LIVE VERIFIED** thro
 
 The gate binds review to the exact nine candidate files + manifest SHA, supports per-item accept/reject, fails on stale/tampered candidates, and has no authority to approve production, copy to `public/`, mutate the semantic registry, or activate runtime mapping.
 
-Current decision truth remains **0 human-reviewed / 0 human-accepted / 0 production-approved / 0 runtime-active semantic binaries**. The next step is the exact nine-file human review, not more review-gate architecture.
+The later exact-file human review and project-owner comparison are now recorded: the nine-item v2 review is 9/9 accepted, then car 499718 / raincoat 212019 / towel 288034 were frozen as KEEP CURRENT while head adopted verified-CC0 item 271316 recolored to #59474E. This remains stock-library evidence only: **0 production-approved semantic slots / 0 production binaries / 0 runtime-active semantic binaries**. Three exact item-page license rechecks remain before production release.
 
 Canonical records:
 - `LEARNING_SEMANTIC_P0_VISUAL_PREREVIEW_2026-09-23.md`;
