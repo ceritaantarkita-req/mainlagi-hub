@@ -1,6 +1,6 @@
 # Known Limitations
 
-Last reviewed: **24 September 2026**
+Last reviewed: **25 September 2026**
 
 This file describes current known limitations. Historical ZIP/build-environment limitations belong in historical audit documents and must not be treated as current production state.
 
@@ -73,13 +73,14 @@ The 43-source-file / 280-field emoji inventory remains an inventory signal, not 
 
 The semantic illustration registry/provenance gate is closed/live verified through PR #297. The exact nine-item P0 generator and source refinements are closed/live verified through PR #300/#301. The exact-file human review evidence gate is merged through PR #304 -> main `f0b48cbdbe162fd19e0665f4b29945f6aaa16a5f`, with PR CI #1552 full success and merged-main CI #1553 / run `35824198610` full success including exact Cloudflare smoke.
 
-Session 3 has now frozen the P0 stock-library decisions: all **17/17 P0** targets are library-ready with a visual decision; the exact nine-item v2 review is recorded as 9/9 accepted; and the later project-owner comparison keeps car 499718, raincoat 212019 and towel 288034 while adopting verified-CC0 head 271316 recolored to #59474E. The remaining production limitation is narrower: **3/17** stock assets (car/towel/raincoat) still require an exact individual-item license-page recheck before production release. Production semantic approvals remain 0, production semantic binaries remain 0, and runtime semantic activation remains 0. Production approval and later runtime mapping remain separate gates.
+Session 3 froze all **17/17 P0** visual decisions, and the separately authorized production-integration wave has now promoted the **14/17 source/license-clear assets** into exact SHA-bound production WebP binaries. The remaining production limitation is the same three held visuals: car 499718, towel 288034, and raincoat 212019 remain fail-closed for public-repository redistribution. Current state is **14 production approvals / 14 production binaries / 3 held / 0 runtime semantic activation**. Because runtime mapping remains separate, the child-facing learning surfaces may still show their existing glyph/emoji fallbacks until the later activation + visual-regression wave.
 
 Canonical records:
 - `LEARNING_ILLUSTRATION_CONSISTENCY_AUDIT_2026-09-22.md`;
 - `LEARNING_VISUAL_CONTAINMENT_CLOSURE_2026-09-23.md`;
 - `LEARNING_SEMANTIC_ILLUSTRATION_REGISTRY_CLOSURE_2026-09-23.md`;
-- `LEARNING_SEMANTIC_P0_SESSION3_STOCK_LIBRARY_APPROVAL_FREEZE_2026-09-24.md`.
+- `LEARNING_SEMANTIC_P0_SESSION3_STOCK_LIBRARY_APPROVAL_FREEZE_2026-09-24.md`;
+- `LEARNING_SEMANTIC_P0_PRODUCTION_APPROVAL_INTEGRATION_2026-09-25.md`.
 
 ## Voice and narration
 
