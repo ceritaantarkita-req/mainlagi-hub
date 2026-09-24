@@ -954,3 +954,14 @@ Session 2 should:
 
 If a clean replacement fails visual review, choose another explicit-license source instead of resuming deep provenance archaeology.
 
+### Session 3 entry after asset-library sync
+
+Before production approval:
+1. obtain final human approval for the dark-hair CC0 head replacement;
+2. recheck the governing item-page license for retained car 499718, raincoat 212019 and towel 288034;
+3. update canonical head source/file only after approval;
+4. freeze exact binaries and provenance evidence;
+5. then open the separate production-approval gate.
+
+Do not regenerate accepted p0-v2 unless the head binary is explicitly replaced and a new review round is authorized.
+
