@@ -1226,3 +1226,17 @@ All current assets remain `STOCK_LIBRARY_ONLY`; production approvals and runtime
 
 Canonical handoff: `LEARNING_ASSET_VECTOR_LIBRARY_SAFE_CHECKPOINT_2026-09-23.md`.
 
+
+
+## 24 September 2026 — P0 v2 human review complete
+
+- P0 stock coverage: **17/17 library-ready**.
+- Exact p0-v2 integrity: **9/9 candidate files + 9/9 source SVG bindings PASS**.
+- Manifest SHA: `cf2bbd35103b8c3bd744688077fe4ccfb44b62f33c7061a2a56668988a439197`.
+- Human review: **9 accepted / 0 rejected**.
+- User-selected overrides now canonical for car, raincoat, head and towel.
+- The 4 overrides remain `PROVENANCE_HELD` pending exact SVG Repo item/license binding.
+- Production approvals: **0**.
+- Runtime activations: **0**.
+
+Canonical handoff: `LEARNING_ASSET_VECTOR_LIBRARY_SAFE_CHECKPOINT_2026-09-23.md`.

@@ -904,3 +904,17 @@ When P0 reaches **17/17 library-ready**, create a **new semantic candidate v2** 
 
 Do not overwrite the rejected P0 v1 candidate evidence. Candidate v2 must still go through exact binary/manifest binding + human review before any production approval or runtime mapping.
 
+
+
+### After p0-v2 human approval
+
+Visual review is complete: **9/9 accepted**.
+
+Next:
+1. resolve exact SVG Repo source/license for car, raincoat, head and towel;
+2. update provenance without changing accepted binaries;
+3. run a separate production-approval gate;
+4. only then copy production-approved binaries into production semantic paths / registry;
+5. activate runtime mapping only after production verification.
+
+Freeze accepted v2 at manifest SHA `cf2bbd35103b8c3bd744688077fe4ccfb44b62f33c7061a2a56668988a439197`.

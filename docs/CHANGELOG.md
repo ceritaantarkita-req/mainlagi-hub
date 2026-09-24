@@ -84,3 +84,9 @@
 - Menambahkan pemeriksaan eksplisit untuk `node_modules\.bin\tsc.cmd`.
 - Mengoreksi dokumentasi portable gate.
 - Tidak mengubah gameplay, vision runtime, recognizer, maupun UI.
+
+
+- Closed stock-backed semantic P0 v2 human review at **9 accepted / 0 rejected**, bound to manifest SHA `cf2bbd35103b8c3bd744688077fe4ccfb44b62f33c7061a2a56668988a439197`.
+- Recorded project-owner canonical stock overrides for car, raincoat, head and towel; the three v2-relevant swaps were regenerated before final human approval.
+- Marked the four user-selected overrides as `PROVENANCE_HELD` / `STOCK_LIBRARY_ONLY_PROVENANCE_HELD` until exact item/license binding is proven.
+- Preserved production/runtime boundaries: 0 production approvals, 0 runtime activations.

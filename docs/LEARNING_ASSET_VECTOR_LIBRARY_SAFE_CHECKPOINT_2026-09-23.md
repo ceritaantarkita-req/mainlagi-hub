@@ -819,3 +819,67 @@ Do not copy `FINAL_LIBRARY` directly into production semantic paths. After all 1
 
 This is the safe discussion handoff point.
 
+
+
+## P0 v2 human-review closure — 24 September 2026
+
+Status: **HUMAN REVIEW COMPLETE / 9 ACCEPTED / 0 REJECTED / PRODUCTION APPROVAL STILL OPEN**
+
+Current exact v2 state:
+- candidate set: `p0-v2`;
+- manifest SHA-256: `cf2bbd35103b8c3bd744688077fe4ccfb44b62f33c7061a2a56668988a439197`;
+- exact candidates: 9;
+- exact bound source SVGs: 9;
+- human accepted: 9;
+- human rejected: 0.
+
+The project owner reviewed the exact regenerated v2 set and approved all nine candidates. The review gate validates as:
+
+```text
+HUMAN REVIEW RECORDED: 9 accepted / 0 rejected exact v2 candidate(s).
+```
+
+This is **not production approval**.
+
+User-selected canonical stock overrides:
+- `vehicle.car` → `car-svgrepo-com (1).svg`;
+- `object.raincoat` → `raincoat-svgrepo-com.svg`;
+- `body.head` → `man-hair-head-svgrepo-com.svg`;
+- `object.towel` → `towel-svgrepo-com.svg`.
+
+The 3 v2-relevant swaps (head, raincoat, towel) were inserted into the v2 source pack, v2 was regenerated, and the regenerated exact set was then human-approved. Car is outside the 9-item v2 set but was separately selected as canonical stock visual.
+
+The live Google Sheet now points those four canonical rows to the user-selected files and marks them:
+- `library-ready`;
+- `VISUAL_CHECK_PASS`;
+- `STOCK_LIBRARY_ONLY_PROVENANCE_HELD`;
+- license `PROVENANCE_HELD`;
+- commercial use `PENDING`.
+
+Exact SVG Repo item/license binding for those four files is still unresolved. Do not infer commercial clearance from filename or embedded SVG Repo comments.
+
+Current truth:
+```text
+P0 stock library coverage: 17 / 17
+P0 v2 human review: 9 / 9 accepted
+P0 v2 rejected: 0
+production-approved semantic illustrations: 0
+runtime semantic activation: 0
+owner original deletions: 0
+```
+
+Tooling checkpoint:
+```text
+branch: agent/semantic-p0-stock-v2-candidates-20260924
+head: 2651d83a99d1c61f3eaf7bb833f60aee9df83041
+```
+
+Exact next safe sequence:
+1. Resolve exact source/license provenance for the four user-selected overrides.
+2. Freeze the accepted v2 set at manifest SHA `cf2bbd35103b8c3bd744688077fe4ccfb44b62f33c7061a2a56668988a439197`.
+3. Do not regenerate accepted v2 binaries unless a new explicit review round is requested.
+4. Run a separate production-approval/provenance gate after legal provenance is complete.
+5. Only production-approved binaries may enter public production paths / production registry.
+6. Runtime semantic mapping remains the final separate gate.
+
+This is the safe handoff boundary after visual approval.

@@ -237,3 +237,16 @@ Therefore:
 
 Current live counts: **42 final-library / 38 library-ready / 48 needed / 0 production approvals / 0 runtime activations**.
 
+
+
+## 24 September — visual approval closed, provenance still open
+
+The exact p0-v2 set is human-approved at **9 accepted / 0 rejected**, but four user-selected override files still lack exact item/license binding:
+- car;
+- raincoat;
+- head;
+- towel.
+
+Those four must remain `STOCK_LIBRARY_ONLY_PROVENANCE_HELD` until exact legal provenance is proven.
+
+Human visual approval must not be treated as production/legal approval.
