@@ -2,7 +2,7 @@
 
 Date: **24 September 2026**
 
-Status: **SESSION 3 FREEZE COMPLETE / PRODUCTION RELEASE HELD ON 3 ITEM-PAGE LICENSE RECHECKS**
+Status: **SESSION 3 FREEZE COMPLETE / 3 KEEP-CURRENT ASSETS FAIL-CLOSED FOR PUBLIC-REPOSITORY REDISTRIBUTION**
 
 This record closes the stock-library visual/decision freeze after the exact P0 v2 human review and the later project-owner comparison decisions. It does **not** approve production binaries, copy semantic assets into `public/`, mutate the production semantic registry lifecycle, or activate runtime semantic mapping.
 
@@ -35,9 +35,9 @@ The later project-owner visual comparison is authoritative for the four replacem
 
 | asset | final stock-library visual decision | source identity | Session 3 result |
 | --- | --- | --- | --- |
-| `vehicle.car` | KEEP CURRENT | SVG Repo `499718` | visually frozen; production license item-page recheck still required |
-| `object.raincoat` | KEEP CURRENT | SVG Repo `212019` | visually frozen; production license item-page recheck still required |
-| `object.towel` | KEEP CURRENT | SVG Repo `288034` | visually frozen; production license item-page recheck still required |
+| `vehicle.car` | KEEP CURRENT | SVG Repo `499718` | visually frozen; public-repository redistribution not cleared |
+| `object.raincoat` | KEEP CURRENT | SVG Repo `212019` | visually frozen; public-repository redistribution not cleared |
+| `object.towel` | KEEP CURRENT | SVG Repo `288034` | visually frozen; public-repository redistribution not cleared |
 | `body.head` | ADOPT REPLACEMENT | SVG Repo `271316`, hair recolored to `#59474E` | visually frozen; exact source page verified CC0 |
 
 The earlier clean alternatives `490914` / `297932` / `118911` remain rejected for car/raincoat/towel. They are retained only as historical replacement candidates.
@@ -160,13 +160,13 @@ No visual decision changed. No production binary, production-registry approval, 
 
 The three production-held KEEP-CURRENT assets were investigated beyond the unavailable SVG Repo item pages. This was a provenance-identification pass only; it did not authorize a production binary or runtime mapping.
 
-### `vehicle.car` — upstream strongly identified, license action still required
+### `vehicle.car` — upstream strongly identified, public-repository redistribution blocked
 
 The exact current visual remains SVG Repo item `499718`.
 
 A strong visual/structural upstream match was found to the official **Icons8 Color — Car** icon, icon **#15126**, slug `car--v1`. The official Icons8 icon page marks that icon as created in-house by Icons8.
 
-This materially improves upstream identity confidence, but it does **not** clear the existing SVG Repo copy for production. Current Icons8 usage documentation distinguishes free use with attribution/backlink from paid use and current product documentation places SVG-format access on a paid path. Therefore the safe production path is an explicit direct Icons8 acquisition/license record for the exact asset/format before any production integration.
+This materially improves upstream identity confidence, but it does **not** clear the existing SVG Repo copy for production. A later redistribution review of the current official Icons8 license found that commercial use and standalone-file redistribution are separate questions: the license prohibits distributing licensed material as stand-alone files without express written consent. Mainlagi is a public AGPL repository, so committing a WebP derivative under `public/artwork/learning-illustrations/` would make that binary directly cloneable, forkable, archivable, and extractable. An ordinary Icons8 free/paid acquisition is therefore **not** sufficient for this repository gate. The KEEP-CURRENT car requires either authoritative open redistribution rights for the exact artwork or express written standalone-distribution permission.
 
 Canonical status:
 
@@ -176,7 +176,7 @@ visual decision:       KEEP CURRENT
 SVG Repo identity:     499718
 upstream identity:     strong Icons8 Color Car #15126 / car--v1 match
 production status:     HELD
-next legal action:     explicit upstream acquisition/license evidence
+next legal action:     open redistribution evidence or express written standalone-distribution permission
 ```
 
 ### `object.towel` — upstream unresolved
@@ -185,7 +185,7 @@ The exact current visual remains SVG Repo item `288034`.
 
 A Freepik/Flaticon-style towel-on-hanger asset, icon `3816382`, was found as a close structural/visual lead. It resembles the hook, hanger, folded-towel composition, and layer organization of the current asset, but the audit could not bind its vector geometry authoritatively to the exact current SVG.
 
-It is therefore **not** accepted as source or license authority.
+It is therefore **not** accepted as source or license authority. In addition, current Flaticon-style commercial-library terms do not provide the public standalone-file redistribution rights required by this repository gate, so identifying a visually close commercial-library asset would not by itself unblock production.
 
 Canonical status:
 
@@ -201,7 +201,7 @@ production status:     HELD
 
 The exact current visual remains SVG Repo item `212019`.
 
-Flaticon/Freepik raincoat icon `263922` was tested as a possible upstream source. It is visually close, but its current artwork contains additional dark outline/highlight layers not present in the exact current SVG. The candidate is therefore rejected as an exact-source binding.
+Flaticon/Freepik raincoat icon `263922` was tested as a possible upstream source. It is visually close, but its current artwork contains additional dark outline/highlight layers not present in the exact current SVG. The candidate is therefore rejected as an exact-source binding. A related SVG Repo-distributed raincoat geometry family was also found in a public repository, but it carried no authoritative rights metadata. Current Flaticon-style commercial-library terms likewise do not provide the public standalone-file redistribution rights required by this repository gate.
 
 Canonical status:
 
@@ -222,15 +222,59 @@ P0 stock-library visual decisions:       17/17 frozen
 P0 stock-library rows:                   17/17 library-ready
 P0 source/license evidence clear:        14/17
 P0 production-held assets:                3/17
-  car: upstream identified / license action required
-  towel: upstream unresolved
-  raincoat: upstream unresolved
+  car: upstream identified / public-repo redistribution blocked
+  towel: upstream unresolved / public-repo redistribution blocked
+  raincoat: upstream unresolved / public-repo redistribution blocked
 production semantic registry approvals:   0
 production semantic binaries:             0
 runtime semantic activation:              0
 ```
 
 Canonical Drive index status was synchronized accordingly. No visual selection changed, no production binary was copied, and no runtime mapping was activated.
+
+## Public-repository redistribution closure — 24 September 2026
+
+The production gate was re-evaluated against Mainlagi's actual repository contract rather than only commercial-use language.
+
+Mainlagi's learning-illustration validator requires any approved binary to have:
+
+- `owned` or `licensed` provenance;
+- `redistributionAllowed=true`;
+- a named rights holder and concrete license basis;
+- an approved child-readable semantic review;
+- an exact SHA-256;
+- a production WebP under `public/artwork/learning-illustrations/`.
+
+Because the repository is public AGPL, a production binary is distributed as a directly accessible standalone file to clones, forks, mirrors, and archives. Permission to **use an icon commercially in an app** is therefore not equivalent to permission to **redistribute the icon binary in this public repository**.
+
+The current evidence closes the remaining source-hunt paths as follows:
+
+1. **car `499718`**
+   - strong upstream identity: Icons8 Color Car #15126 / `car--v1`;
+   - ordinary Icons8 licensing does not clear standalone-file redistribution for this public repository;
+   - remains fail-closed unless express written standalone-distribution permission or authoritative open redistribution rights are obtained.
+
+2. **towel `288034`**
+   - exact SVG fingerprint is corroborated by secondary public copies;
+   - authoritative open-license upstream remains unresolved;
+   - close commercial-library leads are not accepted as exact source and would not by themselves satisfy the standalone-redistribution gate;
+   - remains fail-closed.
+
+3. **raincoat `212019`**
+   - exact SVG fingerprint is corroborated by a secondary public copy;
+   - a related geometry-family SVG exists, but it carries no authoritative rights metadata and is not the exact binary;
+   - close commercial-library candidates are not accepted as exact source and would not by themselves satisfy the standalone-redistribution gate;
+   - remains fail-closed.
+
+This changes the nature of the blocker from an open-ended item-page search to a finite production decision gate.
+
+Safe ways to unblock any of the three are limited to:
+
+- authoritative license evidence that the **exact current artwork** may be redistributed as a standalone binary in a public repository;
+- express written permission from the rights holder allowing that redistribution; or
+- a later explicit project-owner decision to adopt a different owned/open-license replacement.
+
+The third path is **not authorized by Session 3**. The previously rejected alternatives remain historical candidates and must not be silently substituted.
 
 ## Merge/live verification
 
@@ -250,9 +294,9 @@ The merged diff contains no production illustration binaries, no semantic produc
 
 Session 3 has completed the intended decision freeze and canonical stock-library synchronization.
 
-The next production step must begin only from these frozen decisions. Before car/towel/raincoat can be copied or approved as production semantic binaries, recheck the individual item pages for IDs `499718`, `288034`, and `212019` and confirm there is no item-specific license exception.
+The next production step must begin only from these frozen decisions. Car/towel/raincoat must **not** be copied or approved as production semantic binaries under the currently available evidence. Repeating the same SVG Repo item-page search is no longer considered a sufficient next action.
 
-After that evidence is closed, the separate production-integration wave may:
+A separate production-integration wave may begin for these held assets only after exact standalone public-repository redistribution rights are established, or after a later explicit project-owner visual replacement decision produces a separately cleared candidate. After that gate is closed, production integration may:
 
 1. copy only the exact approved stock binaries into the dedicated production subtree;
 2. bind exact SHA-256 values and provenance to the semantic registry;
