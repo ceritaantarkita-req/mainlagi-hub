@@ -200,3 +200,20 @@ Do not:
 Current safe numbers: 33 final stock/reference rows, 11 library-ready rows, 1 reuse-ready row, 0 external production approvals, 0 runtime activations.
 
 Known index anomalies still requiring correction: `nature.river-sea` points to a branch source URL and `nature.nest` points to a bee source URL.
+
+## 24 September vector-stock audit limitations
+
+The live sheet has been reconciled to 34 `FINAL_LIBRARY` rows and 30 `library-ready` rows, but 56 requirements remain open.
+
+Important limitations:
+- SVG format does not imply acceptable Mainlagi art: emoji-derived SVGs from Noto/Twemoji are rejected;
+- source/license verification and visual verification are separate gates;
+- SVG Repo may return HTTP 429 / Vercel Security Checkpoint responses, so exact source binding must fail closed;
+- three visually passing owner uploads (car, bee, faucet) remain provenance-held;
+- several replacement sources are license-verified but still require exact visual review;
+- `FINAL_LIBRARY` is not production approval and cannot be mapped directly to runtime.
+
+Previously invalid index mappings for `nature.river-sea` and `nature.nest` are now corrected in the live sheet, but their replacement binaries still require visual review.
+
+No owner-uploaded original may be deleted or moved during this workstream.
+
