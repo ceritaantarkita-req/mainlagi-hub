@@ -120,6 +120,42 @@ The exact item identities for car/towel/raincoat are resolved and their exact SV
 
 The gate therefore remains fail-closed for final production release of those three assets. This is a legal/provenance evidence hold, not a visual-design hold.
 
+## Exact item-page license recheck — 24 September 2026
+
+A fresh recheck was performed after the Session 3 merge for the three KEEP-CURRENT assets:
+
+- `vehicle.car` -> SVG Repo `499718`;
+- `object.towel` -> SVG Repo `288034`;
+- `object.raincoat` -> SVG Repo `212019`.
+
+Verified current policy evidence:
+
+- SVG Repo's licensing page still states that the default SVG Repo License permits sharing/remixing and use as part of a commercial project;
+- no attribution is required under that default license;
+- the same page explicitly says the default applies **unless an individual icon page indicates differently**.
+
+Authoritative exact-item retrieval result:
+
+- `/svg/499718/car` and `/show/499718/car.svg` were not retrievable by the audit;
+- `/svg/288034/towel` and `/show/288034/towel.svg` were not retrievable by the audit;
+- `/svg/212019/raincoat` and `/show/212019/raincoat.svg` were not retrievable by the audit.
+
+Secondary provenance search found exact SVG fingerprints in public repositories for these visuals. Those copies are useful for identity/provenance corroboration, but they are **not accepted as authority for an SVG Repo item-specific license exception** and therefore do not clear the production gate.
+
+Canonical Drive rows in `NEEDED_STOCK` and `ATTRIBUTION_PROVENANCE` were updated to record this recheck.
+
+Result remains fail-closed:
+
+```text
+P0 source/license evidence clear:        14/17
+P0 exact item-page production holds:      3/17
+production semantic registry approvals:   0
+production semantic binaries:             0
+runtime semantic activation:              0
+```
+
+No visual decision changed. No production binary, production-registry approval, or runtime semantic mapping was added.
+
 ## Merge/live verification
 
 Session 3 repository closure is **MERGED / LIVE VERIFIED** through PR **#316**.
