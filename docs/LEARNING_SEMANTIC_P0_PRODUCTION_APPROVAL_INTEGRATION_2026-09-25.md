@@ -2,7 +2,7 @@
 
 Date: **25 September 2026**
 
-Status: **PRODUCTION APPROVAL + BINARIES INTEGRATED / RUNTIME ACTIVATION OFF / 3 HELD**
+Status: **CLOSED / MERGED / LIVE VERIFIED / 14 APPROVED + 14 BINARIES / RUNTIME ACTIVATION OFF / 3 HELD**
 
 ## Scope
 
@@ -58,3 +58,20 @@ CC BY attribution is preserved for Darius Dan's bird/cat/fish art and the beak/g
 No learning component, activity config, `LearningVisualToken`, emoji fallback, gameplay presentation, progression, mastery, evidence, World, character, or narration runtime mapping is changed here.
 
 Next safe wave: **runtime semantic mapping + visual regression QA for the approved 14 only**.
+
+## Merge / live verification
+
+Production integration is **CLOSED / MERGED / LIVE VERIFIED**.
+
+```text
+PR:                         #324
+PR final head:              6fb74cac152f55f3ba8fa81344990c942cd4f982
+PR CI #1609 / run:          36035812364 — full success
+merged main:                1e27869dfc71186e83ed8bb0a4dff2ca44dddfc9
+merged-main CI #1610 / run: 36036726413 — full success
+Cloudflare exact-SHA smoke: PASS
+```
+
+The canonical Drive sheet `MAINLAGI_ILLUSTRATION_ASSET_INDEX` tab `P0_PRODUCTION_PREFLIGHT` was synchronized after live verification: the 14 clear rows now record `PRODUCTION_APPROVED_INTEGRATED_RUNTIME_OFF`, legal approval `YES`, registry approval `YES`, runtime `NO`; the three held rows remain `HELD_NOT_RENDERED / NO / NO / NO`.
+
+No runtime mapping was added by the closure step. The next safe execution remains a separate runtime semantic-mapping + visual-regression wave for the approved 14 only.
