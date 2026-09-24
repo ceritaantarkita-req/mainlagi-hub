@@ -1283,3 +1283,19 @@ The currently human-approved p0-v2 binaries remain frozen and unchanged:
 
 Session 2 is asset-library sync + visual comparison only.
 
+## 24 September 2026 — Session 2 asset-library sync
+
+Session 2 is closed at a safe visual-sync boundary.
+
+- `vehicle.car`: current visual retained; exact item identity `499718`;
+- `object.raincoat`: current visual retained; exact item identity `212019`;
+- `object.towel`: current visual retained; exact item identity `288034`;
+- `body.head`: CC0 item `271316` prepared as a dark-hair recolor (`#59474E`) for final human visual approval.
+
+Head review artifacts are in Drive under `HEAD_LEGAL_REPLACEMENT_REVIEW_20260924`.
+
+The accepted p0-v2 set remains frozen at manifest SHA `cf2bbd35103b8c3bd744688077fe4ccfb44b62f33c7061a2a56668988a439197`, 9 accepted / 0 rejected.
+
+Production approvals: **0**.
+Runtime activations: **0**.
+
