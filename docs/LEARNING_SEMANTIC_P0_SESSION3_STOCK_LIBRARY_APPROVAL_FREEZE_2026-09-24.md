@@ -120,6 +120,20 @@ The exact item identities for car/towel/raincoat are resolved and their exact SV
 
 The gate therefore remains fail-closed for final production release of those three assets. This is a legal/provenance evidence hold, not a visual-design hold.
 
+## Merge/live verification
+
+Session 3 repository closure is **MERGED / LIVE VERIFIED** through PR **#316**.
+
+```text
+PR #316 final head:       d393e18501b0ac066e52d43c397bf01c0ae01b56
+PR CI #1594 / run:        35996626132 — full success
+merged main:              763ed2db21fda86bf96499b49df4b09dc13e9340
+merged-main CI #1595:     35997454405 — full success
+Cloudflare exact-SHA smoke: PASS
+```
+
+The merged diff contains no production illustration binaries, no semantic production-registry lifecycle approval, and no runtime semantic mapping activation.
+
 ## Safe checkpoint result
 
 Session 3 has completed the intended decision freeze and canonical stock-library synchronization.

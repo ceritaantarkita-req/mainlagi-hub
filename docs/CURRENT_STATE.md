@@ -4,9 +4,17 @@ Last reviewed: **24 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
-## 24 September semantic P0 Session 3 stock-library freeze — BRANCH CHECKPOINT
+## 24 September semantic P0 Session 3 stock-library freeze — MERGED / LIVE VERIFIED
 
-Session 3 is complete as a **stock-library approval/freeze gate** on branch `agent/semantic-p0-stock-v2-candidates-20260924`; this branch is not production truth until merged.
+Session 3 is **CLOSED / MERGED / LIVE VERIFIED** as a stock-library approval/freeze gate through PR **#316**.
+
+```text
+PR #316 final head:       d393e18501b0ac066e52d43c397bf01c0ae01b56
+PR CI #1594 / run:        35996626132 — full success
+merged main:              763ed2db21fda86bf96499b49df4b09dc13e9340
+merged-main CI #1595:     35997454405 — full success
+Cloudflare exact-SHA smoke: PASS
+```
 
 - all **17/17 P0** stock targets are `library-ready` with a frozen visual decision;
 - the exact P0 v2 review record is **9/9 accepted**, with exact-file viewing attested and with no production/runtime approval requested;

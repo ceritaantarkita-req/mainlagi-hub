@@ -796,7 +796,7 @@ Current and next:
 12. learning-illustration audit: **CLOSED / LIVE VERIFIED** via PR #287;
 13. learning visual containment/readability foundation: **CLOSED / MERGED / LIVE VERIFIED** via PR #294 -> main `6d0f9bd8972297e316bdf031603d160d901d8d04`, main CI #1531 exact smoke;
 14. semantic illustration registry/provenance gate: **CLOSED / MERGED / LIVE VERIFIED** via PR #297 -> main `ed7db8a6c5b8a3ee4acc9bcca260b4e0b5776773`, main CI #1537 exact smoke; 17 review-required / 0 approved / 0 binary / 0 runtime activation;
-15. semantic P0 candidate production/review + Session 3 stock-library visual freeze: **COMPLETE AT BRANCH CHECKPOINT**; 17/17 P0 library-ready, with car 499718 / raincoat 212019 / towel 288034 kept and head 271316 + #59474E adopted;
+15. semantic P0 candidate production/review + Session 3 stock-library visual freeze: **CLOSED / MERGED / LIVE VERIFIED** via PR #316 -> main `763ed2db21fda86bf96499b49df4b09dc13e9340`, merged-main CI #1595 / run `35997454405` full success + exact Cloudflare smoke; 17/17 P0 library-ready, with car 499718 / raincoat 212019 / towel 288034 kept and head 271316 + #59474E adopted;
 16. **NOW:** recheck the three exact item pages 499718 / 288034 / 212019 for any item-specific license exception, then perform a separate production-asset approval/integration wave; do not copy a held asset into production merely because its visual was approved;
 17. only after production approval, activate exact approved semantic binaries through a later runtime-mapping wave, keeping `LearningVisualToken` and all canonical learning/evidence contracts;
 18. real-device/accessibility acceptance and cleanup of superseded presentation paths;
@@ -806,40 +806,39 @@ Current and next:
 Do not prioritize hundreds of new activities, paywall/subscription, OCR rollout, large AI tutor features, marketplace expansion or major mastery/backend rewrites during this quality phase.
 
 
-### 23 September semantic human-review gate handoff
+### 23 September semantic human-review gate handoff — historical / superseded by Session 3
 
 PR #304 merged the exact-file human review evidence gate to main `f0b48cbdbe162fd19e0665f4b29945f6aaa16a5f`. PR CI #1552 / run `35816166334` passed the full matrix. Merged-main CI #1553 / run `35824198610` passed the full matrix and exact Cloudflare smoke.
 
 The gate is engineering infrastructure only. It records **no human decision** and authorizes **no production approval/runtime activation**.
 
-Next execution is the exact nine-file human review workflow through `pilot:illustrations:generate` + `pilot:illustrations:review`. Do not build another generic illustration infrastructure layer before that decision.
+Historical handoff only. The exact nine-file human review was subsequently completed and Session 3 froze the stock-library decisions through PR #316. Do not restart this review workflow unless exact candidate evidence changes.
 
 Canonical closure: `LEARNING_SEMANTIC_P0_HUMAN_REVIEW_GATE_CLOSURE_2026-09-23.md`.
 
-### 23 September semantic candidate pre-review handoff
+### 23 September semantic candidate pre-review handoff — historical / superseded by Session 3
 
 PR #300 candidate generator is merged/live verified at main `89adf887...` with merged-main CI #1546 exact smoke. PR #301 refined `action.jump` and `feature.cactus-thick-stem` and is merged/live verified at main `9f6270c79...`, merged-main CI #1548 exact smoke.
 
-Do not build another generic illustration infrastructure layer. Current execution order is:
+This handoff is historical. The exact-file review was subsequently completed and the project-owner comparison decisions were frozen in Session 3 through PR #316.
 
-1. keep the nine-item candidate set fixed;
-2. preserve the PR #301 source refinements unless exact review evidence rejects them;
-3. exact-file human review evidence gate: **MERGED through PR #304 -> main `f0b48cbdbe162fd19e0665f4b29945f6aaa16a5f`; PR CI #1552 full success; merged-main CI #1553 / run `35824198610` full success + exact smoke**;
-4. **NOW:** generate the exact nine local binaries and create the non-overwriting review template;
-5. a human reviewer views the exact files and accepts/rejects each binary individually;
-6. only after acceptance, perform separate legal provenance + production-asset approval for accepted items;
-7. only after production approval, perform separate runtime semantic mapping.
+Current execution order is now:
 
-Human review must be bound to the candidate manifest SHA + exact file SHA values. The assistant/agent must not fabricate reviewer identity, timestamp, or `viewedExactFiles:true`.
+1. preserve the 17/17 frozen stock-library decisions;
+2. **NOW:** recheck exact SVG Repo item pages `499718`, `288034`, and `212019` for any item-specific license exception;
+3. only after those holds close, perform a separate production-asset approval/integration wave;
+4. only after production approval, perform a later runtime semantic-mapping wave.
 
-No production binary or runtime mapping is authorized by AI pre-review or by the review-gate implementation itself.
+No production binary or runtime mapping was authorized by Session 3.
 
-Safe handoff: `LEARNING_SEMANTIC_SAFE_CHECKPOINT_2026-09-23.md`.
+Canonical Session 3 record: `LEARNING_SEMANTIC_P0_SESSION3_STOCK_LIBRARY_APPROVAL_FREEZE_2026-09-24.md`.
 
 
-### 24 September semantic P0 Session 3 stock-library freeze
+### 24 September semantic P0 Session 3 stock-library freeze — merged/live verified
 
-Session 3 has completed the visual/stock-library decision freeze without touching production runtime.
+PR #316 is merged to main `763ed2db21fda86bf96499b49df4b09dc13e9340`. PR CI #1594 / run `35996626132` and merged-main CI #1595 / run `35997454405` both passed; merged-main verification includes exact-SHA Cloudflare production smoke.
+
+Session 3 completed the visual/stock-library decision freeze without touching production runtime.
 
 - 17/17 P0 targets are library-ready with a frozen visual decision.
 - The later project-owner comparison is authoritative: keep current car 499718, raincoat 212019, towel 288034; adopt head 271316 recolored #59474E.
