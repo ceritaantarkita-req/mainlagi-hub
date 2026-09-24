@@ -194,8 +194,9 @@ World/live-DB parent:
 integration merge:
 e4999265033b0263e906c2fe287fc08d09bde0bc
 
-Draft release PR:
+Historical release-candidate PR:
 #312 -> main
+(state at this checkpoint: Draft / unmerged)
 
 safe checkpoint:
 checkpoint/world-evidence-main-integration-green-20260923
@@ -206,7 +207,7 @@ CI:
 
 The combined state preserves semantic P0, narration, learning-illustration and visual-containment work from current main while adding the full Petualangan Uang + World evidence stack.
 
-Production application deployment is still pending. No real/QA-child evidence write should be fabricated before the reviewed runtime is merged/deployed.
+At this historical release-candidate checkpoint, production application deployment was still pending. That deployment is now complete as recorded in 1F. No real/QA-child evidence write should be fabricated merely to prove the path; the current pending item is a legitimate age-eligible observation.
 
 ## 1F. World evidence production release — merged/live verified
 

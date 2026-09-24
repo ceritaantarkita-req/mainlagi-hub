@@ -1474,7 +1474,7 @@ Non-negotiable unless explicitly redesigned with migration/tests:
 
 ## Current priority order
 
-1. Treat the actual branch tip of `main` as production source of truth. For the currently authorized World evidence release work, the validated release candidate is `checkpoint/world-evidence-main-integration-green-20260923 @ e4999265...` / PR #312; it is not production truth until merged-main CI and exact-SHA Cloudflare smoke succeed.
+1. Treat the actual branch tip of `main` as production source of truth. The authorized World evidence release through PR #312 is now merged/live verified; preserve `checkpoint/world-evidence-production-green-20260924` as the runtime release checkpoint and `WORLD_EVIDENCE_PRODUCTION_CLOSURE_2026-09-24.md` as the canonical closure. The remaining World evidence follow-up is limited to the explicit private-registry RLS hardening decision and a future legitimate age-eligible Stage 8 evidence observation.
 2. English narration Wave 1 and the Wave 2 production asset gate are closed/live verified. Preserve **27 reviewed / 27 registry slots / 0 approved production audio / 0 static runtime activation**.
 3. If narration continues, start only with the documented four-item provider/voice pilot + human listening/provenance review. Do not bulk-generate all 27 assets and do not activate runtime playback in the same pilot step.
 4. Parent/profile/settings responsive redesign is closed/live verified. Preserve the <760px mobile header + five-item bottom nav, >=760px desktop sidebar, family/demo separation and profile-vs-guide identity boundary.

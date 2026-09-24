@@ -201,21 +201,21 @@ Still not authorized:
 
 ## 8. Release boundary
 
-The integrated state is now technically green but still **not production application truth**.
+At this historical integration checkpoint, the state was technically green but still **not yet production application truth**.
 
-Current boundary:
+Boundary at that checkpoint:
 
 ```text
 integration code:            GREEN
-PR #312:                     Draft / unmerged
-main:                        still production source of truth
-Cloudflare exact-SHA smoke:  pending main merge/deploy
-controlled Stage 8 live evidence write: pending app deploy
+PR #312:                     Draft / unmerged (historical state)
+main:                        production source of truth at that time
+Cloudflare exact-SHA smoke:  pending main merge/deploy at that time
+controlled Stage 8 live evidence write: pending app deploy at that time
 ```
 
 Do not fabricate a child/evidence write merely to prove the path before the reviewed application runtime is actually deployed.
 
-The next separately authorized release step is:
+The next separately authorized release step at that time was:
 
 ```text
 final PR #312 review
@@ -244,11 +244,11 @@ Ancestry was verified before closure: every historical PR head is an ancestor of
 
 This is housekeeping only. Historical branches/checkpoints remain available and no production merge occurred.
 
-Single active release path:
+Single active release path at that historical checkpoint:
 
 ```text
 PR #312 -> main
-Draft / unmerged / mergeable
+Draft / unmerged / mergeable (historical state)
 ```
 
 

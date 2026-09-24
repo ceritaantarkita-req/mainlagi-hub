@@ -345,8 +345,9 @@ World/live-DB parent:
 integration merge:
 e4999265033b0263e906c2fe287fc08d09bde0bc
 
-Draft release PR:
+Historical release-candidate PR:
 #312 -> main
+(state at this checkpoint: Draft / unmerged)
 ```
 
 Integration checkpoint:
@@ -360,7 +361,7 @@ CI #1584 / run 35892514511 — full success
 
 The integration preserved current-main semantic/narration/illustration gates while adding the World runtime/evidence stack. Database state was not changed in this integration wave and remains live through 0051 with zero supplemental evidence rows.
 
-This does **not** yet change the production-app claim: PR #312 is Draft/unmerged and exact-SHA Cloudflare smoke remains pending a main deployment.
+At this historical checkpoint, this did **not** yet change the production-app claim: PR #312 was Draft/unmerged and exact-SHA Cloudflare smoke was still pending a main deployment. Section 16 records the later production release.
 
 ## 15. PR stack consolidation follow-up
 
@@ -368,13 +369,13 @@ After the current-main integration passed CI, historical Draft PRs #282, #295, #
 
 Their heads are all ancestors of the integrated release head with no missing commits.
 
-The only active release path is now:
+The only active release path at that historical checkpoint was:
 
 ```text
 PR #312
 release/world-evidence-integration-20260923
 → main
-Draft / unmerged / mergeable
+Draft / unmerged / mergeable (historical state)
 ```
 
 Historical branches and immutable checkpoints remain intact for audit/recovery.

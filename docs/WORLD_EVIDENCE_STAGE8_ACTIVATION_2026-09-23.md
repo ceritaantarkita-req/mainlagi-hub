@@ -373,23 +373,24 @@ checkpoint/world-evidence-main-integration-green-20260923
 CI:
 #1584 / run 35892514511 — full success
 
-Draft release PR:
+Historical release-candidate PR:
 #312 -> main
+(state at this checkpoint: Draft / unmerged)
 ```
 
 The seven overlapping main/World files were explicitly resolved. Combined tests retain English narration, semantic learning-illustration gates, visual containment, World runtime QA and evidence isolation.
 
-The activation is therefore **release-candidate green**, but still not Cloudflare production truth until PR #312 is merged and exact-SHA production smoke succeeds.
+At this historical checkpoint the activation was **release-candidate green**, but was not yet Cloudflare production truth. Section 16 records the later PR #312 merge and exact-SHA production smoke success.
 
 ## 15. PR stack consolidation follow-up
 
-The isolated activation PR #309 and subsequent hardening PR #310 are now closed as superseded by the current-main integrated Draft PR #312.
+The isolated activation PR #309 and subsequent hardening PR #310 were closed as superseded by the then-current integrated Draft PR #312. PR #312 was later merged as recorded in Section 16.
 
-No code was dropped: both historical heads are ancestors of the validated integration branch. The active application release boundary is therefore single-path:
+No code was dropped: both historical heads are ancestors of the validated integration branch. The application release boundary at that historical checkpoint was single-path:
 
 ```text
 PR #312 -> main
-Draft / unmerged
+Draft / unmerged (historical state)
 ```
 
 
