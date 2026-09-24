@@ -156,6 +156,82 @@ runtime semantic activation:              0
 
 No visual decision changed. No production binary, production-registry approval, or runtime semantic mapping was added.
 
+## Upstream provenance hunt — 24 September 2026
+
+The three production-held KEEP-CURRENT assets were investigated beyond the unavailable SVG Repo item pages. This was a provenance-identification pass only; it did not authorize a production binary or runtime mapping.
+
+### `vehicle.car` — upstream strongly identified, license action still required
+
+The exact current visual remains SVG Repo item `499718`.
+
+A strong visual/structural upstream match was found to the official **Icons8 Color — Car** icon, icon **#15126**, slug `car--v1`. The official Icons8 icon page marks that icon as created in-house by Icons8.
+
+This materially improves upstream identity confidence, but it does **not** clear the existing SVG Repo copy for production. Current Icons8 usage documentation distinguishes free use with attribution/backlink from paid use and current product documentation places SVG-format access on a paid path. Therefore the safe production path is an explicit direct Icons8 acquisition/license record for the exact asset/format before any production integration.
+
+Canonical status:
+
+```text
+vehicle.car:
+visual decision:       KEEP CURRENT
+SVG Repo identity:     499718
+upstream identity:     strong Icons8 Color Car #15126 / car--v1 match
+production status:     HELD
+next legal action:     explicit upstream acquisition/license evidence
+```
+
+### `object.towel` — upstream unresolved
+
+The exact current visual remains SVG Repo item `288034`.
+
+A Freepik/Flaticon-style towel-on-hanger asset, icon `3816382`, was found as a close structural/visual lead. It resembles the hook, hanger, folded-towel composition, and layer organization of the current asset, but the audit could not bind its vector geometry authoritatively to the exact current SVG.
+
+It is therefore **not** accepted as source or license authority.
+
+Canonical status:
+
+```text
+object.towel:
+visual decision:       KEEP CURRENT
+SVG Repo identity:     288034
+upstream identity:     unresolved
+production status:     HELD
+```
+
+### `object.raincoat` — tested upstream candidate rejected
+
+The exact current visual remains SVG Repo item `212019`.
+
+Flaticon/Freepik raincoat icon `263922` was tested as a possible upstream source. It is visually close, but its current artwork contains additional dark outline/highlight layers not present in the exact current SVG. The candidate is therefore rejected as an exact-source binding.
+
+Canonical status:
+
+```text
+object.raincoat:
+visual decision:       KEEP CURRENT
+SVG Repo identity:     212019
+upstream identity:     unresolved
+production status:     HELD
+```
+
+### Result
+
+The upstream hunt improves provenance quality but does not change the production gate:
+
+```text
+P0 stock-library visual decisions:       17/17 frozen
+P0 stock-library rows:                   17/17 library-ready
+P0 source/license evidence clear:        14/17
+P0 production-held assets:                3/17
+  car: upstream identified / license action required
+  towel: upstream unresolved
+  raincoat: upstream unresolved
+production semantic registry approvals:   0
+production semantic binaries:             0
+runtime semantic activation:              0
+```
+
+Canonical Drive index status was synchronized accordingly. No visual selection changed, no production binary was copied, and no runtime mapping was activated.
+
 ## Merge/live verification
 
 Session 3 repository closure is **MERGED / LIVE VERIFIED** through PR **#316**.
