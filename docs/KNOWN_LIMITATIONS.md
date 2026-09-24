@@ -284,3 +284,11 @@ Do not:
 - regenerate the accepted p0-v2 set during provenance-only work;
 - promote any replacement directly to production/runtime.
 
+## Session 2 remaining boundary
+
+Car, raincoat and towel stay on their current user-approved visuals. Their exact SVG Repo item identities are resolved, but the production gate still requires a final item-page license recheck.
+
+The current head remains legally blocked. A recolored CC0 replacement from item 271316 has been prepared and visually pre-checked, but requires final human visual approval before it may become canonical.
+
+Do not regenerate the frozen p0-v2 set or treat Session 2 stock decisions as production approval.
+
