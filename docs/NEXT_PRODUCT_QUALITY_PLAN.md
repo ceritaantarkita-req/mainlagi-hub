@@ -796,9 +796,9 @@ Current and next:
 12. learning-illustration audit: **CLOSED / LIVE VERIFIED** via PR #287;
 13. learning visual containment/readability foundation: **CLOSED / MERGED / LIVE VERIFIED** via PR #294 -> main `6d0f9bd8972297e316bdf031603d160d901d8d04`, main CI #1531 exact smoke;
 14. semantic illustration registry/provenance gate: **CLOSED / MERGED / LIVE VERIFIED** via PR #297 -> main `ed7db8a6c5b8a3ee4acc9bcca260b4e0b5776773`, main CI #1537 exact smoke; 17 review-required / 0 approved / 0 binary / 0 runtime activation;
-15. **NOW:** produce/review exact P0 semantic-art candidates for HEAD, JUMP, gills, beak, cactus thick stem, towel, raincoat and toy block;
-16. separately resolve provenance for any existing-art reuse candidate before copying/approving it; do not trust filenames or repository presence as approval;
-17. activate only exact reviewed/approved semantic binaries through a later runtime-mapping wave, keeping `LearningVisualToken` and all canonical learning/evidence contracts;
+15. semantic P0 candidate production/review + Session 3 stock-library visual freeze: **COMPLETE AT BRANCH CHECKPOINT**; 17/17 P0 library-ready, with car 499718 / raincoat 212019 / towel 288034 kept and head 271316 + #59474E adopted;
+16. **NOW:** recheck the three exact item pages 499718 / 288034 / 212019 for any item-specific license exception, then perform a separate production-asset approval/integration wave; do not copy a held asset into production merely because its visual was approved;
+17. only after production approval, activate exact approved semantic binaries through a later runtime-mapping wave, keeping `LearningVisualToken` and all canonical learning/evidence contracts;
 18. real-device/accessibility acceptance and cleanup of superseded presentation paths;
 19. resume fixed English audio only when separately re-authorized;
 20. resume character production only when separately re-authorized.
@@ -835,3 +835,17 @@ Human review must be bound to the candidate manifest SHA + exact file SHA values
 No production binary or runtime mapping is authorized by AI pre-review or by the review-gate implementation itself.
 
 Safe handoff: `LEARNING_SEMANTIC_SAFE_CHECKPOINT_2026-09-23.md`.
+
+
+### 24 September semantic P0 Session 3 stock-library freeze
+
+Session 3 has completed the visual/stock-library decision freeze without touching production runtime.
+
+- 17/17 P0 targets are library-ready with a frozen visual decision.
+- The later project-owner comparison is authoritative: keep current car 499718, raincoat 212019, towel 288034; adopt head 271316 recolored #59474E.
+- The accepted head has been copied into canonical Drive stock folder `04_BODY_FAMILY_ACTIONS` and the asset index/provenance tabs are synchronized.
+- 14/17 have clear source/license evidence for the production gate.
+- 3/17 remain fail-closed for production until exact individual SVG Repo item pages 499718 / 288034 / 212019 are rechecked.
+- Production semantic approvals, production binaries, and runtime activation remain 0.
+
+Canonical record: `LEARNING_SEMANTIC_P0_SESSION3_STOCK_LIBRARY_APPROVAL_FREEZE_2026-09-24.md`.
