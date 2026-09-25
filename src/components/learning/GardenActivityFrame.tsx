@@ -55,7 +55,10 @@ export function GardenActivityFrame({ backHref, title, narration, lang = "id-ID"
       <img className={styles.brand} src="/artwork/garden-wordmark.webp" alt="Mainlagi" width={600} height={220}/>
       <button type="button" className={styles.control} onClick={hear} aria-label="Dengar petunjuk"><SpeakerHigh size={26} weight="fill" aria-hidden/><span>Dengar</span></button>
     </header>
-    <div className={`${styles.play} ${spacious ? styles.spacious : ""} ${compactShortDesktop ? styles.compactShortDesktop : ""}`}>
+    <div
+      className={`${styles.play} ${spacious ? styles.spacious : ""} ${compactShortDesktop ? styles.compactShortDesktop : ""}`}
+      data-character-safe-content
+    >
       {title ? <h1 className={styles.title}>{title}</h1> : null}
       {audioNotice ? <p className={styles.notice} role="status">{audioNotice}</p> : null}
       {children}

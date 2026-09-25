@@ -214,7 +214,9 @@ wrong:   try_again
 finish:  celebrate
 ```
 
-The full 320/390/430/768/1280 visual-layout matrix remains Session 07.
+Session 07 closes the full 320/390/430/768/1280 Belajar character layout matrix. The permanent `npm run test:ui:character-responsive` regression covers representative Bahasa, English, Math, Science, Iqro, Coloring and Drawing routes and remains part of `npm run test:ui:mobile-routes`.
+
+Session 07 result: **35/35 route × viewport captures PASS**, with zero critical-content overlap, zero horizontal overflow, pointer-safe decorative rendering, reduced-motion compliance, direct approved SVG loading, frame containment, and creative-workspace suppression. Manual visual review found no presentation defect requiring a CSS correction.
 
 ## Non-goals — Session 06
 
@@ -236,16 +238,15 @@ PR **#259** at `b5acbfcde66ea1451f3e55a8d469d33ba4845af1` established the earlie
 
 Merged-main CI **#1190 / run `35589937017`** passed its then-current quality, build, mobile-route/permanent visual QA, Windows, dependency and production-smoke gates.
 
-Its historical statements that Naya/Gian/Zia lacked production artwork and that character development was paused were correct for that checkpoint. They are **not current execution instructions** after the project-owner 25 September authorization and Sessions 01–06.
+Its historical statements that Naya/Gian/Zia lacked production artwork and that character development was paused were correct for that checkpoint. They are **not current execution instructions** after the project-owner 25 September authorization and Sessions 01–07.
 
 ## Current continuation boundary
 
-Character source/provenance/production/runtime-foundation work plus Belajar integration is now complete through Session 06.
+Character source/provenance/production/runtime-foundation work plus Belajar integration and responsive QA is now complete through Session 07.
 
 Next:
 
 ```text
-Session 07 -> Belajar responsive QA
 Session 08 -> World migration
 Session 09 -> Home integration
 ```

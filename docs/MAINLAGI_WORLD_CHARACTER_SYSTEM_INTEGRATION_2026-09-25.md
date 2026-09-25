@@ -1465,19 +1465,55 @@ Full multi-viewport visual polishing remains Session 07.
 
 **Session 06 is closed. Start Session 07 only from merged latest main.**
 
-### Session 07 — Belajar character responsive QA + fixes
+### Session 07 — Belajar character responsive QA + fixes — COMPLETE
 
-**Do:** test/fix character layout only at 320/390/430/768/1280 on representative Bahasa, English, Math, Science, Iqro, Coloring and Drawing routes.
+**Closure:** `MAINLAGI_BELAJAR_CHARACTER_RESPONSIVE_SESSION07_2026-09-25.md`  
+**Base main:** `edef9ab9b52580e19b8281fa7a473d59197e3625`  
+**PR:** #335  
+**Baseline QA:** CI #1646 / run `36104751650` — full success
 
-Check:
-- no overlap with prompt/answers/canvas/tools;
-- no pointer blocking;
-- reduced motion;
-- decorative semantics/accessibility;
-- SVG sharpness and containment.
+Session 07 tested the shared Belajar character presentation at:
 
-**Do not:** change learning semantics.  
-**Done when:** character visual regression is clean on representative routes.
+```text
+320 / 390 / 430 / 768 / 1280
+```
+
+Representative routes:
+
+```text
+Bahasa   -> bahasa-cari-a
+English  -> english-find-blue
+Math     -> math-count-2
+Science  -> science-living-cat
+Iqro     -> iqro-cari-alif
+Color    -> color-gavi
+Drawing  -> drawing-line-horizontal
+```
+
+Result:
+
+- 35/35 route × viewport captures passed;
+- zero horizontal overflow;
+- zero character overlap with prompt/answers/canvas/tools;
+- character layer and images remain `pointer-events: none`;
+- decorative layer remains `aria-hidden`;
+- reduced-motion removes character animation;
+- all visible character assets load directly from approved SVG runtime paths;
+- character images stay contained inside the activity frame;
+- Coloring/Drawing continue to suppress `CharacterLayer` while the creative workspace is active;
+- manual visual review of all five viewport contact sheets found the existing responsive layout clean.
+
+**No CSS/layout correction was required.** Session 07 therefore closes as a QA/regression-hardening session rather than a visual redesign.
+
+Permanent command:
+
+```bash
+npm run test:ui:character-responsive
+```
+
+The test is included in `npm run test:ui:mobile-routes` and writes its screenshots/report under `.mobile-route-qa/character-session07/`.
+
+**Session 07 is closed. Start Session 08 only from merged latest main.**
 
 ### Session 08 — Integrate shared character runtime into Mainlagi World
 
