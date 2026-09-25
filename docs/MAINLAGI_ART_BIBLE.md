@@ -1,13 +1,13 @@
 # Mainlagi Art Bible — v1
 
-Status: **CANONICAL VISUAL DIRECTION / SUBJECT BACKGROUNDS LIVE VERIFIED / CHARACTER DEVELOPMENT PAUSED**  
+Status: **CANONICAL VISUAL DIRECTION / SUBJECT BACKGROUNDS LIVE VERIFIED / CHARACTER SVG INTEGRATION AUTHORIZED**  
 Established: **16 September 2026**  
-Last synchronized: **22 September 2026**  
+Last synchronized: **25 September 2026**  
 Source audit: `PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md`
 
 This document defines the visual language that future Mainlagi product work must converge toward. It does **not** require a one-shot rewrite of every existing screen. Migration is wave-based, evidence-backed and must preserve learning/progression/auth behavior.
 
-Current project-owner boundary: **Mainlagi World is developed separately and must not be modified by the current Mainlagi Belajar workstream. Character production/development is paused; Drive character material is reference-only until explicit resume.** This pause changes execution priority, not the underlying visual identity contract below.
+Current project-owner boundary: **Mainlagi World is a first-class domain of one Mainlagi product system, and character production/development is resumed for the shared integration.** New character production uses reviewed single-character SVG assets directly; provenance, SVG sanitization/validation and runtime activation remain fail-closed separate gates.
 
 ## 1. Product feeling
 
@@ -353,15 +353,19 @@ For the first activity-foreground production asset of Naya, Gian and Zia:
 - optimize the reviewed production derivative for web delivery without flattening transparency;
 - do not activate the file until provenance/redistribution and responsive screenshot review are complete.
 
-Planned public runtime naming convention, if redistribution is approved:
+Canonical new public runtime naming convention after exact SVG approval:
 
 ```text
-public/artwork/characters/naya-activity-v1.webp
-public/artwork/characters/gian-activity-v1.webp
-public/artwork/characters/zia-activity-v1.webp
+public/artwork/characters/<id>-hero-v1.svg
+public/artwork/characters/<id>-welcome-v1.svg
+public/artwork/characters/<id>-pointing-v1.svg
+public/artwork/characters/<id>-thinking-v1.svg
+public/artwork/characters/<id>-correct-v1.svg
+public/artwork/characters/<id>-try-again-v1.svg
+public/artwork/characters/<id>-celebrate-v1.svg
 ```
 
-These paths are a production convention only; their presence in a branch does not imply approval. Runtime activation is controlled separately by the canonical character asset registry.
+These paths are a production convention only; source existence or branch presence does not imply approval. Runtime activation is controlled separately by the canonical character asset registry.
 
 Generated candidates are **review material**, not production truth. A visually plausible image is not approved until identity consistency, asset quality and redistribution/provenance requirements are satisfied.
 
