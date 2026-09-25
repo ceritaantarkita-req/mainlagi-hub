@@ -15,68 +15,138 @@ Cross-system asset-format policy: `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`.
 - let subject presentation prefer an appropriate character pair without changing curriculum, answers, mastery, evidence, progression, or activity identity;
 - fail closed to production-approved artwork when a preferred character does not yet have an approved runtime asset.
 
-## 25 September 2026 shared-character update — CURRENT DECISION
+## 25 September 2026 shared-character runtime — CURRENT
 
-Character development is resumed/authorized for the unified Mainlagi integration. The target is one shared character runtime for Naya, Gian, Zia, Paca and Gavi using reviewed **single-character SVG assets directly**.
+Character development is resumed/authorized for the unified Mainlagi integration. Sessions 01–05 have now established the shared SVG character foundation for Naya, Gian, Zia, Paca and Gavi.
 
-Locked states: `hero`, `welcome`, `pointing`, `thinking`, `correct`, `try_again`, `celebrate`. `hero` is neutral/default.
+Locked states:
 
-The project owner confirmed `gavi-panel-hero.svg` as the canonical Gavi hero source. Design-set SVGs and the Illustrator collection remain reference/master assets only.
+```text
+hero
+welcome
+pointing
+thinking
+correct
+try_again
+celebrate
+```
 
-Target presentation behavior:
+All five characters now have all seven exact production-approved SVG states under:
 
-- entry/greeting -> `welcome`;
-- neutral/default card or quiet story -> `hero`;
-- guide/hint -> `pointing`;
-- waiting/considering -> `thinking`;
-- correct feedback -> `correct`;
-- retry -> `try_again`;
-- lesson/stage completion -> `celebrate`.
+```text
+public/artwork/characters/
+```
 
-Subject pairing remains Bahasa Gavi+Paca; English Naya+Zia; Math Gian+Paca; Iqro/Huruf/Logic/Science Gavi+Paca; creative workspaces may hide decorative characters.
+with provenance/hash binding in:
 
-Petualangan Uang keeps Gavi+Paca as authored cast. Do not force all five characters into the existing story. Home may use the full five-character cast once exact assets are production-approved.
+```text
+src/lib/data/character-asset-provenance.json
+```
 
-Runtime must resolve only repository-approved production SVG paths; never fetch Drive files directly and never inject unsanitized raw SVG markup. Existing Gavi/Paca Garden WebP paths remain temporary fallback until the SVG migration is verified.
+Design-set SVGs, waving extras, and the Illustrator collection remain source/reference material only.
 
-The sections below describe the **current pre-migration implementation baseline** where relevant; they do not override this 25 September target decision.
+### Shared runtime foundation — Session 05
 
----
-## Current implementation asset truth (pre-SVG migration)
+Canonical runtime modules:
 
-Approved activity foreground assets currently available in the repository:
+```text
+src/lib/learning/characterAssets.ts
+src/lib/learning/characterPresentation.ts
+src/components/learning/CharacterLayer.tsx
+```
 
-- `/artwork/garden-gavi.webp`;
-- `/artwork/garden-paca.webp`.
+`characterAssets.ts` owns concrete approved asset-path resolution and exposes:
 
-Naya, Gian, and Zia have reviewed **design/reference sheets** in the project Google Drive workflow:
+```ts
+approvedCharacterRuntimeAsset(characterId, state)
+resolveCharacterState(characterId, requestedState)
+```
 
-- `kak-naya-character-design-set-v1.png`;
-- `gian-character-design-set-v1.png`;
-- `zia-character-design-set-v1.png`.
+Fail-closed same-character state order:
 
-Those three files are multi-view / expression / pose design sheets on a white canvas. They are useful as identity references, but they are **not direct production foreground sprites** and must not be wired into runtime as-is.
+```text
+requested approved state
+-> hero
+-> welcome
+-> approved legacy Gavi/Paca WebP where valid
+-> null / hide
+```
 
-Production binary/provenance contract: [`CHARACTER_ASSET_PIPELINE.md`](CHARACTER_ASSET_PIPELINE.md).
+Reference/design assets are never runtime fallbacks.
 
-Before Naya/Gian/Zia activation, each character still needs:
+`characterPresentation.ts` owns presentation policy rather than provenance. It resolves context/subject/World/authored cast into already-approved runtime assets and keeps the following pair policy:
 
-1. an isolated production-ready full-body asset;
-2. transparent background;
-3. approved pose/silhouette at child activity scale;
-4. visual consistency review against the design sheet;
-5. provenance/redistribution record;
-6. responsive screenshot QA.
+| Subject | Shared resolver pair |
+| --- | --- |
+| Bahasa Indonesia | Gavi + Paca |
+| English | Naya + Zia |
+| Matematika | Gian + Paca |
+| Iqro | Gavi + Paca |
+| Huruf & Menulis | Gavi + Paca |
+| Logika | Gavi + Paca |
+| Sains | Gavi + Paca |
+| Mewarnai | Gavi + Paca |
+| Menggambar | Gavi + Paca |
 
-## Current subject preferences
+Petualangan Uang keeps explicit authored cast:
 
-Only previously established pairings are encoded as future preferences. Subjects without an approved pairing remain on the current mascot pair.
+```text
+money-festival -> Gavi + Paca
+```
 
-| Subject | Preferred pair | Current runtime pair |
+Default context-state policy:
+
+```text
+home                 hero
+subject              welcome
+activity             hero
+activity_completion  celebrate
+world_catalog        welcome
+world_map            pointing
+world_scene          hero
+world_completion     celebrate
+```
+
+Unknown World IDs fail closed rather than receiving an invented cast.
+
+### CharacterLayer
+
+`CharacterLayer` is a renderer only. It:
+
+- renders zero to two already-resolved foreground characters;
+- exposes stable ID/state/side/role/source data attributes;
+- is pointer-transparent;
+- uses safe-area-aware anchors;
+- uses small entry/idle/celebrate motion only;
+- disables animation under `prefers-reduced-motion: reduce`;
+- does not decide cast, mastery, eligibility, evidence, or progression.
+
+### Current product-surface compatibility boundary
+
+Session 05 deliberately does **not** migrate Belajar/World/Home rendering yet.
+
+The historical pre-SVG compatibility API:
+
+```ts
+approvedCharacterRuntimeSrc()
+```
+
+still behaves as:
+
+```text
+Naya/Gian/Zia -> null
+Gavi/Paca     -> /artwork/garden-*.webp
+```
+
+because current `activityVisualTheme.ts` still calls that API.
+
+Therefore the current visible Belajar pair remains:
+
+| Subject | Shared resolver target | Current Belajar surface until Session 06 |
 | --- | --- | --- |
 | Bahasa Indonesia | Gavi + Paca | Gavi + Paca |
-| English | Naya + Zia | Gavi + Paca (fail-closed) |
-| Matematika | Gian + Paca | Gavi + Paca (fail-closed for Gian) |
+| English | Naya + Zia | Gavi + Paca compatibility fallback |
+| Matematika | Gian + Paca | Gavi + Paca compatibility fallback |
 | Iqro | Gavi + Paca | Gavi + Paca |
 | Huruf & Menulis | Gavi + Paca | Gavi + Paca |
 | Logika | Gavi + Paca | Gavi + Paca |
@@ -84,35 +154,9 @@ Only previously established pairings are encoded as future preferences. Subjects
 | Mewarnai | Gavi + Paca | hidden in creative workspace |
 | Menggambar | Gavi + Paca | hidden in creative workspace |
 
-This table is presentation-only. It does not make a guide character the child's profile identity.
+This staged boundary prevents Session 05 from silently changing live product presentation. Session 06 owns Belajar migration; Session 08 owns World migration; Session 09 owns unified Home integration.
 
-## Runtime architecture
-
-`src/lib/learning/activityVisualTheme.ts` owns subject scene resolution, subject character preference, and fail-closed presentation fallback.
-
-`src/lib/learning/characterAssets.ts` is the canonical activity-character asset lifecycle gate. It records all five character IDs and distinguishes:
-
-- `approved` — a concrete runtime path may resolve;
-- `reference-only` — design/reference material exists but no runtime path may resolve.
-
-Current registry truth keeps **Gavi/Paca = approved** and **Naya/Gian/Zia = reference-only**.
-
-`ResolvedActivityVisualTheme` includes a `characters` presentation object with:
-
-- `preferredIds`;
-- `runtimeCharacters`;
-- explicit `source`:
-  - `subject-preference` when both preferred assets are approved;
-  - `approved-fallback` when one or more preferred assets are unavailable.
-
-`GardenActivityFrame` no longer hardcodes Gavi/Paca file paths. It renders the resolved character slots generically and exposes diagnostic attributes:
-
-- `data-character-source`;
-- `data-character-left`;
-- `data-character-right`;
-- per-image `data-character-id` and `data-character-side`.
-
-The existing visual layout remains unchanged while only Gavi/Paca are production-approved.
+The character system remains presentation-only. It must not change curriculum, answers, mastery, evidence, progression, activity identity, World narrative progress, or child profile identity.
 
 ## Creative workspace rule
 
