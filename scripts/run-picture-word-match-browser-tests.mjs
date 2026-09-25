@@ -14,7 +14,7 @@ const route="/child/demo-gian/activity/bahasa-gambar-apel";
 const activityId="bahasa-gambar-apel";
 const correctLabel="Pilih kata apel";
 const screenshotDir=path.join(root,".mobile-route-qa");
-const viewports=[{width:320,height:720},{width:390,height:844},{width:768,height:1024},{width:1280,height:800}];
+const viewports=[{width:320,height:720},{width:390,height:844},{width:430,height:860},{width:768,height:1024},{width:1280,height:800}];
 let server=null;
 let serverLog="";
 
@@ -98,6 +98,41 @@ async function assertFullyVisible(locator,viewportHeight,label){
   const box=await locator.boundingBox();
   assert(box,`${label} must render`);
   assert(box.y>=-1&&box.y+box.height<=viewportHeight+1,`${label} must remain fully visible in viewport`);
+}
+
+const semanticCoverageCases=[
+  {activityId:"bahasa-gambar-apel",semanticKey:"object.apple",source:"semantic-svg"},
+  {activityId:"bahasa-gambar-mobil",semanticKey:"vehicle.car",source:"fallback",fallback:"🚗"},
+  {activityId:"bahasa-gambar-kucing",semanticKey:"animal.cat",source:"semantic-svg"},
+  {activityId:"bahasa-gambar-rumah",semanticKey:"object.house",source:"semantic-svg"}
+];
+
+async function inspectSemanticCoverage(){
+  const browser=await chromium.launch({headless:true});
+  try{
+    const context=await browser.newContext({viewport:{width:390,height:844},reducedMotion:"reduce"});
+    await seedPrerequisiteReadiness(context);
+    const page=await context.newPage();
+    for(const item of semanticCoverageCases){
+      const response=await page.goto(`${baseUrl}/child/demo-gian/activity/${item.activityId}`,{waitUntil:"domcontentloaded",timeout:30000});
+      assert(response&&response.status()<400,`${item.activityId} semantic coverage route must load`);
+      await waitForScene(page);
+      const token=page.locator(`[data-learning-semantic-key="${item.semanticKey}"]`);
+      assert.equal(await token.count(),1,`${item.activityId} must expose ${item.semanticKey}`);
+      assert.equal(await token.getAttribute("data-learning-visual-source"),item.source,`${item.semanticKey} must use the expected runtime source`);
+      if(item.source==="semantic-svg"){
+        const expectedPath=`/artwork/learning-illustrations/${item.semanticKey.replaceAll(".","-")}-v1.svg`;
+        assert.equal(await token.locator(`img[src="${expectedPath}"][data-learning-semantic-image]`).count(),1,`${item.semanticKey} must render its canonical SVG`);
+      }else{
+        assert.equal(await token.locator("[data-learning-semantic-image]").count(),0,`${item.semanticKey} held key must not render a production image`);
+        assert.equal(await token.getByText(item.fallback,{exact:true}).count(),1,`${item.semanticKey} must preserve its canonical fallback glyph`);
+      }
+      await assertLearningVisualContainment(page,"[data-picture-word-match]",`${item.activityId} semantic coverage`);
+    }
+    await context.close();
+  }finally{
+    await browser.close();
+  }
 }
 
 async function inspect(viewport){
@@ -194,8 +229,9 @@ async function inspect(viewport){
 async function main(){
   startServer();
   await waitForServer();
+  await inspectSemanticCoverage();
   for(const viewport of viewports)await inspect(viewport);
-  console.log(`Picture Word Match browser QA passed ${viewports.length} viewports with legitimate Bahasa Wave A readiness, canonical picture/word choices, keyboard wrong-state, pointer completion, masked word, feedback/CTA visibility and assessed evidence checks.`);
+  console.log(`Picture Word Match browser QA passed ${viewports.length} required Session 13 viewports plus exact Bahasa semantic coverage with held-car fallback.`);
 }
 
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;}).finally(stopServer);

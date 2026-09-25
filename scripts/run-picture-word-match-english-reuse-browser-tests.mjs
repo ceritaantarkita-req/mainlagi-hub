@@ -18,6 +18,7 @@ const screenshotDir=path.join(root,".mobile-route-qa");
 const cases=[
   {viewport:{width:320,height:720},completionMode:"touch"},
   {viewport:{width:390,height:844},completionMode:"pointer"},
+  {viewport:{width:430,height:860},completionMode:"touch"},
   {viewport:{width:768,height:1024},completionMode:"touch"},
   {viewport:{width:1280,height:800},completionMode:"pointer"}
 ];
@@ -53,30 +54,44 @@ async function seedPrerequisiteReadiness(context){
     const progressKey="mainlagi-learning-progress-v1";
     const attemptsKey="mainlagi-learning-attempts-v1";
     const seeds=[
-      ["english-animal-dog","english.vocab.animals","tap_choice"],
-      ["english-listen-bird","english.vocab.animals","listen_and_choose"],
-      ["english-match-animals-dog-rabbit","english.vocab.animals","matching"],
-      ["english-object-book","english.vocab.objects","tap_choice"],
-      ["english-listen-bag","english.vocab.objects","listen_and_choose"],
-      ["english-match-objects-book-ball","english.vocab.objects","matching"],
-      ["english-body-head","english.vocab.body","tap_choice"],
-      ["english-listen-eyes","english.vocab.body","listen_and_choose"],
-      ["english-match-body-eyes-ears","english.vocab.body","matching"],
-      ["english-family-mother","english.vocab.family","tap_choice"],
-      ["english-listen-sister","english.vocab.family","listen_and_choose"],
-      ["english-match-family-siblings","english.vocab.family","matching"],
-      ["english-review-word-book","english.vocab.everyday_integration","tap_choice"],
-      ["english-review-match-animal-object","english.vocab.everyday_integration","matching"]
+      ["english-find-blue","english.color.blue","tap_choice","english-first-words"],
+      ["english-listen-cat","english.word.cat.listening","listen_and_choose","english-first-words"],
+      ["english-match-hello","english.word.picture_matching","matching","english-first-words"],
+      ["english-letter-a","english.alphabet.recognition","tap_choice","english-alphabet-basics"],
+      ["english-letter-m","english.alphabet.recognition","tap_choice","english-alphabet-basics"],
+      ["english-listen-letter-a","english.alphabet.listening","listen_and_choose","english-alphabet-basics"],
+      ["english-match-case-ab","english.alphabet.recognition","matching","english-alphabet-basics"],
+      ["english-initial-ball","english.phonics.initial_sound","tap_choice","english-alphabet-basics"],
+      ["english-match-initial-bc","english.phonics.initial_sound","matching","english-alphabet-basics"],
+      ["english-find-red","english.color.recognition","tap_choice","english-alphabet-basics"],
+      ["english-listen-yellow","english.color.recognition","listen_and_choose","english-alphabet-basics"],
+      ["english-number-one","english.number.1_5","tap_choice","english-alphabet-basics"],
+      ["english-listen-three","english.number.1_5","listen_and_choose","english-alphabet-basics"],
+      ["english-match-four-five","english.number.1_5","matching","english-alphabet-basics"],
+      ["english-animal-dog","english.vocab.animals","tap_choice","english-everyday-words"],
+      ["english-listen-bird","english.vocab.animals","listen_and_choose","english-everyday-words"],
+      ["english-match-animals-dog-rabbit","english.vocab.animals","matching","english-everyday-words"],
+      ["english-object-book","english.vocab.objects","tap_choice","english-everyday-words"],
+      ["english-listen-bag","english.vocab.objects","listen_and_choose","english-everyday-words"],
+      ["english-match-objects-book-ball","english.vocab.objects","matching","english-everyday-words"],
+      ["english-body-head","english.vocab.body","tap_choice","english-everyday-words"],
+      ["english-listen-eyes","english.vocab.body","listen_and_choose","english-everyday-words"],
+      ["english-match-body-eyes-ears","english.vocab.body","matching","english-everyday-words"],
+      ["english-family-mother","english.vocab.family","tap_choice","english-everyday-words"],
+      ["english-listen-sister","english.vocab.family","listen_and_choose","english-everyday-words"],
+      ["english-match-family-siblings","english.vocab.family","matching","english-everyday-words"],
+      ["english-review-word-book","english.vocab.everyday_integration","tap_choice","english-everyday-words"],
+      ["english-review-match-animal-object","english.vocab.everyday_integration","matching","english-everyday-words"]
     ];
     const requiredIds=seeds.map(([id])=>id);
     localStorage.setItem(progressKey,JSON.stringify({
       [childId]:{completedActivityIds:requiredIds,stars:0,lastActivityId:requiredIds.at(-1)}
     }));
-    const attempts=seeds.map(([seedActivityId,skillId,runtime],index)=>{
+    const attempts=seeds.map(([seedActivityId,skillId,runtime,stageId],index)=>{
       const attemptId=`qa-picture-word-english-prereq-${index}`;
       const completedAt=`2026-09-19T14:${String(index).padStart(2,"0")}:00.000Z`;
       return{
-        id:attemptId,childId,activityId:seedActivityId,subjectId:"english",stageId:"english-everyday-words",
+        id:attemptId,childId,activityId:seedActivityId,subjectId:"english",stageId,
         runtime,difficulty:2,status:"completed",assessed:true,score:1,accuracy:1,
         correctCount:runtime==="matching"?2:1,incorrectCount:0,hintCount:0,retryCount:0,durationMs:1000,inputMode:"touch",
         startedAt:completedAt,completedAt,
@@ -133,6 +148,37 @@ async function completeCorrect(page,completionMode){
   const box=await button.boundingBox();
   assert(box,"correct English picture-word choice must have a touchable box");
   await page.touchscreen.tap(box.x+box.width/2,box.y+box.height/2);
+}
+
+const semanticCoverageCases=[
+  {activityId:"english-animal-fish",semanticKey:"animal.fish"},
+  {activityId:"english-object-cup",semanticKey:"object.cup"},
+  {activityId:"english-body-head",semanticKey:"body.head"},
+  {activityId:"english-food-apple",semanticKey:"object.apple"},
+  {activityId:"english-action-jump",semanticKey:"action.jump"}
+];
+
+async function inspectSemanticCoverage(){
+  const browser=await chromium.launch({headless:true});
+  try{
+    const context=await browser.newContext({viewport:{width:390,height:844},reducedMotion:"reduce"});
+    await seedPrerequisiteReadiness(context);
+    const page=await context.newPage();
+    for(const item of semanticCoverageCases){
+      const response=await page.goto(`${baseUrl}/child/demo-gian/activity/${item.activityId}`,{waitUntil:"domcontentloaded",timeout:30000});
+      assert(response&&response.status()<400,`${item.activityId} English semantic coverage route must load`);
+      await waitForScene(page);
+      assert.equal(new URL(page.url()).pathname,`/child/demo-gian/activity/${item.activityId}`,`${item.activityId} must remain on its legitimate unlocked route`);
+      const token=page.locator(`[data-learning-semantic-key="${item.semanticKey}"][data-learning-visual-source="semantic-svg"]`);
+      assert.equal(await token.count(),1,`${item.activityId} must activate ${item.semanticKey}`);
+      const expectedPath=`/artwork/learning-illustrations/${item.semanticKey.replaceAll(".","-")}-v1.svg`;
+      assert.equal(await token.locator(`img[src="${expectedPath}"][data-learning-semantic-image]`).count(),1,`${item.semanticKey} must render its canonical SVG`);
+      await assertLearningVisualContainment(page,"[data-picture-word-match]",`${item.activityId} English semantic coverage`);
+    }
+    await context.close();
+  }finally{
+    await browser.close();
+  }
 }
 
 async function inspect({viewport,completionMode}){
@@ -236,8 +282,9 @@ async function inspect({viewport,completionMode}){
 async function main(){
   startServer();
   await waitForServer();
+  await inspectSemanticCoverage();
   for(const item of cases)await inspect(item);
-  console.log("English Picture Word Match browser QA passed 3 viewports with leak-free English presentation, keyboard retry, pointer + touchscreen completion, touch targets, screenshots and assessed evidence.");
+  console.log(`English Picture Word Match browser QA passed ${cases.length} required Session 13 viewports plus exact five-key semantic coverage, leak-free English presentation and assessed evidence checks.`);
 }
 
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;}).finally(stopServer);

@@ -14,7 +14,7 @@ const route="/child/demo-gian/activity/science-feature-duck-webbed-feet";
 const activityId="science-feature-duck-webbed-feet";
 const correctLabel="Hubungkan fungsi: Berenang di air";
 const screenshotDir=path.join(root,".mobile-route-qa");
-const viewports=[{width:320,height:720},{width:390,height:844},{width:768,height:1024},{width:1280,height:800}];
+const viewports=[{width:320,height:720},{width:390,height:844},{width:430,height:860},{width:768,height:1024},{width:1280,height:800}];
 let server=null;
 let serverLog="";
 
@@ -91,6 +91,36 @@ async function completed(page){
     const progress=JSON.parse(localStorage.getItem("mainlagi-learning-progress-v1")??"{}");
     return(progress["demo-gian"]?.completedActivityIds??[]).includes(id);
   },{id:activityId});
+}
+
+const semanticCoverageCases=[
+  {activityId:"science-feature-fish-gills",semanticKeys:["animal.fish","feature.gills"]},
+  {activityId:"science-feature-bird-beak-seeds",semanticKeys:["animal.bird","feature.beak"]},
+  {activityId:"science-feature-cactus-water",semanticKeys:["feature.cactus-thick-stem"]}
+];
+
+async function inspectSemanticCoverage(){
+  const browser=await chromium.launch({headless:true});
+  try{
+    const context=await browser.newContext({viewport:{width:390,height:844},reducedMotion:"reduce"});
+    await seedPrerequisiteReadiness(context);
+    const page=await context.newPage();
+    for(const item of semanticCoverageCases){
+      const response=await page.goto(`${baseUrl}/child/demo-gian/activity/${item.activityId}`,{waitUntil:"domcontentloaded",timeout:30000});
+      assert(response&&response.status()<400,`${item.activityId} feature/function semantic coverage route must load`);
+      await waitForScene(page);
+      for(const semanticKey of item.semanticKeys){
+        const token=page.locator(`[data-learning-semantic-key="${semanticKey}"][data-learning-visual-source="semantic-svg"]`);
+        assert.equal(await token.count(),1,`${item.activityId} must activate ${semanticKey}`);
+        const expectedPath=`/artwork/learning-illustrations/${semanticKey.replaceAll(".","-")}-v1.svg`;
+        assert.equal(await token.locator(`img[src="${expectedPath}"][data-learning-semantic-image]`).count(),1,`${semanticKey} must render its canonical SVG`);
+      }
+      await assertLearningVisualContainment(page,"[data-feature-function-link]",`${item.activityId} feature/function semantic coverage`);
+    }
+    await context.close();
+  }finally{
+    await browser.close();
+  }
 }
 
 async function inspect(viewport){
@@ -173,8 +203,9 @@ async function inspect(viewport){
 async function main(){
   startServer();
   await waitForServer();
+  await inspectSemanticCoverage();
   for(const viewport of viewports)await inspect(viewport);
-  console.log(`Feature-function browser QA passed ${viewports.length} viewports with legitimate Science Wave C progression, keyboard wrong-state, pointer completion, layout, CTA and assessed evidence checks.`);
+  console.log(`Feature-function browser QA passed ${viewports.length} required Session 13 viewports plus exact fish/gills/bird/beak/cactus semantic SVG coverage.`);
 }
 
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;}).finally(stopServer);

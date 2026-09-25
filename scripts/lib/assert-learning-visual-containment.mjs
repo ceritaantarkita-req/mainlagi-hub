@@ -1,6 +1,14 @@
 import assert from "node:assert/strict";
 
 export async function assertLearningVisualContainment(page, scopeSelector, label) {
+  await page.locator(`${scopeSelector} [data-learning-semantic-image]`).evaluateAll(async (nodes) => {
+    await Promise.all(nodes.map(async (node) => {
+      if (!(node instanceof HTMLImageElement)) return;
+      if (node.complete && node.naturalWidth > 0 && node.naturalHeight > 0) return;
+      await node.decode();
+    }));
+  });
+
   const metrics = await page.locator(`${scopeSelector} [data-learning-visual-token]`).evaluateAll((nodes) =>
     nodes.map((node) => {
       const frame = node.getBoundingClientRect();
@@ -9,6 +17,26 @@ export async function assertLearningVisualContainment(page, scopeSelector, label
       const parent = node.parentElement?.getBoundingClientRect() ?? null;
       const style = getComputedStyle(node);
       const glyphStyle = glyphNode ? getComputedStyle(glyphNode) : null;
+      const semanticImage = node.querySelector("[data-learning-semantic-image]");
+      const semanticImageBox = semanticImage?.getBoundingClientRect() ?? null;
+      const semanticImageData = semanticImage instanceof HTMLImageElement
+        ? {
+            src: semanticImage.currentSrc || semanticImage.src,
+            complete: semanticImage.complete,
+            naturalWidth: semanticImage.naturalWidth,
+            naturalHeight: semanticImage.naturalHeight,
+            box: semanticImageBox
+              ? {
+                  left: semanticImageBox.left,
+                  top: semanticImageBox.top,
+                  right: semanticImageBox.right,
+                  bottom: semanticImageBox.bottom,
+                  width: semanticImageBox.width,
+                  height: semanticImageBox.height
+                }
+              : null
+          }
+        : null;
 
       return {
         frame: { left: frame.left, top: frame.top, right: frame.right, bottom: frame.bottom, width: frame.width, height: frame.height },
@@ -19,7 +47,11 @@ export async function assertLearningVisualContainment(page, scopeSelector, label
         visibility: style.visibility,
         opacity: Number(style.opacity),
         glyphVisibility: glyphStyle?.visibility ?? null,
-        glyphOpacity: glyphStyle ? Number(glyphStyle.opacity) : null
+        glyphOpacity: glyphStyle ? Number(glyphStyle.opacity) : null,
+        semanticKey: node.getAttribute("data-learning-semantic-key"),
+        visualSource: node.getAttribute("data-learning-visual-source"),
+        pageOrigin: window.location.origin,
+        semanticImage: semanticImageData
       };
     })
   );
@@ -47,6 +79,25 @@ export async function assertLearningVisualContainment(page, scopeSelector, label
     assert(item.glyph.right <= item.frame.right + epsilon, `${label} glyph ${index} escapes frame on the right`);
     assert(item.glyph.top >= item.frame.top - epsilon, `${label} glyph ${index} escapes frame on the top`);
     assert(item.glyph.bottom <= item.frame.bottom + epsilon, `${label} glyph ${index} escapes frame on the bottom`);
+
+    if (item.visualSource === "semantic-svg") {
+      assert(item.semanticKey, `${label} semantic visual ${index} must expose a semantic key`);
+      assert(item.semanticImage, `${label} semantic visual ${index} must render an image`);
+      assert.equal(item.semanticImage.complete, true, `${label} semantic image ${index} must finish decoding`);
+      assert(item.semanticImage.naturalWidth > 0 && item.semanticImage.naturalHeight > 0, `${label} semantic image ${index} must have non-zero intrinsic dimensions`);
+      const url = new URL(item.semanticImage.src);
+      assert.equal(url.origin, item.pageOrigin, `${label} semantic image ${index} must not depend on an external origin`);
+      assert(url.pathname.startsWith("/artwork/learning-illustrations/"), `${label} semantic image ${index} must use the canonical production directory`);
+      assert(url.pathname.endsWith(".svg"), `${label} semantic image ${index} must remain SVG-backed`);
+      assert(item.semanticImage.box, `${label} semantic image ${index} must expose a rendered box`);
+      assert(item.semanticImage.box.width > 0 && item.semanticImage.box.height > 0, `${label} semantic image ${index} must remain visible`);
+      assert(item.semanticImage.box.left >= item.glyph.left - epsilon, `${label} semantic image ${index} escapes glyph on the left`);
+      assert(item.semanticImage.box.right <= item.glyph.right + epsilon, `${label} semantic image ${index} escapes glyph on the right`);
+      assert(item.semanticImage.box.top >= item.glyph.top - epsilon, `${label} semantic image ${index} escapes glyph on the top`);
+      assert(item.semanticImage.box.bottom <= item.glyph.bottom + epsilon, `${label} semantic image ${index} escapes glyph on the bottom`);
+    } else {
+      assert.equal(item.semanticImage, null, `${label} fallback visual ${index} must not render a semantic production image`);
+    }
   }
 
   return metrics;

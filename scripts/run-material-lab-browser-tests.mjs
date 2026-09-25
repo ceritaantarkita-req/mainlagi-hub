@@ -14,7 +14,7 @@ const route="/child/demo-gian/activity/science-material-raincoat-waterproof";
 const activityId="science-material-raincoat-waterproof";
 const correctLabel="Pilih sifat: Tidak mudah ditembus air";
 const screenshotDir=path.join(root,".mobile-route-qa");
-const viewports=[{width:320,height:720},{width:390,height:844},{width:768,height:1024},{width:1280,height:800}];
+const viewports=[{width:320,height:720},{width:390,height:844},{width:430,height:860},{width:768,height:1024},{width:1280,height:800}];
 let server=null;
 let serverLog="";
 
@@ -100,6 +100,40 @@ async function completed(page){
     const progress=JSON.parse(localStorage.getItem("mainlagi-learning-progress-v1")??"{}");
     return(progress["demo-gian"]?.completedActivityIds??[]).includes(id);
   },{id:activityId});
+}
+
+const semanticCoverageCases=[
+  {activityId:"science-material-raincoat-waterproof",semanticKey:"object.raincoat",source:"fallback",fallback:"🧥"},
+  {activityId:"science-material-towel-absorbent",semanticKey:"object.towel",source:"fallback",fallback:"🧺"},
+  {activityId:"science-material-toy-block-rigid",semanticKey:"object.toy-block",source:"semantic-svg"}
+];
+
+async function inspectSemanticCoverage(){
+  const browser=await chromium.launch({headless:true});
+  try{
+    const context=await browser.newContext({viewport:{width:390,height:844},reducedMotion:"reduce"});
+    await seedPrerequisiteReadiness(context);
+    const page=await context.newPage();
+    for(const item of semanticCoverageCases){
+      const response=await page.goto(`${baseUrl}/child/demo-gian/activity/${item.activityId}`,{waitUntil:"domcontentloaded",timeout:30000});
+      assert(response&&response.status()<400,`${item.activityId} material semantic coverage route must load`);
+      await waitForLab(page);
+      const token=page.locator(`[data-learning-semantic-key="${item.semanticKey}"]`);
+      assert.equal(await token.count(),1,`${item.activityId} must expose ${item.semanticKey}`);
+      assert.equal(await token.getAttribute("data-learning-visual-source"),item.source,`${item.semanticKey} must use the expected runtime source`);
+      if(item.source==="semantic-svg"){
+        const expectedPath=`/artwork/learning-illustrations/${item.semanticKey.replaceAll(".","-")}-v1.svg`;
+        assert.equal(await token.locator(`img[src="${expectedPath}"][data-learning-semantic-image]`).count(),1,`${item.semanticKey} must render its canonical SVG`);
+      }else{
+        assert.equal(await token.locator("[data-learning-semantic-image]").count(),0,`${item.semanticKey} held key must not render a production image`);
+        assert.equal(await token.getByText(item.fallback,{exact:true}).count(),1,`${item.semanticKey} must preserve its canonical fallback glyph`);
+      }
+      await assertLearningVisualContainment(page,"[data-material-lab]",`${item.activityId} material semantic coverage`);
+    }
+    await context.close();
+  }finally{
+    await browser.close();
+  }
 }
 
 async function inspect(viewport){
@@ -196,8 +230,9 @@ async function inspect(viewport){
 async function main(){
   startServer();
   await waitForServer();
+  await inspectSemanticCoverage();
   for(const viewport of viewports)await inspect(viewport);
-  console.log(`Material-lab browser QA passed ${viewports.length} viewports with legitimate Science Wave C progression, keyboard selection, explicit test action, false-completion guards, pointer completion, layout, CTA and assessed evidence checks.`);
+  console.log(`Material-lab browser QA passed ${viewports.length} required Session 13 viewports plus exact toy-block SVG and raincoat/towel held-fallback coverage.`);
 }
 
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;}).finally(stopServer);
