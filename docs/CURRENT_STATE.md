@@ -54,10 +54,10 @@ Production-approved SVG variants: 35/35
 Shared SVG runtime-addressable states: 35/35
 Belajar character resolution: active across 900/900 activities
 Session 07 representative matrix: 7 routes × 5 viewports = 35/35 PASS
-World/Home surface migration: not yet
+World migration: complete through Session 08; Home/Bermain shell integration: pending Session 09
 ```
 
-All 35 character variants are exact SHA-bound, owned/provenance-approved production SVGs under `public/artwork/characters/`. Belajar now resolves its canonical subject pair through the shared runtime: English = Naya+Zia, Math = Gian+Paca, and Bahasa/Iqro/Huruf/Logic/Science = Gavi+Paca. Color/Drawing retain the Gavi+Paca policy but suppress the decorative foreground while the creative workspace is active. World and Home remain later integration sessions.
+All 35 character variants are exact SHA-bound, owned/provenance-approved production SVGs under `public/artwork/characters/`. Belajar now resolves its canonical subject pair through the shared runtime: English = Naya+Zia, Math = Gian+Paca, and Bahasa/Iqro/Huruf/Logic/Science = Gavi+Paca. Color/Drawing retain the Gavi+Paca policy but suppress the decorative foreground while the creative workspace is active. World is now migrated through Session 08; Home/Bermain remain the next product-surface integration in Session 09.
 
 ## 25 September World + character integration authorization — CURRENT
 
