@@ -203,9 +203,9 @@ It must not:
 3. Read:
    - `MAINLAGI_WORLD_CHARACTER_SYSTEM_INTEGRATION_2026-09-25.md`;
    - `CHARACTER_PRESENTATION_SYSTEM.md`;
-   - `MAINLAGI_BELAJAR_CHARACTER_RESPONSIVE_SESSION07_2026-09-25.md`;
+   - `MAINLAGI_WORLD_CHARACTER_INTEGRATION_SESSION08_2026-09-25.md`;
    - this checkpoint.
-4. Trace actual World route/component imports before editing.
+4. Trace actual Home + Bermain shell/component imports before editing.
 5. Create a new Session 09 branch from latest merged `main`.
 6. Reuse `characterPresentation.ts` + `CharacterLayer`; do not create a second character runtime.
 7. Keep existing Belajar and Petualangan Uang character behavior unchanged while integrating Home/Bermain presentation.
@@ -214,15 +214,16 @@ It must not:
 
 ## Stop conditions
 
-Stop and request a separate decision instead of silently changing scope if Session 08 would require:
+Stop and request a separate decision instead of silently changing scope if Session 09 would require:
 
-- a World structure/content rewrite;
+- a World or Belajar structure/content rewrite;
 - a progression/evidence schema change;
 - a new character identity/state;
 - a new asset approval;
 - global age-range expansion;
-- Motion Engine changes;
-- Home product redesign;
-- narration activation.
+- Motion Engine or game-mechanic changes;
+- Home recommender/data-model redesign;
+- narration activation;
+- semantic SVG Sessions 10–16 work.
 
-This checkpoint is the safe handoff between **closed Session 07** and **not-yet-started Session 08**.
+This checkpoint is the safe handoff between **closed Session 08** and **not-yet-started Session 09**.
