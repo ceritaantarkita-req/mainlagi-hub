@@ -195,6 +195,8 @@ assert.match(providerSource, /detail\.childId !== childId \|\| detail\.activityI
 assert.match(providerSource, /setMomentState\("entry"\)/, "activity provider starts each activity in entry state");
 assert.match(providerSource, /current === "entry" \? "waiting" : current/, "entry state transitions to waiting without learning-state mutation");
 assert.match(providerSource, /isTransientMoment/, "guide/correct/retry moments are transient");
+assert.match(providerSource, /detail\.moment === "completion" && momentRef\.current === "correct"/, "completion must preserve a visible correct pose before celebration");
+assert.match(providerSource, /CORRECT_TO_COMPLETION_MS = 550/, "correct-to-celebrate handoff duration stays presentation-only and bounded");
 assert.match(bridgeSource, /moment: "correct"/, "attempt bridge publishes correct presentation feedback");
 assert.match(bridgeSource, /moment: "retry"/, "attempt bridge publishes retry presentation feedback");
 assert.match(bridgeSource, /moment: "completion"/, "attempt bridge publishes completion presentation feedback");
