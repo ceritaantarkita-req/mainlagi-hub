@@ -206,17 +206,27 @@ function useMoneyWorldProgress(childId: string) {
   return { progress, ready, settled };
 }
 
-function WorldHero({ compact = false }: { compact?: boolean }) {
+function WorldHero({
+  compact = false,
+  context = "world_catalog"
+}: {
+  compact?: boolean;
+  context?: "world_catalog" | "world_map";
+}) {
+  const presentation = resolveMoneyWorldCharacterPresentation(context);
   return (
-    <div className={cx(styles.worldHero, compact && styles.worldHeroCompact)}>
+    <div
+      className={cx(styles.worldHero, compact && styles.worldHeroCompact)}
+      data-world-character-state={presentation.requestedState}
+      data-world-character-source={presentation.source}
+    >
       <div className={styles.worldHeroCopy}>
         <span className={styles.eyebrow}>Mainlagi World</span>
         <h1>Petualangan Uang</h1>
         <p>Bantu Gavi dan Paca menyiapkan Festival Mainlagi!</p>
       </div>
-      <div className={styles.heroCharacters} aria-label="Gavi dan Paca">
-        <CharacterAvatar id="gavi" large />
-        <CharacterAvatar id="paca" large />
+      <div className={styles.heroCharacters}>
+        <CharacterLayer characters={presentation.characters} className={styles.heroCharacterLayer} />
       </div>
     </div>
   );
@@ -292,7 +302,7 @@ export function MoneyWorldMapScreen({ childId, worldId }: { childId: string; wor
 
   return (
     <main className={styles.mapPage}>
-      <WorldHero />
+      <WorldHero context="world_map" />
       <div className={styles.mapTopline}>
         <Link href={worldsHref} className={styles.textButton}>← Semua World</Link>
         <span>{state.ready ? String(state.progress.completedStageIds.length) + "/" + MONEY_WORLD_STAGES.length + " Stage" : "Memuat…"}</span>
@@ -419,6 +429,13 @@ function SpeechCard({
   const autoAttemptedRef = useRef(false);
   const runtimeCharacter = runtimeCharacterForStoryRole(speaker);
   const presentedText = presentDummyCharacterCopy(text);
+  const speakerPresentation = resolveCharacterPresentation({
+    context: "world_scene",
+    worldId: MONEY_WORLD_ID,
+    requestedCharacters: [runtimeCharacter.id],
+    requestedState: kind === "concept" ? "thinking" : "hero",
+    allowIdentityFallback: false
+  });
 
   useEffect(() => {
     autoAttemptedRef.current = false;
@@ -497,8 +514,14 @@ function SpeechCard({
       data-world-audio-id={audioId}
       data-world-narration-mode={playbackMode ?? "idle"}
     >
-      <div className={styles.storyCharacter}>
-        <CharacterAvatar id={runtimeCharacter.id} large />
+      <div
+        className={styles.storyCharacter}
+        data-world-story-character={runtimeCharacter.id}
+        data-world-character-state={speakerPresentation.requestedState}
+      >
+        <div className={styles.storyCharacterArt}>
+          <CharacterLayer characters={speakerPresentation.characters} className={styles.storyCharacterLayer} />
+        </div>
         <strong>{runtimeCharacter.name}</strong>
       </div>
       <div className={styles.speechBubble}>
@@ -1202,6 +1225,7 @@ function WorldStageCompletion({
   const shareText = finalStage
     ? "⭐⭐⭐ Petualangan Uang selesai. Festival Mainlagi siap!"
     : "⭐⭐⭐ Stage “" + (stage?.title ?? "Petualangan Uang") + "” selesai di Mainlagi!";
+  const completionPresentation = resolveMoneyWorldCharacterPresentation("world_completion");
 
   const openShare = async () => {
     setShareGate("checking");
@@ -1240,6 +1264,12 @@ function WorldStageCompletion({
           {[0, 1, 2].map((index) => (
             <Star key={index} size={58} weight="fill" aria-hidden style={{ animationDelay: String(index * 140) + "ms" }} />
           ))}
+        </div>
+        <div
+          className={styles.completionCharacters}
+          data-world-character-state={completionPresentation.requestedState}
+        >
+          <CharacterLayer characters={completionPresentation.characters} className={styles.completionCharacterLayer} />
         </div>
         {chapterComplete && chapter ? (
           <div
@@ -1326,6 +1356,10 @@ function MoneyWorldStageRuntime({
   const [segmentIndex, setSegmentIndex] = useState(0);
   const [completed, setCompleted] = useState(false);
   const [hydrated, setHydrated] = useState(false);
+  const [characterFeedback, setCharacterFeedback] = useState<{
+    segmentId: string;
+    state: MoneyWorldCharacterFeedbackState;
+  } | null>(null);
   const stageRuntimeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -1362,6 +1396,7 @@ function MoneyWorldStageRuntime({
     void syncMoneyWorldProgressCloud(childId, restarted);
     setSegmentIndex(0);
     setCompleted(false);
+    setCharacterFeedback(null);
     setHydrated(true);
   };
 
@@ -1370,6 +1405,13 @@ function MoneyWorldStageRuntime({
   if (completed) return <WorldStageCompletion childId={childId} stageId={stageId} onAgain={again} />;
 
   const segment = segments[segmentIndex];
+  const characterState = characterFeedback?.segmentId === segment.id
+    ? characterFeedback.state
+    : segmentDefaultCharacterState(segment.type);
+  const characterPresentation = resolveMoneyWorldCharacterPresentation("world_scene", characterState);
+  const reportCharacterFeedback = (nextState: MoneyWorldCharacterFeedbackState) => {
+    setCharacterFeedback({ segmentId: segment.id, state: nextState });
+  };
   const completeActivity = (completion?: MoneyWorldActivityCompletion) => {
     if (
       segment.type === "activity"
@@ -1416,6 +1458,9 @@ function MoneyWorldStageRuntime({
       data-world-scene={stage.order}
       data-world-stage-shell="garden-baseline-v1"
       data-world-runtime-character-policy={MONEY_WORLD_RUNTIME_CHARACTER_POLICY.mode}
+      data-world-character-state={characterState}
+      data-world-character-left={characterPresentation.characters[0]?.id}
+      data-world-character-right={characterPresentation.characters[1]?.id}
       data-world-chapter-id={chapter.id}
       data-world-chapter-order={chapterIndex + 1}
       data-world-scene-id={activeScene.id}
@@ -1458,18 +1503,21 @@ function MoneyWorldStageRuntime({
 
       <StageAmbience stageId={stage.id} />
 
-      <WorldSceneRenderer
-        scene={activeScene}
-        sceneSegmentPosition={sceneSegmentPosition}
-        sceneSegmentCount={sceneSegmentCount}
-        companionLayer={(
-          <div className={styles.stageShellCharacters} aria-hidden>
-            <div className={styles.stageShellCharacterLeft}><CharacterAvatar id="gavi" large /></div>
-            <div className={styles.stageShellCharacterRight}><CharacterAvatar id="paca" large /></div>
-          </div>
-        )}
-      >
-        {segment.type === "activity" ? (
+      <WorldCharacterFeedbackContext.Provider value={reportCharacterFeedback}>
+        <WorldSceneRenderer
+          scene={activeScene}
+          sceneSegmentPosition={sceneSegmentPosition}
+          sceneSegmentCount={sceneSegmentCount}
+          companionLayer={(
+            <div className={styles.stageShellCharacters} aria-hidden>
+              <CharacterLayer
+                characters={characterPresentation.characters}
+                className={styles.stageCharacterLayer}
+              />
+            </div>
+          )}
+        >
+          {segment.type === "activity" ? (
           <WorldActivity key={segment.activity.id} placement={segment.activity} onComplete={completeActivity} />
         ) : segment.type === "narrative_choice" ? (
           <NarrativeChoiceCard audioId={segment.id + "-prompt"} prompt={segment.prompt} options={segment.options} onNext={advance} />
@@ -1485,8 +1533,9 @@ function MoneyWorldStageRuntime({
             onNext={advance}
             nextLabel={segmentIndex === lastIndex ? "Selesai" : "Lanjut"}
           />
-        )}
-      </WorldSceneRenderer>
+          )}
+        </WorldSceneRenderer>
+      </WorldCharacterFeedbackContext.Provider>
     </div>
   );
 }
