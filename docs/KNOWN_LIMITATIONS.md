@@ -121,9 +121,9 @@ Current verified truth:
 - design-set SVGs and the Illustrator collection remain reference/master material only;
 - legacy Garden Gavi/Paca WebPs remain compatibility fallback/history.
 
-The remaining character-product limitation is surface coverage, not asset availability: Home + Bermain shell integration is still pending Session 09. Motion Engine/game mechanics, voice identity, narration activation, and any new character state/identity remain separate approval scopes. Child profile identity remains separate from guide-character identity.
+Home + Bermain surface coverage is no longer a character-product limitation: Session 09 is merged/live verified. Remaining character-adjacent boundaries are Motion Engine/game mechanics, voice identity, narration activation, and any new character state/identity; each remains a separate approval scope. Child profile identity remains separate from guide-character identity.
 
-Canonical Session 08 closure: `MAINLAGI_WORLD_CHARACTER_INTEGRATION_SESSION08_2026-09-25.md`.
+Canonical Session 08 World closure: `MAINLAGI_WORLD_CHARACTER_INTEGRATION_SESSION08_2026-09-25.md`. Canonical Session 09 Home/Bermain closure: `MAINLAGI_HOME_BERMAIN_CHARACTER_INTEGRATION_SESSION09_2026-09-25.md`.
 
 ## About, FAQ, and affiliate discoverability
 
