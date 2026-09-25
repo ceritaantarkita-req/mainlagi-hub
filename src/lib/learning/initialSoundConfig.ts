@@ -1,14 +1,16 @@
+import type { LearningSemanticIllustrationKey } from "./semanticIllustrationRuntime";
 import type { LearningActivity } from "./system";
 
 export type InitialSoundConfig = {
   word: string;
   clue: string;
   successText: string;
+  semanticKey?: LearningSemanticIllustrationKey;
 };
 
 const CONFIGS: Record<string, InitialSoundConfig> = {
-  "bahasa-awal-bola": { word: "bola", clue: "⚽", successText: "Bola dimulai dengan bunyi B." },
-  "bahasa-awal-kucing": { word: "kucing", clue: "🐱", successText: "Kucing dimulai dengan bunyi K." },
+  "bahasa-awal-bola": { word: "bola", clue: "⚽", semanticKey: "object.ball", successText: "Bola dimulai dengan bunyi B." },
+  "bahasa-awal-kucing": { word: "kucing", clue: "🐱", semanticKey: "animal.cat", successText: "Kucing dimulai dengan bunyi K." },
   "bahasa-awal-pisang": { word: "pisang", clue: "🍌", successText: "Pisang dimulai dengan bunyi P." }
 };
 
