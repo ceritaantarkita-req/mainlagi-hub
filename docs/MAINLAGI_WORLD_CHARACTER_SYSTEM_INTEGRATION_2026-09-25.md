@@ -1241,17 +1241,33 @@ Do not edit 900 activities individually. Use shared registries/resolvers/compone
 **Do not:** change runtime/code/assets.  
 **Done when:** canonical docs on `main` state SVG-first policy, character work resumed, and World is first-class Mainlagi.
 
-### Session 01 — Freeze exact SVG source inventory
+### Session 01 — Freeze exact SVG source inventory — COMPLETE
 
-**Do:** create one deterministic inventory for:
-- 5 characters × 7 states = target 35 single-character SVG slots;
-- the 14 source/license-clear semantic P0 SVG sources;
-- the 3 held semantic keys as held, not production candidates.
+**Closure:** `MAINLAGI_SVG_SOURCE_INVENTORY_SESSION01_2026-09-25.md`  
+**Machine-readable manifest:** `data/MAINLAGI_SVG_SOURCE_INVENTORY_SESSION01_2026-09-25.json`  
+**Base main:** `28c95a0966ba726f960e4fa204d74b7e1793045b`
 
-Record: source filename, Drive/source ID, logical ID/state, SHA-256 where materialized, provenance/rights status, duplicate/ambiguity status.
+Verified result:
 
-**Do not:** copy anything to `public/` or activate runtime.  
-**Done when:** every target slot is mapped exactly once or explicitly marked missing/held.
+```text
+5/5 characters
+35/35 locked character state slots
+14/14 source/license-clear semantic SVGs
+3/3 held semantic keys
+0 duplicate/ambiguous character slots
+0 held semantic files in clear staging
+49/49 scoped SVG source SHA-256 values recorded
+0 public production files added
+0 runtime activation
+0 registry lifecycle mutation
+```
+
+Character-folder extras are explicitly excluded from the locked runtime slots: 5 design-set SVGs, 5 waving SVGs, the Illustrator collection, and one PNG reference/review file.
+
+Character source identity/state/hash is frozen; exact public-repository rights/redistribution approval remains pending and must fail closed until later provenance approval.
+
+**Session 01 is closed. Do not repeat inventory work unless the source Drive folders change.**
+
 
 ### Session 02 — Build shared SVG sanitization + validation foundation
 
