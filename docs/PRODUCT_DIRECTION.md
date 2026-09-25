@@ -210,7 +210,7 @@ See `AI_OCR_OPENROUTER.md`.
 
 ## 15. Current execution priority
 
-**Session 08 implementation checkpoint:** Petualangan Uang shared-character migration is CLOSED / MERGED / LIVE VERIFIED through PR #337 -> main `e2e5e4b676ce45313786420708de41731ec2e3cb`, merged-main CI #1664 / run `36121741946` full success including Cloudflare production smoke. Next authorized character/product session is Session 09 — Home + Bermain shell integration.
+**Session 09 implementation checkpoint:** Home + Bermain shared-character integration is CLOSED / MERGED / LIVE VERIFIED through PR #340 -> main `227a77799cd73fecc8e58960ef8758c2e323bc30`, merged-main CI #1674 / run `36132350678` full success including Cloudflare production smoke. Character presentation is now integrated across Belajar, World, Home and Bermain. Next authorized session is Session 10 — semantic/activity illustration registry SVG-aware production migration.
 
 **25 September project-owner override:** Mainlagi World is now treated as a first-class domain of one Mainlagi product system, and character development is resumed for this integration. The 22 September “World separate / character paused” boundary is historical for that earlier workstream.
 
