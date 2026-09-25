@@ -14,15 +14,16 @@ The original `Audited HEAD` above records the starting point of this plan. It is
 Current live checkpoint:
 
 ```text
-Sessions 01–07: COMPLETE
-Session 07 PR: #335
-final PR head: 1f0e52a13319b6c7730b825b11e3d8540fc967e0
-final PR CI: #1650 / run 36105937149 — full success
-merged main: 1c4ba5f41c554621ee29aeccb6b5b85415a45d55
-merged-main CI: #1651 / run 36106692149 — full success
+Sessions 01–08: COMPLETE
+Session 08 PR: #337
+final PR head: 6a728c36f7bc0a1a34c46e2511062df5e2b9af9d
+final PR CI: #1663 / run 36120579884 — full success
+merged main: e2e5e4b676ce45313786420708de41731ec2e3cb
+merged-main CI: #1664 / run 36121741946 — full success
 Cloudflare production smoke: success
 Belajar responsive character matrix: 35/35 PASS
-next authorized session: Session 08 — World shared-character integration
+World shared-character browser regression: PASS
+next authorized session: Session 09 — Home + Bermain shell integration
 ```
 
 Safe handoff: `MAINLAGI_CHARACTER_WORLD_SAFE_CHECKPOINT_2026-09-25.md`.
@@ -1539,24 +1540,35 @@ The test is included in `npm run test:ui:mobile-routes` and writes its screensho
 
 **Session 07 is closed. Start Session 08 only from merged latest main.**
 
-### Session 08 — Integrate shared character runtime into Mainlagi World
+### Session 08 — Integrate shared character runtime into Mainlagi World — COMPLETE
 
-**Do:** keep Petualangan Uang authored cast = Gavi + Paca and route it through the shared character resolver.
+**Closure:** `MAINLAGI_WORLD_CHARACTER_INTEGRATION_SESSION08_2026-09-25.md`  
+**Base main:** `4ffe7bbcc6875bd1e38eae20148c16c95e36512d`  
+**PR:** #337  
+**Final PR head:** `6a728c36f7bc0a1a34c46e2511062df5e2b9af9d`  
+**PR CI:** #1663 / run `36120579884` — full success  
+**Merged main:** `e2e5e4b676ce45313786420708de41731ec2e3cb`  
+**Merged-main CI:** #1664 / run `36121741946` — full success including Cloudflare production smoke
 
-Default mapping:
+Petualangan Uang keeps authored cast = Gavi + Paca and now routes World presentation through the shared resolver + `CharacterLayer`.
+
+Activated mapping:
 
 ```text
 catalog/entry       welcome
 map guidance        pointing
 neutral story       hero
-considering         thinking
+concept/challenge   thinking
 correct             correct
 retry               try_again
 stage/final finish  celebrate
 ```
 
-**Do not:** change World IDs, 2 Chapters / 8 Stages / 44 Scenes / 89 Segments, progress, evidence, stars, or Belajar mastery.  
-**Done when:** catalog/map/stage/retry/completion use the shared runtime without UI overlap.
+Permanent browser regression `npm run test:ui:world-character` is included in `npm run test:ui:mobile-routes` and covers representative 390px + 1280px World flows.
+
+The implementation preserves the World IDs, 2 Chapters / 8 Stages / 44 Scenes / 89 Segments, progress/evidence semantics, stars/rewards/mastery boundaries, narration activation, and character provenance/approval. Existing World asset-plan gaps remain explicit.
+
+**Session 08 is closed. Start Session 09 only from merged latest main.**
 
 ### Session 09 — Integrate characters into Home + Bermain shell
 
