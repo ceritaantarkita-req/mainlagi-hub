@@ -55,6 +55,7 @@ import {
   moneyWorldStars,
   restartMoneyWorldStage
 } from "@/lib/learning/world/progress";
+import { syncMoneyWorldProgressCloud } from "@/lib/learning/world/cloud";
 import {
   emitMoneyWorldEvidenceObservation,
   type MoneyWorldEvidenceCompletionObservation,
