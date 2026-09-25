@@ -17,7 +17,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { speakWithStatus, unlockAudio } from "@/lib/audio/feedback";
 import type { LearningActivity, LearningProgress, LearningSubject } from "@/lib/learning/system";
-import type { LearningSemanticIllustrationKey } from "@/lib/learning/semanticIllustrationRuntime";
+import { activityPreviewSemanticKey } from "@/lib/learning/semanticIllustrationPresentation";
 import styles from "./ActivityGallery.module.css";
 import { LearningVisualToken } from "./LearningVisualToken";
 import convergence from "./StageGalleryConvergence.module.css";
@@ -29,10 +29,6 @@ type StageJourneyItem = {
   status: "locked" | "in_progress" | "evidence_needed" | "ready";
   completedCount: number;
   requiredCount: number;
-};
-
-const ACTIVITY_PREVIEW_SEMANTIC_KEYS: Readonly<Record<string, LearningSemanticIllustrationKey>> = {
-  "bahasa-baca-sari-hujan": "object.umbrella"
 };
 
 function ActivityPreview({ activity }: { activity: LearningActivity }) {
@@ -55,7 +51,7 @@ function ActivityPreview({ activity }: { activity: LearningActivity }) {
 
   return (
     <div className={styles.picturePreview} data-preview-kind="picture" aria-hidden>
-      <LearningVisualToken className={styles.activityEmoji} semanticKey={ACTIVITY_PREVIEW_SEMANTIC_KEYS[activity.id]}>{activity.emoji}</LearningVisualToken>
+      <LearningVisualToken className={styles.activityEmoji} semanticKey={activityPreviewSemanticKey(activity.id)}>{activity.emoji}</LearningVisualToken>
       <span className={styles.previewIcon}><PreviewIcon size={34} weight="duotone" /></span>
     </div>
   );
