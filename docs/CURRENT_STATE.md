@@ -16,9 +16,33 @@ Applies now to:
 
 Does not force raster artwork such as subject backgrounds to SVG. The current 108 responsive subject-background WebP assets remain valid.
 
-Semantic P0 current factual state remains **14 approved WebP production derivatives / 3 held / 0 runtime semantic activation** from PR #324. Those WebPs are not deleted by this docs decision. The next semantic implementation target is to migrate the 14 source/license-clear SVG-backed assets to direct sanitized SVG production paths before broad runtime activation. `vehicle.car`, `object.towel`, and `object.raincoat` remain held regardless of format.
+Semantic P0 production contract is now **registry v2 / SVG-preferred / runtime activation off** through Session 10 / PR #343. The 14 source/license-clear records preserve their exact approved WebP production history and now expose canonical SVG migration slots at `/artwork/learning-illustrations/<semantic-slug>-v1.svg`. Current state is **14 approved WebP history bindings / 14 SVG migration-ready slots / 0 approved SVG binaries / 3 held / 0 runtime semantic activation**. `vehicle.car`, `object.towel`, and `object.raincoat` remain held regardless of format.
 
 Canonical policy: `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`.
+
+## 25 September semantic SVG registry checkpoint — LIVE VERIFIED THROUGH SESSION 10
+
+```text
+Session 10 PR: #343
+Session 10 final PR head: 698cba5f9baa8de896d0056daf777f3e00e56f6e
+Session 10 PR CI: #1678 / run 36142537668 — full success
+Session 10 merged main: 21955a64728162f8985d04160e8ec683e1238080
+Session 10 merged-main CI: #1679 / run 36143708306 — full success
+Session 10 Production smoke (Cloudflare): success
+
+semantic registry: version 2
+preferred production format: svg
+runtime activation: off
+approved WebP history: 14
+SVG migration-ready: 14
+approved SVG binaries: 0
+held SVG slots: 3
+next: Session 11 — promote the 14 approved canonical semantic SVG sources into production
+```
+
+Canonical closure: `LEARNING_SEMANTIC_SVG_REGISTRY_SESSION10_CLOSURE_2026-09-25.md`.
+
+Session 10 changed the provenance/validator/preflight contract only. It did not add semantic SVG binaries or activate child runtime.
 
 ## 25 September shared character product checkpoint — LIVE VERIFIED THROUGH SESSION 09
 
@@ -31,7 +55,7 @@ Session 09 merged main: 227a77799cd73fecc8e58960ef8758c2e323bc30
 Session 09 merged-main CI: #1674 / run 36132350678 — full success
 Session 09 Production smoke (Cloudflare): success
 Sessions 01–09: COMPLETE
-next: Session 10 — semantic/activity illustration registry SVG-aware production migration
+Session 10 semantic SVG registry migration: COMPLETE; semantic runtime still OFF
 ```
 
 The exact repository `main` HEAD may move through later docs-only descendants. Treat `227a77799cd73fecc8e58960ef8758c2e323bc30` as the verified Session 09 runtime checkpoint and query `main` itself when an exact latest repository HEAD is required.
@@ -102,13 +126,13 @@ held:                           3/17
 runtime semantic activation:      0
 ```
 
-The 14 source/license-clear P0 illustrations now exist as exact deterministic production WebP binaries with matching SHA-256, approved provenance/redistribution records, child-readability approval, and required attribution. The held keys remain unchanged and fail-closed: `vehicle.car`, `object.towel`, `object.raincoat`.
+The 14 source/license-clear P0 illustrations retain their exact deterministic production WebP binaries with matching SHA-256, approved provenance/redistribution records, child-readability approval, and required attribution. Session 10 additionally migrated their registry contract to SVG-aware v2 with 14 canonical SVG slots marked `migration-ready`. The held keys remain unchanged and fail-closed: `vehicle.car`, `object.towel`, `object.raincoat`.
 
-No runtime mapping was activated. Mainlagi World was not touched; character development remains paused; fixed English narration activation remains unchanged.
+No runtime mapping was activated. Mainlagi World, the shared character runtime, Motion Engine, and fixed English narration activation remain unchanged by Session 10.
 
-Canonical integration record: `LEARNING_SEMANTIC_P0_PRODUCTION_APPROVAL_INTEGRATION_2026-09-25.md`. Canonical resume handoff: `LEARNING_SEMANTIC_P0_PRODUCTION_SAFE_CHECKPOINT_2026-09-25.md`.
+Canonical WebP integration record: `LEARNING_SEMANTIC_P0_PRODUCTION_APPROVAL_INTEGRATION_2026-09-25.md`. Canonical Session 10 closure: `LEARNING_SEMANTIC_SVG_REGISTRY_SESSION10_CLOSURE_2026-09-25.md`. Canonical resume handoff: `LEARNING_SEMANTIC_P0_PRODUCTION_SAFE_CHECKPOINT_2026-09-25.md`.
 
-**Next semantic-art boundary:** migrate the SVG-backed production contract/validator/registry to direct SVG first, then agree/execute runtime semantic resolver activation. Do not activate the existing WebP derivatives merely because they are already production-approved.
+**Next semantic-art boundary:** Session 11 promotes the exact 14 approved canonical SVG sources into the already-prepared registry v2 slots. Runtime activation remains later in Session 12.
 
 ## 24 September semantic P0 Session 3 stock-library freeze — MERGED / LIVE VERIFIED
 
