@@ -14,7 +14,7 @@ const route="/child/demo-gian/activity/bahasa-awal-bola";
 const activityId="bahasa-awal-bola";
 const correctLabel="Pilih huruf B";
 const screenshotDir=path.join(root,".mobile-route-qa");
-const viewports=[{width:320,height:720},{width:390,height:844},{width:768,height:1024},{width:1280,height:800}];
+const viewports=[{width:320,height:720},{width:390,height:844},{width:430,height:860},{width:768,height:1024},{width:1280,height:800}];
 let server=null;
 let serverLog="";
 
