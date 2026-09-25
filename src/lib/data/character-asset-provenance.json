@@ -1,75 +1,1223 @@
 {
-  "version": 1,
-  "scope": "human-activity-foreground",
+  "version": 2,
+  "scope": "mainlagi-character-svg-state-bank",
   "productionDirectory": "/artwork/characters",
+  "sourceInventory": "docs/data/MAINLAGI_SVG_SOURCE_INVENTORY_SESSION01_2026-09-25.json",
+  "characterIds": [
+    "naya",
+    "gian",
+    "zia",
+    "paca",
+    "gavi"
+  ],
+  "stateVocabulary": [
+    "hero",
+    "welcome",
+    "pointing",
+    "thinking",
+    "correct",
+    "try_again",
+    "celebrate"
+  ],
   "items": {
     "naya": {
-      "lifecycle": "reference-only",
-      "identityReference": "kak-naya-character-design-set-v1.png",
-      "expectedProductionPath": "/artwork/characters/naya-activity-v1.webp",
-      "productionPath": null,
-      "provenance": {
-        "status": "pending",
-        "source": "Mainlagi project Drive identity reference: kak-naya-character-design-set-v1.png",
-        "rightsHolder": null,
-        "licenseBasis": null,
-        "redistributionAllowed": false,
-        "reviewedAt": "2026-09-21"
+      "identityReference": {
+        "driveFileId": "1d__1-DA8_SDg6ZVecxw8BC9xYNQq4CME",
+        "sourceFilename": "kak-naya-character-design-set.svg",
+        "sizeBytes": 186589
       },
-      "technical": {
-        "format": "webp",
-        "requireAlpha": true,
-        "minWidth": 384,
-        "minHeight": 512,
-        "maxWidth": 2048,
-        "maxHeight": 2048,
-        "maxBytes": 1000000
+      "variants": {
+        "hero": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "1cVtatmZz01RXQUKfAc5ZD1HD92E_WiHM",
+            "sourceFilename": "naya-panel-hero (3).svg",
+            "sourceSha256": "82dbcbcda700f0bee08e1e692f37e5c422c31b6786f82d71b7675db05cf04ab8",
+            "sizeBytes": 18728,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/naya-hero-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        },
+        "welcome": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "1JqCRXkWQXgJ0EMCCVYNL1PBMleALeeeN",
+            "sourceFilename": "naya-panel-pose-welcome (3).svg",
+            "sourceSha256": "ac0cc1a1ed86c31388439b1cb62e1144aaabb7bfe639e2c0ef8a6a1a3c0976e9",
+            "sizeBytes": 18971,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/naya-welcome-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        },
+        "pointing": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "1USDM8loFmj_DyD-SPKpk1wIR80A-GKl7",
+            "sourceFilename": "naya-panel-pose-pointing (3).svg",
+            "sourceSha256": "4bcb2544d2c79f1b61b1141c8da66e46c184187be81a0282ae07747e1c92bae5",
+            "sizeBytes": 18908,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/naya-pointing-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        },
+        "thinking": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "1wfJW_oqGAGRZwOgEFqwiEFix-JGxqSiU",
+            "sourceFilename": "naya-panel-pose-thinking (3).svg",
+            "sourceSha256": "df3561290a1ed8c91440dc7e444556d00bc81560ae454d8713eb48a4c370046e",
+            "sizeBytes": 18651,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/naya-thinking-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        },
+        "correct": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "18OhpEAHT4-DdFiQaJbugEkns2Yz795zT",
+            "sourceFilename": "naya-panel-pose-correct (3).svg",
+            "sourceSha256": "ba32abc0bc6553796fca70e275b12b65253884470515ced67fc0ab17722ca6df",
+            "sizeBytes": 18123,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/naya-correct-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        },
+        "try_again": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "1DzSZFA8gfudGHsmfF0kXqqYJTRDwViI6",
+            "sourceFilename": "naya-panel-pose-try-again (3).svg",
+            "sourceSha256": "3128d0c6a61b4ed962e3ac6ec4c8290bdd875e0a84ffbb5b1c2318a3e60a0c4b",
+            "sizeBytes": 18806,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/naya-try-again-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        },
+        "celebrate": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "10cpGUmb7RuNLHehys3nX0M-YM_Iqz00-",
+            "sourceFilename": "naya-panel-pose-celebrate (3).svg",
+            "sourceSha256": "ae578a4d0599b29d78aed3decaca4672d257d6fa936155dd6390724015b2e0ad",
+            "sizeBytes": 17155,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/naya-celebrate-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        }
       }
     },
     "gian": {
-      "lifecycle": "reference-only",
-      "identityReference": "gian-character-design-set-v1.png",
-      "expectedProductionPath": "/artwork/characters/gian-activity-v1.webp",
-      "productionPath": null,
-      "provenance": {
-        "status": "pending",
-        "source": "Mainlagi project Drive identity reference: gian-character-design-set-v1.png",
-        "rightsHolder": null,
-        "licenseBasis": null,
-        "redistributionAllowed": false,
-        "reviewedAt": "2026-09-21"
+      "identityReference": {
+        "driveFileId": "1VZZCg4SUlbeGAE6kkjJw_TIiy6dLZwvO",
+        "sourceFilename": "gian-character-design-set.svg",
+        "sizeBytes": 218501
       },
-      "technical": {
-        "format": "webp",
-        "requireAlpha": true,
-        "minWidth": 384,
-        "minHeight": 512,
-        "maxWidth": 2048,
-        "maxHeight": 2048,
-        "maxBytes": 1000000
+      "variants": {
+        "hero": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "1cFTAzbOV1wReygXU9ODZPFEu8ugELpXA",
+            "sourceFilename": "gian-panel-hero.svg",
+            "sourceSha256": "6c83002e77ba39a8863ba25886c95456635eb176a813bffbb764c9ad03d71bb3",
+            "sizeBytes": 24317,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/gian-hero-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        },
+        "welcome": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "1tmZmiP7cba6a8c1guRa0BN8h_9Y7Ns9d",
+            "sourceFilename": "gian-panel-pose-welcome.svg",
+            "sourceSha256": "3809adb03a1abb19667d9fab500e6130cacf48d4b7f2f4063b99ee840dd2f88f",
+            "sizeBytes": 23665,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/gian-welcome-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        },
+        "pointing": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "1Pbd_Uyd69CfvoFtDWYtYex8Wk-ifpeUR",
+            "sourceFilename": "gian-panel-pose-pointing.svg",
+            "sourceSha256": "f42d103d591aa10f18c2be1e9581269396666ffbd8fe781b1df3513551f3baeb",
+            "sizeBytes": 23235,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/gian-pointing-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        },
+        "thinking": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "1ZpL4QCZwJcHjxUD54ENG3u63dGsKyriX",
+            "sourceFilename": "gian-panel-pose-thinking.svg",
+            "sourceSha256": "62f4fd354bc8b3e272023db2ed2de46a4f205bdeb6072401d657d38a2100d5c5",
+            "sizeBytes": 24399,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/gian-thinking-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        },
+        "correct": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "1v5Jfh0XaxjeZUlKsb9BWaXJSrSvKZOYx",
+            "sourceFilename": "gian-panel-pose-correct.svg",
+            "sourceSha256": "dbcea8115e2db01700d6fe7af372a7f6c0837aed1333ab90ed353eba1f735463",
+            "sizeBytes": 23320,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/gian-correct-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        },
+        "try_again": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "1yWg0d91kH1SOrOiGh1a1e6K-m1VgHUnI",
+            "sourceFilename": "gian-panel-pose-try-again.svg",
+            "sourceSha256": "355624f411e5d68df83f2a057891d5cb11dd2ea50444eb71c479897aaadc4ae2",
+            "sizeBytes": 24596,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/gian-try-again-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        },
+        "celebrate": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "1w2JmbFfhCngr4jD10JcWq-RD8QYx1DWT",
+            "sourceFilename": "gian-panel-pose-celebrate.svg",
+            "sourceSha256": "366ba82b08162c763e7a02b5c707c8a4a290d9466bdcb2f20ba1aab5d3568804",
+            "sizeBytes": 21463,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/gian-celebrate-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        }
       }
     },
     "zia": {
-      "lifecycle": "reference-only",
-      "identityReference": "zia-character-design-set-v1.png",
-      "expectedProductionPath": "/artwork/characters/zia-activity-v1.webp",
-      "productionPath": null,
-      "provenance": {
-        "status": "pending",
-        "source": "Mainlagi project Drive identity reference: zia-character-design-set-v1.png",
-        "rightsHolder": null,
-        "licenseBasis": null,
-        "redistributionAllowed": false,
-        "reviewedAt": "2026-09-21"
+      "identityReference": {
+        "driveFileId": "1HXJTuBP3zR0Q4_tWsaR2cnivCD9GHgLG",
+        "sourceFilename": "zia-character-design-set.svg",
+        "sizeBytes": 228863
       },
-      "technical": {
-        "format": "webp",
-        "requireAlpha": true,
-        "minWidth": 384,
-        "minHeight": 512,
-        "maxWidth": 2048,
-        "maxHeight": 2048,
-        "maxBytes": 1000000
+      "variants": {
+        "hero": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "1TNy5J7It8zUD11swjjD1wARF9xEmP82l",
+            "sourceFilename": "zia-panel-hero (2).svg",
+            "sourceSha256": "bdf910b6544223a9ae6cb31ee851579ae9d1a4a350cd59fb2223795c88c9e85f",
+            "sizeBytes": 25083,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/zia-hero-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        },
+        "welcome": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "1xH2WuIR2EULGHU92Js7anxdg2lhdpHQc",
+            "sourceFilename": "zia-panel-pose-welcome (2).svg",
+            "sourceSha256": "2f0c9ea0950f26089d7ec89e2fb78020a8451d1203804cdd41633adb0ed7637a",
+            "sizeBytes": 26501,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/zia-welcome-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        },
+        "pointing": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "121NihvhWxbLVn6Yoa_jNmPo-OzomkyP1",
+            "sourceFilename": "zia-panel-pose-pointing (2).svg",
+            "sourceSha256": "e806529758c9fffce74d698601464d92d2fa509d0ba0a3b1d9e97baac0787a8c",
+            "sizeBytes": 26165,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/zia-pointing-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        },
+        "thinking": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "11km-sR84xHV8H5gpJS5TC8Q1J4MKcc_L",
+            "sourceFilename": "zia-panel-pose-thinking (2).svg",
+            "sourceSha256": "28a73aba82f89ee4b41107c0f0187b369554e977716da3b1095523fd36ca013f",
+            "sizeBytes": 26346,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/zia-thinking-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        },
+        "correct": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "1dJWBTarYb-rV1OOPEZ4n3W0a9NPQse2z",
+            "sourceFilename": "zia-panel-pose-correct (2).svg",
+            "sourceSha256": "ee2b814d18474e961c0c90c7d6f4cdb9fd8d5827f710645c6cf6219787522d01",
+            "sizeBytes": 25348,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/zia-correct-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        },
+        "try_again": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "1pa_JVdqZqYHVJrbzlEUH5l-n7oI_1R_h",
+            "sourceFilename": "zia-panel-pose-try-again (2).svg",
+            "sourceSha256": "bf8cc63db6dbdfeab93236ae30dded699f4eab552c7483e0a4b4fb349d2d303b",
+            "sizeBytes": 24711,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/zia-try-again-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        },
+        "celebrate": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "1c7ap5b8CQIh2Ofus9YdsZDS61dQuTmA0",
+            "sourceFilename": "zia-panel-pose-celebrate (2).svg",
+            "sourceSha256": "49f9c4f7bdfcc99aeeb68cf75bb7ee16498bc56e00ab54da425969e40e23e401",
+            "sizeBytes": 24879,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/zia-celebrate-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        }
+      }
+    },
+    "paca": {
+      "identityReference": {
+        "driveFileId": "133y5lMRBpC7lGDLiq169uyR6vsXSrXQ8",
+        "sourceFilename": "paca-character-design-set.svg",
+        "sizeBytes": 153052
+      },
+      "variants": {
+        "hero": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "19wtdpwV_GMyc1u1EFluZ2T1yD1tzSi9e",
+            "sourceFilename": "paca-panel-hero (4).svg",
+            "sourceSha256": "0eb03e5463461b0cf82dca8d98b05b42f61c58c27e3d4e45760b70e83acc1c29",
+            "sizeBytes": 18282,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/paca-hero-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        },
+        "welcome": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "1WxN5yU40A4E_LCbtirBerauNAghB_Rs7",
+            "sourceFilename": "paca-panel-pose-welcome (4).svg",
+            "sourceSha256": "b05653fd697b322e9b08b14454fd568ad81b3b8847469dab3802596989aeb07b",
+            "sizeBytes": 18047,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/paca-welcome-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        },
+        "pointing": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "1Lui7BkJzeCirmqkCQVKFiSHfRjsbWFC6",
+            "sourceFilename": "paca-panel-pose-pointing (4).svg",
+            "sourceSha256": "3e9bab9152ba10d27665a9808e4214b8a8b32df04829416c98000df8e91c876e",
+            "sizeBytes": 18559,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/paca-pointing-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        },
+        "thinking": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "1ll9Hy7vzK4q7TrnjrU3zjhdFYzOFDssn",
+            "sourceFilename": "paca-panel-pose-thinking (4).svg",
+            "sourceSha256": "9636bbff97f8af7dd8ae23c891527d90429f2e89c395bd30b943f2d64d105e24",
+            "sizeBytes": 19939,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/paca-thinking-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        },
+        "correct": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "1n42r9_Ug1zStABIF2-ydxsqH8VZ-DMkS",
+            "sourceFilename": "paca-panel-pose-correct (4).svg",
+            "sourceSha256": "228bb3f340c0dbcdcfc735ade860104e427a43e705f92ec75e5f9cbcfa2c1a17",
+            "sizeBytes": 18493,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/paca-correct-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        },
+        "try_again": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "1LZazkLgc5j9JSnGSIWWEV-bOxhPGkX6-",
+            "sourceFilename": "paca-panel-pose-try-again (4).svg",
+            "sourceSha256": "b3bdb47df373502372b874369917eeb6b0daf0e7710091317045a11cd12730ac",
+            "sizeBytes": 17690,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/paca-try-again-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        },
+        "celebrate": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "1gMAZV2sOdPGg8vT7xImfEQtCICu_WYPO",
+            "sourceFilename": "paca-panel-pose-celebrate (4).svg",
+            "sourceSha256": "54f526d2fa5e0b7a7b9b4989ba45ac8252582bc39c4c859224581536af22e4f7",
+            "sizeBytes": 18779,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/paca-celebrate-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        }
+      }
+    },
+    "gavi": {
+      "identityReference": {
+        "driveFileId": "1BApZ_Yvy5rCM9QMUES8tyND4WuuHZtif",
+        "sourceFilename": "gavi-character-design-set.svg",
+        "sizeBytes": 144344
+      },
+      "variants": {
+        "hero": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "1-t_Vsv1S1xmw46ZeEfFfbsBSUHC4tJ6P",
+            "sourceFilename": "gavi-panel-hero.svg",
+            "sourceSha256": "70ec14b2a9c743faea8f49129a3d73cad4a3c4badf4c5e5a1c49a64a572e1372",
+            "sizeBytes": 19571,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/gavi-hero-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        },
+        "welcome": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "1VplR9ZbJNsqLA5QtnkJEQkhOg9tY5Yqa",
+            "sourceFilename": "gavi-sample-welcome.svg",
+            "sourceSha256": "939fb8de5a6fa4ef0673c1476e02e369a934f9c3526b5a22a6060a33ee079b87",
+            "sizeBytes": 19766,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/gavi-welcome-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        },
+        "pointing": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "1g3u4hpQOMqICx0YkvPorBrnPA0F3reuA",
+            "sourceFilename": "gavi-sample-pointing.svg",
+            "sourceSha256": "5d5405b75b1325bfba49d8a37364efac498cdecb2131fe33011127f9ffc12b2f",
+            "sizeBytes": 18321,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/gavi-pointing-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        },
+        "thinking": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "1wF2-O6KtUWIOEeLhlOIFBB1qS7ThaAOh",
+            "sourceFilename": "gavi-sample-thinking.svg",
+            "sourceSha256": "622d1067bbd7be3fdd754e5ca15fea9d532510550179c0e7b062871c294ae133",
+            "sizeBytes": 18101,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/gavi-thinking-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        },
+        "correct": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "14p_F5Fr162ai5iVsckUy_h0IqVIzysQg",
+            "sourceFilename": "gavi-sample-correct.svg",
+            "sourceSha256": "3851b80158a5e98c8625921ca2e127fdeb0309588badd88348ee2c33f81334c4",
+            "sizeBytes": 18684,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/gavi-correct-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        },
+        "try_again": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "1sZBpDQBLojsYNchM0yxEnNYLqya4Csgn",
+            "sourceFilename": "gavi-sample-try-again.svg",
+            "sourceSha256": "b90168647d3365c7ba461ed5d25e8c3ee71c27af896d450164ae42a5d8d52935",
+            "sizeBytes": 20292,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/gavi-try-again-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        },
+        "celebrate": {
+          "lifecycle": "review-required",
+          "source": {
+            "driveFileId": "1ks9QQmy4pkMkkhpmmKygkxrgEbGsL38O",
+            "sourceFilename": "gavi-sample-celebrate.svg",
+            "sourceSha256": "c39e9e72e59c2e13827e78203ca841dd2e55257115c61daea97c4f0f340f2358",
+            "sizeBytes": 20687,
+            "ambiguityStatus": "unique",
+            "visualInventoryReview": "identity-and-state-readable; production QA deferred"
+          },
+          "expectedProductionPath": "/artwork/characters/gavi-celebrate-v1.svg",
+          "productionPath": null,
+          "productionSha256": null,
+          "provenance": {
+            "status": "pending",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false,
+            "reviewedAt": "2026-09-25"
+          },
+          "technical": {
+            "format": "svg",
+            "maxBytes": 1000000,
+            "requireViewBox": true,
+            "sourceValidation": {
+              "status": "passed",
+              "validator": "scripts/lib/svg-asset-security.mjs",
+              "reviewedAt": "2026-09-25"
+            },
+            "productionSanitizationRequired": true
+          }
+        }
       }
     }
   }
