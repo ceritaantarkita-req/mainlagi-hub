@@ -88,7 +88,7 @@ export function InitialSoundActivity({ childId, activityId }: { childId: string;
         </div>
 
         <div className={styles.wordBoard} data-initial-sound-board>
-          <LearningVisualToken className={styles.clue} label={`Gambar ${config.word}`}>{config.clue}</LearningVisualToken>
+          <LearningVisualToken className={styles.clue} label={`Gambar ${config.word}`} semanticKey={config.semanticKey}>{config.clue}</LearningVisualToken>
           <div className={styles.wordRow} aria-label={`Kata ${config.word}`}>
             <span
               className={`${styles.initialSlot} ${feedback === "good" ? styles.initialSlotGood : ""}`}
