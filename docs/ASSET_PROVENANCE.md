@@ -255,9 +255,18 @@ The gate deliberately separates:
 3. semantic child-readability approval;
 4. later runtime activation.
 
-Any image binary under `public/artwork/learning-illustrations/` without an approved registry record is rejected. Non-approved records must keep `productionPath=null`, `productionSha256=null` and `redistributionAllowed=false`.
+Any image binary under `public/artwork/learning-illustrations/` without an approved registry binding is rejected.
 
-Canonical pilot record: `LEARNING_SEMANTIC_ILLUSTRATION_REGISTRY_PILOT_2026-09-23.md`. Production integration: `LEARNING_SEMANTIC_P0_PRODUCTION_APPROVAL_INTEGRATION_2026-09-25.md`. Safe resume handoff: `LEARNING_SEMANTIC_P0_PRODUCTION_SAFE_CHECKPOINT_2026-09-25.md`.
+Semantic registry v2 distinguishes format-specific production state:
+
+```text
+productionAssets.webp
+productionAssets.svg
+```
+
+The 14 clear records currently preserve approved WebP history while their SVG slots remain `migration-ready` with `path=null` and `sha256=null`. Held records must keep WebP binding null, SVG status `held`, SVG path/hash null, and `redistributionAllowed=false`.
+
+Canonical pilot record: `LEARNING_SEMANTIC_ILLUSTRATION_REGISTRY_PILOT_2026-09-23.md`. Historical WebP production integration: `LEARNING_SEMANTIC_P0_PRODUCTION_APPROVAL_INTEGRATION_2026-09-25.md`. SVG-aware registry migration: `LEARNING_SEMANTIC_SVG_REGISTRY_SESSION10_CLOSURE_2026-09-25.md`. Safe resume handoff: `LEARNING_SEMANTIC_P0_PRODUCTION_SAFE_CHECKPOINT_2026-09-25.md`.
 
 ## 7. Third-party software, fonts, and model assets
 

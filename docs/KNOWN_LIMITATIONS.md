@@ -73,16 +73,19 @@ The 43-source-file / 280-field emoji inventory remains an inventory signal, not 
 
 The semantic illustration registry/provenance gate is closed/live verified through PR #297. The exact nine-item P0 generator and source refinements are closed/live verified through PR #300/#301. The exact-file human review evidence gate is merged through PR #304 -> main `f0b48cbdbe162fd19e0665f4b29945f6aaa16a5f`, with PR CI #1552 full success and merged-main CI #1553 / run `35824198610` full success including exact Cloudflare smoke.
 
-Session 3 froze all **17/17 P0** visual decisions, and the separately authorized production-integration wave has now promoted the **14/17 source/license-clear assets** into exact SHA-bound production WebP binaries. The remaining production limitation is the same three held visuals: car 499718, towel 288034, and raincoat 212019 remain fail-closed for public-repository redistribution. Current state is **14 production approvals / 14 production binaries / 3 held / 0 runtime semantic activation**. Because runtime mapping remains separate, the child-facing learning surfaces may still show their existing glyph/emoji fallbacks until the later activation + visual-regression wave.
+Session 3 froze all **17/17 P0** visual decisions, and the separately authorized production-integration wave has now promoted the **14/17 source/license-clear assets** into exact SHA-bound production WebP binaries. The remaining production limitation is the same three held visuals: car 499718, towel 288034, and raincoat 212019 remain fail-closed for public-repository redistribution.
 
-**New 25 September format decision:** those 14 approved assets came from canonical SVG sources, so the next implementation should migrate their production binding to the reviewed SVG directly instead of activating the derived WebP as the long-term runtime format. This requires an SVG-aware provenance/validator/path migration first. Existing WebPs remain rollback/history until the SVG runtime is verified. The three held assets stay held; SVG format does not solve missing redistribution rights.
+Session 10 has now completed the SVG-aware registry/validator migration. Current state is **registry v2 / 14 approved WebP history bindings / 14 SVG migration-ready slots / 0 approved SVG binaries / 3 held / 0 runtime semantic activation**. Because runtime mapping remains separate, child-facing learning surfaces still use their existing glyph/emoji fallbacks.
+
+The next limitation boundary is binary promotion, not registry capability: Session 11 must promote the exact 14 reviewed canonical SVG sources into the prepared slots while preserving existing WebPs as rollback/history. The three held assets stay held; SVG format does not solve missing redistribution rights.
 
 Canonical records:
 - `LEARNING_ILLUSTRATION_CONSISTENCY_AUDIT_2026-09-22.md`;
 - `LEARNING_VISUAL_CONTAINMENT_CLOSURE_2026-09-23.md`;
 - `LEARNING_SEMANTIC_ILLUSTRATION_REGISTRY_CLOSURE_2026-09-23.md`;
 - `LEARNING_SEMANTIC_P0_SESSION3_STOCK_LIBRARY_APPROVAL_FREEZE_2026-09-24.md`;
-- `LEARNING_SEMANTIC_P0_PRODUCTION_APPROVAL_INTEGRATION_2026-09-25.md`.
+- `LEARNING_SEMANTIC_P0_PRODUCTION_APPROVAL_INTEGRATION_2026-09-25.md`;
+- `LEARNING_SEMANTIC_SVG_REGISTRY_SESSION10_CLOSURE_2026-09-25.md`.
 
 ## Voice and narration
 

@@ -210,7 +210,7 @@ See `AI_OCR_OPENROUTER.md`.
 
 ## 15. Current execution priority
 
-**Session 09 implementation checkpoint:** Home + Bermain shared-character integration is CLOSED / MERGED / LIVE VERIFIED through PR #340 -> main `227a77799cd73fecc8e58960ef8758c2e323bc30`, merged-main CI #1674 / run `36132350678` full success including Cloudflare production smoke. Character presentation is now integrated across Belajar, World, Home and Bermain. Next authorized session is Session 10 — semantic/activity illustration registry SVG-aware production migration.
+**Session 09 implementation checkpoint:** Home + Bermain shared-character integration is CLOSED / MERGED / LIVE VERIFIED through PR #340 -> main `227a77799cd73fecc8e58960ef8758c2e323bc30`, merged-main CI #1674 / run `36132350678` full success including Cloudflare production smoke. Character presentation is now integrated across Belajar, World, Home and Bermain. Session 10 semantic/activity illustration registry SVG-aware migration is now closed/live verified through PR #343 -> main `21955a64728162f8985d04160e8ec683e1238080`, merged-main CI #1679 / run `36143708306` full success including Cloudflare production smoke. Next authorized session is Session 11 — promote the exact 14 approved semantic SVG sources into production; runtime activation remains Session 12.
 
 **25 September project-owner override:** Mainlagi World is now treated as a first-class domain of one Mainlagi product system, and character development is resumed for this integration. The 22 September “World separate / character paused” boundary is historical for that earlier workstream.
 
