@@ -4,24 +4,28 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 
-## 25 September semantic P0 execution boundary — SVG PRODUCTION CLOSED / SESSION 12 NEXT
+## 25 September semantic P0 execution boundary — SESSION 12 CLOSED / SESSION 13 NEXT
 
 Verified current truth:
 
 - historical WebP production integration: PR #324 -> `1e27869dfc71186e83ed8bb0a4dff2ca44dddfc9`;
 - semantic SVG-aware registry migration: PR #343 -> `21955a64728162f8985d04160e8ec683e1238080`;
 - exact semantic SVG production promotion: PR #346 -> `d8992804beb82e553a3965066cf674fbfca9d7b5`;
-- Session 11 PR CI #1684 / run `36156244598` full success;
-- Session 11 merged-main CI #1685 / run `36157147165` full success + Cloudflare smoke;
-- semantic registry version 2 / preferred format SVG / runtime activation off;
+- central controlled semantic SVG runtime activation: PR #348 -> `47b98c4a17bd423ced32eb8fb45658575f83a888`;
+- Session 12 PR CI #1689 / run `36164884662` full success;
+- Session 12 merged-main CI #1690 / run `36165969710` full success + Cloudflare smoke;
+- semantic registry version 2 / preferred format SVG / runtime activation `controlled-svg`;
 - 14 approved WebP history bindings preserved;
 - 14 approved semantic SVG binaries;
+- 14 approved semantic keys resolver-addressable;
 - 0 SVG migration-ready slots;
-- car / towel / raincoat remain held and fail-closed.
+- car / towel / raincoat remain held and fail-closed;
+- current explicit visual-token consumer coverage is 13 approved unique keys + 3 held fallback keys;
+- `object.umbrella` is approved/resolver-addressable but has no dedicated visual-token placement yet.
 
-**NEXT AUTHORIZED WORK — Session 12:** implement one centralized registry-backed semantic-key → approved SVG resolver, activate only the 14 approved keys, preserve fallback for held/unapproved keys, and keep learning correctness/mastery/progression/evidence unchanged. Do not delete WebP rollback/history in this wave.
+**NEXT AUTHORIZED WORK — Session 13:** run the semantic/activity SVG responsive QA + fixes wave at 320/390/430/768/1280 across affected surface families. Verify semantic readability, cropping/overflow, accessibility, deterministic resolver output, no external SVG dependency and held-key fallback stability. Reconcile the `object.umbrella` consumer-coverage gap only as a presentation-only fix if needed. Do not add artwork, approve held keys, change correctness/mastery/progression/evidence/rewards, or delete WebP rollback/history.
 
-Safe resume doc: `LEARNING_SEMANTIC_P0_PRODUCTION_SAFE_CHECKPOINT_2026-09-25.md`.
+Safe resume doc: `LEARNING_SEMANTIC_SVG_RUNTIME_SESSION12_CLOSURE_2026-09-25.md`.
 
 **Canonical branch:** `main`  
 **Latest fully closed gameplay pattern:** Pattern #47 — Math `shape_attribute_board`  
