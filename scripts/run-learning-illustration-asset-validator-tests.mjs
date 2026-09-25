@@ -28,6 +28,22 @@ const CLEAR_KEYS = [
   "object.umbrella"
 ];
 const HELD_KEYS = ["object.raincoat", "object.towel", "vehicle.car"];
+const EXPECTED_SVG_SHA256 = {
+  "action.jump": "5c8bb179f4b6a83bdde993f6598847f656a535a46d1009470d7d6500a5e5f522",
+  "animal.bird": "7f48db66d50fb6c892353120339dd950643e69385e8872134930cf5e6143a927",
+  "animal.cat": "d1d533398e9141438ec280f1c8b4c65f52320a91d5881b13d68e298cbce47c38",
+  "animal.fish": "34fd1640e25cf078df41f0cae2532493bc2176047c72856a5634ccb91f90ae8f",
+  "body.head": "f0f45658fc81df468075cccbc5d347ddc6a1fd745941d2b2b1c184ed7f63720b",
+  "feature.beak": "0b79a6f355976fb24ae4f8b7a999ad0e6c574d9d2287206ea154a2d9842e4e3e",
+  "feature.cactus-thick-stem": "34a5c823e83fc0543948e91cf9fb77e3cdc21f49b84d4a3f78c694f1e78874ff",
+  "feature.gills": "49e33a279d0284333a7cecf4d80be22f985e4e718d750fb9a152089cfd1a0c31",
+  "object.apple": "2d9b41b217aa4b735ab32dd73b85413473a1e9fe08c8059e3a467842d493093b",
+  "object.ball": "63b14a3422e53da84ef31617c0d3762e136a280b9bee805dfb62ac0b3108c134",
+  "object.cup": "1d36c427b383746c0cc49fc367bf9784a64690e3f2f6b0e196b38a3910084296",
+  "object.house": "8180f78817b0a611421220cb17effe9002db7a17d5ad36ba640297fd7a54a31f",
+  "object.toy-block": "3719ccc9e0c558e930e6b273fa64cd03b0ad5999888c76779d17fb93b0650b87",
+  "object.umbrella": "e2fe6b828c33c3349224dac67d8efba2ff68e38611afcebdb27079007b58059e"
+};
 
 assert.equal(sourceRegistry.version, 2, "production semantic registry must use SVG-aware schema v2");
 assert.equal(sourceRegistry.preferredProductionFormat, "svg");
@@ -36,13 +52,13 @@ for (const key of CLEAR_KEYS) {
   const record = sourceRegistry.items[key];
   assert.equal(record.lifecycle, "approved", `${key} stays semantically/provenance approved`);
   assert.equal(record.productionAssets.webp?.status, "approved", `${key} preserves WebP production history`);
-  assert.equal(record.productionAssets.svg?.status, "migration-ready", `${key} must be ready for Session 11 SVG promotion`);
+  assert.equal(record.productionAssets.svg?.status, "approved", `${key} must be production-approved after Session 11`);
   assert.equal(
     record.productionAssets.svg?.expectedPath,
     `/artwork/learning-illustrations/${key.replaceAll(".", "-")}-v1.svg`
   );
-  assert.equal(record.productionAssets.svg?.path, null);
-  assert.equal(record.productionAssets.svg?.sha256, null);
+  assert.equal(record.productionAssets.svg?.path, record.productionAssets.svg?.expectedPath);
+  assert.equal(record.productionAssets.svg?.sha256, EXPECTED_SVG_SHA256[key]);
 }
 for (const key of HELD_KEYS) {
   const record = sourceRegistry.items[key];
@@ -413,5 +429,5 @@ runFixture(
 }
 
 console.log(
-  "Learning illustration asset validator v2 regression passed: WebP history, SVG migration-ready/approved, security, hash, dimensions, held-key fail-closed and stray-file gates."
+  "Learning illustration asset validator v2 regression passed: 14 exact approved semantic SVG bindings, preserved WebP history, future migration-ready/approved fixtures, security, hash, dimensions, held-key fail-closed and stray-file gates."
 );
