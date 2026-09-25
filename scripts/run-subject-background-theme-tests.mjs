@@ -24,6 +24,12 @@ const {
   resolveLearningSemanticIllustration
 } = require(path.resolve(".learning-test-dist/src/lib/learning/semanticIllustrationRuntime.js"));
 
+const { activityPreviewSemanticKey } = require(path.resolve(".learning-test-dist/src/lib/learning/semanticIllustrationPresentation.js"));
+const { pictureWordMatchConfig } = require(path.resolve(".learning-test-dist/src/lib/learning/pictureWordMatchConfig.js"));
+const { initialSoundConfig } = require(path.resolve(".learning-test-dist/src/lib/learning/initialSoundConfig.js"));
+const { featureFunctionLinkConfig } = require(path.resolve(".learning-test-dist/src/lib/learning/featureFunctionLinkConfig.js"));
+const { materialLabConfig } = require(path.resolve(".learning-test-dist/src/lib/learning/materialLabConfig.js"));
+
 const semanticRegistry = JSON.parse(
   fs.readFileSync(path.resolve("src/lib/data/learning-illustration-asset-provenance.json"), "utf8")
 );
@@ -64,6 +70,37 @@ for (const semanticKey of heldSemanticKeys) {
 }
 assert.equal(resolveLearningSemanticIllustration("object.unknown", "❔"), null, "unknown semantic keys fail closed");
 assert.equal(resolveLearningSemanticIllustration("object.apple", "🍌"), null, "fallback/semantic mismatch fails closed");
+
+const consumerSemanticKeys = new Set();
+for (const activity of ACTIVITIES) {
+  const picture = pictureWordMatchConfig(activity);
+  const initial = initialSoundConfig(activity);
+  const feature = featureFunctionLinkConfig(activity);
+  const material = materialLabConfig(activity);
+  const preview = activityPreviewSemanticKey(activity.id);
+
+  for (const semanticKey of [
+    picture?.semanticKey,
+    initial?.semanticKey,
+    feature?.subjectSemanticKey,
+    feature?.featureSemanticKey,
+    material?.objectSemanticKey,
+    preview
+  ]) {
+    if (semanticKey) consumerSemanticKeys.add(semanticKey);
+  }
+}
+assert.deepEqual(
+  [...consumerSemanticKeys].sort(),
+  [...approvedSemanticKeys, ...heldSemanticKeys].sort(),
+  "Session 13 semantic presentation coverage must represent all 14 approved keys plus all three held fallback keys"
+);
+assert.equal(activityPreviewSemanticKey("bahasa-baca-sari-hujan"), "object.umbrella", "umbrella must use the safe gallery-preview presentation binding");
+const umbrellaPreviewActivity = ACTIVITIES.find((activity) => activity.id === "bahasa-baca-sari-hujan");
+assert(umbrellaPreviewActivity, "umbrella preview activity must remain in the Bahasa catalog");
+assert.equal(umbrellaPreviewActivity.correctChoice, "merah", "umbrella gallery artwork must not be the assessed answer itself");
+assert.notEqual(umbrellaPreviewActivity.correctChoice, "payung", "umbrella preview must not leak the assessed answer");
+
 assert.deepEqual(
   [...THEMED_SUBJECT_IDS],
   ["bahasa", "english", "math", "iqro", "letters", "logic", "science", "color", "drawing"],
