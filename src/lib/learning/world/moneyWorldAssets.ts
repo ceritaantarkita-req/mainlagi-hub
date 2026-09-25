@@ -110,22 +110,6 @@ export const MONEY_WORLD_ASSET_SLOTS: readonly MoneyWorldAssetSlot[] = [
     finalRequirement: "Shared approved Gavi SVG state bank. Runtime state must resolve through characterPresentation.ts rather than hardcoded file paths."
   },
   {
-    id: "gian-foreground",
-    kind: "character",
-    status: "production-needed",
-    currentSource: "Gian story role -> approved Gavi runtime dummy; no Gian production binary activated",
-    usedIn: ["narrative", "concept", "payoff"],
-    finalRequirement: "Approved foreground character set with consistent pose scale, expression system, and transparent background."
-  },
-  {
-    id: "naya-foreground",
-    kind: "character",
-    status: "production-needed",
-    currentSource: "Naya story role -> approved Paca runtime dummy; no Naya production binary activated",
-    usedIn: ["narrative", "concept", "payoff"],
-    finalRequirement: "Approved foreground character set matching Gian/Paca/Gavi visual universe."
-  },
-  {
     id: "fixed-narration",
     kind: "audio",
     status: "temporary-runtime",
