@@ -92,11 +92,18 @@ async function inspectEnglish(page) {
   await waitForMoment(page, "waiting", "hero");
   await assertPair(page, ["naya", "zia"], "hero");
 
+  await page.getByRole("button", { name: "Dengar petunjuk", exact: true }).click();
+  await waitForMoment(page, "guide", "pointing");
+  await assertPair(page, ["naya", "zia"], "pointing");
+  await waitForMoment(page, "waiting", "hero");
+
   await page.getByRole("button", { name: "Letter H", exact: true }).click();
   await waitForMoment(page, "retry", "try_again");
   await assertPair(page, ["naya", "zia"], "try_again");
 
   await page.getByRole("button", { name: "Letter A", exact: true }).click();
+  await waitForMoment(page, "correct", "correct");
+  await assertPair(page, ["naya", "zia"], "correct");
   await waitForMoment(page, "completion", "celebrate");
   await assertPair(page, ["naya", "zia"], "celebrate");
 }
@@ -117,6 +124,8 @@ async function inspectMath(page) {
   await assertPair(page, ["gian", "paca"], "try_again");
 
   await page.getByRole("button", { name: "Pilih jumlah 3", exact: true }).click();
+  await waitForMoment(page, "correct", "correct");
+  await assertPair(page, ["gian", "paca"], "correct");
   await waitForMoment(page, "completion", "celebrate");
   await assertPair(page, ["gian", "paca"], "celebrate");
 }
@@ -147,7 +156,7 @@ async function main() {
     await browser.close();
   }
 
-  console.log("Belajar character browser regression passed: English Naya/Zia and Math Gian/Paca use approved SVG hero, retry, and completion states through the shared runtime.");
+  console.log("Belajar character browser regression passed: English Naya/Zia and Math Gian/Paca use approved SVG hero, guide, retry, correct, and completion states through the shared runtime.");
 }
 
 main()
