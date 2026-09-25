@@ -35,6 +35,10 @@ function slash(value) {
   return value.split(path.sep).join("/");
 }
 
+function validSha(value) {
+  return typeof value === "string" && /^[a-f0-9]{64}$/.test(value);
+}
+
 function parseArgs(argv) {
   const args = {
     generate: false,
@@ -72,9 +76,17 @@ function readRegistry() {
   } catch (error) {
     throw new Error(`invalid learning illustration provenance registry: ${error instanceof Error ? error.message : String(error)}`);
   }
-  if (registry?.version !== 1 || registry.scope !== "learning-semantic-illustration" || !registry.items) {
-    throw new Error("unexpected learning illustration provenance registry header");
+
+  if (
+    registry?.version !== 2 ||
+    registry.scope !== "learning-semantic-illustration" ||
+    registry.preferredProductionFormat !== "svg" ||
+    registry.runtimeActivation !== "off" ||
+    !registry.items
+  ) {
+    throw new Error("unexpected learning illustration provenance registry v2 header");
   }
+
   const actualKeys = Object.keys(registry.items).sort();
   if (JSON.stringify(actualKeys) !== JSON.stringify(ALL_KEYS)) {
     throw new Error("registry semantic scope differs from canonical 17-key P0 contract");
@@ -82,46 +94,64 @@ function readRegistry() {
 
   for (const [key] of CLEAR_SCOPE) {
     const record = registry.items[key];
-    if (!["review-required", "approved"].includes(record.lifecycle)) {
-      throw new Error(`${key}: clear-scope lifecycle must be review-required or approved`);
+    const slug = key.replaceAll(".", "-");
+    const expectedWebp = `/artwork/learning-illustrations/${slug}-v1.webp`;
+    const expectedSvg = `/artwork/learning-illustrations/${slug}-v1.svg`;
+
+    if (record.lifecycle !== "approved") {
+      throw new Error(`${key}: clear-scope lifecycle must remain approved`);
     }
-    if (record.lifecycle === "review-required") {
-      if (record.productionPath !== null || record.productionSha256 !== null) {
-        throw new Error(`${key}: review-required preflight requires no production path/SHA`);
-      }
-      if (record.provenance?.redistributionAllowed !== false) {
-        throw new Error(`${key}: review-required preflight requires redistribution to remain fail-closed`);
-      }
-      if (record.semanticReview?.status !== "pending") {
-        throw new Error(`${key}: review-required preflight requires semantic review pending`);
-      }
-    } else {
-      if (record.productionPath !== record.expectedProductionPath) {
-        throw new Error(`${key}: approved clear-scope productionPath must match expectedProductionPath`);
-      }
-      if (typeof record.productionSha256 !== "string" || !/^[a-f0-9]{64}$/.test(record.productionSha256)) {
-        throw new Error(`${key}: approved clear-scope requires production SHA-256`);
-      }
-      if (record.provenance?.redistributionAllowed !== true) {
-        throw new Error(`${key}: approved clear-scope requires redistributionAllowed=true`);
-      }
-      if (record.semanticReview?.status !== "approved" || record.semanticReview?.childReadable !== true) {
-        throw new Error(`${key}: approved clear-scope requires approved child-readable semantic review`);
-      }
+
+    const webp = record.productionAssets?.webp;
+    if (
+      !webp ||
+      webp.status !== "approved" ||
+      webp.format !== "webp" ||
+      webp.path !== expectedWebp ||
+      !validSha(webp.sha256)
+    ) {
+      throw new Error(`${key}: approved clear-scope must preserve exact WebP production history`);
+    }
+
+    const svg = record.productionAssets?.svg;
+    if (
+      !svg ||
+      svg.format !== "svg" ||
+      svg.expectedPath !== expectedSvg ||
+      !["migration-ready", "approved"].includes(svg.status)
+    ) {
+      throw new Error(`${key}: clear-scope requires canonical SVG migration slot`);
+    }
+    if (svg.status === "migration-ready" && (svg.path !== null || svg.sha256 !== null)) {
+      throw new Error(`${key}: migration-ready SVG requires path/SHA to remain null`);
+    }
+    if (svg.status === "approved" && (svg.path !== expectedSvg || !validSha(svg.sha256))) {
+      throw new Error(`${key}: approved SVG requires canonical path/SHA`);
+    }
+
+    if (record.provenance?.redistributionAllowed !== true) {
+      throw new Error(`${key}: approved clear-scope requires redistributionAllowed=true`);
+    }
+    if (record.semanticReview?.status !== "approved" || record.semanticReview?.childReadable !== true) {
+      throw new Error(`${key}: approved clear-scope requires approved child-readable semantic review`);
     }
   }
 
   for (const key of HELD_KEYS) {
     const record = registry.items[key];
-    if (record.lifecycle !== "review-required") throw new Error(`${key}: held preflight key must remain review-required`);
-    if (record.productionPath !== null || record.productionSha256 !== null) {
-      throw new Error(`${key}: held preflight key requires no production path/SHA`);
+    if (record.lifecycle !== "review-required") throw new Error(`${key}: held key must remain review-required`);
+    if (record.productionAssets?.webp !== null) {
+      throw new Error(`${key}: held key must keep WebP production binding null`);
+    }
+    const svg = record.productionAssets?.svg;
+    if (!svg || svg.status !== "held" || svg.path !== null || svg.sha256 !== null) {
+      throw new Error(`${key}: held key must keep SVG status held with null path/SHA`);
     }
     if (record.provenance?.redistributionAllowed !== false) {
-      throw new Error(`${key}: held preflight key must remain fail-closed for redistribution`);
+      throw new Error(`${key}: held key must remain fail-closed for redistribution`);
     }
     if (record.semanticReview?.status !== "pending") {
-      throw new Error(`${key}: held preflight key must keep semantic review pending`);
+      throw new Error(`${key}: held key must keep semantic review pending`);
     }
   }
 
@@ -137,12 +167,13 @@ function assertExactSources(sourceDir) {
   }
 }
 
-async function renderPreflight(sourceDir, outputDir, registry, semanticKey, sourceFilename) {
+async function renderLegacyComparison(sourceDir, outputDir, registry, semanticKey, sourceFilename) {
   const sourcePath = path.join(sourceDir, sourceFilename);
   const sourceBytes = readFileSync(sourcePath);
   const record = registry.items[semanticKey];
-  const expectedProductionPath = record.expectedProductionPath;
-  const filename = path.posix.basename(expectedProductionPath);
+  const webp = record.productionAssets.webp;
+  const svg = record.productionAssets.svg;
+  const filename = path.posix.basename(webp.path);
 
   const buffer = await sharp(sourceBytes)
     .ensureAlpha()
@@ -154,17 +185,21 @@ async function renderPreflight(sourceDir, outputDir, registry, semanticKey, sour
   writeFileSync(outputPath, buffer);
   const metadata = await sharp(buffer).metadata();
   const size = statSync(outputPath).size;
-  const technical = record.technical;
+  const technical = record.technical.webp;
 
   if (metadata.format !== "webp" || metadata.width !== 512 || metadata.height !== 512 || metadata.hasAlpha !== true) {
-    throw new Error(`${semanticKey}: preflight WebP must be 512x512 with alpha`);
+    throw new Error(`${semanticKey}: legacy comparison WebP must be 512x512 with alpha`);
   }
-  if (metadata.width < technical.minWidth || metadata.width > technical.maxWidth ||
-      metadata.height < technical.minHeight || metadata.height > technical.maxHeight) {
-    throw new Error(`${semanticKey}: preflight dimensions violate production technical bounds`);
+  if (
+    metadata.width < technical.minWidth ||
+    metadata.width > technical.maxWidth ||
+    metadata.height < technical.minHeight ||
+    metadata.height > technical.maxHeight
+  ) {
+    throw new Error(`${semanticKey}: legacy comparison dimensions violate WebP technical bounds`);
   }
   if (size > technical.maxBytes) {
-    throw new Error(`${semanticKey}: preflight exceeds production maxBytes (${size} > ${technical.maxBytes})`);
+    throw new Error(`${semanticKey}: legacy comparison exceeds WebP maxBytes (${size} > ${technical.maxBytes})`);
   }
 
   return {
@@ -172,7 +207,9 @@ async function renderPreflight(sourceDir, outputDir, registry, semanticKey, sour
     sourceFilename,
     sourceBytes: sourceBytes.length,
     sourceSha256: digest(sourceBytes),
-    expectedProductionPath,
+    expectedWebpProductionPath: webp.path,
+    expectedSvgProductionPath: svg.expectedPath,
+    svgMigrationStatus: svg.status,
     preflightFilename: filename,
     width: metadata.width,
     height: metadata.height,
@@ -195,14 +232,18 @@ async function main() {
   assertExactSources(sourceDir);
 
   if (!args.generate) {
-    console.log("Learning semantic P0 production-readiness preflight: DRY RUN");
+    console.log("Learning semantic P0 production-readiness preflight: DRY RUN / historical WebP comparison");
+    console.log(`Registry v2 preferred format: ${registry.preferredProductionFormat}; runtime activation: ${registry.runtimeActivation}`);
     console.log(`Clear scope: ${CLEAR_SCOPE.length}/17; held scope: ${HELD_KEYS.length}/17`);
-    console.log(`Would render ${CLEAR_SCOPE.length} non-production WebP preflight files from ${sourceDir} into ${outputDir}`);
+    console.log(`Would render ${CLEAR_SCOPE.length} internal comparison WebPs from ${sourceDir} into ${outputDir}`);
     for (const [key, source] of CLEAR_SCOPE) {
-      console.log(`- ${key}: ${source} -> ${path.posix.basename(registry.items[key].expectedProductionPath)}`);
+      const record = registry.items[key];
+      console.log(
+        `- ${key}: ${source} -> legacy ${path.posix.basename(record.productionAssets.webp.path)}; SVG target ${path.posix.basename(record.productionAssets.svg.expectedPath)}`
+      );
     }
     console.log(`Held keys excluded: ${HELD_KEYS.join(", ")}`);
-    console.log("No production registry approval, public binary, or runtime activation will be created.");
+    console.log("No production registry approval, public binary, SVG promotion, or runtime activation will be created.");
     return;
   }
 
@@ -214,13 +255,15 @@ async function main() {
 
   const items = [];
   for (const [semanticKey, sourceFilename] of CLEAR_SCOPE) {
-    items.push(await renderPreflight(sourceDir, outputDir, registry, semanticKey, sourceFilename));
+    items.push(await renderLegacyComparison(sourceDir, outputDir, registry, semanticKey, sourceFilename));
   }
 
   const manifest = {
-    version: 1,
+    version: 2,
+    registryVersion: registry.version,
     scope: "learning-semantic-p0-production-readiness-preflight",
     lifecycle: "preflight-only",
+    preferredProductionFormat: registry.preferredProductionFormat,
     generatedAt: new Date().toISOString(),
     sourceDirectory: slash(path.relative(root, sourceDir)),
     outputDirectory: slash(path.relative(root, outputDir)),
@@ -229,6 +272,7 @@ async function main() {
     heldKeys: HELD_KEYS,
     legalApproval: false,
     productionApproval: false,
+    svgPromotion: false,
     production: false,
     runtimeActive: false,
     items
@@ -240,9 +284,9 @@ async function main() {
     throw new Error("production provenance registry changed during preflight");
   }
 
-  console.log(`Generated ${items.length} internal production-readiness preflight files at ${outputDir}`);
+  console.log(`Generated ${items.length} internal historical WebP comparison files at ${outputDir}`);
   console.log(`Held keys intentionally excluded: ${HELD_KEYS.join(", ")}`);
-  console.log("No production registry approval, public binary, or runtime activation was created.");
+  console.log("Registry v2 SVG targets remain unpromoted; no public binary or runtime activation was created.");
 }
 
 main().catch((error) => {
