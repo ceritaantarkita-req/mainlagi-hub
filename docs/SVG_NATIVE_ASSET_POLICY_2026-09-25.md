@@ -95,6 +95,23 @@ Every production SVG must:
 
 Unknown provenance or unsafe SVG content fails closed.
 
+## 5.1 Implemented shared SVG security foundation
+
+Session 02 implements the reusable production-safety foundation in:
+
+```text
+scripts/lib/svg-asset-security.mjs
+scripts/run-svg-asset-security-tests.mjs
+```
+
+The foundation is included in `npm run validate:assets` through `npm run test:assets:svg-security`.
+
+It is intentionally registry-agnostic so both character and learning-semantic migrations can reuse the same SVG/XML, URL, active-content, path, size and stray-file gates.
+
+Sanitization is fail-closed. The only automatic rewrite currently allowed is removal of a simple external DOCTYPE without an internal subset; unsafe/internal-subset declarations are rejected.
+
+Current exact-source compatibility check: **49/49 Session 01 scoped SVGs pass**, with only `object-ball.svg` requiring simple DOCTYPE removal.
+
 ## 6. Character application
 
 Character production uses the reviewed isolated single-character SVG bank directly.
