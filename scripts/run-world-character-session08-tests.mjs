@@ -84,6 +84,26 @@ async function assertSharedPair(scope, expectedState) {
   assert(snapshot.every((item) => item.pointerEvents === "none"), "World character images must never block interaction");
 }
 
+async function assertSharedPortrait(scope, expectedId, expectedState) {
+  const layer = scope.locator("[data-character-layer]");
+  assert.equal(await layer.count(), 1, "World story portrait must use one shared CharacterLayer");
+  const images = layer.locator("img");
+  assert.equal(await images.count(), 1, "World story portrait must render exactly one speaker");
+  const image = images.first();
+  assert.equal(await image.getAttribute("data-character-id"), expectedId);
+  assert.equal(await image.getAttribute("data-character-state"), expectedState);
+  assert.equal(await image.getAttribute("data-character-asset-source"), "svg-state");
+  const src = await image.getAttribute("src");
+  assert(src?.endsWith(`-${expectedState === "try_again" ? "try-again" : expectedState}-v1.svg`));
+  const loaded = await image.evaluate((item) => ({
+    naturalWidth: item.naturalWidth,
+    naturalHeight: item.naturalHeight,
+    pointerEvents: getComputedStyle(item).pointerEvents
+  }));
+  assert(loaded.naturalWidth > 0 && loaded.naturalHeight > 0, "World story portrait SVG must load");
+  assert.equal(loaded.pointerEvents, "none", "World story portrait cannot block interaction");
+}
+
 async function assertNoHorizontalOverflow(page, label) {
   const metrics = await page.evaluate(() => ({
     viewport: document.documentElement.clientWidth,
@@ -212,19 +232,15 @@ async function runViewport(browser, viewport) {
   await waitForWorldState(page, "hero", 8_000);
   const firstPortrait = page.locator('[data-world-story-character="gavi"]').first();
   await firstPortrait.waitFor({ state: "visible", timeout: 5_000 });
-  await assertSharedPair(firstPortrait, "hero").catch(async () => {
-    const layer = firstPortrait.locator("[data-character-layer]");
-    assert.equal(await layer.count(), 1);
-    const image = layer.locator("img");
-    assert.equal(await image.count(), 1);
-    assert.equal(await image.getAttribute("data-character-id"), "gavi");
-    assert.equal(await image.getAttribute("data-character-state"), "hero");
-    assert.equal(await image.getAttribute("data-character-asset-source"), "svg-state");
-  });
+  await assertSharedPortrait(firstPortrait, "gavi", "hero");
 
   await advanceNarrative(page);
   await advanceNarrative(page);
   await advanceNarrative(page);
+
+  const conceptPortrait = page.locator('[data-world-story-character="paca"]').first();
+  await conceptPortrait.waitFor({ state: "visible", timeout: 5_000 });
+  await assertSharedPortrait(conceptPortrait, "paca", "thinking");
   await advanceNarrative(page);
 
   await waitForWorldState(page, "thinking", 8_000);
