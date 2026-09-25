@@ -73,7 +73,7 @@ try {
   let result = run(["--source-dir", source, "--output", outA]);
   assert.equal(result.status, 0, result.stderr);
   assert.match(result.stdout, /DRY RUN \/ historical WebP comparison/);
-  assert.match(result.stdout, /Registry v2 preferred format: svg; runtime activation: off/);
+  assert.match(result.stdout, /Registry v2 preferred format: svg; runtime activation: controlled-svg/);
   assert.match(result.stdout, /Clear scope: 14\/17; held scope: 3\/17/);
   assert.match(result.stdout, /SVG target object-apple-v1\.svg/);
   assert.match(result.stdout, /vehicle\.car/);
