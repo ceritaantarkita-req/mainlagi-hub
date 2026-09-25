@@ -192,7 +192,7 @@ These are multi-view identity/design sheets, not direct production foreground sp
 
 Runtime lifecycle enforcement is centralized in `src/lib/learning/characterAssets.ts`. That registry is a **runtime approval gate, not legal proof**: `approved` means the app may resolve a reviewed production file, while `reference-only` means runtime must remain blocked. A registry status must not be changed to `approved` until the provenance/redistribution decision and visual QA for the exact binary are documented.
 
-For character assets, the machine-readable public-binary gate remains `src/lib/data/character-asset-provenance.json`. Current Naya/Gian/Zia runtime records remain fail-closed until the SVG migration is implemented. The new target naming contract is `/artwork/characters/<id>-<state>-v1.svg`; see `CHARACTER_ASSET_PIPELINE.md` for the current seven-state SVG approval sequence.
+For character assets, the machine-readable public-binary gate is now **registry v2** at `src/lib/data/character-asset-provenance.json`: five characters × seven locked SVG states = 35 exact source-bound variants. All 35 remain `review-required`, with `productionPath=null`, `productionSha256=null`, and `redistributionAllowed=false`; runtime therefore remains fail-closed. Canonical naming is `/artwork/characters/<id>-<state>-v1.svg`. Session 03 closure: `MAINLAGI_CHARACTER_PROVENANCE_V2_SESSION03_2026-09-25.md`.
 
 AI/image-generation output is not automatically safe to redistribute or claim as an official Mainlagi asset. Review identity consistency, tool/output terms, source/reference rights, and downstream trademark/copyright implications before production use.
 

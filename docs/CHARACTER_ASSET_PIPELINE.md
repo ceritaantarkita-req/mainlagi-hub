@@ -44,9 +44,11 @@ Drive source exists ≠ production approved ≠ runtime active. The new SVG bank
 
 Existing `/artwork/garden-paca.webp` and `/artwork/garden-gavi.webp` remain legacy compatibility fallbacks during migration; do not delete them in the first SVG wave.
 
-### Target provenance model
+### Provenance model v2 — implemented in Session 03
 
-Evolve the registry to one character with seven per-state variants, each binding source filename/Drive ID, source hash when materialized, rights basis, redistribution decision, review date, normalized production path, production hash, lifecycle and sanitizer/technical result.
+The registry is now version 2 with five characters and seven state variants per character. Each of the 35 variants binds source filename/Drive ID, source SHA-256, source byte size, ambiguity/review status, normalized SVG production path, provenance state, technical/source-validation result, lifecycle, and future production SHA/path.
+
+All 35 variants currently remain `review-required`, with `productionPath=null`, `productionSha256=null`, and `redistributionAllowed=false`. Source identity/technical safety is frozen; exact public-repository rights approval is still pending.
 
 ---
 It complements:
@@ -75,7 +77,7 @@ Canonical first-pass paths are fixed:
 /artwork/characters/zia-activity-v1.webp
 ```
 
-## 2. Machine-readable provenance registry
+## 2. Machine-readable provenance registry — current v2
 
 Canonical file:
 
@@ -83,25 +85,46 @@ Canonical file:
 src/lib/data/character-asset-provenance.json
 ```
 
-Current state after the live-verified pipeline merge:
+Current schema:
 
-- Naya: `reference-only`, no production path;
-- Gian: `reference-only`, no production path;
-- Zia: `reference-only`, no production path;
-- no human production binary is committed under `public/artwork/characters/` yet.
+```text
+version: 2
+scope: mainlagi-character-svg-state-bank
+characters: naya / gian / zia / paca / gavi
+states: hero / welcome / pointing / thinking / correct / try_again / celebrate
+total variants: 35
+production directory: /artwork/characters
+```
 
-The registry records:
+Current lifecycle:
 
-- identity reference sheet;
-- fixed expected production path;
-- lifecycle;
-- exact production path once approved;
-- provenance status and source;
-- rights holder / license basis once approval exists;
-- public redistribution decision;
-- technical export contract.
+```text
+35/35 review-required
+0/35 production-approved
+35/35 productionPath=null
+35/35 productionSha256=null
+35/35 redistributionAllowed=false
+```
 
-The current registry deliberately does **not** invent a rights holder or license basis for a production binary that does not yet exist.
+Each state variant records:
+
+- exact Drive source ID;
+- exact source filename;
+- exact source SHA-256;
+- exact source byte size;
+- unique/ambiguity status;
+- inventory visual-review status;
+- normalized expected SVG production path;
+- provenance status/source basis;
+- rights holder/license basis when approved;
+- redistribution decision;
+- Session 02 source-validation result;
+- SVG technical contract;
+- production path/hash only after approval.
+
+The registry deliberately does **not** invent rights ownership/license facts. Source identity and technical compatibility are frozen, while public-repository redistribution remains fail-closed until exact rights basis is documented.
+
+Session 03 closure: `MAINLAGI_CHARACTER_PROVENANCE_V2_SESSION03_2026-09-25.md`.
 
 ## 3. Historical PR #263 WebP technical export contract
 
@@ -119,7 +142,7 @@ The first Naya/Gian/Zia activity asset must be:
 
 Automated validation checks the file/container properties above. Visual review is still mandatory because metadata validation cannot prove identity quality, pose quality, edge cleanup, absence of distracting props, or that the visible background is actually acceptable at activity scale.
 
-## 4. Blocking validator
+## 4. Blocking validator — current v2
 
 Commands:
 
@@ -129,35 +152,29 @@ npm run test:assets:characters
 npm run validate:assets
 ```
 
-`npm run validate:assets` is the blocking aggregate gate and now includes:
+The character validator now enforces:
 
-1. affiliate provenance validation;
-2. character production validation;
-3. character-validator regression fixtures.
+- exact registry v2 header/scope/source inventory;
+- exact five-character set;
+- exact seven-state vocabulary;
+- exact 35 variants;
+- unique source Drive IDs;
+- unique source SHA-256 bindings;
+- SVG-only source filenames;
+- exact canonical `/artwork/characters/<id>-<state>-v1.svg` paths;
+- valid provenance lifecycle;
+- fail-closed non-approved variants;
+- Session 02 SVG source-validation contract;
+- approved-state rights holder/license/redistribution requirements;
+- approved production SHA-256;
+- exact production SVG existence;
+- shared SVG sanitizer/security validation;
+- stray/unapproved SVG rejection;
+- non-SVG rejection inside the v2 production character directory.
 
-The character validator rejects:
+Regression fixtures cover the clean 5×7 baseline, missing/unknown characters and states, duplicate source IDs, invalid hashes, path violations, fail-closed lifecycle, rights failures, missing/unsafe approved SVGs, SHA mismatch, valid approved SVG, stray SVG and non-SVG production files.
 
-- missing or malformed registry records;
-- unexpected character IDs;
-- non-canonical production paths;
-- a non-approved record with a production path;
-- an approved record without owned/licensed provenance;
-- missing rights holder or license basis for an approved asset;
-- approved files that do not exist;
-- non-WebP production files;
-- dimensions outside the contract;
-- files over the size budget;
-- WebP files without alpha/transparency metadata;
-- any image binary under `public/artwork/characters/` that is not represented by an approved provenance record.
-
-Regression fixtures explicitly exercise:
-
-- clean reference-only state -> PASS;
-- stray public character binary -> FAIL;
-- approved record without rights holder -> FAIL;
-- opaque WebP -> FAIL;
-- undersized WebP -> FAIL;
-- valid transparent metadata fixture -> PASS.
+Current merged/runtime tree still has **0 new production character SVGs** until Session 04.
 
 ## 5. Historical PR #263 WebP approval sequence
 

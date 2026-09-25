@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -6,79 +7,119 @@ import { spawnSync } from "node:child_process";
 
 const repoRoot = process.cwd();
 const validatorPath = path.join(repoRoot, "scripts", "validate-character-assets.mjs");
-const IDS = ["naya", "gian", "zia"];
+const IDS = ["naya", "gian", "zia", "paca", "gavi"];
+const STATES = ["hero", "welcome", "pointing", "thinking", "correct", "try_again", "celebrate"];
 
-function makeRecord(id) {
+function sha(value) {
+  return createHash("sha256").update(value).digest("hex");
+}
+
+function makeVariant(id, state) {
+  const slug = state.replaceAll("_", "-");
   return {
-    lifecycle: "reference-only",
-    identityReference: id === "naya" ? "kak-naya-character-design-set-v1.png" : `${id}-character-design-set-v1.png`,
-    expectedProductionPath: `/artwork/characters/${id}-activity-v1.webp`,
+    lifecycle: "review-required",
+    source: {
+      driveFileId: `drive_${id}_${slug}`,
+      sourceFilename: `${id}-${slug}.svg`,
+      sourceSha256: sha(`source:${id}:${state}`),
+      sizeBytes: 2048 + id.length + state.length,
+      ambiguityStatus: "unique",
+      visualInventoryReview: "identity-and-state-readable; production QA deferred"
+    },
+    expectedProductionPath: `/artwork/characters/${id}-${slug}-v1.svg`,
     productionPath: null,
+    productionSha256: null,
     provenance: {
       status: "pending",
-      source: `Mainlagi project Drive identity reference: ${id}`,
+      sourceBasis: "Fixture project-owner-supplied SVG",
       rightsHolder: null,
       licenseBasis: null,
       redistributionAllowed: false,
-      reviewedAt: "2026-09-21"
+      reviewedAt: "2026-09-25"
     },
     technical: {
-      format: "webp",
-      requireAlpha: true,
-      minWidth: 384,
-      minHeight: 512,
-      maxWidth: 2048,
-      maxHeight: 2048,
-      maxBytes: 1000000
+      format: "svg",
+      maxBytes: 1000000,
+      requireViewBox: true,
+      sourceValidation: {
+        status: "passed",
+        validator: "scripts/lib/svg-asset-security.mjs",
+        reviewedAt: "2026-09-25"
+      },
+      productionSanitizationRequired: true
     }
+  };
+}
+
+function makeCharacter(id) {
+  return {
+    identityReference: {
+      driveFileId: `design_${id}`,
+      sourceFilename: id === "naya" ? "kak-naya-character-design-set.svg" : `${id}-character-design-set.svg`,
+      sizeBytes: 10000
+    },
+    variants: Object.fromEntries(STATES.map((state) => [state, makeVariant(id, state)]))
   };
 }
 
 function makeRegistry() {
   return {
-    version: 1,
-    scope: "human-activity-foreground",
+    version: 2,
+    scope: "mainlagi-character-svg-state-bank",
     productionDirectory: "/artwork/characters",
-    items: Object.fromEntries(IDS.map((id) => [id, makeRecord(id)]))
+    sourceInventory: "docs/data/MAINLAGI_SVG_SOURCE_INVENTORY_SESSION01_2026-09-25.json",
+    characterIds: [...IDS],
+    stateVocabulary: [...STATES],
+    items: Object.fromEntries(IDS.map((id) => [id, makeCharacter(id)]))
   };
 }
 
-function makeVp8lMetadataFixture(width, height, hasAlpha) {
-  const data = Buffer.alloc(5);
-  data[0] = 0x2f;
-  const bits =
-    ((width - 1) & 0x3fff) |
-    (((height - 1) & 0x3fff) << 14) |
-    (hasAlpha ? 0x10000000 : 0);
-  data.writeUInt32LE(bits >>> 0, 1);
-
-  const total = 12 + 8 + 6;
-  const buffer = Buffer.alloc(total);
-  buffer.write("RIFF", 0, "ascii");
-  buffer.writeUInt32LE(total - 8, 4);
-  buffer.write("WEBP", 8, "ascii");
-  buffer.write("VP8L", 12, "ascii");
-  buffer.writeUInt32LE(data.length, 16);
-  data.copy(buffer, 20);
-  return buffer;
+function safeSvg() {
+  return Buffer.from(
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120"><path d="M0 0h10v10z"/></svg>',
+    "utf8"
+  );
 }
 
-function createFixture(registry, binaries = {}) {
-  const root = mkdtempSync(path.join(os.tmpdir(), "mainlagi-character-assets-"));
+function unsafeSvg() {
+  return Buffer.from(
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120"><script>alert(1)</script></svg>',
+    "utf8"
+  );
+}
+
+function approve(registry, id, state, buffer = safeSvg()) {
+  const variant = registry.items[id].variants[state];
+  variant.lifecycle = "approved";
+  variant.productionPath = variant.expectedProductionPath;
+  variant.productionSha256 = createHash("sha256").update(buffer).digest("hex");
+  variant.provenance = {
+    ...variant.provenance,
+    status: "owned",
+    rightsHolder: "Mainlagi fixture owner",
+    licenseBasis: "Fixture-owned source",
+    redistributionAllowed: true
+  };
+  return variant;
+}
+
+function createFixture(registry, publicFiles = {}) {
+  const root = mkdtempSync(path.join(os.tmpdir(), "mainlagi-character-assets-v2-"));
   const registryDir = path.join(root, "src", "lib", "data");
-  const characterDir = path.join(root, "public", "artwork", "characters");
   mkdirSync(registryDir, { recursive: true });
-  mkdirSync(characterDir, { recursive: true });
   writeFileSync(path.join(registryDir, "character-asset-provenance.json"), JSON.stringify(registry, null, 2));
 
-  for (const [name, buffer] of Object.entries(binaries)) {
-    writeFileSync(path.join(characterDir, name), buffer);
+  for (const [publicPath, buffer] of Object.entries(publicFiles)) {
+    const absolute = path.join(root, "public", publicPath.replace(/^\/+/, ""));
+    mkdirSync(path.dirname(absolute), { recursive: true });
+    writeFileSync(absolute, buffer);
   }
+
   return root;
 }
 
-function runFixture(name, registry, binaries, expected) {
-  const root = createFixture(registry, binaries);
+function runFixture(name, registry, publicFiles, expected) {
+  const root = createFixture(registry, publicFiles);
   try {
     const result = spawnSync(process.execPath, [validatorPath], {
       cwd: repoRoot,
@@ -89,85 +130,196 @@ function runFixture(name, registry, binaries, expected) {
 
     if (expected.ok) {
       assert.equal(result.status, 0, `${name} should pass:\n${output}`);
+      if (expected.message) assert.match(output, expected.message);
     } else {
       assert.notEqual(result.status, 0, `${name} should fail`);
-      assert.match(output, expected.message, `${name} should explain its failure`);
+      assert.match(output, expected.message, `${name} should explain its failure:\n${output}`);
     }
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
 }
 
-runFixture("reference-only baseline", makeRegistry(), {}, { ok: true });
-
 runFixture(
-  "stray public binary",
+  "v2 review-required baseline",
   makeRegistry(),
-  { "naya-activity-v1.webp": makeVp8lMetadataFixture(512, 640, true) },
-  { ok: false, message: /without an approved provenance record/ }
+  {},
+  { ok: true, message: /5 characters \/ 35 SVG state slots; 0 approved/ }
 );
 
 {
   const registry = makeRegistry();
-  registry.items.naya.lifecycle = "approved";
-  registry.items.naya.productionPath = registry.items.naya.expectedProductionPath;
-  registry.items.naya.provenance = {
-    ...registry.items.naya.provenance,
-    status: "owned",
-    redistributionAllowed: true,
-    rightsHolder: null,
-    licenseBasis: "Project-owned production derivative"
-  };
+  delete registry.items.gavi;
+  runFixture(
+    "missing character",
+    registry,
+    {},
+    { ok: false, message: /registry must contain exactly characters/ }
+  );
+}
+
+{
+  const registry = makeRegistry();
+  registry.items.extra = makeCharacter("extra");
+  runFixture(
+    "unknown character",
+    registry,
+    {},
+    { ok: false, message: /registry must contain exactly characters/ }
+  );
+}
+
+{
+  const registry = makeRegistry();
+  delete registry.items.naya.variants.hero;
+  runFixture(
+    "missing state",
+    registry,
+    {},
+    { ok: false, message: /variants must contain exactly states/ }
+  );
+}
+
+{
+  const registry = makeRegistry();
+  registry.items.naya.variants.wave = makeVariant("naya", "wave");
+  runFixture(
+    "unknown state",
+    registry,
+    {},
+    { ok: false, message: /variants must contain exactly states/ }
+  );
+}
+
+{
+  const registry = makeRegistry();
+  registry.items.gavi.variants.hero.source.driveFileId =
+    registry.items.paca.variants.hero.source.driveFileId;
+  runFixture(
+    "duplicate source Drive ID",
+    registry,
+    {},
+    { ok: false, message: /source\.driveFileId already assigned/ }
+  );
+}
+
+{
+  const registry = makeRegistry();
+  registry.items.gavi.variants.hero.source.sourceSha256 = "abc";
+  runFixture(
+    "invalid source hash",
+    registry,
+    {},
+    { ok: false, message: /source\.sourceSha256 must be lowercase SHA-256/ }
+  );
+}
+
+{
+  const registry = makeRegistry();
+  registry.items.gavi.variants.hero.expectedProductionPath =
+    "/artwork/characters/gavi-wrong-v1.svg";
+  runFixture(
+    "wrong canonical path",
+    registry,
+    {},
+    { ok: false, message: /expectedProductionPath must be \/artwork\/characters\/gavi-hero-v1\.svg/ }
+  );
+}
+
+{
+  const registry = makeRegistry();
+  registry.items.gavi.variants.hero.productionPath =
+    registry.items.gavi.variants.hero.expectedProductionPath;
+  runFixture(
+    "non-approved production path",
+    registry,
+    {},
+    { ok: false, message: /non-approved variant must keep productionPath=null/ }
+  );
+}
+
+{
+  const registry = makeRegistry();
+  const buffer = safeSvg();
+  const variant = approve(registry, "naya", "hero", buffer);
+  variant.provenance.rightsHolder = null;
   runFixture(
     "approved missing rights holder",
     registry,
-    { "naya-activity-v1.webp": makeVp8lMetadataFixture(512, 640, true) },
-    { ok: false, message: /requires rightsHolder/ }
+    { [variant.productionPath]: buffer },
+    { ok: false, message: /approved variant requires rightsHolder/ }
   );
 }
 
 {
   const registry = makeRegistry();
-  registry.items.naya.lifecycle = "approved";
-  registry.items.naya.productionPath = registry.items.naya.expectedProductionPath;
-  registry.items.naya.provenance = {
-    ...registry.items.naya.provenance,
-    status: "owned",
-    redistributionAllowed: true,
-    rightsHolder: "Mainlagi project owner",
-    licenseBasis: "Project-owned production derivative"
-  };
+  const buffer = safeSvg();
+  const variant = approve(registry, "naya", "hero", buffer);
   runFixture(
-    "opaque production asset",
+    "approved missing production SVG",
     registry,
-    { "naya-activity-v1.webp": makeVp8lMetadataFixture(512, 640, false) },
-    { ok: false, message: /must contain alpha\/transparency data/ }
+    {},
+    { ok: false, message: /approved production SVG does not exist/ }
   );
 }
 
 {
   const registry = makeRegistry();
-  registry.items.naya.lifecycle = "approved";
-  registry.items.naya.productionPath = registry.items.naya.expectedProductionPath;
-  registry.items.naya.provenance = {
-    ...registry.items.naya.provenance,
-    status: "owned",
-    redistributionAllowed: true,
-    rightsHolder: "Mainlagi project owner",
-    licenseBasis: "Project-owned production derivative"
-  };
+  const buffer = unsafeSvg();
+  const variant = approve(registry, "naya", "hero", buffer);
   runFixture(
-    "undersized production asset",
+    "approved unsafe SVG",
     registry,
-    { "naya-activity-v1.webp": makeVp8lMetadataFixture(320, 480, true) },
-    { ok: false, message: /width 320px is outside/ }
-  );
-  runFixture(
-    "valid transparent production metadata",
-    registry,
-    { "naya-activity-v1.webp": makeVp8lMetadataFixture(512, 640, true) },
-    { ok: true }
+    { [variant.productionPath]: buffer },
+    { ok: false, message: /forbidden active\/unsafe SVG content/ }
   );
 }
 
-console.log("Character asset validator regression passed: fail-closed registry, provenance, format, dimensions, and alpha gates.");
+{
+  const registry = makeRegistry();
+  const buffer = safeSvg();
+  const variant = approve(registry, "naya", "hero", buffer);
+  variant.productionSha256 = "0".repeat(64);
+  runFixture(
+    "approved hash mismatch",
+    registry,
+    { [variant.productionPath]: buffer },
+    { ok: false, message: /production SHA-256 mismatch/ }
+  );
+}
+
+{
+  const registry = makeRegistry();
+  const buffer = safeSvg();
+  const variant = approve(registry, "naya", "hero", buffer);
+  runFixture(
+    "valid approved SVG state",
+    registry,
+    { [variant.productionPath]: buffer },
+    { ok: true, message: /1 approved production variant/ }
+  );
+}
+
+{
+  const registry = makeRegistry();
+  runFixture(
+    "stray public SVG",
+    registry,
+    { "/artwork/characters/stray.svg": safeSvg() },
+    { ok: false, message: /unexpected\/stray SVG|without an approved provenance record/ }
+  );
+}
+
+{
+  const registry = makeRegistry();
+  runFixture(
+    "non-SVG file in v2 production tree",
+    registry,
+    { "/artwork/characters/legacy.webp": Buffer.from("not-a-real-webp") },
+    { ok: false, message: /production tree is SVG-only/ }
+  );
+}
+
+console.log(
+  "Character asset validator v2 regression passed: exact 5x7 schema, source identity/hash, provenance lifecycle, canonical SVG path, sanitizer/hash, and stray-file gates."
+);
