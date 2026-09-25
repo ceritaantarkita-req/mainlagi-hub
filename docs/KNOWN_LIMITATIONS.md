@@ -101,7 +101,7 @@ Remaining work:
 - run the prepared four-item local/server-side provider pilot and human-review the exact candidate audio;
 - choose/confirm a production provider/model/voice only from reviewed evidence, then approve fixed English narration assets through the existing gate;
 - add the later runtime static-audio resolver/playback activation with browser speech fallback;
-- define stable character/voice identity only when character development is explicitly resumed;
+- define and human-review stable character voice identities separately from the already-live visual character runtime;
 - reviewed Indonesian production voices/assets;
 - runtime TTS only for justified dynamic content.
 
@@ -109,11 +109,21 @@ Iqro/Hijaiyah pronunciation requires competent human review. Generic TTS must no
 
 ## Character production assets
 
-Character development is now **resumed/authorized** for the unified Mainlagi integration. Drive contains isolated single-character SVG source assets for Naya, Gian, Zia, Paca and Gavi, including the confirmed `gavi-panel-hero.svg` hero/default source.
+Character source/provenance/production/runtime foundation is **closed through Session 08**.
 
-The new production decision is SVG-native with seven locked states: `hero`, `welcome`, `pointing`, `thinking`, `correct`, `try_again`, `celebrate`. Design-set SVGs and the Illustrator collection remain reference/master material only.
+Current verified truth:
 
-The remaining limitation is implementation, not source availability: the current provenance registry/validator/runtime still reflect the earlier pipeline and must be migrated before any new SVG is production-live. Each exact SVG still needs provenance/redistribution approval, sanitization/security validation, normalized production path, exact hash binding and responsive visual QA. Existing Garden Gavi/Paca WebP assets remain compatibility fallbacks during migration. Child profile identity remains separate from guide-character identity.
+- 5 canonical characters × 7 locked states = 35/35 production-approved SVG variants;
+- all 35 are exact source/hash/provenance bound under `public/artwork/characters/`;
+- Belajar uses the shared SVG runtime;
+- Petualangan Uang uses the same runtime with authored Gavi + Paca cast;
+- Session 08 PR #337 and merged-main CI #1664 are live verified including Cloudflare production smoke;
+- design-set SVGs and the Illustrator collection remain reference/master material only;
+- legacy Garden Gavi/Paca WebPs remain compatibility fallback/history.
+
+The remaining character-product limitation is surface coverage, not asset availability: Home + Bermain shell integration is still pending Session 09. Motion Engine/game mechanics, voice identity, narration activation, and any new character state/identity remain separate approval scopes. Child profile identity remains separate from guide-character identity.
+
+Canonical Session 08 closure: `MAINLAGI_WORLD_CHARACTER_INTEGRATION_SESSION08_2026-09-25.md`.
 
 ## About, FAQ, and affiliate discoverability
 
