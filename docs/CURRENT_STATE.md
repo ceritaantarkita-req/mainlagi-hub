@@ -27,12 +27,14 @@ Session 01: source inventory frozen — 35/35 character variants
 Session 02: shared SVG security foundation merged
 Session 03: character provenance registry v2 implemented
 Session 04: 35/35 exact character SVGs promoted + production-approved
+Session 05: shared state-aware runtime resolver + CharacterLayer implemented
 Registry v2: 5 characters × 7 states = 35 variants
 Production-approved SVG variants: 35/35
-Runtime activation: 0
+Shared SVG runtime-addressable states: 35/35
+Belajar/World/Home surface migration: not yet
 ```
 
-All 35 character variants are now exact SHA-bound, owned/provenance-approved production SVGs under `public/artwork/characters/`. Runtime remains intentionally inactive until Session 05; approval of the files does not itself change character rendering.
+All 35 character variants are exact SHA-bound, owned/provenance-approved production SVGs under `public/artwork/characters/`. Session 05 adds the shared state-aware runtime foundation without silently changing existing product surfaces. The historical `approvedCharacterRuntimeSrc()` compatibility path remains unchanged until Session 06 deliberately migrates Belajar; World and Home integrations remain later sessions.
 
 ## 25 September World + character integration authorization — CURRENT
 
@@ -50,7 +52,7 @@ design-set SVG + .ai: reference/master only
 legacy Gavi/Paca WebP: compatibility fallback during migration
 ```
 
-This is **authorization/architecture truth, not completed runtime truth**. As of this docs sync, the source SVG bank has not yet been promoted into the repository production directory or activated through the runtime registry. Existing Naya/Gian/Zia fail-closed behavior therefore remains valid until the SVG provenance/sanitizer/validator + runtime waves land.
+This authorization is now implemented through Session 05 at the shared-runtime-foundation level: all 35 SVGs are production-approved and runtime-addressable through the central state-aware resolver. Product-surface migration is still deliberately staged: existing Belajar presentation remains on its compatibility path until Session 06, World until Session 08, and Home until Session 09.
 
 Any lower section that says “World untouched” or “character development paused” describes the boundary of that historical checkpoint and must not be interpreted as the current project-owner instruction.
 
