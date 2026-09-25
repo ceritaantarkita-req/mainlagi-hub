@@ -192,7 +192,7 @@ These are multi-view identity/design sheets, not direct production foreground sp
 
 Runtime lifecycle enforcement is centralized in `src/lib/learning/characterAssets.ts`. That registry is a **runtime approval gate, not legal proof**: `approved` means the app may resolve a reviewed production file, while `reference-only` means runtime must remain blocked. A registry status must not be changed to `approved` until the provenance/redistribution decision and visual QA for the exact binary are documented.
 
-For character assets, the machine-readable public-binary gate is **registry v2** at `src/lib/data/character-asset-provenance.json`: five characters × seven locked SVG states = 35 exact source-bound variants. Session 04 promoted all 35 exact SVGs to canonical `/artwork/characters/<id>-<state>-v1.svg` production paths. All 35 are now `approved`, exact production SHA-bound, `provenance.status=owned`, and `redistributionAllowed=true`. Runtime activation remains separate and still equals 0. Session 04 closure: `MAINLAGI_CHARACTER_SVG_PRODUCTION_SESSION04_2026-09-25.md`.
+For character assets, the machine-readable public-binary gate is **registry v2** at `src/lib/data/character-asset-provenance.json`: five characters × seven locked SVG states = 35 exact source-bound variants. Session 04 promoted all 35 exact SVGs to canonical `/artwork/characters/<id>-<state>-v1.svg` production paths. All 35 are now `approved`, exact production SHA-bound, `provenance.status=owned`, and `redistributionAllowed=true`. Character runtime activation was completed later through Sessions 05–09 across Belajar, World, Home and Bermain; production approval and runtime activation remain separate lifecycle concepts. Session 04 closure: `MAINLAGI_CHARACTER_SVG_PRODUCTION_SESSION04_2026-09-25.md`.
 
 AI/image-generation output is not automatically safe to redistribute or claim as an official Mainlagi asset. Review identity consistency, tool/output terms, source/reference rights, and downstream trademark/copyright implications before production use.
 
@@ -242,9 +242,11 @@ Learning semantic illustrations now have a dedicated fail-closed registry/valida
 - `scripts/run-learning-illustration-asset-validator-tests.mjs`;
 - reserved production directory: `public/artwork/learning-illustrations/`.
 
-The registry contains 17 recognition-critical semantic slots. The authorized 25 September production-integration wave is **merged/live verified through PR #324 -> main `1e27869dfc71186e83ed8bb0a4dff2ca44dddfc9`, merged-main CI #1610 / run `36036726413` with exact Cloudflare release smoke**. Current state: **14 approved with exact production WebP binaries / 3 remain review-required and fail-closed / runtime activation remains 0**.
+The registry contains 17 recognition-critical semantic slots. Historical WebP production integration is **merged/live verified through PR #324 -> main `1e27869dfc71186e83ed8bb0a4dff2ca44dddfc9`**. Session 10 then migrated the machine contract to SVG-aware registry v2 through PR #343 -> implementation main `21955a64728162f8985d04160e8ec683e1238080`; closure docs PR #344 is verified at `53e33c6b8ecb737da88af563d310ac486619b206` with closure-main CI #1681 / run `36147457854` and Cloudflare smoke.
 
-Those 14 WebP files remain verified production history/current fallback. The current target is to migrate the 14 canonical SVG-backed assets to direct sanitized SVG production paths before broad semantic runtime activation. The three held keys remain held; format choice does not override redistribution rights.
+Current semantic state is **14 approved WebP history bindings / 14 SVG migration-ready slots / 0 approved semantic SVG binaries / 3 review-required held slots / runtime activation 0**.
+
+Those 14 WebP files remain verified production history/current fallback. Session 11 is the authorized exact SVG binary-promotion wave. The three held keys remain held; format choice does not override redistribution rights.
 
 Existing `public/artwork/activity-previews/` files may be recorded as candidate sources, but repository presence and filenames are not provenance approval. Preliminary candidate review may mark a file `visually-suitable` or `rejected`; production approval still requires exact owned/licensed provenance, public redistribution clearance, approved child-readability/semantic review, exact canonical path, technical validation and SHA-256.
 
