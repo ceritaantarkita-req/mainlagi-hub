@@ -119,6 +119,11 @@ async function inspect(viewport){
     await assertLearningVisualContainment(page,"[data-material-lab]",`material-lab visual containment at ${viewport.width}`);
     assert.equal(new URL(page.url()).pathname,route,`progression guard must accept seeded Science Wave C readiness at ${viewport.width}`);
 
+    const heldRaincoat=page.locator('[data-learning-semantic-key="object.raincoat"][data-learning-visual-source="fallback"]');
+    assert.equal(await heldRaincoat.count(),1,"held raincoat semantic key must preserve canonical fallback visual");
+    assert.equal(await heldRaincoat.locator("[data-learning-semantic-image]").count(),0,"held raincoat must not render an unapproved production image");
+    assert.equal(await heldRaincoat.getByText("🧥",{exact:true}).count(),1,"held raincoat keeps its existing glyph fallback");
+
     const choices=page.locator("[data-material-lab-choice]");
     assert.equal(await choices.count(),3);
     const labels=await choices.evaluateAll(nodes=>nodes.map(node=>node.getAttribute("aria-label")));
