@@ -97,7 +97,6 @@ type MoneyWorldActivityCompletion = Omit<
 
 type MoneyWorldCharacterFeedbackState = "correct" | "try_again";
 
-const MONEY_WORLD_SHARED_CHARACTER_RUNTIME_MODE = "shared-approved-svg-cast";
 
 const WorldCharacterFeedbackContext = createContext<(state: MoneyWorldCharacterFeedbackState) => void>(() => {});
 
@@ -213,7 +212,7 @@ function WorldHero({
   context = "world_catalog"
 }: {
   compact?: boolean;
-  context?: "world_catalog" | "world_map";
+  context?: "world_catalog" | "world_map" | "world_completion";
 }) {
   const presentation = resolveMoneyWorldCharacterPresentation(context);
   return (
@@ -304,7 +303,7 @@ export function MoneyWorldMapScreen({ childId, worldId }: { childId: string; wor
 
   return (
     <main className={styles.mapPage}>
-      <WorldHero context="world_map" />
+      <WorldHero context={worldComplete ? "world_completion" : "world_map"} />
       <div className={styles.mapTopline}>
         <Link href={worldsHref} className={styles.textButton}>← Semua World</Link>
         <span>{state.ready ? String(state.progress.completedStageIds.length) + "/" + MONEY_WORLD_STAGES.length + " Stage" : "Memuat…"}</span>
@@ -1478,7 +1477,7 @@ function MoneyWorldStageRuntime({
       data-world-pilot-runtime-status={pilotStage.runtimeStatus}
       data-world-scene={stage.order}
       data-world-stage-shell="garden-baseline-v1"
-      data-world-runtime-character-policy={MONEY_WORLD_SHARED_CHARACTER_RUNTIME_MODE}
+      data-world-runtime-character-policy={MONEY_WORLD_RUNTIME_CHARACTER_POLICY.mode}
       data-world-character-state={characterState}
       data-world-character-left={characterPresentation.characters[0]?.id}
       data-world-character-right={characterPresentation.characters[1]?.id}
