@@ -14,16 +14,17 @@ The original `Audited HEAD` above records the starting point of this plan. It is
 Current live checkpoint:
 
 ```text
-Sessions 01–08: COMPLETE
-Session 08 PR: #337
-final PR head: 6a728c36f7bc0a1a34c46e2511062df5e2b9af9d
-final PR CI: #1663 / run 36120579884 — full success
-merged main: e2e5e4b676ce45313786420708de41731ec2e3cb
-merged-main CI: #1664 / run 36121741946 — full success
+Sessions 01–09: COMPLETE
+Session 09 PR: #340
+final PR head: 80e2a7211e6ebe1791370a87790b4c2ff20a621a
+final PR CI: #1673 / run 36131389534 — full success
+merged main: 227a77799cd73fecc8e58960ef8758c2e323bc30
+merged-main CI: #1674 / run 36132350678 — full success
 Cloudflare production smoke: success
 Belajar responsive character matrix: 35/35 PASS
 World shared-character browser regression: PASS
-next authorized session: Session 09 — Home + Bermain shell integration
+Home+Bermain character browser regression: PASS
+next authorized session: Session 10 — semantic/activity illustration registry SVG-aware production migration
 ```
 
 Safe handoff: `MAINLAGI_CHARACTER_WORLD_SAFE_CHECKPOINT_2026-09-25.md`.
@@ -1568,17 +1569,39 @@ Permanent browser regression `npm run test:ui:world-character` is included in `n
 
 The implementation preserves the World IDs, 2 Chapters / 8 Stages / 44 Scenes / 89 Segments, progress/evidence semantics, stars/rewards/mastery boundaries, narration activation, and character provenance/approval. Existing World asset-plan gaps remain explicit.
 
-**Session 08 is closed. Start Session 09 only from merged latest main.**
+**Historical transition:** Session 08 closed before Session 09 began. Session 09 is now closed below.
 
-### Session 09 — Integrate characters into Home + Bermain shell
+### Session 09 — Integrate characters into Home + Bermain shell — COMPLETE
 
-**Do:** use the shared character system on:
-- Mainlagi Home full-cast/brand presentation;
-- Belajar/World/Bermain entry cards where appropriate;
-- Bermain entry/result/completion presentation only.
+**Closure:** `MAINLAGI_HOME_BERMAIN_CHARACTER_INTEGRATION_SESSION09_2026-09-25.md`  
+**PR:** #340  
+**Final PR head:** `80e2a7211e6ebe1791370a87790b4c2ff20a621a`  
+**PR CI:** #1673 / run `36131389534` — full success  
+**Merged main:** `227a77799cd73fecc8e58960ef8758c2e323bc30`  
+**Merged-main CI:** #1674 / run `36132350678` — full success including Cloudflare production smoke
 
-**Do not:** redesign Motion Engine or game mechanics.  
-**Done when:** Home visibly presents one Mainlagi system and Bermain uses shared character assets without touching motion logic.
+Implemented:
+
+- Home full-cast approved SVG ensemble in canonical Naya / Gian / Paca / Zia / Gavi order;
+- unified Home discovery for Belajar / World / Bermain;
+- Home reads the existing World progress source-of-truth without merging it into Belajar mastery;
+- Bermain catalog/preflight uses Gavi + Paca `welcome`;
+- shared round completion uses Gavi + Paca `celebrate`;
+- preflight characters are removed before active camera calibration;
+- ordinary CharacterLayer behavior stays max-2; explicit Home ensemble is max-5;
+- permanent 390/1280 browser regression is included in `test:ui:mobile-routes`.
+
+Preserved:
+
+- all ten existing game mechanic modules;
+- Motion Engine architecture;
+- 900 activities / 47 patterns;
+- World structure/progress/evidence semantics;
+- Belajar mastery/progression/rewards;
+- character provenance/approval;
+- narration activation.
+
+**Session 09 is closed. Start Session 10 only from merged latest main.**
 
 ### Session 10 — Migrate semantic/activity illustration registry to SVG-aware production
 
