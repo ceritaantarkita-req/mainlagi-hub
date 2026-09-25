@@ -1,12 +1,18 @@
 import { createHash } from "node:crypto";
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
+import {
+  sanitizeAndValidateSvg,
+  validateSvgProductionDirectory,
+  validateSvgProductionPathRecords
+} from "./lib/svg-asset-security.mjs";
 
 const root = process.env.LEARNING_ILLUSTRATION_ASSET_ROOT
   ? path.resolve(process.env.LEARNING_ILLUSTRATION_ASSET_ROOT)
   : process.cwd();
 
 const registryPath = path.join(root, "src", "lib", "data", "learning-illustration-asset-provenance.json");
+const SVG_SECURITY_VALIDATOR = "scripts/lib/svg-asset-security.mjs";
 const EXPECTED_KEYS = [
   "action.jump",
   "animal.bird",
@@ -26,10 +32,12 @@ const EXPECTED_KEYS = [
   "object.umbrella",
   "vehicle.car"
 ];
+const HELD_KEYS = new Set(["object.raincoat", "object.towel", "vehicle.car"]);
 const ALLOWED_LIFECYCLE = new Set(["review-required", "approved"]);
 const ALLOWED_PROVENANCE = new Set(["pending", "owned", "licensed"]);
 const ALLOWED_CANDIDATE_REVIEW = new Set(["none", "visually-suitable", "rejected"]);
 const ALLOWED_SEMANTIC_REVIEW = new Set(["pending", "approved"]);
+const ALLOWED_SVG_STATUS = new Set(["held", "migration-ready", "approved"]);
 const IMAGE_EXTENSIONS = new Set([".png", ".webp", ".jpg", ".jpeg", ".avif", ".svg"]);
 
 function fail(message) {
@@ -39,6 +47,14 @@ function fail(message) {
 
 function requiredString(value) {
   return typeof value === "string" && value.trim().length > 0;
+}
+
+function validDate(value) {
+  return requiredString(value) && /^\d{4}-\d{2}-\d{2}$/.test(value);
+}
+
+function validSha(value) {
+  return requiredString(value) && /^[a-f0-9]{64}$/.test(value);
 }
 
 function safePublicPath(value) {
@@ -112,6 +128,10 @@ function walkImageFiles(directory) {
   const results = [];
   for (const entry of readdirSync(directory, { withFileTypes: true })) {
     const absolute = path.join(directory, entry.name);
+    if (entry.isSymbolicLink()) {
+      fail(`${absolute}: symbolic links are forbidden in learning illustration production directories`);
+      continue;
+    }
     if (entry.isDirectory()) {
       results.push(...walkImageFiles(absolute));
       continue;
@@ -136,14 +156,17 @@ try {
 }
 
 if (
-  registry?.version !== 1 ||
+  registry?.version !== 2 ||
   registry.scope !== "learning-semantic-illustration" ||
   registry.productionDirectory !== "/artwork/learning-illustrations" ||
+  registry.preferredProductionFormat !== "svg" ||
+  registry.svgSecurityValidator !== SVG_SECURITY_VALIDATOR ||
+  registry.runtimeActivation !== "off" ||
   !registry.items ||
   typeof registry.items !== "object" ||
   Array.isArray(registry.items)
 ) {
-  fail("registry header must define version=1, learning-semantic-illustration scope, canonical production directory, and items");
+  fail("registry header must define version=2, SVG-preferred semantic illustration scope, canonical production directory/security validator, runtimeActivation=off, and items");
   process.exit();
 }
 
@@ -152,7 +175,9 @@ if (JSON.stringify(actualKeys) !== JSON.stringify([...EXPECTED_KEYS].sort())) {
   fail(`registry must contain exactly: ${EXPECTED_KEYS.join(", ")}`);
 }
 
-const approvedPublicPaths = new Map();
+const approvedWebpPaths = new Map();
+const approvedSvgRecords = [];
+const expectedSvgPaths = new Map();
 
 for (const semanticKey of EXPECTED_KEYS) {
   const record = registry.items[semanticKey];
@@ -162,11 +187,11 @@ for (const semanticKey of EXPECTED_KEYS) {
   }
 
   const slug = semanticKey.replaceAll(".", "-");
-  const expectedPath = `/artwork/learning-illustrations/${slug}-v1.webp`;
+  const expectedWebpPath = `/artwork/learning-illustrations/${slug}-v1.webp`;
+  const expectedSvgPath = `/artwork/learning-illustrations/${slug}-v1.svg`;
 
   if (record.category !== semanticKey.split(".")[0]) fail(`${semanticKey}: category must match semantic-key prefix`);
   if (!ALLOWED_LIFECYCLE.has(record.lifecycle)) fail(`${semanticKey}: invalid lifecycle`);
-  if (record.expectedProductionPath !== expectedPath) fail(`${semanticKey}: expectedProductionPath must be ${expectedPath}`);
   if (!requiredString(record.fallbackGlyph)) fail(`${semanticKey}: fallbackGlyph is required`);
 
   const candidate = record.candidate;
@@ -187,9 +212,7 @@ for (const semanticKey of EXPECTED_KEYS) {
       if (candidate.reviewedAt !== null) fail(`${semanticKey}: reviewStatus=none requires reviewedAt=null`);
     } else {
       if (candidate.sourcePath === null) fail(`${semanticKey}: reviewed candidate requires sourcePath`);
-      if (!requiredString(candidate.reviewedAt) || !/^\d{4}-\d{2}-\d{2}$/.test(candidate.reviewedAt)) {
-        fail(`${semanticKey}: reviewed candidate needs YYYY-MM-DD reviewedAt`);
-      }
+      if (!validDate(candidate.reviewedAt)) fail(`${semanticKey}: reviewed candidate needs YYYY-MM-DD reviewedAt`);
       if (!requiredString(candidate.notes)) fail(`${semanticKey}: reviewed candidate needs notes`);
     }
   }
@@ -203,9 +226,7 @@ for (const semanticKey of EXPECTED_KEYS) {
     if (typeof provenance.redistributionAllowed !== "boolean") {
       fail(`${semanticKey}: provenance.redistributionAllowed must be boolean`);
     }
-    if (!requiredString(provenance.reviewedAt) || !/^\d{4}-\d{2}-\d{2}$/.test(provenance.reviewedAt)) {
-      fail(`${semanticKey}: provenance.reviewedAt must use YYYY-MM-DD`);
-    }
+    if (!validDate(provenance.reviewedAt)) fail(`${semanticKey}: provenance.reviewedAt must use YYYY-MM-DD`);
   }
 
   const semanticReview = record.semanticReview;
@@ -218,10 +239,41 @@ for (const semanticKey of EXPECTED_KEYS) {
       if (semanticReview.reviewedAt !== null) fail(`${semanticKey}: pending semantic review requires reviewedAt=null`);
     } else {
       if (semanticReview.childReadable !== true) fail(`${semanticKey}: approved semantic review requires childReadable=true`);
-      if (!requiredString(semanticReview.reviewedAt) || !/^\d{4}-\d{2}-\d{2}$/.test(semanticReview.reviewedAt)) {
+      if (!validDate(semanticReview.reviewedAt)) {
         fail(`${semanticKey}: approved semantic review needs YYYY-MM-DD reviewedAt`);
       }
       if (!requiredString(semanticReview.notes)) fail(`${semanticKey}: approved semantic review needs notes`);
+    }
+  }
+
+  const productionAssets = record.productionAssets;
+  if (!productionAssets || typeof productionAssets !== "object" || Array.isArray(productionAssets)) {
+    fail(`${semanticKey}: productionAssets object is required`);
+    continue;
+  }
+
+  const svg = productionAssets.svg;
+  if (!svg || typeof svg !== "object" || Array.isArray(svg)) {
+    fail(`${semanticKey}: productionAssets.svg is required`);
+  } else {
+    if (!ALLOWED_SVG_STATUS.has(svg.status)) fail(`${semanticKey}: invalid SVG migration status`);
+    if (svg.format !== "svg") fail(`${semanticKey}: SVG production format must be svg`);
+    if (svg.expectedPath !== expectedSvgPath) {
+      fail(`${semanticKey}: SVG expectedPath must be ${expectedSvgPath}`);
+    }
+    if (expectedSvgPaths.has(expectedSvgPath)) {
+      fail(`${semanticKey}: SVG expectedPath already assigned to ${expectedSvgPaths.get(expectedSvgPath)}`);
+    } else {
+      expectedSvgPaths.set(expectedSvgPath, semanticKey);
+    }
+
+    if (svg.status === "approved") {
+      if (svg.path !== expectedSvgPath) fail(`${semanticKey}: approved SVG path must equal expectedPath`);
+      if (!validSha(svg.sha256)) fail(`${semanticKey}: approved SVG requires lowercase SHA-256`);
+      approvedSvgRecords.push({ id: semanticKey, productionPath: svg.path, record });
+    } else {
+      if (svg.path !== null) fail(`${semanticKey}: non-approved SVG must keep path=null`);
+      if (svg.sha256 !== null) fail(`${semanticKey}: non-approved SVG must keep sha256=null`);
     }
   }
 
@@ -230,25 +282,57 @@ for (const semanticKey of EXPECTED_KEYS) {
     fail(`${semanticKey}: technical contract is required`);
     continue;
   }
-  if (technical.format !== "webp") fail(`${semanticKey}: production format must be webp`);
-  if (technical.requireAlpha !== true) fail(`${semanticKey}: production illustration must require alpha/transparency`);
-  for (const key of ["minWidth", "minHeight", "maxWidth", "maxHeight", "maxBytes"]) {
-    if (!Number.isInteger(technical[key]) || technical[key] <= 0) fail(`${semanticKey}: technical.${key} must be a positive integer`);
+
+  const webpTechnical = technical.webp;
+  if (!webpTechnical || typeof webpTechnical !== "object" || Array.isArray(webpTechnical)) {
+    fail(`${semanticKey}: technical.webp is required`);
+  } else {
+    if (webpTechnical.format !== "webp") fail(`${semanticKey}: technical.webp.format must be webp`);
+    if (webpTechnical.requireAlpha !== true) fail(`${semanticKey}: WebP production illustration must require alpha/transparency`);
+    for (const key of ["minWidth", "minHeight", "maxWidth", "maxHeight", "maxBytes"]) {
+      if (!Number.isInteger(webpTechnical[key]) || webpTechnical[key] <= 0) {
+        fail(`${semanticKey}: technical.webp.${key} must be a positive integer`);
+      }
+    }
+    if (
+      Number.isInteger(webpTechnical.minWidth) &&
+      Number.isInteger(webpTechnical.maxWidth) &&
+      Number.isInteger(webpTechnical.minHeight) &&
+      Number.isInteger(webpTechnical.maxHeight) &&
+      (webpTechnical.minWidth > webpTechnical.maxWidth || webpTechnical.minHeight > webpTechnical.maxHeight)
+    ) {
+      fail(`${semanticKey}: WebP technical dimension bounds are invalid`);
+    }
   }
-  if (technical.minWidth > technical.maxWidth || technical.minHeight > technical.maxHeight) {
-    fail(`${semanticKey}: technical dimension bounds are invalid`);
+
+  const svgTechnical = technical.svg;
+  if (!svgTechnical || typeof svgTechnical !== "object" || Array.isArray(svgTechnical)) {
+    fail(`${semanticKey}: technical.svg is required`);
+  } else {
+    if (svgTechnical.format !== "svg") fail(`${semanticKey}: technical.svg.format must be svg`);
+    if (!Number.isInteger(svgTechnical.maxBytes) || svgTechnical.maxBytes <= 0) {
+      fail(`${semanticKey}: technical.svg.maxBytes must be a positive integer`);
+    }
+    if (svgTechnical.requireViewBox !== true) fail(`${semanticKey}: technical.svg.requireViewBox must be true`);
+    if (svgTechnical.productionSanitizationRequired !== true) {
+      fail(`${semanticKey}: technical.svg.productionSanitizationRequired must be true`);
+    }
+    if (svgTechnical.validator !== SVG_SECURITY_VALIDATOR) {
+      fail(`${semanticKey}: technical.svg.validator must be ${SVG_SECURITY_VALIDATOR}`);
+    }
   }
 
   if (record.lifecycle !== "approved") {
-    if (record.productionPath !== null) fail(`${semanticKey}: non-approved illustration must keep productionPath=null`);
-    if (record.productionSha256 !== null) fail(`${semanticKey}: non-approved illustration must keep productionSha256=null`);
+    if (productionAssets.webp !== null) fail(`${semanticKey}: non-approved illustration must keep productionAssets.webp=null`);
+    if (svg?.status !== "held") fail(`${semanticKey}: non-approved illustration SVG status must be held`);
     if (provenance?.redistributionAllowed !== false) fail(`${semanticKey}: non-approved illustration must fail closed for redistribution`);
     if (semanticReview?.status !== "pending") fail(`${semanticKey}: non-approved illustration must keep semantic review pending`);
     continue;
   }
 
-  if (record.productionPath !== expectedPath) fail(`${semanticKey}: approved productionPath must equal expectedProductionPath`);
-  if (!safePublicPath(record.productionPath)) fail(`${semanticKey}: unsafe productionPath`);
+  if (HELD_KEYS.has(semanticKey)) {
+    fail(`${semanticKey}: held semantic key must not use approved lifecycle`);
+  }
   if (!provenance || !["owned", "licensed"].includes(provenance.status)) {
     fail(`${semanticKey}: approved asset requires owned or licensed provenance`);
   }
@@ -258,55 +342,125 @@ for (const semanticKey of EXPECTED_KEYS) {
   if (semanticReview?.status !== "approved" || semanticReview?.childReadable !== true) {
     fail(`${semanticKey}: approved lifecycle requires approved child-readable semantic review`);
   }
-  if (!requiredString(record.productionSha256) || !/^[a-f0-9]{64}$/.test(record.productionSha256)) {
-    fail(`${semanticKey}: approved asset requires lowercase SHA-256`);
+  if (svg?.status === "held") fail(`${semanticKey}: approved clear-scope asset cannot keep SVG status held`);
+
+  const webp = productionAssets.webp;
+  if (!webp || typeof webp !== "object" || Array.isArray(webp)) {
+    fail(`${semanticKey}: approved asset must preserve approved WebP production history`);
+    continue;
+  }
+  if (webp.status !== "approved") fail(`${semanticKey}: productionAssets.webp.status must be approved`);
+  if (webp.format !== "webp") fail(`${semanticKey}: productionAssets.webp.format must be webp`);
+  if (webp.path !== expectedWebpPath) fail(`${semanticKey}: approved WebP path must be ${expectedWebpPath}`);
+  if (!safePublicPath(webp.path)) fail(`${semanticKey}: unsafe approved WebP path`);
+  if (!validSha(webp.sha256)) fail(`${semanticKey}: approved WebP requires lowercase SHA-256`);
+
+  if (approvedWebpPaths.has(webp.path)) {
+    fail(`${semanticKey}: WebP path already assigned to ${approvedWebpPaths.get(webp.path)}`);
+  } else {
+    approvedWebpPaths.set(webp.path, semanticKey);
   }
 
-  const absolute = path.join(root, "public", record.productionPath.slice(1));
+  const absolute = path.join(root, "public", webp.path.slice(1));
   if (!existsSync(absolute)) {
-    fail(`${semanticKey}: approved production asset does not exist (${record.productionPath})`);
+    fail(`${semanticKey}: approved WebP production asset does not exist (${webp.path})`);
     continue;
   }
 
-  if (path.extname(absolute).toLowerCase() !== ".webp") fail(`${semanticKey}: approved production asset must be .webp`);
-
   const buffer = readFileSync(absolute);
   const size = statSync(absolute).size;
-  if (size > technical.maxBytes) fail(`${semanticKey}: asset exceeds maxBytes (${size} > ${technical.maxBytes})`);
+  if (webpTechnical && size > webpTechnical.maxBytes) {
+    fail(`${semanticKey}: WebP exceeds maxBytes (${size} > ${webpTechnical.maxBytes})`);
+  }
   const actualHash = createHash("sha256").update(buffer).digest("hex");
-  if (actualHash !== record.productionSha256) fail(`${semanticKey}: production SHA-256 mismatch`);
+  if (actualHash !== webp.sha256) fail(`${semanticKey}: WebP SHA-256 mismatch`);
 
   try {
     const metadata = inspectWebp(buffer);
-    if (metadata.width < technical.minWidth || metadata.width > technical.maxWidth) {
-      fail(`${semanticKey}: width ${metadata.width}px is outside ${technical.minWidth}-${technical.maxWidth}px`);
-    }
-    if (metadata.height < technical.minHeight || metadata.height > technical.maxHeight) {
-      fail(`${semanticKey}: height ${metadata.height}px is outside ${technical.minHeight}-${technical.maxHeight}px`);
-    }
-    if (technical.requireAlpha && !metadata.hasAlpha) {
-      fail(`${semanticKey}: WebP must contain alpha/transparency data`);
+    if (webpTechnical) {
+      if (metadata.width < webpTechnical.minWidth || metadata.width > webpTechnical.maxWidth) {
+        fail(`${semanticKey}: WebP width ${metadata.width}px is outside ${webpTechnical.minWidth}-${webpTechnical.maxWidth}px`);
+      }
+      if (metadata.height < webpTechnical.minHeight || metadata.height > webpTechnical.maxHeight) {
+        fail(`${semanticKey}: WebP height ${metadata.height}px is outside ${webpTechnical.minHeight}-${webpTechnical.maxHeight}px`);
+      }
+      if (webpTechnical.requireAlpha && !metadata.hasAlpha) {
+        fail(`${semanticKey}: WebP must contain alpha/transparency data`);
+      }
     }
   } catch (error) {
     fail(`${semanticKey}: ${error instanceof Error ? error.message : String(error)}`);
   }
+}
 
-  if (approvedPublicPaths.has(record.productionPath)) {
-    fail(`${semanticKey}: productionPath already assigned to ${approvedPublicPaths.get(record.productionPath)}`);
-  } else {
-    approvedPublicPaths.set(record.productionPath, semanticKey);
+let approvedSvgPathMap = new Map();
+try {
+  approvedSvgPathMap = validateSvgProductionPathRecords(
+    approvedSvgRecords.map(({ id, productionPath }) => ({ id, productionPath })),
+    { productionDirectory: registry.productionDirectory }
+  );
+} catch (error) {
+  fail(error instanceof Error ? error.message : String(error));
+}
+
+for (const { id: semanticKey, productionPath, record } of approvedSvgRecords) {
+  const absolute = path.join(root, "public", productionPath.slice(1));
+  if (!existsSync(absolute)) {
+    fail(`${semanticKey}: approved SVG production asset does not exist (${productionPath})`);
+    continue;
   }
+
+  const buffer = readFileSync(absolute);
+  const maxBytes = record.technical?.svg?.maxBytes ?? 1_000_000;
+  if (statSync(absolute).size > maxBytes) {
+    fail(`${semanticKey}: SVG exceeds maxBytes`);
+  }
+  const actualHash = createHash("sha256").update(buffer).digest("hex");
+  if (actualHash !== record.productionAssets.svg.sha256) fail(`${semanticKey}: SVG SHA-256 mismatch`);
+
+  try {
+    sanitizeAndValidateSvg(buffer, { maxBytes });
+  } catch (error) {
+    fail(`${semanticKey}: ${error instanceof Error ? error.message : String(error)}`);
+  }
+}
+
+try {
+  validateSvgProductionDirectory({
+    root,
+    productionDirectory: registry.productionDirectory,
+    approvedPaths: [...approvedSvgPathMap.keys()],
+    maxBytes: 1_000_000
+  });
+} catch (error) {
+  fail(error instanceof Error ? error.message : String(error));
 }
 
 const productionDir = path.join(root, "public", "artwork", "learning-illustrations");
 for (const absolute of walkImageFiles(productionDir)) {
   const publicPath = `/${path.relative(path.join(root, "public"), absolute).split(path.sep).join("/")}`;
-  if (!approvedPublicPaths.has(publicPath)) {
-    fail(`${publicPath}: learning illustration exists in production tree without an approved provenance record`);
+  const extension = path.extname(absolute).toLowerCase();
+
+  if (extension === ".svg") {
+    if (!approvedSvgPathMap.has(publicPath)) {
+      fail(`${publicPath}: learning illustration SVG exists without an approved SVG registry binding`);
+    }
+    continue;
   }
+
+  if (extension === ".webp") {
+    if (!approvedWebpPaths.has(publicPath)) {
+      fail(`${publicPath}: learning illustration WebP exists without an approved WebP registry binding`);
+    }
+    continue;
+  }
+
+  fail(`${publicPath}: unsupported learning illustration production format`);
 }
 
 if (process.exitCode) process.exit(process.exitCode);
+
+const heldCount = EXPECTED_KEYS.filter((key) => registry.items[key]?.lifecycle !== "approved").length;
 console.log(
-  `learning illustrations OK: ${approvedPublicPaths.size} approved production asset(s); ${EXPECTED_KEYS.length - approvedPublicPaths.size} fail-closed review-required slot(s)`
+  `learning illustrations v2 OK: ${approvedWebpPaths.size} approved WebP history asset(s); ${approvedSvgPathMap.size} approved SVG asset(s); ${EXPECTED_KEYS.length - heldCount - approvedSvgPathMap.size} SVG migration-ready slot(s); ${heldCount} held fail-closed slot(s); runtime activation off`
 );
