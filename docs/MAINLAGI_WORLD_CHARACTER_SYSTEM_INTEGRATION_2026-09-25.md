@@ -14,19 +14,20 @@ The original `Audited HEAD` above records the starting point of this plan. It is
 Current live checkpoint:
 
 ```text
-Sessions 01–08: COMPLETE
-Session 08 PR: #337
-final PR head: 6a728c36f7bc0a1a34c46e2511062df5e2b9af9d
-final PR CI: #1663 / run 36120579884 — full success
-merged main: e2e5e4b676ce45313786420708de41731ec2e3cb
-merged-main CI: #1664 / run 36121741946 — full success
+Sessions 01–09: COMPLETE
+Session 09 PR: #340
+final PR head after main sync: 80e2a7211e6ebe1791370a87790b4c2ff20a621a
+final PR CI: #1673 / run 36131389534 — full success
+merged main: 227a77799cd73fecc8e58960ef8758c2e323bc30
+merged-main CI: #1674 / run 36132350678 — full success
 Cloudflare production smoke: success
 Belajar responsive character matrix: 35/35 PASS
 World shared-character browser regression: PASS
-next authorized session: Session 09 — Home + Bermain shell integration
+Home + Bermain Session 09 browser regression: PASS
+next authorized session: Session 10 — semantic/activity illustration registry SVG-aware production contract
 ```
 
-Safe handoff: `MAINLAGI_CHARACTER_WORLD_SAFE_CHECKPOINT_2026-09-25.md`.
+Safe handoff: `MAINLAGI_CHARACTER_WORLD_SAFE_CHECKPOINT_2026-09-25.md`. Session 09 closure: `MAINLAGI_HOME_BERMAIN_CHARACTER_INTEGRATION_SESSION09_2026-09-25.md`.
 
 ---
 
