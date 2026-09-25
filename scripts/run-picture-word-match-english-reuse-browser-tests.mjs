@@ -136,6 +136,36 @@ async function completeCorrect(page,completionMode){
   await page.touchscreen.tap(box.x+box.width/2,box.y+box.height/2);
 }
 
+const semanticCoverageCases=[
+  {activityId:"english-animal-fish",semanticKey:"animal.fish"},
+  {activityId:"english-object-cup",semanticKey:"object.cup"},
+  {activityId:"english-body-head",semanticKey:"body.head"},
+  {activityId:"english-food-apple",semanticKey:"object.apple"},
+  {activityId:"english-action-jump",semanticKey:"action.jump"}
+];
+
+async function inspectSemanticCoverage(){
+  const browser=await chromium.launch({headless:true});
+  try{
+    const context=await browser.newContext({viewport:{width:390,height:844},reducedMotion:"reduce"});
+    await seedPrerequisiteReadiness(context);
+    const page=await context.newPage();
+    for(const item of semanticCoverageCases){
+      const response=await page.goto(`${baseUrl}/child/demo-gian/activity/${item.activityId}`,{waitUntil:"domcontentloaded",timeout:30000});
+      assert(response&&response.status()<400,`${item.activityId} English semantic coverage route must load`);
+      await waitForScene(page);
+      const token=page.locator(`[data-learning-semantic-key="${item.semanticKey}"][data-learning-visual-source="semantic-svg"]`);
+      assert.equal(await token.count(),1,`${item.activityId} must activate ${item.semanticKey}`);
+      const expectedPath=`/artwork/learning-illustrations/${item.semanticKey.replaceAll(".","-")}-v1.svg`;
+      assert.equal(await token.locator(`img[src="${expectedPath}"][data-learning-semantic-image]`).count(),1,`${item.semanticKey} must render its canonical SVG`);
+      await assertLearningVisualContainment(page,"[data-picture-word-match]",`${item.activityId} English semantic coverage`);
+    }
+    await context.close();
+  }finally{
+    await browser.close();
+  }
+}
+
 async function inspect({viewport,completionMode}){
   const browser=await chromium.launch({headless:true});
   try{
@@ -237,6 +267,7 @@ async function inspect({viewport,completionMode}){
 async function main(){
   startServer();
   await waitForServer();
+  await inspectSemanticCoverage();
   for(const item of cases)await inspect(item);
   console.log("English Picture Word Match browser QA passed 3 viewports with leak-free English presentation, keyboard retry, pointer + touchscreen completion, touch targets, screenshots and assessed evidence.");
 }
