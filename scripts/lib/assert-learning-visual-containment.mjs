@@ -1,6 +1,14 @@
 import assert from "node:assert/strict";
 
 export async function assertLearningVisualContainment(page, scopeSelector, label) {
+  await page.locator(`${scopeSelector} [data-learning-semantic-image]`).evaluateAll(async (nodes) => {
+    await Promise.all(nodes.map(async (node) => {
+      if (!(node instanceof HTMLImageElement)) return;
+      if (node.complete && node.naturalWidth > 0 && node.naturalHeight > 0) return;
+      await node.decode();
+    }));
+  });
+
   const metrics = await page.locator(`${scopeSelector} [data-learning-visual-token]`).evaluateAll((nodes) =>
     nodes.map((node) => {
       const frame = node.getBoundingClientRect();
