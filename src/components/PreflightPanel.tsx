@@ -220,12 +220,14 @@ export function PreflightPanel({
         )}
       </div>
 
-      <div className="preflight-character-stage" aria-hidden>
-        <CharacterLayer
-          characters={characterPresentation.characters}
-          className="preflight-character-layer"
-        />
-      </div>
+      {status === "idle" ? (
+        <div className="preflight-character-stage" aria-hidden>
+          <CharacterLayer
+            characters={characterPresentation.characters}
+            className="preflight-character-layer"
+          />
+        </div>
+      ) : null}
 
       <header className="preflight-topbar">
         <Link className="preflight-back" href="/" aria-label="Kembali ke beranda">
