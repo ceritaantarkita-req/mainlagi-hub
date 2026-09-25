@@ -109,7 +109,7 @@ Iqro/Hijaiyah pronunciation requires competent human review. Generic TTS must no
 
 ## Character production assets
 
-Character source/provenance/production/runtime foundation is **closed through Session 08**.
+Character source/provenance/production/runtime foundation and product-surface integration are **closed through Session 09**.
 
 Current verified truth:
 
@@ -117,13 +117,15 @@ Current verified truth:
 - all 35 are exact source/hash/provenance bound under `public/artwork/characters/`;
 - Belajar uses the shared SVG runtime;
 - Petualangan Uang uses the same runtime with authored Gavi + Paca cast;
-- Session 08 PR #337 and merged-main CI #1664 are live verified including Cloudflare production smoke;
+- Home uses the approved five-character ensemble;
+- Bermain uses shared Gavi + Paca entry/preflight/completion presentation;
+- Session 09 PR #340 and merged-main CI #1674 are live verified including Cloudflare production smoke;
 - design-set SVGs and the Illustrator collection remain reference/master material only;
 - legacy Garden Gavi/Paca WebPs remain compatibility fallback/history.
 
-The remaining character-product limitation is surface coverage, not asset availability: Home + Bermain shell integration is still pending Session 09. Motion Engine/game mechanics, voice identity, narration activation, and any new character state/identity remain separate approval scopes. Child profile identity remains separate from guide-character identity.
+Character surface coverage is no longer the current blocker. Remaining separate scopes include Motion Engine/game mechanics, voice identity, narration activation, semantic illustration migration, and any future character state/identity. Child profile identity remains separate from guide-character identity.
 
-Canonical Session 08 closure: `MAINLAGI_WORLD_CHARACTER_INTEGRATION_SESSION08_2026-09-25.md`.
+Canonical Session 08 closure: `MAINLAGI_WORLD_CHARACTER_INTEGRATION_SESSION08_2026-09-25.md`. Canonical Session 09 closure: `MAINLAGI_HOME_BERMAIN_CHARACTER_INTEGRATION_SESSION09_2026-09-25.md`.
 
 ## About, FAQ, and affiliate discoverability
 

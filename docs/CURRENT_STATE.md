@@ -20,30 +20,27 @@ Semantic P0 current factual state remains **14 approved WebP production derivati
 
 Canonical policy: `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`.
 
-## 25 September character + World safe checkpoint — LIVE VERIFIED THROUGH SESSION 08
+## 25 September shared character product checkpoint — LIVE VERIFIED THROUGH SESSION 09
 
 ```text
-Session 08 runtime implementation main: e2e5e4b676ce45313786420708de41731ec2e3cb
-Session 08 PR: #337
-final PR head: 6a728c36f7bc0a1a34c46e2511062df5e2b9af9d
-final PR CI: #1663 / run 36120579884 — full success
-runtime merged-main CI: #1664 / run 36121741946 — full success
-runtime Production smoke (Cloudflare): success
-Session 08 docs closure PR: #338
-docs closure main: ec894e302eac6d7bb80ab3169319611c9524514d
-docs closure merged-main CI: #1666 / run 36125237186 — full success
-docs closure Production smoke (Cloudflare): success
-Sessions 01–08: COMPLETE
-next: Session 09 — Home + Bermain shell character integration
+Sessions 01–08 closure baseline: ec894e302eac6d7bb80ab3169319611c9524514d
+Session 09 PR: #340
+Session 09 final PR head: 80e2a7211e6ebe1791370a87790b4c2ff20a621a
+Session 09 final PR CI: #1673 / run 36131389534 — full success
+Session 09 merged main: 227a77799cd73fecc8e58960ef8758c2e323bc30
+Session 09 merged-main CI: #1674 / run 36132350678 — full success
+Session 09 Production smoke (Cloudflare): success
+Sessions 01–09: COMPLETE
+next: Session 10 — semantic/activity illustration registry SVG-aware production migration
 ```
 
-The exact repository `main` HEAD may move through later docs-only descendants. Treat the SHAs above as the verified Session 08 runtime and closure checkpoints, and query `main` itself when an exact latest repository HEAD is required.
+The exact repository `main` HEAD may move through later docs-only descendants. Treat `227a77799cd73fecc8e58960ef8758c2e323bc30` as the verified Session 09 runtime checkpoint and query `main` itself when an exact latest repository HEAD is required.
 
 Session 08 migrated Petualangan Uang to the shared approved SVG character runtime while preserving the authored Gavi + Paca cast. Catalog, map, story/concept, challenge feedback, Stage completion, and final-World completion now resolve through `characterPresentation.ts` + `CharacterLayer` with `welcome / pointing / hero / thinking / correct / try_again / celebrate` presentation states.
 
 World canonical structure, content, progress, supplemental-evidence semantics, rewards/mastery boundaries, narration activation, and character provenance/approval were not changed. The historical World asset-plan approval gaps remain explicit rather than being silently closed by presentation migration.
 
-Canonical closure: `MAINLAGI_WORLD_CHARACTER_INTEGRATION_SESSION08_2026-09-25.md`. Canonical handoff remains `MAINLAGI_CHARACTER_WORLD_SAFE_CHECKPOINT_2026-09-25.md`.
+Canonical Session 08 closure: `MAINLAGI_WORLD_CHARACTER_INTEGRATION_SESSION08_2026-09-25.md`. Canonical Session 09 closure: `MAINLAGI_HOME_BERMAIN_CHARACTER_INTEGRATION_SESSION09_2026-09-25.md`. Canonical handoff remains `MAINLAGI_CHARACTER_WORLD_SAFE_CHECKPOINT_2026-09-25.md`.
 
 Character SVG engineering checkpoint:
 
@@ -60,10 +57,12 @@ Production-approved SVG variants: 35/35
 Shared SVG runtime-addressable states: 35/35
 Belajar character resolution: active across 900/900 activities
 Session 07 representative matrix: 7 routes × 5 viewports = 35/35 PASS
-World migration: complete through Session 08; Home/Bermain shell integration: pending Session 09
+World migration: complete through Session 08
+Home/Bermain shell integration: complete through Session 09
+Session 09 browser regression: PASS
 ```
 
-All 35 character variants are exact SHA-bound, owned/provenance-approved production SVGs under `public/artwork/characters/`. Belajar now resolves its canonical subject pair through the shared runtime: English = Naya+Zia, Math = Gian+Paca, and Bahasa/Iqro/Huruf/Logic/Science = Gavi+Paca. Color/Drawing retain the Gavi+Paca policy but suppress the decorative foreground while the creative workspace is active. World is now migrated through Session 08; Home/Bermain remain the next product-surface integration in Session 09.
+All 35 character variants are exact SHA-bound, owned/provenance-approved production SVGs under `public/artwork/characters/`. Belajar now resolves its canonical subject pair through the shared runtime: English = Naya+Zia, Math = Gian+Paca, and Bahasa/Iqro/Huruf/Logic/Science = Gavi+Paca. Color/Drawing retain the Gavi+Paca policy but suppress the decorative foreground while the creative workspace is active. World is migrated through Session 08; Home and Bermain are integrated through Session 09. The shared character product-surface migration is now complete across Belajar, World, Home and Bermain.
 
 ## 25 September World + character integration authorization — CURRENT
 
@@ -81,7 +80,7 @@ design-set SVG + .ai: reference/master only
 legacy Gavi/Paca WebP: compatibility fallback during migration
 ```
 
-This authorization is now implemented through Session 08: all 35 SVGs are production-approved/runtime-addressable; Belajar uses the shared resolver + CharacterLayer with a clean 320/390/430/768/1280 representative matrix; and Petualangan Uang now uses the same shared runtime for its authored Gavi + Paca cast. Product-surface migration remains staged: Home/Bermain shell integration is reserved for Session 09.
+This authorization is now implemented through Session 09: all 35 SVGs are production-approved/runtime-addressable; Belajar uses the shared resolver + CharacterLayer; Petualangan Uang uses the same runtime for authored Gavi + Paca; Home uses the approved five-character ensemble; and Bermain uses shared Gavi + Paca entry/completion presentation without altering Motion Engine mechanics.
 
 Any lower section that says “World untouched” or “character development paused” describes the boundary of that historical checkpoint and must not be interpreted as the current project-owner instruction.
 
