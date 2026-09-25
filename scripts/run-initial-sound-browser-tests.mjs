@@ -127,7 +127,10 @@ async function inspect(viewport){
 
     const board=page.locator("[data-initial-sound-board]");
     assert.equal(await board.count(),1,"initial-sound board renders");
-    assert.equal(await board.getByText("⚽").count(),1,"representative board exposes familiar ball clue");
+    const semanticVisual=board.locator('[data-learning-semantic-key="object.ball"][data-learning-visual-source="semantic-svg"]');
+    assert.equal(await semanticVisual.count(),1,"representative board activates approved semantic ball SVG");
+    assert.equal(await semanticVisual.locator('img[src="/artwork/learning-illustrations/object-ball-v1.svg"][data-learning-semantic-image]').count(),1,"ball semantic visual comes from canonical registry-backed SVG path");
+    assert.equal(await board.getByText("⚽").count(),0,"approved semantic SVG replaces the platform fallback glyph");
     assert.equal(await board.getByText("ola",{exact:true}).count(),1,"word remainder stays visible as canonical cue");
     assert.equal(await board.getByText("Ucapkan: bola",{exact:true}).count(),1,"board asks child to articulate the canonical word");
 
