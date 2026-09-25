@@ -5,7 +5,8 @@ import Link from "next/link";
 import { ArrowLeft, SpeakerHigh } from "@phosphor-icons/react";
 import { useState, type CSSProperties, type ReactNode } from "react";
 import { speakWithStatus, unlockAudio } from "@/lib/audio/feedback";
-import { useActivityVisualTheme } from "./ActivityVisualThemeProvider";
+import { useActivityCharacterPresentation, useActivityVisualTheme } from "./ActivityVisualThemeProvider";
+import { CharacterLayer } from "./CharacterLayer";
 import styles from "./GardenActivityFrame.module.css";
 
 /** Presentation only: completion and evidence stay with each activity runtime. */
@@ -15,14 +16,17 @@ export function GardenActivityFrame({ backHref, title, narration, lang = "id-ID"
 }) {
   const [audioNotice, setAudioNotice] = useState<string | null>(null);
   const visualTheme = useActivityVisualTheme();
+  const { moment: characterMoment, presentation: characterPresentation, setMoment: setCharacterMoment } =
+    useActivityCharacterPresentation();
   const runtimeAssets = visualTheme?.scene.runtimeAssets;
-  const runtimeCharacters = visualTheme?.characters.runtimeCharacters ?? [];
+  const runtimeCharacters = characterPresentation?.characters ?? [];
   const sceneStyle = runtimeAssets ? ({
     "--ml-scene-wide": `url("${runtimeAssets.wideSrc}")`,
     "--ml-scene-mobile": `url("${runtimeAssets.mobileSrc}")`,
     "--ml-scene-color": visualTheme.scene.fallbackColor
   } as CSSProperties) : undefined;
   const hear = () => {
+    setCharacterMoment("guide");
     if (onHear) { onHear(); return; }
     unlockAudio(lang);
     const status = speakWithStatus(narration ?? title ?? "", lang);
@@ -40,7 +44,9 @@ export function GardenActivityFrame({ backHref, title, narration, lang = "id-ID"
     data-scene-variant={visualTheme?.scene.id}
     data-scene-source={visualTheme?.source}
     data-scene-assets={runtimeAssets ? "approved" : "fallback"}
-    data-character-source={visualTheme?.characters.source}
+    data-character-source={characterPresentation?.source}
+    data-character-moment={characterMoment}
+    data-character-state={runtimeCharacters[0]?.state}
     data-character-left={runtimeCharacters[0]?.id}
     data-character-right={runtimeCharacters[1]?.id}
   >
@@ -55,17 +61,8 @@ export function GardenActivityFrame({ backHref, title, narration, lang = "id-ID"
       {children}
       {hint ? <p className={styles.hint}>{hint}</p> : null}
     </div>
-    {runtimeCharacters.map((character) => (
-      <img
-        key={`${character.side}:${character.id}`}
-        src={character.src}
-        className={`${styles.character} ${character.side === "left" ? styles.characterLeft : styles.characterRight}`}
-        data-character-id={character.id}
-        data-character-side={character.side}
-        alt=""
-        width={500}
-        height={650}
-      />
-    ))}
+    {!workspace && characterPresentation ? (
+      <CharacterLayer characters={runtimeCharacters} />
+    ) : null}
   </main>;
 }
