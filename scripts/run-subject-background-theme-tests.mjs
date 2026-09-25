@@ -19,6 +19,51 @@ const {
   THEMED_SUBJECT_IDS,
   resolveActivityVisualTheme
 } = require(path.resolve(".learning-test-dist/src/lib/learning/activityVisualTheme.js"));
+const {
+  learningSemanticRuntimeActivation,
+  resolveLearningSemanticIllustration
+} = require(path.resolve(".learning-test-dist/src/lib/learning/semanticIllustrationRuntime.js"));
+
+const semanticRegistry = JSON.parse(
+  fs.readFileSync(path.resolve("src/lib/data/learning-illustration-asset-provenance.json"), "utf8")
+);
+const approvedSemanticKeys = [
+  "action.jump",
+  "animal.bird",
+  "animal.cat",
+  "animal.fish",
+  "body.head",
+  "feature.beak",
+  "feature.cactus-thick-stem",
+  "feature.gills",
+  "object.apple",
+  "object.ball",
+  "object.cup",
+  "object.house",
+  "object.toy-block",
+  "object.umbrella"
+];
+const heldSemanticKeys = ["object.raincoat", "object.towel", "vehicle.car"];
+
+assert.equal(learningSemanticRuntimeActivation(), "controlled-svg", "Session 12 runtime must use controlled SVG activation");
+for (const semanticKey of approvedSemanticKeys) {
+  const record = semanticRegistry.items[semanticKey];
+  const resolved = resolveLearningSemanticIllustration(semanticKey, record.fallbackGlyph);
+  assert(resolved, `${semanticKey} must resolve through the approved semantic SVG registry binding`);
+  assert.equal(resolved.src, record.productionAssets.svg.path, `${semanticKey} must use registry path only`);
+  assert.equal(resolved.sha256, record.productionAssets.svg.sha256, `${semanticKey} keeps exact approved SHA`);
+  assert.equal(resolved.fallbackGlyph, record.fallbackGlyph, `${semanticKey} preserves canonical fallback identity`);
+}
+for (const semanticKey of heldSemanticKeys) {
+  const record = semanticRegistry.items[semanticKey];
+  assert.equal(
+    resolveLearningSemanticIllustration(semanticKey, record.fallbackGlyph),
+    null,
+    `${semanticKey} must remain fail-closed on its existing fallback`
+  );
+}
+assert.equal(resolveLearningSemanticIllustration("object.unknown", "❔"), null, "unknown semantic keys fail closed");
+assert.equal(resolveLearningSemanticIllustration("object.apple", "🍌"), null, "fallback/semantic mismatch fails closed");
 assert.deepEqual(
   [...THEMED_SUBJECT_IDS],
   ["bahasa", "english", "math", "iqro", "letters", "logic", "science", "color", "drawing"],
