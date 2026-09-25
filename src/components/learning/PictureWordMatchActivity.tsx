@@ -130,7 +130,7 @@ export function PictureWordMatchActivity({ childId, activityId }: { childId: str
         </div>
 
         <div className={styles.pictureBoard} data-picture-word-match-board>
-          <LearningVisualToken className={styles.picture} label={`${ui.pictureAria} ${config.spokenWord}`}>{config.picture}</LearningVisualToken>
+          <LearningVisualToken className={styles.picture} label={`${ui.pictureAria} ${config.spokenWord}`} semanticKey={config.semanticKey}>{config.picture}</LearningVisualToken>
           <div
             className={styles.answerSlot}
             data-picture-word-match-result
