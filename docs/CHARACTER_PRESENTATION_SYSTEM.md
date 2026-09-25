@@ -1,6 +1,6 @@
 # Activity Character Presentation System — 21 September 2026
 
-Status: **BELAJAR SVG CHARACTER RUNTIME MERGED / LIVE VERIFIED THROUGH SESSION 07 / WORLD INTEGRATION PENDING SESSION 08**
+Status: **SHARED SVG CHARACTER RUNTIME MERGED / LIVE VERIFIED THROUGH SESSION 08 / HOME + BERMAIN INTEGRATION PENDING SESSION 09**
 
 This document defines how Mainlagi activity characters sit above the now-live subject-background system.
 
@@ -162,7 +162,7 @@ completion  -> celebrate
 
 The character system does not use the feedback event to modify curriculum, answers, mastery, evidence, progression, rewards, activity identity, World narrative progress, or child profile identity.
 
-World remains reserved for Session 08. Home/Bermain shell integration remains Session 09.
+World is now migrated through Session 08. Home/Bermain shell integration remains Session 09.
 
 ## Creative workspace rule
 
@@ -245,19 +245,32 @@ Its historical statements that Naya/Gian/Zia lacked production artwork and that 
 Live checkpoint:
 
 ```text
-Session 07 PR: #335
-merged main: 1c4ba5f41c554621ee29aeccb6b5b85415a45d55
-merged-main CI: #1651 / run 36106692149 — full success
+Session 08 PR: #337
+final PR head: 6a728c36f7bc0a1a34c46e2511062df5e2b9af9d
+PR CI: #1663 / run 36120579884 — full success
+merged main: e2e5e4b676ce45313786420708de41731ec2e3cb
+merged-main CI: #1664 / run 36121741946 — full success
 Cloudflare production smoke: success
 ```
 
-Character source/provenance/production/runtime-foundation work plus Belajar integration and responsive QA is now complete through Session 07.
+Character source/provenance/production/runtime-foundation work, Belajar integration/responsive QA, and Petualangan Uang World presentation migration are complete through Session 08.
+
+World now uses the shared resolver + CharacterLayer for the authored Gavi + Paca cast:
+
+```text
+catalog              welcome
+map                  pointing
+neutral story        hero
+concept/challenge    thinking
+correct              correct
+retry                try_again
+stage/final finish   celebrate
+```
 
 Next:
 
 ```text
-Session 08 -> World migration
-Session 09 -> Home integration
+Session 09 -> Home + Bermain shell integration
 ```
 
 The five-character homepage hero remains a separate composition/surface task and must use the same approved production identities rather than becoming a new source-of-truth asset.
