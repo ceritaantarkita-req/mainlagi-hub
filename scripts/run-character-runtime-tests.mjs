@@ -22,9 +22,11 @@ const {
 } = require(path.resolve(".learning-test-dist/src/lib/learning/characterAssets.js"));
 const {
   BELAJAR_CHARACTER_STATE_BY_MOMENT,
+  CHARACTER_PRESENTATION_CONTEXTS,
   SUBJECT_CHARACTER_PAIRS,
   WORLD_CHARACTER_CASTS,
   characterStateForBelajarMoment,
+  resolveCharacterEnsemble,
   resolveCharacterPresentation
 } = require(path.resolve(".learning-test-dist/src/lib/learning/characterPresentation.js"));
 
@@ -53,6 +55,9 @@ for (const id of IDS) {
   }
 }
 assert.equal(pathCount, 35, "all 35 approved state assets are runtime-addressable");
+
+assert(CHARACTER_PRESENTATION_CONTEXTS.includes("play_entry"), "shared presentation contexts include Bermain entry");
+assert(CHARACTER_PRESENTATION_CONTEXTS.includes("play_completion"), "shared presentation contexts include Bermain completion");
 
 // Historical compatibility API remains stable for callers that have not migrated.
  // Session 06 Belajar surfaces must no longer depend on this API.
@@ -156,9 +161,42 @@ assert(worldCompletion.characters.every((c) => c.state === "celebrate"));
 const activityCompletion = resolveCharacterPresentation({ context: "activity_completion", subjectId: "bahasa" });
 assert(activityCompletion.characters.every((c) => c.state === "celebrate"));
 
+const playEntry = resolveCharacterPresentation({
+  context: "play_entry",
+  requestedCharacters: ["gavi", "paca"],
+  allowIdentityFallback: false
+});
+assert.equal(playEntry.source, "authored");
+assert.deepEqual(playEntry.characters.map((c) => c.id), ["gavi", "paca"]);
+assert(playEntry.characters.every((c) => c.state === "welcome"));
+assert(playEntry.characters.every((c) => c.assetSource === "svg-state"));
+
+const playCompletion = resolveCharacterPresentation({
+  context: "play_completion",
+  requestedCharacters: ["gavi", "paca"],
+  allowIdentityFallback: false
+});
+assert.deepEqual(playCompletion.characters.map((c) => c.id), ["gavi", "paca"]);
+assert(playCompletion.characters.every((c) => c.state === "celebrate"));
+
+const homeEnsemble = resolveCharacterEnsemble({
+  context: "home",
+  requestedCharacters: ["naya", "gian", "paca", "zia", "gavi"],
+  requestedState: "hero",
+  allowIdentityFallback: false
+});
+assert.equal(homeEnsemble.source, "authored");
+assert.deepEqual(
+  homeEnsemble.characters.map((c) => c.id),
+  ["naya", "gian", "paca", "zia", "gavi"],
+  "Home ensemble preserves the canonical five-character order"
+);
+assert(homeEnsemble.characters.every((c) => c.state === "hero"));
+assert(homeEnsemble.characters.every((c) => c.assetSource === "svg-state"));
+
 const authored = resolveCharacterPresentation({
   context: "home",
-  requestedCharacters: ["zia", "zia", "naya"],
+  requestedCharacters: ["zia", "zia", "naya", "gian"],
   requestedState: "welcome"
 });
 assert.equal(authored.source, "authored");
@@ -212,7 +250,8 @@ assert.doesNotMatch(themeSource, /approvedCharacterRuntimeSrc/, "Belajar visual 
 
 const layerSource = fs.readFileSync(path.resolve("src/components/learning/CharacterLayer.tsx"), "utf8");
 const layerCss = fs.readFileSync(path.resolve("src/components/learning/CharacterLayer.module.css"), "utf8");
-assert.match(layerSource, /characters\.slice\(0, 2\)/, "CharacterLayer hard-caps normal foreground rendering at two");
+assert.match(layerSource, /variant === "ensemble" \? 5 : 2/, "CharacterLayer preserves two-character normal rendering and explicitly allows five-character Home ensemble");
+assert.match(layerSource, /styles\.ensemble/, "CharacterLayer exposes one shared ensemble variant instead of a second renderer");
 assert.match(layerSource, /data-character-state=/, "CharacterLayer exposes state QA attribute");
 assert.match(layerSource, /data-character-asset-source=/, "CharacterLayer exposes asset source QA attribute");
 assert.match(layerSource, /alt=""/, "decorative character images do not duplicate screen-reader narration");
@@ -222,5 +261,5 @@ assert.match(layerCss, /prefers-reduced-motion:\s*reduce/, "character motion res
 assert.match(layerCss, /animation:\s*none\s*!important/, "reduced-motion disables character animation");
 
 console.log(
-  "Character runtime regression passed: 35 provenance-bound SVG states, canonical Belajar moment mapping, shared feedback bridge/provider state machine, subject/World presentation policy, and CharacterLayer safety contract."
+  "Character runtime regression passed: 35 provenance-bound SVG states, canonical Belajar/World/Bermain state mapping, five-character Home ensemble, shared feedback bridge/provider state machine, and CharacterLayer safety contract."
 );

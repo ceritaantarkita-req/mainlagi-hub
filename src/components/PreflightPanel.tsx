@@ -11,6 +11,8 @@ import { usePlayerGesture, useVisionValue } from "@/lib/vision/useVisionSelector
 import { useOverlayPrefs } from "@/lib/react/useOverlayPrefs";
 import type { SessionMode } from "@/games/types";
 import { Icon } from "./Icon";
+import { CharacterLayer } from "@/components/learning/CharacterLayer";
+import { resolveCharacterPresentation } from "@/lib/learning/characterPresentation";
 import { VisionOverlay } from "./VisionOverlay";
 import startStyles from "./PreflightStartGesture.module.css";
 
@@ -164,6 +166,12 @@ export function PreflightPanel({
     startTriggeredRef.current = false;
   }, [vision]);
 
+  const characterPresentation = resolveCharacterPresentation({
+    context: "play_entry",
+    requestedCharacters: ["gavi", "paca"],
+    allowIdentityFallback: false
+  });
+
   const cameraHint = (() => {
     if (inputMode === "demo") return "Mode mouse siap.";
     if (status === "idle") return "Tekan tombol di bawah untuk menyalakan kamera.";
@@ -178,7 +186,10 @@ export function PreflightPanel({
   })();
 
   return (
-    <div className="preflight-layout">
+    <div
+      className="preflight-layout"
+      data-mainlagi-play-character-state={characterPresentation.requestedState}
+    >
       <div className="preflight-backdrop">
         {inputMode === "camera" ? (
           <>
@@ -208,6 +219,15 @@ export function PreflightPanel({
           </div>
         )}
       </div>
+
+      {status === "idle" ? (
+        <div className="preflight-character-stage" aria-hidden>
+          <CharacterLayer
+            characters={characterPresentation.characters}
+            className="preflight-character-layer"
+          />
+        </div>
+      ) : null}
 
       <header className="preflight-topbar">
         <Link className="preflight-back" href="/" aria-label="Kembali ke beranda">

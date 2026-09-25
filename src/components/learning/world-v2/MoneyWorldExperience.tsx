@@ -49,21 +49,13 @@ import {
   type MoneyWorldNarrationPlaybackMode
 } from "@/lib/learning/world/moneyWorldNarrationPlayback";
 import {
-  WORLD_PROGRESS_EVENT,
   checkpointMoneyWorldStage,
   completeMoneyWorldStage,
   isMoneyWorldStageUnlocked,
-  moneyWorldProgressTimestamp,
   moneyWorldStars,
-  readMoneyWorldProgress,
-  replaceMoneyWorldProgress,
-  restartMoneyWorldStage,
-  type MoneyWorldProgress
+  restartMoneyWorldStage
 } from "@/lib/learning/world/progress";
-import {
-  readCloudMoneyWorldProgress,
-  syncMoneyWorldProgressCloud
-} from "@/lib/learning/world/cloud";
+import { syncMoneyWorldProgressCloud } from "@/lib/learning/world/cloud";
 import {
   emitMoneyWorldEvidenceObservation,
   type MoneyWorldEvidenceCompletionObservation,
@@ -71,14 +63,7 @@ import {
 } from "@/lib/learning/world/moneyWorldEvidenceClient";
 import { validateReusableMechanicPayload } from "@/lib/learning/mechanicLibrary";
 import styles from "./MoneyWorldExperience.module.css";
-
-const EMPTY_PROGRESS: MoneyWorldProgress = {
-  worldId: MONEY_WORLD_ID,
-  completedStageIds: [],
-  currentStageId: null,
-  currentSegmentIndex: 0,
-  updatedAt: ""
-};
+import { useMoneyWorldProgress } from "./useMoneyWorldProgress";
 
 function cx(...values: Array<string | false | null | undefined>) {
   return values.filter(Boolean).join(" ");
@@ -143,68 +128,6 @@ function StageAmbience({ stageId }: { stageId: string }) {
       ))}
     </div>
   );
-}
-
-function useMoneyWorldProgress(childId: string) {
-  const [progress, setProgress] = useState<MoneyWorldProgress>(EMPTY_PROGRESS);
-  const [ready, setReady] = useState(false);
-  const [settled, setSettled] = useState(false);
-
-  useEffect(() => {
-    let cancelled = false;
-    const refresh = () => {
-      if (cancelled) return;
-      setProgress(readMoneyWorldProgress(childId));
-      setReady(true);
-    };
-
-    const hydrateCloud = async () => {
-      try {
-        const cloud = await readCloudMoneyWorldProgress(childId);
-        if (cancelled || !cloud) return;
-
-        const local = readMoneyWorldProgress(childId);
-        const cloudCompleted = cloud.completedStageIds.length;
-        const localCompleted = local.completedStageIds.length;
-        const cloudIsNewer = cloudCompleted > localCompleted
-          || (cloudCompleted === localCompleted && moneyWorldProgressTimestamp(cloud) > moneyWorldProgressTimestamp(local));
-
-        if (cloudIsNewer) {
-          replaceMoneyWorldProgress(childId, cloud);
-          return;
-        }
-
-        const localIsNewer = localCompleted > cloudCompleted
-          || (localCompleted === cloudCompleted && moneyWorldProgressTimestamp(local) > moneyWorldProgressTimestamp(cloud));
-        if (localIsNewer) void syncMoneyWorldProgressCloud(childId, local);
-      } finally {
-        if (!cancelled) setSettled(true);
-      }
-    };
-
-    const frame = window.requestAnimationFrame(() => {
-      setSettled(false);
-      refresh();
-      void hydrateCloud();
-    });
-    const onProgress = (event: Event) => {
-      const detail = (event as CustomEvent<{ childId?: string }>).detail;
-      if (!detail?.childId || detail.childId === childId) refresh();
-    };
-    const onOnline = () => { void hydrateCloud(); };
-    window.addEventListener(WORLD_PROGRESS_EVENT, onProgress);
-    window.addEventListener("storage", refresh);
-    window.addEventListener("online", onOnline);
-    return () => {
-      cancelled = true;
-      window.cancelAnimationFrame(frame);
-      window.removeEventListener(WORLD_PROGRESS_EVENT, onProgress);
-      window.removeEventListener("storage", refresh);
-      window.removeEventListener("online", onOnline);
-    };
-  }, [childId]);
-
-  return { progress, ready, settled };
 }
 
 function WorldHero({

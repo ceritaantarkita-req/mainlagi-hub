@@ -13,7 +13,9 @@ export const CHARACTER_PRESENTATION_CONTEXTS = [
   "world_catalog",
   "world_map",
   "world_scene",
-  "world_completion"
+  "world_completion",
+  "play_entry",
+  "play_completion"
 ] as const;
 
 export type CharacterPresentationContext = (typeof CHARACTER_PRESENTATION_CONTEXTS)[number];
@@ -108,7 +110,9 @@ const DEFAULT_CONTEXT_STATE: Readonly<Record<CharacterPresentationContext, Chara
   world_catalog: "welcome",
   world_map: "pointing",
   world_scene: "hero",
-  world_completion: "celebrate"
+  world_completion: "celebrate",
+  play_entry: "welcome",
+  play_completion: "celebrate"
 };
 
 const LEGACY_IDENTITY_FALLBACK: readonly ["gavi", "paca"] = ["gavi", "paca"];
@@ -117,11 +121,11 @@ function isSubjectId(value: string | null | undefined): value is CharacterPresen
   return Boolean(value && Object.prototype.hasOwnProperty.call(SUBJECT_CHARACTER_PAIRS, value));
 }
 
-function uniquePair(ids: readonly CharacterId[]): readonly CharacterId[] {
+function uniqueCharacters(ids: readonly CharacterId[], limit: number): readonly CharacterId[] {
   const unique: CharacterId[] = [];
   for (const id of ids) {
     if (!unique.includes(id)) unique.push(id);
-    if (unique.length === 2) break;
+    if (unique.length === limit) break;
   }
   return unique;
 }
@@ -130,7 +134,7 @@ function chooseCast(
   request: CharacterPresentationRequest
 ): { ids: readonly CharacterId[]; source: CharacterPresentationSource } {
   if (request.requestedCharacters?.length) {
-    return { ids: uniquePair(request.requestedCharacters), source: "authored" };
+    return { ids: uniqueCharacters(request.requestedCharacters, 5), source: "authored" };
   }
 
   if (isSubjectId(request.subjectId)) {
@@ -201,8 +205,9 @@ function resolveSlot(
  * never inspect answer keys, mastery, progression, evidence or unrelated child
  * data.
  */
-export function resolveCharacterPresentation(
-  request: CharacterPresentationRequest
+function resolvePresentation(
+  request: CharacterPresentationRequest,
+  maxCharacters: number
 ): ResolvedCharacterPresentation {
   const requestedState = request.requestedState ?? DEFAULT_CONTEXT_STATE[request.context];
   const cast = chooseCast(request);
@@ -210,8 +215,8 @@ export function resolveCharacterPresentation(
   const used = new Set<CharacterId>();
   let fallbackUsed = false;
 
-  for (let index = 0; index < cast.ids.length && index < 2; index += 1) {
-    const side: CharacterPresentationSide = index === 0 ? "left" : "right";
+  for (let index = 0; index < cast.ids.length && index < maxCharacters; index += 1) {
+    const side: CharacterPresentationSide = index % 2 === 0 ? "left" : "right";
     const role: CharacterPresentationRole = index === 0 ? "guide" : "companion";
     const requestedId = cast.ids[index];
     const resolved = resolveSlot(requestedId, requestedState, side, role, request, used);
@@ -226,4 +231,16 @@ export function resolveCharacterPresentation(
     source: fallbackUsed ? "approved-fallback" : cast.source,
     requestedState
   };
+}
+
+export function resolveCharacterPresentation(
+  request: CharacterPresentationRequest
+): ResolvedCharacterPresentation {
+  return resolvePresentation(request, 2);
+}
+
+export function resolveCharacterEnsemble(
+  request: CharacterPresentationRequest
+): ResolvedCharacterPresentation {
+  return resolvePresentation(request, 5);
 }

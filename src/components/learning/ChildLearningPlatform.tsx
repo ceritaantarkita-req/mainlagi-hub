@@ -26,6 +26,7 @@ import {
   type LearningSubjectId
 } from "@/lib/learning/system";
 import { getLearningPathsForSubject, getLessonsForStage } from "@/lib/learning/curriculum";
+import { resolveCharacterPresentation } from "@/lib/learning/characterPresentation";
 import { getNextBestLearningRecommendation } from "@/lib/learning/insights";
 import { buildMatchingColumns, matchingSeedFromText, nextDistinctMatchingSeed } from "@/lib/learning/matchingLayout";
 import { CharacterAvatar, CharacterGroup, ChildLoading, useLearningProfile, useLearningProgress } from "./LearningCommon";
@@ -33,6 +34,7 @@ import { useLearningAnalytics } from "./useLearningAnalytics";
 import styles from "./LearningPlatform.module.css";
 import { GardenActivityFrame } from "./GardenActivityFrame";
 import { ActivityCompletion } from "./ActivityCompletion";
+import { CharacterLayer } from "./CharacterLayer";
 
 function coreActivities(activities: LearningActivity[]) {
   return activities.filter((activity) => !activity.motionOptional && activity.runtime !== "motion_game");
@@ -314,8 +316,51 @@ export function ActivityScreen({ childId, activityId }: { childId: string; activ
 }
 
 export function GamesScreen({ childId }: { childId: string }) {
-  const profile = useLearningProfile(childId); if (!profile) return <ChildLoading />;
-  return <main className={styles.content}><p className={styles.eyebrow}>Main Gerak</p><h1 className={styles.pageTitle}>Ayo bergerak!</h1><p className={styles.pageLead}>10 permainan gerak. Siapkan ruang yang aman dan main bersama pendamping.</p><section className={styles.section}><div className={styles.motionNotice}><strong>Tips HP:</strong> taruh HP di tempat stabil, beri jarak, dan gunakan landscape bila perlu. Kalau HP masih di tangan, pilih <Link href={`/child/${childId}/home#choose-subject`}>Belajar tanpa kamera</Link>.</div></section><section className={styles.section}><div className={styles.cardGrid}>{GAME_LIST.map((game) => <Link className={styles.gameCard} href={`/play/${game.slug}`} key={game.slug}><img className={styles.gameArtwork} src={`/artwork/${game.slug}.webp`} alt="" width={500} height={360}/><h3>{game.shortTitle}</h3><p>{game.description}</p><span className={styles.gameCardFooter}><span className={`${styles.tag} ${styles.tagMotion}`}>{game.visionMode === "pose" ? "Gerak badan" : game.visionMode === "hybrid" ? "Gerak hybrid" : "Gerak tangan"}</span><span aria-hidden>→</span></span></Link>)}</div></section></main>;
+  const profile = useLearningProfile(childId);
+  if (!profile) return <ChildLoading />;
+
+  const presentation = resolveCharacterPresentation({
+    context: "play_entry",
+    requestedCharacters: ["gavi", "paca"],
+    allowIdentityFallback: false
+  });
+
+  return (
+    <main className={styles.content}>
+      <section className={styles.motionHero} data-mainlagi-play-entry>
+        <div className={styles.motionHeroCopy}>
+          <p className={styles.eyebrow}>Bermain · Main Gerak</p>
+          <h1 className={styles.pageTitle}>Ayo bergerak, {profile.name}!</h1>
+          <p className={styles.pageLead}>10 permainan gerak. Siapkan ruang yang aman dan main bersama pendamping.</p>
+        </div>
+        <div className={styles.motionHeroCharacters} aria-hidden>
+          <CharacterLayer characters={presentation.characters} className={styles.motionCharacterLayer} />
+        </div>
+      </section>
+      <section className={styles.section}>
+        <div className={styles.motionNotice}>
+          <strong>Tips HP:</strong> taruh HP di tempat stabil, beri jarak, dan gunakan landscape bila perlu. Kalau HP masih di tangan, pilih <Link href={`/child/${childId}/home#choose-subject`}>Belajar tanpa kamera</Link>.
+        </div>
+      </section>
+      <section className={styles.section}>
+        <div className={styles.cardGrid}>
+          {GAME_LIST.map((game) => (
+            <Link className={styles.gameCard} href={`/play/${game.slug}`} key={game.slug}>
+              <img className={styles.gameArtwork} src={`/artwork/${game.slug}.webp`} alt="" width={500} height={360}/>
+              <h3>{game.shortTitle}</h3>
+              <p>{game.description}</p>
+              <span className={styles.gameCardFooter}>
+                <span className={`${styles.tag} ${styles.tagMotion}`}>
+                  {game.visionMode === "pose" ? "Gerak badan" : game.visionMode === "hybrid" ? "Gerak hybrid" : "Gerak tangan"}
+                </span>
+                <span aria-hidden>→</span>
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
+    </main>
+  );
 }
 
 export function RewardsScreen({ childId }: { childId: string }) {

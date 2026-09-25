@@ -22,19 +22,21 @@ export function CharacterLayer({
   characters,
   className,
   decorative = true,
-  ariaLabel
+  ariaLabel,
+  variant = "layer"
 }: {
   characters: readonly ResolvedPresentationCharacter[];
   className?: string;
   decorative?: boolean;
   ariaLabel?: string;
+  variant?: "layer" | "ensemble";
 }) {
-  const visible = characters.slice(0, 2);
+  const visible = characters.slice(0, variant === "ensemble" ? 5 : 2);
   if (visible.length === 0) return null;
 
   return (
     <div
-      className={[styles.layer, className].filter(Boolean).join(" ")}
+      className={[styles.layer, variant === "ensemble" && styles.ensemble, className].filter(Boolean).join(" ")}
       data-character-layer
       data-character-count={visible.length}
       aria-hidden={decorative ? true : undefined}
@@ -50,7 +52,7 @@ export function CharacterLayer({
             character.side === "left" ? styles.left : styles.right,
             STATE_CLASS[character.state]
           ].join(" ")}
-          style={{ "--character-order": character.side === "left" ? 0 : 1 } as CSSProperties}
+          style={{ "--character-order": visible.indexOf(character) } as CSSProperties}
           data-character-id={character.id}
           data-character-state={character.state}
           data-character-side={character.side}
