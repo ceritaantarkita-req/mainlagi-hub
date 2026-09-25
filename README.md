@@ -61,7 +61,7 @@ Current subjects:
 
 Current frontend uses the Garden/Playroom visual system, responsive child and parent shells, child profile + continue-learning flow, subject/activity browsing, stage/progression protection, reusable activity runtimes, parent reporting, and retained motion games.
 
-Learning visual containment/readability is **merged/live verified** through PR #294. Semantic P0 production integration through PR #324 approved 14/17 source/license-clear assets as production WebP derivatives, with 3 held and runtime semantic activation still 0. The current project-owner direction is now **SVG-first**: where the canonical approved source already exists as SVG, integrate that SVG directly instead of keeping a WebP derivative as the long-term runtime format. Existing WebPs remain verified fallback/history until the SVG migration is implemented and verified.
+Learning visual containment/readability is **merged/live verified** through PR #294. Semantic P0 production integration through PR #324 approved 14/17 source/license-clear assets; Session 10 migrated the registry to SVG-aware v2, Session 11 promoted all 14 approved semantic SVGs, and Session 12 activated the centralized fail-closed SVG resolver through PR #348 -> main `47b98c4a17bd423ced32eb8fb45658575f83a888` with merged-main CI #1690 + Cloudflare smoke. Current state is 14 approved SVGs + 14 preserved WebP rollback/history + 3 held + runtime `controlled-svg`. The next semantic wave is Session 13 responsive/browser QA + presentation-only fixes.
 
 See `docs/CURRENT_STATE.md` for the canonical current handoff and `docs/SVG_NATIVE_ASSET_POLICY_2026-09-25.md` for the current asset-format policy.
 
@@ -126,7 +126,7 @@ Immediate priorities are:
 - preserve the closed WS-05 Logic `pattern_completion` reuse baseline; any next mechanic work starts from a fresh objective/evidence audit;
 - execute the unified World + character integration without changing Belajar mastery/progression semantics;
 - use direct SVG production/runtime for assets whose canonical approved source is already SVG;
-- migrate the SVG-backed semantic P0 bindings away from unnecessary WebP derivatives before broad semantic runtime activation;
+- complete Session 13 responsive/browser QA for the active semantic SVG runtime before considering any verified cleanup of redundant WebP derivatives;
 - keep raster-native subject backgrounds as their existing responsive WebP set;
 - English narration quality after the completed first-instruction latency wave;
 - continued visual/usability cleanup without weakening progression/evidence;
