@@ -192,8 +192,11 @@ const themeSource = fs.readFileSync(path.resolve("src/lib/learning/activityVisua
 
 assert.match(providerSource, /LEARNING_CHARACTER_PRESENTATION_EVENT/, "activity provider listens to the shared presentation event");
 assert.match(providerSource, /detail\.childId !== childId \|\| detail\.activityId !== activityId/, "activity provider filters feedback by exact child/activity identity");
-assert.match(providerSource, /setMomentState\("entry"\)/, "activity provider starts each activity in entry state");
-assert.match(providerSource, /current === "entry" \? "waiting" : current/, "entry state transitions to waiting without learning-state mutation");
+assert.match(providerSource, /useState<BelajarCharacterMoment>\("entry"\)/, "activity provider initializes each mount in entry state");
+assert.doesNotMatch(providerSource, /setMomentState\("entry"\)/, "activity provider must not synchronously reset state inside an effect");
+assert.match(providerSource, /if \(current !== "entry"\) return current;/, "entry state transitions to waiting without learning-state mutation");
+const activityRouteSource = fs.readFileSync(path.resolve("src/app/child/[childId]/activity/[activity]/page.tsx"), "utf8");
+assert.match(activityRouteSource, /ActivityVisualThemeProvider key=\{activity\}/, "activity route remounts the character provider for exact activity identity");
 assert.match(providerSource, /isTransientMoment/, "guide/correct/retry moments are transient");
 assert.match(providerSource, /detail\.moment === "completion" && momentRef\.current === "correct"/, "completion must preserve a visible correct pose before celebration");
 assert.match(providerSource, /CORRECT_TO_COMPLETION_MS = 550/, "correct-to-celebrate handoff duration stays presentation-only and bounded");
