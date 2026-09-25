@@ -6,6 +6,28 @@ Status: **SAFE / MERGED / LIVE VERIFIED / DISCUSSION BOUNDARY**
 
 This document is the canonical handoff after the semantic-P0 production approval/integration wave. It exists so a later human or agent can resume from the exact verified boundary without re-opening already-closed work or accidentally activating runtime behavior.
 
+## Post-checkpoint project-owner format decision — CURRENT
+
+The verified PR #324 facts below remain unchanged: 14 semantic P0 assets were approved and integrated as deterministic WebP production derivatives, 3 remain held, and runtime semantic activation is 0.
+
+After that checkpoint, the project owner changed the **next asset-format direction**:
+
+> If the approved canonical source already exists as a suitable SVG, integrate the SVG directly; do not convert it to WebP merely to satisfy the older pipeline.
+
+All 14 source/license-clear semantic P0 assets used by the real-source preflight have canonical Drive/library SVG sources. Therefore the next semantic implementation wave should migrate the production registry/validator/path contract toward direct sanitized SVG assets before broad runtime activation.
+
+Target path convention:
+
+```text
+/artwork/learning-illustrations/<semantic-slug>-v1.svg
+```
+
+The three held keys (`vehicle.car`, `object.towel`, `object.raincoat`) remain held. SVG format does not waive provenance/redistribution requirements.
+
+The existing 14 WebP production files remain valid rollback/historical production assets until the SVG migration is merged, verified in runtime and explicitly cleaned up later.
+
+Canonical cross-system policy: `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`.
+
 ## Verified repository checkpoint
 
 ```text
@@ -94,12 +116,12 @@ Therefore **production binary availability does not mean child-facing runtime ac
 
 ## Next discussion boundary
 
-Do not start runtime code automatically. The next conversation should decide the runtime activation design first.
+Do not activate semantic runtime automatically from the existing WebP derivatives. First migrate the SVG-backed production contract to direct SVG; then finalize the runtime activation design.
 
 Recommended discussion questions:
 
-1. **Resolver contract** — should runtime use a centralized semantic-key → approved-production-path resolver, rather than embedding file paths in activities?
-2. **Activation scope** — activate all 14 together, or pilot the highest-value mismatches first such as HEAD, JUMP, gills, beak, and cactus thick stem?
+1. **SVG production migration** — update the registry/validator/path contract so approved canonical SVG sources can be stored and served directly, without a forced WebP derivative.
+2. **Resolver contract** — use a centralized semantic-key → approved-production-path resolver rather than embedding file paths in activities; after SVG migration, decide whether to activate all 14 together or pilot highest-value mismatches first.
 3. **Held-key behavior** — explicitly retain current fallback for car/towel/raincoat until a later approved replacement/rights path exists.
 4. **Surface scope** — confirm exactly which Activity Gallery / Picture & Word / Feature Function / Material Lab / other learning surfaces may consume the resolver.
 5. **Fail-closed behavior** — missing/unapproved semantic keys must resolve to the existing canonical fallback, never to a guessed neighboring asset.

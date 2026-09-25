@@ -1,8 +1,12 @@
 # Activity Character Presentation System — 21 September 2026
 
-Status: **FOUNDATION MERGED / LIVE VERIFIED / HUMAN PRODUCTION ASSETS NOT YET ACTIVATED / CHARACTER DEVELOPMENT PAUSED**
+Status: **FOUNDATION MERGED / LIVE VERIFIED / CHARACTER DEVELOPMENT RESUMED / SVG RUNTIME MIGRATION PENDING**
 
 This document defines how Mainlagi activity characters sit above the now-live subject-background system.
+
+
+Cross-system asset-format policy: `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`.
+
 
 ## Goal
 
@@ -11,7 +15,34 @@ This document defines how Mainlagi activity characters sit above the now-live su
 - let subject presentation prefer an appropriate character pair without changing curriculum, answers, mastery, evidence, progression, or activity identity;
 - fail closed to production-approved artwork when a preferred character does not yet have an approved runtime asset.
 
-## Current production asset truth
+## 25 September 2026 shared-character update — CURRENT DECISION
+
+Character development is resumed/authorized for the unified Mainlagi integration. The target is one shared character runtime for Naya, Gian, Zia, Paca and Gavi using reviewed **single-character SVG assets directly**.
+
+Locked states: `hero`, `welcome`, `pointing`, `thinking`, `correct`, `try_again`, `celebrate`. `hero` is neutral/default.
+
+The project owner confirmed `gavi-panel-hero.svg` as the canonical Gavi hero source. Design-set SVGs and the Illustrator collection remain reference/master assets only.
+
+Target presentation behavior:
+
+- entry/greeting -> `welcome`;
+- neutral/default card or quiet story -> `hero`;
+- guide/hint -> `pointing`;
+- waiting/considering -> `thinking`;
+- correct feedback -> `correct`;
+- retry -> `try_again`;
+- lesson/stage completion -> `celebrate`.
+
+Subject pairing remains Bahasa Gavi+Paca; English Naya+Zia; Math Gian+Paca; Iqro/Huruf/Logic/Science Gavi+Paca; creative workspaces may hide decorative characters.
+
+Petualangan Uang keeps Gavi+Paca as authored cast. Do not force all five characters into the existing story. Home may use the full five-character cast once exact assets are production-approved.
+
+Runtime must resolve only repository-approved production SVG paths; never fetch Drive files directly and never inject unsanitized raw SVG markup. Existing Gavi/Paca Garden WebP paths remain temporary fallback until the SVG migration is verified.
+
+The sections below describe the **current pre-migration implementation baseline** where relevant; they do not override this 25 September target decision.
+
+---
+## Current implementation asset truth (pre-SVG migration)
 
 Approved activity foreground assets currently available in the repository:
 

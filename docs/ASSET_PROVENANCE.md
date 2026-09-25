@@ -121,6 +121,16 @@ The affiliate runtime also fails closed: a catalog entry only receives a local i
 
 The `git add -f` requirement is deliberate friction; adding a public third-party image should never be accidental.
 
+## 5.1 SVG-native production rule — current
+
+When the exact canonical source is already a clean, reviewed SVG, Mainlagi should preserve that SVG into production instead of creating a WebP derivative solely for pipeline uniformity.
+
+This applies to character assets and learning semantic/activity illustrations with canonical SVG sources. It does not apply to raster-native backgrounds/photos/generated imagery.
+
+Direct SVG still requires the same rights gate plus an SVG security gate: valid SVG/XML, usable `viewBox`, no scripts/event handlers, no unsafe active content, no unreviewed external references, normalized path and exact SHA-256. Approved SVGs should be loaded as image assets, not injected as untrusted raw markup.
+
+Canonical policy: `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`.
+
 ## 6. Mainlagi-owned brand / character / creative assets
 
 Trademark policy and copyright provenance are different questions.
@@ -138,6 +148,27 @@ Before expanding public character/voice/art assets, create an equivalent provena
 
 Premium character/audio/content intended to remain proprietary should normally live outside the public AGPL repository.
 
+### 25 September character SVG provenance update — CURRENT
+
+The project owner has authorized the new isolated/single-character SVG bank as the source set for the next Mainlagi character production wave. This is **source authorization, not automatic redistribution/runtime approval**.
+
+The Drive bank now contains state assets for Naya, Gian, Zia, Paca and Gavi. The Gavi hero/default source has been clarified as `gavi-panel-hero.svg`. Design-set SVG files and `character-set-collection-mainlagi.ai` remain reference/master material only.
+
+New canonical production format/path direction:
+
+`/artwork/characters/<id>-<state>-v1.svg`
+
+with state in `hero`, `welcome`, `pointing`, `thinking`, `correct`, `try_again`, `celebrate`.
+
+Every exact SVG still requires a source/Drive identifier, source hash when materialized, rights holder/ownership or license basis, redistribution decision, review date, sanitizer/security result, normalized production path and production hash before it may become an approved public repository asset.
+
+SVG sanitization is part of provenance/production acceptance: reject scripts, event handlers, unsafe active content, malformed files and unreviewed external references. Runtime must load approved SVGs as image assets rather than injecting unsanitized raw markup.
+
+Existing Garden Gavi/Paca WebP files remain legacy migration fallbacks. Their presence does not waive the provenance requirements for the new SVG state bank.
+
+The inventory section below is retained as the historical pre-SVG implementation baseline where it conflicts with this current update.
+
+---
 ### Current character asset inventory
 
 As of 20 September 2026:
@@ -161,7 +192,7 @@ These are multi-view identity/design sheets, not direct production foreground sp
 
 Runtime lifecycle enforcement is centralized in `src/lib/learning/characterAssets.ts`. That registry is a **runtime approval gate, not legal proof**: `approved` means the app may resolve a reviewed production file, while `reference-only` means runtime must remain blocked. A registry status must not be changed to `approved` until the provenance/redistribution decision and visual QA for the exact binary are documented.
 
-For Naya/Gian/Zia, the machine-readable public-binary gate is `src/lib/data/character-asset-provenance.json`. Current records remain `reference-only` with `productionPath=null` and `redistributionAllowed=false`. The exact production naming contract is `/artwork/characters/<id>-activity-v1.webp`. See `CHARACTER_ASSET_PIPELINE.md` for the full approval sequence.
+For character assets, the machine-readable public-binary gate remains `src/lib/data/character-asset-provenance.json`. Current Naya/Gian/Zia runtime records remain fail-closed until the SVG migration is implemented. The new target naming contract is `/artwork/characters/<id>-<state>-v1.svg`; see `CHARACTER_ASSET_PIPELINE.md` for the current seven-state SVG approval sequence.
 
 AI/image-generation output is not automatically safe to redistribute or claim as an official Mainlagi asset. Review identity consistency, tool/output terms, source/reference rights, and downstream trademark/copyright implications before production use.
 
@@ -212,6 +243,8 @@ Learning semantic illustrations now have a dedicated fail-closed registry/valida
 - reserved production directory: `public/artwork/learning-illustrations/`.
 
 The registry contains 17 recognition-critical semantic slots. The authorized 25 September production-integration wave is **merged/live verified through PR #324 -> main `1e27869dfc71186e83ed8bb0a4dff2ca44dddfc9`, merged-main CI #1610 / run `36036726413` with exact Cloudflare release smoke**. Current state: **14 approved with exact production WebP binaries / 3 remain review-required and fail-closed / runtime activation remains 0**.
+
+Those 14 WebP files remain verified production history/current fallback. The current target is to migrate the 14 canonical SVG-backed assets to direct sanitized SVG production paths before broad semantic runtime activation. The three held keys remain held; format choice does not override redistribution rights.
 
 Existing `public/artwork/activity-previews/` files may be recorded as candidate sources, but repository presence and filenames are not provenance approval. Preliminary candidate review may mark a file `visually-suitable` or `rejected`; production approval still requires exact owned/licensed provenance, public redistribution clearance, approved child-readability/semantic review, exact canonical path, technical validation and SHA-256.
 

@@ -1,6 +1,6 @@
 # Mainlagi Hub Documentation Index
 
-Last reviewed: **23 September 2026**
+Last reviewed: **25 September 2026**
 
 Use this file to decide which documentation is current and which files are historical snapshots.
 
@@ -17,7 +17,7 @@ Read these first for current work:
 7. [`SUBJECT_BACKGROUND_PRODUCTION_PREVIEW_REVIEW_2026-09-21.md`](SUBJECT_BACKGROUND_PRODUCTION_PREVIEW_REVIEW_2026-09-21.md) — project-owner desktop production preview covering one route in every subject.
 8. [`CHARACTER_PRESENTATION_SYSTEM.md`](CHARACTER_PRESENTATION_SYSTEM.md) — fail-closed activity character layer, approved asset boundary and Naya/Gian/Zia activation gate.
 9. [`CHARACTER_ASSET_PIPELINE.md`](CHARACTER_ASSET_PIPELINE.md) — production-only character directory, provenance registry, technical validator and approval sequence.
-10. [`CHARACTER_CANDIDATE_INTAKE_AUDIT_2026-09-21.md`](CHARACTER_CANDIDATE_INTAKE_AUDIT_2026-09-21.md) — Drive candidate audit; no separate Naya/Gian/Zia foreground candidate found.
+10. [`CHARACTER_CANDIDATE_INTAKE_AUDIT_2026-09-21.md`](CHARACTER_CANDIDATE_INTAKE_AUDIT_2026-09-21.md) — historical 21 Sep Drive audit; superseded for current source availability by the 25 Sep isolated five-character SVG bank.
 11. [`CLOUD_ANALYTICS_PAGINATION_CLOSURE_2026-09-21.md`](CLOUD_ANALYTICS_PAGINATION_CLOSURE_2026-09-21.md) — closed/live-verified complete cloud analytics pagination + explicit authenticated failure/retry behavior.
 12. [`SECRET_SCAN_REQUIRED_GATE_CLOSURE_2026-09-22.md`](SECRET_SCAN_REQUIRED_GATE_CLOSURE_2026-09-22.md) — closed/live-verified merge-blocking full-history secret scan through ruleset-required dependency gate.
 13. [`ENGLISH_NARRATION_QUALITY_WAVE_2026-09-22.md`](ENGLISH_NARRATION_QUALITY_WAVE_2026-09-22.md) — closed/live-verified 27-activity English narration-copy + browser-fallback quality wave.
@@ -27,6 +27,7 @@ Read these first for current work:
 17. [`ENGLISH_NARRATION_HUMAN_REVIEW_GATE_CLOSURE_2026-09-22.md`](ENGLISH_NARRATION_HUMAN_REVIEW_GATE_CLOSURE_2026-09-22.md) — PR #285 exact-head + merged-main CI/Cloudflare closure record for the human-review gate.
 18. [`PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md`](PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md) — active production visual/product audit and P0/P1/P2 state.
 19. [`MAINLAGI_ART_BIBLE.md`](MAINLAGI_ART_BIBLE.md) — canonical visual direction.
+   - [`SVG_NATIVE_ASSET_POLICY_2026-09-25.md`](SVG_NATIVE_ASSET_POLICY_2026-09-25.md) — current cross-system rule: approved canonical SVG stays SVG through production/runtime; no unnecessary SVG→WebP conversion.
 20. [`MOBILE_ROUTE_QA.md`](MOBILE_ROUTE_QA.md) — blocking browser route and permanent visual QA contract.
 21. [`ARCHITECTURE.md`](ARCHITECTURE.md) — current technical boundaries and system architecture.
 22. [`MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md`](MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md) — child/product/UX/activity rules.
@@ -111,14 +112,17 @@ visual containment:               PR #294 -> 6d0f9bd8 / PR CI #1529 / main CI #1
 semantic illustration gate:       PR #297 -> ed7db8a6 / 17 review-required / 0 approved / main CI #1537 exact smoke
 semantic candidate generator:     PR #300 -> 89adf887 / main CI #1546 exact smoke
 semantic source refinement:       PR #301 -> 9f6270c7 / main CI #1548 exact smoke
-semantic production art:          OPEN / exact human review gate next / 0 approved / 0 production binary / 0 runtime
-character development:            PAUSED BY PROJECT OWNER / Drive assets reference-only
-Mainlagi World:                   separate user development / DO NOT TOUCH in this workstream
+semantic production art:          PR #324 / 14 approved WebP derivatives / 3 held / 0 runtime / direct-SVG migration next
+asset format policy:              SVG-FIRST for canonical SVG sources / no unnecessary SVG→WebP conversion
+character development:            RESUMED / SVG-native seven-state architecture locked / runtime migration pending
+Mainlagi World:                   FIRST-CLASS MAINLAGI DOMAIN / unified product integration authorized
 WS-05 production truth:           900/900 / 47 / choice_grid 174 / pattern_completion 10 / KEEP 900
 next safe narration step:         generate/listen to exact four-item local candidates through verified gate; no production approval/runtime activation yet
 ```
 
-Paca/Gavi have production Garden WebP assets. Naya/Gian/Zia currently use non-production fallback representations and still need reviewed production assets. Child profile identity remains separate from guide-character identity.
+The same SVG-first rule now applies to semantic/activity illustrations whose canonical approved source is SVG: preserve SVG through production/runtime rather than rasterizing it only for pipeline consistency. Existing raster-native subject backgrounds stay WebP. The 14 semantic P0 WebPs from PR #324 remain verified fallback/history while their SVG-aware production migration is pending.
+
+Drive now contains isolated single-character SVG source assets for all five canonical characters. New character production is locked to direct SVG with states `hero`, `welcome`, `pointing`, `thinking`, `correct`, `try_again`, `celebrate`; `gavi-panel-hero.svg` is the confirmed Gavi hero source. Existing Garden Gavi/Paca WebP remains migration fallback, while Naya/Gian/Zia stay runtime fail-closed until provenance/sanitization/validator + activation waves land. Child profile identity remains separate from guide-character identity.
 
 Historical audit/closure files remain immutable evidence for their checkpoint; use the canonical documents above for current truth.
 
@@ -518,7 +522,7 @@ static-audio runtime activation:      none
 
 Canonical records: `ENGLISH_NARRATION_PROVIDER_PILOT_2026-09-22.md`, `ENGLISH_NARRATION_PROVIDER_PILOT_HARNESS_CLOSURE_2026-09-22.md`, and `ENGLISH_NARRATION_SAFE_CHECKPOINT_2026-09-22.md`.
 
-Next work is candidate generation + human listening review. Mainlagi World remains untouched; character development remains paused; WS-05 remains closed; 900 activities / 47 active patterns / no Pattern #48 remain unchanged.
+Historical English-narration checkpoint: next work there was candidate generation + human listening review; at that checkpoint World remained untouched and character development was paused. The 25 September current checkpoint above supersedes that World/character boundary. WS-05 remains closed; 900 activities / 47 active patterns / no Pattern #48 remain unchanged.
 
 - [`LEARNING_SEMANTIC_P0_VISUAL_PREREVIEW_2026-09-23.md`](LEARNING_SEMANTIC_P0_VISUAL_PREREVIEW_2026-09-23.md) — AI visual pre-review and two source refinements before exact human semantic review.
 

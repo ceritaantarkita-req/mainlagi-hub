@@ -1,3 +1,25 @@
+# 25 September 2026 superseding handoff update
+
+This section supersedes older “current” wording below where the dated snapshot conflicts with later merged work or project-owner decisions. Historical sections remain intact as checkpoint evidence.
+
+Current main docs checkpoint: `28ce12883802c92ba268029a8b3d8f3847cc1b0f` (PR #327).
+
+Current decisions/status:
+
+- Mainlagi World is a first-class domain of one Mainlagi product system;
+- character development is resumed/authorized;
+- isolated single-character SVGs exist for Naya, Gian, Zia, Paca and Gavi;
+- character states are `hero`, `welcome`, `pointing`, `thinking`, `correct`, `try_again`, `celebrate`;
+- **global SVG-first rule:** when a canonical approved source already exists as suitable SVG, integrate that SVG directly rather than converting it to WebP for pipeline uniformity;
+- semantic P0 PR #324 remains closed/live verified at 14 approved WebP derivatives / 3 held / 0 runtime activation;
+- because those 14 clear semantic P0 sources are canonical SVGs, the next asset-format step is an SVG-aware registry/validator/path migration before broad semantic runtime activation;
+- raster-native subject backgrounds remain the existing 108 responsive WebP assets;
+- existing verified WebPs remain fallback/history until direct-SVG migrations are runtime/deploy verified;
+- format changes do not weaken provenance, redistribution, semantic-readability, security, mastery, progression or evidence boundaries.
+
+Canonical current sources: `CURRENT_STATE.md`, `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`, `MAINLAGI_WORLD_CHARACTER_SYSTEM_INTEGRATION_2026-09-25.md`.
+
+---
 
 ### 23 September semantic P0 human-review gate
 
@@ -18,7 +40,7 @@ Canonical closure: `LEARNING_SEMANTIC_P0_HUMAN_REVIEW_GATE_CLOSURE_2026-09-23.md
 
 # Mainlagi Hub — Project State Sync — 20 September 2026
 
-Status: **CURRENT HANDOFF SNAPSHOT — SYNCHRONIZED 23 SEPTEMBER 2026**  
+Status: **HISTORICAL HANDOFF SNAPSHOT — SUPERSEDED BY 25 SEPTEMBER UPDATE ABOVE**  
 Repository: `ceritaantarkita-req/mainlagi-hub`  
 Canonical branch: `main`
 

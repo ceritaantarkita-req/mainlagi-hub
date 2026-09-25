@@ -1,18 +1,61 @@
 # Character Asset Production Pipeline — 21 September 2026
 
-Status: **MERGED / LIVE VERIFIED PRODUCTION GATE / NO HUMAN RUNTIME ASSET ACTIVATED**
+Status: **PR #263 BASELINE LIVE / 25 SEP SVG-NATIVE UPDATE AUTHORIZED / RUNTIME MIGRATION PENDING**
 
 This document defines the production path for the first Mainlagi human activity-foreground assets: **Naya, Gian, and Zia**.
 
 Implementation checkpoint: PR **#263** -> `e4d7b4285db17a2010c22cdd1bc29451208f6a1b`; merged-main CI **#1198 / run `35599025558`** passed the full quality matrix and exact Cloudflare production smoke.
 
+
+Canonical cross-system SVG rule: `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`.
+
+
+## 25 September 2026 SVG-native update — CURRENT DECISION
+
+This section **supersedes the WebP-specific format, naming and export instructions later in this file for all new character assets**. The older sections are retained as the historical PR #263 implementation baseline until code is migrated.
+
+### Source scope
+
+Production candidates are the isolated **single-character SVG** files for Naya, Gian, Zia, Paca and Gavi. Examples include `gavi-panel-hero.svg`, `gavi-sample-welcome.svg`, `paca-panel-pose-celebrate (4).svg`, `naya-panel-pose-correct (3).svg`, `zia-panel-pose-celebrate (2).svg`, and `gian-panel-pose-welcome.svg`.
+
+The `*-character-design-set.svg` files and `character-set-collection-mainlagi.ai` are master/reference material only and must not become runtime sprites.
+
+The project owner confirmed `gavi-panel-hero.svg` as Gavi hero/default.
+
+### Locked states
+
+`hero`, `welcome`, `pointing`, `thinking`, `correct`, `try_again`, `celebrate`.
+
+`hero` is neutral/default; source `try-again` maps to runtime `try_again`.
+
+### Canonical production paths
+
+New assets use `/artwork/characters/<id>-<state>-v1.svg` with normalized names. Drive working suffixes such as `(2)`, `(3)`, `(4)`, `sample`, or `panel-pose` belong in provenance metadata, not production filenames.
+
+### SVG gate
+
+Before approval, each SVG must be provenance-bound, sanitized and validated. Require valid SVG/XML + `viewBox`; reject scripts, event handlers, unsafe active content, unreviewed external references, malformed files, duplicate state/path bindings, and unexpected files in the production directory. Load approved SVGs as image assets rather than raw trusted markup.
+
+The existing WebP dimension/alpha validator behavior is **not sufficient** for this SVG-native bank and must be updated before any new SVG state is marked production-approved.
+
+### Approval/runtime separation
+
+Drive source exists ≠ production approved ≠ runtime active. The new SVG bank may be source-ready while Naya/Gian/Zia remain fail-closed in current runtime code. Runtime activation remains a separate wave after provenance + sanitizer/validator + responsive QA.
+
+Existing `/artwork/garden-paca.webp` and `/artwork/garden-gavi.webp` remain legacy compatibility fallbacks during migration; do not delete them in the first SVG wave.
+
+### Target provenance model
+
+Evolve the registry to one character with seven per-state variants, each binding source filename/Drive ID, source hash when materialized, rights basis, redistribution decision, review date, normalized production path, production hash, lifecycle and sanitizer/technical result.
+
+---
 It complements:
 
 - `MAINLAGI_ART_BIBLE.md` for visual identity;
 - `CHARACTER_PRESENTATION_SYSTEM.md` for runtime pairing and fail-closed behavior;
 - `ASSET_PROVENANCE.md` for public-repository rights/provenance policy.
 
-## 1. Production directory
+## 1. Historical PR #263 production directory contract
 
 Canonical public production directory:
 
@@ -60,7 +103,7 @@ The registry records:
 
 The current registry deliberately does **not** invent a rights holder or license basis for a production binary that does not yet exist.
 
-## 3. Technical export contract
+## 3. Historical PR #263 WebP technical export contract
 
 The first Naya/Gian/Zia activity asset must be:
 
@@ -116,7 +159,7 @@ Regression fixtures explicitly exercise:
 - undersized WebP -> FAIL;
 - valid transparent metadata fixture -> PASS.
 
-## 5. Approval sequence
+## 5. Historical PR #263 WebP approval sequence
 
 For each of Naya, Gian, and Zia:
 

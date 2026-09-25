@@ -15,15 +15,18 @@ GitHub protected `main`
 
 Production tidak memakai VPS/SSH sebagai jalur canonical.
 
-## Current baseline — 22 September 2026
+## Current baseline — 25 September 2026
 
 Current source-of-truth branch is `main`:
 
 ```text
-main:                709e2b7d3e529cf37f10a05e9c9dc92884e0a781
-main CI:             #1353 / run 35687996669
-Cloudflare smoke:    PASS, exact SHA
+current main docs checkpoint:          28ce12883802c92ba268029a8b3d8f3847cc1b0f  (#327)
+latest semantic production checkpoint: 1e27869dfc71186e83ed8bb0a4dff2ca44dddfc9  (#324)
+semantic merged-main CI:               #1610 / run 36036726413 — full success
+Cloudflare semantic exact smoke:       PASS
 ```
+
+The docs-only current-main checkpoint does not replace the implementation verification evidence recorded by its underlying closed waves.
 
 Mainlagi Belajar WS-05 Logic repeating-pattern reuse is **FULLY CLOSED / MERGED / LIVE VERIFIED** via PR #273 -> `709e2b7d3e529cf37f10a05e9c9dc92884e0a781`; final PR CI #1321 and merged-main CI #1353 passed, including exact-SHA Cloudflare production smoke.
 
@@ -42,7 +45,7 @@ Current learning/product baseline:
 
 Product UX work completed in the current WS-13 sequence includes canonical component/warning audit, child home/navigation + 3-column subject directory, activity gallery + QA unlock, shared completion, matching randomization, first-instruction narration latency, and parent/profile/settings responsive redesign.
 
-**Character production/development is paused by the project owner.** Existing character assets in Drive are reference-only until explicitly resumed. **Mainlagi World is developed separately and must not be modified by the current Mainlagi Belajar WS-05 workstream.**
+**Character production/development is resumed/authorized.** Mainlagi World is now a first-class domain of the same Mainlagi product system. The five-character source bank uses isolated SVG states, while runtime activation remains gated by provenance/sanitization/validation.
 
 Current subjects:
 
@@ -58,9 +61,9 @@ Current subjects:
 
 Current frontend uses the Garden/Playroom visual system, responsive child and parent shells, child profile + continue-learning flow, subject/activity browsing, stage/progression protection, reusable activity runtimes, parent reporting, and retained motion games.
 
-Learning visual containment/readability is **merged/live verified** through PR #294 -> main `6d0f9bd8972297e316bdf031603d160d901d8d04`. Shared gallery and recognition-heavy Bahasa/English/Science surfaces now use bounded visual frames with blocking responsive containment QA. The next illustration wave is semantic clarity/provenance for a small recognition-critical asset set; platform emoji are not treated as final production art.
+Learning visual containment/readability is **merged/live verified** through PR #294. Semantic P0 production integration through PR #324 approved 14/17 source/license-clear assets as production WebP derivatives, with 3 held and runtime semantic activation still 0. The current project-owner direction is now **SVG-first**: where the canonical approved source already exists as SVG, integrate that SVG directly instead of keeping a WebP derivative as the long-term runtime format. Existing WebPs remain verified fallback/history until the SVG migration is implemented and verified.
 
-See `docs/PROJECT_STATE_SYNC_2026-09-20.md` for the compact current handoff.
+See `docs/CURRENT_STATE.md` for the canonical current handoff and `docs/SVG_NATIVE_ASSET_POLICY_2026-09-25.md` for the current asset-format policy.
 
 ## Retained Mainlagi games
 
@@ -121,9 +124,10 @@ Canonical execution plans:
 Immediate priorities are:
 
 - preserve the closed WS-05 Logic `pattern_completion` reuse baseline; any next mechanic work starts from a fresh objective/evidence audit;
-- keep character development paused until explicit resume;
-- keep Mainlagi World outside this workstream;
-- maintain subject-background and learning-illustration consistency;
+- execute the unified World + character integration without changing Belajar mastery/progression semantics;
+- use direct SVG production/runtime for assets whose canonical approved source is already SVG;
+- migrate the SVG-backed semantic P0 bindings away from unnecessary WebP derivatives before broad semantic runtime activation;
+- keep raster-native subject backgrounds as their existing responsive WebP set;
 - English narration quality after the completed first-instruction latency wave;
 - continued visual/usability cleanup without weakening progression/evidence;
 - real-device/accessibility acceptance and Iqro expert review;

@@ -79,6 +79,61 @@ Therefore:
 
 ---
 
+## 1.1 Character SVG + state decision lock — 25 September 2026
+
+This section records the project-owner decision made after PR #327. Where this section conflicts with the earlier character-format proposal below, this section is the current decision.
+
+- New Mainlagi character production assets use the reviewed **single-character SVG files directly**.
+- Do not convert the new character bank to WebP as the normal production path.
+- Runtime loads the sanitized SVG as an image asset; do not inject untrusted/raw SVG markup into the DOM.
+- Design-set SVG files and `character-set-collection-mainlagi.ai` remain identity/master references, not runtime sprites.
+- Existing Garden WebP assets for Gavi/Paca remain compatibility fallbacks during migration only.
+- The project owner confirmed the formerly ambiguous Gavi hero source is now `gavi-panel-hero.svg`.
+
+Locked runtime state vocabulary:
+
+```text
+hero
+welcome
+pointing
+thinking
+correct
+try_again
+celebrate
+```
+
+`hero` is the neutral/default state. Source filename `try-again` maps to runtime `try_again`.
+
+Normalized production naming direction:
+
+```text
+/artwork/characters/<character>-hero-v1.svg
+/artwork/characters/<character>-welcome-v1.svg
+/artwork/characters/<character>-pointing-v1.svg
+/artwork/characters/<character>-thinking-v1.svg
+/artwork/characters/<character>-correct-v1.svg
+/artwork/characters/<character>-try-again-v1.svg
+/artwork/characters/<character>-celebrate-v1.svg
+```
+
+Source suffixes such as `sample`, `panel-pose`, `(2)`, `(3)` and `(4)` stay in provenance/source metadata and do not become production path names.
+
+This decision is architecture/documentation authorization only. The current validator, registry and runtime remain unchanged until the implementation wave lands.
+---
+
+## 1.2 Cross-system SVG-first asset rule — 25 September 2026
+
+The SVG-native decision is **not character-only**.
+
+If an exact approved Mainlagi asset already has a clean canonical SVG source, preserve that SVG through production/runtime instead of creating a WebP derivative solely for pipeline consistency. This includes the semantic/activity illustration set where canonical SVG sources already exist.
+
+Raster-native backgrounds and other genuinely raster artwork stay raster/WebP. Existing verified WebPs are not deleted until their replacement path is separately implemented and verified.
+
+For the 14 source/license-clear semantic P0 assets from PR #324, the next target is direct sanitized SVG production binding before broad runtime activation. The three held keys remain held.
+
+Canonical policy: `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`.
+
+---
 # PART A — CURRENT REPOSITORY AUDIT
 
 ## 2. Current `main` state
@@ -561,7 +616,7 @@ Examples:
 Drive asset exists
 ≠ production redistribution approved
 
-Production WebP exists
+Production SVG exists
 ≠ runtime active
 
 Runtime character approved
@@ -572,53 +627,25 @@ Runtime character approved
 
 ## 14. Existing production character pipeline must be evolved, not replaced
 
-Existing production contract:
+The fail-closed PR #263 pipeline remains the implementation baseline, but the 25 September decision **supersedes its WebP-specific target for new character assets**.
+
+Target production contract for the new character bank:
 
 ```text
-docs/CHARACTER_ASSET_PIPELINE.md
-src/lib/data/character-asset-provenance.json
-public/artwork/characters/
-scripts/validate-character-assets.mjs
-scripts/run-character-asset-validator-tests.mjs
+format:             SVG
+scope:              isolated single-character asset
+background:         transparent/no baked full-canvas background
+viewBox:            required
+scripts/events:     forbidden
+unsafe active DOM:  forbidden
+external refs:      reject unless explicitly reviewed/allowlisted
+runtime loading:    image asset path, not raw SVG injection
+max bytes:          current 1,000,000-byte ceiling until tightened by measured implementation
 ```
 
-Existing pipeline is already fail-closed and should remain so.
+Current PR #263 validator behavior must be migrated before these SVGs can be marked production-approved. Keep provenance and runtime activation as separate gates.
 
-Current technical contract for first human activity foreground assets:
-
-```text
-format:        WebP
-alpha:         required
-min width:     384
-min height:    512
-max dimension: 2048
-max bytes:     1,000,000
-```
-
-Existing fixed base paths:
-
-```text
-/artwork/characters/naya-activity-v1.webp
-/artwork/characters/gian-activity-v1.webp
-/artwork/characters/zia-activity-v1.webp
-```
-
-### Required pipeline evolution
-
-The provenance schema must move from:
-
-```text
-one production binary per human character
-```
-
-to:
-
-```text
-one character
-└── multiple reviewed pose/state variants
-```
-
-Do this as a versioned migration. Do not weaken the existing validator to accept arbitrary public files.
+The provenance schema must move from one production binary per human character to one character with seven reviewed state variants.
 
 ---
 
@@ -628,7 +655,7 @@ Use the following semantic runtime state vocabulary:
 
 ```ts
 type CharacterPresentationState =
-  | "idle"
+  | "hero"
   | "welcome"
   | "pointing"
   | "thinking"
@@ -639,8 +666,7 @@ type CharacterPresentationState =
 
 Notes:
 
-- `idle` is the neutral fallback state;
-- when no separate idle source exists, `idle` may resolve to the approved `welcome` base pose;
+- `hero` is the neutral/default state;
 - Drive filename `try-again` maps to runtime state `try_again`;
 - source filenames do not define runtime API naming;
 - every state is optional until approved.
@@ -650,7 +676,7 @@ Notes:
 ```text
 requested approved state
     ↓ unavailable
-approved idle/welcome for same character
+approved hero/welcome for same character
     ↓ unavailable
 existing approved legacy Gavi/Paca fallback when context permits
     ↓ unavailable
@@ -663,53 +689,28 @@ Never fall back to a reference-only Naya/Gian/Zia file.
 
 ## 16. Proposed production naming
 
-Keep current v1 base paths for compatibility.
-
-Use the first approved welcome/neutral human pose as:
+New production assets use normalized SVG state paths:
 
 ```text
-naya-activity-v1.webp
-gian-activity-v1.webp
-zia-activity-v1.webp
+/artwork/characters/<id>-hero-v1.svg
+/artwork/characters/<id>-welcome-v1.svg
+/artwork/characters/<id>-pointing-v1.svg
+/artwork/characters/<id>-thinking-v1.svg
+/artwork/characters/<id>-correct-v1.svg
+/artwork/characters/<id>-try-again-v1.svg
+/artwork/characters/<id>-celebrate-v1.svg
 ```
 
-Additional pose derivatives may use:
+Do not preserve Drive working suffixes such as `sample`, `panel-pose`, `(2)`, `(3)` or `(4)` in production filenames. Preserve those exact source names and Drive IDs in provenance metadata.
 
-```text
-naya-pointing-v1.webp
-naya-thinking-v1.webp
-naya-correct-v1.webp
-naya-try-again-v1.webp
-naya-celebrate-v1.webp
-
-gian-pointing-v1.webp
-...
-
-zia-pointing-v1.webp
-...
-```
-
-New Paca/Gavi state derivatives may also live under the production character directory after their exact new source/provenance is approved:
-
-```text
-paca-pointing-v1.webp
-paca-thinking-v1.webp
-...
-gavi-pointing-v1.webp
-gavi-thinking-v1.webp
-...
-```
-
-The existing legacy runtime assets:
+Existing legacy runtime assets remain migration fallbacks:
 
 ```text
 /artwork/garden-paca.webp
 /artwork/garden-gavi.webp
 ```
 
-must remain valid fallback assets during migration.
-
-Do not silently move or delete them in the same wave.
+Do not move/delete the legacy files in the first SVG integration wave.
 
 ---
 
@@ -725,7 +726,7 @@ Recommended schema direction:
     "naya": {
       "identityReference": "...",
       "variants": {
-        "idle": {},
+        "hero": {},
         "welcome": {},
         "pointing": {},
         "thinking": {},
@@ -939,7 +940,7 @@ Recommended defaults:
 | --- | --- |
 | World/catalog entry | `welcome` |
 | Stage map guidance | `pointing` |
-| Story/neutral scene | `idle` |
+| Story/neutral scene | `hero` |
 | Child is considering a challenge | `thinking` |
 | Correct challenge feedback | `correct` |
 | Incorrect/retry feedback | `try_again` |
@@ -1212,266 +1213,278 @@ A future character voice model should be treated as a separate identity/voice co
 
 ---
 
-# PART I — IMPLEMENTATION WAVES
+# PART I — CANONICAL SESSION-BY-SESSION EXECUTION QUEUE
 
-## 31. Wave 0 — Boundary and documentation synchronization
+## 31. Execution contract
 
-**Goal:** remove future-agent ambiguity before runtime changes.
+This section is the **canonical implementation queue** for character + SVG work. It supersedes the older wave ordering when there is any conflict.
 
-Actions:
+Every item below is deliberately sized for **one focused work session**.
 
-1. add this document to `docs/`;
-2. update canonical current-state wording to state that World + character integration is now authorized;
-3. mark old “World separate / character paused” statements as historical where they appear in current canonical handoff docs;
-4. do not rewrite old closure documents that accurately describe their original workstream;
-5. preserve semantic P0 runtime activation as a separate workstream.
-
-Primary current docs to synchronize after approval:
+Rules for every session:
 
 ```text
-docs/CURRENT_STATE.md
-README.md
-docs/README.md
-docs/MAINLAGI_ART_BIBLE.md
-docs/CHARACTER_PRESENTATION_SYSTEM.md
-docs/KNOWN_LIMITATIONS.md
-docs/PRODUCT_DIRECTION.md
+start from latest main
+one bounded objective only
+no unrelated refactor
+implementation + tests + docs/checkpoint in the same session
+finish with exact changed files + test result + commit/PR SHA
+do not start the next session inside the same session
+fail closed if provenance/security/rights are unresolved
 ```
 
-**Exit criteria:**
+Do not edit 900 activities individually. Use shared registries/resolvers/components.
 
-- no canonical current document tells an agent character work is still paused;
-- no canonical current document says World must remain isolated from Mainlagi product integration;
-- historical closures remain historically accurate.
+### Session 00 — Merge the documentation/policy checkpoint
 
----
+**Do:** merge the current docs-only SVG-native/World-character policy PR after checks are green.  
+**Do not:** change runtime/code/assets.  
+**Done when:** canonical docs on `main` state SVG-first policy, character work resumed, and World is first-class Mainlagi.
 
-## 32. Wave 1 — Character Drive intake + provenance manifest
+### Session 01 — Freeze exact SVG source inventory
 
-**Goal:** turn the current Drive asset bank into a deterministic reviewed source inventory without public activation.
+**Do:** create one deterministic inventory for:
+- 5 characters × 7 states = target 35 single-character SVG slots;
+- the 14 source/license-clear semantic P0 SVG sources;
+- the 3 held semantic keys as held, not production candidates.
 
-Actions:
+Record: source filename, Drive/source ID, logical ID/state, SHA-256 where materialized, provenance/rights status, duplicate/ambiguity status.
 
-1. list every canonical design set and every pose source from the supplied Drive folder;
-2. record exact Drive file ID, source filename, character ID, semantic state, source hash where materialized, and review status;
-3. normalize semantic state names;
-4. select one canonical source per character/state;
-5. reject duplicates/ambiguous alternatives rather than silently choosing;
-6. record creation/ownership/licensing basis;
-7. keep candidate files outside `public/artwork/characters/`;
-8. produce a machine-readable intake manifest under a non-public/internal or docs-reviewed path;
-9. visually review scale, silhouette, outfit, face, and state readability.
+**Do not:** copy anything to `public/` or activate runtime.  
+**Done when:** every target slot is mapped exactly once or explicitly marked missing/held.
 
-**No runtime change.**
+### Session 02 — Build shared SVG sanitization + validation foundation
 
-**Exit criteria:**
+**Do:** implement reusable SVG validation/security helpers and regression tests.
+
+Must reject:
+- malformed SVG/XML;
+- missing/invalid `viewBox`;
+- `<script>`;
+- inline event handlers;
+- unsafe active content / unsafe `foreignObject`;
+- unreviewed external references;
+- duplicate production paths;
+- unexpected/stray SVG files;
+- oversized files.
+
+**Do not:** activate any character or semantic asset.  
+**Done when:** validator tests pass on safe and malicious fixtures.
+
+### Session 03 — Migrate character provenance registry to 5 × 7 SVG states
+
+**Do:** version the character provenance schema for:
+`hero / welcome / pointing / thinking / correct / try_again / celebrate`.
+
+Normalize target paths:
 
 ```text
-5/5 character identities accounted for
-all intended states mapped or explicitly missing
-no ambiguous duplicate source
-rights/provenance review recorded
-no public production binary added
+/artwork/characters/<id>-<state>-v1.svg
 ```
 
----
+**Do not:** add production SVG files or change runtime pairing yet.  
+**Done when:** registry + validator tests accept only the locked five characters/seven states.
 
-## 33. Wave 2 — Character provenance registry v2 + validator
+### Session 04 — Promote approved character SVGs into production
 
-**Goal:** extend the already-live character production gate to multiple state variants.
+**Do:** sanitize, normalize, hash, provenance-bind, and add every approved single-character SVG to `public/artwork/characters/`.
 
-Actions:
+Target: all approved Naya/Gian/Zia/Paca/Gavi state assets from Session 01.
 
-1. version `character-asset-provenance.json`;
-2. extend validator for pose variants;
-3. preserve existing base-path compatibility;
-4. add regression fixtures for:
-   - unknown state;
-   - stray variant binary;
-   - duplicate path;
-   - approved state without rights;
-   - invalid alpha;
-   - invalid dimensions;
-   - valid multi-state character;
-5. run existing blocking asset tests;
-6. merge validator/schema before production binaries.
+Keep:
+- design-set SVGs / `.ai` outside runtime;
+- legacy Gavi/Paca WebP unchanged as fallback.
 
-**No runtime activation.**
+**Do not:** activate runtime.  
+**Done when:** production asset validation passes with no stray/unbound file.
 
-Required checks:
+### Session 05 — Implement shared character runtime resolver
+
+**Do:** implement/evolve:
+- `characterAssets.ts`;
+- shared `characterPresentation.ts`;
+- generic `CharacterLayer`;
+- seven-state resolution;
+- fail-closed fallback.
+
+Fallback:
+
+```text
+requested approved state
+-> same-character hero/welcome
+-> approved legacy Gavi/Paca fallback where valid
+-> hide character
+```
+
+**Do not:** integrate every product surface yet.  
+**Done when:** resolver/component unit-regression tests pass.
+
+### Session 06 — Integrate characters into Belajar
+
+**Do:** connect the shared resolver to Belajar presentation/feedback without activity-by-activity hardcoding.
+
+Target pairings:
+
+```text
+Bahasa          Gavi + Paca
+English         Naya + Zia
+Math            Gian + Paca
+Iqro            Gavi + Paca
+Huruf           Gavi + Paca
+Logic           Gavi + Paca
+Science         Gavi + Paca
+Color/Drawing   hidden while workspace is active
+```
+
+State mapping:
+
+```text
+entry       -> welcome/hero
+guide       -> pointing
+waiting     -> hero/thinking
+correct     -> correct
+retry       -> try_again
+completion  -> celebrate
+```
+
+**Do not:** change activity IDs, answers, mastery, progression, evidence, or Pattern count.  
+**Done when:** representative subject/activity routes resolve the correct characters/states.
+
+### Session 07 — Belajar character responsive QA + fixes
+
+**Do:** test/fix character layout only at 320/390/430/768/1280 on representative Bahasa, English, Math, Science, Iqro, Coloring and Drawing routes.
+
+Check:
+- no overlap with prompt/answers/canvas/tools;
+- no pointer blocking;
+- reduced motion;
+- decorative semantics/accessibility;
+- SVG sharpness and containment.
+
+**Do not:** change learning semantics.  
+**Done when:** character visual regression is clean on representative routes.
+
+### Session 08 — Integrate shared character runtime into Mainlagi World
+
+**Do:** keep Petualangan Uang authored cast = Gavi + Paca and route it through the shared character resolver.
+
+Default mapping:
+
+```text
+catalog/entry       welcome
+map guidance        pointing
+neutral story       hero
+considering         thinking
+correct             correct
+retry               try_again
+stage/final finish  celebrate
+```
+
+**Do not:** change World IDs, 2 Chapters / 8 Stages / 44 Scenes / 89 Segments, progress, evidence, stars, or Belajar mastery.  
+**Done when:** catalog/map/stage/retry/completion use the shared runtime without UI overlap.
+
+### Session 09 — Integrate characters into Home + Bermain shell
+
+**Do:** use the shared character system on:
+- Mainlagi Home full-cast/brand presentation;
+- Belajar/World/Bermain entry cards where appropriate;
+- Bermain entry/result/completion presentation only.
+
+**Do not:** redesign Motion Engine or game mechanics.  
+**Done when:** Home visibly presents one Mainlagi system and Bermain uses shared character assets without touching motion logic.
+
+### Session 10 — Migrate semantic/activity illustration registry to SVG-aware production
+
+**Do:** update the learning-illustration provenance schema/validator so the 14 clear semantic P0 items can use:
+
+```text
+/artwork/learning-illustrations/<semantic-slug>-v1.svg
+```
+
+Keep these held with no production activation:
+
+```text
+vehicle.car
+object.towel
+object.raincoat
+```
+
+**Do not:** delete the existing 14 WebP production derivatives or activate runtime yet.  
+**Done when:** SVG-aware semantic registry/validator tests pass and held keys remain fail-closed.
+
+### Session 11 — Promote the 14 approved semantic SVG sources into production
+
+**Do:** sanitize, normalize, hash, provenance-bind, and add the exact 14 source/license-clear canonical SVGs to `public/artwork/learning-illustrations/`.
+
+Keep existing WebP derivatives as rollback/history during migration.
+
+**Do not:** map them into child runtime yet.  
+**Done when:** all 14 SVGs pass provenance/security/asset validation with exact SHA bindings.
+
+### Session 12 — Activate the central semantic SVG resolver
+
+**Do:** implement one central semantic-key → approved SVG path resolver and connect only the intended recognition-critical learning surfaces.
+
+Rules:
+- 14 approved keys may resolve to SVG;
+- car/towel/raincoat keep existing fallback;
+- no raw Drive URL;
+- no per-activity file-path hardcoding;
+- missing/unapproved key fails closed.
+
+**Do not:** change activity correctness, mastery, progression or evidence.  
+**Done when:** representative semantic P0 activities render the approved SVGs and held keys still fall back.
+
+### Session 13 — Semantic/activity SVG responsive QA + fixes
+
+**Do:** verify the direct SVG semantic assets at 320/390/430/768/1280 on all affected surface families.
+
+Check:
+- semantic readability;
+- no cropping/overflow;
+- no answer leakage;
+- accessibility;
+- deterministic resolver output;
+- no external SVG network dependency.
+
+**Do not:** add new artwork during QA.  
+**Done when:** all 14 active SVG assets pass representative browser QA and the 3 held keys remain unchanged.
+
+### Session 14 — Repository-wide approved-SVG sweep
+
+**Do:** use the Session 01 inventory plus repository search to find any remaining **already-approved canonical SVG source** still being unnecessarily converted or shadowed by a WebP-only production rule.
+
+For each item in this bounded sweep:
+- keep SVG if vector-native;
+- leave raster-native backgrounds/photos as raster;
+- do not migrate assets with unclear provenance.
+
+**Do not:** generate new art or expand semantic scope.  
+**Done when:** every currently known approved vector asset is either direct-SVG, explicitly exempted, or explicitly held with reason.
+
+### Session 15 — Remove redundant WebP derivatives only after live SVG verification
+
+**Do:** after Sessions 07/08/09/13/14 are verified, trace runtime references and remove only WebP files proven redundant.
+
+Candidates:
+- legacy character WebP fallback, only if no runtime path still needs it;
+- 14 semantic WebP derivatives, only after SVG runtime is verified and rollback need is closed.
+
+**Do not:** remove raster-native subject backgrounds or any still-referenced fallback.  
+**Done when:** no broken references, no duplicate unnecessary derivative, asset tests/build pass.
+
+### Session 16 — Final closure + exact production checkpoint
+
+**Do:** run the full relevant test/CI matrix, verify deployed exact SHA, and synchronize current docs.
+
+Minimum:
 
 ```bash
-npm run validate:assets:characters
-npm run test:assets:characters
-npm run validate:assets
-npm run typecheck
-npm run lint
-```
-
----
-
-## 34. Wave 3 — Production character derivatives
-
-**Goal:** create the actual validated runtime binaries.
-
-Actions:
-
-1. export selected approved SVG source poses to deterministic transparent WebP;
-2. meet exact size/dimension contract;
-3. bind production SHA/provenance;
-4. intentionally add only reviewed files to `public/artwork/characters/`;
-5. pass blocking validators;
-6. review at:
-   - native size;
-   - activity scale;
-   - mobile scale;
-   - dark/light contextual backgrounds;
-7. approve only exact binaries.
-
-Recommended priority:
-
-```text
-1. Naya base/welcome
-2. Gian base/welcome
-3. Zia base/welcome
-4. shared core states
-5. new Paca states
-6. new Gavi states
-```
-
-This preserves the existing safe Gavi/Paca fallback while unlocking the three currently blocked human characters first.
-
-**Runtime still may remain fail-closed until Wave 4.**
-
----
-
-## 35. Wave 4 — Shared character runtime state system
-
-**Goal:** activate approved assets through one reusable resolver.
-
-Actions:
-
-1. evolve `characterAssets.ts`;
-2. add shared presentation-state resolver;
-3. add generic CharacterLayer;
-4. keep `activityVisualTheme.ts` subject pairings;
-5. wire character state to shared activity feedback/completion states where available;
-6. preserve creative workspace hiding;
-7. preserve fallback behavior;
-8. verify English and Math pair transitions.
-
-Expected production behavior after approval:
-
-```text
-English -> Naya + Zia
-Math    -> Gian + Paca
-others  -> current approved pairing
-```
-
-Character state behavior:
-
-```text
-entry        -> welcome/idle
-instruction  -> pointing when appropriate
-waiting      -> idle/thinking
-correct      -> correct
-retry        -> try_again
-completion   -> celebrate
-```
-
-Do not require all 900 activities to be individually edited.
-
-Use shared runtime boundaries.
-
----
-
-## 36. Wave 5 — Unified Mainlagi Home
-
-**Goal:** make the product visibly one system.
-
-Modify `Batch14WorldHome.tsx` so Home exposes:
-
-```text
-Belajar
-World
-Bermain
-```
-
-as first-class experiences.
-
-Integrate:
-
-- Belajar continuation;
-- World continuation;
-- World eligibility;
-- World progress;
-- Games entry;
-- approved Mainlagi character hero/cast.
-
-Do not change canonical Belajar recommendation semantics.
-
-**Exit criteria:**
-
-A child should not need to already know that “World” exists from the top nav. Home itself should make it obvious that Petualangan is part of Mainlagi.
-
----
-
-## 37. Wave 6 — World uses shared character runtime
-
-**Goal:** replace World-specific static/ambient character assumptions with the common approved system.
-
-Actions:
-
-1. define Petualangan Uang cast metadata;
-2. resolve Gavi/Paca through shared character runtime;
-3. wire default World moment → state mapping;
-4. add only necessary authored overrides;
-5. retain story continuity;
-6. validate Stage map, active Scene, challenge, retry, completion, and final completion;
-7. ensure no character overlaps:
-   - story text;
-   - challenge controls;
-   - Back / Again / Next;
-   - Share;
-   - stage-complete ★★★;
-   - mobile safe areas.
-
-Do not touch World progression IDs or evidence mapping merely to add characters.
-
----
-
-## 38. Wave 7 — Parent integration
-
-**Goal:** make World part of the family product without misreporting learning.
-
-Add a parent-readable World journey section using existing World progress.
-
-Display:
-
-```text
-World title
-completed stages
-current stage
-journey completion
-last update if available
-```
-
-Keep mastery/evidence source-aware.
-
-No new certificate semantics in this wave.
-
----
-
-## 39. Wave 8 — Final integration QA and release
-
-Minimum automated regression:
-
-```bash
 npm run lint
 npm run typecheck
+npm run validate:assets
 npm run validate:assets:characters
 npm run test:assets:characters
-npm run validate:assets
 npm run test:learning:visual-theme
 node scripts/run-world-money-tests.mjs
 node scripts/run-world-cloud-tests.mjs
@@ -1480,39 +1493,43 @@ npm run test:ui:mobile-routes
 npm run build
 ```
 
-Also run the repository's normal merge-blocking CI matrix.
+Record:
+- exact character SVG count;
+- exact semantic/activity SVG count;
+- remaining held assets;
+- remaining justified WebP assets;
+- exact merged main SHA;
+- CI result;
+- deployed SHA.
 
-Required browser QA should include at minimum:
+**Do not:** start another product wave.  
+**Done when:** character + SVG migration is closed, reproducible, documented, and live-verified.
+
+### Session dependency order
+
+Execute strictly:
 
 ```text
-320
-390
-430
-768
-1280
+00
+-> 01
+-> 02
+-> 03
+-> 04
+-> 05
+-> 06
+-> 07
+-> 08
+-> 09
+-> 10
+-> 11
+-> 12
+-> 13
+-> 14
+-> 15
+-> 16
 ```
 
-and representative routes:
-
-```text
-/child/:id/home
-/child/:id/subject/english
-/child/:id/subject/math
-/child/:id/activity/<English activity>
-/child/:id/activity/<Math activity>
-/child/:id/worlds
-/child/:id/world/money-festival
-/child/:id/world/money-festival/stage/<representative stage>
-/parent/children/:id/progress
-/parent/children/:id/reports
-```
-
-Final release requires:
-
-- merged-main CI green;
-- exact deployed SHA verification;
-- no unexpected asset binaries;
-- no stale canonical boundary docs.
+If one session finds a rights/security blocker, close that session with the exact blocked item recorded as fail-closed. Do not expand the session or silently bypass the gate.
 
 ---
 

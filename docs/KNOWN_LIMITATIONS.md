@@ -75,6 +75,8 @@ The semantic illustration registry/provenance gate is closed/live verified throu
 
 Session 3 froze all **17/17 P0** visual decisions, and the separately authorized production-integration wave has now promoted the **14/17 source/license-clear assets** into exact SHA-bound production WebP binaries. The remaining production limitation is the same three held visuals: car 499718, towel 288034, and raincoat 212019 remain fail-closed for public-repository redistribution. Current state is **14 production approvals / 14 production binaries / 3 held / 0 runtime semantic activation**. Because runtime mapping remains separate, the child-facing learning surfaces may still show their existing glyph/emoji fallbacks until the later activation + visual-regression wave.
 
+**New 25 September format decision:** those 14 approved assets came from canonical SVG sources, so the next implementation should migrate their production binding to the reviewed SVG directly instead of activating the derived WebP as the long-term runtime format. This requires an SVG-aware provenance/validator/path migration first. Existing WebPs remain rollback/history until the SVG runtime is verified. The three held assets stay held; SVG format does not solve missing redistribution rights.
+
 Canonical records:
 - `LEARNING_ILLUSTRATION_CONSISTENCY_AUDIT_2026-09-22.md`;
 - `LEARNING_VISUAL_CONTAINMENT_CLOSURE_2026-09-23.md`;
@@ -107,9 +109,11 @@ Iqro/Hijaiyah pronunciation requires competent human review. Generic TTS must no
 
 ## Character production assets
 
-Paca and Gavi have production Garden WebP artwork. Naya, Gian and Zia still lack production image files under `public/artwork`; their current fallback representations are not final brand assets.
+Character development is now **resumed/authorized** for the unified Mainlagi integration. Drive contains isolated single-character SVG source assets for Naya, Gian, Zia, Paca and Gavi, including the confirmed `gavi-panel-hero.svg` hero/default source.
 
-Character production/development is **paused by the project owner**. Existing Drive character material is reference-only while paused. When explicitly resumed, the next character-specific gate is to lock production specifications, review candidate artwork, and document provenance/redistribution rights before integration. Child profile identity must remain separate from guide-character identity.
+The new production decision is SVG-native with seven locked states: `hero`, `welcome`, `pointing`, `thinking`, `correct`, `try_again`, `celebrate`. Design-set SVGs and the Illustrator collection remain reference/master material only.
+
+The remaining limitation is implementation, not source availability: the current provenance registry/validator/runtime still reflect the earlier pipeline and must be migrated before any new SVG is production-live. Each exact SVG still needs provenance/redistribution approval, sanitization/security validation, normalized production path, exact hash binding and responsive visual QA. Existing Garden Gavi/Paca WebP assets remain compatibility fallbacks during migration. Child profile identity remains separate from guide-character identity.
 
 ## About, FAQ, and affiliate discoverability
 

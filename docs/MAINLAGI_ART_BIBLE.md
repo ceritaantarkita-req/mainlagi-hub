@@ -1,13 +1,13 @@
 # Mainlagi Art Bible — v1
 
-Status: **CANONICAL VISUAL DIRECTION / SUBJECT BACKGROUNDS LIVE VERIFIED / CHARACTER DEVELOPMENT PAUSED**  
+Status: **CANONICAL VISUAL DIRECTION / SUBJECT BACKGROUNDS LIVE VERIFIED / CHARACTER SVG INTEGRATION AUTHORIZED**  
 Established: **16 September 2026**  
-Last synchronized: **22 September 2026**  
+Last synchronized: **25 September 2026**  
 Source audit: `PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md`
 
 This document defines the visual language that future Mainlagi product work must converge toward. It does **not** require a one-shot rewrite of every existing screen. Migration is wave-based, evidence-backed and must preserve learning/progression/auth behavior.
 
-Current project-owner boundary: **Mainlagi World is developed separately and must not be modified by the current Mainlagi Belajar workstream. Character production/development is paused; Drive character material is reference-only until explicit resume.** This pause changes execution priority, not the underlying visual identity contract below.
+Current project-owner boundary: **Mainlagi World is a first-class domain of one Mainlagi product system, and character production/development is resumed for the shared integration.** New character production uses reviewed single-character SVG assets directly; provenance, SVG sanitization/validation and runtime activation remain fail-closed separate gates.
 
 ## 1. Product feeling
 
@@ -234,6 +234,16 @@ Do not mix several unrelated icon styles in one surface.
 
 VUI-03 public child/parent path icons use canonical `Icon` assets rather than raw semantic emoji/text symbols.
 
+### SVG-native vector asset rule
+
+For reusable vector artwork, preserve the canonical SVG directly when it is already visually approved and production-suitable. Do not rasterize an SVG to WebP solely because an older asset pipeline expected raster output.
+
+This applies to character art and semantic/activity illustrations with canonical SVG sources. Raster-native scene/background artwork remains raster/WebP.
+
+SVG production use still requires provenance, sanitization/security validation, normalized paths, exact hash binding and actual-size visual QA. See `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`.
+
+The already-merged semantic P0 WebPs remain historical/current fallback assets until the direct-SVG migration is implemented and verified.
+
 ## 11. Characters and artwork
 
 Gavi/Paca and approved Garden artwork are brand assets, not filler.
@@ -260,7 +270,29 @@ Canonical identities are intentionally narrow:
 
 Do not invent unsupported biography, hobby, hairstyle, clothing details beyond Naya's documented hijab, family relationship, or personality traits merely to make generated art more specific.
 
-Current production-asset truth:
+#### 25 September SVG-native character production lock
+
+The project owner has resumed character production for the unified Mainlagi system and locked the new character asset format to **direct single-character SVG**.
+
+Canonical state vocabulary:
+
+- `hero` — neutral/default;
+- `welcome`;
+- `pointing`;
+- `thinking`;
+- `correct`;
+- `try_again`;
+- `celebrate`.
+
+The project owner confirmed `gavi-panel-hero.svg` as the Gavi hero/default source. The single-character SVGs are production-source candidates; `*-character-design-set.svg` and `character-set-collection-mainlagi.ai` remain identity/master references and must not be rendered as runtime sprites.
+
+Production runtime paths normalize to `/artwork/characters/<id>-<state>-v1.svg` after provenance, sanitization/security validation, exact-path/hash binding and responsive QA. Load approved SVGs as image assets rather than injecting raw SVG markup.
+
+Existing Garden Gavi/Paca WebP artwork remains a temporary compatibility fallback during migration only.
+
+The block immediately below records the **pre-SVG runtime implementation baseline**, not the new target asset format.
+
+Current runtime implementation baseline (pre-SVG migration):
 
 ```text
 Paca  -> public/artwork/garden-paca.webp       production asset exists
@@ -331,15 +363,19 @@ For the first activity-foreground production asset of Naya, Gian and Zia:
 - optimize the reviewed production derivative for web delivery without flattening transparency;
 - do not activate the file until provenance/redistribution and responsive screenshot review are complete.
 
-Planned public runtime naming convention, if redistribution is approved:
+Canonical new public runtime naming convention after exact SVG approval:
 
 ```text
-public/artwork/characters/naya-activity-v1.webp
-public/artwork/characters/gian-activity-v1.webp
-public/artwork/characters/zia-activity-v1.webp
+public/artwork/characters/<id>-hero-v1.svg
+public/artwork/characters/<id>-welcome-v1.svg
+public/artwork/characters/<id>-pointing-v1.svg
+public/artwork/characters/<id>-thinking-v1.svg
+public/artwork/characters/<id>-correct-v1.svg
+public/artwork/characters/<id>-try-again-v1.svg
+public/artwork/characters/<id>-celebrate-v1.svg
 ```
 
-These paths are a production convention only; their presence in a branch does not imply approval. Runtime activation is controlled separately by the canonical character asset registry.
+These paths are a production convention only; source existence or branch presence does not imply approval. Runtime activation is controlled separately by the canonical character asset registry.
 
 Generated candidates are **review material**, not production truth. A visually plausible image is not approved until identity consistency, asset quality and redistribution/provenance requirements are satisfied.
 

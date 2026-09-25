@@ -208,30 +208,40 @@ See `AI_OCR_OPENROUTER.md`.
 
 ## 15. Current execution priority
 
-**22 September project-owner override:** Mainlagi World is a separate development track and must not be touched by this workstream. Character development is paused; current character assets are reference-only. Mainlagi Belajar WS-05 Logic `pattern_completion` reuse is now fully closed/live verified through PR #273 -> main `709e2b7d...` / merged-main CI #1353.
+**25 September project-owner override:** Mainlagi World is now treated as a first-class domain of one Mainlagi product system, and character development is resumed for this integration. The 22 September “World separate / character paused” boundary is historical for that earlier workstream.
 
-The 20 September WS-13 product sequence has already closed canonical component/warning audit, child home + subject directory, activity gallery/QA unlock, shared completion, matching randomization, first-instruction narration latency, and parent/profile/settings responsive redesign.
+Current cross-system asset-format decision is also locked:
 
-Current order while the override is active:
+- if the canonical approved source is already SVG, use that SVG directly in production/runtime;
+- do not create WebP derivatives merely for consistency with older pipelines;
+- character and semantic/activity illustration pipelines must become SVG-aware;
+- raster-native backgrounds remain WebP/raster;
+- existing verified WebP assets remain fallback/history until explicit verified migration.
+Current character decisions are locked:
 
-1. preserve the closed WS-05 PR #273 production baseline;
-2. keep Mainlagi World untouched;
-3. keep character development paused until explicit project-owner resume;
-4. select the next product wave separately; any later WS-05 runtime change starts from a fresh objective/evidence audit.
+1. use isolated single-character SVG assets directly;
+2. canonical states are `hero`, `welcome`, `pointing`, `thinking`, `correct`, `try_again`, `celebrate`;
+3. `gavi-panel-hero.svg` is Gavi hero/default;
+4. design-set SVGs / `.ai` remain reference/master assets;
+5. existing Gavi/Paca Garden WebP remains temporary fallback;
+6. provenance + SVG sanitization/validator + runtime activation stay separate fail-closed gates.
 
-Historical/planned order below remains reference context:
+Current execution order for the World + character program:
 
-1. production-grade character specification in the canonical Art Bible;
-2. reviewed/provenance-cleared Naya/Gian/Zia production assets;
-3. dynamic character-layer integration on top of the live subject-background system;
-4. learning-illustration consistency;
-5. English narration quality;
-6. broader human visual/usability + physical-device/accessibility acceptance;
-7. Iqro expert review;
-8. targeted remaining P2 visual/governance/technical cleanup.
+1. synchronize canonical docs and boundaries;
+2. exact Drive single-SVG inventory + provenance mapping;
+3. migrate character provenance/validator to the seven-state SVG model;
+4. promote reviewed character SVGs to normalized production paths;
+5. migrate the 14 SVG-backed semantic P0 production bindings from WebP derivatives to direct sanitized SVG paths;
+6. implement shared character resolver/layer without touching learning semantics;
+7. expose unified Home with Belajar / World / Bermain;
+8. integrate Petualangan Uang Gavi+Paca through the shared runtime;
+9. activate semantic SVG resolver in a controlled wave after its migration gate;
+10. add parent World journey context without collapsing World progress into Belajar mastery;
+11. close with responsive/browser/CI/deploy verification.
 
-The subject theme/background system itself is **closed / merged / live verified** and should not be reopened without a concrete defect.
+Belajar WS-05 Logic `pattern_completion` remains closed/live verified. Pattern #48 remains unjustified; character/World work must not reopen curriculum/mastery/progression unless separately authorized.
 
-WS-05 gameplay-mechanic work continues separately through objective/evidence audits. Pattern #48 remains unjustified; existing-mechanic reuse is preferred when it faithfully measures the objective.
+The subject background system remains closed/live verified and should not be reopened without a concrete defect.
 
 **Quality first. Quantity later.**
