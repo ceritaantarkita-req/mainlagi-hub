@@ -20,6 +20,19 @@ Semantic P0 current factual state remains **14 approved WebP production derivati
 
 Canonical policy: `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`.
 
+Character SVG engineering checkpoint:
+
+```text
+Session 01: source inventory frozen — 35/35 character variants
+Session 02: shared SVG security foundation merged
+Session 03: character provenance registry v2 implemented
+Registry v2: 5 characters × 7 states = 35 variants
+Production-approved SVG variants: 0/35
+Runtime activation: 0
+```
+
+All 35 character variants remain `review-required` and fail-closed until exact public-repository rights/redistribution basis and production sanitization/integration are completed.
+
 ## 25 September World + character integration authorization — CURRENT
 
 PR #327 merged `MAINLAGI_WORLD_CHARACTER_SYSTEM_INTEGRATION_2026-09-25.md` and records the project-owner decision that **Mainlagi World is a first-class domain of one Mainlagi product system** and that character development is resumed for the shared Mainlagi integration.
