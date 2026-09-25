@@ -1,17 +1,17 @@
 # Mainlagi Character + World Safe Checkpoint — 25 September 2026
 
-Status: **SAFE HANDOFF / SESSIONS 01–07 COMPLETE / SESSION 08 NOT STARTED**
+Status: **SAFE HANDOFF / SESSIONS 01–08 COMPLETE / SESSION 09 NOT STARTED**
 
 ## Exact live implementation baseline
 
 ```text
 repository: ceritaantarkita-req/mainlagi-hub
 production branch: main
-Session 07 PR: #335
-Session 07 final PR head: 1f0e52a13319b6c7730b825b11e3d8540fc967e0
-Session 07 final PR CI: #1650 / run 36105937149 — full success
-merged implementation main: 1c4ba5f41c554621ee29aeccb6b5b85415a45d55
-merged-main CI: #1651 / run 36106692149 — full success
+Session 08 PR: #337
+Session 08 final PR head: 6a728c36f7bc0a1a34c46e2511062df5e2b9af9d
+Session 08 final PR CI: #1663 / run 36120579884 — full success
+merged implementation main: e2e5e4b676ce45313786420708de41731ec2e3cb
+merged-main CI: #1664 / run 36121741946 — full success
 Production smoke (Cloudflare): success
 ```
 
@@ -27,6 +27,7 @@ Session 04  35/35 SVG production promotion + approval
 Session 05  shared state-aware runtime resolver + CharacterLayer
 Session 06  Belajar integration
 Session 07  Belajar responsive QA
+Session 08  Mainlagi World shared-character integration
 ```
 
 Current character bank:
@@ -125,15 +126,16 @@ creative-workspace character leakage: 0
 
 Manual visual review found no defect that justified a CharacterLayer or GardenActivityFrame CSS correction.
 
-## World boundary at this checkpoint
+## World truth at this checkpoint
 
-**Session 08 has not started.**
+**Session 08 is CLOSED / MERGED / LIVE VERIFIED.**
 
-World remains structurally/live as it was before the character migration:
+Petualangan Uang remains:
 
 ```text
 World: Petualangan Uang
 World ID: money-festival
+authored cast: Gavi + Paca
 Chapters: 2
 Stages: 8
 Scenes: 44
@@ -143,7 +145,27 @@ narrative progress: child_world_progress
 learning contribution: existing reviewed supplemental-evidence bridge only
 ```
 
-Mandatory invariant:
+World presentation now uses the shared character resolver + `CharacterLayer`.
+
+```text
+catalog/entry       -> welcome
+map guidance        -> pointing
+neutral story       -> hero
+concept/challenge   -> thinking
+correct             -> correct
+retry               -> try_again
+stage/final finish  -> celebrate
+```
+
+Permanent browser regression:
+
+```bash
+npm run test:ui:world-character
+```
+
+It is included in `npm run test:ui:mobile-routes` and verifies the shared SVG runtime at representative 390px and 1280px World flows, including SVG decode, state swaps, pointer safety, overflow, and mobile/tablet challenge containment.
+
+Mandatory invariant remains:
 
 ```text
 World completion / World stars / narrative progress
@@ -151,44 +173,28 @@ World completion / World stars / narrative progress
 Belajar activity completion / mastery / readiness / certificate
 ```
 
-Do not flatten World into Belajar activities or use World completion to mint canonical Belajar evidence.
+Session 08 did not change World structure/content, `child_world_progress` semantics, supplemental-evidence activation, Belajar mastery/progression, rewards/certificates, narration activation, or character provenance/approval. Historical World asset-plan gaps remain explicit.
+
+Canonical closure: `MAINLAGI_WORLD_CHARACTER_INTEGRATION_SESSION08_2026-09-25.md`.
 
 ## Next authorized session
 
-### Session 08 — Integrate shared character runtime into Mainlagi World
+### Session 09 — Integrate characters into Home + Bermain shell
 
-Authored cast remains:
+Session 09 may change product presentation only:
 
-```text
-money-festival -> Gavi + Paca
-```
+- Mainlagi Home full-cast/brand presentation;
+- Belajar/World/Bermain entry cards where appropriate;
+- Bermain entry/result/completion presentation through the shared character system.
 
-Target default state mapping:
+It must not:
 
-```text
-catalog/entry       -> welcome
-map guidance        -> pointing
-neutral story       -> hero
-considering         -> thinking
-correct             -> correct
-retry               -> try_again
-stage/final finish  -> celebrate
-```
-
-Session 08 may change **World presentation wiring only**.
-
-It must not change:
-
-- World ID;
-- 2 Chapters / 8 Stages / 44 Scenes / 89 Segments;
-- World persistence semantics;
-- World evidence activation semantics;
-- Belajar mastery/progression;
-- stars/rewards/certificates semantics;
-- the 900-activity baseline;
-- the 47-pattern baseline;
-- character provenance/approval;
-- Home/Bermain integration.
+- redesign Motion Engine or game mechanics;
+- merge World progression into Belajar mastery;
+- change character provenance/approval;
+- change the 900-activity or 47-pattern baselines;
+- activate narration;
+- start semantic SVG Sessions 10–16.
 
 ## Safe start procedure for the next agent/session
 
@@ -197,26 +203,27 @@ It must not change:
 3. Read:
    - `MAINLAGI_WORLD_CHARACTER_SYSTEM_INTEGRATION_2026-09-25.md`;
    - `CHARACTER_PRESENTATION_SYSTEM.md`;
-   - `MAINLAGI_BELAJAR_CHARACTER_RESPONSIVE_SESSION07_2026-09-25.md`;
+   - `MAINLAGI_WORLD_CHARACTER_INTEGRATION_SESSION08_2026-09-25.md`;
    - this checkpoint.
-4. Trace actual World route/component imports before editing.
-5. Create a new Session 08 branch from latest merged `main`.
+4. Trace actual Home + Bermain shell/component imports before editing.
+5. Create a new Session 09 branch from latest merged `main`.
 6. Reuse `characterPresentation.ts` + `CharacterLayer`; do not create a second character runtime.
-7. Keep Gavi + Paca as the authored Petualangan Uang cast.
-8. Add representative World browser regression before merge.
-9. Require PR CI full green and merged-main exact-SHA Cloudflare smoke before declaring Session 08 live.
+7. Keep existing Belajar and Petualangan Uang character behavior unchanged while integrating Home/Bermain presentation.
+8. Add representative Home/Bermain browser regression before merge.
+9. Require PR CI full green and merged-main exact-SHA Cloudflare smoke before declaring Session 09 live.
 
 ## Stop conditions
 
-Stop and request a separate decision instead of silently changing scope if Session 08 would require:
+Stop and request a separate decision instead of silently changing scope if Session 09 would require:
 
-- a World structure/content rewrite;
+- a World or Belajar structure/content rewrite;
 - a progression/evidence schema change;
 - a new character identity/state;
 - a new asset approval;
 - global age-range expansion;
-- Motion Engine changes;
-- Home product redesign;
-- narration activation.
+- Motion Engine or game-mechanic changes;
+- Home recommender/data-model redesign;
+- narration activation;
+- semantic SVG Sessions 10–16 work.
 
-This checkpoint is the safe handoff between **closed Session 07** and **not-yet-started Session 08**.
+This checkpoint is the safe handoff between **closed Session 08** and **not-yet-started Session 09**.

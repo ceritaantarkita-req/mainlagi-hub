@@ -20,21 +20,24 @@ Semantic P0 current factual state remains **14 approved WebP production derivati
 
 Canonical policy: `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`.
 
-## 25 September character + World safe checkpoint — LIVE VERIFIED
+## 25 September character + World safe checkpoint — LIVE VERIFIED THROUGH SESSION 08
 
 ```text
-current main: 1c4ba5f41c554621ee29aeccb6b5b85415a45d55
-Session 07 PR: #335
-final PR CI: #1650 / run 36105937149 — full success
-merged-main CI: #1651 / run 36106692149 — full success
+current main: e2e5e4b676ce45313786420708de41731ec2e3cb
+Session 08 PR: #337
+final PR head: 6a728c36f7bc0a1a34c46e2511062df5e2b9af9d
+final PR CI: #1663 / run 36120579884 — full success
+merged-main CI: #1664 / run 36121741946 — full success
 Production smoke (Cloudflare): success
-Sessions 01–07: COMPLETE
-next: Session 08 — integrate Gavi + Paca shared runtime into Mainlagi World
+Sessions 01–08: COMPLETE
+next: Session 09 — Home + Bermain shell character integration
 ```
 
-No Session 08 runtime work has started at this checkpoint. World canonical structure/progress/evidence remains untouched by Sessions 01–07.
+Session 08 migrated Petualangan Uang to the shared approved SVG character runtime while preserving the authored Gavi + Paca cast. Catalog, map, story/concept, challenge feedback, Stage completion, and final-World completion now resolve through `characterPresentation.ts` + `CharacterLayer` with `welcome / pointing / hero / thinking / correct / try_again / celebrate` presentation states.
 
-Canonical handoff: `MAINLAGI_CHARACTER_WORLD_SAFE_CHECKPOINT_2026-09-25.md`.
+World canonical structure, content, progress, supplemental-evidence semantics, rewards/mastery boundaries, narration activation, and character provenance/approval were not changed. The historical World asset-plan approval gaps remain explicit rather than being silently closed by presentation migration.
+
+Canonical closure: `MAINLAGI_WORLD_CHARACTER_INTEGRATION_SESSION08_2026-09-25.md`. Canonical handoff remains `MAINLAGI_CHARACTER_WORLD_SAFE_CHECKPOINT_2026-09-25.md`.
 
 Character SVG engineering checkpoint:
 
@@ -51,10 +54,10 @@ Production-approved SVG variants: 35/35
 Shared SVG runtime-addressable states: 35/35
 Belajar character resolution: active across 900/900 activities
 Session 07 representative matrix: 7 routes × 5 viewports = 35/35 PASS
-World/Home surface migration: not yet
+World migration: complete through Session 08; Home/Bermain shell integration: pending Session 09
 ```
 
-All 35 character variants are exact SHA-bound, owned/provenance-approved production SVGs under `public/artwork/characters/`. Belajar now resolves its canonical subject pair through the shared runtime: English = Naya+Zia, Math = Gian+Paca, and Bahasa/Iqro/Huruf/Logic/Science = Gavi+Paca. Color/Drawing retain the Gavi+Paca policy but suppress the decorative foreground while the creative workspace is active. World and Home remain later integration sessions.
+All 35 character variants are exact SHA-bound, owned/provenance-approved production SVGs under `public/artwork/characters/`. Belajar now resolves its canonical subject pair through the shared runtime: English = Naya+Zia, Math = Gian+Paca, and Bahasa/Iqro/Huruf/Logic/Science = Gavi+Paca. Color/Drawing retain the Gavi+Paca policy but suppress the decorative foreground while the creative workspace is active. World is now migrated through Session 08; Home/Bermain remain the next product-surface integration in Session 09.
 
 ## 25 September World + character integration authorization — CURRENT
 
@@ -72,7 +75,7 @@ design-set SVG + .ai: reference/master only
 legacy Gavi/Paca WebP: compatibility fallback during migration
 ```
 
-This authorization is now implemented through Session 07 for Belajar: all 35 SVGs are production-approved/runtime-addressable, the Belajar activity presentation path uses the shared resolver + CharacterLayer, and the responsive character matrix is clean across 320/390/430/768/1280 on representative Bahasa/English/Math/Science/Iqro/Color/Drawing routes. No Session 07 CSS correction was required. Product-surface migration remains staged: World is reserved for Session 08 and Home/Bermain shell integration for Session 09.
+This authorization is now implemented through Session 08: all 35 SVGs are production-approved/runtime-addressable; Belajar uses the shared resolver + CharacterLayer with a clean 320/390/430/768/1280 representative matrix; and Petualangan Uang now uses the same shared runtime for its authored Gavi + Paca cast. Product-surface migration remains staged: Home/Bermain shell integration is reserved for Session 09.
 
 Any lower section that says “World untouched” or “character development paused” describes the boundary of that historical checkpoint and must not be interpreted as the current project-owner instruction.
 

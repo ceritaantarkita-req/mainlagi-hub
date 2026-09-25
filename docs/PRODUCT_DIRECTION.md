@@ -1,6 +1,6 @@
 # Mainlagi Hub — Product Direction
 
-Last reviewed: **21 September 2026**
+Last reviewed: **25 September 2026**
 
 Status: **current product direction**. Some items are implemented, some remain next-phase work. Implementation claims must be checked against `CURRENT_STATE.md` and code.
 
@@ -118,13 +118,15 @@ Five canonical Mainlagi characters:
 - **Paca** — friendly male-coded robot;
 - **Gavi** — orange cat.
 
-Current production-asset truth:
+Current production/runtime truth:
 
-- Paca and Gavi have production Garden WebP assets in `public/artwork`;
-- Naya, Gian and Zia do not yet have production image files under `public/artwork`;
-- current Naya/Gian/Zia avatars are fallback representations, not final production art;
-- child profile identity is separate from guide-character identity;
-- generated character candidates require review and provenance before production use.
+- all five characters have seven production-approved SVG states under `public/artwork/characters/`;
+- the locked state bank is `hero / welcome / pointing / thinking / correct / try_again / celebrate`;
+- Belajar uses the shared SVG runtime across the 900-activity subject presentation policy;
+- Petualangan Uang uses the shared runtime with authored cast Gavi + Paca through Session 08;
+- legacy Garden Gavi/Paca WebPs remain compatibility fallback/history, not the primary new production path;
+- child profile identity remains separate from guide-character identity;
+- any future/new character state or identity still requires the existing provenance/security/approval gates.
 
 Characters are a reusable narrative/feedback system, not decoration only. Roles can include narration, introductions, hints, retry guidance, celebrations, stage transitions, story continuity and bilingual voice identity.
 
@@ -162,7 +164,7 @@ The subject-background system is now production truth:
 
 Next visual goals:
 
-- production-grade Naya/Gian/Zia character assets and dynamic foreground character use;
+- complete Home + Bermain shell adoption of the already-approved shared five-character SVG runtime;
 - coherent Mainlagi illustration language for learning objects/icons;
 - simple readable silhouettes;
 - consistent stroke/shape language;
@@ -207,6 +209,8 @@ They must not replace deterministic/local runtimes where simpler methods suffice
 See `AI_OCR_OPENROUTER.md`.
 
 ## 15. Current execution priority
+
+**Session 08 implementation checkpoint:** Petualangan Uang shared-character migration is CLOSED / MERGED / LIVE VERIFIED through PR #337 -> main `e2e5e4b676ce45313786420708de41731ec2e3cb`, merged-main CI #1664 / run `36121741946` full success including Cloudflare production smoke. Next authorized character/product session is Session 09 — Home + Bermain shell integration.
 
 **25 September project-owner override:** Mainlagi World is now treated as a first-class domain of one Mainlagi product system, and character development is resumed for this integration. The 22 September “World separate / character paused” boundary is historical for that earlier workstream.
 

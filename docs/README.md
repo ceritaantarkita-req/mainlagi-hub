@@ -15,7 +15,10 @@ Read these first for current work:
 5. [`SUBJECT_BACKGROUND_SYSTEM.md`](SUBJECT_BACKGROUND_SYSTEM.md) — production contract for scene families, responsive pairs, runtime architecture and QA.
 6. [`SUBJECT_BACKGROUND_ALL_SUBJECTS_INTEGRATION_2026-09-21.md`](SUBJECT_BACKGROUND_ALL_SUBJECTS_INTEGRATION_2026-09-21.md) — closed/live-verified 9-subject / 54-scene / 108-WebP production integration.
 7. [`SUBJECT_BACKGROUND_PRODUCTION_PREVIEW_REVIEW_2026-09-21.md`](SUBJECT_BACKGROUND_PRODUCTION_PREVIEW_REVIEW_2026-09-21.md) — project-owner desktop production preview covering one route in every subject.
-8. [`CHARACTER_PRESENTATION_SYSTEM.md`](CHARACTER_PRESENTATION_SYSTEM.md) — fail-closed activity character layer, approved asset boundary and Naya/Gian/Zia activation gate.
+8. [`CHARACTER_PRESENTATION_SYSTEM.md`](CHARACTER_PRESENTATION_SYSTEM.md) — shared SVG character presentation/runtime contract across Belajar and World; Home/Bermain integration remains Session 09.
+   - [`MAINLAGI_WORLD_CHARACTER_SYSTEM_INTEGRATION_2026-09-25.md`](MAINLAGI_WORLD_CHARACTER_SYSTEM_INTEGRATION_2026-09-25.md) — canonical Sessions 00–16 integration queue and cross-domain boundaries.
+   - [`MAINLAGI_WORLD_CHARACTER_INTEGRATION_SESSION08_2026-09-25.md`](MAINLAGI_WORLD_CHARACTER_INTEGRATION_SESSION08_2026-09-25.md) — closed/live-verified PR #337 World shared-character migration.
+   - [`MAINLAGI_CHARACTER_WORLD_SAFE_CHECKPOINT_2026-09-25.md`](MAINLAGI_CHARACTER_WORLD_SAFE_CHECKPOINT_2026-09-25.md) — current safe handoff: Sessions 01–08 complete; Session 09 not started.
 9. [`CHARACTER_ASSET_PIPELINE.md`](CHARACTER_ASSET_PIPELINE.md) — production-only character directory, provenance registry, technical validator and approval sequence.
 10. [`CHARACTER_CANDIDATE_INTAKE_AUDIT_2026-09-21.md`](CHARACTER_CANDIDATE_INTAKE_AUDIT_2026-09-21.md) — historical 21 Sep Drive audit; superseded for current source availability by the 25 Sep isolated five-character SVG bank.
 11. [`CLOUD_ANALYTICS_PAGINATION_CLOSURE_2026-09-21.md`](CLOUD_ANALYTICS_PAGINATION_CLOSURE_2026-09-21.md) — closed/live-verified complete cloud analytics pagination + explicit authenticated failure/retry behavior.
@@ -114,15 +117,15 @@ semantic candidate generator:     PR #300 -> 89adf887 / main CI #1546 exact smok
 semantic source refinement:       PR #301 -> 9f6270c7 / main CI #1548 exact smoke
 semantic production art:          PR #324 / 14 approved WebP derivatives / 3 held / 0 runtime / direct-SVG migration next
 asset format policy:              SVG-FIRST for canonical SVG sources / no unnecessary SVG→WebP conversion
-character development:            RESUMED / SVG-native seven-state architecture locked / runtime migration pending
-Mainlagi World:                   FIRST-CLASS MAINLAGI DOMAIN / unified product integration authorized
+character development:            35/35 SVG states approved + shared runtime live in Belajar and World through Session 08
+Mainlagi World:                   FIRST-CLASS MAINLAGI DOMAIN / shared Gavi+Paca runtime live verified / Session 09 Home+Bermain next
 WS-05 production truth:           900/900 / 47 / choice_grid 174 / pattern_completion 10 / KEEP 900
 next safe narration step:         generate/listen to exact four-item local candidates through verified gate; no production approval/runtime activation yet
 ```
 
 The same SVG-first rule now applies to semantic/activity illustrations whose canonical approved source is SVG: preserve SVG through production/runtime rather than rasterizing it only for pipeline consistency. Existing raster-native subject backgrounds stay WebP. The 14 semantic P0 WebPs from PR #324 remain verified fallback/history while their SVG-aware production migration is pending.
 
-Drive now contains isolated single-character SVG source assets for all five canonical characters. New character production is locked to direct SVG with states `hero`, `welcome`, `pointing`, `thinking`, `correct`, `try_again`, `celebrate`; `gavi-panel-hero.svg` is the confirmed Gavi hero source. Existing Garden Gavi/Paca WebP remains migration fallback, while Naya/Gian/Zia stay runtime fail-closed until provenance/sanitization/validator + activation waves land. Child profile identity remains separate from guide-character identity.
+Drive contains isolated single-character SVG source assets for all five canonical characters. All 35 locked state variants (`hero`, `welcome`, `pointing`, `thinking`, `correct`, `try_again`, `celebrate`) are production-approved and runtime-addressable; `gavi-panel-hero.svg` is the confirmed Gavi hero source. Belajar and Petualangan Uang now use the shared SVG runtime through Session 08. Existing Garden Gavi/Paca WebP remains compatibility fallback/history until later verified cleanup. Child profile identity remains separate from guide-character identity.
 
 Historical audit/closure files remain immutable evidence for their checkpoint; use the canonical documents above for current truth.
 
