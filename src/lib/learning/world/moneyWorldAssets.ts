@@ -16,14 +16,16 @@ export interface MoneyWorldAssetSlot {
 export const MONEY_WORLD_ASSET_PLAN_VERSION = "money-world-assets-v1";
 
 export const MONEY_WORLD_RUNTIME_CHARACTER_POLICY = {
-  version: "money-world-runtime-character-dummy-v1",
-  mode: "approved-mascot-dummy",
+  version: "money-world-shared-character-runtime-v2",
+  mode: "shared-approved-svg-cast",
+  worldId: "money-festival",
+  cast: ["gavi", "paca"] as const,
   storyRoleToRuntimeCharacter: {
     Gian: "gavi",
     Naya: "paca"
   },
   finalHumanCharactersActivated: false,
-  rationale: "Character development is paused. Use approved Gavi/Paca production assets to validate the World shell without activating fallback human artwork."
+  rationale: "Petualangan Uang keeps its authored Gavi/Paca cast and now resolves every World character presentation through the shared approved SVG character runtime."
 } as const;
 
 export const MONEY_WORLD_ASSET_SLOTS: readonly MoneyWorldAssetSlot[] = [
@@ -94,18 +96,18 @@ export const MONEY_WORLD_ASSET_SLOTS: readonly MoneyWorldAssetSlot[] = [
   {
     id: "paca-ambient",
     kind: "mascot",
-    status: "approved-reused",
-    currentSource: "/artwork/garden-paca.webp",
-    usedIn: ["world-hero", "stage-shell", "stage-ambience", "temporary-naya-story-role"],
-    finalRequirement: "Approved pilot mascot. May temporarily present the Naya story role while human character production remains paused."
+    status: "production-ready",
+    currentSource: "/artwork/characters/paca-hero-v1.svg",
+    usedIn: ["world-hero", "world-map", "stage-shell", "story-role", "completion"],
+    finalRequirement: "Shared approved Paca SVG state bank. Runtime state must resolve through characterPresentation.ts rather than hardcoded file paths."
   },
   {
     id: "gavi-ambient",
     kind: "mascot",
-    status: "approved-reused",
-    currentSource: "/artwork/garden-gavi.webp",
-    usedIn: ["world-hero", "stage-shell", "stage-ambience", "temporary-gian-story-role"],
-    finalRequirement: "Approved pilot mascot. May temporarily present the Gian story role while human character production remains paused."
+    status: "production-ready",
+    currentSource: "/artwork/characters/gavi-hero-v1.svg",
+    usedIn: ["world-hero", "world-map", "stage-shell", "story-role", "completion"],
+    finalRequirement: "Shared approved Gavi SVG state bank. Runtime state must resolve through characterPresentation.ts rather than hardcoded file paths."
   },
   {
     id: "gian-foreground",
