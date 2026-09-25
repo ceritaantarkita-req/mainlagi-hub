@@ -19,35 +19,11 @@ const {
   THEMED_SUBJECT_IDS,
   resolveActivityVisualTheme
 } = require(path.resolve(".learning-test-dist/src/lib/learning/activityVisualTheme.js"));
-const {
-  CHARACTER_ASSET_REGISTRY,
-  approvedCharacterRuntimeSrc
-} = require(path.resolve(".learning-test-dist/src/lib/learning/characterAssets.js"));
-
 assert.deepEqual(
   [...THEMED_SUBJECT_IDS],
   ["bahasa", "english", "math", "iqro", "letters", "logic", "science", "color", "drawing"],
   "background system must cover the canonical nine subjects"
 );
-
-assert.deepEqual(
-  Object.keys(CHARACTER_ASSET_REGISTRY).sort(),
-  ["gavi", "gian", "naya", "paca", "zia"],
-  "character asset registry must cover the canonical five characters"
-);
-for (const id of ["naya", "gian", "zia"]) {
-  const record = CHARACTER_ASSET_REGISTRY[id];
-  assert.equal(record.lifecycle, "reference-only", `${id} must remain reference-only until production approval`);
-  assert.equal(record.runtimeSrc, null, `${id} must not expose an unapproved runtime asset`);
-  assert(record.referenceAsset?.endsWith("-character-design-set-v1.png"), `${id} keeps its reviewed design-sheet reference`);
-  assert.equal(approvedCharacterRuntimeSrc(id), null, `${id} must fail closed at the runtime gate`);
-}
-for (const id of ["gavi", "paca"]) {
-  const record = CHARACTER_ASSET_REGISTRY[id];
-  assert.equal(record.lifecycle, "approved", `${id} remains an approved runtime character`);
-  assert(record.runtimeSrc?.startsWith("/artwork/garden-"), `${id} keeps production Garden artwork`);
-  assert.equal(approvedCharacterRuntimeSrc(id), record.runtimeSrc, `${id} resolves through the central registry`);
-}
 
 let resolvedCount = 0;
 for (const subjectId of THEMED_SUBJECT_IDS) {
@@ -79,20 +55,23 @@ for (const subjectId of THEMED_SUBJECT_IDS) {
     assert.equal(first.scene.subjectId, subjectId);
     assert(sceneIds.has(first.scene.id), `${activity.id} resolves inside its subject scene family`);
     assert(first.scene.runtimeAssets, `${activity.id} resolves to active runtime artwork`);
-    assert.equal(first.characters.runtimeCharacters.length, 2, `${activity.id} keeps two presentation character slots`);
+    assert.equal(first.characters.characters.length, 2, `${activity.id} keeps two presentation character slots`);
     assert.deepEqual(
-      first.characters.preferredIds,
+      first.characters.characters.map((character) => character.id),
       SUBJECT_CHARACTER_PREFERENCES[subjectId],
-      `${activity.id} keeps the subject character preference`
+      `${activity.id} resolves the canonical subject character pair`
     );
-    for (const character of first.characters.runtimeCharacters) {
-      assert(["gavi", "paca"].includes(character.id), `${activity.id} must fail closed to production-approved character assets`);
-      assert(character.src.startsWith("/artwork/garden-"), `${activity.id} character must resolve to production artwork`);
+    assert.equal(first.characters.source, "subject-preference", `${activity.id} uses its approved subject pair without fallback`);
+    for (const character of first.characters.characters) {
+      assert(character.src.startsWith("/artwork/characters/"), `${activity.id} character must resolve through the SVG production bank`);
+      assert(character.src.endsWith("-hero-v1.svg"), `${activity.id} route-entry visual theme defaults to hero state`);
+      assert.equal(character.state, "hero", `${activity.id} route-entry visual theme uses neutral hero state`);
+      assert.equal(character.assetSource, "svg-state", `${activity.id} uses the shared SVG state runtime`);
       assert(["left", "right"].includes(character.side), `${activity.id} character must have a safe side placement`);
     }
     assert.notEqual(
-      first.characters.runtimeCharacters[0].id,
-      first.characters.runtimeCharacters[1].id,
+      first.characters.characters[0].id,
+      first.characters.characters[1].id,
       `${activity.id} must not render the same character twice`
     );
     resolvedCount += 1;
@@ -105,8 +84,10 @@ const frameCss = fs.readFileSync(path.resolve("src/components/learning/GardenAct
 const frameSource = fs.readFileSync(path.resolve("src/components/learning/GardenActivityFrame.tsx"), "utf8");
 assert.match(frameCss, /\.workspace\{background-color:#fffbee;/, "workspace must keep its paper color without resetting background-image");
 assert.doesNotMatch(frameCss, /\.workspace\{background:#fffbee;/, "workspace must not wipe themed background images with the background shorthand");
-assert.match(frameCss, /\.workspace \.character\{display:none\}/, "creative workspace must keep decorative character layers out of the canvas");
+assert.match(frameSource, /!workspace && characterPresentation/, "creative workspace must suppress the decorative shared CharacterLayer");
+assert.match(frameSource, /<CharacterLayer characters=\{runtimeCharacters\}/, "GardenActivityFrame must render characters through the shared CharacterLayer");
 assert.doesNotMatch(frameSource, /garden-gavi\.webp|garden-paca\.webp/, "GardenActivityFrame must not hardcode mascot assets outside the presentation resolver");
+assert.doesNotMatch(frameSource, /runtimeCharacters\.map/, "GardenActivityFrame must not maintain a second direct character renderer");
 
 const byId = new Map(ACTIVITIES.map((activity) => [activity.id, activity]));
 const expected = {
@@ -143,10 +124,18 @@ assert.deepEqual(SUBJECT_CHARACTER_PREFERENCES.letters, ["gavi", "paca"], "Lette
 
 const englishCharacters = resolveActivityVisualTheme(byId.get("english-find-blue"))?.characters;
 assert.deepEqual(
-  englishCharacters?.runtimeCharacters.map((character) => character.id),
-  ["gavi", "paca"],
-  "unapproved Naya/Zia production files must fail closed to Gavi/Paca"
+  englishCharacters?.characters.map((character) => character.id),
+  ["naya", "zia"],
+  "English must activate the approved Naya/Zia SVG pair"
 );
-assert.equal(englishCharacters?.source, "approved-fallback", "fallback must be explicit while human character assets are unapproved");
+assert.equal(englishCharacters?.source, "subject-preference");
+assert(englishCharacters?.characters.every((character) => character.state === "hero"));
 
-console.log("Subject visual theme regression passed: nine subjects, 54 scene families, 108 responsive WebP assets, deterministic coverage for all 900 activities, and a five-character fail-closed asset registry.");
+const mathCharacters = resolveActivityVisualTheme(byId.get("math-shape-three-sides"))?.characters;
+assert.deepEqual(
+  mathCharacters?.characters.map((character) => character.id),
+  ["gian", "paca"],
+  "Math must activate the approved Gian/Paca SVG pair"
+);
+
+console.log("Subject visual theme regression passed: nine subjects, 54 scene families, 108 responsive WebP backgrounds, deterministic coverage for all 900 activities, and shared SVG character pairing for every Belajar subject.");
