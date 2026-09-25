@@ -75,6 +75,8 @@ The semantic illustration registry/provenance gate is closed/live verified throu
 
 Session 3 froze all **17/17 P0** visual decisions, and the separately authorized production-integration wave has now promoted the **14/17 source/license-clear assets** into exact SHA-bound production WebP binaries. The remaining production limitation is the same three held visuals: car 499718, towel 288034, and raincoat 212019 remain fail-closed for public-repository redistribution. Current state is **14 production approvals / 14 production binaries / 3 held / 0 runtime semantic activation**. Because runtime mapping remains separate, the child-facing learning surfaces may still show their existing glyph/emoji fallbacks until the later activation + visual-regression wave.
 
+**New 25 September format decision:** those 14 approved assets came from canonical SVG sources, so the next implementation should migrate their production binding to the reviewed SVG directly instead of activating the derived WebP as the long-term runtime format. This requires an SVG-aware provenance/validator/path migration first. Existing WebPs remain rollback/history until the SVG runtime is verified. The three held assets stay held; SVG format does not solve missing redistribution rights.
+
 Canonical records:
 - `LEARNING_ILLUSTRATION_CONSISTENCY_AUDIT_2026-09-22.md`;
 - `LEARNING_VISUAL_CONTAINMENT_CLOSURE_2026-09-23.md`;
