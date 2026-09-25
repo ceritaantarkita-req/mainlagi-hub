@@ -20,6 +20,22 @@ Semantic P0 current factual state remains **14 approved WebP production derivati
 
 Canonical policy: `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`.
 
+## 25 September character + World safe checkpoint — LIVE VERIFIED
+
+```text
+current main: 1c4ba5f41c554621ee29aeccb6b5b85415a45d55
+Session 07 PR: #335
+final PR CI: #1650 / run 36105937149 — full success
+merged-main CI: #1651 / run 36106692149 — full success
+Production smoke (Cloudflare): success
+Sessions 01–07: COMPLETE
+next: Session 08 — integrate Gavi + Paca shared runtime into Mainlagi World
+```
+
+No Session 08 runtime work has started at this checkpoint. World canonical structure/progress/evidence remains untouched by Sessions 01–07.
+
+Canonical handoff: `MAINLAGI_CHARACTER_WORLD_SAFE_CHECKPOINT_2026-09-25.md`.
+
 Character SVG engineering checkpoint:
 
 ```text
