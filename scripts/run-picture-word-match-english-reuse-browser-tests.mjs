@@ -269,7 +269,7 @@ async function main(){
   await waitForServer();
   await inspectSemanticCoverage();
   for(const item of cases)await inspect(item);
-  console.log("English Picture Word Match browser QA passed 3 viewports with leak-free English presentation, keyboard retry, pointer + touchscreen completion, touch targets, screenshots and assessed evidence.");
+  console.log(`English Picture Word Match browser QA passed ${cases.length} required Session 13 viewports plus exact five-key semantic coverage, leak-free English presentation and assessed evidence checks.`);
 }
 
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;}).finally(stopServer);
