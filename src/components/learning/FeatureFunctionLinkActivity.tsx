@@ -92,12 +92,12 @@ export function FeatureFunctionLinkActivity({ childId, activityId }: { childId: 
         <div className={styles.map} role="group" aria-label="Ciri makhluk hidup dan pilihan fungsi">
           <div className={styles.featureColumn}>
             <div className={styles.subjectCard}>
-              <LearningVisualToken className={styles.subjectIcon} label={config.subjectLabel}>{config.subjectIcon}</LearningVisualToken>
+              <LearningVisualToken className={styles.subjectIcon} label={config.subjectLabel} semanticKey={config.subjectSemanticKey}>{config.subjectIcon}</LearningVisualToken>
               <strong>{config.subjectLabel}</strong>
             </div>
             <div className={styles.featureCard}>
               <span className={styles.cardTag}>Ciri</span>
-              <LearningVisualToken className={styles.featureIcon} label={config.featureLabel}>{config.featureIcon}</LearningVisualToken>
+              <LearningVisualToken className={styles.featureIcon} label={config.featureLabel} semanticKey={config.featureSemanticKey}>{config.featureIcon}</LearningVisualToken>
               <strong>{config.featureLabel}</strong>
             </div>
           </div>
