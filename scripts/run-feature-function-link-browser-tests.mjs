@@ -14,7 +14,7 @@ const route="/child/demo-gian/activity/science-feature-duck-webbed-feet";
 const activityId="science-feature-duck-webbed-feet";
 const correctLabel="Hubungkan fungsi: Berenang di air";
 const screenshotDir=path.join(root,".mobile-route-qa");
-const viewports=[{width:320,height:720},{width:390,height:844},{width:768,height:1024},{width:1280,height:800}];
+const viewports=[{width:320,height:720},{width:390,height:844},{width:430,height:860},{width:768,height:1024},{width:1280,height:800}];
 let server=null;
 let serverLog="";
 
