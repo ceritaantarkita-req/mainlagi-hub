@@ -1,6 +1,6 @@
 # Mainlagi SVG-Native Asset Policy — 25 September 2026
 
-Status: **CURRENT PROJECT-OWNER ASSET FORMAT POLICY / IMPLEMENTATION MIGRATION PENDING**
+Status: **CURRENT PROJECT-OWNER ASSET FORMAT POLICY / SEMANTIC REGISTRY MIGRATED THROUGH SESSION 10 / SVG BINARY PROMOTION PENDING SESSION 11**
 
 This document records the current Mainlagi asset-format decision after the character and learning-illustration reviews.
 
@@ -146,16 +146,26 @@ Canonical detail:
 
 The semantic P0 production wave through PR #324 created **14 approved 512x512 alpha WebP production derivatives from canonical Drive/library SVG sources**. That completed wave remains historical truth.
 
-The current project-owner decision changes the **next target architecture**:
+Session 10 / PR #343 has now migrated the semantic registry/validator contract to SVG-aware v2:
+
+```text
+registry version: 2
+preferredProductionFormat: svg
+runtimeActivation: off
+approved WebP history: 14
+SVG migration-ready: 14
+approved SVG binaries: 0
+held SVG slots: 3
+```
+
+The target architecture remains:
 
 ```text
 approved canonical semantic SVG
--> sanitized production SVG
+-> shared SVG sanitize + validate
 -> /artwork/learning-illustrations/<semantic-slug>-v1.svg
--> semantic resolver/runtime
+-> later semantic resolver/runtime
 ```
-
-The 14 source/license-clear semantic P0 assets are therefore candidates for direct-SVG migration before broad runtime semantic activation.
 
 The three held keys remain held:
 
@@ -167,7 +177,7 @@ object.raincoat
 
 SVG format does not override missing/insufficient redistribution rights.
 
-The semantic validator/registry must be migrated from a WebP-only production contract to an SVG-aware contract before direct SVG is declared production-live.
+The semantic validator/registry migration prerequisite is now complete. The next step is Session 11 exact-SVG production promotion; runtime activation remains Session 12.
 
 ## 8. Runtime architecture rule
 
@@ -209,9 +219,9 @@ Recommended implementation order:
 
 1. update canonical docs and asset-format boundaries;
 2. inventory exact SVG-source production candidates;
-3. migrate character and learning-illustration registries/validators to SVG-aware rules;
-4. promote exact reviewed SVGs to normalized repository paths;
-5. activate shared resolvers/runtime in controlled waves;
+3. migrate character and learning-illustration registries/validators to SVG-aware rules — **complete for characters and semantic illustrations**;
+4. promote exact reviewed semantic SVGs to normalized repository paths — **Session 11**;
+5. activate the central semantic resolver/runtime in a controlled wave — **Session 12**;
 6. run responsive/browser/accessibility/CI/deploy verification;
 7. only after verified activation, remove redundant WebP derivatives when no longer needed.
 
