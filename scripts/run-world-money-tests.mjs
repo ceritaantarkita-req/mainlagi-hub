@@ -162,6 +162,7 @@ try {
   assert.match(worldRuntimeSource, /resolveCharacterPresentation/, "Money World must resolve characters through the shared presentation resolver");
   assert.doesNotMatch(worldRuntimeSource, /<CharacterAvatar/, "Money World must not retain legacy CharacterAvatar rendering");
   assert.match(worldRuntimeSource, /data-world-character-state/, "World surfaces must expose resolved character state for QA");
+  assert.match(worldRuntimeSource, /worldComplete \? "world_completion" : "world_map"/, "completed World map must switch the shared cast from pointing to celebrate");
   assert.match(worldRuntimeSource, /reportCharacterFeedback\("try_again"\)/, "World generic mechanics must publish retry presentation feedback");
   assert.match(worldRuntimeSource, /reportCharacterFeedback\("correct"\)/, "World generic mechanics must publish correct presentation feedback");
   assert.match(worldRuntimeCss, /\.completionCharacters/, "World completion must retain a contained shared character slot");
