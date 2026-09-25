@@ -83,7 +83,7 @@ try {
     result = run(["--generate", "--source-dir", source, "--output", output]);
     assert.equal(result.status, 0, result.stderr);
     assert.match(result.stdout, /Generated 14 internal historical WebP comparison files/);
-    assert.match(result.stdout, /Registry v2 SVG targets remain unpromoted/);
+    assert.match(result.stdout, /Registry v2 SVG production bindings remain unchanged/);
 
     const manifest = JSON.parse(readFileSync(path.join(output, "preflight-manifest.json"), "utf8"));
     assert.equal(manifest.version, 2);
@@ -110,7 +110,7 @@ try {
       assert.equal(item.productionApproval, false);
       assert.equal(item.production, false);
       assert.equal(item.runtimeActive, false);
-      assert.equal(item.svgMigrationStatus, "migration-ready");
+      assert.equal(item.svgMigrationStatus, "approved");
       assert.equal(
         item.expectedWebpProductionPath,
         `/artwork/learning-illustrations/${item.semanticKey.replaceAll(".", "-")}-v1.webp`
@@ -152,7 +152,7 @@ try {
 
   assert.deepEqual(readFileSync(registryPath), registryBefore);
   console.log(
-    "Learning semantic P0 production-readiness preflight v2 regression passed: WebP history remains deterministic while SVG targets stay migration-ready and runtime-off."
+    "Learning semantic P0 production-readiness preflight v2 regression passed: WebP history remains deterministic while approved SVG production bindings stay unchanged and runtime remains off."
   );
 } finally {
   try {
