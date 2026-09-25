@@ -75,6 +75,40 @@ The three held keys remain `review-required` / SVG `held` / no production path o
 
 Canonical closure: `LEARNING_SEMANTIC_SVG_REGISTRY_SESSION10_CLOSURE_2026-09-25.md`.
 
+## Session 11 exact SVG production promotion — CURRENT
+
+Session 11 is **CLOSED / MERGED / LIVE VERIFIED**.
+
+```text
+PR #346 final head:              32e84d08ad43e172935dd6fb6a63f08567ac9549
+PR CI #1684 / run:              36156244598 — full success
+merged main:                    d8992804beb82e553a3965066cf674fbfca9d7b5
+merged-main CI #1685 / run:     36157147165 — full success
+Cloudflare exact-release smoke: PASS
+```
+
+Current machine truth:
+
+```text
+registry version:               2
+preferred production format:    svg
+runtime activation:             off
+approved WebP history:          14
+approved SVG binaries:          14
+SVG migration-ready:             0
+held SVG slots:                  3
+```
+
+The 14 clear records now bind exact canonical production SVGs at:
+
+```text
+/artwork/learning-illustrations/<semantic-slug>-v1.svg
+```
+
+Every promoted SVG is shared-security validated and exact SHA-bound. The three held keys remain `review-required` / SVG `held` / no production path or hash.
+
+Canonical closure: `LEARNING_SEMANTIC_SVG_PRODUCTION_SESSION11_CLOSURE_2026-09-25.md`.
+
 ## Verified repository checkpoint
 
 ```text
@@ -163,28 +197,29 @@ Therefore **production binary availability does not mean child-facing runtime ac
 
 ## Next execution boundary
 
-### Session 11 — exact SVG production promotion
+### Session 12 — central semantic SVG runtime resolver + controlled activation
 
-Promote only the exact 14 already-reviewed canonical SVG sources into the prepared registry v2 slots.
+Use the approved registry as the only source of truth.
 
 Required behavior:
 
-1. sanitize every source with the shared SVG security foundation;
-2. normalize each production path to `/artwork/learning-illustrations/<semantic-slug>-v1.svg`;
-3. bind exact production SHA-256 values;
-4. move exactly 14 SVG slots from `migration-ready` to `approved`;
-5. preserve the 14 existing WebPs as rollback/history;
-6. keep car/towel/raincoat held;
-7. keep runtime activation off.
+1. implement one centralized semantic-key → approved SVG path resolver;
+2. resolve only the 14 approved SVG bindings;
+3. keep car/towel/raincoat on the existing canonical fallback;
+4. missing/unapproved keys fail closed;
+5. do not hardcode production paths per activity;
+6. preserve correctness/mastery/progression/evidence/reward behavior;
+7. keep the 14 WebPs as rollback/history.
 
-Runtime resolver activation remains Session 12.
+Responsive/browser visual QA remains a later dedicated session after resolver activation.
 
 ## Canonical files to read next
 
 Start the next discussion from:
 
 - `docs/LEARNING_SEMANTIC_P0_PRODUCTION_SAFE_CHECKPOINT_2026-09-25.md` — this file;
-- `docs/LEARNING_SEMANTIC_SVG_REGISTRY_SESSION10_CLOSURE_2026-09-25.md` — exact registry v2 migration closure;
+- `docs/LEARNING_SEMANTIC_SVG_PRODUCTION_SESSION11_CLOSURE_2026-09-25.md` — exact SVG production promotion closure;
+- `docs/LEARNING_SEMANTIC_SVG_REGISTRY_SESSION10_CLOSURE_2026-09-25.md` — historical registry v2 migration closure;
 - `docs/LEARNING_SEMANTIC_P0_PRODUCTION_APPROVAL_INTEGRATION_2026-09-25.md` — historical exact WebP production bindings/provenance scope;
 - `src/lib/data/learning-illustration-asset-provenance.json` — machine-readable lifecycle truth;
 - `docs/CURRENT_STATE.md` — repository-level current truth;
@@ -193,14 +228,14 @@ Start the next discussion from:
 
 ## Resume instruction
 
-A future agent starting Session 11 should first verify latest `main`, confirm the registry remains v2 with 14 `migration-ready` SVG slots and 3 held slots, and then perform only exact SVG production promotion. Do not change runtime code in Session 11.
+A future agent starting Session 12 should first verify latest `main`, confirm the registry remains v2 with 14 approved SVG bindings and 3 held slots, then trace the existing semantic visual-token consumption path before changing runtime code.
 
 Safe baseline:
 
 ```text
 14 approved WebP history assets
-14 SVG migration-ready slots
-0 approved semantic SVG binaries
+14 approved semantic SVG binaries
+0 SVG migration-ready slots
 3 held semantic assets
 0 runtime semantic activation
 World unchanged by semantic migration

@@ -19,7 +19,7 @@ Read these first for current work:
    - [`MAINLAGI_WORLD_CHARACTER_SYSTEM_INTEGRATION_2026-09-25.md`](MAINLAGI_WORLD_CHARACTER_SYSTEM_INTEGRATION_2026-09-25.md) — canonical Sessions 00–16 integration queue and cross-domain boundaries.
    - [`MAINLAGI_WORLD_CHARACTER_INTEGRATION_SESSION08_2026-09-25.md`](MAINLAGI_WORLD_CHARACTER_INTEGRATION_SESSION08_2026-09-25.md) — closed/live-verified PR #337 World shared-character migration.
    - [`MAINLAGI_HOME_BERMAIN_CHARACTER_INTEGRATION_SESSION09_2026-09-25.md`](MAINLAGI_HOME_BERMAIN_CHARACTER_INTEGRATION_SESSION09_2026-09-25.md) — closed/live-verified PR #340 Home + Bermain shared-character integration.
-   - [`MAINLAGI_CHARACTER_WORLD_SAFE_CHECKPOINT_2026-09-25.md`](MAINLAGI_CHARACTER_WORLD_SAFE_CHECKPOINT_2026-09-25.md) — current safe handoff: Sessions 01–10 complete; Session 11 not started.
+   - [`MAINLAGI_CHARACTER_WORLD_SAFE_CHECKPOINT_2026-09-25.md`](MAINLAGI_CHARACTER_WORLD_SAFE_CHECKPOINT_2026-09-25.md) — current safe handoff: Sessions 01–11 complete; Session 12 not started.
 9. [`CHARACTER_ASSET_PIPELINE.md`](CHARACTER_ASSET_PIPELINE.md) — production-only character directory, provenance registry, technical validator and approval sequence.
 10. [`CHARACTER_CANDIDATE_INTAKE_AUDIT_2026-09-21.md`](CHARACTER_CANDIDATE_INTAKE_AUDIT_2026-09-21.md) — historical 21 Sep Drive audit; superseded for current source availability by the 25 Sep isolated five-character SVG bank.
 11. [`CLOUD_ANALYTICS_PAGINATION_CLOSURE_2026-09-21.md`](CLOUD_ANALYTICS_PAGINATION_CLOSURE_2026-09-21.md) — closed/live-verified complete cloud analytics pagination + explicit authenticated failure/retry behavior.
@@ -116,15 +116,15 @@ visual containment:               PR #294 -> 6d0f9bd8 / PR CI #1529 / main CI #1
 semantic illustration gate:       PR #297 -> ed7db8a6 / 17 review-required / 0 approved / main CI #1537 exact smoke
 semantic candidate generator:     PR #300 -> 89adf887 / main CI #1546 exact smoke
 semantic source refinement:       PR #301 -> 9f6270c7 / main CI #1548 exact smoke
-semantic production art:          PR #324 WebP history preserved / Session 10 PR #343 registry v2 / 14 SVG migration-ready / 3 held / 0 runtime
-asset format policy:              SVG-FIRST / semantic registry v2 migrated / exact SVG promotion next in Session 11
+semantic production art:          PR #324 WebP history preserved / Session 11 PR #346 / 14 SVG approved / 3 held / 0 runtime
+asset format policy:              SVG-FIRST / semantic registry v2 + exact SVG production complete / runtime resolver next in Session 12
 character development:            35/35 SVG states approved + shared runtime live across Belajar/World/Home/Bermain through Session 09
 Mainlagi World:                   FIRST-CLASS MAINLAGI DOMAIN / shared Gavi+Paca runtime live verified / Home+Bermain integration closed
 WS-05 production truth:           900/900 / 47 / choice_grid 174 / pattern_completion 10 / KEEP 900
 next safe narration step:         generate/listen to exact four-item local candidates through verified gate; no production approval/runtime activation yet
 ```
 
-The same SVG-first rule applies to semantic/activity illustrations whose canonical approved source is SVG: preserve SVG through production/runtime rather than rasterizing it only for pipeline consistency. Existing raster-native subject backgrounds stay WebP. Session 10 completed the semantic registry/validator migration to v2; the 14 semantic P0 WebPs from PR #324 remain verified fallback/history while 14 canonical SVG slots are migration-ready. Exact SVG binary promotion is Session 11; runtime activation remains Session 12.
+The same SVG-first rule applies to semantic/activity illustrations whose canonical approved source is SVG: preserve SVG through production/runtime rather than rasterizing it only for pipeline consistency. Existing raster-native subject backgrounds stay WebP. Session 10 completed the semantic registry/validator migration to v2 and Session 11 promoted all 14 reviewed semantic SVGs into exact SHA-bound production paths. The 14 semantic P0 WebPs from PR #324 remain verified rollback/history. Runtime activation remains Session 12.
 
 Drive contains isolated single-character SVG source assets for all five canonical characters. All 35 locked state variants (`hero`, `welcome`, `pointing`, `thinking`, `correct`, `try_again`, `celebrate`) are production-approved and runtime-addressable; `gavi-panel-hero.svg` is the confirmed Gavi hero source. Belajar and Petualangan Uang now use the shared SVG runtime through Session 08. Existing Garden Gavi/Paca WebP remains compatibility fallback/history until later verified cleanup. Child profile identity remains separate from guide-character identity.
 
@@ -534,5 +534,6 @@ Historical English-narration checkpoint: next work there was candidate generatio
 
 - [`LEARNING_SEMANTIC_P0_PRODUCTION_APPROVAL_INTEGRATION_2026-09-25.md`](LEARNING_SEMANTIC_P0_PRODUCTION_APPROVAL_INTEGRATION_2026-09-25.md) — 14 exact production-approved P0 binaries, three held, runtime activation intentionally separate.
 
-- [`LEARNING_SEMANTIC_P0_PRODUCTION_SAFE_CHECKPOINT_2026-09-25.md`](LEARNING_SEMANTIC_P0_PRODUCTION_SAFE_CHECKPOINT_2026-09-25.md) — canonical merged/live-verified handoff: registry v2, 14 SVG migration-ready, three held, runtime activation 0, Session 11 next.
+- [`LEARNING_SEMANTIC_P0_PRODUCTION_SAFE_CHECKPOINT_2026-09-25.md`](LEARNING_SEMANTIC_P0_PRODUCTION_SAFE_CHECKPOINT_2026-09-25.md) — canonical merged/live-verified handoff: registry v2, 14 SVG approved, three held, runtime activation 0, Session 12 next.
 - [`LEARNING_SEMANTIC_SVG_REGISTRY_SESSION10_CLOSURE_2026-09-25.md`](LEARNING_SEMANTIC_SVG_REGISTRY_SESSION10_CLOSURE_2026-09-25.md) — closed/live-verified PR #343 SVG-aware semantic registry/validator migration. Closure docs PR #344 -> verified baseline `53e33c6b8ecb737da88af563d310ac486619b206`, main CI #1681 + Cloudflare smoke.
+- [`LEARNING_SEMANTIC_SVG_PRODUCTION_SESSION11_CLOSURE_2026-09-25.md`](LEARNING_SEMANTIC_SVG_PRODUCTION_SESSION11_CLOSURE_2026-09-25.md) — Session 11 exact 14-SVG production promotion; PR #346 -> main `d8992804beb82e553a3965066cf674fbfca9d7b5`, main CI #1685 + Cloudflare smoke.

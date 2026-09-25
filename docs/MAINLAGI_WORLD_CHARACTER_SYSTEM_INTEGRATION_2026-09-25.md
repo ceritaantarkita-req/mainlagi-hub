@@ -14,22 +14,18 @@ The original `Audited HEAD` above records the starting point of this plan. It is
 Current live checkpoint:
 
 ```text
-Sessions 01–10: COMPLETE
-Session 10 PR: #343
-final PR head: 698cba5f9baa8de896d0056daf777f3e00e56f6e
-final PR CI: #1678 / run 36142537668 — full success
-implementation main: 21955a64728162f8985d04160e8ec683e1238080
-implementation merged-main CI: #1679 / run 36143708306 — full success
-closure docs PR: #344
-verified closure main: 53e33c6b8ecb737da88af563d310ac486619b206
-closure PR CI: #1680 / run 36146245332 — full success
-closure merged-main CI: #1681 / run 36147457854 — full success
+Sessions 01–11: COMPLETE
+Session 11 PR: #346
+final PR head: 32e84d08ad43e172935dd6fb6a63f08567ac9549
+final PR CI: #1684 / run 36156244598 — full success
+implementation main: d8992804beb82e553a3965066cf674fbfca9d7b5
+implementation merged-main CI: #1685 / run 36157147165 — full success
 Cloudflare production smoke: success
 Belajar responsive character matrix: 35/35 PASS
 World shared-character browser regression: PASS
 Home+Bermain character browser regression: PASS
-semantic registry v2: 14 SVG migration-ready / 0 SVG approved / 3 held / runtime off
-next authorized session: Session 11 — promote 14 exact approved semantic SVG sources into production
+semantic registry v2: 14 SVG approved / 14 WebP history / 3 held / runtime off
+next authorized session: Session 12 — central semantic SVG runtime resolver + controlled activation
 ```
 
 Safe handoff: `MAINLAGI_CHARACTER_WORLD_SAFE_CHECKPOINT_2026-09-25.md`.
@@ -1631,14 +1627,27 @@ Implemented:
 
 **Session 10 is closed. Start Session 11 only from merged latest main.**
 
-### Session 11 — Promote the 14 approved semantic SVG sources into production
+### Session 11 — Promote the 14 approved semantic SVG sources into production — COMPLETE
 
-**Do:** sanitize, normalize, hash, provenance-bind, and add the exact 14 source/license-clear canonical SVGs to `public/artwork/learning-illustrations/`.
+**Closure:** `LEARNING_SEMANTIC_SVG_PRODUCTION_SESSION11_CLOSURE_2026-09-25.md`  
+**PR:** #346  
+**Final PR head:** `32e84d08ad43e172935dd6fb6a63f08567ac9549`  
+**PR CI:** #1684 / run `36156244598` — full success  
+**Merged main:** `d8992804beb82e553a3965066cf674fbfca9d7b5`  
+**Merged-main CI:** #1685 / run `36157147165` — full success including Cloudflare production smoke
 
-Keep existing WebP derivatives as rollback/history during migration.
+Implemented:
 
-**Do not:** map them into child runtime yet.  
-**Done when:** all 14 SVGs pass provenance/security/asset validation with exact SHA bindings.
+- exact 14 canonical Drive SVG sources sanitized and normalized into production;
+- 14/14 semantic SVG bindings moved from `migration-ready` to `approved`;
+- exact SHA-256 locked for all 14 SVGs;
+- 14 existing WebP binaries preserved as rollback/history;
+- car/towel/raincoat remain held and fail-closed;
+- attribution updated for SVG + WebP forms;
+- `runtimeActivation=off` preserved;
+- no activity/runtime/mastery/evidence behavior changed.
+
+**Session 11 is closed. Start Session 12 only from merged latest main.**
 
 ### Session 12 — Activate the central semantic SVG resolver
 
