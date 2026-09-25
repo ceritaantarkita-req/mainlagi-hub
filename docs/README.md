@@ -112,13 +112,13 @@ semantic illustration gate:       PR #297 -> ed7db8a6 / 17 review-required / 0 a
 semantic candidate generator:     PR #300 -> 89adf887 / main CI #1546 exact smoke
 semantic source refinement:       PR #301 -> 9f6270c7 / main CI #1548 exact smoke
 semantic production art:          OPEN / exact human review gate next / 0 approved / 0 production binary / 0 runtime
-character development:            PAUSED BY PROJECT OWNER / Drive assets reference-only
-Mainlagi World:                   separate user development / DO NOT TOUCH in this workstream
+character development:            RESUMED / SVG-native seven-state architecture locked / runtime migration pending
+Mainlagi World:                   FIRST-CLASS MAINLAGI DOMAIN / unified product integration authorized
 WS-05 production truth:           900/900 / 47 / choice_grid 174 / pattern_completion 10 / KEEP 900
 next safe narration step:         generate/listen to exact four-item local candidates through verified gate; no production approval/runtime activation yet
 ```
 
-Paca/Gavi have production Garden WebP assets. Naya/Gian/Zia currently use non-production fallback representations and still need reviewed production assets. Child profile identity remains separate from guide-character identity.
+Drive now contains isolated single-character SVG source assets for all five canonical characters. New character production is locked to direct SVG with states `hero`, `welcome`, `pointing`, `thinking`, `correct`, `try_again`, `celebrate`; `gavi-panel-hero.svg` is the confirmed Gavi hero source. Existing Garden Gavi/Paca WebP remains migration fallback, while Naya/Gian/Zia stay runtime fail-closed until provenance/sanitization/validator + activation waves land. Child profile identity remains separate from guide-character identity.
 
 Historical audit/closure files remain immutable evidence for their checkpoint; use the canonical documents above for current truth.
 
