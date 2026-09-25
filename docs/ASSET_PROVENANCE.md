@@ -242,11 +242,11 @@ Learning semantic illustrations now have a dedicated fail-closed registry/valida
 - `scripts/run-learning-illustration-asset-validator-tests.mjs`;
 - reserved production directory: `public/artwork/learning-illustrations/`.
 
-The registry contains 17 recognition-critical semantic slots. Historical WebP production integration is **merged/live verified through PR #324 -> main `1e27869dfc71186e83ed8bb0a4dff2ca44dddfc9`**. Session 10 then migrated the machine contract to SVG-aware registry v2 through PR #343 -> implementation main `21955a64728162f8985d04160e8ec683e1238080`; closure docs PR #344 is verified at `53e33c6b8ecb737da88af563d310ac486619b206` with closure-main CI #1681 / run `36147457854` and Cloudflare smoke.
+The registry contains 17 recognition-critical semantic slots. Historical WebP production integration is **merged/live verified through PR #324 -> main `1e27869dfc71186e83ed8bb0a4dff2ca44dddfc9`**. Session 10 migrated the machine contract to SVG-aware registry v2 through PR #343. Session 11 then promoted the exact 14 reviewed canonical SVG sources through PR #346 -> main `d8992804beb82e553a3965066cf674fbfca9d7b5`, merged-main CI #1685 / run `36157147165` with Cloudflare smoke.
 
-Current semantic state is **14 approved WebP history bindings / 14 SVG migration-ready slots / 0 approved semantic SVG binaries / 3 review-required held slots / runtime activation 0**.
+Current semantic state is **14 approved WebP history bindings / 14 approved semantic SVG binaries / 0 SVG migration-ready slots / 3 review-required held slots / runtime activation 0**.
 
-Those 14 WebP files remain verified production history/current fallback. Session 11 is the authorized exact SVG binary-promotion wave. The three held keys remain held; format choice does not override redistribution rights.
+Those 14 WebP files remain verified rollback/history. The 14 SVGs are exact SHA-bound production assets. Session 12 is the authorized central runtime-resolver activation wave. The three held keys remain held; format choice does not override redistribution rights.
 
 Existing `public/artwork/activity-previews/` files may be recorded as candidate sources, but repository presence and filenames are not provenance approval. Preliminary candidate review may mark a file `visually-suitable` or `rejected`; production approval still requires exact owned/licensed provenance, public redistribution clearance, approved child-readability/semantic review, exact canonical path, technical validation and SHA-256.
 
@@ -266,9 +266,9 @@ productionAssets.webp
 productionAssets.svg
 ```
 
-The 14 clear records currently preserve approved WebP history while their SVG slots remain `migration-ready` with `path=null` and `sha256=null`. Held records must keep WebP binding null, SVG status `held`, SVG path/hash null, and `redistributionAllowed=false`.
+The 14 clear records preserve approved WebP history and now also carry `productionAssets.svg.status=approved` with canonical path and exact SHA-256. Held records must keep WebP binding null, SVG status `held`, SVG path/hash null, and `redistributionAllowed=false`.
 
-Canonical pilot record: `LEARNING_SEMANTIC_ILLUSTRATION_REGISTRY_PILOT_2026-09-23.md`. Historical WebP production integration: `LEARNING_SEMANTIC_P0_PRODUCTION_APPROVAL_INTEGRATION_2026-09-25.md`. SVG-aware registry migration: `LEARNING_SEMANTIC_SVG_REGISTRY_SESSION10_CLOSURE_2026-09-25.md`. Safe resume handoff: `LEARNING_SEMANTIC_P0_PRODUCTION_SAFE_CHECKPOINT_2026-09-25.md`.
+Canonical pilot record: `LEARNING_SEMANTIC_ILLUSTRATION_REGISTRY_PILOT_2026-09-23.md`. Historical WebP production integration: `LEARNING_SEMANTIC_P0_PRODUCTION_APPROVAL_INTEGRATION_2026-09-25.md`. SVG-aware registry migration: `LEARNING_SEMANTIC_SVG_REGISTRY_SESSION10_CLOSURE_2026-09-25.md`. Exact SVG production promotion: `LEARNING_SEMANTIC_SVG_PRODUCTION_SESSION11_CLOSURE_2026-09-25.md`. Safe resume handoff: `LEARNING_SEMANTIC_P0_PRODUCTION_SAFE_CHECKPOINT_2026-09-25.md`.
 
 ## 7. Third-party software, fonts, and model assets
 
