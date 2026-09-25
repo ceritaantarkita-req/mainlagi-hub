@@ -47,7 +47,7 @@ const EXPECTED_SVG_SHA256 = {
 
 assert.equal(sourceRegistry.version, 2, "production semantic registry must use SVG-aware schema v2");
 assert.equal(sourceRegistry.preferredProductionFormat, "svg");
-assert.equal(sourceRegistry.runtimeActivation, "off");
+assert.equal(sourceRegistry.runtimeActivation, "controlled-svg");
 for (const key of CLEAR_KEYS) {
   const record = sourceRegistry.items[key];
   assert.equal(record.lifecycle, "approved", `${key} stays semantically/provenance approved`);
@@ -72,6 +72,7 @@ for (const key of HELD_KEYS) {
 
 function baselineRegistry() {
   const registry = structuredClone(sourceRegistry);
+  registry.runtimeActivation = "off";
   for (const record of Object.values(registry.items)) {
     record.candidate = {
       sourcePath: null,
