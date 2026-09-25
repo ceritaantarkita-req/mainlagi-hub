@@ -1,0 +1,1033 @@
+{
+  "version": 1,
+  "scope": "mainlagi-svg-source-inventory-session01",
+  "auditedAt": "2026-09-25",
+  "baseMainSha": "28c95a0966ba726f960e4fa204d74b7e1793045b",
+  "runtimeChanged": false,
+  "publicProductionFilesAdded": false,
+  "characterSourceFolder": {
+    "driveFolderId": "1H0fP4cTxWikNaRrerWntQWaxZAi2Zix3",
+    "url": "https://drive.google.com/drive/folders/1H0fP4cTxWikNaRrerWntQWaxZAi2Zix3",
+    "totalDirectFiles": 47,
+    "svgFiles": 45,
+    "canonicalRuntimeSlots": 35,
+    "excludedDesignSets": 5,
+    "excludedWavingSources": 5,
+    "excludedOtherFiles": [
+      {
+        "driveFileId": "13OnQx6faP_zYnadUYh4CUMH1LxQcEm7z",
+        "sourceFilename": "character-set-collection-mainlagi.ai",
+        "mimeType": "application/postscript",
+        "reason": "reference/source material; not a canonical runtime state asset"
+      },
+      {
+        "driveFileId": "15OH30RCnEu5sbtgvbH-PG4uEJO5rgTDm",
+        "sourceFilename": "ChatGPT Image Sep 22, 2026, 08_46_47 AM.png",
+        "mimeType": "image/png",
+        "reason": "reference/source material; not a canonical runtime state asset"
+      }
+    ]
+  },
+  "characterStateVocabulary": [
+    "hero",
+    "welcome",
+    "pointing",
+    "thinking",
+    "correct",
+    "try_again",
+    "celebrate"
+  ],
+  "characters": {
+    "gavi": {
+      "designReference": {
+        "driveFileId": "1BApZ_Yvy5rCM9QMUES8tyND4WuuHZtif",
+        "sourceFilename": "gavi-character-design-set.svg",
+        "sizeBytes": 144344
+      },
+      "excludedNonCanonicalStateSources": [
+        {
+          "driveFileId": "1bIia7s8XRcLPO7laKtMf5wlTDgxFENj6",
+          "sourceFilename": "gavi-melambaikan-tangan.svg",
+          "reason": "waving is outside locked seven-state runtime vocabulary"
+        }
+      ],
+      "states": {
+        "hero": {
+          "driveFileId": "1-t_Vsv1S1xmw46ZeEfFfbsBSUHC4tJ6P",
+          "sourceFilename": "gavi-panel-hero.svg",
+          "sizeBytes": 19571,
+          "sourceSha256": "70ec14b2a9c743faea8f49129a3d73cad4a3c4badf4c5e5a1c49a64a572e1372",
+          "normalizedProductionPath": "/artwork/characters/gavi-hero-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        },
+        "correct": {
+          "driveFileId": "14p_F5Fr162ai5iVsckUy_h0IqVIzysQg",
+          "sourceFilename": "gavi-sample-correct.svg",
+          "sizeBytes": 18684,
+          "sourceSha256": "3851b80158a5e98c8625921ca2e127fdeb0309588badd88348ee2c33f81334c4",
+          "normalizedProductionPath": "/artwork/characters/gavi-correct-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        },
+        "try_again": {
+          "driveFileId": "1sZBpDQBLojsYNchM0yxEnNYLqya4Csgn",
+          "sourceFilename": "gavi-sample-try-again.svg",
+          "sizeBytes": 20292,
+          "sourceSha256": "b90168647d3365c7ba461ed5d25e8c3ee71c27af896d450164ae42a5d8d52935",
+          "normalizedProductionPath": "/artwork/characters/gavi-try-again-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        },
+        "thinking": {
+          "driveFileId": "1wF2-O6KtUWIOEeLhlOIFBB1qS7ThaAOh",
+          "sourceFilename": "gavi-sample-thinking.svg",
+          "sizeBytes": 18101,
+          "sourceSha256": "622d1067bbd7be3fdd754e5ca15fea9d532510550179c0e7b062871c294ae133",
+          "normalizedProductionPath": "/artwork/characters/gavi-thinking-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        },
+        "pointing": {
+          "driveFileId": "1g3u4hpQOMqICx0YkvPorBrnPA0F3reuA",
+          "sourceFilename": "gavi-sample-pointing.svg",
+          "sizeBytes": 18321,
+          "sourceSha256": "5d5405b75b1325bfba49d8a37364efac498cdecb2131fe33011127f9ffc12b2f",
+          "normalizedProductionPath": "/artwork/characters/gavi-pointing-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        },
+        "celebrate": {
+          "driveFileId": "1ks9QQmy4pkMkkhpmmKygkxrgEbGsL38O",
+          "sourceFilename": "gavi-sample-celebrate.svg",
+          "sizeBytes": 20687,
+          "sourceSha256": "c39e9e72e59c2e13827e78203ca841dd2e55257115c61daea97c4f0f340f2358",
+          "normalizedProductionPath": "/artwork/characters/gavi-celebrate-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        },
+        "welcome": {
+          "driveFileId": "1VplR9ZbJNsqLA5QtnkJEQkhOg9tY5Yqa",
+          "sourceFilename": "gavi-sample-welcome.svg",
+          "sizeBytes": 19766,
+          "sourceSha256": "939fb8de5a6fa4ef0673c1476e02e369a934f9c3526b5a22a6060a33ee079b87",
+          "normalizedProductionPath": "/artwork/characters/gavi-welcome-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        }
+      }
+    },
+    "paca": {
+      "designReference": {
+        "driveFileId": "133y5lMRBpC7lGDLiq169uyR6vsXSrXQ8",
+        "sourceFilename": "paca-character-design-set.svg",
+        "sizeBytes": 153052
+      },
+      "excludedNonCanonicalStateSources": [
+        {
+          "driveFileId": "19Gqbqp9CD8-N2ZpD4KNgmuFYEetRAqbV",
+          "sourceFilename": "paca-melambaikan-tangan.svg",
+          "reason": "waving is outside locked seven-state runtime vocabulary"
+        }
+      ],
+      "states": {
+        "hero": {
+          "driveFileId": "19wtdpwV_GMyc1u1EFluZ2T1yD1tzSi9e",
+          "sourceFilename": "paca-panel-hero (4).svg",
+          "sizeBytes": 18282,
+          "sourceSha256": "0eb03e5463461b0cf82dca8d98b05b42f61c58c27e3d4e45760b70e83acc1c29",
+          "normalizedProductionPath": "/artwork/characters/paca-hero-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        },
+        "correct": {
+          "driveFileId": "1n42r9_Ug1zStABIF2-ydxsqH8VZ-DMkS",
+          "sourceFilename": "paca-panel-pose-correct (4).svg",
+          "sizeBytes": 18493,
+          "sourceSha256": "228bb3f340c0dbcdcfc735ade860104e427a43e705f92ec75e5f9cbcfa2c1a17",
+          "normalizedProductionPath": "/artwork/characters/paca-correct-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        },
+        "try_again": {
+          "driveFileId": "1LZazkLgc5j9JSnGSIWWEV-bOxhPGkX6-",
+          "sourceFilename": "paca-panel-pose-try-again (4).svg",
+          "sizeBytes": 17690,
+          "sourceSha256": "b3bdb47df373502372b874369917eeb6b0daf0e7710091317045a11cd12730ac",
+          "normalizedProductionPath": "/artwork/characters/paca-try-again-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        },
+        "thinking": {
+          "driveFileId": "1ll9Hy7vzK4q7TrnjrU3zjhdFYzOFDssn",
+          "sourceFilename": "paca-panel-pose-thinking (4).svg",
+          "sizeBytes": 19939,
+          "sourceSha256": "9636bbff97f8af7dd8ae23c891527d90429f2e89c395bd30b943f2d64d105e24",
+          "normalizedProductionPath": "/artwork/characters/paca-thinking-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        },
+        "pointing": {
+          "driveFileId": "1Lui7BkJzeCirmqkCQVKFiSHfRjsbWFC6",
+          "sourceFilename": "paca-panel-pose-pointing (4).svg",
+          "sizeBytes": 18559,
+          "sourceSha256": "3e9bab9152ba10d27665a9808e4214b8a8b32df04829416c98000df8e91c876e",
+          "normalizedProductionPath": "/artwork/characters/paca-pointing-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        },
+        "celebrate": {
+          "driveFileId": "1gMAZV2sOdPGg8vT7xImfEQtCICu_WYPO",
+          "sourceFilename": "paca-panel-pose-celebrate (4).svg",
+          "sizeBytes": 18779,
+          "sourceSha256": "54f526d2fa5e0b7a7b9b4989ba45ac8252582bc39c4c859224581536af22e4f7",
+          "normalizedProductionPath": "/artwork/characters/paca-celebrate-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        },
+        "welcome": {
+          "driveFileId": "1WxN5yU40A4E_LCbtirBerauNAghB_Rs7",
+          "sourceFilename": "paca-panel-pose-welcome (4).svg",
+          "sizeBytes": 18047,
+          "sourceSha256": "b05653fd697b322e9b08b14454fd568ad81b3b8847469dab3802596989aeb07b",
+          "normalizedProductionPath": "/artwork/characters/paca-welcome-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        }
+      }
+    },
+    "naya": {
+      "designReference": {
+        "driveFileId": "1d__1-DA8_SDg6ZVecxw8BC9xYNQq4CME",
+        "sourceFilename": "kak-naya-character-design-set.svg",
+        "sizeBytes": 186589
+      },
+      "excludedNonCanonicalStateSources": [
+        {
+          "driveFileId": "1P_jOd-ujjMk9IdGU3MsaQrIT3tlLMpvM",
+          "sourceFilename": "kak-naya-melambaikan-tangan.svg",
+          "reason": "waving is outside locked seven-state runtime vocabulary"
+        }
+      ],
+      "states": {
+        "hero": {
+          "driveFileId": "1cVtatmZz01RXQUKfAc5ZD1HD92E_WiHM",
+          "sourceFilename": "naya-panel-hero (3).svg",
+          "sizeBytes": 18728,
+          "sourceSha256": "82dbcbcda700f0bee08e1e692f37e5c422c31b6786f82d71b7675db05cf04ab8",
+          "normalizedProductionPath": "/artwork/characters/naya-hero-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        },
+        "correct": {
+          "driveFileId": "18OhpEAHT4-DdFiQaJbugEkns2Yz795zT",
+          "sourceFilename": "naya-panel-pose-correct (3).svg",
+          "sizeBytes": 18123,
+          "sourceSha256": "ba32abc0bc6553796fca70e275b12b65253884470515ced67fc0ab17722ca6df",
+          "normalizedProductionPath": "/artwork/characters/naya-correct-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        },
+        "try_again": {
+          "driveFileId": "1DzSZFA8gfudGHsmfF0kXqqYJTRDwViI6",
+          "sourceFilename": "naya-panel-pose-try-again (3).svg",
+          "sizeBytes": 18806,
+          "sourceSha256": "3128d0c6a61b4ed962e3ac6ec4c8290bdd875e0a84ffbb5b1c2318a3e60a0c4b",
+          "normalizedProductionPath": "/artwork/characters/naya-try-again-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        },
+        "thinking": {
+          "driveFileId": "1wfJW_oqGAGRZwOgEFqwiEFix-JGxqSiU",
+          "sourceFilename": "naya-panel-pose-thinking (3).svg",
+          "sizeBytes": 18651,
+          "sourceSha256": "df3561290a1ed8c91440dc7e444556d00bc81560ae454d8713eb48a4c370046e",
+          "normalizedProductionPath": "/artwork/characters/naya-thinking-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        },
+        "pointing": {
+          "driveFileId": "1USDM8loFmj_DyD-SPKpk1wIR80A-GKl7",
+          "sourceFilename": "naya-panel-pose-pointing (3).svg",
+          "sizeBytes": 18908,
+          "sourceSha256": "4bcb2544d2c79f1b61b1141c8da66e46c184187be81a0282ae07747e1c92bae5",
+          "normalizedProductionPath": "/artwork/characters/naya-pointing-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        },
+        "celebrate": {
+          "driveFileId": "10cpGUmb7RuNLHehys3nX0M-YM_Iqz00-",
+          "sourceFilename": "naya-panel-pose-celebrate (3).svg",
+          "sizeBytes": 17155,
+          "sourceSha256": "ae578a4d0599b29d78aed3decaca4672d257d6fa936155dd6390724015b2e0ad",
+          "normalizedProductionPath": "/artwork/characters/naya-celebrate-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        },
+        "welcome": {
+          "driveFileId": "1JqCRXkWQXgJ0EMCCVYNL1PBMleALeeeN",
+          "sourceFilename": "naya-panel-pose-welcome (3).svg",
+          "sizeBytes": 18971,
+          "sourceSha256": "ac0cc1a1ed86c31388439b1cb62e1144aaabb7bfe639e2c0ef8a6a1a3c0976e9",
+          "normalizedProductionPath": "/artwork/characters/naya-welcome-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        }
+      }
+    },
+    "zia": {
+      "designReference": {
+        "driveFileId": "1HXJTuBP3zR0Q4_tWsaR2cnivCD9GHgLG",
+        "sourceFilename": "zia-character-design-set.svg",
+        "sizeBytes": 228863
+      },
+      "excludedNonCanonicalStateSources": [
+        {
+          "driveFileId": "19cRftOibfhxNqoYsIHdm2QfFQL2JkOLg",
+          "sourceFilename": "zia-melambaikan-tangan.svg",
+          "reason": "waving is outside locked seven-state runtime vocabulary"
+        }
+      ],
+      "states": {
+        "hero": {
+          "driveFileId": "1TNy5J7It8zUD11swjjD1wARF9xEmP82l",
+          "sourceFilename": "zia-panel-hero (2).svg",
+          "sizeBytes": 25083,
+          "sourceSha256": "bdf910b6544223a9ae6cb31ee851579ae9d1a4a350cd59fb2223795c88c9e85f",
+          "normalizedProductionPath": "/artwork/characters/zia-hero-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        },
+        "correct": {
+          "driveFileId": "1dJWBTarYb-rV1OOPEZ4n3W0a9NPQse2z",
+          "sourceFilename": "zia-panel-pose-correct (2).svg",
+          "sizeBytes": 25348,
+          "sourceSha256": "ee2b814d18474e961c0c90c7d6f4cdb9fd8d5827f710645c6cf6219787522d01",
+          "normalizedProductionPath": "/artwork/characters/zia-correct-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        },
+        "try_again": {
+          "driveFileId": "1pa_JVdqZqYHVJrbzlEUH5l-n7oI_1R_h",
+          "sourceFilename": "zia-panel-pose-try-again (2).svg",
+          "sizeBytes": 24711,
+          "sourceSha256": "bf8cc63db6dbdfeab93236ae30dded699f4eab552c7483e0a4b4fb349d2d303b",
+          "normalizedProductionPath": "/artwork/characters/zia-try-again-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        },
+        "thinking": {
+          "driveFileId": "11km-sR84xHV8H5gpJS5TC8Q1J4MKcc_L",
+          "sourceFilename": "zia-panel-pose-thinking (2).svg",
+          "sizeBytes": 26346,
+          "sourceSha256": "28a73aba82f89ee4b41107c0f0187b369554e977716da3b1095523fd36ca013f",
+          "normalizedProductionPath": "/artwork/characters/zia-thinking-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        },
+        "pointing": {
+          "driveFileId": "121NihvhWxbLVn6Yoa_jNmPo-OzomkyP1",
+          "sourceFilename": "zia-panel-pose-pointing (2).svg",
+          "sizeBytes": 26165,
+          "sourceSha256": "e806529758c9fffce74d698601464d92d2fa509d0ba0a3b1d9e97baac0787a8c",
+          "normalizedProductionPath": "/artwork/characters/zia-pointing-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        },
+        "celebrate": {
+          "driveFileId": "1c7ap5b8CQIh2Ofus9YdsZDS61dQuTmA0",
+          "sourceFilename": "zia-panel-pose-celebrate (2).svg",
+          "sizeBytes": 24879,
+          "sourceSha256": "49f9c4f7bdfcc99aeeb68cf75bb7ee16498bc56e00ab54da425969e40e23e401",
+          "normalizedProductionPath": "/artwork/characters/zia-celebrate-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        },
+        "welcome": {
+          "driveFileId": "1xH2WuIR2EULGHU92Js7anxdg2lhdpHQc",
+          "sourceFilename": "zia-panel-pose-welcome (2).svg",
+          "sizeBytes": 26501,
+          "sourceSha256": "2f0c9ea0950f26089d7ec89e2fb78020a8451d1203804cdd41633adb0ed7637a",
+          "normalizedProductionPath": "/artwork/characters/zia-welcome-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        }
+      }
+    },
+    "gian": {
+      "designReference": {
+        "driveFileId": "1VZZCg4SUlbeGAE6kkjJw_TIiy6dLZwvO",
+        "sourceFilename": "gian-character-design-set.svg",
+        "sizeBytes": 218501
+      },
+      "excludedNonCanonicalStateSources": [
+        {
+          "driveFileId": "14M_K6POlgfO5v2EtfYsyCK_CGRm3_R0T",
+          "sourceFilename": "gian-melambaikan-tangan.svg",
+          "reason": "waving is outside locked seven-state runtime vocabulary"
+        }
+      ],
+      "states": {
+        "hero": {
+          "driveFileId": "1cFTAzbOV1wReygXU9ODZPFEu8ugELpXA",
+          "sourceFilename": "gian-panel-hero.svg",
+          "sizeBytes": 24317,
+          "sourceSha256": "6c83002e77ba39a8863ba25886c95456635eb176a813bffbb764c9ad03d71bb3",
+          "normalizedProductionPath": "/artwork/characters/gian-hero-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        },
+        "correct": {
+          "driveFileId": "1v5Jfh0XaxjeZUlKsb9BWaXJSrSvKZOYx",
+          "sourceFilename": "gian-panel-pose-correct.svg",
+          "sizeBytes": 23320,
+          "sourceSha256": "dbcea8115e2db01700d6fe7af372a7f6c0837aed1333ab90ed353eba1f735463",
+          "normalizedProductionPath": "/artwork/characters/gian-correct-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        },
+        "try_again": {
+          "driveFileId": "1yWg0d91kH1SOrOiGh1a1e6K-m1VgHUnI",
+          "sourceFilename": "gian-panel-pose-try-again.svg",
+          "sizeBytes": 24596,
+          "sourceSha256": "355624f411e5d68df83f2a057891d5cb11dd2ea50444eb71c479897aaadc4ae2",
+          "normalizedProductionPath": "/artwork/characters/gian-try-again-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        },
+        "thinking": {
+          "driveFileId": "1ZpL4QCZwJcHjxUD54ENG3u63dGsKyriX",
+          "sourceFilename": "gian-panel-pose-thinking.svg",
+          "sizeBytes": 24399,
+          "sourceSha256": "62f4fd354bc8b3e272023db2ed2de46a4f205bdeb6072401d657d38a2100d5c5",
+          "normalizedProductionPath": "/artwork/characters/gian-thinking-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        },
+        "pointing": {
+          "driveFileId": "1Pbd_Uyd69CfvoFtDWYtYex8Wk-ifpeUR",
+          "sourceFilename": "gian-panel-pose-pointing.svg",
+          "sizeBytes": 23235,
+          "sourceSha256": "f42d103d591aa10f18c2be1e9581269396666ffbd8fe781b1df3513551f3baeb",
+          "normalizedProductionPath": "/artwork/characters/gian-pointing-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        },
+        "celebrate": {
+          "driveFileId": "1w2JmbFfhCngr4jD10JcWq-RD8QYx1DWT",
+          "sourceFilename": "gian-panel-pose-celebrate.svg",
+          "sizeBytes": 21463,
+          "sourceSha256": "366ba82b08162c763e7a02b5c707c8a4a290d9466bdcb2f20ba1aab5d3568804",
+          "normalizedProductionPath": "/artwork/characters/gian-celebrate-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        },
+        "welcome": {
+          "driveFileId": "1tmZmiP7cba6a8c1guRa0BN8h_9Y7Ns9d",
+          "sourceFilename": "gian-panel-pose-welcome.svg",
+          "sizeBytes": 23665,
+          "sourceSha256": "3809adb03a1abb19667d9fab500e6130cacf48d4b7f2f4063b99ee840dd2f88f",
+          "normalizedProductionPath": "/artwork/characters/gian-welcome-v1.svg",
+          "ambiguityStatus": "unique",
+          "visualInventoryReview": "identity-and-state-readable; production QA deferred",
+          "provenance": {
+            "status": "pending-exact-public-repo-basis",
+            "sourceBasis": "project-owner-supplied Mainlagi character SVG in configured Drive folder",
+            "rightsHolder": null,
+            "licenseBasis": null,
+            "redistributionAllowed": false
+          }
+        }
+      }
+    }
+  },
+  "semanticP0": {
+    "normalizedStagingFolder": {
+      "driveFolderId": "1wLcXO5fziyXcdOBH8YC04oi4RJF9UYNZ",
+      "url": "https://drive.google.com/drive/folders/1wLcXO5fziyXcdOBH8YC04oi4RJF9UYNZ",
+      "exactFileCount": 14
+    },
+    "clear": [
+      {
+        "semanticKey": "action.jump",
+        "normalizedSourceFilename": "action-jump.svg",
+        "stagingDriveFileId": "1ybIaaTs9h73FF-q-2oATRZinDbpW7qRI",
+        "canonicalDriveSourceId": "1n4if24174NUHNp6_MIa6pFYIKkJODluJ",
+        "sizeBytes": 28902,
+        "sourceSha256": "5c8bb179f4b6a83bdde993f6598847f656a535a46d1009470d7d6500a5e5f522",
+        "normalizedProductionPath": "/artwork/learning-illustrations/action-jump-v1.svg",
+        "ambiguityStatus": "unique",
+        "provenance": {
+          "status": "licensed",
+          "rightsHolder": "OpenClipart contributor (via FreeSVG)",
+          "licenseBasis": "Public Domain / CC0-equivalent; commercial copying, modification, and redistribution permitted.",
+          "redistributionAllowed": true,
+          "reviewedAt": "2026-09-25"
+        },
+        "semanticReview": {
+          "status": "approved",
+          "childReadable": true,
+          "reviewedAt": "2026-09-25"
+        }
+      },
+      {
+        "semanticKey": "animal.bird",
+        "normalizedSourceFilename": "animal-bird.svg",
+        "stagingDriveFileId": "1W4SuT3VdbZJfzJCkCUGKNKnv7no2NxGI",
+        "canonicalDriveSourceId": "1SzsLWGUYjzcdxXAZ0no6RtCcQUNbNJM1",
+        "sizeBytes": 1991,
+        "sourceSha256": "7f48db66d50fb6c892353120339dd950643e69385e8872134930cf5e6143a927",
+        "normalizedProductionPath": "/artwork/learning-illustrations/animal-bird-v1.svg",
+        "ambiguityStatus": "unique",
+        "provenance": {
+          "status": "licensed",
+          "rightsHolder": "Darius Dan",
+          "licenseBasis": "CC BY; redistribution allowed with attribution preserved.",
+          "redistributionAllowed": true,
+          "reviewedAt": "2026-09-25"
+        },
+        "semanticReview": {
+          "status": "approved",
+          "childReadable": true,
+          "reviewedAt": "2026-09-25"
+        }
+      },
+      {
+        "semanticKey": "animal.cat",
+        "normalizedSourceFilename": "animal-cat.svg",
+        "stagingDriveFileId": "1bi_dRKWwBXdQojrihsgeOTyr9Ts7tCx5",
+        "canonicalDriveSourceId": "1DrEF6saW-_yuMMQp5yP_1EfZiZ6QurBz",
+        "sizeBytes": 2854,
+        "sourceSha256": "d1d533398e9141438ec280f1c8b4c65f52320a91d5881b13d68e298cbce47c38",
+        "normalizedProductionPath": "/artwork/learning-illustrations/animal-cat-v1.svg",
+        "ambiguityStatus": "unique",
+        "provenance": {
+          "status": "licensed",
+          "rightsHolder": "Darius Dan",
+          "licenseBasis": "CC BY; redistribution allowed with attribution preserved.",
+          "redistributionAllowed": true,
+          "reviewedAt": "2026-09-25"
+        },
+        "semanticReview": {
+          "status": "approved",
+          "childReadable": true,
+          "reviewedAt": "2026-09-25"
+        }
+      },
+      {
+        "semanticKey": "animal.fish",
+        "normalizedSourceFilename": "animal-fish.svg",
+        "stagingDriveFileId": "1DRLxn0q9M9gLw7rMznPIWL6Vje5lJoSd",
+        "canonicalDriveSourceId": "1lCs-ib7o9FK7LK0qT6qKQckPNNEZHqpD",
+        "sizeBytes": 1502,
+        "sourceSha256": "34fd1640e25cf078df41f0cae2532493bc2176047c72856a5634ccb91f90ae8f",
+        "normalizedProductionPath": "/artwork/learning-illustrations/animal-fish-v1.svg",
+        "ambiguityStatus": "unique",
+        "provenance": {
+          "status": "licensed",
+          "rightsHolder": "Darius Dan",
+          "licenseBasis": "CC BY; redistribution allowed with attribution preserved.",
+          "redistributionAllowed": true,
+          "reviewedAt": "2026-09-25"
+        },
+        "semanticReview": {
+          "status": "approved",
+          "childReadable": true,
+          "reviewedAt": "2026-09-25"
+        }
+      },
+      {
+        "semanticKey": "body.head",
+        "normalizedSourceFilename": "body-head.svg",
+        "stagingDriveFileId": "1X4r4KC2GUCT-oxiDABk446KWUn3ce37S",
+        "canonicalDriveSourceId": "1jJjdsOnWRKTo3wFZHBlfJ6C3XWNOxkGb",
+        "sizeBytes": 1534,
+        "sourceSha256": "968c46103f6cb62ccc3ff745296d90d924f808cad7c75a47d481b86203a9cca6",
+        "normalizedProductionPath": "/artwork/learning-illustrations/body-head-v1.svg",
+        "ambiguityStatus": "unique",
+        "provenance": {
+          "status": "licensed",
+          "rightsHolder": "SVG Repo source contributor",
+          "licenseBasis": "CC0; exact source page verified; dark-hair recolor preserves CC0 provenance.",
+          "redistributionAllowed": true,
+          "reviewedAt": "2026-09-25"
+        },
+        "semanticReview": {
+          "status": "approved",
+          "childReadable": true,
+          "reviewedAt": "2026-09-25"
+        }
+      },
+      {
+        "semanticKey": "feature.beak",
+        "normalizedSourceFilename": "feature-beak.svg",
+        "stagingDriveFileId": "1_2JYOMDOdsCG2W8IVHFQt4sWyl5tlBRk",
+        "canonicalDriveSourceId": "17prWuIWR8Y_YRYhH6m4cbLVmqkJJkxpY",
+        "sizeBytes": 2418,
+        "sourceSha256": "0b79a6f355976fb24ae4f8b7a999ad0e6c574d9d2287206ea154a2d9842e4e3e",
+        "normalizedProductionPath": "/artwork/learning-illustrations/feature-beak-v1.svg",
+        "ambiguityStatus": "unique",
+        "provenance": {
+          "status": "licensed",
+          "rightsHolder": "Darius Dan + Mainlagi project derivative",
+          "licenseBasis": "CC BY derivative; Darius Dan attribution and derivative provenance preserved.",
+          "redistributionAllowed": true,
+          "reviewedAt": "2026-09-25"
+        },
+        "semanticReview": {
+          "status": "approved",
+          "childReadable": true,
+          "reviewedAt": "2026-09-25"
+        }
+      },
+      {
+        "semanticKey": "feature.cactus-thick-stem",
+        "normalizedSourceFilename": "feature-cactus-thick-stem.svg",
+        "stagingDriveFileId": "1fHCfXIEe6dpxadsfk9NB-INiCFnc2LZu",
+        "canonicalDriveSourceId": "1zvNhic2a6Dn-jvtbOULByzaQEmUfjqw2",
+        "sizeBytes": 5668,
+        "sourceSha256": "808f81f9f83319347487bb6b8cbed70642d8c97a06954d6c99c295ed92331180",
+        "normalizedProductionPath": "/artwork/learning-illustrations/feature-cactus-thick-stem-v1.svg",
+        "ambiguityStatus": "unique",
+        "provenance": {
+          "status": "licensed",
+          "rightsHolder": "SVG Repo source contributor",
+          "licenseBasis": "CC0; exact source page verified.",
+          "redistributionAllowed": true,
+          "reviewedAt": "2026-09-25"
+        },
+        "semanticReview": {
+          "status": "approved",
+          "childReadable": true,
+          "reviewedAt": "2026-09-25"
+        }
+      },
+      {
+        "semanticKey": "feature.gills",
+        "normalizedSourceFilename": "feature-gills.svg",
+        "stagingDriveFileId": "1HFxtfZNtDhamOYfCm5YjjeBUMaYz0uhR",
+        "canonicalDriveSourceId": "1cAf5NXO52eOGn3KT-bXFrM9xv7Mn4_qd",
+        "sizeBytes": 2170,
+        "sourceSha256": "49e33a279d0284333a7cecf4d80be22f985e4e718d750fb9a152089cfd1a0c31",
+        "normalizedProductionPath": "/artwork/learning-illustrations/feature-gills-v1.svg",
+        "ambiguityStatus": "unique",
+        "provenance": {
+          "status": "licensed",
+          "rightsHolder": "Darius Dan + Mainlagi project derivative",
+          "licenseBasis": "CC BY derivative; Darius Dan attribution and derivative provenance preserved.",
+          "redistributionAllowed": true,
+          "reviewedAt": "2026-09-25"
+        },
+        "semanticReview": {
+          "status": "approved",
+          "childReadable": true,
+          "reviewedAt": "2026-09-25"
+        }
+      },
+      {
+        "semanticKey": "object.apple",
+        "normalizedSourceFilename": "object-apple.svg",
+        "stagingDriveFileId": "1z28i6ApZzgua0R3T8u4S8Z5n9pVQ1qDI",
+        "canonicalDriveSourceId": "1r28Aw0n5ceA-4iLFxosKZ-8_gT15GPV5",
+        "sizeBytes": 1294,
+        "sourceSha256": "2d9b41b217aa4b735ab32dd73b85413473a1e9fe08c8059e3a467842d493093b",
+        "normalizedProductionPath": "/artwork/learning-illustrations/object-apple-v1.svg",
+        "ambiguityStatus": "unique",
+        "provenance": {
+          "status": "licensed",
+          "rightsHolder": "Nanda Pratama",
+          "licenseBasis": "Public Domain / PD collection source record; redistribution allowed.",
+          "redistributionAllowed": true,
+          "reviewedAt": "2026-09-25"
+        },
+        "semanticReview": {
+          "status": "approved",
+          "childReadable": true,
+          "reviewedAt": "2026-09-25"
+        }
+      },
+      {
+        "semanticKey": "object.ball",
+        "normalizedSourceFilename": "object-ball.svg",
+        "stagingDriveFileId": "1-bIGWsq6qAq4phhzY_pi5YcJwd1zCLOV",
+        "canonicalDriveSourceId": "1Rj8ck8XqOjZ8RIH8vyz-q916VZGpklM1",
+        "sizeBytes": 7321,
+        "sourceSha256": "f73876df82881cf2e20a66d6eb95c9432113ea2391443429580638666d704c52",
+        "normalizedProductionPath": "/artwork/learning-illustrations/object-ball-v1.svg",
+        "ambiguityStatus": "unique",
+        "provenance": {
+          "status": "licensed",
+          "rightsHolder": "SVG Repo source contributor",
+          "licenseBasis": "CC0; exact canonical stock source recorded.",
+          "redistributionAllowed": true,
+          "reviewedAt": "2026-09-25"
+        },
+        "semanticReview": {
+          "status": "approved",
+          "childReadable": true,
+          "reviewedAt": "2026-09-25"
+        }
+      },
+      {
+        "semanticKey": "object.cup",
+        "normalizedSourceFilename": "object-cup.svg",
+        "stagingDriveFileId": "1Zi3LjwnfQb4Vm5uzRJxEGrWknVKP8tNc",
+        "canonicalDriveSourceId": "1qxhYoQ07d-q-5tHqGHiD8iO1T-7fN_uG",
+        "sizeBytes": 1571,
+        "sourceSha256": "27f24b239e850f4a187ab383db81746a32a58727ef9329e783b660d266afa460",
+        "normalizedProductionPath": "/artwork/learning-illustrations/object-cup-v1.svg",
+        "ambiguityStatus": "unique",
+        "provenance": {
+          "status": "licensed",
+          "rightsHolder": "SVG Repo source contributor",
+          "licenseBasis": "CC0; exact canonical stock source recorded.",
+          "redistributionAllowed": true,
+          "reviewedAt": "2026-09-25"
+        },
+        "semanticReview": {
+          "status": "approved",
+          "childReadable": true,
+          "reviewedAt": "2026-09-25"
+        }
+      },
+      {
+        "semanticKey": "object.house",
+        "normalizedSourceFilename": "object-house.svg",
+        "stagingDriveFileId": "1hpdGgQzFsrrwLzwbgWnuFSUu8I8TT5wL",
+        "canonicalDriveSourceId": "1T7SoYzwzwHHQxPX-5J8c_bzGGjKDWpn-",
+        "sizeBytes": 1447,
+        "sourceSha256": "8180f78817b0a611421220cb17effe9002db7a17d5ad36ba640297fd7a54a31f",
+        "normalizedProductionPath": "/artwork/learning-illustrations/object-house-v1.svg",
+        "ambiguityStatus": "unique",
+        "provenance": {
+          "status": "licensed",
+          "rightsHolder": "Yu-Chun Chou",
+          "licenseBasis": "CC BY; redistribution allowed with attribution preserved.",
+          "redistributionAllowed": true,
+          "reviewedAt": "2026-09-25"
+        },
+        "semanticReview": {
+          "status": "approved",
+          "childReadable": true,
+          "reviewedAt": "2026-09-25"
+        }
+      },
+      {
+        "semanticKey": "object.toy-block",
+        "normalizedSourceFilename": "object-toy-block.svg",
+        "stagingDriveFileId": "1EDGV6jGg7HjEKCY906xEgGGE_1Obzkci",
+        "canonicalDriveSourceId": "1ltjVxxY8tuUgaUnxFrLnuxHH8rYgDR9v",
+        "sizeBytes": 1907,
+        "sourceSha256": "3719ccc9e0c558e930e6b273fa64cd03b0ad5999888c76779d17fb93b0650b87",
+        "normalizedProductionPath": "/artwork/learning-illustrations/object-toy-block-v1.svg",
+        "ambiguityStatus": "unique",
+        "provenance": {
+          "status": "licensed",
+          "rightsHolder": "SVG Repo source contributor",
+          "licenseBasis": "CC0; exact canonical stock source recorded.",
+          "redistributionAllowed": true,
+          "reviewedAt": "2026-09-25"
+        },
+        "semanticReview": {
+          "status": "approved",
+          "childReadable": true,
+          "reviewedAt": "2026-09-25"
+        }
+      },
+      {
+        "semanticKey": "object.umbrella",
+        "normalizedSourceFilename": "object-umbrella.svg",
+        "stagingDriveFileId": "1xsbpCC5tcL598xxKTV3Hg9M5LM-M_R_J",
+        "canonicalDriveSourceId": "1Q9C7gcmtN7uDq2rDxhXBA2Er_qOFGkYH",
+        "sizeBytes": 1763,
+        "sourceSha256": "e2fe6b828c33c3349224dac67d8efba2ff68e38611afcebdb27079007b58059e",
+        "normalizedProductionPath": "/artwork/learning-illustrations/object-umbrella-v1.svg",
+        "ambiguityStatus": "unique",
+        "provenance": {
+          "status": "licensed",
+          "rightsHolder": "SVG Repo source contributor",
+          "licenseBasis": "CC0; exact canonical stock source recorded.",
+          "redistributionAllowed": true,
+          "reviewedAt": "2026-09-25"
+        },
+        "semanticReview": {
+          "status": "approved",
+          "childReadable": true,
+          "reviewedAt": "2026-09-25"
+        }
+      }
+    ],
+    "held": [
+      {
+        "semanticKey": "vehicle.car",
+        "sourceReference": "SVG Repo 499718",
+        "status": "held",
+        "redistributionAllowed": false,
+        "reason": "exact public-repository redistribution clearance unresolved; do not stage or activate"
+      },
+      {
+        "semanticKey": "object.towel",
+        "sourceReference": "SVG Repo 288034",
+        "status": "held",
+        "redistributionAllowed": false,
+        "reason": "authoritative upstream / redistribution clearance unresolved; do not stage or activate"
+      },
+      {
+        "semanticKey": "object.raincoat",
+        "sourceReference": "SVG Repo 212019",
+        "status": "held",
+        "redistributionAllowed": false,
+        "reason": "authoritative upstream / redistribution clearance unresolved; do not stage or activate"
+      }
+    ]
+  },
+  "session01Validation": {
+    "characterSlots": "35/35",
+    "semanticClear": "14/14",
+    "semanticHeld": "3/3",
+    "duplicateCharacterSlots": 0,
+    "ambiguousCharacterSlots": 0,
+    "heldFilesPresentInSemanticStaging": false,
+    "allMaterializedCharacterHashesRecorded": true,
+    "allSemanticHashesRecorded": true
+  },
+  "hardBoundary": "inventory only; no files copied to public/, no runtime activation, no registry lifecycle mutation"
+}
