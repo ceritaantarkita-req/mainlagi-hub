@@ -13,6 +13,8 @@ import {
 } from "@phosphor-icons/react";
 import {
   Fragment,
+  createContext,
+  useContext,
   useEffect,
   useMemo,
   useRef,
@@ -20,8 +22,13 @@ import {
   type CSSProperties,
   type DragEvent
 } from "react";
-import { CharacterAvatar } from "@/components/learning/LearningCommon";
+import { CharacterLayer } from "@/components/learning/CharacterLayer";
 import { WorldSceneRenderer } from "@/components/learning/world/WorldSceneRenderer";
+import type { CharacterPresentationState } from "@/lib/learning/characterAssets";
+import {
+  resolveCharacterPresentation,
+  type ResolvedCharacterPresentation
+} from "@/lib/learning/characterPresentation";
 import { MONEY_WORLD_PILOT_AGE_BAND } from "@/lib/learning/world/moneyWorldPresentation";
 import { MONEY_WORLD_RUNTIME_CHARACTER_POLICY } from "@/lib/learning/world/moneyWorldAssets";
 import { audioStatus, playTone, unlockAudio, warmAudio, type SpeechStartStatus } from "@/lib/audio/feedback";
@@ -87,6 +94,31 @@ type MoneyWorldActivityCompletion = Omit<
   MoneyWorldEvidenceCompletionObservation,
   "childId"
 >;
+
+type MoneyWorldCharacterFeedbackState = "correct" | "try_again";
+
+const WorldCharacterFeedbackContext = createContext<(state: MoneyWorldCharacterFeedbackState) => void>(() => {});
+
+function useWorldCharacterFeedback() {
+  return useContext(WorldCharacterFeedbackContext);
+}
+
+function resolveMoneyWorldCharacterPresentation(
+  context: "world_catalog" | "world_map" | "world_scene" | "world_completion",
+  requestedState?: CharacterPresentationState
+): ResolvedCharacterPresentation {
+  return resolveCharacterPresentation({
+    context,
+    worldId: MONEY_WORLD_ID,
+    requestedState
+  });
+}
+
+function segmentDefaultCharacterState(segmentType: string): CharacterPresentationState {
+  return segmentType === "activity" || segmentType === "narrative_choice" || segmentType === "recap"
+    ? "thinking"
+    : "hero";
+}
 
 function runtimeCharacterForStoryRole(speaker: MoneyWorldStorySpeaker) {
   const id = MONEY_WORLD_RUNTIME_CHARACTER_POLICY.storyRoleToRuntimeCharacter[speaker];
