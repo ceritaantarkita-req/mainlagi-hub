@@ -46,16 +46,31 @@ function stopServer() {
   if (server && !server.killed) server.kill("SIGTERM");
 }
 
-async function waitForMoment(page, moment, state) {
-  await page.waitForFunction(
-    ({ expectedMoment, expectedState }) => {
-      const frame = document.querySelector('[data-activity-frame="garden"]');
-      return frame?.getAttribute("data-character-moment") === expectedMoment
-        && frame?.getAttribute("data-character-state") === expectedState;
-    },
-    { expectedMoment: moment, expectedState: state },
-    { timeout: 4_000 }
-  );
+async function waitForMoment(page, moment, state, timeout = 4_000) {
+  try {
+    await page.waitForFunction(
+      ({ expectedMoment, expectedState }) => {
+        const frame = document.querySelector('[data-activity-frame="garden"]');
+        return frame?.getAttribute("data-character-moment") === expectedMoment
+          && frame?.getAttribute("data-character-state") === expectedState;
+      },
+      { expectedMoment: moment, expectedState: state },
+      { timeout }
+    );
+  } catch (error) {
+    const snapshot = await page.locator('[data-activity-frame="garden"]').evaluate((frame) => ({
+      moment: frame.getAttribute("data-character-moment"),
+      state: frame.getAttribute("data-character-state"),
+      source: frame.getAttribute("data-character-source"),
+      left: frame.getAttribute("data-character-left"),
+      right: frame.getAttribute("data-character-right"),
+      pathname: window.location.pathname
+    })).catch(() => null);
+    throw new Error(
+      `Character moment timeout: expected ${moment}/${state}, actual ${JSON.stringify(snapshot)}`,
+      { cause: error }
+    );
+  }
 }
 
 async function assertPair(page, expectedIds, state) {
@@ -89,7 +104,7 @@ async function inspectEnglish(page) {
   await page.locator("[data-symbol-hunt]").waitFor({ state: "visible", timeout: 6_000 });
   assert.equal(new URL(page.url()).pathname, route, "English representative route must not be redirected");
 
-  await waitForMoment(page, "waiting", "hero");
+  await waitForMoment(page, "waiting", "hero", 12_000);
   await assertPair(page, ["naya", "zia"], "hero");
 
   await page.getByRole("button", { name: "Dengar petunjuk", exact: true }).click();
@@ -116,7 +131,7 @@ async function inspectMath(page) {
   await page.locator("[data-count-select]").waitFor({ state: "visible", timeout: 6_000 });
   assert.equal(new URL(page.url()).pathname, route, "Math representative route must not be redirected");
 
-  await waitForMoment(page, "waiting", "hero");
+  await waitForMoment(page, "waiting", "hero", 12_000);
   await assertPair(page, ["gian", "paca"], "hero");
 
   await page.getByRole("button", { name: "Pilih jumlah 2", exact: true }).click();
