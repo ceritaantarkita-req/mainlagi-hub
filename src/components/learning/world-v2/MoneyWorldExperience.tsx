@@ -95,7 +95,9 @@ type MoneyWorldActivityCompletion = Omit<
   "childId"
 >;
 
-type MoneyWorldCharacterFeedbackState = "correct" | "try_again";\n\nconst MONEY_WORLD_SHARED_CHARACTER_RUNTIME_MODE = "shared-approved-svg-cast";
+type MoneyWorldCharacterFeedbackState = "correct" | "try_again";
+
+const MONEY_WORLD_SHARED_CHARACTER_RUNTIME_MODE = "shared-approved-svg-cast";
 
 const WorldCharacterFeedbackContext = createContext<(state: MoneyWorldCharacterFeedbackState) => void>(() => {});
 
