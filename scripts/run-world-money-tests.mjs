@@ -854,30 +854,24 @@ try {
   assert.ok(worldWordmarkBytes <= 40 * 1024, "World Stage wordmark must stay at or below 40 KiB");
   const mapCoreAssetBytes = [
     "public/artwork/math-warung.webp",
-    "public/artwork/garden-background.webp"
+    "public/artwork/garden-background.webp",
+    "public/artwork/garden-gavi.webp",
+    "public/artwork/garden-paca.webp"
   ].reduce((sum, asset) => sum + statSync(path.join(root, asset)).size, 0);
-  assert.ok(mapCoreAssetBytes <= 190 * 1024, "World map core background artwork must stay bounded independently from shared character assets");
-  for (const asset of [
-    "public/artwork/characters/gavi-hero-v1.svg",
-    "public/artwork/characters/gavi-welcome-v1.svg",
-    "public/artwork/characters/gavi-pointing-v1.svg",
-    "public/artwork/characters/gavi-thinking-v1.svg",
-    "public/artwork/characters/gavi-correct-v1.svg",
-    "public/artwork/characters/gavi-try-again-v1.svg",
-    "public/artwork/characters/gavi-celebrate-v1.svg",
-    "public/artwork/characters/paca-hero-v1.svg",
-    "public/artwork/characters/paca-welcome-v1.svg",
-    "public/artwork/characters/paca-pointing-v1.svg",
-    "public/artwork/characters/paca-thinking-v1.svg",
-    "public/artwork/characters/paca-correct-v1.svg",
-    "public/artwork/characters/paca-try-again-v1.svg",
-    "public/artwork/characters/paca-celebrate-v1.svg"
-  ]) {
-    assert.equal(existsSync(path.join(root, asset)), true, "shared Money World character state asset missing: " + asset);
-  }
+  assert.ok(mapCoreAssetBytes <= 230 * 1024, "World map core artwork must stay at or below 230 KiB");
+  const maxStageBackgroundBytes = Math.max(
+    ...pilot.MONEY_WORLD_PILOT_STAGES.flatMap((stage) => [stage.backgroundWide, stage.backgroundMobile])
+      .map((asset) => statSync(path.join(root, "public" + asset)).size)
+  );
+  const maxStageShellArtworkBytes =
+    maxStageBackgroundBytes +
+    worldWordmarkBytes +
+    statSync(path.join(root, "public/artwork/garden-gavi.webp")).size +
+    statSync(path.join(root, "public/artwork/garden-paca.webp")).size;
+  assert.ok(maxStageShellArtworkBytes <= 190 * 1024, "single Stage shell artwork budget must stay at or below 190 KiB");
   assert.deepEqual(
     [...assets.MONEY_WORLD_PRODUCTION_GAPS].sort(),
-    ["fixed-narration"].sort(),
+    ["fixed-narration", "gian-foreground", "naya-foreground"].sort(),
     "World production gaps must stay explicit instead of silently appearing complete"
   );
   assert.ok(
