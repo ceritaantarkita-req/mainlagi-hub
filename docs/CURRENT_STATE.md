@@ -26,12 +26,13 @@ Character SVG engineering checkpoint:
 Session 01: source inventory frozen — 35/35 character variants
 Session 02: shared SVG security foundation merged
 Session 03: character provenance registry v2 implemented
+Session 04: 35/35 exact character SVGs promoted + production-approved
 Registry v2: 5 characters × 7 states = 35 variants
-Production-approved SVG variants: 0/35
+Production-approved SVG variants: 35/35
 Runtime activation: 0
 ```
 
-All 35 character variants remain `review-required` and fail-closed until exact public-repository rights/redistribution basis and production sanitization/integration are completed.
+All 35 character variants are now exact SHA-bound, owned/provenance-approved production SVGs under `public/artwork/characters/`. Runtime remains intentionally inactive until Session 05; approval of the files does not itself change character rendering.
 
 ## 25 September World + character integration authorization — CURRENT
 
