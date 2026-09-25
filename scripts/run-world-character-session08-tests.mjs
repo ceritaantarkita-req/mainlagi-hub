@@ -67,6 +67,7 @@ async function assertSharedPair(scope, expectedState) {
   assert.equal(await layer.getAttribute("aria-hidden"), "true", "World CharacterLayer stays decorative");
   const images = layer.locator("img");
   assert.equal(await images.count(), 2, "World authored cast must contain Gavi + Paca");
+  await images.evaluateAll((items) => Promise.all(items.map((item) => item.decode())));
   const snapshot = await images.evaluateAll((items) => items.map((item) => ({
     id: item.getAttribute("data-character-id"),
     state: item.getAttribute("data-character-state"),
@@ -90,6 +91,7 @@ async function assertSharedPortrait(scope, expectedId, expectedState) {
   const images = layer.locator("img");
   assert.equal(await images.count(), 1, "World story portrait must render exactly one speaker");
   const image = images.first();
+  await image.evaluate((item) => item.decode());
   assert.equal(await image.getAttribute("data-character-id"), expectedId);
   assert.equal(await image.getAttribute("data-character-state"), expectedState);
   assert.equal(await image.getAttribute("data-character-asset-source"), "svg-state");
