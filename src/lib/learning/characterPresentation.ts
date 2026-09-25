@@ -187,19 +187,22 @@ export function resolveCharacterPresentation(
   const cast = chooseCast(request);
   const characters: ResolvedPresentationCharacter[] = [];
   const used = new Set<CharacterId>();
+  let fallbackUsed = false;
 
   for (let index = 0; index < cast.ids.length && index < 2; index += 1) {
     const side: CharacterPresentationSide = index === 0 ? "left" : "right";
     const role: CharacterPresentationRole = index === 0 ? "guide" : "companion";
-    const resolved = resolveSlot(cast.ids[index], requestedState, side, role, request, used);
+    const requestedId = cast.ids[index];
+    const resolved = resolveSlot(requestedId, requestedState, side, role, request, used);
     if (!resolved || used.has(resolved.id)) continue;
+    if (resolved.id !== requestedId || resolved.assetSource === "legacy-webp") fallbackUsed = true;
     used.add(resolved.id);
     characters.push(resolved);
   }
 
   return {
     characters,
-    source: cast.source,
+    source: fallbackUsed ? "approved-fallback" : cast.source,
     requestedState
   };
 }
