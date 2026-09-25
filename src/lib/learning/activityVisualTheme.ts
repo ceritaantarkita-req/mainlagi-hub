@@ -1,5 +1,9 @@
-import type { CharacterId, LearningActivity } from "./system";
-import { approvedCharacterRuntimeSrc } from "./characterAssets";
+import type { LearningActivity } from "./system";
+import {
+  SUBJECT_CHARACTER_PAIRS,
+  resolveCharacterPresentation,
+  type ResolvedCharacterPresentation
+} from "./characterPresentation";
 
 export const THEMED_SUBJECT_IDS = [
   "bahasa",
@@ -15,19 +19,6 @@ export const THEMED_SUBJECT_IDS = [
 
 export type ThemedSubjectId = (typeof THEMED_SUBJECT_IDS)[number];
 export type SceneAssetStatus = "candidate" | "approved";
-export type CharacterPresentationSource = "subject-preference" | "approved-fallback";
-
-export interface RuntimeCharacterAsset {
-  id: CharacterId;
-  src: string;
-  side: "left" | "right";
-}
-
-export interface ResolvedCharacterPresentation {
-  preferredIds: readonly [CharacterId, CharacterId];
-  runtimeCharacters: readonly [RuntimeCharacterAsset, RuntimeCharacterAsset];
-  source: CharacterPresentationSource;
-}
 
 export interface RuntimeSceneAssets {
   wideSrc: string;
@@ -196,53 +187,9 @@ export const SUBJECT_THEMES: Readonly<Record<ThemedSubjectId, SubjectTheme>> = {
   drawing: { subjectId: "drawing", defaultSceneId: "meadow-art-01", scenes: DRAWING_SCENES }
 };
 
-export const SUBJECT_CHARACTER_PREFERENCES: Readonly<Record<ThemedSubjectId, readonly [CharacterId, CharacterId]>> = {
-  bahasa: ["gavi", "paca"],
-  english: ["naya", "zia"],
-  math: ["gian", "paca"],
-  iqro: ["gavi", "paca"],
-  letters: ["gavi", "paca"],
-  logic: ["gavi", "paca"],
-  science: ["gavi", "paca"],
-  color: ["gavi", "paca"],
-  drawing: ["gavi", "paca"]
-};
-
-function approvedCharacter(id: CharacterId, side: "left" | "right"): RuntimeCharacterAsset | null {
-  const src = approvedCharacterRuntimeSrc(id);
-  return src ? { id, src, side } : null;
-}
-
-function resolveCharacterPresentation(subjectId: ThemedSubjectId): ResolvedCharacterPresentation {
-  const preferredIds = SUBJECT_CHARACTER_PREFERENCES[subjectId];
-  const preferredLeft = approvedCharacter(preferredIds[0], "left");
-  const preferredRight = approvedCharacter(preferredIds[1], "right");
-
-  if (preferredLeft && preferredRight && preferredLeft.id !== preferredRight.id) {
-    return {
-      preferredIds,
-      runtimeCharacters: [preferredLeft, preferredRight],
-      source: "subject-preference"
-    };
-  }
-
-  const left = preferredLeft ?? approvedCharacter("gavi", "left");
-  const rightCandidate = preferredRight ?? approvedCharacter("paca", "right");
-  const right = rightCandidate?.id === left?.id
-    ? approvedCharacter(left?.id === "gavi" ? "paca" : "gavi", "right")
-    : rightCandidate;
-
-  if (!left || !right) {
-    throw new Error("Approved character fallback assets are incomplete");
-  }
-
-  return {
-    preferredIds,
-    runtimeCharacters: [left, right],
-    source: "approved-fallback"
-  };
-}
-
+export const SUBJECT_CHARACTER_PREFERENCES: Readonly<
+  Record<ThemedSubjectId, readonly [string, string]>
+> = SUBJECT_CHARACTER_PAIRS;
 
 type SemanticRule = {
   sceneId: string;
@@ -372,7 +319,7 @@ export function resolveActivityVisualTheme(
       subjectId,
       scene: sceneById(theme, matchedSceneId),
       source: "semantic-rule",
-      characters: resolveCharacterPresentation(subjectId)
+      characters: resolveCharacterPresentation({ context: "activity", subjectId })
     };
   }
 
@@ -381,6 +328,6 @@ export function resolveActivityVisualTheme(
     subjectId,
     scene: theme.scenes[fallbackIndex],
     source: "deterministic-fallback",
-    characters: resolveCharacterPresentation(subjectId)
+    characters: resolveCharacterPresentation({ context: "activity", subjectId })
   };
 }
