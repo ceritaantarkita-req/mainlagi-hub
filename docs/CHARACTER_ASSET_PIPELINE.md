@@ -48,7 +48,7 @@ Existing `/artwork/garden-paca.webp` and `/artwork/garden-gavi.webp` remain lega
 
 The registry is now version 2 with five characters and seven state variants per character. Each of the 35 variants binds source filename/Drive ID, source SHA-256, source byte size, ambiguity/review status, normalized SVG production path, provenance state, technical/source-validation result, lifecycle, and future production SHA/path.
 
-All 35 variants currently remain `review-required`, with `productionPath=null`, `productionSha256=null`, and `redistributionAllowed=false`. Source identity/technical safety is frozen; exact public-repository rights approval is still pending.
+Session 04 has now promoted all 35 variants to exact production SVGs. Every variant is `approved`, has its canonical `productionPath`, exact `productionSha256`, `provenance.status=owned`, and `redistributionAllowed=true`. Source identity/hash equals production identity/hash for all 35 files. Runtime activation remains separate and is still 0.
 
 ---
 It complements:
@@ -96,14 +96,16 @@ total variants: 35
 production directory: /artwork/characters
 ```
 
-Current lifecycle:
+Current lifecycle after Session 04:
 
 ```text
-35/35 review-required
-0/35 production-approved
-35/35 productionPath=null
-35/35 productionSha256=null
-35/35 redistributionAllowed=false
+0/35 review-required
+35/35 production-approved
+35/35 canonical productionPath bound
+35/35 productionSha256 bound
+35/35 provenance.status=owned
+35/35 redistributionAllowed=true
+runtime activation=0
 ```
 
 Each state variant records:
