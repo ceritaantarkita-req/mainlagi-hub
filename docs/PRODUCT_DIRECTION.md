@@ -210,6 +210,13 @@ See `AI_OCR_OPENROUTER.md`.
 
 **25 September project-owner override:** Mainlagi World is now treated as a first-class domain of one Mainlagi product system, and character development is resumed for this integration. The 22 September “World separate / character paused” boundary is historical for that earlier workstream.
 
+Current cross-system asset-format decision is also locked:
+
+- if the canonical approved source is already SVG, use that SVG directly in production/runtime;
+- do not create WebP derivatives merely for consistency with older pipelines;
+- character and semantic/activity illustration pipelines must become SVG-aware;
+- raster-native backgrounds remain WebP/raster;
+- existing verified WebP assets remain fallback/history until explicit verified migration.
 Current character decisions are locked:
 
 1. use isolated single-character SVG assets directly;
@@ -224,12 +231,14 @@ Current execution order for the World + character program:
 1. synchronize canonical docs and boundaries;
 2. exact Drive single-SVG inventory + provenance mapping;
 3. migrate character provenance/validator to the seven-state SVG model;
-4. promote reviewed SVGs to normalized production paths;
-5. implement shared character resolver/layer without touching learning semantics;
-6. expose unified Home with Belajar / World / Bermain;
-7. integrate Petualangan Uang Gavi+Paca through the shared runtime;
-8. add parent World journey context without collapsing World progress into Belajar mastery;
-9. close with responsive/browser/CI/deploy verification.
+4. promote reviewed character SVGs to normalized production paths;
+5. migrate the 14 SVG-backed semantic P0 production bindings from WebP derivatives to direct sanitized SVG paths;
+6. implement shared character resolver/layer without touching learning semantics;
+7. expose unified Home with Belajar / World / Bermain;
+8. integrate Petualangan Uang Gavi+Paca through the shared runtime;
+9. activate semantic SVG resolver in a controlled wave after its migration gate;
+10. add parent World journey context without collapsing World progress into Belajar mastery;
+11. close with responsive/browser/CI/deploy verification.
 
 Belajar WS-05 Logic `pattern_completion` remains closed/live verified. Pattern #48 remains unjustified; character/World work must not reopen curriculum/mastery/progression unless separately authorized.
 
