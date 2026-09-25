@@ -14,17 +14,22 @@ The original `Audited HEAD` above records the starting point of this plan. It is
 Current live checkpoint:
 
 ```text
-Sessions 01–09: COMPLETE
-Session 09 PR: #340
-final PR head: 80e2a7211e6ebe1791370a87790b4c2ff20a621a
-final PR CI: #1673 / run 36131389534 — full success
-merged main: 227a77799cd73fecc8e58960ef8758c2e323bc30
-merged-main CI: #1674 / run 36132350678 — full success
+Sessions 01–10: COMPLETE
+Session 10 PR: #343
+final PR head: 698cba5f9baa8de896d0056daf777f3e00e56f6e
+final PR CI: #1678 / run 36142537668 — full success
+implementation main: 21955a64728162f8985d04160e8ec683e1238080
+implementation merged-main CI: #1679 / run 36143708306 — full success
+closure docs PR: #344
+verified closure main: 53e33c6b8ecb737da88af563d310ac486619b206
+closure PR CI: #1680 / run 36146245332 — full success
+closure merged-main CI: #1681 / run 36147457854 — full success
 Cloudflare production smoke: success
 Belajar responsive character matrix: 35/35 PASS
 World shared-character browser regression: PASS
 Home+Bermain character browser regression: PASS
-next authorized session: Session 10 — semantic/activity illustration registry SVG-aware production migration
+semantic registry v2: 14 SVG migration-ready / 0 SVG approved / 3 held / runtime off
+next authorized session: Session 11 — promote 14 exact approved semantic SVG sources into production
 ```
 
 Safe handoff: `MAINLAGI_CHARACTER_WORLD_SAFE_CHECKPOINT_2026-09-25.md`.
