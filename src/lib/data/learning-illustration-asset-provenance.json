@@ -53,11 +53,11 @@
           "sha256": "68b867f733facd325ee3e0baa5814c682f9c107756edd99b56b468ca8337302f"
         },
         "svg": {
-          "status": "migration-ready",
+          "status": "approved",
           "format": "svg",
           "expectedPath": "/artwork/learning-illustrations/object-apple-v1.svg",
-          "path": null,
-          "sha256": null
+          "path": "/artwork/learning-illustrations/object-apple-v1.svg",
+          "sha256": "2d9b41b217aa4b735ab32dd73b85413473a1e9fe08c8059e3a467842d493093b"
         }
       }
     },
@@ -111,11 +111,11 @@
           "sha256": "6bacca64a1bac258bb6d92a4c5b39a81cb383a45baba0cf35d3b7df26685c482"
         },
         "svg": {
-          "status": "migration-ready",
+          "status": "approved",
           "format": "svg",
           "expectedPath": "/artwork/learning-illustrations/animal-cat-v1.svg",
-          "path": null,
-          "sha256": null
+          "path": "/artwork/learning-illustrations/animal-cat-v1.svg",
+          "sha256": "d1d533398e9141438ec280f1c8b4c65f52320a91d5881b13d68e298cbce47c38"
         }
       }
     },
@@ -169,11 +169,11 @@
           "sha256": "54feddc6722908341f5f8f6bb9bdfae82dae85b663e6d018449d33bdbb1da5f5"
         },
         "svg": {
-          "status": "migration-ready",
+          "status": "approved",
           "format": "svg",
           "expectedPath": "/artwork/learning-illustrations/animal-fish-v1.svg",
-          "path": null,
-          "sha256": null
+          "path": "/artwork/learning-illustrations/animal-fish-v1.svg",
+          "sha256": "34fd1640e25cf078df41f0cae2532493bc2176047c72856a5634ccb91f90ae8f"
         }
       }
     },
@@ -227,11 +227,11 @@
           "sha256": "f26193c5b1b8d473cc2ea93f46e4b8cdbf8ddf9a552310536edda430f714dd46"
         },
         "svg": {
-          "status": "migration-ready",
+          "status": "approved",
           "format": "svg",
           "expectedPath": "/artwork/learning-illustrations/object-umbrella-v1.svg",
-          "path": null,
-          "sha256": null
+          "path": "/artwork/learning-illustrations/object-umbrella-v1.svg",
+          "sha256": "e2fe6b828c33c3349224dac67d8efba2ff68e38611afcebdb27079007b58059e"
         }
       }
     },
@@ -338,11 +338,11 @@
           "sha256": "b9d751dd2c7ec8e25d496ff3f18d6d4bae1769a607b94e2f9cc1acbb829269c6"
         },
         "svg": {
-          "status": "migration-ready",
+          "status": "approved",
           "format": "svg",
           "expectedPath": "/artwork/learning-illustrations/object-cup-v1.svg",
-          "path": null,
-          "sha256": null
+          "path": "/artwork/learning-illustrations/object-cup-v1.svg",
+          "sha256": "1d36c427b383746c0cc49fc367bf9784a64690e3f2f6b0e196b38a3910084296"
         }
       }
     },
@@ -396,11 +396,11 @@
           "sha256": "23fe8ae122a8e4336b3d522d697d41f5a7e1a0343c48bc63a1cd9be01c6ebc84"
         },
         "svg": {
-          "status": "migration-ready",
+          "status": "approved",
           "format": "svg",
           "expectedPath": "/artwork/learning-illustrations/object-house-v1.svg",
-          "path": null,
-          "sha256": null
+          "path": "/artwork/learning-illustrations/object-house-v1.svg",
+          "sha256": "8180f78817b0a611421220cb17effe9002db7a17d5ad36ba640297fd7a54a31f"
         }
       }
     },
@@ -454,11 +454,11 @@
           "sha256": "de38296a4249d492be66f3253a343efb0997d08d83ae5c20b908b3e47b396914"
         },
         "svg": {
-          "status": "migration-ready",
+          "status": "approved",
           "format": "svg",
           "expectedPath": "/artwork/learning-illustrations/animal-bird-v1.svg",
-          "path": null,
-          "sha256": null
+          "path": "/artwork/learning-illustrations/animal-bird-v1.svg",
+          "sha256": "7f48db66d50fb6c892353120339dd950643e69385e8872134930cf5e6143a927"
         }
       }
     },
@@ -512,11 +512,11 @@
           "sha256": "ef3b525cb818b98dc7ec1363574c50668b907abd464ea11ad8c761eda09c050a"
         },
         "svg": {
-          "status": "migration-ready",
+          "status": "approved",
           "format": "svg",
           "expectedPath": "/artwork/learning-illustrations/object-ball-v1.svg",
-          "path": null,
-          "sha256": null
+          "path": "/artwork/learning-illustrations/object-ball-v1.svg",
+          "sha256": "63b14a3422e53da84ef31617c0d3762e136a280b9bee805dfb62ac0b3108c134"
         }
       }
     },
@@ -570,11 +570,11 @@
           "sha256": "81640c6143fb52f71abdbeebe6b425fae79ca6ac1b00c0c84b6cc4801182c435"
         },
         "svg": {
-          "status": "migration-ready",
+          "status": "approved",
           "format": "svg",
           "expectedPath": "/artwork/learning-illustrations/body-head-v1.svg",
-          "path": null,
-          "sha256": null
+          "path": "/artwork/learning-illustrations/body-head-v1.svg",
+          "sha256": "f0f45658fc81df468075cccbc5d347ddc6a1fd745941d2b2b1c184ed7f63720b"
         }
       }
     },
@@ -628,11 +628,11 @@
           "sha256": "dcb7edbd9749f2a913829175572d84e42f48b0a30698d970728031c2244d093b"
         },
         "svg": {
-          "status": "migration-ready",
+          "status": "approved",
           "format": "svg",
           "expectedPath": "/artwork/learning-illustrations/action-jump-v1.svg",
-          "path": null,
-          "sha256": null
+          "path": "/artwork/learning-illustrations/action-jump-v1.svg",
+          "sha256": "5c8bb179f4b6a83bdde993f6598847f656a535a46d1009470d7d6500a5e5f522"
         }
       }
     },
@@ -686,11 +686,11 @@
           "sha256": "1d9c2da20507b89928b4c3a0c0783ed88b8108085f4beeecd86fd43bea7c1996"
         },
         "svg": {
-          "status": "migration-ready",
+          "status": "approved",
           "format": "svg",
           "expectedPath": "/artwork/learning-illustrations/feature-gills-v1.svg",
-          "path": null,
-          "sha256": null
+          "path": "/artwork/learning-illustrations/feature-gills-v1.svg",
+          "sha256": "49e33a279d0284333a7cecf4d80be22f985e4e718d750fb9a152089cfd1a0c31"
         }
       }
     },
@@ -744,11 +744,11 @@
           "sha256": "0423a3b8b2bec07d84faa54e5de7ac224becae21c32512de19e3abc274d6f53f"
         },
         "svg": {
-          "status": "migration-ready",
+          "status": "approved",
           "format": "svg",
           "expectedPath": "/artwork/learning-illustrations/feature-beak-v1.svg",
-          "path": null,
-          "sha256": null
+          "path": "/artwork/learning-illustrations/feature-beak-v1.svg",
+          "sha256": "0b79a6f355976fb24ae4f8b7a999ad0e6c574d9d2287206ea154a2d9842e4e3e"
         }
       }
     },
@@ -802,11 +802,11 @@
           "sha256": "f73fbe012350f85b5ef22c8f0595617cff84c971a9f262da49cf80be2d5c3e45"
         },
         "svg": {
-          "status": "migration-ready",
+          "status": "approved",
           "format": "svg",
           "expectedPath": "/artwork/learning-illustrations/feature-cactus-thick-stem-v1.svg",
-          "path": null,
-          "sha256": null
+          "path": "/artwork/learning-illustrations/feature-cactus-thick-stem-v1.svg",
+          "sha256": "34a5c823e83fc0543948e91cf9fb77e3cdc21f49b84d4a3f78c694f1e78874ff"
         }
       }
     },
@@ -966,11 +966,11 @@
           "sha256": "d9b3ddda42263f42c18b339be92a204b2627c9fddbb53188fc0a159f25430251"
         },
         "svg": {
-          "status": "migration-ready",
+          "status": "approved",
           "format": "svg",
           "expectedPath": "/artwork/learning-illustrations/object-toy-block-v1.svg",
-          "path": null,
-          "sha256": null
+          "path": "/artwork/learning-illustrations/object-toy-block-v1.svg",
+          "sha256": "3719ccc9e0c558e930e6b273fa64cd03b0ad5999888c76779d17fb93b0650b87"
         }
       }
     }
