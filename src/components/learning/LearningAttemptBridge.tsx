@@ -9,6 +9,9 @@ import {
   LEARNING_MEASUREMENT_EVENT,
   type LearningRuntimeMeasurementDetail
 } from "@/lib/learning/runtimeMeasurement";
+import {
+  emitLearningCharacterPresentation
+} from "@/lib/learning/characterPresentationFeedback";
 
 const DUPLICATE_GUARD_MS = 1500;
 
@@ -149,10 +152,21 @@ export function LearningAttemptBridge({ childId }: { childId: string }) {
       if (activity.runtime === "tap_choice" || activity.runtime === "listen_and_choose") {
         if (!(activity.choices ?? []).includes(label)) return;
         touchStats(stats);
-        if (label === activity.correctChoice) stats.correctCount += 1;
-        else {
+        if (label === activity.correctChoice) {
+          stats.correctCount += 1;
+          emitLearningCharacterPresentation({
+            childId,
+            activityId,
+            moment: "correct"
+          });
+        } else {
           stats.incorrectCount += 1;
           stats.retryCount += 1;
+          emitLearningCharacterPresentation({
+            childId,
+            activityId,
+            moment: "retry"
+          });
         }
         return;
       }
@@ -170,10 +184,21 @@ export function LearningAttemptBridge({ childId }: { childId: string }) {
           stats.selectedMatchPair = item.pair;
           return;
         }
-        if (stats.selectedMatchPair === item.pair) stats.correctCount += 1;
-        else {
+        if (stats.selectedMatchPair === item.pair) {
+          stats.correctCount += 1;
+          emitLearningCharacterPresentation({
+            childId,
+            activityId,
+            moment: "correct"
+          });
+        } else {
           stats.incorrectCount += 1;
           stats.retryCount += 1;
+          emitLearningCharacterPresentation({
+            childId,
+            activityId,
+            moment: "retry"
+          });
         }
         stats.selectedMatchPair = null;
         return;
@@ -183,6 +208,11 @@ export function LearningAttemptBridge({ childId }: { childId: string }) {
         touchStats(stats);
         stats.resetCount += 1;
         stats.retryCount += 1;
+        emitLearningCharacterPresentation({
+          childId,
+          activityId,
+          moment: "retry"
+        });
       }
     };
 
@@ -194,6 +224,12 @@ export function LearningAttemptBridge({ childId }: { childId: string }) {
       if (!activityId) return;
       const activity = getActivity(activityId);
       if (!activity) return;
+
+      emitLearningCharacterPresentation({
+        childId,
+        activityId,
+        moment: "completion"
+      });
 
       const now = Date.now();
       const recent = [...readLearningAttempts(childId)].reverse().find((attempt) => attempt.activityId === activityId);

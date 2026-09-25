@@ -121,42 +121,48 @@ Unknown World IDs fail closed rather than receiving an invented cast.
 - disables animation under `prefers-reduced-motion: reduce`;
 - does not decide cast, mastery, eligibility, evidence, or progression.
 
-### Current product-surface compatibility boundary
+### Current Belajar surface state — Session 06
 
-Session 05 deliberately does **not** migrate Belajar/World/Home rendering yet.
+Belajar is now deliberately migrated to the shared SVG character runtime.
 
-The historical pre-SVG compatibility API:
+The historical compatibility API:
 
 ```ts
 approvedCharacterRuntimeSrc()
 ```
 
-still behaves as:
+still exists for older callers, but `activityVisualTheme.ts` no longer uses it.
+
+Current Belajar pair:
+
+| Subject | Current Belajar pair |
+| --- | --- |
+| Bahasa Indonesia | Gavi + Paca |
+| English | Naya + Zia |
+| Matematika | Gian + Paca |
+| Iqro | Gavi + Paca |
+| Huruf & Menulis | Gavi + Paca |
+| Logika | Gavi + Paca |
+| Sains | Gavi + Paca |
+| Mewarnai | Gavi + Paca, hidden in creative workspace |
+| Menggambar | Gavi + Paca, hidden in creative workspace |
+
+Belajar feedback presentation is centralized rather than hardcoded per activity:
 
 ```text
-Naya/Gian/Zia -> null
-Gavi/Paca     -> /artwork/garden-*.webp
+entry       -> welcome
+guide       -> pointing
+waiting     -> hero
+correct     -> correct
+retry       -> try_again
+completion  -> celebrate
 ```
 
-because current `activityVisualTheme.ts` still calls that API.
+`LearningAttemptBridge` publishes a separate presentation-only `childId + activityId + moment` event from interaction knowledge it already owns. `ActivityVisualThemeProvider` converts that moment into a shared character state and `GardenActivityFrame` renders only through `CharacterLayer`.
 
-Therefore the current visible Belajar pair remains:
+The character system does not use the feedback event to modify curriculum, answers, mastery, evidence, progression, rewards, activity identity, World narrative progress, or child profile identity.
 
-| Subject | Shared resolver target | Current Belajar surface until Session 06 |
-| --- | --- | --- |
-| Bahasa Indonesia | Gavi + Paca | Gavi + Paca |
-| English | Naya + Zia | Gavi + Paca compatibility fallback |
-| Matematika | Gian + Paca | Gavi + Paca compatibility fallback |
-| Iqro | Gavi + Paca | Gavi + Paca |
-| Huruf & Menulis | Gavi + Paca | Gavi + Paca |
-| Logika | Gavi + Paca | Gavi + Paca |
-| Sains | Gavi + Paca | Gavi + Paca |
-| Mewarnai | Gavi + Paca | hidden in creative workspace |
-| Menggambar | Gavi + Paca | hidden in creative workspace |
-
-This staged boundary prevents Session 05 from silently changing live product presentation. Session 06 owns Belajar migration; Session 08 owns World migration; Session 09 owns unified Home integration.
-
-The character system remains presentation-only. It must not change curriculum, answers, mastery, evidence, progression, activity identity, World narrative progress, or child profile identity.
+World remains reserved for Session 08. Home/Bermain shell integration remains Session 09.
 
 ## Creative workspace rule
 
@@ -189,29 +195,38 @@ Unknown World IDs fail closed to no cast. Product surfaces must not infer a new 
 - all 35 SVG runtime paths match the approved provenance registry;
 - requested-state, hero/welcome and legacy fallback behavior;
 - Naya/Gian/Zia never fall back to reference artwork;
+- canonical Belajar moment -> state mapping;
+- exact child/activity presentation-event filtering;
 - English shared resolver policy = Naya + Zia;
 - Math shared resolver policy = Gian + Paca;
-- Petualangan Uang cast = Gavi + Paca;
-- context-to-state defaults;
-- authored override dedupe/cap;
-- unknown World fail-closed behavior;
-- explicit approved identity fallback;
-- legacy Belajar compatibility remains unchanged until Session 06;
-- CharacterLayer two-character cap, QA attributes, pointer safety, safe-area and reduced-motion behavior.
+- Petualangan Uang cast remains Gavi + Paca for later World integration;
+- CharacterLayer two-character cap, QA attributes, pointer safety, safe-area and reduced-motion behavior;
+- Belajar no longer depends on `approvedCharacterRuntimeSrc()`.
 
-The existing `test:learning:visual-theme` regression remains responsible for the currently deployed pre-Session-06 Belajar behavior until that surface is deliberately migrated.
+`npm run test:learning:visual-theme` must additionally verify all 900 canonical Belajar activities resolve deterministically to their canonical subject pair using approved SVG `hero` assets at neutral route resolution.
 
-## Non-goals — Session 05
+`npm run test:ui:character-belajar` verifies representative English and Math browser flows at 390px/reduced-motion:
 
-Session 05 does not:
+```text
+English: Naya + Zia
+Math:    Gian + Paca
+wrong:   try_again
+finish:  celebrate
+```
 
-- migrate Belajar surfaces;
-- migrate World surfaces;
-- change Home;
-- change creative workspace visibility;
+The full 320/390/430/768/1280 visual-layout matrix remains Session 07.
+
+## Non-goals — Session 06
+
+Session 06 does not:
+
+- integrate World characters;
+- integrate Home/Bermain characters;
+- redesign Motion Engine;
 - change child profile/guide identity;
 - change narration identity;
 - change curriculum/content/answers;
+- change the 900-activity or 47-pattern baselines;
 - change learning evidence, mastery, progression, rewards or schema;
 - delete legacy Gavi/Paca WebP fallback files.
 
@@ -221,16 +236,15 @@ PR **#259** at `b5acbfcde66ea1451f3e55a8d469d33ba4845af1` established the earlie
 
 Merged-main CI **#1190 / run `35589937017`** passed its then-current quality, build, mobile-route/permanent visual QA, Windows, dependency and production-smoke gates.
 
-Its historical statements that Naya/Gian/Zia lacked production artwork and that character development was paused were correct for that checkpoint. They are **not current execution instructions** after the project-owner 25 September authorization and Sessions 01–05.
+Its historical statements that Naya/Gian/Zia lacked production artwork and that character development was paused were correct for that checkpoint. They are **not current execution instructions** after the project-owner 25 September authorization and Sessions 01–06.
 
 ## Current continuation boundary
 
-Character source/provenance/production/runtime-foundation work is now complete through Session 05.
+Character source/provenance/production/runtime-foundation work plus Belajar integration is now complete through Session 06.
 
 Next:
 
 ```text
-Session 06 -> deliberate Belajar migration
 Session 07 -> Belajar responsive QA
 Session 08 -> World migration
 Session 09 -> Home integration

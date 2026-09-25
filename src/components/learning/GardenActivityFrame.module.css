@@ -13,9 +13,6 @@
 .title { font-size:clamp(30px,4.5vw,62px); line-height:1.12; font-weight:950; letter-spacing:-1.5px; margin:0 auto 36px; text-wrap:balance; }
 .hint { font-size:21px; font-weight:800; margin:38px auto 0; }
 .notice { background:#fffbed; border-radius:18px; padding:14px 20px; max-width:600px; margin:16px auto; font-size:16px; }
-.character { position:absolute; z-index:1; pointer-events:none; width:clamp(120px,23vw,340px); height:auto; bottom:23%; object-fit:contain; }
-.characterLeft { left:.8%; }
-.characterRight { right:1%; }
 .apples { display:flex; justify-content:center; gap:16px; margin:20px auto; }
 .apples img { width:min(26%,160px); height:auto; object-fit:contain; }
 .spacious :global(h1) { font-size:clamp(38px,6.5vw,96px); }
@@ -39,7 +36,7 @@
  .header { gap:8px; } .brand { width:112px; height:44px; }
  .control { font-size:15px; min-height:48px; gap:6px; padding:9px 12px; } .control svg { width:20px; }
  .play,.spacious { margin-top:36px; } .title { letter-spacing:-.6px; margin-bottom:24px; }
- .character { width:100px; bottom:10px; } .characterLeft { left:14px; } .characterRight { right:14px; }
+
  .hint { font-size:17px; margin-top:24px; }
 }
 @media(max-width:380px) { .control span { display:none; } .control { width:48px; } }
@@ -49,5 +46,4 @@
 .workspace .brand{width:170px;height:62px}
 .workspace .play{width:min(1100px,100%);margin:24px auto 0}
 .workspace .title{font-size:clamp(26px,3vw,40px);margin-bottom:12px}
-.workspace .character{display:none}
 @media(max-width:760px){.workspace{padding:12px 12px 28px}.workspace .brand{width:112px;height:44px}.workspace .control{min-height:48px;padding:8px 10px;font-size:14px}.workspace .play{margin-top:18px}}
