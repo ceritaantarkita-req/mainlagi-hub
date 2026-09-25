@@ -63,7 +63,7 @@ function run(args) {
   return spawnSync(process.execPath, [script, ...args], { cwd: root, encoding: "utf8" });
 }
 
-const temp = mkdtempSync(path.join(os.tmpdir(), "mainlagi-p0-production-preflight-"));
+const temp = mkdtempSync(path.join(os.tmpdir(), "mainlagi-p0-production-preflight-v2-"));
 const source = path.join(temp, "source");
 const outA = path.join(temp, "a");
 const outB = path.join(temp, "b");
@@ -72,26 +72,31 @@ fixtureSource(source);
 try {
   let result = run(["--source-dir", source, "--output", outA]);
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /DRY RUN/);
+  assert.match(result.stdout, /DRY RUN \/ historical WebP comparison/);
+  assert.match(result.stdout, /Registry v2 preferred format: svg; runtime activation: off/);
   assert.match(result.stdout, /Clear scope: 14\/17; held scope: 3\/17/);
+  assert.match(result.stdout, /SVG target object-apple-v1\.svg/);
   assert.match(result.stdout, /vehicle\.car/);
   assert.equal(existsSync(outA), false);
 
   for (const output of [outA, outB]) {
     result = run(["--generate", "--source-dir", source, "--output", output]);
     assert.equal(result.status, 0, result.stderr);
-    assert.match(result.stdout, /Generated 14 internal production-readiness preflight files/);
-    assert.match(result.stdout, /No production registry approval, public binary, or runtime activation was created/);
+    assert.match(result.stdout, /Generated 14 internal historical WebP comparison files/);
+    assert.match(result.stdout, /Registry v2 SVG targets remain unpromoted/);
 
     const manifest = JSON.parse(readFileSync(path.join(output, "preflight-manifest.json"), "utf8"));
-    assert.equal(manifest.version, 1);
+    assert.equal(manifest.version, 2);
+    assert.equal(manifest.registryVersion, 2);
     assert.equal(manifest.scope, "learning-semantic-p0-production-readiness-preflight");
     assert.equal(manifest.lifecycle, "preflight-only");
+    assert.equal(manifest.preferredProductionFormat, "svg");
     assert.equal(manifest.clearCount, 14);
     assert.equal(manifest.heldCount, 3);
     assert.deepEqual(manifest.heldKeys, heldKeys);
     assert.equal(manifest.legalApproval, false);
     assert.equal(manifest.productionApproval, false);
+    assert.equal(manifest.svgPromotion, false);
     assert.equal(manifest.production, false);
     assert.equal(manifest.runtimeActive, false);
     assert.equal(manifest.items.length, 14);
@@ -105,8 +110,16 @@ try {
       assert.equal(item.productionApproval, false);
       assert.equal(item.production, false);
       assert.equal(item.runtimeActive, false);
-      assert.equal(path.posix.basename(item.expectedProductionPath), item.preflightFilename);
-      assert.equal(item.expectedProductionPath, `/artwork/learning-illustrations/${item.semanticKey.replaceAll(".", "-")}-v1.webp`);
+      assert.equal(item.svgMigrationStatus, "migration-ready");
+      assert.equal(
+        item.expectedWebpProductionPath,
+        `/artwork/learning-illustrations/${item.semanticKey.replaceAll(".", "-")}-v1.webp`
+      );
+      assert.equal(
+        item.expectedSvgProductionPath,
+        `/artwork/learning-illustrations/${item.semanticKey.replaceAll(".", "-")}-v1.svg`
+      );
+      assert.equal(path.posix.basename(item.expectedWebpProductionPath), item.preflightFilename);
       const meta = await sharp(path.join(output, item.preflightFilename)).metadata();
       assert.equal(meta.format, "webp");
       assert.equal(meta.width, 512);
@@ -121,7 +134,7 @@ try {
   assert.deepEqual(
     Object.fromEntries(manifestA.items.map((item) => [item.semanticKey, item.sha256])),
     Object.fromEntries(manifestB.items.map((item) => [item.semanticKey, item.sha256])),
-    "preflight WebP binaries must be deterministic"
+    "historical comparison WebP binaries must remain deterministic"
   );
 
   result = run(["--generate", "--source-dir", source, "--output", outA]);
@@ -132,13 +145,15 @@ try {
   assert.notEqual(result.status, 0);
   assert.match(result.stderr, /refuses public\/ path/);
 
-  writeFileSync(path.join(source, "vehicle-car.svg"), "<svg xmlns=\"http://www.w3.org/2000/svg\"/>");
+  writeFileSync(path.join(source, "vehicle-car.svg"), '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"/>');
   result = run(["--source-dir", source, "--output", path.join(temp, "c")]);
   assert.notEqual(result.status, 0);
   assert.match(result.stderr, /exactly the 14 canonical clear-scope SVG files/);
 
   assert.deepEqual(readFileSync(registryPath), registryBefore);
-  console.log("Learning semantic P0 production-readiness preflight regression passed.");
+  console.log(
+    "Learning semantic P0 production-readiness preflight v2 regression passed: WebP history remains deterministic while SVG targets stay migration-ready and runtime-off."
+  );
 } finally {
   try {
     rmSync(temp, { recursive: true, force: true });
