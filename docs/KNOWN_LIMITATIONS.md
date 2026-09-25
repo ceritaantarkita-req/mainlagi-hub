@@ -75,9 +75,9 @@ The semantic illustration registry/provenance gate is closed/live verified throu
 
 Session 3 froze all **17/17 P0** visual decisions, and the separately authorized production-integration wave has now promoted the **14/17 source/license-clear assets** into exact SHA-bound production WebP binaries. The remaining production limitation is the same three held visuals: car 499718, towel 288034, and raincoat 212019 remain fail-closed for public-repository redistribution.
 
-Session 10 has now completed the SVG-aware registry/validator migration. Current state is **registry v2 / 14 approved WebP history bindings / 14 SVG migration-ready slots / 0 approved SVG binaries / 3 held / 0 runtime semantic activation**. Because runtime mapping remains separate, child-facing learning surfaces still use their existing glyph/emoji fallbacks.
+Session 11 has now completed exact SVG production promotion. Current state is **registry v2 / 14 approved WebP history bindings / 14 approved SVG binaries / 0 SVG migration-ready slots / 3 held / 0 runtime semantic activation**. Because runtime mapping remains separate, child-facing learning surfaces still use their existing glyph/emoji fallbacks.
 
-The next limitation boundary is binary promotion, not registry capability: Session 11 must promote the exact 14 reviewed canonical SVG sources into the prepared slots while preserving existing WebPs as rollback/history. The three held assets stay held; SVG format does not solve missing redistribution rights.
+The next limitation boundary is runtime activation, not asset availability: Session 12 must add one centralized registry-backed semantic SVG resolver and activate only the 14 approved keys. The three held assets stay on fallback; SVG format does not solve missing redistribution rights.
 
 Canonical records:
 - `LEARNING_ILLUSTRATION_CONSISTENCY_AUDIT_2026-09-22.md`;
@@ -85,7 +85,8 @@ Canonical records:
 - `LEARNING_SEMANTIC_ILLUSTRATION_REGISTRY_CLOSURE_2026-09-23.md`;
 - `LEARNING_SEMANTIC_P0_SESSION3_STOCK_LIBRARY_APPROVAL_FREEZE_2026-09-24.md`;
 - `LEARNING_SEMANTIC_P0_PRODUCTION_APPROVAL_INTEGRATION_2026-09-25.md`;
-- `LEARNING_SEMANTIC_SVG_REGISTRY_SESSION10_CLOSURE_2026-09-25.md`.
+- `LEARNING_SEMANTIC_SVG_REGISTRY_SESSION10_CLOSURE_2026-09-25.md`;
+- `LEARNING_SEMANTIC_SVG_PRODUCTION_SESSION11_CLOSURE_2026-09-25.md`.
 
 ## Voice and narration
 
