@@ -81,8 +81,6 @@ export function ActivityVisualThemeProvider({
 
   useEffect(() => {
     clearResetTimer();
-    momentRef.current = "entry";
-    setMomentState("entry");
     resetTimerRef.current = window.setTimeout(() => {
       setMomentState((current) => {
         if (current !== "entry") return current;
@@ -92,7 +90,7 @@ export function ActivityVisualThemeProvider({
       resetTimerRef.current = null;
     }, ENTRY_TO_WAITING_MS);
     return clearResetTimer;
-  }, [activityId, clearResetTimer]);
+  }, [clearResetTimer]);
 
   useEffect(() => {
     const onPresentation = (event: Event) => {
