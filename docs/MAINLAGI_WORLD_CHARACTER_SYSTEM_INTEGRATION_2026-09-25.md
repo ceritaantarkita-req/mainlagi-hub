@@ -1538,7 +1538,7 @@ npm run test:ui:character-responsive
 
 The test is included in `npm run test:ui:mobile-routes` and writes its screenshots/report under `.mobile-route-qa/character-session07/`.
 
-**Session 07 is closed. Start Session 08 only from merged latest main.**
+**Historical transition:** Session 07 closed before Session 08 began. Session 08 is now closed below.
 
 ### Session 08 — Integrate shared character runtime into Mainlagi World — COMPLETE
 
