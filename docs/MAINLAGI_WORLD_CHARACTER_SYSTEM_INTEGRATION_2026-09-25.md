@@ -1603,24 +1603,28 @@ Preserved:
 
 **Session 09 is closed. Start Session 10 only from merged latest main.**
 
-### Session 10 — Migrate semantic/activity illustration registry to SVG-aware production
+### Session 10 — Migrate semantic/activity illustration registry to SVG-aware production — COMPLETE
 
-**Do:** update the learning-illustration provenance schema/validator so the 14 clear semantic P0 items can use:
+**Closure:** `LEARNING_SEMANTIC_SVG_REGISTRY_SESSION10_CLOSURE_2026-09-25.md`  
+**PR:** #343  
+**Final PR head:** `698cba5f9baa8de896d0056daf777f3e00e56f6e`  
+**PR CI:** #1678 / run `36142537668` — full success  
+**Merged main:** `21955a64728162f8985d04160e8ec683e1238080`  
+**Merged-main CI:** #1679 / run `36143708306` — full success including Cloudflare production smoke
 
-```text
-/artwork/learning-illustrations/<semantic-slug>-v1.svg
-```
+Implemented:
 
-Keep these held with no production activation:
+- semantic illustration provenance registry v2;
+- `preferredProductionFormat=svg`;
+- `runtimeActivation=off`;
+- 14 existing approved WebP bindings preserved as exact history/rollback;
+- 14 canonical SVG target slots marked `migration-ready`;
+- 0 SVG production binaries promoted;
+- 3 held keys stay `review-required` + SVG `held`;
+- validator now supports WebP history plus future approved SVG validation through the shared SVG security foundation;
+- preflight now labels WebP output as historical comparison rather than canonical target format.
 
-```text
-vehicle.car
-object.towel
-object.raincoat
-```
-
-**Do not:** delete the existing 14 WebP production derivatives or activate runtime yet.  
-**Done when:** SVG-aware semantic registry/validator tests pass and held keys remain fail-closed.
+**Session 10 is closed. Start Session 11 only from merged latest main.**
 
 ### Session 11 — Promote the 14 approved semantic SVG sources into production
 
