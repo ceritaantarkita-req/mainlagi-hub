@@ -210,7 +210,7 @@ See `AI_OCR_OPENROUTER.md`.
 
 ## 15. Current execution priority
 
-**Current implementation checkpoint:** Home + Bermain shared-character integration is closed/live verified through Session 09. Session 10 semantic/activity illustration SVG-aware registry migration is also CLOSED / MERGED / LIVE VERIFIED through PR #343 -> implementation main `21955a64728162f8985d04160e8ec683e1238080`; closure docs PR #344 -> verified closure baseline `53e33c6b8ecb737da88af563d310ac486619b206`; closure-main CI #1681 / run `36147457854` full success including Cloudflare production smoke. Next authorized session is Session 11 — promote the exact 14 approved semantic SVG sources into production; runtime activation remains Session 12.
+**Current implementation checkpoint:** Home + Bermain shared-character integration is closed/live verified through Session 09. Session 10 semantic/activity illustration SVG-aware registry migration is closed/live verified, and Session 11 exact semantic SVG production promotion is also CLOSED / MERGED / LIVE VERIFIED through PR #346 -> main `d8992804beb82e553a3965066cf674fbfca9d7b5`, merged-main CI #1685 / run `36157147165` full success including Cloudflare production smoke. Current semantic state is 14 approved SVGs + 14 preserved WebP rollback/history + 3 held + runtime off. Next authorized session is Session 12 — central semantic SVG resolver + controlled runtime activation.
 
 **25 September project-owner override:** Mainlagi World is now treated as a first-class domain of one Mainlagi product system, and character development is resumed for this integration. The 22 September “World separate / character paused” boundary is historical for that earlier workstream.
 
@@ -236,7 +236,7 @@ Current execution order for the World + character program:
 2. exact Drive single-SVG inventory + provenance mapping;
 3. migrate character provenance/validator to the seven-state SVG model;
 4. promote reviewed character SVGs to normalized production paths;
-5. promote the 14 exact reviewed semantic SVG sources into the already-migrated registry v2 production slots (Session 11);
+5. promote the 14 exact reviewed semantic SVG sources into the already-migrated registry v2 production slots — **complete through Session 11**;
 6. implement shared character resolver/layer without touching learning semantics;
 7. expose unified Home with Belajar / World / Bermain;
 8. integrate Petualangan Uang Gavi+Paca through the shared runtime;
