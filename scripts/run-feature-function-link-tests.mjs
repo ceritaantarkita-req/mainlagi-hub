@@ -17,6 +17,11 @@ const expected=new Set([
   "science-feature-bird-beak-seeds",
   "science-feature-cactus-water"
 ]);
+const expectedSemanticKeys=new Map([
+  ["science-feature-fish-gills",{subject:"animal.fish",feature:"feature.gills"}],
+  ["science-feature-bird-beak-seeds",{subject:"animal.bird",feature:"feature.beak"}],
+  ["science-feature-cactus-water",{subject:undefined,feature:"feature.cactus-thick-stem"}]
+]);
 
 const family=ACTIVITIES.filter(activity=>choiceGameplayPresentation(activity)==="feature_function_link");
 assert.equal(family.length,expected.size,"feature-function family size must remain intentional");
@@ -40,6 +45,9 @@ for(const activity of family){
   assert(config.subjectIcon&&config.subjectLabel&&config.featureIcon&&config.featureLabel,`${activity.id} keeps visible organism and feature context`);
   assert.deepEqual(new Set(Object.keys(config.choiceVisuals)),new Set(activity.choices??[]),`${activity.id} visual mapping covers exactly canonical choices`);
   assert(config.choiceVisuals[activity.correctChoice],`${activity.id} canonical function keeps an explicit visual`);
+  const semantic=expectedSemanticKeys.get(activity.id);
+  assert.equal(config.subjectSemanticKey,semantic?.subject,`${activity.id} keeps explicit subject semantic identity only when approved scope exists`);
+  assert.equal(config.featureSemanticKey,semantic?.feature,`${activity.id} keeps explicit feature semantic identity only when approved scope exists`);
 }
 
 const excluded=ACTIVITIES.find(activity=>activity.id==="science-match-feature-function-d");
