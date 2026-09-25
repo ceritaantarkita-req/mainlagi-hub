@@ -4,6 +4,10 @@ Status: **FOUNDATION MERGED / LIVE VERIFIED / CHARACTER DEVELOPMENT RESUMED / SV
 
 This document defines how Mainlagi activity characters sit above the now-live subject-background system.
 
+
+Cross-system asset-format policy: `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`.
+
+
 ## Goal
 
 - keep characters as a dynamic foreground presentation layer;
