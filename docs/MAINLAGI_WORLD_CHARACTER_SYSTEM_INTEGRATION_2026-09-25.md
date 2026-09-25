@@ -79,6 +79,48 @@ Therefore:
 
 ---
 
+## 1.1 Character SVG + state decision lock — 25 September 2026
+
+This section records the project-owner decision made after PR #327. Where this section conflicts with the earlier character-format proposal below, this section is the current decision.
+
+- New Mainlagi character production assets use the reviewed **single-character SVG files directly**.
+- Do not convert the new character bank to WebP as the normal production path.
+- Runtime loads the sanitized SVG as an image asset; do not inject untrusted/raw SVG markup into the DOM.
+- Design-set SVG files and `character-set-collection-mainlagi.ai` remain identity/master references, not runtime sprites.
+- Existing Garden WebP assets for Gavi/Paca remain compatibility fallbacks during migration only.
+- The project owner confirmed the formerly ambiguous Gavi hero source is now `gavi-panel-hero.svg`.
+
+Locked runtime state vocabulary:
+
+```text
+hero
+welcome
+pointing
+thinking
+correct
+try_again
+celebrate
+```
+
+`hero` is the neutral/default state. Source filename `try-again` maps to runtime `try_again`.
+
+Normalized production naming direction:
+
+```text
+/artwork/characters/<character>-hero-v1.svg
+/artwork/characters/<character>-welcome-v1.svg
+/artwork/characters/<character>-pointing-v1.svg
+/artwork/characters/<character>-thinking-v1.svg
+/artwork/characters/<character>-correct-v1.svg
+/artwork/characters/<character>-try-again-v1.svg
+/artwork/characters/<character>-celebrate-v1.svg
+```
+
+Source suffixes such as `sample`, `panel-pose`, `(2)`, `(3)` and `(4)` stay in provenance/source metadata and do not become production path names.
+
+This decision is architecture/documentation authorization only. The current validator, registry and runtime remain unchanged until the implementation wave lands.
+---
+
 # PART A — CURRENT REPOSITORY AUDIT
 
 ## 2. Current `main` state
@@ -561,7 +603,7 @@ Examples:
 Drive asset exists
 ≠ production redistribution approved
 
-Production WebP exists
+Production SVG exists
 ≠ runtime active
 
 Runtime character approved
@@ -628,7 +670,7 @@ Use the following semantic runtime state vocabulary:
 
 ```ts
 type CharacterPresentationState =
-  | "idle"
+  | "hero"
   | "welcome"
   | "pointing"
   | "thinking"
@@ -639,8 +681,7 @@ type CharacterPresentationState =
 
 Notes:
 
-- `idle` is the neutral fallback state;
-- when no separate idle source exists, `idle` may resolve to the approved `welcome` base pose;
+- `hero` is the neutral/default state;
 - Drive filename `try-again` maps to runtime state `try_again`;
 - source filenames do not define runtime API naming;
 - every state is optional until approved.
@@ -650,7 +691,7 @@ Notes:
 ```text
 requested approved state
     ↓ unavailable
-approved idle/welcome for same character
+approved hero/welcome for same character
     ↓ unavailable
 existing approved legacy Gavi/Paca fallback when context permits
     ↓ unavailable
@@ -725,7 +766,7 @@ Recommended schema direction:
     "naya": {
       "identityReference": "...",
       "variants": {
-        "idle": {},
+        "hero": {},
         "welcome": {},
         "pointing": {},
         "thinking": {},
@@ -939,7 +980,7 @@ Recommended defaults:
 | --- | --- |
 | World/catalog entry | `welcome` |
 | Stage map guidance | `pointing` |
-| Story/neutral scene | `idle` |
+| Story/neutral scene | `hero` |
 | Child is considering a challenge | `thinking` |
 | Correct challenge feedback | `correct` |
 | Incorrect/retry feedback | `try_again` |
@@ -1316,8 +1357,8 @@ npm run lint
 
 Actions:
 
-1. export selected approved SVG source poses to deterministic transparent WebP;
-2. meet exact size/dimension contract;
+1. promote the reviewed, sanitized single-character SVG source files directly as canonical production SVG assets;
+2. meet the SVG sanitization, security and normalized-path contract;
 3. bind production SHA/provenance;
 4. intentionally add only reviewed files to `public/artwork/characters/`;
 5. pass blocking validators;
@@ -1371,9 +1412,9 @@ others  -> current approved pairing
 Character state behavior:
 
 ```text
-entry        -> welcome/idle
+entry        -> welcome/hero
 instruction  -> pointing when appropriate
-waiting      -> idle/thinking
+waiting      -> hero/thinking
 correct      -> correct
 retry        -> try_again
 completion   -> celebrate
