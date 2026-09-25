@@ -265,44 +265,66 @@ with no WebP or SVG production binding and `redistributionAllowed=false`.
 
 Canonical closure: `LEARNING_SEMANTIC_SVG_PRODUCTION_SESSION11_CLOSURE_2026-09-25.md`.
 
+## Session 12 runtime checkpoint
+
+**Session 12 is CLOSED / MERGED / LIVE VERIFIED.**
+
+```text
+PR: #348
+final PR head: ace106307d4aca512076d87853659301ecbd0763
+PR CI: #1689 / run 36164884662 — full success
+implementation main: 47b98c4a17bd423ced32eb8fb45658575f83a888
+merged-main CI: #1690 / run 36165969710 — full success
+Production smoke (Cloudflare): success
+
+registry v2
+preferred format: svg
+runtime activation: controlled-svg
+approved SVG bindings: 14
+approved WebP history: 14
+held: 3
+central resolver: active
+```
+
+All 14 approved semantic keys are resolver-addressable. Current explicit visual-token consumer coverage is 13 approved unique keys plus three held fallback keys. `object.umbrella` is the one approved key without a dedicated visual-token placement; do not hide this gap by claiming 14/14 current UI consumption.
+
+Canonical closure: `LEARNING_SEMANTIC_SVG_RUNTIME_SESSION12_CLOSURE_2026-09-25.md`.
+
 ## Next authorized session
 
-### Session 12 — Central semantic SVG runtime resolver + controlled activation
+### Session 13 — Semantic/activity SVG responsive QA + fixes
 
-Session 12 may:
+Session 13 may:
 
-- add a centralized semantic-key → approved SVG resolver;
-- resolve only registry-approved SVG bindings;
-- fail closed to the current canonical glyph/emoji fallback for missing/held/unapproved keys;
-- activate only the 14 approved semantic keys;
-- add permanent resolver/runtime regression coverage.
+- audit exact semantic-key consumer coverage against all 14 approved keys;
+- verify active semantic SVG surfaces at 320 / 390 / 430 / 768 / 1280;
+- fix presentation-only cropping, sizing, overflow, accessibility or containment defects;
+- reconcile the approved `object.umbrella` consumer-coverage gap if a dedicated semantic-token placement is required;
+- add permanent responsive/browser regression coverage.
 
-Session 12 must not:
+Session 13 must not:
 
-- hardcode production SVG paths per activity;
+- add new semantic artwork;
 - approve car/towel/raincoat;
-- delete the existing WebP rollback/history;
+- delete the 14 WebP rollback/history assets;
 - change correctness/mastery/progression/evidence/reward semantics;
 - reopen World, character, Motion Engine, or narration work.
-
-Responsive/browser visual QA remains a later dedicated session.
 
 ## Safe start procedure for the next agent/session
 
 1. Fetch latest `main`.
-2. Confirm this implementation baseline or a newer docs-only descendant.
+2. Confirm Session 12 implementation main `47b98c4a17bd423ced32eb8fb45658575f83a888` or a newer docs-only descendant.
 3. Read:
+   - `LEARNING_SEMANTIC_SVG_RUNTIME_SESSION12_CLOSURE_2026-09-25.md`;
    - `MAINLAGI_WORLD_CHARACTER_SYSTEM_INTEGRATION_2026-09-25.md`;
    - `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`;
-   - `LEARNING_SEMANTIC_P0_PRODUCTION_APPROVAL_INTEGRATION_2026-09-25.md`;
-   - `LEARNING_SEMANTIC_SVG_REGISTRY_SESSION10_CLOSURE_2026-09-25.md`;
+   - `CURRENT_STATE.md`;
    - this checkpoint.
-4. Fetch latest `main` and confirm registry v2 is still 14 migration-ready / 0 SVG approved / 3 held.
-5. Create a new Session 12 branch from latest merged `main`.
-6. Trace the existing semantic visual token/activity consumption path before editing.
-7. Implement one centralized registry-backed semantic SVG resolver; do not hardcode file paths per activity.
-8. Keep held keys on canonical fallback behavior and preserve all learning/evidence semantics.
-9. Require PR CI full green and merged-main exact-SHA Cloudflare smoke before declaring Session 12 live.
+4. Confirm registry v2 still reports 14 approved SVG bindings, 3 held keys and `runtimeActivation=controlled-svg`.
+5. Inventory actual semantic-key consumer placements before editing UI.
+6. Run the 320 / 390 / 430 / 768 / 1280 responsive matrix across every affected semantic surface family.
+7. Keep fixes presentation-only; do not change learning/evidence semantics.
+8. Require PR CI full green and merged-main exact-SHA Cloudflare smoke before declaring Session 13 live.
 
 ## Stop conditions
 
