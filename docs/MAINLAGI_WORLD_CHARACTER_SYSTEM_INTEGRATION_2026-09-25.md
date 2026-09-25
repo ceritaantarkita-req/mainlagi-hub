@@ -1368,26 +1368,47 @@ Design sets, waving extras and the Illustrator collection remain outside runtime
 **Session 04 is closed. Start Session 05 only from merged latest main.**
 
 
-### Session 05 — Implement shared character runtime resolver
+### Session 05 — Implement shared character runtime resolver — COMPLETE
 
-**Do:** implement/evolve:
-- `characterAssets.ts`;
-- shared `characterPresentation.ts`;
-- generic `CharacterLayer`;
-- seven-state resolution;
-- fail-closed fallback.
+**Closure:** `MAINLAGI_SHARED_CHARACTER_RUNTIME_SESSION05_2026-09-25.md`  
+**Base main:** `9b9c28e997374d0dcb15b3796a8c6698097dd234`
 
-Fallback:
+Implemented:
 
 ```text
-requested approved state
--> same-character hero/welcome
--> approved legacy Gavi/Paca fallback where valid
--> hide character
+characterAssets.ts
+  5 × 7 approved SVG state runtime registry
+  approvedCharacterRuntimeAsset()
+  resolveCharacterState()
+  same-identity fail-closed fallback
+
+characterPresentation.ts
+  subject pair policy
+  money-festival cast
+  context -> semantic state
+  authored override
+  cross-identity approved fallback
+
+CharacterLayer.tsx
+  generic 0–2 character renderer
+  stable QA attributes
+  pointer-safe / safe-area-aware
+  reduced-motion-safe
 ```
 
-**Do not:** integrate every product surface yet.  
-**Done when:** resolver/component unit-regression tests pass.
+Regression:
+
+```text
+npm run test:learning:character-runtime
+```
+
+is now part of `npm run test:learning`.
+
+Important compatibility boundary: the old `approvedCharacterRuntimeSrc()` API remains unchanged in this session, so existing Belajar still renders its pre-SVG Gavi/Paca fallback behavior. Session 06 owns the deliberate Belajar migration to the new resolver.
+
+**No Belajar, World, Home, mastery, progression or evidence behavior is changed by Session 05 itself.**
+
+**Session 05 is closed. Start Session 06 only from merged latest main.**
 
 ### Session 06 — Integrate characters into Belajar
 
