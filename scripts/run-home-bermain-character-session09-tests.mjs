@@ -194,6 +194,7 @@ function assertCompletionSourceContract() {
   assert.match(sharedSource, /<CharacterLayer/, "shared RoundEndOverlay renders through CharacterLayer");
   assert.match(sharedSource, /data-mainlagi-play-character-state=/, "shared RoundEndOverlay exposes completion QA state");
   assert.match(preflightSource, /context:\s*"play_entry"/, "preflight resolves Bermain entry state centrally");
+  assert.match(preflightSource, /status === "idle"/, "entry characters must disappear once camera calibration starts");
   assert.doesNotMatch(shellSource, /resolveCharacterPresentation|CharacterLayer/, "GameShell mechanics remain character-policy agnostic");
 }
 
