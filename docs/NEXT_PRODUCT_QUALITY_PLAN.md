@@ -4,19 +4,22 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 
-## 25 September semantic P0 execution boundary — PRODUCTION CLOSED / RUNTIME DISCUSSION NEXT
+## 25 September semantic P0 execution boundary — REGISTRY V2 CLOSED / SESSION 11 NEXT
 
-Verified production truth:
+Verified current truth:
 
-- PR #324 merged to `main` `1e27869dfc71186e83ed8bb0a4dff2ca44dddfc9`;
-- PR CI #1609 / run `36035812364` full success;
-- merged-main CI #1610 / run `36036726413` full success including exact Cloudflare release smoke;
-- 17/17 visual decisions frozen;
-- 14/17 assets production-approved and present as exact SHA-bound WebP binaries;
-- car 499718 / towel 288034 / raincoat 212019 remain held and fail-closed;
-- runtime semantic activation remains 0.
+- historical WebP production integration: PR #324 -> `1e27869dfc71186e83ed8bb0a4dff2ca44dddfc9`;
+- semantic SVG-aware registry migration: PR #343 -> `21955a64728162f8985d04160e8ec683e1238080`;
+- Session 10 implementation CI #1679 / run `36143708306` full success + Cloudflare smoke;
+- Session 10 closure docs PR #344 -> verified closure baseline `53e33c6b8ecb737da88af563d310ac486619b206`;
+- closure main CI #1681 / run `36147457854` full success + Cloudflare smoke;
+- semantic registry version 2 / preferred format SVG / runtime activation off;
+- 14 approved WebP history bindings preserved;
+- 14 SVG slots migration-ready;
+- 0 approved semantic SVG binaries;
+- car / towel / raincoat remain held and fail-closed.
 
-**NEXT DISCUSSION — do not implement automatically:** define the centralized semantic resolver/mapping contract, choose all-14 vs pilot activation scope, preserve explicit fallbacks for the three held keys, confirm allowed learning surfaces, and lock the visual-regression/accessibility rollout gate.
+**NEXT AUTHORIZED WORK — Session 11:** promote exactly the 14 reviewed canonical SVG sources into the prepared registry v2 slots with sanitize/normalize/SHA binding. Keep runtime semantic activation off. Runtime resolver activation remains Session 12.
 
 Safe resume doc: `LEARNING_SEMANTIC_P0_PRODUCTION_SAFE_CHECKPOINT_2026-09-25.md`.
 
