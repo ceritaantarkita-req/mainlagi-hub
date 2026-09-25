@@ -4,22 +4,22 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 
-## 25 September semantic P0 execution boundary — REGISTRY V2 CLOSED / SESSION 11 NEXT
+## 25 September semantic P0 execution boundary — SVG PRODUCTION CLOSED / SESSION 12 NEXT
 
 Verified current truth:
 
 - historical WebP production integration: PR #324 -> `1e27869dfc71186e83ed8bb0a4dff2ca44dddfc9`;
 - semantic SVG-aware registry migration: PR #343 -> `21955a64728162f8985d04160e8ec683e1238080`;
-- Session 10 implementation CI #1679 / run `36143708306` full success + Cloudflare smoke;
-- Session 10 closure docs PR #344 -> verified closure baseline `53e33c6b8ecb737da88af563d310ac486619b206`;
-- closure main CI #1681 / run `36147457854` full success + Cloudflare smoke;
+- exact semantic SVG production promotion: PR #346 -> `d8992804beb82e553a3965066cf674fbfca9d7b5`;
+- Session 11 PR CI #1684 / run `36156244598` full success;
+- Session 11 merged-main CI #1685 / run `36157147165` full success + Cloudflare smoke;
 - semantic registry version 2 / preferred format SVG / runtime activation off;
 - 14 approved WebP history bindings preserved;
-- 14 SVG slots migration-ready;
-- 0 approved semantic SVG binaries;
+- 14 approved semantic SVG binaries;
+- 0 SVG migration-ready slots;
 - car / towel / raincoat remain held and fail-closed.
 
-**NEXT AUTHORIZED WORK — Session 11:** promote exactly the 14 reviewed canonical SVG sources into the prepared registry v2 slots with sanitize/normalize/SHA binding. Keep runtime semantic activation off. Runtime resolver activation remains Session 12.
+**NEXT AUTHORIZED WORK — Session 12:** implement one centralized registry-backed semantic-key → approved SVG resolver, activate only the 14 approved keys, preserve fallback for held/unapproved keys, and keep learning correctness/mastery/progression/evidence unchanged. Do not delete WebP rollback/history in this wave.
 
 Safe resume doc: `LEARNING_SEMANTIC_P0_PRODUCTION_SAFE_CHECKPOINT_2026-09-25.md`.
 
