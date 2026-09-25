@@ -244,9 +244,9 @@ Learning semantic illustrations now have a dedicated fail-closed registry/valida
 
 The registry contains 17 recognition-critical semantic slots. Historical WebP production integration is **merged/live verified through PR #324 -> main `1e27869dfc71186e83ed8bb0a4dff2ca44dddfc9`**. Session 10 migrated the machine contract to SVG-aware registry v2 through PR #343. Session 11 then promoted the exact 14 reviewed canonical SVG sources through PR #346 -> main `d8992804beb82e553a3965066cf674fbfca9d7b5`, merged-main CI #1685 / run `36157147165` with Cloudflare smoke.
 
-Current semantic state is **14 approved WebP history bindings / 14 approved semantic SVG binaries / 0 SVG migration-ready slots / 3 review-required held slots / runtime activation 0**.
+Current semantic state is **14 approved WebP history bindings / 14 approved semantic SVG binaries / 0 SVG migration-ready slots / 3 review-required held slots / runtime activation `controlled-svg`** through Session 12 / PR #348 -> main `47b98c4a17bd423ced32eb8fb45658575f83a888`.
 
-Those 14 WebP files remain verified rollback/history. The 14 SVGs are exact SHA-bound production assets. Session 12 is the authorized central runtime-resolver activation wave. The three held keys remain held; format choice does not override redistribution rights.
+Those 14 WebP files remain verified rollback/history. The 14 SVGs are exact SHA-bound production assets and all 14 approved keys are resolver-addressable through the centralized runtime. The three held keys remain held and fail closed to their existing fallback; format choice does not override redistribution rights. Session 13 owns responsive/browser visual coverage and any presentation-only fixes.
 
 Existing `public/artwork/activity-previews/` files may be recorded as candidate sources, but repository presence and filenames are not provenance approval. Preliminary candidate review may mark a file `visually-suitable` or `rejected`; production approval still requires exact owned/licensed provenance, public redistribution clearance, approved child-readability/semantic review, exact canonical path, technical validation and SHA-256.
 
