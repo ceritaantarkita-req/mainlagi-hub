@@ -116,6 +116,8 @@ correct
 
 activity completion
   -> celebrate
+
+When a canonical correct interaction completes the activity in the same event turn, the provider preserves the `correct` pose for a bounded **550 ms presentation-only handoff** before switching to `celebrate`. Learning completion/progress/evidence is not delayed.
 ```
 
 Events are filtered by exact `childId + activityId`, preventing another child/activity event from changing the current character presentation.
@@ -198,12 +200,15 @@ Representative 390px / reduced-motion flows:
 ```text
 english-letter-a
   hero:       Naya + Zia
+  Dengar:     Naya + Zia pointing
   wrong:      Naya + Zia try_again
+  correct:    Naya + Zia correct
   completion: Naya + Zia celebrate
 
 math-count-3
   hero:       Gian + Paca
   wrong:      Gian + Paca try_again
+  correct:    Gian + Paca correct
   completion: Gian + Paca celebrate
 ```
 
