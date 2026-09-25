@@ -614,53 +614,25 @@ Runtime character approved
 
 ## 14. Existing production character pipeline must be evolved, not replaced
 
-Existing production contract:
+The fail-closed PR #263 pipeline remains the implementation baseline, but the 25 September decision **supersedes its WebP-specific target for new character assets**.
+
+Target production contract for the new character bank:
 
 ```text
-docs/CHARACTER_ASSET_PIPELINE.md
-src/lib/data/character-asset-provenance.json
-public/artwork/characters/
-scripts/validate-character-assets.mjs
-scripts/run-character-asset-validator-tests.mjs
+format:             SVG
+scope:              isolated single-character asset
+background:         transparent/no baked full-canvas background
+viewBox:            required
+scripts/events:     forbidden
+unsafe active DOM:  forbidden
+external refs:      reject unless explicitly reviewed/allowlisted
+runtime loading:    image asset path, not raw SVG injection
+max bytes:          current 1,000,000-byte ceiling until tightened by measured implementation
 ```
 
-Existing pipeline is already fail-closed and should remain so.
+Current PR #263 validator behavior must be migrated before these SVGs can be marked production-approved. Keep provenance and runtime activation as separate gates.
 
-Current technical contract for first human activity foreground assets:
-
-```text
-format:        WebP
-alpha:         required
-min width:     384
-min height:    512
-max dimension: 2048
-max bytes:     1,000,000
-```
-
-Existing fixed base paths:
-
-```text
-/artwork/characters/naya-activity-v1.webp
-/artwork/characters/gian-activity-v1.webp
-/artwork/characters/zia-activity-v1.webp
-```
-
-### Required pipeline evolution
-
-The provenance schema must move from:
-
-```text
-one production binary per human character
-```
-
-to:
-
-```text
-one character
-└── multiple reviewed pose/state variants
-```
-
-Do this as a versioned migration. Do not weaken the existing validator to accept arbitrary public files.
+The provenance schema must move from one production binary per human character to one character with seven reviewed state variants.
 
 ---
 
@@ -704,53 +676,28 @@ Never fall back to a reference-only Naya/Gian/Zia file.
 
 ## 16. Proposed production naming
 
-Keep current v1 base paths for compatibility.
-
-Use the first approved welcome/neutral human pose as:
+New production assets use normalized SVG state paths:
 
 ```text
-naya-activity-v1.webp
-gian-activity-v1.webp
-zia-activity-v1.webp
+/artwork/characters/<id>-hero-v1.svg
+/artwork/characters/<id>-welcome-v1.svg
+/artwork/characters/<id>-pointing-v1.svg
+/artwork/characters/<id>-thinking-v1.svg
+/artwork/characters/<id>-correct-v1.svg
+/artwork/characters/<id>-try-again-v1.svg
+/artwork/characters/<id>-celebrate-v1.svg
 ```
 
-Additional pose derivatives may use:
+Do not preserve Drive working suffixes such as `sample`, `panel-pose`, `(2)`, `(3)` or `(4)` in production filenames. Preserve those exact source names and Drive IDs in provenance metadata.
 
-```text
-naya-pointing-v1.webp
-naya-thinking-v1.webp
-naya-correct-v1.webp
-naya-try-again-v1.webp
-naya-celebrate-v1.webp
-
-gian-pointing-v1.webp
-...
-
-zia-pointing-v1.webp
-...
-```
-
-New Paca/Gavi state derivatives may also live under the production character directory after their exact new source/provenance is approved:
-
-```text
-paca-pointing-v1.webp
-paca-thinking-v1.webp
-...
-gavi-pointing-v1.webp
-gavi-thinking-v1.webp
-...
-```
-
-The existing legacy runtime assets:
+Existing legacy runtime assets remain migration fallbacks:
 
 ```text
 /artwork/garden-paca.webp
 /artwork/garden-gavi.webp
 ```
 
-must remain valid fallback assets during migration.
-
-Do not silently move or delete them in the same wave.
+Do not move/delete the legacy files in the first SVG integration wave.
 
 ---
 
