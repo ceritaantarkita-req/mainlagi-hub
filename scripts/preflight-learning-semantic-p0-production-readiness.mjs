@@ -243,7 +243,7 @@ async function main() {
       );
     }
     console.log(`Held keys excluded: ${HELD_KEYS.join(", ")}`);
-    console.log("No production registry approval, public binary, SVG promotion, or runtime activation will be created.");
+    console.log("No registry mutation, public-file write, or runtime activation will be created by this historical comparison.");
     return;
   }
 
@@ -286,7 +286,7 @@ async function main() {
 
   console.log(`Generated ${items.length} internal historical WebP comparison files at ${outputDir}`);
   console.log(`Held keys intentionally excluded: ${HELD_KEYS.join(", ")}`);
-  console.log("Registry v2 SVG targets remain unpromoted; no public binary or runtime activation was created.");
+  console.log("Registry v2 SVG production bindings remain unchanged; no public production mutation or runtime activation was created.");
 }
 
 main().catch((error) => {
