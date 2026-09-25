@@ -1340,18 +1340,33 @@ The validator/regression suite now understands only the locked five-character/se
 **Session 03 is closed. Start Session 04 only from merged latest main.**
 
 
-### Session 04 — Promote approved character SVGs into production
+### Session 04 — Promote approved character SVGs into production — COMPLETE
 
-**Do:** sanitize, normalize, hash, provenance-bind, and add every approved single-character SVG to `public/artwork/characters/`.
+**Closure:** `MAINLAGI_CHARACTER_SVG_PRODUCTION_SESSION04_2026-09-25.md`  
+**Base main:** `7bb981daa9cb10256640162313c526012b1b2974`
 
-Target: all approved Naya/Gian/Zia/Paca/Gavi state assets from Session 01.
+Verified result:
 
-Keep:
-- design-set SVGs / `.ai` outside runtime;
-- legacy Gavi/Paca WebP unchanged as fallback.
+```text
+5/5 characters
+7/7 locked states each
+35/35 normalized SVG files in public/artwork/characters/
+35/35 lifecycle=approved
+35/35 owned provenance
+35/35 redistributionAllowed=true
+35/35 exact production SHA-256 bindings
+35/35 source SHA == production SHA
+0 runtime activation
+```
 
-**Do not:** activate runtime.  
-**Done when:** production asset validation passes with no stray/unbound file.
+Every production SVG was fetched from the exact Session 01 Drive ID and verified byte-for-byte before commit. No character SVG required rewriting.
+
+Rights basis is recorded as project-owner-created/owned Mainlagi character artwork with explicit project-owner authorization for public-repository redistribution of this exact 35-file state bank.
+
+Design sets, waving extras and the Illustrator collection remain outside runtime. Legacy Garden Gavi/Paca WebP files remain unchanged as migration fallback.
+
+**Session 04 is closed. Start Session 05 only from merged latest main.**
+
 
 ### Session 05 — Implement shared character runtime resolver
 
