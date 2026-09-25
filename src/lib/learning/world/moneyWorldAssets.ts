@@ -96,18 +96,34 @@ export const MONEY_WORLD_ASSET_SLOTS: readonly MoneyWorldAssetSlot[] = [
   {
     id: "paca-ambient",
     kind: "mascot",
-    status: "production-ready",
-    currentSource: "/artwork/characters/paca-hero-v1.svg",
-    usedIn: ["world-hero", "world-map", "stage-shell", "story-role", "completion"],
-    finalRequirement: "Shared approved Paca SVG state bank. Runtime state must resolve through characterPresentation.ts rather than hardcoded file paths."
+    status: "approved-reused",
+    currentSource: "/artwork/garden-paca.webp",
+    usedIn: ["world-hero", "stage-shell", "stage-ambience", "temporary-naya-story-role"],
+    finalRequirement: "Approved pilot mascot. May temporarily present the Naya story role while human character production remains paused."
   },
   {
     id: "gavi-ambient",
     kind: "mascot",
-    status: "production-ready",
-    currentSource: "/artwork/characters/gavi-hero-v1.svg",
-    usedIn: ["world-hero", "world-map", "stage-shell", "story-role", "completion"],
-    finalRequirement: "Shared approved Gavi SVG state bank. Runtime state must resolve through characterPresentation.ts rather than hardcoded file paths."
+    status: "approved-reused",
+    currentSource: "/artwork/garden-gavi.webp",
+    usedIn: ["world-hero", "stage-shell", "stage-ambience", "temporary-gian-story-role"],
+    finalRequirement: "Approved pilot mascot. May temporarily present the Gian story role while human character production remains paused."
+  },
+  {
+    id: "gian-foreground",
+    kind: "character",
+    status: "production-needed",
+    currentSource: "Gian story role -> approved Gavi runtime dummy; no Gian production binary activated",
+    usedIn: ["narrative", "concept", "payoff"],
+    finalRequirement: "Approved foreground character set with consistent pose scale, expression system, and transparent background."
+  },
+  {
+    id: "naya-foreground",
+    kind: "character",
+    status: "production-needed",
+    currentSource: "Naya story role -> approved Paca runtime dummy; no Naya production binary activated",
+    usedIn: ["narrative", "concept", "payoff"],
+    finalRequirement: "Approved foreground character set matching Gian/Paca/Gavi visual universe."
   },
   {
     id: "fixed-narration",
