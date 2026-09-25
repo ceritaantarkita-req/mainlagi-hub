@@ -1,6 +1,6 @@
 # Activity Character Presentation System — 21 September 2026
 
-Status: **FOUNDATION MERGED / LIVE VERIFIED / CHARACTER DEVELOPMENT RESUMED / SVG RUNTIME MIGRATION PENDING**
+Status: **BELAJAR SVG CHARACTER RUNTIME MERGED / LIVE VERIFIED THROUGH SESSION 07 / WORLD INTEGRATION PENDING SESSION 08**
 
 This document defines how Mainlagi activity characters sit above the now-live subject-background system.
 
@@ -241,6 +241,15 @@ Merged-main CI **#1190 / run `35589937017`** passed its then-current quality, bu
 Its historical statements that Naya/Gian/Zia lacked production artwork and that character development was paused were correct for that checkpoint. They are **not current execution instructions** after the project-owner 25 September authorization and Sessions 01–07.
 
 ## Current continuation boundary
+
+Live checkpoint:
+
+```text
+Session 07 PR: #335
+merged main: 1c4ba5f41c554621ee29aeccb6b5b85415a45d55
+merged-main CI: #1651 / run 36106692149 — full success
+Cloudflare production smoke: success
+```
 
 Character source/provenance/production/runtime-foundation work plus Belajar integration and responsive QA is now complete through Session 07.
 

@@ -4,7 +4,11 @@ Date: **25 September 2026**
 Status: **SESSION 07 COMPLETE / RESPONSIVE CHARACTER MATRIX CLEAN / NO CSS CORRECTION REQUIRED**  
 Base main: `edef9ab9b52580e19b8281fa7a473d59197e3625`  
 PR: **#335**  
-Baseline PR CI: **#1646 / run `36104751650` — full success**
+Baseline PR CI: **#1646 / run `36104751650` — full success**  
+Final PR head: `1f0e52a13319b6c7730b825b11e3d8540fc967e0`  
+Final PR CI: **#1650 / run `36105937149` — full success**  
+Merged main: `1c4ba5f41c554621ee29aeccb6b5b85415a45d55`  
+Merged-main CI: **#1651 / run `36106692149` — full success including Production smoke (Cloudflare)**
 
 ## Scope
 
@@ -136,6 +140,8 @@ Session 07 does **not**:
 - alter creative activity semantics.
 
 ## Closure decision
+
+Session 07 is **MERGED / LIVE VERIFIED** on exact production main `1c4ba5f41c554621ee29aeccb6b5b85415a45d55`. Merged-main CI #1651 passed Quality gate, Windows compatibility, Production build, Production dependency audit, Secret history scan, Mobile route QA (Chromium), and exact-SHA Production smoke (Cloudflare).
 
 The Belajar character integration is now responsive-verified and regression-protected.
 
