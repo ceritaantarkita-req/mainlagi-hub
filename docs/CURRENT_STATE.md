@@ -29,10 +29,12 @@ Session 03: character provenance registry v2 implemented
 Session 04: 35/35 exact character SVGs promoted + production-approved
 Session 05: shared state-aware runtime resolver + CharacterLayer implemented
 Session 06: Belajar migrated to shared SVG character runtime
+Session 07: Belajar responsive QA clean at 320/390/430/768/1280
 Registry v2: 5 characters × 7 states = 35 variants
 Production-approved SVG variants: 35/35
 Shared SVG runtime-addressable states: 35/35
 Belajar character resolution: active across 900/900 activities
+Session 07 representative matrix: 7 routes × 5 viewports = 35/35 PASS
 World/Home surface migration: not yet
 ```
 
@@ -54,7 +56,7 @@ design-set SVG + .ai: reference/master only
 legacy Gavi/Paca WebP: compatibility fallback during migration
 ```
 
-This authorization is now implemented through Session 06 for Belajar: all 35 SVGs are production-approved/runtime-addressable and the Belajar activity presentation path uses the shared resolver + CharacterLayer. Product-surface migration remains staged: World is reserved for Session 08 and Home/Bermain shell integration for Session 09.
+This authorization is now implemented through Session 07 for Belajar: all 35 SVGs are production-approved/runtime-addressable, the Belajar activity presentation path uses the shared resolver + CharacterLayer, and the responsive character matrix is clean across 320/390/430/768/1280 on representative Bahasa/English/Math/Science/Iqro/Color/Drawing routes. No Session 07 CSS correction was required. Product-surface migration remains staged: World is reserved for Session 08 and Home/Bermain shell integration for Session 09.
 
 Any lower section that says “World untouched” or “character development paused” describes the boundary of that historical checkpoint and must not be interpreted as the current project-owner instruction.
 
