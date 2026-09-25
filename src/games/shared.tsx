@@ -8,6 +8,8 @@ import type { PlayerId } from "@/lib/engine/types";
 import type { GameSlug } from "@/lib/data/games";
 import type { VisionRuntime } from "@/lib/vision/types";
 import { LeaderboardCapture } from "@/components/LeaderboardCapture";
+import { CharacterLayer } from "@/components/learning/CharacterLayer";
+import { resolveCharacterPresentation } from "@/lib/learning/characterPresentation";
 import { VisionOverlay } from "@/components/VisionOverlay";
 import { useOverlayPrefs } from "@/lib/react/useOverlayPrefs";
 import type { SessionMode } from "./types";
@@ -292,6 +294,12 @@ export function RoundEndOverlay({
   game?: GameSlug;
   durationSeconds?: number;
 }) {
+  const characterPresentation = resolveCharacterPresentation({
+    context: "play_completion",
+    requestedCharacters: ["gavi", "paca"],
+    allowIdentityFallback: false
+  });
+
   const winner =
     playerCount === 1
       ? null
@@ -308,7 +316,16 @@ export function RoundEndOverlay({
       aria-modal="true"
       aria-label={title}
     >
-      <section className="round-end-card">
+      <section
+        className="round-end-card"
+        data-mainlagi-play-character-state={characterPresentation.requestedState}
+      >
+        <div className="round-end-characters" aria-hidden>
+          <CharacterLayer
+            characters={characterPresentation.characters}
+            className="round-end-character-layer"
+          />
+        </div>
         <span className="round-end-mark">✓</span>
         <h2>{title}</h2>
         {winner ? (
