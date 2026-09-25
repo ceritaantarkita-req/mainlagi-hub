@@ -19,7 +19,7 @@ Read these first for current work:
    - [`MAINLAGI_WORLD_CHARACTER_SYSTEM_INTEGRATION_2026-09-25.md`](MAINLAGI_WORLD_CHARACTER_SYSTEM_INTEGRATION_2026-09-25.md) — canonical Sessions 00–16 integration queue and cross-domain boundaries.
    - [`MAINLAGI_WORLD_CHARACTER_INTEGRATION_SESSION08_2026-09-25.md`](MAINLAGI_WORLD_CHARACTER_INTEGRATION_SESSION08_2026-09-25.md) — closed/live-verified PR #337 World shared-character migration.
    - [`MAINLAGI_HOME_BERMAIN_CHARACTER_INTEGRATION_SESSION09_2026-09-25.md`](MAINLAGI_HOME_BERMAIN_CHARACTER_INTEGRATION_SESSION09_2026-09-25.md) — closed/live-verified PR #340 Home + Bermain shared-character integration.
-   - [`MAINLAGI_CHARACTER_WORLD_SAFE_CHECKPOINT_2026-09-25.md`](MAINLAGI_CHARACTER_WORLD_SAFE_CHECKPOINT_2026-09-25.md) — current safe handoff: Sessions 01–10 complete; Session 11 not started.
+   - [`MAINLAGI_CHARACTER_WORLD_SAFE_CHECKPOINT_2026-09-25.md`](MAINLAGI_CHARACTER_WORLD_SAFE_CHECKPOINT_2026-09-25.md) — current safe handoff: Sessions 01–11 complete; Session 12 not started.
 9. [`CHARACTER_ASSET_PIPELINE.md`](CHARACTER_ASSET_PIPELINE.md) — production-only character directory, provenance registry, technical validator and approval sequence.
 10. [`CHARACTER_CANDIDATE_INTAKE_AUDIT_2026-09-21.md`](CHARACTER_CANDIDATE_INTAKE_AUDIT_2026-09-21.md) — historical 21 Sep Drive audit; superseded for current source availability by the 25 Sep isolated five-character SVG bank.
 11. [`CLOUD_ANALYTICS_PAGINATION_CLOSURE_2026-09-21.md`](CLOUD_ANALYTICS_PAGINATION_CLOSURE_2026-09-21.md) — closed/live-verified complete cloud analytics pagination + explicit authenticated failure/retry behavior.
