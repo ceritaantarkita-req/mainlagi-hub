@@ -11,6 +11,49 @@ const sourceRegistry = JSON.parse(
   readFileSync(path.join(repoRoot, "src", "lib", "data", "learning-illustration-asset-provenance.json"), "utf8")
 );
 
+const CLEAR_KEYS = [
+  "action.jump",
+  "animal.bird",
+  "animal.cat",
+  "animal.fish",
+  "body.head",
+  "feature.beak",
+  "feature.cactus-thick-stem",
+  "feature.gills",
+  "object.apple",
+  "object.ball",
+  "object.cup",
+  "object.house",
+  "object.toy-block",
+  "object.umbrella"
+];
+const HELD_KEYS = ["object.raincoat", "object.towel", "vehicle.car"];
+
+assert.equal(sourceRegistry.version, 2, "production semantic registry must use SVG-aware schema v2");
+assert.equal(sourceRegistry.preferredProductionFormat, "svg");
+assert.equal(sourceRegistry.runtimeActivation, "off");
+for (const key of CLEAR_KEYS) {
+  const record = sourceRegistry.items[key];
+  assert.equal(record.lifecycle, "approved", `${key} stays semantically/provenance approved`);
+  assert.equal(record.productionAssets.webp?.status, "approved", `${key} preserves WebP production history`);
+  assert.equal(record.productionAssets.svg?.status, "migration-ready", `${key} must be ready for Session 11 SVG promotion`);
+  assert.equal(
+    record.productionAssets.svg?.expectedPath,
+    `/artwork/learning-illustrations/${key.replaceAll(".", "-")}-v1.svg`
+  );
+  assert.equal(record.productionAssets.svg?.path, null);
+  assert.equal(record.productionAssets.svg?.sha256, null);
+}
+for (const key of HELD_KEYS) {
+  const record = sourceRegistry.items[key];
+  assert.equal(record.lifecycle, "review-required", `${key} remains held`);
+  assert.equal(record.productionAssets.webp, null, `${key} must not gain WebP production binding`);
+  assert.equal(record.productionAssets.svg?.status, "held", `${key} SVG slot remains held`);
+  assert.equal(record.productionAssets.svg?.path, null);
+  assert.equal(record.productionAssets.svg?.sha256, null);
+  assert.equal(record.provenance?.redistributionAllowed, false);
+}
+
 function baselineRegistry() {
   const registry = structuredClone(sourceRegistry);
   for (const record of Object.values(registry.items)) {
