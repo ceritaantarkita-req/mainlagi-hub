@@ -620,6 +620,7 @@ function WorldDragTarget({
   const [matched, setMatched] = useState<string[]>([]);
   const [incorrectCount, setIncorrectCount] = useState(0);
   const [message, setMessage] = useState("Pilih atau seret kartu ke tujuan yang cocok.");
+  const reportCharacterFeedback = useWorldCharacterFeedback();
 
   if (!validation.valid) return <div className={styles.runtimeError}>Payload drag tidak valid.</div>;
 
@@ -630,12 +631,14 @@ function WorldDragTarget({
       setIncorrectCount(nextWrong);
       setMessage(nextWrong >= 2 ? "Lihat angka uang dan angka pada label harga." : "Belum cocok. Coba target lain.");
       playTone("wrong");
+      reportCharacterFeedback("try_again");
       return;
     }
     const next = [...matched, itemId];
     setMatched(next);
     setSelected(null);
     playTone("correct");
+    reportCharacterFeedback("correct");
     if (next.length === items.length) {
       setMessage("Semua kartu sudah cocok!");
       window.setTimeout(onComplete, 450);
@@ -717,6 +720,7 @@ function WorldMatching({
   const [matched, setMatched] = useState<string[]>([]);
   const [incorrectCount, setIncorrectCount] = useState(0);
   const [message, setMessage] = useState("Pilih barang di kiri, lalu pilih harganya di kanan.");
+  const reportCharacterFeedback = useWorldCharacterFeedback();
 
   if (!validation.valid) return <div className={styles.runtimeError}>Payload matching tidak valid.</div>;
 
@@ -728,12 +732,14 @@ function WorldMatching({
       setSelectedPairId(null);
       setMessage(nextWrong >= 2 ? "Ingat harga yang tadi kamu lihat." : "Belum cocok. Coba pasangan lain.");
       playTone("wrong");
+      reportCharacterFeedback("try_again");
       return;
     }
     const next = [...matched, pairId];
     setMatched(next);
     setSelectedPairId(null);
     playTone("correct");
+    reportCharacterFeedback("correct");
     if (next.length === pairs.length) {
       setMessage("Semua pasangan cocok!");
       window.setTimeout(onComplete, 450);
@@ -797,6 +803,7 @@ function WorldCompare({
   const [selected, setSelected] = useState<string | null>(null);
   const [incorrectCount, setIncorrectCount] = useState(0);
   const [message, setMessage] = useState("Bandingkan kedua harga.");
+  const reportCharacterFeedback = useWorldCharacterFeedback();
 
   if (!validation.valid) return <div className={styles.runtimeError}>Payload compare tidak valid.</div>;
 
@@ -807,11 +814,13 @@ function WorldCompare({
       setSelected(optionId);
       setMessage(nextWrong >= 2 ? "Bandingkan angkanya: sepuluh dan dua belas." : "Belum tepat. Coba bandingkan lagi.");
       playTone("wrong");
+      reportCharacterFeedback("try_again");
       return;
     }
     setSelected(optionId);
     setMessage("Betul. Dua belas lebih mahal daripada sepuluh.");
     playTone("correct");
+    reportCharacterFeedback("correct");
     window.setTimeout(onComplete, 450);
   };
 
@@ -855,6 +864,7 @@ function WorldSortClassify({
   const [placed, setPlaced] = useState<Record<string, string>>({});
   const [incorrectCount, setIncorrectCount] = useState(0);
   const [message, setMessage] = useState("Pilih satu kartu, lalu pilih kelompoknya.");
+  const reportCharacterFeedback = useWorldCharacterFeedback();
 
   if (!validation.valid) return <div className={styles.runtimeError}>Payload sort tidak valid.</div>;
 
@@ -865,6 +875,7 @@ function WorldSortClassify({
       setIncorrectCount(nextWrong);
       setMessage(nextWrong >= 2 ? "Perhatikan contoh dan nama kelompoknya." : "Belum tepat. Coba kelompok satunya.");
       playTone("wrong");
+      reportCharacterFeedback("try_again");
       return;
     }
 
@@ -872,6 +883,7 @@ function WorldSortClassify({
     setPlaced(next);
     setSelected(null);
     playTone("correct");
+    reportCharacterFeedback("correct");
     if (Object.keys(next).length === items.length) {
       setMessage("Semua kartu sudah dikelompokkan.");
       window.setTimeout(onComplete, 450);
@@ -941,6 +953,7 @@ function WorldTapChoice({
   const [startedAt] = useState(() => new Date().toISOString());
   const inputModeRef = useRef<MoneyWorldEvidenceInputMode>("button");
   const [message, setMessage] = useState("Pilih jawaban yang paling cocok.");
+  const reportCharacterFeedback = useWorldCharacterFeedback();
 
   if (!validation.valid) return <div className={styles.runtimeError}>Payload pilihan tidak valid.</div>;
 
@@ -955,6 +968,7 @@ function WorldTapChoice({
       setIncorrectCount(nextWrong);
       setMessage(nextWrong >= 2 ? "Dengarkan pertanyaannya lagi, lalu lihat semua pilihan." : "Belum tepat. Coba pilihan lain.");
       playTone("wrong");
+      reportCharacterFeedback("try_again");
       return;
     }
 
@@ -962,6 +976,7 @@ function WorldTapChoice({
     setLocked(true);
     setMessage("Betul!");
     playTone("correct");
+    reportCharacterFeedback("correct");
     window.setTimeout(() => onComplete({
       answerSequence: nextAnswers,
       startedAt,
@@ -1026,6 +1041,7 @@ function WorldOrdering({
   const [order, setOrder] = useState<string[]>([]);
   const [incorrectCount, setIncorrectCount] = useState(0);
   const [message, setMessage] = useState("Sentuh kartu sesuai urutan.");
+  const reportCharacterFeedback = useWorldCharacterFeedback();
 
   if (!validation.valid) return <div className={styles.runtimeError}>Payload urutan tidak valid.</div>;
 
@@ -1038,6 +1054,7 @@ function WorldOrdering({
   const reset = () => {
     setOrder([]);
     setMessage("Mulai lagi dari langkah pertama.");
+    reportCharacterFeedback("try_again");
   };
 
   const check = () => {
@@ -1052,10 +1069,12 @@ function WorldOrdering({
       setOrder([]);
       setMessage(nextWrong >= 2 ? "Coba mulai dari tujuan, lalu simpan sedikit demi sedikit." : "Belum urut. Coba lagi dari awal.");
       playTone("wrong");
+      reportCharacterFeedback("try_again");
       return;
     }
     setMessage("Urutannya tepat!");
     playTone("correct");
+    reportCharacterFeedback("correct");
     window.setTimeout(onComplete, 450);
   };
 
