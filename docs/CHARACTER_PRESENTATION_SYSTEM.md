@@ -1,6 +1,6 @@
 # Activity Character Presentation System — 21 September 2026
 
-Status: **FOUNDATION MERGED / LIVE VERIFIED / HUMAN PRODUCTION ASSETS NOT YET ACTIVATED / CHARACTER DEVELOPMENT PAUSED**
+Status: **FOUNDATION MERGED / LIVE VERIFIED / CHARACTER DEVELOPMENT RESUMED / SVG RUNTIME MIGRATION PENDING**
 
 This document defines how Mainlagi activity characters sit above the now-live subject-background system.
 
