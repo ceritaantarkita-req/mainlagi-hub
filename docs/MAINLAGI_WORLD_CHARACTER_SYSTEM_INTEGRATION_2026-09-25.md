@@ -7,6 +7,26 @@
 **Character source folder:** `https://drive.google.com/drive/folders/1H0fP4cTxWikNaRrerWntQWaxZAi2Zix3`  
 **Primary objective:** make Mainlagi World and the five Mainlagi characters first-class parts of one Mainlagi product system without collapsing World narrative progress into canonical Belajar mastery.
 
+### Current implementation checkpoint — 25 September 2026
+
+The original `Audited HEAD` above records the starting point of this plan. It is **not the current repository head**.
+
+Current live checkpoint:
+
+```text
+Sessions 01–07: COMPLETE
+Session 07 PR: #335
+final PR head: 1f0e52a13319b6c7730b825b11e3d8540fc967e0
+final PR CI: #1650 / run 36105937149 — full success
+merged main: 1c4ba5f41c554621ee29aeccb6b5b85415a45d55
+merged-main CI: #1651 / run 36106692149 — full success
+Cloudflare production smoke: success
+Belajar responsive character matrix: 35/35 PASS
+next authorized session: Session 08 — World shared-character integration
+```
+
+Safe handoff: `MAINLAGI_CHARACTER_WORLD_SAFE_CHECKPOINT_2026-09-25.md`.
+
 ---
 
 ## 0. Executive decision
@@ -1470,7 +1490,11 @@ Full multi-viewport visual polishing remains Session 07.
 **Closure:** `MAINLAGI_BELAJAR_CHARACTER_RESPONSIVE_SESSION07_2026-09-25.md`  
 **Base main:** `edef9ab9b52580e19b8281fa7a473d59197e3625`  
 **PR:** #335  
-**Baseline QA:** CI #1646 / run `36104751650` — full success
+**Baseline QA:** CI #1646 / run `36104751650` — full success  
+**Final PR head:** `1f0e52a13319b6c7730b825b11e3d8540fc967e0`  
+**Final PR CI:** #1650 / run `36105937149` — full success  
+**Merged main:** `1c4ba5f41c554621ee29aeccb6b5b85415a45d55`  
+**Merged-main CI:** #1651 / run `36106692149` — full success including Cloudflare production smoke
 
 Session 07 tested the shared Belajar character presentation at:
 
