@@ -54,30 +54,44 @@ async function seedPrerequisiteReadiness(context){
     const progressKey="mainlagi-learning-progress-v1";
     const attemptsKey="mainlagi-learning-attempts-v1";
     const seeds=[
-      ["english-animal-dog","english.vocab.animals","tap_choice"],
-      ["english-listen-bird","english.vocab.animals","listen_and_choose"],
-      ["english-match-animals-dog-rabbit","english.vocab.animals","matching"],
-      ["english-object-book","english.vocab.objects","tap_choice"],
-      ["english-listen-bag","english.vocab.objects","listen_and_choose"],
-      ["english-match-objects-book-ball","english.vocab.objects","matching"],
-      ["english-body-head","english.vocab.body","tap_choice"],
-      ["english-listen-eyes","english.vocab.body","listen_and_choose"],
-      ["english-match-body-eyes-ears","english.vocab.body","matching"],
-      ["english-family-mother","english.vocab.family","tap_choice"],
-      ["english-listen-sister","english.vocab.family","listen_and_choose"],
-      ["english-match-family-siblings","english.vocab.family","matching"],
-      ["english-review-word-book","english.vocab.everyday_integration","tap_choice"],
-      ["english-review-match-animal-object","english.vocab.everyday_integration","matching"]
+      ["english-find-blue","english.color.blue","tap_choice","english-first-words"],
+      ["english-listen-cat","english.word.cat.listening","listen_and_choose","english-first-words"],
+      ["english-match-hello","english.word.picture_matching","matching","english-first-words"],
+      ["english-letter-a","english.alphabet.recognition","tap_choice","english-alphabet-basics"],
+      ["english-letter-m","english.alphabet.recognition","tap_choice","english-alphabet-basics"],
+      ["english-listen-letter-a","english.alphabet.listening","listen_and_choose","english-alphabet-basics"],
+      ["english-match-case-ab","english.alphabet.recognition","matching","english-alphabet-basics"],
+      ["english-initial-ball","english.phonics.initial_sound","tap_choice","english-alphabet-basics"],
+      ["english-match-initial-bc","english.phonics.initial_sound","matching","english-alphabet-basics"],
+      ["english-find-red","english.color.recognition","tap_choice","english-alphabet-basics"],
+      ["english-listen-yellow","english.color.recognition","listen_and_choose","english-alphabet-basics"],
+      ["english-number-one","english.number.1_5","tap_choice","english-alphabet-basics"],
+      ["english-listen-three","english.number.1_5","listen_and_choose","english-alphabet-basics"],
+      ["english-match-four-five","english.number.1_5","matching","english-alphabet-basics"],
+      ["english-animal-dog","english.vocab.animals","tap_choice","english-everyday-words"],
+      ["english-listen-bird","english.vocab.animals","listen_and_choose","english-everyday-words"],
+      ["english-match-animals-dog-rabbit","english.vocab.animals","matching","english-everyday-words"],
+      ["english-object-book","english.vocab.objects","tap_choice","english-everyday-words"],
+      ["english-listen-bag","english.vocab.objects","listen_and_choose","english-everyday-words"],
+      ["english-match-objects-book-ball","english.vocab.objects","matching","english-everyday-words"],
+      ["english-body-head","english.vocab.body","tap_choice","english-everyday-words"],
+      ["english-listen-eyes","english.vocab.body","listen_and_choose","english-everyday-words"],
+      ["english-match-body-eyes-ears","english.vocab.body","matching","english-everyday-words"],
+      ["english-family-mother","english.vocab.family","tap_choice","english-everyday-words"],
+      ["english-listen-sister","english.vocab.family","listen_and_choose","english-everyday-words"],
+      ["english-match-family-siblings","english.vocab.family","matching","english-everyday-words"],
+      ["english-review-word-book","english.vocab.everyday_integration","tap_choice","english-everyday-words"],
+      ["english-review-match-animal-object","english.vocab.everyday_integration","matching","english-everyday-words"]
     ];
     const requiredIds=seeds.map(([id])=>id);
     localStorage.setItem(progressKey,JSON.stringify({
       [childId]:{completedActivityIds:requiredIds,stars:0,lastActivityId:requiredIds.at(-1)}
     }));
-    const attempts=seeds.map(([seedActivityId,skillId,runtime],index)=>{
+    const attempts=seeds.map(([seedActivityId,skillId,runtime,stageId],index)=>{
       const attemptId=`qa-picture-word-english-prereq-${index}`;
       const completedAt=`2026-09-19T14:${String(index).padStart(2,"0")}:00.000Z`;
       return{
-        id:attemptId,childId,activityId:seedActivityId,subjectId:"english",stageId:"english-everyday-words",
+        id:attemptId,childId,activityId:seedActivityId,subjectId:"english",stageId,
         runtime,difficulty:2,status:"completed",assessed:true,score:1,accuracy:1,
         correctCount:runtime==="matching"?2:1,incorrectCount:0,hintCount:0,retryCount:0,durationMs:1000,inputMode:"touch",
         startedAt:completedAt,completedAt,
@@ -154,6 +168,7 @@ async function inspectSemanticCoverage(){
       const response=await page.goto(`${baseUrl}/child/demo-gian/activity/${item.activityId}`,{waitUntil:"domcontentloaded",timeout:30000});
       assert(response&&response.status()<400,`${item.activityId} English semantic coverage route must load`);
       await waitForScene(page);
+      assert.equal(new URL(page.url()).pathname,`/child/demo-gian/activity/${item.activityId}`,`${item.activityId} must remain on its legitimate unlocked route`);
       const token=page.locator(`[data-learning-semantic-key="${item.semanticKey}"][data-learning-visual-source="semantic-svg"]`);
       assert.equal(await token.count(),1,`${item.activityId} must activate ${item.semanticKey}`);
       const expectedPath=`/artwork/learning-illustrations/${item.semanticKey.replaceAll(".","-")}-v1.svg`;
