@@ -107,9 +107,11 @@ Iqro/Hijaiyah pronunciation requires competent human review. Generic TTS must no
 
 ## Character production assets
 
-Paca and Gavi have production Garden WebP artwork. Naya, Gian and Zia still lack production image files under `public/artwork`; their current fallback representations are not final brand assets.
+Character development is now **resumed/authorized** for the unified Mainlagi integration. Drive contains isolated single-character SVG source assets for Naya, Gian, Zia, Paca and Gavi, including the confirmed `gavi-panel-hero.svg` hero/default source.
 
-Character production/development is **paused by the project owner**. Existing Drive character material is reference-only while paused. When explicitly resumed, the next character-specific gate is to lock production specifications, review candidate artwork, and document provenance/redistribution rights before integration. Child profile identity must remain separate from guide-character identity.
+The new production decision is SVG-native with seven locked states: `hero`, `welcome`, `pointing`, `thinking`, `correct`, `try_again`, `celebrate`. Design-set SVGs and the Illustrator collection remain reference/master material only.
+
+The remaining limitation is implementation, not source availability: the current provenance registry/validator/runtime still reflect the earlier pipeline and must be migrated before any new SVG is production-live. Each exact SVG still needs provenance/redistribution approval, sanitization/security validation, normalized production path, exact hash binding and responsive visual QA. Existing Garden Gavi/Paca WebP assets remain compatibility fallbacks during migration. Child profile identity remains separate from guide-character identity.
 
 ## About, FAQ, and affiliate discoverability
 
