@@ -658,10 +658,20 @@ async function main() {
       const challengeSceneFrame = page.locator('[data-world-scene-frame="money-scene-s01-money-price-match"]');
       await challengeSceneFrame.waitFor();
       assert.equal(await challengeSceneFrame.getAttribute("data-world-scene-presentation"), "activity", "challenge Scene must resolve the reusable activity presentation");
-      assert.ok(await page.locator('[role="img"][aria-label="Gavi"]').count() >= 1, "World activity shell must present approved Gavi artwork");
-      assert.ok(await page.locator('[role="img"][aria-label="Paca"]').count() >= 1, "World activity shell must present approved Paca artwork");
-      assert.equal(await page.locator('[role="img"][aria-label="Gian"]').count(), 0, "World activity shell must not activate fallback Gian artwork");
-      assert.equal(await page.locator('[role="img"][aria-label="Naya"]').count(), 0, "World activity shell must not activate fallback Naya artwork");
+      assert.equal(await worldStageShell.getAttribute("data-world-character-state"), "thinking", "World challenge must use the shared thinking character state");
+      const challengeCharacters = challengeSceneFrame.locator("[data-character-layer] img");
+      assert.equal(await challengeCharacters.count(), 2, "World challenge must render the authored Gavi/Paca pair through one shared CharacterLayer");
+      assert.deepEqual(
+        await challengeCharacters.evaluateAll((items) => items.map((item) => item.getAttribute("data-character-id"))),
+        ["gavi", "paca"],
+        "World challenge must keep the authored Gavi/Paca cast"
+      );
+      assert.deepEqual(
+        await challengeCharacters.evaluateAll((items) => items.map((item) => item.getAttribute("data-character-state"))),
+        ["thinking", "thinking"],
+        "World challenge companion pair must use the thinking SVG state"
+      );
+      assert.equal(await challengeSceneFrame.locator('[data-character-id="gian"], [data-character-id="naya"]').count(), 0, "World challenge must not silently activate Gian/Naya");
       await page.locator('[data-world-audio-id="money-s01-activity-01-prompt"]').waitFor();
       assert.equal(
         await page.locator('[data-world-audio-id="money-s01-activity-01-prompt"]').count(),
