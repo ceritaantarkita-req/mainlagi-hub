@@ -1,6 +1,6 @@
 # Activity Character Presentation System — 21 September 2026
 
-Status: **SHARED SVG CHARACTER RUNTIME MERGED / LIVE VERIFIED THROUGH SESSION 08 / HOME + BERMAIN INTEGRATION PENDING SESSION 09**
+Status: **SHARED SVG CHARACTER RUNTIME MERGED / LIVE VERIFIED THROUGH SESSION 09 / HOME + BERMAIN INTEGRATED**
 
 This document defines how Mainlagi activity characters sit above the now-live subject-background system.
 
@@ -105,6 +105,8 @@ world_catalog        welcome
 world_map            pointing
 world_scene          hero
 world_completion     celebrate
+play_entry            welcome
+play_completion       celebrate
 ```
 
 Unknown World IDs fail closed rather than receiving an invented cast.
@@ -113,7 +115,8 @@ Unknown World IDs fail closed rather than receiving an invented cast.
 
 `CharacterLayer` is a renderer only. It:
 
-- renders zero to two already-resolved foreground characters;
+- renders zero to two already-resolved foreground characters in normal mode;
+- supports an explicit Home-only `ensemble` variant capped at five approved characters;
 - exposes stable ID/state/side/role/source data attributes;
 - is pointer-transparent;
 - uses safe-area-aware anchors;
@@ -162,7 +165,7 @@ completion  -> celebrate
 
 The character system does not use the feedback event to modify curriculum, answers, mastery, evidence, progression, rewards, activity identity, World narrative progress, or child profile identity.
 
-World is now migrated through Session 08. Home/Bermain shell integration remains Session 09.
+World is migrated through Session 08, and Home/Bermain shell integration is closed/live verified through Session 09.
 
 ## Creative workspace rule
 
@@ -200,7 +203,8 @@ Unknown World IDs fail closed to no cast. Product surfaces must not infer a new 
 - English shared resolver policy = Naya + Zia;
 - Math shared resolver policy = Gian + Paca;
 - Petualangan Uang cast remains Gavi + Paca for later World integration;
-- CharacterLayer two-character cap, QA attributes, pointer safety, safe-area and reduced-motion behavior;
+- CharacterLayer normal two-character cap, explicit Home ensemble max-five path, QA attributes, pointer safety, safe-area and reduced-motion behavior;
+- `play_entry` = Gavi + Paca / `welcome` and `play_completion` = Gavi + Paca / `celebrate`;
 - Belajar no longer depends on `approvedCharacterRuntimeSrc()`.
 
 `npm run test:learning:visual-theme` must additionally verify all 900 canonical Belajar activities resolve deterministically to their canonical subject pair using approved SVG `hero` assets at neutral route resolution.
@@ -245,15 +249,15 @@ Its historical statements that Naya/Gian/Zia lacked production artwork and that 
 Live checkpoint:
 
 ```text
-Session 08 PR: #337
-final PR head: 6a728c36f7bc0a1a34c46e2511062df5e2b9af9d
-PR CI: #1663 / run 36120579884 — full success
-merged main: e2e5e4b676ce45313786420708de41731ec2e3cb
-merged-main CI: #1664 / run 36121741946 — full success
+Session 09 PR: #340
+final PR head after main sync: 80e2a7211e6ebe1791370a87790b4c2ff20a621a
+PR CI: #1673 / run 36131389534 — full success
+merged main: 227a77799cd73fecc8e58960ef8758c2e323bc30
+merged-main CI: #1674 / run 36132350678 — full success
 Cloudflare production smoke: success
 ```
 
-Character source/provenance/production/runtime-foundation work, Belajar integration/responsive QA, and Petualangan Uang World presentation migration are complete through Session 08.
+Character source/provenance/production/runtime-foundation work, Belajar integration/responsive QA, Petualangan Uang World presentation migration, and Home/Bermain product-surface integration are complete through Session 09.
 
 World now uses the shared resolver + CharacterLayer for the authored Gavi + Paca cast:
 
@@ -267,11 +271,22 @@ retry                try_again
 stage/final finish   celebrate
 ```
 
+Session 09 Home/Bermain behavior is now locked:
+
+```text
+Home ensemble       Naya + Gian + Paca + Zia + Gavi / hero
+Bermain catalog     Gavi + Paca / welcome
+Bermain preflight   Gavi + Paca / welcome, idle camera state only
+Bermain completion  Gavi + Paca / celebrate
+```
+
+Permanent Session 09 browser regression: `npm run test:ui:home-bermain-character`.
+
 Next:
 
 ```text
-Session 09 -> Home + Bermain shell integration
+Session 10 -> semantic/activity illustration registry SVG-aware production contract
 ```
 
-The five-character homepage hero remains a separate composition/surface task and must use the same approved production identities rather than becoming a new source-of-truth asset.
+Do not use Session 10 to reactivate or redesign the already-closed character/Home/Bermain work.
 
