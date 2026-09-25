@@ -121,6 +121,19 @@ Source suffixes such as `sample`, `panel-pose`, `(2)`, `(3)` and `(4)` stay in p
 This decision is architecture/documentation authorization only. The current validator, registry and runtime remain unchanged until the implementation wave lands.
 ---
 
+## 1.2 Cross-system SVG-first asset rule — 25 September 2026
+
+The SVG-native decision is **not character-only**.
+
+If an exact approved Mainlagi asset already has a clean canonical SVG source, preserve that SVG through production/runtime instead of creating a WebP derivative solely for pipeline consistency. This includes the semantic/activity illustration set where canonical SVG sources already exist.
+
+Raster-native backgrounds and other genuinely raster artwork stay raster/WebP. Existing verified WebPs are not deleted until their replacement path is separately implemented and verified.
+
+For the 14 source/license-clear semantic P0 assets from PR #324, the next target is direct sanitized SVG production binding before broad runtime activation. The three held keys remain held.
+
+Canonical policy: `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`.
+
+---
 # PART A — CURRENT REPOSITORY AUDIT
 
 ## 2. Current `main` state
