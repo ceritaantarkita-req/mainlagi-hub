@@ -21,8 +21,10 @@ const {
   resolveCharacterState
 } = require(path.resolve(".learning-test-dist/src/lib/learning/characterAssets.js"));
 const {
+  BELAJAR_CHARACTER_STATE_BY_MOMENT,
   SUBJECT_CHARACTER_PAIRS,
   WORLD_CHARACTER_CASTS,
+  characterStateForBelajarMoment,
   resolveCharacterPresentation
 } = require(path.resolve(".learning-test-dist/src/lib/learning/characterPresentation.js"));
 
@@ -52,7 +54,8 @@ for (const id of IDS) {
 }
 assert.equal(pathCount, 35, "all 35 approved state assets are runtime-addressable");
 
-// Session 05 must not silently migrate existing Belajar presentation.
+// Historical compatibility API remains stable for callers that have not migrated.
+ // Session 06 Belajar surfaces must no longer depend on this API.
 for (const id of ["naya", "gian", "zia"]) {
   assert.equal(CHARACTER_ASSET_REGISTRY[id].lifecycle, "reference-only");
   assert.equal(approvedCharacterRuntimeSrc(id), null, `${id} legacy compatibility gate remains closed until Session 06`);
@@ -107,6 +110,22 @@ for (const id of ["gavi", "paca"]) {
     states.hero = saved.hero;
     states.welcome = saved.welcome;
   }
+}
+
+assert.deepEqual(
+  BELAJAR_CHARACTER_STATE_BY_MOMENT,
+  {
+    entry: "welcome",
+    guide: "pointing",
+    waiting: "hero",
+    correct: "correct",
+    retry: "try_again",
+    completion: "celebrate"
+  },
+  "Belajar moment-to-state policy stays canonical"
+);
+for (const [moment, state] of Object.entries(BELAJAR_CHARACTER_STATE_BY_MOMENT)) {
+  assert.equal(characterStateForBelajarMoment(moment), state, `${moment} resolves to ${state}`);
 }
 
 assert.deepEqual(SUBJECT_CHARACTER_PAIRS.english, ["naya", "zia"]);
@@ -166,6 +185,26 @@ assert.equal(unknownWorld.characters.length, 0, "unknown World cast fails closed
   }
 }
 
+const providerSource = fs.readFileSync(path.resolve("src/components/learning/ActivityVisualThemeProvider.tsx"), "utf8");
+const bridgeSource = fs.readFileSync(path.resolve("src/components/learning/LearningAttemptBridge.tsx"), "utf8");
+const frameSource = fs.readFileSync(path.resolve("src/components/learning/GardenActivityFrame.tsx"), "utf8");
+const themeSource = fs.readFileSync(path.resolve("src/lib/learning/activityVisualTheme.ts"), "utf8");
+
+assert.match(providerSource, /LEARNING_CHARACTER_PRESENTATION_EVENT/, "activity provider listens to the shared presentation event");
+assert.match(providerSource, /detail\.childId !== childId \|\| detail\.activityId !== activityId/, "activity provider filters feedback by exact child/activity identity");
+assert.match(providerSource, /setMomentState\("entry"\)/, "activity provider starts each activity in entry state");
+assert.match(providerSource, /current === "entry" \? "waiting" : current/, "entry state transitions to waiting without learning-state mutation");
+assert.match(providerSource, /isTransientMoment/, "guide/correct/retry moments are transient");
+assert.match(bridgeSource, /moment: "correct"/, "attempt bridge publishes correct presentation feedback");
+assert.match(bridgeSource, /moment: "retry"/, "attempt bridge publishes retry presentation feedback");
+assert.match(bridgeSource, /moment: "completion"/, "attempt bridge publishes completion presentation feedback");
+assert.match(frameSource, /setCharacterMoment\("guide"\)/, "Dengar action publishes guide presentation state");
+assert.match(frameSource, /!workspace && characterPresentation/, "creative workspaces hide the decorative character layer");
+assert.match(frameSource, /<CharacterLayer characters=\{runtimeCharacters\}/, "Garden frame renders through the shared CharacterLayer");
+assert.doesNotMatch(frameSource, /runtimeCharacters\.map/, "Garden frame must not retain a second character renderer");
+assert.match(themeSource, /resolveCharacterPresentation\(\{ context: "activity", subjectId \}\)/, "Belajar visual theme resolves through the shared character presentation module");
+assert.doesNotMatch(themeSource, /approvedCharacterRuntimeSrc/, "Belajar visual theme must no longer depend on the legacy compatibility API");
+
 const layerSource = fs.readFileSync(path.resolve("src/components/learning/CharacterLayer.tsx"), "utf8");
 const layerCss = fs.readFileSync(path.resolve("src/components/learning/CharacterLayer.module.css"), "utf8");
 assert.match(layerSource, /characters\.slice\(0, 2\)/, "CharacterLayer hard-caps normal foreground rendering at two");
@@ -178,5 +217,5 @@ assert.match(layerCss, /prefers-reduced-motion:\s*reduce/, "character motion res
 assert.match(layerCss, /animation:\s*none\s*!important/, "reduced-motion disables character animation");
 
 console.log(
-  "Character runtime regression passed: 35 provenance-bound SVG states, fail-closed state/identity fallback, shared presentation policy, legacy Belajar compatibility, and CharacterLayer safety contract."
+  "Character runtime regression passed: 35 provenance-bound SVG states, canonical Belajar moment mapping, shared feedback bridge/provider state machine, subject/World presentation policy, and CharacterLayer safety contract."
 );
