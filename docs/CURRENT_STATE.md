@@ -4,6 +4,22 @@ Last reviewed: **25 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
+## 25 September SVG-native asset policy — CURRENT
+
+Project-owner decision: when an approved canonical asset already exists as a production-suitable **SVG**, Mainlagi should integrate that SVG directly rather than rasterizing it to WebP solely for pipeline consistency.
+
+Applies now to:
+
+- the five-character single-SVG state bank;
+- learning semantic/activity illustrations whose approved canonical source is SVG;
+- future vector instructional/semantic assets where SVG is already the correct source format.
+
+Does not force raster artwork such as subject backgrounds to SVG. The current 108 responsive subject-background WebP assets remain valid.
+
+Semantic P0 current factual state remains **14 approved WebP production derivatives / 3 held / 0 runtime semantic activation** from PR #324. Those WebPs are not deleted by this docs decision. The next semantic implementation target is to migrate the 14 source/license-clear SVG-backed assets to direct sanitized SVG production paths before broad runtime activation. `vehicle.car`, `object.towel`, and `object.raincoat` remain held regardless of format.
+
+Canonical policy: `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`.
+
 ## 25 September World + character integration authorization — CURRENT
 
 PR #327 merged `MAINLAGI_WORLD_CHARACTER_SYSTEM_INTEGRATION_2026-09-25.md` and records the project-owner decision that **Mainlagi World is a first-class domain of one Mainlagi product system** and that character development is resumed for the shared Mainlagi integration.
@@ -48,7 +64,7 @@ No runtime mapping was activated. Mainlagi World was not touched; character deve
 
 Canonical integration record: `LEARNING_SEMANTIC_P0_PRODUCTION_APPROVAL_INTEGRATION_2026-09-25.md`. Canonical resume handoff: `LEARNING_SEMANTIC_P0_PRODUCTION_SAFE_CHECKPOINT_2026-09-25.md`.
 
-**Next is discussion, not automatic implementation:** agree the runtime semantic resolver, activation scope, held-key fallback behavior, surface scope, and QA/rollout contract before changing runtime code.
+**Next semantic-art boundary:** migrate the SVG-backed production contract/validator/registry to direct SVG first, then agree/execute runtime semantic resolver activation. Do not activate the existing WebP derivatives merely because they are already production-approved.
 
 ## 24 September semantic P0 Session 3 stock-library freeze — MERGED / LIVE VERIFIED
 
