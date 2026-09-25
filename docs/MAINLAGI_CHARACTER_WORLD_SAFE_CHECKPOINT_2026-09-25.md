@@ -1,17 +1,17 @@
 # Mainlagi Character + World Safe Checkpoint — 25 September 2026
 
-Status: **SAFE HANDOFF / SESSIONS 01–09 COMPLETE / SESSION 10 NOT STARTED**
+Status: **SAFE HANDOFF / SESSIONS 01–10 COMPLETE / SESSION 11 NOT STARTED**
 
 ## Exact live implementation baseline
 
 ```text
 repository: ceritaantarkita-req/mainlagi-hub
 production branch: main
-Session 09 PR: #340
-Session 09 final PR head: 80e2a7211e6ebe1791370a87790b4c2ff20a621a
-Session 09 final PR CI: #1673 / run 36131389534 — full success
-merged implementation main: 227a77799cd73fecc8e58960ef8758c2e323bc30
-merged-main CI: #1674 / run 36132350678 — full success
+Session 10 PR: #343
+Session 10 final PR head: 698cba5f9baa8de896d0056daf777f3e00e56f6e
+Session 10 final PR CI: #1678 / run 36142537668 — full success
+merged implementation main: 21955a64728162f8985d04160e8ec683e1238080
+merged-main CI: #1679 / run 36143708306 — full success
 Production smoke (Cloudflare): success
 ```
 
@@ -29,6 +29,7 @@ Session 06  Belajar integration
 Session 07  Belajar responsive QA
 Session 08  Mainlagi World shared-character integration
 Session 09  Home + Bermain shared-character integration
+Session 10  semantic illustration registry SVG-aware v2 migration
 ```
 
 Current character bank:
@@ -226,32 +227,82 @@ Session 09 did not modify Motion Engine/game mechanics, Belajar mastery/progress
 
 Canonical closure: `MAINLAGI_HOME_BERMAIN_CHARACTER_INTEGRATION_SESSION09_2026-09-25.md`.
 
-## Next authorized session
+## Session 10 semantic SVG registry truth
 
-### Session 10 — Semantic/activity illustration registry SVG-aware production migration
+**Session 10 is CLOSED / MERGED / LIVE VERIFIED.**
 
-Session 10 is a separate semantic-illustration infrastructure session.
+Current semantic registry machine truth:
 
-It may:
+```text
+version: 2
+preferredProductionFormat: svg
+runtimeActivation: off
 
-- migrate semantic illustration provenance/validator/registry contracts to direct sanitized SVG production paths;
-- preserve the existing 14 clear semantic P0 items as eligible for SVG production migration;
-- keep the existing WebP derivatives as rollback/history during migration.
+approved WebP history: 14
+SVG migration-ready: 14
+approved SVG binaries: 0
+held SVG slots: 3
+```
 
-It must not:
+The 14 clear semantic P0 keys preserve the exact approved WebP history from PR #324 and now have canonical SVG target slots:
 
-- activate semantic illustrations into child runtime yet;
-- change activity correctness/mastery/progression/evidence;
-- reopen character runtime behavior from Sessions 01–09;
-- clear the three held assets without new rights evidence.
+```text
+/artwork/learning-illustrations/<semantic-slug>-v1.svg
+```
 
-Held keys remain fail-closed:
+Their Session 10 SVG state is:
+
+```text
+status: migration-ready
+path: null
+sha256: null
+```
+
+The three held keys remain:
 
 ```text
 vehicle.car
 object.towel
 object.raincoat
 ```
+
+with:
+
+```text
+lifecycle: review-required
+WebP binding: null
+SVG status: held
+SVG path: null
+SVG sha256: null
+redistributionAllowed: false
+```
+
+The validator now supports future approved SVGs using the shared SVG security foundation while still validating the 14 existing WebP binaries. No child-facing semantic runtime changed.
+
+Canonical closure: `LEARNING_SEMANTIC_SVG_REGISTRY_SESSION10_CLOSURE_2026-09-25.md`.
+
+## Next authorized session
+
+### Session 11 — Promote the 14 approved semantic SVG sources into production
+
+Session 11 may:
+
+- use the exact 14 already-reviewed canonical SVG sources;
+- sanitize each with `scripts/lib/svg-asset-security.mjs`;
+- normalize each into `/artwork/learning-illustrations/<semantic-slug>-v1.svg`;
+- calculate and bind exact SHA-256 values;
+- move exactly those 14 registry v2 SVG slots from `migration-ready` to `approved`;
+- preserve existing WebP binaries as rollback/history.
+
+Session 11 must not:
+
+- activate the semantic SVG resolver in child runtime;
+- change activity correctness/mastery/progression/evidence;
+- clear car/towel/raincoat without new rights evidence;
+- delete the existing WebP history;
+- reopen character, World, Motion Engine, or narration work.
+
+Runtime activation remains Session 12.
 
 ## Safe start procedure for the next agent/session
 
@@ -261,18 +312,18 @@ object.raincoat
    - `MAINLAGI_WORLD_CHARACTER_SYSTEM_INTEGRATION_2026-09-25.md`;
    - `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`;
    - `LEARNING_SEMANTIC_P0_PRODUCTION_APPROVAL_INTEGRATION_2026-09-25.md`;
-   - `MAINLAGI_HOME_BERMAIN_CHARACTER_INTEGRATION_SESSION09_2026-09-25.md`;
+   - `LEARNING_SEMANTIC_SVG_REGISTRY_SESSION10_CLOSURE_2026-09-25.md`;
    - this checkpoint.
-4. Trace the current semantic illustration registry/provenance/validator code before editing.
-5. Create a new Session 10 branch from latest merged `main`.
-6. Keep the 14 current source/license-clear semantic P0 items and the 3 held items distinct.
-7. Add SVG-aware registry/validator tests before any production promotion.
-8. Do not activate runtime semantic rendering in Session 10.
-9. Require PR CI full green and merged-main exact-SHA Cloudflare smoke before declaring Session 10 live.
+4. Fetch latest `main` and confirm registry v2 is still 14 migration-ready / 0 SVG approved / 3 held.
+5. Create a new Session 11 branch from latest merged `main`.
+6. Acquire/use only the exact 14 already-reviewed canonical source SVGs from the approved source records.
+7. Sanitize, normalize, hash-bind, and promote exactly those 14 SVG slots.
+8. Keep runtime semantic rendering off in Session 11.
+9. Require PR CI full green and merged-main exact-SHA Cloudflare smoke before declaring Session 11 live.
 
 ## Stop conditions
 
-Stop and request a separate decision instead of silently changing scope if Session 10 would require:
+Stop and request a separate decision instead of silently changing scope if Session 11 would require:
 
 - a World, Home, Bermain or Belajar behavior rewrite;
 - a progression/evidence schema change;
@@ -281,6 +332,7 @@ Stop and request a separate decision instead of silently changing scope if Sessi
 - global age-range expansion;
 - Motion Engine or game-mechanic changes;
 - narration activation;
-- semantic runtime activation that belongs to later Sessions 11–13.
+- semantic runtime activation that belongs to Session 12 or later;
+- deleting the existing WebP rollback/history in the SVG promotion wave.
 
-This checkpoint is the safe handoff between **closed Session 09** and **not-yet-started Session 10**.
+This checkpoint is the safe handoff between **closed Session 10** and **not-yet-started Session 11**.
