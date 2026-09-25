@@ -24,6 +24,7 @@ import {
 
 const ENTRY_TO_WAITING_MS = 1200;
 const TRANSIENT_MOMENT_MS = 1100;
+const CORRECT_TO_COMPLETION_MS = 550;
 
 const ActivityVisualThemeContext = createContext<ResolvedActivityVisualTheme | null>(null);
 
@@ -52,6 +53,7 @@ export function ActivityVisualThemeProvider({
   children: ReactNode;
 }) {
   const [moment, setMomentState] = useState<BelajarCharacterMoment>("entry");
+  const momentRef = useRef<BelajarCharacterMoment>("entry");
   const resetTimerRef = useRef<ReturnType<typeof window.setTimeout> | null>(null);
 
   const clearResetTimer = useCallback(() => {
@@ -63,10 +65,15 @@ export function ActivityVisualThemeProvider({
 
   const setMoment = useCallback((next: BelajarCharacterMoment) => {
     clearResetTimer();
+    momentRef.current = next;
     setMomentState(next);
     if (isTransientMoment(next)) {
       resetTimerRef.current = window.setTimeout(() => {
-        setMomentState((current) => current === next ? "waiting" : current);
+        setMomentState((current) => {
+          if (current !== next) return current;
+          momentRef.current = "waiting";
+          return "waiting";
+        });
         resetTimerRef.current = null;
       }, TRANSIENT_MOMENT_MS);
     }
@@ -74,9 +81,14 @@ export function ActivityVisualThemeProvider({
 
   useEffect(() => {
     clearResetTimer();
+    momentRef.current = "entry";
     setMomentState("entry");
     resetTimerRef.current = window.setTimeout(() => {
-      setMomentState((current) => current === "entry" ? "waiting" : current);
+      setMomentState((current) => {
+        if (current !== "entry") return current;
+        momentRef.current = "waiting";
+        return "waiting";
+      });
       resetTimerRef.current = null;
     }, ENTRY_TO_WAITING_MS);
     return clearResetTimer;
@@ -86,11 +98,20 @@ export function ActivityVisualThemeProvider({
     const onPresentation = (event: Event) => {
       const detail = (event as CustomEvent<LearningCharacterPresentationDetail>).detail;
       if (!detail || detail.childId !== childId || detail.activityId !== activityId) return;
+      if (detail.moment === "completion" && momentRef.current === "correct") {
+        clearResetTimer();
+        resetTimerRef.current = window.setTimeout(() => {
+          momentRef.current = "completion";
+          setMomentState("completion");
+          resetTimerRef.current = null;
+        }, CORRECT_TO_COMPLETION_MS);
+        return;
+      }
       setMoment(detail.moment);
     };
     window.addEventListener(LEARNING_CHARACTER_PRESENTATION_EVENT, onPresentation);
     return () => window.removeEventListener(LEARNING_CHARACTER_PRESENTATION_EVENT, onPresentation);
-  }, [activityId, childId, setMoment]);
+  }, [activityId, childId, clearResetTimer, setMoment]);
 
   const presentation = useMemo<ResolvedCharacterPresentation | null>(() => {
     if (!visualTheme) return null;
