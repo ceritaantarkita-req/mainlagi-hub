@@ -234,6 +234,16 @@ Do not mix several unrelated icon styles in one surface.
 
 VUI-03 public child/parent path icons use canonical `Icon` assets rather than raw semantic emoji/text symbols.
 
+### SVG-native vector asset rule
+
+For reusable vector artwork, preserve the canonical SVG directly when it is already visually approved and production-suitable. Do not rasterize an SVG to WebP solely because an older asset pipeline expected raster output.
+
+This applies to character art and semantic/activity illustrations with canonical SVG sources. Raster-native scene/background artwork remains raster/WebP.
+
+SVG production use still requires provenance, sanitization/security validation, normalized paths, exact hash binding and actual-size visual QA. See `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`.
+
+The already-merged semantic P0 WebPs remain historical/current fallback assets until the direct-SVG migration is implemented and verified.
+
 ## 11. Characters and artwork
 
 Gavi/Paca and approved Garden artwork are brand assets, not filler.
