@@ -16,33 +16,34 @@ Applies now to:
 
 Does not force raster artwork such as subject backgrounds to SVG. The current 108 responsive subject-background WebP assets remain valid.
 
-Semantic P0 production contract is now **registry v2 / SVG-preferred / runtime activation off** through Session 11 / PR #346. The 14 source/license-clear records preserve their exact approved WebP production history and now also bind canonical approved SVG production files at `/artwork/learning-illustrations/<semantic-slug>-v1.svg`. Current state is **14 approved WebP history bindings / 14 approved SVG binaries / 0 SVG migration-ready slots / 3 held / 0 runtime semantic activation**. `vehicle.car`, `object.towel`, and `object.raincoat` remain held regardless of format.
+Semantic P0 production/runtime contract is now **registry v2 / SVG-preferred / controlled SVG runtime active** through Session 12 / PR #348. The 14 source/license-clear records preserve their exact approved WebP history and bind canonical approved SVG production files at `/artwork/learning-illustrations/<semantic-slug>-v1.svg`. The central resolver is active, all 14 approved keys are resolver-addressable, and the three held keys remain fail-closed. Current explicit visual-token consumers cover 13 approved unique keys plus the three held fallback keys; approved `object.umbrella` is resolver-addressable but has no dedicated visual-token placement yet. `vehicle.car`, `object.towel`, and `object.raincoat` remain held regardless of format.
 
 Canonical policy: `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`.
 
-## 25 September semantic SVG production checkpoint — LIVE VERIFIED THROUGH SESSION 11
+## 25 September semantic SVG runtime checkpoint — LIVE VERIFIED THROUGH SESSION 12
 
 ```text
-Session 11 PR: #346
-Session 11 final PR head: 32e84d08ad43e172935dd6fb6a63f08567ac9549
-Session 11 PR CI: #1684 / run 36156244598 — full success
-Session 11 implementation main: d8992804beb82e553a3965066cf674fbfca9d7b5
-Session 11 merged-main CI: #1685 / run 36157147165 — full success
-Session 11 Production smoke (Cloudflare): success
+Session 12 PR: #348
+Session 12 final PR head: ace106307d4aca512076d87853659301ecbd0763
+Session 12 PR CI: #1689 / run 36164884662 — full success
+Session 12 implementation main: 47b98c4a17bd423ced32eb8fb45658575f83a888
+Session 12 merged-main CI: #1690 / run 36165969710 — full success
+Session 12 Production smoke (Cloudflare): success
 
 semantic registry: version 2
 preferred production format: svg
-runtime activation: off
+runtime activation: controlled-svg
 approved WebP history: 14
 approved SVG binaries: 14
 SVG migration-ready: 0
 held SVG slots: 3
-next: Session 12 — central semantic SVG runtime resolver + controlled activation
+central semantic resolver: active
+next: Session 13 — semantic/activity SVG responsive QA + fixes
 ```
 
-Canonical closure: `LEARNING_SEMANTIC_SVG_PRODUCTION_SESSION11_CLOSURE_2026-09-25.md`.
+Canonical Session 12 closure: `LEARNING_SEMANTIC_SVG_RUNTIME_SESSION12_CLOSURE_2026-09-25.md`. Historical Session 11 closure remains `LEARNING_SEMANTIC_SVG_PRODUCTION_SESSION11_CLOSURE_2026-09-25.md`.
 
-Session 11 promoted only the exact 14 already-reviewed canonical SVG sources. It did not activate semantic SVGs in child runtime or change learning semantics.
+Session 12 activated only the centralized registry-backed SVG resolver/presentation path. It did not change correctness, mastery, progression, evidence, rewards, schema, World, character runtime, Motion Engine or narration/audio behavior.
 
 ## 25 September semantic SVG registry checkpoint — LIVE VERIFIED THROUGH SESSION 10
 
@@ -85,7 +86,7 @@ Session 09 merged main: 227a77799cd73fecc8e58960ef8758c2e323bc30
 Session 09 merged-main CI: #1674 / run 36132350678 — full success
 Session 09 Production smoke (Cloudflare): success
 Sessions 01–09: COMPLETE
-Sessions 10–11 semantic SVG registry + production promotion: COMPLETE; semantic runtime still OFF
+Sessions 10–12 semantic SVG registry + production + controlled runtime activation: COMPLETE
 ```
 
 The exact repository `main` HEAD may move through later docs-only descendants. Treat `227a77799cd73fecc8e58960ef8758c2e323bc30` as the verified Session 09 runtime checkpoint and query `main` itself when an exact latest repository HEAD is required.
