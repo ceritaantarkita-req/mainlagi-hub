@@ -158,6 +158,15 @@ try {
   assert.doesNotMatch(worldRuntimeCss, /\.stageRuntime\[data-stage-order="[1-8]"\]\s*\{\s*--world-scene-wide/, "Stage background selection must not return to per-order CSS hardcoding");
   assert.match(worldRuntimeSource, /getMoneyWorldPilotStage\(stageId\)/, "Stage runtime must resolve its pilot production manifest");
   assert.match(worldRuntimeSource, /<WorldSceneRenderer/, "Petualangan Uang must render through the reusable Scene presentation layer");
+  assert.match(worldRuntimeSource, /<CharacterLayer/, "Money World must render characters through the shared CharacterLayer");
+  assert.match(worldRuntimeSource, /resolveCharacterPresentation/, "Money World must resolve characters through the shared presentation resolver");
+  assert.doesNotMatch(worldRuntimeSource, /<CharacterAvatar/, "Money World must not retain legacy CharacterAvatar rendering");
+  assert.match(worldRuntimeSource, /data-world-character-state/, "World surfaces must expose resolved character state for QA");
+  assert.match(worldRuntimeSource, /worldComplete \? "world_completion" : "world_map"/, "completed World map must switch the shared cast from pointing to celebrate");
+  assert.match(worldRuntimeSource, /reportCharacterFeedback\("try_again"\)/, "World generic mechanics must publish retry presentation feedback");
+  assert.match(worldRuntimeSource, /reportCharacterFeedback\("correct"\)/, "World generic mechanics must publish correct presentation feedback");
+  assert.match(worldRuntimeCss, /\.completionCharacters/, "World completion must retain a contained shared character slot");
+  assert.match(worldRuntimeCss, /@media \(max-width: 1100px\)[\s\S]*\.stageShellCharacters[\s\S]*position:\s*relative/, "World mobile companion characters must move into flow instead of overlaying controls");
   assert.doesNotMatch(worldRuntimeSource, /showAmbientGuides/, "Scene companion policy must not be hardcoded in Petualangan Uang runtime");
   assert.match(worldRuntimeSource, /MONEY_WORLD_CHAPTERS/, "World runtime must derive visible Chapter navigation from the canonical Chapter registry");
   assert.match(worldRuntimeSource, /data-world-chapter-id/, "World map and Stage shell must expose canonical Chapter identity for QA");
@@ -819,10 +828,12 @@ try {
   assert.equal(social.MONEY_WORLD_SOCIAL_CARD.containsAccountIdentity, false);
 
   assert.equal(assets.MONEY_WORLD_ASSET_PLAN_VERSION, "money-world-assets-v1");
-  assert.equal(assets.MONEY_WORLD_RUNTIME_CHARACTER_POLICY.version, "money-world-runtime-character-dummy-v1");
-  assert.equal(assets.MONEY_WORLD_RUNTIME_CHARACTER_POLICY.mode, "approved-mascot-dummy");
+  assert.equal(assets.MONEY_WORLD_RUNTIME_CHARACTER_POLICY.version, "money-world-shared-character-runtime-v2");
+  assert.equal(assets.MONEY_WORLD_RUNTIME_CHARACTER_POLICY.mode, "shared-approved-svg-cast");
+  assert.equal(assets.MONEY_WORLD_RUNTIME_CHARACTER_POLICY.worldId, "money-festival");
+  assert.deepEqual(assets.MONEY_WORLD_RUNTIME_CHARACTER_POLICY.cast, ["gavi", "paca"]);
   assert.deepEqual(assets.MONEY_WORLD_RUNTIME_CHARACTER_POLICY.storyRoleToRuntimeCharacter, { Gian: "gavi", Naya: "paca" });
-  assert.equal(assets.MONEY_WORLD_RUNTIME_CHARACTER_POLICY.finalHumanCharactersActivated, false, "World runtime must not activate fallback human characters while character development is paused");
+  assert.equal(assets.MONEY_WORLD_RUNTIME_CHARACTER_POLICY.finalHumanCharactersActivated, false, "Petualangan Uang must keep its authored Gavi/Paca cast instead of silently switching to human characters");
   assert.equal(new Set(assets.MONEY_WORLD_ASSET_SLOTS.map((slot) => slot.id)).size, assets.MONEY_WORLD_ASSET_SLOTS.length, "World asset slot IDs must stay unique");
   for (const asset of assets.MONEY_WORLD_REUSED_PUBLIC_ASSET_PATHS) {
     assert.equal(existsSync(path.join(root, asset)), true, "World visual/share asset missing: " + asset);

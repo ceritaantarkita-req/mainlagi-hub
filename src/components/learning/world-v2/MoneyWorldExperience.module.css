@@ -120,16 +120,12 @@
 }
 
 .heroCharacters {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 0;
-  min-height: 180px;
-  transform: scale(1.08);
+  position: relative;
+  min-height: 200px;
 }
 
-.heroCharacters > span:nth-child(2) {
-  margin-left: -12px;
+.heroCharacterLayer [data-character-id] {
+  filter: drop-shadow(0 12px 10px rgba(32, 67, 50, .13));
 }
 
 .worldCardMeta {
@@ -417,6 +413,17 @@
   display: grid;
   justify-items: center;
   gap: 10px;
+}
+
+.storyCharacterArt {
+  position: relative;
+  width: min(180px, 100%);
+  height: 190px;
+}
+
+.storyCharacterLayer [data-character-id] {
+  width: min(150px, 82%);
+  filter: drop-shadow(0 12px 10px rgba(32, 67, 50, .13));
 }
 
 .storyCharacter strong {
@@ -880,6 +887,18 @@
 
 .completionStars svg {
   animation: starPop .5s both cubic-bezier(.2,.9,.3,1.4);
+}
+
+.completionCharacters {
+  position: relative;
+  width: min(380px, 100%);
+  height: 160px;
+  margin-top: 8px;
+}
+
+.completionCharacterLayer [data-character-id] {
+  width: clamp(96px, 18vw, 150px);
+  filter: drop-shadow(0 12px 10px rgba(32, 67, 50, .13));
 }
 
 @keyframes starPop {
@@ -2518,27 +2537,9 @@
   pointer-events: none;
 }
 
-.stageShellCharacterLeft,
-.stageShellCharacterRight {
-  position: absolute;
-  bottom: 13%;
+.stageCharacterLayer [data-character-id] {
+  width: clamp(96px, 13vw, 170px);
   filter: drop-shadow(0 16px 12px rgba(32, 67, 50, .16));
-}
-
-.stageShellCharacterLeft {
-  left: clamp(18px, 3vw, 58px);
-  transform: rotate(-2deg) scale(1.2);
-}
-
-.stageShellCharacterRight {
-  right: clamp(18px, 3vw, 58px);
-  transform: rotate(2deg) scale(1.2);
-}
-
-.stageShellCharacterLeft > span,
-.stageShellCharacterRight > span {
-  background: transparent !important;
-  box-shadow: none !important;
 }
 
 .stageRuntime[data-world-stage-shell="garden-baseline-v1"] .storyScene,
@@ -2561,7 +2562,16 @@
 
 @media (max-width: 1100px) {
   .stageShellCharacters {
-    display: none;
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: 128px;
+    margin: 2px 0 4px;
+    z-index: 2;
+  }
+
+  .stageCharacterLayer [data-character-id] {
+    width: clamp(78px, 18vw, 126px);
   }
 }
 

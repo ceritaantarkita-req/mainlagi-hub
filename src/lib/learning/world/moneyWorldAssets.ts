@@ -16,14 +16,16 @@ export interface MoneyWorldAssetSlot {
 export const MONEY_WORLD_ASSET_PLAN_VERSION = "money-world-assets-v1";
 
 export const MONEY_WORLD_RUNTIME_CHARACTER_POLICY = {
-  version: "money-world-runtime-character-dummy-v1",
-  mode: "approved-mascot-dummy",
+  version: "money-world-shared-character-runtime-v2",
+  mode: "shared-approved-svg-cast",
+  worldId: "money-festival",
+  cast: ["gavi", "paca"] as const,
   storyRoleToRuntimeCharacter: {
     Gian: "gavi",
     Naya: "paca"
   },
   finalHumanCharactersActivated: false,
-  rationale: "Character development is paused. Use approved Gavi/Paca production assets to validate the World shell without activating fallback human artwork."
+  rationale: "Petualangan Uang keeps its authored Gavi/Paca cast and now resolves every World character presentation through the shared approved SVG character runtime."
 } as const;
 
 export const MONEY_WORLD_ASSET_SLOTS: readonly MoneyWorldAssetSlot[] = [

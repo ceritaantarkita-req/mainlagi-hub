@@ -13,6 +13,8 @@ import {
 } from "@phosphor-icons/react";
 import {
   Fragment,
+  createContext,
+  useContext,
   useEffect,
   useMemo,
   useRef,
@@ -20,8 +22,13 @@ import {
   type CSSProperties,
   type DragEvent
 } from "react";
-import { CharacterAvatar } from "@/components/learning/LearningCommon";
+import { CharacterLayer } from "@/components/learning/CharacterLayer";
 import { WorldSceneRenderer } from "@/components/learning/world/WorldSceneRenderer";
+import type { CharacterPresentationState } from "@/lib/learning/characterAssets";
+import {
+  resolveCharacterPresentation,
+  type ResolvedCharacterPresentation
+} from "@/lib/learning/characterPresentation";
 import { MONEY_WORLD_PILOT_AGE_BAND } from "@/lib/learning/world/moneyWorldPresentation";
 import { MONEY_WORLD_RUNTIME_CHARACTER_POLICY } from "@/lib/learning/world/moneyWorldAssets";
 import { audioStatus, playTone, unlockAudio, warmAudio, type SpeechStartStatus } from "@/lib/audio/feedback";
@@ -87,6 +94,32 @@ type MoneyWorldActivityCompletion = Omit<
   MoneyWorldEvidenceCompletionObservation,
   "childId"
 >;
+
+type MoneyWorldCharacterFeedbackState = "correct" | "try_again";
+
+
+const WorldCharacterFeedbackContext = createContext<(state: MoneyWorldCharacterFeedbackState) => void>(() => {});
+
+function useWorldCharacterFeedback() {
+  return useContext(WorldCharacterFeedbackContext);
+}
+
+function resolveMoneyWorldCharacterPresentation(
+  context: "world_catalog" | "world_map" | "world_scene" | "world_completion",
+  requestedState?: CharacterPresentationState
+): ResolvedCharacterPresentation {
+  return resolveCharacterPresentation({
+    context,
+    worldId: MONEY_WORLD_ID,
+    requestedState
+  });
+}
+
+function segmentDefaultCharacterState(segmentType: string): CharacterPresentationState {
+  return segmentType === "activity" || segmentType === "narrative_choice" || segmentType === "recap"
+    ? "thinking"
+    : "hero";
+}
 
 function runtimeCharacterForStoryRole(speaker: MoneyWorldStorySpeaker) {
   const id = MONEY_WORLD_RUNTIME_CHARACTER_POLICY.storyRoleToRuntimeCharacter[speaker];
@@ -174,17 +207,27 @@ function useMoneyWorldProgress(childId: string) {
   return { progress, ready, settled };
 }
 
-function WorldHero({ compact = false }: { compact?: boolean }) {
+function WorldHero({
+  compact = false,
+  context = "world_catalog"
+}: {
+  compact?: boolean;
+  context?: "world_catalog" | "world_map" | "world_completion";
+}) {
+  const presentation = resolveMoneyWorldCharacterPresentation(context);
   return (
-    <div className={cx(styles.worldHero, compact && styles.worldHeroCompact)}>
+    <div
+      className={cx(styles.worldHero, compact && styles.worldHeroCompact)}
+      data-world-character-state={presentation.requestedState}
+      data-world-character-source={presentation.source}
+    >
       <div className={styles.worldHeroCopy}>
         <span className={styles.eyebrow}>Mainlagi World</span>
         <h1>Petualangan Uang</h1>
         <p>Bantu Gavi dan Paca menyiapkan Festival Mainlagi!</p>
       </div>
-      <div className={styles.heroCharacters} aria-label="Gavi dan Paca">
-        <CharacterAvatar id="gavi" large />
-        <CharacterAvatar id="paca" large />
+      <div className={styles.heroCharacters}>
+        <CharacterLayer characters={presentation.characters} className={styles.heroCharacterLayer} />
       </div>
     </div>
   );
@@ -260,7 +303,7 @@ export function MoneyWorldMapScreen({ childId, worldId }: { childId: string; wor
 
   return (
     <main className={styles.mapPage}>
-      <WorldHero />
+      <WorldHero context={worldComplete ? "world_completion" : "world_map"} />
       <div className={styles.mapTopline}>
         <Link href={worldsHref} className={styles.textButton}>← Semua World</Link>
         <span>{state.ready ? String(state.progress.completedStageIds.length) + "/" + MONEY_WORLD_STAGES.length + " Stage" : "Memuat…"}</span>
@@ -387,6 +430,13 @@ function SpeechCard({
   const autoAttemptedRef = useRef(false);
   const runtimeCharacter = runtimeCharacterForStoryRole(speaker);
   const presentedText = presentDummyCharacterCopy(text);
+  const speakerPresentation = resolveCharacterPresentation({
+    context: "world_scene",
+    worldId: MONEY_WORLD_ID,
+    requestedCharacters: [runtimeCharacter.id],
+    requestedState: kind === "concept" ? "thinking" : "hero",
+    allowIdentityFallback: false
+  });
 
   useEffect(() => {
     autoAttemptedRef.current = false;
@@ -465,8 +515,14 @@ function SpeechCard({
       data-world-audio-id={audioId}
       data-world-narration-mode={playbackMode ?? "idle"}
     >
-      <div className={styles.storyCharacter}>
-        <CharacterAvatar id={runtimeCharacter.id} large />
+      <div
+        className={styles.storyCharacter}
+        data-world-story-character={runtimeCharacter.id}
+        data-world-character-state={speakerPresentation.requestedState}
+      >
+        <div className={styles.storyCharacterArt}>
+          <CharacterLayer characters={speakerPresentation.characters} className={styles.storyCharacterLayer} />
+        </div>
         <strong>{runtimeCharacter.name}</strong>
       </div>
       <div className={styles.speechBubble}>
@@ -565,6 +621,7 @@ function WorldDragTarget({
   const [matched, setMatched] = useState<string[]>([]);
   const [incorrectCount, setIncorrectCount] = useState(0);
   const [message, setMessage] = useState("Pilih atau seret kartu ke tujuan yang cocok.");
+  const reportCharacterFeedback = useWorldCharacterFeedback();
 
   if (!validation.valid) return <div className={styles.runtimeError}>Payload drag tidak valid.</div>;
 
@@ -575,12 +632,14 @@ function WorldDragTarget({
       setIncorrectCount(nextWrong);
       setMessage(nextWrong >= 2 ? "Lihat angka uang dan angka pada label harga." : "Belum cocok. Coba target lain.");
       playTone("wrong");
+      reportCharacterFeedback("try_again");
       return;
     }
     const next = [...matched, itemId];
     setMatched(next);
     setSelected(null);
     playTone("correct");
+    reportCharacterFeedback("correct");
     if (next.length === items.length) {
       setMessage("Semua kartu sudah cocok!");
       window.setTimeout(onComplete, 450);
@@ -662,6 +721,7 @@ function WorldMatching({
   const [matched, setMatched] = useState<string[]>([]);
   const [incorrectCount, setIncorrectCount] = useState(0);
   const [message, setMessage] = useState("Pilih barang di kiri, lalu pilih harganya di kanan.");
+  const reportCharacterFeedback = useWorldCharacterFeedback();
 
   if (!validation.valid) return <div className={styles.runtimeError}>Payload matching tidak valid.</div>;
 
@@ -673,12 +733,14 @@ function WorldMatching({
       setSelectedPairId(null);
       setMessage(nextWrong >= 2 ? "Ingat harga yang tadi kamu lihat." : "Belum cocok. Coba pasangan lain.");
       playTone("wrong");
+      reportCharacterFeedback("try_again");
       return;
     }
     const next = [...matched, pairId];
     setMatched(next);
     setSelectedPairId(null);
     playTone("correct");
+    reportCharacterFeedback("correct");
     if (next.length === pairs.length) {
       setMessage("Semua pasangan cocok!");
       window.setTimeout(onComplete, 450);
@@ -742,6 +804,7 @@ function WorldCompare({
   const [selected, setSelected] = useState<string | null>(null);
   const [incorrectCount, setIncorrectCount] = useState(0);
   const [message, setMessage] = useState("Bandingkan kedua harga.");
+  const reportCharacterFeedback = useWorldCharacterFeedback();
 
   if (!validation.valid) return <div className={styles.runtimeError}>Payload compare tidak valid.</div>;
 
@@ -752,11 +815,13 @@ function WorldCompare({
       setSelected(optionId);
       setMessage(nextWrong >= 2 ? "Bandingkan angkanya: sepuluh dan dua belas." : "Belum tepat. Coba bandingkan lagi.");
       playTone("wrong");
+      reportCharacterFeedback("try_again");
       return;
     }
     setSelected(optionId);
     setMessage("Betul. Dua belas lebih mahal daripada sepuluh.");
     playTone("correct");
+    reportCharacterFeedback("correct");
     window.setTimeout(onComplete, 450);
   };
 
@@ -800,6 +865,7 @@ function WorldSortClassify({
   const [placed, setPlaced] = useState<Record<string, string>>({});
   const [incorrectCount, setIncorrectCount] = useState(0);
   const [message, setMessage] = useState("Pilih satu kartu, lalu pilih kelompoknya.");
+  const reportCharacterFeedback = useWorldCharacterFeedback();
 
   if (!validation.valid) return <div className={styles.runtimeError}>Payload sort tidak valid.</div>;
 
@@ -810,6 +876,7 @@ function WorldSortClassify({
       setIncorrectCount(nextWrong);
       setMessage(nextWrong >= 2 ? "Perhatikan contoh dan nama kelompoknya." : "Belum tepat. Coba kelompok satunya.");
       playTone("wrong");
+      reportCharacterFeedback("try_again");
       return;
     }
 
@@ -817,6 +884,7 @@ function WorldSortClassify({
     setPlaced(next);
     setSelected(null);
     playTone("correct");
+    reportCharacterFeedback("correct");
     if (Object.keys(next).length === items.length) {
       setMessage("Semua kartu sudah dikelompokkan.");
       window.setTimeout(onComplete, 450);
@@ -886,6 +954,7 @@ function WorldTapChoice({
   const [startedAt] = useState(() => new Date().toISOString());
   const inputModeRef = useRef<MoneyWorldEvidenceInputMode>("button");
   const [message, setMessage] = useState("Pilih jawaban yang paling cocok.");
+  const reportCharacterFeedback = useWorldCharacterFeedback();
 
   if (!validation.valid) return <div className={styles.runtimeError}>Payload pilihan tidak valid.</div>;
 
@@ -900,6 +969,7 @@ function WorldTapChoice({
       setIncorrectCount(nextWrong);
       setMessage(nextWrong >= 2 ? "Dengarkan pertanyaannya lagi, lalu lihat semua pilihan." : "Belum tepat. Coba pilihan lain.");
       playTone("wrong");
+      reportCharacterFeedback("try_again");
       return;
     }
 
@@ -907,6 +977,7 @@ function WorldTapChoice({
     setLocked(true);
     setMessage("Betul!");
     playTone("correct");
+    reportCharacterFeedback("correct");
     window.setTimeout(() => onComplete({
       answerSequence: nextAnswers,
       startedAt,
@@ -971,6 +1042,7 @@ function WorldOrdering({
   const [order, setOrder] = useState<string[]>([]);
   const [incorrectCount, setIncorrectCount] = useState(0);
   const [message, setMessage] = useState("Sentuh kartu sesuai urutan.");
+  const reportCharacterFeedback = useWorldCharacterFeedback();
 
   if (!validation.valid) return <div className={styles.runtimeError}>Payload urutan tidak valid.</div>;
 
@@ -983,6 +1055,7 @@ function WorldOrdering({
   const reset = () => {
     setOrder([]);
     setMessage("Mulai lagi dari langkah pertama.");
+    reportCharacterFeedback("try_again");
   };
 
   const check = () => {
@@ -997,10 +1070,12 @@ function WorldOrdering({
       setOrder([]);
       setMessage(nextWrong >= 2 ? "Coba mulai dari tujuan, lalu simpan sedikit demi sedikit." : "Belum urut. Coba lagi dari awal.");
       playTone("wrong");
+      reportCharacterFeedback("try_again");
       return;
     }
     setMessage("Urutannya tepat!");
     playTone("correct");
+    reportCharacterFeedback("correct");
     window.setTimeout(onComplete, 450);
   };
 
@@ -1170,6 +1245,7 @@ function WorldStageCompletion({
   const shareText = finalStage
     ? "⭐⭐⭐ Petualangan Uang selesai. Festival Mainlagi siap!"
     : "⭐⭐⭐ Stage “" + (stage?.title ?? "Petualangan Uang") + "” selesai di Mainlagi!";
+  const completionPresentation = resolveMoneyWorldCharacterPresentation("world_completion");
 
   const openShare = async () => {
     setShareGate("checking");
@@ -1208,6 +1284,12 @@ function WorldStageCompletion({
           {[0, 1, 2].map((index) => (
             <Star key={index} size={58} weight="fill" aria-hidden style={{ animationDelay: String(index * 140) + "ms" }} />
           ))}
+        </div>
+        <div
+          className={styles.completionCharacters}
+          data-world-character-state={completionPresentation.requestedState}
+        >
+          <CharacterLayer characters={completionPresentation.characters} className={styles.completionCharacterLayer} />
         </div>
         {chapterComplete && chapter ? (
           <div
@@ -1294,6 +1376,10 @@ function MoneyWorldStageRuntime({
   const [segmentIndex, setSegmentIndex] = useState(0);
   const [completed, setCompleted] = useState(false);
   const [hydrated, setHydrated] = useState(false);
+  const [characterFeedback, setCharacterFeedback] = useState<{
+    segmentId: string;
+    state: MoneyWorldCharacterFeedbackState;
+  } | null>(null);
   const stageRuntimeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -1330,6 +1416,7 @@ function MoneyWorldStageRuntime({
     void syncMoneyWorldProgressCloud(childId, restarted);
     setSegmentIndex(0);
     setCompleted(false);
+    setCharacterFeedback(null);
     setHydrated(true);
   };
 
@@ -1338,6 +1425,13 @@ function MoneyWorldStageRuntime({
   if (completed) return <WorldStageCompletion childId={childId} stageId={stageId} onAgain={again} />;
 
   const segment = segments[segmentIndex];
+  const characterState = characterFeedback?.segmentId === segment.id
+    ? characterFeedback.state
+    : segmentDefaultCharacterState(segment.type);
+  const characterPresentation = resolveMoneyWorldCharacterPresentation("world_scene", characterState);
+  const reportCharacterFeedback = (nextState: MoneyWorldCharacterFeedbackState) => {
+    setCharacterFeedback({ segmentId: segment.id, state: nextState });
+  };
   const completeActivity = (completion?: MoneyWorldActivityCompletion) => {
     if (
       segment.type === "activity"
@@ -1384,6 +1478,9 @@ function MoneyWorldStageRuntime({
       data-world-scene={stage.order}
       data-world-stage-shell="garden-baseline-v1"
       data-world-runtime-character-policy={MONEY_WORLD_RUNTIME_CHARACTER_POLICY.mode}
+      data-world-character-state={characterState}
+      data-world-character-left={characterPresentation.characters[0]?.id}
+      data-world-character-right={characterPresentation.characters[1]?.id}
       data-world-chapter-id={chapter.id}
       data-world-chapter-order={chapterIndex + 1}
       data-world-scene-id={activeScene.id}
@@ -1426,18 +1523,21 @@ function MoneyWorldStageRuntime({
 
       <StageAmbience stageId={stage.id} />
 
-      <WorldSceneRenderer
-        scene={activeScene}
-        sceneSegmentPosition={sceneSegmentPosition}
-        sceneSegmentCount={sceneSegmentCount}
-        companionLayer={(
-          <div className={styles.stageShellCharacters} aria-hidden>
-            <div className={styles.stageShellCharacterLeft}><CharacterAvatar id="gavi" large /></div>
-            <div className={styles.stageShellCharacterRight}><CharacterAvatar id="paca" large /></div>
-          </div>
-        )}
-      >
-        {segment.type === "activity" ? (
+      <WorldCharacterFeedbackContext.Provider value={reportCharacterFeedback}>
+        <WorldSceneRenderer
+          scene={activeScene}
+          sceneSegmentPosition={sceneSegmentPosition}
+          sceneSegmentCount={sceneSegmentCount}
+          companionLayer={(
+            <div className={styles.stageShellCharacters} aria-hidden>
+              <CharacterLayer
+                characters={characterPresentation.characters}
+                className={styles.stageCharacterLayer}
+              />
+            </div>
+          )}
+        >
+          {segment.type === "activity" ? (
           <WorldActivity key={segment.activity.id} placement={segment.activity} onComplete={completeActivity} />
         ) : segment.type === "narrative_choice" ? (
           <NarrativeChoiceCard audioId={segment.id + "-prompt"} prompt={segment.prompt} options={segment.options} onNext={advance} />
@@ -1453,8 +1553,9 @@ function MoneyWorldStageRuntime({
             onNext={advance}
             nextLabel={segmentIndex === lastIndex ? "Selesai" : "Lanjut"}
           />
-        )}
-      </WorldSceneRenderer>
+          )}
+        </WorldSceneRenderer>
+      </WorldCharacterFeedbackContext.Provider>
     </div>
   );
 }
