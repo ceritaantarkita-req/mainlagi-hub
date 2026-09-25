@@ -1310,19 +1310,35 @@ Only `object-ball.svg` required deterministic removal of its legacy external SVG
 **Session 02 is closed. Start Session 03 only from merged latest main.**
 
 
-### Session 03 — Migrate character provenance registry to 5 × 7 SVG states
+### Session 03 — Migrate character provenance registry to 5 × 7 SVG states — COMPLETE
 
-**Do:** version the character provenance schema for:
-`hero / welcome / pointing / thinking / correct / try_again / celebrate`.
+**Closure:** `MAINLAGI_CHARACTER_PROVENANCE_V2_SESSION03_2026-09-25.md`  
+**Registry:** `src/lib/data/character-asset-provenance.json` version 2  
+**Base main:** `782d358aa2559f9aa48fb55aa94db4675d7cd6bf`
 
-Normalize target paths:
+Verified state:
 
 ```text
-/artwork/characters/<id>-<state>-v1.svg
+5/5 characters
+7/7 locked states per character
+35/35 total SVG variants
+35/35 unique Drive IDs
+35/35 unique source SHA-256 values
+35/35 unique normalized production paths
+35/35 review-required
+0/35 production-approved
+0 public SVG character files added
+0 runtime activation
 ```
 
-**Do not:** add production SVG files or change runtime pairing yet.  
-**Done when:** registry + validator tests accept only the locked five characters/seven states.
+Registry v2 now freezes exact Session 01 source identity/hash and Session 02 source-validation status for every state.
+
+The validator/regression suite now understands only the locked five-character/seven-state SVG schema and validates the future approved-SVG path through the shared Session 02 security foundation.
+
+**Rights boundary:** all 35 variants remain fail-closed with `redistributionAllowed=false` until exact rights-holder/license/public-redistribution basis is documented.
+
+**Session 03 is closed. Start Session 04 only from merged latest main.**
+
 
 ### Session 04 — Promote approved character SVGs into production
 
