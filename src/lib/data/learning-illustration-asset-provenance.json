@@ -1,13 +1,11 @@
 {
-  "version": 1,
+  "version": 2,
   "scope": "learning-semantic-illustration",
   "productionDirectory": "/artwork/learning-illustrations",
   "items": {
     "object.apple": {
       "category": "object",
       "lifecycle": "approved",
-      "expectedProductionPath": "/artwork/learning-illustrations/object-apple-v1.webp",
-      "productionPath": "/artwork/learning-illustrations/object-apple-v1.webp",
       "fallbackGlyph": "🍎",
       "candidate": {
         "sourcePath": null,
@@ -29,22 +27,43 @@
         "reviewedAt": "2026-09-25",
         "notes": "Project-owner production wave authorized after frozen visual decisions, exact-file/visual review evidence, and 14/14 deterministic real-source preflight. Runtime mapping remains separate."
       },
-      "productionSha256": "68b867f733facd325ee3e0baa5814c682f9c107756edd99b56b468ca8337302f",
       "technical": {
-        "format": "webp",
-        "requireAlpha": true,
-        "minWidth": 128,
-        "minHeight": 128,
-        "maxWidth": 1024,
-        "maxHeight": 1024,
-        "maxBytes": 300000
+        "webp": {
+          "format": "webp",
+          "requireAlpha": true,
+          "minWidth": 128,
+          "minHeight": 128,
+          "maxWidth": 1024,
+          "maxHeight": 1024,
+          "maxBytes": 300000
+        },
+        "svg": {
+          "format": "svg",
+          "maxBytes": 1000000,
+          "requireViewBox": true,
+          "productionSanitizationRequired": true,
+          "validator": "scripts/lib/svg-asset-security.mjs"
+        }
+      },
+      "productionAssets": {
+        "webp": {
+          "status": "approved",
+          "format": "webp",
+          "path": "/artwork/learning-illustrations/object-apple-v1.webp",
+          "sha256": "68b867f733facd325ee3e0baa5814c682f9c107756edd99b56b468ca8337302f"
+        },
+        "svg": {
+          "status": "migration-ready",
+          "format": "svg",
+          "expectedPath": "/artwork/learning-illustrations/object-apple-v1.svg",
+          "path": null,
+          "sha256": null
+        }
       }
     },
     "animal.cat": {
       "category": "animal",
       "lifecycle": "approved",
-      "expectedProductionPath": "/artwork/learning-illustrations/animal-cat-v1.webp",
-      "productionPath": "/artwork/learning-illustrations/animal-cat-v1.webp",
       "fallbackGlyph": "🐱",
       "candidate": {
         "sourcePath": null,
@@ -66,22 +85,43 @@
         "reviewedAt": "2026-09-25",
         "notes": "Project-owner production wave authorized after frozen visual decisions, exact-file/visual review evidence, and 14/14 deterministic real-source preflight. Runtime mapping remains separate."
       },
-      "productionSha256": "6bacca64a1bac258bb6d92a4c5b39a81cb383a45baba0cf35d3b7df26685c482",
       "technical": {
-        "format": "webp",
-        "requireAlpha": true,
-        "minWidth": 128,
-        "minHeight": 128,
-        "maxWidth": 1024,
-        "maxHeight": 1024,
-        "maxBytes": 300000
+        "webp": {
+          "format": "webp",
+          "requireAlpha": true,
+          "minWidth": 128,
+          "minHeight": 128,
+          "maxWidth": 1024,
+          "maxHeight": 1024,
+          "maxBytes": 300000
+        },
+        "svg": {
+          "format": "svg",
+          "maxBytes": 1000000,
+          "requireViewBox": true,
+          "productionSanitizationRequired": true,
+          "validator": "scripts/lib/svg-asset-security.mjs"
+        }
+      },
+      "productionAssets": {
+        "webp": {
+          "status": "approved",
+          "format": "webp",
+          "path": "/artwork/learning-illustrations/animal-cat-v1.webp",
+          "sha256": "6bacca64a1bac258bb6d92a4c5b39a81cb383a45baba0cf35d3b7df26685c482"
+        },
+        "svg": {
+          "status": "migration-ready",
+          "format": "svg",
+          "expectedPath": "/artwork/learning-illustrations/animal-cat-v1.svg",
+          "path": null,
+          "sha256": null
+        }
       }
     },
     "animal.fish": {
       "category": "animal",
       "lifecycle": "approved",
-      "expectedProductionPath": "/artwork/learning-illustrations/animal-fish-v1.webp",
-      "productionPath": "/artwork/learning-illustrations/animal-fish-v1.webp",
       "fallbackGlyph": "🐟",
       "candidate": {
         "sourcePath": null,
@@ -103,22 +143,43 @@
         "reviewedAt": "2026-09-25",
         "notes": "Project-owner production wave authorized after frozen visual decisions, exact-file/visual review evidence, and 14/14 deterministic real-source preflight. Runtime mapping remains separate."
       },
-      "productionSha256": "54feddc6722908341f5f8f6bb9bdfae82dae85b663e6d018449d33bdbb1da5f5",
       "technical": {
-        "format": "webp",
-        "requireAlpha": true,
-        "minWidth": 128,
-        "minHeight": 128,
-        "maxWidth": 1024,
-        "maxHeight": 1024,
-        "maxBytes": 300000
+        "webp": {
+          "format": "webp",
+          "requireAlpha": true,
+          "minWidth": 128,
+          "minHeight": 128,
+          "maxWidth": 1024,
+          "maxHeight": 1024,
+          "maxBytes": 300000
+        },
+        "svg": {
+          "format": "svg",
+          "maxBytes": 1000000,
+          "requireViewBox": true,
+          "productionSanitizationRequired": true,
+          "validator": "scripts/lib/svg-asset-security.mjs"
+        }
+      },
+      "productionAssets": {
+        "webp": {
+          "status": "approved",
+          "format": "webp",
+          "path": "/artwork/learning-illustrations/animal-fish-v1.webp",
+          "sha256": "54feddc6722908341f5f8f6bb9bdfae82dae85b663e6d018449d33bdbb1da5f5"
+        },
+        "svg": {
+          "status": "migration-ready",
+          "format": "svg",
+          "expectedPath": "/artwork/learning-illustrations/animal-fish-v1.svg",
+          "path": null,
+          "sha256": null
+        }
       }
     },
     "object.umbrella": {
       "category": "object",
       "lifecycle": "approved",
-      "expectedProductionPath": "/artwork/learning-illustrations/object-umbrella-v1.webp",
-      "productionPath": "/artwork/learning-illustrations/object-umbrella-v1.webp",
       "fallbackGlyph": "☂️",
       "candidate": {
         "sourcePath": null,
@@ -140,22 +201,43 @@
         "reviewedAt": "2026-09-25",
         "notes": "Project-owner production wave authorized after frozen visual decisions, exact-file/visual review evidence, and 14/14 deterministic real-source preflight. Runtime mapping remains separate."
       },
-      "productionSha256": "f26193c5b1b8d473cc2ea93f46e4b8cdbf8ddf9a552310536edda430f714dd46",
       "technical": {
-        "format": "webp",
-        "requireAlpha": true,
-        "minWidth": 128,
-        "minHeight": 128,
-        "maxWidth": 1024,
-        "maxHeight": 1024,
-        "maxBytes": 300000
+        "webp": {
+          "format": "webp",
+          "requireAlpha": true,
+          "minWidth": 128,
+          "minHeight": 128,
+          "maxWidth": 1024,
+          "maxHeight": 1024,
+          "maxBytes": 300000
+        },
+        "svg": {
+          "format": "svg",
+          "maxBytes": 1000000,
+          "requireViewBox": true,
+          "productionSanitizationRequired": true,
+          "validator": "scripts/lib/svg-asset-security.mjs"
+        }
+      },
+      "productionAssets": {
+        "webp": {
+          "status": "approved",
+          "format": "webp",
+          "path": "/artwork/learning-illustrations/object-umbrella-v1.webp",
+          "sha256": "f26193c5b1b8d473cc2ea93f46e4b8cdbf8ddf9a552310536edda430f714dd46"
+        },
+        "svg": {
+          "status": "migration-ready",
+          "format": "svg",
+          "expectedPath": "/artwork/learning-illustrations/object-umbrella-v1.svg",
+          "path": null,
+          "sha256": null
+        }
       }
     },
     "vehicle.car": {
       "category": "vehicle",
       "lifecycle": "review-required",
-      "expectedProductionPath": "/artwork/learning-illustrations/vehicle-car-v1.webp",
-      "productionPath": null,
       "fallbackGlyph": "🚗",
       "candidate": {
         "sourcePath": "/artwork/activity-previews/color-palette-car.webp",
@@ -177,22 +259,38 @@
         "reviewedAt": null,
         "notes": "Requires exact child-readability approval before production."
       },
-      "productionSha256": null,
       "technical": {
-        "format": "webp",
-        "requireAlpha": true,
-        "minWidth": 128,
-        "minHeight": 128,
-        "maxWidth": 1024,
-        "maxHeight": 1024,
-        "maxBytes": 300000
+        "webp": {
+          "format": "webp",
+          "requireAlpha": true,
+          "minWidth": 128,
+          "minHeight": 128,
+          "maxWidth": 1024,
+          "maxHeight": 1024,
+          "maxBytes": 300000
+        },
+        "svg": {
+          "format": "svg",
+          "maxBytes": 1000000,
+          "requireViewBox": true,
+          "productionSanitizationRequired": true,
+          "validator": "scripts/lib/svg-asset-security.mjs"
+        }
+      },
+      "productionAssets": {
+        "webp": null,
+        "svg": {
+          "status": "held",
+          "format": "svg",
+          "expectedPath": "/artwork/learning-illustrations/vehicle-car-v1.svg",
+          "path": null,
+          "sha256": null
+        }
       }
     },
     "object.cup": {
       "category": "object",
       "lifecycle": "approved",
-      "expectedProductionPath": "/artwork/learning-illustrations/object-cup-v1.webp",
-      "productionPath": "/artwork/learning-illustrations/object-cup-v1.webp",
       "fallbackGlyph": "🥤",
       "candidate": {
         "sourcePath": null,
@@ -214,22 +312,43 @@
         "reviewedAt": "2026-09-25",
         "notes": "Project-owner production wave authorized after frozen visual decisions, exact-file/visual review evidence, and 14/14 deterministic real-source preflight. Runtime mapping remains separate."
       },
-      "productionSha256": "b9d751dd2c7ec8e25d496ff3f18d6d4bae1769a607b94e2f9cc1acbb829269c6",
       "technical": {
-        "format": "webp",
-        "requireAlpha": true,
-        "minWidth": 128,
-        "minHeight": 128,
-        "maxWidth": 1024,
-        "maxHeight": 1024,
-        "maxBytes": 300000
+        "webp": {
+          "format": "webp",
+          "requireAlpha": true,
+          "minWidth": 128,
+          "minHeight": 128,
+          "maxWidth": 1024,
+          "maxHeight": 1024,
+          "maxBytes": 300000
+        },
+        "svg": {
+          "format": "svg",
+          "maxBytes": 1000000,
+          "requireViewBox": true,
+          "productionSanitizationRequired": true,
+          "validator": "scripts/lib/svg-asset-security.mjs"
+        }
+      },
+      "productionAssets": {
+        "webp": {
+          "status": "approved",
+          "format": "webp",
+          "path": "/artwork/learning-illustrations/object-cup-v1.webp",
+          "sha256": "b9d751dd2c7ec8e25d496ff3f18d6d4bae1769a607b94e2f9cc1acbb829269c6"
+        },
+        "svg": {
+          "status": "migration-ready",
+          "format": "svg",
+          "expectedPath": "/artwork/learning-illustrations/object-cup-v1.svg",
+          "path": null,
+          "sha256": null
+        }
       }
     },
     "object.house": {
       "category": "object",
       "lifecycle": "approved",
-      "expectedProductionPath": "/artwork/learning-illustrations/object-house-v1.webp",
-      "productionPath": "/artwork/learning-illustrations/object-house-v1.webp",
       "fallbackGlyph": "🏠",
       "candidate": {
         "sourcePath": null,
@@ -251,22 +370,43 @@
         "reviewedAt": "2026-09-25",
         "notes": "Project-owner production wave authorized after frozen visual decisions, exact-file/visual review evidence, and 14/14 deterministic real-source preflight. Runtime mapping remains separate."
       },
-      "productionSha256": "23fe8ae122a8e4336b3d522d697d41f5a7e1a0343c48bc63a1cd9be01c6ebc84",
       "technical": {
-        "format": "webp",
-        "requireAlpha": true,
-        "minWidth": 128,
-        "minHeight": 128,
-        "maxWidth": 1024,
-        "maxHeight": 1024,
-        "maxBytes": 300000
+        "webp": {
+          "format": "webp",
+          "requireAlpha": true,
+          "minWidth": 128,
+          "minHeight": 128,
+          "maxWidth": 1024,
+          "maxHeight": 1024,
+          "maxBytes": 300000
+        },
+        "svg": {
+          "format": "svg",
+          "maxBytes": 1000000,
+          "requireViewBox": true,
+          "productionSanitizationRequired": true,
+          "validator": "scripts/lib/svg-asset-security.mjs"
+        }
+      },
+      "productionAssets": {
+        "webp": {
+          "status": "approved",
+          "format": "webp",
+          "path": "/artwork/learning-illustrations/object-house-v1.webp",
+          "sha256": "23fe8ae122a8e4336b3d522d697d41f5a7e1a0343c48bc63a1cd9be01c6ebc84"
+        },
+        "svg": {
+          "status": "migration-ready",
+          "format": "svg",
+          "expectedPath": "/artwork/learning-illustrations/object-house-v1.svg",
+          "path": null,
+          "sha256": null
+        }
       }
     },
     "animal.bird": {
       "category": "animal",
       "lifecycle": "approved",
-      "expectedProductionPath": "/artwork/learning-illustrations/animal-bird-v1.webp",
-      "productionPath": "/artwork/learning-illustrations/animal-bird-v1.webp",
       "fallbackGlyph": "🐦",
       "candidate": {
         "sourcePath": null,
@@ -288,22 +428,43 @@
         "reviewedAt": "2026-09-25",
         "notes": "Project-owner production wave authorized after frozen visual decisions, exact-file/visual review evidence, and 14/14 deterministic real-source preflight. Runtime mapping remains separate."
       },
-      "productionSha256": "de38296a4249d492be66f3253a343efb0997d08d83ae5c20b908b3e47b396914",
       "technical": {
-        "format": "webp",
-        "requireAlpha": true,
-        "minWidth": 128,
-        "minHeight": 128,
-        "maxWidth": 1024,
-        "maxHeight": 1024,
-        "maxBytes": 300000
+        "webp": {
+          "format": "webp",
+          "requireAlpha": true,
+          "minWidth": 128,
+          "minHeight": 128,
+          "maxWidth": 1024,
+          "maxHeight": 1024,
+          "maxBytes": 300000
+        },
+        "svg": {
+          "format": "svg",
+          "maxBytes": 1000000,
+          "requireViewBox": true,
+          "productionSanitizationRequired": true,
+          "validator": "scripts/lib/svg-asset-security.mjs"
+        }
+      },
+      "productionAssets": {
+        "webp": {
+          "status": "approved",
+          "format": "webp",
+          "path": "/artwork/learning-illustrations/animal-bird-v1.webp",
+          "sha256": "de38296a4249d492be66f3253a343efb0997d08d83ae5c20b908b3e47b396914"
+        },
+        "svg": {
+          "status": "migration-ready",
+          "format": "svg",
+          "expectedPath": "/artwork/learning-illustrations/animal-bird-v1.svg",
+          "path": null,
+          "sha256": null
+        }
       }
     },
     "object.ball": {
       "category": "object",
       "lifecycle": "approved",
-      "expectedProductionPath": "/artwork/learning-illustrations/object-ball-v1.webp",
-      "productionPath": "/artwork/learning-illustrations/object-ball-v1.webp",
       "fallbackGlyph": "⚽",
       "candidate": {
         "sourcePath": null,
@@ -325,22 +486,43 @@
         "reviewedAt": "2026-09-25",
         "notes": "Project-owner production wave authorized after frozen visual decisions, exact-file/visual review evidence, and 14/14 deterministic real-source preflight. Runtime mapping remains separate."
       },
-      "productionSha256": "ef3b525cb818b98dc7ec1363574c50668b907abd464ea11ad8c761eda09c050a",
       "technical": {
-        "format": "webp",
-        "requireAlpha": true,
-        "minWidth": 128,
-        "minHeight": 128,
-        "maxWidth": 1024,
-        "maxHeight": 1024,
-        "maxBytes": 300000
+        "webp": {
+          "format": "webp",
+          "requireAlpha": true,
+          "minWidth": 128,
+          "minHeight": 128,
+          "maxWidth": 1024,
+          "maxHeight": 1024,
+          "maxBytes": 300000
+        },
+        "svg": {
+          "format": "svg",
+          "maxBytes": 1000000,
+          "requireViewBox": true,
+          "productionSanitizationRequired": true,
+          "validator": "scripts/lib/svg-asset-security.mjs"
+        }
+      },
+      "productionAssets": {
+        "webp": {
+          "status": "approved",
+          "format": "webp",
+          "path": "/artwork/learning-illustrations/object-ball-v1.webp",
+          "sha256": "ef3b525cb818b98dc7ec1363574c50668b907abd464ea11ad8c761eda09c050a"
+        },
+        "svg": {
+          "status": "migration-ready",
+          "format": "svg",
+          "expectedPath": "/artwork/learning-illustrations/object-ball-v1.svg",
+          "path": null,
+          "sha256": null
+        }
       }
     },
     "body.head": {
       "category": "body",
       "lifecycle": "approved",
-      "expectedProductionPath": "/artwork/learning-illustrations/body-head-v1.webp",
-      "productionPath": "/artwork/learning-illustrations/body-head-v1.webp",
       "fallbackGlyph": "🙂",
       "candidate": {
         "sourcePath": null,
@@ -362,22 +544,43 @@
         "reviewedAt": "2026-09-25",
         "notes": "Project-owner production wave authorized after frozen visual decisions, exact-file/visual review evidence, and 14/14 deterministic real-source preflight. Runtime mapping remains separate."
       },
-      "productionSha256": "81640c6143fb52f71abdbeebe6b425fae79ca6ac1b00c0c84b6cc4801182c435",
       "technical": {
-        "format": "webp",
-        "requireAlpha": true,
-        "minWidth": 128,
-        "minHeight": 128,
-        "maxWidth": 1024,
-        "maxHeight": 1024,
-        "maxBytes": 300000
+        "webp": {
+          "format": "webp",
+          "requireAlpha": true,
+          "minWidth": 128,
+          "minHeight": 128,
+          "maxWidth": 1024,
+          "maxHeight": 1024,
+          "maxBytes": 300000
+        },
+        "svg": {
+          "format": "svg",
+          "maxBytes": 1000000,
+          "requireViewBox": true,
+          "productionSanitizationRequired": true,
+          "validator": "scripts/lib/svg-asset-security.mjs"
+        }
+      },
+      "productionAssets": {
+        "webp": {
+          "status": "approved",
+          "format": "webp",
+          "path": "/artwork/learning-illustrations/body-head-v1.webp",
+          "sha256": "81640c6143fb52f71abdbeebe6b425fae79ca6ac1b00c0c84b6cc4801182c435"
+        },
+        "svg": {
+          "status": "migration-ready",
+          "format": "svg",
+          "expectedPath": "/artwork/learning-illustrations/body-head-v1.svg",
+          "path": null,
+          "sha256": null
+        }
       }
     },
     "action.jump": {
       "category": "action",
       "lifecycle": "approved",
-      "expectedProductionPath": "/artwork/learning-illustrations/action-jump-v1.webp",
-      "productionPath": "/artwork/learning-illustrations/action-jump-v1.webp",
       "fallbackGlyph": "🤸",
       "candidate": {
         "sourcePath": null,
@@ -399,22 +602,43 @@
         "reviewedAt": "2026-09-25",
         "notes": "Project-owner production wave authorized after frozen visual decisions, exact-file/visual review evidence, and 14/14 deterministic real-source preflight. Runtime mapping remains separate."
       },
-      "productionSha256": "dcb7edbd9749f2a913829175572d84e42f48b0a30698d970728031c2244d093b",
       "technical": {
-        "format": "webp",
-        "requireAlpha": true,
-        "minWidth": 128,
-        "minHeight": 128,
-        "maxWidth": 1024,
-        "maxHeight": 1024,
-        "maxBytes": 300000
+        "webp": {
+          "format": "webp",
+          "requireAlpha": true,
+          "minWidth": 128,
+          "minHeight": 128,
+          "maxWidth": 1024,
+          "maxHeight": 1024,
+          "maxBytes": 300000
+        },
+        "svg": {
+          "format": "svg",
+          "maxBytes": 1000000,
+          "requireViewBox": true,
+          "productionSanitizationRequired": true,
+          "validator": "scripts/lib/svg-asset-security.mjs"
+        }
+      },
+      "productionAssets": {
+        "webp": {
+          "status": "approved",
+          "format": "webp",
+          "path": "/artwork/learning-illustrations/action-jump-v1.webp",
+          "sha256": "dcb7edbd9749f2a913829175572d84e42f48b0a30698d970728031c2244d093b"
+        },
+        "svg": {
+          "status": "migration-ready",
+          "format": "svg",
+          "expectedPath": "/artwork/learning-illustrations/action-jump-v1.svg",
+          "path": null,
+          "sha256": null
+        }
       }
     },
     "feature.gills": {
       "category": "feature",
       "lifecycle": "approved",
-      "expectedProductionPath": "/artwork/learning-illustrations/feature-gills-v1.webp",
-      "productionPath": "/artwork/learning-illustrations/feature-gills-v1.webp",
       "fallbackGlyph": "🫧",
       "candidate": {
         "sourcePath": null,
@@ -436,22 +660,43 @@
         "reviewedAt": "2026-09-25",
         "notes": "Project-owner production wave authorized after frozen visual decisions, exact-file/visual review evidence, and 14/14 deterministic real-source preflight. Runtime mapping remains separate."
       },
-      "productionSha256": "1d9c2da20507b89928b4c3a0c0783ed88b8108085f4beeecd86fd43bea7c1996",
       "technical": {
-        "format": "webp",
-        "requireAlpha": true,
-        "minWidth": 128,
-        "minHeight": 128,
-        "maxWidth": 1024,
-        "maxHeight": 1024,
-        "maxBytes": 300000
+        "webp": {
+          "format": "webp",
+          "requireAlpha": true,
+          "minWidth": 128,
+          "minHeight": 128,
+          "maxWidth": 1024,
+          "maxHeight": 1024,
+          "maxBytes": 300000
+        },
+        "svg": {
+          "format": "svg",
+          "maxBytes": 1000000,
+          "requireViewBox": true,
+          "productionSanitizationRequired": true,
+          "validator": "scripts/lib/svg-asset-security.mjs"
+        }
+      },
+      "productionAssets": {
+        "webp": {
+          "status": "approved",
+          "format": "webp",
+          "path": "/artwork/learning-illustrations/feature-gills-v1.webp",
+          "sha256": "1d9c2da20507b89928b4c3a0c0783ed88b8108085f4beeecd86fd43bea7c1996"
+        },
+        "svg": {
+          "status": "migration-ready",
+          "format": "svg",
+          "expectedPath": "/artwork/learning-illustrations/feature-gills-v1.svg",
+          "path": null,
+          "sha256": null
+        }
       }
     },
     "feature.beak": {
       "category": "feature",
       "lifecycle": "approved",
-      "expectedProductionPath": "/artwork/learning-illustrations/feature-beak-v1.webp",
-      "productionPath": "/artwork/learning-illustrations/feature-beak-v1.webp",
       "fallbackGlyph": "👄",
       "candidate": {
         "sourcePath": null,
@@ -473,22 +718,43 @@
         "reviewedAt": "2026-09-25",
         "notes": "Project-owner production wave authorized after frozen visual decisions, exact-file/visual review evidence, and 14/14 deterministic real-source preflight. Runtime mapping remains separate."
       },
-      "productionSha256": "0423a3b8b2bec07d84faa54e5de7ac224becae21c32512de19e3abc274d6f53f",
       "technical": {
-        "format": "webp",
-        "requireAlpha": true,
-        "minWidth": 128,
-        "minHeight": 128,
-        "maxWidth": 1024,
-        "maxHeight": 1024,
-        "maxBytes": 300000
+        "webp": {
+          "format": "webp",
+          "requireAlpha": true,
+          "minWidth": 128,
+          "minHeight": 128,
+          "maxWidth": 1024,
+          "maxHeight": 1024,
+          "maxBytes": 300000
+        },
+        "svg": {
+          "format": "svg",
+          "maxBytes": 1000000,
+          "requireViewBox": true,
+          "productionSanitizationRequired": true,
+          "validator": "scripts/lib/svg-asset-security.mjs"
+        }
+      },
+      "productionAssets": {
+        "webp": {
+          "status": "approved",
+          "format": "webp",
+          "path": "/artwork/learning-illustrations/feature-beak-v1.webp",
+          "sha256": "0423a3b8b2bec07d84faa54e5de7ac224becae21c32512de19e3abc274d6f53f"
+        },
+        "svg": {
+          "status": "migration-ready",
+          "format": "svg",
+          "expectedPath": "/artwork/learning-illustrations/feature-beak-v1.svg",
+          "path": null,
+          "sha256": null
+        }
       }
     },
     "feature.cactus-thick-stem": {
       "category": "feature",
       "lifecycle": "approved",
-      "expectedProductionPath": "/artwork/learning-illustrations/feature-cactus-thick-stem-v1.webp",
-      "productionPath": "/artwork/learning-illustrations/feature-cactus-thick-stem-v1.webp",
       "fallbackGlyph": "💚",
       "candidate": {
         "sourcePath": null,
@@ -510,22 +776,43 @@
         "reviewedAt": "2026-09-25",
         "notes": "Project-owner production wave authorized after frozen visual decisions, exact-file/visual review evidence, and 14/14 deterministic real-source preflight. Runtime mapping remains separate."
       },
-      "productionSha256": "f73fbe012350f85b5ef22c8f0595617cff84c971a9f262da49cf80be2d5c3e45",
       "technical": {
-        "format": "webp",
-        "requireAlpha": true,
-        "minWidth": 128,
-        "minHeight": 128,
-        "maxWidth": 1024,
-        "maxHeight": 1024,
-        "maxBytes": 300000
+        "webp": {
+          "format": "webp",
+          "requireAlpha": true,
+          "minWidth": 128,
+          "minHeight": 128,
+          "maxWidth": 1024,
+          "maxHeight": 1024,
+          "maxBytes": 300000
+        },
+        "svg": {
+          "format": "svg",
+          "maxBytes": 1000000,
+          "requireViewBox": true,
+          "productionSanitizationRequired": true,
+          "validator": "scripts/lib/svg-asset-security.mjs"
+        }
+      },
+      "productionAssets": {
+        "webp": {
+          "status": "approved",
+          "format": "webp",
+          "path": "/artwork/learning-illustrations/feature-cactus-thick-stem-v1.webp",
+          "sha256": "f73fbe012350f85b5ef22c8f0595617cff84c971a9f262da49cf80be2d5c3e45"
+        },
+        "svg": {
+          "status": "migration-ready",
+          "format": "svg",
+          "expectedPath": "/artwork/learning-illustrations/feature-cactus-thick-stem-v1.svg",
+          "path": null,
+          "sha256": null
+        }
       }
     },
     "object.towel": {
       "category": "object",
       "lifecycle": "review-required",
-      "expectedProductionPath": "/artwork/learning-illustrations/object-towel-v1.webp",
-      "productionPath": null,
       "fallbackGlyph": "🧺",
       "candidate": {
         "sourcePath": null,
@@ -547,22 +834,38 @@
         "reviewedAt": null,
         "notes": "P0 semantic replacement target."
       },
-      "productionSha256": null,
       "technical": {
-        "format": "webp",
-        "requireAlpha": true,
-        "minWidth": 128,
-        "minHeight": 128,
-        "maxWidth": 1024,
-        "maxHeight": 1024,
-        "maxBytes": 300000
+        "webp": {
+          "format": "webp",
+          "requireAlpha": true,
+          "minWidth": 128,
+          "minHeight": 128,
+          "maxWidth": 1024,
+          "maxHeight": 1024,
+          "maxBytes": 300000
+        },
+        "svg": {
+          "format": "svg",
+          "maxBytes": 1000000,
+          "requireViewBox": true,
+          "productionSanitizationRequired": true,
+          "validator": "scripts/lib/svg-asset-security.mjs"
+        }
+      },
+      "productionAssets": {
+        "webp": null,
+        "svg": {
+          "status": "held",
+          "format": "svg",
+          "expectedPath": "/artwork/learning-illustrations/object-towel-v1.svg",
+          "path": null,
+          "sha256": null
+        }
       }
     },
     "object.raincoat": {
       "category": "object",
       "lifecycle": "review-required",
-      "expectedProductionPath": "/artwork/learning-illustrations/object-raincoat-v1.webp",
-      "productionPath": null,
       "fallbackGlyph": "🧥",
       "candidate": {
         "sourcePath": null,
@@ -584,22 +887,38 @@
         "reviewedAt": null,
         "notes": "P0 semantic replacement target."
       },
-      "productionSha256": null,
       "technical": {
-        "format": "webp",
-        "requireAlpha": true,
-        "minWidth": 128,
-        "minHeight": 128,
-        "maxWidth": 1024,
-        "maxHeight": 1024,
-        "maxBytes": 300000
+        "webp": {
+          "format": "webp",
+          "requireAlpha": true,
+          "minWidth": 128,
+          "minHeight": 128,
+          "maxWidth": 1024,
+          "maxHeight": 1024,
+          "maxBytes": 300000
+        },
+        "svg": {
+          "format": "svg",
+          "maxBytes": 1000000,
+          "requireViewBox": true,
+          "productionSanitizationRequired": true,
+          "validator": "scripts/lib/svg-asset-security.mjs"
+        }
+      },
+      "productionAssets": {
+        "webp": null,
+        "svg": {
+          "status": "held",
+          "format": "svg",
+          "expectedPath": "/artwork/learning-illustrations/object-raincoat-v1.svg",
+          "path": null,
+          "sha256": null
+        }
       }
     },
     "object.toy-block": {
       "category": "object",
       "lifecycle": "approved",
-      "expectedProductionPath": "/artwork/learning-illustrations/object-toy-block-v1.webp",
-      "productionPath": "/artwork/learning-illustrations/object-toy-block-v1.webp",
       "fallbackGlyph": "🧱",
       "candidate": {
         "sourcePath": null,
@@ -621,16 +940,42 @@
         "reviewedAt": "2026-09-25",
         "notes": "Project-owner production wave authorized after frozen visual decisions, exact-file/visual review evidence, and 14/14 deterministic real-source preflight. Runtime mapping remains separate."
       },
-      "productionSha256": "d9b3ddda42263f42c18b339be92a204b2627c9fddbb53188fc0a159f25430251",
       "technical": {
-        "format": "webp",
-        "requireAlpha": true,
-        "minWidth": 128,
-        "minHeight": 128,
-        "maxWidth": 1024,
-        "maxHeight": 1024,
-        "maxBytes": 300000
+        "webp": {
+          "format": "webp",
+          "requireAlpha": true,
+          "minWidth": 128,
+          "minHeight": 128,
+          "maxWidth": 1024,
+          "maxHeight": 1024,
+          "maxBytes": 300000
+        },
+        "svg": {
+          "format": "svg",
+          "maxBytes": 1000000,
+          "requireViewBox": true,
+          "productionSanitizationRequired": true,
+          "validator": "scripts/lib/svg-asset-security.mjs"
+        }
+      },
+      "productionAssets": {
+        "webp": {
+          "status": "approved",
+          "format": "webp",
+          "path": "/artwork/learning-illustrations/object-toy-block-v1.webp",
+          "sha256": "d9b3ddda42263f42c18b339be92a204b2627c9fddbb53188fc0a159f25430251"
+        },
+        "svg": {
+          "status": "migration-ready",
+          "format": "svg",
+          "expectedPath": "/artwork/learning-illustrations/object-toy-block-v1.svg",
+          "path": null,
+          "sha256": null
+        }
       }
     }
-  }
+  },
+  "preferredProductionFormat": "svg",
+  "svgSecurityValidator": "scripts/lib/svg-asset-security.mjs",
+  "runtimeActivation": "off"
 }
