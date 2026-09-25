@@ -615,7 +615,13 @@ async function main() {
       assert.equal(await openingSceneFrame.getAttribute("role"), "region", "active World Scene must expose a labelled region");
       assert.equal(await openingSceneFrame.locator('[aria-live="polite"][aria-atomic="true"]').count(), 1, "Scene context changes must be announced politely");
       assert.equal(await openingSceneFrame.locator('[data-world-scene-label="money-scene-s01-opening"]').count(), 1, "reusable Scene renderer must expose the authored Scene title");
-      assert.equal(await page.locator('[data-world-runtime-character-policy="approved-mascot-dummy"]').count(), 1, "World Stage runtime must expose the approved mascot-dummy policy");
+      assert.equal(await page.locator('[data-world-runtime-character-policy="shared-approved-svg-cast"]').count(), 1, "World Stage runtime must expose the shared approved SVG cast policy");
+      assert.equal(await worldStageShell.getAttribute("data-world-character-state"), "hero", "opening World story must resolve the neutral hero character state");
+      assert.equal(await worldStageShell.getAttribute("data-world-character-left"), "gavi", "Money World authored cast keeps Gavi on the left");
+      assert.equal(await worldStageShell.getAttribute("data-world-character-right"), "paca", "Money World authored cast keeps Paca on the right");
+      const openingWorldCharacter = openingSceneFrame.locator('[data-world-story-character="gavi"] [data-character-id="gavi"][data-character-state="hero"]');
+      assert.equal(await openingWorldCharacter.count(), 1, "opening World story must render Gavi through the shared SVG CharacterLayer");
+      assert.match(await openingWorldCharacter.getAttribute("src") ?? "", /\/artwork\/characters\/gavi-hero-v1\.svg$/, "opening World story must use the approved Gavi hero SVG");
       assert.equal(await worldStageShell.getByRole("link", { name: "Kembali", exact: true }).count(), 1, "World Stage shell must keep the Garden-style back control");
       assert.equal(await worldStageShell.locator("[data-world-shell-hear]").count(), 1, "World Stage shell must keep a top-level Dengar control");
       assert.equal(await worldStageShell.getByRole("img", { name: "Mainlagi", exact: true }).count(), 1, "World Stage shell must keep the centered Mainlagi wordmark");
