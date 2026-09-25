@@ -1269,23 +1269,46 @@ Character source identity/state/hash is frozen; exact public-repository rights/r
 **Session 01 is closed. Do not repeat inventory work unless the source Drive folders change.**
 
 
-### Session 02 — Build shared SVG sanitization + validation foundation
+### Session 02 — Build shared SVG sanitization + validation foundation — COMPLETE
 
-**Do:** implement reusable SVG validation/security helpers and regression tests.
+**Closure:** `MAINLAGI_SVG_VALIDATION_SESSION02_2026-09-25.md`  
+**Shared module:** `scripts/lib/svg-asset-security.mjs`  
+**Regression:** `scripts/run-svg-asset-security-tests.mjs` / `npm run test:assets:svg-security`  
+**Base main:** `3833edd7b49b9a6d12b5ebf6e447819ab39ce340`
 
-Must reject:
-- malformed SVG/XML;
-- missing/invalid `viewBox`;
-- `<script>`;
-- inline event handlers;
-- unsafe active content / unsafe `foreignObject`;
-- unreviewed external references;
-- duplicate production paths;
-- unexpected/stray SVG files;
-- oversized files.
+Verified implementation:
 
-**Do not:** activate any character or semantic asset.  
-**Done when:** validator tests pass on safe and malicious fixtures.
+```text
+malformed XML                   blocked
+missing/invalid viewBox         blocked
+script/event handlers           blocked
+foreignObject/active content    blocked
+external/data resource refs     blocked
+unsafe CSS imports/URLs         blocked
+oversized SVG                   blocked
+duplicate production paths      blocked
+stray production SVG            blocked
+symbolic-link production SVG    blocked
+simple external DOCTYPE         stripped safely
+DOCTYPE internal subset/entity  blocked
+```
+
+The helper was compatibility-tested against the exact Session 01 source set:
+
+```text
+35/35 character SVGs pass
+14/14 semantic SVGs pass after sanitizer
+49/49 total
+```
+
+Only `object-ball.svg` required deterministic removal of its legacy external SVG 1.1 DOCTYPE. No source was converted to WebP.
+
+`npm run validate:assets` now includes the SVG security regression suite.
+
+**No registry migration, public SVG addition, or runtime activation occurred in Session 02.**
+
+**Session 02 is closed. Start Session 03 only from merged latest main.**
+
 
 ### Session 03 — Migrate character provenance registry to 5 × 7 SVG states
 
