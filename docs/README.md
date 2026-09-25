@@ -518,7 +518,7 @@ static-audio runtime activation:      none
 
 Canonical records: `ENGLISH_NARRATION_PROVIDER_PILOT_2026-09-22.md`, `ENGLISH_NARRATION_PROVIDER_PILOT_HARNESS_CLOSURE_2026-09-22.md`, and `ENGLISH_NARRATION_SAFE_CHECKPOINT_2026-09-22.md`.
 
-Next work is candidate generation + human listening review. Mainlagi World remains untouched; character development remains paused; WS-05 remains closed; 900 activities / 47 active patterns / no Pattern #48 remain unchanged.
+Historical English-narration checkpoint: next work there was candidate generation + human listening review; at that checkpoint World remained untouched and character development was paused. The 25 September current checkpoint above supersedes that World/character boundary. WS-05 remains closed; 900 activities / 47 active patterns / no Pattern #48 remain unchanged.
 
 - [`LEARNING_SEMANTIC_P0_VISUAL_PREREVIEW_2026-09-23.md`](LEARNING_SEMANTIC_P0_VISUAL_PREREVIEW_2026-09-23.md) — AI visual pre-review and two source refinements before exact human semantic review.
 
