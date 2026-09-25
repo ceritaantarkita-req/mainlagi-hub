@@ -124,7 +124,7 @@ WS-05 production truth:           900/900 / 47 / choice_grid 174 / pattern_compl
 next safe narration step:         generate/listen to exact four-item local candidates through verified gate; no production approval/runtime activation yet
 ```
 
-The same SVG-first rule now applies to semantic/activity illustrations whose canonical approved source is SVG: preserve SVG through production/runtime rather than rasterizing it only for pipeline consistency. Existing raster-native subject backgrounds stay WebP. The 14 semantic P0 WebPs from PR #324 remain verified fallback/history while their SVG-aware production migration is pending.
+The same SVG-first rule applies to semantic/activity illustrations whose canonical approved source is SVG: preserve SVG through production/runtime rather than rasterizing it only for pipeline consistency. Existing raster-native subject backgrounds stay WebP. Session 10 completed the semantic registry/validator migration to v2; the 14 semantic P0 WebPs from PR #324 remain verified fallback/history while 14 canonical SVG slots are migration-ready. Exact SVG binary promotion is Session 11; runtime activation remains Session 12.
 
 Drive contains isolated single-character SVG source assets for all five canonical characters. All 35 locked state variants (`hero`, `welcome`, `pointing`, `thinking`, `correct`, `try_again`, `celebrate`) are production-approved and runtime-addressable; `gavi-panel-hero.svg` is the confirmed Gavi hero source. Belajar and Petualangan Uang now use the shared SVG runtime through Session 08. Existing Garden Gavi/Paca WebP remains compatibility fallback/history until later verified cleanup. Child profile identity remains separate from guide-character identity.
 
@@ -535,4 +535,4 @@ Historical English-narration checkpoint: next work there was candidate generatio
 - [`LEARNING_SEMANTIC_P0_PRODUCTION_APPROVAL_INTEGRATION_2026-09-25.md`](LEARNING_SEMANTIC_P0_PRODUCTION_APPROVAL_INTEGRATION_2026-09-25.md) — 14 exact production-approved P0 binaries, three held, runtime activation intentionally separate.
 
 - [`LEARNING_SEMANTIC_P0_PRODUCTION_SAFE_CHECKPOINT_2026-09-25.md`](LEARNING_SEMANTIC_P0_PRODUCTION_SAFE_CHECKPOINT_2026-09-25.md) — canonical merged/live-verified handoff: registry v2, 14 SVG migration-ready, three held, runtime activation 0, Session 11 next.
-- [`LEARNING_SEMANTIC_SVG_REGISTRY_SESSION10_CLOSURE_2026-09-25.md`](LEARNING_SEMANTIC_SVG_REGISTRY_SESSION10_CLOSURE_2026-09-25.md) — closed/live-verified PR #343 SVG-aware semantic registry/validator migration.
+- [`LEARNING_SEMANTIC_SVG_REGISTRY_SESSION10_CLOSURE_2026-09-25.md`](LEARNING_SEMANTIC_SVG_REGISTRY_SESSION10_CLOSURE_2026-09-25.md) — closed/live-verified PR #343 SVG-aware semantic registry/validator migration. Closure docs PR #344 -> verified baseline `53e33c6b8ecb737da88af563d310ac486619b206`, main CI #1681 + Cloudflare smoke.

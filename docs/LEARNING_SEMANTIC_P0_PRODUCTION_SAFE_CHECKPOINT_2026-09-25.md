@@ -35,9 +35,14 @@ Session 10 is **CLOSED / MERGED / LIVE VERIFIED**.
 ```text
 PR #343 final head:              698cba5f9baa8de896d0056daf777f3e00e56f6e
 PR CI #1678 / run:              36142537668 — full success
-merged main:                    21955a64728162f8985d04160e8ec683e1238080
-merged-main CI #1679 / run:     36143708306 — full success
-Cloudflare exact-release smoke: PASS
+implementation main:             21955a64728162f8985d04160e8ec683e1238080
+implementation main CI #1679:   run 36143708306 — full success
+implementation Cloudflare smoke: PASS
+closure docs PR:                #344
+verified closure main:          53e33c6b8ecb737da88af563d310ac486619b206
+closure docs PR CI #1680:       run 36146245332 — full success
+closure main CI #1681:          run 36147457854 — full success
+closure Cloudflare smoke:       PASS
 ```
 
 Current machine truth:

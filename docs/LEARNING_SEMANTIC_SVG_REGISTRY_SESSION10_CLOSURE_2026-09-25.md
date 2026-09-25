@@ -16,6 +16,19 @@ merged-main CI: #1679 / run 36143708306 — full success
 Production smoke (Cloudflare): success
 ```
 
+## Documentation closure verification
+
+```text
+closure docs PR: #344
+closure docs final head: 28880abeec3fb33430615cec7113778e9d75be2d
+closure docs PR CI: #1680 / run 36146245332 — full success
+verified closure main: 53e33c6b8ecb737da88af563d310ac486619b206
+closure merged-main CI: #1681 / run 36147457854 — full success
+Production smoke (Cloudflare): success
+```
+
+`53e33c6b8ecb737da88af563d310ac486619b206` is the verified Session 10 documentation-closure baseline. Later docs-only descendants may move `main` without changing the Session 10 implementation truth recorded below.
+
 Session 10 migrates the semantic/activity illustration production contract from a WebP-only registry to an SVG-aware registry without promoting any new SVG binary and without activating semantic assets in child runtime.
 
 ## Registry v2 result

@@ -26,9 +26,15 @@ Canonical policy: `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`.
 Session 10 PR: #343
 Session 10 final PR head: 698cba5f9baa8de896d0056daf777f3e00e56f6e
 Session 10 PR CI: #1678 / run 36142537668 — full success
-Session 10 merged main: 21955a64728162f8985d04160e8ec683e1238080
-Session 10 merged-main CI: #1679 / run 36143708306 — full success
-Session 10 Production smoke (Cloudflare): success
+Session 10 implementation main: 21955a64728162f8985d04160e8ec683e1238080
+Session 10 implementation merged-main CI: #1679 / run 36143708306 — full success
+Session 10 implementation Production smoke (Cloudflare): success
+Session 10 closure docs PR: #344
+Session 10 closure final PR head: 28880abeec3fb33430615cec7113778e9d75be2d
+Session 10 closure PR CI: #1680 / run 36146245332 — full success
+Session 10 verified closure main: 53e33c6b8ecb737da88af563d310ac486619b206
+Session 10 closure merged-main CI: #1681 / run 36147457854 — full success
+Session 10 closure Production smoke (Cloudflare): success
 
 semantic registry: version 2
 preferred production format: svg
@@ -40,7 +46,7 @@ held SVG slots: 3
 next: Session 11 — promote the 14 approved canonical semantic SVG sources into production
 ```
 
-Canonical closure: `LEARNING_SEMANTIC_SVG_REGISTRY_SESSION10_CLOSURE_2026-09-25.md`.
+Canonical closure: `LEARNING_SEMANTIC_SVG_REGISTRY_SESSION10_CLOSURE_2026-09-25.md`. Treat `53e33c6b8ecb737da88af563d310ac486619b206` as the verified Session 10 closure baseline; later docs-only descendants may move the repository HEAD without changing this implementation/closure truth.
 
 Session 10 changed the provenance/validator/preflight contract only. It did not add semantic SVG binaries or activate child runtime.
 
