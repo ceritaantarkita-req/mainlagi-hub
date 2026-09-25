@@ -161,12 +161,12 @@ if (
   registry.productionDirectory !== "/artwork/learning-illustrations" ||
   registry.preferredProductionFormat !== "svg" ||
   registry.svgSecurityValidator !== SVG_SECURITY_VALIDATOR ||
-  registry.runtimeActivation !== "off" ||
+  !["off", "controlled-svg"].includes(registry.runtimeActivation) ||
   !registry.items ||
   typeof registry.items !== "object" ||
   Array.isArray(registry.items)
 ) {
-  fail("registry header must define version=2, SVG-preferred semantic illustration scope, canonical production directory/security validator, runtimeActivation=off, and items");
+  fail("registry header must define version=2, SVG-preferred semantic illustration scope, canonical production directory/security validator, runtimeActivation=off|controlled-svg, and items");
   process.exit();
 }
 
@@ -462,5 +462,5 @@ if (process.exitCode) process.exit(process.exitCode);
 
 const heldCount = EXPECTED_KEYS.filter((key) => registry.items[key]?.lifecycle !== "approved").length;
 console.log(
-  `learning illustrations v2 OK: ${approvedWebpPaths.size} approved WebP history asset(s); ${approvedSvgPathMap.size} approved SVG asset(s); ${EXPECTED_KEYS.length - heldCount - approvedSvgPathMap.size} SVG migration-ready slot(s); ${heldCount} held fail-closed slot(s); runtime activation off`
+  `learning illustrations v2 OK: ${approvedWebpPaths.size} approved WebP history asset(s); ${approvedSvgPathMap.size} approved SVG asset(s); ${EXPECTED_KEYS.length - heldCount - approvedSvgPathMap.size} SVG migration-ready slot(s); ${heldCount} held fail-closed slot(s); runtime activation ${registry.runtimeActivation}`
 );

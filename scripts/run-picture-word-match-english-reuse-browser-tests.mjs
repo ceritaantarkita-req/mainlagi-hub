@@ -159,7 +159,10 @@ async function inspect({viewport,completionMode}){
     assert.equal(await page.getByText("Choose the action JUMP.",{exact:true}).count(),0,"answer-bearing canonical prompt must not render");
 
     const board=page.locator("[data-picture-word-match-board]");
-    assert.equal(await board.getByText("🤸",{exact:true}).count(),1,"canonical action visual renders");
+    const semanticVisual=board.locator('[data-learning-semantic-key="action.jump"][data-learning-visual-source="semantic-svg"]');
+    assert.equal(await semanticVisual.count(),1,"canonical JUMP visual activates approved semantic SVG");
+    assert.equal(await semanticVisual.locator('img[src="/artwork/learning-illustrations/action-jump-v1.svg"][data-learning-semantic-image]').count(),1,"JUMP visual uses canonical registry-backed SVG path");
+    assert.equal(await board.getByText("🤸",{exact:true}).count(),0,"approved JUMP SVG replaces the platform fallback glyph");
     const result=page.locator("[data-picture-word-match-result]");
     assert.equal((await result.textContent())?.trim(),"?","English target word stays hidden before assessment");
     assert.equal(await result.getAttribute("aria-label"),"Word not chosen yet");

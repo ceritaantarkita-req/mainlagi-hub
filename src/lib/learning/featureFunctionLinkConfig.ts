@@ -1,3 +1,4 @@
+import type { LearningSemanticIllustrationKey } from "./semanticIllustrationRuntime";
 import type { LearningActivity } from "./system";
 
 export type FeatureFunctionLinkConfig = {
@@ -8,6 +9,8 @@ export type FeatureFunctionLinkConfig = {
   contextLabel: string;
   choiceVisuals: Record<string, { icon: string; label: string }>;
   successText: string;
+  subjectSemanticKey?: LearningSemanticIllustrationKey;
+  featureSemanticKey?: LearningSemanticIllustrationKey;
 };
 
 const CONFIGS: Record<string, FeatureFunctionLinkConfig> = {
@@ -27,7 +30,9 @@ const CONFIGS: Record<string, FeatureFunctionLinkConfig> = {
   "science-feature-fish-gills": {
     subjectIcon: "🐟",
     subjectLabel: "Ikan",
+    subjectSemanticKey: "animal.fish",
     featureIcon: "🫧",
+    featureSemanticKey: "feature.gills",
     featureLabel: "Insang",
     contextLabel: "Hubungkan bagian tubuh ikan dengan fungsi yang sesuai.",
     choiceVisuals: {
@@ -40,7 +45,9 @@ const CONFIGS: Record<string, FeatureFunctionLinkConfig> = {
   "science-feature-bird-beak-seeds": {
     subjectIcon: "🐦",
     subjectLabel: "Burung kecil",
+    subjectSemanticKey: "animal.bird",
     featureIcon: "👄",
+    featureSemanticKey: "feature.beak",
     featureLabel: "Paruh",
     contextLabel: "Hubungkan paruh burung dengan fungsi yang paling masuk akal.",
     choiceVisuals: {
@@ -54,6 +61,7 @@ const CONFIGS: Record<string, FeatureFunctionLinkConfig> = {
     subjectIcon: "🌵",
     subjectLabel: "Kaktus",
     featureIcon: "💚",
+    featureSemanticKey: "feature.cactus-thick-stem",
     featureLabel: "Batang tebal",
     contextLabel: "Hubungkan ciri tumbuhan dengan manfaatnya di lingkungan kering.",
     choiceVisuals: {

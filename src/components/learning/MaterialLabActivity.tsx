@@ -100,7 +100,7 @@ export function MaterialLabActivity({ childId, activityId }: { childId: string; 
         <div className={styles.labBench} role="group" aria-label="Benda dan tujuan pengujian bahan">
           <div className={styles.objectCard}>
             <span className={styles.cardTag}>Benda</span>
-            <LearningVisualToken className={styles.objectIcon}>{config.objectIcon}</LearningVisualToken>
+            <LearningVisualToken className={styles.objectIcon} semanticKey={config.objectSemanticKey}>{config.objectIcon}</LearningVisualToken>
             <strong>{config.objectLabel}</strong>
           </div>
           <span className={styles.arrow} aria-hidden>→</span>

@@ -16,6 +16,10 @@ const expected=new Set([
   "bahasa-awal-kucing",
   "bahasa-awal-pisang"
 ]);
+const semanticById=new Map([
+  ["bahasa-awal-bola","object.ball"],
+  ["bahasa-awal-kucing","animal.cat"]
+]);
 
 const scoped=ACTIVITIES.filter(activity=>isInitialSoundActivity(activity));
 assert.equal(scoped.length,3,"initial-sound family must remain exactly three assessed Bahasa choice activities");
@@ -39,6 +43,7 @@ for(const activity of scoped){
   assert(config,`${activity.id} has explicit Initial Sound config`);
   assert.equal(config.word[0].toUpperCase(),activity.correctChoice,`${activity.id} configured word begins with canonical correctChoice`);
   assert(config.clue.length>0,`${activity.id} keeps a visual clue`);
+  assert.equal(config.semanticKey,semanticById.get(activity.id),`${activity.id} keeps its explicit semantic illustration identity`);
 }
 
 for(const id of [

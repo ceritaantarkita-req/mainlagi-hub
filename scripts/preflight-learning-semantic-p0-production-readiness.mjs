@@ -81,7 +81,7 @@ function readRegistry() {
     registry?.version !== 2 ||
     registry.scope !== "learning-semantic-illustration" ||
     registry.preferredProductionFormat !== "svg" ||
-    registry.runtimeActivation !== "off" ||
+    !["off", "controlled-svg"].includes(registry.runtimeActivation) ||
     !registry.items
   ) {
     throw new Error("unexpected learning illustration provenance registry v2 header");

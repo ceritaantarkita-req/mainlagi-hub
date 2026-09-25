@@ -1,3 +1,4 @@
+import type { LearningSemanticIllustrationKey } from "./semanticIllustrationRuntime";
 import type { LearningActivity } from "./system";
 
 export type PictureWordMatchLocale = "id-ID" | "en-US";
@@ -9,6 +10,7 @@ export type PictureWordMatchConfig = {
   successText: string;
   locale: PictureWordMatchLocale;
   domainVariant: PictureWordMatchDomainVariant;
+  semanticKey?: LearningSemanticIllustrationKey;
 };
 
 type CanonicalPictureWordMatch = PictureWordMatchConfig & {
@@ -24,25 +26,25 @@ const CANONICAL_PICTURE_WORD_MATCH: Record<string, CanonicalPictureWordMatch> = 
   "bahasa-gambar-apel": {
     subjectId: "bahasa", stageId: "bahasa-suku-kata-kata", title: "🍎 adalah...",
     prompt: "Kata mana yang cocok dengan gambar 🍎?", choices: ["apel", "ayam", "awan"], correctChoice: "apel",
-    picture: "🍎", spokenWord: "apel", successText: "Gambar apel cocok dengan kata apel.",
+    picture: "🍎", semanticKey: "object.apple", spokenWord: "apel", successText: "Gambar apel cocok dengan kata apel.",
     locale: "id-ID", domainVariant: "bahasa_word_picture"
   },
   "bahasa-gambar-mobil": {
     subjectId: "bahasa", stageId: "bahasa-suku-kata-kata", title: "🚗 adalah...",
     prompt: "Pilih nama untuk gambar 🚗.", choices: ["motor", "mobil", "meja"], correctChoice: "mobil",
-    picture: "🚗", spokenWord: "mobil", successText: "Gambar mobil cocok dengan kata mobil.",
+    picture: "🚗", semanticKey: "vehicle.car", spokenWord: "mobil", successText: "Gambar mobil cocok dengan kata mobil.",
     locale: "id-ID", domainVariant: "bahasa_word_picture"
   },
   "bahasa-gambar-kucing": {
     subjectId: "bahasa", stageId: "bahasa-suku-kata-kata", title: "🐱 adalah...",
     prompt: "Apa kata yang sesuai dengan 🐱?", choices: ["kuda", "kucing", "kelinci"], correctChoice: "kucing",
-    picture: "🐱", spokenWord: "kucing", successText: "Gambar kucing cocok dengan kata kucing.",
+    picture: "🐱", semanticKey: "animal.cat", spokenWord: "kucing", successText: "Gambar kucing cocok dengan kata kucing.",
     locale: "id-ID", domainVariant: "bahasa_word_picture"
   },
   "bahasa-gambar-rumah": {
     subjectId: "bahasa", stageId: "bahasa-suku-kata-kata", title: "🏠 adalah...",
     prompt: "Gambar 🏠 menunjukkan apa?", choices: ["rumah", "roda", "rumput"], correctChoice: "rumah",
-    picture: "🏠", spokenWord: "rumah", successText: "Gambar rumah cocok dengan kata rumah.",
+    picture: "🏠", semanticKey: "object.house", spokenWord: "rumah", successText: "Gambar rumah cocok dengan kata rumah.",
     locale: "id-ID", domainVariant: "bahasa_word_picture"
   },
   "bahasa-gambar-pisang": {
@@ -67,7 +69,7 @@ const CANONICAL_PICTURE_WORD_MATCH: Record<string, CanonicalPictureWordMatch> = 
   "english-animal-fish": {
     subjectId: "english", stageId: "english-everyday-words", title: "Find the fish",
     prompt: "Which word matches 🐟?", choices: ["BIRD", "FISH", "RABBIT"], correctChoice: "FISH",
-    picture: "🐟", spokenWord: "FISH", successText: "FISH matches the picture.",
+    picture: "🐟", semanticKey: "animal.fish", spokenWord: "FISH", successText: "FISH matches the picture.",
     locale: "en-US", domainVariant: "english_word_picture"
   },
   "english-object-book": {
@@ -85,13 +87,13 @@ const CANONICAL_PICTURE_WORD_MATCH: Record<string, CanonicalPictureWordMatch> = 
   "english-object-cup": {
     subjectId: "english", stageId: "english-everyday-words", title: "Find the cup",
     prompt: "Which word matches a cup?", choices: ["CUP", "BOOK", "BAG"], correctChoice: "CUP",
-    picture: "🥤", spokenWord: "CUP", successText: "CUP matches the picture.",
+    picture: "🥤", semanticKey: "object.cup", spokenWord: "CUP", successText: "CUP matches the picture.",
     locale: "en-US", domainVariant: "english_word_picture"
   },
   "english-body-head": {
     subjectId: "english", stageId: "english-everyday-words", title: "Find HEAD",
     prompt: "Which word names this body part: head?", choices: ["HEAD", "HAND", "FOOT"], correctChoice: "HEAD",
-    picture: "🙂", spokenWord: "HEAD", successText: "HEAD matches the picture.",
+    picture: "🙂", semanticKey: "body.head", spokenWord: "HEAD", successText: "HEAD matches the picture.",
     locale: "en-US", domainVariant: "english_word_picture"
   },
   "english-body-hand": {
@@ -128,7 +130,7 @@ const CANONICAL_PICTURE_WORD_MATCH: Record<string, CanonicalPictureWordMatch> = 
   "english-food-apple": {
     subjectId: "english", stageId: "english-words-actions", title: "Find APPLE",
     prompt: "Which word matches 🍎?", choices: ["APPLE", "BREAD", "RICE"], correctChoice: "APPLE",
-    picture: "🍎", spokenWord: "APPLE", successText: "APPLE matches the picture.",
+    picture: "🍎", semanticKey: "object.apple", spokenWord: "APPLE", successText: "APPLE matches the picture.",
     locale: "en-US", domainVariant: "english_word_picture"
   },
   "english-food-banana": {
@@ -152,7 +154,7 @@ const CANONICAL_PICTURE_WORD_MATCH: Record<string, CanonicalPictureWordMatch> = 
   "english-action-jump": {
     subjectId: "english", stageId: "english-words-actions", title: "Find JUMP",
     prompt: "Choose the action JUMP.", choices: ["EAT", "JUMP", "READ"], correctChoice: "JUMP",
-    picture: "🤸", spokenWord: "JUMP", successText: "JUMP matches the picture.",
+    picture: "🤸", semanticKey: "action.jump", spokenWord: "JUMP", successText: "JUMP matches the picture.",
     locale: "en-US", domainVariant: "english_word_picture"
   },
   "english-action-read": {
@@ -187,6 +189,7 @@ export function pictureWordMatchConfig(activity: LearningActivity | undefined): 
     spokenWord: canonical.spokenWord,
     successText: canonical.successText,
     locale: canonical.locale,
-    domainVariant: canonical.domainVariant
+    domainVariant: canonical.domainVariant,
+    semanticKey: canonical.semanticKey
   };
 }

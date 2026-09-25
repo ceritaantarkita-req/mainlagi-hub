@@ -977,5 +977,5 @@
   },
   "preferredProductionFormat": "svg",
   "svgSecurityValidator": "scripts/lib/svg-asset-security.mjs",
-  "runtimeActivation": "off"
+  "runtimeActivation": "controlled-svg"
 }

@@ -20,7 +20,8 @@
         "src/*"
       ]
     },
-    "ignoreDeprecations": "6.0"
+    "ignoreDeprecations": "6.0",
+    "resolveJsonModule": true
   },
   "include": [
     "src/lib/engine/hijaiyah.ts",
@@ -69,6 +70,7 @@
     "src/lib/learning/attempts.ts",
     "src/lib/learning/progression.ts",
     "src/lib/learning/system.ts",
+    "src/lib/learning/semanticIllustrationRuntime.ts",
     "src/lib/learning/activityVisualTheme.ts",
     "src/lib/learning/characterAssets.ts",
     "src/lib/learning/characterPresentation.ts",
