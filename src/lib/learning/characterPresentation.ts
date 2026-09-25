@@ -19,6 +19,27 @@ export const CHARACTER_PRESENTATION_CONTEXTS = [
 export type CharacterPresentationContext = (typeof CHARACTER_PRESENTATION_CONTEXTS)[number];
 export type CharacterPresentationSide = "left" | "right";
 export type CharacterPresentationRole = "guide" | "companion";
+export type BelajarCharacterMoment =
+  | "entry"
+  | "guide"
+  | "waiting"
+  | "correct"
+  | "retry"
+  | "completion";
+
+export const BELAJAR_CHARACTER_STATE_BY_MOMENT: Readonly<Record<BelajarCharacterMoment, CharacterPresentationState>> = {
+  entry: "welcome",
+  guide: "pointing",
+  waiting: "hero",
+  correct: "correct",
+  retry: "try_again",
+  completion: "celebrate"
+};
+
+export function characterStateForBelajarMoment(moment: BelajarCharacterMoment): CharacterPresentationState {
+  return BELAJAR_CHARACTER_STATE_BY_MOMENT[moment];
+}
+
 export type CharacterPresentationSource =
   | "authored"
   | "subject-preference"
