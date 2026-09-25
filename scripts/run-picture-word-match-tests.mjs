@@ -41,6 +41,17 @@ const englishIds=[
 ];
 
 const expected=new Set([...bahasaIds,...englishIds]);
+const semanticById=new Map([
+  ["bahasa-gambar-apel","object.apple"],
+  ["bahasa-gambar-mobil","vehicle.car"],
+  ["bahasa-gambar-kucing","animal.cat"],
+  ["bahasa-gambar-rumah","object.house"],
+  ["english-animal-fish","animal.fish"],
+  ["english-object-cup","object.cup"],
+  ["english-body-head","body.head"],
+  ["english-food-apple","object.apple"],
+  ["english-action-jump","action.jump"]
+]);
 const scoped=ACTIVITIES.filter(activity=>isPictureWordMatchActivity(activity));
 assert.equal(scoped.length,23,"picture-word-match family must contain exactly five legacy Bahasa + eighteen audited English activities");
 assert.deepEqual(new Set(scoped.map(activity=>activity.id)),expected,"picture-word-match scope must remain the exact audited 23-ID family");
@@ -62,6 +73,7 @@ for(const activity of scoped){
   assert(config.picture.length>0,`${activity.id} keeps a stable visual clue`);
   assert.equal(config.locale,activity.subjectId==="english"?"en-US":"id-ID",`${activity.id} uses subject-aware locale`);
   assert.equal(config.domainVariant,activity.subjectId==="english"?"english_word_picture":"bahasa_word_picture",`${activity.id} uses explicit domain variant`);
+  assert.equal(config.semanticKey,semanticById.get(activity.id),`${activity.id} keeps explicit semantic illustration identity without hardcoded asset path`);
 
   assert.equal(isPictureWordMatchActivity({...activity,title:`${activity.title}!`}),false,`${activity.id} title drift fails closed`);
   assert.equal(isPictureWordMatchActivity({...activity,prompt:`${activity.prompt}!`}),false,`${activity.id} prompt drift fails closed`);
