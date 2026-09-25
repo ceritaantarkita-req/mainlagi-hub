@@ -16,9 +16,33 @@ Applies now to:
 
 Does not force raster artwork such as subject backgrounds to SVG. The current 108 responsive subject-background WebP assets remain valid.
 
-Semantic P0 production contract is now **registry v2 / SVG-preferred / runtime activation off** through Session 10 / PR #343. The 14 source/license-clear records preserve their exact approved WebP production history and now expose canonical SVG migration slots at `/artwork/learning-illustrations/<semantic-slug>-v1.svg`. Current state is **14 approved WebP history bindings / 14 SVG migration-ready slots / 0 approved SVG binaries / 3 held / 0 runtime semantic activation**. `vehicle.car`, `object.towel`, and `object.raincoat` remain held regardless of format.
+Semantic P0 production contract is now **registry v2 / SVG-preferred / runtime activation off** through Session 11 / PR #346. The 14 source/license-clear records preserve their exact approved WebP production history and now also bind canonical approved SVG production files at `/artwork/learning-illustrations/<semantic-slug>-v1.svg`. Current state is **14 approved WebP history bindings / 14 approved SVG binaries / 0 SVG migration-ready slots / 3 held / 0 runtime semantic activation**. `vehicle.car`, `object.towel`, and `object.raincoat` remain held regardless of format.
 
 Canonical policy: `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`.
+
+## 25 September semantic SVG production checkpoint — LIVE VERIFIED THROUGH SESSION 11
+
+```text
+Session 11 PR: #346
+Session 11 final PR head: 32e84d08ad43e172935dd6fb6a63f08567ac9549
+Session 11 PR CI: #1684 / run 36156244598 — full success
+Session 11 implementation main: d8992804beb82e553a3965066cf674fbfca9d7b5
+Session 11 merged-main CI: #1685 / run 36157147165 — full success
+Session 11 Production smoke (Cloudflare): success
+
+semantic registry: version 2
+preferred production format: svg
+runtime activation: off
+approved WebP history: 14
+approved SVG binaries: 14
+SVG migration-ready: 0
+held SVG slots: 3
+next: Session 12 — central semantic SVG runtime resolver + controlled activation
+```
+
+Canonical closure: `LEARNING_SEMANTIC_SVG_PRODUCTION_SESSION11_CLOSURE_2026-09-25.md`.
+
+Session 11 promoted only the exact 14 already-reviewed canonical SVG sources. It did not activate semantic SVGs in child runtime or change learning semantics.
 
 ## 25 September semantic SVG registry checkpoint — LIVE VERIFIED THROUGH SESSION 10
 
@@ -61,7 +85,7 @@ Session 09 merged main: 227a77799cd73fecc8e58960ef8758c2e323bc30
 Session 09 merged-main CI: #1674 / run 36132350678 — full success
 Session 09 Production smoke (Cloudflare): success
 Sessions 01–09: COMPLETE
-Session 10 semantic SVG registry migration: COMPLETE; semantic runtime still OFF
+Sessions 10–11 semantic SVG registry + production promotion: COMPLETE; semantic runtime still OFF
 ```
 
 The exact repository `main` HEAD may move through later docs-only descendants. Treat `227a77799cd73fecc8e58960ef8758c2e323bc30` as the verified Session 09 runtime checkpoint and query `main` itself when an exact latest repository HEAD is required.
