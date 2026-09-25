@@ -19,7 +19,7 @@ Read these first for current work:
    - [`MAINLAGI_WORLD_CHARACTER_SYSTEM_INTEGRATION_2026-09-25.md`](MAINLAGI_WORLD_CHARACTER_SYSTEM_INTEGRATION_2026-09-25.md) — canonical Sessions 00–16 integration queue and cross-domain boundaries.
    - [`MAINLAGI_WORLD_CHARACTER_INTEGRATION_SESSION08_2026-09-25.md`](MAINLAGI_WORLD_CHARACTER_INTEGRATION_SESSION08_2026-09-25.md) — closed/live-verified PR #337 World shared-character migration.
    - [`MAINLAGI_HOME_BERMAIN_CHARACTER_INTEGRATION_SESSION09_2026-09-25.md`](MAINLAGI_HOME_BERMAIN_CHARACTER_INTEGRATION_SESSION09_2026-09-25.md) — closed/live-verified PR #340 Home + Bermain shared-character integration.
-   - [`MAINLAGI_CHARACTER_WORLD_SAFE_CHECKPOINT_2026-09-25.md`](MAINLAGI_CHARACTER_WORLD_SAFE_CHECKPOINT_2026-09-25.md) — current safe handoff: Sessions 01–09 complete; Session 10 not started.
+   - [`MAINLAGI_CHARACTER_WORLD_SAFE_CHECKPOINT_2026-09-25.md`](MAINLAGI_CHARACTER_WORLD_SAFE_CHECKPOINT_2026-09-25.md) — current safe handoff: Sessions 01–10 complete; Session 11 not started.
 9. [`CHARACTER_ASSET_PIPELINE.md`](CHARACTER_ASSET_PIPELINE.md) — production-only character directory, provenance registry, technical validator and approval sequence.
 10. [`CHARACTER_CANDIDATE_INTAKE_AUDIT_2026-09-21.md`](CHARACTER_CANDIDATE_INTAKE_AUDIT_2026-09-21.md) — historical 21 Sep Drive audit; superseded for current source availability by the 25 Sep isolated five-character SVG bank.
 11. [`CLOUD_ANALYTICS_PAGINATION_CLOSURE_2026-09-21.md`](CLOUD_ANALYTICS_PAGINATION_CLOSURE_2026-09-21.md) — closed/live-verified complete cloud analytics pagination + explicit authenticated failure/retry behavior.
@@ -116,8 +116,8 @@ visual containment:               PR #294 -> 6d0f9bd8 / PR CI #1529 / main CI #1
 semantic illustration gate:       PR #297 -> ed7db8a6 / 17 review-required / 0 approved / main CI #1537 exact smoke
 semantic candidate generator:     PR #300 -> 89adf887 / main CI #1546 exact smoke
 semantic source refinement:       PR #301 -> 9f6270c7 / main CI #1548 exact smoke
-semantic production art:          PR #324 / 14 approved WebP derivatives / 3 held / 0 runtime / direct-SVG migration next
-asset format policy:              SVG-FIRST for canonical SVG sources / no unnecessary SVG→WebP conversion
+semantic production art:          PR #324 WebP history preserved / Session 10 PR #343 registry v2 / 14 SVG migration-ready / 3 held / 0 runtime
+asset format policy:              SVG-FIRST / semantic registry v2 migrated / exact SVG promotion next in Session 11
 character development:            35/35 SVG states approved + shared runtime live across Belajar/World/Home/Bermain through Session 09
 Mainlagi World:                   FIRST-CLASS MAINLAGI DOMAIN / shared Gavi+Paca runtime live verified / Home+Bermain integration closed
 WS-05 production truth:           900/900 / 47 / choice_grid 174 / pattern_completion 10 / KEEP 900
@@ -534,4 +534,5 @@ Historical English-narration checkpoint: next work there was candidate generatio
 
 - [`LEARNING_SEMANTIC_P0_PRODUCTION_APPROVAL_INTEGRATION_2026-09-25.md`](LEARNING_SEMANTIC_P0_PRODUCTION_APPROVAL_INTEGRATION_2026-09-25.md) — 14 exact production-approved P0 binaries, three held, runtime activation intentionally separate.
 
-- [`LEARNING_SEMANTIC_P0_PRODUCTION_SAFE_CHECKPOINT_2026-09-25.md`](LEARNING_SEMANTIC_P0_PRODUCTION_SAFE_CHECKPOINT_2026-09-25.md) — canonical merged/live-verified handoff: 14 approved binaries, three held, runtime activation 0, next discussion boundary.
+- [`LEARNING_SEMANTIC_P0_PRODUCTION_SAFE_CHECKPOINT_2026-09-25.md`](LEARNING_SEMANTIC_P0_PRODUCTION_SAFE_CHECKPOINT_2026-09-25.md) — canonical merged/live-verified handoff: registry v2, 14 SVG migration-ready, three held, runtime activation 0, Session 11 next.
+- [`LEARNING_SEMANTIC_SVG_REGISTRY_SESSION10_CLOSURE_2026-09-25.md`](LEARNING_SEMANTIC_SVG_REGISTRY_SESSION10_CLOSURE_2026-09-25.md) — closed/live-verified PR #343 SVG-aware semantic registry/validator migration.
