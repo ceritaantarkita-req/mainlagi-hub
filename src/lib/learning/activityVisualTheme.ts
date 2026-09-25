@@ -1,4 +1,4 @@
-import type { LearningActivity } from "./system";
+import type { CharacterId, LearningActivity } from "./system";
 import {
   SUBJECT_CHARACTER_PAIRS,
   resolveCharacterPresentation,
@@ -188,7 +188,7 @@ export const SUBJECT_THEMES: Readonly<Record<ThemedSubjectId, SubjectTheme>> = {
 };
 
 export const SUBJECT_CHARACTER_PREFERENCES: Readonly<
-  Record<ThemedSubjectId, readonly [string, string]>
+  Record<ThemedSubjectId, readonly [CharacterId, CharacterId]>
 > = SUBJECT_CHARACTER_PAIRS;
 
 type SemanticRule = {
