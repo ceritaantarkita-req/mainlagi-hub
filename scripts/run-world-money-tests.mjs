@@ -859,12 +859,14 @@ try {
   assert.ok(mapCoreAssetBytes <= 190 * 1024, "World map core background artwork must stay bounded independently from shared character assets");
   for (const asset of [
     "public/artwork/characters/gavi-hero-v1.svg",
+    "public/artwork/characters/gavi-welcome-v1.svg",
     "public/artwork/characters/gavi-pointing-v1.svg",
     "public/artwork/characters/gavi-thinking-v1.svg",
     "public/artwork/characters/gavi-correct-v1.svg",
     "public/artwork/characters/gavi-try-again-v1.svg",
     "public/artwork/characters/gavi-celebrate-v1.svg",
     "public/artwork/characters/paca-hero-v1.svg",
+    "public/artwork/characters/paca-welcome-v1.svg",
     "public/artwork/characters/paca-pointing-v1.svg",
     "public/artwork/characters/paca-thinking-v1.svg",
     "public/artwork/characters/paca-correct-v1.svg",
