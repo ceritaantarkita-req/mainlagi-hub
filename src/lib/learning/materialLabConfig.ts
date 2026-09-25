@@ -1,3 +1,4 @@
+import type { LearningSemanticIllustrationKey } from "./semanticIllustrationRuntime";
 import type { LearningActivity } from "./system";
 
 export type MaterialLabTestKind = "waterproof" | "transparent" | "absorbent" | "rigid";
@@ -16,6 +17,7 @@ export type MaterialLabConfig = {
   testIcon: string;
   choiceVisuals: Record<string, MaterialLabChoiceVisual>;
   successText: string;
+  objectSemanticKey?: LearningSemanticIllustrationKey;
 };
 
 const CONFIGS: Record<string, MaterialLabConfig> = {
@@ -23,6 +25,7 @@ const CONFIGS: Record<string, MaterialLabConfig> = {
     testKind: "waterproof",
     objectLabel: "Jas hujan",
     objectIcon: "🧥",
+    objectSemanticKey: "object.raincoat",
     purposeLabel: "Menjaga tubuh tetap kering saat hujan",
     testLabel: "Tes air",
     testIcon: "💧",
@@ -51,6 +54,7 @@ const CONFIGS: Record<string, MaterialLabConfig> = {
     testKind: "absorbent",
     objectLabel: "Handuk",
     objectIcon: "🧺",
+    objectSemanticKey: "object.towel",
     purposeLabel: "Mengeringkan air dari tubuh",
     testLabel: "Tes serap",
     testIcon: "💦",
@@ -65,6 +69,7 @@ const CONFIGS: Record<string, MaterialLabConfig> = {
     testKind: "rigid",
     objectLabel: "Balok susun",
     objectIcon: "🧱",
+    objectSemanticKey: "object.toy-block",
     purposeLabel: "Tetap berbentuk saat ditumpuk",
     testLabel: "Tes bentuk",
     testIcon: "🏗️",
