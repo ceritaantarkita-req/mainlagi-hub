@@ -4,6 +4,26 @@ Last reviewed: **25 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
+## 25 September World + character integration authorization — CURRENT
+
+PR #327 merged `MAINLAGI_WORLD_CHARACTER_SYSTEM_INTEGRATION_2026-09-25.md` and records the project-owner decision that **Mainlagi World is a first-class domain of one Mainlagi product system** and that character development is resumed for the shared Mainlagi integration.
+
+Character-source audit now finds a complete isolated/single-character SVG bank for Naya, Gian, Zia, Paca and Gavi. The project owner additionally confirmed the formerly ambiguous Gavi hero source is now named `gavi-panel-hero.svg`.
+
+Locked new-character production decision:
+
+```text
+format: SVG directly
+states: hero / welcome / pointing / thinking / correct / try_again / celebrate
+hero: neutral/default
+design-set SVG + .ai: reference/master only
+legacy Gavi/Paca WebP: compatibility fallback during migration
+```
+
+This is **authorization/architecture truth, not completed runtime truth**. As of this docs sync, the source SVG bank has not yet been promoted into the repository production directory or activated through the runtime registry. Existing Naya/Gian/Zia fail-closed behavior therefore remains valid until the SVG provenance/sanitizer/validator + runtime waves land.
+
+Any lower section that says “World untouched” or “character development paused” describes the boundary of that historical checkpoint and must not be interpreted as the current project-owner instruction.
+
 ## 25 September semantic P0 production approval / integration — MERGED / LIVE VERIFIED
 
 The production-approval/integration wave is **CLOSED / MERGED / LIVE VERIFIED** through PR **#324**.
@@ -319,7 +339,7 @@ The fail-closed dynamic character-presentation foundation is **MERGED / LIVE VER
 - Human character asset pipeline is merged/live verified through PR #263: production-only directory, provenance registry, alpha/dimension/size validator, regression fixtures, and deliberate git-staging friction are active.
 - Runtime asset lifecycle registry remains merged/live verified through PR #262; Naya/Gian/Zia remain `reference-only` with no runtime path and no human production binary is committed yet.
 
-The foundation and asset-pipeline waves are closed. Candidate intake audit found no separate Naya/Gian/Zia foreground candidate. **Character production/development is currently PAUSED by the project owner.** Existing Drive character material is reference-only for current engineering work; no character binary/runtime activation should resume unless explicitly re-authorized. The five-character homepage hero remains a separate future composition task.
+The foundation and PR #263 asset-pipeline waves remain closed as historical implementation checkpoints. The 21 September candidate-intake conclusion is now superseded by the 25 September Drive audit: isolated single-character SVG sources exist for Naya, Gian, Zia, Paca and Gavi. **Character production/development is now resumed/authorized by the project owner.** The new format/state lock is SVG-native with seven states, but runtime remains fail-closed until provenance, sanitization, validator migration, production intake and explicit runtime activation are completed.
 
 ## Canonical baseline
 
@@ -518,18 +538,19 @@ English narration production-asset Wave 2 is **MERGED / LIVE VERIFIED** via PR #
 
 Current product-UX state: **parent/profile/settings responsive redesign is MERGED / LIVE VERIFIED** via PR #251, and the **all-subject background system is also MERGED / LIVE VERIFIED** via PR #256. `CloudParentOverviewScreen` remains canonical; family profiles are separated from `demo-gian`; child profile identity is separated from guide-character presentation; mobile parent navigation replaces the legacy forced aside below 760px. **Character production/development is paused**, so Naya/Gian/Zia production work is not an active next step. The current safe English narration continuation is the four-item provider/voice pilot; any unrelated visual/usability wave must be selected separately. Do not alter learning evidence/mastery/progression/schema while advancing presentation.
 
-### Character / artwork state — 20 September 2026
+### Character / artwork state — updated 25 September 2026
 
-- Paca production artwork: `public/artwork/garden-paca.webp`.
-- Gavi production artwork: `public/artwork/garden-gavi.webp`.
-- Paca/Gavi coloring-preview assets exist.
-- Naya/Gian/Zia have no production image files under `public/artwork` yet.
-- `CharacterAvatar` currently uses inline fallback SVG representations for Naya/Gian/Zia.
-- Canonical identity remains: Naya ~8 / hijab / warm-encouraging; Gian ~5 / active-curious-playful; Zia ~3 / expressive-beginner-friendly; Paca hints/system/discovery; Gavi humor/rewards/reactions.
-- Child profile identity and guide-character identity are separate concepts.
-- Character candidates for Naya/Gian/Zia still require production review/provenance before runtime use.
-- Subject backgrounds are now production assets: **9 subjects / 54 scene families / 108 optimized WebP files**, merged through PR #256 and live verified.
-- Canonical background execution contract: `docs/SUBJECT_BACKGROUND_SYSTEM.md`; final production preview record: `docs/SUBJECT_BACKGROUND_PRODUCTION_PREVIEW_REVIEW_2026-09-21.md`.
+- Existing runtime-safe legacy artwork remains `public/artwork/garden-paca.webp` and `public/artwork/garden-gavi.webp`.
+- Drive now contains isolated single-character SVG state assets for all five canonical characters: Naya, Gian, Zia, Paca and Gavi.
+- `gavi-panel-hero.svg` is confirmed as the Gavi hero/default source.
+- New character production format is locked to **direct SVG**, not WebP derivatives.
+- Locked states: `hero`, `welcome`, `pointing`, `thinking`, `correct`, `try_again`, `celebrate`.
+- Design-set SVG files and `character-set-collection-mainlagi.ai` are reference/master assets only.
+- New production files will normalize to `/artwork/characters/<id>-<state>-v1.svg` after provenance + sanitization + validator approval.
+- Naya/Gian/Zia remain runtime fail-closed until those implementation gates are completed; source availability does not equal activation.
+- Child profile identity and guide-character identity remain separate concepts.
+- Subject backgrounds remain production assets: **9 subjects / 54 scene families / 108 optimized WebP files**, merged through PR #256 and live verified.
+- Canonical character format/pipeline contract: `docs/CHARACTER_ASSET_PIPELINE.md`; presentation contract: `docs/CHARACTER_PRESENTATION_SYSTEM.md`.
 
 ## Engineering status
 
