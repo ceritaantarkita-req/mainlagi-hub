@@ -260,7 +260,29 @@ Canonical identities are intentionally narrow:
 
 Do not invent unsupported biography, hobby, hairstyle, clothing details beyond Naya's documented hijab, family relationship, or personality traits merely to make generated art more specific.
 
-Current production-asset truth:
+#### 25 September SVG-native character production lock
+
+The project owner has resumed character production for the unified Mainlagi system and locked the new character asset format to **direct single-character SVG**.
+
+Canonical state vocabulary:
+
+- `hero` — neutral/default;
+- `welcome`;
+- `pointing`;
+- `thinking`;
+- `correct`;
+- `try_again`;
+- `celebrate`.
+
+The project owner confirmed `gavi-panel-hero.svg` as the Gavi hero/default source. The single-character SVGs are production-source candidates; `*-character-design-set.svg` and `character-set-collection-mainlagi.ai` remain identity/master references and must not be rendered as runtime sprites.
+
+Production runtime paths normalize to `/artwork/characters/<id>-<state>-v1.svg` after provenance, sanitization/security validation, exact-path/hash binding and responsive QA. Load approved SVGs as image assets rather than injecting raw SVG markup.
+
+Existing Garden Gavi/Paca WebP artwork remains a temporary compatibility fallback during migration only.
+
+The block immediately below records the **pre-SVG runtime implementation baseline**, not the new target asset format.
+
+Current runtime implementation baseline (pre-SVG migration):
 
 ```text
 Paca  -> public/artwork/garden-paca.webp       production asset exists
