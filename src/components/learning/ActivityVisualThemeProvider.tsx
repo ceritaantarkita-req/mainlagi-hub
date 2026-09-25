@@ -54,7 +54,7 @@ export function ActivityVisualThemeProvider({
 }) {
   const [moment, setMomentState] = useState<BelajarCharacterMoment>("entry");
   const momentRef = useRef<BelajarCharacterMoment>("entry");
-  const resetTimerRef = useRef<ReturnType<typeof window.setTimeout> | null>(null);
+  const resetTimerRef = useRef<number | null>(null);
 
   const clearResetTimer = useCallback(() => {
     if (resetTimerRef.current !== null) {
