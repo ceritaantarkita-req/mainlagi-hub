@@ -95,7 +95,7 @@ type MoneyWorldActivityCompletion = Omit<
   "childId"
 >;
 
-type MoneyWorldCharacterFeedbackState = "correct" | "try_again";
+type MoneyWorldCharacterFeedbackState = "correct" | "try_again";\n\nconst MONEY_WORLD_SHARED_CHARACTER_RUNTIME_MODE = "shared-approved-svg-cast";
 
 const WorldCharacterFeedbackContext = createContext<(state: MoneyWorldCharacterFeedbackState) => void>(() => {});
 
@@ -1476,7 +1476,7 @@ function MoneyWorldStageRuntime({
       data-world-pilot-runtime-status={pilotStage.runtimeStatus}
       data-world-scene={stage.order}
       data-world-stage-shell="garden-baseline-v1"
-      data-world-runtime-character-policy={MONEY_WORLD_RUNTIME_CHARACTER_POLICY.mode}
+      data-world-runtime-character-policy={MONEY_WORLD_SHARED_CHARACTER_RUNTIME_MODE}
       data-world-character-state={characterState}
       data-world-character-left={characterPresentation.characters[0]?.id}
       data-world-character-right={characterPresentation.characters[1]?.id}
