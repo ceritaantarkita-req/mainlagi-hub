@@ -1410,11 +1410,14 @@ Important compatibility boundary: the old `approvedCharacterRuntimeSrc()` API re
 
 **Session 05 is closed. Start Session 06 only from merged latest main.**
 
-### Session 06 — Integrate characters into Belajar
+### Session 06 — Integrate characters into Belajar — COMPLETE
 
-**Do:** connect the shared resolver to Belajar presentation/feedback without activity-by-activity hardcoding.
+**Closure:** `MAINLAGI_BELAJAR_CHARACTER_INTEGRATION_SESSION06_2026-09-25.md`  
+**Base main:** `6d97a99f1e276509e7ec5c9c012858c425ea1697`
 
-Target pairings:
+Belajar now uses the shared state-aware character runtime without activity-by-activity asset hardcoding.
+
+Activated pair policy:
 
 ```text
 Bahasa          Gavi + Paca
@@ -1424,22 +1427,43 @@ Iqro            Gavi + Paca
 Huruf           Gavi + Paca
 Logic           Gavi + Paca
 Science         Gavi + Paca
-Color/Drawing   hidden while workspace is active
+Color/Drawing   Gavi + Paca, hidden while workspace is active
 ```
 
-State mapping:
+Presentation-only moment mapping:
 
 ```text
-entry       -> welcome/hero
+entry       -> welcome
 guide       -> pointing
-waiting     -> hero/thinking
+waiting     -> hero
 correct     -> correct
 retry       -> try_again
 completion  -> celebrate
 ```
 
-**Do not:** change activity IDs, answers, mastery, progression, evidence, or Pattern count.  
-**Done when:** representative subject/activity routes resolve the correct characters/states.
+Integration uses the existing centralized learning interaction bridge to emit a separate `childId + activityId + moment` presentation event. The character resolver never reads answer keys and does not mutate evidence/mastery/progression.
+
+`GardenActivityFrame` now renders via the shared `CharacterLayer`. The old Belajar dependency on `approvedCharacterRuntimeSrc()` is removed.
+
+Regression now locks:
+
+```text
+900/900 Belajar activities -> canonical subject pair + approved SVG state bank
+English representative      -> Naya + Zia
+Math representative         -> Gian + Paca
+retry                       -> try_again
+completion                  -> celebrate
+```
+
+New representative browser command:
+
+```bash
+npm run test:ui:character-belajar
+```
+
+Full multi-viewport visual polishing remains Session 07.
+
+**Session 06 is closed. Start Session 07 only from merged latest main.**
 
 ### Session 07 — Belajar character responsive QA + fixes
 
