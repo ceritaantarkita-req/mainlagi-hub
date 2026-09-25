@@ -23,15 +23,21 @@ Canonical policy: `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`.
 ## 25 September character + World safe checkpoint — LIVE VERIFIED THROUGH SESSION 08
 
 ```text
-current main: e2e5e4b676ce45313786420708de41731ec2e3cb
+Session 08 runtime implementation main: e2e5e4b676ce45313786420708de41731ec2e3cb
 Session 08 PR: #337
 final PR head: 6a728c36f7bc0a1a34c46e2511062df5e2b9af9d
 final PR CI: #1663 / run 36120579884 — full success
-merged-main CI: #1664 / run 36121741946 — full success
-Production smoke (Cloudflare): success
+runtime merged-main CI: #1664 / run 36121741946 — full success
+runtime Production smoke (Cloudflare): success
+Session 08 docs closure PR: #338
+docs closure main: ec894e302eac6d7bb80ab3169319611c9524514d
+docs closure merged-main CI: #1666 / run 36125237186 — full success
+docs closure Production smoke (Cloudflare): success
 Sessions 01–08: COMPLETE
 next: Session 09 — Home + Bermain shell character integration
 ```
+
+The exact repository `main` HEAD may move through later docs-only descendants. Treat the SHAs above as the verified Session 08 runtime and closure checkpoints, and query `main` itself when an exact latest repository HEAD is required.
 
 Session 08 migrated Petualangan Uang to the shared approved SVG character runtime while preserving the authored Gavi + Paca cast. Catalog, map, story/concept, challenge feedback, Stage completion, and final-World completion now resolve through `characterPresentation.ts` + `CharacterLayer` with `welcome / pointing / hero / thinking / correct / try_again / celebrate` presentation states.
 
