@@ -162,70 +162,79 @@ The character system remains presentation-only. It must not change curriculum, a
 
 Coloring and Drawing continue to use their subject scenery, but decorative foreground characters remain hidden in workspace mode so they do not compete with the canvas/tools.
 
-## Fail-closed rule
+## Fail-closed rule — CURRENT
 
-A preferred character may not render until `characterAssets.ts` marks it `approved` **and** exposes a concrete `runtimeSrc`. Merely adding a file under `public/artwork` must not activate a character.
+The shared state-aware runtime may render only production-approved character state assets exposed by `characterAssets.ts`.
 
-Example:
+Current order:
 
-- English prefers Naya + Zia;
-- neither currently has a production foreground file;
-- runtime therefore stays Gavi + Paca;
-- once both are approved and entered into the allowlist, English can switch without activity-specific hardcoding.
+```text
+requested approved state
+-> same-character hero
+-> same-character welcome
+-> approved same-character legacy Gavi/Paca WebP where valid
+-> presentation-layer approved identity fallback when allowed
+-> hide
+```
 
-The same rule applies to Math's future Gian + Paca pair.
+Reference/design sheets are never runtime fallbacks.
 
-## Regression contract
+Unknown World IDs fail closed to no cast. Product surfaces must not infer a new World cast merely because approved character assets exist.
 
-The visual-theme regression must verify:
+## Regression contract — CURRENT
 
-- all 900 activities still resolve deterministically;
-- two foreground character slots resolve for normal Garden activities;
-- the canonical five-character registry is complete;
-- only `approved` registry entries can expose a runtime path;
-- Naya/Gian/Zia remain `reference-only` with `runtimeSrc=null` until explicit production approval;
-- only production-approved asset IDs are returned;
-- the same character cannot occupy both slots;
-- GardenActivityFrame contains no hardcoded Gavi/Paca runtime path;
-- creative workspace CSS hides the generic character layer;
-- English remains fail-closed to Gavi/Paca until Naya/Zia production assets are approved.
+`npm run test:learning:character-runtime` must verify:
 
-## Non-goals
+- the locked five characters and seven states;
+- all 35 SVG runtime paths match the approved provenance registry;
+- requested-state, hero/welcome and legacy fallback behavior;
+- Naya/Gian/Zia never fall back to reference artwork;
+- English shared resolver policy = Naya + Zia;
+- Math shared resolver policy = Gian + Paca;
+- Petualangan Uang cast = Gavi + Paca;
+- context-to-state defaults;
+- authored override dedupe/cap;
+- unknown World fail-closed behavior;
+- explicit approved identity fallback;
+- legacy Belajar compatibility remains unchanged until Session 06;
+- CharacterLayer two-character cap, QA attributes, pointer safety, safe-area and reduced-motion behavior.
 
-This foundation does not:
+The existing `test:learning:visual-theme` regression remains responsible for the currently deployed pre-Session-06 Belajar behavior until that surface is deliberately migrated.
 
-- approve Naya/Gian/Zia production artwork;
-- infer new subject pairings that were not already established;
+## Non-goals — Session 05
+
+Session 05 does not:
+
+- migrate Belajar surfaces;
+- migrate World surfaces;
+- change Home;
+- change creative workspace visibility;
 - change child profile/guide identity;
-- change coloring content;
 - change narration identity;
-- change learning evidence/mastery/progression/schema.
+- change curriculum/content/answers;
+- change learning evidence, mastery, progression, rewards or schema;
+- delete legacy Gavi/Paca WebP fallback files.
 
-## Merge / production verification
+## Historical checkpoint — PR #259
 
-The character-presentation foundation is merged through PR **#259** at `b5acbfcde66ea1451f3e55a8d469d33ba4845af1`.
+PR **#259** at `b5acbfcde66ea1451f3e55a8d469d33ba4845af1` established the earlier character-presentation/fail-closed foundation.
 
-Merged-main CI **#1190 / run `35589937017`** passed the quality gate, production build, mobile-route/permanent visual QA, Windows compatibility, dependency audit, and exact Cloudflare production smoke.
+Merged-main CI **#1190 / run `35589937017`** passed its then-current quality, build, mobile-route/permanent visual QA, Windows, dependency and production-smoke gates.
 
-This closes the architecture/fail-closed foundation. It does **not** approve Naya/Gian/Zia artwork for runtime.
+Its historical statements that Naya/Gian/Zia lacked production artwork and that character development was paused were correct for that checkpoint. They are **not current execution instructions** after the project-owner 25 September authorization and Sessions 01–05.
 
-## Paused gate / resume conditions
+## Current continuation boundary
 
-The production asset directory, machine-readable provenance registry, and blocking character-asset validator remain the pre-activation gate. No human production binary is approved or activated by that infrastructure alone.
+Character source/provenance/production/runtime-foundation work is now complete through Session 05.
 
-**Character production/development is currently paused by the project owner. Do not execute the steps below until an explicit resume instruction is given. Mainlagi World is developed separately and is not part of this character workstream.**
+Next:
 
-When explicitly resumed, execute the human-character production wave in this order:
+```text
+Session 06 -> deliberate Belajar migration
+Session 07 -> Belajar responsive QA
+Session 08 -> World migration
+Session 09 -> Home integration
+```
 
-1. lock the production character specification against the reviewed Naya/Gian/Zia design sheets;
-2. create isolated transparent full-body runtime assets with stable scale, silhouette, pose and identity;
-3. record provenance, ownership and redistribution status for each production file;
-4. review visual consistency against the design references;
-5. run responsive activity screenshots and check that foreground characters never cover instructions, choices, canvas/tools or completion controls;
-6. activate only approved assets through the central approved-character map/resolver;
-7. verify English -> Naya + Zia and Math -> Gian + Paca while preserving fail-closed fallback for any missing asset;
-8. keep all other subject pairings unchanged until separately approved.
+The five-character homepage hero remains a separate composition/surface task and must use the same approved production identities rather than becoming a new source-of-truth asset.
 
-The **five-character homepage hero is a separate composition task**. It should use the same approved production identities, but it must not be treated as the source asset for activity foreground characters or finalized from unapproved human-character sprites.
-
-The paused character gate does not block separately approved Mainlagi Belajar work such as English narration quality, learning-illustration consistency, public/parent information architecture cleanup, or external physical-device acceptance. Any such work should be opened as its own scoped wave.
