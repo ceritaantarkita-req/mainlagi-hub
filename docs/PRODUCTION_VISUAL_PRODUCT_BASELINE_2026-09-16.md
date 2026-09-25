@@ -1,7 +1,7 @@
 # Production Visual / Product Baseline Audit — 2026-09-16
 
 Last updated: **25 September 2026**  
-Status: **P0=0 / P1=0 / P2=3 BASELINE PRESERVED; WS-13 PRODUCT UX THROUGH PARENT WAVE LIVE VERIFIED; CHARACTER PAUSE SUPERSEDED BY SESSIONS 01–08**  
+Status: **P0=0 / P1=0 / P2=3 BASELINE PRESERVED; WS-13 PRODUCT UX THROUGH PARENT WAVE LIVE VERIFIED; CHARACTER PAUSE SUPERSEDED BY SESSIONS 01–09**  
 Canonical production: `https://mainlagihub.my.id/`
 
 ## 20 September WS-13 product-UX addendum
@@ -28,7 +28,7 @@ QA artifact:       10608044389
 
 Parent responsive contract is <760px mobile header + fixed five-item bottom nav and >=760px desktop sidebar. Manual review at 320 / 390 / 768 / 1024 was accepted; the 768 hero remains stacked to avoid pathological wrapping.
 
-**25 September current-state override:** the character pause recorded by this older visual baseline has been superseded. All five characters now have 35/35 production-approved SVG states, Belajar uses the shared runtime, and Petualangan Uang World migration is closed/live verified through Session 08 / PR #337. The remaining product-surface character work is Session 09 Home + Bermain shell integration. This override does not rewrite the historical 16–22 September visual-baseline evidence below.
+**25 September current-state override:** the character pause recorded by this older visual baseline has been superseded. All five characters now have 35/35 production-approved SVG states, Belajar uses the shared runtime, Petualangan Uang World migration is closed/live verified through Session 08 / PR #337, and Home + Bermain character integration is closed/live verified through Session 09 / PR #340. This override does not rewrite the historical 16–22 September visual-baseline evidence below.
 
 ## Verified closure chain
 

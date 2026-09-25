@@ -1,23 +1,23 @@
 # Mainlagi Character + World Safe Checkpoint — 25 September 2026
 
-Status: **SAFE HANDOFF / SESSIONS 01–08 COMPLETE / SESSION 09 NOT STARTED**
+Status: **SAFE HANDOFF / SESSIONS 01–09 COMPLETE / SESSION 10 NEXT**
 
 ## Exact live implementation baseline
 
 ```text
 repository: ceritaantarkita-req/mainlagi-hub
 production branch: main
-Session 08 PR: #337
-Session 08 final PR head: 6a728c36f7bc0a1a34c46e2511062df5e2b9af9d
-Session 08 final PR CI: #1663 / run 36120579884 — full success
-merged implementation main: e2e5e4b676ce45313786420708de41731ec2e3cb
-merged-main CI: #1664 / run 36121741946 — full success
+Session 09 PR: #340
+Session 09 final PR head after main sync: 80e2a7211e6ebe1791370a87790b4c2ff20a621a
+Session 09 final PR CI: #1673 / run 36131389534 — full success
+merged implementation main: 227a77799cd73fecc8e58960ef8758c2e323bc30
+merged-main CI: #1674 / run 36132350678 — full success
 Production smoke (Cloudflare): success
 ```
 
-This SHA is the safe implementation baseline for the next runtime session.
+This SHA is the safe runtime implementation baseline for the next session. A later docs-only descendant may become the exact repository HEAD without changing this runtime baseline.
 
-## Closed character work
+## Closed character/product integration work
 
 ```text
 Session 01  exact SVG source inventory frozen
@@ -28,9 +28,10 @@ Session 05  shared state-aware runtime resolver + CharacterLayer
 Session 06  Belajar integration
 Session 07  Belajar responsive QA
 Session 08  Mainlagi World shared-character integration
+Session 09  Home + Bermain shell character integration
 ```
 
-Current character bank:
+Current approved character bank:
 
 ```text
 characters: 5
@@ -46,17 +47,17 @@ states:
   celebrate
 ```
 
-Canonical production paths:
+Canonical runtime paths remain:
 
 ```text
 public/artwork/characters/<character>-<state>-v1.svg
 ```
 
-Do not reconvert these SVGs to WebP as the normal runtime path.
+Do not reconvert these approved SVGs to WebP as the normal runtime path.
 
-## Current Belajar truth
+## Belajar truth
 
-Belajar is live on the shared SVG character runtime.
+Belajar remains live on the shared SVG character runtime.
 
 ```text
 Bahasa          Gavi + Paca
@@ -70,7 +71,7 @@ Color           Gavi + Paca, hidden in active creative workspace
 Drawing         Gavi + Paca, hidden in active creative workspace
 ```
 
-Presentation moments:
+Presentation moments remain:
 
 ```text
 entry       -> welcome
@@ -81,71 +82,26 @@ retry       -> try_again
 completion  -> celebrate
 ```
 
-Belajar integration is centralized through the shared resolver and CharacterLayer. Do not add per-activity character-file hardcoding.
+Belajar integration is centralized through `characterPresentation.ts` + `CharacterLayer`. Do not add per-activity character-file hardcoding.
 
-## Session 07 responsive closure
+## World truth
 
-Permanent regression:
-
-```bash
-npm run test:ui:character-responsive
-```
-
-It is included in:
-
-```bash
-npm run test:ui:mobile-routes
-```
-
-Matrix:
-
-```text
-routes:
-  Bahasa
-  English
-  Math
-  Science
-  Iqro
-  Coloring
-  Drawing
-
-viewports:
-  320
-  390
-  430
-  768
-  1280
-
-35/35 route × viewport captures PASS
-horizontal overflow: 0
-critical-content overlap: 0
-pointer blocking: 0
-broken character SVG: 0
-creative-workspace character leakage: 0
-```
-
-Manual visual review found no defect that justified a CharacterLayer or GardenActivityFrame CSS correction.
-
-## World truth at this checkpoint
-
-**Session 08 is CLOSED / MERGED / LIVE VERIFIED.**
+Session 08 remains **CLOSED / MERGED / LIVE VERIFIED**.
 
 Petualangan Uang remains:
 
 ```text
-World: Petualangan Uang
 World ID: money-festival
-authored cast: Gavi + Paca
+authored runtime cast: Gavi + Paca
 Chapters: 2
 Stages: 8
 Scenes: 44
 Segments: 89
-auth/profile/shell: existing shared Mainlagi child app
 narrative progress: child_world_progress
 learning contribution: existing reviewed supplemental-evidence bridge only
 ```
 
-World presentation now uses the shared character resolver + `CharacterLayer`.
+World presentation mapping remains:
 
 ```text
 catalog/entry       -> welcome
@@ -157,15 +113,13 @@ retry               -> try_again
 stage/final finish  -> celebrate
 ```
 
-Permanent browser regression:
+Permanent World browser regression:
 
 ```bash
 npm run test:ui:world-character
 ```
 
-It is included in `npm run test:ui:mobile-routes` and verifies the shared SVG runtime at representative 390px and 1280px World flows, including SVG decode, state swaps, pointer safety, overflow, and mobile/tablet challenge containment.
-
-Mandatory invariant remains:
+Mandatory invariant:
 
 ```text
 World completion / World stars / narrative progress
@@ -173,57 +127,149 @@ World completion / World stars / narrative progress
 Belajar activity completion / mastery / readiness / certificate
 ```
 
-Session 08 did not change World structure/content, `child_world_progress` semantics, supplemental-evidence activation, Belajar mastery/progression, rewards/certificates, narration activation, or character provenance/approval. Historical World asset-plan gaps remain explicit.
+Canonical World closure: `MAINLAGI_WORLD_CHARACTER_INTEGRATION_SESSION08_2026-09-25.md`.
 
-Canonical closure: `MAINLAGI_WORLD_CHARACTER_INTEGRATION_SESSION08_2026-09-25.md`.
+## Home + Bermain truth
+
+Session 09 is **CLOSED / MERGED / LIVE VERIFIED**.
+
+Home now visibly exposes the three Mainlagi experience domains:
+
+```text
+Belajar
+World
+Bermain
+```
+
+Home presentation uses the shared approved five-character SVG ensemble in canonical order:
+
+```text
+Naya
+Gian
+Paca
+Zia
+Gavi
+```
+
+The Home ensemble is an explicit `CharacterLayer variant="ensemble"` path. Ordinary shared foreground character rendering remains capped at two characters.
+
+World discovery on Home reads existing Money World progress only. It does not create a second World persistence model or convert World progress into Belajar mastery. The current 6–8 Petualangan Uang pilot gate remains intact.
+
+Bermain presentation uses:
+
+```text
+catalog entry     Gavi + Paca / welcome
+game preflight    Gavi + Paca / welcome
+round completion  Gavi + Paca / celebrate
+```
+
+Preflight characters render only while camera state is idle. They disappear during permission/model/calibration so they cannot obstruct child/body/hand/face tracking.
+
+The completion presentation is centralized in the shared `RoundEndOverlay`; no individual game mechanic module was rewritten.
+
+Permanent Session 09 browser regression:
+
+```bash
+npm run test:ui:home-bermain-character
+```
+
+It is included in:
+
+```bash
+npm run test:ui:mobile-routes
+```
+
+Canonical Session 09 closure: `MAINLAGI_HOME_BERMAIN_CHARACTER_INTEGRATION_SESSION09_2026-09-25.md`.
+
+## Cross-domain boundaries that remain locked
+
+Do not change these as a side effect of the next session:
+
+- 900 canonical Belajar activity identities;
+- 47 active gameplay patterns;
+- Pattern #48 remains unjustified;
+- correct-answer logic;
+- Belajar mastery/progression/readiness;
+- World Chapter/Stage/Scene/Segment identity;
+- World evidence activation or server mapping;
+- World rewards/mastery separation;
+- Motion Engine mechanics;
+- child/profile ownership model;
+- character provenance/approval;
+- fixed narration activation;
+- semantic illustration runtime activation.
+
+Mandatory separation:
+
+```text
+World progress / completion
+!= Belajar mastery / completion
+
+Bermain score / round completion
+!= Belajar mastery / completion
+```
 
 ## Next authorized session
 
-### Session 09 — Integrate characters into Home + Bermain shell
+### Session 10 — Migrate semantic/activity illustration registry to SVG-aware production
 
-Session 09 may change product presentation only:
+Session 10 is a **registry/provenance/validator contract** wave.
 
-- Mainlagi Home full-cast/brand presentation;
-- Belajar/World/Bermain entry cards where appropriate;
-- Bermain entry/result/completion presentation through the shared character system.
+It may:
 
-It must not:
+- update semantic illustration registry/provenance schema to support approved direct SVG production paths;
+- update validators/tests for direct sanitized SVG;
+- preserve the existing 14 approved semantic P0 source/license-clear items as the eligible migration set;
+- keep exact deterministic provenance/hash binding;
+- keep existing WebP production derivatives as rollback/history during migration.
 
-- redesign Motion Engine or game mechanics;
-- merge World progression into Belajar mastery;
-- change character provenance/approval;
-- change the 900-activity or 47-pattern baselines;
-- activate narration;
-- start semantic SVG Sessions 10–16.
+It must keep these three keys held and fail-closed:
 
-## Safe start procedure for the next agent/session
+```text
+vehicle.car
+object.towel
+object.raincoat
+```
 
-1. Fetch latest `main`.
-2. Confirm this implementation baseline or a newer docs-only descendant.
+Session 10 must **not**:
+
+- activate semantic illustration runtime mapping;
+- delete existing WebP production derivatives;
+- create new artwork;
+- relax provenance/redistribution gates;
+- touch character runtime behavior;
+- redesign Home/World/Bermain;
+- alter learning correctness/mastery/progression/evidence;
+- activate fixed narration.
+
+## Safe start procedure for Session 10
+
+1. Fetch latest merged `main`.
+2. Confirm `227a77799cd73fecc8e58960ef8758c2e323bc30` or a newer docs-only descendant.
 3. Read:
    - `MAINLAGI_WORLD_CHARACTER_SYSTEM_INTEGRATION_2026-09-25.md`;
-   - `CHARACTER_PRESENTATION_SYSTEM.md`;
-   - `MAINLAGI_WORLD_CHARACTER_INTEGRATION_SESSION08_2026-09-25.md`;
+   - `MAINLAGI_HOME_BERMAIN_CHARACTER_INTEGRATION_SESSION09_2026-09-25.md`;
+   - `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`;
+   - semantic P0 production approval/readiness documents;
    - this checkpoint.
-4. Trace actual Home + Bermain shell/component imports before editing.
-5. Create a new Session 09 branch from latest merged `main`.
-6. Reuse `characterPresentation.ts` + `CharacterLayer`; do not create a second character runtime.
-7. Keep existing Belajar and Petualangan Uang character behavior unchanged while integrating Home/Bermain presentation.
-8. Add representative Home/Bermain browser regression before merge.
-9. Require PR CI full green and merged-main exact-SHA Cloudflare smoke before declaring Session 09 live.
+4. Trace the current semantic illustration registry and validators before editing.
+5. Create a dedicated Session 10 branch.
+6. Keep runtime semantic activation at zero.
+7. Keep the three held semantic keys fail-closed.
+8. Run asset/security/schema tests plus normal CI.
+9. Do not declare Session 10 closed until PR CI and merged-main exact-SHA Cloudflare smoke are green.
 
 ## Stop conditions
 
-Stop and request a separate decision instead of silently changing scope if Session 09 would require:
+Stop the sub-change and request a separate decision if Session 10 would require:
 
-- a World or Belajar structure/content rewrite;
-- a progression/evidence schema change;
-- a new character identity/state;
-- a new asset approval;
-- global age-range expansion;
-- Motion Engine or game-mechanic changes;
-- Home recommender/data-model redesign;
-- narration activation;
-- semantic SVG Sessions 10–16 work.
+- runtime semantic activation;
+- replacing or generating held artwork;
+- changing a rights/provenance decision;
+- deleting rollback WebPs;
+- changing Belajar content/correctness;
+- changing World or Bermain behavior;
+- changing character assets/runtime;
+- narration activation.
 
-This checkpoint is the safe handoff between **closed Session 08** and **not-yet-started Session 09**.
+This checkpoint is the safe handoff between **closed Session 09** and **Session 10 semantic SVG registry/provenance work**.
