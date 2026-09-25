@@ -6,6 +6,10 @@ This document defines the production path for the first Mainlagi human activity-
 
 Implementation checkpoint: PR **#263** -> `e4d7b4285db17a2010c22cdd1bc29451208f6a1b`; merged-main CI **#1198 / run `35599025558`** passed the full quality matrix and exact Cloudflare production smoke.
 
+
+Canonical cross-system SVG rule: `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`.
+
+
 ## 25 September 2026 SVG-native update — CURRENT DECISION
 
 This section **supersedes the WebP-specific format, naming and export instructions later in this file for all new character assets**. The older sections are retained as the historical PR #263 implementation baseline until code is migrated.
