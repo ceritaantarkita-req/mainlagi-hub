@@ -46,6 +46,81 @@ function stopServer() {
   if (server && !server.killed) server.kill("SIGTERM");
 }
 
+async function seedEnglishPrerequisiteReadiness(context) {
+  await context.addInitScript(() => {
+    const childId = "demo-gian";
+    const progressKey = "mainlagi-learning-progress-v1";
+    const attemptsKey = "mainlagi-learning-attempts-v1";
+    const required = [
+      {
+        activityId: "english-find-blue",
+        skillId: "english.color.blue",
+        runtime: "tap_choice",
+        correctCount: 1
+      },
+      {
+        activityId: "english-listen-cat",
+        skillId: "english.word.cat.listening",
+        runtime: "listen_and_choose",
+        correctCount: 1
+      },
+      {
+        activityId: "english-match-hello",
+        skillId: "english.word.picture_matching",
+        runtime: "matching",
+        correctCount: 2
+      }
+    ];
+
+    localStorage.setItem(progressKey, JSON.stringify({
+      [childId]: {
+        completedActivityIds: required.map((item) => item.activityId),
+        stars: 0,
+        lastActivityId: required.at(-1)?.activityId ?? null
+      }
+    }));
+
+    const attempts = required.map((item, index) => {
+      const attemptId = `qa-character-session06-english-prereq-${index}`;
+      const completedAt = `2026-09-25T05:0${index}:00.000Z`;
+      return {
+        id: attemptId,
+        childId,
+        activityId: item.activityId,
+        subjectId: "english",
+        stageId: "english-first-words",
+        runtime: item.runtime,
+        difficulty: item.runtime === "matching" ? 2 : 1,
+        status: "completed",
+        assessed: true,
+        score: 1,
+        accuracy: 1,
+        correctCount: item.correctCount,
+        incorrectCount: 0,
+        hintCount: 0,
+        retryCount: 0,
+        durationMs: 1000,
+        inputMode: item.runtime === "listen_and_choose" ? "audio" : "touch",
+        startedAt: completedAt,
+        completedAt,
+        metadata: { source: "character-session06-browser-prerequisite" },
+        evidence: [{
+          attemptId,
+          activityId: item.activityId,
+          skillId: item.skillId,
+          score: 1,
+          weight: 1,
+          createdAt: completedAt,
+          qualifiesForMastery: true
+        }],
+        masteryEligible: true
+      };
+    });
+
+    localStorage.setItem(attemptsKey, JSON.stringify({ [childId]: attempts }));
+  });
+}
+
 async function waitForMoment(page, moment, state, timeout = 4_000) {
   try {
     await page.waitForFunction(
@@ -153,6 +228,7 @@ async function main() {
   const browser = await chromium.launch({ headless: true });
   try {
     const context = await browser.newContext({ viewport, reducedMotion: "reduce", hasTouch: true });
+    await seedEnglishPrerequisiteReadiness(context);
     const page = await context.newPage();
     const pageErrors = [];
     const consoleErrors = [];
