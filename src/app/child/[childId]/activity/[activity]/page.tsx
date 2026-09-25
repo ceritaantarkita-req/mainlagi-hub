@@ -93,7 +93,7 @@ export default async function ActivityPage({ params }: { params: Promise<{ child
   const visualTheme = resolveActivityVisualTheme(definition);
 
   return (
-    <ActivityVisualThemeProvider visualTheme={visualTheme}>
+    <ActivityVisualThemeProvider visualTheme={visualTheme} childId={childId} activityId={activity}>
       <div className={styles.immersive}>
       {activity === "math-trace-5-touch" ? (
         <MathTraceWorldActivity childId={childId} />
