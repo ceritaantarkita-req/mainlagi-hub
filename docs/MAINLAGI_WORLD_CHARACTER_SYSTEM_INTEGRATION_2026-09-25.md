@@ -14,18 +14,21 @@ The original `Audited HEAD` above records the starting point of this plan. It is
 Current live checkpoint:
 
 ```text
-Sessions 01–11: COMPLETE
-Session 11 PR: #346
-final PR head: 32e84d08ad43e172935dd6fb6a63f08567ac9549
-final PR CI: #1684 / run 36156244598 — full success
-implementation main: d8992804beb82e553a3965066cf674fbfca9d7b5
-implementation merged-main CI: #1685 / run 36157147165 — full success
+Sessions 01–12: COMPLETE
+Session 12 PR: #348
+final PR head: ace106307d4aca512076d87853659301ecbd0763
+final PR CI: #1689 / run 36164884662 — full success
+implementation main: 47b98c4a17bd423ced32eb8fb45658575f83a888
+implementation merged-main CI: #1690 / run 36165969710 — full success
 Cloudflare production smoke: success
 Belajar responsive character matrix: 35/35 PASS
 World shared-character browser regression: PASS
 Home+Bermain character browser regression: PASS
-semantic registry v2: 14 SVG approved / 14 WebP history / 3 held / runtime off
-next authorized session: Session 12 — central semantic SVG runtime resolver + controlled activation
+semantic registry v2: 14 SVG approved / 14 WebP history / 3 held / runtime controlled-svg
+central semantic SVG resolver: active
+explicit semantic consumer coverage: 13 approved + 3 held fallback unique keys
+approved resolver-only gap: object.umbrella
+next authorized session: Session 13 — semantic/activity SVG responsive QA + fixes
 ```
 
 Safe handoff: `MAINLAGI_CHARACTER_WORLD_SAFE_CHECKPOINT_2026-09-25.md`.
@@ -1649,19 +1652,20 @@ Implemented:
 
 **Session 11 is closed. Start Session 12 only from merged latest main.**
 
-### Session 12 — Activate the central semantic SVG resolver
+### Session 12 — Activate the central semantic SVG resolver — COMPLETE
 
-**Do:** implement one central semantic-key → approved SVG path resolver and connect only the intended recognition-critical learning surfaces.
+Closed through PR #348 -> main `47b98c4a17bd423ced32eb8fb45658575f83a888`, merged-main CI #1690 / run `36165969710` full success including exact Cloudflare production smoke.
 
-Rules:
-- 14 approved keys may resolve to SVG;
-- car/towel/raincoat keep existing fallback;
-- no raw Drive URL;
-- no per-activity file-path hardcoding;
-- missing/unapproved key fails closed.
+Implemented:
+- centralized registry-backed semantic-key → approved SVG resolver;
+- `runtimeActivation=controlled-svg`;
+- all 14 approved keys resolver-addressable;
+- car/towel/raincoat fail closed to the existing fallback;
+- no raw Drive URL or per-activity production-path hardcoding;
+- permanent resolver and browser regression coverage;
+- learning correctness/mastery/progression/evidence behavior preserved.
 
-**Do not:** change activity correctness, mastery, progression or evidence.  
-**Done when:** representative semantic P0 activities render the approved SVGs and held keys still fall back.
+Canonical closure: `LEARNING_SEMANTIC_SVG_RUNTIME_SESSION12_CLOSURE_2026-09-25.md`.
 
 ### Session 13 — Semantic/activity SVG responsive QA + fixes
 
