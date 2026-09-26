@@ -504,16 +504,23 @@ async function main() {
       });
       const page = await context.newPage();
       await page.goto(baseUrl + "/child/demo-gian/worlds", { waitUntil: "domcontentloaded" });
-      await page.locator("[data-world-catalog-cta]").waitFor();
-      await page.waitForFunction(() => document.querySelector("[data-world-catalog-cta]")?.textContent === "Lanjut Stage 3 →");
+      const liveWorld = page.locator('[data-world-status="live"]');
+      await liveWorld.waitFor({ state: "visible" });
       assert.equal(
-        await page.locator("[data-world-catalog-cta]").textContent(),
-        "Lanjut Stage 3 →",
-        "World catalog must resume at the next unfinished Stage"
+        await liveWorld.getAttribute("href"),
+        "/child/demo-gian/world/money-festival",
+        "live World catalog card must preserve money-festival destination"
       );
-      await page.getByText("2/8 Stage selesai", { exact: true }).waitFor();
+      await liveWorld.click();
+      await page.waitForURL(/\/child\/demo-gian\/world\/money-festival$/);
+      await page.getByText("2/8 Stage", { exact: true }).waitFor();
+      assert.equal(
+        await page.locator('[data-world-stage-id="money-stage-03-income-sources"] [data-current-stage="true"]').count(),
+        1,
+        "existing World progress must still resume at Stage 3 after entering through the image-only catalog"
+      );
       await context.close();
-      console.log("World Petualangan Uang resume-aware catalog CTA passed at 390px.");
+      console.log("World Petualangan Uang resume semantics passed through the image-only catalog at 390px.");
     }
 
     {
