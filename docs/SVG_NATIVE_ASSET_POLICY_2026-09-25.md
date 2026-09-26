@@ -162,13 +162,14 @@ approved consumer coverage: 14/14
 held fallback coverage: 3/3
 ```
 
-The target architecture now advances to runtime activation:
+The implemented semantic architecture is now:
 
 ```text
 approved canonical semantic SVG
 -> shared SVG sanitize + validate
 -> /artwork/learning-illustrations/<semantic-slug>-v1.svg
--> later semantic resolver/runtime
+-> centralized fail-closed semantic resolver
+-> controlled direct-SVG runtime
 ```
 
 The three held keys remain held:
@@ -181,7 +182,7 @@ object.raincoat
 
 SVG format does not override missing/insufficient redistribution rights.
 
-The semantic validator/registry migration, exact SVG production promotion, centralized controlled runtime activation and responsive/browser verification are complete through Session 13 / PR #350 -> main `d9fba856e3819c2a0f353624f5255f84c27bef9a`. All 14 approved semantic keys now have explicit consumer coverage; car/towel/raincoat remain held and fallback-only. The next step is Session 14 repository-wide approved-SVG sweep.
+The semantic validator/registry migration, exact SVG production promotion, centralized controlled runtime activation and responsive/browser verification are complete through Session 13 / PR #350 -> main `d9fba856e3819c2a0f353624f5255f84c27bef9a`. Session 14 / PR #352 then completed the repository-wide approved-SVG sweep on main `ae1c10087b9b328059605a5cbe9f4fcdf3ba1829`. All 14 approved semantic keys have explicit consumer coverage; car/towel/raincoat remain held and fallback-only. The next step is Session 15 removal of only proven-redundant WebP derivatives.
 
 ## 8. Runtime architecture rule
 
@@ -227,8 +228,8 @@ Recommended implementation order:
 4. promote exact reviewed semantic SVGs to normalized repository paths — **complete through Session 11**;
 5. activate the central semantic resolver/runtime in a controlled wave — **complete through Session 12**;
 6. run full semantic responsive/browser/accessibility verification — **complete through Session 13**;
-7. sweep the repository for remaining already-approved vector assets still shadowed by unnecessary WebP-only rules — **Session 14**;
-8. only after verified sweep/live coverage, remove redundant WebP derivatives when no longer needed.
+7. sweep the repository for remaining already-approved vector assets still shadowed by unnecessary WebP-only rules — **complete through Session 14**;
+8. only after verified sweep/live coverage, remove proven-redundant WebP derivatives when no longer needed — **Session 15 next**.
 
 ## 11. Historical documents
 
