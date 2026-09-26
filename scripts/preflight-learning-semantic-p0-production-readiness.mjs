@@ -295,7 +295,7 @@ async function main() {
 
   console.log(`Generated ${items.length} internal historical WebP comparison files at ${outputDir}`);
   console.log(`Held keys intentionally excluded: ${HELD_KEYS.join(", ")}`);
-  console.log("Registry v2 SVG production bindings remain unchanged; no public production mutation or runtime activation was created.");
+  console.log("Registry v2 SVG production bindings and retired WebP history metadata remain unchanged; no public production mutation or runtime activation was created.");
 }
 
 main().catch((error) => {
