@@ -286,7 +286,7 @@ held: 3
 central resolver: active
 ```
 
-All 14 approved semantic keys are resolver-addressable. Current explicit visual-token consumer coverage is 13 approved unique keys plus three held fallback keys. `object.umbrella` is the one approved key without a dedicated visual-token placement; do not hide this gap by claiming 14/14 current UI consumption.
+At the historical Session 12 checkpoint, all 14 approved semantic keys were resolver-addressable but explicit visual-token consumer coverage was still 13 approved unique keys plus three held fallback keys; `object.umbrella` had no dedicated placement yet. **Session 13 below supersedes that coverage state and closes the gap to 14/14 approved + 3/3 held fallback coverage.**
 
 Canonical closure: `LEARNING_SEMANTIC_SVG_RUNTIME_SESSION12_CLOSURE_2026-09-25.md`.
 
