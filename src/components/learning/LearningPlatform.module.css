@@ -1643,3 +1643,84 @@ a.stageCard:hover,a.activityCard:hover,a.profileCard:hover,a.gameCard:hover { bo
 @media(max-width:759px) {
   .parentSidebar { display:none; }
 }
+
+
+/* === Core Thumbnail System — Wave 01 / Main Gerak === */
+.motionHero {
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 28px;
+  background: #eef6ff;
+  box-shadow: 0 10px 28px rgba(44, 73, 94, .08);
+  aspect-ratio: 4 / 3;
+}
+
+.motionHeaderImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.coreGameGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.coreGameCard {
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 22px;
+}
+
+.coreGameArtwork {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #eef4f8;
+}
+
+.coreGameArtwork :global(.game-artwork) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.coreGameCard h3 {
+  margin: 0;
+  min-height: 54px;
+  padding: 14px 15px 15px;
+  color: #24445e;
+  font-size: 16px;
+  line-height: 1.25;
+}
+
+@media (min-width: 760px) {
+  .coreGameGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .motionHero {
+    width: min(860px, 100%);
+    margin-inline: auto;
+  }
+}
+
+@media (min-width: 1080px) {
+  .coreGameGrid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .motionHero {
+    min-height: 0;
+    padding: 0;
+  }
+}
