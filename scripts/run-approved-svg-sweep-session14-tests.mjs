@@ -68,22 +68,27 @@ assert.deepEqual(
 assert.equal(existsSync(path.resolve("src/app/icon.svg")),true,"app icon must remain a direct SVG");
 assert.equal(publicArtworkSvg.length,49,"public artwork must contain exactly the 49 registry-approved SVGs at Session 14");
 
+const semanticRollbackHistory=publicArtworkWebp.filter(file=>file.startsWith("public/artwork/learning-illustrations/"));
+const legacyCharacterFallbackHistory=publicArtworkWebp.filter(file=>
+  manifest.webpClassification.legacyCharacterFallbackHistory.paths.includes(file)
+);
 const categories={
   subjectBackgrounds:publicArtworkWebp.filter(file=>file.startsWith("public/artwork/backgrounds/")),
   activityPreviews:publicArtworkWebp.filter(file=>file.startsWith("public/artwork/activity-previews/")),
-  semanticRollbackHistory:publicArtworkWebp.filter(file=>file.startsWith("public/artwork/learning-illustrations/")),
-  legacyCharacterFallbackHistory:publicArtworkWebp.filter(file=>manifest.webpClassification.legacyCharacterFallbackHistory.paths.includes(file)),
   referenceOnly:publicArtworkWebp.filter(file=>manifest.webpClassification.referenceOnly.paths.includes(file)),
   noApprovedCanonicalSvgSource:publicArtworkWebp.filter(file=>manifest.webpClassification.noApprovedCanonicalSvgSource.paths.includes(file))
 };
 
+assert.deepEqual(semanticRollbackHistory,[],"Session 15 must remove all semantic WebP rollback binaries");
+assert.deepEqual(legacyCharacterFallbackHistory,[],"Session 15 must remove both legacy Garden character WebP binaries");
+
 const classified=new Set(Object.values(categories).flat());
 const unclassified=publicArtworkWebp.filter(file=>!classified.has(file));
-assert.deepEqual(unclassified,[],"every WebP must have an explicit Session 14 classification");
+assert.deepEqual(unclassified,[],"every retained WebP must stay inside a Session 14 justified raster/reference class");
 for(const [name,files] of Object.entries(categories)){
-  assert.equal(files.length,manifest.webpClassification[name].count,`${name} WebP count must match Session 14 manifest`);
+  assert.equal(files.length,manifest.webpClassification[name].count,`${name} retained WebP count must preserve Session 14 classification`);
 }
-assert.equal(publicArtworkWebp.length,263,"Session 14 WebP inventory must remain exact");
+assert.equal(publicArtworkWebp.length,247,"Session 15 cleanup must leave exactly 247 justified public artwork WebPs");
 
 const runtimeFiles=walk(path.resolve("src")).filter(file=>/\.(?:ts|tsx|css)$/.test(file));
 const legacyCharacterRefs=[];
@@ -103,8 +108,8 @@ for(const file of runtimeFiles){
 }
 assert.deepEqual(
   [...new Set(legacyCharacterRefs)].sort(),
-  manifest.allowedLegacyCharacterWebpSourceRefs.map(item=>item.path).sort(),
-  "legacy Garden character WebP may remain referenced only by the explicit compatibility fallback"
+  [],
+  "Session 15 must remove every legacy Garden character WebP source reference"
 );
 assert.deepEqual(semanticWebpRefs,[],"normal TypeScript/CSS runtime must not directly consume semantic WebP history");
 
@@ -128,4 +133,4 @@ assert.match(worldAssets,/MONEY_WORLD_ASSET_PLAN_VERSION = "money-world-assets-v
 assert.match(worldAssets,/currentSource: "\/artwork\/characters\/paca-hero-v1\.svg"/);
 assert.match(worldAssets,/currentSource: "\/artwork\/characters\/gavi-hero-v1\.svg"/);
 
-console.log("Session 14 approved-SVG sweep PASS: 35 character SVG + 14 semantic SVG direct, 3 semantic vectors held, 263 WebPs fully classified, and no normal runtime surface directly consumes legacy character or semantic WebP assets.");
+console.log("Session 14 approved-SVG sweep invariant PASS after Session 15 cleanup: 35 character SVG + 14 semantic SVG direct, 3 semantic vectors held, 247 justified WebPs retained, and redundant semantic/legacy character WebP binaries absent.");
