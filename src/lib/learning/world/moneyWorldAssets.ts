@@ -13,7 +13,7 @@ export interface MoneyWorldAssetSlot {
   finalRequirement: string;
 }
 
-export const MONEY_WORLD_ASSET_PLAN_VERSION = "money-world-assets-v1";
+export const MONEY_WORLD_ASSET_PLAN_VERSION = "money-world-assets-v2";
 
 export const MONEY_WORLD_RUNTIME_CHARACTER_POLICY = {
   version: "money-world-shared-character-runtime-v2",
@@ -97,17 +97,17 @@ export const MONEY_WORLD_ASSET_SLOTS: readonly MoneyWorldAssetSlot[] = [
     id: "paca-ambient",
     kind: "mascot",
     status: "approved-reused",
-    currentSource: "/artwork/garden-paca.webp",
-    usedIn: ["world-hero", "stage-shell", "stage-ambience", "temporary-naya-story-role"],
-    finalRequirement: "Approved pilot mascot. May temporarily present the Naya story role while human character production remains paused."
+    currentSource: "/artwork/characters/paca-hero-v1.svg",
+    usedIn: ["world-hero", "stage-shell", "stage-ambience"],
+    finalRequirement: "Approved shared character hero SVG retained for ambient presentation; authored World character states resolve through characterPresentation.ts."
   },
   {
     id: "gavi-ambient",
     kind: "mascot",
     status: "approved-reused",
-    currentSource: "/artwork/garden-gavi.webp",
-    usedIn: ["world-hero", "stage-shell", "stage-ambience", "temporary-gian-story-role"],
-    finalRequirement: "Approved pilot mascot. May temporarily present the Gian story role while human character production remains paused."
+    currentSource: "/artwork/characters/gavi-hero-v1.svg",
+    usedIn: ["world-hero", "stage-shell", "stage-ambience"],
+    finalRequirement: "Approved shared character hero SVG retained for ambient presentation; authored World character states resolve through characterPresentation.ts."
   },
   {
     id: "gian-foreground",
