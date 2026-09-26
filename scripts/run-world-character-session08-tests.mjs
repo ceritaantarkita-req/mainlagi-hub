@@ -106,6 +106,24 @@ async function assertSharedPortrait(scope, expectedId, expectedState) {
   assert.equal(loaded.pointerEvents, "none", "World story portrait cannot block interaction");
 }
 
+async function assertFourThreeImage(image, label) {
+  await image.waitFor({ state: "visible", timeout: 8_000 });
+  await image.evaluate((item) => item.decode());
+  const snapshot = await image.evaluate((item) => {
+    const rect = item.getBoundingClientRect();
+    return {
+      src: item.currentSrc || item.getAttribute("src") || "",
+      naturalWidth: item.naturalWidth,
+      naturalHeight: item.naturalHeight,
+      width: rect.width,
+      height: rect.height
+    };
+  });
+  assert(snapshot.src.includes("core-thumbnails"), `${label} must use core thumbnail assets`);
+  assert(snapshot.naturalWidth > 0 && snapshot.naturalHeight > 0, `${label} must decode`);
+  assert(Math.abs((snapshot.width / snapshot.height) - (4 / 3)) < 0.04, `${label} must render 4:3: ${JSON.stringify(snapshot)}`);
+}
+
 async function assertNoHorizontalOverflow(page, label) {
   const metrics = await page.evaluate(() => ({
     viewport: document.documentElement.clientWidth,
@@ -209,11 +227,30 @@ async function runViewport(browser, viewport) {
 
   const catalogRoute = "/child/demo-gian/worlds";
   await page.goto(baseUrl + catalogRoute, { waitUntil: "domcontentloaded", timeout: 30_000 });
-  await page.locator("[data-world-catalog-cta]").waitFor({ state: "visible", timeout: 8_000 });
+  await page.locator('[data-core-thumbnail-grid="worlds"]').waitFor({ state: "visible", timeout: 8_000 });
   assert.equal(new URL(page.url()).pathname, catalogRoute);
-  const catalogHero = page.locator('[data-world-character-state="welcome"]').first();
-  await catalogHero.waitFor({ state: "visible", timeout: 5_000 });
-  await assertSharedPair(catalogHero, "welcome");
+
+  const worldCards = page.locator('[data-core-thumbnail-card="world"]');
+  assert.equal(await worldCards.count(), 9, "World catalog must expose all nine World concepts");
+  assert.equal(await page.locator('[data-world-status="live"]').count(), 1, "exactly one World must be live");
+  assert.equal(await page.locator('[data-world-status="locked"]').count(), 8, "exactly eight Worlds must be locked");
+  assert.equal(
+    await page.locator('[data-world-status="live"]').getAttribute("href"),
+    "/child/demo-gian/world/money-festival",
+    "live World route identity must remain money-festival"
+  );
+  assert.equal(
+    await page.locator('[data-world-status="locked"] a').count(),
+    0,
+    "locked World concepts must not expose unfinished runtime links"
+  );
+
+  await assertFourThreeImage(page.locator('[data-core-thumbnail-surface="world-header"] img').first(), `World header ${viewport.width}px`);
+  const worldImages = worldCards.locator("img");
+  for (let index = 0; index < 9; index += 1) {
+    await assertFourThreeImage(worldImages.nth(index), `World thumbnail ${index + 1} at ${viewport.width}px`);
+  }
+
   await assertNoHorizontalOverflow(page, `catalog ${viewport.width}px`);
   await page.screenshot({ path: path.join(outDir, `catalog-${viewport.width}.png`), fullPage: true });
 
