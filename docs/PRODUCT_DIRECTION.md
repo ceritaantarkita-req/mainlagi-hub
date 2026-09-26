@@ -210,7 +210,7 @@ See `AI_OCR_OPENROUTER.md`.
 
 ## 15. Current execution priority
 
-**Current implementation checkpoint:** Home + Bermain shared-character integration is closed/live verified through Session 09. Sessions 10–13 of the semantic SVG program are all CLOSED / MERGED / LIVE VERIFIED: registry migration, exact SVG production promotion, controlled runtime activation, and responsive/browser QA. Session 13 closed through PR #350 -> main `d9fba856e3819c2a0f353624f5255f84c27bef9a`, merged-main CI #1695 / run `36179277785` full success including Cloudflare production smoke. Current semantic state is 14 approved SVGs + 14 preserved WebP rollback/history + 3 held + runtime `controlled-svg`; approved explicit consumer coverage is 14/14, held fallback coverage is 3/3, and the semantic P0 consumer union is 17/17. Next authorized session is Session 14 — repository-wide approved-SVG sweep.
+**Current implementation checkpoint:** Home + Bermain shared-character integration is closed/live verified through Session 09. Sessions 10–13 of the semantic SVG program are CLOSED / MERGED / LIVE VERIFIED, and Session 14 has now completed the repository-wide approved-SVG sweep through PR #352 -> main `ae1c10087b9b328059605a5cbe9f4fcdf3ba1829`, merged-main CI #1699 / run `36210749985` full success including Cloudflare production smoke. Current vector state is 35 approved character-state SVGs + 14 approved semantic SVGs, semantic runtime `controlled-svg`, approved semantic consumer coverage 14/14, held fallback coverage 3/3, and all 263 public artwork WebPs explicitly classified. Normal direct Garden Gavi/Paca WebP consumers are zero. Next authorized session is Session 15 — remove only proven-redundant WebP derivatives.
 
 **25 September project-owner override:** Mainlagi World is now treated as a first-class domain of one Mainlagi product system, and character development is resumed for this integration. The 22 September “World separate / character paused” boundary is historical for that earlier workstream.
 
@@ -227,7 +227,7 @@ Current character decisions are locked:
 2. canonical states are `hero`, `welcome`, `pointing`, `thinking`, `correct`, `try_again`, `celebrate`;
 3. `gavi-panel-hero.svg` is Gavi hero/default;
 4. design-set SVGs / `.ai` remain reference/master assets;
-5. existing Gavi/Paca Garden WebP remains temporary fallback;
+5. existing Gavi/Paca Garden WebPs remain compatibility fallback/history only after Session 14 removed normal direct consumers;
 6. provenance + SVG sanitization/validator + runtime activation stay separate fail-closed gates.
 
 Current execution order for the World + character program:
@@ -242,8 +242,8 @@ Current execution order for the World + character program:
 8. integrate Petualangan Uang Gavi+Paca through the shared runtime;
 9. activate semantic SVG resolver in a controlled wave after its migration gate — **complete through Session 12**;
 10. close semantic responsive/browser verification — **complete through Session 13**;
-11. run repository-wide approved-SVG sweep — **Session 14**;
-12. remove only proven-redundant WebP derivatives after the sweep — **Session 15**;
+11. run repository-wide approved-SVG sweep — **complete through Session 14**;
+12. remove only proven-redundant WebP derivatives after the sweep — **Session 15 NEXT**;
 13. close with exact production checkpoint — **Session 16**.
 
 Belajar WS-05 Logic `pattern_completion` remains closed/live verified. Pattern #48 remains unjustified; character/World work must not reopen curriculum/mastery/progression unless separately authorized.

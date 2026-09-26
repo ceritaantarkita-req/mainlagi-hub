@@ -131,7 +131,7 @@ The historical compatibility API:
 approvedCharacterRuntimeSrc()
 ```
 
-still exists for older callers, but `activityVisualTheme.ts` no longer uses it.
+still exists only as compatibility fallback/history. Session 14 proves normal product surfaces no longer depend on direct Garden Gavi/Paca WebP consumption; `activityVisualTheme.ts` has already been SVG-runtime based since Session 06.
 
 Current Belajar pair:
 
@@ -162,7 +162,13 @@ completion  -> celebrate
 
 The character system does not use the feedback event to modify curriculum, answers, mastery, evidence, progression, rewards, activity identity, World narrative progress, or child profile identity.
 
-World is migrated through Session 08, and Home/Bermain shell integration is complete through Session 09.
+World is migrated through Session 08, Home/Bermain shell integration is complete through Session 09, and Session 14 has removed the remaining normal direct Garden Gavi/Paca WebP shadows from guide avatars, public Home, auth, rewards and World ambience.
+
+### Session 14 direct-SVG sweep
+
+Session 14 / PR #352 -> main `ae1c10087b9b328059605a5cbe9f4fcdf3ba1829` closed the repository-wide approved-SVG sweep. Normal known product surfaces now use the approved SVG state bank for character presentation; browser regression observes zero requests to `garden-gavi.webp` or `garden-paca.webp` across the migrated representative surfaces.
+
+The legacy WebP path remains only inside `characterAssets.ts` as an explicit fail-safe/history branch pending separately gated Session 15 cleanup.
 
 ## Creative workspace rule
 
@@ -193,7 +199,7 @@ Unknown World IDs fail closed to no cast. Product surfaces must not infer a new 
 
 - the locked five characters and seven states;
 - all 35 SVG runtime paths match the approved provenance registry;
-- requested-state, hero/welcome and legacy fallback behavior;
+- requested-state and hero/welcome behavior plus the explicitly isolated legacy compatibility fallback;
 - Naya/Gian/Zia never fall back to reference artwork;
 - canonical Belajar moment -> state mapping;
 - exact child/activity presentation-event filtering;

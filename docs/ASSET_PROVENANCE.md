@@ -164,7 +164,7 @@ Every exact SVG still requires a source/Drive identifier, source hash when mater
 
 SVG sanitization is part of provenance/production acceptance: reject scripts, event handlers, unsafe active content, malformed files and unreviewed external references. Runtime must load approved SVGs as image assets rather than injecting unsanitized raw markup.
 
-Existing Garden Gavi/Paca WebP files remain legacy migration fallbacks. Their presence does not waive the provenance requirements for the new SVG state bank.
+Existing Garden Gavi/Paca WebP files remain legacy compatibility fallback/history only. Session 14 migrated all normal known product-surface consumers to the approved SVG state bank; their remaining source-code binding is restricted to the explicit compatibility fallback in `characterAssets.ts` pending Session 15 cleanup proof.
 
 The inventory section below is retained as the historical pre-SVG implementation baseline where it conflicts with this current update.
 
@@ -173,8 +173,8 @@ The inventory section below is retained as the historical pre-SVG implementation
 
 As of 20 September 2026:
 
-- `public/artwork/garden-paca.webp` exists and is used by production UI;
-- `public/artwork/garden-gavi.webp` exists and is used by production UI;
+- `public/artwork/garden-paca.webp` exists as compatibility fallback/history; normal direct production-surface consumption was removed in Session 14;
+- `public/artwork/garden-gavi.webp` exists as compatibility fallback/history; normal direct production-surface consumption was removed in Session 14;
 - `public/artwork/activity-previews/color-paca.webp` exists;
 - `public/artwork/activity-previews/color-gavi.webp` exists;
 - Naya/Gian/Zia do not yet have production image files under `public/artwork`;
@@ -244,9 +244,9 @@ Learning semantic illustrations now have a dedicated fail-closed registry/valida
 
 The registry contains 17 recognition-critical semantic slots. Historical WebP production integration is **merged/live verified through PR #324 -> main `1e27869dfc71186e83ed8bb0a4dff2ca44dddfc9`**. Session 10 migrated the machine contract to SVG-aware registry v2 through PR #343. Session 11 then promoted the exact 14 reviewed canonical SVG sources through PR #346 -> main `d8992804beb82e553a3965066cf674fbfca9d7b5`, merged-main CI #1685 / run `36157147165` with Cloudflare smoke.
 
-Current semantic state is **14 approved WebP history bindings / 14 approved semantic SVG binaries / 0 SVG migration-ready slots / 3 review-required held slots / runtime activation `controlled-svg` / approved consumer coverage 14/14 / held fallback coverage 3/3** through Session 13 / PR #350 -> main `d9fba856e3819c2a0f353624f5255f84c27bef9a`.
+Current semantic state remains **14 approved WebP history bindings / 14 approved semantic SVG binaries / 0 SVG migration-ready slots / 3 review-required held slots / runtime activation `controlled-svg` / approved consumer coverage 14/14 / held fallback coverage 3/3**. Session 14 / PR #352 -> main `ae1c10087b9b328059605a5cbe9f4fcdf3ba1829` additionally closed the repository-wide approved-SVG sweep with merged-main CI #1699 + Cloudflare smoke.
 
-Those 14 WebP files remain verified rollback/history. The 14 SVGs are exact SHA-bound production assets, all 14 approved keys are resolver-addressable and explicitly consumed, and the complete semantic P0 consumer union is 17/17 when the three held fallback keys are included. The three held keys remain held; responsive verification does not alter redistribution rights. Session 14 owns the repository-wide sweep for any other already-approved canonical SVG source still unnecessarily shadowed by a WebP-only production rule.
+Those 14 semantic WebPs remain verified rollback/history while the 14 SVGs are the active exact SHA-bound production assets. Repository-wide, all 49 approved public artwork SVGs are now direct/provenance-bound: 35 character-state SVGs + 14 semantic SVGs. All 263 public artwork WebPs are explicitly classified, and normal direct Garden Gavi/Paca WebP consumers are zero. The three held semantic keys remain held; SVG format does not alter redistribution rights. Session 15 owns any later deletion of proven-redundant WebP history/fallback files.
 
 Existing `public/artwork/activity-previews/` files may be recorded as candidate sources, but repository presence and filenames are not provenance approval. Preliminary candidate review may mark a file `visually-suitable` or `rejected`; production approval still requires exact owned/licensed provenance, public redistribution clearance, approved child-readability/semantic review, exact canonical path, technical validation and SHA-256.
 
@@ -268,7 +268,7 @@ productionAssets.svg
 
 The 14 clear records preserve approved WebP history and now also carry `productionAssets.svg.status=approved` with canonical path and exact SHA-256. Held records must keep WebP binding null, SVG status `held`, SVG path/hash null, and `redistributionAllowed=false`.
 
-Canonical pilot record: `LEARNING_SEMANTIC_ILLUSTRATION_REGISTRY_PILOT_2026-09-23.md`. Historical WebP production integration: `LEARNING_SEMANTIC_P0_PRODUCTION_APPROVAL_INTEGRATION_2026-09-25.md`. SVG-aware registry migration: `LEARNING_SEMANTIC_SVG_REGISTRY_SESSION10_CLOSURE_2026-09-25.md`. Exact SVG production promotion: `LEARNING_SEMANTIC_SVG_PRODUCTION_SESSION11_CLOSURE_2026-09-25.md`. Controlled runtime closure: `LEARNING_SEMANTIC_SVG_RUNTIME_SESSION12_CLOSURE_2026-09-25.md`. Responsive QA closure: `LEARNING_SEMANTIC_SVG_RESPONSIVE_SESSION13_CLOSURE_2026-09-26.md`. Safe current handoff: `CURRENT_STATE.md`.
+Canonical pilot record: `LEARNING_SEMANTIC_ILLUSTRATION_REGISTRY_PILOT_2026-09-23.md`. Historical WebP production integration: `LEARNING_SEMANTIC_P0_PRODUCTION_APPROVAL_INTEGRATION_2026-09-25.md`. SVG-aware registry migration: `LEARNING_SEMANTIC_SVG_REGISTRY_SESSION10_CLOSURE_2026-09-25.md`. Exact SVG production promotion: `LEARNING_SEMANTIC_SVG_PRODUCTION_SESSION11_CLOSURE_2026-09-25.md`. Controlled runtime closure: `LEARNING_SEMANTIC_SVG_RUNTIME_SESSION12_CLOSURE_2026-09-25.md`. Responsive QA closure: `LEARNING_SEMANTIC_SVG_RESPONSIVE_SESSION13_CLOSURE_2026-09-26.md`. Repository-wide approved-SVG sweep closure: `MAINLAGI_APPROVED_SVG_SWEEP_SESSION14_CLOSURE_2026-09-26.md`. Safe current handoff: `CURRENT_STATE.md`.
 
 ## 7. Third-party software, fonts, and model assets
 

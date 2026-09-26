@@ -316,47 +316,69 @@ All 14 approved semantic keys now have explicit consumer coverage. The Session 1
 
 Canonical closure: `LEARNING_SEMANTIC_SVG_RESPONSIVE_SESSION13_CLOSURE_2026-09-26.md`.
 
+## Session 14 repository-wide SVG checkpoint
+
+**Session 14 is CLOSED / MERGED / LIVE VERIFIED.**
+
+```text
+PR: #352
+final PR head: 74a1fb9967af062274c9ae289e236571c616a862
+PR CI: #1698 / run 36210232551 — full success
+implementation main: ae1c10087b9b328059605a5cbe9f4fcdf3ba1829
+merged-main CI: #1699 / run 36210749985 — full success
+Production smoke (Cloudflare): success
+
+approved public artwork SVGs: 49
+  character state SVGs: 35
+  semantic SVGs: 14
+public artwork WebPs: 263 / 263 classified
+normal direct legacy Garden character WebP consumers: 0
+normal direct semantic WebP runtime refs: 0
+held semantic vectors: 3
+```
+
+Session 14 migrated all known normal product-surface Gavi/Paca Garden WebP shadows to the approved direct SVG state bank, while preserving the two legacy Garden WebP files as explicit compatibility fallback/history. The 14 semantic WebP derivatives remain rollback/history. No new art or rights approval was introduced.
+
+Canonical closure: `MAINLAGI_APPROVED_SVG_SWEEP_SESSION14_CLOSURE_2026-09-26.md`.
+
 ## Next authorized session
 
-### Session 14 — Repository-wide approved-SVG sweep
+### Session 15 — Remove only proven-redundant WebP derivatives
 
-Session 14 may:
+Session 15 may:
 
-- use the Session 01 SVG inventory plus repository search;
-- identify remaining already-approved canonical SVG sources hidden behind unnecessary WebP-only rules;
-- classify each known approved vector asset as direct-SVG, explicitly exempted, or held with an exact reason;
-- preserve raster-native backgrounds/photos as raster;
-- add audit/regression evidence needed to make the classification reproducible.
+- trace every remaining reference to the two legacy Garden Gavi/Paca WebPs and the 14 semantic WebP history files;
+- remove a candidate only after proving normal runtime, validator and rollback contracts no longer require it;
+- update registries/tests/docs truthfully after removal;
+- keep permanent regression against accidental WebP reintroduction.
 
-Session 14 must not:
+Session 15 must not:
 
-- generate new artwork;
-- broaden semantic scope;
-- approve unclear-provenance assets;
-- delete the 14 semantic WebP rollback/history assets yet;
+- delete the 108 raster-native subject backgrounds;
+- mass-delete the 125 activity preview WebPs merely because vector-like source geometry exists elsewhere;
+- convert or delete the 13 runtime raster assets without an approved canonical SVG replacement;
+- approve car/towel/raincoat or any other held asset;
 - change correctness/mastery/progression/evidence/reward semantics;
-- reopen World, character, Motion Engine, or narration work.
+- reopen World content, Motion Engine, or narration work.
 
 ## Safe start procedure for the next agent/session
 
 1. Fetch latest `main`.
-2. Confirm Session 13 implementation main `d9fba856e3819c2a0f353624f5255f84c27bef9a` or a newer docs-only descendant.
+2. Confirm Session 14 implementation main `ae1c10087b9b328059605a5cbe9f4fcdf3ba1829` or a newer docs-only descendant.
 3. Read:
-   - `LEARNING_SEMANTIC_SVG_RESPONSIVE_SESSION13_CLOSURE_2026-09-26.md`;
-   - `MAINLAGI_SVG_SOURCE_INVENTORY_SESSION01_2026-09-25.md`;
-   - `MAINLAGI_WORLD_CHARACTER_SYSTEM_INTEGRATION_2026-09-25.md`;
+   - `MAINLAGI_APPROVED_SVG_SWEEP_SESSION14_CLOSURE_2026-09-26.md`;
+   - `docs/data/MAINLAGI_APPROVED_SVG_SWEEP_SESSION14_2026-09-26.json`;
    - `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`;
    - `CURRENT_STATE.md`;
    - this checkpoint.
-4. Confirm registry v2 still reports 14 approved SVG bindings, 3 held keys and `runtimeActivation=controlled-svg`.
-5. Confirm current semantic consumer union remains 17/17.
-6. Audit only already-approved canonical vector assets; do not use the sweep to create or approve new art.
-7. Keep raster-native subject backgrounds/photos exempt from forced SVG conversion.
-8. Require PR CI full green and merged-main exact-SHA Cloudflare smoke before declaring Session 14 live.
+4. Confirm `npm run test:assets:approved-svg-sweep` still passes before deleting anything.
+5. Prove exact reference/runtime need for each cleanup candidate independently.
+6. Keep raster-native/preview/no-approved-vector categories untouched.
+7. Require PR CI full green and merged-main exact-SHA Cloudflare smoke before declaring Session 15 live.
 
 ## Stop conditions
 
-Stop and request a separate decision instead of silently changing scope if Session 12 would require:
+Stop and request a separate decision instead of silently changing scope if Session 15 would require:
 
 - a World, Home, Bermain or Belajar behavior rewrite;
 - a progression/evidence schema change;
@@ -366,6 +388,6 @@ Stop and request a separate decision instead of silently changing scope if Sessi
 - Motion Engine or game-mechanic changes;
 - narration activation;
 - new semantic artwork or rights approval beyond the already-approved 14;
-- deleting the existing WebP rollback/history in the SVG promotion wave.
+- deleting a WebP outside the proven-redundant Session 15 candidate set or before its reference/runtime proof passes.
 
-This checkpoint is the safe handoff from **closed Session 13** to **not-yet-started Session 14**.
+This checkpoint is the safe handoff from **closed Session 14** to **not-yet-started Session 15**.
