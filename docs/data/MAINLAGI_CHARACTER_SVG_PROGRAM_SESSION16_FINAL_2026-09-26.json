@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "session": "16",
+  "program": "Mainlagi character + SVG migration",
+  "status": "final-closure-verification",
+  "productionBaseline": {
+    "mainSha": "b05b0331db7556bee165d245e7e1f8016565f956",
+    "mergedMainCi": {
+      "runNumber": 1706,
+      "runId": 36220621574,
+      "conclusion": "success",
+      "cloudflareProductionSmoke": "success"
+    }
+  },
+  "finalInventory": {
+    "approvedPublicArtworkSvg": 49,
+    "characterStateSvg": 35,
+    "semanticSvg": 14,
+    "directAppIconSvg": 1,
+    "semanticWebpBinaries": 0,
+    "legacyGardenCharacterWebpBinaries": 0,
+    "retiredSemanticWebpHistoryRecords": 14,
+    "retainedJustifiedPublicArtworkWebp": 247,
+    "retainedWebpClasses": {
+      "subjectBackgrounds": 108,
+      "activityPreviews": 125,
+      "referenceOnly": 1,
+      "runtimeRasterNoApprovedCanonicalSvg": 13
+    },
+    "heldSemanticVectors": [
+      "vehicle.car",
+      "object.towel",
+      "object.raincoat"
+    ]
+  },
+  "runtime": {
+    "character": "svg-only",
+    "semantic": "controlled-svg",
+    "legacyCharacterWebpRuntimeReferences": 0,
+    "semanticWebpRuntimeReferences": 0
+  },
+  "regression": {
+    "session14SweepGate": "npm run test:assets:approved-svg-sweep",
+    "session15CleanupGate": "npm run test:assets:redundant-webp-cleanup",
+    "aggregateAssetGate": "npm run validate:assets",
+    "browserMatrix": "npm run test:ui:mobile-routes"
+  },
+  "closureRules": [
+    "Do not start a new product/content/art wave inside Session 16.",
+    "Historical Session 01–15 closure documents remain immutable evidence of their dated checkpoint.",
+    "The three held semantic vectors remain held until separate provenance/rights evidence authorizes a future decision.",
+    "The 247 retained WebPs are justified raster/reference assets and are not cleanup debt by default.",
+    "Any future work after Session 16 requires a fresh objective and explicit scope rather than silently extending this migration program."
+  ]
+}
