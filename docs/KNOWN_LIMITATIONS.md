@@ -77,7 +77,7 @@ Session 3 froze all **17/17 P0** visual decisions, and the separately authorized
 
 Session 13 has now completed responsive/browser verification of the controlled semantic SVG runtime. Current state is **registry v2 / 14 approved WebP history bindings / 14 approved SVG binaries / 0 SVG migration-ready slots / 3 held / runtime activation `controlled-svg` / approved consumer coverage 14/14 / held fallback coverage 3/3**. The Session 12 `object.umbrella` presentation gap is closed through a presentation-only Activity Gallery binding with permanent no-answer-leak regression.
 
-The remaining semantic limitation is still rights/provenance for the same three held assets: car, towel and raincoat remain fallback-only. Session 14 has completed the repository-wide approved-SVG sweep: 49 approved public artwork SVGs are direct/provenance-bound, all 263 public artwork WebPs are classified, and normal direct Garden Gavi/Paca WebP consumers are zero. The next asset-system boundary is Session 15 cleanup of only those WebP derivatives proven redundant after exact reference/runtime tracing.
+The remaining semantic limitation is still rights/provenance for the same three held assets: car, towel and raincoat remain fallback-only. Session 14 completed the repository-wide approved-SVG sweep, and Session 15 completed the separately gated redundant-WebP cleanup. Current production holds 49 approved public artwork SVGs and 247 justified WebPs; semantic WebP binaries and legacy Garden Gavi/Paca WebP binaries are both zero. The remaining semantic limitation is still rights/provenance for car, towel and raincoat. Session 16 is final production verification/closure only.
 
 Canonical records:
 - `LEARNING_ILLUSTRATION_CONSISTENCY_AUDIT_2026-09-22.md`;
@@ -127,8 +127,8 @@ Current verified truth:
 - Bermain uses shared Gavi + Paca entry/preflight/completion presentation;
 - Session 09 PR #340 and merged-main CI #1674 are live verified including Cloudflare production smoke;
 - design-set SVGs and the Illustrator collection remain reference/master material only;
-- Session 14 migrated normal guide-avatar, public Home, auth, rewards and World-ambience Garden Gavi/Paca consumption to approved direct SVG;
-- legacy Garden Gavi/Paca WebPs remain compatibility fallback/history only and are Session 15 cleanup candidates after exact reference proof.
+- Session 14 migrated normal guide-avatar, public Home, auth, rewards and World-ambience character consumption to approved direct SVG;
+- Session 15 removed the two legacy Garden Gavi/Paca WebP binaries and their compatibility fallback APIs after exact reference proof.
 
 Character surface coverage is no longer the current blocker. Remaining separate scopes include Motion Engine/game mechanics, voice identity, narration activation, semantic illustration migration, and any future character state/identity. Child profile identity remains separate from guide-character identity.
 
