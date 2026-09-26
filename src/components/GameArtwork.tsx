@@ -1,41 +1,23 @@
 import Image from "next/image";
 import type { GameSlug } from "@/lib/data/games";
+import { CORE_GAME_THUMBNAILS } from "@/lib/learning/coreThumbnailRegistry";
 
 /**
- * Game cover art.
+ * Canonical Main Gerak thumbnail.
  *
- * Replaced the hand-drawn abstract line scenes (26 Aug 2026) with illustrated
- * 3D-render style artwork of the app's mascot, one image per game, generated
- * externally and stored as WebP under `public/artwork/`. Kept the same
- * component signature so every call site (home page cards, catalog tiles,
- * game detail hero) needed zero changes.
- *
- * Source images are square (1:1) - `.fun-card__art`, `.game-tile` and
- * `.game-detail__art` size the container; this component just fills it via
- * `object-fit: cover` (see `.game-artwork` in globals.css).
+ * Wave 01 replaces the historical mixed game artwork with one consistent
+ * 4:3 family sourced from the audited Drive masters and stored as optimized
+ * repository-controlled WebP files.
  */
-const ARTWORK_SRC: Record<GameSlug, string> = {
-  "math-choice": "/artwork/math-choice.webp",
-  "math-motion-battle": "/artwork/math-motion-battle.webp",
-  "number-trace": "/artwork/number-trace.webp",
-  "shape-quest": "/artwork/shape-quest.webp",
-  "pattern-race": "/artwork/pattern-race.webp",
-  "math-warung": "/artwork/math-warung.webp",
-  "iqro-motion": "/artwork/iqro-motion.webp",
-  "airboard-presenter": "/artwork/airboard-presenter.webp",
-  "dodge-motion": "/artwork/dodge-motion.webp",
-  "run-to-target": "/artwork/run-to-target.webp"
-};
-
 export function GameArtwork({ slug, label }: { slug: GameSlug; label?: string }) {
   return (
     <Image
       className="game-artwork"
-      src={ARTWORK_SRC[slug]}
+      src={CORE_GAME_THUMBNAILS[slug]}
       alt={label ?? ""}
       aria-hidden={label ? undefined : true}
-      width={640}
-      height={640}
+      width={1200}
+      height={900}
       draggable={false}
       priority={false}
     />
