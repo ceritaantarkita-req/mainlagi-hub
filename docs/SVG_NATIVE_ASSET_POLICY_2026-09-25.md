@@ -1,6 +1,6 @@
 # Mainlagi SVG-Native Asset Policy — 25 September 2026
 
-Status: **CURRENT PROJECT-OWNER ASSET FORMAT POLICY / SEMANTIC SVG RUNTIME + RESPONSIVE QA LIVE / REPOSITORY-WIDE APPROVED-SVG SWEEP CLOSED THROUGH SESSION 14 / REDUNDANT-WEBP CLEANUP NEXT IN SESSION 15**
+Status: **CURRENT PROJECT-OWNER ASSET FORMAT POLICY / DIRECT-SVG RUNTIME LIVE / REPOSITORY-WIDE SWEEP + REDUNDANT-WEBP CLEANUP CLOSED THROUGH SESSION 15 / FINAL CHECKPOINT NEXT IN SESSION 16**
 
 This document records the current Mainlagi asset-format decision after the character and learning-illustration reviews.
 
@@ -56,10 +56,12 @@ The current **9 subjects / 54 scene families / 108 responsive WebP backgrounds**
 
 Existing verified WebP assets remain valid until an explicit SVG migration is implemented and production-verified.
 
-Examples after Session 14:
+Examples after Session 15:
 
-- legacy Gavi/Paca Garden WebPs remain compatibility fallback/history only; all normal known product-surface consumers use approved SVG, and Session 15 owns any safe deletion;
-- the 14 semantic P0 WebPs merged through PR #324 remain rollback/history; the controlled semantic runtime uses their approved direct-SVG counterparts.
+- legacy Gavi/Paca Garden WebP binaries have been removed; character runtime is SVG-only;
+- the 14 semantic P0 WebP binaries have been removed after live SVG verification;
+- their exact historical path/SHA metadata remains in the registry with `status=retired`;
+- the controlled semantic runtime continues to use the 14 approved direct-SVG counterparts.
 
 Do not remove a verified WebP in the same change that merely changes documentation or prepares a validator.
 
@@ -154,7 +156,8 @@ Current state:
 registry version: 2
 preferredProductionFormat: svg
 runtimeActivation: controlled-svg
-approved WebP history: 14
+retired WebP history records: 14
+semantic WebP binaries: 0
 approved SVG binaries: 14
 SVG migration-ready: 0
 held SVG slots: 3
@@ -182,7 +185,7 @@ object.raincoat
 
 SVG format does not override missing/insufficient redistribution rights.
 
-The semantic validator/registry migration, exact SVG production promotion, centralized controlled runtime activation and responsive/browser verification are complete through Session 13 / PR #350 -> main `d9fba856e3819c2a0f353624f5255f84c27bef9a`. Session 14 / PR #352 then completed the repository-wide approved-SVG sweep on main `ae1c10087b9b328059605a5cbe9f4fcdf3ba1829`. All 14 approved semantic keys have explicit consumer coverage; car/towel/raincoat remain held and fallback-only. The next step is Session 15 removal of only proven-redundant WebP derivatives.
+The semantic validator/registry migration, exact SVG production promotion, centralized controlled runtime activation and responsive/browser verification are complete through Session 13 / PR #350 -> main `d9fba856e3819c2a0f353624f5255f84c27bef9a`. Session 14 / PR #352 then completed the repository-wide approved-SVG sweep on main `ae1c10087b9b328059605a5cbe9f4fcdf3ba1829`. All 14 approved semantic keys have explicit consumer coverage; car/towel/raincoat remain held and fallback-only. Session 15 has completed removal of only proven-redundant WebP derivatives. The next step is Session 16 final closure + exact production checkpoint.
 
 ## 8. Runtime architecture rule
 
@@ -229,7 +232,8 @@ Recommended implementation order:
 5. activate the central semantic resolver/runtime in a controlled wave — **complete through Session 12**;
 6. run full semantic responsive/browser/accessibility verification — **complete through Session 13**;
 7. sweep the repository for remaining already-approved vector assets still shadowed by unnecessary WebP-only rules — **complete through Session 14**;
-8. only after verified sweep/live coverage, remove proven-redundant WebP derivatives when no longer needed — **Session 15 next**.
+8. only after verified sweep/live coverage, remove proven-redundant WebP derivatives when no longer needed — **complete through Session 15**;
+9. run final closure + exact production checkpoint — **Session 16 next**.
 
 ## 11. Historical documents
 
@@ -260,3 +264,26 @@ held semantic vectors: 3
 The permanent gate is `npm run test:assets:approved-svg-sweep`, included in `npm run validate:assets`. The browser sweep is `npm run test:ui:approved-svg-sweep`, included in `npm run test:ui:mobile-routes`.
 
 Session 15 may remove only WebP files proven redundant. Raster-native backgrounds, intentional gallery previews, and runtime rasters without an approved canonical SVG replacement remain raster.
+
+
+## 12. Session 15 redundant-WebP cleanup
+
+Session 15 / PR #354 -> main `0f8505fb58b3f698a93e9003eb32ad9fe0e75c67` removed exactly 16 proven-redundant WebP binaries / 223,524 bytes and passed merged-main CI #1704 including Cloudflare production smoke.
+
+Current post-cleanup inventory:
+
+```text
+approved public artwork SVGs: 49
+  character states: 35
+  semantic illustrations: 14
+
+semantic WebP binaries: 0
+legacy Garden character WebP binaries: 0
+retired semantic WebP history records: 14
+retained justified public artwork WebPs: 247
+held semantic vectors: 3
+```
+
+The 247 retained WebPs are intentional under this policy: 108 subject backgrounds, 125 activity previews, 1 reference-only mascot asset, and 13 runtime rasters without an approved canonical SVG replacement.
+
+Canonical safe checkpoint: `MAINLAGI_REDUNDANT_WEBP_CLEANUP_SESSION15_SAFE_CHECKPOINT_2026-09-26.md`.
