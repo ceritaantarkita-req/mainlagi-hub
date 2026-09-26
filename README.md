@@ -15,18 +15,23 @@ GitHub protected `main`
 
 Production tidak memakai VPS/SSH sebagai jalur canonical.
 
-## Current baseline — 25 September 2026
+## Current baseline — 27 September 2026
 
 Current source-of-truth branch is `main`:
 
 ```text
-current main docs checkpoint:          28ce12883802c92ba268029a8b3d8f3847cc1b0f  (#327)
-latest semantic production checkpoint: 1e27869dfc71186e83ed8bb0a4dff2ca44dddfc9  (#324)
-semantic merged-main CI:               #1610 / run 36036726413 — full success
-Cloudflare semantic exact smoke:       PASS
+current live implementation main:      140532c59e98bb45b63521983fb616bc29d6b217  (#357)
+merged-main CI:                        #1711 / run 36249351976 — full success
+Cloudflare exact-SHA smoke:            PASS
+
+Core Thumbnail Wave 01:                CLOSED / MERGED / LIVE VERIFIED
+core thumbnail assets:                 31 WebP / 1200×900 / exact 4:3 / ~3.08 MiB
+current public artwork WebPs:          278
+  historical Session 15 baseline:      247
+  post-program core thumbnails:         31
 ```
 
-The docs-only current-main checkpoint does not replace the implementation verification evidence recorded by its underlying closed waves.
+The exact main SHA above is live verified. Historical closure SHAs remain valid evidence for their own bounded waves and should not be rewritten as current repository totals.
 
 Mainlagi Belajar WS-05 Logic repeating-pattern reuse is **FULLY CLOSED / MERGED / LIVE VERIFIED** via PR #273 -> `709e2b7d3e529cf37f10a05e9c9dc92884e0a781`; final PR CI #1321 and merged-main CI #1353 passed, including exact-SHA Cloudflare production smoke.
 
@@ -61,9 +66,11 @@ Current subjects:
 
 Current frontend uses the Garden/Playroom visual system, responsive child and parent shells, child profile + continue-learning flow, subject/activity browsing, stage/progression protection, reusable activity runtimes, parent reporting, and retained motion games.
 
-Learning visual containment/readability is **merged/live verified** through PR #294. Semantic P0 production integration through PR #324 approved 14/17 source/license-clear assets; Sessions 10–13 completed SVG-aware registry migration, exact SVG promotion, controlled runtime activation, and responsive/browser verification. Session 14 completed the repository-wide approved-SVG sweep, Session 15 removed 16 proven-redundant WebP binaries, and Session 16 now closes the character + SVG migration program on final verified production baseline `b05b0331db7556bee165d245e7e1f8016565f956`, merged-main CI #1706 + Cloudflare smoke. Final state is 35 approved character-state SVGs + 14 approved semantic SVGs; semantic WebP binaries are 0; legacy Garden Gavi/Paca WebP binaries are 0; 14 semantic WebP historical path/SHA records remain `retired`; and exactly 247 justified WebPs remain.
+Learning visual containment/readability is **merged/live verified** through PR #294. Semantic P0 production integration through PR #324 approved 14/17 source/license-clear assets; Sessions 10–13 completed SVG-aware registry migration, exact SVG promotion, controlled runtime activation, and responsive/browser verification. Session 14 completed the repository-wide approved-SVG sweep, Session 15 removed 16 proven-redundant WebP binaries, and Session 16 closed the character + SVG migration program. Its historical raster baseline remains 247 justified WebPs. After that program closed, Core Thumbnail Wave 01 added 31 separately classified 4:3 production WebPs, so current `public/artwork` contains 278 WebPs. Wave 01 is merged/live verified through PR #357 -> `140532c59e98bb45b63521983fb616bc29d6b217`, merged-main CI #1711 + exact Cloudflare smoke.
 
-See `docs/CURRENT_STATE.md` for the canonical current handoff and `docs/SVG_NATIVE_ASSET_POLICY_2026-09-25.md` for the current asset-format policy.
+Core Thumbnail Wave 01 now provides the child Home hero, nine Belajar subject cards, Main Gerak header + ten game cards, and World header + nine World cards through the centralized `src/lib/learning/coreThumbnailRegistry.ts`. The World catalog shows one live Petualangan Uang card plus eight locked/non-navigable concept cards; learning semantics, Motion Engine mechanics and the existing `money-festival` runtime remain unchanged.
+
+See `docs/MAINLAGI_CORE_THUMBNAIL_WAVE01_LIVE_CHECKPOINT_2026-09-27.md` for the exact visual-wave closure and See `docs/CURRENT_STATE.md` for the canonical current handoff and `docs/SVG_NATIVE_ASSET_POLICY_2026-09-25.md` for the current asset-format policy.
 
 ## Retained Mainlagi games
 
