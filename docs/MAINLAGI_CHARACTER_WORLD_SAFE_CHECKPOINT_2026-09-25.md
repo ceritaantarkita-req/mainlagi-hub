@@ -341,53 +341,77 @@ Session 14 migrated all known normal product-surface Gavi/Paca Garden WebP shado
 
 Canonical closure: `MAINLAGI_APPROVED_SVG_SWEEP_SESSION14_CLOSURE_2026-09-26.md`.
 
+## Session 15 redundant-WebP cleanup checkpoint
+
+**Session 15 is CLOSED / MERGED / LIVE VERIFIED.**
+
+```text
+PR: #354
+final PR head: 1165053368b69440ce55e067f8c5232256a84146
+PR CI: #1703 / run 36218219712 — full success
+implementation main: 0f8505fb58b3f698a93e9003eb32ad9fe0e75c67
+merged-main CI: #1704 / run 36218744065 — full success
+Production smoke (Cloudflare): success
+
+redundant WebP binaries removed: 16 / 223,524 bytes
+approved public artwork SVGs: 49
+semantic WebP binaries: 0
+legacy Garden character WebP binaries: 0
+semantic retired WebP history records: 14
+public artwork WebPs retained: 247
+held semantic vectors: 3
+```
+
+Session 15 removed only the exact binaries proven redundant after live SVG verification and exact reference tracing. The 14 semantic WebP histories remain as exact retired path/SHA metadata. The 247 retained WebPs remain justified raster/reference classes.
+
+Canonical closure: `MAINLAGI_REDUNDANT_WEBP_CLEANUP_SESSION15_CLOSURE_2026-09-26.md`.
+
 ## Next authorized session
 
-### Session 15 — Remove only proven-redundant WebP derivatives
+### Session 16 — Final production checkpoint
 
-Session 15 may:
+Session 16 may:
 
-- trace every remaining reference to the two legacy Garden Gavi/Paca WebPs and the 14 semantic WebP history files;
-- remove a candidate only after proving normal runtime, validator and rollback contracts no longer require it;
-- update registries/tests/docs truthfully after removal;
-- keep permanent regression against accidental WebP reintroduction.
+- re-run the full relevant CI/QA matrix;
+- verify the exact deployed main SHA and Cloudflare production smoke;
+- re-audit final character SVG, semantic SVG, held-asset and retained-WebP counts;
+- confirm permanent Session 14/15 asset regressions remain green;
+- synchronize final canonical documentation;
+- close the SVG/character integration program.
 
-Session 15 must not:
+Session 16 must not:
 
-- delete the 108 raster-native subject backgrounds;
-- mass-delete the 125 activity preview WebPs merely because vector-like source geometry exists elsewhere;
-- convert or delete the 13 runtime raster assets without an approved canonical SVG replacement;
-- approve car/towel/raincoat or any other held asset;
+- generate or approve new artwork;
+- start a new semantic migration;
 - change correctness/mastery/progression/evidence/reward semantics;
-- reopen World content, Motion Engine, or narration work.
+- change World content or progression;
+- change Motion Engine mechanics;
+- activate or redesign narration/audio;
+- use final verification as a reason to begin another product wave.
 
 ## Safe start procedure for the next agent/session
 
 1. Fetch latest `main`.
-2. Confirm Session 14 implementation main `ae1c10087b9b328059605a5cbe9f4fcdf3ba1829` or a newer docs-only descendant.
+2. Confirm Session 15 implementation main `0f8505fb58b3f698a93e9003eb32ad9fe0e75c67` or a newer docs-only descendant.
 3. Read:
-   - `MAINLAGI_APPROVED_SVG_SWEEP_SESSION14_CLOSURE_2026-09-26.md`;
-   - `docs/data/MAINLAGI_APPROVED_SVG_SWEEP_SESSION14_2026-09-26.json`;
-   - `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`;
+   - `MAINLAGI_REDUNDANT_WEBP_CLEANUP_SESSION15_CLOSURE_2026-09-26.md`;
+   - `docs/data/MAINLAGI_REDUNDANT_WEBP_CLEANUP_SESSION15_2026-09-26.json`;
    - `CURRENT_STATE.md`;
+   - `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`;
    - this checkpoint.
-4. Confirm `npm run test:assets:approved-svg-sweep` still passes before deleting anything.
-5. Prove exact reference/runtime need for each cleanup candidate independently.
-6. Keep raster-native/preview/no-approved-vector categories untouched.
-7. Require PR CI full green and merged-main exact-SHA Cloudflare smoke before declaring Session 15 live.
+4. Verify final tree truth before changing docs: 49 approved public artwork SVGs, 247 justified public artwork WebPs, 0 semantic WebP binaries, 0 legacy Garden character WebP binaries, 14 retired semantic WebP history records, and 3 held semantic vectors.
+5. Run the relevant full CI matrix and require exact-SHA Cloudflare smoke.
+6. Record final main SHA/CI/deploy evidence.
+7. Make documentation-only closure changes unless an actual regression is discovered.
 
 ## Stop conditions
 
-Stop and request a separate decision instead of silently changing scope if Session 15 would require:
+Stop and separate the work if Session 16 discovers a need for:
 
-- a World, Home, Bermain or Belajar behavior rewrite;
-- a progression/evidence schema change;
-- a new character identity/state;
-- clearing any held semantic asset without new rights evidence;
-- global age-range expansion;
-- Motion Engine or game-mechanic changes;
-- narration activation;
-- new semantic artwork or rights approval beyond the already-approved 14;
-- deleting a WebP outside the proven-redundant Session 15 candidate set or before its reference/runtime proof passes.
+- a feature/runtime redesign;
+- a learning semantics/schema change;
+- new artwork or rights approval;
+- a World/Motion/narration implementation wave;
+- deletion of any of the 247 justified retained WebPs without a new approved replacement decision.
 
-This checkpoint is the safe handoff from **closed Session 14** to **not-yet-started Session 15**.
+This checkpoint is the safe handoff from **closed Session 15** to **not-yet-started Session 16**.
