@@ -286,45 +286,73 @@ held: 3
 central resolver: active
 ```
 
-All 14 approved semantic keys are resolver-addressable. Current explicit visual-token consumer coverage is 13 approved unique keys plus three held fallback keys. `object.umbrella` is the one approved key without a dedicated visual-token placement; do not hide this gap by claiming 14/14 current UI consumption.
+At the historical Session 12 checkpoint, all 14 approved semantic keys were resolver-addressable but explicit visual-token consumer coverage was still 13 approved unique keys plus three held fallback keys; `object.umbrella` had no dedicated placement yet. **Session 13 below supersedes that coverage state and closes the gap to 14/14 approved + 3/3 held fallback coverage.**
 
 Canonical closure: `LEARNING_SEMANTIC_SVG_RUNTIME_SESSION12_CLOSURE_2026-09-25.md`.
 
+## Session 13 responsive semantic checkpoint
+
+**Session 13 is CLOSED / MERGED / LIVE VERIFIED.**
+
+```text
+PR: #350
+final PR head: 08e1e561d3873d13c455c0973510cbf54d711325
+PR CI: #1694 / run 36178188858 — full success
+implementation main: d9fba856e3819c2a0f353624f5255f84c27bef9a
+merged-main CI: #1695 / run 36179277785 — full success
+Production smoke (Cloudflare): success
+
+registry v2
+preferred format: svg
+runtime activation: controlled-svg
+approved SVG bindings: 14
+approved consumer coverage: 14/14
+held fallback coverage: 3/3
+semantic consumer union: 17/17
+approved WebP history: 14
+```
+
+All 14 approved semantic keys now have explicit consumer coverage. The Session 12 `object.umbrella` presentation gap is closed through a safe Activity Gallery preview binding whose assessed answer remains the color `merah`, not the object identity. The three held keys remain fallback-only.
+
+Canonical closure: `LEARNING_SEMANTIC_SVG_RESPONSIVE_SESSION13_CLOSURE_2026-09-26.md`.
+
 ## Next authorized session
 
-### Session 13 — Semantic/activity SVG responsive QA + fixes
+### Session 14 — Repository-wide approved-SVG sweep
 
-Session 13 may:
+Session 14 may:
 
-- audit exact semantic-key consumer coverage against all 14 approved keys;
-- verify active semantic SVG surfaces at 320 / 390 / 430 / 768 / 1280;
-- fix presentation-only cropping, sizing, overflow, accessibility or containment defects;
-- reconcile the approved `object.umbrella` consumer-coverage gap if a dedicated semantic-token placement is required;
-- add permanent responsive/browser regression coverage.
+- use the Session 01 SVG inventory plus repository search;
+- identify remaining already-approved canonical SVG sources hidden behind unnecessary WebP-only rules;
+- classify each known approved vector asset as direct-SVG, explicitly exempted, or held with an exact reason;
+- preserve raster-native backgrounds/photos as raster;
+- add audit/regression evidence needed to make the classification reproducible.
 
-Session 13 must not:
+Session 14 must not:
 
-- add new semantic artwork;
-- approve car/towel/raincoat;
-- delete the 14 WebP rollback/history assets;
+- generate new artwork;
+- broaden semantic scope;
+- approve unclear-provenance assets;
+- delete the 14 semantic WebP rollback/history assets yet;
 - change correctness/mastery/progression/evidence/reward semantics;
 - reopen World, character, Motion Engine, or narration work.
 
 ## Safe start procedure for the next agent/session
 
 1. Fetch latest `main`.
-2. Confirm Session 12 implementation main `47b98c4a17bd423ced32eb8fb45658575f83a888` or a newer docs-only descendant.
+2. Confirm Session 13 implementation main `d9fba856e3819c2a0f353624f5255f84c27bef9a` or a newer docs-only descendant.
 3. Read:
-   - `LEARNING_SEMANTIC_SVG_RUNTIME_SESSION12_CLOSURE_2026-09-25.md`;
+   - `LEARNING_SEMANTIC_SVG_RESPONSIVE_SESSION13_CLOSURE_2026-09-26.md`;
+   - `MAINLAGI_SVG_SOURCE_INVENTORY_SESSION01_2026-09-25.md`;
    - `MAINLAGI_WORLD_CHARACTER_SYSTEM_INTEGRATION_2026-09-25.md`;
    - `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`;
    - `CURRENT_STATE.md`;
    - this checkpoint.
 4. Confirm registry v2 still reports 14 approved SVG bindings, 3 held keys and `runtimeActivation=controlled-svg`.
-5. Inventory actual semantic-key consumer placements before editing UI.
-6. Run the 320 / 390 / 430 / 768 / 1280 responsive matrix across every affected semantic surface family.
-7. Keep fixes presentation-only; do not change learning/evidence semantics.
-8. Require PR CI full green and merged-main exact-SHA Cloudflare smoke before declaring Session 13 live.
+5. Confirm current semantic consumer union remains 17/17.
+6. Audit only already-approved canonical vector assets; do not use the sweep to create or approve new art.
+7. Keep raster-native subject backgrounds/photos exempt from forced SVG conversion.
+8. Require PR CI full green and merged-main exact-SHA Cloudflare smoke before declaring Session 14 live.
 
 ## Stop conditions
 
@@ -340,4 +368,4 @@ Stop and request a separate decision instead of silently changing scope if Sessi
 - new semantic artwork or rights approval beyond the already-approved 14;
 - deleting the existing WebP rollback/history in the SVG promotion wave.
 
-This checkpoint is the safe handoff between **closed Session 11** and **not-yet-started Session 12**.
+This checkpoint is the safe handoff from **closed Session 13** to **not-yet-started Session 14**.

@@ -14,7 +14,7 @@ The original `Audited HEAD` above records the starting point of this plan. It is
 Current live checkpoint:
 
 ```text
-Sessions 01–12: COMPLETE
+Sessions 01–13: COMPLETE
 Session 12 PR: #348
 final PR head: ace106307d4aca512076d87853659301ecbd0763
 final PR CI: #1689 / run 36164884662 — full success
@@ -26,9 +26,10 @@ World shared-character browser regression: PASS
 Home+Bermain character browser regression: PASS
 semantic registry v2: 14 SVG approved / 14 WebP history / 3 held / runtime controlled-svg
 central semantic SVG resolver: active
-explicit semantic consumer coverage: 13 approved + 3 held fallback unique keys
-approved resolver-only gap: object.umbrella
-next authorized session: Session 13 — semantic/activity SVG responsive QA + fixes
+explicit semantic consumer coverage: 14 approved + 3 held fallback unique keys
+semantic consumer union: 17/17
+responsive semantic QA: 320 / 390 / 430 / 768 / 1280
+next authorized session: Session 14 — repository-wide approved-SVG sweep
 ```
 
 Safe handoff: `MAINLAGI_CHARACTER_WORLD_SAFE_CHECKPOINT_2026-09-25.md`.
@@ -1667,20 +1668,20 @@ Implemented:
 
 Canonical closure: `LEARNING_SEMANTIC_SVG_RUNTIME_SESSION12_CLOSURE_2026-09-25.md`.
 
-### Session 13 — Semantic/activity SVG responsive QA + fixes
+### Session 13 — Semantic/activity SVG responsive QA + fixes — COMPLETE
 
-**Do:** verify the direct SVG semantic assets at 320/390/430/768/1280 on all affected surface families.
+Closed through PR #350 -> main `d9fba856e3819c2a0f353624f5255f84c27bef9a`, PR CI #1694 / run `36178188858` full success, merged-main CI #1695 / run `36179277785` full success including exact Cloudflare production smoke.
 
-Check:
-- semantic readability;
-- no cropping/overflow;
-- no answer leakage;
-- accessibility;
-- deterministic resolver output;
-- no external SVG network dependency.
+Implemented/verified:
+- required 320 / 390 / 430 / 768 / 1280 responsive coverage across affected semantic surface families;
+- exact browser coverage for all 14 approved semantic SVG keys;
+- explicit fail-closed browser coverage for car/towel/raincoat;
+- `object.umbrella` presentation gap closed through a safe Activity Gallery preview binding with no assessed-answer leak;
+- shared semantic containment QA now verifies decode, intrinsic dimensions, same-origin canonical SVG path and bounded geometry;
+- static consumer regression now requires the exact 17/17 semantic-key union;
+- no new art, approval, correctness, mastery, progression, evidence, World, character, Motion Engine or narration changes.
 
-**Do not:** add new artwork during QA.  
-**Done when:** all 14 active SVG assets pass representative browser QA and the 3 held keys remain unchanged.
+Canonical closure: `LEARNING_SEMANTIC_SVG_RESPONSIVE_SESSION13_CLOSURE_2026-09-26.md`.
 
 ### Session 14 — Repository-wide approved-SVG sweep
 

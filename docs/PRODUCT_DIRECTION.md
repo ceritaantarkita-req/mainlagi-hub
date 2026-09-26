@@ -210,7 +210,7 @@ See `AI_OCR_OPENROUTER.md`.
 
 ## 15. Current execution priority
 
-**Current implementation checkpoint:** Home + Bermain shared-character integration is closed/live verified through Session 09. Session 10 semantic/activity illustration SVG-aware registry migration, Session 11 exact semantic SVG production promotion, and Session 12 centralized controlled semantic SVG runtime activation are all CLOSED / MERGED / LIVE VERIFIED. Session 12 closed through PR #348 -> main `47b98c4a17bd423ced32eb8fb45658575f83a888`, merged-main CI #1690 / run `36165969710` full success including Cloudflare production smoke. Current semantic state is 14 approved SVGs + 14 preserved WebP rollback/history + 3 held + runtime `controlled-svg`; all 14 approved keys are resolver-addressable, while current explicit visual-token consumer coverage is 13 approved unique keys plus the three held fallback keys. Next authorized session is Session 13 — semantic/activity SVG responsive QA + fixes.
+**Current implementation checkpoint:** Home + Bermain shared-character integration is closed/live verified through Session 09. Sessions 10–13 of the semantic SVG program are all CLOSED / MERGED / LIVE VERIFIED: registry migration, exact SVG production promotion, controlled runtime activation, and responsive/browser QA. Session 13 closed through PR #350 -> main `d9fba856e3819c2a0f353624f5255f84c27bef9a`, merged-main CI #1695 / run `36179277785` full success including Cloudflare production smoke. Current semantic state is 14 approved SVGs + 14 preserved WebP rollback/history + 3 held + runtime `controlled-svg`; approved explicit consumer coverage is 14/14, held fallback coverage is 3/3, and the semantic P0 consumer union is 17/17. Next authorized session is Session 14 — repository-wide approved-SVG sweep.
 
 **25 September project-owner override:** Mainlagi World is now treated as a first-class domain of one Mainlagi product system, and character development is resumed for this integration. The 22 September “World separate / character paused” boundary is historical for that earlier workstream.
 
@@ -240,9 +240,11 @@ Current execution order for the World + character program:
 6. implement shared character resolver/layer without touching learning semantics;
 7. expose unified Home with Belajar / World / Bermain;
 8. integrate Petualangan Uang Gavi+Paca through the shared runtime;
-9. activate semantic SVG resolver in a controlled wave after its migration gate;
-10. add parent World journey context without collapsing World progress into Belajar mastery;
-11. close with responsive/browser/CI/deploy verification.
+9. activate semantic SVG resolver in a controlled wave after its migration gate — **complete through Session 12**;
+10. close semantic responsive/browser verification — **complete through Session 13**;
+11. run repository-wide approved-SVG sweep — **Session 14**;
+12. remove only proven-redundant WebP derivatives after the sweep — **Session 15**;
+13. close with exact production checkpoint — **Session 16**.
 
 Belajar WS-05 Logic `pattern_completion` remains closed/live verified. Pattern #48 remains unjustified; character/World work must not reopen curriculum/mastery/progression unless separately authorized.
 

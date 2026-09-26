@@ -1,6 +1,6 @@
 # Mainlagi SVG-Native Asset Policy — 25 September 2026
 
-Status: **CURRENT PROJECT-OWNER ASSET FORMAT POLICY / SEMANTIC SVG RUNTIME LIVE THROUGH SESSION 12 / RESPONSIVE QA NEXT IN SESSION 13**
+Status: **CURRENT PROJECT-OWNER ASSET FORMAT POLICY / SEMANTIC SVG RUNTIME + RESPONSIVE QA LIVE THROUGH SESSION 13 / REPOSITORY-WIDE APPROVED-SVG SWEEP NEXT IN SESSION 14**
 
 This document records the current Mainlagi asset-format decision after the character and learning-illustration reviews.
 
@@ -179,7 +179,7 @@ object.raincoat
 
 SVG format does not override missing/insufficient redistribution rights.
 
-The semantic validator/registry migration, exact SVG production promotion and centralized controlled runtime activation are complete through Session 12 / PR #348. The next step is Session 13 responsive/browser visual QA + fixes across the affected semantic surfaces.
+The semantic validator/registry migration, exact SVG production promotion, centralized controlled runtime activation and responsive/browser verification are complete through Session 13 / PR #350 -> main `d9fba856e3819c2a0f353624f5255f84c27bef9a`. All 14 approved semantic keys now have explicit consumer coverage; car/towel/raincoat remain held and fallback-only. The next step is Session 14 repository-wide approved-SVG sweep.
 
 ## 8. Runtime architecture rule
 
@@ -224,8 +224,9 @@ Recommended implementation order:
 3. migrate character and learning-illustration registries/validators to SVG-aware rules — **complete for characters and semantic illustrations**;
 4. promote exact reviewed semantic SVGs to normalized repository paths — **complete through Session 11**;
 5. activate the central semantic resolver/runtime in a controlled wave — **complete through Session 12**;
-6. run full semantic responsive/browser/accessibility verification — **Session 13**;
-7. only after verified activation and responsive coverage, remove redundant WebP derivatives when no longer needed.
+6. run full semantic responsive/browser/accessibility verification — **complete through Session 13**;
+7. sweep the repository for remaining already-approved vector assets still shadowed by unnecessary WebP-only rules — **Session 14**;
+8. only after verified sweep/live coverage, remove redundant WebP derivatives when no longer needed.
 
 ## 11. Historical documents
 
