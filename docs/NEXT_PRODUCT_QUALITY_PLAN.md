@@ -4,7 +4,7 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 
-## 25 September semantic P0 execution boundary — SESSION 12 CLOSED / SESSION 13 NEXT
+## 26 September semantic SVG execution boundary — SESSION 13 CLOSED / SESSION 14 NEXT
 
 Verified current truth:
 
@@ -12,20 +12,22 @@ Verified current truth:
 - semantic SVG-aware registry migration: PR #343 -> `21955a64728162f8985d04160e8ec683e1238080`;
 - exact semantic SVG production promotion: PR #346 -> `d8992804beb82e553a3965066cf674fbfca9d7b5`;
 - central controlled semantic SVG runtime activation: PR #348 -> `47b98c4a17bd423ced32eb8fb45658575f83a888`;
-- Session 12 PR CI #1689 / run `36164884662` full success;
-- Session 12 merged-main CI #1690 / run `36165969710` full success + Cloudflare smoke;
+- Session 13 responsive/browser QA + presentation-only gap closure: PR #350 -> `d9fba856e3819c2a0f353624f5255f84c27bef9a`;
+- Session 13 PR CI #1694 / run `36178188858` full success;
+- Session 13 merged-main CI #1695 / run `36179277785` full success + Cloudflare smoke;
 - semantic registry version 2 / preferred format SVG / runtime activation `controlled-svg`;
 - 14 approved WebP history bindings preserved;
 - 14 approved semantic SVG binaries;
-- 14 approved semantic keys resolver-addressable;
-- 0 SVG migration-ready slots;
-- car / towel / raincoat remain held and fail-closed;
-- current explicit visual-token consumer coverage is 13 approved unique keys + 3 held fallback keys;
-- `object.umbrella` is approved/resolver-addressable but has no dedicated visual-token placement yet.
+- approved explicit consumer coverage 14/14;
+- held fallback coverage 3/3;
+- semantic consumer union 17/17;
+- `object.umbrella` presentation gap closed without answer leakage;
+- required semantic surface responsive widths 320 / 390 / 430 / 768 / 1280 are permanently covered;
+- car / towel / raincoat remain held and fail-closed.
 
-**NEXT AUTHORIZED WORK — Session 13:** run the semantic/activity SVG responsive QA + fixes wave at 320/390/430/768/1280 across affected surface families. Verify semantic readability, cropping/overflow, accessibility, deterministic resolver output, no external SVG dependency and held-key fallback stability. Reconcile the `object.umbrella` consumer-coverage gap only as a presentation-only fix if needed. Do not add artwork, approve held keys, change correctness/mastery/progression/evidence/rewards, or delete WebP rollback/history.
+**NEXT AUTHORIZED WORK — Session 14:** run the repository-wide approved-SVG sweep using the Session 01 inventory plus repository search. Find any remaining already-approved canonical SVG source still unnecessarily converted or shadowed by a WebP-only production rule. Keep vector-native approved assets as SVG, leave raster-native backgrounds/photos as raster, and keep unclear-provenance assets held. Do not generate new art or expand semantic scope.
 
-Safe resume doc: `LEARNING_SEMANTIC_SVG_RUNTIME_SESSION12_CLOSURE_2026-09-25.md`.
+Safe resume doc: `LEARNING_SEMANTIC_SVG_RESPONSIVE_SESSION13_CLOSURE_2026-09-26.md`.
 
 **Canonical branch:** `main`  
 **Latest fully closed gameplay pattern:** Pattern #47 — Math `shape_attribute_board`  
