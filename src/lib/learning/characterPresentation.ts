@@ -65,7 +65,6 @@ export interface CharacterPresentationRequest {
   worldId?: string | null;
   requestedState?: CharacterPresentationState | null;
   requestedCharacters?: readonly CharacterId[] | null;
-  allowLegacyFallback?: boolean;
   allowIdentityFallback?: boolean;
 }
 
@@ -161,9 +160,7 @@ function resolveSlot(
   request: CharacterPresentationRequest,
   alreadyUsed: ReadonlySet<CharacterId>
 ): ResolvedPresentationCharacter | null {
-  const resolved = resolveCharacterState(id, state, {
-    allowLegacyFallback: request.allowLegacyFallback !== false
-  });
+  const resolved = resolveCharacterState(id, state);
 
   if (resolved) {
     return {
@@ -180,9 +177,7 @@ function resolveSlot(
 
   for (const fallbackId of LEGACY_IDENTITY_FALLBACK) {
     if (alreadyUsed.has(fallbackId)) continue;
-    const fallback = resolveCharacterState(fallbackId, state, {
-      allowLegacyFallback: request.allowLegacyFallback !== false
-    });
+    const fallback = resolveCharacterState(fallbackId, state);
     if (fallback) {
       return {
         id: fallback.id,
@@ -221,7 +216,7 @@ function resolvePresentation(
     const requestedId = cast.ids[index];
     const resolved = resolveSlot(requestedId, requestedState, side, role, request, used);
     if (!resolved || used.has(resolved.id)) continue;
-    if (resolved.id !== requestedId || resolved.assetSource === "legacy-webp") fallbackUsed = true;
+    if (resolved.id !== requestedId) fallbackUsed = true;
     used.add(resolved.id);
     characters.push(resolved);
   }
