@@ -111,8 +111,8 @@ const registrySource = readFileSync(path.resolve("src/lib/learning/coreThumbnail
 assert.match(registrySource, /CORE_SUBJECT_THUMBNAILS/);
 assert.match(registrySource, /CORE_GAME_THUMBNAILS/);
 assert.match(registrySource, /CORE_WORLD_CARDS/);
-assert.equal((registrySource.match(/status: "live"/g) ?? []).length, 1, "registry must expose exactly one live World");
-assert.equal((registrySource.match(/status: "locked"/g) ?? []).length, 8, "registry must expose exactly eight locked Worlds");
+assert.equal((registrySource.match(/status: "live",/g) ?? []).length, 1, "registry must expose exactly one live World");
+assert.equal((registrySource.match(/status: "locked",/g) ?? []).length, 8, "registry must expose exactly eight locked Worlds");
 assert.doesNotMatch(registrySource, /world-petualangan-uang/, "historical money-world visual must never enter runtime registry");
 
 const gameArtworkSource = readFileSync(path.resolve("src/components/GameArtwork.tsx"), "utf8");
