@@ -1,19 +1,18 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { getActivity, type CharacterId } from "@/lib/learning/system";
+import { getActivity } from "@/lib/learning/system";
 import { rankAdaptiveLearningV2 } from "@/lib/learning/adaptive";
-import { resolveCharacterEnsemble } from "@/lib/learning/characterPresentation";
 import { MONEY_WORLD_STAGES } from "@/lib/learning/world/moneyWorld";
 import { MONEY_WORLD_PILOT_AGE_BAND } from "@/lib/learning/world/moneyWorldPresentation";
-import { CharacterLayer } from "./CharacterLayer";
 import { ChildLoading, useLearningProfile, useLearningProgress } from "./LearningCommon";
 import { useLearningAnalytics } from "./useLearningAnalytics";
 import { SubjectDirectory } from "./Playroom";
+import { CORE_SURFACE_THUMBNAILS } from "@/lib/learning/coreThumbnailRegistry";
 import { useMoneyWorldProgress } from "./world-v2/useMoneyWorldProgress";
 import styles from "./Playroom.module.css";
 
-const HOME_CAST: readonly CharacterId[] = ["naya", "gian", "paca", "zia", "gavi"];
 
 export function Batch14WorldHome({ childId }: { childId: string }) {
   const profile = useLearningProfile(childId);
@@ -30,13 +29,6 @@ export function Batch14WorldHome({ childId }: { childId: string }) {
     allowMotion: false
   });
   const next = ranked[0] ? getActivity(ranked[0].id) : undefined;
-  const homePresentation = resolveCharacterEnsemble({
-    context: "home",
-    requestedCharacters: HOME_CAST,
-    requestedState: "hero",
-    allowIdentityFallback: false
-  });
-
   const worldEligible =
     profile.age >= MONEY_WORLD_PILOT_AGE_BAND.minAge &&
     profile.age <= MONEY_WORLD_PILOT_AGE_BAND.maxAge;
@@ -74,11 +66,16 @@ export function Batch14WorldHome({ childId }: { childId: string }) {
             {next ? "Lanjut belajar" : "Pilih pengalaman"}
           </Link>
         </div>
-        <div className={styles.heroCast} data-mainlagi-home-cast aria-hidden>
-          <CharacterLayer
-            characters={homePresentation.characters}
-            variant="ensemble"
-            className={styles.homeCharacterEnsemble}
+        <div className={styles.homeHeroMedia} data-mainlagi-home-hero aria-hidden>
+          <Image
+            className={styles.homeHeroImage}
+            src={CORE_SURFACE_THUMBNAILS.childHomeHero}
+            alt=""
+            width={1200}
+            height={900}
+            sizes="(max-width: 760px) 100vw, 520px"
+            priority
+            draggable={false}
           />
         </div>
       </section>
