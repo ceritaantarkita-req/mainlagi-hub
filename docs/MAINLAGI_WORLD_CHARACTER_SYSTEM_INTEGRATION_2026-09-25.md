@@ -14,7 +14,7 @@ The original `Audited HEAD` above records the starting point of this plan. It is
 Current live checkpoint:
 
 ```text
-Sessions 01–14: COMPLETE
+Sessions 01–15: COMPLETE
 Session 12 PR: #348
 final PR head: ace106307d4aca512076d87853659301ecbd0763
 final PR CI: #1689 / run 36164884662 — full success
@@ -1706,16 +1706,23 @@ Permanent static/browser regression is wired into `validate:assets` and `test:ui
 
 Canonical closure: `MAINLAGI_APPROVED_SVG_SWEEP_SESSION14_CLOSURE_2026-09-26.md`.
 
-### Session 15 — Remove redundant WebP derivatives only after live SVG verification
+### Session 15 — Remove redundant WebP derivatives only after live SVG verification — COMPLETE
 
-**Do:** after Sessions 07/08/09/13/14 are verified, trace runtime references and remove only WebP files proven redundant.
+Closed through PR #354 -> main `0f8505fb58b3f698a93e9003eb32ad9fe0e75c67`, PR CI #1703 / run `36218219712` full success, merged-main CI #1704 / run `36218744065` full success including Cloudflare production smoke.
 
-Candidates:
-- legacy character WebP fallback, only if no runtime path still needs it;
-- 14 semantic WebP derivatives, only after SVG runtime is verified and rollback need is closed.
+Verified cleanup:
 
-**Do not:** remove raster-native subject backgrounds or any still-referenced fallback.  
-**Done when:** no broken references, no duplicate unnecessary derivative, asset tests/build pass.
+- 16 proven-redundant WebP binaries removed / 223,524 bytes;
+- legacy Garden Gavi/Paca WebP binaries removed;
+- legacy character WebP compatibility API/path removed;
+- 14 semantic WebP derivatives removed from `public/artwork/learning-illustrations/`;
+- exact semantic WebP historical path/SHA metadata preserved as `status=retired`;
+- 49 approved public artwork SVGs remain;
+- exactly 247 justified WebPs remain;
+- car/towel/raincoat remain held;
+- permanent Session 15 cleanup gate is wired into `validate:assets`.
+
+Canonical safe checkpoint: `MAINLAGI_REDUNDANT_WEBP_CLEANUP_SESSION15_SAFE_CHECKPOINT_2026-09-26.md`.
 
 ### Session 16 — Final closure + exact production checkpoint
 
