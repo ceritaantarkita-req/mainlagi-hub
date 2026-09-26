@@ -16,34 +16,38 @@ Applies now to:
 
 Does not force raster artwork such as subject backgrounds to SVG. The current 108 responsive subject-background WebP assets remain valid.
 
-Semantic P0 production/runtime contract is now **registry v2 / SVG-preferred / controlled SVG runtime active** through Session 12 / PR #348. The 14 source/license-clear records preserve their exact approved WebP history and bind canonical approved SVG production files at `/artwork/learning-illustrations/<semantic-slug>-v1.svg`. The central resolver is active, all 14 approved keys are resolver-addressable, and the three held keys remain fail-closed. Current explicit visual-token consumers cover 13 approved unique keys plus the three held fallback keys; approved `object.umbrella` is resolver-addressable but has no dedicated visual-token placement yet. `vehicle.car`, `object.towel`, and `object.raincoat` remain held regardless of format.
+Semantic P0 production/runtime contract is now **registry v2 / SVG-preferred / controlled SVG runtime active / responsive QA complete through Session 13**. The 14 source/license-clear records preserve their exact approved WebP history and bind canonical approved SVG production files at `/artwork/learning-illustrations/<semantic-slug>-v1.svg`. The central resolver remains active, all 14 approved keys are resolver-addressable and now have explicit consumer coverage, and the three held keys remain fail-closed with explicit fallback coverage. The complete current semantic consumer union is **17/17 = 14 approved SVG keys + 3 held fallback keys**. `vehicle.car`, `object.towel`, and `object.raincoat` remain held regardless of format.
 
 Canonical policy: `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`.
 
-## 25 September semantic SVG runtime checkpoint — LIVE VERIFIED THROUGH SESSION 12
+## 26 September semantic SVG responsive checkpoint — LIVE VERIFIED THROUGH SESSION 13
 
 ```text
-Session 12 PR: #348
-Session 12 final PR head: ace106307d4aca512076d87853659301ecbd0763
-Session 12 PR CI: #1689 / run 36164884662 — full success
-Session 12 implementation main: 47b98c4a17bd423ced32eb8fb45658575f83a888
-Session 12 merged-main CI: #1690 / run 36165969710 — full success
-Session 12 Production smoke (Cloudflare): success
+Session 13 PR: #350
+Session 13 final PR head: 08e1e561d3873d13c455c0973510cbf54d711325
+Session 13 PR CI: #1694 / run 36178188858 — full success
+Session 13 implementation main: d9fba856e3819c2a0f353624f5255f84c27bef9a
+Session 13 merged-main CI: #1695 / run 36179277785 — full success
+Session 13 Production smoke (Cloudflare): success
 
 semantic registry: version 2
 preferred production format: svg
 runtime activation: controlled-svg
 approved WebP history: 14
 approved SVG binaries: 14
-SVG migration-ready: 0
 held SVG slots: 3
 central semantic resolver: active
-next: Session 13 — semantic/activity SVG responsive QA + fixes
+approved explicit consumer coverage: 14/14
+held explicit fallback coverage: 3/3
+semantic consumer union: 17/17
+responsive semantic surface QA: 320 / 390 / 430 / 768 / 1280
+next: Session 14 — repository-wide approved-SVG sweep
 ```
 
-Canonical Session 12 closure: `LEARNING_SEMANTIC_SVG_RUNTIME_SESSION12_CLOSURE_2026-09-25.md`. Historical Session 11 closure remains `LEARNING_SEMANTIC_SVG_PRODUCTION_SESSION11_CLOSURE_2026-09-25.md`.
+Canonical Session 13 closure: `LEARNING_SEMANTIC_SVG_RESPONSIVE_SESSION13_CLOSURE_2026-09-26.md`. Session 12 closure remains `LEARNING_SEMANTIC_SVG_RUNTIME_SESSION12_CLOSURE_2026-09-25.md`.
 
-Session 12 activated only the centralized registry-backed SVG resolver/presentation path. It did not change correctness, mastery, progression, evidence, rewards, schema, World, character runtime, Motion Engine or narration/audio behavior.
+Session 13 closed the `object.umbrella` presentation gap through a presentation-only Activity Gallery semantic preview binding where the assessed answer remains the umbrella color, not the object identity. Permanent regression now requires the real consumer union to remain all 17 semantic P0 keys and hardens decoded/same-origin/canonical-path SVG containment. It did not change correctness, mastery, progression, evidence, rewards, schema, World, character runtime, Motion Engine or narration/audio behavior.
+
 
 ## 25 September semantic SVG registry checkpoint — LIVE VERIFIED THROUGH SESSION 10
 
@@ -86,7 +90,7 @@ Session 09 merged main: 227a77799cd73fecc8e58960ef8758c2e323bc30
 Session 09 merged-main CI: #1674 / run 36132350678 — full success
 Session 09 Production smoke (Cloudflare): success
 Sessions 01–09: COMPLETE
-Sessions 10–12 semantic SVG registry + production + controlled runtime activation: COMPLETE
+Sessions 10–13 semantic SVG registry + production + controlled runtime + responsive QA: COMPLETE
 ```
 
 The exact repository `main` HEAD may move through later docs-only descendants. Treat `227a77799cd73fecc8e58960ef8758c2e323bc30` as the verified Session 09 runtime checkpoint and query `main` itself when an exact latest repository HEAD is required.
