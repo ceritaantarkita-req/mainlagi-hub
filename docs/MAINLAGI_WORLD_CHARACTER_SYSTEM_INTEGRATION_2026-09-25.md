@@ -1709,16 +1709,22 @@ Permanent static/browser regression is wired into `validate:assets` and `test:ui
 
 Canonical closure: `MAINLAGI_APPROVED_SVG_SWEEP_SESSION14_CLOSURE_2026-09-26.md`.
 
-### Session 15 — Remove redundant WebP derivatives only after live SVG verification
+### Session 15 — Remove redundant WebP derivatives only after live SVG verification — COMPLETE
 
-**Do:** after Sessions 07/08/09/13/14 are verified, trace runtime references and remove only WebP files proven redundant.
+Closed through PR #354 -> main `0f8505fb58b3f698a93e9003eb32ad9fe0e75c67`, final PR CI #1703 / run `36218219712` full success, merged-main CI #1704 / run `36218744065` full success including Cloudflare production smoke.
 
-Candidates:
-- legacy character WebP fallback, only if no runtime path still needs it;
-- 14 semantic WebP derivatives, only after SVG runtime is verified and rollback need is closed.
+Verified cleanup:
+- 16 proven-redundant WebP binaries / 223,524 bytes removed;
+- legacy `garden-gavi.webp` + `garden-paca.webp` binaries removed;
+- historical character WebP fallback APIs removed;
+- 14 semantic WebP binaries removed while exact historical path/SHA remains as `status=retired` metadata;
+- semantic production directory now contains 14 SVG / 0 WebP;
+- 49 approved public artwork SVGs preserved;
+- exactly 247 justified public artwork WebPs retained;
+- car/towel/raincoat remain held;
+- permanent cleanup regression is wired into `validate:assets`.
 
-**Do not:** remove raster-native subject backgrounds or any still-referenced fallback.  
-**Done when:** no broken references, no duplicate unnecessary derivative, asset tests/build pass.
+Canonical closure: `MAINLAGI_REDUNDANT_WEBP_CLEANUP_SESSION15_CLOSURE_2026-09-26.md`.
 
 ### Session 16 — Final closure + exact production checkpoint
 
