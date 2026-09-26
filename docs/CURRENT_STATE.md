@@ -63,15 +63,15 @@ approved public artwork SVGs: 49
 direct app icon SVG: 1
 public artwork WebPs: 263 / 263 classified
 normal direct legacy Garden character WebP consumers: 0
-legacy Garden WebP source refs: characterAssets.ts compatibility fallback only
+historical Session 14 legacy Garden WebP source refs: characterAssets.ts compatibility fallback only (removed in Session 15)
 normal direct semantic WebP runtime refs: 0
 semantic held vectors: 3
-next: Session 15 — remove only proven-redundant WebP derivatives
+historical next at Session 14 checkpoint: Session 15 — now complete; see Session 15 section above
 ```
 
 Canonical Session 14 closure: `MAINLAGI_APPROVED_SVG_SWEEP_SESSION14_CLOSURE_2026-09-26.md`. Machine classification: `data/MAINLAGI_APPROVED_SVG_SWEEP_SESSION14_2026-09-26.json`.
 
-Session 14 migrated the remaining normal Gavi/Paca Garden-WebP shadows on guide avatars, public Home, auth, rewards and World ambience to the already-approved SVG state bank. It did not delete the two legacy Garden WebPs or the 14 semantic WebP history assets; Session 15 owns that separately gated cleanup.
+Session 14 migrated the remaining normal Gavi/Paca Garden-WebP shadows on guide avatars, public Home, auth, rewards and World ambience to the already-approved SVG state bank. At that historical checkpoint it intentionally preserved the two legacy Garden WebPs and 14 semantic WebP derivatives; Session 15 subsequently retired and removed them as recorded above.
 
 ## 26 September semantic SVG responsive checkpoint — LIVE VERIFIED THROUGH SESSION 13
 
@@ -710,17 +710,16 @@ English narration production-asset Wave 2 is **MERGED / LIVE VERIFIED** via PR #
 
 Current product-UX state: **parent/profile/settings responsive redesign is MERGED / LIVE VERIFIED** via PR #251, and the **all-subject background system is also MERGED / LIVE VERIFIED** via PR #256. `CloudParentOverviewScreen` remains canonical; family profiles are separated from `demo-gian`; child profile identity is separated from guide-character presentation; mobile parent navigation replaces the legacy forced aside below 760px. Character production is **not paused**: Sessions 01–09 completed the five-character / seven-state shared SVG runtime across Belajar, World, Home and Bermain, and Session 14 removed the remaining normal Garden-WebP shadows from guide/avatar/public/auth/rewards/World-ambience surfaces. Do not alter learning evidence/mastery/progression/schema while advancing presentation.
 
-### Character / artwork state — updated through Session 14 / 26 September 2026
+### Character / artwork state — updated through Session 15 / 26 September 2026
 
 - All **5 canonical characters × 7 states = 35/35 SVG variants** are production-approved, exact source/hash/provenance bound, runtime-addressable and already live across Belajar, World, Home and Bermain.
-- Normal character presentation now uses the approved direct SVG state bank; Session 14 also migrated guide avatars, public Home, auth, rewards and World ambient art away from direct Garden Gavi/Paca WebP consumption.
-- `public/artwork/garden-paca.webp` and `public/artwork/garden-gavi.webp` still exist only as explicit compatibility fallback/history behind `characterAssets.ts`; normal migrated Session 14 browser surfaces request neither file.
+- Character runtime is now **SVG-only**. Session 14 migrated the remaining normal Garden Gavi/Paca WebP surfaces; Session 15 removed the legacy Garden binaries and compatibility API/path.
 - `gavi-panel-hero.svg` remains the confirmed Gavi hero/default source.
 - Locked states remain `hero`, `welcome`, `pointing`, `thinking`, `correct`, `try_again`, `celebrate`.
 - Design-set SVG files and `character-set-collection-mainlagi.ai` remain reference/master assets only.
 - Child profile identity and guide-character identity remain separate concepts.
 - Subject backgrounds remain intentional raster production assets: **9 subjects / 54 scene families / 108 optimized WebP files**.
-- Repository-wide Session 14 classification locks all **263/263 public artwork WebPs** into explicit categories; no unclassified WebP may enter silently.
+- Public artwork now contains **49 approved SVGs** and exactly **247 justified WebPs**. Semantic WebP binaries and legacy Garden character WebP binaries are both 0.
 - Canonical character format/pipeline contract: `docs/CHARACTER_ASSET_PIPELINE.md`; presentation contract: `docs/CHARACTER_PRESENTATION_SYSTEM.md`.
 
 ## Engineering status
