@@ -78,17 +78,21 @@ const categories={
   referenceOnly:publicArtworkWebp.filter(file=>manifest.webpClassification.referenceOnly.paths.includes(file)),
   noApprovedCanonicalSvgSource:publicArtworkWebp.filter(file=>manifest.webpClassification.noApprovedCanonicalSvgSource.paths.includes(file))
 };
+const postProgramCoreThumbnails=publicArtworkWebp.filter(file=>file.startsWith("public/artwork/core-thumbnails/"));
 
 assert.deepEqual(semanticRollbackHistory,[],"Session 15 must remove all semantic WebP rollback binaries");
 assert.deepEqual(legacyCharacterFallbackHistory,[],"Session 15 must remove both legacy Garden character WebP binaries");
 
-const classified=new Set(Object.values(categories).flat());
-const unclassified=publicArtworkWebp.filter(file=>!classified.has(file));
-assert.deepEqual(unclassified,[],"every retained WebP must stay inside a Session 14 justified raster/reference class");
+const historicalClassified=new Set(Object.values(categories).flat());
+const historicalRetained=publicArtworkWebp.filter(file=>historicalClassified.has(file));
+const unclassified=publicArtworkWebp.filter(file=>!historicalClassified.has(file)&&!postProgramCoreThumbnails.includes(file));
+assert.deepEqual(unclassified,[],"every WebP must stay inside the historical Session 14/15 classes or the explicit post-program core-thumbnail class");
 for(const [name,files] of Object.entries(categories)){
   assert.equal(files.length,manifest.webpClassification[name].count,`${name} retained WebP count must preserve Session 14 classification`);
 }
-assert.equal(publicArtworkWebp.length,247,"Session 15 cleanup must leave exactly 247 justified public artwork WebPs");
+assert.equal(historicalRetained.length,247,"Session 15 historical cleanup baseline must remain exactly 247 justified WebPs");
+assert.equal(postProgramCoreThumbnails.length,31,"Core Thumbnail Wave 01 must add exactly 31 explicitly classified WebPs");
+assert.equal(publicArtworkWebp.length,278,"current public artwork WebPs must equal 247 historical retained + 31 Wave 01 thumbnails");
 
 const runtimeFiles=walk(path.resolve("src")).filter(file=>/\.(?:ts|tsx|css)$/.test(file));
 const legacyCharacterRefs=[];
@@ -133,4 +137,4 @@ assert.match(worldAssets,/MONEY_WORLD_ASSET_PLAN_VERSION = "money-world-assets-v
 assert.match(worldAssets,/currentSource: "\/artwork\/characters\/paca-hero-v1\.svg"/);
 assert.match(worldAssets,/currentSource: "\/artwork\/characters\/gavi-hero-v1\.svg"/);
 
-console.log("Session 14 approved-SVG sweep invariant PASS after Session 15 cleanup: 35 character SVG + 14 semantic SVG direct, 3 semantic vectors held, 247 justified WebPs retained, and redundant semantic/legacy character WebP binaries absent.");
+console.log("Session 14 approved-SVG sweep invariant PASS after Wave 01: 49 approved artwork SVGs unchanged, 247 historical justified WebPs preserved, 31 post-program core thumbnails explicitly classified, and retired semantic/legacy character WebPs remain absent.");

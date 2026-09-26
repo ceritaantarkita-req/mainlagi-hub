@@ -5,7 +5,9 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from "react";
 
+import { GameArtwork } from "@/components/GameArtwork";
 import { GAME_LIST } from "@/lib/data/games";
+import { CORE_SURFACE_THUMBNAILS } from "@/lib/learning/coreThumbnailRegistry";
 import {
   CHARACTERS,
   DEMO_PROFILE,
@@ -26,7 +28,6 @@ import {
   type LearningSubjectId
 } from "@/lib/learning/system";
 import { getLearningPathsForSubject, getLessonsForStage } from "@/lib/learning/curriculum";
-import { resolveCharacterPresentation } from "@/lib/learning/characterPresentation";
 import { getNextBestLearningRecommendation } from "@/lib/learning/insights";
 import { buildMatchingColumns, matchingSeedFromText, nextDistinctMatchingSeed } from "@/lib/learning/matchingLayout";
 import { CharacterAvatar, CharacterGroup, ChildLoading, useLearningProfile, useLearningProgress } from "./LearningCommon";
@@ -34,7 +35,6 @@ import { useLearningAnalytics } from "./useLearningAnalytics";
 import styles from "./LearningPlatform.module.css";
 import { GardenActivityFrame } from "./GardenActivityFrame";
 import { ActivityCompletion } from "./ActivityCompletion";
-import { CharacterLayer } from "./CharacterLayer";
 
 function coreActivities(activities: LearningActivity[]) {
   return activities.filter((activity) => !activity.motionOptional && activity.runtime !== "motion_game");
@@ -319,23 +319,21 @@ export function GamesScreen({ childId }: { childId: string }) {
   const profile = useLearningProfile(childId);
   if (!profile) return <ChildLoading />;
 
-  const presentation = resolveCharacterPresentation({
-    context: "play_entry",
-    requestedCharacters: ["gavi", "paca"],
-    allowIdentityFallback: false
-  });
-
   return (
     <main className={styles.content}>
-      <section className={styles.motionHero} data-mainlagi-play-entry>
-        <div className={styles.motionHeroCopy}>
-          <p className={styles.eyebrow}>Bermain · Main Gerak</p>
-          <h1 className={styles.pageTitle}>Ayo bergerak, {profile.name}!</h1>
-          <p className={styles.pageLead}>10 permainan gerak. Siapkan ruang yang aman dan main bersama pendamping.</p>
-        </div>
-        <div className={styles.motionHeroCharacters} aria-hidden>
-          <CharacterLayer characters={presentation.characters} className={styles.motionCharacterLayer} />
-        </div>
+      <section
+        className={styles.motionHero}
+        data-mainlagi-play-entry
+        data-core-thumbnail-surface="main-gerak-header"
+        aria-label={`Main Gerak untuk ${profile.name}`}
+      >
+        <img
+          className={styles.motionHeaderImage}
+          src={CORE_SURFACE_THUMBNAILS.mainGerakHeader}
+          alt="Main Gerak"
+          width={1200}
+          height={900}
+        />
       </section>
       <section className={styles.section}>
         <div className={styles.motionNotice}>
@@ -343,18 +341,19 @@ export function GamesScreen({ childId }: { childId: string }) {
         </div>
       </section>
       <section className={styles.section}>
-        <div className={styles.cardGrid}>
+        <div className={`${styles.cardGrid} ${styles.coreGameGrid}`} data-core-thumbnail-grid="games">
           {GAME_LIST.map((game) => (
-            <Link className={styles.gameCard} href={`/play/${game.slug}`} key={game.slug}>
-              <img className={styles.gameArtwork} src={`/artwork/${game.slug}.webp`} alt="" width={500} height={360}/>
-              <h3>{game.shortTitle}</h3>
-              <p>{game.description}</p>
-              <span className={styles.gameCardFooter}>
-                <span className={`${styles.tag} ${styles.tagMotion}`}>
-                  {game.visionMode === "pose" ? "Gerak badan" : game.visionMode === "hybrid" ? "Gerak hybrid" : "Gerak tangan"}
-                </span>
-                <span aria-hidden>→</span>
+            <Link
+              className={`${styles.gameCard} ${styles.coreGameCard}`}
+              href={`/play/${game.slug}`}
+              key={game.slug}
+              data-core-thumbnail-card="game"
+              data-core-thumbnail-id={game.slug}
+            >
+              <span className={styles.coreGameArtwork} aria-hidden>
+                <GameArtwork slug={game.slug} />
               </span>
+              <h3>{game.shortTitle}</h3>
             </Link>
           ))}
         </div>

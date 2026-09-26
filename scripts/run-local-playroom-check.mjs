@@ -89,20 +89,20 @@ try {
     assert.equal(await page.getByRole("heading",{name:"Belajar sambil bermain.",exact:true}).count(),1);
     assert.equal(await page.getByRole("link",{name:"Belajar",exact:true}).count(),1);
     assert.equal(await page.getByRole("link",{name:"Bermain",exact:true}).count(),1);
-    const subjectLinks=page.locator('a[href^="/child/demo-gian/subject/"]');
+    const subjectLinks=page.locator('[data-core-thumbnail-card="subject"]');
     assert.equal(await subjectLinks.count(),9);
     assert.equal(await page.getByText(/\b100 aktivitas\b/).count(),0,"child home hides activity-count subtitles");
     const subjectGridColumns=await subjectLinks.first().evaluate(element=>getComputedStyle(element.parentElement).gridTemplateColumns.split(" ").filter(Boolean).length);
-    assert.equal(subjectGridColumns,3,"subject directory keeps three columns at "+viewport.width+"px");
-    if(viewport.width<=430){
-      const heroLayout=await page.evaluate(()=>{
-        const copy=document.querySelector("[data-mainlagi-home-copy]")?.getBoundingClientRect();
-        const cast=document.querySelector("[data-mainlagi-home-cast]")?.getBoundingClientRect();
-        return copy&&cast?{copyBottom:copy.bottom,castTop:cast.top}:null;
-      });
-      assert(heroLayout,"child home hero markers exist");
-      assert(heroLayout.copyBottom<=heroLayout.castTop+1,"child hero copy does not overlap characters at "+viewport.width+"px: "+JSON.stringify(heroLayout));
-    }
+    assert.equal(subjectGridColumns,viewport.width<=760?2:3,"subject directory uses responsive 2/3-column thumbnail grid at "+viewport.width+"px");
+    const homeHero=page.locator("[data-mainlagi-home-hero] img").first();
+    await homeHero.waitFor();
+    await homeHero.evaluate(image=>image.decode());
+    const heroLayout=await homeHero.evaluate(image=>{
+      const rect=image.getBoundingClientRect();
+      return {width:rect.width,height:rect.height,src:image.currentSrc||image.getAttribute("src")||""};
+    });
+    assert(heroLayout.src.includes("core-thumbnails"),"child home hero uses core thumbnail asset");
+    assert(Math.abs(heroLayout.width/heroLayout.height-4/3)<.04,"child home hero stays 4:3 at "+viewport.width+"px: "+JSON.stringify(heroLayout));
     await page.screenshot({path:path.join(output,`home-${viewport.width}.png`),fullPage:true});
     result.screenshots.push(`home-${viewport.width}.png`);
     result.checks.push("returning child bypasses setup "+viewport.width);

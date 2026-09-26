@@ -4252,3 +4252,79 @@ html[data-theme="dark"] .about-grid__item p,
 html[data-theme="dark"] .about-footnote,
 html[data-theme="dark"] .about-tags span { color: #a3b0c8; }
 html[data-theme="dark"] .about-footnote { background: #0e1526; }
+
+
+/* === Core Thumbnail System — Wave 01 / public Main Gerak === */
+.core-thumbnail-header {
+  width: min(860px, 100%);
+  margin: 0 auto var(--gap-4);
+  overflow: hidden;
+  border-radius: 24px;
+  aspect-ratio: 4 / 3;
+  background: var(--surface-2);
+  box-shadow: var(--shadow-sm);
+}
+
+.core-thumbnail-header img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.core-thumbnail-game-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.core-thumbnail-game-card {
+  display: grid;
+  grid-template-rows: auto auto;
+  place-items: stretch;
+  aspect-ratio: auto;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--surface);
+  color: var(--navy);
+  box-shadow: var(--shadow-sm);
+}
+
+.core-thumbnail-game-card::before {
+  display: none;
+}
+
+.core-thumbnail-game-card .fun-card__art {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.core-thumbnail-game-card .game-artwork {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.core-thumbnail-game-name {
+  display: block;
+  min-height: 54px;
+  padding: 14px 15px 15px;
+  color: var(--navy);
+  font-size: 15px;
+  line-height: 1.25;
+}
+
+@media (min-width: 640px) {
+  .core-thumbnail-game-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 960px) {
+  .core-thumbnail-game-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
