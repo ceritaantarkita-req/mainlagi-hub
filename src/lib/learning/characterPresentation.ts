@@ -65,7 +65,6 @@ export interface CharacterPresentationRequest {
   worldId?: string | null;
   requestedState?: CharacterPresentationState | null;
   requestedCharacters?: readonly CharacterId[] | null;
-  allowLegacyFallback?: boolean;
   allowIdentityFallback?: boolean;
 }
 
@@ -115,7 +114,7 @@ const DEFAULT_CONTEXT_STATE: Readonly<Record<CharacterPresentationContext, Chara
   play_completion: "celebrate"
 };
 
-const LEGACY_IDENTITY_FALLBACK: readonly ["gavi", "paca"] = ["gavi", "paca"];
+const APPROVED_IDENTITY_FALLBACK: readonly ["gavi", "paca"] = ["gavi", "paca"];
 
 function isSubjectId(value: string | null | undefined): value is CharacterPresentationSubjectId {
   return Boolean(value && Object.prototype.hasOwnProperty.call(SUBJECT_CHARACTER_PAIRS, value));
@@ -150,7 +149,7 @@ function chooseCast(
     return { ids: [], source: "approved-fallback" };
   }
 
-  return { ids: LEGACY_IDENTITY_FALLBACK, source: "approved-fallback" };
+  return { ids: APPROVED_IDENTITY_FALLBACK, source: "approved-fallback" };
 }
 
 function resolveSlot(
@@ -161,9 +160,7 @@ function resolveSlot(
   request: CharacterPresentationRequest,
   alreadyUsed: ReadonlySet<CharacterId>
 ): ResolvedPresentationCharacter | null {
-  const resolved = resolveCharacterState(id, state, {
-    allowLegacyFallback: request.allowLegacyFallback !== false
-  });
+  const resolved = resolveCharacterState(id, state);
 
   if (resolved) {
     return {
@@ -178,11 +175,9 @@ function resolveSlot(
 
   if (request.allowIdentityFallback === false) return null;
 
-  for (const fallbackId of LEGACY_IDENTITY_FALLBACK) {
+  for (const fallbackId of APPROVED_IDENTITY_FALLBACK) {
     if (alreadyUsed.has(fallbackId)) continue;
-    const fallback = resolveCharacterState(fallbackId, state, {
-      allowLegacyFallback: request.allowLegacyFallback !== false
-    });
+    const fallback = resolveCharacterState(fallbackId, state);
     if (fallback) {
       return {
         id: fallback.id,
@@ -221,7 +216,7 @@ function resolvePresentation(
     const requestedId = cast.ids[index];
     const resolved = resolveSlot(requestedId, requestedState, side, role, request, used);
     if (!resolved || used.has(resolved.id)) continue;
-    if (resolved.id !== requestedId || resolved.assetSource === "legacy-webp") fallbackUsed = true;
+    if (resolved.id !== requestedId) fallbackUsed = true;
     used.add(resolved.id);
     characters.push(resolved);
   }

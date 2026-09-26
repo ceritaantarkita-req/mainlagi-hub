@@ -13,11 +13,9 @@ if (compile.status !== 0) process.exit(compile.status ?? 1);
 
 const require = createRequire(import.meta.url);
 const {
-  CHARACTER_ASSET_REGISTRY,
   CHARACTER_PRESENTATION_STATES,
   CHARACTER_STATE_ASSET_REGISTRY,
   approvedCharacterRuntimeAsset,
-  approvedCharacterRuntimeSrc,
   resolveCharacterState
 } = require(path.resolve(".learning-test-dist/src/lib/learning/characterAssets.js"));
 const {
@@ -59,15 +57,12 @@ assert.equal(pathCount, 35, "all 35 approved state assets are runtime-addressabl
 assert(CHARACTER_PRESENTATION_CONTEXTS.includes("play_entry"), "shared presentation contexts include Bermain entry");
 assert(CHARACTER_PRESENTATION_CONTEXTS.includes("play_completion"), "shared presentation contexts include Bermain completion");
 
-// Historical compatibility API remains only for fail-safe/history testing.
- // Session 14 requires normal product surfaces to avoid this path; Session 15 may remove it after exact reference tracing.
-for (const id of ["naya", "gian", "zia"]) {
-  assert.equal(CHARACTER_ASSET_REGISTRY[id].lifecycle, "reference-only");
-  assert.equal(approvedCharacterRuntimeSrc(id), null, `${id} legacy compatibility gate remains closed until Session 06`);
-}
-for (const id of ["gavi", "paca"]) {
-  assert.match(approvedCharacterRuntimeSrc(id), /^\/artwork\/garden-(gavi|paca)\.webp$/);
-}
+// Session 15 removes the historical Garden WebP compatibility path entirely.
+assert.doesNotMatch(
+  fs.readFileSync(path.resolve("src/lib/learning/characterAssets.ts"), "utf8"),
+  /garden-(gavi|paca)\.webp|legacy-webp|approvedCharacterRuntimeSrc|approvedLegacyCharacterRuntimeAsset/,
+  "character runtime must remain SVG-only after Session 15"
+);
 
 // Exercise the real same-identity fallback chain by temporarily removing slots.
 {
@@ -91,10 +86,11 @@ for (const id of ["gavi", "paca"]) {
   delete states.hero;
   delete states.welcome;
   try {
-    const resolved = resolveCharacterState("gavi", "correct");
-    assert(resolved);
-    assert.equal(resolved.source, "legacy-webp", "Gavi may fall back to approved legacy asset");
-    assert.equal(resolved.src, "/artwork/garden-gavi.webp");
+    assert.equal(
+      resolveCharacterState("gavi", "correct"),
+      null,
+      "Gavi must fail closed when same-character approved SVG fallbacks are unavailable"
+    );
   } finally {
     states.correct = saved.correct;
     states.hero = saved.hero;

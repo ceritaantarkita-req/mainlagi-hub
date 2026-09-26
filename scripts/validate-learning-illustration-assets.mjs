@@ -176,6 +176,7 @@ if (JSON.stringify(actualKeys) !== JSON.stringify([...EXPECTED_KEYS].sort())) {
 }
 
 const approvedWebpPaths = new Map();
+const retiredWebpPaths = new Map();
 const approvedSvgRecords = [];
 const expectedSvgPaths = new Map();
 
@@ -346,22 +347,34 @@ for (const semanticKey of EXPECTED_KEYS) {
 
   const webp = productionAssets.webp;
   if (!webp || typeof webp !== "object" || Array.isArray(webp)) {
-    fail(`${semanticKey}: approved asset must preserve approved WebP production history`);
+    fail(`${semanticKey}: approved asset must preserve WebP history metadata`);
     continue;
   }
-  if (webp.status !== "approved") fail(`${semanticKey}: productionAssets.webp.status must be approved`);
+  if (!["approved", "retired"].includes(webp.status)) {
+    fail(`${semanticKey}: productionAssets.webp.status must be approved|retired`);
+  }
   if (webp.format !== "webp") fail(`${semanticKey}: productionAssets.webp.format must be webp`);
-  if (webp.path !== expectedWebpPath) fail(`${semanticKey}: approved WebP path must be ${expectedWebpPath}`);
-  if (!safePublicPath(webp.path)) fail(`${semanticKey}: unsafe approved WebP path`);
-  if (!validSha(webp.sha256)) fail(`${semanticKey}: approved WebP requires lowercase SHA-256`);
+  if (webp.path !== expectedWebpPath) fail(`${semanticKey}: WebP history path must be ${expectedWebpPath}`);
+  if (!safePublicPath(webp.path)) fail(`${semanticKey}: unsafe WebP history path`);
+  if (!validSha(webp.sha256)) fail(`${semanticKey}: WebP history requires lowercase SHA-256`);
 
-  if (approvedWebpPaths.has(webp.path)) {
-    fail(`${semanticKey}: WebP path already assigned to ${approvedWebpPaths.get(webp.path)}`);
-  } else {
-    approvedWebpPaths.set(webp.path, semanticKey);
+  if (approvedWebpPaths.has(webp.path) || retiredWebpPaths.has(webp.path)) {
+    fail(`${semanticKey}: WebP history path already assigned`);
   }
 
   const absolute = path.join(root, "public", webp.path.slice(1));
+
+  if (webp.status === "retired") {
+    if (!validDate(webp.retiredAt)) fail(`${semanticKey}: retired WebP requires YYYY-MM-DD retiredAt`);
+    if (!requiredString(webp.retirementReason)) fail(`${semanticKey}: retired WebP requires retirementReason`);
+    retiredWebpPaths.set(webp.path, semanticKey);
+    if (existsSync(absolute)) {
+      fail(`${semanticKey}: retired WebP binary must be absent (${webp.path})`);
+    }
+    continue;
+  }
+
+  approvedWebpPaths.set(webp.path, semanticKey);
   if (!existsSync(absolute)) {
     fail(`${semanticKey}: approved WebP production asset does not exist (${webp.path})`);
     continue;
@@ -462,5 +475,5 @@ if (process.exitCode) process.exit(process.exitCode);
 
 const heldCount = EXPECTED_KEYS.filter((key) => registry.items[key]?.lifecycle !== "approved").length;
 console.log(
-  `learning illustrations v2 OK: ${approvedWebpPaths.size} approved WebP history asset(s); ${approvedSvgPathMap.size} approved SVG asset(s); ${EXPECTED_KEYS.length - heldCount - approvedSvgPathMap.size} SVG migration-ready slot(s); ${heldCount} held fail-closed slot(s); runtime activation ${registry.runtimeActivation}`
+  `learning illustrations v2 OK: ${approvedWebpPaths.size} approved WebP production asset(s); ${retiredWebpPaths.size} retired WebP history record(s); ${approvedSvgPathMap.size} approved SVG asset(s); ${EXPECTED_KEYS.length - heldCount - approvedSvgPathMap.size} SVG migration-ready slot(s); ${heldCount} held fail-closed slot(s); runtime activation ${registry.runtimeActivation}`
 );

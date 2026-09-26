@@ -105,12 +105,20 @@ function readRegistry() {
     const webp = record.productionAssets?.webp;
     if (
       !webp ||
-      webp.status !== "approved" ||
+      !["approved", "retired"].includes(webp.status) ||
       webp.format !== "webp" ||
       webp.path !== expectedWebp ||
       !validSha(webp.sha256)
     ) {
-      throw new Error(`${key}: approved clear-scope must preserve exact WebP production history`);
+      throw new Error(`${key}: approved clear-scope must preserve exact WebP history metadata`);
+    }
+    if (webp.status === "retired") {
+      if (typeof webp.retiredAt !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(webp.retiredAt)) {
+        throw new Error(`${key}: retired WebP history requires retiredAt`);
+      }
+      if (typeof webp.retirementReason !== "string" || !webp.retirementReason.trim()) {
+        throw new Error(`${key}: retired WebP history requires retirementReason`);
+      }
     }
 
     const svg = record.productionAssets?.svg;
@@ -207,7 +215,8 @@ async function renderLegacyComparison(sourceDir, outputDir, registry, semanticKe
     sourceFilename,
     sourceBytes: sourceBytes.length,
     sourceSha256: digest(sourceBytes),
-    expectedWebpProductionPath: webp.path,
+    historicalWebpProductionPath: webp.path,
+    webpHistoryStatus: webp.status,
     expectedSvgProductionPath: svg.expectedPath,
     svgMigrationStatus: svg.status,
     preflightFilename: filename,
@@ -239,7 +248,7 @@ async function main() {
     for (const [key, source] of CLEAR_SCOPE) {
       const record = registry.items[key];
       console.log(
-        `- ${key}: ${source} -> legacy ${path.posix.basename(record.productionAssets.webp.path)}; SVG target ${path.posix.basename(record.productionAssets.svg.expectedPath)}`
+        `- ${key}: ${source} -> historical ${path.posix.basename(record.productionAssets.webp.path)} [${record.productionAssets.webp.status}]; SVG target ${path.posix.basename(record.productionAssets.svg.expectedPath)}`
       );
     }
     console.log(`Held keys excluded: ${HELD_KEYS.join(", ")}`);
@@ -286,7 +295,7 @@ async function main() {
 
   console.log(`Generated ${items.length} internal historical WebP comparison files at ${outputDir}`);
   console.log(`Held keys intentionally excluded: ${HELD_KEYS.join(", ")}`);
-  console.log("Registry v2 SVG production bindings remain unchanged; no public production mutation or runtime activation was created.");
+  console.log("Registry v2 SVG production bindings and retired WebP history metadata remain unchanged; no public production mutation or runtime activation was created.");
 }
 
 main().catch((error) => {

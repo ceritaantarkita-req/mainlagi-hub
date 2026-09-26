@@ -15,7 +15,6 @@ const PUBLIC_HERO_CAST = resolveCharacterPresentation({
   context: "home",
   requestedCharacters: ["gavi", "paca"],
   requestedState: "hero",
-  allowLegacyFallback: false,
   allowIdentityFallback: false
 }).characters;
 

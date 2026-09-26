@@ -1,0 +1,183 @@
+{
+  "version": 1,
+  "session": "15",
+  "scope": "redundant-webp-cleanup-after-live-svg-verification",
+  "baselineMain": "229fb1c8018db270d2bfbdf99dfd8dbebc5a8877",
+  "authorizedBy": "docs/MAINLAGI_APPROVED_SVG_SWEEP_SESSION14_CLOSURE_2026-09-26.md",
+  "deletionCandidates": {
+    "semanticWebpHistory": {
+      "count": 14,
+      "items": [
+        {
+          "semanticKey": "action.jump",
+          "path": "public/artwork/learning-illustrations/action-jump-v1.webp",
+          "registrySha256": "dcb7edbd9749f2a913829175572d84e42f48b0a30698d970728031c2244d093b",
+          "gitBlobSha": "a0c81662d4b7f822bb8b5e40cd69aeb57a8746a0",
+          "sizeBytes": 18956,
+          "retiredAt": "2026-09-26"
+        },
+        {
+          "semanticKey": "animal.bird",
+          "path": "public/artwork/learning-illustrations/animal-bird-v1.webp",
+          "registrySha256": "de38296a4249d492be66f3253a343efb0997d08d83ae5c20b908b3e47b396914",
+          "gitBlobSha": "e7311902c5567839aa85b8859c11531cf147d8ed",
+          "sizeBytes": 9594,
+          "retiredAt": "2026-09-26"
+        },
+        {
+          "semanticKey": "animal.cat",
+          "path": "public/artwork/learning-illustrations/animal-cat-v1.webp",
+          "registrySha256": "6bacca64a1bac258bb6d92a4c5b39a81cb383a45baba0cf35d3b7df26685c482",
+          "gitBlobSha": "98c39db83def0989a52b0cb197232b92f00574f2",
+          "sizeBytes": 10120,
+          "retiredAt": "2026-09-26"
+        },
+        {
+          "semanticKey": "animal.fish",
+          "path": "public/artwork/learning-illustrations/animal-fish-v1.webp",
+          "registrySha256": "54feddc6722908341f5f8f6bb9bdfae82dae85b663e6d018449d33bdbb1da5f5",
+          "gitBlobSha": "dbad974a6d46558a06c3567642ff772a635d307c",
+          "sizeBytes": 9700,
+          "retiredAt": "2026-09-26"
+        },
+        {
+          "semanticKey": "body.head",
+          "path": "public/artwork/learning-illustrations/body-head-v1.webp",
+          "registrySha256": "81640c6143fb52f71abdbeebe6b425fae79ca6ac1b00c0c84b6cc4801182c435",
+          "gitBlobSha": "7a8dee940e0ca5bc669e9ebdbe456564480ff7e7",
+          "sizeBytes": 7102,
+          "retiredAt": "2026-09-26"
+        },
+        {
+          "semanticKey": "feature.beak",
+          "path": "public/artwork/learning-illustrations/feature-beak-v1.webp",
+          "registrySha256": "0423a3b8b2bec07d84faa54e5de7ac224becae21c32512de19e3abc274d6f53f",
+          "gitBlobSha": "35c32c6aae4ebedce6ae838364ca8c777b518f09",
+          "sizeBytes": 11674,
+          "retiredAt": "2026-09-26"
+        },
+        {
+          "semanticKey": "feature.cactus-thick-stem",
+          "path": "public/artwork/learning-illustrations/feature-cactus-thick-stem-v1.webp",
+          "registrySha256": "f73fbe012350f85b5ef22c8f0595617cff84c971a9f262da49cf80be2d5c3e45",
+          "gitBlobSha": "ca2bab4c0c848570aaa4d0a175daba6250f7e10c",
+          "sizeBytes": 9206,
+          "retiredAt": "2026-09-26"
+        },
+        {
+          "semanticKey": "feature.gills",
+          "path": "public/artwork/learning-illustrations/feature-gills-v1.webp",
+          "registrySha256": "1d9c2da20507b89928b4c3a0c0783ed88b8108085f4beeecd86fd43bea7c1996",
+          "gitBlobSha": "56e501592a369907573c5b9dd467d6f34391503b",
+          "sizeBytes": 13994,
+          "retiredAt": "2026-09-26"
+        },
+        {
+          "semanticKey": "object.apple",
+          "path": "public/artwork/learning-illustrations/object-apple-v1.webp",
+          "registrySha256": "68b867f733facd325ee3e0baa5814c682f9c107756edd99b56b468ca8337302f",
+          "gitBlobSha": "1bb5479aa35ea1e5271c0b288d7c1b30cd99c253",
+          "sizeBytes": 8432,
+          "retiredAt": "2026-09-26"
+        },
+        {
+          "semanticKey": "object.ball",
+          "path": "public/artwork/learning-illustrations/object-ball-v1.webp",
+          "registrySha256": "ef3b525cb818b98dc7ec1363574c50668b907abd464ea11ad8c761eda09c050a",
+          "gitBlobSha": "f3f847237324e1088915aab5fc55de120a7bb784",
+          "sizeBytes": 15618,
+          "retiredAt": "2026-09-26"
+        },
+        {
+          "semanticKey": "object.cup",
+          "path": "public/artwork/learning-illustrations/object-cup-v1.webp",
+          "registrySha256": "b9d751dd2c7ec8e25d496ff3f18d6d4bae1769a607b94e2f9cc1acbb829269c6",
+          "gitBlobSha": "0c3b38f7cb7f0e4ab5774040bc53d0bd7a167265",
+          "sizeBytes": 9752,
+          "retiredAt": "2026-09-26"
+        },
+        {
+          "semanticKey": "object.house",
+          "path": "public/artwork/learning-illustrations/object-house-v1.webp",
+          "registrySha256": "23fe8ae122a8e4336b3d522d697d41f5a7e1a0343c48bc63a1cd9be01c6ebc84",
+          "gitBlobSha": "fb12c0cfc60a71ec32aceef40075723e7e8d8af1",
+          "sizeBytes": 4214,
+          "retiredAt": "2026-09-26"
+        },
+        {
+          "semanticKey": "object.toy-block",
+          "path": "public/artwork/learning-illustrations/object-toy-block-v1.webp",
+          "registrySha256": "d9b3ddda42263f42c18b339be92a204b2627c9fddbb53188fc0a159f25430251",
+          "gitBlobSha": "294bd36e00b030fb198a7ceb3830ba617a915c83",
+          "sizeBytes": 5760,
+          "retiredAt": "2026-09-26"
+        },
+        {
+          "semanticKey": "object.umbrella",
+          "path": "public/artwork/learning-illustrations/object-umbrella-v1.webp",
+          "registrySha256": "f26193c5b1b8d473cc2ea93f46e4b8cdbf8ddf9a552310536edda430f714dd46",
+          "gitBlobSha": "554d7768b2ef0c4bc2d8491074f1cdc681ac8cc7",
+          "sizeBytes": 5086,
+          "retiredAt": "2026-09-26"
+        }
+      ]
+    },
+    "legacyCharacterWebpFallback": {
+      "count": 2,
+      "items": [
+        {
+          "path": "public/artwork/garden-gavi.webp",
+          "gitBlobSha": "2f820e55e62be4f7e3c42ade3761acf45a065feb",
+          "sizeBytes": 43702
+        },
+        {
+          "path": "public/artwork/garden-paca.webp",
+          "gitBlobSha": "6a1bab1cb43984d69eca2f3a703f90be32707eea",
+          "sizeBytes": 40614
+        }
+      ]
+    }
+  },
+  "totalRemovedFiles": 16,
+  "totalRemovedBytes": 223524,
+  "retainedWebp": {
+    "subjectBackgrounds": {
+      "count": 108,
+      "reason": "raster-native responsive subject scenery"
+    },
+    "activityPreviews": {
+      "count": 125,
+      "reason": "intentional derived gallery preview rasters"
+    },
+    "referenceOnly": {
+      "count": 1,
+      "paths": [
+        "public/artwork/_mascot-reference.webp"
+      ]
+    },
+    "noApprovedCanonicalSvgSource": {
+      "count": 13,
+      "reason": "runtime raster assets without approved canonical SVG replacement"
+    },
+    "total": 247
+  },
+  "approvedSvg": {
+    "publicArtwork": 49,
+    "characterStates": 35,
+    "semanticIllustrations": 14,
+    "appIconDirectSvg": 1
+  },
+  "heldSemanticVectors": [
+    "vehicle.car",
+    "object.towel",
+    "object.raincoat"
+  ],
+  "requiredPostCleanupInvariants": [
+    "No public/artwork/learning-illustrations/*.webp binary remains.",
+    "No public/artwork/garden-gavi.webp or garden-paca.webp binary remains.",
+    "No src TypeScript/TSX/CSS source references legacy Garden character WebP paths.",
+    "All 14 approved semantic records preserve historical WebP path/SHA metadata with status retired.",
+    "All 14 approved semantic SVG binaries remain exact and active through controlled-svg.",
+    "The 247 retained WebPs remain inside justified raster/reference classes only."
+  ]
+}
