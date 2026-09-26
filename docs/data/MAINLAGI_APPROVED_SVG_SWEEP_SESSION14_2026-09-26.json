@@ -1,0 +1,98 @@
+{
+  "version": 1,
+  "session": "14",
+  "baselineMain": "4979322aa03bdc3cb537c9bd5a387a7890c98bcf",
+  "scope": "repository-wide approved-SVG sweep",
+  "approvedVectorScope": {
+    "characterStateSvg": {
+      "count": 35,
+      "classification": "direct-svg",
+      "registry": "src/lib/data/character-asset-provenance.json"
+    },
+    "semanticSvg": {
+      "count": 14,
+      "classification": "direct-svg",
+      "registry": "src/lib/data/learning-illustration-asset-provenance.json"
+    },
+    "otherDirectSvg": [
+      {
+        "path": "src/app/icon.svg",
+        "classification": "direct-svg-outside-artwork-provenance",
+        "reason": "Already shipped directly as SVG; no WebP shadow or conversion rule exists."
+      }
+    ]
+  },
+  "migratedLegacyCharacterConsumers": [
+    "src/components/learning/LearningCommon.tsx",
+    "src/components/HomePage.tsx",
+    "src/components/auth/AuthFamilyShell.tsx",
+    "src/components/learning/world/WorldExperience.tsx",
+    "src/components/learning/world-v2/MoneyWorldExperience.module.css",
+    "src/lib/learning/world/moneyWorldAssets.ts"
+  ],
+  "allowedLegacyCharacterWebpSourceRefs": [
+    {
+      "path": "src/lib/learning/characterAssets.ts",
+      "classification": "compatibility-fallback-history",
+      "removal": "Session 15 only after exact runtime reference proof"
+    }
+  ],
+  "heldSemanticVectors": [
+    "vehicle.car",
+    "object.towel",
+    "object.raincoat"
+  ],
+  "webpClassification": {
+    "subjectBackgrounds": {
+      "count": 108,
+      "classification": "raster-native-exempt",
+      "reason": "Canonical subject scene artwork is intentionally responsive raster/WebP under the current SVG-native policy."
+    },
+    "activityPreviews": {
+      "count": 125,
+      "classification": "preview-raster-exempt",
+      "reason": "Gallery thumbnails are derived preview artifacts, not canonical approved SVG production sources."
+    },
+    "semanticRollbackHistory": {
+      "count": 14,
+      "classification": "history-defer-removal-session15",
+      "reason": "Approved SVG runtime is live; WebPs remain rollback/history until the separately authorized cleanup session."
+    },
+    "legacyCharacterFallbackHistory": {
+      "count": 2,
+      "paths": [
+        "public/artwork/garden-gavi.webp",
+        "public/artwork/garden-paca.webp"
+      ],
+      "classification": "compatibility-fallback-history-defer-removal-session15",
+      "reason": "Normal runtime consumers move to approved SVG in Session 14; files remain until Session 15 deletion proof."
+    },
+    "referenceOnly": {
+      "count": 1,
+      "paths": [
+        "public/artwork/_mascot-reference.webp"
+      ],
+      "classification": "reference-only"
+    },
+    "noApprovedCanonicalSvgSource": {
+      "count": 13,
+      "classification": "held-from-conversion",
+      "reason": "No approved canonical SVG source is recorded in the Session 01 inventory or current production provenance; Session 14 must not invent vector replacements.",
+      "paths": [
+        "public/artwork/airboard-presenter.webp",
+        "public/artwork/dodge-motion.webp",
+        "public/artwork/garden-apple.webp",
+        "public/artwork/garden-background.webp",
+        "public/artwork/garden-wordmark.webp",
+        "public/artwork/iqro-motion.webp",
+        "public/artwork/math-choice.webp",
+        "public/artwork/math-motion-battle.webp",
+        "public/artwork/math-warung.webp",
+        "public/artwork/number-trace.webp",
+        "public/artwork/pattern-race.webp",
+        "public/artwork/run-to-target.webp",
+        "public/artwork/shape-quest.webp"
+      ]
+    }
+  }
+}

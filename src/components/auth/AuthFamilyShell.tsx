@@ -1,7 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { resolveCharacterPresentation } from "@/lib/learning/characterPresentation";
 import styles from "./AuthFamilyShell.module.css";
+
+const AUTH_HERO_CAST = resolveCharacterPresentation({
+  context: "home",
+  requestedCharacters: ["gavi", "paca"],
+  requestedState: "hero",
+  allowLegacyFallback: false,
+  allowIdentityFallback: false
+}).characters;
 
 export function AuthFamilyShell({ children }: { children: ReactNode }) {
   return (
@@ -21,9 +30,19 @@ export function AuthFamilyShell({ children }: { children: ReactNode }) {
             <li><span className={styles.factMark} aria-hidden>✓</span>Pengaturan keluarga ada di area orang tua</li>
             <li><span className={styles.factMark} aria-hidden>✓</span>Main Gerak dengan kamera tetap opsional</li>
           </ul>
-          <div className={styles.art} aria-hidden>
-            <img src="/artwork/garden-gavi.webp" alt="" width={500} height={650} />
-            <img src="/artwork/garden-paca.webp" alt="" width={500} height={650} />
+          <div className={styles.art} aria-hidden data-session14-vector-cast="auth">
+            {AUTH_HERO_CAST.map((character) => (
+              <img
+                key={character.id}
+                src={character.src}
+                alt=""
+                width={500}
+                height={650}
+                data-character-id={character.id}
+                data-character-state={character.state}
+                data-character-asset-source={character.assetSource}
+              />
+            ))}
           </div>
         </section>
 

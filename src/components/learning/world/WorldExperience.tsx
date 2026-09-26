@@ -17,6 +17,7 @@ import {
   type LearningSubjectId
 } from "@/lib/learning/system";
 import { playTone, speak, unlockAudio } from "@/lib/audio/feedback";
+import { resolveCharacterPresentation } from "@/lib/learning/characterPresentation";
 import { ChildLoading, useLearningProfile, useLearningProgress } from "../LearningCommon";
 import {
   ActivityScreen as LegacyActivityScreen,
@@ -30,6 +31,14 @@ import garden from "../GardenActivityFrame.module.css";
 import learning from "../LearningPlatform.module.css";
 import playroom from "../Playroom.module.css";
 import { Rocket, PuzzlePiece, Key, LockKey } from "@phosphor-icons/react";
+
+const REWARDS_HERO_CAST = resolveCharacterPresentation({
+  context: "home",
+  requestedCharacters: ["gavi", "paca"],
+  requestedState: "hero",
+  allowLegacyFallback: false,
+  allowIdentityFallback: false
+}).characters;
 
 const WORLD_META: Record<LearningSubjectId, { name: string; place: string; helper: string }> = {
   bahasa: { name: "Bahasa", place: "Taman Kata", helper: "Huruf, kata & cerita" },
@@ -386,7 +395,20 @@ export function WorldRewardsScreen({ childId }: { childId: string }) {
   return <main className={learning.content}>
     <section className={playroom.continue}>
       <div className={playroom.continueCopy}><p>Koleksi bintang</p><h1 className={learning.pageTitle}>Hebat, {profile.name}!</h1><p>{progress.stars} bintang · {completed} aktivitas selesai</p></div>
-      <div className={playroom.companions} aria-hidden><img src="/artwork/garden-gavi.webp" alt="" width={487} height={650}/><img src="/artwork/garden-paca.webp" alt="" width={500} height={600}/></div>
+      <div className={playroom.companions} aria-hidden data-session14-vector-cast="rewards">
+        {REWARDS_HERO_CAST.map((character) => (
+          <img
+            key={character.id}
+            src={character.src}
+            alt=""
+            width={500}
+            height={650}
+            data-character-id={character.id}
+            data-character-state={character.state}
+            data-character-asset-source={character.assetSource}
+          />
+        ))}
+      </div>
     </section>
     <section className={learning.rewardShelf} aria-label="Koleksi hadiah">{rewards.map((reward,index)=>{
       const unlocked=progress.stars>=reward.stars;

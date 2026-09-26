@@ -1728,12 +1728,12 @@
 
 .sceneDecor::before {
   left: 5%;
-  background-image: url("/artwork/garden-paca.webp");
+  background-image: url("/artwork/characters/paca-hero-v1.svg");
 }
 
 .sceneDecor::after {
   right: 3%;
-  background-image: url("/artwork/garden-gavi.webp");
+  background-image: url("/artwork/characters/gavi-hero-v1.svg");
 }
 
 .festivalFinish {

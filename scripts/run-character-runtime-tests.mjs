@@ -59,8 +59,8 @@ assert.equal(pathCount, 35, "all 35 approved state assets are runtime-addressabl
 assert(CHARACTER_PRESENTATION_CONTEXTS.includes("play_entry"), "shared presentation contexts include Bermain entry");
 assert(CHARACTER_PRESENTATION_CONTEXTS.includes("play_completion"), "shared presentation contexts include Bermain completion");
 
-// Historical compatibility API remains stable for callers that have not migrated.
- // Session 06 Belajar surfaces must no longer depend on this API.
+// Historical compatibility API remains only for fail-safe/history testing.
+ // Session 14 requires normal product surfaces to avoid this path; Session 15 may remove it after exact reference tracing.
 for (const id of ["naya", "gian", "zia"]) {
   assert.equal(CHARACTER_ASSET_REGISTRY[id].lifecycle, "reference-only");
   assert.equal(approvedCharacterRuntimeSrc(id), null, `${id} legacy compatibility gate remains closed until Session 06`);

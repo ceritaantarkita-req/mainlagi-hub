@@ -82,11 +82,11 @@ export const CHARACTER_STATE_ASSET_REGISTRY: Readonly<
 };
 
 /**
- * Historical compatibility gate used by the pre-SVG Belajar presentation.
+ * Historical compatibility gate retained only as a fail-safe/history path.
  *
- * Keep this behavior unchanged until Session 06 deliberately migrates Belajar
- * to the shared state-aware resolver. This prevents Session 05 from changing
- * live subject pairings merely by introducing the new runtime foundation.
+ * Normal product surfaces use the approved SVG state bank. Session 14 proves
+ * no active surface consumes these WebPs directly; Session 15 owns any later
+ * deletion/removal after exact reference tracing.
  */
 export const CHARACTER_ASSET_REGISTRY: Readonly<Record<CharacterId, CharacterAssetRecord>> = {
   naya: {
@@ -178,7 +178,8 @@ export function resolveCharacterState(
 }
 
 /**
- * Pre-SVG compatibility API. Session 06 owns its migration/removal.
+ * Legacy compatibility API retained for fail-safe/history verification only.
+ * Session 15 owns removal after the repository-wide reference proof is closed.
  */
 export function approvedCharacterRuntimeSrc(id: CharacterId): string | null {
   const record = CHARACTER_ASSET_REGISTRY[id];
