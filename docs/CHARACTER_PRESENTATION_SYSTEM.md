@@ -131,7 +131,7 @@ The historical compatibility API:
 approvedCharacterRuntimeSrc()
 ```
 
-still exists only as compatibility fallback/history. Session 14 proves normal product surfaces no longer depend on direct Garden Gavi/Paca WebP consumption; `activityVisualTheme.ts` has already been SVG-runtime based since Session 06.
+was removed in Session 15 together with the legacy Garden Gavi/Paca WebP binaries. Normal presentation now has no legacy WebP runtime source; `activityVisualTheme.ts` has already been SVG-runtime based since Session 06.
 
 Current Belajar pair:
 
@@ -168,7 +168,7 @@ World is migrated through Session 08, Home/Bermain shell integration is complete
 
 Session 14 / PR #352 -> main `ae1c10087b9b328059605a5cbe9f4fcdf3ba1829` closed the repository-wide approved-SVG sweep. Normal known product surfaces now use the approved SVG state bank for character presentation; browser regression observes zero requests to `garden-gavi.webp` or `garden-paca.webp` across the migrated representative surfaces.
 
-The legacy WebP path remains only inside `characterAssets.ts` as an explicit fail-safe/history branch pending separately gated Session 15 cleanup.
+Session 15 removed the legacy WebP path from `characterAssets.ts` after exact reference/runtime tracing. Same-identity fallback is now approved requested SVG -> hero SVG -> welcome SVG -> null.
 
 ## Creative workspace rule
 
