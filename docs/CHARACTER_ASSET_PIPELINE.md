@@ -42,13 +42,13 @@ The existing WebP dimension/alpha validator behavior is **not sufficient** for t
 
 Drive source exists ≠ production approved ≠ runtime active. The new SVG bank may be source-ready while Naya/Gian/Zia remain fail-closed in current runtime code. Runtime activation remains a separate wave after provenance + sanitizer/validator + responsive QA.
 
-Existing `/artwork/garden-paca.webp` and `/artwork/garden-gavi.webp` remain legacy compatibility fallbacks during migration; do not delete them in the first SVG wave.
+Existing `/artwork/garden-paca.webp` and `/artwork/garden-gavi.webp` remain legacy compatibility fallback/history only. Session 14 removed all known normal direct product-surface consumption; Session 15 owns any later deletion after exact reference/runtime proof.
 
 ### Provenance model v2 — implemented in Session 03
 
 The registry is now version 2 with five characters and seven state variants per character. Each of the 35 variants binds source filename/Drive ID, source SHA-256, source byte size, ambiguity/review status, normalized SVG production path, provenance state, technical/source-validation result, lifecycle, and future production SHA/path.
 
-Session 04 has now promoted all 35 variants to exact production SVGs. Every variant is `approved`, has its canonical `productionPath`, exact `productionSha256`, `provenance.status=owned`, and `redistributionAllowed=true`. Source identity/hash equals production identity/hash for all 35 files. Runtime activation remains separate and is still 0.
+Session 04 promoted all 35 variants to exact production SVGs. Every variant is `approved`, has its canonical `productionPath`, exact `productionSha256`, `provenance.status=owned`, and `redistributionAllowed=true`. Source identity/hash equals production identity/hash for all 35 files. Runtime activation was completed later through Sessions 05–09 across Belajar, World, Home and Bermain; Session 14 additionally removed the remaining normal Garden-WebP shadows from guide/avatar/public/auth/rewards/World-ambience surfaces.
 
 ---
 It complements:
@@ -105,7 +105,7 @@ Current lifecycle after Session 04:
 35/35 productionSha256 bound
 35/35 provenance.status=owned
 35/35 redistributionAllowed=true
-runtime activation=0
+runtime activation=live through Sessions 05–09; Session 14 normal legacy-WebP shadow sweep complete
 ```
 
 Each state variant records:
