@@ -20,6 +20,32 @@ Semantic P0 production/runtime contract is now **registry v2 / SVG-preferred / c
 
 Canonical policy: `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`.
 
+## 26 September repository-wide approved-SVG checkpoint — LIVE VERIFIED THROUGH SESSION 14
+
+```text
+Session 14 PR: #352
+Session 14 final PR head: 74a1fb9967af062274c9ae289e236571c616a862
+Session 14 implementation main: ae1c10087b9b328059605a5cbe9f4fcdf3ba1829
+Session 14 PR CI: #1698 / run 36210232551 — full success
+Session 14 merged-main CI: #1699 / run 36210749985 — full success
+Session 14 Production smoke (Cloudflare): success
+
+approved public artwork SVGs: 49
+  character state SVGs: 35
+  semantic SVGs: 14
+direct app icon SVG: 1
+public artwork WebPs: 263 / 263 classified
+normal direct legacy Garden character WebP consumers: 0
+legacy Garden WebP source refs: characterAssets.ts compatibility fallback only
+normal direct semantic WebP runtime refs: 0
+semantic held vectors: 3
+next: Session 15 — remove only proven-redundant WebP derivatives
+```
+
+Canonical Session 14 closure: `MAINLAGI_APPROVED_SVG_SWEEP_SESSION14_CLOSURE_2026-09-26.md`. Machine classification: `data/MAINLAGI_APPROVED_SVG_SWEEP_SESSION14_2026-09-26.json`.
+
+Session 14 migrated the remaining normal Gavi/Paca Garden-WebP shadows on guide avatars, public Home, auth, rewards and World ambience to the already-approved SVG state bank. It did not delete the two legacy Garden WebPs or the 14 semantic WebP history assets; Session 15 owns that separately gated cleanup.
+
 ## 26 September semantic SVG responsive checkpoint — LIVE VERIFIED THROUGH SESSION 13
 
 ```text
@@ -90,7 +116,7 @@ Session 09 merged main: 227a77799cd73fecc8e58960ef8758c2e323bc30
 Session 09 merged-main CI: #1674 / run 36132350678 — full success
 Session 09 Production smoke (Cloudflare): success
 Sessions 01–09: COMPLETE
-Sessions 10–13 semantic SVG registry + production + controlled runtime + responsive QA: COMPLETE
+Sessions 10–14 semantic SVG registry + production + controlled runtime + responsive QA + repository-wide approved-SVG sweep: COMPLETE
 ```
 
 The exact repository `main` HEAD may move through later docs-only descendants. Treat `227a77799cd73fecc8e58960ef8758c2e323bc30` as the verified Session 09 runtime checkpoint and query `main` itself when an exact latest repository HEAD is required.
@@ -657,18 +683,17 @@ English narration production-asset Wave 2 is **MERGED / LIVE VERIFIED** via PR #
 
 Current product-UX state: **parent/profile/settings responsive redesign is MERGED / LIVE VERIFIED** via PR #251, and the **all-subject background system is also MERGED / LIVE VERIFIED** via PR #256. `CloudParentOverviewScreen` remains canonical; family profiles are separated from `demo-gian`; child profile identity is separated from guide-character presentation; mobile parent navigation replaces the legacy forced aside below 760px. **Character production/development is paused**, so Naya/Gian/Zia production work is not an active next step. The current safe English narration continuation is the four-item provider/voice pilot; any unrelated visual/usability wave must be selected separately. Do not alter learning evidence/mastery/progression/schema while advancing presentation.
 
-### Character / artwork state — updated 25 September 2026
+### Character / artwork state — updated through Session 14 / 26 September 2026
 
-- Existing runtime-safe legacy artwork remains `public/artwork/garden-paca.webp` and `public/artwork/garden-gavi.webp`.
-- Drive now contains isolated single-character SVG state assets for all five canonical characters: Naya, Gian, Zia, Paca and Gavi.
-- `gavi-panel-hero.svg` is confirmed as the Gavi hero/default source.
-- New character production format is locked to **direct SVG**, not WebP derivatives.
-- Locked states: `hero`, `welcome`, `pointing`, `thinking`, `correct`, `try_again`, `celebrate`.
-- Design-set SVG files and `character-set-collection-mainlagi.ai` are reference/master assets only.
-- New production files will normalize to `/artwork/characters/<id>-<state>-v1.svg` after provenance + sanitization + validator approval.
-- Naya/Gian/Zia remain runtime fail-closed until those implementation gates are completed; source availability does not equal activation.
+- All **5 canonical characters × 7 states = 35/35 SVG variants** are production-approved, exact source/hash/provenance bound, runtime-addressable and already live across Belajar, World, Home and Bermain.
+- Normal character presentation now uses the approved direct SVG state bank; Session 14 also migrated guide avatars, public Home, auth, rewards and World ambient art away from direct Garden Gavi/Paca WebP consumption.
+- `public/artwork/garden-paca.webp` and `public/artwork/garden-gavi.webp` still exist only as explicit compatibility fallback/history behind `characterAssets.ts`; normal migrated Session 14 browser surfaces request neither file.
+- `gavi-panel-hero.svg` remains the confirmed Gavi hero/default source.
+- Locked states remain `hero`, `welcome`, `pointing`, `thinking`, `correct`, `try_again`, `celebrate`.
+- Design-set SVG files and `character-set-collection-mainlagi.ai` remain reference/master assets only.
 - Child profile identity and guide-character identity remain separate concepts.
-- Subject backgrounds remain production assets: **9 subjects / 54 scene families / 108 optimized WebP files**, merged through PR #256 and live verified.
+- Subject backgrounds remain intentional raster production assets: **9 subjects / 54 scene families / 108 optimized WebP files**.
+- Repository-wide Session 14 classification locks all **263/263 public artwork WebPs** into explicit categories; no unclassified WebP may enter silently.
 - Canonical character format/pipeline contract: `docs/CHARACTER_ASSET_PIPELINE.md`; presentation contract: `docs/CHARACTER_PRESENTATION_SYSTEM.md`.
 
 ## Engineering status
