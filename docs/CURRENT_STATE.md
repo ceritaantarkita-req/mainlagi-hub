@@ -1,8 +1,41 @@
 # Mainlagi Hub — Current State
 
-Last reviewed: **26 September 2026**
+Last reviewed: **27 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
+
+## 27 September core thumbnail system checkpoint — WAVE 01 CLOSED / LIVE VERIFIED
+
+```text
+Core Thumbnail Wave 01 implementation PR: #357
+final PR head: 3596bd18b38711ebcf01f20b5abb8fbe76951765
+PR CI: #1710 / run 36248829022 — full success
+merged implementation main: 140532c59e98bb45b63521983fb616bc29d6b217
+merged-main CI: #1711 / run 36249351976 — full success
+Production smoke (Cloudflare): success
+
+core thumbnail production assets: 31
+production geometry: 1200 × 900 / exact 4:3
+total core-thumbnail bytes: 3,228,610 (~3.08 MiB)
+
+subject cards: 9
+Main Gerak cards: 10
+World cards: 9
+World live: 1
+World locked: 8
+
+activity/gallery preview WebPs: 125 unchanged
+
+historical Session 15 justified WebP baseline: 247
+post-program core thumbnail WebPs: 31
+current public artwork WebPs: 278
+```
+
+Canonical post-implementation checkpoint: `MAINLAGI_CORE_THUMBNAIL_WAVE01_LIVE_CHECKPOINT_2026-09-27.md`. Exact Drive/source mapping remains `data/MAINLAGI_CORE_THUMBNAIL_WAVE01_SOURCE_MAP_2026-09-26.json`.
+
+Wave 01 is a fresh product-visual workstream after the closed Sessions 01–16 character + SVG migration program; it is not Session 17. It replaces the child Home hero, nine Belajar subject cards, Main Gerak header + ten game cards, and World header + nine World cards with one audited 4:3 family. Primary cards are image + name only. The World catalog now exposes exactly one live `money-festival` / Petualangan Uang card and eight faded, locked, non-navigable concept cards. Petualangan Uang route/progress/stages/evidence remain unchanged.
+
+The 247-WebP value below remains the correct historical Session 15/16 migration-program baseline. Current repository truth is 278 public artwork WebPs because Wave 01 adds a separately classified 31-file raster family after that program closed.
 
 ## 25 September SVG-native asset policy — CURRENT
 
