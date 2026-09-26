@@ -1,6 +1,6 @@
 # Mainlagi SVG-Native Asset Policy — 25 September 2026
 
-Status: **CURRENT PROJECT-OWNER ASSET FORMAT POLICY / SEMANTIC SVG RUNTIME + RESPONSIVE QA LIVE THROUGH SESSION 13 / REPOSITORY-WIDE APPROVED-SVG SWEEP NEXT IN SESSION 14**
+Status: **CURRENT PROJECT-OWNER ASSET FORMAT POLICY / SEMANTIC SVG RUNTIME + RESPONSIVE QA LIVE / REPOSITORY-WIDE APPROVED-SVG SWEEP CLOSED THROUGH SESSION 14 / REDUNDANT-WEBP CLEANUP NEXT IN SESSION 15**
 
 This document records the current Mainlagi asset-format decision after the character and learning-illustration reviews.
 
@@ -56,10 +56,10 @@ The current **9 subjects / 54 scene families / 108 responsive WebP backgrounds**
 
 Existing verified WebP assets remain valid until an explicit SVG migration is implemented and production-verified.
 
-Examples:
+Examples after Session 14:
 
-- legacy Gavi/Paca Garden WebP remains a character compatibility fallback during the character SVG migration;
-- the 14 semantic P0 WebP files merged through PR #324 remain historical/current production binaries until their direct-SVG replacements are integrated and verified.
+- legacy Gavi/Paca Garden WebPs remain compatibility fallback/history only; all normal known product-surface consumers use approved SVG, and Session 15 owns any safe deletion;
+- the 14 semantic P0 WebPs merged through PR #324 remain rollback/history; the controlled semantic runtime uses their approved direct-SVG counterparts.
 
 Do not remove a verified WebP in the same change that merely changes documentation or prepares a validator.
 
@@ -153,11 +153,13 @@ Current state:
 ```text
 registry version: 2
 preferredProductionFormat: svg
-runtimeActivation: off
+runtimeActivation: controlled-svg
 approved WebP history: 14
 approved SVG binaries: 14
 SVG migration-ready: 0
 held SVG slots: 3
+approved consumer coverage: 14/14
+held fallback coverage: 3/3
 ```
 
 The target architecture now advances to runtime activation:
@@ -235,3 +237,25 @@ Older audit, preflight and closure documents that describe WebP generation remai
 Do not rewrite historical facts to pretend those WebP waves did not happen.
 
 For current implementation decisions, this policy and the canonical current-state documents take precedence over old “convert SVG to WebP” next-step wording.
+
+
+## 8. Session 14 repository-wide sweep
+
+Session 14 / PR #352 -> main `ae1c10087b9b328059605a5cbe9f4fcdf3ba1829` closed the repository-wide approved-SVG sweep with merged-main CI #1699 and Cloudflare smoke.
+
+Verified inventory:
+
+```text
+approved public artwork SVGs: 49
+  character state SVGs: 35
+  semantic SVGs: 14
+direct app icon SVG: 1
+public artwork WebPs: 263 / 263 classified
+normal direct legacy Garden character WebP consumers: 0
+normal direct semantic WebP runtime refs: 0
+held semantic vectors: 3
+```
+
+The permanent gate is `npm run test:assets:approved-svg-sweep`, included in `npm run validate:assets`. The browser sweep is `npm run test:ui:approved-svg-sweep`, included in `npm run test:ui:mobile-routes`.
+
+Session 15 may remove only WebP files proven redundant. Raster-native backgrounds, intentional gallery previews, and runtime rasters without an approved canonical SVG replacement remain raster.
