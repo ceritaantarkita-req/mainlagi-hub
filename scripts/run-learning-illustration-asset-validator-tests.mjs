@@ -51,7 +51,9 @@ assert.equal(sourceRegistry.runtimeActivation, "controlled-svg");
 for (const key of CLEAR_KEYS) {
   const record = sourceRegistry.items[key];
   assert.equal(record.lifecycle, "approved", `${key} stays semantically/provenance approved`);
-  assert.equal(record.productionAssets.webp?.status, "approved", `${key} preserves WebP production history`);
+  assert.equal(record.productionAssets.webp?.status, "retired", `${key} records retired WebP history`);
+  assert.equal(record.productionAssets.webp?.retiredAt, "2026-09-26");
+  assert.match(record.productionAssets.webp?.retirementReason ?? "", /Session 15/);
   assert.equal(record.productionAssets.svg?.status, "approved", `${key} must be production-approved after Session 11`);
   assert.equal(
     record.productionAssets.svg?.expectedPath,
@@ -167,6 +169,13 @@ function approveWebp(registry, semanticKey, buffer) {
   return record;
 }
 
+function retireWebp(record) {
+  record.productionAssets.webp.status = "retired";
+  record.productionAssets.webp.retiredAt = "2026-09-26";
+  record.productionAssets.webp.retirementReason = "Session 15 regression fixture retirement after verified SVG runtime.";
+  return record;
+}
+
 function approveSvg(registry, semanticKey, buffer) {
   const record = registry.items[semanticKey];
   record.productionAssets.svg.status = "approved";
@@ -220,7 +229,7 @@ runFixture(
   "v2 review-required baseline",
   baselineRegistry(),
   {},
-  { ok: true, message: /0 approved WebP history asset\(s\); 0 approved SVG asset\(s\); 0 SVG migration-ready slot\(s\); 17 held fail-closed slot\(s\)/ }
+  { ok: true, message: /0 approved WebP production asset\(s\); 0 retired WebP history record\(s\); 0 approved SVG asset\(s\); 0 SVG migration-ready slot\(s\); 17 held fail-closed slot\(s\)/ }
 );
 
 {
@@ -416,6 +425,41 @@ runFixture(
   const svg = safeSvg();
   const record = approveWebp(registry, "object.apple", webp);
   approveSvg(registry, "object.apple", svg);
+  retireWebp(record);
+  runFixture(
+    "retired WebP history may remain as metadata without binary",
+    registry,
+    { productionFiles: { [record.productionAssets.svg.path]: svg } },
+    { ok: true, message: /0 approved WebP production asset\(s\); 1 retired WebP history record\(s\); 1 approved SVG asset\(s\)/ }
+  );
+}
+
+{
+  const registry = baselineRegistry();
+  const webp = makeVp8lMetadataFixture(256, 256, true);
+  const svg = safeSvg();
+  const record = approveWebp(registry, "object.apple", webp);
+  approveSvg(registry, "object.apple", svg);
+  retireWebp(record);
+  runFixture(
+    "retired WebP binary must be removed",
+    registry,
+    {
+      productionFiles: {
+        [record.productionAssets.webp.path]: webp,
+        [record.productionAssets.svg.path]: svg
+      }
+    },
+    { ok: false, message: /retired WebP binary must be absent/ }
+  );
+}
+
+{
+  const registry = baselineRegistry();
+  const webp = makeVp8lMetadataFixture(256, 256, true);
+  const svg = safeSvg();
+  const record = approveWebp(registry, "object.apple", webp);
+  approveSvg(registry, "object.apple", svg);
   runFixture(
     "valid dual-format approved semantic illustration",
     registry,
@@ -425,10 +469,10 @@ runFixture(
         [record.productionAssets.svg.path]: svg
       }
     },
-    { ok: true, message: /1 approved WebP history asset\(s\); 1 approved SVG asset\(s\)/ }
+    { ok: true, message: /1 approved WebP production asset\(s\); 0 retired WebP history record\(s\); 1 approved SVG asset\(s\)/ }
   );
 }
 
 console.log(
-  "Learning illustration asset validator v2 regression passed: 14 exact approved semantic SVG bindings, preserved WebP history, future migration-ready/approved fixtures, security, hash, dimensions, held-key fail-closed and stray-file gates."
+  "Learning illustration asset validator v2 regression passed: 14 exact approved semantic SVG bindings, retired WebP history metadata, active-WebP migration fixtures, security, hash, dimensions, held-key fail-closed and stray-file gates."
 );
