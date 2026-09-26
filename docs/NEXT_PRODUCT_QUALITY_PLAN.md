@@ -4,30 +4,28 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 
-## 26 September SVG execution boundary — SESSION 15 CLOSED / SESSION 16 NEXT
+## 26 September SVG execution boundary — SESSIONS 01–16 COMPLETE / PROGRAM CLOSED
 
-Verified current truth:
+Verified final truth:
 
-- Session 14 repository-wide approved-SVG sweep: PR #352 -> `ae1c10087b9b328059605a5cbe9f4fcdf3ba1829`;
 - Session 15 redundant-WebP cleanup: PR #354 -> `0f8505fb58b3f698a93e9003eb32ad9fe0e75c67`;
-- Session 15 PR CI #1703 / run `36218219712` full success;
-- Session 15 merged-main CI #1704 / run `36218744065` full success + Cloudflare smoke;
+- Session 15 docs/safe checkpoint: `b05b0331db7556bee165d245e7e1f8016565f956`;
+- final verified production baseline CI #1706 / run `36220621574` full success + Cloudflare smoke;
 - 35/35 approved character state SVGs remain direct/provenance-bound;
 - 14/14 approved semantic SVGs remain direct/provenance-bound;
-- semantic WebP production binaries are now 0;
-- legacy Garden Gavi/Paca WebP binaries are now 0;
-- the 14 semantic WebP historical path/SHA records remain with status `retired`;
-- character runtime is SVG-only; the legacy WebP compatibility API/path is removed;
+- semantic WebP production binaries = 0;
+- legacy Garden Gavi/Paca WebP binaries = 0;
+- 14 semantic WebP historical path/SHA records remain `retired`;
+- character runtime = SVG-only;
+- semantic runtime = `controlled-svg`;
 - the exact 3 semantic held vectors remain car / towel / raincoat;
-- exactly 247 justified public artwork WebPs remain:
-  - 108 subject backgrounds;
-  - 125 activity previews;
-  - 1 reference-only asset;
-  - 13 runtime rasters without approved canonical SVG replacements.
+- exactly 247 justified public artwork WebPs remain.
 
-**NEXT AUTHORIZED WORK — Session 16:** final closure + exact production checkpoint. Re-run/confirm the final relevant matrix, record exact current main/deployed SHA and final asset counts, synchronize current docs, and do not start another product/content/art wave inside the closure session.
+**THIS MIGRATION PROGRAM HAS NO NEXT SESSION.**
 
-Safe resume doc: `MAINLAGI_REDUNDANT_WEBP_CLEANUP_SESSION15_SAFE_CHECKPOINT_2026-09-26.md`.
+Any future product, content, art, held-asset, narration, World, Motion Engine or gameplay work requires a fresh objective and explicit authorization. Do not silently extend Session 16.
+
+Canonical final closure: `MAINLAGI_CHARACTER_SVG_PROGRAM_SESSION16_FINAL_CLOSURE_2026-09-26.md`.
 
 **Canonical branch:** `main`  
 **Latest fully closed gameplay pattern:** Pattern #47 — Math `shape_attribute_board`  

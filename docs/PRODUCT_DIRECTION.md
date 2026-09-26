@@ -244,7 +244,7 @@ Current execution order for the World + character program:
 10. close semantic responsive/browser verification — **complete through Session 13**;
 11. run repository-wide approved-SVG sweep — **complete through Session 14**;
 12. remove only proven-redundant WebP derivatives after the sweep — **complete through Session 15**;
-13. close with exact production checkpoint — **Session 16 NEXT**.
+13. close with exact production checkpoint — **complete through Session 16**.
 
 Belajar WS-05 Logic `pattern_completion` remains closed/live verified. Pattern #48 remains unjustified; character/World work must not reopen curriculum/mastery/progression unless separately authorized.
 

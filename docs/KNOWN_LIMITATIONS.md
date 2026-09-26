@@ -77,7 +77,7 @@ Session 3 froze all **17/17 P0** visual decisions, and the separately authorized
 
 Session 13 completed responsive/browser verification of the controlled semantic SVG runtime. After Session 15 cleanup, current state is **registry v2 / 14 retired WebP history metadata records / 0 semantic WebP binaries / 14 approved SVG binaries / 0 SVG migration-ready slots / 3 held / runtime activation `controlled-svg` / approved consumer coverage 14/14 / held fallback coverage 3/3**. The Session 12 `object.umbrella` presentation gap is closed through a presentation-only Activity Gallery binding with permanent no-answer-leak regression.
 
-The remaining semantic limitation is still rights/provenance for the same three held assets: car, towel and raincoat remain fallback-only. Session 15 has completed redundant-WebP cleanup: 49 approved public artwork SVGs remain direct/provenance-bound, semantic WebP binaries are 0, legacy Garden character WebP binaries are 0, and exactly 247 justified WebPs remain. The next asset-system boundary is Session 16 final closure + exact production checkpoint.
+The remaining semantic limitation is still rights/provenance for the same three held assets: car, towel and raincoat remain fallback-only. Sessions 01–16 are now closed: 49 approved public artwork SVGs remain direct/provenance-bound, semantic WebP binaries are 0, legacy Garden character WebP binaries are 0, and exactly 247 justified WebPs remain. There is no next migration session; a future held-asset or art decision requires fresh rights evidence and explicit scope.
 
 Canonical records:
 - `LEARNING_ILLUSTRATION_CONSISTENCY_AUDIT_2026-09-22.md`;
@@ -89,7 +89,8 @@ Canonical records:
 - `LEARNING_SEMANTIC_SVG_PRODUCTION_SESSION11_CLOSURE_2026-09-25.md`;
 - `LEARNING_SEMANTIC_SVG_RUNTIME_SESSION12_CLOSURE_2026-09-25.md`;
 - `LEARNING_SEMANTIC_SVG_RESPONSIVE_SESSION13_CLOSURE_2026-09-26.md`;
-- `MAINLAGI_REDUNDANT_WEBP_CLEANUP_SESSION15_SAFE_CHECKPOINT_2026-09-26.md`.
+- `MAINLAGI_REDUNDANT_WEBP_CLEANUP_SESSION15_SAFE_CHECKPOINT_2026-09-26.md`;
+- `MAINLAGI_CHARACTER_SVG_PROGRAM_SESSION16_FINAL_CLOSURE_2026-09-26.md`.
 
 ## Voice and narration
 

@@ -16,9 +16,44 @@ Applies now to:
 
 Does not force raster artwork such as subject backgrounds to SVG. The current 108 responsive subject-background WebP assets remain valid.
 
-Semantic P0 production/runtime contract is now **registry v2 / SVG-preferred / controlled SVG runtime active / responsive QA complete through Session 13 / redundant WebP cleanup complete through Session 15**. The 14 source/license-clear records retain exact historical WebP path/SHA metadata with status `retired`, while their canonical approved SVG production files remain active at `/artwork/learning-illustrations/<semantic-slug>-v1.svg`. The central resolver remains active, all 14 approved keys are resolver-addressable and now have explicit consumer coverage, and the three held keys remain fail-closed with explicit fallback coverage. The complete current semantic consumer union is **17/17 = 14 approved SVG keys + 3 held fallback keys**. `vehicle.car`, `object.towel`, and `object.raincoat` remain held regardless of format.
+Semantic P0 production/runtime contract is now **registry v2 / SVG-preferred / controlled SVG runtime active / responsive QA complete through Session 13 / redundant WebP cleanup complete through Session 15 / migration program final-verified through Session 16**. The 14 source/license-clear records retain exact historical WebP path/SHA metadata with status `retired`, while their canonical approved SVG production files remain active at `/artwork/learning-illustrations/<semantic-slug>-v1.svg`. The central resolver remains active, all 14 approved keys are resolver-addressable and now have explicit consumer coverage, and the three held keys remain fail-closed with explicit fallback coverage. The complete current semantic consumer union is **17/17 = 14 approved SVG keys + 3 held fallback keys**. `vehicle.car`, `object.towel`, and `object.raincoat` remain held regardless of format.
 
 Canonical policy: `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`.
+
+## 26 September character + SVG program final checkpoint — SESSION 16 CLOSED
+
+```text
+Sessions 01–16: COMPLETE
+
+final verified production baseline:
+b05b0331db7556bee165d245e7e1f8016565f956
+
+baseline merged-main CI:
+#1706 / run 36220621574 — full success
+
+Production smoke (Cloudflare):
+success
+
+approved public artwork SVGs: 49
+  character state SVGs: 35
+  semantic SVGs: 14
+
+semantic WebP binaries: 0
+legacy Garden Gavi/Paca WebP binaries: 0
+retired semantic WebP history records: 14
+retained justified public artwork WebPs: 247
+
+semantic held vectors: 3
+character runtime: SVG-only
+semantic runtime: controlled-svg
+
+next session in this migration program:
+NONE
+```
+
+Canonical final closure: `MAINLAGI_CHARACTER_SVG_PROGRAM_SESSION16_FINAL_CLOSURE_2026-09-26.md`. Machine-readable final manifest: `data/MAINLAGI_CHARACTER_SVG_PROGRAM_SESSION16_FINAL_2026-09-26.json`.
+
+The character + SVG migration program is closed. Future product, content, art, held-asset, World, Motion Engine, narration or gameplay work must start from a fresh objective and explicitly authorized scope rather than extending Session 16.
 
 ## 26 September redundant WebP cleanup checkpoint — LIVE VERIFIED THROUGH SESSION 15
 
@@ -40,7 +75,7 @@ retained justified public artwork WebPs: 247
 semantic held vectors: 3
 character runtime: SVG-only
 semantic runtime: controlled-svg
-next: Session 16 — final closure + exact production checkpoint
+historical next at Session 15 checkpoint: Session 16 — now complete; see final checkpoint above
 ```
 
 Canonical Session 15 safe checkpoint: `MAINLAGI_REDUNDANT_WEBP_CLEANUP_SESSION15_SAFE_CHECKPOINT_2026-09-26.md`. Machine deletion manifest: `data/MAINLAGI_REDUNDANT_WEBP_CLEANUP_SESSION15_2026-09-26.json`.

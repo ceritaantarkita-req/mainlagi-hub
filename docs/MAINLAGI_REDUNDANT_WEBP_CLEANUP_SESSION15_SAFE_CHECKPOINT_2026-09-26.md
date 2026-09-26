@@ -1,3 +1,5 @@
+> **SUPERSEDED FOR CURRENT SAFE RESUME:** Session 16 final closure is now canonical. Use `MAINLAGI_CHARACTER_SVG_PROGRAM_SESSION16_FINAL_CLOSURE_2026-09-26.md` plus `CURRENT_STATE.md` for current truth. This Session 15 file remains historical evidence of the pre-Session-16 handoff.
+
 # Mainlagi Redundant WebP Cleanup — Session 15 Safe Checkpoint — 26 September 2026
 
 Status: **CLOSED / MERGED / LIVE VERIFIED / SAFE RESUME CHECKPOINT**
@@ -287,9 +289,9 @@ Do **not** rewrite those historical facts.
 
 For current state, this checkpoint and `CURRENT_STATE.md` take precedence.
 
-## Session 16 — next authorized work
+## Session 16 — historical next step, now complete
 
-Session 16 is **final closure + exact production checkpoint** for this character/SVG migration program.
+Session 16 was the **final closure + exact production checkpoint** for this character/SVG migration program and is now complete.
 
 Do:
 
@@ -329,7 +331,7 @@ A new human/AI agent should:
 7. inspect `docs/data/MAINLAGI_REDUNDANT_WEBP_CLEANUP_SESSION15_2026-09-26.json`;
 8. confirm `npm run validate:assets` still includes the Session 15 cleanup gate;
 9. do not restore retired WebP binaries as rollback files;
-10. proceed only with Session 16 final verification/closure unless a separate project-owner authorization changes scope.
+10. for current work, read the Session 16 final closure instead; this Session 15 checkpoint is no longer the active resume document.
 
 ## Safe checkpoint summary
 
@@ -372,6 +374,6 @@ retained justified WebPs:
 held semantic vectors:
 3 = vehicle.car / object.towel / object.raincoat
 
-next authorized session:
-Session 16 — final closure + exact production checkpoint
+historical next at Session 15 checkpoint:
+Session 16 — now complete
 ```

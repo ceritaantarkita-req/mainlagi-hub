@@ -268,7 +268,7 @@ productionAssets.svg
 
 The 14 clear records preserve approved WebP history and now also carry `productionAssets.svg.status=approved` with canonical path and exact SHA-256. Held records must keep WebP binding null, SVG status `held`, SVG path/hash null, and `redistributionAllowed=false`.
 
-Canonical pilot record: `LEARNING_SEMANTIC_ILLUSTRATION_REGISTRY_PILOT_2026-09-23.md`. Historical WebP production integration: `LEARNING_SEMANTIC_P0_PRODUCTION_APPROVAL_INTEGRATION_2026-09-25.md`. SVG-aware registry migration: `LEARNING_SEMANTIC_SVG_REGISTRY_SESSION10_CLOSURE_2026-09-25.md`. Exact SVG production promotion: `LEARNING_SEMANTIC_SVG_PRODUCTION_SESSION11_CLOSURE_2026-09-25.md`. Controlled runtime closure: `LEARNING_SEMANTIC_SVG_RUNTIME_SESSION12_CLOSURE_2026-09-25.md`. Responsive QA closure: `LEARNING_SEMANTIC_SVG_RESPONSIVE_SESSION13_CLOSURE_2026-09-26.md`. Repository-wide approved-SVG sweep closure: `MAINLAGI_APPROVED_SVG_SWEEP_SESSION14_CLOSURE_2026-09-26.md`. Session 15 safe checkpoint: `MAINLAGI_REDUNDANT_WEBP_CLEANUP_SESSION15_SAFE_CHECKPOINT_2026-09-26.md`. Safe current handoff: `CURRENT_STATE.md`.
+Canonical pilot record: `LEARNING_SEMANTIC_ILLUSTRATION_REGISTRY_PILOT_2026-09-23.md`. Historical WebP production integration: `LEARNING_SEMANTIC_P0_PRODUCTION_APPROVAL_INTEGRATION_2026-09-25.md`. SVG-aware registry migration: `LEARNING_SEMANTIC_SVG_REGISTRY_SESSION10_CLOSURE_2026-09-25.md`. Exact SVG production promotion: `LEARNING_SEMANTIC_SVG_PRODUCTION_SESSION11_CLOSURE_2026-09-25.md`. Controlled runtime closure: `LEARNING_SEMANTIC_SVG_RUNTIME_SESSION12_CLOSURE_2026-09-25.md`. Responsive QA closure: `LEARNING_SEMANTIC_SVG_RESPONSIVE_SESSION13_CLOSURE_2026-09-26.md`. Repository-wide approved-SVG sweep closure: `MAINLAGI_APPROVED_SVG_SWEEP_SESSION14_CLOSURE_2026-09-26.md`. Session 15 safe checkpoint: `MAINLAGI_REDUNDANT_WEBP_CLEANUP_SESSION15_SAFE_CHECKPOINT_2026-09-26.md`. Final Session 16 closure: `MAINLAGI_CHARACTER_SVG_PROGRAM_SESSION16_FINAL_CLOSURE_2026-09-26.md`. Safe current handoff: `CURRENT_STATE.md`.
 
 ## 7. Third-party software, fonts, and model assets
 
@@ -295,3 +295,23 @@ A provenance entry records a project decision; it is not magic proof. Reviewers 
 - “we credited the owner” when attribution alone does not grant redistribution rights.
 
 When evidence is unclear, keep the asset out of the public repository.
+
+
+## Session 16 final production verification
+
+Session 16 closes the character + SVG migration program on verified production baseline `b05b0331db7556bee165d245e7e1f8016565f956`, merged-main CI #1706 / run `36220621574` full success including Cloudflare production smoke.
+
+Final provenance/runtime state:
+
+```text
+35 approved character-state SVGs
+14 approved semantic SVGs
+49 approved public artwork SVGs total
+14 retired semantic WebP history metadata records
+0 semantic WebP binaries
+0 legacy Garden character WebP binaries
+247 justified public artwork WebPs retained
+3 held semantic vectors
+```
+
+No new rights approval was introduced in Session 16. Car/towel/raincoat remain held.

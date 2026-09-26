@@ -230,3 +230,33 @@ This pipeline does not:
 - authorize the five-character homepage hero.
 
 The homepage hero remains a later composition task using already-approved production identities.
+
+
+## Session 16 final closure
+
+The character asset migration is closed through Session 16.
+
+```text
+final verified production baseline:
+b05b0331db7556bee165d245e7e1f8016565f956
+
+baseline CI:
+#1706 / run 36220621574 — full success + Cloudflare
+
+characters:
+5
+
+locked states:
+7
+
+approved production SVG variants:
+35 / 35
+
+legacy Garden Gavi/Paca WebP binaries:
+0
+
+character runtime:
+SVG-only
+```
+
+The existing provenance, sanitizer, exact-path/hash and runtime-addressability gates remain permanent. Future character additions or new states require a fresh reviewed source/provenance/QA wave.
