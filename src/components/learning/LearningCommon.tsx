@@ -14,47 +14,44 @@ import {
   type LearningProgress
 } from "@/lib/learning/system";
 import { readCloudLearningProfile, readCloudLearningProgress } from "@/lib/learning/cloud";
+import { approvedCharacterRuntimeAsset } from "@/lib/learning/characterAssets";
 import styles from "./LearningPlatform.module.css";
 
 const EMPTY_LEARNING_PROGRESS: LearningProgress = { completedActivityIds: [], stars: 0, lastActivityId: null };
 
 export function CharacterAvatar({ id, large = false }: { id: CharacterId; large?: boolean }) {
   const className = large ? styles.characterBubbleLarge : styles.characterBubble;
+  const asset = approvedCharacterRuntimeAsset(id, "hero");
+  const backgroundById: Readonly<Record<CharacterId, string>> = {
+    naya: "#ffe5ef",
+    gian: "#e8f1ff",
+    zia: "#f6e8ff",
+    paca: "#def1e8",
+    gavi: "#ffead1"
+  };
 
-  if (id === "paca" || id === "gavi") {
-    return <span className={className} role="img" aria-label={CHARACTERS[id].name} style={{background:id==="paca" ? "#def1e8" : "#ffead1"}}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={`/artwork/garden-${id}.webp`} alt="" width={100} height={120} style={{width:"88%",height:"88%",objectFit:"contain"}}/>
-    </span>;
-  }
-
-  if (id === "naya") {
-    return (
-      <span className={className} role="img" aria-label={CHARACTERS[id].name} style={{ background: "#ffe5ef" }}>
-        <svg width="78%" height="78%" viewBox="0 0 80 80" aria-hidden>
-          <path d="M16 59c0-22 7-40 24-40s24 18 24 40Z" fill="#ef6a9e" />
-          <circle cx="40" cy="38" r="19" fill="#f5b38d" />
-          <path d="M20 38c2-18 9-28 20-28s20 10 20 28c-4-8-10-14-20-14S24 30 20 38Z" fill="#e84b8a" />
-          <path d="M25 43c-4 7-5 16-3 25h36c2-9 1-18-3-25-2 12-28 12-30 0Z" fill="#e84b8a" />
-          <circle cx="33" cy="38" r="2.5" fill="#3d2c28" />
-          <circle cx="47" cy="38" r="2.5" fill="#3d2c28" />
-          <path d="M33 48c4 4 10 4 14 0" fill="none" stroke="#9e4b42" strokeWidth="2.5" strokeLinecap="round" />
-        </svg>
-      </span>
-    );
-  }
-
-  const girl = id === "zia";
   return (
-    <span className={className} role="img" aria-label={CHARACTERS[id].name} style={{ background: girl ? "#f6e8ff" : "#e8f1ff" }}>
-      <svg width="78%" height="78%" viewBox="0 0 80 80" aria-hidden>
-        <circle cx="40" cy="39" r="22" fill="#f2b28d" />
-        <path d={girl ? "M18 38c1-18 10-27 22-27s21 9 22 27c-7-8-14-11-22-11s-15 3-22 11Z" : "M18 35c3-16 12-24 25-24 11 0 18 7 20 18-8-4-13-6-20-5-10 2-14 8-25 11Z"} fill="#603d2c" />
-        {girl ? <><circle cx="18" cy="34" r="7" fill="#6e4633" /><circle cx="62" cy="34" r="7" fill="#6e4633" /></> : null}
-        <circle cx="32" cy="40" r="3" fill="#352925" />
-        <circle cx="48" cy="40" r="3" fill="#352925" />
-        <path d="M33 50c4 4 10 4 14 0" fill="none" stroke="#9e4b42" strokeWidth="2.7" strokeLinecap="round" />
-      </svg>
+    <span
+      className={className}
+      role="img"
+      aria-label={CHARACTERS[id].name}
+      style={{ background: backgroundById[id] }}
+      data-character-avatar-id={id}
+      data-character-avatar-state="hero"
+      data-character-avatar-source={asset?.source ?? "fallback"}
+    >
+      {asset ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={asset.src}
+          alt=""
+          width={100}
+          height={120}
+          style={{ width: "88%", height: "88%", objectFit: "contain" }}
+        />
+      ) : (
+        <span aria-hidden>{CHARACTERS[id].name.charAt(0)}</span>
+      )}
     </span>
   );
 }
