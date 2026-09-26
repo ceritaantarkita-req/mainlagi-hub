@@ -202,16 +202,26 @@ async function inspectPage(page, route, viewport) {
     assert.equal(overlayCount, 0, `${route.path} rendered a Next.js error overlay at ${viewport.width}px`);
 
     if (route.path === "/child/demo-gian/worlds") {
-      await page.locator("[data-world-catalog-cta]").waitFor();
-      await page.waitForFunction(() => document.querySelector("[data-world-catalog-cta]")?.textContent === "Mulai petualangan →");
+      const worldGrid = page.locator('[data-core-thumbnail-grid="worlds"]');
+      await worldGrid.waitFor({ state: "visible", timeout: 5_000 });
+      const worldCards = page.locator('[data-core-thumbnail-card="world"]');
+      assert.equal(await worldCards.count(), 9, "World catalog must expose nine thumbnail cards");
+      assert.equal(await page.locator('[data-world-status="live"]').count(), 1, "World catalog must expose exactly one live World");
+      assert.equal(await page.locator('[data-world-status="locked"]').count(), 8, "World catalog must expose exactly eight locked concepts");
       assert.equal(
-        await page.locator("[data-world-catalog-cta]").textContent(),
-        "Mulai petualangan →",
-        "fresh World catalog must offer a clear start CTA"
+        await page.locator('[data-world-status="live"]').getAttribute("href"),
+        "/child/demo-gian/world/money-festival",
+        "World thumbnail wave must preserve the live money-festival route"
       );
-      const agePolicy = page.locator('[data-world-age-policy="pilot-6-8"]');
-      await agePolicy.waitFor();
-      assert.equal(await agePolicy.textContent(), "Usia rekomendasi 6–8", "World catalog must expose the explicit 6–8 pilot age policy");
+      assert.equal(
+        await page.locator('[data-world-status="locked"] a').count(),
+        0,
+        "locked World cards must not link to unfinished runtime"
+      );
+      const columns = await worldCards.first().evaluate((element) =>
+        getComputedStyle(element.parentElement).gridTemplateColumns.split(" ").filter(Boolean).length
+      );
+      assert.equal(columns, viewport.width <= 760 ? 2 : 3, `World catalog column count must match viewport at ${viewport.width}px`);
     }
 
     if (route.path === "/child/demo-gian/world/money-festival" && viewport.width <= 430) {
@@ -237,22 +247,30 @@ async function inspectPage(page, route, viewport) {
       assert.equal(await page.getByRole("link", { name: "Belajar", exact: true }).count(), 1, "child home must expose Belajar navigation");
       assert.equal(await page.getByRole("link", { name: "World", exact: true }).count(), 1, "child home must expose World navigation");
       assert.equal(await page.getByRole("link", { name: "Bermain", exact: true }).count(), 1, "child home must expose Bermain navigation");
-      const subjectLinks = page.locator('a[href^="/child/demo-gian/subject/"]');
+      const subjectLinks = page.locator('[data-core-thumbnail-card="subject"]');
       assert.equal(await subjectLinks.count(), 9, "child home must expose all nine subject cards");
       assert.equal(await page.getByText(/\b100 aktivitas\b/).count(), 0, "subject cards must not expose activity-count subtitles");
       const columns = await subjectLinks.first().evaluate((element) =>
         getComputedStyle(element.parentElement).gridTemplateColumns.split(" ").filter(Boolean).length
       );
-      assert.equal(columns, 3, `child home subject directory must stay three columns at ${viewport.width}px`);
-      if (viewport.width <= 430) {
-        const heroLayout = await page.evaluate(() => {
-          const copy = document.querySelector("[data-mainlagi-home-copy]")?.getBoundingClientRect();
-          const cast = document.querySelector("[data-mainlagi-home-cast]")?.getBoundingClientRect();
-          return copy && cast ? { copyBottom: copy.bottom, castTop: cast.top } : null;
-        });
-        assert.ok(heroLayout, "child home hero layout markers must exist");
-        assert.ok(heroLayout.copyBottom <= heroLayout.castTop + 1, `child home hero copy overlaps characters at ${viewport.width}px: ${JSON.stringify(heroLayout)}`);
-      }
+      assert.equal(
+        columns,
+        viewport.width <= 760 ? 2 : 3,
+        `child home subject directory must use responsive 2/3-column thumbnail grid at ${viewport.width}px`
+      );
+
+      const homeHero = page.locator("[data-mainlagi-home-hero] img").first();
+      await homeHero.waitFor({ state: "visible", timeout: 5_000 });
+      await homeHero.evaluate((image) => image.decode());
+      const heroGeometry = await homeHero.evaluate((image) => {
+        const rect = image.getBoundingClientRect();
+        return { width: rect.width, height: rect.height, src: image.currentSrc || image.getAttribute("src") || "" };
+      });
+      assert.ok(heroGeometry.src.includes("core-thumbnails"), "child Home hero must use Wave 01 core thumbnail asset");
+      assert.ok(
+        Math.abs((heroGeometry.width / heroGeometry.height) - (4 / 3)) < 0.04,
+        `child Home hero must render 4:3 at ${viewport.width}px: ${JSON.stringify(heroGeometry)}`
+      );
     }
 
     if (route.path === "/parent") {
