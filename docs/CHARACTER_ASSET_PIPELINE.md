@@ -42,7 +42,7 @@ The existing WebP dimension/alpha validator behavior is **not sufficient** for t
 
 Drive source exists ≠ production approved ≠ runtime active. The new SVG bank may be source-ready while Naya/Gian/Zia remain fail-closed in current runtime code. Runtime activation remains a separate wave after provenance + sanitizer/validator + responsive QA.
 
-Existing `/artwork/garden-paca.webp` and `/artwork/garden-gavi.webp` remain legacy compatibility fallback/history only. Session 14 removed all known normal direct product-surface consumption; Session 15 owns any later deletion after exact reference/runtime proof.
+The legacy `/artwork/garden-paca.webp` and `/artwork/garden-gavi.webp` binaries were removed in Session 15 after Session 14 eliminated normal direct consumers and exact reference tracing proved the compatibility path redundant. The legacy WebP runtime registry/API is also removed.
 
 ### Provenance model v2 — implemented in Session 03
 
@@ -105,7 +105,7 @@ Current lifecycle after Session 04:
 35/35 productionSha256 bound
 35/35 provenance.status=owned
 35/35 redistributionAllowed=true
-runtime activation=live through Sessions 05–09; Session 14 normal legacy-WebP shadow sweep complete
+runtime activation=live through Sessions 05–09; Session 14 shadow sweep complete; Session 15 legacy-WebP fallback removed
 ```
 
 Each state variant records:
