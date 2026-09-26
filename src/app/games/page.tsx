@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { GameCatalog } from "@/components/games/GameCatalog";
+import { CORE_SURFACE_THUMBNAILS } from "@/lib/learning/coreThumbnailRegistry";
 
 export const metadata: Metadata = {
   title: "Game",
@@ -10,12 +12,14 @@ export default function GamesPage() {
   return (
     <div className="fun-home">
       <section className="page-shell fun-section">
-        <header className="fun-section__head">
-          <div>
-            <span className="fun-section__eyebrow">10 aktivitas gerak</span>
-            <h1>Pilih permainanmu</h1>
-            <p>Cari tantangan yang cocok, lalu mulai bergerak dengan satu kamera.</p>
-          </div>
+        <header className="core-thumbnail-header" data-core-thumbnail-surface="main-gerak-header">
+          <Image
+            src={CORE_SURFACE_THUMBNAILS.mainGerakHeader}
+            alt="Main Gerak"
+            width={1200}
+            height={900}
+            priority
+          />
         </header>
         <GameCatalog />
       </section>
