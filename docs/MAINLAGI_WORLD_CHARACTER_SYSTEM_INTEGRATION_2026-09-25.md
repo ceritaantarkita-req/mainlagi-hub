@@ -14,7 +14,7 @@ The original `Audited HEAD` above records the starting point of this plan. It is
 Current live checkpoint:
 
 ```text
-Sessions 01–15: COMPLETE
+Sessions 01–16: COMPLETE
 
 Session 15 PR: #354
 Session 15 final PR head: 1165053368b69440ce55e067f8c5232256a84146
@@ -41,10 +41,10 @@ approved public artwork SVGs: 49
 retained justified public artwork WebPs: 247
 held semantic vectors: 3
 
-next authorized session: Session 16 — final closure + exact production checkpoint
+migration program status: CLOSED — no next session
 ```
 
-Safe handoff: `MAINLAGI_REDUNDANT_WEBP_CLEANUP_SESSION15_SAFE_CHECKPOINT_2026-09-26.md`.
+Safe handoff: `MAINLAGI_CHARACTER_SVG_PROGRAM_SESSION16_FINAL_CLOSURE_2026-09-26.md`.
 
 ---
 
@@ -1733,37 +1733,28 @@ Verified cleanup:
 
 Canonical safe checkpoint: `MAINLAGI_REDUNDANT_WEBP_CLEANUP_SESSION15_SAFE_CHECKPOINT_2026-09-26.md`.
 
-### Session 16 — Final closure + exact production checkpoint
+### Session 16 — Final closure + exact production checkpoint — COMPLETE
 
-**Do:** run the full relevant test/CI matrix, verify deployed exact SHA, and synchronize current docs.
+Closed on verified production baseline `b05b0331db7556bee165d245e7e1f8016565f956`, merged-main CI #1706 / run `36220621574` full success including Cloudflare production smoke.
 
-Minimum:
+Final verified state:
 
-```bash
-npm run lint
-npm run typecheck
-npm run validate:assets
-npm run validate:assets:characters
-npm run test:assets:characters
-npm run test:learning:visual-theme
-node scripts/run-world-money-tests.mjs
-node scripts/run-world-cloud-tests.mjs
-node scripts/run-world-evidence-activation-tests.mjs
-npm run test:ui:mobile-routes
-npm run build
+```text
+character SVG states: 35
+semantic SVGs: 14
+approved public artwork SVGs: 49
+semantic WebP binaries: 0
+legacy Garden character WebP binaries: 0
+retired semantic WebP history records: 14
+retained justified public artwork WebPs: 247
+held semantic vectors: 3
+character runtime: SVG-only
+semantic runtime: controlled-svg
 ```
 
-Record:
-- exact character SVG count;
-- exact semantic/activity SVG count;
-- remaining held assets;
-- remaining justified WebP assets;
-- exact merged main SHA;
-- CI result;
-- deployed SHA.
+Canonical closure: `MAINLAGI_CHARACTER_SVG_PROGRAM_SESSION16_FINAL_CLOSURE_2026-09-26.md`.
 
-**Do not:** start another product wave.  
-**Done when:** character + SVG migration is closed, reproducible, documented, and live-verified.
+No Session 17 exists in this migration program. Any future work requires a fresh objective and explicitly authorized scope.
 
 ### Session dependency order
 
