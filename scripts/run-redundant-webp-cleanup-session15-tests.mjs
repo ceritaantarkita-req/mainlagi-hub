@@ -78,15 +78,19 @@ const subjectBackgrounds=artworkWebps.filter(file=>file.startsWith("public/artwo
 const activityPreviews=artworkWebps.filter(file=>file.startsWith("public/artwork/activity-previews/"));
 const referenceOnly=artworkWebps.filter(file=>manifest.retainedWebp.referenceOnly.paths.includes(file));
 const noApprovedVector=artworkWebps.filter(file=>session14Manifest.webpClassification.noApprovedCanonicalSvgSource.paths.includes(file));
+const postProgramCoreThumbnails=artworkWebps.filter(file=>file.startsWith("public/artwork/core-thumbnails/"));
 assert.equal(subjectBackgrounds.length,manifest.retainedWebp.subjectBackgrounds.count);
 assert.equal(activityPreviews.length,manifest.retainedWebp.activityPreviews.count);
 assert.equal(referenceOnly.length,manifest.retainedWebp.referenceOnly.count);
 assert.equal(noApprovedVector.length,manifest.retainedWebp.noApprovedCanonicalSvgSource.count);
 
-const retainedSet=new Set([...subjectBackgrounds,...activityPreviews,...referenceOnly,...noApprovedVector]);
-const unclassified=artworkWebps.filter(file=>!retainedSet.has(file));
-assert.deepEqual(unclassified,[],"no retained WebP may sit outside a justified Session 15 class");
-assert.equal(artworkWebps.length,247,"Session 15 must leave exactly 247 justified public artwork WebPs");
+const historicalRetainedSet=new Set([...subjectBackgrounds,...activityPreviews,...referenceOnly,...noApprovedVector]);
+const historicalRetained=artworkWebps.filter(file=>historicalRetainedSet.has(file));
+const unclassified=artworkWebps.filter(file=>!historicalRetainedSet.has(file)&&!postProgramCoreThumbnails.includes(file));
+assert.deepEqual(unclassified,[],"no WebP may sit outside the historical Session 15 classes or the explicit post-program core-thumbnail class");
+assert.equal(historicalRetained.length,247,"Session 15 must still account for exactly 247 historical justified public artwork WebPs");
+assert.equal(postProgramCoreThumbnails.length,31,"Core Thumbnail Wave 01 must remain exactly 31 post-program WebPs");
+assert.equal(artworkWebps.length,278,"current WebP total must be 247 historical retained + 31 Wave 01 thumbnails");
 
 const runtimeFiles=walk(path.resolve("src")).filter(file=>/\.(?:ts|tsx|css)$/.test(file));
 const forbiddenRuntimeRefs=[];
@@ -113,4 +117,4 @@ const publicArtworkSvg=walk(path.resolve("public/artwork")).filter(file=>file.en
 assert.equal(publicArtworkSvg.length,49,"Session 15 must preserve all 49 approved public artwork SVGs");
 assert.equal(semanticRegistry.runtimeActivation,"controlled-svg");
 
-console.log("Session 15 redundant-WebP cleanup PASS: 16 redundant binaries absent, 14 semantic WebP histories retired as metadata, 49 approved public artwork SVGs preserved, 3 semantic keys held, and exactly 247 justified WebPs retained.");
+console.log("Session 15 cleanup invariant PASS after Wave 01: 16 retired binaries remain absent, historical 247 justified WebPs stay exact, 31 post-program core thumbnails are separately classified, 49 approved artwork SVGs remain preserved, and 3 semantic keys stay held.");
