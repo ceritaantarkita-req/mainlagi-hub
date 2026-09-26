@@ -378,7 +378,7 @@ Session 15 must not:
 
 ## Stop conditions
 
-Stop and request a separate decision instead of silently changing scope if Session 12 would require:
+Stop and request a separate decision instead of silently changing scope if Session 15 would require:
 
 - a World, Home, Bermain or Belajar behavior rewrite;
 - a progression/evidence schema change;
@@ -388,6 +388,6 @@ Stop and request a separate decision instead of silently changing scope if Sessi
 - Motion Engine or game-mechanic changes;
 - narration activation;
 - new semantic artwork or rights approval beyond the already-approved 14;
-- deleting the existing WebP rollback/history in the SVG promotion wave.
+- deleting a WebP outside the proven-redundant Session 15 candidate set or before its reference/runtime proof passes.
 
 This checkpoint is the safe handoff from **closed Session 14** to **not-yet-started Session 15**.
