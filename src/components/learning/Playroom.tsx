@@ -1,35 +1,48 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
-import { Icon, type IconName } from "@/components/Icon";
+import { useEffect, useState, type ReactNode } from "react";
+import { Icon } from "@/components/Icon";
 import { SUBJECTS } from "@/lib/learning/system";
 import { rememberChild } from "@/lib/learning/entry";
+import { coreSubjectThumbnail } from "@/lib/learning/coreThumbnailRegistry";
 import { isMuted, setMuted, unlockAudio } from "@/lib/audio/feedback";
 import { useLearningProfile } from "./LearningCommon";
 import styles from "./Playroom.module.css";
-import { LearningSymbol } from "./LearningSymbol";
-
-const SUBJECT_ART: Record<string, { icon?: IconName; label?: string; color: string }> = {
-  bahasa: { icon:"book", color:"#ffc6ac" }, english:{icon:"globe",color:"#dbe6c8"},
-  math:{label:"123",color:"#ffdb7d"}, iqro:{label:"ا ب",color:"#dbe6c8"},
-  letters:{label:"Ab",color:"#fac4c3"}, logic:{icon:"bulb",color:"#b8d8c4"},
-  science:{icon:"sprout",color:"#ffdb7d"},color:{icon:"palette",color:"#d0e4ee"},
-  drawing:{icon:"pencil",color:"#ffc6ac"}
-};
-
 export function SubjectDirectory({ childId }: { childId?: string }) {
-  return <div className={styles.subjects}>{SUBJECTS.map(subject => {
-    const art=SUBJECT_ART[subject.id];
-    return <Link key={subject.id} className={styles.subject} href={childId ? `/child/${childId}/subject/${subject.id}` : `/child/select?continue=1&subject=${subject.id}`}>
-      <span aria-hidden className={styles.subjectIcon} style={{"--subject-color":art?.color} as CSSProperties}>
-        <LearningSymbol name={subject.id} size={36}/>
-      </span>
-      <span><strong>{subject.id === "english" ? "Bahasa Inggris" : subject.title}</strong></span>
-    </Link>;
-  })}</div>;
+  return (
+    <div className={styles.subjects} data-core-thumbnail-grid="subjects">
+      {SUBJECTS.map((subject) => {
+        const thumbnail = coreSubjectThumbnail(subject.id);
+        const title = subject.id === "english" ? "Bahasa Inggris" : subject.title;
+        return (
+          <Link
+            key={subject.id}
+            className={styles.subject}
+            href={childId ? `/child/${childId}/subject/${subject.id}` : `/child/select?continue=1&subject=${subject.id}`}
+            data-core-thumbnail-card="subject"
+            data-core-thumbnail-id={subject.id}
+          >
+            {thumbnail ? (
+              <Image
+                className={styles.subjectThumbnail}
+                src={thumbnail}
+                alt=""
+                width={1200}
+                height={900}
+                sizes="(max-width: 760px) 50vw, (max-width: 1100px) 33vw, 360px"
+                draggable={false}
+              />
+            ) : null}
+            <span className={styles.subjectName}>{title}</span>
+          </Link>
+        );
+      })}
+    </div>
+  );
 }
 
 export function PlayroomShell({childId,children}:{childId?:string;children:ReactNode}) {
