@@ -8,7 +8,16 @@ import { Icon } from "@/components/Icon";
 import { useProfileCollection } from "@/components/learning/CloudProfileScreens";
 import { readActiveChild, childDestination } from "@/lib/learning/entry";
 import { SubjectDirectory } from "@/components/learning/Playroom";
+import { resolveCharacterPresentation } from "@/lib/learning/characterPresentation";
 import styles from "./PublicHome.module.css";
+
+const PUBLIC_HERO_CAST = resolveCharacterPresentation({
+  context: "home",
+  requestedCharacters: ["gavi", "paca"],
+  requestedState: "hero",
+  allowLegacyFallback: false,
+  allowIdentityFallback: false
+}).characters;
 
 export function HomePage() {
   const collection = useProfileCollection();
@@ -54,9 +63,19 @@ export function HomePage() {
             <li>Kamera opsional</li>
           </ul>
         </div>
-        <div className={styles.heroArt} aria-hidden>
-          <img src="/artwork/garden-gavi.webp" alt="" width={500} height={650} />
-          <img src="/artwork/garden-paca.webp" alt="" width={500} height={650} />
+        <div className={styles.heroArt} aria-hidden data-session14-vector-cast="public-home">
+          {PUBLIC_HERO_CAST.map((character) => (
+            <img
+              key={character.id}
+              src={character.src}
+              alt=""
+              width={500}
+              height={650}
+              data-character-id={character.id}
+              data-character-state={character.state}
+              data-character-asset-source={character.assetSource}
+            />
+          ))}
         </div>
       </section>
 
