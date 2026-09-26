@@ -184,7 +184,7 @@ object.raincoat
 
 SVG format does not override missing/insufficient redistribution rights.
 
-The semantic validator/registry migration, exact SVG production promotion, centralized controlled runtime activation and responsive/browser verification are complete through Session 13 / PR #350 -> main `d9fba856e3819c2a0f353624f5255f84c27bef9a`. Session 14 / PR #352 then completed the repository-wide approved-SVG sweep on main `ae1c10087b9b328059605a5cbe9f4fcdf3ba1829`. All 14 approved semantic keys have explicit consumer coverage; car/towel/raincoat remain held and fallback-only. The next step is Session 15 removal of only proven-redundant WebP derivatives.
+The semantic validator/registry migration, exact SVG production promotion, centralized controlled runtime activation and responsive/browser verification are complete through Session 13 / PR #350 -> main `d9fba856e3819c2a0f353624f5255f84c27bef9a`. Session 14 / PR #352 completed the repository-wide approved-SVG sweep, and Session 15 / PR #354 removed the proven-redundant WebP binaries on main `0f8505fb58b3f698a93e9003eb32ad9fe0e75c67`. All 14 approved semantic keys have explicit consumer coverage; car/towel/raincoat remain held and fallback-only. The next step is Session 16 final production verification and closure.
 
 ## 8. Runtime architecture rule
 
