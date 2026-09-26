@@ -288,7 +288,7 @@ The project owner confirmed `gavi-panel-hero.svg` as the Gavi hero/default sourc
 
 Production runtime paths normalize to `/artwork/characters/<id>-<state>-v1.svg` after provenance, sanitization/security validation, exact-path/hash binding and responsive QA. Load approved SVGs as image assets rather than injecting raw SVG markup.
 
-Existing Garden Gavi/Paca WebP artwork now remains compatibility fallback/history only. Session 14 removed all known normal direct product-surface consumption in favor of the approved character SVG state bank; Session 15 owns any safe file deletion.
+The historical Garden Gavi/Paca WebP binaries were removed in Session 15 after the approved character SVG state bank was live and exact reference tracing proved the old compatibility path redundant. Character runtime is now SVG-only.
 
 The block immediately below records the **pre-SVG runtime implementation baseline**, not the new target asset format.
 
