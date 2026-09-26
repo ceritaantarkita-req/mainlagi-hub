@@ -210,7 +210,7 @@ See `AI_OCR_OPENROUTER.md`.
 
 ## 15. Current execution priority
 
-**Current implementation checkpoint:** Home + Bermain shared-character integration is closed/live verified through Session 09. Sessions 10–13 of the semantic SVG program are CLOSED / MERGED / LIVE VERIFIED, and Session 14 has now completed the repository-wide approved-SVG sweep through PR #352 -> main `ae1c10087b9b328059605a5cbe9f4fcdf3ba1829`, merged-main CI #1699 / run `36210749985` full success including Cloudflare production smoke. Current vector state is 35 approved character-state SVGs + 14 approved semantic SVGs, semantic runtime `controlled-svg`, approved semantic consumer coverage 14/14, held fallback coverage 3/3, and all 263 public artwork WebPs explicitly classified. Normal direct Garden Gavi/Paca WebP consumers are zero. Session 15 redundant-WebP cleanup is complete through PR #354 -> main `0f8505fb58b3f698a93e9003eb32ad9fe0e75c67`, merged-main CI #1704 including Cloudflare production smoke. Next authorized session is Session 16 — final closure + exact production checkpoint.
+**Current implementation checkpoint:** Home + Bermain shared-character integration is closed/live verified through Session 09. Sessions 10–13 of the semantic SVG program are CLOSED / MERGED / LIVE VERIFIED, and Session 14 has now completed the repository-wide approved-SVG sweep through PR #352 -> main `ae1c10087b9b328059605a5cbe9f4fcdf3ba1829`, merged-main CI #1699 / run `36210749985` full success including Cloudflare production smoke. Current vector state is 35 approved character-state SVGs + 14 approved semantic SVGs, semantic runtime `controlled-svg`, approved semantic consumer coverage 14/14, and held fallback coverage 3/3. Session 15 redundant-WebP cleanup is complete through PR #354 -> main `0f8505fb58b3f698a93e9003eb32ad9fe0e75c67`, merged-main CI #1704 including Cloudflare production smoke. Semantic WebP binaries are 0, legacy Garden character WebP binaries are 0, 14 semantic WebP history records remain retired metadata, and exactly 247 justified WebPs remain. Next authorized session is Session 16 — final closure + exact production checkpoint.
 
 **25 September project-owner override:** Mainlagi World is now treated as a first-class domain of one Mainlagi product system, and character development is resumed for this integration. The 22 September “World separate / character paused” boundary is historical for that earlier workstream.
 
@@ -220,7 +220,7 @@ Current cross-system asset-format decision is also locked:
 - do not create WebP derivatives merely for consistency with older pipelines;
 - character and semantic/activity illustration pipelines must become SVG-aware;
 - raster-native backgrounds remain WebP/raster;
-- existing verified WebP assets remain fallback/history until explicit verified migration.
+- verified WebPs remain raster only where justified by source/runtime role; proven-redundant derivatives are retired only after explicit verified migration.
 Current character decisions are locked:
 
 1. use isolated single-character SVG assets directly;
