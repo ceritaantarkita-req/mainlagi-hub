@@ -29,7 +29,7 @@ central semantic SVG resolver: active
 explicit semantic consumer coverage: 14 approved + 3 held fallback unique keys
 semantic consumer union: 17/17
 responsive semantic QA: 320 / 390 / 430 / 768 / 1280
-next authorized session: Session 14 — repository-wide approved-SVG sweep
+next authorized session: Session 15 — remove only proven-redundant WebP derivatives
 ```
 
 Safe handoff: `MAINLAGI_CHARACTER_WORLD_SAFE_CHECKPOINT_2026-09-25.md`.
@@ -1683,17 +1683,25 @@ Implemented/verified:
 
 Canonical closure: `LEARNING_SEMANTIC_SVG_RESPONSIVE_SESSION13_CLOSURE_2026-09-26.md`.
 
-### Session 14 — Repository-wide approved-SVG sweep
+### Session 14 — Repository-wide approved-SVG sweep — COMPLETE
 
-**Do:** use the Session 01 inventory plus repository search to find any remaining **already-approved canonical SVG source** still being unnecessarily converted or shadowed by a WebP-only production rule.
+Closed through PR #352 -> main `ae1c10087b9b328059605a5cbe9f4fcdf3ba1829`, PR CI #1698 / run `36210232551` full success, merged-main CI #1699 / run `36210749985` full success including Cloudflare production smoke.
 
-For each item in this bounded sweep:
-- keep SVG if vector-native;
-- leave raster-native backgrounds/photos as raster;
-- do not migrate assets with unclear provenance.
+Verified/migrated:
+- 35 approved character state SVGs + 14 approved semantic SVGs = 49 provenance-approved public artwork SVGs, all direct;
+- direct app icon SVG remains direct and unshadowed;
+- remaining normal Gavi/Paca Garden-WebP consumers migrated to approved SVG on guide avatars, public Home, auth, rewards and World ambience;
+- normal direct legacy Garden character WebP consumers = 0;
+- normal direct semantic WebP runtime refs = 0;
+- all 263 public artwork WebPs classified;
+- 108 subject-background WebPs and 125 preview WebPs explicitly exempted from forced vector conversion;
+- 13 runtime raster assets retained because no approved canonical SVG source is recorded;
+- 14 semantic WebPs + 2 legacy Garden character WebPs retained for separately gated Session 15 cleanup;
+- car/towel/raincoat remain held.
 
-**Do not:** generate new art or expand semantic scope.  
-**Done when:** every currently known approved vector asset is either direct-SVG, explicitly exempted, or explicitly held with reason.
+Permanent static/browser regression is wired into `validate:assets` and `test:ui:mobile-routes`.
+
+Canonical closure: `MAINLAGI_APPROVED_SVG_SWEEP_SESSION14_CLOSURE_2026-09-26.md`.
 
 ### Session 15 — Remove redundant WebP derivatives only after live SVG verification
 
