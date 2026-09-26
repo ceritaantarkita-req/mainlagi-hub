@@ -1,6 +1,6 @@
 # Mainlagi Hub — Current State
 
-Last reviewed: **25 September 2026**
+Last reviewed: **26 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
@@ -16,9 +16,33 @@ Applies now to:
 
 Does not force raster artwork such as subject backgrounds to SVG. The current 108 responsive subject-background WebP assets remain valid.
 
-Semantic P0 production/runtime contract is now **registry v2 / SVG-preferred / controlled SVG runtime active / responsive QA complete through Session 13**. The 14 source/license-clear records preserve their exact approved WebP history and bind canonical approved SVG production files at `/artwork/learning-illustrations/<semantic-slug>-v1.svg`. The central resolver remains active, all 14 approved keys are resolver-addressable and now have explicit consumer coverage, and the three held keys remain fail-closed with explicit fallback coverage. The complete current semantic consumer union is **17/17 = 14 approved SVG keys + 3 held fallback keys**. `vehicle.car`, `object.towel`, and `object.raincoat` remain held regardless of format.
+Semantic P0 production/runtime contract is now **registry v2 / SVG-preferred / controlled SVG runtime active / responsive QA complete / redundant-WebP cleanup complete through Session 15**. The 14 source/license-clear records preserve exact historical WebP path/SHA metadata with `status=retired` while the physical semantic WebP binaries are absent; canonical approved SVG production files remain at `/artwork/learning-illustrations/<semantic-slug>-v1.svg`. The central resolver remains active, all 14 approved keys are resolver-addressable and now have explicit consumer coverage, and the three held keys remain fail-closed with explicit fallback coverage. The complete current semantic consumer union is **17/17 = 14 approved SVG keys + 3 held fallback keys**. `vehicle.car`, `object.towel`, and `object.raincoat` remain held regardless of format.
 
 Canonical policy: `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`.
+
+## 26 September redundant-WebP cleanup checkpoint — LIVE VERIFIED THROUGH SESSION 15
+
+```text
+Session 15 PR: #354
+Session 15 final PR head: 1165053368b69440ce55e067f8c5232256a84146
+Session 15 implementation main: 0f8505fb58b3f698a93e9003eb32ad9fe0e75c67
+Session 15 PR CI: #1703 / run 36218219712 — full success
+Session 15 merged-main CI: #1704 / run 36218744065 — full success
+Session 15 Production smoke (Cloudflare): success
+
+removed redundant WebP binaries: 16 / 223,524 bytes
+semantic WebP binaries: 0
+legacy Garden character WebP binaries: 0
+semantic retired WebP history records: 14
+approved public artwork SVGs: 49
+public artwork WebPs retained: 247
+held semantic vectors: 3
+next: Session 16 — final production checkpoint
+```
+
+Canonical Session 15 closure: `MAINLAGI_REDUNDANT_WEBP_CLEANUP_SESSION15_CLOSURE_2026-09-26.md`. Machine cleanup manifest: `data/MAINLAGI_REDUNDANT_WEBP_CLEANUP_SESSION15_2026-09-26.json`.
+
+Session 15 removed only the 16 binaries proven redundant after live SVG verification and exact reference tracing. Historical semantic WebP path/SHA data remains in the provenance registry as retired metadata. The 247 remaining WebPs are justified raster/reference classes and are not cleanup candidates without a new approved source decision.
 
 ## 26 September repository-wide approved-SVG checkpoint — LIVE VERIFIED THROUGH SESSION 14
 
@@ -683,17 +707,17 @@ English narration production-asset Wave 2 is **MERGED / LIVE VERIFIED** via PR #
 
 Current product-UX state: **parent/profile/settings responsive redesign is MERGED / LIVE VERIFIED** via PR #251, and the **all-subject background system is also MERGED / LIVE VERIFIED** via PR #256. `CloudParentOverviewScreen` remains canonical; family profiles are separated from `demo-gian`; child profile identity is separated from guide-character presentation; mobile parent navigation replaces the legacy forced aside below 760px. Character production is **not paused**: Sessions 01–09 completed the five-character / seven-state shared SVG runtime across Belajar, World, Home and Bermain, and Session 14 removed the remaining normal Garden-WebP shadows from guide/avatar/public/auth/rewards/World-ambience surfaces. Do not alter learning evidence/mastery/progression/schema while advancing presentation.
 
-### Character / artwork state — updated through Session 14 / 26 September 2026
+### Character / artwork state — updated through Session 15 / 26 September 2026
 
 - All **5 canonical characters × 7 states = 35/35 SVG variants** are production-approved, exact source/hash/provenance bound, runtime-addressable and already live across Belajar, World, Home and Bermain.
 - Normal character presentation now uses the approved direct SVG state bank; Session 14 also migrated guide avatars, public Home, auth, rewards and World ambient art away from direct Garden Gavi/Paca WebP consumption.
-- `public/artwork/garden-paca.webp` and `public/artwork/garden-gavi.webp` still exist only as explicit compatibility fallback/history behind `characterAssets.ts`; normal migrated Session 14 browser surfaces request neither file.
+- `public/artwork/garden-paca.webp` and `public/artwork/garden-gavi.webp` were removed in Session 15 after exact reference tracing; the legacy character WebP APIs/fallback path were removed as well.
 - `gavi-panel-hero.svg` remains the confirmed Gavi hero/default source.
 - Locked states remain `hero`, `welcome`, `pointing`, `thinking`, `correct`, `try_again`, `celebrate`.
 - Design-set SVG files and `character-set-collection-mainlagi.ai` remain reference/master assets only.
 - Child profile identity and guide-character identity remain separate concepts.
 - Subject backgrounds remain intentional raster production assets: **9 subjects / 54 scene families / 108 optimized WebP files**.
-- Repository-wide Session 14 classification locks all **263/263 public artwork WebPs** into explicit categories; no unclassified WebP may enter silently.
+- Session 15 leaves exactly **247 justified public artwork WebPs**: 108 subject backgrounds, 125 activity previews, 1 reference-only mascot and 13 runtime rasters without an approved canonical SVG replacement.
 - Canonical character format/pipeline contract: `docs/CHARACTER_ASSET_PIPELINE.md`; presentation contract: `docs/CHARACTER_PRESENTATION_SYSTEM.md`.
 
 ## Engineering status
