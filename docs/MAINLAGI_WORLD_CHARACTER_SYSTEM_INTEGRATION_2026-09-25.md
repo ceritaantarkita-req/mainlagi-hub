@@ -14,7 +14,7 @@ The original `Audited HEAD` above records the starting point of this plan. It is
 Current live checkpoint:
 
 ```text
-Sessions 01–13: COMPLETE
+Sessions 01–14: COMPLETE
 Session 12 PR: #348
 final PR head: ace106307d4aca512076d87853659301ecbd0763
 final PR CI: #1689 / run 36164884662 — full success
@@ -29,6 +29,9 @@ central semantic SVG resolver: active
 explicit semantic consumer coverage: 14 approved + 3 held fallback unique keys
 semantic consumer union: 17/17
 responsive semantic QA: 320 / 390 / 430 / 768 / 1280
+Session 14 approved public artwork SVGs: 49
+Session 14 public artwork WebPs classified: 263/263
+normal direct legacy Garden character WebP consumers: 0
 next authorized session: Session 15 — remove only proven-redundant WebP derivatives
 ```
 
