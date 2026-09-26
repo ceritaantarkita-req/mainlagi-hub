@@ -170,6 +170,23 @@ Session 14 / PR #352 -> main `ae1c10087b9b328059605a5cbe9f4fcdf3ba1829` closed t
 
 Session 15 removed the legacy WebP path from `characterAssets.ts` after exact reference/runtime tracing. Same-identity fallback is now approved requested SVG -> hero SVG -> welcome SVG -> null.
 
+### Session 16 final closure
+
+The shared character presentation program is closed through Session 16 on production baseline `b05b0331db7556bee165d245e7e1f8016565f956`, CI #1706 + Cloudflare.
+
+Final runtime facts:
+
+```text
+characters: 5
+states: 7
+approved SVG variants: 35/35
+legacy Garden WebP binaries: 0
+legacy character WebP runtime API: 0
+character runtime: SVG-only
+```
+
+Any future character expansion is a new explicitly authorized scope, not a continuation of this migration program.
+
 ## Creative workspace rule
 
 Coloring and Drawing continue to use their subject scenery, but decorative foreground characters remain hidden in workspace mode so they do not compete with the canvas/tools.
@@ -184,10 +201,11 @@ Current order:
 requested approved state
 -> same-character hero
 -> same-character welcome
--> approved same-character legacy Gavi/Paca WebP where valid
 -> presentation-layer approved identity fallback when allowed
 -> hide
 ```
+
+There is no legacy Garden WebP runtime fallback after Session 15.
 
 Reference/design sheets are never runtime fallbacks.
 
@@ -199,7 +217,7 @@ Unknown World IDs fail closed to no cast. Product surfaces must not infer a new 
 
 - the locked five characters and seven states;
 - all 35 SVG runtime paths match the approved provenance registry;
-- requested-state and hero/welcome behavior plus the explicitly isolated legacy compatibility fallback;
+- requested-state and hero/welcome behavior with SVG-only fail-closed fallback;
 - Naya/Gian/Zia never fall back to reference artwork;
 - canonical Belajar moment -> state mapping;
 - exact child/activity presentation-event filtering;
