@@ -61,7 +61,7 @@ Current subjects:
 
 Current frontend uses the Garden/Playroom visual system, responsive child and parent shells, child profile + continue-learning flow, subject/activity browsing, stage/progression protection, reusable activity runtimes, parent reporting, and retained motion games.
 
-Learning visual containment/readability is **merged/live verified** through PR #294. Semantic P0 production integration through PR #324 approved 14/17 source/license-clear assets; Session 10 migrated the registry to SVG-aware v2, Session 11 promoted all 14 approved semantic SVGs, Session 12 activated the centralized fail-closed SVG resolver, and Session 13 completed responsive/browser verification through PR #350 -> main `d9fba856e3819c2a0f353624f5255f84c27bef9a` with merged-main CI #1695 + Cloudflare smoke. Current state is 14 approved SVGs + 14 preserved WebP rollback/history + 3 held + runtime `controlled-svg` + approved consumer coverage 14/14. The next SVG wave is Session 14 repository-wide approved-SVG sweep.
+Learning visual containment/readability is **merged/live verified** through PR #294. Semantic P0 production integration through PR #324 approved 14/17 source/license-clear assets; Sessions 10–13 completed SVG-aware registry migration, exact SVG promotion, controlled runtime activation, and responsive/browser verification. Session 14 then completed the repository-wide approved-SVG sweep through PR #352 -> main `ae1c10087b9b328059605a5cbe9f4fcdf3ba1829`, merged-main CI #1699 + Cloudflare smoke. Current vector state is 35 approved character-state SVGs + 14 approved semantic SVGs, while all 263 public artwork WebPs are explicitly classified. Normal direct Garden Gavi/Paca WebP consumers are now zero; Session 15 is the separately gated redundant-WebP cleanup wave.
 
 See `docs/CURRENT_STATE.md` for the canonical current handoff and `docs/SVG_NATIVE_ASSET_POLICY_2026-09-25.md` for the current asset-format policy.
 
@@ -126,7 +126,7 @@ Immediate priorities are:
 - preserve the closed WS-05 Logic `pattern_completion` reuse baseline; any next mechanic work starts from a fresh objective/evidence audit;
 - execute the unified World + character integration without changing Belajar mastery/progression semantics;
 - use direct SVG production/runtime for assets whose canonical approved source is already SVG;
-- execute Session 14 repository-wide approved-SVG sweep before considering any verified cleanup of redundant WebP derivatives;
+- preserve the closed Session 14 repository-wide approved-SVG sweep baseline, then remove only WebP derivatives proven redundant in Session 15;
 - keep raster-native subject backgrounds as their existing responsive WebP set;
 - English narration quality after the completed first-instruction latency wave;
 - continued visual/usability cleanup without weakening progression/evidence;
