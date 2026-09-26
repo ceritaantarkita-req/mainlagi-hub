@@ -1,0 +1,211 @@
+{
+  "version": 1,
+  "workstream": "Mainlagi Core Thumbnail System",
+  "wave": "01",
+  "status": "pre-implementation-scope-locked",
+  "repository": "ceritaantarkita-req/mainlagi-hub",
+  "baseMain": "8cd470920e2d230702dd28d7ab4e9037637083e9",
+  "branch": "feat/mainlagi-core-thumbnail-system-20260926",
+  "sourceFolders": {
+    "core": "1fgE3ijTQDoYh__PgEyZsDlwP1ARyeMDH",
+    "world": "1G4BD37YXf-Uv-Q2C5WKieJeanZ-vfUPn",
+    "mainlagiHub": "1khaE4VM9eMOtJ-Ilbg2hC3ETVZ8IAZrG"
+  },
+  "visualContract": {
+    "masterFormat": "png",
+    "width": 1448,
+    "height": 1086,
+    "aspectRatio": "4:3",
+    "primaryCardContent": [
+      "thumbnail",
+      "name"
+    ],
+    "activityPreviewsInScope": false
+  },
+  "assets": {
+    "home": {
+      "key": "home",
+      "driveFileId": "1kx1Th8O8z7kq7eutSIngBFauiPCCi76-",
+      "driveName": "home-hero-mainlagi.png.png"
+    },
+    "headers": {
+      "games": {
+        "driveFileId": "1xj4L_j8WSIK9Z_CSPx-T5LPOzgEUV8Qp",
+        "driveName": "main-gerak-header.png.png"
+      },
+      "worlds": {
+        "driveFileId": "1HGJ3gEsSpE0illgWKd12FHKkrPRkP4QM",
+        "driveName": "world-header-mainlagi.png.png"
+      }
+    },
+    "subjects": {
+      "bahasa": {
+        "title": "Bahasa Indonesia",
+        "driveFileId": "10bxPivKQyoZFLJnR1P3YaI2ln9Bq27EU",
+        "driveName": "subject-bahasa-indonesia.png.png"
+      },
+      "english": {
+        "title": "Bahasa Inggris",
+        "driveFileId": "17jpm4DJdyA_R8jlXHtrUQyZOI_Z6X5ox",
+        "driveName": "subject-bahasa-inggris.png.png"
+      },
+      "letters": {
+        "title": "Huruf & Menulis",
+        "driveFileId": "1HeFEA-AM9Km88QI7AscIlR3ymoQkA9_S",
+        "driveName": "subject-huruf-menulis.png.png"
+      },
+      "iqro": {
+        "title": "Iqro",
+        "driveFileId": "1xcDvhBoVAFXbbhtVEmP6wc4p2MOl7Ank",
+        "driveName": "subject-iqro.png.png"
+      },
+      "math": {
+        "title": "Matematika",
+        "driveFileId": "1ZrBK4r5i0NxDY-xsDEYh13BP-F6Nbxjw",
+        "driveName": "subject-matematika.png.png"
+      },
+      "logic": {
+        "title": "Logika",
+        "driveFileId": "1sRjzWI43KKjhhlhcZbouWRzXoew_aOg5",
+        "driveName": "subject-logika.png.png"
+      },
+      "science": {
+        "title": "Sains",
+        "driveFileId": "1Ws1Td_UwDYAHfUZJU9iv1SWBlcIDij22",
+        "driveName": "subject-sains.png.png"
+      },
+      "color": {
+        "title": "Mewarnai",
+        "driveFileId": "1w4DbEDa0nsSOXyVLOyotZwNxYuw83OhX",
+        "driveName": "subject-mewarnai.png.png"
+      },
+      "drawing": {
+        "title": "Menggambar",
+        "driveFileId": "16xbKsg-wEtYx3jrS_RMu19KkVJfsPqpQ",
+        "driveName": "subject-menggambar.png.png"
+      }
+    },
+    "games": {
+      "math-choice": {
+        "driveFileId": "17345c5AasVdth5YzqcnUQ6yk_nu7KZT2",
+        "driveName": "game-pilih-jawaban.png.png"
+      },
+      "math-motion-battle": {
+        "driveFileId": "1FXyEVyNdTDLZNxDvnPUoFpGBdW9F11ag",
+        "driveName": "game-math-battle.png.png"
+      },
+      "number-trace": {
+        "driveFileId": "1Kw7TpNeP69jmwG9r2IUpQYh400zsXDJH",
+        "driveName": "game-number-trace.png (2).png"
+      },
+      "shape-quest": {
+        "driveFileId": "1Co3VGnNym5KztDJAuVL8zp40fez8eubP",
+        "driveName": "game-shape-quest.png.png"
+      },
+      "pattern-race": {
+        "driveFileId": "1Py-5CCiok_nMUsDRlegYJeoP_0P1Fh0e",
+        "driveName": "game-pattern-race.png.png"
+      },
+      "math-warung": {
+        "driveFileId": "1ZehqnGailgyt0msMDQLOr8ZidUgSfDQ9",
+        "driveName": "game-math-warung.png.png"
+      },
+      "iqro-motion": {
+        "driveFileId": "1fOUjB5RsE1vWaCCipwFLhKvcZRc7N0Ud",
+        "driveName": "game-iqro-motion.png.png"
+      },
+      "airboard-presenter": {
+        "driveFileId": "1XrZI-qoOIfjiurD577zEMBX2UbjxVvLm",
+        "driveName": "game-aiboard.png.png"
+      },
+      "dodge-motion": {
+        "driveFileId": "1Z5Wqu_W54qTeWY_OMO6di2kYBbma8-wz",
+        "driveName": "game-beat-motion.png.png"
+      },
+      "run-to-target": {
+        "driveFileId": "1YTTkU-CJLpnw3kTl1Tg2GyUsrzzLxTfH",
+        "driveName": "game-run-to-target.png.png"
+      }
+    },
+    "worlds": {
+      "money-festival": {
+        "title": "Petualangan Uang",
+        "status": "live",
+        "driveFileId": "1Pv1KkFxiwWCieRUHl2OwiPQJA44Lt3CZ",
+        "driveName": "world-uang-investasi.png.png"
+      },
+      "petualangan-ruang": {
+        "title": "Petualangan Ruang",
+        "status": "locked",
+        "driveFileId": "18EbHVbXo7c-QKxXHmWUOB88e50uSMqNR",
+        "driveName": "world-arsitek-interior.png.png"
+      },
+      "studio-cerita": {
+        "title": "Studio Cerita",
+        "status": "locked",
+        "driveFileId": "1FQFbI1CnZoousvEpn1k5YmQo2Wib3lTe",
+        "driveName": "world-youtuber-content-creator.png.png"
+      },
+      "balapan-mainlagi": {
+        "title": "Balapan Mainlagi",
+        "status": "locked",
+        "driveFileId": "1UNLz0UNE8J0ncGEMOEMoJvRmPHcfqd6y",
+        "driveName": "world-pembalap-mobil.png.png"
+      },
+      "bengkel-robot": {
+        "title": "Bengkel Robot",
+        "status": "locked",
+        "driveFileId": "1lCI_b6S5c0ekgoPQSsur8YPdKob9zqh1",
+        "driveName": "world-robot-engineer.png.png"
+      },
+      "kode-pintar": {
+        "title": "Kode Pintar",
+        "status": "locked",
+        "driveFileId": "1pMf5FfcA9TrjNADesa_e45HLlktrYEQ4",
+        "driveName": "world-ai-software-engineer.png.png"
+      },
+      "klinik-sehat": {
+        "title": "Klinik Sehat",
+        "status": "locked",
+        "driveFileId": "1I9SBGl7f57YQnmUlXeqd1iitEcS_58s1",
+        "driveName": "world-dokter.png.png"
+      },
+      "ekspedisi-alam": {
+        "title": "Ekspedisi Alam",
+        "status": "locked",
+        "driveFileId": "1u6i0VgkMD90DMLvhu2qkz8At1ORzhb0I",
+        "driveName": "world-ilmuwan-penjelajah-alam.png.png"
+      },
+      "restoran-mainlagi": {
+        "title": "Restoran Mainlagi",
+        "status": "locked",
+        "driveFileId": "14QlElpWIz7bYnyZVTRwurMTA5ap-Q-Sq",
+        "driveName": "world-chef-pemilik-restoran.png.png"
+      }
+    }
+  },
+  "excludedSources": [
+    {
+      "reason": "older duplicate; newer Number Trace source is canonical",
+      "driveFileId": "1afDlW9wpZq3CmEKI8LlOOLdsumOQOI2D",
+      "driveName": "game-number-trace.png.png"
+    },
+    {
+      "reason": "historical Petualangan Uang visual superseded by world-uang-investasi",
+      "driveFileId": "16zB20iWhpdCKIWHcpJKGQxbMWABcn8dj",
+      "driveName": "world-petualangan-uang.png.png"
+    }
+  ],
+  "worldState": {
+    "live": 1,
+    "locked": 8
+  },
+  "hardBoundaries": [
+    "Do not modify 125 activity preview thumbnails.",
+    "Do not rename game slugs.",
+    "Do not rename money-festival runtime identity.",
+    "Do not change learning correctness/mastery/progression/evidence/reward/schema.",
+    "Do not change Motion Engine or narration.",
+    "Do not start implementation for the eight future World runtimes."
+  ]
+}
