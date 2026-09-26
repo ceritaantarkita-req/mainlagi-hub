@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowClockwise,
@@ -23,6 +24,7 @@ import {
   type DragEvent
 } from "react";
 import { CharacterLayer } from "@/components/learning/CharacterLayer";
+import { CORE_SURFACE_THUMBNAILS, CORE_WORLD_CARDS } from "@/lib/learning/coreThumbnailRegistry";
 import { WorldSceneRenderer } from "@/components/learning/world/WorldSceneRenderer";
 import type { CharacterPresentationState } from "@/lib/learning/characterAssets";
 import {
@@ -157,36 +159,78 @@ function WorldHero({
 }
 
 export function WorldCatalogScreen({ childId }: { childId: string }) {
-  const state = useMoneyWorldProgress(childId);
-  const completed = state.progress.completedStageIds.length;
-  const nextStage = state.ready
-    ? MONEY_WORLD_STAGES.find((stage) => !state.progress.completedStageIds.includes(stage.id)) ?? null
-    : null;
-  const cardHref = "/child/" + childId + "/world/" + MONEY_WORLD_ID;
-  const cta = !state.ready
-    ? "Memuat…"
-    : completed === MONEY_WORLD_STAGES.length
-      ? "Main lagi →"
-      : completed === 0
-        ? "Mulai petualangan →"
-        : "Lanjut Stage " + (nextStage?.order ?? completed + 1) + " →";
+  const liveHref = "/child/" + childId + "/world/" + MONEY_WORLD_ID;
 
   return (
     <main className={styles.catalogPage}>
-      <section className={styles.catalogIntro}>
-        <span className={styles.eyebrow}>World</span>
-        <h1>Pilih petualangan</h1>
-        <p>Pilih cerita, dengarkan, mainkan, lalu buka Stage berikutnya.</p>
-      </section>
+      <header
+        className={styles.worldCatalogHeader}
+        data-core-thumbnail-surface="world-header"
+      >
+        <Image
+          src={CORE_SURFACE_THUMBNAILS.worldHeader}
+          alt="Mainlagi World"
+          width={1200}
+          height={900}
+          sizes="(max-width: 760px) 100vw, 860px"
+          priority
+        />
+      </header>
 
-      <Link className={styles.worldCard} href={cardHref}>
-        <WorldHero compact />
-        <div className={styles.worldCardMeta}>
-          <span data-world-age-policy={"pilot-" + MONEY_WORLD_PILOT_AGE_BAND.id}>{"Usia rekomendasi " + MONEY_WORLD_PILOT_AGE_BAND.label}</span>
-          <span>{state.ready ? String(completed) + "/" + MONEY_WORLD_STAGES.length + " Stage selesai" : "Memuat progres…"}</span>
-          <strong data-world-catalog-cta>{cta}</strong>
-        </div>
-      </Link>
+      <section
+        className={styles.worldCatalogGrid}
+        aria-label="Pilihan Mainlagi World"
+        data-core-thumbnail-grid="worlds"
+      >
+        {CORE_WORLD_CARDS.map((world) => {
+          const locked = world.status === "locked";
+          const content = (
+            <>
+              <span className={styles.worldThumbnailFrame}>
+                <Image
+                  src={world.thumbnail}
+                  alt=""
+                  width={1200}
+                  height={900}
+                  sizes="(max-width: 760px) 50vw, (max-width: 1100px) 33vw, 360px"
+                  draggable={false}
+                />
+                {locked ? (
+                  <span className={styles.worldLockOverlay} aria-hidden>
+                    <LockKey size={28} weight="fill" />
+                  </span>
+                ) : null}
+              </span>
+              <strong className={styles.worldThumbnailName}>{world.title}</strong>
+            </>
+          );
+
+          return locked ? (
+            <div
+              key={world.id}
+              className={cx(styles.worldThumbnailCard, styles.worldThumbnailCardLocked)}
+              data-core-thumbnail-card="world"
+              data-core-thumbnail-id={world.id}
+              data-world-status="locked"
+              aria-disabled="true"
+              aria-label={world.title + " terkunci"}
+            >
+              {content}
+            </div>
+          ) : (
+            <Link
+              key={world.id}
+              className={styles.worldThumbnailCard}
+              href={liveHref}
+              data-core-thumbnail-card="world"
+              data-core-thumbnail-id={world.id}
+              data-world-status="live"
+            >
+              {content}
+            </Link>
+          );
+        })}
+      </section>
     </main>
   );
 }
