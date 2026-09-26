@@ -4,30 +4,32 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 
-## 26 September SVG execution boundary — SESSION 14 CLOSED / SESSION 15 NEXT
+## 26 September SVG execution boundary — SESSION 15 CLOSED / SESSION 16 FINAL CHECKPOINT NEXT
 
 Verified current truth:
 
-- Session 13 semantic responsive/browser closure: PR #350 -> `d9fba856e3819c2a0f353624f5255f84c27bef9a`;
 - Session 14 repository-wide approved-SVG sweep: PR #352 -> `ae1c10087b9b328059605a5cbe9f4fcdf3ba1829`;
-- Session 14 PR CI #1698 / run `36210232551` full success;
-- Session 14 merged-main CI #1699 / run `36210749985` full success + Cloudflare smoke;
-- 35/35 approved character state SVGs are direct/provenance-bound;
-- 14/14 approved semantic SVGs are direct/provenance-bound;
-- the exact 3 semantic held vectors remain car / towel / raincoat;
-- `src/app/icon.svg` is already direct SVG with no WebP shadow;
-- 263/263 public artwork WebPs are explicitly classified;
-- normal direct legacy Garden Gavi/Paca WebP consumers are now zero;
-- only `characterAssets.ts` retains the legacy Garden WebP compatibility fallback source path;
-- normal direct semantic WebP runtime references are zero;
-- 108 subject-background WebPs remain justified raster-native;
-- 125 activity-preview WebPs remain intentional preview rasters;
-- 13 other runtime WebPs remain raster because no approved canonical SVG source is currently recorded;
-- 14 semantic WebPs + 2 legacy character WebPs remain history/fallback candidates for later cleanup.
+- Session 15 redundant-WebP cleanup: PR #354 -> `0f8505fb58b3f698a93e9003eb32ad9fe0e75c67`;
+- Session 15 final PR head `1165053368b69440ce55e067f8c5232256a84146`;
+- Session 15 PR CI #1703 / run `36218219712` full success;
+- Session 15 merged-main CI #1704 / run `36218744065` full success + Cloudflare smoke;
+- 35/35 approved character state SVGs remain direct/provenance-bound;
+- 14/14 approved semantic SVGs remain direct/provenance-bound and runtime-active;
+- semantic WebP production binaries: 0;
+- legacy Garden Gavi/Paca WebP binaries: 0;
+- semantic retired WebP history records: 14 with exact historical path/SHA preserved;
+- 16 redundant WebP binaries / 223,524 bytes removed;
+- exactly 247 justified public artwork WebPs remain:
+  - 108 subject backgrounds;
+  - 125 activity previews;
+  - 1 reference-only mascot;
+  - 13 runtime rasters without an approved canonical SVG replacement;
+- the exact held semantic set remains car / towel / raincoat;
+- no correctness/mastery/progression/evidence/reward/schema boundary changed.
 
-**NEXT AUTHORIZED WORK — Session 15:** remove only WebP derivatives proven redundant after exact reference/runtime tracing. Primary candidates are the two legacy Garden Gavi/Paca WebPs and the 14 semantic WebP history derivatives. Do not delete raster-native backgrounds, preview rasters, or runtime rasters without an approved canonical SVG replacement.
+**NEXT AUTHORIZED WORK — Session 16:** final production checkpoint only. Re-run the relevant full CI matrix, verify exact deployed main SHA, re-audit final artwork/runtime counts, synchronize final canonical documentation, and close the SVG/character integration program. Do not start another art, mechanic, World, Motion or narration wave inside Session 16.
 
-Safe resume doc: `MAINLAGI_APPROVED_SVG_SWEEP_SESSION14_CLOSURE_2026-09-26.md`.
+Safe resume doc: `MAINLAGI_REDUNDANT_WEBP_CLEANUP_SESSION15_CLOSURE_2026-09-26.md`.
 
 **Canonical branch:** `main`  
 **Latest fully closed gameplay pattern:** Pattern #47 — Math `shape_attribute_board`  
