@@ -1,3 +1,5 @@
+> **SUPERSEDED FOR CURRENT SAFE RESUME:** use `MAINLAGI_REDUNDANT_WEBP_CLEANUP_SESSION15_SAFE_CHECKPOINT_2026-09-26.md` for the current Sessions 01–15 checkpoint. This file remains historical evidence for the earlier character/World handoff.
+
 # Mainlagi Character + World Safe Checkpoint — 25 September 2026
 
 Status: **SAFE HANDOFF / SESSIONS 01–11 COMPLETE / SESSION 12 NOT STARTED**
@@ -341,44 +343,27 @@ Session 14 migrated all known normal product-surface Gavi/Paca Garden WebP shado
 
 Canonical closure: `MAINLAGI_APPROVED_SVG_SWEEP_SESSION14_CLOSURE_2026-09-26.md`.
 
-## Next authorized session
+## Current safe resume supersession
 
-### Session 15 — Remove only proven-redundant WebP derivatives
+Session 15 is now CLOSED / MERGED / LIVE VERIFIED through PR #354 -> main `0f8505fb58b3f698a93e9003eb32ad9fe0e75c67`, merged-main CI #1704 including Cloudflare production smoke.
 
-Session 15 may:
+Do not resume from the old Session 14 -> Session 15 instructions below this historical checkpoint.
 
-- trace every remaining reference to the two legacy Garden Gavi/Paca WebPs and the 14 semantic WebP history files;
-- remove a candidate only after proving normal runtime, validator and rollback contracts no longer require it;
-- update registries/tests/docs truthfully after removal;
-- keep permanent regression against accidental WebP reintroduction.
+Current safe resume document:
 
-Session 15 must not:
+```text
+MAINLAGI_REDUNDANT_WEBP_CLEANUP_SESSION15_SAFE_CHECKPOINT_2026-09-26.md
+```
 
-- delete the 108 raster-native subject backgrounds;
-- mass-delete the 125 activity preview WebPs merely because vector-like source geometry exists elsewhere;
-- convert or delete the 13 runtime raster assets without an approved canonical SVG replacement;
-- approve car/towel/raincoat or any other held asset;
-- change correctness/mastery/progression/evidence/reward semantics;
-- reopen World content, Motion Engine, or narration work.
+Next authorized session:
 
-## Safe start procedure for the next agent/session
-
-1. Fetch latest `main`.
-2. Confirm Session 14 implementation main `ae1c10087b9b328059605a5cbe9f4fcdf3ba1829` or a newer docs-only descendant.
-3. Read:
-   - `MAINLAGI_APPROVED_SVG_SWEEP_SESSION14_CLOSURE_2026-09-26.md`;
-   - `docs/data/MAINLAGI_APPROVED_SVG_SWEEP_SESSION14_2026-09-26.json`;
-   - `SVG_NATIVE_ASSET_POLICY_2026-09-25.md`;
-   - `CURRENT_STATE.md`;
-   - this checkpoint.
-4. Confirm `npm run test:assets:approved-svg-sweep` still passes before deleting anything.
-5. Prove exact reference/runtime need for each cleanup candidate independently.
-6. Keep raster-native/preview/no-approved-vector categories untouched.
-7. Require PR CI full green and merged-main exact-SHA Cloudflare smoke before declaring Session 15 live.
+```text
+Session 16 — final closure + exact production checkpoint
+```
 
 ## Stop conditions
 
-Stop and request a separate decision instead of silently changing scope if Session 15 would require:
+Historical stop conditions from the Session 14 -> 15 handoff are retained below. For current Session 16 scope, use the Session 15 safe checkpoint.
 
 - a World, Home, Bermain or Belajar behavior rewrite;
 - a progression/evidence schema change;
@@ -390,4 +375,4 @@ Stop and request a separate decision instead of silently changing scope if Sessi
 - new semantic artwork or rights approval beyond the already-approved 14;
 - deleting a WebP outside the proven-redundant Session 15 candidate set or before its reference/runtime proof passes.
 
-This checkpoint is the safe handoff from **closed Session 14** to **not-yet-started Session 15**.
+This file is no longer the current handoff. The Session 15 safe checkpoint supersedes it for current work.
