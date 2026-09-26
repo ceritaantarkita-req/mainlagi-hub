@@ -827,7 +827,7 @@ try {
   assert.equal(social.MONEY_WORLD_SOCIAL_CARD.containsChildProgress, false);
   assert.equal(social.MONEY_WORLD_SOCIAL_CARD.containsAccountIdentity, false);
 
-  assert.equal(assets.MONEY_WORLD_ASSET_PLAN_VERSION, "money-world-assets-v1");
+  assert.equal(assets.MONEY_WORLD_ASSET_PLAN_VERSION, "money-world-assets-v2");
   assert.equal(assets.MONEY_WORLD_RUNTIME_CHARACTER_POLICY.version, "money-world-shared-character-runtime-v2");
   assert.equal(assets.MONEY_WORLD_RUNTIME_CHARACTER_POLICY.mode, "shared-approved-svg-cast");
   assert.equal(assets.MONEY_WORLD_RUNTIME_CHARACTER_POLICY.worldId, "money-festival");
@@ -856,8 +856,8 @@ try {
   const mapCoreAssetBytes = [
     "public/artwork/math-warung.webp",
     "public/artwork/garden-background.webp",
-    "public/artwork/garden-gavi.webp",
-    "public/artwork/garden-paca.webp"
+    "public/artwork/characters/gavi-hero-v1.svg",
+    "public/artwork/characters/paca-hero-v1.svg"
   ].reduce((sum, asset) => sum + statSync(path.join(root, asset)).size, 0);
   assert.ok(mapCoreAssetBytes <= 230 * 1024, "World map core artwork must stay at or below 230 KiB");
   const maxStageBackgroundBytes = Math.max(
@@ -867,8 +867,8 @@ try {
   const maxStageShellArtworkBytes =
     maxStageBackgroundBytes +
     worldWordmarkBytes +
-    statSync(path.join(root, "public/artwork/garden-gavi.webp")).size +
-    statSync(path.join(root, "public/artwork/garden-paca.webp")).size;
+    statSync(path.join(root, "public/artwork/characters/gavi-hero-v1.svg")).size +
+    statSync(path.join(root, "public/artwork/characters/paca-hero-v1.svg")).size;
   assert.ok(maxStageShellArtworkBytes <= 190 * 1024, "single Stage shell artwork budget must stay at or below 190 KiB");
   assert.deepEqual(
     [...assets.MONEY_WORLD_PRODUCTION_GAPS].sort(),
