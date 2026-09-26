@@ -2937,3 +2937,127 @@
     outline-offset: 2px;
   }
 }
+
+
+/* === Core Thumbnail System — Wave 01 / World catalog === */
+.worldCatalogHeader {
+  width: min(860px, 100%);
+  margin: 0 auto 26px;
+  overflow: hidden;
+  border-radius: 28px;
+  aspect-ratio: 4 / 3;
+  background: #fffef8;
+  box-shadow: 0 10px 30px rgba(25, 59, 85, .10);
+}
+
+.worldCatalogHeader img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.worldCatalogGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  width: min(1120px, 100%);
+  margin: 0 auto;
+}
+
+.worldThumbnailCard {
+  min-width: 0;
+  overflow: hidden;
+  border: 2px solid #d7e4cc;
+  border-radius: 24px;
+  background: #fffef8;
+  color: var(--world-ink);
+  text-decoration: none;
+  box-shadow: 0 6px 0 #dce8d0;
+  transition: transform .16s ease, border-color .16s ease;
+}
+
+a.worldThumbnailCard:hover {
+  transform: translateY(-3px);
+  border-color: #8ab69e;
+}
+
+.worldThumbnailFrame {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #edf4e8;
+}
+
+.worldThumbnailFrame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.worldThumbnailName {
+  display: block;
+  min-height: 60px;
+  padding: 15px 16px 17px;
+  color: var(--world-ink);
+  font-size: 17px;
+  line-height: 1.25;
+}
+
+.worldThumbnailCardLocked {
+  cursor: default;
+  opacity: .56;
+  filter: saturate(.55);
+  box-shadow: none;
+}
+
+.worldLockOverlay {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255, 253, 245, .9);
+  color: #315b50;
+  box-shadow: 0 5px 16px rgba(25, 59, 85, .18);
+  backdrop-filter: blur(6px);
+}
+
+@media(max-width:760px) {
+  .catalogPage {
+    padding-inline: 14px;
+  }
+
+  .worldCatalogHeader {
+    margin-bottom: 18px;
+    border-radius: 22px;
+  }
+
+  .worldCatalogGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .worldThumbnailCard {
+    border-radius: 18px;
+  }
+
+  .worldThumbnailName {
+    min-height: 50px;
+    padding: 11px 12px 13px;
+    font-size: 14px;
+  }
+
+  .worldLockOverlay {
+    top: 8px;
+    right: 8px;
+    width: 38px;
+    height: 38px;
+  }
+}
