@@ -83,6 +83,24 @@ async function assertCharacterLayer(scope, expectedIds, expectedState, label) {
   assert(snapshot.every((item) => item.pointerEvents === "none"), `${label} characters must remain pointer transparent`);
 }
 
+async function assertCoreThumbnail(image, expectedFragment, label) {
+  await image.waitFor({ state: "visible", timeout: 8_000 });
+  await image.evaluate((item) => item.decode());
+  const snapshot = await image.evaluate((item) => {
+    const rect = item.getBoundingClientRect();
+    return {
+      src: item.currentSrc || item.getAttribute("src") || "",
+      naturalWidth: item.naturalWidth,
+      naturalHeight: item.naturalHeight,
+      width: rect.width,
+      height: rect.height
+    };
+  });
+  assert(snapshot.src.includes(expectedFragment), `${label} must load ${expectedFragment}: ${snapshot.src}`);
+  assert(snapshot.naturalWidth > 0 && snapshot.naturalHeight > 0, `${label} must decode`);
+  assert(Math.abs((snapshot.width / snapshot.height) - (4 / 3)) < 0.04, `${label} must render 4:3: ${JSON.stringify(snapshot)}`);
+}
+
 async function assertNoHorizontalOverflow(page, label) {
   const metrics = await page.evaluate(() => ({
     viewport: document.documentElement.clientWidth,
@@ -115,13 +133,8 @@ async function runViewport(browser, viewport) {
   });
 
   await page.goto(baseUrl + "/child/demo-gian/home", { waitUntil: "domcontentloaded", timeout: 30_000 });
-  await page.locator("[data-mainlagi-home-cast]").waitFor({ state: "visible", timeout: 8_000 });
-  await assertCharacterLayer(
-    page.locator("[data-mainlagi-home-cast]"),
-    ["naya", "gian", "paca", "zia", "gavi"],
-    "hero",
-    `Home ensemble ${viewport.width}px`
-  );
+  const homeHero = page.locator("[data-mainlagi-home-hero] img").first();
+  await assertCoreThumbnail(homeHero, "core-thumbnails", `Home hero ${viewport.width}px`);
 
   const domainCards = page.locator("[data-mainlagi-domain-card]");
   assert.equal(await domainCards.count(), 3, "Home must expose exactly Belajar, World, and Bermain product domains");
@@ -140,20 +153,23 @@ async function runViewport(browser, viewport) {
     "/child/demo-gian/games",
     "Bermain Home card must stay inside the child shell before entering a game"
   );
-  assert.equal(await page.locator('a[href^="/child/demo-gian/subject/"]').count(), 9, "Home must preserve all nine Belajar subject entries");
 
-  if (viewport.width <= 430) {
-    const heroGeometry = await page.evaluate(() => {
-      const copy = document.querySelector("[data-mainlagi-home-copy]")?.getBoundingClientRect();
-      const cast = document.querySelector("[data-mainlagi-home-cast]")?.getBoundingClientRect();
-      return copy && cast ? { copyBottom: copy.bottom, castTop: cast.top } : null;
-    });
-    assert(heroGeometry, "Home mobile hero must expose copy/cast geometry");
-    assert(
-      heroGeometry.copyBottom <= heroGeometry.castTop + 1,
-      `Home mobile copy must not overlap the five-character cast: ${JSON.stringify(heroGeometry)}`
-    );
+  const subjectCards = page.locator('[data-core-thumbnail-card="subject"]');
+  assert.equal(await subjectCards.count(), 9, "Home must preserve all nine Belajar subject entries");
+  const subjectImages = subjectCards.locator("img");
+  assert.equal(await subjectImages.count(), 9, "all subject cards must use a thumbnail");
+  for (let index = 0; index < 9; index += 1) {
+    await assertCoreThumbnail(subjectImages.nth(index), "core-thumbnails", `subject thumbnail ${index + 1} at ${viewport.width}px`);
   }
+  const subjectColumns = await subjectCards.first().evaluate((element) =>
+    getComputedStyle(element.parentElement).gridTemplateColumns.split(" ").filter(Boolean).length
+  );
+  assert.equal(
+    subjectColumns,
+    viewport.width <= 760 ? 2 : 3,
+    `subject directory must use ${viewport.width <= 760 ? 2 : 3} columns at ${viewport.width}px`
+  );
+
   await assertNoHorizontalOverflow(page, `Home ${viewport.width}px`);
   await page.screenshot({ path: path.join(outDir, `home-${viewport.width}.png`), fullPage: true });
   await assertNoPageErrors(page, pageErrors, consoleErrors, `Home ${viewport.width}px`);
@@ -163,8 +179,16 @@ async function runViewport(browser, viewport) {
   await page.goto(baseUrl + "/child/demo-gian/games", { waitUntil: "domcontentloaded", timeout: 30_000 });
   const playEntry = page.locator("[data-mainlagi-play-entry]");
   await playEntry.waitFor({ state: "visible", timeout: 8_000 });
-  await assertCharacterLayer(playEntry, ["gavi", "paca"], "welcome", `Bermain catalog ${viewport.width}px`);
-  assert.equal(await page.locator('a[href^="/play/"]').count(), 10, "Bermain catalog must preserve all 10 existing game entries");
+  await assertCoreThumbnail(playEntry.locator("img").first(), "main-gerak-header", `Bermain header ${viewport.width}px`);
+
+  const gameCards = page.locator('[data-core-thumbnail-card="game"]');
+  assert.equal(await gameCards.count(), 10, "Bermain catalog must preserve all 10 existing game entries");
+  assert.equal(await page.locator('a[href^="/play/"]').count(), 10, "Bermain catalog routes must remain unchanged");
+  const gameImages = gameCards.locator("img");
+  for (let index = 0; index < 10; index += 1) {
+    await assertCoreThumbnail(gameImages.nth(index), "core-thumbnails", `game thumbnail ${index + 1} at ${viewport.width}px`);
+  }
+
   await assertNoHorizontalOverflow(page, `Bermain catalog ${viewport.width}px`);
   await page.screenshot({ path: path.join(outDir, `bermain-${viewport.width}.png`), fullPage: true });
   await assertNoPageErrors(page, pageErrors, consoleErrors, `Bermain catalog ${viewport.width}px`);
@@ -208,7 +232,7 @@ async function main() {
   try {
     for (const viewport of VIEWPORTS) await runViewport(browser, viewport);
     report.status = "PASS";
-    console.log("Session 09 Home + Bermain character browser regression passed: five-character Home ensemble, three-domain Home, Gavi/Paca Bermain entry/preflight, and shared completion contract stay responsive and mechanic-neutral.");
+    console.log("Session 09 compatibility regression passed after Core Thumbnail Wave 01: Home/Main Gerak catalog surfaces use 4:3 thumbnail art, while Bermain preflight/completion character runtime remains shared-SVG and mechanic-neutral.");
   } catch (error) {
     report.status = "FAIL";
     report.error = String(error?.stack ?? error);
