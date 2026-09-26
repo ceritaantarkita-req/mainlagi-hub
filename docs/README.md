@@ -1,6 +1,6 @@
 # Mainlagi Hub Documentation Index
 
-Last reviewed: **25 September 2026**
+Last reviewed: **27 September 2026**
 
 Use this file to decide which documentation is current and which files are historical snapshots.
 
@@ -10,6 +10,8 @@ Read these first for current work:
 
 1. [`NEXT_PRODUCT_QUALITY_PLAN.md`](NEXT_PRODUCT_QUALITY_PLAN.md) — current execution order, workstreams, status and mandatory gates.
 2. [`CURRENT_STATE.md`](CURRENT_STATE.md) — current repository/product/production baseline.
+   - [`MAINLAGI_CORE_THUMBNAIL_WAVE01_LIVE_CHECKPOINT_2026-09-27.md`](MAINLAGI_CORE_THUMBNAIL_WAVE01_LIVE_CHECKPOINT_2026-09-27.md) — current post-implementation safe checkpoint for the 31-file 4:3 core-thumbnail family, PR #357, CI #1711 and exact Cloudflare live verification.
+   - [`data/MAINLAGI_CORE_THUMBNAIL_WAVE01_SOURCE_MAP_2026-09-26.json`](data/MAINLAGI_CORE_THUMBNAIL_WAVE01_SOURCE_MAP_2026-09-26.json) — exact machine-readable Drive/source mapping for Home, subjects, Main Gerak and World.
 3. [`PROJECT_STATE_SYNC_2026-09-20.md`](PROJECT_STATE_SYNC_2026-09-20.md) — compact current handoff and next-work state.
 4. [`PRODUCT_UX_NEXT_WORK_2026-09-20.md`](PRODUCT_UX_NEXT_WORK_2026-09-20.md) — active product-UX execution order and acceptance gates.
 5. [`SUBJECT_BACKGROUND_SYSTEM.md`](SUBJECT_BACKGROUND_SYSTEM.md) — production contract for scene families, responsive pairs, runtime architecture and QA.
@@ -19,7 +21,7 @@ Read these first for current work:
    - [`MAINLAGI_WORLD_CHARACTER_SYSTEM_INTEGRATION_2026-09-25.md`](MAINLAGI_WORLD_CHARACTER_SYSTEM_INTEGRATION_2026-09-25.md) — canonical Sessions 00–16 integration queue and cross-domain boundaries.
    - [`MAINLAGI_WORLD_CHARACTER_INTEGRATION_SESSION08_2026-09-25.md`](MAINLAGI_WORLD_CHARACTER_INTEGRATION_SESSION08_2026-09-25.md) — closed/live-verified PR #337 World shared-character migration.
    - [`MAINLAGI_HOME_BERMAIN_CHARACTER_INTEGRATION_SESSION09_2026-09-25.md`](MAINLAGI_HOME_BERMAIN_CHARACTER_INTEGRATION_SESSION09_2026-09-25.md) — closed/live-verified PR #340 Home + Bermain shared-character integration.
-   - [`MAINLAGI_CHARACTER_WORLD_SAFE_CHECKPOINT_2026-09-25.md`](MAINLAGI_CHARACTER_WORLD_SAFE_CHECKPOINT_2026-09-25.md) — current safe handoff: Sessions 01–11 complete; Session 12 not started.
+   - [`MAINLAGI_CHARACTER_WORLD_SAFE_CHECKPOINT_2026-09-25.md`](MAINLAGI_CHARACTER_WORLD_SAFE_CHECKPOINT_2026-09-25.md) — historical character/World handoff; later Sessions 12–16 are complete and the migration program is closed.
 9. [`CHARACTER_ASSET_PIPELINE.md`](CHARACTER_ASSET_PIPELINE.md) — production-only character directory, provenance registry, technical validator and approval sequence.
 10. [`CHARACTER_CANDIDATE_INTAKE_AUDIT_2026-09-21.md`](CHARACTER_CANDIDATE_INTAKE_AUDIT_2026-09-21.md) — historical 21 Sep Drive audit; superseded for current source availability by the 25 Sep isolated five-character SVG bank.
 11. [`CLOUD_ANALYTICS_PAGINATION_CLOSURE_2026-09-21.md`](CLOUD_ANALYTICS_PAGINATION_CLOSURE_2026-09-21.md) — closed/live-verified complete cloud analytics pagination + explicit authenticated failure/retry behavior.
