@@ -367,6 +367,70 @@ async function auditCartLoadingErrorRetry(browser) {
   await context.close();
 }
 
+async function auditOrderLoadingErrorRetry(browser) {
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    reducedMotion: "reduce",
+    hasTouch: true,
+  });
+  const page = await context.newPage();
+  let orderCalls = 0;
+  await page.route("**/api/shop/orders/MLG-20260927-ABCDEF123456", async (route) => {
+    if (route.request().method() !== "GET") return route.fallback();
+    orderCalls += 1;
+    if (orderCalls === 1) {
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      return route.fulfill({
+        status: 503,
+        contentType: "application/json",
+        body: JSON.stringify({ error: "Pesanan sementara tidak dapat dimuat." }),
+      });
+    }
+    return route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({
+        number: "MLG-20260927-ABCDEF123456",
+        subtotal: 138000,
+        shipping: 18000,
+        total: 156000,
+        payment: "paid",
+        fulfillment: "in_transit",
+        status: "processing",
+        items: [{
+          title_snapshot: "Kaos Anak Mainlagi — Sahabat Ceria Putih",
+          quantity: 2,
+          line_total_amount: 138000,
+        }],
+        shipments: [{
+          waybill_id: "QA123456",
+          tracking_url: "https://example.com/track",
+          status: "in_transit",
+        }],
+      }),
+    });
+  });
+
+  await page.goto(baseUrl + "/shop/order/MLG-20260927-ABCDEF123456", {
+    waitUntil: "domcontentloaded",
+    timeout: 45_000,
+  });
+  await page.getByText("Memuat pesanan…").waitFor({ timeout: 5_000 });
+  await page.getByRole("alert").waitFor({ timeout: 10_000 });
+  assert.match(await page.getByRole("alert").innerText(), /sementara tidak dapat dimuat/i);
+  const retry = page.getByRole("button", { name: "Coba lagi" });
+  await minTargets(page, ".shop-empty .shop-button", "order retry 390");
+  await retry.click();
+  await page.getByText("Pembayaran diterima").waitFor({ timeout: 10_000 });
+  assert.ok(orderCalls >= 2, `order retry must re-request order, got ${orderCalls} call(s)`);
+  await noOverflow(page, "order loading/error/retry 390");
+  await page.screenshot({
+    path: path.join(outDir, "order-loading-error-retry-390.png"),
+    fullPage: true,
+  });
+  await context.close();
+}
+
 async function main() {
   mkdirSync(outDir, { recursive: true });
   startServer();
@@ -379,7 +443,8 @@ async function main() {
       await auditCheckout(browser, viewport);
     }
     await auditCartLoadingErrorRetry(browser);
-    console.log("Shop Batch 10 browser QA PASS: 9-product preview, canonical coral/contrast, keyboard focus, 44px targets, 320/390/768/1280 overflow checks, product gallery, cart loading/error/retry, rate retry, required-field checkout gate and order status screenshots.");
+    await auditOrderLoadingErrorRetry(browser);
+    console.log("Shop Batch 10 browser QA PASS: 9-product preview, canonical coral/contrast, keyboard focus, 44px targets, 320/390/768/1280 overflow checks, product gallery, cart and order loading/error/retry, rate retry, required-field checkout gate and order status screenshots.");
   } finally {
     await browser.close();
     stopServer();
