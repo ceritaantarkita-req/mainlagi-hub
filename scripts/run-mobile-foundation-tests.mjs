@@ -9,6 +9,7 @@ const read = (file) => readFileSync(path.join(root, file), "utf8");
 try {
   const css = read("src/components/learning/mobile/MobileFoundation.module.css");
   const primitives = read("src/components/learning/mobile/MobilePrimitives.tsx");
+  const orientationFoundation = read("src/components/learning/mobile/ViewportOrientationFoundation.tsx");
   const childLayout = read("src/app/child/[childId]/layout.tsx");
   const childSelect = read("src/app/child/select/page.tsx");
   const parentLayout = read("src/app/parent/layout.tsx");
@@ -22,7 +23,9 @@ try {
   assert.match(css, /safe-area-inset-right/, "right safe-area token is required");
   assert.match(css, /safe-area-inset-bottom/, "bottom safe-area token is required");
   assert.match(css, /safe-area-inset-left/, "left safe-area token is required");
-  assert.match(css, /100dvh/, "mobile foundation must use dynamic viewport height");
+  assert.match(css, /--ml-viewport-height:\s*100dvh/, "mobile foundation needs a dynamic viewport-height fallback");
+  assert.match(css, /data-mainlagi-orientation="landscape"/, "short landscape devices need an explicit orientation composition contract");
+  assert.match(css, /@media \(orientation:\s*landscape\) and \(max-height:\s*600px\)/, "phone landscape must use a bounded short-viewport rule");
   assert.match(css, /repeat\(auto-fit,\s*minmax\(min\(100%,\s*240px\),\s*1fr\)\)/, "standard grid must collapse safely rather than force two columns");
   assert.match(css, /@media \(max-width:\s*359px\)/, "320px-class phones need an explicit narrow rule");
   assert.match(css, /@media \(min-width:\s*520px\)/, "larger-phone/tablet transition is required");
@@ -32,6 +35,18 @@ try {
   assert.match(css, /data-mainlagi-route-boundary="parent"[\s\S]*:has\(> aside\)/, "parent mobile route must collapse the desktop sidebar layout");
   assert.match(css, /data-mainlagi-route-boundary="parent"\]\s+aside\s*\{[\s\S]*?display:\s*none\s*!important/, "parent mobile foundation must keep the desktop aside hidden below the tablet breakpoint");
   assert.match(css, /routeBoundary[\s\S]*min-height:\s*var\(--ml-touch-min\)/, "mobile route controls must inherit the minimum touch height");
+
+  assert.match(primitives, /ViewportOrientationFoundation/, "MobileFoundation must own the shared orientation signal");
+  assert.match(orientationFoundation, /window\.visualViewport/, "orientation foundation must prefer the visual viewport when available");
+  assert.match(orientationFoundation, /window\.addEventListener\("resize"/, "orientation foundation must react to viewport resize");
+  assert.match(orientationFoundation, /window\.addEventListener\("orientationchange"/, "orientation foundation must react to device rotation");
+  assert.match(orientationFoundation, /requestAnimationFrame/, "orientation updates must be frame-coalesced");
+  assert.match(orientationFoundation, /data-mainlagi-orientation="pending"/, "orientation boundary needs hydration-stable initial markup");
+  assert.match(orientationFoundation, /dataset\.mainlagiOrientation\s*=\s*orientation/, "orientation must be exposed as a DOM composition signal");
+  assert.match(orientationFoundation, /--ml-viewport-width/, "orientation foundation must expose measured viewport width");
+  assert.match(orientationFoundation, /--ml-viewport-height/, "orientation foundation must expose measured viewport height");
+  assert.doesNotMatch(orientationFoundation, /\buseState\b/, "orientation must not become React application state");
+  assert.doesNotMatch(orientationFoundation, /key\s*=\s*\{[^}]*orientation/i, "orientation foundation must never key/remount its subtree by orientation");
 
   for (const exported of [
     "MobileFoundation",

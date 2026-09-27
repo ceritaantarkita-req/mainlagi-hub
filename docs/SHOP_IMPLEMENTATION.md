@@ -532,6 +532,8 @@ Canonical Batch 09 record:
 
 ### Batch 10 — storefront visual, mobile, UX and accessibility QA
 
+Status: **DONE — responsive storefront/checkout/order/admin browser-quality gate passed on the exact Batch 10 functional head.**
+
 **Goal:** close the browser-quality gap that local HTTP tests do not cover.
 
 Work:
@@ -551,6 +553,68 @@ Exit gate:
 - No P0/P1 visual/interaction/accessibility blocker remains for launch scope.
 - Required mobile/browser evidence is attached or referenced.
 - Known non-blocking debt is documented rather than silently ignored.
+
+#### Batch 10 closure evidence
+
+Batch 10 is closed on functional SHA
+`617b1157a9b0db41f5d9a5242df2a17e4c04ac95` on Draft PR #359.
+
+Implemented/verified browser-quality work:
+
+- canonical Shop primary remains coral `#bd492f`, with primary CTA contrast
+  meeting the browser QA threshold;
+- responsive QA covers 320, 390, 768 and 1280 px without document-level
+  horizontal overflow;
+- nine-product catalog, product gallery/detail, cart, checkout and order-status
+  flows are exercised in Chromium;
+- catalog search has an explicit empty state and `Tampilkan semua` recovery;
+- Draft products remain non-purchasable;
+- checkout strips non-digits from postal codes, requires exactly five digits,
+  blocks API checkout for invalid required fields and only presents invalid-field
+  styling after user interaction/submit;
+- shipping-rate failure is retryable;
+- cart and order loading failures both expose deterministic `Coba lagi`
+  recovery and are browser-tested through failure -> retry -> success;
+- loading/error/disabled/busy/live-region states are explicit;
+- keyboard focus, semantic labels, image alt text and required control hit areas
+  are checked;
+- public utility links, order-history links and pagination preserve 44 px minimum
+  touch targets;
+- owner/admin Shop navigation wraps on narrow screens, textarea/focus styling is
+  present, checkbox/radio sizing no longer inherits full-width input rules,
+  checkbox labels preserve a 44 px hit area, details/summary targets are large
+  enough, and dense variant/media rows wrap safely instead of forcing horizontal
+  overflow.
+
+Exact CI evidence:
+
+- **Mainlagi TV V3 CI #1909**, run `36326902517`, completed **SUCCESS** on
+  `617b1157a9b0db41f5d9a5242df2a17e4c04ac95`;
+- Shop responsive visual and accessibility QA: SUCCESS;
+- Quality gate (Ubuntu): SUCCESS, including Shop contracts, typecheck and lint;
+- Windows compatibility: SUCCESS;
+- Production build: SUCCESS;
+- Shop PostgreSQL staging gate: SUCCESS;
+- Production dependency audit: SUCCESS;
+- Secret history scan: SUCCESS;
+- repository-wide Mobile route QA (Chromium): SUCCESS;
+- live Midtrans Sandbox probe and production smoke were intentionally skipped by
+  workflow conditions and are not represented as failures;
+- responsive/browser evidence artifact:
+  `mobile-route-qa-screenshots`, artifact id `10935060504`,
+  digest `sha256:d88b5d6929112af340852b3c808c56563cde719bb43bfdc8855c18b1a6ab9260`
+  (workflow retention applies).
+
+No provider credential, remote migration, production transaction, Shop sales
+activation, merge to `main`, or deployment was performed as part of Batch 10.
+`SHOP_SALES_ENABLED` remains disabled and PR #359 remains Draft.
+
+After this Batch 10 closure, PR #359 must be synchronized with latest `main`
+before Batch 11. At closure, latest `main` is
+`f2b3768745f11e4fa33954d61aabb1a01acda2ff`; its SI-01 orientation-foundation
+changes are additive to Shop, with the only direct overlap in `package.json`.
+The synchronization must preserve both Shop scripts and SI-01 orientation QA,
+then pass full CI again before Batch 11 starts.
 
 ### Batch 11 — full staging E2E and launch-gate review
 
@@ -1254,7 +1318,8 @@ migration, real funds, sales activation, or paid Supabase branch was used.
   CI #1851. Full exit remains blocked on a real non-production staging scheduler,
   matching cron secrets, one observed scheduled run, Batch 07 shipment-provider
   configuration and an explicit PII-retention duration.
-- Batch 10 is the next executable provider-independent Shop batch.
+- Batch 10 is **DONE** on functional SHA `617b1157a9b0db41f5d9a5242df2a17e4c04ac95`; CI #1909 / run `36326902517` passed the exact tree and browser evidence is recorded above.
+- Post-Batch-10 integration now synchronizes PR #359 with latest `main` `f2b3768745f11e4fa33954d61aabb1a01acda2ff`. Full post-sync CI is required before Batch 11 may start.
 - Do not create a paid Supabase branch.
 - Missing physical product facts remain separate per-product activation blockers.
 - PR #359 remains **Draft** and is **not approved for live sales**.
