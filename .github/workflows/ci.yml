@@ -466,6 +466,7 @@ jobs:
           const required = (name) => { const value = process.env[name]; if (!value) throw new Error("Missing " + name); return value; };
           writeFileSync("/tmp/mainlagi-shop-staging-secrets.json", JSON.stringify({
             BITESHIP_API_KEY: required("BITESHIP_TEST_API_KEY"),
+            BITESHIP_COURIERS: "jne,jnt,sicepat,anteraja,ninja",
             BITESHIP_WEBHOOK_HEADER: "X-Mainlagi-Biteship-Secret",
             BITESHIP_WEBHOOK_SECRET: required("BITESHIP_WEBHOOK_SECRET"),
             SHOP_SALES_ENABLED: "false",

@@ -199,3 +199,20 @@ evidence only; it is no longer the active blocker.
 
 The staging Worker must still be refreshed once after this credential rotation so
 its runtime `BITESHIP_API_KEY` binding matches the newly verified Testing Mode key.
+
+
+## Runtime courier allowlist
+
+The isolated staging Worker now pins the owner-approved Biteship courier codes:
+
+```text
+BITESHIP_COURIERS=jne,jnt,sicepat,anteraja,ninja
+```
+
+This value is non-secret and must remain aligned with
+`src/lib/shop/operational-policy.json`. The live Sandbox connectivity probe
+confirmed that all approved courier codes and approved courier/service pairs are
+available.
+
+Rates remain intentionally blocked until owner-verified pickup/contact/address/
+postal-code values and real product weight/dimensions are configured.
