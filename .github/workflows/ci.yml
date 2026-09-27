@@ -115,6 +115,7 @@ jobs:
     timeout-minutes: 10
     env:
       MIDTRANS_SANDBOX_SERVER_KEY: ${{ secrets.MIDTRANS_SANDBOX_SERVER_KEY }}
+      MIDTRANS_SANDBOX_CLIENT_KEY: ${{ secrets.MIDTRANS_CLIENT_KEY }}
       MIDTRANS_IS_PRODUCTION: "false"
     steps:
       - uses: actions/checkout@v4
@@ -127,7 +128,14 @@ jobs:
             echo "MIDTRANS_SANDBOX_SERVER_KEY_NOT_CONFIGURED"
           else
             echo "configured=true" >> "$GITHUB_OUTPUT"
-            echo "Midtrans sandbox credential is configured."
+            echo "Midtrans sandbox Server Key is configured."
+          fi
+          if [[ -z "$MIDTRANS_SANDBOX_CLIENT_KEY" ]]; then
+            echo "client_configured=false" >> "$GITHUB_OUTPUT"
+            echo "MIDTRANS_SANDBOX_CLIENT_KEY_NOT_CONFIGURED"
+          else
+            echo "client_configured=true" >> "$GITHUB_OUTPUT"
+            echo "Midtrans sandbox Client Key candidate is configured."
           fi
       - name: Run live Midtrans sandbox Snap probe
         if: steps.credential.outputs.configured == 'true'
@@ -141,6 +149,9 @@ jobs:
       - name: Run live Midtrans sandbox paid VA simulator probe
         if: steps.credential.outputs.configured == 'true'
         run: node scripts/run-shop-midtrans-sandbox-paid-probe.mjs
+      - name: Run live Midtrans sandbox card-deny probe
+        if: steps.credential.outputs.configured == 'true' && steps.credential.outputs.client_configured == 'true'
+        run: node scripts/run-shop-midtrans-sandbox-card-deny-probe.mjs
 
   build:
     name: Production build
