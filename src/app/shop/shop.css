@@ -741,3 +741,25 @@ details.shop-cart-line > summary {
     justify-content: center;
   }
 }
+
+
+/* Batch 10: keep order-history and pagination links touch-friendly on every Shop surface. */
+.shop-cart-line > a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+.shop-shell nav[aria-label="Pagination pesanan"] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+.shop-shell nav[aria-label="Pagination pesanan"] a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
