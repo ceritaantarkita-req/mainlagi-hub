@@ -1,6 +1,7 @@
 import "server-only";
 import { createHash, randomBytes, timingSafeEqual } from "node:crypto";
 import { operationalPolicyBlockers } from "./operationalPolicy";
+import { orderAccessAllowed } from "./access";
 import { cookies } from "next/headers";
 import { getAdminClient } from "@/lib/auth/supabase-server-admin";
 import { getServerClient } from "@/lib/auth/supabase-server";
@@ -179,14 +180,22 @@ export async function order(number: string, owner = false): Promise<Order> {
     .maybeSingle();
   if (r.error) throw new ShopError("Pesanan belum dapat dimuat.", 503);
   const o = r.data as Order | null;
-  const token = (await cookies()).get(`mlg_order_${number}`)?.value;
-  if (
-    !o ||
-    (!owner &&
-      !(token && equal(hash(token), o.guest_token_hash)) &&
-      !(o.account_id && o.account_id === (await userId())))
-  )
-    throw new ShopError("Pesanan tidak ditemukan.", 404);
+  if (!o) throw new ShopError("Pesanan tidak ditemukan.", 404);
+  if (!owner) {
+    const token = (await cookies()).get(`mlg_order_${number}`)?.value;
+    const guestTokenMatches = Boolean(
+      token && equal(hash(token), o.guest_token_hash),
+    );
+    const currentUserId = guestTokenMatches ? null : await userId();
+    if (
+      !orderAccessAllowed({
+        guestTokenMatches,
+        accountId: o.account_id,
+        userId: currentUserId,
+      })
+    )
+      throw new ShopError("Pesanan tidak ditemukan.", 404);
+  }
   return o;
 }
 export async function orderCookie(number: string, token: string) {
