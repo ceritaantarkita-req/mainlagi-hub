@@ -85,7 +85,7 @@ export function ShopCatalog({
             />
           </label>
         </div>
-        <div className="shop-filters" aria-label="Kategori">
+        <div className="shop-filters" aria-label="Kategori produk" role="group">
           {Object.entries({ all: "Semua", ...categories }).map(
             ([id, label]) => (
               <button
@@ -104,9 +104,20 @@ export function ShopCatalog({
             <p>Koleksi Mainlagi akan hadir di sini saat siap dipesan.</p>
           </div>
         ) : !shown.length ? (
-          <p role="status">
-            Belum ada produk yang cocok. Coba kategori atau kata lain.
-          </p>
+          <div className="shop-empty shop-empty-compact" role="status" aria-live="polite">
+            <h3>Belum ketemu.</h3>
+            <p>Coba kategori atau kata pencarian lain.</p>
+            <button
+              className="shop-button shop-button-secondary"
+              type="button"
+              onClick={() => {
+                setCategory("all");
+                setSearch("");
+              }}
+            >
+              Tampilkan semua
+            </button>
+          </div>
         ) : (
           <div className="shop-grid">
             {shown.map((p, i) => {
