@@ -181,8 +181,10 @@ async function testBelajar(browser) {
   await waitForBelajar(page);
   const frame = page.locator('[data-activity-frame="garden"]');
 
+  await frame.locator("[data-character-layer]").scrollIntoViewIfNeeded();
   await assertSafeCharacterGeometry(frame, ["naya", "zia"], "Belajar portrait");
   await assertBelajarCharactersClearContent(page, "Belajar portrait");
+  await page.evaluate(() => window.scrollTo(0, 0));
   await rotate(page, landscape, "landscape", "Belajar landscape");
   await assertSafeCharacterGeometry(frame, ["naya", "zia"], "Belajar landscape");
   await assertBelajarCharactersClearContent(page, "Belajar landscape");
@@ -190,6 +192,7 @@ async function testBelajar(browser) {
   await page.screenshot({ path: path.join(outDir, "belajar-landscape.png"), fullPage: false });
 
   await rotate(page, portrait, "portrait", "Belajar portrait recovery");
+  await frame.locator("[data-character-layer]").scrollIntoViewIfNeeded();
   await assertSafeCharacterGeometry(frame, ["naya", "zia"], "Belajar portrait recovery");
   await assertBelajarCharactersClearContent(page, "Belajar portrait recovery");
   await context.close();
