@@ -1882,7 +1882,7 @@ The dedicated SI-02 checkpoint supersedes older character-pause wording only for
 
 
 
-## 27 September 2026 — Shared Interaction SI-03 branch-safe checkpoint — CURRENT
+## 28 September 2026 — Shared Interaction SI-03 merged/live closure — CURRENT
 
 Current Shared Interaction sequence:
 
@@ -1890,15 +1890,19 @@ Current Shared Interaction sequence:
 SI-00 — Read-only coverage audit             COMPLETE / merged
 SI-01 — Orientation foundation               COMPLETE / merged / live verified
 SI-02 — Canonical Character Presentation     COMPLETE / merged / live verified
-SI-03 — Canonical Completion component       PR GREEN / ready to merge / not merged
-SI-04 — Canonical Share component            NOT STARTED
+SI-03 — Canonical Completion component       COMPLETE / merged / live verified
+SI-04 — Canonical Share component            NEXT / not started
 ```
 
-Active SI-03 branch:
+SI-03 closure:
 
 ```text
-branch: agent/si-03-canonical-completion-20260927
-base:   main 7acad4aec11c54354dff3cf6304f484f669bfa38
+PR:                     #365 — merged
+final checkpoint head:  6ac00892b7d22139f45bb7e0107ddd4e33bdd924
+final PR CI:            #1961 / run 36336023119 — FULL SUCCESS
+merged main:            d5857df03c5eb378e23a34547f0a24766ab39abd
+merged-main CI:         #1972 / run 36337866098 — FULL SUCCESS
+Cloudflare smoke:       SUCCESS — exact merged main SHA verified
 checkpoint:
 docs/SI03_CANONICAL_COMPLETION_SAFE_CHECKPOINT_2026-09-27.md
 ```
@@ -1932,4 +1936,6 @@ visual baseline:   PASS
 
 Historical #1932/#1933 failures were test-harness regressions only: brittle static assertions were hardened and the permanent route QA was updated from the legacy label `Try Again` to the approved canonical `Again`. The dedicated SI-03 browser acceptance itself passed before that stale expectation was found.
 
-Do not mark SI-03 merged/live yet. Remaining closure is only: checkpoint-refresh head green -> merge PR #365 -> merged-main CI full green -> exact Cloudflare smoke for the merged SHA. SI-04 must not start before that closure.
+The final checkpoint head `6ac00892b7d22139f45bb7e0107ddd4e33bdd924` passed PR CI #1961 in full. PR #365 was then squash-merged to `d5857df03c5eb378e23a34547f0a24766ab39abd`; merged-main CI #1972 is full green and exact Cloudflare production smoke succeeded.
+
+SI-03 is **closed / merged / live verified**. SI-04 — Canonical Share component — is now the only authorized next Shared Interaction phase. Preserve the live SI-03 Completion shell and extract Share ownership without starting Belajar mass migration, Bermain migration, World migration, Journey Map, or Shop work.
