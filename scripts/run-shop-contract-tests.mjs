@@ -282,6 +282,11 @@ assert.match(shopOrderStatusSource, /\/shop\/policies/);
 assert.match(shopProviderSource, /AbortSignal\.timeout\(15000\)/);
 assert.match(
   shopApiRouteSource,
+  /biteship\/webhook"[\s\S]*allowEmptyObject:\s*true[\s\S]*isInstallProbe[\s\S]*return json\(\{ ok: true \}\)[\s\S]*verifyBiteship\(request\)/,
+  "Biteship install probe may return 200 only before real-event signature verification",
+);
+assert.match(
+  shopApiRouteSource,
   /verifyMidtrans\(b\);[\s\S]*await reconcile\(field\(b, "order_id", 50\)\)/,
 );
 const midtransWebhookBlock = shopApiRouteSource
