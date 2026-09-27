@@ -405,6 +405,11 @@ export async function runReconciliationBatch() {
       failed: 0,
       blocked: 0,
     },
+    retention: {
+      configured: false,
+      days: null as number | null,
+      redacted: 0,
+    },
   };
   try {
     summary.expiredLocally = Number(
@@ -473,6 +478,26 @@ export async function runReconciliationBatch() {
           );
         }
       }
+    }
+
+    const retentionRaw = process.env.SHOP_ORDER_PII_RETENTION_DAYS?.trim();
+    if (retentionRaw) {
+      if (!/^\d+$/.test(retentionRaw))
+        throw new ShopError("Konfigurasi retention Shop tidak valid.", 503);
+      const days = Number(retentionRaw);
+      if (!Number.isSafeInteger(days) || days < 30 || days > 3650)
+        throw new ShopError("Konfigurasi retention Shop tidak valid.", 503);
+      summary.retention.configured = true;
+      summary.retention.days = days;
+      const cutoff = new Date(Date.now() - days * 86400000).toISOString();
+      summary.retention.redacted = Number(
+        result(
+          await c.rpc("shop_redact_order_pii", {
+            p_before: cutoff,
+            p_limit: 50,
+          }),
+        ),
+      );
     }
 
     if (summary.shipment.blocked > 0) summary.status = "blocked";

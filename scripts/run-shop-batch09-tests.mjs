@@ -31,6 +31,8 @@ assert.match(operationsSource, /shop_expire_unattempted_orders/);
 assert.match(operationsSource, /shop_reconciliation_due/);
 assert.match(operationsSource, /shop_reconciliation_mark/);
 assert.match(operationsSource, /biteshipRuntimeConfigured/);
+assert.match(operationsSource, /SHOP_ORDER_PII_RETENTION_DAYS/);
+assert.match(operationsSource, /shop_redact_order_pii/);
 
 const db = new PGlite();
 try {
@@ -51,6 +53,7 @@ create table public.audit_logs(
     "../supabase/migrations/20260927051000_shop_admin_workflow.sql",
     "../supabase/migrations/20260927123000_shop_batch08_state_machine_hardening.sql",
     "../supabase/migrations/20260927124000_shop_batch09_operations.sql",
+    "../supabase/migrations/20260927125000_shop_batch09_pii_retention.sql",
   ]) {
     await db.exec(await readFile(new URL(migration, import.meta.url), "utf8"));
   }
@@ -448,8 +451,44 @@ create table public.audit_logs(
     true,
   );
 
+  console.log("== Batch 09: PII retention is explicit and terminal-only ==");
+  await db.query(
+    "update shop_orders set created_at=now()-interval '800 days' where id=$1",
+    [expiringOrder.id],
+  );
+  assert.equal(
+    (
+      await one(
+        "select shop_redact_order_pii(now()-interval '365 days',50) n",
+      )
+    ).n,
+    1,
+  );
+  const redacted = await orderRow(expiringNumber);
+  assert.equal(redacted.customer.name, "[redacted]");
+  assert.equal(redacted.address_snapshot.address, "[redacted]");
+  assert.ok(redacted.pii_redacted_at);
+  assert.equal(
+    (
+      await one(
+        "select count(*)::int n from audit_logs where entity_id=$1 and action='shop.order.pii.redact'",
+        [expiringOrder.id],
+      )
+    ).n,
+    1,
+  );
+  assert.equal(
+    (
+      await one(
+        "select shop_redact_order_pii(now()-interval '365 days',50) n",
+      )
+    ).n,
+    0,
+    "PII redaction is idempotent",
+  );
+
   console.log(
-    "Shop Batch 09: scheduled-reconcile contract, expiry cleanup, reconciliation backoff/alerts, owner search/filter/pagination/detail timeline, audited manual recovery, report v2 and inventory/refund consistency PASS",
+    "Shop Batch 09: scheduled-reconcile contract, expiry cleanup, reconciliation backoff/alerts, owner search/filter/pagination/detail timeline, audited manual recovery, report v2, explicit PII retention and inventory/refund consistency PASS",
   );
 } finally {
   await db.close();

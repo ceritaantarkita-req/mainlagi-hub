@@ -151,6 +151,14 @@ export default async function ShopAdminPage({
               <strong>{process.env.BITESHIP_API_KEY ? "configured" : "belum dikonfigurasi"}</strong>
             </li>
             <li>
+              PII retention:{" "}
+              <strong>
+                {process.env.SHOP_ORDER_PII_RETENTION_DAYS
+                  ? `${process.env.SHOP_ORDER_PII_RETENTION_DAYS} hari`
+                  : "belum diputuskan / disabled"}
+              </strong>
+            </li>
+            <li>
               Latest run:{" "}
               <strong>
                 {latestRun
