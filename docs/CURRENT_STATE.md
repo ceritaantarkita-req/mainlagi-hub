@@ -57,12 +57,26 @@ Shop closure
 → fresh shared-interaction wave
    (responsive orientation + Completion + Character + Share)
 → full portrait/landscape QA + production verification
-→ separate World header/map redesign after dedicated visual approval
+→ Canonical Journey Map System
+   (nine Belajar subject worlds + immersive map header + stage-open detail +
+    Petualangan Uang World redesign)
+→ full journey-map QA + production verification
 ```
 
 The historical shared-completion implementation already on production remains
 current runtime truth until this successor wave lands; its existence must not be
 mistaken for approval to keep divergent Belajar/Bermain/World completion styles.
+
+A later owner-approved map direction is now locked in
+`docs/MAINLAGI_CANONICAL_JOURNEY_MAP_SYSTEM_2026-09-27.md`. After the shared
+interaction wave is merged/production-verified, Belajar subject pages move from a
+dashboard/catalog-first presentation to a full-page **Learning Journey Map** where
+one node is one stage/cluster, not one mini-game. Mini-games appear only after stage
+selection as a text-first utility list. The default map stays clean, the immersive
+header replaces the heavy website navbar on map/game surfaces, and portrait/landscape
+receive true responsive map compositions. Petualangan Uang then consumes the same
+journey-map language as a more narrative World adapter while preserving its authored
+eight-stage/evidence/story semantics.
 
 ## 27 September core thumbnail system checkpoint — WAVE 01 CLOSED / LIVE VERIFIED
 
