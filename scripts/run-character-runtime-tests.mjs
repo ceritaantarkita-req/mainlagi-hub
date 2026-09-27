@@ -222,6 +222,7 @@ assert.equal(unknownWorld.characters.length, 0, "unknown World cast fails closed
 const providerSource = fs.readFileSync(path.resolve("src/components/learning/ActivityVisualThemeProvider.tsx"), "utf8");
 const bridgeSource = fs.readFileSync(path.resolve("src/components/learning/LearningAttemptBridge.tsx"), "utf8");
 const frameSource = fs.readFileSync(path.resolve("src/components/learning/GardenActivityFrame.tsx"), "utf8");
+const frameCss = fs.readFileSync(path.resolve("src/components/learning/GardenActivityFrame.module.css"), "utf8");
 const themeSource = fs.readFileSync(path.resolve("src/lib/learning/activityVisualTheme.ts"), "utf8");
 
 assert.match(providerSource, /LEARNING_CHARACTER_PRESENTATION_EVENT/, "activity provider listens to the shared presentation event");
@@ -241,6 +242,7 @@ assert.match(frameSource, /setCharacterMoment\("guide"\)/, "Dengar action publis
 assert.match(frameSource, /!workspace && characterPresentation/, "creative workspaces hide the decorative character layer");
 assert.match(frameSource, /<CharacterLayer characters=\{runtimeCharacters\}/, "Garden frame renders through the shared CharacterLayer");
 assert.doesNotMatch(frameSource, /runtimeCharacters\.map/, "Garden frame must not retain a second character renderer");
+assert.match(frameCss, /@media\(max-width:760px\) and \(orientation:portrait\)[\s\S]*?\.garden:not\(\.workspace\)\s*\{\s*padding-bottom:clamp\(184px,48vw,224px\)/, "Belajar portrait layout must reserve a dedicated character band below task content");
 assert.match(themeSource, /resolveCharacterPresentation\(\{ context: "activity", subjectId \}\)/, "Belajar visual theme resolves through the shared character presentation module");
 assert.doesNotMatch(themeSource, /approvedCharacterRuntimeSrc/, "Belajar visual theme must no longer depend on the legacy compatibility API");
 
