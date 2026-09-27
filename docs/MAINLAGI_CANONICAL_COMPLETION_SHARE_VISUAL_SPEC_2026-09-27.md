@@ -852,28 +852,36 @@ Verify:
 - provider actions are capability-safe;
 - portrait and landscape layouts preserve hierarchy.
 
-# 16. World Redesign — NEXT AFTER SHARED SYSTEM
+# 16. Journey Map System — NEXT AFTER SHARED SYSTEM
 
-World remains the second major visual wave.
+After the shared Completion/Character/Share foundation is merged and
+production-verified, the next major visual/product wave is the owner-approved
+**Canonical Journey Map System**.
 
-Do not begin the map/header redesign until the shared Completion/Character/Share foundation is stable enough that World can consume it rather than invent another local system.
+It now covers both:
 
-The later World redesign must address:
+- Belajar subject Learning Journey Maps across all nine subjects; and
+- the Petualangan Uang World Adventure Journey Map.
 
-- header/hero character clipping;
-- obsolete/wrong-concept header background art;
-- World header composition;
-- journey-map path quality;
-- node sizing and placement;
-- chapter separators;
-- completed/current/locked state;
-- progress readability;
-- portrait composition;
-- landscape composition;
-- character safe areas;
-- preservation of Petualangan Uang progression/evidence semantics.
+Canonical journey-map source of truth:
 
-A separate owner-approved World visual target is still required before material map redesign.
+`MAINLAGI_CANONICAL_JOURNEY_MAP_SYSTEM_2026-09-27.md`
+
+Do not implement map/header behavior from this Completion/Share document. The
+dedicated journey-map spec owns:
+
+- full-page immersive map composition;
+- one node = one stage/cluster;
+- stage-open contextual detail;
+- no mini-game thumbnail grid;
+- immersive map/game header;
+- Mainlagi illustration-language requirements;
+- portrait/landscape map composition;
+- Belajar vs World differentiation;
+- Petualangan Uang map redesign boundaries.
+
+Completion/Share/Character rules from this document remain shared dependencies
+consumed by the later map wave.
 
 # 17. Post-Shop Execution Sequence — LOCKED
 
@@ -901,7 +909,9 @@ E. Start a fresh shared-interaction wave
    ↓
 F. Merge + production-verify shared-interaction wave
    ↓
-G. Start separate World header/map redesign
+G. Start Canonical Journey Map System
+   - nine Belajar subject worlds
+   - Petualangan Uang World map
 ```
 
 Do not silently expand PR #360 into the entire Completion/Share/World redesign. Keeping the shared-interaction migration and World redesign bounded reduces regression risk and makes QA evidence attributable.
@@ -920,7 +930,7 @@ Future agents must not:
 - regenerate the approved popup concept and declare the new generation canonical;
 - force one mobile orientation globally merely because one mockup looks better there;
 - reset/reload activity state on orientation change;
-- expand the shared-system wave into World map redesign before its separate visual target is approved;
+- expand the shared-system wave into the Journey Map System before the shared-interaction wave is independently closed;
 - substitute a new design merely because it seems cleaner or more modern.
 
 Minor responsive adaptation is allowed only when it preserves the same approved component/system identity.
