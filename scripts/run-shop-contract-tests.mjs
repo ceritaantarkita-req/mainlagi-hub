@@ -140,6 +140,14 @@ const shopPolicyPageSource = await readFile(
   "src/app/shop/policies/page.tsx",
   "utf8",
 );
+const shopCheckoutSource = await readFile(
+  "src/components/shop/CartCheckout.tsx",
+  "utf8",
+);
+const shopOrderStatusSource = await readFile(
+  "src/components/shop/OrderStatus.tsx",
+  "utf8",
+);
 assert.equal(seed.length, 9);
 assert.equal(manifest.length, 27);
 assert.equal(manifest.filter((m) => m.approval === "approved").length, 26);
@@ -236,6 +244,8 @@ assert.match(shopAdminSource, /Kesiapan operasional Shop/);
 assert.match(shopPolicyPageSource, /Belanja dengan aturan yang jelas/);
 assert.match(shopPolicyPageSource, /Buka WhatsApp/);
 assert.match(shopPolicyPageSource, /operationalPolicy\.ownerDecisions/);
+assert.match(shopCheckoutSource, /\/shop\/policies/);
+assert.match(shopOrderStatusSource, /\/shop\/policies/);
 assert.equal(readiness.products.length, 9);
 assert.deepEqual(
   readiness.products.map((p) => p.approvedTotalStock),
