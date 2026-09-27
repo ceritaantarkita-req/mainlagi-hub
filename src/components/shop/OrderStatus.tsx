@@ -83,6 +83,7 @@ export function OrderStatus({ number }: { number: string }) {
           {error}
         </p>
       ) : null}
+      <div aria-live="polite" aria-busy={!o && !error}>
       {o ? (
         <section className="shop-summary">
           <h2>{labels[o.payment] ?? o.payment}</h2>
@@ -119,6 +120,7 @@ export function OrderStatus({ number }: { number: string }) {
             <button
               className="shop-button"
               disabled={busy}
+              aria-busy={busy}
               onClick={() => action(true)}
             >
               Bayar dengan Midtrans
@@ -127,14 +129,16 @@ export function OrderStatus({ number }: { number: string }) {
           <button
             className="shop-button shop-button-secondary"
             disabled={busy}
+            aria-busy={busy}
             onClick={() => action(false)}
           >
             Periksa pembayaran
           </button>
         </section>
       ) : !error ? (
-        <p>Memuat pesanan…</p>
+        <p className="shop-loading">Memuat pesanan…</p>
       ) : null}
+      </div>
       <div className="shop-order-help">
         <Link href="/shop/policies">Kebijakan belanja & bantuan</Link>
         {" · "}
