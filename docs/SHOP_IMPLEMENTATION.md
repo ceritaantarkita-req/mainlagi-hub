@@ -889,24 +889,81 @@ Owner decisions still required before Batch 04 can become `DONE`:
     notification is desired for this release;
 12. damaged item, wrong item, lost shipment, and delayed shipment handling.
 
-Until those decisions are supplied, the Batch 04 exit gate is intentionally not
-satisfied and **Batch 05 is not authorized**.
+Until those decisions are supplied, the Batch 04 **launch-sequence** exit gate is
+intentionally not satisfied. On 2026-09-27 the owner explicitly authorized
+**Batch 05 staging/security work only** despite this blocker. That authorization
+does not approve the missing Batch 04 policy, does not enable sales, and does not
+authorize any production or live-provider action.
+
+#### Batch 05 — staging database, migration chain and security gate
+
+Status: **BLOCKED — non-production Supabase target unavailable**.
+
+The owner explicitly authorized this Batch 05 staging/security wave while Batch 04
+remains a separate launch blocker. The override is limited to safe non-production
+database/security work.
+
+Completed preflight work:
+
+- verified current `main` has **51** repository migrations and PR #359 has **53**;
+  the only additions are:
+  - `20260926195237_shop_foundation.sql`;
+  - `20260927051000_shop_admin_workflow.sql`;
+- added `scripts/run-shop-migration-chain-tests.mjs` and wired it into
+  `npm run test:shop`;
+- the full-chain harness applies migrations **0001 through 0051 plus both Shop
+  migrations in filename order**, with a test-only PGlite accommodation that skips
+  Supabase's `CREATE EXTENSION pgcrypto` statement while leaving the repository
+  migration unchanged;
+- full-chain assertions verify Shop seed counts, Draft/unverified posture, RLS on
+  every public Shop table, service-role-only sensitive RPC EXECUTE, anon product
+  visibility = 0, direct order-table denial, and product-admin RPC denial;
+- CI #1774 passed the complete Shop transaction/provider-contract step with this
+  full migration-chain gate;
+- added staging validation SQL:
+  `docs/data/MAINLAGI_SHOP_STAGING_VALIDATION_2026-09-27.sql`;
+- added staging/rollback/concurrency runbook:
+  `docs/MAINLAGI_SHOP_STAGING_RUNBOOK_2026-09-27.md`;
+- confirmed the canonical documented production Supabase project is
+  `estvtgflwkebomsqlolv`; it is explicitly prohibited as the Batch 05 target.
+
+Connectivity evidence:
+
+- the connected Supabase integration returned **zero accessible projects**;
+- the authorized Remote Desktop device was offline, so no local Supabase CLI/link
+  could be used as a fallback;
+- therefore no staging project identity could be safely proven.
+
+Not performed / not claimed:
+
+- no remote migration application;
+- no staging seed mutation;
+- no Supabase security/performance advisor run;
+- no real-PostgreSQL multi-connection concurrency test;
+- no production database mutation;
+- no provider sandbox/live action.
+
+Batch 05 cannot become `DONE` until a specific non-production Supabase project is
+accessible, the migration chain is applied there, staging validation/advisors are
+reviewed, and the real-PostgreSQL race cases in the runbook pass.
 
 ### Current execution pointer
 
 - Batch 01 is **DONE**.
 - Batch 02 is **DONE**.
 - Batch 03 is **DONE**.
-- Batch 04 is **BLOCKED — owner input required**.
-- Continue **Batch 04 only** by filling/approving
-  `src/lib/shop/operational-policy.json` from real owner decisions and keeping
-  private pickup values in deployment environment.
-- `docs/data/MAINLAGI_SHOP_PRODUCT_READINESS_2026-09-27.json` records the Batch 04
-  blocker and keeps Batch 05 authorization disabled.
+- Batch 04 remains **BLOCKED — owner policy input required**.
+- Batch 05 is **BLOCKED — staging target unavailable**, after successful repository
+  migration/security preflight.
+- Continue Batch 05 only when a **specific non-production Supabase project** is
+  accessible. First record its identity and prove it is not
+  `estvtgflwkebomsqlolv`, then follow
+  `docs/MAINLAGI_SHOP_STAGING_RUNBOOK_2026-09-27.md`.
+- Batch 06 is **not authorized** until Batch 05 remote staging/security/concurrency
+  exit gates pass. Batch 04 also remains a launch blocker.
 - Missing physical product facts remain separate per-product activation blockers.
 - PR #359 remains **Draft** and is **not approved for live sales**.
 - `SHOP_SALES_ENABLED` must remain disabled.
-- Do **not** begin staging/provider work until Batch 04 is explicitly closed.
 
 ### Mandatory successor after Shop closure
 
@@ -939,8 +996,9 @@ World header/map redesign begin.
 ## Verification completed
 
 - `npm run test:shop`: provider signature tampering/fraud/status tests; all 27
-  derivative checksums; exact nine product prices/stocks; executable PostgreSQL
-  migration/RLS/transaction tests using pinned PGlite.
+  derivative checksums; exact nine product prices/stocks; full repository
+  migration-chain execution (51 historical + 2 Shop migrations) plus Shop
+  RLS/RPC/transaction tests using pinned PGlite.
 - DB scenarios include duplicate checkout/settlement/adjustment, wrong amount,
   stale/cross-cart quote, wrong cart secret, lost inventory row, late settlement,
   refund-before-settlement release, owner-only packing, unpaid shipping denial,
@@ -954,9 +1012,12 @@ World header/map redesign begin.
 - Structure/source audit, Batch 16 security boundary checks and existing mobile
   foundation contract checks.
 
-PGlite tests bootstrap minimal existing `profiles`/`audit_logs`; they do not claim
-that all 51 historical migrations, Supabase Auth/PostgREST, multi-connection races,
-Cloudflare runtime network behavior or live provider integration were exercised.
+The isolated Shop transaction harness still bootstraps minimal existing
+`profiles`/`audit_logs`, while the separate migration-chain harness now exercises
+all 53 repository migrations with a minimal emulated `auth.users`/`auth.uid()`
+surface. PGlite does **not** equal Supabase staging: it does not prove Supabase Auth,
+PostgREST, provider network behavior, Supabase advisors, or true multi-connection
+PostgreSQL race behavior. Those remain Batch 05 remote gates.
 
 ## Provider references checked during implementation
 
