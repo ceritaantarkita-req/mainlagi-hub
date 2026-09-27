@@ -375,10 +375,11 @@ async function auditOrderLoadingErrorRetry(browser) {
   });
   const page = await context.newPage();
   let orderCalls = 0;
+  let recoverOrder = false;
   await page.route("**/api/shop/orders/MLG-20260927-ABCDEF123456", async (route) => {
     if (route.request().method() !== "GET") return route.fallback();
     orderCalls += 1;
-    if (orderCalls === 1) {
+    if (!recoverOrder) {
       await new Promise((resolve) => setTimeout(resolve, 500));
       return route.fulfill({
         status: 503,
@@ -420,6 +421,7 @@ async function auditOrderLoadingErrorRetry(browser) {
   assert.match(await page.getByRole("alert").innerText(), /sementara tidak dapat dimuat/i);
   const retry = page.getByRole("button", { name: "Coba lagi" });
   await minTargets(page, ".shop-empty .shop-button", "order retry 390");
+  recoverOrder = true;
   await retry.click();
   await page.getByText("Pembayaran diterima").waitFor({ timeout: 10_000 });
   assert.ok(orderCalls >= 2, `order retry must re-request order, got ${orderCalls} call(s)`);
