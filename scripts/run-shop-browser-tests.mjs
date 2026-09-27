@@ -40,6 +40,12 @@ assert.match(batch10Css, /\.shop-admin-nav[\s\S]*flex-wrap:\s*wrap/);
 assert.match(adminLayoutSource, /shop-nav shop-admin-nav/);
 assert.match(adminEditorSource, /<textarea/);
 assert.match(adminEditorSource, /type="checkbox"/);
+assert.match(adminEditorSource, /className="shop-cart-line"/);
+assert.match(
+  batch10Css,
+  /dense cart\/admin rows must collapse safely[\s\S]*?\.shop-cart-line\s*\{[\s\S]*?flex-wrap:\s*wrap/,
+  "dense admin rows must wrap on narrow screens",
+);
 assert.match(accountOrdersSource, /aria-label="Pagination pesanan"/);
 assert.match(adminShopSource, /aria-label="Pagination pesanan"/);
 assert.match(
