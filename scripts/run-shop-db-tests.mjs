@@ -52,13 +52,170 @@ try {
     /permission denied/,
   );
   await db.exec("reset role");
-  await db.exec(
-    "update shop_products set status='active',facts_verified=true,media_approved=true; update shop_variants set weight_grams=200",
-  );
-  const v = (await one("select id from shop_variants where sku='001-DEFAULT'"))
-    .id;
   const owner = "00000000-0000-0000-0000-000000000001";
-  await db.query("insert into profiles values($1,'owner')", [owner]);
+  const stranger = "00000000-0000-0000-0000-000000000002";
+  await db.query("insert into profiles values($1,'owner'),($2,'parent')", [
+    owner,
+    stranger,
+  ]);
+  const product = await one(
+    "select id,title,description from shop_products where product_code='001'",
+  );
+  await assert.rejects(
+    db.query("select shop_admin_transition($1,'ready',$2)", [
+      product.id,
+      owner,
+    ]),
+    /product incomplete/,
+  );
+  await assert.rejects(
+    db.query(
+      "select shop_admin_product_save($1,$2,$3,'wear',69000,$4,$5)",
+      [
+        product.id,
+        product.title,
+        product.description,
+        JSON.stringify({ sizeChart: "S: verified sample measurements" }),
+        stranger,
+      ],
+    ),
+    /owner required/,
+  );
+  await db.query(
+    "select shop_admin_product_save($1,$2,$3,'wear',69000,$4,$5)",
+    [
+      product.id,
+      product.title,
+      product.description,
+      JSON.stringify({ sizeChart: "S: verified sample measurements" }),
+      owner,
+    ],
+  );
+  const invalidSplit = JSON.stringify([
+    {
+      sku: "001-S",
+      title: "Size S",
+      optionValues: { size: "S" },
+      onHand: 10,
+      priceOverride: null,
+      weightGrams: 200,
+      lengthMm: null,
+      widthMm: null,
+      heightMm: null,
+      isActive: true,
+    },
+  ]);
+  await assert.rejects(
+    db.query("select shop_admin_variants_replace($1,$2,$3)", [
+      product.id,
+      invalidSplit,
+      owner,
+    ]),
+    /variant stock must equal approved initial total 9/,
+  );
+  const validSplit = JSON.stringify([
+    {
+      sku: "001-S",
+      title: "Size S",
+      optionValues: { size: "S" },
+      onHand: 4,
+      priceOverride: null,
+      weightGrams: 200,
+      lengthMm: 250,
+      widthMm: 200,
+      heightMm: 40,
+      isActive: true,
+    },
+    {
+      sku: "001-M",
+      title: "Size M",
+      optionValues: { size: "M" },
+      onHand: 5,
+      priceOverride: null,
+      weightGrams: 210,
+      lengthMm: 260,
+      widthMm: 210,
+      heightMm: 40,
+      isActive: true,
+    },
+  ]);
+  await db.query("select shop_admin_variants_replace($1,$2,$3)", [
+    product.id,
+    validSplit,
+    owner,
+  ]);
+  assert.equal(
+    (
+      await one(
+        "select sum(on_hand)::int n from shop_inventory_balances b join shop_variants v on v.id=b.variant_id where v.product_id=$1",
+        [product.id],
+      )
+    ).n,
+    9,
+  );
+  assert.equal(
+    (
+      await one(
+        "select count(*)::int n from shop_variants where product_id=$1 and sku='001-DEFAULT'",
+        [product.id],
+      )
+    ).n,
+    0,
+  );
+  await db.query("select shop_admin_transition($1,'ready',$2)", [
+    product.id,
+    owner,
+  ]);
+  assert.equal(
+    (
+      await one("select review_status from shop_products where id=$1", [
+        product.id,
+      ])
+    ).review_status,
+    "ready_for_review",
+  );
+  await db.query("select shop_admin_transition($1,'approve',$2)", [
+    product.id,
+    owner,
+  ]);
+  await db.query("select shop_admin_transition($1,'activate',$2)", [
+    product.id,
+    owner,
+  ]);
+  assert.equal(
+    (
+      await one(
+        "select status||':'||review_status||':'||facts_verified::text state from shop_products where id=$1",
+        [product.id],
+      )
+    ).state,
+    "active:approved:true",
+  );
+  const v = (await one("select id from shop_variants where sku='001-S'")).id;
+  await assert.rejects(
+    db.query("update shop_variants set weight_grams=201 where id=$1", [v]),
+    /deactivate product before editing/,
+  );
+  const media = (
+    await one(
+      "select id from shop_product_media where product_id=$1 order by sort_order limit 1",
+      [product.id],
+    )
+  ).id;
+  await assert.rejects(
+    db.query("update shop_product_media set approval_status='review' where id=$1", [
+      media,
+    ]),
+    /deactivate product before editing/,
+  );
+  assert.ok(
+    (
+      await one(
+        "select count(*)::int n from audit_logs where entity_id=$1 and action like 'shop.product.%'",
+        [product.id],
+      )
+    ).n >= 4,
+  );
   const hash = "a".repeat(64);
   async function cart(qty = 1) {
     const c = (
@@ -121,6 +278,22 @@ try {
   await pay(num, "paid", "paid-1");
   await pay(num, "paid", "paid-2");
   await pay(num, "expired", "stale");
+  await db.query("select shop_admin_transition($1,'deactivate',$2)", [
+    product.id,
+    owner,
+  ]);
+  await assert.rejects(
+    db.query("select shop_admin_variants_replace($1,$2,$3)", [
+      product.id,
+      validSplit,
+      owner,
+    ]),
+    /variant history exists/,
+  );
+  await db.query("select shop_admin_transition($1,'activate',$2)", [
+    product.id,
+    owner,
+  ]);
   assert.equal(
     (
       await one(
@@ -290,7 +463,7 @@ try {
   ]);
   await assert.rejects(checkout(emptyBalance), /inventory missing/);
   console.log(
-    "Shop SQL: seeds, RLS, RPC grants, reservation, idempotency, amount, stale events, late payment, quote invalidation, missing inventory, owner gate, packing, shipment leases, no status regression, refund release, adjustment idempotency, reporting PASS",
+    "Shop SQL: seeds, RLS, owner product workflow, fail-closed activation, variant stock conservation/history lock, media guards, audit logs, reservation, idempotency, amount, stale events, late payment, quote invalidation, missing inventory, packing, shipment leases, no status regression, refund release, adjustment idempotency, reporting PASS",
   );
 } finally {
   await db.close();
