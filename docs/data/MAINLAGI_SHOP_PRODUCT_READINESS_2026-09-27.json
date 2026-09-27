@@ -1,0 +1,200 @@
+{
+  "schemaVersion": 1,
+  "asOf": "2026-09-27",
+  "batch02Status": "done",
+  "meaning": "Batch 02 truth/media/inventory contract is closed. This does not mean any product is launch-ready. Unknown physical facts remain activation blockers and must not be inferred.",
+  "media": {
+    "runtimeApprovedUnique": 26,
+    "provenanceAssets": 27,
+    "rejectedRuntime": [
+      "/shop/products/mainlagi-shop-006-kids-tumbler-alternate-v1.webp"
+    ],
+    "webDelivery": {
+      "format": "webp",
+      "width": 1200,
+      "height": 1200,
+      "rule": "Prioritize clear product readability, cross-shot consistency, and lightweight delivery. 2048px masters are not required for launch."
+    }
+  },
+  "inventory": {
+    "approvedProductLevelTotal": 79,
+    "temporaryVariantStrategy": "One <SKU>-DEFAULT development variant preserves each owner-approved product-level total until verified real variants are entered.",
+    "rules": [
+      "available = on_hand - reserved",
+      "checkout reserves under database locks",
+      "verified paid consumes reservation and on_hand",
+      "failed/expired/cancelled releases reservation",
+      "late paid after release goes to attention_required",
+      "manual adjustment cannot reduce on_hand below reserved",
+      "variant allocation must conserve the owner-approved SKU total"
+    ]
+  },
+  "products": [
+    {
+      "code": "001",
+      "price": 69000,
+      "approvedTotalStock": 9,
+      "mediaApproved": 3,
+      "launchState": "draft",
+      "requiredBeforeActivation": [
+        "size options",
+        "per-size stock allocation summing to 9",
+        "size chart / garment measurements",
+        "measured shipping weight_grams per sellable variant"
+      ],
+      "optionalFacts": [
+        "material/fabric facts if published",
+        "package dimensions"
+      ]
+    },
+    {
+      "code": "002",
+      "price": 74000,
+      "approvedTotalStock": 7,
+      "mediaApproved": 3,
+      "launchState": "draft",
+      "requiredBeforeActivation": [
+        "size options",
+        "per-size stock allocation summing to 7",
+        "size chart / garment measurements",
+        "measured shipping weight_grams per sellable variant"
+      ],
+      "optionalFacts": [
+        "material/fabric facts if published",
+        "package dimensions"
+      ]
+    },
+    {
+      "code": "003",
+      "price": 120000,
+      "approvedTotalStock": 6,
+      "mediaApproved": 3,
+      "launchState": "draft",
+      "requiredBeforeActivation": [
+        "size options",
+        "per-size stock allocation summing to 6",
+        "size chart / garment measurements",
+        "measured shipping weight_grams per sellable variant"
+      ],
+      "optionalFacts": [
+        "material/fabric facts if published",
+        "package dimensions"
+      ]
+    },
+    {
+      "code": "004",
+      "price": 45000,
+      "approvedTotalStock": 12,
+      "mediaApproved": 3,
+      "launchState": "draft",
+      "requiredBeforeActivation": [
+        "verified sock size option(s), including whether one-size is actually correct",
+        "per-size stock allocation summing to 12",
+        "relevant size measurements",
+        "measured shipping weight_grams per sellable variant"
+      ],
+      "optionalFacts": [
+        "material facts if published",
+        "package dimensions"
+      ]
+    },
+    {
+      "code": "005",
+      "price": 150000,
+      "approvedTotalStock": 8,
+      "mediaApproved": 3,
+      "launchState": "draft",
+      "requiredBeforeActivation": [
+        "size options",
+        "per-size stock allocation summing to 8",
+        "size chart / garment measurements",
+        "measured shipping weight_grams per sellable variant"
+      ],
+      "optionalFacts": [
+        "material/fabric facts if published",
+        "package dimensions"
+      ]
+    },
+    {
+      "code": "006",
+      "price": 89000,
+      "approvedTotalStock": 10,
+      "mediaApproved": 2,
+      "launchState": "draft",
+      "requiredBeforeActivation": [
+        "verified capacity",
+        "verified material",
+        "measured shipping weight_grams"
+      ],
+      "optionalFacts": [
+        "package dimensions",
+        "safety/certification claims only when evidenced"
+      ],
+      "notes": [
+        "Two distinct media are intentionally sufficient; rejected alternate was byte-identical to in-use."
+      ]
+    },
+    {
+      "code": "007",
+      "price": 89000,
+      "approvedTotalStock": 7,
+      "mediaApproved": 3,
+      "launchState": "draft_or_coming_soon",
+      "requiredBeforeActivation": [
+        "actual product type",
+        "issuer if applicable",
+        "network/technology if applicable",
+        "activation/provisioning behavior",
+        "balance/top-up capability if applicable",
+        "authorization to sell/co-brand as applicable",
+        "verification that tap/use capability shown is real if claimed",
+        "measured shipping weight_grams"
+      ],
+      "optionalFacts": [
+        "package dimensions"
+      ],
+      "notes": [
+        "Media approval is not evidence of financial functionality."
+      ]
+    },
+    {
+      "code": "008",
+      "price": 25000,
+      "approvedTotalStock": 11,
+      "mediaApproved": 3,
+      "launchState": "draft",
+      "requiredBeforeActivation": [
+        "measured shipping weight_grams"
+      ],
+      "optionalFacts": [
+        "package dimensions",
+        "page count/paper specs only if published"
+      ],
+      "notes": [
+        "Writing/ruled-page function is visually distinct from SKU 009."
+      ]
+    },
+    {
+      "code": "009",
+      "price": 35000,
+      "approvedTotalStock": 9,
+      "mediaApproved": 3,
+      "launchState": "draft",
+      "requiredBeforeActivation": [
+        "measured shipping weight_grams"
+      ],
+      "optionalFacts": [
+        "package dimensions",
+        "page count/paper specs only if published"
+      ],
+      "notes": [
+        "Drawing/blank-page function is visually distinct from SKU 008."
+      ]
+    }
+  ],
+  "batch03Authorization": {
+    "allowed": true,
+    "scope": "Build product/variant/facts/media/inventory editing and fail-closed activation validation against this readiness contract.",
+    "hardRule": "No product may become active until its requiredBeforeActivation fields are verified and variant stock reconciles to the approved total."
+  }
+}
