@@ -29,7 +29,8 @@
   left: auto;
   right: auto;
   bottom: auto;
-  width: clamp(78px, 10vw, 138px);
+  width: auto;
+  max-width: clamp(78px, 10vw, 138px);
   max-height: 190px;
   flex: 0 1 auto;
 }
@@ -43,7 +44,8 @@
   --character-order: 0;
   position: absolute;
   bottom: var(--character-safe-bottom);
-  width: clamp(88px, 16vw, 190px);
+  width: auto;
+  max-width: clamp(88px, 16vw, 190px);
   height: auto;
   max-height: min(
     var(--character-max-height),
@@ -125,7 +127,7 @@
   }
 
   .character {
-    width: clamp(76px, 24vw, 126px);
+    max-width: clamp(76px, 24vw, 126px);
   }
 
   .ensemble {
@@ -134,7 +136,7 @@
   }
 
   .ensemble .character {
-    width: clamp(58px, 18vw, 92px);
+    max-width: clamp(58px, 18vw, 92px);
     max-height: 122px;
     margin-inline: -3px;
   }
@@ -152,7 +154,7 @@
 }
 
 :global([data-mainlagi-orientation="landscape"]) .layer:not(.ensemble) .character {
-  width: clamp(72px, 13vw, 150px);
+  max-width: clamp(72px, 13vw, 150px);
 }
 
 @media (prefers-reduced-motion: reduce) {
