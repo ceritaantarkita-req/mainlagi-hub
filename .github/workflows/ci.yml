@@ -165,6 +165,9 @@ jobs:
       - name: Run real Midtrans sandbox notification probe
         if: steps.credential.outputs.configured == 'true'
         run: node scripts/run-shop-midtrans-sandbox-webhook-probe.mjs
+      - name: Run Mainlagi Midtrans webhook route E2E probe
+        if: steps.credential.outputs.configured == 'true'
+        run: node scripts/run-shop-midtrans-sandbox-app-webhook-probe.mjs
 
   build:
     name: Production build
