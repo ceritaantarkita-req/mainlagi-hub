@@ -249,10 +249,17 @@ const layerCss = fs.readFileSync(path.resolve("src/components/learning/Character
 assert.match(layerSource, /variant === "ensemble" \? 5 : 2/, "CharacterLayer preserves two-character normal rendering and explicitly allows five-character Home ensemble");
 assert.match(layerSource, /styles\.ensemble/, "CharacterLayer exposes one shared ensemble variant instead of a second renderer");
 assert.match(layerSource, /data-character-state=/, "CharacterLayer exposes state QA attribute");
+assert.match(layerSource, /data-character-geometry="safe-contain-v1"/, "CharacterLayer exposes the canonical SI-02 geometry contract");
 assert.match(layerSource, /data-character-asset-source=/, "CharacterLayer exposes asset source QA attribute");
 assert.match(layerSource, /alt=""/, "decorative character images do not duplicate screen-reader narration");
 assert.match(layerCss, /pointer-events:\s*none/, "character layer cannot block task interaction");
 assert.match(layerCss, /env\(safe-area-inset-bottom\)/, "character layer respects bottom safe area");
+assert.match(layerCss, /--character-safe-top:/, "character layer reserves a shared top safe area");
+assert.match(layerCss, /--character-safe-right:/, "character layer reserves a shared right safe area");
+assert.match(layerCss, /--character-safe-bottom:/, "character layer reserves a shared bottom safe area");
+assert.match(layerCss, /--character-safe-left:/, "character layer reserves a shared left safe area");
+assert.match(layerCss, /calc\(100% - var\(--character-safe-top\) - var\(--character-safe-bottom\)\)/, "character height must be bounded by its actual slot instead of relying on clipping");
+assert.match(layerCss, /data-mainlagi-orientation="landscape"/, "canonical character geometry must consume the SI-01 orientation signal");
 assert.match(layerCss, /prefers-reduced-motion:\s*reduce/, "character motion respects reduced-motion preference");
 assert.match(layerCss, /animation:\s*none\s*!important/, "reduced-motion disables character animation");
 
