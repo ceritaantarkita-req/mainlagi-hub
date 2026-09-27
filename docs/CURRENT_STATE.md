@@ -1833,3 +1833,45 @@ Therefore the current World evidence write path remains server-only. The separat
 
 Canonical detail:
 `docs/WORLD_EVIDENCE_PRODUCTION_CLOSURE_2026-09-24.md`.
+
+
+## 27 September 2026 — Shared Interaction SI-02 branch-safe checkpoint — CURRENT
+
+Shared Interaction execution has advanced beyond the older character-production pause text elsewhere in this historical document.
+
+Current Shared Interaction sequence:
+
+```text
+SI-00 — Read-only coverage audit             COMPLETE / merged
+SI-01 — Orientation foundation               COMPLETE / merged / live verified
+SI-02 — Canonical Character Presentation     IMPLEMENTED ON PR #363 / revalidation pending
+SI-03 — Canonical Completion component       NOT STARTED
+SI-04 — Canonical Share component            NOT STARTED
+```
+
+SI-02 current branch:
+
+```text
+branch: agent/si-02-canonical-character-presentation-20260927
+PR:     #363
+base:   main f2b3768745f11e4fa33954d61aabb1a01acda2ff
+safe checkpoint:
+docs/SI02_CANONICAL_CHARACTER_PRESENTATION_SAFE_CHECKPOINT_2026-09-27.md
+```
+
+Implemented SI-02 boundaries:
+
+- shared `CharacterLayer` no-crop / safe-area geometry contract;
+- portrait/landscape composition consumes the already-live SI-01 orientation signal;
+- Belajar character safe-content geometry remains presentation-only;
+- World SpeechCard floating character-name label removed at source;
+- World completion and Bermain RoundEndOverlay use the same geometry contract without changing their completion semantics;
+- no new character identities, states or assets;
+- no learning evidence/mastery/progression/schema changes;
+- no Completion/Share migration, Journey Map work or Shop work.
+
+PR CI #1841 / run `36314913042` proved Ubuntu quality, Windows compatibility, production build, dependency audit and secret-history scan green. Its only failure was the new SI-02 browser test detecting a zero-width World SpeechCard art slot after the name label was removed. The root cause was fixed in commit `925ee36f515343cb0b066e9b3bb293a58955bfc6`; full latest-head CI remains the closure gate.
+
+Do **not** mark SI-02 complete/live or start SI-03 until PR #363 latest-head CI is full green, PR #363 is merged, and exact merged-main Cloudflare production smoke succeeds.
+
+The dedicated SI-02 checkpoint supersedes older character-pause wording only for the Shared Interaction roadmap. Historical character-program records remain historical evidence and must not be rewritten as if SI-02 existed at those dates.
