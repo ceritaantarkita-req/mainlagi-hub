@@ -434,6 +434,11 @@
   gap: 6px;
   font-weight: 750;
 }
+.shop-form label:has(> input[type="checkbox"]) {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 .shop-form fieldset {
   border: 1px solid #bbcbbc;
   border-radius: 16px;
