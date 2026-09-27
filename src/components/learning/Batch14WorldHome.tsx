@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getActivity } from "@/lib/learning/system";
 import { rankAdaptiveLearningV2 } from "@/lib/learning/adaptive";
-import { ChildLoading, useLearningProfile } from "./LearningCommon";
+import { ChildLoading, useLearningProfile, useLearningProgress } from "./LearningCommon";
 import { useLearningAnalytics } from "./useLearningAnalytics";
 import { SubjectDirectory } from "./Playroom";
 import { CORE_SURFACE_THUMBNAILS } from "@/lib/learning/coreThumbnailRegistry";
@@ -12,13 +12,14 @@ import styles from "./Playroom.module.css";
 
 export function Batch14WorldHome({ childId }: { childId: string }) {
   const profile = useLearningProfile(childId);
+  const progress = useLearningProgress(childId);
   const analytics = useLearningAnalytics(childId);
 
   if (!profile) return <ChildLoading />;
 
   const ranked = rankAdaptiveLearningV2({
     age: profile.age,
-    progress: undefined,
+    progress,
     analytics,
     allowMotion: false
   });
