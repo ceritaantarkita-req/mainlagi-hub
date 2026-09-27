@@ -88,12 +88,15 @@ async function createPendingVa(orderId) {
   assertIdentity(status.body, orderId);
 }
 
-async function verifyTerminal(orderId, expectedStatus) {
+async function verifyTerminal(orderId, expectedStatus, allowedStatusCodes = ["200"]) {
   const status = await midtrans(
     `/v2/${encodeURIComponent(orderId)}/status`,
   );
   assert.ok(status.response.ok, JSON.stringify(status.body));
-  assert.equal(String(status.body.status_code), "200");
+  assert.ok(
+    allowedStatusCodes.includes(String(status.body.status_code)),
+    `Unexpected Midtrans status_code for ${expectedStatus}: ${JSON.stringify(status.body)}`,
+  );
   assert.equal(status.body.transaction_status, expectedStatus);
   assertIdentity(status.body, orderId);
 }
@@ -122,9 +125,13 @@ assert.ok(
   expired.response.ok,
   `Midtrans sandbox expire failed: HTTP ${expired.response.status} ${JSON.stringify(expired.body)}`,
 );
-assert.equal(String(expired.body.status_code), "200");
+assert.equal(
+  String(expired.body.status_code),
+  "407",
+  "Midtrans documents status_code 407 as Expired transaction for the expire action",
+);
 assert.equal(expired.body.transaction_status, "expire");
-await verifyTerminal(expireOrderId, "expire");
+await verifyTerminal(expireOrderId, "expire", ["200", "407"]);
 
 console.log(
   `Midtrans sandbox state probe PASS: pending verified for two Rp${amount.toLocaleString("id-ID")} VA transactions; cancel and expire terminal states verified via independent GET Status. Orders: ${cancelOrderId}, ${expireOrderId}.`,
