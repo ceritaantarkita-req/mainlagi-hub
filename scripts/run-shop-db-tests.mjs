@@ -23,7 +23,23 @@ try {
   );
   assert.equal(
     (await one("select count(*)::int n from shop_product_media")).n,
-    27,
+    26,
+  );
+  assert.equal(
+    (
+      await one(
+        "select count(*)::int n from shop_product_media where approval_status='approved'",
+      )
+    ).n,
+    26,
+  );
+  assert.equal(
+    (
+      await one(
+        "select count(*)::int n from shop_products where media_approved=true and status='draft' and facts_verified=false",
+      )
+    ).n,
+    9,
   );
   await db.exec("set role anon");
   assert.equal((await one("select count(*)::int n from shop_products")).n, 0);
