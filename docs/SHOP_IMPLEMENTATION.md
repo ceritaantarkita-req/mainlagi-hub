@@ -832,7 +832,7 @@ capacity/card-function data is still unknown remain Draft and fail activation.
 
 #### Batch 04 — operational settings and customer policy contract
 
-Status: **IN PROGRESS — owner decision packet prepared; explicit approval/private configuration still required**.
+Status: **OWNER POLICY APPROVED — public support contact and private pickup/courier deployment configuration still required**.
 
 Technical guard/scaffolding completed on Draft PR #359:
 
@@ -877,30 +877,39 @@ treated as owner policy approval**:
 No staging database, provider sandbox, remote webhook, production environment, or
 live provider action was touched in this batch.
 
-Owner decisions still required before Batch 04 can become `DONE`:
+Owner approval recorded on 2026-09-27:
 
-1. pickup/warehouse sender identity and origin configuration (actual private values
-   go to server environment, not Git);
-2. exact Biteship courier **and service-pair** allowlist;
-3. packing rule and whether handling fee is Rp0 or another explicit amount;
-4. support channel, public contact, and service hours / explicit not-applicable
-   hours policy;
-5. approval of the existing 30-minute payment expiry, or an explicit replacement;
-6. cancellation policy;
-7. return/exchange policy;
-8. refund policy and customer-facing wording, while partial refunds remain manual;
-9. processing, shipping, and refund SLA wording;
-10. guest-order recovery behavior beyond the current cookie/account boundary, or
-    explicit approval to keep the current behavior;
-11. customer notification channels, including an explicit decision if no proactive
-    notification is desired for this release;
-12. damaged item, wrong item, lost shipment, and delayed shipment handling.
+- pickup model: one Mainlagi fulfillment origin, with real sender/contact/address
+  kept in private server environment;
+- couriers: `jne,jnt,sicepat,anteraja,ninja`;
+- exact initial services: `jne/reg`, `jnt/ez`, `sicepat/reg`,
+  `anteraja/reg`, `ninja/standard`;
+- packing/handling: normal protective packing included, handling fee **Rp0**;
+- support channel: **WhatsApp**;
+- support hours: **Senin-Jumat, 09:00-17:00 WIB**;
+- payment expiry: **30 minutes**;
+- cancellation, return/exchange, refund and exception wording: approved as recorded
+  in the Batch 04 owner-decision packet;
+- processing/packing SLA: **1-2 business days** after verified payment;
+- courier transit follows the checkout ETA and is not a Mainlagi delivery guarantee;
+- refund target: **3-7 business days** after approval, subject to provider/bank;
+- guest self-service recovery remains cookie/account-bound, with manual support
+  verification if guest access is lost;
+- no proactive automated email/WhatsApp order notification for v1;
+- ambiguous provider state remains `manual_review`.
 
-Until those decisions are supplied, the Batch 04 **launch-sequence** exit gate is
-intentionally not satisfied. On 2026-09-27 the owner explicitly authorized
-**Batch 05 staging/security work only** despite this blocker. That authorization
-does not approve the missing Batch 04 policy, does not enable sales, and does not
-authorize any production or live-provider action.
+Remaining Batch 04 configuration blockers are **not unresolved policy choices**:
+
+1. public WhatsApp support contact is still unset;
+2. private `BITESHIP_ORIGIN_CONTACT_NAME`, `BITESHIP_ORIGIN_CONTACT_PHONE`,
+   `BITESHIP_ORIGIN_ADDRESS`, and `BITESHIP_ORIGIN_POSTAL_CODE` are not yet
+   configured in the target deployment environment;
+3. target environment must set
+   `BITESHIP_COURIERS=jne,jnt,sicepat,anteraja,ninja`.
+
+The policy contract itself is owner-approved. Sales remain fail-closed until these
+configuration inputs pass the runtime readiness gate. No production/live-provider
+authorization is implied.
 
 #### Batch 05 — staging database, migration chain and security gate
 
@@ -913,9 +922,9 @@ approved the zero-cost Batch 05 path:
 - optional identical local Docker/PostgreSQL reproduction;
 - production Supabase remains read-only until the later production release gate.
 
-Batch 04 remains a separate launch blocker. This Batch 05 override is limited to
-non-production migration/security/concurrency validation and does not approve the
-missing operational policy.
+Batch 04 remains a launch blocker only for the still-missing support/origin/courier
+deployment configuration. The owner policy itself is approved. Batch 05 remains
+limited to non-production migration/security/concurrency validation.
 
 Completed preflight work:
 

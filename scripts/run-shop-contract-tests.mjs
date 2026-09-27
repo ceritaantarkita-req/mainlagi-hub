@@ -177,20 +177,44 @@ assert.equal(
   operationalPolicy.currentImplementedBehavior.partialRefundHandling,
   "manual_review",
 );
+assert.equal(operationalPolicy.status, "approved");
 for (const [name, decision] of Object.entries(operationalPolicy.ownerDecisions)) {
   assert.equal(
     decision.approved,
-    false,
-    `${name} must remain explicitly unapproved until owner input exists`,
+    true,
+    `${name} must remain owner-approved after Batch 04 approval`,
   );
 }
-assert.deepEqual(operationalPolicy.ownerDecisions.courierAllowlist.couriers, []);
-assert.deepEqual(operationalPolicy.ownerDecisions.courierAllowlist.services, []);
-assert.equal(operationalPolicy.ownerDecisions.support.contact, null);
-assert.equal(operationalPolicy.ownerDecisions.paymentExpiry.minutes, null);
-assert.equal(operationalPolicy.ownerDecisions.cancellation.publicPolicy, null);
-assert.equal(operationalPolicy.ownerDecisions.returnExchange.publicPolicy, null);
-assert.equal(operationalPolicy.ownerDecisions.refund.publicPolicy, null);
+assert.deepEqual(operationalPolicy.ownerDecisions.courierAllowlist.couriers, [
+  "jne",
+  "jnt",
+  "sicepat",
+  "anteraja",
+  "ninja",
+]);
+assert.deepEqual(operationalPolicy.ownerDecisions.courierAllowlist.services, [
+  "jne/reg",
+  "jnt/ez",
+  "sicepat/reg",
+  "anteraja/reg",
+  "ninja/standard",
+]);
+assert.equal(operationalPolicy.ownerDecisions.packingHandling.handlingFeeAmount, 0);
+assert.equal(operationalPolicy.ownerDecisions.support.channel, "whatsapp");
+assert.equal(
+  operationalPolicy.ownerDecisions.support.hours,
+  "Senin-Jumat, 09:00-17:00 WIB",
+);
+assert.equal(
+  operationalPolicy.ownerDecisions.support.contact,
+  null,
+  "public support contact stays unconfigured until owner supplies it",
+);
+assert.equal(operationalPolicy.ownerDecisions.paymentExpiry.minutes, 30);
+assert.ok(operationalPolicy.ownerDecisions.cancellation.publicPolicy);
+assert.ok(operationalPolicy.ownerDecisions.returnExchange.publicPolicy);
+assert.ok(operationalPolicy.ownerDecisions.refund.publicPolicy);
+assert.deepEqual(operationalPolicy.ownerDecisions.customerNotifications.channels, []);
 assert.match(operationalPolicySource, /operationalPolicyBlockers/);
 assert.match(operationalPolicySource, /couriers_env_mismatch/);
 assert.match(operationalPolicySource, /operationalCourierServiceAllowed/);

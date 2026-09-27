@@ -2,7 +2,7 @@
 
 Date: 2026-09-27
 
-Status: **PROPOSED — NOT OWNER-APPROVED**.
+Status: **OWNER-APPROVED — private deployment configuration still pending**.
 
 This document converts the unresolved Batch 04 operational decisions into one
 bounded approval packet. Nothing in this file enables sales, mutates production,
@@ -30,9 +30,9 @@ explicitly accepts them.
 
 ## Recommended initial-launch policy
 
-The following is the recommended low-complexity policy for the first Mainlagi Shop
-release. It is deliberately conservative and aligned with what the current code can
-support safely.
+The following low-complexity policy was explicitly approved by the owner on
+2026-09-27 for the first Mainlagi Shop release. The support-hours recommendation
+was changed by the owner to **Senin-Jumat, 09:00-17:00 WIB**.
 
 ### Pickup origin
 
@@ -89,12 +89,12 @@ handling fee.
 
 ### Customer support
 
-Recommended initial channel: **WhatsApp or email, chosen by owner**.
+Approved initial channel: **WhatsApp**.
 
-Recommended support hours:
+Approved support hours:
 
 ```text
-Senin-Sabtu, 09:00-17:00 WIB
+Senin-Jumat, 09:00-17:00 WIB
 ```
 
 The public contact itself must be supplied by the owner. Do not infer or reuse a
@@ -197,27 +197,20 @@ Recommended:
 - ambiguous payment/shipping provider state: **manual_review** and retain the
   fail-closed behavior.
 
-## Exact owner approval needed
+## Owner approval record
 
-Batch 04 can be finalized after the owner supplies/approves all of the following:
+The owner approved the policy packet on 2026-09-27 with support hours changed to
+**Senin-Jumat, 09:00-17:00 WIB**. The remaining items are configuration inputs,
+not unresolved business-policy choices:
 
-1. approve or edit the five recommended courier/service pairs;
-2. approve Rp0 handling and the packing rule, or provide a different fee/rule;
-3. choose support channel, public contact and support hours;
-4. approve the 30-minute payment expiry, or specify another value;
-5. approve/edit cancellation wording;
-6. approve/edit return/exchange wording;
-7. approve/edit refund wording and refund SLA;
-8. approve/edit processing/support SLA;
-9. approve the guest recovery behavior or request a new recovery feature;
-10. approve no automated notifications for v1, or specify required channels;
-11. approve/edit damaged/wrong/lost/delayed handling;
-12. approve one pickup origin and configure its private sender/address/postal
-    values in the deployment environment.
+1. supply the public WhatsApp support contact;
+2. configure the approved pickup origin's private sender name, phone, address and
+   postal code in the deployment environment;
+3. configure `BITESHIP_COURIERS=jne,jnt,sicepat,anteraja,ninja` in the target
+   staging/deployment environment.
 
-Once owner approval is recorded, update
-`src/lib/shop/operational-policy.json`, update any runtime behavior that differs
-from this proposal, run Shop contract/CI gates, and only then mark Batch 04 DONE.
+The policy contract is now owner-approved. Sales remain fail-closed until the
+required public/private configuration passes the runtime readiness checks.
 
 ## External provider reference checked
 
