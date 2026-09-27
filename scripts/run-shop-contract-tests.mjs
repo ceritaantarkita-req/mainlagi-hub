@@ -62,6 +62,8 @@ const manifest = JSON.parse(
 );
 assert.equal(seed.length, 9);
 assert.equal(manifest.length, 27);
+assert.equal(manifest.filter((m) => m.approval === "approved").length, 26);
+assert.equal(manifest.filter((m) => m.approval === "rejected").length, 1);
 assert.deepEqual(
   seed.map((p) => p.initialStock),
   [9, 7, 6, 12, 8, 10, 7, 11, 9],
@@ -77,10 +79,11 @@ assert.equal(
 );
 for (const product of seed) {
   assert.equal(product.status, "draft");
-  assert.equal(product.media.length, 3);
+  assert.equal(product.media.length, product.code === "006" ? 2 : 3);
   for (const media of product.media) {
     const row = manifest.find((m) => m.path === media.path);
     assert.ok(row);
+    assert.equal(row.approval, "approved");
     assert.equal(
       createHash("sha256")
         .update(await readFile(`public${media.path}`))
@@ -89,6 +92,16 @@ for (const product of seed) {
     );
   }
 }
+assert.ok(
+  !seed
+    .find((p) => p.code === "006")
+    .media.some(
+      (m) =>
+        m.path ===
+        "/shop/products/mainlagi-shop-006-kids-tumbler-alternate-v1.webp",
+    ),
+  "rejected duplicate tumbler alternate is not runtime media",
+);
 console.log(
-  "Shop contracts: signature tampering, fraud challenge, unknown status, partial-refund hold, 9 products, 27 asset hashes PASS",
+  "Shop contracts: signature tampering, fraud challenge, unknown status, partial-refund hold, 9 products, 26 approved runtime media + 1 rejected provenance asset PASS",
 );
