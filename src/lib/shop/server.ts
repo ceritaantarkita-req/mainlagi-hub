@@ -1,5 +1,6 @@
 import "server-only";
 import { createHash, randomBytes, timingSafeEqual } from "node:crypto";
+import { operationalPolicyBlockers } from "./operationalPolicy";
 import { cookies } from "next/headers";
 import { getAdminClient } from "@/lib/auth/supabase-server-admin";
 import { getServerClient } from "@/lib/auth/supabase-server";
@@ -45,6 +46,12 @@ export function check(r: { error: unknown }) {
 export function salesEnabled() {
   if (process.env.SHOP_SALES_ENABLED !== "true")
     throw new ShopError("Penjualan belum dibuka.", 503);
+  const blockers = operationalPolicyBlockers();
+  if (blockers.length)
+    throw new ShopError(
+      "Penjualan belum dapat dibuka karena konfigurasi operasional belum lengkap.",
+      503,
+    );
 }
 export async function body(request: Request): Promise<Record<string, unknown>> {
   if (Number(request.headers.get("content-length")) > 16384)
