@@ -5,6 +5,13 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      run_midtrans_sandbox:
+        description: Run live Midtrans Sandbox acceptance probes
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -111,6 +118,7 @@ jobs:
 
   shop-midtrans-sandbox:
     name: Shop Midtrans sandbox probe
+    if: github.event_name == 'workflow_dispatch' && inputs.run_midtrans_sandbox == true
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
