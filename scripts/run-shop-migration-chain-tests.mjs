@@ -45,7 +45,17 @@ try {
   `);
 
   for (const file of files) {
-    const sql = await readFile(new URL(file, migrationDir), "utf8");
+    let sql = await readFile(new URL(file, migrationDir), "utf8");
+    // PGlite does not ship Supabase's pgcrypto extension package. Modern
+    // PostgreSQL/PGlite still provides gen_random_uuid(), which is the only
+    // capability the repository migrations need from this extension. Keep the
+    // real migration untouched and skip only the extension-install statement
+    // inside this emulator harness.
+    if (file === "0001_init.sql")
+      sql = sql.replace(
+        /create extension if not exists pgcrypto;\s*/i,
+        "",
+      );
     try {
       await db.exec(sql);
     } catch (error) {
