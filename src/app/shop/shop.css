@@ -776,3 +776,31 @@ details.shop-cart-line > summary {
   display: inline-flex;
   align-items: center;
 }
+
+
+/* Batch 10: dense cart/admin rows must collapse safely on tablet and mobile. */
+@media (max-width: 760px) {
+  .shop-cart-line {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+  .shop-cart-line > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+  .shop-cart-line > label,
+  .shop-cart-line > .shop-form {
+    flex: 1 1 100%;
+  }
+  .shop-cart-line > p {
+    overflow-wrap: anywhere;
+  }
+  .shop-cart-line > img {
+    height: auto;
+  }
+  .shop-summary > summary,
+  details.shop-cart-line > summary {
+    flex-wrap: wrap;
+    overflow-wrap: anywhere;
+  }
+}
