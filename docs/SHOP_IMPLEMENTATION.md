@@ -897,7 +897,7 @@ authorize any production or live-provider action.
 
 #### Batch 05 — staging database, migration chain and security gate
 
-Status: **IN PROGRESS — zero-cost PostgreSQL 17 CI gate pending**.
+Status: **DONE — zero-cost PostgreSQL 17 staging/security/concurrency gate passed**.
 
 The owner explicitly declined the paid Supabase development-branch option and
 approved the zero-cost Batch 05 path:
@@ -984,9 +984,35 @@ Not performed / not claimed:
 - no Shop sales activation;
 - no paid Supabase branch.
 
-The PostgreSQL 17 staging job is currently waiting in the GitHub Actions queue
-because the same PR has many concurrent documentation CI runs. Batch 05 is not
-marked `DONE` until that exact real-PostgreSQL gate completes successfully.
+Exact Batch 05 execution evidence:
+
+- implementation head:
+  `e8d0b57dfbc286545d25107bc75dd1c36e4d3786`;
+- **Mainlagi TV V3 CI #1809**, run id `36300966067`;
+- **Shop PostgreSQL staging gate: SUCCESS**;
+- full 53-migration PostgreSQL 17 chain: PASS;
+- seed/RLS/RPC/browser-role security assertions: PASS;
+- Race 1 final-unit competing checkout: PASS — exactly one checkout survives;
+- Race 2 duplicate checkout retry: PASS — no second order;
+- Race 3 duplicate payment settlement: PASS — one stock consumption and one sale
+  ledger movement;
+- Race 4 paid settlement versus expiry: PASS — paid state is recorded without
+  silently overselling released stock;
+- Race 5 inventory adjustment versus checkout: PASS — inventory invariant
+  `0 <= reserved <= on_hand` preserved;
+- Race 6 duplicate shipment claim: PASS — one shipment lease row/winner;
+- Quality gate (Ubuntu): SUCCESS;
+- Production build: SUCCESS;
+- Windows compatibility: SUCCESS;
+- Production dependency audit: SUCCESS;
+- Secret history scan: SUCCESS.
+
+The repository-wide mobile Chromium matrix was still running at the moment this
+Batch 05 checkpoint was written. It is not part of the Batch 05 database/security/
+concurrency exit gate; no success is claimed for that still-running job here.
+
+Batch 05 is closed without creating a paid Supabase branch and without mutating
+production.
 
 ### Current execution pointer
 
@@ -994,12 +1020,14 @@ marked `DONE` until that exact real-PostgreSQL gate completes successfully.
 - Batch 02 is **DONE**.
 - Batch 03 is **DONE**.
 - Batch 04 remains **BLOCKED — owner policy input required**.
-- Batch 05 is **IN PROGRESS — zero-cost PostgreSQL 17 CI gate pending**.
+- Batch 05 is **DONE** using the owner-approved zero-cost PostgreSQL 17 path.
+- The next technical batch is **Batch 06 — Midtrans sandbox**; it is **NOT
+  STARTED**.
+- Batch 06 may use sandbox/test provider credentials only. It does not authorize a
+  production provider transaction, production migration, or sales activation.
+- Batch 04 remains a launch blocker even if later sandbox batches are explicitly
+  authorized and completed.
 - Do not create a paid Supabase branch.
-- Continue Batch 05 by requiring the **Shop PostgreSQL staging gate** to pass on
-  the current implementation tree, then record its exact CI evidence.
-- Batch 06 is **not authorized** until Batch 05 closes. Batch 04 also remains a
-  launch blocker.
 - Missing physical product facts remain separate per-product activation blockers.
 - PR #359 remains **Draft** and is **not approved for live sales**.
 - `SHOP_SALES_ENABLED` must remain disabled.
