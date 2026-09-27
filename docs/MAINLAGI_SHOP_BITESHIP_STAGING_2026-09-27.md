@@ -246,3 +246,20 @@ not committed or printed to logs.
 The destination postal code is intentionally a same-zone sandbox smoke value
 (`12820`) for the first acceptance request. Later acceptance may add explicit
 cross-city destinations after the basic Rates path passes.
+
+
+## Origin runtime secret propagation
+
+When all four origin repository secrets are present, the isolated staging deploy
+automatically copies them into the Worker as encrypted runtime secrets:
+
+```text
+BITESHIP_ORIGIN_CONTACT_NAME
+BITESHIP_ORIGIN_CONTACT_PHONE
+BITESHIP_ORIGIN_ADDRESS
+BITESHIP_ORIGIN_POSTAL_CODE
+```
+
+If any one of the four is absent, the webhook-only staging deployment remains
+available but rate/order operational readiness stays fail-closed. Values are never
+committed to the repository or printed by the deployment workflow.

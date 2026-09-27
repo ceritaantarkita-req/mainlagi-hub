@@ -469,6 +469,21 @@ jobs:
             BITESHIP_COURIERS: "jne,jnt,sicepat,anteraja,ninja",
             BITESHIP_WEBHOOK_HEADER: "X-Mainlagi-Biteship-Secret",
             BITESHIP_WEBHOOK_SECRET: required("BITESHIP_WEBHOOK_SECRET"),
+            ...(process.env.BITESHIP_ORIGIN_CONTACT_NAME &&
+            process.env.BITESHIP_ORIGIN_CONTACT_PHONE &&
+            process.env.BITESHIP_ORIGIN_ADDRESS &&
+            process.env.BITESHIP_ORIGIN_POSTAL_CODE
+              ? {
+                  BITESHIP_ORIGIN_CONTACT_NAME:
+                    process.env.BITESHIP_ORIGIN_CONTACT_NAME,
+                  BITESHIP_ORIGIN_CONTACT_PHONE:
+                    process.env.BITESHIP_ORIGIN_CONTACT_PHONE,
+                  BITESHIP_ORIGIN_ADDRESS:
+                    process.env.BITESHIP_ORIGIN_ADDRESS,
+                  BITESHIP_ORIGIN_POSTAL_CODE:
+                    process.env.BITESHIP_ORIGIN_POSTAL_CODE,
+                }
+              : {}),
             SHOP_SALES_ENABLED: "false",
             SHOP_LOCAL_PREVIEW: "false",
             NEXT_PUBLIC_SITE_URL: required("NEXT_PUBLIC_SITE_URL"),
