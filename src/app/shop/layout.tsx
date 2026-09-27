@@ -17,6 +17,7 @@ export default function ShopLayout({
           mainlagi<span>shop</span>
         </Link>
         <div>
+          <Link href="/shop/policies">Kebijakan</Link>
           <Link href="/shop/orders">Pesanan</Link>
           <Link href="/shop/cart">Keranjang</Link>
         </div>
@@ -26,6 +27,8 @@ export default function ShopLayout({
         Mainlagi Shop · Teman main, tumbuh bersama.
         <br />
         <Link href="/shop">Jelajahi koleksi</Link>
+        {" · "}
+        <Link href="/shop/policies">Kebijakan belanja & bantuan</Link>
       </footer>
     </div>
   );
