@@ -557,16 +557,183 @@ variant/stock, media-approval and operational-policy inputs enumerated in Batche
 The documentation commit that records this checkpoint is documentation-only and
 does not change the verified Shop runtime tree.
 
+#### Batch 02 — product truth, media approval and inventory contract
+
+Status: **BLOCKED — owner product facts and final media acceptance required**.
+
+The repository/Drive/source audit for this batch is complete. No missing real-world
+fact was inferred from generated imagery.
+
+##### Verified product truth
+
+The canonical handoff explicitly marks these initial price/stock values as
+owner-approved. The current seed matches them exactly:
+
+| SKU | Product | Price | Approved total stock |
+| --- | --- | ---: | ---: |
+| 001 | Kaos Anak Mainlagi — Sahabat Ceria Putih | Rp69.000 | 9 |
+| 002 | Kaos Oversized Mainlagi — Back Graphic Hitam | Rp74.000 | 7 |
+| 003 | Piyama Anak Gavi — Cozy Set Putih | Rp120.000 | 6 |
+| 004 | Kaos Kaki Karakter Mainlagi | Rp45.000 | 12 |
+| 005 | Hoodie Anak Mainlagi — Navy Back Graphic | Rp150.000 | 8 |
+| 006 | Tumbler Anak Mainlagi — Daily Buddy | Rp89.000 | 10 |
+| 007 | Kartu E-Money Mainlagi — Character Edition | Rp89.000 | 7 |
+| 008 | Buku Tulis Mainlagi — Writing Notebook | Rp25.000 | 11 |
+| 009 | Buku Gambar Mainlagi — Drawing Book | Rp35.000 | 9 |
+
+Verified total seed stock: **79 units**.
+
+Current implementation intentionally keeps one `<SKU>-DEFAULT` development
+variant per product. That is a temporary representation of the approved
+product-level total; it is **not** evidence that sized products have only one
+variant.
+
+##### Apparel/variant truth still missing
+
+For 001–005 the source handoff still does not contain:
+
+- actual size options;
+- per-size stock allocation;
+- garment/sock size chart and measurements;
+- verified material/fabric facts where those facts will be shown publicly;
+- measured shipping weight for each final sellable variant;
+- package dimensions where required/available.
+
+The approved totals above must be conserved when real variants are created.
+Example: SKU 001 remains **9 total units** after splitting into sizes. Never copy
+nine units into every size.
+
+No size variant migration/seed change is authorized until these owner inputs exist.
+
+##### Non-apparel truth still missing
+
+- SKU 006: verified tumbler capacity and material; safety/certification claims only
+  if the owner has evidence for them; measured shipping weight and package
+  dimensions.
+- SKU 007: actual product type (real e-money/stored-value card, co-branded/custom
+  card, accessory/skin, or another product), issuer, network/technology,
+  activation/provisioning, balance/top-up capability, applicable authorization,
+  and whether the current tap/use imagery represents a capability that will
+  actually exist. Keep 007 Draft/Coming Soon until verified.
+- SKU 008/009: measured shipping weight and package dimensions. The source supports
+  their functional distinction (ruled writing notebook versus drawing/blank
+  pages), but not invented page count, paper specification, manufacturing claims,
+  or other physical facts.
+
+##### Current 27-asset audit — exact PR branch
+
+The current Drive folder contains 27 PNG sources and the repository contains their
+27 mapped 1200×1200 WebP derivatives. Manifest integrity is:
+
+- 27 mapped assets;
+- 26 unique source hashes;
+- every manifest approval remains `review`;
+- SKU 006 `kids-tumbler-in-use-v1` and
+  `kids-tumbler-alternate-v1` are exact source/derivative duplicates.
+
+A fresh visual review was performed against the actual PR branch assets, not only
+the older candidate audit:
+
+| SKU | Current visual finding | Batch 02 media decision |
+| --- | --- | --- |
+| 001 | Three shots are compositionally consistent, but the printed character group remains a generated/chibi reinterpretation rather than locked canonical Mainlagi character art. | KEEP IN REVIEW |
+| 002 | Front/back product concept and back print are internally consistent; the character print/wordmark still require canonical exact-art lock. | KEEP IN REVIEW |
+| 003 | Pajama geometry/pattern is consistent, but the repeated orange-cat face is not sufficient evidence of exact canonical Gavi identity. | KEEP IN REVIEW |
+| 004 | Sock base/colors are broadly consistent across the three current shots; character/wordmark artwork still needs canonical exact-art verification. | KEEP IN REVIEW |
+| 005 | Navy hoodie geometry and back-print placement are the strongest/most consistent current apparel set; the generated group artwork still needs replacement/approval against canonical Mainlagi art. | KEEP IN REVIEW |
+| 006 | Current v1 construction is now visually consistent (cream body/navy lid), improving the older product-lock issue. However B and C are exact duplicates, and material/capacity remain unknown. | BLOCKED; REPLACE DISTINCT ALTERNATE BEFORE APPROVAL |
+| 007 | The same card-face concept is visually carried across hero/in-hand/tap shots, but the tap image must not be treated as evidence of real e-money capability; canonical art and issuer/function remain unverified. | KEEP IN REVIEW / KEEP PRODUCT DRAFT |
+| 008 | Current lifestyle shots clearly show ruled writing pages, so its intended writing-notebook function is visually distinct from 009. Cover art remains generated rather than canonical-exact. | KEEP IN REVIEW |
+| 009 | Current lifestyle shots clearly show drawing/blank-page use and are distinct from 008. Cover character art remains generated rather than canonical-exact. | KEEP IN REVIEW |
+
+Result: **0/27 assets are promoted to final-approved in this batch**.
+
+This is deliberate. The current Mainlagi Art Bible treats reviewed canonical SVG
+character assets as identity sources and states that generated candidates are
+review material, not production truth. The older Shop asset specification also
+requires exact canonical character/logo/product-art locks before final acceptance.
+The current branch images still visibly retain the generated merchandise-art style.
+
+The old asset-spec issues for SKU 006 physical construction and SKU 008/009
+functional distinction are partially improved by the current v1 images; this
+checkpoint supersedes those specific older observations. The exact duplicate
+tumbler alternate is still unresolved.
+
+The source Shop asset spec also described 2048×2048 final masters after artwork
+lock. Current Drive sources are 1254×1254 and current web derivatives are
+1200×1200. Do not claim the old final-master gate is satisfied unless the owner
+explicitly approves a revised delivery requirement or replacement final masters
+are produced.
+
+##### Inventory contract accepted for continuation
+
+The implemented stock semantics match the intended contract and must remain stable
+when variants are introduced:
+
+- `on_hand` = physical units represented for a variant, including units currently
+  reserved but not yet paid;
+- `reserved` = subset of `on_hand` held by pending checkout orders;
+- `available = on_hand - reserved`;
+- cart edits check available stock but do not reserve it;
+- checkout rechecks product/media/facts/weight and stock under database locks,
+  creates the order, creates active reservations, and increments `reserved`;
+- the pending order lifetime is 30 minutes;
+- verified payment consumes active reservations, decrements both `reserved` and
+  `on_hand`, and writes an idempotent sale ledger movement;
+- failed/expired/cancelled payment releases `reserved` while leaving physical
+  `on_hand` unchanged;
+- a payment arriving after its reservation was released becomes
+  `attention_required` instead of silently consuming unavailable stock;
+- full refund after a settled sale does **not** automatically restock physical
+  inventory; return/restock remains an explicit operational action;
+- owner-only manual adjustments are idempotent and may not reduce `on_hand` below
+  `reserved`;
+- sized-variant allocation must conserve each SKU's approved total seed and must
+  never duplicate that total across variants.
+
+Current checkout/shipping correctly fails closed when `weight_grams` is missing.
+The current Biteship rate request uses verified weight; dimensions exist in the
+schema but are not currently required by runtime rate calculation.
+
+##### Changes deliberately not made in Batch 02
+
+- no size/variant rows were invented;
+- no approved stock total was redistributed without owner input;
+- no weight/dimension/material/capacity/issuer fact was invented;
+- no media item was marked `approved` merely because the file exists;
+- no generated image was regenerated or silently replaced;
+- no migration/staging/provider/production action was performed;
+- product status remains Draft and `SHOP_SALES_ENABLED` remains disabled.
+
+##### Exact owner input required to unblock Batch 02
+
+Provide these as measured/verified facts:
+
+1. **SKU 001–005:** size options, per-size stock split whose sum equals the approved
+   SKU total, and size-chart/garment measurements.
+2. **All sellable variants:** measured shipping weight in grams; package
+   length/width/height where the owner wants those captured for shipping/packing.
+3. **SKU 006:** capacity, material, and any safety/certification claims that may be
+   published; also a decision/replacement for the duplicated alternate image.
+4. **SKU 007:** actual product type, issuer/network, activation/top-up behavior,
+   applicable authorization, and whether tap/use functionality is real.
+5. **Media:** approve a deliberate correction path for the current generated
+   character/print artwork versus the canonical Mainlagi SVG identity, and resolve
+   whether the old 2048×2048 final-master requirement remains mandatory.
+
+Batch 02 cannot reach `DONE` until those facts/decisions are supplied and the
+resulting variant totals/media decisions are reconciled.
+
 ### Current execution pointer
 
 - Batch 01 is **DONE**.
-- The next executable batch is **Batch 02 — product truth, media approval and
-  inventory contract**.
+- Batch 02 is **BLOCKED / awaiting owner inputs and final media decision**.
+- **Batch 03 is not authorized yet**, because its variant editor/activation
+  workflow must be built against the approved Batch 02 data contract rather than
+  guessed size/product facts.
 - PR #359 remains **Draft** and is **not approved for live sales**.
 - `SHOP_SALES_ENABLED` must remain disabled.
-- Do not start staging/provider work merely because Batch 01 is green.
-- Batch 02 may proceed only with verified owner-supplied facts/decisions; unknown
-  physical product facts must remain draft rather than being inferred.
+- Do not start staging/provider work while Batch 02 remains blocked.
 
 ## Verification completed
 
