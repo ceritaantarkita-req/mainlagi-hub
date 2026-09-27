@@ -559,10 +559,18 @@ does not change the verified Shop runtime tree.
 
 #### Batch 02 — product truth, media approval and inventory contract
 
-Status: **BLOCKED — owner physical product facts required; media direction resolved**.
+Status: **DONE — truth/media/inventory contract closed; unresolved physical facts remain fail-closed activation blockers**.
 
 The repository/Drive/source audit for this batch is complete. No missing real-world
 fact was inferred from generated imagery.
+
+A final repository + Project/Drive search on 27 September 2026 found no additional
+verified source for the missing sizes, measured weights, tumbler capacity/material,
+or SKU 007 issuer/functionality. Those values therefore remain intentionally
+unknown. Batch completion does **not** convert unknown facts into launch-ready data.
+
+Machine-readable continuation contract:
+`docs/data/MAINLAGI_SHOP_PRODUCT_READINESS_2026-09-27.json`.
 
 ##### Verified product truth
 
@@ -711,45 +719,65 @@ Current checkout/shipping correctly fails closed when `weight_grams` is missing.
 The current Biteship rate request uses verified weight; dimensions exist in the
 schema but are not currently required by runtime rate calculation.
 
-##### Changes deliberately not made in Batch 02
+##### Batch 02 implementation closure
 
-- no size/variant rows were invented;
-- no approved stock total was redistributed without owner input;
+The draft Shop implementation is now aligned to the owner-approved media decision:
+
+- runtime/local preview seed carries **26 distinct approved media items**;
+- SKU 006 no longer includes the byte-identical alternate in runtime seed data;
+- the source/provenance manifest still records all 27 source entries, with
+  26 `approved` and the duplicate alternate `rejected`;
+- the unapplied draft Shop migration now seeds 26 approved media rows and sets
+  product-level `media_approved=true` while products remain `draft` and
+  `facts_verified=false`;
+- contract/database tests were updated to enforce 26 approved runtime media,
+  one rejected provenance asset, nine Draft products and total seed stock 79;
+- no size/variant rows were invented and no approved stock total was redistributed;
 - no weight/dimension/material/capacity/issuer fact was invented;
-- media approval was changed only after the explicit owner consistency/performance
-  decision; 26 unique assets are approved and the one exact duplicate is rejected;
 - no generated image was regenerated or silently replaced;
-- no migration/staging/provider/production action was performed;
-- product status remains Draft and `SHOP_SALES_ENABLED` remains disabled.
+- **no remote migration was applied**, no staging/production database was mutated,
+  and no provider/production action was performed;
+- `SHOP_SALES_ENABLED` remains disabled.
 
-##### Exact owner input required to unblock Batch 02
+##### Physical facts carried forward as activation blockers
 
-Provide these as measured/verified facts:
+The missing owner facts no longer keep this execution batch open. Instead they are
+formal, fail-closed activation requirements consumed by Batch 03.
 
-1. **SKU 001–005:** size options, per-size stock split whose sum equals the approved
-   SKU total, and size-chart/garment measurements.
-2. **All sellable variants:** measured shipping weight in grams; package
-   length/width/height where the owner wants those captured for shipping/packing.
-3. **SKU 006:** capacity, material, and any safety/certification claims that may be
-   published. The duplicate alternate is no longer a blocker because it is rejected
-   from runtime delivery rather than served twice.
-4. **SKU 007:** actual product type, issuer/network, activation/top-up behavior,
-   applicable authorization, and whether tap/use functionality is real.
+Required before the affected product can become `active`:
 
-The media decision is now complete. Batch 02 cannot reach `DONE` until the
-remaining physical product/variant facts above are supplied and the resulting
-variant totals are reconciled.
+1. **SKU 001–005:** verified size option(s), per-size stock allocation that sums
+   exactly to the approved SKU total, relevant size chart/measurements, and measured
+   shipping weight for each sellable variant.
+2. **All products that will ship:** measured `weight_grams`. Package dimensions
+   remain optional unless operations/provider requirements later make them required.
+3. **SKU 006:** verified capacity and material. Safety/certification claims stay
+   absent unless evidenced.
+4. **SKU 007:** actual product type and, if financial/e-money functionality is
+   claimed, verified issuer/network, activation/top-up behavior, authorization and
+   real tap/use capability. Until then it remains Draft/Coming Soon.
+5. **SKU 008/009:** measured shipping weight; do not invent page count/paper specs.
+
+This closure deliberately separates **batch completion** from **product
+activation**: Batch 02 is complete because the truth contract is explicit and
+machine-readable, while products with unknown real-world facts remain impossible
+to activate safely.
 
 ### Current execution pointer
 
 - Batch 01 is **DONE**.
-- Batch 02 is **BLOCKED / awaiting physical product and variant inputs only**.
-- **Batch 03 is not authorized yet**, because its variant editor/activation
-  workflow must be built against the approved Batch 02 data contract rather than
-  guessed size/product facts.
+- Batch 02 is **DONE**.
+- The next executable batch is **Batch 03 — product admin, variant editor and
+  activation workflow**.
+- Batch 03 must use
+  `docs/data/MAINLAGI_SHOP_PRODUCT_READINESS_2026-09-27.json` as its
+  machine-readable readiness contract.
+- Missing physical facts are **activation blockers**, not permission to invent
+  placeholder values.
 - PR #359 remains **Draft** and is **not approved for live sales**.
 - `SHOP_SALES_ENABLED` must remain disabled.
-- Do not start staging/provider work while Batch 02 remains blocked.
+- Staging/provider work still waits for its later explicit batches; closing
+  Batch 02 does not authorize jumping ahead.
 
 ### Mandatory successor after Shop closure
 
