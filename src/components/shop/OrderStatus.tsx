@@ -135,7 +135,11 @@ export function OrderStatus({ number }: { number: string }) {
       ) : !error ? (
         <p>Memuat pesanan…</p>
       ) : null}
-      <Link href="/shop">Kembali ke Shop</Link>
+      <div className="shop-order-help">
+        <Link href="/shop/policies">Kebijakan belanja & bantuan</Link>
+        {" · "}
+        <Link href="/shop">Kembali ke Shop</Link>
+      </div>
     </main>
   );
 }
