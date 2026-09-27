@@ -54,6 +54,16 @@ try {
   assert.ok(html.includes("Koleksi Mainlagi"));
   assert.ok(!html.includes("Kaos Anak Mainlagi"));
   assert.ok(!html.includes("Pratinjau"));
+  assert.ok(html.includes("/shop/policies"));
+  const policies = await fetch(base + "/shop/policies");
+  assert.equal(policies.status, 200);
+  const policyHtml = await policies.text();
+  assert.ok(policyHtml.includes("Belanja dengan aturan yang jelas"));
+  assert.ok(policyHtml.includes("+6281280769076"));
+  assert.ok(policyHtml.includes("Senin-Jumat"));
+  assert.ok(policyHtml.includes("Buka WhatsApp"));
+  assert.ok(policyHtml.includes("https://wa.me/6281280769076"));
+  assert.ok(!policyHtml.includes("BITESHIP_ORIGIN_ADDRESS"));
   const detail = await fetch(
     base + "/shop/kaos-anak-mainlagi-sahabat-ceria-putih",
   );
@@ -88,7 +98,7 @@ try {
   assert.equal(cart.status, 503);
   assert.match(cart.headers.get("cache-control"), /no-store/);
   console.log(
-    "Shop HTTP: production SSR, development preview ignored, draft detail hidden, restored image, CSRF, disabled sales, owner API denial, forged notification denial, cron authentication, no-store PASS",
+    "Shop HTTP: production SSR, public policy/support page, development preview ignored, draft detail hidden, restored image, CSRF, disabled sales, owner API denial, forged notification denial, cron authentication, no-store PASS",
   );
 } catch (e) {
   console.error(e);
