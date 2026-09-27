@@ -65,7 +65,7 @@ export function GardenActivityFrame({ backHref, title, narration, lang = "id-ID"
       {hint ? <p className={styles.hint}>{hint}</p> : null}
     </div>
     {!workspace && characterPresentation ? (
-      <CharacterLayer characters={runtimeCharacters} />
+      <CharacterLayer characters={runtimeCharacters} className={styles.characterLayer} />
     ) : null}
   </main>;
 }
