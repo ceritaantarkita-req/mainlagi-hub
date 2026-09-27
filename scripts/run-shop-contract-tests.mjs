@@ -297,6 +297,11 @@ assert.match(
 );
 assert.match(
   shopApiRouteSource,
+  /SHOP_BITESHIP_SANDBOX_ACCEPTANCE[\s\S]*reference\.startsWith\("ML-SBX-"\)[\s\S]*sandboxAcceptance/,
+  "sandbox webhook acceptance must be explicitly enabled and restricted to ML-SBX references",
+);
+assert.match(
+  shopApiRouteSource,
   /verifyMidtrans\(b\);[\s\S]*await reconcile\(field\(b, "order_id", 50\)\)/,
 );
 const midtransWebhookBlock = shopApiRouteSource

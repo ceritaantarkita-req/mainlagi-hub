@@ -507,6 +507,7 @@ jobs:
               : {}),
             SHOP_SALES_ENABLED: "false",
             SHOP_LOCAL_PREVIEW: "false",
+            SHOP_BITESHIP_SANDBOX_ACCEPTANCE: "true",
             NEXT_PUBLIC_SITE_URL: required("NEXT_PUBLIC_SITE_URL"),
             NEXT_PUBLIC_DATA_BACKEND: "mock"
           }));
@@ -590,3 +591,48 @@ jobs:
           node-version: 22
       - name: Probe Biteship Sandbox rates without creating an order
         run: node scripts/run-shop-biteship-sandbox-rates-probe.mjs
+
+
+  shop-biteship-sandbox-order:
+    name: Shop Biteship sandbox order acceptance
+    needs: shop-biteship-staging-deploy
+    if: >-
+      always() &&
+      needs.shop-biteship-staging-deploy.result == 'success' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/agent/mainlagi-shop-foundation-20260927' &&
+      contains(github.event.head_commit.message, '[biteship-order-probe]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      BITESHIP_TEST_API_KEY: ${{ secrets.BITESHIP_TEST_API_KEY }}
+      BITESHIP_WEBHOOK_SECRET: ${{ secrets.BITESHIP_WEBHOOK_SECRET }}
+      BITESHIP_ORIGIN_CONTACT_NAME: ${{ secrets.BITESHIP_ORIGIN_CONTACT_NAME }}
+      BITESHIP_ORIGIN_CONTACT_PHONE: ${{ secrets.BITESHIP_ORIGIN_CONTACT_PHONE }}
+      BITESHIP_ORIGIN_ADDRESS: ${{ secrets.BITESHIP_ORIGIN_ADDRESS }}
+      BITESHIP_ORIGIN_POSTAL_CODE: ${{ secrets.BITESHIP_ORIGIN_POSTAL_CODE }}
+      SHOP_BITESHIP_STAGING_URL: "https://mainlagi-hub-shop-staging.mainlagihub.workers.dev"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Create and verify two simulated Biteship sandbox orders
+        run: node scripts/run-shop-biteship-sandbox-order-probe.mjs
+      - name: Upload simulated order evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: biteship-sandbox-order-evidence
+          path: /tmp/mainlagi-biteship-sandbox-orders.json
+          if-no-files-found: error
+          retention-days: 14
+      - name: Publish simulated order IDs
+        shell: bash
+        run: |
+          {
+            echo "## Biteship sandbox order acceptance"
+            echo
+            cat /tmp/mainlagi-biteship-sandbox-orders.json
+            echo
+            echo "These are simulated Testing Mode orders only; no real courier or balance charge."
+          } >> "${GITHUB_STEP_SUMMARY}"

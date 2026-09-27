@@ -69,7 +69,13 @@ async function handle(request: Request, path: string[], post: boolean) {
       verifyBiteship(request);
       const id = field(b, "order_id", 100);
       const remote = await biteship(`/v1/orders/${encodeURIComponent(id)}`);
-      const o = await order(field(remote, "reference_id", 50), true);
+      const reference = field(remote, "reference_id", 50);
+      if (process.env.SHOP_BITESHIP_SANDBOX_ACCEPTANCE === "true") {
+        if (!reference.startsWith("ML-SBX-"))
+          throw new ShopError("Sandbox webhook reference ditolak.", 403);
+        return json({ ok: true, sandboxAcceptance: true });
+      }
+      const o = await order(reference, true);
       await applyShipment(o, remote);
       return json({ ok: true });
     }

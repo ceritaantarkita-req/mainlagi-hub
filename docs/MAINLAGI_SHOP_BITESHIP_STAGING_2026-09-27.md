@@ -304,3 +304,30 @@ non-empty webhook events remained HTTP 403.
 
 This closes the **Sandbox Rates transport/integration** acceptance step. It does
 not convert provisional fixture weights/dimensions into verified production facts.
+
+
+## Sandbox Order API acceptance design
+
+The next bounded provider test creates exactly two Biteship **Testing Mode** orders:
+
+- one candidate for the manual Delivered simulation flow;
+- one candidate for the manual Cancelled simulation flow.
+
+The probe refuses to run unless the configured API key has the official
+`biteship_test.` prefix. It verifies:
+
+1. `POST /v1/orders` succeeds for each simulated order;
+2. `GET /v1/orders/:id` independently returns the same reference;
+3. replaying the same reference returns Biteship duplicate-reference code
+   `40002060` and points back to the original provider order;
+4. the staging webhook verifies the configured secret header and performs its own
+   independent provider GET before acknowledging the `ML-SBX-` test reference.
+
+The staging-only `SHOP_BITESHIP_SANDBOX_ACCEPTANCE=true` boundary permits this
+provider/webhook acceptance without writing to a production or staging Shop
+database. It is restricted to `ML-SBX-` references and is never enabled by the
+production configuration.
+
+Biteship documents Testing Mode orders as simulated: they do not deduct balance and
+do not involve real couriers. Status progression to Delivered/Cancelled is performed
+manually from the Biteship Testing dashboard after the two orders exist.
