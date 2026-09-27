@@ -58,7 +58,7 @@ export function ProductDetail({
                 aria-label={`Lihat foto ${i + 1}`}
                 aria-pressed={image === i}
               >
-                <Image src={m.path} alt={m.alt_text} width={140} height={140} />
+                <Image src={m.path} alt="" width={140} height={140} />
               </button>
             ))}
           </div>
@@ -102,7 +102,8 @@ export function ProductDetail({
               </label>
               <button
                 className="shop-button"
-                disabled={busy || quantity < 1 || quantity > 79}
+                disabled={busy || !variant || quantity < 1 || quantity > 79}
+                aria-busy={busy}
                 onClick={add}
               >
                 {busy ? "Menambahkan…" : "Tambah ke keranjang"}
@@ -113,7 +114,7 @@ export function ProductDetail({
               Produk ini belum tersedia untuk dibeli.
             </p>
           )}
-          <p role="status">{message}</p>
+          <p role="status" aria-live="polite">{message}</p>
           {message === "Ditambahkan ke keranjang." ? (
             <Link
               className="shop-button shop-button-secondary"
