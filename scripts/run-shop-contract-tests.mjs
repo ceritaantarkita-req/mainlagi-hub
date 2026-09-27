@@ -60,6 +60,12 @@ const manifest = JSON.parse(
     "utf8",
   ),
 );
+const readiness = JSON.parse(
+  await readFile(
+    "docs/data/MAINLAGI_SHOP_PRODUCT_READINESS_2026-09-27.json",
+    "utf8",
+  ),
+);
 assert.equal(seed.length, 9);
 assert.equal(manifest.length, 27);
 assert.equal(manifest.filter((m) => m.approval === "approved").length, 26);
@@ -71,6 +77,17 @@ assert.deepEqual(
 assert.deepEqual(
   seed.map((p) => p.price),
   [69000, 74000, 120000, 45000, 150000, 89000, 89000, 25000, 35000],
+);
+assert.equal(readiness.batch02Status, "done");
+assert.equal(readiness.batch03Authorization.allowed, true);
+assert.equal(readiness.products.length, 9);
+assert.deepEqual(
+  readiness.products.map((p) => p.approvedTotalStock),
+  seed.map((p) => p.initialStock),
+);
+assert.deepEqual(
+  readiness.products.map((p) => p.price),
+  seed.map((p) => p.price),
 );
 assert.equal(
   new Set(manifest.map((m) => m.sourceSha256)).size,
@@ -103,5 +120,5 @@ assert.ok(
   "rejected duplicate tumbler alternate is not runtime media",
 );
 console.log(
-  "Shop contracts: signature tampering, fraud challenge, unknown status, partial-refund hold, 9 products, 26 approved runtime media + 1 rejected provenance asset PASS",
+  "Shop contracts: signature tampering, fraud challenge, unknown status, partial-refund hold, Batch 02 readiness handoff, 9 products, 26 approved runtime media + 1 rejected provenance asset PASS",
 );
