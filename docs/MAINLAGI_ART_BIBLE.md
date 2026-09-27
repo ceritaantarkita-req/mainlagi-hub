@@ -440,10 +440,20 @@ Auth status/error copy must remain readable and must not be visually confused wi
 
 Navigation should be minimal and predictable. Activities hide global navigation when focus is required. Back must have an accessible name even when only an icon is visible.
 
-For subject stage journeys:
-- phone may use a compact horizontal carousel; showing a partial next card is acceptable as a deliberate scroll affordance when current card remains fully readable;
-- tablet/desktop should normally expose stage choices without an internal horizontal scroller when usable width is sufficient;
-- changing journey layout must not change stage order, stage status or destination routes.
+For subject stage journeys, the 27 September 2026 owner-approved target is the
+Canonical Journey Map System:
+
+- journey-map surfaces are immersive/full-page, not a map embedded inside a giant card/window;
+- environment art is primary and stage UI is a restrained overlay;
+- one node represents one stage/cluster, not one mini-game;
+- phone portrait uses a true vertical map composition rather than a scaled desktop map or horizontal stage-card carousel;
+- landscape/tablet/desktop use wider compositions without changing authored stage order/state;
+- stage detail opens contextually after stage selection; mini-game thumbnail strips/grids are not canonical;
+- map/game routes use the lightweight immersive Mainlagi header rather than a heavy website navbar;
+- changing journey layout must not change stage order, stage status, destination routes, readiness, evidence or mastery.
+
+Detailed contract:
+`MAINLAGI_CANONICAL_JOURNEY_MAP_SYSTEM_2026-09-27.md`.
 
 ### Parent/public
 
@@ -487,7 +497,12 @@ Rules:
 
 VUI-01 precedent: report metrics are one column on phone, 2+1 at 768 because the parent sidebar reduces usable width, and three columns on 1280.
 
-VUI-02 precedent: subject journey stays horizontal on 390 as an intentional carousel, but switches to grid at tablet/desktop; stage lessons with two activities expand to two broad columns rather than occupying two cells of a fixed four-column desktop grid.
+Historical VUI-02 precedent used a horizontal 390px stage carousel. That precedent is
+superseded for the later owner-approved subject-map redesign by
+`MAINLAGI_CANONICAL_JOURNEY_MAP_SYSTEM_2026-09-27.md`. Existing production remains
+valid until that later wave lands; future map implementation must use true portrait
+and landscape journey compositions. Stage lesson/activity utility layouts should
+still use readable content-aware widths rather than fixed empty-grid assumptions.
 
 VUI-03 precedent: public hero uses wide desktop context, account settings become two columns at tablet/desktop, and auth uses two contextual panels on wide desktop while stacking at <=820px.
 
