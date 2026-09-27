@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { mkdirSync } from "node:fs";
+import { readFile } from "node:fs/promises";
 import { spawn } from "node:child_process";
 import path from "node:path";
 import process from "node:process";
@@ -19,6 +20,17 @@ const viewports = [
 
 let server;
 let serverLog = "";
+
+const batch10Css = await readFile("src/app/shop/shop.css", "utf8");
+const adminLayoutSource = await readFile("src/app/admin/shop/layout.tsx", "utf8");
+const adminEditorSource = await readFile("src/components/shop/ProductAdminEditor.tsx", "utf8");
+assert.match(batch10Css, /--shop-primary:\s*#bd492f/i);
+assert.match(batch10Css, /textarea:focus-visible/);
+assert.match(batch10Css, /input\[type="checkbox"\][\s\S]*width:\s*auto/);
+assert.match(batch10Css, /\.shop-admin-nav[\s\S]*flex-wrap:\s*wrap/);
+assert.match(adminLayoutSource, /shop-nav shop-admin-nav/);
+assert.match(adminEditorSource, /<textarea/);
+assert.match(adminEditorSource, /type="checkbox"/);
 
 function startServer() {
   const nextBin = path.join(root, "node_modules", "next", "dist", "bin", "next");
