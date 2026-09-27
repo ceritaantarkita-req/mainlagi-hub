@@ -1,164 +1,183 @@
-# Mainlagi Shop — Batch 05 staging database runbook
+# Mainlagi Shop — Batch 05 zero-cost staging database runbook
 
-Status: **prepared, remote staging not yet executed**.
+Status: **zero-cost PostgreSQL staging path approved; CI gate in progress**.
 
-This runbook is for **non-production Supabase staging only**. It does not authorize
-changing the canonical production project, enabling Shop sales, configuring live
-providers, or merging PR #359.
+This runbook replaces the previously proposed paid Supabase development branch.
+The owner explicitly declined paid branching and approved a zero-cost path:
 
-## Preconditions
+1. real PostgreSQL 17 in GitHub Actions;
+2. the same gate may be run locally with Docker/PostgreSQL;
+3. production Supabase stays untouched until the later production release gate.
 
-Before any remote staging mutation:
+This does **not** waive Batch 04 policy blockers, authorize provider production
+actions, enable Shop sales, merge PR #359, or authorize a production migration.
 
-- identify the staging project/project-ref explicitly;
-- verify it is not the canonical production Supabase project;
-- record the current staging migration list and Shop-table presence;
-- record baseline security and performance advisors;
-- keep `SHOP_SALES_ENABLED=false`;
-- keep provider keys in sandbox/test mode only;
-- retain Batch 04 operational-policy blockers as launch blockers even when Batch 05
-  is explicitly authorized for staging work.
+## Canonical production boundary
 
-The canonical production project documented by Mainlagi is
-`estvtgflwkebomsqlolv`. **Do not use that project as the Batch 05 target.**
-
-## Migration order
-
-Apply the repository migration chain exactly in filename order. The Shop tail is:
+Canonical production Supabase project:
 
 ```text
-0051_world_evidence_advisor_hardening.sql
+estvtgflwkebomsqlolv
+```
+
+It is a read-only baseline during Batch 05. Do not run Shop migrations, concurrency
+fixtures, destructive tests, or staging data against that project.
+
+Read-only baseline captured before Shop is live:
+
+- project status: `ACTIVE_HEALTHY`;
+- production migration count: 51, through
+  `0051_world_evidence_advisor_hardening`;
+- zero Supabase development branches;
+- security advisor: two existing authenticated SECURITY DEFINER warnings
+  (`record_learning_attempt`, `save_world_progress`) plus leaked-password
+  protection disabled;
+- performance advisor: 16 existing unused-index INFO findings;
+- no Shop-specific hosted finding can exist yet because Shop migrations are not in
+  production.
+
+## Repository migration chain
+
+The PR branch contains 53 migrations:
+
+```text
+0001 ... 0051
 20260926195237_shop_foundation.sql
 20260927051000_shop_admin_workflow.sql
 ```
 
-Do not rewrite historical migrations to make staging pass. If a historical/current
-migration conflict is discovered, stop and fix forward with a reviewed additive
-migration.
+Historical migrations must not be rewritten merely to make a test pass. Fix
+forward with an additive migration if a real incompatibility is discovered.
 
-## Pre-apply evidence
+Two complementary gates exist:
 
-Capture:
+- `scripts/run-shop-migration-chain-tests.mjs` — fast PGlite full-chain schema/RLS
+  preflight;
+- `scripts/run-shop-postgres-staging-tests.sh` — real PostgreSQL 17 full-chain,
+  security and multi-session concurrency gate.
 
-1. project ref/name and environment purpose;
-2. full remote migration list;
-3. public table list;
-4. security advisor results;
-5. performance advisor results;
-6. whether any `shop_%` table/function already exists.
+## Required GitHub Actions gate
 
-If an unexpected Shop schema already exists without the repository migration
-history, stop rather than guessing whether it is safe to overwrite.
-
-## Apply
-
-Apply only missing migrations, in order, using Supabase migration semantics. Do
-not execute repository migration DDL through an ad-hoc untracked SQL path.
-
-After apply, run:
+Workflow job:
 
 ```text
-docs/data/MAINLAGI_SHOP_STAGING_VALIDATION_2026-09-27.sql
+Shop PostgreSQL staging gate
 ```
 
-Expected seed/readiness state before real owner product data is entered:
+The job launches an ephemeral `postgres:17` service, applies the complete
+repository migration chain, and destroys that database with the runner. No paid
+Supabase branch is created.
 
-- 9 Shop products;
-- 79 total physical `on_hand`;
+The real-PostgreSQL gate must verify:
+
+- 9 seeded Shop products;
+- total initial `on_hand = 79`;
 - 26 approved runtime media rows;
-- 9 products still Draft/unverified;
-- 0 public Active Shop products;
-- every public `shop_%` table has RLS enabled;
-- browser roles cannot read PII/order/inventory-ledger tables;
-- browser roles cannot execute sensitive Shop RPCs.
+- 0 Active products immediately after migrations;
+- RLS enabled on every public `shop_%` table;
+- sensitive Shop RPCs deny `anon` and `authenticated` EXECUTE and allow
+  `service_role`;
+- anonymous users cannot see Draft products;
+- anonymous users cannot read order/PII tables;
+- authenticated browser role cannot execute owner product-admin RPCs.
 
-## Concurrency acceptance
+## Real multi-connection concurrency gate
 
-The final Batch 05 gate requires **real PostgreSQL**, not PGlite alone. Exercise at
-least these races with independent concurrent clients:
+The PostgreSQL staging script uses independent `psql` sessions and must pass all
+six races:
 
-1. two checkouts competing for the same final available unit;
-2. duplicate checkout retry on one converted cart;
-3. payment settlement delivered twice;
-4. payment settlement racing order expiry/release;
-5. owner inventory adjustment racing checkout reservation;
-6. shipment claim racing a duplicate owner shipment request.
+1. two checkouts compete for the final available unit — exactly one succeeds;
+2. duplicate checkout retry returns the same order and creates no second order;
+3. duplicate payment settlement consumes stock exactly once;
+4. paid settlement racing expiry either settles safely or enters manual attention
+   after release, never silently overselling;
+5. inventory adjustment racing checkout preserves
+   `0 <= reserved <= on_hand`;
+6. duplicate shipment creation claim produces one lease winner.
 
-Acceptance rules:
+Acceptance invariants:
 
 - no oversell;
-- no negative `reserved`;
+- no negative physical or reserved inventory;
 - no double stock consumption;
-- duplicate settlement is idempotent;
-- late/ambiguous settlement cannot silently consume released inventory;
-- inventory adjustment cannot take `on_hand` below `reserved`;
-- only one shipment claim survives.
+- payment settlement is idempotent;
+- released inventory cannot be silently consumed by a late payment;
+- manual stock reduction cannot cross below reserved stock;
+- only one concurrent shipment claim owns the active creation lease.
 
-Use disposable staging test rows/accounts. Clean them up only after preserving
-evidence of the assertions.
+## Free local reproduction
 
-## Security validation
+GitHub Actions is the canonical zero-cost gate. A developer may reproduce it
+locally with Docker.
 
-After DDL:
+Example from WSL/Git Bash/Linux with Docker running:
 
-- run Supabase security advisors;
-- run Supabase performance advisors;
-- verify all advisor findings that touch Shop tables/functions;
-- verify direct anon/authenticated mutation is denied;
-- verify sensitive RPC EXECUTE is service-role-only;
-- verify product public RLS remains fail-closed until
-  `status='active' AND facts_verified AND media_approved`;
-- verify owner/admin application routes still perform their own authorization even
-  though server-side DB access uses the service role.
+```bash
+docker run --rm -d \
+  --name mainlagi-shop-postgres \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD=postgres \
+  -e POSTGRES_DB=mainlagi_shop_ci \
+  -p 54329:5432 \
+  postgres:17
 
-An advisor warning is not automatically waived. Record why it is fixed,
-non-applicable, or deliberately accepted.
+export DATABASE_URL="postgresql://postgres:postgres@127.0.0.1:54329/mainlagi_shop_ci"
+bash scripts/run-shop-postgres-staging-tests.sh
 
-## Recovery / rollback
+docker stop mainlagi-shop-postgres
+```
 
-Batch 05 prefers **recreate/reset of disposable staging** over hand-written reverse
-DDL.
+This local database is disposable test infrastructure. Never point
+`DATABASE_URL` at the canonical production Supabase database.
 
-If a migration fails or creates an unexpected schema:
+When the user's Remote Desktop device is unavailable, GitHub Actions remains the
+authoritative execution environment for this gate.
 
-1. stop all further Shop staging actions;
-2. preserve the exact error, failing migration and remote migration state;
-3. reset/recreate the staging database/branch from the known production baseline,
-   when the selected Supabase staging mechanism supports that safely;
-4. fix the repository migration **forward**;
-5. rerun the complete migration-chain test and staging apply from a clean baseline.
+## Hosted Supabase advisors under the zero-cost path
 
-Do not create a manual production rollback migration from a failed staging attempt.
-Production remains untouched until the separate production launch gate.
+A paid cloud staging branch is **not** required for Batch 05.
 
-## Current staging-creation blocker
+Because Shop tables/functions do not yet exist in production, Supabase cannot
+produce Shop-specific hosted advisor findings before the production migration.
+Therefore the zero-cost Batch 05 acceptance uses:
 
-At the 2026-09-27 Batch 05 checkpoint:
+- full migrations on PostgreSQL 17;
+- explicit RLS and role privilege assertions;
+- PGlite + PostgreSQL transaction tests;
+- read-only pre-Shop production advisor baseline.
 
-- the general Supabase project listing returned zero projects;
-- direct read-only access to canonical production project
-  `estvtgflwkebomsqlolv` succeeds and reports `ACTIVE_HEALTHY`;
-- the production migration history contains 51 migrations through
-  `0051_world_evidence_advisor_hardening`;
-- there are **zero existing Supabase development branches**;
-- Supabase reports a development-branch cost of **US$0.01344/hour**;
-- branch creation has **not** been performed because explicit owner cost
-  confirmation is still required.
+Shop-specific hosted Supabase security/performance advisors move to the later
+production-pre-activation gate: after Shop migrations are applied with
+`SHOP_SALES_ENABLED=false`, review advisors **before sales is enabled**.
 
-Read-only production advisor baseline before Shop staging:
+An advisor warning at that later gate must be fixed, shown non-applicable, or
+explicitly recorded; it must not be silently ignored.
 
-- security: two existing authenticated SECURITY DEFINER warnings
-  (`record_learning_attempt`, `save_world_progress`) plus leaked-password
-  protection disabled;
-- performance: 16 existing unused-index INFO findings;
-- no Shop-specific production finding exists because Shop migrations are not live.
+## Recovery
 
-Therefore:
+The CI/local PostgreSQL staging database is disposable.
 
-- no remote migration was applied;
-- no remote table/RLS/RPC mutation occurred;
-- no staging advisor run occurred;
-- no real-PostgreSQL concurrency test was claimed.
+If the migration or concurrency gate fails:
 
-Batch 05 remains open until the owner explicitly confirms the staging branch cost,
-the branch is created, and the remaining staging gates are executed.
+1. preserve the exact failing migration/test output;
+2. do not touch production;
+3. fix the repository forward;
+4. rerun against a fresh PostgreSQL 17 database;
+5. close Batch 05 only after the full clean run passes.
+
+No manual reverse migration should be created merely to undo a failed disposable
+test database.
+
+## Current Batch 05 exit gate
+
+Batch 05 becomes `DONE` when:
+
+- PGlite full-chain preflight is green;
+- PostgreSQL 17 full-chain gate is green;
+- all six real multi-session race cases pass;
+- RLS/RPC browser-role assertions pass;
+- CI exact-head evidence is recorded.
+
+No paid Supabase branch is required.
+
+Production remains unchanged and `SHOP_SALES_ENABLED` remains disabled.
