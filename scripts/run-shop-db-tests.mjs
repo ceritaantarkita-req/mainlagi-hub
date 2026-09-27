@@ -298,7 +298,18 @@ try {
         [v],
       )
     ).on_hand,
+    2,
+    "selected S variant consumes only its own physical stock",
+  );
+  assert.equal(
+    (
+      await one(
+        "select sum(b.on_hand)::int n from shop_inventory_balances b join shop_variants sv on sv.id=b.variant_id where sv.product_id=$1",
+        [product.id],
+      )
+    ).n,
     7,
+    "product-level stock remains conserved across variants after sale",
   );
   assert.equal(
     (
@@ -327,7 +338,18 @@ try {
         [v],
       )
     ).on_hand,
+    2,
+    "late payment after release does not consume variant stock",
+  );
+  assert.equal(
+    (
+      await one(
+        "select sum(b.on_hand)::int n from shop_inventory_balances b join shop_variants sv on sv.id=b.variant_id where sv.product_id=$1",
+        [product.id],
+      )
+    ).n,
     7,
+    "late payment hold preserves aggregate physical stock",
   );
   const oid = (
     await one("select id from shop_orders where order_number=$1", [num])
@@ -408,7 +430,18 @@ try {
         [v],
       )
     ).on_hand,
+    4,
+    "manual recount adjusts only the selected variant",
+  );
+  assert.equal(
+    (
+      await one(
+        "select sum(b.on_hand)::int n from shop_inventory_balances b join shop_variants sv on sv.id=b.variant_id where sv.product_id=$1",
+        [product.id],
+      )
+    ).n,
     9,
+    "aggregate stock returns to nine after the physical recount",
   );
   await assert.rejects(
     db.query("select shop_inventory_adjust($1,3,$2,$3,$4)", [
@@ -450,10 +483,21 @@ try {
   await db.query("select shop_cart_set($1,$2,$3,2)", [stale.c, hash, v]);
   await assert.rejects(checkout(stale), /shipping quote stale/);
   const repriced = await cart();
+  await db.query("select shop_admin_transition($1,'deactivate',$2)", [
+    product.id,
+    owner,
+  ]);
   await db.exec(
     "update shop_products set base_price_amount=70000 where product_code='001'",
   );
   await assert.rejects(checkout(repriced), /shipping quote stale/);
+  await db.exec(
+    "update shop_products set base_price_amount=69000 where product_code='001'",
+  );
+  await db.query("select shop_admin_transition($1,'activate',$2)", [
+    product.id,
+    owner,
+  ]);
   const emptyBalance = await cart();
   await db.query("delete from shop_inventory_balances where variant_id=$1", [
     v,
