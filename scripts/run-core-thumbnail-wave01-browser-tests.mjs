@@ -112,7 +112,7 @@ async function runViewport(browser, viewport) {
   const games = page.locator('[data-core-thumbnail-card="game"]');
   assert.equal(await games.count(), 10, "child Main Gerak must render exactly ten game thumbnails");
   const gameColumns = await games.first().evaluate((element) => getComputedStyle(element.parentElement).gridTemplateColumns.split(" ").filter(Boolean).length);
-  assert.equal(gameColumns, viewport.width >= 760 ? 3 : 2, `game columns at ${viewport.width}`);
+  assert.equal(gameColumns, viewport.width <= 760 ? 2 : 3, `game columns at ${viewport.width}`);
   for (let i = 0; i < 10; i += 1) {
     const card = games.nth(i);
     assert.equal(await card.locator("img").count(), 1, `game card ${i + 1} image count`);
