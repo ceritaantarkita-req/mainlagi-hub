@@ -839,8 +839,8 @@ Technical guard/scaffolding completed on Draft PR #359:
 - canonical machine-readable operational contract:
   `src/lib/shop/operational-policy.json`;
 - the contract explicitly separates **current coded behavior** from
-  **owner-approved policy** and leaves unknown decisions as `null` /
-  `approved=false`;
+  **owner-approved policy**; the owner policy is now approved while missing
+  deployment-only values remain fail-closed;
 - server-side validator:
   `src/lib/shop/operationalPolicy.ts`;
 - owner readiness surface:
@@ -858,13 +858,14 @@ Technical guard/scaffolding completed on Draft PR #359:
   courier's same-day/express/cargo services;
 - shipping-rate responses must pass both the courier-code boundary and the exact
   approved courier/service pair boundary;
-- Shop contract tests lock the pending decision state so unresolved values cannot
-  silently become guessed defaults;
+- Shop contract tests lock the approved decision state so policy values cannot
+  silently drift, while deployment-only values still fail closed;
+- customer-facing policy/support page: `/shop/policies`, linked from Shop
+  navigation/footer and backed by the same approved policy contract;
 - owner decision packet:
   `docs/MAINLAGI_SHOP_BATCH04_OWNER_DECISIONS_2026-09-27.md`.
 
-Source-verified behavior already implemented in code, but **not automatically
-treated as owner policy approval**:
+Approved behavior now aligned with the implementation contract:
 
 - pending payment/order expiry: **30 minutes**;
 - shipping quote lifetime: **15 minutes**;
@@ -897,6 +898,9 @@ Owner approval recorded on 2026-09-27:
   verification if guest access is lost;
 - no proactive automated email/WhatsApp order notification for v1;
 - ambiguous provider state remains `manual_review`.
+
+Customer-facing policy/support UX is implemented and covered by contract + HTTP
+tests.
 
 Remaining Batch 04 configuration blockers are **not unresolved policy choices**:
 
