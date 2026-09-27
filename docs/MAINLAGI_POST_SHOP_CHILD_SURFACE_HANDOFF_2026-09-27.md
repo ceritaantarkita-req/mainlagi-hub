@@ -216,6 +216,11 @@ Do not regenerate or materially redesign the approved Completion/Share concepts 
 
 ## 6. Acceptance contract
 
+This acceptance contract applies specifically to **PR #360**, the interim
+child-surface foundation. Its 3-column card/catalog geometry is intentionally allowed
+to remain until the later Canonical Journey Map System replaces subject/map
+presentation in its own bounded wave.
+
 The successor revision is ready for merge only when all of the following are true:
 
 - Shop is already closed/merged according to its own release gates;
@@ -230,6 +235,10 @@ The successor revision is ready for merge only when all of the following are tru
 - learning, World, Motion Engine and Shop transaction semantics are unchanged by this revision;
 - full CI passes on the exact post-Shop synchronized head;
 - merged-main production smoke succeeds.
+
+After PR #360 is merged/verified, do **not** treat the card-grid bullets above as the
+final long-term subject/World UX. Follow
+`MAINLAGI_CANONICAL_JOURNEY_MAP_SYSTEM_2026-09-27.md` at the later map wave.
 
 ## 7. What the next agent must not do
 
