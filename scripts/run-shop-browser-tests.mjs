@@ -28,6 +28,8 @@ const accountOrdersSource = await readFile("src/app/shop/orders/page.tsx", "utf8
 const adminShopSource = await readFile("src/app/admin/shop/[section]/page.tsx", "utf8");
 assert.match(batch10Css, /--shop-primary:\s*#bd492f/i);
 assert.match(batch10Css, /textarea:focus-visible/);
+assert.match(batch10Css, /:user-invalid/);
+assert.doesNotMatch(batch10Css, /:invalid:not\(:placeholder-shown\)/);
 assert.match(batch10Css, /input\[type="checkbox"\][\s\S]*width:\s*auto/);
 assert.match(batch10Css, /\.shop-admin-nav[\s\S]*flex-wrap:\s*wrap/);
 assert.match(adminLayoutSource, /shop-nav shop-admin-nav/);
@@ -295,10 +297,21 @@ async function auditCheckout(browser, viewport) {
   await quote.check();
   const submit = page.getByRole("button", { name: "Buat pesanan" });
   assert.equal(await submit.isEnabled(), true);
+  const recipientName = page.getByLabel("Nama penerima");
+  assert.equal(
+    await recipientName.evaluate((input) => input.matches(":user-invalid")),
+    false,
+    "untouched required fields must not present as user-invalid",
+  );
 
   await submit.click();
   assert.equal(state.checkoutCalls(), 0, "invalid required fields must not call checkout API");
-  assert.equal(await page.getByLabel("Nama penerima").evaluate((input) => input.matches(":invalid")), true);
+  assert.equal(await recipientName.evaluate((input) => input.matches(":invalid")), true);
+  assert.equal(
+    await recipientName.evaluate((input) => input.matches(":user-invalid")),
+    true,
+    "attempted invalid checkout must present the field as user-invalid",
+  );
 
   await page.getByLabel("Nama penerima").fill("Orang Tua QA");
   await page.getByLabel("Email").fill("qa@example.invalid");
