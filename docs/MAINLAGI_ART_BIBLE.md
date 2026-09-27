@@ -2,7 +2,7 @@
 
 Status: **CANONICAL VISUAL DIRECTION / SUBJECT BACKGROUNDS LIVE VERIFIED / CHARACTER SVG INTEGRATION AUTHORIZED**  
 Established: **16 September 2026**  
-Last synchronized: **25 September 2026**  
+Last synchronized: **27 September 2026**  
 Source audit: `PRODUCTION_VISUAL_PRODUCT_BASELINE_2026-09-16.md`
 
 This document defines the visual language that future Mainlagi product work must converge toward. It does **not** require a one-shot rewrite of every existing screen. Migration is wave-based, evidence-backed and must preserve learning/progression/auth behavior.
@@ -26,6 +26,29 @@ The accepted Garden activity direction is the child-facing anchor.
 ### Child learning / play
 
 Use the fullest Garden expression: cream paper, sky/grass environment, friendly rounded cards, character artwork, large controls and Nunito typography.
+
+### Immersive learning journey / World map
+
+For the owner-approved Journey Map wave, the illustrated environment becomes the
+primary child-facing surface rather than artwork inside a dashboard card.
+
+Locked art-direction rules:
+
+- full-page environment first, UI second;
+- use the existing Mainlagi soft 2D / softly painted cartoon language rather than a
+  parallel glossy-toy / generic 3D island-game style;
+- paths, bridges, houses, gardens, markets and stage landmarks must feel authored
+  into the scene rather than pasted on as oversized UI objects;
+- stage markers are restrained overlays; one node represents a stage/cluster, not a
+  mini-game thumbnail;
+- generated concept art is composition reference only: canonical characters, stage
+  names/order, content and runtime assets must come from repository truth;
+- portrait uses a real vertical composition and landscape uses a real wide
+  composition; do not merely scale/crop one into the other;
+- characters follow the canonical safe-area/no-crop/no-name-label presentation rules.
+
+Canonical interaction/layout contract:
+`MAINLAGI_CANONICAL_JOURNEY_MAP_SYSTEM_2026-09-27.md`.
 
 ### Parent / family / account / auth
 
