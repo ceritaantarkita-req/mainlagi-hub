@@ -11,7 +11,8 @@ export function CartCheckout({ checkout = false }: { checkout?: boolean }) {
     [busy, setBusy] = useState(false),
     [quotes, setQuotes] = useState<Quote[]>([]),
     [selected, setSelected] = useState(""),
-    [postal, setPostal] = useState("");
+    [postal, setPostal] = useState(""),
+    [busyAction, setBusyAction] = useState<"remove" | "rates" | "checkout" | null>(null);
   useEffect(() => {
     let active = true;
     shopRequest<{ lines: CartLine[] }>("cart")
@@ -36,6 +37,7 @@ export function CartCheckout({ checkout = false }: { checkout?: boolean }) {
     ) ?? 0;
   async function remove(variantId: string) {
     setBusy(true);
+    setBusyAction("remove");
     setError("");
     try {
       await shopRequest("cart", { variantId, quantity: 0 });
@@ -44,10 +46,16 @@ export function CartCheckout({ checkout = false }: { checkout?: boolean }) {
       setError((e as Error).message);
     } finally {
       setBusy(false);
+      setBusyAction(null);
     }
   }
   async function getRates() {
+    if (!/^\d{5}$/.test(postal)) {
+      setError("Kode pos harus terdiri dari 5 angka.");
+      return;
+    }
     setBusy(true);
+    setBusyAction("rates");
     setError("");
     setQuotes([]);
     setSelected("");
@@ -61,11 +69,18 @@ export function CartCheckout({ checkout = false }: { checkout?: boolean }) {
       setError((e as Error).message);
     } finally {
       setBusy(false);
+      setBusyAction(null);
     }
   }
   async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (!selected) {
+      setError("Pilih layanan pengiriman sebelum membuat pesanan.");
+      return;
+    }
+    if (!e.currentTarget.reportValidity()) return;
     setBusy(true);
+    setBusyAction("checkout");
     setError("");
     try {
       const data = Object.fromEntries(new FormData(e.currentTarget));
@@ -78,6 +93,7 @@ export function CartCheckout({ checkout = false }: { checkout?: boolean }) {
       setError((e as Error).message);
     } finally {
       setBusy(false);
+      setBusyAction(null);
     }
   }
   return (
@@ -86,11 +102,13 @@ export function CartCheckout({ checkout = false }: { checkout?: boolean }) {
         {checkout ? "SEDIKIT LAGI" : "PILIHANMU HARI INI"}
       </p>
       <h1>{checkout ? "Alamat & pengiriman" : "Keranjang"}</h1>
-      {error ? (
-        <p className="shop-notice" role="alert">
-          {error}
-        </p>
-      ) : null}
+      <div aria-live="assertive">
+        {error ? (
+          <p className="shop-notice" role="alert">
+            {error}
+          </p>
+        ) : null}
+      </div>
       {lines === null ? (
         <p>{error ? "Keranjang belum dapat dimuat." : "Memuat keranjang…"}</p>
       ) : !lines.length ? (
@@ -121,8 +139,12 @@ export function CartCheckout({ checkout = false }: { checkout?: boolean }) {
                   </p>
                 </div>
                 {!checkout ? (
-                  <button disabled={busy} onClick={() => remove(l.variant_id)}>
-                    Hapus
+                  <button
+                    disabled={busy}
+                    aria-label={`Hapus ${l.shop_variants.shop_products.title} dari keranjang`}
+                    onClick={() => remove(l.variant_id)}
+                  >
+                    {busyAction === "remove" ? "Memproses…" : "Hapus"}
                   </button>
                 ) : null}
               </article>
@@ -130,7 +152,9 @@ export function CartCheckout({ checkout = false }: { checkout?: boolean }) {
             {checkout ? (
               <form onSubmit={submit} className="shop-form">
                 <h2>Ke mana kami mengirimnya?</h2>
-                <p>Isi data penerima dewasa.</p>
+                <p id="shop-checkout-required">
+                  Isi data penerima dewasa. Semua kolom wajib diisi.
+                </p>
                 {[
                   ["name", "Nama penerima", "text", "name"],
                   ["email", "Email", "email", "email"],
@@ -146,6 +170,7 @@ export function CartCheckout({ checkout = false }: { checkout?: boolean }) {
                       type={type}
                       autoComplete={auto}
                       required
+                      aria-describedby="shop-checkout-required"
                       maxLength={name === "address" ? 500 : 254}
                     />
                   </label>
@@ -156,25 +181,31 @@ export function CartCheckout({ checkout = false }: { checkout?: boolean }) {
                     name="postalCode"
                     inputMode="numeric"
                     pattern="[0-9]{5}"
+                    title="Masukkan 5 angka kode pos"
                     maxLength={5}
                     required
+                    aria-describedby="shop-postal-help"
                     value={postal}
                     onChange={(e) => {
-                      setPostal(e.target.value);
+                      const value = e.target.value.replace(/\D/g, "").slice(0, 5);
+                      setPostal(value);
                       setQuotes([]);
                       setSelected("");
                     }}
                   />
+                  <small id="shop-postal-help">5 angka kode pos tujuan.</small>
                 </label>
                 <button
                   className="shop-button shop-button-secondary"
                   type="button"
-                  disabled={busy || postal.length !== 5}
+                  disabled={busy || !/^\d{5}$/.test(postal)}
+                  aria-busy={busyAction === "rates"}
                   onClick={getRates}
                 >
-                  {busy ? "Memproses…" : "Hitung ongkir"}
+                  {busyAction === "rates" ? "Menghitung…" : "Hitung ongkir"}
                 </button>
-                {quotes.length ? (
+                <div aria-live="polite">
+                  {quotes.length ? (
                   <fieldset>
                     <legend>Pilih pengiriman</legend>
                     {quotes.map((q) => (
@@ -196,9 +227,14 @@ export function CartCheckout({ checkout = false }: { checkout?: boolean }) {
                       </label>
                     ))}
                   </fieldset>
-                ) : null}
-                <button className="shop-button" disabled={busy || !selected}>
-                  Buat pesanan
+                  ) : null}
+                </div>
+                <button
+                  className="shop-button"
+                  disabled={busy || !selected}
+                  aria-busy={busyAction === "checkout"}
+                >
+                  {busyAction === "checkout" ? "Membuat pesanan…" : "Buat pesanan"}
                 </button>
                 <p>
                   Dengan membuat pesanan, kamu memahami{" "}
