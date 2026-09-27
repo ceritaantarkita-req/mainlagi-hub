@@ -4,7 +4,7 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 
-## 27 September execution override — SHOP → PR #360 → SHARED INTERACTION → WORLD
+## 27 September execution override — SHOP → PR #360 → SHARED INTERACTION → JOURNEY MAP
 
 This section is the current owner-approved execution override for the next child-facing
 visual/product work. Older dated boundaries below remain historical evidence and must
@@ -25,13 +25,21 @@ not supersede this order.
    - coverage migration across Belajar/Bermain/World
    - portrait/landscape QA
 4. Merge + production-verify that shared-interaction wave
-5. Only then start the separate World header/map redesign
-   after a dedicated owner-approved World visual target exists
+5. Only then start the Canonical Journey Map System
+   - Belajar Learning Journey Maps across all nine subjects
+   - immersive map/game header
+   - stage-open detail interaction without mini-game thumbnails
+   - responsive portrait/landscape map composition
+   - Petualangan Uang World map redesign
 ```
 
-Canonical visual/behavior specification:
+Canonical shared-interaction visual/behavior specification:
 
 `MAINLAGI_CANONICAL_COMPLETION_SHARE_VISUAL_SPEC_2026-09-27.md`
+
+Canonical journey-map specification:
+
+`MAINLAGI_CANONICAL_JOURNEY_MAP_SYSTEM_2026-09-27.md`
 
 Canonical post-Shop sequencing handoff:
 
@@ -62,6 +70,11 @@ background of each active game/activity.
 
 This override does **not** authorize curriculum, mastery/evidence, Motion Engine,
 World progression/evidence, database-schema or Shop-provider changes.
+
+Journey-map presentation is now owner-approved in concept, but it remains a later
+bounded wave. One node means one stage/cluster, not one mini-game. The map is full-page
+and immersive rather than embedded inside a giant card/window. Mini-game thumbnails are
+not part of the canonical stage-detail UI.
 
 
 ## 26 September SVG execution boundary — SESSIONS 01–16 COMPLETE / PROGRAM CLOSED
