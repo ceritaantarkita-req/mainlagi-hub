@@ -47,6 +47,7 @@ try {
     child.once("exit", onExit);
   });
   const base = "http://127.0.0.1:3007";
+  const requestOrigin = process.env.NEXT_PUBLIC_SITE_URL || base;
   const r = await fetch(base + "/shop");
   assert.equal(r.status, 200);
   const html = await r.text();
@@ -80,11 +81,11 @@ try {
       body: JSON.stringify(data),
     });
   assert.equal((await post("cart", "https://attacker.example")).status, 403);
-  assert.equal((await post("cart", base)).status, 503);
-  assert.equal((await post("admin/inventory", base)).status, 403);
+  assert.equal((await post("cart", requestOrigin)).status, 503);
+  assert.equal((await post("admin/inventory", requestOrigin)).status, 403);
   assert.equal(
     (
-      await post("midtrans/notification", base, {
+      await post("midtrans/notification", requestOrigin, {
         order_id: "x",
         status_code: "200",
         gross_amount: "1",
@@ -93,7 +94,7 @@ try {
     ).status,
     403,
   );
-  assert.equal((await post("reconcile", base)).status, 403);
+  assert.equal((await post("reconcile", requestOrigin)).status, 403);
   const cart = await fetch(base + "/api/shop/cart");
   assert.equal(cart.status, 503);
   assert.match(cart.headers.get("cache-control"), /no-store/);
