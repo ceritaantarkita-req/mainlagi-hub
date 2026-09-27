@@ -1870,7 +1870,9 @@ Implemented SI-02 boundaries:
 - no learning evidence/mastery/progression/schema changes;
 - no Completion/Share migration, Journey Map work or Shop work.
 
-PR CI #1841 / run `36314913042` proved Ubuntu quality, Windows compatibility, production build, dependency audit and secret-history scan green. Its only failure was the new SI-02 browser test detecting a zero-width World SpeechCard art slot after the name label was removed. The root cause was fixed in commit `925ee36f515343cb0b066e9b3bb293a58955bfc6`; full latest-head CI remains the closure gate.
+PR CI #1841 / run `36314913042` proved Ubuntu quality, Windows compatibility, production build, dependency audit and secret-history scan green. Its only failure was the new SI-02 browser test detecting a zero-width World SpeechCard art slot after the name label was removed. The root cause was fixed in commit `925ee36f515343cb0b066e9b3bb293a58955bfc6`.
+
+PR CI #1855 / run `36322945728` passed every non-browser gate and advanced SI-02 browser QA through Belajar + World, then caught a direct `.round-end-character-layer img { max-height: 120px; }` caller override that bypassed the shared slot-bound. The follow-up fixes route RoundEnd/Preflight/motion height preferences through `--character-max-height` and add a static regression forbidding direct caller max-height overrides. Full latest-head CI remains the closure gate.
 
 Do **not** mark SI-02 complete/live or start SI-03 until PR #363 latest-head CI is full green, PR #363 is merged, and exact merged-main Cloudflare production smoke succeeds.
 
