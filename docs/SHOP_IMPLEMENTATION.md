@@ -368,6 +368,10 @@ Exit gate:
 
 ### Batch 08 — checkout, order, refund and exception-flow QA
 
+Status: **DONE for deterministic application/state-machine acceptance.** Real
+Biteship Sandbox rate/order/webhook acceptance remains explicitly owned by Batch 07
+and is not claimed by this Batch 08 closure.
+
 **Goal:** test the complete commerce state machine across browser/API/provider
 boundaries.
 
@@ -390,6 +394,46 @@ Exit gate:
 - All supported transitions have positive and negative-path evidence.
 - Unsupported/ambiguous states are explicitly held for review.
 - Inventory/payment/fulfillment state stays internally consistent.
+
+Batch 08 closure evidence:
+
+- additive migration
+  `20260927123000_shop_batch08_state_machine_hardening.sql` hardens shipment
+  transitions without rewriting the Shop foundation migration;
+- official Biteship order/tracking status vocabulary is classified explicitly:
+  created states -> `shipment_created`, pickup/transit states -> `in_transit`,
+  `delivered` -> `delivered`, documented exception/return/cancel states ->
+  `exception`, and unknown future states -> `attention_required`;
+- duplicate shipment events return idempotently;
+- delayed `shipment_created` callbacks cannot regress `in_transit`, and stale
+  pre-delivery callbacks cannot regress a delivered shipment row;
+- unknown shipment states never fabricate success and create an auditable manual
+  review hold;
+- known provider exception states move the order into explicit attention instead
+  of silently continuing fulfillment;
+- a later provider success callback cannot automatically clear an existing
+  exception/manual-review hold;
+- guest order access and authenticated account ownership now share a deterministic
+  `orderAccessAllowed` contract used by the server order gate;
+- dedicated `scripts/run-shop-batch08-tests.mjs` covers checkout idempotency,
+  stale quotes, out-of-stock rejection, guest/auth ownership, pending/failed/
+  cancelled/expired/late payment states, paid -> packed -> shipment -> delivered,
+  full refund without fictional auto-restock, partial-refund manual review,
+  duplicate/out-of-order/unknown/failed shipment events and global inventory
+  invariants;
+- **CI #1845 / run 36318848780** on functional SHA
+  `1efc77ff4279efca1fcc0e95d8e4a0dba3a73b87` completed **SUCCESS**;
+- the full migration chain is now **54 migrations** and passed Shop seed/RLS/RPC
+  privilege checks;
+- Shop PostgreSQL staging gate, Shop transaction/provider contracts, typecheck,
+  lint, production build, production HTTP boundary, mobile QA, Windows
+  compatibility, dependency audit and secret-history scan all passed;
+- live Midtrans remained intentionally skipped; no production provider request,
+  real funds, production database mutation or sales activation occurred.
+
+Batch 08 does **not** close Batch 07. Real Biteship Sandbox rate lookup, order
+creation, authenticated webhook delivery and provider GET evidence still require
+the owner's Biteship API/origin configuration.
 
 ### Batch 09 — reconciliation, admin order operations and reporting
 
@@ -1130,9 +1174,16 @@ migration, real funds, sales activation, or paid Supabase branch was used.
   real notification delivery and the actual Next.js webhook route were accepted;
   deterministic duplicate/out-of-order, lease/retry, identity, challenge-hold,
   late-payment and inventory assertions passed on CI #1844.
-- Batch 07 is now unblocked by Batch 06, but still requires the missing Biteship
-  API/origin configuration and must remain non-production until its own acceptance
-  gates close.
+- Batch 07 remains **BLOCKED on external configuration**: real Biteship Sandbox
+  acceptance still needs the owner's Biteship API/origin configuration.
+- Batch 08 is **DONE for deterministic commerce state-machine QA**. Checkout,
+  ownership, payment terminal states, refund/manual-review behavior, monotonic
+  shipment transitions, duplicate/out-of-order/unknown provider states and
+  inventory invariants passed on CI #1845. This does not substitute for Batch 07
+  live Biteship evidence.
+- Batch 09 is the next executable Shop batch that does not require inventing
+  Biteship credentials, but shipment reconciliation scheduling must preserve the
+  Batch 07 blocker until provider configuration exists.
 - Do not create a paid Supabase branch.
 - Missing physical product facts remain separate per-product activation blockers.
 - PR #359 remains **Draft** and is **not approved for live sales**.
