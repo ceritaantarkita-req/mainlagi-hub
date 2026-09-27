@@ -23,7 +23,10 @@ import {
   ProviderError,
 } from "./providers";
 import type { Order, OrderItem, Quote } from "./types";
+import { operationalPolicyBlockers } from "./operationalPolicy";
 export async function rates(b: Record<string, unknown>) {
+  if (operationalPolicyBlockers().length)
+    throw new ShopError("Konfigurasi operasional Shop belum lengkap.", 503);
   const postal = field(b, "postalCode", 5);
   if (!/^\d{5}$/.test(postal)) throw new ShopError("Kode pos harus 5 angka.");
   const c = await cart(),
@@ -291,6 +294,8 @@ export async function applyShipment(o: Order, p: Record<string, unknown>) {
   );
 }
 export async function ship(number: string, actor: string) {
+  if (operationalPolicyBlockers().length)
+    throw new ShopError("Konfigurasi operasional Shop belum lengkap.", 503);
   const o = await order(number, true),
     c = await db();
   if (
