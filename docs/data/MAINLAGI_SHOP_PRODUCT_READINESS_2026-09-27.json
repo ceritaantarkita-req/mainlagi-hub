@@ -235,7 +235,7 @@
     "basis": "Explicit owner instruction to continue Batch 05 despite Batch 04 remaining a launch blocker.",
     "scope": "Staging database, migration-chain, RLS/RPC/security and concurrency acceptance only. No production or live-provider action."
   },
-  "batch05Status": "blocked_staging_target_unavailable",
+  "batch05Status": "blocked_staging_branch_cost_confirmation",
   "batch05Implementation": {
     "repositoryMainMigrationCount": 51,
     "branchMigrationCount": 53,
@@ -253,7 +253,29 @@
     "remoteMigrationApplied": false,
     "advisorsRun": false,
     "realPostgresConcurrencyRun": false,
-    "note": "Batch 05 cannot be DONE until a specific non-production Supabase target is accessible, migrations are applied there, advisors are reviewed, and real-PostgreSQL concurrency cases pass."
+    "note": "Repository/full-chain preflight passed. Production is read-only baseline only. No existing dev branch exists. Batch 05 remote work waits for explicit owner confirmation of the Supabase branch cost before branch creation.",
+    "directCanonicalProjectRead": true,
+    "canonicalProductionProject": "estvtgflwkebomsqlolv",
+    "productionStatus": "ACTIVE_HEALTHY",
+    "productionMigrationCount": 51,
+    "existingDevelopmentBranchCount": 0,
+    "proposedStagingMechanism": "Supabase development branch from production baseline",
+    "branchCost": {
+      "amountUsd": 0.01344,
+      "recurrence": "hourly",
+      "confirmed": false
+    },
+    "productionSecurityAdvisorBaseline": {
+      "warnings": [
+        "authenticated_security_definer_function_executable: 2 existing findings (record_learning_attempt, save_world_progress)",
+        "auth_leaked_password_protection: disabled"
+      ],
+      "shopSpecificFindings": 0
+    },
+    "productionPerformanceAdvisorBaseline": {
+      "unusedIndexInfoCount": 16,
+      "shopSpecificFindings": 0
+    }
   },
   "batch06Authorization": {
     "allowed": false,
