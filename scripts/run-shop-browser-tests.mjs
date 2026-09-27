@@ -222,7 +222,7 @@ async function auditCatalog(browser, viewport) {
   assert.equal(await page.locator(".shop-card").count(), 9, `catalog product count at ${viewport.width}`);
   assert.equal(await page.getByRole("heading", { level: 1 }).innerText(), "Teman kecil.\nCerita besar.");
   await noOverflow(page, `catalog ${viewport.width}`);
-  await minTargets(page, ".shop-nav a, .shop-filters button, .shop-button, .shop-search input", `catalog ${viewport.width}`);
+  await minTargets(page, ".shop-nav a, .shop-filters button, .shop-button, .shop-search input, .shop-footer a", `catalog ${viewport.width}`);
 
   const primary = await page.locator(".shop-button").first().evaluate((element) => {
     const style = getComputedStyle(element);
@@ -260,7 +260,7 @@ async function auditDetail(browser, viewport) {
   assert.equal(await page.getByText("Produk ini belum tersedia untuk dibeli.").count(), 1);
   await page.locator(".shop-thumbs button").nth(1).click();
   assert.equal(await page.locator(".shop-thumbs button").nth(1).getAttribute("aria-pressed"), "true");
-  await minTargets(page, ".shop-nav a, .shop-thumbs button", `detail ${viewport.width}`);
+  await minTargets(page, ".shop-nav a, .shop-thumbs button, .shop-breadcrumb a, .shop-product-info summary", `detail ${viewport.width}`);
   await noOverflow(page, `detail ${viewport.width}`);
   await page.screenshot({ path: path.join(outDir, `detail-${viewport.width}.png`), fullPage: true });
   await context.close();
