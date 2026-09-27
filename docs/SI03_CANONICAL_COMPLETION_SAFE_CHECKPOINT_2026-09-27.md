@@ -1,6 +1,6 @@
 # SI-03 Canonical Completion — Safe Checkpoint — 27 September 2026
 
-Status: **IMPLEMENTATION HEAD FULL GREEN / FINAL DOCS-HEAD CI PENDING / NOT MERGED**
+Status: **FINAL VERIFIED PR HEAD FULL GREEN / READY TO MERGE / NOT MERGED**
 
 ## Resume point
 
@@ -112,11 +112,27 @@ The dedicated SI-03 browser QA passed before the permanent route matrix and prov
 
 Historical CI failures #1932/#1933 were test-harness issues, not runtime regressions: two brittle source assertions were hardened. Chromium #1932 independently proved the new SI-03 browser acceptance passed, then exposed stale permanent-route expectations for the legacy label `Try Again`. Those permanent expectations were migrated to the approved canonical label `Again`; CI #1937 subsequently passed the full matrix.
 
-This documentation update intentionally creates one final docs-only head. It must also pass the full PR CI before merge.
+The docs-only promotion head also passed the full PR matrix:
+
+```text
+final verified PR head: f9c058cba7a9c187df2b96cd4e462c46f9f21996
+PR:                     #365
+PR CI:                  #1946 / run 36334272467 — FULL SUCCESS
+Ubuntu:                  PASS
+Windows:                 PASS
+production build:        PASS
+dependency audit:        PASS
+secret history scan:     PASS
+Chromium mobile matrix:  PASS
+permanent visual baseline: PASS
+Cloudflare PR smoke:     SKIPPED by PR workflow (expected)
+```
+
+This closes the **PR-side SI-03 gate**. The checkpoint refresh commit that records this fact is documentation-only; its own latest-head CI must remain green before merge. SI-03 is still **not merged/live**. Do not start SI-04 until PR #365 is merged, push-to-main CI is full green, and exact Cloudflare smoke verifies the merged main SHA.
 
 ## Merge gate
 
-Do not merge until the final docs-only head is full green across Ubuntu, Windows, production build, dependency audit, secret scan, Chromium mobile route QA and permanent visual baseline. After merge require push-to-main full green plus exact Cloudflare production smoke, then promote this checkpoint to merged/live verified.
+PR-side implementation and docs promotion are verified through `f9c058c...` / CI #1946. Before merge, verify the checkpoint-refresh head is still full green. After merge require push-to-main full green plus exact Cloudflare production smoke for the merged main SHA, then promote SI-03 to merged/live verified.
 
 ## Non-scope
 

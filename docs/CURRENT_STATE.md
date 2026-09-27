@@ -1890,7 +1890,7 @@ Current Shared Interaction sequence:
 SI-00 — Read-only coverage audit             COMPLETE / merged
 SI-01 — Orientation foundation               COMPLETE / merged / live verified
 SI-02 — Canonical Character Presentation     COMPLETE / merged / live verified
-SI-03 — Canonical Completion component       IMPLEMENTED ON BRANCH / CI pending
+SI-03 — Canonical Completion component       PR GREEN / ready to merge / not merged
 SI-04 — Canonical Share component            NOT STARTED
 ```
 
@@ -1915,4 +1915,21 @@ Implemented boundary:
 - existing Share gate/provider logic remains in `ActivityCompletion` pending SI-04;
 - World and `RoundEndOverlay` intentionally remain unmigrated.
 
-Do not mark SI-03 merged/live until latest-head CI, merged-main CI and exact Cloudflare production smoke are green.
+Verified PR-side state:
+
+```text
+PR:                #365
+verified PR head:  f9c058cba7a9c187df2b96cd4e462c46f9f21996
+PR CI:             #1946 / run 36334272467 — FULL SUCCESS
+Ubuntu:            PASS
+Windows:           PASS
+production build:  PASS
+dependency audit:  PASS
+secret scan:       PASS
+Chromium:          PASS
+visual baseline:   PASS
+```
+
+Historical #1932/#1933 failures were test-harness regressions only: brittle static assertions were hardened and the permanent route QA was updated from the legacy label `Try Again` to the approved canonical `Again`. The dedicated SI-03 browser acceptance itself passed before that stale expectation was found.
+
+Do not mark SI-03 merged/live yet. Remaining closure is only: checkpoint-refresh head green -> merge PR #365 -> merged-main CI full green -> exact Cloudflare smoke for the merged SHA. SI-04 must not start before that closure.
