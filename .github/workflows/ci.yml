@@ -135,6 +135,12 @@ jobs:
       - name: Run live Midtrans sandbox state-cycle probe
         if: steps.credential.outputs.configured == 'true'
         run: node scripts/run-shop-midtrans-sandbox-state-probe.mjs
+      - name: Install paid-probe browser dependency
+        if: steps.credential.outputs.configured == 'true'
+        run: npm ci --no-audit --no-fund --ignore-scripts
+      - name: Run live Midtrans sandbox paid VA simulator probe
+        if: steps.credential.outputs.configured == 'true'
+        run: node scripts/run-shop-midtrans-sandbox-paid-probe.mjs
 
   build:
     name: Production build
