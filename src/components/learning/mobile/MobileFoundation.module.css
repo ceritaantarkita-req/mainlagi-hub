@@ -1,5 +1,7 @@
 .foundation {
   --ml-mobile-min-width: 320px;
+  --ml-viewport-width: 100vw;
+  --ml-viewport-height: 100dvh;
   --ml-page-max: 1120px;
   --ml-page-narrow: 760px;
   --ml-page-gutter: clamp(14px, 4vw, 24px);
@@ -23,7 +25,7 @@
   width: 100%;
   min-width: 0;
   max-width: 100%;
-  min-height: 100dvh;
+  min-height: var(--ml-viewport-height);
   text-size-adjust: 100%;
 }
 
@@ -100,7 +102,7 @@
 }
 
 .routeBoundary[data-mainlagi-route-boundary="game-play"] {
-  min-height: calc(100dvh - var(--ml-safe-top) - var(--ml-safe-bottom));
+  min-height: calc(var(--ml-viewport-height) - var(--ml-safe-top) - var(--ml-safe-bottom));
 }
 
 .page,
@@ -212,7 +214,7 @@
 
 .dialog {
   width: min(420px, calc(100vw - (2 * var(--ml-page-gutter))));
-  max-height: calc(100dvh - var(--ml-safe-top) - var(--ml-safe-bottom) - 32px);
+  max-height: calc(var(--ml-viewport-height) - var(--ml-safe-top) - var(--ml-safe-bottom) - 32px);
   overflow: auto;
   overscroll-behavior: contain;
   border-radius: var(--ml-card-radius);
@@ -293,6 +295,16 @@
 
   .bottomDock {
     bottom: max(14px, var(--ml-safe-bottom));
+  }
+}
+
+@media (orientation: landscape) and (max-height: 600px) {
+  .foundation[data-mainlagi-orientation="landscape"] {
+    --ml-page-gutter: clamp(12px, 2.5vw, 24px);
+    --ml-section-gap: clamp(14px, 3vh, 24px);
+    --ml-content-bottom: max(24px, var(--ml-safe-bottom));
+    --ml-title-size: clamp(26px, 9vh, 42px);
+    --ml-section-title-size: clamp(19px, 6vh, 27px);
   }
 }
 
