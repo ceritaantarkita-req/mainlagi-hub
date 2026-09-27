@@ -389,7 +389,11 @@ jobs:
 
   shop-biteship-staging-deploy:
     name: Shop Biteship isolated staging deploy
-    if: github.event_name == 'workflow_dispatch' && inputs.deploy_shop_biteship_staging == true
+    if: >-
+      (github.event_name == 'workflow_dispatch' && inputs.deploy_shop_biteship_staging == true) ||
+      (github.event_name == 'push' &&
+       github.ref == 'refs/heads/agent/mainlagi-shop-foundation-20260927' &&
+       contains(github.event.head_commit.message, '[shop-staging-deploy]'))
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
