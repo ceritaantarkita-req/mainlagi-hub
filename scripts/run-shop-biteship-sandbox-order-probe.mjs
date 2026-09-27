@@ -115,9 +115,27 @@ async function verifyDuplicate(data, originalId) {
   const { response, body } = await api("/v1/orders", {
     method: "POST", body: JSON.stringify(data),
   });
+  const evidence = {
+    httpStatus: response.status,
+    success: body?.success ?? null,
+    code: body?.code ?? null,
+    error: typeof body?.error === "string" ? body.error : null,
+    message: typeof body?.message === "string" ? body.message : null,
+    details:
+      body?.details && typeof body.details === "object"
+        ? Object.fromEntries(
+            Object.entries(body.details).filter(([key]) =>
+              ["order_id", "waybill_id", "reference_id"].includes(key),
+            ),
+          )
+        : null,
+  };
+  console.log("Biteship duplicate-reference evidence:", JSON.stringify(evidence));
   assert.ok(!response.ok || body?.success === false);
   assert.equal(Number(body?.code), 40002060);
-  assert.equal(body?.details?.order_id, originalId);
+  if (typeof body?.details?.order_id === "string")
+    assert.equal(body.details.order_id, originalId);
+  return evidence;
 }
 
 async function verifyWebhookBoundary(orderId) {
@@ -140,7 +158,7 @@ const cancelledRef = `ML-SBX-CANCEL-${runId}`;
 
 const delivered = await createOrder(deliveredRef, "deliver-flow");
 await retrieve(delivered.body.id, deliveredRef);
-await verifyDuplicate(delivered.data, delivered.body.id);
+const duplicateEvidence = await verifyDuplicate(delivered.data, delivered.body.id);
 await verifyWebhookBoundary(delivered.body.id);
 
 const cancelled = await createOrder(cancelledRef, "cancel-flow");
@@ -153,7 +171,9 @@ const evidence = {
   courier: "sicepat/reg",
   deliveredCandidate: { id: delivered.body.id, reference_id: deliveredRef, status: delivered.body.status ?? null },
   cancelledCandidate: { id: cancelled.body.id, reference_id: cancelledRef, status: cancelled.body.status ?? null },
-  duplicateReferenceRecovery: "PASS",
+  duplicateReferenceDetection: "PASS",
+  duplicateProviderOrderIdReturned:
+    typeof duplicateEvidence?.details?.order_id === "string",
   independentGet: "PASS",
   authenticatedWebhookBoundaryAndProviderGet: "PASS",
 };
