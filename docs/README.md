@@ -11,6 +11,7 @@ Read these first for current work:
 1. [`NEXT_PRODUCT_QUALITY_PLAN.md`](NEXT_PRODUCT_QUALITY_PLAN.md) — current execution order, workstreams, status and mandatory gates.
 2. [`CURRENT_STATE.md`](CURRENT_STATE.md) — current repository/product/production baseline.
    - [`SHOP_IMPLEMENTATION.md`](SHOP_IMPLEMENTATION.md) — branch-scoped canonical Mainlagi Shop implementation checkpoint, launch blockers, and staged execution playbook for Draft PR #359. This does **not** imply Shop is merged or live.
+     - [`data/MAINLAGI_SHOP_PRODUCT_READINESS_2026-09-27.json`](data/MAINLAGI_SHOP_PRODUCT_READINESS_2026-09-27.json) — machine-readable Batch 02 product/media/inventory readiness and fail-closed activation blockers for Batch 03.
    - [`MAINLAGI_POST_SHOP_CHILD_SURFACE_HANDOFF_2026-09-27.md`](MAINLAGI_POST_SHOP_CHILD_SURFACE_HANDOFF_2026-09-27.md) — mandatory successor handoff after Shop closes: resume existing PR #360, synchronize it onto post-Shop `main`, preserve finalized Shop behavior, rerun full CI + responsive visual QA, then merge only if green.
    - [`MAINLAGI_CORE_THUMBNAIL_WAVE01_LIVE_CHECKPOINT_2026-09-27.md`](MAINLAGI_CORE_THUMBNAIL_WAVE01_LIVE_CHECKPOINT_2026-09-27.md) — current post-implementation safe checkpoint for the 31-file 4:3 core-thumbnail family, PR #357, CI #1711 and exact Cloudflare live verification.
    - [`data/MAINLAGI_CORE_THUMBNAIL_WAVE01_SOURCE_MAP_2026-09-26.json`](data/MAINLAGI_CORE_THUMBNAIL_WAVE01_SOURCE_MAP_2026-09-26.json) — exact machine-readable Drive/source mapping for Home, subjects, Main Gerak and World.
