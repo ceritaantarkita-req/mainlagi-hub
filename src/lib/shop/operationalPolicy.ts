@@ -7,9 +7,89 @@ export type OperationalPolicyBlocker = {
   message: string;
 };
 
+type OperationalPolicyContract = {
+  version: string;
+  status: "pending_owner_input" | "approved";
+  currentImplementedBehavior: {
+    paymentExpiryMinutes: number;
+    shippingQuoteExpiryMinutes: number;
+    collectionMethod: string;
+    shippingType: string;
+    instantServiceAllowed: boolean;
+    partialRefundHandling: string;
+    guestOrderAccess: string;
+    outboundCustomerNotifications: string;
+  };
+  ownerDecisions: {
+    pickupOrigin: {
+      approved: boolean;
+      storage: string;
+      requiredFields: string[];
+      note: string;
+    };
+    courierAllowlist: {
+      approved: boolean;
+      couriers: string[];
+      allowedServiceClass: {
+        shippingType: string;
+        collectionMethod: string;
+        instantAllowed: boolean;
+      };
+    };
+    packingHandling: {
+      approved: boolean;
+      handlingFeeAmount: number | null;
+      packingRule: string | null;
+    };
+    support: {
+      approved: boolean;
+      channel: string | null;
+      contact: string | null;
+      hours: string | null;
+    };
+    paymentExpiry: {
+      approved: boolean;
+      minutes: number | null;
+      implementedMinutes: number;
+    };
+    cancellation: { approved: boolean; publicPolicy: string | null };
+    returnExchange: { approved: boolean; publicPolicy: string | null };
+    refund: {
+      approved: boolean;
+      publicPolicy: string | null;
+      partialRefundMode: string;
+    };
+    sla: {
+      approved: boolean;
+      processing: string | null;
+      shipping: string | null;
+      refund: string | null;
+    };
+    guestOrderRecovery: {
+      approved: boolean;
+      mode: string | null;
+      note: string;
+    };
+    customerNotifications: {
+      approved: boolean;
+      channels: string[];
+      note: string;
+    };
+    exceptionHandling: {
+      approved: boolean;
+      damaged: string | null;
+      wrongItem: string | null;
+      lostShipment: string | null;
+      delayedShipment: string | null;
+      ambiguousProviderState: string;
+    };
+  };
+};
+
 type EnvLike = Record<string, string | undefined>;
 
-export const operationalPolicy = policyJson;
+export const operationalPolicy =
+  policyJson as OperationalPolicyContract;
 
 const text = (value: unknown) =>
   typeof value === "string" ? value.trim() : "";
