@@ -487,11 +487,11 @@ img { max-width: 100%; }
 .preflight-character-layer {
   inset: 0;
   overflow: visible;
+  --character-max-height: 190px;
 }
 
 .preflight-character-layer img {
   width: clamp(82px, 17vw, 150px);
-  max-height: 190px;
   filter: drop-shadow(0 10px 22px rgba(3, 12, 28, .28));
 }
 
@@ -500,9 +500,12 @@ img { max-width: 100%; }
     inset: 64px 0 48%;
   }
 
+  .preflight-character-layer {
+    --character-max-height: 130px;
+  }
+
   .preflight-character-layer img {
     width: clamp(72px, 24vw, 108px);
-    max-height: 130px;
   }
 }
 
@@ -1623,11 +1626,11 @@ img { max-width: 100%; }
 
 .round-end-character-layer {
   inset: 0;
+  --character-max-height: 120px;
 }
 
 .round-end-character-layer img {
   width: clamp(86px, 25vw, 126px);
-  max-height: 120px;
 }
 .round-end-mark {
   width: 56px; height: 56px; border-radius: 50%;
