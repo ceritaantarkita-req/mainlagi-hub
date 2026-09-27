@@ -1,6 +1,6 @@
 # Mainlagi Shop — Batch 06 Midtrans sandbox runbook
 
-Status: **in progress; live Snap plus pending/cancel/expire provider-state probes passed, while paid/webhook acceptance remains open**.
+Status: **closure candidate; live provider acceptance is complete and the latest deterministic edge-case suite is awaiting green CI on the current tree**.
 
 This runbook is for Midtrans **Sandbox only**. It does not authorize production
 Midtrans credentials, real customer charges, production database migration, Shop
@@ -15,113 +15,130 @@ MIDTRANS_IS_PRODUCTION=false
 MIDTRANS_SERVER_KEY=<sandbox Server Key>
 ```
 
-GitHub Actions uses a dedicated repository secret:
+GitHub Actions keeps sandbox credentials as repository secrets. Server Key values
+must never be committed or printed.
 
-```text
-MIDTRANS_SANDBOX_SERVER_KEY
-```
-
-Do not commit either sandbox or production Server Key. Do not use a production
-Server Key to satisfy this batch.
-
-Official Midtrans sandbox endpoints verified on 2026-09-27:
+Official Midtrans boundaries rechecked on 2026-09-27:
 
 ```text
 POST https://app.sandbox.midtrans.com/snap/v1/transactions
 GET  https://api.sandbox.midtrans.com/v2/{order_id}/status
 ```
 
-Authentication is HTTP Basic using Base64(`ServerKey + ":"`).
+Authentication uses HTTP Basic with Base64(`ServerKey + ":"`). Sandbox
+transactions use test funds only.
 
-## Automated credential/live-connectivity probe
+## Live Sandbox probe policy
 
-CI job:
+The CI job **Shop Midtrans sandbox probe** is now **manual-only**. Normal
+push/pull-request CI skips it so repository work does not repeatedly create
+Sandbox transactions or webhook retries.
 
-```text
-Shop Midtrans sandbox probe
-```
+A deliberate manual run uses the workflow-dispatch input
+`run_midtrans_sandbox=true`.
 
-Scripts:
+Current live-probe scripts:
 
 ```text
 scripts/run-shop-midtrans-sandbox-probe.mjs
 scripts/run-shop-midtrans-sandbox-state-probe.mjs
+scripts/run-shop-midtrans-sandbox-paid-probe.mjs
+scripts/run-shop-midtrans-sandbox-card-deny-probe.mjs
+scripts/run-shop-midtrans-sandbox-webhook-probe.mjs
+scripts/run-shop-midtrans-sandbox-app-webhook-probe.mjs
 ```
 
-When `MIDTRANS_SANDBOX_SERVER_KEY` exists, the CI job:
-
-1. refuses production mode;
-2. creates a unique Rp10.000 Snap sandbox transaction;
-3. requests secure card handling;
-4. checks HTTP 201, a non-empty Snap token and the sandbox redirect host;
-5. calls independent GET Status and accepts the documented pre-payment 404 before
-   a payment method is selected, or a valid pending state;
-6. creates two Rp10.000 Permata VA Sandbox transactions through Core API;
-7. verifies both reach `pending`;
-8. cancels one transaction and independently verifies `cancel`;
-9. expires the other transaction and independently verifies `expire`;
-10. accepts Midtrans body `status_code="407"` only in the documented expired
-    transaction context rather than treating it as an unexpected success code;
-11. never prints the Server Key.
-
-The Core API VA lifecycle probe is **provider-state evidence only**. Mainlagi
-continues to use hosted Snap for its checkout implementation; the probe does not
-change the production integration mode.
-
-When the secret is absent the job records
-`MIDTRANS_SANDBOX_SERVER_KEY_NOT_CONFIGURED` and performs no provider request.
+They cover Snap creation, pending/cancel/expire provider states, paid VA
+settlement, bank/FDS deny paths, real Sandbox notification delivery, and the
+actual Next.js Midtrans notification route.
 
 ## Payment-state contract in application code
 
-Batch 06 hardening keeps these rules:
+Batch 06 keeps these fail-closed rules:
 
 - notification signature:
   `SHA512(order_id + status_code + gross_amount + ServerKey)`;
-- webhook body never directly marks an order paid;
-- a signed notification triggers an independent GET Status lookup;
+- a notification body never directly marks an order paid;
+- a signed notification triggers independent GET Status reconciliation;
 - GET Status must match local order id and gross amount and contain a provider
   transaction id;
 - a locally paid mapping additionally requires provider `status_code="200"`;
-- documented pending status code `201` is accepted as pending;
+- pending `status_code="201"` remains pending;
 - `capture + fraud_status=accept` and valid `settlement` map to paid;
-- fraud challenge stays pending;
-- contradictory fraud state on an otherwise successful terminal status goes to
-  manual review;
+- fraud challenge remains pending and therefore keeps the reservation;
+- contradictory terminal fraud state maps to manual review;
 - `deny` and `failure` map to failed;
 - `cancel` maps to cancelled;
 - `expire` maps to expired;
 - `refund` maps to refunded;
-- partial refund/chargeback states go to manual review;
-- unknown future status remains fail-closed as pending.
+- partial refund/chargeback states map to manual review;
+- unknown future states remain fail-closed as pending;
+- a verified late payment after reservation release is recorded but placed in
+  `attention_required`; already released stock is not silently consumed.
 
-## Real sandbox acceptance still required
+## Live provider evidence already completed
 
-Provider-level evidence already completed:
+All live evidence below used Midtrans Sandbox and no real funds:
 
-- real Snap creation and sandbox redirect boundary;
-- pre-payment GET Status behavior;
-- real asynchronous `pending` state;
-- merchant-triggered `cancel`;
-- merchant-triggered `expire`;
-- independent GET Status confirmation of the terminal cancel/expire states.
+- **CI #1822 / run 36302954764** — Sandbox credential readable; real Snap
+  transaction created and redirect host verified.
+- **CI #1824 / run 36306828931** — real pending state plus independent GET Status;
+  cancel and expire terminal states verified. The probe also captured Midtrans
+  body `status_code="407"` for the documented expired transaction behavior and
+  was corrected instead of masking the provider response.
+- **CI #1826 / run 36307354368** — Permata VA Sandbox payment moved from pending
+  to `settlement`; independent GET Status verified the Rp10.000 amount and paid
+  provider state.
+- **CI #1827 / run 36307520893** — FDS-deny and bank-deny Sandbox card paths both
+  reached `deny` and were independently verified with GET Status.
+- **CI #1828 / run 36307825123** — a real Midtrans Sandbox notification reached a
+  temporary non-production receiver at the canonical Mainlagi notification path;
+  SHA-512 signature and independent GET Status verified `settlement`.
+- **CI #1829 / run 36308068325** — a real Sandbox notification reached the actual
+  Next.js `/api/shop/midtrans/notification` route through a temporary
+  non-production tunnel. The route verified the signature, independently fetched
+  provider status and reconciled to paid. The Supabase HTTP boundary in this
+  route probe was deterministic/in-memory; PostgreSQL payment RPC semantics are
+  exercised separately by the PostgreSQL/PGlite gates.
 
-This is useful but **not enough** to close Batch 06. Remaining real Sandbox
-acceptance must exercise:
+The provider docs confirm that Sandbox is for non-real transactions, Get Status is
+the authoritative status lookup, and card `fraud_status=challenge` is a
+non-final state that must not be treated as paid.
 
-1. accepted payment that reaches a locally verified paid state;
-2. bank/FDS denial;
-3. fraud/challenge;
-4. real notification delivery to the canonical application webhook;
-5. duplicate notification;
-6. delayed/out-of-order notification;
-7. wrong signature;
-8. wrong amount/order identity;
-9. late payment after local reservation release;
-10. remote Snap creation timeout/retry/reconciliation behavior.
+## Deterministic application-state acceptance
 
-Midtrans sandbox test credentials are test-only and must never be accepted in
-production. For card acceptance testing, use the current official Midtrans Sandbox
-test-card documentation rather than copying a card number into application code.
+The current Batch 06 test changes extend the existing database/provider contracts
+with:
+
+- payment-session lease: first claim succeeds, concurrent claim fails, expired
+  lease can be reclaimed without creating a second provider-order identity;
+- duplicate provider event key remains idempotent;
+- paid state cannot regress when stale/out-of-order expire/cancel/failure events
+  arrive later;
+- wrong gross amount fails before event persistence;
+- a different provider transaction id fails closed;
+- challenge/pending state remains pending and retains inventory reservation;
+- expiration releases that reservation without consuming physical stock;
+- late paid settlement after release becomes `attention_required`, keeps
+  physical stock unchanged, and writes the late-payment audit event;
+- ambiguous/manual-review state retains reservation and creates no sale movement;
+- forged signature, wrong order identity, wrong amount, missing transaction id,
+  and invalid pending status-code cases remain rejected by provider contracts;
+- source contract locks the webhook sequence to
+  `verifyMidtrans -> reconcile -> independent GET Status`, never direct payment
+  application from notification body;
+- provider HTTP calls keep the 15-second timeout boundary.
+
+Primary deterministic gates:
+
+```text
+npm run test:shop
+bash scripts/run-shop-postgres-staging-tests.sh
+npm run test:shop:http
+```
+
+The latest additions must pass on the current PR tree before Batch 06 is marked
+`DONE`.
 
 ## Webhook boundary
 
@@ -131,40 +148,32 @@ Canonical application endpoint:
 POST /api/shop/midtrans/notification
 ```
 
-Do not point Midtrans production notifications at a sandbox deployment.
+Production Midtrans notifications must never point at Sandbox/test endpoints.
 
-For Batch 06, notification configuration must target a safe non-production
-publicly reachable origin. Localhost alone is not a valid external webhook target.
-If no safe public sandbox origin exists, provider notification delivery remains a
-recorded Batch 06 blocker rather than being simulated and claimed as real.
+The live acceptance used temporary non-production public tunnels rather than
+changing the existing InMyDraft Sandbox notification URL globally. Future live
+probes should remain deliberate/manual to avoid repeated notification retries and
+alert email noise.
 
 ## Exit gate
 
-Batch 06 becomes `DONE` only when evidence shows:
+Batch 06 becomes `DONE` only when the latest tree confirms:
 
-- real sandbox Snap creation;
-- at least one sandbox payment reaches a locally verified paid state;
-- pending/deny/cancel/expire/challenge paths are exercised;
-- signed webhook plus independent GET Status is verified;
+- real Sandbox Snap creation;
+- real Sandbox paid settlement verified by independent GET Status;
+- pending/deny/cancel/expire behavior evidenced against the provider;
+- challenge/pending behavior held safely by the application state machine;
+- signed real notification reaches the actual application route and triggers
+  independent GET Status;
 - forged/wrong amount/wrong identity inputs fail safely;
-- duplicates/out-of-order delivery remain idempotent;
-- late/ambiguous states retain or release inventory according to the existing
-  fail-closed database contract;
-- no production Midtrans credential or transaction was used.
+- duplicate/out-of-order events are idempotent and cannot regress paid state;
+- payment-session timeout/lease retry keeps one provider order identity;
+- late/ambiguous payment states preserve inventory invariants and require review;
+- no production Midtrans credential, real funds, or production database was used.
 
-## Current evidence and remaining blockers
+## Current blocker
 
-Credential blocker is closed. Evidence:
-
-- historical CI #1819 correctly skipped provider calls while the dedicated Sandbox
-  Server Key was absent;
-- CI #1822 rerun used the newly configured secret and passed real Snap creation;
-- CI #1824 **Shop Midtrans sandbox probe** passed real Snap connectivity plus
-  `pending -> cancel` and `pending -> expire` provider-state cycles;
-- no production credential or real-world funds were used.
-
-Batch 06 remains open because provider-level state probes are not application
-end-to-end acceptance. The next hard requirement is a safe non-production,
-publicly reachable Mainlagi endpoint for real Midtrans notification delivery plus
-an accepted Sandbox payment. Deny/challenge, duplicate/out-of-order delivery,
-timeout/retry and late-payment/reconciliation evidence remain after that.
+There is **no remaining live-provider blocker** in Batch 06. The only closure
+condition is a green deterministic CI run on the latest tree containing the new
+edge-case assertions. The live Midtrans job must stay skipped during that normal
+CI run.
