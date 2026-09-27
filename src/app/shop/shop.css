@@ -482,6 +482,7 @@
     font-size: 15px;
   }
   .shop-detail {
+    grid-template-columns: 1fr;
     gap: 26px;
   }
   .shop-product-info h1 {
