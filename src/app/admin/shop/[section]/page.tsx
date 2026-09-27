@@ -6,6 +6,7 @@ import {
   AdminOrderActions,
   InventoryAdjust,
 } from "@/components/shop/AdminActions";
+import { ProductAdminEditor } from "@/components/shop/ProductAdminEditor";
 import { ProductDetail } from "@/components/shop/ProductDetail";
 import { ShopCatalog } from "@/components/shop/ShopCatalog";
 import { previewProducts } from "@/lib/shop/catalog";
@@ -46,50 +47,30 @@ export default async function ShopAdminPage({
     const products = result(
       await c
         .from("shop_products")
-        .select("*,shop_variants(*),shop_product_media(*)")
+        .select("*,shop_variants(*,shop_inventory_balances(on_hand,reserved)),shop_product_media(*)")
         .order("product_code"),
     ) as unknown as Product[];
     return (
       <main className="shop-flow">
         <h1>Produk Shop</h1>
         <p>
-          Aktivasi menunggu data fisik dan persetujuan visual. Stok default
-          belum boleh dianggap sebagai stok per ukuran.
+          Isi hanya data fisik yang sudah diverifikasi. Produk tidak dapat aktif
+          sampai readiness database lolos, sudah melalui review, dan mendapat
+          approval owner.
+        </p>
+        <p>
+          Total stok awal setiap SKU dikunci sesuai data owner. Untuk apparel,
+          bagi stok tersebut ke ukuran nyata—jangan menggandakan total ke setiap
+          ukuran.
         </p>
         <Link className="shop-button" href="/admin/shop/preview">
-          Tinjau 9 produk & visual
+          Tinjau visual Shop
         </Link>
-        {products.map((p) => (
-          <article className="shop-cart-line" key={p.id}>
-            <div>
-              <h2>
-                {p.product_code} · {p.title}
-              </h2>
-              <p>
-                {rupiah(p.base_price_amount)} · {p.status}
-              </p>
-              <p>
-                Fakta: {p.facts_verified ? "Terverifikasi" : "Perlu verifikasi"}{" "}
-                · Visual: {p.media_approved ? "Disetujui" : "Perlu review"}
-              </p>
-              <p>
-                Berat:{" "}
-                {p.shop_variants.every((v) => v.weight_grams)
-                  ? "Terisi"
-                  : "Belum lengkap"}
-              </p>
-              {p.category_slug === "wear" ? (
-                <p>Perlu ukuran, tabel pengukuran, dan pembagian stok.</p>
-              ) : null}
-              {p.product_code === "007" ? (
-                <p>
-                  Verifikasi penerbit serta fungsi kartu e-money sebelum
-                  aktivasi.
-                </p>
-              ) : null}
-            </div>
-          </article>
-        ))}
+        <div className="shop-flow">
+          {products.map((p) => (
+            <ProductAdminEditor key={p.id} product={p} />
+          ))}
+        </div>
       </main>
     );
   }
