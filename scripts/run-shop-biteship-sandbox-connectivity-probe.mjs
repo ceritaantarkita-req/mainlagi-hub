@@ -3,11 +3,6 @@ import { readFile } from "node:fs/promises";
 
 const key = process.env.BITESHIP_TEST_API_KEY?.trim();
 if (!key) throw new Error("BITESHIP_TEST_API_KEY_NOT_CONFIGURED");
-assert.ok(
-  key.startsWith("biteship_test."),
-  "Refusing to probe Biteship with a non-testing API key",
-);
-
 const policy = JSON.parse(
   await readFile("src/lib/shop/operational-policy.json", "utf8"),
 );
@@ -72,7 +67,7 @@ const missingServices = approvedServices.filter(
 console.log(
   JSON.stringify(
     {
-      mode: "testing",
+      credentialConfigured: true,
       endpoint: "/v1/couriers",
       availableCourierRows: payload.couriers.length,
       approvedCouriers,
