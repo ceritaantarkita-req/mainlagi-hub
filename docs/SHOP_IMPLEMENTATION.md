@@ -437,6 +437,8 @@ the owner's Biteship API/origin configuration.
 
 ### Batch 09 — reconciliation, admin order operations and reporting
 
+Status: **IMPLEMENTATION COMPLETE / DETERMINISTIC ACCEPTANCE DONE — full Batch 09 exit gate remains blocked on real non-production staging scheduler activation and explicit retention configuration.**
+
 **Goal:** make ongoing operations inspectable and recoverable.
 
 Work:
@@ -460,6 +462,73 @@ Exit gate:
 - Scheduled jobs are actually configured in staging and observable.
 - Reports reconcile to known staged transactions and do not show fictional zeros
   on query failure.
+
+Deterministic implementation/acceptance evidence:
+
+- additive operations migration
+  `20260927124000_shop_batch09_operations.sql` adds reconciliation state/run
+  observability, atomic unpaid expiry cleanup, bounded retry/backoff, persistent
+  error audit alerts, owner order search/filter/pagination/detail/timeline,
+  explicit audited recovery actions and report v2;
+- additive retention migration
+  `20260927125000_shop_batch09_pii_retention.sql` provides terminal-order PII
+  redaction without inventing a retention period. Runtime remains disabled until
+  `SHOP_ORDER_PII_RETENTION_DAYS` is explicitly configured;
+- additive reporting migration
+  `20260927130000_shop_batch09_reporting_review_exclusion.sql` excludes
+  Midtrans manual-review/partial-refund/chargeback holds from retained revenue
+  while exposing them separately;
+- `/admin/shop/orders` now supports owner search/filter, 25-row pagination,
+  provider/audit timeline, reconciliation state and reason-required recovery
+  actions;
+- account `/shop/orders` uses bounded range pagination instead of a permanent
+  newest-100 assumption;
+- full-refund stock is never recreated by the payment callback. Physical restock
+  requires an explicit owner action after return inspection and writes an
+  inventory ledger + audit record;
+- verified late payment after reservation release remains held until the owner
+  explicitly confirms stock availability; acceptance consumes stock atomically
+  and writes a ledger + audit record;
+- reconciliation uses independent provider reads, records run/state metadata and
+  applies 5/10/20/60-minute bounded retry backoff. Persistent failures create
+  audit alerts at attempts 3/6/12;
+- repository workflow `.github/workflows/shop-staging-reconcile.yml` is prepared
+  for a 15-minute cadence and fails closed when staging URL/cron secret are absent
+  or provider reconciliation is blocked;
+- report v2 uses Asia/Jakarta boundaries, exposes order/merchandise/shipping/
+  collected/refund/manual-review/product/variant/inventory metrics, and renders
+  an explicit unavailable state instead of fictional zeroes on query failure;
+- dedicated `scripts/run-shop-batch09-tests.mjs` covers expiry cleanup,
+  reconciliation due/backoff/alerts, search/filter/pagination/detail timeline,
+  owner authorization/audit, late-payment recovery, explicit full-refund
+  restock, manual-review reporting exclusion, configurable PII redaction and
+  inventory invariants;
+- **CI #1851 / run 36321030068** on functional SHA
+  `c4ee74b2b9e1e6e548d94a78c6ece172b444e8d9` completed **SUCCESS**;
+- full repository migration chain is now **57 migrations** and passed Shop
+  seed/RLS/RPC privilege checks;
+- PostgreSQL staging/security/concurrency gate, Shop transaction/provider tests,
+  typecheck, lint, production build, production HTTP boundary, mobile QA, Windows
+  compatibility, dependency audit and secret-history scan all passed;
+- live Midtrans remained intentionally skipped and production smoke remained
+  skipped. No production DB migration, production provider mutation, real charge,
+  Shop sales activation or merge occurred.
+
+Remaining Batch 09 exit-gate blockers are external configuration/evidence, not
+missing deterministic code:
+
+1. no safe public non-production Shop staging origin is currently recorded for
+   this draft branch; production must not be reused as a staging target;
+2. GitHub Actions `SHOP_STAGING_URL` and `SHOP_CRON_SECRET` plus the matching
+   staging deployment secret must be configured, then at least one real scheduled
+   run must be observed;
+3. live shipment reconciliation still depends on Batch 07 Biteship API/origin
+   acceptance;
+4. the owner has not yet selected `SHOP_ORDER_PII_RETENTION_DAYS` (accepted
+   implementation range: 30–3650 days), so automatic PII redaction stays disabled.
+
+Canonical Batch 09 record:
+`docs/MAINLAGI_SHOP_BATCH09_OPERATIONS_2026-09-27.md`.
 
 ### Batch 10 — storefront visual, mobile, UX and accessibility QA
 
@@ -1181,9 +1250,11 @@ migration, real funds, sales activation, or paid Supabase branch was used.
   shipment transitions, duplicate/out-of-order/unknown provider states and
   inventory invariants passed on CI #1845. This does not substitute for Batch 07
   live Biteship evidence.
-- Batch 09 is the next executable Shop batch that does not require inventing
-  Biteship credentials, but shipment reconciliation scheduling must preserve the
-  Batch 07 blocker until provider configuration exists.
+- Batch 09 is **IMPLEMENTATION COMPLETE / DETERMINISTIC ACCEPTANCE DONE** on
+  CI #1851. Full exit remains blocked on a real non-production staging scheduler,
+  matching cron secrets, one observed scheduled run, Batch 07 shipment-provider
+  configuration and an explicit PII-retention duration.
+- Batch 10 is the next executable provider-independent Shop batch.
 - Do not create a paid Supabase branch.
 - Missing physical product facts remain separate per-product activation blockers.
 - PR #359 remains **Draft** and is **not approved for live sales**.
@@ -1222,12 +1293,14 @@ touching Belajar subject stage/gallery presentation or Petualangan Uang map UI.
 
 - `npm run test:shop`: provider signature tampering/fraud/status tests; all 27
   derivative checksums; exact nine product prices/stocks; full repository
-  migration-chain execution (51 historical + 2 Shop migrations) plus Shop
+  migration-chain execution (**57 total = 51 historical + 6 Shop migrations**) plus Shop
   RLS/RPC/transaction tests using pinned PGlite.
 - DB scenarios include duplicate checkout/settlement/adjustment, wrong amount,
   stale/cross-cart quote, wrong cart secret, lost inventory row, late settlement,
   refund-before-settlement release, owner-only packing, unpaid shipping denial,
-  shipment creation lease, no delivered regression and report totals.
+  shipment creation lease, no delivered regression, Batch 08 fulfillment exceptions,
+  Batch 09 expiry/reconciliation backoff, owner recovery, PII-redaction contract
+  and report-v2/manual-review exclusion.
 - `npm run test:shop:http` after a production build: production catalog hides draft
   products and ignores the development preview flag; image bytes are served; CSRF,
   sales-disabled, owner, notification-signature and cron gates reject invalid
