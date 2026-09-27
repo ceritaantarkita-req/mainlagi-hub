@@ -149,9 +149,23 @@ Only after that foundation is merged:
 17. Verify portrait/landscape reflow does not reload/reset gameplay, progress, timer, dialog, Completion or Share state.
 18. Run the full responsive/orientation QA matrix from the canonical visual spec.
 19. Merge and production-verify the shared-interaction wave.
-20. Only then begin the separate World header/map redesign after a dedicated owner-approved World visual target exists.
+20. Only then begin the Canonical Journey Map System defined in
+    `docs/MAINLAGI_CANONICAL_JOURNEY_MAP_SYSTEM_2026-09-27.md`:
+    - Belajar Learning Journey Maps across all nine subjects;
+    - immersive map/game header;
+    - stage-open text-first detail interaction;
+    - responsive portrait/landscape maps;
+    - Petualangan Uang World map redesign.
 
-Do **not** silently expand PR #360 into the entire Completion/Share/Character/World redesign. The existing PR #360 is the child-navigation/page-atmosphere/grid foundation; the shared-interaction migration is the next bounded wave.
+Do **not** silently expand PR #360 into the entire Completion/Share/Character/Journey
+Map redesign. The existing PR #360 is the child-navigation/page-atmosphere/grid
+foundation; the shared-interaction migration is the next bounded wave.
+
+After that shared-interaction wave is closed, read
+`docs/MAINLAGI_CANONICAL_JOURNEY_MAP_SYSTEM_2026-09-27.md` before touching subject
+stage/gallery or World map presentation. That spec supersedes older card/carousel-first
+subject journey presentation for this later wave while preserving all canonical stage,
+activity, readiness, evidence and mastery semantics.
 
 ## 5A. Locked visual + responsive successor contract
 
@@ -194,7 +208,8 @@ responsive orientation foundation
 → Canonical Share
 → coverage + portrait/landscape QA
 → merge/production verify
-→ separate World header/map redesign
+→ Canonical Journey Map System
+   (Belajar subject worlds + Petualangan Uang)
 ```
 
 Do not regenerate or materially redesign the approved Completion/Share concepts without explicit project-owner approval.
