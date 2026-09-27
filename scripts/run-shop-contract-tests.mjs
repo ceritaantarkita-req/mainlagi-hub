@@ -281,6 +281,16 @@ assert.match(shopCheckoutSource, /\/shop\/policies/);
 assert.match(shopOrderStatusSource, /\/shop\/policies/);
 assert.match(shopProviderSource, /AbortSignal\.timeout\(15000\)/);
 assert.match(
+  shopOperationsSource,
+  /biteship\("\/v1\/rates\/couriers"/,
+  "Shop must use the canonical Biteship Rates API endpoint /v1/rates/couriers",
+);
+assert.doesNotMatch(
+  shopOperationsSource,
+  /biteship\("\/v1\/rates"/,
+  "obsolete /v1/rates endpoint must not return",
+);
+assert.match(
   shopApiRouteSource,
   /biteship\/webhook"[\s\S]*allowEmptyObject:\s*true[\s\S]*isInstallProbe[\s\S]*return json\(\{ ok: true \}\)[\s\S]*verifyBiteship\(request\)/,
   "Biteship install probe may return 200 only before real-event signature verification",

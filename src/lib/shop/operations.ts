@@ -60,7 +60,7 @@ export async function rates(b: Record<string, unknown>) {
       weight: v.weight_grams,
     };
   });
-  const response = await biteship("/v1/rates", {
+  const response = await biteship("/v1/rates/couriers", {
     origin_postal_code: pickup().origin_postal_code,
     destination_postal_code: Number(postal),
     couriers: couriers(),

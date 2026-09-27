@@ -1434,3 +1434,11 @@ providing provisional positive packed weights/dimensions solely for Sandbox API
 testing. It must never be interpreted as verified production product truth.
 Production activation still requires measured packed values and real apparel size
 variants/stock splits.
+
+
+### Biteship Rates endpoint correction
+
+The Shop runtime now uses the canonical `/v1/rates/couriers` endpoint for rate
+lookup. The earlier `/v1/rates` path was stale and was corrected before live
+Sandbox rate acceptance. A contract test forbids the obsolete endpoint from
+returning.

@@ -40,6 +40,9 @@ const payload = {
       value: 69000,
       quantity: 1,
       weight: product.weight_grams,
+      length: Math.ceil(product.length_mm / 10),
+      width: Math.ceil(product.width_mm / 10),
+      height: Math.ceil(product.height_mm / 10),
     },
   ],
 };
@@ -101,6 +104,11 @@ console.log(
       destinationPostalCode: destinationPostal,
       testSku: product.sku,
       testWeightGrams: product.weight_grams,
+      testDimensionsCm: {
+        length: Math.ceil(product.length_mm / 10),
+        width: Math.ceil(product.width_mm / 10),
+        height: Math.ceil(product.height_mm / 10),
+      },
       requestedCouriers: couriers.split(","),
       returnedPricingRows: available.length,
       approvedPricingRows: approvedAvailable,
