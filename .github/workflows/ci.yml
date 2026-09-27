@@ -132,6 +132,9 @@ jobs:
       - name: Run live Midtrans sandbox Snap probe
         if: steps.credential.outputs.configured == 'true'
         run: node scripts/run-shop-midtrans-sandbox-probe.mjs
+      - name: Run live Midtrans sandbox state-cycle probe
+        if: steps.credential.outputs.configured == 'true'
+        run: node scripts/run-shop-midtrans-sandbox-state-probe.mjs
 
   build:
     name: Production build
