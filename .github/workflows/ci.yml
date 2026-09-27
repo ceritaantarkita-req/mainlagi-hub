@@ -509,3 +509,22 @@ jobs:
             echo "- SHOP_SALES_ENABLED: false"
             echo "- Production domain was not modified."
           } >> "${GITHUB_STEP_SUMMARY}"
+
+
+  shop-biteship-sandbox-connectivity:
+    name: Shop Biteship sandbox connectivity
+    if: >-
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/agent/mainlagi-shop-foundation-20260927' &&
+      contains(github.event.head_commit.message, '[biteship-connectivity-probe]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      BITESHIP_TEST_API_KEY: ${{ secrets.BITESHIP_TEST_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Verify Biteship test key and approved courier/service availability
+        run: node scripts/run-shop-biteship-sandbox-connectivity-probe.mjs
