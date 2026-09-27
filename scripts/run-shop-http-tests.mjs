@@ -22,6 +22,9 @@ const child = spawn(
       NEXT_PUBLIC_SUPABASE_ANON_KEY: "",
       SUPABASE_SERVICE_ROLE_KEY: "",
       MIDTRANS_SERVER_KEY: "test-only-key",
+      BITESHIP_WEBHOOK_HEADER: "X-Mainlagi-Biteship-Secret",
+      BITESHIP_WEBHOOK_SECRET: "test-only-biteship-webhook-secret",
+      BITESHIP_API_KEY: "test-only-biteship-api-key",
     },
     stdio: ["ignore", "pipe", "pipe"],
   },
@@ -95,11 +98,27 @@ try {
     403,
   );
   assert.equal((await post("reconcile", requestOrigin)).status, 403);
+  const biteshipProbe = await fetch(base + "/api/shop/biteship/webhook", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: "",
+  });
+  assert.equal(biteshipProbe.status, 200);
+  assert.deepEqual(await biteshipProbe.json(), { ok: true });
+  assert.equal(
+    (
+      await post("biteship/webhook", requestOrigin, {
+        order_id: "test-provider-order",
+      })
+    ).status,
+    403,
+    "non-empty Biteship events must still require the configured signature header",
+  );
   const cart = await fetch(base + "/api/shop/cart");
   assert.equal(cart.status, 503);
   assert.match(cart.headers.get("cache-control"), /no-store/);
   console.log(
-    "Shop HTTP: production SSR, public policy/support page, development preview ignored, draft detail hidden, restored image, CSRF, disabled sales, owner API denial, forged notification denial, cron authentication, no-store PASS",
+    "Shop HTTP: production SSR, public policy/support page, development preview ignored, draft detail hidden, restored image, CSRF, disabled sales, owner endpoint denial, Midtrans/Biteship forged-event denial, Biteship empty install probe, cron authentication, no-store PASS",
   );
 } catch (e) {
   console.error(e);
