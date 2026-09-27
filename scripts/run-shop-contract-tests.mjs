@@ -9,7 +9,7 @@ const { outputText } = ts.transpileModule(source, {
     target: ts.ScriptTarget.ES2022,
   },
 });
-const { validMidtransSignature, mappedPayment } = await import(
+const { validMidtransSignature, validMidtransStatus, mappedPayment } = await import(
   `data:text/javascript;base64,${Buffer.from(outputText).toString("base64")}`
 );
 const notification = {
@@ -46,12 +46,66 @@ assert.equal(
 );
 assert.equal(
   mappedPayment({ transaction_status: "settlement", fraud_status: "deny" }),
+  "review",
+);
+assert.equal(
+  mappedPayment({ transaction_status: "capture", fraud_status: "challenge" }),
   "pending",
 );
+assert.equal(mappedPayment({ transaction_status: "failure" }), "failed");
+assert.equal(mappedPayment({ transaction_status: "chargeback" }), "review");
 assert.equal(mappedPayment({ transaction_status: "partial_refund" }), "review");
 assert.equal(
   mappedPayment({ transaction_status: "future_unknown_status" }),
   "pending",
+);
+const paidStatus = {
+  order_id: "MLG-20260927-ABCDEF123456",
+  transaction_id: "trx-1",
+  transaction_status: "settlement",
+  status_code: "200",
+  gross_amount: "79000.00",
+  fraud_status: "accept",
+};
+assert.ok(
+  validMidtransStatus(paidStatus, "MLG-20260927-ABCDEF123456", 79000),
+);
+assert.equal(
+  validMidtransStatus(
+    { ...paidStatus, status_code: "201" },
+    "MLG-20260927-ABCDEF123456",
+    79000,
+  ),
+  false,
+  "paid state requires provider success status_code 200",
+);
+assert.ok(
+  validMidtransStatus(
+    {
+      ...paidStatus,
+      transaction_status: "pending",
+      status_code: "201",
+    },
+    "MLG-20260927-ABCDEF123456",
+    79000,
+  ),
+  "pending provider state accepts documented 201 status code",
+);
+assert.equal(
+  validMidtransStatus(
+    { ...paidStatus, order_id: "wrong-order" },
+    "MLG-20260927-ABCDEF123456",
+    79000,
+  ),
+  false,
+);
+assert.equal(
+  validMidtransStatus(
+    { ...paidStatus, gross_amount: "1.00" },
+    "MLG-20260927-ABCDEF123456",
+    79000,
+  ),
+  false,
 );
 const seed = JSON.parse(await readFile("src/lib/shop/seed.json", "utf8"));
 const manifest = JSON.parse(
@@ -190,5 +244,5 @@ assert.ok(
   "rejected duplicate tumbler alternate is not runtime media",
 );
 console.log(
-  "Shop contracts: provider integrity, Batch 02/03 readiness, Batch 04 fail-closed operational contract, 9 products, 26 approved runtime media + 1 rejected provenance asset PASS",
+  "Shop contracts: Midtrans signature/status integrity, provider state mapping, Batch 02/03 readiness, Batch 04 fail-closed operational contract, 9 products, 26 approved runtime media + 1 rejected provenance asset PASS",
 );
