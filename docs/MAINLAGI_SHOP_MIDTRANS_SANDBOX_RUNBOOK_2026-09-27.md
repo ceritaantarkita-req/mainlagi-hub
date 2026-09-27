@@ -1,6 +1,6 @@
 # Mainlagi Shop — Batch 06 Midtrans sandbox runbook
 
-Status: **closure candidate; live provider acceptance is complete and the latest deterministic edge-case suite is awaiting green CI on the current tree**.
+Status: **DONE — live provider acceptance plus latest-tree deterministic application-state acceptance passed**.
 
 This runbook is for Midtrans **Sandbox only**. It does not authorize production
 Midtrans credentials, real customer charges, production database migration, Shop
@@ -137,8 +137,8 @@ bash scripts/run-shop-postgres-staging-tests.sh
 npm run test:shop:http
 ```
 
-The latest additions must pass on the current PR tree before Batch 06 is marked
-`DONE`.
+The latest additions passed on CI #1844 / run `36317535057` at SHA
+`847454a62d205dc88e1c73d37e0e34cb3588e42c`.
 
 ## Webhook boundary
 
@@ -171,9 +171,23 @@ Batch 06 becomes `DONE` only when the latest tree confirms:
 - late/ambiguous payment states preserve inventory invariants and require review;
 - no production Midtrans credential, real funds, or production database was used.
 
-## Current blocker
+## Closure record
 
-There is **no remaining live-provider blocker** in Batch 06. The only closure
-condition is a green deterministic CI run on the latest tree containing the new
-edge-case assertions. The live Midtrans job must stay skipped during that normal
-CI run.
+Batch 06 is **DONE**.
+
+Final deterministic closure evidence:
+
+- CI #1844 / run `36317535057`;
+- tested SHA: `847454a62d205dc88e1c73d37e0e34cb3588e42c`;
+- overall conclusion: **SUCCESS**;
+- Shop PostgreSQL staging gate: **SUCCESS**;
+- Shop transaction/provider contracts: **SUCCESS**;
+- production HTTP boundary: **SUCCESS**;
+- production build, mobile QA, Windows compatibility, dependency audit and secret
+  history scan: **SUCCESS**;
+- live Midtrans Sandbox probe: intentionally **SKIPPED**.
+
+No additional provider transaction was required for closure because the live
+Sandbox evidence had already passed in CI #1822, #1824, #1826, #1827, #1828 and
+#1829. Normal CI remains non-live; future Midtrans live probes require an explicit
+manual workflow-dispatch opt-in.

@@ -1040,7 +1040,7 @@ production.
 
 #### Batch 06 — Midtrans sandbox acceptance
 
-Status: **CLOSURE CANDIDATE — live Sandbox/provider acceptance is complete; latest deterministic edge-case additions must pass CI on the current tree before marking DONE**.
+Status: **DONE — live Sandbox/provider acceptance and latest-tree deterministic edge-case acceptance are complete**.
 
 Implementation and provider evidence:
 
@@ -1100,9 +1100,20 @@ Deterministic Batch 06 hardening added on the current tree:
 Canonical runbook:
 `docs/MAINLAGI_SHOP_MIDTRANS_SANDBOX_RUNBOOK_2026-09-27.md`.
 
-The only remaining Batch 06 closure condition is a green normal CI run on the
-latest tree containing these deterministic assertions. The manual live Midtrans
-job must stay **SKIPPED** during that run.
+Closure evidence:
+
+- **CI #1844 / run 36317535057** on SHA
+  `847454a62d205dc88e1c73d37e0e34cb3588e42c` completed **SUCCESS**;
+- Shop PostgreSQL 17 staging/security/concurrency gate passed the new payment
+  lease/retry, duplicate/out-of-order, identity mismatch, late settlement and
+  manual-review inventory assertions;
+- Shop transaction/provider contracts, typecheck, lint, production build,
+  production HTTP boundary, mobile QA, Windows compatibility, dependency audit and
+  secret-history scan all passed;
+- live Midtrans Sandbox probe was intentionally **SKIPPED**, proving normal CI no
+  longer creates provider transactions or notification retry noise.
+
+Batch 06 is therefore closed without another live Midtrans transaction.
 
 No production Midtrans credential, production provider transaction, production
 migration, real funds, sales activation, or paid Supabase branch was used.
@@ -1115,13 +1126,13 @@ migration, real funds, sales activation, or paid Supabase branch was used.
 - Batch 04 policy/customer UX implementation is complete; private pickup/courier
   deployment configuration remains a launch blocker.
 - Batch 05 is **DONE** using the owner-approved zero-cost PostgreSQL 17 path.
-- Batch 06 is **CLOSURE CANDIDATE**: real Sandbox Snap, pending, paid, deny,
-  cancel, expire, real notification delivery and actual Next.js webhook-route
-  evidence are complete. Deterministic duplicate/out-of-order, lease/retry,
-  identity, challenge-hold, late-payment and inventory assertions are added and
-  must pass latest-tree CI before Batch 06 becomes DONE.
-- Batch 07 must not start until Batch 06 closure is green; it also requires the
-  missing Biteship origin/API configuration.
+- Batch 06 is **DONE**. Real Sandbox Snap, pending, paid, deny, cancel, expire,
+  real notification delivery and the actual Next.js webhook route were accepted;
+  deterministic duplicate/out-of-order, lease/retry, identity, challenge-hold,
+  late-payment and inventory assertions passed on CI #1844.
+- Batch 07 is now unblocked by Batch 06, but still requires the missing Biteship
+  API/origin configuration and must remain non-production until its own acceptance
+  gates close.
 - Do not create a paid Supabase branch.
 - Missing physical product facts remain separate per-product activation blockers.
 - PR #359 remains **Draft** and is **not approved for live sales**.
