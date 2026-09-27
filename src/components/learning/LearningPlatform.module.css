@@ -494,7 +494,7 @@
 }
 
 .motionCharacterLayer img {
-  width: clamp(92px, 13vw, 158px);
+  max-width: clamp(92px, 13vw, 158px);
 }
 
 @media (max-width: 700px) {
@@ -514,7 +514,7 @@
   }
 
   .motionCharacterLayer img {
-    width: clamp(88px, 28vw, 126px);
+    max-width: clamp(88px, 28vw, 126px);
   }
 }
 
