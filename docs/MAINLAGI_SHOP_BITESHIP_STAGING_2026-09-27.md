@@ -1,6 +1,6 @@
 # Mainlagi Shop — isolated Biteship staging deployment
 
-Status: **PREPARED — deployment workflow is repository-ready; external Cloudflare/GitHub secrets must be configured before first run.**
+Status: **DEPLOYED / WEBHOOK INSTALLATION PASS — isolated Cloudflare Worker is live, Biteship testing webhook is registered, and production remains untouched.**
 
 This staging path exists specifically to avoid using production
 `https://mainlagihub.my.id` for Biteship testing.
@@ -23,7 +23,7 @@ The workflow resolves the account's existing Workers subdomain and publishes the
 staging Worker to:
 
 ```text
-https://mainlagi-hub-shop-staging.<workers-subdomain>.workers.dev
+https://mainlagi-hub-shop-staging.mainlagihub.workers.dev
 ```
 
 No production custom domain is attached by this workflow.
@@ -91,8 +91,9 @@ After deployment the workflow automatically verifies:
 3. `SHOP_SALES_ENABLED` remains false;
 4. the production custom domain is not modified.
 
-Only after those checks pass should the Biteship Dashboard webhook URL be changed
-to the exact staging URL printed in the GitHub Actions job summary.
+These checks passed in GitHub Actions run #1938 on 2026-09-27. The Biteship
+Testing Mode dashboard subsequently accepted and registered the webhook using the
+same staging endpoint and configured custom secret header.
 
 ## Biteship dashboard fields after staging passes
 
@@ -137,3 +138,22 @@ Batch 07 still requires real Biteship test evidence for:
 The full Batch 11 staging gate additionally still requires a database-backed safe
 non-production environment. This isolated Worker must not be represented as that
 full staging database.
+
+
+## Verified installation evidence
+
+- GitHub Actions run **#1938** deployed the isolated Worker successfully.
+- Exact staging origin:
+  `https://mainlagi-hub-shop-staging.mainlagihub.workers.dev`.
+- Installation probe:
+  `POST /api/shop/biteship/webhook` with JSON `{}` returned HTTP 200 and
+  `{"ok":true}`.
+- Unsigned non-empty event remained fail-closed with HTTP 403.
+- Biteship Testing Mode accepted the webhook registration for
+  `order.status`, `order.price`, and `order.waybill_id`.
+- `SHOP_SALES_ENABLED=false` remained enforced.
+- Production `https://mainlagihub.my.id` was not modified.
+
+This closes the **public HTTPS + authenticated webhook installation** prerequisite.
+It does not close the later database-backed full staging E2E or real shipment
+acceptance.

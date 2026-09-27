@@ -111,17 +111,21 @@ refund amounts and settlement dates need a separate reconciliation release.
    variants, and measured shipping weights; dimensions where required. The Batch 03
    editor is ready to accept these facts, but activation remains blocked until they
    are actually verified and entered.
-2. Pickup origin/contact/postal code, explicit courier allowlist, sandbox keys,
-   webhook configuration, scheduler and operational monitoring.
+2. Pickup origin/contact/full address/postal code still requires owner-verified
+   deployment values. The isolated Cloudflare staging Worker, Biteship Testing Mode
+   API-key secret storage, courier policy, and authenticated webhook installation
+   are now in place; sandbox API connectivity/rates/order acceptance, scheduler and
+   operational monitoring remain.
 3. Tumbler capacity/material facts and verified SKU 007 product type/function/issuer
    details where applicable. The duplicate tumbler runtime image and Shop media
    acceptance gate are already resolved by Batch 02.
 4. Support contact, return/refund policy, shipping SLA, guest order recovery and
    customer notification decisions. Guest access currently depends on the original
    device cookie; no email/WhatsApp delivery is claimed.
-5. Full staging Supabase migration-chain test and advisors; concurrent checkout
-   tests against real PostgreSQL; provider sandbox end-to-end tests, webhook
-   retry/out-of-order cases and timeout recovery drills.
+5. Full database-backed staging Supabase migration-chain test and advisors;
+   provider sandbox end-to-end tests, webhook retry/out-of-order cases and timeout
+   recovery drills. The isolated workers.dev webhook staging boundary is already
+   live and is intentionally not represented as full database-backed staging.
 6. Browser/mobile/accessibility verification. The available cloud browser rejected
    `http://localhost:3000/shop` with `net::ERR_BLOCKED_BY_CLIENT`. No visual pass or
    screenshot evidence is claimed; no alternative browser bypass was attempted.

@@ -65,10 +65,14 @@ evidence required by Batch 11.
      product imagery.
 
 2. **Operational deployment configuration**
-   - private Biteship pickup/contact/address/postal-code environment values;
-   - exact approved courier environment allowlist;
-   - Biteship API key and authenticated webhook configuration for non-production
-     provider acceptance.
+   - **PASS:** isolated non-production Cloudflare Worker is deployed at
+     `https://mainlagi-hub-shop-staging.mainlagihub.workers.dev`;
+   - **PASS:** Biteship Testing Mode webhook installation is registered and the
+     custom secret-header boundary is verified;
+   - **BLOCKED:** private pickup/contact/full-address/postal-code environment
+     values still need owner verification;
+   - **BLOCKED:** live sandbox API credential/courier preflight and later real
+     rate/order acceptance must still pass.
 
 3. **Batch 07 live Biteship acceptance**
    - real rate lookup with approved physical product data;
@@ -78,8 +82,12 @@ evidence required by Batch 11.
    - tracking and exception progression.
 
 4. **Safe non-production Shop staging origin**
-   - no approved public staging origin is currently recorded;
-   - production must not be reused as a staging substitute.
+   - **PASS for provider-webhook boundary:** isolated workers.dev staging origin
+     is deployed and Biteship accepted it;
+   - **BLOCKED for full Shop staging:** this Worker currently uses the safe mock
+     data backend and is not the database-backed integrated staging environment
+     required for full Batch 11 E2E;
+   - production remains excluded as a staging substitute.
 
 5. **Batch 09 scheduler evidence**
    - configure GitHub `SHOP_STAGING_URL`;
