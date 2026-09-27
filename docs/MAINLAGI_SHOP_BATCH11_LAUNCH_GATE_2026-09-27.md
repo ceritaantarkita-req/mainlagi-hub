@@ -79,11 +79,16 @@ evidence required by Batch 11.
      data and physical product weight/dimensions.
 
 3. **Batch 07 live Biteship acceptance**
-   - real rate lookup with approved physical product data;
-   - real test shipment creation after verified payment + owner packed state;
-   - idempotency/duplicate-reference recovery;
-   - authenticated webhook + independent provider GET;
-   - tracking and exception progression.
+   - **PASS for Sandbox integration:** authenticated non-mutating Rates API request
+     completed with all nine testing-only fixture SKUs; every approved
+     courier/service pair returned as parcel + pickup;
+   - **BLOCKED for production truth:** fixture weight/dimensions are provisional
+     testing values and must be replaced by measured packed values;
+   - **BLOCKED:** real test shipment creation after verified payment + owner packed
+     state;
+   - **BLOCKED:** idempotency/duplicate-reference recovery against the provider;
+   - **BLOCKED:** authenticated real shipment webhook + independent provider GET;
+   - **BLOCKED:** tracking and exception progression.
 
 4. **Safe non-production Shop staging origin**
    - **PASS for provider-webhook boundary:** isolated workers.dev staging origin

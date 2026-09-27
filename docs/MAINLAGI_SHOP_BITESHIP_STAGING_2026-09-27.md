@@ -273,3 +273,34 @@ surrounding single/double quotes. The staging deploy and Sandbox Rates probe str
 that outer pair before validation/use. The address also normalizes a literal
 `\.` sequence to `.`, preventing shell-style escaping from becoming part of
 the pickup address. Secret values remain masked and are not printed.
+
+
+## Sandbox Rates acceptance PASS
+
+GitHub Actions run **#1975** completed one authenticated, non-mutating Biteship
+Sandbox Rates request after private origin secrets were configured and normalized.
+
+Evidence:
+
+- all **9** testing-only fixture SKUs were included in one request;
+- combined testing fixture weight: **3050 g**;
+- destination postal code: **12240**;
+- Biteship returned **8** pricing rows;
+- all five Mainlagi-approved service pairs were available as standard parcel +
+  pickup services:
+  - `jne/reg` — Rp60.000 — 1–2 days;
+  - `anteraja/reg` — Rp69.000 — 1–2 days;
+  - `sicepat/reg` — Rp48.000 — 1–2 days;
+  - `jnt/ez` — Rp60.000 — 2–3 days;
+  - `ninja/standard` — Rp52.800 — 2–3 days;
+- no order, pickup, waybill or shipment was created;
+- origin/contact/address values remained masked in Actions logs.
+
+These prices are dated Sandbox evidence only, not a production price commitment.
+
+The same run also redeployed the isolated staging Worker with the normalized private
+origin configuration. Webhook installation probe remained HTTP 200 and unsigned
+non-empty webhook events remained HTTP 403.
+
+This closes the **Sandbox Rates transport/integration** acceptance step. It does
+not convert provisional fixture weights/dimensions into verified production facts.

@@ -1442,3 +1442,16 @@ The Shop runtime now uses the canonical `/v1/rates/couriers` endpoint for rate
 lookup. The earlier `/v1/rates` path was stale and was corrected before live
 Sandbox rate acceptance. A contract test forbids the obsolete endpoint from
 returning.
+
+
+### Biteship Sandbox Rates acceptance
+
+Sandbox Rates API acceptance passed in GitHub Actions run **#1975** using one
+non-mutating request containing all nine testing-only fixture SKUs. Biteship
+returned eight pricing rows and all five approved Mainlagi service pairs were
+present with parcel shipping and pickup collection.
+
+This proves the API credential, private origin configuration, courier allowlist,
+canonical Rates endpoint and fixture payload are interoperable in Biteship Testing
+Mode. It does **not** verify the provisional fixture weights/dimensions as real
+production measurements and does not create a shipment.
