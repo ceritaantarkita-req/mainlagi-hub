@@ -123,6 +123,7 @@ export function CanonicalShareDialog({
       data-canonical-share="v1"
       data-share-context={payload.context}
       data-share-public-path={payload.publicPath}
+      data-share-url={shareUrl || undefined}
       data-share-gate={gate}
     >
       <div className={styles.header}>
