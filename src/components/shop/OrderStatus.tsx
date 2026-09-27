@@ -43,7 +43,6 @@ export function OrderStatus({ number }: { number: string }) {
     [busy, setBusy] = useState(false);
   useEffect(() => {
     let active = true;
-    setError("");
     shopRequest<OrderView>(`orders/${number}`)
       .then((d) => {
         if (active) setOrder(d);
@@ -91,11 +90,11 @@ export function OrderStatus({ number }: { number: string }) {
       <h1>Kabar pesananmu</h1>
       <p>{number}</p>
       {error ? (
-        <div className="shop-empty shop-empty-compact">
-          <p role="alert" className="shop-notice">
-            {error}
-          </p>
-          {!o ? (
+        !o ? (
+          <div className="shop-empty shop-empty-compact">
+            <p role="alert" className="shop-notice">
+              {error}
+            </p>
             <button
               className="shop-button shop-button-secondary"
               type="button"
@@ -105,8 +104,12 @@ export function OrderStatus({ number }: { number: string }) {
             >
               {busy ? "Mencoba lagi…" : "Coba lagi"}
             </button>
-          ) : null}
-        </div>
+          </div>
+        ) : (
+          <p role="alert" className="shop-notice">
+            {error}
+          </p>
+        )
       ) : null}
       <div aria-live="polite" aria-busy={!o && !error}>
       {o ? (
