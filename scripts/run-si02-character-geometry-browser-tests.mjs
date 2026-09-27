@@ -138,6 +138,31 @@ async function assertSafeCharacterGeometry(scope, expectedIds, label) {
   }
 }
 
+async function assertBelajarCharactersClearContent(page, label) {
+  const result = await page.evaluate(() => {
+    const layer = document.querySelector('[data-activity-frame="garden"] [data-character-layer]');
+    const content = document.querySelector('[data-character-safe-content]');
+    if (!layer || !content) return null;
+    const contentRect = content.getBoundingClientRect();
+    const images = [...layer.querySelectorAll("img")].map((image) => {
+      const rect = image.getBoundingClientRect();
+      return { id: image.getAttribute("data-character-id"), left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom };
+    });
+    const overlaps = images.filter((rect) =>
+      rect.left < contentRect.right - 2 &&
+      rect.right > contentRect.left + 2 &&
+      rect.top < contentRect.bottom - 2 &&
+      rect.bottom > contentRect.top + 2
+    );
+    return {
+      overlaps,
+      content: { left: contentRect.left, right: contentRect.right, top: contentRect.top, bottom: contentRect.bottom }
+    };
+  });
+  assert(result, `${label}: Belajar geometry snapshot exists`);
+  assert.deepEqual(result.overlaps, [], `${label}: characters must stay outside the task-content safe box: ${JSON.stringify(result)}`);
+}
+
 async function waitForBelajar(page) {
   await page.locator('[data-activity-frame="garden"]').waitFor({ state: "visible", timeout: 10_000 });
   await page.waitForFunction(
@@ -155,13 +180,16 @@ async function testBelajar(browser) {
   const frame = page.locator('[data-activity-frame="garden"]');
 
   await assertSafeCharacterGeometry(frame, ["naya", "zia"], "Belajar portrait");
+  await assertBelajarCharactersClearContent(page, "Belajar portrait");
   await rotate(page, landscape, "landscape", "Belajar landscape");
   await assertSafeCharacterGeometry(frame, ["naya", "zia"], "Belajar landscape");
+  await assertBelajarCharactersClearContent(page, "Belajar landscape");
   assert.equal(await frame.getAttribute("data-character-state"), "hero", "Belajar character state survives rotation");
   await page.screenshot({ path: path.join(outDir, "belajar-landscape.png"), fullPage: false });
 
   await rotate(page, portrait, "portrait", "Belajar portrait recovery");
   await assertSafeCharacterGeometry(frame, ["naya", "zia"], "Belajar portrait recovery");
+  await assertBelajarCharactersClearContent(page, "Belajar portrait recovery");
   await context.close();
 }
 
