@@ -235,7 +235,7 @@
     "basis": "Explicit owner instruction to continue Batch 05 despite Batch 04 remaining a launch blocker.",
     "scope": "Staging database, migration-chain, RLS/RPC/security and concurrency acceptance only. No production or live-provider action."
   },
-  "batch05Status": "blocked_staging_branch_cost_confirmation",
+  "batch05Status": "in_progress_zero_cost_postgres_ci",
   "batch05Implementation": {
     "repositoryMainMigrationCount": 51,
     "branchMigrationCount": 53,
@@ -253,17 +253,19 @@
     "remoteMigrationApplied": false,
     "advisorsRun": false,
     "realPostgresConcurrencyRun": false,
-    "note": "Repository/full-chain preflight passed. Production is read-only baseline only. No existing dev branch exists. Batch 05 remote work waits for explicit owner confirmation of the Supabase branch cost before branch creation.",
+    "note": "Owner explicitly declined paid Supabase branching and approved zero-cost PostgreSQL 17 local/CI staging. Production remains untouched. Batch 05 closes only after the new real-PostgreSQL CI gate passes full migrations, RLS/RPC security, and six independent-session concurrency cases.",
     "directCanonicalProjectRead": true,
     "canonicalProductionProject": "estvtgflwkebomsqlolv",
     "productionStatus": "ACTIVE_HEALTHY",
     "productionMigrationCount": 51,
     "existingDevelopmentBranchCount": 0,
-    "proposedStagingMechanism": "Supabase development branch from production baseline",
+    "proposedStagingMechanism": "Zero-cost PostgreSQL 17 staging gate in GitHub Actions plus optional local Docker/PostgreSQL run",
     "branchCost": {
       "amountUsd": 0.01344,
       "recurrence": "hourly",
-      "confirmed": false
+      "confirmed": false,
+      "ownerDecision": "declined_paid_branch",
+      "required": false
     },
     "productionSecurityAdvisorBaseline": {
       "warnings": [
@@ -275,10 +277,14 @@
     "productionPerformanceAdvisorBaseline": {
       "unusedIndexInfoCount": 16,
       "shopSpecificFindings": 0
-    }
+    },
+    "zeroCostStrategyApproved": true,
+    "postgresStagingScript": "scripts/run-shop-postgres-staging-tests.sh",
+    "githubActionsJob": "Shop PostgreSQL staging gate",
+    "hostedShopAdvisorGate": "deferred_to_production_pre_activation_after_shop_migrations"
   },
   "batch06Authorization": {
     "allowed": false,
-    "reason": "Batch 05 remote staging/security/concurrency exit gate is not complete. Batch 04 owner-policy blockers also remain."
+    "reason": "Wait for the zero-cost PostgreSQL 17 Batch 05 gate to pass. Batch 04 owner-policy blockers remain a separate launch blocker."
   }
 }
