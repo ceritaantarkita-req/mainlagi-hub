@@ -242,7 +242,7 @@ assert.match(frameSource, /setCharacterMoment\("guide"\)/, "Dengar action publis
 assert.match(frameSource, /!workspace && characterPresentation/, "creative workspaces hide the decorative character layer");
 assert.match(frameSource, /<CharacterLayer characters=\{runtimeCharacters\}/, "Garden frame renders through the shared CharacterLayer");
 assert.doesNotMatch(frameSource, /runtimeCharacters\.map/, "Garden frame must not retain a second character renderer");
-assert.match(frameCss, /@media\(max-width:760px\) and \(orientation:portrait\)[\s\S]*?\.garden:not\(\.workspace\)\s*\{\s*padding-bottom:clamp\(184px,48vw,224px\)/, "Belajar portrait layout must reserve a dedicated character band below task content");
+assert.match(frameCss, /@media\(max-width:380px\) and \(orientation:portrait\)[\s\S]*?\.garden:not\(\.workspace\)\s*\{\s*padding-bottom:clamp\(184px,48vw,204px\)/, "Belajar narrow-portrait layout must reserve a dedicated character band below task content");
 assert.match(themeSource, /resolveCharacterPresentation\(\{ context: "activity", subjectId \}\)/, "Belajar visual theme resolves through the shared character presentation module");
 assert.doesNotMatch(themeSource, /approvedCharacterRuntimeSrc/, "Belajar visual theme must no longer depend on the legacy compatibility API");
 
