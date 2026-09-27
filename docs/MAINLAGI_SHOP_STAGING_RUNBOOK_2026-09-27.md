@@ -131,14 +131,34 @@ If a migration fails or creates an unexpected schema:
 Do not create a manual production rollback migration from a failed staging attempt.
 Production remains untouched until the separate production launch gate.
 
-## Current connectivity blocker
+## Current staging-creation blocker
 
-At the 2026-09-27 Batch 05 checkpoint, the connected Supabase tool returned **zero
-accessible projects**. Therefore:
+At the 2026-09-27 Batch 05 checkpoint:
+
+- the general Supabase project listing returned zero projects;
+- direct read-only access to canonical production project
+  `estvtgflwkebomsqlolv` succeeds and reports `ACTIVE_HEALTHY`;
+- the production migration history contains 51 migrations through
+  `0051_world_evidence_advisor_hardening`;
+- there are **zero existing Supabase development branches**;
+- Supabase reports a development-branch cost of **US$0.01344/hour**;
+- branch creation has **not** been performed because explicit owner cost
+  confirmation is still required.
+
+Read-only production advisor baseline before Shop staging:
+
+- security: two existing authenticated SECURITY DEFINER warnings
+  (`record_learning_attempt`, `save_world_progress`) plus leaked-password
+  protection disabled;
+- performance: 16 existing unused-index INFO findings;
+- no Shop-specific production finding exists because Shop migrations are not live.
+
+Therefore:
 
 - no remote migration was applied;
 - no remote table/RLS/RPC mutation occurred;
-- no Supabase advisor was run against staging;
+- no staging advisor run occurred;
 - no real-PostgreSQL concurrency test was claimed.
 
-Batch 05 remains open until a specific non-production Supabase target is accessible.
+Batch 05 remains open until the owner explicitly confirms the staging branch cost,
+the branch is created, and the remaining staging gates are executed.
