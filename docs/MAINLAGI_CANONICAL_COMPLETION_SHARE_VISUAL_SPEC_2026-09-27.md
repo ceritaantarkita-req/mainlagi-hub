@@ -258,21 +258,29 @@ Principle:
 
 **Different worlds, one Mainlagi interaction language.**
 
-# 6. World visual debt already accepted for correction
+# 6. Journey-map successor dependency
 
-A later dedicated World pass must address:
+The World visual debt listed during the original Completion/Share review has since
+been promoted into a separate owner-approved **Canonical Journey Map System**.
 
-1. character clipping in World header/scene presentation;
-2. obsolete/wrong-concept background illustration still used by the current World overview/header;
-3. weak journey-map visual quality;
-4. overly mechanical/empty path-node composition;
-5. weak chapter/stage hierarchy;
-6. inconsistent completed/current/locked/progress presentation;
-7. visual redesign without changing World learning/evidence/progression semantics.
+Current source of truth:
 
-No final World redesign visual is approved by this document yet.
+`MAINLAGI_CANONICAL_JOURNEY_MAP_SYSTEM_2026-09-27.md`
 
-World redesign comes after the shared completion/character/share foundation.
+That later wave now owns:
+
+1. the full-page Belajar Learning Journey Map across all nine subjects;
+2. the immersive map/game header;
+3. one node = one stage/cluster/checkpoint, not one mini-game;
+4. stage-open contextual detail without mini-game thumbnail grids;
+5. true portrait and landscape map compositions;
+6. Mainlagi-specific illustration-language requirements;
+7. Petualangan Uang World map redesign with eight authored stages;
+8. removal of obsolete/wrong-concept World header/map presentation;
+9. World map character safe-area use without changing evidence/progression/story truth.
+
+This Completion/Share document does **not** own the map UI. It remains a required
+shared dependency consumed by that later Journey Map wave.
 
 # 7. Locked execution priority
 
@@ -286,15 +294,16 @@ World redesign comes after the shared completion/character/share foundation.
 
 Completion and Share should be implemented as one connected shared-component wave.
 
-## Priority 2 — World presentation
+## Priority 2 — Canonical Journey Map System
 
-6. Redesign World header/hero.
-7. Redesign World journey map.
+6. Implement the separately specified Belajar Learning Journey Map foundation.
+7. Migrate all nine Belajar subjects through bounded subject batches.
+8. Redesign Petualangan Uang through the same shared journey-map language.
 
 ## Priority 3 — residual consistency
 
-8. Audit remaining route-specific visual drift.
-9. Fix verified inconsistencies without reopening unrelated product logic.
+9. Audit remaining route-specific visual drift.
+10. Fix verified inconsistencies without reopening unrelated product logic.
 
 # 8. Implementation boundaries
 
@@ -1006,9 +1015,10 @@ NOT LOCKED.
 Use the actual background of each game/activity.
 
 Execution:
-Shop → PR #360 → shared interaction system → World redesign.
+Shop → PR #360 → shared interaction system → Canonical Journey Map System.
 
-World header/map:
-Known visual debt.
-Separate visual approval before material redesign.
+Journey Map:
+Owner-approved concept is now locked in
+MAINLAGI_CANONICAL_JOURNEY_MAP_SYSTEM_2026-09-27.md.
+Do not redesign from scratch; implement against that dedicated contract.
 ```
