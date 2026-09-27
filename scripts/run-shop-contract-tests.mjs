@@ -40,6 +40,11 @@ assert.equal(
   mappedPayment({ transaction_status: "capture", fraud_status: "challenge" }),
   "pending",
 );
+assert.equal(mappedPayment({ transaction_status: "deny" }), "failed");
+assert.equal(mappedPayment({ transaction_status: "failure" }), "failed");
+assert.equal(mappedPayment({ transaction_status: "cancel" }), "cancelled");
+assert.equal(mappedPayment({ transaction_status: "expire" }), "expired");
+assert.equal(mappedPayment({ transaction_status: "refund" }), "refunded");
 assert.equal(
   mappedPayment({ transaction_status: "capture", fraud_status: "accept" }),
   "paid",
@@ -107,6 +112,26 @@ assert.equal(
   ),
   false,
 );
+assert.equal(
+  validMidtransStatus(
+    { ...paidStatus, transaction_id: "" },
+    "MLG-20260927-ABCDEF123456",
+    79000,
+  ),
+  false,
+);
+assert.equal(
+  validMidtransStatus(
+    {
+      ...paidStatus,
+      transaction_status: "pending",
+      status_code: "500",
+    },
+    "MLG-20260927-ABCDEF123456",
+    79000,
+  ),
+  false,
+);
 const seed = JSON.parse(await readFile("src/lib/shop/seed.json", "utf8"));
 const manifest = JSON.parse(
   await readFile(
@@ -146,6 +171,14 @@ const shopCheckoutSource = await readFile(
 );
 const shopOrderStatusSource = await readFile(
   "src/components/shop/OrderStatus.tsx",
+  "utf8",
+);
+const shopProviderSource = await readFile(
+  "src/lib/shop/providers.ts",
+  "utf8",
+);
+const shopApiRouteSource = await readFile(
+  "src/app/api/shop/[...path]/route.ts",
   "utf8",
 );
 assert.equal(seed.length, 9);
@@ -246,6 +279,17 @@ assert.match(shopPolicyPageSource, /Buka WhatsApp/);
 assert.match(shopPolicyPageSource, /operationalPolicy\.ownerDecisions/);
 assert.match(shopCheckoutSource, /\/shop\/policies/);
 assert.match(shopOrderStatusSource, /\/shop\/policies/);
+assert.match(shopProviderSource, /AbortSignal\.timeout\(15000\)/);
+assert.match(
+  shopApiRouteSource,
+  /verifyMidtrans\(b\);[\s\S]*await reconcile\(field\(b, "order_id", 50\)\)/,
+);
+assert.ok(
+  !/shop_apply_payment[\s\S]{0,600}midtrans\/notification/.test(
+    shopApiRouteSource,
+  ),
+  "Midtrans webhook body must not directly apply payment state",
+);
 assert.equal(readiness.products.length, 9);
 assert.deepEqual(
   readiness.products.map((p) => p.approvedTotalStock),
