@@ -54,11 +54,17 @@ export function salesEnabled() {
       503,
     );
 }
-export async function body(request: Request): Promise<Record<string, unknown>> {
+export async function body(
+  request: Request,
+  options: { allowEmptyObject?: boolean } = {},
+): Promise<Record<string, unknown>> {
   if (Number(request.headers.get("content-length")) > 16384)
     throw new ShopError("Data terlalu besar.", 413);
   const reader = request.body?.getReader();
-  if (!reader) throw new ShopError("Data kosong.");
+  if (!reader) {
+    if (options.allowEmptyObject) return {};
+    throw new ShopError("Data kosong.");
+  }
   const chunks: Uint8Array[] = [];
   let length = 0;
   while (true) {
@@ -71,8 +77,10 @@ export async function body(request: Request): Promise<Record<string, unknown>> {
     }
     chunks.push(value);
   }
+  const raw = Buffer.concat(chunks).toString();
+  if (options.allowEmptyObject && raw.trim() === "") return {};
   try {
-    const value = JSON.parse(Buffer.concat(chunks).toString());
+    const value = JSON.parse(raw);
     if (!value || typeof value !== "object" || Array.isArray(value))
       throw Error();
     return value;
