@@ -532,13 +532,66 @@ Portrait and landscape are two responsive compositions of the same world/state.
 
 ## 17. Approved visual direction from the 27 September review
 
-The owner explicitly approved the conceptual direction of the later Journey Map
-samples and the portrait mobile adaptations.
+The owner explicitly approved the conceptual direction of the later desktop samples
+and then approved the portrait-mobile adaptations.
 
-The approved concept characteristics are:
+The final review lock is:
+
+### Desktop concept anchors
+
+Two later desktop samples were accepted as the conceptual benchmark because they
+moved away from the rejected “map inside a window” treatment and toward:
+
+- one full-page illustrated world;
+- path and stage landmarks embedded into the environment;
+- light game-like navigation/HUD rather than a heavy site navbar;
+- environment-first composition;
+- stage/checkpoint UI that is visually secondary to the scene;
+- no permanent mini-game thumbnail grid.
+
+The approval is for the **composition/interaction direction**, not for accidental
+generated copy, invented icons, character substitutions or generated art details.
+
+### Portrait mobile — default map
+
+The owner approved the portrait concept where:
+
+- the same world becomes a true vertical journey rather than a cropped desktop map;
+- the full map remains the hero;
+- compact `Kembali`, Mainlagi identity and profile/HUD sit above the world;
+- the current stage remains obvious;
+- stage labels stay readable;
+- the path naturally continues vertically;
+- there is no permanent stage-detail panel in the clean default state.
+
+### Portrait mobile — stage selected
+
+The owner also approved the portrait state where tapping the stage opens a **bottom
+sheet** while the world remains visible above it.
+
+The bottom sheet:
+
+- is triggered only after stage selection;
+- contains stage title, short progress, `Lanjut belajar` and a simple text activity list;
+- has no mini-game thumbnail/icon grid;
+- may scroll/expand if needed;
+- closes back to the same map/selected-stage state.
+
+### Portrait mobile — Petualangan Uang
+
+The owner approved the concept of Petualangan Uang as one continuous vertical
+Adventure Journey Map:
+
+- the festival remains the visible narrative destination;
+- the authored path continues through meaningful World landmarks;
+- stage UI remains an overlay on the environment;
+- characters are fully visible in safe areas;
+- mobile portrait is a real composition, not a desktop crop.
+
+### Shared visual characteristics now locked
 
 - full-page illustrated map;
-- Mainlagi-like soft cartoon environment;
+- Mainlagi soft cartoon/painted environment language;
 - journey path integrated into the environment;
 - stage nodes as curriculum/story checkpoints;
 - no permanent mini-game thumbnail grid;
@@ -553,10 +606,8 @@ These approved concepts are **visual direction references**, not authorization t
 copy accidental generated text, invented cast members, incorrect stage names or
 AI-generated asset details.
 
-Canonical repo data, authored cast, stage names and product logic always win over
-generated mockup mistakes.
-
----
+Canonical repo data, Mainlagi Art Bible, canonical character assets, authored cast,
+stage names and product logic always win over generated mockup mistakes.
 
 ## 18. What is NOT approved / must not be copied from generated concepts
 
