@@ -11,11 +11,9 @@ export type CanonicalCompletionSurface = "overlay" | "inline";
 export type CanonicalCompletionAction =
   | {
       href: string;
-      onClick?: never;
       ariaLabel?: string;
     }
   | {
-      href?: never;
       onClick: () => void;
       ariaLabel?: string;
       disabled?: boolean;
@@ -50,7 +48,7 @@ function CompletionAction({
       ? <ArrowClockwise size={22} weight="bold" aria-hidden />
       : <ArrowRight size={22} weight="bold" aria-hidden />;
 
-  if ("href" in action && action.href) {
+  if ("href" in action) {
     return (
       <Link
         href={action.href}
