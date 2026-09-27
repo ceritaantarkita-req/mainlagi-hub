@@ -4,6 +4,40 @@ Last reviewed: **27 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
+## 27 September active sequence — SHOP FIRST, CHILD-SURFACE REVISION SECOND
+
+The current branch-scoped execution order is intentionally serial:
+
+```text
+ACTIVE NOW:
+PR #359 — Mainlagi Shop
+branch: agent/mainlagi-shop-foundation-20260927
+canonical execution doc: docs/SHOP_IMPLEMENTATION.md
+
+DEFERRED UNTIL SHOP IS CLOSED + MERGED:
+PR #360 — child-surface visual/navigation alignment
+branch: agent/child-surface-visual-alignment-20260927
+handoff: docs/MAINLAGI_POST_SHOP_CHILD_SURFACE_HANDOFF_2026-09-27.md
+verified implementation checkpoint:
+ce5c17da519a970b2f8589b5c93df888bbe4cdcc
+CI #1719 / run 36294204273 — full success
+```
+
+Do not start or merge PR #360 while Shop is still being implemented. The child
+revision depends on the final `/shop` route and navbar contract. After Shop is
+finished, merge Shop to latest `main` first, verify the merged release, then
+synchronize PR #360 onto that post-Shop `main` and rerun all required CI/browser
+gates. The old stacked ancestry must not be merged blindly because the Shop branch
+continues to advance.
+
+The successor product contract is already implemented and reviewed: top-level child
+navigation is `Belajar | Bermain | World | Shop`; Belajar removes the duplicated
+domain-card section; Belajar/Bermain/World use distinct but restrained page
+atmospheres; and their primary card grids remain 3 columns desktop / 2 columns
+mobile through 760 px. This pass must not alter learning mastery/progression, Motion
+Engine mechanics, World progression/evidence, database schema, or finalized Shop
+transaction/provider behavior.
+
 ## 27 September core thumbnail system checkpoint — WAVE 01 CLOSED / LIVE VERIFIED
 
 ```text
