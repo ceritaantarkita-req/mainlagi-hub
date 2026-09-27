@@ -317,3 +317,49 @@ Canonical closure: `MAINLAGI_HOME_BERMAIN_CHARACTER_INTEGRATION_SESSION09_2026-0
 
 Next authorized work is Session 10 semantic/activity illustration registry SVG-aware production migration; it is a separate semantic-asset workstream and must not reopen the character runtime as a side effect.
 
+
+
+## 27 September 2026 — SI-02 canonical geometry hardening — CURRENT BRANCH CHECKPOINT
+
+The closed Sessions 01–16 character asset/runtime program remains intact. SI-02 is **not** a character-development restart; it is a Shared Interaction presentation-geometry hardening wave using the already-approved SVG runtime.
+
+Active branch/PR:
+
+```text
+branch: agent/si-02-canonical-character-presentation-20260927
+PR:     #363
+base:   main f2b3768745f11e4fa33954d61aabb1a01acda2ff
+```
+
+The shared renderer now exposes:
+
+```text
+data-character-geometry="safe-contain-v1"
+```
+
+and owns one canonical slot contract:
+
+- safe top/right/bottom/left anchors;
+- character height bounded by actual slot height;
+- `object-fit: contain` with preserved SVG proportions;
+- SI-01 landscape signal consumed for short-landscape sizing;
+- pointer transparency and reduced-motion behavior unchanged;
+- no cast/state/provenance/evidence/progression logic added to the renderer.
+
+World SpeechCard no longer renders a visible character name below the shared art. The removal exposed an intrinsic-width dependency in the World caller; browser QA caught the zero-width slot and the caller was repaired in `925ee36f515343cb0b066e9b3bb293a58955bfc6`.
+
+SI-02 browser acceptance is deliberately limited to representative geometry surfaces:
+
+```text
+Belajar activity
+World SpeechCard
+World completion
+Bermain RoundEndOverlay
+```
+
+with portrait -> landscape -> portrait no-crop/state-preservation checks.
+
+Canonical checkpoint:
+`SI02_CANONICAL_CHARACTER_PRESENTATION_SAFE_CHECKPOINT_2026-09-27.md`.
+
+Status remains **branch-safe / CI revalidation pending**, not merged/live verified. Do not start SI-03 or broaden character scope until the latest PR CI and post-merge production smoke are green.
