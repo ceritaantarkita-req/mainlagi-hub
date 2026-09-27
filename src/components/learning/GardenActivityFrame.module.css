@@ -50,8 +50,8 @@
  .hint { font-size:17px; margin-top:24px; }
 }
 @media(max-width:380px) { .control span { display:none; } .control { width:48px; } }
-@media(max-width:760px) and (orientation:portrait) {
- .garden:not(.workspace) { padding-bottom:clamp(184px,48vw,224px); }
+@media(max-width:380px) and (orientation:portrait) {
+ .garden:not(.workspace) { padding-bottom:clamp(184px,48vw,204px); }
 }
 .workspace{background-color:#fffbee;padding-bottom:32px}
 .workspace .header{max-width:1280px}
