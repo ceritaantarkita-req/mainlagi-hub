@@ -82,8 +82,20 @@ echo "PASS: browser-role PII/RPC denial"
 
 echo "== Seed isolated concurrency fixtures =="
 "${psql_base[@]}" <<'SQL'
-insert into public.profiles(id,role)
-values('00000000-0000-0000-0000-000000000001','owner')
+insert into auth.users(id,email,raw_user_meta_data)
+values(
+  '00000000-0000-0000-0000-000000000001',
+  'shop-ci-owner@example.invalid',
+  '{}'::jsonb
+)
+on conflict(id) do nothing;
+
+insert into public.profiles(id,email,role)
+values(
+  '00000000-0000-0000-0000-000000000001',
+  'shop-ci-owner@example.invalid',
+  'owner'
+)
 on conflict(id) do update set role='owner';
 
 insert into public.shop_products(
