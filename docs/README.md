@@ -10,6 +10,7 @@ Read these first for current work:
 
 1. [`NEXT_PRODUCT_QUALITY_PLAN.md`](NEXT_PRODUCT_QUALITY_PLAN.md) — current execution order, workstreams, status and mandatory gates.
 2. [`CURRENT_STATE.md`](CURRENT_STATE.md) — current repository/product/production baseline.
+   - [`SHOP_IMPLEMENTATION.md`](SHOP_IMPLEMENTATION.md) — branch-scoped canonical Mainlagi Shop implementation checkpoint, launch blockers, and staged execution playbook for Draft PR #359. This does **not** imply Shop is merged or live.
    - [`MAINLAGI_CORE_THUMBNAIL_WAVE01_LIVE_CHECKPOINT_2026-09-27.md`](MAINLAGI_CORE_THUMBNAIL_WAVE01_LIVE_CHECKPOINT_2026-09-27.md) — current post-implementation safe checkpoint for the 31-file 4:3 core-thumbnail family, PR #357, CI #1711 and exact Cloudflare live verification.
    - [`data/MAINLAGI_CORE_THUMBNAIL_WAVE01_SOURCE_MAP_2026-09-26.json`](data/MAINLAGI_CORE_THUMBNAIL_WAVE01_SOURCE_MAP_2026-09-26.json) — exact machine-readable Drive/source mapping for Home, subjects, Main Gerak and World.
 3. [`PROJECT_STATE_SYNC_2026-09-20.md`](PROJECT_STATE_SYNC_2026-09-20.md) — compact current handoff and next-work state.
