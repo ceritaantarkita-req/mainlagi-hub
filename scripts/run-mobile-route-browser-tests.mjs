@@ -1559,7 +1559,7 @@ async function main() {
       await completion.waitFor();
       assert.equal(await completion.getByLabel("Tiga bintang").locator("svg").count(), 3, "shared completion must render three stars");
       assert.equal(await completion.getByRole("button", { name: "Back", exact: true }).count(), 1, "shared completion must expose Back");
-      assert.equal(await completion.getByRole("button", { name: "Try Again", exact: true }).count(), 1, "shared completion must expose Try Again");
+      assert.equal(await completion.getByRole("button", { name: "Again", exact: true }).count(), 1, "shared completion must expose Again");
       assert.equal(await completion.getByRole("link", { name: "Next", exact: true }).count(), 1, "shared completion must expose Next");
       const completionGeometry = await completion.evaluate((root) => {
         const rootBox = root.getBoundingClientRect();
