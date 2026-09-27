@@ -6,15 +6,12 @@ try {
   await db.exec(`create role anon; create role authenticated; create role service_role bypassrls;
  create table public.profiles(id uuid primary key,role text);
  create table public.audit_logs(id bigint generated always as identity primary key,actor_id uuid,action text,entity text,entity_id text,payload jsonb default '{}');`);
-  await db.exec(
-    await readFile(
-      new URL(
-        "../supabase/migrations/20260926195237_shop_foundation.sql",
-        import.meta.url,
-      ),
-      "utf8",
-    ),
-  );
+  for (const migration of [
+    "../supabase/migrations/20260926195237_shop_foundation.sql",
+    "../supabase/migrations/20260927051000_shop_admin_workflow.sql",
+  ]) {
+    await db.exec(await readFile(new URL(migration, import.meta.url), "utf8"));
+  }
   const one = async (sql, args = []) => (await db.query(sql, args)).rows[0];
   assert.equal((await one("select count(*)::int n from shop_products")).n, 9);
   assert.equal(
