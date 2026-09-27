@@ -66,6 +66,22 @@ const readiness = JSON.parse(
     "utf8",
   ),
 );
+const operationalPolicy = JSON.parse(
+  await readFile("src/lib/shop/operational-policy.json", "utf8"),
+);
+const operationalPolicySource = await readFile(
+  "src/lib/shop/operationalPolicy.ts",
+  "utf8",
+);
+const shopServerSource = await readFile("src/lib/shop/server.ts", "utf8");
+const shopOperationsSource = await readFile(
+  "src/lib/shop/operations.ts",
+  "utf8",
+);
+const shopAdminSource = await readFile(
+  "src/app/admin/shop/[section]/page.tsx",
+  "utf8",
+);
 assert.equal(seed.length, 9);
 assert.equal(manifest.length, 27);
 assert.equal(manifest.filter((m) => m.approval === "approved").length, 26);
@@ -80,6 +96,60 @@ assert.deepEqual(
 );
 assert.equal(readiness.batch02Status, "done");
 assert.equal(readiness.batch03Authorization.allowed, true);
+assert.equal(readiness.batch03Status, "done");
+assert.equal(readiness.batch04Authorization.allowed, true);
+assert.equal(operationalPolicy.status, "pending_owner_input");
+assert.equal(
+  operationalPolicy.currentImplementedBehavior.paymentExpiryMinutes,
+  30,
+);
+assert.equal(
+  operationalPolicy.currentImplementedBehavior.shippingQuoteExpiryMinutes,
+  15,
+);
+assert.equal(
+  operationalPolicy.currentImplementedBehavior.collectionMethod,
+  "pickup",
+);
+assert.equal(
+  operationalPolicy.currentImplementedBehavior.shippingType,
+  "parcel",
+);
+assert.equal(
+  operationalPolicy.currentImplementedBehavior.instantServiceAllowed,
+  false,
+);
+assert.equal(
+  operationalPolicy.currentImplementedBehavior.partialRefundHandling,
+  "manual_review",
+);
+for (const [name, decision] of Object.entries(operationalPolicy.ownerDecisions)) {
+  assert.equal(
+    decision.approved,
+    false,
+    `${name} must remain explicitly unapproved until owner input exists`,
+  );
+}
+assert.deepEqual(operationalPolicy.ownerDecisions.courierAllowlist.couriers, []);
+assert.equal(operationalPolicy.ownerDecisions.support.contact, null);
+assert.equal(operationalPolicy.ownerDecisions.paymentExpiry.minutes, null);
+assert.equal(operationalPolicy.ownerDecisions.cancellation.publicPolicy, null);
+assert.equal(operationalPolicy.ownerDecisions.returnExchange.publicPolicy, null);
+assert.equal(operationalPolicy.ownerDecisions.refund.publicPolicy, null);
+assert.match(operationalPolicySource, /operationalPolicyBlockers/);
+assert.match(operationalPolicySource, /couriers_env_mismatch/);
+assert.match(shopServerSource, /operationalPolicyBlockers\(\)/);
+assert.match(
+  shopServerSource,
+  /konfigurasi operasional belum lengkap/i,
+);
+assert.ok(
+  (shopOperationsSource.match(/operationalPolicyBlockers\(\)\.length/g) ?? [])
+    .length >= 2,
+  "rates and shipment creation must both keep the operational readiness guard",
+);
+assert.match(shopAdminSource, /"settings"/);
+assert.match(shopAdminSource, /Kesiapan operasional Shop/);
 assert.equal(readiness.products.length, 9);
 assert.deepEqual(
   readiness.products.map((p) => p.approvedTotalStock),
@@ -120,5 +190,5 @@ assert.ok(
   "rejected duplicate tumbler alternate is not runtime media",
 );
 console.log(
-  "Shop contracts: signature tampering, fraud challenge, unknown status, partial-refund hold, Batch 02 readiness handoff, 9 products, 26 approved runtime media + 1 rejected provenance asset PASS",
+  "Shop contracts: provider integrity, Batch 02/03 readiness, Batch 04 fail-closed operational contract, 9 products, 26 approved runtime media + 1 rejected provenance asset PASS",
 );
