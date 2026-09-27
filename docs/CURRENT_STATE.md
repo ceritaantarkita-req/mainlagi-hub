@@ -68,7 +68,9 @@ current runtime truth until this successor wave lands; its existence must not be
 mistaken for approval to keep divergent Belajar/Bermain/World completion styles.
 
 A later owner-approved map direction is now locked in
-`docs/MAINLAGI_CANONICAL_JOURNEY_MAP_SYSTEM_2026-09-27.md`. After the shared
+`docs/MAINLAGI_CANONICAL_JOURNEY_MAP_SYSTEM_2026-09-27.md`. The bounded post-Shop
+execution sequence is recorded in
+`docs/MAINLAGI_POST_SHOP_VISUAL_EXECUTION_SESSIONS_2026-09-27.md`. After the shared
 interaction wave is merged/production-verified, Belajar subject pages move from a
 dashboard/catalog-first presentation to a full-page **Learning Journey Map** where
 one node is one stage/cluster, not one mini-game. Mini-games appear only after stage
