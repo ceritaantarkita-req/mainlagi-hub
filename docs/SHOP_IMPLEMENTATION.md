@@ -751,6 +751,26 @@ variant totals are reconciled.
 - `SHOP_SALES_ENABLED` must remain disabled.
 - Do not start staging/provider work while Batch 02 remains blocked.
 
+### Mandatory successor after Shop closure
+
+After the Shop release sequence is fully closed, merged to `main`, and verified on
+the merged production SHA, the next planned work is **not another Shop batch**. The
+next handoff is the already-implemented child-surface visual/navigation revision:
+
+```text
+PR #360
+agent/child-surface-visual-alignment-20260927
+```
+
+Read `docs/MAINLAGI_POST_SHOP_CHILD_SURFACE_HANDOFF_2026-09-27.md` before touching
+that branch. PR #360 is intentionally deferred while Shop is active because its
+navbar includes `Shop` and therefore depends on the final Shop route/release state.
+
+Do not merge PR #360 blindly from its historical stacked base. After Shop is merged,
+synchronize that branch onto the actual latest `main`, preserve finalized Shop
+behavior, rerun full CI + responsive visual QA, then retarget/merge the child-surface
+revision only if all gates are green.
+
 ## Verification completed
 
 - `npm run test:shop`: provider signature tampering/fraud/status tests; all 27
