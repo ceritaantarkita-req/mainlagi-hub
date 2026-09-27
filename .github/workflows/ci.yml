@@ -109,6 +109,30 @@ jobs:
         shell: bash
         run: bash scripts/run-shop-postgres-staging-tests.sh
 
+  shop-midtrans-sandbox:
+    name: Shop Midtrans sandbox probe
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      MIDTRANS_SANDBOX_SERVER_KEY: ${{ secrets.MIDTRANS_SANDBOX_SERVER_KEY }}
+      MIDTRANS_IS_PRODUCTION: "false"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check Midtrans sandbox credential
+        id: credential
+        shell: bash
+        run: |
+          if [[ -z "$MIDTRANS_SANDBOX_SERVER_KEY" ]]; then
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "MIDTRANS_SANDBOX_SERVER_KEY_NOT_CONFIGURED"
+          else
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+            echo "Midtrans sandbox credential is configured."
+          fi
+      - name: Run live Midtrans sandbox Snap probe
+        if: steps.credential.outputs.configured == 'true'
+        run: node scripts/run-shop-midtrans-sandbox-probe.mjs
+
   build:
     name: Production build
     runs-on: ubuntu-latest
