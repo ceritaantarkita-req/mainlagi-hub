@@ -195,7 +195,8 @@
     "test:shop:midtrans-sandbox": "node scripts/run-shop-midtrans-sandbox-probe.mjs",
     "test:ui:orientation-foundation": "node scripts/run-si01-orientation-foundation-browser-tests.mjs",
     "test:ui:character-geometry": "node scripts/run-si02-character-geometry-browser-tests.mjs",
-    "test:shop:biteship-fixture": "node scripts/run-shop-biteship-sandbox-fixture-tests.mjs"
+    "test:shop:biteship-fixture": "node scripts/run-shop-biteship-sandbox-fixture-tests.mjs",
+    "test:shop:biteship-rates": "node scripts/run-shop-biteship-sandbox-rates-probe.mjs"
   },
   "dependencies": {
     "@capacitor/cli": "^7.6.8",

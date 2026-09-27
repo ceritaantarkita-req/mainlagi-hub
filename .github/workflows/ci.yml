@@ -529,3 +529,28 @@ jobs:
           node-version: 22
       - name: Verify Biteship test key and approved courier/service availability
         run: node scripts/run-shop-biteship-sandbox-connectivity-probe.mjs
+
+
+  shop-biteship-sandbox-rates:
+    name: Shop Biteship sandbox rates
+    if: >-
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/agent/mainlagi-shop-foundation-20260927' &&
+      contains(github.event.head_commit.message, '[biteship-rates-probe]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      BITESHIP_TEST_API_KEY: ${{ secrets.BITESHIP_TEST_API_KEY }}
+      BITESHIP_ORIGIN_CONTACT_NAME: ${{ secrets.BITESHIP_ORIGIN_CONTACT_NAME }}
+      BITESHIP_ORIGIN_CONTACT_PHONE: ${{ secrets.BITESHIP_ORIGIN_CONTACT_PHONE }}
+      BITESHIP_ORIGIN_ADDRESS: ${{ secrets.BITESHIP_ORIGIN_ADDRESS }}
+      BITESHIP_ORIGIN_POSTAL_CODE: ${{ secrets.BITESHIP_ORIGIN_POSTAL_CODE }}
+      BITESHIP_COURIERS: "jne,jnt,sicepat,anteraja,ninja"
+      BITESHIP_TEST_DESTINATION_POSTAL_CODE: "12820"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Probe Biteship Sandbox rates without creating an order
+        run: node scripts/run-shop-biteship-sandbox-rates-probe.mjs

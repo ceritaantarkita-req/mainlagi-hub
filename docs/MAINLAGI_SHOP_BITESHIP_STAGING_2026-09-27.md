@@ -216,3 +216,33 @@ available.
 
 Rates remain intentionally blocked until owner-verified pickup/contact/address/
 postal-code values and real product weight/dimensions are configured.
+
+
+## Sandbox Rates API probe
+
+The repository contains a non-mutating Biteship Rates API probe:
+
+```text
+scripts/run-shop-biteship-sandbox-rates-probe.mjs
+```
+
+It requires these GitHub Actions repository secrets:
+
+```text
+BITESHIP_ORIGIN_CONTACT_NAME
+BITESHIP_ORIGIN_CONTACT_PHONE
+BITESHIP_ORIGIN_ADDRESS
+BITESHIP_ORIGIN_POSTAL_CODE
+```
+
+The API key continues to come from `BITESHIP_TEST_API_KEY`. Courier codes are
+pinned by the workflow to `jne,jnt,sicepat,anteraja,ninja`.
+
+The probe uses testing-only SKU `001-DEFAULT` from the sandbox fixture and makes
+one authenticated Rates request. It does **not** create an order, pickup, waybill,
+or real shipment. Origin contact/address values remain in GitHub Secrets and are
+not committed or printed to logs.
+
+The destination postal code is intentionally a same-zone sandbox smoke value
+(`12820`) for the first acceptance request. Later acceptance may add explicit
+cross-city destinations after the basic Rates path passes.
