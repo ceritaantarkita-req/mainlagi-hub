@@ -102,9 +102,9 @@ insert into public.shop_products(
   id,product_code,slug,title,description,category_slug,base_price_amount,
   status,review_status,facts,initial_stock_total,facts_verified,media_approved
 ) values
-('10000000-0000-0000-0000-000000000001','T01','ci-t01','CI T01','Concurrency fixture','books',10000,'draft','draft','{}',1,false,true),
-('10000000-0000-0000-0000-000000000002','T02','ci-t02','CI T02','Concurrency fixture','books',10000,'draft','draft','{}',1,false,true),
-('10000000-0000-0000-0000-000000000003','T03','ci-t03','CI T03','Concurrency fixture','books',10000,'draft','draft','{}',1,false,true);
+('10000000-0000-0000-0000-000000000001','T01','ci-t01','CI T01','Concurrency fixture','learn-create',10000,'draft','draft','{}',1,false,true),
+('10000000-0000-0000-0000-000000000002','T02','ci-t02','CI T02','Concurrency fixture','learn-create',10000,'draft','draft','{}',1,false,true),
+('10000000-0000-0000-0000-000000000003','T03','ci-t03','CI T03','Concurrency fixture','learn-create',10000,'draft','draft','{}',1,false,true);
 
 insert into public.shop_product_media(product_id,path,alt_text,role,sort_order,approval_status)
 select p.id,'/ci/'||lower(p.product_code)||'-hero.webp','CI hero','hero',0,'approved'
