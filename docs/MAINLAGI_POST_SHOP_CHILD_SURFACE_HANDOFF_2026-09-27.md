@@ -110,6 +110,7 @@ After the final Shop release is merged to `main`:
 2. Read, in this order:
    - `docs/SHOP_IMPLEMENTATION.md`;
    - this document;
+   - `docs/MAINLAGI_CANONICAL_COMPLETION_SHARE_VISUAL_SPEC_2026-09-27.md`;
    - `docs/CURRENT_STATE.md`;
    - `docs/PRODUCT_DIRECTION.md`;
    - PR #360 diff and discussion.
@@ -129,6 +130,21 @@ After the final Shop release is merged to `main`:
 10. Merge only after all required checks are green.
 11. Verify merged-main CI and exact production smoke.
 12. Record the final merged SHA, CI run, production smoke and screenshots in canonical docs.
+
+## 5A. Locked visual successor contract
+
+Before implementation, treat `docs/MAINLAGI_CANONICAL_COMPLETION_SHARE_VISUAL_SPEC_2026-09-27.md` as owner-approved visual truth for the next UI wave.
+
+The two approved concepts are locked for the **popup components only**:
+
+- Canonical Completion System;
+- Canonical Share Experience.
+
+The background artwork visible behind those mockups is explicitly non-canonical and must be replaced at runtime by the actual background of each Belajar/Bermain/World activity.
+
+The same spec also locks the no-character-crop rule, removal of character-name labels, and execution priority: shared completion/character/share foundation first, World header/map redesign second.
+
+Do not regenerate or materially redesign the approved popup concepts without explicit project-owner approval.
 
 ## 6. Acceptance contract
 
