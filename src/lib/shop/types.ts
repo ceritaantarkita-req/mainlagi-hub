@@ -7,14 +7,20 @@ export type Product = {
   category_slug: string;
   base_price_amount: number;
   status: string;
+  review_status: "draft" | "ready_for_review" | "approved";
+  facts: Record<string, unknown>;
+  initial_stock_total: number;
   facts_verified: boolean;
   media_approved: boolean;
+  updated_at?: string;
   shop_variants: Variant[];
   shop_product_media: {
+    id?: string;
     path: string;
     alt_text: string;
+    role?: "hero" | "in_use" | "in_use_alt";
     sort_order: number;
-    approval_status: string;
+    approval_status: "review" | "approved" | "rejected";
   }[];
 };
 export type Variant = {
@@ -25,6 +31,13 @@ export type Variant = {
   is_active: boolean;
   price_override_amount: number | null;
   option_values: Record<string, string>;
+  length_mm?: number | null;
+  width_mm?: number | null;
+  height_mm?: number | null;
+  shop_inventory_balances?:
+    | { on_hand: number; reserved: number }
+    | { on_hand: number; reserved: number }[]
+    | null;
 };
 export type CartLine = {
   variant_id: string;
