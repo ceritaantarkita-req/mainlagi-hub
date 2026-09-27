@@ -30,6 +30,16 @@
  .spacious.compactShortDesktop { margin-top:30px; min-height:0; }
  .spacious.compactShortDesktop > .title { font-size:64px; margin-bottom:12px; }
 }
+:global([data-mainlagi-orientation="landscape"]) .garden:not(.workspace) .characterLayer {
+  inset: 0 0 auto;
+  height: var(--ml-viewport-height, 100dvh);
+}
+
+:global([data-mainlagi-orientation="landscape"]) .garden:not(.workspace) .play {
+  width: min(620px, 68%);
+  margin-top: 20px;
+}
+
 @media(max-width:760px) {
  .garden { padding:16px 16px 145px; background-size:auto 100%; }
  .themedScene { background-image:var(--ml-scene-mobile); background-position:center bottom; background-size:cover; }
