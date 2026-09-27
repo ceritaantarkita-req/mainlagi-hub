@@ -43,8 +43,13 @@ assert.match(adminEditorSource, /type="checkbox"/);
 assert.match(adminEditorSource, /className="shop-cart-line"/);
 assert.match(
   batch10Css,
-  /dense cart\/admin rows must collapse safely[\s\S]*?\.shop-cart-line\s*\{[\s\S]*?flex-wrap:\s*wrap/,
-  "dense admin rows must wrap on narrow screens",
+  /\.shop-cart-line\s*\{[\s\S]*?flex-wrap:\s*wrap/,
+  "dense cart/admin rows must wrap instead of overflowing",
+);
+assert.match(
+  batch10Css,
+  /dense cart\/admin rows must collapse safely[\s\S]*?\.shop-cart-line\s*>\s*label,[\s\S]*?flex-basis:\s*100%/,
+  "dense admin form fields must collapse to one column on narrow screens",
 );
 assert.match(accountOrdersSource, /aria-label="Pagination pesanan"/);
 assert.match(adminShopSource, /aria-label="Pagination pesanan"/);
