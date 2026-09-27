@@ -235,6 +235,41 @@ test: lock intrinsic-ratio character sizing
 
 This checkpoint remains branch-safe only until a later latest-head run is full green.
 
+### PR CI #1872 / run 36324344473
+
+The intrinsic-ratio fixes passed all non-browser gates. The permanent Session 07 Belajar character regression then caught a narrow-portrait separation regression before the SI-02-specific suite ran:
+
+```text
+Bahasa / 320x740 portrait:
+Gavi + Paca overlapped the symbol-hunt task field
+```
+
+This is a caller-layout issue, not an asset or identity issue. At narrow portrait widths the task could extend into the same bottom band used by the decorative characters.
+
+The fix reserves an explicit presentation-only portrait character band in `GardenActivityFrame`:
+
+```css
+@media(max-width:760px) and (orientation:portrait) {
+  .garden:not(.workspace) {
+    padding-bottom: clamp(184px,48vw,224px);
+  }
+}
+```
+
+Creative workspaces remain excluded. Landscape keeps the separate SI-01/SI-02 side-gutter contract.
+
+Fix commits:
+
+```text
+5d0dbb4900c5bd7165901fecea293cd4a58ebb91
+fix: reserve portrait character band below Belajar tasks
+
+52308ea99efd34e7062d96de30435da465081aff
+test: lock Belajar portrait character reserve
+```
+
+Any CI run whose head predates `52308ea99efd34e7062d96de30435da465081aff` is superseded and cannot close SI-02.
+
 ## Merge/production gate
 
 Do **not** merge PR #363 until:
