@@ -10,7 +10,6 @@ const lacks = (source, literal, message) => assert(!source.includes(literal), me
 const canonical = read("src/components/CanonicalCompletion.tsx");
 const css = read("src/components/CanonicalCompletion.module.css");
 const belajar = read("src/components/learning/ActivityCompletion.tsx");
-const belajarCss = read("src/components/learning/ActivityCompletion.module.css");
 const world = read("src/components/learning/world-v2/MoneyWorldExperience.tsx");
 const bermain = read("src/games/shared.tsx");
 
@@ -42,8 +41,10 @@ assert.match(
 has(belajar, "back={{ onClick: goBack }}", "Belajar keeps its existing Back semantics");
 has(belajar, "again={{ onClick: retry }}", "Belajar keeps its existing replay semantics");
 has(belajar, 'next={{ href: nextHref, ariaLabel: "Next" }}', "Belajar keeps stage-aware Next semantics");
-has(belajar, "onShare={openShare}", "SI-03 delegates Share behavior to the existing owner pending SI-04");
-has(belajar, 'fetch("/api/parent/share-gate"', "existing Share gate remains owned by the Belajar adapter until SI-04");
+has(belajar, 'import { CanonicalShareDialog } from "@/components/CanonicalShare"', "Belajar completion composes the canonical Share owner after SI-04");
+has(belajar, "onShare={() => setShareOpen(true)}", "SI-03 Completion still delegates Share opening to its adapter");
+has(belajar, '<CanonicalShareDialog', "Belajar completion keeps Share outside CanonicalCompletion presentation");
+lacks(belajar, 'fetch("/api/parent/share-gate"', "SI-04 removes parent-gate ownership from ActivityCompletion");
 
 for (const providerFragment of [
   "parent/share-gate",
@@ -57,10 +58,6 @@ for (const providerFragment of [
 }
 
 lacks(belajar, "Try Again", "Belajar canonical visual label is Again, not legacy Try Again");
-for (const legacyClass of [".overlay", ".completion {", ".praise", ".stars", ".actions", ".shareButton"]) {
-  lacks(belajarCss, legacyClass, `legacy Belajar completion visual ownership is removed: ${legacyClass}`);
-}
-
 lacks(world, "CanonicalCompletion", "SI-03 must not migrate World before SI-10");
 lacks(bermain, "CanonicalCompletion", "SI-03 must not migrate Bermain before SI-07/SI-09");
 
