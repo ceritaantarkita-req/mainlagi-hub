@@ -1,0 +1,153 @@
+name: Shop Biteship staging deploy
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: shop-biteship-staging-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy isolated Shop staging
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: shop-staging
+    env:
+      WORKER_NAME: mainlagi-hub-shop-staging
+      EXPECTED_BRANCH: agent/mainlagi-shop-foundation-20260927
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      BITESHIP_TEST_API_KEY: ${{ secrets.BITESHIP_TEST_API_KEY }}
+      BITESHIP_WEBHOOK_SECRET: ${{ secrets.BITESHIP_WEBHOOK_SECRET }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Refuse production/main deployment
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          if [[ "${GITHUB_REF_NAME}" != "${EXPECTED_BRANCH}" ]]; then
+            echo "::error::Run this workflow only from ${EXPECTED_BRANCH}; current ref is ${GITHUB_REF_NAME}."
+            exit 1
+          fi
+
+      - name: Verify staging credentials are configured
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          missing=0
+          for name in CLOUDFLARE_API_TOKEN CLOUDFLARE_ACCOUNT_ID BITESHIP_TEST_API_KEY BITESHIP_WEBHOOK_SECRET; do
+            if [[ -z "${!name:-}" ]]; then
+              echo "::error::Missing GitHub Actions secret: ${name}"
+              missing=1
+            fi
+          done
+          if [[ "${missing}" -ne 0 ]]; then
+            exit 1
+          fi
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Resolve isolated workers.dev staging URL
+        id: staging-url
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          response="$(curl -fsS             "https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/workers/subdomain"             -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}")"
+          subdomain="$(node -e '
+            const body = JSON.parse(process.argv[1]);
+            if (!body.success || !body.result?.subdomain) process.exit(2);
+            process.stdout.write(body.result.subdomain);
+          ' "${response}")" || {
+            echo "::error::Cloudflare workers.dev subdomain is unavailable. Enable a Workers subdomain for this account first."
+            exit 1
+          }
+          staging_url="https://${WORKER_NAME}.${subdomain}.workers.dev"
+          echo "STAGING_URL=${staging_url}" >> "${GITHUB_ENV}"
+          echo "url=${staging_url}" >> "${GITHUB_OUTPUT}"
+          echo "Resolved isolated staging origin: ${staging_url}"
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Build Cloudflare staging artifact
+        env:
+          NEXT_PUBLIC_SITE_URL: ${{ steps.staging-url.outputs.url }}
+          NEXT_PUBLIC_DATA_BACKEND: mock
+          SHOP_SALES_ENABLED: "false"
+          SHOP_LOCAL_PREVIEW: "false"
+        run: npm run build:cloudflare
+
+      - name: Deploy isolated Worker
+        shell: bash
+        run: npx wrangler deploy --name "${WORKER_NAME}"
+
+      - name: Configure staging-only runtime secrets
+        shell: bash
+        env:
+          NEXT_PUBLIC_SITE_URL: ${{ steps.staging-url.outputs.url }}
+        run: |
+          set -Eeuo pipefail
+          node <<'NODE'
+          const { writeFileSync } = require("node:fs");
+          const required = (name) => {
+            const value = process.env[name];
+            if (!value) throw new Error("Missing " + name);
+            return value;
+          };
+          writeFileSync("/tmp/mainlagi-shop-staging-secrets.json", JSON.stringify({
+            BITESHIP_API_KEY: required("BITESHIP_TEST_API_KEY"),
+            BITESHIP_WEBHOOK_HEADER: "X-Mainlagi-Biteship-Secret",
+            BITESHIP_WEBHOOK_SECRET: required("BITESHIP_WEBHOOK_SECRET"),
+            SHOP_SALES_ENABLED: "false",
+            SHOP_LOCAL_PREVIEW: "false",
+            NEXT_PUBLIC_SITE_URL: required("NEXT_PUBLIC_SITE_URL"),
+            NEXT_PUBLIC_DATA_BACKEND: "mock"
+          }));
+          NODE
+          npx wrangler secret bulk /tmp/mainlagi-shop-staging-secrets.json --name "${WORKER_NAME}"
+          rm -f /tmp/mainlagi-shop-staging-secrets.json
+
+      - name: Verify Biteship installation probe
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          code="$(curl -sS -o /tmp/biteship-probe.json -w '%{http_code}'             --connect-timeout 10 --max-time 30             -X POST "${STAGING_URL}/api/shop/biteship/webhook"             -H "Content-Type: application/json"             --data '{}')"
+          cat /tmp/biteship-probe.json
+          if [[ "${code}" != "200" ]] || ! grep -Fq '"ok":true' /tmp/biteship-probe.json; then
+            echo "::error::Biteship install probe failed: HTTP ${code}"
+            exit 1
+          fi
+
+      - name: Verify real-event signature boundary remains closed
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          code="$(curl -sS -o /tmp/biteship-forged.json -w '%{http_code}'             --connect-timeout 10 --max-time 30             -X POST "${STAGING_URL}/api/shop/biteship/webhook"             -H "Content-Type: application/json"             --data '{"order_id":"forged-install-test"}')"
+          cat /tmp/biteship-forged.json
+          if [[ "${code}" != "403" ]]; then
+            echo "::error::Unsigned non-empty Biteship event must be rejected with HTTP 403; got ${code}."
+            exit 1
+          fi
+
+      - name: Publish staging endpoint
+        if: success()
+        shell: bash
+        run: |
+          {
+            echo "## Mainlagi Shop isolated staging"
+            echo
+            echo "- Worker: \`${WORKER_NAME}\`"
+            echo "- Staging origin: ${STAGING_URL}"
+            echo "- Biteship webhook: ${STAGING_URL}/api/shop/biteship/webhook"
+            echo "- SHOP_SALES_ENABLED: false"
+            echo "- Production domain was not modified."
+          } >> "${GITHUB_STEP_SUMMARY}"

@@ -341,6 +341,14 @@ Exit gate:
 - Wrong amount/identity/signature and duplicates fail safely.
 - Payment reconciliation behavior is evidenced.
 
+Biteship isolated staging deployment runbook:
+`docs/MAINLAGI_SHOP_BITESHIP_STAGING_2026-09-27.md`.
+
+The prepared GitHub Actions workflow deploys a separate workers.dev Worker with
+sales forced OFF, verifies the empty Biteship installation probe returns 200 and
+verifies unsigned non-empty events remain rejected. It does not touch
+`mainlagihub.my.id` and does not claim database-backed full staging acceptance.
+
 ### Batch 07 — Biteship sandbox and fulfillment acceptance
 
 **Goal:** verify real shipping rates, shipment creation and tracking transitions.
