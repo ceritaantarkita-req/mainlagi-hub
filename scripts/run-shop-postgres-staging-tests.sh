@@ -104,34 +104,42 @@ insert into public.shop_products(
 ) values
 ('10000000-0000-0000-0000-000000000001','T01','ci-t01','CI T01','Concurrency fixture','learn-create',10000,'draft','draft','{}',1,false,true),
 ('10000000-0000-0000-0000-000000000002','T02','ci-t02','CI T02','Concurrency fixture','learn-create',10000,'draft','draft','{}',1,false,true),
-('10000000-0000-0000-0000-000000000003','T03','ci-t03','CI T03','Concurrency fixture','learn-create',10000,'draft','draft','{}',1,false,true);
+('10000000-0000-0000-0000-000000000003','T03','ci-t03','CI T03','Concurrency fixture','learn-create',10000,'draft','draft','{}',1,false,true),
+('10000000-0000-0000-0000-000000000004','T04','ci-t04','CI T04','Payment recovery fixture','learn-create',10000,'draft','draft','{}',1,false,true),
+('10000000-0000-0000-0000-000000000005','T05','ci-t05','CI T05','Payment review fixture','learn-create',10000,'draft','draft','{}',1,false,true);
 
 insert into public.shop_product_media(product_id,path,alt_text,role,sort_order,approval_status)
 select p.id,'/shop/products/ci-'||lower(p.product_code)||'-hero.webp','CI hero','hero',0,'approved'
-from public.shop_products p where p.product_code in ('T01','T02','T03');
+from public.shop_products p where p.product_code in ('T01','T02','T03','T04','T05');
 insert into public.shop_product_media(product_id,path,alt_text,role,sort_order,approval_status)
 select p.id,'/shop/products/ci-'||lower(p.product_code)||'-use.webp','CI use','in_use',1,'approved'
-from public.shop_products p where p.product_code in ('T01','T02','T03');
+from public.shop_products p where p.product_code in ('T01','T02','T03','T04','T05');
 
 insert into public.shop_variants(id,product_id,sku,title,option_values,weight_grams,is_active) values
 ('20000000-0000-0000-0000-000000000001','10000000-0000-0000-0000-000000000001','T01-ONE','One','{}',100,true),
 ('20000000-0000-0000-0000-000000000002','10000000-0000-0000-0000-000000000002','T02-ONE','One','{}',100,true),
-('20000000-0000-0000-0000-000000000003','10000000-0000-0000-0000-000000000003','T03-ONE','One','{}',100,true);
+('20000000-0000-0000-0000-000000000003','10000000-0000-0000-0000-000000000003','T03-ONE','One','{}',100,true),
+('20000000-0000-0000-0000-000000000004','10000000-0000-0000-0000-000000000004','T04-ONE','One','{}',100,true),
+('20000000-0000-0000-0000-000000000005','10000000-0000-0000-0000-000000000005','T05-ONE','One','{}',100,true);
 insert into public.shop_inventory_balances(variant_id,on_hand,reserved) values
 ('20000000-0000-0000-0000-000000000001',1,0),
 ('20000000-0000-0000-0000-000000000002',1,0),
-('20000000-0000-0000-0000-000000000003',1,0);
+('20000000-0000-0000-0000-000000000003',1,0),
+('20000000-0000-0000-0000-000000000004',1,0),
+('20000000-0000-0000-0000-000000000005',1,0);
 insert into public.shop_inventory_ledger(variant_id,quantity_delta,movement_type,idempotency_key,reason,actor_id) values
 ('20000000-0000-0000-0000-000000000001',1,'variant_setup','ci-seed:t01','CI fixture','00000000-0000-0000-0000-000000000001'),
 ('20000000-0000-0000-0000-000000000002',1,'variant_setup','ci-seed:t02','CI fixture','00000000-0000-0000-0000-000000000001'),
-('20000000-0000-0000-0000-000000000003',1,'variant_setup','ci-seed:t03','CI fixture','00000000-0000-0000-0000-000000000001');
+('20000000-0000-0000-0000-000000000003',1,'variant_setup','ci-seed:t03','CI fixture','00000000-0000-0000-0000-000000000001'),
+('20000000-0000-0000-0000-000000000004',1,'variant_setup','ci-seed:t04','CI fixture','00000000-0000-0000-0000-000000000001'),
+('20000000-0000-0000-0000-000000000005',1,'variant_setup','ci-seed:t05','CI fixture','00000000-0000-0000-0000-000000000001');
 
 select public.shop_admin_transition(id,'ready','00000000-0000-0000-0000-000000000001')
-from public.shop_products where product_code in ('T01','T02','T03');
+from public.shop_products where product_code in ('T01','T02','T03','T04','T05');
 select public.shop_admin_transition(id,'approve','00000000-0000-0000-0000-000000000001')
-from public.shop_products where product_code in ('T01','T02','T03');
+from public.shop_products where product_code in ('T01','T02','T03','T04','T05');
 select public.shop_admin_transition(id,'activate','00000000-0000-0000-0000-000000000001')
-from public.shop_products where product_code in ('T01','T02','T03');
+from public.shop_products where product_code in ('T01','T02','T03','T04','T05');
 SQL
 
 create_cart() {
@@ -158,7 +166,7 @@ HASH_A="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 HASH_B="bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
 HASH_C="cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
 HASH_D="dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
-HASH_E="eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+HASH_E="eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"\nHASH_F="ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
 GUEST_HASH="9999999999999999999999999999999999999999999999999999999999999999"
 CUSTOMER="'{\"name\":\"CI\"}'::jsonb"
 ADDRESS="'{\"postalCode\":\"17111\"}'::jsonb"
