@@ -196,5 +196,26 @@
     "allowed": true,
     "scope": "Build product/variant/facts/media/inventory editing and fail-closed activation validation against this readiness contract.",
     "hardRule": "No product may become active until its requiredBeforeActivation fields are verified and variant stock reconciles to the approved total."
+  },
+  "batch03Status": "done",
+  "batch03Implementation": {
+    "ownerProductEditor": true,
+    "variantEditor": true,
+    "mediaReview": true,
+    "lifecycle": [
+      "draft",
+      "ready_for_review",
+      "approved",
+      "active"
+    ],
+    "databaseReadinessGate": true,
+    "activeMutationGuard": true,
+    "auditLogging": true,
+    "migration": "supabase/migrations/20260927051000_shop_admin_workflow.sql",
+    "note": "Missing real-world product facts remain per-product activation blockers. Batch 03 completion does not make those products launch-ready."
+  },
+  "batch04Authorization": {
+    "allowed": true,
+    "scope": "Close operational settings and customer policy contract without inventing provider or owner decisions."
   }
 }
