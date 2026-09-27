@@ -25,11 +25,11 @@ export function CanonicalShareDialog({
   const dialogRef = useRef<HTMLDialogElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const headingId = `canonical-share-${useId()}`;
-  const [gate, setGate] = useState<ShareGateState>("idle");
+  const [gate, setGate] = useState<ShareGateState>("checking");
   const [status, setStatus] = useState("");
-  const [origin, setOrigin] = useState("");
 
   const payload = useMemo(() => resolveCanonicalSharePayload(input), [input]);
+  const origin = open && typeof window !== "undefined" ? window.location.origin : "";
   const shareUrl = useMemo(
     () => origin ? resolveCanonicalShareUrl(origin, payload.publicPath) : "",
     [origin, payload.publicPath]
@@ -40,10 +40,6 @@ export function CanonicalShareDialog({
   );
 
   useEffect(() => {
-    setOrigin(window.location.origin);
-  }, []);
-
-  useEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
 
@@ -52,12 +48,15 @@ export function CanonicalShareDialog({
       return;
     }
 
-    setGate("checking");
-    setStatus("");
     if (!dialog.open) dialog.showModal();
 
-    const frame = window.requestAnimationFrame(() => headingRef.current?.focus());
     const controller = new AbortController();
+    queueMicrotask(() => {
+      if (controller.signal.aborted) return;
+      setGate("checking");
+      setStatus("");
+    });
+    const frame = window.requestAnimationFrame(() => headingRef.current?.focus());
 
     void fetch("/api/parent/share-gate", {
       cache: "no-store",
