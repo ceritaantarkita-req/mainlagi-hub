@@ -274,4 +274,52 @@ ship_false="$(cat /tmp/ship-a.out /tmp/ship-b.out | tr -d '\r' | grep -c '^f$' |
 }
 expect_scalar "select count(*) from public.shop_shipments where order_id='$order1_id'::uuid" "1" "one shipment lease row"
 
-echo "PostgreSQL 17 Shop staging gate: full migrations, RLS/RPC security, and six real multi-connection concurrency cases PASS"
+echo "== Batch 06: payment lease timeout/retry and late settlement hold =="
+create_cart "30000000-0000-0000-0000-000000000005" "40000000-0000-0000-0000-000000000005" "20000000-0000-0000-0000-000000000004" "$HASH_E"
+order3="$(scalar "$(checkout_sql "30000000-0000-0000-0000-000000000005" "$HASH_E" "40000000-0000-0000-0000-000000000005")")"
+order3_id="$(scalar "select id from public.shop_orders where order_number='$order3'")"
+amount3="$(scalar "select grand_total_amount from public.shop_orders where order_number='$order3'")"
+expect_scalar "select public.shop_claim_payment('$order3_id'::uuid)::text" "true" "first payment session claim succeeds"
+expect_scalar "select public.shop_claim_payment('$order3_id'::uuid)::text" "false" "second payment session claim is blocked during lease"
+"${psql_base[@]}" -c "update public.shop_payment_attempts set lease_until=now()-interval '1 second' where order_id='$order3_id'::uuid;"
+expect_scalar "select public.shop_claim_payment('$order3_id'::uuid)::text" "true" "expired payment-session lease can be safely reclaimed"
+expect_scalar "select count(*) from public.shop_payment_attempts where order_id='$order3_id'::uuid and provider_order_id='$order3' and snap_token is null" "1" "payment-session retries keep one provider identity"
+
+"${psql_base[@]}" -c "select public.shop_apply_payment('$order3',$amount3,'expired','ci-late-expire',null);"
+expect_scalar "select (payment_status='expired' and order_status='expired')::text from public.shop_orders where order_number='$order3'" "true" "expiry releases unpaid order"
+expect_scalar "select (on_hand=1 and reserved=0)::text from public.shop_inventory_balances where variant_id='20000000-0000-0000-0000-000000000004'" "true" "expiry releases reservation without consuming stock"
+
+"${psql_base[@]}" -c "select public.shop_apply_payment('$order3',$amount3,'paid','ci-late-paid','ci-tx-late');"
+expect_scalar "select (payment_status='paid' and order_status='attention_required' and fulfillment_status='attention_required')::text from public.shop_orders where order_number='$order3'" "true" "late settlement is recorded but held for manual review"
+expect_scalar "select (on_hand=1 and reserved=0)::text from public.shop_inventory_balances where variant_id='20000000-0000-0000-0000-000000000004'" "true" "late settlement never consumes already released stock"
+expect_scalar "select count(*) from public.audit_logs where action='shop.payment.late' and entity_id='$order3_id'" "1" "late settlement creates one audit hold"
+
+echo "== Batch 06: duplicate and out-of-order payment events never regress paid state =="
+"${psql_base[@]}" -c "select public.shop_apply_payment('$order3',$amount3,'paid','ci-late-paid','ci-tx-late');"
+expect_scalar "select count(*) from public.shop_provider_events where provider='midtrans' and event_key='ci-late-paid'" "1" "duplicate provider event is idempotent"
+"${psql_base[@]}" -c "select public.shop_apply_payment('$order3',$amount3,'expired','ci-stale-expire','ci-tx-late');"
+"${psql_base[@]}" -c "select public.shop_apply_payment('$order3',$amount3,'cancelled','ci-stale-cancel','ci-tx-late');"
+"${psql_base[@]}" -c "select public.shop_apply_payment('$order3',$amount3,'failed','ci-stale-failed','ci-tx-late');"
+expect_scalar "select (payment_status='paid' and order_status='attention_required')::text from public.shop_orders where order_number='$order3'" "true" "out-of-order terminal events cannot regress a verified paid order"
+
+echo "== Batch 06: amount and provider transaction identity mismatch fail closed =="
+set +e
+psql "$DATABASE_URL" -X -qAt -v ON_ERROR_STOP=1 -c "select public.shop_apply_payment('$order3',$((amount3+1)),'paid','ci-wrong-amount','ci-tx-late');" >/tmp/payment-wrong-amount.out 2>&1
+wrong_amount_status=$?
+psql "$DATABASE_URL" -X -qAt -v ON_ERROR_STOP=1 -c "select public.shop_apply_payment('$order3',$amount3,'paid','ci-wrong-tx','ci-tx-other');" >/tmp/payment-wrong-tx.out 2>&1
+wrong_tx_status=$?
+set -e
+[[ "$wrong_amount_status" -ne 0 ]] || { echo "FAIL: wrong payment amount unexpectedly accepted" >&2; cat /tmp/payment-wrong-amount.out >&2; exit 1; }
+[[ "$wrong_tx_status" -ne 0 ]] || { echo "FAIL: mismatched provider transaction unexpectedly accepted" >&2; cat /tmp/payment-wrong-tx.out >&2; exit 1; }
+expect_scalar "select count(*) from public.shop_provider_events where event_key in ('ci-wrong-amount','ci-wrong-tx')" "0" "rejected identity mismatches create no provider event"
+
+echo "== Batch 06: ambiguous provider state holds reservation for manual review =="
+create_cart "30000000-0000-0000-0000-000000000006" "40000000-0000-0000-0000-000000000006" "20000000-0000-0000-0000-000000000005" "$HASH_F"
+order4="$(scalar "$(checkout_sql "30000000-0000-0000-0000-000000000006" "$HASH_F" "40000000-0000-0000-0000-000000000006")")"
+amount4="$(scalar "select grand_total_amount from public.shop_orders where order_number='$order4'")"
+"${psql_base[@]}" -c "select public.shop_apply_payment('$order4',$amount4,'review','ci-review','ci-tx-review');"
+expect_scalar "select (payment_status='pending' and order_status='attention_required' and fulfillment_status='attention_required')::text from public.shop_orders where order_number='$order4'" "true" "ambiguous provider state is held for review"
+expect_scalar "select (on_hand=1 and reserved=1)::text from public.shop_inventory_balances where variant_id='20000000-0000-0000-0000-000000000005'" "true" "manual-review hold retains inventory reservation"
+expect_scalar "select count(*) from public.shop_inventory_ledger where variant_id='20000000-0000-0000-0000-000000000005' and movement_type='sale'" "0" "manual-review hold creates no sale movement"
+
+echo "PostgreSQL 17 Shop staging gate: full migrations, RLS/RPC security, six concurrency races, and deterministic Batch 06 payment edge cases PASS"
