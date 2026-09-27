@@ -7,6 +7,7 @@ import type {
 } from "react";
 import Link, { type LinkProps } from "next/link";
 import styles from "./MobileFoundation.module.css";
+import { ViewportOrientationFoundation } from "./ViewportOrientationFoundation";
 
 function classes(...values: Array<string | false | null | undefined>) {
   return values.filter(Boolean).join(" ");
@@ -20,7 +21,11 @@ export type MobileRouteKind =
   | "game-play";
 
 export function MobileFoundation({ children, className, ...props }: PropsWithChildren<HTMLAttributes<HTMLDivElement>>) {
-  return <div className={classes(styles.foundation, className)} {...props}>{children}</div>;
+  return (
+    <ViewportOrientationFoundation className={classes(styles.foundation, className)} {...props}>
+      {children}
+    </ViewportOrientationFoundation>
+  );
 }
 
 export function MobileRouteBoundary({
