@@ -551,6 +551,7 @@ export default async function ShopAdminPage({
       gross_units: number;
       retained_units: number;
       refunded_units: number;
+      manual_review_units: number;
       retained_merchandise: number;
     }[];
     variants: {
@@ -559,6 +560,7 @@ export default async function ShopAdminPage({
       gross_units: number;
       retained_units: number;
       refunded_units: number;
+      manual_review_units: number;
     }[];
     inventory: {
       productCode: string;
@@ -592,6 +594,7 @@ export default async function ShopAdminPage({
         {[
           ["settledOrders", "Order pernah settle", true],
           ["paidOrders", "Order paid aktif", true],
+          ["manualReviewOrders", "Payment review (excluded)", true],
           ["merchandise", "Penjualan produk retained", false],
           ["shipping", "Ongkir retained", false],
           ["collected", "Pembayaran retained", false],
@@ -618,7 +621,8 @@ export default async function ShopAdminPage({
             {report.products.map((row) => (
               <li key={row.product_code}>
                 {row.product_code} · {row.title} · gross {row.gross_units} unit ·
-                retained {row.retained_units} · refunded {row.refunded_units} ·{" "}
+                retained {row.retained_units} · refunded {row.refunded_units} ·
+                review {row.manual_review_units} ·{" "}
                 {rupiah(row.retained_merchandise)}
               </li>
             ))}
@@ -635,7 +639,8 @@ export default async function ShopAdminPage({
             {report.variants.map((row) => (
               <li key={row.sku}>
                 {row.sku} · {row.title} · gross {row.gross_units} · retained{" "}
-                {row.retained_units} · refunded {row.refunded_units}
+                {row.retained_units} · refunded {row.refunded_units} · review{" "}
+                {row.manual_review_units}
               </li>
             ))}
           </ul>
