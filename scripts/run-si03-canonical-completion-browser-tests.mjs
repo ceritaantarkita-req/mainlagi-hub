@@ -242,8 +242,9 @@ async function main() {
     await completion.locator('[data-completion-action="share"]').click();
     const shareDialog = page.getByRole("dialog", { name: "Bagikan pencapaian" });
     await shareDialog.waitFor({ state: "visible", timeout: 5_000 });
-    await shareDialog.getByText("Yang dibagikan hanya tautan Mainlagi", { exact: false }).waitFor({ timeout: 5_000 });
-    assert.equal(await completion.isVisible(), true, "opening legacy Share owner must not replace canonical Completion");
+    assert.equal(await shareDialog.getAttribute("data-canonical-share"), "v1", "SI-03 Share handoff uses canonical SI-04 owner");
+    await page.waitForFunction(() => document.querySelector('[data-canonical-share="v1"]')?.getAttribute("data-share-gate") === "allowed");
+    assert.equal(await completion.isVisible(), true, "opening canonical Share must not replace canonical Completion");
 
     const progress = await page.evaluate(() => {
       const state = JSON.parse(localStorage.getItem("mainlagi-learning-progress-v1") ?? "{}");
