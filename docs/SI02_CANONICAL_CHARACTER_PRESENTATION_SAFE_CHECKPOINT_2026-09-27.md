@@ -288,6 +288,64 @@ Earlier padding-only commits `5d0dbb4...`, `52308ea...`, `7f59d0b...`, and `c4d1
 
 Any CI run whose head predates `29ce76d768702b8d2f2626ddc47f7c755ab5fc88` is superseded and cannot close SI-02.
 
+### PR CI #1889 / run 36326004017
+
+All non-browser gates passed:
+
+```text
+Quality gate (Ubuntu):       PASS
+Windows compatibility:      PASS
+Production build:            PASS
+Production dependency audit: PASS
+Secret history scan:         PASS
+```
+
+Chromium proved the 320px flow-safe fix worked, then exposed the same overlap family at **390px portrait**:
+
+```text
+Bahasa / 390x844 portrait:
+Gavi + Paca overlapped the symbol-hunt task field
+```
+
+This establishes that the boundary is phone portrait composition, not a single 320px device.
+
+Canonical rule is therefore generalized to the existing CharacterLayer phone breakpoint:
+
+```css
+@media(max-width:560px) and (orientation:portrait) {
+  .garden:not(.workspace) {
+    padding-bottom: max(28px, env(safe-area-inset-bottom));
+  }
+
+  .garden:not(.workspace) .characterLayer {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: clamp(150px, 36vw, 184px);
+    margin: 12px auto 0;
+  }
+}
+```
+
+Phone portrait uses an in-flow character band; landscape continues to use the SI-01/SI-02 side-gutter/viewport slot; tablet/desktop retain the established overlay composition.
+
+The SI-02 browser test now scrolls the in-flow phone portrait CharacterLayer into view before measuring its no-crop/viewport geometry. This does not weaken overlap checks: the permanent Session 07 regression still independently requires zero geometric overlap with task content.
+
+Current fix commits:
+
+```text
+71640a9e53ffa83176642d88ea8310b1fbea5389
+fix: make phone portrait character band canonical
+
+f5613c1b510ca03c79a7d5fd3bc4d46ec1cc01fe
+test: lock canonical phone portrait character band
+
+de735e6504b00159519ea78df8333ba941b66098
+test: measure phone portrait characters in flow-safe band
+```
+
+Any CI run whose head predates `de735e6504b00159519ea78df8333ba941b66098` is superseded and cannot close SI-02.
+
 ## Merge/production gate
 
 Do **not** merge PR #363 until:
