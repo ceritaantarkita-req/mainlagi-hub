@@ -2,15 +2,19 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
 function required(name) {
-  const value = process.env[name]?.trim();
-  if (!value) throw new Error(`${name}_NOT_CONFIGURED`);
-  return value;
+  const raw = process.env[name]?.trim();
+  if (!raw) throw new Error(`${name}_NOT_CONFIGURED`);
+  const quoted =
+    raw.length >= 2 &&
+    ((raw.startsWith('"') && raw.endsWith('"')) ||
+      (raw.startsWith("'") && raw.endsWith("'")));
+  return (quoted ? raw.slice(1, -1) : raw).trim();
 }
 
 const key = required("BITESHIP_TEST_API_KEY");
 const contactName = required("BITESHIP_ORIGIN_CONTACT_NAME");
 const contactPhone = required("BITESHIP_ORIGIN_CONTACT_PHONE");
-const address = required("BITESHIP_ORIGIN_ADDRESS");
+const address = required("BITESHIP_ORIGIN_ADDRESS").replace(/\\\./g, ".");
 const originPostal = required("BITESHIP_ORIGIN_POSTAL_CODE");
 const destinationPostal = required("BITESHIP_TEST_DESTINATION_POSTAL_CODE");
 const couriers = required("BITESHIP_COURIERS");

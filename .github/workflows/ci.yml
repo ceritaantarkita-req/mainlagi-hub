@@ -467,25 +467,42 @@ jobs:
           set -Eeuo pipefail
           node <<'NODE'
           const { writeFileSync } = require("node:fs");
-          const required = (name) => { const value = process.env[name]; if (!value) throw new Error("Missing " + name); return value; };
+          const required = (name) => {
+            const raw = process.env[name]?.trim();
+            if (!raw) throw new Error("Missing " + name);
+            const quoted =
+              raw.length >= 2 &&
+              ((raw.startsWith('"') && raw.endsWith('"')) ||
+                (raw.startsWith("'") && raw.endsWith("'")));
+            return (quoted ? raw.slice(1, -1) : raw).trim();
+          };
+          const optional = (name) => {
+            const raw = process.env[name]?.trim();
+            if (!raw) return "";
+            const quoted =
+              raw.length >= 2 &&
+              ((raw.startsWith('"') && raw.endsWith('"')) ||
+                (raw.startsWith("'") && raw.endsWith("'")));
+            return (quoted ? raw.slice(1, -1) : raw).trim();
+          };
+          const originAddress = optional("BITESHIP_ORIGIN_ADDRESS").replace(/\\\./g, ".");
           writeFileSync("/tmp/mainlagi-shop-staging-secrets.json", JSON.stringify({
             BITESHIP_API_KEY: required("BITESHIP_TEST_API_KEY"),
             BITESHIP_COURIERS: "jne,jnt,sicepat,anteraja,ninja",
             BITESHIP_WEBHOOK_HEADER: "X-Mainlagi-Biteship-Secret",
             BITESHIP_WEBHOOK_SECRET: required("BITESHIP_WEBHOOK_SECRET"),
-            ...(process.env.BITESHIP_ORIGIN_CONTACT_NAME &&
-            process.env.BITESHIP_ORIGIN_CONTACT_PHONE &&
-            process.env.BITESHIP_ORIGIN_ADDRESS &&
-            process.env.BITESHIP_ORIGIN_POSTAL_CODE
+            ...(optional("BITESHIP_ORIGIN_CONTACT_NAME") &&
+            optional("BITESHIP_ORIGIN_CONTACT_PHONE") &&
+            originAddress &&
+            optional("BITESHIP_ORIGIN_POSTAL_CODE")
               ? {
                   BITESHIP_ORIGIN_CONTACT_NAME:
-                    process.env.BITESHIP_ORIGIN_CONTACT_NAME,
+                    optional("BITESHIP_ORIGIN_CONTACT_NAME"),
                   BITESHIP_ORIGIN_CONTACT_PHONE:
-                    process.env.BITESHIP_ORIGIN_CONTACT_PHONE,
-                  BITESHIP_ORIGIN_ADDRESS:
-                    process.env.BITESHIP_ORIGIN_ADDRESS,
+                    optional("BITESHIP_ORIGIN_CONTACT_PHONE"),
+                  BITESHIP_ORIGIN_ADDRESS: originAddress,
                   BITESHIP_ORIGIN_POSTAL_CODE:
-                    process.env.BITESHIP_ORIGIN_POSTAL_CODE,
+                    optional("BITESHIP_ORIGIN_POSTAL_CODE"),
                 }
               : {}),
             SHOP_SALES_ENABLED: "false",

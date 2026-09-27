@@ -264,3 +264,12 @@ BITESHIP_ORIGIN_POSTAL_CODE
 If any one of the four is absent, the webhook-only staging deployment remains
 available but rate/order operational readiness stays fail-closed. Values are never
 committed to the repository or printed by the deployment workflow.
+
+
+## Secret value normalization
+
+Origin secrets may be pasted either as raw values or with one matching pair of
+surrounding single/double quotes. The staging deploy and Sandbox Rates probe strip
+that outer pair before validation/use. The address also normalizes a literal
+`\.` sequence to `.`, preventing shell-style escaping from becoming part of
+the pickup address. Secret values remain masked and are not printed.
