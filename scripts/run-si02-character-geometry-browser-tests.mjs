@@ -245,11 +245,13 @@ async function testWorld(browser) {
   assert.equal(await story.locator(":scope > strong").count(), 0, "World SpeechCard must not render a floating character-name label");
   const storyId = await story.getAttribute("data-world-story-character");
   assert(storyId, "World story exposes speaker id");
+  await story.scrollIntoViewIfNeeded();
   await assertSafeCharacterGeometry(story, [storyId], "World SpeechCard portrait");
 
   const sceneId = await page.locator("[data-world-scene-id]").getAttribute("data-world-scene-id");
   await rotate(page, landscape, "landscape", "World SpeechCard landscape");
   assert.equal(await page.locator("[data-world-scene-id]").getAttribute("data-world-scene-id"), sceneId, "World SpeechCard rotation preserves Scene");
+  await story.scrollIntoViewIfNeeded();
   await assertSafeCharacterGeometry(story, [storyId], "World SpeechCard landscape");
   await page.screenshot({ path: path.join(outDir, "world-speech-landscape.png"), fullPage: false });
   await rotate(page, portrait, "portrait", "World SpeechCard portrait recovery");
@@ -268,8 +270,10 @@ async function testWorld(browser) {
   const completion = page.locator('[data-world-completion-stage="money-stage-01-money-use"]');
   await completion.waitFor({ state: "visible", timeout: 8_000 });
   const completionCharacters = completion.locator('[data-world-character-state="celebrate"]');
+  await completionCharacters.scrollIntoViewIfNeeded();
   await assertSafeCharacterGeometry(completionCharacters, ["gavi", "paca"], "World completion portrait");
   await rotate(page, landscape, "landscape", "World completion landscape");
+  await completionCharacters.scrollIntoViewIfNeeded();
   await assertSafeCharacterGeometry(completionCharacters, ["gavi", "paca"], "World completion landscape");
   assert.equal(await completion.isVisible(), true, "World completion remains mounted through rotation");
   await page.screenshot({ path: path.join(outDir, "world-completion-landscape.png"), fullPage: false });
