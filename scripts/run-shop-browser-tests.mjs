@@ -435,8 +435,9 @@ async function auditOrderLoadingErrorRetry(browser) {
     timeout: 45_000,
   });
   await page.getByText("Memuat pesanan…").waitFor({ timeout: 5_000 });
-  await page.getByRole("alert").waitFor({ timeout: 10_000 });
-  assert.match(await page.getByRole("alert").innerText(), /sementara tidak dapat dimuat/i);
+  const orderAlert = page.locator(".shop-notice[role='alert']");
+  await orderAlert.waitFor({ timeout: 10_000 });
+  assert.match(await orderAlert.innerText(), /sementara tidak dapat dimuat/i);
   const retry = page.getByRole("button", { name: "Coba lagi" });
   await minTargets(page, ".shop-empty .shop-button", "order retry 390");
   recoverOrder = true;
