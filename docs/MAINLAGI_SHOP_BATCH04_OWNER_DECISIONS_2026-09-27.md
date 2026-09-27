@@ -97,8 +97,7 @@ Approved support hours:
 Senin-Jumat, 09:00-17:00 WIB
 ```
 
-The public contact itself must be supplied by the owner. Do not infer or reuse a
-private number/email without explicit approval.
+Approved public WhatsApp contact: `+6281280769076`.
 
 ### Payment expiry
 
@@ -203,10 +202,9 @@ The owner approved the policy packet on 2026-09-27 with support hours changed to
 **Senin-Jumat, 09:00-17:00 WIB**. The remaining items are configuration inputs,
 not unresolved business-policy choices:
 
-1. supply the public WhatsApp support contact;
-2. configure the approved pickup origin's private sender name, phone, address and
+1. configure the approved pickup origin's private sender name, phone, address and
    postal code in the deployment environment;
-3. configure `BITESHIP_COURIERS=jne,jnt,sicepat,anteraja,ninja` in the target
+2. configure `BITESHIP_COURIERS=jne,jnt,sicepat,anteraja,ninja` in the target
    staging/deployment environment.
 
 The policy contract is now owner-approved. Sales remain fail-closed until the

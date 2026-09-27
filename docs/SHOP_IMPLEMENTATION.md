@@ -832,7 +832,7 @@ capacity/card-function data is still unknown remain Draft and fail activation.
 
 #### Batch 04 — operational settings and customer policy contract
 
-Status: **OWNER POLICY APPROVED — public support contact and private pickup/courier deployment configuration still required**.
+Status: **OWNER POLICY APPROVED — private pickup/courier deployment configuration still required**.
 
 Technical guard/scaffolding completed on Draft PR #359:
 
@@ -900,12 +900,14 @@ Owner approval recorded on 2026-09-27:
 
 Remaining Batch 04 configuration blockers are **not unresolved policy choices**:
 
-1. public WhatsApp support contact is still unset;
-2. private `BITESHIP_ORIGIN_CONTACT_NAME`, `BITESHIP_ORIGIN_CONTACT_PHONE`,
+1. private `BITESHIP_ORIGIN_CONTACT_NAME`, `BITESHIP_ORIGIN_CONTACT_PHONE`,
    `BITESHIP_ORIGIN_ADDRESS`, and `BITESHIP_ORIGIN_POSTAL_CODE` are not yet
    configured in the target deployment environment;
-3. target environment must set
+2. target environment must set
    `BITESHIP_COURIERS=jne,jnt,sicepat,anteraja,ninja`.
+
+Approved public support contact: WhatsApp `+6281280769076`, Senin-Jumat
+09:00-17:00 WIB.
 
 The policy contract itself is owner-approved. Sales remain fail-closed until these
 configuration inputs pass the runtime readiness gate. No production/live-provider

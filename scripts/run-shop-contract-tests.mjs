@@ -207,8 +207,7 @@ assert.equal(
 );
 assert.equal(
   operationalPolicy.ownerDecisions.support.contact,
-  null,
-  "public support contact stays unconfigured until owner supplies it",
+  "+6281280769076",
 );
 assert.equal(operationalPolicy.ownerDecisions.paymentExpiry.minutes, 30);
 assert.ok(operationalPolicy.ownerDecisions.cancellation.publicPolicy);
