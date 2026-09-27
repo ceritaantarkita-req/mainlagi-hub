@@ -253,8 +253,11 @@ async function auditCheckout(browser, viewport) {
 
   await page.goto(baseUrl + "/shop/checkout", { waitUntil: "networkidle", timeout: 45_000 });
   const postal = page.getByLabel("Kode pos");
-  await postal.fill("17abc111");
-  assert.equal(await postal.inputValue(), "17111", "postal input must retain digits only");
+  await postal.fill("17a11");
+  assert.equal(await postal.inputValue(), "1711", "postal input must remove non-digits");
+  assert.equal(await page.getByRole("button", { name: "Hitung ongkir" }).isDisabled(), true);
+  await postal.fill("17111");
+  assert.equal(await postal.inputValue(), "17111");
   await page.getByRole("button", { name: "Hitung ongkir" }).click();
   await page.getByRole("alert").waitFor();
   assert.match(await page.getByRole("alert").innerText(), /sementara belum dapat memberi tarif/i);
