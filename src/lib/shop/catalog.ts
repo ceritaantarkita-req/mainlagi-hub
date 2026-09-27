@@ -16,13 +16,13 @@ export const previewProducts = (): Product[] =>
     base_price_amount: p.price,
     status: "draft",
     facts_verified: false,
-    media_approved: false,
+    media_approved: true,
     shop_variants: [],
     shop_product_media: p.media.map((m, i) => ({
       path: m.path,
       alt_text: m.alt,
       sort_order: i,
-      approval_status: "review",
+      approval_status: "approved",
     })),
   }));
 export async function shopCatalog() {
