@@ -246,6 +246,8 @@ assert.doesNotMatch(themeSource, /approvedCharacterRuntimeSrc/, "Belajar visual 
 
 const layerSource = fs.readFileSync(path.resolve("src/components/learning/CharacterLayer.tsx"), "utf8");
 const layerCss = fs.readFileSync(path.resolve("src/components/learning/CharacterLayer.module.css"), "utf8");
+const globalCss = fs.readFileSync(path.resolve("src/app/globals.css"), "utf8");
+const learningPlatformCss = fs.readFileSync(path.resolve("src/components/learning/LearningPlatform.module.css"), "utf8");
 assert.match(layerSource, /variant === "ensemble" \? 5 : 2/, "CharacterLayer preserves two-character normal rendering and explicitly allows five-character Home ensemble");
 assert.match(layerSource, /styles\.ensemble/, "CharacterLayer exposes one shared ensemble variant instead of a second renderer");
 assert.match(layerSource, /data-character-state=/, "CharacterLayer exposes state QA attribute");
@@ -262,6 +264,10 @@ assert.match(layerCss, /calc\(100% - var\(--character-safe-top\) - var\(--charac
 assert.match(layerCss, /data-mainlagi-orientation="landscape"/, "canonical character geometry must consume the SI-01 orientation signal");
 assert.match(layerCss, /prefers-reduced-motion:\s*reduce/, "character motion respects reduced-motion preference");
 assert.match(layerCss, /animation:\s*none\s*!important/, "reduced-motion disables character animation");
+assert.match(globalCss, /\.round-end-character-layer\s*\{[\s\S]*?--character-max-height:\s*120px/, "RoundEnd must express its preferred height through the shared character variable");
+assert.doesNotMatch(globalCss, /\.round-end-character-layer img\s*\{[^}]*max-height\s*:/, "RoundEnd callers must not override CharacterLayer max-height directly");
+assert.doesNotMatch(globalCss, /\.preflight-character-layer img\s*\{[^}]*max-height\s*:/, "Preflight callers must not override CharacterLayer max-height directly");
+assert.doesNotMatch(learningPlatformCss, /\.motionCharacterLayer img\s*\{[^}]*max-height\s*:/, "Motion hero callers must not override CharacterLayer max-height directly");
 
 console.log(
   "Character runtime regression passed: 35 provenance-bound SVG states, canonical Belajar/World/Bermain state mapping, five-character Home ensemble, shared feedback bridge/provider state machine, and CharacterLayer safety contract."
