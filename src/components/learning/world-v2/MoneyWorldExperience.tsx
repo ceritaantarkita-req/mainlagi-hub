@@ -490,7 +490,6 @@ function SpeechCard({
         <div className={styles.storyCharacterArt}>
           <CharacterLayer characters={speakerPresentation.characters} className={styles.storyCharacterLayer} />
         </div>
-        <strong>{runtimeCharacter.name}</strong>
       </div>
       <div className={styles.speechBubble}>
         <span className={styles.sceneType}>{kind === "concept" ? "Temukan idenya" : kind === "payoff" ? "Cerita berlanjut" : "Cerita"}</span>

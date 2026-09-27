@@ -30,6 +30,16 @@
  .spacious.compactShortDesktop { margin-top:30px; min-height:0; }
  .spacious.compactShortDesktop > .title { font-size:64px; margin-bottom:12px; }
 }
+:global([data-mainlagi-orientation="landscape"]) .garden:not(.workspace) .characterLayer {
+  inset: 0 0 auto;
+  height: var(--ml-viewport-height, 100dvh);
+}
+
+:global([data-mainlagi-orientation="landscape"]) .garden:not(.workspace) .play {
+  width: min(620px, 68%);
+  margin-top: 20px;
+}
+
 @media(max-width:760px) {
  .garden { padding:16px 16px 145px; background-size:auto 100%; }
  .themedScene { background-image:var(--ml-scene-mobile); background-position:center bottom; background-size:cover; }
@@ -40,6 +50,16 @@
  .hint { font-size:17px; margin-top:24px; }
 }
 @media(max-width:380px) { .control span { display:none; } .control { width:48px; } }
+@media(max-width:768px) and (orientation:portrait) {
+ .garden:not(.workspace) { padding-bottom:max(28px,env(safe-area-inset-bottom)); }
+ .garden:not(.workspace) .characterLayer {
+  position:relative;
+  inset:auto;
+  width:100%;
+  height:clamp(150px,36vw,184px);
+  margin:12px auto 0;
+ }
+}
 .workspace{background-color:#fffbee;padding-bottom:32px}
 .workspace .header{max-width:1280px}
 .workspace .control{min-height:52px;font-size:17px;padding:10px 18px}

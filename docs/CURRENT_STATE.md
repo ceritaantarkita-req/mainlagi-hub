@@ -4,82 +4,6 @@ Last reviewed: **27 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
-## 27 September active sequence — SHOP FIRST, CHILD-SURFACE REVISION SECOND
-
-The current branch-scoped execution order is intentionally serial:
-
-```text
-ACTIVE NOW:
-PR #359 — Mainlagi Shop
-branch: agent/mainlagi-shop-foundation-20260927
-canonical execution doc: docs/SHOP_IMPLEMENTATION.md
-
-DEFERRED UNTIL SHOP IS CLOSED + MERGED:
-PR #360 — child-surface visual/navigation alignment
-branch: agent/child-surface-visual-alignment-20260927
-handoff: docs/MAINLAGI_POST_SHOP_CHILD_SURFACE_HANDOFF_2026-09-27.md
-verified implementation checkpoint:
-ce5c17da519a970b2f8589b5c93df888bbe4cdcc
-CI #1719 / run 36294204273 — full success
-```
-
-Do not start or merge PR #360 while Shop is still being implemented. The child
-revision depends on the final `/shop` route and navbar contract. After Shop is
-finished, merge Shop to latest `main` first, verify the merged release, then
-synchronize PR #360 onto that post-Shop `main` and rerun all required CI/browser
-gates. The old stacked ancestry must not be merged blindly because the Shop branch
-continues to advance.
-
-The successor product contract is already implemented and reviewed: top-level child
-navigation is `Belajar | Bermain | World | Shop`; Belajar removes the duplicated
-domain-card section; Belajar/Bermain/World use distinct but restrained page
-atmospheres; and their primary card grids remain 3 columns desktop / 2 columns
-mobile through 760 px. This pass must not alter learning mastery/progression, Motion
-Engine mechanics, World progression/evidence, database schema, or finalized Shop
-transaction/provider behavior.
-
-A second owner-approved post-PR #360 wave is now also locked in
-`docs/MAINLAGI_CANONICAL_COMPLETION_SHARE_VISUAL_SPEC_2026-09-27.md`. It must start
-only after Shop and PR #360 are merged/production-verified. That wave unifies the
-Canonical Completion System, Canonical Share Experience and Canonical Character
-Presentation across Belajar/Bermain/World, and adds responsive orientation behavior:
-portrait device uses the portrait composition, landscape uses the landscape
-composition, and rotation **changes layout only — never activity/game/progress/modal
-state**. Character presentation is no-crop, safe-area based, and removes floating
-name labels underneath characters. The approved Completion/Share visuals lock the
-popup/modal only; each activity keeps its real background behind the popup.
-
-The required post-Shop order is therefore:
-
-```text
-Shop closure
-→ synchronize/merge/production-verify PR #360
-→ fresh shared-interaction wave
-   (responsive orientation + Completion + Character + Share)
-→ full portrait/landscape QA + production verification
-→ Canonical Journey Map System
-   (nine Belajar subject worlds + immersive map header + stage-open detail +
-    Petualangan Uang World redesign)
-→ full journey-map QA + production verification
-```
-
-The historical shared-completion implementation already on production remains
-current runtime truth until this successor wave lands; its existence must not be
-mistaken for approval to keep divergent Belajar/Bermain/World completion styles.
-
-A later owner-approved map direction is now locked in
-`docs/MAINLAGI_CANONICAL_JOURNEY_MAP_SYSTEM_2026-09-27.md`. The bounded post-Shop
-execution sequence is recorded in
-`docs/MAINLAGI_POST_SHOP_VISUAL_EXECUTION_SESSIONS_2026-09-27.md`. After the shared
-interaction wave is merged/production-verified, Belajar subject pages move from a
-dashboard/catalog-first presentation to a full-page **Learning Journey Map** where
-one node is one stage/cluster, not one mini-game. Mini-games appear only after stage
-selection as a text-first utility list. The default map stays clean, the immersive
-header replaces the heavy website navbar on map/game surfaces, and portrait/landscape
-receive true responsive map compositions. Petualangan Uang then consumes the same
-journey-map language as a more narrative World adapter while preserving its authored
-eight-stage/evidence/story semantics.
-
 ## 27 September core thumbnail system checkpoint — WAVE 01 CLOSED / LIVE VERIFIED
 
 ```text
@@ -1909,3 +1833,50 @@ Therefore the current World evidence write path remains server-only. The separat
 
 Canonical detail:
 `docs/WORLD_EVIDENCE_PRODUCTION_CLOSURE_2026-09-24.md`.
+
+
+## 27 September 2026 — Shared Interaction SI-02 PR-green checkpoint — CURRENT
+
+Shared Interaction execution has advanced beyond the older character-production pause text elsewhere in this historical document.
+
+Current Shared Interaction sequence:
+
+```text
+SI-00 — Read-only coverage audit             COMPLETE / merged
+SI-01 — Orientation foundation               COMPLETE / merged / live verified
+SI-02 — Canonical Character Presentation     PR #363 implementation head FULL GREEN / docs-head CI pending
+SI-03 — Canonical Completion component       NOT STARTED
+SI-04 — Canonical Share component            NOT STARTED
+```
+
+SI-02 current branch:
+
+```text
+branch: agent/si-02-canonical-character-presentation-20260927
+PR:     #363
+base:   main f2b3768745f11e4fa33954d61aabb1a01acda2ff
+green implementation head:
+        2eee75d3a1538747427a853ca7d748cbdee45dff
+PR CI:  #1917 / run 36328275954 — FULL SUCCESS
+safe checkpoint:
+docs/SI02_CANONICAL_CHARACTER_PRESENTATION_SAFE_CHECKPOINT_2026-09-27.md
+```
+
+Implemented SI-02 boundaries:
+
+- shared `CharacterLayer` no-crop / safe-area geometry contract with intrinsic SVG ratio preservation;
+- portrait phone/tablet Belajar through 768px uses an in-flow character band, proven by the permanent 320/390/430/768/1280 Session 07 matrix;
+- landscape composition consumes the already-live SI-01 orientation/visual-viewport signal;
+- World SpeechCard floating character-name label is removed at source and its art slot remains measurable;
+- World completion keeps its existing Gavi + Paca celebration semantics;
+- Bermain RoundEnd short landscape is bounded to the SI-01 visual viewport and may scroll inside the card rather than clipping its character band;
+- no new character identities, states or assets;
+- no learning evidence/mastery/progression/schema changes;
+- no Completion/Share migration, Journey Map work or Shop work.
+
+PR CI #1917 is the first full-green SI-02 implementation-head run after the browser QA successively caught and drove fixes for World zero-width geometry, caller max-height ownership, intrinsic-ratio distortion, Belajar portrait overlap through 768px, and RoundEnd short-landscape viewport escape.
+
+The documentation update following that green implementation head must receive one final full PR CI before merge. Do **not** call SI-02 merged/live and do not start SI-03 until PR #363 is merged and the exact merged-main Cloudflare production smoke succeeds.
+
+The dedicated SI-02 checkpoint supersedes older character-pause wording only for the Shared Interaction roadmap. Historical character-program records remain historical evidence and must not be rewritten as if SI-02 existed at those dates.
+

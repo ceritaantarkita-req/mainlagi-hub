@@ -487,11 +487,11 @@ img { max-width: 100%; }
 .preflight-character-layer {
   inset: 0;
   overflow: visible;
+  --character-max-height: 190px;
 }
 
 .preflight-character-layer img {
-  width: clamp(82px, 17vw, 150px);
-  max-height: 190px;
+  max-width: clamp(82px, 17vw, 150px);
   filter: drop-shadow(0 10px 22px rgba(3, 12, 28, .28));
 }
 
@@ -500,9 +500,12 @@ img { max-width: 100%; }
     inset: 64px 0 48%;
   }
 
+  .preflight-character-layer {
+    --character-max-height: 130px;
+  }
+
   .preflight-character-layer img {
-    width: clamp(72px, 24vw, 108px);
-    max-height: 130px;
+    max-width: clamp(72px, 24vw, 108px);
   }
 }
 
@@ -1623,11 +1626,11 @@ img { max-width: 100%; }
 
 .round-end-character-layer {
   inset: 0;
+  --character-max-height: 120px;
 }
 
 .round-end-character-layer img {
-  width: clamp(86px, 25vw, 126px);
-  max-height: 120px;
+  max-width: clamp(86px, 25vw, 126px);
 }
 .round-end-mark {
   width: 56px; height: 56px; border-radius: 50%;
@@ -1759,6 +1762,11 @@ img { max-width: 100%; }
  * pads take the full width.
  */
 @media (orientation: landscape) and (max-height: 560px) {
+  .round-end-overlay { padding: var(--gap-1); }
+  .round-end-card {
+    max-height: calc(var(--ml-viewport-height, 100dvh) - 16px);
+    overflow-y: auto;
+  }
   .game-hud { top: var(--gap-1); left: var(--gap-1); right: var(--gap-1); }
   .hud-score { min-height: 38px; }
   .hud-center b { height: 38px; min-width: 46px; }
