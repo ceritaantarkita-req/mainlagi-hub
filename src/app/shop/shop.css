@@ -74,9 +74,9 @@
   padding: 56px 0 64px;
 }
 .shop-eyebrow {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 900;
-  letter-spacing: 2px;
+  letter-spacing: 1.7px;
   color: #527167;
   margin: 0 0 14px;
 }
@@ -145,9 +145,9 @@
   place-content: center;
   text-align: center;
   transform: rotate(10deg);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 950;
-  letter-spacing: 1px;
+  letter-spacing: .7px;
 }
 .shop-coming {
   min-height: 380px;
@@ -235,7 +235,7 @@
   bottom: 14px;
   padding: 3px 9px;
   background: #fffcf0e8;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 900;
   border-radius: 30px;
 }
@@ -246,9 +246,9 @@
   font-weight: 850;
 }
 .shop-card .shop-eyebrow {
-  font-size: 10px;
+  font-size: 12px;
   margin-bottom: 7px;
-  letter-spacing: 1.2px;
+  letter-spacing: 1px;
 }
 .shop-price {
   font-size: 18px;
@@ -473,7 +473,7 @@
   .shop-stamp {
     width: 76px;
     height: 76px;
-    font-size: 8px;
+    font-size: 12px;
     right: 10px;
     bottom: 10px;
   }
@@ -664,6 +664,14 @@
   margin-top: 24px;
   font-weight: 750;
 }
+.shop-order-help a,
+.shop-summary a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 
 @media (max-width: 380px) {
   .shop-shell {
@@ -673,7 +681,7 @@
     font-size: 23px;
   }
   .shop-wordmark span {
-    font-size: 11px;
+    font-size: 12px;
   }
   .shop-hero h1 {
     font-size: 44px;
