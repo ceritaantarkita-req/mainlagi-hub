@@ -54,6 +54,7 @@ create table public.audit_logs(
     "../supabase/migrations/20260927123000_shop_batch08_state_machine_hardening.sql",
     "../supabase/migrations/20260927124000_shop_batch09_operations.sql",
     "../supabase/migrations/20260927125000_shop_batch09_pii_retention.sql",
+    "../supabase/migrations/20260927130000_shop_batch09_reporting_review_exclusion.sql",
   ]) {
     await db.exec(await readFile(new URL(migration, import.meta.url), "utf8"));
   }
@@ -425,6 +426,15 @@ create table public.audit_logs(
     1,
   );
 
+  console.log("== Batch 09: report v2 excludes payment-review accounting ==");
+  const reviewCart = await createCart();
+  const reviewNumber = await checkout(reviewCart);
+  await payment(reviewNumber, "paid", "b09-review-paid", "b09-review-tx");
+  await payment(reviewNumber, "review", "b09-partial-refund-review", "b09-review-tx");
+  const reviewOrder = await orderRow(reviewNumber);
+  assert.equal(reviewOrder.payment_status, "paid");
+  assert.equal(reviewOrder.order_status, "attention_required");
+
   console.log("== Batch 09: report v2 separates gross, retained, refund and inventory ==");
   const report = (
     await one(
@@ -432,12 +442,17 @@ create table public.audit_logs(
     )
   ).data;
   assert.equal(report.summary.partialRefundAccounting, "excluded");
-  assert.ok(report.summary.settledOrders >= 2);
+  assert.ok(report.summary.manualReviewOrders >= 1);
+  assert.ok(report.summary.settledOrders >= 3);
   assert.ok(report.summary.grossCollected >= report.summary.collected);
   assert.ok(report.summary.refundedOrders >= 1);
   assert.ok(report.summary.refundedGross > 0);
   assert.ok(report.products.some((row) => row.product_code === "001"));
+  const productReport = report.products.find((row) => row.product_code === "001");
+  assert.ok(productReport.manual_review_units >= 1);
   assert.ok(report.variants.some((row) => row.sku === "001-B09"));
+  const variantReport = report.variants.find((row) => row.sku === "001-B09");
+  assert.ok(variantReport.manual_review_units >= 1);
   assert.ok(report.inventory.some((row) => row.sku === "001-B09"));
   const inventory = report.inventory.find((row) => row.sku === "001-B09");
   assert.equal(inventory.available, inventory.onHand - inventory.reserved);
