@@ -565,7 +565,7 @@ jobs:
       BITESHIP_ORIGIN_ADDRESS: ${{ secrets.BITESHIP_ORIGIN_ADDRESS }}
       BITESHIP_ORIGIN_POSTAL_CODE: ${{ secrets.BITESHIP_ORIGIN_POSTAL_CODE }}
       BITESHIP_COURIERS: "jne,jnt,sicepat,anteraja,ninja"
-      BITESHIP_TEST_DESTINATION_POSTAL_CODE: "12820"
+      BITESHIP_TEST_DESTINATION_POSTAL_CODE: "12240"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

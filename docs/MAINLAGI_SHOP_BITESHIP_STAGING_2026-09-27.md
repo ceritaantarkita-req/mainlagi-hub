@@ -238,13 +238,14 @@ BITESHIP_ORIGIN_POSTAL_CODE
 The API key continues to come from `BITESHIP_TEST_API_KEY`. Courier codes are
 pinned by the workflow to `jne,jnt,sicepat,anteraja,ninja`.
 
-The probe uses testing-only SKU `001-DEFAULT` from the sandbox fixture and makes
-one authenticated Rates request. It does **not** create an order, pickup, waybill,
+The probe sends all nine testing-only DEFAULT SKUs from the sandbox fixture in a
+single authenticated Rates request, so every provisional test weight/dimension is
+exercised without multiplying Rates API hits. It does **not** create an order, pickup, waybill,
 or real shipment. Origin contact/address values remain in GitHub Secrets and are
 not committed or printed to logs.
 
-The destination postal code is intentionally a same-zone sandbox smoke value
-(`12820`) for the first acceptance request. Later acceptance may add explicit
+The first acceptance request uses destination postal code `12240`, matching a
+postal-code example documented by Biteship for Rates API testing. Later acceptance may add explicit
 cross-city destinations after the basic Rates path passes.
 
 

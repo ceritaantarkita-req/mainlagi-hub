@@ -26,25 +26,30 @@ const fixture = JSON.parse(
     "utf8",
   ),
 );
-const product = fixture.products.find((row) => row.code === "001");
-assert.ok(product, "sandbox fixture SKU 001 missing");
 assert.equal(fixture.productionUseAllowed, false);
+assert.equal(fixture.products.length, 9, "sandbox fixture must cover all 9 products");
+
+const seed = JSON.parse(await readFile("src/lib/shop/seed.json", "utf8"));
+const prices = new Map(seed.map((row) => [row.code, row.price]));
+const items = fixture.products.map((product) => {
+  const value = prices.get(product.code);
+  assert.ok(Number.isInteger(value) && value > 0, `missing seed price for ${product.code}`);
+  return {
+    name: `Mainlagi Shop Sandbox ${product.sku}`,
+    value,
+    quantity: 1,
+    weight: product.weight_grams,
+    length: Math.ceil(product.length_mm / 10),
+    width: Math.ceil(product.width_mm / 10),
+    height: Math.ceil(product.height_mm / 10),
+  };
+});
 
 const payload = {
   origin_postal_code: Number(originPostal),
   destination_postal_code: Number(destinationPostal),
   couriers,
-  items: [
-    {
-      name: "Mainlagi Shop Sandbox SKU 001",
-      value: 69000,
-      quantity: 1,
-      weight: product.weight_grams,
-      length: Math.ceil(product.length_mm / 10),
-      width: Math.ceil(product.width_mm / 10),
-      height: Math.ceil(product.height_mm / 10),
-    },
-  ],
+  items,
 };
 
 const response = await fetch("https://api.biteship.com/v1/rates/couriers", {
@@ -102,13 +107,12 @@ console.log(
       originContactConfigured: Boolean(contactName && contactPhone),
       originPostalCode: originPostal,
       destinationPostalCode: destinationPostal,
-      testSku: product.sku,
-      testWeightGrams: product.weight_grams,
-      testDimensionsCm: {
-        length: Math.ceil(product.length_mm / 10),
-        width: Math.ceil(product.width_mm / 10),
-        height: Math.ceil(product.height_mm / 10),
-      },
+      testItemCount: items.length,
+      testSkus: fixture.products.map((row) => row.sku),
+      totalTestWeightGrams: fixture.products.reduce(
+        (sum, row) => sum + row.weight_grams,
+        0,
+      ),
       requestedCouriers: couriers.split(","),
       returnedPricingRows: available.length,
       approvedPricingRows: approvedAvailable,
