@@ -342,14 +342,17 @@ export async function ship(number: string, actor: string) {
       })),
     });
   } catch (e) {
-    if (
-      e instanceof ProviderError &&
-      Number(e.code) === 40002060 &&
-      typeof e.details.order_id === "string"
-    ) {
-      p = await biteship(
-        `/v1/orders/${encodeURIComponent(e.details.order_id)}`,
-      );
+    if (e instanceof ProviderError && Number(e.code) === 40002060) {
+      if (typeof e.details.order_id === "string") {
+        p = await biteship(
+          `/v1/orders/${encodeURIComponent(e.details.order_id)}`,
+        );
+      } else {
+        throw new ShopError(
+          "Pengiriman sudah ada di Biteship, tetapi ID provider tidak tersedia. Periksa dashboard Biteship dan lakukan rekonsiliasi manual.",
+          409,
+        );
+      }
     } else throw e;
   }
   await applyShipment(o, p);

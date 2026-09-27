@@ -153,6 +153,21 @@ async function verifyWebhookBoundary(orderId) {
   assert.deepEqual(body, { ok: true, sandboxAcceptance: true });
 }
 
+async function cancelOrder(orderId, referenceId) {
+  const { response, body } = await api(
+    `/v1/orders/${encodeURIComponent(orderId)}/cancel`,
+    { method: "POST" },
+  );
+  assert.ok(
+    response.ok && body?.success !== false,
+    `Biteship sandbox cancel failed HTTP ${response.status}: ${body?.error ?? body?.message ?? "unknown"}`,
+  );
+  const remote = await retrieve(orderId, referenceId);
+  assert.equal(remote.status, "cancelled");
+  await verifyWebhookBoundary(orderId);
+  return remote;
+}
+
 const deliveredRef = `ML-SBX-DELIVER-${runId}`;
 const cancelledRef = `ML-SBX-CANCEL-${runId}`;
 
@@ -164,20 +179,22 @@ await verifyWebhookBoundary(delivered.body.id);
 const cancelled = await createOrder(cancelledRef, "cancel-flow");
 await retrieve(cancelled.body.id, cancelledRef);
 await verifyWebhookBoundary(cancelled.body.id);
+const cancelledRemote = await cancelOrder(cancelled.body.id, cancelledRef);
 
 const evidence = {
   environment: "Biteship Testing Mode",
   simulatedOnly: true,
   courier: "sicepat/reg",
   deliveredCandidate: { id: delivered.body.id, reference_id: deliveredRef, status: delivered.body.status ?? null },
-  cancelledCandidate: { id: cancelled.body.id, reference_id: cancelledRef, status: cancelled.body.status ?? null },
+  cancelledCandidate: { id: cancelled.body.id, reference_id: cancelledRef, status: cancelledRemote.status },
   duplicateReferenceDetection: "PASS",
   duplicateProviderOrderIdReturned:
     typeof duplicateEvidence?.details?.order_id === "string",
   independentGet: "PASS",
   authenticatedWebhookBoundaryAndProviderGet: "PASS",
+  sandboxCancelApi: "PASS",
 };
 
 await writeFile("/tmp/mainlagi-biteship-sandbox-orders.json", JSON.stringify(evidence, null, 2) + "\n");
 console.log(JSON.stringify(evidence, null, 2));
-console.log("Shop Biteship sandbox orders: 2 simulated orders + GET + duplicate-reference + authenticated webhook/provider-GET PASS");
+console.log("Shop Biteship sandbox orders: 2 simulated orders + GET + duplicate-reference + cancel + authenticated webhook/provider-GET PASS");

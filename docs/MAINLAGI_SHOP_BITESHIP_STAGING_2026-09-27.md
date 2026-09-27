@@ -331,3 +331,20 @@ production configuration.
 Biteship documents Testing Mode orders as simulated: they do not deduct balance and
 do not involve real couriers. Status progression to Delivered/Cancelled is performed
 manually from the Biteship Testing dashboard after the two orders exist.
+
+
+## Duplicate-reference provider variance
+
+Live Sandbox evidence on 2026-09-27 confirmed Biteship error code `40002060` for
+a repeated `reference_id`, but the actual response returned `details=null`
+instead of the documented `details.order_id`.
+
+Mainlagi now handles both cases:
+
+- when Biteship supplies `details.order_id`, the existing automatic provider GET
+  recovery remains available;
+- when Biteship omits the provider order ID, Mainlagi fails closed with an explicit
+  manual-reconciliation requirement rather than fabricating or guessing an ID.
+
+Therefore duplicate **detection** is provider-verified, while fully automatic
+duplicate recovery remains conditional on Biteship returning the provider order ID.

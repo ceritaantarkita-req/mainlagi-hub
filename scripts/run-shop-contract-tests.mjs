@@ -285,6 +285,11 @@ assert.match(
   /biteship\("\/v1\/rates\/couriers"/,
   "Shop must use the canonical Biteship Rates API endpoint /v1/rates/couriers",
 );
+assert.match(
+  shopOperationsSource,
+  /40002060[\s\S]*typeof e\.details\.order_id === "string"[\s\S]*rekonsiliasi manual/,
+  "duplicate-reference without provider order id must fail closed to manual reconciliation",
+);
 assert.doesNotMatch(
   shopOperationsSource,
   /biteship\("\/v1\/rates"/,
