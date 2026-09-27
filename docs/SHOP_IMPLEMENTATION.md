@@ -29,10 +29,14 @@ Use current Mainlagi coral `#bd492f`, not the older handoff's `#e46c49`.
 - Public navigation keeps five destinations; Shop takes the former scoreboard
   slot. `/leaderboards` remains available from Main Gerak.
 - Owner-gated `/admin/shop/products`, `/preview`, `/inventory`, `/orders`, `/reports`.
-  Product review is read-only in this checkpoint. No placeholder weight, size,
-  measurements, material claim, card issuer, review, or rating is invented.
-- One additive migration creates the Shop domain and seeds nine **draft** products,
-  27 review-state media rows, nine default variants and 79 total units exactly once.
+  Product admin now supports verified product facts, variant/size allocation,
+  measured weight/dimensions, media review and the fail-closed
+  `Draft -> Ready for Review -> Approved -> Active` lifecycle. Unknown physical
+  facts remain blank and block activation rather than being invented.
+- The Shop migration chain now has the foundation migration plus the additive
+  Batch 03 admin-workflow migration. Foundation seeds nine **draft** products,
+  26 approved unique runtime media rows, nine default variants and 79 total units;
+  Batch 03 adds review/facts/readiness fields, owner mutation RPCs and DB guards.
 - Server-only cart/order APIs; browser roles cannot read PII, token hashes, stock
   ledger or provider attempts, and cannot execute commerce RPCs.
 - Cart secrets are 256-bit random HttpOnly/SameSite cookies, stored hashed in DB.
@@ -102,13 +106,14 @@ refund amounts and settlement dates need a separate reconciliation release.
 ## Launch blockers and remaining implementation
 
 1. Owner-supplied sizes and measurements for 001–005, exact stock split across
-   variants, and measured shipping weights; dimensions where required. Default
-   stock must be allocated, not copied into every size. A reviewed variant editor
-   and activation workflow remain to be built after agreeing that data contract.
+   variants, and measured shipping weights; dimensions where required. The Batch 03
+   editor is ready to accept these facts, but activation remains blocked until they
+   are actually verified and entered.
 2. Pickup origin/contact/postal code, explicit courier allowlist, sandbox keys,
    webhook configuration, scheduler and operational monitoring.
-3. Tumbler capacity/material facts, issuer/function of SKU 007, final product/media
-   fidelity approval including duplicated tumbler shot and audited artwork drift.
+3. Tumbler capacity/material facts and verified SKU 007 product type/function/issuer
+   details where applicable. The duplicate tumbler runtime image and Shop media
+   acceptance gate are already resolved by Batch 02.
 4. Support contact, return/refund policy, shipping SLA, guest order recovery and
    customer notification decisions. Guest access currently depends on the original
    device cookie; no email/WhatsApp delivery is claimed.
@@ -763,21 +768,81 @@ activation**: Batch 02 is complete because the truth contract is explicit and
 machine-readable, while products with unknown real-world facts remain impossible
 to activate safely.
 
+#### Batch 03 — product admin, variant editor and activation workflow
+
+Status: **DONE**.
+
+Implemented on Draft PR #359:
+
+- owner product editor for title, description, category, price and verified
+  product-specific facts;
+- owner variant editor for SKU/title/options, apparel size, exact stock allocation,
+  measured shipping weight, optional package dimensions, optional variant price and
+  sellable/inactive state;
+- owner media review controls;
+- explicit review lifecycle:
+  `Draft -> Ready for Review -> Approved -> Active`, plus deactivation and return
+  to Draft;
+- database-level readiness function, not a UI-only checklist;
+- database activation guard: incomplete products cannot be forced Active by a
+  direct mutation;
+- active-product child guards prevent changing variants/media before deactivation;
+- owner-only mutation RPCs with explicit PUBLIC/anon/authenticated EXECUTE revoked;
+- audit rows for product save, variant replacement, media decision and lifecycle
+  transitions;
+- variant replacement conserves the owner-approved initial SKU total and is blocked
+  once cart/order/reservation or non-setup inventory history exists.
+
+Migration strategy:
+
+- the Batch 02 foundation migration
+  `20260926195237_shop_foundation.sql` was restored byte-for-byte to its known-good
+  state after an intermediate editing attempt was detected as malformed;
+- Batch 03 is intentionally isolated in additive migration
+  `20260927051000_shop_admin_workflow.sql`;
+- **neither migration has been applied remotely** in this batch.
+
+Verified fail-closed behavior includes:
+
+- incomplete SKU 001 cannot enter review/activation;
+- a non-owner cannot mutate product data even through service-side RPC execution;
+- a direct database attempt to mark an incomplete product Active is rejected;
+- a stock split that does not reconcile to approved SKU total is rejected;
+- a valid test split of SKU 001 into S=4 and M=5 preserves the approved total of 9;
+- after a sale, aggregate product inventory and selected-variant inventory are
+  tracked independently and correctly;
+- variant replacement is rejected after transaction history exists;
+- active-product variant/media mutation is rejected until deactivation;
+- authenticated browser role cannot execute the new product-admin RPCs.
+
+CI evidence:
+
+- implementation head `1f265f6d54b28afcde14cbb8b6b307f72dcb86a6`
+  completed **Mainlagi TV V3 CI #1748** successfully across all PR jobs;
+- authorization-regression head
+  `17ce2064da7689aa0b712fc7c5f2cfb843bd1f03` passed Shop contracts/DB tests,
+  typecheck, lint and the complete Ubuntu quality gate in CI #1749;
+- the final documentation-only head must still receive its own exact-head CI before
+  this checkpoint is treated as branch-clean.
+
+No owner physical fact was fabricated. Products whose real size/weight/material/
+capacity/card-function data is still unknown remain Draft and fail activation.
+
 ### Current execution pointer
 
 - Batch 01 is **DONE**.
 - Batch 02 is **DONE**.
-- The next executable batch is **Batch 03 — product admin, variant editor and
-  activation workflow**.
-- Batch 03 must use
-  `docs/data/MAINLAGI_SHOP_PRODUCT_READINESS_2026-09-27.json` as its
-  machine-readable readiness contract.
-- Missing physical facts are **activation blockers**, not permission to invent
-  placeholder values.
+- Batch 03 is **DONE**.
+- The next executable batch is **Batch 04 — operational settings and customer
+  policy contract**.
+- `docs/data/MAINLAGI_SHOP_PRODUCT_READINESS_2026-09-27.json` remains the
+  machine-readable per-product activation contract and now records Batch 03
+  closure.
+- Missing physical facts remain **per-product activation blockers**; they are not
+  waived by Batch 03 completion.
 - PR #359 remains **Draft** and is **not approved for live sales**.
 - `SHOP_SALES_ENABLED` must remain disabled.
-- Staging/provider work still waits for its later explicit batches; closing
-  Batch 02 does not authorize jumping ahead.
+- No staging/provider/production action is authorized by this checkpoint.
 
 ### Mandatory successor after Shop closure
 
