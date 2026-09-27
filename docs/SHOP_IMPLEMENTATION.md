@@ -897,7 +897,7 @@ authorize any production or live-provider action.
 
 #### Batch 05 — staging database, migration chain and security gate
 
-Status: **BLOCKED — non-production Supabase target unavailable**.
+Status: **BLOCKED — staging branch cost confirmation required**.
 
 The owner explicitly authorized this Batch 05 staging/security wave while Batch 04
 remains a separate launch blocker. The override is limited to safe non-production
@@ -927,12 +927,19 @@ Completed preflight work:
 - confirmed the canonical documented production Supabase project is
   `estvtgflwkebomsqlolv`; it is explicitly prohibited as the Batch 05 target.
 
-Connectivity evidence:
+Staging-target evidence:
 
-- the connected Supabase integration returned **zero accessible projects**;
-- the authorized Remote Desktop device was offline, so no local Supabase CLI/link
-  could be used as a fallback;
-- therefore no staging project identity could be safely proven.
+- the general Supabase project listing returned zero projects, but direct read-only
+  access to canonical production project `estvtgflwkebomsqlolv` succeeds and
+  reports `ACTIVE_HEALTHY`;
+- production has the expected 51 migrations through
+  `0051_world_evidence_advisor_hardening`;
+- there are **zero existing Supabase development branches**;
+- the authorized Remote Desktop device is offline, so no local Supabase CLI/link
+  can be used as an alternate staging target;
+- Supabase reports development-branch cost **US$0.01344/hour**;
+- no branch has been created because explicit owner confirmation of that recurring
+  cost is required before the mutation.
 
 Not performed / not claimed:
 
@@ -943,9 +950,16 @@ Not performed / not claimed:
 - no production database mutation;
 - no provider sandbox/live action.
 
-Batch 05 cannot become `DONE` until a specific non-production Supabase project is
-accessible, the migration chain is applied there, staging validation/advisors are
-reviewed, and the real-PostgreSQL race cases in the runbook pass.
+Read-only production advisor baseline was captured before Shop staging: two
+existing authenticated SECURITY DEFINER warnings
+(`record_learning_attempt`, `save_world_progress`), leaked-password protection
+disabled, and 16 unused-index INFO findings. None is Shop-specific at this
+pre-Shop baseline.
+
+Batch 05 cannot become `DONE` until the owner confirms the branch cost, a
+non-production Supabase development branch is created, the migration chain is
+applied there, staging validation/advisors are reviewed, and the real-PostgreSQL
+race cases in the runbook pass.
 
 ### Current execution pointer
 
@@ -953,11 +967,13 @@ reviewed, and the real-PostgreSQL race cases in the runbook pass.
 - Batch 02 is **DONE**.
 - Batch 03 is **DONE**.
 - Batch 04 remains **BLOCKED — owner policy input required**.
-- Batch 05 is **BLOCKED — staging target unavailable**, after successful repository
-  migration/security preflight.
-- Continue Batch 05 only when a **specific non-production Supabase project** is
-  accessible. First record its identity and prove it is not
-  `estvtgflwkebomsqlolv`, then follow
+- Batch 05 is **BLOCKED — staging branch cost confirmation required**, after
+  successful repository migration/security preflight.
+- The proposed staging target is a new Supabase development branch created from
+  production baseline. Supabase reports **US$0.01344/hour**. Do not create it until
+  the owner explicitly confirms that cost.
+- After confirmation, create the branch, record its non-production project ref,
+  verify it is not `estvtgflwkebomsqlolv`, then follow
   `docs/MAINLAGI_SHOP_STAGING_RUNBOOK_2026-09-27.md`.
 - Batch 06 is **not authorized** until Batch 05 remote staging/security/concurrency
   exit gates pass. Batch 04 also remains a launch blocker.
