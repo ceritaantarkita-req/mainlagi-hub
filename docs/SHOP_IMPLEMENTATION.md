@@ -1014,6 +1014,60 @@ concurrency exit gate; no success is claimed for that still-running job here.
 Batch 05 is closed without creating a paid Supabase branch and without mutating
 production.
 
+#### Batch 06 — Midtrans sandbox acceptance
+
+Status: **BLOCKED — Midtrans sandbox Server Key not configured**.
+
+Implementation/preflight completed:
+
+- revalidated current Midtrans Sandbox integration against the official provider
+  contract on 2026-09-27:
+  - Snap create endpoint:
+    `https://app.sandbox.midtrans.com/snap/v1/transactions`;
+  - GET Status endpoint:
+    `https://api.sandbox.midtrans.com/v2/{order_id}/status`;
+  - HTTP Basic authentication using Base64(`ServerKey + ":"`);
+  - notification signature
+    `SHA512(order_id + status_code + gross_amount + ServerKey)`;
+- Snap creation now explicitly requests `credit_card.secure=true`;
+- added fail-closed GET Status validation for local order id, gross amount,
+  provider transaction id and provider status code;
+- paid mapping requires `status_code="200"`;
+- documented pending `status_code="201"` remains pending;
+- Midtrans `failure` maps to failed;
+- contradictory terminal fraud state maps to manual review instead of being
+  silently accepted;
+- partial refund, chargeback and partial chargeback map to manual review;
+- signed webhook still never directly marks an order paid: it triggers an
+  independent provider GET Status reconciliation;
+- added live sandbox probe:
+  `scripts/run-shop-midtrans-sandbox-probe.mjs`;
+- added optional CI job **Shop Midtrans sandbox probe**;
+- added canonical sandbox runbook:
+  `docs/MAINLAGI_SHOP_MIDTRANS_SANDBOX_RUNBOOK_2026-09-27.md`.
+
+Credential evidence:
+
+- CI #1819, run id `36302791061`, executed the Midtrans credential gate;
+- GitHub Actions secret `MIDTRANS_SANDBOX_SERVER_KEY` was absent;
+- job marker:
+  `MIDTRANS_SANDBOX_SERVER_KEY_NOT_CONFIGURED`;
+- therefore **no provider request or sandbox transaction was performed** in that
+  run and no real sandbox acceptance is claimed.
+
+To continue Batch 06, configure the **sandbox Server Key** as GitHub Actions
+repository secret `MIDTRANS_SANDBOX_SERVER_KEY`. Do not paste the key into source,
+docs, issue comments, or chat. The live probe will then create only a sandbox
+Rp10.000 Snap transaction and verify the sandbox redirect/GET-status boundary.
+
+After credential smoke passes, Batch 06 still requires real sandbox evidence for
+pending, accepted payment, deny/failure, cancel, expire, fraud/challenge,
+duplicate/out-of-order notification and timeout/recovery behavior. See the
+runbook for the exact exit gate.
+
+No production Midtrans credential, production provider transaction, production
+migration, sales activation, or paid Supabase branch was used.
+
 ### Current execution pointer
 
 - Batch 01 is **DONE**.
@@ -1021,12 +1075,13 @@ production.
 - Batch 03 is **DONE**.
 - Batch 04 remains **BLOCKED — owner policy input required**.
 - Batch 05 is **DONE** using the owner-approved zero-cost PostgreSQL 17 path.
-- The next technical batch is **Batch 06 — Midtrans sandbox**; it is **NOT
-  STARTED**.
-- Batch 06 may use sandbox/test provider credentials only. It does not authorize a
-  production provider transaction, production migration, or sales activation.
-- Batch 04 remains a launch blocker even if later sandbox batches are explicitly
-  authorized and completed.
+- Batch 06 is **BLOCKED — configure Midtrans sandbox Server Key**.
+- Continue Batch 06 only with sandbox/test credentials. The immediate allowed
+  action is to configure GitHub Actions secret
+  `MIDTRANS_SANDBOX_SERVER_KEY`, rerun CI, and require the live sandbox probe to
+  execute rather than skip.
+- Batch 07 is **not authorized** until Batch 06 real sandbox payment/webhook
+  acceptance closes. Batch 04 also remains a launch blocker.
 - Do not create a paid Supabase branch.
 - Missing physical product facts remain separate per-product activation blockers.
 - PR #359 remains **Draft** and is **not approved for live sales**.
@@ -1083,15 +1138,19 @@ touching Belajar subject stage/gallery presentation or Petualangan Uang map UI.
 The isolated Shop transaction harness still bootstraps minimal existing
 `profiles`/`audit_logs`, while the separate migration-chain harness now exercises
 all 53 repository migrations with a minimal emulated `auth.users`/`auth.uid()`
-surface. PGlite does **not** equal Supabase staging: it does not prove Supabase Auth,
-PostgREST, provider network behavior, Supabase advisors, or true multi-connection
-PostgreSQL race behavior. Those remain Batch 05 remote gates.
+surface. PGlite does **not** equal Supabase hosting. Batch 05 therefore added and passed
+the real PostgreSQL 17 multi-connection staging gate. Hosted Supabase
+Shop-specific advisors remain deliberately deferred to the later
+production-pre-activation checkpoint after Shop migrations are applied with sales
+still disabled. Provider network behavior remains covered by the provider sandbox
+batches, beginning with Batch 06.
 
 ## Provider references checked during implementation
 
 - https://docs.midtrans.com/reference/backend-integration
 - https://docs.midtrans.com/docs/https-notification-webhooks
 - https://docs.midtrans.com/reference/get-transaction-status
+- https://docs.midtrans.com/docs/testing-payment-on-sandbox
 - https://biteship.com/en/docs/api/rates/retrieve
 - https://biteship.com/en/docs/api/orders/create
 - https://biteship.com/en/docs/api/orders/retrieve
