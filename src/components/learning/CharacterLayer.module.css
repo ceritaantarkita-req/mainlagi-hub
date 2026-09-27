@@ -1,4 +1,9 @@
 .layer {
+  --character-safe-top: max(8px, env(safe-area-inset-top, 0px));
+  --character-safe-right: max(8px, env(safe-area-inset-right, 0px));
+  --character-safe-bottom: max(10px, env(safe-area-inset-bottom, 0px));
+  --character-safe-left: max(8px, env(safe-area-inset-left, 0px));
+  --character-max-height: min(46vh, 420px);
   position: absolute;
   inset: 0;
   z-index: 1;
@@ -24,7 +29,8 @@
   left: auto;
   right: auto;
   bottom: auto;
-  width: clamp(78px, 10vw, 138px);
+  width: auto;
+  max-width: clamp(78px, 10vw, 138px);
   max-height: 190px;
   flex: 0 1 auto;
 }
@@ -37,10 +43,14 @@
 .character {
   --character-order: 0;
   position: absolute;
-  bottom: max(10px, env(safe-area-inset-bottom));
-  width: clamp(88px, 16vw, 190px);
+  bottom: var(--character-safe-bottom);
+  width: auto;
+  max-width: clamp(88px, 16vw, 190px);
   height: auto;
-  max-height: min(46vh, 420px);
+  max-height: min(
+    var(--character-max-height),
+    calc(100% - var(--character-safe-top) - var(--character-safe-bottom))
+  );
   object-fit: contain;
   object-position: bottom center;
   pointer-events: none;
@@ -49,11 +59,11 @@
 }
 
 .left {
-  left: max(8px, env(safe-area-inset-left));
+  left: var(--character-safe-left);
 }
 
 .right {
-  right: max(8px, env(safe-area-inset-right));
+  right: var(--character-safe-right);
 }
 
 .stateHero {
@@ -112,9 +122,12 @@
 }
 
 @media (max-width: 560px) {
+  .layer:not(.ensemble) {
+    --character-max-height: 34vh;
+  }
+
   .character {
-    width: clamp(76px, 24vw, 126px);
-    max-height: 34vh;
+    max-width: clamp(76px, 24vw, 126px);
   }
 
   .ensemble {
@@ -123,7 +136,7 @@
   }
 
   .ensemble .character {
-    width: clamp(58px, 18vw, 92px);
+    max-width: clamp(58px, 18vw, 92px);
     max-height: 122px;
     margin-inline: -3px;
   }
@@ -132,6 +145,16 @@
   .ensemble .character:nth-child(4) {
     transform: translateY(6px);
   }
+}
+
+:global([data-mainlagi-orientation="landscape"]) .layer:not(.ensemble) {
+  --character-safe-top: max(6px, env(safe-area-inset-top, 0px));
+  --character-safe-bottom: max(6px, env(safe-area-inset-bottom, 0px));
+  --character-max-height: min(62vh, 300px);
+}
+
+:global([data-mainlagi-orientation="landscape"]) .layer:not(.ensemble) .character {
+  max-width: clamp(72px, 13vw, 150px);
 }
 
 @media (prefers-reduced-motion: reduce) {

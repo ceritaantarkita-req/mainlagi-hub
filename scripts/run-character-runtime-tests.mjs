@@ -222,6 +222,7 @@ assert.equal(unknownWorld.characters.length, 0, "unknown World cast fails closed
 const providerSource = fs.readFileSync(path.resolve("src/components/learning/ActivityVisualThemeProvider.tsx"), "utf8");
 const bridgeSource = fs.readFileSync(path.resolve("src/components/learning/LearningAttemptBridge.tsx"), "utf8");
 const frameSource = fs.readFileSync(path.resolve("src/components/learning/GardenActivityFrame.tsx"), "utf8");
+const frameCss = fs.readFileSync(path.resolve("src/components/learning/GardenActivityFrame.module.css"), "utf8");
 const themeSource = fs.readFileSync(path.resolve("src/lib/learning/activityVisualTheme.ts"), "utf8");
 
 assert.match(providerSource, /LEARNING_CHARACTER_PRESENTATION_EVENT/, "activity provider listens to the shared presentation event");
@@ -241,20 +242,36 @@ assert.match(frameSource, /setCharacterMoment\("guide"\)/, "Dengar action publis
 assert.match(frameSource, /!workspace && characterPresentation/, "creative workspaces hide the decorative character layer");
 assert.match(frameSource, /<CharacterLayer characters=\{runtimeCharacters\}/, "Garden frame renders through the shared CharacterLayer");
 assert.doesNotMatch(frameSource, /runtimeCharacters\.map/, "Garden frame must not retain a second character renderer");
+assert.match(frameCss, /@media\(max-width:768px\) and \(orientation:portrait\)[\s\S]*?\.garden:not\(\.workspace\) \.characterLayer\s*\{[\s\S]*?position:relative;[\s\S]*?height:clamp\(150px,36vw,184px\)/, "Belajar phone/tablet portrait CharacterLayer must move into a dedicated flow-safe band below task content");
 assert.match(themeSource, /resolveCharacterPresentation\(\{ context: "activity", subjectId \}\)/, "Belajar visual theme resolves through the shared character presentation module");
 assert.doesNotMatch(themeSource, /approvedCharacterRuntimeSrc/, "Belajar visual theme must no longer depend on the legacy compatibility API");
 
 const layerSource = fs.readFileSync(path.resolve("src/components/learning/CharacterLayer.tsx"), "utf8");
 const layerCss = fs.readFileSync(path.resolve("src/components/learning/CharacterLayer.module.css"), "utf8");
+const globalCss = fs.readFileSync(path.resolve("src/app/globals.css"), "utf8");
+const learningPlatformCss = fs.readFileSync(path.resolve("src/components/learning/LearningPlatform.module.css"), "utf8");
 assert.match(layerSource, /variant === "ensemble" \? 5 : 2/, "CharacterLayer preserves two-character normal rendering and explicitly allows five-character Home ensemble");
 assert.match(layerSource, /styles\.ensemble/, "CharacterLayer exposes one shared ensemble variant instead of a second renderer");
 assert.match(layerSource, /data-character-state=/, "CharacterLayer exposes state QA attribute");
+assert.match(layerSource, /data-character-geometry="safe-contain-v1"/, "CharacterLayer exposes the canonical SI-02 geometry contract");
 assert.match(layerSource, /data-character-asset-source=/, "CharacterLayer exposes asset source QA attribute");
 assert.match(layerSource, /alt=""/, "decorative character images do not duplicate screen-reader narration");
 assert.match(layerCss, /pointer-events:\s*none/, "character layer cannot block task interaction");
-assert.match(layerCss, /env\(safe-area-inset-bottom\)/, "character layer respects bottom safe area");
+assert.match(layerCss, /env\(safe-area-inset-bottom(?:,\s*0px)?\)/, "character layer respects bottom safe area");
+assert.match(layerCss, /--character-safe-top:/, "character layer reserves a shared top safe area");
+assert.match(layerCss, /--character-safe-right:/, "character layer reserves a shared right safe area");
+assert.match(layerCss, /--character-safe-bottom:/, "character layer reserves a shared bottom safe area");
+assert.match(layerCss, /--character-safe-left:/, "character layer reserves a shared left safe area");
+assert.match(layerCss, /calc\(100% - var\(--character-safe-top\) - var\(--character-safe-bottom\)\)/, "character height must be bounded by its actual slot instead of relying on clipping");
+assert.match(layerCss, /\.character\s*\{[\s\S]*?width:\s*auto;[\s\S]*?max-width:/, "shared CharacterLayer must constrain intrinsic SVG width without forcing aspect-ratio distortion");
+assert.match(layerCss, /data-mainlagi-orientation="landscape"/, "canonical character geometry must consume the SI-01 orientation signal");
 assert.match(layerCss, /prefers-reduced-motion:\s*reduce/, "character motion respects reduced-motion preference");
 assert.match(layerCss, /animation:\s*none\s*!important/, "reduced-motion disables character animation");
+assert.match(globalCss, /\.round-end-character-layer\s*\{[\s\S]*?--character-max-height:\s*120px/, "RoundEnd must express its preferred height through the shared character variable");
+assert.doesNotMatch(globalCss, /\.round-end-character-layer img\s*\{[^}]*max-height\s*:/, "RoundEnd callers must not override CharacterLayer max-height directly");
+assert.match(globalCss, /@media \(orientation: landscape\) and \(max-height: 560px\)[\s\S]*?\.round-end-card\s*\{[\s\S]*?max-height:\s*calc\(var\(--ml-viewport-height, 100dvh\) - 16px\);[\s\S]*?overflow-y:\s*auto;/, "RoundEnd short landscape must stay inside the SI-01 visual viewport without clipping its character band");
+assert.doesNotMatch(globalCss, /\.preflight-character-layer img\s*\{[^}]*max-height\s*:/, "Preflight callers must not override CharacterLayer max-height directly");
+assert.doesNotMatch(learningPlatformCss, /\.motionCharacterLayer img\s*\{[^}]*max-height\s*:/, "Motion hero callers must not override CharacterLayer max-height directly");
 
 console.log(
   "Character runtime regression passed: 35 provenance-bound SVG states, canonical Belajar/World/Bermain state mapping, five-character Home ensemble, shared feedback bridge/provider state machine, and CharacterLayer safety contract."

@@ -1833,3 +1833,50 @@ Therefore the current World evidence write path remains server-only. The separat
 
 Canonical detail:
 `docs/WORLD_EVIDENCE_PRODUCTION_CLOSURE_2026-09-24.md`.
+
+
+## 27 September 2026 — Shared Interaction SI-02 PR-green checkpoint — CURRENT
+
+Shared Interaction execution has advanced beyond the older character-production pause text elsewhere in this historical document.
+
+Current Shared Interaction sequence:
+
+```text
+SI-00 — Read-only coverage audit             COMPLETE / merged
+SI-01 — Orientation foundation               COMPLETE / merged / live verified
+SI-02 — Canonical Character Presentation     PR #363 implementation head FULL GREEN / docs-head CI pending
+SI-03 — Canonical Completion component       NOT STARTED
+SI-04 — Canonical Share component            NOT STARTED
+```
+
+SI-02 current branch:
+
+```text
+branch: agent/si-02-canonical-character-presentation-20260927
+PR:     #363
+base:   main f2b3768745f11e4fa33954d61aabb1a01acda2ff
+green implementation head:
+        2eee75d3a1538747427a853ca7d748cbdee45dff
+PR CI:  #1917 / run 36328275954 — FULL SUCCESS
+safe checkpoint:
+docs/SI02_CANONICAL_CHARACTER_PRESENTATION_SAFE_CHECKPOINT_2026-09-27.md
+```
+
+Implemented SI-02 boundaries:
+
+- shared `CharacterLayer` no-crop / safe-area geometry contract with intrinsic SVG ratio preservation;
+- portrait phone/tablet Belajar through 768px uses an in-flow character band, proven by the permanent 320/390/430/768/1280 Session 07 matrix;
+- landscape composition consumes the already-live SI-01 orientation/visual-viewport signal;
+- World SpeechCard floating character-name label is removed at source and its art slot remains measurable;
+- World completion keeps its existing Gavi + Paca celebration semantics;
+- Bermain RoundEnd short landscape is bounded to the SI-01 visual viewport and may scroll inside the card rather than clipping its character band;
+- no new character identities, states or assets;
+- no learning evidence/mastery/progression/schema changes;
+- no Completion/Share migration, Journey Map work or Shop work.
+
+PR CI #1917 is the first full-green SI-02 implementation-head run after the browser QA successively caught and drove fixes for World zero-width geometry, caller max-height ownership, intrinsic-ratio distortion, Belajar portrait overlap through 768px, and RoundEnd short-landscape viewport escape.
+
+The documentation update following that green implementation head must receive one final full PR CI before merge. Do **not** call SI-02 merged/live and do not start SI-03 until PR #363 is merged and the exact merged-main Cloudflare production smoke succeeds.
+
+The dedicated SI-02 checkpoint supersedes older character-pause wording only for the Shared Interaction roadmap. Historical character-program records remain historical evidence and must not be rewritten as if SI-02 existed at those dates.
+
