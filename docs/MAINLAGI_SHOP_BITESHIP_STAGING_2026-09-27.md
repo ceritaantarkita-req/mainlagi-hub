@@ -10,7 +10,7 @@ This staging path exists specifically to avoid using production
 Workflow:
 
 ```text
-.github/workflows/shop-biteship-staging.yml
+.github/workflows/ci.yml
 ```
 
 Worker:
@@ -72,7 +72,7 @@ Use a scoped Cloudflare API token, not a Global API Key. The deployment requires
 Workers Scripts write access and enough Workers read access to resolve the account
 Workers subdomain.
 
-The workflow is hard-gated to:
+Run **Mainlagi TV V3 CI** manually from GitHub Actions, select the Shop branch, and enable the boolean input `deploy_shop_biteship_staging`. The staging job is hard-gated to:
 
 ```text
 agent/mainlagi-shop-foundation-20260927
