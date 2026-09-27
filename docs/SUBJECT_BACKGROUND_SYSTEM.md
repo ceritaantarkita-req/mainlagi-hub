@@ -15,6 +15,17 @@ Use this document as the canonical contract for activity backgrounds. Read it wi
 
 ## Current implementation scope
 
+The later owner-approved Learning Journey Map redesign does **not** replace this
+activity-background system. Journey-map environment art is a subject navigation/
+progress surface, while these 54 scene families remain activity gameplay backgrounds.
+
+Canonical map direction:
+`MAINLAGI_CANONICAL_JOURNEY_MAP_SYSTEM_2026-09-27.md`.
+
+Do not repurpose one gameplay background binary as a full subject map merely to avoid
+authoring the map system, and do not bake character sprites or answer-bearing activity
+content into journey-map environment art.
+
 The system now covers the canonical **9 subjects / 900 activities**:
 
 | Subject ID | Product label | Theme | Scene families |
