@@ -86,6 +86,35 @@ export default async function ShopAdminPage({
           )}
         </section>
         <section className="shop-summary">
+          <h2>Policy owner-approved</h2>
+          <ul>
+            <li>
+              Support: {readiness.ownerDecisions.support.channel} ·{" "}
+              {readiness.ownerDecisions.support.contact} ·{" "}
+              {readiness.ownerDecisions.support.hours}
+            </li>
+            <li>
+              Courier:{" "}
+              {readiness.ownerDecisions.courierAllowlist.couriers.join(", ")}
+            </li>
+            <li>
+              Service:{" "}
+              {readiness.ownerDecisions.courierAllowlist.services.join(", ")}
+            </li>
+            <li>
+              Handling fee: Rp
+              {readiness.ownerDecisions.packingHandling.handlingFeeAmount ?? 0}.
+            </li>
+            <li>
+              Payment expiry: {readiness.ownerDecisions.paymentExpiry.minutes} menit.
+            </li>
+            <li>Customer notification otomatis v1: tidak ada.</li>
+          </ul>
+          <p>
+            <Link href="/shop/policies">Lihat kebijakan customer-facing</Link>
+          </p>
+        </section>
+        <section className="shop-summary">
           <h2>Behavior yang sudah ada di kode</h2>
           <ul>
             <li>
@@ -106,8 +135,9 @@ export default async function ShopAdminPage({
           </ul>
         </section>
         <p>
-          Keputusan owner yang belum disetujui tetap menjadi blocker. Jangan isi
-          nilai perkiraan hanya untuk menghilangkan blocker.
+          Policy owner sudah disetujui. Blocker yang tersisa di halaman ini adalah
+          konfigurasi deployment yang memang belum tersedia; jangan isi nilai
+          perkiraan hanya untuk menghilangkan blocker.
         </p>
       </main>
     );
