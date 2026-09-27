@@ -490,11 +490,11 @@
 
 .motionCharacterLayer {
   inset: 0;
+  --character-max-height: 205px;
 }
 
 .motionCharacterLayer img {
   width: clamp(92px, 13vw, 158px);
-  max-height: 205px;
 }
 
 @media (max-width: 700px) {
@@ -509,9 +509,12 @@
     height: 145px;
   }
 
+  .motionCharacterLayer {
+    --character-max-height: 138px;
+  }
+
   .motionCharacterLayer img {
     width: clamp(88px, 28vw, 126px);
-    max-height: 138px;
   }
 }
 
