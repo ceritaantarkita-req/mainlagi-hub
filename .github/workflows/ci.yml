@@ -215,6 +215,8 @@ jobs:
         run: npm run build
       - name: Audit Batch 16 build budgets
         run: npm run test:batch16:build
+      - name: Shop production HTTP boundary
+        run: npm run test:shop:http
       - name: Validate coloring artwork geometry
         run: npm run test:ui:coloring-art
       - name: Run canonical mobile route, accessibility, and lazy-load matrix
