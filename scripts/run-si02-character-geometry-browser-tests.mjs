@@ -82,7 +82,7 @@ async function assertNoHorizontalOverflow(page, label) {
 
 async function assertSafeCharacterGeometry(scope, expectedIds, label) {
   const layer = scope.locator("[data-character-layer]").first();
-  await layer.waitFor({ state: "visible", timeout: 8_000 });
+  await layer.waitFor({ state: "attached", timeout: 8_000 });
   assert.equal(await layer.getAttribute("data-character-geometry"), "safe-contain-v1", `${label}: canonical geometry marker`);
   assert.equal(await layer.getAttribute("aria-hidden"), "true", `${label}: decorative layer`);
 
@@ -122,8 +122,10 @@ async function assertSafeCharacterGeometry(scope, expectedIds, label) {
 
   assert.deepEqual(snapshot.images.map((item) => item.id), expectedIds, `${label}: cast order`);
   assert.equal(snapshot.pointerEvents, "none", `${label}: layer cannot block input`);
+  assert(snapshot.layer.width > 0 && snapshot.layer.height > 0, `${label}: character slot must have measurable geometry: ${JSON.stringify(snapshot.layer)}`);
   for (const image of snapshot.images) {
     assert(image.naturalWidth > 0 && image.naturalHeight > 0, `${label}/${image.id}: image decodes`);
+    assert(image.rect.width > 0 && image.rect.height > 0, `${label}/${image.id}: rendered SVG must have non-zero geometry`);
     assert.equal(image.objectFit, "contain", `${label}/${image.id}: object fit`);
     assert.equal(image.pointerEvents, "none", `${label}/${image.id}: pointer transparent`);
     assert(image.rect.left >= snapshot.layer.left - 1, `${label}/${image.id}: no left crop`);
