@@ -20,6 +20,7 @@
 .shop-shell button,
 .shop-shell input,
 .shop-shell select,
+.shop-shell textarea,
 .shop-shell summary,
 .shop-shell a {
   -webkit-tap-highlight-color: transparent;
@@ -27,6 +28,7 @@
 .shop-shell button:focus-visible,
 .shop-shell input:focus-visible,
 .shop-shell select:focus-visible,
+.shop-shell textarea:focus-visible,
 .shop-shell summary:focus-visible,
 .shop-shell a:focus-visible {
   outline: 3px solid var(--shop-focus);
@@ -193,8 +195,9 @@
   color: white;
   border-color: var(--shop-primary);
 }
-.shop-shell input,
-.shop-shell select {
+.shop-shell input:not([type="checkbox"]):not([type="radio"]),
+.shop-shell select,
+.shop-shell textarea {
   min-height: 48px;
   border: 1px solid #bbcbbc;
   border-radius: 12px;
@@ -205,7 +208,19 @@
   width: 100%;
   font: inherit;
 }
-.shop-shell input:invalid:not(:placeholder-shown) {
+.shop-shell textarea {
+  min-height: 112px;
+  resize: vertical;
+}
+.shop-shell input[type="checkbox"],
+.shop-shell input[type="radio"] {
+  width: auto;
+  min-width: 20px;
+  min-height: 20px;
+  accent-color: var(--shop-primary);
+}
+.shop-shell input:invalid:not(:placeholder-shown),
+.shop-shell textarea:invalid:not(:placeholder-shown) {
   border-color: var(--shop-primary);
 }
 .shop-grid {
@@ -445,7 +460,7 @@
   font-weight: 500;
 }
 .shop-quote input {
-  min-height: 20px;
+  flex: 0 0 auto;
 }
 .shop-search input {
   width: 240px;
@@ -691,5 +706,33 @@
   }
   .shop-card h3 {
     font-size: 14px;
+  }
+}
+
+.shop-admin-nav {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.shop-admin-nav a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 12px;
+  border: 1px solid #d4ded5;
+  border-radius: 12px;
+  font-weight: 800;
+}
+.shop-summary > summary,
+details.shop-cart-line > summary {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+@media (max-width: 520px) {
+  .shop-admin-nav a {
+    flex: 1 1 calc(50% - 8px);
+    justify-content: center;
   }
 }
