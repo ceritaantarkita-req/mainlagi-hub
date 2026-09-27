@@ -426,10 +426,6 @@
   filter: drop-shadow(0 12px 10px rgba(32, 67, 50, .13));
 }
 
-.storyCharacter strong {
-  font-size: 18px;
-}
-
 .speechBubble {
   position: relative;
   padding: 28px;
