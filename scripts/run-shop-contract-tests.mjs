@@ -136,6 +136,10 @@ const shopAdminSource = await readFile(
   "src/app/admin/shop/[section]/page.tsx",
   "utf8",
 );
+const shopPolicyPageSource = await readFile(
+  "src/app/shop/policies/page.tsx",
+  "utf8",
+);
 assert.equal(seed.length, 9);
 assert.equal(manifest.length, 27);
 assert.equal(manifest.filter((m) => m.approval === "approved").length, 26);
@@ -152,7 +156,6 @@ assert.equal(readiness.batch02Status, "done");
 assert.equal(readiness.batch03Authorization.allowed, true);
 assert.equal(readiness.batch03Status, "done");
 assert.equal(readiness.batch04Authorization.allowed, true);
-assert.equal(operationalPolicy.status, "pending_owner_input");
 assert.equal(
   operationalPolicy.currentImplementedBehavior.paymentExpiryMinutes,
   30,
@@ -230,6 +233,9 @@ assert.ok(
 );
 assert.match(shopAdminSource, /"settings"/);
 assert.match(shopAdminSource, /Kesiapan operasional Shop/);
+assert.match(shopPolicyPageSource, /Belanja dengan aturan yang jelas/);
+assert.match(shopPolicyPageSource, /Buka WhatsApp/);
+assert.match(shopPolicyPageSource, /operationalPolicy\.ownerDecisions/);
 assert.equal(readiness.products.length, 9);
 assert.deepEqual(
   readiness.products.map((p) => p.approvedTotalStock),
@@ -270,5 +276,5 @@ assert.ok(
   "rejected duplicate tumbler alternate is not runtime media",
 );
 console.log(
-  "Shop contracts: Midtrans signature/status integrity, provider state mapping, Batch 02/03 readiness, Batch 04 fail-closed operational contract, 9 products, 26 approved runtime media + 1 rejected provenance asset PASS",
+  "Shop contracts: Midtrans signature/status integrity, provider state mapping, Batch 02/03 readiness, Batch 04 owner-approved policy + fail-closed deployment configuration, 9 products, 26 approved runtime media + 1 rejected provenance asset PASS",
 );
