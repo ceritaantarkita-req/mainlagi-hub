@@ -67,6 +67,14 @@ try {
   );
   await assert.rejects(
     db.query(
+      "update shop_products set status='active',review_status='approved',facts_verified=true where id=$1",
+      [product.id],
+    ),
+    /product activation blocked/,
+    "direct service-role mutation cannot bypass readiness",
+  );
+  await assert.rejects(
+    db.query(
       "select shop_admin_product_save($1,$2,$3,'wear',69000,$4,$5)",
       [
         product.id,
@@ -477,6 +485,22 @@ try {
   await assert.rejects(
     db.query("select shop_pack($1,$2)", [oid, owner]),
     /permission denied/,
+  );
+  await assert.rejects(
+    db.query("select shop_admin_transition($1::uuid,'deactivate',$2::uuid)", [
+      product.id,
+      owner,
+    ]),
+    /permission denied/,
+    "authenticated browser role cannot execute product-admin RPCs",
+  );
+  await assert.rejects(
+    db.query(
+      "select shop_admin_product_save($1::uuid,'x','x','wear',1,'{}'::jsonb,$2::uuid)",
+      [product.id, owner],
+    ),
+    /permission denied/,
+    "authenticated browser role cannot execute product mutation RPCs",
   );
   await db.exec("reset role");
   const stale = await cart();
