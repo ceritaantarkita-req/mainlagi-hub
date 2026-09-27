@@ -37,7 +37,7 @@ assert.match(belajar, /back={{ onClick: goBack }}/, "Belajar keeps its existing 
 assert.match(belajar, /again={{ onClick: retry }}/, "Belajar keeps its existing replay semantics");
 assert.match(belajar, /next={{ href: nextHref, ariaLabel: "Next" }}/, "Belajar keeps stage-aware Next semantics");
 assert.match(belajar, /onShare={openShare}/, "SI-03 delegates Share behavior to the existing owner pending SI-04");
-assert.match(belajar, /fetch("\/api\/parent\/share-gate"/, "existing Share gate remains owned by the Belajar adapter until SI-04");
+assert(belajar.includes('fetch("/api/parent/share-gate"'), "existing Share gate remains owned by the Belajar adapter until SI-04");
 assert.doesNotMatch(canonical, /parent\/share-gate|wa\.me|t\.me\/share|twitter\.com|facebook\.com|threads\.net/, "canonical Completion must not absorb SI-04 provider/gate logic");
 assert.doesNotMatch(belajar, /Try Again/, "Belajar canonical visual label is Again, not legacy Try Again");
 assert.doesNotMatch(belajarCss, /\.overlay|\.completion\s*\{|\.praise|\.stars|\.actions|\.shareButton/, "legacy Belajar completion visual ownership is removed");
