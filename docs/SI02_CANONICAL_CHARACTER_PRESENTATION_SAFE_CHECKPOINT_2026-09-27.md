@@ -148,7 +148,51 @@ Fix:
 fix: preserve World story character slot after label removal
 ```
 
-A fresh full CI run after that fix and the documentation commits is mandatory.
+A fresh full CI run after that fix and the documentation commits was run as PR CI #1855 / run `36322945728`.
+
+### PR CI #1855 / run 36322945728
+
+All non-browser gates passed again:
+
+```text
+Quality gate (Ubuntu):       PASS
+Windows compatibility:      PASS
+Production build:            PASS
+Production dependency audit: PASS
+Secret history scan:         PASS
+```
+
+The new SI-02 browser suite advanced past Belajar, World SpeechCard and World completion, then correctly caught a second caller-contract violation:
+
+```text
+Bermain RoundEnd portrait / Gavi:
+no top crop assertion failed
+```
+
+Root cause: `src/app/globals.css` still set `max-height: 120px` directly on `.round-end-character-layer img`. That selector was more specific than the shared CharacterLayer rule and bypassed the new slot-bounded max-height calculation.
+
+The fix routes caller preferences through the shared custom property instead:
+
+```text
+--character-max-height
+```
+
+and removes direct image `max-height` overrides from RoundEnd, Preflight and the legacy motion hero caller. Static regression now forbids those caller overrides.
+
+Fix commits:
+
+```text
+cde2bb7346f7c9ca674f4a38c8083b4b7832b7b5
+fix: route Bermain character sizing through shared geometry
+
+e94f94b2db270b65c54daf9ad103ccbcecf920f2
+fix: preserve shared character height ownership
+
+7bc1a62afc96dd528bd733b722ca0643074acb6a
+test: forbid caller max-height overrides on CharacterLayer
+```
+
+A fresh latest-head full CI after these fixes remains mandatory.
 
 ## Merge/production gate
 
