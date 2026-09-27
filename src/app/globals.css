@@ -491,7 +491,7 @@ img { max-width: 100%; }
 }
 
 .preflight-character-layer img {
-  width: clamp(82px, 17vw, 150px);
+  max-width: clamp(82px, 17vw, 150px);
   filter: drop-shadow(0 10px 22px rgba(3, 12, 28, .28));
 }
 
@@ -505,7 +505,7 @@ img { max-width: 100%; }
   }
 
   .preflight-character-layer img {
-    width: clamp(72px, 24vw, 108px);
+    max-width: clamp(72px, 24vw, 108px);
   }
 }
 
@@ -1630,7 +1630,7 @@ img { max-width: 100%; }
 }
 
 .round-end-character-layer img {
-  width: clamp(86px, 25vw, 126px);
+  max-width: clamp(86px, 25vw, 126px);
 }
 .round-end-mark {
   width: 56px; height: 56px; border-radius: 50%;
