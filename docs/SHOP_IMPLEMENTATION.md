@@ -618,6 +618,8 @@ then pass full CI again before Batch 11 starts.
 
 ### Batch 11 — full staging E2E and launch-gate review
 
+Status: **BLOCKED — deterministic launch-gate review is complete; live staging/provider/data prerequisites remain open.**
+
 **Goal:** prove the exact release candidate end to end before production work.
 
 Required scenario set:
@@ -654,6 +656,16 @@ Exit gate:
 - Every required item above is explicitly PASS or has an owner-approved launch
   deferral that does not violate the non-negotiable boundaries.
 - PR #359 can move from Draft only after this review is documented.
+
+Batch 11 review record:
+`docs/MAINLAGI_SHOP_BATCH11_LAUNCH_GATE_2026-09-27.md`.
+
+Current review conclusion: deterministic coverage exists for every required scenario,
+but the full exit gate is blocked by verified physical product data, private
+Biteship/origin configuration, real Biteship Sandbox acceptance, a safe public
+non-production staging origin, observed staging reconciliation scheduling and an
+explicit PII-retention duration. None of those may be fabricated or replaced by
+production.
 
 ### Batch 12 — production preparation, merge/deploy and sales activation
 
@@ -1319,7 +1331,8 @@ migration, real funds, sales activation, or paid Supabase branch was used.
   matching cron secrets, one observed scheduled run, Batch 07 shipment-provider
   configuration and an explicit PII-retention duration.
 - Batch 10 is **DONE** on functional SHA `617b1157a9b0db41f5d9a5242df2a17e4c04ac95`; CI #1909 / run `36326902517` passed the exact tree and browser evidence is recorded above.
-- Post-Batch-10 integration now synchronizes PR #359 with latest `main` `f2b3768745f11e4fa33954d61aabb1a01acda2ff`. Full post-sync CI is required before Batch 11 may start.
+- Post-Batch-10 integration is **DONE** on merge SHA `7751942bdf29a7664aae6a4e075578d251feb687`, preserving Shop and SI-01 orientation work from `main` `f2b3768745f11e4fa33954d61aabb1a01acda2ff`; CI #1915 / run `36328184665` passed the exact integrated tree.
+- Batch 11 launch-gate review is **BLOCKED** on real product facts/variant data, non-production Biteship/origin configuration and provider acceptance, a safe public staging origin, observed scheduler evidence and an explicit PII-retention duration. See `docs/MAINLAGI_SHOP_BATCH11_LAUNCH_GATE_2026-09-27.md`.
 - Do not create a paid Supabase branch.
 - Missing physical product facts remain separate per-product activation blockers.
 - PR #359 remains **Draft** and is **not approved for live sales**.
