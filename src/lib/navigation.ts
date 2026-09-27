@@ -11,7 +11,7 @@ export const PRIMARY_NAV: NavItem[] = [
   { label: "Beranda", href: "/", icon: "home" },
   { label: "Main Gerak", href: "/games", icon: "games" },
   { label: "Bacaan & ide", href: "/discover", icon: "discover" },
-  { label: "Skor game", href: "/leaderboards", icon: "leaderboards" },
+  { label: "Shop", href: "/shop", icon: "tag" },
   { label: "Akun", href: "/account", icon: "account" }
 ];
 

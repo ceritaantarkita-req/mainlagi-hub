@@ -1,0 +1,272 @@
+[
+  {
+    "source": "mainlagi-shop-001-white-tee-product-v1.png",
+    "sourceSha256": "da4c94a410856869c51a40d915391e4e8e078f7facecd9018a7118b4fb6d5a7d",
+    "sourceWidth": 1254,
+    "path": "/shop/products/mainlagi-shop-001-white-tee-product-v1.webp",
+    "sha256": "49aa43814232d13aa2a506aa259e0d6eba005639c76e7b2cbe27e0dc9304cf6c",
+    "width": 1200,
+    "approval": "review",
+    "note": "Owner-selected working asset; final product fidelity approval pending."
+  },
+  {
+    "source": "mainlagi-shop-001-white-tee-worn-v1.png",
+    "sourceSha256": "0a1c787879ad76b33c7866fb939311c834d81102e7105321d850b6e411f6ac4d",
+    "sourceWidth": 1254,
+    "path": "/shop/products/mainlagi-shop-001-white-tee-worn-v1.webp",
+    "sha256": "409e2a8a06ec10abd481f51556a7c35b42bcecf9742ec42f4623178d34382dce",
+    "width": 1200,
+    "approval": "review",
+    "note": "Owner-selected working asset; final product fidelity approval pending."
+  },
+  {
+    "source": "mainlagi-shop-001-white-tee-worn-alt-v1.png",
+    "sourceSha256": "daa538ff30088c3c53a92fdadd69c856da8e6f5879dbf67257f3badaf0d89f75",
+    "sourceWidth": 1254,
+    "path": "/shop/products/mainlagi-shop-001-white-tee-worn-alt-v1.webp",
+    "sha256": "f6ce408fd7022f2b25fcf33e511401dcf47d5e361b5dcc66ae3ddc0f0330bd06",
+    "width": 1200,
+    "approval": "review",
+    "note": "Owner-selected working asset; final product fidelity approval pending."
+  },
+  {
+    "source": "mainlagi-shop-002-black-oversized-tee-product-v1.png",
+    "sourceSha256": "5b18dc6b94497aade8b851c42473c57fba0131f590879438c41ed1cb13a133be",
+    "sourceWidth": 1254,
+    "path": "/shop/products/mainlagi-shop-002-black-oversized-tee-product-v1.webp",
+    "sha256": "2fe3f929fafc9a91aefbbdd503a42fcde6ee841f2fa45706a3ac98554dc9477a",
+    "width": 1200,
+    "approval": "review",
+    "note": "Owner-selected working asset; final product fidelity approval pending."
+  },
+  {
+    "source": "mainlagi-shop-002-black-oversized-tee-worn-back-v1.png",
+    "sourceSha256": "37059e81d7e348a41edafafc327a0181f1b4d2c6b42cf465f649211d45cd0469",
+    "sourceWidth": 1254,
+    "path": "/shop/products/mainlagi-shop-002-black-oversized-tee-worn-back-v1.webp",
+    "sha256": "fe3922247be9af850b78b3bba0f57711cea5e10a1b0d7b65b4e0d669d78f1dd5",
+    "width": 1200,
+    "approval": "review",
+    "note": "Owner-selected working asset; final product fidelity approval pending."
+  },
+  {
+    "source": "mainlagi-shop-002-black-oversized-tee-worn-alt-v1.png",
+    "sourceSha256": "87ce23e9d826c19eaf4f1bd69545a287d9fb84bd71bd5c8335fe5d0c59f5f58f",
+    "sourceWidth": 1254,
+    "path": "/shop/products/mainlagi-shop-002-black-oversized-tee-worn-alt-v1.webp",
+    "sha256": "f98cff4f05429f18eb5f2107f03291a38d832665232c9f54330d8d315cb5fff3",
+    "width": 1200,
+    "approval": "review",
+    "note": "Owner-selected working asset; final product fidelity approval pending."
+  },
+  {
+    "source": "mainlagi-shop-003-gavi-pajama-product-v1.png",
+    "sourceSha256": "6e8b6ba3c0300bb4953a434c740f1be0129ac2f2c3ff4c8883cafb8245050cdd",
+    "sourceWidth": 1254,
+    "path": "/shop/products/mainlagi-shop-003-gavi-pajama-product-v1.webp",
+    "sha256": "6ae54b04200e8f8e3d5cc6847d046adca49abb332ca779eb2a74190816aecf46",
+    "width": 1200,
+    "approval": "review",
+    "note": "Owner-selected working asset; final product fidelity approval pending."
+  },
+  {
+    "source": "mainlagi-shop-003-gavi-pajama-worn-v1.png",
+    "sourceSha256": "0b5d12c51217010a1ac1a922e0991cd54cfc134c71858a872568d3fdf249ef68",
+    "sourceWidth": 1254,
+    "path": "/shop/products/mainlagi-shop-003-gavi-pajama-worn-v1.webp",
+    "sha256": "08449e1c370fdc14680cb850ee8d3ac48c7d2db3c01743d95e612d91fb839804",
+    "width": 1200,
+    "approval": "review",
+    "note": "Owner-selected working asset; final product fidelity approval pending."
+  },
+  {
+    "source": "mainlagi-shop-003-gavi-pajama-worn-alt-v1.png",
+    "sourceSha256": "0de16db829d1c50dd8fbd8f61b0d85c09a6343710ce8537f4b34a01e2cec9805",
+    "sourceWidth": 1254,
+    "path": "/shop/products/mainlagi-shop-003-gavi-pajama-worn-alt-v1.webp",
+    "sha256": "e9dcca87e7e10e06926f096cdfedeb8a61ef82437f3b99d04a9e3a042b1f2b22",
+    "width": 1200,
+    "approval": "review",
+    "note": "Owner-selected working asset; final product fidelity approval pending."
+  },
+  {
+    "source": "mainlagi-shop-004-character-socks-product-v1.png",
+    "sourceSha256": "600af2ea5e1ce6a34c76e66800d7227a38284a1c3358ce39ae1a83c28581c19c",
+    "sourceWidth": 1254,
+    "path": "/shop/products/mainlagi-shop-004-character-socks-product-v1.webp",
+    "sha256": "a64ec124ee63a178ef8f05d6930b87dcccfedb33a9aadf5be4b62a33eaeadb93",
+    "width": 1200,
+    "approval": "review",
+    "note": "Owner-selected working asset; final product fidelity approval pending."
+  },
+  {
+    "source": "mainlagi-shop-004-character-socks-worn-v1.png",
+    "sourceSha256": "305753b0d28ec972d07ba8ec5665e6c0e1d06c345f9b5b021aec8fa60bec0fd4",
+    "sourceWidth": 1254,
+    "path": "/shop/products/mainlagi-shop-004-character-socks-worn-v1.webp",
+    "sha256": "56defed562a87cce73b7cc2614507fa6f81cc775451d508092d1171063171601",
+    "width": 1200,
+    "approval": "review",
+    "note": "Owner-selected working asset; final product fidelity approval pending."
+  },
+  {
+    "source": "mainlagi-shop-004-character-socks-worn-alt-v1.png",
+    "sourceSha256": "36d6a2bbb2923056943dbe34ea6b67504b5caa72e42d9cb03e2fd8bb5a279ed0",
+    "sourceWidth": 1254,
+    "path": "/shop/products/mainlagi-shop-004-character-socks-worn-alt-v1.webp",
+    "sha256": "05256cd06293afdb9428398b3cf0f1b655c29f20eafeb11b67760d7ff01c6fc2",
+    "width": 1200,
+    "approval": "review",
+    "note": "Owner-selected working asset; final product fidelity approval pending."
+  },
+  {
+    "source": "mainlagi-shop-005-navy-hoodie-product-v1.png",
+    "sourceSha256": "2913b5bb7e2f224bd25e8f7ba38097d26d0eadd2d9a1cb827c3af769128aab7b",
+    "sourceWidth": 1254,
+    "path": "/shop/products/mainlagi-shop-005-navy-hoodie-product-v1.webp",
+    "sha256": "8d642a9312b49f5fe9daa0da9926f36c2b038f80701826b5c45af4b72990c333",
+    "width": 1200,
+    "approval": "review",
+    "note": "Owner-selected working asset; final product fidelity approval pending."
+  },
+  {
+    "source": "mainlagi-shop-005-navy-hoodie-worn-back-v1.png",
+    "sourceSha256": "99c2aeae0e5d73295d445eef5ef3b42178d0e7be86a9d1776397c2727204bbf4",
+    "sourceWidth": 1254,
+    "path": "/shop/products/mainlagi-shop-005-navy-hoodie-worn-back-v1.webp",
+    "sha256": "a05642ea65f9717d0d3610e14cbb8f9b2c6fc8cec9383b80140d2e869daa28af",
+    "width": 1200,
+    "approval": "review",
+    "note": "Owner-selected working asset; final product fidelity approval pending."
+  },
+  {
+    "source": "mainlagi-shop-005-navy-hoodie-worn-alt-v1.png",
+    "sourceSha256": "8bc50eb41a74895180375a27c181b90f90600840f88ea34b4c8c40bc55781821",
+    "sourceWidth": 1254,
+    "path": "/shop/products/mainlagi-shop-005-navy-hoodie-worn-alt-v1.webp",
+    "sha256": "1f45dd6b1d4eb5d15dc441e9cd95bd49e335b88719d2eebbe1c8b91ff42d333a",
+    "width": 1200,
+    "approval": "review",
+    "note": "Owner-selected working asset; final product fidelity approval pending."
+  },
+  {
+    "source": "mainlagi-shop-006-kids-tumbler-product-v1.png",
+    "sourceSha256": "91256de71379f7e4cc11a8d03496be4522383dc757f9c5dbcd464e332fc1382a",
+    "sourceWidth": 1254,
+    "path": "/shop/products/mainlagi-shop-006-kids-tumbler-product-v1.webp",
+    "sha256": "0021a1f2c5bf1210461388b45e450bfdf2c74eb6b22db829ee8eb56a6bf52bab",
+    "width": 1200,
+    "approval": "review",
+    "note": "Owner-selected working asset; final product fidelity approval pending."
+  },
+  {
+    "source": "mainlagi-shop-006-kids-tumbler-in-use-v1.png",
+    "sourceSha256": "1fcbe663c023880fef369fd7dafe4183c628aa5ff18a2a5bf8b904442df316fa",
+    "sourceWidth": 1254,
+    "path": "/shop/products/mainlagi-shop-006-kids-tumbler-in-use-v1.webp",
+    "sha256": "54f7e9d661413d665a0f1f09171140e99d9a93374026c9b95afeadef3a02fd6a",
+    "width": 1200,
+    "approval": "review",
+    "note": "Owner-selected working asset; final product fidelity approval pending."
+  },
+  {
+    "source": "mainlagi-shop-006-kids-tumbler-alternate-v1.png",
+    "sourceSha256": "1fcbe663c023880fef369fd7dafe4183c628aa5ff18a2a5bf8b904442df316fa",
+    "sourceWidth": 1254,
+    "path": "/shop/products/mainlagi-shop-006-kids-tumbler-alternate-v1.webp",
+    "sha256": "54f7e9d661413d665a0f1f09171140e99d9a93374026c9b95afeadef3a02fd6a",
+    "width": 1200,
+    "approval": "review",
+    "note": "Owner-selected working asset; final product fidelity approval pending."
+  },
+  {
+    "source": "mainlagi-shop-007-emoney-card-product-v1.png",
+    "sourceSha256": "f6701240520b0eb5e73dc4a20cfc76b64ce737b5e0033d139d3a701e6bac5000",
+    "sourceWidth": 1254,
+    "path": "/shop/products/mainlagi-shop-007-emoney-card-product-v1.webp",
+    "sha256": "a0e284ad2dfea508c21cf38e5aecf73e649f807322e527cc0fc1be31306dbdaa",
+    "width": 1200,
+    "approval": "review",
+    "note": "Owner-selected working asset; final product fidelity approval pending."
+  },
+  {
+    "source": "mainlagi-shop-007-emoney-card-in-hand-v1.png",
+    "sourceSha256": "d18fcfecf9261b0fddda3ae6a47e19ecc7c32b4945b77a94a6ef3ebb0f2d7d00",
+    "sourceWidth": 1254,
+    "path": "/shop/products/mainlagi-shop-007-emoney-card-in-hand-v1.webp",
+    "sha256": "da2df4b541025abe1ce8fc97c57b0a3891c9e4fc79c381e3cedc7c9bafeed3ed",
+    "width": 1200,
+    "approval": "review",
+    "note": "Owner-selected working asset; final product fidelity approval pending."
+  },
+  {
+    "source": "mainlagi-shop-007-emoney-card-tap-v1.png",
+    "sourceSha256": "9b0b7314f6d8d29ef16e5516b27ec5b1014740330f5db76911f52a077f58e336",
+    "sourceWidth": 1254,
+    "path": "/shop/products/mainlagi-shop-007-emoney-card-tap-v1.webp",
+    "sha256": "d0f67ad4984732389c62eeffbf024c055b951b4b8379e830c1a29cf979baa9f7",
+    "width": 1200,
+    "approval": "review",
+    "note": "Owner-selected working asset; final product fidelity approval pending."
+  },
+  {
+    "source": "mainlagi-shop-008-writing-notebook-product-v1.png",
+    "sourceSha256": "238ee4c4885151e94917f62dbad6781a9a8fb85e97dae14e4602c0c8f2f50b12",
+    "sourceWidth": 1254,
+    "path": "/shop/products/mainlagi-shop-008-writing-notebook-product-v1.webp",
+    "sha256": "ef84c1ecbc5f1273494d77594c792058415284f77bdf5af99db564c5e3b50e9e",
+    "width": 1200,
+    "approval": "review",
+    "note": "Owner-selected working asset; final product fidelity approval pending."
+  },
+  {
+    "source": "mainlagi-shop-008-writing-notebook-in-use-v1.png",
+    "sourceSha256": "54f284d41a7d2dded14a1e7dc9d5a4d8c3e2fe4a1b05d0295738d5b4fb7fd3d3",
+    "sourceWidth": 1254,
+    "path": "/shop/products/mainlagi-shop-008-writing-notebook-in-use-v1.webp",
+    "sha256": "5c5c3dd0f00b29c65c580c5d834f5d5ee77cfd4a37130948c5988fbc602f46d6",
+    "width": 1200,
+    "approval": "review",
+    "note": "Owner-selected working asset; final product fidelity approval pending."
+  },
+  {
+    "source": "mainlagi-shop-008-writing-notebook-in-use-alt-v1.png",
+    "sourceSha256": "f8be68cb9937c01cf9b35dfa9eaa81bac793e1b4fd4f9550729d4e5c98d60bca",
+    "sourceWidth": 1254,
+    "path": "/shop/products/mainlagi-shop-008-writing-notebook-in-use-alt-v1.webp",
+    "sha256": "f9a019211d3955a7a8d2457fe6acbaef8d65c72b813da7a3de821aff2c607fe6",
+    "width": 1200,
+    "approval": "review",
+    "note": "Owner-selected working asset; final product fidelity approval pending."
+  },
+  {
+    "source": "mainlagi-shop-009-drawing-book-product-v1.png",
+    "sourceSha256": "45d80439937dffc19ed79058755ca6705c7876f9356188d821660450899bbcf4",
+    "sourceWidth": 1254,
+    "path": "/shop/products/mainlagi-shop-009-drawing-book-product-v1.webp",
+    "sha256": "03ab32e4465f3f6140d70fe69edeaac9407fa4b531c56960d5c5f33adaa746b5",
+    "width": 1200,
+    "approval": "review",
+    "note": "Owner-selected working asset; final product fidelity approval pending."
+  },
+  {
+    "source": "mainlagi-shop-009-drawing-book-in-use-v1.png",
+    "sourceSha256": "eb90bcda8557271f3483c1b16c604d954296a457752fb92973c476adce46e355",
+    "sourceWidth": 1254,
+    "path": "/shop/products/mainlagi-shop-009-drawing-book-in-use-v1.webp",
+    "sha256": "3e945070a0c871d77acb93f102566094435184efc827ec19faa4f7dfa2b2f53f",
+    "width": 1200,
+    "approval": "review",
+    "note": "Owner-selected working asset; final product fidelity approval pending."
+  },
+  {
+    "source": "mainlagi-shop-009-drawing-book-in-use-alt-v1.png",
+    "sourceSha256": "050072f7dbf6fbfbebf07e1aea158693fe9ded7252d6198a1a6e0090b02b6749",
+    "sourceWidth": 1254,
+    "path": "/shop/products/mainlagi-shop-009-drawing-book-in-use-alt-v1.webp",
+    "sha256": "ea221b06c97388d55007de3085423550533faefc934b3bbccc115a205de6d7e2",
+    "width": 1200,
+    "approval": "review",
+    "note": "Owner-selected working asset; final product fidelity approval pending."
+  }
+]

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { GameCatalog } from "@/components/games/GameCatalog";
 import { CORE_SURFACE_THUMBNAILS } from "@/lib/learning/coreThumbnailRegistry";
 
@@ -21,6 +22,7 @@ export default function GamesPage() {
             priority
           />
         </header>
+        <Link className="button button--ghost" href="/leaderboards">Lihat skor game</Link>
         <GameCatalog />
       </section>
     </div>
