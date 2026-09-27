@@ -33,6 +33,21 @@ const json = (data: unknown, status = 200) =>
     status,
     headers: { "Cache-Control": "private, no-store" },
   });
+function integer(value: unknown, label: string, min = 0, max = 1000000000) {
+  if (
+    typeof value !== "number" ||
+    !Number.isSafeInteger(value) ||
+    value < min ||
+    value > max
+  )
+    throw new ShopError(`Periksa ${label}.`);
+  return value;
+}
+function object(value: unknown, label: string) {
+  if (!value || typeof value !== "object" || Array.isArray(value))
+    throw new ShopError(`Periksa ${label}.`);
+  return value as Record<string, unknown>;
+}
 async function handle(request: Request, path: string[], post: boolean) {
   const route = path.join("/");
   try {
@@ -105,6 +120,101 @@ async function handle(request: Request, path: string[], post: boolean) {
       if (!post) throw new ShopError("Metode tidak tersedia.", 405);
       const b = await body(request),
         c = await db();
+      if (route === "admin/product") {
+        const facts = object(b.facts, "fakta produk");
+        check(
+          await c.rpc("shop_admin_product_save", {
+            p_product: uuid(b.productId),
+            p_title: field(b, "title", 160),
+            p_description: field(b, "description", 1200),
+            p_category: field(b, "category", 80),
+            p_base_price: integer(b.basePrice, "harga", 1),
+            p_facts: facts,
+            p_actor: gate.userId,
+          }),
+        );
+        return json({ ok: true });
+      }
+      if (route === "admin/variants") {
+        if (
+          !Array.isArray(b.variants) ||
+          b.variants.length < 1 ||
+          b.variants.length > 20
+        )
+          throw new ShopError("Periksa varian.");
+        const variants = b.variants.map((raw) => {
+          const v = object(raw, "varian");
+          const optionValues = object(v.optionValues ?? {}, "opsi varian");
+          const normalized = {
+            sku: field(v, "sku", 60).toUpperCase(),
+            title: field(v, "title", 100),
+            optionValues,
+            onHand: integer(v.onHand, "stok", 0, 100000),
+            priceOverride:
+              v.priceOverride === null || v.priceOverride === undefined
+                ? null
+                : integer(v.priceOverride, "harga varian", 1),
+            weightGrams:
+              v.weightGrams === null || v.weightGrams === undefined
+                ? null
+                : integer(v.weightGrams, "berat", 1, 1000000),
+            lengthMm:
+              v.lengthMm === null || v.lengthMm === undefined
+                ? null
+                : integer(v.lengthMm, "panjang", 1, 100000),
+            widthMm:
+              v.widthMm === null || v.widthMm === undefined
+                ? null
+                : integer(v.widthMm, "lebar", 1, 100000),
+            heightMm:
+              v.heightMm === null || v.heightMm === undefined
+                ? null
+                : integer(v.heightMm, "tinggi", 1, 100000),
+            isActive:
+              typeof v.isActive === "boolean" ? v.isActive : true,
+          };
+          return normalized;
+        });
+        check(
+          await c.rpc("shop_admin_variants_replace", {
+            p_product: uuid(b.productId),
+            p_variants: variants,
+            p_actor: gate.userId,
+          }),
+        );
+        return json({ ok: true });
+      }
+      if (route === "admin/media") {
+        const status = field(b, "status", 20);
+        if (!["review", "approved", "rejected"].includes(status))
+          throw new ShopError("Status visual tidak valid.");
+        check(
+          await c.rpc("shop_admin_media_set", {
+            p_media: uuid(b.mediaId),
+            p_status: status,
+            p_actor: gate.userId,
+          }),
+        );
+        return json({ ok: true });
+      }
+      if (route === "admin/product-state") {
+        const action = field(b, "action", 20);
+        if (
+          !["ready", "approve", "activate", "deactivate", "draft"].includes(
+            action,
+          )
+        )
+          throw new ShopError("Transisi produk tidak valid.");
+        return json(
+          result(
+            await c.rpc("shop_admin_transition", {
+              p_product: uuid(b.productId),
+              p_action: action,
+              p_actor: gate.userId,
+            }),
+          ),
+        );
+      }
       if (route === "admin/inventory") {
         if (!Number.isSafeInteger(b.delta) || b.delta === 0)
           throw new ShopError("Jumlah penyesuaian tidak valid.");
