@@ -45,6 +45,10 @@ Canonical post-Shop sequencing handoff:
 
 `MAINLAGI_POST_SHOP_CHILD_SURFACE_HANDOFF_2026-09-27.md`
 
+Canonical bounded session plan:
+
+`MAINLAGI_POST_SHOP_VISUAL_EXECUTION_SESSIONS_2026-09-27.md`
+
 Locked responsive rule:
 
 ```text
