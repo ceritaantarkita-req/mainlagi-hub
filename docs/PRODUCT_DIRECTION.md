@@ -176,6 +176,26 @@ Next visual goals:
 
 The Mainlagi Art Bible and visual quality gate remain permanent controls.
 
+### 27 September owner-approved shared interaction direction
+
+After Shop and PR #360 are closed, the next shared child-facing interaction wave is
+locked around one Mainlagi language across Belajar, Bermain and World:
+
+- one Canonical Completion System at the end of every playable experience;
+- one Canonical Share Experience opened from Completion;
+- Canonical Character Presentation with safe areas, no unintended crop and no
+  floating character-name labels underneath;
+- orientation-responsive mobile behavior:
+  - portrait device → portrait composition;
+  - landscape device → landscape composition;
+  - rotation changes layout only and must never reset gameplay/progress/modal state;
+- actual game/activity backgrounds remain behind Completion/Share; the approved
+  popup mockup backgrounds are review context only;
+- World header/map redesign follows later as a separate visual wave.
+
+Canonical contract:
+`MAINLAGI_CANONICAL_COMPLETION_SHARE_VISUAL_SPEC_2026-09-27.md`.
+
 ## 11. Child navigation
 
 Child surfaces prioritize:
@@ -186,7 +206,18 @@ Child surfaces prioritize:
 4. subject browsing;
 5. Main Gerak where appropriate.
 
-Do not expose admin, billing, affiliate shopping, provider configuration or adult/system concepts inside child learning flow.
+Post-Shop / PR #360 canonical top-level navigation is:
+
+```text
+Belajar | Bermain | World | Shop
+```
+
+Shop is a separate destination, not a learning/mastery/reward step. Its presence in
+top-level navigation does not authorize commerce CTAs inside learning completion or
+progression.
+
+Do not expose admin, billing controls, provider configuration or other adult/system
+concepts inside child learning activities.
 
 ## 12. Parent/public experience
 
