@@ -112,6 +112,7 @@ After the final Shop release is merged to `main`:
    - this document;
    - `docs/MAINLAGI_CANONICAL_COMPLETION_SHARE_VISUAL_SPEC_2026-09-27.md`;
    - `docs/CURRENT_STATE.md`;
+   - `docs/NEXT_PRODUCT_QUALITY_PLAN.md`;
    - `docs/PRODUCT_DIRECTION.md`;
    - PR #360 diff and discussion.
 3. Inspect branch `agent/child-surface-visual-alignment-20260927`. Do not assume its old Shop base is still current.
@@ -120,31 +121,83 @@ After the final Shop release is merged to `main`:
    - preserve final Shop behavior for Shop-specific runtime/provider/commerce files;
    - preserve PR #360 child-surface behavior for the files and UI contract listed above;
    - re-evaluate docs conflicts manually instead of choosing one side wholesale.
-6. Retarget/open the final child-surface PR against `main` once its ancestry is clean.
-7. Run the full required CI on the exact final head.
-8. Re-run visual browser review at minimum at 390 px and 1280 px for:
-   - child Belajar Home;
-   - child Bermain catalog;
-   - child World catalog.
-9. Confirm no horizontal overflow, no console/page errors and the exact responsive column contract.
-10. Merge only after all required checks are green.
-11. Verify merged-main CI and exact production smoke.
-12. Record the final merged SHA, CI run, production smoke and screenshots in canonical docs.
+6. Retarget/open the final PR #360 against `main` once its ancestry is clean.
+7. Run full required CI on the exact final PR #360 head.
+8. Re-run browser review for Belajar Home, Bermain catalog and World catalog at minimum phone portrait, phone landscape and desktop.
+9. Confirm no horizontal overflow, no console/page errors and the canonical grid/navigation contract.
+10. Merge PR #360 only after all required checks are green.
+11. Verify merged-main CI and exact production smoke for PR #360.
+12. Record the final PR #360 merged SHA/CI/smoke in canonical docs.
 
-## 5A. Locked visual successor contract
+Only after that foundation is merged:
 
-Before implementation, treat `docs/MAINLAGI_CANONICAL_COMPLETION_SHARE_VISUAL_SPEC_2026-09-27.md` as owner-approved visual truth for the next UI wave.
+13. Start a **fresh bounded shared-interaction wave** from the new latest `main`.
+14. Use `docs/MAINLAGI_CANONICAL_COMPLETION_SHARE_VISUAL_SPEC_2026-09-27.md` as the owner-approved source of truth.
+15. Audit coverage before broad code replacement:
+    - Belajar runtime families;
+    - all 10 Main Gerak/Bermain games;
+    - World story/activity/stage/finale completion;
+    - existing Share implementations;
+    - existing character-placement paths.
+16. Implement the shared system in this order:
+    - responsive orientation foundation;
+    - Canonical Completion;
+    - Canonical Character Presentation safe areas;
+    - removal of character-name labels;
+    - Canonical Share;
+    - migration of existing final-completion paths to the shared components.
+17. Verify portrait/landscape reflow does not reload/reset gameplay, progress, timer, dialog, Completion or Share state.
+18. Run the full responsive/orientation QA matrix from the canonical visual spec.
+19. Merge and production-verify the shared-interaction wave.
+20. Only then begin the separate World header/map redesign after a dedicated owner-approved World visual target exists.
 
-The two approved concepts are locked for the **popup components only**:
+Do **not** silently expand PR #360 into the entire Completion/Share/Character/World redesign. The existing PR #360 is the child-navigation/page-atmosphere/grid foundation; the shared-interaction migration is the next bounded wave.
+
+## 5A. Locked visual + responsive successor contract
+
+Treat `docs/MAINLAGI_CANONICAL_COMPLETION_SHARE_VISUAL_SPEC_2026-09-27.md` as owner-approved truth for the shared-interaction wave.
+
+The approved and locked directions include:
 
 - Canonical Completion System;
-- Canonical Share Experience.
+- Canonical Share Experience;
+- Canonical Character Presentation:
+  - no unintended crop;
+  - no floating name label underneath;
+  - safe-area placement;
+- responsive orientation behavior:
+  - portrait device → portrait composition;
+  - landscape device → landscape composition;
+  - rotation changes layout only, never product state.
 
-The background artwork visible behind those mockups is explicitly non-canonical and must be replaced at runtime by the actual background of each Belajar/Bermain/World activity.
+The two approved popup mockups lock the **popup/modal visual systems only**. The background artwork visible behind those mockups is non-canonical; runtime keeps the real background of the active Belajar/Bermain/World experience.
 
-The same spec also locks the no-character-crop rule, removal of character-name labels, and execution priority: shared completion/character/share foundation first, World header/map redesign second.
+The same responsive component identity must survive portrait and landscape. Do not create visually unrelated portrait and landscape versions.
 
-Do not regenerate or materially redesign the approved popup concepts without explicit project-owner approval.
+Rotation/orientation change must not:
+
+- reload the route;
+- restart activity/game state;
+- reset an answer;
+- reset timer/progress;
+- close dialog;
+- close Completion;
+- close Share;
+- create duplicate attempt/evidence writes.
+
+The execution priority after PR #360 is:
+
+```text
+responsive orientation foundation
+→ Canonical Completion
+→ Character safe-area/no-name migration
+→ Canonical Share
+→ coverage + portrait/landscape QA
+→ merge/production verify
+→ separate World header/map redesign
+```
+
+Do not regenerate or materially redesign the approved Completion/Share concepts without explicit project-owner approval.
 
 ## 6. Acceptance contract
 
