@@ -24,6 +24,7 @@ import {
   payment,
   rates,
   reconcile,
+  runReconciliationBatch,
   ship,
 } from "@/lib/shop/operations";
 import { biteship, verifyBiteship, verifyMidtrans } from "@/lib/shop/providers";
@@ -73,44 +74,7 @@ async function handle(request: Request, path: string[], post: boolean) {
         !equal(request.headers.get("authorization") ?? "", `Bearer ${secret}`)
       )
         throw new ShopError("Akses ditolak.", 403);
-      const c = await db(),
-        rows = result(
-          await c
-            .from("shop_orders")
-            .select("order_number,id,grand_total_amount,expires_at")
-            .eq("payment_status", "pending")
-            .order("created_at")
-            .limit(50),
-        );
-      let processed = 0;
-      for (const row of rows) {
-        try {
-          const attempts = result(
-            await c
-              .from("shop_payment_attempts")
-              .select("order_id")
-              .eq("order_id", row.id),
-          );
-          if (
-            !attempts.length &&
-            Date.parse(row.expires_at) + 120000 < Date.now()
-          )
-            check(
-              await c.rpc("shop_apply_payment", {
-                p_number: row.order_number,
-                p_amount: row.grand_total_amount,
-                p_status: "expired",
-                p_event: `local-expiry:${row.id}`,
-                p_transaction: null,
-              }),
-            );
-          else await reconcile(row.order_number);
-          processed++;
-        } catch {
-          /* Retain reservations on ambiguous provider failures; alert via failed count. */
-        }
-      }
-      return json({ processed, failed: rows.length - processed });
+      return json(await runReconciliationBatch());
     }
     if (post) origin(request);
     if (path[0] === "admin") {
@@ -238,8 +202,33 @@ async function handle(request: Request, path: string[], post: boolean) {
       }
       if (route === "admin/ship")
         return json(await ship(field(b, "number", 50), gate.userId));
-      if (route === "admin/reconcile")
-        return json(await reconcile(field(b, "number", 50)));
+      if (route === "admin/reconcile") {
+        const target = await order(field(b, "number", 50), true);
+        const state = await reconcile(target.order_number);
+        check(
+          await c.from("audit_logs").insert({
+            actor_id: gate.userId,
+            action: "shop.order.payment.reconcile",
+            entity: "shop_order",
+            entity_id: target.id,
+            payload: { status: state.status },
+          }),
+        );
+        return json(state);
+      }
+      if (route === "admin/order-action") {
+        const target = await order(field(b, "number", 50), true);
+        return json(
+          result(
+            await c.rpc("shop_admin_order_action", {
+              p_order: target.id,
+              p_action: field(b, "action", 50),
+              p_reason: field(b, "reason", 500),
+              p_actor: gate.userId,
+            }),
+          ),
+        );
+      }
       throw new ShopError("Tidak ditemukan.", 404);
     }
     if (!post && route === "cart") {

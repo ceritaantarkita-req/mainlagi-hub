@@ -69,6 +69,8 @@ export const biteship = (path: string, data?: unknown) =>
     required("BITESHIP_API_KEY"),
     data,
   );
+export const biteshipRuntimeConfigured = () =>
+  Boolean(process.env.BITESHIP_API_KEY);
 export function pickup() {
   return {
     origin_contact_name: required("BITESHIP_ORIGIN_CONTACT_NAME"),

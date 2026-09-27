@@ -15,6 +15,7 @@ import {
 } from "./server";
 import {
   biteship,
+  biteshipRuntimeConfigured,
   couriers,
   pickup,
   snap,
@@ -354,3 +355,157 @@ export async function ship(number: string, actor: string) {
   await applyShipment(o, p);
   return { ok: true };
 }
+
+type ReconciliationDueRow = {
+  order_id: string;
+  order_number: string;
+  provider_id: string | null;
+};
+
+function reconciliationErrorLabel(error: unknown) {
+  if (error instanceof ProviderError) return `provider:${String(error.code).slice(0, 80)}`;
+  if (error instanceof ShopError) return `shop:${error.status}`;
+  return "unexpected";
+}
+
+async function markReconciliation(
+  orderId: string,
+  kind: "payment" | "shipment",
+  outcome: "ok" | "pending" | "error" | "blocked",
+  error?: string,
+) {
+  const c = await db();
+  check(
+    await c.rpc("shop_reconciliation_mark", {
+      p_order: orderId,
+      p_kind: kind,
+      p_outcome: outcome,
+      p_error: error ?? null,
+    }),
+  );
+}
+
+export async function runReconciliationBatch() {
+  const c = await db();
+  const run = result<{ id: string }>(
+    await c
+      .from("shop_reconciliation_runs")
+      .insert({ status: "running", details: {} })
+      .select("id")
+      .single(),
+  );
+  const summary = {
+    status: "ok" as "ok" | "partial" | "blocked",
+    expiredLocally: 0,
+    payment: { scanned: 0, processed: 0, pending: 0, failed: 0 },
+    shipment: {
+      configured: biteshipRuntimeConfigured(),
+      scanned: 0,
+      processed: 0,
+      failed: 0,
+      blocked: 0,
+    },
+  };
+  try {
+    summary.expiredLocally = Number(
+      result(
+        await c.rpc("shop_expire_unattempted_orders", {
+          p_limit: 50,
+        }),
+      ),
+    );
+    const paymentRows = result(
+      await c.rpc("shop_reconciliation_due", {
+        p_kind: "payment",
+        p_limit: 50,
+      }),
+    ) as ReconciliationDueRow[];
+    summary.payment.scanned = paymentRows.length;
+    for (const row of paymentRows) {
+      try {
+        const state = await reconcile(row.order_number);
+        const pending = state.status === "pending";
+        await markReconciliation(
+          row.order_id,
+          "payment",
+          pending ? "pending" : "ok",
+        );
+        if (pending) summary.payment.pending++;
+        else summary.payment.processed++;
+      } catch (error) {
+        summary.payment.failed++;
+        await markReconciliation(
+          row.order_id,
+          "payment",
+          "error",
+          reconciliationErrorLabel(error),
+        );
+      }
+    }
+
+    const shipmentRows = result(
+      await c.rpc("shop_reconciliation_due", {
+        p_kind: "shipment",
+        p_limit: 25,
+      }),
+    ) as ReconciliationDueRow[];
+    summary.shipment.scanned = shipmentRows.length;
+    if (!summary.shipment.configured) {
+      summary.shipment.blocked = shipmentRows.length;
+    } else {
+      for (const row of shipmentRows) {
+        try {
+          if (!row.provider_id) throw new ShopError("Pengiriman belum memiliki referensi.", 409);
+          const remote = await biteship(
+            `/v1/orders/${encodeURIComponent(row.provider_id)}`,
+          );
+          const local = await order(row.order_number, true);
+          await applyShipment(local, remote);
+          await markReconciliation(row.order_id, "shipment", "ok");
+          summary.shipment.processed++;
+        } catch (error) {
+          summary.shipment.failed++;
+          await markReconciliation(
+            row.order_id,
+            "shipment",
+            "error",
+            reconciliationErrorLabel(error),
+          );
+        }
+      }
+    }
+
+    if (summary.shipment.blocked > 0) summary.status = "blocked";
+    else if (summary.payment.failed > 0 || summary.shipment.failed > 0)
+      summary.status = "partial";
+
+    check(
+      await c
+        .from("shop_reconciliation_runs")
+        .update({
+          finished_at: new Date().toISOString(),
+          status: summary.status,
+          details: summary,
+        })
+        .eq("id", run.id),
+    );
+    return { runId: run.id, ...summary };
+  } catch (error) {
+    check(
+      await c
+        .from("shop_reconciliation_runs")
+        .update({
+          finished_at: new Date().toISOString(),
+          status: "partial",
+          details: {
+            ...summary,
+            status: "partial",
+            fatal: reconciliationErrorLabel(error),
+          },
+        })
+        .eq("id", run.id),
+    );
+    throw error;
+  }
+}
+
