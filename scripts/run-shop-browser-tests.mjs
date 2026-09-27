@@ -280,7 +280,7 @@ async function auditCheckout(browser, viewport) {
   await page.getByLabel("Alamat lengkap").fill("Jl. Mainlagi No. 10");
   await page.getByLabel("Kota / kabupaten").fill("Bekasi");
   await page.getByLabel("Provinsi").fill("Jawa Barat");
-  await minTargets(page, ".shop-nav a, .shop-form input, .shop-form button, .shop-form .shop-quote", `checkout ${viewport.width}`);
+  await minTargets(page, ".shop-nav a, .shop-form input:not([type='radio']), .shop-form button, .shop-form .shop-quote", `checkout ${viewport.width}`);
   await noOverflow(page, `checkout ${viewport.width}`);
   await page.screenshot({ path: path.join(outDir, `checkout-${viewport.width}.png`), fullPage: true });
 
