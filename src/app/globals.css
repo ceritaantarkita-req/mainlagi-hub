@@ -1762,6 +1762,11 @@ img { max-width: 100%; }
  * pads take the full width.
  */
 @media (orientation: landscape) and (max-height: 560px) {
+  .round-end-overlay { padding: var(--gap-1); }
+  .round-end-card {
+    max-height: calc(var(--ml-viewport-height, 100dvh) - 16px);
+    overflow-y: auto;
+  }
   .game-hud { top: var(--gap-1); left: var(--gap-1); right: var(--gap-1); }
   .hud-score { min-height: 38px; }
   .hud-center b { height: 38px; min-width: 46px; }
