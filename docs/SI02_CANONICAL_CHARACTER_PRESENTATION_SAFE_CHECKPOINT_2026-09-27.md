@@ -1,6 +1,6 @@
 # SI-02 Canonical Character Presentation — Safe Checkpoint — 27 September 2026
 
-Status: **IMPLEMENTATION COMPLETE ON BRANCH / PR OPEN / FULL CI REVALIDATION REQUIRED BEFORE MERGE**
+Status: **IMPLEMENTATION HEAD FULL GREEN / FINAL DOCS-HEAD CI PENDING BEFORE MERGE**
 
 ## Resume point
 
@@ -11,8 +11,9 @@ repository: ceritaantarkita-req/mainlagi-hub
 base main:  f2b3768745f11e4fa33954d61aabb1a01acda2ff
 branch:     agent/si-02-canonical-character-presentation-20260927
 PR:         #363 — feat: complete SI-02 canonical character presentation
-latest known safe-fix commit before docs:
-            925ee36f515343cb0b066e9b3bb293a58955bfc6
+green implementation head:
+            2eee75d3a1538747427a853ca7d748cbdee45dff
+PR CI:     #1917 / run 36328275954 — FULL SUCCESS
 ```
 
 SI-01 is already merged/live and is the required orientation substrate for this work.
@@ -346,6 +347,98 @@ test: measure phone portrait characters in flow-safe band
 
 Any CI run whose head predates `de735e6504b00159519ea78df8333ba941b66098` is superseded and cannot close SI-02.
 
+### PR CI #1905 / run 36326650997
+
+This run proved the in-flow portrait character band fixed the earlier 320px and 390px failures, and it also passed 430px. The permanent Session 07 regression then exposed the same overlap family at the 768px portrait boundary:
+
+```text
+Bahasa / 768x1024 portrait:
+Gavi + Paca overlapped the symbol-hunt task field
+```
+
+That evidence superseded the earlier “phone-only” boundary. The canonical Belajar portrait rule is now:
+
+```css
+@media(max-width:768px) and (orientation:portrait) {
+  .garden:not(.workspace) {
+    padding-bottom: max(28px, env(safe-area-inset-bottom));
+  }
+
+  .garden:not(.workspace) .characterLayer {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: clamp(150px, 36vw, 184px);
+    margin: 12px auto 0;
+  }
+}
+```
+
+Portrait phone/tablet layouts therefore use an in-flow character band through 768px. Landscape keeps the SI-01/SI-02 viewport/side-gutter contract, and wider desktop keeps the established overlay composition.
+
+### PR CI #1912 / run 36327516231
+
+The 768px CSS implementation was present in this diagnostic run. Its Ubuntu/Windows engine jobs failed only because the static regex still expected the older 560px boundary; that test expectation was corrected immediately afterward.
+
+The browser evidence from the same run is important and valid:
+
+```text
+Session 07 character responsive QA:
+7 representative Belajar routes × 5 viewports
+320 / 390 / 430 / 768 / 1280
+PASS
+zero critical-content overlap
+```
+
+After clearing the entire Belajar matrix, SI-02 browser QA exposed the next independent issue:
+
+```text
+Bermain RoundEnd landscape 844×390 / Gavi:
+character left the viewport block axis
+```
+
+The RoundEnd card itself was taller than the short landscape viewport and was vertically centered by the overlay, so its character band could be pushed outside the visible viewport.
+
+Canonical short-landscape fix:
+
+```css
+@media (orientation: landscape) and (max-height: 560px) {
+  .round-end-overlay {
+    padding: var(--gap-1);
+  }
+
+  .round-end-card {
+    max-height: calc(var(--ml-viewport-height, 100dvh) - 16px);
+    overflow-y: auto;
+  }
+}
+```
+
+This is presentation containment only. It does not redesign, reorder, or migrate Completion semantics; canonical Completion remains SI-03.
+
+### PR CI #1917 / run 36328275954 — GREEN IMPLEMENTATION HEAD
+
+Exact head:
+
+```text
+2eee75d3a1538747427a853ca7d748cbdee45dff
+```
+
+Full PR matrix:
+
+```text
+Quality gate (Ubuntu):        PASS
+Windows compatibility:       PASS
+Production build:             PASS
+Production dependency audit:  PASS
+Secret history scan:          PASS
+Mobile route QA (Chromium):   PASS
+```
+
+Chromium includes the permanent Belajar responsive matrix plus the dedicated SI-02 Belajar / World SpeechCard / World completion / Bermain RoundEnd orientation geometry coverage.
+
+PR #363 is mergeable at this implementation head. This documentation update intentionally creates one final docs-only head; that docs head must also be full green before merge. Production smoke remains a post-merge gate because the workflow skips Cloudflare smoke on pull-request runs.
+
 ## Merge/production gate
 
 Do **not** merge PR #363 until:
@@ -357,7 +450,7 @@ Do **not** merge PR #363 until:
 5. after merge, push-to-main CI is full green;
 6. exact Cloudflare production smoke verifies the merged `main` SHA.
 
-Only then may this checkpoint be promoted from **branch-safe** to **merged/live verified**.
+Implementation is now **PR-green**. Only after the final docs-head CI, merge, merged-main CI, and exact Cloudflare smoke may this checkpoint be promoted to **merged/live verified**.
 
 ## Explicit non-scope
 

@@ -319,7 +319,7 @@ Next authorized work is Session 10 semantic/activity illustration registry SVG-a
 
 
 
-## 27 September 2026 — SI-02 canonical geometry hardening — CURRENT BRANCH CHECKPOINT
+## 27 September 2026 — SI-02 canonical geometry hardening — PR-GREEN CHECKPOINT
 
 The closed Sessions 01–16 character asset/runtime program remains intact. SI-02 is **not** a character-development restart; it is a Shared Interaction presentation-geometry hardening wave using the already-approved SVG runtime.
 
@@ -329,9 +329,12 @@ Active branch/PR:
 branch: agent/si-02-canonical-character-presentation-20260927
 PR:     #363
 base:   main f2b3768745f11e4fa33954d61aabb1a01acda2ff
+green implementation head:
+        2eee75d3a1538747427a853ca7d748cbdee45dff
+PR CI:  #1917 / run 36328275954 — FULL SUCCESS
 ```
 
-The shared renderer now exposes:
+The shared renderer exposes:
 
 ```text
 data-character-geometry="safe-contain-v1"
@@ -341,16 +344,20 @@ and owns one canonical slot contract:
 
 - safe top/right/bottom/left anchors;
 - character height bounded by actual slot height;
-- `object-fit: contain` with preserved SVG proportions;
+- `width:auto` + presentation `max-width` + shared `max-height`, preserving intrinsic SVG proportions;
 - SI-01 landscape signal consumed for short-landscape sizing;
 - pointer transparency and reduced-motion behavior unchanged;
 - no cast/state/provenance/evidence/progression logic added to the renderer.
 
-World SpeechCard no longer renders a visible character name below the shared art. The removal exposed an intrinsic-width dependency in the World caller; browser QA caught the zero-width slot and the caller was repaired in `925ee36f515343cb0b066e9b3bb293a58955bfc6`.
+World SpeechCard no longer renders a visible character name below the shared art. The removal exposed an intrinsic-width dependency in the World caller; browser QA caught the zero-width slot and the caller was repaired.
 
-A later SI-02 browser pass then caught RoundEnd's older direct `max-height` image override bypassing the shared slot calculation. RoundEnd, Preflight and motion-hero caller preferences now use `--character-max-height`; direct caller `max-height` overrides are regression-forbidden so shared CharacterLayer retains final height ownership.
+Caller height/width ownership is now explicit: RoundEnd, Preflight, motion hero and World presentation preferences use shared variables or `max-width`, while direct image `max-height` overrides are regression-forbidden.
 
-SI-02 browser acceptance is deliberately limited to representative geometry surfaces:
+Belajar portrait composition through 768px uses an in-flow CharacterLayer band after task content. The permanent Session 07 browser matrix now passes all 7 representative routes at 320/390/430/768/1280 with zero critical-content overlap. Landscape remains governed by the SI-01/SI-02 viewport slot.
+
+Bermain RoundEnd on short landscape is bounded to `--ml-viewport-height` and scrolls inside the card when necessary, so its character band cannot be centered outside the visible viewport. This does not redesign Completion; SI-03 still owns the canonical Completion component.
+
+SI-02 browser acceptance covers:
 
 ```text
 Belajar activity
@@ -364,4 +371,5 @@ with portrait -> landscape -> portrait no-crop/state-preservation checks.
 Canonical checkpoint:
 `SI02_CANONICAL_CHARACTER_PRESENTATION_SAFE_CHECKPOINT_2026-09-27.md`.
 
-Status remains **branch-safe / CI revalidation pending**, not merged/live verified. Do not start SI-03 or broaden character scope until the latest PR CI and post-merge production smoke are green.
+Status is **implementation head full green / final docs-head CI pending**, not merged/live verified. Do not start SI-03 or broaden character scope until PR #363 is merged and exact merged-main Cloudflare production smoke is green.
+
