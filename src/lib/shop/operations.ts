@@ -22,6 +22,7 @@ import {
   mappedPayment,
   ProviderError,
 } from "./providers";
+import { validMidtransStatus } from "./protocol";
 import type { Order, OrderItem, Quote } from "./types";
 import { operationalPolicyBlockers } from "./operationalPolicy";
 export async function rates(b: Record<string, unknown>) {
@@ -170,6 +171,9 @@ export async function payment(o: Order) {
       order_id: o.order_number,
       gross_amount: o.grand_total_amount,
     },
+    credit_card: {
+      secure: true,
+    },
     item_details: [
       ...items.map((i) => ({
         id: i.sku_snapshot,
@@ -254,12 +258,7 @@ export async function reconcile(number: string) {
     throw e;
   }
 
-  if (
-    p.order_id !== number ||
-    !/^\d+(\.00)?$/.test(String(p.gross_amount)) ||
-    Number(p.gross_amount) !== o.grand_total_amount ||
-    typeof p.transaction_id !== "string"
-  )
+  if (!validMidtransStatus(p, number, o.grand_total_amount))
     throw new ShopError("Status pembayaran tidak cocok.", 502);
   const status = mappedPayment(p);
   check(
