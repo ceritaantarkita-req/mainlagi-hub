@@ -261,6 +261,7 @@ assert.match(layerCss, /--character-safe-right:/, "character layer reserves a sh
 assert.match(layerCss, /--character-safe-bottom:/, "character layer reserves a shared bottom safe area");
 assert.match(layerCss, /--character-safe-left:/, "character layer reserves a shared left safe area");
 assert.match(layerCss, /calc\(100% - var\(--character-safe-top\) - var\(--character-safe-bottom\)\)/, "character height must be bounded by its actual slot instead of relying on clipping");
+assert.match(layerCss, /\.character\s*\{[\s\S]*?width:\s*auto;[\s\S]*?max-width:/, "shared CharacterLayer must constrain intrinsic SVG width without forcing aspect-ratio distortion");
 assert.match(layerCss, /data-mainlagi-orientation="landscape"/, "canonical character geometry must consume the SI-01 orientation signal");
 assert.match(layerCss, /prefers-reduced-motion:\s*reduce/, "character motion respects reduced-motion preference");
 assert.match(layerCss, /animation:\s*none\s*!important/, "reduced-motion disables character animation");
