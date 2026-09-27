@@ -348,6 +348,8 @@ and owns one canonical slot contract:
 
 World SpeechCard no longer renders a visible character name below the shared art. The removal exposed an intrinsic-width dependency in the World caller; browser QA caught the zero-width slot and the caller was repaired in `925ee36f515343cb0b066e9b3bb293a58955bfc6`.
 
+A later SI-02 browser pass then caught RoundEnd's older direct `max-height` image override bypassing the shared slot calculation. RoundEnd, Preflight and motion-hero caller preferences now use `--character-max-height`; direct caller `max-height` overrides are regression-forbidden so shared CharacterLayer retains final height ownership.
+
 SI-02 browser acceptance is deliberately limited to representative geometry surfaces:
 
 ```text
