@@ -31,6 +31,11 @@ assert.match(batch10Css, /textarea:focus-visible/);
 assert.match(batch10Css, /:user-invalid/);
 assert.doesNotMatch(batch10Css, /:invalid:not\(:placeholder-shown\)/);
 assert.match(batch10Css, /input\[type="checkbox"\][\s\S]*width:\s*auto/);
+assert.match(
+  batch10Css,
+  /label:has\(> input\[type="checkbox"\]\)[\s\S]*?min-height:\s*44px/,
+  "admin checkbox labels must preserve a 44px hit area",
+);
 assert.match(batch10Css, /\.shop-admin-nav[\s\S]*flex-wrap:\s*wrap/);
 assert.match(adminLayoutSource, /shop-nav shop-admin-nav/);
 assert.match(adminEditorSource, /<textarea/);
