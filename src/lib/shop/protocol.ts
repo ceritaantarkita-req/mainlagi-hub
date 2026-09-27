@@ -20,12 +20,15 @@ export function validMidtransSignature(
 export function mappedPayment(b: Record<string, unknown>) {
   switch (b.transaction_status) {
     case "settlement":
-      return !b.fraud_status || b.fraud_status === "accept"
-        ? "paid"
-        : "pending";
+      if (!b.fraud_status || b.fraud_status === "accept") return "paid";
+      return b.fraud_status === "challenge" ? "pending" : "review";
     case "capture":
-      return b.fraud_status === "accept" ? "paid" : "pending";
+      if (b.fraud_status === "accept") return "paid";
+      return !b.fraud_status || b.fraud_status === "challenge"
+        ? "pending"
+        : "review";
     case "deny":
+    case "failure":
       return "failed";
     case "cancel":
       return "cancelled";
@@ -34,8 +37,36 @@ export function mappedPayment(b: Record<string, unknown>) {
     case "refund":
       return "refunded";
     case "partial_refund":
+    case "chargeback":
+    case "partial_chargeback":
       return "review";
     default:
       return "pending";
   }
+}
+
+export function validMidtransStatus(
+  b: Record<string, unknown>,
+  expectedOrder: string,
+  expectedAmount: number,
+) {
+  if (
+    b.order_id !== expectedOrder ||
+    typeof b.transaction_id !== "string" ||
+    !b.transaction_id ||
+    typeof b.transaction_status !== "string" ||
+    typeof b.status_code !== "string" ||
+    !/^\d+(\.00)?$/.test(String(b.gross_amount)) ||
+    Number(b.gross_amount) !== expectedAmount
+  )
+    return false;
+
+  const mapped = mappedPayment(b);
+  if (mapped === "paid" && b.status_code !== "200") return false;
+  if (
+    b.transaction_status === "pending" &&
+    !["200", "201"].includes(b.status_code)
+  )
+    return false;
+  return true;
 }
