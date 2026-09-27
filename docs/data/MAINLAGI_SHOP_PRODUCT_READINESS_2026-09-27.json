@@ -231,7 +231,32 @@
     "note": "Technical guard/scaffolding is implemented. Batch 04 cannot be DONE until the owner supplies and approves the operational decisions represented as null/unapproved in the contract."
   },
   "batch05Authorization": {
+    "allowed": true,
+    "basis": "Explicit owner instruction to continue Batch 05 despite Batch 04 remaining a launch blocker.",
+    "scope": "Staging database, migration-chain, RLS/RPC/security and concurrency acceptance only. No production or live-provider action."
+  },
+  "batch05Status": "blocked_staging_target_unavailable",
+  "batch05Implementation": {
+    "repositoryMainMigrationCount": 51,
+    "branchMigrationCount": 53,
+    "addedShopMigrations": [
+      "supabase/migrations/20260926195237_shop_foundation.sql",
+      "supabase/migrations/20260927051000_shop_admin_workflow.sql"
+    ],
+    "fullMigrationChainHarness": "scripts/run-shop-migration-chain-tests.mjs",
+    "stagingValidationSql": "docs/data/MAINLAGI_SHOP_STAGING_VALIDATION_2026-09-27.sql",
+    "stagingRunbook": "docs/MAINLAGI_SHOP_STAGING_RUNBOOK_2026-09-27.md",
+    "fullChainPglitePreflightPassed": true,
+    "remoteStagingProjectAccessible": false,
+    "connectedSupabaseProjectCount": 0,
+    "localRemoteDesktopAvailable": false,
+    "remoteMigrationApplied": false,
+    "advisorsRun": false,
+    "realPostgresConcurrencyRun": false,
+    "note": "Batch 05 cannot be DONE until a specific non-production Supabase target is accessible, migrations are applied there, advisors are reviewed, and real-PostgreSQL concurrency cases pass."
+  },
+  "batch06Authorization": {
     "allowed": false,
-    "reason": "Batch 04 exit gate is not closed; operational owner decisions remain unresolved."
+    "reason": "Batch 05 remote staging/security/concurrency exit gate is not complete. Batch 04 owner-policy blockers also remain."
   }
 }
