@@ -1571,7 +1571,7 @@ async function main() {
       });
       assert.ok(completionGeometry.root.left >= -1 && completionGeometry.root.right <= viewport.width + 1, "completion overlay must remain inside viewport width");
       assert.ok(completionGeometry.root.top >= -1 && completionGeometry.root.bottom <= viewport.height + 1, "completion overlay must remain inside viewport height");
-      for (const control of completionGeometry.controls.filter((item) => ["Back", "Try Again", "Next", "Share"].includes(item.text))) {
+      for (const control of completionGeometry.controls.filter((item) => ["Back", "Again", "Next", "Share"].includes(item.text))) {
         assert.ok(control.left >= -1 && control.right <= viewport.width + 1 && control.top >= -1 && control.bottom <= viewport.height + 1, `completion control ${control.text} must be immediately visible`);
       }
       await page.screenshot({ path: path.join(screenshotDir, "390-shared-completion-success.png"), fullPage: false });
