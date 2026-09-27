@@ -53,12 +53,20 @@ export function PlayroomShell({childId,children}:{childId?:string;children:React
   useEffect(()=>{ const frame=requestAnimationFrame(()=>updateMuted(isMuted())); return()=>cancelAnimationFrame(frame); },[]);
   const base=childId ? `/child/${childId}` : "";
   const immersive=pathname.includes("/activity/") || (pathname.includes("/world/") && pathname.includes("/stage/"));
+  const space = pathname.includes("/games")
+    ? "bermain"
+    : pathname.includes("/world")
+      ? "world"
+      : pathname.startsWith("/shop")
+        ? "shop"
+        : "belajar";
   const items=[
     {href:base ? `${base}/home` : "/",label:"Belajar",active:pathname==="/" || pathname===`${base}/home`},
+    {href:base ? `${base}/games` : "/games",label:"Bermain",active:pathname.includes("/games")},
     {href:base ? `${base}/worlds` : "/worlds/money-festival",label:"World",active:pathname.includes("/world")},
-    {href:base ? `${base}/games` : "/games",label:"Bermain",active:pathname.includes("/games")}
+    {href:"/shop",label:"Shop",active:pathname.startsWith("/shop")}
   ];
-  return <div className={styles.shell}>
+  return <div className={styles.shell} data-mainlagi-space={space}>
     {!immersive ? <header className={styles.header}>
       <Link href={base ? `${base}/home` : "/"} className={styles.brand}><img src="/artwork/garden-wordmark.webp" alt="Mainlagi" width={600} height={220}/></Link>
       <nav className={styles.nav} aria-label="Navigasi anak">{items.map(item=><Link key={item.label} href={item.href} aria-current={item.active ? "page":undefined}>{item.label}</Link>)}</nav>
