@@ -1,6 +1,6 @@
 # SI-02 Canonical Character Presentation — Safe Checkpoint — 27 September 2026
 
-Status: **IMPLEMENTATION HEAD FULL GREEN / FINAL DOCS-HEAD CI PENDING BEFORE MERGE**
+Status: **CLOSED / MERGED / LIVE VERIFIED**
 
 ## Resume point
 
@@ -8,12 +8,19 @@ Continue from this exact workstream. Do **not** restart SI-02 from SI-00 or rebu
 
 ```text
 repository: ceritaantarkita-req/mainlagi-hub
-base main:  f2b3768745f11e4fa33954d61aabb1a01acda2ff
-branch:     agent/si-02-canonical-character-presentation-20260927
-PR:         #363 — feat: complete SI-02 canonical character presentation
-green implementation head:
-            2eee75d3a1538747427a853ca7d748cbdee45dff
-PR CI:     #1917 / run 36328275954 — FULL SUCCESS
+implementation branch:
+            agent/si-02-canonical-character-presentation-20260927
+PR:         #363 — merged
+final PR head:
+            d11f07f2a8d5a93575104aeed17f89a92221a967
+final PR CI:
+            #1920 / run 36329016093 — FULL SUCCESS
+merged main:
+            591407b3330e9e313d78b8b291058e399911bee2
+merged-main CI:
+            #1921 / run 36329825009 — FULL SUCCESS
+Cloudflare production smoke:
+            SUCCESS — exact merged main SHA verified
 ```
 
 SI-01 is already merged/live and is the required orientation substrate for this work.
@@ -439,18 +446,38 @@ Chromium includes the permanent Belajar responsive matrix plus the dedicated SI-
 
 PR #363 is mergeable at this implementation head. This documentation update intentionally creates one final docs-only head; that docs head must also be full green before merge. Production smoke remains a post-merge gate because the workflow skips Cloudflare smoke on pull-request runs.
 
-## Merge/production gate
+## Final closure evidence
 
-Do **not** merge PR #363 until:
+SI-02 has completed every merge/production gate.
 
-1. latest-head PR CI is full green;
-2. canonical mobile route QA including SI-02 is green;
-3. permanent visual baseline is green;
-4. PR is still based cleanly on current `main`;
-5. after merge, push-to-main CI is full green;
-6. exact Cloudflare production smoke verifies the merged `main` SHA.
+```text
+PR #363 final head:
+d11f07f2a8d5a93575104aeed17f89a92221a967
 
-Implementation is now **PR-green**. Only after the final docs-head CI, merge, merged-main CI, and exact Cloudflare smoke may this checkpoint be promoted to **merged/live verified**.
+PR CI #1920 / run 36329016093:
+FULL SUCCESS
+- Quality gate (Ubuntu) PASS
+- Windows compatibility PASS
+- Production build PASS
+- Production dependency audit PASS
+- Secret history scan PASS
+- Mobile route QA (Chromium) PASS
+- permanent visual product baseline PASS
+
+squash-merged main:
+591407b3330e9e313d78b8b291058e399911bee2
+
+merged-main CI #1921 / run 36329825009:
+FULL SUCCESS
+
+Production smoke (Cloudflare):
+SUCCESS
+exact merged main SHA verified
+```
+
+The final browser closure includes the permanent Belajar responsive matrix, the dedicated SI-02 four-surface geometry/orientation suite, and the short-landscape RoundEnd containment regression.
+
+SI-02 is therefore **closed, merged, and live verified**. Historical failed runs above remain useful regression-discovery evidence only; they are not current blockers.
 
 ## Explicit non-scope
 
@@ -469,7 +496,7 @@ SI-02 must not expand into:
 
 ## Next work after SI-02 closure
 
-Only after SI-02 is merged and production-smoke verified:
+The next authorized Shared Interaction work is:
 
 ```text
 SI-03 — Canonical Completion component
@@ -479,13 +506,18 @@ SI-03 should implement the already approved Completion visual/component without 
 
 ## Safe handoff summary
 
-If another agent resumes this branch:
+Resume from `main` at or after:
 
-1. fetch PR #363 and use its latest head;
-2. do not recreate the CharacterLayer safe-area system;
-3. do not restore the World name label;
-4. run/fix the latest CI only;
-5. preserve the four-surface SI-02 browser acceptance;
-6. merge only after full green;
-7. run/verify post-merge production smoke;
-8. then update this document from branch-safe to merged/live verified and move the roadmap to SI-03.
+```text
+591407b3330e9e313d78b8b291058e399911bee2
+```
+
+Do not reopen SI-02 unless a new reproducible regression appears.
+
+For the next agent/session:
+
+1. treat SI-00, SI-01 and SI-02 as closed;
+2. preserve `safe-contain-v1`, portrait flow-safe band through 768px, World no-name-label rule, intrinsic-ratio ownership, and short-landscape RoundEnd containment;
+3. keep Shop, Journey Map and learning evidence/mastery/progression out of SI-03;
+4. start **SI-03 — Canonical Completion component** only;
+5. do not mass-migrate all runtime families in the SI-03 implementation session.
