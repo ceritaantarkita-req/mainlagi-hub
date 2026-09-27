@@ -4,6 +4,66 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 
+## 27 September execution override — SHOP → PR #360 → SHARED INTERACTION → WORLD
+
+This section is the current owner-approved execution override for the next child-facing
+visual/product work. Older dated boundaries below remain historical evidence and must
+not supersede this order.
+
+```text
+1. Finish + merge + production-verify Mainlagi Shop
+2. Synchronize + merge + production-verify PR #360
+   - navbar: Belajar | Bermain | World | Shop
+   - Belajar cleanup
+   - page atmosphere alignment
+   - 3-column desktop / 2-column mobile card-grid alignment
+3. Start a fresh shared-interaction wave
+   - responsive orientation foundation
+   - Canonical Completion System
+   - Canonical Character Presentation
+   - Canonical Share Experience
+   - coverage migration across Belajar/Bermain/World
+   - portrait/landscape QA
+4. Merge + production-verify that shared-interaction wave
+5. Only then start the separate World header/map redesign
+   after a dedicated owner-approved World visual target exists
+```
+
+Canonical visual/behavior specification:
+
+`MAINLAGI_CANONICAL_COMPLETION_SHARE_VISUAL_SPEC_2026-09-27.md`
+
+Canonical post-Shop sequencing handoff:
+
+`MAINLAGI_POST_SHOP_CHILD_SURFACE_HANDOFF_2026-09-27.md`
+
+Locked responsive rule:
+
+```text
+portrait device  → portrait composition
+landscape device → landscape composition
+rotation         → layout reflow only; no state reset/reload
+```
+
+Rotation must not reset gameplay, answers, timers, progress, story/dialog position,
+Completion, Share, or create duplicate attempt/evidence writes.
+
+Character presentation is also locked:
+
+- no unintended crop;
+- use safe-area placement;
+- no floating name label underneath;
+- reduce scale/character count before cropping;
+- speaker identity belongs in dialog/story UI when needed.
+
+The approved Completion and Share visuals lock **popup/modal design only**. Their
+illustrated background scenes are not universal assets; runtime keeps the actual
+background of each active game/activity.
+
+This override does **not** authorize curriculum, mastery/evidence, Motion Engine,
+World progression/evidence, database-schema or Shop-provider changes.
+
+
 ## 26 September SVG execution boundary — SESSIONS 01–16 COMPLETE / PROGRAM CLOSED
 
 Verified final truth:
