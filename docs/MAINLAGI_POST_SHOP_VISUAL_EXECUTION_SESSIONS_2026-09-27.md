@@ -29,6 +29,36 @@ Do not reorder these waves.
 
 ---
 
+# Documentation audit after final 27 September visual review
+
+The current canonical docs were re-audited after the owner approved the Journey Map
+desktop direction and portrait-mobile variants.
+
+Resolved during this sync:
+
+- stale wording in the Completion/Share spec that said no World redesign visual was
+  approved is superseded and corrected to point at the Canonical Journey Map spec;
+- `PRODUCT_DIRECTION.md` already defines Learning Journey Map + Stage Detail +
+  Browse All as the canonical subject UX and now points to the dedicated later wave;
+- `MAINLAGI_ART_BIBLE.md` now explicitly covers immersive journey/map surfaces and
+  rejects a parallel generic glossy 3D/toy-island art language;
+- `CURRENT_STATE.md`, `NEXT_PRODUCT_QUALITY_PLAN.md`, the post-Shop handoff and
+  docs index all agree on the sequence Shop → PR #360 → Shared Interaction →
+  Journey Map;
+- PR #360's 3-column/2-column card-grid contract is intentionally **interim**. It is
+  not the final Belajar subject UX once the later Journey Map wave lands;
+- the generated journey concepts are composition references only; canonical stage
+  truth, cast, assets, evidence/mastery and routes remain repository-controlled.
+
+Historical docs that describe a card/carousel-first subject journey remain historical
+evidence and are superseded where they conflict with the 27 September canonical
+specs.
+
+Audit result: **no blocking execution-order conflict remains in the canonical
+post-Shop visual docs after this sync**.
+
+---
+
 # A. Shop prerequisite
 
 Shop remains governed entirely by `SHOP_IMPLEMENTATION.md`.
