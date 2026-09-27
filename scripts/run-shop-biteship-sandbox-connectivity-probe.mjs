@@ -11,31 +11,64 @@ const approvedCouriers =
 const approvedServices =
   policy.ownerDecisions?.courierAllowlist?.services ?? [];
 
-const response = await fetch("https://api.biteship.com/v1/couriers", {
-  headers: {
-    Authorization: key,
-    Accept: "application/json",
+const endpoint = "https://api.biteship.com/v1/couriers";
+const candidates = [
+  { name: "raw-authorization", value: key },
+  {
+    name: "basic-username",
+    value: `Basic ${Buffer.from(`${key}:`).toString("base64")}`,
   },
-  signal: AbortSignal.timeout(15000),
-});
+  {
+    name: "basic-password",
+    value: `Basic ${Buffer.from(`:${key}`).toString("base64")}`,
+  },
+];
 
-const raw = await response.text();
+let response;
 let payload;
-try {
-  payload = JSON.parse(raw);
-} catch {
-  throw new Error(
-    `Biteship courier probe returned non-JSON HTTP ${response.status}`,
-  );
+let authScheme = null;
+const attempts = [];
+
+for (const candidate of candidates) {
+  const candidateResponse = await fetch(endpoint, {
+    headers: {
+      Authorization: candidate.value,
+      Accept: "application/json",
+    },
+    signal: AbortSignal.timeout(15000),
+  });
+  const raw = await candidateResponse.text();
+  let candidatePayload;
+  try {
+    candidatePayload = JSON.parse(raw);
+  } catch {
+    candidatePayload = null;
+  }
+  attempts.push({
+    scheme: candidate.name,
+    status: candidateResponse.status,
+    success: candidatePayload?.success === true,
+    code:
+      typeof candidatePayload?.code === "number" ||
+      typeof candidatePayload?.code === "string"
+        ? candidatePayload.code
+        : null,
+  });
+  if (candidateResponse.status === 200 && candidatePayload?.success === true) {
+    response = candidateResponse;
+    payload = candidatePayload;
+    authScheme = candidate.name;
+    break;
+  }
 }
 
-assert.equal(
-  response.status,
-  200,
-  `Biteship courier probe failed HTTP ${response.status}: ${payload?.message ?? "unknown"}`,
+assert.ok(
+  response && payload,
+  `Biteship courier authentication failed for every supported scheme: ${JSON.stringify(attempts)}`,
 );
-assert.equal(payload?.success, true, "Biteship courier probe success=false");
-assert.ok(Array.isArray(payload?.couriers), "Biteship couriers array missing");
+assert.equal(response.status, 200);
+assert.equal(payload.success, true);
+assert.ok(Array.isArray(payload.couriers), "Biteship couriers array missing");
 
 const available = new Set(
   payload.couriers
@@ -68,6 +101,8 @@ console.log(
   JSON.stringify(
     {
       credentialConfigured: true,
+      authScheme,
+      authAttempts: attempts,
       endpoint: "/v1/couriers",
       availableCourierRows: payload.couriers.length,
       approvedCouriers,
