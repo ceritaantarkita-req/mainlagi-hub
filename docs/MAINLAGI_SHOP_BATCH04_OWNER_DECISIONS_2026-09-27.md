@@ -28,7 +28,7 @@ The current Shop code already implements these behaviors:
 These coded behaviors are not treated as owner policy approval until the owner
 explicitly accepts them.
 
-## Recommended initial-launch policy
+## Approved initial-launch policy
 
 The following low-complexity policy was explicitly approved by the owner on
 2026-09-27 for the first Mainlagi Shop release. The support-hours recommendation
@@ -50,13 +50,13 @@ Do not commit those private values into Git.
 
 ### Courier and service allowlist
 
-Recommended courier codes:
+Approved courier codes:
 
 ```text
 jne,jnt,sicepat,anteraja,ninja
 ```
 
-Recommended exact initial service pairs:
+Approved exact initial service pairs:
 
 ```text
 jne/reg
@@ -76,7 +76,7 @@ policy remains empty and fail-closed until owner approval.
 
 ### Packing and handling
 
-Recommended:
+Approved:
 
 - handling fee: **Rp0**;
 - normal protective packing is included;
@@ -101,14 +101,14 @@ Approved public WhatsApp contact: `+6281280769076`.
 
 ### Payment expiry
 
-Recommended: approve the existing **30-minute** pending-payment expiry.
+Approved: existing **30-minute** pending-payment expiry.
 
 An unpaid order releases its reservation after the implemented expiry/reconciliation
 rules. A browser redirect does not mark payment as successful.
 
 ### Cancellation
 
-Recommended public policy:
+Approved public policy:
 
 > Pesanan yang belum dibayar dapat dibiarkan kedaluwarsa. Setelah pembayaran
 > terverifikasi, pembatalan tidak tersedia secara otomatis. Hubungi dukungan
@@ -121,7 +121,7 @@ implemented.
 
 ### Return and exchange
 
-Recommended initial policy:
+Approved initial policy:
 
 - wrong/damaged/defective item: report to support within **2 x 24 hours** after
   delivery with order number and reasonable photo/video evidence;
@@ -136,7 +136,7 @@ Recommended initial policy:
 
 ### Refund
 
-Recommended:
+Approved:
 
 - full refund may be approved manually for an accepted cancellation before
   shipment, confirmed lost shipment, or verified wrong/damaged/defective item when
@@ -149,7 +149,7 @@ Recommended:
 
 ### SLA
 
-Recommended customer-facing operational SLA:
+Approved customer-facing operational SLA:
 
 - order processing/packing: **1-2 business days** after verified payment;
 - courier transit: use the live courier ETA shown at checkout; it is a courier
@@ -159,7 +159,7 @@ Recommended customer-facing operational SLA:
 
 ### Guest order recovery
 
-Recommended initial mode:
+Approved initial mode:
 
 - self-service order access stays limited to the original guest device cookie or
   the authenticated account that created the order;
@@ -171,7 +171,7 @@ This keeps the current authorization boundary intact.
 
 ### Customer notifications
 
-Recommended initial release:
+Approved initial release:
 
 - **no proactive automated email/WhatsApp notification**;
 - order state is available on the order-status page while the guest cookie/account
@@ -183,7 +183,7 @@ security boundary.
 
 ### Shipment exceptions
 
-Recommended:
+Approved:
 
 - damaged item: manual review after evidence; replacement/refund according to the
   approved return/refund policy;
@@ -207,8 +207,10 @@ not unresolved business-policy choices:
 2. configure `BITESHIP_COURIERS=jne,jnt,sicepat,anteraja,ninja` in the target
    staging/deployment environment.
 
-The policy contract is now owner-approved. Sales remain fail-closed until the
-required public/private configuration passes the runtime readiness checks.
+The policy contract is now owner-approved. The customer-facing policy/support
+surface is implemented at `/shop/policies` and exposes only approved public
+information. Sales remain fail-closed until the required private deployment
+configuration passes the runtime readiness checks.
 
 ## External provider reference checked
 
