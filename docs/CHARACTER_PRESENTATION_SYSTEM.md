@@ -319,19 +319,19 @@ Next authorized work is Session 10 semantic/activity illustration registry SVG-a
 
 
 
-## 27 September 2026 — SI-02 canonical geometry hardening — PR-GREEN CHECKPOINT
+## 27 September 2026 — SI-02 canonical geometry hardening — MERGED / LIVE VERIFIED
 
 The closed Sessions 01–16 character asset/runtime program remains intact. SI-02 is **not** a character-development restart; it is a Shared Interaction presentation-geometry hardening wave using the already-approved SVG runtime.
 
-Active branch/PR:
+Closure evidence:
 
 ```text
-branch: agent/si-02-canonical-character-presentation-20260927
-PR:     #363
-base:   main f2b3768745f11e4fa33954d61aabb1a01acda2ff
-green implementation head:
-        2eee75d3a1538747427a853ca7d748cbdee45dff
-PR CI:  #1917 / run 36328275954 — FULL SUCCESS
+PR:               #363 — merged
+final PR head:    d11f07f2a8d5a93575104aeed17f89a92221a967
+final PR CI:      #1920 / run 36329016093 — FULL SUCCESS
+merged main:      591407b3330e9e313d78b8b291058e399911bee2
+merged-main CI:   #1921 / run 36329825009 — FULL SUCCESS
+Cloudflare smoke: SUCCESS — exact merged main SHA verified
 ```
 
 The shared renderer exposes:
@@ -371,5 +371,5 @@ with portrait -> landscape -> portrait no-crop/state-preservation checks.
 Canonical checkpoint:
 `SI02_CANONICAL_CHARACTER_PRESENTATION_SAFE_CHECKPOINT_2026-09-27.md`.
 
-Status is **implementation head full green / final docs-head CI pending**, not merged/live verified. Do not start SI-03 or broaden character scope until PR #363 is merged and exact merged-main Cloudflare production smoke is green.
+Status is **closed / merged / live verified**. Do not reopen SI-02 as character-development work; preserve this geometry contract and move to **SI-03 — Canonical Completion component**.
 
