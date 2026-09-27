@@ -196,7 +196,9 @@ locked around one Mainlagi language across Belajar, Bermain and World:
   - rotation changes layout only and must never reset gameplay/progress/modal state;
 - actual game/activity backgrounds remain behind Completion/Share; the approved
   popup mockup backgrounds are review context only;
-- World header/map redesign follows later as a separate visual wave.
+- after that shared-interaction wave is independently closed, the Canonical Journey
+  Map System follows as a separate wave covering all nine Belajar subject worlds plus
+  the Petualangan Uang World map.
 
 Canonical contract:
 `MAINLAGI_CANONICAL_COMPLETION_SHARE_VISUAL_SPEC_2026-09-27.md`.
@@ -216,6 +218,10 @@ Post-Shop / PR #360 canonical top-level navigation is:
 ```text
 Belajar | Bermain | World | Shop
 ```
+
+On later immersive journey-map/game surfaces, this destination order remains the
+navigation truth even when the full website navbar is visually collapsed into the
+lightweight immersive header/HUD.
 
 Shop is a separate destination, not a learning/mastery/reward step. Its presence in
 top-level navigation does not authorize commerce CTAs inside learning completion or
