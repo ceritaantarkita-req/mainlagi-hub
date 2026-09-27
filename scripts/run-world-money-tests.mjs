@@ -159,6 +159,7 @@ try {
   assert.match(worldRuntimeSource, /getMoneyWorldPilotStage\(stageId\)/, "Stage runtime must resolve its pilot production manifest");
   assert.match(worldRuntimeSource, /<WorldSceneRenderer/, "Petualangan Uang must render through the reusable Scene presentation layer");
   assert.match(worldRuntimeSource, /<CharacterLayer/, "Money World must render characters through the shared CharacterLayer");
+  assert.doesNotMatch(worldRuntimeSource, /runtimeCharacter\.name/, "World story must not render floating character-name labels under shared character art");
   assert.match(worldRuntimeSource, /resolveCharacterPresentation/, "Money World must resolve characters through the shared presentation resolver");
   assert.doesNotMatch(worldRuntimeSource, /<CharacterAvatar/, "Money World must not retain legacy CharacterAvatar rendering");
   assert.match(worldRuntimeSource, /data-world-character-state/, "World surfaces must expose resolved character state for QA");
