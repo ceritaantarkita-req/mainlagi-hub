@@ -104,6 +104,8 @@ async function assertSafeCharacterGeometry(scope, expectedIds, label) {
     };
     return {
       layer: rect(node),
+      innerWidth,
+      innerHeight,
       overflow: getComputedStyle(node).overflow,
       pointerEvents: getComputedStyle(node).pointerEvents,
       images: [...node.querySelectorAll("img")].map((image) => ({
@@ -128,8 +130,8 @@ async function assertSafeCharacterGeometry(scope, expectedIds, label) {
     assert(image.rect.right <= snapshot.layer.right + 1, `${label}/${image.id}: no right crop`);
     assert(image.rect.top >= snapshot.layer.top - 1, `${label}/${image.id}: no top crop`);
     assert(image.rect.bottom <= snapshot.layer.bottom + 1, `${label}/${image.id}: no bottom crop`);
-    assert(image.rect.top >= -1 && image.rect.bottom <= innerHeight + 1, `${label}/${image.id}: stays inside viewport block axis`);
-    assert(image.rect.left >= -1 && image.rect.right <= innerWidth + 1, `${label}/${image.id}: stays inside viewport inline axis`);
+    assert(image.rect.top >= -1 && image.rect.bottom <= snapshot.innerHeight + 1, `${label}/${image.id}: stays inside viewport block axis`);
+    assert(image.rect.left >= -1 && image.rect.right <= snapshot.innerWidth + 1, `${label}/${image.id}: stays inside viewport inline axis`);
     const naturalRatio = image.naturalWidth / image.naturalHeight;
     const renderedRatio = image.rect.width / image.rect.height;
     assert(Math.abs(renderedRatio - naturalRatio) < 0.035, `${label}/${image.id}: safe fit must preserve aspect ratio`);
