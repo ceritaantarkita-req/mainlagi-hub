@@ -38,6 +38,7 @@ export function CharacterLayer({
     <div
       className={[styles.layer, variant === "ensemble" && styles.ensemble, className].filter(Boolean).join(" ")}
       data-character-layer
+      data-character-geometry="safe-contain-v1"
       data-character-count={visible.length}
       aria-hidden={decorative ? true : undefined}
       aria-label={!decorative ? ariaLabel : undefined}
