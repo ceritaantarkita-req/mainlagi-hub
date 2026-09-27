@@ -259,8 +259,9 @@ async function auditCheckout(browser, viewport) {
   await postal.fill("17111");
   assert.equal(await postal.inputValue(), "17111");
   await page.getByRole("button", { name: "Hitung ongkir" }).click();
-  await page.getByRole("alert").waitFor();
-  assert.match(await page.getByRole("alert").innerText(), /sementara belum dapat memberi tarif/i);
+  const shopAlert = page.locator(".shop-notice[role='alert']");
+  await shopAlert.waitFor();
+  assert.match(await shopAlert.innerText(), /sementara belum dapat memberi tarif/i);
 
   await page.getByRole("button", { name: "Hitung ongkir" }).click();
   const quote = page.getByLabel(/JNE REG/);
