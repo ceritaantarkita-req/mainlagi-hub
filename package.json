@@ -190,6 +190,7 @@
     "test:shop:batch08": "node scripts/run-shop-batch08-tests.mjs",
     "test:shop:batch09": "node scripts/run-shop-batch09-tests.mjs",
     "test:shop:http": "node scripts/run-shop-http-tests.mjs",
+    "test:shop:browser": "node scripts/run-shop-browser-tests.mjs",
     "test:shop:migrations": "node scripts/run-shop-migration-chain-tests.mjs",
     "test:shop:midtrans-sandbox": "node scripts/run-shop-midtrans-sandbox-probe.mjs"
   },
