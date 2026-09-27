@@ -4,6 +4,9 @@ Status: **PENDING SUCCESSOR WORK / DO NOT START BEFORE SHOP RELEASE CLOSURE**
 
 This document exists so a future human or AI agent finishing Mainlagi Shop knows exactly what work resumes next. It is a handoff pointer, not permission to interrupt the active Shop release sequence.
 
+For bounded session-by-session execution after Shop, also read
+`MAINLAGI_POST_SHOP_VISUAL_EXECUTION_SESSIONS_2026-09-27.md`.
+
 ## 1. Mandatory execution order
 
 The order is locked:
