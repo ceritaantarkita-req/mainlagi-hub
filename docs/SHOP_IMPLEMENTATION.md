@@ -559,7 +559,7 @@ does not change the verified Shop runtime tree.
 
 #### Batch 02 — product truth, media approval and inventory contract
 
-Status: **BLOCKED — owner product facts and final media acceptance required**.
+Status: **BLOCKED — owner physical product facts required; media direction resolved**.
 
 The repository/Drive/source audit for this batch is complete. No missing real-world
 fact was inferred from generated imagery.
@@ -620,50 +620,66 @@ No size variant migration/seed change is authorized until these owner inputs exi
   pages), but not invented page count, paper specification, manufacturing claims,
   or other physical facts.
 
-##### Current 27-asset audit — exact PR branch
+##### Current media decision — exact PR branch
 
 The current Drive folder contains 27 PNG sources and the repository contains their
-27 mapped 1200×1200 WebP derivatives. Manifest integrity is:
+27 mapped 1200×1200 WebP derivatives. The fresh branch review found 26 unique
+images because SKU 006 `kids-tumbler-in-use-v1` and
+`kids-tumbler-alternate-v1` are byte-identical duplicates.
 
-- 27 mapped assets;
-- 26 unique source hashes;
-- every manifest approval remains `review`;
-- SKU 006 `kids-tumbler-in-use-v1` and
-  `kids-tumbler-alternate-v1` are exact source/derivative duplicates.
+Owner decision on **27 September 2026**:
 
-A fresh visual review was performed against the actual PR branch assets, not only
-the older candidate audit:
+> Prioritize visual consistency, clear product readability and a lightweight web
+> experience. Do not require a larger master merely for resolution if it adds
+> unnecessary delivery weight.
 
-| SKU | Current visual finding | Batch 02 media decision |
+This decision intentionally supersedes the older Shop-asset requirement that a
+2048×2048 final master was mandatory before acceptance.
+
+The Shop media contract is now:
+
+- **1200×1200 WebP is the approved final web-delivery target** for the current
+  product gallery;
+- larger source/master files may be kept for authoring/provenance, but are not a
+  launch requirement and must not be served merely because they are larger;
+- visual consistency across the same SKU matters more than forcing merchandise
+  artwork to be an exact rasterization of the canonical runtime SVG;
+- the Shop may use the current merchandise illustration treatment as an explicit
+  Shop presentation variant, provided characters remain recognizably Mainlagi and
+  the same product/print/logo treatment does not drift between shots;
+- no duplicated image should be rendered just to reach an arbitrary three-image
+  count;
+- **two distinct, useful images are sufficient for a SKU** when a third image would
+  only duplicate bytes/content;
+- future replacements should keep or reduce delivery weight while preserving
+  adequate visual clarity.
+
+Machine-readable manifest decision:
+
+- 26 unique current assets are marked `approved`;
+- the exact duplicate SKU 006 alternate is marked `rejected` for runtime use;
+- the rejected duplicate remains in source history only for provenance and does
+  not require regeneration to unblock launch;
+- SKU 006 may launch with its product hero + one distinct in-use image once its
+  physical product facts are verified.
+
+Current visual findings remain useful QA notes:
+
+| SKU | Current consistency result | Media status |
 | --- | --- | --- |
-| 001 | Three shots are compositionally consistent, but the printed character group remains a generated/chibi reinterpretation rather than locked canonical Mainlagi character art. | KEEP IN REVIEW |
-| 002 | Front/back product concept and back print are internally consistent; the character print/wordmark still require canonical exact-art lock. | KEEP IN REVIEW |
-| 003 | Pajama geometry/pattern is consistent, but the repeated orange-cat face is not sufficient evidence of exact canonical Gavi identity. | KEEP IN REVIEW |
-| 004 | Sock base/colors are broadly consistent across the three current shots; character/wordmark artwork still needs canonical exact-art verification. | KEEP IN REVIEW |
-| 005 | Navy hoodie geometry and back-print placement are the strongest/most consistent current apparel set; the generated group artwork still needs replacement/approval against canonical Mainlagi art. | KEEP IN REVIEW |
-| 006 | Current v1 construction is now visually consistent (cream body/navy lid), improving the older product-lock issue. However B and C are exact duplicates, and material/capacity remain unknown. | BLOCKED; REPLACE DISTINCT ALTERNATE BEFORE APPROVAL |
-| 007 | The same card-face concept is visually carried across hero/in-hand/tap shots, but the tap image must not be treated as evidence of real e-money capability; canonical art and issuer/function remain unverified. | KEEP IN REVIEW / KEEP PRODUCT DRAFT |
-| 008 | Current lifestyle shots clearly show ruled writing pages, so its intended writing-notebook function is visually distinct from 009. Cover art remains generated rather than canonical-exact. | KEEP IN REVIEW |
-| 009 | Current lifestyle shots clearly show drawing/blank-page use and are distinct from 008. Cover character art remains generated rather than canonical-exact. | KEEP IN REVIEW |
+| 001 | White tee geometry and the group print are consistent across hero/lifestyle shots. | APPROVED |
+| 002 | Black oversized tee front/back concept and back print remain coherent across the set. | APPROVED |
+| 003 | Pajama color, repeated cat pattern and garment form remain coherent across the set. | APPROVED |
+| 004 | Sock base, navy/yellow details and two-character treatment remain coherent across the set. | APPROVED |
+| 005 | Navy hoodie geometry and back-print placement are highly consistent across the set. | APPROVED |
+| 006 | Cream body/navy lid construction is consistent; the alternate is an exact duplicate of the in-use image. | HERO + IN-USE APPROVED; DUPLICATE ALTERNATE REJECTED |
+| 007 | One consistent card-face concept is carried across hero/in-hand/tap imagery. The image does not prove financial functionality. | MEDIA APPROVED; PRODUCT FUNCTION STILL BLOCKED |
+| 008 | Ruled-page writing use is clear and distinct from SKU 009. | APPROVED |
+| 009 | Drawing/blank-page use is clear and distinct from SKU 008. | APPROVED |
 
-Result: **0/27 assets are promoted to final-approved in this batch**.
-
-This is deliberate. The current Mainlagi Art Bible treats reviewed canonical SVG
-character assets as identity sources and states that generated candidates are
-review material, not production truth. The older Shop asset specification also
-requires exact canonical character/logo/product-art locks before final acceptance.
-The current branch images still visibly retain the generated merchandise-art style.
-
-The old asset-spec issues for SKU 006 physical construction and SKU 008/009
-functional distinction are partially improved by the current v1 images; this
-checkpoint supersedes those specific older observations. The exact duplicate
-tumbler alternate is still unresolved.
-
-The source Shop asset spec also described 2048×2048 final masters after artwork
-lock. Current Drive sources are 1254×1254 and current web derivatives are
-1200×1200. Do not claim the old final-master gate is satisfied unless the owner
-explicitly approves a revised delivery requirement or replacement final masters
-are produced.
+This is a **Shop-specific media decision**, not a rewrite of the Mainlagi Art Bible
+for learning/World/runtime character assets. Canonical SVG rules remain in force
+for those systems.
 
 ##### Inventory contract accepted for continuation
 
@@ -700,7 +716,8 @@ schema but are not currently required by runtime rate calculation.
 - no size/variant rows were invented;
 - no approved stock total was redistributed without owner input;
 - no weight/dimension/material/capacity/issuer fact was invented;
-- no media item was marked `approved` merely because the file exists;
+- media approval was changed only after the explicit owner consistency/performance
+  decision; 26 unique assets are approved and the one exact duplicate is rejected;
 - no generated image was regenerated or silently replaced;
 - no migration/staging/provider/production action was performed;
 - product status remains Draft and `SHOP_SALES_ENABLED` remains disabled.
@@ -714,20 +731,19 @@ Provide these as measured/verified facts:
 2. **All sellable variants:** measured shipping weight in grams; package
    length/width/height where the owner wants those captured for shipping/packing.
 3. **SKU 006:** capacity, material, and any safety/certification claims that may be
-   published; also a decision/replacement for the duplicated alternate image.
+   published. The duplicate alternate is no longer a blocker because it is rejected
+   from runtime delivery rather than served twice.
 4. **SKU 007:** actual product type, issuer/network, activation/top-up behavior,
    applicable authorization, and whether tap/use functionality is real.
-5. **Media:** approve a deliberate correction path for the current generated
-   character/print artwork versus the canonical Mainlagi SVG identity, and resolve
-   whether the old 2048×2048 final-master requirement remains mandatory.
 
-Batch 02 cannot reach `DONE` until those facts/decisions are supplied and the
-resulting variant totals/media decisions are reconciled.
+The media decision is now complete. Batch 02 cannot reach `DONE` until the
+remaining physical product/variant facts above are supplied and the resulting
+variant totals are reconciled.
 
 ### Current execution pointer
 
 - Batch 01 is **DONE**.
-- Batch 02 is **BLOCKED / awaiting owner inputs and final media decision**.
+- Batch 02 is **BLOCKED / awaiting physical product and variant inputs only**.
 - **Batch 03 is not authorized yet**, because its variant editor/activation
   workflow must be built against the approved Batch 02 data contract rather than
   guessed size/product facts.
