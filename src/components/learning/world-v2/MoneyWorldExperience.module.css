@@ -23,6 +23,14 @@
   padding: 32px clamp(16px, 5vw, 64px) 64px;
 }
 
+.catalogPage {
+  background:
+    radial-gradient(circle at 12% 14%, rgba(255, 255, 255, .58) 0 160px, transparent 161px),
+    radial-gradient(circle at 88% 74%, rgba(104, 191, 155, .12) 0 220px, transparent 221px),
+    linear-gradient(180deg, #e7f6ff 0%, #e9f8ee 100%);
+}
+
+
 .catalogIntro {
   width: min(780px, 100%);
   margin: 0 auto 24px;

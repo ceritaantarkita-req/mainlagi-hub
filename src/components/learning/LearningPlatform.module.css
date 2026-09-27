@@ -1700,7 +1700,7 @@ a.stageCard:hover,a.activityCard:hover,a.profileCard:hover,a.gameCard:hover { bo
   line-height: 1.25;
 }
 
-@media (min-width: 760px) {
+@media (min-width: 761px) {
   .coreGameGrid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 16px;
@@ -1714,7 +1714,7 @@ a.stageCard:hover,a.activityCard:hover,a.profileCard:hover,a.gameCard:hover { bo
 
 @media (min-width: 1080px) {
   .coreGameGrid {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 

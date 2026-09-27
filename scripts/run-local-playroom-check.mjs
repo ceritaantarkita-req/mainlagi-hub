@@ -86,9 +86,10 @@ try {
     result.checks.push("legacy learn route returns home "+viewport.width);
     await page.goto(base);
     await page.waitForURL(/child\/demo-gian\/home$/);
-    assert.equal(await page.getByRole("heading",{name:"Belajar sambil bermain.",exact:true}).count(),1);
-    assert.equal(await page.getByRole("link",{name:"Belajar",exact:true}).count(),1);
-    assert.equal(await page.getByRole("link",{name:"Bermain",exact:true}).count(),1);
+    assert.equal(await page.getByRole("heading",{name:"Mau belajar apa hari ini?",exact:true}).count(),1);
+    const childNav=page.getByRole("navigation",{name:"Navigasi anak"}).locator("a");
+    assert.deepEqual(await childNav.allTextContents(),["Belajar","Bermain","World","Shop"],"child nav follows Belajar -> Bermain -> World -> Shop");
+    assert.equal(await page.locator("[data-mainlagi-domain-card]").count(),0,"home does not duplicate top-level navigation cards");
     const subjectLinks=page.locator('[data-core-thumbnail-card="subject"]');
     assert.equal(await subjectLinks.count(),9);
     assert.equal(await page.getByText(/\b100 aktivitas\b/).count(),0,"child home hides activity-count subtitles");

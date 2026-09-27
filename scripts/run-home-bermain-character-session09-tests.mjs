@@ -136,22 +136,21 @@ async function runViewport(browser, viewport) {
   const homeHero = page.locator("[data-mainlagi-home-hero] img").first();
   await assertCoreThumbnail(homeHero, "core-thumbnails", `Home hero ${viewport.width}px`);
 
-  const domainCards = page.locator("[data-mainlagi-domain-card]");
-  assert.equal(await domainCards.count(), 3, "Home must expose exactly Belajar, World, and Bermain product domains");
+  const childNav = page.getByRole("navigation", { name: "Navigasi anak" }).locator("a");
   assert.deepEqual(
-    await domainCards.evaluateAll((items) => items.map((item) => item.getAttribute("data-mainlagi-domain-card"))),
-    ["belajar", "world", "bermain"],
-    "Home domain order stays Belajar -> World -> Bermain"
+    await childNav.allTextContents(),
+    ["Belajar", "Bermain", "World", "Shop"],
+    "child navigation must stay Belajar -> Bermain -> World -> Shop"
   );
   assert.equal(
-    await page.locator('[data-mainlagi-domain-card="world"]').getAttribute("data-mainlagi-home-world-state"),
-    "age-gated",
-    "age-5 demo profile must not silently bypass the 6–8 Petualangan Uang pilot gate"
+    await page.locator("[data-mainlagi-domain-card]").count(),
+    0,
+    "Belajar Home must not duplicate top-level navigation with domain cards"
   );
   assert.equal(
-    await page.locator('[data-mainlagi-domain-card="bermain"]').getAttribute("href"),
-    "/child/demo-gian/games",
-    "Bermain Home card must stay inside the child shell before entering a game"
+    await page.getByRole("heading", { name: "Mau belajar apa hari ini?", exact: true }).count(),
+    1,
+    "Belajar Home must keep the simplified child-facing heading"
   );
 
   const subjectCards = page.locator('[data-core-thumbnail-card="subject"]');
@@ -188,6 +187,14 @@ async function runViewport(browser, viewport) {
   for (let index = 0; index < 10; index += 1) {
     await assertCoreThumbnail(gameImages.nth(index), "core-thumbnails", `game thumbnail ${index + 1} at ${viewport.width}px`);
   }
+  const gameColumns = await gameCards.first().evaluate((element) =>
+    getComputedStyle(element.parentElement).gridTemplateColumns.split(" ").filter(Boolean).length
+  );
+  assert.equal(
+    gameColumns,
+    viewport.width <= 760 ? 2 : 3,
+    `Bermain catalog must use ${viewport.width <= 760 ? 2 : 3} columns at ${viewport.width}px`
+  );
 
   await assertNoHorizontalOverflow(page, `Bermain catalog ${viewport.width}px`);
   await page.screenshot({ path: path.join(outDir, `bermain-${viewport.width}.png`), fullPage: true });

@@ -178,21 +178,29 @@ The Mainlagi Art Bible and visual quality gate remain permanent controls.
 
 ## 11. Child navigation
 
+The canonical top-level child navigation is:
+
+```text
+Belajar | Bermain | World | Shop
+```
+
 Child surfaces prioritize:
 
 1. Continue Learning / recommended next activity;
 2. current subject/stage context;
 3. a small number of meaningful choices;
 4. subject browsing;
-5. Main Gerak where appropriate.
+5. Bermain / Main Gerak where appropriate;
+6. World as a distinct first-class exploration surface;
+7. Shop as a separate top-level destination, not as an activity, mastery signal, or learning reward.
 
-Do not expose admin, billing, affiliate shopping, provider configuration or adult/system concepts inside child learning flow.
+Belajar must not duplicate this top-level navigation with a second Belajar/World/Bermain card block inside the page. Keep commerce visually and semantically separate from learning progression. Do not expose admin, billing controls, provider configuration or other adult/system concepts inside child learning activities.
 
 ## 12. Parent/public experience
 
 Parent/public surfaces should make it easy to find About, FAQ/help, account/child profile management, progress/reporting, privacy/data information, appropriate recommendations, and affiliate disclosure.
 
-Affiliate shopping belongs to adult/public surfaces, never as a child-learning CTA.
+Affiliate shopping remains an adult/public concern. Mainlagi Shop may appear as the explicit top-level Shop destination, but commerce must not be embedded as a child-learning CTA, mastery incentive, or required progression step.
 
 ## 13. Progression and reporting
 
