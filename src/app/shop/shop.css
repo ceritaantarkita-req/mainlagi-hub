@@ -53,6 +53,9 @@
   padding: 0 4px;
 }
 .shop-wordmark {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
   font-size: 30px;
   font-weight: 950;
   letter-spacing: -1.5px;
