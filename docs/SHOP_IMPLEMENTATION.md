@@ -114,8 +114,10 @@ refund amounts and settlement dates need a separate reconciliation release.
 2. Pickup origin/contact/full address/postal code still requires owner-verified
    deployment values. The isolated Cloudflare staging Worker, Biteship Testing Mode
    API-key secret storage, courier policy, and authenticated webhook installation
-   are now in place; sandbox API connectivity/rates/order acceptance, scheduler and
-   operational monitoring remain.
+   are now in place. The first sandbox API credential preflight returned HTTP 401 /
+   Biteship code `40101003`, so `BITESHIP_TEST_API_KEY` must be replaced with
+   a valid newly generated Testing Mode API key before courier/rates/order acceptance;
+   scheduler and operational monitoring also remain.
 3. Tumbler capacity/material facts and verified SKU 007 product type/function/issuer
    details where applicable. The duplicate tumbler runtime image and Shop media
    acceptance gate are already resolved by Batch 02.

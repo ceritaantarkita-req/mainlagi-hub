@@ -71,8 +71,11 @@ evidence required by Batch 11.
      custom secret-header boundary is verified;
    - **BLOCKED:** private pickup/contact/full-address/postal-code environment
      values still need owner verification;
-   - **BLOCKED:** live sandbox API credential/courier preflight and later real
-     rate/order acceptance must still pass.
+   - **BLOCKED:** sandbox API credential preflight currently returns HTTP 401 /
+     Biteship code `40101003` for the stored `BITESHIP_TEST_API_KEY`; replace
+     that secret with a newly generated Testing Mode API key value, then rerun;
+   - **BLOCKED:** courier/service availability and later real rate/order acceptance
+     must still pass after authentication succeeds.
 
 3. **Batch 07 live Biteship acceptance**
    - real rate lookup with approved physical product data;

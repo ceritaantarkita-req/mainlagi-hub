@@ -157,3 +157,23 @@ full staging database.
 This closes the **public HTTPS + authenticated webhook installation** prerequisite.
 It does not close the later database-backed full staging E2E or real shipment
 acceptance.
+
+
+## Sandbox API credential preflight
+
+A non-mutating `GET /v1/couriers` preflight was added and executed after the
+webhook installation passed.
+
+Observed result on 2026-09-27:
+
+- raw `Authorization: <secret>` -> HTTP 401 / Biteship code `40101003`;
+- HTTP Basic with the secret as username -> HTTP 401 / `40101003`;
+- HTTP Basic with the secret as password -> HTTP 401 / `40101003`.
+
+No secret value was logged.
+
+Therefore the webhook installation remains PASS, but the repository secret
+`BITESHIP_TEST_API_KEY` must be replaced with a newly generated **Testing Mode
+API key value** before Rates/Order API acceptance can continue. Do not substitute
+the API-key label, token ID, masked dashboard value, webhook secret, or a live-mode
+credential.
