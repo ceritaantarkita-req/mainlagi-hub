@@ -1334,8 +1334,14 @@ migration, real funds, sales activation, or paid Supabase branch was used.
   real notification delivery and the actual Next.js webhook route were accepted;
   deterministic duplicate/out-of-order, lease/retry, identity, challenge-hold,
   late-payment and inventory assertions passed on CI #1844.
-- Batch 07 remains **BLOCKED on external configuration**: real Biteship Sandbox
-  acceptance still needs the owner's Biteship API/origin configuration.
+- Batch 07 is **PARTIALLY ACCEPTED in Biteship Testing Mode**: API authentication,
+  courier/service discovery, private origin configuration, Rates API, two simulated
+  Order API creations, independent provider GET, duplicate-reference detection,
+  cancel API, and the authenticated staging webhook/provider-GET boundary have
+  passed. Remaining Batch 07 work is manual Delivered/status simulation + Events
+  Log evidence, integrated database-backed paid/packed shipment flow, tracking/
+  exception progression, and replacement of provisional fixture measurements with
+  real production product facts.
 - Batch 08 is **DONE for deterministic commerce state-machine QA**. Checkout,
   ownership, payment terminal states, refund/manual-review behavior, monotonic
   shipment transitions, duplicate/out-of-order/unknown provider states and
@@ -1455,3 +1461,38 @@ This proves the API credential, private origin configuration, courier allowlist,
 canonical Rates endpoint and fixture payload are interoperable in Biteship Testing
 Mode. It does **not** verify the provisional fixture weights/dimensions as real
 production measurements and does not create a shipment.
+
+
+### Biteship Sandbox Order acceptance
+
+GitHub Actions run **#1991** created two Biteship Testing Mode orders after the
+isolated staging Worker was redeployed with the staging-only sandbox acceptance
+boundary.
+
+Verified:
+
+- Order API create + independent retrieve;
+- duplicate reference detection with provider code `40002060`;
+- actual Sandbox duplicate response currently returns `details=null`;
+- runtime duplicate handling now fails closed to manual reconciliation when
+  Biteship does not supply the documented provider order ID;
+- authenticated staging webhook boundary + independent provider GET;
+- Testing Mode cancel API, with the cancel candidate independently retrieved as
+  `cancelled`.
+
+Delivered candidate provider ID:
+
+```text
+6ab95bf62cf339db52b93e9e
+```
+
+Cancelled candidate provider ID:
+
+```text
+6ab95bfa6960f5e88be36376
+```
+
+These are simulated provider test orders only. The Delivered candidate still needs
+the official step-by-step Testing dashboard status simulation and Events Log
+verification. The isolated Worker remains sales-disabled and is not the later
+database-backed full Shop staging environment.

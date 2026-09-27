@@ -348,3 +348,42 @@ Mainlagi now handles both cases:
 
 Therefore duplicate **detection** is provider-verified, while fully automatic
 duplicate recovery remains conditional on Biteship returning the provider order ID.
+
+
+## Sandbox Order API acceptance PASS
+
+GitHub Actions run **#1991** completed the bounded Biteship Testing Mode order
+acceptance job after redeploying the isolated staging Worker.
+
+Provider evidence:
+
+- simulated Delivered candidate:
+  - provider order ID: `6ab95bf62cf339db52b93e9e`;
+  - reference: `ML-SBX-DELIVER-36339411333`;
+  - current provider status at creation: `confirmed`;
+- simulated Cancelled candidate:
+  - provider order ID: `6ab95bfa6960f5e88be36376`;
+  - reference: `ML-SBX-CANCEL-36339411333`;
+  - provider status after cancel API verification: `cancelled`;
+- independent `GET /v1/orders/:id` verification passed;
+- duplicate `reference_id` detection passed with code `40002060`;
+- current Sandbox duplicate response returned `details=null`, so automatic
+  recovery by provider order ID cannot be claimed for that response shape;
+- staging authenticated webhook boundary plus independent Biteship provider GET
+  passed for `ML-SBX-` references;
+- `POST /v1/orders/:id/cancel` passed in Testing Mode;
+- no real courier, production shipment or balance charge was involved.
+
+Evidence artifact:
+
+```text
+biteship-sandbox-order-evidence
+artifact id: 10938641341
+sha256: 6d2b18c3d9456e61c51b9c271dfd3cfdd7a3fc19a647d71eb9561a3fb8d16c45
+```
+
+Remaining provider-status acceptance is the manual Testing Mode progression of the
+Delivered candidate through the Biteship Dashboard to `delivered`, followed by
+verification in Webhook Events Log. Biteship requires this status simulation to be
+performed from the Testing dashboard rather than by pretending a production courier
+performed the transitions.

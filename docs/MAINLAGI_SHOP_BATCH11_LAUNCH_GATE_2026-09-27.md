@@ -69,14 +69,17 @@ evidence required by Batch 11.
      `https://mainlagi-hub-shop-staging.mainlagihub.workers.dev`;
    - **PASS:** Biteship Testing Mode webhook installation is registered and the
      custom secret-header boundary is verified;
-   - **BLOCKED:** private pickup/contact/full-address/postal-code environment
-     values still need owner verification;
+   - **PASS for Sandbox:** private pickup/contact/full-address/postal-code values
+     are configured as encrypted staging secrets and were accepted by live Rates
+     and Order API probes;
    - **PASS:** refreshed Biteship Testing Mode API key authenticates successfully
      against `GET /v1/couriers`;
    - **PASS:** all approved courier codes and approved courier/service pairs are
      present in the Sandbox response;
-   - **BLOCKED:** real rate/order acceptance still requires owner-verified pickup
-     data and physical product weight/dimensions.
+   - **PASS for Sandbox transport:** live Rates and simulated Order API acceptance
+     passed using the testing fixture;
+   - **BLOCKED for production truth:** packed weights/dimensions remain provisional
+     test fixtures rather than measured sellable-product facts.
 
 3. **Batch 07 live Biteship acceptance**
    - **PASS for Sandbox integration:** authenticated non-mutating Rates API request
@@ -84,11 +87,21 @@ evidence required by Batch 11.
      courier/service pair returned as parcel + pickup;
    - **BLOCKED for production truth:** fixture weight/dimensions are provisional
      testing values and must be replaced by measured packed values;
-   - **BLOCKED:** real test shipment creation after verified payment + owner packed
-     state;
-   - **BLOCKED:** idempotency/duplicate-reference recovery against the provider;
-   - **BLOCKED:** authenticated real shipment webhook + independent provider GET;
-   - **BLOCKED:** tracking and exception progression.
+   - **PASS for provider simulation:** two Testing Mode orders were created and
+     independently retrieved; one candidate was successfully cancelled via the
+     sandbox cancel endpoint;
+   - **PARTIAL PASS:** duplicate reference code `40002060` is provider-verified,
+     but the observed Sandbox response returned `details=null`; automatic recovery
+     remains conditional on Biteship returning a provider order ID, otherwise the
+     runtime now fails closed to manual reconciliation;
+   - **PASS for bounded staging acceptance:** authenticated webhook boundary plus
+     independent provider GET passed for `ML-SBX-` test references;
+   - **BLOCKED:** integrated Shop paid + owner-packed database flow has not yet
+     created the provider shipment because this isolated staging Worker intentionally
+     uses the mock data backend;
+   - **BLOCKED:** Delivered status progression, actual Biteship Events Log delivery
+     evidence, tracking and exception progression still need Testing dashboard
+     simulation.
 
 4. **Safe non-production Shop staging origin**
    - **PASS for provider-webhook boundary:** isolated workers.dev staging origin
