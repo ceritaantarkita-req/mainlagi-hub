@@ -1,6 +1,6 @@
 # SI-03 Canonical Completion — Safe Checkpoint — 27 September 2026
 
-Status: **FINAL VERIFIED PR HEAD FULL GREEN / READY TO MERGE / NOT MERGED**
+Status: **CLOSED / MERGED / LIVE VERIFIED**
 
 ## Resume point
 
@@ -8,9 +8,13 @@ Continue this exact workstream. Do not restart Shared Interaction from SI-00.
 
 ```text
 repository: ceritaantarkita-req/mainlagi-hub
-base main:  7acad4aec11c54354dff3cf6304f484f669bfa38
-branch:     agent/si-03-canonical-completion-20260927
-phase:      SI-03 — Canonical Completion component
+PR:         #365 — merged
+final PR checkpoint head:
+            6ac00892b7d22139f45bb7e0107ddd4e33bdd924
+merged main:
+            d5857df03c5eb378e23a34547f0a24766ab39abd
+phase:      SI-03 — CLOSED / LIVE
+next:       SI-04 — Canonical Share component
 ```
 
 Closed prerequisites: SI-00, SI-01 and SI-02. SI-02 docs closure is production verified through main CI #1929 / run `36331440068`, including exact Cloudflare smoke.
@@ -128,16 +132,40 @@ permanent visual baseline: PASS
 Cloudflare PR smoke:     SKIPPED by PR workflow (expected)
 ```
 
-This closes the **PR-side SI-03 gate**. The checkpoint refresh commit that records this fact is documentation-only; its own latest-head CI must remain green before merge. SI-03 is still **not merged/live**. Do not start SI-04 until PR #365 is merged, push-to-main CI is full green, and exact Cloudflare smoke verifies the merged main SHA.
+This closed the PR-side SI-03 gate. The checkpoint refresh head `6ac00892b7d22139f45bb7e0107ddd4e33bdd924` subsequently passed CI #1961 in full, PR #365 was squash-merged, and merged-main CI #1972 plus exact Cloudflare smoke completed the production closure.
 
-## Merge gate
+## Final merged/live closure
 
-PR-side implementation and docs promotion are verified through `f9c058c...` / CI #1946. Before merge, verify the checkpoint-refresh head is still full green. After merge require push-to-main full green plus exact Cloudflare production smoke for the merged main SHA, then promote SI-03 to merged/live verified.
+SI-03 is fully closed.
+
+```text
+PR:                       #365 — merged
+final checkpoint PR head: 6ac00892b7d22139f45bb7e0107ddd4e33bdd924
+checkpoint PR CI:         #1961 / run 36336023119 — FULL SUCCESS
+merged main:              d5857df03c5eb378e23a34547f0a24766ab39abd
+merged-main CI:           #1972 / run 36337866098 — FULL SUCCESS
+Ubuntu:                   PASS
+Windows:                  PASS
+production build:         PASS
+dependency audit:         PASS
+secret history scan:      PASS
+Chromium mobile matrix:   PASS
+permanent visual baseline: PASS
+Cloudflare smoke:         SUCCESS — exact merged main SHA verified
+```
+
+The production smoke ran only after all required main jobs were green and verified the exact merged SHA `d5857df03c5eb378e23a34547f0a24766ab39abd`.
+
+The approved canonical Completion shell is now production truth. The remaining direct Share gate/provider ownership inside `ActivityCompletion` is intentional handoff debt for SI-04, not unfinished SI-03 work.
+
+Do not reopen SI-03 merely to migrate additional Belajar families, World, or Bermain. Those migrations remain in their scheduled later Shared Interaction sessions.
 
 ## Non-scope
 
 Do not expand SI-03 into SI-04 Share extraction, SI-05 pilot, mass Belajar migration, Bermain migration, World migration, Journey Map, Shop, new character work, or learning attempt/evidence/mastery/progression changes.
 
-## Next after SI-03 closure
+## Next authorized Shared Interaction work
 
 `SI-04 — Canonical Share component`
+
+SI-04 may now start from merged main `d5857df03c5eb378e23a34547f0a24766ab39abd` plus this documentation closure. Preserve the SI-03 shell API and extract Share behavior rather than duplicating Completion.
