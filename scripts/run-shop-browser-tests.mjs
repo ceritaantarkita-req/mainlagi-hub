@@ -24,6 +24,8 @@ let serverLog = "";
 const batch10Css = await readFile("src/app/shop/shop.css", "utf8");
 const adminLayoutSource = await readFile("src/app/admin/shop/layout.tsx", "utf8");
 const adminEditorSource = await readFile("src/components/shop/ProductAdminEditor.tsx", "utf8");
+const accountOrdersSource = await readFile("src/app/shop/orders/page.tsx", "utf8");
+const adminShopSource = await readFile("src/app/admin/shop/[section]/page.tsx", "utf8");
 assert.match(batch10Css, /--shop-primary:\s*#bd492f/i);
 assert.match(batch10Css, /textarea:focus-visible/);
 assert.match(batch10Css, /input\[type="checkbox"\][\s\S]*width:\s*auto/);
@@ -31,6 +33,18 @@ assert.match(batch10Css, /\.shop-admin-nav[\s\S]*flex-wrap:\s*wrap/);
 assert.match(adminLayoutSource, /shop-nav shop-admin-nav/);
 assert.match(adminEditorSource, /<textarea/);
 assert.match(adminEditorSource, /type="checkbox"/);
+assert.match(accountOrdersSource, /aria-label="Pagination pesanan"/);
+assert.match(adminShopSource, /aria-label="Pagination pesanan"/);
+assert.match(
+  batch10Css,
+  /\.shop-cart-line\s*>\s*a\s*\{[\s\S]*?min-height:\s*44px/,
+  "order-history links must preserve 44px touch targets",
+);
+assert.match(
+  batch10Css,
+  /nav\[aria-label="Pagination pesanan"\]\s+a\s*\{[\s\S]*?min-height:\s*44px/,
+  "order-history pagination links must preserve 44px touch targets",
+);
 
 function startServer() {
   const nextBin = path.join(root, "node_modules", "next", "dist", "bin", "next");
