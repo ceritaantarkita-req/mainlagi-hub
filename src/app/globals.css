@@ -4317,7 +4317,7 @@ html[data-theme="dark"] .about-footnote { background: #0e1526; }
   line-height: 1.25;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 761px) {
   .core-thumbnail-game-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
