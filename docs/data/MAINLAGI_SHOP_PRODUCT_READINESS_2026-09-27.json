@@ -217,5 +217,21 @@
   "batch04Authorization": {
     "allowed": true,
     "scope": "Close operational settings and customer policy contract without inventing provider or owner decisions."
+  },
+  "batch04Status": "blocked_owner_input",
+  "batch04Implementation": {
+    "contract": "src/lib/shop/operational-policy.json",
+    "runtimeValidator": "src/lib/shop/operationalPolicy.ts",
+    "adminReadinessRoute": "/admin/shop/settings",
+    "salesFailClosed": true,
+    "shippingRatesFailClosed": true,
+    "shipmentCreationFailClosed": true,
+    "remoteProviderActionPerformed": false,
+    "remoteMigrationPerformed": false,
+    "note": "Technical guard/scaffolding is implemented. Batch 04 cannot be DONE until the owner supplies and approves the operational decisions represented as null/unapproved in the contract."
+  },
+  "batch05Authorization": {
+    "allowed": false,
+    "reason": "Batch 04 exit gate is not closed; operational owner decisions remain unresolved."
   }
 }
