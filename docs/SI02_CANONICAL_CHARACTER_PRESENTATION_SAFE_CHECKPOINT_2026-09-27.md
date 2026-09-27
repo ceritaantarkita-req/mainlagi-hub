@@ -244,37 +244,49 @@ Bahasa / 320x740 portrait:
 Gavi + Paca overlapped the symbol-hunt task field
 ```
 
-This is a caller-layout issue, not an asset or identity issue. At narrow portrait widths the task could extend into the same bottom band used by the decorative characters.
+The first attempted fix only increased bottom padding. Diagnostic PR CI #1883 proved that padding alone did **not** change the absolute CharacterLayer geometry; the same 320px overlap remained. That attempt is historical evidence only and is superseded.
 
-The fix reserves an explicit presentation-only portrait character band in `GardenActivityFrame`:
+Canonical fix:
+
+- keep the normal overlay behavior at 390px+, tablet and desktop;
+- keep the SI-01/SI-02 landscape side-gutter contract;
+- only for narrow portrait phones `<=380px`, move the shared Belajar `CharacterLayer` into a dedicated flow-safe band **after** task content;
+- reduce the now-unneeded large bottom padding in that narrow mode;
+- keep creative workspaces excluded.
+
+Current rule:
 
 ```css
 @media(max-width:380px) and (orientation:portrait) {
   .garden:not(.workspace) {
-    padding-bottom: clamp(184px,48vw,204px);
+    padding-bottom: max(28px, env(safe-area-inset-bottom));
+  }
+
+  .garden:not(.workspace) .characterLayer {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: 150px;
+    margin: 12px auto 0;
   }
 }
 ```
 
-Creative workspaces remain excluded. The reserve is intentionally limited to narrow portrait phones so the already-verified 390/430/tablet layouts keep their existing composition and viewport containment. Landscape keeps the separate SI-01/SI-02 side-gutter contract.
+This is a structural caller safe-area fix: characters are no longer geometrically capable of covering the task field in the affected narrow portrait class.
 
-Fix commits:
+Current fix commits:
 
 ```text
-5d0dbb4900c5bd7165901fecea293cd4a58ebb91
-fix: reserve portrait character band below Belajar tasks
+d7bd8ec548f3e431ff2c3951686bd6a19e728e4e
+fix: move narrow portrait characters into flow-safe band
 
-52308ea99efd34e7062d96de30435da465081aff
-test: lock Belajar portrait character reserve
-
-7f59d0b309937ddebf8afa8155f3024f9eed2351
-fix: scope portrait character reserve to narrow phones
-
-c4d1b13c9d3ca4d007e5d644445cb1b4f470e005
-test: scope portrait reserve contract to narrow phones
+29ce76d768702b8d2f2626ddc47f7c755ab5fc88
+test: lock narrow portrait flow-safe character band
 ```
 
-Any CI run whose head predates `c4d1b13c9d3ca4d007e5d644445cb1b4f470e005` is superseded and cannot close SI-02.
+Earlier padding-only commits `5d0dbb4...`, `52308ea...`, `7f59d0b...`, and `c4d1b13...` remain in branch history but are superseded by the flow-safe-band rule above.
+
+Any CI run whose head predates `29ce76d768702b8d2f2626ddc47f7c755ab5fc88` is superseded and cannot close SI-02.
 
 ## Merge/production gate
 
