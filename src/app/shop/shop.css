@@ -440,6 +440,8 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  min-height: 44px;
+  cursor: pointer;
 }
 .shop-form fieldset {
   border: 1px solid #bbcbbc;
