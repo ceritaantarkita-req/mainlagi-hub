@@ -278,11 +278,82 @@ try {
       event,
       "txn-" + number,
     ]);
+  const firstOrderId = (
+    await one("select id from shop_orders where order_number=$1", [num])
+  ).id;
+  assert.equal(
+    (await one("select shop_claim_payment($1) ok", [firstOrderId])).ok,
+    true,
+    "first payment session claim succeeds",
+  );
+  assert.equal(
+    (await one("select shop_claim_payment($1) ok", [firstOrderId])).ok,
+    false,
+    "concurrent payment session claim is blocked by the lease",
+  );
+  await db.query(
+    "update shop_payment_attempts set lease_until=now()-interval '1 second' where order_id=$1",
+    [firstOrderId],
+  );
+  assert.equal(
+    (await one("select shop_claim_payment($1) ok", [firstOrderId])).ok,
+    true,
+    "expired payment session lease can be reclaimed",
+  );
+  assert.equal(
+    (
+      await one(
+        "select count(*)::int n from shop_payment_attempts where order_id=$1 and provider_order_id=$2 and snap_token is null",
+        [firstOrderId, num],
+      )
+    ).n,
+    1,
+    "payment retries keep one provider order identity",
+  );
   await assert.rejects(pay(num, "paid", "bad", 1), /payment mismatch/);
   await pay(num, "paid", "paid-1");
   await pay(num, "paid", "paid-1");
   await pay(num, "paid", "paid-2");
-  await pay(num, "expired", "stale");
+  assert.equal(
+    (
+      await one(
+        "select count(*)::int n from shop_provider_events where provider='midtrans' and event_key='paid-1'",
+      )
+    ).n,
+    1,
+    "duplicate payment notification event key is idempotent",
+  );
+  await pay(num, "expired", "stale-expired");
+  await pay(num, "cancelled", "stale-cancelled");
+  await pay(num, "failed", "stale-failed");
+  assert.equal(
+    (
+      await one(
+        "select payment_status from shop_orders where order_number=$1",
+        [num],
+      )
+    ).payment_status,
+    "paid",
+    "out-of-order terminal payment states cannot regress paid",
+  );
+  await assert.rejects(
+    db.query("select shop_apply_payment($1,$2,'paid','wrong-tx',$3)", [
+      num,
+      148000,
+      "different-provider-transaction",
+    ]),
+    /transaction mismatch/,
+    "provider transaction identity mismatch fails closed",
+  );
+  assert.equal(
+    (
+      await one(
+        "select count(*)::int n from shop_provider_events where event_key='wrong-tx'",
+      )
+    ).n,
+    0,
+    "transaction mismatch is rejected before provider-event persistence",
+  );
   await db.query("select shop_admin_transition($1,'deactivate',$2)", [
     product.id,
     owner,
@@ -528,7 +599,7 @@ try {
   ]);
   await assert.rejects(checkout(emptyBalance), /inventory missing/);
   console.log(
-    "Shop SQL: seeds, RLS, owner product workflow, fail-closed activation, variant stock conservation/history lock, media guards, audit logs, reservation, idempotency, amount, stale events, late payment, quote invalidation, missing inventory, packing, shipment leases, no status regression, refund release, adjustment idempotency, reporting PASS",
+    "Shop SQL: seeds, RLS, owner product workflow, fail-closed activation, variant stock conservation/history lock, media guards, audit logs, reservation, payment lease retry, duplicate/out-of-order payment idempotency, amount/transaction identity, late payment, quote invalidation, missing inventory, packing, shipment leases, no status regression, refund release, adjustment idempotency, reporting PASS",
   );
 } finally {
   await db.close();
