@@ -38,6 +38,32 @@ mobile through 760 px. This pass must not alter learning mastery/progression, Mo
 Engine mechanics, World progression/evidence, database schema, or finalized Shop
 transaction/provider behavior.
 
+A second owner-approved post-PR #360 wave is now also locked in
+`docs/MAINLAGI_CANONICAL_COMPLETION_SHARE_VISUAL_SPEC_2026-09-27.md`. It must start
+only after Shop and PR #360 are merged/production-verified. That wave unifies the
+Canonical Completion System, Canonical Share Experience and Canonical Character
+Presentation across Belajar/Bermain/World, and adds responsive orientation behavior:
+portrait device uses the portrait composition, landscape uses the landscape
+composition, and rotation **changes layout only — never activity/game/progress/modal
+state**. Character presentation is no-crop, safe-area based, and removes floating
+name labels underneath characters. The approved Completion/Share visuals lock the
+popup/modal only; each activity keeps its real background behind the popup.
+
+The required post-Shop order is therefore:
+
+```text
+Shop closure
+→ synchronize/merge/production-verify PR #360
+→ fresh shared-interaction wave
+   (responsive orientation + Completion + Character + Share)
+→ full portrait/landscape QA + production verification
+→ separate World header/map redesign after dedicated visual approval
+```
+
+The historical shared-completion implementation already on production remains
+current runtime truth until this successor wave lands; its existence must not be
+mistaken for approval to keep divergent Belajar/Bermain/World completion styles.
+
 ## 27 September core thumbnail system checkpoint — WAVE 01 CLOSED / LIVE VERIFIED
 
 ```text
