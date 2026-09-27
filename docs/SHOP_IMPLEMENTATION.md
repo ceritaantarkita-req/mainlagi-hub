@@ -864,6 +864,14 @@ synchronize that branch onto the actual latest `main`, preserve finalized Shop
 behavior, rerun full CI + responsive visual QA, then retarget/merge the child-surface
 revision only if all gates are green.
 
+After PR #360 itself is merged and production-verified, the next bounded wave is
+**not** another Shop batch and is **not** a World-map redesign yet. Read
+`docs/MAINLAGI_CANONICAL_COMPLETION_SHARE_VISUAL_SPEC_2026-09-27.md` and start the
+fresh shared-interaction wave: responsive portrait/landscape behavior, Canonical
+Completion, Canonical Character Presentation, Canonical Share, migration coverage
+and orientation QA. Only after that wave is merged/verified should the separate
+World header/map redesign begin.
+
 ## Verification completed
 
 - `npm run test:shop`: provider signature tampering/fraud/status tests; all 27
