@@ -284,10 +284,15 @@ assert.match(
   shopApiRouteSource,
   /verifyMidtrans\(b\);[\s\S]*await reconcile\(field\(b, "order_id", 50\)\)/,
 );
-assert.ok(
-  !/shop_apply_payment[\s\S]{0,600}midtrans\/notification/.test(
-    shopApiRouteSource,
-  ),
+const midtransWebhookBlock = shopApiRouteSource
+  .split('if (post && route === "midtrans/notification") {')[1]
+  ?.split('if (post && route === "biteship/webhook") {')[0];
+assert.ok(midtransWebhookBlock, "Midtrans notification route block must exist");
+assert.match(midtransWebhookBlock, /verifyMidtrans\(b\)/);
+assert.match(midtransWebhookBlock, /await reconcile\(field\(b, "order_id", 50\)\)/);
+assert.doesNotMatch(
+  midtransWebhookBlock,
+  /shop_apply_payment/,
   "Midtrans webhook body must not directly apply payment state",
 );
 assert.equal(readiness.products.length, 9);
