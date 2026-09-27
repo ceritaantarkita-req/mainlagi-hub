@@ -188,7 +188,8 @@
     "test:ui:core-thumbnails": "node scripts/run-core-thumbnail-wave01-browser-tests.mjs",
     "test:shop": "node scripts/run-shop-contract-tests.mjs && node scripts/run-shop-migration-chain-tests.mjs && node scripts/run-shop-db-tests.mjs",
     "test:shop:http": "node scripts/run-shop-http-tests.mjs",
-    "test:shop:migrations": "node scripts/run-shop-migration-chain-tests.mjs"
+    "test:shop:migrations": "node scripts/run-shop-migration-chain-tests.mjs",
+    "test:shop:midtrans-sandbox": "node scripts/run-shop-midtrans-sandbox-probe.mjs"
   },
   "dependencies": {
     "@capacitor/cli": "^7.6.8",
