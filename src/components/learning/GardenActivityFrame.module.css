@@ -50,13 +50,13 @@
  .hint { font-size:17px; margin-top:24px; }
 }
 @media(max-width:380px) { .control span { display:none; } .control { width:48px; } }
-@media(max-width:380px) and (orientation:portrait) {
+@media(max-width:560px) and (orientation:portrait) {
  .garden:not(.workspace) { padding-bottom:max(28px,env(safe-area-inset-bottom)); }
  .garden:not(.workspace) .characterLayer {
   position:relative;
   inset:auto;
   width:100%;
-  height:150px;
+  height:clamp(150px,36vw,184px);
   margin:12px auto 0;
  }
 }
