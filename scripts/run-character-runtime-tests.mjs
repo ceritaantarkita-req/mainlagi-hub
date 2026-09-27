@@ -253,7 +253,7 @@ assert.match(layerSource, /data-character-geometry="safe-contain-v1"/, "Characte
 assert.match(layerSource, /data-character-asset-source=/, "CharacterLayer exposes asset source QA attribute");
 assert.match(layerSource, /alt=""/, "decorative character images do not duplicate screen-reader narration");
 assert.match(layerCss, /pointer-events:\s*none/, "character layer cannot block task interaction");
-assert.match(layerCss, /env\(safe-area-inset-bottom\)/, "character layer respects bottom safe area");
+assert.match(layerCss, /env\(safe-area-inset-bottom(?:,\s*0px)?\)/, "character layer respects bottom safe area");
 assert.match(layerCss, /--character-safe-top:/, "character layer reserves a shared top safe area");
 assert.match(layerCss, /--character-safe-right:/, "character layer reserves a shared right safe area");
 assert.match(layerCss, /--character-safe-bottom:/, "character layer reserves a shared bottom safe area");
