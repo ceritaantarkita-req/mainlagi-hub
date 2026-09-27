@@ -3,7 +3,7 @@
 Date: 27 September 2026  
 Status: **OWNER-APPROVED / VISUAL DIRECTION LOCKED**
 
-This is the canonical visual/product contract for the shared child-facing completion system, share experience, character presentation corrections, and the next World visual cleanup direction.
+This is the canonical visual/product contract for the shared child-facing Completion system, Share experience, Character Presentation, responsive orientation behavior, migration/QA rules, and the next World visual cleanup direction.
 
 ## Critical visual lock
 
@@ -333,64 +333,672 @@ Minor responsive adaptation is allowed only when required to make the same appro
 
 The goal is **implementation fidelity, not repeated redesign**.
 
-# 10. Responsive intent
+# 10. Canonical Responsive Orientation Policy — LOCKED
 
-The same hierarchy must survive mobile.
+The mobile product must be **responsive to the device's current orientation**.
 
-Responsive adaptation may:
+Canonical behavior:
 
-- stack actions only when viewport constraints truly require it;
-- reduce decorative confetti;
-- reduce character size while preserving the complete silhouette;
-- reduce modal width/padding proportionally;
-- use native Share Device capability where available.
+```text
+phone portrait
+→ portrait composition
 
-Responsive adaptation must not:
+phone landscape
+→ landscape composition
+```
 
-- remove praise/stars;
-- reorder primary actions;
-- remove Share;
-- crop characters;
-- turn the popup into a materially different mobile design.
+This is **one design system with two adaptive compositions**, not two different products and not a desktop layout simply scaled down.
 
-# 11. Acceptance contract
+## 10.1 Rotation changes layout, not state
 
-Migration is acceptable only when:
+A device rotation or viewport-orientation change must cause a live reflow only.
 
-- every completed playable experience reaches the shared Completion component;
-- final completion is visually consistent across Belajar, Bermain, and World;
+It must **not**:
+
+- reload the route;
+- restart the activity/game;
+- reset an answer already entered;
+- reset timer/game state;
+- create a duplicate attempt merely because orientation changed;
+- lose progress;
+- close an open dialog;
+- close Completion;
+- close Share;
+- change the current story segment;
+- change the current World stage;
+- navigate the user elsewhere.
+
+Examples:
+
+```text
+portrait gameplay
+→ rotate device
+→ same gameplay state in landscape
+
+Completion open in portrait
+→ rotate device
+→ same Completion remains open in landscape
+
+Share open in landscape
+→ rotate device
+→ same Share modal remains open in portrait
+```
+
+Rotation is a presentation/layout event, not a product-state event.
+
+## 10.2 Default orientation policy
+
+Mainlagi should remain usable in both portrait and landscape unless a specific mechanic has a separately approved hard requirement.
+
+Default policy:
+
+- Belajar: portrait and landscape responsive;
+- Bermain / Main Gerak: portrait and landscape responsive;
+- World navigation/story: portrait and landscape responsive;
+- Completion: portrait and landscape responsive;
+- Share: portrait and landscape responsive;
+- Character Presentation: portrait and landscape responsive.
+
+A motion/camera-heavy experience may show a **non-blocking** recommendation that landscape is more comfortable, but it must not introduce a forced orientation lock without explicit separate authorization and QA.
+
+## 10.3 Responsive composition, not proportional shrinking
+
+Do not solve mobile by scaling the desktop layout down until it fits.
+
+Portrait and landscape may legitimately change:
+
+- element order;
+- character position;
+- dialog width;
+- card proportions;
+- action wrapping;
+- padding;
+- spacing;
+- decorative density.
+
+They must preserve:
+
+- the same component identity;
+- the same information hierarchy;
+- the same actions;
+- the same character state;
+- the same game/activity state;
+- the same completion/share state.
+
+## 10.4 Completion orientation rules
+
+### Portrait
+
+Use a narrower/taller composition.
+
+Allowed adaptations:
+
+- reduce character scale while keeping full silhouettes;
+- move characters into a dedicated safe band inside the card;
+- wrap/stack action controls only when required by width;
+- reduce decorative confetti density;
+- tighten vertical spacing without collapsing hierarchy.
+
+The hierarchy still remains:
+
+```text
+praise
+stars
+completion message/status
+character celebration
+Back / Again / Next
+Share
+```
+
+### Landscape
+
+Use the wider composition:
+
+- characters may flank the central content;
+- Back / Again / Next should remain one row when space allows;
+- Share remains a separate action below;
+- characters must not collide with copy or buttons.
+
+The portrait and landscape versions must clearly look like the **same Completion component**.
+
+## 10.5 Share orientation rules
+
+### Portrait
+
+- full-width title/description area;
+- copy-link field remains readable at phone width;
+- share choices may use a compact 2-column or similarly readable grid;
+- Copy Link / Share Device may stack if needed;
+- no horizontal scrolling.
+
+### Landscape
+
+- copy-link field remains above the share choices;
+- share choices may use a wider multi-column row/grid;
+- Copy Link / Share Device may sit side-by-side;
+- modal height must remain safe for short landscape viewports.
+
+The social-choice order and component identity remain unchanged.
+
+## 10.6 Tablet behavior
+
+Tablet layout should follow available geometry, not a device-name assumption.
+
+A tablet in portrait may use a spacious portrait composition.  
+A tablet in landscape may use the wider landscape composition.
+
+Do not hard-code logic such as “tablet always desktop” or “phone always portrait.” Use viewport/aspect-ratio/container geometry appropriate to the component.
+
+# 11. Canonical Completion Behavior — LOCKED
+
+The visual concept is already approved. This section locks the behavior so Belajar, Bermain, and World do not merely look similar while behaving differently.
+
+## 11.1 Trigger
+
+The canonical Completion System appears when a playable experience reaches its real final-completion state.
+
+It must not replace ordinary:
+
+- correct-answer feedback;
+- retry feedback;
+- hint UI;
+- intermediate story/dialog beats;
+- mid-stage checkpoint feedback.
+
+A route/runtime should not show a second unrelated completion card after the canonical one.
+
+## 11.2 One shared final-completion contract
+
+At completion, all eligible child-playable surfaces resolve into the same shared component family:
+
+- Belajar;
+- Bermain / Main Gerak;
+- World activity/stage completion;
+- future child-facing game surfaces.
+
+Context can provide copy, characters, destination and status metadata, but not a separate visual system.
+
+## 11.3 Action semantics
+
+Canonical visual order remains:
+
+```text
+Back | Again | Next
+Share
+```
+
+Behavioral meaning:
+
+- **Back**: leave the completed playable experience for its immediate parent surface/context.
+- **Again**: replay the same playable experience using the existing runtime's legitimate replay/attempt semantics.
+- **Next**: continue to the next eligible/recommended item in the current context. If no next item exists, resolve to the appropriate parent/finale destination rather than leaving a dead button.
+- **Share**: open the canonical Share modal without destroying Completion state.
+
+These navigation decisions must not redefine mastery/evidence/progression.
+
+## 11.4 Replay and persistence safety
+
+The visual migration must not accidentally create duplicate attempts or evidence.
+
+In particular:
+
+- orientation change does not create a new attempt;
+- opening/closing Share does not create a new attempt;
+- opening/closing Completion does not create a new attempt;
+- `Again` follows the existing runtime's intentional replay semantics;
+- re-rendering the popup must not replay completion writes.
+
+## 11.5 Stars and reward meaning
+
+The approved Completion visual uses a three-star celebration.
+
+Treat the visual stars as the approved completion/celebration language unless an existing runtime already binds stars to a real reward/score value.
+
+Do **not** change stored reward, score, mastery or evidence semantics merely to match the popup artwork.
+
+If a runtime has genuine star/reward data, bind presentation to that existing contract rather than inventing a new academic meaning.
+
+## 11.6 Close behavior
+
+If the approved close/X control is present:
+
+- it must not discard a completed result;
+- it must not erase state;
+- it should resolve safely to the appropriate parent/previous completion context;
+- it must not become a shortcut around required persistence.
+
+# 12. Canonical Character Placement Matrix — LOCKED
+
+The visual target is not “put the character somewhere that looks okay.” It is a bounded placement system.
+
+## 12.1 Shared rules
+
+For every context and orientation:
+
+- preserve the full intended silhouette;
+- keep safe padding from viewport/card edges;
+- no floating character-name label underneath;
+- no overlap with primary interaction targets;
+- no overlap with essential copy;
+- no overlap with Completion/Share action controls;
+- scale down before cropping;
+- reduce character count before cropping;
+- if two characters cannot fit safely, show the contextually primary character rather than forcing both.
+
+## 12.2 Story / Dialog
+
+### Portrait
+
+Preferred composition:
+
+```text
+dialog/story card
+        ↓
+character in lower safe area
+```
+
+or a narrow side-by-side composition when there is enough width.
+
+Keep the character fully visible. Speaker identity, when needed, belongs **inside** the dialog card.
+
+### Landscape
+
+Preferred composition:
+
+```text
+character | dialog/story card
+```
+
+The dialog may occupy the larger side of the screen. The character retains a dedicated padded zone.
+
+## 12.3 Activity Helper
+
+### Portrait
+
+- primary interaction stays central/top;
+- helper character occupies a lower safe zone or side safe zone;
+- a second character is allowed only if both remain fully visible and do not reduce interaction readability.
+
+### Landscape
+
+- helper characters may occupy left/right lower corners or side bands;
+- central gameplay remains unobstructed;
+- edge padding protects ears/antennae/hands/tails from clipping.
+
+## 12.4 Completion
+
+### Portrait
+
+- one or two characters may sit in a dedicated celebration band;
+- characters may become smaller;
+- action area remains a separate safe zone below;
+- characters never overlap Back/Again/Next/Share.
+
+### Landscape
+
+- one or two characters may flank the central praise/stars/status area;
+- maintain balanced whitespace;
+- full silhouettes remain inside the popup.
+
+## 12.5 World Story
+
+### Portrait
+
+- story/dialog card takes the readable upper or central area;
+- one primary character sits below or beside it in a safe zone;
+- never crop the character to preserve more background art.
+
+### Landscape
+
+- character and dialog may sit side-by-side;
+- World environment remains visible as atmosphere, not at the expense of character/dialog readability.
+
+## 12.6 Character identity
+
+The character used is context-driven.
+
+The approved samples showing Gavi/Paca do not authorize hard-coding Gavi/Paca into every route.
+
+Use the existing canonical character resolver/state system and authored cast rules.
+
+# 13. Canonical Share Behavior — LOCKED
+
+The visual design is already approved. This section locks behavior and safety.
+
+## 13.1 Open/close state
+
+Opening Share:
+
+- keeps the completed activity state intact;
+- keeps Completion underneath;
+- adds the canonical Share modal above it;
+- must not navigate away merely to render the modal.
+
+Closing Share:
+
+- returns to the exact same Completion state;
+- preserves the same stars, copy, characters and available actions.
+
+## 13.2 Share destination safety
+
+A child completion page must never expose a private authenticated child route as a public share target.
+
+The share resolver must use a public-safe URL/landing contract.
+
+If a safe public target cannot be produced, fail closed or disable that action rather than leaking:
+
+- child route identifiers;
+- private profile data;
+- account/session data;
+- detailed evidence/mastery data.
+
+## 13.3 Provider behavior
+
+The canonical visual choices remain:
+
+- WhatsApp;
+- Telegram;
+- X;
+- Facebook;
+- Copy Link;
+- Share Device.
+
+Implementation may use platform-specific share URLs and the device Web Share API where supported.
+
+If a capability is unavailable:
+
+- fail gracefully;
+- keep the modal visually consistent;
+- do not replace the whole modal with a browser-native-looking alternative.
+
+## 13.4 Copy feedback
+
+Copy Link may show a small temporary success state such as `Tersalin`.
+
+That feedback should not materially redesign/reflow the modal.
+
+# 14. Coverage and Migration Plan — REQUIRED BEFORE BROAD REPLACEMENT
+
+Do not blindly replace completion code route by route.
+
+First produce a coverage matrix that identifies, for each surface/runtime family:
+
+- current final-completion implementation;
+- whether final completion exists;
+- whether Share exists;
+- current character placement behavior;
+- current portrait behavior;
+- current landscape behavior;
+- target shared component;
+- representative QA route.
+
+At minimum cover:
+
+### Belajar runtime families
+
+- tap choice / choice-grid families;
+- listen-and-choose/listening;
+- matching;
+- tracing;
+- story;
+- motion-game integration;
+- coloring;
+- drawing;
+- other active shared runtime patterns that terminate through a distinct final state.
+
+The goal is shared runtime integration, not manually editing 900 activities one by one when a common runtime can provide coverage safely.
+
+### Bermain / Main Gerak
+
+Audit all 10 existing game experiences.
+
+### World
+
+Audit:
+
+- story/dialog segments;
+- mini-game/activity segments;
+- stage completion;
+- chapter/finale completion;
+- Share flow.
+
+The coverage artifact must distinguish:
+
+```text
+shared runtime fixed once
+vs
+route-specific exception that genuinely needs separate handling
+```
+
+Do not treat historical duplicated UI as justification to keep multiple completion systems.
+
+# 15. QA and Acceptance Matrix — LOCKED
+
+The shared system is not complete until portrait, landscape and orientation transitions are verified.
+
+## 15.1 Required viewport classes
+
+At minimum verify:
+
+- compact phone portrait: around 320 × 568;
+- standard phone portrait: around 390 × 844;
+- compact phone landscape: around 568 × 320;
+- standard phone landscape: around 844 × 390;
+- tablet portrait: around 768 × 1024;
+- tablet landscape: around 1024 × 768;
+- desktop: at least around 1280 px wide.
+
+Exact browser chrome may vary; the intent is to test both geometry and short-height landscape stress cases.
+
+## 15.2 Required orientation-transition tests
+
+Rotate/change viewport while each of these is active:
+
+1. gameplay before answer;
+2. gameplay after partial interaction;
+3. story/dialog open;
+4. retry/correct feedback visible;
+5. Completion open;
+6. Share open;
+7. World story segment;
+8. motion/game state where applicable.
+
+For each transition assert:
+
+- same route/context;
+- same answer/game state;
+- same timer state where applicable;
+- same story segment;
+- same Completion state;
+- same Share state;
+- no duplicate attempt/evidence write;
+- no horizontal overflow;
+- no unintended character crop;
+- no console/page error.
+
+## 15.3 Character visual assertions
+
+Representative browser QA should verify bounding/safe-area behavior, not only take screenshots.
+
+For every canonical character presentation context:
+
+- full intended image bounds stay within its safe container;
+- no name label exists underneath;
+- essential UI does not overlap the character;
+- orientation change does not push character outside bounds.
+
+Manual screenshot review remains required because numeric containment alone cannot prove good composition.
+
+## 15.4 Completion assertions
+
+Verify:
+
+- one canonical final Completion;
+- praise + stars + short completion copy present;
+- Back/Again/Next order correct;
+- Share separate below;
+- no route-specific alternate completion card appears afterward;
+- same component identity in portrait and landscape.
+
+## 15.5 Share assertions
+
+Verify:
+
+- Share opens from Completion;
+- closing returns to same Completion;
+- safe public URL contract;
+- no child-private route/data in share payload;
+- Copy Link works;
+- provider actions are capability-safe;
+- portrait and landscape layouts preserve hierarchy.
+
+# 16. World Redesign — NEXT AFTER SHARED SYSTEM
+
+World remains the second major visual wave.
+
+Do not begin the map/header redesign until the shared Completion/Character/Share foundation is stable enough that World can consume it rather than invent another local system.
+
+The later World redesign must address:
+
+- header/hero character clipping;
+- obsolete/wrong-concept header background art;
+- World header composition;
+- journey-map path quality;
+- node sizing and placement;
+- chapter separators;
+- completed/current/locked state;
+- progress readability;
+- portrait composition;
+- landscape composition;
+- character safe areas;
+- preservation of Petualangan Uang progression/evidence semantics.
+
+A separate owner-approved World visual target is still required before material map redesign.
+
+# 17. Post-Shop Execution Sequence — LOCKED
+
+This work belongs after Shop release closure.
+
+Recommended bounded sequence:
+
+```text
+A. Finish Shop
+   ↓
+B. Merge + production-verify Shop
+   ↓
+C. Synchronize and finish PR #360
+   (navbar / page atmospheres / canonical card grids)
+   ↓
+D. Merge + production-verify PR #360
+   ↓
+E. Start a fresh shared-interaction wave
+   - responsive orientation foundation
+   - canonical Completion
+   - canonical Character Presentation
+   - canonical Share
+   - coverage migration
+   - portrait/landscape QA
+   ↓
+F. Merge + production-verify shared-interaction wave
+   ↓
+G. Start separate World header/map redesign
+```
+
+Do not silently expand PR #360 into the entire Completion/Share/World redesign. Keeping the shared-interaction migration and World redesign bounded reduces regression risk and makes QA evidence attributable.
+
+# 18. Non-negotiable approval rule
+
+Future agents must not:
+
+- materially redesign the approved Completion popup;
+- materially redesign the approved Share popup;
+- move/reorder canonical actions without approval;
+- restore separate completion styles for Belajar vs Bermain vs World;
+- restore character names under characters;
+- knowingly allow character clipping;
+- treat the mockup background as a universal runtime background;
+- regenerate the approved popup concept and declare the new generation canonical;
+- force one mobile orientation globally merely because one mockup looks better there;
+- reset/reload activity state on orientation change;
+- expand the shared-system wave into World map redesign before its separate visual target is approved;
+- substitute a new design merely because it seems cleaner or more modern.
+
+Minor responsive adaptation is allowed only when it preserves the same approved component/system identity.
+
+The goal is **implementation fidelity, not repeated redesign**.
+
+# 19. Final Acceptance Contract
+
+The shared-system migration is acceptable only when:
+
+- every completed playable experience reaches the canonical Completion component;
+- final Completion is visually consistent across Belajar, Bermain, and World;
 - Back | Again | Next plus Share are present in the canonical hierarchy;
 - Share opens the canonical Share modal;
-- Share modal follows the approved visual structure;
+- Share follows the approved visual structure;
 - characters are not clipped;
 - character labels underneath are gone;
+- portrait and landscape both work responsively;
+- rotating does not reset state or close active UI;
 - the actual game/activity background remains behind the popup;
-- closing Share returns to Completion;
 - no horizontal overflow;
 - no new page/console errors;
 - learning/game/World semantics remain unchanged;
-- compact-phone and desktop screenshots are manually reviewed against the approved popup references.
+- compact-phone, phone-landscape, tablet portrait/landscape and desktop screenshots are manually reviewed.
 
-# 12. Relationship to the post-Shop handoff
+# 20. Relationship to the Post-Shop Handoff
 
 This spec belongs to the deferred post-Shop child-surface workstream.
 
 Sequencing/integration remains controlled by:
 
-docs/MAINLAGI_POST_SHOP_CHILD_SURFACE_HANDOFF_2026-09-27.md
+`docs/MAINLAGI_POST_SHOP_CHILD_SURFACE_HANDOFF_2026-09-27.md`
 
 After Shop is fully closed and merged, the next agent must read that handoff and this visual spec together before resuming child-surface work.
 
 The post-Shop handoff controls branch/release sequencing.  
-This document controls visual/product fidelity.
+This document controls visual, behavior and responsive fidelity.
 
 ## Final owner-approved summary
 
-Completion: ONE canonical popup across all games.  
-Actions: Back | Again | Next, with Share underneath.  
-Share: ONE canonical modal opened from Completion.  
-Characters: no unintended crop and no name labels underneath.  
-Belajar/Bermain/World: different game/background context is allowed; shared interaction components must look like one product.  
-Approved popup concepts: LOCKED. Do not redesign without explicit owner approval.  
-Background shown behind popup mockups: NOT LOCKED. Use the actual background of each game/activity.  
-World header/map: known visual debt; redesign after the shared completion/character/share system is stabilized.
+```text
+Completion:
+ONE canonical popup across all games.
+
+Actions:
+Back | Again | Next
+Share underneath.
+
+Share:
+ONE canonical modal opened from Completion.
+
+Characters:
+No unintended crop.
+No name labels underneath.
+Safe-area placement is canonical.
+
+Mobile:
+Responsive to current orientation.
+Portrait device → portrait composition.
+Landscape device → landscape composition.
+Rotation changes layout only, never state.
+
+Belajar / Bermain / World:
+Different game/background context is allowed.
+Shared interaction components must look and behave like one product.
+
+Approved Completion + Share concepts:
+LOCKED.
+Do not redesign without explicit owner approval.
+
+Background shown behind popup mockups:
+NOT LOCKED.
+Use the actual background of each game/activity.
+
+Execution:
+Shop → PR #360 → shared interaction system → World redesign.
+
+World header/map:
+Known visual debt.
+Separate visual approval before material redesign.
+```
