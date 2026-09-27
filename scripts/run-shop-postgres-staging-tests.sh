@@ -107,10 +107,10 @@ insert into public.shop_products(
 ('10000000-0000-0000-0000-000000000003','T03','ci-t03','CI T03','Concurrency fixture','learn-create',10000,'draft','draft','{}',1,false,true);
 
 insert into public.shop_product_media(product_id,path,alt_text,role,sort_order,approval_status)
-select p.id,'/ci/'||lower(p.product_code)||'-hero.webp','CI hero','hero',0,'approved'
+select p.id,'/shop/products/ci-'||lower(p.product_code)||'-hero.webp','CI hero','hero',0,'approved'
 from public.shop_products p where p.product_code in ('T01','T02','T03');
 insert into public.shop_product_media(product_id,path,alt_text,role,sort_order,approval_status)
-select p.id,'/ci/'||lower(p.product_code)||'-use.webp','CI use','in_use',1,'approved'
+select p.id,'/shop/products/ci-'||lower(p.product_code)||'-use.webp','CI use','in_use',1,'approved'
 from public.shop_products p where p.product_code in ('T01','T02','T03');
 
 insert into public.shop_variants(id,product_id,sku,title,option_values,weight_grams,is_active) values
