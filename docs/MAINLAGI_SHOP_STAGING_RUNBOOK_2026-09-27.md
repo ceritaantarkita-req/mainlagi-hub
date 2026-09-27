@@ -1,6 +1,6 @@
 # Mainlagi Shop — Batch 05 zero-cost staging database runbook
 
-Status: **zero-cost PostgreSQL staging path approved; CI gate in progress**.
+Status: **Batch 05 zero-cost PostgreSQL staging gate completed**.
 
 This runbook replaces the previously proposed paid Supabase development branch.
 The owner explicitly declined paid branching and approved a zero-cost path:
@@ -168,16 +168,31 @@ If the migration or concurrency gate fails:
 No manual reverse migration should be created merely to undo a failed disposable
 test database.
 
-## Current Batch 05 exit gate
+## Batch 05 closure evidence
 
-Batch 05 becomes `DONE` when:
+Batch 05 is **DONE**.
 
-- PGlite full-chain preflight is green;
-- PostgreSQL 17 full-chain gate is green;
-- all six real multi-session race cases pass;
-- RLS/RPC browser-role assertions pass;
-- CI exact-head evidence is recorded.
+Recorded implementation evidence:
+
+- implementation SHA:
+  `e8d0b57dfbc286545d25107bc75dd1c36e4d3786`;
+- Mainlagi TV V3 CI **#1809**, run id `36300966067`;
+- PGlite full-chain preflight: PASS;
+- PostgreSQL 17 full 53-migration gate: PASS;
+- RLS/RPC/browser-role assertions: PASS;
+- all six real multi-session race cases: PASS;
+- paid Supabase development branch: **not created**;
+- production migration/mutation: **not performed**.
+
+The first PostgreSQL attempt correctly exposed invalid test fixtures rather than a
+Shop runtime defect: the owner profile fixture needed a matching `auth.users`
+row, the synthetic category needed a canonical Shop category, and product media
+paths needed the canonical `/shop/products/*.webp` shape. Those fixtures were
+corrected and the clean exact implementation run passed.
 
 No paid Supabase branch is required.
 
 Production remains unchanged and `SHOP_SALES_ENABLED` remains disabled.
+Shop-specific hosted Supabase advisor review remains deferred to the later
+production-pre-activation checkpoint, after Shop migrations are applied with sales
+still disabled.
