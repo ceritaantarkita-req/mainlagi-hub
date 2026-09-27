@@ -305,5 +305,41 @@
     "status": "not_started",
     "scope": "Midtrans sandbox only. No live provider action, no production migration, and Batch 04 owner-policy blockers remain a launch blocker.",
     "reason": "Batch 05 technical database/security/concurrency gate is complete."
+  },
+  "batch06Status": "blocked_midtrans_sandbox_server_key",
+  "batch06Implementation": {
+    "officialSandboxContractVerified": true,
+    "verifiedOn": "2026-09-27",
+    "snapEndpoint": "https://app.sandbox.midtrans.com/snap/v1/transactions",
+    "statusEndpointTemplate": "https://api.sandbox.midtrans.com/v2/{order_id}/status",
+    "auth": "Basic Base64(ServerKey + ':')",
+    "notificationSignature": "SHA512(order_id + status_code + gross_amount + ServerKey)",
+    "applicationHardening": [
+      "credit_card.secure=true on Snap creation",
+      "signed notification triggers independent GET Status",
+      "GET Status must match order id, gross amount and provider transaction id",
+      "paid mapping requires provider status_code 200",
+      "pending status_code 201 is accepted as pending",
+      "failure maps to failed",
+      "contradictory fraud terminal state maps to manual review",
+      "partial refund and chargeback states map to manual review"
+    ],
+    "liveProbeScript": "scripts/run-shop-midtrans-sandbox-probe.mjs",
+    "ciJob": "Shop Midtrans sandbox probe",
+    "ciEvidence": {
+      "workflowRun": 1819,
+      "workflowRunId": 36302791061,
+      "credentialConfigured": false,
+      "marker": "MIDTRANS_SANDBOX_SERVER_KEY_NOT_CONFIGURED",
+      "providerRequestPerformed": false
+    },
+    "runbook": "docs/MAINLAGI_SHOP_MIDTRANS_SANDBOX_RUNBOOK_2026-09-27.md",
+    "productionCredentialUsed": false,
+    "productionTransactionPerformed": false,
+    "blocker": "Configure MIDTRANS_SANDBOX_SERVER_KEY as a GitHub Actions repository secret and provide a safe public non-production notification origin before real webhook acceptance."
+  },
+  "batch07Authorization": {
+    "allowed": false,
+    "reason": "Batch 06 real Midtrans sandbox payment/webhook acceptance is not complete. Batch 04 owner-policy blockers also remain."
   }
 }
