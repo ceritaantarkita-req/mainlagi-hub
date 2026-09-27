@@ -244,9 +244,13 @@ async function inspectPage(page, route, viewport) {
     }
 
     if (route.path === "/child/demo-gian/home") {
-      assert.equal(await page.getByRole("link", { name: "Belajar", exact: true }).count(), 1, "child home must expose Belajar navigation");
-      assert.equal(await page.getByRole("link", { name: "World", exact: true }).count(), 1, "child home must expose World navigation");
-      assert.equal(await page.getByRole("link", { name: "Bermain", exact: true }).count(), 1, "child home must expose Bermain navigation");
+      const childNav = page.getByRole("navigation", { name: "Navigasi anak" }).locator("a");
+      assert.deepEqual(
+        await childNav.allTextContents(),
+        ["Belajar", "Bermain", "World", "Shop"],
+        "child navigation must stay Belajar -> Bermain -> World -> Shop"
+      );
+      assert.equal(await page.locator("[data-mainlagi-domain-card]").count(), 0, "child home must not duplicate primary navigation with domain cards");
       const subjectLinks = page.locator('[data-core-thumbnail-card="subject"]');
       assert.equal(await subjectLinks.count(), 9, "child home must expose all nine subject cards");
       assert.equal(await page.getByText(/\b100 aktivitas\b/).count(), 0, "subject cards must not expose activity-count subtitles");
