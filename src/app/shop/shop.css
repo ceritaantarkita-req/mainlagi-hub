@@ -219,8 +219,10 @@
   min-height: 20px;
   accent-color: var(--shop-primary);
 }
-.shop-shell input:invalid:not(:placeholder-shown),
-.shop-shell textarea:invalid:not(:placeholder-shown) {
+.shop-shell input:user-invalid,
+.shop-shell textarea:user-invalid,
+.shop-shell input[aria-invalid="true"],
+.shop-shell textarea[aria-invalid="true"] {
   border-color: var(--shop-primary);
 }
 .shop-grid {
