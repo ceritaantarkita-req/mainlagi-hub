@@ -177,3 +177,25 @@ Therefore the webhook installation remains PASS, but the repository secret
 API key value** before Rates/Order API acceptance can continue. Do not substitute
 the API-key label, token ID, masked dashboard value, webhook secret, or a live-mode
 credential.
+
+
+## Sandbox connectivity PASS
+
+After replacing the repository secret with a newly generated Biteship Testing Mode
+API key, GitHub Actions run **#1953** passed the non-mutating connectivity preflight.
+
+Verified evidence:
+
+- authentication succeeds with the canonical raw `Authorization: <API_KEY>` header;
+- `GET /v1/couriers` returned HTTP 200;
+- Biteship returned **81** courier/service rows;
+- every owner-approved courier code is present;
+- every owner-approved courier/service pair is present;
+- `missingCouriers=[]`;
+- `missingServices=[]`.
+
+The earlier HTTP 401 / `40101003` evidence is retained as historical diagnostic
+evidence only; it is no longer the active blocker.
+
+The staging Worker must still be refreshed once after this credential rotation so
+its runtime `BITESHIP_API_KEY` binding matches the newly verified Testing Mode key.
