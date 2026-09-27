@@ -7,7 +7,7 @@ export default function ShopAdminLayout({
 }) {
   return (
     <div className="shop-shell">
-      <nav className="shop-nav" aria-label="Admin Shop">
+      <nav className="shop-nav shop-admin-nav" aria-label="Admin Shop">
         {[
           ["products", "Produk"],
           ["inventory", "Inventory"],
