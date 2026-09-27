@@ -201,6 +201,8 @@ export function CartCheckout({ checkout = false }: { checkout?: boolean }) {
                   Buat pesanan
                 </button>
                 <p>
+                  Dengan membuat pesanan, kamu memahami{" "}
+                  <Link href="/shop/policies">kebijakan belanja Mainlagi Shop</Link>.
                   Harga dan ketersediaan diperiksa kembali saat pesanan dibuat.
                 </p>
               </form>
