@@ -1006,8 +1006,9 @@ After PR #360 itself is merged and production-verified, the next bounded wave is
 `docs/MAINLAGI_CANONICAL_COMPLETION_SHARE_VISUAL_SPEC_2026-09-27.md` and start the
 fresh shared-interaction wave: responsive portrait/landscape behavior, Canonical
 Completion, Canonical Character Presentation, Canonical Share, migration coverage
-and orientation QA. Only after that wave is merged/verified should the separate
-World header/map redesign begin.
+and orientation QA. Only after that wave is merged/verified should the Canonical Journey Map System
+begin. Read `docs/MAINLAGI_CANONICAL_JOURNEY_MAP_SYSTEM_2026-09-27.md` before
+touching Belajar subject stage/gallery presentation or Petualangan Uang map UI.
 
 ## Verification completed
 
