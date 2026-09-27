@@ -897,11 +897,18 @@ authorize any production or live-provider action.
 
 #### Batch 05 — staging database, migration chain and security gate
 
-Status: **BLOCKED — staging branch cost confirmation required**.
+Status: **IN PROGRESS — zero-cost PostgreSQL 17 CI gate pending**.
 
-The owner explicitly authorized this Batch 05 staging/security wave while Batch 04
-remains a separate launch blocker. The override is limited to safe non-production
-database/security work.
+The owner explicitly declined the paid Supabase development-branch option and
+approved the zero-cost Batch 05 path:
+
+- real PostgreSQL 17 in GitHub Actions;
+- optional identical local Docker/PostgreSQL reproduction;
+- production Supabase remains read-only until the later production release gate.
+
+Batch 04 remains a separate launch blocker. This Batch 05 override is limited to
+non-production migration/security/concurrency validation and does not approve the
+missing operational policy.
 
 Completed preflight work:
 
@@ -911,55 +918,75 @@ Completed preflight work:
   - `20260927051000_shop_admin_workflow.sql`;
 - added `scripts/run-shop-migration-chain-tests.mjs` and wired it into
   `npm run test:shop`;
-- the full-chain harness applies migrations **0001 through 0051 plus both Shop
-  migrations in filename order**, with a test-only PGlite accommodation that skips
-  Supabase's `CREATE EXTENSION pgcrypto` statement while leaving the repository
-  migration unchanged;
-- full-chain assertions verify Shop seed counts, Draft/unverified posture, RLS on
-  every public Shop table, service-role-only sensitive RPC EXECUTE, anon product
-  visibility = 0, direct order-table denial, and product-admin RPC denial;
-- CI #1774 passed the complete Shop transaction/provider-contract step with this
-  full migration-chain gate;
+- the PGlite full-chain harness applies migrations **0001 through 0051 plus both
+  Shop migrations in filename order**;
+- CI #1774 passed that full-chain preflight, including Shop seed/RLS/RPC checks;
+- added `scripts/run-shop-postgres-staging-tests.sh` for a **real PostgreSQL 17**
+  clean-database gate;
+- added CI job **Shop PostgreSQL staging gate** using an ephemeral
+  `postgres:17` service;
+- the production-smoke job now depends on that PostgreSQL staging gate;
 - added staging validation SQL:
   `docs/data/MAINLAGI_SHOP_STAGING_VALIDATION_2026-09-27.sql`;
-- added staging/rollback/concurrency runbook:
-  `docs/MAINLAGI_SHOP_STAGING_RUNBOOK_2026-09-27.md`;
-- confirmed the canonical documented production Supabase project is
-  `estvtgflwkebomsqlolv`; it is explicitly prohibited as the Batch 05 target.
+- updated the staging/recovery runbook:
+  `docs/MAINLAGI_SHOP_STAGING_RUNBOOK_2026-09-27.md`.
 
-Staging-target evidence:
+The real PostgreSQL gate applies the complete migration chain and asserts:
 
-- the general Supabase project listing returned zero projects, but direct read-only
-  access to canonical production project `estvtgflwkebomsqlolv` succeeds and
-  reports `ACTIVE_HEALTHY`;
-- production has the expected 51 migrations through
-  `0051_world_evidence_advisor_hardening`;
-- there are **zero existing Supabase development branches**;
-- the authorized Remote Desktop device is offline, so no local Supabase CLI/link
-  can be used as an alternate staging target;
-- Supabase reports development-branch cost **US$0.01344/hour**;
-- no branch has been created because explicit owner confirmation of that recurring
-  cost is required before the mutation.
+- 9 seeded Shop products;
+- total initial physical stock = 79;
+- 26 approved runtime media rows;
+- zero Active products after migration;
+- RLS enabled on every public `shop_%` table;
+- sensitive Shop RPC EXECUTE denied to `anon` and `authenticated`;
+- service-role access retained;
+- Draft products remain invisible to anon;
+- anon order/PII reads fail;
+- authenticated product-admin RPC execution fails.
+
+The same gate uses independent PostgreSQL sessions for six race cases:
+
+1. two checkouts competing for the final available unit;
+2. duplicate checkout retry;
+3. duplicate payment settlement;
+4. paid settlement racing expiry;
+5. inventory adjustment racing checkout;
+6. duplicate shipment creation claim.
+
+Acceptance requires no oversell, no negative/reserved-over-on-hand inventory, no
+double stock consumption, safe late-payment handling, and a single shipment lease
+winner.
+
+Paid staging branch decision:
+
+- Supabase reported **US$0.01344/hour** for a development branch;
+- the owner explicitly chose **not** to incur that cost;
+- a paid Supabase branch is therefore **not a Batch 05 requirement**;
+- no branch was created and no cost was incurred.
+
+Hosted Supabase advisor handling under the zero-cost path:
+
+- read-only production baseline was captured before Shop is live:
+  - two existing authenticated SECURITY DEFINER warnings
+    (`record_learning_attempt`, `save_world_progress`);
+  - leaked-password protection disabled;
+  - 16 unused-index INFO findings;
+  - no Shop-specific finding because Shop migrations are not live;
+- Shop-specific hosted advisor review moves to the later
+  **production-pre-activation** gate, after Shop migrations are applied with
+  `SHOP_SALES_ENABLED=false` and before sales can be enabled.
 
 Not performed / not claimed:
 
-- no remote migration application;
-- no staging seed mutation;
-- no Supabase security/performance advisor run;
-- no real-PostgreSQL multi-connection concurrency test;
-- no production database mutation;
-- no provider sandbox/live action.
+- no production migration;
+- no production table/RLS/RPC mutation;
+- no provider sandbox/live transaction;
+- no Shop sales activation;
+- no paid Supabase branch.
 
-Read-only production advisor baseline was captured before Shop staging: two
-existing authenticated SECURITY DEFINER warnings
-(`record_learning_attempt`, `save_world_progress`), leaked-password protection
-disabled, and 16 unused-index INFO findings. None is Shop-specific at this
-pre-Shop baseline.
-
-Batch 05 cannot become `DONE` until the owner confirms the branch cost, a
-non-production Supabase development branch is created, the migration chain is
-applied there, staging validation/advisors are reviewed, and the real-PostgreSQL
-race cases in the runbook pass.
+The PostgreSQL 17 staging job is currently waiting in the GitHub Actions queue
+because the same PR has many concurrent documentation CI runs. Batch 05 is not
+marked `DONE` until that exact real-PostgreSQL gate completes successfully.
 
 ### Current execution pointer
 
@@ -967,16 +994,12 @@ race cases in the runbook pass.
 - Batch 02 is **DONE**.
 - Batch 03 is **DONE**.
 - Batch 04 remains **BLOCKED — owner policy input required**.
-- Batch 05 is **BLOCKED — staging branch cost confirmation required**, after
-  successful repository migration/security preflight.
-- The proposed staging target is a new Supabase development branch created from
-  production baseline. Supabase reports **US$0.01344/hour**. Do not create it until
-  the owner explicitly confirms that cost.
-- After confirmation, create the branch, record its non-production project ref,
-  verify it is not `estvtgflwkebomsqlolv`, then follow
-  `docs/MAINLAGI_SHOP_STAGING_RUNBOOK_2026-09-27.md`.
-- Batch 06 is **not authorized** until Batch 05 remote staging/security/concurrency
-  exit gates pass. Batch 04 also remains a launch blocker.
+- Batch 05 is **IN PROGRESS — zero-cost PostgreSQL 17 CI gate pending**.
+- Do not create a paid Supabase branch.
+- Continue Batch 05 by requiring the **Shop PostgreSQL staging gate** to pass on
+  the current implementation tree, then record its exact CI evidence.
+- Batch 06 is **not authorized** until Batch 05 closes. Batch 04 also remains a
+  launch blocker.
 - Missing physical product facts remain separate per-product activation blockers.
 - PR #359 remains **Draft** and is **not approved for live sales**.
 - `SHOP_SALES_ENABLED` must remain disabled.
