@@ -269,6 +269,7 @@ assert.match(layerCss, /prefers-reduced-motion:\s*reduce/, "character motion res
 assert.match(layerCss, /animation:\s*none\s*!important/, "reduced-motion disables character animation");
 assert.match(globalCss, /\.round-end-character-layer\s*\{[\s\S]*?--character-max-height:\s*120px/, "RoundEnd must express its preferred height through the shared character variable");
 assert.doesNotMatch(globalCss, /\.round-end-character-layer img\s*\{[^}]*max-height\s*:/, "RoundEnd callers must not override CharacterLayer max-height directly");
+assert.match(globalCss, /@media \(orientation: landscape\) and \(max-height: 560px\)[\s\S]*?\.round-end-card\s*\{[\s\S]*?max-height:\s*calc\(var\(--ml-viewport-height, 100dvh\) - 16px\);[\s\S]*?overflow-y:\s*auto;/, "RoundEnd short landscape must stay inside the SI-01 visual viewport without clipping its character band");
 assert.doesNotMatch(globalCss, /\.preflight-character-layer img\s*\{[^}]*max-height\s*:/, "Preflight callers must not override CharacterLayer max-height directly");
 assert.doesNotMatch(learningPlatformCss, /\.motionCharacterLayer img\s*\{[^}]*max-height\s*:/, "Motion hero callers must not override CharacterLayer max-height directly");
 
