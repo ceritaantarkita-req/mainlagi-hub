@@ -1422,3 +1422,15 @@ batches, beginning with Batch 06.
 - https://biteship.com/en/docs/api/rates/retrieve
 - https://biteship.com/en/docs/api/orders/create
 - https://biteship.com/en/docs/api/orders/retrieve
+
+
+### Biteship sandbox product fixture
+
+For provider testing only, use
+`docs/data/MAINLAGI_SHOP_BITESHIP_SANDBOX_FIXTURE_2026-09-27.json`.
+
+The fixture mirrors the current seeded DEFAULT SKUs and seed stock totals, while
+providing provisional positive packed weights/dimensions solely for Sandbox API
+testing. It must never be interpreted as verified production product truth.
+Production activation still requires measured packed values and real apparel size
+variants/stock splits.
