@@ -832,7 +832,7 @@ capacity/card-function data is still unknown remain Draft and fail activation.
 
 #### Batch 04 — operational settings and customer policy contract
 
-Status: **OWNER POLICY APPROVED — private pickup/courier deployment configuration still required**.
+Status: **IMPLEMENTATION COMPLETE — owner policy/public UX complete; private pickup/courier deployment configuration still required before the Batch 04 launch gate can close**.
 
 Technical guard/scaffolding completed on Draft PR #359:
 
@@ -861,7 +861,8 @@ Technical guard/scaffolding completed on Draft PR #359:
 - Shop contract tests lock the approved decision state so policy values cannot
   silently drift, while deployment-only values still fail closed;
 - customer-facing policy/support page: `/shop/policies`, linked from Shop
-  navigation/footer and backed by the same approved policy contract;
+  navigation/footer, checkout, and order-status flow and backed by the same
+  approved policy contract;
 - owner decision packet:
   `docs/MAINLAGI_SHOP_BATCH04_OWNER_DECISIONS_2026-09-27.md`.
 
@@ -900,7 +901,8 @@ Owner approval recorded on 2026-09-27:
 - ambiguous provider state remains `manual_review`.
 
 Customer-facing policy/support UX is implemented and covered by contract + HTTP
-tests.
+tests. The checkout and order-status flow both expose the policy/support path, and
+the public page does not expose private pickup-origin environment fields.
 
 Remaining Batch 04 configuration blockers are **not unresolved policy choices**:
 
