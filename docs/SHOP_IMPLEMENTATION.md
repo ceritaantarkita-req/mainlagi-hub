@@ -28,11 +28,13 @@ Use current Mainlagi coral `#bd492f`, not the older handoff's `#e46c49`.
   checkout, payment redirect, order status and account order list.
 - Public navigation keeps five destinations; Shop takes the former scoreboard
   slot. `/leaderboards` remains available from Main Gerak.
-- Owner-gated `/admin/shop/products`, `/preview`, `/inventory`, `/orders`, `/reports`.
-  Product admin now supports verified product facts, variant/size allocation,
-  measured weight/dimensions, media review and the fail-closed
-  `Draft -> Ready for Review -> Approved -> Active` lifecycle. Unknown physical
-  facts remain blank and block activation rather than being invented.
+- Owner-gated `/admin/shop/products`, `/preview`, `/inventory`, `/orders`, `/reports`,
+  and `/settings`. Product admin supports verified product facts, variant/size
+  allocation, measured weight/dimensions, media review and the fail-closed
+  `Draft -> Ready for Review -> Approved -> Active` lifecycle. The settings
+  surface exposes operational readiness/blockers without exposing private origin
+  values. Unknown physical or operational facts remain blank and block activation
+  or sales rather than being invented.
 - The Shop migration chain now has the foundation migration plus the additive
   Batch 03 admin-workflow migration. Foundation seeds nine **draft** products,
   26 approved unique runtime media rows, nine default variants and 79 total units;
@@ -828,21 +830,83 @@ CI evidence:
 No owner physical fact was fabricated. Products whose real size/weight/material/
 capacity/card-function data is still unknown remain Draft and fail activation.
 
+#### Batch 04 — operational settings and customer policy contract
+
+Status: **BLOCKED — owner input required**.
+
+Technical guard/scaffolding completed on Draft PR #359:
+
+- canonical machine-readable operational contract:
+  `src/lib/shop/operational-policy.json`;
+- the contract explicitly separates **current coded behavior** from
+  **owner-approved policy** and leaves unknown decisions as `null` /
+  `approved=false`;
+- server-side validator:
+  `src/lib/shop/operationalPolicy.ts`;
+- owner readiness surface:
+  `/admin/shop/settings`;
+- `SHOP_SALES_ENABLED=true` is no longer sufficient by itself to open
+  transactions: unresolved operational blockers still return fail-closed;
+- shipping-rate lookup and owner shipment creation also reject execution while
+  operational policy is incomplete;
+- private pickup origin/contact values remain server-environment values and are
+  never written into the repository readiness contract;
+- `BITESHIP_COURIERS` must eventually match the exact owner-approved courier
+  allowlist;
+- Shop contract tests lock the pending decision state so unresolved values cannot
+  silently become guessed defaults.
+
+Source-verified behavior already implemented in code, but **not automatically
+treated as owner policy approval**:
+
+- pending payment/order expiry: **30 minutes**;
+- shipping quote lifetime: **15 minutes**;
+- Biteship collection method: **pickup**;
+- allowed shipping class: parcel; instant service excluded;
+- partial refund behavior: manual/reconciliation review;
+- guest order access: original device cookie or originating authenticated account;
+- outbound email/WhatsApp order notifications: not implemented.
+
+No staging database, provider sandbox, remote webhook, production environment, or
+live provider action was touched in this batch.
+
+Owner decisions still required before Batch 04 can become `DONE`:
+
+1. pickup/warehouse sender identity and origin configuration (actual private values
+   go to server environment, not Git);
+2. exact Biteship courier allowlist;
+3. packing rule and whether handling fee is Rp0 or another explicit amount;
+4. support channel, public contact, and service hours / explicit not-applicable
+   hours policy;
+5. approval of the existing 30-minute payment expiry, or an explicit replacement;
+6. cancellation policy;
+7. return/exchange policy;
+8. refund policy and customer-facing wording, while partial refunds remain manual;
+9. processing, shipping, and refund SLA wording;
+10. guest-order recovery behavior beyond the current cookie/account boundary, or
+    explicit approval to keep the current behavior;
+11. customer notification channels, including an explicit decision if no proactive
+    notification is desired for this release;
+12. damaged item, wrong item, lost shipment, and delayed shipment handling.
+
+Until those decisions are supplied, the Batch 04 exit gate is intentionally not
+satisfied and **Batch 05 is not authorized**.
+
 ### Current execution pointer
 
 - Batch 01 is **DONE**.
 - Batch 02 is **DONE**.
 - Batch 03 is **DONE**.
-- The next executable batch is **Batch 04 — operational settings and customer
-  policy contract**.
-- `docs/data/MAINLAGI_SHOP_PRODUCT_READINESS_2026-09-27.json` remains the
-  machine-readable per-product activation contract and now records Batch 03
-  closure.
-- Missing physical facts remain **per-product activation blockers**; they are not
-  waived by Batch 03 completion.
+- Batch 04 is **BLOCKED — owner input required**.
+- Continue **Batch 04 only** by filling/approving
+  `src/lib/shop/operational-policy.json` from real owner decisions and keeping
+  private pickup values in deployment environment.
+- `docs/data/MAINLAGI_SHOP_PRODUCT_READINESS_2026-09-27.json` records the Batch 04
+  blocker and keeps Batch 05 authorization disabled.
+- Missing physical product facts remain separate per-product activation blockers.
 - PR #359 remains **Draft** and is **not approved for live sales**.
 - `SHOP_SALES_ENABLED` must remain disabled.
-- No staging/provider/production action is authorized by this checkpoint.
+- Do **not** begin staging/provider work until Batch 04 is explicitly closed.
 
 ### Mandatory successor after Shop closure
 
