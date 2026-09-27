@@ -26,6 +26,18 @@ export function CartCheckout({ checkout = false }: { checkout?: boolean }) {
       active = false;
     };
   }, []);
+  async function retryCart() {
+    setBusy(true);
+    setError("");
+    try {
+      const data = await shopRequest<{ lines: CartLine[] }>("cart");
+      setLines(data.lines);
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  }
   const subtotal =
     lines?.reduce(
       (sum, l) =>
@@ -110,7 +122,25 @@ export function CartCheckout({ checkout = false }: { checkout?: boolean }) {
         ) : null}
       </div>
       {lines === null ? (
-        <p>{error ? "Keranjang belum dapat dimuat." : "Memuat keranjang…"}</p>
+        error ? (
+          <div className="shop-empty shop-empty-compact">
+            <h2>Keranjang belum dapat dimuat.</h2>
+            <p>Coba lagi tanpa mengubah isi keranjangmu.</p>
+            <button
+              className="shop-button shop-button-secondary"
+              type="button"
+              disabled={busy}
+              aria-busy={busy}
+              onClick={retryCart}
+            >
+              {busy ? "Mencoba lagi…" : "Coba lagi"}
+            </button>
+          </div>
+        ) : (
+          <p className="shop-loading" aria-live="polite">
+            Memuat keranjang…
+          </p>
+        )
       ) : !lines.length ? (
         <div className="shop-empty">
           <h2>Keranjangmu masih kosong.</h2>
