@@ -755,10 +755,10 @@ wave.
 
 # 25. Bounded implementation sessions
 
-The Journey Map work must be split into sessions that can each finish cleanly. A
-session must not intentionally stop halfway through a migration.
+The Journey Map work must be split into small sessions that can each finish cleanly.
+No session should intentionally stop halfway through a subject migration.
 
-## Session JM-00 — Read-only audit and exact contract
+## JM-00 — Read-only audit and exact contract
 
 Scope:
 
@@ -767,7 +767,7 @@ Scope:
 - inventory current subject/stage/map components and routes;
 - record exact stage counts/names/membership;
 - identify shared vs route-specific code;
-- define implementation file plan.
+- identify final art/assets required for the pilot.
 
 No runtime changes.
 
@@ -777,12 +777,13 @@ Exit:
 - no unknown stage/runtime ownership;
 - no implementation started.
 
-## Session JM-01 — Shared map primitives only
+## JM-01 — Shared journey data/state foundation
 
 Scope:
 
-- create shared journey-map data/types/state helpers;
-- shared stage-state model;
+- create shared journey-map types/data adapters/state helpers;
+- define stage state: completed/current/open/locked;
+- preserve canonical stage ordering and destination routes;
 - no visual migration yet.
 
 Exit:
@@ -790,183 +791,275 @@ Exit:
 - unit tests green;
 - no route behavior changed.
 
-## Session JM-02 — Immersive header
+## JM-02 — Immersive Mainlagi map header
 
 Scope:
 
-- implement the map/game immersive header mode;
-- Back, Mainlagi identity, profile/menu;
+- implement the map/game immersive header mode only;
+- Back/Kembali;
+- Mainlagi identity;
+- compact profile/menu;
 - expanded nav preserves Belajar | Bermain | World | Shop;
-- desktop focus/hover/click + mobile tap behavior.
+- desktop hover/focus/click and mobile tap behavior.
 
 Exit:
 
-- header works independently;
-- accessibility and responsive tests green.
+- header is independently complete;
+- keyboard/touch/accessibility tests green;
+- no subject map migration started.
 
-## Session JM-03 — Belajar desktop pilot: one subject, clean default map
+## JM-03 — Bahasa Inggris desktop clean-map pilot
 
 Scope:
 
-- pilot Bahasa Inggris only;
-- full-page desktop map;
+- Bahasa Inggris only;
+- full-page desktop Learning Journey Map;
 - stage nodes from canonical data;
-- no stage-detail panel yet;
-- Browse All retained secondarily.
+- current/completed/locked visuals;
+- no stage-detail popup yet;
+- Browse All preserved secondarily.
 
 Exit:
 
-- desktop default map complete;
+- default desktop map complete;
+- no dashboard/card window around map;
 - no activity/progression semantics changed;
-- screenshots approved before expansion.
+- screenshot reviewed before continuing.
 
-## Session JM-04 — Belajar stage-open interaction
+## JM-04 — Bahasa Inggris stage-open interaction
 
 Scope:
 
-- stage click/select behavior;
-- floating/detail drawer;
+- click/tap current/open stage;
+- lightweight contextual stage detail;
+- progress summary;
+- `Lanjut belajar`;
 - text-only activity list;
-- Lanjut belajar;
-- close/return-to-map behavior.
+- close/return to clean map.
 
 Exit:
 
-- clean default + stage-open state both complete;
-- no mini-game thumbnail grid;
+- clean and stage-open states both complete;
+- no mini-game thumbnail/icon grid;
 - direct routes verified.
 
-## Session JM-05 — Belajar mobile portrait + landscape
+## JM-05 — Bahasa Inggris responsive orientation
 
 Scope:
 
-- true portrait map composition;
-- landscape composition;
+- phone portrait vertical map;
+- phone landscape map;
+- tablet portrait/landscape;
 - portrait bottom-sheet stage detail;
-- preserve selected/open state across rotation.
+- preserve selected/open state across orientation change.
 
 Exit:
 
-- phone/tablet orientation matrix green;
-- no overflow;
-- no state reset.
+- orientation matrix green;
+- no horizontal overflow;
+- no state reset;
+- screenshots manually reviewed.
 
-## Session JM-06 — Shared Belajar engine extraction
+## JM-06 — Shared engine extraction + Bahasa Indonesia proof
 
 Scope:
 
-- remove English-specific assumptions from pilot;
-- theme/data adapter;
+- remove English-specific assumptions from the pilot;
+- introduce subject theme/data adapter;
 - stage-count-agnostic rendering;
-- chapter/area continuation support.
+- connected area/chapter support;
+- migrate **Bahasa Indonesia only** as the first second-subject proof.
 
 Exit:
 
-- shared engine can render a second subject from canonical data without bespoke
-  component duplication.
+- English still green;
+- Bahasa Indonesia complete;
+- no bespoke duplicate map component.
 
-## Session JM-07 — Belajar subjects batch A
+## JM-07 — Matematika migration
 
 Scope:
 
-- Bahasa Indonesia;
-- Matematika;
-- Iqro;
-- Huruf & Menulis.
+- Matematika only;
+- map theme/data binding;
+- stage-open detail;
+- portrait/landscape;
+- representative route QA.
 
 Exit:
 
-- all four migrated and individually QA-verified;
-- no subject-specific runtime fork.
+- Matematika complete and independently green.
 
-## Session JM-08 — Belajar subjects batch B
+## JM-08 — Iqro migration
 
 Scope:
 
-- Logika;
-- Sains;
-- Mewarnai;
-- Menggambar.
+- Iqro only;
+- map theme/data binding;
+- stage-open detail;
+- portrait/landscape;
+- representative route QA.
 
 Exit:
 
-- all nine Belajar subjects use the canonical map foundation;
-- Browse All and direct routes preserved.
+- Iqro complete and independently green.
 
-## Session JM-09 — Belajar regression closure
+## JM-09 — Huruf & Menulis migration
 
 Scope:
 
-- nine-subject route matrix;
-- stage membership/order;
+- Huruf & Menulis only;
+- map theme/data binding;
+- stage-open detail;
+- portrait/landscape;
+- representative route QA.
+
+Exit:
+
+- Huruf & Menulis complete and independently green.
+
+## JM-10 — Logika migration
+
+Scope:
+
+- Logika only;
+- map theme/data binding;
+- stage-open detail;
+- portrait/landscape;
+- representative route QA.
+
+Exit:
+
+- Logika complete and independently green.
+
+## JM-11 — Sains migration
+
+Scope:
+
+- Sains only;
+- map theme/data binding;
+- stage-open detail;
+- portrait/landscape;
+- representative route QA.
+
+Exit:
+
+- Sains complete and independently green.
+
+## JM-12 — Mewarnai migration
+
+Scope:
+
+- Mewarnai only;
+- preserve creative-workspace boundaries;
+- map theme/data binding;
+- stage-open detail;
+- portrait/landscape;
+- representative route QA.
+
+Exit:
+
+- Mewarnai complete;
+- creative canvas/workspace behavior unchanged.
+
+## JM-13 — Menggambar migration
+
+Scope:
+
+- Menggambar only;
+- preserve creative-workspace boundaries;
+- map theme/data binding;
+- stage-open detail;
+- portrait/landscape;
+- representative route QA.
+
+Exit:
+
+- Menggambar complete;
+- creative canvas/workspace behavior unchanged.
+
+## JM-14 — Belajar nine-subject regression closure
+
+Scope:
+
+- all nine subject maps;
+- canonical stage count/order;
 - recommendation/current-stage integration;
+- stage membership and Browse All;
+- direct routes;
 - desktop/portrait/landscape screenshots;
 - accessibility/overflow/console checks.
 
 Exit:
 
-- Belajar Journey Map wave independently releasable.
+- all nine Belajar subjects use one shared journey foundation;
+- Belajar Journey Map wave is independently releasable.
 
-## Session JM-10 — Petualangan Uang read-only map translation
+## JM-15 — Petualangan Uang read-only adapter audit
 
 Scope:
 
-- map existing eight stages into the shared journey model;
-- identify World-specific adapter needs;
-- exact evidence/story/cast boundary;
-- no World visual change yet.
+- exact eight-stage order;
+- World stage/open/current/completed/locked mapping;
+- evidence/story boundaries;
+- authored Gavi + Paca cast;
+- identify World-specific adapter needs.
+
+No World visual/runtime change.
 
 Exit:
 
 - exact translation plan;
 - zero World behavior changes.
 
-## Session JM-11 — Petualangan Uang desktop redesign
+## JM-16 — Petualangan Uang desktop redesign
 
 Scope:
 
-- full-page World adventure map;
-- corrected header/environment;
-- eight authored stages;
-- canonical Gavi/Paca cast;
+- full-page desktop World Adventure Journey Map;
+- corrected environment/header;
+- eight authored stage checkpoints;
+- canonical character runtime;
 - no obsolete header art;
-- no completion/evidence change.
+- no evidence/story/completion semantic change.
 
 Exit:
 
-- desktop World map complete and QA green.
+- desktop World map complete;
+- World tests and screenshot review green.
 
-## Session JM-12 — Petualangan Uang mobile responsive
+## JM-17 — Petualangan Uang responsive orientation
 
 Scope:
 
-- portrait vertical adventure composition;
-- landscape composition;
-- selected-stage state preservation;
+- phone portrait vertical adventure map;
+- phone landscape;
+- tablet portrait/landscape;
+- selected-stage/detail state preservation;
 - character safe areas.
 
 Exit:
 
-- World responsive matrix green.
+- World responsive matrix green;
+- no crop/overflow/state reset.
 
-## Session JM-13 — Integrated regression / production closure
+## JM-18 — Integrated journey-map production closure
 
 Scope:
 
-- Belajar + World journey-map matrix;
-- shared Completion/Share interoperability;
-- orientation changes;
-- CI;
-- production smoke;
-- docs/screenshots/checkpoint.
+- Belajar + World journey-map regression matrix;
+- Completion/Share interoperability;
+- character safe-area checks;
+- orientation-change checks;
+- full CI;
+- merged-main production smoke;
+- canonical docs/screenshots/checkpoint.
 
 Exit:
 
 - exact merged SHA recorded;
 - production verification recorded;
 - no known journey-map regression left open.
-
----
 
 # 26. Session sizing rule
 
