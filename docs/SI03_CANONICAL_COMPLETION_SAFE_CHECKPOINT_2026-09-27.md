@@ -1,6 +1,6 @@
 # SI-03 Canonical Completion — Safe Checkpoint — 27 September 2026
 
-Status: **IMPLEMENTED ON BRANCH / CI VALIDATION PENDING / NOT MERGED**
+Status: **IMPLEMENTATION HEAD FULL GREEN / FINAL DOCS-HEAD CI PENDING / NOT MERGED**
 
 ## Resume point
 
@@ -91,9 +91,32 @@ Browser acceptance covers canonical marker/context/surface, exactly three stars,
 
 The browser test is wired into the permanent mobile route gate immediately after SI-01 orientation QA.
 
+## PR-green implementation evidence
+
+Final green implementation head before this documentation-only update:
+
+```text
+head:       8120b3e28165b0490e115b53c4029ffc54caa6bc
+PR:         #365
+PR CI:      #1937 / run 36333525911 — FULL SUCCESS
+Ubuntu:     PASS
+Windows:    PASS
+build:      PASS
+dependency: PASS
+secret:     PASS
+Chromium:   PASS
+visual baseline: PASS
+```
+
+The dedicated SI-03 browser QA passed before the permanent route matrix and proved the exact praise / ★★★ / Back / Again / Next / Share contract at 390x844, 320x740 and 844x390, including focus, viewport containment, Share handoff and preserved progression.
+
+Historical CI failures #1932/#1933 were test-harness issues, not runtime regressions: two brittle source assertions were hardened. Chromium #1932 independently proved the new SI-03 browser acceptance passed, then exposed stale permanent-route expectations for the legacy label `Try Again`. Those permanent expectations were migrated to the approved canonical label `Again`; CI #1937 subsequently passed the full matrix.
+
+This documentation update intentionally creates one final docs-only head. It must also pass the full PR CI before merge.
+
 ## Merge gate
 
-Do not merge until latest-head Ubuntu, Windows, production build, dependency audit, secret scan, Chromium mobile route QA and permanent visual baseline are all green. After merge require push-to-main full green plus exact Cloudflare production smoke, then promote this checkpoint to merged/live verified.
+Do not merge until the final docs-only head is full green across Ubuntu, Windows, production build, dependency audit, secret scan, Chromium mobile route QA and permanent visual baseline. After merge require push-to-main full green plus exact Cloudflare production smoke, then promote this checkpoint to merged/live verified.
 
 ## Non-scope
 
