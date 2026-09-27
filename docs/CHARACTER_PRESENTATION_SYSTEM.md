@@ -211,6 +211,25 @@ Reference/design sheets are never runtime fallbacks.
 
 Unknown World IDs fail closed to no cast. Product surfaces must not infer a new World cast merely because approved character assets exist.
 
+### 27 September journey-map reuse boundary
+
+The later owner-approved Journey Map System reuses this existing character runtime;
+it does not authorize a parallel map-character asset system.
+
+For future Belajar/World journey maps:
+
+- resolve characters through the canonical character resolver/asset registry;
+- never bake canonical character sprites into journey-map background art when the
+  character needs to remain stateful/dynamic;
+- do not invent substitute child/mascot identities from generated mockups;
+- keep safe-area / no-crop presentation;
+- do not show floating character-name labels underneath;
+- Petualangan Uang keeps the authored Gavi + Paca cast unless a separate authored
+  cast decision changes it.
+
+Canonical map UX/visual contract:
+`MAINLAGI_CANONICAL_JOURNEY_MAP_SYSTEM_2026-09-27.md`.
+
 ## Regression contract — CURRENT
 
 `npm run test:learning:character-runtime` must verify:
