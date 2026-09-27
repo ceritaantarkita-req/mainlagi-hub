@@ -493,6 +493,39 @@ try {
     /order cannot be packed/,
   );
   await pay(pendingPack, "expired", "expire-pending", 79000);
+  const challengeOrder = await checkout(await cart());
+  await pay(challengeOrder, "pending", "challenge-hold", 79000);
+  assert.equal(
+    (
+      await one(
+        "select (payment_status='pending' and order_status='pending_payment') ok from shop_orders where order_number=$1",
+        [challengeOrder],
+      )
+    ).ok,
+    true,
+    "challenge/pending provider state cannot mark an order paid",
+  );
+  assert.equal(
+    (
+      await one(
+        "select reserved from shop_inventory_balances where variant_id=$1",
+        [v],
+      )
+    ).reserved,
+    1,
+    "challenge/pending provider state retains the reservation",
+  );
+  await pay(challengeOrder, "expired", "challenge-expire", 79000);
+  assert.equal(
+    (
+      await one(
+        "select reserved from shop_inventory_balances where variant_id=$1",
+        [v],
+      )
+    ).reserved,
+    0,
+    "expired challenge/pending order releases the reservation",
+  );
   const adjustment = [
     v,
     2,
@@ -599,7 +632,7 @@ try {
   ]);
   await assert.rejects(checkout(emptyBalance), /inventory missing/);
   console.log(
-    "Shop SQL: seeds, RLS, owner product workflow, fail-closed activation, variant stock conservation/history lock, media guards, audit logs, reservation, payment lease retry, duplicate/out-of-order payment idempotency, amount/transaction identity, late payment, quote invalidation, missing inventory, packing, shipment leases, no status regression, refund release, adjustment idempotency, reporting PASS",
+    "Shop SQL: seeds, RLS, owner product workflow, fail-closed activation, variant stock conservation/history lock, media guards, audit logs, reservation, payment lease retry, duplicate/out-of-order payment idempotency, amount/transaction identity, challenge hold, late payment, quote invalidation, missing inventory, packing, shipment leases, no status regression, refund release, adjustment idempotency, reporting PASS",
   );
 } finally {
   await db.close();
