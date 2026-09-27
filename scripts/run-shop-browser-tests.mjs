@@ -247,7 +247,7 @@ async function auditCheckout(browser, viewport) {
 
   await page.goto(baseUrl + "/shop/cart", { waitUntil: "networkidle", timeout: 45_000 });
   assert.equal(await page.getByText("Kaos Anak Mainlagi — Sahabat Ceria Putih").count(), 1);
-  assert.match(await page.locator(".shop-summary").innerText(), /Rp138\.000/);
+  assert.match(await page.locator(".shop-summary").innerText(), /Rp\s*138\.000/);
   await noOverflow(page, `cart ${viewport.width}`);
   await page.screenshot({ path: path.join(outDir, `cart-${viewport.width}.png`), fullPage: true });
 
