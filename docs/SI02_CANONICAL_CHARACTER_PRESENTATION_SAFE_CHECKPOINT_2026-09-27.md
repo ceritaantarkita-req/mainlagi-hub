@@ -194,6 +194,47 @@ test: forbid caller max-height overrides on CharacterLayer
 
 A fresh latest-head full CI after these fixes remains mandatory.
 
+### PR CI #1862 / run 36323609731
+
+This run included the shared height-ownership fixes. All non-browser gates passed and SI-02 browser QA advanced through the previous RoundEnd top-crop assertion. The next assertion then caught aspect-ratio distortion on the same RoundEnd character.
+
+Root cause:
+
+- shared/caller CSS still used a definite `width`;
+- the shared slot then applied a smaller `max-height`;
+- the browser could clamp height while leaving the definite width, distorting the image box.
+
+Canonical sizing was corrected so CharacterLayer images use:
+
+```text
+width: auto
+max-width: <presentation preference>
+max-height: <shared slot bound>
+```
+
+The same presentation-only correction was applied to known CharacterLayer caller width preferences in Bermain, World and the legacy motion hero so intrinsic 500x650 SVG proportions remain authoritative.
+
+Fix commits:
+
+```text
+e9743583ed9d0a627e23f1a697f76d90bb34885a
+fix: preserve intrinsic character aspect ratio
+
+96e147235af2aa3a8405f12df9259bc2ff4f1879
+fix: use max-width preferences for Bermain characters
+
+e93194edf57a04cb1d27c6788af59b620d78caf0
+fix: preserve World character intrinsic ratio
+
+cfdccf373f41f727feb6d458c57cfffda0510f8f
+fix: preserve motion character intrinsic ratio
+
+5222d0b0733e54d4e52479eb7ccb84fa58b1f0fa
+test: lock intrinsic-ratio character sizing
+```
+
+This checkpoint remains branch-safe only until a later latest-head run is full green.
+
 ## Merge/production gate
 
 Do **not** merge PR #363 until:
