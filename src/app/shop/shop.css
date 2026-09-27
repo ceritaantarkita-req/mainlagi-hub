@@ -524,3 +524,54 @@
     transition: none;
   }
 }
+
+.shop-policy-page {
+  max-width: 980px;
+  margin: 0 auto;
+}
+.shop-policy-lead {
+  max-width: 720px;
+  margin-bottom: 34px;
+  font-size: 17px;
+}
+.shop-policy-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+.shop-policy-grid .shop-summary {
+  order: initial;
+}
+.shop-policy-grid .shop-summary h2 {
+  font-size: 23px;
+}
+.shop-policy-grid .shop-summary p {
+  display: block;
+}
+.shop-support-card {
+  margin-top: 28px;
+  padding: 30px;
+  border: 1px solid #d4ded5;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.shop-support-card h2,
+.shop-support-card p {
+  margin-top: 0;
+}
+@media (max-width: 760px) {
+  .shop-policy-grid {
+    grid-template-columns: 1fr;
+  }
+  .shop-support-card {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .shop-support-card .shop-button {
+    width: 100%;
+    margin-right: 0;
+  }
+}
