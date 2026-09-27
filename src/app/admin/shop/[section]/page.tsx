@@ -12,6 +12,7 @@ import { ShopCatalog } from "@/components/shop/ShopCatalog";
 import { previewProducts } from "@/lib/shop/catalog";
 import { db, result } from "@/lib/shop/server";
 import { rupiah, type Product, type Order } from "@/lib/shop/types";
+import { operationalPolicySafeSummary } from "@/lib/shop/operationalPolicy";
 export const dynamic = "force-dynamic";
 export default async function ShopAdminPage({
   params,
@@ -24,7 +25,7 @@ export default async function ShopAdminPage({
   if (!gate.ok) return <AdminGate title="Admin Shop" reason={gate.reason} />;
   const { section } = await params;
   if (
-    !["products", "preview", "orders", "inventory", "reports"].includes(section)
+    !["products", "preview", "orders", "inventory", "reports", "settings"].includes(section)
   )
     notFound();
   if (section === "preview") {
@@ -40,6 +41,75 @@ export default async function ShopAdminPage({
         preview
         detailBase="/admin/shop/preview?slug="
       />
+    );
+  }
+  if (section === "settings") {
+    const readiness = operationalPolicySafeSummary();
+    return (
+      <main className="shop-flow">
+        <h1>Kesiapan operasional Shop</h1>
+        <p>
+          Halaman ini hanya menampilkan readiness. Nilai privat pickup/origin tetap
+          disimpan di environment server dan tidak ditampilkan di browser.
+        </p>
+        <div className="shop-summary">
+          <h2>Status</h2>
+          <p>
+            Contract: <strong>{readiness.status}</strong> · Version:{" "}
+            {readiness.version}
+          </p>
+          <p>
+            Origin environment:{" "}
+            <strong>{readiness.environment.originReady ? "lengkap" : "belum lengkap"}</strong>
+          </p>
+          <p>
+            Courier env:{" "}
+            <strong>
+              {readiness.environment.configuredCouriers.length
+                ? readiness.environment.configuredCouriers.join(", ")
+                : "belum dikonfigurasi"}
+            </strong>
+          </p>
+        </div>
+        <section className="shop-summary">
+          <h2>Blocker sebelum sales dapat dibuka</h2>
+          {readiness.blockers.length ? (
+            <ul>
+              {readiness.blockers.map((blocker) => (
+                <li key={blocker.code}>
+                  <strong>{blocker.code}</strong> — {blocker.message}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>Tidak ada blocker operasional.</p>
+          )}
+        </section>
+        <section className="shop-summary">
+          <h2>Behavior yang sudah ada di kode</h2>
+          <ul>
+            <li>
+              Payment expiry:{" "}
+              {readiness.currentImplementedBehavior.paymentExpiryMinutes} menit.
+            </li>
+            <li>
+              Shipping quote expiry:{" "}
+              {readiness.currentImplementedBehavior.shippingQuoteExpiryMinutes} menit.
+            </li>
+            <li>Collection: pickup.</li>
+            <li>Shipping: parcel; instant tidak diizinkan.</li>
+            <li>Partial refund: manual review.</li>
+            <li>
+              Guest order: original device cookie atau akun asal yang membuat order.
+            </li>
+            <li>Outbound email/WhatsApp notification belum diimplementasikan.</li>
+          </ul>
+        </section>
+        <p>
+          Keputusan owner yang belum disetujui tetap menjadi blocker. Jangan isi
+          nilai perkiraan hanya untuk menghilangkan blocker.
+        </p>
+      </main>
     );
   }
   const c = await db();
@@ -63,9 +133,14 @@ export default async function ShopAdminPage({
           bagi stok tersebut ke ukuran nyata—jangan menggandakan total ke setiap
           ukuran.
         </p>
-        <Link className="shop-button" href="/admin/shop/preview">
-          Tinjau visual Shop
-        </Link>
+        <div>
+          <Link className="shop-button" href="/admin/shop/preview">
+            Tinjau visual Shop
+          </Link>{" "}
+          <Link className="shop-button shop-button-secondary" href="/admin/shop/settings">
+            Kesiapan operasional
+          </Link>
+        </div>
         <div className="shop-flow">
           {products.map((p) => (
             <ProductAdminEditor key={p.id} product={p} />
