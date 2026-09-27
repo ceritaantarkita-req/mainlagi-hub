@@ -235,7 +235,7 @@
     "basis": "Explicit owner instruction to continue Batch 05 despite Batch 04 remaining a launch blocker.",
     "scope": "Staging database, migration-chain, RLS/RPC/security and concurrency acceptance only. No production or live-provider action."
   },
-  "batch05Status": "in_progress_zero_cost_postgres_ci",
+  "batch05Status": "done",
   "batch05Implementation": {
     "repositoryMainMigrationCount": 51,
     "branchMigrationCount": 53,
@@ -252,8 +252,8 @@
     "localRemoteDesktopAvailable": false,
     "remoteMigrationApplied": false,
     "advisorsRun": false,
-    "realPostgresConcurrencyRun": false,
-    "note": "Owner explicitly declined paid Supabase branching and approved zero-cost PostgreSQL 17 local/CI staging. Production remains untouched. Batch 05 closes only after the new real-PostgreSQL CI gate passes full migrations, RLS/RPC security, and six independent-session concurrency cases.",
+    "realPostgresConcurrencyRun": true,
+    "note": "Batch 05 closed on zero-cost PostgreSQL 17 CI evidence. Full 53-migration chain, Shop seed state, RLS/RPC security and six independent-session concurrency races passed. Production Supabase remains untouched and SHOP_SALES_ENABLED remains disabled.",
     "directCanonicalProjectRead": true,
     "canonicalProductionProject": "estvtgflwkebomsqlolv",
     "productionStatus": "ACTIVE_HEALTHY",
@@ -281,10 +281,29 @@
     "zeroCostStrategyApproved": true,
     "postgresStagingScript": "scripts/run-shop-postgres-staging-tests.sh",
     "githubActionsJob": "Shop PostgreSQL staging gate",
-    "hostedShopAdvisorGate": "deferred_to_production_pre_activation_after_shop_migrations"
+    "hostedShopAdvisorGate": "deferred_to_production_pre_activation_after_shop_migrations_with_sales_disabled",
+    "realPostgresConcurrencyCasesPassed": 6,
+    "fullPostgresMigrationChainPassed": true,
+    "rlsRpcSecurityPassed": true,
+    "ciEvidence": {
+      "implementationHead": "e8d0b57dfbc286545d25107bc75dd1c36e4d3786",
+      "workflowRun": 1809,
+      "workflowRunId": 36300966067,
+      "postgresJob": "success",
+      "qualityGate": "success",
+      "productionBuild": "success",
+      "windowsCompatibility": "success",
+      "dependencyAudit": "success",
+      "secretHistoryScan": "success",
+      "mobileRouteQaAtCheckpoint": "in_progress_unrelated_to_batch05_exit_gate"
+    },
+    "productionDatabaseMutation": false,
+    "paidSupabaseBranchCreated": false
   },
   "batch06Authorization": {
-    "allowed": false,
-    "reason": "Wait for the zero-cost PostgreSQL 17 Batch 05 gate to pass. Batch 04 owner-policy blockers remain a separate launch blocker."
+    "allowed": true,
+    "status": "not_started",
+    "scope": "Midtrans sandbox only. No live provider action, no production migration, and Batch 04 owner-policy blockers remain a launch blocker.",
+    "reason": "Batch 05 technical database/security/concurrency gate is complete."
   }
 }
