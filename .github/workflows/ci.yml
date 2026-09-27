@@ -403,6 +403,10 @@ jobs:
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       BITESHIP_TEST_API_KEY: ${{ secrets.BITESHIP_TEST_API_KEY }}
       BITESHIP_WEBHOOK_SECRET: ${{ secrets.BITESHIP_WEBHOOK_SECRET }}
+      BITESHIP_ORIGIN_CONTACT_NAME: ${{ secrets.BITESHIP_ORIGIN_CONTACT_NAME }}
+      BITESHIP_ORIGIN_CONTACT_PHONE: ${{ secrets.BITESHIP_ORIGIN_CONTACT_PHONE }}
+      BITESHIP_ORIGIN_ADDRESS: ${{ secrets.BITESHIP_ORIGIN_ADDRESS }}
+      BITESHIP_ORIGIN_POSTAL_CODE: ${{ secrets.BITESHIP_ORIGIN_POSTAL_CODE }}
     steps:
       - uses: actions/checkout@v4
       - name: Refuse production/main deployment
