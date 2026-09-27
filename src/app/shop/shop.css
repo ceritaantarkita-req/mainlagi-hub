@@ -763,3 +763,12 @@ details.shop-cart-line > summary {
   text-decoration: underline;
   text-underline-offset: 3px;
 }
+
+
+/* Batch 10: utility navigation stays large enough for touch and keyboard users. */
+.shop-footer a,
+.shop-breadcrumb a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
