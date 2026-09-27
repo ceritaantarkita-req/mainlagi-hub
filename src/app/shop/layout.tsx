@@ -16,7 +16,7 @@ export default function ShopLayout({
         <Link href="/shop" className="shop-wordmark">
           mainlagi<span>shop</span>
         </Link>
-        <div>
+        <div className="shop-nav-links">
           <Link href="/shop/policies">Kebijakan</Link>
           <Link href="/shop/orders">Pesanan</Link>
           <Link href="/shop/cart">Keranjang</Link>
