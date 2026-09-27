@@ -185,6 +185,7 @@ for (const [name, decision] of Object.entries(operationalPolicy.ownerDecisions))
   );
 }
 assert.deepEqual(operationalPolicy.ownerDecisions.courierAllowlist.couriers, []);
+assert.deepEqual(operationalPolicy.ownerDecisions.courierAllowlist.services, []);
 assert.equal(operationalPolicy.ownerDecisions.support.contact, null);
 assert.equal(operationalPolicy.ownerDecisions.paymentExpiry.minutes, null);
 assert.equal(operationalPolicy.ownerDecisions.cancellation.publicPolicy, null);
@@ -192,6 +193,8 @@ assert.equal(operationalPolicy.ownerDecisions.returnExchange.publicPolicy, null)
 assert.equal(operationalPolicy.ownerDecisions.refund.publicPolicy, null);
 assert.match(operationalPolicySource, /operationalPolicyBlockers/);
 assert.match(operationalPolicySource, /couriers_env_mismatch/);
+assert.match(operationalPolicySource, /operationalCourierServiceAllowed/);
+assert.match(shopOperationsSource, /operationalCourierServiceAllowed/);
 assert.match(shopServerSource, /operationalPolicyBlockers\(\)/);
 assert.match(
   shopServerSource,

@@ -832,7 +832,7 @@ capacity/card-function data is still unknown remain Draft and fail activation.
 
 #### Batch 04 — operational settings and customer policy contract
 
-Status: **BLOCKED — owner input required**.
+Status: **IN PROGRESS — owner decision packet prepared; explicit approval/private configuration still required**.
 
 Technical guard/scaffolding completed on Draft PR #359:
 
@@ -853,8 +853,15 @@ Technical guard/scaffolding completed on Draft PR #359:
   never written into the repository readiness contract;
 - `BITESHIP_COURIERS` must eventually match the exact owner-approved courier
   allowlist;
+- an exact courier/service pair allowlist is now also part of the operational
+  contract, so approving a courier cannot accidentally expose all of that
+  courier's same-day/express/cargo services;
+- shipping-rate responses must pass both the courier-code boundary and the exact
+  approved courier/service pair boundary;
 - Shop contract tests lock the pending decision state so unresolved values cannot
-  silently become guessed defaults.
+  silently become guessed defaults;
+- owner decision packet:
+  `docs/MAINLAGI_SHOP_BATCH04_OWNER_DECISIONS_2026-09-27.md`.
 
 Source-verified behavior already implemented in code, but **not automatically
 treated as owner policy approval**:
@@ -874,7 +881,7 @@ Owner decisions still required before Batch 04 can become `DONE`:
 
 1. pickup/warehouse sender identity and origin configuration (actual private values
    go to server environment, not Git);
-2. exact Biteship courier allowlist;
+2. exact Biteship courier **and service-pair** allowlist;
 3. packing rule and whether handling fee is Rp0 or another explicit amount;
 4. support channel, public contact, and service hours / explicit not-applicable
    hours policy;

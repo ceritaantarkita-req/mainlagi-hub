@@ -24,7 +24,10 @@ import {
 } from "./providers";
 import { validMidtransStatus } from "./protocol";
 import type { Order, OrderItem, Quote } from "./types";
-import { operationalPolicyBlockers } from "./operationalPolicy";
+import {
+  operationalCourierServiceAllowed,
+  operationalPolicyBlockers,
+} from "./operationalPolicy";
 export async function rates(b: Record<string, unknown>) {
   if (operationalPolicyBlockers().length)
     throw new ShopError("Konfigurasi operasional Shop belum lengkap.", 503);
@@ -85,6 +88,10 @@ export async function rates(b: Record<string, unknown>) {
         p.shipping_type === "parcel" &&
         p.service_type !== "instant" &&
         p.available_collection_method?.includes("pickup") &&
+        operationalCourierServiceAllowed(
+          p.courier_code,
+          p.courier_service_code,
+        ) &&
         Number.isSafeInteger(p.price) &&
         p.price >= 0 &&
         couriers().split(",").includes(p.courier_code),

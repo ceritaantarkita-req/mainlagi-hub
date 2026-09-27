@@ -30,6 +30,7 @@ type OperationalPolicyContract = {
     courierAllowlist: {
       approved: boolean;
       couriers: string[];
+      services: string[];
       allowedServiceClass: {
         shippingType: string;
         collectionMethod: string;
@@ -105,6 +106,30 @@ function normalizedCouriers(value: string | undefined) {
     .sort();
 }
 
+const normalizedPolicyCouriers = () =>
+  [...operationalPolicy.ownerDecisions.courierAllowlist.couriers]
+    .map((item) => item.trim().toLowerCase())
+    .filter(Boolean)
+    .sort();
+
+const normalizedPolicyServices = () =>
+  [...operationalPolicy.ownerDecisions.courierAllowlist.services]
+    .map((item) => item.trim().toLowerCase())
+    .filter(Boolean)
+    .sort();
+
+export function operationalCourierServiceAllowed(
+  courierCode: string,
+  serviceCode: string,
+) {
+  if (operationalPolicy.ownerDecisions.courierAllowlist.approved !== true)
+    return false;
+  const key = `${courierCode.trim().toLowerCase()}/${serviceCode
+    .trim()
+    .toLowerCase()}`;
+  return normalizedPolicyServices().includes(key);
+}
+
 export function operationalEnvironmentStatus(env: EnvLike = process.env) {
   const origin = {
     contactName: Boolean(text(env.BITESHIP_ORIGIN_CONTACT_NAME)),
@@ -149,27 +174,38 @@ export function operationalPolicyBlockers(
       "Environment pickup origin Biteship belum lengkap atau formatnya tidak valid.",
     );
 
+  const approvedCouriers = normalizedPolicyCouriers();
+  const approvedServices = normalizedPolicyServices();
   if (
     decision.courierAllowlist.approved !== true ||
-    decision.courierAllowlist.couriers.length === 0
+    approvedCouriers.length === 0 ||
+    approvedServices.length === 0
   )
     add(
       "couriers_not_approved",
-      "Courier allowlist belum disetujui.",
+      "Courier dan service allowlist belum disetujui.",
     );
   else {
-    const approved = [...decision.courierAllowlist.couriers]
-      .map((item) => item.toLowerCase())
-      .sort();
     if (
-      approved.length !== environment.configuredCouriers.length ||
-      approved.some(
+      approvedCouriers.length !== environment.configuredCouriers.length ||
+      approvedCouriers.some(
         (item, index) => item !== environment.configuredCouriers[index],
       )
     )
       add(
         "couriers_env_mismatch",
         "BITESHIP_COURIERS harus sama persis dengan courier allowlist yang disetujui.",
+      );
+
+    const invalidServices = approvedServices.filter((item) => {
+      if (!/^[a-z0-9_-]+\/[a-z0-9_-]+$/.test(item)) return true;
+      const [courier] = item.split("/");
+      return !approvedCouriers.includes(courier);
+    });
+    if (invalidServices.length)
+      add(
+        "courier_services_invalid",
+        "Service allowlist harus berupa courier/service dan hanya memakai courier yang disetujui.",
       );
   }
 
