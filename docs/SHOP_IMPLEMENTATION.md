@@ -509,16 +509,64 @@ Exit gate:
 - Launch status, exact production SHA, migration state, provider configuration
   evidence and remaining non-blocking debt are recorded in canonical docs.
 
+### Batch checkpoint ledger
+
+#### Batch 01 — foundation/CI gate lock
+
+Status: **DONE**.
+
+Verified release-candidate baseline:
+
+- PR: #359 — `feat(shop): gated commerce foundation and draft storefront`.
+- Branch: `agent/mainlagi-shop-foundation-20260927`.
+- Verified PR head: `1f6c895b78ce68b95ddf174f829b2ac9faccd3d2`.
+- Base `main`: `bf69beea081cff4eb1cf9f1a54ed3ef9aba6408a`.
+- Branch comparison at closure: 3 commits ahead / 0 behind.
+- GitHub Actions: **Mainlagi TV V3 CI #1715**, run `36292679482`,
+  completed **success** on the exact verified PR head.
+- Successful PR jobs: Secret history scan, Windows compatibility, Production
+  dependency audit, Production build, Quality gate (Ubuntu), and Mobile route QA
+  (Chromium).
+- The Ubuntu quality gate included successful structure/source validation,
+  Batch 16 security regressions, physical-device harness contract, Shop
+  transaction/provider contracts, typecheck, lint, engine tests, learning
+  activity audit, gameplay-distribution audit, simulations, and Batch 17 final
+  acceptance contracts.
+- The PR-only Cloudflare production-smoke job was skipped by workflow condition;
+  that skip is not treated as a failure or as production verification.
+- The preceding implementation head
+  `c636ca1eb21b20da80e787d9468ba05a61fae91d` also passed CI #1714.
+- The two commits between that implementation head and the verified Batch 01 head
+  changed only `docs/SHOP_IMPLEMENTATION.md` and `docs/README.md`; no runtime,
+  migration, schema, asset, provider or environment behavior changed in that gap.
+
+Actions deliberately **not** performed in Batch 01:
+
+- no Supabase migration was applied remotely;
+- no staging or production database was mutated;
+- no Midtrans or Biteship transaction/configuration was performed;
+- no production secret was added;
+- no merge or deployment was performed;
+- PR #359 remains Draft;
+- `SHOP_SALES_ENABLED` remains disabled.
+
+Owner decisions/data still missing after Batch 01 include the physical product,
+variant/stock, media-approval and operational-policy inputs enumerated in Batches
+02 and 04.
+
+The documentation commit that records this checkpoint is documentation-only and
+does not change the verified Shop runtime tree.
+
 ### Current execution pointer
 
-As of this playbook addition:
-
-- PR #359 remains **Draft**.
-- The implementation remains **not approved for live sales**.
+- Batch 01 is **DONE**.
+- The next executable batch is **Batch 02 — product truth, media approval and
+  inventory contract**.
+- PR #359 remains **Draft** and is **not approved for live sales**.
 - `SHOP_SALES_ENABLED` must remain disabled.
-- The next executable batch is **Batch 01 — foundation/CI gate lock**.
-- Owner-supplied product facts and operational policy are hard dependencies for
-  Batches 02 and 04; do not invent them to keep implementation moving.
+- Do not start staging/provider work merely because Batch 01 is green.
+- Batch 02 may proceed only with verified owner-supplied facts/decisions; unknown
+  physical product facts must remain draft rather than being inferred.
 
 ## Verification completed
 
