@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, ArrowClockwise, ArrowRight, Copy, ShareNetwork, Star } from "@phosphor-icons/react";
+import { Copy, ShareNetwork } from "@phosphor-icons/react";
 import { useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getNextActivityInStage, type LearningActivity } from "@/lib/learning/system";
+import { CanonicalCompletion } from "@/components/CanonicalCompletion";
 import styles from "./ActivityCompletion.module.css";
 
 const PRAISE = ["Great job!", "Excellent!", "Hebat!", "Keren!"];
@@ -86,25 +87,18 @@ export function ActivityCompletion({
   };
 
   return (
-    <section className={styles.overlay} data-activity-completion aria-labelledby="completion-title">
-      <div className={styles.completion}>
-      <div className={styles.praise} id="completion-title">{praise}</div>
-      <div className={styles.stars} aria-label="Tiga bintang">
-        {[0, 1, 2].map((index) => <Star key={index} size={46} weight="fill" aria-hidden style={{ animationDelay: `${index * 100}ms` }} />)}
-      </div>
-      <p className={styles.message}>Permainan selesai. Mau lanjut ke mana?</p>
-
-      <div className={styles.actions}>
-        <button type="button" onClick={goBack}><ArrowLeft size={22} weight="bold" aria-hidden />Back</button>
-        <button type="button" onClick={retry}><ArrowClockwise size={22} weight="bold" aria-hidden />Try Again</button>
-        <Link href={nextHref} aria-label="Next"><ArrowRight size={22} weight="bold" aria-hidden />Next</Link>
-      </div>
-
-      <button type="button" className={styles.shareButton} onClick={() => void openShare()}>
-        <ShareNetwork size={22} weight="bold" aria-hidden />Share
-      </button>
-
-      </div>
+    <>
+      <CanonicalCompletion
+        data-activity-completion
+        context="belajar"
+        surface="overlay"
+        praise={praise}
+        message="Permainan selesai. Mau lanjut ke mana?"
+        back={{ onClick: goBack }}
+        again={{ onClick: retry }}
+        next={{ href: nextHref, ariaLabel: "Next" }}
+        onShare={openShare}
+      />
 
       <dialog ref={dialogRef} className={styles.shareDialog} aria-labelledby="share-title">
         <div className={styles.dialogHead}>
@@ -138,6 +132,6 @@ export function ActivityCompletion({
           </>
         ) : null}
       </dialog>
-    </section>
+    </>
   );
 }

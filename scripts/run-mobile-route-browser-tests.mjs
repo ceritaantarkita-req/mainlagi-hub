@@ -1403,12 +1403,12 @@ async function main() {
       await completion.waitFor();
       assert.equal(await completion.getByLabel("Tiga bintang").locator("svg").count(), 3, "visible matching completion must use shared three-star success");
       const beforeRetry = [initial.left.join(","), initial.right.join(",")].join("|");
-      await completion.getByRole("button", { name: "Try Again", exact: true }).click();
+      await completion.getByRole("button", { name: "Again", exact: true }).click();
       await board.waitFor();
       await page.waitForTimeout(80);
       const retried = await readColumns();
       const afterRetry = [retried.left.join(","), retried.right.join(",")].join("|");
-      assert.notEqual(afterRetry, beforeRetry, "Try Again must produce a different valid matching arrangement");
+      assert.notEqual(afterRetry, beforeRetry, "Again must produce a different valid matching arrangement");
       for (let row = 0; row < retried.left.length; row += 1) {
         assert.notEqual(pairOf(retried.left[row]), pairOf(retried.right[row]), `retry matching row ${row + 1} must not reveal a correct adjacent pair`);
       }
@@ -1559,7 +1559,7 @@ async function main() {
       await completion.waitFor();
       assert.equal(await completion.getByLabel("Tiga bintang").locator("svg").count(), 3, "shared completion must render three stars");
       assert.equal(await completion.getByRole("button", { name: "Back", exact: true }).count(), 1, "shared completion must expose Back");
-      assert.equal(await completion.getByRole("button", { name: "Try Again", exact: true }).count(), 1, "shared completion must expose Try Again");
+      assert.equal(await completion.getByRole("button", { name: "Again", exact: true }).count(), 1, "shared completion must expose Again");
       assert.equal(await completion.getByRole("link", { name: "Next", exact: true }).count(), 1, "shared completion must expose Next");
       const completionGeometry = await completion.evaluate((root) => {
         const rootBox = root.getBoundingClientRect();
@@ -1571,7 +1571,7 @@ async function main() {
       });
       assert.ok(completionGeometry.root.left >= -1 && completionGeometry.root.right <= viewport.width + 1, "completion overlay must remain inside viewport width");
       assert.ok(completionGeometry.root.top >= -1 && completionGeometry.root.bottom <= viewport.height + 1, "completion overlay must remain inside viewport height");
-      for (const control of completionGeometry.controls.filter((item) => ["Back", "Try Again", "Next", "Share"].includes(item.text))) {
+      for (const control of completionGeometry.controls.filter((item) => ["Back", "Again", "Next", "Share"].includes(item.text))) {
         assert.ok(control.left >= -1 && control.right <= viewport.width + 1 && control.top >= -1 && control.bottom <= viewport.height + 1, `completion control ${control.text} must be immediately visible`);
       }
       await page.screenshot({ path: path.join(screenshotDir, "390-shared-completion-success.png"), fullPage: false });
