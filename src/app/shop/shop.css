@@ -397,11 +397,27 @@
 }
 .shop-cart-line {
   display: flex;
+  flex-wrap: wrap;
   gap: 20px;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #d4ded5;
   padding: 20px 0;
+}
+.shop-cart-line > * {
+  min-width: 0;
+}
+.shop-cart-line > label:not(:has(> input[type="checkbox"])) {
+  display: grid;
+  gap: 6px;
+  flex: 1 1 180px;
+  font-weight: 750;
+}
+.shop-cart-line > .shop-form {
+  flex: 1 1 100%;
+}
+.shop-cart-line > p {
+  overflow-wrap: anywhere;
 }
 .shop-cart-line p {
   margin: 4px 0;
@@ -436,7 +452,8 @@
   gap: 6px;
   font-weight: 750;
 }
-.shop-form label:has(> input[type="checkbox"]) {
+.shop-form label:has(> input[type="checkbox"]),
+.shop-cart-line > label:has(> input[type="checkbox"]) {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -781,16 +798,14 @@ details.shop-cart-line > summary {
 /* Batch 10: dense cart/admin rows must collapse safely on tablet and mobile. */
 @media (max-width: 760px) {
   .shop-cart-line {
-    flex-wrap: wrap;
     align-items: flex-start;
   }
   .shop-cart-line > * {
-    min-width: 0;
     max-width: 100%;
   }
   .shop-cart-line > label,
   .shop-cart-line > .shop-form {
-    flex: 1 1 100%;
+    flex-basis: 100%;
   }
   .shop-cart-line > p {
     overflow-wrap: anywhere;
