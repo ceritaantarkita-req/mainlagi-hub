@@ -249,14 +249,14 @@ This is a caller-layout issue, not an asset or identity issue. At narrow portrai
 The fix reserves an explicit presentation-only portrait character band in `GardenActivityFrame`:
 
 ```css
-@media(max-width:760px) and (orientation:portrait) {
+@media(max-width:380px) and (orientation:portrait) {
   .garden:not(.workspace) {
-    padding-bottom: clamp(184px,48vw,224px);
+    padding-bottom: clamp(184px,48vw,204px);
   }
 }
 ```
 
-Creative workspaces remain excluded. Landscape keeps the separate SI-01/SI-02 side-gutter contract.
+Creative workspaces remain excluded. The reserve is intentionally limited to narrow portrait phones so the already-verified 390/430/tablet layouts keep their existing composition and viewport containment. Landscape keeps the separate SI-01/SI-02 side-gutter contract.
 
 Fix commits:
 
@@ -266,9 +266,15 @@ fix: reserve portrait character band below Belajar tasks
 
 52308ea99efd34e7062d96de30435da465081aff
 test: lock Belajar portrait character reserve
+
+7f59d0b309937ddebf8afa8155f3024f9eed2351
+fix: scope portrait character reserve to narrow phones
+
+c4d1b13c9d3ca4d007e5d644445cb1b4f470e005
+test: scope portrait reserve contract to narrow phones
 ```
 
-Any CI run whose head predates `52308ea99efd34e7062d96de30435da465081aff` is superseded and cannot close SI-02.
+Any CI run whose head predates `c4d1b13c9d3ca4d007e5d644445cb1b4f470e005` is superseded and cannot close SI-02.
 
 ## Merge/production gate
 
