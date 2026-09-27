@@ -424,7 +424,7 @@
 }
 
 .storyCharacterLayer [data-character-id] {
-  width: min(150px, 82%);
+  max-width: min(150px, 82%);
   filter: drop-shadow(0 12px 10px rgba(32, 67, 50, .13));
 }
 
@@ -895,7 +895,7 @@
 }
 
 .completionCharacterLayer [data-character-id] {
-  width: clamp(96px, 18vw, 150px);
+  max-width: clamp(96px, 18vw, 150px);
   filter: drop-shadow(0 12px 10px rgba(32, 67, 50, .13));
 }
 
@@ -2536,7 +2536,7 @@
 }
 
 .stageCharacterLayer [data-character-id] {
-  width: clamp(96px, 13vw, 170px);
+  max-width: clamp(96px, 13vw, 170px);
   filter: drop-shadow(0 16px 12px rgba(32, 67, 50, .16));
 }
 
@@ -2569,7 +2569,7 @@
   }
 
   .stageCharacterLayer [data-character-id] {
-    width: clamp(78px, 18vw, 126px);
+    max-width: clamp(78px, 18vw, 126px);
   }
 }
 
