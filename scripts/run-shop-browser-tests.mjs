@@ -296,6 +296,51 @@ async function auditCheckout(browser, viewport) {
   await context.close();
 }
 
+async function auditCartLoadingErrorRetry(browser) {
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    reducedMotion: "reduce",
+    hasTouch: true,
+  });
+  const page = await context.newPage();
+  let cartCalls = 0;
+  await page.route("**/api/shop/cart", async (route) => {
+    if (route.request().method() !== "GET") return route.fallback();
+    cartCalls += 1;
+    if (cartCalls === 1)
+      await new Promise((resolve) => setTimeout(resolve, 500));
+    await route.fulfill({
+      status: 503,
+      contentType: "application/json",
+      body: JSON.stringify({ error: "Keranjang sementara tidak tersedia." }),
+    });
+  });
+
+  await page.goto(baseUrl + "/shop/cart", {
+    waitUntil: "domcontentloaded",
+    timeout: 45_000,
+  });
+  await page.getByText("Memuat keranjang…").waitFor({ timeout: 5_000 });
+  await page
+    .getByRole("heading", { level: 2, name: "Keranjang belum dapat dimuat." })
+    .waitFor({ timeout: 10_000 });
+
+  const retry = page.getByRole("button", { name: "Coba lagi" });
+  assert.equal(await retry.count(), 1);
+  await minTargets(page, ".shop-empty .shop-button", "cart retry 390");
+  await retry.click();
+  await page
+    .getByRole("heading", { level: 2, name: "Keranjang belum dapat dimuat." })
+    .waitFor({ timeout: 10_000 });
+  assert.ok(cartCalls >= 2, `cart retry must re-request cart, got ${cartCalls} call(s)`);
+  await noOverflow(page, "cart loading/error/retry 390");
+  await page.screenshot({
+    path: path.join(outDir, "cart-loading-error-retry-390.png"),
+    fullPage: true,
+  });
+  await context.close();
+}
+
 async function main() {
   mkdirSync(outDir, { recursive: true });
   startServer();
@@ -307,7 +352,8 @@ async function main() {
       await auditDetail(browser, viewport);
       await auditCheckout(browser, viewport);
     }
-    console.log("Shop Batch 10 browser QA PASS: 9-product preview, canonical coral/contrast, keyboard focus, 44px targets, 320/390/768/1280 overflow checks, product gallery, cart, rate retry, required-field checkout gate and order status screenshots.");
+    await auditCartLoadingErrorRetry(browser);
+    console.log("Shop Batch 10 browser QA PASS: 9-product preview, canonical coral/contrast, keyboard focus, 44px targets, 320/390/768/1280 overflow checks, product gallery, cart loading/error/retry, rate retry, required-field checkout gate and order status screenshots.");
   } finally {
     await browser.close();
     stopServer();
