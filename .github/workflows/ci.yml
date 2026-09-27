@@ -78,6 +78,37 @@ jobs:
       - name: Batch 17 final acceptance contracts
         run: npm run test:batch17:final
 
+  shop-postgres-staging:
+    name: Shop PostgreSQL staging gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: mainlagi_shop_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d mainlagi_shop_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/mainlagi_shop_ci
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PostgreSQL client
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+      - name: Run full Shop PostgreSQL staging/security/concurrency gate
+        shell: bash
+        run: bash scripts/run-shop-postgres-staging-tests.sh
+
   build:
     name: Production build
     runs-on: ubuntu-latest
@@ -234,6 +265,7 @@ jobs:
     needs:
       - secret-history-scan
       - quality
+      - shop-postgres-staging
       - build
       - mobile-route-qa
       - windows-quality
