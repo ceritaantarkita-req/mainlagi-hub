@@ -59,8 +59,14 @@ async function handle(request: Request, path: string[], post: boolean) {
       return json({ ok: true });
     }
     if (post && route === "biteship/webhook") {
+      const b = await body(request, { allowEmptyObject: true });
+      const isInstallProbe =
+        Object.keys(b).length === 0 &&
+        (request.headers.get("content-type") ?? "")
+          .toLowerCase()
+          .includes("application/json");
+      if (isInstallProbe) return json({ ok: true });
       verifyBiteship(request);
-      const b = await body(request);
       const id = field(b, "order_id", 100);
       const remote = await biteship(`/v1/orders/${encodeURIComponent(id)}`);
       const o = await order(field(remote, "reference_id", 50), true);
