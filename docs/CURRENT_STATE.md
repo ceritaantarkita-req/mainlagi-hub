@@ -2095,7 +2095,7 @@ SI-05  — Belajar pilot runtime                COMPLETE / merged / live verifie
 SI-06A — fallback Belajar owner               COMPLETE / merged / live verified
 SI-06B1 — literacy/audio early family         COMPLETE / merged / live verified
 SI-06B2 — sentence/reading family             COMPLETE / merged / live verified
-SI-06C — matching/order/drag family           MERGED / live verification pending
+SI-06C — matching/order/drag family           COMPLETE / merged / live verified
 SI-06D — Math specialized renderers           PAUSED / discuss before start
 SI-06E+ — later Belajar batches               NOT STARTED
 ```
@@ -2159,7 +2159,7 @@ Cloudflare smoke:        SUCCESS — exact merged main SHA verified
 B2 docs closure:         PR #377 — merged / verified
 SI-06C runtime PR:       #379 — merged
 SI-06C merged main:      050557cacb19d24ba329233ba9d934cc19ef2d4b
-SI-06C merged-main CI:   #2231 / run 36412450434 — PENDING
+SI-06C merged-main CI:   #2231 / run 36412450434 — FULL SUCCESS
 checkpoint:
 docs/SI06C_MATCHING_ORDER_DRAG_SAFE_CHECKPOINT_2026-09-28.md
 ```
@@ -2185,5 +2185,7 @@ Preflight/current boundary:
 
 SI-06C runtime PR #379 final head `a0bac57263224917d10910f8da8c2e9559d6a1dd` passed CI #2230 / run `36411290409` full success and squash-merged to `050557cacb19d24ba329233ba9d934cc19ef2d4b`.
 
-Merged-main CI #2231 / run `36412450434` is pending, so SI-06C is **merged / live verification pending**. SI-06D remains **PAUSED / not authorized**.
+Merged-main CI #2231 / run `36412450434` completed full success including exact Production smoke (Cloudflare). SI-06C is **closed / merged / live verified**.
+
+**Hard stop:** SI-06D remains **PAUSED / not authorized**. Do not begin Math renderer mutation until the user explicitly discusses and authorizes SI-06D.
 
