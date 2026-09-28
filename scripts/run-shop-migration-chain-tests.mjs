@@ -14,6 +14,9 @@ assert.ok(files.includes("20260927051000_shop_admin_workflow.sql"));
 assert.ok(
   files.includes("20260928143000_shop_batch11_marketplace_candidate_variants.sql"),
 );
+assert.ok(
+  files.includes("20260928144000_shop_batch11_shipping_dimensions.sql"),
+);
 assert.equal(
   files.indexOf("20260926195237_shop_foundation.sql") + 1,
   files.indexOf("20260927051000_shop_admin_workflow.sql"),
@@ -99,6 +102,15 @@ try {
       )
     ).n,
     9,
+  );
+  assert.equal(
+    (
+      await one(
+        "select count(*)::int n from public.shop_variants where is_active and length_mm is not null and width_mm is not null and height_mm is not null",
+      )
+    ).n,
+    26,
+    "all candidate variants carry packed shipping dimensions",
   );
   assert.equal(
     (
@@ -206,7 +218,7 @@ try {
   await db.exec("reset role");
 
   console.log(
-    `Full migration chain: ${files.length} migrations, Shop 26-variant candidate seed / 79 stock / verification gate / RLS / RPC privilege checks PASS`,
+    `Full migration chain: ${files.length} migrations, Shop 26-variant candidate seed / 79 stock / packed-dimension propagation / verification gate / RLS / RPC privilege checks PASS`,
   );
 } finally {
   await db.close();
