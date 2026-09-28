@@ -1604,7 +1604,7 @@ PII retention remain separate unresolved owner/data blockers.
 ## Batch 11 marketplace product candidate implementation — 28 September 2026
 
 PR #359 now contains an additive migration that materializes the owner-approved
-marketplace benchmark into the Shop DB: 9 products, 26 candidate variants and
+marketplace benchmark into the Shop DB: 9 products, 27 candidate variants and
 79 stock units. The migration removes fresh-seed `*-DEFAULT` variants, records
 variant-level candidate weight/package dimensions, and stores candidate metadata
 under `shop_products.facts.marketplaceCandidate`.
@@ -1637,3 +1637,26 @@ Fulfillment uses the immutable checkout snapshots, not mutable catalog values.
 The Batch 11 integrated E2E artifact records candidate and checkout-snapshot
 dimensions for `008-A5-80-LINED`. This is still a testing-only candidate value,
 not proof of a measured production item.
+
+## Batch 11 physical/supplier verification — 28 September 2026
+
+Canonical verification pack:
+
+- `docs/MAINLAGI_SHOP_PHYSICAL_SUPPLIER_VERIFICATION_2026-09-28.md`
+- `docs/data/MAINLAGI_SHOP_PHYSICAL_SUPPLIER_VERIFICATION_2026-09-28.json`
+
+The machine-readable file mirrors all 9 products and **27 candidate variants**
+but sets every actual physical value to null/pending. It is the template for
+real sample/supplier evidence, not fabricated verification.
+
+Migration
+`20260928145000_shop_batch11_physical_supplier_verification.sql` strengthens
+`shop_product_readiness` so `production_verified` requires structured evidence,
+actual product facts and active-SKU coverage. The admin product editor exposes
+the same fields and keeps the marketplace baseline visible for candidate-vs-actual
+comparison.
+
+Batch 11 staging may use a clearly marked simulated evidence fixture only in the
+disposable local Supabase environment; that fixture is explicitly not production
+truth.
+
