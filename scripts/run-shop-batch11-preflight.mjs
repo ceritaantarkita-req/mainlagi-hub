@@ -303,6 +303,7 @@ for (const required of [
   "Verifier identity is required.",
   "Verification date is required.",
   "Verification evidence reference is required.",
+  "Marketplace candidate baseline must remain available for verification.",
   "Every marketplace candidate product fact needs an actual verified value.",
   "Every active SKU must be covered by physical/supplier verification evidence.",
 ]) {
