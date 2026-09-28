@@ -179,6 +179,10 @@ export async function payment(o: Order) {
       order_id: o.order_number,
       gross_amount: o.grand_total_amount,
     },
+    ...(process.env.SHOP_STAGING_ACCEPTANCE_ENABLED === "true" &&
+    process.env.MIDTRANS_IS_PRODUCTION !== "true"
+      ? { enabled_payments: ["permata_va"] }
+      : {}),
     credit_card: {
       secure: true,
     },
