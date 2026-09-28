@@ -2096,7 +2096,8 @@ SI-06A — fallback Belajar owner               COMPLETE / merged / live verifie
 SI-06B1 — literacy/audio early family         COMPLETE / merged / live verified
 SI-06B2 — sentence/reading family             COMPLETE / merged / live verified
 SI-06C — matching/order/drag family           COMPLETE / merged / live verified
-SI-06D — Math specialized renderers           PAUSED / discuss before start
+SI-06D1 — Math choice/shared renderers       ACTIVE / not merged
+SI-06D2 — Math trace renderer                 BLOCKED until D1 live verification
 SI-06E+ — later Belajar batches               NOT STARTED
 ```
 
@@ -2189,3 +2190,53 @@ Merged-main CI #2231 / run `36412450434` completed full success including exact 
 
 **Hard stop:** SI-06D remains **PAUSED / not authorized**. Do not begin Math renderer mutation until the user explicitly discusses and authorizes SI-06D.
 
+
+
+## 28 September 2026 — Shared Interaction SI-06D Math — ACTIVE
+
+Verified baseline:
+
+```text
+main:                    27a4e647b0819f532956eebe83c2668b6acfeb32
+baseline CI:             #2233 / run 36414788564 — FULL SUCCESS
+Cloudflare smoke:        SUCCESS — exact baseline SHA verified
+active branch:           agent/si-06d1-math-choice-20260928
+checkpoint:
+docs/SI06D_MATH_SAFE_CHECKPOINT_2026-09-28.md
+```
+
+Current preflight splits SI-06D by replay ownership.
+
+SI-06D1 current production owners:
+
+```text
+CountAndSelectActivity
+NumberLineActivity
+MoreLessBalanceActivity
+EqualGroupsActivity
+MakeTotalActivity
+TakeAwayActivity
+ComparePropertiesActivity
+VisualWordProblemActivity
+SpatialRelationBoardActivity
+```
+
+SI-06D2 owner:
+
+```text
+MathTraceWorldActivity
+```
+
+D1 boundary:
+
+- nine choice/shared renderers preserve explicit runtime measurement, evidence fidelity, renderer-owned `completeActivity`, dispatcher ownership and progression/mastery semantics;
+- eight legacy local success links move to canonical `ActivityCompletion`;
+- `TakeAwayActivity` already used canonical Completion and is normalized to explicit local Again replay;
+- orphaned `.nextLink` CSS is removed from all nine;
+- primary browser suites prove local Again does not reload or create a second target attempt;
+- NumberLine, mixed-operation, CompareProperties and SpatialRelation reuse suites now expect canonical Completion;
+- `ComparePropertiesActivity` and `SpatialRelationBoardActivity` are shared renderers and are migrated once here; later SI-06E/F must not duplicate their migration.
+
+`MathTraceWorldActivity` remains untouched in D1 because it owns stroke/checkpoint/timing/audio state and requires a dedicated D2 replay boundary.
+
+After final SI-06D closure, **STOP before SI-06E** until the user explicitly authorizes it.
