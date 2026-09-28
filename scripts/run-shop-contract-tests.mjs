@@ -320,6 +320,16 @@ assert.match(
 );
 assert.match(
   shopOperationsSource,
+  /shippingDimensionCm[\s\S]*length:\s*shippingDimensionCm\(v\.length_mm\)[\s\S]*width:\s*shippingDimensionCm\(v\.width_mm\)[\s\S]*height:\s*shippingDimensionCm\(v\.height_mm\)/,
+  "Biteship rate requests must carry packed variant dimensions converted from mm to cm",
+);
+assert.match(
+  shopOperationsSource,
+  /providerItems[\s\S]*length:\s*shippingDimensionCm\(i\.length_mm_snapshot\)[\s\S]*width:\s*shippingDimensionCm\(i\.width_mm_snapshot\)[\s\S]*height:\s*shippingDimensionCm\(i\.height_mm_snapshot\)[\s\S]*items:\s*providerItems/,
+  "Biteship order creation must use immutable checkout dimension snapshots",
+);
+assert.match(
+  shopOperationsSource,
   /40002060[\s\S]*typeof e\.details\.order_id === "string"[\s\S]*rekonsiliasi manual/,
   "duplicate-reference without provider order id must fail closed to manual reconciliation",
 );
