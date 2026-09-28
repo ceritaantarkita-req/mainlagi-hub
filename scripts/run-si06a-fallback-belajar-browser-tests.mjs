@@ -87,8 +87,10 @@ async function canonicalCompletion(page,label){
   await completion.waitFor({state:"visible",timeout:5000});
   assert.equal(await completion.getAttribute("data-completion-context"),"belajar",`${label}: Belajar context`);
   assert.equal(await completion.getAttribute("data-completion-stars"),"3",`${label}: three-star completion`);
+  const actions=completion.locator("[data-completion-action]");
+  await page.waitForFunction(() => document.querySelectorAll('[data-canonical-completion="v1"][data-activity-completion] [data-completion-action]').length === 4, null, { timeout: 3000 });
   assert.deepEqual(
-    await completion.locator("[data-completion-action]").evaluateAll(nodes=>nodes.map(node=>node.textContent?.trim())),
+    await actions.evaluateAll(nodes=>nodes.map(node=>node.textContent?.trim())),
     ["Back","Again","Next","Share"],
     `${label}: canonical action order`
   );
