@@ -190,9 +190,9 @@ async function inspect({viewport,completionMode}){
     await completeCorrect(page,completionMode);
     await status.filter({hasText:"Tepat"}).waitFor({state:"visible",timeout:2000});
     assert.equal(await completed(page),true,"correct missing number completes canonical activity");
-    const nextLink=page.getByRole("link",{name:"Pilih permainan lain"});
+    const completion=page.locator("[data-activity-completion]");
     await assertFullyVisible(status,viewportHeight,`missing-number success feedback at ${viewport.width}`);
-    await assertFullyVisible(nextLink,viewportHeight,`missing-number success CTA at ${viewport.width}`);
+    await assertFullyVisible(completion,viewportHeight,`missing-number canonical Completion at ${viewport.width}`);
 
     const state=await page.evaluate(({id})=>{
       const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
