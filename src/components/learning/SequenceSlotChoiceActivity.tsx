@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { ActivityCompletion } from "./ActivityCompletion";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { GardenActivityFrame } from "./GardenActivityFrame";
 import { getActivityLearningSpec } from "@/lib/learning/catalog";
@@ -76,6 +76,13 @@ export function SequenceSlotChoiceActivity({ childId, activityId }: { childId: s
     setFeedback("good");
   };
 
+  const restart = () => {
+    incorrectRef.current = 0;
+    retryRef.current = 0;
+    setPlaced(null);
+    setFeedback("idle");
+  };
+
   return (
     <GardenActivityFrame
       backHref={`/child/${childId}/subject/${activity.subjectId}`}
@@ -133,9 +140,7 @@ export function SequenceSlotChoiceActivity({ childId, activityId }: { childId: s
               : "💡 Cari huruf yang membuat urutannya benar."}
         </div>
 
-        {feedback === "good" ? (
-          <Link className={styles.nextLink} href={`/child/${childId}/subject/${activity.subjectId}`}>Pilih permainan lain</Link>
-        ) : null}
+        {feedback === "good" ? <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} /> : null}
       </section>
     </GardenActivityFrame>
   );

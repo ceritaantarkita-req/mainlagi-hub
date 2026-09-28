@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { ActivityCompletion } from "./ActivityCompletion";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { GardenActivityFrame } from "./GardenActivityFrame";
 import { getActivityLearningSpec } from "@/lib/learning/catalog";
@@ -101,6 +101,19 @@ export function DragTargetMatchActivity({ childId, activityId }: { childId: stri
   const targetAtPoint = (x: number, y: number) => {
     const node = document.elementFromPoint(x, y)?.closest<HTMLElement>("[data-drag-target-pair]");
     return node?.dataset.dragTargetPair ?? null;
+  };
+
+  const restart = () => {
+    pointerDragRef.current = null;
+    incorrectRef.current = 0;
+    retryRef.current = 0;
+    setSelectedPair(null);
+    setDraggingPair(null);
+    setHoverTarget(null);
+    setGhost(null);
+    setMatched([]);
+    setFeedback("idle");
+    setDone(false);
   };
 
   return (
@@ -256,9 +269,7 @@ export function DragTargetMatchActivity({ childId, activityId }: { childId: stri
                 : "💡 Pasangkan semua kartu dengan target yang sesuai."}
         </div>
 
-        {done ? (
-          <Link className={styles.nextLink} href={`/child/${childId}/subject/${activity.subjectId}`}>Pilih permainan lain</Link>
-        ) : null}
+        {done ? <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} /> : null}
 
         {ghost ? (
           <div className={styles.dragGhost} style={{ left: ghost.x, top: ghost.y }} aria-hidden>{ghost.label}</div>

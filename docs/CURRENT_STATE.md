@@ -2095,8 +2095,9 @@ SI-05  — Belajar pilot runtime                COMPLETE / merged / live verifie
 SI-06A — fallback Belajar owner               COMPLETE / merged / live verified
 SI-06B1 — literacy/audio early family         COMPLETE / merged / live verified
 SI-06B2 — sentence/reading family             COMPLETE / merged / live verified
-SI-06C — matching/order/drag family           NEXT / not started
-SI-06D+ — later Belajar batches               NOT STARTED
+SI-06C — matching/order/drag family           ACTIVE / not merged
+SI-06D — Math specialized renderers           PAUSED / discuss before start
+SI-06E+ — later Belajar batches               NOT STARTED
 ```
 
 SI-06B1 closure:
@@ -2146,3 +2147,39 @@ ClozeSentenceChoiceActivity
 All five preserve explicit runtime measurement/evidence and renderer-owned `completeActivity`; only post-success presentation moved to canonical Completion + Share with local Again reset semantics. SI-06B2 is closed / merged / live verified. SI-06C matching/order/drag is next.
 
 Canonical checkpoint: `SI06B2_SENTENCE_READING_SAFE_CHECKPOINT_2026-09-28.md`.
+
+## 28 September 2026 — Shared Interaction SI-06C matching/order/drag — ACTIVE
+
+Current verified production baseline:
+
+```text
+main:                    9eff1bd861ceb3cd0202022fa43dfe31db87fb40
+merged-main CI:          #2186 / run 36394939086 — FULL SUCCESS
+Cloudflare smoke:        SUCCESS — exact merged main SHA verified
+B2 docs closure:         PR #377
+SI-06C branch:           agent/si-06c-matching-order-drag-clean-20260928
+checkpoint:
+docs/SI06C_MATCHING_ORDER_DRAG_SAFE_CHECKPOINT_2026-09-28.md
+```
+
+Current SI-06C production owners:
+
+```text
+MemoryMatchActivity
+DragTargetMatchActivity
+SequenceSlotChoiceActivity
+SortingBucketsChoiceActivity
+GrowthStageTransitionActivity
+```
+
+Preflight/current boundary:
+
+- `MemoryMatchActivity` already used `ActivityCompletion`, but Again still fell back to a document reload; SI-06C normalizes it to local replay.
+- DragTarget, SequenceSlot, SortingBuckets and GrowthStage still owned local success navigation; SI-06C moves only that post-success presentation to canonical Completion + Share.
+- all five keep explicit runtime measurement, evidence fidelity, renderer-owned `completeActivity`, dispatcher ownership and progression/mastery semantics.
+- browser QA is extended so Again resets local state without creating a second target attempt.
+- `GrowthStageTransitionActivity` is a shared renderer and is migrated once here; later Science work must not duplicate this owner migration.
+- SI-06D is **not authorized after SI-06C**. After C closes, stop and discuss before any Math mutation.
+
+SI-06C is **active / not merged**.
+

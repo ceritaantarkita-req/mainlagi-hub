@@ -266,6 +266,16 @@ async function inspect(viewport) {
       path: path.join(screenshotDir, `${viewport.width}-memory-match-success.png`),
       fullPage: false
     });
+    await completion.locator('[data-completion-action="again"]').click();
+    await completion.waitFor({ state: "hidden", timeout: 2_000 });
+    const replayCards = page.locator("[data-memory-card]");
+    assert.deepEqual(await replayCards.allTextContents(), ["?", "?", "?", "?"], "Again conceals all memory cards locally");
+    assert.equal(await replayCards.evaluateAll((nodes) => nodes.every((node) => !node.disabled)), true, "Again re-enables memory cards");
+    const targetAttemptCount = await page.evaluate(({ id }) => {
+      const attempts = JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1") ?? "{}");
+      return (attempts["demo-gian"] ?? []).filter((item) => item.activityId === id).length;
+    }, { id: activityId });
+    assert.equal(targetAttemptCount, 1, "MemoryMatch Again reset alone must not create a second attempt");
     assert.deepEqual(pageErrors, [], `page errors at ${viewport.width}: ${pageErrors.join(" | ")}`);
     assert.deepEqual(consoleErrors, [], `console errors at ${viewport.width}: ${consoleErrors.join(" | ")}`);
     await context.close();
@@ -278,7 +288,7 @@ async function main() {
   startServer();
   await waitForServer();
   for (const viewport of viewports) await inspect(viewport);
-  console.log(`Memory-match browser QA passed ${viewports.length} viewports with valid progression prerequisites, keyboard, pointer, 2x2 layout, completion, and evidence checks.`);
+  console.log(`Memory-match browser QA passed ${viewports.length} viewports with valid progression prerequisites, keyboard, pointer, 2x2 layout, canonical Completion, local Again replay, and evidence checks.`);
 }
 
 main()

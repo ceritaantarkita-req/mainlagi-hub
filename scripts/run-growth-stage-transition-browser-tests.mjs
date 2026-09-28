@@ -151,8 +151,8 @@ async function inspect(viewport){
     assert.equal(await completed(page),true,"correct growth-stage choice completes canonical activity");
     assert.equal(await target.getAttribute("data-growth-target-state"),"complete","success fills target slot only after correct selection");
     assert.match(await target.innerText(),/ayam dewasa/);
-    const nextLink=page.getByRole("link",{name:"Pilih permainan lain"});
-    await assertFullyVisible(nextLink,viewportHeight,`growth-stage success CTA at ${viewport.width}`);
+    const completion=page.locator("[data-activity-completion]");
+    await assertFullyVisible(completion,viewportHeight,`growth-stage canonical Completion at ${viewport.width}`);
 
     const state=await page.evaluate(({id})=>{
       const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
@@ -171,6 +171,12 @@ async function inspect(viewport){
     assert.equal(state.accuracy,0.5);
 
     await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-growth-stage-success.png`),fullPage:false});
+    await completion.locator('[data-completion-action="again"]').click();
+    await completion.waitFor({state:"hidden",timeout:2000});
+    assert.equal(await target.getAttribute("data-growth-target-state"),"unknown","Again hides the growth-stage answer locally");
+    assert.equal(await page.locator("[data-growth-stage-choice]").evaluateAll(nodes=>nodes.every(node=>!node.disabled)),true,"Again re-enables growth-stage choices");
+    const targetAttemptCount=await page.evaluate(({id})=>{const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");return(attempts["demo-gian"]??[]).filter(item=>item.activityId===id).length;},{id:activityId});
+    assert.equal(targetAttemptCount,1,"GrowthStage Again reset alone must not create a second attempt");
     assert.deepEqual(pageErrors,[],`page errors at ${viewport.width}: ${pageErrors.join(" | ")}`);
     assert.deepEqual(consoleErrors,[],`console errors at ${viewport.width}: ${consoleErrors.join(" | ")}`);
     await context.close();
@@ -183,7 +189,7 @@ async function main(){
   startServer();
   await waitForServer();
   for(const viewport of viewports)await inspect(viewport);
-  console.log(`Pattern 42 browser QA passed ${viewports.length} viewports with Science readiness, hidden target until correct, keyboard retry, pointer/touch completion, touch targets and assessed evidence checks.`);
+  console.log(`Pattern 42 browser QA passed ${viewports.length} viewports with Science readiness, hidden target until correct, keyboard retry, pointer/touch completion, touch targets, canonical Completion, local Again replay and assessed evidence checks.`);
 }
 
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;}).finally(stopServer);

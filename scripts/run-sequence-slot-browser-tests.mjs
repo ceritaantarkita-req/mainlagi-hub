@@ -206,11 +206,11 @@ async function inspect(viewport) {
     await page.getByRole("status").filter({ hasText: "Tepat" }).waitFor({ state: "visible", timeout: 2_000 });
     assert.equal((await target.textContent())?.trim(), correctChoice, "correct answer visibly completes the sequence");
 
-    const nextLink = page.getByRole("link", { name: "Pilih permainan lain" });
-    const nextLinkBox = await nextLink.boundingBox();
+    const completion = page.locator("[data-activity-completion]");
+    const completionBox = await completion.boundingBox();
     const viewportHeight = await page.evaluate(() => window.innerHeight);
-    assert(nextLinkBox, "success CTA must render");
-    assert(nextLinkBox.y >= -1 && nextLinkBox.y + nextLinkBox.height <= viewportHeight + 1, `success CTA must remain fully visible at ${viewport.width}`);
+    assert(completionBox, "canonical Completion must render");
+    assert(completionBox.y >= -1 && completionBox.y + completionBox.height <= viewportHeight + 1, `Completion must remain fully visible at ${viewport.width}`);
 
     const state = await page.evaluate(({ activityId: id }) => {
       const progress = JSON.parse(localStorage.getItem("mainlagi-learning-progress-v1") ?? "{}");
@@ -232,6 +232,15 @@ async function inspect(viewport) {
     assert.equal(state.attempt.accuracy, 0.5);
 
     await page.screenshot({ path: path.join(screenshotDir, `${viewport.width}-sequence-slot-success.png`), fullPage: false });
+    await completion.locator('[data-completion-action="again"]').click();
+    await completion.waitFor({ state: "hidden", timeout: 2_000 });
+    assert.equal((await target.textContent())?.trim(), "?", "Again clears the sequence slot locally");
+    assert.equal(await page.locator("[data-sequence-choices] button").evaluateAll((nodes) => nodes.every((node) => !node.disabled)), true, "Again re-enables sequence choices");
+    const targetAttemptCount = await page.evaluate(({ id }) => {
+      const attempts = JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1") ?? "{}");
+      return (attempts["demo-gian"] ?? []).filter((item) => item.activityId === id).length;
+    }, { id: activityId });
+    assert.equal(targetAttemptCount, 1, "SequenceSlot Again reset alone must not create a second attempt");
     assert.deepEqual(pageErrors, [], `page errors at ${viewport.width}: ${pageErrors.join(" | ")}`);
     assert.deepEqual(consoleErrors, [], `console errors at ${viewport.width}: ${consoleErrors.join(" | ")}`);
     await context.close();
@@ -244,7 +253,7 @@ async function main() {
   startServer();
   await waitForServer();
   for (const viewport of viewports) await inspect(viewport);
-  console.log(`Sequence-slot browser QA passed ${viewports.length} viewports with progression, keyboard wrong-state, pointer completion, layout, in-viewport CTA, and assessed evidence checks.`);
+  console.log(`Sequence-slot browser QA passed ${viewports.length} viewports with progression, keyboard wrong-state, pointer completion, layout, canonical Completion, local Again replay, and assessed evidence checks.`);
 }
 
 main()
