@@ -526,3 +526,34 @@ This provider order originated from an earlier sandbox acceptance run and was la
 used to complete the manual return simulation. The exception verifier is therefore
 repointed to this real returned candidate instead of the dedicated candidate that
 was accidentally progressed to Delivered.
+
+
+## Final returned-order API variance
+
+For returned order `6ab95a95a555b84db1ed7f25`, Biteship independently
+reported terminal order status `returned`. The final provider tracking history was:
+
+```text
+confirmed
+→ allocated
+→ picking_up
+→ picked
+→ in_transit
+→ dropping_off
+→ return_in_transit
+→ returned
+```
+
+The owner-supplied Testing dashboard screenshots show that the order was manually
+placed into `Ditahan` / `on_hold` before `RETURN PROCESS`, and the Events Log
+showed HTTP 200 `order.status` callbacks during the flow. However, Biteship's final
+Tracking API history for this order no longer includes an `on_hold` row.
+
+Acceptance therefore treats:
+
+- dashboard/manual-flow evidence as proof of the transient `on_hold` step;
+- provider Tracking API as proof of `return_in_transit → returned`;
+- terminal Order API status `returned` as the final return-state authority.
+
+The verifier intentionally does not require `on_hold` to survive in final tracking
+history because the live Sandbox provider response disproves that assumption.

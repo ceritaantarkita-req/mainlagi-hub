@@ -75,10 +75,10 @@ const history = tracking.history
   .map((row) => normalize(row?.status))
   .filter(Boolean);
 
-for (const required of ["on_hold", "return_in_transit", "returned"]) {
+for (const required of ["return_in_transit", "returned"]) {
   assert.ok(
     history.includes(required),
-    `Tracking history missing required exception state: ${required}`,
+    `Tracking history missing required return state: ${required}`,
   );
 }
 
@@ -91,7 +91,8 @@ const evidence = {
   trackingId,
   finalTrackingStatus: normalize(tracking.status),
   trackingHistoryStatuses: history,
-  exceptionStatesVerified: ["on_hold", "return_in_transit", "returned"],
+  exceptionStatesVerifiedByApi: ["return_in_transit", "returned"],
+  onHoldDashboardEvidenceRequired: !history.includes("on_hold"),
 };
 
 await writeFile(
@@ -101,5 +102,5 @@ await writeFile(
 
 console.log(JSON.stringify(evidence, null, 2));
 console.log(
-  "Shop Biteship sandbox exception progression: on_hold + return_in_transit + returned PASS",
+  "Shop Biteship sandbox exception progression: returned flow + return_in_transit history PASS",
 );
