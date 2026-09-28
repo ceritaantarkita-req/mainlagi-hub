@@ -2,10 +2,12 @@ import assert from "node:assert/strict";
 import { randomBytes } from "node:crypto";
 import { writeFile } from "node:fs/promises";
 import { chromium } from "playwright";
+import { createServerClient } from "@supabase/ssr";
 
 const stagingUrl = required("STAGING_URL").replace(/\/$/, "");
 const localSupabaseUrl = required("LOCAL_SUPABASE_URL").replace(/\/$/, "");
 const serviceRole = required("LOCAL_SUPABASE_SERVICE_ROLE_KEY");
+const localAnonKey = required("LOCAL_SUPABASE_ANON_KEY");
 const stagingSecret = required("SHOP_STAGING_ACCEPTANCE_SECRET");
 const cronSecret = required("SHOP_CRON_SECRET");
 const midtransServerKey = required("MIDTRANS_SANDBOX_SERVER_KEY");
@@ -224,6 +226,52 @@ async function createEphemeralOwner() {
   );
 
   return { email, password, userId };
+}
+
+async function ephemeralOwnerCookies(owner) {
+  const jar = new Map();
+  const auth = createServerClient(localSupabaseUrl, localAnonKey, {
+    cookies: {
+      getAll() {
+        return [...jar.entries()].map(([name, entry]) => ({
+          name,
+          value: entry.value,
+        }));
+      },
+      setAll(cookiesToSet) {
+        for (const cookie of cookiesToSet) {
+          if (!cookie.value) jar.delete(cookie.name);
+          else jar.set(cookie.name, {
+            value: cookie.value,
+            options: cookie.options ?? {},
+          });
+        }
+      },
+    },
+  });
+
+  const { data, error } = await auth.auth.signInWithPassword({
+    email: owner.email,
+    password: owner.password,
+  });
+  assert.equal(error, null, "Ephemeral owner Supabase sign-in failed");
+  assert.equal(data.user?.id, owner.userId);
+
+  const cookies = [...jar.entries()].map(([name, entry]) => ({
+    name,
+    value: entry.value,
+    url: stagingUrl,
+    httpOnly: Boolean(entry.options?.httpOnly),
+    secure: true,
+    sameSite:
+      String(entry.options?.sameSite ?? "lax").toLowerCase() === "strict"
+        ? "Strict"
+        : String(entry.options?.sameSite ?? "lax").toLowerCase() === "none"
+          ? "None"
+          : "Lax",
+  }));
+  assert.equal(cookies.length > 0, true, "Supabase SSR auth cookies were not produced");
+  return cookies;
 }
 
 async function deleteEphemeralOwner(userId) {
@@ -533,16 +581,14 @@ try {
   assert.equal(order.order_status, "processing");
   assert.equal(order.fulfillment_status, "unfulfilled");
 
+  const ownerCookies = await ephemeralOwnerCookies(owner);
+  await context.addCookies(ownerCookies);
   const adminPage = await context.newPage();
   adminPage.setDefaultTimeout(20000);
-  await adminPage.goto(stagingUrl + "/login", {
+  await adminPage.goto(stagingUrl + "/admin/shop/orders", {
     waitUntil: "domcontentloaded",
     timeout: 30000,
   });
-  await adminPage.getByLabel("Email").fill(owner.email);
-  await adminPage.getByLabel("Kata sandi").fill(owner.password);
-  await adminPage.getByRole("button", { name: /^Masuk$/i }).click();
-  await adminPage.waitForURL(/\/account(?:$|[/?#])/, { timeout: 20000 });
 
   await appPost(adminPage, "admin/pack", { number: orderNumber });
   order = await localOrder(orderNumber);
@@ -645,7 +691,7 @@ try {
       midtransSnapSession: "PASS",
       midtransSimulatorSettlement: "PASS",
       localPaymentReconcile: finalOrder.payment_status === "paid" ? "PASS" : "FAIL",
-      ownerLogin: "PASS",
+      ownerAuthGate: "PASS",
       packed: "PASS",
       biteshipOrder: "PASS",
       biteshipProviderGet: "PASS",
