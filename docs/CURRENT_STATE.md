@@ -2170,3 +2170,13 @@ closed.
 
 Parallel Shop branch only; not a merged-main claim. The owner-approved marketplace benchmark is now materialized as **9 products / 26 candidate variants / 79 stock units** through `20260928143000_shop_batch11_marketplace_candidate_variants.sql`. Fresh DB reset removes `*-DEFAULT` placeholders. All candidate products remain `draft`, `facts_verified=false`, and `verificationStatus=marketplace_candidate_unverified`. Database readiness and admin UI both require explicit physical/supplier verification before production approval. Batch 11 staging uses `008-A5-80-LINED`; public sales remain disabled.
 
+### Shop PR #359 — packed-dimension propagation (28 Sep 2026)
+
+Parallel Shop branch only; not a merged-main claim. The owner-approved marketplace
+candidate remains **9 products / 26 variants / 79 units** and remains
+`marketplace_candidate_unverified`. Packed dimensions are now part of the real
+shipping contract: they are included in quote signatures, snapshotted at
+checkout, converted from mm to cm for Biteship Rates, and the same immutable
+snapshots are sent for Biteship Order creation. Missing dimensions block product
+readiness. Public sales remain disabled and no production DB/provider mode was
+used.

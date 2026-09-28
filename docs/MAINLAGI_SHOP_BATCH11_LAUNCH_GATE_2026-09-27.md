@@ -214,6 +214,20 @@ migration/admin workflow:
 Therefore the product-truth gate is no longer blocked by missing target data.
 It remains blocked only by **real-world verification of those candidate values**.
 
+
+### Packed shipping-dimension contract — IMPLEMENTED / COVERED BY EXACT-HEAD CI PENDING
+
+Candidate dimensions are now operational data rather than passive metadata:
+
+`variant mm dimensions → cart signature → checkout immutable snapshots → Biteship Rates cm payload → Biteship Order cm payload`.
+
+A shipping quote becomes stale if packed dimensions change. Production readiness
+also blocks any active variant missing length, width or height. Integrated staging
+evidence will record both the candidate SKU 008 values and the checkout snapshot.
+
+This closes the code-level dimension-propagation gap; physical/supplier
+verification of the candidate values is still a launch blocker.
+
 ## Decision
 
 Batch 11 must remain **BLOCKED**. The correct next action is to close the concrete

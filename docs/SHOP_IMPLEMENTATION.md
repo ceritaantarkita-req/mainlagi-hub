@@ -1619,3 +1619,21 @@ Batch 11 ephemeral staging now uses `008-A5-80-LINED` and may set a disposable
 test-only verification fixture so the integrated provider E2E can run. That
 ephemeral override is not production product truth.
 
+## Batch 11 packed shipping dimensions — 28 September 2026
+
+The candidate-data implementation exposed a provider-boundary gap: Shop stored
+`length_mm`, `width_mm` and `height_mm`, but Biteship requests used only
+weight. Migration
+`20260928144000_shop_batch11_shipping_dimensions.sql` now:
+
+- requires packed dimensions in product readiness;
+- includes dimensions in `shop_cart_signature`;
+- snapshots dimensions into order items at checkout.
+
+`src/lib/shop/operations.ts` converts millimeters to centimeters at the
+Biteship boundary and sends the same dimensions for Rates and Order creation.
+Fulfillment uses the immutable checkout snapshots, not mutable catalog values.
+
+The Batch 11 integrated E2E artifact records candidate and checkout-snapshot
+dimensions for `008-A5-80-LINED`. This is still a testing-only candidate value,
+not proof of a measured production item.

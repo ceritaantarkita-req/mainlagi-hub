@@ -295,3 +295,36 @@ physical/supplier confirmation required before production approval.”
 If wording in an older Shop document says owner operational policy, Biteship
 provider acceptance, safe DB-backed staging, or scheduler evidence are still wholly
 missing, this checkpoint supersedes that stale wording.
+
+## 28 September continuation — packed shipping dimensions propagated end-to-end
+
+While wiring the marketplace candidate into the real Shop path, an integration gap
+was found: `shop_variants.length_mm/width_mm/height_mm` existed, but Biteship
+Rates and Order requests were still sending weight only.
+
+This is now closed on PR #359:
+
+- additive migration
+  `20260928144000_shop_batch11_shipping_dimensions.sql`;
+- every active production-ready variant must have packed length/width/height;
+- `shop_cart_signature` includes weight + all three packed dimensions, so a
+  dimension change invalidates an old shipping quote;
+- checkout snapshots `length_mm_snapshot`, `width_mm_snapshot`,
+  `height_mm_snapshot` into `shop_order_items`;
+- Biteship Rates receives the variant dimensions converted from mm to cm;
+- Biteship Order creation receives the immutable checkout snapshots converted
+  from mm to cm;
+- the integrated Batch 11 artifact now verifies SKU
+  `008-A5-80-LINED` at **300 g / 220×160×20 mm** and verifies that checkout
+  preserved the same values;
+- admin readiness mirrors the DB requirement and no longer describes package
+  dimensions as optional.
+
+Biteship's current API contract documents item `length`, `width` and
+`height` in centimeters for both Rates and Order creation, and notes that
+dimensions can affect shipment pricing. This implementation deliberately keeps
+Mainlagi's canonical stored unit in millimeters and converts only at the provider
+boundary.
+
+This does not make the marketplace dimensions production-verified. The existing
+`marketplace_candidate_unverified → production_verified` gate remains mandatory.
