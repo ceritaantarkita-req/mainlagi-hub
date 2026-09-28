@@ -10,6 +10,10 @@ const files = {
     ".github/workflows/shop-batch11-staging.yml",
     "utf8",
   ),
+  integratedE2e: await readFile(
+    "scripts/run-shop-batch11-integrated-e2e.mjs",
+    "utf8",
+  ),
   gate: await readFile(
     "docs/MAINLAGI_SHOP_BATCH11_LAUNCH_GATE_2026-09-27.md",
     "utf8",
@@ -118,4 +122,56 @@ assert.match(
   files.batch11Workflow,
   /Owner operational-policy contract PASS/,
   "free staging must verify the owner-approved operational-policy contract instead of treating it as unresolved",
+);
+
+
+assert.match(
+  files.batch11Workflow,
+  /^on:\s*\n\s+workflow_dispatch:\s*$/m,
+  "Batch 11 free staging must remain manual-only via workflow_dispatch",
+);
+assert.doesNotMatch(
+  files.batch11Workflow,
+  /^\s+(?:push|pull_request|schedule):/m,
+  "Batch 11 free staging must not gain automatic push/PR/schedule triggers",
+);
+assert.match(
+  files.batch11Workflow,
+  /Run full integrated DB-backed provider E2E[\s\S]*run-shop-batch11-integrated-e2e\.mjs/,
+  "manual free staging must execute the integrated DB-backed provider E2E harness",
+);
+for (const required of [
+  "008-DEFAULT",
+  ".trycloudflare.com",
+  "biteship_test.",
+  "api.sandbox.midtrans.com",
+  "/login",
+  "admin/pack",
+  "admin/ship",
+  "biteship/webhook",
+  "/api/shop/reconcile",
+]) {
+  assert.ok(
+    files.integratedE2e.includes(required),
+    "integrated Batch 11 E2E missing boundary: " + required,
+  );
+}
+assert.match(
+  files.integratedE2e,
+  /email_confirm:\s*true[\s\S]*profiles\?select=id,role[\s\S]*role:\s*"owner"/,
+  "integrated E2E must create/promote an ephemeral local owner instead of bypassing owner auth",
+);
+assert.doesNotMatch(
+  files.route,
+  /staging\/(?:pack|ship)/,
+  "Batch 11 must not add staging-only fulfillment bypass routes",
+);
+assert.match(
+  files.integratedE2e,
+  /usedRealProductionProductFacts:\s*false[\s\S]*choseProductionPiiRetention:\s*false/,
+  "integrated E2E must explicitly remain independent from product-truth and production-PII decisions",
+);
+
+console.log(
+  "Shop Batch 11 integrated E2E guard PASS: manual-only staging now covers the real app cart/rates/checkout/payment/owner-pack/shipping/webhook/tracking/reconcile path without a staging owner bypass or production-provider mode.",
 );
