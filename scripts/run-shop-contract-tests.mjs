@@ -203,7 +203,7 @@ assert.equal(productCandidates.status, "marketplace_candidate_unverified");
 assert.equal(productCandidates.products.length, 9);
 assert.equal(
   productCandidates.products.reduce((sum, p) => sum + p.variants.length, 0),
-  26,
+  27,
 );
 assert.equal(
   productCandidates.products.reduce(
@@ -403,7 +403,7 @@ assert.ok(
   "rejected duplicate tumbler alternate is not runtime media",
 );
 console.log(
-  "Shop contracts: Midtrans signature/status integrity, provider state mapping, Batch 02/03 readiness, Batch 04 policy, 9 products / 26 marketplace candidate variants / 79 stock, explicit physical-supplier verification gate, 26 approved runtime media + 1 rejected provenance asset PASS",
+  "Shop contracts: Midtrans signature/status integrity, provider state mapping, Batch 02/03 readiness, Batch 04 policy, 9 products / 27 marketplace candidate variants / 79 stock, explicit physical-supplier verification gate, 26 approved runtime media + 1 rejected provenance asset PASS",
 );
 
 
