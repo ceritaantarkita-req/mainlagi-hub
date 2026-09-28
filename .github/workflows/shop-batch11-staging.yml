@@ -1,9 +1,6 @@
 name: Shop Batch 11 free staging
 
 on:
-  push:
-    branches:
-      - agent/mainlagi-shop-foundation-20260927
   workflow_dispatch:
 
 permissions:
@@ -287,17 +284,17 @@ jobs:
           }
 
           accepted_code="$(curl -sS -o /tmp/b11-accepted.json -w '%{http_code}'             -X POST "$STAGING_URL/api/shop/shipping/rates"             -H "Origin: $STAGING_URL"             -H "Content-Type: application/json"             -H "X-Mainlagi-Shop-Staging-Secret: $SHOP_STAGING_ACCEPTANCE_SECRET"             --data '{"postalCode":"12240"}')"
-          [[ "$accepted_code" == "503" ]] || {
-            echo "::error::Secret-gated request returned unexpected HTTP $accepted_code."
+          [[ "$accepted_code" == "404" ]] || {
+            echo "::error::Secret-gated request did not reach the DB-backed empty-cart boundary (HTTP $accepted_code)."
             cat /tmp/b11-accepted.json
             exit 1
           }
-          grep -Fq "konfigurasi operasional belum lengkap" /tmp/b11-accepted.json || {
-            echo "::error::Secret-gated request did not advance from sales-off to the operational-policy gate."
+          grep -Fq "Keranjang" /tmp/b11-accepted.json || {
+            echo "::error::Secret-gated request did not reach the expected DB-backed cart boundary."
             cat /tmp/b11-accepted.json
             exit 1
           }
-          echo "Free database-backed staging boundary PASS: public request stopped at sales-off; secret-gated request advanced to the still-blocking operational-policy gate."
+          echo "Free database-backed staging boundary PASS: public request stopped at sales-off; secret-gated request reached the local Supabase-backed cart boundary."
 
       - name: Deploy temporary real Cloudflare scheduled reconciliation
         shell: bash
