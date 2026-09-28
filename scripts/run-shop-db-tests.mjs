@@ -102,6 +102,14 @@ try {
         JSON.stringify({
           verificationStatus: "production_verified",
           sizeChart: "S: verified sample measurements",
+          marketplaceCandidate: {
+            targetFacts: {
+              color: "Putih",
+              material: "Cotton Combed 24s",
+              fit: "Regular kids unisex",
+              print: "Mainlagi front graphic",
+            },
+          },
           verification: {
             method: "physical_sample",
             verifiedBy: "Shop test verifier",
@@ -131,8 +139,16 @@ try {
       product.description,
       JSON.stringify({
         verificationStatus: "production_verified",
-        sizeChart: "S: verified sample measurements",
-        verification: {
+          sizeChart: "S: verified sample measurements",
+          marketplaceCandidate: {
+            targetFacts: {
+              color: "Putih",
+              material: "Cotton Combed 24s",
+              fit: "Regular kids unisex",
+              print: "Mainlagi front graphic",
+            },
+          },
+          verification: {
           method: "physical_sample",
           verifiedBy: "Shop test verifier",
           verifiedAt: "2026-09-28",
