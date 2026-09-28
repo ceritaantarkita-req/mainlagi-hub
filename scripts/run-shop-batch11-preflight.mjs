@@ -336,6 +336,10 @@ for (const required of [
   "verification_stale",
   "verified product facts changed",
   "physical variant configuration changed",
+  "previousVerification",
+  "'evidenceRef',null",
+  "'verifiedAt',null",
+  "'method',null",
   "shop_verified_facts_staleness",
   "shop_verified_variant_staleness_update",
 ]) {
@@ -356,5 +360,5 @@ assert.doesNotMatch(
 );
 
 console.log(
-  "Shop verification staleness guard PASS: verified facts or physical variant changes force verification_stale; price-only changes do not.",
+  "Shop verification staleness guard PASS: verified facts or physical variant changes force verification_stale, archive old evidence, require fresh evidence, and price-only changes do not.",
 );
