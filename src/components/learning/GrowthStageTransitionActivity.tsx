@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { ActivityCompletion } from "./ActivityCompletion";
 import { useEffect, useRef, useState } from "react";
 import { GardenActivityFrame } from "./GardenActivityFrame";
 import { getActivityLearningSpec } from "@/lib/learning/catalog";
@@ -116,6 +116,13 @@ export function GrowthStageTransitionActivity({ childId, activityId }: { childId
     setFeedback("good");
   };
 
+  const restart = () => {
+    incorrectRef.current = 0;
+    retryRef.current = 0;
+    setSelected(null);
+    setFeedback("idle");
+  };
+
   const targetCard = feedback === "good"
     ? (
         <StageCard
@@ -216,11 +223,7 @@ export function GrowthStageTransitionActivity({ childId, activityId }: { childId
               : `💡 ${config.cue}`}
         </div>
 
-        {feedback === "good" ? (
-          <Link className={styles.nextLink} href={`/child/${childId}/subject/${activity.subjectId}`}>
-            Pilih permainan lain
-          </Link>
-        ) : null}
+        {feedback === "good" ? <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} /> : null}
       </section>
     </GardenActivityFrame>
   );
