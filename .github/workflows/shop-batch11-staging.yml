@@ -329,6 +329,14 @@ jobs:
           }
           echo "Free database-backed staging boundary PASS: public request stopped at sales-off; secret-gated request reached the local Supabase-backed cart boundary."
 
+      - name: Run full integrated DB-backed provider E2E
+        shell: bash
+        env:
+          MIDTRANS_IS_PRODUCTION: "false"
+        run: |
+          set -Eeuo pipefail
+          node scripts/run-shop-batch11-integrated-e2e.mjs
+
       - name: Deploy temporary real Cloudflare scheduled reconciliation
         shell: bash
         run: |
@@ -418,6 +426,7 @@ jobs:
           path: |
             /tmp/mainlagi-shop-local-products.json
             /tmp/mainlagi-shop-batch11-reconciliation-evidence.json
+            /tmp/mainlagi-shop-batch11-integrated-e2e.json
             /tmp/b11-health.json
           if-no-files-found: error
           retention-days: 14
