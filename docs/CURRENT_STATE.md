@@ -2150,7 +2150,7 @@ All five preserve explicit runtime measurement/evidence and renderer-owned `comp
 
 Canonical checkpoint: `SI06B2_SENTENCE_READING_SAFE_CHECKPOINT_2026-09-28.md`.
 
-## 28 September 2026 — Shared Interaction SI-06C matching/order/drag — ACTIVE
+## 28 September 2026 — Shared Interaction SI-06C matching/order/drag — CLOSED / LIVE VERIFIED
 
 Current verified production baseline:
 
@@ -2183,13 +2183,13 @@ Preflight/current boundary:
 - all five keep explicit runtime measurement, evidence fidelity, renderer-owned `completeActivity`, dispatcher ownership and progression/mastery semantics.
 - browser QA is extended so Again resets local state without creating a second target attempt.
 - `GrowthStageTransitionActivity` is a shared renderer and is migrated once here; later Science work must not duplicate this owner migration.
-- SI-06D is **not authorized after SI-06C**. After C closes, stop and discuss before any Math mutation.
+- historical SI-06C handoff required a stop/discussion before Math mutation; that authorization was subsequently granted, SI-06D was executed, and SI-06D is now closed/live verified.
 
 SI-06C runtime PR #379 final head `a0bac57263224917d10910f8da8c2e9559d6a1dd` passed CI #2230 / run `36411290409` full success and squash-merged to `050557cacb19d24ba329233ba9d934cc19ef2d4b`.
 
 Merged-main CI #2231 / run `36412450434` completed full success including exact Production smoke (Cloudflare). SI-06C is **closed / merged / live verified**.
 
-**Hard stop:** SI-06D remains **PAUSED / not authorized**. Do not begin Math renderer mutation until the user explicitly discusses and authorizes SI-06D.
+Historical SI-06C hard stop was satisfied by explicit user authorization before SI-06D began. It is retained only as sequencing history; it is not a current blocker.
 
 
 
