@@ -85,7 +85,7 @@ try {
   );
   assert.equal(
     (await one("select count(*)::int n from public.shop_variants")).n,
-    26,
+    27,
   );
   assert.equal(
     (
@@ -109,7 +109,7 @@ try {
         "select count(*)::int n from public.shop_variants where is_active and length_mm is not null and width_mm is not null and height_mm is not null",
       )
     ).n,
-    26,
+    27,
     "all candidate variants carry packed shipping dimensions",
   );
   assert.equal(
@@ -218,7 +218,7 @@ try {
   await db.exec("reset role");
 
   console.log(
-    `Full migration chain: ${files.length} migrations, Shop 26-variant candidate seed / 79 stock / packed-dimension propagation / verification gate / RLS / RPC privilege checks PASS`,
+    `Full migration chain: ${files.length} migrations, Shop 27-variant candidate seed / 79 stock / packed-dimension propagation / verification gate / RLS / RPC privilege checks PASS`,
   );
 } finally {
   await db.close();
