@@ -1600,3 +1600,22 @@ for the remaining full integrated DB-backed provider sequence. Do not re-enable
 the push trigger. Do not create a paid Supabase branch. Do not touch production
 Supabase. Production sales stay disabled. Production product truth and production
 PII retention remain separate unresolved owner/data blockers.
+
+## Batch 11 marketplace product candidate implementation — 28 September 2026
+
+PR #359 now contains an additive migration that materializes the owner-approved
+marketplace benchmark into the Shop DB: 9 products, 26 candidate variants and
+79 stock units. The migration removes fresh-seed `*-DEFAULT` variants, records
+variant-level candidate weight/package dimensions, and stores candidate metadata
+under `shop_products.facts.marketplaceCandidate`.
+
+Safety boundary: every product remains `draft`, `facts_verified=false`, and
+`verificationStatus=marketplace_candidate_unverified`. Both
+`shop_product_readiness` and the admin editor require explicit
+`production_verified` confirmation after a physical sample or supplier
+production sheet is checked. Marketplace analogues alone cannot activate sales.
+
+Batch 11 ephemeral staging now uses `008-A5-80-LINED` and may set a disposable
+test-only verification fixture so the integrated provider E2E can run. That
+ephemeral override is not production product truth.
+
