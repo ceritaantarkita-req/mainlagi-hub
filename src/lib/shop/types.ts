@@ -83,6 +83,9 @@ export type OrderItem = {
   unit_price_amount: number;
   quantity: number;
   weight_grams_snapshot: number;
+  length_mm_snapshot: number | null;
+  width_mm_snapshot: number | null;
+  height_mm_snapshot: number | null;
   line_total_amount: number;
 };
 export const rupiah = (n: number) =>
