@@ -10,7 +10,7 @@ Read these first for current work:
 
 1. [`NEXT_PRODUCT_QUALITY_PLAN.md`](NEXT_PRODUCT_QUALITY_PLAN.md) — current execution order, workstreams, status and mandatory gates.
 2. [`CURRENT_STATE.md`](CURRENT_STATE.md) — current repository/product/production baseline.
-   - [`MAINLAGI_SHOP_BATCH11_SAFE_CHECKPOINT_2026-09-28.md`](MAINLAGI_SHOP_BATCH11_SAFE_CHECKPOINT_2026-09-28.md) — active resumable Shop PR #359 / Batch 11 checkpoint; do not restart completed provider/staging work.
+   - [`MAINLAGI_SHOP_BATCH11_SAFE_CHECKPOINT_2026-09-28.md`](MAINLAGI_SHOP_BATCH11_SAFE_CHECKPOINT_2026-09-28.md) — active resumable Shop PR #359 / Batch 11 checkpoint; integrated DB-backed E2E harness is prepared for one manual evidence run; do not restart completed provider/staging work.
    - [`MAINLAGI_CORE_THUMBNAIL_WAVE01_LIVE_CHECKPOINT_2026-09-27.md`](MAINLAGI_CORE_THUMBNAIL_WAVE01_LIVE_CHECKPOINT_2026-09-27.md) — current post-implementation safe checkpoint for the 31-file 4:3 core-thumbnail family, PR #357, CI #1711 and exact Cloudflare live verification.
    - [`data/MAINLAGI_CORE_THUMBNAIL_WAVE01_SOURCE_MAP_2026-09-26.json`](data/MAINLAGI_CORE_THUMBNAIL_WAVE01_SOURCE_MAP_2026-09-26.json) — exact machine-readable Drive/source mapping for Home, subjects, Main Gerak and World.
 3. [`PROJECT_STATE_SYNC_2026-09-20.md`](PROJECT_STATE_SYNC_2026-09-20.md) — compact current handoff and next-work state.
