@@ -1,6 +1,6 @@
 # SI-06D Math Specialized Renderers — Safe Checkpoint — 28 September 2026
 
-Status: **ACTIVE — D1 choice/shared implementation; D2 trace blocked until D1 live verification**
+Status: **ACTIVE — D1 CLOSED / LIVE VERIFIED; D2 trace authorized and active**
 
 ## Resume point
 
@@ -10,9 +10,15 @@ Continue this exact SI-06D workstream. Do not restart SI-06A/B1/B2/C.
 repository: ceritaantarkita-req/mainlagi-hub
 verified baseline main: 27a4e647b0819f532956eebe83c2668b6acfeb32
 baseline CI: #2233 / run 36414788564 — FULL SUCCESS including exact Cloudflare smoke
-active branch: agent/si-06d1-math-choice-20260928
-phase: SI-06D1 — Math choice/shared renderers
-next inside SI-06D: SI-06D2 — MathTraceWorldActivity
+D1 runtime PR: #381 — merged
+D1 final PR head: 0141bffc36d38d0e7a461bbc9fdcb7f17feb5252
+D1 PR CI: #2244 / run 36421974034 — FULL SUCCESS
+D1 merged main: 4183001b203d0e93ea0de7e6b231525813c93c20
+D1 merged-main CI: #2245 / run 36423309927 — FULL SUCCESS
+D1 Cloudflare smoke: SUCCESS — exact merged SHA verified
+active branch: agent/si-06d2-math-trace-20260928
+phase: SI-06D2 — MathTraceWorldActivity
+D1 status: CLOSED / MERGED / LIVE VERIFIED
 after SI-06D closure: STOP — SI-06E requires separate authorization
 ```
 
@@ -52,7 +58,7 @@ SI-06D1 — nine choice/shared owners
 SI-06D2 — MathTraceWorldActivity only
 ```
 
-D2 must not start until D1 is merged and exact production verification is green.
+D1 satisfied the required gate: PR #381 final head `0141bffc36d38d0e7a461bbc9fdcb7f17feb5252` passed CI #2244, squash-merged to `4183001b203d0e93ea0de7e6b231525813c93c20`, and merged-main CI #2245 / run `36423309927` completed full success including exact Cloudflare smoke. D2 is therefore authorized.
 
 ## SI-06D1 boundary
 
@@ -278,7 +284,7 @@ SI-06D1 removes:
 
 ## SI-06D2 boundary
 
-Not started in D1.
+**ACTIVE after D1 live verification.**
 
 D2 will migrate only:
 
