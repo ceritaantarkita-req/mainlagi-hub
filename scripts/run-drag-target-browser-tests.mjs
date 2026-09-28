@@ -89,15 +89,21 @@ async function inspect(viewport){
     await page.locator('[data-drag-target-pair="rabbit"]').click();
 
     await page.getByRole("status").filter({hasText:"Semua pasangan"}).waitFor({state:"visible",timeout:2000});
-    const nextLink=page.getByRole("link",{name:"Pilih permainan lain"});const nextBox=await nextLink.boundingBox();const viewportHeight=await page.evaluate(()=>window.innerHeight);assert(nextBox,"drag target success CTA must render");assert(nextBox.y>=-1&&nextBox.y+nextBox.height<=viewportHeight+1,`drag target success CTA must remain fully visible at ${viewport.width}`);
+    const completion=page.locator("[data-activity-completion]");const completionBox=await completion.boundingBox();const viewportHeight=await page.evaluate(()=>window.innerHeight);assert(completionBox,"drag target canonical Completion must render");assert(completionBox.y>=-1&&completionBox.y+completionBox.height<=viewportHeight+1,`drag target Completion must remain fully visible at ${viewport.width}`);
 
     const state=await page.evaluate(({id})=>{const progress=JSON.parse(localStorage.getItem("mainlagi-learning-progress-v1")??"{}");const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");const list=attempts["demo-gian"]??[];return{completed:(progress["demo-gian"]?.completedActivityIds??[]).includes(id),attempt:[...list].reverse().find(item=>item.activityId===id)};},{id:activityId});
     assert.equal(state.completed,true,"drag target completes canonical activity");assert(state.attempt,"drag target records attempt");assert.equal(state.attempt.assessed,true);assert.equal(state.attempt.metadata?.evidenceFidelity,"matching_drag_target_interaction");assert.equal(state.attempt.metadata?.matchedPairCount,3);assert.equal(state.attempt.correctCount,3);assert.equal(state.attempt.incorrectCount,1);assert.equal(state.attempt.retryCount,1);assert.equal(state.attempt.accuracy,0.75);
     await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-drag-target-success.png`),fullPage:false});
+    await completion.locator('[data-completion-action="again"]').click();await completion.waitFor({state:"hidden",timeout:2000});
+    assert.equal(await page.locator("[data-drag-target]").getAttribute("data-drag-target-done"),"false","Again clears drag completion state");
+    assert.equal(await sources.evaluateAll(nodes=>nodes.every(node=>!node.disabled)),true,"Again re-enables drag sources");
+    assert.equal(await page.locator("[data-drag-target-pair]").evaluateAll(nodes=>nodes.every(node=>!node.disabled)),true,"Again re-enables drag targets");
+    const targetAttemptCount=await page.evaluate(({id})=>{const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");return(attempts["demo-gian"]??[]).filter(item=>item.activityId===id).length;},{id:activityId});
+    assert.equal(targetAttemptCount,1,"DragTarget Again reset alone must not create a second attempt");
     assert.deepEqual(pageErrors,[],`page errors at ${viewport.width}: ${pageErrors.join(" | ")}`);assert.deepEqual(consoleErrors,[],`console errors at ${viewport.width}: ${consoleErrors.join(" | ")}`);
     await context.close();
   }finally{await browser.close();}
 }
 
-async function main(){startServer();await waitForServer();for(const viewport of viewports)await inspect(viewport);console.log(`Drag-target browser QA passed ${viewports.length} viewports with valid progression, keyboard wrong-state, mouse drag, touch fallback, responsive layout, in-viewport CTA, completion, and assessed evidence checks.`);}
+async function main(){startServer();await waitForServer();for(const viewport of viewports)await inspect(viewport);console.log(`Drag-target browser QA passed ${viewports.length} viewports with valid progression, keyboard wrong-state, mouse drag, touch fallback, responsive layout, canonical Completion, local Again replay, and assessed evidence checks.`);}
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;}).finally(stopServer);
