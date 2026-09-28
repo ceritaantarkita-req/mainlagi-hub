@@ -4,7 +4,7 @@ Status: **CLOSED / MERGED / LIVE VERIFIED**
 
 ## Resume point
 
-Continue this exact workstream. Do not restart SI-06B preflight and do not start SI-06B2 before SI-06B1 is merged/live verified.
+SI-06B1 is fully closed / merged / live verified. Do not restart the broad SI-06B preflight or reopen B1. Resume with the bounded SI-06B2 sentence/reading preflight against current dispatcher ownership, then mutate only the confirmed five-owner B2 scope.
 
 ```text
 repository: ceritaantarkita-req/mainlagi-hub
@@ -28,6 +28,8 @@ SI-06A — fallback Belajar owner             CLOSED / LIVE
 ```
 
 SI-06A runtime PR #371 and docs closure PR #372 are production verified. Final docs main is `3dacf402647188d3a8119dc90d42595d4fe768c3`, main CI #2071 / run `36380976483` full success including exact Cloudflare smoke.
+
+SI-06B1 runtime PR #373 is production verified at merged main `15058932eff424bc6ba7eb3e4e5bf0ad29ae05a1` with merged-main CI #2078 / run `36384334431` full success including exact Cloudflare smoke. Docs closure PR #374 then merged to `d85732d0cd434915c2e0650fe0468b2b8c104fea`; its push-to-main CI #2086 / run `36386936750` completed full success, including the Production smoke (Cloudflare) job. This is the verified SI-06B1 documentation baseline; later docs-only hygiene must not be mistaken for a runtime change.
 
 ## Why SI-06B was split
 
