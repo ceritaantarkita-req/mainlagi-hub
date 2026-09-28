@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { ActivityCompletion } from "./ActivityCompletion";
 import { useEffect, useRef, useState } from "react";
 import { GardenActivityFrame } from "./GardenActivityFrame";
 import { LearningVisualToken } from "./LearningVisualToken";
@@ -105,6 +105,13 @@ export function PictureWordMatchActivity({ childId, activityId }: { childId: str
     setFeedback("good");
   };
 
+  const restart = () => {
+    incorrectRef.current = 0;
+    retryRef.current = 0;
+    setSelected(null);
+    setFeedback("idle");
+  };
+
   return (
     <GardenActivityFrame
       backHref={`/child/${childId}/subject/${activity.subjectId}`}
@@ -169,9 +176,7 @@ export function PictureWordMatchActivity({ childId, activityId }: { childId: str
               : ui.idle}
         </div>
 
-        {feedback === "good" ? (
-          <Link className={styles.nextLink} href={`/child/${childId}/subject/${activity.subjectId}`}>{ui.next}</Link>
-        ) : null}
+        {feedback === "good" ? <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} /> : null}
       </section>
     </GardenActivityFrame>
   );
