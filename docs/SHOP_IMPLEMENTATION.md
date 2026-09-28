@@ -1519,4 +1519,19 @@ Log supplied by the owner showed the corresponding `order.status` callbacks
 returning HTTP 200 during the manual delivery simulation.
 
 Normal delivery/cancel tracking acceptance is therefore provider-verified.
-Exception/return progression remains the next bounded Biteship acceptance step.
+
+### Biteship Sandbox exception/return acceptance
+
+GitHub Actions run **#2043** independently verified the actual returned Sandbox
+order `6ab95a95a555b84db1ed7f25`. The Biteship dashboard showed the transient
+`Ditahan` / `on_hold` step and the Events Log showed HTTP 200 callbacks; the
+provider APIs then reported terminal `returned` with final tracking history
+containing `return_in_transit → returned`.
+
+Biteship's final tracking history omitted the transient `on_hold` row after the
+return completed, so Mainlagi records this as provider variance rather than treating
+the missing historical row as a failure.
+
+The bounded Biteship Testing Mode Rates, Order, duplicate-detection/manual-fallback,
+authenticated webhook/provider-GET, normal tracking, cancel, and exception/return
+acceptance paths are now all provider-verified.

@@ -102,8 +102,9 @@ evidence required by Batch 11.
    - **PASS:** Delivered status progression, real Biteship `order.status` Events
      Log callbacks with HTTP 200, independent Tracking API retrieval, and the full
      seven-step normal delivery history are provider-verified;
-   - **BLOCKED:** exception/return progression still needs the dedicated Testing
-     dashboard simulation.
+   - **PASS:** exception/return progression is provider-verified: dashboard
+     `on_hold`, HTTP 200 `order.status` callbacks, Order API terminal
+     `returned`, and Tracking API `return_in_transit → returned` all passed.
 
 4. **Safe non-production Shop staging origin**
    - **PASS for provider-webhook boundary:** isolated workers.dev staging origin

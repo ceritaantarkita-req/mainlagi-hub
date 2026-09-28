@@ -557,3 +557,39 @@ Acceptance therefore treats:
 
 The verifier intentionally does not require `on_hold` to survive in final tracking
 history because the live Sandbox provider response disproves that assumption.
+
+
+## Sandbox exception/return acceptance PASS
+
+GitHub Actions run **#2043** completed the read-only verification against the
+actual returned Biteship Testing Mode order:
+
+```text
+order id: 6ab95a95a555b84db1ed7f25
+reference: ML-SBX-CANCEL-36338987485
+terminal order status: returned
+```
+
+Provider evidence:
+
+- the owner manually entered `Ditahan` / `on_hold` in the Biteship Testing
+  dashboard before choosing `RETURN PROCESS`;
+- Biteship Events Log showed the corresponding `order.status` callbacks returning
+  HTTP 200 during the return flow;
+- the final Order API reported `returned`;
+- the final Tracking API history reported:
+  `confirmed → allocated → picking_up → picked → in_transit → dropping_off → return_in_transit → returned`;
+- live Sandbox provider history omitted the transient `on_hold` row after the
+  return completed, so acceptance intentionally uses dashboard evidence for
+  `on_hold` and provider API evidence for `return_in_transit → returned`.
+
+Evidence artifact:
+
+```text
+biteship-sandbox-exception-verification
+artifact id: 10948248815
+sha256: 92f47b85e8ac2b75ee197140392b5a2c8027b3eae459620cf753c669b6047176
+```
+
+This closes the bounded Biteship Testing Mode exception/return progression
+acceptance.
