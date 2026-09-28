@@ -88,7 +88,24 @@ async function canonicalCompletion(page,label){
   assert.equal(await completion.getAttribute("data-completion-context"),"belajar",`${label}: Belajar context`);
   assert.equal(await completion.getAttribute("data-completion-stars"),"3",`${label}: three-star completion`);
   const actions=completion.locator("[data-completion-action]");
-  await page.waitForFunction(() => document.querySelectorAll('[data-canonical-completion="v1"][data-activity-completion] [data-completion-action]').length === 4, null, { timeout: 3000 });
+  try {
+    await page.waitForFunction(() => document.querySelectorAll('[data-canonical-completion="v1"][data-activity-completion] [data-completion-action]').length === 4, null, { timeout: 3000 });
+  } catch (error) {
+    const diagnostic=await page.evaluate(() => {
+      const root=document.querySelector('[data-canonical-completion="v1"][data-activity-completion]');
+      return {
+        rootHtml: root?.outerHTML ?? null,
+        rootActionCount: root?.querySelectorAll("[data-completion-action]").length ?? -1,
+        globalActionCount: document.querySelectorAll("[data-completion-action]").length,
+        globalActions: [...document.querySelectorAll("[data-completion-action]")].map(node=>({
+          action: node.getAttribute("data-completion-action"),
+          text: node.textContent?.trim() ?? ""
+        }))
+      };
+    });
+    console.error("SI-06A completion DOM diagnostic", JSON.stringify(diagnostic));
+    throw error;
+  }
   assert.deepEqual(
     await actions.evaluateAll(nodes=>nodes.map(node=>node.textContent?.trim())),
     ["Back","Again","Next","Share"],
