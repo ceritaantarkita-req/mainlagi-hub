@@ -1,21 +1,25 @@
 # SI-06C Matching / Order / Drag — Safe Checkpoint — 28 September 2026
 
-Status: **ACTIVE / NOT MERGED**
+Status: **MERGED / LIVE VERIFICATION PENDING**
 
 ## Resume point
 
-Continue this exact SI-06C branch. Do not restart SI-06A/B1/B2. After SI-06C reaches merged/live-verified closure, **STOP before SI-06D** and return for product discussion/authorization.
+SI-06C runtime is merged. Do not restart SI-06A/B1/B2/C. Wait for exact merged-main CI + Cloudflare verification. After SI-06C reaches live-verified closure, **STOP before SI-06D** and return for product discussion/authorization.
 
 ```text
 repository: ceritaantarkita-req/mainlagi-hub
-verified production baseline: 9eff1bd861ceb3cd0202022fa43dfe31db87fb40
-B2 docs closure: PR #377
-branch: agent/si-06c-matching-order-drag-clean-20260928
-phase: SI-06C — matching / order / drag specialized renderers
+verified pre-C main: fdbd6a9a8b54b62a5fcc8f8431a875a1ae3e5b83
+B2 docs closure: PR #377 / push CI #2229 — FULL SUCCESS including exact Cloudflare smoke
+runtime PR: #379 — merged
+final PR head: a0bac57263224917d10910f8da8c2e9559d6a1dd
+PR CI: #2230 / run 36411290409 — FULL SUCCESS
+merged main: 050557cacb19d24ba329233ba9d934cc19ef2d4b
+merged-main CI: #2231 / run 36412450434 — PENDING
+phase: SI-06C — MERGED / LIVE VERIFICATION PENDING
 after closure: STOP — SI-06D requires discussion
 ```
 
-The production baseline `9eff1bd861ceb3cd0202022fa43dfe31db87fb40` passed merged-main CI #2186 / run `36394939086` with exact Production smoke (Cloudflare).
+The verified pre-C main `fdbd6a9a8b54b62a5fcc8f8431a875a1ae3e5b83` passed push CI #2229 including exact Production smoke (Cloudflare). SI-06C runtime PR #379 then passed latest-head CI #2230 and squash-merged to `050557cacb19d24ba329233ba9d934cc19ef2d4b`; exact merged-main verification is still pending on CI #2231.
 
 ## Current ownership preflight
 
