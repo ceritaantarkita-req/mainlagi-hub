@@ -2095,7 +2095,7 @@ SI-05  — Belajar pilot runtime                COMPLETE / merged / live verifie
 SI-06A — fallback Belajar owner               COMPLETE / merged / live verified
 SI-06B1 — literacy/audio early family         COMPLETE / merged / live verified
 SI-06B2 — sentence/reading family             COMPLETE / merged / live verified
-SI-06C — matching/order/drag family           ACTIVE / not merged
+SI-06C — matching/order/drag family           MERGED / live verification pending
 SI-06D — Math specialized renderers           PAUSED / discuss before start
 SI-06E+ — later Belajar batches               NOT STARTED
 ```
@@ -2153,11 +2153,13 @@ Canonical checkpoint: `SI06B2_SENTENCE_READING_SAFE_CHECKPOINT_2026-09-28.md`.
 Current verified production baseline:
 
 ```text
-main:                    9eff1bd861ceb3cd0202022fa43dfe31db87fb40
-merged-main CI:          #2186 / run 36394939086 — FULL SUCCESS
+pre-C main:              fdbd6a9a8b54b62a5fcc8f8431a875a1ae3e5b83
+pre-C push CI:           #2229 / run 36406151568 — FULL SUCCESS
 Cloudflare smoke:        SUCCESS — exact merged main SHA verified
-B2 docs closure:         PR #377
-SI-06C branch:           agent/si-06c-matching-order-drag-clean-20260928
+B2 docs closure:         PR #377 — merged / verified
+SI-06C runtime PR:       #379 — merged
+SI-06C merged main:      050557cacb19d24ba329233ba9d934cc19ef2d4b
+SI-06C merged-main CI:   #2231 / run 36412450434 — PENDING
 checkpoint:
 docs/SI06C_MATCHING_ORDER_DRAG_SAFE_CHECKPOINT_2026-09-28.md
 ```
@@ -2181,5 +2183,7 @@ Preflight/current boundary:
 - `GrowthStageTransitionActivity` is a shared renderer and is migrated once here; later Science work must not duplicate this owner migration.
 - SI-06D is **not authorized after SI-06C**. After C closes, stop and discuss before any Math mutation.
 
-SI-06C is **active / not merged**.
+SI-06C runtime PR #379 final head `a0bac57263224917d10910f8da8c2e9559d6a1dd` passed CI #2230 / run `36411290409` full success and squash-merged to `050557cacb19d24ba329233ba9d934cc19ef2d4b`.
+
+Merged-main CI #2231 / run `36412450434` is pending, so SI-06C is **merged / live verification pending**. SI-06D remains **PAUSED / not authorized**.
 
