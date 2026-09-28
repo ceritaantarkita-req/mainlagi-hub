@@ -103,7 +103,7 @@ The marketplace candidate is now **implemented in the Shop database migration ch
 
 `supabase/migrations/20260928143000_shop_batch11_marketplace_candidate_variants.sql`.
 
-Fresh Shop databases now receive all **26 candidate variants** and the complete
+Fresh Shop databases now receive all **27 candidate variants** and the complete
 **79-unit** allocation instead of nine `*-DEFAULT` variants. Each product is
 written with:
 
