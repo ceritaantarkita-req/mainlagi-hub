@@ -475,3 +475,27 @@ sha256: 612c2c0e308c6be62f0af4a18d4d20020e91693e20a68cca5ab1578016537547
 This closes the normal Delivered/cancelled tracking progression acceptance in
 Biteship Testing Mode. Exception/return progression remains a separate acceptance
 case.
+
+
+## Exception progression verifier
+
+The repository now contains a read-only verifier for the terminal exception/return
+flow. It expects a Biteship Testing Mode order to be manually progressed through
+the dashboard until `returned`, then independently verifies the provider order and
+tracking object contain:
+
+```text
+on_hold
+→ return_in_transit
+→ returned
+```
+
+A pre-existing confirmed sandbox order is reserved as fallback candidate:
+
+```text
+6ab95a91f73d9610c05662f4
+```
+
+This avoids creating extra provider test orders if the dedicated exception-candidate
+Actions job remains queued. The verifier performs GET requests only and never mutates
+provider status itself.

@@ -696,3 +696,30 @@ jobs:
           path: /tmp/mainlagi-biteship-exception-candidate.json
           if-no-files-found: error
           retention-days: 14
+
+
+  shop-biteship-sandbox-exception-verification:
+    name: Shop Biteship sandbox exception verification
+    if: >-
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/agent/mainlagi-shop-foundation-20260927' &&
+      contains(github.event.head_commit.message, '[biteship-exception-verify]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      BITESHIP_TEST_API_KEY: ${{ secrets.BITESHIP_TEST_API_KEY }}
+      BITESHIP_TEST_EXCEPTION_ORDER_ID: "6ab95a91f73d9610c05662f4"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Verify exception and return tracking progression
+        run: node scripts/run-shop-biteship-sandbox-exception-verification.mjs
+      - name: Upload exception progression evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: biteship-sandbox-exception-verification
+          path: /tmp/mainlagi-biteship-exception-verification.json
+          if-no-files-found: error
+          retention-days: 14
