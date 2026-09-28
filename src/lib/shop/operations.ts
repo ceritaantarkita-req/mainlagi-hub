@@ -29,6 +29,12 @@ import {
   operationalCourierServiceAllowed,
   operationalPolicyBlockers,
 } from "./operationalPolicy";
+
+function shippingDimensionCm(value: number | null | undefined) {
+  if (!Number.isSafeInteger(value) || Number(value) <= 0)
+    throw new ShopError("Dimensi pengiriman produk belum siap.");
+  return Number(value) / 10;
+}
 export async function rates(b: Record<string, unknown>) {
   if (operationalPolicyBlockers().length)
     throw new ShopError("Konfigurasi operasional Shop belum lengkap.", 503);
@@ -58,6 +64,9 @@ export async function rates(b: Record<string, unknown>) {
       value: v.price_override_amount ?? p.base_price_amount,
       quantity,
       weight: v.weight_grams,
+      length: shippingDimensionCm(v.length_mm),
+      width: shippingDimensionCm(v.width_mm),
+      height: shippingDimensionCm(v.height_mm),
     };
   });
   const response = await biteship("/v1/rates/couriers", {
@@ -309,15 +318,25 @@ export async function ship(number: string, actor: string) {
     throw new ShopError("Konfigurasi operasional Shop belum lengkap.", 503);
   const o = await order(number, true),
     c = await db();
+  const items = result(
+    await c.from("shop_order_items").select("*").eq("order_id", o.id),
+  ) as OrderItem[];
+  const providerItems = items.map((i) => ({
+    name: i.title_snapshot,
+    sku: i.sku_snapshot,
+    value: i.unit_price_amount,
+    quantity: i.quantity,
+    weight: i.weight_grams_snapshot,
+    length: shippingDimensionCm(i.length_mm_snapshot),
+    width: shippingDimensionCm(i.width_mm_snapshot),
+    height: shippingDimensionCm(i.height_mm_snapshot),
+  }));
   if (
     !result(
       await c.rpc("shop_claim_shipment", { p_order: o.id, p_actor: actor }),
     )
   )
     throw new ShopError("Pengiriman sedang diproses atau sudah dibuat.", 409);
-  const items = result(
-    await c.from("shop_order_items").select("*").eq("order_id", o.id),
-  ) as OrderItem[];
   const q = o.shipping_quote_snapshot as Quote;
   let p: Record<string, unknown>;
   try {
@@ -337,13 +356,7 @@ export async function ship(number: string, actor: string) {
       courier_type: q.service_code,
       origin_collection_method: "pickup",
       delivery_type: "now",
-      items: items.map((i) => ({
-        name: i.title_snapshot,
-        sku: i.sku_snapshot,
-        value: i.unit_price_amount,
-        quantity: i.quantity,
-        weight: i.weight_grams_snapshot,
-      })),
+      items: providerItems,
     });
   } catch (e) {
     if (e instanceof ProviderError && Number(e.code) === 40002060) {
