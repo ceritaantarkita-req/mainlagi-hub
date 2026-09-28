@@ -132,6 +132,21 @@ try {
       JSON.stringify({
         verificationStatus: "production_verified",
         sizeChart: "S: verified sample measurements",
+        verification: {
+          method: "physical_sample",
+          verifiedBy: "Shop test verifier",
+          verifiedAt: "2026-09-28",
+          evidenceRef: "test-fixture:physical-sample-001",
+          productFactsConfirmed: true,
+          stockCountConfirmed: true,
+          actualProductFacts: {
+            color: "Putih",
+            material: "Cotton Combed 24s",
+            fit: "Regular kids unisex",
+            print: "Mainlagi front graphic",
+          },
+          variantSkus: ["001-S", "001-M"],
+        },
       }),
       owner,
     ],
