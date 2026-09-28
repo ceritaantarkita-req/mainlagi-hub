@@ -152,7 +152,9 @@ for (const required of [
   ".trycloudflare.com",
   "biteship_test.",
   "api.sandbox.midtrans.com",
-  "/login",
+  "createServerClient",
+  "signInWithPassword",
+  "context.addCookies",
   "admin/pack",
   "admin/ship",
   "biteship/webhook",
@@ -167,6 +169,11 @@ assert.match(
   files.integratedE2e,
   /email_confirm:\s*true[\s\S]*profiles\?select=id,role[\s\S]*role:\s*"owner"/,
   "integrated E2E must create/promote an ephemeral local owner instead of bypassing owner auth",
+);
+assert.match(
+  files.integratedE2e,
+  /createServerClient[\s\S]*signInWithPassword[\s\S]*context\.addCookies/,
+  "integrated E2E must establish the ephemeral owner session through Supabase SSR cookies",
 );
 assert.doesNotMatch(
   files.route,
