@@ -328,3 +328,35 @@ boundary.
 
 This does not make the marketplace dimensions production-verified. The existing
 `marketplace_candidate_unverified → production_verified` gate remains mandatory.
+
+## 28 September continuation — physical/supplier verification pack prepared
+
+Physical/supplier verification is now implemented as an auditable workflow on
+PR #359.
+
+Canonical files:
+
+- `docs/MAINLAGI_SHOP_PHYSICAL_SUPPLIER_VERIFICATION_2026-09-28.md`;
+- `docs/data/MAINLAGI_SHOP_PHYSICAL_SUPPLIER_VERIFICATION_2026-09-28.json`;
+- migration
+  `20260928145000_shop_batch11_physical_supplier_verification.sql`.
+
+Scope at this checkpoint:
+
+- **9 products / 27 candidate variants / 79 allocated units**;
+- **0/9 products verified**;
+- **0/27 variants verified**;
+- every actual physical value remains blank/null in the canonical verification
+  pack until real sample/supplier evidence is supplied;
+- the marketplace candidate baseline must remain preserved for comparison;
+- production verification requires method, verifier, date, evidence reference,
+  actual value for every candidate product fact, stock confirmation, and evidence
+  coverage for every active SKU;
+- admin UI mirrors those requirements;
+- direct status forcing without evidence remains blocked by DB readiness;
+- Batch 11 disposable staging uses a clearly marked simulated fixture only and
+  does not become production truth.
+
+Important correction discovered during this continuation: the candidate dataset
+contains **27**, not 26, valid variant rows. The stock total remains **79**. The
+previous 26 count was an arithmetic/documentation error, not an extra SKU.
