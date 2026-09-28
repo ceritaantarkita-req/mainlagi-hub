@@ -12,6 +12,7 @@ const files = {
   env: await readFile(".env.example", "utf8"),
   server: await readFile("src/lib/shop/server.ts", "utf8"),
   route: await readFile("src/app/api/shop/[...path]/route.ts", "utf8"),
+  operations: await readFile("src/lib/shop/operations.ts", "utf8"),
   workflow: await readFile(".github/workflows/ci.yml", "utf8"),
   batch11Workflow: await readFile(
     ".github/workflows/shop-batch11-staging.yml",
@@ -174,6 +175,11 @@ assert.match(
   files.integratedE2e,
   /createServerClient[\s\S]*signInWithPassword[\s\S]*context\.addCookies/,
   "integrated E2E must establish the ephemeral owner session through Supabase SSR cookies",
+);
+assert.match(
+  files.operations,
+  /SHOP_STAGING_ACCEPTANCE_ENABLED\s*===\s*"true"[\s\S]*MIDTRANS_IS_PRODUCTION\s*!==\s*"true"[\s\S]*enabled_payments:\s*\["permata_va"\]/,
+  "staging Snap must be constrained to Permata VA only in non-production staging acceptance",
 );
 assert.doesNotMatch(
   files.route,
