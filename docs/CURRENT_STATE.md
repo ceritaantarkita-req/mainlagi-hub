@@ -1941,7 +1941,7 @@ The final checkpoint head `6ac00892b7d22139f45bb7e0107ddd4e33bdd924` passed PR C
 SI-03 is **closed / merged / live verified**. SI-04 — Canonical Share component — is now the only authorized next Shared Interaction phase. Preserve the live SI-03 Completion shell and extract Share ownership without starting Belajar mass migration, Bermain migration, World migration, Journey Map, or Shop work.
 
 
-## 28 September 2026 — Shared Interaction SI-04 branch-safe checkpoint — CURRENT
+## 28 September 2026 — Shared Interaction SI-04 merged/live closure — CURRENT
 
 Current Shared Interaction sequence:
 
@@ -1950,29 +1950,38 @@ SI-00 — Read-only coverage audit             COMPLETE / merged
 SI-01 — Orientation foundation               COMPLETE / merged / live verified
 SI-02 — Canonical Character Presentation     COMPLETE / merged / live verified
 SI-03 — Canonical Completion component       COMPLETE / merged / live verified
-SI-04 — Canonical Share component            IMPLEMENTED ON BRANCH / CI pending
-SI-05 — Belajar pilot runtime                NOT STARTED
+SI-04 — Canonical Share component            COMPLETE / merged / live verified
+SI-05 — Belajar pilot runtime                NEXT / not started
 ```
 
-Active SI-04 branch:
+SI-04 closure:
 
 ```text
-branch: agent/si-04-canonical-share-20260928
-base:   main 9e233e2a05aeb34ecc536b73fe2040aefde72a89
+PR:                     #367 — merged
+final PR head:          c96a5b51a5605fab60e6d10f801d042e8ee2fd2d
+final PR CI:            #1999 / run 36341904495 — FULL SUCCESS
+merged main:            a41af99f3bacde43fd32d6d530134ea2225e8c72
+merged-main CI:         #2000 / run 36342644695 — FULL SUCCESS
+Cloudflare smoke:       SUCCESS — exact merged main SHA verified
 checkpoint:
 docs/SI04_CANONICAL_SHARE_SAFE_CHECKPOINT_2026-09-28.md
 ```
 
-Implemented SI-04 boundary:
+Live SI-04 boundary:
 
-- one public-safe Share resolver for Belajar / World / Bermain adapter contexts;
 - one canonical parent-gated Share modal;
-- centralized Copy Link / Share Device / WhatsApp / Telegram / X / Facebook / Threads;
-- Belajar `ActivityCompletion` migrated from local Share implementation to the canonical owner;
-- child route / `childId` is not accepted by the Share resolver;
-- SI-01 visual-viewport containment + short-landscape layout;
-- World remains unmigrated until SI-10;
-- gameplay-header `ShareButton` remains an explicit later retirement/retention decision;
-- no progression/evidence/mastery, Journey Map, Shop, World, or Bermain runtime migration.
+- one public-safe Belajar / World / Bermain share payload resolver;
+- centralized Copy Link / Share Device / WhatsApp / Telegram / X / Facebook / Threads provider handling;
+- canonical Share never shares `window.location.href`;
+- Belajar proof adapter resolves only to public site origin and never passes `childId` or activity route to Share;
+- Share modal preserves SI-01 portrait/landscape state and stays bounded by the visual viewport;
+- SI-03 canonical Completion remains the visual trigger owner;
+- World completion/share remains intentionally bespoke until SI-10;
+- Bermain gameplay-header Share remains intentionally unresolved for its later retirement/retention decision;
+- no Shop, Journey Map, World migration, Bermain RoundEnd migration, or evidence/mastery/progression rewrite occurred.
 
-Do not mark SI-04 merged/live or start SI-05 until latest-head CI, merged-main CI and exact Cloudflare smoke are green.
+Historical CI #1997 failures were closure-harness regressions: React 19 effect lint and one stale permanent mobile-route assertion that still expected legacy Share copy. The dedicated SI-04 browser acceptance itself already passed in that run. Both issues were corrected; final head `c96a5b51a5605fab60e6d10f801d042e8ee2fd2d` passed PR CI #1999 in full, then main `a41af99f3bacde43fd32d6d530134ea2225e8c72` passed CI #2000 plus exact Cloudflare smoke.
+
+SI-04 is **closed / merged / live verified**.
+
+The only authorized next Shared Interaction phase is **SI-05 — Belajar pilot runtime**. Use one currently-inline finite assessed renderer as the pilot; preserve its existing completion/evidence write and replace only the post-success presentation with the already-live canonical Completion + Share system. Do not start SI-06 batches, Bermain migration, World migration, Journey Map, or Shop work inside the SI-05 pilot.
