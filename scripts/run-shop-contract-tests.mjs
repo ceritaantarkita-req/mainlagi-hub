@@ -151,6 +151,12 @@ const productCandidates = JSON.parse(
     "utf8",
   ),
 );
+const physicalVerification = JSON.parse(
+  await readFile(
+    "docs/data/MAINLAGI_SHOP_PHYSICAL_SUPPLIER_VERIFICATION_2026-09-28.json",
+    "utf8",
+  ),
+);
 const operationalPolicy = JSON.parse(
   await readFile("src/lib/shop/operational-policy.json", "utf8"),
 );
@@ -200,6 +206,17 @@ assert.deepEqual(
   [69000, 74000, 120000, 45000, 150000, 89000, 89000, 25000, 35000],
 );
 assert.equal(productCandidates.status, "marketplace_candidate_unverified");
+assert.equal(physicalVerification.status, "pending_physical_supplier_verification");
+assert.equal(physicalVerification.products.length, 9);
+assert.equal(
+  physicalVerification.products.reduce(
+    (sum, product) => sum + product.variants.length,
+    0,
+  ),
+  27,
+);
+assert.equal(physicalVerification.totals.verifiedProducts, 0);
+assert.equal(physicalVerification.totals.verifiedVariants, 0);
 assert.equal(productCandidates.products.length, 9);
 assert.equal(
   productCandidates.products.reduce((sum, p) => sum + p.variants.length, 0),
