@@ -5,7 +5,7 @@
 create or replace function public.shop_product_readiness(p_product uuid) returns jsonb
 language plpgsql stable security invoker set search_path=pg_catalog,public as $shop$
 declare p public.shop_products; blockers text[]:=array[]::text[]; media_count int:=0; hero_count int:=0;
- variant_count int:=0; missing_weight int:=0; missing_inventory int:=0; missing_dimensions int:=0; missing_size int:=0; missing_verified_skus int:=0; missing_actual_facts int:=0; product_type text; verification jsonb; verified_skus jsonb;
+ variant_count int:=0; missing_weight int:=0; missing_inventory int:=0; missing_dimensions int:=0; missing_size int:=0; missing_verified_skus int:=0; missing_actual_facts int:=0; candidate_fact_count int:=0; product_type text; verification jsonb; verified_skus jsonb;
 begin
  select * into p from public.shop_products where id=p_product;
  if not found then raise exception 'product missing'; end if;
@@ -63,6 +63,9 @@ $shop$;
  if length(trim(coalesce(verification->>'evidenceRef','')))<3 then blockers:=array_append(blockers,'Verification evidence reference is required.'); end if;
  if coalesce(verification->>'productFactsConfirmed','false')<>'true' then blockers:=array_append(blockers,'Product facts must be explicitly confirmed.'); end if;
  if coalesce(verification->>'stockCountConfirmed','false')<>'true' then blockers:=array_append(blockers,'Stock allocation/count must be explicitly confirmed.'); end if;
+ select count(*)::int into candidate_fact_count
+ from jsonb_object_keys(coalesce(p.facts#>'{marketplaceCandidate,targetFacts}','{}'::jsonb));
+ if candidate_fact_count<1 then blockers:=array_append(blockers,'Marketplace candidate baseline must remain available for verification.'); end if;
  select count(*)::int into missing_actual_facts
  from jsonb_object_keys(coalesce(p.facts#>'{marketplaceCandidate,targetFacts}','{}'::jsonb)) as k(key)
  where length(trim(coalesce(verification#>>array['actualProductFacts',k.key],'')))=0;
