@@ -42,6 +42,10 @@ const files = {
     "supabase/migrations/20260928145000_shop_batch11_physical_supplier_verification.sql",
     "utf8",
   ),
+  verificationStalenessMigration: await readFile(
+    "supabase/migrations/20260928146000_shop_batch11_verification_staleness.sql",
+    "utf8",
+  ),
   verificationPack: await readFile(
     "docs/data/MAINLAGI_SHOP_PHYSICAL_SUPPLIER_VERIFICATION_2026-09-28.json",
     "utf8",
@@ -325,4 +329,32 @@ assert.doesNotMatch(
 
 console.log(
   "Shop physical/supplier verification guard PASS: 9 products / 27 variants remain pending, actual values are blank, and production verification requires auditable evidence plus active-SKU coverage.",
+);
+
+
+for (const required of [
+  "verification_stale",
+  "verified product facts changed",
+  "physical variant configuration changed",
+  "shop_verified_facts_staleness",
+  "shop_verified_variant_staleness_update",
+]) {
+  assert.ok(
+    files.verificationStalenessMigration.includes(required),
+    "verification staleness migration missing: " + required,
+  );
+}
+assert.match(
+  files.verificationStalenessMigration,
+  /after update of sku,title,option_values,weight_grams,length_mm,width_mm,height_mm,is_active/,
+  "physical variant edits must invalidate prior verification evidence",
+);
+assert.doesNotMatch(
+  files.verificationStalenessMigration,
+  /after update of[^\n]*price_override_amount/,
+  "price-only edits must not invalidate physical verification evidence",
+);
+
+console.log(
+  "Shop verification staleness guard PASS: verified facts or physical variant changes force verification_stale; price-only changes do not.",
 );
