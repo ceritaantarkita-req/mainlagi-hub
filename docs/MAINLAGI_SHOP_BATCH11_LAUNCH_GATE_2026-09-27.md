@@ -202,7 +202,7 @@ The owner-approved marketplace benchmark is now wired into the actual Shop
 migration/admin workflow:
 
 - **9 products**;
-- **26 variants**;
+- **27 variants**;
 - **79 units** total stock;
 - no `*-DEFAULT` variants after the full migration chain;
 - shipping weights/package dimensions available for staging and supplier review;
@@ -227,6 +227,24 @@ evidence will record both the candidate SKU 008 values and the checkout snapshot
 
 This closes the code-level dimension-propagation gap; physical/supplier
 verification of the candidate values is still a launch blocker.
+
+### Physical / supplier verification workflow — READY / REAL EVIDENCE PENDING
+
+The verification system is implemented, but **0/9 products and 0/27 variants are
+physically/supplier verified** at this checkpoint.
+
+Production truth requires:
+
+- method = physical sample, supplier production sheet, or both;
+- verifier + verification date;
+- durable evidence reference;
+- actual value for every marketplace candidate product fact;
+- confirmed stock allocation/count;
+- explicit evidence coverage for every active SKU;
+- existing product-specific readiness rules (size chart, tumbler facts, e-money
+  legal/functional facts, etc.) still pass.
+
+Only then may `verificationStatus=production_verified` pass DB readiness.
 
 ## Decision
 
