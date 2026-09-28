@@ -8,7 +8,7 @@ Branch: `agent/mainlagi-shop-foundation-20260927`
 
 Exact implementation head before this docs-only checkpoint commit:
 
-`606b0d38fe8677ca56eba231c354ad186f4ca826`
+`5f8d1e1ccc620655af6c7d323f27d62589cb036d`
 
 > This checkpoint file itself is a docs-only commit created after the implementation
 > head above. The PR body records the newer exact PR head after this file is added.
@@ -98,7 +98,16 @@ Staleness also resets:
 - review state back to `draft`;
 - product-facts confirmation;
 - stock confirmation;
-- verified SKU coverage.
+- verified SKU coverage;
+- active verification method;
+- active verifier;
+- active verification date;
+- active evidence reference.
+
+The previous verification object is preserved under
+`verificationInvalidation.previousVerification` for audit history. A fresh
+verification therefore requires fresh evidence metadata instead of merely
+re-checking old boxes.
 
 A price-only variant change intentionally does **not** invalidate physical
 verification evidence.
@@ -168,6 +177,9 @@ New verification coverage now checks:
 - physical variant edits invalidate old evidence;
 - verified product-fact edits invalidate old evidence;
 - stale verification returns product to draft/unverified state;
+- stale verification archives the previous evidence but clears the active
+  verifier/date/method/evidence reference;
+- a stale product cannot be re-approved without entering fresh evidence;
 - price-only edits do not invalidate physical verification;
 - admin exposes stale-verification state;
 - staging evidence remains explicitly simulated.
@@ -183,10 +195,10 @@ Static consistency sweep at the implementation head confirmed:
 
 Exact implementation-head Actions run:
 
-- workflow run **#2220**
-- run id **36402235721**
-- exact SHA `606b0d38fe8677ca56eba231c354ad186f4ca826`
-- status when checkpoint was written: **QUEUED**
+- workflow run **#2224**
+- run id **36402683527**
+- exact SHA `5f8d1e1ccc620655af6c7d323f27d62589cb036d`
+- status when checkpoint was updated: **QUEUED**
 - no exact-head green claim is made yet.
 
 Do not call this verification work CI-green until a workflow on the final PR head
