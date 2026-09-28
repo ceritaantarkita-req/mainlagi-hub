@@ -2094,7 +2094,7 @@ SI-04  — Canonical Share component            COMPLETE / merged / live verifie
 SI-05  — Belajar pilot runtime                COMPLETE / merged / live verified
 SI-06A — fallback Belajar owner               COMPLETE / merged / live verified
 SI-06B1 — literacy/audio early family         COMPLETE / merged / live verified
-SI-06B2 — sentence/reading family             NEXT / not started
+SI-06B2 — sentence/reading family             MERGED / live verification pending
 SI-06C+ — later Belajar batches               NOT STARTED
 ```
 
@@ -2130,7 +2130,7 @@ Live SI-06B1 boundary:
 
 SI-06B1 is **closed / merged / live verified**.
 
-SI-06B2 preflight has now confirmed the same five current production owners and implementation is active on `agent/si-06b2-sentence-reading-20260928`.
+SI-06B2 preflight confirmed the same five production owners and runtime PR #376 is now merged to `9eff1bd861ceb3cd0202022fa43dfe31db87fb40`. Latest-head PR CI #2138 / run `36393431756` is full success. Merged-main CI #2186 / run `36394939086` is queued, so live closure is not yet claimed.
 
 Current SI-06B2 owner set:
 
@@ -2142,6 +2142,6 @@ ReadingPassageQuestionActivity
 ClozeSentenceChoiceActivity
 ```
 
-All five preserve explicit runtime measurement/evidence and renderer-owned `completeActivity`; only post-success presentation is being migrated to canonical Completion + Share with local Again reset semantics. SI-06C remains blocked until B2 is merged/live verified.
+All five preserve explicit runtime measurement/evidence and renderer-owned `completeActivity`; only post-success presentation moved to canonical Completion + Share with local Again reset semantics. SI-06C remains blocked until exact merged-main CI + Cloudflare smoke for `9eff1bd861ceb3cd0202022fa43dfe31db87fb40` are green.
 
-Canonical active checkpoint: `SI06B2_SENTENCE_READING_SAFE_CHECKPOINT_2026-09-28.md`.
+Canonical checkpoint: `SI06B2_SENTENCE_READING_SAFE_CHECKPOINT_2026-09-28.md`.
