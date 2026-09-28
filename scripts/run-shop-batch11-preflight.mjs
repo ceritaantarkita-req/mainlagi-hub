@@ -34,6 +34,10 @@ const files = {
     "docs/data/MAINLAGI_SHOP_PRODUCT_TRUTH_MARKETPLACE_CANDIDATE_2026-09-28.json",
     "utf8",
   ),
+  shippingDimensionMigration: await readFile(
+    "supabase/migrations/20260928144000_shop_batch11_shipping_dimensions.sql",
+    "utf8",
+  ),
 };
 
 for (const name of [
@@ -237,4 +241,30 @@ assert.doesNotMatch(
 
 console.log(
   "Shop Batch 11 product candidate guard PASS: 9 products / 26 variants / 79 stock are seeded as unverified marketplace candidates and remain activation-blocked until physical or supplier verification.",
+);
+
+
+assert.match(
+  files.shippingDimensionMigration,
+  /length_mm_snapshot[\s\S]*width_mm_snapshot[\s\S]*height_mm_snapshot/,
+  "checkout must persist immutable packed-dimension snapshots",
+);
+assert.match(
+  files.shippingDimensionMigration,
+  /shop_cart_signature[\s\S]*length_mm[\s\S]*width_mm[\s\S]*height_mm/,
+  "shipping quote signature must include packed dimensions",
+);
+assert.match(
+  files.operations,
+  /length:\s*shippingDimensionCm\(v\.length_mm\)[\s\S]*width:\s*shippingDimensionCm\(v\.width_mm\)[\s\S]*height:\s*shippingDimensionCm\(v\.height_mm\)/,
+  "Biteship rate request must include packed candidate dimensions",
+);
+assert.match(
+  files.operations,
+  /length:\s*shippingDimensionCm\(i\.length_mm_snapshot\)[\s\S]*width:\s*shippingDimensionCm\(i\.width_mm_snapshot\)[\s\S]*height:\s*shippingDimensionCm\(i\.height_mm_snapshot\)/,
+  "Biteship order request must use immutable packed-dimension snapshots",
+);
+
+console.log(
+  "Shop Batch 11 shipping-dimension guard PASS: quote signature, checkout snapshots, rates and order creation use the same packed dimensions.",
 );
