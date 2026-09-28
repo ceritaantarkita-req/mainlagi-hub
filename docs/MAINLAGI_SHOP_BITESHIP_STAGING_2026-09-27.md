@@ -416,3 +416,28 @@ reference: ML-SBX-CANCEL-36339411333
 
 A read-only Tracking API acceptance probe independently verifies the terminal
 provider state and tracking history after this dashboard simulation.
+
+
+## Exception progression acceptance design
+
+A dedicated Biteship Testing Mode order is created with an `ML-SBX-EXCEPTION-`
+reference for manual provider-status simulation. The intended progression is:
+
+```text
+confirmed
+→ allocated
+→ picking_up
+→ picked
+→ dropping_off
+→ on_hold
+→ return_in_transit
+→ returned
+```
+
+These are Biteship-defined tracking states. The Mainlagi shipment state machine
+already treats `on_hold`, `return_in_transit`, `returned`, `rejected`,
+`disposed`, and `courier_not_found` as exception/manual-attention states.
+
+The candidate creation itself is automated, but exception status progression must
+be performed from the Biteship Testing dashboard so Events Log evidence represents
+real provider callbacks rather than synthetic local events.
