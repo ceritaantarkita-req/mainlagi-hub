@@ -87,8 +87,8 @@ console.log(
 
 assert.doesNotMatch(
   files.batch11Workflow,
-  /--network-id|docker network create/,
-  "free staging should rely on the Supabase local stack's localhost boundary instead of custom Docker exposure",
+  /cloudflared tunnel[\s\S]*5432[12]/,
+  "Supabase API/database ports must never be exposed by the public Quick Tunnel",
 );
 assert.doesNotMatch(
   files.batch11Workflow,

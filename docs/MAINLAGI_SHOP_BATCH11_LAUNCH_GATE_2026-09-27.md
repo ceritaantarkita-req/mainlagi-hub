@@ -170,9 +170,9 @@ an ephemeral, zero-additional-Supabase-cost CI staging design:
 1. GitHub Actions starts the Supabase stack locally with the official Supabase CLI
    and runs `supabase db reset --local` so the complete repository migration chain
    is replayed against a clean database;
-2. the official local stack remains on its localhost-only development boundary;
-   the local Supabase services are never exposed by the public tunnel;
-3. the workflow applies the explicit testing-only SKU 001 Biteship fixture to this
+2. the Supabase containers remain runner-internal and are never exposed by the
+   public tunnel; the only public temporary ingress targets Next.js on port 3000;
+3. the workflow applies the explicit testing-only SKU 008 Biteship fixture to this
    ephemeral database only;
 4. a production-like Next.js build runs on the GitHub runner against that local
    Supabase;

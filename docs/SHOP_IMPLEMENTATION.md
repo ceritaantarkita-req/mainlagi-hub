@@ -1541,7 +1541,7 @@ acceptance paths are now all provider-verified.
 
 The database-backed staging gate no longer requires a paid Supabase development
 branch. `.github/workflows/shop-batch11-staging.yml` now provisions Supabase
-ephemerally on the GitHub Actions runner, keeps it bound to localhost, tunnels only
+ephemerally on the GitHub Actions runner, keeps it runner-internal and never tunnels the Supabase ports, tunnels only
 the Next.js application with a temporary TryCloudflare URL, and uses a temporary
 Cloudflare Cron Worker to produce real scheduler/reconciliation evidence.
 

@@ -103,16 +103,16 @@ jobs:
             -H "Prefer: return=representation"
           )
 
-          variant_code="$(curl -sS -o /tmp/b11-variant.json -w '%{http_code}'             -X PATCH             "$LOCAL_SUPABASE_URL/rest/v1/shop_variants?sku=eq.001-DEFAULT"             "${headers[@]}"             --data '{"weight_grams":200,"length_mm":300,"width_mm":250,"height_mm":40,"is_active":true}')"
+          variant_code="$(curl -sS -o /tmp/b11-variant.json -w '%{http_code}'             -X PATCH             "$LOCAL_SUPABASE_URL/rest/v1/shop_variants?sku=eq.008-DEFAULT"             "${headers[@]}"             --data '{"weight_grams":350,"length_mm":300,"width_mm":220,"height_mm":30,"is_active":true}')"
           [[ "$variant_code" == "200" ]] || {
-            echo "::error::Could not apply ephemeral SKU 001 shipping fixture (HTTP $variant_code)."
+            echo "::error::Could not apply ephemeral SKU 008 shipping fixture (HTTP $variant_code)."
             cat /tmp/b11-variant.json
             exit 1
           }
 
-          product_code="$(curl -sS -o /tmp/b11-product.json -w '%{http_code}'             -X PATCH             "$LOCAL_SUPABASE_URL/rest/v1/shop_products?product_code=eq.001"             "${headers[@]}"             --data '{"status":"active","facts_verified":true,"media_approved":true}')"
+          product_code="$(curl -sS -o /tmp/b11-product.json -w '%{http_code}'             -X PATCH             "$LOCAL_SUPABASE_URL/rest/v1/shop_products?product_code=eq.008"             "${headers[@]}"             --data '{"status":"active","review_status":"approved","facts_verified":true,"media_approved":true}')"
           [[ "$product_code" == "200" ]] || {
-            echo "::error::Could not activate ephemeral SKU 001 fixture (HTTP $product_code)."
+            echo "::error::Could not activate ephemeral SKU 008 fixture (HTTP $product_code)."
             cat /tmp/b11-product.json
             exit 1
           }
@@ -124,15 +124,15 @@ jobs:
           const rows = JSON.parse(fs.readFileSync("/tmp/mainlagi-shop-local-products.json", "utf8"));
           if (!Array.isArray(rows) || rows.length !== 9)
             throw new Error(`Expected 9 locally migrated Shop products, got ${rows?.length}`);
-          const sku001 = rows.find((row) => row.product_code === "001");
+          const sku008 = rows.find((row) => row.product_code === "008");
           if (
-            !sku001 ||
-            sku001.status !== "active" ||
-            sku001.facts_verified !== true ||
-            sku001.media_approved !== true
+            !sku008 ||
+            sku008.status !== "active" ||
+            sku008.facts_verified !== true ||
+            sku008.media_approved !== true
           )
-            throw new Error("Ephemeral SKU 001 acceptance fixture did not activate.");
-          console.log("Local Supabase migration chain + testing-only SKU 001 fixture PASS.");
+            throw new Error("Ephemeral SKU 008 acceptance fixture did not activate.");
+          console.log("Local Supabase migration chain + testing-only SKU 008 fixture PASS.");
           NODE
 
       - name: Install pinned Cloudflare Quick Tunnel binary
