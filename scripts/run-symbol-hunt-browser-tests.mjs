@@ -141,7 +141,13 @@ async function inspect(viewport) {
     const focusedLabel = await page.evaluate(() => document.activeElement?.getAttribute("aria-label") ?? "");
     assert.equal(focusedLabel, `Huruf ${targetSymbol}`, `canonical target must accept keyboard focus at ${viewport.width}px`);
     await page.keyboard.press("Enter");
-    await page.getByRole("status").filter({ hasText: "Ketemu" }).waitFor({ state: "visible", timeout: 3_000 });
+    const completion = page.locator('[data-canonical-completion="v1"][data-activity-completion]');
+    await completion.waitFor({ state: "visible", timeout: 3_000 });
+    assert.deepEqual(
+      await completion.locator("[data-completion-action]").evaluateAll((nodes) => nodes.map((node) => node.textContent?.trim())),
+      ["Back", "Again", "Next", "Share"],
+      `symbol hunt success must use canonical Completion action order at ${viewport.width}px`
+    );
 
     await page.screenshot({
       path: path.join(screenshotDir, `${viewport.width}-${screenshotStem}-success.png`),
@@ -161,7 +167,7 @@ async function main() {
   startServer();
   await waitForServer();
   for (const viewport of viewports) await inspect(viewport);
-  console.log(`Symbol-hunt browser QA passed ${viewports.length} representative viewports with pointer, keyboard, and idle/success screenshot checks.`);
+  console.log(`Symbol-hunt browser QA passed ${viewports.length} representative viewports with pointer, keyboard, canonical Completion, and idle/success screenshot checks.`);
 }
 
 main()
