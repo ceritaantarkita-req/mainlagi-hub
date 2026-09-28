@@ -145,6 +145,12 @@ const readiness = JSON.parse(
     "utf8",
   ),
 );
+const productCandidates = JSON.parse(
+  await readFile(
+    "docs/data/MAINLAGI_SHOP_PRODUCT_TRUTH_MARKETPLACE_CANDIDATE_2026-09-28.json",
+    "utf8",
+  ),
+);
 const operationalPolicy = JSON.parse(
   await readFile("src/lib/shop/operational-policy.json", "utf8"),
 );
@@ -193,6 +199,28 @@ assert.deepEqual(
   seed.map((p) => p.price),
   [69000, 74000, 120000, 45000, 150000, 89000, 89000, 25000, 35000],
 );
+assert.equal(productCandidates.status, "marketplace_candidate_unverified");
+assert.equal(productCandidates.products.length, 9);
+assert.equal(
+  productCandidates.products.reduce((sum, p) => sum + p.variants.length, 0),
+  26,
+);
+assert.equal(
+  productCandidates.products.reduce(
+    (sum, p) => sum + p.variants.reduce((n, v) => n + v.stock, 0),
+    0,
+  ),
+  79,
+);
+for (const candidate of productCandidates.products) {
+  const seeded = seed.find((product) => product.code === candidate.code);
+  assert.ok(seeded, `candidate product ${candidate.code} must exist in Shop seed`);
+  assert.equal(
+    candidate.variants.reduce((sum, variant) => sum + variant.stock, 0),
+    seeded.initialStock,
+    `candidate allocation for ${candidate.code} must preserve owner-approved initial stock`,
+  );
+}
 assert.equal(readiness.batch02Status, "done");
 assert.equal(readiness.batch03Authorization.allowed, true);
 assert.equal(readiness.batch03Status, "done");
@@ -274,6 +302,11 @@ assert.ok(
 );
 assert.match(shopAdminSource, /"settings"/);
 assert.match(shopAdminSource, /Kesiapan operasional Shop/);
+assert.match(
+  await readFile("src/components/shop/ProductAdminEditor.tsx", "utf8"),
+  /verificationStatus[sS]*marketplace_candidate_unverified[sS]*production_verified/,
+  "admin product workflow must expose the explicit physical\/supplier verification gate",
+);
 assert.match(shopPolicyPageSource, /Belanja dengan aturan yang jelas/);
 assert.match(shopPolicyPageSource, /Buka WhatsApp/);
 assert.match(shopPolicyPageSource, /operationalPolicy\.ownerDecisions/);
@@ -360,7 +393,7 @@ assert.ok(
   "rejected duplicate tumbler alternate is not runtime media",
 );
 console.log(
-  "Shop contracts: Midtrans signature/status integrity, provider state mapping, Batch 02/03 readiness, Batch 04 owner-approved policy + fail-closed deployment configuration, 9 products, 26 approved runtime media + 1 rejected provenance asset PASS",
+  "Shop contracts: Midtrans signature/status integrity, provider state mapping, Batch 02/03 readiness, Batch 04 policy, 9 products / 26 marketplace candidate variants / 79 stock, explicit physical-supplier verification gate, 26 approved runtime media + 1 rejected provenance asset PASS",
 );
 
 
