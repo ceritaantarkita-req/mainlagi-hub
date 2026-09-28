@@ -196,6 +196,24 @@ This is sufficient as a supplier/staging/variant-design specification, but not a
 proof that Mainlagi physical inventory was actually measured. Product truth remains
 launch-blocking until supplier sheets or physical samples confirm the final values.
 
+### Product candidate implementation — IMPLEMENTED / VERIFICATION STILL BLOCKING
+
+The owner-approved marketplace benchmark is now wired into the actual Shop
+migration/admin workflow:
+
+- **9 products**;
+- **26 variants**;
+- **79 units** total stock;
+- no `*-DEFAULT` variants after the full migration chain;
+- shipping weights/package dimensions available for staging and supplier review;
+- `facts_verified=false` for every product;
+- `verificationStatus=marketplace_candidate_unverified`;
+- database + admin UI both block production approval until a physical sample or
+  supplier production sheet is confirmed.
+
+Therefore the product-truth gate is no longer blocked by missing target data.
+It remains blocked only by **real-world verification of those candidate values**.
+
 ## Decision
 
 Batch 11 must remain **BLOCKED**. The correct next action is to close the concrete
