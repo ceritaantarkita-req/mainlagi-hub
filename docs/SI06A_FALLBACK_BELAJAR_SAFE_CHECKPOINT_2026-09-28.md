@@ -1,6 +1,6 @@
 # SI-06A Fallback Belajar Owner — Safe Checkpoint — 28 September 2026
 
-Status: **IMPLEMENTED ON BRANCH / FULL CI VALIDATION PENDING / NOT MERGED**
+Status: **CLOSED / MERGED / LIVE VERIFIED**
 
 ## Resume point
 
@@ -8,9 +8,11 @@ Continue this exact SI-06A batch. Do not expand into SI-06B or other Belajar fam
 
 ```text
 repository: ceritaantarkita-req/mainlagi-hub
-base main:  40f02c0bc78a82dff4e30278b390ef3d4f9f7731
-branch:     agent/si-06a-legacy-fallback-belajar-20260928
-phase:      SI-06A — legacy/fallback Belajar owner
+PR:          #371 — merged
+final head:  f6ef3de540142651ec3edeb667fc052e68bdf8be
+merged main: 5db9bf8d733a3471486ef05e7addee70664a6c17
+phase:       SI-06A — CLOSED / LIVE
+next:        SI-06B — literacy/audio specialized renderers
 ```
 
 Closed prerequisites:
@@ -277,26 +279,55 @@ Do not expand SI-06A into:
 - catalog/spec changes;
 - evidence/mastery/progression architecture.
 
-## Merge gate
+## Final verification
 
-Do not merge until latest-head CI proves:
+SI-06A completed the full closure sequence:
 
-1. Ubuntu quality full green;
-2. Windows compatibility full green;
-3. production build full green;
-4. dependency audit full green;
-5. secret-history scan full green;
-6. Chromium mobile-route matrix full green;
-7. permanent visual baseline full green.
+```text
+PR:                     #371 — merged
+final PR head:          f6ef3de540142651ec3edeb667fc052e68bdf8be
+final PR CI:            #2056 / run 36374739558 — FULL SUCCESS
+merged main:            5db9bf8d733a3471486ef05e7addee70664a6c17
+merged-main CI:         #2057 / run 36375438537 — FULL SUCCESS
+Cloudflare smoke:       SUCCESS — exact merged main SHA verified
+```
 
-After merge require push-to-main full green plus exact Cloudflare smoke for the
-merged SHA.
+Final PR CI and merged-main CI both passed:
 
-## Next after SI-06A closure
+- Ubuntu quality;
+- Windows compatibility;
+- production build;
+- dependency audit;
+- secret-history scan;
+- Chromium mobile-route matrix;
+- permanent visual product baseline.
 
-Only after SI-06A is merged/live verified:
+Merged-main CI #2057 also passed the exact Cloudflare production release smoke for
+`5db9bf8d733a3471486ef05e7addee70664a6c17`.
+
+The closure therefore proves the current production-reachable fallback owner:
+
+- Choice -> canonical Completion + Share;
+- Matching -> existing canonical Completion preserved;
+- Trace -> canonical Completion + local canvas reset for Again;
+- Story -> canonical Completion + local done reset for Again;
+- Motion -> redirect-only, no invented completion semantics.
+
+Current-main dispatcher drift discovered during SI-06A is preserved as part of the
+closure truth: production coloring remains CreativePractice-owned and
+`math-count-3` remains CountAndSelect-owned before fallback.
+
+## Closure state
+
+SI-06A is **closed / merged / live verified**.
+
+The next authorized Shared Interaction work is:
 
 `SI-06B — literacy/audio specialized renderers`
 
-Preflight SI-06B before mutation and split the suggested set if one owner session
-would be too large.
+Do not restart SI-06A from the historical SI-00 snapshot. Use the current dispatcher
+and this checkpoint as the source of truth.
+
+Before mutating SI-06B, preflight the current specialized ownership set and split it
+if the audio/symbol and sentence/reading groups are too large for one bounded session.
+Do not start SI-06C or later batches until SI-06B is itself closed.

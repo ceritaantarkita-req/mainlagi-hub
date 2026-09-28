@@ -2,14 +2,15 @@
 
 Status: **BLOCKED — free database-backed staging and real scheduler evidence now PASS; launch closure still waits on owner/product truth and full integrated provider flow.**
 
-This review is based on post-Batch-10 integrated Shop head
-`7751942bdf29a7664aae6a4e075578d251feb687`, which contains latest `main`
-`f2b3768745f11e4fa33954d61aabb1a01acda2ff` as a merge parent.
+The original post-Batch-10 review started from integrated Shop head
+`7751942bdf29a7664aae6a4e075578d251feb687`. The branch has since been
+synchronized forward again; this checkpoint merges current reviewed `main`
+`3dacf402647188d3a8119dc90d42595d4fe768c3` after the free-staging acceptance work.
 
 Post-sync evidence:
 
-- PR #359 remains Draft and is mergeable, with the Shop branch 0 commits behind
-  the reviewed `main` parent at integration time;
+- PR #359 remains Draft; this checkpoint synchronizes the Shop branch to reviewed
+  `main` `3dacf402647188d3a8119dc90d42595d4fe768c3`;
 - Mainlagi TV V3 CI **#1915**, run `36328184665`, completed **SUCCESS** on the
   exact integrated tree;
 - Windows compatibility, Ubuntu quality, production build, PostgreSQL staging

@@ -2035,7 +2035,7 @@ SI-05 is **closed / merged / live verified**.
 The next authorized Shared Interaction work is **SI-06+ — bounded Belajar runtime-family migration batches**. Follow SI-00 ownership boundaries and the now-proven SI-05 migration pattern. Do not migrate the full Belajar surface in one session.
 
 
-## 28 September 2026 — Shared Interaction SI-06A fallback Belajar owner — ACTIVE
+## 28 September 2026 — Shared Interaction SI-06A fallback Belajar owner merged/live closure — CURRENT
 
 Current Shared Interaction sequence:
 
@@ -2046,29 +2046,36 @@ SI-02 — Canonical Character Presentation     COMPLETE / merged / live verified
 SI-03 — Canonical Completion component       COMPLETE / merged / live verified
 SI-04 — Canonical Share component            COMPLETE / merged / live verified
 SI-05 — Belajar pilot runtime                COMPLETE / merged / live verified
-SI-06A — fallback Belajar owner              IMPLEMENTED ON BRANCH / CI pending
-SI-06B+ — specialized Belajar batches        NOT STARTED
+SI-06A — fallback Belajar owner              COMPLETE / merged / live verified
+SI-06B — literacy/audio specialized          NEXT / not started
+SI-06C+ — later Belajar batches              NOT STARTED
 ```
 
-Active SI-06A:
+SI-06A closure:
 
 ```text
-branch: agent/si-06a-legacy-fallback-belajar-20260928
-base:   main 40f02c0bc78a82dff4e30278b390ef3d4f9f7731
+PR:                      #371 — merged
+final PR head:           f6ef3de540142651ec3edeb667fc052e68bdf8be
+final PR CI:             #2056 / run 36374739558 — FULL SUCCESS
+merged main:             5db9bf8d733a3471486ef05e7addee70664a6c17
+merged-main CI:          #2057 / run 36375438537 — FULL SUCCESS
+Cloudflare smoke:        SUCCESS — exact merged main SHA verified
 checkpoint:
 docs/SI06A_FALLBACK_BELAJAR_SAFE_CHECKPOINT_2026-09-28.md
 ```
 
-Current-main reachability differs from the historical SI-00 snapshot:
+Live SI-06A boundary:
 
-- production fallback Choice, Matching, Trace and Story remain reachable;
-- Motion remains redirect-only and is not given completion semantics;
-- production coloring is now intercepted by `CreativePracticeActivity` before fallback and remains SI-06G;
-- `math-count-3` is now intercepted by `CountAndSelectActivity`, so the old `MathCountActivity` special fallback is no longer a production route owner.
+- production-reachable fallback Choice uses the live canonical Completion + Share path;
+- fallback Matching keeps its pre-existing canonical Completion path;
+- fallback Trace uses canonical Completion and Again reuses its local canvas reset;
+- fallback Story uses canonical Completion and Again resets only local completion state;
+- Motion remains redirect-only and no artificial completion semantics were added;
+- the parent-level persisted-progress `Pilih permainan lain` fallback exit is removed;
+- renderer-owned `completeActivity` semantics remain in the renderer owner;
+- `LearningAttemptBridge`, evidence/mastery/progression architecture, catalog/schema, World, Bermain, Journey Map and Shop were not migrated;
+- current dispatcher truth is recorded: production coloring is CreativePractice-owned before fallback, and `math-count-3` is CountAndSelect-owned before the old MathCount fallback.
 
-SI-06A migrates only post-success presentation. Renderer-owned `completeActivity`,
-matching/canvas/story state and LearningAttemptBridge/evidence architecture remain
-unchanged.
+SI-06A is **closed / merged / live verified**.
 
-Do not start SI-06B, Bermain, World, Journey Map or Shop changes until SI-06A latest
-head passes full CI, merges, and exact merged-main Cloudflare smoke succeeds.
+The only authorized next Shared Interaction batch is **SI-06B — literacy/audio specialized renderers**. Preflight current ownership before mutation; do not assume the SI-00 list is still exact, and split the batch if audio/symbol versus sentence/reading ownership is too large for one bounded session.
