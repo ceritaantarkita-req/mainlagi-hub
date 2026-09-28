@@ -213,7 +213,7 @@ const candidate = JSON.parse(files.candidateData);
 assert.equal(candidate.products.length, 9);
 assert.equal(
   candidate.products.reduce((n, product) => n + product.variants.length, 0),
-  26,
+  27,
 );
 assert.equal(
   candidate.products.reduce(
@@ -240,7 +240,7 @@ assert.doesNotMatch(
 );
 
 console.log(
-  "Shop Batch 11 product candidate guard PASS: 9 products / 26 variants / 79 stock are seeded as unverified marketplace candidates and remain activation-blocked until physical or supplier verification.",
+  "Shop Batch 11 product candidate guard PASS: 9 products / 27 variants / 79 stock are seeded as unverified marketplace candidates and remain activation-blocked until physical or supplier verification.",
 );
 
 
