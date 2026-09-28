@@ -173,11 +173,21 @@ async function inspect(viewport){
     assert.equal(await completed(page),true,"correct outsider completes canonical activity");
     assert.equal(await page.locator("[data-odd-one-out-summary]").count(),1,"success reveals common-pair summary");
 
-    const nextLink=page.getByRole("link",{name:"Pilih permainan lain"});
-    const nextBox=await nextLink.boundingBox();
+    const completion=page.locator('[data-canonical-completion="v1"][data-activity-completion]');
+    await completion.waitFor({state:"visible",timeout:3000});
+    assert.equal(await completion.getAttribute("data-completion-context"),"belajar","odd-one-out success uses canonical Belajar completion");
+    assert.equal(await completion.getAttribute("data-completion-stars"),"3","odd-one-out completion keeps three-star contract");
+    assert.deepEqual(
+      await completion.locator("[data-completion-action]").evaluateAll(nodes=>nodes.map(node=>node.textContent?.trim())),
+      ["Back","Again","Next","Share"],
+      "odd-one-out completion uses canonical action order"
+    );
+    assert.equal(await page.getByRole("link",{name:"Pilih permainan lain"}).count(),0,"legacy odd-one-out success CTA is removed");
+
+    const completionBox=await completion.first().boundingBox();
     const viewportHeight=await page.evaluate(()=>window.innerHeight);
-    assert(nextBox,"odd-one-out success CTA must render");
-    assert(nextBox.y>=-1&&nextBox.y+nextBox.height<=viewportHeight+1,`odd-one-out success CTA must remain fully visible at ${viewport.width}`);
+    assert(completionBox,"odd-one-out canonical completion must render");
+    assert(completionBox.y>=-1&&completionBox.y+completionBox.height<=viewportHeight+1,`odd-one-out completion must remain inside viewport height at ${viewport.width}`);
 
     const state=await page.evaluate(({id})=>{
       const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
@@ -209,7 +219,7 @@ async function main(){
   startServer();
   await waitForServer();
   for(const viewport of viewports)await inspect(viewport);
-  console.log(`Odd-one-out browser QA passed ${viewports.length} viewports with canonical Logic foundation progression, keyboard wrong-state, pointer completion, trio layout, CTA and assessed evidence checks.`);
+  console.log(`Odd-one-out browser QA passed ${viewports.length} viewports with canonical Logic foundation progression, keyboard wrong-state, pointer completion, canonical Completion, trio layout and assessed evidence checks.`);
 }
 
 main().catch(error=>{
