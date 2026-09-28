@@ -560,3 +560,6 @@ Historical English-narration checkpoint: next work there was candidate generatio
 - [`SI06B2_SENTENCE_READING_SAFE_CHECKPOINT_2026-09-28.md`](SI06B2_SENTENCE_READING_SAFE_CHECKPOINT_2026-09-28.md) — final SI-06B2 closure: PR #376 final head `25e3889c14943a64d4437b0b9ae92929947b3b7a` passed CI #2138, squash-merged to `9eff1bd861ceb3cd0202022fa43dfe31db87fb40`, and merged-main CI #2186 / run `36394939086` completed full success including exact Cloudflare smoke. SI-06C matching/order/drag is next.
 
 - [`SI06C_MATCHING_ORDER_DRAG_SAFE_CHECKPOINT_2026-09-28.md`](SI06C_MATCHING_ORDER_DRAG_SAFE_CHECKPOINT_2026-09-28.md) — final SI-06C closure: PR #379 final head `a0bac57263224917d10910f8da8c2e9559d6a1dd` passed CI #2230, squash-merged to `050557cacb19d24ba329233ba9d934cc19ef2d4b`, and merged-main CI #2231 / run `36412450434` completed full success including exact Cloudflare smoke. SI-06C is CLOSED / MERGED / LIVE VERIFIED. STOP before SI-06D; discussion/authorization is required.
+
+
+- [`SI06D_MATH_SAFE_CHECKPOINT_2026-09-28.md`](SI06D_MATH_SAFE_CHECKPOINT_2026-09-28.md) — active SI-06D checkpoint from verified `main@27a4e647b0819f532956eebe83c2668b6acfeb32`. SI-06D1 handles nine Math choice/shared owners; SI-06D2 is reserved for `MathTraceWorldActivity` because its stroke/checkpoint replay semantics differ. After final SI-06D closure, STOP before SI-06E.

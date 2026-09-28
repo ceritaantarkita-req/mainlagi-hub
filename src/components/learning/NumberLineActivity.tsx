@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { ActivityCompletion } from "./ActivityCompletion";
 import { useEffect, useRef, useState } from "react";
 import { GardenActivityFrame } from "./GardenActivityFrame";
 import { getActivityLearningSpec } from "@/lib/learning/catalog";
@@ -69,6 +69,13 @@ export function NumberLineActivity({ childId, activityId }: { childId: string; a
 
     completeActivity(childId, activity.id);
     setFeedback("good");
+  };
+
+  const restart = () => {
+    incorrectRef.current = 0;
+    retryRef.current = 0;
+    setSelected(null);
+    setFeedback("idle");
   };
 
   const directionLabel =
@@ -167,11 +174,7 @@ export function NumberLineActivity({ childId, activityId }: { childId: string; a
               : "💡 Pilih salah satu angka yang bisa disentuh di garis bilangan."}
         </div>
 
-        {feedback === "good" ? (
-          <Link className={styles.nextLink} href={`/child/${childId}/subject/${activity.subjectId}`}>
-            Pilih permainan lain
-          </Link>
-        ) : null}
+        {feedback === "good" ? <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} /> : null}
       </section>
     </GardenActivityFrame>
   );

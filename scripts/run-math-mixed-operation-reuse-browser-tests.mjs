@@ -268,15 +268,11 @@ async function inspect(scenario,{viewport,completionMode}){
     assert.equal(await completed(page,scenario.activityId),true,`${scenario.activityId} correct answer completes`);
     assert.equal((await result.textContent())?.trim(),scenario.result,`${scenario.activityId} reveals only canonical result`);
     await assertFullyVisible(status,viewportHeight,`${scenario.activityId} success feedback at ${viewport.width}`);
-    if(scenario.kind==="add"){
-      const nextLink=page.getByRole("link",{name:"Pilih permainan lain"});
-      await assertFullyVisible(nextLink,viewportHeight,`${scenario.activityId} legacy add success CTA at ${viewport.width}`);
-    }else{
-      const completion=page.locator("[data-activity-completion]");
-      await completion.waitFor({state:"visible",timeout:2000});
-      assert.equal(await completion.getByLabel("Tiga bintang").locator("svg").count(),3,`${scenario.activityId} shared completion renders three stars`);
-      assert.equal(await completion.getByRole("link",{name:"Next",exact:true}).count(),1,`${scenario.activityId} shared completion exposes Next`);
-    }
+    const completion=page.locator("[data-activity-completion]");
+    await completion.waitFor({state:"visible",timeout:2000});
+    await assertFullyVisible(completion,viewportHeight,`${scenario.activityId} canonical Completion at ${viewport.width}`);
+    assert.equal(await completion.getByLabel("Tiga bintang").locator("svg").count(),3,`${scenario.activityId} shared completion renders three stars`);
+    assert.equal(await completion.getByRole("link",{name:"Next",exact:true}).count(),1,`${scenario.activityId} shared completion exposes Next`);
 
     const state=await page.evaluate(({id})=>{
       const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");

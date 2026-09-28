@@ -101,6 +101,13 @@ export function TakeAwayActivity({ childId, activityId }: { childId: string; act
     setFeedback("good");
   };
 
+  const restart = () => {
+    incorrectRef.current = 0;
+    retryRef.current = 0;
+    setSelected(null);
+    setFeedback("idle");
+  };
+
   return (
     <GardenActivityFrame
       backHref={`/child/${childId}/subject/${activity.subjectId}`}
@@ -176,7 +183,7 @@ export function TakeAwayActivity({ childId, activityId }: { childId: string; act
               : `💡 ${config.cue}`}
         </div>
 
-        {feedback === "good" ? <ActivityCompletion childId={childId} activity={activity} /> : null}
+        {feedback === "good" ? <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} /> : null}
       </section>
     </GardenActivityFrame>
   );

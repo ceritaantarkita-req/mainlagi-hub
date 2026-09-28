@@ -169,8 +169,11 @@ async function inspect(viewport){
     assert.equal(await completed(page),true,"correct group count completes canonical activity");
     assert.equal((await result.textContent())?.trim(),"4","success may reveal canonical group count");
     await assertFullyVisible(status,viewportHeight,`success equal-groups feedback at ${viewport.width}`);
-    const nextLink=page.getByRole("link",{name:"Pilih permainan lain"});
-    await assertFullyVisible(nextLink,viewportHeight,`equal-groups success CTA at ${viewport.width}`);
+    const completion=page.locator("[data-activity-completion]");
+    const completionBox=await completion.boundingBox();
+    const completionViewportHeight=await page.evaluate(()=>window.innerHeight);
+    assert(completionBox,"canonical Completion must render");
+    assert(completionBox.y>=-1&&completionBox.y+completionBox.height<=completionViewportHeight+1,`canonical Completion must remain fully visible at ${viewport.width}`);
 
     const state=await page.evaluate(({id})=>{
       const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
@@ -191,6 +194,12 @@ async function inspect(viewport){
     assert.equal(state.accuracy,0.5);
 
     await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-equal-groups-success.png`),fullPage:false});
+    await page.evaluate(()=>{window.__si06dReplayMarker="alive";});
+    await completion.locator('[data-completion-action="again"]').click();
+    await completion.waitFor({state:"hidden",timeout:2000});
+    assert.equal(await page.evaluate(()=>window.__si06dReplayMarker),"alive","Again must reset locally without reload");
+    const targetAttemptCount=await page.evaluate(({id})=>{const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");return(attempts["demo-gian"]??[]).filter(item=>item.activityId===id).length;},{id:activityId});
+    assert.equal(targetAttemptCount,1,"Again reset alone must not create a second attempt");
     assert.deepEqual(pageErrors,[],`page errors at ${viewport.width}: ${pageErrors.join(" | ")}`);
     assert.deepEqual(consoleErrors,[],`console errors at ${viewport.width}: ${consoleErrors.join(" | ")}`);
     await context.close();
@@ -203,7 +212,7 @@ async function main(){
   startServer();
   await waitForServer();
   for(const viewport of viewports)await inspect(viewport);
-  console.log(`Equal-groups browser QA passed ${viewports.length} viewports with legitimate Math readiness, four visible equal groups, keyboard wrong-state, pointer completion, masked group count, feedback/CTA visibility and assessed evidence checks.`);
+  console.log(`Equal-groups browser QA passed ${viewports.length} viewports with legitimate Math readiness, four visible equal groups, keyboard wrong-state, pointer completion, masked group count, feedback/Completion visibility and assessed evidence checks.`);
 }
 
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;}).finally(stopServer);
