@@ -1,10 +1,10 @@
 # SI-06B2 Sentence/Reading Specialized — Safe Checkpoint — 28 September 2026
 
-Status: **MERGED / LIVE VERIFICATION PENDING**
+Status: **CLOSED / MERGED / LIVE VERIFIED**
 
 ## Resume point
 
-SI-06B2 runtime is merged. Do not restart SI-06B/B1/B2 and do not start SI-06C until merged-main CI + exact Cloudflare verification for the merged SHA are complete.
+SI-06B2 is closed / merged / live verified. Do not restart SI-06B/B1/B2. Resume with SI-06C matching/order/drag specialized renderers.
 
 ```text
 repository: ceritaantarkita-req/mainlagi-hub
@@ -13,8 +13,8 @@ runtime PR: #376 — merged
 final PR head: 25e3889c14943a64d4437b0b9ae92929947b3b7a
 PR CI: #2138 / run 36393431756 — FULL SUCCESS
 merged main: 9eff1bd861ceb3cd0202022fa43dfe31db87fb40
-merged-main CI: #2186 / run 36394939086 — QUEUED
-phase: SI-06B2 — MERGED / LIVE VERIFICATION PENDING
+merged-main CI: #2186 / run 36394939086 — FULL SUCCESS
+phase: SI-06B2 — CLOSED / MERGED / LIVE VERIFIED
 next after closure: SI-06C — matching/order/drag specialized renderers
 ```
 
@@ -135,4 +135,4 @@ SI-06B2 can be called closed only after:
 4. exact Cloudflare production smoke succeeds;
 5. canonical docs are updated to **CLOSED / MERGED / LIVE VERIFIED**.
 
-Runtime PR #376 is merged, but closure is intentionally not claimed yet. SI-06C remains blocked until merged-main CI #2186 completes full success and its exact Production smoke (Cloudflare) verifies `9eff1bd861ceb3cd0202022fa43dfe31db87fb40`.
+Runtime PR #376 is merged and production verified. Merged-main CI #2186 completed full success, including exact Production smoke (Cloudflare) for `9eff1bd861ceb3cd0202022fa43dfe31db87fb40`. SI-06B2 is closed; SI-06C is the only authorized next Shared Interaction batch.
