@@ -101,3 +101,9 @@ assert.match(
   /Penjualan belum dibuka[\s\S]*konfigurasi operasional belum lengkap/,
   "free staging must prove the secret gate advances only from sales-off to the still-enforced operational-policy gate",
 );
+
+assert.match(
+  files.batch11Workflow,
+  /DELETE[\s\S]*workers\/scripts\/\$CRON_WORKER_NAME/,
+  "temporary Cloudflare cron cleanup must use the direct Workers API and not depend on unrelated KV permissions",
+);

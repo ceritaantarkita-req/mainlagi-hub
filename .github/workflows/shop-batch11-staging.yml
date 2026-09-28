@@ -59,6 +59,16 @@ jobs:
             exit 1
           }
 
+      - name: Remove any stale temporary cron Worker before staging
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          code="$(curl -sS -o /tmp/b11-stale-delete.json -w '%{http_code}'             -X DELETE             "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts/$CRON_WORKER_NAME"             -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN")"
+          if [[ "$code" != "200" && "$code" != "404" ]]; then
+            echo "::warning::Stale cron Worker cleanup returned HTTP $code."
+            cat /tmp/b11-stale-delete.json
+          fi
+
       - name: Install application dependencies
         run: npm ci --no-audit --no-fund
 
@@ -353,7 +363,11 @@ jobs:
           SUPABASE_TELEMETRY_DISABLED: "1"
         run: |
           set +e
-          npx wrangler delete --name "$CRON_WORKER_NAME" --force
+          code="$(curl -sS -o /tmp/b11-cron-delete.json -w '%{http_code}'             -X DELETE             "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts/$CRON_WORKER_NAME"             -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN")"
+          if [[ "$code" != "200" && "$code" != "404" ]]; then
+            echo "::warning::Temporary cron Worker delete returned HTTP $code."
+            cat /tmp/b11-cron-delete.json
+          fi
           [[ -f /tmp/mainlagi-batch11-app.pid ]] && kill "$(cat /tmp/mainlagi-batch11-app.pid)" 2>/dev/null
           [[ -f /tmp/mainlagi-batch11-tunnel.pid ]] && kill "$(cat /tmp/mainlagi-batch11-tunnel.pid)" 2>/dev/null
           supabase stop --no-backup
