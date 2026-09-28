@@ -490,12 +490,22 @@ on_hold
 → returned
 ```
 
-A pre-existing confirmed sandbox order is reserved as fallback candidate:
+The dedicated exception candidate was created successfully in GitHub Actions run
+**#2015**:
 
 ```text
-6ab95a91f73d9610c05662f4
+order id: 6ab9c37f2e892bfc4f659778
+reference: ML-SBX-EXCEPTION-36365748564
+initial status: confirmed
 ```
 
-This avoids creating extra provider test orders if the dedicated exception-candidate
-Actions job remains queued. The verifier performs GET requests only and never mutates
-provider status itself.
+Candidate evidence artifact:
+
+```text
+biteship-sandbox-exception-candidate
+artifact id: 10947806212
+sha256: 8844a74afb9fa4ad13c28d9c207cc09c8ee1bb146ad1d1ab426dbd881de8e52d
+```
+
+The verifier now targets this dedicated order. It performs GET requests only and
+never mutates provider status itself.
