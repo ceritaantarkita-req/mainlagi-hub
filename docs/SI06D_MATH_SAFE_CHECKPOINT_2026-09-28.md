@@ -1,10 +1,10 @@
 # SI-06D Math Specialized Renderers — Safe Checkpoint — 28 September 2026
 
-Status: **ACTIVE — D1 CLOSED / MERGED / LIVE VERIFIED; D2 trace implementation active**
+Status: **CLOSED / MERGED / LIVE VERIFIED**
 
 ## Resume point
 
-Continue this exact SI-06D2 branch from the verified D1 checkpoint. Do not restart SI-06A/B1/B2/C or D1.
+SI-06D is closed / merged / live verified. Do not restart SI-06A/B1/B2/C/D. The next Shared Interaction batch is SI-06E only after explicit user authorization.
 
 ```text
 repository: ceritaantarkita-req/mainlagi-hub
@@ -17,10 +17,14 @@ D1 merged-main CI: #2245 / run 36423309927 — FULL SUCCESS
 D1 Cloudflare smoke: SUCCESS — exact merged main SHA verified
 D1 docs checkpoint main: a225e9a70322f37e5c9f537865b1c326cd96bfd0
 D1 docs-main CI: #2247 / run 36428109656 — FULL SUCCESS including exact Cloudflare smoke
-active branch: agent/si-06d2-math-trace-clean-20260928
-phase: SI-06D2 — MathTraceWorldActivity ACTIVE
-D1 status: CLOSED / MERGED / LIVE VERIFIED
-after SI-06D closure: STOP — SI-06E requires separate authorization
+D2 runtime PR: #383 — MERGED
+D2 final PR head: 81237839e718ade8a2d50774bd73cbdb5c0bd080
+D2 PR CI: #2248 / run 36429916386 — FULL SUCCESS
+D2 merged main: c59e249ae8ad48edfbc9a69be3d2c4c41c7ea6cf
+D2 merged-main CI: #2249 / run 36431408994 — FULL SUCCESS
+D2 Cloudflare smoke: SUCCESS — exact merged main SHA verified
+phase: SI-06D — CLOSED / MERGED / LIVE VERIFIED
+next: STOP — SI-06E requires separate user authorization
 ```
 
 ## Why SI-06D is split
@@ -59,7 +63,7 @@ SI-06D1 — nine choice/shared owners
 SI-06D2 — MathTraceWorldActivity only
 ```
 
-D1 plus its docs checkpoint are merged and exact production verification is green. D2 is active on the clean branch from `a225e9a70322f37e5c9f537865b1c326cd96bfd0`.
+D1 plus its docs checkpoint are merged and exact production verified. D2 then merged from the clean branch and passed exact merged-main CI + Cloudflare verification. SI-06D is fully closed.
 
 ## SI-06D1 verified closure
 
@@ -72,7 +76,7 @@ merged-main CI:          #2245 / run 36423309927 — FULL SUCCESS
 Cloudflare smoke:        SUCCESS — exact merged main SHA verified
 ```
 
-D1 is **CLOSED / MERGED / LIVE VERIFIED**. Do not reopen or duplicate the nine D1 owner migrations. Resume only with SI-06D2 `MathTraceWorldActivity`.
+D1 is **CLOSED / MERGED / LIVE VERIFIED**. Do not reopen or duplicate the nine D1 owner migrations. Historical D1 handoff resumed with SI-06D2 `MathTraceWorldActivity`; D2 is now closed/live verified in the final closure below.
 
 ## SI-06D1 boundary
 
@@ -318,6 +322,22 @@ It must preserve:
 
 D2 Again must reset the trace locally without page reload or duplicate attempt/evidence.
 
+## SI-06D2 verified closure
+
+```text
+runtime PR:              #383 — merged
+final PR head:           81237839e718ade8a2d50774bd73cbdb5c0bd080
+PR CI:                   #2248 / run 36429916386 — FULL SUCCESS
+merged main:             c59e249ae8ad48edfbc9a69be3d2c4c41c7ea6cf
+merged-main CI:          #2249 / run 36431408994 — FULL SUCCESS
+Cloudflare smoke:        SUCCESS — exact merged main SHA verified
+```
+
+D2 preserves the existing guided-trace evaluator, `guided_trace_path_score` evidence, checkpoint/stroke state, pointer behavior, audio/vibration feedback, explicit runtime measurement, and renderer-owned `completeActivity`. Only post-success presentation/replay ownership moved to canonical `ActivityCompletion`.
+
+The dedicated D2 browser suite passed 320 / 390 / 768 viewports and verifies canonical Completion, exact guided-trace evidence, local Again without document reload, reset to 0% checkpoint progress, cleared stroke points, and no duplicate target attempt.
+
+
 ## Explicit non-scope
 
 SI-06D does not change:
@@ -347,12 +367,12 @@ Before D2 starts:
 
 ### Final SI-06D closure
 
-After D2:
+All runtime closure gates are satisfied:
 
-1. latest-head D2 PR CI full success;
-2. D2 runtime PR merged;
-3. exact merged-main CI full success;
-4. exact Cloudflare production smoke success;
-5. canonical docs promoted to **CLOSED / MERGED / LIVE VERIFIED**.
+1. latest-head D2 PR CI #2248 — FULL SUCCESS;
+2. D2 runtime PR #383 — MERGED;
+3. exact merged-main CI #2249 — FULL SUCCESS;
+4. exact Production smoke (Cloudflare) for `c59e249ae8ad48edfbc9a69be3d2c4c41c7ea6cf` — SUCCESS;
+5. canonical checkpoint is promoted here to **CLOSED / MERGED / LIVE VERIFIED**.
 
-After final SI-06D closure, **STOP**. Do not start SI-06E until the user explicitly authorizes it.
+**STOP. Do not start SI-06E until the user explicitly authorizes it.**

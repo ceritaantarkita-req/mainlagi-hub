@@ -2096,9 +2096,10 @@ SI-06A — fallback Belajar owner               COMPLETE / merged / live verifie
 SI-06B1 — literacy/audio early family         COMPLETE / merged / live verified
 SI-06B2 — sentence/reading family             COMPLETE / merged / live verified
 SI-06C — matching/order/drag family           COMPLETE / merged / live verified
+SI-06D — Math specialized renderers          COMPLETE / merged / live verified
 SI-06D1 — Math choice/shared renderers       COMPLETE / merged / live verified
-SI-06D2 — Math trace renderer                 ACTIVE / not merged
-SI-06E+ — later Belajar batches               NOT STARTED
+SI-06D2 — Math trace renderer                 COMPLETE / merged / live verified
+SI-06E+ — later Belajar batches               PAUSED / not authorized
 ```
 
 SI-06B1 closure:
@@ -2149,7 +2150,7 @@ All five preserve explicit runtime measurement/evidence and renderer-owned `comp
 
 Canonical checkpoint: `SI06B2_SENTENCE_READING_SAFE_CHECKPOINT_2026-09-28.md`.
 
-## 28 September 2026 — Shared Interaction SI-06C matching/order/drag — ACTIVE
+## 28 September 2026 — Shared Interaction SI-06C matching/order/drag — CLOSED / LIVE VERIFIED
 
 Current verified production baseline:
 
@@ -2182,17 +2183,17 @@ Preflight/current boundary:
 - all five keep explicit runtime measurement, evidence fidelity, renderer-owned `completeActivity`, dispatcher ownership and progression/mastery semantics.
 - browser QA is extended so Again resets local state without creating a second target attempt.
 - `GrowthStageTransitionActivity` is a shared renderer and is migrated once here; later Science work must not duplicate this owner migration.
-- SI-06D is **not authorized after SI-06C**. After C closes, stop and discuss before any Math mutation.
+- historical SI-06C handoff required a stop/discussion before Math mutation; that authorization was subsequently granted, SI-06D was executed, and SI-06D is now closed/live verified.
 
 SI-06C runtime PR #379 final head `a0bac57263224917d10910f8da8c2e9559d6a1dd` passed CI #2230 / run `36411290409` full success and squash-merged to `050557cacb19d24ba329233ba9d934cc19ef2d4b`.
 
 Merged-main CI #2231 / run `36412450434` completed full success including exact Production smoke (Cloudflare). SI-06C is **closed / merged / live verified**.
 
-**Hard stop:** SI-06D remains **PAUSED / not authorized**. Do not begin Math renderer mutation until the user explicitly discusses and authorizes SI-06D.
+Historical SI-06C hard stop was satisfied by explicit user authorization before SI-06D began. It is retained only as sequencing history; it is not a current blocker.
 
 
 
-## 28 September 2026 — Shared Interaction SI-06D Math — ACTIVE
+## 28 September 2026 — Shared Interaction SI-06D Math — CLOSED / LIVE VERIFIED
 
 Verified D1 checkpoint:
 
@@ -2206,7 +2207,12 @@ D1 merged-main CI:       #2245 / run 36423309927 — FULL SUCCESS
 D1 Cloudflare smoke:     SUCCESS — exact merged main SHA verified
 D1 docs checkpoint main:  a225e9a70322f37e5c9f537865b1c326cd96bfd0
 D1 docs-main CI:          #2247 / run 36428109656 — FULL SUCCESS + exact Cloudflare smoke
-D2 branch:                agent/si-06d2-math-trace-clean-20260928
+D2 runtime PR:            #383 — merged
+D2 final PR head:         81237839e718ade8a2d50774bd73cbdb5c0bd080
+D2 PR CI:                 #2248 / run 36429916386 — FULL SUCCESS
+D2 merged main:           c59e249ae8ad48edfbc9a69be3d2c4c41c7ea6cf
+D2 merged-main CI:        #2249 / run 36431408994 — FULL SUCCESS
+D2 Cloudflare smoke:      SUCCESS — exact merged main SHA verified
 checkpoint:
 docs/SI06D_MATH_SAFE_CHECKPOINT_2026-09-28.md
 ```
@@ -2243,6 +2249,6 @@ D1 boundary:
 - NumberLine, mixed-operation, CompareProperties and SpatialRelation reuse suites now expect canonical Completion;
 - `ComparePropertiesActivity` and `SpatialRelationBoardActivity` are shared renderers and are migrated once here; later SI-06E/F must not duplicate their migration.
 
-`MathTraceWorldActivity` remained untouched by D1 because it owns stroke/checkpoint/timing/audio state. D1 and the D1 docs checkpoint are now **closed / merged / live verified**. D2 is active on a clean branch from `a225e9a70322f37e5c9f537865b1c326cd96bfd0` and changes only post-success Completion/replay ownership while preserving guided-trace measurement, stroke/checkpoint state, audio/vibration behavior, and renderer-owned progress.
+`MathTraceWorldActivity` remained untouched by D1 because it owns stroke/checkpoint/timing/audio state. D2 then migrated only its post-success Completion/replay ownership while preserving guided-trace measurement, `guided_trace_path_score` evidence, stroke/checkpoint state, audio/vibration behavior, pointer interaction, explicit runtime measurement, and renderer-owned progress. PR #383 passed latest-head CI #2248 and squash-merged to `c59e249ae8ad48edfbc9a69be3d2c4c41c7ea6cf`; merged-main CI #2249 passed including exact Cloudflare smoke. SI-06D is **closed / merged / live verified**.
 
-After final SI-06D closure, **STOP before SI-06E** until the user explicitly authorizes it.
+**Hard stop:** SI-06D is complete. Do not start SI-06E until the user explicitly authorizes it.
