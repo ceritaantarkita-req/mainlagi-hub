@@ -194,6 +194,12 @@ async function inspect(viewport){
     assert.equal(state.accuracy,0.5);
 
     await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-take-away-success.png`),fullPage:false});
+    await page.evaluate(()=>{window.__si06dReplayMarker="alive";});
+    await completion.locator('[data-completion-action="again"]').click();
+    await completion.waitFor({state:"hidden",timeout:2000});
+    assert.equal(await page.evaluate(()=>window.__si06dReplayMarker),"alive","Again must reset locally without reload");
+    const targetAttemptCount=await page.evaluate(({id})=>{const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");return(attempts["demo-gian"]??[]).filter(item=>item.activityId===id).length;},{id:activityId});
+    assert.equal(targetAttemptCount,1,"Again reset alone must not create a second attempt");
     assert.deepEqual(pageErrors,[],`page errors at ${viewport.width}: ${pageErrors.join(" | ")}`);
     assert.deepEqual(consoleErrors,[],`console errors at ${viewport.width}: ${consoleErrors.join(" | ")}`);
     await context.close();
@@ -206,7 +212,7 @@ async function main(){
   startServer();
   await waitForServer();
   for(const viewport of viewports)await inspect(viewport);
-  console.log(`Take-away browser QA passed ${viewports.length} viewports with legitimate Math readiness, visible removal state, keyboard wrong-state, pointer completion, masked remainder, feedback/CTA visibility and assessed evidence checks.`);
+  console.log(`Take-away browser QA passed ${viewports.length} viewports with legitimate Math readiness, visible removal state, keyboard wrong-state, pointer completion, masked remainder, feedback/Completion visibility and assessed evidence checks.`);
 }
 
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;}).finally(stopServer);
