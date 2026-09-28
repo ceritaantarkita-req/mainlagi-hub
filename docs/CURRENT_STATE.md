@@ -2096,8 +2096,8 @@ SI-06A — fallback Belajar owner               COMPLETE / merged / live verifie
 SI-06B1 — literacy/audio early family         COMPLETE / merged / live verified
 SI-06B2 — sentence/reading family             COMPLETE / merged / live verified
 SI-06C — matching/order/drag family           COMPLETE / merged / live verified
-SI-06D1 — Math choice/shared renderers       ACTIVE / not merged
-SI-06D2 — Math trace renderer                 BLOCKED until D1 live verification
+SI-06D1 — Math choice/shared renderers       COMPLETE / merged / live verified
+SI-06D2 — Math trace renderer                 NEXT / not started
 SI-06E+ — later Belajar batches               NOT STARTED
 ```
 
@@ -2194,13 +2194,16 @@ Merged-main CI #2231 / run `36412450434` completed full success including exact 
 
 ## 28 September 2026 — Shared Interaction SI-06D Math — ACTIVE
 
-Verified baseline:
+Verified D1 checkpoint:
 
 ```text
-main:                    27a4e647b0819f532956eebe83c2668b6acfeb32
-baseline CI:             #2233 / run 36414788564 — FULL SUCCESS
-Cloudflare smoke:        SUCCESS — exact baseline SHA verified
-active branch:           agent/si-06d1-math-choice-20260928
+pre-D1 main:             27a4e647b0819f532956eebe83c2668b6acfeb32
+D1 PR:                   #381 — merged
+D1 final PR head:        0141bffc36d38d0e7a461bbc9fdcb7f17feb5252
+D1 PR CI:                #2244 / run 36421974034 — FULL SUCCESS
+D1 merged main:          4183001b203d0e93ea0de7e6b231525813c93c20
+D1 merged-main CI:       #2245 / run 36423309927 — FULL SUCCESS
+D1 Cloudflare smoke:     SUCCESS — exact merged main SHA verified
 checkpoint:
 docs/SI06D_MATH_SAFE_CHECKPOINT_2026-09-28.md
 ```
@@ -2237,6 +2240,6 @@ D1 boundary:
 - NumberLine, mixed-operation, CompareProperties and SpatialRelation reuse suites now expect canonical Completion;
 - `ComparePropertiesActivity` and `SpatialRelationBoardActivity` are shared renderers and are migrated once here; later SI-06E/F must not duplicate their migration.
 
-`MathTraceWorldActivity` remains untouched in D1 because it owns stroke/checkpoint/timing/audio state and requires a dedicated D2 replay boundary.
+`MathTraceWorldActivity` remains untouched by D1 because it owns stroke/checkpoint/timing/audio state and requires a dedicated D2 replay boundary. D1 is now **closed / merged / live verified**; D2 is the only authorized next mutation inside SI-06D.
 
 After final SI-06D closure, **STOP before SI-06E** until the user explicitly authorizes it.
