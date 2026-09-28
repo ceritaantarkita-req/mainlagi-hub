@@ -1,6 +1,6 @@
 # SI-04 Canonical Share — Safe Checkpoint — 28 September 2026
 
-Status: **IMPLEMENTED ON BRANCH / FULL CI VALIDATION PENDING / NOT MERGED**
+Status: **CLOSED / MERGED / LIVE VERIFIED**
 
 ## Resume point
 
@@ -8,9 +8,11 @@ Continue this exact workstream. Do not restart Shared Interaction from SI-00.
 
 ```text
 repository: ceritaantarkita-req/mainlagi-hub
-base main:  9e233e2a05aeb34ecc536b73fe2040aefde72a89
-branch:     agent/si-04-canonical-share-20260928
-phase:      SI-04 — Canonical Share component
+final PR:    #367
+final head:  c96a5b51a5605fab60e6d10f801d042e8ee2fd2d
+merged main: a41af99f3bacde43fd32d6d530134ea2225e8c72
+phase:       SI-04 — CLOSED / LIVE
+next:        SI-05 — Belajar pilot runtime
 ```
 
 Closed prerequisites:
@@ -207,19 +209,37 @@ Browser acceptance covers:
 
 The new static test is wired into `test:learning`; browser acceptance is wired into the permanent mobile-route gate immediately after SI-03.
 
-## Merge gate
+## Final verification
 
-Do not merge until the latest branch head proves:
+SI-04 passed the full closure sequence:
 
-1. Ubuntu quality full green;
-2. Windows compatibility full green;
-3. production build full green;
-4. dependency audit full green;
-5. secret-history scan full green;
-6. Chromium mobile-route matrix full green;
-7. permanent visual baseline full green.
+```text
+PR:                     #367 — merged
+final PR head:          c96a5b51a5605fab60e6d10f801d042e8ee2fd2d
+final PR CI:            #1999 / run 36341904495 — FULL SUCCESS
+merged main:            a41af99f3bacde43fd32d6d530134ea2225e8c72
+merged-main CI:         #2000 / run 36342644695 — FULL SUCCESS
+Cloudflare smoke:       SUCCESS — exact merged main SHA verified
+```
 
-After merge require push-to-main CI full green plus exact Cloudflare smoke for the merged SHA before promoting SI-04 to closed/live.
+Final PR CI proved:
+
+- Ubuntu quality gate — PASS;
+- Windows compatibility — PASS;
+- production build — PASS;
+- dependency audit — PASS;
+- secret-history scan — PASS;
+- Chromium mobile-route matrix — PASS;
+- permanent visual product baseline — PASS.
+
+Merged-main CI #2000 repeated the full matrix and the Cloudflare production smoke verified the exact merged SHA `a41af99f3bacde43fd32d6d530134ea2225e8c72`.
+
+Two pre-closure regressions were test/harness issues, not a privacy-boundary rollback:
+
+1. CI #1997 caught React 19 lint errors from synchronous state updates inside effects; the modal was changed to derive origin from open state and schedule gate reset outside the synchronous effect body.
+2. CI #1997 also proved the dedicated SI-04 browser test itself passed, then a later permanent mobile-route assertion failed because it still expected the legacy Belajar Share copy. That stale assertion was updated to the canonical SI-04 marker/gate/public-path contract.
+
+The final head `c96a5b51a5605fab60e6d10f801d042e8ee2fd2d` then passed CI #1999 in full before merge.
 
 ## Non-scope
 
@@ -235,6 +255,12 @@ Do not expand SI-04 into:
 - Shop;
 - learning attempt/evidence/mastery/progression changes.
 
-## Next after SI-04 closure
+## Closure state
+
+SI-04 is **closed / merged / live verified**.
+
+Do not reopen canonical Share architecture during SI-05. The next authorized Shared Interaction phase is:
 
 `SI-05 — Belajar pilot runtime`
+
+SI-05 must reuse the live canonical Completion + Share owners, preserve existing `completeActivity` / attempt / evidence semantics, and migrate exactly one representative currently-inline Belajar renderer before any SI-06 batch work.
