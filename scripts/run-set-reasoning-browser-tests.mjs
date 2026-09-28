@@ -155,8 +155,12 @@ async function inspect(viewport){
     assert.equal(await completed(page),true,"correct set member completes canonical activity");
     await assertFullyVisible(status,viewportHeight,`success set-reasoning feedback at ${viewport.width}`);
 
-    const nextLink=page.getByRole("link",{name:"Pilih permainan lain"});
-    await assertFullyVisible(nextLink,viewportHeight,`set-reasoning success CTA at ${viewport.width}`);
+    const completion=page.locator("[data-activity-completion]");
+    await completion.waitFor({state:"visible",timeout:2000});
+    const completionBox=await completion.boundingBox();
+    const completionViewportHeight=await page.evaluate(()=>window.innerHeight);
+    assert(completionBox,"set-reasoning canonical Completion must render");
+    assert(completionBox.y>=-1&&completionBox.y+completionBox.height<=completionViewportHeight+1,"canonical Completion must remain fully visible");
 
     const state=await page.evaluate(({id})=>{
       const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
@@ -177,6 +181,15 @@ async function inspect(viewport){
     assert.equal(state.accuracy,0.5);
 
     await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-set-reasoning-success.png`),fullPage:false});
+    await page.evaluate(()=>{window.__si06eReplayMarker="alive";});
+    await completion.locator('[data-completion-action="again"]').click();
+    await completion.waitFor({state:"hidden",timeout:2000});
+    assert.equal(await page.evaluate(()=>window.__si06eReplayMarker),"alive","Again must reset locally without document reload");
+    const targetAttemptCount=await page.evaluate(({id})=>{
+      const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
+      return(attempts["demo-gian"]??[]).filter(item=>item.activityId===id).length;
+    },{id:activityId});
+    assert.equal(targetAttemptCount,1,"Again reset alone must not create a second target attempt");
     assert.deepEqual(pageErrors,[],`page errors at ${viewport.width}: ${pageErrors.join(" | ")}`);
     assert.deepEqual(consoleErrors,[],`console errors at ${viewport.width}: ${consoleErrors.join(" | ")}`);
     await context.close();
@@ -189,7 +202,7 @@ async function main(){
   startServer();
   await waitForServer();
   for(const viewport of viewports)await inspect(viewport);
-  console.log(`Set-reasoning legacy browser QA passed ${viewports.length} viewports with neutral two-rule copy, keyboard wrong-state, pointer completion, feedback/CTA visibility and unchanged assessed evidence.`);
+  console.log(`Set-reasoning legacy browser QA passed ${viewports.length} viewports with neutral two-rule copy, keyboard wrong-state, pointer completion, feedback/canonical Completion visibility and unchanged assessed evidence.`);
 }
 
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;}).finally(stopServer);
