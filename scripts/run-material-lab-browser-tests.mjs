@@ -194,12 +194,12 @@ async function inspect(viewport){
     await testButton.click();
     await page.getByRole("status").filter({hasText:"Tepat"}).waitFor({state:"visible",timeout:2000});
 
-    const nextLink=page.getByRole("link",{name:"Pilih permainan lain"});
-    const nextBox=await nextLink.boundingBox();
-    const viewportHeight=await page.evaluate(()=>window.innerHeight);
-    assert(nextBox,"material-lab success CTA must render");
-    assert(nextBox.y>=-1&&nextBox.y+nextBox.height<=viewportHeight+1,`material-lab success CTA must remain visible at ${viewport.width}`);
-
+    const completion=page.locator("[data-activity-completion]");
+    await completion.waitFor({state:"visible",timeout:2000});
+    const completionBox=await completion.boundingBox();
+    const completionViewportHeight=await page.evaluate(()=>window.innerHeight);
+    assert(completionBox,"material-lab canonical Completion must render");
+    assert(completionBox.y>=-1&&completionBox.y+completionBox.height<=completionViewportHeight+1,"canonical Completion must remain fully visible");
     const state=await page.evaluate(({id})=>{
       const progress=JSON.parse(localStorage.getItem("mainlagi-learning-progress-v1")??"{}");
       const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
@@ -219,6 +219,15 @@ async function inspect(viewport){
     assert.equal(state.attempt.accuracy,.5);
 
     await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-material-lab-success.png`),fullPage:false});
+    await page.evaluate(()=>{window.__si06fReplayMarker="alive";});
+    await completion.locator('[data-completion-action="again"]').click();
+    await completion.waitFor({state:"hidden",timeout:2000});
+    assert.equal(await page.evaluate(()=>window.__si06fReplayMarker),"alive","Again must reset locally without document reload");
+    const si06fAttemptCount=await page.evaluate(({id})=>{
+      const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
+      return(attempts["demo-gian"]??[]).filter(item=>item.activityId===id).length;
+    },{id:activityId});
+    assert.equal(si06fAttemptCount,1,"Again reset alone must not create a second target attempt");
     assert.deepEqual(pageErrors,[],`page errors at ${viewport.width}: ${pageErrors.join(" | ")}`);
     assert.deepEqual(consoleErrors,[],`console errors at ${viewport.width}: ${consoleErrors.join(" | ")}`);
     await context.close();
@@ -232,7 +241,7 @@ async function main(){
   await waitForServer();
   await inspectSemanticCoverage();
   for(const viewport of viewports)await inspect(viewport);
-  console.log(`Material-lab browser QA passed ${viewports.length} required Session 13 viewports plus exact toy-block SVG and raincoat/towel held-fallback coverage.`);
+  console.log(`Material-lab browser QA passed ${viewports.length} required Session 13 viewports plus exact toy-block SVG, raincoat/towel held-fallback, canonical Completion + local Again coverage.`);
 }
 
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;}).finally(stopServer);
