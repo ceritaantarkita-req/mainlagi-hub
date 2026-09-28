@@ -26,6 +26,14 @@ const files = {
     "docs/MAINLAGI_SHOP_BATCH11_LAUNCH_GATE_2026-09-27.md",
     "utf8",
   ),
+  candidateMigration: await readFile(
+    "supabase/migrations/20260928143000_shop_batch11_marketplace_candidate_variants.sql",
+    "utf8",
+  ),
+  candidateData: await readFile(
+    "docs/data/MAINLAGI_SHOP_PRODUCT_TRUTH_MARKETPLACE_CANDIDATE_2026-09-28.json",
+    "utf8",
+  ),
 };
 
 for (const name of [
@@ -149,7 +157,7 @@ assert.match(
   "manual free staging must execute the integrated DB-backed provider E2E harness",
 );
 for (const required of [
-  "008-DEFAULT",
+  "008-A5-80-LINED",
   ".trycloudflare.com",
   "biteship_test.",
   "api.sandbox.midtrans.com",
@@ -194,4 +202,39 @@ assert.match(
 
 console.log(
   "Shop Batch 11 integrated E2E guard PASS: manual-only staging now covers the real app cart/rates/checkout/payment/owner-pack/shipping/webhook/tracking/reconcile path without a staging owner bypass or production-provider mode.",
+);
+
+
+const candidate = JSON.parse(files.candidateData);
+assert.equal(candidate.products.length, 9);
+assert.equal(
+  candidate.products.reduce((n, product) => n + product.variants.length, 0),
+  26,
+);
+assert.equal(
+  candidate.products.reduce(
+    (n, product) =>
+      n + product.variants.reduce((sum, variant) => sum + variant.stock, 0),
+    0,
+  ),
+  79,
+);
+assert.match(
+  files.candidateMigration,
+  /marketplace_candidate_unverified[sS]*production_verified/,
+  "candidate migration must preserve the physical/supplier verification gate",
+);
+assert.match(
+  files.candidateMigration,
+  /Marketplace benchmark candidate allocation — unverified/,
+  "candidate stock ledger must remain explicitly unverified",
+);
+assert.doesNotMatch(
+  files.candidateMigration,
+  /SHOP_SALES_ENABLED|MIDTRANS_IS_PRODUCTION|BITESHIP_API_KEY/,
+  "product candidate migration must not alter sales/provider configuration",
+);
+
+console.log(
+  "Shop Batch 11 product candidate guard PASS: 9 products / 26 variants / 79 stock are seeded as unverified marketplace candidates and remain activation-blocked until physical or supplier verification.",
 );
