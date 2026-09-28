@@ -225,7 +225,7 @@ assert.equal(
 );
 assert.match(
   files.candidateMigration,
-  /marketplace_candidate_unverified[sS]*production_verified/,
+  /marketplace_candidate_unverified[\s\S]*production_verified/,
   "candidate migration must preserve the physical/supplier verification gate",
 );
 assert.match(
