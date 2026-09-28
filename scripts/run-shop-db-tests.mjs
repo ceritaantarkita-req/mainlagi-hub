@@ -11,6 +11,7 @@ try {
     "../supabase/migrations/20260927051000_shop_admin_workflow.sql",
     "../supabase/migrations/20260928143000_shop_batch11_marketplace_candidate_variants.sql",
     "../supabase/migrations/20260928144000_shop_batch11_shipping_dimensions.sql",
+    "../supabase/migrations/20260928145000_shop_batch11_physical_supplier_verification.sql",
   ]) {
     await db.exec(await readFile(new URL(migration, import.meta.url), "utf8"));
   }
@@ -101,6 +102,21 @@ try {
         JSON.stringify({
           verificationStatus: "production_verified",
           sizeChart: "S: verified sample measurements",
+          verification: {
+            method: "physical_sample",
+            verifiedBy: "Shop test verifier",
+            verifiedAt: "2026-09-28",
+            evidenceRef: "test-fixture:physical-sample-001",
+            productFactsConfirmed: true,
+            stockCountConfirmed: true,
+            actualProductFacts: {
+              color: "Putih",
+              material: "Cotton Combed 24s",
+              fit: "Regular kids unisex",
+              print: "Mainlagi front graphic",
+            },
+            variantSkus: ["001-S", "001-M"],
+          },
         }),
         stranger,
       ],
