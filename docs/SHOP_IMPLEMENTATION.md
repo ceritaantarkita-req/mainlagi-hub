@@ -1582,3 +1582,21 @@ Run #5 was a diagnostic-only failure that identified raw quote-wrapper formattin
 the phone/postal secrets; it also explicitly confirmed the owner operational-policy
 contract is approved. The next action is a single manual free-staging rerun, not a
 new staging architecture.
+
+
+### Batch 11 integrated harness continuation — 28 September 2026
+
+The integrated DB-backed Batch 11 harness is now implemented on PR #359 and wired
+into the same manual-only `Shop Batch 11 free staging` workflow. The harness uses
+testing-only SKU 008, live Biteship Testing rates/order/tracking, Midtrans Sandbox
+Snap + simulator settlement, the real application payment reconcile, and the
+existing owner-authenticated `admin/pack` + `admin/ship` routes. Its synthetic
+owner exists only inside the ephemeral local Supabase and signs in through the
+normal `/login` flow; no staging fulfillment bypass route was added.
+
+The immediate next technical action is one manual `Shop Batch 11 free staging`
+workflow run from PR #359 after normal PR CI passes. That run is the evidence gate
+for the remaining full integrated DB-backed provider sequence. Do not re-enable
+the push trigger. Do not create a paid Supabase branch. Do not touch production
+Supabase. Production sales stay disabled. Production product truth and production
+PII retention remain separate unresolved owner/data blockers.
