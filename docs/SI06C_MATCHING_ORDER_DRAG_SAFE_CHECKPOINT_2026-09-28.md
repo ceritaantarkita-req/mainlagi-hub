@@ -1,10 +1,10 @@
 # SI-06C Matching / Order / Drag — Safe Checkpoint — 28 September 2026
 
-Status: **MERGED / LIVE VERIFICATION PENDING**
+Status: **CLOSED / MERGED / LIVE VERIFIED**
 
 ## Resume point
 
-SI-06C runtime is merged. Do not restart SI-06A/B1/B2/C. Wait for exact merged-main CI + Cloudflare verification. After SI-06C reaches live-verified closure, **STOP before SI-06D** and return for product discussion/authorization.
+SI-06C is closed / merged / live verified. Do not restart SI-06A/B1/B2/C. **STOP before SI-06D** and return for product discussion/authorization.
 
 ```text
 repository: ceritaantarkita-req/mainlagi-hub
@@ -14,12 +14,12 @@ runtime PR: #379 — merged
 final PR head: a0bac57263224917d10910f8da8c2e9559d6a1dd
 PR CI: #2230 / run 36411290409 — FULL SUCCESS
 merged main: 050557cacb19d24ba329233ba9d934cc19ef2d4b
-merged-main CI: #2231 / run 36412450434 — PENDING
-phase: SI-06C — MERGED / LIVE VERIFICATION PENDING
+merged-main CI: #2231 / run 36412450434 — FULL SUCCESS
+phase: SI-06C — CLOSED / MERGED / LIVE VERIFIED
 after closure: STOP — SI-06D requires discussion
 ```
 
-The verified pre-C main `fdbd6a9a8b54b62a5fcc8f8431a875a1ae3e5b83` passed push CI #2229 including exact Production smoke (Cloudflare). SI-06C runtime PR #379 then passed latest-head CI #2230 and squash-merged to `050557cacb19d24ba329233ba9d934cc19ef2d4b`; exact merged-main verification is still pending on CI #2231.
+The verified pre-C main `fdbd6a9a8b54b62a5fcc8f8431a875a1ae3e5b83` passed push CI #2229 including exact Production smoke (Cloudflare). SI-06C runtime PR #379 then passed latest-head CI #2230, squash-merged to `050557cacb19d24ba329233ba9d934cc19ef2d4b`, and merged-main CI #2231 / run `36412450434` completed full success including exact Production smoke (Cloudflare).
 
 ## Current ownership preflight
 
@@ -201,4 +201,12 @@ SI-06C can be called closed only after:
 4. exact Cloudflare production smoke success;
 5. docs promoted to **CLOSED / MERGED / LIVE VERIFIED**.
 
-After those five gates, **STOP**. Do not start SI-06D until the user explicitly authorizes it after discussion.
+All five closure gates are satisfied:
+
+1. latest-head PR CI #2230 — FULL SUCCESS;
+2. runtime PR #379 — MERGED;
+3. exact merged-main push CI #2231 — FULL SUCCESS;
+4. exact Production smoke (Cloudflare) for `050557cacb19d24ba329233ba9d934cc19ef2d4b` — SUCCESS;
+5. checkpoint promoted to **CLOSED / MERGED / LIVE VERIFIED**.
+
+**STOP. Do not start SI-06D until the user explicitly authorizes it after discussion.**
