@@ -1,5 +1,12 @@
 import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
 import { readFile } from "node:fs/promises";
+
+execFileSync(
+  process.execPath,
+  ["--check", "scripts/run-shop-batch11-integrated-e2e.mjs"],
+  { stdio: "inherit" },
+);
 
 const files = {
   env: await readFile(".env.example", "utf8"),
