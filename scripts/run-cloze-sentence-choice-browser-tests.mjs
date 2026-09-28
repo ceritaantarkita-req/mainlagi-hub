@@ -251,8 +251,8 @@ async function inspect(viewport) {
     assert.equal(await slot.getAttribute("data-slot-state"), "good", "slot exposes success state");
     assert.equal(await completed(page), true, "correct cloze choice completes canonical activity");
     await assertFullyVisible(status, viewportHeight, `success cloze feedback at ${viewport.width}`);
-    const nextLink = page.getByRole("link", { name: "Pilih permainan lain" });
-    await assertFullyVisible(nextLink, viewportHeight, `cloze success CTA at ${viewport.width}`);
+    const completion=page.locator("[data-activity-completion]");
+    await assertFullyVisible(completion,viewportHeight,`cloze success CTA at ${viewport.width}`)
 
     const state = await page.evaluate(
       ({ id }) => {
@@ -289,7 +289,7 @@ async function main() {
   await waitForServer();
   for (const viewport of viewports) await inspect(viewport);
   console.log(
-    `Cloze Sentence Choice browser QA passed ${viewports.length} viewports with legitimate Bahasa Wave C readiness, exact sentence/choices, keyboard wrong-state, pointer completion, touch targets, feedback/CTA visibility and assessed evidence checks.`
+    `Cloze Sentence Choice browser QA passed ${viewports.length} viewports with legitimate Bahasa Wave C readiness, exact sentence/choices, keyboard wrong-state, pointer completion, touch targets, feedback/canonical Completion visibility and assessed evidence checks.`
   );
 }
 
