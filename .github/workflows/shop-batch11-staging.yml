@@ -186,7 +186,7 @@ jobs:
             exit 1
           }
 
-          facts_code="$(curl -sS -o /tmp/b11-product-facts.json -w '%{http_code}'             -X PATCH             "$LOCAL_SUPABASE_URL/rest/v1/shop_products?product_code=eq.008"             "${headers[@]}"             --data '{"facts":{"verificationStatus":"production_verified","fixtureOnly":true,"verificationBasis":"Batch 11 ephemeral acceptance fixture; not production truth"}}')"
+          facts_code="$(curl -sS -o /tmp/b11-product-facts.json -w '%{http_code}'             -X PATCH             "$LOCAL_SUPABASE_URL/rest/v1/shop_products?product_code=eq.008"             "${headers[@]}"             --data '{"facts":{"verificationStatus":"production_verified","fixtureOnly":true,"verificationBasis":"Batch 11 simulated acceptance evidence in disposable local Supabase; not production truth","marketplaceCandidate":{"targetFacts":{"size":"A5","widthMm":148,"heightMm":210,"pageStyle":"Bergaris","sheets":80,"targetThicknessMm":12}},"verification":{"method":"physical_sample","verifiedBy":"Batch11 simulated fixture","verifiedAt":"2026-09-28","evidenceRef":"fixture://batch11/sku-008","notes":"Simulated evidence only; never promote to production truth.","productFactsConfirmed":true,"stockCountConfirmed":true,"actualProductFacts":{"size":"A5","widthMm":"148","heightMm":"210","pageStyle":"Bergaris","sheets":"80","targetThicknessMm":"12"},"variantSkus":["008-A5-80-LINED"]}}}')"
           [[ "$facts_code" == "200" ]] || {
             echo "::error::Could not prepare ephemeral SKU 008 verification fixture (HTTP $facts_code)."
             cat /tmp/b11-product-facts.json
