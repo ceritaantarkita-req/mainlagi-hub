@@ -49,16 +49,16 @@ const deliveredOrder = await api(
 );
 assert.equal(deliveredOrder.id, deliveredOrderId);
 assert.equal(deliveredOrder.status, "delivered");
+const trackingId = deliveredOrder?.courier?.tracking_id;
 assert.ok(
-  typeof deliveredOrder.tracking_id === "string" &&
-    deliveredOrder.tracking_id.length > 5,
-  "Delivered sandbox order has no tracking_id",
+  typeof trackingId === "string" && trackingId.length > 5,
+  "Delivered sandbox order has no courier.tracking_id",
 );
 
 const tracking = await api(
-  `/v1/trackings/${encodeURIComponent(deliveredOrder.tracking_id)}`,
+  `/v1/trackings/${encodeURIComponent(trackingId)}`,
 );
-assert.equal(tracking.id, deliveredOrder.tracking_id);
+assert.equal(tracking.id, trackingId);
 assert.equal(tracking.order_id, deliveredOrderId);
 assert.equal(tracking.status, "delivered");
 assert.ok(Array.isArray(tracking.history) && tracking.history.length > 0);
@@ -98,8 +98,16 @@ const evidence = {
   deliveredOrderId,
   deliveredReferenceId: deliveredOrder.reference_id ?? null,
   deliveredStatus: deliveredOrder.status,
-  trackingId: deliveredOrder.tracking_id,
+  trackingId,
   trackingStatus: tracking.status,
+  orderCourierHistoryStatuses: Array.isArray(deliveredOrder?.courier?.history)
+    ? deliveredOrder.courier.history.map((row) =>
+        String(row?.status ?? "")
+          .replace(/([a-z0-9])([A-Z])/g, "$1_$2")
+          .replace(/-/g, "_")
+          .toLowerCase(),
+      )
+    : [],
   trackingHistoryStatuses: normalized,
   trackingHistoryLength: tracking.history.length,
   cancelledOrderId,
