@@ -22,7 +22,7 @@ try {
   );
   assert.equal(
     (await one("select count(*)::int n from shop_variants")).n,
-    26,
+    27,
   );
   assert.equal(
     (await one("select count(*)::int n from shop_variants where sku like '%-DEFAULT'")).n,
@@ -686,7 +686,7 @@ try {
   ]);
   await assert.rejects(checkout(emptyBalance), /inventory missing/);
   console.log(
-    "Shop SQL: 26 marketplace-candidate variants / 79 stock remain unverified, RLS, owner product workflow, fail-closed activation, variant stock conservation/history lock, media guards, audit logs, reservation, payment lease retry, duplicate/out-of-order payment idempotency, amount/transaction identity, challenge hold, late payment, quote invalidation, missing inventory, packing, shipment leases, no status regression, refund release, adjustment idempotency, reporting PASS",
+    "Shop SQL: 27 marketplace-candidate variants / 79 stock remain unverified, RLS, owner product workflow, fail-closed activation, variant stock conservation/history lock, media guards, audit logs, reservation, payment lease retry, duplicate/out-of-order payment idempotency, amount/transaction identity, challenge hold, late payment, quote invalidation, missing inventory, packing, shipment leases, no status regression, refund release, adjustment idempotency, reporting PASS",
   );
 } finally {
   await db.close();
