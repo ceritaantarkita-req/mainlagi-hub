@@ -141,6 +141,38 @@ evidence required by Batch 11.
    - run the complete required scenario set only after the above product,
      provider and staging prerequisites exist.
 
+
+### 28 September integrated E2E execution harness — PREPARED / EVIDENCE PENDING
+
+The full DB-backed provider sequence is no longer blocked by a missing test harness.
+PR #359 now contains
+`scripts/run-shop-batch11-integrated-e2e.mjs`, wired into the existing
+manual-only `Shop Batch 11 free staging` workflow.
+
+The harness is intentionally bounded to the existing free staging architecture and
+testing providers. It exercises the actual application path:
+
+`cart → Biteship Testing rates → checkout → Midtrans Sandbox Snap → paid → real owner-auth pack → real owner-auth ship → Biteship Testing order → provider GET/tracking → authenticated webhook → reconciliation`.
+
+The owner step uses a synthetic account created only in the ephemeral local
+Supabase and signs in through the existing `/login` flow. No staging-only
+fulfillment bypass endpoint was added.
+
+Static/CI guardrails now require:
+
+- `workflow_dispatch` remains the only Batch 11 staging trigger;
+- no push/PR/schedule auto-trigger is added;
+- the harness refuses non-Quick-Tunnel ingress;
+- the harness refuses non-testing Biteship credentials and Midtrans production
+  mode;
+- `admin/pack` and `admin/ship` remain behind the normal owner gate;
+- production product facts and production PII retention remain unresolved inputs,
+  not test fixtures promoted to truth.
+
+This changes the final integrated E2E item from **missing harness** to
+**harness prepared / live evidence pending**. It does **not** change any scenario
+row to PASS until one manual workflow run succeeds and its evidence is reviewed.
+
 ## Decision
 
 Batch 11 must remain **BLOCKED**. The correct next action is to close the concrete
