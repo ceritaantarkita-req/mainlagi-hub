@@ -1535,3 +1535,14 @@ the missing historical row as a failure.
 The bounded Biteship Testing Mode Rates, Order, duplicate-detection/manual-fallback,
 authenticated webhook/provider-GET, normal tracking, cancel, and exception/return
 acceptance paths are now all provider-verified.
+
+
+### Batch 11 free staging path
+
+The database-backed staging gate no longer requires a paid Supabase development
+branch. `.github/workflows/shop-batch11-staging.yml` now provisions Supabase
+ephemerally on the GitHub Actions runner, keeps it bound to localhost, tunnels only
+the Next.js application with a temporary TryCloudflare URL, and uses a temporary
+Cloudflare Cron Worker to produce real scheduler/reconciliation evidence.
+
+Production Supabase is not used and is not mutated by this workflow.

@@ -162,36 +162,38 @@ non-production database while `SHOP_SALES_ENABLED=false`, so the release candida
 can be exercised without accidentally opening public checkout.
 
 
-### Database-backed staging execution path
+### Free database-backed staging execution path
 
-A dedicated workflow now exists at:
+The paid remote-Supabase branch plan was rejected by the owner. Batch 11 now uses
+an ephemeral, zero-additional-Supabase-cost CI staging design:
 
-```text
-.github/workflows/shop-batch11-staging.yml
-```
+1. GitHub Actions starts the full Supabase stack locally with the official Supabase
+   CLI and applies the repository migration chain to a fresh database;
+2. Docker host binding is restricted to `127.0.0.1`; the local Supabase services
+   are never exposed to the public Internet;
+3. the workflow applies the explicit testing-only SKU 001 Biteship fixture to this
+   ephemeral database only;
+4. a production-like Next.js build runs on the GitHub runner against that local
+   Supabase;
+5. Cloudflare Quick Tunnel exposes **only the Next.js app**, never Supabase;
+6. public sales remain disabled, while the secret-gated Batch 11 acceptance request
+   is allowed to reach the DB-backed application;
+7. a temporary Cloudflare Cron Worker calls the tunneled
+   `/api/shop/reconcile` endpoint on a real five-minute schedule;
+8. the workflow verifies that the scheduled call creates a completed
+   `shop_reconciliation_runs` row in the local Supabase database;
+9. evidence is uploaded, then the cron Worker, app, tunnel, database containers and
+   Docker network are all removed.
 
-It is manual-only and refuses to run unless a dedicated remote staging Supabase is
-configured through repository secrets. The workflow hard-rejects the known
-production project ref `estvtgflwkebomsqlolv`, keeps
-`SHOP_SALES_ENABLED=false`, and enables customer-path acceptance only behind an
-ephemeral staging secret.
+This follows Supabase's local-development boundary: local Supabase is used only for
+development/CI and stays on localhost. Cloudflare Quick Tunnel is used only for the
+temporary application endpoint needed for staging/webhook/scheduler testing.
 
-When the remote staging database exists and contains the Shop migration/seed
-surface, the workflow will:
+No Supabase development branch or additional paid Supabase project is required.
+The workflow may still consume whatever GitHub Actions and Cloudflare Workers usage
+is included in the owner's existing plans/quotas; it introduces no Supabase branch
+hourly charge.
 
-1. verify the remote staging Supabase schema through service-role REST;
-2. redeploy the existing isolated workers.dev Shop staging Worker against that
-   non-production Supabase;
-3. prove unauthenticated public sales remain closed with HTTP 503;
-4. prove a correctly secret-gated staging request can pass the sales flag and reach
-   the DB-backed cart boundary while operational policy checks still apply;
-5. deploy a temporary Cloudflare Cron Worker on a five-minute schedule;
-6. observe a completed `shop_reconciliation_runs` row created by a real scheduled
-   call to `/api/shop/reconcile`;
-7. upload the reconciliation/schema evidence artifact; and
-8. remove the temporary cron Worker after evidence is captured.
-
-This path intentionally does not expose a local Supabase stack to the public
-Internet. Supabase local development is not hardened for external traffic; Batch 11
-therefore requires a proper remote non-production Supabase project/branch for the
-public database-backed Worker.
+The test workflow uses `SHOP_ORDER_PII_RETENTION_DAYS=30` only as an ephemeral
+valid-value fixture. The production owner retention decision remains unresolved and
+must not be inferred from that test value.

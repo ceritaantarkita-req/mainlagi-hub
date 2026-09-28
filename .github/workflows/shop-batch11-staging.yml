@@ -1,4 +1,4 @@
-name: Shop Batch 11 full staging
+name: Shop Batch 11 free staging
 
 on:
   workflow_dispatch:
@@ -7,23 +7,18 @@ permissions:
   contents: read
 
 concurrency:
-  group: shop-batch11-full-staging
+  group: shop-batch11-free-staging
   cancel-in-progress: false
 
 jobs:
-  full-staging:
-    name: Shop Batch 11 database-backed staging
+  free-staging:
+    name: Shop Batch 11 ephemeral local Supabase staging
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:
-      WORKER_NAME: mainlagi-hub-shop-staging
       CRON_WORKER_NAME: mainlagi-hub-shop-staging-cron
-      PRODUCTION_SUPABASE_PROJECT_REF: estvtgflwkebomsqlolv
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-      SHOP_STAGING_SUPABASE_URL: ${{ secrets.SHOP_STAGING_SUPABASE_URL }}
-      SHOP_STAGING_SUPABASE_ANON_KEY: ${{ secrets.SHOP_STAGING_SUPABASE_ANON_KEY }}
-      SHOP_STAGING_SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SHOP_STAGING_SUPABASE_SERVICE_ROLE_KEY }}
       MIDTRANS_SANDBOX_SERVER_KEY: ${{ secrets.MIDTRANS_SANDBOX_SERVER_KEY }}
       BITESHIP_TEST_API_KEY: ${{ secrets.BITESHIP_TEST_API_KEY }}
       BITESHIP_WEBHOOK_SECRET: ${{ secrets.BITESHIP_WEBHOOK_SECRET }}
@@ -31,7 +26,6 @@ jobs:
       BITESHIP_ORIGIN_CONTACT_PHONE: ${{ secrets.BITESHIP_ORIGIN_CONTACT_PHONE }}
       BITESHIP_ORIGIN_ADDRESS: ${{ secrets.BITESHIP_ORIGIN_ADDRESS }}
       BITESHIP_ORIGIN_POSTAL_CODE: ${{ secrets.BITESHIP_ORIGIN_POSTAL_CODE }}
-      SHOP_ORDER_PII_RETENTION_DAYS: ${{ secrets.SHOP_ORDER_PII_RETENTION_DAYS }}
     steps:
       - uses: actions/checkout@v4
 
@@ -40,199 +34,213 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: Verify isolated staging prerequisites
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Verify free-staging prerequisites
         shell: bash
         run: |
           set -Eeuo pipefail
           missing=0
-          for name in             CLOUDFLARE_API_TOKEN CLOUDFLARE_ACCOUNT_ID             SHOP_STAGING_SUPABASE_URL SHOP_STAGING_SUPABASE_ANON_KEY             SHOP_STAGING_SUPABASE_SERVICE_ROLE_KEY             MIDTRANS_SANDBOX_SERVER_KEY BITESHIP_TEST_API_KEY             BITESHIP_WEBHOOK_SECRET BITESHIP_ORIGIN_CONTACT_NAME             BITESHIP_ORIGIN_CONTACT_PHONE BITESHIP_ORIGIN_ADDRESS             BITESHIP_ORIGIN_POSTAL_CODE
+          for name in             CLOUDFLARE_API_TOKEN CLOUDFLARE_ACCOUNT_ID             MIDTRANS_SANDBOX_SERVER_KEY BITESHIP_TEST_API_KEY             BITESHIP_WEBHOOK_SECRET BITESHIP_ORIGIN_CONTACT_NAME             BITESHIP_ORIGIN_CONTACT_PHONE BITESHIP_ORIGIN_ADDRESS             BITESHIP_ORIGIN_POSTAL_CODE
           do
             if [[ -z "${!name:-}" ]]; then
-              echo "::error::Missing GitHub Actions staging secret: ${name}"
+              echo "::error::Missing GitHub Actions secret: ${name}"
               missing=1
             fi
           done
           [[ "$missing" -eq 0 ]] || exit 1
-
-          if [[ "$SHOP_STAGING_SUPABASE_URL" != https://* ]]; then
-            echo "::error::Staging Supabase URL must be HTTPS."
-            exit 1
-          fi
-          if [[ "$SHOP_STAGING_SUPABASE_URL" == *"$PRODUCTION_SUPABASE_PROJECT_REF"* ]]; then
-            echo "::error::Refusing to use production Supabase as Batch 11 staging."
-            exit 1
-          fi
-          if [[ "$BITESHIP_TEST_API_KEY" != biteship_test.* ]]; then
-            echo "::error::Batch 11 staging requires a Biteship Testing Mode API key."
-            exit 1
-          fi
-          if [[ -n "${SHOP_ORDER_PII_RETENTION_DAYS:-}" ]] &&
-             { ! [[ "$SHOP_ORDER_PII_RETENTION_DAYS" =~ ^[0-9]+$ ]] ||
-               (( SHOP_ORDER_PII_RETENTION_DAYS < 30 || SHOP_ORDER_PII_RETENTION_DAYS > 3650 )); }; then
-            echo "::error::SHOP_ORDER_PII_RETENTION_DAYS must be an explicit integer from 30 to 3650."
-            exit 1
-          fi
-
-      - name: Verify staging Supabase Shop schema
-        shell: bash
-        run: |
-          set -Eeuo pipefail
-          code="$(curl -sS -o /tmp/shop-staging-products.json -w '%{http_code}'             --connect-timeout 10 --max-time 20             "$SHOP_STAGING_SUPABASE_URL/rest/v1/shop_products?select=id,product_code,status&limit=20"             -H "apikey: $SHOP_STAGING_SUPABASE_SERVICE_ROLE_KEY"             -H "Authorization: Bearer $SHOP_STAGING_SUPABASE_SERVICE_ROLE_KEY")"
-          [[ "$code" == "200" ]] || {
-            echo "::error::Staging Supabase Shop schema probe failed with HTTP $code."
-            cat /tmp/shop-staging-products.json
+          [[ "$BITESHIP_TEST_API_KEY" == biteship_test.* ]] || {
+            echo "::error::Free staging requires a Biteship Testing Mode API key."
             exit 1
           }
-          node - <<'NODE'
-          const fs = require("node:fs");
-          const rows = JSON.parse(fs.readFileSync("/tmp/shop-staging-products.json", "utf8"));
-          if (!Array.isArray(rows) || rows.length < 9) {
-            throw new Error("Staging Supabase does not contain the expected Shop migration/seed surface.");
-          }
-          console.log("Staging Supabase Shop schema is reachable with at least nine seeded products.");
-          NODE
 
-      - name: Resolve isolated workers.dev staging URL
-        id: staging-url
-        shell: bash
-        run: |
-          set -Eeuo pipefail
-          response="$(curl -fsS             "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/subdomain"             -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN")"
-          subdomain="$(node -e '
-            const body=JSON.parse(process.argv[1]);
-            if(!body.success||!body.result?.subdomain) process.exit(2);
-            process.stdout.write(body.result.subdomain);
-          ' "$response")"
-          staging_url="https://$WORKER_NAME.$subdomain.workers.dev"
-          if [[ "$staging_url" == "https://mainlagihub.my.id"* ]]; then
-            echo "::error::Production domain cannot be used as staging."
-            exit 1
-          fi
-          echo "url=$staging_url" >> "$GITHUB_OUTPUT"
-          echo "STAGING_URL=$staging_url" >> "$GITHUB_ENV"
-          echo "Resolved isolated Batch 11 staging origin: $staging_url"
-
-      - name: Generate ephemeral acceptance and cron secrets
-        shell: bash
-        run: |
-          set -Eeuo pipefail
-          echo "SHOP_STAGING_ACCEPTANCE_SECRET=$(openssl rand -hex 32)" >> "$GITHUB_ENV"
-          echo "SHOP_CRON_SECRET=$(openssl rand -hex 32)" >> "$GITHUB_ENV"
-
-      - name: Install dependencies
+      - name: Install application dependencies
         run: npm ci --no-audit --no-fund
 
-      - name: Build database-backed Cloudflare staging artifact
+      - name: Initialize and start ephemeral Supabase locally
+        shell: bash
         env:
-          NEXT_PUBLIC_SITE_URL: ${{ steps.staging-url.outputs.url }}
+          SUPABASE_TELEMETRY_DISABLED: "1"
+        run: |
+          set -Eeuo pipefail
+          supabase init --force
+          docker network create             -o com.docker.network.bridge.host_binding_ipv4=127.0.0.1             mainlagi-batch11-local
+          supabase start             --network-id mainlagi-batch11-local             -x studio,imgproxy,mailpit,realtime,storage-api,edge-runtime,logflare,vector,supavisor
+
+          supabase status -o env > /tmp/mainlagi-supabase.env
+          set -a
+          source /tmp/mainlagi-supabase.env
+          set +a
+
+          for name in API_URL ANON_KEY SERVICE_ROLE_KEY DB_URL; do
+            [[ -n "${!name:-}" ]] || {
+              echo "::error::Supabase local status did not export ${name}"
+              exit 1
+            }
+          done
+
+          {
+            echo "LOCAL_SUPABASE_URL=$API_URL"
+            echo "LOCAL_SUPABASE_ANON_KEY=$ANON_KEY"
+            echo "LOCAL_SUPABASE_SERVICE_ROLE_KEY=$SERVICE_ROLE_KEY"
+            echo "LOCAL_SUPABASE_DB_URL=$DB_URL"
+          } >> "$GITHUB_ENV"
+
+      - name: Prepare explicit testing-only product fixture
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          headers=(
+            -H "apikey: $LOCAL_SUPABASE_SERVICE_ROLE_KEY"
+            -H "Authorization: Bearer $LOCAL_SUPABASE_SERVICE_ROLE_KEY"
+            -H "Content-Type: application/json"
+            -H "Prefer: return=representation"
+          )
+
+          variant_code="$(curl -sS -o /tmp/b11-variant.json -w '%{http_code}'             -X PATCH             "$LOCAL_SUPABASE_URL/rest/v1/shop_variants?sku=eq.001-DEFAULT"             "${headers[@]}"             --data '{"weight_grams":200,"length_mm":300,"width_mm":250,"height_mm":40,"is_active":true}')"
+          [[ "$variant_code" == "200" ]] || {
+            echo "::error::Could not apply ephemeral SKU 001 shipping fixture (HTTP $variant_code)."
+            cat /tmp/b11-variant.json
+            exit 1
+          }
+
+          product_code="$(curl -sS -o /tmp/b11-product.json -w '%{http_code}'             -X PATCH             "$LOCAL_SUPABASE_URL/rest/v1/shop_products?product_code=eq.001"             "${headers[@]}"             --data '{"status":"active","facts_verified":true,"media_approved":true}')"
+          [[ "$product_code" == "200" ]] || {
+            echo "::error::Could not activate ephemeral SKU 001 fixture (HTTP $product_code)."
+            cat /tmp/b11-product.json
+            exit 1
+          }
+
+          curl -fsS             "$LOCAL_SUPABASE_URL/rest/v1/shop_products?select=product_code,status,facts_verified,media_approved&order=product_code"             -H "apikey: $LOCAL_SUPABASE_SERVICE_ROLE_KEY"             -H "Authorization: Bearer $LOCAL_SUPABASE_SERVICE_ROLE_KEY"             > /tmp/mainlagi-shop-local-products.json
+
+          node - <<'NODE'
+          const fs = require("node:fs");
+          const rows = JSON.parse(fs.readFileSync("/tmp/mainlagi-shop-local-products.json", "utf8"));
+          if (!Array.isArray(rows) || rows.length !== 9)
+            throw new Error(`Expected 9 locally migrated Shop products, got ${rows?.length}`);
+          const sku001 = rows.find((row) => row.product_code === "001");
+          if (
+            !sku001 ||
+            sku001.status !== "active" ||
+            sku001.facts_verified !== true ||
+            sku001.media_approved !== true
+          )
+            throw new Error("Ephemeral SKU 001 acceptance fixture did not activate.");
+          console.log("Local Supabase migration chain + testing-only SKU 001 fixture PASS.");
+          NODE
+
+      - name: Install pinned Cloudflare Quick Tunnel binary
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          curl -fsSL -o /tmp/cloudflared             https://github.com/cloudflare/cloudflared/releases/download/2026.9.3/cloudflared-linux-amd64
+          echo "77e26d8d900e0b8469f416239d14b5f296525fdf79fee6f511ef55609e3fbac2  /tmp/cloudflared" | sha256sum -c -
+          chmod +x /tmp/cloudflared
+
+      - name: Start free temporary public app tunnel
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          /tmp/cloudflared tunnel             --url http://127.0.0.1:3000             --no-autoupdate             --loglevel info             > /tmp/mainlagi-batch11-tunnel.log 2>&1 &
+          echo "$!" > /tmp/mainlagi-batch11-tunnel.pid
+
+          tunnel_url=""
+          for attempt in $(seq 1 30); do
+            tunnel_url="$(grep -Eo 'https://[a-z0-9-]+\.trycloudflare\.com' /tmp/mainlagi-batch11-tunnel.log | head -n1 || true)"
+            [[ -n "$tunnel_url" ]] && break
+            sleep 1
+          done
+          [[ -n "$tunnel_url" ]] || {
+            echo "::error::Cloudflare Quick Tunnel URL was not produced."
+            cat /tmp/mainlagi-batch11-tunnel.log
+            exit 1
+          }
+
+          echo "STAGING_URL=$tunnel_url" >> "$GITHUB_ENV"
+          echo "SHOP_STAGING_ACCEPTANCE_SECRET=$(openssl rand -hex 32)" >> "$GITHUB_ENV"
+          echo "SHOP_CRON_SECRET=$(openssl rand -hex 32)" >> "$GITHUB_ENV"
+          echo "Free ephemeral staging URL: $tunnel_url"
+
+      - name: Build production-like local app against ephemeral Supabase
+        shell: bash
+        env:
           NEXT_PUBLIC_DATA_BACKEND: supabase
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SHOP_STAGING_SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SHOP_STAGING_SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ env.LOCAL_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ env.LOCAL_SUPABASE_ANON_KEY }}
           SHOP_SALES_ENABLED: "false"
           SHOP_LOCAL_PREVIEW: "false"
           SHOP_STAGING_ACCEPTANCE_ENABLED: "true"
           MIDTRANS_IS_PRODUCTION: "false"
-        run: npm run build:cloudflare
-
-      - name: Deploy database-backed staging Worker
-        shell: bash
-        run: npx wrangler deploy --name "$WORKER_NAME"
-
-      - name: Configure database-backed staging runtime
-        shell: bash
-        env:
-          NEXT_PUBLIC_SITE_URL: ${{ steps.staging-url.outputs.url }}
         run: |
           set -Eeuo pipefail
-          node <<'NODE'
-          const fs = require("node:fs");
-          const required = (name) => {
-            const raw = process.env[name]?.trim();
-            if (!raw) throw new Error("Missing " + name);
-            const quoted =
-              raw.length >= 2 &&
-              ((raw.startsWith('"') && raw.endsWith('"')) ||
-                (raw.startsWith("'") && raw.endsWith("'")));
-            return (quoted ? raw.slice(1, -1) : raw).trim();
-          };
-          const optional = (name) => {
-            const raw = process.env[name]?.trim();
-            if (!raw) return "";
-            const quoted =
-              raw.length >= 2 &&
-              ((raw.startsWith('"') && raw.endsWith('"')) ||
-                (raw.startsWith("'") && raw.endsWith("'")));
-            return (quoted ? raw.slice(1, -1) : raw).trim();
-          };
-          const originAddress = required("BITESHIP_ORIGIN_ADDRESS").replace(/\\\./g, ".");
-          const values = {
-            NEXT_PUBLIC_SITE_URL: required("NEXT_PUBLIC_SITE_URL"),
-            NEXT_PUBLIC_DATA_BACKEND: "supabase",
-            NEXT_PUBLIC_SUPABASE_URL: required("SHOP_STAGING_SUPABASE_URL"),
-            NEXT_PUBLIC_SUPABASE_ANON_KEY: required("SHOP_STAGING_SUPABASE_ANON_KEY"),
-            SUPABASE_SERVICE_ROLE_KEY: required("SHOP_STAGING_SUPABASE_SERVICE_ROLE_KEY"),
-            MIDTRANS_SERVER_KEY: required("MIDTRANS_SANDBOX_SERVER_KEY"),
-            MIDTRANS_IS_PRODUCTION: "false",
-            BITESHIP_API_KEY: required("BITESHIP_TEST_API_KEY"),
-            BITESHIP_ORIGIN_CONTACT_NAME: required("BITESHIP_ORIGIN_CONTACT_NAME"),
-            BITESHIP_ORIGIN_CONTACT_PHONE: required("BITESHIP_ORIGIN_CONTACT_PHONE"),
-            BITESHIP_ORIGIN_ADDRESS: originAddress,
-            BITESHIP_ORIGIN_POSTAL_CODE: required("BITESHIP_ORIGIN_POSTAL_CODE"),
-            BITESHIP_COURIERS: "jne,jnt,sicepat,anteraja,ninja",
-            BITESHIP_WEBHOOK_HEADER: "X-Mainlagi-Biteship-Secret",
-            BITESHIP_WEBHOOK_SECRET: required("BITESHIP_WEBHOOK_SECRET"),
-            SHOP_SALES_ENABLED: "false",
-            SHOP_LOCAL_PREVIEW: "false",
-            SHOP_STAGING_ACCEPTANCE_ENABLED: "true",
-            SHOP_STAGING_ACCEPTANCE_SECRET: required("SHOP_STAGING_ACCEPTANCE_SECRET"),
-            SHOP_BITESHIP_SANDBOX_ACCEPTANCE: "false",
-            SHOP_CRON_SECRET: required("SHOP_CRON_SECRET"),
-          };
-          const retention = optional("SHOP_ORDER_PII_RETENTION_DAYS");
-          if (retention) values.SHOP_ORDER_PII_RETENTION_DAYS = retention;
-          fs.writeFileSync(
-            "/tmp/mainlagi-shop-batch11-secrets.json",
-            JSON.stringify(values),
-          );
-          NODE
-          npx wrangler secret bulk /tmp/mainlagi-shop-batch11-secrets.json --name "$WORKER_NAME"
-          rm -f /tmp/mainlagi-shop-batch11-secrets.json
+          export NEXT_PUBLIC_SITE_URL="$STAGING_URL"
+          npm run build
 
-      - name: Verify public sales remain closed while staging acceptance is reachable
+      - name: Start database-backed staging app locally
         shell: bash
         run: |
           set -Eeuo pipefail
-          for attempt in $(seq 1 30); do
-            health="$(curl -sS --connect-timeout 10 --max-time 20 "$STAGING_URL/api/health" || true)"
-            if grep -Fq '"ok":true' <<<"$health" &&
-               grep -Fq '"dataBackend":"supabase"' <<<"$health" &&
-               ! grep -Fq "$PRODUCTION_SUPABASE_PROJECT_REF" <<<"$health"; then
-              break
+          export NEXT_PUBLIC_SITE_URL="$STAGING_URL"
+          export NEXT_PUBLIC_DATA_BACKEND="supabase"
+          export NEXT_PUBLIC_SUPABASE_URL="$LOCAL_SUPABASE_URL"
+          export NEXT_PUBLIC_SUPABASE_ANON_KEY="$LOCAL_SUPABASE_ANON_KEY"
+          export SUPABASE_SERVICE_ROLE_KEY="$LOCAL_SUPABASE_SERVICE_ROLE_KEY"
+          export MIDTRANS_SERVER_KEY="$MIDTRANS_SANDBOX_SERVER_KEY"
+          export MIDTRANS_IS_PRODUCTION="false"
+          export BITESHIP_API_KEY="$BITESHIP_TEST_API_KEY"
+          export BITESHIP_ORIGIN_CONTACT_NAME="$BITESHIP_ORIGIN_CONTACT_NAME"
+          export BITESHIP_ORIGIN_CONTACT_PHONE="$BITESHIP_ORIGIN_CONTACT_PHONE"
+          export BITESHIP_ORIGIN_ADDRESS="$BITESHIP_ORIGIN_ADDRESS"
+          export BITESHIP_ORIGIN_POSTAL_CODE="$BITESHIP_ORIGIN_POSTAL_CODE"
+          export BITESHIP_COURIERS="jne,jnt,sicepat,anteraja,ninja"
+          export BITESHIP_WEBHOOK_HEADER="X-Mainlagi-Biteship-Secret"
+          export BITESHIP_WEBHOOK_SECRET="$BITESHIP_WEBHOOK_SECRET"
+          export SHOP_SALES_ENABLED="false"
+          export SHOP_LOCAL_PREVIEW="false"
+          export SHOP_STAGING_ACCEPTANCE_ENABLED="true"
+          export SHOP_STAGING_ACCEPTANCE_SECRET="$SHOP_STAGING_ACCEPTANCE_SECRET"
+          export SHOP_BITESHIP_SANDBOX_ACCEPTANCE="false"
+          export SHOP_CRON_SECRET="$SHOP_CRON_SECRET"
+          # Test-only value. This is not the production owner retention decision.
+          export SHOP_ORDER_PII_RETENTION_DAYS="30"
+
+          npm start -- --hostname 127.0.0.1 -p 3000             > /tmp/mainlagi-batch11-app.log 2>&1 &
+          echo "$!" > /tmp/mainlagi-batch11-app.pid
+
+          for attempt in $(seq 1 60); do
+            code="$(curl -sS -o /tmp/b11-health.json -w '%{http_code}'               --connect-timeout 3 --max-time 5               "$STAGING_URL/api/health" || true)"
+            if [[ "$code" == "200" ]] && grep -Fq '"dataBackend":"supabase"' /tmp/b11-health.json; then
+              exit 0
             fi
-            [[ "$attempt" -lt 30 ]] || {
-              echo "::error::Database-backed staging health check never became ready."
-              echo "$health"
-              exit 1
-            }
-            sleep 5
+            sleep 2
           done
+          echo "::error::Ephemeral database-backed app never became reachable."
+          cat /tmp/mainlagi-batch11-app.log
+          cat /tmp/mainlagi-batch11-tunnel.log
+          exit 1
 
-          public_code="$(curl -sS -o /tmp/public-sales.json -w '%{http_code}'             -X POST "$STAGING_URL/api/shop/shipping/rates"             -H "Origin: $STAGING_URL"             -H "Content-Type: application/json"             --data '{"postalCode":"12240"}')"
+      - name: Prove public sales remain closed and secret staging path is live
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          public_code="$(curl -sS -o /tmp/b11-public.json -w '%{http_code}'             -X POST "$STAGING_URL/api/shop/shipping/rates"             -H "Origin: $STAGING_URL"             -H "Content-Type: application/json"             --data '{"postalCode":"12240"}')"
           [[ "$public_code" == "503" ]] || {
-            echo "::error::Public staging request unexpectedly bypassed disabled sales."
-            cat /tmp/public-sales.json
+            echo "::error::Public request unexpectedly bypassed disabled sales (HTTP $public_code)."
+            cat /tmp/b11-public.json
             exit 1
           }
 
-          accepted_code="$(curl -sS -o /tmp/accepted-sales.json -w '%{http_code}'             -X POST "$STAGING_URL/api/shop/shipping/rates"             -H "Origin: $STAGING_URL"             -H "Content-Type: application/json"             -H "X-Mainlagi-Shop-Staging-Secret: $SHOP_STAGING_ACCEPTANCE_SECRET"             --data '{"postalCode":"12240"}')"
+          accepted_code="$(curl -sS -o /tmp/b11-accepted.json -w '%{http_code}'             -X POST "$STAGING_URL/api/shop/shipping/rates"             -H "Origin: $STAGING_URL"             -H "Content-Type: application/json"             -H "X-Mainlagi-Shop-Staging-Secret: $SHOP_STAGING_ACCEPTANCE_SECRET"             --data '{"postalCode":"12240"}')"
           [[ "$accepted_code" == "404" ]] || {
-            echo "::error::Secret-gated staging request did not reach the empty-cart boundary (HTTP $accepted_code)."
-            cat /tmp/accepted-sales.json
+            echo "::error::Secret-gated request did not reach the DB-backed empty-cart boundary (HTTP $accepted_code)."
+            cat /tmp/b11-accepted.json
             exit 1
           }
-          echo "Database-backed staging boundary PASS: public sales=503; secret-gated acceptance reached DB-backed cart boundary."
+          echo "Free database-backed staging boundary PASS: public sales=503; secret path reached local Supabase-backed cart boundary."
 
-      - name: Deploy temporary staging reconciliation cron
+      - name: Deploy temporary real Cloudflare scheduled reconciliation
         shell: bash
         run: |
           set -Eeuo pipefail
@@ -249,10 +257,9 @@ jobs:
                   },
                   body: "{}",
                 });
-                if (!response.ok) {
+                if (!response.ok)
                   throw new Error(`Shop reconciliation HTTP ${response.status}: ${await response.text()}`);
-                }
-                console.log("Shop staging scheduled reconciliation completed.");
+                console.log("Shop free-staging scheduled reconciliation completed.");
               })());
             },
           };
@@ -266,6 +273,7 @@ jobs:
           }
           EOF
           npx wrangler deploy --config /tmp/mainlagi-shop-cron/wrangler.jsonc
+
           node - <<'NODE'
           const fs = require("node:fs");
           fs.writeFileSync(
@@ -279,19 +287,19 @@ jobs:
           npx wrangler secret bulk /tmp/mainlagi-shop-cron-secrets.json --name "$CRON_WORKER_NAME"
           rm -f /tmp/mainlagi-shop-cron-secrets.json
 
-      - name: Observe a real scheduled reconciliation run
+      - name: Observe a real scheduler-created reconciliation row
         shell: bash
         run: |
           set -Eeuo pipefail
           started_epoch="$(date +%s)"
           found=0
-          for attempt in $(seq 1 15); do
-            curl -sS -o /tmp/reconciliation-runs.json               --connect-timeout 10 --max-time 20               "$SHOP_STAGING_SUPABASE_URL/rest/v1/shop_reconciliation_runs?select=id,started_at,finished_at,status,details&order=started_at.desc&limit=5"               -H "apikey: $SHOP_STAGING_SUPABASE_SERVICE_ROLE_KEY"               -H "Authorization: Bearer $SHOP_STAGING_SUPABASE_SERVICE_ROLE_KEY"
+          for attempt in $(seq 1 18); do
+            curl -fsS               "$LOCAL_SUPABASE_URL/rest/v1/shop_reconciliation_runs?select=id,started_at,finished_at,status,details&order=started_at.desc&limit=5"               -H "apikey: $LOCAL_SUPABASE_SERVICE_ROLE_KEY"               -H "Authorization: Bearer $LOCAL_SUPABASE_SERVICE_ROLE_KEY"               > /tmp/mainlagi-shop-batch11-reconciliation-evidence.json
 
             if node - "$started_epoch" <<'NODE'
           const fs = require("node:fs");
           const started = Number(process.argv[2]);
-          const rows = JSON.parse(fs.readFileSync("/tmp/reconciliation-runs.json", "utf8"));
+          const rows = JSON.parse(fs.readFileSync("/tmp/mainlagi-shop-batch11-reconciliation-evidence.json", "utf8"));
           const fresh = rows.find((row) =>
             Number.isFinite(Date.parse(row.started_at)) &&
             Math.floor(Date.parse(row.started_at) / 1000) >= started &&
@@ -305,30 +313,36 @@ jobs:
               found=1
               break
             fi
-            echo "Waiting for Cloudflare cron tick ($attempt/15)..."
-            sleep 25
+            echo "Waiting for real Cloudflare cron tick ($attempt/18)..."
+            sleep 20
           done
           [[ "$found" -eq 1 ]] || {
-            echo "::error::No completed scheduled reconciliation run was observed."
-            cat /tmp/reconciliation-runs.json
+            echo "::error::No scheduler-created reconciliation row was observed."
+            cat /tmp/mainlagi-shop-batch11-reconciliation-evidence.json
             exit 1
           }
-          cp /tmp/reconciliation-runs.json /tmp/mainlagi-shop-batch11-reconciliation-evidence.json
 
-      - name: Upload Batch 11 staging evidence
+      - name: Upload free-staging evidence
         uses: actions/upload-artifact@v4
         with:
-          name: shop-batch11-database-staging-evidence
+          name: shop-batch11-free-staging-evidence
           path: |
+            /tmp/mainlagi-shop-local-products.json
             /tmp/mainlagi-shop-batch11-reconciliation-evidence.json
-            /tmp/shop-staging-products.json
+            /tmp/b11-health.json
           if-no-files-found: error
           retention-days: 14
 
-      - name: Remove temporary staging cron Worker
+      - name: Clean up all ephemeral staging resources
         if: always()
         shell: bash
+        env:
+          SUPABASE_TELEMETRY_DISABLED: "1"
         run: |
           set +e
           npx wrangler delete --name "$CRON_WORKER_NAME" --force
+          [[ -f /tmp/mainlagi-batch11-app.pid ]] && kill "$(cat /tmp/mainlagi-batch11-app.pid)" 2>/dev/null
+          [[ -f /tmp/mainlagi-batch11-tunnel.pid ]] && kill "$(cat /tmp/mainlagi-batch11-tunnel.pid)" 2>/dev/null
+          supabase stop --no-backup
+          docker network rm mainlagi-batch11-local
           exit 0

@@ -51,10 +51,10 @@ assert.match(
   "production Supabase project reference must remain explicit for anti-staging guardrails",
 );
 for (const required of [
-  "SHOP_STAGING_SUPABASE_URL",
-  "SHOP_STAGING_SUPABASE_ANON_KEY",
-  "SHOP_STAGING_SUPABASE_SERVICE_ROLE_KEY",
-  "PRODUCTION_SUPABASE_PROJECT_REF",
+  "supabase/setup-cli@v1",
+  "supabase start",
+  "supabase status -o env",
+  "trycloudflare",
   "SHOP_STAGING_ACCEPTANCE_SECRET",
   "SHOP_CRON_SECRET",
 ]) {
@@ -64,14 +64,14 @@ for (const required of [
     `Batch 11 staging workflow missing ${required}`,
   );
 }
-assert.match(
+assert.doesNotMatch(
   files.batch11Workflow,
-  /Refusing to use production Supabase as Batch 11 staging/,
-  "Batch 11 workflow must hard-stop on the production Supabase project",
+  /SHOP_STAGING_SUPABASE_(?:URL|ANON_KEY|SERVICE_ROLE_KEY)/,
+  "free Batch 11 staging must not require a paid remote Supabase branch/project",
 );
 assert.match(
   files.batch11Workflow,
-  /SHOP_SALES_ENABLED:\s*"false"/,
+  /SHOP_SALES_ENABLED(?::|=)\s*["']?false["']?/,
   "Batch 11 database-backed staging must keep public sales disabled",
 );
 assert.match(
@@ -82,4 +82,15 @@ assert.match(
 
 console.log(
   "Shop Batch 11 preflight PASS: staging bypass is secret-gated, public sales remain fail-closed, production Supabase identity remains explicit, and unresolved launch gates are not silently marked complete.",
+);
+
+assert.match(
+  files.batch11Workflow,
+  /host_binding_ipv4=127\.0\.0\.1/,
+  "local Supabase must remain private on localhost",
+);
+assert.doesNotMatch(
+  files.batch11Workflow,
+  /cloudflared tunnel[\s\S]*54321/,
+  "local Supabase API must never be exposed by the public Quick Tunnel",
 );
