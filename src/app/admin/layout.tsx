@@ -8,7 +8,8 @@ import { AdminNavLink } from "@/components/admin/AdminNavLink";
 const NAV: { href: string; label: string; icon: IconName }[] = [
   { href: "/admin/dashboard", label: "Dashboard", icon: "grid" },
   { href: "/admin/articles", label: "Artikel", icon: "doc" },
-  { href: "/admin/affiliate", label: "Affiliate", icon: "tag" }
+  { href: "/admin/affiliate", label: "Affiliate", icon: "tag" },
+  { href: "/admin/shop", label: "Shop", icon: "tag" }
 ];
 
 export default async function AdminLayout({ children }: { children: ReactNode }) {

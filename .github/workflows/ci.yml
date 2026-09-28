@@ -5,6 +5,19 @@ on:
   push:
     branches:
       - main
+      - agent/mainlagi-shop-foundation-20260927
+  workflow_dispatch:
+    inputs:
+      run_midtrans_sandbox:
+        description: Run live Midtrans Sandbox acceptance probes
+        required: false
+        default: false
+        type: boolean
+      deploy_shop_biteship_staging:
+        description: Deploy isolated Shop/Biteship workers.dev staging
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -43,6 +56,8 @@ jobs:
         run: npm run test:batch16:security
       - name: Physical-device QA harness contract
         run: npm run test:qa:device
+      - name: Shop transaction and provider contracts
+        run: npm run test:shop
       - name: Typecheck
         run: npm run typecheck
       - name: Lint
@@ -75,6 +90,98 @@ jobs:
         run: npm run simulate
       - name: Batch 17 final acceptance contracts
         run: npm run test:batch17:final
+
+  shop-postgres-staging:
+    name: Shop PostgreSQL staging gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: mainlagi_shop_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d mainlagi_shop_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/mainlagi_shop_ci
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PostgreSQL client
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+      - name: Run full Shop PostgreSQL staging/security/concurrency gate
+        shell: bash
+        run: bash scripts/run-shop-postgres-staging-tests.sh
+
+  shop-midtrans-sandbox:
+    name: Shop Midtrans sandbox probe
+    if: github.event_name == 'workflow_dispatch' && inputs.run_midtrans_sandbox == true
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      MIDTRANS_SANDBOX_SERVER_KEY: ${{ secrets.MIDTRANS_SANDBOX_SERVER_KEY }}
+      MIDTRANS_SANDBOX_CLIENT_KEY: ${{ secrets.MIDTRANS_CLIENT_KEY }}
+      MIDTRANS_IS_PRODUCTION: "false"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check Midtrans sandbox credential
+        id: credential
+        shell: bash
+        run: |
+          if [[ -z "$MIDTRANS_SANDBOX_SERVER_KEY" ]]; then
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "MIDTRANS_SANDBOX_SERVER_KEY_NOT_CONFIGURED"
+          else
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+            echo "Midtrans sandbox Server Key is configured."
+          fi
+          if [[ -z "$MIDTRANS_SANDBOX_CLIENT_KEY" ]]; then
+            echo "client_configured=false" >> "$GITHUB_OUTPUT"
+            echo "MIDTRANS_SANDBOX_CLIENT_KEY_NOT_CONFIGURED"
+          else
+            echo "client_configured=true" >> "$GITHUB_OUTPUT"
+            echo "Midtrans sandbox Client Key candidate is configured."
+          fi
+      - name: Run live Midtrans sandbox Snap probe
+        if: steps.credential.outputs.configured == 'true'
+        run: node scripts/run-shop-midtrans-sandbox-probe.mjs
+      - name: Run live Midtrans sandbox state-cycle probe
+        if: steps.credential.outputs.configured == 'true'
+        run: node scripts/run-shop-midtrans-sandbox-state-probe.mjs
+      - name: Install paid-probe browser dependency
+        if: steps.credential.outputs.configured == 'true'
+        run: npm ci --no-audit --no-fund --ignore-scripts
+      - name: Run live Midtrans sandbox paid VA simulator probe
+        if: steps.credential.outputs.configured == 'true'
+        run: node scripts/run-shop-midtrans-sandbox-paid-probe.mjs
+      - name: Run live Midtrans sandbox card-deny probe
+        if: steps.credential.outputs.configured == 'true' && steps.credential.outputs.client_configured == 'true'
+        run: node scripts/run-shop-midtrans-sandbox-card-deny-probe.mjs
+      - name: Install pinned Cloudflare Quick Tunnel client
+        if: steps.credential.outputs.configured == 'true'
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          curl -fsSL -o /tmp/cloudflared \
+            https://github.com/cloudflare/cloudflared/releases/download/2026.9.3/cloudflared-linux-amd64
+          echo "77e26d8d900e0b8469f416239d14b5f296525fdf79fee6f511ef55609e3fbac2  /tmp/cloudflared" | sha256sum -c -
+          chmod +x /tmp/cloudflared
+          echo "CLOUDFLARED_BIN=/tmp/cloudflared" >> "$GITHUB_ENV"
+      - name: Run real Midtrans sandbox notification probe
+        if: steps.credential.outputs.configured == 'true'
+        run: node scripts/run-shop-midtrans-sandbox-webhook-probe.mjs
+      - name: Run Mainlagi Midtrans webhook route E2E probe
+        if: steps.credential.outputs.configured == 'true'
+        run: node scripts/run-shop-midtrans-sandbox-app-webhook-probe.mjs
 
   build:
     name: Production build
@@ -110,10 +217,14 @@ jobs:
         run: npm ci --no-audit --no-fund
       - name: Install Chromium for responsive QA
         run: npx playwright install --with-deps chromium
+      - name: Shop responsive visual and accessibility QA
+        run: npm run test:shop:browser
       - name: Build local production app
         run: npm run build
       - name: Audit Batch 16 build budgets
         run: npm run test:batch16:build
+      - name: Shop production HTTP boundary
+        run: npm run test:shop:http
       - name: Validate coloring artwork geometry
         run: npm run test:ui:coloring-art
       - name: Run canonical mobile route, accessibility, and lazy-load matrix
@@ -232,6 +343,7 @@ jobs:
     needs:
       - secret-history-scan
       - quality
+      - shop-postgres-staging
       - build
       - mobile-route-qa
       - windows-quality
@@ -273,3 +385,341 @@ jobs:
           echo "Production did not serve the expected commit/configuration within the smoke-test window."
           echo "Last health response: $health_body"
           exit 1
+
+
+  shop-biteship-staging-deploy:
+    name: Shop Biteship isolated staging deploy
+    if: >-
+      (github.event_name == 'workflow_dispatch' && inputs.deploy_shop_biteship_staging == true) ||
+      (github.event_name == 'push' &&
+       github.ref == 'refs/heads/agent/mainlagi-shop-foundation-20260927' &&
+       contains(github.event.head_commit.message, '[shop-staging-deploy]'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      WORKER_NAME: mainlagi-hub-shop-staging
+      EXPECTED_BRANCH: agent/mainlagi-shop-foundation-20260927
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      BITESHIP_TEST_API_KEY: ${{ secrets.BITESHIP_TEST_API_KEY }}
+      BITESHIP_WEBHOOK_SECRET: ${{ secrets.BITESHIP_WEBHOOK_SECRET }}
+      BITESHIP_ORIGIN_CONTACT_NAME: ${{ secrets.BITESHIP_ORIGIN_CONTACT_NAME }}
+      BITESHIP_ORIGIN_CONTACT_PHONE: ${{ secrets.BITESHIP_ORIGIN_CONTACT_PHONE }}
+      BITESHIP_ORIGIN_ADDRESS: ${{ secrets.BITESHIP_ORIGIN_ADDRESS }}
+      BITESHIP_ORIGIN_POSTAL_CODE: ${{ secrets.BITESHIP_ORIGIN_POSTAL_CODE }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Refuse production/main deployment
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          if [[ "${GITHUB_REF_NAME}" != "${EXPECTED_BRANCH}" ]]; then
+            echo "::error::Run this staging deploy only from ${EXPECTED_BRANCH}; current ref is ${GITHUB_REF_NAME}."
+            exit 1
+          fi
+      - name: Verify staging credentials
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          missing=0
+          for name in CLOUDFLARE_API_TOKEN CLOUDFLARE_ACCOUNT_ID BITESHIP_TEST_API_KEY BITESHIP_WEBHOOK_SECRET; do
+            if [[ -z "${!name:-}" ]]; then
+              echo "::error::Missing GitHub Actions secret: ${name}"
+              missing=1
+            fi
+          done
+          if [[ "${missing}" -ne 0 ]]; then exit 1; fi
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Resolve workers.dev staging URL
+        id: staging-url
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          response="$(curl -fsS "https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/workers/subdomain" -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}")"
+          subdomain="$(node -e 'const b=JSON.parse(process.argv[1]); if(!b.success||!b.result?.subdomain) process.exit(2); process.stdout.write(b.result.subdomain);' "${response}")" || {
+            echo "::error::Cloudflare workers.dev subdomain is unavailable. Enable a Workers subdomain first."
+            exit 1
+          }
+          staging_url="https://${WORKER_NAME}.${subdomain}.workers.dev"
+          echo "STAGING_URL=${staging_url}" >> "${GITHUB_ENV}"
+          echo "url=${staging_url}" >> "${GITHUB_OUTPUT}"
+          echo "Resolved isolated staging origin: ${staging_url}"
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Build Cloudflare staging artifact
+        env:
+          NEXT_PUBLIC_SITE_URL: ${{ steps.staging-url.outputs.url }}
+          NEXT_PUBLIC_DATA_BACKEND: mock
+          SHOP_SALES_ENABLED: "false"
+          SHOP_LOCAL_PREVIEW: "false"
+        run: npm run build:cloudflare
+      - name: Deploy isolated Worker
+        shell: bash
+        run: npx wrangler deploy --name "${WORKER_NAME}"
+      - name: Configure staging-only runtime secrets
+        shell: bash
+        env:
+          NEXT_PUBLIC_SITE_URL: ${{ steps.staging-url.outputs.url }}
+        run: |
+          set -Eeuo pipefail
+          node <<'NODE'
+          const { writeFileSync } = require("node:fs");
+          const required = (name) => {
+            const raw = process.env[name]?.trim();
+            if (!raw) throw new Error("Missing " + name);
+            const quoted =
+              raw.length >= 2 &&
+              ((raw.startsWith('"') && raw.endsWith('"')) ||
+                (raw.startsWith("'") && raw.endsWith("'")));
+            return (quoted ? raw.slice(1, -1) : raw).trim();
+          };
+          const optional = (name) => {
+            const raw = process.env[name]?.trim();
+            if (!raw) return "";
+            const quoted =
+              raw.length >= 2 &&
+              ((raw.startsWith('"') && raw.endsWith('"')) ||
+                (raw.startsWith("'") && raw.endsWith("'")));
+            return (quoted ? raw.slice(1, -1) : raw).trim();
+          };
+          const originAddress = optional("BITESHIP_ORIGIN_ADDRESS").replace(/\\\./g, ".");
+          writeFileSync("/tmp/mainlagi-shop-staging-secrets.json", JSON.stringify({
+            BITESHIP_API_KEY: required("BITESHIP_TEST_API_KEY"),
+            BITESHIP_COURIERS: "jne,jnt,sicepat,anteraja,ninja",
+            BITESHIP_WEBHOOK_HEADER: "X-Mainlagi-Biteship-Secret",
+            BITESHIP_WEBHOOK_SECRET: required("BITESHIP_WEBHOOK_SECRET"),
+            ...(optional("BITESHIP_ORIGIN_CONTACT_NAME") &&
+            optional("BITESHIP_ORIGIN_CONTACT_PHONE") &&
+            originAddress &&
+            optional("BITESHIP_ORIGIN_POSTAL_CODE")
+              ? {
+                  BITESHIP_ORIGIN_CONTACT_NAME:
+                    optional("BITESHIP_ORIGIN_CONTACT_NAME"),
+                  BITESHIP_ORIGIN_CONTACT_PHONE:
+                    optional("BITESHIP_ORIGIN_CONTACT_PHONE"),
+                  BITESHIP_ORIGIN_ADDRESS: originAddress,
+                  BITESHIP_ORIGIN_POSTAL_CODE:
+                    optional("BITESHIP_ORIGIN_POSTAL_CODE"),
+                }
+              : {}),
+            SHOP_SALES_ENABLED: "false",
+            SHOP_LOCAL_PREVIEW: "false",
+            SHOP_BITESHIP_SANDBOX_ACCEPTANCE: "true",
+            NEXT_PUBLIC_SITE_URL: required("NEXT_PUBLIC_SITE_URL"),
+            NEXT_PUBLIC_DATA_BACKEND: "mock"
+          }));
+          NODE
+          npx wrangler secret bulk /tmp/mainlagi-shop-staging-secrets.json --name "${WORKER_NAME}"
+          rm -f /tmp/mainlagi-shop-staging-secrets.json
+      - name: Verify Biteship installation probe
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          code="$(curl -sS -o /tmp/biteship-probe.json -w '%{http_code}' --connect-timeout 10 --max-time 30 -X POST "${STAGING_URL}/api/shop/biteship/webhook" -H "Content-Type: application/json" --data '{}')"
+          cat /tmp/biteship-probe.json
+          if [[ "${code}" != "200" ]] || ! grep -Fq '"ok":true' /tmp/biteship-probe.json; then
+            echo "::error::Biteship install probe failed: HTTP ${code}"
+            exit 1
+          fi
+      - name: Verify unsigned real-event boundary remains closed
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          code="$(curl -sS -o /tmp/biteship-forged.json -w '%{http_code}' --connect-timeout 10 --max-time 30 -X POST "${STAGING_URL}/api/shop/biteship/webhook" -H "Content-Type: application/json" --data '{"order_id":"forged-install-test"}')"
+          cat /tmp/biteship-forged.json
+          if [[ "${code}" != "403" ]]; then
+            echo "::error::Unsigned non-empty Biteship event must return 403; got ${code}."
+            exit 1
+          fi
+      - name: Publish staging endpoint
+        if: success()
+        shell: bash
+        run: |
+          {
+            echo "## Mainlagi Shop isolated staging"
+            echo
+            echo "- Worker: \`${WORKER_NAME}\`"
+            echo "- Staging origin: ${STAGING_URL}"
+            echo "- Biteship webhook: ${STAGING_URL}/api/shop/biteship/webhook"
+            echo "- SHOP_SALES_ENABLED: false"
+            echo "- Production domain was not modified."
+          } >> "${GITHUB_STEP_SUMMARY}"
+
+
+  shop-biteship-sandbox-connectivity:
+    name: Shop Biteship sandbox connectivity
+    if: >-
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/agent/mainlagi-shop-foundation-20260927' &&
+      contains(github.event.head_commit.message, '[biteship-connectivity-probe]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      BITESHIP_TEST_API_KEY: ${{ secrets.BITESHIP_TEST_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Verify Biteship test key and approved courier/service availability
+        run: node scripts/run-shop-biteship-sandbox-connectivity-probe.mjs
+
+
+  shop-biteship-sandbox-rates:
+    name: Shop Biteship sandbox rates
+    if: >-
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/agent/mainlagi-shop-foundation-20260927' &&
+      contains(github.event.head_commit.message, '[biteship-rates-probe]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      BITESHIP_TEST_API_KEY: ${{ secrets.BITESHIP_TEST_API_KEY }}
+      BITESHIP_ORIGIN_CONTACT_NAME: ${{ secrets.BITESHIP_ORIGIN_CONTACT_NAME }}
+      BITESHIP_ORIGIN_CONTACT_PHONE: ${{ secrets.BITESHIP_ORIGIN_CONTACT_PHONE }}
+      BITESHIP_ORIGIN_ADDRESS: ${{ secrets.BITESHIP_ORIGIN_ADDRESS }}
+      BITESHIP_ORIGIN_POSTAL_CODE: ${{ secrets.BITESHIP_ORIGIN_POSTAL_CODE }}
+      BITESHIP_COURIERS: "jne,jnt,sicepat,anteraja,ninja"
+      BITESHIP_TEST_DESTINATION_POSTAL_CODE: "12240"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Probe Biteship Sandbox rates without creating an order
+        run: node scripts/run-shop-biteship-sandbox-rates-probe.mjs
+
+
+  shop-biteship-sandbox-order:
+    name: Shop Biteship sandbox order acceptance
+    needs: shop-biteship-staging-deploy
+    if: >-
+      always() &&
+      needs.shop-biteship-staging-deploy.result == 'success' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/agent/mainlagi-shop-foundation-20260927' &&
+      contains(github.event.head_commit.message, '[biteship-order-probe]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      BITESHIP_TEST_API_KEY: ${{ secrets.BITESHIP_TEST_API_KEY }}
+      BITESHIP_WEBHOOK_SECRET: ${{ secrets.BITESHIP_WEBHOOK_SECRET }}
+      BITESHIP_ORIGIN_CONTACT_NAME: ${{ secrets.BITESHIP_ORIGIN_CONTACT_NAME }}
+      BITESHIP_ORIGIN_CONTACT_PHONE: ${{ secrets.BITESHIP_ORIGIN_CONTACT_PHONE }}
+      BITESHIP_ORIGIN_ADDRESS: ${{ secrets.BITESHIP_ORIGIN_ADDRESS }}
+      BITESHIP_ORIGIN_POSTAL_CODE: ${{ secrets.BITESHIP_ORIGIN_POSTAL_CODE }}
+      SHOP_BITESHIP_STAGING_URL: "https://mainlagi-hub-shop-staging.mainlagihub.workers.dev"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Create and verify two simulated Biteship sandbox orders
+        run: node scripts/run-shop-biteship-sandbox-order-probe.mjs
+      - name: Upload simulated order evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: biteship-sandbox-order-evidence
+          path: /tmp/mainlagi-biteship-sandbox-orders.json
+          if-no-files-found: error
+          retention-days: 14
+      - name: Publish simulated order IDs
+        shell: bash
+        run: |
+          {
+            echo "## Biteship sandbox order acceptance"
+            echo
+            cat /tmp/mainlagi-biteship-sandbox-orders.json
+            echo
+            echo "These are simulated Testing Mode orders only; no real courier or balance charge."
+          } >> "${GITHUB_STEP_SUMMARY}"
+
+
+  shop-biteship-sandbox-tracking:
+    name: Shop Biteship sandbox tracking acceptance
+    if: >-
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/agent/mainlagi-shop-foundation-20260927' &&
+      contains(github.event.head_commit.message, '[biteship-tracking-probe]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      BITESHIP_TEST_API_KEY: ${{ secrets.BITESHIP_TEST_API_KEY }}
+      BITESHIP_TEST_DELIVERED_ORDER_ID: "6ab95bf62cf339db52b93e9e"
+      BITESHIP_TEST_CANCELLED_ORDER_ID: "6ab95bfa6960f5e88be36376"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Verify delivered tracking history and cancelled terminal state
+        run: node scripts/run-shop-biteship-sandbox-tracking-probe.mjs
+      - name: Upload tracking evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: biteship-sandbox-tracking-evidence
+          path: /tmp/mainlagi-biteship-tracking-evidence.json
+          if-no-files-found: error
+          retention-days: 14
+
+
+  shop-biteship-sandbox-exception-candidate:
+    name: Shop Biteship sandbox exception candidate
+    if: >-
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/agent/mainlagi-shop-foundation-20260927' &&
+      contains(github.event.head_commit.message, '[biteship-exception-probe]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      BITESHIP_TEST_API_KEY: ${{ secrets.BITESHIP_TEST_API_KEY }}
+      BITESHIP_WEBHOOK_SECRET: ${{ secrets.BITESHIP_WEBHOOK_SECRET }}
+      BITESHIP_ORIGIN_CONTACT_NAME: ${{ secrets.BITESHIP_ORIGIN_CONTACT_NAME }}
+      BITESHIP_ORIGIN_CONTACT_PHONE: ${{ secrets.BITESHIP_ORIGIN_CONTACT_PHONE }}
+      BITESHIP_ORIGIN_ADDRESS: ${{ secrets.BITESHIP_ORIGIN_ADDRESS }}
+      BITESHIP_ORIGIN_POSTAL_CODE: ${{ secrets.BITESHIP_ORIGIN_POSTAL_CODE }}
+      SHOP_BITESHIP_STAGING_URL: "https://mainlagi-hub-shop-staging.mainlagihub.workers.dev"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Create exception-progression sandbox candidate
+        run: node scripts/run-shop-biteship-sandbox-exception-probe.mjs
+      - name: Upload exception candidate evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: biteship-sandbox-exception-candidate
+          path: /tmp/mainlagi-biteship-exception-candidate.json
+          if-no-files-found: error
+          retention-days: 14
+
+
+  shop-biteship-sandbox-exception-verification:
+    name: Shop Biteship sandbox exception verification
+    if: >-
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/agent/mainlagi-shop-foundation-20260927' &&
+      contains(github.event.head_commit.message, '[biteship-exception-verify]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      BITESHIP_TEST_API_KEY: ${{ secrets.BITESHIP_TEST_API_KEY }}
+      BITESHIP_TEST_EXCEPTION_ORDER_ID: "6ab95a95a555b84db1ed7f25"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Verify exception and return tracking progression
+        run: node scripts/run-shop-biteship-sandbox-exception-verification.mjs
+      - name: Upload exception progression evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: biteship-sandbox-exception-verification
+          path: /tmp/mainlagi-biteship-exception-verification.json
+          if-no-files-found: error
+          retention-days: 14

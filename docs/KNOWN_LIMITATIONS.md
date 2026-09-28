@@ -1,6 +1,6 @@
 # Known Limitations
 
-Last reviewed: **25 September 2026**
+Last reviewed: **27 September 2026**
 
 This file describes current known limitations. Historical ZIP/build-environment limitations belong in historical audit documents and must not be treated as current production state.
 
@@ -50,6 +50,33 @@ Canonical closure: `WORLD_EVIDENCE_PRODUCTION_CLOSURE_2026-09-24.md`.
 The 20 September gallery/home work improved hierarchy and added isolated QA-unlock behavior, but the underlying product boundary remains: stage/progression truth and broad child browsing are different concerns.
 
 Current presentation must continue to preserve recommendation, age eligibility, lock reasons and direct-route guards while avoiding an undifferentiated wall of activities. QA unlock must remain isolated from normal production profiles.
+
+## Subject / World journey-map presentation
+
+The owner-approved Journey Map System is **not yet production-live**.
+
+Current production still contains the earlier subject/gallery and World-map
+presentation until the locked execution sequence reaches the later journey-map wave.
+
+Known presentation limitations now include:
+
+- Belajar subject browsing still reads too much like a dashboard/catalog rather than
+  an immersive child journey;
+- the current recommended/stage/playable-card stack is visually redundant;
+- the current World map/header includes presentation debt already identified by the
+  owner;
+- some map/header character composition can crop or visually crowd characters;
+- the existing heavy navigation treatment is not the accepted immersive map/game
+  target;
+- mini-game thumbnail/icon presentation is not the accepted future stage-detail
+  treatment;
+- portrait/landscape journey-map compositions are not yet implemented.
+
+Canonical future contract:
+`MAINLAGI_CANONICAL_JOURNEY_MAP_SYSTEM_2026-09-27.md`.
+
+This is presentation debt only. Do not “fix” it by changing stage order, readiness,
+activity membership, mastery/evidence, World story truth, or database state.
 
 ## Learning illustration semantic clarity
 

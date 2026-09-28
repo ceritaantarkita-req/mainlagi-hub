@@ -87,39 +87,51 @@ Do not turn Child Home into a dense dashboard.
 
 ## 7. Subject browsing and progression
 
-Canonical model: **Recommended Path + Stage Journey + Browse All**.
+Canonical model: **Learning Journey Map + Stage Detail + Browse All**.
+
+The 27 September 2026 owner-approved journey-map direction supersedes the older
+card/carousel-first subject presentation while preserving the same data/progression
+truth. Canonical specification:
+`MAINLAGI_CANONICAL_JOURNEY_MAP_SYSTEM_2026-09-27.md`.
 
 ### Default subject page
 
-The subject page must show, in this order:
+The subject page should prioritize:
 
-1. one prominent recommended next activity when available;
-2. a compact stage journey showing current/open/locked progression;
-3. a default grid containing only activities that are currently playable and age-eligible;
+1. one full-page subject Learning Journey Map;
+2. current/completed/locked stage state integrated into the environment;
+3. the current/recommended stage highlighted in-map;
 4. a secondary **Lihat semua** control for the complete 100-activity subject catalog.
+
+Do not repeat a large recommended-activity card plus a separate playable-thumbnail
+grid on the default journey surface.
 
 ### Stage journey
 
-- Open stages link to the existing Stage/Lesson view.
-- Locked stages remain understandable but are not presented as playable links.
-- Stage navigation provides structured context; it is **not a mandatory extra click** before every activity.
-- Stage/Lesson screens remain the richer structured curriculum view.
+- One node represents one stage / learning cluster, not one mini-game.
+- Open/current stages can be selected without changing stage truth.
+- Locked stages remain understandable but are not presented as playable.
+- Selecting an unlocked/current stage reveals lightweight contextual stage detail.
+- Stage detail contains progress, a primary continue action and a text-first activity list.
+- Mini-game thumbnail/icon grids are not canonical inside stage detail.
+- Direct activity routes remain valid where canonical progression/age guards allow them.
+- If additional journey space is needed, continue into another area/chapter of the same subject world rather than an unrelated map.
 
 ### Browse all
 
-- The complete 100-activity catalog must remain available for exploration/audit.
-- Locked or age-ineligible activities belong in secondary browse-all rather than dominating the default screen.
-- Locked states must explain whether progression or age is the reason.
+- The complete 100-activity catalog remains available for exploration/audit.
+- Locked or age-ineligible activities belong in secondary Browse All rather than dominating the default map.
+- Locked states must preserve their real progression/age reason.
 
 ### Fast path
 
-Direct **Home -> Subject -> Activity** remains valid through recommendation/playable cards.
+Direct **Home -> Subject -> Activity** remains valid when the recommendation/runtime
+resolver supplies a legitimate direct destination. The journey map must not add a
+mandatory artificial click that breaks existing fast-resume behavior.
 
 ### Non-negotiable boundary
 
 Presentation changes do not weaken stage readiness, evidence, mastery, age eligibility, or direct-route progression guards.
-
-This model was selected in WS-09 and implemented in PR #89 candidate work.
 
 ## 8. Age-aware UX
 

@@ -1,6 +1,6 @@
 # Mainlagi Hub — Product Direction
 
-Last reviewed: **25 September 2026**
+Last reviewed: **27 September 2026**
 
 Status: **current product direction**. Some items are implemented, some remain next-phase work. Implementation claims must be checked against `CURRENT_STATE.md` and code.
 
@@ -56,15 +56,20 @@ Subject
                 └── Evidence / Mastery
 ```
 
-Canonical subject UX is **Recommended Path + Stage Journey + Browse All**:
+Canonical subject UX is now **Learning Journey Map + Stage Detail + Browse All**:
 
-- recommendation is prominent;
-- open stages are visible as a structured journey;
-- stage pages provide richer lesson-level structure;
-- the default subject grid shows currently playable + age-eligible activities;
-- all 100 activities remain available through secondary browse-all;
-- stage navigation is helpful context, not a mandatory extra click before every activity;
-- presentation never weakens readiness/evidence/mastery rules.
+- the full-page Learning Journey Map is the primary child experience;
+- one map node represents one stage / learning cluster, not one mini-game;
+- the current/recommended stage is highlighted inside the journey rather than repeated as a separate giant recommendation card;
+- selecting an unlocked/current stage reveals a lightweight stage detail with progress, `Lanjut belajar`, and a text-first activity list;
+- mini-game thumbnail/icon grids are not part of the canonical stage-detail treatment;
+- all 100 activities remain available through secondary Browse All;
+- direct activity routes remain valid where canonical guards allow them;
+- if a subject spans multiple visual areas, it continues as connected chapters/areas of the same subject world rather than unrelated maps;
+- presentation never weakens readiness/evidence/mastery/age rules.
+
+Canonical map contract:
+`MAINLAGI_CANONICAL_JOURNEY_MAP_SYSTEM_2026-09-27.md`.
 
 ## 5. Age-aware experience
 
@@ -176,6 +181,28 @@ Next visual goals:
 
 The Mainlagi Art Bible and visual quality gate remain permanent controls.
 
+### 27 September owner-approved shared interaction direction
+
+After Shop and PR #360 are closed, the next shared child-facing interaction wave is
+locked around one Mainlagi language across Belajar, Bermain and World:
+
+- one Canonical Completion System at the end of every playable experience;
+- one Canonical Share Experience opened from Completion;
+- Canonical Character Presentation with safe areas, no unintended crop and no
+  floating character-name labels underneath;
+- orientation-responsive mobile behavior:
+  - portrait device → portrait composition;
+  - landscape device → landscape composition;
+  - rotation changes layout only and must never reset gameplay/progress/modal state;
+- actual game/activity backgrounds remain behind Completion/Share; the approved
+  popup mockup backgrounds are review context only;
+- after that shared-interaction wave is independently closed, the Canonical Journey
+  Map System follows as a separate wave covering all nine Belajar subject worlds plus
+  the Petualangan Uang World map.
+
+Canonical contract:
+`MAINLAGI_CANONICAL_COMPLETION_SHARE_VISUAL_SPEC_2026-09-27.md`.
+
 ## 11. Child navigation
 
 Child surfaces prioritize:
@@ -186,7 +213,22 @@ Child surfaces prioritize:
 4. subject browsing;
 5. Main Gerak where appropriate.
 
-Do not expose admin, billing, affiliate shopping, provider configuration or adult/system concepts inside child learning flow.
+Post-Shop / PR #360 canonical top-level navigation is:
+
+```text
+Belajar | Bermain | World | Shop
+```
+
+On later immersive journey-map/game surfaces, this destination order remains the
+navigation truth even when the full website navbar is visually collapsed into the
+lightweight immersive header/HUD.
+
+Shop is a separate destination, not a learning/mastery/reward step. Its presence in
+top-level navigation does not authorize commerce CTAs inside learning completion or
+progression.
+
+Do not expose admin, billing controls, provider configuration or other adult/system
+concepts inside child learning activities.
 
 ## 12. Parent/public experience
 

@@ -1,11 +1,43 @@
 # Mainlagi — Product UX Next Work
 
 Date: **20 September 2026**  
-Last synchronized: **22 September 2026**  
-Status: **ACTIVE ROADMAP / SUBJECT BACKGROUNDS LIVE VERIFIED / CHARACTER ASSET PIPELINE LIVE VERIFIED**  
+Last synchronized: **27 September 2026**  
+Status: **HISTORICAL/LOWER-PRIORITY ROADMAP — USE 27 SEP CANONICAL OVERRIDES WHEN CONFLICTING**  
 Current synchronized baseline: production `main` = `709e2b7d3e529cf37f10a05e9c9dc92884e0a781` (PR #273 WS-05 Logic `pattern_completion` reuse, merged-main CI #1353 / run `35687996669` including exact Cloudflare smoke). Character asset pipeline PR #263 remains live and character production is paused; subject-background runtime implementation remains PR #256 live verified.
 
-This document is the short human/AI handoff for Mainlagi product-quality work. It records the user-accepted UX direction without changing curriculum, mastery, evidence or progression. The latest WS-05 Logic reuse wave is closed; any later mechanic work remains a separate audited track.
+This document is an older human/AI handoff for Mainlagi product-quality work. It
+remains useful historical/detail context, but later owner-approved 27 September
+contracts supersede it where they conflict.
+
+Read first:
+
+- `CURRENT_STATE.md`;
+- `NEXT_PRODUCT_QUALITY_PLAN.md`;
+- `MAINLAGI_POST_SHOP_CHILD_SURFACE_HANDOFF_2026-09-27.md`;
+- `MAINLAGI_CANONICAL_COMPLETION_SHARE_VISUAL_SPEC_2026-09-27.md`;
+- `MAINLAGI_CANONICAL_JOURNEY_MAP_SYSTEM_2026-09-27.md`.
+
+In particular, historical instructions here that World must remain untouched,
+character development is paused, subject stages use card/carousel presentation, or
+subject UX is catalog/grid-first are **not current execution instructions**.
+
+Current owner-approved later target:
+
+```text
+Shop
+→ PR #360
+→ shared responsive Completion / Character / Share system
+→ Canonical Journey Map System
+   - full-page Learning Journey Map for all 9 Belajar subjects
+   - immersive map header
+   - one node = one stage/cluster
+   - stage-open text-first activity detail, no mini-game thumbnails
+   - true portrait + landscape compositions
+   - Petualangan Uang World map redesign
+```
+
+All of those later presentation changes still preserve curriculum, mastery, evidence
+and progression semantics.
 
 ## 22 September execution override
 

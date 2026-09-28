@@ -2131,3 +2131,42 @@ Live SI-06B1 boundary:
 SI-06B1 is **closed / merged / live verified**.
 
 The only authorized next Shared Interaction batch is **SI-06B2 — sentence / reading specialized renderers**. Preflight the five B2 owners against current dispatcher truth before mutation; do not assume the historical SI-00 owner list is still exact.
+
+
+## 28 September 2026 — parallel Shop PR #359 / Batch 11 continuation
+
+This is a **parallel draft-branch state**, not a merged-`main` production claim.
+
+```text
+PR:                         #359 — Draft
+branch:                     agent/mainlagi-shop-foundation-20260927
+SHOP_SALES_ENABLED:         false
+production Shop migration:  not performed
+production product truth:   unresolved
+production PII retention:   unresolved
+integrated DB-backed E2E:   harness implemented / manual evidence pending
+staging workflow trigger:   workflow_dispatch only
+```
+
+Batch 01–10, Midtrans Sandbox acceptance, bounded Biteship Testing acceptance,
+free ephemeral DB-backed staging, real Cloudflare scheduler evidence and the
+owner operational-policy decision are already closed and must not be restarted.
+
+The remaining technical Batch 11 sequence now has a bounded harness in PR #359:
+testing-only SKU 008 → cart → live Testing rates → checkout → Midtrans Sandbox
+Snap/simulator → paid → normal owner-auth pack/ship → Biteship Testing order →
+provider GET/tracking → authenticated webhook → reconciliation. The synthetic
+owner is created only inside ephemeral local Supabase and uses the normal auth
+path; no staging fulfillment bypass route was added.
+
+Canonical Shop resume pointer:
+`docs/MAINLAGI_SHOP_BATCH11_SAFE_CHECKPOINT_2026-09-28.md`.
+
+Do not merge PR #359 or enable live sales until the manual integrated evidence is
+reviewed and the independent production product-truth + PII-retention blockers are
+closed.
+
+### Shop PR #359 — Batch 11 marketplace candidate variants implemented (28 Sep 2026)
+
+Parallel Shop branch only; not a merged-main claim. The owner-approved marketplace benchmark is now materialized as **9 products / 26 candidate variants / 79 stock units** through `20260928143000_shop_batch11_marketplace_candidate_variants.sql`. Fresh DB reset removes `*-DEFAULT` placeholders. All candidate products remain `draft`, `facts_verified=false`, and `verificationStatus=marketplace_candidate_unverified`. Database readiness and admin UI both require explicit physical/supplier verification before production approval. Batch 11 staging uses `008-A5-80-LINED`; public sales remain disabled.
+
