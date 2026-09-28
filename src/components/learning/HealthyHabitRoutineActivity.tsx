@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { ActivityCompletion } from "./ActivityCompletion";
 import { GardenActivityFrame } from "./GardenActivityFrame";
 import { getActivityLearningSpec } from "@/lib/learning/catalog";
 import { healthyHabitRoutineConfig } from "@/lib/learning/healthyHabitRoutineConfig";
@@ -96,6 +96,13 @@ export function HealthyHabitRoutineActivity({ childId, activityId }: { childId: 
     setFeedback("good");
   };
 
+  const restart = () => {
+    incorrectRef.current = 0;
+    retryRef.current = 0;
+    setSelected(null);
+    setFeedback("idle");
+  };
+
   return (
     <GardenActivityFrame backHref={`/child/${childId}/subject/${activity.subjectId}`} title={activity.title} narration={activity.prompt ?? activity.title} lang="id-ID" spacious>
       <section
@@ -141,7 +148,7 @@ export function HealthyHabitRoutineActivity({ childId, activityId }: { childId: 
         <div className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.statusGood : ""}`} role="status" aria-live="polite">
           {feedback === "good" ? `⭐ Tepat! ${config.successText}` : feedback === "try" ? copy.retryText : copy.idleText}
         </div>
-        {feedback === "good" ? <Link className={styles.nextLink} href={`/child/${childId}/subject/${activity.subjectId}`}>Pilih permainan lain</Link> : null}
+        {feedback === "good" ? <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} /> : null}
       </section>
     </GardenActivityFrame>
   );
