@@ -149,6 +149,10 @@ harness commit:           85976b6cf7e9d1e6d39c51da19b1e4928267608b
 workflow wiring commit:   39481b36fe3d03aee379cc1d47aee2a9dcdd5844
 guardrail commit:         80ce980b8966b9c96adadacdc80091246db36171
 syntax-check commit:      7e9d080fd66e43988cf55e2bcff4f0fc9f690d86
+runner-local auth:        68e81fb22afef31a9ea5092a18e12d4065c4c6ff
+auth guardrail:           24cb84ae6058f91fa7fd189b5c4a208e949b2f9c
+Sandbox Permata binding:  fd8ffb0ab1a025ebece25e55e163c41ed0e2a0b7
+Permata guardrail:        a98d430aadeff7fe053364e826d610a391651cfc
 workflow trigger:         workflow_dispatch only
 production sales:         still false
 production DB changes:    none
@@ -184,6 +188,9 @@ Important security/acceptance properties:
   by the real admin routes;
 - the harness refuses non-`trycloudflare.com` app ingress, refuses a Biteship key
   that is not `biteship_test.*`, and refuses Midtrans production mode;
+- only when `SHOP_STAGING_ACCEPTANCE_ENABLED=true` and Midtrans is non-production,
+  Snap is constrained to `permata_va` so the automated Sandbox simulator path is
+  deterministic; production payment-method behavior is unchanged;
 - public Shop sales remain disabled; customer mutations still require the existing
   staging acceptance secret;
 - it does not run Delivered/Cancelled/Returned provider simulations again;
