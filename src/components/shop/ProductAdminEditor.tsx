@@ -62,6 +62,10 @@ function localBlockers(
   mediaStatus: Record<string, string>,
 ) {
   const blockers: string[] = [];
+  if (factText(facts, "verificationStatus") !== "production_verified")
+    blockers.push(
+      "Fakta production masih candidate marketplace; verifikasi sampel fisik / production sheet supplier sebelum review.",
+    );
   const active = variants.filter((v) => v.isActive);
   const approvedMedia = product.shop_product_media.filter(
     (m) => (mediaStatus[m.id ?? m.path] ?? m.approval_status) === "approved",
@@ -314,6 +318,32 @@ export function ProductAdminEditor({ product }: { product: Product }) {
             Harga dasar
             <input name="basePrice" type="number" min={1} step={1} defaultValue={product.base_price_amount} required disabled={busy} />
           </label>
+
+          <div className="shop-summary">
+            <strong>Status verifikasi fakta</strong>
+            <p>
+              {factText(facts, "verificationStatus") === "production_verified"
+                ? "Production verified"
+                : "Marketplace candidate — belum diverifikasi fisik/supplier"}
+            </p>
+            <label>
+              <input
+                type="checkbox"
+                checked={factText(facts, "verificationStatus") === "production_verified"}
+                onChange={(e) =>
+                  updateFact(
+                    "verificationStatus",
+                    e.target.checked
+                      ? "production_verified"
+                      : "marketplace_candidate_unverified",
+                  )
+                }
+                disabled={busy}
+              />{" "}
+              Saya sudah mencocokkan data final dengan sampel fisik atau production
+              sheet supplier.
+            </label>
+          </div>
 
           {["001", "002", "003", "004", "005"].includes(product.product_code) ? (
             <>
