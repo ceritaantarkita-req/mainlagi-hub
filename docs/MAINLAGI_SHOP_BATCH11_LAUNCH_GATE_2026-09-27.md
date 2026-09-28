@@ -160,3 +160,38 @@ pass. Production must leave the staging-acceptance flag disabled/unset.
 The purpose is to allow a bounded Batch 11 end-to-end test against a dedicated
 non-production database while `SHOP_SALES_ENABLED=false`, so the release candidate
 can be exercised without accidentally opening public checkout.
+
+
+### Database-backed staging execution path
+
+A dedicated workflow now exists at:
+
+```text
+.github/workflows/shop-batch11-staging.yml
+```
+
+It is manual-only and refuses to run unless a dedicated remote staging Supabase is
+configured through repository secrets. The workflow hard-rejects the known
+production project ref `estvtgflwkebomsqlolv`, keeps
+`SHOP_SALES_ENABLED=false`, and enables customer-path acceptance only behind an
+ephemeral staging secret.
+
+When the remote staging database exists and contains the Shop migration/seed
+surface, the workflow will:
+
+1. verify the remote staging Supabase schema through service-role REST;
+2. redeploy the existing isolated workers.dev Shop staging Worker against that
+   non-production Supabase;
+3. prove unauthenticated public sales remain closed with HTTP 503;
+4. prove a correctly secret-gated staging request can pass the sales flag and reach
+   the DB-backed cart boundary while operational policy checks still apply;
+5. deploy a temporary Cloudflare Cron Worker on a five-minute schedule;
+6. observe a completed `shop_reconciliation_runs` row created by a real scheduled
+   call to `/api/shop/reconcile`;
+7. upload the reconciliation/schema evidence artifact; and
+8. remove the temporary cron Worker after evidence is captured.
+
+This path intentionally does not expose a local Supabase stack to the public
+Internet. Supabase local development is not hardened for external traffic; Batch 11
+therefore requires a proper remote non-production Supabase project/branch for the
+public database-backed Worker.

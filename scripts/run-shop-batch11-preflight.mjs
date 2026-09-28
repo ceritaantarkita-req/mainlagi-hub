@@ -6,6 +6,10 @@ const files = {
   server: await readFile("src/lib/shop/server.ts", "utf8"),
   route: await readFile("src/app/api/shop/[...path]/route.ts", "utf8"),
   workflow: await readFile(".github/workflows/ci.yml", "utf8"),
+  batch11Workflow: await readFile(
+    ".github/workflows/shop-batch11-staging.yml",
+    "utf8",
+  ),
   gate: await readFile(
     "docs/MAINLAGI_SHOP_BATCH11_LAUNCH_GATE_2026-09-27.md",
     "utf8",
@@ -45,6 +49,35 @@ assert.match(
   files.workflow,
   /EXPECTED_SUPABASE_PROJECT_REF:\s*estvtgflwkebomsqlolv/,
   "production Supabase project reference must remain explicit for anti-staging guardrails",
+);
+for (const required of [
+  "SHOP_STAGING_SUPABASE_URL",
+  "SHOP_STAGING_SUPABASE_ANON_KEY",
+  "SHOP_STAGING_SUPABASE_SERVICE_ROLE_KEY",
+  "PRODUCTION_SUPABASE_PROJECT_REF",
+  "SHOP_STAGING_ACCEPTANCE_SECRET",
+  "SHOP_CRON_SECRET",
+]) {
+  assert.match(
+    files.batch11Workflow,
+    new RegExp(required),
+    `Batch 11 staging workflow missing ${required}`,
+  );
+}
+assert.match(
+  files.batch11Workflow,
+  /Refusing to use production Supabase as Batch 11 staging/,
+  "Batch 11 workflow must hard-stop on the production Supabase project",
+);
+assert.match(
+  files.batch11Workflow,
+  /SHOP_SALES_ENABLED:\s*"false"/,
+  "Batch 11 database-backed staging must keep public sales disabled",
+);
+assert.match(
+  files.batch11Workflow,
+  /crons": \["\*\/5 \* \* \* \*"\]/,
+  "Batch 11 workflow must exercise a real temporary Cloudflare cron trigger",
 );
 
 console.log(
