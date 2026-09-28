@@ -476,13 +476,23 @@ async function localShipment(orderId) {
   return result.body[0];
 }
 
+async function localOrderItem(orderId) {
+  const query =
+    "/rest/v1/shop_order_items?select=sku_snapshot,weight_grams_snapshot,length_mm_snapshot,width_mm_snapshot,height_mm_snapshot&order_id=eq." +
+    encodeURIComponent(orderId);
+  const result = await serviceFetch(query);
+  assert.equal(result.response.ok, true);
+  assert.equal(Array.isArray(result.body) && result.body.length === 1, true);
+  return result.body[0];
+}
+
 const owner = await createEphemeralOwner();
 const browser = await chromium.launch({ channel: "chrome", headless: true });
 let evidence = null;
 
 try {
   const variantResult = await serviceFetch(
-    "/rest/v1/shop_variants?select=id,sku,weight_grams,is_active&sku=eq.008-A5-80-LINED",
+    "/rest/v1/shop_variants?select=id,sku,weight_grams,length_mm,width_mm,height_mm,is_active&sku=eq.008-A5-80-LINED",
   );
   assert.equal(variantResult.response.ok, true);
   assert.equal(
@@ -492,7 +502,16 @@ try {
   );
   const variant = variantResult.body[0];
   assert.equal(variant.is_active, true);
-  assert.equal(Number(variant.weight_grams) > 0, true);
+  assert.deepEqual(
+    [
+      Number(variant.weight_grams),
+      Number(variant.length_mm),
+      Number(variant.width_mm),
+      Number(variant.height_mm),
+    ],
+    [300, 220, 160, 20],
+    "Testing-only SKU 008 must use the approved marketplace candidate shipping fixture",
+  );
 
   const context = await browser.newContext();
   const customerPage = await context.newPage();
@@ -668,6 +687,18 @@ try {
 
   const finalOrder = await localOrder(orderNumber);
   const finalShipment = await localShipment(order.id);
+  const finalItem = await localOrderItem(order.id);
+  assert.deepEqual(
+    [
+      finalItem.sku_snapshot,
+      Number(finalItem.weight_grams_snapshot),
+      Number(finalItem.length_mm_snapshot),
+      Number(finalItem.width_mm_snapshot),
+      Number(finalItem.height_mm_snapshot),
+    ],
+    [variant.sku, 300, 220, 160, 20],
+    "Checkout must preserve the candidate shipping facts used for Biteship",
+  );
 
   evidence = {
     environment: {
@@ -683,6 +714,18 @@ try {
     product: {
       sku: variant.sku,
       fixtureOnly: true,
+      candidateShippingFacts: {
+        weightGrams: Number(variant.weight_grams),
+        lengthMm: Number(variant.length_mm),
+        widthMm: Number(variant.width_mm),
+        heightMm: Number(variant.height_mm),
+      },
+      checkoutSnapshot: {
+        weightGrams: Number(finalItem.weight_grams_snapshot),
+        lengthMm: Number(finalItem.length_mm_snapshot),
+        widthMm: Number(finalItem.width_mm_snapshot),
+        heightMm: Number(finalItem.height_mm_snapshot),
+      },
     },
     flow: {
       cart: "PASS",
