@@ -2033,3 +2033,42 @@ Live SI-05 proof:
 SI-05 is **closed / merged / live verified**.
 
 The next authorized Shared Interaction work is **SI-06+ — bounded Belajar runtime-family migration batches**. Follow SI-00 ownership boundaries and the now-proven SI-05 migration pattern. Do not migrate the full Belajar surface in one session.
+
+
+## 28 September 2026 — Shared Interaction SI-06A fallback Belajar owner — ACTIVE
+
+Current Shared Interaction sequence:
+
+```text
+SI-00 — Read-only coverage audit             COMPLETE / merged
+SI-01 — Orientation foundation               COMPLETE / merged / live verified
+SI-02 — Canonical Character Presentation     COMPLETE / merged / live verified
+SI-03 — Canonical Completion component       COMPLETE / merged / live verified
+SI-04 — Canonical Share component            COMPLETE / merged / live verified
+SI-05 — Belajar pilot runtime                COMPLETE / merged / live verified
+SI-06A — fallback Belajar owner              IMPLEMENTED ON BRANCH / CI pending
+SI-06B+ — specialized Belajar batches        NOT STARTED
+```
+
+Active SI-06A:
+
+```text
+branch: agent/si-06a-legacy-fallback-belajar-20260928
+base:   main 40f02c0bc78a82dff4e30278b390ef3d4f9f7731
+checkpoint:
+docs/SI06A_FALLBACK_BELAJAR_SAFE_CHECKPOINT_2026-09-28.md
+```
+
+Current-main reachability differs from the historical SI-00 snapshot:
+
+- production fallback Choice, Matching, Trace and Story remain reachable;
+- Motion remains redirect-only and is not given completion semantics;
+- production coloring is now intercepted by `CreativePracticeActivity` before fallback and remains SI-06G;
+- `math-count-3` is now intercepted by `CountAndSelectActivity`, so the old `MathCountActivity` special fallback is no longer a production route owner.
+
+SI-06A migrates only post-success presentation. Renderer-owned `completeActivity`,
+matching/canvas/story state and LearningAttemptBridge/evidence architecture remain
+unchanged.
+
+Do not start SI-06B, Bermain, World, Journey Map or Shop changes until SI-06A latest
+head passes full CI, merges, and exact merged-main Cloudflare smoke succeeds.
