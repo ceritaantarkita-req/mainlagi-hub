@@ -52,10 +52,84 @@ async function waitForServer(timeoutMs=60000){
 async function newContext(browser){
   const context=await browser.newContext({viewport:portrait,reducedMotion:"reduce",hasTouch:true});
   await context.addInitScript(()=>{
+    const childId="demo-gian";
+    const prerequisiteCompletedAt="2026-09-28T00:00:00.000Z";
+    const prerequisiteAttempts=[
+      {
+        id:"si06a-bahasa-recognition-prerequisite",
+        childId,
+        activityId:"bahasa-cari-a",
+        subjectId:"bahasa",
+        stageId:"bahasa-huruf",
+        runtime:"tap_choice",
+        difficulty:1,
+        status:"completed",
+        assessed:true,
+        score:1,
+        accuracy:1,
+        correctCount:1,
+        incorrectCount:0,
+        hintCount:0,
+        retryCount:0,
+        durationMs:1000,
+        inputMode:"touch",
+        startedAt:prerequisiteCompletedAt,
+        completedAt:prerequisiteCompletedAt,
+        metadata:{source:"si06a-story-unlock-prerequisite"},
+        evidence:[{
+          attemptId:"si06a-bahasa-recognition-prerequisite",
+          activityId:"bahasa-cari-a",
+          skillId:"bahasa.huruf.a.recognition",
+          score:1,
+          weight:1,
+          createdAt:prerequisiteCompletedAt,
+          qualifiesForMastery:true
+        }],
+        masteryEligible:true
+      },
+      {
+        id:"si06a-bahasa-matching-prerequisite",
+        childId,
+        activityId:"bahasa-pasang-awal",
+        subjectId:"bahasa",
+        stageId:"bahasa-huruf",
+        runtime:"matching",
+        difficulty:2,
+        status:"completed",
+        assessed:true,
+        score:1,
+        accuracy:1,
+        correctCount:2,
+        incorrectCount:0,
+        hintCount:0,
+        retryCount:0,
+        durationMs:1000,
+        inputMode:"touch",
+        startedAt:prerequisiteCompletedAt,
+        completedAt:prerequisiteCompletedAt,
+        metadata:{source:"si06a-story-unlock-prerequisite"},
+        evidence:[{
+          attemptId:"si06a-bahasa-matching-prerequisite",
+          activityId:"bahasa-pasang-awal",
+          skillId:"bahasa.huruf.awal.matching",
+          score:1,
+          weight:1,
+          createdAt:prerequisiteCompletedAt,
+          qualifiesForMastery:true
+        }],
+        masteryEligible:true
+      }
+    ];
     localStorage.setItem("mainlagi-learning-progress-v1",JSON.stringify({
-      "demo-gian":{completedActivityIds:[],stars:0,lastActivityId:null}
+      [childId]:{
+        completedActivityIds:["bahasa-cari-a","bahasa-dengar-a","bahasa-pasang-awal"],
+        stars:0,
+        lastActivityId:"bahasa-pasang-awal"
+      }
     }));
-    localStorage.setItem("mainlagi-learning-attempts-v1",JSON.stringify({"demo-gian":[]}));
+    localStorage.setItem("mainlagi-learning-attempts-v1",JSON.stringify({
+      [childId]:prerequisiteAttempts
+    }));
     window.__si06aDocumentMarker="fallback-document";
   });
   return context;
@@ -88,24 +162,11 @@ async function canonicalCompletion(page,label){
   assert.equal(await completion.getAttribute("data-completion-context"),"belajar",`${label}: Belajar context`);
   assert.equal(await completion.getAttribute("data-completion-stars"),"3",`${label}: three-star completion`);
   const actions=completion.locator("[data-completion-action]");
-  try {
-    await page.waitForFunction(() => document.querySelectorAll('[data-canonical-completion="v1"][data-activity-completion] [data-completion-action]').length === 4, null, { timeout: 3000 });
-  } catch (error) {
-    const diagnostic=await page.evaluate(() => {
-      const root=document.querySelector('[data-canonical-completion="v1"][data-activity-completion]');
-      return {
-        rootHtml: root?.outerHTML ?? null,
-        rootActionCount: root?.querySelectorAll("[data-completion-action]").length ?? -1,
-        globalActionCount: document.querySelectorAll("[data-completion-action]").length,
-        globalActions: [...document.querySelectorAll("[data-completion-action]")].map(node=>({
-          action: node.getAttribute("data-completion-action"),
-          text: node.textContent?.trim() ?? ""
-        }))
-      };
-    });
-    console.error("SI-06A completion DOM diagnostic", JSON.stringify(diagnostic));
-    throw error;
-  }
+  await page.waitForFunction(
+    () => document.querySelectorAll('[data-canonical-completion="v1"][data-activity-completion] [data-completion-action]').length === 4,
+    null,
+    { timeout: 3000 }
+  );
   assert.deepEqual(
     await actions.evaluateAll(nodes=>nodes.map(node=>node.textContent?.trim())),
     ["Back","Again","Next","Share"],
