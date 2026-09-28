@@ -11,6 +11,9 @@ assert.equal(files[0], "0001_init.sql");
 assert.ok(files.includes("0051_world_evidence_advisor_hardening.sql"));
 assert.ok(files.includes("20260926195237_shop_foundation.sql"));
 assert.ok(files.includes("20260927051000_shop_admin_workflow.sql"));
+assert.ok(
+  files.includes("20260928143000_shop_batch11_marketplace_candidate_variants.sql"),
+);
 assert.equal(
   files.indexOf("20260926195237_shop_foundation.sql") + 1,
   files.indexOf("20260927051000_shop_admin_workflow.sql"),
@@ -76,6 +79,26 @@ try {
     (await one("select sum(on_hand)::int n from public.shop_inventory_balances"))
       .n,
     79,
+  );
+  assert.equal(
+    (await one("select count(*)::int n from public.shop_variants")).n,
+    26,
+  );
+  assert.equal(
+    (
+      await one(
+        "select count(*)::int n from public.shop_variants where sku like '%-DEFAULT'",
+      )
+    ).n,
+    0,
+  );
+  assert.equal(
+    (
+      await one(
+        "select count(*)::int n from public.shop_products where facts->>'verificationStatus'='marketplace_candidate_unverified'",
+      )
+    ).n,
+    9,
   );
   assert.equal(
     (
@@ -165,7 +188,7 @@ try {
   await db.exec("reset role");
 
   console.log(
-    `Full migration chain: ${files.length} migrations, Shop seed/RLS/RPC privilege checks PASS`,
+    `Full migration chain: ${files.length} migrations, Shop 26-variant candidate seed / 79 stock / verification gate / RLS / RPC privilege checks PASS`,
   );
 } finally {
   await db.close();
