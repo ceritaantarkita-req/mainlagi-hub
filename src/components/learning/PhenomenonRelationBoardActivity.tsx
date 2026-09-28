@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { ActivityCompletion } from "./ActivityCompletion";
 import { GardenActivityFrame } from "./GardenActivityFrame";
 import { getActivityLearningSpec } from "@/lib/learning/catalog";
 import {
@@ -80,6 +80,13 @@ export function PhenomenonRelationBoardActivity({ childId, activityId }: { child
 
     completeActivity(childId, activity.id);
     setFeedback("good");
+  };
+
+  const restart = () => {
+    incorrectRef.current = 0;
+    retryRef.current = 0;
+    setSelected(null);
+    setFeedback("idle");
   };
 
   const resolved = feedback === "good";
@@ -182,9 +189,7 @@ export function PhenomenonRelationBoardActivity({ childId, activityId }: { child
         </div>
 
         {resolved ? (
-          <Link className={styles.nextLink} href={`/child/${childId}/subject/${activity.subjectId}`}>
-            Pilih permainan lain
-          </Link>
+          <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} />
         ) : null}
       </section>
     </GardenActivityFrame>

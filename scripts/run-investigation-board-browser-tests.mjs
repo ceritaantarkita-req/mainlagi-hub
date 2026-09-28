@@ -152,9 +152,12 @@ async function inspect(viewport){
     await status.filter({hasText:"Tepat"}).waitFor({state:"visible",timeout:2000});
     assert.equal(await completed(page),true,"correct investigation answer completes canonical activity");
     await assertFullyVisible(status,viewportHeight,`success investigation feedback at ${viewport.width}`);
-    const nextLink=page.getByRole("link",{name:"Pilih permainan lain"});
-    await assertFullyVisible(nextLink,viewportHeight,`investigation success CTA at ${viewport.width}`);
-
+    const completion=page.locator("[data-activity-completion]");
+    await completion.waitFor({state:"visible",timeout:2000});
+    const completionBox=await completion.boundingBox();
+    const completionViewportHeight=await page.evaluate(()=>window.innerHeight);
+    assert(completionBox,"investigation-board canonical Completion must render");
+    assert(completionBox.y>=-1&&completionBox.y+completionBox.height<=completionViewportHeight+1,"canonical Completion must remain fully visible");
     const state=await page.evaluate(({id})=>{
       const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
       const list=attempts["demo-gian"]??[];
@@ -175,6 +178,15 @@ async function inspect(viewport){
     assert.equal(state.accuracy,0.5);
 
     await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-investigation-board-success.png`),fullPage:false});
+    await page.evaluate(()=>{window.__si06fReplayMarker="alive";});
+    await completion.locator('[data-completion-action="again"]').click();
+    await completion.waitFor({state:"hidden",timeout:2000});
+    assert.equal(await page.evaluate(()=>window.__si06fReplayMarker),"alive","Again must reset locally without document reload");
+    const si06fAttemptCount=await page.evaluate(({id})=>{
+      const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
+      return(attempts["demo-gian"]??[]).filter(item=>item.activityId===id).length;
+    },{id:activityId});
+    assert.equal(si06fAttemptCount,1,"Again reset alone must not create a second target attempt");
     assert.deepEqual(pageErrors,[],`page errors at ${viewport.width}: ${pageErrors.join(" | ")}`);
     assert.deepEqual(consoleErrors,[],`console errors at ${viewport.width}: ${consoleErrors.join(" | ")}`);
     await context.close();
@@ -185,7 +197,7 @@ async function main(){
   startServer();
   await waitForServer();
   for(const viewport of viewports)await inspect(viewport);
-  console.log(`Investigation-board browser QA passed ${viewports.length} viewports with Science Wave C progression, keyboard wrong-state, pointer completion, responsive visibility and assessed evidence checks.`);
+  console.log(`Investigation-board browser QA passed ${viewports.length} viewports with Science Wave C progression, keyboard wrong-state, pointer completion, responsive canonical Completion + local Again and assessed evidence checks.`);
 }
 
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;}).finally(stopServer);

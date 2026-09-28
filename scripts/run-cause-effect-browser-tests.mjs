@@ -54,12 +54,26 @@ async function inspect(viewport){
     const wrongLabel=await chooseWrongWithKeyboard(page);assert.notEqual(wrongLabel,correctLabel);await page.getByRole("status").filter({hasText:"Belum tepat"}).waitFor({state:"visible",timeout:2000});
     const afterWrong=await page.evaluate(({activityId:id})=>{const progress=JSON.parse(localStorage.getItem("mainlagi-learning-progress-v1")??"{}");return(progress["demo-gian"]?.completedActivityIds??[]).includes(id);},{activityId});assert.equal(afterWrong,false,"wrong cause-effect answer must not complete");await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-cause-effect-try.png`),fullPage:false});
     await page.getByRole("button",{name:correctLabel}).click();await page.getByRole("status").filter({hasText:"Tepat"}).waitFor({state:"visible",timeout:2000});
-    const nextLink=page.getByRole("link",{name:"Pilih permainan lain"});const nextBox=await nextLink.boundingBox();const viewportHeight=await page.evaluate(()=>window.innerHeight);assert(nextBox,"cause-effect success CTA must render");assert(nextBox.y>=-1&&nextBox.y+nextBox.height<=viewportHeight+1,`cause-effect success CTA must remain visible at ${viewport.width}`);
+    const completion=page.locator("[data-activity-completion]");
+    await completion.waitFor({state:"visible",timeout:2000});
+    const completionBox=await completion.boundingBox();
+    const completionViewportHeight=await page.evaluate(()=>window.innerHeight);
+    assert(completionBox,"cause-effect canonical Completion must render");
+    assert(completionBox.y>=-1&&completionBox.y+completionBox.height<=completionViewportHeight+1,"canonical Completion must remain fully visible");
     const state=await page.evaluate(({activityId:id})=>{const progress=JSON.parse(localStorage.getItem("mainlagi-learning-progress-v1")??"{}");const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");const list=attempts["demo-gian"]??[];return{completed:(progress["demo-gian"]?.completedActivityIds??[]).includes(id),attempt:[...list].reverse().find(item=>item.activityId===id)};},{activityId});
     assert.equal(state.completed,true);assert(state.attempt);assert.equal(state.attempt.assessed,true);assert.equal(state.attempt.metadata?.evidenceFidelity,"choice_cause_effect_interaction");assert.equal(state.attempt.metadata?.effectKind,"melting");assert.equal(state.attempt.metadata?.causeKey,"warm-place");assert.equal(state.attempt.correctCount,1);assert.equal(state.attempt.incorrectCount,1);assert.equal(state.attempt.retryCount,1);assert.equal(state.attempt.accuracy,0.5);
-    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-cause-effect-success.png`),fullPage:false});assert.deepEqual(pageErrors,[],`page errors at ${viewport.width}: ${pageErrors.join(" | ")}`);assert.deepEqual(consoleErrors,[],`console errors at ${viewport.width}: ${consoleErrors.join(" | ")}`);await context.close();
+    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-cause-effect-success.png`),fullPage:false});
+    await page.evaluate(()=>{window.__si06fReplayMarker="alive";});
+    await completion.locator('[data-completion-action="again"]').click();
+    await completion.waitFor({state:"hidden",timeout:2000});
+    assert.equal(await page.evaluate(()=>window.__si06fReplayMarker),"alive","Again must reset locally without document reload");
+    const si06fAttemptCount=await page.evaluate(({id})=>{
+      const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
+      return(attempts["demo-gian"]??[]).filter(item=>item.activityId===id).length;
+    },{id:activityId});
+    assert.equal(si06fAttemptCount,1,"Again reset alone must not create a second target attempt");assert.deepEqual(pageErrors,[],`page errors at ${viewport.width}: ${pageErrors.join(" | ")}`);assert.deepEqual(consoleErrors,[],`console errors at ${viewport.width}: ${consoleErrors.join(" | ")}`);await context.close();
   }finally{await browser.close();}
 }
 
-async function main(){startServer();await waitForServer();for(const viewport of viewports)await inspect(viewport);console.log(`Cause-effect browser QA passed ${viewports.length} viewports with legitimate Science progression, keyboard wrong-state, false-completion guard, pointer completion, layout, CTA and assessed evidence checks.`);}
+async function main(){startServer();await waitForServer();for(const viewport of viewports)await inspect(viewport);console.log(`Cause-effect browser QA passed ${viewports.length} viewports with legitimate Science progression, keyboard wrong-state, false-completion guard, pointer completion, layout, canonical Completion + local Again and assessed evidence checks.`);}
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;}).finally(stopServer);
