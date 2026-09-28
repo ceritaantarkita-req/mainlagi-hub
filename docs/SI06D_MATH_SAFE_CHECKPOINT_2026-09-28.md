@@ -1,10 +1,10 @@
 # SI-06D Math Specialized Renderers — Safe Checkpoint — 28 September 2026
 
-Status: **ACTIVE — D1 CLOSED / MERGED / LIVE VERIFIED; D2 trace NEXT**
+Status: **ACTIVE — D1 CLOSED / MERGED / LIVE VERIFIED; D2 trace implementation active**
 
 ## Resume point
 
-Continue this exact SI-06D workstream from the verified D1 checkpoint. Do not restart SI-06A/B1/B2/C or D1.
+Continue this exact SI-06D2 branch from the verified D1 checkpoint. Do not restart SI-06A/B1/B2/C or D1.
 
 ```text
 repository: ceritaantarkita-req/mainlagi-hub
@@ -15,8 +15,11 @@ D1 PR CI: #2244 / run 36421974034 — FULL SUCCESS
 D1 merged main: 4183001b203d0e93ea0de7e6b231525813c93c20
 D1 merged-main CI: #2245 / run 36423309927 — FULL SUCCESS
 D1 Cloudflare smoke: SUCCESS — exact merged main SHA verified
-phase: SI-06D1 — CLOSED / MERGED / LIVE VERIFIED
-next inside SI-06D: SI-06D2 — MathTraceWorldActivity
+D1 docs checkpoint main: a225e9a70322f37e5c9f537865b1c326cd96bfd0
+D1 docs-main CI: #2247 / run 36428109656 — FULL SUCCESS including exact Cloudflare smoke
+active branch: agent/si-06d2-math-trace-clean-20260928
+phase: SI-06D2 — MathTraceWorldActivity ACTIVE
+D1 status: CLOSED / MERGED / LIVE VERIFIED
 after SI-06D closure: STOP — SI-06E requires separate authorization
 ```
 
@@ -56,7 +59,7 @@ SI-06D1 — nine choice/shared owners
 SI-06D2 — MathTraceWorldActivity only
 ```
 
-D1 is now merged and exact production verification is green. D2 is the only authorized next mutation inside SI-06D.
+D1 plus its docs checkpoint are merged and exact production verification is green. D2 is active on the clean branch from `a225e9a70322f37e5c9f537865b1c326cd96bfd0`.
 
 ## SI-06D1 verified closure
 
