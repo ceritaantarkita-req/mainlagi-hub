@@ -188,6 +188,15 @@ async function inspect(viewport){
     assert(attempt.evidence?.some(item=>item.skillId==="logic.pattern.repeat.intermediate"),"Logic repeating-pattern skill evidence remains canonical");
 
     await page.screenshot({path:path.join(out,`${viewport.width}-logic-pattern-completion-success.png`),fullPage:false});
+    await page.evaluate(()=>{window.__si06eReplayMarker="alive";});
+    await completion.locator('[data-completion-action="again"]').click();
+    await completion.waitFor({state:"hidden",timeout:2000});
+    assert.equal(await page.evaluate(()=>window.__si06eReplayMarker),"alive","Again must reset locally without document reload");
+    const targetAttemptCount=await page.evaluate(({id})=>{
+      const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
+      return(attempts["demo-gian"]??[]).filter(item=>item.activityId===id).length;
+    },{id:activityId});
+    assert.equal(targetAttemptCount,1,"Again reset alone must not create a second target attempt");
     assert.deepEqual(pageErrors,[],"page errors at "+viewport.width+": "+pageErrors.join(" | "));
     assert.deepEqual(consoleErrors,[],"console errors at "+viewport.width+": "+consoleErrors.join(" | "));
     await context.close();
@@ -200,7 +209,7 @@ async function main(){
   start();
   await ready();
   for(const viewport of viewports)await inspect(viewport);
-  console.log("Logic Pattern Completion reuse browser QA passed 320/390/768 with grouped-token order, keyboard retry, touch/pointer completion, touch targets and assessed evidence.");
+  console.log("Logic Pattern Completion reuse browser QA passed 320/390/768 with grouped-token order, keyboard retry, touch/pointer completion, touch targets, canonical Completion + local Again and assessed evidence.");
 }
 
 main().catch(error=>{

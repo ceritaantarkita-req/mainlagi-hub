@@ -146,9 +146,12 @@ async function inspect(viewport){
     assert.equal(await completed(page),true,"correct elimination conclusion completes activity");
     assert.equal(await page.locator('[data-elimination-state="correct"]').count(),1);
     assert.equal(await page.locator("[data-elimination-conclusion]").getByText("biru 🔵",{exact:true}).count(),1);
-    const nextLink=page.getByRole("link",{name:"Pilih permainan lain"});
-    await assertFullyVisible(status,viewportHeight,"success elimination feedback");
-    await assertFullyVisible(nextLink,viewportHeight,"elimination success CTA");
+    const completion=page.locator("[data-activity-completion]");
+    await completion.waitFor({state:"visible",timeout:2000});
+    const completionBox=await completion.boundingBox();
+    const completionViewportHeight=await page.evaluate(()=>window.innerHeight);
+    assert(completionBox,"elimination-board canonical Completion must render");
+    assert(completionBox.y>=-1&&completionBox.y+completionBox.height<=completionViewportHeight+1,"canonical Completion must remain fully visible");
 
     const state=await page.evaluate(({id})=>{
       const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
@@ -170,6 +173,15 @@ async function inspect(viewport){
     assert.equal(state.accuracy,0.5);
 
     await page.screenshot({path:path.join(screenshotDir,String(viewport.width)+"-elimination-board-success.png"),fullPage:false});
+    await page.evaluate(()=>{window.__si06eReplayMarker="alive";});
+    await completion.locator('[data-completion-action="again"]').click();
+    await completion.waitFor({state:"hidden",timeout:2000});
+    assert.equal(await page.evaluate(()=>window.__si06eReplayMarker),"alive","Again must reset locally without document reload");
+    const targetAttemptCount=await page.evaluate(({id})=>{
+      const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
+      return(attempts["demo-gian"]??[]).filter(item=>item.activityId===id).length;
+    },{id:activityId});
+    assert.equal(targetAttemptCount,1,"Again reset alone must not create a second target attempt");
     assert.deepEqual(pageErrors,[],"page errors at "+viewport.width+": "+pageErrors.join(" | "));
     assert.deepEqual(consoleErrors,[],"console errors at "+viewport.width+": "+consoleErrors.join(" | "));
     await context.close();
@@ -181,6 +193,6 @@ async function main(){
   startServer();
   await waitForServer();
   for(const viewport of viewports)await inspect(viewport);
-  console.log("Pattern 45 elimination-board browser QA passed 3 viewports with Logic readiness, keyboard elimination, pointer/touch completion, touch targets, canonical choices and assessed evidence.");
+  console.log("Pattern 45 elimination-board browser QA passed 3 viewports with Logic readiness, keyboard elimination, pointer/touch completion, touch targets, canonical choices, canonical Completion + local Again and assessed evidence.");
 }
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;}).finally(stopServer);

@@ -82,6 +82,13 @@ export function PatternCompletionActivity({ childId, activityId }: { childId: st
     setFeedback("good");
   };
 
+  const restart = () => {
+    incorrectRef.current = 0;
+    retryRef.current = 0;
+    setSelected(null);
+    setFeedback("idle");
+  };
+
   return (
     <GardenActivityFrame
       backHref={`/child/${childId}/subject/${activity.subjectId}`}
@@ -177,7 +184,7 @@ export function PatternCompletionActivity({ childId, activityId }: { childId: st
               : "💡 Perhatikan urutannya, lalu pilih yang datang berikutnya."}
         </div>
 
-        {feedback === "good" ? <ActivityCompletion childId={childId} activity={activity} /> : null}
+        {feedback === "good" ? <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} /> : null}
       </section>
     </GardenActivityFrame>
   );

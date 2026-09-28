@@ -139,9 +139,12 @@ async function inspect(viewport){
     assert.equal(await scene.getAttribute("data-shape-resolved"),"true");
     const successDetail=page.locator("[data-shape-success-detail]");
     await successDetail.waitFor({state:"visible"});
-    const nextLink=page.getByRole("link",{name:"Pilih permainan lain"});
-    await assertFullyVisible(status,viewportHeight,"success shape feedback at "+viewport.width);
-    await assertFullyVisible(nextLink,viewportHeight,"shape success CTA at "+viewport.width);
+    const completion=page.locator("[data-activity-completion]");
+    await completion.waitFor({state:"visible",timeout:2000});
+    const completionBox=await completion.boundingBox();
+    const completionViewportHeight=await page.evaluate(()=>window.innerHeight);
+    assert(completionBox,"shape-attribute-board canonical Completion must render");
+    assert(completionBox.y>=-1&&completionBox.y+completionBox.height<=completionViewportHeight+1,"canonical Completion must remain fully visible");
 
     const attempt=await page.evaluate(({id})=>{
       const state=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
@@ -159,6 +162,15 @@ async function inspect(viewport){
     assert.equal(attempt.metadata?.selectedChoice,"●");
 
     await page.screenshot({path:path.join(screenshotDir,String(viewport.width)+"-shape-attribute-success.png"),fullPage:false});
+    await page.evaluate(()=>{window.__si06eReplayMarker="alive";});
+    await completion.locator('[data-completion-action="again"]').click();
+    await completion.waitFor({state:"hidden",timeout:2000});
+    assert.equal(await page.evaluate(()=>window.__si06eReplayMarker),"alive","Again must reset locally without document reload");
+    const targetAttemptCount=await page.evaluate(({id})=>{
+      const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
+      return(attempts["demo-gian"]??[]).filter(item=>item.activityId===id).length;
+    },{id:activityId});
+    assert.equal(targetAttemptCount,1,"Again reset alone must not create a second target attempt");
     assert.deepEqual(pageErrors,[],"page errors at "+viewport.width+": "+pageErrors.join(" | "));
     assert.deepEqual(consoleErrors,[],"console errors at "+viewport.width+": "+consoleErrors.join(" | "));
     await context.close();
