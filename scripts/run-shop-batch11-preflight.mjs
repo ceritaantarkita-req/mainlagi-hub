@@ -38,6 +38,14 @@ const files = {
     "supabase/migrations/20260928144000_shop_batch11_shipping_dimensions.sql",
     "utf8",
   ),
+  verificationEvidenceMigration: await readFile(
+    "supabase/migrations/20260928145000_shop_batch11_physical_supplier_verification.sql",
+    "utf8",
+  ),
+  verificationPack: await readFile(
+    "docs/data/MAINLAGI_SHOP_PHYSICAL_SUPPLIER_VERIFICATION_2026-09-28.json",
+    "utf8",
+  ),
 };
 
 for (const name of [
@@ -267,4 +275,53 @@ assert.match(
 
 console.log(
   "Shop Batch 11 shipping-dimension guard PASS: quote signature, checkout snapshots, rates and order creation use the same packed dimensions.",
+);
+
+
+const verificationPack = JSON.parse(files.verificationPack);
+assert.equal(verificationPack.status, "pending_physical_supplier_verification");
+assert.equal(verificationPack.products.length, 9);
+assert.equal(
+  verificationPack.products.reduce((sum, product) => sum + product.variants.length, 0),
+  27,
+);
+assert.equal(verificationPack.totals.verifiedProducts, 0);
+assert.equal(verificationPack.totals.verifiedVariants, 0);
+for (const product of verificationPack.products) {
+  assert.equal(product.status, "pending");
+  for (const fact of product.productFactChecks) {
+    assert.equal(fact.actualValue, null);
+    assert.equal(fact.status, "pending");
+  }
+  for (const variant of product.variants) {
+    assert.equal(variant.status, "pending");
+    assert.equal(variant.actual.weightGrams, null);
+  }
+}
+for (const required of [
+  "Verification method is required.",
+  "Verifier identity is required.",
+  "Verification date is required.",
+  "Verification evidence reference is required.",
+  "Every marketplace candidate product fact needs an actual verified value.",
+  "Every active SKU must be covered by physical/supplier verification evidence.",
+]) {
+  assert.ok(
+    files.verificationEvidenceMigration.includes(required),
+    "physical/supplier DB gate missing: " + required,
+  );
+}
+assert.match(
+  files.batch11Workflow,
+  /fixtureOnly[sS]*Batch11 simulated fixture[sS]*fixture://batch11/sku-008/,
+  "Batch 11 staging must keep verification evidence explicitly simulated and disposable",
+);
+assert.doesNotMatch(
+  files.verificationPack,
+  /"verifiedProducts"\s*:\s*[1-9]|"verifiedVariants"\s*:\s*[1-9]/,
+  "verification pack must not fabricate completed physical verification",
+);
+
+console.log(
+  "Shop physical/supplier verification guard PASS: 9 products / 27 variants remain pending, actual values are blank, and production verification requires auditable evidence plus active-SKU coverage.",
 );
