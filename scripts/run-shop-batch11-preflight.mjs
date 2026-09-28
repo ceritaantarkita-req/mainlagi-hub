@@ -96,11 +96,6 @@ assert.doesNotMatch(
   "local Supabase API must never be exposed by the public Quick Tunnel",
 );
 
-assert.match(
-  files.batch11Workflow,
-  /Penjualan belum dibuka[\s\S]*konfigurasi operasional belum lengkap/,
-  "free staging must prove the secret gate advances only from sales-off to the still-enforced operational-policy gate",
-);
 
 assert.match(
   files.batch11Workflow,
@@ -112,4 +107,15 @@ assert.match(
   files.batch11Workflow,
   /BITESHIP_ORIGIN_CONTACT_PHONE format invalid[\s\S]*BITESHIP_ORIGIN_POSTAL_CODE format invalid/,
   "free staging must fail safely on malformed private origin secret formats without printing their values",
+);
+
+assert.match(
+  files.batch11Workflow,
+  /Normalize private origin secret wrappers safely[\s\S]*::add-mask::[\s\S]*GITHUB_ENV/,
+  "free staging must normalize quoted private origin secrets without exposing normalized values",
+);
+assert.match(
+  files.batch11Workflow,
+  /Owner operational-policy contract PASS/,
+  "free staging must verify the owner-approved operational-policy contract instead of treating it as unresolved",
 );

@@ -78,11 +78,8 @@
 .flowerOne { left: 25%; bottom: 9%; }
 .flowerTwo { right: 23%; bottom: 4%; transform: scale(.8); }
 
-.feedbackTry, .feedbackGood { margin: 0; padding: 14px 16px; border-radius: 18px; text-align: center; font-weight: 900; }
+.feedbackTry { margin: 0; padding: 14px 16px; border-radius: 18px; text-align: center; font-weight: 900; }
 .feedbackTry { background: #fff1d9; color: #8d620d; }
-.feedbackGood { display: grid; gap: 4px; background: #ddf7eb; color: #08765c; }
-.feedbackGood strong { font-size: 20px; }
-.feedbackGood a { justify-self: center; margin-top: 6px; color: #075d4b; }
 
 @media (max-width: 520px) {
   .huntScene { min-height: 430px; border-radius: 26px; }

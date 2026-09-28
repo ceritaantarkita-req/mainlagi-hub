@@ -56,6 +56,39 @@ jobs:
             exit 1
           }
 
+      - name: Normalize private origin secret wrappers safely
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          node <<'NODE'
+          const fs = require("node:fs");
+
+          function clean(name) {
+            const raw = (process.env[name] ?? "").replace(/\r/g, "").trim();
+            if (!raw) throw new Error(`${name} is empty`);
+            const quoted =
+              raw.length >= 2 &&
+              ((raw.startsWith('"') && raw.endsWith('"')) ||
+                (raw.startsWith("'") && raw.endsWith("'")));
+            let value = (quoted ? raw.slice(1, -1) : raw).trim();
+            if (name === "BITESHIP_ORIGIN_ADDRESS")
+              value = value.replace(/\\\./g, ".");
+            if (!value) throw new Error(`${name} is empty after normalization`);
+            process.stdout.write(`::add-mask::${value}\n`);
+            fs.appendFileSync(
+              process.env.GITHUB_ENV,
+              `${name}<<MAINLAGI_EOF\n${value}\nMAINLAGI_EOF\n`,
+            );
+          }
+
+          for (const name of [
+            "BITESHIP_ORIGIN_CONTACT_NAME",
+            "BITESHIP_ORIGIN_CONTACT_PHONE",
+            "BITESHIP_ORIGIN_ADDRESS",
+            "BITESHIP_ORIGIN_POSTAL_CODE",
+          ]) clean(name);
+          NODE
+
       - name: Validate operational secret formats without revealing values
         shell: bash
         run: |

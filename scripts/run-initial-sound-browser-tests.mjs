@@ -200,8 +200,13 @@ async function inspect(viewport){
     assert.equal((await result.textContent())?.trim(),"B","success may reveal canonical initial sound");
     assert.equal(await result.getAttribute("aria-label"),"Bunyi awal B");
     await assertFullyVisible(status,viewportHeight,`success initial-sound feedback at ${viewport.width}`);
-    const nextLink=page.getByRole("link",{name:"Pilih permainan lain"});
-    await assertFullyVisible(nextLink,viewportHeight,`initial-sound success CTA at ${viewport.width}`);
+    const completion=page.locator('[data-canonical-completion="v1"][data-activity-completion]');
+    await completion.waitFor({state:"visible",timeout:3000});
+    assert.deepEqual(
+      await completion.locator("[data-completion-action]").evaluateAll(nodes=>nodes.map(node=>node.textContent?.trim())),
+      ["Back","Again","Next","Share"],
+      "initial-sound success uses canonical Completion action order"
+    );
 
     const state=await page.evaluate(({id})=>{
       const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");

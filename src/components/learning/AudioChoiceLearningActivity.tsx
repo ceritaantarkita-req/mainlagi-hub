@@ -16,8 +16,8 @@ import {
   type ActivityAudioEntryLatencyDetail
 } from "@/lib/audio/activityEntry";
 import { completeActivity, getActivity } from "@/lib/learning/system";
-import { useLearningProgress } from "./LearningCommon";
 import styles from "./LearningPlatform.module.css";
+import { ActivityCompletion } from "./ActivityCompletion";
 import { GardenActivityFrame } from "./GardenActivityFrame";
 
 function audioFallback(status: SpeechStartStatus | null): string | null {
@@ -29,7 +29,6 @@ function audioFallback(status: SpeechStartStatus | null): string | null {
 
 export function AudioChoiceLearningActivity({ childId, activityId }: { childId: string; activityId: string }) {
   const activity = getActivity(activityId);
-  const progress = useLearningProgress(childId);
   const [feedback, setFeedback] = useState<"good" | "try" | null>(null);
   const [speechStatus, setSpeechStatus] = useState<SpeechStartStatus | null>(null);
   const autoAttemptedRef = useRef(false);
@@ -87,7 +86,6 @@ export function AudioChoiceLearningActivity({ childId, activityId }: { childId: 
     return <main className={styles.contentNarrow}><div className={styles.emptyState}>Aktivitas audio tidak ditemukan.</div></main>;
   }
 
-  const done = progress.completedActivityIds.includes(activity.id);
   const visiblePrompt = activity.prompt ?? (activity.subjectId === "english" ? "Listen, then choose the best answer." : "Dengarkan, lalu pilih jawaban yang paling sesuai.");
   const fallback = audioFallback(speechStatus);
   const heardPrompt = speechStatus === "spoken";
@@ -124,6 +122,8 @@ export function AudioChoiceLearningActivity({ childId, activityId }: { childId: 
     }
   };
 
+  const retry = () => setFeedback(null);
+
   return (
     <GardenActivityFrame backHref={`/child/${childId}/subject/${activity.subjectId}`} title={visiblePrompt} onHear={hear} hint="Tekan tombol suara, dengarkan, lalu sentuh pilihanmu." spacious={visiblePrompt.length<45}>
 
@@ -144,9 +144,8 @@ export function AudioChoiceLearningActivity({ childId, activityId }: { childId: 
           ))}
         </div>
 
-        {feedback === "good" ? <div className={styles.feedbackGood} role="status">Hebat! Aktivitas selesai.</div> : null}
         {feedback === "try" ? <div className={styles.feedbackTry}>Belum tepat. Dengarkan lagi atau coba pilihan lain ya.</div> : null}
-        {done ? <Link className={styles.secondaryButton} href={`/child/${childId}/subject/${activity.subjectId}`}>Pilih permainan lain</Link> : null}
+        {feedback === "good" ? <ActivityCompletion childId={childId} activity={activity} onTryAgain={retry} /> : null}
     </GardenActivityFrame>
   );
 }
