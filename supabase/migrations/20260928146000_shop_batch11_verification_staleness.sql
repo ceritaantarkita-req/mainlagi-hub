@@ -6,33 +6,26 @@ create or replace function public.shop_mark_verification_stale(p_product uuid,p_
 language plpgsql security invoker set search_path=pg_catalog,public as $shop$
 begin
  update public.shop_products
- set facts=jsonb_set(
-       jsonb_set(
-         jsonb_set(
-           jsonb_set(
-             coalesce(facts,'{}'::jsonb),
-             '{verificationStatus}',
-             '"verification_stale"'::jsonb,
-             true
-           ),
-           '{verification,productFactsConfirmed}',
-           'false'::jsonb,
-           true
-         ),
-         '{verification,stockCountConfirmed}',
-         'false'::jsonb,
-         true
-       ),
-       '{verification,variantSkus}',
-       '[]'::jsonb,
-       true
-     )
+ set facts=coalesce(facts,'{}'::jsonb)
      || jsonb_build_object(
+          'verificationStatus','verification_stale',
+          'verification',
+            coalesce(facts->'verification','{}'::jsonb)
+            || jsonb_build_object(
+                 'method',null,
+                 'verifiedBy',null,
+                 'verifiedAt',null,
+                 'evidenceRef',null,
+                 'productFactsConfirmed',false,
+                 'stockCountConfirmed',false,
+                 'variantSkus',jsonb_build_array()
+               ),
           'verificationInvalidation',
-          jsonb_build_object(
-            'reason',coalesce(nullif(trim(p_reason),''),'relevant product data changed'),
-            'invalidatedAt',to_char((now() at time zone 'UTC'),'YYYY-MM-DD"T"HH24:MI:SS"Z"')
-          )
+            jsonb_build_object(
+              'reason',coalesce(nullif(trim(p_reason),''),'relevant product data changed'),
+              'invalidatedAt',to_char((now() at time zone 'UTC'),'YYYY-MM-DD"T"HH24:MI:SS"Z"'),
+              'previousVerification',coalesce(facts->'verification','{}'::jsonb)
+            )
         ),
      status='draft',
      review_status='draft',
@@ -50,17 +43,27 @@ begin
     and new.facts is distinct from old.facts
     and coalesce(new.facts->>'verificationStatus','')='production_verified'
  then
-  new.facts:=jsonb_set(new.facts,'{verificationStatus}','"verification_stale"'::jsonb,true);
-  new.facts:=jsonb_set(new.facts,'{verification,productFactsConfirmed}','false'::jsonb,true);
-  new.facts:=jsonb_set(new.facts,'{verification,stockCountConfirmed}','false'::jsonb,true);
-  new.facts:=jsonb_set(new.facts,'{verification,variantSkus}','[]'::jsonb,true);
-  new.facts:=new.facts || jsonb_build_object(
-    'verificationInvalidation',
-    jsonb_build_object(
-      'reason','verified product facts changed',
-      'invalidatedAt',to_char((now() at time zone 'UTC'),'YYYY-MM-DD"T"HH24:MI:SS"Z"')
-    )
-  );
+  new.facts:=coalesce(new.facts,'{}'::jsonb)
+    || jsonb_build_object(
+         'verificationStatus','verification_stale',
+         'verification',
+           coalesce(new.facts->'verification','{}'::jsonb)
+           || jsonb_build_object(
+                'method',null,
+                'verifiedBy',null,
+                'verifiedAt',null,
+                'evidenceRef',null,
+                'productFactsConfirmed',false,
+                'stockCountConfirmed',false,
+                'variantSkus',jsonb_build_array()
+              ),
+         'verificationInvalidation',
+           jsonb_build_object(
+             'reason','verified product facts changed',
+             'invalidatedAt',to_char((now() at time zone 'UTC'),'YYYY-MM-DD"T"HH24:MI:SS"Z"'),
+             'previousVerification',coalesce(old.facts->'verification','{}'::jsonb)
+           )
+       );
   new.status:='draft';
   new.review_status:='draft';
   new.facts_verified:=false;
