@@ -16,14 +16,6 @@ const initialCss=read("src/components/learning/InitialSoundActivity.module.css")
 const symbolCss=read("src/components/learning/SymbolHuntChoiceActivity.module.css");
 const route=read("src/app/child/[childId]/activity/[activity]/page.tsx");
 const bridge=read("src/components/learning/LearningAttemptBridge.tsx");
-const b2=[
-  read("src/components/learning/PhraseSceneMatchActivity.tsx"),
-  read("src/components/learning/PictureWordMatchActivity.tsx"),
-  read("src/components/learning/SentenceOrderCardsActivity.tsx"),
-  read("src/components/learning/ReadingPassageQuestionActivity.tsx"),
-  read("src/components/learning/ClozeSentenceChoiceActivity.tsx")
-];
-
 for(const [name,source] of [["audio",audio],["symbol",symbol],["syllable",syllable],["initial",initial]]){
   has(source,'import { ActivityCompletion } from "./ActivityCompletion"',`${name} B1 owner imports ActivityCompletion`);
   has(source,"completeActivity(childId, activity.id)",`${name} keeps renderer-owned completeActivity write`);
@@ -78,8 +70,4 @@ has(bridge,"LEARNING_MEASUREMENT_EVENT","LearningAttemptBridge remains measureme
 has(bridge,"explicit ?? measuredOutcome(activityId, stats)","explicit measured outcomes keep precedence");
 lacks(bridge,"ActivityCompletion","Completion presentation does not move into evidence ownership");
 
-for(const [index,source] of b2.entries()){
-  lacks(source,'import { ActivityCompletion } from "./ActivityCompletion"',`SI-06B1 must not migrate B2 owner index ${index}`);
-}
-
-console.log("SI-06B1 literacy/audio static boundary PASS: AudioChoice, SymbolHunt, SyllableAssembly and InitialSound use canonical Completion while audio/evidence ownership stays local; B2 sentence/reading owners remain untouched.");
+console.log("SI-06B1 literacy/audio static boundary PASS: AudioChoice, SymbolHunt, SyllableAssembly and InitialSound keep canonical Completion while audio/evidence ownership stays local; later SI batches may migrate their own owners independently.");

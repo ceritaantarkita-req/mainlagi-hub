@@ -248,9 +248,9 @@ async function inspect({viewport,completionMode}){
     assert.equal(await completed(page),true,"correct English word completes canonical activity");
     assert.equal((await result.textContent())?.trim(),correctChoice,"success reveals canonical uppercase word");
     assert.equal(await result.getAttribute("aria-label"),`Word ${correctChoice}`);
-    const nextLink=page.getByRole("link",{name:"Choose another activity"});
+    const completion=page.locator("[data-activity-completion]");
     await assertFullyVisible(status,viewportHeight,`English success feedback at ${viewport.width}`);
-    await assertFullyVisible(nextLink,viewportHeight,`English success CTA at ${viewport.width}`);
+    await assertFullyVisible(completion,viewportHeight,`English canonical Completion at ${viewport.width}`);
 
     const state=await page.evaluate(({id})=>{
       const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
