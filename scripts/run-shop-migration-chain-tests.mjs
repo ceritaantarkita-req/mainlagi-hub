@@ -214,7 +214,14 @@ try {
     "update public.shop_variants set weight_grams=weight_grams+1 where sku='008-A5-80-LINED'",
   );
   const staleAfterVariant = await one(
-    "select facts->>'verificationStatus' verification_status,facts_verified,review_status from public.shop_products where id=$1",
+    `select
+       facts->>'verificationStatus' verification_status,
+       facts#>>'{verification,evidenceRef}' evidence_ref,
+       facts#>>'{verification,verifiedAt}' verified_at,
+       facts#>>'{verificationInvalidation,previousVerification,evidenceRef}' previous_evidence_ref,
+       facts_verified,
+       review_status
+     from public.shop_products where id=$1`,
     [notebook.id],
   );
   assert.equal(
@@ -224,6 +231,21 @@ try {
   );
   assert.equal(staleAfterVariant.facts_verified, false);
   assert.equal(staleAfterVariant.review_status, "draft");
+  assert.equal(
+    staleAfterVariant.evidence_ref,
+    null,
+    "stale verification must require a fresh evidence reference",
+  );
+  assert.equal(
+    staleAfterVariant.verified_at,
+    null,
+    "stale verification must require a fresh verification date",
+  );
+  assert.equal(
+    staleAfterVariant.previous_evidence_ref,
+    "test-fixture:notebook-008",
+    "old evidence must remain archived for audit after staleness",
+  );
 
   await db.query(
     `update public.shop_products
@@ -260,7 +282,14 @@ try {
     [notebook.id],
   );
   const staleAfterFacts = await one(
-    "select facts->>'verificationStatus' verification_status,facts_verified,review_status from public.shop_products where id=$1",
+    `select
+       facts->>'verificationStatus' verification_status,
+       facts#>>'{verification,evidenceRef}' evidence_ref,
+       facts#>>'{verification,verifiedAt}' verified_at,
+       facts#>>'{verificationInvalidation,previousVerification,evidenceRef}' previous_evidence_ref,
+       facts_verified,
+       review_status
+     from public.shop_products where id=$1`,
     [notebook.id],
   );
   assert.equal(
@@ -270,6 +299,13 @@ try {
   );
   assert.equal(staleAfterFacts.facts_verified, false);
   assert.equal(staleAfterFacts.review_status, "draft");
+  assert.equal(staleAfterFacts.evidence_ref, null);
+  assert.equal(staleAfterFacts.verified_at, null);
+  assert.equal(
+    staleAfterFacts.previous_evidence_ref,
+    "test-fixture:notebook-008-reverified",
+    "old product-fact evidence must be archived before fresh verification",
+  );
 
   const functionPrivileges = await db.query(`
     select p.proname,
