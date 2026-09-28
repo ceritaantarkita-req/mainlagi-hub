@@ -99,9 +99,11 @@ evidence required by Batch 11.
    - **BLOCKED:** integrated Shop paid + owner-packed database flow has not yet
      created the provider shipment because this isolated staging Worker intentionally
      uses the mock data backend;
-   - **BLOCKED:** Delivered status progression, actual Biteship Events Log delivery
-     evidence, tracking and exception progression still need Testing dashboard
-     simulation.
+   - **PASS:** Delivered status progression, real Biteship `order.status` Events
+     Log callbacks with HTTP 200, independent Tracking API retrieval, and the full
+     seven-step normal delivery history are provider-verified;
+   - **BLOCKED:** exception/return progression still needs the dedicated Testing
+     dashboard simulation.
 
 4. **Safe non-production Shop staging origin**
    - **PASS for provider-webhook boundary:** isolated workers.dev staging origin

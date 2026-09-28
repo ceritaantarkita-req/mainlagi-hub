@@ -441,3 +441,37 @@ already treats `on_hold`, `return_in_transit`, `returned`, `rejected`,
 The candidate creation itself is automated, but exception status progression must
 be performed from the Biteship Testing dashboard so Events Log evidence represents
 real provider callbacks rather than synthetic local events.
+
+
+## Sandbox Tracking API acceptance PASS
+
+GitHub Actions run **#2011** completed read-only Biteship Tracking API acceptance
+against the manually Delivered Testing Mode order.
+
+Verified provider evidence:
+
+- order ID `6ab95bf62cf339db52b93e9e` independently retrieved as
+  `delivered`;
+- reference `ML-SBX-DELIVER-36339411333`;
+- Biteship courier tracking ID:
+  `ce831eb42iNhD2rDTuGjLiMv`;
+- `GET /v1/trackings/:id` returned terminal status `delivered`;
+- tracking history contained exactly the observed seven-step progression:
+  `confirmed → allocated → picking_up → picked → in_transit → dropping_off → delivered`;
+- the order-level courier history reported the same progression;
+- cancelled control order `6ab95bfa6960f5e88be36376` independently remained
+  `cancelled`;
+- user-supplied Biteship Events Log evidence showed sequential `order.status`
+  callbacks returning HTTP 200 while the Delivered status simulation was performed.
+
+Evidence artifact:
+
+```text
+biteship-sandbox-tracking-evidence
+artifact id: 10946783117
+sha256: 612c2c0e308c6be62f0af4a18d4d20020e91693e20a68cca5ab1578016537547
+```
+
+This closes the normal Delivered/cancelled tracking progression acceptance in
+Biteship Testing Mode. Exception/return progression remains a separate acceptance
+case.

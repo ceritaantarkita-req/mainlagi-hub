@@ -1496,3 +1496,27 @@ These are simulated provider test orders only. The Delivered candidate still nee
 the official step-by-step Testing dashboard status simulation and Events Log
 verification. The isolated Worker remains sales-disabled and is not the later
 database-backed full Shop staging environment.
+
+
+### Biteship Sandbox Tracking acceptance
+
+GitHub Actions run **#2011** independently retrieved the manually Delivered sandbox
+order and its Biteship tracking object. Both reported `delivered`, and the
+provider history was:
+
+```text
+confirmed
+→ allocated
+→ picking_up
+→ picked
+→ in_transit
+→ dropping_off
+→ delivered
+```
+
+The cancelled control order remained `cancelled`. The Biteship Dashboard Events
+Log supplied by the owner showed the corresponding `order.status` callbacks
+returning HTTP 200 during the manual delivery simulation.
+
+Normal delivery/cancel tracking acceptance is therefore provider-verified.
+Exception/return progression remains the next bounded Biteship acceptance step.
