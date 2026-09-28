@@ -219,6 +219,30 @@ new harness has passed normal PR CI. Do not restore a push trigger. If the
 integrated step fails, continue from that failing step and preserve all already
 closed Batch 01–10/provider/scheduler evidence.
 
+
+## Product-truth continuation — owner-requested marketplace candidate
+
+The owner explicitly requested a concrete product/variant/stock/size proposal based
+on comparable Tokopedia/marketplace products. The following files now capture that
+proposal without falsely marking it as measured physical truth:
+
+- `docs/MAINLAGI_SHOP_PRODUCT_TRUTH_MARKETPLACE_CANDIDATE_2026-09-28.md`;
+- `docs/data/MAINLAGI_SHOP_PRODUCT_TRUTH_MARKETPLACE_CANDIDATE_2026-09-28.json`.
+
+The candidate covers all **9 products**, **26 proposed variants** and allocates all
+**79 seeded units**. It includes size charts, variant-level stock, conservative
+shipping weights and package dimensions, plus supplier/procurement targets for
+non-apparel goods.
+
+This changes the production-product blocker from **no concrete specification** to
+**marketplace candidate exists / physical or supplier verification still required**.
+
+Do not set `facts_verified=true` from marketplace analogues alone. A candidate
+becomes canonical production truth only after a final supplier production sheet or
+a production-equivalent physical sample confirms the relevant measurements,
+weight and function. SKU 007 still requires genuine issuer/card-function
+confirmation; its Mandiri E-Money Gen2 entry is a procurement target.
+
 ## Hard boundaries
 
 - Do not merge PR #359 yet.
