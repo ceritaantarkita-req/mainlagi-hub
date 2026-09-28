@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { ActivityCompletion } from "./ActivityCompletion";
 import { GardenActivityFrame } from "./GardenActivityFrame";
 import { getActivityLearningSpec } from "@/lib/learning/catalog";
 import { isSyllableAssemblyActivity } from "@/lib/learning/gameplayPresentation";
@@ -63,6 +63,13 @@ export function SyllableAssemblyActivity({ childId, activityId }: { childId: str
     });
     completeActivity(childId, activity.id);
     setFeedback("good");
+  };
+
+  const restart = () => {
+    incorrectRef.current = 0;
+    retryRef.current = 0;
+    setSelected(null);
+    setFeedback("idle");
   };
 
   return (
@@ -141,9 +148,7 @@ export function SyllableAssemblyActivity({ childId, activityId }: { childId: str
               : `💡 ${config.cue}`}
         </div>
 
-        {feedback === "good" ? (
-          <Link className={styles.nextLink} href={`/child/${childId}/subject/${activity.subjectId}`}>Pilih permainan lain</Link>
-        ) : null}
+        {feedback === "good" ? <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} /> : null}
       </section>
     </GardenActivityFrame>
   );
