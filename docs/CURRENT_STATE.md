@@ -2079,3 +2079,43 @@ Live SI-06A boundary:
 SI-06A is **closed / merged / live verified**.
 
 The only authorized next Shared Interaction batch is **SI-06B — literacy/audio specialized renderers**. Preflight current ownership before mutation; do not assume the SI-00 list is still exact, and split the batch if audio/symbol versus sentence/reading ownership is too large for one bounded session.
+
+
+## 28 September 2026 — Shared Interaction SI-06B1 literacy/audio specialized — ACTIVE
+
+Current Shared Interaction sequence:
+
+```text
+SI-00  — Read-only coverage audit             COMPLETE / merged
+SI-01  — Orientation foundation               COMPLETE / merged / live verified
+SI-02  — Canonical Character Presentation     COMPLETE / merged / live verified
+SI-03  — Canonical Completion component       COMPLETE / merged / live verified
+SI-04  — Canonical Share component            COMPLETE / merged / live verified
+SI-05  — Belajar pilot runtime                COMPLETE / merged / live verified
+SI-06A — fallback Belajar owner               COMPLETE / merged / live verified
+SI-06B1 — literacy/audio early family         IMPLEMENTED ON BRANCH / CI pending
+SI-06B2 — sentence/reading family             NOT STARTED
+SI-06C+ — later Belajar batches               NOT STARTED
+```
+
+Active SI-06B1:
+
+```text
+branch: agent/si-06b1-literacy-audio-20260928
+base:   main 3dacf402647188d3a8119dc90d42595d4fe768c3
+owners:
+  AudioChoiceLearningActivity
+  SymbolHuntChoiceActivity
+  SyllableAssemblyActivity
+  InitialSoundActivity
+checkpoint:
+docs/SI06B1_LITERACY_AUDIO_SAFE_CHECKPOINT_2026-09-28.md
+```
+
+SI-06B was split before mutation because the nine-owner SI-00 suggested set is too large for one bounded session. B1 covers audio/symbol/early-literacy owners only; B2 sentence/reading owners are untouched.
+
+SI-06B1 preserves audio, measurement, `completeActivity`, attempt/evidence and dispatcher ownership. It replaces only local post-success presentation with the already-live canonical Completion + Share path and gives each owner explicit local Again semantics.
+
+Permanent SymbolHunt, SyllableAssembly and InitialSound browser QA is updated to canonical Completion. A dedicated AudioChoice closure test proves assessed choice evidence plus Share/orientation/Again duplicate-attempt safety with deterministic QA speech.
+
+Do not start SI-06B2, SI-06C+, Bermain, World, Journey Map or Shop until SI-06B1 latest-head CI, merged-main CI and exact Cloudflare smoke are green.

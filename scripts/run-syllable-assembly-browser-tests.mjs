@@ -157,8 +157,13 @@ async function inspect(viewport){
     assert.equal(await completed(page),true,"correct assembled word completes canonical activity");
     assert.equal((await result.textContent())?.trim(),"baju","success may reveal canonical assembled word");
     await assertFullyVisible(status,viewportHeight,`success syllable feedback at ${viewport.width}`);
-    const nextLink=page.getByRole("link",{name:"Pilih permainan lain"});
-    await assertFullyVisible(nextLink,viewportHeight,`syllable success CTA at ${viewport.width}`);
+    const completion=page.locator('[data-canonical-completion="v1"][data-activity-completion]');
+    await completion.waitFor({state:"visible",timeout:3000});
+    assert.deepEqual(
+      await completion.locator("[data-completion-action]").evaluateAll(nodes=>nodes.map(node=>node.textContent?.trim())),
+      ["Back","Again","Next","Share"],
+      "syllable success uses canonical Completion action order"
+    );
 
     const state=await page.evaluate(({id})=>{
       const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
@@ -190,7 +195,7 @@ async function main(){
   startServer();
   await waitForServer();
   for(const viewport of viewports)await inspect(viewport);
-  console.log(`Syllable-assembly browser QA passed ${viewports.length} viewports with canonical Bahasa Wave A readiness, keyboard wrong-state, pointer completion, masked result, feedback/CTA visibility and assessed evidence checks.`);
+  console.log(`Syllable-assembly browser QA passed ${viewports.length} viewports with canonical Bahasa Wave A readiness, keyboard wrong-state, pointer completion, masked result, feedback/Completion visibility and assessed evidence checks.`);
 }
 
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;}).finally(stopServer);

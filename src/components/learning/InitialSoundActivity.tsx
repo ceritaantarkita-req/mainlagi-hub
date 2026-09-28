@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { ActivityCompletion } from "./ActivityCompletion";
 import { GardenActivityFrame } from "./GardenActivityFrame";
 import { LearningVisualToken } from "./LearningVisualToken";
 import { getActivityLearningSpec } from "@/lib/learning/catalog";
@@ -64,6 +64,13 @@ export function InitialSoundActivity({ childId, activityId }: { childId: string;
     });
     completeActivity(childId, activity.id);
     setFeedback("good");
+  };
+
+  const restart = () => {
+    incorrectRef.current = 0;
+    retryRef.current = 0;
+    setSelected(null);
+    setFeedback("idle");
   };
 
   return (
@@ -134,9 +141,7 @@ export function InitialSoundActivity({ childId, activityId }: { childId: string;
               : `💡 Ucapkan “${config.word}” pelan-pelan. Bunyi apa yang terdengar pertama?`}
         </div>
 
-        {feedback === "good" ? (
-          <Link className={styles.nextLink} href={`/child/${childId}/subject/${activity.subjectId}`}>Pilih permainan lain</Link>
-        ) : null}
+        {feedback === "good" ? <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} /> : null}
       </section>
     </GardenActivityFrame>
   );

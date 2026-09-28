@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { ActivityCompletion } from "./ActivityCompletion";
 import { GardenActivityFrame } from "./GardenActivityFrame";
 import { completeActivity, getActivity } from "@/lib/learning/system";
 import styles from "./SymbolHuntChoiceActivity.module.css";
@@ -41,6 +41,8 @@ export function SymbolHuntChoiceActivity({ childId, activityId }: { childId: str
       setFeedback("try");
     }
   };
+
+  const retry = () => setFeedback("idle");
 
   const hint = activity.subjectId === "english"
     ? "Look around and tap the matching letter."
@@ -91,13 +93,7 @@ export function SymbolHuntChoiceActivity({ childId, activityId }: { childId: str
       </section>
 
       {feedback === "try" ? <p role="status" className={styles.feedbackTry}>Belum tepat. Lihat bentuknya sekali lagi.</p> : null}
-      {feedback === "good" ? (
-        <div role="status" className={styles.feedbackGood}>
-          <strong>Ketemu! ⭐</strong>
-          <span>{activity.subjectId === "english" ? "Nice searching." : "Mata jeli, bentuknya cocok."}</span>
-          <Link href={`/child/${childId}/subject/${activity.subjectId}`}>Pilih permainan lain</Link>
-        </div>
-      ) : null}
+      {feedback === "good" ? <ActivityCompletion childId={childId} activity={activity} onTryAgain={retry} /> : null}
     </GardenActivityFrame>
   );
 }
