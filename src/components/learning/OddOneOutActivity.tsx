@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { ActivityCompletion } from "./ActivityCompletion";
 import { GardenActivityFrame } from "./GardenActivityFrame";
 import { getActivityLearningSpec } from "@/lib/learning/catalog";
 import { isOddOneOutActivity } from "@/lib/learning/gameplayPresentation";
@@ -63,6 +63,13 @@ export function OddOneOutActivity({ childId, activityId }: { childId: string; ac
     });
     completeActivity(childId, activity.id);
     setFeedback("good");
+  };
+
+  const restart = () => {
+    incorrectRef.current = 0;
+    retryRef.current = 0;
+    setSelected(null);
+    setFeedback("idle");
   };
 
   return (
@@ -138,10 +145,15 @@ export function OddOneOutActivity({ childId, activityId }: { childId: string; ac
           </div>
         ) : null}
 
-        {feedback === "good" ? (
-          <Link className={styles.nextLink} href={`/child/${childId}/subject/${activity.subjectId}`}>Pilih permainan lain</Link>
-        ) : null}
       </section>
+
+      {feedback === "good" ? (
+        <ActivityCompletion
+          childId={childId}
+          activity={activity}
+          onTryAgain={restart}
+        />
+      ) : null}
     </GardenActivityFrame>
   );
 }

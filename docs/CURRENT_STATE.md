@@ -1985,3 +1985,40 @@ Historical CI #1997 failures were closure-harness regressions: React 19 effect l
 SI-04 is **closed / merged / live verified**.
 
 The only authorized next Shared Interaction phase is **SI-05 — Belajar pilot runtime**. Use one currently-inline finite assessed renderer as the pilot; preserve its existing completion/evidence write and replace only the post-success presentation with the already-live canonical Completion + Share system. Do not start SI-06 batches, Bermain migration, World migration, Journey Map, or Shop work inside the SI-05 pilot.
+
+
+## 28 September 2026 — Shared Interaction SI-05 Belajar pilot — ACTIVE
+
+Current Shared Interaction sequence:
+
+```text
+SI-00 — Read-only coverage audit             COMPLETE / merged
+SI-01 — Orientation foundation               COMPLETE / merged / live verified
+SI-02 — Canonical Character Presentation     COMPLETE / merged / live verified
+SI-03 — Canonical Completion component       COMPLETE / merged / live verified
+SI-04 — Canonical Share component            COMPLETE / merged / live verified
+SI-05 — Belajar pilot runtime                IMPLEMENTED ON BRANCH / CI pending
+SI-06+ — Belajar runtime batches             NOT STARTED
+```
+
+Active pilot:
+
+```text
+renderer: OddOneOutActivity
+route:    /child/demo-gian/activity/logic-odd-category-animal-vehicle
+branch:   agent/si-05-belajar-pilot-odd-one-out-20260928
+base:     main 24b49fb9673108d618119bccdd03cb291ddb001c
+checkpoint:
+docs/SI05_BELAJAR_PILOT_SAFE_CHECKPOINT_2026-09-28.md
+```
+
+SI-05 changes post-success presentation only:
+
+- explicit `emitLearningRuntimeMeasurement` is preserved;
+- existing `completeActivity` write is preserved;
+- `LearningAttemptBridge` is untouched;
+- local success CTA is replaced by the already-live `ActivityCompletion` → canonical Completion + Share path;
+- Again resets OddOneOut local state without route reload;
+- dedicated static/browser gates prove no duplicate attempt/evidence from Completion, Share, rotation, or Again.
+
+Do not start SI-06, Bermain, World, Journey Map, or Shop changes until the SI-05 latest head passes full CI, merges, and exact merged-main Cloudflare smoke succeeds.
