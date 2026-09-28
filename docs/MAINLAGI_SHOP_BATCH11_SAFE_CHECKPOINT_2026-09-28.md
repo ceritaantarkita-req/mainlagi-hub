@@ -243,6 +243,33 @@ a production-equivalent physical sample confirms the relevant measurements,
 weight and function. SKU 007 still requires genuine issuer/card-function
 confirmation; its Mandiri E-Money Gen2 entry is a procurement target.
 
+## 28 September continuation — marketplace candidate implemented in DB/admin
+
+Owner approved continuing from the marketplace benchmark into the Shop data model.
+
+Implemented on PR #359:
+
+- new additive migration
+  `20260928143000_shop_batch11_marketplace_candidate_variants.sql`;
+- nine `*-DEFAULT` placeholder variants become **26 marketplace candidate
+  variants** on a fresh DB reset;
+- aggregate initial stock remains exactly **79 units** and each product preserves
+  its previously approved initial total;
+- candidate shipping weights and package dimensions are stored at variant level;
+- candidate product metadata is stored under
+  `facts.marketplaceCandidate`;
+- all nine products receive
+  `verificationStatus=marketplace_candidate_unverified`;
+- database readiness blocks review/activation until
+  `verificationStatus=production_verified`;
+- admin UI mirrors the same explicit physical/supplier verification gate;
+- Batch 11 staging and integrated E2E now target
+  `008-A5-80-LINED`, not the removed `008-DEFAULT`.
+
+This **does not close physical product verification**. It converts the blocker
+from “no usable variant/stock specification” into “candidate implemented; final
+physical/supplier confirmation required before production approval.”
+
 ## Hard boundaries
 
 - Do not merge PR #359 yet.
