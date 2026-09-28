@@ -97,6 +97,31 @@ Comparable A4 drawing books commonly use 120 gsm paper. Public references cover
 A4 21×29.7 cm / 20-sheet constructions; the candidate uses 20 sheets and a
 conservative 250 g shipping weight.
 
+## Implementation status — PR #359
+
+The marketplace candidate is now **implemented in the Shop database migration chain** by:
+
+`supabase/migrations/20260928143000_shop_batch11_marketplace_candidate_variants.sql`.
+
+Fresh Shop databases now receive all **26 candidate variants** and the complete
+**79-unit** allocation instead of nine `*-DEFAULT` variants. Each product is
+written with:
+
+- `facts.verificationStatus = marketplace_candidate_unverified`;
+- `status = draft`;
+- `review_status = draft`;
+- `facts_verified = false`.
+
+The database readiness function now adds a hard blocker until
+`verificationStatus = production_verified`. The admin product editor mirrors
+that gate and requires an explicit owner confirmation that the final values were
+checked against a physical sample or supplier production sheet.
+
+The Batch 11 ephemeral staging flow may temporarily mark SKU 008 as
+`production_verified` **inside the disposable local database only** to exercise
+the real checkout/provider path. That fixture is explicitly tagged
+`fixtureOnly=true` and is not production truth.
+
 ## Verification rule
 
 A marketplace candidate becomes canonical production truth only after one of:
