@@ -154,8 +154,8 @@ async function inspect(viewport){
     await status.filter({hasText:"Tepat"}).waitFor({state:"visible",timeout:2000});
     assert.equal(await completed(page),true,"correct reading answer completes canonical activity");
     await assertFullyVisible(status,viewportHeight,`success reading feedback at ${viewport.width}`);
-    const nextLink=page.getByRole("link",{name:"Pilih permainan lain"});
-    await assertFullyVisible(nextLink,viewportHeight,`reading success CTA at ${viewport.width}`);
+    const completion=page.locator("[data-activity-completion]");
+    await assertFullyVisible(completion,viewportHeight,`reading success CTA at ${viewport.width}`)
 
     const state=await page.evaluate(({id})=>{
       const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
@@ -185,7 +185,7 @@ async function main(){
   startServer();
   await waitForServer();
   for(const viewport of viewports)await inspect(viewport);
-  console.log(`Reading Passage Question browser QA passed ${viewports.length} viewports with legitimate Bahasa Wave B readiness, canonical passage/question/answers, keyboard wrong-state, pointer completion, touch targets, feedback/CTA visibility and assessed evidence checks.`);
+  console.log(`Reading Passage Question browser QA passed ${viewports.length} viewports with legitimate Bahasa Wave B readiness, canonical passage/question/answers, keyboard wrong-state, pointer completion, touch targets, feedback/canonical Completion visibility and assessed evidence checks.`);
 }
 
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;}).finally(stopServer);
