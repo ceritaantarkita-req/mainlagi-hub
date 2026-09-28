@@ -155,7 +155,7 @@ testing providers. It exercises the actual application path:
 `cart → Biteship Testing rates → checkout → Midtrans Sandbox Snap → paid → real owner-auth pack → real owner-auth ship → Biteship Testing order → provider GET/tracking → authenticated webhook → reconciliation`.
 
 The owner step uses a synthetic account created only in the ephemeral local
-Supabase and signs in through the existing `/login` flow. No staging-only
+Supabase and establishes its session through the existing Supabase SSR cookie contract. No staging-only
 fulfillment bypass endpoint was added.
 
 Static/CI guardrails now require:
