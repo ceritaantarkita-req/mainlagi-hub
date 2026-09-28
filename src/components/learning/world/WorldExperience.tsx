@@ -27,6 +27,7 @@ import {
 import styles from "./WorldExperience.module.css";
 import { PlayroomShell } from "../Playroom";
 import { GardenActivityFrame } from "../GardenActivityFrame";
+import { ActivityCompletion } from "../ActivityCompletion";
 import garden from "../GardenActivityFrame.module.css";
 import learning from "../LearningPlatform.module.css";
 import playroom from "../Playroom.module.css";
@@ -355,20 +356,34 @@ function MathCountActivity({ childId, activity }: { childId: string; activity: L
       if (typeof navigator !== "undefined" && "vibrate" in navigator) navigator.vibrate([30, 30, 70]);
       return;
     }
+
     setFeedback("wrong");
     playTone("wrong");
     speak("Hmm, coba hitung pelan-pelan lagi.", "id-ID", 0.92);
     if (typeof navigator !== "undefined" && "vibrate" in navigator) navigator.vibrate(35);
   };
 
+  const retry = () => setFeedback("idle");
+
   return (
     <GardenActivityFrame backHref={`/child/${childId}/subject/${activity.subjectId}`} title="Ada berapa apel?" onHear={hearPrompt}>
-      <div className={garden.apples} aria-label="Tiga apel">{apples.map(apple=><img key={apple} src="/artwork/garden-apple.webp" width={180} height={180} alt="Apel"/>)}</div>
+      <div className={garden.apples} aria-label="Tiga apel">{apples.map((apple) => <img key={apple} src="/artwork/garden-apple.webp" width={180} height={180} alt="Apel" />)}</div>
       <div className={learning.choiceGrid}>
-        {(activity.choices ?? []).map(choice=><button key={choice} type="button" className={learning.bigChoice} onClick={()=>choose(choice)} disabled={feedback==="correct"} aria-pressed={feedback==="correct" && choice===activity.correctChoice}>{choice}</button>)}
+        {(activity.choices ?? []).map((choice) => (
+          <button
+            key={choice}
+            type="button"
+            className={learning.bigChoice}
+            onClick={() => choose(choice)}
+            disabled={feedback === "correct"}
+            aria-pressed={feedback === "correct" && choice === activity.correctChoice}
+          >
+            {choice}
+          </button>
+        ))}
       </div>
-      {feedback==="wrong" ? <p role="status" className={learning.feedbackTry}>Belum tepat. Hitung satu per satu lagi ya.</p> : null}
-      {feedback==="correct" ? <div role="status" className={learning.feedbackGood}><h2>Hebat!</h2><p>Kamu menemukan 3 apel.</p><Link className={learning.primaryButton} href={`/child/${childId}/subject/${activity.subjectId}`}>Pilih permainan lain</Link></div> : null}
+      {feedback === "wrong" ? <p role="status" className={learning.feedbackTry}>Belum tepat. Hitung satu per satu lagi ya.</p> : null}
+      {feedback === "correct" ? <ActivityCompletion childId={childId} activity={activity} onTryAgain={retry} /> : null}
     </GardenActivityFrame>
   );
 }
