@@ -165,6 +165,9 @@ Static/CI guardrails now require:
 - the harness refuses non-Quick-Tunnel ingress;
 - the harness refuses non-testing Biteship credentials and Midtrans production
   mode;
+- while the staging-acceptance flag is enabled and Midtrans is non-production,
+  Snap is constrained to `permata_va` so the Sandbox simulator path is
+  deterministic; production payment-method selection is unchanged;
 - `admin/pack` and `admin/ship` remain behind the normal owner gate;
 - production product facts and production PII retention remain unresolved inputs,
   not test fixtures promoted to truth.
