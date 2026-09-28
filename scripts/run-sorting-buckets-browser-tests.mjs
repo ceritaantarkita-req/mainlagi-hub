@@ -206,11 +206,11 @@ async function inspect(viewport) {
     assert.equal(await page.locator("[data-sorting-match-items] > span").count(), 1, "one positive item lands in matching bucket");
     assert.equal(await page.locator("[data-sorting-other-items] > span").count(), 2, "two negative items land in other bucket");
 
-    const nextLink = page.getByRole("link", { name: "Pilih permainan lain" });
-    const nextLinkBox = await nextLink.boundingBox();
+    const completion = page.locator("[data-activity-completion]");
+    const completionBox = await completion.boundingBox();
     const viewportHeight = await page.evaluate(() => window.innerHeight);
-    assert(nextLinkBox, "sorting success CTA must render");
-    assert(nextLinkBox.y >= -1 && nextLinkBox.y + nextLinkBox.height <= viewportHeight + 1, `sorting success CTA must remain fully visible at ${viewport.width}`);
+    assert(completionBox, "sorting canonical Completion must render");
+    assert(completionBox.y >= -1 && completionBox.y + completionBox.height <= viewportHeight + 1, `sorting Completion must remain fully visible at ${viewport.width}`);
 
     const state = await page.evaluate(({ id }) => {
       const progress = JSON.parse(localStorage.getItem("mainlagi-learning-progress-v1") ?? "{}");
@@ -233,6 +233,16 @@ async function inspect(viewport) {
     assert.equal(state.attempt.accuracy, 0.75);
 
     await page.screenshot({ path: path.join(screenshotDir, `${viewport.width}-sorting-buckets-success.png`), fullPage: false });
+    await completion.locator('[data-completion-action="again"]').click();
+    await completion.waitFor({ state: "hidden", timeout: 2_000 });
+    assert.equal(await page.locator("[data-sorting-buckets]").getAttribute("data-sorting-buckets-done"), "false", "Again clears sorting completion state");
+    assert.equal(await page.locator("[data-sorting-cards] button").count(), 3, "Again restores all sorting cards");
+    assert.equal(await page.locator("[data-sorting-match-items] > span, [data-sorting-other-items] > span").count(), 0, "Again clears placed sorting items");
+    const targetAttemptCount = await page.evaluate(({ id }) => {
+      const attempts = JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1") ?? "{}");
+      return (attempts["demo-gian"] ?? []).filter((item) => item.activityId === id).length;
+    }, { id: activityId });
+    assert.equal(targetAttemptCount, 1, "SortingBuckets Again reset alone must not create a second attempt");
     assert.deepEqual(pageErrors, [], `page errors at ${viewport.width}: ${pageErrors.join(" | ")}`);
     assert.deepEqual(consoleErrors, [], `console errors at ${viewport.width}: ${consoleErrors.join(" | ")}`);
     await context.close();
@@ -245,7 +255,7 @@ async function main() {
   startServer();
   await waitForServer();
   for (const viewport of viewports) await inspect(viewport);
-  console.log(`Sorting-buckets browser QA passed ${viewports.length} viewports with progression, keyboard wrong-state, pointer sorting, visual layout, in-viewport CTA, and assessed evidence checks.`);
+  console.log(`Sorting-buckets browser QA passed ${viewports.length} viewports with progression, keyboard wrong-state, pointer sorting, visual layout, canonical Completion, local Again replay, and assessed evidence checks.`);
 }
 
 main()
