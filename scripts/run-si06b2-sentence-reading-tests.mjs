@@ -8,16 +8,16 @@ const has=(source,literal,message)=>assert(source.includes(literal),message);
 const lacks=(source,literal,message)=>assert(!source.includes(literal),message);
 
 const owners=[
-  ["phrase",read("src/components/learning/PhraseSceneMatchActivity.tsx"),"choice_phrase_scene_interaction"],
-  ["picture",read("src/components/learning/PictureWordMatchActivity.tsx"),"choice_picture_word_match_interaction"],
-  ["sentence",read("src/components/learning/SentenceOrderCardsActivity.tsx"),"choice_sentence_order_cards_interaction"],
-  ["reading",read("src/components/learning/ReadingPassageQuestionActivity.tsx"),"choice_reading_passage_question_interaction"],
-  ["cloze",read("src/components/learning/ClozeSentenceChoiceActivity.tsx"),"choice_cloze_sentence_interaction"]
+  ["phrase",read("src/components/learning/PhraseSceneMatchActivity.tsx"),read("src/components/learning/PhraseSceneMatchActivity.module.css"),"choice_phrase_scene_interaction"],
+  ["picture",read("src/components/learning/PictureWordMatchActivity.tsx"),read("src/components/learning/PictureWordMatchActivity.module.css"),"choice_picture_word_match_interaction"],
+  ["sentence",read("src/components/learning/SentenceOrderCardsActivity.tsx"),read("src/components/learning/SentenceOrderCardsActivity.module.css"),"choice_sentence_order_cards_interaction"],
+  ["reading",read("src/components/learning/ReadingPassageQuestionActivity.tsx"),read("src/components/learning/ReadingPassageQuestionActivity.module.css"),"choice_reading_passage_question_interaction"],
+  ["cloze",read("src/components/learning/ClozeSentenceChoiceActivity.tsx"),read("src/components/learning/ClozeSentenceChoiceActivity.module.css"),"choice_cloze_sentence_interaction"]
 ];
 const route=read("src/app/child/[childId]/activity/[activity]/page.tsx");
 const bridge=read("src/components/learning/LearningAttemptBridge.tsx");
 
-for(const [name,source,fidelity] of owners){
+for(const [name,source,css,fidelity] of owners){
   has(source,'import { ActivityCompletion } from "./ActivityCompletion"',`${name} imports canonical ActivityCompletion`);
   has(source,"emitLearningRuntimeMeasurement({",`${name} keeps explicit runtime measurement`);
   has(source,fidelity,`${name} keeps evidence fidelity metadata`);
@@ -25,6 +25,7 @@ for(const [name,source,fidelity] of owners){
   has(source,"<ActivityCompletion",`${name} renders canonical Completion on success`);
   lacks(source,'import Link from "next/link"',`${name} removes local success navigation owner`);
   lacks(source,"<Link className={styles.nextLink}",`${name} removes local success CTA`);
+  lacks(css,".nextLink",`${name} removes orphaned local success CTA CSS`);
   for(const literal of [
     "incorrectRef.current = 0;",
     "retryRef.current = 0;",
