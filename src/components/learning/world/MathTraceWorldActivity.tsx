@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import type { Stroke } from "@/lib/engine/types";
 import { completeActivity, getActivity } from "@/lib/learning/system";
@@ -10,7 +9,7 @@ import { playTone, speak, unlockAudio } from "@/lib/audio/feedback";
 import { useLearningProgress } from "../LearningCommon";
 import styles from "./MathTraceWorldActivity.module.css";
 import { GardenActivityFrame } from "../GardenActivityFrame";
-import learning from "../LearningPlatform.module.css";
+import { ActivityCompletion } from "../ActivityCompletion";
 
 const CHECKPOINTS = [
   { x: 76, y: 17 },
@@ -81,6 +80,12 @@ export function MathTraceWorldActivity({ childId }: { childId: string }) {
 
   const reset = () => {
     if (strokesRef.current.length || points.length) retryCountRef.current += 1;
+    clearTrace();
+    setMessage("Mulai lagi dari bintang kuning.");
+  };
+
+  const restart = () => {
+    retryCountRef.current = 0;
     clearTrace();
     setMessage("Mulai lagi dari bintang kuning.");
   };
@@ -228,7 +233,7 @@ export function MathTraceWorldActivity({ childId }: { childId: string }) {
           </svg>
           <div className={`${styles.message} ${complete ? styles.messageDone : ""}`}>{complete ? "✓ " : ""}{message}</div>
         </div>
-      {complete ? <div className={learning.feedbackGood} role="status"><h2>Keren!</h2><p>Kamu mengikuti bentuk angka lima sampai selesai.</p><Link className={learning.primaryButton} href={`/child/${childId}/subject/${activity.subjectId}`}>Pilih permainan lain</Link></div> : null}
+      {complete ? <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} /> : null}
     </GardenActivityFrame>
   );
 }
