@@ -482,7 +482,7 @@ let evidence = null;
 
 try {
   const variantResult = await serviceFetch(
-    "/rest/v1/shop_variants?select=id,sku,weight_grams,is_active&sku=eq.008-DEFAULT",
+    "/rest/v1/shop_variants?select=id,sku,weight_grams,is_active&sku=eq.008-A5-80-LINED",
   );
   assert.equal(variantResult.response.ok, true);
   assert.equal(
