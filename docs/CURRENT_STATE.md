@@ -2097,7 +2097,7 @@ SI-06B1 — literacy/audio early family         COMPLETE / merged / live verifie
 SI-06B2 — sentence/reading family             COMPLETE / merged / live verified
 SI-06C — matching/order/drag family           COMPLETE / merged / live verified
 SI-06D1 — Math choice/shared renderers       COMPLETE / merged / live verified
-SI-06D2 — Math trace renderer                 NEXT / not started
+SI-06D2 — Math trace renderer                 ACTIVE / not merged
 SI-06E+ — later Belajar batches               NOT STARTED
 ```
 
@@ -2204,6 +2204,9 @@ D1 PR CI:                #2244 / run 36421974034 — FULL SUCCESS
 D1 merged main:          4183001b203d0e93ea0de7e6b231525813c93c20
 D1 merged-main CI:       #2245 / run 36423309927 — FULL SUCCESS
 D1 Cloudflare smoke:     SUCCESS — exact merged main SHA verified
+D1 docs checkpoint main:  a225e9a70322f37e5c9f537865b1c326cd96bfd0
+D1 docs-main CI:          #2247 / run 36428109656 — FULL SUCCESS + exact Cloudflare smoke
+D2 branch:                agent/si-06d2-math-trace-clean-20260928
 checkpoint:
 docs/SI06D_MATH_SAFE_CHECKPOINT_2026-09-28.md
 ```
@@ -2240,6 +2243,6 @@ D1 boundary:
 - NumberLine, mixed-operation, CompareProperties and SpatialRelation reuse suites now expect canonical Completion;
 - `ComparePropertiesActivity` and `SpatialRelationBoardActivity` are shared renderers and are migrated once here; later SI-06E/F must not duplicate their migration.
 
-`MathTraceWorldActivity` remains untouched by D1 because it owns stroke/checkpoint/timing/audio state and requires a dedicated D2 replay boundary. D1 is now **closed / merged / live verified**; D2 is the only authorized next mutation inside SI-06D.
+`MathTraceWorldActivity` remained untouched by D1 because it owns stroke/checkpoint/timing/audio state. D1 and the D1 docs checkpoint are now **closed / merged / live verified**. D2 is active on a clean branch from `a225e9a70322f37e5c9f537865b1c326cd96bfd0` and changes only post-success Completion/replay ownership while preserving guided-trace measurement, stroke/checkpoint state, audio/vibration behavior, and renderer-owned progress.
 
 After final SI-06D closure, **STOP before SI-06E** until the user explicitly authorizes it.
