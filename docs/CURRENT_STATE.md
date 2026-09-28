@@ -2096,8 +2096,8 @@ SI-06A — fallback Belajar owner               COMPLETE / merged / live verifie
 SI-06B1 — literacy/audio early family         COMPLETE / merged / live verified
 SI-06B2 — sentence/reading family             COMPLETE / merged / live verified
 SI-06C — matching/order/drag family           COMPLETE / merged / live verified
-SI-06D1 — Math choice/shared renderers       ACTIVE / not merged
-SI-06D2 — Math trace renderer                 BLOCKED until D1 live verification
+SI-06D1 — Math choice/shared renderers       COMPLETE / merged / live verified
+SI-06D2 — Math trace renderer                 ACTIVE / not merged
 SI-06E+ — later Belajar batches               NOT STARTED
 ```
 
@@ -2238,5 +2238,9 @@ D1 boundary:
 - `ComparePropertiesActivity` and `SpatialRelationBoardActivity` are shared renderers and are migrated once here; later SI-06E/F must not duplicate their migration.
 
 `MathTraceWorldActivity` remains untouched in D1 because it owns stroke/checkpoint/timing/audio state and requires a dedicated D2 replay boundary.
+
+D1 runtime PR #381 final head `0141bffc36d38d0e7a461bbc9fdcb7f17feb5252` passed CI #2244, squash-merged to `4183001b203d0e93ea0de7e6b231525813c93c20`, and merged-main CI #2245 / run `36423309927` completed full success including exact Cloudflare smoke.
+
+SI-06D2 is now **ACTIVE** on `agent/si-06d2-math-trace-20260928`, scoped only to `MathTraceWorldActivity`.
 
 After final SI-06D closure, **STOP before SI-06E** until the user explicitly authorizes it.
