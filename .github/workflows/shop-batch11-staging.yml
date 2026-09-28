@@ -1,6 +1,9 @@
 name: Shop Batch 11 free staging
 
 on:
+  push:
+    branches:
+      - agent/mainlagi-shop-foundation-20260927
   workflow_dispatch:
 
 permissions:
@@ -66,8 +69,9 @@ jobs:
         run: |
           set -Eeuo pipefail
           supabase init --force
-          docker network create             -o com.docker.network.bridge.host_binding_ipv4=127.0.0.1             mainlagi-batch11-local
-          supabase start             --network-id mainlagi-batch11-local             -x studio,imgproxy,mailpit,realtime,storage-api,edge-runtime,logflare,vector,supavisor
+          supabase start             -x studio,imgproxy,mailpit,realtime,storage-api,edge-runtime,logflare,vector,supavisor
+          # Explicitly replay the complete migration chain from a clean local DB.
+          supabase db reset --local
 
           supabase status -o env > /tmp/mainlagi-supabase.env
           set -a
@@ -165,17 +169,16 @@ jobs:
 
       - name: Build production-like local app against ephemeral Supabase
         shell: bash
-        env:
-          NEXT_PUBLIC_DATA_BACKEND: supabase
-          NEXT_PUBLIC_SUPABASE_URL: ${{ env.LOCAL_SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ env.LOCAL_SUPABASE_ANON_KEY }}
-          SHOP_SALES_ENABLED: "false"
-          SHOP_LOCAL_PREVIEW: "false"
-          SHOP_STAGING_ACCEPTANCE_ENABLED: "true"
-          MIDTRANS_IS_PRODUCTION: "false"
         run: |
           set -Eeuo pipefail
           export NEXT_PUBLIC_SITE_URL="$STAGING_URL"
+          export NEXT_PUBLIC_DATA_BACKEND="supabase"
+          export NEXT_PUBLIC_SUPABASE_URL="$LOCAL_SUPABASE_URL"
+          export NEXT_PUBLIC_SUPABASE_ANON_KEY="$LOCAL_SUPABASE_ANON_KEY"
+          export SHOP_SALES_ENABLED="false"
+          export SHOP_LOCAL_PREVIEW="false"
+          export SHOP_STAGING_ACCEPTANCE_ENABLED="true"
+          export MIDTRANS_IS_PRODUCTION="false"
           npm run build
 
       - name: Start database-backed staging app locally
@@ -344,5 +347,4 @@ jobs:
           [[ -f /tmp/mainlagi-batch11-app.pid ]] && kill "$(cat /tmp/mainlagi-batch11-app.pid)" 2>/dev/null
           [[ -f /tmp/mainlagi-batch11-tunnel.pid ]] && kill "$(cat /tmp/mainlagi-batch11-tunnel.pid)" 2>/dev/null
           supabase stop --no-backup
-          docker network rm mainlagi-batch11-local
           exit 0

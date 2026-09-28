@@ -54,6 +54,7 @@ for (const required of [
   "supabase/setup-cli@v1",
   "supabase start",
   "supabase status -o env",
+  "supabase db reset --local",
   "trycloudflare",
   "SHOP_STAGING_ACCEPTANCE_SECRET",
   "SHOP_CRON_SECRET",
@@ -84,10 +85,10 @@ console.log(
   "Shop Batch 11 preflight PASS: staging bypass is secret-gated, public sales remain fail-closed, production Supabase identity remains explicit, and unresolved launch gates are not silently marked complete.",
 );
 
-assert.match(
+assert.doesNotMatch(
   files.batch11Workflow,
-  /host_binding_ipv4=127\.0\.0\.1/,
-  "local Supabase must remain private on localhost",
+  /--network-id|docker network create/,
+  "free staging should rely on the Supabase local stack's localhost boundary instead of custom Docker exposure",
 );
 assert.doesNotMatch(
   files.batch11Workflow,
