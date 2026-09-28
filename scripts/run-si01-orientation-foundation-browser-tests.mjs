@@ -246,7 +246,8 @@ async function testCompletionAndShare(browser) {
   await completion.getByRole("button", { name: "Share", exact: true }).click();
   const dialog = page.getByRole("dialog", { name: "Bagikan pencapaian" });
   await dialog.waitFor({ state: "visible", timeout: 5_000 });
-  await dialog.getByText("Yang dibagikan hanya tautan Mainlagi", { exact: false }).waitFor({ timeout: 5_000 });
+  assert.equal(await dialog.getAttribute("data-canonical-share"), "v1", "SI-01 Share handoff uses canonical SI-04 owner");
+  await page.waitForFunction(() => document.querySelector('[data-canonical-share="v1"]')?.getAttribute("data-share-gate") === "allowed");
 
   const marker = "si01-completion-share";
   const rootSelector = '[data-mainlagi-mobile-root="child"]';

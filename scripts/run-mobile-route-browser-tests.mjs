@@ -1578,9 +1578,19 @@ async function main() {
       await page.getByRole("button", { name: "Share", exact: true }).click();
       const shareDialog = page.getByRole("dialog", { name: "Bagikan pencapaian" });
       await shareDialog.waitFor();
-      await shareDialog.getByText("Yang dibagikan hanya tautan Mainlagi", { exact: false }).waitFor();
-      for (const label of ["Copy link", "WhatsApp", "Telegram", "X", "Facebook", "Threads"]) {
-        assert.equal(await shareDialog.getByRole(label === "Copy link" ? "button" : "link", { name: label, exact: true }).count(), 1, `share dialog missing ${label}`);
+      assert.equal(await shareDialog.getAttribute("data-canonical-share"), "v1", "shared Completion must open canonical SI-04 Share");
+      await page.waitForFunction(() => document.querySelector('[data-canonical-share="v1"]')?.getAttribute("data-share-gate") === "allowed");
+      assert.equal(await shareDialog.getAttribute("data-share-public-path"), "/", "Belajar Share must resolve to public site origin");
+      for (const [label, role] of [
+        ["Copy link", "button"],
+        ["Share device", "button"],
+        ["WhatsApp", "link"],
+        ["Telegram", "link"],
+        ["X", "link"],
+        ["Facebook", "link"],
+        ["Threads", "link"]
+      ]) {
+        assert.equal(await shareDialog.getByRole(role, { name: label, exact: true }).count(), 1, `share dialog missing ${label}`);
       }
       await page.screenshot({ path: path.join(screenshotDir, "390-shared-completion.png"), fullPage: false });
       await context.close();

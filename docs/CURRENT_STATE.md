@@ -1939,3 +1939,40 @@ Historical #1932/#1933 failures were test-harness regressions only: brittle stat
 The final checkpoint head `6ac00892b7d22139f45bb7e0107ddd4e33bdd924` passed PR CI #1961 in full. PR #365 was then squash-merged to `d5857df03c5eb378e23a34547f0a24766ab39abd`; merged-main CI #1972 is full green and exact Cloudflare production smoke succeeded.
 
 SI-03 is **closed / merged / live verified**. SI-04 — Canonical Share component — is now the only authorized next Shared Interaction phase. Preserve the live SI-03 Completion shell and extract Share ownership without starting Belajar mass migration, Bermain migration, World migration, Journey Map, or Shop work.
+
+
+## 28 September 2026 — Shared Interaction SI-04 branch-safe checkpoint — CURRENT
+
+Current Shared Interaction sequence:
+
+```text
+SI-00 — Read-only coverage audit             COMPLETE / merged
+SI-01 — Orientation foundation               COMPLETE / merged / live verified
+SI-02 — Canonical Character Presentation     COMPLETE / merged / live verified
+SI-03 — Canonical Completion component       COMPLETE / merged / live verified
+SI-04 — Canonical Share component            IMPLEMENTED ON BRANCH / CI pending
+SI-05 — Belajar pilot runtime                NOT STARTED
+```
+
+Active SI-04 branch:
+
+```text
+branch: agent/si-04-canonical-share-20260928
+base:   main 9e233e2a05aeb34ecc536b73fe2040aefde72a89
+checkpoint:
+docs/SI04_CANONICAL_SHARE_SAFE_CHECKPOINT_2026-09-28.md
+```
+
+Implemented SI-04 boundary:
+
+- one public-safe Share resolver for Belajar / World / Bermain adapter contexts;
+- one canonical parent-gated Share modal;
+- centralized Copy Link / Share Device / WhatsApp / Telegram / X / Facebook / Threads;
+- Belajar `ActivityCompletion` migrated from local Share implementation to the canonical owner;
+- child route / `childId` is not accepted by the Share resolver;
+- SI-01 visual-viewport containment + short-landscape layout;
+- World remains unmigrated until SI-10;
+- gameplay-header `ShareButton` remains an explicit later retirement/retention decision;
+- no progression/evidence/mastery, Journey Map, Shop, World, or Bermain runtime migration.
+
+Do not mark SI-04 merged/live or start SI-05 until latest-head CI, merged-main CI and exact Cloudflare smoke are green.

@@ -7,9 +7,9 @@ import { chromium } from "playwright";
 
 const root = process.cwd();
 const host = "127.0.0.1";
-const port = Number(process.env.MAINLAGI_SI03_COMPLETION_QA_PORT ?? 4066);
+const port = Number(process.env.MAINLAGI_SI04_SHARE_QA_PORT ?? 4067);
 const baseUrl = `http://${host}:${port}`;
-const outDir = path.resolve(".mobile-route-qa/si03-canonical-completion");
+const outDir = path.resolve(".mobile-route-qa/si04-canonical-share");
 const memoryRoute = "/child/demo-gian/activity/letters-match-case-cd";
 const portrait = { width: 390, height: 844 };
 const narrow = { width: 320, height: 740 };
@@ -48,13 +48,13 @@ async function waitForServer(timeoutMs = 60_000) {
     } catch {}
     await new Promise((resolve) => setTimeout(resolve, 400));
   }
-  throw new Error(`SI-03 completion QA server did not become ready.\n${serverLog.slice(-4000)}`);
+  throw new Error(`SI-04 Share QA server did not become ready.\n${serverLog.slice(-4000)}`);
 }
 
 async function seedMemoryReadiness(context) {
   await context.addInitScript(() => {
     const childId = "demo-gian";
-    const completedAt = "2026-09-27T00:00:00.000Z";
+    const completedAt = "2026-09-28T00:00:00.000Z";
     localStorage.setItem("mainlagi-learning-progress-v1", JSON.stringify({
       [childId]: {
         completedActivityIds: ["letters-find-a", "letters-trace-a"],
@@ -64,7 +64,7 @@ async function seedMemoryReadiness(context) {
     }));
     localStorage.setItem("mainlagi-learning-attempts-v1", JSON.stringify({
       [childId]: [{
-        id: "si03-memory-prerequisite",
+        id: "si04-memory-prerequisite",
         childId,
         activityId: "letters-find-a",
         subjectId: "letters",
@@ -83,9 +83,9 @@ async function seedMemoryReadiness(context) {
         inputMode: "touch",
         startedAt: completedAt,
         completedAt,
-        metadata: { source: "si03-completion-prerequisite" },
+        metadata: { source: "si04-share-prerequisite" },
         evidence: [{
-          attemptId: "si03-memory-prerequisite",
+          attemptId: "si04-memory-prerequisite",
           activityId: "letters-find-a",
           skillId: "letters.latin.a.recognition",
           score: 1,
@@ -96,6 +96,22 @@ async function seedMemoryReadiness(context) {
         masteryEligible: true
       }]
     }));
+
+    Object.defineProperty(navigator, "clipboard", {
+      configurable: true,
+      value: {
+        writeText: async (value) => {
+          window.__mainlagiSi04Copied = value;
+        }
+      }
+    });
+
+    Object.defineProperty(navigator, "share", {
+      configurable: true,
+      value: async (payload) => {
+        window.__mainlagiSi04NativeShare = payload;
+      }
+    });
   });
 }
 
@@ -138,10 +154,10 @@ async function solveMemory(page) {
   }
 }
 
-async function waitForOrientation(page, expected) {
+async function waitForGate(page) {
   await page.waitForFunction(
-    (orientation) => document.querySelector("[data-mainlagi-orientation]")?.getAttribute("data-mainlagi-orientation") === orientation,
-    expected,
+    () => document.querySelector('[data-canonical-share="v1"]')?.getAttribute("data-share-gate") === "allowed",
+    null,
     { timeout: 5_000 }
   );
 }
@@ -158,57 +174,52 @@ async function assertNoHorizontalOverflow(page, label) {
   );
 }
 
-async function assertCanonicalCompletion(page, label) {
-  const completion = page.locator('[data-canonical-completion="v1"][data-activity-completion]');
-  await completion.waitFor({ state: "visible", timeout: 5_000 });
-
-  assert.equal(await completion.getAttribute("data-completion-context"), "belajar", `${label}: Belajar context`);
-  assert.equal(await completion.getAttribute("data-completion-surface"), "overlay", `${label}: overlay surface`);
-  assert.equal(await completion.getAttribute("data-completion-stars"), "3", `${label}: three-star contract`);
-  assert.equal(await completion.getAttribute("role"), "dialog", `${label}: dialog semantics`);
-  assert.equal(await completion.getAttribute("aria-modal"), "true", `${label}: modal semantics`);
-  assert.equal(await completion.getByLabel("Tiga bintang").locator("svg").count(), 3, `${label}: exactly three visual stars`);
-
-  const actions = completion.locator("[data-completion-action]");
-  assert.deepEqual(
-    await actions.evaluateAll((nodes) => nodes.map((node) => node.textContent?.trim())),
-    ["Back", "Again", "Next", "Share"],
-    `${label}: canonical action order`
-  );
-
-  for (const action of ["back", "again", "next", "share"]) {
-    const target = completion.locator(`[data-completion-action="${action}"]`);
-    const box = await target.boundingBox();
-    assert(box && box.width >= 44 && box.height >= 44, `${label}: ${action} touch target >=44px`);
-  }
-
-  const nav = completion.getByRole("navigation", { name: "Navigasi setelah selesai" });
-  const share = completion.locator('[data-completion-action="share"]');
-  const [navBox, shareBox] = await Promise.all([nav.boundingBox(), share.boundingBox()]);
-  assert(navBox && shareBox && shareBox.y >= navBox.y + navBox.height - 1, `${label}: Share stays below Back/Again/Next`);
-
-  const heading = completion.locator("h2");
-  await page.waitForFunction(() => document.activeElement?.closest?.('[data-canonical-completion="v1"]')?.querySelector("h2") === document.activeElement);
-  assert.equal(await heading.evaluate((node) => node === document.activeElement), true, `${label}: completion heading receives focus`);
-
-  const cardMetrics = await completion.evaluate((rootNode) => {
-    const card = rootNode.firstElementChild;
-    const rect = card?.getBoundingClientRect();
-    return rect ? {
+async function assertModalGeometry(page, label) {
+  const dialog = page.locator('[data-canonical-share="v1"]');
+  const metrics = await dialog.evaluate((node) => {
+    const rect = node.getBoundingClientRect();
+    return {
       top: rect.top,
       bottom: rect.bottom,
       left: rect.left,
       right: rect.right,
       viewportWidth: innerWidth,
       viewportHeight: innerHeight
-    } : null;
+    };
   });
-  assert(cardMetrics, `${label}: card geometry exists`);
-  assert(cardMetrics.left >= -1 && cardMetrics.right <= cardMetrics.viewportWidth + 1, `${label}: card stays inside viewport horizontally`);
-  assert(cardMetrics.top >= -1 && cardMetrics.bottom <= cardMetrics.viewportHeight + 1, `${label}: card stays inside viewport vertically`);
-
+  assert(metrics.left >= -1 && metrics.right <= metrics.viewportWidth + 1, `${label}: Share stays inside viewport horizontally`);
+  assert(metrics.top >= -1 && metrics.bottom <= metrics.viewportHeight + 1, `${label}: Share stays inside viewport vertically`);
   await assertNoHorizontalOverflow(page, label);
-  return completion;
+}
+
+async function assertPublicProviders(page) {
+  const dialog = page.locator('[data-canonical-share="v1"]');
+  assert.equal(await dialog.getAttribute("data-share-context"), "belajar", "Belajar Share context");
+  assert.equal(await dialog.getAttribute("data-share-public-path"), "/", "Belajar share path is public origin");
+  assert.equal(await dialog.getAttribute("data-share-url"), baseUrl + "/", "Belajar absolute Share URL is site origin");
+
+  const providers = ["copy", "device", "whatsapp", "telegram", "x", "facebook", "threads"];
+  assert.deepEqual(
+    await dialog.locator("[data-share-provider]").evaluateAll((nodes) => nodes.map((node) => node.getAttribute("data-share-provider"))),
+    providers,
+    "canonical Share provider order"
+  );
+
+  const externalHrefs = await dialog.locator('a[data-share-provider]').evaluateAll((nodes) =>
+    nodes.map((node) => node.getAttribute("href") ?? "")
+  );
+  for (const href of externalHrefs) {
+    assert(!href.includes("/child/"), `provider must not expose child route: ${href}`);
+    assert(!href.includes("demo-gian"), `provider must not expose child id: ${href}`);
+    assert(!href.includes("letters-match-case-cd"), `provider must not expose activity id: ${href}`);
+    assert(href.includes(encodeURIComponent(baseUrl + "/")) || href.includes(encodeURIComponent(baseUrl + "/").replace(/%2F/g, "%2F")), `provider should contain public origin URL: ${href}`);
+  }
+
+  for (const provider of providers) {
+    const target = dialog.locator(`[data-share-provider="${provider}"]`);
+    const box = await target.boundingBox();
+    assert(box && box.width >= 44 && box.height >= 44, `${provider} touch target must be >=44px`);
+  }
 }
 
 async function main() {
@@ -226,33 +237,50 @@ async function main() {
     await page.locator('[data-memory-match][data-memory-match-ready="true"]').waitFor({ state: "visible", timeout: 8_000 });
     await solveMemory(page);
 
-    let completion = await assertCanonicalCompletion(page, "390 portrait");
+    const completion = page.locator('[data-canonical-completion="v1"][data-activity-completion]');
+    await completion.waitFor({ state: "visible", timeout: 5_000 });
+    await completion.locator('[data-completion-action="share"]').click();
+
+    const dialog = page.locator('[data-canonical-share="v1"]');
+    await dialog.waitFor({ state: "visible", timeout: 5_000 });
+    await waitForGate(page);
+    assert.equal(await dialog.getAttribute("open") !== null, true, "canonical Share opens as modal dialog");
+    assert.equal(await dialog.getByRole("heading", { name: "Bagikan pencapaian" }).evaluate((node) => node === document.activeElement), true, "Share heading receives focus");
+    await assertPublicProviders(page);
+    await assertModalGeometry(page, "390 portrait");
     await page.screenshot({ path: path.join(outDir, "390-portrait.png"), fullPage: false });
 
-    await page.setViewportSize(narrow);
-    await waitForOrientation(page, "portrait");
-    completion = await assertCanonicalCompletion(page, "320 portrait");
-    await page.screenshot({ path: path.join(outDir, "320-portrait.png"), fullPage: false });
-
     await page.setViewportSize(landscape);
-    await waitForOrientation(page, "landscape");
-    completion = await assertCanonicalCompletion(page, "844x390 landscape");
+    await page.waitForTimeout(100);
+    assert.equal(await dialog.evaluate((node) => node.open), true, "Share stays open through portrait→landscape");
+    assert.equal(await completion.isVisible(), true, "Completion stays mounted behind Share in landscape");
+    await assertModalGeometry(page, "844x390 landscape");
     await page.screenshot({ path: path.join(outDir, "844x390-landscape.png"), fullPage: false });
 
-    await completion.locator('[data-completion-action="share"]').click();
-    const shareDialog = page.getByRole("dialog", { name: "Bagikan pencapaian" });
-    await shareDialog.waitFor({ state: "visible", timeout: 5_000 });
-    assert.equal(await shareDialog.getAttribute("data-canonical-share"), "v1", "SI-03 Share handoff uses canonical SI-04 owner");
-    await page.waitForFunction(() => document.querySelector('[data-canonical-share="v1"]')?.getAttribute("data-share-gate") === "allowed");
-    assert.equal(await completion.isVisible(), true, "opening canonical Share must not replace canonical Completion");
+    await page.setViewportSize(narrow);
+    await page.waitForTimeout(100);
+    assert.equal(await dialog.evaluate((node) => node.open), true, "Share stays open through landscape→narrow portrait");
+    await assertModalGeometry(page, "320 portrait");
+    await page.screenshot({ path: path.join(outDir, "320-portrait.png"), fullPage: false });
+
+    await dialog.locator('[data-share-provider="copy"]').click();
+    await page.waitForFunction(() => window.__mainlagiSi04Copied === location.origin + "/");
+    assert.equal(await page.evaluate(() => window.__mainlagiSi04Copied), baseUrl + "/", "Copy link uses public origin only");
+
+    await dialog.locator('[data-share-provider="device"]').click();
+    await page.waitForFunction(() => Boolean(window.__mainlagiSi04NativeShare?.url));
+    const nativePayload = await page.evaluate(() => window.__mainlagiSi04NativeShare);
+    assert.equal(nativePayload.url, baseUrl + "/", "Share device uses public origin");
+    assert(!JSON.stringify(nativePayload).includes("demo-gian"), "Share device payload excludes child id");
+    assert(!JSON.stringify(nativePayload).includes("letters-match-case-cd"), "Share device payload excludes activity id");
 
     const progress = await page.evaluate(() => {
       const state = JSON.parse(localStorage.getItem("mainlagi-learning-progress-v1") ?? "{}");
       return state["demo-gian"]?.completedActivityIds ?? [];
     });
-    assert(progress.includes("letters-match-case-cd"), "SI-03 must preserve existing completion/progression write");
+    assert(progress.includes("letters-match-case-cd"), "opening/using Share must not alter completion progress");
 
-    console.log("SI-03 canonical completion browser QA PASS: exact actions, three stars, focus, portrait/landscape containment, Share handoff, and existing progression are preserved.");
+    console.log("SI-04 canonical Share browser QA PASS: parent gate, public-only URL, provider actions, copy/device payloads, orientation persistence, and completion state are preserved.");
   } finally {
     await context.close();
     await browser.close();
