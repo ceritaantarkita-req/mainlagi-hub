@@ -1,9 +1,6 @@
 name: Shop Batch 11 free staging
 
 on:
-  push:
-    branches:
-      - agent/mainlagi-shop-foundation-20260927
   workflow_dispatch:
 
 permissions:

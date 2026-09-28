@@ -1,6 +1,6 @@
 # Mainlagi Shop — Batch 11 full staging E2E and launch-gate review
 
-Status: **BLOCKED — deterministic launch-gate review complete; required live staging/provider evidence is still missing.**
+Status: **BLOCKED — free database-backed staging and real scheduler evidence now PASS; launch closure still waits on owner/product truth and full integrated provider flow.**
 
 This review is based on post-Batch-10 integrated Shop head
 `7751942bdf29a7664aae6a4e075578d251feb687`, which contains latest `main`
@@ -25,16 +25,16 @@ Post-sync evidence:
 
 | Required scenario | Deterministic / existing evidence | Full staging status |
 | --- | --- | --- |
-| Successful order | PASS — checkout/state-machine/PostgreSQL/browser coverage exists | BLOCKED — no safe public non-production Shop origin with complete launch data/config |
+| Successful order | PASS — checkout/state-machine/PostgreSQL/browser coverage exists | BLOCKED — free DB-backed staging exists, but product truth + operational policy still prevent a real integrated checkout |
 | Payment pending | PASS — deterministic coverage plus real Midtrans Sandbox pending evidence from Batch 06 | BLOCKED as part of full integrated staging E2E |
 | Payment expired / cancelled | PASS — deterministic coverage plus real Midtrans Sandbox cancel/expire evidence | BLOCKED as part of full integrated staging E2E |
 | Stock unavailable / race | PASS — real PostgreSQL multi-session race gate | PASS for database/concurrency behavior; full customer/provider staging path still blocked |
 | Delayed / duplicate / out-of-order payment webhook | PASS — deterministic idempotency/order tests; real Midtrans notification route already accepted | BLOCKED for complete staging-sequence evidence |
-| Packed shipment creation and tracking | PASS deterministically | **BLOCKED — real Biteship Sandbox/origin acceptance is not available** |
-| Failed / delayed / duplicate shipping webhook | PASS deterministically | **BLOCKED — real Biteship webhook/provider GET evidence is not available** |
+| Packed shipment creation and tracking | PASS deterministically plus provider Sandbox Order/Tracking acceptance | **BLOCKED — full DB-backed paid→packed→provider shipment path still waits on product truth + operational policy** |
+| Failed / delayed / duplicate shipping webhook | PASS deterministically plus real Biteship HTTP 200 callback/provider-GET acceptance | **BLOCKED only for the full DB-backed integrated sequence** |
 | Full refund | PASS deterministically, with explicit no-fictional-auto-restock behavior | BLOCKED for full staged provider flow |
 | Manual-review / ambiguous provider state | PASS deterministically | BLOCKED for full staged provider flow |
-| Reconciliation retry / recovery | PASS deterministically with Batch 09 backoff/alert tests | **BLOCKED — staging scheduler has not been activated and observed** |
+| Reconciliation retry / recovery | PASS deterministically with Batch 09 backoff/alert tests | **PASS — real Cloudflare cron tick created a completed reconciliation row in ephemeral DB-backed staging** |
 
 The deterministic PASS entries above do not substitute for the live provider/staging
 evidence required by Batch 11.
@@ -106,27 +106,35 @@ evidence required by Batch 11.
      `on_hold`, HTTP 200 `order.status` callbacks, Order API terminal
      `returned`, and Tracking API `return_in_transit → returned` all passed.
 
-4. **Safe non-production Shop staging origin**
-   - **PASS for provider-webhook boundary:** isolated workers.dev staging origin
-     is deployed and Biteship accepted it;
-   - **BLOCKED for full Shop staging:** this Worker currently uses the safe mock
-     data backend and is not the database-backed integrated staging environment
-     required for full Batch 11 E2E;
-   - production remains excluded as a staging substitute.
+4. **Safe non-production Shop staging origin — PASS for Batch 11 CI staging**
+   - the database-backed staging path now runs against a fresh local Supabase stack
+     on the GitHub runner;
+   - only the Next.js app is exposed through a temporary HTTPS Quick Tunnel;
+   - production Supabase is not used or mutated;
+   - the isolated workers.dev endpoint remains the stable provider-webhook boundary.
 
-5. **Batch 09 scheduler evidence**
-   - configure GitHub `SHOP_STAGING_URL`;
-   - configure matching `SHOP_CRON_SECRET` in GitHub and staging;
-   - observe at least one successful real scheduled reconciliation run;
-   - live shipment reconciliation also depends on Batch 07.
+5. **Batch 09 scheduler evidence — PASS**
+   - a temporary Cloudflare Cron Worker was deployed on a real five-minute schedule;
+   - it called the ephemeral staging `/api/shop/reconcile` endpoint with a matching
+     generated `SHOP_CRON_SECRET`;
+   - a completed `shop_reconciliation_runs` row with `status=ok` was observed;
+   - the temporary cron Worker was deleted after evidence collection.
 
-6. **PII retention owner decision**
+6. **Owner operational policy**
+   - `operational-policy.json` still intentionally blocks live rates/checkout until
+     the owner decisions for packing/handling, support, cancellation, return/exchange,
+     refund, SLA, guest recovery, customer notifications and shipment exceptions are
+     explicitly approved;
+   - the free-staging secret gate was verified to advance past public sales-off but
+     **not** past this policy gate.
+
+7. **PII retention owner decision**
    - `SHOP_ORDER_PII_RETENTION_DAYS` remains unset;
    - accepted implementation range is 30–3650 days;
    - automatic terminal-order PII redaction remains disabled until the owner
      explicitly selects a duration.
 
-7. **Full integrated staging E2E**
+8. **Full integrated staging E2E**
    - run the complete required scenario set only after the above product,
      provider and staging prerequisites exist.
 
@@ -184,12 +192,13 @@ an ephemeral, zero-additional-Supabase-cost CI staging design:
    `/api/shop/reconcile` endpoint on a real five-minute schedule;
 8. the workflow verifies that the scheduled call creates a completed
    `shop_reconciliation_runs` row in the local Supabase database;
-9. evidence is uploaded, then the cron Worker, app, tunnel, database containers and
-   Docker network are all removed.
+9. evidence is uploaded, then the cron Worker, app, tunnel and local database
+   containers are all removed.
 
 This follows Supabase's local-development boundary: local Supabase is used only for
-development/CI and stays on localhost. Cloudflare Quick Tunnel is used only for the
-temporary application endpoint needed for staging/webhook/scheduler testing.
+development/CI and its ports are never publicly tunneled. Cloudflare Quick Tunnel is
+used only for the temporary Next.js application endpoint needed for staging and
+scheduler testing.
 
 No Supabase development branch or additional paid Supabase project is required.
 The workflow may still consume whatever GitHub Actions and Cloudflare Workers usage
@@ -207,3 +216,35 @@ return HTTP 503 from the operational-policy gate, while the same request without
 staging secret must return HTTP 503 from the earlier public-sales gate. This
 difference is the acceptance proof that the staging-only gate works without turning
 an unresolved business policy into a technical pass.
+
+
+## Free staging acceptance evidence
+
+Canonical zero-additional-Supabase-cost acceptance run:
+
+- workflow: `Shop Batch 11 free staging`;
+- run: **#4**, GitHub Actions run `36379851442`;
+- tested SHA: `525dabdabb56e048d2604cc48282f73484f3a659`;
+- result: **SUCCESS**;
+- full repository Supabase migration chain replayed from a clean local database;
+- testing-only non-apparel SKU 008 fixture activated only inside the ephemeral DB;
+- production-like Next.js build completed against local Supabase;
+- public request stopped at the normal sales-disabled gate;
+- staging-secret request advanced past sales-disabled and stopped at the still-valid
+  operational-policy gate;
+- real Cloudflare Cron scheduled invocation created reconciliation row
+  `32c97aed-fe9d-4148-8a31-baeb875f773a` with `status=ok`;
+- temporary Cron Worker cleanup completed without a workflow warning/failure;
+- evidence artifact: `shop-batch11-free-staging-evidence`,
+  artifact ID `10952566305`;
+- artifact SHA-256:
+  `c806e8fe04ca31e6a1a3b15f63e3db8ccc49e3c7cf5782351b2aedf83e2824a7`.
+
+After this acceptance was captured, the workflow trigger was returned to
+`workflow_dispatch` only so the costly staging harness does not run on every Shop
+branch push.
+
+This acceptance closes the **safe DB-backed staging** and **real scheduler evidence**
+blockers. It does not convert provisional product dimensions into production truth,
+approve owner operational policy, choose production PII retention, or prove the
+remaining full paid→packed→Biteship→webhook integrated database flow.

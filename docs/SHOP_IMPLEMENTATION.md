@@ -1540,9 +1540,19 @@ acceptance paths are now all provider-verified.
 ### Batch 11 free staging path
 
 The database-backed staging gate no longer requires a paid Supabase development
-branch. `.github/workflows/shop-batch11-staging.yml` now provisions Supabase
-ephemerally on the GitHub Actions runner, keeps it runner-internal and never tunnels the Supabase ports, tunnels only
-the Next.js application with a temporary TryCloudflare URL, and uses a temporary
-Cloudflare Cron Worker to produce real scheduler/reconciliation evidence.
+branch. `.github/workflows/shop-batch11-staging.yml` provisions Supabase
+ephemerally on the GitHub Actions runner, never publicly tunnels the Supabase ports,
+tunnels only the Next.js application with a temporary TryCloudflare URL, and uses a
+temporary Cloudflare Cron Worker to produce real scheduler/reconciliation evidence.
 
-Production Supabase is not used and is not mutated by this workflow.
+Canonical acceptance: Shop Batch 11 free staging run **#4** / Actions run
+`36379851442` on SHA `525dabdabb56e048d2604cc48282f73484f3a659` completed
+**SUCCESS**. Evidence artifact ID `10952566305`, SHA-256
+`c806e8fe04ca31e6a1a3b15f63e3db8ccc49e3c7cf5782351b2aedf83e2824a7`.
+A real five-minute Cloudflare cron invocation created a completed
+`shop_reconciliation_runs` row with `status=ok`; the temporary Worker was then
+cleaned up. The workflow is manual-only (`workflow_dispatch`) after acceptance.
+
+Production Supabase is not used and is not mutated by this workflow. Product truth,
+owner operational-policy decisions, production PII retention and the remaining full
+paid→packed→provider→webhook DB-backed flow are still launch blockers.
