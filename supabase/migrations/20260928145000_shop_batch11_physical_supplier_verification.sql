@@ -14,7 +14,7 @@ begin
  if coalesce(p.facts->>'verificationStatus','')<>'production_verified' then blockers:=array_append(blockers,'Production facts require physical or supplier verification.'); end if;
  if coalesce(verification->>'method','') not in ('physical_sample','supplier_production_sheet','physical_and_supplier') then blockers:=array_append(blockers,'Verification method is required.'); end if;
  if length(trim(coalesce(verification->>'verifiedBy','')))<2 then blockers:=array_append(blockers,'Verifier identity is required.'); end if;
- if coalesce(verification->>'verifiedAt','') !~ '^\\d{4}-\\d{2}-\\d{2}
+ if coalesce(verification->>'verifiedAt','') !~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}$' then blockers:=array_append(blockers,'Verification date is required.'); end if;
  select count(*)::int,count(*) filter(where role='hero')::int into media_count,hero_count
  from public.shop_product_media where product_id=p_product and approval_status='approved';
  if media_count<2 then blockers:=array_append(blockers,'At least two approved product images are required.'); end if;
