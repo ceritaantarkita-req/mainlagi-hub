@@ -1,6 +1,6 @@
 # Mainlagi Hub — Current State
 
-Last reviewed: **28 September 2026**
+Last reviewed: **29 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
@@ -2100,7 +2100,7 @@ SI-06D — Math specialized renderers          COMPLETE / merged / live verified
 SI-06D1 — Math choice/shared renderers       COMPLETE / merged / live verified
 SI-06D2 — Math trace renderer                 COMPLETE / merged / live verified
 SI-06E — Logic specialized renderers          COMPLETE / merged / live verified
-SI-06F — Science specialized renderers        PAUSED / not authorized
+SI-06F — Science specialized renderers        COMPLETE / merged / live verified
 SI-06G — Creative workspace                   PAUSED / not authorized
 ```
 
@@ -2300,4 +2300,55 @@ Runtime boundary:
 
 PR #385 latest head passed CI #2255, squash-merged to `f42566afcefbad0d7a325023d0a2553214f7bc84`, and merged-main CI #2256 completed full success including exact Production smoke (Cloudflare). SI-06E is **closed / merged / live verified**.
 
-**Hard stop:** do not start SI-06F Science until the user explicitly authorizes it after discussion.
+Historical SI-06E hard stop was satisfied by explicit user authorization before SI-06F began. It is retained only as sequencing history; it is not a current blocker.
+
+
+## 29 September 2026 — Shared Interaction SI-06F Science — CLOSED / LIVE VERIFIED
+
+Verified production baseline:
+
+```text
+pre-F main:              3a478a6eec9e630ef565ab60e53e73f6e8aa8f2d
+runtime PR:              #387 — merged
+final PR head:           fb05b0bc60cda80a3ade6aa1aefe4a473cefced5
+final PR CI:             #2259 / run 36456505562 — FULL SUCCESS
+merged main:             2e0c7bbc4ce2bd12562137b63e40e4a2e94abb43
+merged-main CI:          #2260 / run 36458102593 — FULL SUCCESS
+Cloudflare smoke:        SUCCESS — exact merged main SHA verified
+checkpoint:
+docs/SI06F_SCIENCE_SAFE_CHECKPOINT_2026-09-29.md
+```
+
+Current SI-06F active Science owners:
+
+```text
+CauseEffectActivity
+PhenomenonRelationBoardActivity
+HealthyHabitRoutineActivity
+MaterialLabActivity
+FeatureFunctionLinkActivity
+InvestigationBoardActivity
+```
+
+Shared renderers verified but not re-migrated:
+
+```text
+ComparePropertiesActivity
+GrowthStageTransitionActivity
+```
+
+Runtime boundary:
+
+- six Science-owned renderers replace only local post-success navigation with canonical `ActivityCompletion` + Share;
+- local Again resets renderer state without reload or a duplicate target attempt;
+- explicit runtime measurement, evidence fidelity, renderer-owned `completeActivity`, dispatcher ownership, progression/mastery semantics, and measurement-before-progress ordering remain intact;
+- `PhenomenonRelationBoardActivity` preserves both standard Science and ecosystem dependency evidence variants;
+- `HealthyHabitRoutineActivity` preserves both healthy-habit and environment-care evidence variants;
+- `MaterialLabActivity` preserves explicit select-then-test completion semantics;
+- `ComparePropertiesActivity` remains owned by the SI-06D shared-renderer migration;
+- `GrowthStageTransitionActivity` remains owned by the SI-06C shared-renderer migration;
+- Creative workspace, Bermain, World, Journey Map, Shop, and database/schema remain outside SI-06F.
+
+PR #387 latest head passed CI #2259, squash-merged to `2e0c7bbc4ce2bd12562137b63e40e4a2e94abb43`, and merged-main CI #2260 completed full success including exact Production smoke (Cloudflare). SI-06F is **closed / merged / live verified**.
+
+**Hard stop:** do not start SI-06G Creative workspace until the user explicitly authorizes it.
