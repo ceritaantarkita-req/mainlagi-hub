@@ -186,9 +186,12 @@ async function inspect({viewport,completionMode}){
     assert.equal(await completed(page),true);
     assert.equal(await scene.getAttribute("data-relation-resolved"),"true");
     assert.equal(await page.locator("[data-relation-result-label]").textContent(),"air dan cahaya");
-    const nextLink=page.getByRole("link",{name:"Pilih permainan lain"});
-    await assertVisible(status,viewportHeight,`ecosystem success status at ${viewport.width}`);
-    await assertVisible(nextLink,viewportHeight,`ecosystem success CTA at ${viewport.width}`);
+    const completion=page.locator("[data-activity-completion]");
+    await completion.waitFor({state:"visible",timeout:2000});
+    const completionBox=await completion.boundingBox();
+    const completionViewportHeight=await page.evaluate(()=>window.innerHeight);
+    assert(completionBox,"phenomenon-relation-board-ecosystem-reuse canonical Completion must render");
+    assert(completionBox.y>=-1&&completionBox.y+completionBox.height<=completionViewportHeight+1,"canonical Completion must remain fully visible");
 
     const attempt=await page.evaluate(({id})=>{
       const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
@@ -209,6 +212,15 @@ async function inspect({viewport,completionMode}){
     assert.equal(attempt.accuracy,.5);
 
     await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-ecosystem-relation-success.png`),fullPage:false});
+    await page.evaluate(()=>{window.__si06fReplayMarker="alive";});
+    await completion.locator('[data-completion-action="again"]').click();
+    await completion.waitFor({state:"hidden",timeout:2000});
+    assert.equal(await page.evaluate(()=>window.__si06fReplayMarker),"alive","Again must reset locally without document reload");
+    const si06fAttemptCount=await page.evaluate(({id})=>{
+      const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
+      return(attempts["demo-gian"]??[]).filter(item=>item.activityId===id).length;
+    },{id:activityId});
+    assert.equal(si06fAttemptCount,1,"Again reset alone must not create a second target attempt");
     assert.deepEqual(pageErrors,[],`page errors at ${viewport.width}: ${pageErrors.join(" | ")}`);
     assert.deepEqual(consoleErrors,[],`console errors at ${viewport.width}: ${consoleErrors.join(" | ")}`);
     await context.close();
@@ -219,6 +231,6 @@ async function main(){
   startServer();
   await waitForServer();
   for(const item of cases)await inspect(item);
-  console.log("Ecosystem Phenomenon Relation Board browser QA passed 3 viewports with domain copy, keyboard retry, pointer + actual touch, assessed evidence and nine screenshots.");
+  console.log("Ecosystem Phenomenon Relation Board browser QA passed 3 viewports with domain copy, keyboard retry, pointer + actual touch, assessed evidence, canonical Completion + local Again and nine screenshots.");
 }
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;}).finally(stopServer);
