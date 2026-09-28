@@ -76,7 +76,7 @@ merged-main CI:          #2245 / run 36423309927 — FULL SUCCESS
 Cloudflare smoke:        SUCCESS — exact merged main SHA verified
 ```
 
-D1 is **CLOSED / MERGED / LIVE VERIFIED**. Do not reopen or duplicate the nine D1 owner migrations. Resume only with SI-06D2 `MathTraceWorldActivity`.
+D1 is **CLOSED / MERGED / LIVE VERIFIED**. Do not reopen or duplicate the nine D1 owner migrations. Historical D1 handoff resumed with SI-06D2 `MathTraceWorldActivity`; D2 is now closed/live verified in the final closure below.
 
 ## SI-06D1 boundary
 
