@@ -107,3 +107,9 @@ assert.match(
   /DELETE[\s\S]*workers\/scripts\/\$CRON_WORKER_NAME/,
   "temporary Cloudflare cron cleanup must use the direct Workers API and not depend on unrelated KV permissions",
 );
+
+assert.match(
+  files.batch11Workflow,
+  /BITESHIP_ORIGIN_CONTACT_PHONE format invalid[\s\S]*BITESHIP_ORIGIN_POSTAL_CODE format invalid/,
+  "free staging must fail safely on malformed private origin secret formats without printing their values",
+);

@@ -1,6 +1,9 @@
 name: Shop Batch 11 free staging
 
 on:
+  push:
+    branches:
+      - agent/mainlagi-shop-foundation-20260927
   workflow_dispatch:
 
 permissions:
@@ -55,6 +58,42 @@ jobs:
             echo "::error::Free staging requires a Biteship Testing Mode API key."
             exit 1
           }
+
+      - name: Validate operational secret formats without revealing values
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          failed=0
+          if [[ ! "$BITESHIP_ORIGIN_CONTACT_PHONE" =~ ^\+?[0-9]{9,15}$ ]]; then
+            echo "::error::BITESHIP_ORIGIN_CONTACT_PHONE format invalid (expected optional + followed by 9-15 digits; do not include quotes/spaces)."
+            failed=1
+          else
+            echo "BITESHIP_ORIGIN_CONTACT_PHONE format PASS"
+          fi
+          if [[ ! "$BITESHIP_ORIGIN_POSTAL_CODE" =~ ^[0-9]{5}$ ]]; then
+            echo "::error::BITESHIP_ORIGIN_POSTAL_CODE format invalid (expected exactly 5 digits; do not include quotes/spaces)."
+            failed=1
+          else
+            echo "BITESHIP_ORIGIN_POSTAL_CODE format PASS"
+          fi
+          [[ -n "${BITESHIP_ORIGIN_CONTACT_NAME//[[:space:]]/}" ]] || {
+            echo "::error::BITESHIP_ORIGIN_CONTACT_NAME is blank after whitespace normalization."
+            failed=1
+          }
+          [[ -n "${BITESHIP_ORIGIN_ADDRESS//[[:space:]]/}" ]] || {
+            echo "::error::BITESHIP_ORIGIN_ADDRESS is blank after whitespace normalization."
+            failed=1
+          }
+          node - <<'NODE'
+          const policy = require("./src/lib/shop/operational-policy.json");
+          if (policy.status !== "approved") throw new Error("operational policy status is not approved");
+          const pending = Object.entries(policy.ownerDecisions)
+            .filter(([, value]) => value?.approved !== true)
+            .map(([key]) => key);
+          if (pending.length) throw new Error(`owner decisions not approved: ${pending.join(",")}`);
+          console.log("Owner operational-policy contract PASS");
+          NODE
+          [[ "$failed" -eq 0 ]] || exit 1
 
       - name: Remove any stale temporary cron Worker before staging
         shell: bash
