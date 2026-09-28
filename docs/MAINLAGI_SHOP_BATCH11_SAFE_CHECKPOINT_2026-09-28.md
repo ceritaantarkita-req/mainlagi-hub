@@ -135,6 +135,83 @@ Expected boundaries:
 If that run fails, continue from the failing step. **Do not rebuild Batch 11 from
 zero.**
 
+
+## 28 September continuation — integrated DB-backed E2E harness prepared
+
+Status: **IMPLEMENTED ON PR #359 / LIVE MANUAL EVIDENCE STILL PENDING**.
+
+The next technical slice has now been implemented without changing the production
+launch boundary:
+
+```text
+integrated harness:       scripts/run-shop-batch11-integrated-e2e.mjs
+harness commit:           85976b6cf7e9d1e6d39c51da19b1e4928267608b
+workflow wiring commit:   39481b36fe3d03aee379cc1d47aee2a9dcdd5844
+guardrail commit:         80ce980b8966b9c96adadacdc80091246db36171
+syntax-check commit:      7e9d080fd66e43988cf55e2bcff4f0fc9f690d86
+workflow trigger:         workflow_dispatch only
+production sales:         still false
+production DB changes:    none
+```
+
+The manual free-staging workflow now has one bounded integrated path using only the
+existing ephemeral local Supabase + temporary Quick Tunnel staging architecture.
+It is designed to prove, in one sequence:
+
+```text
+testing-only SKU 008
+  -> DB-backed cart
+  -> live Biteship Testing rates
+  -> checkout
+  -> Midtrans Sandbox Snap
+  -> Midtrans Sandbox Permata simulator settlement
+  -> application payment reconcile -> paid
+  -> ephemeral Supabase owner login through the real /login flow
+  -> existing admin/pack route
+  -> existing admin/ship route
+  -> Biteship Testing order + independent provider GET
+  -> Biteship Tracking API
+  -> authenticated application Biteship webhook
+  -> application reconciliation
+```
+
+Important security/acceptance properties:
+
+- no staging-only `pack` or `ship` bypass route was added;
+- the harness creates a synthetic user only inside the ephemeral local Supabase,
+  waits for its normal profile row, promotes that local profile to `owner`, logs
+  in through the existing auth UI, and therefore exercises the same owner gate used
+  by the real admin routes;
+- the harness refuses non-`trycloudflare.com` app ingress, refuses a Biteship key
+  that is not `biteship_test.*`, and refuses Midtrans production mode;
+- public Shop sales remain disabled; customer mutations still require the existing
+  staging acceptance secret;
+- it does not run Delivered/Cancelled/Returned provider simulations again;
+- it emits sanitized integrated evidence to
+  `/tmp/mainlagi-shop-batch11-integrated-e2e.json` for workflow artifact upload;
+- the normal Shop preflight now syntax-checks the harness and regression-locks the
+  manual-only trigger, provider boundaries, existing owner-auth path and absence of
+  staging fulfillment bypasses.
+
+This implementation **does not yet mark the integrated E2E PASS**. The evidence is
+valid only after the manual `Shop Batch 11 free staging` workflow succeeds on this
+new harness. Until then, the previous successful free-staging/scheduler evidence
+remains canonical and Batch 11 remains blocked.
+
+The two owner/data blockers are unchanged and intentionally independent from this
+technical test:
+
+1. production product truth / real variants, measurements, stock and packed
+   dimensions;
+2. explicit production `SHOP_ORDER_PII_RETENTION_DAYS` selection.
+
+### Exact next action from this continuation
+
+Run exactly one manual **Shop Batch 11 free staging** workflow on PR #359 after the
+new harness has passed normal PR CI. Do not restore a push trigger. If the
+integrated step fails, continue from that failing step and preserve all already
+closed Batch 01–10/provider/scheduler evidence.
+
 ## Hard boundaries
 
 - Do not merge PR #359 yet.
