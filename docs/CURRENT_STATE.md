@@ -2130,4 +2130,18 @@ Live SI-06B1 boundary:
 
 SI-06B1 is **closed / merged / live verified**.
 
-The only authorized next Shared Interaction batch is **SI-06B2 — sentence / reading specialized renderers**. Preflight the five B2 owners against current dispatcher truth before mutation; do not assume the historical SI-00 owner list is still exact.
+SI-06B2 preflight has now confirmed the same five current production owners and implementation is active on `agent/si-06b2-sentence-reading-20260928`.
+
+Current SI-06B2 owner set:
+
+```text
+PhraseSceneMatchActivity
+PictureWordMatchActivity
+SentenceOrderCardsActivity
+ReadingPassageQuestionActivity
+ClozeSentenceChoiceActivity
+```
+
+All five preserve explicit runtime measurement/evidence and renderer-owned `completeActivity`; only post-success presentation is being migrated to canonical Completion + Share with local Again reset semantics. SI-06C remains blocked until B2 is merged/live verified.
+
+Canonical active checkpoint: `SI06B2_SENTENCE_READING_SAFE_CHECKPOINT_2026-09-28.md`.
