@@ -173,9 +173,9 @@ async function inspect(viewport){
     await status.filter({hasText:"Tepat"}).waitFor({state:"visible",timeout:2000});
     assert.equal(await completed(page),true,"correct reused set reasoning completes canonical activity");
 
-    const nextLink=page.getByRole("link",{name:"Pilih permainan lain"});
-    await assertFullyVisible(status,viewportHeight,"success reused set-reasoning feedback at "+viewport.width);
-    await assertFullyVisible(nextLink,viewportHeight,"reused set-reasoning success CTA at "+viewport.width);
+    const completion=page.locator("[data-activity-completion]");
+    await completion.waitFor({state:"visible",timeout:2000});
+    await assertFullyVisible(completion,viewportHeight,"reused set-reasoning canonical Completion at "+viewport.width);
 
     const state=await page.evaluate(({id})=>{
       const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
@@ -195,6 +195,15 @@ async function inspect(viewport){
     assert.equal(state.accuracy,0.5);
 
     await page.screenshot({path:path.join(screenshotDir,String(viewport.width)+"-set-reasoning-reuse-success.png"),fullPage:false});
+    await page.evaluate(()=>{window.__si06eReplayMarker="alive";});
+    await completion.locator('[data-completion-action="again"]').click();
+    await completion.waitFor({state:"hidden",timeout:2000});
+    assert.equal(await page.evaluate(()=>window.__si06eReplayMarker),"alive","reused SetReasoning Again must reset locally without reload");
+    const targetAttemptCount=await page.evaluate(({id})=>{
+      const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
+      return(attempts["demo-gian"]??[]).filter(item=>item.activityId===id).length;
+    },{id:activityId});
+    assert.equal(targetAttemptCount,1,"reused SetReasoning Again alone must not create a second target attempt");
     assert.deepEqual(pageErrors,[],"page errors at "+viewport.width+": "+pageErrors.join(" | "));
     assert.deepEqual(consoleErrors,[],"console errors at "+viewport.width+": "+consoleErrors.join(" | "));
     await context.close();
@@ -207,7 +216,7 @@ async function main(){
   startServer();
   await waitForServer();
   for(const viewport of viewports)await inspect(viewport);
-  console.log("Set-reasoning reuse browser QA passed 3 viewports with keyboard wrong-state, pointer/actual-touch completion, measured evidence and 9 screenshots.");
+  console.log("Set-reasoning reuse browser QA passed 3 viewports with keyboard wrong-state, pointer/actual-touch completion, canonical Completion + local Again, measured evidence and 9 screenshots.");
 }
 
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;}).finally(stopServer);
