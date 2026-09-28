@@ -20,6 +20,9 @@ assert.ok(
 assert.ok(
   files.includes("20260928145000_shop_batch11_physical_supplier_verification.sql"),
 );
+assert.ok(
+  files.includes("20260928146000_shop_batch11_verification_staleness.sql"),
+);
 assert.equal(
   files.indexOf("20260926195237_shop_foundation.sql") + 1,
   files.indexOf("20260927051000_shop_admin_workflow.sql"),
@@ -169,6 +172,105 @@ try {
     "generic physical/supplier verification blocker must cover non-apparel products too",
   );
 
+
+  await db.query(
+    `update public.shop_products
+     set facts=facts || $2::jsonb
+     where id=$1`,
+    [
+      notebook.id,
+      JSON.stringify({
+        verificationStatus: "production_verified",
+        verification: {
+          method: "physical_sample",
+          verifiedBy: "Migration-chain verifier",
+          verifiedAt: "2026-09-28",
+          evidenceRef: "test-fixture:notebook-008",
+          productFactsConfirmed: true,
+          stockCountConfirmed: true,
+          actualProductFacts: {
+            size: "A5",
+            widthMm: "148",
+            heightMm: "210",
+            pageStyle: "Bergaris",
+            sheets: "80",
+            targetThicknessMm: "12",
+          },
+          variantSkus: ["008-A5-80-LINED"],
+        },
+      }),
+    ],
+  );
+  const verifiedNotebookReadiness = (
+    await one("select public.shop_product_readiness($1) readiness", [notebook.id])
+  ).readiness;
+  assert.equal(
+    verifiedNotebookReadiness.ready,
+    true,
+    "complete test evidence should satisfy the generic notebook verification gate",
+  );
+
+  await db.query(
+    "update public.shop_variants set weight_grams=weight_grams+1 where sku='008-A5-80-LINED'",
+  );
+  const staleAfterVariant = await one(
+    "select facts->>'verificationStatus' verification_status,facts_verified,review_status from public.shop_products where id=$1",
+    [notebook.id],
+  );
+  assert.equal(
+    staleAfterVariant.verification_status,
+    "verification_stale",
+    "physical variant edits must invalidate old verification evidence",
+  );
+  assert.equal(staleAfterVariant.facts_verified, false);
+  assert.equal(staleAfterVariant.review_status, "draft");
+
+  await db.query(
+    `update public.shop_products
+     set facts=facts || $2::jsonb
+     where id=$1`,
+    [
+      notebook.id,
+      JSON.stringify({
+        verificationStatus: "production_verified",
+        verification: {
+          method: "supplier_production_sheet",
+          verifiedBy: "Migration-chain verifier",
+          verifiedAt: "2026-09-28",
+          evidenceRef: "test-fixture:notebook-008-reverified",
+          productFactsConfirmed: true,
+          stockCountConfirmed: true,
+          actualProductFacts: {
+            size: "A5",
+            widthMm: "148",
+            heightMm: "210",
+            pageStyle: "Bergaris",
+            sheets: "80",
+            targetThicknessMm: "12",
+          },
+          variantSkus: ["008-A5-80-LINED"],
+        },
+      }),
+    ],
+  );
+  await db.query(
+    `update public.shop_products
+     set facts=jsonb_set(facts,'{verification,notes}','"changed after verification"'::jsonb,true)
+     where id=$1`,
+    [notebook.id],
+  );
+  const staleAfterFacts = await one(
+    "select facts->>'verificationStatus' verification_status,facts_verified,review_status from public.shop_products where id=$1",
+    [notebook.id],
+  );
+  assert.equal(
+    staleAfterFacts.verification_status,
+    "verification_stale",
+    "verified product-fact edits must invalidate old verification evidence",
+  );
+  assert.equal(staleAfterFacts.facts_verified, false);
+  assert.equal(staleAfterFacts.review_status, "draft");
+
   const functionPrivileges = await db.query(`
     select p.proname,
       has_function_privilege('anon', p.oid, 'EXECUTE') anon_exec,
@@ -191,7 +293,10 @@ try {
         'shop_checkout',
         'shop_cart_set',
         'shop_rate_limit',
-        'shop_report'
+        'shop_report',
+        'shop_mark_verification_stale',
+        'shop_guard_verified_facts_staleness',
+        'shop_guard_verified_variant_staleness'
       )
     order by p.proname
   `);
@@ -240,7 +345,7 @@ try {
   await db.exec("reset role");
 
   console.log(
-    `Full migration chain: ${files.length} migrations, Shop 27-variant candidate seed / 79 stock / packed-dimension propagation / verification gate / RLS / RPC privilege checks PASS`,
+    `Full migration chain: ${files.length} migrations, Shop 27-variant candidate seed / 79 stock / packed-dimension propagation / verification gate + staleness invalidation / RLS / RPC privilege checks PASS`,
   );
 } finally {
   await db.close();
