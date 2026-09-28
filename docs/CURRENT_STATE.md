@@ -1987,7 +1987,7 @@ SI-04 is **closed / merged / live verified**.
 The only authorized next Shared Interaction phase is **SI-05 — Belajar pilot runtime**. Use one currently-inline finite assessed renderer as the pilot; preserve its existing completion/evidence write and replace only the post-success presentation with the already-live canonical Completion + Share system. Do not start SI-06 batches, Bermain migration, World migration, Journey Map, or Shop work inside the SI-05 pilot.
 
 
-## 28 September 2026 — Shared Interaction SI-05 Belajar pilot — ACTIVE
+## 28 September 2026 — Shared Interaction SI-05 Belajar pilot merged/live closure — CURRENT
 
 Current Shared Interaction sequence:
 
@@ -1997,28 +1997,39 @@ SI-01 — Orientation foundation               COMPLETE / merged / live verified
 SI-02 — Canonical Character Presentation     COMPLETE / merged / live verified
 SI-03 — Canonical Completion component       COMPLETE / merged / live verified
 SI-04 — Canonical Share component            COMPLETE / merged / live verified
-SI-05 — Belajar pilot runtime                IMPLEMENTED ON BRANCH / CI pending
-SI-06+ — Belajar runtime batches             NOT STARTED
+SI-05 — Belajar pilot runtime                COMPLETE / merged / live verified
+SI-06+ — Belajar runtime batches             NEXT / not started
 ```
 
-Active pilot:
+SI-05 closure:
 
 ```text
-renderer: OddOneOutActivity
-route:    /child/demo-gian/activity/logic-odd-category-animal-vehicle
-branch:   agent/si-05-belajar-pilot-odd-one-out-20260928
-base:     main 24b49fb9673108d618119bccdd03cb291ddb001c
+pilot renderer:          OddOneOutActivity
+representative route:    /child/demo-gian/activity/logic-odd-category-animal-vehicle
+PR:                      #369 — merged
+final PR head:           e5af8c287920ff74a7571812bd6af8fff558d31f
+final PR CI:             #2021 / run 36366256145 — FULL SUCCESS
+merged main:             26160cd4823b4777013d989549a8bfc39729673c
+merged-main CI:          #2026 / run 36367563039 — FULL SUCCESS
+Cloudflare smoke:        SUCCESS — exact merged main SHA verified
 checkpoint:
 docs/SI05_BELAJAR_PILOT_SAFE_CHECKPOINT_2026-09-28.md
 ```
 
-SI-05 changes post-success presentation only:
+Live SI-05 proof:
 
-- explicit `emitLearningRuntimeMeasurement` is preserved;
-- existing `completeActivity` write is preserved;
-- `LearningAttemptBridge` is untouched;
-- local success CTA is replaced by the already-live `ActivityCompletion` → canonical Completion + Share path;
-- Again resets OddOneOut local state without route reload;
-- dedicated static/browser gates prove no duplicate attempt/evidence from Completion, Share, rotation, or Again.
+- `OddOneOutActivity` is the single pilot renderer owner;
+- explicit assessed `emitLearningRuntimeMeasurement` remains unchanged;
+- existing `completeActivity(childId, activity.id)` remains unchanged;
+- `LearningAttemptBridge` remains the attempt/evidence owner and was not edited;
+- local success CTA was replaced by the live `ActivityCompletion` → canonical Completion + Share path;
+- Again resets renderer-local wrong/retry/selected/feedback state without route reload;
+- browser acceptance proves wrong answer writes no completion attempt;
+- correct completion writes exactly one assessed attempt with preserved `choice_odd_one_out_interaction` fidelity and expected 0.5 accuracy after one wrong + one correct answer;
+- opening Share, rotating portrait↔landscape, and using Again do not create duplicate attempt/evidence;
+- existing OddOneOut family responsive QA remains green;
+- no second Belajar renderer, World, Bermain, Journey Map, Shop, catalog/schema, mastery, progression, or evidence architecture migration was included.
 
-Do not start SI-06, Bermain, World, Journey Map, or Shop changes until the SI-05 latest head passes full CI, merges, and exact merged-main Cloudflare smoke succeeds.
+SI-05 is **closed / merged / live verified**.
+
+The next authorized Shared Interaction work is **SI-06+ — bounded Belajar runtime-family migration batches**. Follow SI-00 ownership boundaries and the now-proven SI-05 migration pattern. Do not migrate the full Belajar surface in one session.
