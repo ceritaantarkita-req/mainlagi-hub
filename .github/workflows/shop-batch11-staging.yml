@@ -234,14 +234,24 @@ jobs:
             cat /tmp/b11-public.json
             exit 1
           }
+          grep -Fq "Penjualan belum dibuka" /tmp/b11-public.json || {
+            echo "::error::Public request did not stop at the sales-off gate."
+            cat /tmp/b11-public.json
+            exit 1
+          }
 
           accepted_code="$(curl -sS -o /tmp/b11-accepted.json -w '%{http_code}'             -X POST "$STAGING_URL/api/shop/shipping/rates"             -H "Origin: $STAGING_URL"             -H "Content-Type: application/json"             -H "X-Mainlagi-Shop-Staging-Secret: $SHOP_STAGING_ACCEPTANCE_SECRET"             --data '{"postalCode":"12240"}')"
-          [[ "$accepted_code" == "404" ]] || {
-            echo "::error::Secret-gated request did not reach the DB-backed empty-cart boundary (HTTP $accepted_code)."
+          [[ "$accepted_code" == "503" ]] || {
+            echo "::error::Secret-gated request returned unexpected HTTP $accepted_code."
             cat /tmp/b11-accepted.json
             exit 1
           }
-          echo "Free database-backed staging boundary PASS: public sales=503; secret path reached local Supabase-backed cart boundary."
+          grep -Fq "konfigurasi operasional belum lengkap" /tmp/b11-accepted.json || {
+            echo "::error::Secret-gated request did not advance from sales-off to the operational-policy gate."
+            cat /tmp/b11-accepted.json
+            exit 1
+          }
+          echo "Free database-backed staging boundary PASS: public request stopped at sales-off; secret-gated request advanced to the still-blocking operational-policy gate."
 
       - name: Deploy temporary real Cloudflare scheduled reconciliation
         shell: bash

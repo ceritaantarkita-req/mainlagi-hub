@@ -95,3 +95,9 @@ assert.doesNotMatch(
   /cloudflared tunnel[\s\S]*54321/,
   "local Supabase API must never be exposed by the public Quick Tunnel",
 );
+
+assert.match(
+  files.batch11Workflow,
+  /Penjualan belum dibuka[\s\S]*konfigurasi operasional belum lengkap/,
+  "free staging must prove the secret gate advances only from sales-off to the still-enforced operational-policy gate",
+);

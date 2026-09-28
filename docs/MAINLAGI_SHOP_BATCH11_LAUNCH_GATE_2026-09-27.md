@@ -177,8 +177,9 @@ an ephemeral, zero-additional-Supabase-cost CI staging design:
 4. a production-like Next.js build runs on the GitHub runner against that local
    Supabase;
 5. Cloudflare Quick Tunnel exposes **only the Next.js app**, never Supabase;
-6. public sales remain disabled, while the secret-gated Batch 11 acceptance request
-   is allowed to reach the DB-backed application;
+6. public sales remain disabled; the secret-gated Batch 11 request must advance
+   beyond the sales-off gate but is still required to stop at the unresolved
+   operational-policy gate;
 7. a temporary Cloudflare Cron Worker calls the tunneled
    `/api/shop/reconcile` endpoint on a real five-minute schedule;
 8. the workflow verifies that the scheduled call creates a completed
@@ -198,3 +199,11 @@ hourly charge.
 The test workflow uses `SHOP_ORDER_PII_RETENTION_DAYS=30` only as an ephemeral
 valid-value fixture. The production owner retention decision remains unresolved and
 must not be inferred from that test value.
+
+
+The free-staging workflow intentionally does not bypass unresolved owner operational
+policy. Until that policy is approved, a secret-gated rates request is expected to
+return HTTP 503 from the operational-policy gate, while the same request without the
+staging secret must return HTTP 503 from the earlier public-sales gate. This
+difference is the acceptance proof that the staging-only gate works without turning
+an unresolved business policy into a technical pass.
