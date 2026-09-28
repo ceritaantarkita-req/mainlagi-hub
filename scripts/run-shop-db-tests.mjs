@@ -10,6 +10,7 @@ try {
     "../supabase/migrations/20260926195237_shop_foundation.sql",
     "../supabase/migrations/20260927051000_shop_admin_workflow.sql",
     "../supabase/migrations/20260928143000_shop_batch11_marketplace_candidate_variants.sql",
+    "../supabase/migrations/20260928144000_shop_batch11_shipping_dimensions.sql",
   ]) {
     await db.exec(await readFile(new URL(migration, import.meta.url), "utf8"));
   }
@@ -304,6 +305,20 @@ try {
   const firstOrderId = (
     await one("select id from shop_orders where order_number=$1", [num])
   ).id;
+  const firstOrderItem = await one(
+    "select weight_grams_snapshot,length_mm_snapshot,width_mm_snapshot,height_mm_snapshot from shop_order_items where order_id=$1",
+    [firstOrderId],
+  );
+  assert.deepEqual(
+    [
+      firstOrderItem.weight_grams_snapshot,
+      firstOrderItem.length_mm_snapshot,
+      firstOrderItem.width_mm_snapshot,
+      firstOrderItem.height_mm_snapshot,
+    ],
+    [200, 250, 200, 40],
+    "checkout snapshots the exact shipping facts used for provider quoting/fulfillment",
+  );
   assert.equal(
     (await one("select shop_claim_payment($1) ok", [firstOrderId])).ok,
     true,
