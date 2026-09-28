@@ -1,16 +1,20 @@
 # SI-06B2 Sentence/Reading Specialized — Safe Checkpoint — 28 September 2026
 
-Status: **ACTIVE / NOT MERGED**
+Status: **MERGED / LIVE VERIFICATION PENDING**
 
 ## Resume point
 
-Continue this exact SI-06B2 branch. Do not restart SI-06B or SI-06B1, and do not start SI-06C until B2 is merged/live verified.
+SI-06B2 runtime is merged. Do not restart SI-06B/B1/B2 and do not start SI-06C until merged-main CI + exact Cloudflare verification for the merged SHA are complete.
 
 ```text
 repository: ceritaantarkita-req/mainlagi-hub
 baseline main: 3b4c87729bad3bc49be264b13e39eb955f1d767e
-branch: agent/si-06b2-sentence-reading-20260928
-phase: SI-06B2 — sentence / reading specialized renderers
+runtime PR: #376 — merged
+final PR head: 25e3889c14943a64d4437b0b9ae92929947b3b7a
+PR CI: #2138 / run 36393431756 — FULL SUCCESS
+merged main: 9eff1bd861ceb3cd0202022fa43dfe31db87fb40
+merged-main CI: #2186 / run 36394939086 — QUEUED
+phase: SI-06B2 — MERGED / LIVE VERIFICATION PENDING
 next after closure: SI-06C — matching/order/drag specialized renderers
 ```
 
@@ -131,4 +135,4 @@ SI-06B2 can be called closed only after:
 4. exact Cloudflare production smoke succeeds;
 5. canonical docs are updated to **CLOSED / MERGED / LIVE VERIFIED**.
 
-Until then, SI-06C is blocked.
+Runtime PR #376 is merged, but closure is intentionally not claimed yet. SI-06C remains blocked until merged-main CI #2186 completes full success and its exact Production smoke (Cloudflare) verifies `9eff1bd861ceb3cd0202022fa43dfe31db87fb40`.
