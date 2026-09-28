@@ -636,3 +636,31 @@ jobs:
             echo
             echo "These are simulated Testing Mode orders only; no real courier or balance charge."
           } >> "${GITHUB_STEP_SUMMARY}"
+
+
+  shop-biteship-sandbox-tracking:
+    name: Shop Biteship sandbox tracking acceptance
+    if: >-
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/agent/mainlagi-shop-foundation-20260927' &&
+      contains(github.event.head_commit.message, '[biteship-tracking-probe]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      BITESHIP_TEST_API_KEY: ${{ secrets.BITESHIP_TEST_API_KEY }}
+      BITESHIP_TEST_DELIVERED_ORDER_ID: "6ab95bf62cf339db52b93e9e"
+      BITESHIP_TEST_CANCELLED_ORDER_ID: "6ab95bfa6960f5e88be36376"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Verify delivered tracking history and cancelled terminal state
+        run: node scripts/run-shop-biteship-sandbox-tracking-probe.mjs
+      - name: Upload tracking evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: biteship-sandbox-tracking-evidence
+          path: /tmp/mainlagi-biteship-tracking-evidence.json
+          if-no-files-found: error
+          retention-days: 14

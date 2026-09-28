@@ -387,3 +387,32 @@ Delivered candidate through the Biteship Dashboard to `delivered`, followed by
 verification in Webhook Events Log. Biteship requires this status simulation to be
 performed from the Testing dashboard rather than by pretending a production courier
 performed the transitions.
+
+
+## Biteship Events Log evidence
+
+After manually progressing the Delivered candidate through Biteship Testing Mode,
+the Biteship Dashboard Events Log showed sequential `order.status` callbacks with
+HTTP **200** responses during the simulation.
+
+User-supplied dashboard evidence on 2026-09-28 showed six visible
+`order.status` events, all returning HTTP 200. This confirms provider-to-staging
+webhook delivery across the manual status progression, rather than only the
+synthetic authenticated callback used by CI.
+
+The delivered order is:
+
+```text
+order id: 6ab95bf62cf339db52b93e9e
+reference: ML-SBX-DELIVER-36339411333
+```
+
+The cancelled control order is:
+
+```text
+order id: 6ab95bfa6960f5e88be36376
+reference: ML-SBX-CANCEL-36339411333
+```
+
+A read-only Tracking API acceptance probe independently verifies the terminal
+provider state and tracking history after this dashboard simulation.
