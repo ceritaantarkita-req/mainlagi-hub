@@ -1,6 +1,6 @@
 # SI-05 Belajar Pilot — Safe Checkpoint — 28 September 2026
 
-Status: **IMPLEMENTED ON BRANCH / FULL CI VALIDATION PENDING / NOT MERGED**
+Status: **CLOSED / MERGED / LIVE VERIFIED**
 
 ## Resume point
 
@@ -8,10 +8,12 @@ Continue this exact SI-05 pilot. Do not expand into SI-06 until SI-05 is merged 
 
 ```text
 repository: ceritaantarkita-req/mainlagi-hub
-base main:  24b49fb9673108d618119bccdd03cb291ddb001c
-branch:     agent/si-05-belajar-pilot-odd-one-out-20260928
-phase:      SI-05 — Belajar pilot runtime
-pilot:      OddOneOutActivity
+PR:          #369 — merged
+final head:  e5af8c287920ff74a7571812bd6af8fff558d31f
+merged main: 26160cd4823b4777013d989549a8bfc39729673c
+phase:       SI-05 — CLOSED / LIVE
+pilot:       OddOneOutActivity
+next:        SI-06+ — bounded Belajar runtime-family migration
 ```
 
 Closed prerequisites:
@@ -184,24 +186,41 @@ SI-05 does not migrate:
 
 The phrase “one pilot renderer” means one shared runtime owner, not one catalog activity ID.
 
-## Merge gate
+## Final verification
 
-Do not merge until latest-head CI proves:
+SI-05 completed the full closure chain:
 
-1. Ubuntu quality full green;
-2. Windows compatibility full green;
-3. production build full green;
-4. dependency audit full green;
-5. secret-history scan full green;
-6. Chromium mobile-route matrix full green;
-7. permanent visual product baseline full green.
+```text
+PR:                     #369 — merged
+final PR head:          e5af8c287920ff74a7571812bd6af8fff558d31f
+final PR CI:            #2021 / run 36366256145 — FULL SUCCESS
+merged main:            26160cd4823b4777013d989549a8bfc39729673c
+merged-main CI:         #2026 / run 36367563039 — FULL SUCCESS
+Cloudflare smoke:       SUCCESS — exact merged main SHA verified
+```
 
-After merge require push-to-main full green plus exact Cloudflare smoke for the merged SHA.
+Final PR CI and merged-main CI both passed:
 
-## Next after SI-05 closure
+- Ubuntu quality;
+- Windows compatibility;
+- production build;
+- dependency audit;
+- secret-history scan;
+- Chromium mobile-route matrix;
+- permanent visual product baseline.
 
-Only after SI-05 is merged/live verified:
+The exact production smoke verified merged SHA `26160cd4823b4777013d989549a8bfc39729673c`.
 
-`SI-06A / SI-06+ — bounded Belajar runtime-family migration batches`
+The pilot therefore proves the intended migration pattern: explicit renderer-owned measurement and `completeActivity` remain intact while the old local success exit is replaced by the canonical Completion + Share path, with no duplicate attempt/evidence caused by Share, rotation, or Again.
 
-The exact next batch should be selected from SI-00 ownership and kept to one bounded owner/family per session.
+## Closure state
+
+SI-05 is **closed / merged / live verified**.
+
+The next authorized Shared Interaction work is:
+
+`SI-06+ — bounded Belajar runtime-family migration batches`
+
+Use the SI-05 migration pattern as the canonical template: preserve renderer learning/evidence writes, replace only post-success presentation, provide explicit local replay semantics, and prove duplicate-attempt/orientation safety.
+
+Per SI-00, do not migrate all Belajar renderers at once. Select one bounded owner/family per session.
