@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { ActivityCompletion } from "./ActivityCompletion";
 import { useEffect, useRef, useState } from "react";
 import { GardenActivityFrame } from "./GardenActivityFrame";
 import { getActivityLearningSpec } from "@/lib/learning/catalog";
@@ -79,6 +79,15 @@ export function SortingBucketsChoiceActivity({ childId, activityId }: { childId:
     }
 
     setFeedback("idle");
+  };
+
+  const restart = () => {
+    incorrectRef.current = 0;
+    retryRef.current = 0;
+    setSelected(null);
+    setPlaced({});
+    setFeedback("idle");
+    setDone(false);
   };
 
   return (
@@ -169,9 +178,7 @@ export function SortingBucketsChoiceActivity({ childId, activityId }: { childId:
                 : "💡 Kelompokkan ketiga kartu sesuai aturannya."}
         </div>
 
-        {done ? (
-          <Link className={styles.nextLink} href={`/child/${childId}/subject/${activity.subjectId}`}>Pilih permainan lain</Link>
-        ) : null}
+        {done ? <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} /> : null}
       </section>
     </GardenActivityFrame>
   );
