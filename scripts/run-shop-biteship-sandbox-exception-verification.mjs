@@ -43,6 +43,16 @@ function normalize(value) {
 
 const order = await api(`/v1/orders/${encodeURIComponent(orderId)}`);
 assert.equal(order.id, orderId);
+console.log(
+  "Exception order provider status before terminal assertion:",
+  JSON.stringify({
+    status: normalize(order.status),
+    courierStatus: normalize(order?.courier?.status),
+    courierHistory: Array.isArray(order?.courier?.history)
+      ? order.courier.history.map((row) => normalize(row?.status))
+      : [],
+  }),
+);
 assert.equal(
   normalize(order.status),
   "returned",
