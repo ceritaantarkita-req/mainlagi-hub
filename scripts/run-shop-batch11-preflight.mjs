@@ -314,7 +314,7 @@ for (const required of [
 }
 assert.match(
   files.batch11Workflow,
-  /fixtureOnly[sS]*Batch11 simulated fixture[sS]*fixture://batch11/sku-008/,
+  /fixtureOnly[\s\S]*Batch11 simulated fixture[\s\S]*fixture:\/\/batch11\/sku-008/,
   "Batch 11 staging must keep verification evidence explicitly simulated and disposable",
 );
 assert.doesNotMatch(
