@@ -708,7 +708,7 @@ jobs:
     timeout-minutes: 10
     env:
       BITESHIP_TEST_API_KEY: ${{ secrets.BITESHIP_TEST_API_KEY }}
-      BITESHIP_TEST_EXCEPTION_ORDER_ID: "6ab9c37f2e892bfc4f659778"
+      BITESHIP_TEST_EXCEPTION_ORDER_ID: "6ab95a95a555b84db1ed7f25"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

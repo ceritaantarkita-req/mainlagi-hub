@@ -509,3 +509,20 @@ sha256: 8844a74afb9fa4ad13c28d9c207cc09c8ee1bb146ad1d1ab426dbd881de8e52d
 
 The verifier now targets this dedicated order. It performs GET requests only and
 never mutates provider status itself.
+
+
+## Actual returned exception candidate
+
+Owner-provided Biteship Testing dashboard evidence showed that the order which
+actually completed the return flow is:
+
+```text
+order id: 6ab95a95a555b84db1ed7f25
+reference: ML-SBX-CANCEL-36338987485
+dashboard status: Dikembalikan
+```
+
+This provider order originated from an earlier sandbox acceptance run and was later
+used to complete the manual return simulation. The exception verifier is therefore
+repointed to this real returned candidate instead of the dedicated candidate that
+was accidentally progressed to Delivered.
