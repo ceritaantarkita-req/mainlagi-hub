@@ -197,8 +197,8 @@ async function inspect(viewport){
     assert.equal((await result.textContent())?.trim(),"apel","success reveals canonical word");
     assert.equal(await result.getAttribute("aria-label"),"Kata apel");
     await assertFullyVisible(status,viewportHeight,`success picture-word feedback at ${viewport.width}`);
-    const nextLink=page.getByRole("link",{name:"Pilih permainan lain"});
-    await assertFullyVisible(nextLink,viewportHeight,`picture-word success CTA at ${viewport.width}`);
+    const completion=page.locator("[data-activity-completion]");
+    await assertFullyVisible(completion,viewportHeight,`picture-word success CTA at ${viewport.width}`)
 
     const state=await page.evaluate(({id})=>{
       const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
