@@ -79,6 +79,14 @@ function localBlockers(
   if (!active.length) blockers.push("Minimal satu varian aktif diperlukan.");
   if (active.some((v) => !/^\d+$/.test(v.weightGrams) || Number(v.weightGrams) <= 0))
     blockers.push("Semua varian aktif perlu berat kirim terukur.");
+  if (
+    active.some((v) =>
+      [v.lengthMm, v.widthMm, v.heightMm].some(
+        (value) => !/^\d+$/.test(value) || Number(value) <= 0,
+      ),
+    )
+  )
+    blockers.push("Semua varian aktif perlu dimensi paket panjang/lebar/tinggi.");
   if (["001", "002", "003", "004", "005"].includes(product.product_code)) {
     if (active.some((v) => !(v.optionValues.size ?? "").trim()))
       blockers.push("Semua varian apparel perlu ukuran terverifikasi.");
@@ -497,15 +505,15 @@ export function ProductAdminEditor({ product }: { product: Product }) {
               </label>
               <div className="shop-form">
                 <label>
-                  Panjang paket mm (opsional)
+                  Panjang paket mm
                   <input type="number" min={1} step={1} value={v.lengthMm} onChange={(e) => patchVariant(v.key, { lengthMm: e.target.value })} disabled={busy} />
                 </label>
                 <label>
-                  Lebar paket mm (opsional)
+                  Lebar paket mm
                   <input type="number" min={1} step={1} value={v.widthMm} onChange={(e) => patchVariant(v.key, { widthMm: e.target.value })} disabled={busy} />
                 </label>
                 <label>
-                  Tinggi paket mm (opsional)
+                  Tinggi paket mm
                   <input type="number" min={1} step={1} value={v.heightMm} onChange={(e) => patchVariant(v.key, { heightMm: e.target.value })} disabled={busy} />
                 </label>
               </div>
