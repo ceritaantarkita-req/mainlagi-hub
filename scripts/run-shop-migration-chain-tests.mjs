@@ -17,6 +17,9 @@ assert.ok(
 assert.ok(
   files.includes("20260928144000_shop_batch11_shipping_dimensions.sql"),
 );
+assert.ok(
+  files.includes("20260928145000_shop_batch11_physical_supplier_verification.sql"),
+);
 assert.equal(
   files.indexOf("20260926195237_shop_foundation.sql") + 1,
   files.indexOf("20260927051000_shop_admin_workflow.sql"),
@@ -131,6 +134,25 @@ try {
 
   const notebook = await one(
     "select id from public.shop_products where product_code='008'",
+  );
+  await db.query(
+    "update public.shop_products set facts=jsonb_set(facts,'{verificationStatus}','\"production_verified\"'::jsonb,true) where id=$1",
+    [notebook.id],
+  );
+  const forcedNotebookReadiness = (
+    await one("select public.shop_product_readiness($1) readiness", [notebook.id])
+  ).readiness;
+  assert.equal(
+    forcedNotebookReadiness.ready,
+    false,
+    "verification evidence must remain mandatory even if status is forced",
+  );
+  assert.ok(
+    forcedNotebookReadiness.blockers.includes("Verification method is required."),
+  );
+  await db.query(
+    "update public.shop_products set facts=jsonb_set(facts,'{verificationStatus}','\"marketplace_candidate_unverified\"'::jsonb,true) where id=$1",
+    [notebook.id],
   );
   const notebookReadiness = (
     await one("select public.shop_product_readiness($1) readiness", [notebook.id])
