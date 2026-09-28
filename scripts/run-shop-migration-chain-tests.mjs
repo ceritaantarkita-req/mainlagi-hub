@@ -117,6 +117,24 @@ try {
     9,
   );
 
+  const notebook = await one(
+    "select id from public.shop_products where product_code='008'",
+  );
+  const notebookReadiness = (
+    await one("select public.shop_product_readiness($1) readiness", [notebook.id])
+  ).readiness;
+  assert.equal(
+    notebookReadiness.ready,
+    false,
+    "marketplace candidate notebook must not become ready merely because weight/stock/variant data are populated",
+  );
+  assert.ok(
+    notebookReadiness.blockers.includes(
+      "Production facts require physical or supplier verification.",
+    ),
+    "generic physical/supplier verification blocker must cover non-apparel products too",
+  );
+
   const functionPrivileges = await db.query(`
     select p.proname,
       has_function_privilege('anon', p.oid, 'EXECUTE') anon_exec,
