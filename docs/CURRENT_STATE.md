@@ -2099,7 +2099,9 @@ SI-06C — matching/order/drag family           COMPLETE / merged / live verifie
 SI-06D — Math specialized renderers          COMPLETE / merged / live verified
 SI-06D1 — Math choice/shared renderers       COMPLETE / merged / live verified
 SI-06D2 — Math trace renderer                 COMPLETE / merged / live verified
-SI-06E+ — later Belajar batches               PAUSED / not authorized
+SI-06E — Logic specialized renderers          COMPLETE / merged / live verified
+SI-06F — Science specialized renderers        PAUSED / not authorized
+SI-06G — Creative workspace                   PAUSED / not authorized
 ```
 
 SI-06B1 closure:
@@ -2251,4 +2253,51 @@ D1 boundary:
 
 `MathTraceWorldActivity` remained untouched by D1 because it owns stroke/checkpoint/timing/audio state. D2 then migrated only its post-success Completion/replay ownership while preserving guided-trace measurement, `guided_trace_path_score` evidence, stroke/checkpoint state, audio/vibration behavior, pointer interaction, explicit runtime measurement, and renderer-owned progress. PR #383 passed latest-head CI #2248 and squash-merged to `c59e249ae8ad48edfbc9a69be3d2c4c41c7ea6cf`; merged-main CI #2249 passed including exact Cloudflare smoke. SI-06D is **closed / merged / live verified**.
 
-**Hard stop:** SI-06D is complete. Do not start SI-06E until the user explicitly authorizes it.
+Historical SI-06D hard stop was satisfied by explicit user authorization before SI-06E began. It is retained only as sequencing history; it is not a current blocker.
+
+
+## 28 September 2026 — Shared Interaction SI-06E Logic — CLOSED / LIVE VERIFIED
+
+Verified production baseline:
+
+```text
+pre-E main:              299c503d95a5b535e6991dd30c760504e7cec7d2
+runtime PR:              #385 — merged
+final PR head:           33fd7693879d5119a4492dc8fc82cc433e005349
+final PR CI:             #2255 / run 36446627104 — FULL SUCCESS
+merged main:             f42566afcefbad0d7a325023d0a2553214f7bc84
+merged-main CI:          #2256 / run 36448158150 — FULL SUCCESS
+Cloudflare smoke:        SUCCESS — exact merged main SHA verified
+checkpoint:
+docs/SI06E_LOGIC_SAFE_CHECKPOINT_2026-09-28.md
+```
+
+Current SI-06E production owners:
+
+```text
+OddOneOutActivity
+RulePipelineActivity
+SetReasoningActivity
+TransitiveChainActivity
+SpatialTransformActivity
+RelativeOrderTrackActivity
+EliminationBoardActivity
+ShapeAttributeBoardActivity
+PatternCompletionActivity
+SingleRuleApplyActivity
+```
+
+Runtime boundary:
+
+- `OddOneOutActivity` keeps its canonical Completion from SI-05 and now has dedicated SI-06E local-replay verification.
+- `PatternCompletionActivity` keeps canonical Completion and replaces fallback document reload with explicit local Again reset.
+- the remaining eight Logic owners replace only local post-success navigation with canonical `ActivityCompletion` + Share.
+- explicit runtime measurement, evidence fidelity, renderer-owned `completeActivity`, dispatcher ownership, progression/mastery semantics, and measurement-before-progress ordering remain intact.
+- local Again resets owner state without reload and does not create a second target attempt.
+- legacy local `.nextLink` success presentation/CSS is removed from migrated owners.
+- `SpatialRelationBoardActivity` is not migrated again because SI-06D already migrated that shared Math/Logic renderer once.
+- Science, Creative workspace, Bermain, World, Journey Map, Shop, and database/schema remain outside SI-06E.
+
+PR #385 latest head passed CI #2255, squash-merged to `f42566afcefbad0d7a325023d0a2553214f7bc84`, and merged-main CI #2256 completed full success including exact Production smoke (Cloudflare). SI-06E is **closed / merged / live verified**.
+
+**Hard stop:** do not start SI-06F Science until the user explicitly authorizes it after discussion.
