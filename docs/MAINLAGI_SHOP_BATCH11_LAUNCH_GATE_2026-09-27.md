@@ -176,6 +176,26 @@ This changes the final integrated E2E item from **missing harness** to
 **harness prepared / live evidence pending**. It does **not** change any scenario
 row to PASS until one manual workflow run succeeds and its evidence is reviewed.
 
+
+### Marketplace candidate specification — PREPARED / PHYSICAL VERIFICATION PENDING
+
+The owner requested that the nine products receive concrete target variants, stock
+allocation and dimensions using comparable Tokopedia/marketplace products.
+
+Prepared evidence:
+
+- `docs/MAINLAGI_SHOP_PRODUCT_TRUTH_MARKETPLACE_CANDIDATE_2026-09-28.md`;
+- `docs/data/MAINLAGI_SHOP_PRODUCT_TRUTH_MARKETPLACE_CANDIDATE_2026-09-28.json`;
+- 9 products;
+- 26 proposed variants;
+- all 79 existing seed-stock units allocated;
+- apparel size charts, conservative shipping weights/pack dimensions;
+- target specs for tumbler, custom e-money, A5 notebook and A4 drawing book.
+
+This is sufficient as a supplier/staging/variant-design specification, but not as
+proof that Mainlagi physical inventory was actually measured. Product truth remains
+launch-blocking until supplier sheets or physical samples confirm the final values.
+
 ## Decision
 
 Batch 11 must remain **BLOCKED**. The correct next action is to close the concrete
