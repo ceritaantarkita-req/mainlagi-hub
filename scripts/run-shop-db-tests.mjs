@@ -664,6 +664,22 @@ try {
     product.id,
     owner,
   ]);
+  const resized = await cart();
+  await db.query("select shop_admin_transition($1,'deactivate',$2)", [
+    product.id,
+    owner,
+  ]);
+  await db.query("update shop_variants set length_mm=251 where id=$1", [v]);
+  await assert.rejects(
+    checkout(resized),
+    /shipping quote stale/,
+    "packed dimension changes invalidate an existing shipping quote",
+  );
+  await db.query("update shop_variants set length_mm=250 where id=$1", [v]);
+  await db.query("select shop_admin_transition($1,'activate',$2)", [
+    product.id,
+    owner,
+  ]);
   const emptyBalance = await cart();
   await db.query("delete from shop_inventory_balances where variant_id=$1", [
     v,
