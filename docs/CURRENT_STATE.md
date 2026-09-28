@@ -2081,7 +2081,7 @@ SI-06A is **closed / merged / live verified**.
 The only authorized next Shared Interaction batch is **SI-06B — literacy/audio specialized renderers**. Preflight current ownership before mutation; do not assume the SI-00 list is still exact, and split the batch if audio/symbol versus sentence/reading ownership is too large for one bounded session.
 
 
-## 28 September 2026 — Shared Interaction SI-06B1 literacy/audio specialized — ACTIVE
+## 28 September 2026 — Shared Interaction SI-06B1 literacy/audio merged/live closure — CURRENT
 
 Current Shared Interaction sequence:
 
@@ -2093,29 +2093,41 @@ SI-03  — Canonical Completion component       COMPLETE / merged / live verifie
 SI-04  — Canonical Share component            COMPLETE / merged / live verified
 SI-05  — Belajar pilot runtime                COMPLETE / merged / live verified
 SI-06A — fallback Belajar owner               COMPLETE / merged / live verified
-SI-06B1 — literacy/audio early family         IMPLEMENTED ON BRANCH / CI pending
-SI-06B2 — sentence/reading family             NOT STARTED
+SI-06B1 — literacy/audio early family         COMPLETE / merged / live verified
+SI-06B2 — sentence/reading family             NEXT / not started
 SI-06C+ — later Belajar batches               NOT STARTED
 ```
 
-Active SI-06B1:
+SI-06B1 closure:
 
 ```text
-branch: agent/si-06b1-literacy-audio-20260928
-base:   main 3dacf402647188d3a8119dc90d42595d4fe768c3
 owners:
   AudioChoiceLearningActivity
   SymbolHuntChoiceActivity
   SyllableAssemblyActivity
   InitialSoundActivity
+PR:                      #373 — merged
+final PR head:           ad5ed719da446314e3a131d7211c595e51b55eb4
+final PR CI:             #2077 / run 36383476672 — FULL SUCCESS
+merged main:             15058932eff424bc6ba7eb3e4e5bf0ad29ae05a1
+merged-main CI:          #2078 / run 36384334431 — FULL SUCCESS
+Cloudflare smoke:        SUCCESS — exact merged main SHA verified
 checkpoint:
 docs/SI06B1_LITERACY_AUDIO_SAFE_CHECKPOINT_2026-09-28.md
 ```
 
-SI-06B was split before mutation because the nine-owner SI-00 suggested set is too large for one bounded session. B1 covers audio/symbol/early-literacy owners only; B2 sentence/reading owners are untouched.
+Live SI-06B1 boundary:
 
-SI-06B1 preserves audio, measurement, `completeActivity`, attempt/evidence and dispatcher ownership. It replaces only local post-success presentation with the already-live canonical Completion + Share path and gives each owner explicit local Again semantics.
+- `AudioChoiceLearningActivity` uses canonical Completion + Share while keeping managed audio, speech/fallback, and renderer-owned `completeActivity`;
+- `SymbolHuntChoiceActivity` uses canonical Completion + Share while keeping deterministic field generation and wrong-state interaction semantics;
+- `SyllableAssemblyActivity` preserves explicit `choice_syllable_assembly_interaction` measurement/evidence and replaces only local success presentation;
+- `InitialSoundActivity` preserves explicit `choice_initial_sound_interaction` evidence and replaces only local success presentation;
+- each owner has explicit local Again semantics;
+- `LearningAttemptBridge`, dispatcher ordering, catalog/specs, audio architecture, database/schema, mastery/progression/evidence architecture remain unchanged;
+- permanent SymbolHunt, SyllableAssembly and InitialSound QA plus dedicated AudioChoice Share/orientation/duplicate-attempt QA are all green;
+- SI-06B2 sentence/reading owners were not modified inside B1;
+- no SI-06C+, Bermain, World, Journey Map or Shop migration was included.
 
-Permanent SymbolHunt, SyllableAssembly and InitialSound browser QA is updated to canonical Completion. A dedicated AudioChoice closure test proves assessed choice evidence plus Share/orientation/Again duplicate-attempt safety with deterministic QA speech.
+SI-06B1 is **closed / merged / live verified**.
 
-Do not start SI-06B2, SI-06C+, Bermain, World, Journey Map or Shop until SI-06B1 latest-head CI, merged-main CI and exact Cloudflare smoke are green.
+The only authorized next Shared Interaction batch is **SI-06B2 — sentence / reading specialized renderers**. Preflight the five B2 owners against current dispatcher truth before mutation; do not assume the historical SI-00 owner list is still exact.

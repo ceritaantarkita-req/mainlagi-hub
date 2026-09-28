@@ -1,6 +1,6 @@
 # SI-06B1 Literacy/Audio Specialized — Safe Checkpoint — 28 September 2026
 
-Status: **IMPLEMENTED ON BRANCH / FULL CI VALIDATION PENDING / NOT MERGED**
+Status: **CLOSED / MERGED / LIVE VERIFIED**
 
 ## Resume point
 
@@ -8,9 +8,11 @@ Continue this exact workstream. Do not restart SI-06B preflight and do not start
 
 ```text
 repository: ceritaantarkita-req/mainlagi-hub
-base main:  3dacf402647188d3a8119dc90d42595d4fe768c3
-branch:     agent/si-06b1-literacy-audio-20260928
-phase:      SI-06B1 — literacy/audio specialized renderers
+PR:          #373 — merged
+final head:  ad5ed719da446314e3a131d7211c595e51b55eb4
+merged main: 15058932eff424bc6ba7eb3e4e5bf0ad29ae05a1
+phase:       SI-06B1 — CLOSED / LIVE
+next:        SI-06B2 — sentence / reading specialized renderers
 ```
 
 Closed prerequisites:
@@ -290,24 +292,50 @@ Do not expand SI-06B1 into:
 - catalog/spec/schema changes;
 - audio provider/narration redesign.
 
-## Merge gate
+## Final verification
 
-Do not merge until latest-head CI proves:
+SI-06B1 completed the full closure chain:
 
-1. Ubuntu quality full green;
-2. Windows compatibility full green;
-3. production build full green;
-4. dependency audit full green;
-5. secret-history scan full green;
-6. Chromium mobile-route matrix full green;
-7. permanent visual baseline full green.
+```text
+PR:                     #373 — merged
+final PR head:          ad5ed719da446314e3a131d7211c595e51b55eb4
+final PR CI:            #2077 / run 36383476672 — FULL SUCCESS
+merged main:            15058932eff424bc6ba7eb3e4e5bf0ad29ae05a1
+merged-main CI:         #2078 / run 36384334431 — FULL SUCCESS
+Cloudflare smoke:       SUCCESS — exact merged main SHA verified
+```
 
-After merge require push-to-main full green plus exact Cloudflare production smoke for the merged SHA.
+Both PR-side and merged-main CI passed:
 
-## Next after SI-06B1 closure
+- Ubuntu quality;
+- Windows compatibility;
+- production build;
+- dependency audit;
+- secret-history scan;
+- Chromium mobile-route matrix;
+- permanent visual product baseline.
 
-Only after SI-06B1 is merged/live verified:
+Merged-main CI #2078 also passed exact Cloudflare production smoke for
+`15058932eff424bc6ba7eb3e4e5bf0ad29ae05a1`.
+
+The closure proves all four B1 owners keep their existing audio/measurement/progress/evidence
+ownership while post-success presentation uses the canonical Completion + Share path.
+
+## Closure state
+
+SI-06B1 is **closed / merged / live verified**.
+
+The next authorized Shared Interaction batch is:
 
 `SI-06B2 — sentence / reading specialized renderers`
 
-Do not begin SI-06C or later families before B2 is independently closed.
+Keep the B2 owner set bounded to:
+
+- `PhraseSceneMatchActivity`;
+- `PictureWordMatchActivity`;
+- `SentenceOrderCardsActivity`;
+- `ReadingPassageQuestionActivity`;
+- `ClozeSentenceChoiceActivity`.
+
+Preflight current dispatcher ownership before mutation. Do not start SI-06C or later
+families until B2 is independently closed and production verified.
