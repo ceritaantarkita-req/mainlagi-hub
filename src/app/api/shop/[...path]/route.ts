@@ -298,7 +298,8 @@ async function handle(request: Request, path: string[], post: boolean) {
       );
     }
     if (!post) throw new ShopError("Tidak ditemukan.", 404);
-    if (["cart", "shipping/rates", "checkout"].includes(route)) salesEnabled();
+    if (["cart", "shipping/rates", "checkout"].includes(route))
+      salesEnabled(request);
     const b = await body(request);
     // Cookie bucket plus edge IP when supplied by the trusted Cloudflare deployment.
     const ip = request.headers.get("cf-connecting-ip");

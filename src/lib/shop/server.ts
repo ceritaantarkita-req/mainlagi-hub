@@ -44,8 +44,24 @@ export function check(r: { error: unknown }) {
       409,
     );
 }
-export function salesEnabled() {
-  if (process.env.SHOP_SALES_ENABLED !== "true")
+export function stagingAcceptanceAllowed(request?: Request) {
+  if (
+    !request ||
+    process.env.SHOP_STAGING_ACCEPTANCE_ENABLED !== "true"
+  )
+    return false;
+  const expected = process.env.SHOP_STAGING_ACCEPTANCE_SECRET ?? "";
+  const actual =
+    request.headers.get("x-mainlagi-shop-staging-secret") ?? "";
+  return Boolean(expected && actual && equal(actual, expected));
+}
+
+export function salesEnabled(request?: Request) {
+  const stagingAcceptance = stagingAcceptanceAllowed(request);
+  if (
+    process.env.SHOP_SALES_ENABLED !== "true" &&
+    !stagingAcceptance
+  )
     throw new ShopError("Penjualan belum dibuka.", 503);
   const blockers = operationalPolicyBlockers();
   if (blockers.length)

@@ -362,3 +362,20 @@ assert.ok(
 console.log(
   "Shop contracts: Midtrans signature/status integrity, provider state mapping, Batch 02/03 readiness, Batch 04 owner-approved policy + fail-closed deployment configuration, 9 products, 26 approved runtime media + 1 rejected provenance asset PASS",
 );
+
+
+assert.match(
+  shopServerSource,
+  /SHOP_STAGING_ACCEPTANCE_ENABLED[\s\S]*SHOP_STAGING_ACCEPTANCE_SECRET[\s\S]*x-mainlagi-shop-staging-secret[\s\S]*equal\(actual, expected\)/,
+  "staging acceptance bypass must be fail-closed, secret-gated and timing-safe",
+);
+assert.match(
+  shopServerSource,
+  /salesEnabled\(request\?[\s\S]*SHOP_SALES_ENABLED[\s\S]*stagingAcceptance[\s\S]*operationalPolicyBlockers/,
+  "staging acceptance may bypass only the public sales flag; operational policy blockers must still apply",
+);
+assert.match(
+  shopApiRouteSource,
+  /\["cart", "shipping\/rates", "checkout"\][\s\S]*salesEnabled\(request\)/,
+  "Shop mutation routes must pass the request into the secret-gated staging sales check",
+);

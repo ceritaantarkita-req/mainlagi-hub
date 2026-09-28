@@ -139,3 +139,24 @@ a retention period, or mark the full staging E2E gate PASS from deterministic te
 alone.
 
 PR #359 stays Draft and `SHOP_SALES_ENABLED=false`.
+
+
+### Batch 11 staging acceptance boundary
+
+The application now has an explicit staging-only request gate for the customer
+mutation path. Public sales remain controlled by `SHOP_SALES_ENABLED` and stay
+disabled. A non-production full-staging workflow may bypass only that public sales
+flag when all of the following are true:
+
+- `SHOP_STAGING_ACCEPTANCE_ENABLED=true`;
+- a non-empty `SHOP_STAGING_ACCEPTANCE_SECRET` is configured server-side;
+- the request supplies the exact value in
+  `X-Mainlagi-Shop-Staging-Secret`.
+
+This bypass does **not** bypass `operationalPolicyBlockers()`: pickup origin,
+courier allowlist and all approved operational policy requirements still have to
+pass. Production must leave the staging-acceptance flag disabled/unset.
+
+The purpose is to allow a bounded Batch 11 end-to-end test against a dedicated
+non-production database while `SHOP_SALES_ENABLED=false`, so the release candidate
+can be exercised without accidentally opening public checkout.

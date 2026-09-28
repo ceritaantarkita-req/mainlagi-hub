@@ -186,7 +186,7 @@
     "test:assets:redundant-webp-cleanup": "node scripts/run-redundant-webp-cleanup-session15-tests.mjs",
     "test:assets:core-thumbnails": "node scripts/run-core-thumbnail-wave01-tests.mjs",
     "test:ui:core-thumbnails": "node scripts/run-core-thumbnail-wave01-browser-tests.mjs",
-    "test:shop": "node scripts/run-shop-contract-tests.mjs && node scripts/run-shop-migration-chain-tests.mjs && node scripts/run-shop-db-tests.mjs && node scripts/run-shop-batch08-tests.mjs && node scripts/run-shop-batch09-tests.mjs && node scripts/run-shop-biteship-sandbox-fixture-tests.mjs",
+    "test:shop": "node scripts/run-shop-contract-tests.mjs && node scripts/run-shop-migration-chain-tests.mjs && node scripts/run-shop-db-tests.mjs && node scripts/run-shop-batch08-tests.mjs && node scripts/run-shop-batch09-tests.mjs && node scripts/run-shop-biteship-sandbox-fixture-tests.mjs && npm run test:shop:batch11-preflight",
     "test:shop:batch08": "node scripts/run-shop-batch08-tests.mjs",
     "test:shop:batch09": "node scripts/run-shop-batch09-tests.mjs",
     "test:shop:http": "node scripts/run-shop-http-tests.mjs",
@@ -202,7 +202,8 @@
     "test:learning:si04-share": "node scripts/run-si04-canonical-share-tests.mjs",
     "test:ui:canonical-share": "node scripts/run-si04-canonical-share-browser-tests.mjs",
     "test:learning:si05-pilot": "node scripts/run-si05-belajar-pilot-tests.mjs",
-    "test:ui:si05-pilot": "node scripts/run-si05-belajar-pilot-browser-tests.mjs"
+    "test:ui:si05-pilot": "node scripts/run-si05-belajar-pilot-browser-tests.mjs",
+    "test:shop:batch11-preflight": "node scripts/run-shop-batch11-preflight.mjs"
   },
   "dependencies": {
     "@capacitor/cli": "^7.6.8",
