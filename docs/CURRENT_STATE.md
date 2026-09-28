@@ -1,6 +1,6 @@
 # Mainlagi Hub — Current State
 
-Last reviewed: **27 September 2026**
+Last reviewed: **28 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
@@ -2078,7 +2078,7 @@ Live SI-06A boundary:
 
 SI-06A is **closed / merged / live verified**.
 
-The only authorized next Shared Interaction batch is **SI-06B — literacy/audio specialized renderers**. Preflight current ownership before mutation; do not assume the SI-00 list is still exact, and split the batch if audio/symbol versus sentence/reading ownership is too large for one bounded session.
+Historical SI-06A handoff pointed to **SI-06B — literacy/audio specialized renderers**. That preflight has now been completed and split: SI-06B1 is closed/live verified, while the current authorized next batch is SI-06B2. Use the SI-06B1 closure section below as the resume authority; do not restart the broad SI-06B preflight.
 
 
 ## 28 September 2026 — Shared Interaction SI-06B1 literacy/audio merged/live closure — CURRENT
