@@ -173,8 +173,8 @@ async function inspect(viewport){
     await status.filter({hasText:"Tepat"}).waitFor({state:"visible",timeout:2000});
     assert.equal(await completed(page),true,"actual touch correct answer completes canonical Math measurement activity");
     await assertFullyVisible(status,viewportHeight,`success Math compare feedback at ${viewport.width}`);
-    const nextLink=page.getByRole("link",{name:"Pilih permainan lain"});
-    await assertFullyVisible(nextLink,viewportHeight,`Math compare success CTA at ${viewport.width}`);
+    const completion=page.locator("[data-activity-completion]");
+    await assertFullyVisible(completion,viewportHeight,`Math compare canonical Completion at ${viewport.width}`);
 
     const state=await page.evaluate(({id})=>{
       const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
@@ -207,7 +207,7 @@ async function main(){
   startServer();
   await waitForServer();
   for(const viewport of viewports)await inspect(viewport);
-  console.log(`Math Compare Properties reuse browser QA passed ${viewports.length} viewports with three first-class capacity candidates, keyboard retry, actual-touch completion, canonical evidence, touch targets, feedback and CTA visibility.`);
+  console.log(`Math Compare Properties reuse browser QA passed ${viewports.length} viewports with three first-class capacity candidates, keyboard retry, actual-touch completion, canonical evidence, touch targets, feedback and Completion visibility.`);
 }
 
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;}).finally(stopServer);
