@@ -113,7 +113,9 @@ function localBlockers(
   const blockers: string[] = [];
   if (factText(facts, "verificationStatus") !== "production_verified")
     blockers.push(
-      "Fakta production masih candidate marketplace; verifikasi sampel fisik / production sheet supplier sebelum review.",
+      factText(facts, "verificationStatus") === "verification_stale"
+        ? "Verification lama sudah stale karena fakta/varian berubah; lakukan verifikasi ulang sebelum review."
+        : "Fakta production masih candidate marketplace; verifikasi sampel fisik / production sheet supplier sebelum review.",
     );
   blockers.push(...verificationEvidenceBlockers(facts, variants));
   const active = variants.filter((v) => v.isActive);
@@ -533,7 +535,9 @@ export function ProductAdminEditor({ product }: { product: Product }) {
               <strong>
                 {factText(facts, "verificationStatus") === "production_verified"
                   ? "Production verified"
-                  : "Marketplace candidate — belum verified"}
+                  : factText(facts, "verificationStatus") === "verification_stale"
+                    ? "Verification stale — wajib verifikasi ulang"
+                    : "Marketplace candidate — belum verified"}
               </strong>
             </p>
             <label>
