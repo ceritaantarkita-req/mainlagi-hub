@@ -179,10 +179,17 @@ jobs:
             -H "Prefer: return=representation"
           )
 
-          variant_code="$(curl -sS -o /tmp/b11-variant.json -w '%{http_code}'             -X PATCH             "$LOCAL_SUPABASE_URL/rest/v1/shop_variants?sku=eq.008-DEFAULT"             "${headers[@]}"             --data '{"weight_grams":350,"length_mm":300,"width_mm":220,"height_mm":30,"is_active":true}')"
+          variant_code="$(curl -sS -o /tmp/b11-variant.json -w '%{http_code}'             -X PATCH             "$LOCAL_SUPABASE_URL/rest/v1/shop_variants?sku=eq.008-A5-80-LINED"             "${headers[@]}"             --data '{"weight_grams":300,"length_mm":220,"width_mm":160,"height_mm":20,"is_active":true}')"
           [[ "$variant_code" == "200" ]] || {
             echo "::error::Could not apply ephemeral SKU 008 shipping fixture (HTTP $variant_code)."
             cat /tmp/b11-variant.json
+            exit 1
+          }
+
+          facts_code="$(curl -sS -o /tmp/b11-product-facts.json -w '%{http_code}'             -X PATCH             "$LOCAL_SUPABASE_URL/rest/v1/shop_products?product_code=eq.008"             "${headers[@]}"             --data '{"facts":{"verificationStatus":"production_verified","fixtureOnly":true,"verificationBasis":"Batch 11 ephemeral acceptance fixture; not production truth"}}')"
+          [[ "$facts_code" == "200" ]] || {
+            echo "::error::Could not prepare ephemeral SKU 008 verification fixture (HTTP $facts_code)."
+            cat /tmp/b11-product-facts.json
             exit 1
           }
 
@@ -208,7 +215,7 @@ jobs:
             sku008.media_approved !== true
           )
             throw new Error("Ephemeral SKU 008 acceptance fixture did not activate.");
-          console.log("Local Supabase migration chain + testing-only SKU 008 fixture PASS.");
+          console.log("Local Supabase migration chain + marketplace-candidate SKU 008 + testing-only activation fixture PASS.");
           NODE
 
       - name: Install pinned Cloudflare Quick Tunnel binary
