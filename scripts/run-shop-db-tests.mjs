@@ -9,6 +9,7 @@ try {
   for (const migration of [
     "../supabase/migrations/20260926195237_shop_foundation.sql",
     "../supabase/migrations/20260927051000_shop_admin_workflow.sql",
+    "../supabase/migrations/20260928143000_shop_batch11_marketplace_candidate_variants.sql",
   ]) {
     await db.exec(await readFile(new URL(migration, import.meta.url), "utf8"));
   }
@@ -17,6 +18,22 @@ try {
   assert.equal(
     (await one("select sum(on_hand)::int n from shop_inventory_balances")).n,
     79,
+  );
+  assert.equal(
+    (await one("select count(*)::int n from shop_variants")).n,
+    26,
+  );
+  assert.equal(
+    (await one("select count(*)::int n from shop_variants where sku like '%-DEFAULT'")).n,
+    0,
+  );
+  assert.equal(
+    (
+      await one(
+        "select count(*)::int n from shop_products where facts->>'verificationStatus'='marketplace_candidate_unverified'",
+      )
+    ).n,
+    9,
   );
   assert.equal(
     (await one("select count(*)::int n from shop_product_media")).n,
@@ -80,7 +97,10 @@ try {
         product.id,
         product.title,
         product.description,
-        JSON.stringify({ sizeChart: "S: verified sample measurements" }),
+        JSON.stringify({
+          verificationStatus: "production_verified",
+          sizeChart: "S: verified sample measurements",
+        }),
         stranger,
       ],
     ),
@@ -92,7 +112,10 @@ try {
       product.id,
       product.title,
       product.description,
-      JSON.stringify({ sizeChart: "S: verified sample measurements" }),
+      JSON.stringify({
+        verificationStatus: "production_verified",
+        sizeChart: "S: verified sample measurements",
+      }),
       owner,
     ],
   );
@@ -632,7 +655,7 @@ try {
   ]);
   await assert.rejects(checkout(emptyBalance), /inventory missing/);
   console.log(
-    "Shop SQL: seeds, RLS, owner product workflow, fail-closed activation, variant stock conservation/history lock, media guards, audit logs, reservation, payment lease retry, duplicate/out-of-order payment idempotency, amount/transaction identity, challenge hold, late payment, quote invalidation, missing inventory, packing, shipment leases, no status regression, refund release, adjustment idempotency, reporting PASS",
+    "Shop SQL: 26 marketplace-candidate variants / 79 stock remain unverified, RLS, owner product workflow, fail-closed activation, variant stock conservation/history lock, media guards, audit logs, reservation, payment lease retry, duplicate/out-of-order payment idempotency, amount/transaction identity, challenge hold, late payment, quote invalidation, missing inventory, packing, shipment leases, no status regression, refund release, adjustment idempotency, reporting PASS",
   );
 } finally {
   await db.close();
