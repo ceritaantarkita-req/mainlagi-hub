@@ -1,6 +1,6 @@
 # Mainlagi Hub Documentation Index
 
-Last reviewed: **27 September 2026**
+Last reviewed: **28 September 2026**
 
 Use this file to decide which documentation is current and which files are historical snapshots.
 
@@ -10,6 +10,7 @@ Read these first for current work:
 
 1. [`NEXT_PRODUCT_QUALITY_PLAN.md`](NEXT_PRODUCT_QUALITY_PLAN.md) — current execution order, workstreams, status and mandatory gates.
 2. [`CURRENT_STATE.md`](CURRENT_STATE.md) — current repository/product/production baseline.
+   - [`MAINLAGI_SHOP_BATCH11_SAFE_CHECKPOINT_2026-09-28.md`](MAINLAGI_SHOP_BATCH11_SAFE_CHECKPOINT_2026-09-28.md) — active resumable Shop PR #359 / Batch 11 checkpoint; do not restart completed provider/staging work.
    - [`MAINLAGI_CORE_THUMBNAIL_WAVE01_LIVE_CHECKPOINT_2026-09-27.md`](MAINLAGI_CORE_THUMBNAIL_WAVE01_LIVE_CHECKPOINT_2026-09-27.md) — current post-implementation safe checkpoint for the 31-file 4:3 core-thumbnail family, PR #357, CI #1711 and exact Cloudflare live verification.
    - [`data/MAINLAGI_CORE_THUMBNAIL_WAVE01_SOURCE_MAP_2026-09-26.json`](data/MAINLAGI_CORE_THUMBNAIL_WAVE01_SOURCE_MAP_2026-09-26.json) — exact machine-readable Drive/source mapping for Home, subjects, Main Gerak and World.
 3. [`PROJECT_STATE_SYNC_2026-09-20.md`](PROJECT_STATE_SYNC_2026-09-20.md) — compact current handoff and next-work state.
@@ -555,4 +556,4 @@ Historical English-narration checkpoint: next work there was candidate generatio
 
 - [`SI06A_FALLBACK_BELAJAR_SAFE_CHECKPOINT_2026-09-28.md`](SI06A_FALLBACK_BELAJAR_SAFE_CHECKPOINT_2026-09-28.md) — final Shared Interaction SI-06A closure: PR #371 head `f6ef3de540142651ec3edeb667fc052e68bdf8be` passed CI #2056, squash-merged to `5db9bf8d733a3471486ef05e7addee70664a6c17`, merged-main CI #2057 + exact Cloudflare smoke full success; production-reachable fallback Choice/Matching/Trace/Story now use the canonical Completion path, Motion remains redirect-only, and current dispatcher ownership records coloring as CreativePractice-owned and math-count-3 as CountAndSelect-owned. SI-06B literacy/audio specialized preflight is next.
 
-- [`SI06B1_LITERACY_AUDIO_SAFE_CHECKPOINT_2026-09-28.md`](SI06B1_LITERACY_AUDIO_SAFE_CHECKPOINT_2026-09-28.md) — active bounded SI-06B1 handoff: AudioChoice, SymbolHunt, SyllableAssembly and InitialSound use the live canonical Completion+Share path while audio/evidence owners remain unchanged; SI-06B2 sentence/reading is explicitly not started and static/browser closure gates are wired into permanent CI.
+- [`SI06B1_LITERACY_AUDIO_SAFE_CHECKPOINT_2026-09-28.md`](SI06B1_LITERACY_AUDIO_SAFE_CHECKPOINT_2026-09-28.md) — final Shared Interaction SI-06B1 closure: PR #373 head `ad5ed719da446314e3a131d7211c595e51b55eb4` passed CI #2077, squash-merged to `15058932eff424bc6ba7eb3e4e5bf0ad29ae05a1`, merged-main CI #2078 + exact Cloudflare smoke full success; AudioChoice, SymbolHunt, SyllableAssembly and InitialSound keep their audio/evidence owners while canonical Completion+Share owns post-success presentation. SI-06B2 sentence/reading is next.

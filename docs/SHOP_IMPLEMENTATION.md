@@ -1327,33 +1327,39 @@ migration, real funds, sales activation, or paid Supabase branch was used.
 - Batch 01 is **DONE**.
 - Batch 02 is **DONE**.
 - Batch 03 is **DONE**.
-- Batch 04 policy/customer UX implementation is complete; private pickup/courier
-  deployment configuration remains a launch blocker.
+- Batch 04 is **OWNER-APPROVED**. Customer policy/support UX is implemented and
+  the approved pickup/courier configuration has already been exercised against
+  Biteship Sandbox. Free-staging CI additionally normalizes matching quote wrappers
+  around private origin secrets before strict readiness validation.
 - Batch 05 is **DONE** using the owner-approved zero-cost PostgreSQL 17 path.
 - Batch 06 is **DONE**. Real Sandbox Snap, pending, paid, deny, cancel, expire,
   real notification delivery and the actual Next.js webhook route were accepted;
   deterministic duplicate/out-of-order, lease/retry, identity, challenge-hold,
   late-payment and inventory assertions passed on CI #1844.
-- Batch 07 is **PARTIALLY ACCEPTED in Biteship Testing Mode**: API authentication,
-  courier/service discovery, private origin configuration, Rates API, two simulated
-  Order API creations, independent provider GET, duplicate-reference detection,
-  cancel API, and the authenticated staging webhook/provider-GET boundary have
-  passed. Remaining Batch 07 work is manual Delivered/status simulation + Events
-  Log evidence, integrated database-backed paid/packed shipment flow, tracking/
-  exception progression, and replacement of provisional fixture measurements with
-  real production product facts.
+- Batch 07 provider acceptance is **COMPLETE for bounded Biteship Testing Mode**:
+  authentication, courier/service discovery, Rates, simulated Orders, independent
+  provider GET, duplicate-reference detection/manual fallback, cancel, authenticated
+  webhook, Delivered tracking and return/exception progression all passed. Remaining
+  release work is the full DB-backed paid/packed provider sequence plus replacement
+  of provisional fixture measurements with real production product facts.
 - Batch 08 is **DONE for deterministic commerce state-machine QA**. Checkout,
   ownership, payment terminal states, refund/manual-review behavior, monotonic
   shipment transitions, duplicate/out-of-order/unknown provider states and
   inventory invariants passed on CI #1845. This does not substitute for Batch 07
   live Biteship evidence.
-- Batch 09 is **IMPLEMENTATION COMPLETE / DETERMINISTIC ACCEPTANCE DONE** on
-  CI #1851. Full exit remains blocked on a real non-production staging scheduler,
-  matching cron secrets, one observed scheduled run, Batch 07 shipment-provider
-  configuration and an explicit PII-retention duration.
+- Batch 09 is **IMPLEMENTATION COMPLETE / SCHEDULER ACCEPTED**. Deterministic
+  acceptance passed on CI #1851 and Batch 11 free-staging run #4 observed a real
+  Cloudflare five-minute cron invocation create a completed reconciliation row with
+  `status=ok`. The remaining Batch 09 launch input is the explicit production
+  PII-retention duration.
 - Batch 10 is **DONE** on functional SHA `617b1157a9b0db41f5d9a5242df2a17e4c04ac95`; CI #1909 / run `36326902517` passed the exact tree and browser evidence is recorded above.
 - Post-Batch-10 integration is **DONE** on merge SHA `7751942bdf29a7664aae6a4e075578d251feb687`, preserving Shop and SI-01 orientation work from `main` `f2b3768745f11e4fa33954d61aabb1a01acda2ff`; CI #1915 / run `36328184665` passed the exact integrated tree.
-- Batch 11 launch-gate review is **BLOCKED** on real product facts/variant data, non-production Biteship/origin configuration and provider acceptance, a safe public staging origin, observed scheduler evidence and an explicit PII-retention duration. See `docs/MAINLAGI_SHOP_BATCH11_LAUNCH_GATE_2026-09-27.md`.
+- Batch 11 remains **BLOCKED**, but the free DB-backed staging origin, real scheduler
+  evidence, owner operational policy and bounded Biteship provider acceptance are
+  no longer blockers. Remaining launch blockers are real production product
+  facts/variant data, an explicit production PII-retention duration, and the final
+  full integrated DB-backed paid→packed→provider→webhook E2E. Resume from
+  `docs/MAINLAGI_SHOP_BATCH11_SAFE_CHECKPOINT_2026-09-28.md`.
 - Do not create a paid Supabase branch.
 - Missing physical product facts remain separate per-product activation blockers.
 - PR #359 remains **Draft** and is **not approved for live sales**.
@@ -1556,3 +1562,23 @@ cleaned up. The workflow is manual-only (`workflow_dispatch`) after acceptance.
 Production Supabase is not used and is not mutated by this workflow. Product truth,
 owner operational-policy decisions, production PII retention and the remaining full
 paid→packed→provider→webhook DB-backed flow are still launch blockers.
+
+
+### Batch 11 safe checkpoint — 28 September 2026
+
+Do not restart Shop or repeat the completed provider/staging work.
+
+Code checkpoint `554f43027855a5b8742a016e487d6d1b951909cc` contains:
+
+- the zero-additional-Supabase-cost ephemeral staging path;
+- manual-only Batch 11 staging workflow;
+- safe quote-wrapper normalization for private Biteship origin secrets;
+- owner-policy validation that reflects the already-approved Batch 04 contract;
+- synchronization through SI-06B1 main;
+- exact PR CI **#2085** / run `36386147649` — full success.
+
+Free-staging run #4 remains the canonical scheduler/database-backed staging evidence.
+Run #5 was a diagnostic-only failure that identified raw quote-wrapper formatting on
+the phone/postal secrets; it also explicitly confirmed the owner operational-policy
+contract is approved. The next action is a single manual free-staging rerun, not a
+new staging architecture.
