@@ -173,6 +173,14 @@ const shopAdminSource = await readFile(
   "src/app/admin/shop/[section]/page.tsx",
   "utf8",
 );
+const productAdminEditorSource = await readFile(
+  "src/components/shop/ProductAdminEditor.tsx",
+  "utf8",
+);
+const verificationStalenessMigrationSource = await readFile(
+  "supabase/migrations/20260928146000_shop_batch11_verification_staleness.sql",
+  "utf8",
+);
 const shopPolicyPageSource = await readFile(
   "src/app/shop/policies/page.tsx",
   "utf8",
@@ -320,9 +328,24 @@ assert.ok(
 assert.match(shopAdminSource, /"settings"/);
 assert.match(shopAdminSource, /Kesiapan operasional Shop/);
 assert.match(
-  await readFile("src/components/shop/ProductAdminEditor.tsx", "utf8"),
-  /verificationStatus[sS]*marketplace_candidate_unverified[sS]*production_verified/,
+  productAdminEditorSource,
+  /verificationStatus[\s\S]*marketplace_candidate_unverified[\s\S]*production_verified/,
   "admin product workflow must expose the explicit physical\/supplier verification gate",
+);
+assert.match(
+  productAdminEditorSource,
+  /Physical \/ supplier verification[\s\S]*actualProductFacts[\s\S]*variantSkus[\s\S]*evidenceRef/,
+  "admin must capture structured physical/supplier verification evidence",
+);
+assert.match(
+  productAdminEditorSource,
+  /verification_stale[\s\S]*Verification stale — wajib verifikasi ulang/,
+  "admin must surface stale verification after verified facts or physical variants change",
+);
+assert.match(
+  verificationStalenessMigrationSource,
+  /verification_stale[\s\S]*physical variant configuration changed[\s\S]*shop_verified_variant_staleness_update/,
+  "verified physical variant changes must invalidate stale evidence",
 );
 assert.match(shopPolicyPageSource, /Belanja dengan aturan yang jelas/);
 assert.match(shopPolicyPageSource, /Buka WhatsApp/);
