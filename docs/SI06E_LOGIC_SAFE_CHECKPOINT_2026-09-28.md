@@ -73,6 +73,8 @@ SI-06E does not change:
 
 ## Resume authority
 
-SI-06E is complete and live verified at `main@f42566afcefbad0d7a325023d0a2553214f7bc84`.
+SI-06E remains complete and live verified at its historical runtime checkpoint `main@f42566afcefbad0d7a325023d0a2553214f7bc84`.
 
-**HARD STOP:** do not start SI-06F Science until the user explicitly authorizes it after discussion.
+The SI-06E hard stop was subsequently satisfied; SI-06F Science and SI-06G Creative have both since been completed, merged, and live verified. The current Shared Interaction resume authority is `docs/SI06G_CREATIVE_SAFE_CHECKPOINT_2026-09-29.md`. Its verified post-SI-06G closure baseline is `main@899b9a00abd1ea1ab9598b03e29f49d9c778cbe8`; later documentation-only descendants may move repository HEAD without changing that closure truth.
+
+**CURRENT HARD STOP:** do not start SI-07 Bermain games 1–3 until the user explicitly authorizes it.

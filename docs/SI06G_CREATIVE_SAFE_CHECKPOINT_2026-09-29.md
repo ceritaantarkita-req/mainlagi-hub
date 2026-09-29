@@ -13,11 +13,15 @@ final PR head:           4cef902b5f6fd149492b94b1487e88befa6eeedb
 final PR CI:             #2268 / run 36512437374 — FULL SUCCESS
 merged main:             5c9aa4b55c908745c8d7cf5aceef941c327a7404
 merged-main CI:          #2269 / run 36513392973 — FULL SUCCESS
-Cloudflare smoke:        SUCCESS — exact merged main SHA verified
+Cloudflare smoke:        SUCCESS — exact merged runtime SHA verified
+closure docs PR:         #390 — merged
+final repository main:   899b9a00abd1ea1ab9598b03e29f49d9c778cbe8
+final repository CI:     #2271 / run 36515742967 — FULL SUCCESS
+final Cloudflare smoke:  SUCCESS — exact final repository SHA verified
 checkpoint:              docs/SI06G_CREATIVE_SAFE_CHECKPOINT_2026-09-29.md
 ```
 
-Merged-main jobs were green for Windows compatibility, Secret history scan, Production build, Mobile route QA (Chromium), Quality gate (Ubuntu), Production dependency audit, and Production smoke (Cloudflare).
+Runtime merged-main CI #2269 and final repository CI #2271 were both green for Windows compatibility, Secret history scan, Production build, Mobile route QA (Chromium), Quality gate (Ubuntu), Production dependency audit, and Production smoke (Cloudflare).
 
 ## SI-06G active owner set
 
@@ -81,6 +85,8 @@ SI-06G does not change:
 
 ## Resume authority
 
-SI-06G is complete and live verified at `main@5c9aa4b55c908745c8d7cf5aceef941c327a7404`.
+SI-06G runtime is complete and live verified at `5c9aa4b55c908745c8d7cf5aceef941c327a7404`.
+
+The final documentation closure is merged and exact-SHA verified at **`main@899b9a00abd1ea1ab9598b03e29f49d9c778cbe8`** via CI **#2271 / run `36515742967`**, including Production smoke (Cloudflare). Treat this SHA as the verified post-SI-06G closure baseline. Later documentation-only descendants may move repository HEAD without changing SI-06G closure truth; query `main` when the exact latest HEAD is required.
 
 **HARD STOP:** do not start SI-07 Bermain games 1–3 until the user explicitly authorizes it.
