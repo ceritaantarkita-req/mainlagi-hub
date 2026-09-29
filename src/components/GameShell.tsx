@@ -64,7 +64,10 @@ export function GameShell({ game }: { game: GameDefinition }) {
   const canonicalCompletionGame =
     game.slug === "math-choice" ||
     game.slug === "math-motion-battle" ||
-    game.slug === "number-trace";
+    game.slug === "number-trace" ||
+    game.slug === "shape-quest" ||
+    game.slug === "pattern-race" ||
+    game.slug === "math-warung";
 
   const setPlayerLevel = useCallback((player: PlayerId, level: Level) => {
     setPlayerLevels((current) =>
