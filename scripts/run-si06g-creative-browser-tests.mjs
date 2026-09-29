@@ -167,17 +167,20 @@ async function inspectColoring(browser){
     await page.keyboard.press("Enter");
     const completion=await canonicalCompletion(page,"Coloring");
     assert.equal(await completed(page,coloringId),true,"Coloring finish preserves progress completion");
-    assert.equal(await pathNode.getAttribute("fill"),fillPainted,"Coloring fill survives while Completion overlays the workspace");
-    assert.equal(await illustration.isVisible(),true,"Coloring artwork remains mounted under Completion");
+    assert.equal(new URL(page.url()).pathname,routes.coloring,"Coloring Completion stays on the creative activity route");
     assert.equal(await page.getByRole("link",{name:"Pilih permainan lain"}).count(),0,"legacy Coloring success CTA is gone");
 
     await page.evaluate(()=>{window.__si06gReplayMarker="alive";});
     await completion.locator('[data-completion-action="again"]').click();
     await completion.waitFor({state:"hidden",timeout:3000});
     assert.equal(await page.evaluate(()=>window.__si06gReplayMarker),"alive","Coloring Again does not reload the document");
-    assert.equal(await pathNode.getAttribute("fill"),fillPainted,"Coloring Again preserves completed fills");
-    assert.equal(await region.getAttribute("data-color-filled"),"true","Coloring Again resumes the same filled workspace");
-    assert.equal(await finish.isEnabled(),true,"Coloring Again keeps the finished artwork editable");
+    const resumedIllustration=page.getByLabel(/Gambar untuk diwarnai:/);
+    await resumedIllustration.waitFor({state:"visible",timeout:5000});
+    const resumedRegion=page.locator('[data-color-region="0"]');
+    const resumedPath=resumedRegion.locator("path");
+    assert.equal(await resumedPath.getAttribute("fill"),fillPainted,"Coloring Again preserves completed fills");
+    assert.equal(await resumedRegion.getAttribute("data-color-filled"),"true","Coloring Again resumes the same filled workspace");
+    assert.equal(await page.getByRole("button",{name:"Selesai",exact:true}).isEnabled(),true,"Coloring Again keeps the finished artwork editable");
     await assertNoHorizontalOverflow(page,"Coloring replay");
     mkdirSync(outDir,{recursive:true});
     await page.screenshot({path:path.join(outDir,"coloring-390-again-preserved.png"),fullPage:false});
