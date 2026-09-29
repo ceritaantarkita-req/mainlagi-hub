@@ -52,7 +52,11 @@ async function newContext(browser){
   await context.addInitScript(()=>{
     if(!localStorage.getItem("mainlagi-learning-progress-v1")){
       localStorage.setItem("mainlagi-learning-progress-v1",JSON.stringify({
-        "demo-gian":{completedActivityIds:[],stars:0,lastActivityId:null}
+        "demo-gian":{
+          completedActivityIds:["color-gavi","color-paca"],
+          stars:4,
+          lastActivityId:"color-paca"
+        }
       }));
     }
   });
