@@ -13,6 +13,7 @@ import { resolveCharacterPresentation } from "@/lib/learning/characterPresentati
 import { VisionOverlay } from "@/components/VisionOverlay";
 import { useOverlayPrefs } from "@/lib/react/useOverlayPrefs";
 import type { SessionMode } from "./types";
+import { BermainCompletion } from "./BermainCompletion";
 
 interface TimerOptions {
   /** In `santai` mode the countdown is disabled entirely. */
@@ -283,7 +284,8 @@ export function RoundEndOverlay({
   onReplay,
   onCalibration,
   game,
-  durationSeconds
+  durationSeconds,
+  canonical = false
 }: {
   title?: string;
   score: Record<PlayerId, number>;
@@ -293,7 +295,22 @@ export function RoundEndOverlay({
   /** When given, the round is offered to that game's leaderboard. */
   game?: GameSlug;
   durationSeconds?: number;
+  canonical?: boolean;
 }) {
+  if (canonical && game) {
+    return (
+      <BermainCompletion
+        title={title}
+        score={score}
+        playerCount={playerCount}
+        onReplay={onReplay}
+        onCalibration={onCalibration}
+        game={game}
+        durationSeconds={durationSeconds}
+      />
+    );
+  }
+
   const characterPresentation = resolveCharacterPresentation({
     context: "play_completion",
     requestedCharacters: ["gavi", "paca"],

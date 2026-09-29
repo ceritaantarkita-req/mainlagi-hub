@@ -1,0 +1,112 @@
+.characters {
+  width: min(430px, 100%);
+  margin: 0 auto;
+}
+
+/* CharacterLayer's ensemble intentionally staggers the second/fourth character
+   downward. Reserve that offset inside the completion slot so the SVG remains
+   fully contained instead of being clipped by the ensemble's overflow box. */
+.characters :global([data-character-layer][data-character-geometry="safe-contain-v1"]) {
+  padding-bottom: 12px;
+}
+
+.results {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+}
+
+.resultLead {
+  margin: 0;
+  color: #355a50;
+  font-weight: 900;
+}
+
+.scores {
+  width: min(360px, 100%);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.single {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.scores > div {
+  display: grid;
+  gap: 2px;
+  padding: 10px 14px;
+  border: 2px solid #d8e2d5;
+  border-radius: 16px;
+  background: #fff;
+}
+
+.scores small {
+  color: #6b7b74;
+  font-size: 11px;
+  font-weight: 950;
+  letter-spacing: .07em;
+}
+
+.scores strong {
+  color: #193b55;
+  font-size: 24px;
+}
+
+.calibration {
+  min-height: 44px;
+  padding: 8px 14px;
+  border: 2px solid #d8e2d5;
+  border-radius: 14px;
+  background: #fff;
+  color: #193b55;
+  font: inherit;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.calibration:hover {
+  background: #eef6ef;
+}
+
+.calibration:focus-visible {
+  outline: 4px solid #155f86;
+  outline-offset: 3px;
+}
+
+@media (max-width: 520px) {
+  .characters {
+    width: min(320px, 100%);
+  }
+
+  .results {
+    gap: 8px;
+  }
+
+  .scores > div {
+    padding: 8px 10px;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 560px) {
+  .characters {
+    width: min(300px, 76vw);
+  }
+
+  .resultLead {
+    font-size: 13px;
+  }
+
+  .scores > div {
+    padding-block: 6px;
+  }
+
+  .scores strong {
+    font-size: 19px;
+  }
+
+  .calibration {
+    min-height: 40px;
+  }
+}

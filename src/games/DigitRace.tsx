@@ -243,6 +243,7 @@ export function DigitRace({
           onReplay={props.onReplay}
           onCalibration={props.onExit}
           game={props.game.slug}
+          canonical={kind === "math"}
         />
       ) : null}
     </CameraBackdrop>

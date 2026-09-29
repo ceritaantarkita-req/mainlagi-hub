@@ -308,7 +308,7 @@ async function openBermainRoundEnd(page) {
   await page.getByRole("button", { name: "Ayo main", exact: true }).click();
   await page.locator(".game-hud").waitFor({ state: "visible", timeout: 7_000 });
   await page.evaluate(() => window.__mainlagiSi02AdvanceClock?.(95_000));
-  await page.locator(".round-end-overlay").waitFor({ state: "visible", timeout: 5_000 });
+  await page.locator('[data-si07-bermain="games-1-3"][data-completion-context="bermain"]').waitFor({ state: "visible", timeout: 5_000 });
 }
 
 async function testBermainRoundEnd(browser) {
@@ -317,14 +317,14 @@ async function testBermainRoundEnd(browser) {
   const page = await context.newPage();
   await openBermainRoundEnd(page);
 
-  const card = page.locator(".round-end-card");
-  assert.equal(await card.getAttribute("data-mainlagi-play-character-state"), "celebrate", "Bermain round-end keeps celebrate state");
-  const characters = card.locator(".round-end-characters");
-  await assertSafeCharacterGeometry(characters, ["gavi", "paca"], "Bermain RoundEnd portrait");
+  const completion = page.locator('[data-si07-bermain="games-1-3"][data-completion-context="bermain"]');
+  assert.equal(await completion.getAttribute("data-canonical-completion"), "v1", "Bermain round-end uses canonical Completion");
+  const characters = completion.locator('[data-mainlagi-play-character-state="celebrate"]');
+  await assertSafeCharacterGeometry(characters, ["gavi", "paca"], "Bermain canonical Completion portrait");
 
-  await rotate(page, landscape, "landscape", "Bermain RoundEnd landscape");
-  await assertSafeCharacterGeometry(characters, ["gavi", "paca"], "Bermain RoundEnd landscape");
-  assert.equal(await page.locator(".round-end-overlay").isVisible(), true, "Bermain RoundEnd remains mounted through rotation");
+  await rotate(page, landscape, "landscape", "Bermain canonical Completion landscape");
+  await assertSafeCharacterGeometry(characters, ["gavi", "paca"], "Bermain canonical Completion landscape");
+  assert.equal(await completion.isVisible(), true, "Bermain canonical Completion remains mounted through rotation");
   await page.screenshot({ path: path.join(outDir, "bermain-round-end-landscape.png"), fullPage: false });
   await rotate(page, portrait, "portrait", "Bermain RoundEnd portrait recovery");
   await context.close();

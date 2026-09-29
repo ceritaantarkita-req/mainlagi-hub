@@ -61,6 +61,10 @@ export function GameShell({ game }: { game: GameDefinition }) {
     playerCount,
     face: useFace
   });
+  const canonicalCompletionGame =
+    game.slug === "math-choice" ||
+    game.slug === "math-motion-battle" ||
+    game.slug === "number-trace";
 
   const setPlayerLevel = useCallback((player: PlayerId, level: Level) => {
     setPlayerLevels((current) =>
@@ -188,7 +192,7 @@ export function GameShell({ game }: { game: GameDefinition }) {
         </div>
         <div className="experience-actions">
           {inputMode === "camera" ? <OverlayToggle /> : null}
-          <ShareButton title={game.title} text={game.description} />
+          {!canonicalCompletionGame ? <ShareButton title={game.title} text={game.description} /> : null}
           <button
             type="button"
             aria-label="Kalibrasi ulang"
