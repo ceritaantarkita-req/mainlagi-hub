@@ -1,14 +1,13 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { completeActivity, getActivity, type LearningActivity } from "@/lib/learning/system";
 import { coloringScene } from "@/lib/learning/coloringScenes";
 import { drawingGuide } from "@/lib/learning/drawingGuides";
 import { DrawingScaffold } from "./DrawingScaffold";
 import { speakWithStatus, unlockAudio } from "@/lib/audio/feedback";
-import { useLearningProgress } from "./LearningCommon";
 import { ArrowCounterClockwise, ArrowUUpLeft, Check, Eye, EyeSlash } from "@phosphor-icons/react";
+import { ActivityCompletion } from "./ActivityCompletion";
 import { GardenActivityFrame } from "./GardenActivityFrame";
 import ui from "./Playroom.module.css";
 import styles from "./CreativeStudio.module.css";
@@ -165,18 +164,17 @@ function ColoringRegions({activity,onDone}:{activity:LearningActivity;onDone:()=
 
 export function CreativePracticeActivity({childId,activityId}:{childId:string;activityId:string}) {
   const activity=getActivity(activityId);
-  const progress=useLearningProgress(childId);
-  const [completedId,setCompletedId]=useState<string|null>(null);
+  const [completionOpen,setCompletionOpen]=useState(false);
   const [audioError,setAudioError]=useState(false);
   if(!activity || !["drawing","coloring"].includes(activity.runtime))return <main className={ui.page}>Aktivitas kreatif tidak ditemukan.</main>;
   const prompt=activity.creativePrompt??activity.title;
-  const finish=()=>{completeActivity(childId,activity.id);setCompletedId(activity.id);};
-  const done=completedId===activity.id||progress.completedActivityIds.includes(activity.id);
+  const finish=()=>{completeActivity(childId,activity.id);setCompletionOpen(true);};
+  const resumeWorkspace=()=>setCompletionOpen(false);
   return <GardenActivityFrame workspace backHref={`/child/${childId}/subject/${activity.subjectId}`} title={activity.title} onHear={()=>{unlockAudio();const status=speakWithStatus(prompt);setAudioError(status!=="spoken");}}>
     {activity.runtime==="drawing" && prompt!==activity.title ? <p className={styles.prompt}>{prompt}</p>:null}
     {activity.runtime==="coloring" ? <p className={styles.hint}>Pilih warna. Sentuh gambarnya.</p>:null}
     {audioError ? <p role="status">Narasi dengan pelafalan yang sesuai belum tersedia atau suara sedang dimatikan. Petunjuk tetap bisa dibaca di atas.</p>:null}
     {activity.runtime==="drawing" ? <DrawingCanvas key={activity.id} activity={activity} onDone={finish}/>:<ColoringRegions key={activity.id} activity={activity} onDone={finish}/>}
-    {done ? <div className={styles.completed} role="status"><strong>Karyamu selesai. Hebat!</strong><span>Kamu boleh terus berkarya atau memilih permainan lain.</span><Link href={`/child/${childId}/subject/${activity.subjectId}`} className={ui.secondary}>Pilih permainan lain</Link></div>:null}
+    {completionOpen ? <ActivityCompletion childId={childId} activity={activity} onTryAgain={resumeWorkspace} /> : null}
   </GardenActivityFrame>;
 }
