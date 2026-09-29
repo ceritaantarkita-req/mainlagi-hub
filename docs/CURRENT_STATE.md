@@ -2101,7 +2101,8 @@ SI-06D1 — Math choice/shared renderers       COMPLETE / merged / live verified
 SI-06D2 — Math trace renderer                 COMPLETE / merged / live verified
 SI-06E — Logic specialized renderers          COMPLETE / merged / live verified
 SI-06F — Science specialized renderers        COMPLETE / merged / live verified
-SI-06G — Creative workspace                   PAUSED / not authorized
+SI-06G — Creative workspace                   COMPLETE / merged / live verified
+SI-07 — Bermain games 1–3                     PAUSED / not authorized
 ```
 
 SI-06B1 closure:
@@ -2351,4 +2352,43 @@ Runtime boundary:
 
 PR #387 latest head passed CI #2259, squash-merged to `2e0c7bbc4ce2bd12562137b63e40e4a2e94abb43`, and merged-main CI #2260 completed full success including exact Production smoke (Cloudflare). SI-06F is **closed / merged / live verified**.
 
-**Hard stop:** do not start SI-06G Creative workspace until the user explicitly authorizes it.
+Historical SI-06F hard stop was satisfied by explicit user authorization before SI-06G began. It is retained only as sequencing history; it is not a current blocker.
+
+## 29 September 2026 — Shared Interaction SI-06G Creative — CLOSED / LIVE VERIFIED
+
+Verified production baseline:
+
+```text
+pre-G main:              3a3a1044dc61fe712afb77cbf3e84d1a700c8da3
+runtime PR:              #389 — merged
+final PR head:           4cef902b5f6fd149492b94b1487e88befa6eeedb
+final PR CI:             #2268 / run 36512437374 — FULL SUCCESS
+merged main:             5c9aa4b55c908745c8d7cf5aceef941c327a7404
+merged-main CI:          #2269 / run 36513392973 — FULL SUCCESS
+Cloudflare smoke:        SUCCESS — exact merged main SHA verified
+checkpoint:
+docs/SI06G_CREATIVE_SAFE_CHECKPOINT_2026-09-29.md
+```
+
+Current SI-06G production owner:
+
+```text
+CreativePracticeActivity
+  - Drawing workspace
+  - Coloring workspace
+```
+
+Runtime boundary:
+
+- production Drawing and Coloring now use canonical `ActivityCompletion` + Share instead of the local completed message/subject-exit block;
+- Completion opens only from the current-session `Selesai` action, not from persisted historical completion;
+- Again dismisses the overlay and resumes the same mounted workspace without document reload;
+- Drawing strokes and Coloring fill/history state survive Completion and Again;
+- renderer-owned `completeActivity` remains unchanged;
+- the representative Coloring browser fixture preserves legitimate progression by completing the prior `color-characters` stage (`color-gavi` + `color-paca`) before entering `color-exploration-basics`;
+- legacy fallback `ColoringActivity` remains the SI-06A-owned canonical fallback and is not re-migrated;
+- artwork geometry, drawing guides, palette mechanics, evidence/progression architecture, dispatcher ownership, database/schema, Bermain, World, Journey Map, and Shop remain outside SI-06G.
+
+PR #389 final head passed CI #2268, squash-merged to `5c9aa4b55c908745c8d7cf5aceef941c327a7404`, and merged-main CI #2269 completed full success including exact Production smoke (Cloudflare). SI-06G is **closed / merged / live verified**.
+
+**Hard stop:** do not start SI-07 Bermain games 1–3 until the user explicitly authorizes it.
