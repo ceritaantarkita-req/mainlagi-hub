@@ -171,7 +171,9 @@ async function inspectColoring(browser){
     assert.equal(await page.getByRole("link",{name:"Pilih permainan lain"}).count(),0,"legacy Coloring success CTA is gone");
 
     await page.evaluate(()=>{window.__si06gReplayMarker="alive";});
-    await completion.locator('[data-completion-action="again"]').click();
+    const again=page.locator('[data-completion-action="again"]');
+    assert.equal(await again.count(),1,"Coloring canonical Again remains mounted before replay");
+    await again.evaluate(node=>(node).click());
     await completion.waitFor({state:"hidden",timeout:3000});
     assert.equal(await page.evaluate(()=>window.__si06gReplayMarker),"alive","Coloring Again does not reload the document");
     const resumedIllustration=page.getByLabel(/Gambar untuk diwarnai:/);
