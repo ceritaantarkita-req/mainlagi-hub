@@ -87,6 +87,6 @@ SI-06G does not change:
 
 SI-06G runtime is complete and live verified at `5c9aa4b55c908745c8d7cf5aceef941c327a7404`.
 
-The final documentation closure is merged and exact-SHA verified at **`main@899b9a00abd1ea1ab9598b03e29f49d9c778cbe8`** via CI **#2271 / run `36515742967`**, including Production smoke (Cloudflare). This final repository main is the canonical resume authority after SI-06G.
+The final documentation closure is merged and exact-SHA verified at **`main@899b9a00abd1ea1ab9598b03e29f49d9c778cbe8`** via CI **#2271 / run `36515742967`**, including Production smoke (Cloudflare). Treat this SHA as the verified post-SI-06G closure baseline. Later documentation-only descendants may move repository HEAD without changing SI-06G closure truth; query `main` when the exact latest HEAD is required.
 
 **HARD STOP:** do not start SI-07 Bermain games 1–3 until the user explicitly authorizes it.
