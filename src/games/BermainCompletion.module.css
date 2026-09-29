@@ -3,6 +3,13 @@
   margin: 0 auto;
 }
 
+/* CharacterLayer's ensemble intentionally staggers the second/fourth character
+   downward. Reserve that offset inside the completion slot so the SVG remains
+   fully contained instead of being clipped by the ensemble's overflow box. */
+.characters :global([data-character-layer][data-character-geometry="safe-contain-v1"]) {
+  padding-bottom: 12px;
+}
+
 .results {
   display: grid;
   justify-items: center;
