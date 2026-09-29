@@ -19,7 +19,6 @@
 .swatch[aria-pressed=true] { box-shadow:0 0 0 3px #164b43; }
 .swatch span { color:#fff; text-shadow:0 1px 3px #000; font-size:24px; font-weight:900; }
 .actions { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:10px; }
-.completed { display:flex; flex-direction:column; align-items:center; gap:10px; margin:22px auto 0; padding:20px; border-radius:14px; background:#e5edd9; text-align:center; }
 @media(max-width:500px) { .studio { padding:6px 16px 28px; } .paper { margin:12px auto; } .prompt { font-size:16px; } .palette { gap:10px; max-width:310px; } .swatch { width:44px; height:44px; flex-basis:44px; } .actions button { padding:10px 14px; min-height:48px; } }
 .workbench{display:grid;grid-template-columns:minmax(0,660px) minmax(200px,260px);justify-content:center;gap:36px;align-items:center;margin:18px auto}
 .workbench .paper{width:100%;margin:0;border:2px solid #d5e4d7;border-radius:28px}
