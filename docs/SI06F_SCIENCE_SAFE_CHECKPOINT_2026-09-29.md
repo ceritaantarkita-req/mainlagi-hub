@@ -80,6 +80,6 @@ SI-06F does not change:
 
 SI-06F remains complete and live verified at its historical runtime checkpoint `main@2e0c7bbc4ce2bd12562137b63e40e4a2e94abb43`.
 
-The SI-06F hard stop was subsequently satisfied by explicit user authorization, and SI-06G Creative has since been completed, merged, and live verified. The current canonical resume authority is `docs/SI06G_CREATIVE_SAFE_CHECKPOINT_2026-09-29.md` at final repository `main@899b9a00abd1ea1ab9598b03e29f49d9c778cbe8`.
+The SI-06F hard stop was subsequently satisfied by explicit user authorization, and SI-06G Creative has since been completed, merged, and live verified. The current Shared Interaction resume authority is `docs/SI06G_CREATIVE_SAFE_CHECKPOINT_2026-09-29.md`. Its verified post-SI-06G closure baseline is `main@899b9a00abd1ea1ab9598b03e29f49d9c778cbe8`; later documentation-only descendants may move repository HEAD without changing that closure truth.
 
 **CURRENT HARD STOP:** do not start SI-07 Bermain games 1–3 until the user explicitly authorizes it.
