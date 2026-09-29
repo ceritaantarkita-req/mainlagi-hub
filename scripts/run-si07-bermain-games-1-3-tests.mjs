@@ -25,7 +25,7 @@ has(completion, 'href: `/play/${nextSlug}`', "Next follows deterministic canonic
 has(completion, "<LeaderboardCapture", "SI-07 preserves leaderboard capture");
 has(completion, 'data-bermain-completion-action="calibrate"', "SI-07 preserves recalibration");
 has(completion, 'variant="ensemble"', "SI-07 uses the safe contained character ensemble");
-has(completion, 'data-si07-bermain="games-1-3"', "SI-07 exposes a stable QA marker");
+has(completion, 'data-si07-bermain={si07Game ? "games-1-3" : undefined}', "SI-07 exposes a scoped stable QA marker");
 lacks(completion, "window.location.reload", "Again must not reload the document");
 lacks(completion, "completeActivity", "Bermain completion must not emit Belajar completion evidence");
 
@@ -36,7 +36,7 @@ has(shared, "<BermainCompletion", "shared terminal seam delegates to SI-07 adapt
 
 has(mathChoice, "canonical", "game 1 math-choice opts into SI-07");
 has(numberTrace, "canonical", "game 3 number-trace opts into SI-07");
-has(digitRace, 'canonical={kind === "math"}', "game 2 math-motion opts in while pattern-race remains legacy");
+has(digitRace, "canonical", "shared DigitRace terminal stays canonical for game 2 after SI-08 extends it to pattern-race");
 
 has(shell, 'game.slug === "math-choice"', "GameShell identifies SI-07 game 1");
 has(shell, 'game.slug === "math-motion-battle"', "GameShell identifies SI-07 game 2");
