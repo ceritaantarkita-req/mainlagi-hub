@@ -4,23 +4,28 @@ Last reviewed: **29 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
-## 29 September 2026 — Verified post-SI-06G closure baseline
+## 29 September 2026 — Verified SI-07 Bermain games 1–3 runtime baseline
 
 ```text
-verified closure main:    899b9a00abd1ea1ab9598b03e29f49d9c778cbe8
-closure commit:           docs: close SI-06G Creative checkpoint (#390)
-closure main CI:          #2271 / run 36515742967 — FULL SUCCESS
-Production smoke:         SUCCESS — exact closure SHA verified
-SI-06G:                   CLOSED / MERGED / LIVE VERIFIED
-next Shared Interaction:  SI-07 Bermain games 1–3 — PAUSED / not authorized
-canonical checkpoint:     docs/SI06G_CREATIVE_SAFE_CHECKPOINT_2026-09-29.md
+pre-SI-07 main:           c4889088d255035319b65875869795c53747e227
+runtime PR:               #392 — merged
+final PR head:            a33a365cc31f79a9b406b5c5b7a20d5a29935625
+final PR CI:              #2276 / run 36586675110 — FULL SUCCESS
+verified runtime main:    b76c0fd5a116c060b06e3c1bcfc5f70992168e79
+merged-main CI:           #2277 / run 36588104198 — FULL SUCCESS
+Production smoke:         SUCCESS — exact merged runtime SHA verified
+SI-07 games 1–3:          CLOSED / MERGED / LIVE VERIFIED
+next Shared Interaction:  SI-08 Bermain games 4–6 — PAUSED / not authorized
+canonical checkpoint:     docs/SI07_BERMAIN_GAMES_1_3_SAFE_CHECKPOINT_2026-09-29.md
 ```
 
-All closure-main gates were green: Production build, Quality gate (Ubuntu), Windows compatibility, Secret history scan, Mobile route QA (Chromium), Production dependency audit, and Production smoke (Cloudflare).
+All merged-main gates were green: Production build, Quality gate (Ubuntu), Windows compatibility, Secret history scan, Mobile route QA (Chromium), Production dependency audit, and Production smoke (Cloudflare).
 
-Later documentation-only descendants may move repository HEAD without changing this SI-06G runtime/closure truth. When exact latest HEAD matters, query `main`; when Shared Interaction resume state matters, use the SI-06G checkpoint above.
+SI-07 migrates exactly `math-choice`, `math-motion-battle`, and `number-trace` to canonical Completion + parent-gated canonical Share while preserving score, leaderboard, replay, calibration, timer, Motion Engine and progress-sync semantics. Games 4–10 remain outside SI-07.
 
-**Current execution boundary:** do not start SI-07, SI-08, SI-09, or other Bermain migration work from older handoffs. SI-07 games 1–3 requires explicit user authorization. SI-06A through SI-06G must be treated as completed history and must not be restarted.
+Later documentation-only descendants may move repository HEAD without changing this SI-07 runtime truth. When exact latest HEAD matters, query `main`; when Shared Interaction resume state matters, use the SI-07 checkpoint above.
+
+**Current execution boundary:** SI-06A through SI-06G and SI-07 are completed history and must not be restarted. Do not start SI-08 games 4–6, SI-09 games 7–10, or AirBoard terminal-semantics work without explicit user authorization.
 
 ## 27 September core thumbnail system checkpoint — WAVE 01 CLOSED / LIVE VERIFIED
 
