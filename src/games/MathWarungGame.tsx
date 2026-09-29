@@ -556,6 +556,7 @@ export function MathWarungGame(props: GameModuleProps) {
           onReplay={props.onReplay}
           onCalibration={props.onExit}
           game={props.game.slug}
+          canonical
         />
       ) : null}
     </CameraBackdrop>
