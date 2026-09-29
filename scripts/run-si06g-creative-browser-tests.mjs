@@ -12,7 +12,7 @@ const baseUrl=`http://${host}:${port}`;
 const outDir=path.resolve(".mobile-route-qa/si06g-creative");
 const viewport={width:390,height:844};
 const drawingId="drawing-line-horizontal";
-const coloringId="color-shape-circle";
+const coloringId="color-gavi";
 const routes={
   drawing:`/child/demo-gian/activity/${drawingId}`,
   coloring:`/child/demo-gian/activity/${coloringId}`
