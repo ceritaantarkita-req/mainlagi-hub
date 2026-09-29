@@ -34,6 +34,8 @@ export function BermainCompletion({
   const currentIndex = GAME_SLUGS.indexOf(game);
   const nextSlug = GAME_SLUGS[(currentIndex + 1) % GAME_SLUGS.length];
   const nextGame = GAMES[nextSlug];
+  const si07Game = currentIndex >= 0 && currentIndex <= 2;
+  const si08Game = currentIndex >= 3 && currentIndex <= 5;
   const totalScore = score.A + (playerCount === 2 ? score.B : 0);
   const praise = PRAISE[Math.abs(totalScore) % PRAISE.length];
   const winner =
@@ -118,7 +120,8 @@ export function BermainCompletion({
           ariaLabel: `Next ke ${nextGame.title}`
         }}
         onShare={() => setShareOpen(true)}
-        data-si07-bermain="games-1-3"
+        data-si07-bermain={si07Game ? "games-1-3" : undefined}
+        data-si08-bermain={si08Game ? "games-4-6" : undefined}
       />
       <CanonicalShareDialog
         open={shareOpen}
