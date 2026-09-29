@@ -163,7 +163,8 @@ async function inspectColoring(browser){
 
     const finish=page.getByRole("button",{name:"Selesai",exact:true});
     assert.equal(await finish.isEnabled(),true,"Coloring finish enables after paint");
-    await finish.click();
+    await finish.focus();
+    await page.keyboard.press("Enter");
     const completion=await canonicalCompletion(page,"Coloring");
     assert.equal(await completed(page,coloringId),true,"Coloring finish preserves progress completion");
     assert.equal(await pathNode.getAttribute("fill"),fillPainted,"Coloring fill survives while Completion overlays the workspace");
