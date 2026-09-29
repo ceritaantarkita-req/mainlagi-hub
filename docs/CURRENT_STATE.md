@@ -4,6 +4,22 @@ Last reviewed: **29 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
+## 29 September 2026 — Current repository resume authority after SI-06G
+
+```text
+current main:             899b9a00abd1ea1ab9598b03e29f49d9c778cbe8
+current main commit:      docs: close SI-06G Creative checkpoint (#390)
+final main CI:            #2271 / run 36515742967 — FULL SUCCESS
+Production smoke:         SUCCESS — exact current main SHA verified
+SI-06G:                   CLOSED / MERGED / LIVE VERIFIED
+next Shared Interaction:  SI-07 Bermain games 1–3 — PAUSED / not authorized
+canonical checkpoint:     docs/SI06G_CREATIVE_SAFE_CHECKPOINT_2026-09-29.md
+```
+
+All final-main gates are green: Production build, Quality gate (Ubuntu), Windows compatibility, Secret history scan, Mobile route QA (Chromium), Production dependency audit, and Production smoke (Cloudflare).
+
+**Current execution boundary:** do not start SI-07, SI-08, SI-09, or other Bermain migration work from older handoffs. SI-07 games 1–3 requires explicit user authorization. SI-06A through SI-06G must be treated as completed history and must not be restarted.
+
 ## 27 September core thumbnail system checkpoint — WAVE 01 CLOSED / LIVE VERIFIED
 
 ```text
@@ -2078,7 +2094,7 @@ Live SI-06A boundary:
 
 SI-06A is **closed / merged / live verified**.
 
-Historical SI-06A handoff pointed to **SI-06B — literacy/audio specialized renderers**. That preflight has now been completed and split: SI-06B1 is closed/live verified, while the current authorized next batch is SI-06B2. Use the SI-06B1 closure section below as the resume authority; do not restart the broad SI-06B preflight.
+Historical SI-06A handoff pointed to **SI-06B — literacy/audio specialized renderers**. At that historical checkpoint, the preflight was split into SI-06B1 and SI-06B2. Both have since been completed and live verified, followed by SI-06C/D/E/F/G. Do not use this historical SI-06A paragraph as current resume authority; use the post-SI-06G repository checkpoint at the top of this file.
 
 
 ## 28 September 2026 — Shared Interaction SI-06B1 literacy/audio merged/live closure — CURRENT
@@ -2365,7 +2381,11 @@ final PR head:           4cef902b5f6fd149492b94b1487e88befa6eeedb
 final PR CI:             #2268 / run 36512437374 — FULL SUCCESS
 merged main:             5c9aa4b55c908745c8d7cf5aceef941c327a7404
 merged-main CI:          #2269 / run 36513392973 — FULL SUCCESS
-Cloudflare smoke:        SUCCESS — exact merged main SHA verified
+Cloudflare smoke:        SUCCESS — exact merged runtime SHA verified
+closure docs PR:         #390 — merged
+final repository main:   899b9a00abd1ea1ab9598b03e29f49d9c778cbe8
+final repository CI:     #2271 / run 36515742967 — FULL SUCCESS
+final Cloudflare smoke:  SUCCESS — exact final repository SHA verified
 checkpoint:
 docs/SI06G_CREATIVE_SAFE_CHECKPOINT_2026-09-29.md
 ```
@@ -2389,6 +2409,6 @@ Runtime boundary:
 - legacy fallback `ColoringActivity` remains the SI-06A-owned canonical fallback and is not re-migrated;
 - artwork geometry, drawing guides, palette mechanics, evidence/progression architecture, dispatcher ownership, database/schema, Bermain, World, Journey Map, and Shop remain outside SI-06G.
 
-PR #389 final head passed CI #2268, squash-merged to `5c9aa4b55c908745c8d7cf5aceef941c327a7404`, and merged-main CI #2269 completed full success including exact Production smoke (Cloudflare). SI-06G is **closed / merged / live verified**.
+PR #389 final head passed CI #2268, squash-merged to runtime main `5c9aa4b55c908745c8d7cf5aceef941c327a7404`, and merged-main CI #2269 completed full success including exact Production smoke (Cloudflare). Closure docs PR #390 then squash-merged to final repository `main@899b9a00abd1ea1ab9598b03e29f49d9c778cbe8`; final main CI #2271 / run `36515742967` also completed full success including exact Production smoke. SI-06G is **closed / merged / live verified**, and `899b9a00...` is the current canonical repository resume authority.
 
 **Hard stop:** do not start SI-07 Bermain games 1–3 until the user explicitly authorizes it.
