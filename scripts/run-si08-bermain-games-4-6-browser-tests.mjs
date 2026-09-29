@@ -124,13 +124,18 @@ async function main() {
       await verifyCompletion(page, completion, game.slug);
 
       if (game.slug === "shape-quest") {
+        await page.evaluate(() => { window.__mainlagiSi08ReplayProbe = "alive"; });
         await completion.locator('[data-completion-action="again"]').click();
-        await page.locator(".countdown-screen").waitFor({ state: "visible", timeout: 3_000 });
-        await page.locator(".game-hud").waitFor({ state: "visible", timeout: 7_000 });
+        await page.locator(".countdown-screen").waitFor({ state: "visible", timeout: 5_000 });
+        assert.equal(
+          await page.evaluate(() => window.__mainlagiSi08ReplayProbe),
+          "alive",
+          "shape-quest: Again preserves the same document instead of reloading"
+        );
         assert.equal(
           await page.locator('[data-si08-bermain="games-4-6"]').count(),
           0,
-          "shape-quest: Again dismisses completion and starts a fresh local session"
+          "shape-quest: Again dismisses completion and returns to local session flow"
         );
       }
 
