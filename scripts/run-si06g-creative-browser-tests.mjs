@@ -155,7 +155,8 @@ async function inspectColoring(browser){
     const region=page.locator('[data-color-region="0"]');
     const pathNode=region.locator("path");
     const fillBefore=await pathNode.getAttribute("fill");
-    await region.click();
+    await region.focus();
+    await page.keyboard.press("Enter");
     const fillPainted=await pathNode.getAttribute("fill");
     assert.notEqual(fillPainted,fillBefore,"Coloring interaction changes the selected region fill");
     assert.equal(await region.getAttribute("data-color-filled"),"true","Coloring records region fill state");
