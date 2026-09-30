@@ -42,7 +42,7 @@ merged-main CI:           #2303 / run 36676747658 — FULL SUCCESS
 Production smoke:         SUCCESS — exact merged runtime SHA verified
 SI-09:                    CLOSED / MERGED / LIVE VERIFIED
 SI-10:                    CLOSED / MERGED / LIVE VERIFIED
-next Shared Interaction:  SI-11 integrated closure — PAUSED / not authorized
+historical next at SI-10: SI-11 — now CLOSED / LIVE VERIFIED
 canonical checkpoint:     docs/SI10_WORLD_ADAPTER_SAFE_CHECKPOINT_2026-09-30.md
 ```
 
@@ -79,7 +79,7 @@ SI-09 migrates exactly `iqro-motion`, `airboard-presenter`, `dodge-motion`, and 
 
 SI-07 and SI-08 remain closed/live verified historical batches. Later security/closure descendants may move repository HEAD without changing the SI-09 product-runtime truth above.
 
-**Historical SI-09 boundary:** SI-10 was subsequently authorized, implemented, merged and live verified. Current resume authority is the SI-10 safe checkpoint above; SI-11 remains paused.
+**Historical SI-09 boundary:** SI-10 and SI-11 were subsequently authorized, implemented, merged and live verified. Current authority is the SI-11 integrated closure checkpoint above.
 
 ## 27 September core thumbnail system checkpoint — WAVE 01 CLOSED / LIVE VERIFIED
 
