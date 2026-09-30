@@ -10,7 +10,7 @@ JM-00 and JM-01 are closed/live verified. JM-02 is now **AUTHORIZED / NOT IMPLEM
 
 Canonical checkpoint: `docs/JM02_IMMERSIVE_HEADER_PREEXECUTION_SAFE_CHECKPOINT_2026-09-30.md`.
 
-Verified baseline before JM-02: `main@640ce8f187259ae47010d7a039213263bc3c7b3e`, merged-main CI **#2322 / run `36723699284` FULL SUCCESS** including exact Cloudflare production smoke.
+Verified safe resume baseline before JM-02 runtime work: `main@bd93ffaa92521c55f2414d13f44a62fcf022d865`. Checkpoint PR **#413** head `b830a1f4d47dc896a5a79a22fa94da01d78ca8d6` passed PR CI **#2323 / run `36727660551`**; merged-main CI **#2324 / run `36729548045` FULL SUCCESS** including exact Cloudflare production smoke.
 
 Canonical child-shell owner is `src/app/child/[childId]/layout.tsx -> WorldChildShell -> PlayroomShell`, with visual/navigation ownership in `Playroom.tsx` + `Playroom.module.css`.
 
