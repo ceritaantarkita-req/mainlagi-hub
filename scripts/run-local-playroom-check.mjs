@@ -86,7 +86,7 @@ try {
     result.checks.push("legacy learn route returns home "+viewport.width);
     await page.goto(base);
     await page.waitForURL(/child\/demo-gian\/home$/);
-    assert.equal(await page.getByRole("heading",{name:"Belajar sambil bermain.",exact:true}).count(),1);
+    assert.equal(await page.getByRole("heading",{name:"Belajar, berpetualang, lalu main lagi.",exact:true}).count(),1);
     const header=page.locator('[data-mainlagi-jm02-header="v1"]');
     assert.equal(await header.count(),1,"JM-02 shared child header is visible on Home");
     const productNav=header.locator("[data-mainlagi-product-nav]");
@@ -119,7 +119,7 @@ try {
     await page.getByRole("button",{name:"Biru",exact:true}).click();
     await page.getByRole("button",{name:"Warnai panel perut",exact:true}).focus();
     await page.keyboard.press("Enter");
-    assert.equal(await page.locator('[data-color-region="12"]').getAttribute("fill"),"#7cb9dd");
+    assert.equal(await page.locator('[data-color-region="12"] path').getAttribute("fill"),"#7cb9dd");
     assert(await finish.isEnabled());
     await page.getByRole("button",{name:"Urungkan",exact:true}).click();
     assert(await finish.isDisabled());
@@ -129,7 +129,7 @@ try {
     await page.getByRole("button",{name:"Urungkan",exact:true}).click();
     assert(await finish.isEnabled(),"reset can itself be undone");
     await finish.click();
-    await page.getByRole("status").filter({hasText:"Karyamu selesai"}).waitFor();
+    await page.locator('[data-activity-completion][data-canonical-completion="v1"]').waitFor();
     await page.screenshot({path:path.join(output,`color-${viewport.width}.png`),fullPage:true});
     result.screenshots.push(`color-${viewport.width}.png`);
     const width=await page.evaluate(()=>({viewport:innerWidth,body:document.body.scrollWidth}));
@@ -171,6 +171,14 @@ try {
     await context.close();
   }
   const page=await browser.newPage();
+  const creativeActivityIds=system.ACTIVITIES.filter(activity=>activity.runtime==="drawing"||activity.runtime==="coloring").map(activity=>activity.id);
+  await page.goto(base);
+  await page.evaluate(ids=>{
+    const key="mainlagi-learning-progress-v1";
+    const store=JSON.parse(window.localStorage.getItem(key)||"{}");
+    store["demo-gian"]={completedActivityIds:ids,stars:0,lastActivityId:ids.at(-1)??null};
+    window.localStorage.setItem(key,JSON.stringify(store));
+  },creativeActivityIds);
   const guideErrors=[];
   page.on("pageerror",error=>guideErrors.push(error.message));
   page.on("console",message=>{if(message.type()==="error")guideErrors.push(message.text());});
@@ -182,7 +190,9 @@ try {
     assert.equal(new URL(page.url()).pathname,"/child/demo-gian/activity/"+id,"guide route must not redirect");
     assert.equal(await page.locator("[data-drawing-guide]").getAttribute("data-drawing-guide"),drawingGuide(id).mode);
     assert(await page.locator("[data-drawing-guide] path").evaluateAll(paths=>paths.every(path=>Number.isFinite(path.getTotalLength())&&path.getTotalLength()>0)),"guide paths parse with nonzero length");
-    assert(await page.getByRole("button",{name:"Selesai",exact:true}).isDisabled(),"guide is not counted as the child's stroke");
+    const guideFinish=page.getByRole("button",{name:"Selesai",exact:true});
+    assert.equal(await guideFinish.count(),1,"finish button exists for drawing guide: "+id);
+    assert(await guideFinish.isDisabled(),"guide is not counted as the child's stroke: "+id);
     const response=await page.request.get(base+"/artwork/activity-previews/"+id+".webp");
     assert(response.ok(),"drawing thumbnail exists: "+id);
   }
