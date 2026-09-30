@@ -65,7 +65,7 @@ export interface BelajarJourneyMapModel {
 }
 
 const SUBJECT_PRESENTATION_OVERRIDES: Readonly<
-  Partial<Record<LearningSubjectId, { title: string; shortTitle: string }>>
+  Record<string, { title: string; shortTitle: string } | undefined>
 > = Object.freeze({
   english: {
     title: "Bahasa Inggris",
