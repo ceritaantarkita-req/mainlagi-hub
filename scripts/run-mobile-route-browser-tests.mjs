@@ -748,8 +748,19 @@ async function main() {
       await page.getByRole("heading", { name: "Awesome!", exact: true }).waitFor();
       const stageOneCompletion = page.locator('[data-world-completion-stage="money-stage-01-money-use"]');
       await stageOneCompletion.waitFor();
-      await page.waitForFunction(() => document.activeElement?.id === "world-stage-complete-title");
-      assert.equal(await page.evaluate(() => document.activeElement?.id), "world-stage-complete-title", "Stage completion must move keyboard/screen-reader focus to its completion heading");
+      await page.waitForFunction(() => {
+        const completion = document.querySelector('[data-world-completion-stage="money-stage-01-money-use"][data-canonical-completion="v1"]');
+        const headingId = completion?.getAttribute("aria-labelledby");
+        return Boolean(headingId && document.activeElement?.id === headingId);
+      });
+      assert.equal(
+        await page.evaluate(() => {
+          const completion = document.querySelector('[data-world-completion-stage="money-stage-01-money-use"][data-canonical-completion="v1"]');
+          return document.activeElement?.id === completion?.getAttribute("aria-labelledby");
+        }),
+        true,
+        "Stage completion must move keyboard/screen-reader focus to the canonical completion heading"
+      );
       assert.equal(await stageOneCompletion.getAttribute("data-world-completion-chapter"), "money-chapter-01-road-to-festival", "Stage 1 completion must retain Chapter 1 identity");
       assert.equal(await stageOneCompletion.getAttribute("data-world-completion-final"), "false", "Stage 1 completion must not look like final World completion");
       assert.equal((await stageOneCompletion.locator("[data-world-completion-context]").textContent())?.trim(), "Chapter 1 · Stage 1/8", "Stage 1 completion must expose concise hierarchy context");
