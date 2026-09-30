@@ -4,6 +4,30 @@ Last reviewed: **30 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
+## 30 September 2026 — Semantic Art P0 canonical closure reconciled
+
+Semantic Art P0 is **CLOSED / MERGED / LIVE VERIFIED**. The repo already contained the completed implementation lineage; this 30 September reconciliation makes the canonical handoff stop advertising the old candidate-review phase as current work.
+
+```text
+visual decisions frozen:              17/17
+approved production semantic SVGs:    14/17
+held semantic keys:                    3/17
+approved consumer/browser coverage:   14/14
+held explicit fallback coverage:       3/3
+semantic registry:                        v2
+preferred production format:             svg
+runtime activation:            controlled-svg
+central semantic resolver:             active
+```
+
+The intentional held set is `vehicle.car`, `object.towel`, and `object.raincoat`. They remain fail-closed because their public-repository redistribution basis is not cleared; they are not an unfinished implementation queue.
+
+Verified lineage includes P0 production approval PR #324 (merged main `1e27869dfc71186e83ed8bb0a4dff2ca44dddfc9`, merged-main CI #1610), SVG production PR #346, controlled runtime PR #348, responsive closure PR #350 (merged main `d9fba856e3819c2a0f353624f5255f84c27bef9a`, merged-main CI #1695 + Cloudflare), and the later Session 16 SVG-program verification baseline `b05b0331db7556bee165d245e7e1f8016565f956` / CI #1706.
+
+Canonical closure: `docs/SEMANTIC_ART_P0_FINAL_CLOSURE_2026-09-30.md`.
+
+**Execution boundary:** there is no open Semantic Art P0 candidate/review/promotion/runtime/responsive wave. New semantic art, or a future promotion of car/towel/raincoat, requires a fresh separately authorized objective with exact provenance/rights evidence. Expanded human visual/usability + physical-device acceptance is the next already-eligible product-quality track; Journey Map remains separate and requires explicit authorization.
+
 ## 30 September 2026 — SI-11 Shared Interaction integrated closure CLOSED / MERGED / LIVE VERIFIED
 
 ```text
@@ -512,7 +536,7 @@ runtime semantic activation:        0
 
 Preliminary reuse candidates are apple, cat, fish, umbrella, car, cup, house and bird. They remain provenance-pending and semantic-review-pending. The existing `color-object-ball.webp` is explicitly rejected for semantic ball use.
 
-P0 semantic-art targets that still need exact production candidates:
+Historical pre-production P0 semantic-art targets (all decisions are now resolved; see 30 September closure above):
 
 - HEAD -> current `🙂`;
 - JUMP -> current `🤸`;
@@ -525,7 +549,7 @@ P0 semantic-art targets that still need exact production candidates:
 
 The dedicated production subtree is `public/artwork/learning-illustrations/`. A binary cannot become approved unless the exact registry record has owned/licensed provenance, redistribution clearance, child-readable semantic approval, technical validation and matching SHA-256. Stray production binaries fail CI.
 
-**Exact P0 stock-library candidate production/review and visual freeze are now complete.** The next safe step is to close the three exact item-page production-license rechecks, then perform a separate production-asset approval/integration wave. Runtime mapping remains a later separate wave.
+**Historical checkpoint:** exact P0 stock-library candidate production/review and visual freeze were complete at this point. The later production approval, SVG promotion, controlled runtime mapping, and responsive verification have since completed; current authority is the 30 September Semantic Art P0 closure section above.
 
 The original inventory remains 43 source files / 280 canonical batch-wave `emoji:` fields, but that is not a replacement count.
 
