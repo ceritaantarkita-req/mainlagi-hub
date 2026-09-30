@@ -4,6 +4,23 @@ Last reviewed: **30 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
+## 30 September 2026 — Journey Map JM-00 read-only audit COMPLETE
+
+Phase C — Canonical Journey Map System has now been **explicitly authorized by the project owner**. JM-00 completed a read-only audit against `main@f6b9f97fc5c6917188d228d0d724421c346579e5` without changing runtime, curriculum, stage membership, progression, World semantics, schema, or visuals.
+
+Canonical audit: `docs/JM00_CANONICAL_JOURNEY_MAP_READONLY_AUDIT_2026-09-30.md`.
+
+Locked findings:
+
+- Belajar remains **9 subjects / 900 activities / 46 stages** with exact path/stage membership owned by `CONTENT_PATHS` + `STAGES`;
+- all nine subject pages share the existing complete-catalog / playable / Browse All contract;
+- Belajar readiness remains `locked | in_progress | evidence_needed | ready` and must continue to derive from canonical progression/evidence logic;
+- Petualangan Uang remains a separate World model: **2 chapters / 8 stages / 89 segments**, sequential completion unlock, stable World routes;
+- stable subject/stage/activity/World routes are preserved;
+- Mewarnai/Menggambar creative workspaces and World story/runtime are not absorbed by the map layer.
+
+**Current Journey Map execution boundary:** JM-00 is complete. **JM-01 — Shared map data/state foundation is the next authorized Journey Map step.** JM-01 may add types/adapters/state projection only; it must not start the JM-02 header or JM-03+ visual redesign.
+
 ## 30 September 2026 — Semantic Art P0 canonical closure reconciled
 
 Semantic Art P0 is **CLOSED / MERGED / LIVE VERIFIED**. The repo already contained the completed implementation lineage; this 30 September reconciliation makes the canonical handoff stop advertising the old candidate-review phase as current work.
@@ -26,7 +43,7 @@ Verified lineage includes P0 production approval PR #324 (merged main `1e27869df
 
 Canonical closure: `docs/SEMANTIC_ART_P0_FINAL_CLOSURE_2026-09-30.md`.
 
-**Execution boundary:** there is no open Semantic Art P0 candidate/review/promotion/runtime/responsive wave. New semantic art, or a future promotion of car/towel/raincoat, requires a fresh separately authorized objective with exact provenance/rights evidence. Expanded human visual/usability + physical-device acceptance is the next already-eligible product-quality track; Journey Map remains separate and requires explicit authorization.
+**Execution boundary:** there is no open Semantic Art P0 candidate/review/promotion/runtime/responsive wave. New semantic art, or a future promotion of car/towel/raincoat, requires a fresh separately authorized objective with exact provenance/rights evidence. Expanded human visual/usability + physical-device acceptance remains an eligible product-quality track. Journey Map has since been explicitly authorized; JM-00 is complete and JM-01 is the next authorized Journey Map step.
 
 ## 30 September 2026 — SI-11 Shared Interaction integrated closure CLOSED / MERGED / LIVE VERIFIED
 
@@ -52,7 +69,7 @@ The legacy gameplay-header `ShareButton` implementation is removed. Belajar, Wor
 
 All merged-main gates are green on exact `main@a4619c31f9ed928c420dab6704b93ad22d4d28c3`: Production build, Quality gate (Ubuntu), Windows compatibility, Secret history scan, Mobile route QA (Chromium), Production dependency audit, and Production smoke (Cloudflare).
 
-**Current execution boundary:** Shared Interaction SI-00 through SI-11 is completed history and must not be restarted implicitly. Journey Map redesign was not part of SI-11 and remains a separate workstream requiring explicit authorization.
+**Current execution boundary:** Shared Interaction SI-00 through SI-11 is completed history and must not be restarted implicitly. Journey Map redesign was not part of SI-11. It has since been explicitly authorized as a separate Phase C workstream; JM-00 is complete and JM-01 is next.
 
 ## 30 September 2026 — Historical SI-10 World adapter CLOSED / MERGED / LIVE VERIFIED
 

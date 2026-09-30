@@ -4,6 +4,16 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 
+## 30 September Journey Map execution override — JM-00 COMPLETE / JM-01 NEXT
+
+Phase C — Canonical Journey Map System is now **explicitly authorized**.
+
+JM-00 completed a read-only audit at `main@f6b9f97fc5c6917188d228d0d724421c346579e5` covering exact stage order/membership, canonical routes, readiness, Browse All for all nine subjects, and Petualangan Uang's separate 2-chapter / 8-stage / 89-segment World model.
+
+Canonical checkpoint: `JM00_CANONICAL_JOURNEY_MAP_READONLY_AUDIT_2026-09-30.md`.
+
+**JM-01 — Shared map data/state foundation is next.** Preserve current curriculum, membership, mastery/evidence/progression, direct routes, Browse All, creative workspace boundaries, and World progression semantics. JM-01 is data/state only; JM-02+ visual work must not be pulled forward.
+
 ## 30 September Shared Interaction execution override — SI-11 CLOSED / PROGRAM COMPLETE
 
 SI-11 integrated closure is merged/live verified through PR #405 -> `main@a4619c31f9ed928c420dab6704b93ad22d4d28c3`. Final PR CI #2308 / run `36684442616` and merged-main CI #2309 / run `36685743612` are full green; exact Cloudflare production smoke succeeded.
@@ -14,7 +24,7 @@ The obsolete gameplay-header `ShareButton` owner is removed. `CanonicalShareDial
 
 Current resume authority: `SI11_SHARED_INTERACTION_INTEGRATED_CLOSURE_SAFE_CHECKPOINT_2026-09-30.md`.
 
-**Shared Interaction SI-00 through SI-11 is complete. There is no next SI session.** Do not restart or extend this sequence implicitly. Journey Map redesign remains a separate workstream and requires explicit project-owner authorization.
+**Shared Interaction SI-00 through SI-11 is complete. There is no next SI session.** Do not restart or extend this sequence implicitly. Journey Map is a separate workstream and has since been explicitly authorized; JM-00 is complete and JM-01 is next.
 
 ## 30 September Semantic Art P0 closure override — CLOSED / LIVE VERIFIED
 
@@ -32,7 +42,7 @@ Current canonical truth:
 
 Verified lineage: production approval PR #324 -> Session 11 SVG promotion PR #346 -> Session 12 controlled runtime PR #348 -> Session 13 responsive closure PR #350 -> Session 16 final SVG-program verification. Canonical closure checkpoint: `SEMANTIC_ART_P0_FINAL_CLOSURE_2026-09-30.md`.
 
-Do not reopen or expand semantic art implicitly. A future car/towel/raincoat promotion requires fresh exact-source redistribution evidence and is a new objective. The next already-eligible product-quality work is expanded human visual/usability + physical-device acceptance unless another separate workstream is explicitly authorized.
+Do not reopen or expand semantic art implicitly. A future car/towel/raincoat promotion requires fresh exact-source redistribution evidence and is a new objective. Expanded human visual/usability + physical-device acceptance remains eligible. The separate Journey Map workstream has now been explicitly authorized; JM-00 is complete and JM-01 is next.
 
 ## 26 September SVG execution boundary — SESSIONS 01–16 COMPLETE / PROGRAM CLOSED
 
