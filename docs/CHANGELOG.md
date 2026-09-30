@@ -1,12 +1,16 @@
 # Changelog
 
-## 30 September 2026 — Shared Interaction SI-10 authorized / in progress
+## 30 September 2026 — Shared Interaction SI-10 CLOSED / MERGED / LIVE VERIFIED
 
-- Project owner explicitly authorized **SI-10 — World adapter** from verified `main@c73e450581c8c4542933ab251a9b3880b81722c7`; implementation branch is `agent/si10-world-adapter-20260930`.
-- Active migration scope is the remaining World presentation duplication: `WorldStageCompletion` -> `CanonicalCompletion(context="world")` and bespoke World Share -> `CanonicalShareDialog(context="world")`.
-- Scope was reconciled against current repository truth: SI-02 already removed the World `SpeechCard` visible character-name label and live-verified `safe-contain-v1` World character geometry. SI-10 preserves/regression-tests those guarantees rather than reopening character work.
-- Eight-stage order, chapter/finale content, World progress/evidence, narration, authored Back/Again/Next routing and the Gavi/Paca cast are preserve-only. Journey Map, schema, mastery/evidence architecture, Shop and new character work are out of scope.
-- Current execution checkpoint: `SI10_WORLD_ADAPTER_EXECUTION_CHECKPOINT_2026-09-30.md`. **SI-11 integrated closure remains PAUSED / not authorized.**
+- Runtime PR **#403** final head `e290fa08d418fee4761574b836a6ae19c888f56e` passed PR CI **#2302 / run `36675680322` FULL SUCCESS** and squash-merged to **`main@62a4676a50dc4f7a2b068118479bc0758bd40881`**.
+- Merged-main CI **#2303 / run `36676747658` FULL SUCCESS** passed Production build, Ubuntu quality, Windows compatibility, Secret history scan, Mobile route QA (Chromium), Production dependency audit, and exact **Production smoke (Cloudflare) SUCCESS**.
+- World Stage completion now consumes `CanonicalCompletion(context="world", surface="inline")`; World achievement sharing consumes `CanonicalShareDialog(context="world")`. The bespoke World clipboard/native/provider/share-gate implementation is retired.
+- Back / Again / Next / Share, three stars, eight-stage order, chapter milestones, final Festival semantics, World progress/evidence, narration, Gavi/Paca celebration and the public-safe `/worlds/money-festival` target are preserved.
+- SI-02 already owned World `SpeechCard` visible-name-label removal and `safe-contain-v1` character geometry; SI-10 preserves those live guarantees rather than reopening character work.
+- Dedicated SI-10 static + production-browser regressions are blocking through `test:learning` and `test:ui:mobile-routes`. Existing World focus/selector regressions were advanced from the retired fixed heading ID to the canonical `aria-labelledby` / completion owner contract.
+- Canonical resume checkpoint is now `SI10_WORLD_ADAPTER_SAFE_CHECKPOINT_2026-09-30.md`. **SI-11 integrated closure is PAUSED / not authorized.** Journey Map redesign remains out of scope.
+
+
 - Shared Interaction **SI-09 Bermain games 7–10** is CLOSED / MERGED / LIVE VERIFIED. Runtime PR #399 final head `5d7460543b608763b6ab4aa2316a6a0f13d92ee3` passed final PR CI #2290 / run `36662285110`; it squash-merged to runtime main `9109f57978ea7e834772859be01227e720be8de0`, and merged-main CI #2291 / run `36663304501` passed all gates including exact Cloudflare smoke.
 - SI-09 canonicalizes exactly `iqro-motion`, `airboard-presenter`, `dodge-motion`, and `run-to-target`. The three finite games preserve existing timer/score/progress/leaderboard/recalibration semantics; AirBoard receives an explicit `Selesai` terminal action and workspace-mode canonical Completion with no fake score, leaderboard write, or invented progress evidence.
 - Back / Again / Next / Share are canonical across the final batch, same-document replay remains owned by the existing `GameShell.replay()` / `sessionKey` seam, and the legacy gameplay-header Share is retired across all ten canonical Bermain games.
