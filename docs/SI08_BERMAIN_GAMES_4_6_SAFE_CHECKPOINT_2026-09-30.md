@@ -19,6 +19,8 @@ checkpoint:              docs/SI08_BERMAIN_GAMES_4_6_SAFE_CHECKPOINT_2026-09-30.
 
 Merged-main CI #2282 passed Production build, Quality gate (Ubuntu), Windows compatibility, Secret history scan, Mobile route QA (Chromium), Production dependency audit, and Production smoke (Cloudflare).
 
+During documentation closure on 30 September, the dependency gate picked up newly published advisories against transitive `undici@7.29.0` in the Cloudflare tooling chain. Security PR #397 pinned patched `undici@7.29.1` without changing Mainlagi runtime/product behavior, merged to `main@42f0496d2a114ebb913574f840b497ef4d8b588a`, and merged-main CI #2286 / run `36655975699` passed all gates including exact Cloudflare production smoke.
+
 ## Migrated games
 
 SI-08 is exactly canonical `GAME_SLUGS` games 4–6:
