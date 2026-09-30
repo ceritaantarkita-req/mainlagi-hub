@@ -80,6 +80,7 @@
     "src/lib/learning/entry.ts",
     "src/lib/learning/curriculum.ts",
     "src/lib/learning/insights.ts",
+    "src/lib/learning/journeyMap.ts",
     "src/lib/learning/adaptive.ts",
     "src/lib/learning/batch15.ts",
     "src/lib/learning/traceMeasurement.ts",
