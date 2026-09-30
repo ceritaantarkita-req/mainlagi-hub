@@ -1,31 +1,32 @@
 # Mainlagi Hub — Current State
 
-Last reviewed: **29 September 2026**
+Last reviewed: **30 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
-## 29 September 2026 — Verified SI-07 Bermain games 1–3 runtime baseline
+## 30 September 2026 — Verified SI-08 Bermain games 4–6 runtime baseline
 
 ```text
-pre-SI-07 main:           c4889088d255035319b65875869795c53747e227
-runtime PR:               #392 — merged
-final PR head:            a33a365cc31f79a9b406b5c5b7a20d5a29935625
-final PR CI:              #2276 / run 36586675110 — FULL SUCCESS
-verified runtime main:    b76c0fd5a116c060b06e3c1bcfc5f70992168e79
-merged-main CI:           #2277 / run 36588104198 — FULL SUCCESS
+pre-SI-08 main:           1aeae074031e11f59f71371160b5975f751b8012
+runtime PR:               #394 — merged
+final PR head:            3a459ddfe9629ffdf7259c8df04106c4af72a3e5
+final PR CI:              #2281 / run 36616112219 — FULL SUCCESS
+verified runtime main:    079481868b38f847193e4cda381609d88d0ce0b3
+merged-main CI:           #2282 / run 36617407662 — FULL SUCCESS
 Production smoke:         SUCCESS — exact merged runtime SHA verified
 SI-07 games 1–3:          CLOSED / MERGED / LIVE VERIFIED
-next Shared Interaction:  SI-08 Bermain games 4–6 — PAUSED / not authorized
-canonical checkpoint:     docs/SI07_BERMAIN_GAMES_1_3_SAFE_CHECKPOINT_2026-09-29.md
+SI-08 games 4–6:          CLOSED / MERGED / LIVE VERIFIED
+next Shared Interaction:  SI-09 Bermain games 7–10 — PAUSED / not authorized
+canonical checkpoint:     docs/SI08_BERMAIN_GAMES_4_6_SAFE_CHECKPOINT_2026-09-30.md
 ```
 
 All merged-main gates were green: Production build, Quality gate (Ubuntu), Windows compatibility, Secret history scan, Mobile route QA (Chromium), Production dependency audit, and Production smoke (Cloudflare).
 
-SI-07 migrates exactly `math-choice`, `math-motion-battle`, and `number-trace` to canonical Completion + parent-gated canonical Share while preserving score, leaderboard, replay, calibration, timer, Motion Engine and progress-sync semantics. Games 4–10 remain outside SI-07.
+SI-08 migrates exactly `shape-quest`, `pattern-race`, and `math-warung` to the canonical Bermain Completion + parent-gated canonical Share path established in SI-07. Back / Again / Next / Share remain canonical, local Again keeps the same document and replays through the existing session seam, score/leaderboard/recalibration remain intact, and the duplicate gameplay-header Share is retired for games 4–6.
 
-Later documentation-only descendants may move repository HEAD without changing this SI-07 runtime truth. When exact latest HEAD matters, query `main`; when Shared Interaction resume state matters, use the SI-07 checkpoint above.
+SI-07 remains closed/live verified and its historical runtime truth is unchanged. Later documentation-only descendants may move repository HEAD without changing the SI-08 runtime truth above.
 
-**Current execution boundary:** SI-06A through SI-06G and SI-07 are completed history and must not be restarted. Do not start SI-08 games 4–6, SI-09 games 7–10, or AirBoard terminal-semantics work without explicit user authorization.
+**Current execution boundary:** SI-06A through SI-06G, SI-07, and SI-08 are completed history and must not be restarted. Do not start SI-09 games 7–10 or the open-ended AirBoard terminal-semantics work without explicit project-owner authorization.
 
 ## 27 September core thumbnail system checkpoint — WAVE 01 CLOSED / LIVE VERIFIED
 

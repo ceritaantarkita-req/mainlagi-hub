@@ -2,7 +2,7 @@
 
 Status: **CLOSED / MERGED / LIVE VERIFIED**
 
-This file is the canonical resume point for Shared Interaction after SI-07. Do not restart SI-06A through SI-06G or SI-07 from older handoffs.
+This file is the historical resume point immediately after SI-07. It has been superseded by `SI08_BERMAIN_GAMES_4_6_SAFE_CHECKPOINT_2026-09-30.md`; do not restart SI-06A through SI-06G or SI-07 from older handoffs.
 
 ## Verified baseline
 
@@ -115,4 +115,6 @@ SI-07 runtime is merged and live verified at **`main@b76c0fd5a116c060b06e3c1bcfc
 
 The SI-06G hard stop is historical and was superseded by the explicit user authorization that started SI-07.
 
-**CURRENT HARD STOP:** SI-08 — Bermain games 4–6 — is PAUSED / not authorized. Do not start SI-08 or SI-09 without explicit user authorization.
+The SI-08 hard stop recorded at this historical checkpoint was subsequently superseded by explicit project-owner authorization; SI-08 is now merged/live verified.
+
+**CURRENT RESUME AUTHORITY:** `docs/SI08_BERMAIN_GAMES_4_6_SAFE_CHECKPOINT_2026-09-30.md`. Its hard stop is SI-09 games 7–10, including the open-ended AirBoard terminal-semantics decision.
