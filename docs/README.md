@@ -10,8 +10,9 @@ Read these first for current work:
 
 1. [`NEXT_PRODUCT_QUALITY_PLAN.md`](NEXT_PRODUCT_QUALITY_PLAN.md) — current execution order, workstreams, status and mandatory gates.
 2. [`CURRENT_STATE.md`](CURRENT_STATE.md) — current repository/product/production baseline.
-   - [`SI10_WORLD_ADAPTER_SAFE_CHECKPOINT_2026-09-30.md`](SI10_WORLD_ADAPTER_SAFE_CHECKPOINT_2026-09-30.md) — current Shared Interaction resume checkpoint: SI-10 World Completion/Share adapter merged/live verified at `main@62a4676a…`; SI-11 integrated closure is paused pending explicit authorization.
-   - [`SI10_WORLD_ADAPTER_EXECUTION_CHECKPOINT_2026-09-30.md`](SI10_WORLD_ADAPTER_EXECUTION_CHECKPOINT_2026-09-30.md) — historical SI-10 authorization/execution checkpoint, superseded by the live-verified safe checkpoint above.
+   - [`SI11_SHARED_INTERACTION_INTEGRATED_CLOSURE_SAFE_CHECKPOINT_2026-09-30.md`](SI11_SHARED_INTERACTION_INTEGRATED_CLOSURE_SAFE_CHECKPOINT_2026-09-30.md) — current Shared Interaction final checkpoint: SI-11 merged/live verified at `main@a4619c31…`; SI-00 through SI-11 are complete and the Shared Interaction program has no next session.
+   - [`SI10_WORLD_ADAPTER_SAFE_CHECKPOINT_2026-09-30.md`](SI10_WORLD_ADAPTER_SAFE_CHECKPOINT_2026-09-30.md) — historical predecessor checkpoint for the live-verified SI-10 World adapter; its SI-11 hard stop was superseded by explicit authorization and completed SI-11.
+   - [`SI10_WORLD_ADAPTER_EXECUTION_CHECKPOINT_2026-09-30.md`](SI10_WORLD_ADAPTER_EXECUTION_CHECKPOINT_2026-09-30.md) — historical SI-10 authorization/execution checkpoint, superseded by the SI-10 and SI-11 live-verified checkpoints.
    - [`SI09_BERMAIN_GAMES_7_10_SAFE_CHECKPOINT_2026-09-30.md`](SI09_BERMAIN_GAMES_7_10_SAFE_CHECKPOINT_2026-09-30.md) — historical predecessor checkpoint: SI-09 games 7–10 merged/live verified; its SI-10 hard stop has been superseded by explicit authorization.
    - [`SI08_BERMAIN_GAMES_4_6_SAFE_CHECKPOINT_2026-09-30.md`](SI08_BERMAIN_GAMES_4_6_SAFE_CHECKPOINT_2026-09-30.md) — historical predecessor checkpoint for SI-08 games 4–6; its SI-09 hard stop has been superseded.
    - [`SI07_BERMAIN_GAMES_1_3_SAFE_CHECKPOINT_2026-09-29.md`](SI07_BERMAIN_GAMES_1_3_SAFE_CHECKPOINT_2026-09-29.md) — historical predecessor checkpoint for SI-07 games 1–3; its SI-08 hard stop has been superseded.
