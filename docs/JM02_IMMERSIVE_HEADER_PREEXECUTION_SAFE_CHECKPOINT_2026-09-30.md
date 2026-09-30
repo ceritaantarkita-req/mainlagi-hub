@@ -1,9 +1,10 @@
 # JM-02 — Immersive Mainlagi Header pre-execution safe checkpoint
 
 Date: **30 September 2026**  
-Status: **SAFE CHECKPOINT / JM-02 NOT IMPLEMENTED YET**  
+Status: **SAFE CHECKPOINT / MERGED / LIVE VERIFIED / JM-02 NOT IMPLEMENTED YET**  
 Workstream: **Phase C — Canonical Journey Map System**  
-Baseline: `main@640ce8f187259ae47010d7a039213263bc3c7b3e`
+Pre-checkpoint baseline: `main@640ce8f187259ae47010d7a039213263bc3c7b3e`  
+Safe-checkpoint main: `main@bd93ffaa92521c55f2414d13f44a62fcf022d865`
 
 ## 1. Why this checkpoint exists
 
@@ -33,6 +34,23 @@ Production smoke:         SUCCESS — exact merged main SHA
 ```
 
 CI #2322 passed Secret history scan, Production build, Production dependency audit, Quality gate (Ubuntu), Windows compatibility, Mobile route QA (Chromium), and exact Production smoke (Cloudflare).
+
+## 2A. Safe-checkpoint merge verification
+
+The pre-execution checkpoint itself is now merged and live verified:
+
+```text
+checkpoint PR:             #413
+checkpoint PR head:        b830a1f4d47dc896a5a79a22fa94da01d78ca8d6
+PR CI:                    #2323 / run 36727660551 — required PR gates SUCCESS
+merged checkpoint main:   bd93ffaa92521c55f2414d13f44a62fcf022d865
+merged-main CI:           #2324 / run 36729548045 — FULL SUCCESS
+Production smoke:         SUCCESS — exact merged main SHA
+```
+
+CI #2324 passed Production build, Quality gate (Ubuntu), Windows compatibility, Secret history scan, Mobile route QA (Chromium), Production dependency audit, and exact Production smoke (Cloudflare).
+
+This checkpoint is therefore the safe resume authority before any JM-02 runtime/header implementation.
 
 ## 3. Canonical child-shell ownership
 

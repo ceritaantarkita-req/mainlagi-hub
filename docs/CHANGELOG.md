@@ -8,6 +8,8 @@
 - JM-02 is authorized for Kembali + compact logo + profile/menu + expandable Belajar/Bermain/World/Shop across desktop/touch/keyboard.
 - Shop is explicitly fail-closed because no canonical child Shop route exists and adult/public affiliate commerce must not be fabricated into child learning.
 - No runtime code or visual behavior changed in this checkpoint. JM-03+ remains not started.
+- Checkpoint PR **#413** head `b830a1f4d47dc896a5a79a22fa94da01d78ca8d6` passed PR CI **#2323 / run `36727660551`** and squash-merged to **`main@bd93ffaa92521c55f2414d13f44a62fcf022d865`**.
+- Merged-main CI **#2324 / run `36729548045` FULL SUCCESS** passed Production build, Ubuntu quality, Windows compatibility, Secret history scan, Mobile route QA, Production dependency audit, and exact Cloudflare production smoke.
 
 ## 30 September 2026 — Journey Map JM-01 CLOSED / MERGED / LIVE VERIFIED
 

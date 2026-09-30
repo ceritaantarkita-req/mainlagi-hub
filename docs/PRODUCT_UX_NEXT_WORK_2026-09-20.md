@@ -3,13 +3,13 @@
 Date: **20 September 2026**  
 Last synchronized: **30 September 2026**  
 Status: **ACTIVE ROADMAP / SEMANTIC ART P0 CLOSED / SHARED INTERACTION PROGRAM COMPLETE**  
-Current synchronized production baseline after JM-01 runtime closure: `main` = `756e3bd7bb24588041a3644f08018783e7b3b0f2`. Semantic Art P0 runtime had already completed through the SVG production/runtime/responsive sequence and final Session 16 verification; this 30 September sync removes stale P0-as-next wording.
+Current synchronized production baseline after the JM-02 pre-execution safe checkpoint: `main` = `bd93ffaa92521c55f2414d13f44a62fcf022d865`. Semantic Art P0 runtime had already completed through the SVG production/runtime/responsive sequence and final Session 16 verification; this 30 September sync removes stale P0-as-next wording.
 
 This document is the short human/AI handoff for Mainlagi product-quality work. It records the user-accepted UX direction without changing curriculum, mastery, evidence or progression. The latest WS-05 Logic reuse wave is closed; any later mechanic work remains a separate audited track.
 
 ## 30 September Journey Map JM-02 pre-execution checkpoint
 
-JM-02 is **authorized but not implemented**. Canonical checkpoint: `JM02_IMMERSIVE_HEADER_PREEXECUTION_SAFE_CHECKPOINT_2026-09-30.md`.
+JM-02 is **authorized but not implemented**. Canonical checkpoint: `JM02_IMMERSIVE_HEADER_PREEXECUTION_SAFE_CHECKPOINT_2026-09-30.md`. The checkpoint itself is merged/live verified through PR #413 -> `main@bd93ffaa92521c55f2414d13f44a62fcf022d865`, merged-main CI #2324 / run `36729548045` full success including exact Cloudflare smoke.
 
 Use the active `PlayroomShell` as the single child-header owner. Implement Kembali, compact logo, profile/menu and expandable Belajar/Bermain/World/Shop across desktop/touch/keyboard. Do not invent a child Shop URL: current commerce is public/adult and no canonical child Shop route exists. JM-03+ map visuals remain out of scope.
 
