@@ -38,7 +38,6 @@ export function DrawingStageScreen({ childId, stageId }: { childId: string; stag
 
   return (
     <main className={styles.content}>
-      <Link className={styles.backButton} href={`/child/${childId}/subject/drawing`} aria-label="Kembali">←</Link>
       <div style={{ marginTop: 16 }}>
         <p className={styles.eyebrow}>{subject.emoji} {subject.title}</p>
         <h1 className={styles.pageTitle}>{stage.title}</h1>
