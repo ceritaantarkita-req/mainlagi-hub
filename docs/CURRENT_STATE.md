@@ -4,6 +4,26 @@ Last reviewed: **30 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
+## 30 September 2026 — Journey Map JM-01 CLOSED / MERGED / LIVE VERIFIED
+
+JM-01 landed the shared **Belajar Journey Map data/state foundation** without changing Journey Map visuals, routes, curriculum, Browse All, mastery/evidence/progression, World, creative workspaces, database/schema, Completion, or Share.
+
+Canonical checkpoint: `docs/JM01_SHARED_JOURNEY_MAP_FOUNDATION_SAFE_CHECKPOINT_2026-09-30.md`.
+
+```text
+pre-JM-01 main:           bf5753f78c23a93bdd24c793a46c202dc57d5e45
+runtime PR:               #411
+PR final head:            9ae8ad4e5debcc4fb13738919db94b80d23c4b97
+PR CI:                    #2319 / run 36716608349 — SUCCESS
+merged runtime main:      756e3bd7bb24588041a3644f08018783e7b3b0f2
+merged-main CI:           #2320 / run 36717855442 — SUCCESS
+Production smoke:         exact merged main SHA required by workflow
+```
+
+JM-01 now provides a canonical Belajar map projection derived from `CONTENT_PATHS.stageIds`, `STAGES`, and `getSubjectStageReadiness()`; it exposes `completed | current | open | locked` while preserving `locked | in_progress | evidence_needed | ready`. The blocking regression covers all **9 subjects / 46 Stages / 100 activities per subject**, exact Stage order, direct Stage routes, Bahasa Inggris child-facing naming, evidence-gated Math behavior, and practice-only Coloring advancement.
+
+**Current Journey Map execution boundary:** JM-01 is complete. **JM-02 — Immersive Mainlagi Header is next.** JM-02 may implement Kembali, compact logo, profile/menu, and expandable `Belajar | Bermain | World | Shop` with desktop/touch/keyboard behavior. It must not pull the JM-03 Bahasa Inggris map redesign forward.
+
 ## 30 September 2026 — Journey Map JM-00 CLOSED / MERGED / LIVE VERIFIED
 
 Phase C — Canonical Journey Map System has now been **explicitly authorized by the project owner**. JM-00 completed a read-only audit against `main@f6b9f97fc5c6917188d228d0d724421c346579e5` without changing runtime, curriculum, stage membership, progression, World semantics, schema, or visuals.
@@ -28,7 +48,7 @@ Locked findings:
 - stable subject/stage/activity/World routes are preserved;
 - Mewarnai/Menggambar creative workspaces and World story/runtime are not absorbed by the map layer.
 
-**Current Journey Map execution boundary:** JM-00 is complete. **JM-01 — Shared map data/state foundation is the next authorized Journey Map step.** JM-01 may add types/adapters/state projection only; it must not start the JM-02 header or JM-03+ visual redesign.
+**Historical JM-00 boundary:** JM-00 is closed/live verified. Its JM-01 hard stop was superseded by completed JM-01. Current authority is the JM-01 checkpoint above; JM-02 is next.
 
 ## 30 September 2026 — Semantic Art P0 canonical closure reconciled
 
@@ -52,7 +72,7 @@ Verified lineage includes P0 production approval PR #324 (merged main `1e27869df
 
 Canonical closure: `docs/SEMANTIC_ART_P0_FINAL_CLOSURE_2026-09-30.md`.
 
-**Execution boundary:** there is no open Semantic Art P0 candidate/review/promotion/runtime/responsive wave. New semantic art, or a future promotion of car/towel/raincoat, requires a fresh separately authorized objective with exact provenance/rights evidence. Expanded human visual/usability + physical-device acceptance remains an eligible product-quality track. Journey Map has since been explicitly authorized; JM-00 is complete and JM-01 is the next authorized Journey Map step.
+**Execution boundary:** there is no open Semantic Art P0 candidate/review/promotion/runtime/responsive wave. New semantic art, or a future promotion of car/towel/raincoat, requires a fresh separately authorized objective with exact provenance/rights evidence. Expanded human visual/usability + physical-device acceptance remains an eligible product-quality track. Journey Map has since been explicitly authorized; JM-00 and JM-01 are complete, and JM-02 is next.
 
 ## 30 September 2026 — SI-11 Shared Interaction integrated closure CLOSED / MERGED / LIVE VERIFIED
 
