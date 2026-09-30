@@ -1,5 +1,13 @@
 # Changelog
 
+## 30 September 2026 — Semantic Art P0 canonical closure reconciliation
+
+- Reconciled canonical roadmap/handoff truth with the already-completed Semantic Art P0 implementation: **17/17 visual decisions resolved, 14/17 source/license-clear semantic assets approved as SVG production assets, 14/14 approved consumer/browser coverage, 3/3 held-key fallback coverage**.
+- The exact held set remains `vehicle.car`, `object.towel`, and `object.raincoat`; these are intentional fail-closed rights/provenance holds, not unfinished P0 implementation.
+- Existing verified lineage is unchanged: production integration PR #324 -> SVG production PR #346 -> controlled runtime PR #348 -> responsive closure PR #350 -> Session 16 final SVG-program verification.
+- No artwork bytes, semantic runtime, learning semantics, mastery/evidence/progression, World, character, narration, Journey Map, or gameplay code changed in this reconciliation.
+- Canonical checkpoint: `SEMANTIC_ART_P0_FINAL_CLOSURE_2026-09-30.md`. New semantic-art expansion requires a fresh objective; expanded human visual/usability + physical-device acceptance is the next already-eligible product-quality track.
+
 ## 30 September 2026 — Shared Interaction SI-11 CLOSED / MERGED / LIVE VERIFIED / PROGRAM COMPLETE
 
 - Runtime PR **#405** final head `ee20dbc9e3c360fcf718b0ccdfc073c8b31344ec` passed final PR CI **#2308 / run `36684442616` FULL SUCCESS** and squash-merged to **`main@a4619c31f9ed928c420dab6704b93ad22d4d28c3`**.
