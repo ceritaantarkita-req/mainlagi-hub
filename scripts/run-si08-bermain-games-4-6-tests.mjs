@@ -28,7 +28,7 @@ has(mathWarung, "canonical", "game 6 math-warung opts into canonical completion"
 for (const slug of ["shape-quest", "pattern-race", "math-warung"]) {
   has(shell, `game.slug === "${slug}"`, `GameShell includes SI-08 game ${slug} in canonical completion set`);
 }
-has(shell, "!canonicalCompletionGame ? <ShareButton", "legacy header Share remains hidden for canonicalized games");
+lacks(shell, "ShareButton", "SI-11 keeps gameplay-header duplicate Share removed");
 has(shell, 'game.slug === "iqro-motion"', "SI-08 historical regression accepts later SI-09 game canonicalization");
 has(shell, 'game.slug === "airboard-presenter"', "SI-08 historical regression accepts the later explicit AirBoard terminal decision");
 
