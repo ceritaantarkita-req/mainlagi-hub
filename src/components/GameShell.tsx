@@ -12,7 +12,6 @@ import { useVisionRuntime } from "@/lib/vision/useVisionRuntime";
 import { GameIcon } from "./GameIcon";
 import { OverlayToggle } from "./OverlayToggle";
 import { PreflightPanel } from "./PreflightPanel";
-import { ShareButton } from "./ShareButton";
 import type { SessionMode } from "@/games/types";
 import { MathChoiceGame } from "@/games/MathChoiceGame";
 import { MathMotionGame } from "@/games/MathMotionGame";
@@ -61,17 +60,6 @@ export function GameShell({ game }: { game: GameDefinition }) {
     playerCount,
     face: useFace
   });
-  const canonicalCompletionGame =
-    game.slug === "math-choice" ||
-    game.slug === "math-motion-battle" ||
-    game.slug === "number-trace" ||
-    game.slug === "shape-quest" ||
-    game.slug === "pattern-race" ||
-    game.slug === "math-warung" ||
-    game.slug === "iqro-motion" ||
-    game.slug === "airboard-presenter" ||
-    game.slug === "dodge-motion" ||
-    game.slug === "run-to-target";
 
   const setPlayerLevel = useCallback((player: PlayerId, level: Level) => {
     setPlayerLevels((current) =>
@@ -199,7 +187,6 @@ export function GameShell({ game }: { game: GameDefinition }) {
         </div>
         <div className="experience-actions">
           {inputMode === "camera" ? <OverlayToggle /> : null}
-          {!canonicalCompletionGame ? <ShareButton title={game.title} text={game.description} /> : null}
           <button
             type="button"
             aria-label="Kalibrasi ulang"

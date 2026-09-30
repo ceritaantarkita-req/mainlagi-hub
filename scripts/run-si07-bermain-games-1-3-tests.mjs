@@ -41,8 +41,8 @@ has(digitRace, "canonical", "shared DigitRace terminal stays canonical for game 
 has(shell, 'game.slug === "math-choice"', "GameShell identifies SI-07 game 1");
 has(shell, 'game.slug === "math-motion-battle"', "GameShell identifies SI-07 game 2");
 has(shell, 'game.slug === "number-trace"', "GameShell identifies SI-07 game 3");
-has(shell, "!canonicalCompletionGame ? <ShareButton", "legacy gameplay-header Share is retired only for migrated games");
-has(shell, 'import { ShareButton } from "./ShareButton"', "non-SI-07 games keep the existing header Share path");
+lacks(shell, "ShareButton", "SI-11 removes the duplicate gameplay-header Share owner after all ten games canonicalize");
+lacks(shell, "canonicalCompletionGame", "GameShell no longer needs a conditional legacy Share compatibility list");
 
 has(completionCss, "@media (orientation: landscape) and (max-height: 560px)", "SI-07 support content remains bounded in short landscape");
 

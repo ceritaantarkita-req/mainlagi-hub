@@ -33,10 +33,11 @@ has(airboard, "<BermainCompletion", "AirBoard reaches canonical Bermain completi
 lacks(airboard, "LeaderboardCapture", "AirBoard does not write a fake leaderboard score");
 lacks(airboard, "useProgressSync", "AirBoard finish does not invent game progress evidence");
 
-for (const slug of ["iqro-motion", "airboard-presenter", "dodge-motion", "run-to-target"]) {
-  has(shell, `game.slug === "${slug}"`, `GameShell includes SI-09 game ${slug} in canonical completion set`);
+for (const slug of ["iqro-motion", "airboard-presenter", "dodge-motion"]) {
+  has(shell, `game.slug === "${slug}"`, `GameShell keeps explicit routing for SI-09 game ${slug}`);
 }
-has(shell, "!canonicalCompletionGame ? <ShareButton", "legacy header Share remains hidden for every canonicalized game");
+has(shell, "return <RunToTargetGame", "GameShell keeps run-to-target as the canonical catalog fallback route");
+lacks(shell, "ShareButton", "SI-11 keeps gameplay-header duplicate Share removed for the full ten-game catalog");
 has(si08, 'has(shell, \'game.slug === "airboard-presenter"\'', "SI-08 historical regression acknowledges later SI-09 AirBoard canonicalization");
 
 console.log("SI-09 Bermain games 7-10 static contract PASS.");

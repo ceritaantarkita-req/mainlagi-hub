@@ -106,6 +106,13 @@ async function completed(page){
   },{id:activityId});
 }
 
+async function targetAttemptCount(page){
+  return page.evaluate(({id})=>{
+    const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
+    return(attempts["demo-gian"]??[]).filter(item=>item.activityId===id).length;
+  },{id:activityId});
+}
+
 async function chooseWrongWithKeyboard(page){
   for(let step=0;step<96;step+=1){
     await page.keyboard.press("Tab");
@@ -188,9 +195,15 @@ async function inspect(viewport){
     await status.filter({hasText:"Tepat"}).waitFor({state:"visible",timeout:2000});
     assert.equal(await completed(page),true,"correct subitizing answer completes canonical activity");
 
-    const nextLink=page.getByRole("link",{name:"Pilih permainan lain"});
+    const completion=page.locator('[data-canonical-completion="v1"][data-activity-completion]');
+    await completion.waitFor({state:"visible",timeout:3000});
+    assert.deepEqual(
+      await completion.locator("[data-completion-action]").evaluateAll(nodes=>nodes.map(node=>node.textContent?.trim())),
+      ["Back","Again","Next","Share"],
+      "subitizing success uses canonical action order"
+    );
+    assert.equal(await completion.getAttribute("data-completion-stars"),"3","subitizing success keeps exact three-star completion");
     await assertFullyVisible(status,viewportHeight,"success subitizing feedback");
-    await assertFullyVisible(nextLink,viewportHeight,"subitizing success CTA");
 
     const state=await page.evaluate(({id})=>{
       const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
@@ -209,8 +222,33 @@ async function inspect(viewport){
     assert.equal(state.incorrectCount,1);
     assert.equal(state.retryCount,1);
     assert.equal(state.accuracy,0.5);
+    assert.equal(await targetAttemptCount(page),1,"subitizing success writes exactly one attempt/evidence record");
 
     await page.screenshot({path:path.join(screenshotDir,String(viewport.width)+"-subitizing-success.png"),fullPage:false});
+
+    if(viewport.width===390){
+      await page.evaluate(()=>{window.__mainlagiSi11SubitizingDocument="same-document";});
+      await page.setViewportSize({width:844,height:390});
+      await page.waitForTimeout(120);
+      assert.equal(await page.evaluate(()=>window.__mainlagiSi11SubitizingDocument),"same-document","subitizing rotation must not reload the document");
+      assert.equal(await completion.isVisible(),true,"subitizing Completion survives portrait→landscape reflow");
+      assert.equal(await targetAttemptCount(page),1,"subitizing rotation must not duplicate attempt/evidence");
+      await page.setViewportSize({width:390,height:844});
+      await page.waitForTimeout(120);
+
+      await completion.locator('[data-completion-action="share"]').click();
+      const share=page.locator('[data-canonical-share="v1"]');
+      await share.waitFor({state:"visible",timeout:3000});
+      await page.waitForFunction(()=>document.querySelector('[data-canonical-share="v1"]')?.getAttribute("data-share-gate")==="allowed",undefined,{timeout:3000});
+      assert.equal(await share.getAttribute("data-share-public-path"),"/","subitizing Share stays on the public Belajar origin");
+      assert.equal(await targetAttemptCount(page),1,"opening Share must not duplicate attempt/evidence");
+      await share.getByRole("button",{name:"Tutup"}).click();
+
+      await completion.locator('[data-completion-action="again"]').click();
+      await completion.waitFor({state:"hidden",timeout:3000});
+      assert.equal(await choices.evaluateAll(nodes=>nodes.every(node=>!node.disabled)),true,"Again restores the same mounted subitizing board");
+      assert.equal(await targetAttemptCount(page),1,"Again local reset does not emit a second attempt before another completion");
+    }
     assert.deepEqual(pageErrors,[],"page errors at "+viewport.width+": "+pageErrors.join(" | "));
     assert.deepEqual(consoleErrors,[],"console errors at "+viewport.width+": "+consoleErrors.join(" | "));
     await context.close();
@@ -223,7 +261,7 @@ async function main(){
   startServer();
   await waitForServer();
   for(const viewport of viewports)await inspect(viewport);
-  console.log("Pattern 44 browser QA passed 3 viewports with stable spatial stimulus, keyboard retry, pointer/actual-touch completion, touch targets and assessed evidence checks.");
+  console.log("Pattern 44 browser QA passed: three viewports preserve the audited stimulus/evidence contract, canonical Completion+Share, rotation state, and single-attempt semantics.");
 }
 
 main().catch(error=>{

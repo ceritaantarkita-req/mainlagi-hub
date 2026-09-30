@@ -13,8 +13,8 @@ const resolver = read("src/lib/share/canonicalShare.ts");
 const belajar = read("src/components/learning/ActivityCompletion.tsx");
 const completion = read("src/components/CanonicalCompletion.tsx");
 const world = read("src/components/learning/world-v2/MoneyWorldExperience.tsx");
+const bermain = read("src/games/BermainCompletion.tsx");
 const gameShell = read("src/components/GameShell.tsx");
-const gameplayShare = read("src/components/ShareButton.tsx");
 
 has(canonicalShare, 'data-canonical-share="v1"', "canonical Share exposes stable QA marker");
 has(canonicalShare, "data-share-context={payload.context}", "canonical Share exposes context");
@@ -76,9 +76,10 @@ for (const legacy of [
 has(completion, 'data-completion-action="share"', "canonical Completion retains the approved Share trigger position");
 lacks(completion, "/api/parent/share-gate", "Completion visual shell stays independent from Share gate");
 
-has(world, 'import { CanonicalShareDialog } from "@/components/CanonicalShare"', "SI-10 now adapts World to the canonical Share owner");
-lacks(gameShell, 'from "./CanonicalShare"', "SI-04 must not silently replace gameplay-header Share");
-has(gameShell, 'import { ShareButton } from "./ShareButton"', "gameplay-header Share remains an explicit unresolved migration decision");
-has(gameplayShare, "window.location.href", "existing gameplay-header Share remains identifiable until its later retirement/retention decision");
+has(world, 'import { CanonicalShareDialog } from "@/components/CanonicalShare"', "SI-10 adapts World to the canonical Share owner");
+has(bermain, 'import { CanonicalShareDialog } from "@/components/CanonicalShare"', "Bermain completion uses the canonical Share owner");
+has(bermain, 'context: "bermain"', "Bermain resolves Share through the canonical public-safe context");
+lacks(gameShell, "ShareButton", "SI-11 retires the duplicate gameplay-header Share owner");
+assert.equal(fs.existsSync(path.join(root, "src/components/ShareButton.tsx")), false, "legacy ShareButton implementation must stay removed after SI-11");
 
 console.log("SI-04 canonical Share static contract PASS.");
