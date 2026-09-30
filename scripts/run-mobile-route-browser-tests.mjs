@@ -912,7 +912,7 @@ async function main() {
       await advanceWorldNarrative(page);
       await page.getByRole("heading", { name: "Awesome!", exact: true }).waitFor();
 
-      const completion = page.locator('[aria-labelledby="world-stage-complete-title"]');
+      const completion = page.locator('[data-world-completion-stage="money-stage-01-money-use"][data-canonical-completion="v1"]');
       const geometry = await completion.evaluate((root) => {
         const rootBox = root.getBoundingClientRect();
         const controls = Array.from(root.querySelectorAll("button, a")).map((element) => {
@@ -995,7 +995,7 @@ async function main() {
           return button instanceof HTMLButtonElement && !button.disabled;
         });
         await shell.locator("[data-world-next]").click();
-        const completion = page.locator('[aria-labelledby="world-stage-complete-title"]');
+        const completion = page.locator('[data-world-completion-stage="' + stage.id + '"][data-canonical-completion="v1"]');
         await completion.waitFor();
         assert.equal(await completion.getAttribute("data-world-completion-stage"), stage.id, stage.id + " completion must preserve exact Stage identity");
         assert.equal(await completion.getAttribute("data-world-completion-final"), stage.id === "money-stage-08-final-festival" ? "true" : "false", stage.id + " final-completion status must be deterministic");
