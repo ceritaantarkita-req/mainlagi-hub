@@ -13,7 +13,7 @@ authorized from main:      c73e450581c8c4542933ab251a9b3880b81722c7
 implementation branch:     agent/si10-world-adapter-20260930
 SI-09:                     CLOSED / MERGED / LIVE VERIFIED
 SI-10:                     CLOSED / MERGED / LIVE VERIFIED
-next after SI-10:          SI-11 integrated closure — PAUSED / not authorized
+historical next after SI-10: SI-11 — now CLOSED / LIVE VERIFIED
 ```
 
 The SI-09 hard stop is superseded by the explicit 30 September 2026 project-owner instruction to update the docs and continue SI-10.
@@ -81,6 +81,6 @@ SI-10 is not closed until permanent regressions prove:
 
 ## Current hard stop
 
-**SI-11 — integrated closure remains PAUSED / not authorized.**
+**Historical note:** SI-11 was later explicitly authorized and is now CLOSED / MERGED / LIVE VERIFIED. Current authority is `docs/SI11_SHARED_INTERACTION_INTEGRATED_CLOSURE_SAFE_CHECKPOINT_2026-09-30.md`.
 
 Do not start SI-11 or Journey Map work as part of SI-10. Final SI-10 closure must first record the merged runtime SHA, PR CI, merged-main CI, and exact Cloudflare Production smoke result.
