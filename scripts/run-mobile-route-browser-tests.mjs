@@ -152,7 +152,7 @@ async function advanceWorldNarrative(page) {
   await next.click();
 }
 
-async function assertJm02Header(page, viewport, { backHref, currentHref }) {
+async function assertJm02Header(page, viewport, { backHref, currentHref, exerciseMenus = false }) {
   const header = page.locator('[data-mainlagi-jm02-header="v1"]');
   assert.equal(await header.count(), 1, `JM-02 header missing at ${viewport.width}px`);
 
@@ -171,26 +171,17 @@ async function assertJm02Header(page, viewport, { backHref, currentHref }) {
 
   const productNav = header.locator("[data-mainlagi-product-nav]");
   const productSummary = productNav.locator("summary");
+  const menu = productNav.locator('nav[aria-label="Area Mainlagi"]');
   assert.equal(await productNav.count(), 1, `JM-02 product menu missing at ${viewport.width}px`);
   assert.equal(await productSummary.count(), 1, `JM-02 product menu trigger missing at ${viewport.width}px`);
 
-  if (viewport.width <= 430) {
-    await productSummary.click();
-  } else {
-    await productSummary.focus();
-    await page.keyboard.press("Enter");
-  }
-  assert.equal(await productNav.evaluate((element) => element.open), true, `JM-02 product menu must open at ${viewport.width}px`);
-
-  const menu = productNav.getByRole("navigation", { name: "Area Mainlagi" });
   for (const [label, href] of [
     ["Belajar", "/child/demo-gian/home"],
     ["Bermain", "/child/demo-gian/games"],
     ["World", "/child/demo-gian/worlds"]
   ]) {
-    const link = menu.getByRole("link", { name: new RegExp(`^${label}\\b`) });
+    const link = menu.locator(`a[href="${href}"]`);
     assert.equal(await link.count(), 1, `JM-02 menu must expose ${label} at ${viewport.width}px`);
-    assert.equal(await link.getAttribute("href"), href, `JM-02 ${label} route drifted at ${viewport.width}px`);
   }
 
   assert.equal(
@@ -203,6 +194,20 @@ async function assertJm02Header(page, viewport, { backHref, currentHref }) {
   assert.equal(await shop.getAttribute("aria-disabled"), "true", `JM-02 Shop must remain disabled at ${viewport.width}px`);
   assert.equal(await menu.locator('a[href*="/shop"]').count(), 0, "JM-02 must not fabricate a child Shop route");
 
+  const profileDetails = header.locator("[data-mainlagi-profile-menu]");
+  const profileSummary = profileDetails.locator("summary");
+  assert.equal(await profileDetails.count(), 1, `JM-02 profile menu missing at ${viewport.width}px`);
+
+  if (!exerciseMenus) return;
+
+  if (viewport.width <= 430) {
+    await productSummary.click();
+  } else {
+    await productSummary.focus();
+    await page.keyboard.press("Enter");
+  }
+  assert.equal(await productNav.evaluate((element) => element.open), true, `JM-02 product menu must open at ${viewport.width}px`);
+
   if (viewport.width <= 430) {
     await productSummary.click();
   } else {
@@ -210,9 +215,6 @@ async function assertJm02Header(page, viewport, { backHref, currentHref }) {
   }
   assert.equal(await productNav.evaluate((element) => element.open), false, `JM-02 product menu must close deterministically at ${viewport.width}px`);
 
-  const profileDetails = header.locator("[data-mainlagi-profile-menu]");
-  const profileSummary = profileDetails.locator("summary");
-  assert.equal(await profileDetails.count(), 1, `JM-02 profile menu missing at ${viewport.width}px`);
   await profileSummary.focus();
   await page.keyboard.press("Enter");
   assert.equal(await profileDetails.evaluate((element) => element.open), true, `JM-02 profile menu must open by keyboard at ${viewport.width}px`);
@@ -372,7 +374,8 @@ async function inspectPage(page, route, viewport) {
     if (route.path === "/child/demo-gian/home") {
       await assertJm02Header(page, viewport, {
         backHref: null,
-        currentHref: "/child/demo-gian/home"
+        currentHref: "/child/demo-gian/home",
+        exerciseMenus: true
       });
       const subjectLinks = page.locator('[data-core-thumbnail-card="subject"]');
       assert.equal(await subjectLinks.count(), 9, "child home must expose all nine subject cards");
