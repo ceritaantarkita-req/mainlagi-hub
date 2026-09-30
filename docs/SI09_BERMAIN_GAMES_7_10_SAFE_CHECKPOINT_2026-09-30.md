@@ -17,7 +17,7 @@ Production smoke:         SUCCESS — exact merged runtime SHA verified
 SI-07 games 1–3:          CLOSED / MERGED / LIVE VERIFIED
 SI-08 games 4–6:          CLOSED / MERGED / LIVE VERIFIED
 SI-09 games 7–10:         CLOSED / MERGED / LIVE VERIFIED
-next Shared Interaction:  SI-10 — World adapter — AUTHORIZED / IN PROGRESS
+historical next:          SI-10 — World adapter — now CLOSED / LIVE VERIFIED
 ```
 
 All merged-main gates passed: Production build, Quality gate (Ubuntu), Windows compatibility, Secret history scan, Mobile route QA (Chromium), Production dependency audit, and Production smoke (Cloudflare).
@@ -125,4 +125,4 @@ SI-09 runtime is merged and live verified at **`main@9109f57978ea7e834772859be01
 
 The SI-08 hard stop is historical and was superseded by the explicit project-owner authorization that started SI-09.
 
-The SI-10 hard stop recorded by this checkpoint was superseded on 30 September 2026 by explicit project-owner authorization. Current execution authority is `docs/SI10_WORLD_ADAPTER_EXECUTION_CHECKPOINT_2026-09-30.md`. Repository truth also records that SI-02 already closed the `SpeechCard` visible-name-label removal and World safe-character geometry; SI-10 preserves those contracts while migrating World Completion/Share. SI-11 and Journey Map work remain unauthorized.
+The SI-10 hard stop recorded by this checkpoint was superseded on 30 September 2026 by explicit project-owner authorization. SI-10 is now merged/live verified at `main@62a4676a50dc4f7a2b068118479bc0758bd40881`; current resume authority is `docs/SI10_WORLD_ADAPTER_SAFE_CHECKPOINT_2026-09-30.md`. SI-11 and Journey Map work remain unauthorized.

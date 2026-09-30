@@ -1,8 +1,10 @@
 # SI-10 — World Adapter Execution Checkpoint — 30 September 2026
 
-Status: **AUTHORIZED / IN PROGRESS**
+Status: **HISTORICAL / SUPERSEDED BY LIVE CLOSURE**
 
 This checkpoint records the explicit project-owner authorization to start SI-10 from the verified post-SI-09 repository baseline. It is an execution checkpoint, not final closure evidence.
+
+SI-10 subsequently merged/live verified through PR #403 -> `main@62a4676a50dc4f7a2b068118479bc0758bd40881`, merged-main CI #2303 / run `36676747658`, including exact Cloudflare smoke. Current resume authority is `docs/SI10_WORLD_ADAPTER_SAFE_CHECKPOINT_2026-09-30.md`.
 
 ## Starting baseline
 
@@ -10,7 +12,7 @@ This checkpoint records the explicit project-owner authorization to start SI-10 
 authorized from main:      c73e450581c8c4542933ab251a9b3880b81722c7
 implementation branch:     agent/si10-world-adapter-20260930
 SI-09:                     CLOSED / MERGED / LIVE VERIFIED
-SI-10:                     AUTHORIZED / IN PROGRESS
+SI-10:                     CLOSED / MERGED / LIVE VERIFIED
 next after SI-10:          SI-11 integrated closure — PAUSED / not authorized
 ```
 

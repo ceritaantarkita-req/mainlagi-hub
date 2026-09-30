@@ -4,21 +4,29 @@ Last reviewed: **30 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
-## 30 September 2026 — SI-10 World adapter AUTHORIZED / IN PROGRESS
+## 30 September 2026 — SI-10 World adapter CLOSED / MERGED / LIVE VERIFIED
 
 ```text
-authorized baseline:       c73e450581c8c4542933ab251a9b3880b81722c7
-implementation branch:     agent/si10-world-adapter-20260930
-SI-09:                     CLOSED / MERGED / LIVE VERIFIED
-SI-10:                     AUTHORIZED / IN PROGRESS
-current checkpoint:        docs/SI10_WORLD_ADAPTER_EXECUTION_CHECKPOINT_2026-09-30.md
-next after SI-10:          SI-11 integrated closure — PAUSED / not authorized
+pre-SI-10 main:           c73e450581c8c4542933ab251a9b3880b81722c7
+runtime PR:               #403 — merged
+final PR head:            e290fa08d418fee4761574b836a6ae19c888f56e
+final PR CI:              #2302 / run 36675680322 — FULL SUCCESS
+verified runtime main:    62a4676a50dc4f7a2b068118479bc0758bd40881
+merged-main CI:           #2303 / run 36676747658 — FULL SUCCESS
+Production smoke:         SUCCESS — exact merged runtime SHA verified
+SI-09:                    CLOSED / MERGED / LIVE VERIFIED
+SI-10:                    CLOSED / MERGED / LIVE VERIFIED
+next Shared Interaction:  SI-11 integrated closure — PAUSED / not authorized
+canonical checkpoint:     docs/SI10_WORLD_ADAPTER_SAFE_CHECKPOINT_2026-09-30.md
 ```
 
-The project owner explicitly authorized SI-10 on 30 September 2026. The SI-09 hard stop is therefore superseded. The active SI-10 runtime work is the World Completion + Share adapter: migrate the bespoke `WorldStageCompletion` presentation to `CanonicalCompletion(context="world")` and move World achievement sharing to `CanonicalShareDialog(context="world")`, while preserving eight-stage progression, chapter/finale semantics, World evidence, narration, authored routing and the Gavi/Paca cast.
+SI-10 migrates the bespoke World completion/share presentation to `CanonicalCompletion(context="world", surface="inline")` + `CanonicalShareDialog(context="world")`. Back / Again / Next / Share, three stars, chapter/finale content, Gavi/Paca celebration, public-safe World sharing, eight-stage order, World progress/evidence, narration and authored routing are preserved. The World component no longer owns duplicate clipboard/native/provider/share-gate logic.
 
-Scope reconciliation: SI-02 already removed the visible World `SpeechCard` character-name label and live-verified the `safe-contain-v1` World character geometry contract across portrait/landscape. SI-10 must preserve those guarantees and regression-test them; it must not redo them as new character work. Journey Map redesign remains outside SI-10.
+SI-02 had already removed the visible World `SpeechCard` name label and live-verified `safe-contain-v1` World character geometry. SI-10 regression-preserves those guarantees rather than reopening character work.
 
+All merged-main gates are green on exact `main@62a4676a50dc4f7a2b068118479bc0758bd40881`: Production build, Quality gate (Ubuntu), Windows compatibility, Secret history scan, Mobile route QA (Chromium), Production dependency audit, and Production smoke (Cloudflare).
+
+**Current execution boundary:** SI-06A through SI-06G and SI-07 through SI-10 are completed history and must not be restarted. SI-11 integrated closure is PAUSED / not authorized. Journey Map redesign remains outside SI-10/SI-11 unless separately authorized.
 
 ## 30 September 2026 — Verified SI-09 Bermain games 7–10 runtime baseline
 
@@ -33,8 +41,8 @@ Production smoke:         SUCCESS — exact merged runtime SHA verified
 SI-07 games 1–3:          CLOSED / MERGED / LIVE VERIFIED
 SI-08 games 4–6:          CLOSED / MERGED / LIVE VERIFIED
 SI-09 games 7–10:         CLOSED / MERGED / LIVE VERIFIED
-next Shared Interaction:  SI-10 World adapter — AUTHORIZED / IN PROGRESS
-canonical checkpoint:     docs/SI10_WORLD_ADAPTER_EXECUTION_CHECKPOINT_2026-09-30.md
+historical next at SI-09: SI-10 World adapter — now CLOSED / LIVE VERIFIED
+current checkpoint:       docs/SI10_WORLD_ADAPTER_SAFE_CHECKPOINT_2026-09-30.md
 ```
 
 All merged-main gates were green: Production build, Quality gate (Ubuntu), Windows compatibility, Secret history scan, Mobile route QA (Chromium), Production dependency audit, and Production smoke (Cloudflare).
@@ -45,7 +53,7 @@ SI-09 migrates exactly `iqro-motion`, `airboard-presenter`, `dodge-motion`, and 
 
 SI-07 and SI-08 remain closed/live verified historical batches. Later security/closure descendants may move repository HEAD without changing the SI-09 product-runtime truth above.
 
-**Current execution boundary:** SI-06A through SI-06G and SI-07 through SI-09 are completed history and must not be restarted. SI-10 is explicitly authorized and in progress. Its active code migration is World Completion/Share; the SpeechCard name-label removal and World safe-character geometry are already closed SI-02 guarantees that SI-10 must preserve. SI-11 integrated closure and Journey Map redesign remain outside the authorized SI-10 wave.
+**Historical SI-09 boundary:** SI-10 was subsequently authorized, implemented, merged and live verified. Current resume authority is the SI-10 safe checkpoint above; SI-11 remains paused.
 
 ## 27 September core thumbnail system checkpoint — WAVE 01 CLOSED / LIVE VERIFIED
 
