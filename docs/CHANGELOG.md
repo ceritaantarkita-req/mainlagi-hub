@@ -1,5 +1,18 @@
 # Changelog
 
+## 30 September 2026 — Journey Map JM-01 CLOSED / MERGED / LIVE VERIFIED
+
+- Added the shared read-only Belajar Journey Map data/state foundation in `src/lib/learning/journeyMap.ts`.
+- The adapter derives Stage order from canonical `CONTENT_PATHS.stageIds`, Stage metadata/membership from canonical `STAGES`, and readiness from `getSubjectStageReadiness()`; no second curriculum/progression source was introduced.
+- Presentation state is now `completed | current | open | locked` while canonical `locked | in_progress | evidence_needed | ready` remains preserved.
+- Child-facing English presentation is explicitly **Bahasa Inggris / Inggris** while the stable internal ID stays `english`.
+- Blocking regression `test:learning:journey-map` covers all **9 subjects / 46 Stages / 100 activities per subject**, exact order/routes, evidence-gated Math behavior, and practice-only Coloring advancement; it is wired into aggregate `test:learning`.
+- Runtime PR **#411** final head `9ae8ad4e5debcc4fb13738919db94b80d23c4b97` passed PR CI **#2319 / run `36716608349`** and squash-merged to **`main@756e3bd7bb24588041a3644f08018783e7b3b0f2`**.
+- Merged-main CI **#2320 / run `36717855442`** concluded **SUCCESS**; the main workflow requires exact Cloudflare production smoke downstream of normal blocking gates.
+- No Journey Map visual, Browse All behavior, curriculum, Stage membership, mastery/evidence/progression, World, creative workspace, database/schema, Completion, or Share behavior changed.
+- Canonical checkpoint: `JM01_SHARED_JOURNEY_MAP_FOUNDATION_SAFE_CHECKPOINT_2026-09-30.md`.
+- **JM-02 — Immersive Mainlagi Header is next.**
+
 ## 30 September 2026 — Journey Map JM-00 CLOSED / MERGED / LIVE VERIFIED
 
 - Phase C — Canonical Journey Map System is now explicitly authorized by the project owner.
