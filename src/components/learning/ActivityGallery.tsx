@@ -3,7 +3,6 @@
 
 import Link from "next/link";
 import {
-  ArrowLeft,
   Cards,
   Check,
   Headphones,
@@ -187,8 +186,6 @@ export function ActivityGallery({
 
   return (
     <main className={styles.page}>
-      <Link className={styles.back} href={`/child/${childId}/home#choose-subject`}><ArrowLeft size={24} weight="bold" aria-hidden />Belajar</Link>
-
       <header className={styles.heading}>
         <div>
           <h1>{subject.id === "english" ? "Bahasa Inggris" : subject.title}</h1>

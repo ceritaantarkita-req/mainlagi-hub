@@ -233,8 +233,6 @@ export function StageScreen({ childId, stageId }: { childId: string; stageId: st
 
   return (
     <main className={`${styles.content} ${stageStyles.stagePage}`} data-mainlagi-stage-screen>
-      <Link className={styles.backButton} href={`/child/${childId}/subject/${stage.subjectId}`} aria-label="Kembali">←</Link>
-
       <section className={stageStyles.stageHero} aria-labelledby="stage-title">
         <div className={stageStyles.stageIdentity}>
           <span className={stageStyles.stageSymbol} aria-hidden><LearningSymbol name={subject.id} size={32} /></span>

@@ -19,6 +19,7 @@ if (compile.status !== 0) process.exit(compile.status ?? 1);
 
 const require = createRequire(import.meta.url);
 const journey = require(path.join(outDir, "src", "lib", "learning", "journeyMap.js"));
+const header = require(path.join(outDir, "src", "lib", "learning", "journeyHeader.js"));
 const attempts = require(path.join(outDir, "src", "lib", "learning", "attempts.js"));
 const system = require(path.join(outDir, "src", "lib", "learning", "system.js"));
 
@@ -224,7 +225,57 @@ try {
     /non-empty childId/
   );
 
-  console.log("JM-01 shared Journey Map data/state foundation tests passed.");
+  assert.deepEqual(
+    header.resolveJourneyHeaderRoute({ childId: "demo-gian", pathname: "/child/demo-gian/home" }),
+    { backHref: null, currentSection: "belajar" },
+    "JM-02 Home header must not fabricate a back destination"
+  );
+  assert.deepEqual(
+    header.resolveJourneyHeaderRoute({ childId: "demo-gian", pathname: "/child/demo-gian/subject/english" }),
+    { backHref: "/child/demo-gian/home#choose-subject", currentSection: "belajar" },
+    "JM-02 Subject back must return to the canonical subject directory"
+  );
+  assert.deepEqual(
+    header.resolveJourneyHeaderRoute({ childId: "demo-gian", pathname: "/child/demo-gian/stage/english-first-words" }),
+    { backHref: "/child/demo-gian/subject/english", currentSection: "belajar" },
+    "JM-02 Stage back must resolve canonical Stage ownership"
+  );
+  assert.deepEqual(
+    header.resolveJourneyHeaderRoute({ childId: "demo-gian", pathname: "/child/demo-gian/stage/not-a-stage" }),
+    { backHref: "/child/demo-gian/home#choose-subject", currentSection: "belajar" },
+    "JM-02 unknown Stage back must fail closed to the subject directory"
+  );
+  assert.deepEqual(
+    header.resolveJourneyHeaderRoute({ childId: "demo-gian", pathname: "/child/demo-gian/games" }),
+    { backHref: "/child/demo-gian/home", currentSection: "bermain" },
+    "JM-02 Bermain must preserve the child games destination"
+  );
+  assert.deepEqual(
+    header.resolveJourneyHeaderRoute({ childId: "demo-gian", pathname: "/child/demo-gian/worlds" }),
+    { backHref: "/child/demo-gian/home", currentSection: "world" },
+    "JM-02 World catalog back must return Home"
+  );
+  assert.deepEqual(
+    header.resolveJourneyHeaderRoute({ childId: "demo-gian", pathname: "/child/demo-gian/world/money-festival" }),
+    { backHref: "/child/demo-gian/worlds", currentSection: "world" },
+    "JM-02 World map back must return to the canonical World catalog"
+  );
+  assert.deepEqual(
+    header.journeyHeaderDestinations("demo-gian"),
+    [
+      { id: "belajar", label: "Belajar", href: "/child/demo-gian/home" },
+      { id: "bermain", label: "Bermain", href: "/child/demo-gian/games" },
+      { id: "world", label: "World", href: "/child/demo-gian/worlds" }
+    ],
+    "JM-02 live header destinations must stay canonical and must not invent a child Shop route"
+  );
+  assert.throws(
+    () => header.journeyHeaderDestinations("   "),
+    /non-empty childId/,
+    "JM-02 destination builder must fail closed for an empty child ID"
+  );
+
+  console.log("JM-01 shared Journey Map data/state foundation and JM-02 header route tests passed.");
 } catch (error) {
   console.error(error);
   process.exit(1);

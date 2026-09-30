@@ -87,8 +87,15 @@ try {
     await page.goto(base);
     await page.waitForURL(/child\/demo-gian\/home$/);
     assert.equal(await page.getByRole("heading",{name:"Belajar sambil bermain.",exact:true}).count(),1);
-    assert.equal(await page.getByRole("link",{name:"Belajar",exact:true}).count(),1);
-    assert.equal(await page.getByRole("link",{name:"Bermain",exact:true}).count(),1);
+    const header=page.locator('[data-mainlagi-jm02-header="v1"]');
+    assert.equal(await header.count(),1,"JM-02 shared child header is visible on Home");
+    const productNav=header.locator("[data-mainlagi-product-nav]");
+    await productNav.locator("summary").click();
+    assert.equal(await productNav.getByRole("link",{name:/^Belajar\b/}).count(),1);
+    assert.equal(await productNav.getByRole("link",{name:/^Bermain\b/}).count(),1);
+    assert.equal(await productNav.getByRole("link",{name:/^World\b/}).count(),1);
+    assert.equal(await productNav.locator('[data-mainlagi-shop-slot="disabled"]').count(),1,"Shop remains fail-closed in child mode");
+    await productNav.locator("summary").click();
     const subjectLinks=page.locator('[data-core-thumbnail-card="subject"]');
     assert.equal(await subjectLinks.count(),9);
     assert.equal(await page.getByText(/\b100 aktivitas\b/).count(),0,"child home hides activity-count subtitles");
