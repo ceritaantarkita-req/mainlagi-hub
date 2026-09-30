@@ -16,6 +16,24 @@ Current resume authority: `SI11_SHARED_INTERACTION_INTEGRATED_CLOSURE_SAFE_CHECK
 
 **Shared Interaction SI-00 through SI-11 is complete. There is no next SI session.** Do not restart or extend this sequence implicitly. Journey Map redesign remains a separate workstream and requires explicit project-owner authorization.
 
+## 30 September Semantic Art P0 closure override — CLOSED / LIVE VERIFIED
+
+Semantic Art P0 is already complete in verified production; the earlier 23 September candidate/review wording below is historical, not an active queue.
+
+Current canonical truth:
+
+- **17/17** P0 visual decisions are frozen;
+- **14/17** source/license-clear assets are approved as production SVGs;
+- semantic registry is **v2**, preferred format is **SVG**, and runtime activation is **controlled-svg**;
+- **14/14** approved keys have explicit consumer/browser coverage;
+- the exact three held keys — `vehicle.car`, `object.towel`, `object.raincoat` — remain fail-closed with **3/3** explicit fallback coverage;
+- held keys are an intentional rights/provenance boundary, not unfinished P0 implementation;
+- there is no open Semantic Art P0 candidate-generation, human-review, promotion, runtime-mapping, or responsive-QA session.
+
+Verified lineage: production approval PR #324 -> Session 11 SVG promotion PR #346 -> Session 12 controlled runtime PR #348 -> Session 13 responsive closure PR #350 -> Session 16 final SVG-program verification. Canonical closure checkpoint: `SEMANTIC_ART_P0_FINAL_CLOSURE_2026-09-30.md`.
+
+Do not reopen or expand semantic art implicitly. A future car/towel/raincoat promotion requires fresh exact-source redistribution evidence and is a new objective. The next already-eligible product-quality work is expanded human visual/usability + physical-device acceptance unless another separate workstream is explicitly authorized.
+
 ## 26 September SVG execution boundary — SESSIONS 01–16 COMPLETE / PROGRAM CLOSED
 
 Verified final truth:
@@ -157,7 +175,7 @@ illustration audit:           #287 -> bea1380e / main CI #1453 exact smoke
 visual containment:           #294 -> 6d0f9bd8 / PR CI #1529 / main CI #1531 exact smoke
 semantic registry gate:       #297 -> ed7db8a6 / PR CI #1536 / main CI #1537 exact smoke
 semantic candidate generator:  #300 -> 89adf887 / main CI #1546 exact smoke
-semantic production art:      OPEN / source prereview refinement -> exact human review next
+semantic production art (historical 23 Sep): OPEN then; later CLOSED / SVG runtime verified
 ```
 
 Cloud analytics integrity: **CLOSED / MERGED / LIVE VERIFIED** via PR #267 -> main `89a2bc629e8535bddbf2ab78ae1990a063f0f361`, merged-main CI #1205 exact Cloudflare smoke. The old fixed 500-attempt / 2000-evidence cap and authenticated silent-local-fallback defect must not be listed as open debt again.
@@ -166,7 +184,7 @@ Repository secret-scan governance: **CLOSED / MERGED / LIVE VERIFIED** via PR #2
 
 Product-UX and WS-05 remain separate work tracks. Character production is currently **PAUSED by the project owner**; it must not be resumed implicitly. Mainlagi World is also a separate development track and is out of scope for this plan execution.
 
-Learning visual containment is **CLOSED / MERGED / LIVE VERIFIED** through PR #294 -> main `6d0f9bd...`, merged-main CI #1531 exact smoke. The semantic illustration registry/provenance gate is also **CLOSED / MERGED / LIVE VERIFIED** through PR #297 -> main `ed7db8a6...`, merged-main CI #1537 exact smoke. Current registry truth is 17 review-required / 0 approved / 0 production binary / 0 runtime activation. The active illustration task is exact P0 candidate production/review; do not reopen generic containment or registry architecture unless a reproduced defect exists.
+Learning visual containment is **CLOSED / MERGED / LIVE VERIFIED** through PR #294 -> main `6d0f9bd...`, merged-main CI #1531 exact smoke. The semantic illustration registry/provenance gate is also **CLOSED / MERGED / LIVE VERIFIED** through PR #297 -> main `ed7db8a6...`, merged-main CI #1537 exact smoke. Historical 23 September registry truth was 17 review-required / 0 approved / 0 production binary / 0 runtime activation. That candidate/review phase is now superseded by the completed P0 production + SVG runtime sequence recorded in the 30 September closure override above; do not reopen generic containment or registry architecture unless a reproduced defect exists.
 
 
 ### 22 September user execution boundary
