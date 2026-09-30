@@ -115,6 +115,6 @@ SI-07 runtime is merged and live verified at **`main@b76c0fd5a116c060b06e3c1bcfc
 
 The SI-06G hard stop is historical and was superseded by the explicit user authorization that started SI-07.
 
-The SI-08 hard stop recorded at this historical checkpoint was subsequently superseded by explicit project-owner authorization; SI-08 is now merged/live verified.
+The SI-08 hard stop recorded at this historical checkpoint was subsequently superseded by explicit project-owner authorization; SI-08 is merged/live verified. The later SI-09 hard stop was also superseded by explicit authorization; SI-09 is now merged/live verified and the AirBoard terminal-state decision is closed.
 
-**CURRENT RESUME AUTHORITY:** `docs/SI08_BERMAIN_GAMES_4_6_SAFE_CHECKPOINT_2026-09-30.md`. Its hard stop is SI-09 games 7–10, including the open-ended AirBoard terminal-semantics decision.
+**CURRENT RESUME AUTHORITY:** `docs/SI09_BERMAIN_GAMES_7_10_SAFE_CHECKPOINT_2026-09-30.md`. Its hard stop is SI-10 — World adapter.
