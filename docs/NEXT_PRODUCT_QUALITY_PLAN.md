@@ -4,13 +4,15 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 
-## 30 September Shared Interaction execution override — SI-10 AUTHORIZED / IN PROGRESS
+## 30 September Shared Interaction execution override — SI-10 CLOSED / LIVE VERIFIED
 
-The project owner explicitly authorized SI-10 from `main@c73e450581c8c4542933ab251a9b3880b81722c7`. This current execution boundary supersedes older historical statements in this long-lived plan that say Mainlagi World is out of scope.
+SI-10 World Completion/Share adapter is merged/live verified through PR #403 -> `main@62a4676a50dc4f7a2b068118479bc0758bd40881`. Final PR CI #2302 / run `36675680322` and merged-main CI #2303 / run `36676747658` are full green; exact Cloudflare smoke succeeded.
 
-Active SI-10 scope is limited to the World Completion/Share adapter. SI-02 already closed the visible World SpeechCard character-name-label removal and `safe-contain-v1` World character geometry, so those are preserve/regression contracts rather than new SI-10 character work. Preserve World progression/evidence/narration/stage order/chapter/finale semantics and the Gavi/Paca cast. Do not redesign Journey Map or start SI-11 without separate authorization.
+The World runtime now consumes canonical Completion + canonical Share while preserving World progression/evidence/narration/stage order/chapter/finale semantics and Gavi/Paca. SI-02 name-label removal and safe-character geometry remain closed live guarantees. Journey Map was not redesigned.
 
-Current checkpoint: `SI10_WORLD_ADAPTER_EXECUTION_CHECKPOINT_2026-09-30.md`.
+Current resume authority: `SI10_WORLD_ADAPTER_SAFE_CHECKPOINT_2026-09-30.md`.
+
+**Hard stop: SI-11 integrated closure is PAUSED / not authorized.** Do not extend Shared Interaction or start Journey Map work without explicit project-owner authorization.
 
 ## 26 September SVG execution boundary — SESSIONS 01–16 COMPLETE / PROGRAM CLOSED
 
