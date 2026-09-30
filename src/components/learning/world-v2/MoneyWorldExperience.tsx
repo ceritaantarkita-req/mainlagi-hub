@@ -3,12 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import {
-  ArrowClockwise,
   ArrowLeft,
   ArrowRight,
-  Copy,
   LockKey,
-  ShareNetwork,
   SpeakerHigh,
   Star
 } from "@phosphor-icons/react";
@@ -24,6 +21,8 @@ import {
   type DragEvent
 } from "react";
 import { CharacterLayer } from "@/components/learning/CharacterLayer";
+import { CanonicalCompletion } from "@/components/CanonicalCompletion";
+import { CanonicalShareDialog } from "@/components/CanonicalShare";
 import { CORE_SURFACE_THUMBNAILS, CORE_WORLD_CARDS } from "@/lib/learning/coreThumbnailRegistry";
 import { WorldSceneRenderer } from "@/components/learning/world/WorldSceneRenderer";
 import type { CharacterPresentationState } from "@/lib/learning/characterAssets";
@@ -1185,10 +1184,7 @@ function WorldStageCompletion({
   stageId: string;
   onAgain: () => void;
 }) {
-  const dialogRef = useRef<HTMLDialogElement>(null);
-  const completionTitleRef = useRef<HTMLHeadingElement>(null);
-  const [shareGate, setShareGate] = useState<"idle" | "checking" | "allowed" | "denied">("idle");
-  const [copyStatus, setCopyStatus] = useState("");
+  const [shareOpen, setShareOpen] = useState(false);
   const next = nextMoneyWorldStage(stageId);
   const stage = getMoneyWorldStage(stageId);
   const mapHref = "/child/" + childId + "/world/" + MONEY_WORLD_ID;
@@ -1208,56 +1204,25 @@ function WorldStageCompletion({
     : chapterComplete
       ? "Chapter " + String(chapterIndex + 1) + " selesai. Stage " + String(next?.order ?? stage?.order ?? "") + " sekarang terbuka."
       : (stage?.title ?? "Stage") + " selesai. Stage " + String(next?.order ?? "") + " sekarang terbuka.";
-  const shareText = finalStage
-    ? "⭐⭐⭐ Petualangan Uang selesai. Festival Mainlagi siap!"
-    : "⭐⭐⭐ Stage “" + (stage?.title ?? "Petualangan Uang") + "” selesai di Mainlagi!";
   const completionPresentation = resolveMoneyWorldCharacterPresentation("world_completion");
 
-  const openShare = async () => {
-    setShareGate("checking");
-    setCopyStatus("");
-    dialogRef.current?.showModal();
-    try {
-      const response = await fetch("/api/parent/share-gate", { cache: "no-store" });
-      const payload = await response.json() as { allowed?: boolean };
-      setShareGate(payload.allowed ? "allowed" : "denied");
-    } catch {
-      setShareGate("denied");
-    }
-  };
-
-  const shareUrl = typeof window !== "undefined" ? window.location.origin + "/worlds/" + MONEY_WORLD_ID : "";
-  const encodedText = encodeURIComponent(shareText + " " + shareUrl);
-  const encodedUrl = encodeURIComponent(shareUrl);
-
-  useEffect(() => {
-    const frame = window.requestAnimationFrame(() => completionTitleRef.current?.focus());
-    return () => window.cancelAnimationFrame(frame);
-  }, []);
-
   return (
-    <section
-      className={styles.completion}
-      aria-labelledby="world-stage-complete-title"
-      data-world-completion-stage={stageId}
-      data-world-completion-chapter={chapter?.id ?? ""}
-      data-world-completion-final={finalStage ? "true" : "false"}
-    >
-      <div className={styles.completionCard}>
-        <span className={styles.eyebrow} data-world-completion-context>{completionContext}</span>
-        <h2 id="world-stage-complete-title" ref={completionTitleRef} tabIndex={-1}>{praise}</h2>
-        <div className={styles.completionStars} aria-label="Tiga bintang">
-          {[0, 1, 2].map((index) => (
-            <Star key={index} size={58} weight="fill" aria-hidden style={{ animationDelay: String(index * 140) + "ms" }} />
-          ))}
-        </div>
-        <div
-          className={styles.completionCharacters}
-          data-world-character-state={completionPresentation.requestedState}
-        >
-          <CharacterLayer characters={completionPresentation.characters} className={styles.completionCharacterLayer} />
-        </div>
-        {chapterComplete && chapter ? (
+    <>
+      <CanonicalCompletion
+        context="world"
+        surface="inline"
+        praise={praise}
+        eyebrow={<span data-world-completion-context>{completionContext}</span>}
+        message={<span data-world-completion-message>{completionMessage}</span>}
+        characterSlot={(
+          <div
+            className={styles.completionCharacters}
+            data-world-character-state={completionPresentation.requestedState}
+          >
+            <CharacterLayer characters={completionPresentation.characters} className={styles.completionCharacterLayer} />
+          </div>
+        )}
+        supportingContent={chapterComplete && chapter ? (
           <div
             className={styles.chapterReward}
             data-world-completion-chapter-milestone={chapter.id}
@@ -1268,63 +1233,27 @@ function WorldStageCompletion({
               <small>{chapterRewardLabel}</small>
             </div>
           </div>
-        ) : null}
-        <p data-world-completion-message>{completionMessage}</p>
-        <div className={styles.completionActions} aria-label="Navigasi setelah Stage selesai">
-          <Link href={mapHref}><ArrowLeft size={21} weight="bold" aria-hidden />Back</Link>
-          <button type="button" onClick={onAgain}><ArrowClockwise size={21} weight="bold" aria-hidden />Again</button>
-          <Link href={nextHref}><ArrowRight size={21} weight="bold" aria-hidden />Next</Link>
-        </div>
-        <button type="button" className={styles.shareButton} onClick={() => void openShare()}>
-          <ShareNetwork size={21} weight="bold" aria-hidden />Share
-        </button>
-      </div>
-
-      <dialog ref={dialogRef} className={styles.shareDialog} aria-labelledby="world-share-title">
-        <div className={styles.dialogHead}>
-          <div><small>Area orang tua</small><h2 id="world-share-title">Bagikan pencapaian</h2></div>
-          <button type="button" onClick={() => dialogRef.current?.close()} aria-label="Tutup">×</button>
-        </div>
-        {shareGate === "checking" ? <p role="status">Memeriksa akses orang tua…</p> : null}
-        {shareGate === "denied" ? (
-          <div className={styles.parentGate}>
-            <p>Fitur berbagi hanya tersedia melalui sesi orang tua.</p>
-            <Link href="/parent">Buka Area Orang Tua</Link>
-          </div>
-        ) : null}
-        {shareGate === "allowed" ? (
-          <>
-            <p>Yang dibagikan hanya pesan umum dan halaman World—tanpa nama, umur, akun, atau detail progres anak.</p>
-            <div className={styles.shareGrid}>
-              <button
-                type="button"
-                onClick={() => void navigator.clipboard.writeText(shareUrl).then(() => setCopyStatus("Link tersalin.")).catch(() => setCopyStatus("Link belum bisa disalin."))}
-              >
-                <Copy size={19} aria-hidden />Copy link
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  if (!navigator.share) {
-                    setCopyStatus("Gunakan Copy link di browser ini.");
-                    return;
-                  }
-                  void navigator.share({ title: "Mainlagi", text: shareText, url: shareUrl }).catch(() => undefined);
-                }}
-              >
-                <ShareNetwork size={19} aria-hidden />Share device
-              </button>
-              <a href={"https://wa.me/?text=" + encodedText} target="_blank" rel="noreferrer">WhatsApp</a>
-              <a href={"https://t.me/share/url?url=" + encodedUrl + "&text=" + encodeURIComponent(shareText)} target="_blank" rel="noreferrer">Telegram</a>
-              <a href={"https://twitter.com/intent/tweet?text=" + encodedText} target="_blank" rel="noreferrer">X</a>
-              <a href={"https://www.facebook.com/sharer/sharer.php?u=" + encodedUrl} target="_blank" rel="noreferrer">Facebook</a>
-              <a href={"https://www.threads.net/intent/post?text=" + encodedText} target="_blank" rel="noreferrer">Threads</a>
-            </div>
-            {copyStatus ? <p role="status">{copyStatus}</p> : null}
-          </>
-        ) : null}
-      </dialog>
-    </section>
+        ) : undefined}
+        back={{ href: mapHref, ariaLabel: "Back" }}
+        again={{ onClick: onAgain, ariaLabel: "Again" }}
+        next={{ href: nextHref, ariaLabel: "Next" }}
+        onShare={() => setShareOpen(true)}
+        data-world-completion-stage={stageId}
+        data-world-completion-chapter={chapter?.id ?? ""}
+        data-world-completion-final={finalStage ? "true" : "false"}
+        data-si10-world="completion"
+      />
+      <CanonicalShareDialog
+        open={shareOpen}
+        onOpenChange={setShareOpen}
+        input={{
+          context: "world",
+          worldId: MONEY_WORLD_ID,
+          stageTitle: stage?.title,
+          final: finalStage
+        }}
+      />
+    </>
   );
 }
 
