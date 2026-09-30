@@ -125,7 +125,6 @@ async function main() {
   const browser = await chromium.launch({ headless: true });
   const context = await browser.newContext({ viewport: portrait, reducedMotion: "reduce", hasTouch: true });
   await context.addInitScript(() => {
-    window.__mainlagiSi10DocumentToken = "same-document";
     Object.defineProperty(navigator, "clipboard", {
       configurable: true,
       value: {
@@ -236,6 +235,7 @@ async function main() {
     completion = page.locator('[data-si10-world="completion"][data-canonical-completion="v1"]');
     assert.equal(await completion.isVisible(), true, "closing Share returns to the same completion state");
 
+    await page.evaluate(() => { window.__mainlagiSi10DocumentToken = "same-document"; });
     await completion.locator('[data-completion-action="again"]').click();
     await page.locator('[data-world-stage-shell="garden-baseline-v1"]').waitFor({ state: "visible", timeout: 8_000 });
     assert.equal(await page.evaluate(() => window.__mainlagiSi10DocumentToken), "same-document", "Again must not reload the document");
