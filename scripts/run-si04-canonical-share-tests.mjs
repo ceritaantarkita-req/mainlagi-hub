@@ -76,7 +76,7 @@ for (const legacy of [
 has(completion, 'data-completion-action="share"', "canonical Completion retains the approved Share trigger position");
 lacks(completion, "/api/parent/share-gate", "Completion visual shell stays independent from Share gate");
 
-lacks(world, 'from "@/components/CanonicalShare"', "SI-04 must not migrate World before SI-10");
+has(world, 'import { CanonicalShareDialog } from "@/components/CanonicalShare"', "SI-10 now adapts World to the canonical Share owner");
 lacks(gameShell, 'from "./CanonicalShare"', "SI-04 must not silently replace gameplay-header Share");
 has(gameShell, 'import { ShareButton } from "./ShareButton"', "gameplay-header Share remains an explicit unresolved migration decision");
 has(gameplayShare, "window.location.href", "existing gameplay-header Share remains identifiable until its later retirement/retention decision");
