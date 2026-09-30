@@ -3,17 +3,19 @@
 Date: **20 September 2026**  
 Last synchronized: **30 September 2026**  
 Status: **ACTIVE ROADMAP / SEMANTIC ART P0 CLOSED / SHARED INTERACTION PROGRAM COMPLETE**  
-Current synchronized baseline for the JM-00 audit: production `main` = `f6b9f97fc5c6917188d228d0d724421c346579e5`. Semantic Art P0 runtime had already completed through the SVG production/runtime/responsive sequence and final Session 16 verification; this 30 September sync removes stale P0-as-next wording.
+Current synchronized production baseline after JM-00 closure: `main` = `6c32ab6d4e8de1fc7ba1634077f8e466b7b509fa`. Semantic Art P0 runtime had already completed through the SVG production/runtime/responsive sequence and final Session 16 verification; this 30 September sync removes stale P0-as-next wording.
 
 This document is the short human/AI handoff for Mainlagi product-quality work. It records the user-accepted UX direction without changing curriculum, mastery, evidence or progression. The latest WS-05 Logic reuse wave is closed; any later mechanic work remains a separate audited track.
 
-## 30 September Journey Map Phase C override — JM-00 COMPLETE
+## 30 September Journey Map Phase C override — JM-00 CLOSED / LIVE VERIFIED
 
 The project owner has explicitly authorized **Phase C — Canonical Journey Map System**.
 
 JM-00 is complete as a read-only audit. It verified exact stage order/membership, subject/stage/activity routes, readiness semantics and Browse All across all nine Belajar subjects, plus the separate Petualangan Uang World hierarchy/routing/progression model. No runtime or visual was changed.
 
 Canonical checkpoint: `JM00_CANONICAL_JOURNEY_MAP_READONLY_AUDIT_2026-09-30.md`.
+
+Verified closure: PR #408 -> `main@6c32ab6d4e8de1fc7ba1634077f8e466b7b509fa`; merged-main CI #2315 / run `36713525016` full success including exact Cloudflare production smoke.
 
 **Next authorized Journey Map step: JM-01 — Shared map data/state foundation.** Do not jump to JM-02 header or JM-03+ map visuals before the shared state contract is landed and verified.
 

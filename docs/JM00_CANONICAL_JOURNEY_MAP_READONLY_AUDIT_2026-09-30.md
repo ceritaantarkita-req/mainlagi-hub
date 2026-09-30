@@ -1,8 +1,9 @@
 # JM-00 — Canonical Journey Map read-only audit
 
 Date: **30 September 2026**  
-Status: **COMPLETE / READ-ONLY / NO RUNTIME OR DATA SEMANTICS CHANGED**  
+Status: **CLOSED / MERGED / LIVE VERIFIED / READ-ONLY**  
 Audit baseline: `main@f6b9f97fc5c6917188d228d0d724421c346579e5`  
+Merged checkpoint: `main@6c32ab6d4e8de1fc7ba1634077f8e466b7b509fa`  
 Workstream: **Phase C — Canonical Journey Map System**
 
 ## 1. Objective and hard boundary
@@ -366,3 +367,24 @@ JM-18  final Journey Map closure
 ```
 
 No JM-01 runtime code is included in this checkpoint.
+
+## 13. Merge and production verification
+
+JM-00 closed through PR **#408**.
+
+```text
+audit baseline main:      f6b9f97fc5c6917188d228d0d724421c346579e5
+PR:                       #408
+PR head:                  e825432a769e606a64755ae7ad5eb1574012efe6
+PR CI:                    #2314 / run 36712169029
+PR CI result:             all required PR gates SUCCESS
+merged main:              6c32ab6d4e8de1fc7ba1634077f8e466b7b509fa
+merged-main CI:           #2315 / run 36713525016
+merged-main CI result:    FULL SUCCESS
+Production smoke:         SUCCESS — exact merged SHA verified
+```
+
+Merged-main CI #2315 passed Production build, Quality gate (Ubuntu), Windows compatibility, Secret history scan, Mobile route QA (Chromium), Production dependency audit, and exact Production smoke (Cloudflare).
+
+This confirms that JM-00 changed documentation/handoff truth only. Runtime, curriculum, progression, World behavior, schema, and visuals remain unchanged at the live-verified checkpoint.
+

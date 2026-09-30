@@ -1,12 +1,14 @@
 # Changelog
 
-## 30 September 2026 — Journey Map JM-00 read-only audit complete
+## 30 September 2026 — Journey Map JM-00 CLOSED / MERGED / LIVE VERIFIED
 
 - Phase C — Canonical Journey Map System is now explicitly authorized by the project owner.
 - JM-00 audited the exact canonical Belajar map inputs at `main@f6b9f97fc5c6917188d228d0d724421c346579e5`: **9 subjects / 900 activities / 46 stages**, stage order/membership, subject/stage/activity routes, readiness states, and Browse All.
 - Petualangan Uang was audited as a separate World source: **2 chapters / 8 stages / 89 segments**, stable World routes, ordered-prefix completion progression, and sequential stage unlock.
 - No runtime, visual, curriculum, stage membership, mastery/evidence/progression, database/schema, creative workspace, World story, or gameplay behavior changed.
 - Canonical checkpoint: `JM00_CANONICAL_JOURNEY_MAP_READONLY_AUDIT_2026-09-30.md`.
+- PR **#408** head `e825432a769e606a64755ae7ad5eb1574012efe6` passed required PR CI **#2314 / run `36712169029`** and merged to **`main@6c32ab6d4e8de1fc7ba1634077f8e466b7b509fa`**.
+- Merged-main CI **#2315 / run `36713525016` FULL SUCCESS** passed Production build, Ubuntu quality, Windows compatibility, Secret history scan, Mobile route QA, Production dependency audit, and exact **Production smoke (Cloudflare) SUCCESS**.
 - **JM-01 — Shared map data/state foundation is the next authorized Journey Map step.** JM-02+ visual work remains out of scope until JM-01 is complete.
 
 ## 30 September 2026 — Semantic Art P0 canonical closure reconciliation

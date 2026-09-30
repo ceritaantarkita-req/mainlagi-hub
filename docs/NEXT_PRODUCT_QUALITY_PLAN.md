@@ -4,13 +4,15 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 
-## 30 September Journey Map execution override — JM-00 COMPLETE / JM-01 NEXT
+## 30 September Journey Map execution override — JM-00 CLOSED / LIVE VERIFIED / JM-01 NEXT
 
 Phase C — Canonical Journey Map System is now **explicitly authorized**.
 
 JM-00 completed a read-only audit at `main@f6b9f97fc5c6917188d228d0d724421c346579e5` covering exact stage order/membership, canonical routes, readiness, Browse All for all nine subjects, and Petualangan Uang's separate 2-chapter / 8-stage / 89-segment World model.
 
 Canonical checkpoint: `JM00_CANONICAL_JOURNEY_MAP_READONLY_AUDIT_2026-09-30.md`.
+
+Verified closure: PR #408 -> `main@6c32ab6d4e8de1fc7ba1634077f8e466b7b509fa`; PR CI #2314 required gates success; merged-main CI #2315 / run `36713525016` full success including exact Cloudflare production smoke.
 
 **JM-01 — Shared map data/state foundation is next.** Preserve current curriculum, membership, mastery/evidence/progression, direct routes, Browse All, creative workspace boundaries, and World progression semantics. JM-01 is data/state only; JM-02+ visual work must not be pulled forward.
 
