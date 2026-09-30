@@ -271,14 +271,15 @@ async function inspectPage(page, route, viewport) {
     const overlayCount = await page.locator("nextjs-portal, [data-nextjs-dialog-overlay], [data-next-badge-root]").count();
     assert.equal(overlayCount, 0, `${route.path} rendered a Next.js error overlay at ${viewport.width}px`);
 
+    const actualPathname = await page.evaluate(() => window.location.pathname);
     if (
-      route.path.includes("/activity/") ||
-      (route.path.includes("/world/") && route.path.includes("/stage/"))
+      actualPathname.includes("/activity/") ||
+      (actualPathname.includes("/world/") && actualPathname.includes("/stage/"))
     ) {
       assert.equal(
         await page.locator('[data-mainlagi-jm02-header="v1"]').count(),
         0,
-        `JM-02 shared header must stay out of immersive runtime route ${route.path}`
+        `JM-02 shared header must stay out of immersive runtime route ${actualPathname}`
       );
     }
 
