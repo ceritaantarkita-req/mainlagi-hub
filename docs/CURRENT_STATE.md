@@ -4,29 +4,30 @@ Last reviewed: **30 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
-## 30 September 2026 — Verified SI-08 Bermain games 4–6 runtime baseline
+## 30 September 2026 — Verified SI-09 Bermain games 7–10 runtime baseline
 
 ```text
-pre-SI-08 main:           1aeae074031e11f59f71371160b5975f751b8012
-runtime PR:               #394 — merged
-final PR head:            3a459ddfe9629ffdf7259c8df04106c4af72a3e5
-final PR CI:              #2281 / run 36616112219 — FULL SUCCESS
-verified runtime main:    079481868b38f847193e4cda381609d88d0ce0b3
-merged-main CI:           #2282 / run 36617407662 — FULL SUCCESS
+pre-SI-09 main:           d693f49107406f906f955657ee93259bbc3ba9e2
+runtime PR:               #399 — merged
+final PR head:            5d7460543b608763b6ab4aa2316a6a0f13d92ee3
+final PR CI:              #2290 / run 36662285110 — FULL SUCCESS
+verified runtime main:    9109f57978ea7e834772859be01227e720be8de0
+merged-main CI:           #2291 / run 36663304501 — FULL SUCCESS
 Production smoke:         SUCCESS — exact merged runtime SHA verified
 SI-07 games 1–3:          CLOSED / MERGED / LIVE VERIFIED
 SI-08 games 4–6:          CLOSED / MERGED / LIVE VERIFIED
-next Shared Interaction:  SI-09 Bermain games 7–10 — PAUSED / not authorized
-canonical checkpoint:     docs/SI08_BERMAIN_GAMES_4_6_SAFE_CHECKPOINT_2026-09-30.md
+SI-09 games 7–10:         CLOSED / MERGED / LIVE VERIFIED
+next Shared Interaction:  SI-10 World adapter — PAUSED / not authorized
+canonical checkpoint:     docs/SI09_BERMAIN_GAMES_7_10_SAFE_CHECKPOINT_2026-09-30.md
 ```
 
 All merged-main gates were green: Production build, Quality gate (Ubuntu), Windows compatibility, Secret history scan, Mobile route QA (Chromium), Production dependency audit, and Production smoke (Cloudflare).
 
-SI-08 migrates exactly `shape-quest`, `pattern-race`, and `math-warung` to the canonical Bermain Completion + parent-gated canonical Share path established in SI-07. Back / Again / Next / Share remain canonical, local Again keeps the same document and replays through the existing session seam, score/leaderboard/recalibration remain intact, and the duplicate gameplay-header Share is retired for games 4–6.
+SI-09 migrates exactly `iqro-motion`, `airboard-presenter`, `dodge-motion`, and `run-to-target` to canonical Bermain Completion + parent-gated canonical Share. The three finite games preserve their existing timer/score/progress/leaderboard/recalibration semantics. AirBoard keeps its open-ended workspace model and resolves the old terminal-state blocker with an explicit **Selesai** action that enters a workspace-mode canonical Completion without inventing score, leaderboard, or progress evidence. Back / Again / Next / Share remain canonical and the duplicate gameplay-header Share is now retired across all ten canonical Bermain games.
 
-SI-07 remains closed/live verified and its historical runtime truth is unchanged. Later documentation-only descendants may move repository HEAD without changing the SI-08 runtime truth above.
+SI-07 and SI-08 remain closed/live verified historical batches. Later documentation-only descendants may move repository HEAD without changing the SI-09 runtime truth above.
 
-**Current execution boundary:** SI-06A through SI-06G, SI-07, and SI-08 are completed history and must not be restarted. Do not start SI-09 games 7–10 or the open-ended AirBoard terminal-semantics work without explicit project-owner authorization.
+**Current execution boundary:** SI-06A through SI-06G and SI-07 through SI-09 are completed history and must not be restarted. Do not start SI-10 World adapter work without explicit project-owner authorization. SI-10 owns World Completion/Share migration, the World SpeechCard character-label cleanup, and World character safe geometry; Journey Map redesign remains outside that wave.
 
 ## 27 September core thumbnail system checkpoint — WAVE 01 CLOSED / LIVE VERIFIED
 
