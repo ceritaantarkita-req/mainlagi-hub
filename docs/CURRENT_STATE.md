@@ -4,11 +4,20 @@ Last reviewed: **30 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
-## 30 September 2026 — Journey Map JM-00 read-only audit COMPLETE
+## 30 September 2026 — Journey Map JM-00 CLOSED / MERGED / LIVE VERIFIED
 
 Phase C — Canonical Journey Map System has now been **explicitly authorized by the project owner**. JM-00 completed a read-only audit against `main@f6b9f97fc5c6917188d228d0d724421c346579e5` without changing runtime, curriculum, stage membership, progression, World semantics, schema, or visuals.
 
 Canonical audit: `docs/JM00_CANONICAL_JOURNEY_MAP_READONLY_AUDIT_2026-09-30.md`.
+
+```text
+PR:                       #408
+PR head:                  e825432a769e606a64755ae7ad5eb1574012efe6
+PR CI:                    #2314 / run 36712169029 — required PR gates SUCCESS
+merged main:              6c32ab6d4e8de1fc7ba1634077f8e466b7b509fa
+merged-main CI:           #2315 / run 36713525016 — FULL SUCCESS
+Production smoke:         SUCCESS — exact merged SHA verified
+```
 
 Locked findings:
 
