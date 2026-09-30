@@ -10,7 +10,7 @@ JM-00 and JM-01 are closed/live verified. JM-02 is the active authorized step.
 
 Canonical checkpoint: `JM02_IMMERSIVE_HEADER_PREEXECUTION_SAFE_CHECKPOINT_2026-09-30.md`.
 
-Baseline: `main@640ce8f187259ae47010d7a039213263bc3c7b3e`; merged-main CI #2322 / run `36723699284` full success including exact Cloudflare smoke.
+Safe resume baseline: `main@bd93ffaa92521c55f2414d13f44a62fcf022d865`; checkpoint PR #413; PR CI #2323 / run `36727660551` required gates success; merged-main CI #2324 / run `36729548045` full success including exact Cloudflare smoke.
 
 JM-02 must operate from canonical `PlayroomShell` ownership. Scope: Kembali, compact Mainlagi logo, profile/menu, expandable Belajar/Bermain/World/Shop, desktop + touch + keyboard.
 
