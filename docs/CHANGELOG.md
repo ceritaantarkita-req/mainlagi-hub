@@ -1,5 +1,14 @@
 # Changelog
 
+## 30 September 2026 — Journey Map JM-02 pre-execution safe checkpoint
+
+- Added `JM02_IMMERSIVE_HEADER_PREEXECUTION_SAFE_CHECKPOINT_2026-09-30.md`.
+- Froze the canonical child-shell owner as `child layout -> WorldChildShell -> PlayroomShell` before header changes.
+- Recorded current header/navigation/profile behavior and immersive suppression boundaries.
+- JM-02 is authorized for Kembali + compact logo + profile/menu + expandable Belajar/Bermain/World/Shop across desktop/touch/keyboard.
+- Shop is explicitly fail-closed because no canonical child Shop route exists and adult/public affiliate commerce must not be fabricated into child learning.
+- No runtime code or visual behavior changed in this checkpoint. JM-03+ remains not started.
+
 ## 30 September 2026 — Journey Map JM-01 CLOSED / MERGED / LIVE VERIFIED
 
 - Added the shared read-only Belajar Journey Map data/state foundation in `src/lib/learning/journeyMap.ts`.

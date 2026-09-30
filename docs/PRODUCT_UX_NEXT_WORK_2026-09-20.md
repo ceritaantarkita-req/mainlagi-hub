@@ -7,6 +7,12 @@ Current synchronized production baseline after JM-01 runtime closure: `main` = `
 
 This document is the short human/AI handoff for Mainlagi product-quality work. It records the user-accepted UX direction without changing curriculum, mastery, evidence or progression. The latest WS-05 Logic reuse wave is closed; any later mechanic work remains a separate audited track.
 
+## 30 September Journey Map JM-02 pre-execution checkpoint
+
+JM-02 is **authorized but not implemented**. Canonical checkpoint: `JM02_IMMERSIVE_HEADER_PREEXECUTION_SAFE_CHECKPOINT_2026-09-30.md`.
+
+Use the active `PlayroomShell` as the single child-header owner. Implement Kembali, compact logo, profile/menu and expandable Belajar/Bermain/World/Shop across desktop/touch/keyboard. Do not invent a child Shop URL: current commerce is public/adult and no canonical child Shop route exists. JM-03+ map visuals remain out of scope.
+
 ## 30 September Journey Map Phase C override — JM-01 CLOSED / LIVE VERIFIED
 
 JM-00 and JM-01 are complete.
