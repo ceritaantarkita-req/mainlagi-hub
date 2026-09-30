@@ -152,6 +152,74 @@ async function advanceWorldNarrative(page) {
   await next.click();
 }
 
+async function assertJm02Header(page, viewport, { backHref, currentHref }) {
+  const header = page.locator('[data-mainlagi-jm02-header="v1"]');
+  assert.equal(await header.count(), 1, `JM-02 header missing at ${viewport.width}px`);
+
+  const brand = header.getByRole("link", { name: "Mainlagi", exact: true });
+  assert.equal(await brand.count(), 1, `JM-02 compact Mainlagi logo missing at ${viewport.width}px`);
+
+  const back = header.locator("[data-mainlagi-header-back]");
+  if (backHref) {
+    assert.equal(await back.count(), 1, `JM-02 back control missing at ${viewport.width}px`);
+    assert.equal(await back.getAttribute("href"), backHref, `JM-02 back destination drifted at ${viewport.width}px`);
+    const rect = await back.boundingBox();
+    assert.ok(rect && rect.width >= 44 && rect.height >= 44, `JM-02 back target fell below 44px at ${viewport.width}px`);
+  } else {
+    assert.equal(await back.count(), 0, `JM-02 Home must not fabricate a back control at ${viewport.width}px`);
+  }
+
+  const productNav = header.locator("[data-mainlagi-product-nav]");
+  const productSummary = productNav.locator("summary");
+  assert.equal(await productNav.count(), 1, `JM-02 product menu missing at ${viewport.width}px`);
+  assert.equal(await productSummary.count(), 1, `JM-02 product menu trigger missing at ${viewport.width}px`);
+
+  if (viewport.width <= 430) {
+    await productSummary.click();
+  } else {
+    await productSummary.focus();
+    await page.keyboard.press("Enter");
+  }
+  assert.equal(await productNav.evaluate((element) => element.open), true, `JM-02 product menu must open at ${viewport.width}px`);
+
+  const menu = productNav.getByRole("navigation", { name: "Area Mainlagi" });
+  for (const [label, href] of [
+    ["Belajar", "/child/demo-gian/home"],
+    ["Bermain", "/child/demo-gian/games"],
+    ["World", "/child/demo-gian/worlds"]
+  ]) {
+    const link = menu.getByRole("link", { name: new RegExp(`^${label}\\b`) });
+    assert.equal(await link.count(), 1, `JM-02 menu must expose ${label} at ${viewport.width}px`);
+    assert.equal(await link.getAttribute("href"), href, `JM-02 ${label} route drifted at ${viewport.width}px`);
+  }
+
+  assert.equal(
+    await menu.locator('a[aria-current="page"]').getAttribute("href"),
+    currentHref,
+    `JM-02 active product area drifted at ${viewport.width}px`
+  );
+  const shop = menu.locator('[data-mainlagi-shop-slot="disabled"]');
+  assert.equal(await shop.count(), 1, `JM-02 Shop fail-closed slot missing at ${viewport.width}px`);
+  assert.equal(await shop.getAttribute("aria-disabled"), "true", `JM-02 Shop must remain disabled at ${viewport.width}px`);
+  assert.equal(await menu.locator('a[href*="/shop"]').count(), 0, "JM-02 must not fabricate a child Shop route");
+
+  if (viewport.width <= 430) {
+    await productSummary.click();
+  } else {
+    await page.keyboard.press("Escape");
+  }
+  assert.equal(await productNav.evaluate((element) => element.open), false, `JM-02 product menu must close deterministically at ${viewport.width}px`);
+
+  const profileDetails = header.locator("[data-mainlagi-profile-menu]");
+  const profileSummary = profileDetails.locator("summary");
+  assert.equal(await profileDetails.count(), 1, `JM-02 profile menu missing at ${viewport.width}px`);
+  await profileSummary.focus();
+  await page.keyboard.press("Enter");
+  assert.equal(await profileDetails.evaluate((element) => element.open), true, `JM-02 profile menu must open by keyboard at ${viewport.width}px`);
+  await page.keyboard.press("Escape");
+  assert.equal(await profileDetails.evaluate((element) => element.open), false, `JM-02 profile menu must close with Escape at ${viewport.width}px`);
+}
+
 async function inspectPage(page, route, viewport) {
   let consoleErrors = [];
   let consoleWarnings = [];
@@ -201,7 +269,58 @@ async function inspectPage(page, route, viewport) {
     const overlayCount = await page.locator("nextjs-portal, [data-nextjs-dialog-overlay], [data-next-badge-root]").count();
     assert.equal(overlayCount, 0, `${route.path} rendered a Next.js error overlay at ${viewport.width}px`);
 
+    if (
+      route.path.includes("/activity/") ||
+      (route.path.includes("/world/") && route.path.includes("/stage/"))
+    ) {
+      assert.equal(
+        await page.locator('[data-mainlagi-jm02-header="v1"]').count(),
+        0,
+        `JM-02 shared header must stay out of immersive runtime route ${route.path}`
+      );
+    }
+
+    if (route.path === "/child/demo-gian/subject/math") {
+      await assertJm02Header(page, viewport, {
+        backHref: "/child/demo-gian/home#choose-subject",
+        currentHref: "/child/demo-gian/home"
+      });
+      assert.equal(
+        await page.locator('main a[aria-label="Kembali"]').count(),
+        0,
+        "JM-02 Subject must not keep a duplicate in-page back control"
+      );
+    }
+
+    if (route.path === "/child/demo-gian/stage/math-angka") {
+      await assertJm02Header(page, viewport, {
+        backHref: "/child/demo-gian/subject/math",
+        currentHref: "/child/demo-gian/home"
+      });
+      assert.equal(
+        await page.locator('main a[aria-label="Kembali"]').count(),
+        0,
+        "JM-02 Stage must not keep a duplicate in-page back control"
+      );
+    }
+
+    if (route.path === "/child/demo-gian/stage/drawing-lines-shapes-basics") {
+      await assertJm02Header(page, viewport, {
+        backHref: "/child/demo-gian/subject/drawing",
+        currentHref: "/child/demo-gian/home"
+      });
+      assert.equal(
+        await page.locator('main a[aria-label="Kembali"]').count(),
+        0,
+        "JM-02 Drawing Stage must use the shared header back control"
+      );
+    }
+
     if (route.path === "/child/demo-gian/worlds") {
+      await assertJm02Header(page, viewport, {
+        backHref: "/child/demo-gian/home",
+        currentHref: "/child/demo-gian/worlds"
+      });
       const worldGrid = page.locator('[data-core-thumbnail-grid="worlds"]');
       await worldGrid.waitFor({ state: "visible", timeout: 5_000 });
       const worldCards = page.locator('[data-core-thumbnail-card="world"]');
@@ -224,6 +343,13 @@ async function inspectPage(page, route, viewport) {
       assert.equal(columns, viewport.width <= 760 ? 2 : 3, `World catalog column count must match viewport at ${viewport.width}px`);
     }
 
+    if (route.path === "/child/demo-gian/world/money-festival") {
+      await assertJm02Header(page, viewport, {
+        backHref: "/child/demo-gian/worlds",
+        currentHref: "/child/demo-gian/worlds"
+      });
+    }
+
     if (route.path === "/child/demo-gian/world/money-festival" && viewport.width <= 430) {
       const geometry = await page.evaluate(() => {
         const one = document.querySelector('[data-world-stage-id="money-stage-01-money-use"]');
@@ -244,9 +370,10 @@ async function inspectPage(page, route, viewport) {
     }
 
     if (route.path === "/child/demo-gian/home") {
-      assert.equal(await page.getByRole("link", { name: "Belajar", exact: true }).count(), 1, "child home must expose Belajar navigation");
-      assert.equal(await page.getByRole("link", { name: "World", exact: true }).count(), 1, "child home must expose World navigation");
-      assert.equal(await page.getByRole("link", { name: "Bermain", exact: true }).count(), 1, "child home must expose Bermain navigation");
+      await assertJm02Header(page, viewport, {
+        backHref: null,
+        currentHref: "/child/demo-gian/home"
+      });
       const subjectLinks = page.locator('[data-core-thumbnail-card="subject"]');
       assert.equal(await subjectLinks.count(), 9, "child home must expose all nine subject cards");
       assert.equal(await page.getByText(/\b100 aktivitas\b/).count(), 0, "subject cards must not expose activity-count subtitles");
@@ -271,6 +398,20 @@ async function inspectPage(page, route, viewport) {
         Math.abs((heroGeometry.width / heroGeometry.height) - (4 / 3)) < 0.04,
         `child Home hero must render 4:3 at ${viewport.width}px: ${JSON.stringify(heroGeometry)}`
       );
+    }
+
+    if (route.path === "/child/demo-gian/games") {
+      await assertJm02Header(page, viewport, {
+        backHref: "/child/demo-gian/home",
+        currentHref: "/child/demo-gian/games"
+      });
+    }
+
+    if (route.path === "/child/demo-gian/rewards") {
+      await assertJm02Header(page, viewport, {
+        backHref: "/child/demo-gian/home",
+        currentHref: "/child/demo-gian/home"
+      });
     }
 
     if (route.path === "/parent") {
