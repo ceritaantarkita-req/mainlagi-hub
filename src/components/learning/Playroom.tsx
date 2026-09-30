@@ -172,7 +172,7 @@ export function PlayroomShell({ childId, children }: { childId?: string; childre
               </nav>
             </details>
 
-            <details ref={profileRef} className={styles.profile}>
+            <details ref={profileRef} className={styles.profile} data-mainlagi-profile-menu>
               <summary aria-label="Pengaturan profil">
                 <span className={styles.profileIcon}><Icon name="account" size={22} /></span>
                 <span className={styles.profileName}>{profile?.name ?? "Profil"}</span>
