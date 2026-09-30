@@ -4,6 +4,20 @@ Last reviewed: **30 September 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
+## 30 September 2026 — Journey Map JM-02 PRE-EXECUTION SAFE CHECKPOINT
+
+JM-00 and JM-01 are closed/live verified. JM-02 is now **AUTHORIZED / NOT IMPLEMENTED**.
+
+Canonical checkpoint: `docs/JM02_IMMERSIVE_HEADER_PREEXECUTION_SAFE_CHECKPOINT_2026-09-30.md`.
+
+Verified baseline before JM-02: `main@640ce8f187259ae47010d7a039213263bc3c7b3e`, merged-main CI **#2322 / run `36723699284` FULL SUCCESS** including exact Cloudflare production smoke.
+
+Canonical child-shell owner is `src/app/child/[childId]/layout.tsx -> WorldChildShell -> PlayroomShell`, with visual/navigation ownership in `Playroom.tsx` + `Playroom.module.css`.
+
+JM-02 scope is the immersive Mainlagi header only: Kembali, compact logo, profile/menu, and expandable Belajar/Bermain/World/Shop behavior across desktop/touch/keyboard. **Shop is currently fail-closed:** no canonical child Shop route exists, and adult/public affiliate commerce must not be exposed as a fabricated child-learning destination.
+
+**Current boundary:** implement JM-02 only. JM-03+ Journey Map visuals remain not started.
+
 ## 30 September 2026 — Journey Map JM-01 CLOSED / MERGED / LIVE VERIFIED
 
 JM-01 landed the shared **Belajar Journey Map data/state foundation** without changing Journey Map visuals, routes, curriculum, Browse All, mastery/evidence/progression, World, creative workspaces, database/schema, Completion, or Share.
@@ -22,7 +36,7 @@ Production smoke:         exact merged main SHA required by workflow
 
 JM-01 now provides a canonical Belajar map projection derived from `CONTENT_PATHS.stageIds`, `STAGES`, and `getSubjectStageReadiness()`; it exposes `completed | current | open | locked` while preserving `locked | in_progress | evidence_needed | ready`. The blocking regression covers all **9 subjects / 46 Stages / 100 activities per subject**, exact Stage order, direct Stage routes, Bahasa Inggris child-facing naming, evidence-gated Math behavior, and practice-only Coloring advancement.
 
-**Current Journey Map execution boundary:** JM-01 is complete. **JM-02 — Immersive Mainlagi Header is next.** JM-02 may implement Kembali, compact logo, profile/menu, and expandable `Belajar | Bermain | World | Shop` with desktop/touch/keyboard behavior. It must not pull the JM-03 Bahasa Inggris map redesign forward.
+**Historical JM-01 boundary:** JM-01 is closed/live verified. JM-02 is now authorized under the pre-execution checkpoint above; JM-03+ remains not started.
 
 ## 30 September 2026 — Journey Map JM-00 CLOSED / MERGED / LIVE VERIFIED
 
