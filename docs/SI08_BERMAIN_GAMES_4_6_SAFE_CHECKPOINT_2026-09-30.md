@@ -91,4 +91,6 @@ SI-08 runtime is merged and live verified at **`main@079481868b38f847193e4cda381
 
 The SI-07 hard stop is historical and was superseded by the explicit project-owner authorization that started SI-08.
 
-**CURRENT HARD STOP:** SI-09 — Bermain games 7–10 — remains PAUSED / not authorized. Do not start SI-09 or the open-ended AirBoard terminal-semantics decision without explicit project-owner authorization.
+The SI-09 hard stop recorded at this checkpoint was subsequently superseded by explicit project-owner authorization. SI-09 is now merged/live verified and the AirBoard terminal-state decision is closed through the explicit `Selesai` workspace path.
+
+**CURRENT RESUME AUTHORITY:** `docs/SI09_BERMAIN_GAMES_7_10_SAFE_CHECKPOINT_2026-09-30.md`. Its hard stop is SI-10 — World adapter.
