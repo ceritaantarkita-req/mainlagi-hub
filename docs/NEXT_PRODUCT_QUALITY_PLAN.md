@@ -4,6 +4,20 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 
+## 30 September Journey Map execution override — JM-02 AUTHORIZED / PRE-EXECUTION SAFE
+
+JM-00 and JM-01 are closed/live verified. JM-02 is the active authorized step.
+
+Canonical checkpoint: `JM02_IMMERSIVE_HEADER_PREEXECUTION_SAFE_CHECKPOINT_2026-09-30.md`.
+
+Baseline: `main@640ce8f187259ae47010d7a039213263bc3c7b3e`; merged-main CI #2322 / run `36723699284` full success including exact Cloudflare smoke.
+
+JM-02 must operate from canonical `PlayroomShell` ownership. Scope: Kembali, compact Mainlagi logo, profile/menu, expandable Belajar/Bermain/World/Shop, desktop + touch + keyboard.
+
+**Shop remains fail-closed:** there is no canonical child Shop route today and affiliate shopping must not be fabricated into the child-learning flow. Resolve/feature-gate the slot without inventing a destination.
+
+Do not pull JM-03 Bahasa Inggris map visuals forward.
+
 ## 30 September Journey Map execution override — JM-01 CLOSED / LIVE VERIFIED / JM-02 NEXT
 
 Phase C — Canonical Journey Map System remains the active authorized workstream.
