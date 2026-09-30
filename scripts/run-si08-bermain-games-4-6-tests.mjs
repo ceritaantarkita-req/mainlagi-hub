@@ -29,8 +29,8 @@ for (const slug of ["shape-quest", "pattern-race", "math-warung"]) {
   has(shell, `game.slug === "${slug}"`, `GameShell includes SI-08 game ${slug} in canonical completion set`);
 }
 has(shell, "!canonicalCompletionGame ? <ShareButton", "legacy header Share remains hidden for canonicalized games");
-has(shell, 'game.slug === "iqro-motion"', "SI-09 game boundary stays explicit in GameShell routing");
-lacks(shell, 'game.slug === "airboard-presenter" ||', "SI-08 must not classify open-ended AirBoard as canonical completion");
+has(shell, 'game.slug === "iqro-motion"', "SI-08 historical regression accepts later SI-09 game canonicalization");
+has(shell, 'game.slug === "airboard-presenter"', "SI-08 historical regression accepts the later explicit AirBoard terminal decision");
 
 has(si07, 'data-si07-bermain={si07Game ? "games-1-3" : undefined}', "SI-07 regression follows the scoped marker after SI-08 extension");
 has(si07, 'has(digitRace, "canonical"', "SI-07 regression accepts the now-shared canonical DigitRace terminal");
