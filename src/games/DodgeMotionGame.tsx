@@ -414,6 +414,7 @@ function BeatRound(
           onCalibration={props.onExit}
           game={props.game.slug}
           durationSeconds={props.durationSeconds}
+          canonical
         />
       ) : null}
     </CameraBackdrop>

@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import type { Point } from "@/lib/engine/types";
 import type { GameModuleProps } from "./types";
 import { VisionOverlay } from "@/components/VisionOverlay";
+import { BermainCompletion } from "./BermainCompletion";
 import {
   findPrimaryHand,
   useVisionFrame,
@@ -46,7 +47,9 @@ function path(points: readonly Point[]) {
     .join(" ");
 }
 
-export function AirBoardGame({ vision }: GameModuleProps) {
+export function AirBoardGame(props: GameModuleProps) {
+  const { vision } = props;
+  const [completed, setCompleted] = useState(false);
   const [tool, setTool] = useState<Tool>("pen");
   const [color, setColor] = useState("#2676ff");
   const [strokes, setStrokes] = useState<BoardStroke[]>([]);
@@ -247,6 +250,13 @@ export function AirBoardGame({ vision }: GameModuleProps) {
           <button onClick={redoAction}>Redo</button>
           <button onClick={() => setStrokes([])}>Clear</button>
           <button onClick={exportJson}>Export</button>
+          <button
+            type="button"
+            data-airboard-action="finish"
+            onClick={() => setCompleted(true)}
+          >
+            Selesai
+          </button>
           <label className="file-button">
             Buka file
             <input
@@ -378,6 +388,15 @@ export function AirBoardGame({ vision }: GameModuleProps) {
           <span>Gesture camera</span>
         </aside>
       </section>
+      {completed ? (
+        <BermainCompletion
+          title="Workspace selesai"
+          onReplay={props.onReplay}
+          onCalibration={props.onExit}
+          game={props.game.slug}
+          resultMode="workspace"
+        />
+      ) : null}
     </main>
   );
 }

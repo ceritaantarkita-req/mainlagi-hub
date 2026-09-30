@@ -67,7 +67,11 @@ export function GameShell({ game }: { game: GameDefinition }) {
     game.slug === "number-trace" ||
     game.slug === "shape-quest" ||
     game.slug === "pattern-race" ||
-    game.slug === "math-warung";
+    game.slug === "math-warung" ||
+    game.slug === "iqro-motion" ||
+    game.slug === "airboard-presenter" ||
+    game.slug === "dodge-motion" ||
+    game.slug === "run-to-target";
 
   const setPlayerLevel = useCallback((player: PlayerId, level: Level) => {
     setPlayerLevels((current) =>

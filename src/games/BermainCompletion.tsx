@@ -15,19 +15,21 @@ const PRAISE = ["Great job!", "Excellent!", "Hebat!", "Keren!"] as const;
 export function BermainCompletion({
   title,
   score,
-  playerCount,
+  playerCount = 1,
   onReplay,
   onCalibration,
   game,
-  durationSeconds
+  durationSeconds,
+  resultMode = "score"
 }: {
   title: string;
-  score: Record<PlayerId, number>;
-  playerCount: 1 | 2;
+  score?: Record<PlayerId, number>;
+  playerCount?: 1 | 2;
   onReplay(): void;
   onCalibration(): void;
   game: GameSlug;
   durationSeconds?: number;
+  resultMode?: "score" | "workspace";
 }) {
   const [shareOpen, setShareOpen] = useState(false);
   const definition = GAMES[game];
@@ -36,10 +38,13 @@ export function BermainCompletion({
   const nextGame = GAMES[nextSlug];
   const si07Game = currentIndex >= 0 && currentIndex <= 2;
   const si08Game = currentIndex >= 3 && currentIndex <= 5;
-  const totalScore = score.A + (playerCount === 2 ? score.B : 0);
+  const si09Game = currentIndex >= 6 && currentIndex <= 9;
+  const totalScore = score
+    ? score.A + (playerCount === 2 ? score.B : 0)
+    : currentIndex + 1;
   const praise = PRAISE[Math.abs(totalScore) % PRAISE.length];
   const winner =
-    playerCount === 1
+    resultMode !== "score" || !score || playerCount === 1
       ? null
       : score.A === score.B
         ? "Seri"
@@ -72,40 +77,56 @@ export function BermainCompletion({
           </div>
         }
         supportingContent={
-          <div className={styles.results} data-bermain-completion-score>
-            <p className={styles.resultLead}>
-              {winner ?? "Ronde selesai. Skormu sudah tercatat untuk sesi ini."}
-            </p>
-            <div
-              className={[styles.scores, playerCount === 1 ? styles.single : ""]
-                .filter(Boolean)
-                .join(" ")}
-            >
-              <div>
-                <small>PEMAIN A</small>
-                <strong>{score.A}</strong>
-              </div>
-              {playerCount === 2 ? (
-                <div>
-                  <small>PEMAIN B</small>
-                  <strong>{score.B}</strong>
-                </div>
-              ) : null}
+          resultMode === "workspace" ? (
+            <div className={styles.results} data-bermain-workspace-completion>
+              <p className={styles.resultLead}>
+                Workspace selesai. AirBoard tidak memberi skor atau mengirim leaderboard.
+              </p>
+              <button
+                type="button"
+                className={styles.calibration}
+                data-bermain-completion-action="calibrate"
+                onClick={onCalibration}
+              >
+                Kalibrasi ulang
+              </button>
             </div>
-            <LeaderboardCapture
-              game={game}
-              score={playerCount === 2 ? Math.max(score.A, score.B) : score.A}
-              durationSeconds={durationSeconds}
-            />
-            <button
-              type="button"
-              className={styles.calibration}
-              data-bermain-completion-action="calibrate"
-              onClick={onCalibration}
-            >
-              Kalibrasi ulang
-            </button>
-          </div>
+          ) : score ? (
+            <div className={styles.results} data-bermain-completion-score>
+              <p className={styles.resultLead}>
+                {winner ?? "Ronde selesai. Skormu sudah tercatat untuk sesi ini."}
+              </p>
+              <div
+                className={[styles.scores, playerCount === 1 ? styles.single : ""]
+                  .filter(Boolean)
+                  .join(" ")}
+              >
+                <div>
+                  <small>PEMAIN A</small>
+                  <strong>{score.A}</strong>
+                </div>
+                {playerCount === 2 ? (
+                  <div>
+                    <small>PEMAIN B</small>
+                    <strong>{score.B}</strong>
+                  </div>
+                ) : null}
+              </div>
+              <LeaderboardCapture
+                game={game}
+                score={playerCount === 2 ? Math.max(score.A, score.B) : score.A}
+                durationSeconds={durationSeconds}
+              />
+              <button
+                type="button"
+                className={styles.calibration}
+                data-bermain-completion-action="calibrate"
+                onClick={onCalibration}
+              >
+                Kalibrasi ulang
+              </button>
+            </div>
+          ) : null
         }
         back={{
           href: `/games/${game}`,
@@ -122,6 +143,7 @@ export function BermainCompletion({
         onShare={() => setShareOpen(true)}
         data-si07-bermain={si07Game ? "games-1-3" : undefined}
         data-si08-bermain={si08Game ? "games-4-6" : undefined}
+        data-si09-bermain={si09Game ? "games-7-10" : undefined}
       />
       <CanonicalShareDialog
         open={shareOpen}
