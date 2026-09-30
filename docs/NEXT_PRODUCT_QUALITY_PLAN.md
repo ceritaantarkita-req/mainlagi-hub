@@ -4,17 +4,24 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 
-## 30 September Journey Map execution override — JM-00 CLOSED / LIVE VERIFIED / JM-01 NEXT
+## 30 September Journey Map execution override — JM-01 CLOSED / LIVE VERIFIED / JM-02 NEXT
 
-Phase C — Canonical Journey Map System is now **explicitly authorized**.
+Phase C — Canonical Journey Map System remains the active authorized workstream.
 
-JM-00 completed a read-only audit at `main@f6b9f97fc5c6917188d228d0d724421c346579e5` covering exact stage order/membership, canonical routes, readiness, Browse All for all nine subjects, and Petualangan Uang's separate 2-chapter / 8-stage / 89-segment World model.
+JM-01 is now **CLOSED / MERGED / LIVE VERIFIED** through PR #411 -> `main@756e3bd7bb24588041a3644f08018783e7b3b0f2`.
 
-Canonical checkpoint: `JM00_CANONICAL_JOURNEY_MAP_READONLY_AUDIT_2026-09-30.md`.
+Canonical checkpoint: `JM01_SHARED_JOURNEY_MAP_FOUNDATION_SAFE_CHECKPOINT_2026-09-30.md`.
 
-Verified closure: PR #408 -> `main@6c32ab6d4e8de1fc7ba1634077f8e466b7b509fa`; PR CI #2314 required gates success; merged-main CI #2315 / run `36713525016` full success including exact Cloudflare production smoke.
+Verified lineage:
 
-**JM-01 — Shared map data/state foundation is next.** Preserve current curriculum, membership, mastery/evidence/progression, direct routes, Browse All, creative workspace boundaries, and World progression semantics. JM-01 is data/state only; JM-02+ visual work must not be pulled forward.
+- PR final head `9ae8ad4e5debcc4fb13738919db94b80d23c4b97`;
+- PR CI #2319 / run `36716608349` — required gates success;
+- merged-main CI #2320 / run `36717855442` — workflow success;
+- main-push workflow requires exact Cloudflare production smoke downstream of the normal build/quality/mobile/Windows/dependency gates.
+
+The shared Belajar Journey Map foundation now derives Stage order from canonical paths, metadata/membership from canonical Stages, and readiness from existing progression/evidence logic. It projects `completed/current/open/locked` without flattening `evidence_needed` into false completion.
+
+**JM-02 — Immersive Mainlagi Header is next.** Scope: Kembali, compact Mainlagi logo, profile/menu, expandable `Belajar | Bermain | World | Shop`, with desktop + touch + keyboard behavior. Do not pull JM-03 Bahasa Inggris map visuals forward.
 
 ## 30 September Shared Interaction execution override — SI-11 CLOSED / PROGRAM COMPLETE
 
@@ -26,7 +33,7 @@ The obsolete gameplay-header `ShareButton` owner is removed. `CanonicalShareDial
 
 Current resume authority: `SI11_SHARED_INTERACTION_INTEGRATED_CLOSURE_SAFE_CHECKPOINT_2026-09-30.md`.
 
-**Shared Interaction SI-00 through SI-11 is complete. There is no next SI session.** Do not restart or extend this sequence implicitly. Journey Map is a separate workstream and has since been explicitly authorized; JM-00 is complete and JM-01 is next.
+**Shared Interaction SI-00 through SI-11 is complete. There is no next SI session.** Do not restart or extend this sequence implicitly. Journey Map is a separate workstream and has since been explicitly authorized; JM-00 and JM-01 are complete and JM-02 is next.
 
 ## 30 September Semantic Art P0 closure override — CLOSED / LIVE VERIFIED
 
@@ -44,7 +51,7 @@ Current canonical truth:
 
 Verified lineage: production approval PR #324 -> Session 11 SVG promotion PR #346 -> Session 12 controlled runtime PR #348 -> Session 13 responsive closure PR #350 -> Session 16 final SVG-program verification. Canonical closure checkpoint: `SEMANTIC_ART_P0_FINAL_CLOSURE_2026-09-30.md`.
 
-Do not reopen or expand semantic art implicitly. A future car/towel/raincoat promotion requires fresh exact-source redistribution evidence and is a new objective. Expanded human visual/usability + physical-device acceptance remains eligible. The separate Journey Map workstream has now been explicitly authorized; JM-00 is complete and JM-01 is next.
+Do not reopen or expand semantic art implicitly. A future car/towel/raincoat promotion requires fresh exact-source redistribution evidence and is a new objective. Expanded human visual/usability + physical-device acceptance remains eligible. The separate Journey Map workstream has now been explicitly authorized; JM-00 and JM-01 are complete and JM-02 is next.
 
 ## 26 September SVG execution boundary — SESSIONS 01–16 COMPLETE / PROGRAM CLOSED
 
