@@ -1,11 +1,22 @@
 # Mainlagi — Product UX Next Work
 
 Date: **20 September 2026**  
-Last synchronized: **22 September 2026**  
-Status: **ACTIVE ROADMAP / SUBJECT BACKGROUNDS LIVE VERIFIED / CHARACTER ASSET PIPELINE LIVE VERIFIED**  
-Current synchronized baseline: production `main` = `709e2b7d3e529cf37f10a05e9c9dc92884e0a781` (PR #273 WS-05 Logic `pattern_completion` reuse, merged-main CI #1353 / run `35687996669` including exact Cloudflare smoke). Character asset pipeline PR #263 remains live and character production is paused; subject-background runtime implementation remains PR #256 live verified.
+Last synchronized: **30 September 2026**  
+Status: **ACTIVE ROADMAP / SEMANTIC ART P0 CLOSED / SHARED INTERACTION PROGRAM COMPLETE**  
+Current synchronized baseline: production `main` = `4ce465a1b6af69f816302afaf97b46f91537177f` (SI-11 docs closure; Shared Interaction complete). Semantic Art P0 runtime had already completed through the SVG production/runtime/responsive sequence and final Session 16 verification; this 30 September sync removes stale P0-as-next wording.
 
 This document is the short human/AI handoff for Mainlagi product-quality work. It records the user-accepted UX direction without changing curriculum, mastery, evidence or progression. The latest WS-05 Logic reuse wave is closed; any later mechanic work remains a separate audited track.
+
+## 30 September Semantic Art P0 closure override
+
+- Semantic Art P0 is **CLOSED / MERGED / LIVE VERIFIED**; it is not the active implementation item.
+- All **17/17** P0 visual decisions are resolved.
+- **14/17** source/license-clear assets are approved SVG production assets and run through the centralized controlled SVG resolver with **14/14** approved consumer/browser coverage.
+- `vehicle.car`, `object.towel`, and `object.raincoat` remain intentional fail-closed production holds with **3/3** fallback coverage. Do not reinterpret them as unfinished implementation.
+- The old candidate-generator / exact human-review / production-promotion steps are historical and already superseded.
+- Canonical closure: `SEMANTIC_ART_P0_FINAL_CLOSURE_2026-09-30.md`.
+- New semantic-art scope or held-key approval requires a fresh objective and exact provenance/redistribution evidence.
+- Journey Map remains a separate workstream requiring explicit authorization. Character production remains paused; fixed English audio remains deferred.
 
 ## 22 September execution override
 
@@ -199,9 +210,9 @@ Closed containment scope:
 
 The semantic registry/provenance gate is now **CLOSED / MERGED / LIVE VERIFIED** through PR #297 -> main `ed7db8a6c5b8a3ee4acc9bcca260b4e0b5776773`, PR CI #1536 and merged-main CI #1537 exact Cloudflare smoke. It starts at 17 review-required / 0 approved / 0 production binary / 0 runtime activation.
 
-The exact nine-item P0 candidate generator is merged/live verified through PR #300, and PR #301 refined the JUMP + cactus-thick-stem sources and is merged/live verified at main `9f6270c79bb92f7cb6ce1d29a2165df54801debf`, CI #1548 exact smoke. The active next sub-wave is **exact human child-readability review bound to the generated manifest/file SHA values**.
+Historical note: PR #300/#301 created and refined the exact P0 candidates, but that review boundary has since been completed. Session 3 froze 17/17 visual decisions; PR #324 promoted the 14 source/license-clear assets; Sessions 10–13 moved those assets to SVG-aware production, controlled runtime, and responsive/browser verification. The three uncleared keys remain explicit fail-closed holds.
 
-A review decision is per exact binary. Mixed outcomes are valid. Human acceptance is not production approval; legal provenance/public copy/registry approval and runtime mapping remain later separate waves.
+The P0 review/promotion/runtime sequence is therefore closed. Any new semantic-art expansion must begin from measured recognition/readability need plus provenance approval rather than extending the old candidate wave.
 
 Rules for the next semantic-art pilot:
 
@@ -259,14 +270,14 @@ Character production is currently **PAUSED by the project owner**. The character
 
 Fixed English audio generation/listening is also **DEFERRED** by the project owner after the merged/live-verified narration gates. It remains a resumable future track, not the active execution item.
 
-Current active independent track:
+Current independent track status:
 16. learning-illustration audit + containment/readability foundation: **CLOSED / LIVE VERIFIED**.
 17. semantic illustration registry/provenance gate: **CLOSED / LIVE VERIFIED** via PR #297.
-18. **NOW:** exact P0 semantic-art candidate production/review, then separate approved runtime mapping.
-19. Expand semantic artwork only from measured recognition/readability evidence; never bulk-replace all emoji.
-20. Expanded human visual/usability + physical-device acceptance and cleanup of superseded components.
-21. Resume fixed English audio candidate generation/listening only when re-authorized.
-22. Resume character production only when re-authorized.
+18. Semantic Art P0 candidate/review/production/runtime/responsive sequence: **CLOSED / LIVE VERIFIED** — 17/17 decisions, 14 approved SVGs, 3 intentional held fallbacks.
+19. Semantic-art expansion: **NOT AUTHORIZED BY THIS CLOSURE**; require fresh measured recognition/readability + provenance evidence.
+20. **NEXT ELIGIBLE:** expanded human visual/usability + physical-device acceptance and cleanup of genuinely superseded components.
+21. Fixed English audio candidate generation/listening: **DEFERRED** until re-authorized.
+22. Character production: **PAUSED** until re-authorized.
 
 WS-05 gameplay-mechanic work may continue independently only when it preserves its existing objective/evidence gates. Do not mix a broad UX refactor into a mechanic-reuse PR.
 
