@@ -10,7 +10,8 @@ Read these first for current work:
 
 1. [`NEXT_PRODUCT_QUALITY_PLAN.md`](NEXT_PRODUCT_QUALITY_PLAN.md) — current execution order, workstreams, status and mandatory gates.
 2. [`CURRENT_STATE.md`](CURRENT_STATE.md) — current repository/product/production baseline.
-   - [`SI08_BERMAIN_GAMES_4_6_SAFE_CHECKPOINT_2026-09-30.md`](SI08_BERMAIN_GAMES_4_6_SAFE_CHECKPOINT_2026-09-30.md) — current Shared Interaction resume checkpoint: SI-08 games 4–6 merged/live verified; SI-09 games 7–10 remains paused pending explicit authorization.\n   - [`SI07_BERMAIN_GAMES_1_3_SAFE_CHECKPOINT_2026-09-29.md`](SI07_BERMAIN_GAMES_1_3_SAFE_CHECKPOINT_2026-09-29.md) — historical predecessor checkpoint for SI-07 games 1–3; its SI-08 hard stop has been superseded.
+   - [`SI08_BERMAIN_GAMES_4_6_SAFE_CHECKPOINT_2026-09-30.md`](SI08_BERMAIN_GAMES_4_6_SAFE_CHECKPOINT_2026-09-30.md) — current Shared Interaction resume checkpoint: SI-08 games 4–6 merged/live verified; SI-09 games 7–10 remains paused pending explicit authorization.
+   - [`SI07_BERMAIN_GAMES_1_3_SAFE_CHECKPOINT_2026-09-29.md`](SI07_BERMAIN_GAMES_1_3_SAFE_CHECKPOINT_2026-09-29.md) — historical predecessor checkpoint for SI-07 games 1–3; its SI-08 hard stop has been superseded.
    - [`MAINLAGI_CORE_THUMBNAIL_WAVE01_LIVE_CHECKPOINT_2026-09-27.md`](MAINLAGI_CORE_THUMBNAIL_WAVE01_LIVE_CHECKPOINT_2026-09-27.md) — current post-implementation safe checkpoint for the 31-file 4:3 core-thumbnail family, PR #357, CI #1711 and exact Cloudflare live verification.
    - [`data/MAINLAGI_CORE_THUMBNAIL_WAVE01_SOURCE_MAP_2026-09-26.json`](data/MAINLAGI_CORE_THUMBNAIL_WAVE01_SOURCE_MAP_2026-09-26.json) — exact machine-readable Drive/source mapping for Home, subjects, Main Gerak and World.
 3. [`PROJECT_STATE_SYNC_2026-09-20.md`](PROJECT_STATE_SYNC_2026-09-20.md) — compact current handoff and next-work state.
