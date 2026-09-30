@@ -58,7 +58,7 @@ for (const providerFragment of [
 }
 
 lacks(belajar, "Try Again", "Belajar canonical visual label is Again, not legacy Try Again");
-lacks(world, "CanonicalCompletion", "SI-03 must not migrate World before SI-10");
+has(world, 'import { CanonicalCompletion } from "@/components/CanonicalCompletion"', "SI-10 now adapts World to the canonical Completion owner");
 lacks(bermain, "CanonicalCompletion", "SI-03 must not migrate Bermain before SI-07/SI-09");
 
 console.log("SI-03 canonical completion static contract PASS.");

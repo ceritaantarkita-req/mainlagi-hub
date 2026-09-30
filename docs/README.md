@@ -10,7 +10,8 @@ Read these first for current work:
 
 1. [`NEXT_PRODUCT_QUALITY_PLAN.md`](NEXT_PRODUCT_QUALITY_PLAN.md) — current execution order, workstreams, status and mandatory gates.
 2. [`CURRENT_STATE.md`](CURRENT_STATE.md) — current repository/product/production baseline.
-   - [`SI09_BERMAIN_GAMES_7_10_SAFE_CHECKPOINT_2026-09-30.md`](SI09_BERMAIN_GAMES_7_10_SAFE_CHECKPOINT_2026-09-30.md) — current Shared Interaction resume checkpoint: SI-09 games 7–10 merged/live verified; SI-10 World adapter is paused pending explicit authorization.
+   - [`SI10_WORLD_ADAPTER_EXECUTION_CHECKPOINT_2026-09-30.md`](SI10_WORLD_ADAPTER_EXECUTION_CHECKPOINT_2026-09-30.md) — current Shared Interaction execution checkpoint: SI-10 World Completion/Share adapter explicitly authorized and in progress; SI-02 name-label/safe-geometry guarantees are preserve-only; SI-11 remains paused.
+   - [`SI09_BERMAIN_GAMES_7_10_SAFE_CHECKPOINT_2026-09-30.md`](SI09_BERMAIN_GAMES_7_10_SAFE_CHECKPOINT_2026-09-30.md) — historical predecessor checkpoint: SI-09 games 7–10 merged/live verified; its SI-10 hard stop has been superseded by explicit authorization.
    - [`SI08_BERMAIN_GAMES_4_6_SAFE_CHECKPOINT_2026-09-30.md`](SI08_BERMAIN_GAMES_4_6_SAFE_CHECKPOINT_2026-09-30.md) — historical predecessor checkpoint for SI-08 games 4–6; its SI-09 hard stop has been superseded.
    - [`SI07_BERMAIN_GAMES_1_3_SAFE_CHECKPOINT_2026-09-29.md`](SI07_BERMAIN_GAMES_1_3_SAFE_CHECKPOINT_2026-09-29.md) — historical predecessor checkpoint for SI-07 games 1–3; its SI-08 hard stop has been superseded.
    - [`MAINLAGI_CORE_THUMBNAIL_WAVE01_LIVE_CHECKPOINT_2026-09-27.md`](MAINLAGI_CORE_THUMBNAIL_WAVE01_LIVE_CHECKPOINT_2026-09-27.md) — current post-implementation safe checkpoint for the 31-file 4:3 core-thumbnail family, PR #357, CI #1711 and exact Cloudflare live verification.

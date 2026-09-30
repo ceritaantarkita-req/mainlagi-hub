@@ -4,6 +4,14 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 
+## 30 September Shared Interaction execution override — SI-10 AUTHORIZED / IN PROGRESS
+
+The project owner explicitly authorized SI-10 from `main@c73e450581c8c4542933ab251a9b3880b81722c7`. This current execution boundary supersedes older historical statements in this long-lived plan that say Mainlagi World is out of scope.
+
+Active SI-10 scope is limited to the World Completion/Share adapter. SI-02 already closed the visible World SpeechCard character-name-label removal and `safe-contain-v1` World character geometry, so those are preserve/regression contracts rather than new SI-10 character work. Preserve World progression/evidence/narration/stage order/chapter/finale semantics and the Gavi/Paca cast. Do not redesign Journey Map or start SI-11 without separate authorization.
+
+Current checkpoint: `SI10_WORLD_ADAPTER_EXECUTION_CHECKPOINT_2026-09-30.md`.
+
 ## 26 September SVG execution boundary — SESSIONS 01–16 COMPLETE / PROGRAM CLOSED
 
 Verified final truth:

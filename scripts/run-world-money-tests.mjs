@@ -151,6 +151,8 @@ try {
 
   const worldRuntimeSource = readFileSync(path.join(root, "src/components/learning/world-v2/MoneyWorldExperience.tsx"), "utf8");
   const worldRuntimeCss = readFileSync(path.join(root, "src/components/learning/world-v2/MoneyWorldExperience.module.css"), "utf8");
+  const canonicalCompletionSource = readFileSync(path.join(root, "src/components/CanonicalCompletion.tsx"), "utf8");
+  const canonicalCompletionCss = readFileSync(path.join(root, "src/components/CanonicalCompletion.module.css"), "utf8");
   const worldSceneRendererSource = readFileSync(path.join(root, "src/components/learning/world/WorldSceneRenderer.tsx"), "utf8");
   const learningAttemptBridgeSource = readFileSync(path.join(root, "src/components/learning/LearningAttemptBridge.tsx"), "utf8");
   const learningAttemptRpcSource = readFileSync(path.join(root, "supabase/migrations/0004_learning_rpc_hardening.sql"), "utf8");
@@ -187,12 +189,13 @@ try {
   assert.match(worldRuntimeCss, /\.chapterMapBanner/, "World map must retain semantic Chapter banner styling");
   assert.doesNotMatch(worldRuntimeCss, /content:\s*"Chapter 1|content:\s*"Chapter 2/, "Chapter titles must not be hardcoded as CSS pseudo-content");
   assert.match(worldRuntimeCss, /Production wave 13: Stage completion UX polish/, "World CSS must retain completion UX polish");
-  assert.match(worldRuntimeCss, /\.completionActions\s*\{[\s\S]*grid-template-columns:\s*repeat\(3,\s*minmax\(0,\s*1fr\)\)/, "completion navigation must remain one compact three-action row on mobile");
-  assert.match(worldRuntimeCss, /\.shareButton\s*\{[\s\S]*width:\s*min\(590px,\s*100%\)/, "Share must remain a separate full completion action below navigation");
+  assert.match(canonicalCompletionCss, /\.actions\s*\{[\s\S]*grid-template-columns:\s*repeat\(3,\s*minmax\(0,\s*1fr\)\)/, "canonical completion navigation must remain one compact three-action row on mobile");
+  assert.match(canonicalCompletionCss, /\.shareButton\s*\{[\s\S]*width:\s*min\(590px,\s*100%\)/, "canonical Share must remain a separate full completion action below navigation");
   assert.match(worldRuntimeSource, /role="progressbar"/, "Stage progress must expose progressbar semantics");
   assert.match(worldRuntimeSource, /aria-valuenow=\{segmentIndex \+ 1\}/, "Stage progress must expose current Segment position");
   assert.match(worldRuntimeSource, /aria-current=\{stage\.id === nextJourneyStageId \? "step"/, "journey map must expose the current Stage semantically");
-  assert.match(worldRuntimeSource, /completionTitleRef\.current\?\.focus\(\)/, "Stage completion must move focus to its completion heading");
+  assert.match(worldRuntimeSource, /<CanonicalCompletion/, "World Stage completion must delegate to the canonical Completion owner");
+  assert.match(canonicalCompletionSource, /headingRef\.current\?\.focus\(\)/, "canonical Completion must move focus to its labelled completion heading");
   assert.match(worldRuntimeSource, /role="img" aria-label=\{startCount \+ " token, " \+ removeCount \+ " dipakai"\}/, "take-away token board must expose a text alternative");
   assert.match(worldRuntimeSource, /className=\{styles\.orderSlots\} role="list"/, "ordering output must expose list semantics");
   assert.match(worldRuntimeSource, /className=\{styles\.recapGrid\} role="list"/, "final recap must expose list semantics");
