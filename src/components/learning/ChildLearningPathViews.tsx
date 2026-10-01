@@ -24,7 +24,7 @@ import stageStyles from "./StagePath.module.css";
 import { SubjectDirectory } from "./Playroom";
 import { LearningSymbol } from "./LearningSymbol";
 import { ActivityGallery } from "./ActivityGallery";
-import { EnglishJourneyMap } from "./EnglishJourneyMap";
+import { BelajarJourneyMap } from "./BelajarJourneyMap";
 
 function ageEligible(activity: LearningActivity, age: number) {
   return age >= activity.ageMin && age <= activity.ageMax;
@@ -190,9 +190,10 @@ export function SubjectScreen({ childId, subjectId, qaUnlockAll = false }: { chi
   const subject = getSubject(subjectId);
   if (!profile || !subject) return <main className={styles.content}><div className={styles.emptyState}>Area belajar tidak ditemukan.</div></main>;
 
-  if (subject.id === "english") {
+  if (subject.id === "english" || subject.id === "bahasa") {
     return (
-      <EnglishJourneyMap
+      <BelajarJourneyMap
+        subjectId={subject.id}
         childId={childId}
         age={profile.age}
         progress={progress}
