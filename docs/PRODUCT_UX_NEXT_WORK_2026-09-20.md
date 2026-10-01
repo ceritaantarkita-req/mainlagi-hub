@@ -2,10 +2,20 @@
 
 Date: **20 September 2026**  
 Last synchronized: **1 October 2026**
-Status: **ACTIVE ROADMAP / SEMANTIC ART P0 CLOSED / SHARED INTERACTION PROGRAM COMPLETE / JM-03+04+05 CLOSED**
-Current synchronized Journey Map baseline: `main` = `bd67e22e9eaced707eb8ef6da5384f7300be2699`. JM-03 + JM-04 + JM-05 Bahasa Inggris reference Journey Map are closed/live verified through main CI #2336 / run `36807942571`, including exact Cloudflare smoke. Semantic Art P0 and Shared Interaction remain fully closed.
+Status: **ACTIVE ROADMAP / SEMANTIC ART P0 CLOSED / SHARED INTERACTION PROGRAM COMPLETE / JM-06 CLOSED**
+Current synchronized Journey Map baseline: `main` = `aec5233a8397eeb4e8cc17cf521e350596ed4ad0`. JM-06 shared Journey Map engine + Bahasa Indonesia are closed/live verified through main CI #2340 / run `36833622638`, including exact Cloudflare smoke. Semantic Art P0 and Shared Interaction remain fully closed.
 
 This document is the short human/AI handoff for Mainlagi product-quality work. It records the user-accepted UX direction without changing curriculum, mastery, evidence or progression. The latest WS-05 Logic reuse wave is closed; any later mechanic work remains a separate audited track.
+
+## 1 October Journey Map JM-06 final closure
+
+JM-06 is **CLOSED / MERGED / LIVE VERIFIED**. Canonical closure: `JM06_SHARED_JOURNEY_MAP_BAHASA_FINAL_CLOSURE_2026-10-01.md`.
+
+Runtime PR #420 final head `e910211c5924ee806ed43ab9d9ac7d5c26845951` merged as `aec5233a8397eeb4e8cc17cf521e350596ed4ad0`. The shared `BelajarJourneyMap` owner now serves English and Bahasa Indonesia with the same map/detail/Browse All/responsive interaction system while preserving exact subject content and progression semantics.
+
+Local FAST-SAFE checks passed, including dedicated English + shared-engine browser QA, migrated Session 13 Bahasa text-only/no-answer-leak coverage, and the remaining mobile/browser regression tail. Merged-main CI #2340 / run `36833622638` completed full success including exact Cloudflare smoke.
+
+**Next:** JM-07 through JM-11 standard-subject rollout for Matematika, Iqro, Huruf & Menulis, Logika and Sains. Reuse the existing engine; do not duplicate it or start creative JM-12/JM-13 yet.
 
 ## 1 October Journey Map JM-03 + JM-04 + JM-05 final closure
 

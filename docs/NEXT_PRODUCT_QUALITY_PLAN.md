@@ -4,6 +4,18 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 
+## 1 October Journey Map execution override — JM-06 CLOSED / LIVE VERIFIED / JM-07–JM-11 NEXT
+
+JM-06 is **CLOSED / MERGED / LIVE VERIFIED** through runtime PR **#420** -> `main@aec5233a8397eeb4e8cc17cf521e350596ed4ad0`.
+
+Canonical closure: `JM06_SHARED_JOURNEY_MAP_BAHASA_FINAL_CLOSURE_2026-10-01.md`.
+
+The single shared `BelajarJourneyMap` engine now serves Bahasa Inggris and Bahasa Indonesia. English remains exact 5 Stages / 100 activities; Bahasa Indonesia is exact 6 Stages / 100 activities. Shared map/detail/Browse All/responsive/a11y/state behavior, JM-02 header ownership, stable routes, readiness/evidence/mastery and Completion/Share boundaries are preserved.
+
+Merged-main CI **#2340 / run `36833622638` FULL SUCCESS** includes exact Cloudflare production smoke.
+
+**Next authorized package: JM-07 through JM-11 — Matematika, Iqro, Huruf & Menulis, Logika, Sains.** Roll these five standard subjects onto the existing shared engine through minimal subject adapters/configuration. Preserve exact canonical membership/order/readiness and do not duplicate the engine or pull creative JM-12/JM-13 forward.
+
 ## 1 October Journey Map execution override — JM-03+04+05 CLOSED / LIVE VERIFIED / JM-06 NEXT
 
 JM-03 + JM-04 + JM-05 are **CLOSED / MERGED / LIVE VERIFIED** through runtime PR **#418** -> `main@bd67e22e9eaced707eb8ef6da5384f7300be2699`.
