@@ -4,19 +4,19 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 
-## 30 September Journey Map execution override — JM-02 AUTHORIZED / PRE-EXECUTION SAFE
+## 1 October Journey Map execution override — JM-02 CLOSED / LIVE VERIFIED / JM-03+04+05 NEXT
 
-JM-00 and JM-01 are closed/live verified. JM-02 is the active authorized step.
+JM-00 and JM-01 are closed/live verified. JM-02 runtime is merged, and its security remediation is merged to `main@84ab23778ab1013cdc0d9cddcbbb8237067236af`.
 
-Canonical checkpoint: `JM02_IMMERSIVE_HEADER_PREEXECUTION_SAFE_CHECKPOINT_2026-09-30.md`.
+Canonical closure: `JM02_IMMERSIVE_HEADER_FINAL_CLOSURE_2026-10-01.md`.
 
-Safe resume baseline: `main@bd93ffaa92521c55f2414d13f44a62fcf022d865`; checkpoint PR #413; PR CI #2323 / run `36727660551` required gates success; merged-main CI #2324 / run `36729548045` full success including exact Cloudflare smoke.
+JM-02 runtime PR #415 passed PR CI #2328 / run `36743194635` and merged as `4fab9369a238805ddd53ff357d5b3587eb1ac05c`. A newly published Next.js critical advisory then blocked merged-main dependency audit; security PR #416 moved Next.js to 16.3.6, passed PR CI run `36755582780`, and merged as `84ab23778ab1013cdc0d9cddcbbb8237067236af`.
 
-JM-02 must operate from canonical `PlayroomShell` ownership. Scope: Kembali, compact Mainlagi logo, profile/menu, expandable Belajar/Bermain/World/Shop, desktop + touch + keyboard.
+Final verification: main CI **#2332 / run `36795318859` completed FULL SUCCESS**, including exact Production smoke (Cloudflare) for `84ab23778ab1013cdc0d9cddcbbb8237067236af`.
 
-**Shop remains fail-closed:** there is no canonical child Shop route today and affiliate shopping must not be fabricated into the child-learning flow. Resolve/feature-gate the slot without inventing a destination.
+The implemented header remains owned by canonical `PlayroomShell`: route-aware Kembali, compact logo, profile/menu, Belajar/Bermain/World product navigation, touch/keyboard behavior, and immersive-route suppression. **Shop remains fail-closed/disabled**; no child Shop destination was fabricated.
 
-Do not pull JM-03 Bahasa Inggris map visuals forward.
+JM-02 is now closed/live verified. Execute the next FAST-SAFE package as **JM-03 + JM-04 + JM-05 — Bahasa Inggris complete reference implementation**.
 
 ## 30 September Journey Map execution override — JM-01 CLOSED / LIVE VERIFIED / JM-02 NEXT
 

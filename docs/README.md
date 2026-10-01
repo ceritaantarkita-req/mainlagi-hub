@@ -1,6 +1,6 @@
 # Mainlagi Hub Documentation Index
 
-Last reviewed: **30 September 2026**
+Last reviewed: **1 October 2026**
 
 Use this file to decide which documentation is current and which files are historical snapshots.
 
@@ -10,8 +10,9 @@ Read these first for current work:
 
 1. [`NEXT_PRODUCT_QUALITY_PLAN.md`](NEXT_PRODUCT_QUALITY_PLAN.md) — current execution order, workstreams, status and mandatory gates.
 2. [`CURRENT_STATE.md`](CURRENT_STATE.md) — current repository/product/production baseline.
-   - [`JM02_IMMERSIVE_HEADER_PREEXECUTION_SAFE_CHECKPOINT_2026-09-30.md`](JM02_IMMERSIVE_HEADER_PREEXECUTION_SAFE_CHECKPOINT_2026-09-30.md) — active Phase C handoff: merged/live-verified safe resume baseline for JM-02; canonical PlayroomShell ownership, Shop fail-closed boundary, JM-03+ not started.
-   - [`JM01_SHARED_JOURNEY_MAP_FOUNDATION_SAFE_CHECKPOINT_2026-09-30.md`](JM01_SHARED_JOURNEY_MAP_FOUNDATION_SAFE_CHECKPOINT_2026-09-30.md) — current Phase C checkpoint: shared canonical Belajar map data/state foundation merged/live verified; JM-02 immersive header is next.
+   - [`JM02_IMMERSIVE_HEADER_FINAL_CLOSURE_2026-10-01.md`](JM02_IMMERSIVE_HEADER_FINAL_CLOSURE_2026-10-01.md) — current Phase C closure record: JM-02 runtime + Next.js 16.3.6 remediation closed/live verified at `main@84ab2377…`; main CI #2332 / run `36795318859` full success including exact Cloudflare smoke; JM-03+04+05 is next.
+   - [`JM02_IMMERSIVE_HEADER_PREEXECUTION_SAFE_CHECKPOINT_2026-09-30.md`](JM02_IMMERSIVE_HEADER_PREEXECUTION_SAFE_CHECKPOINT_2026-09-30.md) — historical pre-execution JM-02 checkpoint; canonical ownership and Shop fail-closed boundary retained for provenance.
+   - [`JM01_SHARED_JOURNEY_MAP_FOUNDATION_SAFE_CHECKPOINT_2026-09-30.md`](JM01_SHARED_JOURNEY_MAP_FOUNDATION_SAFE_CHECKPOINT_2026-09-30.md) — historical predecessor checkpoint: shared canonical Belajar map data/state foundation merged/live verified; superseded by JM-02 runtime/closure.
    - [`JM00_CANONICAL_JOURNEY_MAP_READONLY_AUDIT_2026-09-30.md`](JM00_CANONICAL_JOURNEY_MAP_READONLY_AUDIT_2026-09-30.md) — canonical Phase C entry checkpoint: exact 9-subject stage/membership/routes/readiness/Browse All audit plus Petualangan Uang 2-chapter / 8-stage / 89-segment audit; JM-00 closed/live verified; superseded as current Journey Map authority by the JM-01 checkpoint above.
    - [`SI11_SHARED_INTERACTION_INTEGRATED_CLOSURE_SAFE_CHECKPOINT_2026-09-30.md`](SI11_SHARED_INTERACTION_INTEGRATED_CLOSURE_SAFE_CHECKPOINT_2026-09-30.md) — current Shared Interaction final checkpoint: SI-11 merged/live verified at `main@a4619c31…`; SI-00 through SI-11 are complete and the Shared Interaction program has no next session.
    - [`SI10_WORLD_ADAPTER_SAFE_CHECKPOINT_2026-09-30.md`](SI10_WORLD_ADAPTER_SAFE_CHECKPOINT_2026-09-30.md) — historical predecessor checkpoint for the live-verified SI-10 World adapter; its SI-11 hard stop was superseded by explicit authorization and completed SI-11.

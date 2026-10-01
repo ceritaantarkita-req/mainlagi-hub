@@ -1,10 +1,12 @@
 # JM-02 — Immersive Mainlagi Header pre-execution safe checkpoint
 
 Date: **30 September 2026**  
-Status: **SAFE CHECKPOINT / MERGED / LIVE VERIFIED / JM-02 NOT IMPLEMENTED YET**  
+Status: **HISTORICAL PRE-EXECUTION CHECKPOINT / MERGED / LIVE VERIFIED / SUPERSEDED BY JM-02 RUNTIME**
 Workstream: **Phase C — Canonical Journey Map System**  
 Pre-checkpoint baseline: `main@640ce8f187259ae47010d7a039213263bc3c7b3e`  
 Safe-checkpoint main: `main@bd93ffaa92521c55f2414d13f44a62fcf022d865`
+
+> **Superseded execution notice:** this file is retained as pre-execution provenance only. JM-02 runtime has since been implemented and merged. Use `JM02_IMMERSIVE_HEADER_FINAL_CLOSURE_2026-10-01.md` plus `CURRENT_STATE.md` for current execution status; do not treat the historical `JM-02 AUTHORIZED / NOT IMPLEMENTED` block below as current authority.
 
 ## 1. Why this checkpoint exists
 
