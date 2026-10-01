@@ -4,7 +4,6 @@ import { mkdirSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
-import { assertLearningVisualContainment } from "./lib/assert-learning-visual-containment.mjs";
 
 const root=process.cwd();
 const host="127.0.0.1";
@@ -66,45 +65,31 @@ async function inspect(browser,viewport){
     page.on("console",message=>{if(message.type()==="error")consoleErrors.push(message.text());});
 
     const response=await page.goto(`${baseUrl}${route}`,{waitUntil:"domcontentloaded",timeout:30000});
-    assert(response&&response.status()<400,`Session 13 Bahasa gallery must load at ${viewport.width}`);
-    await page.locator("[data-qa-unlock-all]").waitFor({state:"visible",timeout:6000});
+    assert(response&&response.status()<400,`Session 13 Bahasa Journey Map must load at ${viewport.width}`);
+    const map=page.locator('[data-belajar-journey-map="v1"][data-journey-subject="bahasa"]');
+    await map.waitFor({state:"visible",timeout:6000});
 
-    const card=page.locator('[data-activity-id="bahasa-baca-sari-hujan"]');
-    assert.equal(await card.count(),1,`umbrella preview activity must remain unique at ${viewport.width}`);
+    const browse=page.locator("[data-journey-browse-all]");
+    await browse.waitFor({state:"visible",timeout:6000});
+    const item=browse.locator('[data-activity-id="bahasa-baca-sari-hujan"]');
+    assert.equal(await item.count(),1,`umbrella-bound activity must remain unique in Browse All at ${viewport.width}`);
+    assert.equal(await item.locator("img").count(),0,`JM-06 Browse All must stay text-only at ${viewport.width}`);
+    assert.equal(await item.locator("[data-learning-semantic-key]").count(),0,`JM-06 must not reintroduce gallery semantic thumbnails at ${viewport.width}`);
 
-    const token=card.locator('[data-learning-semantic-key="object.umbrella"][data-learning-visual-source="semantic-svg"]');
-    assert.equal(await token.count(),1,`umbrella semantic SVG must render in the activity gallery at ${viewport.width}`);
-    assert.equal(
-      await token.locator('img[src="/artwork/learning-illustrations/object-umbrella-v1.svg"][data-learning-semantic-image]').count(),
-      1,
-      `umbrella gallery preview must use the canonical SVG at ${viewport.width}`
-    );
-    assert.equal(await card.getByText("☂️",{exact:true}).count(),0,`approved umbrella SVG replaces fallback glyph at ${viewport.width}`);
-
-    const cardText=(await card.textContent())??"";
-    assert(!cardText.toLowerCase().includes("merah"),`umbrella gallery preview must not expose the assessed color answer at ${viewport.width}`);
-    assert(!cardText.toLowerCase().includes("biru"),`umbrella gallery preview must not expose distractor answers at ${viewport.width}`);
-    assert(!cardText.toLowerCase().includes("kuning"),`umbrella gallery preview must not expose distractor answers at ${viewport.width}`);
-
-    await assertLearningVisualContainment(page,'[data-activity-id="bahasa-baca-sari-hujan"]',`umbrella gallery semantic containment at ${viewport.width}`);
-
-    const imageStyle=await token.locator("[data-learning-semantic-image]").evaluate(node=>({
-      objectFit:getComputedStyle(node).objectFit,
-      width:node.getBoundingClientRect().width,
-      height:node.getBoundingClientRect().height
-    }));
-    assert.equal(imageStyle.objectFit,"contain",`umbrella SVG must preserve contain fitting at ${viewport.width}`);
-    assert(imageStyle.width>=32&&imageStyle.height>=32,`umbrella SVG must remain child-readable at ${viewport.width}`);
+    const itemText=(await item.textContent())??"";
+    assert(!itemText.toLowerCase().includes("merah"),`Browse All must not expose the assessed color answer at ${viewport.width}`);
+    assert(!itemText.toLowerCase().includes("biru"),`Browse All must not expose distractor answers at ${viewport.width}`);
+    assert(!itemText.toLowerCase().includes("kuning"),`Browse All must not expose distractor answers at ${viewport.width}`);
 
     const viewportWidth=await page.evaluate(()=>document.documentElement.clientWidth);
     const scrollWidth=await page.evaluate(()=>Math.max(document.documentElement.scrollWidth,document.body.scrollWidth));
-    assert(scrollWidth<=viewportWidth+1,`Session 13 Bahasa gallery must not overflow horizontally at ${viewport.width}`);
+    assert(scrollWidth<=viewportWidth+1,`Session 13 Bahasa Journey Map must not overflow horizontally at ${viewport.width}`);
 
     mkdirSync(screenshotDir,{recursive:true});
-    await card.screenshot({path:path.join(screenshotDir,`${viewport.width}-semantic-umbrella-gallery.png`)});
+    await item.screenshot({path:path.join(screenshotDir,`${viewport.width}-bahasa-journey-text-only.png`)});
 
-    assert.deepEqual(pageErrors,[],`umbrella gallery page errors at ${viewport.width}: ${pageErrors.join(" | ")}`);
-    assert.deepEqual(consoleErrors,[],`umbrella gallery console errors at ${viewport.width}: ${consoleErrors.join(" | ")}`);
+    assert.deepEqual(pageErrors,[],`Bahasa Journey Map page errors at ${viewport.width}: ${pageErrors.join(" | ")}`);
+    assert.deepEqual(consoleErrors,[],`Bahasa Journey Map console errors at ${viewport.width}: ${consoleErrors.join(" | ")}`);
   }finally{
     await context.close();
   }
@@ -116,7 +101,7 @@ async function main(){
   const browser=await chromium.launch({headless:true});
   try{
     for(const viewport of viewports)await inspect(browser,viewport);
-    console.log(`Session 13 semantic umbrella gallery QA passed ${viewports.length} required viewports with canonical SVG decode, same-origin containment, no answer leak and no horizontal overflow.`);
+    console.log(`Session 13 Bahasa Journey Map migration QA passed ${viewports.length} required viewports with exact Browse All membership, text-only presentation, no answer leak and no horizontal overflow.`);
   }finally{
     await browser.close();
   }

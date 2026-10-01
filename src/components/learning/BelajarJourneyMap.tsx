@@ -3,11 +3,12 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { buildBelajarJourneyMap, type BelajarJourneyMapStage } from "@/lib/learning/journeyMap";
-import { getActivitiesForStage, getStage, type LearningProgress } from "@/lib/learning/system";
+import { getActivitiesForStage, getStage, type LearningProgress, type LearningSubjectId } from "@/lib/learning/system";
 import type { LearningAnalyticsSnapshot } from "@/lib/learning/attempts";
-import styles from "./EnglishJourneyMap.module.css";
+import styles from "./BelajarJourneyMap.module.css";
 
 type Props = {
+  subjectId: LearningSubjectId;
   childId: string;
   age: number;
   progress: LearningProgress;
@@ -22,10 +23,10 @@ function stageStateLabel(stage: BelajarJourneyMapStage) {
   return "Terbuka";
 }
 
-export function EnglishJourneyMap({ childId, age, progress, analytics, qaUnlockAll = false }: Props) {
+export function BelajarJourneyMap({ subjectId, childId, age, progress, analytics, qaUnlockAll = false }: Props) {
   const model = useMemo(
-    () => buildBelajarJourneyMap({ childId, subjectId: "english", progress, analytics }),
-    [childId, progress, analytics]
+    () => buildBelajarJourneyMap({ childId, subjectId, progress, analytics }),
+    [childId, subjectId, progress, analytics]
   );
   const [selectedStageId, setSelectedStageId] = useState<string | null>(null);
 
@@ -51,13 +52,20 @@ export function EnglishJourneyMap({ childId, age, progress, analytics, qaUnlockA
     stageActivities[0] ??
     null;
   const currentStage = model.stages.find((stage) => stage.current) ?? model.stages.find((stage) => !stage.locked) ?? model.stages[0];
+  const mapTitleId = `${model.subjectId}-map-title`;
+  const detailTitleId = `${model.subjectId}-stage-detail-title`;
 
   return (
-    <main className={styles.page} data-english-journey-map="v1">
-      <section className={styles.hero} aria-labelledby="english-map-title">
+    <main
+      className={styles.page}
+      data-belajar-journey-map="v1"
+      data-journey-subject={model.subjectId}
+      data-english-journey-map={model.subjectId === "english" ? "v1" : undefined}
+    >
+      <section className={styles.hero} aria-labelledby={mapTitleId}>
         <div>
           <p className={styles.eyebrow}>Belajar · {model.subjectShortTitle}</p>
-          <h1 id="english-map-title">{model.subjectTitle}</h1>
+          <h1 id={mapTitleId}>{model.subjectTitle}</h1>
           <p>{model.subjectDescription}</p>
         </div>
         <div className={styles.progressCard} aria-label={model.completedStageCount + " dari " + model.totalStageCount + " stage selesai"}>
@@ -73,7 +81,7 @@ export function EnglishJourneyMap({ childId, age, progress, analytics, qaUnlockA
         </section>
       ) : null}
 
-      <section className={styles.mapShell} aria-label="Peta perjalanan Bahasa Inggris">
+      <section className={styles.mapShell} aria-label={"Peta perjalanan " + model.subjectTitle}>
         <div className={styles.mapTrack} data-journey-map-track>
           {model.stages.map((stage, index) => {
             const locked = stage.locked && !qaUnlockAll;
@@ -102,8 +110,13 @@ export function EnglishJourneyMap({ childId, age, progress, analytics, qaUnlockA
         </div>
       </section>
 
-      <details className={styles.browseAll} data-english-browse-all open={qaUnlockAll}>
-        <summary>Lihat semua aktivitas Bahasa Inggris</summary>
+      <details
+        className={styles.browseAll}
+        data-journey-browse-all
+        data-english-browse-all={model.subjectId === "english" ? "" : undefined}
+        open={qaUnlockAll}
+      >
+        <summary>Lihat semua aktivitas {model.subjectTitle}</summary>
         <div className={styles.browseGroups}>
           {model.stages.map((stage) => {
             const stageAccessible = qaUnlockAll || !stage.locked;
@@ -136,12 +149,12 @@ export function EnglishJourneyMap({ childId, age, progress, analytics, qaUnlockA
 
       {selected && selectedCanonical ? (
         <div className={styles.detailBackdrop} data-stage-detail-open onClick={() => setSelectedStageId(null)}>
-          <section className={styles.stageDetail} role="dialog" aria-modal="true" aria-labelledby="english-stage-detail-title" onClick={(event) => event.stopPropagation()}>
+          <section className={styles.stageDetail} role="dialog" aria-modal="true" aria-labelledby={detailTitleId} onClick={(event) => event.stopPropagation()}>
             <div className={styles.detailHandle} aria-hidden />
             <div className={styles.detailHead}>
               <div>
                 <p>Stage {selected.order} · {stageStateLabel(selected)}</p>
-                <h2 id="english-stage-detail-title">{selected.title}</h2>
+                <h2 id={detailTitleId}>{selected.title}</h2>
                 <span>{selected.subtitle}</span>
               </div>
               <button type="button" className={styles.closeButton} onClick={() => setSelectedStageId(null)} aria-label="Tutup detail stage">×</button>
