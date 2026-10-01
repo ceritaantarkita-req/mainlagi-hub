@@ -1,5 +1,15 @@
 # Changelog
 
+## 1 October 2026 — Journey Map JM-03 + JM-04 + JM-05 CLOSED / MERGED / LIVE VERIFIED
+
+- Bahasa Inggris reference Journey Map runtime PR **#418** final head `1694df8d39dd2ba11a61c2779912388be5d5fdd5` squash-merged as **`main@bd67e22e9eaced707eb8ef6da5384f7300be2699`**.
+- JM-03 closes the clean full-page desktop Journey Map default; JM-04 closes contextual text-only Stage detail + Continue learning; JM-05 closes portrait/tablet/landscape responsiveness, mobile bottom sheet, touch/keyboard behavior and rotation-state preservation.
+- Canonical English scope remains exact **5 Stages / 100 activities**. Browse All, stable direct routes, JM-02 header ownership, readiness/evidence/mastery, Completion/Share, World and creative-workspace boundaries are preserved.
+- Local FAST-SAFE gates passed typecheck, lint with 0 errors, Journey Map tests, production build, dedicated English Journey Map browser QA and full `test:ui:mobile-routes` in **873.92s** with browser warning inventory **0**.
+- Merged-main CI **#2336 / run `36807942571` FULL SUCCESS** passed Mobile route QA, Windows compatibility, Secret history scan, Production dependency audit, Production build, Ubuntu quality and exact **Production smoke (Cloudflare) SUCCESS**.
+- Canonical closure: `JM03_JM05_ENGLISH_JOURNEY_MAP_FINAL_CLOSURE_2026-10-01.md`.
+- **JM-06 — shared Journey Map engine extraction + Bahasa Indonesia is next.** Preserve English behavior exactly; do not duplicate the engine or pull JM-07+ forward.
+
 ## 1 October 2026 — Journey Map JM-02 CLOSED / MERGED / LIVE VERIFIED
 
 - JM-02 immersive Mainlagi header runtime PR **#415** passed PR CI **#2328 / run `36743194635`** and squash-merged as **`main@4fab9369a238805ddd53ff357d5b3587eb1ac05c`**.

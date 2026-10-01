@@ -2,10 +2,20 @@
 
 Date: **20 September 2026**  
 Last synchronized: **1 October 2026**
-Status: **ACTIVE ROADMAP / SEMANTIC ART P0 CLOSED / SHARED INTERACTION PROGRAM COMPLETE / JM-02 CLOSED**
-Current synchronized runtime/security baseline: `main` = `84ab23778ab1013cdc0d9cddcbbb8237067236af`. JM-02 runtime plus the Next.js 16.3.6 remediation are closed/live verified through main CI #2332 / run `36795318859`, including exact Cloudflare smoke. Semantic Art P0 runtime remains fully closed through the verified SVG production/runtime/responsive sequence and final Session 16 verification.
+Status: **ACTIVE ROADMAP / SEMANTIC ART P0 CLOSED / SHARED INTERACTION PROGRAM COMPLETE / JM-03+04+05 CLOSED**
+Current synchronized Journey Map baseline: `main` = `bd67e22e9eaced707eb8ef6da5384f7300be2699`. JM-03 + JM-04 + JM-05 Bahasa Inggris reference Journey Map are closed/live verified through main CI #2336 / run `36807942571`, including exact Cloudflare smoke. Semantic Art P0 and Shared Interaction remain fully closed.
 
 This document is the short human/AI handoff for Mainlagi product-quality work. It records the user-accepted UX direction without changing curriculum, mastery, evidence or progression. The latest WS-05 Logic reuse wave is closed; any later mechanic work remains a separate audited track.
+
+## 1 October Journey Map JM-03 + JM-04 + JM-05 final closure
+
+JM-03 + JM-04 + JM-05 are **CLOSED / MERGED / LIVE VERIFIED**. Canonical closure: `JM03_JM05_ENGLISH_JOURNEY_MAP_FINAL_CLOSURE_2026-10-01.md`.
+
+Runtime PR #418 final head `1694df8d39dd2ba11a61c2779912388be5d5fdd5` merged as `bd67e22e9eaced707eb8ef6da5384f7300be2699`. The English subject now defaults to the production Journey Map with exact five canonical Stages / 100 activities, text-only Stage detail + Continue learning, Browse All, JM-02 header ownership, and responsive portrait/tablet/landscape behavior with touch/keyboard and rotation-state preservation.
+
+Local FAST-SAFE checks and the complete blocking mobile/browser regression passed; merged-main CI #2336 / run `36807942571` completed full success including exact Cloudflare smoke.
+
+**Next:** JM-06 shared Journey Map engine extraction + Bahasa Indonesia. Preserve English behavior exactly; do not duplicate the engine and do not start JM-07+ yet.
 
 ## 1 October Journey Map JM-02 final closure gate
 
