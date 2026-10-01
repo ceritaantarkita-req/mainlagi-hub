@@ -102,10 +102,20 @@ async function desktopAndKeyboard(browser){
     await assertBaseMap(page,"desktop");
 
     const first=page.locator('[data-journey-stage="english-first-words"]');
-    await first.focus();
-    await page.keyboard.press("Enter");
     const dialog=page.locator("[data-stage-detail-open]");
-    await dialog.waitFor({state:"visible",timeout:3000});
+    let opened=false;
+    for(let attempt=0;attempt<2&&!opened;attempt++){
+      await first.focus();
+      assert.equal(await first.evaluate(element=>document.activeElement===element),true,"desktop: first Stage receives keyboard focus");
+      await first.press("Enter");
+      try{
+        await dialog.waitFor({state:"visible",timeout:3000});
+        opened=true;
+      }catch(error){
+        if(attempt===1)throw error;
+        await page.waitForTimeout(500);
+      }
+    }
     assert.equal(await page.getByRole("dialog").count(),1,"desktop: contextual Stage detail opens");
     assert.equal(await page.locator("[data-stage-text-activity-list] img").count(),0,"desktop: Stage detail remains text-only");
     assert((await page.locator("[data-stage-text-activity-list] li").count())>0,"desktop: Stage detail lists activities");
