@@ -26,6 +26,16 @@ import { LearningSymbol } from "./LearningSymbol";
 import { ActivityGallery } from "./ActivityGallery";
 import { BelajarJourneyMap } from "./BelajarJourneyMap";
 
+const JOURNEY_MAP_SUBJECTS = new Set<LearningSubjectId>([
+  "bahasa",
+  "english",
+  "math",
+  "iqro",
+  "letters",
+  "logic",
+  "science"
+]);
+
 function ageEligible(activity: LearningActivity, age: number) {
   return age >= activity.ageMin && age <= activity.ageMax;
 }
@@ -190,7 +200,7 @@ export function SubjectScreen({ childId, subjectId, qaUnlockAll = false }: { chi
   const subject = getSubject(subjectId);
   if (!profile || !subject) return <main className={styles.content}><div className={styles.emptyState}>Area belajar tidak ditemukan.</div></main>;
 
-  if (subject.id === "english" || subject.id === "bahasa") {
+  if (JOURNEY_MAP_SUBJECTS.has(subject.id)) {
     return (
       <BelajarJourneyMap
         subjectId={subject.id}
