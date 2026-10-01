@@ -1,5 +1,16 @@
 # Changelog
 
+## 1 October 2026 — Journey Map JM-06 CLOSED / MERGED / LIVE VERIFIED
+
+- JM-06 runtime PR **#420** final head `e910211c5924ee806ed43ab9d9ac7d5c26845951` squash-merged as **`main@aec5233a8397eeb4e8cc17cf521e350596ed4ad0`**.
+- Generalized `EnglishJourneyMap` into the single shared `BelajarJourneyMap` owner; Bahasa Indonesia is now the second consumer without duplicating the engine.
+- English remains exact **5 Stages / 100 activities**; Bahasa Indonesia is exact **6 Stages / 100 activities**. Stable routes, readiness/evidence/mastery, JM-02 header, Completion/Share, World and creative boundaries are unchanged.
+- Added dedicated shared-engine browser QA and migrated Session 13 Bahasa gallery regression to the canonical text-only Journey Map/no-answer-leak contract.
+- Local FAST-SAFE gates passed; browser warning inventory remained **0**.
+- Merged-main CI **#2340 / run `36833622638` FULL SUCCESS** passed Mobile route QA, Windows compatibility, Secret history scan, Production dependency audit, Production build, Ubuntu quality and exact **Production smoke (Cloudflare) SUCCESS**.
+- Canonical closure: `JM06_SHARED_JOURNEY_MAP_BAHASA_FINAL_CLOSURE_2026-10-01.md`.
+- **JM-07 through JM-11 are next:** Matematika, Iqro, Huruf & Menulis, Logika and Sains through the existing shared engine.
+
 ## 1 October 2026 — Journey Map JM-03 + JM-04 + JM-05 CLOSED / MERGED / LIVE VERIFIED
 
 - Bahasa Inggris reference Journey Map runtime PR **#418** final head `1694df8d39dd2ba11a61c2779912388be5d5fdd5` squash-merged as **`main@bd67e22e9eaced707eb8ef6da5384f7300be2699`**.

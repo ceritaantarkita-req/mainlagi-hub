@@ -4,6 +4,20 @@ Last reviewed: **1 October 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
+## 1 October 2026 — Journey Map JM-06 CLOSED / MERGED / LIVE VERIFIED
+
+JM-06 shared Journey Map engine extraction + Bahasa Indonesia is **CLOSED / MERGED / LIVE VERIFIED** at `main@aec5233a8397eeb4e8cc17cf521e350596ed4ad0`.
+
+Canonical closure: `docs/JM06_SHARED_JOURNEY_MAP_BAHASA_FINAL_CLOSURE_2026-10-01.md`.
+
+Runtime PR **#420** final head `e910211c5924ee806ed43ab9d9ac7d5c26845951` generalized the English reference implementation into the single `BelajarJourneyMap` owner and activated Bahasa Indonesia as its second consumer. English remains exact **5 Stages / 100 activities**; Bahasa Indonesia is exact **6 Stages / 100 activities**.
+
+Local FAST-SAFE verification passed typecheck, Journey Map foundation tests, lint with 0 errors, production build, English regression, dedicated shared Journey Map QA, the migrated Session 13 Bahasa text-only/no-answer-leak contract, and the remaining mobile/browser regression tail through Creative, Bermain and World. Browser warning inventory remained 0.
+
+Merged-main CI **#2340 / run `36833622638` completed FULL SUCCESS**, including Mobile route QA, Windows compatibility, Secret history scan, Production dependency audit, Production build, Ubuntu quality, and exact **Production smoke (Cloudflare) SUCCESS**.
+
+**Current boundary:** JM-06 is closed/live verified. The next authorized FAST-SAFE package is **JM-07 through JM-11 — Matematika, Iqro, Huruf & Menulis, Logika, Sains** using the existing shared engine. Do not duplicate the Journey Map engine or change curriculum/readiness/evidence/mastery, Completion/Share, World, creative, or Shop boundaries.
+
 ## 1 October 2026 — Journey Map JM-03 + JM-04 + JM-05 CLOSED / MERGED / LIVE VERIFIED
 
 The Bahasa Inggris reference Journey Map package is **CLOSED / MERGED / LIVE VERIFIED** at `main@bd67e22e9eaced707eb8ef6da5384f7300be2699`.
