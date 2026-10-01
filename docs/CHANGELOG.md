@@ -1,5 +1,15 @@
 # Changelog
 
+## 1 October 2026 — Journey Map JM-02 CLOSED / MERGED / LIVE VERIFIED
+
+- JM-02 immersive Mainlagi header runtime PR **#415** passed PR CI **#2328 / run `36743194635`** and squash-merged as **`main@4fab9369a238805ddd53ff357d5b3587eb1ac05c`**.
+- The merged header provides route-aware Kembali, compact Mainlagi logo, profile/menu, Belajar/Bermain/World product navigation, touch/keyboard disclosure behavior, and immersive-route suppression while keeping Shop disabled/fail-closed because no canonical child Shop route exists.
+- Main CI #2329 then surfaced newly published critical Next.js advisory **GHSA-vcvr-r3jv-pc5j / CVE-2026-94545**. Security PR **#416** upgraded Next.js to 16.3.6, refreshed matching lock entries, aligned stale local Playroom QA contracts, passed PR CI run `36755582780`, and merged as **`main@84ab23778ab1013cdc0d9cddcbbb8237067236af`**.
+- Local FAST-SAFE verification passed production audit with **0 vulnerabilities**, Journey Map tests, typecheck, lint with 0 errors, production build, full Playroom QA, and the complete blocking mobile/browser regression.
+- Main CI **#2332 / run `36795318859` completed FULL SUCCESS**, including exact Cloudflare smoke proving production serves `84ab23778ab1013cdc0d9cddcbbb8237067236af` with the canonical Supabase target.
+- Canonical closure: `JM02_IMMERSIVE_HEADER_FINAL_CLOSURE_2026-10-01.md`.
+- JM-02 is closed/live verified. The next authorized FAST-SAFE package is **JM-03 + JM-04 + JM-05 — Bahasa Inggris complete reference implementation**.
+
 ## 30 September 2026 — Journey Map JM-02 pre-execution safe checkpoint
 
 - Added `JM02_IMMERSIVE_HEADER_PREEXECUTION_SAFE_CHECKPOINT_2026-09-30.md`.

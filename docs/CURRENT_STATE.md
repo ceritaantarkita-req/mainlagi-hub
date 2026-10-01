@@ -1,22 +1,22 @@
 # Mainlagi Hub — Current State
 
-Last reviewed: **30 September 2026**
+Last reviewed: **1 October 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
-## 30 September 2026 — Journey Map JM-02 PRE-EXECUTION SAFE CHECKPOINT
+## 1 October 2026 — Journey Map JM-02 CLOSED / MERGED / LIVE VERIFIED
 
-JM-00 and JM-01 are closed/live verified. JM-02 is now **AUTHORIZED / NOT IMPLEMENTED**.
+JM-02 runtime and its post-merge Next.js security remediation are **CLOSED / MERGED / LIVE VERIFIED** at `main@84ab23778ab1013cdc0d9cddcbbb8237067236af`. Main CI **#2332 / run `36795318859` completed FULL SUCCESS**, including exact Cloudflare smoke proving production serves that SHA with the canonical Supabase target.
 
-Canonical checkpoint: `docs/JM02_IMMERSIVE_HEADER_PREEXECUTION_SAFE_CHECKPOINT_2026-09-30.md`.
+Canonical closure: `docs/JM02_IMMERSIVE_HEADER_FINAL_CLOSURE_2026-10-01.md`.
 
-Verified safe resume baseline before JM-02 runtime work: `main@bd93ffaa92521c55f2414d13f44a62fcf022d865`. Checkpoint PR **#413** head `b830a1f4d47dc896a5a79a22fa94da01d78ca8d6` passed PR CI **#2323 / run `36727660551`**; merged-main CI **#2324 / run `36729548045` FULL SUCCESS** including exact Cloudflare production smoke.
+Runtime lineage: PR **#415** final head `536c95f9d65af0a56909380b902393ae7ecdbfa3` passed PR CI **#2328 / run `36743194635`** and merged as `4fab9369a238805ddd53ff357d5b3587eb1ac05c`. Main CI #2329 then surfaced a newly published critical Next.js advisory. Security PR **#416** final head `85bcc6c7f19fd42ef3dce9a60c715e45cf75b8c0` passed PR CI run `36755582780` and squash-merged as `84ab23778ab1013cdc0d9cddcbbb8237067236af`.
 
-Canonical child-shell owner is `src/app/child/[childId]/layout.tsx -> WorldChildShell -> PlayroomShell`, with visual/navigation ownership in `Playroom.tsx` + `Playroom.module.css`.
+JM-02 now owns the shared child header through `PlayroomShell`: route-aware Kembali, compact Mainlagi logo, profile/menu, expandable Belajar/Bermain/World navigation, and desktop/touch/keyboard behavior. **Shop remains fail-closed/disabled** because there is still no canonical child Shop route. Activity routes and World Stage routes continue to own their immersive chrome without duplicate shared header.
 
-JM-02 scope is the immersive Mainlagi header only: Kembali, compact logo, profile/menu, and expandable Belajar/Bermain/World/Shop behavior across desktop/touch/keyboard. **Shop is currently fail-closed:** no canonical child Shop route exists, and adult/public affiliate commerce must not be exposed as a fabricated child-learning destination.
+Local FAST-SAFE verification on the remediated branch passed production dependency audit with **0 vulnerabilities**, Journey Map tests, typecheck, lint with 0 errors, production build, local Playroom QA, and the complete blocking mobile/browser regression.
 
-**Current boundary:** implement JM-02 only. JM-03+ Journey Map visuals remain not started.
+**Current boundary:** JM-02 is closed/live verified. The next authorized FAST-SAFE package is **JM-03 + JM-04 + JM-05 — Bahasa Inggris complete reference Journey Map**. JM-03 still establishes the clean desktop full-page map baseline before JM-04 Stage detail and JM-05 responsive behavior are layered in.
 
 ## 30 September 2026 — Journey Map JM-01 CLOSED / MERGED / LIVE VERIFIED
 
