@@ -2,10 +2,20 @@
 
 Date: **20 September 2026**  
 Last synchronized: **1 October 2026**
-Status: **ACTIVE ROADMAP / SEMANTIC ART P0 CLOSED / SHARED INTERACTION PROGRAM COMPLETE / JM-06 CLOSED**
-Current synchronized Journey Map baseline: `main` = `aec5233a8397eeb4e8cc17cf521e350596ed4ad0`. JM-06 shared Journey Map engine + Bahasa Indonesia are closed/live verified through main CI #2340 / run `36833622638`, including exact Cloudflare smoke. Semantic Art P0 and Shared Interaction remain fully closed.
+Status: **ACTIVE ROADMAP / SEMANTIC ART P0 CLOSED / SHARED INTERACTION PROGRAM COMPLETE / JM-07–JM-11 CLOSED**
+Current synchronized Journey Map baseline: `main` = `196d31d2252ffcde7e1621cbebde062b656477e1`. JM-07 through JM-11 standard-subject rollout is closed/live verified through main CI #2347 / run `36869836933`, including exact Cloudflare smoke. Semantic Art P0 and Shared Interaction remain fully closed.
 
 This document is the short human/AI handoff for Mainlagi product-quality work. It records the user-accepted UX direction without changing curriculum, mastery, evidence or progression. The latest WS-05 Logic reuse wave is closed; any later mechanic work remains a separate audited track.
+
+## 1 October Journey Map JM-07 through JM-11 final closure
+
+JM-07 through JM-11 are **CLOSED / MERGED / LIVE VERIFIED**. Canonical closure: `JM07_JM11_STANDARD_JOURNEY_MAP_FINAL_CLOSURE_2026-10-01.md`.
+
+Runtime PR #423 final head `d99ac73370031181882721e27960374e7c1556cd` merged as `196d31d2252ffcde7e1621cbebde062b656477e1`. Matematika, Iqro, Huruf & Menulis, Logika and Sains now use the same shared Journey Map owner as English and Bahasa Indonesia: seven standard subjects / 37 Stages / 700 activities.
+
+Local FAST-SAFE checks passed the Journey Map foundation, seven-subject shared browser QA, canonical mobile matrix with browser warning inventory 0, production build and permanent visual baseline 63/63. PR CI #2346 and merged-main CI #2347 completed full success, including exact Cloudflare smoke.
+
+**Next:** JM-12 Mewarnai + JM-13 Menggambar. Preserve their creative workspace state and completion/replay semantics; JM-14 9-subject closure remains blocked until both are live verified.
 
 ## 1 October Journey Map JM-06 final closure
 

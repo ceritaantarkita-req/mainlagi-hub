@@ -4,6 +4,18 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 
+## 1 October Journey Map execution override — JM-07–JM-11 CLOSED / LIVE VERIFIED / JM-12–JM-13 NEXT
+
+JM-07 through JM-11 are **CLOSED / MERGED / LIVE VERIFIED** through runtime PR **#423** -> `main@196d31d2252ffcde7e1621cbebde062b656477e1`.
+
+Canonical closure: `JM07_JM11_STANDARD_JOURNEY_MAP_FINAL_CLOSURE_2026-10-01.md`.
+
+The single shared `BelajarJourneyMap` engine now serves Bahasa Inggris, Bahasa Indonesia, Matematika, Iqro, Huruf & Menulis, Logika and Sains: **7 standard subjects / 37 canonical Stages / 700 activities**. Exact curriculum membership/order, readiness/evidence/mastery, stable routes, JM-02 header ownership, Completion/Share, World and Shop boundaries are preserved.
+
+PR CI **#2346 / run `36868222234` FULL SUCCESS** and merged-main CI **#2347 / run `36869836933` FULL SUCCESS** include the canonical mobile/browser matrix, permanent visual product baseline and exact Cloudflare production smoke.
+
+**Next authorized package: JM-12 — Mewarnai and JM-13 — Menggambar.** Adapt the two creative subjects without breaking their existing workspace state, completion/replay behavior, canonical routes or progress semantics. **JM-14 — 9-subject Belajar closure** remains blocked until both creative subjects are live verified.
+
 ## 1 October Journey Map execution override — JM-06 CLOSED / LIVE VERIFIED / JM-07–JM-11 NEXT
 
 JM-06 is **CLOSED / MERGED / LIVE VERIFIED** through runtime PR **#420** -> `main@aec5233a8397eeb4e8cc17cf521e350596ed4ad0`.

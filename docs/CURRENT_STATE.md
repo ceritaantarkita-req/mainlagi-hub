@@ -4,6 +4,20 @@ Last reviewed: **1 October 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
+## 1 October 2026 — Journey Map JM-07 through JM-11 CLOSED / MERGED / LIVE VERIFIED
+
+JM-07 through JM-11 standard-subject rollout is **CLOSED / MERGED / LIVE VERIFIED** at `main@196d31d2252ffcde7e1621cbebde062b656477e1`.
+
+Canonical closure: `docs/JM07_JM11_STANDARD_JOURNEY_MAP_FINAL_CLOSURE_2026-10-01.md`.
+
+Runtime PR **#423** final head `d99ac73370031181882721e27960374e7c1556cd` moved Matematika, Iqro, Huruf & Menulis, Logika and Sains onto the existing shared `BelajarJourneyMap` owner. The shared engine now serves **7 standard subjects / 37 canonical Stages / 700 activities** while Mewarnai and Menggambar intentionally remain on their creative/gallery surfaces.
+
+Local FAST-SAFE verification passed typecheck, Journey Map foundation tests, lint with 0 errors, production build, seven-subject shared Journey Map browser QA, the canonical mobile route matrix with browser warning inventory 0, and the permanent visual product baseline with **63/63** exact-path captures.
+
+PR CI **#2346 / run `36868222234` completed FULL SUCCESS**. Merged-main CI **#2347 / run `36869836933` completed FULL SUCCESS**, including Mobile route QA, Windows compatibility, Secret history scan, Production dependency audit, Production build, Ubuntu quality, and exact **Production smoke (Cloudflare) SUCCESS**.
+
+**Current boundary:** JM-07 through JM-11 are closed/live verified. The next authorized creative package is **JM-12 — Mewarnai** and **JM-13 — Menggambar**; preserve both existing creative workspaces and do not start **JM-14 — 9-subject Belajar closure** until both are live verified.
+
 ## 1 October 2026 — Journey Map JM-06 CLOSED / MERGED / LIVE VERIFIED
 
 JM-06 shared Journey Map engine extraction + Bahasa Indonesia is **CLOSED / MERGED / LIVE VERIFIED** at `main@aec5233a8397eeb4e8cc17cf521e350596ed4ad0`.

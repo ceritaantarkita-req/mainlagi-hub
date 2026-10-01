@@ -1,5 +1,17 @@
 # Changelog
 
+## 1 October 2026 — Journey Map JM-07 through JM-11 CLOSED / MERGED / LIVE VERIFIED
+
+- Runtime PR **#423** final head `d99ac73370031181882721e27960374e7c1556cd` squash-merged as **`main@196d31d2252ffcde7e1621cbebde062b656477e1`**.
+- Matematika, Iqro, Huruf & Menulis, Logika and Sains now use the existing shared `BelajarJourneyMap` owner; no duplicate subject engine was introduced.
+- The shared Journey Map now serves **7 standard subjects / 37 canonical Stages / 700 activities**. Mewarnai and Menggambar intentionally remain on their creative/gallery surfaces for JM-12/JM-13.
+- Exact curriculum membership/order, readiness/evidence/mastery, stable routes, JM-02 header ownership, Completion/Share, World and Shop boundaries remain unchanged.
+- Shared browser QA now covers all seven standard subjects; Math legacy gallery assertions in mobile/permanent visual QA were migrated to the canonical Journey Map contract.
+- Local FAST-SAFE verification passed typecheck, Journey Map foundation tests, lint with 0 errors, production build, seven-subject shared browser QA, canonical mobile matrix with browser warning inventory **0**, and permanent visual baseline **63/63**.
+- PR CI **#2346 / run `36868222234` FULL SUCCESS** and merged-main CI **#2347 / run `36869836933` FULL SUCCESS** passed all required gates including exact **Production smoke (Cloudflare) SUCCESS**.
+- Canonical closure: `JM07_JM11_STANDARD_JOURNEY_MAP_FINAL_CLOSURE_2026-10-01.md`.
+- **JM-12 Mewarnai + JM-13 Menggambar are next; JM-14 9-subject Belajar closure remains blocked until both are live verified.**
+
 ## 1 October 2026 — Journey Map JM-06 CLOSED / MERGED / LIVE VERIFIED
 
 - JM-06 runtime PR **#420** final head `e910211c5924ee806ed43ab9d9ac7d5c26845951` squash-merged as **`main@aec5233a8397eeb4e8cc17cf521e350596ed4ad0`**.
