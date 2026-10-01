@@ -103,21 +103,19 @@ async function assertParentReportPrimaryCopy(page, viewport) {
 }
 
 async function assertSubjectJourneyLayout(page, viewport) {
-  const journey = page.locator("[data-stage-journey]");
-  assert.equal(await journey.count(), 1, `subject journey missing at ${viewport.width}px`);
-  if (viewport.width < 700) return;
+  const journey = page.locator('[data-belajar-journey-map="v1"][data-journey-subject="math"]');
+  assert.equal(await journey.count(), 1, `Math Journey Map missing at ${viewport.width}px`);
+  assert.equal(await journey.locator("[data-journey-stage]").count(), 6, `Math Journey Map stage count drifted at ${viewport.width}px`);
+  assert.equal(await journey.locator("[data-journey-browse-all] li").count(), 100, `Math Journey Map activity membership drifted at ${viewport.width}px`);
 
-  const geometry = await journey.evaluate((element) => {
-    const items = Array.from(element.querySelectorAll("[data-stage-journey-item]"));
-    return {
-      clientWidth: element.clientWidth,
-      scrollWidth: element.scrollWidth,
-      itemWidths: items.map((item) => Math.round(item.getBoundingClientRect().width * 10) / 10)
-    };
-  });
-  assert.ok(geometry.itemWidths.length >= 2, `subject journey unexpectedly sparse at ${viewport.width}px`);
-  assert.ok(geometry.scrollWidth <= geometry.clientWidth + 1, `subject journey still requires internal horizontal scrolling at ${viewport.width}px: ${JSON.stringify(geometry)}`);
-  assert.ok(Math.min(...geometry.itemWidths) >= 200, `subject journey cards are too cramped at ${viewport.width}px: ${JSON.stringify(geometry.itemWidths)}`);
+  const geometry = await journey.evaluate((element) => ({
+    clientWidth: element.clientWidth,
+    scrollWidth: element.scrollWidth
+  }));
+  assert.ok(
+    geometry.scrollWidth <= geometry.clientWidth + 1,
+    `Math Journey Map overflows horizontally at ${viewport.width}px: ${JSON.stringify(geometry)}`
+  );
 }
 
 async function assertStageHierarchy(page, viewport) {
