@@ -4,6 +4,22 @@ Last reviewed: **1 October 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
+## 1 October 2026 — Journey Map JM-03 + JM-04 + JM-05 CLOSED / MERGED / LIVE VERIFIED
+
+The Bahasa Inggris reference Journey Map package is **CLOSED / MERGED / LIVE VERIFIED** at `main@bd67e22e9eaced707eb8ef6da5384f7300be2699`.
+
+Canonical closure: `docs/JM03_JM05_ENGLISH_JOURNEY_MAP_FINAL_CLOSURE_2026-10-01.md`.
+
+Runtime PR **#418** final head `1694df8d39dd2ba11a61c2779912388be5d5fdd5` implemented the full English reference surface: JM-03 clean full-page desktop map, JM-04 contextual text-only Stage detail + Continue learning, and JM-05 portrait/tablet/landscape responsiveness with mobile bottom sheet, touch/keyboard support, and rotation-state preservation.
+
+Local FAST-SAFE verification passed typecheck, lint with 0 errors, Journey Map foundation tests, production build, dedicated `test:ui:journey-map-english`, and the complete blocking `test:ui:mobile-routes` suite in 873.92s with browser warning inventory 0.
+
+Merged-main CI **#2336 / run `36807942571` completed FULL SUCCESS**, including Mobile route QA, Windows compatibility, Secret history scan, Production dependency audit, Production build, Ubuntu quality, and exact **Production smoke (Cloudflare) SUCCESS**.
+
+English now uses the Journey Map as its default subject surface with exact **5 canonical Stages / 100 activities**. JM-02 shared-header ownership, readiness/evidence/mastery semantics, stable routes, Completion/Share, World, creative workspaces, and Shop fail-closed boundaries remain intact.
+
+**Current boundary:** JM-03/04/05 are closed/live verified. The next authorized FAST-SAFE package is **JM-06 — shared Journey Map engine extraction + Bahasa Indonesia**. Preserve English behavior exactly, extract reusable subject-agnostic map/detail/responsive state ownership, and do not start JM-07+ in the same package.
+
 ## 1 October 2026 — Journey Map JM-02 CLOSED / MERGED / LIVE VERIFIED
 
 JM-02 runtime and its post-merge Next.js security remediation are **CLOSED / MERGED / LIVE VERIFIED** at `main@84ab23778ab1013cdc0d9cddcbbb8237067236af`. Main CI **#2332 / run `36795318859` completed FULL SUCCESS**, including exact Cloudflare smoke proving production serves that SHA with the canonical Supabase target.

@@ -4,6 +4,18 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 
+## 1 October Journey Map execution override — JM-03+04+05 CLOSED / LIVE VERIFIED / JM-06 NEXT
+
+JM-03 + JM-04 + JM-05 are **CLOSED / MERGED / LIVE VERIFIED** through runtime PR **#418** -> `main@bd67e22e9eaced707eb8ef6da5384f7300be2699`.
+
+Canonical closure: `JM03_JM05_ENGLISH_JOURNEY_MAP_FINAL_CLOSURE_2026-10-01.md`.
+
+The Bahasa Inggris subject now uses the production Journey Map reference implementation: clean map default, exact 5-Stage canonical order, text-only contextual Stage detail + Continue learning, Browse All 100, JM-02 shared-header ownership, and portrait/tablet/landscape responsiveness with touch/keyboard + rotation-state preservation.
+
+Local FAST-SAFE verification passed typecheck, lint with 0 errors, Journey Map tests, production build, dedicated English Journey Map browser QA, and the complete blocking mobile/browser suite. Merged-main CI **#2336 / run `36807942571` FULL SUCCESS** includes exact Cloudflare production smoke.
+
+**Next authorized package: JM-06 — shared engine extraction + Bahasa Indonesia.** Extract reusable map layout, Stage detail, bottom-sheet/responsive/a11y/state behavior without changing English behavior. Bahasa Indonesia becomes the second consumer. Do not duplicate the English engine and do not pull JM-07+ forward.
+
 ## 1 October Journey Map execution override — JM-02 CLOSED / LIVE VERIFIED / JM-03+04+05 NEXT
 
 JM-00 and JM-01 are closed/live verified. JM-02 runtime is merged, and its security remediation is merged to `main@84ab23778ab1013cdc0d9cddcbbb8237067236af`.
