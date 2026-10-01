@@ -4,7 +4,6 @@ import { mkdirSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
-import { assertLearningVisualContainment } from "./lib/assert-learning-visual-containment.mjs";
 
 const root = process.cwd();
 const host = "127.0.0.1";
@@ -244,12 +243,10 @@ async function inspectPage(page, route, viewport) {
     await page.waitForTimeout(120);
 
     if (route.path.startsWith("/child/demo-gian/subject/math")) {
-      await page.locator("[data-playable-activity-gallery]").waitFor({ state: "visible", timeout: 5_000 });
-      await assertLearningVisualContainment(
-        page,
-        "[data-playable-activity-gallery]",
-        `activity gallery visual containment at ${viewport.width}`
-      );
+      const journeyMap = page.locator('[data-belajar-journey-map="v1"][data-journey-subject="math"]');
+      await journeyMap.waitFor({ state: "visible", timeout: 5_000 });
+      assert.equal(await journeyMap.locator("[data-journey-stage]").count(), 6, `Math Journey Map must preserve six canonical stages at ${viewport.width}px`);
+      assert.equal(await page.locator("[data-activity-gallery]").count(), 0, `Math must not fall back to the legacy gallery at ${viewport.width}px`);
     }
 
     const bodyText = (await page.locator("body").innerText()).trim();
@@ -706,14 +703,16 @@ async function main() {
       const page = await context.newPage();
       const route = { path: "/child/demo-gian/subject/math?qa=unlock-all", kind: "child-learning", touch: true };
       await inspectPage(page, route, viewport);
-      await page.locator("[data-qa-unlock-all]").waitFor();
-      assert.equal(await page.locator("[data-activity-id]").count(), 100, "QA unlock-all must expose all 100 math catalog cards");
-      assert.equal(await page.locator('[data-activity-id] a[href^="/child/demo-gian/activity/"]').count(), 100, "QA unlock-all must make all math cards directly playable");
-      assert.equal(await page.locator("[data-all-activity-gallery]").count(), 0, "QA unlock-all must leave no locked remainder");
-      assert.ok(await page.locator("[data-activity-stage-group]").count() > 1, "QA unlock-all catalog must stay grouped by stage");
+      const journeyMap = page.locator('[data-belajar-journey-map="v1"][data-journey-subject="math"]');
+      await journeyMap.waitFor({ state: "visible" });
+      const stageNodes = journeyMap.locator("[data-journey-stage]");
+      assert.equal(await stageNodes.count(), 6, "Math QA Journey Map must expose all six canonical stages");
+      assert.equal(await stageNodes.evaluateAll((items) => items.filter((item) => item.disabled).length), 0, "QA unlock-all must make every Math stage inspectable");
+      assert.equal(await journeyMap.locator("[data-journey-browse-all] li").count(), 100, "Math Journey Map Browse All must preserve exact 100-activity membership");
+      assert.equal(await page.locator("[data-activity-gallery]").count(), 0, "Math QA route must not restore the legacy gallery");
       await page.screenshot({ path: path.join(screenshotDir, "390-child-demo-gian-subject-math-qa-unlock.png"), fullPage: false });
       await context.close();
-      console.log("WS-13 isolated QA unlock-all passed at 390px.");
+      console.log("JM-07 Math Journey Map QA unlock-all passed at 390px.");
     }
 
     {
@@ -722,10 +721,15 @@ async function main() {
       const page = await context.newPage();
       const route = { path: "/child/demo-gian/subject/math?qa=unlock-all", kind: "child-learning", touch: false };
       await inspectPage(page, route, viewport);
-      assert.equal(await page.locator("[data-activity-id]").count(), 100, "desktop QA gallery must preserve all 100 math cards");
+      const journeyMap = page.locator('[data-belajar-journey-map="v1"][data-journey-subject="math"]');
+      await journeyMap.waitFor({ state: "visible" });
+      assert.equal(await journeyMap.locator("[data-journey-stage]").count(), 6, "desktop Math Journey Map must preserve all six canonical stages");
+      assert.equal(await journeyMap.locator("[data-journey-browse-all] li").count(), 100, "desktop Math Journey Map must preserve exact 100-activity membership");
+      const width = await page.evaluate(() => ({ viewport: document.documentElement.clientWidth, scroll: Math.max(document.documentElement.scrollWidth, document.body.scrollWidth) }));
+      assert.ok(width.scroll <= width.viewport + 1, `desktop Math Journey Map must not overflow horizontally: ${JSON.stringify(width)}`);
       await page.screenshot({ path: path.join(screenshotDir, "1280-child-demo-gian-subject-math-visual-containment.png"), fullPage: false });
       await context.close();
-      console.log("Activity gallery desktop containment passed at 1280px.");
+      console.log("JM-07 Math Journey Map desktop containment passed at 1280px.");
     }
 
     {

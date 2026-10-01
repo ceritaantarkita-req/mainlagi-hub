@@ -76,15 +76,22 @@ async function main() {
     await page.waitForLoadState("domcontentloaded");
     steps.push(new URL(page.url()).pathname);
 
-    await page.locator("[data-activity-gallery]").waitFor();
-    if (await page.locator("[data-activity-id]").count() !== 100) throw new Error("subject page must preserve the complete 100-activity catalog");
-    const playableCount = await page.locator(`[data-playable-activity-gallery] a[href^="/child/${childId}/activity/"]`).count();
-    if (playableCount < 1) throw new Error("subject page must expose at least one immediately playable activity");
-    const stageLinkCount = await page.locator(`a[href^="/child/${childId}/stage/"]`).count();
-    if (stageLinkCount < 1) throw new Error("subject page must expose the open stage journey");
-    if (await page.locator("[data-recommended-activity]").count() !== 1) throw new Error("subject page must expose one primary recommendation");
-
-    const activityLink = page.locator(`[data-playable-activity-gallery] a[href^="/child/${childId}/activity/"]`).first();
+    const journeyMap = page.locator("[data-belajar-journey-map=\"v1\"]");
+    let activityLink;
+    if (await journeyMap.count()) {
+      await journeyMap.waitFor({ state: "visible", timeout: 8_000 });
+      if (await journeyMap.locator("[data-journey-browse-all] [data-activity-id]").count() !== 100) {
+        throw new Error("Journey Map subject page must preserve the complete 100-activity catalog");
+      }
+      const openStage = journeyMap.locator("[data-journey-stage]:not([disabled])").first();
+      await openStage.waitFor({ state: "visible", timeout: 8_000 });
+      await openStage.click();
+      activityLink = page.locator(`[data-stage-detail-open] [data-stage-text-activity-list] a[href^="/child/${childId}/activity/"]`).first();
+    } else {
+      await page.locator("[data-activity-gallery]").waitFor({ state: "visible", timeout: 8_000 });
+      if (await page.locator("[data-activity-id]").count() !== 100) throw new Error("gallery subject page must preserve the complete 100-activity catalog");
+      activityLink = page.locator(`[data-playable-activity-gallery] a[href^="/child/${childId}/activity/"]`).first();
+    }
     try {
       await activityLink.waitFor({ state: "visible", timeout: 8_000 });
     } catch {

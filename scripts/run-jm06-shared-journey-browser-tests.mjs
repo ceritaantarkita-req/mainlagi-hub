@@ -10,7 +10,12 @@ const port=Number(process.env.MAINLAGI_JM06_QA_PORT??4083);
 const base=`http://${host}:${port}`;
 const expected={
   english:["english-first-words","english-alphabet-basics","english-everyday-words","english-words-actions","english-phrases-review"],
-  bahasa:["bahasa-huruf","bahasa-cerita","bahasa-dasar-huruf","bahasa-suku-kata-kata","bahasa-kalimat-pemahaman","bahasa-literasi-terapan"]
+  bahasa:["bahasa-huruf","bahasa-cerita","bahasa-dasar-huruf","bahasa-suku-kata-kata","bahasa-kalimat-pemahaman","bahasa-literasi-terapan"],
+  math:["math-angka","math-pola","math-jumlah-dasar","math-banding-bentuk","math-operasi-awal","math-ukur-ruang"],
+  iqro:["iqro-huruf","iqro-recognition-basics","iqro-middle-families","iqro-advanced-families","iqro-final-families"],
+  letters:["letters-foundations","letters-recognition-prewriting-basics","letters-middle-alphabet","letters-late-middle-alphabet","letters-final-alphabet"],
+  logic:["logic-foundations","logic-classification-rules-basics","logic-patterns-sequences-relations","logic-conditional-analogy-inference","logic-mixed-reasoning-challenge"],
+  science:["science-foundations","science-living-observation-basics","science-life-material-motion","science-earth-body-environment","science-evidence-review-challenge"]
 };
 let server=null;
 let serverLog="";
@@ -75,20 +80,25 @@ async function main(){
     assert.equal(await page.locator('[data-english-journey-map="v1"]').count(),1,"English compatibility marker preserved");
     await inspectSubject(page,"bahasa","Bahasa Indonesia",expected.bahasa);
     assert.equal(await page.locator("[data-english-journey-map]").count(),0,"Bahasa has no English-only marker");
+    await inspectSubject(page,"math","Matematika",expected.math);
+    await inspectSubject(page,"iqro","Iqro",expected.iqro);
+    await inspectSubject(page,"letters","Huruf & Menulis",expected.letters);
+    await inspectSubject(page,"logic","Logika",expected.logic);
+    await inspectSubject(page,"science","Sains",expected.science);
     await desktop.close();
     const mobile=await browser.newContext({viewport:{width:390,height:844},hasTouch:true,reducedMotion:"reduce"}); await seed(mobile);
     const m=await mobile.newPage();
-    await m.goto(base+"/child/demo-gian/subject/bahasa?qa=unlock-all",{waitUntil:"domcontentloaded",timeout:30000});
-    await m.locator('[data-journey-stage="bahasa-dasar-huruf"]').tap();
+    await m.goto(base+"/child/demo-gian/subject/math?qa=unlock-all",{waitUntil:"domcontentloaded",timeout:30000});
+    await m.locator('[data-journey-stage="math-jumlah-dasar"]').tap();
     const detail=m.locator("[data-stage-detail-open]"); await detail.waitFor({state:"visible"});
     const titleBefore=await m.getByRole("dialog").locator("h2").textContent();
     const portrait=await m.getByRole("dialog").boundingBox();
-    assert(portrait&&portrait.y+portrait.height>=843,"Bahasa portrait detail is bottom sheet");
+    assert(portrait&&portrait.y+portrait.height>=843,"Math portrait detail is bottom sheet");
     await m.setViewportSize({width:844,height:390}); await m.waitForTimeout(100);
-    assert.equal(await m.getByRole("dialog").locator("h2").textContent(),titleBefore,"Bahasa rotation preserves selected stage");
-    await noOverflow(m,"Bahasa landscape");
+    assert.equal(await m.getByRole("dialog").locator("h2").textContent(),titleBefore,"Math rotation preserves selected stage");
+    await noOverflow(m,"Math landscape");
     await mobile.close();
-    console.log("JM-06 shared Journey Map QA PASS: English and Bahasa Indonesia share one engine, exact 5/6 Stage order and 100 activities, text-only detail + Continue, JM-02 header, responsive bottom sheet and rotation state.");
+    console.log("JM-06 through JM-11 shared Journey Map QA PASS: English, Bahasa Indonesia, Matematika, Iqro, Huruf & Menulis, Logika and Sains share one engine with exact canonical Stage order and 100 activities, text-only detail + Continue, JM-02 header, responsive bottom sheet and rotation state.");
   }finally{await browser.close();stopServer();}
 }
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;stopServer();});

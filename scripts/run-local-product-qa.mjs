@@ -385,14 +385,28 @@ async function clickLinkAndWait(page, locator, label) {
   return href;
 }
 
-async function waitForActivityGalleryState(page) {
-  const activityLink = page.locator(`a[href^="/child/${childId}/activity/"]`).first();
+async function waitForSubjectActivityState(page) {
+  const journeyMap = page.locator('[data-belajar-journey-map="v1"]');
+  let activityLink;
+
+  if (await journeyMap.count()) {
+    await waitForVisible(journeyMap, "Journey Map");
+    const openStage = journeyMap.locator("[data-journey-stage]:not([disabled])").first();
+    await waitForVisible(openStage, "open Journey Map stage");
+    await openStage.click();
+    activityLink = page.locator(`[data-stage-detail-open] [data-stage-text-activity-list] a[href^="/child/${childId}/activity/"]`).first();
+  } else {
+    const gallery = page.locator("[data-activity-gallery]");
+    await waitForVisible(gallery, "activity gallery");
+    activityLink = gallery.locator(`a[href^="/child/${childId}/activity/"]`).first();
+  }
+
   try {
     await activityLink.waitFor({ state: "visible", timeout: 8_000 });
     return activityLink;
   } catch {
     const body = (await page.locator("body").innerText()).replace(/\s+/g, " ").slice(0, 1200);
-    throw new Error(`subject gallery did not expose an activity link after hydration wait; body=${body}`);
+    throw new Error(`subject surface did not expose an activity link after hydration wait; body=${body}`);
   }
 }
 
@@ -413,26 +427,44 @@ async function capture(page, routePath, viewportName) {
 async function inspectSubjectExposure(page, subject, system) {
   const routePath = `/child/${childId}/subject/${subject.id}`;
   await inspectRoute(page, routePath);
-  await page.locator("[data-activity-gallery]").waitFor({ timeout: 8_000 });
   const expected = system.ACTIVITIES.filter(item => item.subjectId === subject.id).map(item => item.id);
-  const exposure = await page.evaluate(({ currentChild }) => ({
-    ids: Array.from(document.querySelectorAll("[data-activity-id]")).map(card => card.dataset.activityId),
-    playable: document.querySelectorAll(`[data-activity-gallery] a[href^="/child/${currentChild}/activity/"]`).length,
-    unavailable: document.querySelectorAll("[data-activity-gallery] article > button").length,
-    stageLinks: document.querySelectorAll(`a[href^="/child/${currentChild}/stage/"]`).length
-  }), { currentChild: childId });
-  if (JSON.stringify([...exposure.ids].sort()) !== JSON.stringify([...expected].sort())) throw new Error(`${subject.id}: gallery does not match the complete activity catalog`);
-  if (exposure.stageLinks) throw new Error(`${subject.id}: gallery adds an unwanted category step`);
-  if (exposure.playable + exposure.unavailable !== expected.length) throw new Error(`${subject.id}: missing activity controls`);
+  const journeyMap = page.locator('[data-belajar-journey-map="v1"]');
+  const isJourneyMap = (await journeyMap.count()) > 0;
+  const surface = isJourneyMap ? journeyMap : page.locator("[data-activity-gallery]");
+  await surface.waitFor({ state: "visible", timeout: 8_000 });
+
+  const exposure = isJourneyMap
+    ? await page.evaluate(({ currentChild }) => ({
+        ids: Array.from(document.querySelectorAll("[data-journey-browse-all] [data-activity-id]")).map(card => card.dataset.activityId),
+        playable: document.querySelectorAll(`[data-journey-browse-all] a[href^="/child/${currentChild}/activity/"]`).length,
+        unavailable: document.querySelectorAll("[data-journey-browse-all] [aria-disabled=\"true\"]").length,
+        stageCount: document.querySelectorAll("[data-journey-stage]").length
+      }), { currentChild: childId })
+    : await page.evaluate(({ currentChild }) => ({
+        ids: Array.from(document.querySelectorAll("[data-activity-gallery] [data-activity-id]")).map(card => card.dataset.activityId),
+        playable: document.querySelectorAll(`[data-activity-gallery] a[href^="/child/${currentChild}/activity/"]`).length,
+        unavailable: document.querySelectorAll("[data-activity-gallery] article > button").length,
+        stageCount: 0
+      }), { currentChild: childId });
+
+  if (JSON.stringify([...exposure.ids].sort()) !== JSON.stringify([...expected].sort())) {
+    throw new Error(`${subject.id}: subject surface does not match the complete activity catalog`);
+  }
+  if (exposure.playable + exposure.unavailable !== expected.length) {
+    throw new Error(`${subject.id}: subject surface is missing activity controls`);
+  }
+
   const row = {
     subjectId: subject.id,
+    surface: isJourneyMap ? "journey-map" : "activity-gallery",
     catalogCards: exposure.ids.length,
     immediatelyPlayable: exposure.playable,
     unavailableCards: exposure.unavailable,
-    intermediateStageLinks: exposure.stageLinks
+    stageCount: exposure.stageCount
   };
   report.browser.subjectExposure.push(row);
-  if (exposure.playable < Math.min(20, expected.length)) {
+
+  if (!isJourneyMap && exposure.playable < Math.min(20, expected.length)) {
     warning(
       "ux.low_fresh_start_activity_exposure",
       `${subject.title} shows all ${expected.length} thumbnails, but only ${exposure.playable} can be played immediately by a fresh demo profile.`,
@@ -454,8 +486,8 @@ async function inspectFlow(page) {
   );
   steps.push(new URL(page.url()).pathname);
 
-  const activityLink = await waitForActivityGalleryState(page);
-  const activityHref = await clickLinkAndWait(page, activityLink, "gallery activity link");
+  const activityLink = await waitForSubjectActivityState(page);
+  const activityHref = await clickLinkAndWait(page, activityLink, "subject activity link");
   await page.locator('[data-activity-frame="garden"]').waitFor({ timeout: 8_000 });
   if (new URL(page.url()).pathname !== activityHref) throw new Error("primary flow redirected before rendering its activity");
   steps.push(new URL(page.url()).pathname);
