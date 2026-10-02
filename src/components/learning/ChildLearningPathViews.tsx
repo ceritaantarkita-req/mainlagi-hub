@@ -33,7 +33,9 @@ const JOURNEY_MAP_SUBJECTS = new Set<LearningSubjectId>([
   "iqro",
   "letters",
   "logic",
-  "science"
+  "science",
+  "color",
+  "drawing"
 ]);
 
 function ageEligible(activity: LearningActivity, age: number) {
