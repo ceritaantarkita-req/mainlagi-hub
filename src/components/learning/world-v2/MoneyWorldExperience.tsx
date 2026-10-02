@@ -247,7 +247,6 @@ export function MoneyWorldMapScreen({ childId, worldId }: { childId: string; wor
     [childId, state.progress, state.ready]
   );
   const worldComplete = journeyMap.completed;
-  const nextJourneyStageId = journeyMap.nextStageId;
   const currentStage = journeyMap.stages.find((stage) => stage.current) ?? null;
 
   useEffect(() => {
