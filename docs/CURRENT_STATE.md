@@ -4,6 +4,19 @@ Last reviewed: **2 October 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
+
+## 2 October 2026 — P0-OPEN-01 OPEN-WORKSTREAM AUDIT COMPLETE / SAFE CHECKPOINT
+
+Canonical checkpoint: `docs/P0_OPEN01_OPEN_WORKSTREAM_AUDIT_SAFE_CHECKPOINT_2026-10-02.md`.
+
+Audit baseline is post-UIA `main@026f3ec58ea4978f2b1bd043fac3300a9cd0cfa2`. P0-OPEN-01 re-audited the two intentionally preserved open workstreams without changing runtime.
+
+Shop PR **#359** remains **OPEN / FAIL-CLOSED / NOT MERGEABLE AS-IS**. Audited head `9047931289e6ccd8981a35f7c79c321a24f34b59` has diverged from current main (**367 ahead / 57 behind**). Production remains blocked by **0/9 products and 0/27 variants physically/supplier verified**, the unresolved owner-selected `SHOP_ORDER_PII_RETENTION_DAYS` production value (**30–3650** contract), and final integrated DB-backed free-staging provider evidence. Keep `SHOP_SALES_ENABLED=false`; do not deploy Shop migrations to production and do not create a paid Supabase branch.
+
+Child-surface PR **#360** is **SUPERSEDED AS A MERGEABLE BRANCH**. Audited head `ce5c17da519a970b2f8589b5c93df888bbe4cdcc` has diverged from current main (**19 ahead / 71 behind**), and its old direct `Belajar | Bermain | World | Shop` navigation contract conflicts with the finalized Journey Map header: current child destinations are Belajar/Bermain/World through `journeyHeaderDestinations()`, with Shop still a disabled child-menu slot. Do not merge or wholesale-rebase #360. Any still-useful presentation ideas must be reconstructed from a fresh current-main branch after product review.
+
+**Current boundary:** **P0-OPEN-02 — Shop convergence preflight / blocker resolution.** Keep #359 as the evidence source, resolve real physical/supplier product truth plus the production PII-retention decision, then reconstruct/transplant verified Shop work onto a fresh then-current-main branch, preserve fail-closed/free-staging boundaries, and rerun full CI plus integrated DB-backed provider E2E before any Shop release merge is considered. Other historical open PRs remain unaudited; do not bulk-close them.
+
 ## 2 October 2026 — P0-UIA-01 CLOSED / MERGED / LIVE VERIFIED
 
 Canonical closure: `docs/P0_UIA01_CANONICAL_OWNER_RETIREMENT_FINAL_CLOSURE_2026-10-02.md`.
