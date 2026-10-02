@@ -70,6 +70,7 @@ function startServer() {
     cwd: root,
     env: {
       ...process.env,
+      SHOP_RUNTIME_ENABLED: "true",
       SHOP_LOCAL_PREVIEW: "true",
       SHOP_SALES_ENABLED: "false",
       NEXT_PUBLIC_SITE_URL: baseUrl,
