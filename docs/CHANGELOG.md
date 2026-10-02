@@ -1,5 +1,19 @@
 # Changelog
 
+## 2 October 2026 — Journey Map JM-14 BELAJAR CLOSED / MERGED / LIVE VERIFIED
+
+- JM-12/JM-13 runtime PR **#426** final head `ecb9699b04fc4c133d8c27a6e0f37946384f82bc` merged as **`main@5c9638303d562f96556bb16a18c40a716b27e73f`**.
+- The single shared `BelajarJourneyMap` now serves **all 9 canonical subjects / 46 Stages / 900 activities**, exact 100 activities per subject.
+- Mewarnai moved from the legacy subject gallery to the shared Journey Map while preserving its existing Coloring creative runtime.
+- Menggambar moved to the shared Journey Map while preserving the canonical Stage-route handoff to `DrawingStageScreen`; direct activity routes and the creative workspace remain intact.
+- Shared Journey Map browser QA now covers all nine subjects, exact Stage order, 100-activity Browse All membership, text-only Stage detail, JM-02 header ownership and Drawing Stage handoff.
+- Mobile route QA now covers Mewarnai and Menggambar Journey Map subject routes while retaining Drawing Stage/runtime coverage.
+- PR CI **#2351 / run `36945436676` FULL SUCCESS**.
+- Merged-main CI **#2352 / run `36946329650` FULL SUCCESS**, including exact **Production smoke (Cloudflare) SUCCESS**.
+- Canonical closure: `JM14_NINE_SUBJECT_BELAJAR_JOURNEY_MAP_FINAL_CLOSURE_2026-10-02.md`.
+- **JM-15 Petualangan Uang read-only adapter audit is next.** JM-16/JM-17 remain blocked until JM-15 is closed.
+
+
 ## 1 October 2026 — Journey Map JM-06 CLOSED / MERGED / LIVE VERIFIED
 
 - JM-06 runtime PR **#420** final head `e910211c5924ee806ed43ab9d9ac7d5c26845951` squash-merged as **`main@aec5233a8397eeb4e8cc17cf521e350596ed4ad0`**.

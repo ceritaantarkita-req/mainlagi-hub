@@ -4,6 +4,18 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 
+## 2 October Journey Map execution override — JM-14 BELAJAR CLOSED / LIVE VERIFIED / JM-15 NEXT
+
+JM-00 through JM-14 Belajar scope is **CLOSED / MERGED / LIVE VERIFIED**.
+
+Canonical closure: `JM14_NINE_SUBJECT_BELAJAR_JOURNEY_MAP_FINAL_CLOSURE_2026-10-02.md`.
+
+The single shared `BelajarJourneyMap` now serves all **9 subjects / 46 canonical Stages / 900 activities**, exact 100 activities per subject. JM-12 Mewarnai preserves the existing Coloring creative runtime; JM-13 Menggambar preserves the canonical Drawing Stage handoff and `DrawingStageScreen`. No second map engine, curriculum model, readiness/evidence system, schema, auth, Completion/Share implementation, World model or Shop route was introduced.
+
+Runtime PR **#426** -> `main@5c9638303d562f96556bb16a18c40a716b27e73f`; PR CI **#2351 / run `36945436676` FULL SUCCESS**; merged-main CI **#2352 / run `36946329650` FULL SUCCESS**, including exact Cloudflare production smoke.
+
+**Next authorized step: JM-15 — Petualangan Uang read-only adapter audit.** Audit the existing World hierarchy/progression and define a presentation-safe map adapter boundary without changing runtime. Keep JM-16 desktop redesign and JM-17 mobile/responsive blocked until JM-15 is closed. JM-18 remains the final Journey Map closure.
+
 ## 1 October Journey Map execution override — JM-06 CLOSED / LIVE VERIFIED / JM-07–JM-11 NEXT
 
 JM-06 is **CLOSED / MERGED / LIVE VERIFIED** through runtime PR **#420** -> `main@aec5233a8397eeb4e8cc17cf521e350596ed4ad0`.

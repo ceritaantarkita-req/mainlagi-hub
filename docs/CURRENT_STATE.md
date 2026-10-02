@@ -1,8 +1,24 @@
 # Mainlagi Hub — Current State
 
-Last reviewed: **1 October 2026**
+Last reviewed: **2 October 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
+
+## 2 October 2026 — Journey Map JM-14 9-subject Belajar CLOSED / MERGED / LIVE VERIFIED
+
+JM-00 through JM-14 Belajar scope is **CLOSED / MERGED / LIVE VERIFIED**.
+
+Canonical closure: `docs/JM14_NINE_SUBJECT_BELAJAR_JOURNEY_MAP_FINAL_CLOSURE_2026-10-02.md`.
+
+Creative runtime PR **#426** final head `ecb9699b04fc4c133d8c27a6e0f37946384f82bc` completed JM-12 Mewarnai + JM-13 Menggambar and merged as `main@5c9638303d562f96556bb16a18c40a716b27e73f`. The single shared `BelajarJourneyMap` owner now serves **all 9 canonical Belajar subjects / 46 Stages / 900 activities**, with exact **100 activities per subject**.
+
+Mewarnai keeps the existing Coloring creative runtime. Menggambar keeps the canonical Drawing Stage handoff to `DrawingStageScreen`; canvas/workspace state, guides, Completion/Again, creative completion-only evidence, stable routes, readiness/evidence/mastery, database/schema, auth/profile, World and Shop boundaries are unchanged.
+
+PR CI **#2351 / run `36945436676` completed FULL SUCCESS**. Merged-main CI **#2352 / run `36946329650` completed FULL SUCCESS**, including Production build, Ubuntu quality, Windows compatibility, Secret history scan, Mobile route QA, Production dependency audit and exact **Production smoke (Cloudflare) SUCCESS**.
+
+The predecessor safe-checkpoint main `14b085d69c124ad18139fa230a87b83e90ef1161` also passed main CI **#2350 / run `36944762430` FULL SUCCESS** including exact Cloudflare smoke.
+
+**Current boundary:** the Belajar Journey Map rollout is complete. **JM-15 — Petualangan Uang read-only adapter audit** is next. JM-15 must remain read-only: do not remodel World as an ordinary Belajar subject or change World Chapter/Stage/Scene/Segment structure, progression/evidence, story, narration, Completion/Share, database/schema or gameplay behavior. JM-16/JM-17 remain blocked until the JM-15 adapter boundary is documented and verified.
 
 ## 1 October 2026 — Journey Map JM-06 CLOSED / MERGED / LIVE VERIFIED
 
