@@ -14,7 +14,7 @@ import {
   type LearningProgress,
 } from "@/lib/learning/system";
 import { buildMatchingColumns, matchingSeedFromText, nextDistinctMatchingSeed } from "@/lib/learning/matchingLayout";
-import { ChildLoading, useLearningProfile, useLearningProgress } from "./LearningCommon";
+import { ChildLoading, useLearningProfile } from "./LearningCommon";
 import styles from "./LearningPlatform.module.css";
 import { GardenActivityFrame } from "./GardenActivityFrame";
 import { ActivityCompletion } from "./ActivityCompletion";
