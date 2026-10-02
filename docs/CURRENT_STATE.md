@@ -4,6 +4,20 @@ Last reviewed: **2 October 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
+## 2 October 2026 — P0-UIA-01 CLOSED / MERGED / LIVE VERIFIED
+
+Canonical closure: `docs/P0_UIA01_CANONICAL_OWNER_RETIREMENT_FINAL_CLOSURE_2026-10-02.md`.
+
+P0-UIA-01 runtime PR **#436** final head `8149522d9a3b2f73c0a61609f115f214806b9d35` retired route-dead duplicate UI owners and the unreachable canonical-subject `ActivityGallery`, then merged as `main@cd5c530d45a472ac2eb3f4efce740a2ae4654076`.
+
+PR CI **#2385 / run `36991457873` FULL SUCCESS**. Merged-main CI **#2386 / run `36992697294` FULL SUCCESS**, including exact **Production smoke (Cloudflare) SUCCESS**.
+
+Permanent regression `test:learning:ui-owners` now locks the canonical route/component graph, preserves active activity fallback/Bermain/shell/rewards/parent owners, and rejects resurrection of retired duplicate owners.
+
+Governance cleanup additionally closed superseded PR **#395**. Shop PR #359 and child-surface PR #360 remain intentionally open and require their own fresh audit.
+
+**Current boundary:** do not start another broad UI refactor. Next work is a **read-only remaining-backlog/open-workstream audit**, starting with the current state of Shop #359 and child-surface #360, while character hero remains asset/provenance blocked and English voice quality remains separate P1 work.
+
 ## 2 October 2026 — P0-UIA-01 PRE-EXECUTION SAFE CHECKPOINT
 
 Safe checkpoint: `docs/P0_UIA01_PREEXECUTION_SAFE_CHECKPOINT_2026-10-02.md`.

@@ -4,6 +4,26 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 
+## 2 October P0 execution override — UIA-01 CLOSED / REMAINING-BACKLOG AUDIT NEXT
+
+P0-UIA-01 canonical owner retirement / legacy isolation is **CLOSED / MERGED / LIVE VERIFIED**.
+
+Canonical closure: `P0_UIA01_CANONICAL_OWNER_RETIREMENT_FINAL_CLOSURE_2026-10-02.md`.
+
+Verified runtime:
+
+- PR **#436** final head `8149522d9a3b2f73c0a61609f115f214806b9d35`;
+- merged `main@cd5c530d45a472ac2eb3f4efce740a2ae4654076`;
+- PR CI **#2385 / run `36991457873` FULL SUCCESS**;
+- merged-main CI **#2386 / run `36992697294` FULL SUCCESS**;
+- exact Cloudflare production smoke — **SUCCESS**.
+
+UIA-01 removed route-dead duplicate home/select/overview/World presentation owners and the unreachable `ActivityGallery`, while preserving active fallback/Bermain/shell/rewards/cloud-parent owners. `test:learning:ui-owners` now protects the canonical graph.
+
+**Next authorized action is read-only:** re-audit the remaining open P0/product workstreams from this cleaned baseline. Start with Shop PR #359 and dependency-bound child-surface PR #360. Do not merge, close, rebase or implement either until that fresh audit establishes current compatibility and blockers.
+
+Character final-hero remains asset/provenance blocked. English voice quality beyond latency remains separate P1 work. Physical-device acceptance remains a separate quality gate.
+
 ## 2 October P0 execution override — CANONICAL UI REBASE AUDIT COMPLETE / UIA-01 NEXT
 
 The post-JM canonical UI ownership audit is complete against `main@f5657c1d36493b2803a8e457ccf7e9f2e0b2ee1d`.
