@@ -92,6 +92,7 @@ async function main() {
 
     const pageRoot = page.locator('[data-world-journey-map="money-world-journey-map-v1"]');
     await pageRoot.waitFor({ state: "visible", timeout: 8_000 });
+    await page.locator('[data-world-journey-map="money-world-journey-map-v1"][data-world-journey-ready="true"]').waitFor({ state: "visible", timeout: 8_000 });
     const map = page.locator('[data-world-map="money-festival"][data-world-journey-adapter="money-world-journey-map-v1"]');
     await map.waitFor({ state: "visible", timeout: 8_000 });
 
