@@ -3337,3 +3337,543 @@ a.worldThumbnailCard:hover {
     padding-bottom: 190px;
   }
 }
+
+
+/* === JM-17: Petualangan Uang responsive Journey Map === */
+@media (max-width: 760px) {
+  .mapPage {
+    padding: 14px 12px 52px;
+  }
+
+  .mapPage > .worldHero {
+    min-height: 0;
+    padding: 18px;
+    gap: 8px;
+    border-radius: 24px;
+  }
+
+  .mapPage > .worldHero h1 {
+    font-size: clamp(34px, 10vw, 42px);
+  }
+
+  .mapPage > .worldHero p {
+    font-size: 15px;
+    line-height: 1.4;
+  }
+
+  .mapTopline {
+    width: 100%;
+    margin: 12px auto 10px;
+    gap: 8px;
+    padding: 0 2px;
+    font-size: 13px;
+  }
+
+  .mapTopline .textButton {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .mapTopline > span {
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    border: 1px solid rgba(40, 113, 88, .14);
+    border-radius: 999px;
+    background: rgba(255,255,255,.86);
+    font-weight: 950;
+  }
+
+  .desktopJourneyResume {
+    width: 100%;
+    margin: 0 auto 14px;
+    min-height: 0;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    border: 1px solid rgba(40, 113, 88, .16);
+    border-radius: 20px;
+    background: rgba(255,255,255,.92);
+    box-shadow: 0 10px 24px rgba(39, 90, 67, .08);
+  }
+
+  .desktopJourneyResume > div {
+    min-width: 0;
+    display: grid;
+    gap: 2px;
+  }
+
+  .desktopJourneyResume span,
+  .desktopJourneyResume small {
+    color: #668178;
+    font-size: 11px;
+    font-weight: 850;
+  }
+
+  .desktopJourneyResume strong {
+    color: #164b43;
+    font-size: 16px;
+    line-height: 1.25;
+  }
+
+  .desktopJourneyResume > a {
+    width: 100%;
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 14px;
+    border-radius: 14px;
+    background: #287158;
+    color: white;
+    box-shadow: 0 4px 0 #195541;
+    font-weight: 950;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  .mapShell {
+    min-height: 0;
+    padding: 28px 10px 128px;
+    border-radius: 28px;
+    border-width: 1px;
+  }
+
+  .mapShell .mapPath {
+    inset: 64px auto 86px 32px;
+    width: 5px;
+    border-radius: 999px;
+    clip-path: none;
+    transform: none;
+    opacity: .62;
+    background: linear-gradient(180deg, rgba(40,113,88,.15), rgba(40,113,88,.42), rgba(40,113,88,.14));
+    filter: none;
+  }
+
+  .chapterMapBanner {
+    width: calc(100% - 8px);
+    margin: 26px 4px 16px;
+    padding: 10px 12px;
+    gap: 10px;
+    border-width: 1px;
+    border-radius: 18px;
+  }
+
+  .chapterMapBanner strong {
+    font-size: 14px;
+  }
+
+  .chapterMapBanner > span {
+    min-height: 30px;
+    padding-inline: 9px;
+    font-size: 10px;
+  }
+
+  .mapShell .stageRow,
+  .mapShell .stageRowLeft,
+  .mapShell .stageRowRight {
+    min-height: 0;
+    margin: 0 0 18px;
+    justify-content: stretch;
+    padding: 0;
+  }
+
+  .mapShell .stageLink {
+    width: 100%;
+  }
+
+  .mapShell .stageNode {
+    width: 100%;
+    min-height: 94px;
+    grid-template-columns: 56px minmax(0, 1fr);
+    gap: 12px;
+    padding: 13px 14px 13px 12px;
+    border: 1px solid rgba(35, 83, 66, .12);
+    border-radius: 20px;
+    background: rgba(255, 254, 248, .94);
+    box-shadow:
+      0 5px 0 rgba(116, 145, 95, .16),
+      0 12px 24px rgba(47, 87, 64, .09);
+  }
+
+  .mapShell .stageIcon {
+    width: 56px;
+    height: 56px;
+    align-self: center;
+    border-radius: 18px;
+    border-width: 3px;
+    font-size: 27px;
+  }
+
+  .mapShell .stageCopy,
+  .mapShell .stageDone .stageCopy,
+  .mapShell .stageLocked .stageCopy,
+  .mapShell .stageCurrent .stageCopy {
+    width: 100%;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    text-align: left;
+  }
+
+  .mapShell .stageCopy small {
+    font-size: 10px;
+  }
+
+  .mapShell .stageCopy strong {
+    margin: 3px 0;
+    font-size: 16px;
+    line-height: 1.22;
+  }
+
+  .mapShell .stageCopy span {
+    display: none;
+  }
+
+  .mapShell .stageDone .stageCopy span,
+  .mapShell .stageCurrent .stageCopy span {
+    display: block;
+    margin-top: 4px;
+    color: #587269;
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  .mapShell .stageStars {
+    top: -11px;
+    right: 10px;
+    left: auto;
+    transform: none;
+    min-height: 27px;
+    padding: 4px 7px;
+  }
+
+  .mapShell .stageCurrent {
+    border-color: rgba(232, 184, 57, .62);
+    background: rgba(255, 250, 218, .97);
+    box-shadow:
+      0 5px 0 rgba(198, 157, 55, .18),
+      0 0 0 4px rgba(255, 216, 102, .12),
+      0 14px 28px rgba(47, 87, 64, .10);
+  }
+
+  .mapShell .stageDone {
+    background: rgba(255, 248, 214, .94);
+  }
+
+  .mapShell .stageLocked {
+    opacity: .72;
+    background: rgba(242, 247, 244, .90);
+  }
+
+  .mapShell .currentPin {
+    right: -7px;
+    bottom: -6px;
+  }
+
+  .festivalFinish {
+    width: min(270px, calc(100% - 24px));
+    min-width: 0;
+  }
+
+  .mapShell[data-world-complete="true"] {
+    padding-bottom: 176px;
+  }
+}
+
+@media (max-width: 360px) {
+  .mapTopline {
+    align-items: center;
+  }
+
+  .chapterMapBanner {
+    width: 100%;
+    margin-inline: 0;
+  }
+
+  .chapterMapBanner > span {
+    padding-inline: 7px;
+    font-size: 9px;
+  }
+
+  .mapShell .stageNode {
+    grid-template-columns: 52px minmax(0, 1fr);
+    gap: 10px;
+    padding-inline: 10px;
+  }
+
+  .mapShell .stageIcon {
+    width: 52px;
+    height: 52px;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 900px) {
+  .mapPage {
+    padding: 24px 24px 64px;
+  }
+
+  .mapPage > .worldHero {
+    width: min(760px, 100%);
+    min-height: 0;
+    grid-template-columns: 1fr;
+    padding: 24px 28px;
+  }
+
+  .mapPage > .worldHero .heroCharacters {
+    min-height: 150px;
+  }
+
+  .mapTopline,
+  .desktopJourneyResume,
+  .mapShell {
+    width: min(760px, 100%);
+  }
+
+  .desktopJourneyResume {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .mapShell {
+    min-height: 0;
+    padding: 40px 28px 110px;
+    border-radius: 32px;
+  }
+
+  .mapShell .mapPath {
+    inset: 86px auto 92px 50%;
+    width: 5px;
+    transform: translateX(-50%);
+    clip-path: none;
+    border-radius: 999px;
+    opacity: .42;
+    background: linear-gradient(180deg, rgba(40,113,88,.14), rgba(40,113,88,.38), rgba(40,113,88,.12));
+    filter: none;
+  }
+
+  .chapterMapBanner {
+    width: min(620px, calc(100% - 40px));
+    margin: 30px auto 20px;
+  }
+
+  .mapShell .stageRow,
+  .mapShell .stageRowLeft,
+  .mapShell .stageRowRight {
+    min-height: 0;
+    margin: 0 0 18px;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .mapShell .stageLink {
+    width: min(620px, 92%);
+  }
+
+  .mapShell .stageNode {
+    min-height: 102px;
+    grid-template-columns: 66px minmax(0, 1fr);
+    gap: 14px;
+    padding: 15px 17px;
+  }
+
+  .mapShell .stageIcon {
+    width: 64px;
+    height: 64px;
+  }
+}
+
+
+/* === JM-17 phone correction: preserve compact winding game nodes === */
+@media (max-width: 760px) {
+  .mapShell .mapPath {
+    inset: 84px auto 78px 20%;
+    width: 60%;
+    border-radius: 0;
+    transform: none;
+    opacity: .92;
+    background: linear-gradient(90deg, #e7c47a, #f7dfa4 48%, #dcb96c);
+    clip-path: polygon(
+      43% 0%, 62% 8%, 70% 16%, 53% 24%,
+      31% 32%, 38% 40%, 65% 48%, 73% 56%,
+      52% 64%, 29% 72%, 38% 80%, 66% 88%,
+      58% 100%, 42% 100%, 49% 90%, 24% 81%,
+      17% 71%, 39% 62%, 61% 55%, 56% 49%,
+      31% 41%, 20% 31%, 44% 22%, 58% 15%,
+      48% 8%, 36% 2%
+    );
+    filter: drop-shadow(0 5px 0 rgba(124, 91, 43, .13));
+  }
+
+  .mapShell .stageRow {
+    min-height: 158px;
+    margin: 8px 0;
+    align-items: center;
+  }
+
+  .mapShell .stageRowLeft {
+    justify-content: flex-start;
+    padding-left: 3%;
+    padding-right: 49%;
+  }
+
+  .mapShell .stageRowRight {
+    justify-content: flex-end;
+    padding-left: 49%;
+    padding-right: 3%;
+  }
+
+  .mapShell .stageLink {
+    width: min(168px, 100%);
+  }
+
+  .mapShell .stageNode {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 8px;
+    min-height: 138px;
+    padding: 10px 4px 5px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+
+  .mapShell .stageIcon {
+    position: relative;
+    width: 76px;
+    height: 76px;
+    border-radius: 24px;
+    border: 4px solid rgba(255,255,255,.96);
+    background:
+      radial-gradient(circle at 34% 28%, rgba(255,255,255,.86) 0 12%, transparent 13%),
+      linear-gradient(145deg, #ffd66d, #f3a840);
+    box-shadow:
+      0 6px 0 #c98235,
+      0 10px 18px rgba(45, 82, 58, .12);
+    font-size: 34px;
+  }
+
+  .mapShell .stageLocked {
+    opacity: .62;
+    background: transparent;
+    filter: saturate(.55);
+  }
+
+  .mapShell .stageLocked .stageIcon {
+    background: linear-gradient(145deg, #dbe7df, #b9cbc3);
+    box-shadow:
+      0 6px 0 #9eb1a8,
+      0 10px 16px rgba(45, 82, 58, .08);
+  }
+
+  .mapShell .stageDone {
+    background: transparent;
+  }
+
+  .mapShell .stageDone .stageIcon {
+    background:
+      radial-gradient(circle at 34% 28%, rgba(255,255,255,.9) 0 12%, transparent 13%),
+      linear-gradient(145deg, #ffe58b, #efb42f);
+    box-shadow:
+      0 6px 0 #c48621,
+      0 0 0 6px rgba(255, 216, 102, .2),
+      0 12px 20px rgba(83, 70, 26, .14);
+  }
+
+  .mapShell .stageStars {
+    top: -3px;
+    right: auto;
+    left: 50%;
+    transform: translate(-50%, -100%);
+    min-height: 25px;
+    padding: 3px 7px;
+    border: 2px solid rgba(255,255,255,.95);
+    background: rgba(255,255,255,.94);
+    box-shadow: 0 4px 10px rgba(53, 74, 49, .12);
+  }
+
+  .mapShell .stageCopy,
+  .mapShell .stageDone .stageCopy,
+  .mapShell .stageLocked .stageCopy,
+  .mapShell .stageCurrent .stageCopy {
+    width: 158px;
+    padding: 7px 7px 8px;
+    border: 2px solid rgba(255,255,255,.94);
+    border-radius: 14px;
+    background: rgba(255, 254, 246, .9);
+    box-shadow: 0 5px 0 rgba(116, 145, 95, .19);
+    text-align: center;
+  }
+
+  .mapShell .stageDone .stageCopy {
+    background: rgba(255, 248, 206, .94);
+    box-shadow: 0 5px 0 rgba(198, 157, 55, .2);
+  }
+
+  .mapShell .stageLocked .stageCopy {
+    background: rgba(242, 247, 244, .84);
+  }
+
+  .mapShell .stageCopy small {
+    font-size: 9px;
+    line-height: 1.2;
+  }
+
+  .mapShell .stageCopy strong {
+    margin: 3px 0 0;
+    font-size: 13px;
+    line-height: 1.18;
+  }
+
+  .mapShell .stageCopy span,
+  .mapShell .stageDone .stageCopy span,
+  .mapShell .stageCurrent .stageCopy span {
+    display: none;
+  }
+
+  .mapShell .stageCurrent {
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .mapShell .stageCurrent .stageCopy {
+    border-color: #ffd66d;
+    box-shadow:
+      0 5px 0 rgba(198, 157, 55, .22),
+      0 0 0 5px rgba(255, 216, 102, .15);
+  }
+
+  .mapShell .currentPin {
+    right: -12px;
+    bottom: -7px;
+  }
+}
+
+@media (max-width: 360px) {
+  .mapShell .stageLink {
+    width: 150px;
+  }
+
+  .mapShell .stageCopy,
+  .mapShell .stageDone .stageCopy,
+  .mapShell .stageLocked .stageCopy,
+  .mapShell .stageCurrent .stageCopy {
+    width: 144px;
+  }
+
+  .mapShell .stageIcon {
+    width: 70px;
+    height: 70px;
+    font-size: 31px;
+  }
+}

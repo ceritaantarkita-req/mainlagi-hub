@@ -244,6 +244,9 @@ try {
   assert.match(worldJourneyMapSource, /chapter\.stageIds\.filter/, "World Journey adapter Chapter progress must derive from canonical Chapter membership and completed Stage IDs");
   assert.match(worldRuntimeSource, /buildMoneyWorldJourneyMap/, "World map runtime must consume the JM-16 World-specific adapter");
   assert.match(worldRuntimeSource, /data-world-journey-adapter/, "World map must expose the adapter contract for browser QA");
+  assert.match(worldRuntimeSource, /data-world-journey-responsive="jm17"/, "World map must expose the JM-17 responsive presentation contract");
+  assert.match(worldRuntimeCss, /JM-17: Petualangan Uang responsive Journey Map/, "World CSS must retain the JM-17 responsive presentation boundary");
+  assert.match(worldRuntimeCss, /@media \(min-width: 761px\) and \(max-width: 900px\)/, "JM-17 must keep an explicit tablet responsive lane");
   assert.doesNotMatch(worldRuntimeSource, /<BelajarJourneyMap/, "World must not render through the Belajar Journey Map engine");
   assert.doesNotMatch(worldJourneyMapSource, /getSubjectStageReadiness|LearningSubjectId|getActivitiesForStage|LearningAttemptBridge/, "World adapter must remain independent of Belajar readiness/activity/mastery semantics");
   assert.match(worldRuntimeSource, /chapter\.stageIds\.at\(-1\) === stageId/, "Chapter completion milestone must derive from canonical Chapter membership");
