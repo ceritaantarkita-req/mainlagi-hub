@@ -36,7 +36,8 @@ const evidenceActivation = require(path.join(outDir, "src", "lib", "learning", "
 const evidenceIngestion = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldEvidenceIngestion.js"));
 const presentation = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldPresentation.js"));
 const assets = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldAssets.js"));
-const progress = require(path.join(outDir, "src", "lib", "learning", "world", "progress.js"));\nconst journeyMap = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldJourneyMap.js"));
+const progress = require(path.join(outDir, "src", "lib", "learning", "world", "progress.js"));
+const journeyMap = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldJourneyMap.js"));
 const mechanics = require(path.join(outDir, "src", "lib", "learning", "mechanicLibrary.js"));
 const catalog = require(path.join(outDir, "src", "lib", "learning", "catalog.js"));
 
@@ -216,7 +217,8 @@ try {
   assert.match(socialRouteSource, /MONEY_WORLD_SOCIAL_CARD\.height/, "social card renderer must use contract height");
   assert.doesNotMatch(socialRouteSource, /demo-gian|childId|accountId|mastery score/i, "social card renderer must remain public-safe");
 
-  const worldRuntimeSource = readFileSync(path.join(root, "src/components/learning/world-v2/MoneyWorldExperience.tsx"), "utf8");\n  const worldJourneyMapSource = readFileSync(path.join(root, "src/lib/learning/world/moneyWorldJourneyMap.ts"), "utf8");
+  const worldRuntimeSource = readFileSync(path.join(root, "src/components/learning/world-v2/MoneyWorldExperience.tsx"), "utf8");
+  const worldJourneyMapSource = readFileSync(path.join(root, "src/lib/learning/world/moneyWorldJourneyMap.ts"), "utf8");
   const worldRuntimeCss = readFileSync(path.join(root, "src/components/learning/world-v2/MoneyWorldExperience.module.css"), "utf8");
   const canonicalCompletionSource = readFileSync(path.join(root, "src/components/CanonicalCompletion.tsx"), "utf8");
   const canonicalCompletionCss = readFileSync(path.join(root, "src/components/CanonicalCompletion.module.css"), "utf8");
