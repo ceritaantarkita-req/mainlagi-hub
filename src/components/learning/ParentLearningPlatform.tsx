@@ -114,6 +114,11 @@ function usePreferences() {
   return [prefs, persist] as const;
 }
 
+function ParentProfileCard({ profile }: { profile: LearningChildProfile }) {
+  const progress = useLearningProgress(profile.id);
+  return <Link href={`/parent/children/${profile.id}`} className={styles.parentCard} style={{ textDecoration: "none", color: "inherit" }}><div className={styles.parentProfileIdentity}><ProfileIdentityBadge profile={profile} /><div><strong>{profile.name}</strong><p>{profile.age} tahun · {progress.completedActivityIds.length} aktivitas · ⭐ {progress.stars}</p><small>Teman panduan: {CHARACTERS[profile.guide].name}</small></div></div></Link>;
+}
+
 export function ParentChildrenScreen() {
   const profiles = useAllProfiles();
   return <main className={styles.parentMain}><p className={styles.eyebrow}>Profiles</p><h1 className={styles.pageTitle}>Anak</h1><p className={styles.pageLead}>Setiap anak punya konteks belajar sendiri. Cloud child-profile belum diaktifkan di wave UI ini.</p><section className={styles.section}><div className={styles.parentGrid}>{profiles.map((profile) => <ParentProfileCard profile={profile} key={profile.id} />)}</div></section><div className={styles.heroActionRow}><Link className={styles.primaryButton} href="/child/select">Tambah / pilih profil</Link></div></main>;
