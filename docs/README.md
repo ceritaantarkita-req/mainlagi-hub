@@ -1,6 +1,6 @@
 # Mainlagi Hub Documentation Index
 
-Last reviewed: **1 October 2026**
+Last reviewed: **2 October 2026**
 
 Use this file to decide which documentation is current and which files are historical snapshots.
 
@@ -10,7 +10,9 @@ Read these first for current work:
 
 1. [`NEXT_PRODUCT_QUALITY_PLAN.md`](NEXT_PRODUCT_QUALITY_PLAN.md) — current execution order, workstreams, status and mandatory gates.
 2. [`CURRENT_STATE.md`](CURRENT_STATE.md) — current repository/product/production baseline.
-   - [`JM06_SHARED_JOURNEY_MAP_BAHASA_FINAL_CLOSURE_2026-10-01.md`](JM06_SHARED_JOURNEY_MAP_BAHASA_FINAL_CLOSURE_2026-10-01.md) — current Phase C closure record: shared `BelajarJourneyMap` + Bahasa Indonesia closed/live verified at `main@aec5233a…`; main CI #2340 / run `36833622638` full success including exact Cloudflare smoke; JM-07 through JM-11 standard-subject rollout is next.
+   - [`JM14_NINE_SUBJECT_BELAJAR_JOURNEY_MAP_FINAL_CLOSURE_2026-10-02.md`](JM14_NINE_SUBJECT_BELAJAR_JOURNEY_MAP_FINAL_CLOSURE_2026-10-02.md) — current Phase C Belajar closure: one shared `BelajarJourneyMap` serves all 9 subjects / 46 Stages / 900 activities; JM-12 Mewarnai + JM-13 Menggambar are live verified at `main@5c963830…`; main CI #2352 / run `36946329650` full success including exact Cloudflare smoke; JM-15 Petualangan Uang read-only adapter audit is next.
+   - [`JM07_JM11_STANDARD_JOURNEY_MAP_SAFE_CHECKPOINT_2026-10-02.md`](JM07_JM11_STANDARD_JOURNEY_MAP_SAFE_CHECKPOINT_2026-10-02.md) — historical safe checkpoint after JM-07 through JM-11; superseded by the JM-14 nine-subject closure above.
+   - [`JM06_SHARED_JOURNEY_MAP_BAHASA_FINAL_CLOSURE_2026-10-01.md`](JM06_SHARED_JOURNEY_MAP_BAHASA_FINAL_CLOSURE_2026-10-01.md) — historical predecessor closure: shared engine extraction + Bahasa Indonesia, superseded by later standard/creative rollout and JM-14.
    - [`JM03_JM05_ENGLISH_JOURNEY_MAP_FINAL_CLOSURE_2026-10-01.md`](JM03_JM05_ENGLISH_JOURNEY_MAP_FINAL_CLOSURE_2026-10-01.md) — historical predecessor closure: Bahasa Inggris JM-03/04/05 reference implementation closed/live verified and later generalized by JM-06.
    - [`JM02_IMMERSIVE_HEADER_FINAL_CLOSURE_2026-10-01.md`](JM02_IMMERSIVE_HEADER_FINAL_CLOSURE_2026-10-01.md) — historical predecessor closure: JM-02 shared immersive header + Next.js 16.3.6 remediation closed/live verified; superseded as current Journey Map authority by JM-03/04/05 closure.
    - [`JM02_IMMERSIVE_HEADER_PREEXECUTION_SAFE_CHECKPOINT_2026-09-30.md`](JM02_IMMERSIVE_HEADER_PREEXECUTION_SAFE_CHECKPOINT_2026-09-30.md) — historical pre-execution JM-02 checkpoint; canonical ownership and Shop fail-closed boundary retained for provenance.
