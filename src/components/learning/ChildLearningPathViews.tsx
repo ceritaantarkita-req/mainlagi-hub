@@ -23,7 +23,7 @@ import styles from "./LearningPlatform.module.css";
 import stageStyles from "./StagePath.module.css";
 import { SubjectDirectory } from "./Playroom";
 import { LearningSymbol } from "./LearningSymbol";
-import { ActivityGallery } from "./ActivityGallery";
+import { ActivityGallery as LegacyActivityGalleryFallback } from "./ActivityGallery";
 import { BelajarJourneyMap } from "./BelajarJourneyMap";
 
 const JOURNEY_MAP_SUBJECTS = new Set<LearningSubjectId>([
@@ -146,7 +146,8 @@ function getStageForActivity(activityId: string): string | null {
   return null;
 }
 
-export function ChildHomeScreen({ childId }: { childId: string }) {
+/** @deprecated Route-dead after Batch14WorldHome became the canonical child home. */
+export function LegacyChildHomeScreen({ childId }: { childId: string }) {
   const profile = useLearningProfile(childId);
   const progress = useLearningProgress(childId);
   const analytics = useLearningAnalytics(childId);
@@ -227,7 +228,7 @@ export function SubjectScreen({ childId, subjectId, qaUnlockAll = false }: { chi
   }));
 
   return (
-    <ActivityGallery
+    <LegacyActivityGalleryFallback
       childId={childId}
       subject={subject}
       activities={totalActivities}
