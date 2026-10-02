@@ -164,8 +164,8 @@ async function main() {
     const geometry = await page.evaluate(() => {
       const html = document.documentElement;
       const map = document.querySelector('[data-world-map="money-festival"]');
-      const stage1 = document.querySelector('[data-world-stage-id="money-stage-01-money-use"]');
-      const stage2 = document.querySelector('[data-world-stage-id="money-stage-02-price-change"]');
+      const stage1 = document.querySelector('[data-world-stage-id="money-stage-01-money-use"] > a');
+      const stage2 = document.querySelector('[data-world-stage-id="money-stage-02-price-change"] > a');
       const resume = document.querySelector("[data-world-journey-resume]");
       if (!(map instanceof HTMLElement) || !(stage1 instanceof HTMLElement) || !(stage2 instanceof HTMLElement) || !(resume instanceof HTMLElement)) {
         return null;
