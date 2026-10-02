@@ -43,6 +43,7 @@ import {
   type MoneyWorldActivityPlacement
 } from "@/lib/learning/world/moneyWorld";
 import { getMoneyWorldSceneForSegment } from "@/lib/learning/world/moneyWorldStructure";
+import { buildMoneyWorldJourneyMap } from "@/lib/learning/world/moneyWorldJourneyMap";
 import { getMoneyWorldPilotStage } from "@/lib/learning/world/moneyWorldPilot";
 import {
   playMoneyWorldNarration,
@@ -53,7 +54,6 @@ import {
   checkpointMoneyWorldStage,
   completeMoneyWorldStage,
   isMoneyWorldStageUnlocked,
-  moneyWorldStars,
   restartMoneyWorldStage
 } from "@/lib/learning/world/progress";
 import { syncMoneyWorldProgressCloud } from "@/lib/learning/world/cloud";
@@ -238,23 +238,28 @@ export function MoneyWorldMapScreen({ childId, worldId }: { childId: string; wor
   const state = useMoneyWorldProgress(childId);
   const mapRef = useRef<HTMLElement>(null);
   const worldsHref = "/child/" + childId + "/worlds";
-  const mapBase = "/child/" + childId + "/world/" + MONEY_WORLD_ID;
-  const worldComplete = state.ready && state.progress.completedStageIds.length === MONEY_WORLD_STAGES.length;
-  const nextJourneyStageId = state.ready
-    ? MONEY_WORLD_STAGES.find((stage) => !state.progress.completedStageIds.includes(stage.id))?.id ?? null
-    : null;
+  const journeyMap = useMemo(
+    () => buildMoneyWorldJourneyMap({
+      childId,
+      progress: state.progress,
+      ready: state.ready
+    }),
+    [childId, state.progress, state.ready]
+  );
+  const worldComplete = journeyMap.completed;
+  const nextJourneyStageId = journeyMap.nextStageId;
+  const currentStage = journeyMap.stages.find((stage) => stage.current) ?? null;
 
   useEffect(() => {
-    if (!state.ready || state.progress.completedStageIds.length === 0) return;
-    const nextStage = MONEY_WORLD_STAGES.find((stage) => !state.progress.completedStageIds.includes(stage.id))
-      ?? MONEY_WORLD_STAGES.at(-1);
-    if (!nextStage) return;
+    if (!journeyMap.ready || journeyMap.completedStageCount === 0) return;
+    const targetStageId = journeyMap.nextStageId ?? journeyMap.stages.at(-1)?.id ?? null;
+    if (!targetStageId) return;
     const frame = window.requestAnimationFrame(() => {
-      const target = mapRef.current?.querySelector<HTMLElement>('[data-world-stage-id="' + nextStage.id + '"]');
+      const target = mapRef.current?.querySelector<HTMLElement>('[data-world-stage-id="' + targetStageId + '"]');
       target?.scrollIntoView({ block: "center", inline: "nearest", behavior: "auto" });
     });
     return () => window.cancelAnimationFrame(frame);
-  }, [state.progress.completedStageIds, state.ready]);
+  }, [journeyMap.completedStageCount, journeyMap.nextStageId, journeyMap.ready, journeyMap.stages]);
 
   if (worldId !== MONEY_WORLD_ID) {
     return (
@@ -268,17 +273,39 @@ export function MoneyWorldMapScreen({ childId, worldId }: { childId: string; wor
   }
 
   return (
-    <main className={styles.mapPage}>
+    <main
+      className={styles.mapPage}
+      data-world-journey-map={journeyMap.version}
+      data-world-journey-ready={journeyMap.ready ? "true" : "false"}
+    >
       <WorldHero context={worldComplete ? "world_completion" : "world_map"} />
       <div className={styles.mapTopline}>
         <Link href={worldsHref} className={styles.textButton}>← Semua World</Link>
-        <span>{state.ready ? String(state.progress.completedStageIds.length) + "/" + MONEY_WORLD_STAGES.length + " Stage" : "Memuat…"}</span>
+        <span data-world-journey-progress>
+          {journeyMap.ready
+            ? String(journeyMap.completedStageCount) + "/" + String(journeyMap.totalStageCount) + " Stage"
+            : "Memuat…"}
+        </span>
       </div>
+
+      {currentStage ? (
+        <section className={styles.desktopJourneyResume} data-world-journey-resume>
+          <div>
+            <span>Lanjutkan petualangan</span>
+            <strong>{"Stage " + currentStage.order + " · " + currentStage.title}</strong>
+            <small>{currentStage.locationLabel}</small>
+          </div>
+          <Link href={currentStage.href}>
+            {journeyMap.resumeStageId === currentStage.id && journeyMap.resumeSegmentIndex > 0 ? "Lanjut dari checkpoint" : "Buka Stage"}
+          </Link>
+        </section>
+      ) : null}
 
       <section
         className={styles.mapShell}
         aria-label="Peta Petualangan Uang"
         data-world-map="money-festival"
+        data-world-journey-adapter={journeyMap.version}
         data-world-complete={worldComplete ? "true" : "false"}
         ref={mapRef}
       >
@@ -287,28 +314,25 @@ export function MoneyWorldMapScreen({ childId, worldId }: { childId: string; wor
           <div className={styles.festivalFinish} role="status">
             <span aria-hidden>🎪 🎉</span>
             <strong>Festival siap!</strong>
-            <small>{"Semua " + MONEY_WORLD_STAGES.length + " Stage sudah selesai."}</small>
+            <small>{"Semua " + journeyMap.totalStageCount + " Stage sudah selesai."}</small>
           </div>
         ) : null}
-        {MONEY_WORLD_STAGES.map((stage, index) => {
-          const chapterIndex = MONEY_WORLD_CHAPTERS.findIndex((chapter) => chapter.id === stage.chapterId);
-          const chapter = chapterIndex >= 0 ? MONEY_WORLD_CHAPTERS[chapterIndex] : null;
+        {journeyMap.stages.map((stage, index) => {
+          const chapter = journeyMap.chapters.find((item) => item.id === stage.chapterId) ?? null;
           const isChapterStart = chapter?.stageIds[0] === stage.id;
-          const chapterCompleted = chapter
-            ? chapter.stageIds.filter((chapterStageId) => state.progress.completedStageIds.includes(chapterStageId)).length
-            : 0;
-          const unlocked = state.ready && isMoneyWorldStageUnlocked(state.progress, stage.id);
-          const stars = moneyWorldStars(state.progress, stage.id);
+          const unlocked = !stage.locked;
+          const stars = stage.stars;
           const node = (
             <div
               className={cx(
                 styles.stageNode,
                 unlocked ? styles.stageUnlocked : styles.stageLocked,
-                stars === 3 && styles.stageDone,
-                stage.id === nextJourneyStageId && styles.stageCurrent
+                stage.completed && styles.stageDone,
+                stage.current && styles.stageCurrent
               )}
               data-stage-order={stage.order}
-              data-current-stage={stage.id === nextJourneyStageId ? "true" : "false"}
+              data-world-stage-state={stage.canonicalSourceState}
+              data-current-stage={stage.current ? "true" : "false"}
             >
               <div className={styles.stageStars} aria-label={stars === 3 ? "Tiga bintang" : "Belum selesai"}>
                 {[0, 1, 2].map((star) => (
@@ -317,7 +341,7 @@ export function MoneyWorldMapScreen({ childId, worldId }: { childId: string; wor
               </div>
               <div className={styles.stageIcon} aria-hidden>
                 {unlocked ? stage.emoji : <LockKey size={26} weight="fill" />}
-                {stage.id === nextJourneyStageId ? <span className={styles.currentPin}>▶</span> : null}
+                {stage.current ? <span className={styles.currentPin}>▶</span> : null}
               </div>
               <div className={styles.stageCopy}>
                 <small>{"Stage " + stage.order + " · " + stage.locationLabel}</small>
@@ -334,13 +358,13 @@ export function MoneyWorldMapScreen({ childId, worldId }: { childId: string; wor
                 <div
                   className={styles.chapterMapBanner}
                   data-world-chapter-id={chapter.id}
-                  data-world-chapter-order={chapterIndex + 1}
+                  data-world-chapter-order={chapter.order}
                 >
                   <div>
-                    <small>{"Chapter " + String(chapterIndex + 1)}</small>
+                    <small>{"Chapter " + String(chapter.order)}</small>
                     <strong>{chapter.title}</strong>
                   </div>
-                  <span>{String(chapterCompleted) + "/" + String(chapter.stageIds.length) + " Stage selesai"}</span>
+                  <span>{String(chapter.completedStageCount) + "/" + String(chapter.totalStageCount) + " Stage selesai"}</span>
                 </div>
               ) : null}
               <div
@@ -351,9 +375,9 @@ export function MoneyWorldMapScreen({ childId, worldId }: { childId: string; wor
               >
                 {unlocked ? (
                   <Link
-                    href={mapBase + "/stage/" + stage.id}
+                    href={stage.href}
                     className={styles.stageLink}
-                    aria-current={stage.id === nextJourneyStageId ? "step" : undefined}
+                    aria-current={stage.current ? "step" : undefined}
                   >
                     {node}
                   </Link>
