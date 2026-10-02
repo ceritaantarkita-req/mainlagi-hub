@@ -1,5 +1,18 @@
 # Changelog
 
+## 2 October 2026 — Journey Map JM-15 WORLD READ-ONLY ADAPTER AUDIT COMPLETE
+
+- Audited Petualangan Uang against live-verified JM-14 closure baseline **`main@cf0007d48734b3dcd3f9ad60bf340ab043ce02a6`**.
+- Locked canonical World topology at **2 Chapters / 8 Stages / 44 Scenes / 89 Segments**, plus 16 practice activity placements with two per Stage.
+- Locked stable World catalog/map/Stage routes and the existing `MoneyWorldMapScreen` / `MoneyWorldStageScreen` ownership.
+- Confirmed progression remains ordered-prefix/sequential through `MoneyWorldProgress`; current Journey position is the first incomplete Stage and Segment resume remains `currentStageId + currentSegmentIndex`.
+- Confirmed World ★★★ is completion presentation, not Belajar mastery/readiness.
+- Rejected direct World integration into `BelajarJourneyMap`; JM-16 must use a World-specific read-only presentation adapter and must not invent World Browse All.
+- Preserved the 6–8 pilot age policy, Completion/Share, supplemental-evidence behavior, story/narration, database/schema, Belajar, Bermain and Shop boundaries.
+- Canonical audit: `JM15_MONEY_WORLD_READONLY_JOURNEY_MAP_ADAPTER_AUDIT_2026-10-02.md`.
+- **JM-16 Petualangan Uang desktop redesign is next after the JM-15 audit closure merge/production gate.**
+
+
 ## 2 October 2026 — Journey Map JM-14 BELAJAR CLOSED / MERGED / LIVE VERIFIED
 
 - JM-12/JM-13 runtime PR **#426** final head `ecb9699b04fc4c133d8c27a6e0f37946384f82bc` merged as **`main@5c9638303d562f96556bb16a18c40a716b27e73f`**.
