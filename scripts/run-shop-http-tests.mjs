@@ -107,7 +107,10 @@ async function assertRuntimeOnSalesOff() {
   try {
     await waitForServer(server);
     const base = server.base;
-    const requestOrigin = base;
+    // NEXT_PUBLIC_SITE_URL is a build-time canonical origin in Next production.
+    // The CI build sets it before this child server starts, so preserve that
+    // value when exercising same-origin CSRF behavior.
+    const requestOrigin = process.env.NEXT_PUBLIC_SITE_URL || base;
 
     const r = await fetch(base + "/shop");
     assert.equal(r.status, 200);
