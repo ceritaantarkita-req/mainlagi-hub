@@ -9,8 +9,7 @@ import {
   getSubject,
   type LearningActivity,
   type LearningProgress,
-  type LearningSubject,
-  type LearningSubjectId
+  type LearningSubject
 } from "@/lib/learning/system";
 import { getLearningPathsForSubject, getLessonsForStage } from "@/lib/learning/curriculum";
 import { getActivityLearningSpec } from "@/lib/learning/catalog";
