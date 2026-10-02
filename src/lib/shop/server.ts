@@ -14,6 +14,13 @@ export class ShopError extends Error {
     super(message);
   }
 }
+export function shopRuntimeEnabled() {
+  return process.env.SHOP_RUNTIME_ENABLED === "true";
+}
+export function requireShopRuntime() {
+  if (!shopRuntimeEnabled())
+    throw new ShopError("Shop sedang disiapkan.", 503);
+}
 export const hash = (s: string) => createHash("sha256").update(s).digest("hex");
 export function equal(a: string, b: string) {
   const x = Buffer.from(a),
@@ -21,6 +28,7 @@ export function equal(a: string, b: string) {
   return x.length === y.length && timingSafeEqual(x, y);
 }
 export async function db() {
+  requireShopRuntime();
   const client = await getAdminClient();
   if (!client)
     throw new ShopError("Shop belum tersedia. Coba lagi nanti.", 503);
@@ -229,6 +237,7 @@ export async function orderCookie(number: string, token: string) {
   });
 }
 export async function catalog(): Promise<Product[]> {
+  if (!shopRuntimeEnabled()) return [];
   const client = await getServerClient();
   if (!client) return [];
   return result(
