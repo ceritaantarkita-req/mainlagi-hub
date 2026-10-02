@@ -17,6 +17,8 @@ const childSelectPage = read("src/app/child/select/page.tsx");
 const subjectPage = read("src/app/child/[childId]/subject/[subject]/page.tsx");
 const stagePage = read("src/app/child/[childId]/stage/[stage]/page.tsx");
 const parentPage = read("src/app/parent/page.tsx");
+const rewardsPage = read("src/app/child/[childId]/rewards/page.tsx");
+const parentChildrenPage = read("src/app/parent/children/page.tsx");
 const worldsPage = read("src/app/child/[childId]/worlds/page.tsx");
 const worldMapPage = read("src/app/child/[childId]/world/[worldId]/page.tsx");
 const worldStagePage = read("src/app/child/[childId]/world/[worldId]/stage/[stageId]/page.tsx");
@@ -56,6 +58,23 @@ assert.doesNotMatch(
   childLegacy,
   /export function ChildSelectScreen/,
   "legacy ChildLearningPlatform child-select owner must stay retired"
+);
+for (const retiredChildOwner of [
+  "LearnLibraryScreen",
+  "SubjectScreen",
+  "StageScreen",
+  "RewardsScreen"
+]) {
+  assert.doesNotMatch(
+    childLegacy,
+    new RegExp("export function\\s+" + retiredChildOwner + "\\b"),
+    retiredChildOwner + " must remain retired from ChildLearningPlatform"
+  );
+}
+assert.doesNotMatch(
+  learningPlatform,
+  /RewardsScreen/,
+  "LearningPlatform must not re-export the retired duplicate RewardsScreen"
 );
 
 assert.match(
@@ -104,6 +123,20 @@ assert.doesNotMatch(
   /export function ParentOverviewScreen/,
   "legacy ParentLearningPlatform overview owner must stay retired"
 );
+assert.doesNotMatch(
+  parentLegacy,
+  /export function ParentChildrenScreen/,
+  "legacy ParentLearningPlatform children owner must stay retired"
+);
+assert.match(
+  learningPlatform,
+  /CloudParentChildrenScreen as ParentChildrenScreen/,
+  "ParentChildrenScreen alias must remain backed by CloudParentChildrenScreen"
+);
+assert.ok(
+  parentChildrenPage.includes("ParentChildrenScreen") && parentChildrenPage.includes("LearningPlatform"),
+  "parent children route must consume the LearningPlatform cloud alias"
+);
 
 for (const retiredWorldOwner of [
   "MainlagiWorldHome",
@@ -137,6 +170,10 @@ assert.match(
   worldLegacy,
   /export function WorldRewardsScreen/,
   "active WorldRewardsScreen must remain available"
+);
+assert.ok(
+  rewardsPage.includes("WorldRewardsScreen") && rewardsPage.includes("world/WorldExperience"),
+  "rewards route must stay owned by WorldRewardsScreen"
 );
 assert.match(
   childLegacy,
