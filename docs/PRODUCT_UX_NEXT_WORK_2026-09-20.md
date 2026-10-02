@@ -1,11 +1,23 @@
 # Mainlagi — Product UX Next Work
 
 Date: **20 September 2026**  
-Last synchronized: **1 October 2026**
-Status: **ACTIVE ROADMAP / SEMANTIC ART P0 CLOSED / SHARED INTERACTION PROGRAM COMPLETE / JM-06 CLOSED**
-Current synchronized Journey Map baseline: `main` = `aec5233a8397eeb4e8cc17cf521e350596ed4ad0`. JM-06 shared Journey Map engine + Bahasa Indonesia are closed/live verified through main CI #2340 / run `36833622638`, including exact Cloudflare smoke. Semantic Art P0 and Shared Interaction remain fully closed.
+Last synchronized: **2 October 2026**
+Status: **ACTIVE ROADMAP / SEMANTIC ART P0 CLOSED / SHARED INTERACTION PROGRAM COMPLETE / JM-14 BELAJAR CLOSED**
+Current synchronized Journey Map baseline: `main` = `5c9638303d562f96556bb16a18c40a716b27e73f`. JM-00 through JM-14 Belajar are closed/live verified through main CI #2352 / run `36946329650`, including exact Cloudflare smoke. The shared Journey Map serves all 9 subjects / 46 Stages / 900 activities. Semantic Art P0 and Shared Interaction remain fully closed.
 
 This document is the short human/AI handoff for Mainlagi product-quality work. It records the user-accepted UX direction without changing curriculum, mastery, evidence or progression. The latest WS-05 Logic reuse wave is closed; any later mechanic work remains a separate audited track.
+
+## 2 October Journey Map JM-14 Belajar final closure
+
+JM-00 through JM-14 Belajar are **CLOSED / MERGED / LIVE VERIFIED**. Canonical closure: `JM14_NINE_SUBJECT_BELAJAR_JOURNEY_MAP_FINAL_CLOSURE_2026-10-02.md`.
+
+Runtime PR #426 final head `ecb9699b04fc4c133d8c27a6e0f37946384f82bc` completed JM-12 Mewarnai + JM-13 Menggambar and merged as `5c9638303d562f96556bb16a18c40a716b27e73f`. One shared `BelajarJourneyMap` now serves all 9 canonical subjects / 46 Stages / 900 activities.
+
+Mewarnai keeps the existing Coloring runtime. Menggambar keeps the canonical Drawing Stage handoff to `DrawingStageScreen`. Creative workspace state, guides, Completion/Again, creative completion-only evidence, stable routes, progression/evidence semantics, database/schema, auth/profile, World and Shop boundaries remain unchanged.
+
+PR CI #2351 and merged-main CI #2352 completed full success; exact Cloudflare production smoke passed for the merged runtime SHA.
+
+**Next:** JM-15 Petualangan Uang read-only adapter audit. Do not redesign World during JM-15. JM-16 desktop and JM-17 responsive work remain blocked until the read-only adapter boundary is closed.
 
 ## 1 October Journey Map JM-06 final closure
 
