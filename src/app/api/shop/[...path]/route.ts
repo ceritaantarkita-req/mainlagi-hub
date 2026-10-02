@@ -13,6 +13,7 @@ import {
   order,
   origin,
   result,
+  requireShopRuntime,
   salesEnabled,
   ShopError,
   userId,
@@ -52,6 +53,7 @@ function object(value: unknown, label: string) {
 async function handle(request: Request, path: string[], post: boolean) {
   const route = path.join("/");
   try {
+    requireShopRuntime();
     if (post && route === "midtrans/notification") {
       const b = await body(request);
       verifyMidtrans(b);
