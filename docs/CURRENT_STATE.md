@@ -5,6 +5,23 @@ Last reviewed: **2 October 2026**
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
 
+## 3 October 2026 — P0-SHOP-CONV-01B PRE-STAGING HARDENING GREEN / DRAFT HOLD
+
+Canonical checkpoint: `docs/P0_SHOP_CONV01B_PRESTAGING_HARDENING_SAFE_CHECKPOINT_2026-10-03.md`.
+
+Current production/main is `78dbfd1439af32b3649f1c374d19d85fae1c9e3b`, with post-merge CI **#2409 / run 37041038038 FULL SUCCESS**, including exact **Production smoke (Cloudflare) SUCCESS**.
+
+Shop convergence remains isolated in Draft PR **#442**. Latest audited head is `b39bcac7c97b4f73a7cdc1e0dcc23eed5f657087`, **23 commits ahead / 1 behind** current main across **118 changed paths**. Exact PR CI **#2410 / run 37042769752 FULL SUCCESS** for Ubuntu quality, dependency audit, secret-history scan, Cloudflare/OpenNext build, Mobile route QA, Windows compatibility, and Shop PostgreSQL staging/security/concurrency. PR production smoke remains skipped by design.
+
+The only delta after the P0-SHOP-CONV-01A checkpoint is one regression commit that locks pre-launch discoverability: no public `/shop` nav, no canonical child Journey Map Shop destination, explicit disabled child Shop slot, and owner Shop admin navigation conditional on `shopRuntimeEnabled()`.
+
+**Current technical boundary:** `P0-SHOP-CONV-01C — integrated disposable provider staging evidence`. Keep #442 Draft and run the manual `shop-batch11-staging.yml` against the converged branch when workflow dispatch is available. Do not add automatic push/PR triggers to bypass the manual secret-bearing staging boundary.
+
+The integrated staging run has **not** been executed from this chat. GitHub access here supports workflow inspection/reruns but not workflow dispatch, and the authorized Desktop Commander device was offline during this checkpoint. Do not claim provider staging success until an actual run is observed.
+
+P0-OPEN-02B owner blockers remain unchanged: **0/9 products**, **0/27 active SKU candidates**, and no approved production `SHOP_ORDER_PII_RETENTION_DAYS` value yet.
+
+
 ## 3 October 2026 — P0-SHOP-CONV-01A TECHNICALLY GREEN / DRAFT HOLD
 
 Canonical checkpoint: `docs/P0_SHOP_CONV01A_FAIL_CLOSED_CORE_SAFE_CHECKPOINT_2026-10-03.md`.
