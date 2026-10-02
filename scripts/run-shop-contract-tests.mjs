@@ -329,8 +329,8 @@ assert.match(shopAdminSource, /"settings"/);
 assert.match(shopAdminSource, /Kesiapan operasional Shop/);
 assert.match(
   productAdminEditorSource,
-  /verificationStatus[\s\S]*marketplace_candidate_unverified[\s\S]*production_verified/,
-  "admin product workflow must expose the explicit physical\/supplier verification gate",
+  /verificationStatus[\s\S]*production_verified[\s\S]*(?:verification_stale|candidate marketplace)/,
+  "admin product workflow must keep production verification explicit and surface non-production\/stale states",
 );
 assert.match(
   productAdminEditorSource,
