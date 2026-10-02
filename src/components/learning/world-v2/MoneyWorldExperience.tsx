@@ -276,6 +276,7 @@ export function MoneyWorldMapScreen({ childId, worldId }: { childId: string; wor
       className={styles.mapPage}
       data-world-journey-map={journeyMap.version}
       data-world-journey-ready={journeyMap.ready ? "true" : "false"}
+      data-world-journey-responsive="jm17"
     >
       <WorldHero context={worldComplete ? "world_completion" : "world_map"} />
       <div className={styles.mapTopline}>
