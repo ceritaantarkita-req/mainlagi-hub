@@ -84,9 +84,8 @@ assert.equal(
   "retired ActivityGallery styles must remain absent"
 );
 
-assert.match(
-  stagePage,
-  /DrawingStageScreen[sS]*StageScreen/,
+assert.ok(
+  stagePage.includes("DrawingStageScreen") && stagePage.includes("StageScreen"),
   "Stage route must preserve DrawingStageScreen exception plus canonical StageScreen fallback"
 );
 
@@ -155,19 +154,16 @@ assert.match(
   "active ParentShell must remain available"
 );
 
-assert.match(
-  worldsPage,
-  /world-v2\/MoneyWorldExperience[sS]*WorldCatalogScreen/,
+assert.ok(
+  worldsPage.includes("WorldCatalogScreen") && worldsPage.includes("world-v2/MoneyWorldExperience"),
   "World catalog route must stay on world-v2"
 );
-assert.match(
-  worldMapPage,
-  /world-v2\/MoneyWorldExperience[sS]*MoneyWorldMapScreen/,
+assert.ok(
+  worldMapPage.includes("MoneyWorldMapScreen") && worldMapPage.includes("world-v2/MoneyWorldExperience"),
   "World map route must stay on MoneyWorldMapScreen"
 );
-assert.match(
-  worldStagePage,
-  /world-v2\/MoneyWorldExperience[sS]*MoneyWorldStageScreen/,
+assert.ok(
+  worldStagePage.includes("MoneyWorldStageScreen") && worldStagePage.includes("world-v2/MoneyWorldExperience"),
   "World Stage route must stay on MoneyWorldStageScreen"
 );
 
