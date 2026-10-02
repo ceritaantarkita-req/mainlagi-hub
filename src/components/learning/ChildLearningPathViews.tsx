@@ -15,7 +15,7 @@ import { getLearningPathsForSubject, getLessonsForStage } from "@/lib/learning/c
 import { getActivityLearningSpec } from "@/lib/learning/catalog";
 import { getSubjectStageReadiness, type StageReadinessRow } from "@/lib/learning/insights";
 import { rankAdaptiveLearningV2 } from "@/lib/learning/adaptive";
-import { ChildLoading, useLearningProfile, useLearningProgress } from "./LearningCommon";
+import { useLearningProfile, useLearningProgress } from "./LearningCommon";
 import { useLearningAnalytics } from "./useLearningAnalytics";
 import styles from "./LearningPlatform.module.css";
 import stageStyles from "./StagePath.module.css";
