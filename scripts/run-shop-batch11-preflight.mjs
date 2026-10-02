@@ -50,6 +50,10 @@ const files = {
     "docs/data/MAINLAGI_SHOP_PHYSICAL_SUPPLIER_VERIFICATION_2026-09-28.json",
     "utf8",
   ),
+  publicNavigation: await readFile("src/lib/navigation.ts", "utf8"),
+  journeyHeader: await readFile("src/lib/learning/journeyHeader.ts", "utf8"),
+  playroom: await readFile("src/components/learning/Playroom.tsx", "utf8"),
+  adminLayout: await readFile("src/app/admin/layout.tsx", "utf8"),
 };
 
 for (const name of [
@@ -72,6 +76,26 @@ assert.match(
   files.route,
   /requireShopRuntime\(\)/,
   "Shop API must enforce the master runtime gate before route handling",
+);
+assert.doesNotMatch(
+  files.publicNavigation,
+  /href:\s*["']\/shop(?:["'/])/,
+  "Shop must not appear in public PRIMARY_NAV while release gating is incomplete",
+);
+assert.doesNotMatch(
+  files.journeyHeader,
+  /id:\s*["']shop["']/,
+  "Shop must not become a canonical child Journey Map destination before activation",
+);
+assert.match(
+  files.playroom,
+  /data-mainlagi-shop-slot=["']disabled["']/,
+  "child Journey Map must keep the Shop slot explicitly disabled before activation",
+);
+assert.match(
+  files.adminLayout,
+  /shopRuntimeEnabled\(\)[\s\S]*\/admin\/shop[\s\S]*:\s*NAV/,
+  "owner Shop navigation must remain conditional on the master runtime gate",
 );
 assert.match(
   files.server,
