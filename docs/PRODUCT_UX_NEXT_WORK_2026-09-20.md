@@ -2,10 +2,22 @@
 
 Date: **20 September 2026**  
 Last synchronized: **2 October 2026**
-Status: **ACTIVE ROADMAP / SEMANTIC ART P0 CLOSED / SHARED INTERACTION PROGRAM COMPLETE / JM-14 BELAJAR CLOSED**
-Current synchronized Journey Map baseline: `main` = `5c9638303d562f96556bb16a18c40a716b27e73f`. JM-00 through JM-14 Belajar are closed/live verified through main CI #2352 / run `36946329650`, including exact Cloudflare smoke. The shared Journey Map serves all 9 subjects / 46 Stages / 900 activities. Semantic Art P0 and Shared Interaction remain fully closed.
+Status: **ACTIVE ROADMAP / SEMANTIC ART P0 CLOSED / SHARED INTERACTION PROGRAM COMPLETE / JM-15 WORLD AUDIT COMPLETE**
+Current synchronized Journey Map baseline: `main` = `cf0007d48734b3dcd3f9ad60bf340ab043ce02a6`. JM-00 through JM-14 Belajar are closed/live verified through main CI #2354 / run `36950193685`, including exact Cloudflare smoke. JM-15 Petualangan Uang read-only adapter audit is complete on top of that baseline. Semantic Art P0 and Shared Interaction remain fully closed.
 
 This document is the short human/AI handoff for Mainlagi product-quality work. It records the user-accepted UX direction without changing curriculum, mastery, evidence or progression. The latest WS-05 Logic reuse wave is closed; any later mechanic work remains a separate audited track.
+
+## 2 October Journey Map JM-15 World read-only adapter audit
+
+JM-15 audit is **COMPLETE / READ-ONLY / NO RUNTIME CHANGE**. Canonical audit: `JM15_MONEY_WORLD_READONLY_JOURNEY_MAP_ADAPTER_AUDIT_2026-10-02.md`.
+
+Petualangan Uang remains a separate first-class World semantic system with **2 Chapters / 8 Stages / 44 Scenes / 89 Segments** and sequential Stage progression. The audit explicitly rejects putting World into the Belajar activity/Browse-All progression engine.
+
+The safe JM-16 architecture is canonical World structure + existing `MoneyWorldProgress` -> World-specific read-only presentation adapter -> desktop Journey Map presentation -> existing World Stage routes/runtime.
+
+World ★★★ remains completion presentation rather than mastery; Segment checkpoint/resume, 6–8 pilot age policy, Completion/Share, supplemental-evidence behavior, stable routes, story/narration, database/schema and gameplay remain unchanged.
+
+**Next:** JM-16 Petualangan Uang desktop redesign after this read-only audit passes its merge/production gate. JM-17 is the responsive/mobile package; JM-18 is final Journey Map closure.
 
 ## 2 October Journey Map JM-14 Belajar final closure
 
