@@ -53,6 +53,7 @@ const files = {
 };
 
 for (const name of [
+  "SHOP_RUNTIME_ENABLED",
   "SHOP_STAGING_ACCEPTANCE_ENABLED",
   "SHOP_STAGING_ACCEPTANCE_SECRET",
   "SHOP_STAGING_URL",
@@ -62,6 +63,16 @@ for (const name of [
   assert.match(files.env, new RegExp(`^${name}=.*$`, "m"), `missing ${name} in .env.example`);
 }
 
+assert.match(
+  files.server,
+  /SHOP_RUNTIME_ENABLED[\s\S]*Shop sedang disiapkan\./,
+  "Shop runtime must fail closed before database/provider access",
+);
+assert.match(
+  files.route,
+  /requireShopRuntime\(\)/,
+  "Shop API must enforce the master runtime gate before route handling",
+);
 assert.match(
   files.server,
   /SHOP_STAGING_ACCEPTANCE_ENABLED[\s\S]*SHOP_STAGING_ACCEPTANCE_SECRET[\s\S]*x-mainlagi-shop-staging-secret/,
@@ -105,6 +116,11 @@ assert.doesNotMatch(
   files.batch11Workflow,
   /SHOP_STAGING_SUPABASE_(?:URL|ANON_KEY|SERVICE_ROLE_KEY)/,
   "free Batch 11 staging must not require a paid remote Supabase branch/project",
+);
+assert.match(
+  files.batch11Workflow,
+  /SHOP_RUNTIME_ENABLED(?::|=)\s*["']?true["']?/,
+  "Batch 11 staging must explicitly enable the otherwise-off Shop runtime",
 );
 assert.match(
   files.batch11Workflow,
