@@ -1,5 +1,21 @@
 # Changelog
 
+## 2 October 2026 — Journey Map JM-17 RESPONSIVE + JM-18 FINAL CLOSURE
+
+- JM-17 runtime PR **#432** final head `ed09dc20bea0f29060616e417d48a54f5916469c` merged as **`main@b4473cc0582c096441e429b8ed94c20fc4bf1b8e`**.
+- Completed Petualangan Uang Journey Map phone/tablet/rotation presentation while reusing the JM-16 World-specific adapter.
+- Phone 320/390/430 keeps compact alternating winding game nodes; 768 tablet uses a centered stacked lane.
+- Mobile resume/checkpoint CTA, current-Stage visibility, Chapter containment, >=44px touch targets, stable Stage routes and no-horizontal-overflow behavior are permanently regression-tested.
+- Portrait → landscape → portrait reflow preserves the same document, progress, current Stage and checkpoint intent.
+- Preserved exact **2 Chapters / 8 Stages / 44 Scenes / 89 Segments**, sequential World progression, ★★★ completion presentation, stable routes and no World Browse All.
+- Added blocking `test:ui:jm17-world-responsive` and responsive source-contract assertions.
+- PR CI **#2373 / run `36972969667` FULL SUCCESS**.
+- Merged-main CI **#2374 / run `36974133135` FULL SUCCESS**, including exact **Production smoke (Cloudflare) SUCCESS**.
+- Added `JM17_MONEY_WORLD_RESPONSIVE_JOURNEY_MAP_FINAL_CLOSURE_2026-10-02.md`.
+- Added `JM18_CANONICAL_JOURNEY_MAP_FINAL_CLOSURE_2026-10-02.md`.
+- **Phase C — Canonical Journey Map System is complete through JM-00–JM-18. No JM-19 is authorized by default.**
+
+
 ## 2 October 2026 — Journey Map JM-16 WORLD DESKTOP CLOSED / MERGED / LIVE VERIFIED
 
 - Runtime PR **#430** final head `80cdd57c86943e1f888b8bfb122bf977cb3193d5` merged as **`main@544475c534a05176f9c6d349b32c3b37819f7e1f`**.
