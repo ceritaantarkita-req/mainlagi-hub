@@ -168,7 +168,7 @@ async function inspectResponsiveViewport(browser, viewport) {
       const resume = document.querySelector("[data-world-journey-resume]");
       const resumeLink = resume?.querySelector("a");
       const current = document.querySelector('[data-world-stage-state="current"]');
-      const stageLinks = Array.from(document.querySelectorAll('[data-world-stage-id] > a'));
+      const stageNodes = Array.from(document.querySelectorAll('[data-world-stage-state]'));
       const banners = Array.from(document.querySelectorAll("[data-world-chapter-id]"));
       if (
         !(map instanceof HTMLElement) ||
@@ -181,7 +181,7 @@ async function inspectResponsiveViewport(browser, viewport) {
       const resumeBox = resume.getBoundingClientRect();
       const resumeLinkBox = resumeLink.getBoundingClientRect();
       const currentBox = current.getBoundingClientRect();
-      const stageBoxes = stageLinks.map((node) => {
+      const stageBoxes = stageNodes.map((node) => {
         const box = node.getBoundingClientRect();
         return { left: box.left, right: box.right, width: box.width, height: box.height };
       });
