@@ -331,8 +331,7 @@ try {
 
   const ageBoundarySources = {
     cloud: readFileSync(path.join(root, "src/lib/learning/cloud.ts"), "utf8"),
-    localProfile: readFileSync(path.join(root, "src/components/learning/ChildLearningPlatform.tsx"), "utf8"),
-    cloudProfile: readFileSync(path.join(root, "src/components/learning/CloudProfileScreens.tsx"), "utf8"),
+    profileUi: readFileSync(path.join(root, "src/components/learning/CloudProfileScreens.tsx"), "utf8"),
     contentArchitecture: readFileSync(path.join(root, "src/lib/learning/contentArchitecture.ts"), "utf8"),
     learningSchema: readFileSync(path.join(root, "supabase/migrations/0002_learning_attempt_schema.sql"), "utf8"),
     contentSchema: readFileSync(path.join(root, "supabase/migrations/0011_scalable_content_architecture.sql"), "utf8"),
@@ -341,8 +340,7 @@ try {
   };
   assert.match(ageBoundarySources.cloud, /input\.age\s*>\s*7/, "cloud profile create boundary changed; update the World age migration audit");
   assert.match(ageBoundarySources.cloud, /numeric\s*>=\s*3\s*&&\s*numeric\s*<=\s*7/, "cloud profile parser boundary changed; update the World age migration audit");
-  assert.match(ageBoundarySources.localProfile, /\[3,\s*4,\s*5,\s*6,\s*7\]/, "local child profile age choices changed; update the World age migration audit");
-  assert.match(ageBoundarySources.cloudProfile, /\[3,\s*4,\s*5,\s*6,\s*7\]/, "cloud child profile age choices changed; update the World age migration audit");
+  assert.match(ageBoundarySources.profileUi, /\[3,\s*4,\s*5,\s*6,\s*7\]/, "canonical child profile age choices changed; update the World age migration audit");
   assert.match(ageBoundarySources.contentArchitecture, /ageMax\s*<=\s*7/, "content architecture age ceiling changed; update the World age migration audit");
   assert.match(ageBoundarySources.learningSchema, /age_max\s+smallint\s+not\s+null\s+check\s*\(age_max\s+between\s+3\s+and\s+7/i, "learning skill DB age ceiling changed; update the World age migration audit");
   assert.match(ageBoundarySources.contentSchema, /age_max\s+smallint\s+not\s+null\s+check\s*\(age_max\s+between\s+3\s+and\s+7/i, "content-pack DB age ceiling changed; update the World age migration audit");

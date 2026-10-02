@@ -3,11 +3,9 @@
 export { ChildShell } from "./LearningCommon";
 export {
   ActivityScreen,
-  GamesScreen,
-  RewardsScreen
+  GamesScreen
 } from "./ChildLearningPlatform";
 export {
-  ChildHomeScreen,
   StageScreen,
   SubjectScreen
 } from "./ChildLearningPathViews";

@@ -2,174 +2,22 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from "react";
+import { useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 
 import { GameArtwork } from "@/components/GameArtwork";
 import { GAME_LIST } from "@/lib/data/games";
 import { CORE_SURFACE_THUMBNAILS } from "@/lib/learning/coreThumbnailRegistry";
 import {
-  CHARACTERS,
-  DEMO_PROFILE,
-  SUBJECTS,
   completeActivity,
-  getActivitiesForStage,
   getActivity,
-  getStage,
-  getSubject,
-  readProfiles,
-  readProgress,
-  saveProfile,
-  type CharacterId,
   type LearningActivity,
-  type LearningChildProfile,
   type LearningProgress,
-  type LearningSubject,
-  type LearningSubjectId
 } from "@/lib/learning/system";
-import { getLearningPathsForSubject, getLessonsForStage } from "@/lib/learning/curriculum";
-import { getNextBestLearningRecommendation } from "@/lib/learning/insights";
 import { buildMatchingColumns, matchingSeedFromText, nextDistinctMatchingSeed } from "@/lib/learning/matchingLayout";
-import { CharacterAvatar, CharacterGroup, ChildLoading, useLearningProfile, useLearningProgress } from "./LearningCommon";
-import { useLearningAnalytics } from "./useLearningAnalytics";
+import { ChildLoading, useLearningProfile } from "./LearningCommon";
 import styles from "./LearningPlatform.module.css";
 import { GardenActivityFrame } from "./GardenActivityFrame";
 import { ActivityCompletion } from "./ActivityCompletion";
-
-function coreActivities(activities: LearningActivity[]) {
-  return activities.filter((activity) => !activity.motionOptional && activity.runtime !== "motion_game");
-}
-
-function ageEligible(activity: LearningActivity, age: number) {
-  return age >= activity.ageMin && age <= activity.ageMax;
-}
-
-export function ChildSelectScreen() {
-  const router = useRouter();
-  const [profiles, setProfiles] = useState<LearningChildProfile[]>([]);
-  const [name, setName] = useState("");
-  const [age, setAge] = useState(5);
-  const [guide, setGuide] = useState<CharacterId>("paca");
-
-  useEffect(() => {
-    const frame = window.requestAnimationFrame(() => setProfiles(readProfiles()));
-    return () => window.cancelAnimationFrame(frame);
-  }, []);
-
-  const createProfile = () => {
-    const clean = name.trim();
-    if (!clean) return;
-    const id = typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID() : `child-${Date.now()}`;
-    const profile: LearningChildProfile = { id, name: clean.slice(0, 24), age, guide, language: "id" };
-    saveProfile(profile);
-    router.push(`/child/${id}/home`);
-  };
-
-  return (
-    <main className={styles.surface}>
-      <div className={styles.contentNarrow}>
-        <p className={styles.eyebrow}>Mainlagi untuk anak</p>
-        <h1 className={styles.pageTitle}>Siapa yang mau belajar?</h1>
-        <p className={styles.pageLead}>Pilih profil lalu masuk ke pengalaman belajar yang sederhana, visual, dan nyaman di HP.</p>
-
-        <section className={styles.section}>
-          <div className={styles.profileGrid}>
-            <Link className={styles.profileCard} href={`/child/${DEMO_PROFILE.id}/home`}>
-              <CharacterAvatar id={DEMO_PROFILE.guide} />
-              <span className={styles.profileCardText}><strong>{DEMO_PROFILE.name} — Demo</strong><span>{DEMO_PROFILE.age} tahun · Mulai cepat tanpa setup</span></span><span aria-hidden>→</span>
-            </Link>
-            {profiles.map((profile) => (
-              <Link className={styles.profileCard} href={`/child/${profile.id}/home`} key={profile.id}>
-                <CharacterAvatar id={profile.guide} />
-                <span className={styles.profileCardText}><strong>{profile.name}</strong><span>{profile.age} tahun · Guide {CHARACTERS[profile.guide].name}</span></span><span aria-hidden>→</span>
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        <section className={styles.formCard}>
-          <h2 style={{ margin: 0, color: "#24445e" }}>Tambah profil anak</h2>
-          <div className={styles.formGroup}><label htmlFor="child-name">Nama panggilan</label><input id="child-name" className={styles.input} value={name} onChange={(event) => setName(event.target.value)} maxLength={24} placeholder="Contoh: Gian" /></div>
-          <div className={styles.formGroup}><span className={styles.formLabel}>Umur</span><div className={styles.choiceRow}>{[3, 4, 5, 6, 7].map((value) => <button type="button" key={value} className={`${styles.choicePill} ${age === value ? styles.choicePillActive : ""}`} onClick={() => setAge(value)}>{value}</button>)}</div></div>
-          <div className={styles.formGroup}><span className={styles.formLabel}>Teman panduan</span><div className={styles.choiceRow}>{(Object.keys(CHARACTERS) as CharacterId[]).map((id) => <button type="button" key={id} className={`${styles.choicePill} ${guide === id ? styles.choicePillActive : ""}`} onClick={() => setGuide(id)}>{CHARACTERS[id].emoji} {CHARACTERS[id].name}</button>)}</div></div>
-          <div className={styles.heroActionRow}><button type="button" className={styles.primaryButton} onClick={createProfile}>Buat profil</button><Link className={styles.secondaryButton} href="/parent">Area orang tua</Link></div>
-        </section>
-      </div>
-    </main>
-  );
-}
-
-function SubjectScroller({ childId, active }: { childId: string; active?: LearningSubjectId }) {
-  return <div className={styles.subjectScroller} aria-label="Area belajar">{SUBJECTS.map((subject) => <Link key={subject.id} href={`/child/${childId}/subject/${subject.id}`} className={`${styles.subjectChip} ${active === subject.id ? styles.subjectChipActive : ""}`} style={{ "--accent": subject.accent, "--soft": subject.soft } as CSSProperties}><span className={styles.subjectChipIcon} aria-hidden>{subject.emoji}</span><span>{subject.shortTitle}</span></Link>)}</div>;
-}
-
-function StageCard({ childId, stageId, progress, subject, age }: { childId: string; stageId: string; progress: LearningProgress; subject: LearningSubject; age: number }) {
-  const stage = getStage(stageId)!;
-  const activities = getActivitiesForStage(stageId).filter((activity) => ageEligible(activity, age));
-  const required = coreActivities(activities);
-  const requiredDone = required.filter((item) => progress.completedActivityIds.includes(item.id)).length;
-  const percent = required.length ? Math.round((requiredDone / required.length) * 100) : 0;
-  const optionalMotion = activities.filter((item) => item.motionOptional).length;
-  return (
-    <Link href={`/child/${childId}/stage/${stageId}`} className={styles.stageCard} style={{ "--accent": subject.accent, "--soft": subject.soft } as CSSProperties}>
-      <span className={styles.stageIcon} aria-hidden>{stage.emoji}</span>
-      <h3>{stage.title}</h3><p>{stage.subtitle}</p>
-      <span className={styles.stageProgress}><span className={styles.progressTrack}><span className={styles.progressFill} style={{ width: `${percent}%` }} /></span><span>{requiredDone}/{required.length}</span></span>
-      {optionalMotion ? <span className={`${styles.tag} ${styles.tagMotion}`} style={{ marginTop: 8, alignSelf: "flex-start" }}>+ {optionalMotion} gerak opsional</span> : null}
-    </Link>
-  );
-}
-
-function runtimeLabel(activity: LearningActivity) {
-  const labels: Record<LearningActivity["runtime"], string> = { tap_choice: "Sentuh", listen_and_choose: "Audio + sentuh", matching: "Pasangkan", trace: "Trace jari", coloring: "Mewarnai", drawing: "Menggambar", story: "Cerita", motion_game: "Gerak kamera" };
-  return labels[activity.runtime];
-}
-
-function ActivityCard({ childId, activity, progress, subject }: { childId: string; activity: LearningActivity; progress: LearningProgress; subject: LearningSubject }) {
-  const done = progress.completedActivityIds.includes(activity.id);
-  return <Link href={`/child/${childId}/activity/${activity.id}`} className={styles.activityCard} style={{ "--accent": subject.accent, "--soft": subject.soft } as CSSProperties}><span className={styles.activityIcon} aria-hidden>{activity.emoji}</span><h3>{activity.title}</h3><p>{activity.description}</p><span className={styles.activityMeta}><span className={styles.tag}>{runtimeLabel(activity)}</span>{activity.motionOptional ? <span className={`${styles.tag} ${styles.tagMotion}`}>Gerak opsional</span> : null}{done ? <span className={`${styles.tag} ${styles.tagDone}`}>✓ Selesai</span> : null}</span></Link>;
-}
-
-export function ChildHomeScreen({ childId }: { childId: string }) {
-  const profile = useLearningProfile(childId);
-  const progress = useLearningProgress(childId);
-  const analytics = useLearningAnalytics(childId);
-  if (!profile) return <ChildLoading />;
-  const recommendation = getNextBestLearningRecommendation({ age: profile.age, progress, analytics, allowMotion: false });
-  const next = recommendation?.activity;
-  const nextSubject = next ? getSubject(next.subjectId) : undefined;
-  return <main className={styles.content}><section className={styles.heroCard}><div className={styles.heroCopy}><p className={styles.eyebrow}>Halo, {profile.name}! 👋</p><h1>Belajar sebentar, main lagi.</h1><p>Aktivitas berikut dipilih dari umur, stage yang sudah terbuka, completion, dan evidence mastery. Kamera tetap opsional.</p><div className={styles.heroActionRow}>{next ? <Link className={styles.primaryButton} href={`/child/${childId}/activity/${next.id}`}>▶ Lanjut: {next.title}</Link> : null}<Link className={styles.secondaryButton} href={`/child/${childId}/home#choose-subject`}>Pilih area belajar</Link></div></div><CharacterGroup /></section><section className={styles.section}><div className={styles.sectionHead}><h2>Pilih yang mau dipelajari</h2><span className={styles.tag}>⭐ {progress.stars}</span></div><SubjectScroller childId={childId} /></section>{next && nextSubject ? <section className={styles.section}><div className={styles.sectionHead}><h2>Saran belajar berikutnya</h2></div><div className={styles.infoBanner} style={{ marginBottom: 12 }}><strong>Kenapa ini?</strong> {recommendation.reasonLabel}</div><div className={styles.cardGrid}><ActivityCard childId={childId} activity={next} progress={progress} subject={nextSubject} /></div></section> : null}<section className={styles.section}><div className={styles.infoBanner}><strong>Main Gerak tetap ada.</strong> Kamera bukan syarat untuk belajar inti. Saat HP masih di tangan, pilih aktivitas sentuh dulu.</div></section></main>;
-}
-
-export function LearnLibraryScreen({ childId }: { childId: string }) {
-  const profile = useLearningProfile(childId);
-  const progress = useLearningProgress(childId);
-  if (!profile) return <ChildLoading />;
-  return <main className={styles.content}><p className={styles.eyebrow}>Learning Library</p><h1 className={styles.pageTitle}>Belajar</h1><p className={styles.pageLead}>Struktur Mainlagi sekarang mengikuti Subject → Learning Path → Stage → Lesson → Activity. Aktivitas inti tetap touch-first.</p><section className={styles.section}><SubjectScroller childId={childId} /></section>{SUBJECTS.map((subject) => { const paths = getLearningPathsForSubject(subject.id).filter((path) => profile.age >= path.ageMin && profile.age <= path.ageMax); return paths.map((path) => <section className={styles.section} key={path.id}><div className={styles.sectionHead}><div><p className={styles.eyebrow}>{subject.emoji} {subject.title}</p><h2>{path.title}</h2><p className={styles.pageLead}>{path.description}</p></div></div><div className={`${styles.cardGrid} ${styles.stageGrid}`}>{path.stageIds.map((stageId) => <StageCard key={stageId} childId={childId} stageId={stageId} progress={progress} subject={subject} age={profile.age} />)}</div></section>); })}<section className={styles.section}><div className={styles.infoBanner}><strong>Catatan kurikulum:</strong> struktur ini adalah kurikulum produk Mainlagi dan belum diklaim setara dengan standar sekolah atau kurikulum pihak ketiga.</div></section></main>;
-}
-
-export function SubjectScreen({ childId, subjectId }: { childId: string; subjectId: string }) {
-  const profile = useLearningProfile(childId);
-  const progress = useLearningProgress(childId);
-  const subject = getSubject(subjectId);
-  if (!profile || !subject) return <main className={styles.content}><div className={styles.emptyState}>Area belajar tidak ditemukan.</div></main>;
-  const paths = getLearningPathsForSubject(subject.id).filter((path) => profile.age >= path.ageMin && profile.age <= path.ageMax);
-  return <main className={styles.content}><p className={styles.eyebrow}>{subject.emoji} Area belajar</p><h1 className={styles.pageTitle}>{subject.title}</h1><p className={styles.pageLead}>{subject.description}</p><section className={styles.section}><SubjectScroller childId={childId} active={subject.id} /></section>{paths.map((path) => <section className={styles.section} key={path.id}><p className={styles.eyebrow}>Learning path</p><h2>{path.title}</h2><p className={styles.pageLead}>{path.description}</p><div className={`${styles.cardGrid} ${styles.stageGrid}`}>{path.stageIds.map((stageId) => <StageCard key={stageId} childId={childId} stageId={stageId} progress={progress} subject={subject} age={profile.age} />)}</div></section>)}</main>;
-}
-
-export function StageScreen({ childId, stageId }: { childId: string; stageId: string }) {
-  const profile = useLearningProfile(childId);
-  const progress = useLearningProgress(childId);
-  const stage = getStage(stageId);
-  if (!profile || !stage) return <main className={styles.content}><div className={styles.emptyState}>Stage tidak ditemukan.</div></main>;
-  const subject = getSubject(stage.subjectId)!;
-  const activities = getActivitiesForStage(stage.id).filter((activity) => ageEligible(activity, profile.age));
-  const activityMap = new Map(activities.map((activity) => [activity.id, activity]));
-  const lessons = getLessonsForStage(stage.id).filter((lesson) => profile.age >= lesson.ageMin && profile.age <= lesson.ageMax);
-  const optional = activities.filter((item) => item.motionOptional);
-  return <main className={styles.content}><Link className={styles.backButton} href={`/child/${childId}/subject/${stage.subjectId}`} aria-label="Kembali">←</Link><div style={{ marginTop: 16 }}><p className={styles.eyebrow}>{subject.title}</p><h1 className={styles.pageTitle}>{stage.emoji} {stage.title}</h1><p className={styles.pageLead}>{stage.subtitle}</p></div>{lessons.map((lesson) => { const lessonActivities = lesson.activityIds.map((id) => activityMap.get(id)).filter((item): item is LearningActivity => Boolean(item && !item.motionOptional && item.runtime !== "motion_game")); if (!lessonActivities.length) return null; return <section className={styles.section} key={lesson.id}><div className={styles.sectionHead}><div><p className={styles.eyebrow}>Lesson</p><h2>{lesson.title}</h2><p className={styles.pageLead}>{lesson.objective}</p></div></div><div className={styles.cardGrid}>{lessonActivities.map((activity) => <ActivityCard key={activity.id} childId={childId} activity={activity} progress={progress} subject={subject} />)}</div></section>; })}{optional.length ? <section className={styles.section}><div className={styles.sectionHead}><h2>Kalau mau main pakai gerakan</h2></div><div className={styles.motionNotice}><strong>Bonus opsional.</strong> Aktivitas di bawah tidak dihitung sebagai syarat completion stage.</div><div className={styles.cardGrid} style={{ marginTop: 12 }}>{optional.map((activity) => <ActivityCard key={activity.id} childId={childId} activity={activity} progress={progress} subject={subject} />)}</div></section> : null}</main>;
-}
-
 
 function ChoiceActivity({ childId, activity, onDone }: { childId: string; activity: LearningActivity; onDone: (value: LearningProgress) => void }) {
   const [feedback, setFeedback] = useState<"good" | "try" | null>(null);
@@ -520,9 +368,4 @@ export function GamesScreen({ childId }: { childId: string }) {
       </section>
     </main>
   );
-}
-
-export function RewardsScreen({ childId }: { childId: string }) {
-  const profile = useLearningProfile(childId); const progress = useLearningProgress(childId); if (!profile) return <ChildLoading />;
-  return <main className={styles.contentNarrow}><section className={styles.rewardHero}><CharacterAvatar id="gavi" large /><div className={styles.rewardStars}>⭐</div><strong>{progress.stars} bintang</strong><span>{progress.completedActivityIds.length} aktivitas selesai</span></section><section className={styles.section}><div className={styles.infoBanner}><strong>Hadiah tanpa tekanan.</strong> Tidak ada streak yang menghukum anak, dan bintang bukan nilai kecerdasan.</div></section><div className={styles.heroActionRow}><Link className={styles.primaryButton} href={`/child/${childId}/home#choose-subject`}>Cari aktivitas berikutnya</Link></div></main>;
 }
