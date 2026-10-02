@@ -221,7 +221,8 @@
     "test:ui:si06g-creative": "node scripts/run-si06g-creative-browser-tests.mjs",
     "test:ui:si08-bermain": "node scripts/run-si08-bermain-games-4-6-browser-tests.mjs",
     "test:ui:si09-bermain": "node scripts/run-si09-bermain-games-7-10-browser-tests.mjs",
-    "test:ui:si10-world": "node scripts/run-si10-world-adapter-browser-tests.mjs",\n    "test:ui:jm16-world-desktop": "node scripts/run-jm16-money-world-desktop-browser-tests.mjs",
+    "test:ui:si10-world": "node scripts/run-si10-world-adapter-browser-tests.mjs",
+    "test:ui:jm16-world-desktop": "node scripts/run-jm16-money-world-desktop-browser-tests.mjs",
     "test:learning:si11-closure": "node scripts/run-si11-integrated-closure-tests.mjs"
   },
   "dependencies": {
