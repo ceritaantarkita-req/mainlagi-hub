@@ -4,6 +4,27 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 
+## 2 October P0 execution override — CANONICAL UI REBASE AUDIT COMPLETE / UIA-01 NEXT
+
+The post-JM canonical UI ownership audit is complete against `main@f5657c1d36493b2803a8e457ccf7e9f2e0b2ee1d`.
+
+Canonical audit: `P0_CANONICAL_UI_ARCHITECTURE_REBASE_AUDIT_2026-10-02.md`.
+
+Do **not** replay the 20 September P0 list sequentially. Since that handoff, these items are already closed/superseded: Belajar/Bermain nav naming, 3-column subject directory, mobile profile sheet, QA unlock-all, subject ActivityGallery redesign (superseded by JM-18), matching randomization, shared Completion/Share, narration entry latency, parent responsive redesign, public/auth/account convergence and the full Journey Map program.
+
+**Next authorized implementation package: P0-UIA-01 — canonical owner retirement / legacy isolation.**
+
+Required scope:
+
+1. remove or stop exporting route-dead duplicate home/select/overview owners only after zero-consumer tracing;
+2. isolate old World/Belajar presentation exports without touching active `WorldChildShell`, `WorldActivityScreen`, `WorldRewardsScreen`, `GamesScreen` or finite activity fallback behavior;
+3. decide and document the now-unreachable `ActivityGallery` subject fallback;
+4. add a static route-owner regression protecting canonical app-route ownership;
+5. no visual redesign in UIA-01;
+6. no curriculum, readiness/evidence/mastery, activity mechanic, World progression, parent auth, database/schema, Shop or character-asset changes.
+
+Character final-hero work remains provenance/production-asset blocked. English voice quality beyond already-closed entry latency remains separate P1 work.
+
 ## 2 October Journey Map execution override — JM-18 FINAL CLOSURE / PROGRAM COMPLETE
 
 Phase C — Canonical Journey Map System is complete through **JM-00 → JM-18**.
