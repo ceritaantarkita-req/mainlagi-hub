@@ -1,15 +1,15 @@
 # JM-12 + JM-13 — Creative Journey Map closure
 
 Date: **2 October 2026**  
-Status: **RUNTIME MERGED / MERGED-MAIN VERIFICATION PENDING**  
+Status: **CLOSED / MERGED / LIVE VERIFIED**  
 Workstream: **Phase C — Canonical Journey Map System**
 
 Runtime PR: **#426**  
 Final runtime head: `ecb9699b04fc4c133d8c27a6e0f37946384f82bc`  
 Merged main: `5c9638303d562f96556bb16a18c40a716b27e73f`  
 PR CI: **#2351 / run `36945436676` — FULL REQUIRED GATES SUCCESS**  
-Merged-main CI: **#2352 / run `36946329650` — IN PROGRESS**  
-Production smoke: **PENDING exact merged-main verification**
+Merged-main CI: **#2352 / run `36946329650` — FULL SUCCESS**  
+Production smoke: **SUCCESS — exact Cloudflare deployment gate passed**
 
 ## 1. Scope
 
@@ -72,11 +72,23 @@ The browser evidence explicitly verified:
 - SI-06G creative regression remained PASS;
 - permanent visual product baseline passed **63 exact-path captures × 3 viewports**.
 
-## 5. Closure gate
+## 5. Merged-main production evidence
 
-Do not mark JM-12/JM-13 CLOSED / LIVE VERIFIED until merged-main CI #2352 passes all normal push gates including exact Production smoke (Cloudflare) for `5c9638303d562f96556bb16a18c40a716b27e73f`.
+Merged-main CI **#2352 / run `36946329650` completed FULL SUCCESS** for exact `main@5c9638303d562f96556bb16a18c40a716b27e73f`.
 
-After exact smoke succeeds, the only next Journey Map step is:
+Verified gates:
+
+- Production build
+- Quality gate (Ubuntu)
+- Windows compatibility
+- Secret history scan
+- Production dependency audit
+- Mobile route QA (Chromium)
+- Production smoke (Cloudflare)
+
+Therefore JM-12/JM-13 are **CLOSED / MERGED / LIVE VERIFIED**.
+
+The only next Journey Map step is:
 
 ```text
 JM-14 — 9-subject Belajar closure
