@@ -15,7 +15,9 @@ const expected={
   iqro:["iqro-huruf","iqro-recognition-basics","iqro-middle-families","iqro-advanced-families","iqro-final-families"],
   letters:["letters-foundations","letters-recognition-prewriting-basics","letters-middle-alphabet","letters-late-middle-alphabet","letters-final-alphabet"],
   logic:["logic-foundations","logic-classification-rules-basics","logic-patterns-sequences-relations","logic-conditional-analogy-inference","logic-mixed-reasoning-challenge"],
-  science:["science-foundations","science-living-observation-basics","science-life-material-motion","science-earth-body-environment","science-evidence-review-challenge"]
+  science:["science-foundations","science-living-observation-basics","science-life-material-motion","science-earth-body-environment","science-evidence-review-challenge"],
+  color:["color-characters","color-exploration-basics","color-patterns-scenes","color-mood-material-story","color-palette-scene-capstone"],
+  drawing:["drawing-lines-shapes-basics","drawing-objects-scenes","drawing-space-story-imagination","drawing-composition-design-capstone"]
 };
 let server=null;
 let serverLog="";
@@ -85,6 +87,17 @@ async function main(){
     await inspectSubject(page,"letters","Huruf & Menulis",expected.letters);
     await inspectSubject(page,"logic","Logika",expected.logic);
     await inspectSubject(page,"science","Sains",expected.science);
+    await inspectSubject(page,"color","Mewarnai",expected.color);
+    await inspectSubject(page,"drawing","Menggambar",expected.drawing);
+    await page.goto(base+"/child/demo-gian/subject/drawing?qa=unlock-all",{waitUntil:"domcontentloaded",timeout:30000});
+    await page.locator('[data-journey-stage="drawing-lines-shapes-basics"]').click();
+    const drawingDetail=page.getByRole("dialog");
+    await drawingDetail.waitFor({state:"visible",timeout:3000});
+    const drawingContinue=drawingDetail.locator("[data-stage-continue]");
+    assert.equal(await drawingContinue.getAttribute("href"),"/child/demo-gian/stage/drawing-lines-shapes-basics","Drawing Journey Map preserves canonical DrawingStageScreen handoff");
+    await drawingContinue.click();
+    await page.waitForURL(/\/child\/demo-gian\/stage\/drawing-lines-shapes-basics$/);
+    assert.equal(await page.getByRole("heading",{name:"Garis, Bentuk & Jalur",exact:true}).count(),1,"Drawing stage route remains canonical after Journey Map handoff");
     await desktop.close();
     const mobile=await browser.newContext({viewport:{width:390,height:844},hasTouch:true,reducedMotion:"reduce"}); await seed(mobile);
     const m=await mobile.newPage();
@@ -98,7 +111,7 @@ async function main(){
     assert.equal(await m.getByRole("dialog").locator("h2").textContent(),titleBefore,"Math rotation preserves selected stage");
     await noOverflow(m,"Math landscape");
     await mobile.close();
-    console.log("JM-06 through JM-11 shared Journey Map QA PASS: English, Bahasa Indonesia, Matematika, Iqro, Huruf & Menulis, Logika and Sains share one engine with exact canonical Stage order and 100 activities, text-only detail + Continue, JM-02 header, responsive bottom sheet and rotation state.");
+    console.log("JM-06 through JM-13 shared Journey Map QA PASS: all nine Belajar subjects share one engine with exact canonical Stage order and 100 activities; Mewarnai keeps creative activity handoff, Menggambar preserves DrawingStageScreen stage handoff, and shared text-only detail, JM-02 header, responsive bottom sheet and rotation state remain intact.");
   }finally{await browser.close();stopServer();}
 }
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;stopServer();});
