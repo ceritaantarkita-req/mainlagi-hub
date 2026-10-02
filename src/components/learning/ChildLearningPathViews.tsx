@@ -4,7 +4,6 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 import {
   SUBJECTS,
-  ACTIVITIES,
   getActivitiesForStage,
   getStage,
   getSubject,
@@ -14,29 +13,17 @@ import {
   type LearningSubjectId
 } from "@/lib/learning/system";
 import { getLearningPathsForSubject, getLessonsForStage } from "@/lib/learning/curriculum";
-import { getActivityLearningSpec, getLearningSkill } from "@/lib/learning/catalog";
+import { getActivityLearningSpec } from "@/lib/learning/catalog";
 import { getSubjectStageReadiness, type StageReadinessRow } from "@/lib/learning/insights";
-import { adaptiveReasonLabel, rankAdaptiveLearningV2 } from "@/lib/learning/adaptive";
-import { CharacterGroup, ChildLoading, useLearningProfile, useLearningProgress } from "./LearningCommon";
+import { rankAdaptiveLearningV2 } from "@/lib/learning/adaptive";
+import { ChildLoading, useLearningProfile, useLearningProgress } from "./LearningCommon";
 import { useLearningAnalytics } from "./useLearningAnalytics";
 import styles from "./LearningPlatform.module.css";
 import stageStyles from "./StagePath.module.css";
-import { SubjectDirectory } from "./Playroom";
 import { LearningSymbol } from "./LearningSymbol";
-import { ActivityGallery } from "./ActivityGallery";
 import { BelajarJourneyMap } from "./BelajarJourneyMap";
 
-const JOURNEY_MAP_SUBJECTS = new Set<LearningSubjectId>([
-  "bahasa",
-  "english",
-  "math",
-  "iqro",
-  "letters",
-  "logic",
-  "science",
-  "color",
-  "drawing"
-]);
+
 
 function ageEligible(activity: LearningActivity, age: number) {
   return age >= activity.ageMin && age <= activity.ageMax;
@@ -108,32 +95,6 @@ function ActivityCard({
   );
 }
 
-function adaptiveTop(args: {
-  age: number;
-  progress: LearningProgress;
-  analytics: ReturnType<typeof useLearningAnalytics>;
-  subjectId?: LearningSubjectId;
-}) {
-  const ranked = rankAdaptiveLearningV2({
-    age: args.age,
-    progress: args.progress,
-    analytics: args.analytics,
-    allowMotion: false,
-    subjectId: args.subjectId
-  });
-  const top = ranked[0];
-  if (!top) return null;
-  const activity = getActivitiesForStage(getStageForActivity(top.id) ?? "").find((item) => item.id === top.id);
-  if (!activity) return null;
-  const skill = top.targetSkillId ? getLearningSkill(top.targetSkillId) : undefined;
-  return {
-    ...top,
-    activity,
-    reasonLabel: adaptiveReasonLabel(top.reason, skill?.title ?? null),
-    targetSkillTitle: skill?.title ?? null
-  };
-}
-
 function getStageForActivity(activityId: string): string | null {
   for (const subject of SUBJECTS) {
     const paths = getLearningPathsForSubject(subject.id);
@@ -146,55 +107,6 @@ function getStageForActivity(activityId: string): string | null {
   return null;
 }
 
-export function ChildHomeScreen({ childId }: { childId: string }) {
-  const profile = useLearningProfile(childId);
-  const progress = useLearningProgress(childId);
-  const analytics = useLearningAnalytics(childId);
-  if (!profile) return <ChildLoading />;
-
-  const recommendation = adaptiveTop({ age: profile.age, progress, analytics });
-  const nextSubject = recommendation ? getSubject(recommendation.activity.subjectId) : undefined;
-
-  return (
-    <main className={styles.content}>
-      <section className={styles.heroCard}>
-        <div className={styles.heroCopy}>
-          <p className={styles.eyebrow}>Halo, {profile.name}! 👋</p>
-          <h1>Belajar sebentar, main lagi.</h1>
-          <p>Mainlagi menyiapkan permainan berikutnya dari perjalanan dan latihan terbaru. Kamera tetap opsional.</p>
-          <div className={styles.heroActionRow}>
-            {recommendation ? <Link className={styles.primaryButton} href={`/child/${childId}/activity/${recommendation.activity.id}`}>▶ Lanjut: {recommendation.activity.title}</Link> : null}
-            <Link className={styles.secondaryButton} href={`#choose-subject`}>Pilih area belajar</Link>
-          </div>
-        </div>
-        <CharacterGroup />
-      </section>
-
-      <section className={styles.section}>
-        <div className={styles.sectionHead}><h2>Pilih yang mau dipelajari</h2><span className={styles.tag}>⭐ {progress.stars}</span></div>
-        <SubjectDirectory childId={childId} />
-      </section>
-
-      {recommendation && nextSubject ? (
-        <section className={styles.section}>
-          <div className={styles.sectionHead}><h2>Saran belajar berikutnya</h2></div>
-          <div className={styles.infoBanner} style={{ marginBottom: 12 }}>
-            <strong>Kenapa ini?</strong> {recommendation.reasonLabel}
-            {recommendation.targetSkillTitle ? <><br /><small>Target: {recommendation.targetSkillTitle}</small></> : null}
-          </div>
-          <div className={styles.cardGrid}>
-            <ActivityCard childId={childId} activity={recommendation.activity} progress={progress} subject={nextSubject} recommended />
-          </div>
-        </section>
-      ) : null}
-
-      <section className={styles.section}>
-        <div className={styles.infoBanner}><strong>Main Gerak tetap ada.</strong> Kamera bukan syarat untuk learning path utama.</div>
-      </section>
-    </main>
-  );
-}
-
 export function SubjectScreen({ childId, subjectId, qaUnlockAll = false }: { childId: string; subjectId: string; qaUnlockAll?: boolean }) {
   const profile = useLearningProfile(childId);
   const progress = useLearningProgress(childId);
@@ -202,40 +114,13 @@ export function SubjectScreen({ childId, subjectId, qaUnlockAll = false }: { chi
   const subject = getSubject(subjectId);
   if (!profile || !subject) return <main className={styles.content}><div className={styles.emptyState}>Area belajar tidak ditemukan.</div></main>;
 
-  if (JOURNEY_MAP_SUBJECTS.has(subject.id)) {
-    return (
-      <BelajarJourneyMap
-        subjectId={subject.id}
-        childId={childId}
-        age={profile.age}
-        progress={progress}
-        analytics={analytics}
-        qaUnlockAll={qaUnlockAll}
-      />
-    );
-  }
-
-  const readiness = getSubjectStageReadiness(subject.id, progress, analytics);
-  const totalActivities = ACTIVITIES.filter((activity) => activity.subjectId === subject.id);
-  const openStageIds = new Set(
-    (qaUnlockAll ? readiness : readiness.filter((row) => row.status !== "locked")).map((row) => row.stageId)
-  );
-  const recommendation = adaptiveTop({ age: profile.age, progress, analytics, subjectId: subject.id });
-  const stageJourney = readiness.map((row) => ({
-    ...row,
-    title: getStage(row.stageId)?.title ?? "Tahap belajar"
-  }));
-
   return (
-    <ActivityGallery
+    <BelajarJourneyMap
+      subjectId={subject.id}
       childId={childId}
-      subject={subject}
-      activities={totalActivities}
-      progress={progress}
-      openStageIds={openStageIds}
       age={profile.age}
-      stageJourney={stageJourney}
-      recommendedActivityId={recommendation?.activity.id ?? null}
+      progress={progress}
+      analytics={analytics}
       qaUnlockAll={qaUnlockAll}
     />
   );
