@@ -2,10 +2,22 @@
 
 Date: **20 September 2026**  
 Last synchronized: **2 October 2026**
-Status: **ACTIVE ROADMAP / SEMANTIC ART P0 CLOSED / SHARED INTERACTION PROGRAM COMPLETE / JM-15 WORLD AUDIT COMPLETE**
-Current synchronized Journey Map baseline: `main` = `cf0007d48734b3dcd3f9ad60bf340ab043ce02a6`. JM-00 through JM-14 Belajar are closed/live verified through main CI #2354 / run `36950193685`, including exact Cloudflare smoke. JM-15 Petualangan Uang read-only adapter audit is complete on top of that baseline. Semantic Art P0 and Shared Interaction remain fully closed.
+Status: **ACTIVE ROADMAP / SEMANTIC ART P0 CLOSED / SHARED INTERACTION PROGRAM COMPLETE / JM-16 WORLD DESKTOP CLOSED**
+Current synchronized Journey Map baseline: `main` = `544475c534a05176f9c6d349b32c3b37819f7e1f`. JM-00 through JM-16 are closed/live verified through main CI #2368 / run `36968729118`, including exact Cloudflare smoke. Petualangan Uang now has the audited World-specific adapter plus the JM-16 desktop Journey Map; JM-17 mobile/responsive is next. Semantic Art P0 and Shared Interaction remain fully closed.
 
 This document is the short human/AI handoff for Mainlagi product-quality work. It records the user-accepted UX direction without changing curriculum, mastery, evidence or progression. The latest WS-05 Logic reuse wave is closed; any later mechanic work remains a separate audited track.
+
+## 2 October Journey Map JM-16 World desktop closure
+
+JM-16 is **CLOSED / MERGED / LIVE VERIFIED**. Canonical closure: `JM16_MONEY_WORLD_DESKTOP_JOURNEY_MAP_FINAL_CLOSURE_2026-10-02.md`.
+
+Runtime PR #430 final head `80cdd57c86943e1f888b8bfb122bf977cb3193d5` merged as `544475c534a05176f9c6d349b32c3b37819f7e1f`. The World map now consumes a pure World-specific Journey Map adapter and uses a clean illustrated desktop composition with progress summary, resume/checkpoint CTA, Chapter banners and alternating semantic Stage cards.
+
+Exact **2 Chapters / 8 Stages / 44 Scenes / 89 Segments**, sequential unlock, ★★★ completion presentation, Segment checkpoint/resume, stable routes, Completion/Share, evidence/age boundaries and World runtime remain unchanged. World is not routed through the Belajar Journey Map engine and no Browse All was introduced.
+
+PR CI #2367 and merged-main CI #2368 completed full success; exact Cloudflare production smoke passed for the merged runtime SHA.
+
+**Next:** JM-17 Petualangan Uang mobile/responsive Journey Map. Reuse the JM-16 adapter and preserve runtime semantics while adding mobile/tablet presentation, resume CTA, current-Stage visibility, rotation/reflow safety and no-overflow coverage.
 
 ## 2 October Journey Map JM-15 World read-only adapter audit
 
