@@ -264,7 +264,7 @@ try {
   assert.match(canonicalCompletionCss, /\.shareButton\s*\{[\s\S]*width:\s*min\(590px,\s*100%\)/, "canonical Share must remain a separate full completion action below navigation");
   assert.match(worldRuntimeSource, /role="progressbar"/, "Stage progress must expose progressbar semantics");
   assert.match(worldRuntimeSource, /aria-valuenow=\{segmentIndex \+ 1\}/, "Stage progress must expose current Segment position");
-  assert.match(worldRuntimeSource, /aria-current=\{stage\.id === nextJourneyStageId \? "step"/, "journey map must expose the current Stage semantically");
+  assert.match(worldRuntimeSource, /aria-current=\{stage\.current \? "step"/, "journey map must expose the adapter-projected current Stage semantically");
   assert.match(worldRuntimeSource, /<CanonicalCompletion/, "World Stage completion must delegate to the canonical Completion owner");
   assert.match(canonicalCompletionSource, /headingRef\.current\?\.focus\(\)/, "canonical Completion must move focus to its labelled completion heading");
   assert.match(worldRuntimeSource, /role="img" aria-label=\{startCount \+ " token, " \+ removeCount \+ " dipakai"\}/, "take-away token board must expose a text alternative");
