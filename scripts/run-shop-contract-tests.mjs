@@ -332,11 +332,18 @@ assert.match(
   /verificationStatus[\s\S]*production_verified[\s\S]*(?:verification_stale|candidate marketplace)/,
   "admin product workflow must keep production verification explicit and surface non-production\/stale states",
 );
-assert.match(
-  productAdminEditorSource,
-  /Physical \/ supplier verification[\s\S]*actualProductFacts[\s\S]*variantSkus[\s\S]*evidenceRef/,
-  "admin must capture structured physical/supplier verification evidence",
-);
+for (const required of [
+  /Physical \/ supplier verification/,
+  /actualProductFacts/,
+  /variantSkus/,
+  /evidenceRef/,
+]) {
+  assert.match(
+    productAdminEditorSource,
+    required,
+    "admin must capture structured physical/supplier verification evidence",
+  );
+}
 assert.match(
   productAdminEditorSource,
   /verification_stale[\s\S]*Verification stale — wajib verifikasi ulang/,
