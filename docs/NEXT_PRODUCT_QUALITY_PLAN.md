@@ -4,6 +4,26 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 
+## 2 October Journey Map execution override — JM-15 AUDIT COMPLETE / JM-16 NEXT
+
+JM-15 Petualangan Uang read-only adapter audit is complete against `main@cf0007d48734b3dcd3f9ad60bf340ab043ce02a6`.
+
+Canonical audit: `JM15_MONEY_WORLD_READONLY_JOURNEY_MAP_ADAPTER_AUDIT_2026-10-02.md`.
+
+Locked World truth:
+
+- **2 Chapters / 8 Stages / 44 Scenes / 89 Segments**;
+- 16 practice activity placements, exactly two per Stage;
+- stable map + Stage routes remain owned by `MoneyWorldMapScreen` / `MoneyWorldStageScreen`;
+- unlock remains sequential through existing `MoneyWorldProgress`, not Belajar mastery/readiness;
+- current Journey position remains the first incomplete Stage;
+- `currentStageId + currentSegmentIndex` remains the separate resume checkpoint;
+- World ★★★ is completion presentation, **not mastery**;
+- pilot age policy remains **6–8**, with no silent age morph;
+- Completion/Share and supplemental-evidence boundaries remain unchanged.
+
+**JM-16 — Petualangan Uang desktop redesign is next after the JM-15 closure merge/production gate.** Implement a World-specific read-only Journey Map adapter and desktop presentation. Do not route World through the Belajar activity/Browse-All engine. Keep JM-17 responsive work and JM-18 final closure out of JM-16 except for minimal structural safety.
+
 ## 2 October Journey Map execution override — JM-14 BELAJAR CLOSED / LIVE VERIFIED / JM-15 NEXT
 
 JM-00 through JM-14 Belajar scope is **CLOSED / MERGED / LIVE VERIFIED**.

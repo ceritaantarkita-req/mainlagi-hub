@@ -4,6 +4,20 @@ Last reviewed: **2 October 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
+## 2 October 2026 — Journey Map JM-15 Petualangan Uang read-only adapter audit COMPLETE
+
+JM-15 read-only audit is complete against the live-verified JM-14 closure baseline `main@cf0007d48734b3dcd3f9ad60bf340ab043ce02a6`.
+
+Canonical audit: `docs/JM15_MONEY_WORLD_READONLY_JOURNEY_MAP_ADAPTER_AUDIT_2026-10-02.md`.
+
+The audit confirms Petualangan Uang remains a separate World semantic system: **2 Chapters / 8 Stages / 44 Scenes / 89 Segments / 16 practice activity placements**. World progression remains ordered-prefix/sequential through `MoneyWorldProgress`, with Stage completion stars and Segment resume checkpoints; it does not use Belajar readiness/mastery to unlock World Stages.
+
+**Architecture lock:** JM-16 must use a World-specific read-only presentation adapter derived from canonical World structure + existing World progress. Do not add World directly to `BelajarJourneyMap`, invent World Browse All, create a second progress store, or treat World ★★★ as mastery.
+
+JM-15 changes documentation/audit truth only; no World runtime, visual, story, progression, evidence, Completion/Share, schema, age-policy, Belajar, Bermain or Shop behavior changes in this audit.
+
+**Current boundary:** JM-16 — Petualangan Uang desktop redesign is the next implementation step after the JM-15 audit closure passes its repository merge/production gate. JM-17 responsive and JM-18 final closure remain later steps.
+
 ## 2 October 2026 — Journey Map JM-14 9-subject Belajar CLOSED / MERGED / LIVE VERIFIED
 
 JM-00 through JM-14 Belajar scope is **CLOSED / MERGED / LIVE VERIFIED**.
