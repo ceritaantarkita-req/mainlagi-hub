@@ -1,5 +1,16 @@
 # Changelog
 
+## 2 October 2026 — P0-UIA-01 PRE-EXECUTION SAFE CHECKPOINT
+
+- Audit PR **#434** merged as `main@b07c293a97b6cc5c71421d296ac350d7dd9cd23b`.
+- PR CI **#2377 / run `36980535324` FULL SUCCESS**.
+- Merged-main CI **#2378 / run `36981780636` FULL SUCCESS**.
+- Exact merged-main **Production smoke (Cloudflare) SUCCESS**.
+- Added `P0_UIA01_PREEXECUTION_SAFE_CHECKPOINT_2026-10-02.md` as the canonical resume point before runtime cleanup.
+- Runtime UIA-01 cleanup has **not** started at this checkpoint.
+- Next package remains **P0-UIA-01 — canonical owner retirement / legacy isolation** with no visual redesign or product-semantic changes.
+
+
 ## 2 October 2026 — P0 CANONICAL UI ARCHITECTURE RE-BASELINE AUDIT
 
 - Re-traced canonical production ownership against final Journey Map docs baseline `main@f5657c1d36493b2803a8e457ccf7e9f2e0b2ee1d`.
