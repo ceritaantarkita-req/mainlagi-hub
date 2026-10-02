@@ -177,10 +177,12 @@ export function BelajarJourneyMap({ subjectId, childId, age, progress, analytics
                 ))}
               </ul>
             </div>
-            {recommendedActivity ? (
+            {model.subjectId === "drawing" ? (
+              <Link className={styles.continueButton} data-stage-continue href={selected.href}>Buka stage</Link>
+            ) : recommendedActivity ? (
               <Link className={styles.continueButton} data-stage-continue href={"/child/" + encodeURIComponent(childId) + "/activity/" + encodeURIComponent(recommendedActivity.id)}>Lanjut belajar</Link>
             ) : (
-              <Link className={styles.continueButton} href={selected.href}>Buka stage</Link>
+              <Link className={styles.continueButton} data-stage-continue href={selected.href}>Buka stage</Link>
             )}
           </section>
         </div>
