@@ -228,10 +228,19 @@ async function inspectResponsiveViewport(browser, viewport) {
       assert.ok(box.height >= 44, `Stage touch target must remain at least 44px at ${viewport.width}px`);
     }
 
-    if (viewport.width <= 900) {
+    if (viewport.width <= 430) {
+      assert.ok(
+        geometry.stageBoxes[0]?.width <= 190 && geometry.stageBoxes[1]?.width <= 190,
+        `JM-17 phone Stages must remain compact game nodes at ${viewport.width}px`
+      );
+      assert.ok(
+        Math.abs(geometry.firstCenter - geometry.secondCenter) >= 90,
+        `JM-17 phone Stages must keep the alternating winding path at ${viewport.width}px`
+      );
+    } else if (viewport.width <= 900) {
       assert.ok(
         Math.abs(geometry.firstCenter - geometry.secondCenter) <= Math.max(18, viewport.width * 0.08),
-        `JM-17 <=900px Stages must use the stacked responsive lane at ${viewport.width}px`
+        `JM-17 tablet Stages must use the stacked responsive lane at ${viewport.width}px`
       );
     }
 
