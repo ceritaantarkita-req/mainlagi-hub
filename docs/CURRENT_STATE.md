@@ -5,6 +5,28 @@ Last reviewed: **2 October 2026**
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
 
+## 2 October 2026 — P0-OPEN-02A SHOP CONVERGENCE PREFLIGHT COMPLETE
+
+Canonical preflight: `docs/P0_OPEN02A_SHOP_CONVERGENCE_PREFLIGHT_2026-10-02.md`.
+
+Audit baseline: `main@ccd440c068eac9a18056999a5d0b4d08440e329d`; Shop source PR **#359** head `9047931289e6ccd8981a35f7c79c321a24f34b59` is now **367 commits ahead / 58 behind** current main across **134 changed paths**.
+
+The technical audit confirms the Shop core is substantially portable but #359 must **not** be merged/rebased wholesale. The safe model is a fresh current-main branch with additive Shop namespaces plus surgical replay of shared seams. **113/134 paths** are Shop-owned/additive candidates; historical shared `package.json`, lockfile, canonical CI, navigation, admin shell and cross-product docs must not overwrite current main.
+
+Important convergence locks:
+
+- current main is Next **^16.3.6** while #359 records **^16.3.3**; preserve current Next and regenerate the lockfile after adding only Shop scripts + `@electric-sql/pglite@0.5.8`;
+- current canonical CI stays authoritative; do not restore the historical ~726-line branch-bound provider CI wholesale;
+- use the newer manual `shop-batch11-staging.yml` for Midtrans Sandbox + Biteship Testing integrated E2E;
+- current auth/admin seams remain compatible with the Shop implementation;
+- main has migrations **0001–0051**; the **10 Shop migrations** sort after that chain and #359's migration-chain test already exercises the full repository chain plus Shop, including RLS/RPC privilege checks;
+- child Journey Map navigation remains Belajar/Bermain/World with Shop disabled; do not replay #359/#360 navigation exposure during core convergence.
+
+Production activation remains blocked by **0/9 products / 0/27 variants physically or supplier verified** and the unresolved owner production value for `SHOP_ORDER_PII_RETENTION_DAYS` (**30–3650 days**). The staging value `30` remains test-only.
+
+**Current boundary: P0-OPEN-02B — owner launch inputs.** Obtain real physical/supplier verification evidence for all active Shop SKUs and an explicit production PII-retention value. Until those exist: keep #359 as source/evidence only, do not migrate production DB, do not enable Shop sales, and do not claim release readiness. After those inputs are recorded, the first runtime package is **P0-SHOP-CONV-01 — fresh current-main commerce-core transplant**.
+
+
 ## 2 October 2026 — P0-OPEN-01 OPEN-WORKSTREAM AUDIT COMPLETE / SAFE CHECKPOINT
 
 Canonical checkpoint: `docs/P0_OPEN01_OPEN_WORKSTREAM_AUDIT_SAFE_CHECKPOINT_2026-10-02.md`.
