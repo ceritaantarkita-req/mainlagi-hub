@@ -1,6 +1,8 @@
 # P0-UIA-01 Pre-execution Safe Checkpoint — 2026-10-02
 
-Status: **SAFE CHECKPOINT / AUDIT MERGED + LIVE VERIFIED / RUNTIME CLEANUP NOT STARTED**
+Status: **HISTORICAL PRE-EXECUTION CHECKPOINT / SUPERSEDED BY FINAL UIA-01 CLOSURE**
+
+> Current authority: `P0_UIA01_CANONICAL_OWNER_RETIREMENT_FINAL_CLOSURE_2026-10-02.md`. This file remains the exact rollback baseline before runtime cleanup.
 
 This checkpoint exists so a later agent/chat can resume the canonical UI cleanup without repeating the post-JM audit or accidentally editing historical presentation owners.
 
