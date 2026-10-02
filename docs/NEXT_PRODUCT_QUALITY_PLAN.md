@@ -4,6 +4,31 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 
+## 2 October Journey Map execution override — JM-18 FINAL CLOSURE / PROGRAM COMPLETE
+
+Phase C — Canonical Journey Map System is complete through **JM-00 → JM-18**.
+
+Canonical final closure: `JM18_CANONICAL_JOURNEY_MAP_FINAL_CLOSURE_2026-10-02.md`.  
+JM-17 runtime closure: `JM17_MONEY_WORLD_RESPONSIVE_JOURNEY_MAP_FINAL_CLOSURE_2026-10-02.md`.
+
+Final runtime baseline: `main@b4473cc0582c096441e429b8ed94c20fc4bf1b8e`.
+
+Verification:
+
+- JM-17 runtime PR **#432**, final head `ed09dc20bea0f29060616e417d48a54f5916469c`;
+- PR CI **#2373 / run `36972969667` — FULL SUCCESS**;
+- merged-main CI **#2374 / run `36974133135` — FULL SUCCESS**;
+- exact Cloudflare production smoke — **SUCCESS**.
+
+Final system boundary:
+
+- one shared Belajar Journey Map for **9 subjects / 46 Stages / 900 activities**;
+- Petualangan Uang remains a separate World model with **2 Chapters / 8 Stages / 44 Scenes / 89 Segments**;
+- World desktop + phone + tablet + rotation presentation consume the same World-specific adapter;
+- curriculum/readiness/evidence/mastery, World progression/checkpoint semantics, stable routes, Completion/Share, creative workspaces, schema, Belajar/Bermain/Shop boundaries remain preserved.
+
+**No further JM package is authorized by default.** A future Journey Map change requires a new scoped requirement or a proven regression; do not create JM-19 as routine continuation.
+
 ## 2 October Journey Map execution override — JM-16 CLOSED / LIVE VERIFIED / JM-17 NEXT
 
 JM-16 Petualangan Uang desktop Journey Map is **CLOSED / MERGED / LIVE VERIFIED**.
