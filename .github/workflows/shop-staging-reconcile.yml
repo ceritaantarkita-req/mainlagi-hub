@@ -1,0 +1,70 @@
+name: Shop staging reconciliation
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: shop-staging-reconciliation
+  cancel-in-progress: false
+
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      SHOP_STAGING_URL: ${{ secrets.SHOP_STAGING_URL }}
+      SHOP_CRON_SECRET: ${{ secrets.SHOP_CRON_SECRET }}
+    steps:
+      - name: Check staging scheduler configuration
+        id: config
+        shell: bash
+        run: |
+          if [[ -n "$SHOP_STAGING_URL" && -n "$SHOP_CRON_SECRET" ]]; then
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Shop staging reconciliation is not active until SHOP_STAGING_URL and SHOP_CRON_SECRET are configured."
+          fi
+
+      - name: Reconcile Shop staging
+        if: steps.config.outputs.configured == 'true'
+        shell: bash
+        run: |
+          node <<'NODE'
+          const base = process.env.SHOP_STAGING_URL.replace(/\/$/, "");
+          const response = await fetch(base + "/api/shop/reconcile", {
+            method: "POST",
+            headers: {
+              Authorization: "Bearer " + process.env.SHOP_CRON_SECRET,
+              "Content-Type": "application/json",
+            },
+            body: "{}",
+            signal: AbortSignal.timeout(30000),
+          });
+          const text = await response.text();
+          let body;
+          try { body = JSON.parse(text); }
+          catch { throw new Error("Reconciliation endpoint returned non-JSON."); }
+          console.log(JSON.stringify({
+            runId: body.runId,
+            status: body.status,
+            expiredLocally: body.expiredLocally,
+            payment: body.payment,
+            shipment: body.shipment,
+          }));
+          if (!response.ok) throw new Error("Reconciliation endpoint failed: " + response.status);
+          if (body.status === "blocked")
+            throw new Error("Reconciliation is blocked; inspect staging run details.");
+          if ((body.payment?.failed ?? 0) > 0 || (body.shipment?.failed ?? 0) > 0)
+            throw new Error("Reconciliation completed with provider failures.");
+          NODE
+
+      - name: Record inactive scheduler state
+        if: steps.config.outputs.configured != 'true'
+        run: |
+          echo "Shop staging scheduler code is installed but runtime staging secrets are not configured."

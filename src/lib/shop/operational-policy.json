@@ -1,0 +1,103 @@
+{
+  "version": "2026-09-27-batch04-v3-owner-approved",
+  "status": "approved",
+  "purpose": "Owner-approved operational and customer-policy contract for Mainlagi Shop. Missing private deployment configuration remains fail-closed and blocks sales activation.",
+  "currentImplementedBehavior": {
+    "paymentExpiryMinutes": 30,
+    "shippingQuoteExpiryMinutes": 15,
+    "collectionMethod": "pickup",
+    "shippingType": "parcel",
+    "instantServiceAllowed": false,
+    "partialRefundHandling": "manual_review",
+    "guestOrderAccess": "original_device_cookie_or_origin_authenticated_account",
+    "outboundCustomerNotifications": "not_implemented"
+  },
+  "ownerDecisions": {
+    "pickupOrigin": {
+      "approved": true,
+      "storage": "server_environment",
+      "requiredFields": [
+        "BITESHIP_ORIGIN_CONTACT_NAME",
+        "BITESHIP_ORIGIN_CONTACT_PHONE",
+        "BITESHIP_ORIGIN_ADDRESS",
+        "BITESHIP_ORIGIN_POSTAL_CODE"
+      ],
+      "note": "Owner approved one Mainlagi fulfillment/pickup origin. Real sender/contact/address/postal values remain private server environment configuration."
+    },
+    "courierAllowlist": {
+      "approved": true,
+      "couriers": [
+        "jne",
+        "jnt",
+        "sicepat",
+        "anteraja",
+        "ninja"
+      ],
+      "allowedServiceClass": {
+        "shippingType": "parcel",
+        "collectionMethod": "pickup",
+        "instantAllowed": false
+      },
+      "services": [
+        "jne/reg",
+        "jnt/ez",
+        "sicepat/reg",
+        "anteraja/reg",
+        "ninja/standard"
+      ]
+    },
+    "packingHandling": {
+      "approved": true,
+      "handlingFeeAmount": 0,
+      "packingRule": "Normal protective packing is included with no hidden handling fee. Special packing or insurance that changes customer price requires separate owner approval and implementation."
+    },
+    "support": {
+      "approved": true,
+      "channel": "whatsapp",
+      "contact": "+6281280769076",
+      "hours": "Senin-Jumat, 09:00-17:00 WIB"
+    },
+    "paymentExpiry": {
+      "approved": true,
+      "minutes": 30,
+      "implementedMinutes": 30
+    },
+    "cancellation": {
+      "approved": true,
+      "publicPolicy": "Pesanan yang belum dibayar dapat dibiarkan kedaluwarsa. Setelah pembayaran terverifikasi, pembatalan tidak tersedia secara otomatis. Hubungi dukungan Mainlagi secepatnya; permintaan sebelum pesanan diserahkan ke kurir ditinjau secara manual. Setelah pesanan dikirim, kebijakan retur/penukaran yang berlaku digunakan."
+    },
+    "returnExchange": {
+      "approved": true,
+      "publicPolicy": "Barang salah, rusak, atau cacat dilaporkan maksimal 2 x 24 jam setelah diterima dengan nomor pesanan dan bukti foto/video yang wajar. Kasus yang terverifikasi dapat memperoleh penggantian atau refund. Tukar ukuran/change-of-mind untuk apparel dapat diajukan maksimal 7 hari kalender setelah diterima bila barang belum dipakai, belum dicuci, lengkap, dan stok tersedia. Ongkir change-of-mind ditanggung pelanggan; ongkir untuk kesalahan fulfillment Mainlagi atau cacat terverifikasi ditanggung Mainlagi. Refund tidak otomatis mengembalikan stok; barang retur harus diperiksa sebelum penyesuaian inventori."
+    },
+    "refund": {
+      "approved": true,
+      "publicPolicy": "Full refund dapat disetujui secara manual untuk pembatalan yang diterima sebelum pengiriman, kiriman yang dikonfirmasi hilang, atau barang salah/rusak/cacat terverifikasi ketika penggantian ditolak atau tidak tersedia. Partial refund tetap manual review. Target pemrosesan refund 3-7 hari kerja setelah disetujui, dengan waktu akhir mengikuti pemrosesan provider/bank. Restock fisik dan konsekuensi kurir diproses terpisah.",
+      "partialRefundMode": "manual_review"
+    },
+    "sla": {
+      "approved": true,
+      "processing": "Pesanan diproses/dikemas 1-2 hari kerja setelah pembayaran terverifikasi.",
+      "shipping": "Estimasi transit mengikuti ETA kurir yang ditampilkan saat checkout dan bukan jaminan waktu tiba dari Mainlagi. Target respons support maksimal 1 hari kerja pada jam layanan.",
+      "refund": "Refund yang disetujui ditargetkan diproses dalam 3-7 hari kerja, dengan waktu penerimaan akhir mengikuti provider/bank."
+    },
+    "guestOrderRecovery": {
+      "approved": true,
+      "mode": "original_device_cookie_or_origin_authenticated_account_with_manual_support_recovery",
+      "note": "Self-service tetap terbatas ke cookie perangkat guest asli atau akun autentik yang membuat order. Jika akses guest hilang, recovery dilakukan melalui support dengan verifikasi manual order number dan identitas pesanan; tidak ada public lookup hanya berdasarkan nomor order/email/telepon."
+    },
+    "customerNotifications": {
+      "approved": true,
+      "channels": [],
+      "note": "Initial release has no proactive automated email/WhatsApp order notifications. Order state is available on the authorized order-status page; exceptions are handled manually by support."
+    },
+    "exceptionHandling": {
+      "approved": true,
+      "damaged": "Manual review after evidence; replacement or refund follows the approved return/refund policy.",
+      "wrongItem": "Manual review; verified fulfillment error receives replacement or refund according to the approved policy.",
+      "lostShipment": "Escalate and confirm loss with the courier, then replace or refund after loss is confirmed.",
+      "delayedShipment": "Show provider tracking state and escalate when the quoted ETA has materially passed; do not mark lost solely because it is late.",
+      "ambiguousProviderState": "manual_review"
+    }
+  }
+}
