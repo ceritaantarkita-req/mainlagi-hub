@@ -34,6 +34,7 @@ const ROUTES = [
   { path: "/child/demo-gian/subject/math", kind: "child-learning", touch: true },
   { path: "/child/demo-gian/stage/math-angka", kind: "child-learning", touch: true },
   { path: "/child/demo-gian/activity/math-count-3", kind: "child-learning", touch: true },
+  { path: "/child/demo-gian/subject/color", kind: "child-learning", touch: true },
   { path: "/child/demo-gian/subject/drawing", kind: "child-learning", touch: true },
   { path: "/child/demo-gian/stage/drawing-lines-shapes-basics", kind: "child-learning", touch: true },
   { path: "/child/demo-gian/activity/drawing-line-vertical", kind: "child-learning", touch: true },
@@ -249,6 +250,22 @@ async function inspectPage(page, route, viewport) {
       assert.equal(await page.locator("[data-activity-gallery]").count(), 0, `Math must not fall back to the legacy gallery at ${viewport.width}px`);
     }
 
+    if (route.path === "/child/demo-gian/subject/color") {
+      const journeyMap = page.locator('[data-belajar-journey-map="v1"][data-journey-subject="color"]');
+      await journeyMap.waitFor({ state: "visible", timeout: 5_000 });
+      assert.equal(await journeyMap.locator("[data-journey-stage]").count(), 5, `Mewarnai Journey Map must preserve five canonical stages at ${viewport.width}px`);
+      assert.equal(await journeyMap.locator("[data-journey-browse-all] li").count(), 100, `Mewarnai Journey Map must preserve exact 100-activity membership at ${viewport.width}px`);
+      assert.equal(await page.locator("[data-activity-gallery]").count(), 0, `Mewarnai must not fall back to the legacy gallery at ${viewport.width}px`);
+    }
+
+    if (route.path === "/child/demo-gian/subject/drawing") {
+      const journeyMap = page.locator('[data-belajar-journey-map="v1"][data-journey-subject="drawing"]');
+      await journeyMap.waitFor({ state: "visible", timeout: 5_000 });
+      assert.equal(await journeyMap.locator("[data-journey-stage]").count(), 4, `Menggambar Journey Map must preserve four canonical stages at ${viewport.width}px`);
+      assert.equal(await journeyMap.locator("[data-journey-browse-all] li").count(), 100, `Menggambar Journey Map must preserve exact 100-activity membership at ${viewport.width}px`);
+      assert.equal(await page.locator("[data-activity-gallery]").count(), 0, `Menggambar must not fall back to the legacy gallery at ${viewport.width}px`);
+    }
+
     const bodyText = (await page.locator("body").innerText()).trim();
     assert.ok(bodyText.length > 20, `${route.path} rendered an unexpectedly blank body at ${viewport.width}px`);
 
@@ -280,7 +297,11 @@ async function inspectPage(page, route, viewport) {
       );
     }
 
-    if (route.path === "/child/demo-gian/subject/math") {
+    if (
+      route.path === "/child/demo-gian/subject/math" ||
+      route.path === "/child/demo-gian/subject/color" ||
+      route.path === "/child/demo-gian/subject/drawing"
+    ) {
       await assertJm02Header(page, viewport, {
         backHref: "/child/demo-gian/home#choose-subject",
         currentHref: "/child/demo-gian/home"
