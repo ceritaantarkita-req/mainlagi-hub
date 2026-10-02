@@ -14,7 +14,7 @@ import {
   type LearningProgress,
 } from "@/lib/learning/system";
 import { buildMatchingColumns, matchingSeedFromText, nextDistinctMatchingSeed } from "@/lib/learning/matchingLayout";
-import { CharacterAvatar, ChildLoading, useLearningProfile, useLearningProgress } from "./LearningCommon";
+import { ChildLoading, useLearningProfile, useLearningProgress } from "./LearningCommon";
 import styles from "./LearningPlatform.module.css";
 import { GardenActivityFrame } from "./GardenActivityFrame";
 import { ActivityCompletion } from "./ActivityCompletion";
@@ -368,9 +368,4 @@ export function GamesScreen({ childId }: { childId: string }) {
       </section>
     </main>
   );
-}
-
-export function RewardsScreen({ childId }: { childId: string }) {
-  const profile = useLearningProfile(childId); const progress = useLearningProgress(childId); if (!profile) return <ChildLoading />;
-  return <main className={styles.contentNarrow}><section className={styles.rewardHero}><CharacterAvatar id="gavi" large /><div className={styles.rewardStars}>⭐</div><strong>{progress.stars} bintang</strong><span>{progress.completedActivityIds.length} aktivitas selesai</span></section><section className={styles.section}><div className={styles.infoBanner}><strong>Hadiah tanpa tekanan.</strong> Tidak ada streak yang menghukum anak, dan bintang bukan nilai kecerdasan.</div></section><div className={styles.heroActionRow}><Link className={styles.primaryButton} href={`/child/${childId}/home#choose-subject`}>Cari aktivitas berikutnya</Link></div></main>;
 }
