@@ -1,8 +1,29 @@
 # Mainlagi Hub — Current State
 
-Last reviewed: **1 October 2026**
+Last reviewed: **2 October 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
+
+## 2 October 2026 — Journey Map JM-07 through JM-13 CLOSED / MERGED / LIVE VERIFIED
+
+Phase C Belajar rollout is now complete across all **9 subjects / 46 canonical Stages / 900 activities** through one shared `BelajarJourneyMap` owner.
+
+Current closure: `docs/JM12_JM13_CREATIVE_JOURNEY_MAP_FINAL_CLOSURE_2026-10-02.md`.
+Predecessor safe checkpoint: `docs/JM07_JM11_STANDARD_JOURNEY_MAP_SAFE_CHECKPOINT_2026-10-02.md`.
+
+Runtime lineage:
+
+- JM-07 through JM-11 standard subjects: PR **#423** -> `main@196d31d2252ffcde7e1621cbebde062b656477e1`; PR CI #2346 and merged-main CI #2347 full success including exact Cloudflare smoke.
+- Safe checkpoint: PR **#425** -> `main@14b085d69c124ad18139fa230a87b83e90ef1161`; main CI #2350 full success including exact Cloudflare smoke.
+- JM-12 Mewarnai + JM-13 Menggambar: PR **#426** final head `ecb9699b04fc4c133d8c27a6e0f37946384f82bc` -> `main@5c9638303d562f96556bb16a18c40a716b27e73f`.
+- PR CI **#2351 / run `36945436676` FULL SUCCESS**.
+- Merged-main CI **#2352 / run `36946329650` FULL SUCCESS**, including exact **Production smoke (Cloudflare) SUCCESS**.
+
+The final creative rollout preserves exact Mewarnai **5 Stages / 100 activities** and Menggambar **4 Stages / 100 activities**. Mewarnai keeps the existing Coloring activity runtime. Menggambar keeps its canonical Stage-route handoff to `DrawingStageScreen`; the Journey Map does not absorb or redesign the creative workspace.
+
+Blocking browser evidence proves all nine subjects share one engine with exact Stage order and 100 activities per subject; mobile QA passed **29 canonical routes × 7 viewport widths**, browser warning inventory remained **0**, SI-06G creative completion/workspace regression remained PASS, and permanent visual baseline passed **63 exact-path captures × 3 viewports**.
+
+**Current boundary:** JM-00 through JM-13 are closed/live verified. The only next authorized Journey Map step is **JM-14 — 9-subject Belajar closure**. JM-14 is integration/closure only, not a curriculum/runtime redesign. Do not start JM-15 Petualangan Uang until JM-14 is closed.
 
 ## 1 October 2026 — Journey Map JM-06 CLOSED / MERGED / LIVE VERIFIED
 
