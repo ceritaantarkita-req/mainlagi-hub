@@ -115,12 +115,14 @@ insert into public.shop_product_media(product_id,path,alt_text,role,sort_order,a
 select p.id,'/shop/products/ci-'||lower(p.product_code)||'-use.webp','CI use','in_use',1,'approved'
 from public.shop_products p where p.product_code in ('T01','T02','T03','T04','T05');
 
-insert into public.shop_variants(id,product_id,sku,title,option_values,weight_grams,is_active) values
-('20000000-0000-0000-0000-000000000001','10000000-0000-0000-0000-000000000001','T01-ONE','One','{}',100,true),
-('20000000-0000-0000-0000-000000000002','10000000-0000-0000-0000-000000000002','T02-ONE','One','{}',100,true),
-('20000000-0000-0000-0000-000000000003','10000000-0000-0000-0000-000000000003','T03-ONE','One','{}',100,true),
-('20000000-0000-0000-0000-000000000004','10000000-0000-0000-0000-000000000004','T04-ONE','One','{}',100,true),
-('20000000-0000-0000-0000-000000000005','10000000-0000-0000-0000-000000000005','T05-ONE','One','{}',100,true);
+insert into public.shop_variants(
+  id,product_id,sku,title,option_values,weight_grams,length_mm,width_mm,height_mm,is_active
+) values
+('20000000-0000-0000-0000-000000000001','10000000-0000-0000-0000-000000000001','T01-ONE','One','{}',100,100,80,20,true),
+('20000000-0000-0000-0000-000000000002','10000000-0000-0000-0000-000000000002','T02-ONE','One','{}',100,100,80,20,true),
+('20000000-0000-0000-0000-000000000003','10000000-0000-0000-0000-000000000003','T03-ONE','One','{}',100,100,80,20,true),
+('20000000-0000-0000-0000-000000000004','10000000-0000-0000-0000-000000000004','T04-ONE','One','{}',100,100,80,20,true),
+('20000000-0000-0000-0000-000000000005','10000000-0000-0000-0000-000000000005','T05-ONE','One','{}',100,100,80,20,true);
 insert into public.shop_inventory_balances(variant_id,on_hand,reserved) values
 ('20000000-0000-0000-0000-000000000001',1,0),
 ('20000000-0000-0000-0000-000000000002',1,0),
@@ -133,6 +135,25 @@ insert into public.shop_inventory_ledger(variant_id,quantity_delta,movement_type
 ('20000000-0000-0000-0000-000000000003',1,'variant_setup','ci-seed:t03','CI fixture','00000000-0000-0000-0000-000000000001'),
 ('20000000-0000-0000-0000-000000000004',1,'variant_setup','ci-seed:t04','CI fixture','00000000-0000-0000-0000-000000000001'),
 ('20000000-0000-0000-0000-000000000005',1,'variant_setup','ci-seed:t05','CI fixture','00000000-0000-0000-0000-000000000001');
+
+update public.shop_products p
+set facts=jsonb_build_object(
+  'verificationStatus','production_verified',
+  'marketplaceCandidate',jsonb_build_object(
+    'targetFacts',jsonb_build_object('fixtureIdentity','concurrency_fixture')
+  ),
+  'verification',jsonb_build_object(
+    'method','physical_sample',
+    'verifiedBy','Shop CI fixture',
+    'verifiedAt','2026-10-02',
+    'evidenceRef','fixture://postgres-concurrency/'||lower(p.product_code),
+    'productFactsConfirmed',true,
+    'stockCountConfirmed',true,
+    'actualProductFacts',jsonb_build_object('fixtureIdentity','concurrency_fixture'),
+    'variantSkus',jsonb_build_array(p.product_code||'-ONE')
+  )
+)
+where p.product_code in ('T01','T02','T03','T04','T05');
 
 select public.shop_admin_transition(id,'ready','00000000-0000-0000-0000-000000000001')
 from public.shop_products where product_code in ('T01','T02','T03','T04','T05');
