@@ -1,5 +1,19 @@
 # Changelog
 
+## 2 October 2026 — P0-UIA-01 CANONICAL OWNER RETIREMENT CLOSED / MERGED / LIVE VERIFIED
+
+- Runtime PR **#436** final head `8149522d9a3b2f73c0a61609f115f214806b9d35` merged as **`main@cd5c530d45a472ac2eb3f4efce740a2ae4654076`**.
+- Retired route-dead duplicate child home/select/library/subject/stage/rewards owners, duplicate parent overview/children owners and old World presentation owners.
+- Removed unreachable canonical-subject `ActivityGallery` + styles after JM-18 made all nine canonical subjects Journey Map-owned.
+- Preserved active `ActivityScreen` fallback, Bermain `GamesScreen`, `WorldChildShell`, `WorldActivityScreen`, `WorldRewardsScreen`, cloud child/parent aliases, canonical Stage owners and world-v2 Petualangan Uang owners.
+- Added permanent `test:learning:ui-owners` and wired it into the blocking learning gate.
+- PR CI **#2385 / run `36991457873` FULL SUCCESS**.
+- Merged-main CI **#2386 / run `36992697294` FULL SUCCESS**, including exact **Production smoke (Cloudflare) SUCCESS**.
+- Closed superseded stale PR **#395** after confirming SI-08 is already closed and superseded by later Shared Interaction authority.
+- Canonical closure: `P0_UIA01_CANONICAL_OWNER_RETIREMENT_FINAL_CLOSURE_2026-10-02.md`.
+- **Next: read-only audit of remaining open P0/product workstreams, beginning with Shop #359 and dependency-bound child-surface #360.**
+
+
 ## 2 October 2026 — P0-UIA-01 PRE-EXECUTION SAFE CHECKPOINT
 
 - Audit PR **#434** merged as `main@b07c293a97b6cc5c71421d296ac350d7dd9cd23b`.
