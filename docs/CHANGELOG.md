@@ -1,5 +1,20 @@
 # Changelog
 
+## 2 October 2026 — Journey Map JM-16 WORLD DESKTOP CLOSED / MERGED / LIVE VERIFIED
+
+- Runtime PR **#430** final head `80cdd57c86943e1f888b8bfb122bf977cb3193d5` merged as **`main@544475c534a05176f9c6d349b32c3b37819f7e1f`**.
+- Added pure `buildMoneyWorldJourneyMap()` projection from canonical World structure + existing `MoneyWorldProgress`.
+- Petualangan Uang desktop now has a structured illustrated Journey Map with progress summary, resume/checkpoint CTA, Chapter progress banners, alternating Stage cards and explicit completed/current/open/locked states.
+- Preserved exact **2 Chapters / 8 Stages / 44 Scenes / 89 Segments**, sequential World unlock, ★★★ completion presentation, Segment checkpoint/resume and stable World Stage routes.
+- World remains independent of `BelajarJourneyMap`, Belajar readiness/mastery/evidence and Browse All.
+- Added permanent static adapter regressions plus dedicated `test:ui:jm16-world-desktop` browser QA, wired into blocking Mobile route QA.
+- Validation surfaced and repaired two stale test implementation assumptions plus a dedicated-test hydration race; final runtime semantics were not weakened.
+- PR CI **#2367 / run `36962973475` FULL SUCCESS**.
+- Merged-main CI **#2368 / run `36968729118` FULL SUCCESS**, including exact **Production smoke (Cloudflare) SUCCESS**.
+- Canonical closure: `JM16_MONEY_WORLD_DESKTOP_JOURNEY_MAP_FINAL_CLOSURE_2026-10-02.md`.
+- **JM-17 Petualangan Uang mobile/responsive Journey Map is next.**
+
+
 ## 2 October 2026 — Journey Map JM-15 WORLD READ-ONLY ADAPTER AUDIT COMPLETE
 
 - Audited Petualangan Uang against live-verified JM-14 closure baseline **`main@cf0007d48734b3dcd3f9ad60bf340ab043ce02a6`**.
