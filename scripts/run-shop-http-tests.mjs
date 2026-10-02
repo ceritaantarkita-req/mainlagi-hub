@@ -15,6 +15,7 @@ const child = spawn(
     env: {
       ...process.env,
       NODE_ENV: "production",
+      SHOP_RUNTIME_ENABLED: "true",
       SHOP_LOCAL_PREVIEW: "true",
       SHOP_SALES_ENABLED: "false",
       NEXT_PUBLIC_SITE_URL: "http://127.0.0.1:3007",
