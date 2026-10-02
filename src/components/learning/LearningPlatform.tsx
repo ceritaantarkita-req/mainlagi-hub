@@ -7,7 +7,6 @@ export {
   RewardsScreen
 } from "./ChildLearningPlatform";
 export {
-  ChildHomeScreen,
   StageScreen,
   SubjectScreen
 } from "./ChildLearningPathViews";
