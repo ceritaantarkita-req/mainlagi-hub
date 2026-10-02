@@ -10,6 +10,7 @@ Read these first for current work:
 
 1. [`NEXT_PRODUCT_QUALITY_PLAN.md`](NEXT_PRODUCT_QUALITY_PLAN.md) — current execution order, workstreams, status and mandatory gates.
 2. [`CURRENT_STATE.md`](CURRENT_STATE.md) — current repository/product/production baseline.
+   - [`P0_CANONICAL_UI_ARCHITECTURE_REBASE_AUDIT_2026-10-02.md`](P0_CANONICAL_UI_ARCHITECTURE_REBASE_AUDIT_2026-10-02.md) — current post-JM product-UX ownership authority: canonical route/component map, legacy overlap classification, superseded P0 backlog, and next package P0-UIA-01.
    - [`JM18_CANONICAL_JOURNEY_MAP_FINAL_CLOSURE_2026-10-02.md`](JM18_CANONICAL_JOURNEY_MAP_FINAL_CLOSURE_2026-10-02.md) — current Phase C authority: canonical Journey Map program JM-00–JM-18 final closure; Belajar 9 subjects / 46 Stages / 900 activities plus separate Petualangan Uang World; final runtime `main@b4473cc0…` passed main CI #2374 with exact Cloudflare smoke; no JM-19 by default.
    - [`JM17_MONEY_WORLD_RESPONSIVE_JOURNEY_MAP_FINAL_CLOSURE_2026-10-02.md`](JM17_MONEY_WORLD_RESPONSIVE_JOURNEY_MAP_FINAL_CLOSURE_2026-10-02.md) — final World runtime closure: phone/tablet/rotation Journey Map presentation, mobile checkpoint resume and permanent responsive QA live verified at `main@b4473cc0…`.
    - [`JM16_MONEY_WORLD_DESKTOP_JOURNEY_MAP_FINAL_CLOSURE_2026-10-02.md`](JM16_MONEY_WORLD_DESKTOP_JOURNEY_MAP_FINAL_CLOSURE_2026-10-02.md) — historical predecessor World desktop closure: World-specific adapter + desktop Journey Map at `main@544475c5…`, later completed responsively by JM-17.
