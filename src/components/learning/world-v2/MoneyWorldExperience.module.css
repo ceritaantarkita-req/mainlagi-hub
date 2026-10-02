@@ -3337,3 +3337,354 @@ a.worldThumbnailCard:hover {
     padding-bottom: 190px;
   }
 }
+
+
+/* === JM-17: Petualangan Uang responsive Journey Map === */
+@media (max-width: 760px) {
+  .mapPage {
+    padding: 14px 12px 52px;
+  }
+
+  .mapPage > .worldHero {
+    min-height: 0;
+    padding: 18px;
+    gap: 8px;
+    border-radius: 24px;
+  }
+
+  .mapPage > .worldHero h1 {
+    font-size: clamp(34px, 10vw, 42px);
+  }
+
+  .mapPage > .worldHero p {
+    font-size: 15px;
+    line-height: 1.4;
+  }
+
+  .mapTopline {
+    width: 100%;
+    margin: 12px auto 10px;
+    gap: 8px;
+    padding: 0 2px;
+    font-size: 13px;
+  }
+
+  .mapTopline .textButton {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .mapTopline > span {
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    border: 1px solid rgba(40, 113, 88, .14);
+    border-radius: 999px;
+    background: rgba(255,255,255,.86);
+    font-weight: 950;
+  }
+
+  .desktopJourneyResume {
+    width: 100%;
+    margin: 0 auto 14px;
+    min-height: 0;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    border: 1px solid rgba(40, 113, 88, .16);
+    border-radius: 20px;
+    background: rgba(255,255,255,.92);
+    box-shadow: 0 10px 24px rgba(39, 90, 67, .08);
+  }
+
+  .desktopJourneyResume > div {
+    min-width: 0;
+    display: grid;
+    gap: 2px;
+  }
+
+  .desktopJourneyResume span,
+  .desktopJourneyResume small {
+    color: #668178;
+    font-size: 11px;
+    font-weight: 850;
+  }
+
+  .desktopJourneyResume strong {
+    color: #164b43;
+    font-size: 16px;
+    line-height: 1.25;
+  }
+
+  .desktopJourneyResume > a {
+    width: 100%;
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 14px;
+    border-radius: 14px;
+    background: #287158;
+    color: white;
+    box-shadow: 0 4px 0 #195541;
+    font-weight: 950;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  .mapShell {
+    min-height: 0;
+    padding: 28px 10px 128px;
+    border-radius: 28px;
+    border-width: 1px;
+  }
+
+  .mapShell .mapPath {
+    inset: 64px auto 86px 32px;
+    width: 5px;
+    border-radius: 999px;
+    clip-path: none;
+    transform: none;
+    opacity: .62;
+    background: linear-gradient(180deg, rgba(40,113,88,.15), rgba(40,113,88,.42), rgba(40,113,88,.14));
+    filter: none;
+  }
+
+  .chapterMapBanner {
+    width: calc(100% - 8px);
+    margin: 26px 4px 16px;
+    padding: 10px 12px;
+    gap: 10px;
+    border-width: 1px;
+    border-radius: 18px;
+  }
+
+  .chapterMapBanner strong {
+    font-size: 14px;
+  }
+
+  .chapterMapBanner > span {
+    min-height: 30px;
+    padding-inline: 9px;
+    font-size: 10px;
+  }
+
+  .mapShell .stageRow,
+  .mapShell .stageRowLeft,
+  .mapShell .stageRowRight {
+    min-height: 0;
+    margin: 0 0 18px;
+    justify-content: stretch;
+    padding: 0;
+  }
+
+  .mapShell .stageLink {
+    width: 100%;
+  }
+
+  .mapShell .stageNode {
+    width: 100%;
+    min-height: 94px;
+    grid-template-columns: 56px minmax(0, 1fr);
+    gap: 12px;
+    padding: 13px 14px 13px 12px;
+    border: 1px solid rgba(35, 83, 66, .12);
+    border-radius: 20px;
+    background: rgba(255, 254, 248, .94);
+    box-shadow:
+      0 5px 0 rgba(116, 145, 95, .16),
+      0 12px 24px rgba(47, 87, 64, .09);
+  }
+
+  .mapShell .stageIcon {
+    width: 56px;
+    height: 56px;
+    align-self: center;
+    border-radius: 18px;
+    border-width: 3px;
+    font-size: 27px;
+  }
+
+  .mapShell .stageCopy,
+  .mapShell .stageDone .stageCopy,
+  .mapShell .stageLocked .stageCopy,
+  .mapShell .stageCurrent .stageCopy {
+    width: 100%;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    text-align: left;
+  }
+
+  .mapShell .stageCopy small {
+    font-size: 10px;
+  }
+
+  .mapShell .stageCopy strong {
+    margin: 3px 0;
+    font-size: 16px;
+    line-height: 1.22;
+  }
+
+  .mapShell .stageCopy span {
+    display: none;
+  }
+
+  .mapShell .stageDone .stageCopy span,
+  .mapShell .stageCurrent .stageCopy span {
+    display: block;
+    margin-top: 4px;
+    color: #587269;
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  .mapShell .stageStars {
+    top: -11px;
+    right: 10px;
+    left: auto;
+    transform: none;
+    min-height: 27px;
+    padding: 4px 7px;
+  }
+
+  .mapShell .stageCurrent {
+    border-color: rgba(232, 184, 57, .62);
+    background: rgba(255, 250, 218, .97);
+    box-shadow:
+      0 5px 0 rgba(198, 157, 55, .18),
+      0 0 0 4px rgba(255, 216, 102, .12),
+      0 14px 28px rgba(47, 87, 64, .10);
+  }
+
+  .mapShell .stageDone {
+    background: rgba(255, 248, 214, .94);
+  }
+
+  .mapShell .stageLocked {
+    opacity: .72;
+    background: rgba(242, 247, 244, .90);
+  }
+
+  .mapShell .currentPin {
+    right: -7px;
+    bottom: -6px;
+  }
+
+  .festivalFinish {
+    width: min(270px, calc(100% - 24px));
+    min-width: 0;
+  }
+
+  .mapShell[data-world-complete="true"] {
+    padding-bottom: 176px;
+  }
+}
+
+@media (max-width: 360px) {
+  .mapTopline {
+    align-items: center;
+  }
+
+  .chapterMapBanner {
+    width: 100%;
+    margin-inline: 0;
+  }
+
+  .chapterMapBanner > span {
+    padding-inline: 7px;
+    font-size: 9px;
+  }
+
+  .mapShell .stageNode {
+    grid-template-columns: 52px minmax(0, 1fr);
+    gap: 10px;
+    padding-inline: 10px;
+  }
+
+  .mapShell .stageIcon {
+    width: 52px;
+    height: 52px;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 900px) {
+  .mapPage {
+    padding: 24px 24px 64px;
+  }
+
+  .mapPage > .worldHero {
+    width: min(760px, 100%);
+    min-height: 0;
+    grid-template-columns: 1fr;
+    padding: 24px 28px;
+  }
+
+  .mapPage > .worldHero .heroCharacters {
+    min-height: 150px;
+  }
+
+  .mapTopline,
+  .desktopJourneyResume,
+  .mapShell {
+    width: min(760px, 100%);
+  }
+
+  .desktopJourneyResume {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .mapShell {
+    min-height: 0;
+    padding: 40px 28px 110px;
+    border-radius: 32px;
+  }
+
+  .mapShell .mapPath {
+    inset: 86px auto 92px 50%;
+    width: 5px;
+    transform: translateX(-50%);
+    clip-path: none;
+    border-radius: 999px;
+    opacity: .42;
+    background: linear-gradient(180deg, rgba(40,113,88,.14), rgba(40,113,88,.38), rgba(40,113,88,.12));
+    filter: none;
+  }
+
+  .chapterMapBanner {
+    width: min(620px, calc(100% - 40px));
+    margin: 30px auto 20px;
+  }
+
+  .mapShell .stageRow,
+  .mapShell .stageRowLeft,
+  .mapShell .stageRowRight {
+    min-height: 0;
+    margin: 0 0 18px;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .mapShell .stageLink {
+    width: min(620px, 92%);
+  }
+
+  .mapShell .stageNode {
+    min-height: 102px;
+    grid-template-columns: 66px minmax(0, 1fr);
+    gap: 14px;
+    padding: 15px 17px;
+  }
+
+  .mapShell .stageIcon {
+    width: 64px;
+    height: 64px;
+  }
+}
