@@ -1,6 +1,9 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { shopRuntimeEnabled } from "@/lib/shop/server";
 import "./shop.css";
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Mainlagi Shop",
   description: "Teman kecil untuk hari penuh main, belajar, dan berkarya.",
@@ -10,6 +13,7 @@ export default function ShopLayout({
 }: {
   children: React.ReactNode;
 }) {
+  if (!shopRuntimeEnabled()) notFound();
   return (
     <div className="shop-shell">
       <nav className="shop-nav" aria-label="Mainlagi Shop">
