@@ -104,7 +104,8 @@ assert.equal(
 );
 
 assert.ok(
-  stagePage.includes("DrawingStageScreen") && stagePage.includes("StageScreen"),
+  stagePage.includes('import { DrawingStageScreen } from "@/components/learning/CreativeTrackViews";') &&
+    stagePage.includes('import { StageScreen } from "@/components/learning/ChildLearningPathViews";'),
   "Stage route must preserve DrawingStageScreen exception plus canonical StageScreen fallback"
 );
 
