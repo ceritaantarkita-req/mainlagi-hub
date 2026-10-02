@@ -5,6 +5,21 @@ Last reviewed: **2 October 2026**
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
 
+## 3 October 2026 — P0-SHOP-CONV-01A TECHNICALLY GREEN / DRAFT HOLD
+
+Canonical checkpoint: `docs/P0_SHOP_CONV01A_FAIL_CLOSED_CORE_SAFE_CHECKPOINT_2026-10-03.md`.
+
+Production/main remains `b1d6a2d9c7b25ff4a2bd5585dee0ebc348ce3c6f`. Shop convergence is isolated in Draft PR **#442** on head `a0ba5f68d8a048c780e39f388789d6aea4268992`, currently **22 commits ahead / 0 behind** main across **118 changed paths**.
+
+Exact PR CI **#2407 / run 37035178220** is green for Ubuntu quality, Mobile route QA, secret-history scan, production dependency audit, Cloudflare/OpenNext production build, Shop PostgreSQL staging/security/concurrency, and Windows compatibility. PR Cloudflare production smoke is skipped by design because it runs only after a push to `main`.
+
+The converged branch adds a separate master gate `SHOP_RUNTIME_ENABLED=false`. With it off, public/admin Shop surfaces fail closed before Shop DB access, Shop API fails closed before DB/provider work, and the owner Shop admin entry is hidden. Disposable Batch 11 staging explicitly opts into `SHOP_RUNTIME_ENABLED=true` while keeping `SHOP_SALES_ENABLED=false`.
+
+This technical green state **does not authorize merge or launch**. P0-OPEN-02B inputs remain unresolved: **0/9 products and 0/27 active SKU candidates are physically/supplier verified**, and production `SHOP_ORDER_PII_RETENTION_DAYS` still requires an explicit owner decision in the supported **30–3650 day** range.
+
+**Current technical boundary:** `P0-SHOP-CONV-01B — convergence release hardening / staging evidence`. Keep #442 Draft, preserve current Journey Map ownership, collect integrated provider staging evidence on the converged code path when possible, and do not enable production Shop runtime/sales or apply production Shop migrations.
+
+
 ## 2 October 2026 — P0-OPEN-02B OWNER INPUT PACK READY / INPUTS STILL PENDING
 
 Canonical intake pack: `docs/P0_OPEN02B_SHOP_OWNER_INPUT_PACK_2026-10-02.md`.  
