@@ -4,6 +4,22 @@ Last reviewed: **2 October 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
+## 2 October 2026 — Journey Map JM-16 Petualangan Uang desktop CLOSED / MERGED / LIVE VERIFIED
+
+JM-16 Petualangan Uang desktop Journey Map is **CLOSED / MERGED / LIVE VERIFIED**.
+
+Canonical closure: `docs/JM16_MONEY_WORLD_DESKTOP_JOURNEY_MAP_FINAL_CLOSURE_2026-10-02.md`.
+
+Runtime PR **#430** final head `80cdd57c86943e1f888b8bfb122bf977cb3193d5` added the World-specific read-only Journey Map adapter and desktop map presentation, then squash-merged as `main@544475c534a05176f9c6d349b32c3b37819f7e1f`.
+
+The adapter preserves Petualangan Uang as a separate **2 Chapter / 8 Stage / 44 Scene / 89 Segment** World. Existing ordered-prefix progression, Stage ★★★ completion presentation, current Stage, Segment checkpoint/resume, stable Stage routes, Completion/Share, age policy, evidence boundary, story/narration, schema, Belajar, Bermain and Shop behavior remain unchanged. World is not routed through `BelajarJourneyMap` and no World Browse All exists.
+
+PR CI **#2367 / run `36962973475` FULL SUCCESS**. Merged-main CI **#2368 / run `36968729118` FULL SUCCESS**, including exact **Production smoke (Cloudflare) SUCCESS** for the merged runtime SHA.
+
+Permanent QA now covers the pure World adapter and a dedicated 1280px JM-16 browser contract for exact Chapter/Stage order, state projection, resume checkpoint, stable routes, illustrated desktop geometry, no Belajar owner/Browse All, no overflow and zero browser/page errors.
+
+**Current boundary:** JM-17 — Petualangan Uang mobile/responsive Journey Map. Reuse the JM-16 World adapter; focus on mobile/tablet presentation, current-Stage visibility, resume CTA, Chapter containment, touch/a11y/rotation and no-overflow. Do not rewrite World progression/runtime. JM-18 remains final Journey Map closure.
+
 ## 2 October 2026 — Journey Map JM-15 Petualangan Uang read-only adapter audit COMPLETE
 
 JM-15 read-only audit is complete against the live-verified JM-14 closure baseline `main@cf0007d48734b3dcd3f9ad60bf340ab043ce02a6`.
