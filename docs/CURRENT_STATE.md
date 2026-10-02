@@ -5,6 +5,25 @@ Last reviewed: **2 October 2026**
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
 
+## 2 October 2026 — P0-OPEN-02B OWNER INPUT PACK READY / INPUTS STILL PENDING
+
+Canonical intake pack: `docs/P0_OPEN02B_SHOP_OWNER_INPUT_PACK_2026-10-02.md`.  
+Machine-readable template: `docs/data/P0_OPEN02B_SHOP_OWNER_INPUT_TEMPLATE_2026-10-02.json`.
+
+P0-OPEN-02A is merged at `main@f8fc2f0f2fb8f73af499470311a05ff9996dcad7`. The next blocker is no longer a repository-architecture question: it is real owner/supplier input.
+
+Still required before P0-SHOP-CONV-01:
+
+- **9/9 products** physically or supplier verified;
+- **27/27 active SKU candidates** covered by real evidence;
+- actual product facts, stock, packed weight, package dimensions, and applicable variant measurements/facts recorded;
+- explicit production `SHOP_ORDER_PII_RETENTION_DAYS` decision in the supported **30–3650 day** range.
+
+The intake template intentionally keeps all real-world values pending/null. Candidate marketplace values and Batch 11 simulated fixtures are not production truth. Until the inputs are complete: keep #359 as source/evidence only, keep `SHOP_SALES_ENABLED=false`, do not apply Shop migrations to production, and do not claim Shop launch readiness.
+
+**Next runtime boundary after real inputs exist:** `P0-SHOP-CONV-01 — fresh current-main commerce-core transplant`.
+
+
 ## 2 October 2026 — P0-OPEN-02A SHOP CONVERGENCE PREFLIGHT COMPLETE
 
 Canonical preflight: `docs/P0_OPEN02A_SHOP_CONVERGENCE_PREFLIGHT_2026-10-02.md`.
