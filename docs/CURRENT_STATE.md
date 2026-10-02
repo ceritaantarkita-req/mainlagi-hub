@@ -4,6 +4,22 @@ Last reviewed: **2 October 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
+## 2 October 2026 — P0-UIA-01 PRE-EXECUTION SAFE CHECKPOINT
+
+Safe checkpoint: `docs/P0_UIA01_PREEXECUTION_SAFE_CHECKPOINT_2026-10-02.md`.
+
+Exact safe baseline before runtime cleanup:
+
+```text
+main:             b07c293a97b6cc5c71421d296ac350d7dd9cd23b
+audit PR:         #434
+PR CI:            #2377 / run 36980535324 — FULL SUCCESS
+merged-main CI:   #2378 / run 36981780636 — FULL SUCCESS
+Cloudflare smoke: SUCCESS on exact merged main SHA
+```
+
+**P0-UIA-01 runtime cleanup has not started at this checkpoint.** Next action is canonical owner retirement / legacy isolation only. Preserve active activity fallback, Bermain, child shell, rewards and parent owners; do not redesign visuals or touch Shop, character production, curriculum/progression/mastery/evidence, World semantics or schema.
+
 ## 2 October 2026 — P0 canonical UI architecture re-baseline AUDIT COMPLETE
 
 Canonical audit: `docs/P0_CANONICAL_UI_ARCHITECTURE_REBASE_AUDIT_2026-10-02.md`.
