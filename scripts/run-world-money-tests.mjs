@@ -36,12 +36,79 @@ const evidenceActivation = require(path.join(outDir, "src", "lib", "learning", "
 const evidenceIngestion = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldEvidenceIngestion.js"));
 const presentation = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldPresentation.js"));
 const assets = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldAssets.js"));
-const progress = require(path.join(outDir, "src", "lib", "learning", "world", "progress.js"));
+const progress = require(path.join(outDir, "src", "lib", "learning", "world", "progress.js"));\nconst journeyMap = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldJourneyMap.js"));
 const mechanics = require(path.join(outDir, "src", "lib", "learning", "mechanicLibrary.js"));
 const catalog = require(path.join(outDir, "src", "lib", "learning", "catalog.js"));
 
 try {
   assert.equal(world.MONEY_WORLD_ID, "money-festival");
+
+  assert.equal(journeyMap.MONEY_WORLD_JOURNEY_MAP_VERSION, "money-world-journey-map-v1");
+  const emptyJourney = journeyMap.buildMoneyWorldJourneyMap({
+    childId: "demo-gian",
+    progress: {
+      worldId: world.MONEY_WORLD_ID,
+      completedStageIds: [],
+      currentStageId: null,
+      currentSegmentIndex: 0,
+      updatedAt: ""
+    }
+  });
+  assert.equal(emptyJourney.worldId, world.MONEY_WORLD_ID);
+  assert.equal(emptyJourney.href, "/child/demo-gian/world/money-festival");
+  assert.equal(emptyJourney.chapters.length, 2, "JM-16 adapter must preserve exactly two canonical Chapters");
+  assert.equal(emptyJourney.stages.length, 8, "JM-16 adapter must preserve exactly eight canonical Stages");
+  assert.equal(emptyJourney.completedStageCount, 0);
+  assert.equal(emptyJourney.nextStageId, "money-stage-01-money-use");
+  assert.equal(emptyJourney.stages[0]?.canonicalSourceState, "current");
+  assert.equal(emptyJourney.stages[0]?.open, true);
+  assert.equal(emptyJourney.stages[0]?.stars, 0);
+  assert.equal(emptyJourney.stages[1]?.canonicalSourceState, "locked");
+  assert.equal(emptyJourney.stages[1]?.open, false);
+  assert.equal(emptyJourney.stages[0]?.href, "/child/demo-gian/world/money-festival/stage/money-stage-01-money-use");
+
+  const resumedJourney = journeyMap.buildMoneyWorldJourneyMap({
+    childId: "demo-gian",
+    progress: {
+      worldId: world.MONEY_WORLD_ID,
+      completedStageIds: ["money-stage-01-money-use"],
+      currentStageId: "money-stage-02-price-change",
+      currentSegmentIndex: 3,
+      updatedAt: "2026-10-02T00:00:00.000Z"
+    }
+  });
+  assert.equal(resumedJourney.completedStageCount, 1);
+  assert.equal(resumedJourney.nextStageId, "money-stage-02-price-change");
+  assert.equal(resumedJourney.resumeStageId, "money-stage-02-price-change");
+  assert.equal(resumedJourney.resumeSegmentIndex, 3);
+  assert.equal(resumedJourney.stages[0]?.canonicalSourceState, "completed");
+  assert.equal(resumedJourney.stages[0]?.stars, 3);
+  assert.equal(resumedJourney.stages[1]?.canonicalSourceState, "current");
+  assert.equal(resumedJourney.stages[1]?.open, true);
+  assert.equal(resumedJourney.stages[2]?.canonicalSourceState, "locked");
+  assert.equal(resumedJourney.chapters[0]?.completedStageCount, 1);
+  assert.equal(resumedJourney.chapters[0]?.totalStageCount, 4);
+  assert.equal(resumedJourney.chapters[1]?.completedStageCount, 0);
+
+  const normalizedJourney = journeyMap.buildMoneyWorldJourneyMap({
+    childId: "demo-gian",
+    progress: {
+      worldId: world.MONEY_WORLD_ID,
+      completedStageIds: ["money-stage-01-money-use", "money-stage-03-income-sources"],
+      currentStageId: "money-stage-03-income-sources",
+      currentSegmentIndex: 7,
+      updatedAt: "2026-10-02T00:00:00.000Z"
+    }
+  });
+  assert.deepEqual(
+    normalizedJourney.stages.filter((stage) => stage.completed).map((stage) => stage.id),
+    ["money-stage-01-money-use"],
+    "JM-16 adapter must inherit ordered-prefix normalization instead of trusting malformed World completion"
+  );
+  assert.equal(normalizedJourney.nextStageId, "money-stage-02-price-change");
+  assert.equal(normalizedJourney.resumeStageId, null, "invalid non-prefix resume target must fail closed");
+  assert.equal(normalizedJourney.resumeSegmentIndex, 0);
+
 
   assert.equal(worldStructure.WORLD_STRUCTURE_CONTRACT_VERSION, "world-structure-v1");
   assert.equal(scenePresentation.WORLD_SCENE_PRESENTATION_VERSION, "world-scene-presentation-v1");
@@ -149,7 +216,7 @@ try {
   assert.match(socialRouteSource, /MONEY_WORLD_SOCIAL_CARD\.height/, "social card renderer must use contract height");
   assert.doesNotMatch(socialRouteSource, /demo-gian|childId|accountId|mastery score/i, "social card renderer must remain public-safe");
 
-  const worldRuntimeSource = readFileSync(path.join(root, "src/components/learning/world-v2/MoneyWorldExperience.tsx"), "utf8");
+  const worldRuntimeSource = readFileSync(path.join(root, "src/components/learning/world-v2/MoneyWorldExperience.tsx"), "utf8");\n  const worldJourneyMapSource = readFileSync(path.join(root, "src/lib/learning/world/moneyWorldJourneyMap.ts"), "utf8");
   const worldRuntimeCss = readFileSync(path.join(root, "src/components/learning/world-v2/MoneyWorldExperience.module.css"), "utf8");
   const canonicalCompletionSource = readFileSync(path.join(root, "src/components/CanonicalCompletion.tsx"), "utf8");
   const canonicalCompletionCss = readFileSync(path.join(root, "src/components/CanonicalCompletion.module.css"), "utf8");
@@ -174,7 +241,10 @@ try {
   assert.match(worldRuntimeSource, /MONEY_WORLD_CHAPTERS/, "World runtime must derive visible Chapter navigation from the canonical Chapter registry");
   assert.match(worldRuntimeSource, /data-world-chapter-id/, "World map and Stage shell must expose canonical Chapter identity for QA");
   assert.match(worldRuntimeSource, /data-world-chapter-label/, "Stage shell must render authored Chapter context");
-  assert.match(worldRuntimeSource, /chapter\.stageIds\.filter/, "Chapter progress must derive from canonical Chapter membership and completed Stage IDs");
+  assert.match(worldJourneyMapSource, /chapter\.stageIds\.filter/, "JM-16 adapter Chapter progress must derive from canonical Chapter membership and completed Stage IDs");
+  assert.match(worldRuntimeSource, /buildMoneyWorldJourneyMap/, "World map runtime must consume the JM-16 read-only presentation adapter");
+  assert.match(worldRuntimeSource, /data-jm16-world-journey/, "World map must expose the JM-16 adapter owner marker for browser QA");
+  assert.doesNotMatch(worldJourneyMapSource, /BelajarJourneyMap|getSubjectStageReadiness|getActivitiesForStage|LearningSubjectId/, "World Journey adapter must not inherit Belajar curriculum/readiness semantics");
   assert.match(worldRuntimeSource, /chapter\.stageIds\.at\(-1\) === stageId/, "Chapter completion milestone must derive from canonical Chapter membership");
   assert.match(worldRuntimeSource, /data-world-completion-stage/, "Stage completion must expose stable Stage identity for QA");
   assert.match(worldRuntimeSource, /data-world-completion-chapter/, "Stage completion must expose canonical Chapter identity for QA");
