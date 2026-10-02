@@ -2,10 +2,27 @@
 
 Date: **20 September 2026**  
 Last synchronized: **2 October 2026**
-Status: **ACTIVE ROADMAP / SEMANTIC ART P0 CLOSED / SHARED INTERACTION PROGRAM COMPLETE / JOURNEY MAP PHASE C COMPLETE**
+Status: **ACTIVE ROADMAP / CANONICAL UI REBASE AUDIT COMPLETE / JOURNEY MAP PHASE C COMPLETE**
 Current synchronized Journey Map runtime baseline: `main` = `b4473cc0582c096441e429b8ed94c20fc4bf1b8e`. JM-00 through JM-18 are complete at runtime/final-closure scope; JM-17 passed main CI #2374 / run `36974133135` including exact Cloudflare smoke. Belajar and Petualangan Uang Journey Map work is complete; no JM-19 is authorized by default. Semantic Art P0 and Shared Interaction remain fully closed.
 
 This document is the short human/AI handoff for Mainlagi product-quality work. It records the user-accepted UX direction without changing curriculum, mastery, evidence or progression. The latest WS-05 Logic reuse wave is closed; any later mechanic work remains a separate audited track.
+
+## 2 October post-JM canonical UI re-baseline
+
+The canonical UI ownership audit has been re-run after JM-18. Current authority: `P0_CANONICAL_UI_ARCHITECTURE_REBASE_AUDIT_2026-10-02.md`.
+
+Important correction to the historical 20 September plan:
+
+- all 9 subject routes now use the shared `BelajarJourneyMap`; the old `ActivityGallery` subject-chain wording is stale;
+- `Batch14WorldHome` remains the live child home;
+- `PlayroomShell` remains the live child navigation/header owner;
+- child select + parent root/children use cloud aliases through `LearningPlatform`;
+- parent detail/progress/report/certificates/settings intentionally remain split across verified owners;
+- several legacy similarly named components remain in source but are not active route owners.
+
+Already-completed P0 items must not be repeated: Belajar/Bermain nav naming, 3-column subject directory, mobile profile sheet, QA unlock-all, matching randomization, shared Completion/Share, narration entry latency, parent responsive redesign, public/auth/account convergence and Journey Map.
+
+**Next implementation:** `P0-UIA-01` canonical owner retirement / legacy isolation. This is maintenance/architecture cleanup only—no visual redesign.
 
 ## 2 October Journey Map JM-17 responsive + JM-18 final closure
 
