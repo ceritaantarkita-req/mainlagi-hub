@@ -2,10 +2,20 @@
 
 Date: **20 September 2026**  
 Last synchronized: **2 October 2026**
-Status: **ACTIVE ROADMAP / SEMANTIC ART P0 CLOSED / SHARED INTERACTION PROGRAM COMPLETE / JM-16 WORLD DESKTOP CLOSED**
-Current synchronized Journey Map baseline: `main` = `544475c534a05176f9c6d349b32c3b37819f7e1f`. JM-00 through JM-16 are closed/live verified through main CI #2368 / run `36968729118`, including exact Cloudflare smoke. Petualangan Uang now has the audited World-specific adapter plus the JM-16 desktop Journey Map; JM-17 mobile/responsive is next. Semantic Art P0 and Shared Interaction remain fully closed.
+Status: **ACTIVE ROADMAP / SEMANTIC ART P0 CLOSED / SHARED INTERACTION PROGRAM COMPLETE / JOURNEY MAP PHASE C COMPLETE**
+Current synchronized Journey Map runtime baseline: `main` = `b4473cc0582c096441e429b8ed94c20fc4bf1b8e`. JM-00 through JM-18 are complete at runtime/final-closure scope; JM-17 passed main CI #2374 / run `36974133135` including exact Cloudflare smoke. Belajar and Petualangan Uang Journey Map work is complete; no JM-19 is authorized by default. Semantic Art P0 and Shared Interaction remain fully closed.
 
 This document is the short human/AI handoff for Mainlagi product-quality work. It records the user-accepted UX direction without changing curriculum, mastery, evidence or progression. The latest WS-05 Logic reuse wave is closed; any later mechanic work remains a separate audited track.
+
+## 2 October Journey Map JM-17 responsive + JM-18 final closure
+
+JM-17 Petualangan Uang responsive Journey Map is **CLOSED / MERGED / LIVE VERIFIED** at `main@b4473cc0582c096441e429b8ed94c20fc4bf1b8e`. Runtime PR #432 final head `ed09dc20bea0f29060616e417d48a54f5916469c` passed PR CI #2373; merged-main CI #2374 completed full success including exact Cloudflare smoke.
+
+JM-17 preserves compact winding game nodes on 320/390/430 phone widths, uses a stacked responsive lane at 768 tablet width, exposes the resume/checkpoint CTA on mobile, keeps current Stage visible, preserves same-document portrait↔landscape reflow, and adds no World Browse All or progression rewrite.
+
+JM-18 is the final docs/authority closure for Phase C. Canonical final closure: `JM18_CANONICAL_JOURNEY_MAP_FINAL_CLOSURE_2026-10-02.md`. Final Belajar truth is 9 subjects / 46 Stages / 900 activities through one shared engine; final Petualangan Uang truth is 2 Chapters / 8 Stages / 44 Scenes / 89 Segments through a separate World adapter.
+
+**Journey Map Phase C has no next session.** Do not create JM-19 unless a new concrete product requirement or verified regression explicitly reopens this area.
 
 ## 2 October Journey Map JM-16 World desktop closure
 

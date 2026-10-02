@@ -4,6 +4,21 @@ Last reviewed: **2 October 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
+## 2 October 2026 — Journey Map JM-18 FINAL CLOSURE / JM-00–JM-18 COMPLETE
+
+Phase C — Canonical Journey Map System is **FINAL CLOSED at runtime** through JM-17 and is undergoing this JM-18 docs/authority closure.
+
+Canonical final closure: `docs/JM18_CANONICAL_JOURNEY_MAP_FINAL_CLOSURE_2026-10-02.md`.  
+JM-17 runtime closure: `docs/JM17_MONEY_WORLD_RESPONSIVE_JOURNEY_MAP_FINAL_CLOSURE_2026-10-02.md`.
+
+Final runtime source of truth: `main@b4473cc0582c096441e429b8ed94c20fc4bf1b8e`. Runtime PR **#432** final head `ed09dc20bea0f29060616e417d48a54f5916469c` passed PR CI **#2373 / run `36972969667` FULL SUCCESS** and merged to main. Merged-main CI **#2374 / run `36974133135` FULL SUCCESS**, including exact **Production smoke (Cloudflare) SUCCESS**.
+
+Final Belajar truth remains **9 subjects / 46 canonical Stages / 900 activities / exact 100 activities per subject / one shared `BelajarJourneyMap` owner**.
+
+Final Petualangan Uang truth remains a separate World semantic system with **2 Chapters / 8 Stages / 44 Scenes / 89 Segments / 16 practice activity placements** using the existing `MoneyWorldProgress` plus the World-specific read-only Journey Map adapter. JM-17 completes phone/tablet/rotation presentation while preserving sequential unlock, ★★★ completion presentation, Segment checkpoint/resume, stable World routes and no World Browse All.
+
+**Phase C boundary:** there is **no JM-19 by default**. Do not reopen JM-00 through JM-18 or extend the Journey Map workstream unless a new concrete product requirement or verified regression exists. Future unrelated product-quality work must preserve the permanent Journey Map regression contracts.
+
 ## 2 October 2026 — Journey Map JM-16 Petualangan Uang desktop CLOSED / MERGED / LIVE VERIFIED
 
 JM-16 Petualangan Uang desktop Journey Map is **CLOSED / MERGED / LIVE VERIFIED**.
