@@ -247,18 +247,21 @@ export function MoneyWorldMapScreen({ childId, worldId }: { childId: string; wor
   );
   const worldComplete = journey?.completed ?? false;
   const nextJourneyStageId = journey?.nextStageId ?? null;
+  const resumeStageId = journey?.resumeStageId ?? null;
   const resumeStage = journey?.stages.find(
-    (stage) => stage.id === journey.resumeStageId && !stage.completed
+    (stage) => stage.id === resumeStageId && !stage.completed
   ) ?? journey?.stages.find((stage) => stage.id === nextJourneyStageId) ?? null;
+  const focusJourneyStageId = nextJourneyStageId
+    ?? (journey?.completed ? journey.stages.at(-1)?.id ?? null : null);
 
   useEffect(() => {
-    if (!journey || journey.completedStageCount === 0 || !nextJourneyStageId) return;
+    if (!journey || journey.completedStageCount === 0 || !focusJourneyStageId) return;
     const frame = window.requestAnimationFrame(() => {
-      const target = mapRef.current?.querySelector<HTMLElement>('[data-world-stage-id="' + nextJourneyStageId + '"]');
+      const target = mapRef.current?.querySelector<HTMLElement>('[data-world-stage-id="' + focusJourneyStageId + '"]');
       target?.scrollIntoView({ block: "center", inline: "nearest", behavior: "auto" });
     });
     return () => window.cancelAnimationFrame(frame);
-  }, [journey, nextJourneyStageId]);
+  }, [focusJourneyStageId, journey]);
 
   if (worldId !== MONEY_WORLD_ID) {
     return (
