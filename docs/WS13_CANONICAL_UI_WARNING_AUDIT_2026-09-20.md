@@ -1,8 +1,10 @@
 # WS-13 — Canonical UI + Browser Warning Audit
 
 Date: **20 September 2026**  
-Status: **PHASE 1 ACTIVE**  
+Status: **HISTORICAL / SUPERSEDED FOR CURRENT UI OWNERSHIP**  
 Base: `main` = `3854d04ded18f1859e1829712273053037ed32ad`
+
+> Current authority: `P0_CANONICAL_UI_ARCHITECTURE_REBASE_AUDIT_2026-10-02.md`. The route tracing in this document remains historical evidence, but its subject-catalog conclusion predates JM-18: all nine canonical subjects now route through `BelajarJourneyMap`, not `ActivityGallery`.
 
 This audit is the first implementation step from `PRODUCT_UX_NEXT_WORK_2026-09-20.md`. Scope is intentionally narrow: identify the actual production UI owners, distinguish active vs legacy presentation paths, and make browser warnings measurable before visual refactors.
 

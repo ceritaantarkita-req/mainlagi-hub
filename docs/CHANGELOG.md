@@ -1,5 +1,19 @@
 # Changelog
 
+## 2 October 2026 — P0 CANONICAL UI ARCHITECTURE RE-BASELINE AUDIT
+
+- Re-traced canonical production ownership against final Journey Map docs baseline `main@f5657c1d36493b2803a8e457ccf7e9f2e0b2ee1d`.
+- Confirmed `Batch14WorldHome` as live child home and `PlayroomShell` as shared non-immersive child shell/navigation owner.
+- Confirmed child-select and parent root/children cloud aliases through `LearningPlatform`.
+- Corrected historical WS-13 subject ownership: all 9 canonical subjects now route through `BelajarJourneyMap`; `ActivityGallery` is not reachable through a current canonical subject ID.
+- Classified route-dead duplicate home/select/overview and old World presentation exports separately from still-active fallback/Bermain/shell/rewards owners.
+- Re-baselined the 20 September P0 backlog so already-closed nav, subject-grid, QA unlock, matching, Completion/Share, audio latency, parent responsive, public/auth/account and Journey Map work is not repeated.
+- Closed superseded stale PR **#424** and PR **#429** with explicit supersession notes.
+- Preserved Shop PR #359 and dependency-bound child-surface PR #360 as separate workstreams.
+- Canonical audit: `P0_CANONICAL_UI_ARCHITECTURE_REBASE_AUDIT_2026-10-02.md`.
+- **Next authorized package: P0-UIA-01 — canonical owner retirement / legacy isolation.**
+
+
 ## 2 October 2026 — Journey Map JM-17 RESPONSIVE + JM-18 FINAL CLOSURE
 
 - JM-17 runtime PR **#432** final head `ed09dc20bea0f29060616e417d48a54f5916469c` merged as **`main@b4473cc0582c096441e429b8ed94c20fc4bf1b8e`**.

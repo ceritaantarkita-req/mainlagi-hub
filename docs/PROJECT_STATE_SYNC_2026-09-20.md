@@ -1,3 +1,28 @@
+# 2 October 2026 post-JM superseding handoff update
+
+This section supersedes older current-state wording below where it conflicts with the final JM-18 baseline or the new canonical UI ownership audit.
+
+Current docs/source baseline: `main@f5657c1d36493b2803a8e457ccf7e9f2e0b2ee1d`.
+
+Canonical current sources:
+- `CURRENT_STATE.md`;
+- `NEXT_PRODUCT_QUALITY_PLAN.md`;
+- `P0_CANONICAL_UI_ARCHITECTURE_REBASE_AUDIT_2026-10-02.md`;
+- `JM18_CANONICAL_JOURNEY_MAP_FINAL_CLOSURE_2026-10-02.md`.
+
+Current execution boundary:
+
+- Journey Map JM-00 through JM-18 is FINAL CLOSED / LIVE VERIFIED;
+- the 20 September WS-13 UI ownership audit is historical and stale for subject ownership;
+- all nine canonical subject routes now use `BelajarJourneyMap`;
+- the next product-quality package is **P0-UIA-01 — canonical owner retirement / legacy isolation**;
+- no broad visual redesign is authorized inside UIA-01;
+- Shop and character production remain separate workstreams and must not be folded into UI-owner cleanup.
+
+Governance cleanup in the re-baseline audit closed superseded open PRs #424 and #429. Other older open workstreams require their own fresh audit before any close/merge decision.
+
+---
+
 # 25 September 2026 superseding handoff update
 
 This section supersedes older “current” wording below where the dated snapshot conflicts with later merged work or project-owner decisions. Historical sections remain intact as checkpoint evidence.

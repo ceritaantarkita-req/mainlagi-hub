@@ -4,14 +4,41 @@ Last reviewed: **2 October 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
+## 2 October 2026 — P0 canonical UI architecture re-baseline AUDIT COMPLETE
+
+Canonical audit: `docs/P0_CANONICAL_UI_ARCHITECTURE_REBASE_AUDIT_2026-10-02.md`.
+
+The post-JM route-owner audit is complete against final Journey Map docs baseline `main@f5657c1d36493b2803a8e457ccf7e9f2e0b2ee1d`.
+
+Current owner truth:
+
+- public root -> `HomePage` under non-immersive `AppShell`;
+- child shell -> `WorldChildShell -> PlayroomShell`;
+- child home -> `Batch14WorldHome`;
+- child select -> `LearningPlatform.ChildSelectScreen` alias -> `CloudChildSelectScreen`;
+- all 9 canonical subject routes -> `ChildLearningPathViews.SubjectScreen -> BelajarJourneyMap`;
+- canonical Stage -> `ChildLearningPathViews.StageScreen`, with Menggambar -> `DrawingStageScreen`;
+- activity route remains the explicit specialized dispatcher with finite fallback through `WorldActivityScreen -> ChildLearningPlatform.ActivityScreen`;
+- Bermain -> `ChildLearningPlatform.GamesScreen`;
+- Petualangan Uang -> `world-v2/MoneyWorldExperience` catalog/map/Stage owners;
+- parent root/children -> cloud aliases; parent shell/detail/progress/report/certificates/settings remain intentionally split across their verified owners.
+
+The old 20 September WS-13 subject ownership (`SubjectScreen -> ActivityGallery`) is **historical**. After JM-18, all nine canonical subjects are in `JOURNEY_MAP_SUBJECTS`; `ActivityGallery` is not reached by any current canonical subject ID.
+
+The audit identifies real route-dead duplicate presentation owners but also confirms that `ChildLearningPlatform.tsx` and `WorldExperience.tsx` cannot be deleted wholesale because each still contains active fallback/Bermain/shell/rewards owners.
+
+Governance cleanup performed during this audit: stale superseded PR **#424** and PR **#429** were closed with supersession notes. Shop PR #359 and dependency-bound child-surface PR #360 were deliberately left untouched.
+
+**Next authorized package: P0-UIA-01 — canonical owner retirement / legacy isolation.** Remove or isolate only route-dead duplicate owners after dependency tracing; add static route-owner regression; do not redesign visuals or change curriculum, progression, mastery/evidence, World semantics, parent auth, schema, Shop or character assets.
+
 ## 2 October 2026 — Journey Map JM-18 FINAL CLOSURE / JM-00–JM-18 COMPLETE
 
-Phase C — Canonical Journey Map System is **FINAL CLOSED at runtime** through JM-17 and is undergoing this JM-18 docs/authority closure.
+Phase C — Canonical Journey Map System is **FINAL CLOSED / MERGED / LIVE VERIFIED** through JM-18.
 
 Canonical final closure: `docs/JM18_CANONICAL_JOURNEY_MAP_FINAL_CLOSURE_2026-10-02.md`.  
 JM-17 runtime closure: `docs/JM17_MONEY_WORLD_RESPONSIVE_JOURNEY_MAP_FINAL_CLOSURE_2026-10-02.md`.
 
-Final runtime source of truth: `main@b4473cc0582c096441e429b8ed94c20fc4bf1b8e`. Runtime PR **#432** final head `ed09dc20bea0f29060616e417d48a54f5916469c` passed PR CI **#2373 / run `36972969667` FULL SUCCESS** and merged to main. Merged-main CI **#2374 / run `36974133135` FULL SUCCESS**, including exact **Production smoke (Cloudflare) SUCCESS**.
+Final Journey Map runtime source of truth: `main@b4473cc0582c096441e429b8ed94c20fc4bf1b8e`; final docs/authority main is `f5657c1d36493b2803a8e457ccf7e9f2e0b2ee1d` and main CI #2376 / run `36976525298` completed FULL SUCCESS including exact Cloudflare smoke. Runtime PR **#432** final head `ed09dc20bea0f29060616e417d48a54f5916469c` passed PR CI **#2373 / run `36972969667` FULL SUCCESS** and merged to main. Merged-main CI **#2374 / run `36974133135` FULL SUCCESS**, including exact **Production smoke (Cloudflare) SUCCESS**.
 
 Final Belajar truth remains **9 subjects / 46 canonical Stages / 900 activities / exact 100 activities per subject / one shared `BelajarJourneyMap` owner**.
 
