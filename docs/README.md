@@ -10,6 +10,7 @@ Read these first for current work:
 
 1. [`NEXT_PRODUCT_QUALITY_PLAN.md`](NEXT_PRODUCT_QUALITY_PLAN.md) — current execution order, workstreams, status and mandatory gates.
 2. [`CURRENT_STATE.md`](CURRENT_STATE.md) — current repository/product/production baseline.
+   - [`P0_OPEN02B_SHOP_OWNER_INPUT_PACK_2026-10-02.md`](P0_OPEN02B_SHOP_OWNER_INPUT_PACK_2026-10-02.md) — current Shop owner-input authority: exact 9-product / 27-SKU physical/supplier evidence intake plus pending production PII-retention decision; no candidate data may be promoted without real evidence.
    - [`P0_OPEN02A_SHOP_CONVERGENCE_PREFLIGHT_2026-10-02.md`](P0_OPEN02A_SHOP_CONVERGENCE_PREFLIGHT_2026-10-02.md) — current Shop convergence authority: #359 remains source/evidence only; 134-path file map, 113 additive candidates, current-main shared-seam replay rules, full migration/security audit, and owner-input gate before fresh runtime convergence.
    - [`P0_OPEN01_OPEN_WORKSTREAM_AUDIT_SAFE_CHECKPOINT_2026-10-02.md`](P0_OPEN01_OPEN_WORKSTREAM_AUDIT_SAFE_CHECKPOINT_2026-10-02.md) — predecessor open-workstream checkpoint: #359 retained fail-closed and #360 classified superseded as a mergeable branch.
    - [`P0_UIA01_CANONICAL_OWNER_RETIREMENT_FINAL_CLOSURE_2026-10-02.md`](P0_UIA01_CANONICAL_OWNER_RETIREMENT_FINAL_CLOSURE_2026-10-02.md) — current post-JM UI ownership authority: P0-UIA-01 closed/live verified at `main@cd5c530d…`, duplicate owners + dead ActivityGallery retired, canonical owner regression active, remaining open workstreams require fresh audit.
