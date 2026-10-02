@@ -237,7 +237,17 @@ assert.equal(
 );
 assert.match(
   files.candidateMigration,
-  /marketplace_candidate_unverified[\s\S]*production_verified/,
+  /marketplace_candidate_unverified/,
+  "candidate migration must keep marketplace candidates explicitly unverified",
+);
+assert.match(
+  files.candidateMigration,
+  /production_verified/,
+  "candidate migration must preserve the production-verified target state",
+);
+assert.match(
+  files.candidateMigration,
+  /Production facts require physical or supplier verification\./,
   "candidate migration must preserve the physical/supplier verification gate",
 );
 assert.match(
