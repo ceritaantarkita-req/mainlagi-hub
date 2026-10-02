@@ -971,7 +971,7 @@ async function main() {
       assert.equal((await chapterTwoBanner.locator("strong").textContent())?.trim(), "Siapkan Festival!", "World map must expose authored Chapter 2 title");
       assert.equal((await chapterOneBanner.locator("span").textContent())?.trim(), "1/4 Stage selesai", "Chapter 1 map progress must reflect completed Stage 1");
       assert.equal((await chapterTwoBanner.locator("span").textContent())?.trim(), "0/4 Stage selesai", "Chapter 2 map progress must remain locked at zero after Stage 1");
-      const stageTwoLink = page.locator('a[href="/child/demo-gian/world/money-festival/stage/money-stage-02-price-change"]');
+      const stageTwoLink = worldMap.locator('a[href="/child/demo-gian/world/money-festival/stage/money-stage-02-price-change"]');
       await stageTwoLink.waitFor();
       assert.equal(await stageTwoLink.count(), 1, "World Stage 1 completion must unlock Stage 2");
       assert.equal(await page.locator('[data-stage-order="2"][data-current-stage="true"]').count(), 1, "World map must visibly mark Stage 2 as the next journey stop");
