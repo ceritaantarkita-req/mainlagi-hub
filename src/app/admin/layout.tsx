@@ -4,17 +4,20 @@ import { AdminGate } from "@/components/admin/AdminGate";
 import { requireOwner } from "@/lib/auth/requireOwner";
 import { Icon, type IconName } from "@/components/Icon";
 import { AdminNavLink } from "@/components/admin/AdminNavLink";
+import { shopRuntimeEnabled } from "@/lib/shop/server";
 
 const NAV: { href: string; label: string; icon: IconName }[] = [
   { href: "/admin/dashboard", label: "Dashboard", icon: "grid" },
   { href: "/admin/articles", label: "Artikel", icon: "doc" },
-  { href: "/admin/affiliate", label: "Affiliate", icon: "tag" },
-  { href: "/admin/shop", label: "Shop", icon: "tag" }
+  { href: "/admin/affiliate", label: "Affiliate", icon: "tag" }
 ];
 
 export default async function AdminLayout({ children }: { children: ReactNode }) {
   const gate = await requireOwner();
   if (!gate.ok) return <AdminGate title="Admin" reason={gate.reason} />;
+  const nav = shopRuntimeEnabled()
+    ? [...NAV, { href: "/admin/shop", label: "Shop", icon: "tag" as IconName }]
+    : NAV;
 
   return (
     <div className="admin-shell-layout">
@@ -27,7 +30,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
           </div>
         </div>
         <nav className="admin-sidebar__nav">
-          {NAV.map((item) => (
+          {nav.map((item) => (
             <AdminNavLink key={item.href} href={item.href} label={item.label} icon={item.icon} />
           ))}
         </nav>
