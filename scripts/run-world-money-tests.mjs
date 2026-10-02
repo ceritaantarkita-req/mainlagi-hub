@@ -22,6 +22,7 @@ const world = require(path.join(outDir, "src", "lib", "learning", "world", "mone
 const worldStructure = require(path.join(outDir, "src", "lib", "learning", "world", "worldStructure.js"));
 const scenePresentation = require(path.join(outDir, "src", "lib", "learning", "world", "worldScenePresentation.js"));
 const moneyStructure = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldStructure.js"));
+const worldJourneyMap = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldJourneyMap.js"));
 const contentAudit = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldContentAudit.js"));
 const pilot = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldPilot.js"));
 const social = require(path.join(outDir, "src", "lib", "learning", "world", "moneyWorldSocial.js"));
@@ -116,6 +117,71 @@ try {
     "money-scene-s01-money-price-match"
   );
 
+  assert.equal(worldJourneyMap.MONEY_WORLD_JOURNEY_MAP_VERSION, "money-world-journey-map-v1");
+  const emptyJourney = worldJourneyMap.buildMoneyWorldJourneyMap({
+    childId: "demo-gian",
+    progress: progress.normalizeMoneyWorldProgress(undefined),
+    ready: true
+  });
+  assert.equal(emptyJourney.worldId, world.MONEY_WORLD_ID);
+  assert.equal(emptyJourney.href, "/child/demo-gian/world/money-festival");
+  assert.equal(emptyJourney.chapters.length, 2, "World Journey adapter must keep exactly two Chapters");
+  assert.equal(emptyJourney.stages.length, 8, "World Journey adapter must keep exactly eight Stages");
+  assert.equal(emptyJourney.completedStageCount, 0);
+  assert.equal(emptyJourney.nextStageId, "money-stage-01-money-use");
+  assert.equal(emptyJourney.stages[0].canonicalSourceState, "current", "first incomplete World Stage is current");
+  assert.equal(emptyJourney.stages[0].locked, false, "Stage 1 remains open at empty progress");
+  assert.equal(emptyJourney.stages[1].canonicalSourceState, "locked", "Stage 2 remains locked before Stage 1 completion");
+  assert.equal(emptyJourney.stages[0].href, "/child/demo-gian/world/money-festival/stage/money-stage-01-money-use");
+
+  const resumedJourney = worldJourneyMap.buildMoneyWorldJourneyMap({
+    childId: "demo-gian",
+    progress: progress.normalizeMoneyWorldProgress({
+      worldId: world.MONEY_WORLD_ID,
+      completedStageIds: ["money-stage-01-money-use"],
+      currentStageId: "money-stage-02-price-change",
+      currentSegmentIndex: 3,
+      updatedAt: "2026-10-02T00:00:00.000Z"
+    }),
+    ready: true
+  });
+  assert.equal(resumedJourney.completedStageCount, 1);
+  assert.equal(resumedJourney.nextStageId, "money-stage-02-price-change");
+  assert.equal(resumedJourney.resumeStageId, "money-stage-02-price-change");
+  assert.equal(resumedJourney.resumeSegmentIndex, 3);
+  assert.equal(resumedJourney.chapters[0].completedStageCount, 1);
+  assert.equal(resumedJourney.chapters[1].completedStageCount, 0);
+  assert.equal(resumedJourney.stages[0].canonicalSourceState, "completed");
+  assert.equal(resumedJourney.stages[0].stars, 3, "World completion stars remain presentation-only three-star state");
+  assert.equal(resumedJourney.stages[1].canonicalSourceState, "current");
+  assert.equal(resumedJourney.stages[1].locked, false);
+  assert.equal(resumedJourney.stages[2].canonicalSourceState, "locked");
+
+  const loadingJourney = worldJourneyMap.buildMoneyWorldJourneyMap({
+    childId: "demo-gian",
+    progress: progress.normalizeMoneyWorldProgress(undefined),
+    ready: false
+  });
+  assert.equal(loadingJourney.nextStageId, null);
+  assert.equal(loadingJourney.resumeStageId, null);
+  assert.ok(loadingJourney.stages.every((stage) => stage.locked), "unsettled World progress must fail closed in presentation");
+
+  const completedJourney = worldJourneyMap.buildMoneyWorldJourneyMap({
+    childId: "demo-gian",
+    progress: progress.normalizeMoneyWorldProgress({
+      worldId: world.MONEY_WORLD_ID,
+      completedStageIds: world.MONEY_WORLD_STAGES.map((stage) => stage.id),
+      currentStageId: null,
+      currentSegmentIndex: 0,
+      updatedAt: "2026-10-02T00:00:00.000Z"
+    }),
+    ready: true
+  });
+  assert.equal(completedJourney.completed, true);
+  assert.equal(completedJourney.nextStageId, null);
+  assert.ok(completedJourney.chapters.every((chapter) => chapter.completed), "completed World must complete both Chapter projections");
+  assert.ok(completedJourney.stages.every((stage) => stage.canonicalSourceState === "completed"));
+
   assert.equal(pilot.MONEY_WORLD_PILOT_CONTRACT_VERSION, "money-world-pilot-v1");
   assert.equal(pilot.MONEY_WORLD_PILOT_STAGES.length, 8, "pilot production manifest must cover all eight Stages");
   assert.equal(pilot.MONEY_WORLD_PILOT_PRODUCTION_VALIDATION.valid, true, pilot.MONEY_WORLD_PILOT_PRODUCTION_VALIDATION.errors.join("; "));
@@ -151,6 +217,7 @@ try {
 
   const worldRuntimeSource = readFileSync(path.join(root, "src/components/learning/world-v2/MoneyWorldExperience.tsx"), "utf8");
   const worldRuntimeCss = readFileSync(path.join(root, "src/components/learning/world-v2/MoneyWorldExperience.module.css"), "utf8");
+  const worldJourneyMapSource = readFileSync(path.join(root, "src/lib/learning/world/moneyWorldJourneyMap.ts"), "utf8");
   const canonicalCompletionSource = readFileSync(path.join(root, "src/components/CanonicalCompletion.tsx"), "utf8");
   const canonicalCompletionCss = readFileSync(path.join(root, "src/components/CanonicalCompletion.module.css"), "utf8");
   const worldSceneRendererSource = readFileSync(path.join(root, "src/components/learning/world/WorldSceneRenderer.tsx"), "utf8");
@@ -174,7 +241,11 @@ try {
   assert.match(worldRuntimeSource, /MONEY_WORLD_CHAPTERS/, "World runtime must derive visible Chapter navigation from the canonical Chapter registry");
   assert.match(worldRuntimeSource, /data-world-chapter-id/, "World map and Stage shell must expose canonical Chapter identity for QA");
   assert.match(worldRuntimeSource, /data-world-chapter-label/, "Stage shell must render authored Chapter context");
-  assert.match(worldRuntimeSource, /chapter\.stageIds\.filter/, "Chapter progress must derive from canonical Chapter membership and completed Stage IDs");
+  assert.match(worldJourneyMapSource, /chapter\.stageIds\.filter/, "World Journey adapter Chapter progress must derive from canonical Chapter membership and completed Stage IDs");
+  assert.match(worldRuntimeSource, /buildMoneyWorldJourneyMap/, "World map runtime must consume the JM-16 World-specific adapter");
+  assert.match(worldRuntimeSource, /data-world-journey-adapter/, "World map must expose the adapter contract for browser QA");
+  assert.doesNotMatch(worldRuntimeSource, /<BelajarJourneyMap/, "World must not render through the Belajar Journey Map engine");
+  assert.doesNotMatch(worldJourneyMapSource, /getSubjectStageReadiness|LearningSubjectId|getActivitiesForStage|LearningAttemptBridge/, "World adapter must remain independent of Belajar readiness/activity/mastery semantics");
   assert.match(worldRuntimeSource, /chapter\.stageIds\.at\(-1\) === stageId/, "Chapter completion milestone must derive from canonical Chapter membership");
   assert.match(worldRuntimeSource, /data-world-completion-stage/, "Stage completion must expose stable Stage identity for QA");
   assert.match(worldRuntimeSource, /data-world-completion-chapter/, "Stage completion must expose canonical Chapter identity for QA");
@@ -193,7 +264,7 @@ try {
   assert.match(canonicalCompletionCss, /\.shareButton\s*\{[\s\S]*width:\s*min\(590px,\s*100%\)/, "canonical Share must remain a separate full completion action below navigation");
   assert.match(worldRuntimeSource, /role="progressbar"/, "Stage progress must expose progressbar semantics");
   assert.match(worldRuntimeSource, /aria-valuenow=\{segmentIndex \+ 1\}/, "Stage progress must expose current Segment position");
-  assert.match(worldRuntimeSource, /aria-current=\{stage\.id === nextJourneyStageId \? "step"/, "journey map must expose the current Stage semantically");
+  assert.match(worldRuntimeSource, /aria-current=\{stage\.current \? "step"/, "journey map must expose the adapter-projected current Stage semantically");
   assert.match(worldRuntimeSource, /<CanonicalCompletion/, "World Stage completion must delegate to the canonical Completion owner");
   assert.match(canonicalCompletionSource, /headingRef\.current\?\.focus\(\)/, "canonical Completion must move focus to its labelled completion heading");
   assert.match(worldRuntimeSource, /role="img" aria-label=\{startCount \+ " token, " \+ removeCount \+ " dipakai"\}/, "take-away token board must expose a text alternative");
