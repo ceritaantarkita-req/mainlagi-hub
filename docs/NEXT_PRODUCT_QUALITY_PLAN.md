@@ -4,6 +4,18 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 
+## 2 October Journey Map execution override — JM-16 CLOSED / LIVE VERIFIED / JM-17 NEXT
+
+JM-16 Petualangan Uang desktop Journey Map is **CLOSED / MERGED / LIVE VERIFIED**.
+
+Canonical closure: `JM16_MONEY_WORLD_DESKTOP_JOURNEY_MAP_FINAL_CLOSURE_2026-10-02.md`.
+
+Runtime PR **#430** final head `80cdd57c86943e1f888b8bfb122bf977cb3193d5` -> `main@544475c534a05176f9c6d349b32c3b37819f7e1f`. PR CI **#2367 / run `36962973475` FULL SUCCESS**; merged-main CI **#2368 / run `36968729118` FULL SUCCESS**, including exact Cloudflare production smoke.
+
+JM-16 introduced the World-specific pure presentation adapter and clean illustrated desktop Journey Map while preserving exact **2 Chapters / 8 Stages / 44 Scenes / 89 Segments**, sequential World progression, ★★★ completion presentation, Segment checkpoint/resume, stable routes and all World/Belajar semantic boundaries.
+
+**Next authorized step: JM-17 — Petualangan Uang mobile/responsive Journey Map.** Reuse the same adapter. Target 320/390/430 phone containment plus tablet/landscape, mobile resume/checkpoint CTA, current Stage visibility, compact Chapter progress, touch/a11y/rotation continuity and zero horizontal overflow. Do not add World Browse All or change progression/runtime. JM-18 remains the final Journey Map closure.
+
 ## 2 October Journey Map execution override — JM-15 AUDIT COMPLETE / JM-16 NEXT
 
 JM-15 Petualangan Uang read-only adapter audit is complete against `main@cf0007d48734b3dcd3f9ad60bf340ab043ce02a6`.
