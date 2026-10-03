@@ -311,6 +311,7 @@
 .productNav,
 .profile {
   position:relative;
+  flex:0 0 auto;
 }
 .productNav summary,
 .profile summary {
@@ -371,6 +372,11 @@
   right:0;
   top:52px;
   width:290px;
+  inline-size:290px;
+  min-width:290px;
+  min-inline-size:290px;
+  max-width:calc(100vw - 24px);
+  max-inline-size:calc(100vw - 24px);
   padding:9px;
   display:grid;
   gap:4px;
@@ -378,6 +384,8 @@
   border-radius:20px;
   background:#fffaf0;
   box-shadow:0 18px 48px rgba(25,59,85,.18);
+  overflow-wrap:normal;
+  word-break:normal;
 }
 .productMenu a,
 .productMenuDisabled {
@@ -452,6 +460,11 @@
     left:12px;
     top:auto;
     width:auto;
+    inline-size:auto;
+    min-width:0;
+    min-inline-size:0;
+    max-width:none;
+    max-inline-size:none;
     max-height:min(72dvh,560px);
     overflow:auto;
     padding:12px;
