@@ -1,19 +1,21 @@
 # P0-OPEN-02B — owner-input validator safe checkpoint
 
 Date: **3 October 2026**  
-Status: **TOOLING GREEN / DRAFT HOLD / OWNER INPUTS STILL PENDING**
+Status: **TOOLING MERGED / PRODUCTION GREEN / OWNER INPUTS STILL PENDING**
 
 ## Exact state
 
 ```text
-current main:              e90ff8afaa00e5fe41c5f28a7ba0f0895ce3adad
-production live SHA:       89cbfed2711f2c9d2c1ccebc5e4e17575e3ac1ad
-Cloudflare blocker:        issue #450 — OPEN
+current main:              94b71e10e6cec029fbe43bdb91559745cfd61b97
+production live SHA:       94b71e10e6cec029fbe43bdb91559745cfd61b97
+Cloudflare blocker:        issue #450 — CLOSED
 
 tooling PR:                 #451
-tooling head:               3021dfbe31db09c9bb40a9e69688287b5d2e65ba
-PR CI:                      #2426 / run 37100806037 — FULL SUCCESS
-PR state:                   DRAFT / OPEN / NOT MERGED
+tooling merge:              94b71e10e6cec029fbe43bdb91559745cfd61b97
+main CI:                    #2428 / run 37118826764 — FULL SUCCESS
+Cloudflare Workers Build:   7d591d17-1a0e-4464-8de0-1c1c9a412aba — SUCCESS
+Cloudflare Version ID:      e8c530ba-2b5f-4eb1-8b7d-4903777aa04c
+tooling state:              MERGED / LIVE
 
 Shop convergence PR:       #442
 Shop head:                  962044731d7852171ce2945c9a02b2f86061940f
@@ -23,7 +25,7 @@ Shop state:                 DRAFT / OPEN / NOT MERGED
 
 ## What this tooling adds
 
-Draft PR #451 adds a fail-closed validator for the canonical owner-input surface:
+Merged PR #451 adds a fail-closed validator for the canonical owner-input surface:
 
 `docs/data/P0_OPEN02B_SHOP_OWNER_INPUT_TEMPLATE_2026-10-02.json`
 
@@ -68,7 +70,7 @@ Candidate marketplace values remain comparison context only. Synthetic validator
 
 ## CI proof
 
-Exact head `3021dfbe31db09c9bb40a9e69688287b5d2e65ba` passed:
+The final Draft head `de000099591ea10d5c8c37dcb57f97dea91a7591` passed PR CI #2427. After merge, `main@94b71e10e6cec029fbe43bdb91559745cfd61b97` passed main CI #2428 including exact-SHA Production smoke (Cloudflare).
 
 ```text
 Shop owner-input intake contract   SUCCESS
@@ -81,26 +83,28 @@ Secret history scan                SUCCESS
 Production smoke (Cloudflare)      SKIPPED on PR by design
 ```
 
-## Hold boundary
+## Production recovery
 
-Do **not** merge PR #451 while issue #450 remains open.
+Cloudflare incident/blocker #450 is resolved.
 
-The current production publication problem is external to this tooling:
+The failed builds on `14de47e3…` and `e90ff8af…` were confirmed as Cloudflare Workers Builds initialization timeouts before repository cloning/build execution. A later manual retry completed successfully, and the next normal Git-integrated build for merged PR #451 also completed successfully.
 
-- Cloudflare last successfully published `89cbfed2…`;
-- Workers Builds failed for `14de47e3…`;
-- Workers Builds failed again for deploy-sync main `e90ff8af…`;
-- GitHub Actions OpenNext production builds remain green;
-- exact-SHA production smoke correctly remains red.
+Current production proof:
 
-Do not weaken the production smoke gate to hide that deployment failure.
+```text
+main:                         94b71e10e6cec029fbe43bdb91559745cfd61b97
+main CI:                      #2428 / run 37118826764 — FULL SUCCESS
+Production smoke:             SUCCESS / exact SHA
+Workers Build:                7d591d17-1a0e-4464-8de0-1c1c9a412aba — SUCCESS
+Cloudflare Version ID:        e8c530ba-2b5f-4eb1-8b7d-4903777aa04c
+```
 
 ## Safe next action
 
-1. inspect Cloudflare Build ID `f17e3c6d-a87c-4e2e-9bd8-1ee6717e9cf7`;
-2. repair/retry the Cloudflare Workers Builds integration while preserving existing production bindings/secrets;
-3. verify production reports current `main` exact SHA again;
-4. close issue #450 only after exact-SHA smoke is green;
-5. keep #451 Draft until that external blocker is closed;
-6. separately collect real P0-OPEN-02B owner/supplier evidence; do not fabricate missing values;
+1. collect real P0-OPEN-02B owner/supplier evidence for all 9 products;
+2. cover all 27 active SKU candidates with real evidence;
+3. record actual stock, packed weight, package dimensions and applicable measurements;
+4. choose and evidence production `SHOP_ORDER_PII_RETENTION_DAYS` in the supported 30–3650 day range;
+5. use `npm run shop:validate-owner-input` while filling the intake;
+6. use `npm run shop:validate-owner-input:ready` only when claiming release-readiness;
 7. keep Shop convergence PR #442 Draft until owner launch blockers and a separate release decision are resolved.
