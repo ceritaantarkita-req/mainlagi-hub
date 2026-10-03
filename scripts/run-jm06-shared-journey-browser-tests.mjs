@@ -57,16 +57,44 @@ async function assertHeaderDropdowns(page){
   await productMenu.waitFor({state:"visible",timeout:3000});
   const productMetrics=await productMenu.evaluate(node=>{
     const rect=node.getBoundingClientRect();
+    const style=getComputedStyle(node);
+    const ancestors=[];
+    for(let current=node.parentElement;current;current=current.parentElement){
+      const currentStyle=getComputedStyle(current);
+      const currentRect=current.getBoundingClientRect();
+      ancestors.push({
+        tag:current.tagName,
+        className:current.className,
+        width:currentRect.width,
+        transform:currentStyle.transform,
+        zoom:currentStyle.zoom
+      });
+      if(ancestors.length===6)break;
+    }
     const labels=[...node.querySelectorAll("strong")].map(label=>{
-      const style=getComputedStyle(label);
+      const labelStyle=getComputedStyle(label);
       return {
         text:label.textContent?.trim()??"",
-        whiteSpace:style.whiteSpace,
-        wordBreak:style.wordBreak,
-        overflowWrap:style.overflowWrap
+        whiteSpace:labelStyle.whiteSpace,
+        wordBreak:labelStyle.wordBreak,
+        overflowWrap:labelStyle.overflowWrap
       };
     });
-    return {width:rect.width,labels};
+    return {
+      width:rect.width,
+      cssWidth:style.width,
+      minWidth:style.minWidth,
+      maxWidth:style.maxWidth,
+      inlineSize:style.inlineSize,
+      minInlineSize:style.minInlineSize,
+      maxInlineSize:style.maxInlineSize,
+      position:style.position,
+      transform:style.transform,
+      zoom:style.zoom,
+      viewport:innerWidth,
+      ancestors,
+      labels
+    };
   });
   assert(productMetrics.width>=280,"JM-02 desktop product menu must not collapse: "+JSON.stringify(productMetrics));
   assert(productMetrics.labels.every(label=>label.whiteSpace==="nowrap"&&label.wordBreak==="normal"&&label.overflowWrap==="normal"),
