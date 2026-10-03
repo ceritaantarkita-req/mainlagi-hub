@@ -239,10 +239,52 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Resolve docs-only production fallback SHA
+        id: release-target
+        shell: bash
+        env:
+          CURRENT_SHA: ${{ github.sha }}
+        run: |
+          set -Eeuo pipefail
+
+          fallback_sha=""
+          parent_sha="$(git rev-parse "$CURRENT_SHA^" 2>/dev/null || true)"
+          current_non_docs="$(git diff --name-only "$parent_sha" "$CURRENT_SHA" 2>/dev/null | grep -Ev '^docs/' || true)"
+
+          if [[ -n "$parent_sha" && -z "$current_non_docs" ]]; then
+            probe="$parent_sha"
+            while true; do
+              probe_parent="$(git rev-parse "$probe^" 2>/dev/null || true)"
+              if [[ -z "$probe_parent" ]]; then
+                break
+              fi
+
+              probe_non_docs="$(git diff --name-only "$probe_parent" "$probe" | grep -Ev '^docs/' || true)"
+              if [[ -n "$probe_non_docs" ]]; then
+                fallback_sha="$probe"
+                break
+              fi
+
+              probe="$probe_parent"
+            done
+          fi
+
+          echo "fallback_sha=$fallback_sha" >> "$GITHUB_OUTPUT"
+          if [[ -n "$fallback_sha" ]]; then
+            echo "Docs-only main commit detected; production may legitimately remain on nearest non-docs release $fallback_sha."
+          else
+            echo "Runtime/config-affecting main commit detected; exact current SHA is required."
+          fi
+
       - name: Wait for exact Cloudflare release and smoke public endpoints
         shell: bash
         env:
           EXPECTED_SHA: ${{ github.sha }}
+          DOCS_ONLY_FALLBACK_SHA: ${{ steps.release-target.outputs.fallback_sha }}
           BASE_URL: https://mainlagihub.my.id
           EXPECTED_SUPABASE_PROJECT_REF: estvtgflwkebomsqlolv
         run: |
@@ -254,22 +296,34 @@ jobs:
             health_body="$(curl -sS --connect-timeout 10 --max-time 20 \
               "$BASE_URL/api/health" || true)"
 
+            sha_matches=0
+            if grep -Fq "\"sha\":\"$EXPECTED_SHA\"" <<<"$health_body"; then
+              sha_matches=1
+            elif [[ -n "$DOCS_ONLY_FALLBACK_SHA" ]] \
+              && grep -Fq "\"sha\":\"$DOCS_ONLY_FALLBACK_SHA\"" <<<"$health_body"; then
+              sha_matches=1
+            fi
+
             if [[ "$home_code" == "200" ]] \
+              && [[ "$sha_matches" -eq 1 ]] \
               && grep -Fq '"ok":true' <<<"$health_body" \
-              && grep -Fq "\"sha\":\"$EXPECTED_SHA\"" <<<"$health_body" \
               && grep -Fq '"branch":"main"' <<<"$health_body" \
               && grep -Fq '"siteUrl":"https://mainlagihub.my.id"' <<<"$health_body" \
               && grep -Fq '"dataBackend":"supabase"' <<<"$health_body" \
               && grep -Fq "\"supabaseProjectRef\":\"$EXPECTED_SUPABASE_PROJECT_REF\"" <<<"$health_body"; then
-              echo "Production is serving expected commit $EXPECTED_SHA with canonical Supabase target."
+              if grep -Fq "\"sha\":\"$EXPECTED_SHA\"" <<<"$health_body"; then
+                echo "Production is serving exact current commit $EXPECTED_SHA with canonical Supabase target."
+              else
+                echo "Docs-only commit did not create a new release; production remains on verified non-docs ancestor $DOCS_ONLY_FALLBACK_SHA."
+              fi
               echo "$health_body"
               exit 0
             fi
 
-            echo "Attempt $attempt/30: homepage=$home_code; waiting for exact release/configuration target"
+            echo "Attempt $attempt/30: homepage=$home_code; waiting for allowed exact release/configuration target"
             sleep 10
           done
 
-          echo "Production did not serve the expected commit/configuration within the smoke-test window."
+          echo "Production did not serve the expected current SHA or allowed docs-only fallback within the smoke-test window."
           echo "Last health response: $health_body"
           exit 1
