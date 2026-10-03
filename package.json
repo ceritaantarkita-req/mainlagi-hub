@@ -228,7 +228,9 @@
     "test:learning:si11-closure": "node scripts/run-si11-integrated-closure-tests.mjs",
     "shop:validate-owner-input": "node scripts/validate-shop-owner-input.mjs",
     "shop:validate-owner-input:ready": "node scripts/validate-shop-owner-input.mjs --require-ready",
-    "test:shop:owner-input": "node scripts/run-shop-owner-input-validator-tests.mjs"
+    "test:shop:owner-input": "node scripts/run-shop-owner-input-validator-tests.mjs && node scripts/run-shop-owner-input-report-tests.mjs",
+    "shop:report-owner-input": "node scripts/report-shop-owner-input.mjs",
+    "shop:report-owner-input:md": "node scripts/report-shop-owner-input.mjs --format=md"
   },
   "dependencies": {
     "@capacitor/cli": "^7.6.8",
