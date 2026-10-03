@@ -7,7 +7,7 @@ Repository: `ceritaantarkita-req/mainlagi-hub`
 ## 1. Exact verified baselines
 
 ```text
-current main:                         89cbfed2711f2c9d2c1ccebc5e4e17575e3ac1ad
+pre-closure runtime main:             89cbfed2711f2c9d2c1ccebc5e4e17575e3ac1ad
 main CI:                              #2416 / run 37090396078 — FULL SUCCESS
 main Production smoke (Cloudflare):   SUCCESS
 
@@ -176,10 +176,28 @@ Mobile route QA (Chromium)        SUCCESS
 Production smoke (Cloudflare)     SKIPPED on PR by design
 ```
 
-The default branch remained independently green at
+The pre-closure runtime baseline remained independently green at
 `main@89cbfed2711f2c9d2c1ccebc5e4e17575e3ac1ad` with CI #2416 FULL SUCCESS including Production smoke (Cloudflare).
 
-## 8. What 01C closes — and what it does not
+## 8. Post-closure Cloudflare deployment synchronization note
+
+Docs closure PR #447 merged as repository main
+`14de47e328e3acfbfb15a71e7349d380cf5b9f89`.
+
+Its canonical CI gates passed, but exact-SHA Production smoke observed the public
+Worker still serving the previous runtime SHA
+`89cbfed2711f2c9d2c1ccebc5e4e17575e3ac1ad` through repeated smoke windows.
+This is a deployment-synchronization issue after a docs-only merge, not an 01C
+provider-staging failure.
+
+A follow-up release-sync change is allowed to touch deployable source/config
+without changing runtime behavior so Cloudflare Git integration receives a
+deployable change and exact-SHA production verification can be restored.
+
+This note does not change the 01C staging result and does not authorize merging
+#442.
+
+## 9. What 01C closes — and what it does not
 
 P0-SHOP-CONV-01C is now technically closed.
 
@@ -205,7 +223,7 @@ It does **not** authorize:
 - treating candidate dimensions/weight as production facts;
 - choosing the production PII-retention policy.
 
-## 9. Remaining owner launch blockers
+## 10. Remaining owner launch blockers
 
 P0-OPEN-02B remains unresolved:
 
@@ -224,7 +242,7 @@ with machine-readable intake template:
 
 `docs/data/P0_OPEN02B_SHOP_OWNER_INPUT_TEMPLATE_2026-10-02.json`
 
-## 10. Safe next boundary
+## 11. Safe next boundary
 
 The next Shop action is **not another technical convergence audit**.
 
@@ -245,7 +263,7 @@ Required before any release authorization:
 
 Do not merge #442 merely because 01C passed.
 
-## 11. Safe resume instruction
+## 12. Safe resume instruction
 
 A later agent should treat the following as canonical:
 
