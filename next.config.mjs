@@ -33,6 +33,8 @@ const nextConfig = {
   // Public, non-secret release/configuration metadata. Cloudflare Workers
   // Builds injects commit metadata; NEXT_PUBLIC_* values are client-safe by
   // definition. Only the Supabase project ref is exposed, never any key.
+  // Keep this metadata build-bound so exact-SHA production smoke can verify
+  // Cloudflare Git deployment synchronization without changing runtime logic.
   env: {
     MAINLAGI_BUILD_SHA: buildSha,
     MAINLAGI_BUILD_BRANCH: buildBranch,
