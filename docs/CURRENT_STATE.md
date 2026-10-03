@@ -5,6 +5,26 @@ Last reviewed: **3 October 2026**
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
 
+## 3 October 2026 — P0-OPEN-02B PROGRESS REPORTER MERGED / OWNER COLLECTION READY
+
+Canonical closure: `docs/P0_OPEN02B_OWNER_INPUT_PROGRESS_REPORT_CLOSURE_2026-10-03.md`.
+
+PR **#453** merged as `main@4f9aaedb1c2a106f5e59dad4e44b168eb6acd71a`. Main CI **#2432 / run 37134242395 FULL SUCCESS**, including exact-SHA **Production smoke (Cloudflare) SUCCESS**. Cloudflare Workers Build `64aad0c7-2678-4458-9f8d-b5238230dd32` completed successfully with Version ID `184b9991-27bc-47d8-b252-80a64e454ec5`.
+
+The owner-input tooling now includes read-only missing-evidence reports:
+
+```bash
+npm run shop:report-owner-input
+npm run shop:report-owner-input:md
+```
+
+They report what is still missing per product/SKU without copying candidate marketplace values into verified `actual` fields.
+
+Canonical owner truth remains **0/9 products verified, 0/27 active SKU candidates verified, production PII retention pending**. No further speculative Shop implementation is authorized by default. The next safe action is real owner/supplier evidence collection.
+
+Keep **#442 Draft / unmerged**. If it becomes non-mergeable as `main` advances, do not resolve/rebase it merely for cleanliness before P0-OPEN-02B is actually satisfied.
+
+
 ## 3 October 2026 — P0-OPEN-02B OWNER-INPUT VALIDATOR MERGED / PRODUCTION GREEN
 
 Canonical checkpoint: `docs/P0_OPEN02B_OWNER_INPUT_VALIDATOR_SAFE_CHECKPOINT_2026-10-03.md`.
