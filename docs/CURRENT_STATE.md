@@ -15,7 +15,7 @@ Manual **Shop Batch 11 free staging #8 / run 37094508479** completed **SUCCESS**
 
 The staging evidence explicitly remains non-production: test SKU `008-A5-80-LINED` is fixture-only, `usedRealProductionProductFacts=false`, `choseProductionPiiRetention=false`, and staging `SHOP_ORDER_PII_RETENTION_DAYS=30` is test-only.
 
-Current default branch is `main@89cbfed2711f2c9d2c1ccebc5e4e17575e3ac1ad`; exact main CI **#2416 / run 37090396078 FULL SUCCESS** includes Production smoke (Cloudflare) SUCCESS.
+The pre-closure runtime baseline is `main@89cbfed2711f2c9d2c1ccebc5e4e17575e3ac1ad`; exact main CI **#2416 / run 37090396078 FULL SUCCESS** includes Production smoke (Cloudflare) SUCCESS. Docs closure PR #447 later merged as `14de47e328e3acfbfb15a71e7349d380cf5b9f89`, but its exact-SHA production smoke observed Cloudflare still serving `89cbfed2…`; this is a deployment synchronization issue, not an 01C staging regression.
 
 **Release boundary remains unchanged:** keep **#442 Draft / unmerged**, do not enable production Shop runtime/sales or apply Shop production migrations. The remaining blocker is **P0-OPEN-02B owner launch input**: **0/9 products**, **0/27 active SKU candidates**, and production `SHOP_ORDER_PII_RETENTION_DAYS` still pending.
 
