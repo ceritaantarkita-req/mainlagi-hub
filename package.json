@@ -225,7 +225,10 @@
     "test:ui:si10-world": "node scripts/run-si10-world-adapter-browser-tests.mjs",
     "test:ui:jm16-world-desktop": "node scripts/run-jm16-world-desktop-journey-browser-tests.mjs",
     "test:ui:jm17-world-responsive": "node scripts/run-jm17-world-responsive-journey-browser-tests.mjs",
-    "test:learning:si11-closure": "node scripts/run-si11-integrated-closure-tests.mjs"
+    "test:learning:si11-closure": "node scripts/run-si11-integrated-closure-tests.mjs",
+    "shop:validate-owner-input": "node scripts/validate-shop-owner-input.mjs",
+    "shop:validate-owner-input:ready": "node scripts/validate-shop-owner-input.mjs --require-ready",
+    "test:shop:owner-input": "node scripts/run-shop-owner-input-validator-tests.mjs"
   },
   "dependencies": {
     "@capacitor/cli": "^7.6.8",

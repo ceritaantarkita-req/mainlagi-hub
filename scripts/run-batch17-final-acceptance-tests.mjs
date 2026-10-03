@@ -148,6 +148,7 @@ try {
     assert.ok(workflow.includes(`name: ${jobName}`), `CI must retain ${jobName}`);
   }
   assert.match(workflow, /Batch 16 security boundary regressions[\s\S]*npm run test:batch16:security/);
+  assert.match(workflow, /Shop owner-input intake contract[\s\S]*npm run test:shop:owner-input/);
   assert.match(workflow, /Batch 16 production JS and lazy-load budgets[\s\S]*npm run test:batch16:build/);
   assert.match(workflow, /Run canonical mobile route, accessibility, and lazy-load matrix[\s\S]*npm run test:ui:mobile-routes/);
   assert.match(workflow, /EXPECTED_SHA:\s*\$\{\{ github\.sha \}\}/);

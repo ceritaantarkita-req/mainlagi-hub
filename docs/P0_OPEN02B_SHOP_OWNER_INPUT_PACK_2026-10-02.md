@@ -9,6 +9,16 @@ Machine-readable intake template:
 
 `docs/data/P0_OPEN02B_SHOP_OWNER_INPUT_TEMPLATE_2026-10-02.json`
 
+Fail-closed validator:
+
+```bash
+npm run shop:validate-owner-input
+npm run shop:validate-owner-input:ready
+npm run test:shop:owner-input
+```
+
+The normal validator accepts a structurally valid partially filled intake and reports `ready=false`. The `:ready` command is the release-readiness gate and fails until all **9 products / 27 active SKUs** plus the explicit production PII-retention decision are fully evidenced.
+
 ## 1. Purpose
 
 P0-OPEN-02A proved that the Shop commerce core is technically portable to current main, but release readiness is still blocked by two inputs that cannot be fabricated by code or inferred from marketplace benchmarks:
