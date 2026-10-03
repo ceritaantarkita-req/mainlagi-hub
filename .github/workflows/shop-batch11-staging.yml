@@ -375,7 +375,7 @@ jobs:
             "name": "$CRON_WORKER_NAME",
             "main": "worker.mjs",
             "compatibility_date": "2026-09-28",
-            "triggers": { "crons": ["*/5 * * * *"] }
+            "triggers": { "crons": ["* * * * *"] }
           }
           EOF
           npx wrangler deploy --config /tmp/mainlagi-shop-cron/wrangler.jsonc
@@ -397,9 +397,13 @@ jobs:
         shell: bash
         run: |
           set -Eeuo pipefail
+          # Cloudflare documents that newly added/updated Cron Triggers can take
+          # up to 15 minutes to propagate globally. Keep this disposable staging
+          # gate patient enough to observe a real scheduled invocation after that
+          # propagation window, while staying comfortably inside the 45-minute job cap.
           started_epoch="$(date +%s)"
           found=0
-          for attempt in $(seq 1 18); do
+          for attempt in $(seq 1 60); do
             curl -fsS               "$LOCAL_SUPABASE_URL/rest/v1/shop_reconciliation_runs?select=id,started_at,finished_at,status,details&order=started_at.desc&limit=5"               -H "apikey: $LOCAL_SUPABASE_SERVICE_ROLE_KEY"               -H "Authorization: Bearer $LOCAL_SUPABASE_SERVICE_ROLE_KEY"               > /tmp/mainlagi-shop-batch11-reconciliation-evidence.json
 
             if node - "$started_epoch" <<'NODE'
@@ -419,7 +423,7 @@ jobs:
               found=1
               break
             fi
-            echo "Waiting for real Cloudflare cron tick ($attempt/18)..."
+            echo "Waiting for real Cloudflare cron tick ($attempt/60)..."
             sleep 20
           done
           [[ "$found" -eq 1 ]] || {
@@ -429,6 +433,7 @@ jobs:
           }
 
       - name: Upload free-staging evidence
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: shop-batch11-free-staging-evidence
