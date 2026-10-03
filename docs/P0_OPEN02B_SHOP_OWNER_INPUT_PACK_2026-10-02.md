@@ -14,10 +14,14 @@ Fail-closed validator:
 ```bash
 npm run shop:validate-owner-input
 npm run shop:validate-owner-input:ready
+npm run shop:report-owner-input
+npm run shop:report-owner-input:md
 npm run test:shop:owner-input
 ```
 
 The normal validator accepts a structurally valid partially filled intake and reports `ready=false`. The `:ready` command is the release-readiness gate and fails until all **9 products / 27 active SKUs** plus the explicit production PII-retention decision are fully evidenced.
+
+The report commands are read-only. They list the still-missing evidence per product and SKU and never promote candidate marketplace values into `actual` fields. The Markdown form is intended as a practical owner/supplier collection checklist.
 
 ## 1. Purpose
 
