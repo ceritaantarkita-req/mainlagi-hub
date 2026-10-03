@@ -208,6 +208,26 @@ async function assertJm02Header(page, viewport, { backHref, currentHref, exercis
   }
   assert.equal(await productNav.evaluate((element) => element.open), true, `JM-02 product menu must open at ${viewport.width}px`);
 
+  const productMenuBox = await menu.boundingBox();
+  assert.ok(productMenuBox, `JM-02 product menu geometry missing at ${viewport.width}px`);
+  if (viewport.width > 760) {
+    assert.ok(
+      productMenuBox.width >= 270,
+      `JM-02 desktop product menu collapsed below canonical width at ${viewport.width}px: ${productMenuBox.width}px`
+    );
+  } else {
+    assert.ok(
+      productMenuBox.width >= Math.min(280, viewport.width - 32),
+      `JM-02 mobile/tablet product menu collapsed unexpectedly at ${viewport.width}px: ${productMenuBox.width}px`
+    );
+  }
+  const menuWordBreak = await menu.locator("strong").first().evaluate((element) => {
+    const style = getComputedStyle(element);
+    return { wordBreak: style.wordBreak, overflowWrap: style.overflowWrap };
+  });
+  assert.notEqual(menuWordBreak.wordBreak, "break-all", `JM-02 product labels must not break per character at ${viewport.width}px`);
+  assert.notEqual(menuWordBreak.overflowWrap, "anywhere", `JM-02 product labels must not wrap anywhere at ${viewport.width}px`);
+
   if (viewport.width <= 430) {
     await productSummary.click();
   } else {
