@@ -156,6 +156,8 @@ assert.match(
   /crons": \["\* \* \* \* \*"\]/,
   "Batch 11 workflow must exercise a real temporary Cloudflare cron trigger",
 );
+// Cloudflare Cron Trigger propagation can take up to 15 minutes; the
+// disposable evidence harness intentionally budgets 20 minutes for a real tick.
 assert.match(
   files.batch11Workflow,
   /seq 1 60[\s\S]*Waiting for real Cloudflare cron tick \(\$attempt\/60\)/,
