@@ -1,6 +1,6 @@
 # Mainlagi Production Deployment
 
-Last reviewed: 23 September 2026
+Last reviewed: 3 October 2026
 
 ## Canonical production architecture
 
@@ -17,13 +17,17 @@ There is no canonical VPS/SSH production path.
 
 ## Commit-aware production smoke
 
-On pushes to `main`, `Production smoke (Cloudflare)` succeeds only when production reports:
+On pushes to `main`, `Production smoke (Cloudflare)` still requires exact current `github.sha` for every runtime/config-affecting commit.
 
-- exact current `github.sha`;
+For a commit whose diff is strictly under `docs/**`, Cloudflare Git integration may legitimately skip producing a new Worker release. In that one case only, the smoke gate may accept the nearest prior non-docs commit SHA that is still live. The gate still requires:
+
+- either exact current `github.sha`, or the computed nearest non-docs ancestor for a docs-only push;
 - branch `main`;
 - site URL `https://mainlagihub.my.id`;
 - backend `supabase`;
 - Supabase project ref `estvtgflwkebomsqlolv`.
+
+A runtime/config-affecting push never receives this fallback and must still be live at its exact current SHA.
 
 ## Historical database-rollout production baseline — 23 September 2026
 
