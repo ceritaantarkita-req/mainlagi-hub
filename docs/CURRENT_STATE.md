@@ -5,6 +5,25 @@ Last reviewed: **3 October 2026**
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
 
+## 3 October 2026 — P0-OPEN-02B OWNER-INPUT VALIDATOR MERGED / PRODUCTION GREEN
+
+Canonical checkpoint: `docs/P0_OPEN02B_OWNER_INPUT_VALIDATOR_SAFE_CHECKPOINT_2026-10-03.md`.
+
+PR **#451** merged as `main@94b71e10e6cec029fbe43bdb91559745cfd61b97`. Main CI **#2428 / run 37118826764 FULL SUCCESS**, including exact-SHA **Production smoke (Cloudflare) SUCCESS**. Cloudflare Workers Build `7d591d17-1a0e-4464-8de0-1c1c9a412aba` completed successfully with Version ID `e8c530ba-2b5f-4eb1-8b7d-4903777aa04c`. External deployment blocker **#450 is CLOSED**.
+
+The merged tooling adds fail-closed validation for the canonical P0-OPEN-02B 9-product / 27-SKU owner-input pack:
+
+```bash
+npm run shop:validate-owner-input
+npm run shop:validate-owner-input:ready
+npm run test:shop:owner-input
+```
+
+Owner truth is still unchanged: **0/9 products verified, 0/27 active SKU candidates verified, production PII retention pending**. No production facts were inferred or promoted.
+
+**Next action:** collect real owner/supplier evidence and choose the production PII-retention value. Keep **#442 Draft / unmerged** until those blockers and a separate release decision are resolved.
+
+
 ## 3 October 2026 — P0-SHOP-CONV-01C INTEGRATED PROVIDER STAGING CLOSED / PASS
 
 Canonical closure: `docs/P0_SHOP_CONV01C_INTEGRATED_PROVIDER_STAGING_CLOSURE_2026-10-03.md`.
