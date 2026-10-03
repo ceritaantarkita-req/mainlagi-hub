@@ -1,8 +1,25 @@
 # Mainlagi Hub — Current State
 
-Last reviewed: **2 October 2026**
+Last reviewed: **3 October 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
+
+
+## 3 October 2026 — P0-SHOP-CONV-01C INTEGRATED PROVIDER STAGING CLOSED / PASS
+
+Canonical closure: `docs/P0_SHOP_CONV01C_INTEGRATED_PROVIDER_STAGING_CLOSURE_2026-10-03.md`.
+
+P0-SHOP-CONV-01C is **CLOSED / PASS** on Draft PR **#442** exact head `962044731d7852171ce2945c9a02b2f86061940f`. Exact PR CI **#2417 / run 37090480244 FULL SUCCESS** covers Shop PostgreSQL staging/security/concurrency, Ubuntu quality, secret-history scan, dependency audit, production build, Windows compatibility and Mobile route QA.
+
+Manual **Shop Batch 11 free staging #8 / run 37094508479** completed **SUCCESS** against that exact head. The evidence artifact `shop-batch11-free-staging-evidence` (artifact **11263985351**) records an ephemeral local Supabase + Cloudflare Quick Tunnel environment, **Midtrans Sandbox**, **Biteship Testing Mode**, public sales disabled, no production database use, full cart → rates → checkout → settlement → owner pack → provider order → authenticated webhook → tracking → reconciliation PASS, and a distinct real scheduler-created Cloudflare reconciliation row with status `ok`.
+
+The staging evidence explicitly remains non-production: test SKU `008-A5-80-LINED` is fixture-only, `usedRealProductionProductFacts=false`, `choseProductionPiiRetention=false`, and staging `SHOP_ORDER_PII_RETENTION_DAYS=30` is test-only.
+
+Current default branch is `main@89cbfed2711f2c9d2c1ccebc5e4e17575e3ac1ad`; exact main CI **#2416 / run 37090396078 FULL SUCCESS** includes Production smoke (Cloudflare) SUCCESS.
+
+**Release boundary remains unchanged:** keep **#442 Draft / unmerged**, do not enable production Shop runtime/sales or apply Shop production migrations. The remaining blocker is **P0-OPEN-02B owner launch input**: **0/9 products**, **0/27 active SKU candidates**, and production `SHOP_ORDER_PII_RETENTION_DAYS` still pending.
+
+**Next action:** resolve real owner/supplier product evidence plus the production PII-retention decision. Do not merge #442 merely because 01C passed.
 
 
 ## 3 October 2026 — P0-SHOP-CONV-01B PRE-STAGING HARDENING GREEN / DRAFT HOLD

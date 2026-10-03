@@ -1,6 +1,6 @@
 # Mainlagi Hub Documentation Index
 
-Last reviewed: **2 October 2026**
+Last reviewed: **3 October 2026**
 
 Use this file to decide which documentation is current and which files are historical snapshots.
 
@@ -10,6 +10,7 @@ Read these first for current work:
 
 1. [`NEXT_PRODUCT_QUALITY_PLAN.md`](NEXT_PRODUCT_QUALITY_PLAN.md) — current execution order, workstreams, status and mandatory gates.
 2. [`CURRENT_STATE.md`](CURRENT_STATE.md) — current repository/product/production baseline.
+   - [`P0_SHOP_CONV01C_INTEGRATED_PROVIDER_STAGING_CLOSURE_2026-10-03.md`](P0_SHOP_CONV01C_INTEGRATED_PROVIDER_STAGING_CLOSURE_2026-10-03.md) — current Shop convergence authority: Draft #442 exact head `96204473…` passed CI #2417 and manual provider staging #8 with Midtrans Sandbox, Biteship Testing, real Cloudflare scheduled reconciliation and evidence artifact; release remains blocked on P0-OPEN-02B owner inputs.
    - [`P0_SHOP_CONV01B_PRESTAGING_HARDENING_SAFE_CHECKPOINT_2026-10-03.md`](P0_SHOP_CONV01B_PRESTAGING_HARDENING_SAFE_CHECKPOINT_2026-10-03.md) — latest Shop convergence checkpoint: Draft #442 head `b39bcac7…` is deterministic-CI green with prelaunch discoverability locked; manual integrated provider staging remains the next technical evidence boundary.
    - [`P0_SHOP_CONV01A_FAIL_CLOSED_CORE_SAFE_CHECKPOINT_2026-10-03.md`](P0_SHOP_CONV01A_FAIL_CLOSED_CORE_SAFE_CHECKPOINT_2026-10-03.md) — current Shop convergence checkpoint: Draft PR #442 is technically green at `a0ba5f68…`, protected by `SHOP_RUNTIME_ENABLED=false`, while production/main remains unchanged and owner launch inputs stay pending.
    - [`P0_OPEN02B_SHOP_OWNER_INPUT_PACK_2026-10-02.md`](P0_OPEN02B_SHOP_OWNER_INPUT_PACK_2026-10-02.md) — current Shop owner-input authority: exact 9-product / 27-SKU physical/supplier evidence intake plus pending production PII-retention decision; no candidate data may be promoted without real evidence.
