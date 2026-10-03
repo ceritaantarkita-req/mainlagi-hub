@@ -1,0 +1,1635 @@
+{
+  "schemaVersion": 1,
+  "status": "pending_physical_supplier_verification",
+  "generatedAt": "2026-09-28",
+  "candidateDataset": "docs/data/MAINLAGI_SHOP_PRODUCT_TRUTH_MARKETPLACE_CANDIDATE_2026-09-28.json",
+  "policy": {
+    "purpose": "Record auditable physical-sample and/or supplier-production-sheet verification before any Mainlagi Shop product may become production_verified.",
+    "acceptedMethods": [
+      "physical_sample",
+      "supplier_production_sheet",
+      "physical_and_supplier"
+    ],
+    "evidenceRequired": [
+      "verifier identity/name",
+      "verification date",
+      "evidence reference (Drive/file/document identifier)",
+      "actual product facts for every candidate target fact",
+      "actual variant shipping weight and packed dimensions for every active SKU",
+      "stock allocation/count confirmation"
+    ],
+    "mustNotDo": [
+      "copy marketplace candidate values into actual fields without checking a real sample or supplier production sheet",
+      "mark production_verified with any active SKU uncovered",
+      "overwrite the marketplace candidate baseline when actual measurements differ"
+    ]
+  },
+  "products": [
+    {
+      "code": "001",
+      "title": "Kaos Anak Mainlagi — Sahabat Ceria Putih",
+      "status": "pending",
+      "candidateProductFacts": {
+        "color": "Putih",
+        "material": "Cotton Combed 24s",
+        "fit": "Regular kids unisex",
+        "print": "Mainlagi front graphic"
+      },
+      "productFactChecks": [
+        {
+          "key": "color",
+          "candidateValue": "Putih",
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        },
+        {
+          "key": "material",
+          "candidateValue": "Cotton Combed 24s",
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        },
+        {
+          "key": "fit",
+          "candidateValue": "Regular kids unisex",
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        },
+        {
+          "key": "print",
+          "candidateValue": "Mainlagi front graphic",
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        }
+      ],
+      "verification": {
+        "method": null,
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "evidenceRef": null,
+        "notes": null,
+        "productFactsConfirmed": false,
+        "stockCountConfirmed": false
+      },
+      "variants": [
+        {
+          "sku": "001-2Y",
+          "label": "2 Tahun",
+          "status": "pending",
+          "candidate": {
+            "stock": 1,
+            "weightGrams": 150,
+            "packageMm": [
+              250,
+              200,
+              30
+            ],
+            "attributes": {
+              "ageYears": "1-2",
+              "bodyWidthCm": 30,
+              "bodyLengthCm": 40
+            }
+          },
+          "actual": {
+            "stock": null,
+            "weightGrams": null,
+            "packageMm": [
+              null,
+              null,
+              null
+            ],
+            "attributes": {
+              "ageYears": null,
+              "bodyWidthCm": null,
+              "bodyLengthCm": null
+            }
+          },
+          "checks": {
+            "identityMatched": false,
+            "physicalOrSupplierEvidenceSeen": false,
+            "weightConfirmed": false,
+            "packageDimensionsConfirmed": false,
+            "optionMeasurementsConfirmed": false
+          },
+          "evidenceNote": null
+        },
+        {
+          "sku": "001-4Y",
+          "label": "4 Tahun",
+          "status": "pending",
+          "candidate": {
+            "stock": 2,
+            "weightGrams": 160,
+            "packageMm": [
+              250,
+              200,
+              30
+            ],
+            "attributes": {
+              "ageYears": "3-4",
+              "bodyWidthCm": 33,
+              "bodyLengthCm": 43
+            }
+          },
+          "actual": {
+            "stock": null,
+            "weightGrams": null,
+            "packageMm": [
+              null,
+              null,
+              null
+            ],
+            "attributes": {
+              "ageYears": null,
+              "bodyWidthCm": null,
+              "bodyLengthCm": null
+            }
+          },
+          "checks": {
+            "identityMatched": false,
+            "physicalOrSupplierEvidenceSeen": false,
+            "weightConfirmed": false,
+            "packageDimensionsConfirmed": false,
+            "optionMeasurementsConfirmed": false
+          },
+          "evidenceNote": null
+        },
+        {
+          "sku": "001-6Y",
+          "label": "6 Tahun",
+          "status": "pending",
+          "candidate": {
+            "stock": 2,
+            "weightGrams": 170,
+            "packageMm": [
+              250,
+              200,
+              30
+            ],
+            "attributes": {
+              "ageYears": "5-6",
+              "bodyWidthCm": 36,
+              "bodyLengthCm": 46
+            }
+          },
+          "actual": {
+            "stock": null,
+            "weightGrams": null,
+            "packageMm": [
+              null,
+              null,
+              null
+            ],
+            "attributes": {
+              "ageYears": null,
+              "bodyWidthCm": null,
+              "bodyLengthCm": null
+            }
+          },
+          "checks": {
+            "identityMatched": false,
+            "physicalOrSupplierEvidenceSeen": false,
+            "weightConfirmed": false,
+            "packageDimensionsConfirmed": false,
+            "optionMeasurementsConfirmed": false
+          },
+          "evidenceNote": null
+        },
+        {
+          "sku": "001-8Y",
+          "label": "8 Tahun",
+          "status": "pending",
+          "candidate": {
+            "stock": 2,
+            "weightGrams": 180,
+            "packageMm": [
+              250,
+              200,
+              30
+            ],
+            "attributes": {
+              "ageYears": "7-8",
+              "bodyWidthCm": 40,
+              "bodyLengthCm": 50
+            }
+          },
+          "actual": {
+            "stock": null,
+            "weightGrams": null,
+            "packageMm": [
+              null,
+              null,
+              null
+            ],
+            "attributes": {
+              "ageYears": null,
+              "bodyWidthCm": null,
+              "bodyLengthCm": null
+            }
+          },
+          "checks": {
+            "identityMatched": false,
+            "physicalOrSupplierEvidenceSeen": false,
+            "weightConfirmed": false,
+            "packageDimensionsConfirmed": false,
+            "optionMeasurementsConfirmed": false
+          },
+          "evidenceNote": null
+        },
+        {
+          "sku": "001-10Y",
+          "label": "10 Tahun",
+          "status": "pending",
+          "candidate": {
+            "stock": 2,
+            "weightGrams": 190,
+            "packageMm": [
+              250,
+              200,
+              30
+            ],
+            "attributes": {
+              "ageYears": "9-10",
+              "bodyWidthCm": 44,
+              "bodyLengthCm": 54
+            }
+          },
+          "actual": {
+            "stock": null,
+            "weightGrams": null,
+            "packageMm": [
+              null,
+              null,
+              null
+            ],
+            "attributes": {
+              "ageYears": null,
+              "bodyWidthCm": null,
+              "bodyLengthCm": null
+            }
+          },
+          "checks": {
+            "identityMatched": false,
+            "physicalOrSupplierEvidenceSeen": false,
+            "weightConfirmed": false,
+            "packageDimensionsConfirmed": false,
+            "optionMeasurementsConfirmed": false
+          },
+          "evidenceNote": null
+        }
+      ]
+    },
+    {
+      "code": "002",
+      "title": "Kaos Oversized Mainlagi — Back Graphic Hitam",
+      "status": "pending",
+      "candidateProductFacts": {
+        "color": "Hitam",
+        "material": "Cotton Combed 24s",
+        "fit": "Kids boxy / oversized",
+        "print": "Small front logo + Mainlagi back graphic"
+      },
+      "productFactChecks": [
+        {
+          "key": "color",
+          "candidateValue": "Hitam",
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        },
+        {
+          "key": "material",
+          "candidateValue": "Cotton Combed 24s",
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        },
+        {
+          "key": "fit",
+          "candidateValue": "Kids boxy / oversized",
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        },
+        {
+          "key": "print",
+          "candidateValue": "Small front logo + Mainlagi back graphic",
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        }
+      ],
+      "verification": {
+        "method": null,
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "evidenceRef": null,
+        "notes": null,
+        "productFactsConfirmed": false,
+        "stockCountConfirmed": false
+      },
+      "variants": [
+        {
+          "sku": "002-S",
+          "label": "S",
+          "status": "pending",
+          "candidate": {
+            "stock": 1,
+            "weightGrams": 170,
+            "packageMm": [
+              280,
+              240,
+              30
+            ],
+            "attributes": {
+              "ageYears": "1-2",
+              "bodyWidthCm": 34,
+              "bodyLengthCm": 42
+            }
+          },
+          "actual": {
+            "stock": null,
+            "weightGrams": null,
+            "packageMm": [
+              null,
+              null,
+              null
+            ],
+            "attributes": {
+              "ageYears": null,
+              "bodyWidthCm": null,
+              "bodyLengthCm": null
+            }
+          },
+          "checks": {
+            "identityMatched": false,
+            "physicalOrSupplierEvidenceSeen": false,
+            "weightConfirmed": false,
+            "packageDimensionsConfirmed": false,
+            "optionMeasurementsConfirmed": false
+          },
+          "evidenceNote": null
+        },
+        {
+          "sku": "002-M",
+          "label": "M",
+          "status": "pending",
+          "candidate": {
+            "stock": 1,
+            "weightGrams": 180,
+            "packageMm": [
+              280,
+              240,
+              30
+            ],
+            "attributes": {
+              "ageYears": "3-4",
+              "bodyWidthCm": 37,
+              "bodyLengthCm": 46
+            }
+          },
+          "actual": {
+            "stock": null,
+            "weightGrams": null,
+            "packageMm": [
+              null,
+              null,
+              null
+            ],
+            "attributes": {
+              "ageYears": null,
+              "bodyWidthCm": null,
+              "bodyLengthCm": null
+            }
+          },
+          "checks": {
+            "identityMatched": false,
+            "physicalOrSupplierEvidenceSeen": false,
+            "weightConfirmed": false,
+            "packageDimensionsConfirmed": false,
+            "optionMeasurementsConfirmed": false
+          },
+          "evidenceNote": null
+        },
+        {
+          "sku": "002-L",
+          "label": "L",
+          "status": "pending",
+          "candidate": {
+            "stock": 2,
+            "weightGrams": 190,
+            "packageMm": [
+              280,
+              240,
+              30
+            ],
+            "attributes": {
+              "ageYears": "5-6",
+              "bodyWidthCm": 40,
+              "bodyLengthCm": 50
+            }
+          },
+          "actual": {
+            "stock": null,
+            "weightGrams": null,
+            "packageMm": [
+              null,
+              null,
+              null
+            ],
+            "attributes": {
+              "ageYears": null,
+              "bodyWidthCm": null,
+              "bodyLengthCm": null
+            }
+          },
+          "checks": {
+            "identityMatched": false,
+            "physicalOrSupplierEvidenceSeen": false,
+            "weightConfirmed": false,
+            "packageDimensionsConfirmed": false,
+            "optionMeasurementsConfirmed": false
+          },
+          "evidenceNote": null
+        },
+        {
+          "sku": "002-XL",
+          "label": "XL",
+          "status": "pending",
+          "candidate": {
+            "stock": 2,
+            "weightGrams": 200,
+            "packageMm": [
+              280,
+              240,
+              30
+            ],
+            "attributes": {
+              "ageYears": "7-8",
+              "bodyWidthCm": 43,
+              "bodyLengthCm": 54
+            }
+          },
+          "actual": {
+            "stock": null,
+            "weightGrams": null,
+            "packageMm": [
+              null,
+              null,
+              null
+            ],
+            "attributes": {
+              "ageYears": null,
+              "bodyWidthCm": null,
+              "bodyLengthCm": null
+            }
+          },
+          "checks": {
+            "identityMatched": false,
+            "physicalOrSupplierEvidenceSeen": false,
+            "weightConfirmed": false,
+            "packageDimensionsConfirmed": false,
+            "optionMeasurementsConfirmed": false
+          },
+          "evidenceNote": null
+        },
+        {
+          "sku": "002-XXL",
+          "label": "XXL",
+          "status": "pending",
+          "candidate": {
+            "stock": 1,
+            "weightGrams": 210,
+            "packageMm": [
+              280,
+              240,
+              30
+            ],
+            "attributes": {
+              "ageYears": "9-10",
+              "bodyWidthCm": 46,
+              "bodyLengthCm": 58
+            }
+          },
+          "actual": {
+            "stock": null,
+            "weightGrams": null,
+            "packageMm": [
+              null,
+              null,
+              null
+            ],
+            "attributes": {
+              "ageYears": null,
+              "bodyWidthCm": null,
+              "bodyLengthCm": null
+            }
+          },
+          "checks": {
+            "identityMatched": false,
+            "physicalOrSupplierEvidenceSeen": false,
+            "weightConfirmed": false,
+            "packageDimensionsConfirmed": false,
+            "optionMeasurementsConfirmed": false
+          },
+          "evidenceNote": null
+        }
+      ]
+    },
+    {
+      "code": "003",
+      "title": "Piyama Anak Gavi — Cozy Set Putih",
+      "status": "pending",
+      "candidateProductFacts": {
+        "color": "Putih",
+        "material": "Cotton-spandex jersey",
+        "set": "Atasan + celana",
+        "print": "Repeated Gavi pattern"
+      },
+      "productFactChecks": [
+        {
+          "key": "color",
+          "candidateValue": "Putih",
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        },
+        {
+          "key": "material",
+          "candidateValue": "Cotton-spandex jersey",
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        },
+        {
+          "key": "set",
+          "candidateValue": "Atasan + celana",
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        },
+        {
+          "key": "print",
+          "candidateValue": "Repeated Gavi pattern",
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        }
+      ],
+      "verification": {
+        "method": null,
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "evidenceRef": null,
+        "notes": null,
+        "productFactsConfirmed": false,
+        "stockCountConfirmed": false
+      },
+      "variants": [
+        {
+          "sku": "003-95",
+          "label": "95",
+          "status": "pending",
+          "candidate": {
+            "stock": 1,
+            "weightGrams": 220,
+            "packageMm": [
+              300,
+              250,
+              40
+            ],
+            "attributes": {
+              "ageYears": "2-3",
+              "topWidthCm": 30,
+              "topLengthCm": 39,
+              "pantsWidthCm": 22,
+              "pantsLengthCm": 52
+            }
+          },
+          "actual": {
+            "stock": null,
+            "weightGrams": null,
+            "packageMm": [
+              null,
+              null,
+              null
+            ],
+            "attributes": {
+              "ageYears": null,
+              "topWidthCm": null,
+              "topLengthCm": null,
+              "pantsWidthCm": null,
+              "pantsLengthCm": null
+            }
+          },
+          "checks": {
+            "identityMatched": false,
+            "physicalOrSupplierEvidenceSeen": false,
+            "weightConfirmed": false,
+            "packageDimensionsConfirmed": false,
+            "optionMeasurementsConfirmed": false
+          },
+          "evidenceNote": null
+        },
+        {
+          "sku": "003-100",
+          "label": "100",
+          "status": "pending",
+          "candidate": {
+            "stock": 1,
+            "weightGrams": 230,
+            "packageMm": [
+              300,
+              250,
+              40
+            ],
+            "attributes": {
+              "ageYears": "3-4",
+              "topWidthCm": 31,
+              "topLengthCm": 40,
+              "pantsWidthCm": 23,
+              "pantsLengthCm": 55
+            }
+          },
+          "actual": {
+            "stock": null,
+            "weightGrams": null,
+            "packageMm": [
+              null,
+              null,
+              null
+            ],
+            "attributes": {
+              "ageYears": null,
+              "topWidthCm": null,
+              "topLengthCm": null,
+              "pantsWidthCm": null,
+              "pantsLengthCm": null
+            }
+          },
+          "checks": {
+            "identityMatched": false,
+            "physicalOrSupplierEvidenceSeen": false,
+            "weightConfirmed": false,
+            "packageDimensionsConfirmed": false,
+            "optionMeasurementsConfirmed": false
+          },
+          "evidenceNote": null
+        },
+        {
+          "sku": "003-110",
+          "label": "110",
+          "status": "pending",
+          "candidate": {
+            "stock": 2,
+            "weightGrams": 240,
+            "packageMm": [
+              300,
+              250,
+              40
+            ],
+            "attributes": {
+              "ageYears": "4-5",
+              "topWidthCm": 32,
+              "topLengthCm": 41,
+              "pantsWidthCm": 24,
+              "pantsLengthCm": 58
+            }
+          },
+          "actual": {
+            "stock": null,
+            "weightGrams": null,
+            "packageMm": [
+              null,
+              null,
+              null
+            ],
+            "attributes": {
+              "ageYears": null,
+              "topWidthCm": null,
+              "topLengthCm": null,
+              "pantsWidthCm": null,
+              "pantsLengthCm": null
+            }
+          },
+          "checks": {
+            "identityMatched": false,
+            "physicalOrSupplierEvidenceSeen": false,
+            "weightConfirmed": false,
+            "packageDimensionsConfirmed": false,
+            "optionMeasurementsConfirmed": false
+          },
+          "evidenceNote": null
+        },
+        {
+          "sku": "003-120",
+          "label": "120",
+          "status": "pending",
+          "candidate": {
+            "stock": 1,
+            "weightGrams": 250,
+            "packageMm": [
+              300,
+              250,
+              40
+            ],
+            "attributes": {
+              "ageYears": "5-6",
+              "topWidthCm": 33,
+              "topLengthCm": 42,
+              "pantsWidthCm": 25,
+              "pantsLengthCm": 61
+            }
+          },
+          "actual": {
+            "stock": null,
+            "weightGrams": null,
+            "packageMm": [
+              null,
+              null,
+              null
+            ],
+            "attributes": {
+              "ageYears": null,
+              "topWidthCm": null,
+              "topLengthCm": null,
+              "pantsWidthCm": null,
+              "pantsLengthCm": null
+            }
+          },
+          "checks": {
+            "identityMatched": false,
+            "physicalOrSupplierEvidenceSeen": false,
+            "weightConfirmed": false,
+            "packageDimensionsConfirmed": false,
+            "optionMeasurementsConfirmed": false
+          },
+          "evidenceNote": null
+        },
+        {
+          "sku": "003-130",
+          "label": "130",
+          "status": "pending",
+          "candidate": {
+            "stock": 1,
+            "weightGrams": 260,
+            "packageMm": [
+              300,
+              250,
+              40
+            ],
+            "attributes": {
+              "ageYears": "6-7",
+              "topWidthCm": 34,
+              "topLengthCm": 43,
+              "pantsWidthCm": 26,
+              "pantsLengthCm": 64
+            }
+          },
+          "actual": {
+            "stock": null,
+            "weightGrams": null,
+            "packageMm": [
+              null,
+              null,
+              null
+            ],
+            "attributes": {
+              "ageYears": null,
+              "topWidthCm": null,
+              "topLengthCm": null,
+              "pantsWidthCm": null,
+              "pantsLengthCm": null
+            }
+          },
+          "checks": {
+            "identityMatched": false,
+            "physicalOrSupplierEvidenceSeen": false,
+            "weightConfirmed": false,
+            "packageDimensionsConfirmed": false,
+            "optionMeasurementsConfirmed": false
+          },
+          "evidenceNote": null
+        }
+      ]
+    },
+    {
+      "code": "004",
+      "title": "Kaos Kaki Karakter Mainlagi",
+      "status": "pending",
+      "candidateProductFacts": {
+        "unit": "1 pasang",
+        "construction": "Character-print kids socks",
+        "material": "Cotton-blend knit"
+      },
+      "productFactChecks": [
+        {
+          "key": "unit",
+          "candidateValue": "1 pasang",
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        },
+        {
+          "key": "construction",
+          "candidateValue": "Character-print kids socks",
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        },
+        {
+          "key": "material",
+          "candidateValue": "Cotton-blend knit",
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        }
+      ],
+      "verification": {
+        "method": null,
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "evidenceRef": null,
+        "notes": null,
+        "productFactsConfirmed": false,
+        "stockCountConfirmed": false
+      },
+      "variants": [
+        {
+          "sku": "004-1-3Y",
+          "label": "1-3 Tahun",
+          "status": "pending",
+          "candidate": {
+            "stock": 4,
+            "weightGrams": 50,
+            "packageMm": [
+              180,
+              120,
+              30
+            ],
+            "attributes": {
+              "footLengthCm": "12-14"
+            }
+          },
+          "actual": {
+            "stock": null,
+            "weightGrams": null,
+            "packageMm": [
+              null,
+              null,
+              null
+            ],
+            "attributes": {
+              "footLengthCm": null
+            }
+          },
+          "checks": {
+            "identityMatched": false,
+            "physicalOrSupplierEvidenceSeen": false,
+            "weightConfirmed": false,
+            "packageDimensionsConfirmed": false,
+            "optionMeasurementsConfirmed": false
+          },
+          "evidenceNote": null
+        },
+        {
+          "sku": "004-4-6Y",
+          "label": "4-6 Tahun",
+          "status": "pending",
+          "candidate": {
+            "stock": 4,
+            "weightGrams": 55,
+            "packageMm": [
+              180,
+              120,
+              30
+            ],
+            "attributes": {
+              "footLengthCm": "15-17"
+            }
+          },
+          "actual": {
+            "stock": null,
+            "weightGrams": null,
+            "packageMm": [
+              null,
+              null,
+              null
+            ],
+            "attributes": {
+              "footLengthCm": null
+            }
+          },
+          "checks": {
+            "identityMatched": false,
+            "physicalOrSupplierEvidenceSeen": false,
+            "weightConfirmed": false,
+            "packageDimensionsConfirmed": false,
+            "optionMeasurementsConfirmed": false
+          },
+          "evidenceNote": null
+        },
+        {
+          "sku": "004-7-10Y",
+          "label": "7-10 Tahun",
+          "status": "pending",
+          "candidate": {
+            "stock": 4,
+            "weightGrams": 60,
+            "packageMm": [
+              180,
+              120,
+              30
+            ],
+            "attributes": {
+              "footLengthCm": "18-20"
+            }
+          },
+          "actual": {
+            "stock": null,
+            "weightGrams": null,
+            "packageMm": [
+              null,
+              null,
+              null
+            ],
+            "attributes": {
+              "footLengthCm": null
+            }
+          },
+          "checks": {
+            "identityMatched": false,
+            "physicalOrSupplierEvidenceSeen": false,
+            "weightConfirmed": false,
+            "packageDimensionsConfirmed": false,
+            "optionMeasurementsConfirmed": false
+          },
+          "evidenceNote": null
+        }
+      ]
+    },
+    {
+      "code": "005",
+      "title": "Hoodie Anak Mainlagi — Navy Back Graphic",
+      "status": "pending",
+      "candidateProductFacts": {
+        "color": "Navy",
+        "material": "Fleece",
+        "fit": "Regular kids hoodie",
+        "print": "Mainlagi back graphic"
+      },
+      "productFactChecks": [
+        {
+          "key": "color",
+          "candidateValue": "Navy",
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        },
+        {
+          "key": "material",
+          "candidateValue": "Fleece",
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        },
+        {
+          "key": "fit",
+          "candidateValue": "Regular kids hoodie",
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        },
+        {
+          "key": "print",
+          "candidateValue": "Mainlagi back graphic",
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        }
+      ],
+      "verification": {
+        "method": null,
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "evidenceRef": null,
+        "notes": null,
+        "productFactsConfirmed": false,
+        "stockCountConfirmed": false
+      },
+      "variants": [
+        {
+          "sku": "005-S",
+          "label": "S",
+          "status": "pending",
+          "candidate": {
+            "stock": 1,
+            "weightGrams": 350,
+            "packageMm": [
+              320,
+              280,
+              60
+            ],
+            "attributes": {
+              "ageYears": "2-3",
+              "bodyWidthCm": 30,
+              "bodyLengthCm": 42
+            }
+          },
+          "actual": {
+            "stock": null,
+            "weightGrams": null,
+            "packageMm": [
+              null,
+              null,
+              null
+            ],
+            "attributes": {
+              "ageYears": null,
+              "bodyWidthCm": null,
+              "bodyLengthCm": null
+            }
+          },
+          "checks": {
+            "identityMatched": false,
+            "physicalOrSupplierEvidenceSeen": false,
+            "weightConfirmed": false,
+            "packageDimensionsConfirmed": false,
+            "optionMeasurementsConfirmed": false
+          },
+          "evidenceNote": null
+        },
+        {
+          "sku": "005-M",
+          "label": "M",
+          "status": "pending",
+          "candidate": {
+            "stock": 2,
+            "weightGrams": 380,
+            "packageMm": [
+              320,
+              280,
+              60
+            ],
+            "attributes": {
+              "ageYears": "4-5",
+              "bodyWidthCm": 34,
+              "bodyLengthCm": 46
+            }
+          },
+          "actual": {
+            "stock": null,
+            "weightGrams": null,
+            "packageMm": [
+              null,
+              null,
+              null
+            ],
+            "attributes": {
+              "ageYears": null,
+              "bodyWidthCm": null,
+              "bodyLengthCm": null
+            }
+          },
+          "checks": {
+            "identityMatched": false,
+            "physicalOrSupplierEvidenceSeen": false,
+            "weightConfirmed": false,
+            "packageDimensionsConfirmed": false,
+            "optionMeasurementsConfirmed": false
+          },
+          "evidenceNote": null
+        },
+        {
+          "sku": "005-L",
+          "label": "L",
+          "status": "pending",
+          "candidate": {
+            "stock": 2,
+            "weightGrams": 400,
+            "packageMm": [
+              320,
+              280,
+              60
+            ],
+            "attributes": {
+              "ageYears": "6-7",
+              "bodyWidthCm": 38,
+              "bodyLengthCm": 50
+            }
+          },
+          "actual": {
+            "stock": null,
+            "weightGrams": null,
+            "packageMm": [
+              null,
+              null,
+              null
+            ],
+            "attributes": {
+              "ageYears": null,
+              "bodyWidthCm": null,
+              "bodyLengthCm": null
+            }
+          },
+          "checks": {
+            "identityMatched": false,
+            "physicalOrSupplierEvidenceSeen": false,
+            "weightConfirmed": false,
+            "packageDimensionsConfirmed": false,
+            "optionMeasurementsConfirmed": false
+          },
+          "evidenceNote": null
+        },
+        {
+          "sku": "005-XL",
+          "label": "XL",
+          "status": "pending",
+          "candidate": {
+            "stock": 2,
+            "weightGrams": 420,
+            "packageMm": [
+              320,
+              280,
+              60
+            ],
+            "attributes": {
+              "ageYears": "8-9",
+              "bodyWidthCm": 42,
+              "bodyLengthCm": 52
+            }
+          },
+          "actual": {
+            "stock": null,
+            "weightGrams": null,
+            "packageMm": [
+              null,
+              null,
+              null
+            ],
+            "attributes": {
+              "ageYears": null,
+              "bodyWidthCm": null,
+              "bodyLengthCm": null
+            }
+          },
+          "checks": {
+            "identityMatched": false,
+            "physicalOrSupplierEvidenceSeen": false,
+            "weightConfirmed": false,
+            "packageDimensionsConfirmed": false,
+            "optionMeasurementsConfirmed": false
+          },
+          "evidenceNote": null
+        },
+        {
+          "sku": "005-XXL",
+          "label": "XXL",
+          "status": "pending",
+          "candidate": {
+            "stock": 1,
+            "weightGrams": 450,
+            "packageMm": [
+              320,
+              280,
+              60
+            ],
+            "attributes": {
+              "ageYears": "10-11",
+              "bodyWidthCm": 46,
+              "bodyLengthCm": 54
+            }
+          },
+          "actual": {
+            "stock": null,
+            "weightGrams": null,
+            "packageMm": [
+              null,
+              null,
+              null
+            ],
+            "attributes": {
+              "ageYears": null,
+              "bodyWidthCm": null,
+              "bodyLengthCm": null
+            }
+          },
+          "checks": {
+            "identityMatched": false,
+            "physicalOrSupplierEvidenceSeen": false,
+            "weightConfirmed": false,
+            "packageDimensionsConfirmed": false,
+            "optionMeasurementsConfirmed": false
+          },
+          "evidenceNote": null
+        }
+      ]
+    },
+    {
+      "code": "006",
+      "title": "Tumbler Anak Mainlagi — Daily Buddy",
+      "status": "pending",
+      "candidateProductFacts": {
+        "capacityMl": 500,
+        "targetBodyMaterial": "STS304 stainless body",
+        "targetBodyDiameterMm": 70,
+        "targetBodyHeightMm": 220
+      },
+      "productFactChecks": [
+        {
+          "key": "capacityMl",
+          "candidateValue": 500,
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        },
+        {
+          "key": "targetBodyMaterial",
+          "candidateValue": "STS304 stainless body",
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        },
+        {
+          "key": "targetBodyDiameterMm",
+          "candidateValue": 70,
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        },
+        {
+          "key": "targetBodyHeightMm",
+          "candidateValue": 220,
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        }
+      ],
+      "verification": {
+        "method": null,
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "evidenceRef": null,
+        "notes": null,
+        "productFactsConfirmed": false,
+        "stockCountConfirmed": false
+      },
+      "variants": [
+        {
+          "sku": "006-500ML",
+          "label": "500 ml",
+          "status": "pending",
+          "candidate": {
+            "stock": 10,
+            "weightGrams": 350,
+            "packageMm": [
+              90,
+              90,
+              240
+            ],
+            "attributes": {}
+          },
+          "actual": {
+            "stock": null,
+            "weightGrams": null,
+            "packageMm": [
+              null,
+              null,
+              null
+            ],
+            "attributes": {}
+          },
+          "checks": {
+            "identityMatched": false,
+            "physicalOrSupplierEvidenceSeen": false,
+            "weightConfirmed": false,
+            "packageDimensionsConfirmed": false,
+            "optionMeasurementsConfirmed": null
+          },
+          "evidenceNote": null
+        }
+      ]
+    },
+    {
+      "code": "007",
+      "title": "Kartu E-Money Mainlagi — Character Edition",
+      "status": "pending",
+      "candidateProductFacts": {
+        "procurementTarget": "Mandiri E-Money Gen2 custom UV print",
+        "issuerTarget": "Bank Mandiri",
+        "startingBalanceRupiah": 0,
+        "cardStandard": "ISO/IEC 7810 ID-1 / CR80",
+        "cardWidthMm": 85.6,
+        "cardHeightMm": 53.98,
+        "cardThicknessMm": 0.8
+      },
+      "productFactChecks": [
+        {
+          "key": "procurementTarget",
+          "candidateValue": "Mandiri E-Money Gen2 custom UV print",
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        },
+        {
+          "key": "issuerTarget",
+          "candidateValue": "Bank Mandiri",
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        },
+        {
+          "key": "startingBalanceRupiah",
+          "candidateValue": 0,
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        },
+        {
+          "key": "cardStandard",
+          "candidateValue": "ISO/IEC 7810 ID-1 / CR80",
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        },
+        {
+          "key": "cardWidthMm",
+          "candidateValue": 85.6,
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        },
+        {
+          "key": "cardHeightMm",
+          "candidateValue": 53.98,
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        },
+        {
+          "key": "cardThicknessMm",
+          "candidateValue": 0.8,
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        }
+      ],
+      "verification": {
+        "method": null,
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "evidenceRef": null,
+        "notes": null,
+        "productFactsConfirmed": false,
+        "stockCountConfirmed": false
+      },
+      "variants": [
+        {
+          "sku": "007-MANDIRI-GEN2",
+          "label": "Mandiri E-Money Gen2",
+          "status": "pending",
+          "candidate": {
+            "stock": 7,
+            "weightGrams": 40,
+            "packageMm": [
+              100,
+              70,
+              10
+            ],
+            "attributes": {}
+          },
+          "actual": {
+            "stock": null,
+            "weightGrams": null,
+            "packageMm": [
+              null,
+              null,
+              null
+            ],
+            "attributes": {}
+          },
+          "checks": {
+            "identityMatched": false,
+            "physicalOrSupplierEvidenceSeen": false,
+            "weightConfirmed": false,
+            "packageDimensionsConfirmed": false,
+            "optionMeasurementsConfirmed": null
+          },
+          "evidenceNote": null
+        }
+      ]
+    },
+    {
+      "code": "008",
+      "title": "Buku Tulis Mainlagi — Writing Notebook",
+      "status": "pending",
+      "candidateProductFacts": {
+        "size": "A5",
+        "widthMm": 148,
+        "heightMm": 210,
+        "pageStyle": "Bergaris",
+        "sheets": 80,
+        "targetThicknessMm": 12
+      },
+      "productFactChecks": [
+        {
+          "key": "size",
+          "candidateValue": "A5",
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        },
+        {
+          "key": "widthMm",
+          "candidateValue": 148,
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        },
+        {
+          "key": "heightMm",
+          "candidateValue": 210,
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        },
+        {
+          "key": "pageStyle",
+          "candidateValue": "Bergaris",
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        },
+        {
+          "key": "sheets",
+          "candidateValue": 80,
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        },
+        {
+          "key": "targetThicknessMm",
+          "candidateValue": 12,
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        }
+      ],
+      "verification": {
+        "method": null,
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "evidenceRef": null,
+        "notes": null,
+        "productFactsConfirmed": false,
+        "stockCountConfirmed": false
+      },
+      "variants": [
+        {
+          "sku": "008-A5-80-LINED",
+          "label": "A5 / 80 lembar / bergaris",
+          "status": "pending",
+          "candidate": {
+            "stock": 11,
+            "weightGrams": 300,
+            "packageMm": [
+              220,
+              160,
+              20
+            ],
+            "attributes": {}
+          },
+          "actual": {
+            "stock": null,
+            "weightGrams": null,
+            "packageMm": [
+              null,
+              null,
+              null
+            ],
+            "attributes": {}
+          },
+          "checks": {
+            "identityMatched": false,
+            "physicalOrSupplierEvidenceSeen": false,
+            "weightConfirmed": false,
+            "packageDimensionsConfirmed": false,
+            "optionMeasurementsConfirmed": null
+          },
+          "evidenceNote": null
+        }
+      ]
+    },
+    {
+      "code": "009",
+      "title": "Buku Gambar Mainlagi — Drawing Book",
+      "status": "pending",
+      "candidateProductFacts": {
+        "size": "A4",
+        "widthMm": 210,
+        "heightMm": 297,
+        "targetPaperGsm": 120,
+        "targetSheets": 20,
+        "pageStyle": "Polos"
+      },
+      "productFactChecks": [
+        {
+          "key": "size",
+          "candidateValue": "A4",
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        },
+        {
+          "key": "widthMm",
+          "candidateValue": 210,
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        },
+        {
+          "key": "heightMm",
+          "candidateValue": 297,
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        },
+        {
+          "key": "targetPaperGsm",
+          "candidateValue": 120,
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        },
+        {
+          "key": "targetSheets",
+          "candidateValue": 20,
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        },
+        {
+          "key": "pageStyle",
+          "candidateValue": "Polos",
+          "actualValue": null,
+          "status": "pending",
+          "evidenceNote": null
+        }
+      ],
+      "verification": {
+        "method": null,
+        "verifiedBy": null,
+        "verifiedAt": null,
+        "evidenceRef": null,
+        "notes": null,
+        "productFactsConfirmed": false,
+        "stockCountConfirmed": false
+      },
+      "variants": [
+        {
+          "sku": "009-A4-120GSM-20",
+          "label": "A4 / 120 gsm / 20 lembar",
+          "status": "pending",
+          "candidate": {
+            "stock": 9,
+            "weightGrams": 250,
+            "packageMm": [
+              310,
+              230,
+              10
+            ],
+            "attributes": {}
+          },
+          "actual": {
+            "stock": null,
+            "weightGrams": null,
+            "packageMm": [
+              null,
+              null,
+              null
+            ],
+            "attributes": {}
+          },
+          "checks": {
+            "identityMatched": false,
+            "physicalOrSupplierEvidenceSeen": false,
+            "weightConfirmed": false,
+            "packageDimensionsConfirmed": false,
+            "optionMeasurementsConfirmed": null
+          },
+          "evidenceNote": null
+        }
+      ]
+    }
+  ],
+  "totals": {
+    "products": 9,
+    "variants": 27,
+    "candidateAllocatedStock": 79,
+    "verifiedProducts": 0,
+    "verifiedVariants": 0
+  }
+}

@@ -225,7 +225,17 @@
     "test:ui:si10-world": "node scripts/run-si10-world-adapter-browser-tests.mjs",
     "test:ui:jm16-world-desktop": "node scripts/run-jm16-world-desktop-journey-browser-tests.mjs",
     "test:ui:jm17-world-responsive": "node scripts/run-jm17-world-responsive-journey-browser-tests.mjs",
-    "test:learning:si11-closure": "node scripts/run-si11-integrated-closure-tests.mjs"
+    "test:learning:si11-closure": "node scripts/run-si11-integrated-closure-tests.mjs",
+    "test:shop": "node scripts/run-shop-contract-tests.mjs && node scripts/run-shop-migration-chain-tests.mjs && node scripts/run-shop-db-tests.mjs && node scripts/run-shop-batch08-tests.mjs && node scripts/run-shop-batch09-tests.mjs && node scripts/run-shop-biteship-sandbox-fixture-tests.mjs && npm run test:shop:batch11-preflight",
+    "test:shop:batch08": "node scripts/run-shop-batch08-tests.mjs",
+    "test:shop:batch09": "node scripts/run-shop-batch09-tests.mjs",
+    "test:shop:http": "node scripts/run-shop-http-tests.mjs",
+    "test:shop:browser": "node scripts/run-shop-browser-tests.mjs",
+    "test:shop:migrations": "node scripts/run-shop-migration-chain-tests.mjs",
+    "test:shop:midtrans-sandbox": "node scripts/run-shop-midtrans-sandbox-probe.mjs",
+    "test:shop:biteship-fixture": "node scripts/run-shop-biteship-sandbox-fixture-tests.mjs",
+    "test:shop:biteship-rates": "node scripts/run-shop-biteship-sandbox-rates-probe.mjs",
+    "test:shop:batch11-preflight": "node scripts/run-shop-batch11-preflight.mjs"
   },
   "dependencies": {
     "@capacitor/cli": "^7.6.8",
@@ -250,7 +260,8 @@
     "eslint-config-next": "16.2.12",
     "playwright": "^1.62.1",
     "typescript": "^6.0.3",
-    "wrangler": "^4.127.1"
+    "wrangler": "^4.127.1",
+    "@electric-sql/pglite": "0.5.8"
   },
   "overrides": {
     "nanoid": "3.3.18",

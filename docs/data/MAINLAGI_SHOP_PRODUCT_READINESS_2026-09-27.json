@@ -1,0 +1,345 @@
+{
+  "schemaVersion": 1,
+  "asOf": "2026-09-27",
+  "batch02Status": "done",
+  "meaning": "Batch 02 truth/media/inventory contract is closed. This does not mean any product is launch-ready. Unknown physical facts remain activation blockers and must not be inferred.",
+  "media": {
+    "runtimeApprovedUnique": 26,
+    "provenanceAssets": 27,
+    "rejectedRuntime": [
+      "/shop/products/mainlagi-shop-006-kids-tumbler-alternate-v1.webp"
+    ],
+    "webDelivery": {
+      "format": "webp",
+      "width": 1200,
+      "height": 1200,
+      "rule": "Prioritize clear product readability, cross-shot consistency, and lightweight delivery. 2048px masters are not required for launch."
+    }
+  },
+  "inventory": {
+    "approvedProductLevelTotal": 79,
+    "temporaryVariantStrategy": "One <SKU>-DEFAULT development variant preserves each owner-approved product-level total until verified real variants are entered.",
+    "rules": [
+      "available = on_hand - reserved",
+      "checkout reserves under database locks",
+      "verified paid consumes reservation and on_hand",
+      "failed/expired/cancelled releases reservation",
+      "late paid after release goes to attention_required",
+      "manual adjustment cannot reduce on_hand below reserved",
+      "variant allocation must conserve the owner-approved SKU total"
+    ]
+  },
+  "products": [
+    {
+      "code": "001",
+      "price": 69000,
+      "approvedTotalStock": 9,
+      "mediaApproved": 3,
+      "launchState": "draft",
+      "requiredBeforeActivation": [
+        "size options",
+        "per-size stock allocation summing to 9",
+        "size chart / garment measurements",
+        "measured shipping weight_grams per sellable variant"
+      ],
+      "optionalFacts": [
+        "material/fabric facts if published",
+        "package dimensions"
+      ]
+    },
+    {
+      "code": "002",
+      "price": 74000,
+      "approvedTotalStock": 7,
+      "mediaApproved": 3,
+      "launchState": "draft",
+      "requiredBeforeActivation": [
+        "size options",
+        "per-size stock allocation summing to 7",
+        "size chart / garment measurements",
+        "measured shipping weight_grams per sellable variant"
+      ],
+      "optionalFacts": [
+        "material/fabric facts if published",
+        "package dimensions"
+      ]
+    },
+    {
+      "code": "003",
+      "price": 120000,
+      "approvedTotalStock": 6,
+      "mediaApproved": 3,
+      "launchState": "draft",
+      "requiredBeforeActivation": [
+        "size options",
+        "per-size stock allocation summing to 6",
+        "size chart / garment measurements",
+        "measured shipping weight_grams per sellable variant"
+      ],
+      "optionalFacts": [
+        "material/fabric facts if published",
+        "package dimensions"
+      ]
+    },
+    {
+      "code": "004",
+      "price": 45000,
+      "approvedTotalStock": 12,
+      "mediaApproved": 3,
+      "launchState": "draft",
+      "requiredBeforeActivation": [
+        "verified sock size option(s), including whether one-size is actually correct",
+        "per-size stock allocation summing to 12",
+        "relevant size measurements",
+        "measured shipping weight_grams per sellable variant"
+      ],
+      "optionalFacts": [
+        "material facts if published",
+        "package dimensions"
+      ]
+    },
+    {
+      "code": "005",
+      "price": 150000,
+      "approvedTotalStock": 8,
+      "mediaApproved": 3,
+      "launchState": "draft",
+      "requiredBeforeActivation": [
+        "size options",
+        "per-size stock allocation summing to 8",
+        "size chart / garment measurements",
+        "measured shipping weight_grams per sellable variant"
+      ],
+      "optionalFacts": [
+        "material/fabric facts if published",
+        "package dimensions"
+      ]
+    },
+    {
+      "code": "006",
+      "price": 89000,
+      "approvedTotalStock": 10,
+      "mediaApproved": 2,
+      "launchState": "draft",
+      "requiredBeforeActivation": [
+        "verified capacity",
+        "verified material",
+        "measured shipping weight_grams"
+      ],
+      "optionalFacts": [
+        "package dimensions",
+        "safety/certification claims only when evidenced"
+      ],
+      "notes": [
+        "Two distinct media are intentionally sufficient; rejected alternate was byte-identical to in-use."
+      ]
+    },
+    {
+      "code": "007",
+      "price": 89000,
+      "approvedTotalStock": 7,
+      "mediaApproved": 3,
+      "launchState": "draft_or_coming_soon",
+      "requiredBeforeActivation": [
+        "actual product type",
+        "issuer if applicable",
+        "network/technology if applicable",
+        "activation/provisioning behavior",
+        "balance/top-up capability if applicable",
+        "authorization to sell/co-brand as applicable",
+        "verification that tap/use capability shown is real if claimed",
+        "measured shipping weight_grams"
+      ],
+      "optionalFacts": [
+        "package dimensions"
+      ],
+      "notes": [
+        "Media approval is not evidence of financial functionality."
+      ]
+    },
+    {
+      "code": "008",
+      "price": 25000,
+      "approvedTotalStock": 11,
+      "mediaApproved": 3,
+      "launchState": "draft",
+      "requiredBeforeActivation": [
+        "measured shipping weight_grams"
+      ],
+      "optionalFacts": [
+        "package dimensions",
+        "page count/paper specs only if published"
+      ],
+      "notes": [
+        "Writing/ruled-page function is visually distinct from SKU 009."
+      ]
+    },
+    {
+      "code": "009",
+      "price": 35000,
+      "approvedTotalStock": 9,
+      "mediaApproved": 3,
+      "launchState": "draft",
+      "requiredBeforeActivation": [
+        "measured shipping weight_grams"
+      ],
+      "optionalFacts": [
+        "package dimensions",
+        "page count/paper specs only if published"
+      ],
+      "notes": [
+        "Drawing/blank-page function is visually distinct from SKU 008."
+      ]
+    }
+  ],
+  "batch03Authorization": {
+    "allowed": true,
+    "scope": "Build product/variant/facts/media/inventory editing and fail-closed activation validation against this readiness contract.",
+    "hardRule": "No product may become active until its requiredBeforeActivation fields are verified and variant stock reconciles to the approved total."
+  },
+  "batch03Status": "done",
+  "batch03Implementation": {
+    "ownerProductEditor": true,
+    "variantEditor": true,
+    "mediaReview": true,
+    "lifecycle": [
+      "draft",
+      "ready_for_review",
+      "approved",
+      "active"
+    ],
+    "databaseReadinessGate": true,
+    "activeMutationGuard": true,
+    "auditLogging": true,
+    "migration": "supabase/migrations/20260927051000_shop_admin_workflow.sql",
+    "note": "Missing real-world product facts remain per-product activation blockers. Batch 03 completion does not make those products launch-ready."
+  },
+  "batch04Authorization": {
+    "allowed": true,
+    "scope": "Close operational settings and customer policy contract without inventing provider or owner decisions."
+  },
+  "batch04Status": "blocked_owner_input",
+  "batch04Implementation": {
+    "contract": "src/lib/shop/operational-policy.json",
+    "runtimeValidator": "src/lib/shop/operationalPolicy.ts",
+    "adminReadinessRoute": "/admin/shop/settings",
+    "salesFailClosed": true,
+    "shippingRatesFailClosed": true,
+    "shipmentCreationFailClosed": true,
+    "remoteProviderActionPerformed": false,
+    "remoteMigrationPerformed": false,
+    "note": "Technical guard/scaffolding is implemented. Batch 04 cannot be DONE until the owner supplies and approves the operational decisions represented as null/unapproved in the contract."
+  },
+  "batch05Authorization": {
+    "allowed": true,
+    "basis": "Explicit owner instruction to continue Batch 05 despite Batch 04 remaining a launch blocker.",
+    "scope": "Staging database, migration-chain, RLS/RPC/security and concurrency acceptance only. No production or live-provider action."
+  },
+  "batch05Status": "done",
+  "batch05Implementation": {
+    "repositoryMainMigrationCount": 51,
+    "branchMigrationCount": 53,
+    "addedShopMigrations": [
+      "supabase/migrations/20260926195237_shop_foundation.sql",
+      "supabase/migrations/20260927051000_shop_admin_workflow.sql"
+    ],
+    "fullMigrationChainHarness": "scripts/run-shop-migration-chain-tests.mjs",
+    "stagingValidationSql": "docs/data/MAINLAGI_SHOP_STAGING_VALIDATION_2026-09-27.sql",
+    "stagingRunbook": "docs/MAINLAGI_SHOP_STAGING_RUNBOOK_2026-09-27.md",
+    "fullChainPglitePreflightPassed": true,
+    "remoteStagingProjectAccessible": false,
+    "connectedSupabaseProjectCount": 0,
+    "localRemoteDesktopAvailable": false,
+    "remoteMigrationApplied": false,
+    "advisorsRun": false,
+    "realPostgresConcurrencyRun": true,
+    "note": "Batch 05 closed on zero-cost PostgreSQL 17 CI evidence. Full 53-migration chain, Shop seed state, RLS/RPC security and six independent-session concurrency races passed. Production Supabase remains untouched and SHOP_SALES_ENABLED remains disabled.",
+    "directCanonicalProjectRead": true,
+    "canonicalProductionProject": "estvtgflwkebomsqlolv",
+    "productionStatus": "ACTIVE_HEALTHY",
+    "productionMigrationCount": 51,
+    "existingDevelopmentBranchCount": 0,
+    "proposedStagingMechanism": "Zero-cost PostgreSQL 17 staging gate in GitHub Actions plus optional local Docker/PostgreSQL run",
+    "branchCost": {
+      "amountUsd": 0.01344,
+      "recurrence": "hourly",
+      "confirmed": false,
+      "ownerDecision": "declined_paid_branch",
+      "required": false
+    },
+    "productionSecurityAdvisorBaseline": {
+      "warnings": [
+        "authenticated_security_definer_function_executable: 2 existing findings (record_learning_attempt, save_world_progress)",
+        "auth_leaked_password_protection: disabled"
+      ],
+      "shopSpecificFindings": 0
+    },
+    "productionPerformanceAdvisorBaseline": {
+      "unusedIndexInfoCount": 16,
+      "shopSpecificFindings": 0
+    },
+    "zeroCostStrategyApproved": true,
+    "postgresStagingScript": "scripts/run-shop-postgres-staging-tests.sh",
+    "githubActionsJob": "Shop PostgreSQL staging gate",
+    "hostedShopAdvisorGate": "deferred_to_production_pre_activation_after_shop_migrations_with_sales_disabled",
+    "realPostgresConcurrencyCasesPassed": 6,
+    "fullPostgresMigrationChainPassed": true,
+    "rlsRpcSecurityPassed": true,
+    "ciEvidence": {
+      "implementationHead": "e8d0b57dfbc286545d25107bc75dd1c36e4d3786",
+      "workflowRun": 1809,
+      "workflowRunId": 36300966067,
+      "postgresJob": "success",
+      "qualityGate": "success",
+      "productionBuild": "success",
+      "windowsCompatibility": "success",
+      "dependencyAudit": "success",
+      "secretHistoryScan": "success",
+      "mobileRouteQaAtCheckpoint": "in_progress_unrelated_to_batch05_exit_gate"
+    },
+    "productionDatabaseMutation": false,
+    "paidSupabaseBranchCreated": false
+  },
+  "batch06Authorization": {
+    "allowed": true,
+    "status": "not_started",
+    "scope": "Midtrans sandbox only. No live provider action, no production migration, and Batch 04 owner-policy blockers remain a launch blocker.",
+    "reason": "Batch 05 technical database/security/concurrency gate is complete."
+  },
+  "batch06Status": "blocked_midtrans_sandbox_server_key",
+  "batch06Implementation": {
+    "officialSandboxContractVerified": true,
+    "verifiedOn": "2026-09-27",
+    "snapEndpoint": "https://app.sandbox.midtrans.com/snap/v1/transactions",
+    "statusEndpointTemplate": "https://api.sandbox.midtrans.com/v2/{order_id}/status",
+    "auth": "Basic Base64(ServerKey + ':')",
+    "notificationSignature": "SHA512(order_id + status_code + gross_amount + ServerKey)",
+    "applicationHardening": [
+      "credit_card.secure=true on Snap creation",
+      "signed notification triggers independent GET Status",
+      "GET Status must match order id, gross amount and provider transaction id",
+      "paid mapping requires provider status_code 200",
+      "pending status_code 201 is accepted as pending",
+      "failure maps to failed",
+      "contradictory fraud terminal state maps to manual review",
+      "partial refund and chargeback states map to manual review"
+    ],
+    "liveProbeScript": "scripts/run-shop-midtrans-sandbox-probe.mjs",
+    "ciJob": "Shop Midtrans sandbox probe",
+    "ciEvidence": {
+      "workflowRun": 1819,
+      "workflowRunId": 36302791061,
+      "credentialConfigured": false,
+      "marker": "MIDTRANS_SANDBOX_SERVER_KEY_NOT_CONFIGURED",
+      "providerRequestPerformed": false
+    },
+    "runbook": "docs/MAINLAGI_SHOP_MIDTRANS_SANDBOX_RUNBOOK_2026-09-27.md",
+    "productionCredentialUsed": false,
+    "productionTransactionPerformed": false,
+    "blocker": "Configure MIDTRANS_SANDBOX_SERVER_KEY as a GitHub Actions repository secret and provide a safe public non-production notification origin before real webhook acceptance."
+  },
+  "batch07Authorization": {
+    "allowed": false,
+    "reason": "Batch 06 real Midtrans sandbox payment/webhook acceptance is not complete. Batch 04 owner-policy blockers also remain."
+  }
+}
