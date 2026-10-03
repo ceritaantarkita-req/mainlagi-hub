@@ -50,6 +50,65 @@ async function noOverflow(page,label){
   const m=await page.evaluate(()=>({v:document.documentElement.clientWidth,h:document.documentElement.scrollWidth,b:document.body.scrollWidth}));
   assert(m.h<=m.v+1&&m.b<=m.v+1,label+" horizontal overflow "+JSON.stringify(m));
 }
+async function assertHeaderDropdowns(page){
+  const product=page.locator("[data-mainlagi-product-nav]");
+  await product.locator("summary").click();
+  const productMenu=product.locator("nav");
+  await productMenu.waitFor({state:"visible",timeout:3000});
+  const productMetrics=await productMenu.evaluate(node=>{
+    const rect=node.getBoundingClientRect();
+    const style=getComputedStyle(node);
+    const ancestors=[];
+    for(let current=node.parentElement;current;current=current.parentElement){
+      const currentStyle=getComputedStyle(current);
+      const currentRect=current.getBoundingClientRect();
+      ancestors.push({
+        tag:current.tagName,
+        className:current.className,
+        width:currentRect.width,
+        transform:currentStyle.transform,
+        zoom:currentStyle.zoom
+      });
+      if(ancestors.length===6)break;
+    }
+    const labels=[...node.querySelectorAll("strong")].map(label=>{
+      const labelStyle=getComputedStyle(label);
+      return {
+        text:label.textContent?.trim()??"",
+        whiteSpace:labelStyle.whiteSpace,
+        wordBreak:labelStyle.wordBreak,
+        overflowWrap:labelStyle.overflowWrap
+      };
+    });
+    return {
+      width:rect.width,
+      cssWidth:style.width,
+      minWidth:style.minWidth,
+      maxWidth:style.maxWidth,
+      inlineSize:style.inlineSize,
+      minInlineSize:style.minInlineSize,
+      maxInlineSize:style.maxInlineSize,
+      position:style.position,
+      transform:style.transform,
+      zoom:style.zoom,
+      viewport:innerWidth,
+      ancestors,
+      labels
+    };
+  });
+  assert(productMetrics.width>=280,"JM-02 desktop product menu must not collapse: "+JSON.stringify(productMetrics));
+  assert(productMetrics.labels.every(label=>label.whiteSpace==="nowrap"&&label.wordBreak==="normal"&&label.overflowWrap==="normal"),
+    "JM-02 desktop product menu labels must stay readable: "+JSON.stringify(productMetrics.labels));
+  await page.keyboard.press("Escape");
+
+  const profile=page.locator("[data-mainlagi-profile-menu]");
+  await profile.locator("summary").click();
+  const profileMenu=profile.locator("div").first();
+  await profileMenu.waitFor({state:"visible",timeout:3000});
+  const profileWidth=await profileMenu.evaluate(node=>node.getBoundingClientRect().width);
+  assert(profileWidth>=240,"JM-02 desktop profile menu must not collapse: "+profileWidth);
+  await page.keyboard.press("Escape");
+}
 async function inspectSubject(page,subject,title,stageIds){
   await page.goto(base+"/child/demo-gian/subject/"+subject+"?qa=unlock-all",{waitUntil:"domcontentloaded",timeout:30000});
   const rootNode=page.locator('[data-belajar-journey-map="v1"]');
@@ -79,6 +138,7 @@ async function main(){
     const desktop=await browser.newContext({viewport:{width:1280,height:860},reducedMotion:"reduce"}); await seed(desktop);
     const page=await desktop.newPage();
     await inspectSubject(page,"english","Bahasa Inggris",expected.english);
+    await assertHeaderDropdowns(page);
     assert.equal(await page.locator('[data-english-journey-map="v1"]').count(),1,"English compatibility marker preserved");
     await inspectSubject(page,"bahasa","Bahasa Indonesia",expected.bahasa);
     assert.equal(await page.locator("[data-english-journey-map]").count(),0,"Bahasa has no English-only marker");
