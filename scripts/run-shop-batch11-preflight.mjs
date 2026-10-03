@@ -153,8 +153,18 @@ assert.match(
 );
 assert.match(
   files.batch11Workflow,
-  /crons": \["\*\/5 \* \* \* \*"\]/,
+  /crons": \["\* \* \* \* \*"\]/,
   "Batch 11 workflow must exercise a real temporary Cloudflare cron trigger",
+);
+assert.match(
+  files.batch11Workflow,
+  /seq 1 60[\s\S]*Waiting for real Cloudflare cron tick \(\$attempt\/60\)/,
+  "Batch 11 scheduler evidence gate must allow the documented Cloudflare cron propagation window",
+);
+assert.match(
+  files.batch11Workflow,
+  /Upload free-staging evidence\n\s+if: always\(\)/,
+  "Batch 11 must preserve disposable staging evidence even when the scheduler observation gate fails",
 );
 
 console.log(
