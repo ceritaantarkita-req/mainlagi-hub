@@ -151,6 +151,10 @@ try {
   assert.match(workflow, /Batch 16 production JS and lazy-load budgets[\s\S]*npm run test:batch16:build/);
   assert.match(workflow, /Run canonical mobile route, accessibility, and lazy-load matrix[\s\S]*npm run test:ui:mobile-routes/);
   assert.match(workflow, /EXPECTED_SHA:\s*\$\{\{ github\.sha \}\}/);
+  assert.match(workflow, /Resolve docs-only production fallback SHA[\s\S]*fetch-depth:\s*0/);
+  assert.match(workflow, /current_non_docs=.*grep -Ev '\^docs\/'/);
+  assert.match(workflow, /DOCS_ONLY_FALLBACK_SHA:\s*\$\{\{ steps\.release-target\.outputs\.fallback_sha \}\}/);
+  assert.match(workflow, /Runtime\/config-affecting main commit detected; exact current SHA is required/);
   assert.match(workflow, /EXPECTED_SUPABASE_PROJECT_REF:\s*estvtgflwkebomsqlolv/);
   assert.match(workflow, /"dataBackend":"supabase"/);
   assert.match(workflow, /"siteUrl":"https:\/\/mainlagihub\.my\.id"/);
