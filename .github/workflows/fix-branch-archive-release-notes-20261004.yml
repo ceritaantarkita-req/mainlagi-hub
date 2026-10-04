@@ -1,0 +1,82 @@
+name: Repair branch archive release metadata
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/fix-branch-archive-release-notes-20261004.yml
+
+permissions:
+  contents: write
+
+jobs:
+  repair-release:
+    name: Repair and verify pre-cleanup archive release
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+      ARCHIVE_TAG: repo-branch-archive-20261004-precleanup
+    steps:
+      - name: Repair release notes
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          cat > /tmp/release-notes.md <<'EOF'
+          # Mainlagi Hub branch archive before repository cleanup
+
+          This release was generated immediately before the 4 October 2026 branch cleanup.
+
+          - exact main at cleanup start: `be26d25d2fbd3f4ee799f7464b521aaccbba67da`
+          - captured remote branch refs: `528`
+          - deleted non-main branch refs: `527`
+          - final branch invariant after cleanup: exactly `main`
+          - the Git bundle contains the fetched repository refs before deletion
+          - the TSV manifest records branch name, tip SHA and commit timestamp
+          - the SHA-256 file verifies the bundle binary
+
+          Recovery bundle:
+
+          `mainlagi-branches-precleanup-20261004.bundle`
+
+          Recovery command:
+
+          ```bash
+          git clone mainlagi-branches-precleanup-20261004.bundle restored-mainlagi
+          ```
+
+          This archive is recovery-only. Canonical development continues from `main`.
+          EOF
+
+          gh release edit "$ARCHIVE_TAG"             --title "Mainlagi branch archive — pre-cleanup 2026-10-04"             --notes-file /tmp/release-notes.md
+
+      - name: Verify release metadata and assets
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          body="$(gh release view "$ARCHIVE_TAG" --json body --jq '.body')"
+          grep -Fq 'be26d25d2fbd3f4ee799f7464b521aaccbba67da' <<<"$body"
+          grep -Fq 'captured remote branch refs: `528`' <<<"$body"
+          grep -Fq 'deleted non-main branch refs: `527`' <<<"$body"
+          grep -Fq 'exactly `main`' <<<"$body"
+
+          mapfile -t assets < <(
+            gh release view "$ARCHIVE_TAG" --json assets               --jq '.assets[].name' | sort
+          )
+
+          printf 'Release assets:\n'
+          printf '  %s\n' "${assets[@]}"
+
+          required=(
+            "mainlagi-branch-manifest-20261004.tsv"
+            "mainlagi-branches-precleanup-20261004.bundle"
+            "mainlagi-branches-precleanup-20261004.sha256"
+          )
+
+          for item in "${required[@]}"; do
+            printf '%s\n' "${assets[@]}" | grep -Fxq "$item" || {
+              echo "::error::Missing archive release asset: $item"
+              exit 1
+            }
+          done
