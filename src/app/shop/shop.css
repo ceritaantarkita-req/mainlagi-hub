@@ -54,6 +54,18 @@
   align-items: center;
   padding: 0 4px;
 }
+.shop-preview-badge {
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: #e4eddf;
+  color: var(--shop-green);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .5px;
+}
 .shop-wordmark {
   min-height: 44px;
   display: inline-flex;
