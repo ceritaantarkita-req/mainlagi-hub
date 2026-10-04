@@ -1,6 +1,5 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
 import { shopRuntimeEnabled } from "@/lib/shop/server";
 import "./shop.css";
 export const dynamic = "force-dynamic";
@@ -13,7 +12,8 @@ export default function ShopLayout({
 }: {
   children: React.ReactNode;
 }) {
-  if (!shopRuntimeEnabled()) notFound();
+  const commerceEnabled =
+    shopRuntimeEnabled() && process.env.SHOP_SALES_ENABLED === "true";
   return (
     <div className="shop-shell">
       <nav className="shop-nav" aria-label="Mainlagi Shop">
@@ -21,9 +21,18 @@ export default function ShopLayout({
           mainlagi<span>shop</span>
         </Link>
         <div className="shop-nav-links">
+          <Link href="/">Mainlagi</Link>
           <Link href="/shop/policies">Kebijakan</Link>
-          <Link href="/shop/orders">Pesanan</Link>
-          <Link href="/shop/cart">Keranjang</Link>
+          {commerceEnabled ? (
+            <>
+              <Link href="/shop/orders">Pesanan</Link>
+              <Link href="/shop/cart">Keranjang</Link>
+            </>
+          ) : (
+            <span className="shop-preview-badge" data-mainlagi-shop-mode="read-only">
+              Pratinjau
+            </span>
+          )}
         </div>
       </nav>
       {children}
