@@ -16,7 +16,7 @@ PR **#468** final head `83ead960a715fb60e1b1f20945a2be5280334715` passed PR CI *
 
 Canonical owner truth is unchanged: **0/9 products verified, 0/27 active SKU candidates verified, production PII retention pending**. The next Shop work is real owner/supplier evidence collection plus the production `SHOP_ORDER_PII_RETENTION_DAYS` decision; production-commerce activation requires a separate explicit package after those inputs exist.
 
-Historical Draft PR **#442 is CLOSED / UNMERGED / SUPERSEDED** by #468. Keep #442 only as historical CONV-01A/B/C evidence; do not merge or rebase it.
+Historical Draft PRs **#359, #360, and #442 are CLOSED / UNMERGED / SUPERSEDED**. #359 remains Shop source/evidence history, #360 remains old child-surface presentation history, and #442 remains CONV-01A/B/C evidence. None is a current release path; do not merge or rebase them.
 
 
 ## 3 October 2026 — P0-OPEN-02B PROGRESS REPORTER MERGED / OWNER COLLECTION READY
