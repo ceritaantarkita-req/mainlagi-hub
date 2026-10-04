@@ -89,7 +89,9 @@ try {
     assert.equal(await productNav.getByRole("link",{name:/^Belajar\b/}).count(),1);
     assert.equal(await productNav.getByRole("link",{name:/^Bermain\b/}).count(),1);
     assert.equal(await productNav.getByRole("link",{name:/^World\b/}).count(),1);
-    assert.equal(await productNav.locator('[data-mainlagi-shop-slot="disabled"]').count(),1,"Shop remains fail-closed in child mode");
+    const shopEntry=productNav.locator('[data-mainlagi-shop-slot="parent-gated"]');
+    assert.equal(await shopEntry.count(),1,"Shop parent-gated entry is exposed in child mode");
+    assert.equal(await shopEntry.getAttribute("href"),"/shop/parent-entry","child Shop entry must pass through parent gate");
     await productNav.locator("summary").click();
     const subjectLinks=page.locator('[data-core-thumbnail-card="subject"]');
     assert.equal(await subjectLinks.count(),9);
