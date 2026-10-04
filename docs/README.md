@@ -1,6 +1,6 @@
 # Mainlagi Hub Documentation Index
 
-Last reviewed: **4 October 2026**
+Last reviewed: **5 October 2026**
 
 Use this file to decide which documentation is current and which files are historical snapshots.
 
@@ -10,6 +10,7 @@ Read these first for current work:
 
 1. [`NEXT_PRODUCT_QUALITY_PLAN.md`](NEXT_PRODUCT_QUALITY_PLAN.md) — current execution order, workstreams, status and mandatory gates.
 2. [`CURRENT_STATE.md`](CURRENT_STATE.md) — current repository/product/production baseline.
+   - [`REPOSITORY_FINAL_STATE_2026-10-05.md`](REPOSITORY_FINAL_STATE_2026-10-05.md) — canonical GitHub repository/branch state: 528 refs archived, 527 non-main branches removed, historical recovery release verified, stale PRs closed, and permanent post-merge branch hygiene enabled.
    - [`SHOP_POLICIES_CLOUDFLARE_1102_FINAL_CLOSURE_2026-10-04.md`](SHOP_POLICIES_CLOUDFLARE_1102_FINAL_CLOSURE_2026-10-04.md) — Cloudflare 1102 incident closure for `/shop/policies`: root cause was Shop-wide dynamic SSR; PR #470 moved the policy route to static prerendering and added a permanent production-smoke gate.
    - [`P0_SHOP_READONLY_STOREFRONT_LIVE_CLOSURE_2026-10-04.md`](P0_SHOP_READONLY_STOREFRONT_LIVE_CLOSURE_2026-10-04.md) — current Shop authority: PR #468 merged/live verified at `main@e4e377ee…`; `/shop` is live as a read-only 9-product preview, child Menu → Shop is parent-gated, transactional runtime/sales remain off, and #442 is superseded/closed.
    - [`P0_SHOP_CONV01C_INTEGRATED_PROVIDER_STAGING_CLOSURE_2026-10-03.md`](P0_SHOP_CONV01C_INTEGRATED_PROVIDER_STAGING_CLOSURE_2026-10-03.md) — historical CONV-01C evidence: superseded Draft #442 exact head `96204473…` passed CI #2417 and manual provider staging #8 with Midtrans Sandbox, Biteship Testing, real Cloudflare scheduled reconciliation and evidence artifact; #442 is now closed/unmerged and no longer a release path.
