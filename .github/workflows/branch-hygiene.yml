@@ -1,0 +1,43 @@
+name: Branch hygiene
+
+on:
+  pull_request_target:
+    types: [closed]
+
+permissions:
+  contents: write
+
+jobs:
+  delete-merged-head:
+    name: Delete merged head branch
+    if: >-
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.head.ref != github.event.repository.default_branch
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          persist-credentials: true
+
+      - name: Delete merged branch safely
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          echo "Deleting merged branch: $HEAD_BRANCH"
+
+          if git push origin --delete "$HEAD_BRANCH"; then
+            echo "Deleted $HEAD_BRANCH"
+            exit 0
+          fi
+
+          if git ls-remote --exit-code --heads origin "$HEAD_BRANCH" >/dev/null 2>&1; then
+            echo "::error::Branch still exists after delete attempt: $HEAD_BRANCH"
+            exit 1
+          fi
+
+          echo "Branch already absent; nothing to do."
