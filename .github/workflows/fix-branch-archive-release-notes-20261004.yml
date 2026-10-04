@@ -49,20 +49,20 @@ jobs:
           This archive is recovery-only. Canonical development continues from `main`.
           EOF
 
-          gh release edit "$ARCHIVE_TAG"             --title "Mainlagi branch archive — pre-cleanup 2026-10-04"             --notes-file /tmp/release-notes.md
+          gh release edit "$ARCHIVE_TAG" --repo "$GITHUB_REPOSITORY" --title "Mainlagi branch archive — pre-cleanup 2026-10-04" --notes-file /tmp/release-notes.md
 
       - name: Verify release metadata and assets
         shell: bash
         run: |
           set -Eeuo pipefail
-          body="$(gh release view "$ARCHIVE_TAG" --json body --jq '.body')"
+          body="$(gh release view "$ARCHIVE_TAG" --repo "$GITHUB_REPOSITORY" --json body --jq '.body')"
           grep -Fq 'be26d25d2fbd3f4ee799f7464b521aaccbba67da' <<<"$body"
           grep -Fq 'captured remote branch refs: `528`' <<<"$body"
           grep -Fq 'deleted non-main branch refs: `527`' <<<"$body"
           grep -Fq 'exactly `main`' <<<"$body"
 
           mapfile -t assets < <(
-            gh release view "$ARCHIVE_TAG" --json assets               --jq '.assets[].name' | sort
+            gh release view "$ARCHIVE_TAG" --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[].name' | sort
           )
 
           printf 'Release assets:\n'
