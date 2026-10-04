@@ -49,9 +49,7 @@ jobs:
           This archive is recovery-only. Canonical development continues from `main`.
           EOF
 
-          gh release edit "$ARCHIVE_TAG" --repo "$GITHUB_REPOSITORY" \
-  --title "Mainlagi branch archive — pre-cleanup 2026-10-04" \
-  --notes-file /tmp/release-notes.md
+          gh release edit "$ARCHIVE_TAG" --repo "$GITHUB_REPOSITORY" --title "Mainlagi branch archive — pre-cleanup 2026-10-04" --notes-file /tmp/release-notes.md
 
       - name: Verify release metadata and assets
         shell: bash
