@@ -4,6 +4,12 @@ Last reviewed: **4 October 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
+## SAFE PAUSE / DISCUSSION CHECKPOINT — 4 OCTOBER 2026
+
+Canonical checkpoint: `docs/SHOP_POST_1102_SAFE_CHECKPOINT_2026-10-04.md`.
+
+The Shop read-only launch and `/shop/policies` Cloudflare 1102 repair are both merged and production-verified. Exact production baseline before this checkpoint is `main@d6591ab6f82e5a8408c9eb23fffb89b9392baa93`, with CI **#2456 / run 37184871032 FULL SUCCESS** including exact Cloudflare production smoke. **Pause here for discussion before any further Shop runtime/commerce activation.**
+
 ## 4 October 2026 — SHOP POLICIES CLOUDFLARE 1102 FIXED / LIVE VERIFIED
 
 Canonical closure: `docs/SHOP_POLICIES_CLOUDFLARE_1102_FINAL_CLOSURE_2026-10-04.md`.
