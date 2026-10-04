@@ -22,7 +22,7 @@ Current production contract: `/shop` is a seed-backed read-only storefront; chil
 
 **Next authorized Shop action is evidence collection, not more speculative runtime work:** complete real physical/supplier verification for **9/9 products and 27/27 active SKU candidates**, then choose production `SHOP_ORDER_PII_RETENTION_DAYS` in the supported range. Only after those inputs are complete may a separate production-commerce activation package be authorized.
 
-Historical Draft PR **#442 is CLOSED / UNMERGED / SUPERSEDED** by #468 and must not be revived as a release path.
+Historical Draft PRs **#359, #360, and #442 are CLOSED / UNMERGED / SUPERSEDED** and must not be revived as release paths.
 
 ## 2 October P0 execution override — UIA-01 CLOSED / REMAINING-BACKLOG AUDIT NEXT
 
