@@ -291,10 +291,15 @@ jobs:
           for attempt in $(seq 1 30); do
             home_code="$(curl -sS -L -o /tmp/mainlagi-home.html -w '%{http_code}' \
               --connect-timeout 10 --max-time 20 "$BASE_URL/" || true)"
+            shop_code="$(curl -sS -L -o /tmp/mainlagi-shop.html -w '%{http_code}' \
+              --connect-timeout 10 --max-time 20 "$BASE_URL/shop" || true)"
             health_body="$(curl -sS --connect-timeout 10 --max-time 20 \
               "$BASE_URL/api/health" || true)"
 
             if [[ "$home_code" == "200" ]] \
+              && [[ "$shop_code" == "200" ]] \
+              && grep -Fq 'Koleksi Mainlagi' /tmp/mainlagi-shop.html \
+              && grep -Fq 'Pratinjau' /tmp/mainlagi-shop.html \
               && grep -Fq '"ok":true' <<<"$health_body" \
               && grep -Fq "\"sha\":\"$EXPECTED_SHA\"" <<<"$health_body" \
               && grep -Fq '"branch":"main"' <<<"$health_body" \
@@ -306,7 +311,7 @@ jobs:
               exit 0
             fi
 
-            echo "Attempt $attempt/30: homepage=$home_code; waiting for exact release/configuration target"
+            echo "Attempt $attempt/30: homepage=$home_code shop=$shop_code; waiting for exact release/configuration target"
             sleep 10
           done
 
