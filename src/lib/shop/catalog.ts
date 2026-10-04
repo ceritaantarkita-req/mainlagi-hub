@@ -3,7 +3,9 @@ import seed from "./seed.json";
 import { catalog, shopRuntimeEnabled } from "./server";
 import type { Product } from "./types";
 export const localPreview = () =>
-  process.env.SHOP_LOCAL_PREVIEW === "true" || !shopRuntimeEnabled();
+  process.env.SHOP_LOCAL_PREVIEW === "true" ||
+  !shopRuntimeEnabled() ||
+  process.env.SHOP_SALES_ENABLED !== "true";
 export const previewProducts = (): Product[] =>
   seed.map((p) => ({
     id: p.code,
