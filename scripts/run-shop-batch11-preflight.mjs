@@ -89,8 +89,13 @@ assert.doesNotMatch(
 );
 assert.match(
   files.playroom,
-  /data-mainlagi-shop-slot=["']disabled["']/,
-  "child Journey Map must keep the Shop slot explicitly disabled before activation",
+  /data-mainlagi-shop-slot=["']parent-gated["']/,
+  "child Journey Map Shop entry must remain parent-gated before transactional activation",
+);
+assert.match(
+  files.playroom,
+  /href=["']\/shop\/parent-entry["']/,
+  "child Journey Map Shop entry must route through the parent-session gate",
 );
 assert.match(
   files.adminLayout,
