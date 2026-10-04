@@ -1,0 +1,139 @@
+name: One-time repository branch cleanup 2026-10-04
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/one-time-branch-cleanup-20261004.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: repository-branch-cleanup-20261004
+  cancel-in-progress: false
+
+jobs:
+  archive-and-clean:
+    name: Archive branch refs and keep only main
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      ARCHIVE_TAG: repo-branch-archive-20261004-precleanup
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Safety gate - require zero open pull requests
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          open_count="$(gh pr list --state open --limit 200 --json number --jq 'length')"
+          echo "Open PR count: $open_count"
+          if [[ "$open_count" != "0" ]]; then
+            echo "::error::Refusing branch cleanup while pull requests are open."
+            gh pr list --state open --limit 200
+            exit 1
+          fi
+
+      - name: Fetch all branch and tag refs
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          git fetch origin '+refs/heads/*:refs/remotes/origin/*' --tags --prune
+
+      - name: Create pre-cleanup manifest and Git bundle
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          manifest="/tmp/mainlagi-branch-manifest-20261004.tsv"
+          bundle="/tmp/mainlagi-branches-precleanup-20261004.bundle"
+          checksum="/tmp/mainlagi-branches-precleanup-20261004.sha256"
+
+          git for-each-ref             --sort=refname             --format='%(refname:strip=3)%09%(objectname)%09%(committerdate:iso8601)'             refs/remotes/origin             | grep -v '^HEAD' > "$manifest"
+
+          branch_count="$(wc -l < "$manifest" | tr -d ' ')"
+          echo "BRANCH_COUNT=$branch_count" >> "$GITHUB_ENV"
+          echo "Captured $branch_count remote branches before cleanup."
+
+          git bundle create "$bundle" --all
+          git bundle verify "$bundle"
+          sha256sum "$bundle" > "$checksum"
+
+          echo "MANIFEST=$manifest" >> "$GITHUB_ENV"
+          echo "BUNDLE=$bundle" >> "$GITHUB_ENV"
+          echo "CHECKSUM=$checksum" >> "$GITHUB_ENV"
+
+      - name: Publish recoverable pre-cleanup archive
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          notes="/tmp/release-notes.md"
+          cat > "$notes" <<EOF
+          # Mainlagi Hub branch archive before repository cleanup
+
+          This release was generated automatically immediately before the 4 October 2026 branch cleanup.
+
+          - exact main at cleanup start: `$GITHUB_SHA`
+          - captured remote branch refs: `$BRANCH_COUNT`
+          - the Git bundle contains the fetched repository refs before deletion
+          - the TSV manifest records branch name, tip SHA and commit timestamp
+          - the SHA-256 file verifies the bundle binary
+
+          Restore example:
+
+          ```bash
+          git clone mainlagi-branches-precleanup-20261004.bundle restored-mainlagi
+          ```
+
+          The archive is recovery-only. Canonical development continues from `main`.
+          EOF
+
+          gh release create "$ARCHIVE_TAG"             --target "$GITHUB_SHA"             --title "Mainlagi branch archive — pre-cleanup 2026-10-04"             --notes-file "$notes"             "$BUNDLE#Full Git bundle before branch cleanup"             "$MANIFEST#Branch tip manifest before cleanup"             "$CHECKSUM#SHA-256 checksum for Git bundle"
+
+      - name: Delete every remote branch except main
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          mapfile -t branches < <(cut -f1 "$MANIFEST" | grep -v '^main$' || true)
+
+          echo "Deleting ${#branches[@]} non-main branches."
+          if [[ "${#branches[@]}" -eq 0 ]]; then
+            exit 0
+          fi
+
+          chunk=30
+          for ((i=0; i<${#branches[@]}; i+=chunk)); do
+            batch=("${branches[@]:i:chunk}")
+            echo "Deleting batch $((i / chunk + 1)): ${#batch[@]} branches"
+            git push origin --delete "${batch[@]}"
+          done
+
+      - name: Verify canonical branch state
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          mapfile -t remaining < <(
+            git ls-remote --heads origin               | awk '{sub("refs/heads/","",$2); print $2}'               | sort
+          )
+
+          printf 'Remaining branches:\n'
+          printf '  %s\n' "${remaining[@]}"
+
+          if [[ "${#remaining[@]}" -ne 1 || "${remaining[0]}" != "main" ]]; then
+            echo "::error::Branch cleanup invariant failed; expected exactly one branch named main."
+            exit 1
+          fi
+
+          {
+            echo "## Repository branch cleanup complete"
+            echo ""
+            echo "- archived branch refs before deletion: $BRANCH_COUNT"
+            echo "- remaining remote branch: `main`"
+            echo "- archive release: `$ARCHIVE_TAG`"
+            echo "- exact cleanup-start main: `$GITHUB_SHA`"
+          } >> "$GITHUB_STEP_SUMMARY"
