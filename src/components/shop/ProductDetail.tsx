@@ -126,8 +126,9 @@ export function ProductDetail({
           <details>
             <summary>Pembayaran & pengiriman</summary>
             <p>
-              Ongkir dihitung berdasarkan alamat dan produk saat checkout.
-              Pembayaran diproses melalui Midtrans.
+              {enabled
+                ? "Ongkir dihitung berdasarkan alamat dan produk saat checkout. Pembayaran diproses melalui Midtrans."
+                : "Checkout, ongkir, dan pembayaran masih dinonaktifkan selama masa pratinjau."}
             </p>
           </details>
         </section>
