@@ -115,7 +115,7 @@ async function assertRuntimeOff() {
 }
 
 async function assertRuntimeOnSalesOff() {
-  const server = startServer(3008, true, true);
+  const server = startServer(3008, true, false);
   try {
     await waitForServer(server);
     const base = server.base;
@@ -210,7 +210,7 @@ try {
   await assertRuntimeOff();
   await assertRuntimeOnSalesOff();
   console.log(
-    "Shop HTTP: runtime-off read-only storefront + API/provider fail-closed, runtime-on explicit preview SSR, public policy/support page, draft detail visible but non-purchasable, restored image, CSRF, disabled sales, owner endpoint denial, Midtrans/Biteship forged-event denial, Biteship empty install probe, cron authentication, no-store PASS",
+    "Shop HTTP: runtime-off read-only storefront + API/provider fail-closed, runtime-on sales-off storefront remains seed-backed without Shop DB, public policy/support page, draft detail visible but non-purchasable, restored image, CSRF, disabled sales, owner endpoint denial, Midtrans/Biteship forged-event denial, Biteship empty install probe, cron authentication, no-store PASS",
   );
 } catch (error) {
   console.error(error);
