@@ -1,5 +1,18 @@
 # Changelog
 
+## 4 October 2026 — SHOP POLICIES CLOUDFLARE 1102 FIXED
+
+- Production `/shop/policies` returned Cloudflare **Error 1102 — Worker exceeded resource limits** while `/shop` remained healthy.
+- Root cause: shared Shop layout forced the whole Shop subtree through dynamic SSR with `force-dynamic`.
+- PR **#470** removed that subtree-wide dynamic ownership, made `/shop/policies` static, and explicitly preserved dynamic cart/checkout routes.
+- Final build manifest: `○ /shop/policies`; request-bound Shop routes remain `ƒ` dynamic.
+- PR CI **#2453 / run 37181132480 FULL SUCCESS**.
+- Merged as **`main@36c6a155b3e19b9aff38c5a7004c5de379c172b6`**.
+- Merged-main CI **#2454 / run 37181842040 FULL SUCCESS**, including exact **Production smoke (Cloudflare) SUCCESS**.
+- Production smoke now permanently checks `/shop/policies` HTTP 200 plus the policy marker, in addition to the existing Shop/read-only and exact-release checks.
+- No commerce activation was bundled with this incident fix; Shop sales/runtime defaults and owner-input blockers are unchanged.
+- Canonical closure: `SHOP_POLICIES_CLOUDFLARE_1102_FINAL_CLOSURE_2026-10-04.md`.
+
 ## 4 October 2026 — MAINLAGI SHOP READ-ONLY STOREFRONT LIVE
 
 - PR **#468** final head `83ead960a715fb60e1b1f20945a2be5280334715` passed PR CI **#2444 / run 37176569187 FULL SUCCESS** and squash-merged as **`main@e4e377eec0e777d7d647c83676af151306b344dd`**.
