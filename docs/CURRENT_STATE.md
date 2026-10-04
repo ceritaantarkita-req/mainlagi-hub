@@ -1,8 +1,20 @@
 # Mainlagi Hub — Current State
 
-Last reviewed: **4 October 2026**
+Last reviewed: **5 October 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
+
+## 5 October 2026 — GITHUB REPOSITORY BRANCH HYGIENE CLOSED
+
+Canonical repository-state document: `docs/REPOSITORY_FINAL_STATE_2026-10-05.md`.
+
+The branch audit is complete. The pre-cleanup repository had **528 remote branch refs**. A guarded cleanup archived all refs into a verified Git bundle + manifest + checksum release, deleted **527 non-main branches**, and proved the stable branch invariant **exactly `main`**. Stale open PRs were closed as historical/superseded/inactive rather than merged into current architecture.
+
+Permanent `.github/workflows/branch-hygiene.yml` now deletes same-repository head branches after successful PR merges. The bulk-cleanup and archive-repair workflows were one-shot only and are removed after successful execution.
+
+Verified recovery release tag: `repo-branch-archive-20261004-precleanup`. The archive contains `mainlagi-branch-manifest-20261004.tsv`, `mainlagi-branches-precleanup-20261004.bundle`, and `mainlagi-branches-precleanup-20261004.sha256`.
+
+The hygiene program changed repository refs/tooling only. Product/runtime boundaries below are unchanged.
 
 ## SAFE PAUSE / DISCUSSION CHECKPOINT — 4 OCTOBER 2026
 
