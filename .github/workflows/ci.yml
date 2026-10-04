@@ -293,13 +293,17 @@ jobs:
               --connect-timeout 10 --max-time 20 "$BASE_URL/" || true)"
             shop_code="$(curl -sS -L -o /tmp/mainlagi-shop.html -w '%{http_code}' \
               --connect-timeout 10 --max-time 20 "$BASE_URL/shop" || true)"
+            policy_code="$(curl -sS -L -o /tmp/mainlagi-shop-policies.html -w '%{http_code}' \
+              --connect-timeout 10 --max-time 20 "$BASE_URL/shop/policies" || true)"
             health_body="$(curl -sS --connect-timeout 10 --max-time 20 \
               "$BASE_URL/api/health" || true)"
 
             if [[ "$home_code" == "200" ]] \
               && [[ "$shop_code" == "200" ]] \
+              && [[ "$policy_code" == "200" ]] \
               && grep -Fq 'Koleksi Mainlagi' /tmp/mainlagi-shop.html \
               && grep -Fq 'Pratinjau' /tmp/mainlagi-shop.html \
+              && grep -Fq 'Belanja dengan aturan yang jelas' /tmp/mainlagi-shop-policies.html \
               && grep -Fq '"ok":true' <<<"$health_body" \
               && grep -Fq "\"sha\":\"$EXPECTED_SHA\"" <<<"$health_body" \
               && grep -Fq '"branch":"main"' <<<"$health_body" \
@@ -311,7 +315,7 @@ jobs:
               exit 0
             fi
 
-            echo "Attempt $attempt/30: homepage=$home_code shop=$shop_code; waiting for exact release/configuration target"
+            echo "Attempt $attempt/30: homepage=$home_code shop=$shop_code policies=$policy_code; waiting for exact release/configuration target"
             sleep 10
           done
 
