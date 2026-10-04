@@ -4,6 +4,26 @@
 
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 
+## 4 October Shop execution override — READ-ONLY STOREFRONT LIVE / SALES STILL BLOCKED
+
+Mainlagi Shop repository convergence and read-only production browsing are **CLOSED / MERGED / LIVE VERIFIED**.
+
+Canonical closure: `P0_SHOP_READONLY_STOREFRONT_LIVE_CLOSURE_2026-10-04.md`.
+
+Verified runtime:
+
+- PR **#468**, final head `83ead960a715fb60e1b1f20945a2be5280334715`;
+- PR CI **#2444 / run 37176569187 — FULL SUCCESS**;
+- merged `main@e4e377eec0e777d7d647c83676af151306b344dd`;
+- merged-main CI **#2445 / run 37177249545 — FULL SUCCESS**;
+- exact Cloudflare production smoke — **SUCCESS**, including `/shop` HTTP 200 with `Koleksi Mainlagi` + `Pratinjau`.
+
+Current production contract: `/shop` is a seed-backed read-only storefront; child Menu → Shop routes through `/shop/parent-entry`; transactional Shop APIs/admin/sales remain fail-closed by default. Do **not** apply Shop production migrations or enable production Midtrans/Biteship/checkout merely because browsing is live.
+
+**Next authorized Shop action is evidence collection, not more speculative runtime work:** complete real physical/supplier verification for **9/9 products and 27/27 active SKU candidates**, then choose production `SHOP_ORDER_PII_RETENTION_DAYS` in the supported range. Only after those inputs are complete may a separate production-commerce activation package be authorized.
+
+Historical Draft PRs **#359, #360, and #442 are CLOSED / UNMERGED / SUPERSEDED** and must not be revived as release paths.
+
 ## 2 October P0 execution override — UIA-01 CLOSED / REMAINING-BACKLOG AUDIT NEXT
 
 P0-UIA-01 canonical owner retirement / legacy isolation is **CLOSED / MERGED / LIVE VERIFIED**.
