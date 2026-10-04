@@ -1,8 +1,22 @@
 # Mainlagi Hub — Current State
 
-Last reviewed: **3 October 2026**
+Last reviewed: **4 October 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
+
+## 4 October 2026 — MAINLAGI SHOP READ-ONLY STOREFRONT MERGED / LIVE VERIFIED
+
+Canonical closure: `docs/P0_SHOP_READONLY_STOREFRONT_LIVE_CLOSURE_2026-10-04.md`.
+
+PR **#468** final head `83ead960a715fb60e1b1f20945a2be5280334715` passed PR CI **#2444 / run 37176569187 FULL SUCCESS** and squash-merged as `main@e4e377eec0e777d7d647c83676af151306b344dd`. Merged-main CI **#2445 / run 37177249545 FULL SUCCESS**, including exact **Production smoke (Cloudflare) SUCCESS**. The production smoke requires `/shop` HTTP 200 plus `Koleksi Mainlagi` and `Pratinjau`, and proved production serves the exact merged SHA with the canonical Supabase target.
+
+**Current product state:** Mainlagi Shop browsing is live at `/shop` as a seed-backed **read-only production preview**. The canonical child header exposes **Menu → Shop** through `/shop/parent-entry`; production requires a parent session and otherwise redirects to `/login?next=/shop`. Shop is not a Belajar Journey Map destination and does not alter Belajar/Bermain/World progression ownership.
+
+**Sales remain fail-closed.** `SHOP_RUNTIME_ENABLED=false` and `SHOP_SALES_ENABLED=false` remain the default production boundary; no Shop production migration, production Midtrans payment flow, production Biteship flow, or live checkout/order fulfillment was enabled by #468. Public cart/order purchase navigation stays hidden while sales are off, and transactional APIs remain fail-closed.
+
+Canonical owner truth is unchanged: **0/9 products verified, 0/27 active SKU candidates verified, production PII retention pending**. The next Shop work is real owner/supplier evidence collection plus the production `SHOP_ORDER_PII_RETENTION_DAYS` decision; production-commerce activation requires a separate explicit package after those inputs exist.
+
+Historical Draft PR **#442 is CLOSED / UNMERGED / SUPERSEDED** by #468. Keep #442 only as historical CONV-01A/B/C evidence; do not merge or rebase it.
 
 
 ## 3 October 2026 — P0-OPEN-02B PROGRESS REPORTER MERGED / OWNER COLLECTION READY
