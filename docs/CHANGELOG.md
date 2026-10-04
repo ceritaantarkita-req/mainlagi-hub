@@ -9,7 +9,7 @@
 - Child **Menu → Shop** now routes through `/shop/parent-entry`; configured production requires a parent session and otherwise redirects to `/login?next=/shop`.
 - Preserved fail-closed commerce boundary: no production Shop migration, checkout, Midtrans, Biteship or sales activation; `SHOP_RUNTIME_ENABLED=false` and `SHOP_SALES_ENABLED=false` stay default.
 - Owner truth remains **0/9 products verified, 0/27 active SKU candidates verified, production PII retention pending**; next work is owner/supplier evidence collection and the production PII-retention decision.
-- Historical Draft PR **#442** closed unmerged as superseded by #468.
+- Historical Draft PRs **#359, #360, and #442** closed unmerged as superseded; they remain evidence/history only, not release paths.
 - Canonical closure: `P0_SHOP_READONLY_STOREFRONT_LIVE_CLOSURE_2026-10-04.md`.
 
 
