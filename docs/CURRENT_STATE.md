@@ -4,6 +4,18 @@ Last reviewed: **4 October 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
+## 4 October 2026 — SHOP POLICIES CLOUDFLARE 1102 FIXED / LIVE VERIFIED
+
+Canonical closure: `docs/SHOP_POLICIES_CLOUDFLARE_1102_FINAL_CLOSURE_2026-10-04.md`.
+
+Production `/shop/policies` surfaced Cloudflare **Error 1102 — Worker exceeded resource limits** after the read-only Shop launch. Root cause was Shop-wide `force-dynamic` ownership in the shared Shop layout, which forced the otherwise static public policy page through on-demand Worker SSR.
+
+PR **#470** removed the Shop-wide dynamic override, explicitly prerendered `/shop/policies`, preserved dynamic ownership for cart/checkout, and strengthened production smoke to require both `/shop` and `/shop/policies` HTTP 200 with canonical markers. Final PR build classified `/shop/policies` as **○ Static** while transactional/request-bound Shop routes remain **ƒ Dynamic**.
+
+PR #470 final head `7770b444e8076e057fae7c790b2f07ccdc57de79` passed PR CI **#2453 / run 37181132480 FULL SUCCESS** and squash-merged as `main@36c6a155b3e19b9aff38c5a7004c5de379c172b6`. Merged-main CI **#2454 / run 37181842040 FULL SUCCESS**, including **Production smoke (Cloudflare) SUCCESS** proving production serves the exact merged SHA and that the policy route is healthy.
+
+Commerce launch boundary is unchanged: browsing remains read-only; runtime/sales stay off by default; no production Shop migration, Midtrans, Biteship, checkout or fulfillment activation occurred. Owner truth remains **0/9 products verified, 0/27 active SKU candidates verified, production PII retention pending**.
+
 ## 4 October 2026 — MAINLAGI SHOP READ-ONLY STOREFRONT MERGED / LIVE VERIFIED
 
 Canonical closure: `docs/P0_SHOP_READONLY_STOREFRONT_LIVE_CLOSURE_2026-10-04.md`.
