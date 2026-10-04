@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { operationalPolicy } from "@/lib/shop/operationalPolicy";
 
+export const dynamic = "force-static";
+
 export const metadata: Metadata = {
   title: "Kebijakan Belanja · Mainlagi Shop",
   description:
