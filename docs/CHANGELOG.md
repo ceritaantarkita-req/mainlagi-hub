@@ -1,5 +1,18 @@
 # Changelog
 
+## 4 October 2026 — MAINLAGI SHOP READ-ONLY STOREFRONT LIVE
+
+- PR **#468** final head `83ead960a715fb60e1b1f20945a2be5280334715` passed PR CI **#2444 / run 37176569187 FULL SUCCESS** and squash-merged as **`main@e4e377eec0e777d7d647c83676af151306b344dd`**.
+- Merged-main CI **#2445 / run 37177249545 FULL SUCCESS**, including exact **Production smoke (Cloudflare) SUCCESS**.
+- Production smoke now requires `/shop` HTTP 200 and the rendered **Koleksi Mainlagi / Pratinjau** markers in addition to exact release/config verification.
+- `/shop` is live as the 9-product read-only preview while sales are off; product detail/gallery/search/filter/policy surfaces are testable without Shop production-table access.
+- Child **Menu → Shop** now routes through `/shop/parent-entry`; configured production requires a parent session and otherwise redirects to `/login?next=/shop`.
+- Preserved fail-closed commerce boundary: no production Shop migration, checkout, Midtrans, Biteship or sales activation; `SHOP_RUNTIME_ENABLED=false` and `SHOP_SALES_ENABLED=false` stay default.
+- Owner truth remains **0/9 products verified, 0/27 active SKU candidates verified, production PII retention pending**; next work is owner/supplier evidence collection and the production PII-retention decision.
+- Historical Draft PR **#442** closed unmerged as superseded by #468.
+- Canonical closure: `P0_SHOP_READONLY_STOREFRONT_LIVE_CLOSURE_2026-10-04.md`.
+
+
 ## 2 October 2026 — P0-UIA-01 CANONICAL OWNER RETIREMENT CLOSED / MERGED / LIVE VERIFIED
 
 - Runtime PR **#436** final head `8149522d9a3b2f73c0a61609f115f214806b9d35` merged as **`main@cd5c530d45a472ac2eb3f4efce740a2ae4654076`**.
