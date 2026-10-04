@@ -165,10 +165,16 @@ export function PlayroomShell({ childId, children }: { childId?: string; childre
                     </small>
                   </Link>
                 ))}
-                <span className={styles.productMenuDisabled} aria-disabled="true" data-mainlagi-shop-slot="disabled">
+                <Link
+                  href="/shop/parent-entry"
+                  data-mainlagi-shop-slot="parent-gated"
+                  onClick={() => {
+                    if (navRef.current) navRef.current.open = false;
+                  }}
+                >
                   <strong>Shop</strong>
-                  <small>Belum tersedia di mode anak</small>
-                </span>
+                  <small>Buka bersama orang tua</small>
+                </Link>
               </nav>
             </details>
 
