@@ -43,8 +43,8 @@ jobs:
         run: npm run test:batch16:security
       - name: Physical-device QA harness contract
         run: npm run test:qa:device
-      - name: Shop owner-input intake contract
-        run: npm run test:shop:owner-input
+      - name: Shop transaction and provider contracts
+        run: npm run test:shop
       - name: Typecheck
         run: npm run typecheck
       - name: Lint
@@ -77,6 +77,37 @@ jobs:
         run: npm run simulate
       - name: Batch 17 final acceptance contracts
         run: npm run test:batch17:final
+
+  shop-postgres-staging:
+    name: Shop PostgreSQL staging gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: mainlagi_shop_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d mainlagi_shop_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/mainlagi_shop_ci
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PostgreSQL client
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+      - name: Run full Shop PostgreSQL staging/security/concurrency gate
+        shell: bash
+        run: bash scripts/run-shop-postgres-staging-tests.sh
 
   build:
     name: Production build
@@ -112,10 +143,14 @@ jobs:
         run: npm ci --no-audit --no-fund
       - name: Install Chromium for responsive QA
         run: npx playwright install --with-deps chromium
+      - name: Shop responsive visual and accessibility QA
+        run: npm run test:shop:browser
       - name: Build local production app
         run: npm run build
       - name: Audit Batch 16 build budgets
         run: npm run test:batch16:build
+      - name: Shop production HTTP boundary
+        run: npm run test:shop:http
       - name: Validate coloring artwork geometry
         run: npm run test:ui:coloring-art
       - name: Run canonical mobile route, accessibility, and lazy-load matrix
@@ -238,6 +273,7 @@ jobs:
       - mobile-route-qa
       - windows-quality
       - dependency-audit
+      - shop-postgres-staging
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
