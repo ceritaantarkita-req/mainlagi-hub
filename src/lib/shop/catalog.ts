@@ -1,10 +1,9 @@
 import "server-only";
 import seed from "./seed.json";
-import { catalog } from "./server";
+import { catalog, shopRuntimeEnabled } from "./server";
 import type { Product } from "./types";
 export const localPreview = () =>
-  process.env.NODE_ENV === "development" &&
-  process.env.SHOP_LOCAL_PREVIEW === "true";
+  process.env.SHOP_LOCAL_PREVIEW === "true" || !shopRuntimeEnabled();
 export const previewProducts = (): Product[] =>
   seed.map((p) => ({
     id: p.code,
