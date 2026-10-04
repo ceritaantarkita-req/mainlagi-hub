@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 
 const host = "127.0.0.1";
 
-function startServer(port, runtimeEnabled) {
+function startServer(port, runtimeEnabled, localPreview = false) {
   let log = "";
   const base = `http://${host}:${port}`;
   const child = spawn(
@@ -22,7 +22,7 @@ function startServer(port, runtimeEnabled) {
         ...process.env,
         NODE_ENV: "production",
         SHOP_RUNTIME_ENABLED: runtimeEnabled ? "true" : "false",
-        SHOP_LOCAL_PREVIEW: "true",
+        SHOP_LOCAL_PREVIEW: localPreview ? "true" : "false",
         SHOP_SALES_ENABLED: "false",
         NEXT_PUBLIC_SITE_URL: base,
         NEXT_PUBLIC_SUPABASE_URL: "",
@@ -73,9 +73,21 @@ async function assertRuntimeOff() {
     const shop = await fetch(server.base + "/shop", { redirect: "manual" });
     assert.equal(
       shop.status,
-      404,
-      "runtime-off /shop must fail closed before Shop database access",
+      200,
+      "runtime-off /shop must expose the read-only storefront without touching Shop database access",
     );
+    const shopHtml = await shop.text();
+    assert.ok(shopHtml.includes("Koleksi Mainlagi"));
+    assert.ok(shopHtml.includes("Pratinjau"));
+    assert.ok(shopHtml.includes("Kaos Anak Mainlagi"));
+    assert.ok(!shopHtml.includes('href="/shop/cart"'));
+    assert.ok(!shopHtml.includes('href="/shop/orders"'));
+
+    const detail = await fetch(
+      server.base + "/shop/kaos-anak-mainlagi-sahabat-ceria-putih",
+    );
+    assert.equal(detail.status, 200);
+    assert.ok((await detail.text()).includes("Produk ini belum tersedia untuk dibeli."));
 
     const api = await fetch(server.base + "/api/shop/cart");
     assert.equal(
@@ -103,7 +115,7 @@ async function assertRuntimeOff() {
 }
 
 async function assertRuntimeOnSalesOff() {
-  const server = startServer(3008, true);
+  const server = startServer(3008, true, true);
   try {
     await waitForServer(server);
     const base = server.base;
@@ -117,9 +129,11 @@ async function assertRuntimeOnSalesOff() {
     const html = await r.text();
     assert.ok(html.includes("Teman kecil."));
     assert.ok(html.includes("Koleksi Mainlagi"));
-    assert.ok(!html.includes("Kaos Anak Mainlagi"));
-    assert.ok(!html.includes("Pratinjau"));
+    assert.ok(html.includes("Kaos Anak Mainlagi"));
+    assert.ok(html.includes("Pratinjau"));
     assert.ok(html.includes("/shop/policies"));
+    assert.ok(!html.includes('href="/shop/cart"'));
+    assert.ok(!html.includes('href="/shop/orders"'));
 
     const policies = await fetch(base + "/shop/policies");
     assert.equal(policies.status, 200);
@@ -134,7 +148,8 @@ async function assertRuntimeOnSalesOff() {
     const detail = await fetch(
       base + "/shop/kaos-anak-mainlagi-sahabat-ceria-putih",
     );
-    assert.equal(detail.status, 404);
+    assert.equal(detail.status, 200);
+    assert.ok((await detail.text()).includes("Produk ini belum tersedia untuk dibeli."));
 
     const asset = await fetch(
       base + "/shop/products/mainlagi-shop-003-gavi-pajama-worn-v1.webp",
@@ -195,7 +210,7 @@ try {
   await assertRuntimeOff();
   await assertRuntimeOnSalesOff();
   console.log(
-    "Shop HTTP: runtime-off route/API/provider fail-closed, runtime-on production SSR, public policy/support page, development preview ignored, draft detail hidden, restored image, CSRF, disabled sales, owner endpoint denial, Midtrans/Biteship forged-event denial, Biteship empty install probe, cron authentication, no-store PASS",
+    "Shop HTTP: runtime-off read-only storefront + API/provider fail-closed, runtime-on explicit preview SSR, public policy/support page, draft detail visible but non-purchasable, restored image, CSRF, disabled sales, owner endpoint denial, Midtrans/Biteship forged-event denial, Biteship empty install probe, cron authentication, no-store PASS",
   );
 } catch (error) {
   console.error(error);
