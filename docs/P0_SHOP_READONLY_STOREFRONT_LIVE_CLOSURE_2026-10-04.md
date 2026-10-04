@@ -95,7 +95,9 @@ npm run test:shop:owner-input
 
 Draft PR **#442** is now **CLOSED / UNMERGED / SUPERSEDED** by PR #468.
 
-PR #442 remains historical evidence for P0-SHOP-CONV-01A/B/C and its successful provider-staging work, but it is no longer a release path and must not be merged or rebased.
+The older Shop source Draft **#359** is also **CLOSED / UNMERGED / SUPERSEDED** after its useful implementation/evidence was audited and reconstructed onto current main. The dependency-bound child-surface Draft **#360** is likewise **CLOSED / UNMERGED / SUPERSEDED** because its old navigation ownership conflicts with the finalized Journey Map/header architecture.
+
+PRs #359, #360, and #442 remain historical evidence only. None is a current release path; do not merge or rebase them.
 
 ## Canonical next step
 
