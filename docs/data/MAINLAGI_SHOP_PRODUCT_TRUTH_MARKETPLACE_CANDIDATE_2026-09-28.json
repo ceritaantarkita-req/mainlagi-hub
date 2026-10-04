@@ -1,0 +1,658 @@
+{
+  "schemaVersion": 1,
+  "status": "marketplace_candidate_unverified",
+  "generatedAt": "2026-09-28",
+  "policy": {
+    "purpose": "Owner-requested marketplace benchmark for defining target production specs before physical verification.",
+    "mayUseFor": [
+      "variant design",
+      "stock allocation planning",
+      "staging fixtures",
+      "supplier brief",
+      "shipping estimate planning"
+    ],
+    "mustNotUseFor": [
+      "setting facts_verified=true",
+      "claiming physical Mainlagi goods were measured",
+      "production sales activation without supplier/sample confirmation"
+    ],
+    "verificationRequired": "Confirm one physical sample or supplier production sheet per SKU before converting any marketplace candidate into canonical production truth."
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "kind": "Tokopedia-linked seller",
+      "label": "Idaiya / Pabrik T Shirt Anak",
+      "url": "https://id.linkedin.com/in/tempat-beli-kaos-anak-laki-laki-motif-bandung-5521a61b4",
+      "evidence": "Cotton Combed 24s; child tee size chart 2y 30x40, 4y 33x43, 6y 36x46, 8y 40x50, 10y 44x54 cm; Tokopedia storefront linked."
+    },
+    {
+      "id": "S2",
+      "kind": "Tokopedia-linked seller",
+      "label": "Livescoot Kids Boxy Tee",
+      "url": "https://livescoot.com/product/livescoot-kids-short-sleeve-fred-black",
+      "evidence": "Kids boxy/oversized 100% cotton 24s; S 1-2y, M 3-4y, L 5-6y, XL 7-8y, XXL 9-10y; Tokopedia linked."
+    },
+    {
+      "id": "S3",
+      "kind": "Tokopedia data-entry reference",
+      "label": "Children pajama marketplace sizing",
+      "url": "https://projects.co.id/public/past_projects/view/b62112/input-produk-dari-web-supplier-ke-tokopedia-dropshiper",
+      "evidence": "Pajama sizes 95-130 with top/pants measurements and cotton-spandex example."
+    },
+    {
+      "id": "S4",
+      "kind": "Tokopedia-linked seller",
+      "label": "Ihana Konveksi Kaos Kaki",
+      "url": "https://linktr.ee/ihanakonveksikaoskakibandung",
+      "evidence": "Character-print children socks including age 1-3 years; Tokopedia channel linked."
+    },
+    {
+      "id": "S5",
+      "kind": "Comparable child hoodie",
+      "label": "Magenta Room fleece child hoodie",
+      "url": "https://magentaroom.id/shop/jaket-hoodie-anak-captain-america/",
+      "evidence": "Fleece; S-XXL child chart 30x42 through 46x54 cm; listed product weight 350g."
+    },
+    {
+      "id": "S6",
+      "kind": "Tokopedia-linked seller",
+      "label": "500 ml child bottle",
+      "url": "https://msha.ke/ilmionegozio/",
+      "evidence": "500 ml child bottle; 19 cm tall, 7 cm diameter; Tokopedia link."
+    },
+    {
+      "id": "S7",
+      "kind": "Comparable current product",
+      "label": "LocknLock Schoolfit Kids Strap Tumbler 500ml",
+      "url": "https://www.blibli.com/p/locknlock-schoolfit-kids-strap-tumbler-500ml-lhc3314/ps--FEI-21513-00772",
+      "evidence": "500 ml; 70x70x220 mm; 290g; STS304 body."
+    },
+    {
+      "id": "S8",
+      "kind": "Custom e-money market reference",
+      "label": "Twin Digital Custom E-Money",
+      "url": "https://twindigital.id/produk/custom-e-money-kartu-e-toll/",
+      "evidence": "Mandiri E-Money or BCA Flazz custom UV print; 40g listing weight; Gen2 online top-up claim."
+    },
+    {
+      "id": "S9",
+      "kind": "Card physical standard",
+      "label": "ISO/IEC 7810 ID-1 reference",
+      "url": "https://www.roxtron.com/rfid-iso-card/",
+      "evidence": "CR80/ID-1 dimensions 85.60x53.98 mm, thickness about 0.80 mm, card weight about 5.8g."
+    },
+    {
+      "id": "S10",
+      "kind": "Tokopedia editorial/reference",
+      "label": "A5 notebook sizing",
+      "url": "https://tirto.id/pilih-binder-a5-buku-notebook-mahasiswa-baru-ada-di-tokopedia-gPnJ",
+      "evidence": "A5 notebook standard 14.8x21 cm; Tokopedia product context."
+    },
+    {
+      "id": "S11",
+      "kind": "Comparable current product",
+      "label": "A5 80-sheet notebook",
+      "url": "https://aimilo.id/products/aimilo-buku-catatan-notebook-a5-premium-buku-diary-aesthetic-cover-kulit-tahan-air-agenda-meeting-80-lembar",
+      "evidence": "A5-ish 142x210 mm, 80 sheets, 245g."
+    },
+    {
+      "id": "S12",
+      "kind": "Comparable drawing book",
+      "label": "Sinar Dunia A4 drawing book",
+      "url": "https://www.blibli.com/p/buku-gambar-drawing-book-a4-sinar-dunia-sidu/ps--RUP-70025-00029",
+      "evidence": "A4 about 21.5x30 cm, 120gsm, 10 sheets, 120g."
+    },
+    {
+      "id": "S13",
+      "kind": "Comparable drawing-book construction",
+      "label": "A4 20-sheet drawing book reference",
+      "url": "https://eprints.unm.ac.id/16711/1/SRI%20WULANDARI%2C%201386142007%2C%202018.pdf",
+      "evidence": "A4 drawing book 21x29.7 cm, 20 sheets, laminated cover reference."
+    }
+  ],
+  "products": [
+    {
+      "code": "001",
+      "title": "Kaos Anak Mainlagi — Sahabat Ceria Putih",
+      "currentStockTotal": 9,
+      "targetFacts": {
+        "color": "Putih",
+        "material": "Cotton Combed 24s",
+        "fit": "Regular kids unisex",
+        "print": "Mainlagi front graphic"
+      },
+      "confidence": "medium-high",
+      "sourceIds": [
+        "S1"
+      ],
+      "variants": [
+        {
+          "sku": "001-2Y",
+          "label": "2 Tahun",
+          "ageYears": "1-2",
+          "bodyWidthCm": 30,
+          "bodyLengthCm": 40,
+          "stock": 1,
+          "weightGrams": 150,
+          "packageMm": [
+            250,
+            200,
+            30
+          ]
+        },
+        {
+          "sku": "001-4Y",
+          "label": "4 Tahun",
+          "ageYears": "3-4",
+          "bodyWidthCm": 33,
+          "bodyLengthCm": 43,
+          "stock": 2,
+          "weightGrams": 160,
+          "packageMm": [
+            250,
+            200,
+            30
+          ]
+        },
+        {
+          "sku": "001-6Y",
+          "label": "6 Tahun",
+          "ageYears": "5-6",
+          "bodyWidthCm": 36,
+          "bodyLengthCm": 46,
+          "stock": 2,
+          "weightGrams": 170,
+          "packageMm": [
+            250,
+            200,
+            30
+          ]
+        },
+        {
+          "sku": "001-8Y",
+          "label": "8 Tahun",
+          "ageYears": "7-8",
+          "bodyWidthCm": 40,
+          "bodyLengthCm": 50,
+          "stock": 2,
+          "weightGrams": 180,
+          "packageMm": [
+            250,
+            200,
+            30
+          ]
+        },
+        {
+          "sku": "001-10Y",
+          "label": "10 Tahun",
+          "ageYears": "9-10",
+          "bodyWidthCm": 44,
+          "bodyLengthCm": 54,
+          "stock": 2,
+          "weightGrams": 190,
+          "packageMm": [
+            250,
+            200,
+            30
+          ]
+        }
+      ]
+    },
+    {
+      "code": "002",
+      "title": "Kaos Oversized Mainlagi — Back Graphic Hitam",
+      "currentStockTotal": 7,
+      "targetFacts": {
+        "color": "Hitam",
+        "material": "Cotton Combed 24s",
+        "fit": "Kids boxy / oversized",
+        "print": "Small front logo + Mainlagi back graphic"
+      },
+      "confidence": "medium",
+      "sourceIds": [
+        "S1",
+        "S2"
+      ],
+      "notes": "Marketplace source supplies age variants and boxy/cotton-24s construction but not exact garment measurements. Candidate measurements intentionally add ease versus regular kids tee and require sample confirmation.",
+      "variants": [
+        {
+          "sku": "002-S",
+          "label": "S",
+          "ageYears": "1-2",
+          "bodyWidthCm": 34,
+          "bodyLengthCm": 42,
+          "stock": 1,
+          "weightGrams": 170,
+          "packageMm": [
+            280,
+            240,
+            30
+          ]
+        },
+        {
+          "sku": "002-M",
+          "label": "M",
+          "ageYears": "3-4",
+          "bodyWidthCm": 37,
+          "bodyLengthCm": 46,
+          "stock": 1,
+          "weightGrams": 180,
+          "packageMm": [
+            280,
+            240,
+            30
+          ]
+        },
+        {
+          "sku": "002-L",
+          "label": "L",
+          "ageYears": "5-6",
+          "bodyWidthCm": 40,
+          "bodyLengthCm": 50,
+          "stock": 2,
+          "weightGrams": 190,
+          "packageMm": [
+            280,
+            240,
+            30
+          ]
+        },
+        {
+          "sku": "002-XL",
+          "label": "XL",
+          "ageYears": "7-8",
+          "bodyWidthCm": 43,
+          "bodyLengthCm": 54,
+          "stock": 2,
+          "weightGrams": 200,
+          "packageMm": [
+            280,
+            240,
+            30
+          ]
+        },
+        {
+          "sku": "002-XXL",
+          "label": "XXL",
+          "ageYears": "9-10",
+          "bodyWidthCm": 46,
+          "bodyLengthCm": 58,
+          "stock": 1,
+          "weightGrams": 210,
+          "packageMm": [
+            280,
+            240,
+            30
+          ]
+        }
+      ]
+    },
+    {
+      "code": "003",
+      "title": "Piyama Anak Gavi — Cozy Set Putih",
+      "currentStockTotal": 6,
+      "targetFacts": {
+        "color": "Putih",
+        "material": "Cotton-spandex jersey",
+        "set": "Atasan + celana",
+        "print": "Repeated Gavi pattern"
+      },
+      "confidence": "medium",
+      "sourceIds": [
+        "S3"
+      ],
+      "variants": [
+        {
+          "sku": "003-95",
+          "label": "95",
+          "ageYears": "2-3",
+          "topWidthCm": 30,
+          "topLengthCm": 39,
+          "pantsWidthCm": 22,
+          "pantsLengthCm": 52,
+          "stock": 1,
+          "weightGrams": 220,
+          "packageMm": [
+            300,
+            250,
+            40
+          ]
+        },
+        {
+          "sku": "003-100",
+          "label": "100",
+          "ageYears": "3-4",
+          "topWidthCm": 31,
+          "topLengthCm": 40,
+          "pantsWidthCm": 23,
+          "pantsLengthCm": 55,
+          "stock": 1,
+          "weightGrams": 230,
+          "packageMm": [
+            300,
+            250,
+            40
+          ]
+        },
+        {
+          "sku": "003-110",
+          "label": "110",
+          "ageYears": "4-5",
+          "topWidthCm": 32,
+          "topLengthCm": 41,
+          "pantsWidthCm": 24,
+          "pantsLengthCm": 58,
+          "stock": 2,
+          "weightGrams": 240,
+          "packageMm": [
+            300,
+            250,
+            40
+          ]
+        },
+        {
+          "sku": "003-120",
+          "label": "120",
+          "ageYears": "5-6",
+          "topWidthCm": 33,
+          "topLengthCm": 42,
+          "pantsWidthCm": 25,
+          "pantsLengthCm": 61,
+          "stock": 1,
+          "weightGrams": 250,
+          "packageMm": [
+            300,
+            250,
+            40
+          ]
+        },
+        {
+          "sku": "003-130",
+          "label": "130",
+          "ageYears": "6-7",
+          "topWidthCm": 34,
+          "topLengthCm": 43,
+          "pantsWidthCm": 26,
+          "pantsLengthCm": 64,
+          "stock": 1,
+          "weightGrams": 260,
+          "packageMm": [
+            300,
+            250,
+            40
+          ]
+        }
+      ]
+    },
+    {
+      "code": "004",
+      "title": "Kaos Kaki Karakter Mainlagi",
+      "currentStockTotal": 12,
+      "targetFacts": {
+        "unit": "1 pasang",
+        "construction": "Character-print kids socks",
+        "material": "Cotton-blend knit"
+      },
+      "confidence": "low-medium",
+      "sourceIds": [
+        "S4"
+      ],
+      "notes": "Age bands are marketplace-derived; foot-length ranges are planning estimates and must be checked against supplier/sample.",
+      "variants": [
+        {
+          "sku": "004-1-3Y",
+          "label": "1-3 Tahun",
+          "footLengthCm": "12-14",
+          "stock": 4,
+          "weightGrams": 50,
+          "packageMm": [
+            180,
+            120,
+            30
+          ]
+        },
+        {
+          "sku": "004-4-6Y",
+          "label": "4-6 Tahun",
+          "footLengthCm": "15-17",
+          "stock": 4,
+          "weightGrams": 55,
+          "packageMm": [
+            180,
+            120,
+            30
+          ]
+        },
+        {
+          "sku": "004-7-10Y",
+          "label": "7-10 Tahun",
+          "footLengthCm": "18-20",
+          "stock": 4,
+          "weightGrams": 60,
+          "packageMm": [
+            180,
+            120,
+            30
+          ]
+        }
+      ]
+    },
+    {
+      "code": "005",
+      "title": "Hoodie Anak Mainlagi — Navy Back Graphic",
+      "currentStockTotal": 8,
+      "targetFacts": {
+        "color": "Navy",
+        "material": "Fleece",
+        "fit": "Regular kids hoodie",
+        "print": "Mainlagi back graphic"
+      },
+      "confidence": "medium-high",
+      "sourceIds": [
+        "S5"
+      ],
+      "variants": [
+        {
+          "sku": "005-S",
+          "label": "S",
+          "ageYears": "2-3",
+          "bodyWidthCm": 30,
+          "bodyLengthCm": 42,
+          "stock": 1,
+          "weightGrams": 350,
+          "packageMm": [
+            320,
+            280,
+            60
+          ]
+        },
+        {
+          "sku": "005-M",
+          "label": "M",
+          "ageYears": "4-5",
+          "bodyWidthCm": 34,
+          "bodyLengthCm": 46,
+          "stock": 2,
+          "weightGrams": 380,
+          "packageMm": [
+            320,
+            280,
+            60
+          ]
+        },
+        {
+          "sku": "005-L",
+          "label": "L",
+          "ageYears": "6-7",
+          "bodyWidthCm": 38,
+          "bodyLengthCm": 50,
+          "stock": 2,
+          "weightGrams": 400,
+          "packageMm": [
+            320,
+            280,
+            60
+          ]
+        },
+        {
+          "sku": "005-XL",
+          "label": "XL",
+          "ageYears": "8-9",
+          "bodyWidthCm": 42,
+          "bodyLengthCm": 52,
+          "stock": 2,
+          "weightGrams": 420,
+          "packageMm": [
+            320,
+            280,
+            60
+          ]
+        },
+        {
+          "sku": "005-XXL",
+          "label": "XXL",
+          "ageYears": "10-11",
+          "bodyWidthCm": 46,
+          "bodyLengthCm": 54,
+          "stock": 1,
+          "weightGrams": 450,
+          "packageMm": [
+            320,
+            280,
+            60
+          ]
+        }
+      ]
+    },
+    {
+      "code": "006",
+      "title": "Tumbler Anak Mainlagi — Daily Buddy",
+      "currentStockTotal": 10,
+      "targetFacts": {
+        "capacityMl": 500,
+        "targetBodyMaterial": "STS304 stainless body",
+        "targetBodyDiameterMm": 70,
+        "targetBodyHeightMm": 220
+      },
+      "confidence": "medium",
+      "sourceIds": [
+        "S6",
+        "S7"
+      ],
+      "variants": [
+        {
+          "sku": "006-500ML",
+          "label": "500 ml",
+          "stock": 10,
+          "weightGrams": 350,
+          "packageMm": [
+            90,
+            90,
+            240
+          ]
+        }
+      ]
+    },
+    {
+      "code": "007",
+      "title": "Kartu E-Money Mainlagi — Character Edition",
+      "currentStockTotal": 7,
+      "targetFacts": {
+        "procurementTarget": "Mandiri E-Money Gen2 custom UV print",
+        "issuerTarget": "Bank Mandiri",
+        "startingBalanceRupiah": 0,
+        "cardStandard": "ISO/IEC 7810 ID-1 / CR80",
+        "cardWidthMm": 85.6,
+        "cardHeightMm": 53.98,
+        "cardThicknessMm": 0.8
+      },
+      "confidence": "medium",
+      "sourceIds": [
+        "S8",
+        "S9"
+      ],
+      "notes": "Issuer/function is a PROCUREMENT TARGET, not a verified fact of the existing Mainlagi asset. Supplier must confirm genuine issued card, Gen2/NFC top-up behavior, and zero starting balance before activation.",
+      "variants": [
+        {
+          "sku": "007-MANDIRI-GEN2",
+          "label": "Mandiri E-Money Gen2",
+          "stock": 7,
+          "weightGrams": 40,
+          "packageMm": [
+            100,
+            70,
+            10
+          ]
+        }
+      ]
+    },
+    {
+      "code": "008",
+      "title": "Buku Tulis Mainlagi — Writing Notebook",
+      "currentStockTotal": 11,
+      "targetFacts": {
+        "size": "A5",
+        "widthMm": 148,
+        "heightMm": 210,
+        "pageStyle": "Bergaris",
+        "sheets": 80,
+        "targetThicknessMm": 12
+      },
+      "confidence": "high",
+      "sourceIds": [
+        "S10",
+        "S11"
+      ],
+      "variants": [
+        {
+          "sku": "008-A5-80-LINED",
+          "label": "A5 / 80 lembar / bergaris",
+          "stock": 11,
+          "weightGrams": 300,
+          "packageMm": [
+            220,
+            160,
+            20
+          ]
+        }
+      ]
+    },
+    {
+      "code": "009",
+      "title": "Buku Gambar Mainlagi — Drawing Book",
+      "currentStockTotal": 9,
+      "targetFacts": {
+        "size": "A4",
+        "widthMm": 210,
+        "heightMm": 297,
+        "targetPaperGsm": 120,
+        "targetSheets": 20,
+        "pageStyle": "Polos"
+      },
+      "confidence": "medium-high",
+      "sourceIds": [
+        "S12",
+        "S13"
+      ],
+      "variants": [
+        {
+          "sku": "009-A4-120GSM-20",
+          "label": "A4 / 120 gsm / 20 lembar",
+          "stock": 9,
+          "weightGrams": 250,
+          "packageMm": [
+            310,
+            230,
+            10
+          ]
+        }
+      ]
+    }
+  ],
+  "totals": {
+    "products": 9,
+    "proposedVariants": 27,
+    "allocatedStockUnits": 79
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "version": "2026-09-27-biteship-sandbox-v1",
+  "purpose": "Testing-only Biteship sandbox fixture. These weights/dimensions are provisional test values, not verified production physical facts.",
+  "productionUseAllowed": false,
+  "notes": [
+    "Stock values mirror current Mainlagi Shop seed totals.",
+    "SKUs mirror current seeded DEFAULT variants.",
+    "Replace all weights/dimensions with measured packed-parcel values before production activation.",
+    "Apparel 001-005 still require real size variants, size chart, and real stock split before production."
+  ],
+  "products": [
+    {
+      "code": "001",
+      "sku": "001-DEFAULT",
+      "stock": 9,
+      "weight_grams": 200,
+      "length_mm": 300,
+      "width_mm": 250,
+      "height_mm": 40
+    },
+    {
+      "code": "002",
+      "sku": "002-DEFAULT",
+      "stock": 7,
+      "weight_grams": 250,
+      "length_mm": 320,
+      "width_mm": 270,
+      "height_mm": 50
+    },
+    {
+      "code": "003",
+      "sku": "003-DEFAULT",
+      "stock": 6,
+      "weight_grams": 400,
+      "length_mm": 320,
+      "width_mm": 270,
+      "height_mm": 60
+    },
+    {
+      "code": "004",
+      "sku": "004-DEFAULT",
+      "stock": 12,
+      "weight_grams": 120,
+      "length_mm": 220,
+      "width_mm": 150,
+      "height_mm": 40
+    },
+    {
+      "code": "005",
+      "sku": "005-DEFAULT",
+      "stock": 8,
+      "weight_grams": 700,
+      "length_mm": 380,
+      "width_mm": 320,
+      "height_mm": 100
+    },
+    {
+      "code": "006",
+      "sku": "006-DEFAULT",
+      "stock": 10,
+      "weight_grams": 500,
+      "length_mm": 280,
+      "width_mm": 120,
+      "height_mm": 120
+    },
+    {
+      "code": "007",
+      "sku": "007-DEFAULT",
+      "stock": 7,
+      "weight_grams": 80,
+      "length_mm": 180,
+      "width_mm": 120,
+      "height_mm": 30
+    },
+    {
+      "code": "008",
+      "sku": "008-DEFAULT",
+      "stock": 11,
+      "weight_grams": 350,
+      "length_mm": 300,
+      "width_mm": 220,
+      "height_mm": 30
+    },
+    {
+      "code": "009",
+      "sku": "009-DEFAULT",
+      "stock": 9,
+      "weight_grams": 450,
+      "length_mm": 350,
+      "width_mm": 270,
+      "height_mm": 30
+    }
+  ]
+}

@@ -189,10 +189,10 @@ async function assertJm02Header(page, viewport, { backHref, currentHref, exercis
     currentHref,
     `JM-02 active product area drifted at ${viewport.width}px`
   );
-  const shop = menu.locator('[data-mainlagi-shop-slot="disabled"]');
-  assert.equal(await shop.count(), 1, `JM-02 Shop fail-closed slot missing at ${viewport.width}px`);
-  assert.equal(await shop.getAttribute("aria-disabled"), "true", `JM-02 Shop must remain disabled at ${viewport.width}px`);
-  assert.equal(await menu.locator('a[href*="/shop"]').count(), 0, "JM-02 must not fabricate a child Shop route");
+  const shop = menu.locator('[data-mainlagi-shop-slot="parent-gated"]');
+  assert.equal(await shop.count(), 1, `JM-02 parent-gated Shop entry missing at ${viewport.width}px`);
+  assert.equal(await shop.getAttribute("href"), "/shop/parent-entry", `JM-02 Shop must route through parent gate at ${viewport.width}px`);
+  assert.equal(await menu.locator('a[href="/shop/parent-entry"]').count(), 1, "JM-02 must expose exactly one parent-gated Shop route");
 
   const profileDetails = header.locator("[data-mainlagi-profile-menu]");
   const profileSummary = profileDetails.locator("summary");

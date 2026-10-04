@@ -14,6 +14,13 @@ const COPY: Record<Mode, { title: string; cta: string }> = {
   forgot: { title: "Lupa kata sandi", cta: "Kirim tautan" }
 };
 
+function postAuthPath() {
+  if (typeof window === "undefined") return "/account";
+  const next = new URLSearchParams(window.location.search).get("next");
+  if (!next || !next.startsWith("/") || next.startsWith("//")) return "/account";
+  return next;
+}
+
 /**
  * Email/password auth form (login, signup, forgot-password).
  *
@@ -49,12 +56,12 @@ export function AuthForm({ mode }: { mode: Mode }) {
         if (data.user && !data.session) {
           setMessage("Cek email untuk konfirmasi, lalu masuk.");
         } else {
-          router.replace("/account");
+          router.replace(postAuthPath());
         }
       } else {
         const { error } = await client.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        router.replace("/account");
+        router.replace(postAuthPath());
       }
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Terjadi kesalahan.");
