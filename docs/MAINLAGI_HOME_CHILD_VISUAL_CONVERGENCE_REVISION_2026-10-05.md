@@ -1,6 +1,6 @@
 # MAINLAGI HOME ↔ CHILD HOME VISUAL CONVERGENCE REVISION
 **Date:** 2026-10-05  
-**Status:** IMPLEMENTED / MERGED / LIVE VERIFIED  
+**Status:** PHASE 1 LIVE VERIFIED; PHASE 2 CANONICAL ACCOUNT + NAVIGATION REVISION APPROVED / IN IMPLEMENTATION  
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 **Current baseline:** `main@372007eeca26e2f3d90fe577109668fa88511d04`
 
@@ -876,3 +876,259 @@ Regression coverage now locks:
 The short-lived implementation branch was removed after merge by repository branch hygiene.
 
 This document is now the canonical design + implementation closure for the Home ↔ Child Home visual convergence package.
+
+
+---
+
+# 29. Phase 2 — Canonical Account + Navigation Architecture Revision
+
+**Decision date:** 5 October 2026  
+**Baseline:** `main@7f122ec9b391a71c5a5a7dbd2e092661ff03d037`  
+**Status:** APPROVED FOR IMPLEMENTATION
+
+Phase 1 solved the largest Home ↔ Child Home visual split. The next audit showed that Mainlagi still exposes multiple competing navigation/account models:
+
+- public/account routes use `AppShell -> TopNavbar`;
+- child routes use `WorldChildShell -> PlayroomShell`;
+- parent routes use `ParentShell` with its own sidebar/mobile navigation;
+- auth routes use `AuthFamilyShell` without the global Mainlagi menu;
+- `/account` and `/parent` both behave like adult/family areas;
+- `/about` and `/account/about` contain stale, duplicate product descriptions;
+- signed-out users can currently create persistent local child profiles, while signed-in users create cloud profiles.
+
+This produces unnecessary cognitive switching and makes Mainlagi feel like multiple adjacent products.
+
+## 29.1 Canonical product decision
+
+Mainlagi will use:
+
+> **one global Mainlagi navigation model + one authenticated family account + one parent area + child-specific subnavigation.**
+
+Global navigation and contextual navigation are separate concepts.
+
+### Global Mainlagi navigation
+
+The visible global menu order is canonical:
+
+```text
+Beranda
+Belajar
+Bermain
+World
+Shop
+Bacaan & ide
+Area orang tua
+Tentang Mainlagi
+```
+
+The order and labels must not change between public, child, parent, account, or auth browsing surfaces.
+
+Destinations may resolve by context:
+
+- with active child: Belajar/Bermain/World resolve directly into that child;
+- without active child but authenticated: resolve through child selection;
+- signed out: child-owned production journeys resolve through account entry / child selection;
+- Shop remains parent-gated until commerce release gates change;
+- immersive activity/gameplay routes remain allowed to suppress the global menu.
+
+## 29.2 Canonical header
+
+Non-immersive product surfaces use the same three-zone header:
+
+```text
+☰ Menu           Mainlagi           identity/context
+```
+
+Rules:
+
+- left = global Mainlagi menu;
+- center = Mainlagi wordmark;
+- right = current identity/context;
+- signed out right label = `Masuk`;
+- parent/account context = family/account identity;
+- child context = active child identity;
+- header geometry and menu order remain stable when switching mode.
+
+The child identity dropdown is contextual and may contain:
+
+```text
+Ganti profil anak
+Koleksi bintang
+Suara
+Kembali ke area orang tua
+```
+
+It is not a replacement for the global Mainlagi menu.
+
+## 29.3 Account-first production model
+
+Production child profiles require a family account.
+
+Canonical rule:
+
+```text
+SIGNED OUT
+  ├─ browse public Mainlagi
+  ├─ sign up / sign in
+  └─ try Gian Demo
+
+AUTHENTICATED FAMILY
+  ├─ create cloud child profile
+  ├─ choose child profile
+  ├─ enter child mode
+  └─ enter parent area
+```
+
+Signed-out users must not create new persistent production child profiles.
+
+The guest exception is explicit:
+
+> **Gian Demo remains available as the only no-account child sandbox.**
+
+Existing local-profile compatibility must not silently become a new production identity model.
+
+## 29.4 Parent/account convergence
+
+`/parent` is the canonical adult/family product area.
+
+It owns:
+
+```text
+Ringkasan
+Anak
+Laporan / perkembangan
+Privasi
+Pengaturan
+Akun
+Paket
+```
+
+`/account/*` may remain temporarily as compatibility/account-setting routes, but it must not present itself as a competing second "Area orang tua".
+
+Global navigation must route **Area orang tua → /parent**.
+
+Account settings may be linked from Parent Pengaturan.
+
+## 29.5 About cleanup
+
+Canonical About route:
+
+```text
+/about
+```
+
+`/account/about` is retired as a product-information owner and should redirect to `/about`.
+
+The canonical About copy must describe current Mainlagi, not the old motion-only prototype.
+
+Required current framing:
+
+- children 3–7;
+- Belajar + Bermain/Main Gerak + World;
+- stage-based learning;
+- touch, audio, trace, color, story and other approved learning interactions;
+- motion/camera gameplay is optional, not the whole product;
+- five canonical characters: Naya, Gian, Zia, Paca, Gavi;
+- parent progress/reporting area;
+- Indonesian/English direction where currently supported;
+- no stale "10 motion games are the product" framing;
+- no stale "teacher/presenter is a primary audience" framing unless re-approved separately.
+
+## 29.6 Auth surface convergence
+
+`/login`, `/signup`, `/forgot-password`, `/reset-password`, and auth callback/status flows are family/account surfaces, not gameplay.
+
+They should retain the Mainlagi brand and expose the same global menu/header where navigation is safe.
+
+Successful authentication defaults should support the canonical family flow rather than sending users into a separate legacy account world.
+
+Preferred entry intent:
+
+```text
+Mulai untuk anak
+→ /child/select
+→ if signed out: sign up / sign in + Gian Demo
+→ if authenticated: create/select cloud child
+→ child home
+
+Area orang tua
+→ if signed out: login
+→ if authenticated: /parent
+```
+
+## 29.7 Parent subnavigation
+
+Parent-specific navigation remains useful, especially on desktop, but is a **subnavigation** underneath the global Mainlagi header.
+
+It must not replace global navigation.
+
+Conceptually:
+
+```text
+GLOBAL
+  Beranda / Belajar / Bermain / World / Shop / Bacaan & ide / Area orang tua / Tentang
+
+PARENT SUBNAV
+  Ringkasan / Anak / Privasi / Paket / Pengaturan / Akun
+```
+
+## 29.8 Immersive exception
+
+The global header/menu may be hidden only when the user is inside a truly immersive experience, for example:
+
+- active learning activity;
+- active World stage;
+- active motion gameplay.
+
+Browsing, profile selection, login/signup, parent dashboards, account settings, About, Discover, Games directory, and other navigation pages are not immersive.
+
+## 29.9 Implementation scope
+
+Phase 2 implementation should:
+
+1. centralize the global Mainlagi menu definition;
+2. reuse it from public, child, parent and auth non-immersive surfaces;
+3. make `/parent` the canonical Area Orang Tua destination;
+4. enforce account-first production child-profile creation while preserving Gian Demo;
+5. update stale About content and retire `/account/about` as an owner;
+6. remove remaining public bottom-navigation ownership where it conflicts with the new global-menu model;
+7. preserve all existing learning/mastery/progression/World/Motion semantics;
+8. preserve Shop parent-gating;
+9. add permanent tests for menu order, auth-first profile rules, About redirect/content, and cross-surface header presence.
+
+## 29.10 Non-goals
+
+This phase does **not**:
+
+- redesign learning activities;
+- change mastery/evidence rules;
+- change World progression;
+- change Motion Engine gameplay;
+- activate Shop transactions;
+- change certificate criteria;
+- change billing/entitlement;
+- invent new product claims.
+
+## 29.11 Acceptance criteria
+
+Phase 2 is complete when:
+
+- [ ] Public, child, parent and auth browsing surfaces expose the same global menu labels/order.
+- [ ] Menu is always on the left on non-immersive surfaces.
+- [ ] Mainlagi wordmark remains centered.
+- [ ] Right-side identity changes by context without changing global navigation.
+- [ ] `Area orang tua` resolves to `/parent`.
+- [ ] Signed-out users cannot create new production child profiles.
+- [ ] Signed-out users can still use Gian Demo.
+- [ ] Signed-in users can create/select cloud child profiles.
+- [ ] Parent remains server-auth-gated.
+- [ ] Parent subnavigation remains available without replacing global navigation.
+- [ ] `/about` contains current Mainlagi positioning.
+- [ ] `/account/about` redirects to `/about`.
+- [ ] Auth pages preserve Mainlagi global navigation.
+- [ ] Truly immersive activity/gameplay routes may still suppress global navigation.
+- [ ] Shop remains parent-gated.
+- [ ] No regression to learning/mastery/progression/World/Motion behavior.
+- [ ] Responsive QA remains green at canonical viewport matrix.
+- [ ] Production smoke verifies the exact merged SHA.
+
