@@ -43,12 +43,13 @@ export function AppShell({ children }: { children: ReactNode }) {
   if (immersive) return <>{children}</>;
 
   const isAccount = pathname.startsWith("/account");
+  const isPublicHome = pathname === "/";
   return (
     <div className="app-shell">
       <TopNavbar />
-      <div className="app-shell__main">{children}</div>
+      <div className={`app-shell__main ${isPublicHome ? "app-shell__main--home" : ""}`}>{children}</div>
       {isAccount ? <SiteFooter /> : null}
-      <BottomNavbar />
+      {isPublicHome ? null : <BottomNavbar />}
     </div>
   );
 }
