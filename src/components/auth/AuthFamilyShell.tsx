@@ -29,7 +29,7 @@ export function AuthFamilyShell({ children }: { children: ReactNode }) {
             Gian Demo tetap bisa dicoba tanpa akun.
           </p>
           <ul className={styles.facts}>
-            <li><span className={styles.factMark} aria-hidden>✓</span>Profil anak production tersimpan di akun keluarga</li>
+            <li><span className={styles.factMark} aria-hidden>✓</span>Profil anak tersimpan di akun keluarga</li>
             <li><span className={styles.factMark} aria-hidden>✓</span>Progress dan pengaturan keluarga tersedia lintas perangkat</li>
             <li><span className={styles.factMark} aria-hidden>✓</span>Gian Demo tetap tersedia tanpa akun</li>
           </ul>
