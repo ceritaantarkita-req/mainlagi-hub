@@ -1,5 +1,17 @@
 # Changelog
 
+## 5 October 2026 — GITHUB REPOSITORY BRANCH CLEANUP CLOSED
+
+- Audited the full remote branch namespace: **528 branch refs** at cleanup execution.
+- Closed all remaining stale open PRs as historical/superseded/inactive instead of rebasing or merging them into current `main`.
+- Created verified pre-cleanup recovery release `repo-branch-archive-20261004-precleanup` containing the complete Git bundle, branch-tip TSV manifest and SHA-256 checksum.
+- One-time cleanup run **37208504551 SUCCESS** deleted **527 non-main branches** and verified exactly `main` remained.
+- Archive metadata repair run **37222348367 SUCCESS** verified the three release assets and repaired literal cleanup metadata.
+- Added permanent `.github/workflows/branch-hygiene.yml` so merged same-repository PR head branches are deleted automatically.
+- Removed completed one-shot cleanup/repair workflows from the permanent repository surface.
+- Product/runtime behavior was not changed.
+- Canonical closure: `REPOSITORY_FINAL_STATE_2026-10-05.md`.
+
 ## 4 October 2026 — SHOP POLICIES CLOUDFLARE 1102 FIXED
 
 - Production `/shop/policies` returned Cloudflare **Error 1102 — Worker exceeded resource limits** while `/shop` remained healthy.
