@@ -1009,15 +1009,18 @@ Global navigation must route **Area orang tua → /parent**.
 
 Account settings may be linked from Parent Pengaturan.
 
-## 29.5 About cleanup
+## 29.5 About + FAQ cleanup
 
-Canonical About route:
+Canonical product-information routes:
 
 ```text
 /about
+/faq
 ```
 
 `/account/about` is retired as a product-information owner and should redirect to `/about`.
+
+Both `/about` and `/faq` must describe the same current product/account model. FAQ must not restore the old motion-only, all-games-without-account, TK–SD, weekly-leaderboard, or teacher/presenter positioning.
 
 The canonical About copy must describe current Mainlagi, not the old motion-only prototype.
 
@@ -1090,7 +1093,7 @@ Phase 2 implementation should:
 2. reuse it from public, child, parent and auth non-immersive surfaces;
 3. make `/parent` the canonical Area Orang Tua destination;
 4. enforce account-first production child-profile creation while preserving Gian Demo;
-5. update stale About content and retire `/account/about` as an owner;
+5. update stale About + FAQ content and retire `/account/about` as an owner;
 6. remove remaining public bottom-navigation ownership where it conflicts with the new global-menu model;
 7. preserve all existing learning/mastery/progression/World/Motion semantics;
 8. preserve Shop parent-gating;
@@ -1124,6 +1127,7 @@ Phase 2 is complete when:
 - [ ] Parent remains server-auth-gated.
 - [ ] Parent subnavigation remains available without replacing global navigation.
 - [ ] `/about` contains current Mainlagi positioning.
+- [ ] `/faq` matches the same current product/account model.
 - [ ] `/account/about` redirects to `/about`.
 - [ ] Auth pages preserve Mainlagi global navigation.
 - [ ] Truly immersive activity/gameplay routes may still suppress global navigation.
