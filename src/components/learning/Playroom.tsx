@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Icon } from "@/components/Icon";
+import { MainlagiLeftDrawer, type MainlagiDrawerItem } from "@/components/nav/MainlagiLeftDrawer";
 import { SUBJECTS } from "@/lib/learning/system";
 import { rememberChild } from "@/lib/learning/entry";
 import { coreSubjectThumbnail } from "@/lib/learning/coreThumbnailRegistry";
@@ -61,7 +62,6 @@ export function PlayroomShell({ childId, children }: { childId?: string; childre
   const pathname = usePathname();
   const profile = useLearningProfile(childId ?? "");
   const [muted, updateMuted] = useState(false);
-  const navRef = useRef<HTMLDetailsElement>(null);
   const profileRef = useRef<HTMLDetailsElement>(null);
 
   useEffect(() => {
@@ -74,13 +74,11 @@ export function PlayroomShell({ childId, children }: { childId?: string; childre
   }, []);
 
   useEffect(() => {
-    if (navRef.current) navRef.current.open = false;
     if (profileRef.current) profileRef.current.open = false;
   }, [pathname]);
 
   useEffect(() => {
     const closeAll = () => {
-      if (navRef.current) navRef.current.open = false;
       if (profileRef.current) profileRef.current.open = false;
     };
     const onKeyDown = (event: KeyboardEvent) => {
@@ -89,7 +87,6 @@ export function PlayroomShell({ childId, children }: { childId?: string; childre
     const onPointerDown = (event: PointerEvent) => {
       const target = event.target;
       if (!(target instanceof Node)) return;
-      if (navRef.current?.open && !navRef.current.contains(target)) navRef.current.open = false;
       if (profileRef.current?.open && !profileRef.current.contains(target)) profileRef.current.open = false;
     };
     document.addEventListener("keydown", onKeyDown);
@@ -117,11 +114,31 @@ export function PlayroomShell({ childId, children }: { childId?: string; childre
         { id: "world" as const, label: "World", href: "/worlds/money-festival" }
       ];
 
+  const drawerItems: MainlagiDrawerItem[] = [
+    ...destinations.map((item) => ({
+      href: item.href,
+      label: item.label,
+      description:
+        item.id === "belajar"
+          ? "Belajar dan lanjutkan perjalanan"
+          : item.id === "bermain"
+            ? "Main Gerak"
+            : "Petualangan Mainlagi",
+      current: routeState.currentSection === item.id
+    })),
+    {
+      href: "/shop/parent-entry",
+      label: "Shop",
+      description: "Buka bersama orang tua"
+    }
+  ];
+
   return (
     <div className={styles.shell}>
       {!immersive ? (
         <header className={styles.header} data-mainlagi-jm02-header="v1">
           <div className={styles.headerBackSlot}>
+            <MainlagiLeftDrawer items={drawerItems} ariaLabel="Menu utama Mainlagi" />
             {routeState.backHref ? (
               <Link
                 href={routeState.backHref}
@@ -140,44 +157,6 @@ export function PlayroomShell({ childId, children }: { childId?: string; childre
           </Link>
 
           <div className={styles.headerActions}>
-            <details ref={navRef} className={styles.productNav} data-mainlagi-product-nav>
-              <summary aria-label="Buka menu utama">
-                <span>Menu</span>
-                <span className={styles.summaryChevron} aria-hidden />
-              </summary>
-              <nav className={styles.productMenu} aria-label="Area Mainlagi">
-                {destinations.map((item) => (
-                  <Link
-                    key={item.id}
-                    href={item.href}
-                    aria-current={routeState.currentSection === item.id ? "page" : undefined}
-                    onClick={() => {
-                      if (navRef.current) navRef.current.open = false;
-                    }}
-                  >
-                    <strong>{item.label}</strong>
-                    <small>
-                      {item.id === "belajar"
-                        ? "Belajar dan lanjutkan perjalanan"
-                        : item.id === "bermain"
-                          ? "Main Gerak"
-                          : "Petualangan Mainlagi"}
-                    </small>
-                  </Link>
-                ))}
-                <Link
-                  href="/shop/parent-entry"
-                  data-mainlagi-shop-slot="parent-gated"
-                  onClick={() => {
-                    if (navRef.current) navRef.current.open = false;
-                  }}
-                >
-                  <strong>Shop</strong>
-                  <small>Buka bersama orang tua</small>
-                </Link>
-              </nav>
-            </details>
-
             <details ref={profileRef} className={styles.profile} data-mainlagi-profile-menu>
               <summary aria-label="Pengaturan profil">
                 <span className={styles.profileIcon}><Icon name="account" size={22} /></span>
