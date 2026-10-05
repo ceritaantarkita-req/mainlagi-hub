@@ -1,15 +1,21 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useProfileCollection } from "@/components/learning/CloudProfileScreens";
 import { readActiveChild, childDestination } from "@/lib/learning/entry";
 import { SubjectDirectory } from "@/components/learning/Playroom";
-import { CORE_SURFACE_THUMBNAILS } from "@/lib/learning/coreThumbnailRegistry";
+import { resolveCharacterPresentation } from "@/lib/learning/characterPresentation";
 import styles from "./PublicHome.module.css";
+
+const PUBLIC_HERO_CAST = resolveCharacterPresentation({
+  context: "home",
+  requestedCharacters: ["naya", "gian", "paca", "zia", "gavi"],
+  requestedState: "hero",
+  allowIdentityFallback: false
+}).characters;
 
 export function HomePage() {
   const collection = useProfileCollection();
@@ -50,17 +56,27 @@ export function HomePage() {
           </div>
         </div>
 
-        <div className={styles.heroMedia} data-mainlagi-public-home-hero aria-hidden>
-          <Image
-            className={styles.heroImage}
-            src={CORE_SURFACE_THUMBNAILS.childHomeHero}
-            alt=""
-            width={1200}
-            height={900}
-            sizes="(max-width: 760px) 100vw, 520px"
-            priority
-            draggable={false}
-          />
+        <div
+          className={styles.heroMedia}
+          data-mainlagi-public-home-hero
+          data-session14-vector-cast="public-home"
+          aria-hidden
+        >
+          <div className={styles.heroCast}>
+            {PUBLIC_HERO_CAST.map((character) => (
+              <img
+                key={character.id}
+                src={character.src}
+                alt=""
+                width={260}
+                height={360}
+                draggable={false}
+                data-character-id={character.id}
+                data-character-state={character.state}
+                data-character-asset-source={character.assetSource}
+              />
+            ))}
+          </div>
         </div>
       </section>
 
