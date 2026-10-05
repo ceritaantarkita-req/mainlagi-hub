@@ -178,6 +178,7 @@ export function ParentSettingsScreen() {
             <p>Informasi produk ditempatkan di area orang tua/public, bukan di navigasi anak.</p>
           </div>
           <div className={styles.settingsLinks}>
+            <Link href="/account" className={styles.settingsLink}><span>Akun keluarga</span><strong aria-hidden>→</strong></Link>
             <Link href="/parent/plan" className={styles.settingsLink}><span>Paket Mainlagi</span><strong aria-hidden>→</strong></Link>
             <Link href="/about" className={styles.settingsLink}><span>Tentang Mainlagi</span><strong aria-hidden>→</strong></Link>
             <Link href="/faq" className={styles.settingsLink}><span>FAQ</span><strong aria-hidden>→</strong></Link>
