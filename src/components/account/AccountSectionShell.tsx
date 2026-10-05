@@ -14,12 +14,12 @@ export function AccountSectionShell({
   return (
     <main className={styles.page} data-mainlagi-account-section>
       <div className={styles.shell}>
-        <Link className={styles.back} href="/account">
-          ← Kembali ke akun
+        <Link className={styles.back} href="/parent">
+          ← Kembali ke area orang tua
         </Link>
 
         <header className={styles.header}>
-          <p className={styles.eyebrow}>Area orang tua</p>
+          <p className={styles.eyebrow}>Pengaturan akun</p>
           <h1>{title}</h1>
           {description ? <p className={styles.description}>{description}</p> : null}
         </header>
