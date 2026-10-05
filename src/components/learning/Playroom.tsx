@@ -6,15 +6,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Icon } from "@/components/Icon";
-import { MainlagiLeftDrawer, type MainlagiDrawerItem } from "@/components/nav/MainlagiLeftDrawer";
+import { MainlagiLeftDrawer } from "@/components/nav/MainlagiLeftDrawer";
 import { SUBJECTS } from "@/lib/learning/system";
 import { rememberChild } from "@/lib/learning/entry";
 import { coreSubjectThumbnail } from "@/lib/learning/coreThumbnailRegistry";
-import {
-  journeyHeaderDestinations,
-  resolveJourneyHeaderRoute,
-  type JourneyHeaderSection
-} from "@/lib/learning/journeyHeader";
+import { resolveJourneyHeaderRoute } from "@/lib/learning/journeyHeader";
+import { buildMainlagiGlobalMenu } from "@/lib/navigation/mainlagiGlobal";
 import { isMuted, setMuted, unlockAudio } from "@/lib/audio/feedback";
 import { useLearningProfile } from "./LearningCommon";
 import styles from "./Playroom.module.css";
@@ -50,12 +47,6 @@ export function SubjectDirectory({ childId }: { childId?: string }) {
       })}
     </div>
   );
-}
-
-function fallbackSection(pathname: string): JourneyHeaderSection {
-  if (pathname.startsWith("/games")) return "bermain";
-  if (pathname.startsWith("/world")) return "world";
-  return "belajar";
 }
 
 export function PlayroomShell({ childId, children }: { childId?: string; children: ReactNode }) {
@@ -104,35 +95,9 @@ export function PlayroomShell({ childId, children }: { childId?: string; childre
 
   const routeState = childId
     ? resolveJourneyHeaderRoute({ childId, pathname })
-    : { backHref: null, currentSection: fallbackSection(pathname) };
+    : { backHref: null };
 
-  const destinations = childId
-    ? journeyHeaderDestinations(childId)
-    : [
-        { id: "belajar" as const, label: "Belajar", href: "/" },
-        { id: "bermain" as const, label: "Bermain", href: "/games" },
-        { id: "world" as const, label: "World", href: "/worlds/money-festival" }
-      ];
-
-  const drawerItems: MainlagiDrawerItem[] = [
-    ...destinations.map((item) => ({
-      href: item.href,
-      label: item.label,
-      description:
-        item.id === "belajar"
-          ? "Belajar dan lanjutkan perjalanan"
-          : item.id === "bermain"
-            ? "Main Gerak"
-            : "Petualangan Mainlagi",
-      current: routeState.currentSection === item.id
-    })),
-    {
-      href: "/shop/parent-entry",
-      label: "Shop",
-      description: "Buka bersama orang tua",
-      dataShopSlot: "parent-gated"
-    }
-  ];
+  const drawerItems = buildMainlagiGlobalMenu({ pathname, childId });
 
   return (
     <div className={styles.shell}>
