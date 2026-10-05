@@ -3,7 +3,6 @@
 import { useEffect, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { TopNavbar } from "@/components/nav/TopNavbar";
-import { BottomNavbar } from "@/components/nav/BottomNavbar";
 import { SiteFooter } from "@/components/SiteFooter";
 
 function isImmersivePath(pathname: string): boolean {
@@ -49,7 +48,6 @@ export function AppShell({ children }: { children: ReactNode }) {
       <TopNavbar />
       <div className={`app-shell__main ${isPublicHome ? "app-shell__main--home" : ""}`}>{children}</div>
       {isAccount ? <SiteFooter /> : null}
-      {isPublicHome ? null : <BottomNavbar />}
     </div>
   );
 }
