@@ -4,6 +4,20 @@ Last reviewed: **5 October 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
+## 5 October 2026 — HOME ↔ CHILD HOME VISUAL CONVERGENCE MERGED / LIVE VERIFIED
+
+Canonical closure: `docs/MAINLAGI_HOME_CHILD_VISUAL_CONVERGENCE_REVISION_2026-10-05.md`.
+
+PR **#477** final head `aaa3545c265b020bae2628f5588f8e1be58fb872` passed PR CI **#2471 / run 37259553148 FULL SUCCESS** and squash-merged as `main@0fa36e51fd6217a33f5bcf2fc5e0641cc5924982`. Merged-main CI **#2472 / run 37260239442 FULL SUCCESS**, including exact **Production smoke (Cloudflare) SUCCESS** on the merged SHA.
+
+The public root `/` now intentionally reads as the **unpersonalized family-entry version of Child Home** rather than a separate legacy product surface. It uses the same warm cream / soft-green / navy / green-CTA visual language, the approved five-character Mainlagi SVG ensemble, centered Mainlagi wordmark, account control on the right, and a shared accessible **left-side drawer** for navigation. The child Journey Map header now uses the same left-drawer pattern. The legacy public mobile bottom navigation is removed from `/`.
+
+Active-child fast resume remains intact. Shop remains parent-gated and commerce activation boundaries are unchanged. This package did **not** change learning evidence, mastery, progression, activity schema, World progression, parent reporting semantics, or Motion Engine mechanics.
+
+Permanent QA now covers public-root convergence, left-drawer accessibility/positioning, canonical five-character SVG provenance, child Shop parent-gate preservation, no-horizontal-overflow, the 320/360/375/390/430/768/1024 responsive matrix, and the permanent visual baseline.
+
+**Current UI boundary:** Child Home remains the canonical personalized Home; public `/` is the family-entry counterpart in the same visual system. Do not restore the old public bottom-nav/home shell or a separate right-side product menu. Historical documents describing the five-character Home hero as blocked are superseded by this live-verified closure.
+
 ## 5 October 2026 — GITHUB REPOSITORY BRANCH HYGIENE CLOSED
 
 Canonical repository-state document: `docs/REPOSITORY_FINAL_STATE_2026-10-05.md`.
