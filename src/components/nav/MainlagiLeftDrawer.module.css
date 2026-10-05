@@ -1,3 +1,8 @@
+.root {
+  display: inline-flex;
+  align-items: center;
+}
+
 .trigger {
   min-height: 44px;
   display: inline-flex;
