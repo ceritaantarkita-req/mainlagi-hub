@@ -143,8 +143,49 @@ async function assertPublicFamilyEntry(page, viewport) {
   assert.equal(await page.locator("[data-mainlagi-public-family-entry]").count(), 1, `public family entry missing at ${viewport.width}px`);
   assert.equal(await page.locator("[data-mainlagi-public-child-cta]").count(), 1, `public child CTA missing at ${viewport.width}px`);
   assert.equal(await page.locator("[data-mainlagi-public-parent-cta]").count(), 1, `public parent CTA missing at ${viewport.width}px`);
+  assert.equal(await page.locator("[data-mainlagi-public-home-hero]").count(), 1, `public child-style hero missing at ${viewport.width}px`);
+  assert.equal(await page.locator(".bottom-nav").count(), 0, `public root must not render legacy bottom navigation at ${viewport.width}px`);
+
+  const header = page.locator('[data-mainlagi-public-header="v2"]');
+  assert.equal(await header.count(), 1, `public converged header missing at ${viewport.width}px`);
+  const menuTrigger = header.locator("[data-mainlagi-left-menu-trigger]");
+  assert.equal(await menuTrigger.count(), 1, `public left menu trigger missing at ${viewport.width}px`);
+
+  const headerGeometry = await header.evaluate((node) => {
+    const trigger = node.querySelector("[data-mainlagi-left-menu-trigger]");
+    const brand = node.querySelector(".top-nav__brand");
+    const account = node.querySelector(".top-nav__account");
+    if (!(trigger instanceof HTMLElement) || !(brand instanceof HTMLElement) || !(account instanceof HTMLElement)) return null;
+    const triggerRect = trigger.getBoundingClientRect();
+    const brandRect = brand.getBoundingClientRect();
+    const accountRect = account.getBoundingClientRect();
+    return {
+      triggerX: triggerRect.x,
+      triggerWidth: triggerRect.width,
+      brandCenter: brandRect.x + brandRect.width / 2,
+      accountX: accountRect.x,
+      viewportCenter: document.documentElement.clientWidth / 2
+    };
+  });
+  assert.ok(headerGeometry, `public header geometry unavailable at ${viewport.width}px`);
+  assert.ok(headerGeometry.triggerX < headerGeometry.brandCenter, `public menu must stay left of the Mainlagi logo at ${viewport.width}px`);
+  assert.ok(headerGeometry.accountX > headerGeometry.brandCenter, `public account control must stay right of the Mainlagi logo at ${viewport.width}px`);
+  assert.ok(Math.abs(headerGeometry.brandCenter - headerGeometry.viewportCenter) <= 3, `public Mainlagi logo must remain centered at ${viewport.width}px`);
+
+  await menuTrigger.click();
+  const drawer = page.locator("[data-mainlagi-left-menu-drawer]");
+  await drawer.waitFor({ state: "visible", timeout: 3_000 });
+  const drawerRect = await drawer.boundingBox();
+  assert.ok(drawerRect && drawerRect.x <= 1, `public menu must open from the left edge at ${viewport.width}px`);
+  for (const href of ["/", "/child/select?continue=1", "/account", "/games", "/discover", "/account/about"]) {
+    assert.equal(await drawer.locator(`a[href="${href}"]`).count(), 1, `public drawer missing ${href} at ${viewport.width}px`);
+  }
+  await page.keyboard.press("Escape");
+  assert.equal(await page.locator("[data-mainlagi-left-menu-drawer]").count(), 0, `public drawer must close with Escape at ${viewport.width}px`);
+
   const copy = (await page.locator("[data-mainlagi-public-family-entry]").innerText()).replace(/\s+/g, " ");
   assert.match(copy, /kamera\s+(bersifat\s+)?opsional/i, `public entry must explain optional camera use at ${viewport.width}px`);
+  assert.match(copy, /Belajar,\s*berpetualang,\s*lalu main lagi\./i, `public headline must converge with Child Home at ${viewport.width}px`);
 
   const ctaGeometry = await page.locator("[data-mainlagi-public-child-cta], [data-mainlagi-public-parent-cta]").evaluateAll((elements) =>
     elements.map((element) => {
