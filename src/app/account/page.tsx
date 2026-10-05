@@ -7,11 +7,11 @@ import { getCurrentUser, signOut } from "@/lib/auth/supabase-auth";
 import styles from "./AccountPage.module.css";
 
 const SECTIONS = [
-  { label: "Profil", detail: "Data akun keluarga", href: "/account/profile", icon: "account" as const },
-  { label: "Pemain", detail: "Kelola profil anak", href: "/account/players", icon: "games" as const },
-  { label: "Preferensi", detail: "Atur pengalaman keluarga", href: "/account/preferences", icon: "settings" as const },
+  { label: "Profil akun", detail: "Data akun keluarga", href: "/account/profile", icon: "account" as const },
+  { label: "Profil anak", detail: "Kelola anak dari Area orang tua", href: "/parent/children", icon: "games" as const },
+  { label: "Pengaturan keluarga", detail: "Bahasa, privasi, dan pengalaman", href: "/parent/settings", icon: "settings" as const },
   { label: "Keamanan", detail: "Kata sandi dan akses", href: "/account/security", icon: "lock" as const },
-  { label: "Tentang", detail: "Informasi Mainlagi", href: "/account/about", icon: "globe" as const },
+  { label: "Tentang Mainlagi", detail: "Informasi produk terkini", href: "/about", icon: "globe" as const },
   { label: "FAQ", detail: "Jawaban pertanyaan umum", href: "/faq", icon: "faq" as const },
   { label: "Hapus akun", detail: "Kelola penghapusan data akun", href: "/account/delete", icon: "close" as const, danger: true }
 ];
@@ -30,10 +30,10 @@ export default function AccountPage() {
     <main className={styles.page} data-mainlagi-account-family-shell>
       <section className={styles.shell}>
         <header className={styles.header}>
-          <p className={styles.eyebrow}>Area orang tua</p>
+          <p className={styles.eyebrow}>Pengaturan akun</p>
           <h1>Akun keluarga</h1>
           <p>
-            Kelola akun, profil anak, preferensi, dan keamanan dari satu tempat. Anak tetap bisa bermain tanpa akun keluarga.
+            Akun adalah bagian dari Area orang tua. Kelola identitas keluarga, keamanan, dan akses ke pengaturan akun dari sini.
           </p>
         </header>
 
@@ -48,14 +48,14 @@ export default function AccountPage() {
             <div className={styles.gateCopy}>
               <strong>Simpan progres keluarga di akun Mainlagi.</strong>
               <p>
-                Masuk untuk menyimpan progres, mengelola pemain, dan mengikuti leaderboard. Kamu tetap bisa bermain tanpa akun.
+                Masuk untuk membuat profil anak production, menyimpan progres keluarga, dan membuka Area orang tua. Gian Demo tetap bisa dicoba tanpa akun.
               </p>
             </div>
             <div className={styles.actions}>
-              <Link className={styles.primary} href="/login">
+              <Link className={styles.primary} href="/login?next=/parent">
                 Masuk
               </Link>
-              <Link className={styles.secondary} href="/signup">
+              <Link className={styles.secondary} href="/signup?next=/parent">
                 Buat akun
               </Link>
             </div>
