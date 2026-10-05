@@ -59,13 +59,16 @@ export async function parentCanAccessChild(childId: string): Promise<boolean> {
 }
 
 /**
- * Child mode preserves unauthenticated local/guest play. If an authenticated
- * account is present, however, a real cloud child URL must belong to that
- * account. This prevents direct URL manipulation from exposing another
- * account's child shell while keeping the intentional guest fallback intact.
+ * Production child mode is account-first. Gian Demo is the explicit no-account
+ * sandbox. When Supabase is configured, every other child route requires an
+ * authenticated family account and ownership of that child profile.
+ *
+ * Local development without Supabase remains usable for repository QA.
  */
 export async function learningChildCanAccess(childId: string): Promise<boolean> {
+  if (childId === "demo-gian") return true;
   const gate = await requireParentSession();
-  if (gate.mode === "unconfigured" || gate.mode === "denied") return true;
+  if (gate.mode === "unconfigured") return true;
+  if (gate.mode === "denied") return false;
   return accountOwnsChild(gate.supabase, gate.userId, childId);
 }
