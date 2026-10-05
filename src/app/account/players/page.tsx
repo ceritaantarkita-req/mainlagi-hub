@@ -1,13 +1,8 @@
 import type { Metadata } from "next";
-import { PlayerProfiles } from "@/components/account/PlayerProfiles";
-import { AccountSectionShell } from "@/components/account/AccountSectionShell";
+import { redirect } from "next/navigation";
 
-export const metadata: Metadata = { title: "Pemain" };
+export const metadata: Metadata = { title: "Profil anak" };
 
 export default function PlayersPage() {
-  return (
-    <AccountSectionShell title="Pemain">
-      <PlayerProfiles />
-    </AccountSectionShell>
-  );
+  redirect("/parent/children");
 }
