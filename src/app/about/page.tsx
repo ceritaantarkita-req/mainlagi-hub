@@ -51,7 +51,7 @@ export default function AboutPage() {
           heading: "Akun keluarga dan profil anak",
           body: (
             <p>
-              Profil anak production dibuat melalui akun keluarga agar progress dan pengaturan
+              Profil anak dibuat melalui akun keluarga agar progres dan pengaturan
               dapat tersimpan dengan jelas. Tanpa akun, keluarga tetap bisa mencoba Mainlagi
               melalui Gian Demo.
             </p>
