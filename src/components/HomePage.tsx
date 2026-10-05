@@ -47,7 +47,7 @@ export function HomePage() {
               Mulai untuk anak
             </Link>
             <Link
-              href="/account"
+              href="/parent"
               className={styles.secondary}
               data-mainlagi-public-parent-cta
             >
@@ -138,7 +138,7 @@ export function HomePage() {
             kamera bersifat opsional; perjalanan belajar utama tetap bisa dimainkan tanpa kamera.
           </p>
         </div>
-        <Link href="/account" className={styles.secondary}>Buka area orang tua</Link>
+        <Link href="/parent" className={styles.secondary}>Buka area orang tua</Link>
       </section>
 
       <p className={styles.footnote}>
