@@ -12,16 +12,19 @@ export type MainlagiDrawerItem = {
   description?: string;
   current?: boolean;
   disabled?: boolean;
+  dataShopSlot?: string;
 };
 
 export function MainlagiLeftDrawer({
   items,
   label = "Menu",
-  ariaLabel = "Menu Mainlagi"
+  ariaLabel = "Menu Mainlagi",
+  productNavMarker = false
 }: {
   items: MainlagiDrawerItem[];
   label?: string;
   ariaLabel?: string;
+  productNavMarker?: boolean;
 }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -78,7 +81,7 @@ export function MainlagiLeftDrawer({
   }, [open]);
 
   return (
-    <>
+    <div className={styles.root} data-mainlagi-product-nav={productNavMarker ? "left-drawer" : undefined}>
       <button
         ref={triggerRef}
         type="button"
@@ -139,6 +142,7 @@ export function MainlagiLeftDrawer({
                     href={item.href}
                     className={item.current ? styles.current : undefined}
                     aria-current={item.current ? "page" : undefined}
+                    data-mainlagi-shop-slot={item.dataShopSlot}
                     onClick={() => setOpen(false)}
                   >
                     <strong>{item.label}</strong>
@@ -150,6 +154,6 @@ export function MainlagiLeftDrawer({
           </aside>
         </div>
       ) : null}
-    </>
+    </div>
   );
 }
