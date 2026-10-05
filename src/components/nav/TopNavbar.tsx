@@ -4,55 +4,36 @@ import Image from "next/image";
 import Link from "next/link";
 import { UserCircle } from "@phosphor-icons/react";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useScrollState } from "@/lib/react/useScrollState";
-import { MainlagiLeftDrawer, type MainlagiDrawerItem } from "./MainlagiLeftDrawer";
+import { getCurrentUser } from "@/lib/auth/supabase-auth";
+import { buildMainlagiGlobalMenu } from "@/lib/navigation/mainlagiGlobal";
+import { MainlagiLeftDrawer } from "./MainlagiLeftDrawer";
 
 export function TopNavbar() {
   const pathname = usePathname();
   const scrolled = useScrollState();
+  const [user, setUser] = useState<{ email: string; name: string } | null>(null);
 
-  const items: MainlagiDrawerItem[] = [
-    {
-      label: "Beranda",
-      href: "/",
-      description: "Kembali ke halaman utama Mainlagi",
-      current: pathname === "/"
-    },
-    {
-      label: "Mulai untuk anak",
-      href: "/child/select?continue=1",
-      description: "Pilih profil dan mulai perjalanan belajar"
-    },
-    {
-      label: "Area orang tua",
-      href: "/account",
-      description: "Akun keluarga dan pengaturan",
-      current: pathname.startsWith("/account")
-    },
-    {
-      label: "Main Gerak",
-      href: "/games",
-      description: "Permainan gerak dengan kamera",
-      current: pathname.startsWith("/games") || pathname.startsWith("/play/")
-    },
-    {
-      label: "Bacaan & ide",
-      href: "/discover",
-      description: "Artikel dan ide aktivitas keluarga",
-      current: pathname.startsWith("/discover")
-    },
-    {
-      label: "Tentang Mainlagi",
-      href: "/account/about",
-      description: "Kenali Mainlagi lebih dekat",
-      current: pathname === "/account/about"
-    }
-  ];
+  useEffect(() => {
+    let active = true;
+    void getCurrentUser().then((nextUser) => {
+      if (active) setUser(nextUser);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const items = buildMainlagiGlobalMenu({ pathname });
+  const identityLabel = user?.name?.trim() || (user ? user.email : "Masuk");
+  const identityHref = user ? "/parent" : `/login?next=${encodeURIComponent(pathname || "/parent")}`;
 
   return (
     <header
       className={`top-nav ${scrolled ? "top-nav--scrolled" : ""}`}
-      data-mainlagi-public-header="v2"
+      data-mainlagi-public-header="v3"
+      data-mainlagi-global-header
     >
       <div className="top-nav__left">
         <MainlagiLeftDrawer items={items} ariaLabel="Menu utama Mainlagi" />
@@ -70,9 +51,9 @@ export function TopNavbar() {
       </Link>
 
       <div className="top-nav__right">
-        <Link className="top-nav__account" href="/account" aria-label="Buka akun keluarga">
+        <Link className="top-nav__account" href={identityHref} aria-label={user ? "Buka area orang tua" : "Masuk ke Mainlagi"}>
           <UserCircle size={30} weight="regular" aria-hidden />
-          <span>Akun</span>
+          <span>{identityLabel}</span>
         </Link>
       </div>
     </header>
