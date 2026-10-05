@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { List, X } from "@phosphor-icons/react";
 import { useEffect, useRef, useState } from "react";
 import styles from "./MainlagiLeftDrawer.module.css";
@@ -26,14 +25,9 @@ export function MainlagiLeftDrawer({
   ariaLabel?: string;
   productNavMarker?: boolean;
 }) {
-  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const drawerRef = useRef<HTMLElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
 
   useEffect(() => {
     if (!open) return;
