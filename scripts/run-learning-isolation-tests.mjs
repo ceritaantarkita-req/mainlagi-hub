@@ -106,7 +106,9 @@ try {
   assert.match(parentGate, /\.is\("deleted_at", null\)/i, "deleted child profiles must not remain routable");
   assert.match(parentGate, /export async function parentCanAccessChild/i, "parent child route ownership helper is required");
   assert.match(parentGate, /export async function learningChildCanAccess/i, "authenticated child mode also needs ownership enforcement");
-  assert.match(parentGate, /gate\.mode === "unconfigured" \|\| gate\.mode === "denied"/i, "guest/local child play must remain available without an authenticated cloud session");
+  assert.match(parentGate, /if \(childId === "demo-gian"\) return true;/i, "Gian Demo must remain the explicit no-account child exception");
+  assert.match(parentGate, /if \(gate\.mode === "unconfigured"\) return true;/i, "local repository QA must remain usable without configured Supabase");
+  assert.match(parentGate, /if \(gate\.mode === "denied"\) return false;/i, "configured production child routes must fail closed without a family session");
   assert.match(childLayout, /learningChildCanAccess\(childId\)[\s\S]*notFound\(\)/i, "authenticated direct child URL manipulation must fail closed");
 
   assert.match(common, /const userId = await getCurrentUserId\(\)/i, "learning hooks must distinguish authenticated cloud state from guest local state");
@@ -125,7 +127,7 @@ try {
   assert.match(ownership, /before insert or update of account_id, child_key on public\.learning_attempts/i);
   assert.match(ownership, /revoke all on function private\.enforce_learning_attempt_child_ownership\(\) from public, anon, authenticated, service_role/i);
 
-  console.log("Multi-child isolation, cloud source-of-truth, durable outbox, legacy profile compatibility, and parent/child ownership contract tests passed.");
+  console.log("Multi-child isolation, cloud source-of-truth, durable outbox, account-first child access, and parent/child ownership contract tests passed.");
 } finally {
   rmSync(outDir, { recursive: true, force: true });
   if (previousWindow === undefined) delete globalThis.window;
