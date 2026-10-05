@@ -29,11 +29,12 @@ const ROUTES = [
   { name: "parent-report", path: "/parent/children/demo-gian/reports", expectedPath: "/parent/children/demo-gian/reports", kind: "parent" },
   { name: "account", path: "/account", expectedPath: "/account" },
   { name: "account-profile", path: "/account/profile", expectedPath: "/account/profile" },
-  { name: "account-players", path: "/account/players", expectedPath: "/account/players" },
-  { name: "account-preferences", path: "/account/preferences", expectedPath: "/account/preferences" },
+  { name: "account-players", path: "/account/players", expectedPath: "/parent/children" },
+  { name: "account-preferences", path: "/account/preferences", expectedPath: "/parent/settings" },
   { name: "account-security", path: "/account/security", expectedPath: "/account/security" },
   { name: "account-delete", path: "/account/delete", expectedPath: "/account/delete" },
-  { name: "account-about", path: "/account/about", expectedPath: "/account/about" },
+  { name: "account-about", path: "/account/about", expectedPath: "/about" },
+  { name: "about", path: "/about", expectedPath: "/about" },
   { name: "login", path: "/login", expectedPath: "/login" },
   { name: "signup", path: "/signup", expectedPath: "/signup" },
   { name: "forgot-password", path: "/forgot-password", expectedPath: "/forgot-password" },
@@ -44,6 +45,16 @@ const ROUTES = [
 
 const INTENTIONAL_NOT_FOUND_CONSOLE = "Failed to load resource: the server responded with a status of 404 (Not Found)";
 const PARENT_PRIMARY_JARGON = /\battempts?\b|\bassessed\b|\bpractice\b|qualifying evidence|mastery canonical|\bretry\b/i;
+const GLOBAL_MENU_LABELS = [
+  "Beranda",
+  "Belajar",
+  "Bermain",
+  "World",
+  "Shop",
+  "Bacaan & ide",
+  "Area orang tua",
+  "Tentang Mainlagi"
+];
 
 let server = null;
 let serverLog = "";
@@ -139,6 +150,40 @@ async function assertStageHierarchy(page, viewport) {
   assert.ok(Math.min(...geometry.cardWidths) >= minimumReadableWidth, `stage cards underuse available width at ${viewport.width}px: ${JSON.stringify(geometry.cardWidths)}`);
 }
 
+async function assertCanonicalGlobalMenu(page, viewport, routeName) {
+  const header = page.locator("[data-mainlagi-global-header]").first();
+  assert.equal(await header.count(), 1, `${routeName} global Mainlagi header missing at ${viewport.width}px`);
+  const trigger = header.locator("[data-mainlagi-left-menu-trigger]");
+  assert.equal(await trigger.count(), 1, `${routeName} left global menu trigger missing at ${viewport.width}px`);
+  await trigger.click();
+  const drawer = page.locator("[data-mainlagi-left-menu-drawer]");
+  await drawer.waitFor({ state: "visible", timeout: 3_000 });
+  const labels = (await drawer.locator("nav strong").allTextContents()).map((item) => item.trim());
+  assert.deepEqual(labels, GLOBAL_MENU_LABELS, `${routeName} global menu labels/order drifted at ${viewport.width}px`);
+  const rect = await drawer.boundingBox();
+  assert.ok(rect && rect.x <= 1, `${routeName} global drawer must open from the left at ${viewport.width}px`);
+  await page.keyboard.press("Escape");
+  assert.equal(await page.locator("[data-mainlagi-left-menu-drawer]").count(), 0, `${routeName} global drawer must close with Escape at ${viewport.width}px`);
+}
+
+async function assertChildSelectAccountFirst(page, viewport) {
+  assert.equal(await page.locator("[data-mainlagi-account-first-gate]").count(), 1, `child-select signed-out account gate missing at ${viewport.width}px`);
+  assert.equal(await page.locator("[data-mainlagi-cloud-profile-form]").count(), 0, `child-select must not expose production profile form while signed out at ${viewport.width}px`);
+  const copy = (await page.locator("main").innerText()).replace(/\s+/g, " ");
+  assert.match(copy, /Gian\s+—\s+Demo/i, `child-select must preserve Gian Demo at ${viewport.width}px`);
+  assert.match(copy, /Daftar dengan email/i, `child-select account-first signup CTA missing at ${viewport.width}px`);
+}
+
+async function assertAboutCurrent(page, viewport) {
+  const copy = (await page.locator("main").innerText()).replace(/\s+/g, " ");
+  assert.match(copy, /anak usia 3[–-]7 tahun/i, `About age positioning drifted at ${viewport.width}px`);
+  assert.match(copy, /Belajar/i, `About must describe Belajar at ${viewport.width}px`);
+  assert.match(copy, /World/i, `About must describe World at ${viewport.width}px`);
+  assert.match(copy, /Gian Demo/i, `About must describe the demo/account boundary at ${viewport.width}px`);
+  assert.doesNotMatch(copy, /10 permainan edukasi/i, `About restored stale motion-only positioning at ${viewport.width}px`);
+  assert.doesNotMatch(copy, /Guru\s*&\s*presenter/i, `About restored stale primary audience at ${viewport.width}px`);
+}
+
 async function assertPublicFamilyEntry(page, viewport) {
   assert.equal(await page.locator("[data-mainlagi-public-family-entry]").count(), 1, `public family entry missing at ${viewport.width}px`);
   assert.equal(await page.locator("[data-mainlagi-public-child-cta]").count(), 1, `public child CTA missing at ${viewport.width}px`);
@@ -146,7 +191,7 @@ async function assertPublicFamilyEntry(page, viewport) {
   assert.equal(await page.locator("[data-mainlagi-public-home-hero]").count(), 1, `public child-style hero missing at ${viewport.width}px`);
   assert.equal(await page.locator(".bottom-nav").count(), 0, `public root must not render legacy bottom navigation at ${viewport.width}px`);
 
-  const header = page.locator('[data-mainlagi-public-header="v2"]');
+  const header = page.locator('[data-mainlagi-public-header="v3"]');
   assert.equal(await header.count(), 1, `public converged header missing at ${viewport.width}px`);
   const menuTrigger = header.locator("[data-mainlagi-left-menu-trigger]");
   assert.equal(await menuTrigger.count(), 1, `public left menu trigger missing at ${viewport.width}px`);
@@ -177,8 +222,8 @@ async function assertPublicFamilyEntry(page, viewport) {
   await drawer.waitFor({ state: "visible", timeout: 3_000 });
   const drawerRect = await drawer.boundingBox();
   assert.ok(drawerRect && drawerRect.x <= 1, `public menu must open from the left edge at ${viewport.width}px`);
-  for (const href of ["/", "/child/select?continue=1", "/account", "/games", "/discover", "/account/about"]) {
-    assert.equal(await drawer.locator(`a[href="${href}"]`).count(), 1, `public drawer missing ${href} at ${viewport.width}px`);
+  for (const href of ["/", "/child/select?continue=1", "/games", "/shop/parent-entry", "/discover", "/parent", "/about"]) {
+    assert.ok(await drawer.locator(`a[href="${href}"]`).count() >= 1, `public drawer missing ${href} at ${viewport.width}px`);
   }
   await page.keyboard.press("Escape");
   assert.equal(await page.locator("[data-mainlagi-left-menu-drawer]").count(), 0, `public drawer must close with Escape at ${viewport.width}px`);
@@ -197,6 +242,7 @@ async function assertPublicFamilyEntry(page, viewport) {
 }
 
 async function assertAuthFamilySurface(page, route, viewport) {
+  await assertCanonicalGlobalMenu(page, viewport, route.name);
   assert.equal(await page.locator("[data-mainlagi-auth-family-shell]").count(), 1, `${route.name} family shell missing at ${viewport.width}px`);
   assert.equal(await page.locator("[data-mainlagi-auth-context]").count(), 1, `${route.name} family context missing at ${viewport.width}px`);
   assert.equal(await page.locator("[data-mainlagi-auth-panel]").count(), 1, `${route.name} auth panel missing at ${viewport.width}px`);
@@ -317,12 +363,34 @@ async function inspect(page, route, viewport) {
       );
     }
 
-    if (route.name === "public-root") await assertPublicFamilyEntry(page, viewport);
-    if (route.name === "parent-report") await assertParentReportPrimaryCopy(page, viewport);
+    if (route.name === "public-root") {
+      await assertPublicFamilyEntry(page, viewport);
+      await assertCanonicalGlobalMenu(page, viewport, route.name);
+    }
+    if (route.name === "child-select") {
+      await assertCanonicalGlobalMenu(page, viewport, route.name);
+      await assertChildSelectAccountFirst(page, viewport);
+    }
+    if (["child-home", "subject-math", "stage-math-angka", "rewards"].includes(route.name)) await assertCanonicalGlobalMenu(page, viewport, route.name);
+    if (route.name === "parent-report") {
+      await assertCanonicalGlobalMenu(page, viewport, route.name);
+      await assertParentReportPrimaryCopy(page, viewport);
+    }
     if (route.name === "subject-math") await assertSubjectJourneyLayout(page, viewport);
     if (route.name === "stage-math-angka") await assertStageHierarchy(page, viewport);
-    if (route.name === "account") await assertAccountFamilySurface(page, viewport);
-    if (["account-profile", "account-players", "account-preferences", "account-security", "account-delete", "account-about"].includes(route.name)) await assertAccountSectionSurface(page, route, viewport);
+    if (route.name === "account") {
+      await assertCanonicalGlobalMenu(page, viewport, route.name);
+      await assertAccountFamilySurface(page, viewport);
+    }
+    if (["account-profile", "account-security", "account-delete"].includes(route.name)) {
+      await assertCanonicalGlobalMenu(page, viewport, route.name);
+      await assertAccountSectionSurface(page, route, viewport);
+    }
+    if (["account-players", "account-preferences"].includes(route.name)) await assertCanonicalGlobalMenu(page, viewport, route.name);
+    if (["account-about", "about"].includes(route.name)) {
+      await assertCanonicalGlobalMenu(page, viewport, route.name);
+      await assertAboutCurrent(page, viewport);
+    }
     if (["login", "signup", "forgot-password", "reset-password", "auth-error"].includes(route.name)) await assertAuthFamilySurface(page, route, viewport);
     if (route.name === "not-found") await assertSystemState(page, viewport);
 
