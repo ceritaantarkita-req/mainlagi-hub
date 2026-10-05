@@ -53,6 +53,7 @@ const files = {
   publicNavigation: await readFile("src/lib/navigation.ts", "utf8"),
   journeyHeader: await readFile("src/lib/learning/journeyHeader.ts", "utf8"),
   playroom: await readFile("src/components/learning/Playroom.tsx", "utf8"),
+  leftDrawer: await readFile("src/components/nav/MainlagiLeftDrawer.tsx", "utf8"),
   adminLayout: await readFile("src/app/admin/layout.tsx", "utf8"),
 };
 
@@ -89,13 +90,18 @@ assert.doesNotMatch(
 );
 assert.match(
   files.playroom,
-  /data-mainlagi-shop-slot=["']parent-gated["']/,
+  /dataShopSlot:\s*["']parent-gated["']/,
   "child Journey Map Shop entry must remain parent-gated before transactional activation",
 );
 assert.match(
   files.playroom,
-  /href=["']\/shop\/parent-entry["']/,
+  /href:\s*["']\/shop\/parent-entry["']/,
   "child Journey Map Shop entry must route through the parent-session gate",
+);
+assert.match(
+  files.leftDrawer,
+  /data-mainlagi-shop-slot=\{item\.dataShopSlot\}/,
+  "shared left drawer must preserve the child Shop parent-gate marker in rendered navigation",
 );
 assert.match(
   files.adminLayout,
