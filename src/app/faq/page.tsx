@@ -1,69 +1,103 @@
 import type { Metadata } from "next";
 import { LegalPage } from "@/components/LegalPage";
 
-export const metadata: Metadata = { title: "FAQ" };
+export const metadata: Metadata = { title: "FAQ Mainlagi" };
 
 export default function FaqPage() {
   return (
     <LegalPage
       title="Pertanyaan yang sering diajukan"
-      updated="2 September 2026"
+      updated="5 Oktober 2026"
       sections={[
         {
-          heading: "Apa itu Mainlagi Hub?",
+          heading: "Apa itu Mainlagi?",
           body: (
             <p>
-              Platform permainan edukasi yang dikendalikan lewat gerakan
-              tangan dan badan di depan kamera — tanpa remote, joystick, atau
-              alat tambahan lain. Ada 10 permainan: matematika, menjiplak
-              angka &amp; bentuk, huruf Hijaiyah, pilihan ganda, papan tulis
-              presentasi, dan beberapa game gerak tubuh.
+              Mainlagi adalah pengalaman belajar dan bermain untuk anak usia 3–7 tahun.
+              Di dalamnya ada Belajar, Bermain termasuk Main Gerak, dan World atau petualangan.
+              Aktivitas dapat memakai sentuhan, audio, trace, warna, cerita, dan bentuk interaksi
+              lain yang sesuai dengan aktivitasnya.
             </p>
           )
         },
         {
-          heading: "Apakah perlu akun untuk bermain?",
-          body: <p>Tidak. Kamu bisa bermain semua game tanpa akun. Akun hanya opsional, untuk menyimpan progres, mengelola beberapa profil pemain, dan mengikuti papan skor.</p>
+          heading: "Apakah harus punya akun?",
+          body: (
+            <p>
+              Untuk membuat profil anak sendiri dan menyimpan progres keluarga, orang tua perlu
+              daftar atau masuk dengan akun keluarga. Tanpa akun, Gian Demo tetap tersedia untuk
+              mencoba Mainlagi.
+            </p>
+          )
         },
         {
-          heading: "Apakah video dari kamera direkam atau diunggah?",
-          body: <p>Tidak. Video diproses langsung di perangkatmu (on-device) untuk mendeteksi gerakan, dan tidak pernah disimpan atau diunggah ke server mana pun.</p>
+          heading: "Apakah semua aktivitas membutuhkan kamera?",
+          body: (
+            <p>
+              Tidak. Kamera hanya digunakan pada pengalaman Main Gerak tertentu. Perjalanan
+              belajar utama tetap dapat digunakan tanpa kamera.
+            </p>
+          )
         },
         {
-          heading: "Perangkat dan browser apa yang didukung?",
-          body: <p>Browser modern (disarankan Chrome atau Edge terbaru) dengan akses kamera melalui localhost atau HTTPS. Bisa dibuka di HP, tablet, laptop, maupun TV yang punya browser dan kamera.</p>
-        },
-        {
-          heading: "Bagaimana jika kamera tidak tersedia atau bermasalah?",
-          body: <p>Sebagian game menyediakan mode mouse atau keyboard sebagai alternatif, jadi tetap bisa dimainkan meski kamera tidak bisa dipakai.</p>
+          heading: "Bagaimana data kamera digunakan?",
+          body: (
+            <p>
+              Pada Main Gerak, pemrosesan gerakan dirancang berlangsung di perangkat untuk
+              kebutuhan interaksi real-time. Kamera bukan syarat untuk memakai area Belajar atau
+              World.
+            </p>
+          )
         },
         {
           heading: "Cocok untuk usia berapa?",
-          body: <p>Secara umum untuk anak usia TK sampai SD. Setiap game menampilkan rentang usia yang disarankan di kartunya masing-masing.</p>
+          body: <p>Mainlagi saat ini ditujukan untuk keluarga dengan anak usia 3–7 tahun.</p>
         },
         {
-          heading: "Bagaimana cara kerja papan skor (leaderboard)?",
-          body: <p>Setiap game punya papan skor sendiri. Setelah satu ronde selesai, kamu bisa menuliskan nama untuk masuk papan skor. Peringkat direset setiap minggu.</p>
+          heading: "Bisa dipakai lebih dari satu anak?",
+          body: (
+            <p>
+              Bisa. Setelah masuk ke akun keluarga, buka Area orang tua lalu bagian Anak untuk
+              membuat dan mengelola profil anak secara terpisah.
+            </p>
+          )
         },
         {
-          heading: "Bisa dipakai lebih dari satu anak dalam satu akun?",
-          body: <p>Bisa. Buka {`/account/players`} untuk menambah dan mengelola profil pemain, sehingga progres dan skor tiap anak terpisah.</p>
+          heading: "Di mana melihat perkembangan anak?",
+          body: (
+            <p>
+              Buka Area orang tua untuk melihat ringkasan keluarga, profil anak, progres, laporan,
+              privasi, dan pengaturan.
+            </p>
+          )
         },
         {
-          heading: "Di mana mengatur tampilan atau preferensi lain?",
-          body: <p>Buka {`/account/preferences`} untuk pengaturan seperti tema terang/gelap dan preferensi lainnya.</p>
+          heading: "Di mana mengatur akun dan keamanan?",
+          body: (
+            <p>
+              Dari Area orang tua, buka Pengaturan lalu Akun keluarga untuk mengelola profil akun,
+              keamanan, dan penghapusan akun.
+            </p>
+          )
         },
         {
-          heading: "Apakah Mainlagi Hub berbayar?",
-          body: <p>Semua permainan gratis dan bisa dicoba tanpa akun. Sebagian halaman menampilkan rekomendasi produk (tautan afiliasi) yang bisa memberi kami komisi tanpa biaya tambahan untukmu — salah satu cara kami menjaga platform tetap gratis.</p>
+          heading: "Apakah Mainlagi berbayar?",
+          body: (
+            <p>
+              Struktur paket dan entitlement dapat berkembang sesuai keputusan produk. Mainlagi
+              tidak menjanjikan seluruh konten masa depan selalu gratis. Gian Demo tetap menjadi
+              jalur mencoba tanpa akun.
+            </p>
+          )
         },
         {
-          heading: "Bisa dipakai guru untuk mengajar di kelas?",
-          body: <p>Bisa. Fitur papan tulis presentasi memungkinkan guru menulis dan menggambar di depan kelas tanpa menyentuh layar, cukup dengan gerakan tangan.</p>
-        },
-        {
-          heading: "Bagaimana cara menghapus akun atau data saya?",
-          body: <p>Buka {`/account/delete`} untuk menghapus akun, atau {`/data-request`} untuk mengajukan permintaan terkait data pribadimu.</p>
+          heading: "Bagaimana menghapus akun atau meminta data?",
+          body: (
+            <p>
+              Penghapusan akun tersedia di pengaturan akun keluarga. Untuk permintaan terkait data,
+              gunakan halaman permintaan data.
+            </p>
+          )
         }
       ]}
     />
