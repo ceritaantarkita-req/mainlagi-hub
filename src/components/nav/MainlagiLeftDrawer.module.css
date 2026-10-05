@@ -1,0 +1,145 @@
+.trigger {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 12px;
+  border: 2px solid #d8dfcd;
+  border-radius: 16px;
+  background: #fffef8;
+  color: #193b55;
+  font: inherit;
+  font-weight: 900;
+  box-shadow: 0 2px 0 #e8ebdf;
+}
+
+.trigger:hover {
+  border-color: #81af99;
+  background: #fff;
+}
+
+.trigger:focus-visible,
+.close:focus-visible,
+.nav a:focus-visible {
+  outline: 3px solid #19698c;
+  outline-offset: 3px;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(10, 27, 43, .38);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+.drawer {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: min(86vw, 340px);
+  max-width: 100%;
+  overflow-y: auto;
+  padding:
+    max(18px, env(safe-area-inset-top))
+    16px
+    max(20px, env(safe-area-inset-bottom));
+  background: #fffaf0;
+  color: #193b55;
+  box-shadow: 22px 0 54px rgba(25, 59, 85, .22);
+  animation: mainlagi-drawer-in 160ms ease-out;
+}
+
+.drawerHeader {
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e1e5d7;
+}
+
+.drawerHeader strong {
+  font-size: 20px;
+  font-weight: 950;
+}
+
+.close {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 14px;
+  background: #edf3e7;
+  color: #193b55;
+}
+
+.nav {
+  display: grid;
+  gap: 6px;
+  padding-top: 14px;
+}
+
+.nav a,
+.disabled {
+  min-height: 60px;
+  display: grid;
+  align-content: center;
+  gap: 3px;
+  padding: 11px 13px;
+  border-radius: 15px;
+  color: #193b55;
+  text-decoration: none;
+}
+
+.nav a:hover,
+.current {
+  background: #e9f4e8;
+}
+
+.current {
+  box-shadow: inset 4px 0 0 #287158;
+}
+
+.nav strong,
+.disabled strong {
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.nav small,
+.disabled small {
+  color: #58736b;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.disabled {
+  opacity: .55;
+  background: #f1efe8;
+}
+
+@keyframes mainlagi-drawer-in {
+  from { transform: translateX(-24px); opacity: .72; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@media (max-width: 760px) {
+  .trigger {
+    min-width: 44px;
+    padding-inline: 9px;
+    border-radius: 14px;
+  }
+
+  .trigger span {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drawer { animation: none; }
+}
