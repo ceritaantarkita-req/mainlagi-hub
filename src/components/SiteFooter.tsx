@@ -25,10 +25,10 @@ export function SiteFooter() {
     <footer className="site-footer">
       <div className="page-shell footer-grid">
         <div>
-          <strong>Mainlagi Hub</strong>
-          <p>Motion Learning Hub untuk belajar, bergerak, dan bermain bersama.</p>
+          <strong>Mainlagi</strong>
+          <p>Belajar, berpetualang, lalu main lagi bersama keluarga.</p>
           <nav className="footer-legal" aria-label="Tautan legal">
-            <Link href="/account/about">Tentang</Link>
+            <Link href="/about">Tentang</Link>
             <Link href="/privacy">Privasi</Link>
             <Link href="/terms">Syarat</Link>
             <Link href="/cookie-policy">Cookie</Link>
