@@ -100,18 +100,37 @@
 
 .heroMedia {
   width: 100%;
+  min-height: 320px;
   overflow: hidden;
   border-radius: 22px;
-  aspect-ratio: 4 / 3;
-  background: #fff;
+  background:
+    radial-gradient(circle at 50% 110%, rgba(255, 220, 109, .62), transparent 36%),
+    linear-gradient(180deg, #bcecff 0%, #dff5d8 62%, #9fd37e 100%);
   box-shadow: 0 8px 24px rgba(25, 59, 85, .10);
 }
 
-.heroImage {
-  display: block;
-  width: 100%;
+.heroCast {
   height: 100%;
-  object-fit: cover;
+  min-height: 320px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0;
+  padding: 28px 10px 0;
+}
+
+.heroCast img {
+  width: clamp(72px, 8.1vw, 118px);
+  height: min(280px, 30vw);
+  max-height: 280px;
+  object-fit: contain;
+  object-position: center bottom;
+  margin-inline: -5px;
+  pointer-events: none;
+}
+
+.heroCast img:nth-child(3) {
+  transform: translateY(-6px);
 }
 
 .experienceSection,
@@ -291,7 +310,19 @@
   }
 
   .heroMedia {
+    min-height: 220px;
     border-radius: 20px;
+  }
+
+  .heroCast {
+    min-height: 220px;
+    padding: 16px 4px 0;
+  }
+
+  .heroCast img {
+    width: clamp(58px, 18vw, 92px);
+    height: 205px;
+    margin-inline: -7px;
   }
 
   .experienceSection,
