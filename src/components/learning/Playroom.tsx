@@ -102,7 +102,7 @@ export function PlayroomShell({ childId, children }: { childId?: string; childre
   return (
     <div className={styles.shell}>
       {!immersive ? (
-        <header className={styles.header} data-mainlagi-jm02-header="v1">
+        <header className={styles.header} data-mainlagi-jm02-header="v1" data-mainlagi-global-header>
           <div className={styles.headerBackSlot}>
             <MainlagiLeftDrawer
               items={drawerItems}
