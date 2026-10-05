@@ -47,8 +47,8 @@ export function MainlagiLeftDrawer({
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         event.preventDefault();
+        triggerRef.current?.focus();
         setOpen(false);
-        requestAnimationFrame(() => triggerRef.current?.focus());
         return;
       }
       if (event.key !== "Tab") return;
@@ -115,8 +115,8 @@ export function MainlagiLeftDrawer({
                 className={styles.close}
                 aria-label="Tutup menu"
                 onClick={() => {
+                  triggerRef.current?.focus();
                   setOpen(false);
-                  requestAnimationFrame(() => triggerRef.current?.focus());
                 }}
               >
                 <X size={24} weight="bold" aria-hidden />
