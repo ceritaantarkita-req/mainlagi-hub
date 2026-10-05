@@ -51,6 +51,7 @@ const files = {
     "utf8",
   ),
   publicNavigation: await readFile("src/lib/navigation.ts", "utf8"),
+  globalNavigation: await readFile("src/lib/navigation/mainlagiGlobal.ts", "utf8"),
   journeyHeader: await readFile("src/lib/learning/journeyHeader.ts", "utf8"),
   playroom: await readFile("src/components/learning/Playroom.tsx", "utf8"),
   leftDrawer: await readFile("src/components/nav/MainlagiLeftDrawer.tsx", "utf8"),
@@ -90,13 +91,18 @@ assert.doesNotMatch(
 );
 assert.match(
   files.playroom,
-  /dataShopSlot:\s*["']parent-gated["']/,
-  "child Journey Map Shop entry must remain parent-gated before transactional activation",
+  /buildMainlagiGlobalMenu/,
+  "child Journey Map must consume the canonical global navigation helper",
 );
 assert.match(
-  files.playroom,
+  files.globalNavigation,
+  /dataShopSlot:\s*["']parent-gated["']/,
+  "canonical global Shop entry must remain parent-gated before transactional activation",
+);
+assert.match(
+  files.globalNavigation,
   /href:\s*["']\/shop\/parent-entry["']/,
-  "child Journey Map Shop entry must route through the parent-session gate",
+  "canonical global Shop entry must route through the parent-session gate",
 );
 assert.match(
   files.leftDrawer,
