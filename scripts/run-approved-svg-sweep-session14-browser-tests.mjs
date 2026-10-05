@@ -35,11 +35,11 @@ async function waitForServer(){
   throw new Error(`Session 14 browser server did not become ready.\n${serverLog.slice(-4000)}`);
 }
 
-async function assertHeroCast(page,selector,label){
+async function assertHeroCast(page,selector,label,expectedIds=["gavi","paca"]){
   const cast=page.locator(selector);
   await cast.waitFor({state:"visible",timeout:8000});
   const images=cast.locator("img[data-character-asset-source]");
-  assert.equal(await images.count(),2,`${label} must render Gavi + Paca`);
+  assert.equal(await images.count(),expectedIds.length,`${label} must render the expected canonical cast`);
   await images.evaluateAll(nodes=>Promise.all(nodes.map(node=>node.decode())));
   const snapshot=await images.evaluateAll(nodes=>nodes.map(node=>({
     id:node.getAttribute("data-character-id"),
@@ -49,12 +49,12 @@ async function assertHeroCast(page,selector,label){
     naturalWidth:node.naturalWidth,
     naturalHeight:node.naturalHeight
   })));
-  assert.deepEqual(snapshot.map(item=>item.id),["gavi","paca"],`${label} keeps canonical pair order`);
+  assert.deepEqual(snapshot.map(item=>item.id),expectedIds,`${label} keeps canonical cast order`);
   assert(snapshot.every(item=>item.state==="hero"),`${label} uses hero state`);
   assert(snapshot.every(item=>item.source==="svg-state"),`${label} must use SVG state assets`);
   assert.deepEqual(
     snapshot.map(item=>item.src),
-    ["/artwork/characters/gavi-hero-v1.svg","/artwork/characters/paca-hero-v1.svg"],
+    expectedIds.map(id=>`/artwork/characters/${id}-hero-v1.svg`),
     `${label} must use approved direct SVG paths`
   );
   assert(snapshot.every(item=>item.naturalWidth>0&&item.naturalHeight>0),`${label} SVGs must decode`);
@@ -74,7 +74,12 @@ async function runViewport(browser,viewport){
   });
 
   await page.goto(baseUrl+"/",{waitUntil:"domcontentloaded",timeout:30000});
-  await assertHeroCast(page,'[data-session14-vector-cast="public-home"]',`public home ${viewport.width}`);
+  await assertHeroCast(
+    page,
+    '[data-session14-vector-cast="public-home"]',
+    `public home ${viewport.width}`,
+    ["naya","gian","paca","zia","gavi"]
+  );
   mkdirSync(outDir,{recursive:true});
   await page.screenshot({path:path.join(outDir,`${viewport.width}-public-home.png`),fullPage:false});
 

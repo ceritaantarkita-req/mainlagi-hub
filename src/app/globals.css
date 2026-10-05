@@ -4336,3 +4336,122 @@ html[data-theme="dark"] .about-footnote { background: #0e1526; }
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 }
+
+
+/* === HOME-CONV-01 — shared public header convergence === */
+.top-nav {
+  min-height: 72px;
+  display: grid;
+  grid-template-columns: minmax(44px, 1fr) auto minmax(44px, 1fr);
+  align-items: center;
+  gap: 16px;
+  padding: 9px 24px;
+  background: rgba(255, 252, 240, .96);
+  border-bottom: 1px solid #e2e8d8;
+  box-shadow: none;
+}
+
+.top-nav--scrolled {
+  background: rgba(255, 252, 240, .92);
+  border-bottom-color: #d8dfcd;
+  box-shadow: 0 4px 18px rgba(25, 59, 85, .08);
+  backdrop-filter: blur(14px) saturate(1.1);
+  -webkit-backdrop-filter: blur(14px) saturate(1.1);
+}
+
+.top-nav__left {
+  min-width: 44px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.top-nav__brand {
+  min-height: 44px;
+  display: grid;
+  place-items: center;
+  justify-self: center;
+  padding: 0 6px;
+}
+
+.top-nav__brand .garden-wordmark {
+  display: block;
+  width: 116px;
+  height: auto;
+  max-height: 44px;
+  object-fit: contain;
+}
+
+.top-nav__right {
+  min-width: 44px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.top-nav__account {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 11px;
+  border: 2px solid transparent;
+  border-radius: 16px;
+  color: #193b55;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.top-nav__account:hover {
+  background: #edf3e7;
+  border-color: #d8dfcd;
+}
+
+.top-nav__account:focus-visible {
+  outline: 3px solid #19698c;
+  outline-offset: 3px;
+}
+
+.app-shell__main--home {
+  padding-bottom: 0;
+}
+
+@media (max-width: 760px) {
+  .top-nav {
+    min-height: 64px;
+    grid-template-columns: minmax(44px, 1fr) auto minmax(44px, 1fr);
+    gap: 6px;
+    padding: 8px 10px;
+  }
+
+  .top-nav__brand .garden-wordmark {
+    width: 100px;
+    max-height: 38px;
+  }
+
+  .top-nav__account {
+    min-width: 44px;
+    padding-inline: 7px;
+    border-radius: 14px;
+  }
+
+  .top-nav__account span {
+    display: none;
+  }
+
+  .app-shell__main--home {
+    padding-bottom: 0;
+  }
+}
+
+@media (max-width: 390px) {
+  .top-nav {
+    padding-inline: 8px;
+    gap: 4px;
+  }
+
+  .top-nav__brand .garden-wordmark {
+    width: 92px;
+  }
+}

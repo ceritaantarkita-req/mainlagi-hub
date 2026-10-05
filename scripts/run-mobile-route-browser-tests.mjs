@@ -170,10 +170,20 @@ async function assertJm02Header(page, viewport, { backHref, currentHref, exercis
   }
 
   const productNav = header.locator("[data-mainlagi-product-nav]");
-  const productSummary = productNav.locator("summary");
-  const menu = productNav.locator('nav[aria-label="Area Mainlagi"]');
+  const productTrigger = productNav.locator("[data-mainlagi-left-menu-trigger]");
   assert.equal(await productNav.count(), 1, `JM-02 product menu missing at ${viewport.width}px`);
-  assert.equal(await productSummary.count(), 1, `JM-02 product menu trigger missing at ${viewport.width}px`);
+  assert.equal(await productTrigger.count(), 1, `JM-02 left menu trigger missing at ${viewport.width}px`);
+
+  const triggerRect = await productTrigger.boundingBox();
+  assert.ok(triggerRect && triggerRect.width >= 44 && triggerRect.height >= 44, `JM-02 left menu target fell below 44px at ${viewport.width}px`);
+
+  await productTrigger.click();
+  const drawer = productNav.locator("[data-mainlagi-left-menu-drawer]");
+  await drawer.waitFor({ state: "visible", timeout: 3_000 });
+  const menu = drawer.locator('nav[aria-label="Menu utama Mainlagi"]');
+
+  const drawerRect = await drawer.boundingBox();
+  assert.ok(drawerRect && drawerRect.x <= 1, `JM-02 product drawer must open from the left edge at ${viewport.width}px`);
 
   for (const [label, href] of [
     ["Belajar", "/child/demo-gian/home"],
@@ -194,26 +204,20 @@ async function assertJm02Header(page, viewport, { backHref, currentHref, exercis
   assert.equal(await shop.getAttribute("href"), "/shop/parent-entry", `JM-02 Shop must route through parent gate at ${viewport.width}px`);
   assert.equal(await menu.locator('a[href="/shop/parent-entry"]').count(), 1, "JM-02 must expose exactly one parent-gated Shop route");
 
+  await page.keyboard.press("Escape");
+  assert.equal(await productNav.locator("[data-mainlagi-left-menu-drawer]").count(), 0, `JM-02 product drawer must close with Escape at ${viewport.width}px`);
+
   const profileDetails = header.locator("[data-mainlagi-profile-menu]");
   const profileSummary = profileDetails.locator("summary");
   assert.equal(await profileDetails.count(), 1, `JM-02 profile menu missing at ${viewport.width}px`);
 
   if (!exerciseMenus) return;
 
-  if (viewport.width <= 430) {
-    await productSummary.click();
-  } else {
-    await productSummary.focus();
-    await page.keyboard.press("Enter");
-  }
-  assert.equal(await productNav.evaluate((element) => element.open), true, `JM-02 product menu must open at ${viewport.width}px`);
-
-  if (viewport.width <= 430) {
-    await productSummary.click();
-  } else {
-    await page.keyboard.press("Escape");
-  }
-  assert.equal(await productNav.evaluate((element) => element.open), false, `JM-02 product menu must close deterministically at ${viewport.width}px`);
+  await productTrigger.focus();
+  await page.keyboard.press("Enter");
+  await productNav.locator("[data-mainlagi-left-menu-drawer]").waitFor({ state: "visible", timeout: 3_000 });
+  await page.keyboard.press("Escape");
+  assert.equal(await productNav.locator("[data-mainlagi-left-menu-drawer]").count(), 0, `JM-02 keyboard-opened drawer must close deterministically at ${viewport.width}px`);
 
   await profileSummary.focus();
   await page.keyboard.press("Enter");

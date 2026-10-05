@@ -265,7 +265,9 @@
 .headerBackSlot {
   min-width:44px;
   display:flex;
+  align-items:center;
   justify-content:flex-start;
+  gap:8px;
 }
 .headerBack {
   min-width:44px;

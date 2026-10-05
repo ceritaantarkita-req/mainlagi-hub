@@ -52,54 +52,39 @@ async function noOverflow(page,label){
 }
 async function assertHeaderDropdowns(page){
   const product=page.locator("[data-mainlagi-product-nav]");
-  await product.locator("summary").click();
-  const productMenu=product.locator("nav");
-  await productMenu.waitFor({state:"visible",timeout:3000});
-  const productMetrics=await productMenu.evaluate(node=>{
+  const trigger=product.locator("[data-mainlagi-left-menu-trigger]");
+  await trigger.click();
+  const drawer=product.locator("[data-mainlagi-left-menu-drawer]");
+  await drawer.waitFor({state:"visible",timeout:3000});
+  const productMenu=drawer.locator("nav");
+  const productMetrics=await drawer.evaluate(node=>{
     const rect=node.getBoundingClientRect();
-    const style=getComputedStyle(node);
-    const ancestors=[];
-    for(let current=node.parentElement;current;current=current.parentElement){
-      const currentStyle=getComputedStyle(current);
-      const currentRect=current.getBoundingClientRect();
-      ancestors.push({
-        tag:current.tagName,
-        className:current.className,
-        width:currentRect.width,
-        transform:currentStyle.transform,
-        zoom:currentStyle.zoom
-      });
-      if(ancestors.length===6)break;
-    }
     const labels=[...node.querySelectorAll("strong")].map(label=>{
-      const labelStyle=getComputedStyle(label);
+      const labelRect=label.getBoundingClientRect();
       return {
         text:label.textContent?.trim()??"",
-        whiteSpace:labelStyle.whiteSpace,
-        wordBreak:labelStyle.wordBreak,
-        overflowWrap:labelStyle.overflowWrap
+        width:labelRect.width,
+        scrollWidth:label.scrollWidth
       };
     });
     return {
+      x:rect.x,
       width:rect.width,
-      cssWidth:style.width,
-      minWidth:style.minWidth,
-      maxWidth:style.maxWidth,
-      inlineSize:style.inlineSize,
-      minInlineSize:style.minInlineSize,
-      maxInlineSize:style.maxInlineSize,
-      position:style.position,
-      transform:style.transform,
-      zoom:style.zoom,
+      height:rect.height,
       viewport:innerWidth,
-      ancestors,
+      scrollWidth:node.scrollWidth,
+      clientWidth:node.clientWidth,
       labels
     };
   });
-  assert(productMetrics.width>=280,"JM-02 desktop product menu must not collapse: "+JSON.stringify(productMetrics));
-  assert(productMetrics.labels.every(label=>label.whiteSpace==="nowrap"&&label.wordBreak==="normal"&&label.overflowWrap==="normal"),
-    "JM-02 desktop product menu labels must stay readable: "+JSON.stringify(productMetrics.labels));
+  assert(productMetrics.x<=1,"JM-02 desktop product drawer must anchor to the left edge: "+JSON.stringify(productMetrics));
+  assert(productMetrics.width>=300,"JM-02 desktop product drawer must remain readable: "+JSON.stringify(productMetrics));
+  assert(productMetrics.scrollWidth<=productMetrics.clientWidth+1,"JM-02 product drawer must not overflow horizontally: "+JSON.stringify(productMetrics));
+  assert(productMetrics.labels.every(label=>label.scrollWidth<=label.width+1),
+    "JM-02 product drawer labels must stay readable: "+JSON.stringify(productMetrics.labels));
+  assert.equal(await productMenu.locator('[data-mainlagi-shop-slot="parent-gated"]').count(),1,"JM-02 Shop parent gate remains visible");
   await page.keyboard.press("Escape");
+  assert.equal(await product.locator("[data-mainlagi-left-menu-drawer]").count(),0,"JM-02 product drawer closes with Escape");
 
   const profile=page.locator("[data-mainlagi-profile-menu]");
   await profile.locator("summary").click();
@@ -109,6 +94,7 @@ async function assertHeaderDropdowns(page){
   assert(profileWidth>=240,"JM-02 desktop profile menu must not collapse: "+profileWidth);
   await page.keyboard.press("Escape");
 }
+
 async function inspectSubject(page,subject,title,stageIds){
   await page.goto(base+"/child/demo-gian/subject/"+subject+"?qa=unlock-all",{waitUntil:"domcontentloaded",timeout:30000});
   const rootNode=page.locator('[data-belajar-journey-map="v1"]');
