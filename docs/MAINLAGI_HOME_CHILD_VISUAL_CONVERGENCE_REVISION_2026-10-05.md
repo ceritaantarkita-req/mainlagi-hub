@@ -1,6 +1,6 @@
 # MAINLAGI HOME ↔ CHILD HOME VISUAL CONVERGENCE REVISION
 **Date:** 2026-10-05  
-**Status:** DESIGN / UX REVISION SPEC — DISCUSSION APPROVED, NOT YET IMPLEMENTED  
+**Status:** IMPLEMENTED / MERGED / LIVE VERIFIED  
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 **Current baseline:** `main@372007eeca26e2f3d90fe577109668fa88511d04`
 
@@ -833,3 +833,46 @@ Canonical decisions:
 **Proposed canonical document name:**
 
 `docs/MAINLAGI_HOME_CHILD_VISUAL_CONVERGENCE_REVISION_2026-10-05.md`
+
+
+---
+
+# 28. Implementation Closure — 5 October 2026
+
+The approved convergence revision is now implemented, merged, and production-verified.
+
+Canonical runtime merge:
+
+```text
+PR:               #477
+final PR head:    aaa3545c265b020bae2628f5588f8e1be58fb872
+merged main:      0fa36e51fd6217a33f5bcf2fc5e0641cc5924982
+PR CI:            #2471 / run 37259553148 — FULL SUCCESS
+merged-main CI:   #2472 / run 37260239442 — FULL SUCCESS
+Cloudflare smoke: SUCCESS on exact merged main SHA
+```
+
+Verified implementation:
+
+- public `/` now uses the Child Home visual language as its family-entry surface;
+- the public hero uses the approved five-character Mainlagi SVG ensemble;
+- Mainlagi menu ownership moved to a shared accessible **left drawer**;
+- public header keeps the Mainlagi wordmark centered and account control on the right;
+- the child Journey Map header uses the same left-drawer navigation pattern;
+- the legacy public mobile bottom navigation is absent on `/`;
+- active-child resume remains preserved;
+- Shop remains parent-gated and commerce activation boundaries are unchanged;
+- learning evidence, mastery, progression, activity schema, World progression, and Motion Engine semantics were not changed.
+
+Regression coverage now locks:
+
+- 320 / 360 / 375 / 390 / 430 / 768 / 1024 responsive route behavior;
+- left-drawer positioning and keyboard/Escape behavior;
+- public-root visual convergence and removal of the legacy bottom navigation;
+- canonical five-character SVG hero provenance;
+- child Shop parent-gate preservation;
+- permanent visual baseline and no-horizontal-overflow checks.
+
+The short-lived implementation branch was removed after merge by repository branch hygiene.
+
+This document is now the canonical design + implementation closure for the Home ↔ Child Home visual convergence package.
