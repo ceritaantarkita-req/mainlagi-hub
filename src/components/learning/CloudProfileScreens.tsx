@@ -169,7 +169,7 @@ export function CloudChildSelectScreen() {
           <section className={styles.formCard} data-mainlagi-account-first-gate>
             <h2 style={{ margin: 0, color: "#24445e" }}>Buat profil anak dengan akun keluarga</h2>
             <p className={styles.pageLead}>
-              Profil production, progress, dan pengaturan keluarga disimpan melalui akun. Tanpa akun, Gian Demo tetap bisa dicoba.
+              Profil anak, progres, dan pengaturan keluarga disimpan melalui akun. Tanpa akun, Gian Demo tetap bisa dicoba.
             </p>
             <div className={styles.heroActionRow}>
               <Link className={styles.primaryButton} href={`/signup?next=${authNext}`}>Daftar dengan email</Link>
