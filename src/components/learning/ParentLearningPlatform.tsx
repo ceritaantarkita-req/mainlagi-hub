@@ -16,7 +16,7 @@ import {
 import { ProfileIdentityBadge, useLearningProfile, useLearningProgress } from "./LearningCommon";
 import styles from "./LearningPlatform.module.css";
 import { TopNavbar } from "@/components/nav/TopNavbar";
-import { House, Users, ShieldCheck, Sparkle, Gear, GameController, UserCircle } from "@phosphor-icons/react";
+import { House, Users, ShieldCheck, Sparkle, Gear, GameController } from "@phosphor-icons/react";
 
 const DEFAULT_PREFS: LearningPreferences = { allowMotionRecommendations: false, allowAiFeatures: false, reducedMotion: false, language: "id" };
 const PARENT_NAV = [
@@ -24,8 +24,7 @@ const PARENT_NAV = [
   { href: "/parent/children", label: "Anak", icon: Users },
   { href: "/parent/privacy", label: "Privasi & AI", icon: ShieldCheck },
   { href: "/parent/plan", label: "Paket", icon: Sparkle },
-  { href: "/parent/settings", label: "Pengaturan", icon: Gear },
-  { href: "/account", label: "Akun", icon: UserCircle }
+  { href: "/parent/settings", label: "Pengaturan", icon: Gear }
 ];
 
 export function ParentShell({ children }: { children: ReactNode }) {
