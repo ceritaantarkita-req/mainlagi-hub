@@ -48,7 +48,7 @@ export default function AccountPage() {
             <div className={styles.gateCopy}>
               <strong>Simpan progres keluarga di akun Mainlagi.</strong>
               <p>
-                Masuk untuk membuat profil anak production, menyimpan progres keluarga, dan membuka Area orang tua. Gian Demo tetap bisa dicoba tanpa akun.
+                Masuk untuk membuat profil anak, menyimpan progres keluarga, dan membuka Area orang tua. Gian Demo tetap bisa dicoba tanpa akun.
               </p>
             </div>
             <div className={styles.actions}>
