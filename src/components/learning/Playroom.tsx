@@ -129,7 +129,8 @@ export function PlayroomShell({ childId, children }: { childId?: string; childre
     {
       href: "/shop/parent-entry",
       label: "Shop",
-      description: "Buka bersama orang tua"
+      description: "Buka bersama orang tua",
+      dataShopSlot: "parent-gated"
     }
   ];
 
@@ -138,7 +139,11 @@ export function PlayroomShell({ childId, children }: { childId?: string; childre
       {!immersive ? (
         <header className={styles.header} data-mainlagi-jm02-header="v1">
           <div className={styles.headerBackSlot}>
-            <MainlagiLeftDrawer items={drawerItems} ariaLabel="Menu utama Mainlagi" />
+            <MainlagiLeftDrawer
+              items={drawerItems}
+              ariaLabel="Menu utama Mainlagi"
+              productNavMarker
+            />
             {routeState.backHref ? (
               <Link
                 href={routeState.backHref}
