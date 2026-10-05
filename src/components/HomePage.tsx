@@ -7,10 +7,10 @@ import { useEffect } from "react";
 import { useProfileCollection } from "@/components/learning/CloudProfileScreens";
 import { readActiveChild, childDestination } from "@/lib/learning/entry";
 import { SubjectDirectory } from "@/components/learning/Playroom";
-import { resolveCharacterPresentation } from "@/lib/learning/characterPresentation";
+import { resolveCharacterEnsemble } from "@/lib/learning/characterPresentation";
 import styles from "./PublicHome.module.css";
 
-const PUBLIC_HERO_CAST = resolveCharacterPresentation({
+const PUBLIC_HERO_CAST = resolveCharacterEnsemble({
   context: "home",
   requestedCharacters: ["naya", "gian", "paca", "zia", "gavi"],
   requestedState: "hero",
