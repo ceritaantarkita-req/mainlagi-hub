@@ -1,5 +1,5 @@
 .page {
-  min-height: 100dvh;
+  min-height: calc(100dvh - 72px);
   display: grid;
   align-items: center;
   padding: 40px 24px 72px;
@@ -172,7 +172,7 @@
 }
 
 @media (max-width: 520px) {
-  .page { padding: 16px 12px 44px; }
+  .page { min-height: calc(100dvh - 64px); padding: 16px 12px 44px; }
   .context, .panel { border-radius: 24px; }
   .context { min-height: 238px; padding: 24px 20px 18px; }
   .context h2 { font-size: 30px; max-width: 78%; }
