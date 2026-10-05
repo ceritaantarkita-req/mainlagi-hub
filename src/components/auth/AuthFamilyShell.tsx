@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { resolveCharacterPresentation } from "@/lib/learning/characterPresentation";
 import styles from "./AuthFamilyShell.module.css";
+import { TopNavbar } from "@/components/nav/TopNavbar";
 
 const AUTH_HERO_CAST = resolveCharacterPresentation({
   context: "home",
@@ -13,8 +14,10 @@ const AUTH_HERO_CAST = resolveCharacterPresentation({
 
 export function AuthFamilyShell({ children }: { children: ReactNode }) {
   return (
-    <main className={styles.page} data-mainlagi-auth-family-shell>
-      <div className={styles.layout}>
+    <>
+      <TopNavbar />
+      <main className={styles.page} data-mainlagi-auth-family-shell>
+        <div className={styles.layout}>
         <section className={styles.context} aria-labelledby="auth-family-context-title" data-mainlagi-auth-context>
           <Link className={styles.brand} href="/" aria-label="Mainlagi beranda">
             <img src="/artwork/garden-wordmark.webp" alt="Mainlagi" width={600} height={220} />
@@ -22,12 +25,13 @@ export function AuthFamilyShell({ children }: { children: ReactNode }) {
           <p className={styles.eyebrow}>Area orang tua</p>
           <h2 id="auth-family-context-title">Satu tempat untuk akun dan profil keluarga.</h2>
           <p>
-            Masuk untuk menyimpan progres dan mengelola pemain. Anak tetap bisa mulai bermain tanpa akun keluarga.
+            Daftar atau masuk untuk membuat profil anak, menyimpan progres, dan membuka area orang tua.
+            Gian Demo tetap bisa dicoba tanpa akun.
           </p>
           <ul className={styles.facts}>
-            <li><span className={styles.factMark} aria-hidden>✓</span>Profil anak tetap terpisah</li>
-            <li><span className={styles.factMark} aria-hidden>✓</span>Pengaturan keluarga ada di area orang tua</li>
-            <li><span className={styles.factMark} aria-hidden>✓</span>Main Gerak dengan kamera tetap opsional</li>
+            <li><span className={styles.factMark} aria-hidden>✓</span>Profil anak production tersimpan di akun keluarga</li>
+            <li><span className={styles.factMark} aria-hidden>✓</span>Progress dan pengaturan keluarga tersedia lintas perangkat</li>
+            <li><span className={styles.factMark} aria-hidden>✓</span>Gian Demo tetap tersedia tanpa akun</li>
           </ul>
           <div className={styles.art} aria-hidden data-session14-vector-cast="auth">
             {AUTH_HERO_CAST.map((character) => (
@@ -50,7 +54,8 @@ export function AuthFamilyShell({ children }: { children: ReactNode }) {
           {children}
         </section>
       </div>
-    </main>
+      </main>
+    </>
   );
 }
 
