@@ -17,6 +17,8 @@ const globalNavigation = read("src/lib/navigation/mainlagiGlobal.ts");
 const topNavbar = read("src/components/nav/TopNavbar.tsx");
 const authFamilyShell = read("src/components/auth/AuthFamilyShell.tsx");
 const aboutPage = read("src/app/about/page.tsx");
+const faqPage = read("src/app/faq/page.tsx");
+const accountGate = read("src/components/auth/AccountGate.tsx");
 const accountAboutPage = read("src/app/account/about/page.tsx");
 const accountPlayersPage = read("src/app/account/players/page.tsx");
 const accountPreferencesPage = read("src/app/account/preferences/page.tsx");
@@ -248,5 +250,11 @@ assert.match(aboutPage, /Belajar/, "canonical About must include Belajar");
 assert.match(aboutPage, /World/, "canonical About must include World");
 assert.match(aboutPage, /Gian Demo/, "canonical About must explain the explicit no-account demo boundary");
 assert.doesNotMatch(aboutPage, /10 permainan edukasi|Guru\s*&\s*presenter/i, "canonical About must not restore stale motion-only positioning");
+
+assert.match(faqPage, /anak usia 3–7 tahun/, "canonical FAQ must describe the current 3–7 Mainlagi audience");
+assert.match(faqPage, /Gian Demo/, "canonical FAQ must preserve the explicit no-account demo boundary");
+assert.doesNotMatch(faqPage, /semua game tanpa akun|10 permainan|TK[–-]SD|leaderboard mingguan|Guru\s*&\s*presenter/i, "canonical FAQ must not restore stale product/account positioning");
+assert.match(accountGate, /Gian Demo tetap bisa dicoba tanpa akun/, "generic account gate must use the explicit Gian Demo no-account boundary");
+assert.doesNotMatch(accountGate, /tetap bisa bermain tanpa akun/, "generic account gate must not imply unrestricted no-account production play");
 
 console.log("P0-UIA-01 canonical UI owner regression PASS: route owners remain locked and canonical global navigation/account-first/About ownership is protected.");
