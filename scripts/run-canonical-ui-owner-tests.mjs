@@ -19,6 +19,7 @@ const authFamilyShell = read("src/components/auth/AuthFamilyShell.tsx");
 const aboutPage = read("src/app/about/page.tsx");
 const faqPage = read("src/app/faq/page.tsx");
 const accountGate = read("src/components/auth/AccountGate.tsx");
+const legalPage = read("src/components/LegalPage.tsx");
 const accountAboutPage = read("src/app/account/about/page.tsx");
 const accountPlayersPage = read("src/app/account/players/page.tsx");
 const accountPreferencesPage = read("src/app/account/preferences/page.tsx");
@@ -256,5 +257,6 @@ assert.match(faqPage, /Gian Demo/, "canonical FAQ must preserve the explicit no-
 assert.doesNotMatch(faqPage, /semua game tanpa akun|10 permainan|TK[–-]SD|leaderboard mingguan|Guru\s*&\s*presenter/i, "canonical FAQ must not restore stale product/account positioning");
 assert.match(accountGate, /Gian Demo tetap bisa dicoba tanpa akun/, "generic account gate must use the explicit Gian Demo no-account boundary");
 assert.doesNotMatch(accountGate, /tetap bisa bermain tanpa akun/, "generic account gate must not imply unrestricted no-account production play");
+assert.match(legalPage, /<main className="fun-home">/, "public policy/About renderer must expose a main landmark");
 
 console.log("P0-UIA-01 canonical UI owner regression PASS: route owners remain locked and canonical global navigation/account-first/About ownership is protected.");
