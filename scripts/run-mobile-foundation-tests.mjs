@@ -33,7 +33,8 @@ try {
   assert.doesNotMatch(css, /overflow-x:\s*(hidden|clip)/, "mobile foundation must not hide horizontal-overflow bugs");
   assert.match(css, /\.routeBoundary\s*\{[\s\S]*max-width:\s*100%/, "route boundary must be width-safe");
   assert.match(css, /data-mainlagi-route-boundary="parent"[\s\S]*:has\(> aside\)/, "parent mobile route must collapse the desktop sidebar layout");
-  assert.match(css, /data-mainlagi-route-boundary="parent"\]\s+aside\s*\{[\s\S]*?display:\s*none\s*!important/, "parent mobile foundation must keep the desktop aside hidden below the tablet breakpoint");
+  assert.match(css, /data-mainlagi-route-boundary="parent"\]\s+aside\[data-mainlagi-parent-sidebar\]\s*\{[\s\S]*?display:\s*none\s*!important/, "parent mobile foundation must hide only the dedicated desktop parent sidebar below the tablet breakpoint");
+  assert.doesNotMatch(css, /data-mainlagi-route-boundary="parent"\]\s+aside\s*\{[\s\S]*?display:\s*none\s*!important/, "parent mobile foundation must never hide every aside because the global menu drawer is also an aside");
   assert.match(css, /routeBoundary[\s\S]*min-height:\s*var\(--ml-touch-min\)/, "mobile route controls must inherit the minimum touch height");
 
   assert.match(primitives, /ViewportOrientationFoundation/, "MobileFoundation must own the shared orientation signal");
