@@ -35,6 +35,7 @@ const ROUTES = [
   { name: "account-delete", path: "/account/delete", expectedPath: "/account/delete" },
   { name: "account-about", path: "/account/about", expectedPath: "/about" },
   { name: "about", path: "/about", expectedPath: "/about" },
+  { name: "faq", path: "/faq", expectedPath: "/faq" },
   { name: "login", path: "/login", expectedPath: "/login" },
   { name: "signup", path: "/signup", expectedPath: "/signup" },
   { name: "forgot-password", path: "/forgot-password", expectedPath: "/forgot-password" },
@@ -182,6 +183,13 @@ async function assertAboutCurrent(page, viewport) {
   assert.match(copy, /Gian Demo/i, `About must describe the demo/account boundary at ${viewport.width}px`);
   assert.doesNotMatch(copy, /10 permainan edukasi/i, `About restored stale motion-only positioning at ${viewport.width}px`);
   assert.doesNotMatch(copy, /Guru\s*&\s*presenter/i, `About restored stale primary audience at ${viewport.width}px`);
+}
+
+async function assertFaqCurrent(page, viewport) {
+  const copy = (await page.locator("main").innerText()).replace(/\s+/g, " ");
+  assert.match(copy, /anak usia 3[–-]7 tahun/i, `FAQ age positioning drifted at ${viewport.width}px`);
+  assert.match(copy, /Gian Demo/i, `FAQ must preserve the explicit no-account demo boundary at ${viewport.width}px`);
+  assert.doesNotMatch(copy, /semua game tanpa akun|10 permainan|TK[–-]SD|leaderboard mingguan|Guru\s*&\s*presenter/i, `FAQ restored stale product/account positioning at ${viewport.width}px`);
 }
 
 async function assertPublicFamilyEntry(page, viewport) {
@@ -390,6 +398,10 @@ async function inspect(page, route, viewport) {
     if (["account-about", "about"].includes(route.name)) {
       await assertCanonicalGlobalMenu(page, viewport, route.name);
       await assertAboutCurrent(page, viewport);
+    }
+    if (route.name === "faq") {
+      await assertCanonicalGlobalMenu(page, viewport, route.name);
+      await assertFaqCurrent(page, viewport);
     }
     if (["login", "signup", "forgot-password", "reset-password", "auth-error"].includes(route.name)) await assertAuthFamilySurface(page, route, viewport);
     if (route.name === "not-found") await assertSystemState(page, viewport);
