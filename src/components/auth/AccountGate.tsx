@@ -8,7 +8,7 @@ import Link from "next/link";
 export function AccountGate({ message }: { message?: string }) {
   return (
     <div className="account-gate">
-      <p>{message ?? "Masuk untuk mengelola fitur ini. Kamu tetap bisa bermain tanpa akun."}</p>
+      <p>{message ?? "Masuk untuk mengelola fitur ini. Gian Demo tetap bisa dicoba tanpa akun."}</p>
       <div className="account-gate__actions">
         <Link className="button button--primary" href="/login">
           Masuk

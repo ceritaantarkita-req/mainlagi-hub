@@ -4,6 +4,24 @@ Last reviewed: **5 October 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
+## 5 October 2026 — CANONICAL ACCOUNT + NAVIGATION PHASE 2 APPROVED / IN IMPLEMENTATION
+
+The post-convergence product audit found remaining navigation/account fragmentation across public, child, parent, auth, and account surfaces. The approved revision is appended to `docs/MAINLAGI_HOME_CHILD_VISUAL_CONVERGENCE_REVISION_2026-10-05.md`, section **29**.
+
+Canonical decisions for this active package:
+
+- one global Mainlagi menu order across non-immersive public / child / parent / auth surfaces;
+- `/parent` is the canonical **Area orang tua**;
+- signed-out users may browse public Mainlagi and use **Gian Demo**, but production child-profile creation becomes account-first;
+- authenticated users create/select cloud child profiles;
+- `/about` becomes the sole current product-information owner;
+- `/account/about` is retired as an owner and redirects to `/about`;
+- parent navigation becomes contextual subnavigation under the global Mainlagi header rather than a separate product shell;
+- login/signup are family/account surfaces, not gameplay, and must retain Mainlagi global navigation;
+- immersive activity / World stage / active gameplay remain the only justified global-header suppression cases.
+
+This package must preserve learning evidence, mastery, progression, World semantics, Motion Engine mechanics, and Shop parent-gating.
+
 ## 5 October 2026 — HOME ↔ CHILD HOME VISUAL CONVERGENCE MERGED / LIVE VERIFIED
 
 Canonical closure: `docs/MAINLAGI_HOME_CHILD_VISUAL_CONVERGENCE_REVISION_2026-10-05.md`.

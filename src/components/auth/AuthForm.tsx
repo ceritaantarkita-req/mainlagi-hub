@@ -15,9 +15,9 @@ const COPY: Record<Mode, { title: string; cta: string }> = {
 };
 
 function postAuthPath() {
-  if (typeof window === "undefined") return "/account";
+  if (typeof window === "undefined") return "/parent";
   const next = new URLSearchParams(window.location.search).get("next");
-  if (!next || !next.startsWith("/") || next.startsWith("//")) return "/account";
+  if (!next || !next.startsWith("/") || next.startsWith("//")) return "/parent";
   return next;
 }
 

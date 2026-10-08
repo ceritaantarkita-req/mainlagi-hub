@@ -13,8 +13,6 @@ import {
   CHARACTERS,
   DEMO_PROFILE,
   getActivity,
-  readProfiles,
-  saveProfile,
   type CharacterId,
   type LearningChildProfile
 } from "@/lib/learning/system";
@@ -42,7 +40,7 @@ export function useProfileCollection(): ProfileCollection & { refresh: () => Pro
     const userId = await getCurrentUserId();
     if (!userId) {
       setState({
-        profiles: [DEMO_PROFILE, ...readProfiles().filter((item) => item.id !== DEMO_PROFILE.id)],
+        profiles: [DEMO_PROFILE],
         authenticated: false,
         loading: false,
         error: null
@@ -124,32 +122,29 @@ export function CloudChildSelectScreen() {
   const createProfile = async () => {
     const clean = name.trim();
     if (!clean || busy) return;
+    if (!collection.authenticated) {
+      setError("Daftar atau masuk ke akun keluarga untuk membuat profil anak.");
+      return;
+    }
     setBusy(true);
     setError(null);
     try {
-      if (collection.authenticated) {
-        const profile = await createCloudLearningProfile({ name: clean, age, guide });
-        if (!profile) throw new Error("Profil cloud tidak berhasil dibuat.");
-        window.dispatchEvent(new CustomEvent("mainlagi-learning-profiles", { detail: { childId: profile.id } }));
-        rememberChild(profile.id);
-        router.push(childDestination(profile.id, subjectId));
-        return;
-      }
-
-      const id = typeof crypto !== "undefined" && "randomUUID" in crypto
-        ? crypto.randomUUID()
-        : `child-${Date.now()}`;
-      const profile: LearningChildProfile = { id, name: clean.slice(0, 24), age, guide, language: "id" };
-      saveProfile(profile);
+      const profile = await createCloudLearningProfile({ name: clean, age, guide });
+      if (!profile) throw new Error("Profil cloud tidak berhasil dibuat.");
       window.dispatchEvent(new CustomEvent("mainlagi-learning-profiles", { detail: { childId: profile.id } }));
-      rememberChild(id);
-      router.push(childDestination(id, subjectId));
+      rememberChild(profile.id);
+      router.push(childDestination(profile.id, subjectId));
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "Profil tidak berhasil dibuat.");
     } finally {
       setBusy(false);
     }
   };
+
+  const returnToChildSelect = subjectId
+    ? `/child/select?continue=1&subject=${encodeURIComponent(subjectId)}`
+    : "/child/select?continue=1";
+  const authNext = encodeURIComponent(returnToChildSelect);
 
   return (
     <PlayroomShell><main className={styles.surface}>
@@ -158,8 +153,8 @@ export function CloudChildSelectScreen() {
         <h1 className={styles.pageTitle}>Siapa yang mau belajar?</h1>
         <p className={styles.pageLead}>
           {collection.authenticated
-            ? "Profil akun tersimpan di cloud dan bisa dipakai lagi di perangkat lain."
-            : "Mode tamu menyimpan profil hanya di perangkat ini."}
+            ? "Profil anak tersimpan di akun keluarga dan bisa dipakai lagi di perangkat lain."
+            : "Coba Gian Demo tanpa akun, atau daftar / masuk untuk membuat profil anak sendiri."}
         </p>
 
         <section className={styles.section}>
@@ -170,57 +165,72 @@ export function CloudChildSelectScreen() {
           </div>
         </section>
 
-        <section className={styles.formCard}>
-          <h2 style={{ margin: 0, color: "#24445e" }}>Tambah profil anak</h2>
-          <div className={styles.formGroup}>
-            <label htmlFor="child-name">Nama panggilan</label>
-            <input
-              id="child-name"
-              className={styles.input}
-              value={name}
-              onChange={(event) => setName(event.target.value)}
-              maxLength={24}
-              placeholder="Contoh: Gian"
-            />
-          </div>
-          <div className={styles.formGroup}>
-            <span className={styles.formLabel}>Umur</span>
-            <div className={styles.choiceRow}>
-              {[3, 4, 5, 6, 7].map((value) => (
-                <button
-                  type="button"
-                  key={value}
-                  className={`${styles.choicePill} ${age === value ? styles.choicePillActive : ""}`}
-                  onClick={() => setAge(value)}
-                >
-                  {value}
-                </button>
-              ))}
+        {!collection.loading && !collection.authenticated ? (
+          <section className={styles.formCard} data-mainlagi-account-first-gate>
+            <h2 style={{ margin: 0, color: "#24445e" }}>Buat profil anak dengan akun keluarga</h2>
+            <p className={styles.pageLead}>
+              Profil anak, progres, dan pengaturan keluarga disimpan melalui akun. Tanpa akun, Gian Demo tetap bisa dicoba.
+            </p>
+            <div className={styles.heroActionRow}>
+              <Link className={styles.primaryButton} href={`/signup?next=${authNext}`}>Daftar dengan email</Link>
+              <Link className={styles.secondaryButton} href={`/login?next=${authNext}`}>Sudah punya akun? Masuk</Link>
             </div>
-          </div>
-          <div className={styles.formGroup}>
-            <span className={styles.formLabel}>Teman panduan</span>
-            <div className={styles.choiceRow}>
-              {(Object.keys(CHARACTERS) as CharacterId[]).map((id) => (
-                <button
-                  type="button"
-                  key={id}
-                  className={`${styles.choicePill} ${guide === id ? styles.choicePillActive : ""}`}
-                  onClick={() => setGuide(id)}
-                >
-                  {CHARACTERS[id].emoji} {CHARACTERS[id].name}
-                </button>
-              ))}
+          </section>
+        ) : null}
+
+        {collection.authenticated ? (
+          <section className={styles.formCard} data-mainlagi-cloud-profile-form>
+            <h2 style={{ margin: 0, color: "#24445e" }}>Tambah profil anak</h2>
+            <div className={styles.formGroup}>
+              <label htmlFor="child-name">Nama panggilan</label>
+              <input
+                id="child-name"
+                className={styles.input}
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+                maxLength={24}
+                placeholder="Contoh: Gian"
+              />
             </div>
-          </div>
-          {error ? <div className={styles.feedbackTry}>{error}</div> : null}
-          <div className={styles.heroActionRow}>
-            <button type="button" className={styles.primaryButton} onClick={() => void createProfile()} disabled={busy || !name.trim()}>
-              {busy ? "Menyimpan..." : collection.authenticated ? "Buat profil cloud" : "Buat profil"}
-            </button>
-            <Link className={styles.secondaryButton} href="/parent">Area orang tua</Link>
-          </div>
-        </section>
+            <div className={styles.formGroup}>
+              <span className={styles.formLabel}>Umur</span>
+              <div className={styles.choiceRow}>
+                {[3, 4, 5, 6, 7].map((value) => (
+                  <button
+                    type="button"
+                    key={value}
+                    className={`${styles.choicePill} ${age === value ? styles.choicePillActive : ""}`}
+                    onClick={() => setAge(value)}
+                  >
+                    {value}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className={styles.formGroup}>
+              <span className={styles.formLabel}>Teman panduan</span>
+              <div className={styles.choiceRow}>
+                {(Object.keys(CHARACTERS) as CharacterId[]).map((id) => (
+                  <button
+                    type="button"
+                    key={id}
+                    className={`${styles.choicePill} ${guide === id ? styles.choicePillActive : ""}`}
+                    onClick={() => setGuide(id)}
+                  >
+                    {CHARACTERS[id].emoji} {CHARACTERS[id].name}
+                  </button>
+                ))}
+              </div>
+            </div>
+            {error ? <div className={styles.feedbackTry}>{error}</div> : null}
+            <div className={styles.heroActionRow}>
+              <button type="button" className={styles.primaryButton} onClick={() => void createProfile()} disabled={busy || !name.trim()}>
+                {busy ? "Menyimpan..." : "Buat profil anak"}
+              </button>
+              <Link className={styles.secondaryButton} href="/parent">Area orang tua</Link>
+            </div>
+          </section>
+        ) : null}
       </div>
     </main></PlayroomShell>
   );

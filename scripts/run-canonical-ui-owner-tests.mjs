@@ -11,6 +11,18 @@ const childPathViews = read("src/components/learning/ChildLearningPathViews.tsx"
 const childLegacy = read("src/components/learning/ChildLearningPlatform.tsx");
 const parentLegacy = read("src/components/learning/ParentLearningPlatform.tsx");
 const worldLegacy = read("src/components/learning/world/WorldExperience.tsx");
+const playroom = read("src/components/learning/Playroom.tsx");
+const cloudProfiles = read("src/components/learning/CloudProfileScreens.tsx");
+const globalNavigation = read("src/lib/navigation/mainlagiGlobal.ts");
+const topNavbar = read("src/components/nav/TopNavbar.tsx");
+const authFamilyShell = read("src/components/auth/AuthFamilyShell.tsx");
+const aboutPage = read("src/app/about/page.tsx");
+const faqPage = read("src/app/faq/page.tsx");
+const accountGate = read("src/components/auth/AccountGate.tsx");
+const legalPage = read("src/components/LegalPage.tsx");
+const accountAboutPage = read("src/app/account/about/page.tsx");
+const accountPlayersPage = read("src/app/account/players/page.tsx");
+const accountPreferencesPage = read("src/app/account/preferences/page.tsx");
 
 const childHomePage = read("src/app/child/[childId]/home/page.tsx");
 const childSelectPage = read("src/app/child/select/page.tsx");
@@ -205,4 +217,46 @@ assert.ok(
   "World Stage route must stay on MoneyWorldStageScreen"
 );
 
-console.log("P0-UIA-01 canonical UI owner regression PASS: live route owners are locked, retired duplicate owners remain absent, and active fallback/Bermain/shell/rewards owners remain protected.");
+const canonicalLabels = [
+  "Beranda",
+  "Belajar",
+  "Bermain",
+  "World",
+  "Shop",
+  "Bacaan & ide",
+  "Area orang tua",
+  "Tentang Mainlagi"
+];
+let lastLabelIndex = -1;
+for (const label of canonicalLabels) {
+  const index = globalNavigation.indexOf(`"${label}"`);
+  assert.ok(index > lastLabelIndex, `canonical global menu label/order drifted at ${label}`);
+  lastLabelIndex = index;
+}
+assert.match(topNavbar, /buildMainlagiGlobalMenu/, "public/family header must use canonical global navigation");
+assert.match(playroom, /buildMainlagiGlobalMenu/, "child shell must use canonical global navigation");
+assert.match(parentLegacy, /<TopNavbar\s*\/>/, "parent shell must retain global Mainlagi header above parent subnavigation");
+assert.match(authFamilyShell, /<TopNavbar\s*\/>/, "auth family surfaces must retain global Mainlagi header");
+
+assert.match(cloudProfiles, /profiles:\s*\[DEMO_PROFILE\][\s\S]*authenticated:\s*false/, "signed-out profile collection must expose Gian Demo only");
+assert.match(cloudProfiles, /data-mainlagi-account-first-gate/, "child select must expose the account-first gate while signed out");
+assert.match(cloudProfiles, /data-mainlagi-cloud-profile-form/, "authenticated child select must expose the cloud profile form");
+assert.doesNotMatch(cloudProfiles, /readProfiles|saveProfile/, "signed-out production profile creation must not fall back to local persistent profiles");
+
+assert.match(accountAboutPage, /redirect\("\/about"\)/, "legacy account About route must redirect to canonical /about");
+assert.match(accountPlayersPage, /redirect\("\/parent\/children"\)/, "legacy account players route must redirect to parent children");
+assert.match(accountPreferencesPage, /redirect\("\/parent\/settings"\)/, "legacy account preferences route must redirect to parent settings");
+assert.match(aboutPage, /anak usia 3–7 tahun/, "canonical About must describe the current 3–7 Mainlagi audience");
+assert.match(aboutPage, /Belajar/, "canonical About must include Belajar");
+assert.match(aboutPage, /World/, "canonical About must include World");
+assert.match(aboutPage, /Gian Demo/, "canonical About must explain the explicit no-account demo boundary");
+assert.doesNotMatch(aboutPage, /10 permainan edukasi|Guru\s*&\s*presenter/i, "canonical About must not restore stale motion-only positioning");
+
+assert.match(faqPage, /anak usia 3–7 tahun/, "canonical FAQ must describe the current 3–7 Mainlagi audience");
+assert.match(faqPage, /Gian Demo/, "canonical FAQ must preserve the explicit no-account demo boundary");
+assert.doesNotMatch(faqPage, /semua game tanpa akun|10 permainan|TK[–-]SD|leaderboard mingguan|Guru\s*&\s*presenter/i, "canonical FAQ must not restore stale product/account positioning");
+assert.match(accountGate, /Gian Demo tetap bisa dicoba tanpa akun/, "generic account gate must use the explicit Gian Demo no-account boundary");
+assert.doesNotMatch(accountGate, /tetap bisa bermain tanpa akun/, "generic account gate must not imply unrestricted no-account production play");
+assert.match(legalPage, /<main className="fun-home">/, "public policy/About renderer must expose a main landmark");
+
+console.log("P0-UIA-01 canonical UI owner regression PASS: route owners remain locked and canonical global navigation/account-first/About ownership is protected.");

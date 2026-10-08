@@ -884,7 +884,7 @@
 }
 
 .parentSurface {
-  min-height: 100dvh;
+  min-height: calc(100dvh - 72px);
   background:
     radial-gradient(circle at 8% 0%, rgba(255, 229, 164, .34), transparent 24rem),
     #f6f8f3;
@@ -942,7 +942,7 @@
 }
 
 .parentLayout {
-  min-height: 100dvh;
+  min-height: calc(100dvh - 72px);
 }
 
 .parentContent {
@@ -1539,9 +1539,9 @@
 
   .parentSidebar {
     position: sticky;
-    top: 0;
+    top: 72px;
     display: flex;
-    height: 100dvh;
+    height: calc(100dvh - 72px);
     flex-direction: column;
     gap: 5px;
     padding: 22px 14px;
@@ -1644,6 +1644,8 @@ a.stageCard:hover,a.activityCard:hover,a.profileCard:hover,a.gameCard:hover { bo
 .input,.select { border:2px solid #c9d8ce; border-radius:14px; min-height:50px; color:#193b55; background:#fffef8; }
 @media(max-width:600px) { .choiceGrid { gap:12px; margin:30px auto; } .bigChoice { border-radius:22px; padding:14px 6px; } .activityPrompt { letter-spacing:-.5px; margin-bottom:26px; } .stageCard,.activityCard,.gameCard { padding:18px; } }
 @media(max-width:759px) {
+  .parentSurface,
+  .parentLayout { min-height: calc(100dvh - 64px); }
   .parentSidebar { display:none; }
 }
 

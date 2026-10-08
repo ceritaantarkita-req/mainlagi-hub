@@ -1,13 +1,8 @@
 import type { Metadata } from "next";
-import { Preferences } from "@/components/account/Preferences";
-import { AccountSectionShell } from "@/components/account/AccountSectionShell";
+import { redirect } from "next/navigation";
 
-export const metadata: Metadata = { title: "Preferensi" };
+export const metadata: Metadata = { title: "Pengaturan keluarga" };
 
 export default function PreferencesPage() {
-  return (
-    <AccountSectionShell title="Preferensi">
-      <Preferences />
-    </AccountSectionShell>
-  );
+  redirect("/parent/settings");
 }

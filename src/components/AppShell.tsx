@@ -3,7 +3,6 @@
 import { useEffect, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { TopNavbar } from "@/components/nav/TopNavbar";
-import { BottomNavbar } from "@/components/nav/BottomNavbar";
 import { SiteFooter } from "@/components/SiteFooter";
 
 function isImmersivePath(pathname: string): boolean {
@@ -26,10 +25,11 @@ function isImmersivePath(pathname: string): boolean {
 /**
  * Global app shell.
  *
- * Public/legacy pages keep the existing site navigation. Gameplay, admin,
- * child learning, parent, and family-auth surfaces own their viewport and
- * therefore drop the public navigation entirely. The root is public/family-
- * facing for a clean session; HomePage itself preserves known-child fast resume.
+ * Public/account browsing pages use the canonical global header directly.
+ * Child, parent, and family-auth surfaces own their viewport so they can add
+ * their own contextual subnavigation while still rendering the same global
+ * Mainlagi menu. True gameplay/admin routes remain chrome-controlled by their
+ * dedicated owners.
  */
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
@@ -49,7 +49,6 @@ export function AppShell({ children }: { children: ReactNode }) {
       <TopNavbar />
       <div className={`app-shell__main ${isPublicHome ? "app-shell__main--home" : ""}`}>{children}</div>
       {isAccount ? <SiteFooter /> : null}
-      {isPublicHome ? null : <BottomNavbar />}
     </div>
   );
 }

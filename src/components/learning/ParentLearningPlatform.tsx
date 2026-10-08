@@ -15,6 +15,7 @@ import {
 } from "@/lib/learning/system";
 import { ProfileIdentityBadge, useLearningProfile, useLearningProgress } from "./LearningCommon";
 import styles from "./LearningPlatform.module.css";
+import { TopNavbar } from "@/components/nav/TopNavbar";
 import { House, Users, ShieldCheck, Sparkle, Gear, GameController } from "@phosphor-icons/react";
 
 const DEFAULT_PREFS: LearningPreferences = { allowMotionRecommendations: false, allowAiFeatures: false, reducedMotion: false, language: "id" };
@@ -31,22 +32,13 @@ export function ParentShell({ children }: { children: ReactNode }) {
   const isActive = (href: string) => href === "/parent" ? pathname === "/parent" : pathname.startsWith(href);
 
   return (
-    <div className={styles.parentSurface}>
-      <header className={styles.parentMobileHeader}>
-        <Link className={styles.parentMobileBrand} href="/parent">
-          <span>Mainlagi</span>
-          <small>Ruang orang tua</small>
-        </Link>
-        <Link href="/child/select" className={styles.parentModeChild}>
-          <GameController size={20} weight="duotone" aria-hidden />
-          <span>Mode anak</span>
-        </Link>
-      </header>
-
-      <div className={styles.parentLayout}>
+    <>
+      <TopNavbar />
+      <div className={styles.parentSurface} data-mainlagi-parent-global-shell>
+        <div className={styles.parentLayout}>
         <aside className={styles.parentSidebar} data-mainlagi-parent-sidebar>
           <Link className={styles.parentBrand} href="/parent">
-            <span>Mainlagi<small className={styles.parentBrandHint}>Ruang orang tua</small></span>
+            <span>Area orang tua<small className={styles.parentBrandHint}>Mainlagi keluarga</small></span>
           </Link>
           <nav className={styles.parentSidebarNav} aria-label="Navigasi orang tua">
             {PARENT_NAV.map((item) => {
@@ -72,23 +64,24 @@ export function ParentShell({ children }: { children: ReactNode }) {
         <div className={styles.parentContent}>{children}</div>
       </div>
 
-      <nav className={styles.parentMobileNav} data-mainlagi-parent-mobile-nav aria-label="Navigasi orang tua">
-        {PARENT_NAV.map((item) => {
-          const active = isActive(item.href);
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              aria-current={active ? "page" : undefined}
-              className={`${styles.parentMobileNavItem} ${active ? styles.parentMobileNavItemActive : ""}`}
-            >
-              <item.icon size={22} weight="duotone" aria-hidden />
-              <span>{item.label}</span>
-            </Link>
-          );
-        })}
-      </nav>
-    </div>
+        <nav className={styles.parentMobileNav} data-mainlagi-parent-mobile-nav aria-label="Navigasi orang tua">
+          {PARENT_NAV.map((item) => {
+            const active = isActive(item.href);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={active ? "page" : undefined}
+                className={`${styles.parentMobileNavItem} ${active ? styles.parentMobileNavItemActive : ""}`}
+              >
+                <item.icon size={22} weight="duotone" aria-hidden />
+                <span>{item.label}</span>
+              </Link>
+            );
+          })}
+        </nav>
+      </div>
+    </>
   );
 }
 
@@ -184,6 +177,7 @@ export function ParentSettingsScreen() {
             <p>Informasi produk ditempatkan di area orang tua/public, bukan di navigasi anak.</p>
           </div>
           <div className={styles.settingsLinks}>
+            <Link href="/account" className={styles.settingsLink}><span>Akun keluarga</span><strong aria-hidden>→</strong></Link>
             <Link href="/parent/plan" className={styles.settingsLink}><span>Paket Mainlagi</span><strong aria-hidden>→</strong></Link>
             <Link href="/about" className={styles.settingsLink}><span>Tentang Mainlagi</span><strong aria-hidden>→</strong></Link>
             <Link href="/faq" className={styles.settingsLink}><span>FAQ</span><strong aria-hidden>→</strong></Link>

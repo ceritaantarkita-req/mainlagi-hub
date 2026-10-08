@@ -20,7 +20,7 @@ export function LegalPage({
   sections: LegalSection[];
 }) {
   return (
-    <div className="fun-home">
+    <main className="fun-home">
       <section className="page-shell legal-page">
         <header className="legal-page__head">
           <h1>{title}</h1>
@@ -40,6 +40,6 @@ export function LegalPage({
           <Link href="/">← Kembali ke beranda</Link>
         </footer>
       </section>
-    </div>
+    </main>
   );
 }

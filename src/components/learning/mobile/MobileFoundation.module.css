@@ -247,11 +247,11 @@
     width: 100%;
   }
 
-  .routeBoundary[data-mainlagi-route-boundary="parent"] aside {
+  .routeBoundary[data-mainlagi-route-boundary="parent"] aside[data-mainlagi-parent-sidebar] {
     display: none !important;
   }
 
-  .routeBoundary[data-mainlagi-route-boundary="parent"] aside + div {
+  .routeBoundary[data-mainlagi-route-boundary="parent"] aside[data-mainlagi-parent-sidebar] + div {
     width: 100%;
     min-width: 0;
   }
