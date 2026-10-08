@@ -1,6 +1,6 @@
 # MAINLAGI HOME ↔ CHILD HOME VISUAL CONVERGENCE REVISION
 **Date:** 2026-10-05  
-**Status:** PHASE 1 LIVE VERIFIED; PHASE 2 CANONICAL ACCOUNT + NAVIGATION REVISION APPROVED / IN IMPLEMENTATION  
+**Status:** PHASE 1 LIVE VERIFIED; PHASE 2 MERGED / EXACT-SHA PRODUCTION SMOKE PENDING  
 **Repository:** `ceritaantarkita-req/mainlagi-hub`  
 **Current baseline:** `main@372007eeca26e2f3d90fe577109668fa88511d04`
 
@@ -884,7 +884,7 @@ This document is now the canonical design + implementation closure for the Home 
 
 **Decision date:** 5 October 2026  
 **Baseline:** `main@7f122ec9b391a71c5a5a7dbd2e092661ff03d037`  
-**Status:** APPROVED FOR IMPLEMENTATION
+**Status:** MERGED IN PR #479; PRODUCTION SMOKE NOT YET VERIFIED
 
 Phase 1 solved the largest Home ↔ Child Home visual split. The next audit showed that Mainlagi still exposes multiple competing navigation/account models:
 
@@ -1136,3 +1136,17 @@ Phase 2 is complete when:
 - [ ] Responsive QA remains green at canonical viewport matrix.
 - [ ] Production smoke verifies the exact merged SHA.
 
+
+---
+
+## 29.12 Post-merge checkpoint — 8 October 2026
+
+- **Runtime PR:** [#479](https://github.com/ceritaantarkita-req/mainlagi-hub/pull/479), final PR head `d24bda514fb8e7be99f5ded89ed0c6101f954382`.
+- **Merged main:** `3390bac4ca1dc832ca70378741693fb4da1a5484` (squash merge completed; implementation branch deleted).
+- **PR CI:** GitHub Actions run `37462467191` — SUCCESS for quality, secrets, production build, Windows, dependency audit, Shop PostgreSQL staging, and Chromium mobile/visual QA.
+- **Mobile regression:** the parent sidebar CSS hides only `aside[data-mainlagi-parent-sidebar]` and no longer hides the global drawer; mobile QA and the permanent visual baseline passed.
+- **Product copy:** current FAQ documents ages 3–7, production account-first child profiles, camera-optional learning, and signed-out Gian Demo.
+- **Not yet verified:** the PR Cloudflare smoke job was SKIPPED. The exact merged-SHA production smoke and live QA evidence remain required before checking the final acceptance item or claiming Phase 2 LIVE VERIFIED.
+- **Preserved scope:** learning evidence/mastery, World, Motion Engine, Shop parent-gate/commerce activation, and existing production data boundaries.
+
+Follow-up: capture merged-main workflow and exact-SHA Cloudflare smoke success. If green, mark Phase 2 **LIVE VERIFIED**, close acceptance criteria, and record the workflow run ID and production evidence here and in `docs/CURRENT_STATE.md`.
