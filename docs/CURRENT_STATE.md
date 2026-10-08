@@ -1,10 +1,20 @@
 # Mainlagi Hub — Current State
 
-Last reviewed: **5 October 2026**
+Last reviewed: **8 October 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
-## 5 October 2026 — CANONICAL ACCOUNT + NAVIGATION PHASE 2 APPROVED / IN IMPLEMENTATION
+## 8 October 2026 — CANONICAL ACCOUNT + NAVIGATION PHASE 2 MERGED / LIVE SMOKE NOT YET VERIFIED
+
+Canonical implementation PR **#479** (`agent/canonical-account-nav-20261005`) was squash-merged into `main@3390bac4ca1dc832ca70378741693fb4da1a5484`; final PR head was `d24bda514fb8e7be99f5ded89ed0c6101f954382`. The merge succeeded, PR #479 is closed, and the short-lived implementation branch was deleted.
+
+The final PR GitHub Actions run **37462467191** completed **SUCCESS**, including Quality gate (Ubuntu), Secret history scan, Production build, Windows compatibility, Production dependency audit, Shop PostgreSQL staging gate, and Mobile route QA (Chromium). The mobile job also passed the permanent visual product baseline, canonical mobile route/accessibility matrix, and responsive screenshot upload. **Production smoke (Cloudflare) was SKIPPED on the PR run**, so this is not yet an exact merged-SHA live verification.
+
+Merged changes include one canonical eight-item Mainlagi global menu across applicable public/child/parent/auth surfaces; the left drawer and contextual parent subnavigation; authenticated production child profiles with **Gian Demo** as the signed-out demo exception; canonical `/parent` and `/about` destinations; synchronized 3–7 / account-first FAQ; the mobile parent-sidebar selector fix; and production dependency advisory lockfile updates. No changes were intended to learning evidence/mastery, World progression, Motion Engine, or Shop activation boundaries.
+
+**Remaining closure gate:** obtain the merged-main CI workflow result and confirm **Production smoke (Cloudflare) SUCCESS for the exact `3390bac4...` SHA**, then update this section and the revision's Section 29 acceptance checklist to **LIVE VERIFIED**. Do not infer production deployment from the successful PR checks alone.
+
+## 5 October 2026 — CANONICAL ACCOUNT + NAVIGATION PHASE 2 APPROVED (HISTORICAL DECISION)
 
 The post-convergence product audit found remaining navigation/account fragmentation across public, child, parent, auth, and account surfaces. The approved revision is appended to `docs/MAINLAGI_HOME_CHILD_VISUAL_CONVERGENCE_REVISION_2026-10-05.md`, section **29**.
 
