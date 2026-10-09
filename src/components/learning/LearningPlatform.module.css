@@ -1729,3 +1729,157 @@ a.stageCard:hover,a.activityCard:hover,a.profileCard:hover,a.gameCard:hover { bo
     padding: 0;
   }
 }
+
+
+/* Visual-first Wave 2: scoped MatchingActivity presentation only.
+   Existing .matchGrid/.matchButton semantics and gameplay selectors stay intact. */
+.matchingExperience {
+  position: relative;
+  width: min(720px, 100%);
+  margin: 0 auto;
+  display: grid;
+  gap: 15px;
+  text-align: center;
+  color: #193b55;
+}
+.matchingIntro {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+.matchingTitle {
+  margin: 0;
+  font-size: clamp(25px, 4.2vw, 39px);
+  letter-spacing: -.035em;
+  line-height: 1.12;
+  font-weight: 950;
+  color: #173b56;
+}
+.matchingProgress {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: #fff6d7;
+  color: #59481b;
+  border: 2px solid #f0d895;
+  font-weight: 900;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.matchingProgressCount { font-size: 15px; }
+.matchingProgressPips { display: inline-flex; align-items: center; gap: 5px; }
+.matchingProgressPips > span {
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid #b9a973;
+  background: #fffdf7;
+}
+.matchingProgressPips > span[data-filled="true"] {
+  border-color: #27785a;
+  background: #3e9a72;
+}
+.matchingSurface {
+  padding: clamp(12px, 2.5vw, 24px);
+  border: 2px solid #e0e6d1;
+  border-radius: clamp(23px, 3.8vw, 36px);
+  background: rgba(255, 253, 243, .96);
+  box-shadow: 0 7px 0 rgba(176, 195, 167, .76), 0 18px 32px rgba(17, 61, 71, .10);
+}
+.matchingSideLabels {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(9px, 2vw, 16px);
+  margin-bottom: 10px;
+}
+.matchingSideLabels span {
+  font-size: 22px;
+  font-weight: 900;
+  color: #537d72;
+  line-height: 1;
+}
+.matchingExperience .matchGrid { gap: clamp(9px, 2vw, 18px); }
+.matchingExperience .matchColumn { gap: clamp(10px, 2vw, 16px); }
+.matchingExperience .matchButton {
+  min-height: clamp(104px, 16vh, 146px);
+  padding: 12px 9px;
+  border: 3px solid #d0e3dd;
+  border-radius: clamp(19px, 3.5vw, 30px);
+  background: #fffefa;
+  color: #173b56;
+  box-shadow: 0 5px 0 #cadcd4;
+  font-size: clamp(29px, 6.4vw, 53px);
+  line-height: 1.13;
+  transition: border-color .14s ease, background-color .14s ease, transform .14s ease;
+  touch-action: manipulation;
+}
+.matchingExperience .matchButton:not(:disabled):active { transform: translateY(2px); }
+.matchingExperience .matchButton:focus-visible {
+  outline: 4px solid #136dba;
+  outline-offset: 3px;
+}
+.matchingExperience .matchSelected {
+  border-color: #1b79be;
+  background: #e5f4ff;
+  box-shadow: 0 5px 0 #9dd0f0, inset 0 0 0 2px #b7e5ff;
+}
+.matchingExperience .matchDone {
+  border-color: #339977;
+  background: #dff8e9;
+  color: #1b6550;
+  box-shadow: 0 5px 0 #aad7bf;
+}
+.matchingExperience .matchButton:disabled:not(.matchDone) {
+  opacity: .60;
+  background: #f5f5f0;
+}
+.matchingExperience .matchButton.matchDone:disabled { opacity: 1; }
+.matchingFeedback {
+  min-height: 43px;
+  display: grid;
+  place-items: center;
+  padding: 8px 13px 2px;
+  margin: 12px auto 0;
+  font-size: clamp(15px, 2.5vw, 19px);
+  font-weight: 900;
+  line-height: 1.32;
+  color: #285b57;
+  text-wrap: balance;
+}
+.matchingFeedback[data-match-feedback="correct"],
+.matchingFeedback[data-match-feedback="done"] { color: #156547; }
+.matchingFeedback[data-match-feedback="retry"] { color: #925a1a; }
+@media (max-width: 760px) {
+  .matchingExperience { gap: 10px; }
+  .matchingIntro { flex-direction: column; gap: 8px; }
+  .matchingTitle { font-size: clamp(24px, 6.8vw, 34px); }
+  .matchingProgress { padding: 6px 11px; }
+  .matchingSurface { padding: 12px; border-radius: 25px; }
+  .matchingSideLabels { margin-bottom: 7px; }
+  .matchingSideLabels span { font-size: 18px; }
+  .matchingExperience .matchButton {
+    min-height: clamp(110px, 16vh, 146px);
+    font-size: clamp(28px, 8vw, 43px);
+    border-radius: 23px;
+  }
+  .matchingFeedback { margin-top: 9px; padding: 5px 5px 0; font-size: 16px; }
+}
+@media (max-width: 340px) {
+  .matchingExperience .matchButton { min-height: 104px; font-size: 28px; }
+  .matchingSurface { padding: 9px; }
+}
+@media (orientation: landscape) and (max-height: 620px) {
+  .matchingIntro { flex-direction: row; }
+  .matchingExperience .matchButton { min-height: 88px; font-size: 30px; }
+  .matchingExperience .matchColumn { gap: 8px; }
+  .matchingExperience .matchingSurface { padding: 9px 13px; }
+  .matchingFeedback { min-height: 32px; margin-top: 5px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .matchingExperience .matchButton { transition: none; }
+}
