@@ -67,3 +67,48 @@
 .workspace .play{width:min(1100px,100%);margin:24px auto 0}
 .workspace .title{font-size:clamp(26px,3vw,40px);margin-bottom:12px}
 @media(max-width:760px){.workspace{padding:12px 12px 28px}.workspace .brand{width:112px;height:44px}.workspace .control{min-height:48px;padding:8px 10px;font-size:14px}.workspace .play{margin-top:18px}}
+
+
+/* Opt-in child visual-first Matching focus: no changes to shared Garden defaults. */
+.matchingFocus {
+  background-color: #d9eee0;
+  padding-bottom: 24px;
+}
+.matchingFocus::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(180deg,
+    rgba(233, 249, 239, .76) 0%,
+    rgba(240, 249, 235, .83) 37%,
+    rgba(238, 250, 242, .73) 70%,
+    rgba(235, 248, 234, .44) 100%
+  );
+  pointer-events: none;
+}
+.matchingFocus .header { position: relative; z-index: 2; }
+.matchingFocus .play {
+  width: min(720px, 100%);
+  margin-top: clamp(14px, 3vh, 31px);
+}
+.matchingFocus .characterLayer { opacity: .92; }
+@media (max-width: 760px) {
+  .matchingFocus { padding: 12px 12px max(18px, env(safe-area-inset-bottom)); }
+  .matchingFocus .play { margin-top: 16px; }
+  .matchingFocus .brand { width: 102px; height: 40px; }
+  .matchingFocus .control { min-height: 48px; padding: 9px 11px; }
+}
+@media (max-width: 768px) and (orientation: portrait) {
+  .matchingFocus .characterLayer {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: clamp(94px, 22vw, 132px);
+    margin: 14px auto 0;
+  }
+}
+@media (orientation: landscape) and (max-height: 620px) {
+  .matchingFocus .play { margin-top: 9px; width: min(560px, 73%); }
+  .matchingFocus .characterLayer { opacity: .52; }
+}
