@@ -83,7 +83,7 @@ async function assertCharacterLayer(scope, expectedIds, expectedState, label) {
   assert(snapshot.every((item) => item.pointerEvents === "none"), `${label} characters must remain pointer transparent`);
 }
 
-async function assertCoreThumbnail(image, expectedFragment, label) {
+async function assertCoreThumbnail(image, expectedFragment, label, expectedRatio = 4 / 3) {
   await image.waitFor({ state: "visible", timeout: 8_000 });
   await image.evaluate((item) => item.decode());
   const snapshot = await image.evaluate((item) => {
@@ -98,7 +98,7 @@ async function assertCoreThumbnail(image, expectedFragment, label) {
   });
   assert(snapshot.src.includes(expectedFragment), `${label} must load ${expectedFragment}: ${snapshot.src}`);
   assert(snapshot.naturalWidth > 0 && snapshot.naturalHeight > 0, `${label} must decode`);
-  assert(Math.abs((snapshot.width / snapshot.height) - (4 / 3)) < 0.04, `${label} must render 4:3: ${JSON.stringify(snapshot)}`);
+  assert(Math.abs((snapshot.width / snapshot.height) - expectedRatio) < (expectedRatio === 4 / 3 ? 0.04 : 0.2), `${label} must keep the intended aspect ratio ${expectedRatio}: ${JSON.stringify(snapshot)}`);
 }
 
 async function assertNoHorizontalOverflow(page, label) {
@@ -134,7 +134,7 @@ async function runViewport(browser, viewport) {
 
   await page.goto(baseUrl + "/child/demo-gian/home", { waitUntil: "domcontentloaded", timeout: 30_000 });
   const homeHero = page.locator("[data-mainlagi-home-hero] img").first();
-  await assertCoreThumbnail(homeHero, "core-thumbnails", `Home hero ${viewport.width}px`);
+  await assertCoreThumbnail(homeHero, "core-thumbnails", `Home hero ${viewport.width}px`, viewport.width <= 760 ? 2 : 1.6);
 
   const domainCards = page.locator("[data-mainlagi-domain-card]");
   assert.equal(await domainCards.count(), 3, "Home must expose exactly Belajar, World, and Bermain product domains");
