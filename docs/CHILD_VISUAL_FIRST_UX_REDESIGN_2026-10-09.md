@@ -1,7 +1,7 @@
 # Mainlagi Child Visual-First UX Redesign — Approved Execution Plan
 
 **Date:** 9 October 2026  
-**Status:** WAVES 1–2 MERGED / WAVE 3 MATCHING GUIDANCE HARDENING / LIVE VERIFICATION PENDING  
+**Status:** WAVES 1–3 MERGED / PR CI VERIFIED / CLOUDFLARE + REAL iOS LIVE ACCEPTANCE PENDING  
 **Source baseline:** `main@25e8388c28e16b477e4c305b775aacbd5056e87c`  
 **Inputs:** four user-supplied iPhone screenshots (matching letters, Belajar Journey Map, Stage Detail, Child Home) and current canonical runtime owners on `main`.
 
@@ -168,3 +168,20 @@ No curriculum or new gameplay mechanics, question generation, RLS/auth, evidence
 - [ ] Mobile 320/390/430, landscape, reduced motion, focus and no horizontal overflow; approved characters stay clear of controls.
 - [ ] All CI gates and permanent visual baseline PASS before merge.
 - [ ] Exact merged-SHA Cloudflare production smoke and user iPhone review are required before LIVE VERIFIED.
+
+
+## 12. Waves 1–3 merged and open live acceptance (9 October 2026)
+
+| Wave | Scope | Merge SHA | PR CI run | Result |
+|---|---|---|---|---|
+| 1 | Child Home, 9-subject Journey Map, Stage Detail | `de6d3957b741d81d4eccc2078063a0f50f4e3ebc` | `37933701872` | 7/7 success |
+| 2 | Matching visual and Garden focus only | `f4d1fffa8cdde5d73932b793800c9821554340a7` | `37937532455` | 7/7 success |
+| 3 | Matching localized feedback, canonical text/audio fallback, subtle tones, existing character bridge QA | `fa1a054ce0311a74a4171bdc622393c099fbe1c1` | `37942364150` | 7/7 success after failed Chromium-only rerun |
+
+**Wave 3 flaky-test evidence:** The initial Chromium job failed in existing `scripts/run-si08-bermain-games-4-6-browser-tests.mjs` waiting for preflight `Mouse / keyboard` button. Matching/Wave 3 tests had passed earlier in the same run. A single retry of the failed Chromium job succeeded, with **no code, branch, or test bypass**. Treat SI-08 issue as a potential intermittent QA failure for investigation if it repeats, not a confirmed product defect.
+
+**Branch policy honored:** each wave used one branch/one PR sequentially; all implementation branches auto-deleted on merge. No outstanding PR at time of this documentation handoff.
+
+**DO NOT mark LIVE VERIFIED:** PR-side Cloudflare smoke is skipped by design. The only release considered for exact-SHA verification is latest `main@fa1a054c...`. In GitHub Actions, locate the **push** run for this SHA and require `Production smoke (Cloudflare)` = SUCCESS; workflow validates `GET /`, `GET /shop`, `GET /shop/policies`, and `GET /api/health` with exact SHA, branch and configured site. Production endpoint/Actions push-run could not be inspected from the current tool access. Real iOS Safari visual/interaction acceptance for Child Home, Journey Map, Stage Detail, Matching 320/390/430px remains open.
+
+**Next work only after evidence:** document exact push-run URL and health response SHA/config, review four fresh device screenshots plus basic wrong/correct/Again and audio fallback interaction, and capture user approval. If defects appear, fix narrowly in one sequential branch; do not change curriculum/evidence/progression. No automatic Wave 4 implementation, no claims of a full visual product approval.

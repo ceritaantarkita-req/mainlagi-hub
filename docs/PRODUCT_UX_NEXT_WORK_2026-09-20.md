@@ -7,7 +7,13 @@ Current synchronized Journey Map runtime baseline: `main` = `b4473cc0582c096441e
 
 This document is the short human/AI handoff for Mainlagi product-quality work. It records the user-accepted UX direction without changing curriculum, mastery, evidence or progression. The latest WS-05 Logic reuse wave is closed; any later mechanic work remains a separate audited track.
 
-## 9 October 2026 — USER-APPROVED CHILD VISUAL-FIRST REDESIGN (WAVE 1 ACTIVE)
+## 9 October 2026 — CHILD VISUAL WAVES 1–3 MERGED / PRODUCTION ACCEPTANCE OPEN
+
+Canonical handoff: [`CHILD_VISUAL_FIRST_UX_REDESIGN_2026-10-09.md`](CHILD_VISUAL_FIRST_UX_REDESIGN_2026-10-09.md), Sections 9–12. Wave 1 PR #482 / `de6d3957...`, Wave 2 PR #483 / `f4d1fffa...`, and Wave 3 PR #484 / `fa1a054c...` were **sequentially merged** after full successful PR CI. All temporary branches auto-deleted. Scope: compact Child Home; readable shared Belajar Journey Map and Stage sheet; focused Matching board; English/Indonesian feedback, readable full prompt and muted-aware tones. Character states reuse the canonical learning bridge; do not duplicate character feedback. Matching/evidence/mastery, World, Bermain, Shop, auth and data ownership boundaries remain intact.
+
+**Current priority: exact SHA Cloudflare production smoke and real iOS visual/interaction approval**, not another visual implementation wave. The three PR smoke jobs were skipped by design, so these waves are **MERGED / PR CI VERIFIED, NOT LIVE VERIFIED**. Historical Wave 1 active text follows below for provenance only.
+
+## 9 October 2026 — USER-APPROVED CHILD VISUAL-FIRST REDESIGN (WAVE 1 ACTIVE — HISTORICAL CHECKPOINT)
 
 Canonical handoff: [`CHILD_VISUAL_FIRST_UX_REDESIGN_2026-10-09.md`](CHILD_VISUAL_FIRST_UX_REDESIGN_2026-10-09.md). Four mobile screenshots expose text-heavy Child Home, administrative Belajar Journey Map, over-detailed Stage sheet, and visually busy matching activity. The user approved the visual correction. **Wave 1 = Child Home + shared Belajar Journey Map + Stage Detail presentation only**, one short-lived branch and one PR. Matching/Garden are follow-up waves; do not silently start them. Preserve stage data, learning evidence/mastery, child/profile ownership, World, Motion, Shop and all previous Journey Map runtime closure. This visual approval supersedes the old "no visual redesign next" instruction for these child-facing surfaces only, not the P0-UIA architecture hygiene roadmap. No LIVE VERIFIED claim until exact merged-SHA production smoke and user visual QA.
 
