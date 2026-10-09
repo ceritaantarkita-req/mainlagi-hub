@@ -4,7 +4,19 @@ Last reviewed: **9 October 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
-## 9 October 2026 — CHILD VISUAL WAVES 1–2 MERGED / WAVE 3 AUDIO-FEEDBACK GUARDS IN PR
+## 9 October 2026 — CHILD VISUAL WAVES 1–3 MERGED / PR CI VERIFIED, NOT LIVE VERIFIED
+
+**Latest `main`:** `fa1a054ce0311a74a4171bdc622393c099fbe1c1` (Wave 3 PR **#484** squash merge). Phase evidence:
+- **Wave 1:** PR **#482**, merged `de6d3957b741d81d4eccc2078063a0f50f4e3ebc`, PR CI run `37933701872` **SUCCESS** (7/7 required gates).
+- **Wave 2:** PR **#483**, merged `f4d1fffa8cdde5d73932b793800c9821554340a7`, PR CI run `37937532455` **SUCCESS** (7/7 required gates).
+- **Wave 3:** PR **#484**, merged `fa1a054ce0311a74a4171bdc622393c099fbe1c1`, PR CI run `37942364150` **SUCCESS**, after retry of only failed Chromium job. Initial Chromium attempt failed in unrelated existing SI-08 Bermain browser preflight waiting for `Mouse / keyboard`; retry passed unchanged SHA. This remains a **flake candidate**, not an established runtime bug; preserve the SI-08 test. All seven PR gates succeeded on final attempt.
+- All three temporary implementation branches were **auto-deleted**; there were **zero open PRs after #484 merged**. The section immediately below is historical.
+
+**Delivered presentation scope:** child-first Home hero/CTA, 9-subject Journey Map and Stage Detail disclosure; matching board and Garden-only scoped focus; bilingual matching feedback, compact canonical text fallback and muted-aware user-gesture tones. Matching algorithm and activity evidence/mastery, World, Motion Engine, Shop, auth, DB schema, and production character assets were not intentionally modified. Canonical details: `docs/CHILD_VISUAL_FIRST_UX_REDESIGN_2026-10-09.md`.
+
+**Closure deliberately open:** all PR production-smoke jobs were **SKIPPED** (PR trigger). Need **push-to-main workflow `Production smoke (Cloudflare)` SUCCESS** for exact latest `fa1a054c...` SHA and `/api/health` matching SHA/branch/config; prior PR CI cannot substitute for deployment evidence. User iPhone Safari screenshot/interaction approval of the four affected screens is also pending. Never mark **LIVE VERIFIED** before both evidence types exist. No additional visual wave or unrelated branch is automatically authorized by this checkpoint.
+
+## 9 October 2026 — CHILD VISUAL WAVES 1–2 MERGED / WAVE 3 AUDIO-FEEDBACK GUARDS IN PR (HISTORICAL CHECKPOINT)
 
 **Wave 2:** PR **#483** squash-merged into `main@f4d1fffa8cdde5d73932b793800c9821554340a7` after CI run `37937532455` **FULL SUCCESS** (all seven required PR gates). One Wave 2 branch was deleted automatically and there were no open PRs at handoff. PR Cloudflare smoke was skipped; exact live SHA and real iPhone visual acceptance remain **NOT VERIFIED**. The Wave 2 "ACTIVE" heading below is a historical branch checkpoint.
 
