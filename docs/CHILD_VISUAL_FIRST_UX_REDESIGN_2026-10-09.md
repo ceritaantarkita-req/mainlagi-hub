@@ -1,7 +1,7 @@
 # Mainlagi Child Visual-First UX Redesign — Approved Execution Plan
 
 **Date:** 9 October 2026  
-**Status:** USER-APPROVED / WAVE 1 IN IMPLEMENTATION (NOT LIVE VERIFIED)  
+**Status:** WAVE 1 MERGED / WAVE 2 MATCHING PRESENTATION IN IMPLEMENTATION / LIVE VERIFICATION PENDING  
 **Source baseline:** `main@25e8388c28e16b477e4c305b775aacbd5056e87c`  
 **Inputs:** four user-supplied iPhone screenshots (matching letters, Belajar Journey Map, Stage Detail, Child Home) and current canonical runtime owners on `main`.
 
@@ -93,3 +93,44 @@ No changes to learning data/900 classification, evidence/mastery, readiness, rew
 ## 8. Evidence tracking
 
 At creation: user provided visual rejection and four screenshot examples. Source was reviewed on `main@25e8388c28e16b477e4c305b775aacbd5056e87c`. **No runtime edits, UI screenshot acceptance, CI result, or production smoke is claimed at this documentation step.** Append each subsequent commit/PR test run, defect/fix and exact production SHA here once confirmed.
+
+
+## 9. Wave 1 merged checkpoint (9 October 2026)
+
+- **Merged:** PR #482, `main@de6d3957b741d81d4eccc2078063a0f50f4e3ebc`.
+- **CI evidence:** PR run [37933701872](https://github.com/ceritaantarkita-req/mainlagi-hub/actions/runs/37933701872), seven required jobs PASS including Chromium mobile route matrix and permanent visual baseline. Cloudflare smoke was skipped on PR events.
+- **Branch hygiene:** Wave 1 branch automatically deleted, zero open PRs at the Wave 1 handoff.
+- **Not live verified:** the connector does not expose push-triggered main CI. Exact merged-SHA Cloudflare smoke and iOS visual acceptance have not been proven; do not retroactively close those gates.
+- **Scope completed in code:** child home compact greeting/hero/choices; nine-subject map visual states; truthful stage detail recommendation/disclosure; accessibility/regression updates.
+
+## 10. Wave 2 — matching gameplay visual focus (implementation authorization)
+
+**Branch/PR policy:** ONLY `agent/child-visual-wave2-20261009` branched from `main@de6d3957...` until merged. No parallel implementation branches. Docs-first, scoped runtime + tests in same PR, squash-merge once all gates pass, delete branch.
+
+### Diagnosis validated against runtime
+
+`MatchingActivity` is a fallback `ChildLearningPlatform.tsx` activity runtime, framed by shared `GardenActivityFrame`. Current mobile screen stacks long `activity.prompt`, pair count, two-column answer cards and large instruction banner over a busy Garden backdrop, with two decorative character assets. Matching logic is in `src/lib/learning/matchingLayout.ts` and completion in `completeActivity`, with `ActivityCompletion` owning canonical Back/Again/Next/Share. This wave must preserve all.
+
+### Approved implementation
+1. **Matching only:** show a short age-appropriate visual title, clear left/right pick flow, compact 0/N match-progress as visual stars with screen-reader text; retain the full canonical prompt in the `Dengar` narration and accessibility description.
+2. Enclose answer cards in one strong **calm foreground play surface**, reducing background visual competition. Keep two columns, no new background/character assets, no horizontal scroll. Each card remains an actual `button`, accessible keyboard/touch target, with obvious selected and matched states and `aria-pressed`.
+3. Make live feedback compact and distinct: initial instruction, correct, wrong and retry feedback. Keep `role=status`, do not add an artificial timer or reveal correct answers.
+4. **Scoped shared-frame refinement only** via explicit matching presentation variant or data attribute. Do not adjust generic Garden frame for other subjects/activities, World or Motion Engine; character layer remains canonical and pointer-transparent.
+5. Use browser-resident optional `Dengar` only on user action; no unsolicited autoplay. Speak the ORIGINAL canonical `activity.prompt` to avoid age/language/content drift. Keep audio fallback in `GardenActivityFrame`.
+6. Keep `matchingSeedFromText`, `buildMatchingColumns`, `nextDistinctMatchingSeed`, shuffle/non-adjacent safety, attempts/evidence, completion, and Again semantics byte-for-byte.
+
+### Tests and acceptance gates
+
+- [ ] Matching demo Bahasa and English keep exact randomized left/right card count and 2 valid pairs, not row-aligned; retry layout differs.
+- [ ] Wrong pair does not complete/write progress. Correct pairs complete exactly once; Again resets local cards without duplicate writes.
+- [ ] Compact progress 0/2 → 1/2 → 2/2; clear selected/matched states and no misleading mastery indicator.
+- [ ] `Dengar` reads canonical prompt; fallback notice remains available, no autoplay.
+- [ ] Matching-only Garden presentation flag works, unrelated Choice/Trace/Story/Coloring/Drawing frames unchanged.
+- [ ] No horizontal overflow at mobile 320/360/390/430; landscape content, controls and character placement remain usable; reduced motion and focus states verified.
+- [ ] Existing selectors `data-visible-matching`, `data-pair-count`, `data-match-column`, `data-match-card`, `data-source-index`, `data-activity-frame` and canonical completion/share remain stable.
+- [ ] All PR CI gates pass, exact post-merge Cloudflare smoke and human iPhone visual check required for LIVE VERIFIED.
+
+### Explicit out of scope
+
+No curriculum or new gameplay mechanics, question generation, RLS/auth, evidence/mastery/progression, character development or art assets, World, Motion Engine, Shop, scoring, reward counts, global nav. Wave 3 (audio feedback and dynamic character moments) is separate; this Wave 2 only retains current audio capability and presentation states.
+
