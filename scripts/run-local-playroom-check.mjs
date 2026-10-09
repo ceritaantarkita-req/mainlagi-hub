@@ -81,7 +81,9 @@ try {
     result.checks.push("legacy learn route returns home "+viewport.width);
     await page.goto(base);
     await page.waitForURL(/child\/demo-gian\/home$/);
-    assert.equal(await page.getByRole("heading",{name:"Belajar, berpetualang, lalu main lagi.",exact:true}).count(),1);
+    assert.equal(await page.locator('[data-child-home-visual="wave1"]').count(),1,"child home visual-first owner is active");
+    assert.equal(await page.getByRole("heading",{name:/^Hai, Gian!/}).count(),1,"child home uses a short personal greeting");
+    assert.equal(await page.getByRole("link",{name:/Lanjut main/}).count(),1,"adaptive resume remains accessible");
     const header=page.locator('[data-mainlagi-jm02-header="v1"]');
     assert.equal(await header.count(),1,"JM-02 shared child header is visible on Home");
     const productNav=header.locator("[data-mainlagi-product-nav]");
@@ -111,7 +113,8 @@ try {
       return {width:rect.width,height:rect.height,src:image.currentSrc||image.getAttribute("src")||""};
     });
     assert(heroLayout.src.includes("core-thumbnails"),"child home hero uses core thumbnail asset");
-    assert(Math.abs(heroLayout.width/heroLayout.height-4/3)<.04,"child home hero stays 4:3 at "+viewport.width+"px: "+JSON.stringify(heroLayout));
+    const expectedRatio=viewport.width<=760?2:1.6;
+    assert(Math.abs(heroLayout.width/heroLayout.height-expectedRatio)<.2,"child home compact hero respects mobile/wide crop at "+viewport.width+"px: "+JSON.stringify(heroLayout));
     await page.screenshot({path:path.join(output,`home-${viewport.width}.png`),fullPage:true});
     result.screenshots.push(`home-${viewport.width}.png`);
     result.checks.push("returning child bypasses setup "+viewport.width);
