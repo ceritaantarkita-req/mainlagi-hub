@@ -1602,7 +1602,7 @@ async function main() {
       assert.equal(await experience.locator('[data-match-feedback="retry"]').count(), 1, "Wrong match exposes non-color-only feedback");
       assert.equal(await experience.getByText("Not yet. Try again!", { exact: true }).count(), 1, "English wrong-answer feedback is localized");
       await page.waitForFunction(() => document.querySelector('[data-activity-frame="garden"]')?.getAttribute("data-character-moment") === "retry",
-        { timeout: 1500 }).catch(() => { throw new Error("Canonical bridge did not show retry character state for wrong matching pair"); });
+        null, { timeout: 1500 }).catch(() => { throw new Error("Canonical bridge did not show retry character state for wrong matching pair"); });
       assert.equal(await page.locator("[data-activity-completion]").count(), 0, "Wrong match must never trigger completion");
       assert.equal(initial.left.length, 2, "visible matching must split one card per pair into the left column");
       assert.equal(initial.right.length, 2, "visible matching must split one card per pair into the right column");
@@ -1627,7 +1627,7 @@ async function main() {
       assert.equal(await completion.getByLabel("Tiga bintang").locator("svg").count(), 3, "visible matching completion must use shared three-star success");
       assert.equal(await experience.getByText("All matched! ✨", { exact: true }).count(), 1, "English completion feedback localized");
       await page.waitForFunction(() => document.querySelector('[data-activity-frame="garden"]')?.getAttribute("data-character-moment") === "completion",
-        { timeout: 3500 }).catch(() => { throw new Error("Canonical character presentation did not reach completion state"); });
+        null, { timeout: 3500 }).catch(() => { throw new Error("Canonical character presentation did not reach completion state"); });
       const beforeRetry = [initial.left.join(","), initial.right.join(",")].join("|");
       await completion.getByRole("button", { name: "Again", exact: true }).click();
       await board.waitFor();
