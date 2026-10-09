@@ -4,7 +4,13 @@ Last reviewed: **9 October 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
-## 9 October 2026 — CHILD VISUAL-FIRST UX REDESIGN / WAVE 1 IN PR, NOT LIVE VERIFIED
+## 9 October 2026 — CHILD VISUAL-FIRST WAVE 1 MERGED / WAVE 2 MATCHING ACTIVE
+
+Wave 1 PR **#482** merged at `main@de6d3957b741d81d4eccc2078063a0f50f4e3ebc` after seven PR CI gates PASS (run `37933701872`). Branch auto-deleted; no remaining PR at the handoff. Wave 1 exact-SHA Cloudflare production smoke and real iOS visual acceptance **remain unverified**; PR smoke was skipped. The former section below is a historical in-PR checkpoint, not current runtime status.
+
+User-approved Wave 2 targets the matching activity's **presentation only** in `ChildLearningPlatform`, matching-scoped `GardenActivityFrame` and CSS. Canonical execution detail and test matrix: `docs/CHILD_VISUAL_FIRST_UX_REDESIGN_2026-10-09.md` Section 10. One branch `agent/child-visual-wave2-20261009`, one PR, then delete after merge. Matching logic, evidence/mastery, World/Motion/Shop and character assets remain untouched. **Not LIVE VERIFIED** until matching CI + exact merged-SHA Cloudflare smoke and iOS visual review.
+
+## 9 October 2026 — CHILD VISUAL-FIRST UX REDESIGN / WAVE 1 IN PR (HISTORICAL CHECKPOINT)
 
 **New user-approved child-facing visual remediation** after four iPhone screenshots showed text-heavy Child Home, overly formal/shared Belajar Journey Map, information-dense Stage Detail and busy matching screen. Canonical execution and four-screen diagnosis: `docs/CHILD_VISUAL_FIRST_UX_REDESIGN_2026-10-09.md`. Latest implementation source baseline `main@25e8388c28e16b477e4c305b775aacbd5056e87c`.
 
