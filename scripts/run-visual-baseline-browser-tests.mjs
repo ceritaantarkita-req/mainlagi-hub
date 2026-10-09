@@ -114,6 +114,18 @@ async function assertParentReportPrimaryCopy(page, viewport) {
   assert.doesNotMatch(primaryCopy, PARENT_PRIMARY_JARGON, `parent-report primary layer leaked internal jargon at ${viewport.width}px: ${primaryCopy}`);
 }
 
+async function assertChildHomeVisualFirst(page, viewport) {
+  const home = page.locator('[data-child-home-visual="wave1"]');
+  assert.equal(await home.count(), 1, `visual-first child home marker missing at ${viewport.width}px`);
+  assert.equal(await home.locator("[data-mainlagi-home-hero] img").count(), 1, `canonical character hero missing at ${viewport.width}px`);
+  assert.equal(await home.getByRole("heading", { name: /^Hai, Gian!/ }).count(), 1, `short child greeting missing at ${viewport.width}px`);
+  assert.equal(await home.getByRole("link", { name: /Lanjut main/ }).count(), 1, `child resume action missing at ${viewport.width}px`);
+  const choices = home.locator("[data-mainlagi-domain-card]");
+  assert.equal(await choices.count(), 3, `child home must preserve three subject/domain entry choices at ${viewport.width}px`);
+  const widths = await choices.evaluateAll((elements) => elements.map((element) => element.getBoundingClientRect().width));
+  assert.ok(widths.every((width) => width >= 70), `child experience cards too narrow at ${viewport.width}px: ${JSON.stringify(widths)}`);
+}
+
 async function assertSubjectJourneyLayout(page, viewport) {
   const journey = page.locator('[data-belajar-journey-map="v1"][data-journey-subject="math"]');
   assert.equal(await journey.count(), 1, `Math Journey Map missing at ${viewport.width}px`);
@@ -128,6 +140,19 @@ async function assertSubjectJourneyLayout(page, viewport) {
     geometry.scrollWidth <= geometry.clientWidth + 1,
     `Math Journey Map overflows horizontally at ${viewport.width}px: ${JSON.stringify(geometry)}`
   );
+  const locked = journey.locator('[data-journey-stage][data-state="locked"]');
+  assert.ok(await locked.count() > 0, `Math locked stages unexpectedly absent at ${viewport.width}px`);
+  assert.equal(await locked.first().isDisabled(), true, `Math locked stage can be clicked at ${viewport.width}px`);
+  const visibleOpacity = await locked.first().evaluate((element) => Number(getComputedStyle(element).opacity));
+  assert.ok(visibleOpacity >= .85, `Math locked stages are visually washed out at ${viewport.width}px: ${visibleOpacity}`);
+  await journey.locator("[data-journey-stage]").first().click();
+  const detail = page.locator("[data-stage-detail-open]");
+  await detail.waitFor({ state: "visible" });
+  assert.ok(await detail.getByText(/langkah utama/).count() > 0, `Stage Detail lost required-step progress at ${viewport.width}px`);
+  assert.equal(await detail.locator("[data-stage-text-activity-list] details").count(), 1, `Stage Detail lacks activity disclosure at ${viewport.width}px`);
+  assert.equal(await detail.locator("[data-stage-continue]").count(), 1, `Stage Detail continue missing at ${viewport.width}px`);
+  await page.keyboard.press("Escape");
+  await detail.waitFor({ state: "hidden" });
 }
 
 async function assertStageHierarchy(page, viewport) {
@@ -384,6 +409,7 @@ async function inspect(page, route, viewport) {
       await assertCanonicalGlobalMenu(page, viewport, route.name);
       await assertParentReportPrimaryCopy(page, viewport);
     }
+    if (route.name === "child-home") await assertChildHomeVisualFirst(page, viewport);
     if (route.name === "subject-math") await assertSubjectJourneyLayout(page, viewport);
     if (route.name === "stage-math-angka") await assertStageHierarchy(page, viewport);
     if (route.name === "account") {
