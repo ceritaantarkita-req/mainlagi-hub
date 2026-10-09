@@ -112,7 +112,7 @@ At creation: user provided visual rejection and four screenshot examples. Source
 `MatchingActivity` is a fallback `ChildLearningPlatform.tsx` activity runtime, framed by shared `GardenActivityFrame`. Current mobile screen stacks long `activity.prompt`, pair count, two-column answer cards and large instruction banner over a busy Garden backdrop, with two decorative character assets. Matching logic is in `src/lib/learning/matchingLayout.ts` and completion in `completeActivity`, with `ActivityCompletion` owning canonical Back/Again/Next/Share. This wave must preserve all.
 
 ### Approved implementation
-1. **Matching only:** show a short age-appropriate visual title, clear left/right pick flow, compact 0/N match-progress as visual stars with screen-reader text; retain the full canonical prompt in the `Dengar` narration and accessibility description.
+1. **Matching only:** show a short age-appropriate visual title, clear left/right pick flow, compact 0/N match-progress pips with screen-reader text (not the canonical completion reward stars); retain the full canonical prompt in the `Dengar` narration and accessibility description.
 2. Enclose answer cards in one strong **calm foreground play surface**, reducing background visual competition. Keep two columns, no new background/character assets, no horizontal scroll. Each card remains an actual `button`, accessible keyboard/touch target, with obvious selected and matched states and `aria-pressed`.
 3. Make live feedback compact and distinct: initial instruction, correct, wrong and retry feedback. Keep `role=status`, do not add an artificial timer or reveal correct answers.
 4. **Scoped shared-frame refinement only** via explicit matching presentation variant or data attribute. Do not adjust generic Garden frame for other subjects/activities, World or Motion Engine; character layer remains canonical and pointer-transparent.
@@ -134,3 +134,10 @@ At creation: user provided visual rejection and four screenshot examples. Source
 
 No curriculum or new gameplay mechanics, question generation, RLS/auth, evidence/mastery/progression, character development or art assets, World, Motion Engine, Shop, scoring, reward counts, global nav. Wave 3 (audio feedback and dynamic character moments) is separate; this Wave 2 only retains current audio capability and presentation states.
 
+
+### Implementation checkpoint (source branch, not merged)
+
+- Matching visual runtime remains in `ChildLearningPlatform.tsx` with identical pair algorithm/correctness/completion side effects; compact localized title, visual 0/N progress and actionable feedback.
+- `GardenActivityFrame` accepts an opt-in `matchingFocus` boolean and exposes `data-activity-presentation="matching-focus-v2"` on Matching only; normal activities retain their original frame.
+- Scoped CSS in `LearningPlatform.module.css` and `GardenActivityFrame.module.css` calms the background and increases card prominence while retaining responsive character artwork.
+- QA adds matching route to permanent visual baseline, tests wrong/correct/retry/progress and 320/430 touch containment, and checks landscape reflow and default Choice isolation. **No result is claimed until CI runs.**
