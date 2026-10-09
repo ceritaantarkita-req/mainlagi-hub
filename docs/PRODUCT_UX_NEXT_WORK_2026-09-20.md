@@ -1,11 +1,15 @@
 # Mainlagi — Product UX Next Work
 
 Date: **20 September 2026**  
-Last synchronized: **2 October 2026**
+Last synchronized: **9 October 2026**
 Status: **ACTIVE ROADMAP / CANONICAL UI REBASE AUDIT COMPLETE / JOURNEY MAP PHASE C COMPLETE**
 Current synchronized Journey Map runtime baseline: `main` = `b4473cc0582c096441e429b8ed94c20fc4bf1b8e`. JM-00 through JM-18 are complete at runtime/final-closure scope; JM-17 passed main CI #2374 / run `36974133135` including exact Cloudflare smoke. Belajar and Petualangan Uang Journey Map work is complete; no JM-19 is authorized by default. Semantic Art P0 and Shared Interaction remain fully closed.
 
 This document is the short human/AI handoff for Mainlagi product-quality work. It records the user-accepted UX direction without changing curriculum, mastery, evidence or progression. The latest WS-05 Logic reuse wave is closed; any later mechanic work remains a separate audited track.
+
+## 9 October 2026 — USER-APPROVED CHILD VISUAL-FIRST REDESIGN (WAVE 1 ACTIVE)
+
+Canonical handoff: [`CHILD_VISUAL_FIRST_UX_REDESIGN_2026-10-09.md`](CHILD_VISUAL_FIRST_UX_REDESIGN_2026-10-09.md). Four mobile screenshots expose text-heavy Child Home, administrative Belajar Journey Map, over-detailed Stage sheet, and visually busy matching activity. The user approved the visual correction. **Wave 1 = Child Home + shared Belajar Journey Map + Stage Detail presentation only**, one short-lived branch and one PR. Matching/Garden are follow-up waves; do not silently start them. Preserve stage data, learning evidence/mastery, child/profile ownership, World, Motion, Shop and all previous Journey Map runtime closure. This visual approval supersedes the old "no visual redesign next" instruction for these child-facing surfaces only, not the P0-UIA architecture hygiene roadmap. No LIVE VERIFIED claim until exact merged-SHA production smoke and user visual QA.
 
 ## 2 October post-JM canonical UI re-baseline
 
