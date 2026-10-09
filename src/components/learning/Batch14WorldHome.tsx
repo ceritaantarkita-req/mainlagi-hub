@@ -35,13 +35,6 @@ export function Batch14WorldHome({ childId }: { childId: string }) {
   const completedWorldStages = worldState.progress.completedStageIds.length;
   const worldComplete = worldState.ready && completedWorldStages === MONEY_WORLD_STAGES.length;
   const worldStarted = completedWorldStages > 0 || Boolean(worldState.progress.currentStageId);
-  const worldStatus = !worldState.ready
-    ? "Menyiapkan progres petualangan…"
-    : worldComplete
-      ? "8/8 Stage selesai · boleh dimainkan lagi"
-      : worldStarted
-        ? `${completedWorldStages}/8 Stage selesai · lanjutkan perjalananmu`
-        : "Petualangan cerita dan tantangan bersama Gavi + Paca";
   const worldAction = worldComplete
     ? "Main lagi"
     : worldStarted
@@ -49,21 +42,24 @@ export function Batch14WorldHome({ childId }: { childId: string }) {
       : "Mulai Petualangan Uang";
 
   return (
-    <main className={styles.page}>
+    <main className={`${styles.page} ${styles.childVisualHome}`} data-child-home-visual="wave1">
       <section className={styles.continue} aria-labelledby="child-home-title">
         <div className={styles.continueCopy} data-mainlagi-home-copy>
-          <p>Hai, {profile.name}! 👋</p>
-          <h1 id="child-home-title" className={styles.greeting}>Belajar, berpetualang, lalu main lagi.</h1>
-          <p className={styles.lead}>
-            {next
-              ? `Lanjutkan “${next.title}” atau pilih pengalaman Mainlagi yang kamu mau.`
-              : "Pilih Belajar, Petualangan, atau Bermain sesuai yang kamu mau."}
-          </p>
+          <div className={styles.homeHelloRow}>
+            <h1 id="child-home-title" className={styles.greeting}>Hai, {profile.name}! 👋</h1>
+            <span className={styles.homeStars} aria-label={`${progress.stars} bintang terkumpul`}>⭐ {progress.stars}</span>
+          </div>
+          <p className={styles.homeCallout}>{next ? "Yuk, lanjut petualanganmu!" : "Yuk, pilih keseruanmu!"}</p>
+          {next ? (
+            <p className={styles.homeNextTitle} aria-label={`Aktivitas berikutnya: ${next.title}`}>
+              <span aria-hidden>✏️</span> {next.title}
+            </p>
+          ) : null}
           <Link
             className={styles.primary}
             href={next ? `/child/${childId}/activity/${next.id}` : "#mainlagi-experiences"}
           >
-            {next ? "Lanjut belajar" : "Pilih pengalaman"}
+            <span aria-hidden>▶</span> {next ? "Lanjut main" : "Pilih permainan"}
           </Link>
         </div>
         <div className={styles.homeHeroMedia} data-mainlagi-home-hero aria-hidden>
@@ -87,10 +83,8 @@ export function Batch14WorldHome({ childId }: { childId: string }) {
       >
         <div className={styles.experienceHeading}>
           <div>
-            <p className={styles.experienceEyebrow}>Satu Mainlagi</p>
-            <h2 id="mainlagi-experiences-title" className={styles.sectionTitle}>Mau ke mana sekarang?</h2>
+            <h2 id="mainlagi-experiences-title" className={styles.sectionTitle}>Mau main apa?</h2>
           </div>
-          <span>{progress.stars} ★ terkumpul</span>
         </div>
 
         <div className={styles.experienceGrid}>
@@ -102,8 +96,7 @@ export function Batch14WorldHome({ childId }: { childId: string }) {
             <span className={styles.experienceIcon} aria-hidden>📚</span>
             <span>
               <small>Belajar</small>
-              <strong>{next ? next.title : "Pilih pelajaran"}</strong>
-              <span>{next ? "Rekomendasi belajar berikutnya" : "9 area belajar touch-first"}</span>
+              <strong>{next ? "Yuk belajar!" : "Pilih pelajaran"}</strong>
             </span>
             <b aria-hidden>→</b>
           </Link>
@@ -118,8 +111,7 @@ export function Batch14WorldHome({ childId }: { childId: string }) {
               <span className={styles.experienceIcon} aria-hidden>🗺️</span>
               <span>
                 <small>World</small>
-                <strong>{worldAction}</strong>
-                <span>{worldStatus}</span>
+                <strong>{worldStarted ? worldAction : "Ayo jelajah!"}</strong>
               </span>
               <b aria-hidden>→</b>
             </Link>
@@ -133,8 +125,8 @@ export function Batch14WorldHome({ childId }: { childId: string }) {
               <span className={styles.experienceIcon} aria-hidden>🗺️</span>
               <span>
                 <small>World</small>
-                <strong>Petualangan Uang</strong>
-                <span>Saat ini untuk umur {MONEY_WORLD_PILOT_AGE_BAND.label} tahun.</span>
+                <strong>Belum tersedia</strong>
+                <span>Untuk usia {MONEY_WORLD_PILOT_AGE_BAND.label} tahun</span>
               </span>
               <b aria-hidden>•</b>
             </div>
@@ -149,7 +141,6 @@ export function Batch14WorldHome({ childId }: { childId: string }) {
             <span>
               <small>Bermain</small>
               <strong>Main Gerak</strong>
-              <span>10 permainan gerak · kamera tetap opsional untuk belajar inti</span>
             </span>
             <b aria-hidden>→</b>
           </Link>
@@ -157,10 +148,9 @@ export function Batch14WorldHome({ childId }: { childId: string }) {
       </section>
 
       <section id="choose-subject" aria-labelledby="choose-subject-title">
-        <h2 id="choose-subject-title" className={styles.sectionTitle}>Pilih yang mau dipelajari</h2>
+        <h2 id="choose-subject-title" className={styles.sectionTitle}>Pilih pelajaranmu</h2>
         <SubjectDirectory childId={childId} />
       </section>
-      <p className={styles.footnote}>Bermain sedikit, menemukan banyak.</p>
     </main>
   );
 }
