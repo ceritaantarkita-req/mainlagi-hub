@@ -1,8 +1,16 @@
 # Mainlagi Hub — Current State
 
-Last reviewed: **8 October 2026**
+Last reviewed: **9 October 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
+
+## 9 October 2026 — CHILD VISUAL-FIRST UX REDESIGN / WAVE 1 IN PR, NOT LIVE VERIFIED
+
+**New user-approved child-facing visual remediation** after four iPhone screenshots showed text-heavy Child Home, overly formal/shared Belajar Journey Map, information-dense Stage Detail and busy matching screen. Canonical execution and four-screen diagnosis: `docs/CHILD_VISUAL_FIRST_UX_REDESIGN_2026-10-09.md`. Latest implementation source baseline `main@25e8388c28e16b477e4c305b775aacbd5056e87c`.
+
+**One branch/one PR rule:** `agent/child-visual-wave1-20261009`, docs-first + Wave 1 runtime commits (Child Home, shared Belajar Journey Map, Stage Detail), browser regression coverage in the same branch. This does not authorize matching/Garden Wave 2 or character replacement. Keep branch short-lived; merge and auto-delete only after full CI/visual acceptance.
+
+**No live claim:** new code is not validated/deployed until QA and exact merged-SHA Cloudflare smoke succeed. Existing JM-00..JM-18 closure, 9 subjects / 46 stages / 900 activities, child account gate, matching correctness, World, Motion Engine and Shop parent gate all remain canonical and untouched.
 
 ## 8 October 2026 — CANONICAL ACCOUNT + NAVIGATION PHASE 2 MERGED / LIVE SMOKE NOT YET VERIFIED
 
