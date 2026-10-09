@@ -61,7 +61,8 @@ function MatchingActivity({ childId, activity, onDone }: { childId: string; acti
   const [selected, setSelected] = useState<{ id: string; side: "left" | "right" } | null>(null);
   const [matched, setMatched] = useState<string[]>([]);
   const [completed, setCompleted] = useState(false);
-  const [message, setMessage] = useState("Pilih satu kartu di kiri, lalu cari pasangannya di kanan.");
+  const [message, setMessage] = useState("Sentuh dua kartu!");
+  const [feedbackTone, setFeedbackTone] = useState<"guide" | "correct" | "retry" | "done">("guide");
 
   const layout = useMemo(() => buildMatchingColumns(items, seed), [items, seed]);
   const cards = useMemo(() => [...layout.left, ...layout.right], [layout]);
@@ -70,10 +71,14 @@ function MatchingActivity({ childId, activity, onDone }: { childId: string; acti
     if (matched.includes(id) || completed) return;
     if (selected === null) {
       setSelected({ id, side });
+      setMessage("Cari pasangannya!");
+      setFeedbackTone("guide");
       return;
     }
     if (selected.id === id) {
       setSelected(null);
+      setMessage("Sentuh dua kartu!");
+      setFeedbackTone("guide");
       return;
     }
     if (selected.side === side) return;
@@ -91,23 +96,27 @@ function MatchingActivity({ childId, activity, onDone }: { childId: string; acti
       setSelected(null);
       if (next.length === items.length) {
         setCompleted(true);
-        setMessage("Semua pasangan cocok!");
+        setMessage("Semua cocok! ✨");
+        setFeedbackTone("done");
         onDone(completeActivity(childId, activity.id));
       } else {
-        setMessage("Cocok! Cari pasangan berikutnya.");
+        setMessage("Cocok! Cari lagi ✨");
+        setFeedbackTone("correct");
       }
       return;
     }
 
     setSelected(null);
-    setMessage("Belum cocok. Coba pasangan lain.");
+    setMessage("Belum cocok. Coba lagi!");
+    setFeedbackTone("retry");
   };
 
   const retry = () => {
     setSelected(null);
     setMatched([]);
     setCompleted(false);
-    setMessage("Susunannya berubah. Cari pasangan baru.");
+    setMessage("Yuk, pasangkan lagi!");
+    setFeedbackTone("guide");
     setSeed((current) => nextDistinctMatchingSeed(items, current ?? 1));
   };
 
@@ -135,16 +144,34 @@ function MatchingActivity({ childId, activity, onDone }: { childId: string; acti
     </div>
   );
 
-  return <>
-    <h1 className={styles.activityPrompt}>{activity.prompt ?? "Pasangkan kartu"}</h1>
-    <p className={styles.matchHint}>{layout.left.length} pasangan · kiri ↔ kanan</p>
-    <div className={styles.matchGrid} data-visible-matching data-pair-count={layout.left.length}>
-      {renderColumn("left", layout.left)}
-      {renderColumn("right", layout.right)}
+  const pairCount = layout.left.length;
+  const solvedCount = matched.length / 2;
+  return <section className={styles.matchingExperience} data-match-experience="visual-first-v2" aria-label={activity.prompt ?? "Pasangkan kartu"}>
+    <div className={styles.matchingIntro}>
+      <h1 className={styles.matchingTitle} aria-label={activity.prompt ?? "Pasangkan kartu"}>
+        {activity.subjectId === "english" ? "Find a pair!" : "Cari pasangan!"}
+      </h1>
+      <div className={styles.matchingProgress} role="group" aria-label={`${solvedCount} dari ${pairCount} pasangan cocok`} data-match-progress={solvedCount}>
+        <span className={styles.matchingProgressCount} aria-hidden="true">{solvedCount}/{pairCount}</span>
+        <span className={styles.matchingProgressPips} aria-hidden="true">
+          {Array.from({ length: pairCount }, (_, index) => (
+            <span key={index} data-filled={index < solvedCount ? "true" : "false"} />
+          ))}
+        </span>
+      </div>
     </div>
-    <div role="status" className={completed ? styles.feedbackGood : styles.infoBanner}>{message}</div>
+    <div className={styles.matchingSurface}>
+      <div className={styles.matchingSideLabels} aria-hidden="true">
+        <span>①</span><span>②</span>
+      </div>
+      <div className={styles.matchGrid} data-visible-matching data-pair-count={pairCount}>
+        {renderColumn("left", layout.left)}
+        {renderColumn("right", layout.right)}
+      </div>
+      <div role="status" aria-live="polite" data-match-feedback={feedbackTone} className={styles.matchingFeedback}>{message}</div>
+    </div>
     {completed ? <ActivityCompletion childId={childId} activity={activity} onTryAgain={retry} /> : null}
-  </>;
+  </section>;
 }
 
 function TraceActivity({ childId, activity, onDone }: { childId: string; activity: LearningActivity; onDone: (value: LearningProgress) => void }) {
@@ -313,7 +340,7 @@ export function ActivityScreen({ childId, activityId }: { childId: string; activ
     return <main className={styles.contentNarrow}><div className={styles.emptyState}>Aktivitas tidak ditemukan.</div></main>;
   }
 
-  return <GardenActivityFrame backHref={`/child/${childId}/subject/${activity.subjectId}`} narration={activity.runtime === "story" ? (activity.storyLines ?? []).join(" ") : activity.prompt ?? activity.title} lang={activity.subjectId === "english" ? "en-US" : "id-ID"} spacious={activity.runtime === "tap_choice" && (activity.prompt?.length ?? 0) < 45}>
+  return <GardenActivityFrame backHref={`/child/${childId}/subject/${activity.subjectId}`} narration={activity.runtime === "story" ? (activity.storyLines ?? []).join(" ") : activity.prompt ?? activity.title} lang={activity.subjectId === "english" ? "en-US" : "id-ID"} matchingFocus={activity.runtime === "matching"} spacious={activity.runtime === "tap_choice" && (activity.prompt?.length ?? 0) < 45}>
     {activity.runtime === "tap_choice" || activity.runtime === "listen_and_choose" ? <ChoiceActivity childId={childId} activity={activity} onDone={setProgress} /> : null}
     {activity.runtime === "matching" ? <MatchingActivity key={activity.id} childId={childId} activity={activity} onDone={setProgress} /> : null}
     {activity.runtime === "trace" ? <TraceActivity childId={childId} activity={activity} onDone={setProgress} /> : null}
