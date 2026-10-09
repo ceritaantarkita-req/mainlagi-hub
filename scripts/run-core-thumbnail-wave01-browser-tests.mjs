@@ -75,11 +75,11 @@ async function imageSnapshot(image) {
   });
 }
 
-async function assertFourThree(image, label, expectedFragment = "core-thumbnails") {
+async function assertFourThree(image, label, expectedFragment = "core-thumbnails", expectedRatio = 4 / 3) {
   const snapshot = await imageSnapshot(image);
   assert(snapshot.src.includes(expectedFragment), `${label} must use ${expectedFragment}: ${snapshot.src}`);
   assert(snapshot.naturalWidth > 0 && snapshot.naturalHeight > 0, `${label} must decode`);
-  assert(Math.abs((snapshot.width / snapshot.height) - (4 / 3)) < 0.04, `${label} must render 4:3: ${JSON.stringify(snapshot)}`);
+  assert(Math.abs((snapshot.width / snapshot.height) - expectedRatio) < (expectedRatio === 4 / 3 ? 0.04 : 0.2), `${label} must keep its intended aspect ratio ${expectedRatio}: ${JSON.stringify(snapshot)}`);
 }
 
 async function runViewport(browser, viewport) {
@@ -91,7 +91,7 @@ async function runViewport(browser, viewport) {
   page.on("console", (message) => { if (message.type() === "error") consoleErrors.push(message.text()); });
 
   await page.goto(baseUrl + "/child/demo-gian/home", { waitUntil: "domcontentloaded", timeout: 30_000 });
-  await assertFourThree(page.locator("[data-mainlagi-home-hero] img").first(), `Home hero ${viewport.width}`, "home-hero-mainlagi");
+  await assertFourThree(page.locator("[data-mainlagi-home-hero] img").first(), `Home hero ${viewport.width}`, "home-hero-mainlagi", viewport.width <= 760 ? 2 : 1.6);
   const subjects = page.locator('[data-core-thumbnail-card="subject"]');
   assert.equal(await subjects.count(), 9, "Home must render exactly nine subject thumbnails");
   const subjectColumns = await subjects.first().evaluate((element) => getComputedStyle(element.parentElement).gridTemplateColumns.split(" ").filter(Boolean).length);

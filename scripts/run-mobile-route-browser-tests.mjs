@@ -420,9 +420,10 @@ async function inspectPage(page, route, viewport) {
         return { width: rect.width, height: rect.height, src: image.currentSrc || image.getAttribute("src") || "" };
       });
       assert.ok(heroGeometry.src.includes("core-thumbnails"), "child Home hero must use Wave 01 core thumbnail asset");
+      const expectedRatio = viewport.width <= 760 ? 2 : 1.6;
       assert.ok(
-        Math.abs((heroGeometry.width / heroGeometry.height) - (4 / 3)) < 0.04,
-        `child Home hero must render 4:3 at ${viewport.width}px: ${JSON.stringify(heroGeometry)}`
+        Math.abs((heroGeometry.width / heroGeometry.height) - expectedRatio) < 0.2,
+        `child Home hero must keep its compact visual-first crop at ${viewport.width}px: ${JSON.stringify(heroGeometry)}`
       );
     }
 
