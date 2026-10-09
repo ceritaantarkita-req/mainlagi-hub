@@ -66,18 +66,21 @@ export function BelajarJourneyMap({ subjectId, childId, age, progress, analytics
         <div>
           <p className={styles.eyebrow}>Belajar · {model.subjectShortTitle}</p>
           <h1 id={mapTitleId}>{model.subjectTitle}</h1>
-          <p>{model.subjectDescription}</p>
+          <p className={styles.visuallyHidden}>{model.subjectDescription}</p>
         </div>
         <div className={styles.progressCard} aria-label={model.completedStageCount + " dari " + model.totalStageCount + " stage selesai"}>
-          <strong>{model.completedStageCount}/{model.totalStageCount}</strong>
+          <strong>★ {model.completedStageCount}/{model.totalStageCount}</strong>
           <span>Stage selesai</span>
+          <div className={styles.progressPips} aria-hidden="true">
+            {model.stages.map((stage) => <i key={stage.id} data-done={stage.completed ? "true" : "false"} />)}
+          </div>
         </div>
       </section>
 
       {currentStage ? (
         <section className={styles.resume} data-journey-resume>
-          <div><span>Lanjut dari sini</span><strong>{currentStage.title}</strong></div>
-          <button type="button" onClick={() => setSelectedStageId(currentStage.id)} aria-label={"Buka " + currentStage.title}>Lanjut belajar</button>
+          <div><span>Petualangan berikutnya</span><strong>{currentStage.title}</strong></div>
+          <button type="button" onClick={() => setSelectedStageId(currentStage.id)} aria-label={"Buka " + currentStage.title}>Ayo lanjut! <span aria-hidden="true">▶</span></button>
         </section>
       ) : null}
 
@@ -95,14 +98,16 @@ export function BelajarJourneyMap({ subjectId, childId, age, progress, analytics
                   data-journey-stage={stage.id}
                   disabled={locked}
                   aria-current={stage.current ? "step" : undefined}
+                  aria-label={`Stage ${stage.order}: ${stage.title}. ${qaUnlockAll && stage.locked ? "QA terbuka" : stageStateLabel(stage)}`}
                   onClick={() => setSelectedStageId(stage.id)}
                 >
                   <span className={styles.stageNumber}>{stage.order}</span>
                   <span className={styles.stageEmoji} aria-hidden>{stage.emoji}</span>
                   <span className={styles.stageCopy}>
                     <strong>{stage.title}</strong>
-                    <small>{qaUnlockAll && stage.locked ? "QA terbuka" : stageStateLabel(stage)}</small>
+                    <small className={styles.stageStateText}>{qaUnlockAll && stage.locked ? "QA terbuka" : stageStateLabel(stage)}</small>
                   </span>
+                  <span className={styles.stageStateIcon} aria-hidden="true">{locked ? "🔒" : stage.completed ? "⭐" : stage.current ? "▶" : "✦"}</span>
                 </button>
               </div>
             );
@@ -153,34 +158,48 @@ export function BelajarJourneyMap({ subjectId, childId, age, progress, analytics
             <div className={styles.detailHandle} aria-hidden />
             <div className={styles.detailHead}>
               <div>
-                <p>Stage {selected.order} · {stageStateLabel(selected)}</p>
+                <p>Stage {selected.order} <span aria-hidden="true">✦</span> {stageStateLabel(selected)}</p>
                 <h2 id={detailTitleId}>{selected.title}</h2>
-                <span>{selected.subtitle}</span>
+                <span className={styles.visuallyHidden}>{selected.subtitle}</span>
               </div>
               <button type="button" className={styles.closeButton} onClick={() => setSelectedStageId(null)} aria-label="Tutup detail stage">×</button>
             </div>
             <div className={styles.readiness}>
-              <strong>{selected.completedCount}/{selected.requiredCount} langkah utama selesai</strong>
-              <progress max={Math.max(selected.requiredCount, 1)} value={Math.min(selected.completedCount, Math.max(selected.requiredCount, 1))} />
-              <small>{selected.reason}</small>
+              <div className={styles.readinessTop}>
+                <strong>⭐ {selected.completedCount}/{selected.requiredCount} langkah utama</strong>
+                <span>{selected.completedCount >= selected.requiredCount ? "Langkah utama selesai!" : "Yuk, lanjut!"}</span>
+              </div>
+              <progress max={Math.max(selected.requiredCount, 1)} value={Math.min(selected.completedCount, Math.max(selected.requiredCount, 1))} aria-label={`${selected.completedCount} dari ${selected.requiredCount} langkah utama selesai`} />
+              <small className={styles.visuallyHidden}>{selected.reason}</small>
             </div>
             <div className={styles.activityList} data-stage-text-activity-list>
-              <h3>Aktivitas di stage ini</h3>
-              <ul>
-                {stageActivities.map((activity) => (
-                  <li key={activity.id}>
-                    <Link href={"/child/" + encodeURIComponent(childId) + "/activity/" + encodeURIComponent(activity.id)}>
-                      <span>{activity.title}</span>
-                      <small>{progress.completedActivityIds.includes(activity.id) ? "Selesai" : activity.motionOptional ? "Bonus gerak" : "Belum selesai"}</small>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              {recommendedActivity ? (
+                <Link
+                  className={styles.recommendedEntry}
+                  href={"/child/" + encodeURIComponent(childId) + "/activity/" + encodeURIComponent(recommendedActivity.id)}
+                >
+                  <span><small>Berikutnya</small><strong>{recommendedActivity.title}</strong></span>
+                  <span aria-hidden="true">→</span>
+                </Link>
+              ) : null}
+              <details className={styles.activityDisclosure} open={qaUnlockAll}>
+                <summary>Lihat semua aktivitas ({stageActivities.length})</summary>
+                <ul>
+                  {stageActivities.map((activity) => (
+                    <li key={activity.id}>
+                      <Link href={"/child/" + encodeURIComponent(childId) + "/activity/" + encodeURIComponent(activity.id)}>
+                        <span>{activity.title}</span>
+                        <small>{progress.completedActivityIds.includes(activity.id) ? "✓ Selesai" : activity.motionOptional ? "Bonus gerak" : "Belum selesai"}</small>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </details>
             </div>
             {model.subjectId === "drawing" ? (
               <Link className={styles.continueButton} data-stage-continue href={selected.href}>Buka stage</Link>
             ) : recommendedActivity ? (
-              <Link className={styles.continueButton} data-stage-continue href={"/child/" + encodeURIComponent(childId) + "/activity/" + encodeURIComponent(recommendedActivity.id)}>Lanjut belajar</Link>
+              <Link className={styles.continueButton} data-stage-continue href={"/child/" + encodeURIComponent(childId) + "/activity/" + encodeURIComponent(recommendedActivity.id)}>Ayo main! ▶</Link>
             ) : (
               <Link className={styles.continueButton} data-stage-continue href={selected.href}>Buka stage</Link>
             )}
