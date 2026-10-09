@@ -627,7 +627,6 @@
   .childVisualHome .continueCopy .primary { width: 100%; padding: 12px; min-height: 54px; }
   .childVisualHome .homeHeroMedia {
     width: 100%;
-    max-height: 165px;
     aspect-ratio: 16 / 8;
     border-radius: 19px;
   }
