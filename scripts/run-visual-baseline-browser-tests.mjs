@@ -25,6 +25,7 @@ const ROUTES = [
   { name: "subject-math", path: "/child/demo-gian/subject/math", expectedPath: "/child/demo-gian/subject/math", kind: "child-learning", touch: true },
   { name: "stage-math-angka", path: "/child/demo-gian/stage/math-angka", expectedPath: "/child/demo-gian/stage/math-angka", kind: "child-learning", touch: true },
   { name: "activity-math-count", path: "/child/demo-gian/activity/math-count-3", expectedPath: "/child/demo-gian/activity/math-count-3", kind: "child-learning", touch: true },
+  { name: "activity-matching", path: "/child/demo-gian/activity/bahasa-pasang-awal", expectedPath: "/child/demo-gian/activity/bahasa-pasang-awal", kind: "child-learning", touch: true },
   { name: "rewards", path: "/child/demo-gian/rewards", expectedPath: "/child/demo-gian/rewards", kind: "child-learning", touch: true },
   { name: "parent-report", path: "/parent/children/demo-gian/reports", expectedPath: "/parent/children/demo-gian/reports", kind: "parent" },
   { name: "account", path: "/account", expectedPath: "/account" },
@@ -153,6 +154,25 @@ async function assertSubjectJourneyLayout(page, viewport) {
   assert.equal(await detail.locator("[data-stage-continue]").count(), 1, `Stage Detail continue missing at ${viewport.width}px`);
   await page.keyboard.press("Escape");
   await detail.waitFor({ state: "hidden" });
+}
+
+async function assertMatchingFocusVisual(page, viewport) {
+  const frame = page.locator('[data-activity-frame="garden"]');
+  assert.equal(await frame.getAttribute("data-activity-presentation"), "matching-focus-v2", `matching Garden focus missing at ${viewport.width}px`);
+  const game = page.locator('[data-match-experience="visual-first-v2"]');
+  assert.equal(await game.count(), 1, `matching visual-first surface missing at ${viewport.width}px`);
+  const cards = game.locator("[data-match-card]");
+  assert.equal(await cards.count(), 4, `matching card count drifted at ${viewport.width}px`);
+  const progress = game.locator("[data-match-progress]");
+  assert.equal(await progress.getAttribute("data-match-progress"), "0", `matching initial local progress drifted at ${viewport.width}px`);
+  const geometry = await cards.evaluateAll((nodes) => nodes.map((node) => {
+    const rect = node.getBoundingClientRect();
+    return { width: rect.width, height: rect.height };
+  }));
+  assert.ok(geometry.every((rect) => rect.width >= 90 && rect.height >= 82),
+    `matching touch targets collapsed at ${viewport.width}px: ${JSON.stringify(geometry)}`);
+  assert.equal(await game.locator("[data-match-column]").count(), 2, `matching two-column semantics changed at ${viewport.width}px`);
+  assert.equal(await frame.locator("[data-character-layer]").count(), 1, `matching lost canonical character layer at ${viewport.width}px`);
 }
 
 async function assertStageHierarchy(page, viewport) {
@@ -412,6 +432,12 @@ async function inspect(page, route, viewport) {
     if (route.name === "child-home") await assertChildHomeVisualFirst(page, viewport);
     if (route.name === "subject-math") await assertSubjectJourneyLayout(page, viewport);
     if (route.name === "stage-math-angka") await assertStageHierarchy(page, viewport);
+    if (route.name === "activity-matching") await assertMatchingFocusVisual(page, viewport);
+    if (route.name === "activity-math-count") {
+      const frame = page.locator('[data-activity-frame="garden"]');
+      assert.equal(await frame.getAttribute("data-activity-presentation"), null,
+        `choice Garden inherited Matching-only visual treatment at ${viewport.width}px`);
+    }
     if (route.name === "account") {
       await assertCanonicalGlobalMenu(page, viewport, route.name);
       await assertAccountFamilySurface(page, viewport);
