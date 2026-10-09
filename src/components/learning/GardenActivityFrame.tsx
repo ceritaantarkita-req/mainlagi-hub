@@ -10,9 +10,9 @@ import { CharacterLayer } from "./CharacterLayer";
 import styles from "./GardenActivityFrame.module.css";
 
 /** Presentation only: completion and evidence stay with each activity runtime. */
-export function GardenActivityFrame({ backHref, title, narration, lang = "id-ID", onHear, hint, children, spacious = false, workspace = false, compactShortDesktop = false }: {
+export function GardenActivityFrame({ backHref, title, narration, lang = "id-ID", onHear, hint, children, spacious = false, workspace = false, compactShortDesktop = false, matchingFocus = false }: {
   backHref: string; title?: string; narration?: string; lang?: string;
-  onHear?: () => void; hint?: string; children: ReactNode; spacious?: boolean; workspace?: boolean; compactShortDesktop?: boolean;
+  onHear?: () => void; hint?: string; children: ReactNode; spacious?: boolean; workspace?: boolean; compactShortDesktop?: boolean; matchingFocus?: boolean;
 }) {
   const [audioNotice, setAudioNotice] = useState<string | null>(null);
   const visualTheme = useActivityVisualTheme();
@@ -37,9 +37,10 @@ export function GardenActivityFrame({ backHref, title, narration, lang = "id-ID"
         : "Narasi belum tersedia di browser atau perangkat ini. Petunjuknya tetap bisa dibaca bersama.");
   };
   return <main
-    className={`${styles.garden} ${runtimeAssets ? styles.themedScene : ""} ${workspace ? styles.workspace : ""}`}
+    className={`${styles.garden} ${runtimeAssets ? styles.themedScene : ""} ${workspace ? styles.workspace : ""} ${matchingFocus ? styles.matchingFocus : ""}`}
     style={sceneStyle}
     data-activity-frame="garden"
+    data-activity-presentation={matchingFocus ? "matching-focus-v2" : undefined}
     data-subject-theme={visualTheme?.subjectId}
     data-scene-variant={visualTheme?.scene.id}
     data-scene-source={visualTheme?.source}

@@ -1573,6 +1573,24 @@ async function main() {
       };
       const pairOf = (label) => ({ CAT: "cat", "🐱": "cat", SUN: "sun", "☀️": "sun" })[label];
       const initial = await readColumns();
+      const frame = page.locator('[data-activity-frame="garden"]');
+      assert.equal(await frame.getAttribute("data-activity-presentation"), "matching-focus-v2", "Matching opts into scoped Garden focus presentation");
+      const experience = page.locator('[data-match-experience="visual-first-v2"]');
+      assert.equal(await experience.count(), 1, "Matching renders visual-first board");
+      assert.equal(await experience.getByText("Find a pair!", { exact: true }).count(), 1, "Matching uses a short visible English title");
+      assert.equal(await page.getByRole("button", { name: "Dengar petunjuk" }).count(), 1, "Canonical optional narration remains accessible");
+      const matchProgress = experience.locator('[data-match-progress]');
+      assert.equal(await matchProgress.getAttribute("data-match-progress"), "0", "Matching initially shows zero matched pairs");
+      const firstLeft = initial.left[0];
+      const wrongRight = initial.right.find((label) => pairOf(label) !== pairOf(firstLeft));
+      assert(wrongRight, "Matching fixture has a nonmatching right card for wrong-answer QA");
+      const firstButton = page.getByRole("button", { name: firstLeft, exact: true });
+      await firstButton.click();
+      assert.equal(await firstButton.getAttribute("aria-pressed"), "true", "Selected matching card remains accessible");
+      await page.getByRole("button", { name: wrongRight, exact: true }).click();
+      assert.equal(await matchProgress.getAttribute("data-match-progress"), "0", "Wrong match does not advance progress");
+      assert.equal(await experience.locator('[data-match-feedback="retry"]').count(), 1, "Wrong match exposes non-color-only feedback");
+      assert.equal(await page.locator("[data-activity-completion]").count(), 0, "Wrong match must never trigger completion");
       assert.equal(initial.left.length, 2, "visible matching must split one card per pair into the left column");
       assert.equal(initial.right.length, 2, "visible matching must split one card per pair into the right column");
       for (let row = 0; row < initial.left.length; row += 1) {
@@ -1582,8 +1600,10 @@ async function main() {
 
       await page.getByRole("button", { name: "CAT", exact: true }).click();
       await page.getByRole("button", { name: "🐱", exact: true }).click();
+      assert.equal(await matchProgress.getAttribute("data-match-progress"), "1", "First correct pair advances visible progress once");
       await page.getByRole("button", { name: "SUN", exact: true }).click();
       await page.getByRole("button", { name: "☀️", exact: true }).click();
+      assert.equal(await matchProgress.getAttribute("data-match-progress"), "2", "Two correct pairs complete local match progress");
 
       const completion = page.locator("[data-activity-completion]");
       await completion.waitFor();
@@ -1591,6 +1611,7 @@ async function main() {
       const beforeRetry = [initial.left.join(","), initial.right.join(",")].join("|");
       await completion.getByRole("button", { name: "Again", exact: true }).click();
       await board.waitFor();
+      assert.equal(await matchProgress.getAttribute("data-match-progress"), "0", "Again clears local presentation progress");
       await page.waitForTimeout(80);
       const retried = await readColumns();
       const afterRetry = [retried.left.join(","), retried.right.join(",")].join("|");
@@ -1599,8 +1620,19 @@ async function main() {
         assert.notEqual(pairOf(retried.left[row]), pairOf(retried.right[row]), `retry matching row ${row + 1} must not reveal a correct adjacent pair`);
       }
       await page.screenshot({ path: path.join(screenshotDir, "390-visible-matching-retry.png"), fullPage: false });
+      await page.setViewportSize({ width: 844, height: 390 });
+      const landscape = await page.evaluate(() => ({
+        viewport: document.documentElement.clientWidth,
+        html: document.documentElement.scrollWidth,
+        body: document.body.scrollWidth
+      }));
+      assert.ok(landscape.html <= landscape.viewport + 1 && landscape.body <= landscape.viewport + 1,
+        `Matching landscape must not overflow: ${JSON.stringify(landscape)}`);
+      assert.equal(await page.locator('[data-match-experience="visual-first-v2"] [data-match-card]').count(), 4,
+        "Matching retains all cards through landscape reflow");
+      await page.screenshot({ path: path.join(screenshotDir, "844-visible-matching-landscape.png"), fullPage: false });
       await context.close();
-      console.log("WS-13 visible matching randomization + retry passed at 390px.");
+      console.log("WS-13 visible matching randomization + retry + visual-first landscape passed.");
     }
 
     {
@@ -1790,6 +1822,20 @@ async function main() {
       const page = await context.newPage();
       for (const [runtime, routePath] of RUNTIME_ROUTES) {
         await inspectPage(page, { path: routePath, kind: "child-learning", touch: true }, viewport);
+        if (runtime === "matching") {
+          const frame = page.locator('[data-activity-presentation="matching-focus-v2"]');
+          assert.equal(await frame.count(), 1, `Matching focus missing at ${width}px`);
+          const tiles = page.locator('[data-visible-matching] [data-match-card]');
+          assert.equal(await tiles.count(), 4, `Matching two-pair layout drifted at ${width}px`);
+          const boxes = await tiles.evaluateAll((items) => items.map((item) => {
+            const box = item.getBoundingClientRect();
+            return { left: box.left, right: box.right, height: box.height, width: box.width };
+          }));
+          assert.ok(boxes.every((box) => box.left >= -1 && box.right <= width + 1 && box.height >= 100 && box.width >= 90),
+            `Matching cards clipped or too small at ${width}px: ${JSON.stringify(boxes)}`);
+          assert.equal(await page.locator("[data-match-progress='0']").count(), 1,
+            `Matching visual progress missing at ${width}px`);
+        }
         if (runtime === "coloring") {
           const nose = page.getByRole("button", { name: "Warnai hidung" });
           await nose.click();
