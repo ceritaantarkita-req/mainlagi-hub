@@ -14,6 +14,7 @@ import {
   type LearningProgress,
 } from "@/lib/learning/system";
 import { buildMatchingColumns, matchingSeedFromText, nextDistinctMatchingSeed } from "@/lib/learning/matchingLayout";
+import { playTone } from "@/lib/audio/feedback";
 import { ChildLoading, useLearningProfile } from "./LearningCommon";
 import styles from "./LearningPlatform.module.css";
 import { GardenActivityFrame } from "./GardenActivityFrame";
@@ -57,11 +58,12 @@ function ChoiceActivity({ childId, activity, onDone }: { childId: string; activi
 
 function MatchingActivity({ childId, activity, onDone }: { childId: string; activity: LearningActivity; onDone: (value: LearningProgress) => void }) {
   const items = useMemo(() => activity.matchItems ?? [], [activity.matchItems]);
+  const isEnglish = activity.subjectId === "english";
   const [seed, setSeed] = useState(() => matchingSeedFromText(`${childId}:${activity.id}`));
   const [selected, setSelected] = useState<{ id: string; side: "left" | "right" } | null>(null);
   const [matched, setMatched] = useState<string[]>([]);
   const [completed, setCompleted] = useState(false);
-  const [message, setMessage] = useState("Sentuh dua kartu!");
+  const [message, setMessage] = useState(isEnglish ? "Tap two cards!" : "Sentuh dua kartu!");
   const [feedbackTone, setFeedbackTone] = useState<"guide" | "correct" | "retry" | "done">("guide");
 
   const layout = useMemo(() => buildMatchingColumns(items, seed), [items, seed]);
@@ -71,13 +73,13 @@ function MatchingActivity({ childId, activity, onDone }: { childId: string; acti
     if (matched.includes(id) || completed) return;
     if (selected === null) {
       setSelected({ id, side });
-      setMessage("Cari pasangannya!");
+      setMessage(isEnglish ? "Find its pair!" : "Cari pasangannya!");
       setFeedbackTone("guide");
       return;
     }
     if (selected.id === id) {
       setSelected(null);
-      setMessage("Sentuh dua kartu!");
+      setMessage(isEnglish ? "Tap two cards!" : "Sentuh dua kartu!");
       setFeedbackTone("guide");
       return;
     }
@@ -94,20 +96,22 @@ function MatchingActivity({ childId, activity, onDone }: { childId: string; acti
       const next = [...matched, first.id, second.id];
       setMatched(next);
       setSelected(null);
+      playTone("correct");
       if (next.length === items.length) {
         setCompleted(true);
-        setMessage("Semua cocok! ✨");
+        setMessage(isEnglish ? "All matched! ✨" : "Semua cocok! ✨");
         setFeedbackTone("done");
         onDone(completeActivity(childId, activity.id));
       } else {
-        setMessage("Cocok! Cari lagi ✨");
+        setMessage(isEnglish ? "Matched! Find another ✨" : "Cocok! Cari lagi ✨");
         setFeedbackTone("correct");
       }
       return;
     }
 
     setSelected(null);
-    setMessage("Belum cocok. Coba lagi!");
+    setMessage(isEnglish ? "Not yet. Try again!" : "Belum cocok. Coba lagi!");
+    playTone("wrong");
     setFeedbackTone("retry");
   };
 
@@ -115,7 +119,7 @@ function MatchingActivity({ childId, activity, onDone }: { childId: string; acti
     setSelected(null);
     setMatched([]);
     setCompleted(false);
-    setMessage("Yuk, pasangkan lagi!");
+    setMessage(isEnglish ? "Let’s match again!" : "Yuk, pasangkan lagi!");
     setFeedbackTone("guide");
     setSeed((current) => nextDistinctMatchingSeed(items, current ?? 1));
   };
@@ -169,6 +173,10 @@ function MatchingActivity({ childId, activity, onDone }: { childId: string; acti
         {renderColumn("right", layout.right)}
       </div>
       <div role="status" aria-live="polite" data-match-feedback={feedbackTone} className={styles.matchingFeedback}>{message}</div>
+      <details className={styles.matchingInstructions} data-match-instructions>
+        <summary>{isEnglish ? "Read instructions" : "Baca petunjuk"}</summary>
+        <p data-match-canonical-prompt>{activity.prompt ?? activity.title}</p>
+      </details>
     </div>
     {completed ? <ActivityCompletion childId={childId} activity={activity} onTryAgain={retry} /> : null}
   </section>;
