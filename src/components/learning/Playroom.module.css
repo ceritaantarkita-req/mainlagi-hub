@@ -512,3 +512,158 @@
   .brand img { width:84px; }
   .productNav summary > span:first-child { display:none; }
 }
+
+
+/* Child visual-first Wave 1 — scoped to the personalized home only.
+   Shared public and parent navigation styles intentionally remain untouched. */
+.childVisualHome {
+  padding-top: 14px;
+}
+.childVisualHome .continue {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, .9fr);
+  gap: clamp(16px, 3vw, 30px);
+  min-height: 0;
+  padding: clamp(20px, 3vw, 30px);
+  margin: 12px 0 24px;
+  align-items: center;
+  background: linear-gradient(125deg, #e7f4e1 0%, #f3fae9 100%);
+  border: 2px solid #d6e8ce;
+  border-radius: 32px;
+}
+.childVisualHome .continueCopy { width: 100%; }
+.childVisualHome .homeHelloRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.childVisualHome .greeting {
+  font-size: clamp(28px, 3vw, 42px);
+  letter-spacing: -.035em;
+  line-height: 1.16;
+}
+.childVisualHome .homeStars {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  border-radius: 999px;
+  background: #fff4c7;
+  color: #704c16;
+  padding: 7px 12px;
+  font-size: 15px;
+  font-weight: 900;
+}
+.childVisualHome .continueCopy .homeCallout {
+  font-size: clamp(18px, 2.1vw, 24px);
+  font-weight: 900;
+  line-height: 1.25;
+  margin: 0 0 8px;
+  color: #193b55;
+}
+.childVisualHome .continueCopy .homeNextTitle {
+  font-size: clamp(14px, 1.5vw, 18px);
+  line-height: 1.35;
+  color: #3b655e;
+  font-weight: 750;
+  max-width: 34ch;
+  margin: 0 0 16px;
+  overflow-wrap: anywhere;
+}
+.childVisualHome .continueCopy .primary {
+  border-radius: 18px;
+  min-height: 56px;
+  padding: 13px 24px;
+  font-size: clamp(17px, 2vw, 20px);
+  box-shadow: 0 5px 0 #195541;
+}
+.childVisualHome .homeHeroMedia {
+  width: 100%;
+  margin: 0;
+  aspect-ratio: 16 / 10;
+  border-radius: 24px;
+  background: #e6f5eb;
+  box-shadow: none;
+}
+.childVisualHome .homeHeroImage { object-position: center 42%; }
+.childVisualHome .experienceSection { margin-bottom: 26px; }
+.childVisualHome .experienceHeading { margin-bottom: 12px; }
+.childVisualHome .experienceHeading .sectionTitle { margin: 0; font-size: clamp(22px, 2.7vw, 30px); }
+.childVisualHome .experienceCard {
+  grid-template-columns: auto minmax(0, 1fr);
+  border-radius: 25px;
+  background: #fffdf5;
+}
+.childVisualHome .experienceCard small { font-size: 13px; color: #436258; }
+.childVisualHome .experienceCard strong { font-size: clamp(17px, 2vw, 21px); }
+.childVisualHome .experienceCard > b { display: none; }
+.childVisualHome .experienceIcon {
+  width: 60px;
+  height: 60px;
+  font-size: 31px;
+  background: #e4f1db;
+  border-radius: 21px;
+}
+@media (max-width: 760px) {
+  .childVisualHome { padding: 12px 14px 32px; }
+  .childVisualHome .continue {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+    padding: 16px;
+    margin: 4px 0 20px;
+    border-radius: 26px;
+  }
+  .childVisualHome .homeHelloRow { margin: 0 0 8px; }
+  .childVisualHome .greeting { font-size: clamp(25px, 7vw, 33px); letter-spacing: -.02em; }
+  .childVisualHome .homeStars { font-size: 14px; padding: 6px 10px; }
+  .childVisualHome .continueCopy .homeCallout { font-size: 17px; margin-bottom: 7px; }
+  .childVisualHome .continueCopy .homeNextTitle {
+    font-size: 14px;
+    margin: 0 0 12px;
+    max-width: none;
+  }
+  .childVisualHome .continueCopy .primary { width: 100%; padding: 12px; min-height: 54px; }
+  .childVisualHome .homeHeroMedia {
+    width: 100%;
+    max-height: 165px;
+    aspect-ratio: 16 / 8;
+    border-radius: 19px;
+  }
+  .childVisualHome .experienceGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .childVisualHome .experienceCard {
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 5px;
+    text-align: center;
+    border-radius: 18px;
+    overflow-wrap: anywhere;
+  }
+  .childVisualHome .experienceIcon {
+    width: 44px;
+    height: 44px;
+    font-size: 24px;
+    border-radius: 15px;
+  }
+  .childVisualHome .experienceCard small { font-size: 11px; letter-spacing: 0; }
+  .childVisualHome .experienceCard strong { font-size: 13px; line-height: 1.15; }
+  .childVisualHome .experienceCardDisabled span span { display: none; }
+  .childVisualHome .experienceCard > span:nth-child(2) { gap: 3px; }
+}
+@media (max-width: 360px) {
+  .childVisualHome { padding-inline: 11px; }
+  .childVisualHome .continue { padding: 13px; }
+  .childVisualHome .greeting { font-size: 25px; }
+  .childVisualHome .experienceCard strong { font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .childVisualHome .experienceCard { transition: none; }
+}
