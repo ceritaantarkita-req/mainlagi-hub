@@ -1,7 +1,7 @@
 # Mainlagi Child Visual-First UX Redesign — Approved Execution Plan
 
 **Date:** 9 October 2026  
-**Status:** WAVE 1 MERGED / WAVE 2 MATCHING PRESENTATION IN IMPLEMENTATION / LIVE VERIFICATION PENDING  
+**Status:** WAVES 1–2 MERGED / WAVE 3 MATCHING GUIDANCE HARDENING / LIVE VERIFICATION PENDING  
 **Source baseline:** `main@25e8388c28e16b477e4c305b775aacbd5056e87c`  
 **Inputs:** four user-supplied iPhone screenshots (matching letters, Belajar Journey Map, Stage Detail, Child Home) and current canonical runtime owners on `main`.
 
@@ -141,3 +141,30 @@ No curriculum or new gameplay mechanics, question generation, RLS/auth, evidence
 - `GardenActivityFrame` accepts an opt-in `matchingFocus` boolean and exposes `data-activity-presentation="matching-focus-v2"` on Matching only; normal activities retain their original frame.
 - Scoped CSS in `LearningPlatform.module.css` and `GardenActivityFrame.module.css` calms the background and increases card prominence while retaining responsive character artwork.
 - QA adds matching route to permanent visual baseline, tests wrong/correct/retry/progress and 320/430 touch containment, and checks landscape reflow and default Choice isolation. **No result is claimed until CI runs.**
+
+
+## 11. Wave 2 merge and Wave 3 single-branch audio/feedback hardening (9 October 2026)
+
+### Wave 2 merge evidence
+- Wave 2 PR **#483** squash-merged as `main@f4d1fffa8cdde5d73932b793800c9821554340a7` after PR CI run **37937532455** finished **SUCCESS**, seven required jobs PASS (including mobile Chromium and permanent visual baseline). Cloudflare smoke skipped on PR events.
+- The temporary Wave 2 branch was automatically deleted and there were no open PRs before beginning Wave 3. Wave 1/2 exact merged-SHA production smoke and real iOS acceptance are still unproven; do **not** call either LIVE VERIFIED.
+
+### Audit finding: canonical character feedback already exists
+`src/components/learning/LearningAttemptBridge.tsx` captures choice and matching input and emits `correct` or `retry` moments and `completion` on genuine progress writes. `ActivityVisualThemeProvider.tsx` owns moment transitions, timer cleanup and approved character state assets. **Do not duplicate these dispatches in the matching runtime**, reset timers, alter evidence capture, or invent character animation assets.
+
+### Authorized Wave 3 implementation (single branch/PR)
+- **Branch:** `agent/child-visual-wave3-20261009` from `main@f4d1fffa...`; one short-lived PR, docs-first, squash merge with auto-delete only after CI PASS.
+- **Matching only:** make visible feedback subject-localized (English fallback matching prompts in English; other subjects in Indonesian), preserving card labels and full canonical prompt for narration.
+- **Audio fallback:** retain the explicit Dengar button as the only way to trigger full prompt TTS; add a small collapsed, keyboard-operable `Baca petunjuk` / `Read instructions` disclosure showing the **actual unmodified canonical prompt** if voice is missing or a caregiver prefers reading. Do not autoplay, change audio provider or store new voice metadata.
+- **Gentle sound feedback:** optionally use existing muted-aware `AudioManager` tone via `playTone("correct" | "wrong")` on correct/wrong second-card selection gestures only; do not speak unsolicited text or play on load, select, retry reset or navigation.
+- **Character QA:** verify existing matching wrong → `retry`, right → `correct`, completion → `completion` states in a browser with the canonical Bridge; maintain approved runtime characters and pointer-transparent layering.
+- **No other surface scope:** no shared Garden frame changes, no stage progression, curriculum, rewards, match randomization, attempt, World, Motion, Shop, auth, DB, or new media assets.
+
+### Wave 3 acceptance
+- [ ] Full canonical matching prompt still available via Dengar and disclosure, with exact text/locale.
+- [ ] English matching feedback localized and Indonesian matching remains Indonesian, with no changed pairing/achievement semantics.
+- [ ] Canonical bridge still emits correct, retry and completion (no parallel emitter); no duplicate attempts.
+- [ ] Muted audio has no tone; explicit Dengar fallback remains usable.
+- [ ] Mobile 320/390/430, landscape, reduced motion, focus and no horizontal overflow; approved characters stay clear of controls.
+- [ ] All CI gates and permanent visual baseline PASS before merge.
+- [ ] Exact merged-SHA Cloudflare production smoke and user iPhone review are required before LIVE VERIFIED.

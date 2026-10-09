@@ -4,7 +4,15 @@ Last reviewed: **9 October 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
 
-## 9 October 2026 — CHILD VISUAL-FIRST WAVE 1 MERGED / WAVE 2 MATCHING ACTIVE
+## 9 October 2026 — CHILD VISUAL WAVES 1–2 MERGED / WAVE 3 AUDIO-FEEDBACK GUARDS IN PR
+
+**Wave 2:** PR **#483** squash-merged into `main@f4d1fffa8cdde5d73932b793800c9821554340a7` after CI run `37937532455` **FULL SUCCESS** (all seven required PR gates). One Wave 2 branch was deleted automatically and there were no open PRs at handoff. PR Cloudflare smoke was skipped; exact live SHA and real iPhone visual acceptance remain **NOT VERIFIED**. The Wave 2 "ACTIVE" heading below is a historical branch checkpoint.
+
+**Wave 3:** one short-lived branch `agent/child-visual-wave3-20261009` for matching-only audio/text/feedback hardening. Full handoff and guardrails in `docs/CHILD_VISUAL_FIRST_UX_REDESIGN_2026-10-09.md`, section 11. Character reactions **already exist** in `LearningAttemptBridge` + `ActivityVisualThemeProvider`, so do **not** add duplicate dispatches. Wave 3 only localizes English matching prompts/feedback, adds muted-aware user-gesture correct/wrong tones and optional canonical text disclosure for audio fallback, with permanent browser regression. No curriculum, evidence, mastery, reward, character art, World, Motion, Shop or auth changes intended.
+
+**Release gates:** 7/7 PR CI, then exact merged-SHA Cloudflare smoke and actual iOS visual check. Until those are supported by evidence, avoid **LIVE VERIFIED** claims.
+
+## 9 October 2026 — CHILD VISUAL-FIRST WAVE 1 MERGED / WAVE 2 MATCHING ACTIVE (HISTORICAL CHECKPOINT)
 
 Wave 1 PR **#482** merged at `main@de6d3957b741d81d4eccc2078063a0f50f4e3ebc` after seven PR CI gates PASS (run `37933701872`). Branch auto-deleted; no remaining PR at the handoff. Wave 1 exact-SHA Cloudflare production smoke and real iOS visual acceptance **remain unverified**; PR smoke was skipped. The former section below is a historical in-PR checkpoint, not current runtime status.
 

@@ -165,6 +165,14 @@ async function assertMatchingFocusVisual(page, viewport) {
   assert.equal(await cards.count(), 4, `matching card count drifted at ${viewport.width}px`);
   const progress = game.locator("[data-match-progress]");
   assert.equal(await progress.getAttribute("data-match-progress"), "0", `matching initial local progress drifted at ${viewport.width}px`);
+  assert.equal(await game.getByText("Sentuh dua kartu!", { exact: true }).count(), 1,
+    `Indonesian matching feedback must remain localized at ${viewport.width}px`);
+  const instructions = game.locator("[data-match-instructions]");
+  assert.equal(await instructions.count(), 1, `Matching fallback instructions missing at ${viewport.width}px`);
+  assert.equal(await instructions.locator("summary").textContent(), "Baca petunjuk",
+    `Indonesian matching instruction label changed at ${viewport.width}px`);
+  assert.equal(await instructions.locator("[data-match-canonical-prompt]").textContent(),
+    await game.getAttribute("aria-label"), `Matching accessible full prompt drifted at ${viewport.width}px`);
   const geometry = await cards.evaluateAll((nodes) => nodes.map((node) => {
     const rect = node.getBoundingClientRect();
     return { width: rect.width, height: rect.height };

@@ -1579,6 +1579,16 @@ async function main() {
       assert.equal(await experience.count(), 1, "Matching renders visual-first board");
       assert.equal(await experience.getByText("Find a pair!", { exact: true }).count(), 1, "Matching uses a short visible English title");
       assert.equal(await page.getByRole("button", { name: "Dengar petunjuk" }).count(), 1, "Canonical optional narration remains accessible");
+      const instructions = experience.locator("[data-match-instructions]");
+      assert.equal(await instructions.count(), 1, "Canonical matching prompt text fallback exists");
+      assert.equal(await instructions.evaluate((node) => node.open), false, "Matching instruction disclosure starts compact");
+      await instructions.locator("summary").click();
+      const fullPrompt = await instructions.locator("[data-match-canonical-prompt]").textContent();
+      assert.equal(fullPrompt?.trim(), await experience.getAttribute("aria-label"), "Text fallback preserves exact canonical narration prompt");
+      assert.equal(await instructions.locator("[data-match-canonical-prompt]").isVisible(), true, "Full instructions can be read without speech");
+      await instructions.locator("summary").click();
+      assert.equal(await instructions.evaluate((node) => node.open), false, "Instructions can be collapsed");
+      assert.equal(await experience.getByText("Tap two cards!", { exact: true }).count(), 1, "English matching initial feedback is localized");
       const matchProgress = experience.locator('[data-match-progress]');
       assert.equal(await matchProgress.getAttribute("data-match-progress"), "0", "Matching initially shows zero matched pairs");
       const firstLeft = initial.left[0];
@@ -1590,6 +1600,9 @@ async function main() {
       await page.getByRole("button", { name: wrongRight, exact: true }).click();
       assert.equal(await matchProgress.getAttribute("data-match-progress"), "0", "Wrong match does not advance progress");
       assert.equal(await experience.locator('[data-match-feedback="retry"]').count(), 1, "Wrong match exposes non-color-only feedback");
+      assert.equal(await experience.getByText("Not yet. Try again!", { exact: true }).count(), 1, "English wrong-answer feedback is localized");
+      await page.waitForFunction(() => document.querySelector('[data-activity-frame="garden"]')?.getAttribute("data-character-moment") === "retry",
+        null, { timeout: 1500 }).catch(() => { throw new Error("Canonical bridge did not show retry character state for wrong matching pair"); });
       assert.equal(await page.locator("[data-activity-completion]").count(), 0, "Wrong match must never trigger completion");
       assert.equal(initial.left.length, 2, "visible matching must split one card per pair into the left column");
       assert.equal(initial.right.length, 2, "visible matching must split one card per pair into the right column");
@@ -1601,6 +1614,10 @@ async function main() {
       await page.getByRole("button", { name: "CAT", exact: true }).click();
       await page.getByRole("button", { name: "🐱", exact: true }).click();
       assert.equal(await matchProgress.getAttribute("data-match-progress"), "1", "First correct pair advances visible progress once");
+      assert.equal(await experience.getByText("Matched! Find another ✨", { exact: true }).count(), 1,
+        "English partial success feedback is localized");
+      await page.waitForFunction(() => document.querySelector('[data-activity-frame="garden"]')?.getAttribute("data-character-moment") === "correct",
+        { timeout: 1500 }).catch(() => { throw new Error("Canonical bridge did not show correct character state after valid match"); });
       await page.getByRole("button", { name: "SUN", exact: true }).click();
       await page.getByRole("button", { name: "☀️", exact: true }).click();
       assert.equal(await matchProgress.getAttribute("data-match-progress"), "2", "Two correct pairs complete local match progress");
@@ -1608,6 +1625,9 @@ async function main() {
       const completion = page.locator("[data-activity-completion]");
       await completion.waitFor();
       assert.equal(await completion.getByLabel("Tiga bintang").locator("svg").count(), 3, "visible matching completion must use shared three-star success");
+      assert.equal(await experience.getByText("All matched! ✨", { exact: true }).count(), 1, "English completion feedback localized");
+      await page.waitForFunction(() => document.querySelector('[data-activity-frame="garden"]')?.getAttribute("data-character-moment") === "completion",
+        null, { timeout: 3500 }).catch(() => { throw new Error("Canonical character presentation did not reach completion state"); });
       const beforeRetry = [initial.left.join(","), initial.right.join(",")].join("|");
       await completion.getByRole("button", { name: "Again", exact: true }).click();
       await board.waitFor();
