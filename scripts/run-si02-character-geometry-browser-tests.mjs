@@ -4,6 +4,7 @@ import { spawn } from "node:child_process";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
+import { worldAge7Context } from "./world-age7-browser-fixture.mjs";
 
 const root = process.cwd();
 const host = "127.0.0.1";
@@ -12,7 +13,7 @@ const baseUrl = `http://${host}:${port}`;
 const outDir = path.resolve(".mobile-route-qa/si02-character-geometry");
 const portrait = { width: 390, height: 844 };
 const landscape = { width: 844, height: 390 };
-const worldStageRoute = "/child/demo-gian/world/money-festival/stage/money-stage-01-money-use";
+const worldStageRoute = "/child/qa-world-age7/world/money-festival/stage/money-stage-01-money-use";
 
 let server = null;
 let serverLog = "";
@@ -175,7 +176,7 @@ async function waitForBelajar(page) {
 }
 
 async function testBelajar(browser) {
-  const context = await browser.newContext({ viewport: portrait, reducedMotion: "reduce", hasTouch: true });
+  const context = await worldAge7Context(browser,{ viewport: portrait, reducedMotion: "reduce", hasTouch: true });
   const page = await context.newPage();
   await page.goto(baseUrl + "/child/demo-gian/activity/english-find-blue", { waitUntil: "domcontentloaded", timeout: 30_000 });
   await waitForBelajar(page);
@@ -238,7 +239,7 @@ async function completeMatchingChallenge(page) {
 }
 
 async function testWorld(browser) {
-  const context = await browser.newContext({ viewport: portrait, reducedMotion: "reduce", hasTouch: true });
+  const context = await worldAge7Context(browser,{ viewport: portrait, reducedMotion: "reduce", hasTouch: true });
   const page = await context.newPage();
   await page.goto(baseUrl + worldStageRoute, { waitUntil: "domcontentloaded", timeout: 30_000 });
   await page.locator('[data-world-stage-shell="garden-baseline-v1"]').waitFor({ state: "visible", timeout: 10_000 });
@@ -312,7 +313,7 @@ async function openBermainRoundEnd(page) {
 }
 
 async function testBermainRoundEnd(browser) {
-  const context = await browser.newContext({ viewport: portrait, reducedMotion: "reduce", hasTouch: true });
+  const context = await worldAge7Context(browser,{ viewport: portrait, reducedMotion: "reduce", hasTouch: true });
   await installFastClock(context);
   const page = await context.newPage();
   await openBermainRoundEnd(page);
