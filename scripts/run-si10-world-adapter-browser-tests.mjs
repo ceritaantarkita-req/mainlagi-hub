@@ -4,15 +4,16 @@ import { spawn } from "node:child_process";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
+import { worldAge7Context } from "./world-age7-browser-fixture.mjs";
 
 const root = process.cwd();
 const host = "127.0.0.1";
 const port = Number(process.env.MAINLAGI_SI10_WORLD_QA_PORT ?? 4080);
 const baseUrl = `http://${host}:${port}`;
 const outDir = path.resolve(".mobile-route-qa/si10-world-adapter");
-const stageRoute = "/child/demo-gian/world/money-festival/stage/money-stage-01-money-use";
-const mapPath = "/child/demo-gian/world/money-festival";
-const nextStagePath = "/child/demo-gian/world/money-festival/stage/money-stage-02-price-change";
+const stageRoute = "/child/qa-world-age7/world/money-festival/stage/money-stage-01-money-use";
+const mapPath = "/child/qa-world-age7/world/money-festival";
+const nextStagePath = "/child/qa-world-age7/world/money-festival/stage/money-stage-02-price-change";
 const publicWorldPath = "/worlds/money-festival";
 const portrait = { width: 390, height: 844 };
 const landscape = { width: 844, height: 390 };
@@ -123,7 +124,7 @@ async function main() {
   await waitForServer();
 
   const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext({ viewport: portrait, reducedMotion: "reduce", hasTouch: true });
+  const context = await worldAge7Context(browser,{ viewport: portrait, reducedMotion: "reduce", hasTouch: true });
   await context.addInitScript(() => {
     Object.defineProperty(navigator, "clipboard", {
       configurable: true,
@@ -216,7 +217,7 @@ async function main() {
     );
     for (const href of providerHrefs) {
       assert(!href.includes("/child/"), `provider must not expose child route: ${href}`);
-      assert(!href.includes("demo-gian"), `provider must not expose child id: ${href}`);
+      assert(!href.includes("qa-world-age7"), `provider must not expose child id: ${href}`);
       assert(!href.includes("money-stage-01-money-use"), `provider must not expose private Stage route: ${href}`);
     }
 
@@ -228,7 +229,7 @@ async function main() {
     await page.waitForFunction(() => Boolean(window.__mainlagiSi10NativeShare?.url));
     const nativeShare = await page.evaluate(() => window.__mainlagiSi10NativeShare);
     assert.equal(nativeShare.url, baseUrl + publicWorldPath, "native Share uses public World landing");
-    assert(!JSON.stringify(nativeShare).includes("demo-gian"), "native Share excludes child id");
+    assert(!JSON.stringify(nativeShare).includes("qa-world-age7"), "native Share excludes child id");
 
     await dialog.getByRole("button", { name: "Tutup" }).click();
     await dialog.waitFor({ state: "hidden", timeout: 5_000 });
