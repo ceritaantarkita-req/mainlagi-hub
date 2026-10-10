@@ -177,7 +177,7 @@ export function BelajarJourneyMap({ subjectId, childId, age, progress, analytics
                 <div className={styles.recommendedEntry}>
                   <span><small>Selanjutnya</small><strong>{recommendedActivity.title}</strong></span>
                 </div>
-              ) : null>
+              ) : null}
               <details className={styles.activityDisclosure} open={qaUnlockAll}>
                 <summary>Lihat semua aktivitas ({stageActivities.length})</summary>
                 <ul>
