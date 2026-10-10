@@ -1917,3 +1917,15 @@ a.stageCard:hover,a.activityCard:hover,a.profileCard:hover,a.gameCard:hover { bo
   text-wrap: pretty;
   overflow-wrap: anywhere;
 }
+
+
+/* Batch 05 — activity questions are primary, not oversized duplicated headings. */
+@media(max-width:760px) {
+  .activityPrompt { max-width: 100%; font-size: clamp(25px, 6.2vw, 34px); line-height: 1.12; margin: 0 auto 16px; }
+  .choiceGrid { gap: 10px; margin: 18px auto; }
+  .bigChoice { min-height: 102px; border-radius: 25px; padding: 12px 8px; font-size: clamp(26px, 6vw, 42px); }
+  .bigChoice[data-short=true] { font-size: clamp(42px, 11vw, 66px); }
+  .playHint { font-size: 15px; margin: 18px auto 0; }
+  .matchingExperience .matchButton { min-height: 108px; font-size: clamp(35px, 9vw, 52px); }
+  .matchingExperience .matchingSurface { padding: 9px; }
+}
