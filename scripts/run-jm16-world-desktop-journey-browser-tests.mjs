@@ -4,12 +4,13 @@ import { spawn } from "node:child_process";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
+import { worldAge7Context } from "./world-age7-browser-fixture.mjs";
 
 const root = process.cwd();
 const host = "127.0.0.1";
 const port = Number(process.env.MAINLAGI_JM16_WORLD_QA_PORT ?? 4084);
 const base = `http://${host}:${port}`;
-const route = "/child/demo-gian/world/money-festival";
+const route = "/child/qa-world-age7/world/money-festival";
 const outDir = path.resolve(".mobile-route-qa/jm16-world-desktop");
 const viewport = { width: 1280, height: 900 };
 const expectedStageIds = [
@@ -65,10 +66,10 @@ async function main() {
   await waitForServer();
 
   const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext({ viewport, reducedMotion: "reduce" });
+  const context = await worldAge7Context(browser,{ viewport, reducedMotion: "reduce" });
   await context.addInitScript(() => {
     window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
-      "demo-gian": {
+      "qa-world-age7": {
         "money-festival": {
           worldId: "money-festival",
           completedStageIds: ["money-stage-01-money-use"],
@@ -105,7 +106,7 @@ async function main() {
     await resume.waitFor({ state: "visible" });
     assert.equal((await resume.locator("strong").textContent())?.trim(), "Stage 2 · Kok Jadi Lebih Mahal?");
     assert.equal(
-      await resume.locator('a[href="/child/demo-gian/world/money-festival/stage/money-stage-02-price-change"]').count(),
+      await resume.locator('a[href="/child/qa-world-age7/world/money-festival/stage/money-stage-02-price-change"]').count(),
       1,
       "desktop resume must keep the stable Stage 2 route"
     );
@@ -145,11 +146,11 @@ async function main() {
       "Stage 3 must remain locked"
     );
     assert.equal(
-      await map.locator('a[href="/child/demo-gian/world/money-festival/stage/money-stage-01-money-use"]').count(),
+      await map.locator('a[href="/child/qa-world-age7/world/money-festival/stage/money-stage-01-money-use"]').count(),
       1,
       "completed Stage remains revisit-able"
     );
-    const stageTwoLink = map.locator('a[href="/child/demo-gian/world/money-festival/stage/money-stage-02-price-change"]');
+    const stageTwoLink = map.locator('a[href="/child/qa-world-age7/world/money-festival/stage/money-stage-02-price-change"]');
     assert.equal(await stageTwoLink.count(), 1);
     assert.equal(await stageTwoLink.getAttribute("aria-current"), "step", "current World Stage must expose aria-current");
     assert.equal(
