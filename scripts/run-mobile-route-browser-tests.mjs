@@ -345,7 +345,7 @@ async function inspectPage(page, route, viewport) {
 
     if (route.path === "/child/qa-world-age7/worlds") {
       await assertJm02Header(page, viewport, {
-        backHref: "/child/demo-gian/home",
+        backHref: "/child/qa-world-age7/home",
         currentHref: "/child/qa-world-age7/worlds"
       });
       const worldGrid = page.locator('[data-core-thumbnail-grid="worlds"]');
