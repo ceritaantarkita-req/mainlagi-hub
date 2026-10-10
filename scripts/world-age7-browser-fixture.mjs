@@ -12,8 +12,9 @@ export async function worldAge7Context(browser, options) {
       const key = "mainlagi-learning-profiles-v1";
       const raw = window.localStorage.getItem(key);
       const stored = raw ? JSON.parse(raw) : [];
-      const list = Array.isArray(stored) ? stored.filter((item) => item?.id !== "qa-world-age7") : [];
+      const list = Array.isArray(stored) ? stored.filter((item) => item?.id !== "qa-world-age7" && item?.id !== "qa-world-age9") : [];
       list.push({ id: "qa-world-age7", name: "World QA", age: 7, guide: "paca", language: "id" });
+      list.push({ id: "qa-world-age9", name: "Older World QA", age: 9, guide: "paca", language: "id" });
       window.localStorage.setItem(key, JSON.stringify(list));
     } catch {
       // Browsers may deny local storage on non-site/blank pages. Re-run on site navigation.
