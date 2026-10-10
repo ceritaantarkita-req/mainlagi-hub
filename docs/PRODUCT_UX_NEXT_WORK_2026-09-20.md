@@ -7,6 +7,14 @@ Current synchronized Journey Map runtime baseline: `main` = `b4473cc0582c096441e
 
 This document is the short human/AI handoff for Mainlagi product-quality work. It records the user-accepted UX direction without changing curriculum, mastery, evidence or progression. The latest WS-05 Logic reuse wave is closed; any later mechanic work remains a separate audited track.
 
+## 10 October 2026 — CHILD UX FINAL REMEDIATION BATCH 00–07 (ONE BRANCH / IN PROGRESS)
+
+The user rejected remaining mobile clutter and approved one continuous eight-batch remediation plan, captured in [`CHILD_UX_FINAL_REMEDIATION_BATCHES_2026-10-10.md`](CHILD_UX_FINAL_REMEDIATION_BATCHES_2026-10-10.md). Source baseline `main@fbc993ccbd779b841061d37ed82c01daf00c1bd3`; single implementation branch `agent/child-ux-final-remediation-20261010`. Docs-first followed by World entry/age enforcement, mobile Garden, Home, Journey/Stage, Choice/Matching/Drawing, QA, then one PR/squash merge/deletion only if CI green.
+
+**World decision:** catalog browseable at all supported ages, shipped Petualangan Uang still **6–8 only**. Gian Demo is 5; no stage unlock and no invented 3–5 World variant. Align catalog and direct deep-link guards; presentation must not claim locked world is “missing”.
+
+**Status:** unmerged work; no PASS/production verification claim yet. Previous Wave 1–3 source and docs PRs were merged. Exact latest production smoke and fresh real-iPhone visual acceptance remain open in Issue #486. Keep content/evidence/mastery, all stage IDs, World progression, Motion Engine, Shop, auth and canonical character assets untouched.
+
 ## 9 October 2026 — CHILD VISUAL WAVES 1–3 MERGED / PRODUCTION ACCEPTANCE OPEN
 
 Canonical handoff: [`CHILD_VISUAL_FIRST_UX_REDESIGN_2026-10-09.md`](CHILD_VISUAL_FIRST_UX_REDESIGN_2026-10-09.md), Sections 9–12. Wave 1 PR #482 / `de6d3957...`, Wave 2 PR #483 / `f4d1fffa...`, and Wave 3 PR #484 / `fa1a054c...` were **sequentially merged** after full successful PR CI. All temporary branches auto-deleted. Scope: compact Child Home; readable shared Belajar Journey Map and Stage sheet; focused Matching board; English/Indonesian feedback, readable full prompt and muted-aware tones. Character states reuse the canonical learning bridge; do not duplicate character feedback. Matching/evidence/mastery, World, Bermain, Shop, auth and data ownership boundaries remain intact.
