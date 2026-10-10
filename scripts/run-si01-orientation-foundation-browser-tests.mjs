@@ -4,6 +4,7 @@ import { spawn } from "node:child_process";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
+import { worldAge7Context } from "./world-age7-browser-fixture.mjs";
 
 const root = process.cwd();
 const host = "127.0.0.1";
@@ -13,7 +14,7 @@ const outDir = path.resolve(".mobile-route-qa/si01-orientation");
 const portrait = { width: 390, height: 844 };
 const landscape = { width: 844, height: 390 };
 const memoryRoute = "/child/demo-gian/activity/letters-match-case-cd";
-const worldStageRoute = "/child/demo-gian/world/money-festival/stage/money-stage-01-money-use";
+const worldStageRoute = "/child/qa-world-age7/world/money-festival/stage/money-stage-01-money-use";
 
 let server = null;
 let serverLog = "";
@@ -208,7 +209,7 @@ async function advanceWorldNarrative(page) {
 }
 
 async function testBelajarPartialAnswer(browser) {
-  const context = await browser.newContext({ viewport: portrait, reducedMotion: "reduce", hasTouch: true });
+  const context = await worldAge7Context(browser,{ viewport: portrait, reducedMotion: "reduce", hasTouch: true });
   await seedMemoryReadiness(context);
   const page = await context.newPage();
   await page.goto(baseUrl + memoryRoute, { waitUntil: "domcontentloaded", timeout: 30_000 });
@@ -234,7 +235,7 @@ async function testBelajarPartialAnswer(browser) {
 }
 
 async function testCompletionAndShare(browser) {
-  const context = await browser.newContext({ viewport: portrait, reducedMotion: "reduce", hasTouch: true });
+  const context = await worldAge7Context(browser,{ viewport: portrait, reducedMotion: "reduce", hasTouch: true });
   await seedMemoryReadiness(context);
   const page = await context.newPage();
   await page.goto(baseUrl + memoryRoute, { waitUntil: "domcontentloaded", timeout: 30_000 });
@@ -268,7 +269,7 @@ async function testCompletionAndShare(browser) {
 }
 
 async function testBermainTimer(browser) {
-  const context = await browser.newContext({ viewport: portrait, reducedMotion: "reduce", hasTouch: true });
+  const context = await worldAge7Context(browser,{ viewport: portrait, reducedMotion: "reduce", hasTouch: true });
   const page = await context.newPage();
   await page.goto(baseUrl + "/play/math-choice", { waitUntil: "domcontentloaded", timeout: 30_000 });
 
@@ -302,7 +303,7 @@ async function testBermainTimer(browser) {
 }
 
 async function testWorldSegment(browser) {
-  const context = await browser.newContext({ viewport: portrait, reducedMotion: "reduce", hasTouch: true });
+  const context = await worldAge7Context(browser,{ viewport: portrait, reducedMotion: "reduce", hasTouch: true });
   const page = await context.newPage();
   await page.goto(baseUrl + worldStageRoute, { waitUntil: "domcontentloaded", timeout: 30_000 });
   const shell = page.locator('[data-world-stage-shell="garden-baseline-v1"]');
