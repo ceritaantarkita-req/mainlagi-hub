@@ -50,8 +50,8 @@ function ChoiceActivity({ childId, activity, onDone }: { childId: string; activi
         </button>
       ))}
     </div>
-    {feedback === "try" ? <div className={styles.feedbackTry} role="status">Belum tepat. Coba pilihan lain ya.</div> : null}
-    <p className={styles.playHint}>Sentuh pilihanmu.</p>
+    {feedback === "try" ? <div className={styles.feedbackTry} role="status">{activity.subjectId === "english" ? "Try another one!" : "Belum tepat. Coba pilihan lain ya."}</div> : null}
+    <p className={styles.playHint}>{activity.subjectId === "english" ? "Tap your answer!" : "Sentuh pilihanmu."}</p>
     {feedback === "good" ? <ActivityCompletion childId={childId} activity={activity} onTryAgain={retry} /> : null}
   </>;
 }
