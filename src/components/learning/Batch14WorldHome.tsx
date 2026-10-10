@@ -5,7 +5,7 @@ import Link from "next/link";
 import { getActivity } from "@/lib/learning/system";
 import { rankAdaptiveLearningV2 } from "@/lib/learning/adaptive";
 import { MONEY_WORLD_STAGES } from "@/lib/learning/world/moneyWorld";
-import { MONEY_WORLD_PILOT_AGE_BAND } from "@/lib/learning/world/moneyWorldPresentation";
+import { MONEY_WORLD_PILOT_AGE_BAND, isMoneyWorldPilotAgeEligible } from "@/lib/learning/world/moneyWorldPresentation";
 import { ChildLoading, useLearningProfile, useLearningProgress } from "./LearningCommon";
 import { useLearningAnalytics } from "./useLearningAnalytics";
 import { SubjectDirectory } from "./Playroom";
@@ -29,9 +29,7 @@ export function Batch14WorldHome({ childId }: { childId: string }) {
     allowMotion: false
   });
   const next = ranked[0] ? getActivity(ranked[0].id) : undefined;
-  const worldEligible =
-    profile.age >= MONEY_WORLD_PILOT_AGE_BAND.minAge &&
-    profile.age <= MONEY_WORLD_PILOT_AGE_BAND.maxAge;
+  const worldEligible = isMoneyWorldPilotAgeEligible(profile.age);
   const completedWorldStages = worldState.progress.completedStageIds.length;
   const worldComplete = worldState.ready && completedWorldStages === MONEY_WORLD_STAGES.length;
   const worldStarted = completedWorldStages > 0 || Boolean(worldState.progress.currentStageId);
@@ -49,7 +47,7 @@ export function Batch14WorldHome({ childId }: { childId: string }) {
             <h1 id="child-home-title" className={styles.greeting}>Hai, {profile.name}! 👋</h1>
             <span className={styles.homeStars} aria-label={`${progress.stars} bintang terkumpul`}>⭐ {progress.stars}</span>
           </div>
-          <p className={styles.homeCallout}>{next ? "Yuk, lanjut petualanganmu!" : "Yuk, pilih keseruanmu!"}</p>
+          <p className={styles.homeCallout}>{next ? "Siap main lagi?" : "Pilih permainanmu!"}</p>
           {next ? (
             <p className={styles.homeNextTitle} aria-label={`Aktivitas berikutnya: ${next.title}`}>
               <span aria-hidden>✏️</span> {next.title}
@@ -95,42 +93,25 @@ export function Batch14WorldHome({ childId }: { childId: string }) {
           >
             <span className={styles.experienceIcon} aria-hidden>📚</span>
             <span>
-              <small>Belajar</small>
-              <strong>{next ? "Yuk belajar!" : "Pilih pelajaran"}</strong>
+              <strong>Belajar</strong>
             </span>
             <b aria-hidden>→</b>
           </Link>
 
-          {worldEligible ? (
-            <Link
-              className={styles.experienceCard}
-              href={`/child/${childId}/worlds`}
-              data-mainlagi-domain-card="world"
-              data-mainlagi-home-world-state={worldComplete ? "complete" : worldStarted ? "started" : "new"}
-            >
-              <span className={styles.experienceIcon} aria-hidden>🗺️</span>
-              <span>
-                <small>World</small>
-                <strong>{worldStarted ? worldAction : "Ayo jelajah!"}</strong>
-              </span>
-              <b aria-hidden>→</b>
-            </Link>
-          ) : (
-            <div
-              className={`${styles.experienceCard} ${styles.experienceCardDisabled}`}
-              data-mainlagi-domain-card="world"
-              data-mainlagi-home-world-state="age-gated"
-              aria-disabled="true"
-            >
-              <span className={styles.experienceIcon} aria-hidden>🗺️</span>
-              <span>
-                <small>World</small>
-                <strong>Belum tersedia</strong>
-                <span>Untuk usia {MONEY_WORLD_PILOT_AGE_BAND.label} tahun</span>
-              </span>
-              <b aria-hidden>•</b>
-            </div>
-          )}
+          <Link
+            className={styles.experienceCard}
+            href={`/child/${childId}/worlds`}
+            data-mainlagi-domain-card="world"
+            data-mainlagi-home-world-state={worldEligible ? (worldComplete ? "complete" : worldStarted ? "started" : "new") : "catalog-age-gated"}
+            aria-label={worldEligible ? "Jelajahi Mainlagi World" : `Lihat Mainlagi World. Petualangan Uang untuk usia ${MONEY_WORLD_PILOT_AGE_BAND.label} tahun`}
+          >
+            <span className={styles.experienceIcon} aria-hidden>🗺️</span>
+            <span>
+              <strong>World</strong>
+              {worldEligible ? <span>{worldStarted ? worldAction : "Jelajahi!"}</span> : <span>Jelajahi dunia</span>}
+            </span>
+            <b aria-hidden>→</b>
+          </Link>
 
           <Link
             className={styles.experienceCard}
@@ -139,8 +120,7 @@ export function Batch14WorldHome({ childId }: { childId: string }) {
           >
             <span className={styles.experienceIcon} aria-hidden>🎮</span>
             <span>
-              <small>Bermain</small>
-              <strong>Main Gerak</strong>
+              <strong>Bermain</strong>
             </span>
             <b aria-hidden>→</b>
           </Link>
