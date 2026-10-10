@@ -1,8 +1,16 @@
 # Mainlagi Hub — Current State
 
-Last reviewed: **9 October 2026**
+Last reviewed: **10 October 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
+
+## 10 October 2026 — CHILD UX FINAL REMEDIATION BATCH 00–07 (ONE BRANCH / IN PROGRESS)
+
+The user rejected remaining mobile clutter and approved one continuous eight-batch remediation plan, captured in [`CHILD_UX_FINAL_REMEDIATION_BATCHES_2026-10-10.md`](CHILD_UX_FINAL_REMEDIATION_BATCHES_2026-10-10.md). Source baseline `main@fbc993ccbd779b841061d37ed82c01daf00c1bd3`; single implementation branch `agent/child-ux-final-remediation-20261010`. Docs-first followed by World entry/age enforcement, mobile Garden, Home, Journey/Stage, Choice/Matching/Drawing, QA, then one PR/squash merge/deletion only if CI green.
+
+**World decision:** catalog browseable at all supported ages, shipped Petualangan Uang still **6–8 only**. Gian Demo is 5; no stage unlock and no invented 3–5 World variant. Align catalog and direct deep-link guards; presentation must not claim locked world is “missing”.
+
+**Status:** unmerged work; no PASS/production verification claim yet. Previous Wave 1–3 source and docs PRs were merged. Exact latest production smoke and fresh real-iPhone visual acceptance remain open in Issue #486. Keep content/evidence/mastery, all stage IDs, World progression, Motion Engine, Shop, auth and canonical character assets untouched.
 
 ## 9 October 2026 — CHILD VISUAL WAVES 1–3 MERGED / PR CI VERIFIED, NOT LIVE VERIFIED
 
