@@ -122,7 +122,7 @@ assert.doesNotMatch(gameArtworkSource, /\/artwork\/(math-choice|math-motion-batt
 const worldSource = readFileSync(path.resolve("src/components/learning/world-v2/MoneyWorldExperience.tsx"), "utf8");
 assert.match(worldSource, /CORE_WORLD_CARDS\.map/);
 assert.match(worldSource, /href=\{liveHref\}/);
-assert.match(worldSource, /data-world-status="locked"/);
+assert.match(worldSource, /data-world-status=\{ageGated \? "age-gated" : "locked"\}/, "World catalog must distinguish age-gated pilot from future locked concepts");
 assert.doesNotMatch(worldSource, /href=\{[^}]*world\.id/, "locked future World ids must not be converted into runtime links");
 
 console.log(`Core Thumbnail Wave 01 static gate PASS: 31 optimized 1200x900 assets (${totalBytes} bytes), 9 subjects, 10 games, 9 Worlds (1 live/8 locked), and 125 activity previews untouched.`);
