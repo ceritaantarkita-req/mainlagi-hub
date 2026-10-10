@@ -60,3 +60,11 @@
 - **05 choice/drawing:** Choice English hints and wrong-answer feedback localized; Drawing removes “Creative practice / completion / mastery / Lesson” from child view while retaining existing completion behavior. Matching card sizes refined without touching correctness algorithms.
 - **06 QA preparation:** Word/World tests use distinct profile fixtures for 5/7/9, iPhone visual baseline includes English Choice, Drawing, and open Stage sheet. **No automated PASS or live smoke evidence exists for this new branch yet.** CI results must be appended only after checks actually run.
 - **07 not started:** no merge/deployment confirmation. If CI fails, keep this branch/PR open and correct narrowly. All production gates remain evidence-based.
+
+### 10 October — Batch 06 QA evidence, ready for final exact-head rerun
+
+Initial PR CI failures were fixed without bypasses: malformed Stage Detail JSX, World static source assertion, localized English SI-06A assertion, age-7 catalog Back assertion, and two World progress fixtures accidentally still keyed to `demo-gian`. Production runtime, curriculum, mastery, gameplay, Motion Engine, Shop, and character assets were not modified to satisfy tests.
+
+**Full required CI run `38013491930` at `1da3afbb0db89641024634c7de625f2446b142bc`: all 7/7 gates SUCCESS.** Required: Ubuntu quality, Windows compatibility, production build, mobile Chromium, Shop PostgreSQL staging, full-history secret scan, production dependency audit. The mobile job confirmed profile ages 5/7/9 (browse vs 6–8 playable guard), World Stage 1 E2E, authored closing Scenes, shared Journey Map, 320–1024 mobile matrix, Shop HTTP boundary, and visual baseline, plus existing canonical completion/share and audio checks.
+
+**This documentation update creates a new head SHA, so final pre-merge CI must be reconfirmed on that exact head.** No merge / no live verification at this checkpoint. PR Cloudflare smoke `SKIPPED` is expected (PR event), not production success. Later closure requires squash merge, branch cleanup check, push-to-main smoke for exact merged SHA, `/api/health` SHA/config and real iPhone acceptance. Do not equate CI green with Safari approval.
