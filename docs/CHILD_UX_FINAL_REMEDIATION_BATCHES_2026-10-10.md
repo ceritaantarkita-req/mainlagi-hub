@@ -50,3 +50,13 @@
 ## Checkpoint log
 
 - **Batch 00 — docs-first**: branch based on `main@fbc993ccbd779b841061d37ed82c01daf00c1bd3` after verifying no open PR. This document is the canonical eight-batch plan. Subsequent commits and proof should be appended here, and `docs/CURRENT_STATE.md` synced. No feature implementation or test PASS claim at this checkpoint.
+
+### 10 Oct implementation checkpoint — Batch 01–05 source committed, Batch 06 PR CI pending
+
+- **01 World:** centralized `isMoneyWorldPilotAgeEligible`; age 5 Child Home World card links to nine-concept catalog; catalog labels 6–8 pilot “Untuk usia 6–8” and does not expose a playable link to ages 5/9; direct map/stage components guard eligibility **before mounting progress runtime**; canonical 6–8 stage IDs remain unchanged.
+- **World test fixtures:** `scripts/world-age7-browser-fixture.mjs` adds a browser-local authorized age-seven profile for runtime QA, plus age-nine ineligible profile. Gian Demo remains five. Existing World Playwright routes are migrated to the eligible fixture as needed; main mobile QA adds direct demo-5/age-9 route guard assertions. Fixture never ships to production runtime.
+- **02–03 mobile:** scoped CSS for compact Child Home, Garden header/activity spacing, iOS-safe character placement and answer targets. Existing hero artwork and 2:1 mobile hero ratio intentionally preserved.
+- **04 Stage:** status presented inline, real completed/required counts and disclosure preserved, one active primary CTA instead of two links to same recommended activity; browser baseline screenshot now captures detail sheet open.
+- **05 choice/drawing:** Choice English hints and wrong-answer feedback localized; Drawing removes “Creative practice / completion / mastery / Lesson” from child view while retaining existing completion behavior. Matching card sizes refined without touching correctness algorithms.
+- **06 QA preparation:** Word/World tests use distinct profile fixtures for 5/7/9, iPhone visual baseline includes English Choice, Drawing, and open Stage sheet. **No automated PASS or live smoke evidence exists for this new branch yet.** CI results must be appended only after checks actually run.
+- **07 not started:** no merge/deployment confirmation. If CI fails, keep this branch/PR open and correct narrowly. All production gates remain evidence-based.
