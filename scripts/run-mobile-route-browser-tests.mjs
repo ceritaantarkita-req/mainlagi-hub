@@ -186,10 +186,11 @@ async function assertJm02Header(page, viewport, { backHref, currentHref, exercis
   const drawerRect = await drawer.boundingBox();
   assert.ok(drawerRect && drawerRect.x <= 1, `JM-02 product drawer must open from the left edge at ${viewport.width}px`);
 
+  const childKey = currentHref.startsWith("/child/qa-world-age7/") ? "qa-world-age7" : "demo-gian";
   for (const [label, href] of [
-    ["Belajar", "/child/demo-gian/home"],
-    ["Bermain", "/child/demo-gian/games"],
-    ["World", "/child/qa-world-age7/worlds"]
+    ["Belajar", `/child/${childKey}/home`],
+    ["Bermain", `/child/${childKey}/games`],
+    ["World", `/child/${childKey}/worlds`]
   ]) {
     const link = menu.locator(`a[href="${href}"]`);
     assert.equal(await link.count(), 1, `JM-02 menu must expose ${label} at ${viewport.width}px`);
@@ -659,7 +660,7 @@ async function main() {
       const context = await worldAge7Context(browser,{ viewport });
       await context.addInitScript((progress) => {
         window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
-          "demo-gian": { "money-festival": progress }
+          "qa-world-age7": { "money-festival": progress }
         }));
       }, {
         worldId: "money-festival",
@@ -681,7 +682,7 @@ async function main() {
         "live World catalog card must preserve money-festival destination"
       );
       await liveWorld.click();
-      await page.waitForURL(/\/child\/demo-gian\/world\/money-festival$/);
+      await page.waitForURL(/\/child\/qa-world-age7\/world\/money-festival$/);
       await page.getByText("2/8 Stage", { exact: true }).waitFor();
       assert.equal(
         await page.locator('[data-world-stage-id="money-stage-03-income-sources"] [data-current-stage="true"]').count(),
@@ -997,7 +998,7 @@ async function main() {
       const context = await worldAge7Context(browser,{ viewport, reducedMotion: "reduce" });
       await context.addInitScript((progress) => {
         window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
-          "demo-gian": { "money-festival": progress }
+          "qa-world-age7": { "money-festival": progress }
         }));
       }, {
         worldId: "money-festival",
@@ -1073,7 +1074,7 @@ async function main() {
       const context = await worldAge7Context(browser,{ viewport });
       await context.addInitScript((progress) => {
         window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
-          "demo-gian": { "money-festival": progress }
+          "qa-world-age7": { "money-festival": progress }
         }));
       }, {
         worldId: "money-festival",
@@ -1186,7 +1187,7 @@ async function main() {
       const context = await worldAge7Context(browser,{ viewport });
       await context.addInitScript((progress) => {
         window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
-          "demo-gian": { "money-festival": progress }
+          "qa-world-age7": { "money-festival": progress }
         }));
       }, {
         worldId: "money-festival",
@@ -1233,7 +1234,7 @@ async function main() {
       const context = await worldAge7Context(browser,{ viewport });
       await context.addInitScript((progress) => {
         window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
-          "demo-gian": { "money-festival": progress }
+          "qa-world-age7": { "money-festival": progress }
         }));
       }, {
         worldId: "money-festival",
@@ -1268,7 +1269,7 @@ async function main() {
       const context = await worldAge7Context(browser,{ viewport });
       await context.addInitScript((progress) => {
         window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
-          "demo-gian": { "money-festival": progress }
+          "qa-world-age7": { "money-festival": progress }
         }));
       }, {
         worldId: "money-festival",
@@ -1306,7 +1307,7 @@ async function main() {
       const context = await worldAge7Context(browser,{ viewport });
       await context.addInitScript((progress) => {
         window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
-          "demo-gian": { "money-festival": progress }
+          "qa-world-age7": { "money-festival": progress }
         }));
       }, {
         worldId: "money-festival",
