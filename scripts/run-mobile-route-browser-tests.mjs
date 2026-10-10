@@ -1173,7 +1173,7 @@ async function main() {
         const context = await worldAge7Context(browser,{ viewport });
         await context.addInitScript((seed) => {
           window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
-            "demo-gian": {
+            "qa-world-age7": {
               "money-festival": {
                 worldId: "money-festival",
                 completedStageIds: seed.previous,
@@ -1493,7 +1493,7 @@ async function main() {
           const context = await worldAge7Context(browser,{ viewport, reducedMotion: "reduce" });
           await context.addInitScript((seed) => {
             window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
-              "demo-gian": {
+              "qa-world-age7": {
                 "money-festival": {
                   worldId: "money-festival",
                   completedStageIds: seed.completedStageIds,
