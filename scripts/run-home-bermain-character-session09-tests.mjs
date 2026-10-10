@@ -145,8 +145,8 @@ async function runViewport(browser, viewport) {
   );
   assert.equal(
     await page.locator('[data-mainlagi-domain-card="world"]').getAttribute("data-mainlagi-home-world-state"),
-    "age-gated",
-    "age-5 demo profile must not silently bypass the 6–8 Petualangan Uang pilot gate"
+    "catalog-age-gated",
+    "age-5 demo can browse World catalog but must not enter the 6–8 pilot"
   );
   assert.equal(
     await page.locator('[data-mainlagi-domain-card="bermain"]').getAttribute("href"),
@@ -154,6 +154,8 @@ async function runViewport(browser, viewport) {
     "Bermain Home card must stay inside the child shell before entering a game"
   );
 
+  assert.equal(await page.locator('[data-mainlagi-domain-card="world"]').getAttribute("href"),
+    "/child/demo-gian/worlds", "World category stays browseable for age 5");
   const subjectCards = page.locator('[data-core-thumbnail-card="subject"]');
   assert.equal(await subjectCards.count(), 9, "Home must preserve all nine Belajar subject entries");
   const subjectImages = subjectCards.locator("img");
