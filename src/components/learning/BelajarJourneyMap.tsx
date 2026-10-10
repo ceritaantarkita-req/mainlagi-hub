@@ -158,7 +158,7 @@ export function BelajarJourneyMap({ subjectId, childId, age, progress, analytics
             <div className={styles.detailHandle} aria-hidden />
             <div className={styles.detailHead}>
               <div>
-                <p>Stage {selected.order} <span aria-hidden="true">✦</span> {stageStateLabel(selected)}</p>
+                <p className={styles.stageStatusLine}><span>Stage {selected.order}</span><span aria-hidden="true">✦</span><span>{stageStateLabel(selected)}</span></p>
                 <h2 id={detailTitleId}>{selected.title}</h2>
                 <span className={styles.visuallyHidden}>{selected.subtitle}</span>
               </div>
@@ -167,21 +167,17 @@ export function BelajarJourneyMap({ subjectId, childId, age, progress, analytics
             <div className={styles.readiness}>
               <div className={styles.readinessTop}>
                 <strong>⭐ {selected.completedCount}/{selected.requiredCount} langkah utama</strong>
-                <span>{selected.completedCount >= selected.requiredCount ? "Langkah utama selesai!" : "Yuk, lanjut!"}</span>
+                <span aria-hidden>{selected.completedCount >= selected.requiredCount ? "Selesai!" : "⭐"}</span>
               </div>
               <progress max={Math.max(selected.requiredCount, 1)} value={Math.min(selected.completedCount, Math.max(selected.requiredCount, 1))} aria-label={`${selected.completedCount} dari ${selected.requiredCount} langkah utama selesai`} />
               <small className={styles.visuallyHidden}>{selected.reason}</small>
             </div>
             <div className={styles.activityList} data-stage-text-activity-list>
               {recommendedActivity ? (
-                <Link
-                  className={styles.recommendedEntry}
-                  href={"/child/" + encodeURIComponent(childId) + "/activity/" + encodeURIComponent(recommendedActivity.id)}
-                >
-                  <span><small>Berikutnya</small><strong>{recommendedActivity.title}</strong></span>
-                  <span aria-hidden="true">→</span>
-                </Link>
-              ) : null}
+                <div className={styles.recommendedEntry}>
+                  <span><small>Selanjutnya</small><strong>{recommendedActivity.title}</strong></span>
+                </div>
+              ) : null>
               <details className={styles.activityDisclosure} open={qaUnlockAll}>
                 <summary>Lihat semua aktivitas ({stageActivities.length})</summary>
                 <ul>
